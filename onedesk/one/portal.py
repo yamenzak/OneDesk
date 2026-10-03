@@ -27,9 +27,32 @@ OFF = ("/issues", "/material-requests")
 #: after its doctypes.
 TITLES = {"/rfq": "Quote Requests", "/supplier-quotations": "Quotes"}
 
-#: The same titles, for translation: the rows hold the English, and a tab's
-#: title is translated as it is drawn. So is the address form's button.
-SAID = (_lt("Quote Requests"), _lt("Quotes"), _lt("Save Address"))
+#: The web forms a portal reader fills in, in plain words: an address's
+#: button, and frappe's account deletion request (its introduction spoke of
+#: "PII", and is not translated where it is drawn, so the form says what
+#: happens once sent instead).
+FORMS = {
+	"addresses": {"button_label": "Save Address"},
+	"request-to-delete-data": {
+		"title": "Delete Account",
+		"introduction_text": "",
+		"button_label": "Send Request",
+		"success_title": "Request sent",
+		"success_message": "Check your email to confirm.",
+	},
+}
+
+#: The same titles and words, for translation: the records hold the English,
+#: and each is translated as it is drawn.
+SAID = (
+	_lt("Quote Requests"),
+	_lt("Quotes"),
+	_lt("Save Address"),
+	_lt("Delete Account"),
+	_lt("Send Request"),
+	_lt("Request sent"),
+	_lt("Check your email to confirm."),
+)
 
 #: erpnext's indicator colours, as frappe-ui's Badge themes them.
 TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
@@ -52,6 +75,10 @@ ICONS = {
 #: Pages that belong to a tab without sharing its route: an address's form
 #: (frappe's web form) is under Addresses, a project's page under Projects.
 ALSO = {"/address": "/addresses", "/projects": "/project"}
+
+#: frappe's pages for the reader's own account, reached from /me: they belong
+#: to Your Account rather than to a tab.
+ACCOUNT = ("/me", "/update-profile", "/update-password", "/request-for-account-deletion", "/third_party_apps")
 
 #: A list's columns, by the row template that draws it, as frappe-ui's
 #: ListView heads them.
@@ -76,12 +103,17 @@ WAITING = {
 }
 
 
+def _here() -> str:
+	"""The first part of the page's path, as the tab it belongs to (ALSO)."""
+	request = getattr(frappe.local, "request", None)
+	here = "/" + (request.path.strip("/").split("/")[0] if request else "")
+	return ALSO.get(here, here)
+
+
 def one_portal_tabs() -> list[dict]:
 	"""The portal's tabs, from Portal Settings by the reader's roles, the one
 	being read marked."""
-	request = getattr(frappe.local, "request", None)
-	here = "/" + (request.path.strip("/").split("/")[0] if request else "")
-	here = ALSO.get(here, here)
+	here = _here()
 	return [
 		{
 			"title": _(item.get("title")),
@@ -92,6 +124,22 @@ def one_portal_tabs() -> list[dict]:
 		for item in get_portal_sidebar_items()
 		if item.get("route")
 	]
+
+
+def one_portal_here() -> dict | None:
+	"""What the page belongs to, for the head's Breadcrumbs: its tab, or the
+	reader's account for frappe's account pages (ACCOUNT)."""
+	tab = next((one for one in one_portal_tabs() if one["current"]), None)
+	if tab:
+		return tab
+	if _here() in ACCOUNT:
+		return {"title": _("Your Account"), "route": "/me", "icon": "user", "current": True}
+	return None
+
+
+def one_portal_at_home() -> bool:
+	"""Whether the page is the portal's home, which lights Home."""
+	return _here() == "/portal"
 
 
 def one_portal_me() -> dict:
@@ -489,11 +537,14 @@ def invited(doc, method=None) -> None:
 
 def settle() -> None:
 	"""Turn off the Portal Settings rows One has no use for (OFF), name the
-	supplier's tabs plainly (TITLES), and name the address form's button. An
-	administrator who turns one back on keeps it until the next install."""
+	supplier's tabs plainly (TITLES), and put frappe's and erpnext's forms in
+	plain words (FORMS). An administrator who turns one back on, or words a
+	form their own way, keeps it until the next install."""
 	for route in OFF:
 		frappe.db.set_value("Portal Menu Item", {"parent": "Portal Settings", "route": route}, "enabled", 0)
 	for route, title in TITLES.items():
 		frappe.db.set_value("Portal Menu Item", {"parent": "Portal Settings", "route": route}, "title", title)
-	frappe.db.set_value("Web Form", "addresses", "button_label", "Save Address")
+	for form, words in FORMS.items():
+		if frappe.db.exists("Web Form", form):
+			frappe.db.set_value("Web Form", form, words)
 	frappe.cache.delete_key("portal_menu_items")

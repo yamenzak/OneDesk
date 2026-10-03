@@ -14,6 +14,9 @@
 				<span>{{ me.name|e }}</span>
 				<small>{{ me.email|e }}</small>
 			</div>
+			<a class="one-menu__item" role="menuitem" href="/me">
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-user"></use></svg>{{ _("Your Account") }}
+			</a>
 			<a class="one-menu__item" role="menuitem" href="/logout">
 				<svg class="one-icon" aria-hidden="true"><use href="#icon-log-out"></use></svg>{{ _("Sign out") }}
 			</a>

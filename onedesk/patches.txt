@@ -35,3 +35,4 @@ onedesk.one_admin.patches.gemma_default
 onedesk.one_studio.patches.no_customize_page
 onedesk.one.patches.portal_settle
 onedesk.one.patches.portal_address_button
+onedesk.one.patches.portal_account_forms

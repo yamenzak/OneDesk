@@ -36,7 +36,7 @@
 	document.querySelector("[data-one-discard]")?.addEventListener("click", () =>
 		document.querySelector(".web-form-footer .discard-btn").click()
 	);
-	{%- set here = one_portal_tabs() | selectattr("current") | first %}
+	{%- set here = one_portal_here() %}
 	{%- set named = one_portal_title(doc_type, doc_name) if not is_new else "" %}
 	{%- if here %}
 	// The head reads as Breadcrumbs: the tab the form is under, back to its
@@ -55,9 +55,11 @@
 		head.replaceChildren(crumb, record);
 	}
 	{%- endif %}
-	// Saved: back to the list at once, not after frappe's five-second page.
+	// Saved into a portal list: back to it at once, not after frappe's
+	// five-second page. A form whose thanks says something (account deletion:
+	// check your email) keeps frappe's page.
 	const saved = document.querySelector(".success-page");
-	{%- if success_url %}
+	{%- if success_url and success_url in (one_portal_tabs() | map(attribute="route") | list) %}
 	saved && new MutationObserver(() => {
 		if (!saved.classList.contains("hide")) window.location.href = {{ success_url | tojson }};
 	}).observe(saved, { attributes: true, attributeFilter: ["class"] });

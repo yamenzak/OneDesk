@@ -1490,6 +1490,16 @@ a.one-portal__row:hover {
 	background: var(--surface-gray-9, var(--gray-800));
 }
 
+/* frappe-ui's Button, solid, red. */
+.one-portal--app .one-btn.one-btn--solid.one-btn--red {
+	background: var(--surface-red-7);
+	color: var(--ink-base, var(--white));
+}
+
+.one-portal--app .one-btn.one-btn--solid.one-btn--red:hover {
+	background: var(--surface-red-8);
+}
+
 /* The record's facts: a label at ink-gray-5 over its value. */
 .one-facts {
 	display: flex;
@@ -1722,6 +1732,13 @@ a.one-portal__row:hover {
  * (website/doctype/web_form/templates/web_form.html). frappe styles its form
  * only inside the narrow page container; here its head is PageHeader, and
  * its fields, frappe's own controls, sit on the page without a card. */
+/* A form's own layout (frappe's account deletion form sets half the page's
+ * width and a wide margin) gives way to the shell. */
+[data-doctype="Web Form"]:has(.one-portal--form) {
+	width: auto;
+	margin: 0;
+}
+
 .one-portal--form .web-form-container > .breadcrumb-container,
 .one-portal--form .web-form-container > div[style],
 .one-portal--form .tooltip-content {
@@ -1807,6 +1824,54 @@ a.one-portal__row:hover {
 .one-portal--form .web-form-head .web-form-actions {
 	display: flex;
 	gap: 8px;
+}
+
+/* A section's heading in line with its fields' labels, as on a desk form. */
+.one-portal--form .web-form .section-head {
+	padding-inline: 15px;
+	font-weight: 600;
+	color: var(--ink-gray-8);
+}
+
+/* frappe's thank-you view, in place of the form: the tick and the title on
+ * one line, at the page's own sizes. */
+.one-portal--form .success-page {
+	padding: 20px;
+	color: var(--ink-gray-7);
+	font-size: 14px;
+}
+
+.one-portal--form .success-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
+	margin: 0;
+}
+
+.one-portal--form .success-icon {
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	stroke: var(--ink-green-6);
+}
+
+.one-portal--form .success-title {
+	margin: 0;
+	color: var(--ink-gray-9);
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.one-portal--form .success-body p,
+.one-portal--form .success-footer p {
+	margin: 8px 0 0;
+}
+
+.one-portal--form .success-footer {
+	color: var(--ink-gray-5);
+	font-size: 13px;
 }
 
 .one-portal--form .web-form-footer {
@@ -2114,4 +2179,11 @@ a.one-portal__row:hover {
 	.one-portal--form .web-form-title h1 + p {
 		font-size: 20px;
 	}
+}
+
+/* A row that removes something, as frappe-ui's red Dropdown option. */
+.one-item--danger,
+.one-item--danger .one-icon,
+.one-item--danger:hover {
+	color: var(--ink-red-7);
 }

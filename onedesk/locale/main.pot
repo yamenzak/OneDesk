@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 18:25+0000\n"
-"PO-Revision-Date: 2026-10-03 18:25+0000\n"
+"POT-Creation-Date: 2026-10-03 19:03+0000\n"
+"PO-Revision-Date: 2026-10-03 19:03+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -979,7 +979,7 @@ msgid "Access Key"
 msgstr ""
 
 #. Label of the account (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/www/me.html:20
+#: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Account"
 msgstr ""
 
@@ -1143,7 +1143,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: onedesk/one/portal.py:67
+#: onedesk/one/portal.py:94
 msgid "Add Address"
 msgstr ""
 
@@ -1227,7 +1227,7 @@ msgstr ""
 msgid "Add a number to a field on the target document."
 msgstr ""
 
-#: onedesk/one/portal.py:425
+#: onedesk/one/portal.py:473
 msgid "Add a rate for at least one item."
 msgstr ""
 
@@ -1397,7 +1397,7 @@ msgstr ""
 #. Label of the address (Small Text) field in DocType 'Reading Party'
 #. Label of the url (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/custom/personal_data_download_request.json
-#: onedesk/one/letter_heads.py:65 onedesk/one/portal.py:62
+#: onedesk/one/letter_heads.py:65 onedesk/one/portal.py:89
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -2737,7 +2737,7 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:116
+#: onedesk/public/js/login.js:116 onedesk/public/js/onecloud.js:116
 msgid "Back"
 msgstr ""
 
@@ -3426,6 +3426,7 @@ msgstr ""
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:319
+#: onedesk/www/third_party_apps.html:32
 msgid "Cancel"
 msgstr ""
 
@@ -3544,8 +3545,9 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
+#: onedesk/public/js/login.js:111 onedesk/public/js/login.js:112
 #: onedesk/public/js/settings.js:583 onedesk/public/js/settings.js:635
-#: onedesk/public/js/settings.js:647 onedesk/www/me.html:18
+#: onedesk/public/js/settings.js:647 onedesk/www/me.html:44
 msgid "Change Password"
 msgstr ""
 
@@ -3720,7 +3722,7 @@ msgstr ""
 msgid "Check your email to confirm deleting your account."
 msgstr ""
 
-#: onedesk/public/js/settings.js:292
+#: onedesk/one/portal.py:54 onedesk/public/js/settings.js:292
 msgid "Check your email to confirm."
 msgstr ""
 
@@ -3902,7 +3904,7 @@ msgstr ""
 msgid "Chosen Model"
 msgstr ""
 
-#: onedesk/one/portal.py:62 onedesk/one/settings.py:115
+#: onedesk/one/portal.py:89 onedesk/one/settings.py:115
 #: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
 msgstr ""
@@ -5084,8 +5086,8 @@ msgid "Database Used"
 msgstr ""
 
 #. Label of the date (Date) field in DocType 'Reading Date'
-#: onedesk/one/portal.py:251 onedesk/one/portal.py:252
-#: onedesk/one/portal.py:346 onedesk/one/settings.py:1622
+#: onedesk/one/portal.py:299 onedesk/one/portal.py:300
+#: onedesk/one/portal.py:394 onedesk/one/settings.py:1622
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -5376,7 +5378,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: onedesk/www/me.html:20
+#: onedesk/one/portal.py:51 onedesk/www/me.html:61
 msgid "Delete Account"
 msgstr ""
 
@@ -5520,7 +5522,7 @@ msgstr ""
 msgid "Deliveries received from Stripe, used to ignore repeats."
 msgstr ""
 
-#: onedesk/one/portal.py:254 onedesk/one/portal.py:255
+#: onedesk/one/portal.py:302 onedesk/one/portal.py:303
 msgid "Delivery"
 msgstr ""
 
@@ -5705,7 +5707,7 @@ msgstr ""
 msgid "Disconnected"
 msgstr ""
 
-#: onedesk/one/portal.py:290
+#: onedesk/one/portal.py:338
 msgid "Discount"
 msgstr ""
 
@@ -6024,7 +6026,7 @@ msgid "Dropped"
 msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one/portal.py:256 onedesk/one_admin/accounts.py:230
+#: onedesk/one/portal.py:304 onedesk/one_admin/accounts.py:230
 #: onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_project/heads.py:169
@@ -6183,7 +6185,7 @@ msgstr ""
 msgid "Edit Memory"
 msgstr ""
 
-#: onedesk/www/me.html:17
+#: onedesk/www/me.html:39
 msgid "Edit Profile"
 msgstr ""
 
@@ -6246,7 +6248,7 @@ msgstr ""
 #: onedesk/public/js/settings.js:323 onedesk/public/js/settings.js:1440
 #: onedesk/public/js/settings.js:1795 onedesk/public/js/settings.js:2200
 #: onedesk/public/js/settings.js:3057 onedesk/www/account_profile.html:33
-#: onedesk/www/start.html:37
+#: onedesk/www/me.html:31 onedesk/www/start.html:37
 msgid "Email"
 msgstr ""
 
@@ -8341,12 +8343,12 @@ msgstr ""
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/templates/includes/one_portal_sidebar.html:29
+#: onedesk/templates/includes/one_portal_sidebar.html:32
 msgid "Home"
 msgstr ""
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
-#: onedesk/one/portal.py:61 onedesk/one_hr/custom/shift_request.json
+#: onedesk/one/portal.py:88 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:164
 msgid "Hours"
 msgstr ""
@@ -11430,6 +11432,7 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1572 onedesk/public/js/settings.js:1112
 #: onedesk/public/js/settings.js:1195 onedesk/public/js/settings.js:2197
 #: onedesk/public/js/settings.js:2211 onedesk/public/js/settings.js:2519
+#: onedesk/www/me.html:27
 msgid "Name"
 msgstr ""
 
@@ -11500,7 +11503,7 @@ msgstr ""
 msgid "Needed Review"
 msgstr ""
 
-#: onedesk/one/portal.py:348
+#: onedesk/one/portal.py:396
 msgid "Needed by"
 msgstr ""
 
@@ -11903,6 +11906,10 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:224 onedesk/public/js/settings.js:2047
 msgid "No approvals"
+msgstr ""
+
+#: onedesk/www/third_party_apps.html:52
+msgid "No apps"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:138
@@ -12336,7 +12343,7 @@ msgstr ""
 msgid "Not Found"
 msgstr ""
 
-#: onedesk/one/portal.py:410 onedesk/www/message.html:11
+#: onedesk/one/portal.py:458 onedesk/www/message.html:11
 #: onedesk/www/message.html:22 onedesk/www/message.html:25
 msgid "Not Permitted"
 msgstr ""
@@ -12719,7 +12726,7 @@ msgid "Nudge"
 msgstr ""
 
 #. Label of the number (Data) field in DocType 'Employee Document'
-#: onedesk/one/portal.py:59
+#: onedesk/one/portal.py:86
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:130
 #: onedesk/public/js/settings.js:1752
@@ -14210,7 +14217,7 @@ msgid "Pages"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
-#: onedesk/one/portal.py:305 onedesk/one_admin/accounts.py:229
+#: onedesk/one/portal.py:353 onedesk/one_admin/accounts.py:229
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:117
@@ -14369,7 +14376,7 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1435 onedesk/public/js/onecloud.js:1593
 #: onedesk/public/js/onecloud.js:1797 onedesk/public/js/onemail.js:879
 #: onedesk/public/js/settings.js:509 onedesk/public/js/settings.js:581
-#: onedesk/www/me.html:18 onedesk/www/s.html:46
+#: onedesk/www/s.html:46
 msgid "Password"
 msgstr ""
 
@@ -14937,8 +14944,8 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
-#: onedesk/templates/includes/one_portal_head.html:25
-#: onedesk/templates/includes/one_portal_sidebar.html:27
+#: onedesk/templates/includes/one_portal_head.html:28
+#: onedesk/templates/includes/one_portal_sidebar.html:30
 #: onedesk/www/portal.html:6
 msgid "Portal"
 msgstr ""
@@ -15210,7 +15217,6 @@ msgstr ""
 #: onedesk/public/js/settings.js:1291
 #: onedesk/templates/includes/one_account_tabs.html:5
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
-#: onedesk/www/me.html:17
 msgid "Profile"
 msgstr ""
 
@@ -15232,7 +15238,7 @@ msgstr ""
 msgid "Profit and Loss"
 msgstr ""
 
-#: onedesk/one/portal.py:60 onedesk/public/js/onecloud.js:340
+#: onedesk/one/portal.py:87 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:650 onedesk/www/projects.html:33
 msgid "Progress"
 msgstr ""
@@ -15241,7 +15247,7 @@ msgstr ""
 msgid "Progress…"
 msgstr ""
 
-#: onedesk/one/portal.py:60
+#: onedesk/one/portal.py:87
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
@@ -15550,15 +15556,15 @@ msgstr ""
 msgid "Quote Request Sent"
 msgstr ""
 
-#: onedesk/one/portal.py:32
+#: onedesk/one/portal.py:48
 msgid "Quote Requests"
 msgstr ""
 
-#: onedesk/one/portal.py:371 onedesk/templates/includes/transaction_row.html:12
+#: onedesk/one/portal.py:419 onedesk/templates/includes/transaction_row.html:12
 msgid "Quoted"
 msgstr ""
 
-#: onedesk/one/portal.py:32
+#: onedesk/one/portal.py:49
 msgid "Quotes"
 msgstr ""
 
@@ -16492,7 +16498,7 @@ msgstr ""
 msgid "Request links"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1687
+#: onedesk/one/portal.py:53 onedesk/public/js/onecloud.js:1687
 msgid "Request sent"
 msgstr ""
 
@@ -16685,6 +16691,10 @@ msgstr ""
 #. Label of the revision (Int) field in DocType 'Legal Document Version'
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 msgid "Revision"
+msgstr ""
+
+#: onedesk/www/third_party_apps.html:33 onedesk/www/third_party_apps.html:47
+msgid "Revoke"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:653
@@ -16929,7 +16939,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: onedesk/one/portal.py:32
+#: onedesk/one/portal.py:50
 msgid "Save Address"
 msgstr ""
 
@@ -17171,6 +17181,10 @@ msgstr ""
 msgid "Send Quote"
 msgstr ""
 
+#: onedesk/one/portal.py:52
+msgid "Send Request"
+msgstr ""
+
 #: onedesk/public/js/settings.js:363
 msgid "Send Test"
 msgstr ""
@@ -17241,7 +17255,7 @@ msgstr ""
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
-#: onedesk/one/portal.py:184
+#: onedesk/one/portal.py:232
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -17694,7 +17708,7 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
-#: onedesk/one/portal.py:283 onedesk/one/portal.py:351
+#: onedesk/one/portal.py:331 onedesk/one/portal.py:399
 msgid "Ship to"
 msgstr ""
 
@@ -17837,9 +17851,9 @@ msgstr ""
 msgid "Sign in with a drive password, not your One password."
 msgstr ""
 
-#: onedesk/templates/includes/one_portal_head.html:18
-#: onedesk/templates/includes/one_portal_sidebar.html:23
-#: onedesk/www/account.html:18 onedesk/www/me.html:15
+#: onedesk/templates/includes/one_portal_head.html:21
+#: onedesk/templates/includes/one_portal_sidebar.html:26
+#: onedesk/www/account.html:18 onedesk/www/me.html:56
 msgid "Sign out"
 msgstr ""
 
@@ -18317,7 +18331,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
-#: onedesk/one/portal.py:59 onedesk/one/portal.py:60 onedesk/one/portal.py:61
+#: onedesk/one/portal.py:86 onedesk/one/portal.py:87 onedesk/one/portal.py:88
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -18671,7 +18685,7 @@ msgstr ""
 msgid "Submit {0} drafts?"
 msgstr ""
 
-#: onedesk/one/portal.py:192
+#: onedesk/one/portal.py:240
 msgid "Submitted"
 msgstr ""
 
@@ -18692,7 +18706,7 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: onedesk/one/portal.py:287
+#: onedesk/one/portal.py:335
 msgid "Subtotal"
 msgstr ""
 
@@ -20510,6 +20524,11 @@ msgstr ""
 msgid "Thinking…"
 msgstr ""
 
+#: onedesk/www/me.html:50 onedesk/www/third_party_apps.html:8
+#: onedesk/www/third_party_apps.html:24 onedesk/www/third_party_apps.html:27
+msgid "Third Party Apps"
+msgstr ""
+
 #: onedesk/public/js/settings.js:623
 msgid "This Device"
 msgstr ""
@@ -20723,7 +20742,7 @@ msgstr ""
 msgid "This request expired. Try again."
 msgstr ""
 
-#: onedesk/one/portal.py:413 onedesk/public/js/onecloud.js:1739
+#: onedesk/one/portal.py:461 onedesk/public/js/onecloud.js:1739
 #: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr ""
@@ -20786,6 +20805,10 @@ msgstr ""
 
 #: onedesk/www/s.html:64
 msgid "This was shared with specific people. Enter your email to get a code."
+msgstr ""
+
+#: onedesk/www/third_party_apps.html:40
+msgid "This will log out {0} from all other devices"
 msgstr ""
 
 #: onedesk/one_admin/accounts.py:294
@@ -20903,7 +20926,7 @@ msgid "Times opened"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/portal.py:61 onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one/portal.py:88 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
@@ -20985,12 +21008,12 @@ msgstr ""
 msgid "To or Cc Contains"
 msgstr ""
 
-#: onedesk/one/portal.py:307
+#: onedesk/one/portal.py:355
 #: onedesk/one_book/report/vat_return/vat_return.py:81
 msgid "To pay"
 msgstr ""
 
-#: onedesk/one/portal.py:371 onedesk/templates/includes/transaction_row.html:12
+#: onedesk/one/portal.py:419 onedesk/templates/includes/transaction_row.html:12
 msgid "To quote"
 msgstr ""
 
@@ -21103,7 +21126,7 @@ msgid "Top Preset"
 msgstr ""
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: onedesk/one/portal.py:59 onedesk/one/portal.py:300
+#: onedesk/one/portal.py:86 onedesk/one/portal.py:348
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:56
 #: onedesk/one_book/heads.py:316
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -21356,7 +21379,7 @@ msgstr ""
 #. Label of the kind (Data) field in DocType 'Stripe Webhook Event'
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
-#: onedesk/one/portal.py:62
+#: onedesk/one/portal.py:89
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -21820,7 +21843,7 @@ msgstr ""
 msgid "Valid Until"
 msgstr ""
 
-#: onedesk/one/portal.py:253
+#: onedesk/one/portal.py:301
 msgid "Valid until"
 msgstr ""
 
@@ -24475,7 +24498,9 @@ msgstr ""
 msgid "You've sent everything. You can still replace a file."
 msgstr ""
 
-#: onedesk/www/me.html:2
+#: onedesk/one/portal.py:136 onedesk/templates/includes/one_portal_head.html:18
+#: onedesk/templates/includes/one_portal_sidebar.html:23 onedesk/www/me.html:8
+#: onedesk/www/me.html:21 onedesk/www/third_party_apps.html:22
 msgid "Your Account"
 msgstr ""
 
@@ -24662,7 +24687,7 @@ msgstr ""
 msgid "Your profile"
 msgstr ""
 
-#: onedesk/one/portal.py:257 onedesk/one/portal.py:258
+#: onedesk/one/portal.py:305 onedesk/one/portal.py:306
 msgid "Your reference"
 msgstr ""
 
@@ -26905,11 +26930,11 @@ msgstr ""
 msgid "{0} to decide"
 msgstr ""
 
-#: onedesk/one/portal.py:75
+#: onedesk/one/portal.py:102
 msgid "{0} to deliver"
 msgstr ""
 
-#: onedesk/one/portal.py:74
+#: onedesk/one/portal.py:101
 msgid "{0} to pay"
 msgstr ""
 

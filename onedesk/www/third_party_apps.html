@@ -1,0 +1,60 @@
+{% extends "templates/web.html" %}
+{#- frappe's Third Party Apps (www/third_party_apps.py), in the portal's shell:
+    the apps the reader has let in as a ListView, each with Revoke, and
+    frappe's own confirm view (?app=) and revoke call
+    (templates/includes/integrations/third_party_apps.js). -#}
+{%- set show_sidebar = False -%}
+{%- set full_width = True -%}
+{% block title %}{{ _("Third Party Apps") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal one-portal--wide one-portal--app">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
+	{% include "templates/includes/one_portal_head.html" %}
+
+	<div class="one-page-head">
+		<h1 class="one-crumbs">
+			<a href="/me">{{ _("Your Account") }}</a><span aria-hidden="true">/</span>
+			{% if app %}
+			<a href="/third_party_apps">{{ _("Third Party Apps") }}</a><span aria-hidden="true">/</span>
+			<span>{{ app.app_name | e }}</span>
+			{% else %}
+			<span>{{ _("Third Party Apps") }}</span>
+			{% endif %}
+		</h1>
+		{% if app %}
+		<div class="one-actions">
+			<a class="one-btn" href="/third_party_apps">{{ _("Cancel") }}</a>
+			<button type="button" class="one-btn one-btn--solid one-btn--red btn-delete-app" data-client_id="{{ app.client_id | e }}">{{ _("Revoke") }}</button>
+		</div>
+		{% endif %}
+	</div>
+
+	<div class="one-portal__body">
+		{% if app %}
+		<p class="one-message">{{ _("This will log out {0} from all other devices").format(app.app_name | e) }}</p>
+		{% elif apps %}
+		<div class="one-list-view">
+			{% for one in apps %}
+			<div class="one-list__row">
+				<span class="one-list__what"><span>{{ one.app_name | e }}</span></span>
+				<span class="one-list__amount">{{ frappe.utils.pretty_date(one.creation) if one.creation else "" }}</span>
+				<span class="one-list__amount"><a class="one-btn" href="/third_party_apps?app={{ one.name | urlencode }}">{{ _("Revoke") }}</a></span>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<p class="one-empty">{{ _("No apps") }}</p>
+		{% endif %}
+	</div>
+	</div>
+</div>
+<script>
+{% include "templates/includes/integrations/third_party_apps.js" %}
+</script>
+{% endblock %}

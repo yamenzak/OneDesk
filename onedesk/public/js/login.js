@@ -101,6 +101,22 @@ const footnote = () => {
 	$card.appendChild($line);
 };
 
+// Set Password reached from Your Account rather than a reset email: there is
+// no key and somebody is signed in, so it changes a password and leads back.
+const password = () => {
+	const $card = document.querySelector(".for-reset-password");
+	if (!$card || frappe.utils.get_url_arg("key")) return;
+	const user = frappe.get_cookie("user_id");
+	if (!user || user === "Guest") return;
+	$card.querySelector("h4").textContent = __("Change Password");
+	document.title = __("Change Password");
+	const $back = $card.querySelector('.sign-up-message a[href="/login"]');
+	if ($back) {
+		$back.href = "/me";
+		$back.textContent = __("Back");
+	}
+};
+
 // After frappe's own fetch of the page's translations, or both would be
 // drawn in English on a page in Arabic.
 const start = () =>
@@ -108,6 +124,7 @@ const start = () =>
 		.catch(() => null)
 		.then(() => {
 			footnote();
+			password();
 			draw();
 		});
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);

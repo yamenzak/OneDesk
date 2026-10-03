@@ -270,9 +270,11 @@ Started. What is left, the most visible first:
     (`one/portal.py`, `www/portal.html`), and a supplier's contact sees their
     records. Still erpnext's: a record's page, a supplier's quote request,
     and the address and material request pages.
-13. **Frappe's account pages.** Edit Profile (`/update-profile`), Request
-    Account Deletion and Third Party Apps, reached from a contact's account,
-    are frappe's web forms and pages in frappe's look. Its own pass.
+13. ~~**Frappe's account pages.**~~ **Done**: a portal user's Your Account
+    (`www/me.html`) leads to Edit Profile and Request Account Deletion
+    (frappe's web forms in the portal's shell), Change Password (frappe's Set
+    Password, retitled for someone signed in) and Third Party Apps
+    (`www/third_party_apps.html`, on frappe's context).
 
 Kept as frappe's on purpose: list views and their switcher, bulk actions,
 filters, group-by, report view, a form's menu, its sidebar (assign, tags,

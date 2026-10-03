@@ -1,7 +1,7 @@
 """Frappe's /me, as One's. Someone with a desk has their profile there, and an
 account holder on the admin site has /account; anyone else (a customer's
-contact on a workspace's portal) gets this page in One's portal look, without
-frappe's link to its OAuth apps or to a desk they cannot open."""
+contact on a workspace's portal) gets this page in One's portal look, with
+frappe's account pages and no link to a desk they cannot open."""
 
 import frappe
 from frappe import _
@@ -21,5 +21,6 @@ def get_context(context):
 		frappe.local.flags.redirect_location = "/account"
 		raise frappe.Redirect
 	context.current_user = frappe.get_doc("User", frappe.session.user)
-	context.show_deletion = frappe.db.get_single_value("Website Settings", "show_account_deletion_link")
+	# frappe's Third Party Apps, only for someone who has let an app in.
+	context.has_apps = bool(frappe.db.exists("OAuth Bearer Token", {"user": frappe.session.user}))
 	context.show_sidebar = False

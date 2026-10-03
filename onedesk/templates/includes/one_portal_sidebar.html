@@ -19,13 +19,16 @@
 				<span>{{ me.name|e }}</span>
 				<small>{{ me.email|e }}</small>
 			</div>
+			<a class="one-menu__item" role="menuitem" href="/me">
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-user"></use></svg>{{ _("Your Account") }}
+			</a>
 			<a class="one-menu__item" role="menuitem" href="/logout">
 				<svg class="one-icon" aria-hidden="true"><use href="#icon-log-out"></use></svg>{{ _("Sign out") }}
 			</a>
 		</div>
 	</details>
 	<nav class="one-sidebar__items" aria-label="{{ _('Portal') }}">
-		<a href="/portal" {% if not tabs | selectattr("current") | list %}aria-current="page"{% endif %}>
+		<a href="/portal" {% if one_portal_at_home() %}aria-current="page"{% endif %}>
 			<svg class="one-icon" aria-hidden="true"><use href="#icon-house"></use></svg>{{ _("Home") }}
 		</a>
 		{%- for tab in tabs %}

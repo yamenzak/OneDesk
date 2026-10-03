@@ -417,6 +417,20 @@ OVERRIDES = [
 		'<div class="web-form-container">',
 	),
 	(
+		"A portal user's own account is One's page",
+		"frappe's /me is a card of links that sends a customer's or supplier's contact to Third Party Apps whether or not they let one in; onedesk/www/me.html is found first and draws Your Account in the portal's shell, with Edit Profile, Change Password, Third Party Apps once an app is let in, Sign out and Delete Account",
+		"onedesk/www/me.html",
+		"frappe/frappe/www/me.html",
+		'{{ _("My Account") }}',
+	),
+	(
+		"Third Party Apps is One's page on frappe's context",
+		"frappe's page is a grey Bootstrap card with its own body styles; onedesk/www/third_party_apps.html is found first, its .py runs frappe's get_context, and the apps are drawn as a ListView in the portal's shell with frappe's own confirm view and revoke call",
+		"onedesk/www/third_party_apps.html",
+		"frappe/frappe/www/third_party_apps.html",
+		'{% include "templates/includes/integrations/third_party_apps.js" %}',
+	),
+	(
 		"A timesheet on the portal's list is One's row",
 		"erpnext's row is a Bootstrap grid of bare values, and its list gives a row for each time entry, so a timesheet repeats; One's draws each timesheet once, with its projects by name, what was done and its hours, opening the project",
 		"onedesk/templates/includes/timesheet/timesheet_row.html",

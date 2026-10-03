@@ -6334,6 +6334,54 @@ erpnext's `rfq` page, where a supplier prices a Request for Quotation.
 
 Not done: the Material Request page stays off with its tab (Portal 1).
 
+### Portals 5: the account pages
+
+1. **Notifications**: frappe's own. Deleting an account mails a link to
+   confirm, then waits in Workspace › Account Deletions (Privacy Requests).
+   Changing a password signs out the other sessions.
+2. **OneAI**: none. A portal user has no OneAI panel.
+3. **Intake**: none.
+4. **Permissions**: each page is the signed-in person's own. Edit Profile
+   opens only their own user (frappe's web form checks it), Third Party
+   Apps lists and revokes only their own tokens, and a guest is sent to sign
+   in. Someone with a desk is still sent to their Profile.
+5. **Cross-module**: Delete Account feeds Workspace › Account Deletions,
+   where an administrator approves it.
+6. **Bespoke UI**, **Fixed**:
+   - **Your Account** (`/me`) was a card of links with a heading in
+     frappe's look. Now it is in the portal's shell: name and email as facts,
+     then frappe-ui's rows for Edit Profile, Change Password, Third Party
+     Apps, Sign out and Delete Account (in red, as frappe-ui's red menu
+     option). It is in the menu under their name, on a computer and a phone.
+   - **Third Party Apps** was a grey Bootstrap card, offered whether or not
+     an app had been let in. Now it is offered only once one has, as a
+     ListView in the shell, with Revoke on each row. frappe's confirm view
+     (Cancel and a red Revoke in the head) and its revoke call are kept.
+   - **Edit Profile** and **Delete Account** are frappe's web forms, in the
+     shell with "Your Account /" Breadcrumbs. Home was lit beside them;
+     now Home is lit only on Home. A section's heading lines up with its
+     fields. Delete Account comes with their email filled in, and frappe's
+     narrow card is gone. Its "Request sent" view sits on the page, with
+     its tick in green.
+   - **Change Password** is frappe's Set Password. For someone signed in it
+     says Change Password and leads Back to Your Account, not "Back to sign
+     in".
+7. **Documented**: the README's Portal section (Your Account).
+8. **Legal**: the Privacy Policy's rights section named only You › Profile
+   › Your Data and the /your-data page. It now says a portal contact asks
+   under Your Account, decided the same way. A clarification, so the new
+   hash is recorded.
+9. **From frappe**: frappe's web forms, controls, Set Password page and
+   Third Party Apps context and script are kept. Only how they look is
+   One's.
+10. **Plain words**: "Delete Account" (was "Request to Delete Data"), "Send
+    Request" (was "Submit"), "Request sent" and "Check your email to
+    confirm." (frappe's introduction spoke of personally identifiable
+    information), "No apps", "Back".
+
+Delete Account is always offered, as it is on the desk's Settings. frappe's
+setting that hid it cannot be reached in One.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -90,7 +90,7 @@ def test_a_record_page_is_the_portals():
 	assert "FACTS = (" in SOURCE and "OWED = (" in SOURCE
 	assert '"terms": sanitize_html(doc.terms)' in SOURCE
 	side = (INCLUDES / "one_portal_sidebar.html").read_text()
-	assert 'selectattr("current")' in side
+	assert "one_portal_at_home()" in side and "tab.current" in side
 
 
 def test_a_supplier_answers_a_quote_request_on_the_portal():
@@ -125,10 +125,32 @@ def test_the_rest_of_the_portal_is_in_its_shell():
 	assert "one_portal_sidebar.html" in form and "{{ super() }}" in form
 	assert "data-one-save" in form and 'requestSubmit()' in form and "MutationObserver" in form
 	assert 'ADD = {"Address": ("/address/new", _lt("Add Address"))}' in SOURCE
-	assert '"button_label", "Save Address"' in SOURCE
+	assert '"addresses": {"button_label": "Save Address"}' in SOURCE
 	sheet = (INCLUDES / "timesheet" / "timesheet_row.html").read_text()
 	assert "one_portal_timesheet(doc.name)" in sheet
 	assert 'frappe.local.flags.setdefault("one_portal_timesheets", set())' in SOURCE
 	project = (tree.APP / "www" / "projects.html").read_text()
 	assert "one_portal_sidebar.html" in project and 'class="one-crumbs"' in project
 	assert "{{ doc.name | e }}" not in (INCLUDES / "projects" / "project_row.html").read_text()
+
+
+def test_the_account_pages_are_in_the_portals_shell():
+	"""frappe's account pages for a portal user: /me lists Edit Profile,
+	Change Password, Third Party Apps (once one is let in), Sign out and
+	Delete Account (always, as on the desk); Third Party Apps keeps frappe's
+	context and revoke call; Set Password reached from there says Change
+	Password; the deletion form is worded by settle."""
+	me = (tree.APP / "www" / "me.html").read_text()
+	assert "one_portal_sidebar.html" in me and "/update-password" in me
+	assert "{% if has_apps %}" in me and "show_deletion" not in me
+	assert "/request-for-account-deletion/new?email=" in me
+	assert '"OAuth Bearer Token"' in (tree.APP / "www" / "me.py").read_text()
+	apps_py = (tree.APP / "www" / "third_party_apps.py").read_text()
+	assert "from frappe.www.third_party_apps import get_context" in apps_py
+	apps = (tree.APP / "www" / "third_party_apps.html").read_text()
+	assert "one_portal_sidebar.html" in apps and "btn-delete-app" in apps
+	assert 'include "templates/includes/integrations/third_party_apps.js"' in apps
+	login = (tree.APP / "public" / "js" / "login.js").read_text()
+	assert '__("Change Password")' in login and 'get_cookie("user_id")' in login
+	assert 'ACCOUNT = ("/me",' in SOURCE and '"request-to-delete-data": {' in SOURCE
+	assert "one_portal_here" in (tree.APP / "hooks.py").read_text()

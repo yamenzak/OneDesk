@@ -184,6 +184,9 @@ clause(
 		deleted, and your name and address are taken out of everything the workspace keeps, its Recycle Bin
 		and Audit Log included. An employee record is kept by your organisation's HR as the law requires.
 
+		On a workspace's portal, a customer's or supplier's contact asks for their account to be deleted under
+		Your Account, confirmed with a link mailed to them, and it is decided the same way.
+
 		If you are not a user, a customer's contact, a supplier or an applicant say, ask on the workspace's
 		own /your-data page: we mail a link to the address you give, and the request is filed only once you
 		open it. The page answers the same whatever the address. The administrators decide it the same way;
