@@ -265,7 +265,7 @@ def test_an_extension_is_nobody_elses_to_share_attach_or_save():
 	listed = (STUDIO / "doctype" / "extension" / "extension_list.js").read_text()
 	assert "hide_name_column: true" in listed and "hide_name_filter: true" in listed
 	files = (tree.APP / "one_storage" / "namespace.py").read_text()
-	assert '"leaves_out": ("File", "Extension")' in files
+	assert '"leaves_out": ("File", "Extension", "Record Type")' in files
 	ai = (STUDIO / "ai.py").read_text()
 	assert '"expects": "extension_mistakes"' in ai and '_lt("Change this one…")' in ai
 	assert '"onedesk.one_studio.ai.extension_mistakes"' in HOOKS
@@ -547,3 +547,17 @@ def test_an_extension_is_added_by_asking_oneai():
 	listed = (STUDIO / "doctype" / "extension" / "extension_list.js").read_text()
 	assert '__("Add Extension")' in listed and "onedesk.oneai.open(" in listed
 	assert json.loads((STUDIO / "doctype" / "extension" / "extension.json").read_text())["in_create"] == 1
+
+
+def test_a_collection_is_made_and_changed_only_by_asking_oneai():
+	"""Custom Collections: Add Collection asks OneAI, and a collection's page
+	reads its fields, where its records are and what was asked, with no Save
+	and nothing to type."""
+	folder = STUDIO / "doctype" / "record_type"
+	listed = (folder / "record_type_list.js").read_text()
+	assert '__("Add Collection")' in listed and "onedesk.oneai.open(" in listed
+	page = (folder / "record_type.js").read_text()
+	assert "frm.disable_save()" in page and "frappe.get_meta(doc.record_doctype)" in page
+	assert 'onedesk.oneai.button(__("Add Field")' in page
+	rail = json.loads((STUDIO / "sidebar" / "onestudio" / "onestudio.json").read_text())
+	assert any(one["label"] == "Custom Collections" and one["link_to"] == "Record Type" for one in rail["items"])

@@ -30,14 +30,14 @@ SUGGESTIONS = {
 	"Record Type": [
 		{
 			# The reader says what is kept; the model designs the fields.
-			"label": _lt("Make a record type…"),
-			"ask": _lt("Make a record type for "),
+			"label": _lt("Make a collection…"),
+			"ask": _lt("Make a collection for "),
 			"fill": True,
 			"expects": "design_record_type",
 		},
 		{
 			"label": _lt("Add a field to this one…"),
-			"ask": _lt("Add a field to this record type: "),
+			"ask": _lt("Add a field to this collection: "),
 			"fill": True,
 			"view": "Form",
 			"expects": "design_record_type",
@@ -428,14 +428,14 @@ def design_record_type(
 		+ ". options is the kind of record for a Link, the choices one a line for a Select. The first Data field is its title.",
 	],
 	asked: Annotated[str, "What the person asked for, in their words."],
-	record_type: Annotated[str, "To change a record type the workspace already has: its name."] | None = None,
+	record_type: Annotated[str, "To change a custom collection (record type) the workspace already has: its name."] | None = None,
 ) -> dict:
 	"""Design a kind of record the workspace keeps of its own, such as
 	memberships or vehicles, or change one it has: its fields, the app it
 	belongs to, and what it is. Nothing is made until the person approves
 	the card."""
 	if not roles.administers():
-		return {"error": "Only a workspace administrator may have a record type made."}
+		return {"error": "Only a workspace administrator may have a collection made."}
 	try:
 		record_types.check(title, app, fields, record_type=record_type)
 	except record_types.Refused as refused:
@@ -470,7 +470,7 @@ def record_types_here() -> dict:
 	it is, its fields and how many records it has. Read it before designing
 	or changing one."""
 	if not roles.administers():
-		return {"error": "Only a workspace administrator sees the record types."}
+		return {"error": "Only a workspace administrator sees the collections."}
 	out = []
 	for row in frappe.get_list(
 		record_types.RECORD_TYPE, fields=["name", "record_doctype", "app", "description"], limit=100

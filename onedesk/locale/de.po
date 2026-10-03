@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 09:33+0000\n"
-"PO-Revision-Date: 2026-10-03 09:33+0000\n"
+"POT-Creation-Date: 2026-10-03 09:42+0000\n"
+"PO-Revision-Date: 2026-10-03 09:42+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -230,6 +230,22 @@ msgstr "Ein Einchecken außerhalb des Radius ist erlaubt, und die Entfernung wir
 #: onedesk/one/settings.py:914
 msgid "A code after the password. Each person sets it up the next time they sign in."
 msgstr "Ein Code nach dem Passwort. Jede Person richtet ihn bei der nächsten Anmeldung ein."
+
+#: onedesk/one_studio/record_types.py:119
+msgid "A collection can't have a {0} field."
+msgstr "Eine Sammlung kann kein Feld vom Typ {0} haben."
+
+#: onedesk/one_studio/record_types.py:105
+msgid "A collection has at most {0} fields."
+msgstr "Eine Sammlung hat höchstens {0} Felder."
+
+#: onedesk/one_studio/record_types.py:103
+msgid "A collection needs at least one field."
+msgstr "Eine Sammlung braucht mindestens ein Feld."
+
+#: onedesk/one_studio/record_types.py:99
+msgid "A collection's name is 3 to 60 letters, numbers and spaces."
+msgstr "Der Name einer Sammlung hat 3 bis 60 Buchstaben, Ziffern und Leerzeichen."
 
 #: onedesk/one_studio/places.py:41
 msgid "A conversation is opened in OneMail's reading pane."
@@ -591,21 +607,9 @@ msgstr "Ein Datensatz kann nicht mit sich selbst zusammengeführt werden."
 msgid "A record of something that happened to a workspace."
 msgstr "Ein Eintrag über ein Ereignis an einem Arbeitsbereich."
 
-#: onedesk/one_studio/record_types.py:105
-msgid "A record type has at most {0} fields."
-msgstr "Ein Datensatztyp hat höchstens {0} Felder."
-
 #: onedesk/one/numbering.py:208
 msgid "A record type named by series needs at least one series."
 msgstr "Ein nach Serie benannter Datensatztyp benötigt mindestens eine Serie."
-
-#: onedesk/one_studio/record_types.py:103
-msgid "A record type needs at least one field."
-msgstr "Ein Datensatztyp braucht mindestens ein Feld."
-
-#: onedesk/one_studio/record_types.py:99
-msgid "A record type's name is words and spaces, three to sixty letters long."
-msgstr "Der Name eines Datensatztyps besteht aus Wörtern und Leerzeichen, drei bis sechzig Zeichen lang."
 
 #: onedesk/one_studio/places.py:62
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
@@ -1145,6 +1149,10 @@ msgstr "Hinzufügen"
 msgid "Add Bank Account"
 msgstr "Bankkonto hinzufügen"
 
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:10
+msgid "Add Collection"
+msgstr "Sammlung hinzufügen"
+
 #: onedesk/public/js/settings.js:2420 onedesk/public/js/settings.js:2536
 msgid "Add Domain"
 msgstr "Domain hinzufügen"
@@ -1153,6 +1161,7 @@ msgstr "Domain hinzufügen"
 msgid "Add Extension"
 msgstr "Erweiterung hinzufügen"
 
+#: onedesk/one_studio/doctype/record_type/record_type.js:56
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 msgid "Add Field"
 msgstr "Feld hinzufügen"
@@ -1201,13 +1210,13 @@ msgstr "Standort hinzufügen"
 msgid "Add a customer"
 msgstr "Kunden anlegen"
 
+#: onedesk/one_studio/ai.py:40
+msgid "Add a field to this collection: "
+msgstr "Füge dieser Sammlung ein Feld hinzu: "
+
 #: onedesk/one_studio/ai.py:39
 msgid "Add a field to this one…"
 msgstr "Feld hinzufügen…"
-
-#: onedesk/one_studio/ai.py:40
-msgid "Add a field to this record type: "
-msgstr "Füge diesem Datensatztyp ein Feld hinzu: "
 
 #: onedesk/one_studio/ai.py:50
 msgid "Add a field…"
@@ -1938,7 +1947,7 @@ msgid "Anything the person deciding would need to know."
 msgstr "Alles, was die entscheidende Person wissen muss."
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
-#. Label of the app (Data) field in DocType 'Record Type'
+#. Label of the app (Select) field in DocType 'Record Type'
 #. Label of the app (Select) field in DocType 'Workspace Field'
 #: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:455
 #: onedesk/one_studio/doctype/record_type/record_type.json
@@ -4179,6 +4188,11 @@ msgstr "Kollegen, denen die Aufgabe nach dem Anlegen gegeben wird, nach Benutzer
 msgid "Collected"
 msgstr "Gesammelt"
 
+#. Label of the record_doctype (Link) field in DocType 'Record Type'
+#: onedesk/one_studio/doctype/record_type/record_type.json
+msgid "Collection"
+msgstr "Sammlung"
+
 #. Label of the colour (Select) field in DocType 'Record Head Indicator'
 #. Label of the colour (Select) field in DocType 'Record Head Sentence'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -4894,6 +4908,11 @@ msgstr "Derzeit"
 #: onedesk/public/js/doctype_settings.js:339 onedesk/public/js/settings.js:1176
 msgid "Custom"
 msgstr "Benutzerdefiniert"
+
+#. Label of a Sidebar Item
+#: onedesk/one_studio/sidebar/onestudio/onestudio.json
+msgid "Custom Collections"
+msgstr "Benutzerdefinierte Sammlungen"
 
 #. Option for the 'Kind' (Select) field in DocType 'Workspace Customization'
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
@@ -7120,6 +7139,7 @@ msgstr "Überstundendetails abrufen"
 #: onedesk/one/automations.py:160
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/one_studio/doctype/record_type/record_type.js:58
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/doctype_settings.js:946
 #: onedesk/public/js/doctype_settings.js:1100
@@ -7138,6 +7158,7 @@ msgstr ""
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 #: onedesk/one_studio/ai.py:457
+#: onedesk/one_studio/doctype/record_type/record_type.js:52
 msgid "Fields"
 msgstr ""
 
@@ -8517,6 +8538,10 @@ msgstr "Ich brauche einen Brief von HR – eine Gehaltsbescheinigung, ein Arbeit
 msgid "I understand everything in it will be deleted"
 msgstr "Ich verstehe, dass alles darin gelöscht wird"
 
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:11
+msgid "I want a new collection."
+msgstr "Ich möchte eine neue Sammlung."
+
 #: onedesk/one_studio/doctype/extension/extension_list.js:22
 msgid "I want a new extension."
 msgstr "Ich möchte eine neue Erweiterung."
@@ -8524,6 +8549,10 @@ msgstr "Ich möchte eine neue Erweiterung."
 #: onedesk/one_studio/ai.py:51
 msgid "I want to add a field to "
 msgstr "Ich möchte ein Feld hinzufügen zu "
+
+#: onedesk/one_studio/doctype/record_type/record_type.js:56
+msgid "I want to add a field to {0}."
+msgstr "Ich möchte {0} ein Feld hinzufügen."
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:18
 msgid "I want to add a field."
@@ -8688,6 +8717,10 @@ msgstr "Wählen Sie im Finder „Gehe zu › Mit Server verbinden“ und fügen 
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:84
 msgid "In It Now"
 msgstr "Jetzt darin"
+
+#: onedesk/one_studio/doctype/record_type/record_type.js:61
+msgid "In List View"
+msgstr ""
 
 #: onedesk/public/js/settings.js:1756
 msgid "In OneBook"
@@ -10669,12 +10702,12 @@ msgid "Make Main Address"
 msgstr "Zur Hauptadresse machen"
 
 #: onedesk/one_studio/ai.py:34
-msgid "Make a record type for "
-msgstr "Erstelle einen Datensatztyp für "
+msgid "Make a collection for "
+msgstr "Erstelle eine Sammlung für "
 
 #: onedesk/one_studio/ai.py:33
-msgid "Make a record type…"
-msgstr "Datensatztyp erstellen…"
+msgid "Make a collection…"
+msgstr "Sammlung erstellen…"
 
 #: onedesk/one/ai.py:456
 msgid "Make a rule"
@@ -11840,6 +11873,10 @@ msgstr "Keine Fehler"
 msgid "No events"
 msgstr "Keine Termine"
 
+#: onedesk/one_studio/doctype/record_type/record_type.js:55
+msgid "No fields"
+msgstr "Keine Felder"
+
 #: onedesk/one_storage/ready.py:45
 msgid "No file is left on the server's disk"
 msgstr "Keine Datei liegt mehr auf der Festplatte des Servers"
@@ -12847,9 +12884,11 @@ msgstr "Einmal pro Woche, mit dem, was eingegangen ist, was OneAI bearbeitet hat
 #. Title of a Sidebar
 #. Name of a Workspace
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
+#. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one/sidebar/one/one.json onedesk/one/workspace/one/one.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "One"
 msgstr "One"
 
@@ -13212,16 +13251,20 @@ msgstr "OneAdmin"
 
 #. Title of a Sidebar
 #. Name of a Workspace
+#. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_book/workspace/onebook/onebook.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/settings.js:2810
 msgid "OneBook"
 msgstr "OneBook"
 
 #. Title of a Sidebar
 #. Name of a Workspace
+#. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneCRM"
 msgstr "OneCRM"
 
@@ -13245,9 +13288,12 @@ msgstr "OneCloud"
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #. Title of a Sidebar
 #. Name of a Workspace
+#. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr/onehr.json onedesk/public/js/settings.js:2815
+#: onedesk/one_hr/workspace/onehr/onehr.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
+#: onedesk/public/js/settings.js:2815
 msgid "OneHR"
 msgstr "OneHR"
 
@@ -13274,7 +13320,9 @@ msgid "OneIntake Settings"
 msgstr "OneIntake-Einstellungen"
 
 #. Title of a Sidebar
+#. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneInventory"
 msgstr "OneInventory"
 
@@ -13290,7 +13338,9 @@ msgid "OneMail"
 msgstr "OneMail"
 
 #. Title of a Sidebar
+#. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneProject"
 msgstr "OneProject"
 
@@ -13645,6 +13695,7 @@ msgid "Open record"
 msgstr "Datensatz öffnen"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
+#: onedesk/one_studio/doctype/record_type/record_type.js:37
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
 msgstr "{0} öffnen"
@@ -15691,7 +15742,6 @@ msgstr "Wieder verbunden"
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
-#. Label of the record_doctype (Link) field in DocType 'Record Type'
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -15702,7 +15752,6 @@ msgstr "Wieder verbunden"
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/ai.py:392
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/extension_errors.js:21 onedesk/public/js/hiring.js:11
 #: onedesk/public/js/onecloud.js:483 onedesk/public/js/onecloud.js:652
 #: onedesk/public/js/onemail.js:510 onedesk/public/js/overtime.js:50
@@ -15788,11 +15837,6 @@ msgstr "Teilen von Datensätzen"
 #: onedesk/public/js/settings.js:2055 onedesk/public/js/settings.js:2084
 msgid "Record Type"
 msgstr "Datensatztyp"
-
-#. Label of a Sidebar Item
-#: onedesk/one_studio/sidebar/onestudio/onestudio.json
-msgid "Record Types"
-msgstr "Datensatztypen"
 
 #. Label of the applied_doc (Data) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -16324,6 +16368,7 @@ msgstr "Passkey verlangen"
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
+#: onedesk/one_studio/doctype/record_type/record_type.js:60
 #: onedesk/public/js/onecloud.js:1653 onedesk/www/r.html:36
 msgid "Required"
 msgstr "Erforderlich"
@@ -18521,9 +18566,11 @@ msgstr "Fasse diesen Datensatz in wenigen Zeilen zusammen."
 #. Label of the said (Data) field in DocType 'AI Proposal'
 #. Label of the summary (Small Text) field in DocType 'Reading'
 #. Label of the summary (HTML) field in DocType 'Extension'
+#. Label of the summary (HTML) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/settings.js:837
 msgid "Summary"
 msgstr "Zusammenfassung"
@@ -21082,6 +21129,7 @@ msgstr "Zwei-Faktor-Anmeldung"
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83
+#: onedesk/one_studio/doctype/record_type/record_type.js:59
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/onecloud.js:146 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:646 onedesk/public/js/onecloud.js:1575
@@ -23980,6 +24028,7 @@ msgstr "Jahresabschluss {0}"
 
 #: onedesk/one/ai.py:2694 onedesk/one/ai.py:2697 onedesk/one/ai.py:3825
 #: onedesk/one/ai.py:4045 onedesk/one_ai/chat.py:740
+#: onedesk/one_studio/doctype/record_type/record_type.js:50
 #: onedesk/public/js/onecloud.js:722
 msgid "Yes"
 msgstr ""
@@ -25962,10 +26011,6 @@ msgstr "{0} ist jetzt eine Vorlage."
 msgid "{0} is added unless somebody picks another."
 msgstr "{0} wird hinzugefügt, sofern niemand eine andere wählt."
 
-#: onedesk/one_studio/record_types.py:101
-msgid "{0} is already a kind of record here; choose another name."
-msgstr "{0} ist hier bereits eine Datensatzart; wählen Sie einen anderen Namen."
-
 #: onedesk/one_crm/capture.py:54
 msgid "{0} is already a lead: {1}"
 msgstr "{0} ist bereits ein Lead: {1}"
@@ -25993,6 +26038,10 @@ msgstr "{0} ist bereits eine seiner Serien."
 #: onedesk/one_mail/addresses.py:125
 msgid "{0} is already taken."
 msgstr "{0} ist bereits vergeben."
+
+#: onedesk/one_studio/record_types.py:101
+msgid "{0} is already taken. Choose another name."
+msgstr "{0} ist bereits vergeben. Wählen Sie einen anderen Namen."
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:57
 msgid "{0} is already the default for {1}."
@@ -26102,10 +26151,6 @@ msgstr "{0} ist keine Gutschrift."
 msgid "{0} is not a job."
 msgstr "{0} ist kein Auftrag."
 
-#: onedesk/one_studio/record_types.py:119
-msgid "{0} is not a kind of field a record type may have."
-msgstr "{0} ist keine Feldart, die ein Datensatztyp haben darf."
-
 #: onedesk/one_storage/library.py:34
 msgid "{0} is not a library."
 msgstr "{0} ist keine Bibliothek."
@@ -26175,8 +26220,8 @@ msgid "{0} is not an add-on on sale."
 msgstr "{0} ist kein angebotenes Zusatzpaket."
 
 #: onedesk/one_studio/record_types.py:96
-msgid "{0} is not an app this record type can belong to."
-msgstr "{0} ist keine App, zu der dieser Datensatztyp gehören kann."
+msgid "{0} is not an app a collection can belong to."
+msgstr "{0} ist keine App, zu der eine Sammlung gehören kann."
 
 #: onedesk/one/customize.py:475
 msgid "{0} is not another form here."

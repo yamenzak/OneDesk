@@ -38,7 +38,7 @@ ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company",
 #: Every record's Files tab: OneCloud on the record's own room, drawn by
 #: record_files.js. File itself has no room, and an extension (one_studio)
 #: has nothing to file. See one/tabs.py.
-TABS = [{"name": "files", "label": _lt("Files"), "order": 80, "leaves_out": ("File", "Extension")}]
+TABS = [{"name": "files", "label": _lt("Files"), "order": 80, "leaves_out": ("File", "Extension", "Record Type")}]
 LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS = "@libraries", "@recent", "@starred", "@mounts", "@requests"
 MAIL = "@mail"
 HOME, ATTACHMENTS, LIBRARY_ROOT = "Home", "Home/Attachments", "Home/Libraries"

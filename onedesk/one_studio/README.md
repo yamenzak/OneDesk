@@ -4,11 +4,9 @@ Written by hand. What OneStudio does and how to use it. Everything above
 **Under the hood** is written for the people who use it, and OneAI reads it to
 answer "how do I…" questions. Under the hood is for the people who build it.
 
-OneStudio is where a workspace's administrators make One work the way their
-business does: **Extensions** that make a form behave the way you need,
-**Custom Fields** to change what a form shows, and **Record Types** for the things
-you keep that no app came with. You describe what you want to OneAI; it does
-the making, and nothing changes until you approve it.
+OneStudio is where workspace administrators adapt One to their business.
+Describe what you want to OneAI, and approve the card it makes. Nothing
+changes before that.
 
 Only workspace administrators see OneStudio.
 
@@ -16,9 +14,9 @@ Only workspace administrators see OneStudio.
 
 **OneStudio** in the dock opens it. The rail has:
 
-- **Extensions** — what OneAI has written for your workspace, on or off.
-- **Custom Fields** — every field your workspace added or changed.
-- **Record Types** — the kinds of record your workspace keeps of its own.
+- **Extensions**: scripts that make a form or page behave the way you need.
+- **Custom Fields**: every field your workspace added or changed.
+- **Custom Collections**: what your workspace keeps that no app came with.
 
 ## Extensions
 
@@ -154,48 +152,50 @@ card, says what was changed and which extensions run on it, or explains how
 customizing works. A check no field setting can say, it offers as an
 extension.
 
-## Record Types
+## Custom Collections
 
-A record type is a kind of record your workspace keeps that no app came with:
+A custom collection is something your workspace keeps that no app came with:
 memberships, vehicles, rooms, contracts, inspections.
 
-**Making one.** Open OneAI from Record Types and press **Make a record
-type…**, or say "Make a record type for the vans we keep: registration,
-make, mileage, the date we bought it and whether it is in use." OneAI designs
-its fields, and the card shows its name, the app it belongs to and its
-fields. **Approve** makes it.
+**Adding one.** Click **Add Collection** and tell OneAI what you keep, for
+example "the vans we keep: registration, make, mileage, the date we bought it
+and whether it is in use." OneAI designs its fields and shows a card with its
+name, app and fields. **Approve** creates it.
 
-**Where it lives.** In the rail of the app it belongs to, under **Your
-Records**. The people who use that app make and change its records; its
-managers delete them. A record type in **One** is everybody's.
+**Where it is.** In the rail of the app it belongs to, under **Your Records**.
+People who use that app create and edit its records, and its managers delete
+them. A collection in **One** is for everyone.
 
-**What it may have.** Text, numbers, money, percentages, dates and times,
-ticks, choices, phone numbers, ratings, durations, files and pictures, and
-links to a kind of record you may open, or to another record type. The first
-text field names each record.
+**Its page** lists its fields, where its records are, and what was asked.
+Nothing on it is edited by hand.
 
-**Changing one.** Ask OneAI: "Add a colour to Company Van." A field you take
-away is hidden, never deleted, so nothing anybody entered is lost. Its fields are listed in
-**Custom Fields**, as for any other form.
+**Field types.** Text, numbers, money, percentages, dates and times, checks,
+selects, phone numbers, ratings, durations, files and images, and links to
+records you can open or to another collection. The first text field is each
+record's title.
 
-**Deleting one.** Delete its records first: a record type that still has
-records cannot be deleted.
+**Changing one.** Click **Add Field** on its page, or ask OneAI, for example
+"Add a colour to Company Van." A removed field is hidden, not deleted, so no
+data is lost.
 
-## Being told
+**Deleting one.** Delete its records first. A collection that still has
+records can't be deleted.
 
-Every administrator is told, on the bell and by mail unless they chose
-otherwise in their notifications:
+## Notifications
 
-- **Extensions Failing**, each morning, the extensions that ran into a
-  error the day before. Not sent when none did.
-- **Extension Turned On**, when another administrator turns one on: what it
-  does, where and when it runs.
-- **Extension Turned Off** and **Extension Deleted**, on the bell only unless
-  you ask for mail.
-- **Form Customized**, when another administrator saves a form's Customize
-  page or resets it, on the bell only unless you ask for mail.
+Every administrator is notified in One and by email, unless they turned it
+off in their notifications:
 
-Nobody is told of their own change.
+- **Extensions Failing**: each morning, the extensions that hit an error the
+  day before. Not sent when none did.
+- **Extension Turned On**: when another administrator turns one on, with what
+  it does and where it runs.
+- **Extension Turned Off** and **Extension Deleted**: in One only, unless you
+  turn on email.
+- **Form Customized**: when another administrator changes a form or resets
+  it, in One only unless you turn on email.
+
+No one is notified of their own change.
 
 ## Asking OneAI
 
@@ -203,7 +203,7 @@ On Extensions: **Write an extension…**, and **What do our extensions do?**,
 which says what each does and whether any is failing. On an extension:
 **Change this one…**; when it is on, **Has this one run into errors?**, which
 reads what went wrong and on which record (never its code); when it is off,
-**Why is this one off?** On Record Types: **Make a record type…**, and on
+**Why is this one off?** On Custom Collections: **Make a collection…**, and on
 one: **Add a field to this one…** On Custom Fields: **Add a field…**, **Which forms
 have we changed?** and **How does customizing work?**
 
@@ -323,7 +323,7 @@ saved reports. Fields are frappe's own kinds, nothing that runs.
 
 ### The plan
 
-Done: Extensions, the review, Custom Fields, Record Types. Not built: a child table in
+Done: Extensions, the review, Custom Fields, Custom Collections. Not built: a child table in
 a record type, a record type's own numbering (Numbering does it once it
 exists), scheduled extensions (an Automation's schedule instead), and
 extensions on API calls.

@@ -93,16 +93,16 @@ def check(title: str, app: str, fields: list, record_type: str | None = None) ->
 	frappe keeps them."""
 	roles.require()
 	if app not in _apps():
-		raise Refused(_("{0} is not an app this record type can belong to.").format(app))
+		raise Refused(_("{0} is not an app a collection can belong to.").format(app))
 	if not record_type:
 		if not NAME.match(title or ""):
-			raise Refused(_("A record type's name is words and spaces, three to sixty letters long."))
+			raise Refused(_("A collection's name is 3 to 60 letters, numbers and spaces."))
 		if frappe.db.exists("DocType", title):
-			raise Refused(_("{0} is already a kind of record here; choose another name.").format(title))
+			raise Refused(_("{0} is already taken. Choose another name.").format(title))
 	if not fields:
-		raise Refused(_("A record type needs at least one field."))
+		raise Refused(_("A collection needs at least one field."))
 	if len(fields) > MOST_FIELDS:
-		raise Refused(_("A record type has at most {0} fields.").format(MOST_FIELDS))
+		raise Refused(_("A collection has at most {0} fields.").format(MOST_FIELDS))
 	from onedesk.one import audit
 
 	kinds = set(audit.kinds()) | set(frappe.get_all(RECORD_TYPE, pluck="record_doctype"))
@@ -116,7 +116,7 @@ def check(title: str, app: str, fields: list, record_type: str | None = None) ->
 			)
 		fieldtype = one.get("fieldtype")
 		if fieldtype not in FIELDTYPES:
-			raise Refused(_("{0} is not a kind of field a record type may have.").format(fieldtype))
+			raise Refused(_("A collection can't have a {0} field.").format(fieldtype))
 		label = (one.get("label") or "").strip()
 		if not label and fieldtype not in ("Section Break", "Column Break"):
 			raise Refused(_("Every field needs a label."))

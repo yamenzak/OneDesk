@@ -238,7 +238,7 @@ after saving.
 | Core | Data Import Log | Underneath | runs under the product; no screen wanted |
 | Core | Deleted Document | In One | One › Recycle Bin (one/recycle.py) |
 | Core | DocShare | Underneath | runs under the product; no screen wanted |
-| Core | DocType | Not a customer's | the platform's or a developer's; a workspace's own custom ones are OneStudio › Record Types (one_studio/record_types.py) |
+| Core | DocType | Not a customer's | the platform's or a developer's; a workspace's own custom ones are OneStudio › Custom Collections (one_studio/record_types.py) |
 | Core | DocType Layout | Not a customer's | the platform's or a developer's; only an operator |
 | Core | DocType Settings Map | Not a customer's | the platform's or a developer's; only an operator |
 | Core | Document Naming Rule | In One | Workspace › Numbering and the Settings dialog's Naming tab (one/numbering.py) |

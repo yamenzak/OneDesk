@@ -5951,6 +5951,37 @@ fields is weird and pointless."
 want a new extension." as Add Field does on Custom Fields. A row still opens
 the extension's page: its code, review, Errors tab and Turn On live there.
 
+### OneStudio › Custom Collections (was Record Types)
+
+Your word: "Now it's time for record types, of course to a new name, Custom
+Collections."
+
+1. **Notifications**: none of its own. A collection made or changed is not
+   announced to the other administrators. Left as is; worth adding with
+   Extensions' messages if wanted.
+2. **OneAI**: **Add Collection** on the list and **Add Field** on a
+   collection open OneAI. Its suggestions say "Make a collection…". The
+   studio instruction tells the model to call it a collection.
+3. **Intake**: nothing reads into a collection yet.
+4. **Permissions**: administrators only, as before. The page is read-only,
+   with no Save, and nothing on it can be typed.
+5. **Cross-module**: its records live in its app's rail under Your Records.
+   The page says where and opens them.
+6. **Bespoke UI**: the list drops the repeated ID column and gets App as a
+   choice. The page was a column of greyed inputs with a Save button and
+   never showed the collection's fields. It now reads as a page: Where It
+   Is, Fields (frappe's table, with Required and In List View) and Asked.
+   Files, Assign, Tags and Share are gone from it.
+7. **Docs**: OneStudio's README has Custom Collections, plainly, and its
+   intro and Notifications section were rewritten too.
+8. **Legal**: `one_studio/legal.py` still says "record type" in its clause.
+   Changing it is a revision of the agreement, so it is left for a legal
+   pass.
+9. **Built from frappe**: list view and its settings, EmbeddedList for the
+   fields, frappe's meta, badges and buttons.
+10. **Plain words**: renamed throughout the screen, its errors and OneAI's
+   words. The doctype id stays Record Type.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

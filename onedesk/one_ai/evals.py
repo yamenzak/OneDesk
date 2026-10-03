@@ -276,7 +276,7 @@ CASES = [
 	{
 		"id": "record-type",
 		"page": {},
-		"ask": "Make a record type for training rooms, with a name, how many people fit and the floor.",
+		"ask": "Make a collection for training rooms, with a name, how many people fit and the floor.",
 		"tools": ("design_record_type",),
 		"card": True,
 	},
