@@ -229,14 +229,14 @@ Started. What is left, the most visible first:
    goes to One's Home, so the apps screen and its avatar menu never show.
 4. ~~**An erpnext or hrms record opened cold.**~~ **Done**: with their
    sidebars out of the boot, it opens in One's.
-5. **Menu items that end on a screen only a System Manager can open:**
-   Import on 47 kinds of record (Data Import), Help › System Health, View
-   Audit Trail on an amended record, and Setup Auto Email and Print Settings
-   for anyone who is not an administrator.
-6. **Frappe's editors for its own furniture are open to everybody:** Edit
-   Sidebar, Manage Dock (which can put frappe's or erpnext's apps back on a
-   person's rail) and a private Workspace. This audit had Custom Sidebar and
-   Workspace as an operator's.
+5. ~~**Menu items that end on a screen only a System Manager can open.**~~
+   **Done** (`public/js/outside.js`): View Audit Trail, Setup Auto Email and
+   Print Settings are offered on frappe's own read check of where they go,
+   Help › System Health on a navbar condition (`declutter.SHOW_IF`), and
+   Import not at all (`can_import` is empty in the boot).
+6. ~~**Frappe's editors for its own furniture are open to everybody.**~~
+   **Done**: Edit Sidebar and Manage Dock are not offered on One's desk, and a
+   private Workspace cannot be made.
 7. **Help is erpnext's:** docs.erpnext.com links on 104 pages, none of One's.
    Theme and Full Width have no place in One's Settings.
 8. **The Communication list and the Inbox view** are frappe's mail client in

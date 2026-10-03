@@ -14,6 +14,7 @@ onedesk.one_intake.patches.no_new_iban
 onedesk.one.patches.no_erpnext_footer
 onedesk.one.patches.holiday_names
 onedesk.one.patches.your_data_footer
+onedesk.one.patches.system_health_for_its_readers
 onedesk.one_admin.patches.home_is_a_workspace
 onedesk.one_admin.patches.status_since
 onedesk.one_admin.patches.log_in_words

@@ -6041,6 +6041,23 @@ sidebar resolver picking among them.
   Customers keeps OneCRM's; search offers no erpnext workspace. The
   Administrator keeps frappe's whole desk (51 sidebars).
 
+### The desk around the doctypes (gaps 5 and 6)
+
+Your word: "Yes do 5 and 6".
+
+- **Fixed** (`public/js/outside.js`): View Audit Trail, Setup Auto Email and
+  the print page's Print Settings are offered only to whoever can read where
+  they go, on frappe's own check, so an administrator keeps the last two.
+- **Fixed**: Help › System Health has a navbar condition on the same check
+  (`declutter.SHOW_IF`, and a patch for sites already installed).
+- **Fixed**: Import is gone from every list (`can_import` empty in the boot),
+  since Data Import is the platform's.
+- **Fixed**: Edit Sidebar and Manage Dock are not offered on One's desk.
+- Checked as the workspace administrator and as Rania: a list's menu is
+  Customize Quick Filters only, the user menu is Settings, Reload and Logout,
+  the help menu is empty, Setup Auto Email and Print Settings show for the
+  administrator only.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

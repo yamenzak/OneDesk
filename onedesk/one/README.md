@@ -1606,7 +1606,7 @@ For the people who build One. OneAI does not read past this heading.
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
 | `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
 | `customize.py`, `layer.py`, `doctype/workspace_customization`, `../one_studio/doctype/workspace_field` | What a workspace changes on a form (written by OneAI's card), the holds on it, and the Custom Fields list |
-| `outside.py`, `boot.py`, `../public/js/desk.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home |
+| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, Print Settings, System Health), and frappe's Edit Sidebar and Manage Dock are not offered |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
 under it, the band of numbers and the verbs a person presses are a **Record

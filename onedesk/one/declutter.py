@@ -18,6 +18,10 @@ import frappe
 #: action for demo data a paying site never had.
 HIDE_ROWS = ("Frappe Support", "About", "Delete Demo Data")
 
+#: Navbar rows shown only to whoever can open where they go, on frappe's own
+#: read check: System Health is a System Manager's report.
+SHOW_IF = {"System Health": "frappe.model.can_read('System Health Report')"}
+
 #: Reports One has replaced with one of its own. Disabling rather than deleting:
 #: the row is theirs and a `bench update` would write it back, and this runs on
 #: every migrate so it settles again after one does. A tenant who wants the
@@ -44,6 +48,8 @@ def apply() -> None:
 		for row in navbar.get(key):
 			if row.item_label in HIDE_ROWS:
 				row.hidden = 1
+			if row.item_label in SHOW_IF and not row.condition:
+				row.condition = SHOW_IF[row.item_label]
 	navbar.save(ignore_permissions=True)
 
 	for name in HIDE_REPORTS:

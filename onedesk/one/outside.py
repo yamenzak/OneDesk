@@ -32,6 +32,9 @@ def keep(bootinfo) -> None:
 	if platform():
 		return
 	kept(bootinfo)
+	# Import opens Data Import, the platform's; see docs/BACKLOG.md.
+	if isinstance(bootinfo.get("user"), dict):
+		bootinfo["user"]["can_import"] = []
 	pages = (bootinfo.get("workspaces") or {}).get("pages")
 	if isinstance(pages, list):
 		bootinfo["one_elsewhere"] = sorted(

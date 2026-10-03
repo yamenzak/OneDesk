@@ -13,11 +13,10 @@ a time: **OneProject**, **OneCRM**, **OneBook**, **OneInventory**, **OneHR**,
 
 ## Frappe's desk that One has not replaced yet
 
-Gaps 5 to 11 in `docs/DESK-COVERAGE.md` (The desk around the doctypes): menu
-items that end on a System Manager's screen, frappe's furniture editors,
+Gaps 7 to 11 in `docs/DESK-COVERAGE.md` (The desk around the doctypes):
 erpnext's Help, the Communication inbox, search's pages and reports, frappe's
-error pages, and four of frappe's reports. Gaps 1 to 4 are done
-(`one/outside.py`).
+error pages, and four of frappe's reports. Gaps 1 to 6 are done
+(`one/outside.py`, `public/js/outside.js`).
 
 ## Frappe that One does not reach yet (P3)
 
