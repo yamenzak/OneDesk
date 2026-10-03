@@ -163,7 +163,8 @@ DOCUMENTS = {
 		"audience": "customer",
 		# 2: the whole of the data in one download when the agreement ends.
 		# 3: a webhook is the organisation's instruction; its recipient is theirs.
-		"revision": 3,
+		# 4: the portal, whom a workspace lets see which of its records.
+		"revision": 4,
 		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
 	},
 	"subprocessors": {

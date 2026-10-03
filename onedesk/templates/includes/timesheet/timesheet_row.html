@@ -1,0 +1,9 @@
+{#- A timesheet on the portal's list: the hours billed, and for which project. -#}
+<div class="one-list__row">
+	<span class="one-list__what">
+		<span>{{ doc.name | e }}</span>
+		<small>{{ (doc.project or "") | e }}{% if doc.activity_type %} · {{ _(doc.activity_type) }}{% endif %}</small>
+	</span>
+	<span><span class="one-pill one-pill--{{ 'green' if doc.status == 'Billed' else 'red' if doc.status == 'Cancelled' else 'blue' if doc.status == 'Submitted' else 'gray' }}">{{ _(doc.status) }}</span></span>
+	<span class="one-list__amount">{{ _("{0} h").format(frappe.utils.flt(doc.billing_hours, 2)) }}</span>
+</div>

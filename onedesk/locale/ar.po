@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 15:32+0000\n"
-"PO-Revision-Date: 2026-10-03 15:32+0000\n"
+"POT-Creation-Date: 2026-10-03 15:55+0000\n"
+"PO-Revision-Date: 2026-10-03 15:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -6019,7 +6019,7 @@ msgstr "المستحق هذا الأسبوع"
 msgid "Due in the next 7 days"
 msgstr "مستحق خلال الأيام السبعة القادمة"
 
-#: onedesk/one_project/portal.py:142
+#: onedesk/one_project/portal.py:126
 msgid "Due today"
 msgstr "يستحق اليوم"
 
@@ -6528,6 +6528,10 @@ msgstr "ينتهي في"
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Ends the Shift"
 msgstr "ينهي المناوبة"
+
+#: onedesk/templates/includes/projects/project_row.html:6
+msgid "Ends {0}"
+msgstr "ينتهي {0}"
 
 #: onedesk/one_admin/hosts.py:86 onedesk/one_admin/hosts.py:94
 msgid "Enter a domain, such as office.example.com."
@@ -8838,7 +8842,7 @@ msgid "In the subject or anywhere in the message."
 msgstr "في الموضوع أو في أي مكان في الرسالة."
 
 #: onedesk/one_admin/heads.py:201 onedesk/one_project/heads.py:77
-#: onedesk/one_project/portal.py:143
+#: onedesk/one_project/portal.py:127
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
 
@@ -12525,7 +12529,8 @@ msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغ
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
-#: onedesk/public/js/desk.js:339
+#: onedesk/public/js/desk.js:339 onedesk/www/portal.html:29
+#: onedesk/www/portal.html:51
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
 
@@ -12536,6 +12541,10 @@ msgstr "لم يُخطَّط شيء بعد."
 #: onedesk/one_hr/heads.py:557
 msgid "Nothing is spent and no attendance is marked."
 msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
+
+#: onedesk/www/portal.html:49
+msgid "Nothing matches"
+msgstr "لا توجد نتائج مطابقة"
 
 #: onedesk/public/js/onecloud.js:378
 msgid "Nothing shared with you"
@@ -14877,6 +14886,10 @@ msgstr "رقم الوثيقة"
 msgid "Port"
 msgstr "المنفذ"
 
+#: onedesk/templates/includes/one_portal_head.html:9 onedesk/www/portal.html:4
+msgid "Portal"
+msgstr ""
+
 #. Label of the one_position (Int) field in DocType 'Sales Stage'
 #. Label of the 'attendance_and_leave_details' field in DocType 'Employee'
 #. Label of the position_state (Select) field in DocType 'Clock Attempt'
@@ -15474,6 +15487,14 @@ msgstr "الحصص"
 #: onedesk/one_crm/heads.py:209 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Quotation"
 msgstr ""
+
+#: onedesk/one/portal.py:30
+msgid "Quote Requests"
+msgstr "طلبات عروض الأسعار"
+
+#: onedesk/one/portal.py:30
+msgid "Quotes"
+msgstr "عروض الأسعار"
 
 #. Label of the r2_key_id (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -16973,7 +16994,7 @@ msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/onemail.js:91
+#: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:38
 msgid "Search"
 msgstr ""
 
@@ -17624,6 +17645,10 @@ msgstr "عرض في"
 msgid "Show In…"
 msgstr "عرض في…"
 
+#: onedesk/www/portal.html:46
+msgid "Show More"
+msgstr "عرض المزيد"
+
 #: onedesk/public/js/note.js:15
 msgid "Show Until"
 msgstr "عرضه حتى"
@@ -17727,6 +17752,7 @@ msgid "Sign in with a drive password, not your One password."
 msgstr "سجّل الدخول بكلمة مرور محرك الأقراص، لا بكلمة مرور One."
 
 #: onedesk/www/account.html:18 onedesk/www/me.html:15
+#: onedesk/www/portal.html:16
 msgid "Sign out"
 msgstr "تسجيل الخروج"
 
@@ -17789,7 +17815,7 @@ msgstr "تسجيل الخروج بعد"
 msgid "Signed in"
 msgstr "سجّل الدخول"
 
-#: onedesk/www/account.html:18
+#: onedesk/www/account.html:18 onedesk/www/portal.html:16
 msgid "Signed in as {0}."
 msgstr "مسجّل الدخول باسم {0}."
 
@@ -22024,6 +22050,10 @@ msgstr "خط المبيعات المرجّح"
 msgid "Weighted Value"
 msgstr "القيمة المرجّحة"
 
+#: onedesk/www/portal.html:15
+msgid "Welcome"
+msgstr ""
+
 #. Label of the kind (Select) field in DocType 'Tenant Event'
 #. Label of the section_what (Section Break) field in DocType 'Intake Action'
 #. Label of the what (Select) field in DocType 'Reading Date'
@@ -25873,7 +25903,7 @@ msgstr "قبل {0} أيام من {2} في {1}"
 msgid "{0} days before {1}"
 msgstr "قبل {1} بـ {0} أيام"
 
-#: onedesk/one_project/heads.py:76 onedesk/one_project/portal.py:140
+#: onedesk/one_project/heads.py:76 onedesk/one_project/portal.py:124
 msgid "{0} days late"
 msgstr "متأخر {0} يوم"
 
@@ -25980,6 +26010,10 @@ msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 #: onedesk/one/numbering.py:238
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "يصل {0} إلى {1} فعلًا، لذا يمكن نقله إلى {1} أو أكثر فقط."
+
+#: onedesk/templates/includes/timesheet/timesheet_row.html:8
+msgid "{0} h"
+msgstr ""
 
 #: onedesk/one/print_html.py:170
 msgid "{0} has a template error ({1})."
@@ -26752,6 +26786,14 @@ msgstr "{0} لا يأخذ قيمته من أي مصدر."
 #: onedesk/one_intake/page/intake/intake.js:114 onedesk/public/js/intake.js:45
 msgid "{0} to decide"
 msgstr "{0} للبتّ"
+
+#: onedesk/one/portal.py:41
+msgid "{0} to deliver"
+msgstr "{0} للتسليم"
+
+#: onedesk/one/portal.py:40
+msgid "{0} to pay"
+msgstr "{0} للدفع"
 
 #: onedesk/one_hr/heads.py:226 onedesk/one_hr/heads.py:354
 #: onedesk/public/js/settings.js:2991

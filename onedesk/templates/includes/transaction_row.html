@@ -1,0 +1,14 @@
+{#- A quotation, order, invoice, shipment or purchase document on the portal's
+    list, One's look for erpnext's row (one/portal.py). -#}
+{%- set when = doc.get("transaction_date") or doc.get("posting_date") or doc.modified -%}
+{%- set total = "rounded_total" if doc.get("rounded_total") and not doc.is_rounded_total_disabled() else "grand_total" -%}
+<a class="one-list__row" href="/{{ pathname | e }}/{{ doc.name | urlencode }}">
+	<span class="one-list__what">
+		<span>{{ doc.name | e }}</span>
+		<small>{{ frappe.format_date(when) }}{% if doc.items_preview %} · {{ doc.items_preview | e }}{% endif %}</small>
+	</span>
+	{%- if doc.doctype != "Request for Quotation" %}
+	<span><span class="one-pill one-pill--{{ one_portal_tone(doc.indicator_color or ('blue' if doc.docstatus == 1 else 'gray')) }}">{{ _(doc.status) }}</span></span>
+	{%- else %}<span></span>{% endif %}
+	<span class="one-list__amount">{% if doc.get(total) %}{{ doc.get_formatted(total) }}{% endif %}</span>
+</a>

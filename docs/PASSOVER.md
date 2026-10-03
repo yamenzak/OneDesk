@@ -6162,6 +6162,46 @@ Your word: "Are you sure all 11 gaps are done or did we skip some", then
   gap 13, frappe's account pages (Edit Profile, Request Account Deletion,
   Third Party Apps), are frappe's.
 
+### Portals 1: the shell, home and every list
+
+Your word: "Ok now the gaps starting with all portals, the customer portal,
+the supplier portal and whatever else... follow the pattern".
+
+What there is: Portal Settings lists the tabs by role (a customer's
+Projects, Quotations, Orders, Invoices, Shipments, Addresses, Timesheets; a
+supplier's Quote Requests, Quotes, Purchase Orders, Purchase Invoices).
+frappe's `portal` page lists each through the kind's own `get_list_context`;
+a row template draws each row; erpnext's `order`, `rfq`, `addresses` and
+`material_request_info` pages draw a record.
+
+1. **Notifications**: nothing new. Invite as User sends frappe's welcome
+   mail, already One's.
+2. **OneAI**: none on the portal; a customer is not a OneAI user.
+3. **Intake**: nothing lands here.
+4. **Permissions**: **Fixed**: a supplier's contact invited as a user saw
+   nothing, since erpnext reads the supplier's Portal Users and Invite as
+   User never fills them; `one/portal.invited` now does for suppliers as for
+   customers. Each still sees only their own party's records, erpnext's check.
+5. **Cross-module**: the lists are OneCRM's quotations and orders, OneBook's
+   invoices, OneInventory's shipments and purchase orders, OneProject's
+   projects and timesheets. **Fixed**: Issues (no place in One) and
+   Material Request (the workspace's own) are off the customer's tabs.
+6. **Bespoke UI**: **Fixed**: the portal is One's, as /account and a
+   project's page are: One's mark, the tabs as frappe-ui's TabButtons, a
+   search well, one row a record as frappe-ui's ListView, pills for status,
+   Show More. Home says how many of each the person has and how many
+   invoices are to pay (purchase orders to deliver, for a supplier).
+   Light, dark and phone.
+7. **Documented**: The Portal in One's README; OneAI answers from it.
+8. **Legal**: **Fixed**: the DPA says whom a workspace lets in and what they
+   see (revision 4).
+9. **Built from frappe**: frappe's own portal page, list contexts and
+   Portal Settings; only the templates are One's.
+10. **Plain words**: **Fixed**: "Request for Quotations" and "Supplier
+    Quotation" are Quote Requests and Quotes; each list's heading is its tab's.
+
+Next: a record's page (an order, an invoice, a quote).
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

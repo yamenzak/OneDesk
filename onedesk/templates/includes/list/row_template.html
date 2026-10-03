@@ -1,0 +1,11 @@
+{#- Any other kind of record on the portal's list: its title, and up to three
+    of the fields its list shows. -#}
+<a class="one-list__row" href="/{{ route }}">
+	<span class="one-list__what">
+		<span>{{ (doc.get(title_field) or doc.name) | e }}</span>
+		{%- set more = list_view_fields[:3] if list_view_fields else [] %}
+		{% if more %}<small>{% for df in more %}{% if doc.get(df.fieldname) %}{{ frappe.format(doc.get(df.fieldname), df, doc=doc) | striptags }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}</small>{% endif %}
+	</span>
+	<span></span>
+	<span></span>
+</a>

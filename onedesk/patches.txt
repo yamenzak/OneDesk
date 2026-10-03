@@ -33,3 +33,4 @@ onedesk.one_admin.patches.server_list
 onedesk.one_studio.patches.review_covers_where
 onedesk.one_admin.patches.gemma_default
 onedesk.one_studio.patches.no_customize_page
+onedesk.one.patches.portal_settle

@@ -12,6 +12,8 @@ after_install = [
 	"onedesk.one.roles.ensure",
 	# Storage is what a tenant pays for, not file size.
 	"onedesk.one_storage.store.unlimit",
+	# Portal Settings rows One has no use for. See one/portal.py.
+	"onedesk.one.portal.settle",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
@@ -274,11 +276,11 @@ doc_events = {
 	"Payroll Settings": {"on_update": "onedesk.one.notify.switched"},
 	# A request raised by reordering is told to Purchasing. See one_inventory/tell.py.
 	"Material Request": {"on_submit": "onedesk.one_inventory.tell.raised"},
-	# A customer's contact invited as a user can see the customer's projects.
-	# See one_project/portal.py.
+	# A customer's or supplier's contact invited as a user sees their records on
+	# the portal. See one/portal.py.
 	"Contact": {
 		"on_update": [
-			"onedesk.one_project.portal.invited",
+			"onedesk.one.portal.invited",
 			# A contact without a picture gets their face. See one_mail/faces.py.
 			"onedesk.one_mail.faces.dress_later",
 		],
@@ -1232,7 +1234,15 @@ after_request = ["onedesk.one_storage.dav.headers"]
 
 # A workspace's HTML block prints through One's sandbox: onedesk's copy of frappe's
 # HTML block macro calls this for a block the workspace saved. See one/print_html.py.
-jinja = {"methods": ["onedesk.one.print_html.one_html_block"]}
+jinja = {
+	"methods": [
+		"onedesk.one.print_html.one_html_block",
+		# The portal's tabs, its home and its pills. See one/portal.py.
+		"onedesk.one.portal.one_portal_tabs",
+		"onedesk.one.portal.one_portal_tone",
+		"onedesk.one.portal.one_portal_home",
+	]
+}
 
 
 # What frappe's erasure redacts beyond its own list, the person's name and

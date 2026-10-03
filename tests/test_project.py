@@ -402,11 +402,11 @@ def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
 		"a customer signing in is not sent to the desk"
 	)
 	assert "is_website_user()" in (tree.APP / "__init__.py").read_text()
-	assert '"onedesk.one_project.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
+	assert '"onedesk.one.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
+	assert (
+		'party.append("portal_users", {"user": doc.user})' in (tree.APP / "one" / "portal.py").read_text()
+	), "the only thing ERPNext's portal reads"
 	source = (PROJECT / "portal.py").read_text()
-	assert 'customer.append("portal_users", {"user": doc.user})' in source, (
-		"the only thing ERPNext's portal reads"
-	)
 	assert "has_website_permission(doc" in _body(source, "may_see")
 	page = (tree.APP / "www" / "projects.py").read_text()
 	assert "portal.view(project)" in page, "One's page at ERPNext's address"

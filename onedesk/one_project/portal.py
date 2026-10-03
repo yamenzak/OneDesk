@@ -39,22 +39,6 @@ SHOWN = {
 }
 
 
-def invited(doc, method=None) -> None:
-	"""Contact on_update: a contact's login is a portal user of each customer
-	the contact is for."""
-	if not doc.user or frappe.db.get_value("User", doc.user, "user_type") != "Website User":
-		return
-	for link in doc.links or []:
-		if link.link_doctype != "Customer":
-			continue
-		if frappe.db.exists("Portal User", {"parenttype": "Customer", "parent": link.link_name, "user": doc.user}):
-			continue
-		customer = frappe.get_doc("Customer", link.link_name)
-		customer.append("portal_users", {"user": doc.user})
-		customer.flags.ignore_permissions = True
-		customer.save()
-
-
 def view(project: str) -> dict:
 	"""What the customer's page for a project shows. Raises when the reader
 	may not see it. Progress is the whole tree the customer sees, since a

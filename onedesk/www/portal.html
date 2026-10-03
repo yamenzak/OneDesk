@@ -1,0 +1,55 @@
+{% extends "templates/web.html" %}
+{#- frappe's list context asks for its sidebar; the tabs are the portal's menu. -#}
+{%- set show_sidebar = False -%}
+{% block title %}{{ (title or _(doctype)) if doctype else _("Portal") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal one-portal--wide">
+	{% include "templates/includes/one_portal_head.html" %}
+
+	{% if not doctype %}
+	<h1>{{ _("Welcome") }}</h1>
+	<p class="one-portal__lede">{{ _("Signed in as {0}.").format(frappe.session.user|e) }} <a href="/logout">{{ _("Sign out") }}</a></p>
+	{%- set have = one_portal_home() %}
+	{% if have %}
+	<div class="one-list">
+		{% for one in have %}
+		<a class="one-list__row" href="{{ one.route }}">
+			<span class="one-list__what">{{ one.title }}</span>
+			{% if one.waiting %}<span><span class="one-pill one-pill--orange">{{ one.waiting }}</span></span>{% endif %}
+			<span class="one-list__amount">{{ one.count }}</span>
+		</a>
+		{% endfor %}
+	</div>
+	{% else %}
+	<p class="one-note">{{ _("Nothing here yet") }}</p>
+	{% endif %}
+
+	{% else %}
+	{%- set here = one_portal_tabs() | selectattr("current") | first %}
+	<h1>{{ here.title if here else (title or _(doctype)) }}</h1>
+	{% if introduction %}<p class="one-portal__lede">{{ introduction }}</p>{% endif %}
+
+	<form class="one-search" method="get" role="search">
+		<input class="one-input" type="search" name="txt" value="{{ (txt or '')|e }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
+	</form>
+
+	{% if result %}
+	<div class="one-list">
+		{% for row in result %}{{ row }}{% endfor %}
+	</div>
+	{% if show_more %}
+	<a class="one-button one-list__more" href="?limit={{ (frappe.form_dict.limit or 20)|int + 20 }}{% if txt %}&txt={{ txt|urlencode }}{% endif %}">{{ _("Show More") }}</a>
+	{% endif %}
+	{% elif txt %}
+	<p class="one-note">{{ _("Nothing matches") }}</p>
+	{% else %}
+	<p class="one-note">{{ _("Nothing here yet") }}</p>
+	{% endif %}
+	{% endif %}
+</div>
+{% endblock %}

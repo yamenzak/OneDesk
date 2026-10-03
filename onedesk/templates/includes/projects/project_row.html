@@ -1,0 +1,10 @@
+{#- A project on the portal's list, opening One's project page (www/projects.py). -#}
+{%- set done = frappe.utils.cint(doc.percent_complete) -%}
+<a class="one-list__row" href="/projects?project={{ doc.name | urlencode }}">
+	<span class="one-list__what">
+		<span>{{ (doc.project_name or doc.name) | e }}</span>
+		<small>{% if doc.expected_end_date %}{{ _("Ends {0}").format(frappe.format_date(doc.expected_end_date)) }}{% else %}{{ doc.name | e }}{% endif %}</small>
+	</span>
+	<span><span class="one-pill one-pill--{{ 'green' if doc.status == 'Completed' else 'blue' }}">{{ _(doc.status) }}</span></span>
+	<span class="one-list__amount">{{ done }}%</span>
+</a>

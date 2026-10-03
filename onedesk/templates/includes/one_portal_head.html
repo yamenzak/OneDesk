@@ -1,0 +1,14 @@
+{#- The portal's head: One's mark, and its tabs as frappe-ui's TabButtons draw
+    a few choices (one/portal.py). -#}
+<a class="one-portal__mark" href="/portal">
+	<img src="/assets/onedesk/images/one.svg" alt="">
+	<span>One</span>
+</a>
+{%- set tabs = one_portal_tabs() %}
+{%- if tabs %}
+<nav class="one-tabs one-tabs--wrap" aria-label="{{ _('Portal') }}">
+	{%- for tab in tabs %}
+	<a href="{{ tab.route }}" {% if tab.current %}aria-current="page"{% endif %}>{{ tab.title }}</a>
+	{%- endfor %}
+</nav>
+{%- endif %}

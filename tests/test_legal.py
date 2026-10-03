@@ -25,7 +25,7 @@ VERSIONS = {
 	"aup": "1.cc05bbc3",
 	"privacy": "16.c5a93c2e",
 	"cookies": "1.32b1addc",
-	"dpa": "3.84d7ac96",
+	"dpa": "4.042bc9fa",
 	"subprocessors": "4.609e7a2d",
 	"ai": "10.1c435819",
 	"licences": "1.c71daf62",

@@ -264,10 +264,12 @@ Started. What is left, the most visible first:
     User, User Doctype Permissions and Document Share Report stay the
     platform's: frappe allows only its System Manager, and Access and People
     answer who sees what.
-12. **The customer portal is erpnext's.** A customer's contact signed in to
-    the website meets erpnext's Orders, Invoices, Quotations, Shipments,
-    Issues, Addresses, Timesheets and Material Request, in erpnext's look.
-    Only a project's page is One's (`www/projects.py`). Its own pass.
+12. **The customer and supplier portals are erpnext's.** A customer's or
+    supplier's contact signed in meets erpnext's lists and record pages.
+    **Started**: the portal's home, tabs and every list are One's
+    (`one/portal.py`, `www/portal.html`), and a supplier's contact sees their
+    records. Still erpnext's: a record's page, a supplier's quote request,
+    and the address and material request pages.
 13. **Frappe's account pages.** Edit Profile (`/update-profile`), Request
     Account Deletion and Third Party Apps, reached from a contact's account,
     are frappe's web forms and pages in frappe's look. Its own pass.

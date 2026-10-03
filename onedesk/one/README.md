@@ -1558,6 +1558,21 @@ frappe's own Settings window. Each part appears once the workspace can use it.
   Automations, for the Workspace. Frappe's and One's own record types have
   none, since they have no Customize.
 
+## The Portal
+
+Your customers and suppliers can sign in to see their own records. Open
+their contact and choose **Invite as User**; they get a mail to set a
+password, and land on the portal.
+
+- **A customer** sees their quotations, orders, invoices, shipments,
+  addresses, projects and timesheets.
+- **A supplier** sees the quote requests sent to them, their quotes, and
+  their purchase orders and purchase invoices.
+
+Each sees only the records of their own customer or supplier. Home says how
+many of each they have, and how many invoices are waiting to be paid. Which
+tabs show is set in frappe's Portal Settings.
+
 ## Asking OneAI
 
 The OneAI button at the bottom of every page opens the OneAI panel. Every
@@ -1607,6 +1622,7 @@ For the people who build One. OneAI does not read past this heading.
 | `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
 | `customize.py`, `layer.py`, `doctype/workspace_customization`, `../one_studio/doctype/workspace_field` | What a workspace changes on a form (written by OneAI's card), the holds on it, and the Custom Fields list |
 | `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search offers One's pages and reports. A page not found or not permitted keeps the rail |
+| `portal.py`, `../www/portal.html`, `../templates/includes/one_portal_head.html` | The portal a workspace's customers and suppliers sign in to: its tabs (Portal Settings by role), its home, and every list in One's look, through frappe's own `portal` page and erpnext's list contexts. The row templates under `../templates/includes/` replace erpnext's. A contact invited as a user becomes a portal user of their customer or supplier |
 | `../www/404.py`, `../www/message.py`, `../www/error.py`, `../www/me.py` | Frappe's web pages for not found, a message, an error and `/me`, in One's portal look. `/me` sends someone with a desk to Profile and an account holder to `/account` |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
