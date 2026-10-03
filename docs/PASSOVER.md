@@ -5956,9 +5956,10 @@ the extension's page: its code, review, Errors tab and Turn On live there.
 Your word: "Now it's time for record types, of course to a new name, Custom
 Collections."
 
-1. **Notifications**: none of its own. A collection made or changed is not
-   announced to the other administrators. Left as is; worth adding with
-   Extensions' messages if wanted.
+1. **Notifications**: none of its own at first. After your word, three like
+   Extensions': **Collection Added** (in One and by email, with its fields
+   and where its records are), **Collection Changed** and **Collection
+   Deleted** (in One only by default), to the other administrators.
 2. **OneAI**: **Add Collection** on the list and **Add Field** on a
    collection open OneAI. Its suggestions say "Make a collection…". The
    studio instruction tells the model to call it a collection.

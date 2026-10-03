@@ -29,7 +29,7 @@ import re
 import frappe
 from frappe import _
 
-from onedesk.one import roles
+from onedesk.one import notify, roles
 from onedesk.one_studio import extensions
 
 RECORD_TYPE = "Record Type"
@@ -192,6 +192,7 @@ def make(title: str, app: str, description: str, fields: list, asked: str) -> st
 		}
 	).insert(ignore_permissions=True)
 	_place(doctype.name, app)
+	notify.notify("Collection Added", roles.administrators(), **_told(doctype.name, app, description))
 	return doctype.name
 
 
@@ -222,7 +223,29 @@ def change(record_type: str, app: str, description: str, fields: list, asked: st
 		_place(ours.record_doctype, app)
 	ours.update({"app": app, "description": description, "asked": asked, "asked_by": frappe.session.user})
 	ours.save(ignore_permissions=True)
+	notify.notify(
+		"Collection Changed", roles.administrators(), **_told(ours.record_doctype, app, description)
+	)
 	return ours.record_doctype
+
+
+def _told(doctype: str, app: str, description: str | None, link: bool = True) -> dict:
+	"""What the other administrators hear of a collection added, changed or
+	deleted (notifications.py): it is in its app for everyone."""
+	shown = [
+		_(df.label)
+		for df in frappe.get_meta(doctype).fields
+		if df.label and not df.hidden and df.fieldtype not in ("Section Break", "Column Break", "Tab Break")
+	]
+	return {
+		"link": f"/desk/record-type/{doctype}" if link else None,
+		"who": frappe.utils.get_fullname(frappe.session.user),
+		"collection": _(doctype),
+		"app": _(app),
+		# A sentence of its own before the fields, however it was written.
+		"description": (description or "").strip().rstrip(".") + "." if (description or "").strip() else "",
+		"fields": ", ".join(shown),
+	}
 
 
 def _place(doctype: str, app: str) -> None:
@@ -246,6 +269,11 @@ def remove(doc, method=None) -> None:
 		)
 	from onedesk.one import reports
 
+	notify.notify(
+		"Collection Deleted",
+		roles.administrators(),
+		**_told(doc.record_doctype, doc.app, doc.description, link=False),
+	)
 	reports._take("DocType", doc.record_doctype)
 	with extensions._as_administrator():
 		frappe.delete_doc("DocType", doc.record_doctype, ignore_permissions=True, force=True)

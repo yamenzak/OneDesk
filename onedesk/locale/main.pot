@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 09:42+0000\n"
-"PO-Revision-Date: 2026-10-03 09:42+0000\n"
+"POT-Creation-Date: 2026-10-03 09:51+0000\n"
+"PO-Revision-Date: 2026-10-03 09:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4191,6 +4191,18 @@ msgstr ""
 msgid "Collection"
 msgstr ""
 
+#: onedesk/one_studio/notifications.py:63
+msgid "Collection Added"
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:73
+msgid "Collection Changed"
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:83
+msgid "Collection Deleted"
+msgstr ""
+
 #. Label of the colour (Select) field in DocType 'Record Head Indicator'
 #. Label of the colour (Select) field in DocType 'Record Head Sentence'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -6609,7 +6621,7 @@ msgstr ""
 #: onedesk/one/notifications.py:243 onedesk/one/notifications.py:255
 #: onedesk/one/notifications.py:319 onedesk/one/notifications.py:376
 #: onedesk/one/notifications.py:388 onedesk/one/notifications.py:401
-#: onedesk/one/notifications.py:449 onedesk/one_studio/notifications.py:20
+#: onedesk/one/notifications.py:449 onedesk/one_studio/notifications.py:22
 msgid "Every administrator"
 msgstr ""
 
@@ -6684,7 +6696,7 @@ msgstr ""
 msgid "Every morning, the domains waiting over a day for DNS or not working. Skipped when there are none."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:17
+#: onedesk/one_studio/notifications.py:19
 msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
 msgstr ""
 
@@ -7000,15 +7012,15 @@ msgstr ""
 msgid "Extension"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:51
+#: onedesk/one_studio/notifications.py:53
 msgid "Extension Deleted"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:41
+#: onedesk/one_studio/notifications.py:43
 msgid "Extension Turned Off"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:29
+#: onedesk/one_studio/notifications.py:31
 msgid "Extension Turned On"
 msgstr ""
 
@@ -7017,7 +7029,7 @@ msgstr ""
 msgid "Extensions"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:14
+#: onedesk/one_studio/notifications.py:16
 msgid "Extensions Failing"
 msgstr ""
 
@@ -7027,7 +7039,7 @@ msgstr ""
 msgid "Extensions it may be, like pdf, jpg. Any kind when empty."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:21
+#: onedesk/one_studio/notifications.py:23
 msgid "Extensions ran into errors yesterday"
 msgstr ""
 
@@ -7595,7 +7607,7 @@ msgstr ""
 msgid "Form"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:61
+#: onedesk/one_studio/notifications.py:93
 msgid "Form Customized"
 msgstr ""
 
@@ -9245,6 +9257,10 @@ msgstr ""
 msgid "It is also in your One account, with your invoices."
 msgstr ""
 
+#: onedesk/one_studio/notifications.py:89
+msgid "It is no longer in {app}."
+msgstr ""
+
 #: onedesk/one_crm/heads.py:195
 msgid "It is yours."
 msgstr ""
@@ -9265,8 +9281,8 @@ msgstr ""
 msgid "It needs a CNAME record from {0} to {1}."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:47
-#: onedesk/one_studio/notifications.py:57
+#: onedesk/one_studio/notifications.py:49
+#: onedesk/one_studio/notifications.py:59
 msgid "It no longer runs on {kind}. {explanation}"
 msgstr ""
 
@@ -9327,6 +9343,10 @@ msgstr ""
 
 #: onedesk/one_hr/notifications.py:292
 msgid "Its employee"
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:79
+msgid "Its fields are now {fields}."
 msgstr ""
 
 #: onedesk/one_hr/notifications.py:217 onedesk/one_hr/notifications.py:251
@@ -19657,10 +19677,13 @@ msgstr ""
 msgid "The operators"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:35
-#: onedesk/one_studio/notifications.py:45
-#: onedesk/one_studio/notifications.py:55
+#: onedesk/one_studio/notifications.py:37
+#: onedesk/one_studio/notifications.py:47
+#: onedesk/one_studio/notifications.py:57
 #: onedesk/one_studio/notifications.py:67
+#: onedesk/one_studio/notifications.py:77
+#: onedesk/one_studio/notifications.py:87
+#: onedesk/one_studio/notifications.py:99
 msgid "The other administrators"
 msgstr ""
 
@@ -20263,7 +20286,7 @@ msgstr ""
 msgid "These days will be marked as worked."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:22
+#: onedesk/one_studio/notifications.py:24
 msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With OneAI, or turn it off."
 msgstr ""
 
@@ -22723,16 +22746,24 @@ msgstr ""
 msgid "When an invited address opens a shared link. It can't be turned off."
 msgstr ""
 
+#: onedesk/one_studio/notifications.py:66
+msgid "When another administrator adds a custom collection."
+msgstr ""
+
 #: onedesk/one/notifications.py:291
 msgid "When another administrator approves an account deletion."
 msgstr ""
 
-#: onedesk/one_intake/notifications.py:59
-msgid "When another administrator changes e-invoice submission, household, the auditor or the confidence floor."
+#: onedesk/one_studio/notifications.py:76
+msgid "When another administrator changes a custom collection's fields."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:64
-msgid "When another administrator changes how a form looks for everybody, or takes its changes back."
+#: onedesk/one_studio/notifications.py:96
+msgid "When another administrator changes a form for everyone, or resets it."
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:59
+msgid "When another administrator changes e-invoice submission, household, the auditor or the confidence floor."
 msgstr ""
 
 #: onedesk/one/notifications.py:426
@@ -22755,15 +22786,19 @@ msgstr ""
 msgid "When another administrator changes who pays for the workspace."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:54
+#: onedesk/one_studio/notifications.py:86
+msgid "When another administrator deletes a custom collection."
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:56
 msgid "When another administrator deletes an extension."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:44
+#: onedesk/one_studio/notifications.py:46
 msgid "When another administrator turns an extension off."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:32
+#: onedesk/one_studio/notifications.py:34
 msgid "When another administrator turns an extension on: what it does, where and when it runs."
 msgstr ""
 
@@ -26601,7 +26636,7 @@ msgstr ""
 msgid "{0} starts on {1}"
 msgstr ""
 
-#: onedesk/one_studio/record_types.py:243
+#: onedesk/one_studio/record_types.py:265
 msgid "{0} still has records. Delete them first; deleting it would delete them too."
 msgstr ""
 
@@ -27145,6 +27180,10 @@ msgstr ""
 msgid "{customer} is over their credit limit"
 msgstr ""
 
+#: onedesk/one_studio/notifications.py:69
+msgid "{description} Its fields are {fields}. Its records are in {app} › Your Records."
+msgstr ""
+
 #: onedesk/one_admin/notifications.py:211
 msgid "{domains}"
 msgstr ""
@@ -27310,12 +27349,16 @@ msgstr ""
 msgid "{what}"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:37
+#: onedesk/one_studio/notifications.py:39
 msgid "{where}, on {kind}. {explanation}"
 msgstr ""
 
 #: onedesk/one_storage/notifications.py:25
 msgid "{who} added you to the library {library}"
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:68
+msgid "{who} added {collection}"
 msgstr ""
 
 #: onedesk/one_admin/notifications.py:189
@@ -27334,11 +27377,15 @@ msgstr ""
 msgid "{who} changed OneAdmin Settings"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:68
+#: onedesk/one_studio/notifications.py:78
+msgid "{who} changed {collection}"
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:100
 msgid "{who} changed {form}"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:69
+#: onedesk/one_studio/notifications.py:101
 msgid "{who} changed {form} for everyone. See it in OneStudio › Custom Fields."
 msgstr ""
 
@@ -27346,7 +27393,11 @@ msgstr ""
 msgid "{who} completed {task}"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:56
+#: onedesk/one_studio/notifications.py:88
+msgid "{who} deleted {collection}"
+msgstr ""
+
+#: onedesk/one_studio/notifications.py:58
 msgid "{who} deleted {title}"
 msgstr ""
 
@@ -27371,11 +27422,11 @@ msgstr ""
 msgid "{who} shared {file} with you.<br><br><a href=\"{link}\">Open</a><br><br>You'll get a sign-in code at this address when you open it."
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:46
+#: onedesk/one_studio/notifications.py:48
 msgid "{who} turned off {title}"
 msgstr ""
 
-#: onedesk/one_studio/notifications.py:36
+#: onedesk/one_studio/notifications.py:38
 msgid "{who} turned on {title}"
 msgstr ""
 

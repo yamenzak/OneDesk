@@ -192,6 +192,10 @@ off in their notifications:
   it does and where it runs.
 - **Extension Turned Off** and **Extension Deleted**: in One only, unless you
   turn on email.
+- **Collection Added**: when another administrator adds a custom collection,
+  with its fields and where its records are.
+- **Collection Changed** and **Collection Deleted**: in One only, unless you
+  turn on email.
 - **Form Customized**: when another administrator changes a form or resets
   it, in One only unless you turn on email.
 
