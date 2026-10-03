@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 09:51+0000\n"
-"PO-Revision-Date: 2026-10-03 09:51+0000\n"
+"POT-Creation-Date: 2026-10-03 10:16+0000\n"
+"PO-Revision-Date: 2026-10-03 10:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1149,7 +1149,7 @@ msgstr "إضافة"
 msgid "Add Bank Account"
 msgstr "إضافة حساب بنكي"
 
-#: onedesk/one_studio/doctype/record_type/record_type_list.js:10
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:15
 msgid "Add Collection"
 msgstr "إضافة مجموعة"
 
@@ -1161,7 +1161,6 @@ msgstr "إضافة نطاق"
 msgid "Add Extension"
 msgstr "إضافة إضافة برمجية"
 
-#: onedesk/one_studio/doctype/record_type/record_type.js:56
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 msgid "Add Field"
 msgstr "إضافة حقل"
@@ -1209,14 +1208,6 @@ msgstr "إضافة موقع"
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
 msgid "Add a customer"
 msgstr "إضافة عميل"
-
-#: onedesk/one_studio/ai.py:40
-msgid "Add a field to this collection: "
-msgstr "أضف حقلًا إلى هذه المجموعة: "
-
-#: onedesk/one_studio/ai.py:39
-msgid "Add a field to this one…"
-msgstr "أضف حقلاً إلى هذا…"
 
 #: onedesk/one_studio/ai.py:50
 msgid "Add a field…"
@@ -3533,6 +3524,7 @@ msgstr "شهادة"
 
 #. Label of the change (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:24
 #: onedesk/public/js/settings.js:1801 onedesk/www/account_profile.html:37
 msgid "Change"
 msgstr "التغيير"
@@ -3550,6 +3542,10 @@ msgstr "تغيير الصورة"
 #: onedesk/public/js/settings.js:1855
 msgid "Change Plan"
 msgstr "تغيير الخطة"
+
+#: onedesk/one_studio/ai.py:39
+msgid "Change a collection…"
+msgstr "تغيير مجموعة…"
 
 #: onedesk/public/js/attendance.js:8
 msgid "Change the Overtime"
@@ -5344,6 +5340,7 @@ msgstr "الافتراضي: {0}"
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:29
 #: onedesk/public/js/doctype_settings.js:319
 #: onedesk/public/js/doctype_settings.js:511
 #: onedesk/public/js/doctype_settings.js:573
@@ -6558,7 +6555,7 @@ msgstr "خطأ"
 msgid "Errors"
 msgstr "الأخطاء"
 
-#: onedesk/one_studio/heads.py:125
+#: onedesk/one_studio/heads.py:103
 msgid "Errors in the Last 7 Days"
 msgstr "الأخطاء في آخر 7 أيام"
 
@@ -7151,7 +7148,6 @@ msgstr "جلب تفاصيل العمل الإضافي"
 #: onedesk/one/automations.py:160
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
-#: onedesk/one_studio/doctype/record_type/record_type.js:58
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/doctype_settings.js:946
 #: onedesk/public/js/doctype_settings.js:1100
@@ -7170,7 +7166,6 @@ msgstr ""
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 #: onedesk/one_studio/ai.py:457
-#: onedesk/one_studio/doctype/record_type/record_type.js:52
 msgid "Fields"
 msgstr ""
 
@@ -7447,7 +7442,7 @@ msgstr "السنوات المالية"
 msgid "Fix"
 msgstr "إصلاح"
 
-#: onedesk/one_studio/heads.py:102
+#: onedesk/one_studio/heads.py:85
 msgid "Fix With OneAI"
 msgstr "أصلحها مع OneAI"
 
@@ -8550,7 +8545,7 @@ msgstr "أحتاج خطابًا من الموارد البشرية — شهاد�
 msgid "I understand everything in it will be deleted"
 msgstr "أفهم أن كل ما فيها سيُحذف"
 
-#: onedesk/one_studio/doctype/record_type/record_type_list.js:11
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:16
 msgid "I want a new collection."
 msgstr "أريد مجموعة جديدة."
 
@@ -8562,17 +8557,21 @@ msgstr "أريد إضافة برمجية جديدة."
 msgid "I want to add a field to "
 msgstr "أريد إضافة حقل إلى "
 
-#: onedesk/one_studio/doctype/record_type/record_type.js:56
-msgid "I want to add a field to {0}."
-msgstr "أريد إضافة حقل إلى {0}."
-
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:18
 msgid "I want to add a field."
 msgstr "أريد إضافة حقل."
 
+#: onedesk/one_studio/ai.py:40
+msgid "I want to change the collection "
+msgstr "أريد تغيير المجموعة "
+
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:47
 msgid "I want to change the field {0} on {1}."
 msgstr "أريد تغيير الحقل {0} في {1}."
+
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:26
+msgid "I want to change {0}."
+msgstr "أريد تغيير {0}."
 
 #: onedesk/one_crm/ai.py:114
 msgid "I will paste an email signature. Add the person in it as a lead."
@@ -8729,10 +8728,6 @@ msgstr "في Finder، اختر «انتقال › الاتصال بالخادم�
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:84
 msgid "In It Now"
 msgstr "فيها الآن"
-
-#: onedesk/one_studio/doctype/record_type/record_type.js:61
-msgid "In List View"
-msgstr ""
 
 #: onedesk/public/js/settings.js:1756
 msgid "In OneBook"
@@ -11893,10 +11888,6 @@ msgstr "لا توجد أخطاء"
 msgid "No events"
 msgstr "لا توجد أحداث"
 
-#: onedesk/one_studio/doctype/record_type/record_type.js:55
-msgid "No fields"
-msgstr "لا توجد حقول"
-
 #: onedesk/one_storage/ready.py:45
 msgid "No file is left on the server's disk"
 msgstr "لم يتبقَّ أي ملف على قرص الخادم"
@@ -13715,7 +13706,6 @@ msgid "Open record"
 msgstr "فتح السجل"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
-#: onedesk/one_studio/doctype/record_type/record_type.js:37
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
 msgstr "فتح {0}"
@@ -15924,7 +15914,6 @@ msgid "Recording…"
 msgstr "جارٍ التسجيل…"
 
 #: onedesk/one_storage/namespace.py:391 onedesk/one_storage/namespace.py:778
-#: onedesk/one_studio/heads.py:118
 msgid "Records"
 msgstr "السجلات"
 
@@ -16388,7 +16377,6 @@ msgstr "اشتراط مفتاح مرور"
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/one_studio/doctype/record_type/record_type.js:60
 #: onedesk/public/js/onecloud.js:1653 onedesk/www/r.html:36
 msgid "Required"
 msgstr "مطلوب"
@@ -18106,7 +18094,7 @@ msgstr "يبدأ بصلاحيات هذا المستوى."
 #: onedesk/one_hr/heads.py:748 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/one_studio/heads.py:122
+#: onedesk/one_studio/heads.py:100
 msgid "State"
 msgstr "الحالة"
 
@@ -18586,11 +18574,9 @@ msgstr "لخّص هذا السجل في بضعة أسطر."
 #. Label of the said (Data) field in DocType 'AI Proposal'
 #. Label of the summary (Small Text) field in DocType 'Reading'
 #. Label of the summary (HTML) field in DocType 'Extension'
-#. Label of the summary (HTML) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/settings.js:837
 msgid "Summary"
 msgstr "الملخص"
@@ -21078,11 +21064,11 @@ msgstr "حاول مرة أخرى"
 msgid "Try {0}"
 msgstr "جرّب {0}"
 
-#: onedesk/one_studio/heads.py:108 onedesk/public/js/settings.js:363
+#: onedesk/one_studio/heads.py:91 onedesk/public/js/settings.js:363
 msgid "Turn Off"
 msgstr "إيقاف"
 
-#: onedesk/one_studio/heads.py:96
+#: onedesk/one_studio/heads.py:79
 msgid "Turn On"
 msgstr "تشغيل"
 
@@ -21152,7 +21138,6 @@ msgstr "تسجيل الدخول بخطوتين"
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83
-#: onedesk/one_studio/doctype/record_type/record_type.js:59
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/onecloud.js:146 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:646 onedesk/public/js/onecloud.js:1575
@@ -24063,7 +24048,6 @@ msgstr "إقفال نهاية السنة {0}"
 
 #: onedesk/one/ai.py:2694 onedesk/one/ai.py:2697 onedesk/one/ai.py:3825
 #: onedesk/one/ai.py:4045 onedesk/one_ai/chat.py:740
-#: onedesk/one_studio/doctype/record_type/record_type.js:50
 #: onedesk/public/js/onecloud.js:722
 msgid "Yes"
 msgstr ""
@@ -26643,9 +26627,9 @@ msgstr "{0} لا يعرض شيئًا."
 msgid "{0} starts on {1}"
 msgstr "تبدأ {0} في {1}"
 
-#: onedesk/one_studio/record_types.py:265
-msgid "{0} still has records. Delete them first; deleting it would delete them too."
-msgstr "لا يزال لـ {0} سجلات. احذفها أولاً؛ فحذفه سيحذفها أيضاً."
+#: onedesk/one_studio/record_types.py:266
+msgid "{0} still has records. Delete them first."
+msgstr "لا تزال {0} تحتوي على سجلات. احذفها أولًا."
 
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:68
 msgid "{0} submitted"

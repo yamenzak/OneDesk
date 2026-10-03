@@ -36,10 +36,10 @@ SUGGESTIONS = {
 			"expects": "design_record_type",
 		},
 		{
-			"label": _lt("Add a field to this one…"),
-			"ask": _lt("Add a field to this collection: "),
+			"label": _lt("Change a collection…"),
+			"ask": _lt("I want to change the collection "),
 			"fill": True,
-			"view": "Form",
+			"view": "List",
 			"expects": "design_record_type",
 		},
 	],
@@ -456,7 +456,7 @@ def design_record_type(
 			{"label": _("Description"), "value": description},
 			{"label": _("Fields"), "value": ", ".join(shown)},
 		],
-		"route": ["List", title] if not record_type else ["Form", record_types.RECORD_TYPE, record_type],
+		"route": ["List", title if not record_type else record_type],
 	}
 	return {
 		"proposal": proposals.propose("Setup", record_types.RECORD_TYPE, changes=changes, why=asked),

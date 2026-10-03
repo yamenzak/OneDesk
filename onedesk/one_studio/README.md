@@ -166,16 +166,15 @@ name, app and fields. **Approve** creates it.
 People who use that app create and edit its records, and its managers delete
 them. A collection in **One** is for everyone.
 
-**Its page** lists its fields, where its records are, and what was asked.
-Nothing on it is edited by hand.
+**Opening one** opens its records.
 
 **Field types.** Text, numbers, money, percentages, dates and times, checks,
 selects, phone numbers, ratings, durations, files and images, and links to
 records you can open or to another collection. The first text field is each
 record's title.
 
-**Changing one.** Click **Add Field** on its page, or ask OneAI, for example
-"Add a colour to Company Van." A removed field is hidden, not deleted, so no
+**Changing one.** Tick it and click **Actions › Change**, or ask OneAI, for
+example "Add a colour to Company Van." A removed field is hidden, not deleted, so no
 data is lost.
 
 **Deleting one.** Delete its records first. A collection that still has

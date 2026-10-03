@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 09:51+0000\n"
-"PO-Revision-Date: 2026-10-03 09:51+0000\n"
+"POT-Creation-Date: 2026-10-03 10:16+0000\n"
+"PO-Revision-Date: 2026-10-03 10:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1147,7 +1147,7 @@ msgstr ""
 msgid "Add Bank Account"
 msgstr ""
 
-#: onedesk/one_studio/doctype/record_type/record_type_list.js:10
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:15
 msgid "Add Collection"
 msgstr ""
 
@@ -1159,7 +1159,6 @@ msgstr ""
 msgid "Add Extension"
 msgstr ""
 
-#: onedesk/one_studio/doctype/record_type/record_type.js:56
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 msgid "Add Field"
 msgstr ""
@@ -1206,14 +1205,6 @@ msgstr ""
 #. Label of an action in the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
 msgid "Add a customer"
-msgstr ""
-
-#: onedesk/one_studio/ai.py:40
-msgid "Add a field to this collection: "
-msgstr ""
-
-#: onedesk/one_studio/ai.py:39
-msgid "Add a field to this one…"
 msgstr ""
 
 #: onedesk/one_studio/ai.py:50
@@ -3531,6 +3522,7 @@ msgstr ""
 
 #. Label of the change (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:24
 #: onedesk/public/js/settings.js:1801 onedesk/www/account_profile.html:37
 msgid "Change"
 msgstr ""
@@ -3547,6 +3539,10 @@ msgstr ""
 #: onedesk/public/js/settings.js:1471 onedesk/public/js/settings.js:1841
 #: onedesk/public/js/settings.js:1855
 msgid "Change Plan"
+msgstr ""
+
+#: onedesk/one_studio/ai.py:39
+msgid "Change a collection…"
 msgstr ""
 
 #: onedesk/public/js/attendance.js:8
@@ -5342,6 +5338,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:29
 #: onedesk/public/js/doctype_settings.js:319
 #: onedesk/public/js/doctype_settings.js:511
 #: onedesk/public/js/doctype_settings.js:573
@@ -6556,7 +6553,7 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:125
+#: onedesk/one_studio/heads.py:103
 msgid "Errors in the Last 7 Days"
 msgstr ""
 
@@ -7149,7 +7146,6 @@ msgstr ""
 #: onedesk/one/automations.py:160
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
-#: onedesk/one_studio/doctype/record_type/record_type.js:58
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/doctype_settings.js:946
 #: onedesk/public/js/doctype_settings.js:1100
@@ -7168,7 +7164,6 @@ msgstr ""
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 #: onedesk/one_studio/ai.py:457
-#: onedesk/one_studio/doctype/record_type/record_type.js:52
 msgid "Fields"
 msgstr ""
 
@@ -7446,7 +7441,7 @@ msgstr ""
 msgid "Fix"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:102
+#: onedesk/one_studio/heads.py:85
 msgid "Fix With OneAI"
 msgstr ""
 
@@ -8549,7 +8544,7 @@ msgstr ""
 msgid "I understand everything in it will be deleted"
 msgstr ""
 
-#: onedesk/one_studio/doctype/record_type/record_type_list.js:11
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:16
 msgid "I want a new collection."
 msgstr ""
 
@@ -8561,16 +8556,20 @@ msgstr ""
 msgid "I want to add a field to "
 msgstr ""
 
-#: onedesk/one_studio/doctype/record_type/record_type.js:56
-msgid "I want to add a field to {0}."
-msgstr ""
-
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:18
 msgid "I want to add a field."
 msgstr ""
 
+#: onedesk/one_studio/ai.py:40
+msgid "I want to change the collection "
+msgstr ""
+
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:47
 msgid "I want to change the field {0} on {1}."
+msgstr ""
+
+#: onedesk/one_studio/doctype/record_type/record_type_list.js:26
+msgid "I want to change {0}."
 msgstr ""
 
 #: onedesk/one_crm/ai.py:114
@@ -8727,10 +8726,6 @@ msgstr ""
 
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:84
 msgid "In It Now"
-msgstr ""
-
-#: onedesk/one_studio/doctype/record_type/record_type.js:61
-msgid "In List View"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1756
@@ -11893,10 +11888,6 @@ msgstr ""
 msgid "No events"
 msgstr ""
 
-#: onedesk/one_studio/doctype/record_type/record_type.js:55
-msgid "No fields"
-msgstr ""
-
 #: onedesk/one_storage/ready.py:45
 msgid "No file is left on the server's disk"
 msgstr ""
@@ -13715,7 +13706,6 @@ msgid "Open record"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
-#: onedesk/one_studio/doctype/record_type/record_type.js:37
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
 msgstr ""
@@ -15924,7 +15914,6 @@ msgid "Recording…"
 msgstr ""
 
 #: onedesk/one_storage/namespace.py:391 onedesk/one_storage/namespace.py:778
-#: onedesk/one_studio/heads.py:118
 msgid "Records"
 msgstr ""
 
@@ -16388,7 +16377,6 @@ msgstr ""
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/one_studio/doctype/record_type/record_type.js:60
 #: onedesk/public/js/onecloud.js:1653 onedesk/www/r.html:36
 msgid "Required"
 msgstr ""
@@ -18106,7 +18094,7 @@ msgstr ""
 #: onedesk/one_hr/heads.py:748 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/one_studio/heads.py:122
+#: onedesk/one_studio/heads.py:100
 msgid "State"
 msgstr ""
 
@@ -18586,11 +18574,9 @@ msgstr ""
 #. Label of the said (Data) field in DocType 'AI Proposal'
 #. Label of the summary (Small Text) field in DocType 'Reading'
 #. Label of the summary (HTML) field in DocType 'Extension'
-#. Label of the summary (HTML) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/settings.js:837
 msgid "Summary"
 msgstr ""
@@ -21078,11 +21064,11 @@ msgstr ""
 msgid "Try {0}"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:108 onedesk/public/js/settings.js:363
+#: onedesk/one_studio/heads.py:91 onedesk/public/js/settings.js:363
 msgid "Turn Off"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:96
+#: onedesk/one_studio/heads.py:79
 msgid "Turn On"
 msgstr ""
 
@@ -21152,7 +21138,6 @@ msgstr ""
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83
-#: onedesk/one_studio/doctype/record_type/record_type.js:59
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/onecloud.js:146 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:646 onedesk/public/js/onecloud.js:1575
@@ -24063,7 +24048,6 @@ msgstr ""
 
 #: onedesk/one/ai.py:2694 onedesk/one/ai.py:2697 onedesk/one/ai.py:3825
 #: onedesk/one/ai.py:4045 onedesk/one_ai/chat.py:740
-#: onedesk/one_studio/doctype/record_type/record_type.js:50
 #: onedesk/public/js/onecloud.js:722
 msgid "Yes"
 msgstr ""
@@ -26636,8 +26620,8 @@ msgstr ""
 msgid "{0} starts on {1}"
 msgstr ""
 
-#: onedesk/one_studio/record_types.py:265
-msgid "{0} still has records. Delete them first; deleting it would delete them too."
+#: onedesk/one_studio/record_types.py:266
+msgid "{0} still has records. Delete them first."
 msgstr ""
 
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:68

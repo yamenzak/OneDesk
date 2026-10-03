@@ -238,7 +238,7 @@ def _told(doctype: str, app: str, description: str | None, link: bool = True) ->
 		if df.label and not df.hidden and df.fieldtype not in ("Section Break", "Column Break", "Tab Break")
 	]
 	return {
-		"link": f"/desk/record-type/{doctype}" if link else None,
+		"link": f"/desk/{frappe.scrub(doctype).replace('_', '-')}" if link else None,
 		"who": frappe.utils.get_fullname(frappe.session.user),
 		"collection": _(doctype),
 		"app": _(app),
@@ -263,7 +263,7 @@ def remove(doc, method=None) -> None:
 		return
 	if frappe.db.count(doc.record_doctype):
 		frappe.throw(
-			_("{0} still has records. Delete them first; deleting it would delete them too.").format(
+			_("{0} still has records. Delete them first.").format(
 				doc.record_doctype
 			)
 		)

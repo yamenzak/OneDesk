@@ -5983,6 +5983,20 @@ Collections."
 10. **Plain words**: renamed throughout the screen, its errors and OneAI's
    words. The doctype id stays Record Type.
 
+**No page of its own.** Your word: "What's the point of opening the record?
+The first page is mostly pointless." A collection's page only repeated the
+list and pointed at its records. It is gone, as Custom Fields' was:
+
+- A click on a collection opens its records. An old link to its page does
+  the same.
+- The list shows Collection, App and Description. **Actions** has
+  **Change**, which asks OneAI, and frappe's own **Delete**.
+- The head (Records, the description) and the page's fields are removed.
+  The notification links to the records, and so does OneAI's card.
+- OneAI's second suggestion is now "Change a collection…".
+- "Delete them first; deleting it would delete them too" is now "Delete
+  them first."
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

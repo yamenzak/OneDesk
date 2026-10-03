@@ -550,14 +550,14 @@ def test_an_extension_is_added_by_asking_oneai():
 
 
 def test_a_collection_is_made_and_changed_only_by_asking_oneai():
-	"""Custom Collections: Add Collection asks OneAI, and a collection's page
-	reads its fields, where its records are and what was asked, with no Save
-	and nothing to type."""
+	"""Custom Collections: Add Collection and Change ask OneAI, and a
+	collection has no page of its own. A click opens its records."""
 	folder = STUDIO / "doctype" / "record_type"
 	listed = (folder / "record_type_list.js").read_text()
 	assert '__("Add Collection")' in listed and "onedesk.oneai.open(" in listed
+	assert '__("Change")' in listed and 'frappe.set_route("List", doc.record_doctype)' in listed
 	page = (folder / "record_type.js").read_text()
-	assert "frm.disable_save()" in page and "frappe.get_meta(doc.record_doctype)" in page
-	assert 'onedesk.oneai.button(__("Add Field")' in page
+	assert 'frappe.set_route("List", frm.doc.record_doctype)' in page
+	assert "Record Type" not in (STUDIO / "heads.py").read_text()
 	rail = json.loads((STUDIO / "sidebar" / "onestudio" / "onestudio.json").read_text())
 	assert any(one["label"] == "Custom Collections" and one["link_to"] == "Record Type" for one in rail["items"])
