@@ -264,12 +264,13 @@ Started. What is left, the most visible first:
     User, User Doctype Permissions and Document Share Report stay the
     platform's: frappe allows only its System Manager, and Access and People
     answer who sees what.
-12. **The customer and supplier portals are erpnext's.** A customer's or
-    supplier's contact signed in meets erpnext's lists and record pages.
-    **Started**: the portal's home, tabs and every list are One's
-    (`one/portal.py`, `www/portal.html`), and a supplier's contact sees their
-    records. Still erpnext's: a record's page, a supplier's quote request,
-    and the address and material request pages.
+12. ~~**The customer and supplier portals are erpnext's.**~~ **Done**
+    (Portals 1 to 8 in `docs/PASSOVER.md`): the portal's home, tabs, every
+    list, a record's page, a supplier's quote request, addresses, timesheets
+    and projects are One's (`one/portal.py`, `www/`), in the portal's shell.
+    A contact is invited from their record (`one/portal_invite.py`). Issues
+    and Material Requests stay off the tabs: a customer does not raise the
+    workspace's own requests.
 13. ~~**Frappe's account pages.**~~ **Done**: a portal reader's own pages
     are the sidebar's Account section: Profile (frappe's web form in the
     portal's shell), Password (frappe's Set Password in the shell), Your

@@ -7,15 +7,11 @@ its line goes and the screen's own README says what it does.
 ## Products still to pass
 
 The passover (`docs/PASSOVER.md`) has done Settings, One › Home, OneMail,
-OneCloud, OneCalendar, OneTask and OneAdmin › Home. Still to go, one screen at
-a time: **OneProject**, **OneCRM**, **OneBook**, **OneInventory**, **OneHR**,
-**OneAI**, **OneIntake** and the rest of **OneAdmin**.
-
-## Frappe's web side that One has not replaced yet
-
-Gaps 12 and 13 in `docs/DESK-COVERAGE.md`: the customer portal (erpnext's
-Orders, Invoices, Quotations and the rest) and frappe's account pages (Edit
-Profile, Request Account Deletion, Third Party Apps). Each gets its own pass.
+OneCloud, OneCalendar, OneTask, OneAdmin › Home, OneStudio › Extensions and
+Forms, and the portal with the public Your Data page. Still to go, one
+screen at a time: **OneStudio › Record Types**, **OneProject**, **OneCRM**,
+**OneBook**, **OneInventory**, **OneHR**, **OneAI**, **OneIntake** and the
+rest of **OneAdmin**.
 
 ## Frappe that One does not reach yet (P3)
 
