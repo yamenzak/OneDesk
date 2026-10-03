@@ -144,7 +144,8 @@ composes them rather than drawing its own:
   notifications, rules, their tasks, where they are signed in and their
   sign-ins) is `onedesk.shell.table`, frappe's EmbeddedList, made in that
   one place: a heading and a note, search past five, a row opening its
-  record, buttons beside the search, Load More. That holds for every list
+  record, buttons beside the search, a Select narrowing it by one value
+  (`choose`: Forms by app), Load More. That holds for every list
   of things: forms, extensions, mailboxes, browsers, agreements, add-ons,
   never rows under a heading per group (a group is a column). A **row**
   (`onedesk.shell.row`) is one fact and what to do about it (Password and

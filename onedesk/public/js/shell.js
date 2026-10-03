@@ -119,8 +119,11 @@ $.extend(onedesk.shell, {
 	// ours lists records in (docs/SHELL.md, Lists). A heading and a note above
 	// it, searchable once there are more than five, `open` for what a row
 	// does when clicked, `actions` for buttons beside the search (html, bound
-	// by the page), and `page_size` before Load More. Resolves to the list.
-	async table($into, { title = "", note = "", rows = [], columns, open = null, empty = "", none = "", icon = "list", page_size = 20, actions = "", mark = null } = {}) {
+	// by the page), and `page_size` before Load More. `choose` narrows the
+	// rows by one of their values with frappe's Select beside the search:
+	// `{ key, all, value }`, `all` naming the choice of every row; the rows'
+	// own values are the rest. Resolves to the list.
+	async table($into, { title = "", note = "", rows = [], columns, open = null, empty = "", none = "", icon = "list", page_size = 20, actions = "", mark = null, choose = null } = {}) {
 		await frappe.require("embedded_list.bundle.js");
 		const esc = frappe.utils.escape_html;
 		const list = new frappe.ui.EmbeddedList({
@@ -137,8 +140,28 @@ $.extend(onedesk.shell, {
 			on_row_click: open,
 			columns,
 		});
-		list.refresh();
 		if (actions) list.$header.show().find(".embedded-list-header-actions").append(actions);
+		if (choose) {
+			const values = [...new Set(rows.map((row) => row[choose.key]).filter(Boolean))].sort();
+			const $at = $('<div class="one-shell-choose"></div>').prependTo(list.$header.show().find(".embedded-list-header-actions"));
+			const select = frappe.ui.form.make_control({
+				df: { fieldtype: "Select", fieldname: choose.key, options: [choose.all, ...values].join("\n") },
+				parent: $at,
+				render_input: true,
+				only_input: true,
+			});
+			// Sized as frappe sizes the search beside it.
+			select.$input.addClass("form-control-sm");
+			list.chosen = values.includes(choose.value) ? choose.value : choose.all;
+			select.set_value(list.chosen);
+			list.get_data = () =>
+				Promise.resolve(list.chosen && list.chosen !== choose.all ? rows.filter((row) => row[choose.key] === list.chosen) : rows);
+			select.$input.on("change", () => {
+				list.chosen = select.get_value();
+				list.refresh();
+			});
+		}
+		list.refresh();
 		return list;
 	},
 

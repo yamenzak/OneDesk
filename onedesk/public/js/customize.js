@@ -64,6 +64,11 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		this.forms().then((list) => query && list.$wrapper.find(".embedded-list-search").val(query).trigger("input"));
 	}
 
+	// The app the list was narrowed to, kept while the page is open.
+	get app() {
+		return this.list ? this.list.chosen : null;
+	}
+
 	// No form named: every form the administrator may customize, in one of
 	// frappe's tables, the ones the workspace has changed first, then by app
 	// (one_studio/forms.py). A row opens the form's Customize page.
@@ -76,8 +81,11 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		this.$content.empty();
 		const esc = frappe.utils.escape_html;
 		const count = (n, label) => (n ? frappe.ui.badge.html({ label, theme: "blue" }) : "");
-		return onedesk.shell.table($("<div>").appendTo(this.$content), {
-			note: __("Every form you may change, the ones changed here first. Open one to customize it."),
+		const app = this.app;
+		this.list = await onedesk.shell.table($('<div class="one-shell-section"></div>').appendTo(this.$content), {
+			title: __("Every Form You May Change"),
+			note: __("The ones changed here come first. Open one to customize it."),
+			choose: { key: "app", all: __("Every App"), value: app },
 			rows,
 			icon: "file-text",
 			page_size: 50,
@@ -91,6 +99,7 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 				{ label: __("Extensions"), render: (one) => count(one.extensions, one.extensions === 1 ? __("1 extension") : __("{0} extensions", [one.extensions])) },
 			],
 		});
+		return this.list;
 	}
 
 	saver(values) {

@@ -590,3 +590,9 @@ a.one-shell-row:hover {
 	gap: calc(var(--spacing) * 3);
 	margin-top: calc(var(--spacing) * 3);
 }
+
+/* A table's choice beside its search (shell.table `choose`), as wide as the
+   search frappe draws. */
+.one-shell-choose {
+	width: 180px;
+}

@@ -127,12 +127,13 @@ extension says **Cannot Run Here**, ask us.
 
 ## Forms
 
-**Forms** lists every form you may change. The ones your workspace has
-changed, or has extensions on, come first under **Changed Here**, with how
-many changes and extensions each has; then every other form, under the app it
-belongs to (OneBook, OneCRM, OneHR, OneInventory and the rest), and the forms
-every app shares (an address, a department) under **Other Forms**. Search by
-name or by app. The list keeps up as forms are changed and extensions made.
+**Forms** is a table of every form you may change: its name, the app it
+belongs to (OneBook, OneCRM, OneHR, OneInventory and the rest, or **Other
+Forms** for what every app shares, such as an address or a department), how
+many changes your workspace made to it, and how many extensions run on it.
+The ones changed here come first. Choose an app beside the search to see only
+its forms, and search by name. The table keeps up as forms are changed and
+extensions made.
 
 Open one to change it on its **Customize** page: a field's label, whether it
 is hidden, required or in the list, their order, fields of your own, what the
