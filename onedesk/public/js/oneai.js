@@ -256,7 +256,7 @@ onedesk.oneai.changed = function (frm, drawn) {
 		field.$wrapper.addClass("one-ai-changed");
 		field.$wrapper.find(".one-ai-was").remove();
 		$(`<div class="one-ai-was"></div>`)
-			.text(__("was: {0}", [one.was || __("empty")]))
+			.text(__("Was {0}", [one.was || __("empty")]))
 			.appendTo(field.$wrapper);
 	}
 

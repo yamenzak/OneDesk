@@ -66,7 +66,7 @@ onedesk.hiring.recorder = {
 				dialog.hide();
 				this.start(frm, !!values.call).catch((raised) => {
 					this.stop_all();
-					frappe.msgprint(__("Recording did not start: {0}", [raised.message || raised]));
+					frappe.msgprint(__("Couldn't start recording. {0}", [raised.message || raised]));
 				});
 			},
 		});

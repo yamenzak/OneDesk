@@ -103,7 +103,7 @@ function look(dialog) {
 			}
 
 			$day.html(
-				`<div class="text-muted">${__("Standard day: {0} hours. Anything beyond it is overtime.", [
+				`<div class="text-muted">${__("A standard day is {0} hours. Time beyond that is overtime.", [
 					message.standard_hours,
 				])}</div>`,
 			);

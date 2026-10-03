@@ -167,7 +167,7 @@ onedesk.dock.intake = () =>
 		$badge.toggleClass("hide", !said.waiting && !said.unread);
 		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
 		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
-		const label = said.waiting ? __("OneIntake: {0} wait for you", [said.waiting]) : __("OneIntake");
+		const label = said.waiting ? __("{0} waiting in OneIntake", [said.waiting]) : __("OneIntake");
 		onedesk.dock.$intake.attr({ "aria-label": label, title: label });
 		return said;
 	});
@@ -200,7 +200,7 @@ onedesk.dock.refresh = () =>
 onedesk.dock.punch = async () => {
 	const ready = onedesk.dock.ready || (await onedesk.dock.refresh());
 	if (!ready.direction) {
-		frappe.show_alert({ message: __("There is nothing to check in: you are {0} today.", [ready.state]) });
+		frappe.show_alert({ message: __("Nothing to check in. You're {0} today.", [ready.state]) });
 		return;
 	}
 

@@ -10,7 +10,7 @@ frappe.ui.form.on("Webhook", {
 		frm.set_df_property(
 			"request_url",
 			"description",
-			__("An https address on the public internet. Every record of this kind is sent on the event; to send only some, use an automation with a Call Webhook step.")
+			__("A public https URL. Every record of this type is sent on the event. To filter, use an automation with a Call Webhook step.")
 		);
 	},
 });

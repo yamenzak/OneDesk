@@ -865,7 +865,7 @@ onedesk.numbering.help_html = () => {
 			${part(".FY.", __("the fiscal year, and .TFY. its short form"))}
 			${part(".ABBR.", __("the company's abbreviation"))}
 			${part(".{fieldname}.", __("a field of the record, such as .{branch}."))}
-			${part(".#####", __("the number, one # per digit; it starts again whenever the text before it changes"))}
+			${part(".#####", __("the counter, one # per digit. It restarts when the text before it changes"))}
 		</ul>
 		<p>${__("Only letters, digits, spaces and - / _ . # { } are allowed.")}</p>
 		<p>${__("Examples: {0}, {1}, {2}", ["<code>INV-.YYYY.-.#####</code>", "<code>SO/.YY./.####</code>", "<code>INV-.YYYY.-.MM.-.####</code>"])}</p>
@@ -943,7 +943,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				label: __("Name each new {0} by", [__(doctype)]),
 				options: said.kinds,
 				description: said.made
-					? __("Records already made keep their names. One makes some of these itself, so they are not typed by hand, and only a field always filled is offered.")
+					? __("Existing records keep their names. Only required fields are listed.")
 					: __("Records already made keep their names."),
 				change: () => group.get_value("by") !== EXPRESSION && apply(),
 			},

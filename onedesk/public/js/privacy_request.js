@@ -6,7 +6,7 @@ frappe.ui.form.on("Personal Data Deletion Request", {
 		const who = frappe.user.full_name(frm.doc.email) || frm.doc.email;
 		frm.set_intro(
 			{
-				"Pending Approval": __("{0} asked for their account to be deleted. Approving signs them out at once and erases what is only theirs; what the workspace keeps stays without their name and address.", [who]),
+				"Pending Approval": __("{0} asked to delete their account. Approving signs them out and erases their data. Kept records lose their name and address.", [who]),
 				"On Hold": __("Held. {0} was told why. Approve it when what the workspace has to keep is settled.", [who]),
 				Deleted: __("Deleted. The account is turned off and renamed, and its name and address are gone from what the workspace kept."),
 			}[frm.doc.status] || "",
@@ -16,7 +16,7 @@ frappe.ui.form.on("Personal Data Deletion Request", {
 		frm.page.set_primary_action(__("Approve and Delete"), () =>
 			frappe.confirm(__("Delete {0}'s account? This cannot be undone.", [who]), async () => {
 				await frappe.xcall("onedesk.one.privacy.approve", { name: frm.doc.name });
-				frappe.show_alert({ message: __("{0} is signed out; their data is being erased.", [who]), indicator: "green" });
+				frappe.show_alert({ message: __("{0} is signed out. Their data is being erased.", [who]), indicator: "green" });
 				frm.reload_doc();
 			})
 		);

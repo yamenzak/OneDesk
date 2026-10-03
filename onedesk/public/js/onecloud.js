@@ -1782,7 +1782,7 @@ onedesk.OneCloud = class OneCloud {
 					fieldtype: "HTML",
 					fieldname: "how",
 					options: `<dl class="oc-drive-steps">${steps.map(([os, text]) => `<dt>${esc(os)}</dt><dd>${esc(text)}</dd>`).join("")}</dl>
-						<p class="oc-people-note">${esc(__("It asks for a password: make one for each computer below. A drive password opens your drive and nothing else, and everything you can open here, you can open there."))}</p>
+						<p class="oc-people-note">${esc(__("When asked for a password, create one below for each computer. It opens only your drive, with the same access you have here."))}</p>
 						<div class="oc-drive-key"></div><div class="oc-drive-list"></div>`,
 				},
 			],
@@ -1839,7 +1839,7 @@ onedesk.OneCloud = class OneCloud {
 		};
 		if (!on) return set();
 		frappe.confirm(
-			__("OneAI will read new files in {0} and the folders inside it, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [
+			__("OneAI will read, file and act on new files in {0} and its subfolders. Scans and photos use OneAI credits.", [
 				`<b>${frappe.utils.escape_html(item.name)}</b>`,
 			]),
 			set

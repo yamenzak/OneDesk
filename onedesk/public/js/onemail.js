@@ -551,7 +551,7 @@ onedesk.OneMail = class OneMail {
 		// room (one_mail/room.py).
 		const waiting = (message.unsaved || [])
 			.map(
-				(file) => `<span class="om-file om-file-waiting" title="${esc(__("Not saved yet: storage is full. It is saved within the hour once there is room."))}">
+				(file) => `<span class="om-file om-file-waiting" title="${esc(__("Not saved yet because storage is full. It's saved within an hour once there's space."))}">
 					${frappe.utils.icon("hard-drive", "sm")}<span class="om-file-name">${esc(file.file_name)}</span>
 					<span class="om-file-size">${esc(__("Not saved, storage is full"))}</span>
 				</span>`

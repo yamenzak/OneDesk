@@ -59,8 +59,7 @@ findings and fixes are written down.
     what is listed. A note is optional and one short sentence. Frappe's own
     words, never our coinages ("carry", "came with", "take back"). No colon or
     semicolon joining two clauses, and no narrating how OneAI works. The
-    screen's README section is written the same way. Its strings come out of
-    `tests/screen_wording_known.json`.
+    screen's README section is written the same way.
 
 ## Everything follows frappe
 
@@ -5883,8 +5882,10 @@ tenth point.
 - **The rule.** `docs/WORDING.md` gains On a Screen. `tests/test_wording.py`
   gains `test_what_a_screen_says_is_plain`: no colon or semicolon joining
   clauses, no em dash, nothing over 140 characters, in every `__()` in
-  `public/js`. The 52 strings written before it are listed in
-  `tests/screen_wording_known.json` and come out as each screen is passed.
+  `public/js`. A label and its value ("Default: {0}") is allowed.
+- **The other 48, after your word.** Every older string the guard found is
+  rewritten (Settings, OneCloud, OneMail, privacy, webhooks, numbering and
+  the rest), so the guard holds the whole desk with no exceptions.
 
 ## OneLegal
 

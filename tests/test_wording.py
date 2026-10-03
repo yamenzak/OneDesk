@@ -73,31 +73,21 @@ def test_every_label_is_a_name_not_a_sentence():
 
 # What a screen says (docs/WORDING.md, On a Screen): no colon or semicolon
 # joining two clauses, no em dash, and nothing longer than a short sentence.
-# screen_wording_known.json lists what was written before the rule; it only
-# shrinks, a screen at a time, as the passover reaches it.
+# A label and its value ("Default: {0}") is not a joined clause.
 SCREEN = re.compile(r'__\(\s*"((?:[^"\\]|\\.)*)"')
 JOINED = re.compile(r"[a-z)\]][:;] \S| — |—")
+LABELLED = re.compile(r"^\w+( \w+){0,2}: \{\d\}(, \{\d\})*$")
 SCREEN_LONGEST = 140
-KNOWN = Path(__file__).resolve().parent / "screen_wording_known.json"
-
-
-def _screen_strings():
-	root = tree.APP / "public" / "js"
-	for path in sorted(root.rglob("*.js")):
-		for found in SCREEN.finditer(path.read_text(encoding="utf-8")):
-			text = found.group(1)
-			if JOINED.search(text) or len(text) > SCREEN_LONGEST:
-				yield str(path.relative_to(root)), text
 
 
 def test_what_a_screen_says_is_plain():
-	known = {tuple(one) for one in json.loads(KNOWN.read_text(encoding="utf-8"))}
-	found = set(_screen_strings())
-	new = sorted(found - known)
-	assert not new, "Write it plainly, as docs/WORDING.md says under On a Screen:\n" + "\n".join(
-		f"  {where}: {text}" for where, text in new
-	)
-	gone = sorted(known - found)
-	assert not gone, "Fixed, so take it out of tests/screen_wording_known.json:\n" + "\n".join(
-		f"  {where}: {text}" for where, text in gone
-	)
+	root = tree.APP / "public" / "js"
+	found = []
+	for path in sorted(root.rglob("*.js")):
+		for one in SCREEN.finditer(path.read_text(encoding="utf-8")):
+			text = one.group(1)
+			if LABELLED.match(text):
+				continue
+			if JOINED.search(text) or len(text) > SCREEN_LONGEST:
+				found.append(f"  {path.relative_to(root)}: {text}")
+	assert not found, "Write it plainly, as docs/WORDING.md says under On a Screen:\n" + "\n".join(found)

@@ -162,8 +162,8 @@ this page — no reasoning, frappe's openers, most fields with no description at
 all — is still read by a person.
 
 `test_what_a_screen_says_is_plain` reads every `__("…")` in `public/js` for the
-On a Screen rules. What was written before them is listed in
-`tests/screen_wording_known.json`, which only shrinks as screens are passed.
+On a Screen rules, with no exceptions. A label and its value
+(`Default: {0}`) is not a joined clause and is allowed.
 
 ## Translation
 

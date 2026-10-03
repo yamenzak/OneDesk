@@ -11,7 +11,7 @@ onedesk.record_tabs.register("errors", {
 		const esc = frappe.utils.escape_html;
 		field.$wrapper.empty();
 		onedesk.shell.table(field.$wrapper, {
-			note: __("Since OneAI last wrote it, and at most two weeks back. Each is one time it ran into an error; the record still saved, or the form went on working."),
+			note: __("Errors from the last two weeks, since the latest version. The record or form kept working."),
 			rows,
 			icon: "circle-check",
 			empty: __("It has run into no errors since OneAI last wrote it."),

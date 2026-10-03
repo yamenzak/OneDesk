@@ -83,7 +83,7 @@ onedesk.model.said = (out) => {
 		.join("<br>");
 	const how = out.metered
 		? __("{0} credits.", [out.credits])
-		: __("{0} credits — the hold, because nothing could be metered.", [out.credits]);
+		: __("{0} credits held. Usage couldn't be measured.", [out.credits]);
 	return (
 		`<p><b>${frappe.utils.escape_html(out.said || "")}</b></p>` +
 		`<p>${how}</p>` +

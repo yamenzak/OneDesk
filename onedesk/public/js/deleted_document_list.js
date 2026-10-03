@@ -11,9 +11,9 @@ frappe.listview_settings["Deleted Document"] = {
 			if (!names.length) return;
 			const said = await frappe.xcall("onedesk.one.recycle.bulk_restore", { names });
 			const parts = [];
-			if (said.restored.length) parts.push(__("{0} put back.", [said.restored.length]));
-			if (said.already.length) parts.push(__("{0} were back already.", [said.already.length]));
-			if (said.failed.length) parts.push(__("{0} could not be put back; open one to see why.", [said.failed.length]));
+			if (said.restored.length) parts.push(__("{0} restored.", [said.restored.length]));
+			if (said.already.length) parts.push(__("{0} were already restored.", [said.already.length]));
+			if (said.failed.length) parts.push(__("{0} couldn't be restored. Open one to see why.", [said.failed.length]));
 			frappe.show_alert({ message: parts.join(" "), indicator: said.failed.length ? "orange" : "green" });
 			list.refresh();
 		});

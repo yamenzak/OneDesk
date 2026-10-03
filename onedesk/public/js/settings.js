@@ -210,7 +210,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		rows.push(
 			{
 				heading: __("Your Data"),
-				note: __("A copy of your data, or your account deleted. An administrator reviews both: a copy leaves out only what would show other people's or the company's confidential information, and you are told what and why."),
+				note: __("Request a copy of your data or delete your account. An administrator reviews each request."),
 			},
 			{ html: this.your_data(data.privacy) }
 		);
@@ -243,10 +243,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		const copy = state.copy;
 		const lines = [];
-		if (copy && copy.status === "Waiting") lines.push(__("You asked {0} for a copy. An administrator reviews what goes, then it comes to your bell and by mail.", [when(copy.on)]));
-		else if (copy && copy.status === "Gathering") lines.push(__("Your copy is being gathered; it comes to your bell and by mail."));
+		if (copy && copy.status === "Waiting") lines.push(__("You requested a copy {0}. An administrator reviews it, then you'll get a notification and an email.", [when(copy.on)]));
+		else if (copy && copy.status === "Gathering") lines.push(__("Your copy is being prepared. You'll get a notification and an email."));
 		else if (copy && copy.ready) lines.push(__("Your copy from {0} is ready.", [when(copy.on)]) + (copy.withheld ? " " + __("Withheld: {0}", [esc(copy.withheld)]) : ""));
-		if (state.deletion && state.deletion.status === "On Hold") lines.push(__("Deleting your account is on hold: {0}", [esc(state.deletion.why || "")]));
+		if (state.deletion && state.deletion.status === "On Hold") lines.push(__("Account deletion is on hold. {0}", [esc(state.deletion.why || "")]));
 		else if (state.deletion && state.deletion.status === "Pending Verification") lines.push(__("Open the link we mailed you to confirm deleting your account."));
 		else if (state.deletion) lines.push(__("You asked {0} for your account to be deleted. An administrator decides.", [when(state.deletion.on)]));
 		const asking = copy && ["Waiting", "Gathering"].includes(copy.status);
@@ -279,7 +279,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				fields: [
 					{
 						fieldtype: "HTML",
-						options: `<p>${__("An administrator approves it. Then you are signed out for good, and your conversations with OneAI, what it remembers, your notifications and devices are deleted. Invoices, tasks and other records the workspace keeps stay, with your name and address taken out. Your employee record, if you have one, is HR's.")}</p><p>${__("It cannot be undone. Get a copy of your data first if you want one.")}</p>`,
+						options: `<p>${__("An administrator reviews the request. Then you're signed out, and your OneAI chats, memory, notifications and devices are deleted.")} ${__("Records the workspace keeps, such as invoices and tasks, stay without your name and address. HR keeps your employee record, if you have one.")}</p><p>${__("It cannot be undone. Get a copy of your data first if you want one.")}</p>`,
 					},
 					state.password
 						? { fieldname: "password", fieldtype: "Password", label: __("Your Password"), reqd: 1 }
@@ -481,7 +481,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		// answers it as a card to approve.
 		const write = onedesk.oneai.button(
 			__("Write It With OneAI"),
-			__("Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep it short, and suggest it as a card I can approve.")
+			__("Write a short email signature for me with my name, job title and contact details. Suggest it as a card I can approve.")
 		);
 		const dialog = new frappe.ui.Dialog({
 			title: __("Signature"),
@@ -772,7 +772,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (knowledge.length) {
 			onedesk.shell.table(this.$content.find('[data-list="workspace"]'), {
 				title: __("From Your Workspace"),
-				note: __("Written by your workspace's administrators for everybody. OneAI uses it when it helps you; they change it."),
+				note: __("Written by your administrators. OneAI uses it to answer you."),
 				rows: knowledge,
 				columns: [
 					{ label: __("Title"), fieldname: "title" },
@@ -1073,7 +1073,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ stack: ["admin"] },
 			{
 				heading: __("What They See"),
-				note: __("Held to a territory, a department or a customer group, they see only its records. Nobody here: everything their apps show."),
+				note: __("People limited to a territory, department or customer group see only those records. Everyone else sees everything in their apps."),
 			},
 			{ html: '<div data-list="holds"></div>' },
 			{ heading: __("Where They Are Signed In") },
@@ -1158,7 +1158,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		onedesk.shell.table(this.$content.find('[data-list="groups"]'), {
 			title: __("Groups"),
-			note: __("A team by name, such as Sales Gulf: assign a record to all of them at once, or @mention the group in a comment to tell them all."),
+			note: __("Assign a record to a whole team at once, or @mention the group in a comment."),
 			rows: data.groups,
 			icon: "users-round",
 			empty: __("No groups yet."),
@@ -1178,7 +1178,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		onedesk.shell.table(this.$content.find('[data-list="levels"]'), {
 			title: __("Levels"),
 			note: __(
-				"What each app's people may do, level by level. Open one to give or take away, on any kind of record the app works with. Levels you make sit between User and Manager."
+				"What each level can do in each app. Open one to change it. Levels you add sit between User and Manager."
 			),
 			rows: data.levels,
 			icon: "shield-check",
@@ -1287,7 +1287,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{
 					heading: __("What They May Do"),
 					note: __(
-						"Untick to take away, add a row to give a kind of record. Edit, Create and the rest bring Read with them, and a record they may make lets them pick what it must name, such as an invoice's customer."
+						"Untick to remove access, or add a row for another record type. Edit, Create and the rest include Read."
 					),
 				},
 				{ stack: ["rows"] },
@@ -1565,7 +1565,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				onedesk.shell.section(
 					__("Invoices"),
 					'<div data-list="invoices"><div class="one-shell-quiet">' + esc(__("Asking for them…")) + "</div></div>",
-					__("What One has charged the workspace. Each opens Stripe's own copy; Add to OneBook makes it a draft bill in your books.")
+					__("Invoices from One. Each opens in Stripe. Add to OneBook creates a draft bill.")
 				) +
 				onedesk.shell.section(
 					__("OneAI Credits"),
@@ -1580,7 +1580,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				onedesk.shell.section(
 					__("Ledger"),
 					data.ledger ? '<div data-list="ledger"></div>' : `<div class="one-shell-quiet">${esc(__("The account could not be reached for the ledger just now."))}</div>`,
-					__("The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it.", [data.ledger_days])
+					__("Credits added and used over the last {0} days. Click a day for details.", [data.ledger_days])
 				) +
 				this.closing_section(closing)
 		);
@@ -1656,10 +1656,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		}
 		const kept = closing.export || {};
 		const download = {
-			Preparing: __("Being made. You are told when it is ready; a large workspace takes a while."),
+			Preparing: __("Preparing. You'll be notified when it's ready."),
 			Ready: __("Made {0}, {1}.", [frappe.datetime.prettyDate(kept.on), kept.size]),
 			Failed: __("It could not be made. Try again, and if it fails twice, reply to any mail from One."),
-		}[kept.status] || __("Everything in the workspace in one file: the database, every record as a spreadsheet, and every file.");
+		}[kept.status] || __("One file with the database, every record as a spreadsheet, and all files.");
 		const download_actions =
 			kept.status === "Ready"
 				? onedesk.shell.button(__("Download"), { "data-closing": "download" }, "solid", "download") +
@@ -1676,7 +1676,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			: onedesk.shell.row({
 					title: esc(__("Close the Workspace")),
 					sub: esc(
-						__("It keeps working for {0} days, and everybody in it is told the day. Then nobody can sign in, and it is deleted for good some weeks later.", [
+						__("The workspace keeps working for {0} days and everyone is notified. Then sign-in stops, and it's deleted a few weeks later.", [
 							closing.notice_days,
 						])
 					),
@@ -1715,7 +1715,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						title: kept ? __("You have a full download.") : __("You have not taken a full download."),
 						message: kept
 							? __("Make it again first if much has changed since.")
-							: __("Make one first: after the workspace closes, nothing in it can be taken out."),
+							: __("Download it first. Nothing can be exported after the workspace closes."),
 						theme: kept ? "blue" : "yellow",
 					}),
 				},
@@ -1723,9 +1723,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					fieldtype: "HTML",
 					fieldname: "what",
 					options: `<p class="text-muted">${frappe.utils.escape_html(
-						__("It keeps working for {0} days, and everybody in it is told the day. On that day nobody can sign in any more and its subscription ends; what was paid for this month is not refunded. Some weeks later the workspace and its files are deleted for good. Until the day, you can keep it open from this page.", [
-							closing.notice_days,
-						])
+						[
+							__("The workspace keeps working for {0} days and everyone is notified.", [closing.notice_days]),
+							__("Then sign-in stops and the subscription ends. This month is not refunded."),
+							__("The workspace and its files are deleted a few weeks later. You can cancel from this page until then."),
+						].join(" ")
 					)}</p>`,
 				},
 				{ fieldtype: "Password", fieldname: "password", label: __("Your Password"), reqd: 1 },
@@ -1810,7 +1812,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					label: __("Email"),
 					reqd: 1,
 					default: account.billed_to || "",
-					description: __("Their One account holds this workspace from now on: its invoices and notices about paying go to them."),
+					description: __("Their One account owns this workspace from now on. Invoices and payment notices go to them."),
 				},
 			],
 			primary_action_label: __("Change"),
@@ -2026,7 +2028,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(`<div class="one-shell-section" data-list="numbering"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="numbering"]'), {
 			title: __("Numbering"),
-			note: __("How each kind of record is named when it is made: by a series, a field, an expression, typed or random, and by its rules. Open one to change it."),
+			note: __("How each record type is named. Open one to change it."),
 			rows: data.rows || [],
 			page_size: 100,
 			icon: "hash",
@@ -2118,12 +2120,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			onedesk.shell.section(
 				__("Letter Heads"),
 				'<div class="one-print-heads"></div>',
-				__("The header and footer of a printed page: a logo, or a design of your own. The star makes one the default.")
+				__("Headers and footers for printed pages. The star marks the default.")
 			) +
 				onedesk.shell.section(
 					__("Print Formats"),
 					'<div class="one-print-kinds"></div>',
-					__("Formats this workspace made, with the others each kind prints with. The star makes one the default; a name opens it in the builder.")
+					__("Print formats made in this workspace. The star marks the default. Click a name to edit it.")
 				)
 		);
 		const $heads = this.$content.find(".one-print-heads");
@@ -2278,7 +2280,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					{ fieldtype: "Column Break" },
 					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the header."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
 					{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
-					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the header and footer are drawn again whenever they change there."))}</p>` },
+					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General. The header and footer update when they change."))}</p>` },
 				]);
 		const foot_part = theirs
 			? null
@@ -2450,11 +2452,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				`<div data-list="domains"></div>${
 					primary
 						? `<div class="one-shell-quiet one-shell-note">${esc(
-								__("{0} is the main address: sign-in, invitations and every link in mail use it.", [primary.domain])
+								__("{0} is the main address, used for sign-in, invitations and email links.", [primary.domain])
 						  )}</div>`
 						: ""
 				}`,
-				__("Where the workspace opens in a browser. {0} always works; your own domain works once its DNS points here. Email addresses do not change.", [
+				__("Web addresses for this workspace. {0} always works. Your own domain works once its DNS points here. Email addresses don't change.", [
 					given ? given.domain : "",
 				])
 			) +
@@ -2547,7 +2549,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const bare = names.filter((name) => name && name.split(".").length === 2);
 		if (!bare.length) return "";
 		return `<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(
-			__("{0} is a bare domain. It works only if your DNS provider allows a CNAME there, which some call ALIAS. If it does not, add www.{0} here instead and have your registrar redirect {0} to it.", [bare[0]])
+			[__("{0} is a root domain and needs a CNAME or ALIAS record, which not every DNS provider allows.", [bare[0]]), __("If yours doesn't, add www.{0} instead and redirect {0} to it.", [bare[0]])].join(" ")
 		)}</div>`;
 	}
 
@@ -2811,7 +2813,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			onedesk.shell.section(
 				__("Where OneAI Reads"),
 				`<div class="os-intake-list" data-list="mailboxes"></div><div class="os-intake-list" data-list="folders"></div>`,
-				__("New mail in these mailboxes and new files in these folders are read. Starting one is for whoever holds it, since OneAI then acts as them; an administrator can stop any.")
+				__("OneAI reads new mail in these mailboxes and new files in these folders. Only the owner can start one, and administrators can stop any.")
 			)
 		);
 		const links = (pairs) =>
@@ -2917,7 +2919,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						fieldname: "said",
 						fieldtype: "HTML",
 						options: `<div class="one-shell-quiet">${esc(
-							__("OneAI will read new files in it and the folders inside it, file them and act on them on your behalf. Scans and photos are read with OneAI credits.")
+							__("OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits.")
 						)}</div>`,
 					},
 				],
@@ -2948,7 +2950,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						fieldname: "said",
 						fieldtype: "HTML",
 						options: `<div class="one-shell-quiet">${esc(
-							__("It is in force for everybody from today, or from its first day if it starts later: leave, attendance, check-ins, the calendar and deadlines.")
+							__("Applies to everyone from today, or from its start date. Used for leave, attendance, check-ins, the calendar and deadlines.")
 						)}</div>`,
 					},
 				],
@@ -3081,7 +3083,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const open_rule = (name) => frappe.set_route("workspace-settings", { section: this.key, rule: name });
 		this.$content.html(
 			`<div class="one-shell-section one-shell-note one-shell-quiet">${esc(
-				__("What One tells people. Open one to change what it says and whether it may also be mailed or pushed. Blue is on for new people, and each person can change their own.")
+				__("Notifications One sends. Open one to edit its text and channels. Blue means on by default, and people can change their own.")
 			)}</div>
 			<div class="one-shell-section" data-list="rules"></div>
 			<div class="one-shell-section" data-list="types"></div>`
@@ -3090,7 +3092,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		// as every list of records is, each opening its own page.
 		onedesk.shell.table(this.$content.find('[data-list="rules"]'), {
 			title: __("Rules"),
-			note: __("The workspace's own notifications: when something happens to a record, tell somebody."),
+			note: __("Notify people when something happens to a record."),
 			rows: data.rules || [],
 			icon: "bell-plus",
 			empty: __("No rules yet."),

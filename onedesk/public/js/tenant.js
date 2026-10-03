@@ -105,7 +105,7 @@ onedesk.tenant.said = (frm) => {
 
 	const lines = [
 		limit
-			? __("{0} of {1} — {2}%", [
+			? __("{0} of {1} ({2}%)", [
 					onedesk.tenant.size(held),
 					onedesk.tenant.size(limit),
 					Math.round((held / limit) * 100),

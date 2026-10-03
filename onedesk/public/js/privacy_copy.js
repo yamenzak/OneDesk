@@ -9,8 +9,8 @@ frappe.ui.form.on("Personal Data Download Request", {
 		const status = frm.doc.one_status || "Ready";
 		frm.set_intro(
 			{
-				Waiting: __("{0} asked for a copy of their data. Review what goes and send it; the law gives a month to answer.", [who]),
-				Gathering: __("Approved. The copy is being gathered and goes to {0} on their bell and by mail.", [who]),
+				Waiting: __("{0} asked for a copy of their data. Review it and send it within a month, as the law requires.", [who]),
+				Gathering: __("Approved. The copy is being prepared and will be sent to {0}.", [who]),
 				Ready: __("Sent. {0} downloads it from their profile.", [who]),
 			}[status] || "",
 			status === "Waiting" ? "blue" : "green"

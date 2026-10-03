@@ -47,6 +47,6 @@ frappe.provide("onedesk.offering");
 // add-on it is simply not what the add-on adds.
 onedesk.offering.say = (frm) => {
 	const plan = frm.doc.kind === "Plan";
-	const zero = plan ? __("Zero means unlimited.") : __("Fill in the one thing this add-on adds; leave the rest at zero.");
+	const zero = plan ? __("Zero means unlimited.") : __("Set only what this add-on adds. Leave the rest at zero.");
 	["storage_gb", "database_gb", "seats"].forEach((field) => frm.set_df_property(field, "description", zero));
 };
