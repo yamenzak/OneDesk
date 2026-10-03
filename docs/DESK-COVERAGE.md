@@ -200,10 +200,62 @@ reaching into an outside service (Connected App) are later, marked so below.
 P1: Import and Export (later, a different feature), Numbering, Printing, Mail
 Templates, Approvals, Automations. P2: Access, Reports and Dashboards,
 Recycle Bin, Audit Log, Privacy Requests, Integrations. P3: Translation, SMS,
-UTM Campaign and Medium, announcements (Note), following a record, prefilled
+UTM Campaign and Medium, following a record, prefilled
 new records (Document Template), a Lists page for Salutation, Gender and
 Address Template, Slack notifications, session defaults, LDAP, and the action
 after saving.
+
+## The desk around the doctypes (audit of 2026-10-03)
+
+Every doctype has its answer, but a customer also meets frappe's desk itself:
+the rail, the sidebars, the menus, frappe's pages and workspaces. Read from
+frappe `11fb93570c` and One's code, with the main points checked by hand.
+What is already One's: the rail and its sidebars, the Settings page in the
+user menu, a record's head and Activity tab, the Custom Fields and Settings
+menu items, the composer, the print page's sidebar, the dashboard and
+workflow builder rails, the setup wizard, the theme dialog and Getting
+Started. What is left, the most visible first:
+
+1. **Frappe's own records leave One's rail.** ToDo, Notification Log,
+   Notification Settings, Address, File, Communication, User, Print Settings
+   and Print Format open in frappe's own sidebars (Build, Contacts, Data,
+   Email, Users, Printing), because they belong to the Framework app. The
+   everyday doors: the bell's gear and its "See all", Assign To and ToDo, an
+   address on a customer, the print page's Print Settings.
+2. **Frappe's, erpnext's and hrms's workspaces still open** by address and
+   through search (Ctrl+K): erpnext's Home for everybody, Accounting,
+   Selling, Payroll, Build, System. Only `/desk/automation` is sent to One.
+3. **Every sign-in lands on frappe's apps screen** (`/desk`, one tile). One
+   sets no landing page. Its avatar menu still has Edit Profile (frappe's
+   User form), About and Frappe Support.
+4. **An erpnext or hrms record opened cold** (a reload, a mail link) that no
+   One sidebar lists falls to erpnext's or hrms's module sidebar. Opened from
+   inside One, One's sidebar holds.
+5. **Menu items that end on a screen only a System Manager can open:**
+   Import on 47 kinds of record (Data Import), Help › System Health, View
+   Audit Trail on an amended record, and Setup Auto Email and Print Settings
+   for anyone who is not an administrator.
+6. **Frappe's editors for its own furniture are open to everybody:** Edit
+   Sidebar, Manage Dock (which can put frappe's or erpnext's apps back on a
+   person's rail) and a private Workspace. This audit had Custom Sidebar and
+   Workspace as an operator's.
+7. **Help is erpnext's:** docs.erpnext.com links on 104 pages, none of One's.
+   Theme and Full Width have no place in One's Settings.
+8. **The Communication list and the Inbox view** are frappe's mail client in
+   frappe's Email sidebar, beside OneMail.
+9. **Search** lists every workspace, page and report a person may open,
+   frappe's and erpnext's included (point-of-sale, sales-funnel,
+   stock-balance).
+10. **Frappe's not-permitted, not-found and error pages** and its web pages
+    (`/me`, `/update-password`) are frappe's own.
+11. **Frappe reports not in One:** Addresses And Contacts (open to sales,
+    purchase and accounts users), and for an administrator Permitted
+    Documents For User, User Doctype Permissions and Document Share Report.
+
+Kept as frappe's on purpose: list views and their switcher, bulk actions,
+filters, group-by, report view, a form's menu, its sidebar (assign, tags,
+share), the print page's toolbar, keyboard shortcuts, the bell itself, Reload
+and Log Out.
 
 ## Every doctype
 
@@ -293,9 +345,9 @@ after saving.
 | Core | Version | In One | One › Audit Log › Changes (one/audit.py) |
 | Core | View Log | Underneath | runs under the product; no screen wanted |
 | Custom | Client Script | In One | OneStudio › Extensions: written by OneAI only, reviewed (one_studio/extensions.py) |
-| Custom | Custom Field | In One | Customize page |
-| Custom | Customize Form | In One | replaced by the Customize page |
-| Custom | Property Setter | In One | Customize page |
+| Custom | Custom Field | In One | OneStudio › Custom Fields, changed through OneAI (one/customize.py) |
+| Custom | Customize Form | In One | replaced by OneStudio › Custom Fields |
+| Custom | Property Setter | In One | OneStudio › Custom Fields |
 | Desk | Bulk Update | Not a customer's | the platform's or a developer's; only an operator |
 | Desk | Calendar View | Underneath | runs under the product; no screen wanted |
 | Desk | Console Log | Underneath | runs under the product; no screen wanted |

@@ -11,6 +11,15 @@ OneCloud, OneCalendar, OneTask and OneAdmin › Home. Still to go, one screen at
 a time: **OneProject**, **OneCRM**, **OneBook**, **OneInventory**, **OneHR**,
 **OneAI**, **OneIntake** and the rest of **OneAdmin**.
 
+## Frappe's desk that One has not replaced yet
+
+The eleven gaps in `docs/DESK-COVERAGE.md` (The desk around the doctypes):
+frappe's own records leaving One's rail, frappe's and erpnext's workspaces
+still opening, the apps screen after sign-in, records opened cold, menu items
+that end on a System Manager's screen, frappe's furniture editors, erpnext's
+Help, the Communication inbox, search, frappe's error pages, and four of
+frappe's reports.
+
 ## Frappe that One does not reach yet (P3)
 
 Small, or for some customers. Each row in `docs/DESK-COVERAGE.md` says the
@@ -47,9 +56,8 @@ same in a line.
 
 Webhooks are the integration One offers today (Workspace › Webhooks).
 
-- **OneStudio, not yet**: an extension on a schedule (an Automation's
-  schedule does it), an extension behind an API call, a table inside a
-  record type, and a record type's own numbering.
+- **OneStudio, not yet**: an extension behind an API call, a table inside a
+  custom collection, and a collection's own numbering.
 
 ## Stages not finished
 
