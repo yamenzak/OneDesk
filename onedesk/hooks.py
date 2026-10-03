@@ -1223,6 +1223,10 @@ website_route_rules = [
 	{"from_route": "/your-data", "to_route": "your_data"},
 ]
 
+# frappe's account deletion form: everybody asks under Your Data instead,
+# where the request is confirmed and decided as One decides it (one/privacy.py).
+website_redirects = [{"source": r"/request-for-account-deletion.*", "target": "/your-data"}]
+
 # OneCloud as a network drive: a drive password signs a person in on the
 # drive's address before Frappe's API-key check would refuse it, and Frappe
 # answers OPTIONS before any method runs, so the headers a WebDAV client looks
@@ -1250,6 +1254,7 @@ jinja = {
 		"onedesk.one.portal.one_portal_timesheet",
 		"onedesk.one.portal.one_portal_title",
 		"onedesk.one.portal.one_portal_here",
+		"onedesk.one.portal.one_portal_account",
 		"onedesk.one.portal.one_portal_at_home",
 		"onedesk.one.portal.one_portal_me",
 		"onedesk.one.portal.one_portal_columns",

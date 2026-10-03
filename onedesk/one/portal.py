@@ -14,6 +14,7 @@ frappe's context comes from the Jinja methods here.
 """
 
 import re
+from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
@@ -28,31 +29,13 @@ OFF = ("/issues", "/material-requests")
 TITLES = {"/rfq": "Quote Requests", "/supplier-quotations": "Quotes"}
 
 #: The web forms a portal reader fills in, in plain words: an address's
-#: button, and frappe's account deletion request (its introduction spoke of
-#: "PII", and is not translated where it is drawn, so the form says what
-#: happens once sent instead).
-FORMS = {
-	"addresses": {"button_label": "Save Address"},
-	"request-to-delete-data": {
-		"title": "Delete Account",
-		"introduction_text": "",
-		"button_label": "Send Request",
-		"success_title": "Request sent",
-		"success_message": "Check your email to confirm.",
-	},
-}
+#: button. frappe's account deletion form is not one of them: a portal
+#: reader asks under Your Data (ACCOUNT), as everybody else does.
+FORMS = {"addresses": {"button_label": "Save Address"}}
 
 #: The same titles and words, for translation: the records hold the English,
 #: and each is translated as it is drawn.
-SAID = (
-	_lt("Quote Requests"),
-	_lt("Quotes"),
-	_lt("Save Address"),
-	_lt("Delete Account"),
-	_lt("Send Request"),
-	_lt("Request sent"),
-	_lt("Check your email to confirm."),
-)
+SAID = (_lt("Quote Requests"), _lt("Quotes"), _lt("Save Address"))
 
 #: erpnext's indicator colours, as frappe-ui's Badge themes them.
 TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
@@ -76,9 +59,16 @@ ICONS = {
 #: (frappe's web form) is under Addresses, a project's page under Projects.
 ALSO = {"/address": "/addresses", "/projects": "/project"}
 
-#: frappe's pages for the reader's own account, reached from /me: they belong
-#: to Your Account rather than to a tab.
-ACCOUNT = ("/me", "/update-profile", "/update-password", "/request-for-account-deletion", "/third_party_apps")
+#: The reader's own account, under Account in the sidebar: frappe's profile
+#: web form, its Set Password page, One's Your Data (one/privacy.py) and
+#: frappe's Third Party Apps, shown once an app has been let in. As
+#: (route, title, icon); the profile's route is completed with the reader.
+ACCOUNT = (
+	("/update-profile", _lt("Profile"), "user"),
+	("/update-password", _lt("Password"), "key-round"),
+	("/your-data", _lt("Your Data"), "shield-check"),
+	("/third_party_apps", _lt("Third Party Apps"), "plug"),
+)
 
 #: A list's columns, by the row template that draws it, as frappe-ui's
 #: ListView heads them.
@@ -126,14 +116,30 @@ def one_portal_tabs() -> list[dict]:
 	]
 
 
+def one_portal_account() -> list[dict]:
+	"""The Account section of the sidebar (ACCOUNT), the page being read
+	marked. Third Party Apps only for someone who has let an app in."""
+	user = frappe.session.user
+	here = _here()
+	apps = frappe.db.exists("OAuth Bearer Token", {"user": user})
+	items = []
+	for route, title, icon in ACCOUNT:
+		if route == "/third_party_apps" and not apps:
+			continue
+		link = f"{route}/{quote(user)}/edit" if route == "/update-profile" else route
+		items.append({"title": str(title), "route": link, "icon": icon, "current": route == here})
+	return items
+
+
 def one_portal_here() -> dict | None:
 	"""What the page belongs to, for the head's Breadcrumbs: its tab, or the
-	reader's account for frappe's account pages (ACCOUNT)."""
+	Account page it is (which heads the page alone, `account`)."""
 	tab = next((one for one in one_portal_tabs() if one["current"]), None)
 	if tab:
 		return tab
-	if _here() in ACCOUNT:
-		return {"title": _("Your Account"), "route": "/me", "icon": "user", "current": True}
+	page = next((one for one in one_portal_account() if one["current"]), None)
+	if page:
+		return {**page, "account": True}
 	return None
 
 

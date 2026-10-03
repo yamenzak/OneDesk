@@ -23,7 +23,7 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "11.4bddfa06",
 	"aup": "1.cc05bbc3",
-	"privacy": "16.b6094ef5",
+	"privacy": "16.f706f8ee",
 	"cookies": "1.32b1addc",
 	"dpa": "4.042bc9fa",
 	"subprocessors": "4.609e7a2d",

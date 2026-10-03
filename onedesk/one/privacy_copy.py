@@ -369,7 +369,7 @@ def gather(request: str, withheld: list | None = None) -> None:
 	"""The copy, as reviewed. A user's is a file only they may open, kept on
 	their account and announced on their bell; somebody who is not a user is
 	mailed a link to download it that works for a week (one/privacy_public.py)."""
-	from onedesk.one import notify
+	from onedesk.one import notify, privacy
 
 	doc = frappe.get_doc(DOWNLOAD, request)
 	address = doc.user or doc.one_email
@@ -420,7 +420,7 @@ def gather(request: str, withheld: list | None = None) -> None:
 	notify.notify(
 		"Your Data Is Ready",
 		doc.user,
-		link="/desk/settings?section=profile",
+		link=privacy.where(doc.user),
 		withheld=withheld_said,
 	)
 	frappe.publish_realtime("one_privacy", user=doc.user)

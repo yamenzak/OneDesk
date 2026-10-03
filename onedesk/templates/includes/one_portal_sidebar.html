@@ -1,6 +1,7 @@
 {#- The portal's sidebar on a wide screen (one/portal.py), as frappe-ui's
     Sidebar draws it: SidebarHeader names the customer or supplier and opens a
-    Dropdown, then a SidebarItem for home and for each tab, its icon from
+    Dropdown, then a SidebarItem for home and for each tab, and an Account
+    section (SidebarSection) for the reader's own pages, each icon from
     frappe's Lucide sprite. A phone has the head and tabs instead. -#}
 {%- set me = one_portal_me() %}
 {%- set tabs = one_portal_tabs() %}
@@ -19,9 +20,6 @@
 				<span>{{ me.name|e }}</span>
 				<small>{{ me.email|e }}</small>
 			</div>
-			<a class="one-menu__item" role="menuitem" href="/me">
-				<svg class="one-icon" aria-hidden="true"><use href="#icon-user"></use></svg>{{ _("Your Account") }}
-			</a>
 			<a class="one-menu__item" role="menuitem" href="/logout">
 				<svg class="one-icon" aria-hidden="true"><use href="#icon-log-out"></use></svg>{{ _("Sign out") }}
 			</a>
@@ -34,6 +32,14 @@
 		{%- for tab in tabs %}
 		<a href="{{ tab.route }}" {% if tab.current %}aria-current="page"{% endif %}>
 			<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ tab.icon }}"></use></svg>{{ tab.title }}
+		</a>
+		{%- endfor %}
+	</nav>
+	<nav class="one-sidebar__items one-sidebar__section" aria-labelledby="one-sidebar-account">
+		<h2 id="one-sidebar-account">{{ _("Account") }}</h2>
+		{%- for page in one_portal_account() %}
+		<a href="{{ page.route }}" {% if page.current %}aria-current="page"{% endif %}>
+			<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ page.icon }}"></use></svg>{{ page.title }}
 		</a>
 		{%- endfor %}
 	</nav>

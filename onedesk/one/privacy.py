@@ -81,6 +81,14 @@ def _administrators() -> list[str]:
 	return [one for one in roles.administrators() if one not in NOT_PEOPLE]
 
 
+def where(user: str) -> str:
+	"""Where somebody reads their requests: their desk profile, or Your Data
+	on the portal for a customer's or supplier's contact."""
+	if frappe.db.get_value("User", user, "user_type") == "System User":
+		return "/desk/settings?section=profile"
+	return "/your-data"
+
+
 def _mine(user: str | None = None) -> str:
 	user = user or frappe.session.user
 	from onedesk.one.settings import NOT_PEOPLE
@@ -220,7 +228,7 @@ def confirm(name: str, expires: str) -> None:
 	if not doc or doc.status != "Pending Verification" or get_datetime(expires) < now_datetime():
 		frappe.respond_as_web_page(
 			_("This link no longer works"),
-			_("Ask again from your profile if you still want your account deleted."),
+			_("Ask again under Your Data if you still want your account deleted."),
 			indicator_color="red",
 		)
 		return
@@ -276,7 +284,7 @@ def hold(name: str, why: str) -> None:
 	from onedesk.one import notify
 
 	if _is_user(doc.email):
-		notify.notify("Deletion On Hold", doc.email, link="/desk/settings?section=profile", why=why)
+		notify.notify("Deletion On Hold", doc.email, link=where(doc.email), why=why)
 	else:
 		notify.mail("Your Request Is On Hold", doc.email, why=why)
 

@@ -6382,6 +6382,51 @@ Not done: the Material Request page stays off with its tab (Portal 1).
 Delete Account is always offered, as it is on the desk's Settings. frappe's
 setting that hid it cannot be reached in One.
 
+### Portals 6: Account in the sidebar, and Your Data
+
+Portals 5 put the account pages in the shell but left them behind a Your
+Account page reached only from the menu, sent deletion through frappe's web
+form (a lone Email field, then a bare "Request sent"), and gave a portal
+reader no way to ask for a copy of their data. Change Password was still
+frappe's sign-in card, outside the shell.
+
+1. **Notifications**: a copy made ready ("Your Data Is Ready") and a deletion
+   put on hold now link a portal reader to Your Data, not to a desk profile
+   they cannot open (`privacy.where`). The rest are the desk's own (Copy
+   Asked and Deletion Asked to the administrators, Account Deleted).
+2. **OneAI**: none. A portal reader has no OneAI panel.
+3. **Intake**: none.
+4. **Permissions**: each page is the reader's own: `privacy.py` asks for the
+   session's user only, a deletion is confirmed with their password, and an
+   administrator decides. Third Party Apps lists only their own tokens.
+5. **Cross-module**: Your Data files into Workspace › Data Copies and Account
+   Deletions, the same requests a desk user makes.
+6. **Bespoke UI**, **Fixed**:
+   - **Account** is a section of the sidebar under the tabs, as frappe-ui's
+     SidebarSection draws it: Profile, Password, Your Data, and Third Party
+     Apps once an app is let in. On a phone they are in the avatar's menu.
+     The Your Account page is gone; /me opens Profile.
+   - **Profile** opens ready to edit, Save and Discard in the head, labels
+     as frappe-ui's FormLabel. Saving stays on the page and says Saved, as a
+     desk form does, instead of frappe's five-second thanks page.
+   - **Password** is frappe's Set Password in the shell, Change Password in
+     the head; frappe's script, strength meter and errors run unchanged.
+   - **Your Data**: Copy of Your Data (Request My Data, its state, Download My
+     Data) and Delete Account (Delete My Account in red, frappe's Dialog
+     with the password, then its state and Cancel Deletion), the same calls
+     and words as the desk's You › Profile › Your Data. It updates through
+     `frappe.realtime` when a copy is ready.
+   - frappe's deletion form (/request-for-account-deletion) now leads to
+     Your Data, for guests as well.
+7. **Documented**: the README's Portal section (Account).
+8. **Legal**: the Privacy Policy's rights section says a portal contact asks
+   for both under Your Data. A clarification, so the new hash is recorded.
+9. **From frappe**: frappe's web form and controls (Profile), Set Password's
+   ids and script (Password), frappe's Dialog and Password control loaded
+   from its controls bundle (Your Data), `frappe.xcall`, `frappe.realtime`.
+10. **Plain words**: "Account", "Profile", "Password", "Your Data", "Copy of
+    Your Data", "Saved"; the desk's words for every state and button.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -135,22 +135,34 @@ def test_the_rest_of_the_portal_is_in_its_shell():
 
 
 def test_the_account_pages_are_in_the_portals_shell():
-	"""frappe's account pages for a portal user: /me lists Edit Profile,
-	Change Password, Third Party Apps (once one is let in), Sign out and
-	Delete Account (always, as on the desk); Third Party Apps keeps frappe's
-	context and revoke call; Set Password reached from there says Change
-	Password; the deletion form is worded by settle."""
-	me = (tree.APP / "www" / "me.html").read_text()
-	assert "one_portal_sidebar.html" in me and "/update-password" in me
-	assert "{% if has_apps %}" in me and "show_deletion" not in me
-	assert "/request-for-account-deletion/new?email=" in me
-	assert '"OAuth Bearer Token"' in (tree.APP / "www" / "me.py").read_text()
+	"""A portal reader's own pages are the sidebar's Account section (ACCOUNT):
+	Profile (frappe's web form, kept where it is once saved), Password
+	(frappe's Set Password, its ids kept so its script runs), Your Data (the
+	same calls as the desk's) and Third Party Apps once an app is let in.
+	frappe's deletion form leads to Your Data; /me leads to Profile."""
+	assert 'ACCOUNT = (\n\t("/update-profile"' in SOURCE and '("/your-data", _lt("Your Data")' in SOURCE
+	assert '"OAuth Bearer Token"' in SOURCE and '"request-to-delete-data"' not in SOURCE
+	side = (INCLUDES / "one_portal_sidebar.html").read_text()
+	assert "one_portal_account()" in side and "one-sidebar__section" in side
+	assert "one_portal_account()" in (INCLUDES / "one_portal_head.html").read_text()
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert "one_portal_account" in hooks and '"target": "/your-data"' in hooks
+	assert "/update-profile/{quote(frappe.session.user)}/edit" in (tree.APP / "www" / "me.py").read_text()
+	form = (tree.APP / "website" / "doctype" / "web_form" / "templates" / "web_form.html").read_text()
+	assert "here.account" in form and "window.location.reload()" in form
+	password = (tree.APP / "www" / "update-password.html").read_text()
+	assert '{% extends "frappe/www/update-password.html" %}' in password
+	for frappes in ('id="old_password"', 'id="new_password"', 'id="confirm_password"', 'id="update"', 'id="reset-password"'):
+		assert frappes in password
+	assert "one_portal_tabs()" in (tree.APP / "www" / "update_password.py").read_text()
+	data = (tree.APP / "www" / "your_data.html").read_text()
+	for call in ("onedesk.one.privacy_copy.ask", "onedesk.one.privacy.ask_to_delete", "onedesk.one.privacy.withdraw"):
+		assert call in data
+	assert 'privacy["copy"]' in data and 'frappe.realtime.on("one_privacy"' in data
+	privacy = (tree.APP / "one" / "privacy.py").read_text()
+	assert 'link=where(doc.email)' in privacy and '"/your-data"' in privacy
+	assert "link=privacy.where(doc.user)" in (tree.APP / "one" / "privacy_copy.py").read_text()
 	apps_py = (tree.APP / "www" / "third_party_apps.py").read_text()
 	assert "from frappe.www.third_party_apps import get_context" in apps_py
 	apps = (tree.APP / "www" / "third_party_apps.html").read_text()
 	assert "one_portal_sidebar.html" in apps and "btn-delete-app" in apps
-	assert 'include "templates/includes/integrations/third_party_apps.js"' in apps
-	login = (tree.APP / "public" / "js" / "login.js").read_text()
-	assert '__("Change Password")' in login and 'get_cookie("user_id")' in login
-	assert 'ACCOUNT = ("/me",' in SOURCE and '"request-to-delete-data": {' in SOURCE
-	assert "one_portal_here" in (tree.APP / "hooks.py").read_text()

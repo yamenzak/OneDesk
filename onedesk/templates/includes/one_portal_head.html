@@ -1,6 +1,7 @@
 {#- The portal's head on a phone (one/portal.py): One's mark, and the person signed in as
     frappe-ui's Avatar opening its Dropdown; below, the tabs as frappe-ui's
-    TabButtons, each with its icon from frappe's Lucide sprite. -#}
+    TabButtons, each with its icon from frappe's Lucide sprite. The reader's
+    own pages (the sidebar's Account) are in the Dropdown. -#}
 {%- set me = one_portal_me() %}
 <header class="one-head">
 	<a class="one-portal__mark" href="/portal">
@@ -14,9 +15,11 @@
 				<span>{{ me.name|e }}</span>
 				<small>{{ me.email|e }}</small>
 			</div>
-			<a class="one-menu__item" role="menuitem" href="/me">
-				<svg class="one-icon" aria-hidden="true"><use href="#icon-user"></use></svg>{{ _("Your Account") }}
+			{%- for page in one_portal_account() %}
+			<a class="one-menu__item" role="menuitem" href="{{ page.route }}" {% if page.current %}aria-current="page"{% endif %}>
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ page.icon }}"></use></svg>{{ page.title }}
 			</a>
+			{%- endfor %}
 			<a class="one-menu__item" role="menuitem" href="/logout">
 				<svg class="one-icon" aria-hidden="true"><use href="#icon-log-out"></use></svg>{{ _("Sign out") }}
 			</a>

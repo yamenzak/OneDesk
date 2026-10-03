@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 19:03+0000\n"
-"PO-Revision-Date: 2026-10-03 19:03+0000\n"
+"POT-Creation-Date: 2026-10-03 19:25+0000\n"
+"PO-Revision-Date: 2026-10-03 19:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -251,7 +251,7 @@ msgstr "Der Name einer Sammlung hat 3 bis 60 Buchstaben, Ziffern und Leerzeichen
 msgid "A conversation is opened in OneMail's reading pane."
 msgstr "Eine Unterhaltung wird im Lesebereich von OneMail geöffnet."
 
-#: onedesk/www/your_data.html:31
+#: onedesk/www/your_data.html:137
 msgid "A copy of what it holds about me"
 msgstr "Eine Kopie dessen, was über mich gespeichert ist"
 
@@ -982,8 +982,9 @@ msgstr ""
 
 #. Label of the account (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/templates/includes/one_portal_sidebar.html:39
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: onedesk/one/notifications.py:275
 msgid "Account Deleted"
@@ -1024,7 +1025,7 @@ msgstr "Kontonummer"
 msgid "Account Request"
 msgstr "Kontoanfrage"
 
-#: onedesk/public/js/settings.js:248
+#: onedesk/public/js/settings.js:248 onedesk/www/your_data.html:47
 msgid "Account deletion is on hold. {0}"
 msgstr "Die Kontolöschung ist angehalten. {0}"
 
@@ -1145,7 +1146,7 @@ msgstr ""
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: onedesk/one/portal.py:94
+#: onedesk/one/portal.py:84
 msgid "Add Address"
 msgstr "Adresse hinzufügen"
 
@@ -1229,7 +1230,7 @@ msgstr "Lege aus jeder dieser Visitenkarten einen Lead an."
 msgid "Add a number to a field on the target document."
 msgstr "Addiert eine Zahl zu einem Feld des Datensatzes."
 
-#: onedesk/one/portal.py:473
+#: onedesk/one/portal.py:479
 msgid "Add a rate for at least one item."
 msgstr "Geben Sie für mindestens einen Artikel einen Preis an."
 
@@ -1399,7 +1400,7 @@ msgstr ""
 #. Label of the address (Small Text) field in DocType 'Reading Party'
 #. Label of the url (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/custom/personal_data_download_request.json
-#: onedesk/one/letter_heads.py:65 onedesk/one/portal.py:89
+#: onedesk/one/letter_heads.py:65 onedesk/one/portal.py:79
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -1777,6 +1778,10 @@ msgstr "Ein Administrator stimmt für alle zu."
 msgid "An administrator is holding your request to delete your account, because: {why}"
 msgstr "Ein Administrator hält Ihre Anfrage zur Löschung Ihres Kontos zurück, weil: {why}"
 
+#: onedesk/www/your_data.html:91
+msgid "An administrator reviews the request. Then you're signed out and your account is turned off."
+msgstr "Ein Administrator prüft die Anfrage. Danach werden Sie abgemeldet und Ihr Konto wird deaktiviert."
+
 #: onedesk/public/js/settings.js:281
 msgid "An administrator reviews the request. Then you're signed out, and your OneAI chats, memory, notifications and devices are deleted."
 msgstr "Ein Administrator prüft die Anfrage. Danach werden Sie abgemeldet, und Ihre OneAI-Chats, das Gedächtnis, Benachrichtigungen und Geräte werden gelöscht."
@@ -1873,7 +1878,7 @@ msgstr "Ankündigung"
 msgid "Announcements"
 msgstr "Ankündigungen"
 
-#: onedesk/one/privacy.py:291
+#: onedesk/one/privacy.py:299
 msgid "Another administrator approves deleting your own account."
 msgstr "Das Löschen Ihres eigenen Kontos genehmigt ein anderer Administrator."
 
@@ -2126,7 +2131,7 @@ msgstr ""
 msgid "Approved Request"
 msgstr "Genehmigter Antrag"
 
-#: onedesk/one/privacy.py:304 onedesk/one/privacy_copy.py:364
+#: onedesk/one/privacy.py:312 onedesk/one/privacy_copy.py:364
 msgid "Approved by {0}"
 msgstr "Genehmigt von {0}"
 
@@ -2297,14 +2302,14 @@ msgstr "Bitten Sie OneAI, ein Feld zu entfernen."
 msgid "Ask about this page, look something up, or have a change suggested."
 msgstr "Fragen Sie zu dieser Seite, lassen Sie etwas nachschlagen oder eine Änderung vorschlagen."
 
-#: onedesk/one/privacy.py:223
-msgid "Ask again from your profile if you still want your account deleted."
-msgstr "Fragen Sie in Ihrem Profil erneut an, wenn Sie Ihr Konto weiterhin löschen möchten."
-
 #: onedesk/one/privacy_public.py:92 onedesk/one/privacy_public.py:168
 #: onedesk/one/privacy_public.py:174
 msgid "Ask again on the workspace's Your Data page."
 msgstr "Fragen Sie erneut auf der Seite „Ihre Daten“ des Arbeitsbereichs."
+
+#: onedesk/one/privacy.py:231
+msgid "Ask again under Your Data if you still want your account deleted."
+msgstr "Fragen Sie unter Ihre Daten erneut, wenn Sie Ihr Konto weiterhin löschen möchten."
 
 #: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:262
 #: onedesk/www/message.html:27
@@ -2739,7 +2744,7 @@ msgstr "Abwesend bis"
 msgid "B"
 msgstr "B"
 
-#: onedesk/public/js/login.js:116 onedesk/public/js/onecloud.js:116
+#: onedesk/public/js/onecloud.js:116
 msgid "Back"
 msgstr "Zurück"
 
@@ -3428,7 +3433,7 @@ msgstr "Kann ansehen"
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:319
-#: onedesk/www/third_party_apps.html:32
+#: onedesk/www/third_party_apps.html:31
 msgid "Cancel"
 msgstr ""
 
@@ -3441,7 +3446,7 @@ msgstr "Kündigen bis"
 msgid "Cancel Closing"
 msgstr "Schließung abbrechen"
 
-#: onedesk/public/js/settings.js:258
+#: onedesk/public/js/settings.js:258 onedesk/www/your_data.html:56
 msgid "Cancel Deletion"
 msgstr "Löschung abbrechen"
 
@@ -3547,9 +3552,8 @@ msgstr "Zeugnis"
 msgid "Change"
 msgstr "Änderung"
 
-#: onedesk/public/js/login.js:111 onedesk/public/js/login.js:112
 #: onedesk/public/js/settings.js:583 onedesk/public/js/settings.js:635
-#: onedesk/public/js/settings.js:647 onedesk/www/me.html:44
+#: onedesk/public/js/settings.js:647 onedesk/www/update-password.html:21
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -3720,11 +3724,11 @@ msgstr "Diese Gehaltsabrechnung prüfen"
 msgid "Check this payroll against last month and tell me what looks unusual, most money first."
 msgstr "Vergleiche diese Abrechnung mit dem Vormonat und sag mir, was ungewöhnlich aussieht, das meiste Geld zuerst."
 
-#: onedesk/public/js/settings.js:249
+#: onedesk/public/js/settings.js:249 onedesk/www/your_data.html:49
 msgid "Check your email to confirm deleting your account."
 msgstr "Prüfen Sie Ihre E-Mails, um das Löschen Ihres Kontos zu bestätigen."
 
-#: onedesk/one/portal.py:54 onedesk/public/js/settings.js:292
+#: onedesk/public/js/settings.js:292 onedesk/www/your_data.html:102
 msgid "Check your email to confirm."
 msgstr "Prüfen Sie Ihre E-Mails, um zu bestätigen."
 
@@ -3906,7 +3910,7 @@ msgstr "Server wird ausgewählt"
 msgid "Chosen Model"
 msgstr "Gewähltes Modell"
 
-#: onedesk/one/portal.py:89 onedesk/one/settings.py:115
+#: onedesk/one/portal.py:79 onedesk/one/settings.py:115
 #: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
 msgstr "Stadt"
@@ -4332,6 +4336,10 @@ msgstr ""
 msgid "Confirm Deletion"
 msgstr "Löschung bestätigen"
 
+#: onedesk/www/update-password.html:47
+msgid "Confirm New Password"
+msgstr ""
+
 #: onedesk/one_admin/notifications.py:109
 msgid "Confirm Your New Email"
 msgstr "Neue E-Mail bestätigen"
@@ -4375,7 +4383,7 @@ msgstr "Bestätigungsschwelle"
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
-#: onedesk/one/privacy.py:231 onedesk/one/privacy_public.py:104
+#: onedesk/one/privacy.py:239 onedesk/one/privacy_public.py:104
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Confirmed"
@@ -4552,6 +4560,10 @@ msgstr "Link kopieren"
 #: onedesk/public/js/privacy_copy.js:50
 msgid "Copy of Data for {0}"
 msgstr "Datenkopie für {0}"
+
+#: onedesk/www/your_data.html:22
+msgid "Copy of Your Data"
+msgstr "Kopie Ihrer Daten"
 
 #. Label of the what (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
@@ -5088,8 +5100,8 @@ msgid "Database Used"
 msgstr "Belegte Datenbank"
 
 #. Label of the date (Date) field in DocType 'Reading Date'
-#: onedesk/one/portal.py:299 onedesk/one/portal.py:300
-#: onedesk/one/portal.py:394 onedesk/one/settings.py:1622
+#: onedesk/one/portal.py:305 onedesk/one/portal.py:306
+#: onedesk/one/portal.py:400 onedesk/one/settings.py:1622
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -5380,11 +5392,12 @@ msgstr "Standard: {0}"
 msgid "Delete"
 msgstr "Löschen"
 
-#: onedesk/one/portal.py:51 onedesk/www/me.html:61
+#: onedesk/www/your_data.html:45
 msgid "Delete Account"
 msgstr "Konto löschen"
 
 #: onedesk/public/js/settings.js:259 onedesk/public/js/settings.js:277
+#: onedesk/www/your_data.html:60 onedesk/www/your_data.html:87
 msgid "Delete My Account"
 msgstr "Mein Konto löschen"
 
@@ -5422,7 +5435,7 @@ msgstr "Vorlage {0} löschen?"
 msgid "Delete this rule?"
 msgstr "Diese Regel löschen?"
 
-#: onedesk/www/your_data.html:35
+#: onedesk/www/your_data.html:141
 msgid "Delete what it holds about me"
 msgstr "Löschen, was über mich gespeichert ist"
 
@@ -5510,7 +5523,7 @@ msgstr "Löschung angefragt"
 msgid "Deletion On Hold"
 msgstr "Löschung zurückgestellt"
 
-#: onedesk/public/js/settings.js:272
+#: onedesk/public/js/settings.js:272 onedesk/www/your_data.html:81
 msgid "Deletion cancelled"
 msgstr "Löschung abgebrochen"
 
@@ -5524,7 +5537,7 @@ msgstr "Lieferungen"
 msgid "Deliveries received from Stripe, used to ignore repeats."
 msgstr "Von Stripe empfangene Zustellungen, um Wiederholungen zu ignorieren."
 
-#: onedesk/one/portal.py:302 onedesk/one/portal.py:303
+#: onedesk/one/portal.py:308 onedesk/one/portal.py:309
 msgid "Delivery"
 msgstr ""
 
@@ -5709,7 +5722,7 @@ msgstr "{0} trennen? Die Dateien auf dem Server bleiben unverändert."
 msgid "Disconnected"
 msgstr "Getrennt"
 
-#: onedesk/one/portal.py:338
+#: onedesk/one/portal.py:344
 msgid "Discount"
 msgstr ""
 
@@ -5907,7 +5920,7 @@ msgstr "Download-Datei"
 msgid "Download Made On"
 msgstr "Download erstellt am"
 
-#: onedesk/public/js/settings.js:254
+#: onedesk/public/js/settings.js:254 onedesk/www/your_data.html:33
 msgid "Download My Data"
 msgstr "Meine Daten herunterladen"
 
@@ -6028,7 +6041,7 @@ msgid "Dropped"
 msgstr "Verworfen"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one/portal.py:304 onedesk/one_admin/accounts.py:230
+#: onedesk/one/portal.py:310 onedesk/one_admin/accounts.py:230
 #: onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_project/heads.py:169
@@ -6187,10 +6200,6 @@ msgstr "Kosten bearbeiten"
 msgid "Edit Memory"
 msgstr "Erinnerung bearbeiten"
 
-#: onedesk/www/me.html:39
-msgid "Edit Profile"
-msgstr "Profil bearbeiten"
-
 #: onedesk/public/js/doctype_settings.js:1082
 msgid "Edit Rule"
 msgstr "Regel bearbeiten"
@@ -6250,7 +6259,7 @@ msgstr "„Eines von beiden“ akzeptiert ein Einchecken, das eine der beiden Pr
 #: onedesk/public/js/settings.js:323 onedesk/public/js/settings.js:1440
 #: onedesk/public/js/settings.js:1795 onedesk/public/js/settings.js:2200
 #: onedesk/public/js/settings.js:3057 onedesk/www/account_profile.html:33
-#: onedesk/www/me.html:31 onedesk/www/start.html:37
+#: onedesk/www/start.html:37
 msgid "Email"
 msgstr "E-Mail"
 
@@ -8344,12 +8353,12 @@ msgstr "Feiertage in {0}"
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/templates/includes/one_portal_sidebar.html:32
+#: onedesk/templates/includes/one_portal_sidebar.html:30
 msgid "Home"
 msgstr "Start"
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
-#: onedesk/one/portal.py:88 onedesk/one_hr/custom/shift_request.json
+#: onedesk/one/portal.py:78 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:164
 msgid "Hours"
 msgstr ""
@@ -8759,7 +8768,7 @@ msgstr "Ist dies nicht aktiviert, wird ein fehlender Passkey nur markiert."
 msgid "If yours doesn't, add www.{0} instead and redirect {0} to it."
 msgstr "Falls nicht, stattdessen www.{0} hinzufügen und {0} dorthin weiterleiten."
 
-#: onedesk/www/your_data.html:16
+#: onedesk/www/your_data.html:122
 msgid "If {0} holds your details, as a customer, a supplier, a contact or an applicant, you can ask for a copy of them, or for them to be deleted."
 msgstr "Wenn {0} Ihre Daten als Kunde, Lieferant, Kontakt oder Bewerber gespeichert hat, können Sie eine Kopie davon oder ihre Löschung verlangen."
 
@@ -11147,6 +11156,10 @@ msgstr "Meilensteine"
 msgid "Minimal"
 msgstr "Minimal"
 
+#: onedesk/www/update-password.html:44
+msgid "Minimum 8 characters, including at least one number or special character."
+msgstr "Mindestens 8 Zeichen, darunter mindestens eine Zahl oder ein Sonderzeichen."
+
 #: onedesk/one/settings.py:115
 msgid "Mobile"
 msgstr ""
@@ -11432,7 +11445,6 @@ msgstr "Meine Aufgaben"
 #: onedesk/public/js/onecloud.js:1572 onedesk/public/js/settings.js:1112
 #: onedesk/public/js/settings.js:1195 onedesk/public/js/settings.js:2197
 #: onedesk/public/js/settings.js:2211 onedesk/public/js/settings.js:2519
-#: onedesk/www/me.html:27
 msgid "Name"
 msgstr "Name"
 
@@ -11503,7 +11515,7 @@ msgstr "Liste eingrenzen"
 msgid "Needed Review"
 msgstr "Prüfung nötig"
 
-#: onedesk/one/portal.py:396
+#: onedesk/one/portal.py:402
 msgid "Needed by"
 msgstr "Benötigt bis"
 
@@ -11640,7 +11652,7 @@ msgstr "Neuer Link"
 msgid "New Mail Template"
 msgstr "Neue E-Mail-Vorlage"
 
-#: onedesk/public/js/settings.js:638
+#: onedesk/public/js/settings.js:638 onedesk/www/update-password.html:37
 msgid "New Password"
 msgstr "Neues Passwort"
 
@@ -11908,7 +11920,7 @@ msgstr "Keine Zustimmung nötig."
 msgid "No approvals"
 msgstr "Keine Genehmigungen"
 
-#: onedesk/www/third_party_apps.html:52
+#: onedesk/www/third_party_apps.html:51
 msgid "No apps"
 msgstr "Keine Apps"
 
@@ -12343,7 +12355,7 @@ msgstr "Nicht geschätzt"
 msgid "Not Found"
 msgstr ""
 
-#: onedesk/one/portal.py:458 onedesk/www/message.html:11
+#: onedesk/one/portal.py:464 onedesk/www/message.html:11
 #: onedesk/www/message.html:22 onedesk/www/message.html:25
 msgid "Not Permitted"
 msgstr ""
@@ -12420,7 +12432,7 @@ msgstr "Nicht geschlossen"
 msgid "Not counted yet"
 msgstr "Noch nicht gezählt"
 
-#: onedesk/one/privacy.py:169
+#: onedesk/one/privacy.py:177
 msgid "Not deleted"
 msgstr "Nicht gelöscht"
 
@@ -12726,7 +12738,7 @@ msgid "Nudge"
 msgstr "Erinnerung"
 
 #. Label of the number (Data) field in DocType 'Employee Document'
-#: onedesk/one/portal.py:86
+#: onedesk/one/portal.py:76
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:130
 #: onedesk/public/js/settings.js:1752
@@ -12850,6 +12862,10 @@ msgstr "Angebot"
 #: onedesk/one_admin/report/price_check/price_check.py:67
 msgid "Offerings"
 msgstr "Angebote"
+
+#: onedesk/www/update-password.html:29
+msgid "Old Password"
+msgstr ""
 
 #: onedesk/one/ai.py:3825 onedesk/one/ai.py:4045 onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
@@ -14217,7 +14233,7 @@ msgid "Pages"
 msgstr "Seiten"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
-#: onedesk/one/portal.py:353 onedesk/one_admin/accounts.py:229
+#: onedesk/one/portal.py:359 onedesk/one_admin/accounts.py:229
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:117
@@ -14371,12 +14387,14 @@ msgstr "Passkey zurückgesetzt"
 
 #. Label of the password (Password) field in DocType 'Cloud Link'
 #. Label of the password (Password) field in DocType 'Cloud Mount'
+#: onedesk/one/portal.py:68
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1435 onedesk/public/js/onecloud.js:1593
 #: onedesk/public/js/onecloud.js:1797 onedesk/public/js/onemail.js:879
 #: onedesk/public/js/settings.js:509 onedesk/public/js/settings.js:581
-#: onedesk/www/s.html:46
+#: onedesk/www/s.html:46 onedesk/www/update-password.html:9
+#: onedesk/www/update-password.html:19
 msgid "Password"
 msgstr "Passwort"
 
@@ -14944,8 +14962,8 @@ msgstr "Policennummer"
 msgid "Port"
 msgstr "Port"
 
-#: onedesk/templates/includes/one_portal_head.html:28
-#: onedesk/templates/includes/one_portal_sidebar.html:30
+#: onedesk/templates/includes/one_portal_head.html:31
+#: onedesk/templates/includes/one_portal_sidebar.html:28
 #: onedesk/www/portal.html:6
 msgid "Portal"
 msgstr ""
@@ -15175,7 +15193,7 @@ msgid "Priority"
 msgstr ""
 
 #: onedesk/one_legal/gate.py:40 onedesk/public/js/login.js:92
-#: onedesk/www/start.html:74 onedesk/www/your_data.html:49
+#: onedesk/www/start.html:74 onedesk/www/your_data.html:155
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
@@ -15212,9 +15230,9 @@ msgid "Professional Tax Deductions"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/settings.py:34 onedesk/one/settings.py:1101
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/settings.js:1136
-#: onedesk/public/js/settings.js:1291
+#: onedesk/one/portal.py:67 onedesk/one/settings.py:34
+#: onedesk/one/settings.py:1101 onedesk/one/sidebar/one/one.json
+#: onedesk/public/js/settings.js:1136 onedesk/public/js/settings.js:1291
 #: onedesk/templates/includes/one_account_tabs.html:5
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
 msgid "Profile"
@@ -15238,7 +15256,7 @@ msgstr "Gewinn diesen Monat"
 msgid "Profit and Loss"
 msgstr ""
 
-#: onedesk/one/portal.py:87 onedesk/public/js/onecloud.js:340
+#: onedesk/one/portal.py:77 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:650 onedesk/www/projects.html:33
 msgid "Progress"
 msgstr ""
@@ -15247,7 +15265,7 @@ msgstr ""
 msgid "Progress…"
 msgstr "Fortschritt…"
 
-#: onedesk/one/portal.py:87
+#: onedesk/one/portal.py:77
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
@@ -15556,15 +15574,15 @@ msgstr "Angebot erhalten"
 msgid "Quote Request Sent"
 msgstr "Angebotsanfrage gesendet"
 
-#: onedesk/one/portal.py:48
+#: onedesk/one/portal.py:38
 msgid "Quote Requests"
 msgstr "Angebotsanfragen"
 
-#: onedesk/one/portal.py:419 onedesk/templates/includes/transaction_row.html:12
+#: onedesk/one/portal.py:425 onedesk/templates/includes/transaction_row.html:12
 msgid "Quoted"
 msgstr "Angeboten"
 
-#: onedesk/one/portal.py:49
+#: onedesk/one/portal.py:38
 msgid "Quotes"
 msgstr "Angebote"
 
@@ -16081,6 +16099,10 @@ msgstr "Datensätze können keine Ordner enthalten."
 msgid "Records the workspace keeps, such as invoices and tasks, stay without your name and address. HR keeps your employee record, if you have one."
 msgstr "Datensätze, die der Arbeitsbereich behält, etwa Rechnungen und Aufgaben, bleiben ohne Ihren Namen und Ihre Adresse. Ihre Personalakte, falls vorhanden, behält die Personalabteilung."
 
+#: onedesk/www/your_data.html:91
+msgid "Records the workspace keeps, such as invoices, stay without your name and address."
+msgstr "Datensätze, die der Arbeitsbereich behält, etwa Rechnungen, bleiben ohne Ihren Namen und Ihre Adresse erhalten."
+
 #: onedesk/one/privacy_copy.py:48
 msgid "Records you changed, without the values"
 msgstr "Datensätze, die Sie geändert haben, ohne die Werte"
@@ -16473,7 +16495,7 @@ msgstr "Neubuchung fehlgeschlagen"
 msgid "Request"
 msgstr "Anfrage"
 
-#: onedesk/public/js/settings.js:287
+#: onedesk/public/js/settings.js:287 onedesk/www/your_data.html:97
 msgid "Request Deletion"
 msgstr "Löschung anfordern"
 
@@ -16481,11 +16503,11 @@ msgstr "Löschung anfordern"
 msgid "Request For Quotation"
 msgstr ""
 
-#: onedesk/public/js/settings.js:256
+#: onedesk/public/js/settings.js:256 onedesk/www/your_data.html:38
 msgid "Request My Data"
 msgstr "Meine Daten anfordern"
 
-#: onedesk/public/js/settings.js:256
+#: onedesk/public/js/settings.js:256 onedesk/www/your_data.html:38
 msgid "Request New Copy"
 msgstr "Neue Kopie anfordern"
 
@@ -16498,7 +16520,7 @@ msgstr "Urlaub beantragen"
 msgid "Request links"
 msgstr "Anfragelinks"
 
-#: onedesk/one/portal.py:53 onedesk/public/js/onecloud.js:1687
+#: onedesk/public/js/onecloud.js:1687
 msgid "Request sent"
 msgstr "Anfrage gesendet"
 
@@ -16508,11 +16530,11 @@ msgstr "Anfrage gesendet"
 msgid "Requested"
 msgstr "Angefordert"
 
-#: onedesk/public/js/settings.js:292
+#: onedesk/public/js/settings.js:292 onedesk/www/your_data.html:102
 msgid "Requested. You'll be notified of the decision."
 msgstr "Angefordert. Sie werden über die Entscheidung benachrichtigt."
 
-#: onedesk/public/js/settings.js:267
+#: onedesk/public/js/settings.js:267 onedesk/www/your_data.html:76
 msgid "Requested. You'll be notified when it's ready."
 msgstr "Angefordert. Sie werden benachrichtigt, sobald sie bereit ist."
 
@@ -16693,7 +16715,7 @@ msgstr "Geprüft am"
 msgid "Revision"
 msgstr "Revision"
 
-#: onedesk/www/third_party_apps.html:33 onedesk/www/third_party_apps.html:47
+#: onedesk/www/third_party_apps.html:32 onedesk/www/third_party_apps.html:46
 msgid "Revoke"
 msgstr "Widerrufen"
 
@@ -16939,7 +16961,7 @@ msgstr "Gleiches Format wie eine Serie."
 msgid "Save"
 msgstr "Speichern"
 
-#: onedesk/one/portal.py:50
+#: onedesk/one/portal.py:38
 msgid "Save Address"
 msgstr "Adresse speichern"
 
@@ -16956,6 +16978,7 @@ msgid "Save to My Files"
 msgstr "In Meinen Dateien speichern"
 
 #: onedesk/public/js/reports.js:406 onedesk/public/js/shell.js:516
+#: onedesk/website/doctype/web_form/templates/web_form.html:82
 msgid "Saved"
 msgstr "Gespeichert"
 
@@ -17016,7 +17039,7 @@ msgstr "Gib an, im Kopf welcher Art von Datensatz sie läuft."
 msgid "Say why it is withheld, so they know."
 msgstr "Sagen Sie, warum es zurückgehalten wird, damit die Person es weiß."
 
-#: onedesk/one/privacy.py:273
+#: onedesk/one/privacy.py:281
 msgid "Say why, so they know."
 msgstr "Sagen Sie warum, damit die Person es weiß."
 
@@ -17181,10 +17204,6 @@ msgstr "Prompt senden"
 msgid "Send Quote"
 msgstr "Angebot senden"
 
-#: onedesk/one/portal.py:52
-msgid "Send Request"
-msgstr "Anfrage senden"
-
 #: onedesk/public/js/settings.js:363
 msgid "Send Test"
 msgstr "Test senden"
@@ -17205,7 +17224,7 @@ msgstr "Code senden"
 msgid "Send files here"
 msgstr "Dateien hierher senden"
 
-#: onedesk/www/your_data.html:42
+#: onedesk/www/your_data.html:148
 msgid "Send me the link"
 msgstr "Link senden"
 
@@ -17231,7 +17250,7 @@ msgstr "Absender"
 msgid "Sender Email"
 msgstr ""
 
-#: onedesk/www/r.html:47 onedesk/www/s.html:107 onedesk/www/your_data.html:42
+#: onedesk/www/r.html:47 onedesk/www/s.html:107 onedesk/www/your_data.html:148
 msgid "Sending…"
 msgstr "Wird gesendet…"
 
@@ -17255,7 +17274,7 @@ msgstr "Vertraulichkeit"
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
-#: onedesk/one/portal.py:232
+#: onedesk/one/portal.py:238
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -17708,7 +17727,7 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
-#: onedesk/one/portal.py:331 onedesk/one/portal.py:399
+#: onedesk/one/portal.py:337 onedesk/one/portal.py:405
 msgid "Ship to"
 msgstr "Lieferung an"
 
@@ -17851,9 +17870,9 @@ msgstr "Mit einem Passkey anmelden"
 msgid "Sign in with a drive password, not your One password."
 msgstr "Melden Sie sich mit einem Laufwerkspasswort an, nicht mit Ihrem One-Passwort."
 
-#: onedesk/templates/includes/one_portal_head.html:21
-#: onedesk/templates/includes/one_portal_sidebar.html:26
-#: onedesk/www/account.html:18 onedesk/www/me.html:56
+#: onedesk/templates/includes/one_portal_head.html:24
+#: onedesk/templates/includes/one_portal_sidebar.html:24
+#: onedesk/www/account.html:18
 msgid "Sign out"
 msgstr "Abmelden"
 
@@ -18331,7 +18350,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
-#: onedesk/one/portal.py:86 onedesk/one/portal.py:87 onedesk/one/portal.py:88
+#: onedesk/one/portal.py:76 onedesk/one/portal.py:77 onedesk/one/portal.py:78
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -18554,6 +18573,10 @@ msgstr "Speichern und Zurücklesen einer Testdatei schlug fehl: {0}"
 msgid "Street Address"
 msgstr "Straße und Hausnummer"
 
+#: onedesk/www/update-password.html:38
+msgid "Strength:"
+msgstr "Stärke:"
+
 #. Label of the stripe_section (Section Break) field in DocType 'Offering'
 #. Label of the stripe_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -18685,7 +18708,7 @@ msgstr "Passende E-Rechnungen buchen"
 msgid "Submit {0} drafts?"
 msgstr "{0} Entwürfe buchen?"
 
-#: onedesk/one/portal.py:240
+#: onedesk/one/portal.py:246
 msgid "Submitted"
 msgstr ""
 
@@ -18706,7 +18729,7 @@ msgstr "Unterauftragsverarbeiter"
 msgid "Subscribe"
 msgstr "Abonnieren"
 
-#: onedesk/one/portal.py:335
+#: onedesk/one/portal.py:341
 msgid "Subtotal"
 msgstr "Zwischensumme"
 
@@ -19229,7 +19252,7 @@ msgstr "Das ist nicht durchgegangen."
 
 #: onedesk/templates/includes/one_account_pay.html:18
 #: onedesk/www/account_profile.html:57 onedesk/www/start.html:118
-#: onedesk/www/welcome.html:106 onedesk/www/your_data.html:83
+#: onedesk/www/welcome.html:106 onedesk/www/your_data.html:189
 msgid "That did not work. Try again in a moment."
 msgstr "Das hat nicht funktioniert. Versuchen Sie es gleich noch einmal."
 
@@ -19261,7 +19284,7 @@ msgstr "Das ist keine Rechnung dieses Arbeitsbereichs."
 msgid "That is not one of your memories."
 msgstr "Das ist keine deiner Erinnerungen."
 
-#: onedesk/one/closing.py:314 onedesk/one/privacy.py:169
+#: onedesk/one/closing.py:314 onedesk/one/privacy.py:177
 msgid "That is not your password."
 msgstr "Das ist nicht Ihr Passwort."
 
@@ -19433,7 +19456,7 @@ msgstr "Die Adresse, mit der sich der Arbeitsbereich in Links und E-Mails nennt.
 msgid "The address this workspace was given. It cannot be removed."
 msgstr "Die diesem Arbeitsbereich zugewiesene Adresse. Sie kann nicht entfernt werden."
 
-#: onedesk/www/your_data.html:25
+#: onedesk/www/your_data.html:131
 msgid "The address {0} knows you by. We mail a link to it, so only you can ask."
 msgstr "Die Adresse, unter der {0} Sie kennt. Wir senden einen Link dorthin, damit nur Sie fragen können."
 
@@ -20252,7 +20275,7 @@ msgstr "Der Arbeitsbereich schließt am {date}"
 msgid "The workspace could not be built. Somebody has been told and will be in touch."
 msgstr "Der Arbeitsbereich konnte nicht angelegt werden. Jemand wurde benachrichtigt und meldet sich."
 
-#: onedesk/www/your_data.html:49
+#: onedesk/www/your_data.html:155
 msgid "The workspace decides within a month, as the law requires. How One handles your data:"
 msgstr "Der Arbeitsbereich entscheidet innerhalb eines Monats, wie es das Gesetz verlangt. Wie One mit Ihren Daten umgeht:"
 
@@ -20268,7 +20291,7 @@ msgstr "Der Arbeitsbereich hat noch {balance} OneAI-Guthaben, etwa {days} Tage b
 msgid "The workspace is being built."
 msgstr "Der Arbeitsbereich wird erstellt."
 
-#: onedesk/one/privacy.py:149
+#: onedesk/one/privacy.py:157
 msgid "The workspace is billed to this account. Change who pays in Workspace › Plan and Credits first."
 msgstr "Der Arbeitsbereich wird über dieses Konto abgerechnet. Ändern Sie zuerst unter Arbeitsbereich › Plan und Guthaben, wer zahlt."
 
@@ -20524,8 +20547,8 @@ msgstr "Offen sind {outstanding} bei einem Limit von {limit}."
 msgid "Thinking…"
 msgstr "Denkt nach…"
 
-#: onedesk/www/me.html:50 onedesk/www/third_party_apps.html:8
-#: onedesk/www/third_party_apps.html:24 onedesk/www/third_party_apps.html:27
+#: onedesk/one/portal.py:70 onedesk/www/third_party_apps.html:8
+#: onedesk/www/third_party_apps.html:23 onedesk/www/third_party_apps.html:26
 msgid "Third Party Apps"
 msgstr "Drittanbieter-Apps"
 
@@ -20549,7 +20572,7 @@ msgstr "Dieser Arbeitsbereich"
 msgid "This account holds no workspace yet."
 msgstr "Dieses Konto hat noch keinen Arbeitsbereich."
 
-#: onedesk/one/privacy.py:89
+#: onedesk/one/privacy.py:97
 msgid "This account is not a person's."
 msgstr "Dieses Konto gehört keiner Person."
 
@@ -20577,7 +20600,7 @@ msgstr "Dieser Kalenderlink funktioniert nicht mehr."
 msgid "This can't be moved on the calendar."
 msgstr "Dies kann im Kalender nicht verschoben werden."
 
-#: onedesk/public/js/settings.js:281
+#: onedesk/public/js/settings.js:281 onedesk/www/your_data.html:91
 msgid "This can't be undone. Request a copy of your data first if you need one."
 msgstr "Dies kann nicht rückgängig gemacht werden. Fordern Sie vorher eine Kopie Ihrer Daten an, falls Sie eine brauchen."
 
@@ -20679,7 +20702,7 @@ msgstr "Dieser Link wurde bereits verwendet oder ist abgelaufen. Fordern Sie in 
 msgid "This link isn't valid"
 msgstr "Dieser Link ist ungültig"
 
-#: onedesk/one/privacy.py:222 onedesk/one/privacy_public.py:92
+#: onedesk/one/privacy.py:230 onedesk/one/privacy_public.py:92
 #: onedesk/one/privacy_public.py:168
 msgid "This link no longer works"
 msgstr "Dieser Link funktioniert nicht mehr"
@@ -20742,12 +20765,12 @@ msgstr "Diese Aufnahme ist bereits beendet."
 msgid "This request expired. Try again."
 msgstr "Diese Anfrage ist abgelaufen. Versuchen Sie es erneut."
 
-#: onedesk/one/portal.py:461 onedesk/public/js/onecloud.js:1739
+#: onedesk/one/portal.py:467 onedesk/public/js/onecloud.js:1739
 #: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr "Diese Anfrage ist geschlossen."
 
-#: onedesk/one/privacy.py:253 onedesk/one/privacy_copy.py:348
+#: onedesk/one/privacy.py:261 onedesk/one/privacy_copy.py:348
 msgid "This request is not waiting for a decision."
 msgstr "Diese Anfrage wartet nicht auf eine Entscheidung."
 
@@ -20807,7 +20830,7 @@ msgstr "Das war bereits {0}."
 msgid "This was shared with specific people. Enter your email to get a code."
 msgstr "Dies wurde mit bestimmten Personen geteilt. Geben Sie Ihre E-Mail-Adresse ein, um einen Code zu erhalten."
 
-#: onedesk/www/third_party_apps.html:40
+#: onedesk/www/third_party_apps.html:39
 msgid "This will log out {0} from all other devices"
 msgstr ""
 
@@ -20926,7 +20949,7 @@ msgid "Times opened"
 msgstr "Wie oft geöffnet"
 
 #. Label of a Sidebar Item
-#: onedesk/one/portal.py:88 onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one/portal.py:78 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
@@ -21008,12 +21031,12 @@ msgstr "Um es anzubieten, setzen Sie Manuell bepreist und fügen Sie seine Tarif
 msgid "To or Cc Contains"
 msgstr "An oder Cc enthält"
 
-#: onedesk/one/portal.py:355
+#: onedesk/one/portal.py:361
 #: onedesk/one_book/report/vat_return/vat_return.py:81
 msgid "To pay"
 msgstr "Zu zahlen"
 
-#: onedesk/one/portal.py:419 onedesk/templates/includes/transaction_row.html:12
+#: onedesk/one/portal.py:425 onedesk/templates/includes/transaction_row.html:12
 msgid "To quote"
 msgstr "Anzubieten"
 
@@ -21116,7 +21139,7 @@ msgstr "Zu viele E-Mails?"
 msgid "Too many tries in a minute. Wait a moment and try again."
 msgstr "Zu viele Versuche in einer Minute. Warten Sie einen Moment und versuchen Sie es erneut."
 
-#: onedesk/www/your_data.html:74
+#: onedesk/www/your_data.html:180
 msgid "Too many tries. Wait an hour and try again."
 msgstr "Zu viele Versuche. Warten Sie eine Stunde und versuchen Sie es erneut."
 
@@ -21126,7 +21149,7 @@ msgid "Top Preset"
 msgstr "Kopfvorlage"
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: onedesk/one/portal.py:86 onedesk/one/portal.py:348
+#: onedesk/one/portal.py:76 onedesk/one/portal.py:354
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:56
 #: onedesk/one_book/heads.py:316
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -21379,7 +21402,7 @@ msgstr "Zwei-Faktor-Anmeldung"
 #. Label of the kind (Data) field in DocType 'Stripe Webhook Event'
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
-#: onedesk/one/portal.py:89
+#: onedesk/one/portal.py:79
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -21843,7 +21866,7 @@ msgstr "Gültig ab"
 msgid "Valid Until"
 msgstr "Gültig bis"
 
-#: onedesk/one/portal.py:301
+#: onedesk/one/portal.py:307
 msgid "Valid until"
 msgstr "Gültig bis"
 
@@ -22697,7 +22720,7 @@ msgstr "Was würde diese Datenkopie enthalten, Art für Art, und ist etwas davon
 msgid "What would you like to do?"
 msgstr "Was möchten Sie tun?"
 
-#: onedesk/www/your_data.html:29
+#: onedesk/www/your_data.html:135
 msgid "What would you like?"
 msgstr "Was möchten Sie?"
 
@@ -23814,7 +23837,7 @@ msgstr "Zurückgezogen"
 msgid "Withheld"
 msgstr "Zurückgehalten"
 
-#: onedesk/public/js/settings.js:247
+#: onedesk/public/js/settings.js:247 onedesk/www/your_data.html:28
 msgid "Withheld: {0}"
 msgstr "Zurückgehalten: {0}"
 
@@ -24328,7 +24351,7 @@ msgstr "Sie"
 msgid "You are outside every location this shift may check in from."
 msgstr "Sie befinden sich außerhalb aller Orte, von denen diese Schicht einchecken darf."
 
-#: onedesk/www/your_data.html:19
+#: onedesk/www/your_data.html:125
 msgid "You are signed in. Ask from your profile instead, under Your Data."
 msgstr "Sie sind angemeldet. Fragen Sie stattdessen in Ihrem Profil unter „Ihre Daten“."
 
@@ -24458,15 +24481,15 @@ msgstr "Sie dürfen {0} nicht ausführen."
 msgid "You may not {0} {1}."
 msgstr "Sie dürfen {1} nicht {0}."
 
-#: onedesk/www/me.py:14
+#: onedesk/www/me.py:16
 msgid "You need to be logged in to access this page"
 msgstr ""
 
-#: onedesk/public/js/settings.js:245
+#: onedesk/public/js/settings.js:245 onedesk/www/your_data.html:24
 msgid "You requested a copy {0}. It's waiting for approval."
 msgstr "Sie haben {0} eine Kopie angefordert. Sie wartet auf Freigabe."
 
-#: onedesk/public/js/settings.js:250
+#: onedesk/public/js/settings.js:250 onedesk/www/your_data.html:51
 msgid "You requested account deletion {0}. It's waiting for approval."
 msgstr "Sie haben {0} die Löschung Ihres Kontos angefordert. Sie wartet auf Freigabe."
 
@@ -24478,11 +24501,11 @@ msgstr "Sie melden sich mit {0} an, und dorthin gehen Rechnungen und Zahlungshin
 msgid "You started setting up {workspace} on One but didn't finish paying. The name is held for you for a week.<br><br><a href=\"{link}\">Finish signing up</a><br><br>If you changed your mind, there's nothing to do. If something went wrong, reply to this email."
 msgstr "Sie haben begonnen, {workspace} auf One einzurichten, aber die Zahlung nicht abgeschlossen. Der Name ist eine Woche für Sie reserviert.<br><br><a href=\"{link}\">Anmeldung abschließen</a><br><br>Wenn Sie es sich anders überlegt haben, müssen Sie nichts tun. Wenn etwas schiefgelaufen ist, antworten Sie auf diese E-Mail."
 
-#: onedesk/public/js/settings.js:285
+#: onedesk/public/js/settings.js:285 onedesk/www/your_data.html:95
 msgid "You'll get an email with a link to confirm."
 msgstr "Sie erhalten eine E-Mail mit einem Bestätigungslink."
 
-#: onedesk/one/privacy.py:145
+#: onedesk/one/privacy.py:153
 msgid "You're the only administrator. Make someone else an administrator first."
 msgstr "Sie sind der einzige Administrator. Machen Sie zuerst jemand anderen zum Administrator."
 
@@ -24490,7 +24513,7 @@ msgstr "Sie sind der einzige Administrator. Machen Sie zuerst jemand anderen zum
 msgid "You've already asked. An administrator is reviewing it."
 msgstr "Sie haben bereits angefragt. Ein Administrator prüft die Anfrage."
 
-#: onedesk/one/privacy.py:163
+#: onedesk/one/privacy.py:171
 msgid "You've already asked. An administrator will decide."
 msgstr "Sie haben bereits angefragt. Ein Administrator entscheidet."
 
@@ -24498,13 +24521,9 @@ msgstr "Sie haben bereits angefragt. Ein Administrator entscheidet."
 msgid "You've sent everything. You can still replace a file."
 msgstr "Sie haben alles gesendet. Sie können eine Datei weiterhin ersetzen."
 
-#: onedesk/one/portal.py:136 onedesk/templates/includes/one_portal_head.html:18
-#: onedesk/templates/includes/one_portal_sidebar.html:23 onedesk/www/me.html:8
-#: onedesk/www/me.html:21 onedesk/www/third_party_apps.html:22
-msgid "Your Account"
-msgstr "Ihr Konto"
-
-#: onedesk/public/js/login.js:91 onedesk/public/js/settings.js:212
+#: onedesk/one/portal.py:69 onedesk/public/js/login.js:91
+#: onedesk/public/js/settings.js:212 onedesk/www/your_data.html:18
+#: onedesk/www/your_data.py:24
 msgid "Your Data"
 msgstr "Ihre Daten"
 
@@ -24544,6 +24563,7 @@ msgid "Your One account, the workspace's first administrator, and where the rece
 msgstr "Ihr One-Konto, der erste Administrator des Arbeitsbereichs und wohin die Quittung geht."
 
 #: onedesk/public/js/settings.js:284 onedesk/public/js/settings.js:1716
+#: onedesk/www/your_data.html:94
 msgid "Your Password"
 msgstr "Ihr Passwort"
 
@@ -24595,7 +24615,7 @@ msgstr "Ihr Code für {file}"
 msgid "Your code is <b>{code}</b>. It expires in 10 minutes."
 msgstr "Ihr Code lautet <b>{code}</b>. Er läuft in 10 Minuten ab."
 
-#: onedesk/www/your_data.html:32
+#: onedesk/www/your_data.html:138
 msgid "Your contact details, the records with your address, and the mail with you, except what would show somebody else's or the company's confidential information. You are told what is left out and why."
 msgstr "Ihre Kontaktdaten, die Datensätze mit Ihrer Adresse und die E-Mails mit Ihnen, außer was vertrauliche Informationen anderer oder des Unternehmens zeigen würde. Sie erfahren, was weggelassen wurde und warum."
 
@@ -24607,19 +24627,15 @@ msgstr "Ihre Unterhaltungen"
 msgid "Your conversations with OneAI"
 msgstr "Ihre Unterhaltungen mit OneAI"
 
-#: onedesk/public/js/settings.js:247
+#: onedesk/public/js/settings.js:247 onedesk/www/your_data.html:28
 msgid "Your copy from {0} is ready."
 msgstr "Ihre Kopie von {0} ist fertig."
 
-#: onedesk/public/js/settings.js:246
+#: onedesk/public/js/settings.js:246 onedesk/www/your_data.html:26
 msgid "Your copy is being prepared. You'll be notified when it's ready."
 msgstr "Ihre Kopie wird erstellt. Sie werden benachrichtigt, sobald sie bereit ist."
 
-#: onedesk/www/your_data.py:19
-msgid "Your data"
-msgstr "Ihre Daten"
-
-#: onedesk/www/your_data.html:15
+#: onedesk/www/your_data.html:121
 msgid "Your data at {0}"
 msgstr "Ihre Daten bei {0}"
 
@@ -24643,7 +24659,7 @@ msgstr "Ihre Desk-Sitzung ist von einer anderen Adresse aus angemeldet."
 msgid "Your domain, such as office.example.com"
 msgstr "Ihre Domain, etwa office.example.com"
 
-#: onedesk/www/s.html:62 onedesk/www/your_data.html:23
+#: onedesk/www/s.html:62 onedesk/www/your_data.html:129
 msgid "Your email address"
 msgstr "Ihre E-Mail-Adresse"
 
@@ -24663,7 +24679,7 @@ msgstr "Ihr Vorstellungsgespräch wurde auf {when} verschoben"
 msgid "Your interview is at {when}"
 msgstr "Ihr Vorstellungsgespräch ist am {when}"
 
-#: onedesk/www/your_data.html:36
+#: onedesk/www/your_data.html:142
 msgid "Your name and address are taken out of its records. What the law makes it keep, such as invoices, stays; if it has to wait, you are told why."
 msgstr "Ihr Name und Ihre Adresse werden aus den Datensätzen entfernt. Was das Gesetz aufzubewahren verlangt, etwa Rechnungen, bleibt; muss gewartet werden, erfahren Sie den Grund."
 
@@ -24683,11 +24699,11 @@ msgstr "Dein Passwort wurde geändert"
 msgid "Your password was changed on {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
 msgstr "Dein Passwort wurde am {when} geändert, von {device} ({address}). Warst du das nicht, setze es jetzt auf der Anmeldeseite zurück und sag es deinem Administrator."
 
-#: onedesk/www/your_data.html:19
+#: onedesk/www/your_data.html:125
 msgid "Your profile"
 msgstr "Ihr Profil"
 
-#: onedesk/one/portal.py:305 onedesk/one/portal.py:306
+#: onedesk/one/portal.py:311 onedesk/one/portal.py:312
 msgid "Your reference"
 msgstr "Ihre Referenz"
 
@@ -24699,7 +24715,7 @@ msgstr "Ihre Referenz ist {0}. Antworten Sie auf unsere Mail und geben Sie sie a
 msgid "Your request for {shift} from {from_date} was {status}"
 msgstr "Ihr Antrag auf {shift} ab {from_date}: {status}"
 
-#: onedesk/one/privacy.py:232
+#: onedesk/one/privacy.py:240
 msgid "Your request is with your workspace's administrators. You will hear when they decide."
 msgstr "Ihre Anfrage liegt bei den Administratoren Ihres Arbeitsbereichs. Sie hören, wenn sie entscheiden."
 
@@ -26937,11 +26953,11 @@ msgstr "{0} nimmt seinen Wert von nirgendwo."
 msgid "{0} to decide"
 msgstr "{0} zu entscheiden"
 
-#: onedesk/one/portal.py:102
+#: onedesk/one/portal.py:92
 msgid "{0} to deliver"
 msgstr "{0} zu liefern"
 
-#: onedesk/one/portal.py:101
+#: onedesk/one/portal.py:91
 msgid "{0} to pay"
 msgstr "{0} zu bezahlen"
 

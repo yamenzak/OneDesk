@@ -1158,7 +1158,8 @@ a.one-portal__row:hover {
 	text-decoration: none;
 }
 
-.one-menu__item:hover {
+.one-menu__item:hover,
+.one-menu__item[aria-current="page"] {
 	background: var(--surface-gray-2);
 	color: var(--ink-gray-8);
 	text-decoration: none;
@@ -1413,7 +1414,9 @@ a.one-portal__row:hover {
 	align-items: center;
 	height: 28px;
 	padding: 0 10px;
+	border: 0;
 	border-radius: 8px;
+	cursor: pointer;
 	background: var(--surface-gray-2);
 	color: var(--ink-gray-8);
 	font-size: 14px;
@@ -1826,6 +1829,15 @@ a.one-portal__row:hover {
 	gap: 8px;
 }
 
+/* A field's label as frappe-ui's FormLabel draws it, as on Password. */
+.one-portal--form .web-form .control-label,
+.one-portal--form .web-form .form-group > label {
+	margin-bottom: 6px;
+	color: var(--ink-gray-5);
+	font-size: 12px;
+	font-weight: 400;
+}
+
 /* A section's heading in line with its fields' labels, as on a desk form. */
 .one-portal--form .web-form .section-head {
 	padding-inline: 15px;
@@ -2050,6 +2062,23 @@ a.one-portal__row:hover {
 		box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
 	}
 
+	/* frappe-ui's SidebarSection: its label at 12px ink-gray-5, the items under
+	 * it, set apart from the tabs above. */
+	.one-sidebar__section {
+		margin-top: 16px;
+	}
+
+	.one-sidebar__section h2 {
+		display: flex;
+		align-items: center;
+		height: 28px;
+		margin: 0;
+		padding: 0 8px;
+		color: var(--ink-gray-5);
+		font-size: 12px;
+		font-weight: 500;
+	}
+
 	/* frappe-ui's PageHeader: at least 48px, a hairline under it, the title
 	 * at text-lg, the search on the right; it stays as the page scrolls. */
 	.one-portal--app .one-page-head {
@@ -2186,4 +2215,111 @@ a.one-portal__row:hover {
 .one-item--danger .one-icon,
 .one-item--danger:hover {
 	color: var(--ink-red-7);
+}
+
+/* Password (www/update-password.html): frappe's Set Password fields in the
+ * portal's shell, each a FormLabel over frappe-ui's TextInput (subtle, md),
+ * the eye inside it, the strength beside the label and frappe's alerts above. */
+body:has(.one-password) .page-content-wrapper {
+	min-height: 0;
+	padding-top: 0;
+}
+
+.one-portal--app .one-input--text {
+	text-align: left;
+	font-variant-numeric: normal;
+}
+
+.one-password__form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-width: calc(24rem + 30px);
+	padding: 0 15px;
+}
+
+.one-password__form .form-group {
+	margin: 0;
+}
+
+.one-password__field label {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	margin: 0 0 6px;
+	color: var(--ink-gray-5);
+	font-size: 12px;
+}
+
+.one-password__field .password-field {
+	position: relative;
+}
+
+.one-password__field .one-input {
+	padding-right: 32px;
+}
+
+.one-password__field .toggle-password {
+	position: absolute;
+	top: 50%;
+	right: 8px;
+	transform: translateY(-50%);
+	color: var(--ink-gray-5);
+	cursor: pointer;
+}
+
+.one-password__field p {
+	margin: 6px 0 0;
+	color: var(--ink-gray-5);
+	font-size: 12px;
+}
+
+.one-password__field .password-mismatch-message.text-danger {
+	color: var(--ink-red-7);
+}
+
+.one-password .es-alert.hidden,
+.one-password .hidden {
+	display: none;
+}
+
+.one-password .password-strength-value {
+	font-weight: 500;
+}
+
+/* Your Data (www/your_data.html): each section's state, then its buttons;
+ * Delete My Account as frappe-ui's subtle red Button. */
+.one-data__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 0 8px;
+}
+
+.one-portal--app .one-btn.one-btn--red:not(.one-btn--solid) {
+	background: var(--surface-red-2);
+	color: var(--ink-red-7);
+}
+
+.one-portal--app .one-btn.one-btn--red:not(.one-btn--solid):hover {
+	background: var(--surface-red-3);
+}
+
+.one-portal--app .one-btn.one-btn--red .one-icon {
+	color: inherit;
+}
+
+/* The Account pages line up with the profile's frappe fields. */
+.one-data {
+	padding-inline: 7px;
+}
+
+/* frappe's Dialog on a portal page (Delete My Account): the field's tooltip
+ * text the desk hides stays hidden, and the action sits on the right. */
+body:has(.one-portal) .modal .frappe-control .tooltip-content {
+	display: none;
+}
+
+body:has(.one-portal) .modal .modal-footer {
+	justify-content: flex-end;
 }

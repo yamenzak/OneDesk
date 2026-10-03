@@ -238,9 +238,20 @@ def test_every_page_outside_the_desk_wears_the_portal():
 	"Powered by ERPNext"."""
 	pages = sorted((tree.APP / "www").glob("*.html"))
 	assert pages
+	# me.html is never drawn: me.py sends everybody on (a portal reader to
+	# their Profile), and the file is there so frappe's own /me is not found.
+	never_drawn = {"me.html"}
 	for page in pages:
+		if page.name in never_drawn:
+			assert "frappe.Redirect" in (page.parent / "me.py").read_text(encoding="utf-8")
+			continue
 		html = page.read_text(encoding="utf-8")
-		assert html.lstrip().startswith('{% extends "templates/web.html" %}'), f"{page.name} is not a web page"
+		# A page of frappe's own, extended by its app prefix (Set Password),
+		# keeps frappe's page for anyone the shell is not for.
+		frappes = f'{{% extends "frappe/www/{page.name}" %}}'
+		web = ('{% extends "templates/web.html" %}', frappes)
+		assert html.lstrip().startswith(web), f"{page.name} is not a web page"
 		assert 'class="one-portal' in html, f"{page.name} is not in the portal's look"
-		assert "{%- block footer -%}{%- endblock -%}" in html, f"{page.name} keeps frappe's footer"
+		no_footer = "{%- block footer -%}{%- endblock -%}" in html or frappes in html
+		assert no_footer, f"{page.name} keeps frappe's footer"
 		assert "<style" not in html, f"{page.name} styles itself; portal.css does"

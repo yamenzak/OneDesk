@@ -6,6 +6,112 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
+{%- if one_shell %}
+{%- set copy = privacy["copy"] %}
+{%- set deletion = privacy["deletion"] %}
+{%- set asking = copy and copy.status in ("Waiting", "Gathering") %}
+<div class="one-portal one-portal--wide one-portal--app">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
+	{% include "templates/includes/one_portal_head.html" %}
+	<div class="one-page-head">
+		<h1>{{ _("Your Data") }}</h1>
+	</div>
+	<div class="one-portal__body">
+		<section class="one-section one-data">
+			<h2>{{ _("Copy of Your Data") }}</h2>
+			{%- if copy and copy.status == "Waiting" %}
+			<p class="one-message">{{ _("You requested a copy {0}. It's waiting for approval.").format(frappe.utils.pretty_date(copy.on)) }}</p>
+			{%- elif copy and copy.status == "Gathering" %}
+			<p class="one-message">{{ _("Your copy is being prepared. You'll be notified when it's ready.") }}</p>
+			{%- elif copy and copy.ready %}
+			<p class="one-message">{{ _("Your copy from {0} is ready.").format(frappe.utils.pretty_date(copy.on)) }}{% if copy.withheld %} {{ _("Withheld: {0}").format(copy.withheld | e) }}{% endif %}</p>
+			{%- endif %}
+			<div class="one-data__actions">
+				{%- if copy and copy.ready %}
+				<a class="one-btn" href="{{ copy.url | e }}" download>
+					<svg class="one-icon" aria-hidden="true"><use href="#icon-download"></use></svg>{{ _("Download My Data") }}
+				</a>
+				{%- endif %}
+				{%- if not asking %}
+				<button type="button" class="one-btn" data-one-copy>
+					<svg class="one-icon" aria-hidden="true"><use href="#icon-file-down"></use></svg>{{ _("Request New Copy") if copy and copy.ready else _("Request My Data") }}
+				</button>
+				{%- endif %}
+			</div>
+		</section>
+
+		<section class="one-section one-data">
+			<h2>{{ _("Delete Account") }}</h2>
+			{%- if deletion and deletion.status == "On Hold" %}
+			<p class="one-message">{{ _("Account deletion is on hold. {0}").format(deletion.why or "") | e }}</p>
+			{%- elif deletion and deletion.status == "Pending Verification" %}
+			<p class="one-message">{{ _("Check your email to confirm deleting your account.") }}</p>
+			{%- elif deletion %}
+			<p class="one-message">{{ _("You requested account deletion {0}. It's waiting for approval.").format(frappe.utils.pretty_date(deletion.on)) }}</p>
+			{%- endif %}
+			<div class="one-data__actions">
+				{%- if deletion %}
+				<button type="button" class="one-btn" data-one-withdraw>
+					<svg class="one-icon" aria-hidden="true"><use href="#icon-undo-2"></use></svg>{{ _("Cancel Deletion") }}
+				</button>
+				{%- else %}
+				<button type="button" class="one-btn one-btn--red" data-one-delete>
+					<svg class="one-icon" aria-hidden="true"><use href="#icon-user-x"></use></svg>{{ _("Delete My Account") }}
+				</button>
+				{%- endif %}
+			</div>
+		</section>
+	</div>
+	</div>
+</div>
+<script>
+frappe.ready(() => {
+	// The same calls as You › Profile › Your Data on the desk (one/privacy.py,
+	// one/privacy_copy.py); the page is drawn again from the server after each.
+	const again = () => window.location.reload();
+	const on = (name, run) => document.querySelector(`[data-one-${name}]`)?.addEventListener("click", run);
+	on("copy", async () => {
+		await frappe.xcall("onedesk.one.privacy_copy.ask");
+		frappe.show_alert({ message: __("Requested. You'll be notified when it's ready."), indicator: "green" });
+		setTimeout(again, 1200);
+	});
+	on("withdraw", async () => {
+		await frappe.xcall("onedesk.one.privacy.withdraw");
+		frappe.show_alert({ message: __("Deletion cancelled"), indicator: "green" });
+		setTimeout(again, 1200);
+	});
+	on("delete", () => {
+		const password = {{ privacy.password | tojson }};
+		const dialog = new frappe.ui.Dialog({
+			title: __("Delete My Account"),
+			fields: [
+				{
+					fieldtype: "HTML",
+					options: `<p>${__("An administrator reviews the request. Then you're signed out and your account is turned off.")} ${__("Records the workspace keeps, such as invoices, stay without your name and address.")}</p><p>${__("This can't be undone. Request a copy of your data first if you need one.")}</p>`,
+				},
+				password
+					? { fieldname: "password", fieldtype: "Password", label: __("Your Password"), reqd: 1 }
+					: { fieldtype: "HTML", options: `<p>${__("You'll get an email with a link to confirm.")}</p>` },
+			],
+			primary_action_label: __("Request Deletion"),
+			primary_action: async ({ password: typed }) => {
+				await frappe.xcall("onedesk.one.privacy.ask_to_delete", { password: typed });
+				dialog.hide();
+				frappe.show_alert({
+					message: password ? __("Requested. You'll be notified of the decision.") : __("Check your email to confirm."),
+					indicator: "orange",
+				});
+				setTimeout(again, 1200);
+			},
+		});
+		dialog.show();
+	});
+	// A copy made ready, or a decision, while the page is open.
+	frappe.realtime.on("one_privacy", again);
+});
+</script>
+{%- else %}
 <div class="one-portal">
 	<a class="one-portal__mark" href="/">
 		<img src="/assets/onedesk/images/one.svg" alt="">
@@ -106,4 +212,9 @@
 	});
 })();
 </script>
+{%- endif %}
 {% endblock %}
+
+{#- frappe's controls, for the Password field in Delete My Account's dialog:
+    after frappe's own scripts, which bring jQuery. -#}
+{% block script %}{{ super() }}{% if one_shell %}{{ include_script("controls.bundle.js") }}{% endif %}{% endblock %}

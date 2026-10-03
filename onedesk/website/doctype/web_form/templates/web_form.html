@@ -40,26 +40,51 @@
 	{%- set named = one_portal_title(doc_type, doc_name) if not is_new else "" %}
 	{%- if here %}
 	// The head reads as Breadcrumbs: the tab the form is under, back to its
-	// list, then the record by its title, or frappe's own for a new one.
+	// list, then the record by its title, or frappe's own for a new one. An
+	// Account page (Profile) is headed by its name alone.
 	const head = document.querySelector(".web-form-title");
 	if (head) {
+		const crumb = document.createElement("h1");
+		{%- if here.account %}
+		crumb.textContent = {{ here.title | tojson }};
+		head.replaceChildren(crumb);
+		{%- else %}
 		const tab = Object.assign(document.createElement("a"), {
 			href: {{ here.route | tojson }},
 			textContent: {{ here.title | tojson }},
 		});
-		const crumb = document.createElement("h1");
 		crumb.append(tab);
 		const record = Object.assign(document.createElement("p"), {
 			textContent: {{ (named or title or "") | tojson }},
 		});
 		head.replaceChildren(crumb, record);
+		{%- endif %}
 	}
 	{%- endif %}
 	// Saved into a portal list: back to it at once, not after frappe's
-	// five-second page. A form whose thanks says something (account deletion:
-	// check your email) keeps frappe's page.
+	// five-second page.
 	const saved = document.querySelector(".success-page");
-	{%- if success_url and success_url in (one_portal_tabs() | map(attribute="route") | list) %}
+	{%- if here and here.account %}
+	// An Account page stays where it is once saved, as a desk form does, and
+	// says so: frappe's thanks would send the reader away after five seconds.
+	saved && new MutationObserver(() => {
+		if (saved.classList.contains("hide")) return;
+		try {
+			sessionStorage.setItem("one-saved", "1");
+		} catch (e) {
+			// No storage: reloaded without the word.
+		}
+		window.location.reload();
+	}).observe(saved, { attributes: true, attributeFilter: ["class"] });
+	try {
+		if (sessionStorage.getItem("one-saved")) {
+			sessionStorage.removeItem("one-saved");
+			frappe.ready(() => frappe.show_alert({ message: __("Saved"), indicator: "green" }));
+		}
+	} catch (e) {
+		// No storage, nothing to say.
+	}
+	{%- elif success_url and success_url in (one_portal_tabs() | map(attribute="route") | list) %}
 	saved && new MutationObserver(() => {
 		if (!saved.classList.contains("hide")) window.location.href = {{ success_url | tojson }};
 	}).observe(saved, { attributes: true, attributeFilter: ["class"] });

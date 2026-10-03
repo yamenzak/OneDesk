@@ -1589,15 +1589,19 @@ follows their projects: how far along each is, when it ends, its tasks and
 its order and invoices. Timesheets show the hours worked for them, one row
 per timesheet.
 
-**Your Account**, in the menu under their name, shows their name and email
-and leads to:
+Their own pages are under **Account** in the sidebar (in the menu under
+their initials on a phone):
 
-- **Edit Profile**: their name, phone, language and time zone.
-- **Change Password**: asks for the old password first.
+- **Profile**: their name, picture, phone, language and time zone. **Save**
+  keeps them on the page.
+- **Password**: their old password, then the new one twice.
+- **Your Data**: **Request My Data** asks for a copy, which an administrator
+  reviews first; when it is ready, **Download My Data**. **Delete My
+  Account** asks for the account to be deleted, confirmed with their
+  password, and an administrator decides (Workspace › Account Deletions).
+  **Cancel Deletion** withdraws it until then.
 - **Third Party Apps**: shown once they have let an app sign in for them.
   **Revoke** signs the app out.
-- **Delete Account**: they confirm by email, and the request waits in
-  Workspace › Account Deletions for an administrator to approve.
 
 ## Asking OneAI
 

@@ -93,12 +93,12 @@ def test_frappes_error_pages_are_ones():
 	assert "frappe.ui.make_app_page({ parent: wrapper, single_column: true });" in js
 	assert "frappe.views.pageview.show = function (name)" in js
 	www = tree.APP / "www"
-	for page in ("404", "message", "error", "me"):
+	for page in ("404", "message", "error"):
 		assert "one-portal" in (www / f"{page}.html").read_text(), page
 	assert "return message.get_context(context)" in (www / "message.py").read_text()
 	assert "context.http_status_code = 404" in (www / "404.py").read_text()
 	me = (www / "me.py").read_text()
-	assert '"/desk/settings?section=profile"' in me and '"/account"' in me
+	assert '"/desk/settings?section=profile"' in me and '"/account"' in me and "/update-profile/" in me
 	# The passkey button is the sign-in card's, not Set Password's.
 	assert '".for-login .page-card-body"' in (tree.APP / "public" / "js" / "login.js").read_text()
 

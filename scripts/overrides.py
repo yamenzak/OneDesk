@@ -417,11 +417,18 @@ OVERRIDES = [
 		'<div class="web-form-container">',
 	),
 	(
-		"A portal user's own account is One's page",
-		"frappe's /me is a card of links that sends a customer's or supplier's contact to Third Party Apps whether or not they let one in; onedesk/www/me.html is found first and draws Your Account in the portal's shell, with Edit Profile, Change Password, Third Party Apps once an app is let in, Sign out and Delete Account",
+		"A portal user's /me is their Profile",
+		"frappe's /me is a card of links that sends a customer's or supplier's contact to Third Party Apps whether or not they let one in; onedesk/www/me.html is found first and is never drawn, since me.py sends a portal reader to their Profile, the first of the portal's Account pages",
 		"onedesk/www/me.html",
 		"frappe/frappe/www/me.html",
 		'{{ _("My Account") }}',
+	),
+	(
+		"Set Password is the portal's Password page for a portal reader signed in",
+		"frappe's page is a sign-in card with Back to sign in; onedesk/www/update-password.html extends it by its app prefix and, for a portal reader signed in without a reset key, draws the same fields in the portal's shell with Change Password in the head, so frappe's script, checks and call run as they are",
+		"onedesk/www/update-password.html",
+		"frappe/frappe/www/update-password.html",
+		'<a href="/login" class="text-p-sm-semibold text-ink-gray-6">{{ _("Back to sign in") }}</a>',
 	),
 	(
 		"Third Party Apps is One's page on frappe's context",
