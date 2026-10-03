@@ -312,7 +312,10 @@ def sidebars() -> dict:
 	"""The reader's sidebars as frappe's boot has them, to swap in."""
 	from frappe.desk.doctype.custom_sidebar.custom_sidebar import module_payload
 
+	from onedesk.one import outside
+
 	said = module_payload()
+	outside.kept(said)
 	reported(said.get("module_sidebars"))
 	return said
 

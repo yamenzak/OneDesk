@@ -13,12 +13,11 @@ a time: **OneProject**, **OneCRM**, **OneBook**, **OneInventory**, **OneHR**,
 
 ## Frappe's desk that One has not replaced yet
 
-The eleven gaps in `docs/DESK-COVERAGE.md` (The desk around the doctypes):
-frappe's own records leaving One's rail, frappe's and erpnext's workspaces
-still opening, the apps screen after sign-in, records opened cold, menu items
-that end on a System Manager's screen, frappe's furniture editors, erpnext's
-Help, the Communication inbox, search, frappe's error pages, and four of
-frappe's reports.
+Gaps 5 to 11 in `docs/DESK-COVERAGE.md` (The desk around the doctypes): menu
+items that end on a System Manager's screen, frappe's furniture editors,
+erpnext's Help, the Communication inbox, search's pages and reports, frappe's
+error pages, and four of frappe's reports. Gaps 1 to 4 are done
+(`one/outside.py`).
 
 ## Frappe that One does not reach yet (P3)
 

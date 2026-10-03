@@ -113,6 +113,13 @@ $(document).on("app_ready", () =>
 // opens instead.
 frappe.re_route["automation"] = "automation-flow";
 
+// Frappe's, erpnext's and hrms's own workspaces are out of the boot (one/outside.py),
+// so their addresses, and frappe's apps screen after signing in, go to One's Home.
+if (frappe.boot.one_elsewhere) {
+	for (const slug of frappe.boot.one_elsewhere) frappe.re_route[slug] = "one";
+	frappe.re_route[""] = "one";
+}
+
 // Clocking in belongs in the rail rather than at the end of a route. It is the
 // one HR act that happens twice a day for everybody, and making it a
 // destination — rail, Time, Check-ins, New — puts four decisions in front of a

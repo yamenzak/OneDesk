@@ -14,7 +14,19 @@ import frappe
 ADMIN_APPS = ("frappe",)
 
 
+def platform() -> bool:
+	"""Whether the reader is the platform's own (System Manager), who keeps
+	frappe's whole desk. Nobody on a workspace is."""
+	return "System Manager" in frappe.get_roles()
+
+
 def boot_session(bootinfo) -> None:
+	# One's sidebars and workspaces, not frappe's, erpnext's or hrms's; see
+	# one/outside.py.
+	from onedesk.one import outside
+
+	outside.keep(bootinfo)
+
 	# A report or dashboard is called what the rail called it; see one/titles.py.
 	from onedesk.one import titles
 
@@ -72,7 +84,7 @@ def boot_session(bootinfo) -> None:
 
 		bootinfo["one_steps"] = {name: str(said) for name, said in steps.SAID.items()}
 
-	if "System Manager" in frappe.get_roles():
+	if platform():
 		return
 
 	for app in bootinfo.get("app_data") or []:

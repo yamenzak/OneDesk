@@ -216,21 +216,19 @@ menu items, the composer, the print page's sidebar, the dashboard and
 workflow builder rails, the setup wizard, the theme dialog and Getting
 Started. What is left, the most visible first:
 
-1. **Frappe's own records leave One's rail.** ToDo, Notification Log,
-   Notification Settings, Address, File, Communication, User, Print Settings
-   and Print Format open in frappe's own sidebars (Build, Contacts, Data,
-   Email, Users, Printing), because they belong to the Framework app. The
-   everyday doors: the bell's gear and its "See all", Assign To and ToDo, an
-   address on a customer, the print page's Print Settings.
-2. **Frappe's, erpnext's and hrms's workspaces still open** by address and
-   through search (Ctrl+K): erpnext's Home for everybody, Accounting,
-   Selling, Payroll, Build, System. Only `/desk/automation` is sent to One.
-3. **Every sign-in lands on frappe's apps screen** (`/desk`, one tile). One
-   sets no landing page. Its avatar menu still has Edit Profile (frappe's
-   User form), About and Frappe Support.
-4. **An erpnext or hrms record opened cold** (a reload, a mail link) that no
-   One sidebar lists falls to erpnext's or hrms's module sidebar. Opened from
-   inside One, One's sidebar holds.
+1. ~~**Frappe's own records leave One's rail.**~~ **Done** (`one/outside.py`):
+   the boot carries One's sidebars only, One's first, for everyone but the
+   platform's own people. ToDo, Notification Log, Address, User, File,
+   Communication and Print Settings open in the One sidebar they were reached
+   from, or One's when opened cold.
+2. ~~**Frappe's, erpnext's and hrms's workspaces still open.**~~ **Done**: out
+   of the boot, so search no longer offers them, and their addresses go to
+   One's Home (`one_elsewhere`, desk.js). A private workspace can no longer
+   be made.
+3. ~~**Every sign-in lands on frappe's apps screen.**~~ **Done**: `/desk`
+   goes to One's Home, so the apps screen and its avatar menu never show.
+4. ~~**An erpnext or hrms record opened cold.**~~ **Done**: with their
+   sidebars out of the boot, it opens in One's.
 5. **Menu items that end on a screen only a System Manager can open:**
    Import on 47 kinds of record (Data Import), Help › System Health, View
    Audit Trail on an amended record, and Setup Auto Email and Print Settings

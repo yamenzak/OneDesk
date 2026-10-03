@@ -6020,6 +6020,27 @@ keeps its record's title (a `one_title` field on Deleted Document, set as the
 record is deleted and backfilled after migrate), so an extension reads "No
 Territory Indicator".
 
+### The desk around the doctypes (gaps 1 to 4)
+
+Your word: "Yes", to starting with the four that came from the same place.
+The audit (`docs/DESK-COVERAGE.md`) found frappe still booting all 46 of its,
+erpnext's and hrms's sidebars and 35 workspaces for every person, and its
+sidebar resolver picking among them.
+
+- **Fixed** (`one/outside.py`): for everyone but the platform's own people,
+  the boot carries One's 15 sidebars, One's first, and One's workspaces. The
+  same holds when a sidebar is swapped in after a change (`reports.sidebars`).
+- **Fixed**: the addresses of the workspaces taken out, and `/desk` itself,
+  go to One's Home (`one_elsewhere`, desk.js). Signing in no longer shows
+  frappe's apps screen.
+- **Fixed**: a private workspace can no longer be made (`has_create_access`).
+- Checked in the browser as the workspace administrator and as Rania (an
+  ordinary user): `/desk`, Accounting, erpnext's Home and Build go to One's
+  Home; ToDo, Notification Log, Address, User, Quality Goal, Communication and
+  Print Settings open cold in One's sidebar; an address opened from
+  Customers keeps OneCRM's; search offers no erpnext workspace. The
+  Administrator keeps frappe's whole desk (51 sidebars).
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
