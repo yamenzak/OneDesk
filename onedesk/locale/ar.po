@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 14:06+0000\n"
-"PO-Revision-Date: 2026-10-03 14:06+0000\n"
+"POT-Creation-Date: 2026-10-03 14:30+0000\n"
+"PO-Revision-Date: 2026-10-03 14:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -2297,7 +2297,7 @@ msgstr "اطلب مجدداً من ملفك الشخصي إن كنت لا تزا
 msgid "Ask again on the workspace's Your Data page."
 msgstr "اطلب مجددًا من صفحة «بياناتك» في مساحة العمل."
 
-#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:219
+#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:257
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
 
@@ -7920,6 +7920,15 @@ msgstr "الحاوية العالمية"
 msgid "Gmail and Outlook need an app password."
 msgstr "يحتاج Gmail وOutlook إلى كلمة مرور تطبيق."
 
+#: onedesk/public/js/outside.js:240 onedesk/www/404.html:18
+msgid "Go Back"
+msgstr ""
+
+#: onedesk/public/js/outside.js:241 onedesk/www/404.html:19
+#: onedesk/www/error.html:16 onedesk/www/message.html:21
+msgid "Go Home"
+msgstr "الذهاب إلى الرئيسية"
+
 #: onedesk/one/ai.py:37
 msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
 msgstr "اشرح لي صفحة الملف الشخصي: ما الغرض من كل جزء، وما الذي لا يغيّره إلا الموارد البشرية."
@@ -8292,9 +8301,7 @@ msgstr "العطلات في {0}"
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/outside.js:211
-#: onedesk/www/404.html:18 onedesk/www/error.html:22
-#: onedesk/www/message.html:19
+#: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -11783,10 +11790,6 @@ msgstr "التالي: {0}"
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/outside.js:219
-msgid "No Access"
-msgstr "لا يوجد وصول"
-
 #: onedesk/public/js/crm_record.js:91
 msgid "No Answer"
 msgstr ""
@@ -11824,6 +11827,10 @@ msgstr "شهادة عدم ممانعة"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:222
 msgid "No Shift"
 msgstr "بلا مناوبة"
+
+#: onedesk/public/js/outside.js:257
+msgid "No access"
+msgstr "لا يوجد وصول"
 
 #: onedesk/public/js/doctype_settings.js:329
 msgid "No access levels"
@@ -12276,7 +12283,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not Estimated"
 msgstr "غير مُقدَّرة"
 
-#: onedesk/public/js/outside.js:217 onedesk/www/404.html:2
+#: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr ""
 
@@ -14128,7 +14135,7 @@ msgstr "الحزمة"
 msgid "Page"
 msgstr ""
 
-#: onedesk/www/404.html:17
+#: onedesk/public/js/outside.js:253 onedesk/www/404.html:15
 msgid "Page not found"
 msgstr ""
 
@@ -17254,10 +17261,6 @@ msgstr ""
 msgid "Server"
 msgstr "الخادم"
 
-#: onedesk/www/error.html:2 onedesk/www/error.html:14
-msgid "Server Error"
-msgstr ""
-
 #: onedesk/public/js/onecloud.js:1864
 msgid "Server connection"
 msgstr "اتصال بخادم"
@@ -17599,7 +17602,7 @@ msgstr ""
 msgid "Show All Actions"
 msgstr "عرض جميع الإجراءات"
 
-#: onedesk/www/error.html:18
+#: onedesk/www/error.html:20
 msgid "Show Error"
 msgstr ""
 
@@ -17903,6 +17906,10 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "أمر تراجع عنه شخص أو رفضه، يُتذكَّر للمستند التالي من الطرف نفسه."
+
+#: onedesk/www/error.py:13
+msgid "Something went wrong"
+msgstr ""
 
 #: onedesk/one_inventory/ready.py:98
 msgid "Somewhere for an asset to be"
@@ -18211,10 +18218,6 @@ msgstr "الحالة"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Status Since"
 msgstr "الحالة منذ"
-
-#: onedesk/www/message.html:17
-msgid "Status: {0}"
-msgstr ""
 
 #. Label of the step (Data) field in DocType 'Provisioning Job'
 #. Label of the step (Data) field in DocType 'Task Step'
@@ -19615,6 +19618,10 @@ msgstr "سيُطبع التخطيط بشكل سيئ: {0}."
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The least a price may be over its cost. 2 means twice."
 msgstr "أدنى ما يمكن أن يزيد به السعر على تكلفته. 2 تعني الضعف."
+
+#: onedesk/public/js/outside.js:254 onedesk/www/404.html:16
+msgid "The link may be broken, or the page has moved."
+msgstr "قد يكون الرابط معطلاً، أو نُقلت الصفحة."
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
 #. Attempt'
@@ -21116,6 +21123,10 @@ msgstr "المحاولات"
 msgid "Trigger"
 msgstr "المُشغِّل"
 
+#: onedesk/www/error.html:15
+msgid "Try Again"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2725
 msgid "Try It"
 msgstr "جرّبه"
@@ -21123,6 +21134,10 @@ msgstr "جرّبه"
 #: onedesk/public/js/oneai/Panel.vue:143
 msgid "Try again"
 msgstr "حاول مرة أخرى"
+
+#: onedesk/www/error.py:14
+msgid "Try again in a moment."
+msgstr "حاول مرة أخرى بعد لحظات."
 
 #: onedesk/public/js/settings.js:2746
 msgid "Try {0}"

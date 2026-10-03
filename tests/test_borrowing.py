@@ -90,10 +90,13 @@ DEFINES_TOKENS = (
 #: origin, and shows its progress; frappe.call only posts to this site, and
 #: FileUploader only to upload_file. A letter head reads the proportions of the
 #: company's uploaded logo, which may be an SVG file, and draws frappe's own Lucide
-#: icons as inline pictures, since a letter head's HTML may hold no SVG.
+#: icons as inline pictures, since a letter head's HTML may hold no SVG. The
+#: desk's not found and no access draw One's own mark, its ring and core moved
+#: apart (css/lost.css), which an icon from the sprite cannot be.
 LOOKED = {
 	("fetching", "onedesk/public/js/onecloud.js"),
 	("icons", "onedesk/one/letter_heads.py"),
+	("icons", "onedesk/public/js/outside.js"),
 }
 
 

@@ -6119,6 +6119,24 @@ Your word: "10 and 11".
   Doctype Permissions (frappe's raw doctypes). Who sees what is Workspace ›
   Access and a person's page in People.
 
+### Error pages
+
+Your word: "I hate our error pages, not centered not spaced not fun not nice
+not creative".
+
+- **Fixed**: one scene for the web's 404, error and message pages and the
+  desk's not found and no access (`templates/includes/one_lost.html`,
+  `css/lost.css`, `outside.js`). It is centred on the page, with One's ring
+  as the 0 of 404 and 500, turning, with the products' colours in orbit.
+  The ring's core shows a faint "1" on a 404, the "1" knocked over on a 500,
+  a lock for no access, a tick for a message that went well, and One's
+  mark for any other message.
+- **Fixed**: the words. "Page not found" with "The link may be broken, or
+  the page has moved.", Go Back and Go Home. "Something went wrong" with
+  "Try again in a moment.", Try Again and Go Home. Frappe said "Server
+  Error" and "There was an error building this page".
+- Light and dark, phone width, and still for anyone who asks for less motion.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

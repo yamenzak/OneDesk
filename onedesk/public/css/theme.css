@@ -38,6 +38,17 @@ html[data-one-theme="one"][data-theme="dark"] {
 	--gray-950: #141920;
 }
 
+/* One's own mark, the suite spectrum of scripts/brand/marks.json: the ring
+ * that stands in for the 0 when a page is not found (lost.css). */
+
+:root {
+	--one-suite-1: #38bdf8;
+	--one-suite-2: #e11d48;
+	--one-suite-3: #fbbf24;
+	--one-suite-4: #10b981;
+	--one-suite-core: #0f172a;
+}
+
 /* OneAI's spectrum, read off the mark itself.
  *
  * The six stops of `ai-spectrum` in scripts/brand/marks.json, in order, plus

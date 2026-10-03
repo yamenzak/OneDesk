@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 14:06+0000\n"
-"PO-Revision-Date: 2026-10-03 14:06+0000\n"
+"POT-Creation-Date: 2026-10-03 14:30+0000\n"
+"PO-Revision-Date: 2026-10-03 14:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -2297,7 +2297,7 @@ msgstr "Fragen Sie in Ihrem Profil erneut an, wenn Sie Ihr Konto weiterhin lösc
 msgid "Ask again on the workspace's Your Data page."
 msgstr "Fragen Sie erneut auf der Seite „Ihre Daten“ des Arbeitsbereichs."
 
-#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:219
+#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:257
 msgid "Ask an administrator for access."
 msgstr "Bitten Sie einen Administrator um Zugriff."
 
@@ -7920,6 +7920,15 @@ msgstr "Globaler Bucket"
 msgid "Gmail and Outlook need an app password."
 msgstr "Gmail und Outlook benötigen ein App-Passwort."
 
+#: onedesk/public/js/outside.js:240 onedesk/www/404.html:18
+msgid "Go Back"
+msgstr ""
+
+#: onedesk/public/js/outside.js:241 onedesk/www/404.html:19
+#: onedesk/www/error.html:16 onedesk/www/message.html:21
+msgid "Go Home"
+msgstr "Zur Startseite"
+
 #: onedesk/one/ai.py:37
 msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
 msgstr "Geh mit mir die Profilseite durch: wofür jeder Teil da ist und was nur die Personalabteilung ändern kann."
@@ -8292,9 +8301,7 @@ msgstr "Feiertage in {0}"
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/outside.js:211
-#: onedesk/www/404.html:18 onedesk/www/error.html:22
-#: onedesk/www/message.html:19
+#: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Home"
 msgstr "Start"
 
@@ -11783,10 +11790,6 @@ msgstr "Als Nächstes: {0}"
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/outside.js:219
-msgid "No Access"
-msgstr "Kein Zugriff"
-
 #: onedesk/public/js/crm_record.js:91
 msgid "No Answer"
 msgstr ""
@@ -11824,6 +11827,10 @@ msgstr "Unbedenklichkeitsbescheinigung"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:222
 msgid "No Shift"
 msgstr "Ohne Schicht"
+
+#: onedesk/public/js/outside.js:257
+msgid "No access"
+msgstr "Kein Zugriff"
 
 #: onedesk/public/js/doctype_settings.js:329
 msgid "No access levels"
@@ -12276,7 +12283,7 @@ msgstr "Nicht eingecheckt"
 msgid "Not Estimated"
 msgstr "Nicht geschätzt"
 
-#: onedesk/public/js/outside.js:217 onedesk/www/404.html:2
+#: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr ""
 
@@ -14128,7 +14135,7 @@ msgstr "Paket"
 msgid "Page"
 msgstr ""
 
-#: onedesk/www/404.html:17
+#: onedesk/public/js/outside.js:253 onedesk/www/404.html:15
 msgid "Page not found"
 msgstr ""
 
@@ -17254,10 +17261,6 @@ msgstr ""
 msgid "Server"
 msgstr "Server"
 
-#: onedesk/www/error.html:2 onedesk/www/error.html:14
-msgid "Server Error"
-msgstr ""
-
 #: onedesk/public/js/onecloud.js:1864
 msgid "Server connection"
 msgstr "Serververbindung"
@@ -17599,7 +17602,7 @@ msgstr ""
 msgid "Show All Actions"
 msgstr "Alle Aktionen anzeigen"
 
-#: onedesk/www/error.html:18
+#: onedesk/www/error.html:20
 msgid "Show Error"
 msgstr ""
 
@@ -17903,6 +17906,10 @@ msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine P
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "Etwas, das eine Person zurückgenommen oder abgelehnt hat, gemerkt für das nächste Dokument derselben Partei."
+
+#: onedesk/www/error.py:13
+msgid "Something went wrong"
+msgstr ""
 
 #: onedesk/one_inventory/ready.py:98
 msgid "Somewhere for an asset to be"
@@ -18211,10 +18218,6 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Status Since"
 msgstr "Status seit"
-
-#: onedesk/www/message.html:17
-msgid "Status: {0}"
-msgstr ""
 
 #. Label of the step (Data) field in DocType 'Provisioning Job'
 #. Label of the step (Data) field in DocType 'Task Step'
@@ -19615,6 +19618,10 @@ msgstr "Das Layout würde schlecht gedruckt: {0}."
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The least a price may be over its cost. 2 means twice."
 msgstr "Wie weit ein Preis mindestens über seinen Kosten liegen muss. 2 heißt doppelt."
+
+#: onedesk/public/js/outside.js:254 onedesk/www/404.html:16
+msgid "The link may be broken, or the page has moved."
+msgstr "Der Link ist vielleicht defekt, oder die Seite wurde verschoben."
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
 #. Attempt'
@@ -21116,6 +21123,10 @@ msgstr "Versuche"
 msgid "Trigger"
 msgstr "Auslöser"
 
+#: onedesk/www/error.html:15
+msgid "Try Again"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2725
 msgid "Try It"
 msgstr "Ausprobieren"
@@ -21123,6 +21134,10 @@ msgstr "Ausprobieren"
 #: onedesk/public/js/oneai/Panel.vue:143
 msgid "Try again"
 msgstr "Erneut versuchen"
+
+#: onedesk/www/error.py:14
+msgid "Try again in a moment."
+msgstr "Versuchen Sie es gleich noch einmal."
 
 #: onedesk/public/js/settings.js:2746
 msgid "Try {0}"

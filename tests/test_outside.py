@@ -113,3 +113,19 @@ def test_addresses_and_contacts_is_in_onecrm():
 		'"Address And Contacts": { party_type: ["Customer", "Lead", "Supplier", "Sales Partner"] }' in reports
 	)
 	assert "frappe.model.can_read(kind)" in reports
+
+
+def test_not_found_and_errors_are_one_scene():
+	"""The web's 404, error and message pages and the desk's not found and no
+	access draw the same scene: One's ring for the 0, centred, with a way back."""
+	www = tree.APP / "www"
+	for page in ("404", "error", "message"):
+		html = (www / f"{page}.html").read_text()
+		assert '{% include "templates/includes/one_lost.html" %}' in html and "one-lost" in html, page
+	js = (tree.APP / "public" / "js" / "outside.js").read_text()
+	assert "onedesk.outside.lost(art)" in js and 'class="one-lost one-lost--desk"' in js
+	# Gradient ids per drawing, so a hidden page's scene cannot leave this one's ring undrawn.
+	assert "const id = `one-lost-${++drawn}`;" in js
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert hooks.count('"/assets/onedesk/css/lost.css"') == 2
+	assert "prefers-reduced-motion" in (tree.APP / "public" / "css" / "lost.css").read_text()

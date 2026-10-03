@@ -1,24 +1,25 @@
 {% extends "templates/web.html" %}
-{% block title %}{{ title or _("Server Error") }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {%- block navbar -%}{%- endblock -%}
 {%- block footer -%}{%- endblock -%}
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-<div class="one-portal">
-	<a class="one-portal__mark" href="/">
-		<img src="/assets/onedesk/images/one.svg" alt="">
-		<span>One</span>
-	</a>
-	<h1>{{ title or _("Server Error") }}</h1>
-	<p class="one-portal__lede">{{ message }}</p>
+<div class="one-portal one-lost">
+	{% set lost_code, lost_core = "500", "fallen" %}
+	{% include "templates/includes/one_lost.html" %}
+	<h1>{{ title }}</h1>
+	<p class="one-lost__line">{{ message }}</p>
+	<div class="one-lost__actions">
+		<button class="one-button" type="button" onclick="location.reload()">{{ _("Try Again") }}</button>
+		<a class="one-button one-button--solid" href="/">{{ _("Go Home") }}</a>
+	</div>
 	{% if error %}
 	<details class="one-error">
 		<summary>{{ _("Show Error") }}</summary>
 		<pre><code>{{ error }}</code></pre>
 	</details>
 	{% endif %}
-	<a class="one-button" href="/">{{ _("Home") }}</a>
 </div>
 {% endblock %}

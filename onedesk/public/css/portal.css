@@ -11,6 +11,17 @@
  * "Powered by ERPNext", which on our own signup page is somebody else's badge.
  */
 
+/* One's own mark, the suite spectrum of scripts/brand/marks.json: the ring
+ * that stands in for the 0 when a page is not found (lost.css). The same as theme.css's, for pages that load none of it. */
+
+:root {
+	--one-suite-1: #38bdf8;
+	--one-suite-2: #e11d48;
+	--one-suite-3: #fbbf24;
+	--one-suite-4: #10b981;
+	--one-suite-core: #0f172a;
+}
+
 .one-portal {
 	--ink: #1b2129;
 	--ink-soft: #566070;

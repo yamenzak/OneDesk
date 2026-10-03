@@ -6,18 +6,20 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-<div class="one-portal">
-	<a class="one-portal__mark" href="/">
-		<img src="/assets/onedesk/images/one.svg" alt="">
-		<span>One</span>
-	</a>
+{%- set code = (error_code or http_status_code or "")|string -%}
+<div class="one-portal one-lost">
+	{%- if success %}{% set lost_code, lost_core = "", "check" %}
+	{%- elif code == "403" %}{% set lost_code, lost_core = "", "lock" %}
+	{%- elif code == "404" %}{% set lost_code, lost_core = "404", "ghost" %}
+	{%- elif code.startswith("5") %}{% set lost_code, lost_core = "500", "fallen" %}
+	{%- else %}{% set lost_code, lost_core = "", "one" %}{% endif %}
+	{% include "templates/includes/one_lost.html" %}
 	{% if title %}<h1>{{ title }}</h1>{% endif %}
 	{% block message_body %}
-	{% if message %}<div class="one-portal__lede">{{ message }}</div>{% endif %}
-	{% if error_code %}<p class="one-note">{{ _("Status: {0}").format(error_code) }}</p>{% endif %}
-	{% if primary_action %}
-	<a class="one-button one-button--solid" href="{{ primary_action or '/' }}">{{ primary_label or _("Home") }}</a>
-	{% endif %}
+	{% if message %}<div class="one-lost__line">{{ message }}</div>{% endif %}
+	<div class="one-lost__actions">
+		<a class="one-button one-button--solid" href="{{ primary_action or '/' }}">{{ primary_label or _("Go Home") }}</a>
+	</div>
 	{% endblock %}
 </div>
 <script>

@@ -1,0 +1,35 @@
+{#- The scene every page of ours that is not where somebody meant to be draws:
+    404, 500, a message, and (in public/js/outside.js) the desk's own. One's
+    ring stands in for the 0 of the code; what sits in its core says the rest.
+    lost_code: "404", "500" or "". lost_core: ghost, fallen, lock, check, one. -#}
+{%- set core = lost_core or "one" -%}
+<div class="one-lost__art" aria-hidden="true">
+	{%- if lost_code %}<span class="one-lost__digit">{{ lost_code[0] }}</span>{% endif %}
+	<span class="one-lost__ring">
+		<span class="one-lost__orbit"><i></i><i></i><i></i><i></i></span>
+		<svg viewBox="0 0 192 192" fill="none">
+			<defs>
+				<linearGradient id="one-lost-band" x1="28" y1="28" x2="164" y2="164" gradientUnits="userSpaceOnUse">
+					<stop offset="0" stop-color="#38BDF8"/><stop offset=".35" stop-color="#E11D48"/>
+					<stop offset=".68" stop-color="#FBBF24"/><stop offset="1" stop-color="#10B981"/>
+				</linearGradient>
+				<radialGradient id="one-lost-core" cx="96" cy="96" r="54" gradientUnits="userSpaceOnUse">
+					<stop offset="0" stop-color="#1E293B"/><stop offset="1" stop-color="#0F172A"/>
+				</radialGradient>
+			</defs>
+			<circle class="one-lost__band" cx="96" cy="96" r="68" stroke="url(#one-lost-band)" stroke-width="18"/>
+			<circle cx="96" cy="96" r="52" fill="url(#one-lost-core)"/>
+			<circle cx="96" cy="96" r="52" stroke="#fff" stroke-opacity=".12" stroke-width="1.5"/>
+			<g class="one-lost__core one-lost__core--{{ core }}" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+			{%- if core == "lock" %}
+				<g transform="translate(96 98) scale(2.4) translate(-12 -12)" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g>
+			{%- elif core == "check" %}
+				<path d="M74 97l15 15 30-32" stroke-width="12"/>
+			{%- else %}
+				<path d="M86 78l10-8v52M84 122h24" stroke-width="12"/>
+			{%- endif %}
+			</g>
+		</svg>
+	</span>
+	{%- if lost_code %}<span class="one-lost__digit">{{ lost_code[2] }}</span>{% endif %}
+</div>

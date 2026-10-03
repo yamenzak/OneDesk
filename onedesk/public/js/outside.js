@@ -197,26 +197,64 @@ if (frappe.boot.one_elsewhere && frappe.search?.utils) {
 	};
 }
 
-// Frappe's not-found and not-permitted pages, as One's: frappe's empty state
-// with a way Home. A desk address that names no page at all is not found,
+// Frappe's not-found and not-permitted pages, as One's: the scene the web's
+// 404 draws (templates/includes/one_lost.html, css/lost.css), on a page that
+// keeps the rail. A desk address that names no page at all is not found,
 // rather than frappe's "No permission for Page" over an empty screen.
+// Its gradients are named per drawing: a hidden page earlier in the desk holding
+// the same ids would leave this one's ring undrawn.
+let drawn = 0;
+onedesk.outside.lost = ({ code = "", core = "one" }) => {
+	const id = `one-lost-${++drawn}`;
+	const digit = (d) => (code ? `<span class="one-lost__digit">${d}</span>` : "");
+	const mark = {
+		lock: `<g transform="translate(96 98) scale(2.4) translate(-12 -12)" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g>`,
+		check: `<path d="M74 97l15 15 30-32" stroke-width="12"/>`,
+	}[core] || `<path d="M86 78l10-8v52M84 122h24" stroke-width="12"/>`;
+	return `<div class="one-lost__art" aria-hidden="true">${digit(code[0])}<span class="one-lost__ring">
+		<span class="one-lost__orbit"><i></i><i></i><i></i><i></i></span>
+		<svg viewBox="0 0 192 192" fill="none"><defs>
+			<linearGradient id="${id}-band" x1="28" y1="28" x2="164" y2="164" gradientUnits="userSpaceOnUse">
+				<stop offset="0" stop-color="#38BDF8"/><stop offset=".35" stop-color="#E11D48"/>
+				<stop offset=".68" stop-color="#FBBF24"/><stop offset="1" stop-color="#10B981"/></linearGradient>
+			<radialGradient id="${id}-core" cx="96" cy="96" r="54" gradientUnits="userSpaceOnUse">
+				<stop offset="0" stop-color="#1E293B"/><stop offset="1" stop-color="#0F172A"/></radialGradient></defs>
+			<circle class="one-lost__band" cx="96" cy="96" r="68" stroke="url(#${id}-band)" stroke-width="18"/>
+			<circle cx="96" cy="96" r="52" fill="url(#${id}-core)"/>
+			<circle cx="96" cy="96" r="52" stroke="#fff" stroke-opacity=".12" stroke-width="1.5"/>
+			<g class="one-lost__core one-lost__core--${core}" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">${mark}</g>
+		</svg></span>${digit(code[2])}</div>`;
+};
+
 if (frappe.boot.one_elsewhere) {
-	const draw = (page_name, opts) => {
+	const draw = (page_name, { title, line, ...art }) => {
 		page_name = page_name || frappe.get_route_str();
 		const wrapper = frappe.pages[page_name] || frappe.container.add_page(page_name);
 		// A frappe page, so the rail and the panel stay as on any other.
 		if (!wrapper.page) frappe.ui.make_app_page({ parent: wrapper, single_column: true });
-		const state = frappe.ui.empty_state({
-			...opts,
-			actions: [{ label: __("Home"), onclick: () => frappe.set_route("one") }],
-			css_class: "one-shell-empty one-outside-missing",
-		});
-		$(wrapper.page.main).empty().append(state);
+		const $scene = $(`<div class="one-lost one-lost--desk">
+			${onedesk.outside.lost(art)}
+			<h1>${frappe.utils.escape_html(title)}</h1>
+			<p class="one-lost__line">${frappe.utils.escape_html(line)}</p>
+			<div class="one-lost__actions">
+				<button class="btn btn-default btn-md" data-go="back">${__("Go Back")}</button>
+				<button class="btn btn-primary btn-md" data-go="home">${__("Go Home")}</button>
+			</div>
+		</div>`);
+		$scene.find("[data-go=back]").on("click", () => window.history.back());
+		$scene.find("[data-go=home]").on("click", () => frappe.set_route("one"));
+		$(wrapper.page.main).empty().append($scene);
 		frappe.container.change_to(page_name);
 	};
-	frappe.show_not_found = (page_name) => draw(page_name, { title: __("Not Found"), icon: "search-x" });
+	frappe.show_not_found = (page_name) =>
+		draw(page_name, {
+			code: "404",
+			core: "ghost",
+			title: __("Page not found"),
+			line: __("The link may be broken, or the page has moved."),
+		});
 	frappe.show_not_permitted = (page_name) =>
-		draw(page_name, { title: __("No Access"), description: __("Ask an administrator for access."), icon: "lock" });
+		draw(page_name, { core: "lock", title: __("No access"), line: __("Ask an administrator for access.") });
 
 	const show = frappe.views.pageview.show;
 	frappe.views.pageview.show = function (name) {

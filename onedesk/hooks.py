@@ -832,9 +832,11 @@ app_include_css = [
 	"/assets/onedesk/css/oneai.css",
 	"/assets/onedesk/css/legal.css",
 	"/assets/onedesk/css/intake.css",
+	# Not found, no access and errors, on the desk and off it.
+	"/assets/onedesk/css/lost.css",
 ]
 # /start and /welcome, which are not desk screens and load none of the above.
-web_include_css = ["/assets/onedesk/css/portal.css"]
+web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
 app_include_js = [
 	"/assets/onedesk/js/theme.js",
 	# "One" of a product's name at a light weight, wherever it is drawn.

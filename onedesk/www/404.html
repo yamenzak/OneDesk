@@ -9,12 +9,14 @@
 <script>
 	window.is_404 = true;
 </script>
-<div class="one-portal">
-	<a class="one-portal__mark" href="/">
-		<img src="/assets/onedesk/images/one.svg" alt="">
-		<span>One</span>
-	</a>
+<div class="one-portal one-lost">
+	{% set lost_code, lost_core = "404", "ghost" %}
+	{% include "templates/includes/one_lost.html" %}
 	<h1>{{ _("Page not found") }}</h1>
-	<a class="one-button" href="/">{{ _("Home") }}</a>
+	<p class="one-lost__line">{{ _("The link may be broken, or the page has moved.") }}</p>
+	<div class="one-lost__actions">
+		<button class="one-button" type="button" onclick="history.back()">{{ _("Go Back") }}</button>
+		<a class="one-button one-button--solid" href="/">{{ _("Go Home") }}</a>
+	</div>
 </div>
 {% endblock %}

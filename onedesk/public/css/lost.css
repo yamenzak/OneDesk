@@ -1,0 +1,194 @@
+/* A page that is not where somebody meant to be: 404, 500, a message, and the
+ * desk's not found and no access. One's ring stands in for the 0 of the code,
+ * turning, with the products' colours in orbit; what sits in its core says the
+ * rest (templates/includes/one_lost.html, public/js/outside.js).
+ *
+ * The web pages take their colours from .one-portal (portal.css), the desk's
+ * from espresso, under the same names. */
+
+.one-lost--desk {
+	--ink: var(--ink-gray-9);
+	--ink-soft: var(--ink-gray-5);
+	min-height: calc(100vh - 160px);
+}
+
+.one-lost {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 48px 16px;
+}
+
+.one-portal.one-lost {
+	max-width: none;
+	min-height: 100vh;
+	min-height: 100svh;
+}
+
+.one-lost__art {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.06em;
+	margin-bottom: 44px;
+	font-size: clamp(96px, 20vw, 176px);
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -0.04em;
+	user-select: none;
+}
+
+/* A soft wash of the ring's colours behind the whole figure. */
+.one-lost__art::before {
+	content: "";
+	position: absolute;
+	inset: -30% -10%;
+	z-index: -1;
+	background:
+		radial-gradient(closest-side at 38% 45%, color-mix(in srgb, var(--one-suite-1) 16%, transparent), transparent),
+		radial-gradient(closest-side at 62% 55%, color-mix(in srgb, var(--one-suite-2) 12%, transparent), transparent),
+		radial-gradient(closest-side at 50% 70%, color-mix(in srgb, var(--one-suite-3) 10%, transparent), transparent);
+	filter: blur(24px);
+}
+
+.one-lost__digit {
+	background: linear-gradient(180deg, var(--ink) 30%, var(--ink-soft));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.one-lost__ring {
+	position: relative;
+	flex: none;
+	width: 0.84em;
+	height: 0.84em;
+	margin: 0 0.04em;
+	animation: one-lost-bob 6s ease-in-out infinite;
+}
+
+.one-lost__ring svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	filter: drop-shadow(0 10px 24px color-mix(in srgb, var(--one-suite-core) 22%, transparent));
+}
+
+.one-lost__band {
+	transform-origin: 96px 96px;
+	animation: one-lost-turn 12s linear infinite;
+}
+
+/* 404: the one that should be here, only its outline. */
+.one-lost__core--ghost {
+	animation: one-lost-ghost 3s ease-in-out infinite;
+}
+
+/* 500: the one, knocked over and still rocking. */
+.one-lost__core--fallen {
+	transform-origin: 96px 96px;
+	animation: one-lost-rock 2.4s ease-in-out infinite;
+}
+
+.one-lost__core--check {
+	stroke-dasharray: 80;
+	stroke-dashoffset: 80;
+	animation: one-lost-draw 0.7s 0.3s ease-out forwards;
+}
+
+.one-lost__orbit {
+	position: absolute;
+	inset: -16%;
+	animation: one-lost-turn 9s linear infinite reverse;
+}
+
+.one-lost__orbit i {
+	position: absolute;
+	width: 0.075em;
+	height: 0.075em;
+	border-radius: 50%;
+}
+
+.one-lost__orbit i:nth-child(1) { top: 0; left: 50%; background: var(--one-suite-1); }
+.one-lost__orbit i:nth-child(2) { top: 50%; right: 0; background: var(--one-suite-2); width: 0.055em; height: 0.055em; }
+.one-lost__orbit i:nth-child(3) { bottom: 4%; left: 30%; background: var(--one-suite-3); }
+.one-lost__orbit i:nth-child(4) { top: 22%; left: 2%; background: var(--one-suite-4); width: 0.05em; height: 0.05em; }
+
+.one-lost h1 {
+	margin: 0 0 8px;
+	color: var(--ink);
+	font-size: 26px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+.one-lost__line {
+	max-width: 28rem;
+	margin: 0 0 28px;
+	color: var(--ink-soft);
+	font-size: 15px;
+}
+
+.one-lost__actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+}
+
+.one-portal .one-lost__actions .one-button {
+	margin: 0;
+	text-decoration: none;
+}
+
+.one-lost .one-error {
+	width: 100%;
+	max-width: 40rem;
+	margin: 36px 0 0;
+	text-align: left;
+}
+
+.one-lost .one-error summary {
+	text-align: center;
+	cursor: pointer;
+}
+
+@keyframes one-lost-turn {
+	to { transform: rotate(360deg); }
+}
+
+@keyframes one-lost-bob {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-0.04em); }
+}
+
+@keyframes one-lost-ghost {
+	0%, 100% { opacity: 0.12; }
+	50% { opacity: 0.4; }
+}
+
+@keyframes one-lost-rock {
+	0%, 100% { transform: rotate(84deg); }
+	50% { transform: rotate(96deg); }
+}
+
+@keyframes one-lost-draw {
+	to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-lost__ring,
+	.one-lost__band,
+	.one-lost__orbit,
+	.one-lost__core--ghost,
+	.one-lost__core--fallen {
+		animation: none;
+	}
+	.one-lost__core--ghost { opacity: 0.25; }
+	.one-lost__core--fallen { transform: rotate(90deg); }
+	.one-lost__core--check { animation: none; stroke-dashoffset: 0; }
+}

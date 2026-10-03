@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 14:06+0000\n"
-"PO-Revision-Date: 2026-10-03 14:06+0000\n"
+"POT-Creation-Date: 2026-10-03 14:30+0000\n"
+"PO-Revision-Date: 2026-10-03 14:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2295,7 +2295,7 @@ msgstr ""
 msgid "Ask again on the workspace's Your Data page."
 msgstr ""
 
-#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:219
+#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:257
 msgid "Ask an administrator for access."
 msgstr ""
 
@@ -7919,6 +7919,15 @@ msgstr ""
 msgid "Gmail and Outlook need an app password."
 msgstr ""
 
+#: onedesk/public/js/outside.js:240 onedesk/www/404.html:18
+msgid "Go Back"
+msgstr ""
+
+#: onedesk/public/js/outside.js:241 onedesk/www/404.html:19
+#: onedesk/www/error.html:16 onedesk/www/message.html:21
+msgid "Go Home"
+msgstr ""
+
 #: onedesk/one/ai.py:37
 msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
 msgstr ""
@@ -8291,9 +8300,7 @@ msgstr ""
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/outside.js:211
-#: onedesk/www/404.html:18 onedesk/www/error.html:22
-#: onedesk/www/message.html:19
+#: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Home"
 msgstr ""
 
@@ -11783,10 +11790,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/outside.js:219
-msgid "No Access"
-msgstr ""
-
 #: onedesk/public/js/crm_record.js:91
 msgid "No Answer"
 msgstr ""
@@ -11823,6 +11826,10 @@ msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:222
 msgid "No Shift"
+msgstr ""
+
+#: onedesk/public/js/outside.js:257
+msgid "No access"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:329
@@ -12276,7 +12283,7 @@ msgstr ""
 msgid "Not Estimated"
 msgstr ""
 
-#: onedesk/public/js/outside.js:217 onedesk/www/404.html:2
+#: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr ""
 
@@ -14128,7 +14135,7 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: onedesk/www/404.html:17
+#: onedesk/public/js/outside.js:253 onedesk/www/404.html:15
 msgid "Page not found"
 msgstr ""
 
@@ -17254,10 +17261,6 @@ msgstr ""
 msgid "Server"
 msgstr ""
 
-#: onedesk/www/error.html:2 onedesk/www/error.html:14
-msgid "Server Error"
-msgstr ""
-
 #: onedesk/public/js/onecloud.js:1864
 msgid "Server connection"
 msgstr ""
@@ -17599,7 +17602,7 @@ msgstr ""
 msgid "Show All Actions"
 msgstr ""
 
-#: onedesk/www/error.html:18
+#: onedesk/www/error.html:20
 msgid "Show Error"
 msgstr ""
 
@@ -17902,6 +17905,10 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
+msgstr ""
+
+#: onedesk/www/error.py:13
+msgid "Something went wrong"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:98
@@ -18210,10 +18217,6 @@ msgstr ""
 #. Label of the status_since (Datetime) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Status Since"
-msgstr ""
-
-#: onedesk/www/message.html:17
-msgid "Status: {0}"
 msgstr ""
 
 #. Label of the step (Data) field in DocType 'Provisioning Job'
@@ -19614,6 +19617,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The least a price may be over its cost. 2 means twice."
+msgstr ""
+
+#: onedesk/public/js/outside.js:254 onedesk/www/404.html:16
+msgid "The link may be broken, or the page has moved."
 msgstr ""
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
@@ -21116,12 +21123,20 @@ msgstr ""
 msgid "Trigger"
 msgstr ""
 
+#: onedesk/www/error.html:15
+msgid "Try Again"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2725
 msgid "Try It"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:143
 msgid "Try again"
+msgstr ""
+
+#: onedesk/www/error.py:14
+msgid "Try again in a moment."
 msgstr ""
 
 #: onedesk/public/js/settings.js:2746
