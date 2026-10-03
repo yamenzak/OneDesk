@@ -204,6 +204,23 @@ def test_a_list_of_records_is_frappes_table():
 			assert "one-shell-row-link" not in js and not re.search(r"\blink:\s*\{", js), (
 				f"{path.name}: a row that opens a record; a list of records is onedesk.shell.table"
 			)
+			# The Forms list slipped past the line above as rows that opened
+			# through `href`, under a heading per app: the look of a list of
+			# records, drawn without a table. So, outside a mailbox's pane: no
+			# list of rows at all, no row that goes anywhere, no rows made one
+			# per record, and no row drawn by hand. A row is one fact and what to
+			# do about it (Password, Change Password); many are a table.
+			assert "shell.list(" not in js, f"{path.name}: a list of rows; a list of records is onedesk.shell.table"
+			for row in re.finditer(r"shell\.row\(\{(.*?)\}\)", js, re.S):
+				assert not re.search(r"\b(href|link):", row.group(1)), (
+					f"{path.name}: a row that opens something; a list of records is onedesk.shell.table"
+				)
+			assert not re.search(r"\.map\((?:(?!\.join\().){0,400}?shell\.row\(", js, re.S), (
+				f"{path.name}: a row per record; a list of records is onedesk.shell.table"
+			)
+			assert not re.search(r'class="one-shell-(row|list)[" ]', js), (
+				f"{path.name} draws the shell's rows by hand; one fact is onedesk.shell.row, many are onedesk.shell.table"
+			)
 	for path in _ours("*.js", "*.css"):
 		assert "os-place" not in path.read_text(encoding="utf-8"), f"{path.name} draws sessions by hand"
 

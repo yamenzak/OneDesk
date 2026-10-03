@@ -144,10 +144,17 @@ composes them rather than drawing its own:
   notifications, rules, their tasks, where they are signed in and their
   sign-ins) is `onedesk.shell.table`, frappe's EmbeddedList, made in that
   one place: a heading and a note, search past five, a row opening its
-  record, buttons beside the search, Load More. A **row** is for a short
-  list of settings that say how things stand (Signing In, Passkey, a
-  mailbox), and a row that opens something only in a pane beside it
-  (OneMail, OneIntake, a record's Mail).
+  record, buttons beside the search, Load More. That holds for every list
+  of things: forms, extensions, mailboxes, browsers, agreements, add-ons,
+  never rows under a heading per group (a group is a column). A **row**
+  (`onedesk.shell.row`) is one fact and what to do about it (Password and
+  Change Password, Passkey, where an extension runs), never one per record,
+  never a link, and never drawn by hand; `onedesk.shell.list` of rows, and a
+  row that opens something, belong only to a pane beside them (OneMail,
+  OneIntake, a record's Mail). The Forms list was drawn as rows under a
+  heading per app, and slipped past a guard that knew only `link:`; the
+  guard (`tests/test_shell.py`) now refuses a list of rows, a row that goes
+  anywhere, rows made one per record, and the row's markup written by hand.
 - **Dialogs** are frappe.ui.Dialog; nothing draws a modal of its own.
 - **Pages outside the desk** (`www/`: /start, /welcome, the share and
   request pages, a customer's project) are frappe's web pages in One's

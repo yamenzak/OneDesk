@@ -94,17 +94,15 @@ frappe.ui.form.on("Extension", {
 		sections.push(
 			shell.section(
 				__("Where It Runs"),
-				shell.list(
-					shell.row({
-						title: esc(
-							doc.runs === "On Server" ? __("On the Server") : __("On the Screen"),
-						),
-						sub: esc(where),
-						meta: doc.record_doctype
-							? `<a href="/desk/${frappe.router.slug(doc.record_doctype)}">${esc(kind)}</a>`
-							: "",
-					}),
-				),
+				shell.row({
+					title: esc(
+						doc.runs === "On Server" ? __("On the Server") : __("On the Screen"),
+					),
+					sub: esc(where),
+					meta: doc.record_doctype
+						? `<a href="/desk/${frappe.router.slug(doc.record_doctype)}">${esc(kind)}</a>`
+						: "",
+				}),
 			),
 		);
 
@@ -118,18 +116,18 @@ frappe.ui.form.on("Extension", {
 			.filter(Boolean)
 			.join(" · ");
 		if (asked.length) {
-			const rows = asked.map((one, i) => {
+			// What was asked, then each fix, as the words they were: prose, so
+			// paragraphs, not rows.
+			const said = asked.map((one, i) => {
 				const fixed = one.startsWith(FIXED);
-				return shell.row({
-					title: text(fixed ? one.slice(FIXED.length) : one),
-					meta: fixed
-						? frappe.ui.badge.html({ label: __("Fixed"), theme: "blue" })
-						: i === 0
-							? by
-							: "",
-				});
+				const mark = fixed
+					? frappe.ui.badge.html({ label: __("Fixed"), theme: "blue" })
+					: i === 0 && by
+						? `<span class="one-shell-quiet">${by}</span>`
+						: "";
+				return `<div class="one-extension-asked">${text(fixed ? one.slice(FIXED.length) : one)}${mark}</div>`;
 			});
-			sections.push(shell.section(__("Asked"), shell.list(rows.join(""))));
+			sections.push(shell.section(__("Asked"), said.join("")));
 		}
 
 		if (doc.review) {

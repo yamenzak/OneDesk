@@ -5780,10 +5780,32 @@ against what loaded, Save in the head, a save refused against a newer one,
    the connections' and the buttons' rows the workspace added too. A form's
    Customize page ends with **Extensions**: what runs on it, on or off, each
    leading to its own page.
-6. UI: sections on the page, rows as the shell's list, frappe's badge and
-   empty state; Save in the head. The list and a form's Extensions now keep
-   up as forms are saved and extensions change (`one_customized`,
-   `list_update`), keeping what was searched.
+6. UI: Save in the head. The list and a form's Extensions keep up as forms
+   are saved and extensions change (`one_customized`, `list_update`),
+   keeping what was searched.
+
+   **Your word, after: why is Forms not a table?** It was rows under a
+   heading per app, the look every other list had already left for
+   frappe's table. Now Forms is one `onedesk.shell.table` (frappe's
+   EmbeddedList): Form, App, Changes, Extensions, the changed first, its
+   search and Load More, a row opening the form. A form's Extensions is a
+   table too (Extension, What It Does, When, On).
+
+   Why it kept coming back: the guard (`tests/test_shell.py`) refused only a
+   row that opened through `link:`, and these opened through `href:`. It now
+   refuses, outside a mailbox's pane, any `shell.list`, a row that goes
+   anywhere, rows made one per record in a `.map`, and the row's markup
+   written by hand; each of the three would have caught the old Forms list.
+   docs/SHELL.md, Lists, says so.
+
+   The same sweep found the look in four more places, now tables:
+   Settings › Mail (the mailboxes: Mailbox, Kind, Signature and Connection,
+   a click on either cell signs or reconnects, a row opens OneMail),
+   Settings › Notifications (the other browsers with push), Settings ›
+   Agreements (Yours, Your Organisation's and Published, a row opens the
+   document), and Plan and Credits (Added to the Plan). Sign-in's Password
+   and Two-Factor stay rows, one fact each, drawn by the shell rather than
+   by hand. An extension's Asked is prose, so paragraphs.
 7. Documented: one_studio/README.md, Forms (what it lists, who sees and
    changes what, the notification, OneAI on it); One's Customizing a Form
    names Extensions and who is told.

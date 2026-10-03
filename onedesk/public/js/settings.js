@@ -363,21 +363,45 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				: here.state === "on"
 				? onedesk.shell.button(__("Send a Test"), { "data-push": "test" }, "subtle") + onedesk.shell.button(__("Turn Off"), { "data-push": "off" }, "ghost")
 				: "";
-		$part.html(`<div class="one-shell-row">
-				<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(__("Push"))}</div>
-					<div class="one-shell-row-sub">${frappe.ui.badge.html({ label: words[0], theme: words[1] })}</div>
-					${here.state === "blocked" ? `<div class="one-shell-quiet">${esc(__("Allow notifications for this site in the browser's settings, then come back."))}</div>` : ""}
-				</div>
-				<div class="one-shell-row-actions">${action}</div>
-			</div>
-			${others
-				.map(
-					(one) => `<div class="one-shell-row"><div class="one-shell-row-main"><div>${esc(one.label || "")}</div><div class="one-shell-quiet">${esc(
-						one.last_sent ? __("Last pushed {0}", [frappe.datetime.prettyDate(one.last_sent)]) : __("Nothing pushed yet")
-					)}</div></div><div class="one-shell-row-actions">${onedesk.shell.button(__("Remove"), { "data-forget": one.name }, "ghost", "trash-2")}</div></div>`
-				)
-				.join("")}`);
+		$part.html(
+			onedesk.shell.row({
+				title: esc(__("Push")),
+				sub: frappe.ui.badge.html({ label: words[0], theme: words[1] }),
+				quiet: here.state === "blocked" ? esc(__("Allow notifications for this site in the browser's settings, then come back.")) : "",
+				actions: action,
+			}) + '<div class="os-push-others"></div>'
+		);
 		const again = async () => this.draw_push($part, await frappe.xcall("onedesk.one.push.devices"));
+		// The other browsers it is on in, as one of frappe's tables.
+		if (others.length) {
+			onedesk.shell.table($part.find(".os-push-others"), {
+				title: __("Your Other Browsers"),
+				rows: others,
+				icon: "bell-ring",
+				columns: [
+					{ label: __("Browser"), render: (one) => esc(one.label || "") },
+					{
+						label: __("Last Pushed"),
+						render: (one) =>
+							`<span class="one-shell-quiet">${esc(one.last_sent ? frappe.datetime.prettyDate(one.last_sent) : __("Nothing pushed yet"))}</span>`,
+					},
+					{
+						type: "actions",
+						actions: [
+							{
+								label: __("Remove"),
+								icon: "trash-2",
+								danger: true,
+								action: async (one) => {
+									await frappe.xcall("onedesk.one.push.forget", { name: one.name });
+									again();
+								},
+							},
+						],
+					},
+				],
+			});
+		}
 		$part.find('[data-push="on"]').on("click", async () => {
 			// A browser may refuse even when it offers push: a private window
 			// does, and so does one whose push service cannot be reached.
@@ -398,10 +422,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const r = await frappe.xcall("onedesk.one.push.test");
 			frappe.show_alert({ message: r.sent ? __("Sent. It should appear in a moment.") : __("It could not be sent."), indicator: r.sent ? "green" : "orange" });
 		});
-		$part.find("[data-forget]").on("click", async (event) => {
-			await frappe.xcall("onedesk.one.push.forget", { name: $(event.currentTarget).attr("data-forget") });
-			again();
-		});
 	}
 
 	// The mailboxes the reader holds, each saying what it signs with, and why
@@ -409,44 +429,50 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// page's one action, in its head; it happens in OneMail.
 	draw_mail(data) {
 		const esc = frappe.utils.escape_html;
-		const rows = (data.mailboxes || [])
-			.map((one) => {
-				const kind = one.workspace ? __("Workspace") : one.shared ? __("Shared") : one.connected ? __("Connected") : __("Yours");
-				const badges = [
-					frappe.ui.badge.html({ label: kind, theme: one.workspace ? "blue" : "gray" }),
-					one.intake ? onedesk.oneai.tag(__("Read by OneAI")) : "",
-					one.receives_only ? frappe.ui.badge.html({ label: __("Receives Only"), theme: "gray" }) : "",
-					one.error ? frappe.ui.badge.html({ label: __("Not Connecting"), theme: "red" }) : "",
-				].join(" ");
-				const said = one.error
-					? `<div class="one-shell-row-note text-danger">${esc(one.error)}</div>`
-					: one.sends
-					? `<div class="one-shell-row-note one-shell-quiet">${one.signed ? esc(__("Signs with “{0}”", [one.signed])) : esc(__("No signature"))}</div>`
-					: "";
-				const actions = [
-					one.error && one.may_reconnect ? onedesk.shell.button(__("Reconnect"), { "data-reconnect": one.name, "data-email": one.email }) : "",
-					one.may_sign ? onedesk.shell.button(__("Signature"), { "data-signature": one.name }, one.error ? "ghost" : "subtle") : "",
-					onedesk.shell.button(__("Open"), { "data-open": one.name }, "ghost"),
-				].join("");
-				return `<div class="one-shell-row">
-					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.email)}</div><div class="one-shell-row-sub">${badges}</div>${said}</div>
-					<div class="one-shell-row-actions">${actions}</div>
-				</div>`;
-			})
-			.join("");
-		this.$content.html(
-			onedesk.shell.section(
-				__("Your Mailboxes"),
-				rows || onedesk.shell.empty(__("No mailboxes yet.")),
-				__("Mailboxes are read in OneMail. Here you see what each one signs with, and fix one that stopped connecting.")
-			)
-		);
+		const quiet = (words) => `<span class="one-shell-quiet">${esc(words)}</span>`;
+		this.$content.html('<div class="one-shell-section" data-list="mailboxes"></div>');
 		this.page.set_primary_action(__("Connect a Mailbox"), () => frappe.set_route("onemail", { connect: 1 }), "plug");
-		this.$content.find("[data-open]").on("click", (event) => frappe.set_route("onemail", { box: $(event.currentTarget).attr("data-open") }));
-		this.$content.find("[data-signature]").on("click", (event) => this.sign($(event.currentTarget).attr("data-signature")));
-		this.$content.find("[data-reconnect]").on("click", (event) =>
-			this.reconnect($(event.currentTarget).attr("data-reconnect"), $(event.currentTarget).attr("data-email"))
-		);
+		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
+			title: __("Your Mailboxes"),
+			note: __("Mailboxes are read in OneMail. Here you see what each one signs with, and fix one that stopped connecting."),
+			rows: data.mailboxes || [],
+			icon: "mail",
+			empty: __("No mailboxes yet."),
+			open: (one) => frappe.set_route("onemail", { box: one.name }),
+			columns: [
+				{ label: __("Mailbox"), render: (one) => esc(one.email) },
+				{
+					label: __("Kind"),
+					render: (one) =>
+						[
+							frappe.ui.badge.html({
+								label: one.workspace ? __("Workspace") : one.shared ? __("Shared") : one.connected ? __("Connected") : __("Yours"),
+								theme: one.workspace ? "blue" : "gray",
+							}),
+							one.intake ? onedesk.oneai.tag(__("Read by OneAI")) : "",
+							one.receives_only ? frappe.ui.badge.html({ label: __("Receives Only"), theme: "gray" }) : "",
+						].join(" "),
+				},
+				{
+					// What it signs with; a click changes it, where they may.
+					label: __("Signature"),
+					render: (one) =>
+						!one.sends ? "" : one.signed ? esc(__("Signs with “{0}”", [one.signed])) : quiet(__("No signature")),
+					on_click: (one) => one.may_sign && this.sign(one.name),
+				},
+				{
+					// Whether it is connecting; a click reconnects one that stopped.
+					label: __("Connection"),
+					render: (one) =>
+						one.error
+							? `<span title="${esc(one.error)}">${frappe.ui.badge.html({ label: __("Not Connecting"), theme: "red" })}</span>${
+									one.may_reconnect ? " " + quiet(__("Click to reconnect")) : ""
+							  }`
+							: frappe.ui.badge.html({ label: __("Connected"), theme: "green" }),
+					on_click: (one) => one.error && one.may_reconnect && this.reconnect(one.name, one.email),
+				},
+			],
+		});
 	}
 
 	async sign(account) {
@@ -551,10 +577,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const intro = `<div class="one-shell-section"><div class="os-notify-intro"><div class="one-shell-quiet">${esc(
 			__("How you sign in to One, and every place you are signed in now.")
 		)}</div>${safe}</div></div>`;
-		const row = (title, sub, actions = "") =>
-			`<div class="one-shell-row"><div class="one-shell-row-main"><div class="one-shell-row-title">${title}</div>${
-				sub ? `<div class="one-shell-quiet">${sub}</div>` : ""
-			}</div>${actions ? `<div class="one-shell-row-actions">${actions}</div>` : ""}</div>`;
+		// One fact and what to do about it: the shell's row, never a list.
+		const row = (title, quiet, actions = "") => onedesk.shell.row({ title, quiet, actions });
 
 		const password = onedesk.shell.section(
 			__("Signing In"),
@@ -791,18 +815,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const when = whose === "organisation" ? __("by {0} on {1}", [one.by, one.on]) : __("on {0}", [one.on]);
 			// A new revision asks again; a clarified text (a new hash only) is
 			// still agreed, and what was agreed can still be read.
-			const was = one.version === one.current ? "" : ` <a href="${read(one.key, one.version)}" target="_blank" rel="noopener">${esc(__("Read what was agreed"))}</a>`;
+			const was = one.version === one.current ? "" : ` <a href="${read(one.key, one.version)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">${esc(__("Read what was agreed"))}</a>`;
 			if (!one.owed) return `${frappe.ui.badge.html({ label: __("Agreed"), theme: "green" })} <span class="one-shell-quiet">${esc(when)}</span>${was}`;
 			return `${frappe.ui.badge.html({ label: __("Updated since"), theme: "orange" })} <span class="one-shell-quiet">${esc(when)}</span>${was}`;
 		};
-		const row = (doc, whose) => `<div class="one-shell-row">
-			<div class="one-shell-row-main">
-				<div class="one-shell-row-title"><a href="${read(doc.key)}" target="_blank" rel="noopener">${esc(doc.title)}</a></div>
-				<div class="one-shell-quiet">${esc(doc.summary)}</div>
-				${whose ? `<div class="one-shell-row-sub">${state({ ...doc[whose], key: doc.key }, whose)}</div>` : ""}
-			</div>
-			<div class="one-shell-row-actions">${onedesk.shell.button(__("Read"), { "data-read": doc.key }, "ghost", "file-text")}</div>
-		</div>`;
 		const yours = data.documents.filter((doc) => doc.you);
 		const ours = data.documents.filter((doc) => doc.organisation);
 		const published = data.documents.filter((doc) => !doc.you && !doc.organisation);
@@ -812,18 +828,36 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				? `<div class="one-shell-section">${frappe.ui.alert.html({ title: __("Some of these are waiting for you to agree."), theme: "yellow" })}
 					<div class="one-shell-actions">${onedesk.shell.button(__("Agree Now"), { "data-agree": "1" }, "solid")}</div></div>`
 				: "") +
-				onedesk.shell.section(__("Yours"), yours.map((doc) => row(doc, "you")).join(""), __("About your own personal data, so only you can agree to them.")) +
-				onedesk.shell.section(
-					__("Your Organisation's"),
-					ours.map((doc) => row(doc, "organisation")).join("") +
-						(data.admin ? `<div class="one-shell-actions">${onedesk.shell.button(__("Everybody's Agreements"), { "data-everybody": "1" }, "ghost", "list")}</div>` : ""),
-					__("Agreed once, by an administrator, for everybody in the workspace.")
-				) +
-				onedesk.shell.section(__("Published"), published.map((doc) => row(doc, null)).join(""), __("To read. Nobody is asked to agree to these."))
+				'<div class="one-shell-section" data-list="you"></div><div class="one-shell-section" data-list="organisation"></div><div class="one-shell-section" data-list="published"></div>'
 		);
-		this.$content.find("[data-read]").on("click", (event) => window.open(read($(event.currentTarget).attr("data-read")), "_blank"));
+		// Each is one of frappe's tables; a row opens the document to read.
+		const table = (key, title, note, docs, whose, actions = "") =>
+			docs.length &&
+			onedesk.shell.table(this.$content.find(`[data-list="${key}"]`), {
+				title,
+				note,
+				rows: docs,
+				icon: "scale",
+				actions,
+				open: (doc) => window.open(read(doc.key), "_blank"),
+				columns: [
+					{ label: __("Document"), render: (doc) => esc(doc.title) },
+					{ label: __("What It Covers"), render: (doc) => `<span class="one-shell-quiet" title="${esc(doc.summary)}">${esc(doc.summary)}</span>` },
+					...(whose ? [{ label: __("Agreed"), render: (doc) => state({ ...doc[whose], key: doc.key }, whose) }] : []),
+				],
+			});
+		table("you", __("Yours"), __("About your own personal data, so only you can agree to them."), yours, "you");
+		table(
+			"organisation",
+			__("Your Organisation's"),
+			__("Agreed once, by an administrator, for everybody in the workspace."),
+			ours,
+			"organisation",
+			data.admin ? onedesk.shell.button(__("Everybody's Agreements"), { "data-everybody": "1" }, "ghost", "list") : ""
+		);
+		table("published", __("Published"), __("To read. Nobody is asked to agree to these."), published, null);
 		this.$content.find("[data-agree]").on("click", () => onedesk.legal.check());
-		this.$content.find("[data-everybody]").on("click", () => frappe.set_route("List", "Legal Acceptance"));
+		this.$content.find('[data-list="organisation"]').on("click", "[data-everybody]", () => frappe.set_route("List", "Legal Acceptance"));
 	}
 
 	// ---------------------------------------------------------------- the workspace
@@ -1502,15 +1536,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		};
 		const storage = bar(__("Storage"), account.storage_bytes, account.storage_limit, data.storage);
 		const database = bar(__("Database"), account.database_bytes, account.database_limit, data.database);
-		const add_ons = (data.add_ons || [])
-			.map(
-				(one) => `<div class="one-shell-row" data-add-on="${esc(one.offering)}">
-					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.quantity > 1 ? __("{0} × {1}", [one.quantity, one.label]) : one.label)}</div>
-					<div class="one-shell-row-sub">${esc(__("{0} a month", [money(one.amount * (one.quantity || 1))]))}</div></div>
-					<div class="one-shell-row-actions">${onedesk.shell.button(one.quantity > 1 ? __("Remove One") : __("Remove"), { "data-drop": "1" }, "ghost")}</div>
-				</div>`
-			)
-			.join("");
+		const add_ons = (data.add_ons || []).length;
 		const expiring = account.credits_expiring
 			? esc(__("{0} on {1}", [number(account.credits_expiring), frappe.datetime.str_to_user(account.credits_expires_on)]))
 			: "";
@@ -1534,7 +1560,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					]) +
 						(storage ? `<a class="os-bar" href="/desk/onecloud">${storage}</a>` : "") +
 						(database ? `<div class="os-bar">${database}</div>` : "") +
-						(add_ons ? `<div class="os-add-ons"><div class="one-shell-section-title"><span>${esc(__("Added to the Plan"))}</span></div>${add_ons}</div>` : "")
+						(add_ons ? '<div class="os-add-ons" data-list="add-ons"></div>' : "")
 				) +
 				onedesk.shell.section(
 					__("Invoices"),
@@ -1560,8 +1586,29 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
 		this.draw_invoices(this.$content.find('[data-list="invoices"]'));
+		// What was added to the plan, as one of frappe's tables.
+		if (add_ons) {
+			onedesk.shell.table(this.$content.find('[data-list="add-ons"]'), {
+				title: __("Added to the Plan"),
+				rows: data.add_ons,
+				icon: "package",
+				columns: [
+					{ label: __("Add-on"), render: (one) => esc(one.quantity > 1 ? __("{0} × {1}", [one.quantity, one.label]) : one.label) },
+					{ label: __("A Month"), render: (one) => esc(money(one.amount * (one.quantity || 1))) },
+					{
+						label: "",
+						render: (one) =>
+							`<div class="one-shell-row-actions" data-add-on="${esc(one.offering)}">${onedesk.shell.button(
+								one.quantity > 1 ? __("Remove One") : __("Remove"),
+								{ "data-drop": "1" },
+								"ghost"
+							)}</div>`,
+					},
+				],
+			});
+		}
 		// One at a time: 2 × 1 GB becomes 1 × 1 GB, the last one comes off.
-		this.$content.find("[data-add-on] [data-drop]").on("click", (event) => {
+		this.$content.find('[data-list="add-ons"]').on("click", "[data-add-on] [data-drop]", (event) => {
 			const key = $(event.currentTarget).closest("[data-add-on]").attr("data-add-on");
 			const kept = Object.fromEntries((data.add_ons || []).map((one) => [one.offering, one.quantity]));
 			const one = (data.add_ons || []).find((row) => row.offering === key);

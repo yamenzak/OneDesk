@@ -581,3 +581,12 @@ a.one-shell-row:hover {
 	color: var(--ink-gray-8);
 	line-height: 1.5;
 }
+
+/* What was asked of an extension, then each fix: paragraphs, each with its
+   mark (who and when, or Fixed) after it. */
+.one-extension-asked {
+	display: flex;
+	align-items: baseline;
+	gap: calc(var(--spacing) * 3);
+	margin-top: calc(var(--spacing) * 3);
+}

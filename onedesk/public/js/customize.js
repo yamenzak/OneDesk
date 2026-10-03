@@ -26,7 +26,7 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			if (data.doctype !== "Extension" || !this.$content || !this.$content.is(":visible")) return;
 			if (!this.doctype) return this.listed();
 			this.extensions = await frappe.xcall("onedesk.one_studio.forms.extensions", { doctype: this.doctype });
-			this.$content.find(".one-customize-extensions").replaceWith(this.ran(this.data));
+			this.ran(this.data);
 		});
 	}
 
@@ -60,12 +60,13 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	// The list again, as it was searched, when it is the one showing.
 	listed() {
 		if (this.doctype || !this.$content || !this.$content.is(":visible")) return;
-		const query = this.$content.find(".one-shell-search input").val();
-		this.forms().then(() => query && this.$content.find(".one-shell-search input").val(query).trigger("input"));
+		const query = this.$content.find(".embedded-list-search").val();
+		this.forms().then((list) => query && list.$wrapper.find(".embedded-list-search").val(query).trigger("input"));
 	}
 
-	// No form named: every form the administrator may customize, the ones
-	// the workspace has changed first, then by app (one_studio/forms.py).
+	// No form named: every form the administrator may customize, in one of
+	// frappe's tables, the ones the workspace has changed first, then by app
+	// (one_studio/forms.py). A row opens the form's Customize page.
 	async forms() {
 		this.data = null;
 		this.$content = onedesk.shell.body(this.$section);
@@ -73,32 +74,23 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		onedesk.shell.trail(__("OneStudio"), "/desk/extension", __("Forms"));
 		const rows = await frappe.xcall("onedesk.one_studio.forms.forms");
 		this.$content.empty();
-		const $search = onedesk.shell.search(this.$content, { placeholder: __("Find a form") });
-		const $list = $("<div>").appendTo(this.$content);
-		const badge = (count, label) => (count ? frappe.ui.badge.html({ label, theme: "blue" }) : "");
-		const row = (one, app = false) =>
-			onedesk.shell.row({
-				title: frappe.utils.escape_html(one.label),
-				sub: app ? frappe.utils.escape_html(one.app) : "",
-				meta:
-					badge(one.changes, one.changes === 1 ? __("1 change") : __("{0} changes", [one.changes])) +
-					" " +
-					badge(one.extensions, one.extensions === 1 ? __("1 extension") : __("{0} extensions", [one.extensions])),
-				href: `/desk/customize/${encodeURIComponent(one.doctype)}`,
-			});
-		const draw = () => {
-			const words = ($search.val() || "").toLowerCase().trim();
-			const found = rows.filter((one) => !words || `${one.label} ${one.doctype} ${one.app}`.toLowerCase().includes(words));
-			const changed = found.filter((one) => one.changes || one.extensions);
-			const by_app = {};
-			for (const one of found.filter((one) => !one.changes && !one.extensions)) (by_app[one.app] = by_app[one.app] || []).push(one);
-			const sections = [];
-			if (changed.length) sections.push(onedesk.shell.section(__("Changed Here"), onedesk.shell.list(changed.map((one) => row(one, true)).join(""))));
-			for (const [app, ones] of Object.entries(by_app)) sections.push(onedesk.shell.section(app, onedesk.shell.list(ones.map((one) => row(one)).join(""))));
-			$list.html(sections.join("") || onedesk.shell.empty(__("No form by that name."), "", { icon: "search" }));
-		};
-		$search.on("input", frappe.utils.debounce(draw, 150));
-		draw();
+		const esc = frappe.utils.escape_html;
+		const count = (n, label) => (n ? frappe.ui.badge.html({ label, theme: "blue" }) : "");
+		return onedesk.shell.table($("<div>").appendTo(this.$content), {
+			note: __("Every form you may change, the ones changed here first. Open one to customize it."),
+			rows,
+			icon: "file-text",
+			page_size: 50,
+			empty: __("There is no form you may change."),
+			none: __("No form by that name."),
+			open: (one) => frappe.set_route("customize", one.doctype),
+			columns: [
+				{ label: __("Form"), render: (one) => esc(one.label) },
+				{ label: __("App"), render: (one) => esc(one.app) },
+				{ label: __("Changes"), render: (one) => count(one.changes, one.changes === 1 ? __("1 change") : __("{0} changes", [one.changes])) },
+				{ label: __("Extensions"), render: (one) => count(one.extensions, one.extensions === 1 ? __("1 extension") : __("{0} extensions", [one.extensions])) },
+			],
+		});
 	}
 
 	saver(values) {
@@ -241,41 +233,31 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 					{ stack: ["links"] },
 					{ stack: ["actions"] },
 					{ heading: __("Extensions"), note: __("What runs on this form, written by OneAI and turned on in OneStudio › Extensions. Read here; changed there.") },
-					{ html: this.ran(data) },
+					{ html: '<div class="one-customize-extensions"></div>' },
 				],
 			}
 		);
+		this.ran(data);
 	}
 
-	// The extensions on this form (one_studio/forms.py), each a row to its
-	// own page: what it does, and whether it is on.
+	// The extensions on this form (one_studio/forms.py), in one of frappe's
+	// tables: what each does, and whether it is on. A row opens it.
 	ran(data) {
+		const $into = this.$content.find(".one-customize-extensions").empty();
+		if (!$into.length) return;
 		const esc = frappe.utils.escape_html;
-		const ones = this.extensions || [];
-		return `<div class="one-customize-extensions">${this.rows(data, ones, esc)}</div>`;
-	}
-
-	rows(data, ones, esc) {
-		if (!ones.length) {
-			return onedesk.shell.empty(
-				__("Nothing runs on {0}", [data.label]),
-				__("Ask OneAI in OneStudio › Extensions to write one."),
-				{ icon: "code" }
-			);
-		}
-		return onedesk.shell.list(
-			ones
-				.map((one) =>
-					onedesk.shell.row({
-						title: esc(one.title),
-						sub: esc(one.explanation || ""),
-						quiet: esc([__(one.runs), one.event ? __(one.event) : "", one.view ? __(one.view) : ""].filter(Boolean).join(" · ")),
-						meta: frappe.ui.badge.html({ label: one.enabled ? __("On") : __("Off"), theme: one.enabled ? "green" : "gray" }),
-						href: `/desk/extension/${encodeURIComponent(one.name)}`,
-					})
-				)
-				.join("")
-		);
+		onedesk.shell.table($into, {
+			rows: this.extensions || [],
+			icon: "code",
+			empty: __("Nothing runs on {0}", [data.label]),
+			open: (one) => frappe.set_route("Form", "Extension", one.name),
+			columns: [
+				{ label: __("Extension"), render: (one) => esc(one.title) },
+				{ label: __("What It Does"), render: (one) => esc(one.explanation || "") },
+				{ label: __("When"), render: (one) => esc([__(one.runs), one.event ? __(one.event) : ""].filter(Boolean).join(" · ")) },
+				{ label: __("On"), render: (one) => frappe.ui.badge.html({ label: one.enabled ? __("On") : __("Off"), theme: one.enabled ? "green" : "gray" }) },
+			],
+		});
 	}
 
 	menu(data) {
