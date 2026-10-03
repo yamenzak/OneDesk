@@ -11,6 +11,12 @@ OneCloud, OneCalendar, OneTask and OneAdmin › Home. Still to go, one screen at
 a time: **OneProject**, **OneCRM**, **OneBook**, **OneInventory**, **OneHR**,
 **OneAI**, **OneIntake** and the rest of **OneAdmin**.
 
+## Frappe's web side that One has not replaced yet
+
+Gaps 12 and 13 in `docs/DESK-COVERAGE.md`: the customer portal (erpnext's
+Orders, Invoices, Quotations and the rest) and frappe's account pages (Edit
+Profile, Request Account Deletion, Third Party Apps). Each gets its own pass.
+
 ## Frappe that One does not reach yet (P3)
 
 Small, or for some customers. Each row in `docs/DESK-COVERAGE.md` says the

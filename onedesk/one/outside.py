@@ -64,3 +64,12 @@ def kept(said: dict) -> None:
 	owned = said.get("entity_module")
 	if isinstance(owned, dict):
 		said["entity_module"] = {entity: shell for entity, shell in owned.items() if shell in ours}
+
+
+@frappe.whitelist()
+def kind_of(name: str) -> bool:
+	"""Whether a desk address names a kind of record. One the reader may not
+	read is not in their boot, so frappe's router takes it for a page; it
+	then says No access rather than Not Found (outside.js)."""
+	name = (name or "").replace("-", " ").strip()
+	return bool(name) and bool(frappe.db.exists("DocType", name))

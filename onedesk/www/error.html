@@ -7,15 +7,20 @@
 
 {% block page_content %}
 <div class="one-portal one-lost">
-	{% set lost_code, lost_core = "500", "empty" %}
+	{%- set code = lost_code or "500" %}
+	{%- set lost_code, lost_core = (code if code|length == 3 and code[1] == "0" else ""), ("empty" if code[1:2] == "0" else "one") %}
 	{% include "templates/includes/one_lost.html" %}
 	<h1>{{ title }}</h1>
 	<p class="one-lost__line">{{ message }}</p>
 	<div class="one-lost__actions">
+		{%- if code.startswith("5") %}
 		<button class="one-button" type="button" onclick="location.reload()">{{ _("Try Again") }}</button>
+		{%- else %}
+		<button class="one-button" type="button" onclick="history.back()">{{ _("Go Back") }}</button>
+		{%- endif %}
 		<a class="one-button one-button--solid" href="/">{{ _("Go Home") }}</a>
 	</div>
-	{% if error %}
+	{% if error and code.startswith("5") %}
 	<details class="one-error">
 		<summary>{{ _("Show Error") }}</summary>
 		<pre><code>{{ error }}</code></pre>

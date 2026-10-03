@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 14:53+0000\n"
-"PO-Revision-Date: 2026-10-03 14:53+0000\n"
+"POT-Creation-Date: 2026-10-03 15:32+0000\n"
+"PO-Revision-Date: 2026-10-03 15:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -7922,11 +7922,12 @@ msgid "Gmail and Outlook need an app password."
 msgstr "يحتاج Gmail وOutlook إلى كلمة مرور تطبيق."
 
 #: onedesk/public/js/outside.js:241 onedesk/www/404.html:18
+#: onedesk/www/error.html:19
 msgid "Go Back"
 msgstr ""
 
 #: onedesk/public/js/outside.js:242 onedesk/www/404.html:19
-#: onedesk/www/error.html:16 onedesk/www/message.html:25
+#: onedesk/www/error.html:21 onedesk/www/message.html:25
 #: onedesk/www/message.html:29
 msgid "Go Home"
 msgstr "الذهاب إلى الرئيسية"
@@ -14143,6 +14144,7 @@ msgid "Page"
 msgstr ""
 
 #: onedesk/public/js/outside.js:254 onedesk/www/404.html:15
+#: onedesk/www/error.py:17
 msgid "Page not found"
 msgstr ""
 
@@ -17609,7 +17611,7 @@ msgstr ""
 msgid "Show All Actions"
 msgstr "عرض جميع الإجراءات"
 
-#: onedesk/www/error.html:20
+#: onedesk/www/error.html:25
 msgid "Show Error"
 msgstr ""
 
@@ -17918,7 +17920,7 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "أمر تراجع عنه شخص أو رفضه، يُتذكَّر للمستند التالي من الطرف نفسه."
 
-#: onedesk/www/error.py:13
+#: onedesk/www/error.py:21
 msgid "Something went wrong"
 msgstr ""
 
@@ -19631,6 +19633,7 @@ msgid "The least a price may be over its cost. 2 means twice."
 msgstr "أدنى ما يمكن أن يزيد به السعر على تكلفته. 2 تعني الضعف."
 
 #: onedesk/public/js/outside.js:255 onedesk/www/404.html:16
+#: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
 msgstr "قد يكون الرابط معطلاً، أو نُقلت الصفحة."
 
@@ -21134,7 +21137,7 @@ msgstr "المحاولات"
 msgid "Trigger"
 msgstr "المُشغِّل"
 
-#: onedesk/www/error.html:15
+#: onedesk/www/error.html:17
 msgid "Try Again"
 msgstr ""
 
@@ -21146,7 +21149,7 @@ msgstr "جرّبه"
 msgid "Try again"
 msgstr "حاول مرة أخرى"
 
-#: onedesk/www/error.py:14
+#: onedesk/www/error.py:22
 msgid "Try again in a moment."
 msgstr "حاول مرة أخرى بعد لحظات."
 

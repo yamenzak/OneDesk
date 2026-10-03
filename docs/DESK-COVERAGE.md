@@ -251,16 +251,26 @@ Started. What is left, the most visible first:
    search offers the pages and reports a One sidebar lists or One's own
    modules hold, and OneCalendar rather than frappe's event calendar. Records
    of every kind are still found.
-10. ~~**Frappe's not-permitted, not-found and error pages.**~~ **Done**: the
-    desk's are frappe's empty state on a page that keeps the rail
-    (`outside.js`); the web pages for not found, a message, an error and
-    `/me` are One's portal (`www/`). Set Password is frappe's, already in
+10. ~~**Frappe's not-permitted, not-found and error pages.**~~ **Done**: one
+    scene for the desk's and the web's (`templates/includes/one_lost.html`,
+    `css/lost.css`, `outside.js`), the code drawn with One's ring as its 0:
+    404, 403 (no access), 500, and a message page's own code. The desk's keeps
+    the rail. A kind of record the reader may not read says No access, not Not
+    Found. A web page that does not exist is 404, not 500 with its traceback.
+    `/me` sends someone with a desk to Profile. Set Password is frappe's, in
     One's look.
 11. ~~**Frappe reports not in One.**~~ **Done**: Addresses and Contacts is
     in OneCRM › Sales, from erpnext's working report. Permitted Documents For
     User, User Doctype Permissions and Document Share Report stay the
     platform's: frappe allows only its System Manager, and Access and People
     answer who sees what.
+12. **The customer portal is erpnext's.** A customer's contact signed in to
+    the website meets erpnext's Orders, Invoices, Quotations, Shipments,
+    Issues, Addresses, Timesheets and Material Request, in erpnext's look.
+    Only a project's page is One's (`www/projects.py`). Its own pass.
+13. **Frappe's account pages.** Edit Profile (`/update-profile`), Request
+    Account Deletion and Third Party Apps, reached from a contact's account,
+    are frappe's web forms and pages in frappe's look. Its own pass.
 
 Kept as frappe's on purpose: list views and their switcher, bulk actions,
 filters, group-by, report view, a form's menu, its sidebar (assign, tags,

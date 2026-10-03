@@ -6144,6 +6144,24 @@ not creative".
   Error" and "There was an error building this page".
 - Light and dark, phone width, and still for anyone who asks for less motion.
 
+### The 11 gaps, checked again
+
+Your word: "Are you sure all 11 gaps are done or did we skip some", then
+"Fix all except 12 and 13".
+
+- Checked each of the 11 live as Rania: all hold (one commit per batch,
+  1 to 4, 5 and 6, 7 to 9, 10 and 11).
+- **Fixed**: a web page that does not exist (`/projects` with no project)
+  showed 500 and a traceback. Frappe calls it a 404; the error page now draws
+  the code frappe gives it, and the traceback only for a failure.
+- **Fixed**: a kind of record the reader may not read (Pricing Rule for
+  Rania) said Page not found. It is not in the reader's boot, so the router
+  takes it for a page; `outside.kind_of` asks whether the address names a
+  kind of record, and it says No access, 403.
+- **Found, for their own pass**: gap 12, the customer portal, is erpnext's;
+  gap 13, frappe's account pages (Edit Profile, Request Account Deletion,
+  Third Party Apps), are frappe's.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

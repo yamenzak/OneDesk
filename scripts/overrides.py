@@ -355,7 +355,7 @@ OVERRIDES = [
 	),
 	(
 		"A desk page that is not found or not permitted is One's",
-		"frappe draws its own sorry picture over a bare page without the rail; outside.js replaces frappe.show_not_found and show_not_permitted with One's scene (the web 404's) on a page built by make_app_page, and an address naming no page at all is not found rather than not permitted",
+		"frappe draws its own sorry picture over a bare page without the rail; outside.js replaces frappe.show_not_found and show_not_permitted with One's scene (the web 404's) on a page built by make_app_page, an address naming no page at all is not found rather than not permitted, and one naming a kind of record the reader may not read (outside.kind_of) is not permitted",
 		"onedesk/public/js/outside.js",
 		"frappe/frappe/public/js/frappe/views/pageview.js",
 		"frappe.show_not_permitted = function (page_name) {",

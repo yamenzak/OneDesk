@@ -134,3 +134,14 @@ def test_not_found_and_errors_are_one_scene():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert hooks.count('"/assets/onedesk/css/lost.css"') == 2
 	assert "prefers-reduced-motion" in (tree.APP / "public" / "css" / "lost.css").read_text()
+
+
+def test_a_kind_of_record_not_readable_is_no_access_and_a_missing_page_404():
+	"""A kind of record not in the reader's boot is taken for a page by the
+	router; it says No access. A web page frappe calls 404 is drawn as 404."""
+	js = (tree.APP / "public" / "js" / "outside.js").read_text()
+	assert '.xcall("onedesk.one.outside.kind_of", { name })' in js
+	assert "def kind_of(name: str) -> bool:" in SOURCE and "@frappe.whitelist()" in SOURCE
+	error = (tree.APP / "www" / "error.py").read_text()
+	assert "if code == 404:" in error
+	assert '{% if error and code.startswith("5") %}' in (tree.APP / "www" / "error.html").read_text()

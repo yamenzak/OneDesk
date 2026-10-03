@@ -270,6 +270,11 @@ if (frappe.boot.one_elsewhere) {
 			frappe.boot.page_info?.[name] ||
 			frappe.pages[name] ||
 			locals.Page?.[name];
-		return known ? show.call(this, name) : frappe.show_not_found(name);
+		if (known) return show.call(this, name);
+		// A kind of record the reader may not read is not in the boot either.
+		frappe
+			.xcall("onedesk.one.outside.kind_of", { name })
+			.then((kind) => (kind ? frappe.show_not_permitted(name) : frappe.show_not_found(name)))
+			.catch(() => frappe.show_not_found(name));
 	};
 }
