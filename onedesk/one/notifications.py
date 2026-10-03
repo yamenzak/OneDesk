@@ -94,6 +94,19 @@ TYPES = [
 		"outside": True,
 	},
 	{
+		"name": _lt("Portal Invitation"),
+		"app": "One",
+		"about": _lt("When someone invites a customer's or supplier's contact to the portal."),
+		"to": _lt("The contact invited"),
+		"subject": _lt("{inviter} invited you to the {workspace} portal"),
+		"message": _lt(
+			"<b>{inviter}</b> invited you to the <b>{workspace}</b> portal, where you can see {what}.<br><br>"
+			'<a href="{link}">Choose your password</a><br><br>'
+			"The link works for {days} days. You sign in with {address}."
+		),
+		"outside": True,
+	},
+	{
 		"name": _lt("Credits Running Low"),
 		"app": "One",
 		"about": _lt("When OneAI credits will run out in about three days."),

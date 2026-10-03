@@ -6427,6 +6427,48 @@ frappe's sign-in card, outside the shell.
 10. **Plain words**: "Account", "Profile", "Password", "Your Data", "Copy of
     Your Data", "Saved"; the desk's words for every state and button.
 
+### Portals 7: inviting a contact to the portal
+
+Nobody could reach the portal. Self-signup is off, and frappe's Invite as
+User needs its System Manager role, which no one on a workspace holds, so
+it was refused for every workspace user. Even when a login existed, erpnext
+gave the Customer or Supplier role (which the portal's tabs need) only when a
+System Manager added the portal user. Linking also saved the whole Customer,
+so a workspace's own server script on Customer could block it.
+
+1. **Notifications**: Portal Invitation (One, mailed to the contact): who
+   invited them, to which workspace, what they will see, and a link to choose
+   their password that works for 7 days, the same key as the team's
+   Invitation (`invite.py`). Invite Again sends a new link and stops the old.
+2. **OneAI**: none.
+3. **Intake**: none. A contact Intake makes is invited the same way.
+4. **Permissions**: a workspace administrator; for a customer's contact also
+   Sales Manager, for a supplier's contact also Purchase Manager
+   (`portal_invite.MANAGERS`). Checked in the browser and by role: a Sales
+   User is refused, a Sales Manager may, a Purchase Manager may not for a
+   customer's contact. An address that is a workspace user's is refused.
+   Revoke turns the login off and signs it out at once, and the old link
+   stops working.
+5. **Cross-module**: the contact is OneCRM's (customers) or OneInventory's
+   (suppliers); the login sees OneBook's invoices, OneProject's projects and
+   the rest through the portal.
+6. **Bespoke UI**: a Portal menu in the contact's head (frappe's custom
+   button group) with Invite to Portal, Invite Again, Revoke Access and
+   Restore Access as they apply, and the contact's state as frappe's form
+   intro ("Invited to the portal. Not signed in yet.", "Signed in to the
+   portal 2 hours ago.", "Portal access revoked.").
+   - The invited contact sets a password on frappe's page and now lands on
+     the portal's Home (`accounts.home_page`), not frappe's /me.
+7. **Documented**: the README's Portal section (who can invite, the states,
+   the buttons).
+8. **Legal**: the DPA's portal clause already says a workspace invites its
+   customers' and suppliers' contacts from their contact.
+9. **From frappe**: frappe's form buttons, intro, confirm and alerts; the
+   login is frappe's User, its password set on frappe's page; erpnext's
+   Portal User row and role, added as erpnext would add them.
+10. **Plain words**: "Invite to Portal", "Invite Again", "Revoke Access",
+    "Restore Access", "Invitation sent".
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

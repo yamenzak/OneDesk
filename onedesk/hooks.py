@@ -710,6 +710,8 @@ doctype_js = {
 	"Deleted Document": "public/js/deleted_document.js",
 	# Approve and Delete, or Hold, by a workspace administrator. See one/privacy.py.
 	"Personal Data Deletion Request": "public/js/privacy_request.js",
+	# Invite to Portal, and taking it back. See one/portal_invite.py.
+	"Contact": "public/js/contact.js",
 	# Review a copy of somebody's data, kind by kind, then send it. See one/privacy_copy.py.
 	"Personal Data Download Request": "public/js/privacy_copy.js",
 	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.

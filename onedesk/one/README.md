@@ -1560,9 +1560,20 @@ frappe's own Settings window. Each part appears once the workspace can use it.
 
 ## The Portal
 
-Your customers and suppliers can sign in to see their own records. Open
-their contact and choose **Invite as User**; they get a mail to set a
-password, and land on the portal.
+Your customers and suppliers can sign in to see their own records. Nobody
+can sign up on their own: open the contact of a customer or supplier and
+choose **Portal › Invite to Portal**. They get an email with a link to
+choose their password, which works for a week, and land on the portal.
+
+- **Who can invite**: a workspace administrator; for a customer's contact,
+  also a OneCRM manager; for a supplier's contact, also a OneInventory
+  manager (buying).
+- **On the contact**: it says whether they are invited, when they last
+  signed in, or that their access is revoked. **Invite Again** sends a new
+  link if they have not signed in yet. **Revoke Access** signs them out and
+  turns off their login. **Restore Access** turns it back on.
+- An address that belongs to someone in the workspace cannot be invited.
+  They sign in to One instead.
 
 - **A customer** sees their quotations, orders, invoices, shipments,
   addresses, projects and timesheets.

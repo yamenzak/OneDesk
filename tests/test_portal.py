@@ -46,7 +46,7 @@ def test_the_tabs_are_portal_settings_by_role():
 
 def test_a_customers_or_suppliers_contact_is_a_portal_user():
 	assert 'PARTIES = ("Customer", "Supplier")' in SOURCE
-	assert 'party.append("portal_users", {"user": doc.user})' in SOURCE
+	assert '{"doctype": "Portal User", **where, "user": doc.user}' in SOURCE
 	assert '"onedesk.one.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
 
 
@@ -166,3 +166,25 @@ def test_the_account_pages_are_in_the_portals_shell():
 	assert "from frappe.www.third_party_apps import get_context" in apps_py
 	apps = (tree.APP / "www" / "third_party_apps.html").read_text()
 	assert "one_portal_sidebar.html" in apps and "btn-delete-app" in apps
+
+
+def test_a_contact_is_invited_to_the_portal_by_one():
+	"""frappe's Invite as User needs its System Manager, whom no workspace
+	has: One's Invite to Portal is for an administrator or the party's
+	manager, makes a Website User, links it without saving the whole party
+	(and gives it the Customer or Supplier role erpnext would not), mails One's
+	Portal Invitation with a week's link, and can be revoked and restored."""
+	invite = (tree.APP / "one" / "portal_invite.py").read_text()
+	assert 'MANAGERS = {"Customer": "Sales Manager", "Supplier": "Purchase Manager"}' in invite
+	assert "roles.administers()" in invite and '"user_type": "Website User"' in invite
+	assert "invite.send(user, what=_what(doc))" in invite and "clear_sessions(user=user, force=True)" in invite
+	assert "is someone in the workspace" in invite
+	assert 'notify.mail("Portal Invitation", email, what=what, **said)' in (tree.APP / "one" / "invite.py").read_text()
+	assert '"name": _lt("Portal Invitation")' in (tree.APP / "one" / "notifications.py").read_text()
+	assert "row.db_insert()" in SOURCE and "user.add_roles(*sorted(missing))" in SOURCE and "party.save()" not in SOURCE
+	js = (tree.APP / "public" / "js" / "contact.js").read_text()
+	for verb in ("Invite to Portal", "Invite Again", "Revoke Access", "Restore Access"):
+		assert f'__("{verb}")' in js
+	assert '"Contact": "public/js/contact.js"' in (tree.APP / "hooks.py").read_text()
+	home = (tree.APP / "one_admin" / "accounts.py").read_text()
+	assert 'return "portal" if website else None' in home

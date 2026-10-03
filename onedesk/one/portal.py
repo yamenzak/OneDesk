@@ -524,21 +524,30 @@ PARTIES = ("Customer", "Supplier")
 
 def invited(doc, method=None) -> None:
 	"""Contact on_update: a contact's login is a portal user of each customer
-	and supplier the contact is for, which is what erpnext's lists read. Its
-	own Invite as User makes the login and stops there."""
+	and supplier the contact is for, which is what erpnext's lists read, and
+	holds the Customer or Supplier role its tabs are shown by (Portal
+	Settings). erpnext gives the role only when its System Manager adds the
+	row, and nobody on a workspace is one (one/roles.py), so both are added
+	here: the row by itself, not by saving the whole customer, whose own
+	rules (a workspace's server scripts) are not this contact's to meet."""
 	if not doc.user or frappe.db.get_value("User", doc.user, "user_type") != "Website User":
 		return
+	wanted = set()
 	for link in doc.links or []:
 		if link.link_doctype not in PARTIES:
 			continue
-		if frappe.db.exists(
-			"Portal User", {"parenttype": link.link_doctype, "parent": link.link_name, "user": doc.user}
-		):
+		wanted.add(link.link_doctype)
+		where = {"parenttype": link.link_doctype, "parent": link.link_name, "parentfield": "portal_users"}
+		if frappe.db.exists("Portal User", {**where, "user": doc.user}):
 			continue
-		party = frappe.get_doc(link.link_doctype, link.link_name)
-		party.append("portal_users", {"user": doc.user})
-		party.flags.ignore_permissions = True
-		party.save()
+		row = frappe.get_doc({"doctype": "Portal User", **where, "user": doc.user})
+		row.idx = frappe.db.count("Portal User", where) + 1
+		row.db_insert()
+	user = frappe.get_doc("User", doc.user)
+	missing = wanted - {one.role for one in user.roles}
+	if missing:
+		user.flags.ignore_permissions = True
+		user.add_roles(*sorted(missing))
 
 
 def settle() -> None:

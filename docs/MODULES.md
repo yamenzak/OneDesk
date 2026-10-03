@@ -248,6 +248,11 @@ No doctypes yet.
 * `onedesk.one.numbering.set_naming_by`
 * `onedesk.one.outside.kind_of`
 * `onedesk.one.portal.send_quote`
+* `onedesk.one.portal_invite.invite_again`
+* `onedesk.one.portal_invite.invite_contact`
+* `onedesk.one.portal_invite.restore`
+* `onedesk.one.portal_invite.revoke`
+* `onedesk.one.portal_invite.state`
 * `onedesk.one.printing.default`
 * `onedesk.one.printing.design_letter_head`
 * `onedesk.one.printing.download_builder_preview_pdf`
