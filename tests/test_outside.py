@@ -124,6 +124,11 @@ def test_not_found_and_errors_are_one_scene():
 		assert '{% include "templates/includes/one_lost.html" %}' in html and "one-lost" in html, page
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert "onedesk.outside.lost(art)" in js and 'class="one-lost one-lost--desk"' in js
+	# No access is 403 on the desk and off it, the ring the 0 of any such code.
+	assert 'code: "403",' in js
+	message = (www / "message.html").read_text()
+	assert 'code|length == 3 and code[1] == "0"' in message
+	assert '403 if title == _("Not Permitted")' in message
 	# Gradient ids per drawing, so a hidden page's scene cannot leave this one's ring undrawn.
 	assert "const id = `one-lost-${++drawn}`;" in js
 	hooks = (tree.APP / "hooks.py").read_text()

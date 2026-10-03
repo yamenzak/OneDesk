@@ -6131,9 +6131,13 @@ not creative".
   Your word: "Maybe the 1 in our one logo can become 0 for 500 and 404 and
   make the entire logo the size of the font's 0", then "without the 0
   inside". So on a code the ring alone is the 0, its core empty, the height
-  of the digits and on their line. Without
-  a code its core shows a lock for no access, a tick for a message that
-  went well, and the 1 for any other message.
+  of the digits and on their line. Then "the same for the no access page":
+  no access is 403, and a message page with any code that has a 0 in the
+  middle (401, 410, 502, 503) draws it the same way. Frappe's own
+  not-permitted page, which a signed-out visitor meets, says "No access"
+  with "Sign in to see this page." and Sign In, in place of its "Not
+  Permitted" and Login. Without a code the
+  core shows a tick for a message that went well, and the 1 otherwise.
 - **Fixed**: the words. "Page not found" with "The link may be broken, or
   the page has moved.", Go Back and Go Home. "Something went wrong" with
   "Try again in a moment.", Try Again and Go Home. Frappe said "Server

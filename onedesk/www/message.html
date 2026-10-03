@@ -6,16 +6,24 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-{%- set code = (error_code or http_status_code or "")|string -%}
+{#- frappe's not-permitted page renders this template with its own context,
+    which names no code, only its title. -#}
+{%- set code = (error_code or http_status_code or (403 if title == _("Not Permitted") else ""))|string -%}
 <div class="one-portal one-lost">
 	{%- if success %}{% set lost_code, lost_core = "", "check" %}
-	{%- elif code == "403" %}{% set lost_code, lost_core = "", "lock" %}
-	{%- elif code == "404" %}{% set lost_code, lost_core = "404", "empty" %}
-	{%- elif code.startswith("5") %}{% set lost_code, lost_core = "500", "empty" %}
+	{%- elif code|length == 3 and code[1] == "0" %}{% set lost_code, lost_core = code, "empty" %}
 	{%- else %}{% set lost_code, lost_core = "", "one" %}{% endif %}
 	{% include "templates/includes/one_lost.html" %}
-	{% if title %}<h1>{{ title }}</h1>{% endif %}
+	{#- frappe's own not-permitted page, in the desk's words. A block sees only
+	    the context, so the block below asks the same question again. -#}
+	{%- set denied = title == _("Not Permitted") and not message %}
+	{% if title %}<h1>{{ _("No access") if denied else title }}</h1>{% endif %}
 	{% block message_body %}
+	{%- if title == _("Not Permitted") and not message %}
+	{%- set guest = frappe.session.user == "Guest" %}
+	{%- set message = _("Sign in to see this page.") if guest else _("Ask an administrator for access.") %}
+	{%- set primary_label = _("Sign In") if guest else _("Go Home") %}
+	{%- endif %}
 	{% if message %}<div class="one-lost__line">{{ message }}</div>{% endif %}
 	<div class="one-lost__actions">
 		<a class="one-button one-button--solid" href="{{ primary_action or '/' }}">{{ primary_label or _("Go Home") }}</a>

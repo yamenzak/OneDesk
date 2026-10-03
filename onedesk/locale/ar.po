@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 14:30+0000\n"
-"PO-Revision-Date: 2026-10-03 14:30+0000\n"
+"POT-Creation-Date: 2026-10-03 14:53+0000\n"
+"PO-Revision-Date: 2026-10-03 14:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -2297,7 +2297,8 @@ msgstr "اطلب مجدداً من ملفك الشخصي إن كنت لا تزا
 msgid "Ask again on the workspace's Your Data page."
 msgstr "اطلب مجددًا من صفحة «بياناتك» في مساحة العمل."
 
-#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:257
+#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:262
+#: onedesk/www/message.html:24
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
 
@@ -7920,12 +7921,13 @@ msgstr "الحاوية العالمية"
 msgid "Gmail and Outlook need an app password."
 msgstr "يحتاج Gmail وOutlook إلى كلمة مرور تطبيق."
 
-#: onedesk/public/js/outside.js:240 onedesk/www/404.html:18
+#: onedesk/public/js/outside.js:241 onedesk/www/404.html:18
 msgid "Go Back"
 msgstr ""
 
-#: onedesk/public/js/outside.js:241 onedesk/www/404.html:19
-#: onedesk/www/error.html:16 onedesk/www/message.html:21
+#: onedesk/public/js/outside.js:242 onedesk/www/404.html:19
+#: onedesk/www/error.html:16 onedesk/www/message.html:25
+#: onedesk/www/message.html:29
 msgid "Go Home"
 msgstr "الذهاب إلى الرئيسية"
 
@@ -11828,7 +11830,7 @@ msgstr "شهادة عدم ممانعة"
 msgid "No Shift"
 msgstr "بلا مناوبة"
 
-#: onedesk/public/js/outside.js:257
+#: onedesk/public/js/outside.js:261 onedesk/www/message.html:20
 msgid "No access"
 msgstr "لا يوجد وصول"
 
@@ -12285,6 +12287,11 @@ msgstr "غير مُقدَّرة"
 
 #: onedesk/www/404.html:2
 msgid "Not Found"
+msgstr ""
+
+#: onedesk/www/message.html:11 onedesk/www/message.html:19
+#: onedesk/www/message.html:22
+msgid "Not Permitted"
 msgstr ""
 
 #: onedesk/one_crm/measure.py:144
@@ -14135,7 +14142,7 @@ msgstr "الحزمة"
 msgid "Page"
 msgstr ""
 
-#: onedesk/public/js/outside.js:253 onedesk/www/404.html:15
+#: onedesk/public/js/outside.js:254 onedesk/www/404.html:15
 msgid "Page not found"
 msgstr ""
 
@@ -17673,7 +17680,7 @@ msgstr "التوقيع"
 msgid "Sign Count"
 msgstr "عدد مرات التوقيع"
 
-#: onedesk/public/js/onecloud.js:1587
+#: onedesk/public/js/onecloud.js:1587 onedesk/www/message.html:25
 msgid "Sign In"
 msgstr "تسجيل الدخول"
 
@@ -17700,6 +17707,10 @@ msgstr "تسجيل الدخول"
 #: onedesk/one/push.py:115
 msgid "Sign in first."
 msgstr "سجّل الدخول أولاً."
+
+#: onedesk/www/message.html:24
+msgid "Sign in to see this page."
+msgstr "سجّل الدخول لرؤية هذه الصفحة."
 
 #: onedesk/one_admin/accounts.py:218 onedesk/one_admin/accounts.py:315
 msgid "Sign in to your One account first."
@@ -19619,7 +19630,7 @@ msgstr "سيُطبع التخطيط بشكل سيئ: {0}."
 msgid "The least a price may be over its cost. 2 means twice."
 msgstr "أدنى ما يمكن أن يزيد به السعر على تكلفته. 2 تعني الضعف."
 
-#: onedesk/public/js/outside.js:254 onedesk/www/404.html:16
+#: onedesk/public/js/outside.js:255 onedesk/www/404.html:16
 msgid "The link may be broken, or the page has moved."
 msgstr "قد يكون الرابط معطلاً، أو نُقلت الصفحة."
 

@@ -210,7 +210,6 @@ onedesk.outside.lost = ({ code = "", core = "one" }) => {
 	const mark = {
 		// On a code the ring alone is the 0.
 		empty: "",
-		lock: `<g transform="translate(96 98) scale(2.4) translate(-12 -12)" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g>`,
 		check: `<path d="M74 97l15 15 30-32" stroke-width="12"/>`,
 	}[core] ?? `<path d="M86 78l10-8v52M84 122h24" stroke-width="12"/>`;
 	return `<div class="one-lost__art" aria-hidden="true">${digit(code[0])}<span class="one-lost__ring">
@@ -256,7 +255,12 @@ if (frappe.boot.one_elsewhere) {
 			line: __("The link may be broken, or the page has moved."),
 		});
 	frappe.show_not_permitted = (page_name) =>
-		draw(page_name, { core: "lock", title: __("No access"), line: __("Ask an administrator for access.") });
+		draw(page_name, {
+			code: "403",
+			core: "empty",
+			title: __("No access"),
+			line: __("Ask an administrator for access."),
+		});
 
 	const show = frappe.views.pageview.show;
 	frappe.views.pageview.show = function (name) {
