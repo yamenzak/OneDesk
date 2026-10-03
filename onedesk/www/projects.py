@@ -22,6 +22,5 @@ def get_context(context):
 	context.update(portal.view(project))
 	context.when = portal.when(context.days_left)
 	context.no_cache = 1
-	context.show_sidebar = True
+	context.show_sidebar = False
 	context.title = context.doc.project_name
-	context.parents = [{"route": "/project", "title": frappe._("Projects")}]

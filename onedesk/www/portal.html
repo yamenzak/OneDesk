@@ -41,10 +41,14 @@
 	{%- set here = one_portal_tabs() | selectattr("current") | first %}
 	<div class="one-page-head">
 		<h1>{{ here.title if here else (title or _(doctype)) }}</h1>
-		<form class="one-search" method="get" role="search">
-			<svg class="one-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
-			<input type="search" name="txt" value="{{ (txt or '')|e }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
-		</form>
+		<div class="one-actions">
+			<form class="one-search" method="get" role="search">
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+				<input type="search" name="txt" value="{{ (txt or '')|e }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
+			</form>
+			{%- set add = one_portal_add(doctype) %}
+			{% if add %}<a class="one-btn one-btn--solid" href="{{ add.route }}">{{ add.label }}</a>{% endif %}
+		</div>
 	</div>
 	<div class="one-portal__body">
 	{% if introduction %}<p class="one-portal__lede">{{ introduction }}</p>{% endif %}

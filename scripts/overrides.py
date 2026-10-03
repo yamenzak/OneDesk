@@ -403,8 +403,22 @@ OVERRIDES = [
 		'{% if doc.status == "Open" %}',
 	),
 	(
+		"An address on the portal's list is One's row",
+		"erpnext's row is a Bootstrap grid with a coloured dot; onedesk's template of the same path is found first and draws the row frappe-ui's ListView draws, opening the address's web form",
+		"onedesk/templates/includes/address_row.html",
+		"erpnext/erpnext/templates/includes/address_row.html",
+		'<span class="indicator {{ "red" if doc.address_type=="Office"',
+	),
+	(
+		"frappe's web form keeps the portal's shell for a customer or supplier",
+		"frappe draws a web form (a customer's address) in a boxed card under the site's navbar; onedesk's template of the same path extends frappe's by its app prefix and, for a reader with portal tabs, wraps it in the sidebar and head, puts Save and Discard in the page head, reads the head as Breadcrumbs, and returns to the list at once after saving; anyone else gets frappe's page",
+		"onedesk/website/doctype/web_form/templates/web_form.html",
+		"frappe/frappe/website/doctype/web_form/templates/web_form.html",
+		'<div class="web-form-container">',
+	),
+	(
 		"A timesheet on the portal's list is One's row",
-		"erpnext's row is a Bootstrap grid of bare values; One's says the hours and the project",
+		"erpnext's row is a Bootstrap grid of bare values, and its list gives a row for each time entry, so a timesheet repeats; One's draws each timesheet once, with its projects by name, what was done and its hours, opening the project",
 		"onedesk/templates/includes/timesheet/timesheet_row.html",
 		"erpnext/erpnext/templates/includes/timesheet/timesheet_row.html",
 		"{{ doc.billing_hours }}",

@@ -1,9 +1,14 @@
-{#- A timesheet on the portal's list: the hours billed, and for which project. -#}
-<div class="one-list__row">
+{#- A timesheet on the portal's list: the projects it is for, what was done
+    and its hours. erpnext lists a timesheet once per time entry; each is
+    drawn once (one/portal.py). -#}
+{%- set sheet = one_portal_timesheet(doc.name) -%}
+{%- if sheet -%}
+<{{ 'a' if sheet.project else 'div' }} class="one-list__row"{% if sheet.project %} href="/projects?project={{ sheet.project | urlencode }}"{% endif %}>
 	<span class="one-list__what">
 		<span>{{ doc.name | e }}</span>
-		<small>{{ (doc.project or "") | e }}{% if doc.activity_type %} · {{ _(doc.activity_type) }}{% endif %}</small>
+		<small>{{ sheet.projects | e }}{% if sheet.activities %} · {{ sheet.activities | e }}{% endif %}</small>
 	</span>
 	<span><span class="one-badge one-badge--{{ 'green' if doc.status == 'Billed' else 'red' if doc.status == 'Cancelled' else 'blue' if doc.status == 'Submitted' else 'gray' }}">{{ _(doc.status) }}</span></span>
-	<span class="one-list__amount">{{ _("{0} h").format(frappe.utils.flt(doc.billing_hours, 2)) }}</span>
-</div>
+	<span class="one-list__amount">{{ _("{0} h").format(frappe.utils.flt(sheet.hours, 2)) }}</span>
+</{{ 'a' if sheet.project else 'div' }}>
+{%- endif -%}

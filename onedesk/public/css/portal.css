@@ -1590,6 +1590,37 @@ a.one-portal__row:hover {
 	font-size: 13px;
 }
 
+/* A project's page (www/projects.html): an aside after a fact, a late date
+ * in red, frappe-ui's Progress, and a task under another indented. */
+.one-facts .one-facts__aside {
+	margin-left: 4px;
+	color: var(--ink-gray-5);
+	font-size: 13px;
+}
+
+.one-portal--app .one-facts__late {
+	color: var(--ink-red-7, var(--red-600));
+}
+
+.one-progress {
+	height: 6px;
+	margin: 0 8px 8px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--surface-gray-2);
+}
+
+.one-progress > span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--surface-gray-7, var(--gray-600));
+}
+
+.one-list-view .one-list__row.one-list__row--under .one-list__what {
+	padding-left: 16px;
+}
+
 /* A quote request (www/rfq.html): the buyer's message, then each row's
  * quantity and rate in frappe-ui's TextInput (subtle, md), and the notes in
  * its Textarea. */
@@ -1685,6 +1716,125 @@ a.one-portal__row:hover {
 .one-portal--app .one-section h2 label {
 	margin: 0;
 	font-weight: inherit;
+}
+
+/* frappe's web form (an address) inside the portal's shell
+ * (website/doctype/web_form/templates/web_form.html). frappe styles its form
+ * only inside the narrow page container; here its head is PageHeader, and
+ * its fields, frappe's own controls, sit on the page without a card. */
+.one-portal--form .web-form-container > .breadcrumb-container,
+.one-portal--form .web-form-container > div[style],
+.one-portal--form .tooltip-content {
+	display: none;
+}
+
+/* An open record's head reads as Breadcrumbs: the form's name, then the
+ * record's. */
+.one-portal--form .web-form-title {
+	display: flex;
+	align-items: baseline;
+	gap: 4px;
+}
+
+.one-portal--form .web-form-title h1 + p {
+	margin: 0;
+	color: var(--ink-gray-9);
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.one-portal--form .web-form-title h1:has(+ p),
+.one-portal--form .web-form-title h1 a {
+	color: var(--ink-gray-5);
+	text-decoration: none;
+}
+
+.one-portal--form .web-form-title h1 a:hover {
+	color: var(--ink-gray-7);
+}
+
+.one-portal--form .web-form-title h1:has(+ p)::after {
+	content: " /";
+	color: var(--ink-gray-4);
+	font-weight: 400;
+}
+
+/* frappe's controls at the size frappe-ui's TextInput has. */
+.one-portal--form .web-form .form-control {
+	font-size: 14px;
+	font-weight: 400;
+	color: var(--ink-gray-8);
+}
+
+.one-portal--form .web-form-header {
+	padding: 1rem 0;
+}
+
+.one-portal--form .web-form-head .title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.one-portal--form .web-form-title {
+	min-width: 0;
+}
+
+.one-portal--form .web-form-title h1 {
+	margin: 0;
+	color: var(--ink-gray-9);
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.one-portal--form .web-form-head .web-form-actions {
+	margin-left: auto;
+}
+
+.one-portal--form .web-form-introduction {
+	margin-top: 4px;
+	color: var(--ink-gray-6);
+	font-size: 14px;
+}
+
+.one-portal--form .web-form {
+	max-width: 48rem;
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+
+.one-portal--form .web-form-head .web-form-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.one-portal--form .web-form-footer {
+	display: none;
+}
+
+@media (min-width: 48rem) {
+	.one-portal--form .web-form-container {
+		padding: 0 20px 20px;
+	}
+	.one-portal--form .web-form-header {
+		position: sticky;
+		top: 0;
+		z-index: 5;
+		min-height: 48px;
+		margin: 0 -20px 20px;
+		padding: 0 20px;
+		display: flex;
+		align-items: center;
+		border-bottom: 1px solid var(--outline-gray-1);
+		background: var(--surface-base);
+	}
+	.one-portal--form .web-form-header .web-form-head {
+		flex: 1;
+	}
+	.one-portal--form .web-form-title h1 {
+		font-size: 16px;
+	}
 }
 
 /* frappe-ui's Sidebar, 15rem on the sidebar surface: SidebarHeader's 48px
@@ -1869,6 +2019,10 @@ a.one-portal__row:hover {
 		padding: 1rem 1rem 3rem;
 	}
 	.one-portal--app .one-search {
+		flex: 1;
+		width: 100%;
+	}
+	.one-portal--app .one-page-head > .one-actions {
 		width: 100%;
 	}
 	.one-list-view__head {
@@ -1949,5 +2103,15 @@ a.one-portal__row:hover {
 	.one-quote .one-list__amount {
 		grid-column: 1 / -1;
 		grid-row: 3;
+	}
+	.one-portal--form .web-form-head .title {
+		flex-wrap: wrap;
+	}
+	.one-portal--form .web-form-head .web-form-actions {
+		width: 100%;
+		margin-left: 0;
+	}
+	.one-portal--form .web-form-title h1 + p {
+		font-size: 20px;
 	}
 }

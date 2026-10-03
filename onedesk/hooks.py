@@ -1246,6 +1246,9 @@ jinja = {
 		"onedesk.one.portal.one_portal_rfq",
 		"onedesk.one.portal.one_portal_status",
 		"onedesk.one.portal.one_portal_quoted",
+		"onedesk.one.portal.one_portal_add",
+		"onedesk.one.portal.one_portal_timesheet",
+		"onedesk.one.portal.one_portal_title",
 		"onedesk.one.portal.one_portal_me",
 		"onedesk.one.portal.one_portal_columns",
 	]

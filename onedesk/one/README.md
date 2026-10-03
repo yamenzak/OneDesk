@@ -1584,6 +1584,11 @@ item they can supply, change the quantity if they need to, add notes, and
 choose **Send Quote**. Their quote lands in Quotes, and whoever made the
 request is told (Quote Received). A request they have answered says Quoted.
 
+A customer adds their own addresses (**Add Address**) and changes them, and
+follows their projects: how far along each is, when it ends, its tasks and
+its order and invoices. Timesheets show the hours worked for them, one row
+per timesheet.
+
 ## Asking OneAI
 
 The OneAI button at the bottom of every page opens the OneAI panel. Every

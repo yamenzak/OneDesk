@@ -28,8 +28,8 @@ OFF = ("/issues", "/material-requests")
 TITLES = {"/rfq": "Quote Requests", "/supplier-quotations": "Quotes"}
 
 #: The same titles, for translation: the rows hold the English, and a tab's
-#: title is translated as it is drawn.
-SAID = (_lt("Quote Requests"), _lt("Quotes"))
+#: title is translated as it is drawn. So is the address form's button.
+SAID = (_lt("Quote Requests"), _lt("Quotes"), _lt("Save Address"))
 
 #: erpnext's indicator colours, as frappe-ui's Badge themes them.
 TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
@@ -49,13 +49,22 @@ ICONS = {
 	"/purchase-invoices": "receipt",
 }
 
+#: Pages that belong to a tab without sharing its route: an address's form
+#: (frappe's web form) is under Addresses, a project's page under Projects.
+ALSO = {"/address": "/addresses", "/projects": "/project"}
+
 #: A list's columns, by the row template that draws it, as frappe-ui's
 #: ListView heads them.
 COLUMNS = {
 	"templates/includes/transaction_row.html": (_lt("Number"), _lt("Status"), _lt("Total")),
 	"templates/includes/projects/project_row.html": (_lt("Project"), _lt("Status"), _lt("Progress")),
 	"templates/includes/timesheet/timesheet_row.html": (_lt("Timesheet"), _lt("Status"), _lt("Hours")),
+	"templates/includes/address_row.html": (_lt("Address"), _lt("Type"), _lt("City")),
 }
+
+#: A list's button for adding one, where the reader may: an address is added
+#: through frappe's web form.
+ADD = {"Address": ("/address/new", _lt("Add Address"))}
 
 #: How many of a kind the home counts before it says "100+".
 COUNTED = 100
@@ -72,6 +81,7 @@ def one_portal_tabs() -> list[dict]:
 	being read marked."""
 	request = getattr(frappe.local, "request", None)
 	here = "/" + (request.path.strip("/").split("/")[0] if request else "")
+	here = ALSO.get(here, here)
 	return [
 		{
 			"title": _(item.get("title")),
@@ -108,6 +118,59 @@ def one_portal_columns(row_template: str | None) -> list[str]:
 	"""A list's column heads (COLUMNS), or none for a kind One has no row of
 	its own for."""
 	return [str(one) for one in COLUMNS.get(row_template or "", ())]
+
+
+def one_portal_add(doctype: str | None) -> dict | None:
+	"""The list's Add button for a kind (ADD), if it has one."""
+	if doctype not in ADD:
+		return None
+	route, label = ADD[doctype]
+	return {"route": route, "label": str(label)}
+
+
+def one_portal_timesheet(name: str) -> dict | None:
+	"""A timesheet as the portal lists it, once. erpnext's list gives a row for
+	each time entry, so the same timesheet comes back once per entry; its first
+	row is drawn with the whole timesheet (the projects it is for, what was
+	done, its hours) and the rest draw nothing."""
+	drawn = frappe.local.flags.setdefault("one_portal_timesheets", set())
+	if name in drawn:
+		return None
+	drawn.add(name)
+	rows = frappe.get_all(
+		"Timesheet Detail",
+		filters={"parent": name, "parenttype": "Timesheet"},
+		fields=["project", "activity_type", "hours", "billing_hours"],
+		order_by="idx",
+	)
+	projects = list(dict.fromkeys(row.project for row in rows if row.project))
+	titles = {
+		one.name: one.project_name
+		for one in frappe.get_all(
+			"Project", filters={"name": ("in", projects)}, fields=["name", "project_name"]
+		)
+	}
+	return {
+		"projects": ", ".join(titles.get(one) or one for one in projects),
+		"activities": ", ".join(dict.fromkeys(_(row.activity_type) for row in rows if row.activity_type)),
+		"hours": sum(frappe.utils.flt(row.billing_hours or row.hours) for row in rows),
+		"project": projects[0] if len(projects) == 1 else None,
+	}
+
+
+def one_portal_title(doctype: str | None, name: str | None) -> str:
+	"""A record's title for the head of frappe's web form (an address by its
+	title, not its name), if the reader may read it."""
+	if not (doctype and name) or not frappe.db.exists(doctype, name):
+		return ""
+	doc = frappe.get_doc(doctype, name)
+	if not frappe.has_website_permission(doc) and not doc.has_permission("read"):
+		return ""
+	# Address names no title field, but has its own `address_title`.
+	for field in (doc.meta.title_field, f"{frappe.scrub(doctype)}_title", "title"):
+		if field and doc.get(field):
+			return str(doc.get(field))
+	return name
 
 
 def one_portal_tone(colour: str | None) -> str:
@@ -425,11 +488,12 @@ def invited(doc, method=None) -> None:
 
 
 def settle() -> None:
-	"""Turn off the Portal Settings rows One has no use for (OFF) and name the
-	supplier's tabs plainly (TITLES). An administrator who turns one back on
-	keeps it until the next install."""
+	"""Turn off the Portal Settings rows One has no use for (OFF), name the
+	supplier's tabs plainly (TITLES), and name the address form's button. An
+	administrator who turns one back on keeps it until the next install."""
 	for route in OFF:
 		frappe.db.set_value("Portal Menu Item", {"parent": "Portal Settings", "route": route}, "enabled", 0)
 	for route, title in TITLES.items():
 		frappe.db.set_value("Portal Menu Item", {"parent": "Portal Settings", "route": route}, "title", title)
+	frappe.db.set_value("Web Form", "addresses", "button_label", "Save Address")
 	frappe.cache.delete_key("portal_menu_items")

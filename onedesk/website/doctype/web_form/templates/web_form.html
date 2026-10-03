@@ -1,0 +1,69 @@
+{#- frappe's web form, as frappe draws it, inside the portal's shell for a
+    customer or supplier who has tabs (one/portal.py): a form they open from
+    the portal (an address) keeps the sidebar and the head. Anyone else sees
+    frappe's page unchanged. frappe's own template is reached by its app
+    prefix, so only the shell is One's. -#}
+{% extends "frappe/website/doctype/web_form/templates/web_form.html" %}
+{%- set one_tabs = one_portal_tabs() if frappe.session.user != "Guest" else [] -%}
+{%- if one_tabs -%}{%- set full_width = True -%}{%- set show_sidebar = False -%}{%- endif -%}
+
+{% block navbar %}{% if not one_portal_tabs() %}{{ super() }}{% endif %}{% endblock %}
+{% block footer %}{% if not one_portal_tabs() %}{{ super() }}{% endif %}{% endblock %}
+
+{#- Save goes in the page head: the head's buttons stand for frappe's own,
+    Save submitting frappe's form and Discard pressing frappe's Discard. -#}
+{% block header_buttons %}
+{{ super() }}
+{%- if one_portal_tabs() and not in_view_mode %}
+<button type="button" class="btn btn-default btn-sm" data-one-discard>{{ _("Discard", context="Button in web form") }}</button>
+<button type="button" class="btn btn-primary btn-sm" data-one-save>{{ _(button_label) if button_label else _("Save") }}</button>
+{%- endif %}
+{% endblock %}
+
+{% block page_content %}
+{%- if one_portal_tabs() %}
+<div class="one-portal one-portal--wide one-portal--app one-portal--form">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
+	{% include "templates/includes/one_portal_head.html" %}
+	{{ super() }}
+	</div>
+</div>
+<script>
+	document.querySelector("[data-one-save]")?.addEventListener("click", () =>
+		document.querySelector(".web-form").requestSubmit()
+	);
+	document.querySelector("[data-one-discard]")?.addEventListener("click", () =>
+		document.querySelector(".web-form-footer .discard-btn").click()
+	);
+	{%- set here = one_portal_tabs() | selectattr("current") | first %}
+	{%- set named = one_portal_title(doc_type, doc_name) if not is_new else "" %}
+	{%- if here %}
+	// The head reads as Breadcrumbs: the tab the form is under, back to its
+	// list, then the record by its title, or frappe's own for a new one.
+	const head = document.querySelector(".web-form-title");
+	if (head) {
+		const tab = Object.assign(document.createElement("a"), {
+			href: {{ here.route | tojson }},
+			textContent: {{ here.title | tojson }},
+		});
+		const crumb = document.createElement("h1");
+		crumb.append(tab);
+		const record = Object.assign(document.createElement("p"), {
+			textContent: {{ (named or title or "") | tojson }},
+		});
+		head.replaceChildren(crumb, record);
+	}
+	{%- endif %}
+	// Saved: back to the list at once, not after frappe's five-second page.
+	const saved = document.querySelector(".success-page");
+	{%- if success_url %}
+	saved && new MutationObserver(() => {
+		if (!saved.classList.contains("hide")) window.location.href = {{ success_url | tojson }};
+	}).observe(saved, { attributes: true, attributeFilter: ["class"] });
+	{%- endif %}
+</script>
+{%- else %}
+{{ super() }}
+{%- endif %}
+{% endblock page_content %}

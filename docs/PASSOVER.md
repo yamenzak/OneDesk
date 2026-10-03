@@ -6294,7 +6294,45 @@ erpnext's `rfq` page, where a supplier prices a Request for Quotation.
 10. **Plain words**: "Send Quote", "To quote", "Needed by", "Notes" (was
     "Notes: ", "Quotations: ", "UOM:Nos", "Make Quotation").
 
-Next: addresses, timesheets, the projects list and the rest.
+### Portals 4: addresses, timesheets, projects
+
+1. **Notifications**: none.
+2. **OneAI**: none.
+3. **Intake**: none.
+4. **Permissions**: an address or project of another customer is refused
+   (403), checked live. **Fixed**: frappe's web form refused in its own
+   words ("You don't have the permissions to access this document"); every
+   Not Permitted page now says No access.
+5. **Cross-module**: a customer's address is OneCRM's and OneBook's (the
+   customer's addresses); a project is OneProject's, its invoices OneBook's.
+6. **Bespoke UI**, **Fixed**:
+   - **Addresses**: One's row (title, the address on one line, a Type
+     badge, the city), and Add Address in the head.
+   - **An address** is frappe's web form, its fields frappe's controls, now
+     inside the portal's shell (website/doctype/web_form/templates/
+     web_form.html extends frappe's by its app prefix). Its head reads
+     "Addresses / Mansour Warehouse" with Save Address and Discard in it; the
+     boxed card is gone; after saving it goes back to the list at once
+     instead of frappe's five-second "Thank you for spending your valuable
+     time" page. Anyone without portal tabs gets frappe's page as before.
+   - **Timesheets**: erpnext lists a row per time entry, so a timesheet came
+     back once per entry. Now once, with its projects by name, what was done
+     and its total hours, opening the project.
+   - **Projects**: the list no longer shows a project's code where it has no
+     end date. A project's page moves into the portal's shell (it had
+     frappe's old sidebar and a second One mark): Breadcrumbs and status,
+     progress with tasks done, the end and how far off it is, what it is part
+     of, frappe-ui's Progress, then milestones, sub-projects, tasks and
+     order and invoices as ListViews.
+7. **Documented**: the README's Portal section.
+8. **Legal**: covered by the DPA's portal clause.
+9. **From frappe**: frappe's web form and controls kept; erpnext's list
+   contexts kept, the timesheet's repeated rows folded in One's row template
+   since no hook replaces its list.
+10. **Plain words**: "Add Address", "Save Address" (was "Submit"), "Tasks"
+    (was "The Work").
+
+Not done: the Material Request page stays off with its tab (Portal 1).
 
 ## OneLegal
 

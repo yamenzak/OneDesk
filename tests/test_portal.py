@@ -114,3 +114,21 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	assert "one_portal_quoted(doc.name)" in row and "one_portal_status(" in row
 	notes = (tree.APP / "one_inventory" / "notifications.py").read_text()
 	assert '_lt("Quote Received")' in notes and '_lt("Quote Request Sent")' in notes
+
+
+def test_the_rest_of_the_portal_is_in_its_shell():
+	"""An address's form keeps the portal's shell (frappe's web form, extended
+	by its app prefix), the list adds an address, a timesheet is listed once,
+	and a project's page is the portal's."""
+	form = (tree.APP / "website" / "doctype" / "web_form" / "templates" / "web_form.html").read_text()
+	assert '{% extends "frappe/website/doctype/web_form/templates/web_form.html" %}' in form
+	assert "one_portal_sidebar.html" in form and "{{ super() }}" in form
+	assert "data-one-save" in form and 'requestSubmit()' in form and "MutationObserver" in form
+	assert 'ADD = {"Address": ("/address/new", _lt("Add Address"))}' in SOURCE
+	assert '"button_label", "Save Address"' in SOURCE
+	sheet = (INCLUDES / "timesheet" / "timesheet_row.html").read_text()
+	assert "one_portal_timesheet(doc.name)" in sheet
+	assert 'frappe.local.flags.setdefault("one_portal_timesheets", set())' in SOURCE
+	project = (tree.APP / "www" / "projects.html").read_text()
+	assert "one_portal_sidebar.html" in project and 'class="one-crumbs"' in project
+	assert "{{ doc.name | e }}" not in (INCLUDES / "projects" / "project_row.html").read_text()

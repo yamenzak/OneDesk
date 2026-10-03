@@ -1,0 +1,11 @@
+{#- An address on the portal's list, One's look for erpnext's row: it opens
+    frappe's web form for the address (one/portal.py). -#}
+{%- set where = [doc.address_line1, doc.address_line2, doc.state, doc.country] | select | join(", ") -%}
+<a class="one-list__row" href="/address/{{ doc.name | urlencode }}">
+	<span class="one-list__what">
+		<span>{{ (doc.address_title or doc.name) | e }}</span>
+		<small>{{ where | e }}</small>
+	</span>
+	<span>{% if doc.address_type %}<span class="one-badge one-badge--gray">{{ _(doc.address_type) }}</span>{% endif %}</span>
+	<span class="one-list__amount">{{ (doc.city or "") | e }}</span>
+</a>

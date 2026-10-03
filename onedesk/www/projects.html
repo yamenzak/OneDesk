@@ -1,96 +1,127 @@
 {% extends "templates/web.html" %}
-
+{#- A customer's page for one of their projects (www/projects.py,
+    one_project/portal.py), in the portal's shell: PageHeader with Breadcrumbs
+    and the status Badge; how far along it is, when it ends and what it is
+    part of; frappe-ui's Progress; then the milestones, the sub-projects, the
+    tasks, and the order and invoices as ListViews. Nothing of the team's. -#}
+{%- set show_sidebar = False -%}
+{%- set full_width = True -%}
 {% block title %}{{ doc.project_name | e }}{% endblock %}
 
-{# Frappe's Standard Footer says "Powered by ERPNext": ours draw none. #}
+{%- block navbar -%}{%- endblock -%}
 {%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-{# The portal's own look (portal.css), as /start, /welcome and the share
-   pages have it, a column wide enough for the lists. #}
-<div class="one-portal one-portal--wide one-project">
-	<a class="one-portal__mark" href="/">
-		<img src="/assets/onedesk/images/one.svg" alt="">
-		<span>One</span>
-	</a>
-	<h1>{{ doc.project_name | e }}</h1>
-	{% if parent %}
-		<p class="one-portal__lede">{{ _("Part of") }} <a href="/projects?project={{ parent.name | urlencode }}">{{ parent.project_name | e }}</a></p>
-	{% endif %}
+{%- set here = one_portal_tabs() | selectattr("current") | first %}
+<div class="one-portal one-portal--wide one-portal--app">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
+	{% include "templates/includes/one_portal_head.html" %}
 
-	<div class="one-portal__figures">
-		<div>
-			<div class="one-portal__label">{{ _("Progress") }}</div>
-			<div class="one-portal__value">{{ share }}%</div>
-			{% if total %}<div class="one-portal__quiet">{{ _("{0} of {1} tasks done").format(done, total) }}</div>{% endif %}
-		</div>
-		<div>
-			<div class="one-portal__label">{{ _("Expected End") }}</div>
-			<div class="one-portal__value">{{ frappe.format_date(doc.expected_end_date) if doc.expected_end_date else "—" }}</div>
-			{% if when %}<div class="{{ 'one-portal__late' if days_left < 0 else 'one-portal__quiet' }}">{{ when }}</div>{% endif %}
-		</div>
-		<div>
-			<div class="one-portal__label">{{ _("Status") }}</div>
-			<div class="one-portal__value">{{ _(doc.status) }}</div>
-		</div>
+	<div class="one-page-head">
+		<h1 class="one-crumbs">
+			{% if here %}<a href="{{ here.route }}">{{ here.title }}</a><span aria-hidden="true">/</span>{% endif %}
+			<span>{{ doc.project_name | e }}</span>
+			<span class="one-badge one-badge--{{ 'green' if doc.status == 'Completed' else 'gray' if doc.status == 'Cancelled' else 'blue' }}">{{ _(doc.status) }}</span>
+		</h1>
 	</div>
-	<div class="one-portal__bar" role="progressbar" aria-valuenow="{{ share }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ share }}%;"></span></div>
 
-	{% if milestones %}
-		<h4 class="one-portal__heading">{{ _("Milestones") }}</h4>
-		{% for one in milestones %}
-			<div class="one-portal__row">
-				<span>{{ one.subject | e }}</span>
-				<span class="one-portal__quiet">{{ frappe.format_date(one.due) if one.due else "" }}</span>
-				<span class="indicator-pill {{ one.colour }}">{{ one.shown }}</span>
+	<div class="one-portal__body">
+		<dl class="one-facts">
+			<div>
+				<dt>{{ _("Progress") }}</dt>
+				<dd>{{ share }}%{% if total %} <small class="one-facts__aside">{{ _("{0} of {1} tasks done").format(done, total) }}</small>{% endif %}</dd>
 			</div>
-		{% endfor %}
-	{% endif %}
-
-	{% if projects %}
-		<h4 class="one-portal__heading">{{ _("Sub-projects") }}</h4>
-		{% for one in projects %}
-			<a class="one-portal__row" href="/projects?project={{ one.name | urlencode }}">
-				<span>{{ one.project_name | e }}</span>
-				<span class="one-portal__quiet">{{ frappe.format_date(one.expected_end_date) if one.expected_end_date else "" }}</span>
-				<span class="indicator-pill {{ 'green' if one.status == 'Completed' else 'blue' }}">{{ frappe.utils.cint(one.percent_complete) }}%</span>
-			</a>
-		{% endfor %}
-	{% endif %}
-
-	<h4 class="one-portal__heading">{{ _("The Work") }}</h4>
-	{% if tasks %}
-		{% for one in tasks %}
-			<div class="one-portal__row{{ ' one-portal__row--under' if one.parent_task else '' }}">
-				<span>{{ one.subject | e }}</span>
-				<span class="{{ 'one-portal__late' if one.late else 'one-portal__quiet' }}">{{ frappe.format_date(one.due) if one.due else "" }}</span>
-				<span class="indicator-pill {{ one.colour }}">{{ one.shown }}</span>
+			{% if doc.expected_end_date %}
+			<div>
+				<dt>{{ _("Expected End") }}</dt>
+				<dd>{{ frappe.format_date(doc.expected_end_date) }}{% if when %} <small class="one-facts__aside{{ ' one-facts__late' if days_left < 0 else '' }}">{{ when }}</small>{% endif %}</dd>
 			</div>
-		{% endfor %}
-	{% elif projects %}
-		<p class="one-portal__lede">{{ _("The work is in the sub-projects.") }}</p>
-	{% else %}
-		<p class="one-portal__lede">{{ _("Nothing is planned yet.") }}</p>
-	{% endif %}
+			{% endif %}
+			{% if parent %}
+			<div>
+				<dt>{{ _("Part of") }}</dt>
+				<dd><a href="/projects?project={{ parent.name | urlencode }}">{{ parent.project_name | e }}</a></dd>
+			</div>
+			{% endif %}
+		</dl>
+		<div class="one-progress" role="progressbar" aria-valuenow="{{ share }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ share }}%"></span></div>
 
-	{% if order or invoices %}
-		<h4 class="one-portal__heading">{{ _("Order and Invoices") }}</h4>
-		{% if order %}
-			<a class="one-portal__row" href="/orders/{{ order.name | urlencode }}">
-				<span>{{ _("Order") }} {{ order.name }}</span>
-				<span></span>
-				<span>{{ frappe.utils.fmt_money(order.grand_total, currency=order.currency) }}</span>
-			</a>
+		{% if milestones %}
+		<section class="one-section">
+			<h2>{{ _("Milestones") }}</h2>
+			<div class="one-list-view">
+				{% for one in milestones %}
+				<div class="one-list__row">
+					<span class="one-list__what"><span>{{ one.subject | e }}</span></span>
+					<span><span class="one-badge one-badge--{{ one_portal_tone(one.colour) }}">{{ one.shown }}</span></span>
+					<span class="one-list__amount{{ ' one-facts__late' if one.late else '' }}">{{ frappe.format_date(one.due) if one.due else "" }}</span>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
 		{% endif %}
-		{% for one in invoices %}
-			<a class="one-portal__row" href="/invoices/{{ one.name | urlencode }}">
-				<span>{{ _("Invoice") }} {{ one.name }}</span>
-				<span class="one-portal__quiet">{{ frappe.format_date(one.posting_date) }}</span>
-				<span>{{ frappe.utils.fmt_money(one.grand_total, currency=one.currency) }}
-					{% if one.outstanding_amount > 0 %}<span class="indicator-pill orange">{{ _("Unpaid") }}</span>{% else %}<span class="indicator-pill green">{{ _("Paid") }}</span>{% endif %}
-				</span>
-			</a>
-		{% endfor %}
-	{% endif %}
+
+		{% if projects %}
+		<section class="one-section">
+			<h2>{{ _("Sub-projects") }}</h2>
+			<div class="one-list-view">
+				{% for one in projects %}
+				<a class="one-list__row" href="/projects?project={{ one.name | urlencode }}">
+					<span class="one-list__what">
+						<span>{{ one.project_name | e }}</span>
+						{% if one.expected_end_date %}<small>{{ _("Ends {0}").format(frappe.format_date(one.expected_end_date)) }}</small>{% endif %}
+					</span>
+					<span><span class="one-badge one-badge--{{ 'green' if one.status == 'Completed' else 'blue' }}">{{ _(one.status) }}</span></span>
+					<span class="one-list__amount">{{ frappe.utils.cint(one.percent_complete) }}%</span>
+				</a>
+				{% endfor %}
+			</div>
+		</section>
+		{% endif %}
+
+		<section class="one-section">
+			<h2>{{ _("Tasks") }}</h2>
+			{% if tasks %}
+			<div class="one-list-view">
+				{% for one in tasks %}
+				<div class="one-list__row{{ ' one-list__row--under' if one.parent_task else '' }}">
+					<span class="one-list__what"><span>{{ one.subject | e }}</span></span>
+					<span><span class="one-badge one-badge--{{ one_portal_tone(one.colour) }}">{{ one.shown }}</span></span>
+					<span class="one-list__amount{{ ' one-facts__late' if one.late else '' }}">{{ frappe.format_date(one.due) if one.due else "" }}</span>
+				</div>
+				{% endfor %}
+			</div>
+			{% elif projects %}
+			<p class="one-empty">{{ _("The work is in the sub-projects.") }}</p>
+			{% else %}
+			<p class="one-empty">{{ _("Nothing is planned yet.") }}</p>
+			{% endif %}
+		</section>
+
+		{% if order or invoices %}
+		<section class="one-section">
+			<h2>{{ _("Order and Invoices") }}</h2>
+			<div class="one-list-view">
+				{% if order %}
+				<a class="one-list__row" href="/orders/{{ order.name | urlencode }}">
+					<span class="one-list__what"><span>{{ order.name }}</span><small>{{ _("Order") }}</small></span>
+					<span></span>
+					<span class="one-list__amount">{{ frappe.utils.fmt_money(order.grand_total, currency=order.currency) }}</span>
+				</a>
+				{% endif %}
+				{% for one in invoices %}
+				<a class="one-list__row" href="/invoices/{{ one.name | urlencode }}">
+					<span class="one-list__what"><span>{{ one.name }}</span><small>{{ frappe.format_date(one.posting_date) }}</small></span>
+					<span><span class="one-badge one-badge--{{ 'amber' if one.outstanding_amount > 0 else 'green' }}">{{ _("Unpaid") if one.outstanding_amount > 0 else _("Paid") }}</span></span>
+					<span class="one-list__amount">{{ frappe.utils.fmt_money(one.grand_total, currency=one.currency) }}</span>
+				</a>
+				{% endfor %}
+			</div>
+		</section>
+		{% endif %}
+	</div>
+	</div>
 </div>
 {% endblock %}
