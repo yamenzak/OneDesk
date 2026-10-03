@@ -3,6 +3,7 @@ hrms's own sidebars and workspaces are left out of the boot for everyone but
 the platform's own people, and their addresses and frappe's apps screen go to
 One's Home. These read the code that says so."""
 
+import json
 import sys
 from pathlib import Path
 
@@ -36,7 +37,8 @@ def test_menus_offer_no_screen_the_reader_cannot_open():
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert 'frappe.model.can_read("Audit Trail")' in js
 	assert 'frappe.model.can_read("Auto Email Report")' in js
-	assert 'frappe.model.can_read("Print Settings")' in js
+	# Print Settings an administrator may only read: off One's desk for everyone.
+	assert 'if (!frappe.boot.one_elsewhere) return super.setup_menu();' in js
 	assert '"/assets/onedesk/js/outside.js"' in (tree.APP / "hooks.py").read_text()
 	assert 'bootinfo["user"]["can_import"] = []' in SOURCE
 	declutter = (tree.APP / "one" / "declutter.py").read_text()
@@ -48,3 +50,22 @@ def test_frappes_furniture_editors_are_not_offered():
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert '["edit-sidebar"]' in js and '["workspace-selector"]' in js
 	assert "if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar)" in js
+
+
+def test_frappes_screens_open_ones_own():
+	"""A list or form One has its own screen for opens that screen, replacing
+	the history entry, and an address belongs to OneCRM beside its contact."""
+	js = (tree.APP / "public" / "js" / "outside.js").read_text()
+	for route in (
+		'["settings", { section: "notifications" }]',
+		'["settings", { section: "profile" }]',
+		'["workspace-settings", { section: "people" }]',
+		'["onecloud"]',
+		'["my-tasks"]',
+		'["workspace-settings", { section: "printing" }]',
+	):
+		assert route in js
+	assert "frappe.route_flags.replace_route = true;" in js
+	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())
+	links = [one.get("link_to") for one in crm["items"]]
+	assert links.index("Address") == links.index("Contact") + 1

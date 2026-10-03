@@ -53,8 +53,9 @@ onedesk.outside.without = (groups, names) =>
 	};
 })();
 
-// The print page's Print Settings opens frappe's form, read only by an
-// administrator. The page's class arrives with the page, so it is wrapped then.
+// The print page's Print Settings opens frappe's form, which an administrator
+// may only read and nobody else may open: it is left off One's desk. The page's
+// class arrives with the page, so it is wrapped then.
 (() => {
 	const form = frappe.ui.form;
 	if (!form || Object.getOwnPropertyDescriptor(form, "PrintView")?.set) return;
@@ -65,7 +66,7 @@ onedesk.outside.without = (groups, names) =>
 		set(value) {
 			View = class OnePrintView extends value {
 				setup_menu() {
-					if (frappe.model.can_read("Print Settings")) return super.setup_menu();
+					if (!frappe.boot.one_elsewhere) return super.setup_menu();
 					return onedesk.outside.skipping(this.page, [__("Print Settings")], () => super.setup_menu());
 				}
 			};
@@ -95,5 +96,43 @@ if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 				frappe.ui.Dropdown = Dropdown;
 			}
 		}
+	};
+}
+
+// Frappe's own screens for what One has a screen of its own for. A list or form
+// of these, reached from frappe's bell, a link or an address, opens One's, in
+// place of it in the history so Back does not return to it.
+onedesk.outside.instead = (sub_path) => {
+	const [doctype, name] = (sub_path || "").split("/");
+	const me = frappe.session.user;
+	switch (doctype) {
+		case "notification-settings":
+			return ["settings", { section: "notifications" }];
+		case "user":
+			if (name && decodeURIComponent(name) === me) return ["settings", { section: "profile" }];
+			return name && name !== "new" && !name.startsWith("new-")
+				? ["workspace-settings", { section: "people", person: decodeURIComponent(name) }]
+				: ["workspace-settings", { section: "people" }];
+		case "file":
+			return name ? null : ["onecloud"];
+		case "todo":
+			return name ? null : ["my-tasks"];
+		case "print-settings":
+			return ["workspace-settings", { section: "printing" }];
+		case "print-format":
+		case "letter-head":
+			return name ? null : ["workspace-settings", { section: "printing" }];
+	}
+	return null;
+};
+
+if (frappe.boot.one_elsewhere) {
+	const own = frappe.router.re_route;
+	frappe.router.re_route = function (sub_path) {
+		const instead = onedesk.outside.instead(sub_path);
+		if (!instead) return own.call(this, sub_path);
+		frappe.route_flags.replace_route = true;
+		frappe.set_route(...instead);
+		return true;
 	};
 }

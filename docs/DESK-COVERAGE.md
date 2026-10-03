@@ -218,9 +218,13 @@ Started. What is left, the most visible first:
 
 1. ~~**Frappe's own records leave One's rail.**~~ **Done** (`one/outside.py`):
    the boot carries One's sidebars only, One's first, for everyone but the
-   platform's own people. ToDo, Notification Log, Address, User, File,
-   Communication and Print Settings open in the One sidebar they were reached
-   from, or One's when opened cold.
+   platform's own people. Frappe's records open in the One sidebar they were
+   reached from, or One's when opened cold. Address is in OneCRM beside
+   Contact. Where One has its own screen, frappe's opens it instead
+   (`outside.js`): Notification Settings opens You › Notifications, the User
+   list Workspace › People (and a person's page, or one's own Profile), the
+   File list OneCloud, the ToDo list My Tasks, and Print Settings, the Print
+   Format list and the Letter Head list Workspace › Printing.
 2. ~~**Frappe's, erpnext's and hrms's workspaces still open.**~~ **Done**: out
    of the boot, so search no longer offers them, and their addresses go to
    One's Home (`one_elsewhere`, desk.js). A private workspace can no longer
@@ -230,8 +234,9 @@ Started. What is left, the most visible first:
 4. ~~**An erpnext or hrms record opened cold.**~~ **Done**: with their
    sidebars out of the boot, it opens in One's.
 5. ~~**Menu items that end on a screen only a System Manager can open.**~~
-   **Done** (`public/js/outside.js`): View Audit Trail, Setup Auto Email and
-   Print Settings are offered on frappe's own read check of where they go,
+   **Done** (`public/js/outside.js`): View Audit Trail and Setup Auto Email
+   are offered on frappe's own read check of where they go, the print page's
+   Print Settings (read only, even for an administrator) not at all,
    Help › System Health on a navbar condition (`declutter.SHOW_IF`), and
    Import not at all (`can_import` is empty in the boot).
 6. ~~**Frappe's editors for its own furniture are open to everybody.**~~

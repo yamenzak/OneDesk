@@ -6058,6 +6058,29 @@ Your word: "Yes do 5 and 6".
   the help menu is empty, Setup Auto Email and Print Settings show for the
   administrator only.
 
+### Frappe's records in One's menus
+
+Your questions: where do frappe's own records live, should they move (into
+OneCRM, say), and who can open the four menu items, and why would they.
+
+Only Contact and Reports by Mail were in a One menu; the rest opened in
+whichever menu they were reached from. One already had a screen for most of
+them, so:
+
+- **Fixed**: Address is in OneCRM beside Contact, as frappe's Contacts module
+  keeps them.
+- **Fixed** (`outside.js`): frappe's screens open One's instead, replacing
+  the history entry so Back does not return to them. The bell's gear opens
+  You › Notifications; the User list Workspace › People, a person's form
+  their page there, one's own form Profile; the File list OneCloud; the ToDo
+  list My Tasks; Print Settings and the Print Format and Letter Head lists
+  Workspace › Printing.
+- **Fixed**: the print page's Print Settings is gone for everyone. An
+  administrator could only read it.
+- Answered: View Audit Trail and System Health are the platform's only; a
+  record's Activity tab already shows every change. Setup Auto Email is the
+  administrator's, and is One › Reports by Mail.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

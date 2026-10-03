@@ -326,11 +326,18 @@ OVERRIDES = [
 		'label: __("Setup Auto Email"),',
 	),
 	(
-		"The print page offers Print Settings only to whoever can read it",
-		"frappe's print page adds it for everyone in setup_menu; outside.js wraps PrintView as the page defines it and skips the item by its label",
+		"The print page offers no Print Settings on One's desk",
+		"frappe's print page adds it for everyone in setup_menu, and a workspace administrator may only read it; outside.js wraps PrintView as the page defines it and skips the item by its label",
 		"onedesk/public/js/outside.js",
 		"frappe/frappe/printing/page/print/print.js",
 		'this.page.add_menu_item(__("Print Settings"), () => {',
+	),
+	(
+		"Frappe's screens One has its own for open One's",
+		"frappe's router asks re_route before it parses a route; outside.js wraps it so Notification Settings, User, File, ToDo, Print Settings, Print Format and Letter Head open One's screens, replacing the history entry as frappe does with route_flags.replace_route",
+		"onedesk/public/js/outside.js",
+		"frappe/frappe/public/js/frappe/router.js",
+		"if (this.re_route(sub_path)) return;",
 	),
 	(
 		"One's desk has no Edit Sidebar",
