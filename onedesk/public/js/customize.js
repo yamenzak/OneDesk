@@ -103,8 +103,9 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	}
 
 	draw(data) {
-		// "Customer / Customize": the doctype leads back to its list.
-		onedesk.shell.trail(data.label, `/desk/${frappe.router.slug(data.doctype)}`, __("Customize"));
+		// "Forms / Customer": one form under the Forms list, as the rail says;
+		// the form's own list is Open on the menu.
+		onedesk.shell.trail(__("Forms"), "/desk/customize", data.label);
 		this.menu(data);
 		const table = (fieldname, label, description, fields, rows) => ({
 			fieldtype: "Table",

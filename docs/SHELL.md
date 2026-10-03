@@ -134,7 +134,7 @@ composes them rather than drawing its own:
   the breadcrumb goes back. A record that is not edited (an agreement's
   text) uses `onedesk.shell.record` directly; a page that only opens on
   something (a doctype's Customize, a record's Calendar) still names it with
-  `trail`: "Customer / Customize", "Client Example Ltd / Calendar".
+  `trail`: "Forms / Customer", "Client Example Ltd / Calendar".
   `tests/test_shell.py` fails on a back button in a page, on `shell.name`
   given a route, and on a page that opens on a record from its address
   without the trail. It fails too on a table made anywhere but the shell,
