@@ -1,14 +1,36 @@
-{#- The portal's head: One's mark, and its tabs as frappe-ui's TabButtons draw
-    a few choices (one/portal.py). -#}
-<a class="one-portal__mark" href="/portal">
-	<img src="/assets/onedesk/images/one.svg" alt="">
-	<span>One</span>
-</a>
+{#- The portal's head (one/portal.py): One's mark, and the person signed in as
+    frappe-ui's Avatar opening its Dropdown; below, the tabs as frappe-ui's
+    TabButtons, each with its icon from frappe's Lucide sprite. -#}
+{%- set me = one_portal_me() %}
+<header class="one-head">
+	<a class="one-portal__mark" href="/portal">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+	<details class="one-menu">
+		<summary class="one-avatar" aria-label="{{ me.name|e }}" title="{{ me.name|e }}">{{ me.initials|e }}</summary>
+		<div class="one-menu__panel" role="menu">
+			<div class="one-menu__who">
+				<span>{{ me.name|e }}</span>
+				<small>{{ me.email|e }}</small>
+			</div>
+			<a class="one-menu__item" role="menuitem" href="/logout">
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-log-out"></use></svg>{{ _("Sign out") }}
+			</a>
+		</div>
+	</details>
+</header>
 {%- set tabs = one_portal_tabs() %}
 {%- if tabs %}
-<nav class="one-tabs one-tabs--wrap" aria-label="{{ _('Portal') }}">
+<nav class="one-tab-buttons" aria-label="{{ _('Portal') }}">
 	{%- for tab in tabs %}
-	<a href="{{ tab.route }}" {% if tab.current %}aria-current="page"{% endif %}>{{ tab.title }}</a>
+	<a href="{{ tab.route }}" {% if tab.current %}aria-current="page"{% endif %}>
+		<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ tab.icon }}"></use></svg>{{ tab.title }}
+	</a>
 	{%- endfor %}
 </nav>
+<script>
+	// On a phone the tabs scroll; the one being read is brought into view.
+	document.querySelector('.one-tab-buttons [aria-current="page"]')?.scrollIntoView({ block: "nearest", inline: "center" });
+</script>
 {%- endif %}

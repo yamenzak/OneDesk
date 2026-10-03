@@ -48,3 +48,23 @@ def test_a_customers_or_suppliers_contact_is_a_portal_user():
 	assert 'PARTIES = ("Customer", "Supplier")' in SOURCE
 	assert 'party.append("portal_users", {"user": doc.user})' in SOURCE
 	assert '"onedesk.one.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
+
+
+def test_the_portal_is_drawn_as_frappe_ui_draws_it():
+	"""Each part as frappe-ui draws it, on espresso's tokens: the head's Avatar
+	and Dropdown, TabButtons with frappe's Lucide icons, ListView's head row,
+	Badge; and close to the edge on a phone."""
+	head = (INCLUDES / "one_portal_head.html").read_text()
+	assert 'class="one-avatar"' in head and 'href="/logout"' in head
+	assert 'class="one-tab-buttons"' in head and '<use href="#icon-{{ tab.icon }}">' in head
+	page = (tree.APP / "www" / "portal.html").read_text()
+	assert "one_portal_columns(row_template)" in page and 'class="one-search"' in page
+	css = (tree.APP / "public" / "css" / "portal.css").read_text()
+	block = css.split("/* The portal a workspace's customers and suppliers sign in to (one/portal.py),", 1)[1]
+	for token in ("var(--surface-gray-2)", "var(--ink-gray-5)", "var(--surface-amber-2)"):
+		assert token in block
+	assert "#" not in "".join(
+		line for line in block.splitlines() if "color:" in line or "background:" in line
+	)
+	assert "padding: 1rem 0 3rem;" in block
+	assert "ICONS = {" in SOURCE and "COLUMNS = {" in SOURCE

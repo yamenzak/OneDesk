@@ -8,47 +8,57 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-<div class="one-portal one-portal--wide">
+<div class="one-portal one-portal--wide one-portal--app">
 	{% include "templates/includes/one_portal_head.html" %}
 
 	{% if not doctype %}
-	<h1>{{ _("Welcome") }}</h1>
-	<p class="one-portal__lede">{{ _("Signed in as {0}.").format(frappe.session.user|e) }} <a href="/logout">{{ _("Sign out") }}</a></p>
+	<div class="one-page-head">
+		<h1>{{ _("Welcome") }}</h1>
+	</div>
 	{%- set have = one_portal_home() %}
 	{% if have %}
-	<div class="one-list">
+	<div class="one-items">
 		{% for one in have %}
-		<a class="one-list__row" href="{{ one.route }}">
-			<span class="one-list__what">{{ one.title }}</span>
-			{% if one.waiting %}<span><span class="one-pill one-pill--orange">{{ one.waiting }}</span></span>{% endif %}
-			<span class="one-list__amount">{{ one.count }}</span>
+		<a class="one-item" href="{{ one.route }}">
+			<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ one.icon }}"></use></svg>
+			<span class="one-item__label">{{ one.title }}</span>
+			{% if one.waiting %}<span class="one-badge one-badge--amber">{{ one.waiting }}</span>{% endif %}
+			<span class="one-item__count">{{ one.count }}</span>
 		</a>
 		{% endfor %}
 	</div>
 	{% else %}
-	<p class="one-note">{{ _("Nothing here yet") }}</p>
+	<p class="one-empty">{{ _("Nothing here yet") }}</p>
 	{% endif %}
 
 	{% else %}
 	{%- set here = one_portal_tabs() | selectattr("current") | first %}
-	<h1>{{ here.title if here else (title or _(doctype)) }}</h1>
+	<div class="one-page-head">
+		<h1>{{ here.title if here else (title or _(doctype)) }}</h1>
+		<form class="one-search" method="get" role="search">
+			<svg class="one-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+			<input type="search" name="txt" value="{{ (txt or '')|e }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
+		</form>
+	</div>
 	{% if introduction %}<p class="one-portal__lede">{{ introduction }}</p>{% endif %}
 
-	<form class="one-search" method="get" role="search">
-		<input class="one-input" type="search" name="txt" value="{{ (txt or '')|e }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
-	</form>
-
 	{% if result %}
-	<div class="one-list">
+	<div class="one-list-view">
+		{%- set heads = one_portal_columns(row_template) %}
+		{% if heads %}
+		<div class="one-list-view__head" aria-hidden="true">
+			{% for one in heads %}<span>{{ one }}</span>{% endfor %}
+		</div>
+		{% endif %}
 		{% for row in result %}{{ row }}{% endfor %}
 	</div>
 	{% if show_more %}
-	<a class="one-button one-list__more" href="?limit={{ (frappe.form_dict.limit or 20)|int + 20 }}{% if txt %}&txt={{ txt|urlencode }}{% endif %}">{{ _("Show More") }}</a>
+	<a class="one-btn" href="?limit={{ (frappe.form_dict.limit or 20)|int + 20 }}{% if txt %}&txt={{ txt|urlencode }}{% endif %}">{{ _("Show More") }}</a>
 	{% endif %}
 	{% elif txt %}
-	<p class="one-note">{{ _("Nothing matches") }}</p>
+	<p class="one-empty">{{ _("Nothing matches") }}</p>
 	{% else %}
-	<p class="one-note">{{ _("Nothing here yet") }}</p>
+	<p class="one-empty">{{ _("Nothing here yet") }}</p>
 	{% endif %}
 	{% endif %}
 </div>

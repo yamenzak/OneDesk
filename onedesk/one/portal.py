@@ -29,8 +29,31 @@ TITLES = {"/rfq": "Quote Requests", "/supplier-quotations": "Quotes"}
 #: title is translated as it is drawn.
 SAID = (_lt("Quote Requests"), _lt("Quotes"))
 
-#: erpnext's indicator colours, as the portal's pills draw them.
-TONES = {"green": "green", "blue": "blue", "orange": "orange", "yellow": "orange", "red": "red"}
+#: erpnext's indicator colours, as frappe-ui's Badge themes them.
+TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
+
+#: Each tab's Lucide icon (frappe's sprite, on every web page).
+ICONS = {
+	"/project": "folder-kanban",
+	"/quotations": "file-text",
+	"/orders": "package",
+	"/invoices": "receipt",
+	"/shipments": "truck",
+	"/addresses": "map-pin",
+	"/timesheets": "clock",
+	"/rfq": "inbox",
+	"/supplier-quotations": "file-pen-line",
+	"/purchase-orders": "shopping-cart",
+	"/purchase-invoices": "receipt",
+}
+
+#: A list's columns, by the row template that draws it, as frappe-ui's
+#: ListView heads them.
+COLUMNS = {
+	"templates/includes/transaction_row.html": (_lt("Number"), _lt("Status"), _lt("Total")),
+	"templates/includes/projects/project_row.html": (_lt("Project"), _lt("Status"), _lt("Progress")),
+	"templates/includes/timesheet/timesheet_row.html": (_lt("Timesheet"), _lt("Status"), _lt("Hours")),
+}
 
 #: How many of a kind the home counts before it says "100+".
 COUNTED = 100
@@ -48,10 +71,28 @@ def one_portal_tabs() -> list[dict]:
 	request = getattr(frappe.local, "request", None)
 	here = "/" + (request.path.strip("/").split("/")[0] if request else "")
 	return [
-		{"title": _(item.get("title")), "route": item.get("route"), "current": item.get("route") == here}
+		{
+			"title": _(item.get("title")),
+			"route": item.get("route"),
+			"icon": ICONS.get(item.get("route"), "file-text"),
+			"current": item.get("route") == here,
+		}
 		for item in get_portal_sidebar_items()
 		if item.get("route")
 	]
+
+
+def one_portal_me() -> dict:
+	"""Who is signed in, for the head's avatar and its menu."""
+	user = frappe.session.user
+	name = frappe.utils.get_fullname(user) or user
+	return {"name": name, "email": user, "initials": "".join(w[0] for w in name.split()[:2]).upper()}
+
+
+def one_portal_columns(row_template: str | None) -> list[str]:
+	"""A list's column heads (COLUMNS), or none for a kind One has no row of
+	its own for."""
+	return [str(one) for one in COLUMNS.get(row_template or "", ())]
 
 
 def one_portal_tone(colour: str | None) -> str:
@@ -86,6 +127,7 @@ def one_portal_home() -> list[dict]:
 			{
 				"title": _(item.get("title")),
 				"route": item.get("route"),
+				"icon": ICONS.get(item.get("route"), "file-text"),
 				"count": f"{COUNTED}+" if len(found) > COUNTED else str(len(found)),
 				"waiting": say(waiting) if waiting else "",
 			}

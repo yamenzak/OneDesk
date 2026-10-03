@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 15:55+0000\n"
-"PO-Revision-Date: 2026-10-03 15:55+0000\n"
+"POT-Creation-Date: 2026-10-03 17:13+0000\n"
+"PO-Revision-Date: 2026-10-03 17:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -8313,7 +8313,7 @@ msgid "Home"
 msgstr "Start"
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
-#: onedesk/one_hr/custom/shift_request.json
+#: onedesk/one/portal.py:55 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:164
 msgid "Hours"
 msgstr ""
@@ -12529,8 +12529,8 @@ msgstr "Danach kann niemand mehr etwas mit diesem oder früherem Datum erfassen,
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Berechtigungen geprüft."
 
-#: onedesk/public/js/desk.js:339 onedesk/www/portal.html:29
-#: onedesk/www/portal.html:51
+#: onedesk/public/js/desk.js:339 onedesk/www/portal.html:31
+#: onedesk/www/portal.html:61
 msgid "Nothing here yet"
 msgstr "Hier ist noch nichts"
 
@@ -12542,7 +12542,7 @@ msgstr "Noch ist nichts geplant."
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 
-#: onedesk/www/portal.html:49
+#: onedesk/www/portal.html:59
 msgid "Nothing matches"
 msgstr "Keine Treffer"
 
@@ -12673,6 +12673,7 @@ msgid "Nudge"
 msgstr "Erinnerung"
 
 #. Label of the number (Data) field in DocType 'Employee Document'
+#: onedesk/one/portal.py:53
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:130
 #: onedesk/public/js/settings.js:1752
@@ -14886,7 +14887,7 @@ msgstr "Policennummer"
 msgid "Port"
 msgstr "Port"
 
-#: onedesk/templates/includes/one_portal_head.html:9 onedesk/www/portal.html:4
+#: onedesk/templates/includes/one_portal_head.html:25 onedesk/www/portal.html:4
 msgid "Portal"
 msgstr ""
 
@@ -15179,8 +15180,8 @@ msgstr "Gewinn diesen Monat"
 msgid "Profit and Loss"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:340 onedesk/public/js/onecloud.js:650
-#: onedesk/www/projects.html:23
+#: onedesk/one/portal.py:54 onedesk/public/js/onecloud.js:340
+#: onedesk/public/js/onecloud.js:650 onedesk/www/projects.html:23
 msgid "Progress"
 msgstr ""
 
@@ -15188,6 +15189,7 @@ msgstr ""
 msgid "Progress…"
 msgstr "Fortschritt…"
 
+#: onedesk/one/portal.py:54
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
@@ -16994,7 +16996,7 @@ msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:38
+#: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:40
 msgid "Search"
 msgstr ""
 
@@ -17645,7 +17647,7 @@ msgstr "Zeigen in"
 msgid "Show In…"
 msgstr "Zeigen in…"
 
-#: onedesk/www/portal.html:46
+#: onedesk/www/portal.html:56
 msgid "Show More"
 msgstr "Mehr anzeigen"
 
@@ -17751,8 +17753,8 @@ msgstr "Mit einem Passkey anmelden"
 msgid "Sign in with a drive password, not your One password."
 msgstr "Melden Sie sich mit einem Laufwerkspasswort an, nicht mit Ihrem One-Passwort."
 
+#: onedesk/templates/includes/one_portal_head.html:18
 #: onedesk/www/account.html:18 onedesk/www/me.html:15
-#: onedesk/www/portal.html:16
 msgid "Sign out"
 msgstr "Abmelden"
 
@@ -17815,7 +17817,7 @@ msgstr "Abgemeldet nach"
 msgid "Signed in"
 msgstr "Angemeldet"
 
-#: onedesk/www/account.html:18 onedesk/www/portal.html:16
+#: onedesk/www/account.html:18
 msgid "Signed in as {0}."
 msgstr "Angemeldet als {0}."
 
@@ -18230,6 +18232,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
+#: onedesk/one/portal.py:53 onedesk/one/portal.py:54 onedesk/one/portal.py:55
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -20806,7 +20809,7 @@ msgid "Times opened"
 msgstr "Wie oft geöffnet"
 
 #. Label of a Sidebar Item
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one/portal.py:55 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
@@ -21001,7 +21004,7 @@ msgid "Top Preset"
 msgstr "Kopfvorlage"
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:56
+#: onedesk/one/portal.py:53 onedesk/one_admin/report/ai_usage/ai_usage.py:56
 #: onedesk/one_book/heads.py:316
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
@@ -22050,7 +22053,7 @@ msgstr "Gewichtete Pipeline"
 msgid "Weighted Value"
 msgstr "Gewichteter Wert"
 
-#: onedesk/www/portal.html:15
+#: onedesk/www/portal.html:16
 msgid "Welcome"
 msgstr ""
 
@@ -26787,11 +26790,11 @@ msgstr "{0} nimmt seinen Wert von nirgendwo."
 msgid "{0} to decide"
 msgstr "{0} zu entscheiden"
 
-#: onedesk/one/portal.py:41
+#: onedesk/one/portal.py:64
 msgid "{0} to deliver"
 msgstr "{0} zu liefern"
 
-#: onedesk/one/portal.py:40
+#: onedesk/one/portal.py:63
 msgid "{0} to pay"
 msgstr "{0} zu bezahlen"
 

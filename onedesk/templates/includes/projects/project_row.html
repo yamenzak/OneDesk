@@ -5,6 +5,6 @@
 		<span>{{ (doc.project_name or doc.name) | e }}</span>
 		<small>{% if doc.expected_end_date %}{{ _("Ends {0}").format(frappe.format_date(doc.expected_end_date)) }}{% else %}{{ doc.name | e }}{% endif %}</small>
 	</span>
-	<span><span class="one-pill one-pill--{{ 'green' if doc.status == 'Completed' else 'blue' }}">{{ _(doc.status) }}</span></span>
+	<span><span class="one-badge one-badge--{{ 'green' if doc.status == 'Completed' else 'blue' }}">{{ _(doc.status) }}</span></span>
 	<span class="one-list__amount">{{ done }}%</span>
 </a>

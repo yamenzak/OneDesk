@@ -6200,6 +6200,21 @@ a row template draws each row; erpnext's `order`, `rfq`, `addresses` and
 10. **Plain words**: **Fixed**: "Request for Quotations" and "Supplier
     Quotation" are Quote Requests and Quotes; each list's heading is its tab's.
 
+Then your word: "the portal pages can be more refined with more usage of
+frappe ui components and it seems on mobile its thick in padding".
+
+- **Fixed**: every part is drawn as frappe-ui (beta.76) draws it, read from
+  its source, on espresso's tokens from frappe's website stylesheet: the head
+  is One's mark and an Avatar opening a Dropdown (Sign out); the tabs are
+  TabButtons (subtle) with frappe's Lucide icons; the title row has a
+  TextInput (subtle) with its search icon; a list is ListView's gray head row
+  and rounded rows with inset hairlines; the home is ItemListRows with icons;
+  statuses are Badges. Dark values of the tokens are restated for a browser
+  that prefers dark, since web pages set no data-theme. frappe-ui's own Vue
+  components are not in onedesk's build, so these are its look in HTML.
+- **Fixed**: on a phone the page sits 16px from the edge, the tabs scroll in
+  one line with the one being read in view, and the search spans the width.
+
 Next: a record's page (an order, an invoice, a quote).
 
 ## OneLegal
