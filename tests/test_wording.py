@@ -78,6 +78,10 @@ SCREEN = re.compile(r'__\(\s*"((?:[^"\\]|\\.)*)"')
 JOINED = re.compile(r"[a-z)\]][:;] \S| — |—")
 LABELLED = re.compile(r"^\w+( \w+){0,2}: \{\d\}(, \{\d\})*$")
 SCREEN_LONGEST = 140
+# A note under a heading is short and never says how to use the screen.
+NOTE = re.compile(r'note:\s*__\(\s*"((?:[^"\\]|\\.)*)"')
+NOTE_LONGEST = 70
+TELLING = re.compile(r"\b(Open one|Click (one|a|an|the|somebody|someone)|Tap one)\b")
 
 
 def test_what_a_screen_says_is_plain():
@@ -88,6 +92,9 @@ def test_what_a_screen_says_is_plain():
 			text = one.group(1)
 			if LABELLED.match(text):
 				continue
-			if JOINED.search(text) or len(text) > SCREEN_LONGEST:
+			if JOINED.search(text) or len(text) > SCREEN_LONGEST or TELLING.search(text):
 				found.append(f"  {path.relative_to(root)}: {text}")
+		for one in NOTE.finditer(path.read_text(encoding="utf-8")):
+			if len(one.group(1)) > NOTE_LONGEST:
+				found.append(f"  {path.relative_to(root)}: note too long: {one.group(1)}")
 	assert not found, "Write it plainly, as docs/WORDING.md says under On a Screen:\n" + "\n".join(found)

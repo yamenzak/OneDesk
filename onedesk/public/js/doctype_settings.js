@@ -1060,7 +1060,7 @@ onedesk.numbering.rules = async ($wrapper, doctype) => {
 		const add = $(onedesk.shell.button(__("Add Rule"), {}, "subtle", "plus")).on("click", () => onedesk.numbering.rule(doctype, null, draw));
 		onedesk.shell.table($wrapper, {
 			title: __("Rules"),
-			note: __("A record whose fields match a rule is named by the rule's own prefix, whatever it is named by above."),
+			note: __("Rules override the naming above."),
 			rows,
 			icon: "list-filter",
 			empty: __("No rules."),

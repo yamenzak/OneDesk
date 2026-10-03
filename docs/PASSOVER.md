@@ -5883,6 +5883,10 @@ tenth point.
   gains `test_what_a_screen_says_is_plain`: no colon or semicolon joining
   clauses, no em dash, nothing over 140 characters, in every `__()` in
   `public/js`. A label and its value ("Default: {0}") is allowed.
+- **Fewer notes, after your word** ("too much instructions", about Levels).
+  Most section notes are gone. The ones left say a fact in a few words
+  ("Custom levels sit between User and Manager."). The guard refuses
+  "Open one to…", "Click a…" and any note over 70 characters.
 - **The other 48, after your word.** Every older string the guard found is
   rewritten (Settings, OneCloud, OneMail, privacy, webhooks, numbering and
   the rest), so the guard holds the whole desk with no exceptions.

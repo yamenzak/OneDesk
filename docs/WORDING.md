@@ -119,11 +119,13 @@ already knows, and nothing clever.
 **A heading is the plain name of what is listed.** `Custom Fields`, not
 `Fields Added Here`. `Changed Fields`, not `Fields Changed Here`.
 
-**A note under a heading is optional, and one short sentence.** It says what
-to do or where to go: `Ask OneAI to add or change a field.` It never explains
-how the machinery works, never runs two clauses together with a colon or a
-semicolon, and never narrates OneAI ("it asks what the field is for,
-suggests…"). Most sections need no note.
+**Most sections have no note.** The heading and the table say enough. A note
+is there only for a fact the screen can't show, in a few words:
+`Custom levels sit between User and Manager.`,
+`The currency can't change once there are transactions.` It never tells
+people how to use the screen ("Open one to change it", "Click a day for
+details"), never explains how the machinery works, never runs two clauses
+together, and never narrates OneAI. At most 70 characters.
 
 **Use frappe's words.** In List View, Depends On, Fetched From, Non Negative,
 Length, Type, Properties, Standard Field. Not our own coinages: never
@@ -148,7 +150,8 @@ Before and after, from the Customize page:
     Ask OneAI to add or change a field.
 
 The guard below checks the part a machine can see: no colon or semicolon
-joining two clauses, no em dash, nothing over 140 characters. The rest is
+joining two clauses, no em dash, nothing over 140 characters, no "Open one
+to…" or "Click a…", and no note over 70 characters. The rest is
 checked on every screen of the passover.
 
 ## The guard

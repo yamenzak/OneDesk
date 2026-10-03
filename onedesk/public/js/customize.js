@@ -83,7 +83,6 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		const app = this.app;
 		this.list = await onedesk.shell.table($('<div class="one-shell-section"></div>').appendTo(this.$content), {
 			title: __("Forms"),
-			note: __("Customized forms are listed first."),
 			choose: { key: "app", all: __("All Apps"), value: app },
 			rows,
 			icon: "file-text",
@@ -176,7 +175,6 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			drawn.add("changed");
 			onedesk.shell.table(parts.changed, {
 				title: __("Changed Fields"),
-				note: __("Standard fields changed in this workspace."),
 				rows: data.changed,
 				icon: "pencil",
 				open: (one) => ask(__("I want to change the field {0} on {1}.", [one.label, data.label])),
@@ -201,7 +199,6 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			drawn.add("above");
 			onedesk.shell.table(parts.above, {
 				title: __("Form Header"),
-				note: __("Numbers, buttons, charts and linked sections shown above the fields."),
 				rows: above,
 				icon: "layout-panel-top",
 				columns: [
@@ -244,7 +241,6 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		onedesk.shell.table($into, {
 			title: __("Extensions"),
-			note: __("Manage them in OneStudio › Extensions."),
 			rows: this.extensions || [],
 			icon: "code",
 			empty: __("No extensions"),

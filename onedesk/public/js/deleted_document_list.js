@@ -13,7 +13,7 @@ frappe.listview_settings["Deleted Document"] = {
 			const parts = [];
 			if (said.restored.length) parts.push(__("{0} restored.", [said.restored.length]));
 			if (said.already.length) parts.push(__("{0} were already restored.", [said.already.length]));
-			if (said.failed.length) parts.push(__("{0} couldn't be restored. Open one to see why.", [said.failed.length]));
+			if (said.failed.length) parts.push(__("{0} couldn't be restored.", [said.failed.length]));
 			frappe.show_alert({ message: parts.join(" "), indicator: said.failed.length ? "orange" : "green" });
 			list.refresh();
 		});

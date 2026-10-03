@@ -195,12 +195,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		];
 		if (employee) {
 			rows.push(
-				{ heading: __("At Work"), note: __("As HR keeps it. Ask them if something here is wrong.") },
+				{ heading: __("At Work"), note: __("Managed by HR.") },
 				{ html: facts(employee.work) },
 				{ heading: __("Where You Live") },
 				["current_address", "permanent_address"],
 				["personal_email", ""],
-				{ heading: __("In an Emergency"), note: __("Who HR calls if something happens to you at work.") },
+				{ heading: __("In an Emergency") },
 				["person_to_be_contacted", "relation", "emergency_phone_number"],
 				{ heading: __("About You"), note: __("Only you and HR see these.") },
 				["marital_status", "blood_group"]
@@ -210,7 +210,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		rows.push(
 			{
 				heading: __("Your Data"),
-				note: __("Request a copy of your data or delete your account. An administrator reviews each request."),
 			},
 			{ html: this.your_data(data.privacy) }
 		);
@@ -434,7 +433,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.page.set_primary_action(__("Connect a Mailbox"), () => frappe.set_route("onemail", { connect: 1 }), "plug");
 		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
 			title: __("Your Mailboxes"),
-			note: __("Mailboxes are read in OneMail. Here you see what each one signs with, and fix one that stopped connecting."),
 			rows: data.mailboxes || [],
 			icon: "mail",
 			empty: __("No mailboxes yet."),
@@ -542,7 +540,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			onedesk.shell.section(
 				__("Your Calendar in Other Apps"),
 				`<div class="os-calendar"></div><div class="one-shell-actions">${how}</div>`,
-				__("A private link that shows your calendar in Google Calendar, Apple Calendar or Outlook, on a computer or a phone.")
+				__("Show your calendar in Google Calendar, Apple Calendar or Outlook.")
 			)
 		).appendTo(this.$content);
 		const draw = (link) => {
@@ -608,7 +606,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					),
 					data.passkey_signs_in
 						? __("Your fingerprint or face on this phone or laptop. You use it to check in, and to sign in.")
-						: __("Your fingerprint or face on this phone or laptop, used when you check in.")
+						: __("Used when you check in.")
 			  )
 			: "";
 
@@ -631,7 +629,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (data.recent.length) {
 			onedesk.shell.table(this.$content.find('[data-list="recent"]'), {
 				title: __("Recent Sign-ins"),
-				note: __("A failed sign-in you did not make is somebody trying your password. Change it."),
+				note: __("Don't recognize one? Change your password."),
 				rows: data.recent,
 				columns: Settings.signin_columns(),
 			});
@@ -735,7 +733,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		};
 		const remembered = await onedesk.shell.table(this.$content.find('[data-list="remembered"]'), {
 			title: __("Remembered"),
-			note: __("Click one to change it."),
 			rows: facts,
 			icon: "brain",
 			empty: __("Nothing yet. Tell OneAI to remember something, or add it here."),
@@ -772,7 +769,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (knowledge.length) {
 			onedesk.shell.table(this.$content.find('[data-list="workspace"]'), {
 				title: __("From Your Workspace"),
-				note: __("Written by your administrators. OneAI uses it to answer you."),
 				rows: knowledge,
 				columns: [
 					{ label: __("Title"), fieldname: "title" },
@@ -877,10 +873,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`)
 			.join("");
 		const rows = [
-			{ heading: __("Company"), note: __("Set when the workspace was made. The currency cannot change once there are books.") },
+			{ heading: __("Company"), note: __("The currency can't change once there are transactions.") },
 			{ html: `<dl class="os-facts">${facts}</dl>` },
 			["email_footer_address", ""],
-			{ heading: __("On Documents"), note: __("What invoices, quotes and orders show about the company, printed or sent.") },
+			{ heading: __("On Documents") },
 			["company_logo", "one_brand_colour"],
 			["phone_no", "email"],
 			["website", "tax_id"],
@@ -892,7 +888,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["date_format", "time_format"],
 			["number_format", "first_day_of_the_week"],
 			{ html: `<div class="one-shell-quiet os-reads" data-reads="1"></div>` },
-			{ heading: __("Signing In"), note: __("The rules for everybody who signs in to this workspace.") },
+			{ heading: __("Signing In") },
 			["one_two_factor", "two_factor_method"],
 			["session_expiry", "one_password"],
 			["allow_consecutive_login_attempts", "allow_login_after_fail"],
@@ -932,7 +928,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.page.set_primary_action(__("Invite Somebody"), () => this.invite_dialog(data), "plus");
 		onedesk.shell.table(this.$content.find('[data-list="people"]'), {
 			title: __("People"),
-			note: __("Click somebody to change what they can use, or to sign them out."),
 			rows: data.people.map((one) => ({ ...one, search: `${one.full_name} ${one.name}` })),
 			icon: "users",
 			empty: __("Nobody yet. Invite somebody."),
@@ -1067,13 +1062,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		const apps = data.apps.map((app) => `app_${app.icon}`);
 		const rows = [
-			{ heading: __("What They Can Use"), note: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. A manager also sets the app up and sees everything in it.") },
+			{ heading: __("What They Can Use"), note: __("Everyone gets One, OneCloud, OneMail, OneTask and OneCalendar.") },
 			["profile", ""],
 			...Settings.pairs(apps),
 			{ stack: ["admin"] },
 			{
 				heading: __("What They See"),
-				note: __("People limited to a territory, department or customer group see only those records. Everyone else sees everything in their apps."),
 			},
 			{ html: '<div data-list="holds"></div>' },
 			{ heading: __("Where They Are Signed In") },
@@ -1137,7 +1131,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const said = (level) => ({ None: null, User: __("User"), Manager: __("Manager") })[level] ?? levels[level] ?? level;
 		onedesk.shell.table(this.$content.find('[data-list="profiles"]'), {
 			title: __("Profiles"),
-			note: __("A job's apps and levels in one, picked on a person's page instead of each app. Change a profile and everybody on it changes with it."),
 			rows: data.profiles,
 			icon: "id-card",
 			empty: __("No profiles yet."),
@@ -1158,7 +1151,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		onedesk.shell.table(this.$content.find('[data-list="groups"]'), {
 			title: __("Groups"),
-			note: __("Assign a record to a whole team at once, or @mention the group in a comment."),
 			rows: data.groups,
 			icon: "users-round",
 			empty: __("No groups yet."),
@@ -1177,9 +1169,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const tier = (one) => (one.own ? esc(one.name) : esc(__(one.name)));
 		onedesk.shell.table(this.$content.find('[data-list="levels"]'), {
 			title: __("Levels"),
-			note: __(
-				"What each level can do in each app. Open one to change it. Levels you add sit between User and Manager."
-			),
+			note: __("Custom levels sit between User and Manager."),
 			rows: data.levels,
 			icon: "shield-check",
 			none: __("No level is called that."),
@@ -1286,9 +1276,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				...(level.own ? [{ stack: ["title"] }] : []),
 				{
 					heading: __("What They May Do"),
-					note: __(
-						"Untick to remove access, or add a row for another record type. Edit, Create and the rest include Read."
-					),
+					note: __("Edit, Create and the rest include Read."),
 				},
 				{ stack: ["rows"] },
 			],
@@ -1334,7 +1322,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const $card = this.form(data, {
 			rows: [
 				{ stack: ["title"] },
-				{ heading: __("What It Gives"), note: __("Saved, it is set again on everybody on it. Their administrator switch and anything else they hold stay.") },
+				{ heading: __("What It Gives"), note: __("Saving updates everyone with this profile.") },
 				...Settings.pairs(data.apps.map((app) => `app_${app.icon}`)),
 			],
 		});
@@ -1368,7 +1356,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			this.form(data, {
 				rows: [
 					{ stack: ["title"] },
-					{ heading: __("Who Is in It"), note: __("Assign a record to everybody in it from Assign To, or @mention the group in a comment to tell them all.") },
+					{ heading: __("Who Is in It") },
 					{ stack: ["members"] },
 				],
 			})
@@ -1564,8 +1552,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				) +
 				onedesk.shell.section(
 					__("Invoices"),
-					'<div data-list="invoices"><div class="one-shell-quiet">' + esc(__("Asking for them…")) + "</div></div>",
-					__("Invoices from One. Each opens in Stripe. Add to OneBook creates a draft bill.")
+					'<div data-list="invoices"><div class="one-shell-quiet">' + esc(__("Asking for them…")) + "</div></div>"
 				) +
 				onedesk.shell.section(
 					__("OneAI Credits"),
@@ -1575,12 +1562,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						[__("Used in the Last 30 Days"), account.credits_month ? esc(number(account.credits_month)) : ""],
 						[__("Expiring"), expiring],
 					]),
-					__("OneAI is paid for with credits. The plan's monthly credits are used first, and the ones you buy never expire.")
+					__("Monthly credits are used first. Bought credits never expire.")
 				) +
 				onedesk.shell.section(
 					__("Ledger"),
 					data.ledger ? '<div data-list="ledger"></div>' : `<div class="one-shell-quiet">${esc(__("The account could not be reached for the ledger just now."))}</div>`,
-					__("Credits added and used over the last {0} days. Click a day for details.", [data.ledger_days])
+					__("Last {0} days.", [data.ledger_days])
 				) +
 				this.closing_section(closing)
 		);
@@ -2028,7 +2015,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(`<div class="one-shell-section" data-list="numbering"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="numbering"]'), {
 			title: __("Numbering"),
-			note: __("How each record type is named. Open one to change it."),
 			rows: data.rows || [],
 			page_size: 100,
 			icon: "hash",
@@ -2059,7 +2045,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(`<div class="one-shell-section" data-list="approvals"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="approvals"]'), {
 			title: __("Approvals"),
-			note: __("The states a kind of record moves through, and the role that takes each step. Steps waiting on somebody are on their Home."),
 			rows: data.rows || [],
 			page_size: 100,
 			icon: "route",
@@ -2087,7 +2072,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(`<div class="one-shell-section" data-list="templates"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="templates"]'), {
 			title: __("Mail Templates"),
-			note: __("The words a mail starts with, picked in the composer or named by a setting such as the leave mails."),
 			rows: data.rows || [],
 			page_size: 100,
 			icon: "mails",
@@ -2119,13 +2103,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(
 			onedesk.shell.section(
 				__("Letter Heads"),
-				'<div class="one-print-heads"></div>',
-				__("Headers and footers for printed pages. The star marks the default.")
+				'<div class="one-print-heads"></div>'
 			) +
 				onedesk.shell.section(
 					__("Print Formats"),
-					'<div class="one-print-kinds"></div>',
-					__("Print formats made in this workspace. The star marks the default. Click a name to edit it.")
+					'<div class="one-print-kinds"></div>'
 				)
 		);
 		const $heads = this.$content.find(".one-print-heads");
@@ -2452,11 +2434,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				`<div data-list="domains"></div>${
 					primary
 						? `<div class="one-shell-quiet one-shell-note">${esc(
-								__("{0} is the main address, used for sign-in, invitations and email links.", [primary.domain])
+								__("{0} is the main address.", [primary.domain])
 						  )}</div>`
 						: ""
 				}`,
-				__("Web addresses for this workspace. {0} always works. Your own domain works once its DNS points here. Email addresses don't change.", [
+				__("{0} always works.", [
 					given ? given.domain : "",
 				])
 			) +
@@ -2464,9 +2446,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					? onedesk.shell.section(
 							__("The DNS Record"),
 							Settings.dns_records(waiting.length ? waiting : [null], target) + Settings.dns_note(waiting),
-							waiting.length
-								? __("Make this where your domain's DNS is kept. It works a few minutes after the record is right.")
-								: __("What a domain of your own needs, where its DNS is kept.")
+							waiting.length ? __("Add this record at your DNS provider. It works a few minutes later.") : ""
 					  )
 					: "")
 		);
@@ -2603,7 +2583,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.page.add_inner_button(__("What Used the Credits"), () => frappe.set_route("query-report", "AI Credits", { by: "Action" }));
 		const note = only
 			? __("{0}'s actions only.", [only])
-			: __("Each thing OneAI does, and the model it runs on. Default is what One picked. Click one to change it.");
+			: "";
 		this.$content.html(
 			onedesk.shell.section(
 				__("Actions"),
@@ -2808,12 +2788,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			fact(month.waiting, __("Waiting Now"), inbox("waiting")),
 			fact(month.undone, __("Undone"), inbox("done")),
 		].join("")}</div>`;
-		this.$content.append(onedesk.shell.section(__("This Month"), facts, __("For everybody in the workspace. Each number opens the inbox.")));
+		this.$content.append(onedesk.shell.section(__("This Month"), facts));
 		this.$content.append(
 			onedesk.shell.section(
 				__("Where OneAI Reads"),
-				`<div class="os-intake-list" data-list="mailboxes"></div><div class="os-intake-list" data-list="folders"></div>`,
-				__("OneAI reads new mail in these mailboxes and new files in these folders. Only the owner can start one, and administrators can stop any.")
+				`<div class="os-intake-list" data-list="mailboxes"></div><div class="os-intake-list" data-list="folders"></div>`
 			)
 		);
 		const links = (pairs) =>
@@ -2823,21 +2802,21 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const marks = data.marks || {};
 		this.form(data, {
 			rows: [
-				{ heading: __("What Is Read"), note: __("Besides the mailboxes and folders above.") },
+				{ heading: __("What Is Read") },
 				{ stack: ["records"] },
 				["most_pages", "_"],
-				{ heading: __("How Sure OneAI Must Be"), note: __("Anything OneAI is less sure of than this percentage waits for a person.") },
+				{ heading: __("How Sure OneAI Must Be"), note: __("Below this confidence, a person reviews it.") },
 				["floor", "_"],
 				{ stack: ["audit"] },
 				{ heading: __("Filing") },
 				{ stack: ["keep_in_place"] },
 				["quiet_minutes", "_"],
-				{ heading: __("OneBook"), note: __("What OneAI may do with bills and invoices it reads."), mark: marks.OneBook },
+				{ heading: __("OneBook"), mark: marks.OneBook },
 				{ stack: ["household", "submit_einvoices"] },
 				{ html: links([["/desk/ready-to-submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
 				...((data.hr || []).length
 					? [
-							{ heading: __("OneHR"), note: __("What OneAI does by itself when something arrives in OneHR. Each uses credits."), mark: marks.OneHR },
+							{ heading: __("OneHR"), note: __("Each uses OneAI credits."), mark: marks.OneHR },
 							{ stack: data.hr },
 							{ html: links([["/desk/hr-settings", __("Interview recording and how long audio is kept are in HR Settings")]]) },
 					  ]
@@ -2970,7 +2949,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		};
 		if (data.empty) {
 			this.$content.append(
-				onedesk.shell.section(__("Holidays"), onedesk.shell.empty(__("No holiday list yet"), __("Choose one, and it is in force for everybody.")))
+				onedesk.shell.section(__("Holidays"), onedesk.shell.empty(__("No holiday list yet")))
 			);
 			this.page.add_inner_button(__("Use Another List"), use_another);
 			return;
@@ -3017,9 +2996,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 		this.form(data, {
 			rows: [
-				{ heading: __("Days Off"), note: __("The days nobody works, every week of the list.") },
+				{ heading: __("Days Off") },
 				{ stack: ["weekly_offs"] },
-				{ heading: __("Public Holidays"), note: __("Add a day, change its name or remove it, then save.") },
+				{ heading: __("Public Holidays") },
 				["country", "subdivision"],
 				{ html: onedesk.shell.button(__("Add the Country's Public Holidays"), { "data-local": "1" }, "subtle", "plus") },
 				{ stack: ["holidays"] },
@@ -3083,7 +3062,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const open_rule = (name) => frappe.set_route("workspace-settings", { section: this.key, rule: name });
 		this.$content.html(
 			`<div class="one-shell-section one-shell-note one-shell-quiet">${esc(
-				__("Notifications One sends. Open one to edit its text and channels. Blue means on by default, and people can change their own.")
+				__("Blue means on by default.")
 			)}</div>
 			<div class="one-shell-section" data-list="rules"></div>
 			<div class="one-shell-section" data-list="types"></div>`
@@ -3092,7 +3071,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		// as every list of records is, each opening its own page.
 		onedesk.shell.table(this.$content.find('[data-list="rules"]'), {
 			title: __("Rules"),
-			note: __("Notify people when something happens to a record."),
 			rows: data.rules || [],
 			icon: "bell-plus",
 			empty: __("No rules yet."),
@@ -3166,25 +3144,25 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 							: __("It says what {0} wrote.", [type.upstream])
 					)}</div>`,
 				},
-				{ heading: __("Channels"), note: __("The bell is always on. These are what people may add to it, and what a new person starts with.") },
+				{ heading: __("Channels"), note: __("In-app notifications are always on.") },
 				["one_allow_email", "one_allow_push"],
 				["one_email_default", "one_push_default"]
 			);
 		} else if (type.ours) {
 			rows.push(
-				{ heading: __("What It Says"), note: __("Left as it came, it is sent in each reader's own language. Once you change it, it is sent as you wrote it.") },
+				{ heading: __("What It Says"), note: __("Edited text is no longer translated.") },
 				["one_subject"],
 				["one_message"],
 				{ html: `${slots ? `<div class="one-shell-quiet os-slots">${__("It can use {0}", [slots])}</div>` : ""}${preview}` }
 			);
 			if (type.always) {
 				rows.push(
-					{ heading: __("Channels"), note: __("Its mail is always sent, so people can answer it by replying. The bell has it too, and push is theirs to choose.") },
+					{ heading: __("Channels"), note: __("Email is always sent so people can reply.") },
 					["one_allow_push", "one_push_default"]
 				);
 			} else if (!type.outside) {
 				rows.push(
-					{ heading: __("Channels"), note: __("The bell is always on. These are what people may add to it, and what a new person starts with.") },
+					{ heading: __("Channels"), note: __("In-app notifications are always on.") },
 					["one_allow_email", "one_allow_push"],
 					["one_email_default", "one_push_default"]
 				);
@@ -3289,13 +3267,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["date_changed", "days_in_advance"],
 			["value_changed"],
 			{ html: `<div class="os-filter-label">${esc(__("Only When"))}</div><div class="os-filters"></div>` },
-			{ heading: __("Who Is Told"), note: __("Only people who can open the record are told.") },
+			{ heading: __("Who Is Told"), note: __("Only people with access to the record are notified.") },
 			["roles"],
 			["person_field", "send_to_all_assignees"],
 			{ heading: __("What It Says") },
 			["subject"],
 			["message"],
-			{ heading: __("Channels"), note: __("The bell is always on. These are what people may add to it, and what a new person starts with.") },
+			{ heading: __("Channels"), note: __("In-app notifications are always on.") },
 			["one_allow_email", "one_allow_push"],
 			["one_email_default", "one_push_default"],
 		];
