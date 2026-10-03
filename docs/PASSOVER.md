@@ -6129,8 +6129,9 @@ not creative".
   `css/lost.css`, `outside.js`). It is centred on the page, with One's ring
   as the 0 of 404 and 500, turning, with the products' colours in orbit.
   Your word: "Maybe the 1 in our one logo can become 0 for 500 and 404 and
-  make the entire logo the size of the font's 0". So on a code its 1 is a
-  0, and the whole mark is the height of the digits, on their line. Without
+  make the entire logo the size of the font's 0", then "without the 0
+  inside". So on a code the ring alone is the 0, its core empty, the height
+  of the digits and on their line. Without
   a code its core shows a lock for no access, a tick for a message that
   went well, and the 1 for any other message.
 - **Fixed**: the words. "Page not found" with "The link may be broken, or
