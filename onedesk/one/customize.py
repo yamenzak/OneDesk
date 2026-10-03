@@ -712,6 +712,25 @@ def _actions(doctype: str, rows: list) -> None:
 # ------------------------------------------------------------------ taken back, and taken away
 
 
+def restored(field) -> str:
+	"""A custom field put back from the Recycle Bin (one/recycle.py), into the
+	ledger and the Custom Fields list. frappe never dropped its column, so its
+	values come back with it."""
+	may(field.dt)
+	meta = frappe.get_meta(field.dt)
+	if field.insert_after and not meta.get_field(field.insert_after):
+		field.insert_after = meta.fields[-1].fieldname if meta.fields else None
+	frappe.flags.one_workspace_layer = True
+	try:
+		field.flags.from_restore = True
+		_note(field.dt, "Custom Field", field.name)
+		field.insert(ignore_permissions=True)
+	finally:
+		frappe.flags.one_workspace_layer = False
+	_changed(field.dt)
+	return field.name
+
+
 @frappe.whitelist(methods=["POST"])
 def reset(doctype: str) -> dict:
 	"""Everything the workspace changed about a form, taken back: what the

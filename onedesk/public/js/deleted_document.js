@@ -6,7 +6,10 @@ frappe.ui.form.on("Deleted Document", {
 		if (frm.doc.restored) return;
 		frm.add_custom_button(__("Restore"), async () => {
 			const name = await frappe.xcall("onedesk.one.recycle.restore", { name: frm.doc.name });
-			frappe.set_route("Form", frm.doc.deleted_doctype, name);
+			// A custom field is read in Custom Fields, on its form.
+			if (frm.doc.deleted_doctype === "Custom Field") {
+				frappe.set_route("List", "Workspace Field", { form: name.slice(0, name.lastIndexOf("-")) });
+			} else frappe.set_route("Form", frm.doc.deleted_doctype, name);
 		}).addClass("btn-primary");
 	},
 });

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 10:16+0000\n"
-"PO-Revision-Date: 2026-10-03 10:16+0000\n"
+"POT-Creation-Date: 2026-10-03 11:12+0000\n"
+"PO-Revision-Date: 2026-10-03 11:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -231,19 +231,19 @@ msgstr "Ein Einchecken außerhalb des Radius ist erlaubt, und die Entfernung wir
 msgid "A code after the password. Each person sets it up the next time they sign in."
 msgstr "Ein Code nach dem Passwort. Jede Person richtet ihn bei der nächsten Anmeldung ein."
 
-#: onedesk/one_studio/record_types.py:119
+#: onedesk/one_studio/record_types.py:120
 msgid "A collection can't have a {0} field."
 msgstr "Eine Sammlung kann kein Feld vom Typ {0} haben."
 
-#: onedesk/one_studio/record_types.py:105
+#: onedesk/one_studio/record_types.py:106
 msgid "A collection has at most {0} fields."
 msgstr "Eine Sammlung hat höchstens {0} Felder."
 
-#: onedesk/one_studio/record_types.py:103
+#: onedesk/one_studio/record_types.py:104
 msgid "A collection needs at least one field."
 msgstr "Eine Sammlung braucht mindestens ein Feld."
 
-#: onedesk/one_studio/record_types.py:99
+#: onedesk/one_studio/record_types.py:100
 msgid "A collection's name is 3 to 60 letters, numbers and spaces."
 msgstr "Der Name einer Sammlung hat 3 bis 60 Buchstaben, Ziffern und Leerzeichen."
 
@@ -342,7 +342,7 @@ msgstr "Ein Feld des Datensatzes, des verknüpften Datensatzes oder das summiert
 msgid "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
 msgstr "Ein Feld dieses Datensatzes. Der Abschnitt steht am Ende seines Reiters, oder des ersten Reiters, wenn leer."
 
-#: onedesk/one_studio/record_types.py:113
+#: onedesk/one_studio/record_types.py:114
 msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
 msgstr "Ein Feld nennt nur seine Bezeichnung, seine Art, seine Auswahl, ob es Pflicht ist und ob es in der Liste steht."
 
@@ -3447,7 +3447,7 @@ msgid "Candidate Consented to Recording"
 msgstr "Einwilligung zur Aufnahme erteilt"
 
 #: onedesk/one_studio/doctype/extension/extension_list.js:12
-#: onedesk/one_studio/heads.py:22
+#: onedesk/one_studio/heads.py:21
 msgid "Cannot Run Here"
 msgstr "Läuft hier nicht"
 
@@ -4917,6 +4917,10 @@ msgstr "Derzeit"
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
+#: onedesk/public/js/deleted_document_list.js:13
+msgid "Custom Collection"
+msgstr "Benutzerdefinierte Sammlung"
+
 #. Label of a Sidebar Item
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json
 msgid "Custom Collections"
@@ -5436,7 +5440,7 @@ msgstr "{0} löschen? Damit werden seine Berechtigungen entfernt."
 
 #. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/public/js/deleted_document_list.js:6
+#: onedesk/public/js/deleted_document_list.js:15
 #: onedesk/public/js/onecloud.js:649
 #: onedesk/public/js/privacy_request_list.js:12
 msgid "Deleted"
@@ -6555,7 +6559,7 @@ msgstr "Fehler"
 msgid "Errors"
 msgstr "Fehler"
 
-#: onedesk/one_studio/heads.py:103
+#: onedesk/one_studio/heads.py:102
 msgid "Errors in the Last 7 Days"
 msgstr "Fehler in den letzten 7 Tagen"
 
@@ -6659,7 +6663,7 @@ msgstr "Jeden Tag nach einem Interview, bis dein Feedback dazu vorliegt."
 msgid "Every day while a privacy request has waited more than a week for a decision."
 msgstr "Jeden Tag, solange eine Datenschutzanfrage länger als eine Woche auf eine Entscheidung wartet."
 
-#: onedesk/one_studio/record_types.py:122
+#: onedesk/one_studio/record_types.py:123
 msgid "Every field needs a label."
 msgstr "Jedes Feld braucht eine Bezeichnung."
 
@@ -7442,7 +7446,7 @@ msgstr "Geschäftsjahre"
 msgid "Fix"
 msgstr "Beheben"
 
-#: onedesk/one_studio/heads.py:85
+#: onedesk/one_studio/heads.py:84
 msgid "Fix With OneAI"
 msgstr "Mit OneAI beheben"
 
@@ -9237,7 +9241,7 @@ msgstr "Ausstellungsland"
 msgid "It becomes required and unique."
 msgstr "Es wird erforderlich und eindeutig."
 
-#: onedesk/one_studio/heads.py:40
+#: onedesk/one_studio/heads.py:39
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
 msgstr "Sie kann hier noch nicht laufen: Dieser Arbeitsbereich führt keine Erweiterungen auf dem Server aus. Bitte uns, sie einzuschalten."
 
@@ -9286,7 +9290,7 @@ msgstr "Sie läuft nicht mehr auf {kind}. {explanation}"
 msgid "It was at {was}."
 msgstr "Es war am {was}."
 
-#: onedesk/one/recycle.py:139
+#: onedesk/one/recycle.py:156
 msgid "It was cancelled, so it comes back as a draft."
 msgstr "Es war storniert, daher kommt es als Entwurf zurück."
 
@@ -12672,7 +12676,7 @@ msgstr "Von wem"
 #: onedesk/one/ai.py:2697 onedesk/one/settings.py:910
 #: onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
-#: onedesk/one_studio/heads.py:23 onedesk/public/js/doctype_settings.js:236
+#: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:236
 #: onedesk/public/js/doctype_settings.js:272
 #: onedesk/public/js/doctype_settings.js:309
 #: onedesk/public/js/doctype_settings.js:1066 onedesk/public/js/settings.js:592
@@ -12742,7 +12746,7 @@ msgstr "Angebote"
 
 #: onedesk/one/ai.py:3825 onedesk/one/ai.py:4045 onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
-#: onedesk/one_studio/heads.py:18 onedesk/public/js/doctype_settings.js:236
+#: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:236
 #: onedesk/public/js/doctype_settings.js:272 onedesk/public/js/settings.js:592
 #: onedesk/public/js/settings.js:3185 onedesk/public/js/settings.js:3249
 msgid "On"
@@ -15941,7 +15945,7 @@ msgstr "Wiederkehrend"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_storage/namespace.py:395
-#: onedesk/public/js/deleted_document_list.js:8
+#: onedesk/public/js/deleted_document_list.js:17
 msgid "Recycle Bin"
 msgstr "Papierkorb"
 
@@ -16020,7 +16024,7 @@ msgid "Refused"
 msgstr "Abgelehnt"
 
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
-#: onedesk/one_studio/heads.py:20
+#: onedesk/one_studio/heads.py:19
 msgid "Refused by Review"
 msgstr "Von der Prüfung abgelehnt"
 
@@ -16432,7 +16436,7 @@ msgstr "Kündigungsdatum plus Kündigungsfrist. Weicht vom Austrittsdatum ab, we
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:615 onedesk/public/js/deleted_document.js:5
 #: onedesk/public/js/deleted_document.js:7
-#: onedesk/public/js/deleted_document_list.js:9
+#: onedesk/public/js/deleted_document_list.js:18
 #: onedesk/public/js/onecloud.js:107 onedesk/public/js/onecloud.js:741
 #: onedesk/public/js/onecloud.js:1903
 msgid "Restore"
@@ -16440,7 +16444,7 @@ msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/deleted_document_list.js:6
+#: onedesk/public/js/deleted_document_list.js:15
 msgid "Restored"
 msgstr "Wiederhergestellt"
 
@@ -18094,7 +18098,7 @@ msgstr "Beginnt mit den Berechtigungen dieser Stufe."
 #: onedesk/one_hr/heads.py:748 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/one_studio/heads.py:100
+#: onedesk/one_studio/heads.py:99
 msgid "State"
 msgstr "Status"
 
@@ -19883,7 +19887,7 @@ msgstr "Die eigene Verknüpfung des Datensatzes zu dem, dessen Felder gezeigt we
 msgid "The request is closed and nobody is assigned anything."
 msgstr "Der Antrag wird geschlossen und niemandem etwas zugewiesen."
 
-#: onedesk/one_studio/heads.py:30
+#: onedesk/one_studio/heads.py:29
 msgid "The review refused it: {0}"
 msgstr "Die Prüfung hat sie abgelehnt: {0}"
 
@@ -21064,11 +21068,11 @@ msgstr "Erneut versuchen"
 msgid "Try {0}"
 msgstr "{0} ausprobieren"
 
-#: onedesk/one_studio/heads.py:91 onedesk/public/js/settings.js:363
+#: onedesk/one_studio/heads.py:90 onedesk/public/js/settings.js:363
 msgid "Turn Off"
 msgstr "Abschalten"
 
-#: onedesk/one_studio/heads.py:79
+#: onedesk/one_studio/heads.py:78
 msgid "Turn On"
 msgstr "Einschalten"
 
@@ -21097,7 +21101,7 @@ msgstr "Abgelehnt von {0}."
 msgid "Turned down."
 msgstr "Abgelehnt."
 
-#: onedesk/one_studio/heads.py:61
+#: onedesk/one_studio/heads.py:60
 msgid "Turned off."
 msgstr "Ausgeschaltet."
 
@@ -21105,7 +21109,7 @@ msgstr "Ausgeschaltet."
 msgid "Turned on for this mailbox"
 msgstr "Für dieses Postfach aktiviert"
 
-#: onedesk/one_studio/heads.py:61
+#: onedesk/one_studio/heads.py:60
 msgid "Turned on."
 msgstr "Eingeschaltet."
 
@@ -24118,7 +24122,7 @@ msgstr "Sie können {0} nicht öffnen."
 msgid "You can't share {0}."
 msgstr "Sie können {0} nicht teilen."
 
-#: onedesk/one/recycle.py:128
+#: onedesk/one/recycle.py:145
 msgid "You cannot make a {0}, so you cannot put one back."
 msgstr "Sie können kein(e) {0} anlegen und es daher auch nicht zurückholen."
 
@@ -24133,7 +24137,7 @@ msgstr "Du kannst diesen Datensatz nicht öffnen."
 #: onedesk/one/approvals.py:82 onedesk/one/automations.py:77
 #: onedesk/one/customize.py:93 onedesk/one/mail_templates.py:145
 #: onedesk/one/numbering.py:74 onedesk/one/printing.py:99
-#: onedesk/one/recycle.py:119 onedesk/one/recycle.py:132
+#: onedesk/one/recycle.py:128 onedesk/one/recycle.py:149
 #: onedesk/one/reports.py:91 onedesk/one/reports.py:94
 #: onedesk/one/reports.py:104
 msgid "You cannot open {0}."
@@ -25134,7 +25138,7 @@ msgstr "hat es aus dem Papierkorb wiederhergestellt"
 msgid "restored version {0}"
 msgstr "hat Version {0} wiederhergestellt"
 
-#: onedesk/one/recycle.py:147
+#: onedesk/one/recycle.py:164
 msgid "restored {0} as {1}"
 msgstr ""
 
@@ -25611,6 +25615,10 @@ msgstr "{0} kann in einem Arbeitsbereich nicht geändert werden."
 msgid "{0} can't be edited."
 msgstr "{0} kann nicht bearbeitet werden."
 
+#: onedesk/one_studio/record_types.py:274
+msgid "{0} can't be restored."
+msgstr "{0} kann nicht wiederhergestellt werden."
+
 #: onedesk/one/webhooks.py:103
 msgid "{0} can't be sent by a webhook."
 msgstr "{0} kann nicht per Webhook gesendet werden."
@@ -25706,7 +25714,7 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
 
-#: onedesk/public/js/deleted_document_list.js:16
+#: onedesk/public/js/deleted_document_list.js:25
 msgid "{0} couldn't be restored."
 msgstr "{0} konnten nicht wiederhergestellt werden."
 
@@ -26058,7 +26066,7 @@ msgstr "{0} ist bereits eine seiner Serien."
 msgid "{0} is already taken."
 msgstr "{0} ist bereits vergeben."
 
-#: onedesk/one_studio/record_types.py:101
+#: onedesk/one_studio/record_types.py:102
 msgid "{0} is already taken. Choose another name."
 msgstr "{0} ist bereits vergeben. Wählen Sie einen anderen Namen."
 
@@ -26070,11 +26078,11 @@ msgstr "{0} ist bereits der Standard für {1}."
 msgid "{0} is already under {1}, so it cannot be its parent."
 msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Projekt sein."
 
-#: onedesk/one/recycle.py:122
+#: onedesk/one/recycle.py:131
 msgid "{0} is back already."
 msgstr "{0} ist bereits zurück."
 
-#: onedesk/one/recycle.py:153
+#: onedesk/one/recycle.py:141 onedesk/one/recycle.py:170
 msgid "{0} is back."
 msgstr "{0} ist zurück."
 
@@ -26238,7 +26246,7 @@ msgstr "{0} ist kein Arbeitsbereich."
 msgid "{0} is not an add-on on sale."
 msgstr "{0} ist kein angebotenes Zusatzpaket."
 
-#: onedesk/one_studio/record_types.py:96
+#: onedesk/one_studio/record_types.py:97
 msgid "{0} is not an app a collection can belong to."
 msgstr "{0} ist keine App, zu der eine Sammlung gehören kann."
 
@@ -26351,7 +26359,7 @@ msgstr "{0} ist die Hauptadresse."
 msgid "{0} is the main address. Make another address the main one first."
 msgstr "{0} ist die Hauptadresse. Machen Sie zuerst eine andere Adresse zur Hauptadresse."
 
-#: onedesk/one_studio/record_types.py:125
+#: onedesk/one_studio/record_types.py:126
 msgid "{0} is there twice, or is a name frappe keeps for itself."
 msgstr "{0} kommt zweimal vor oder ist ein Name, den frappe für sich behält."
 
@@ -26399,7 +26407,7 @@ msgstr "{0} übrig"
 msgid "{0} left, about three days at the rate the workspace uses them."
 msgstr "{0} übrig, etwa drei Tage beim jetzigen Verbrauch des Arbeitsbereichs."
 
-#: onedesk/one_studio/record_types.py:130
+#: onedesk/one_studio/record_types.py:131
 msgid "{0} links to {1}, which is not a kind of record you may open."
 msgstr "{0} verweist auf {1}, eine Datensatzart, die Sie nicht öffnen dürfen."
 
@@ -26436,7 +26444,7 @@ msgstr "{0} nennt die Kennzahl {1}, die kein Modul hat."
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} nennt {1}, das {2} nicht hat."
 
-#: onedesk/one_studio/record_types.py:133
+#: onedesk/one_studio/record_types.py:134
 msgid "{0} needs its choices, one a line."
 msgstr "{0} braucht seine Auswahl, eine pro Zeile."
 
@@ -26519,7 +26527,8 @@ msgid "{0} on the odometer since the last log."
 msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 
 #: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:549
-#: onedesk/public/js/push.js:47 onedesk/public/js/settings.js:1525
+#: onedesk/public/js/deleted_document_list.js:11 onedesk/public/js/push.js:47
+#: onedesk/public/js/settings.js:1525
 msgid "{0} on {1}"
 msgstr "{0} bei {1}"
 
@@ -26583,7 +26592,7 @@ msgstr "{0} Bestellungen als Entwurf angelegt."
 msgid "{0} reset"
 msgstr "{0} zurückgesetzt"
 
-#: onedesk/public/js/deleted_document_list.js:14
+#: onedesk/public/js/deleted_document_list.js:23
 msgid "{0} restored."
 msgstr "{0} wiederhergestellt."
 
@@ -26627,7 +26636,7 @@ msgstr "{0} zeigt nichts."
 msgid "{0} starts on {1}"
 msgstr "{0} beginnt am {1}"
 
-#: onedesk/one_studio/record_types.py:266
+#: onedesk/one_studio/record_types.py:295
 msgid "{0} still has records. Delete them first."
 msgstr "{0} hat noch Datensätze. Löschen Sie diese zuerst."
 
@@ -26705,7 +26714,7 @@ msgstr "{0} wurde von jemand anderem belegt, nachdem diese Anmeldung abgebrochen
 msgid "{0} weeks"
 msgstr "{0} Wochen"
 
-#: onedesk/public/js/deleted_document_list.js:15
+#: onedesk/public/js/deleted_document_list.js:24
 msgid "{0} were already restored."
 msgstr "{0} waren bereits wiederhergestellt."
 

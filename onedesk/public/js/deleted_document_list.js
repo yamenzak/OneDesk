@@ -3,6 +3,16 @@
 frappe.listview_settings["Deleted Document"] = {
 	...frappe.listview_settings["Deleted Document"],
 	add_fields: ["deleted_doctype", "deleted_name", "restored", "owner"],
+	formatters: {
+		// A custom field is kept as "Form-fieldname", said here as a field on its form.
+		deleted_name(value, df, doc) {
+			value = String(value ?? "");
+			if (doc.deleted_doctype !== "Custom Field" || !value.includes("-")) return frappe.utils.escape_html(value);
+			const at = value.lastIndexOf("-");
+			return frappe.utils.escape_html(__("{0} on {1}", [frappe.unscrub(value.slice(at + 1)), __(value.slice(0, at))]));
+		},
+		deleted_doctype: (value) => frappe.utils.escape_html(value === "Record Type" ? __("Custom Collection") : __(value)),
+	},
 	get_indicator: (doc) => (doc.restored ? [__("Restored"), "green", "restored,=,1"] : [__("Deleted"), "red", "restored,=,0"]),
 	onload(list) {
 		list.page.set_title(__("Recycle Bin"));

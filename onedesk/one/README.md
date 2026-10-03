@@ -578,6 +578,10 @@ restore it as it was, with its original name if that's still free.
   record. Until then the record is still stored. For personal data, deleting
   it for good means deleting it from the bin too.
 
+A deleted custom field or custom collection is in the bin too, for
+administrators. A restored field comes back with its values, and a restored
+collection comes back with its records list and its place in its app.
+
 The bin doesn't include child tables, frappe's internal records such as
 permission rows, or the platform's own records.
 

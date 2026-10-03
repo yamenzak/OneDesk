@@ -24,6 +24,7 @@ already holding data is never dropped, only hidden. Deleting one deletes its
 records, so it is refused while it has any.
 """
 
+import json
 import re
 
 import frappe
@@ -254,6 +255,34 @@ def _place(doctype: str, app: str) -> None:
 	module = _apps()[app]["module"]
 	if module:
 		reports._put("DocType", doctype, module, None)
+
+
+def restored(ours) -> str:
+	"""A collection put back from the Recycle Bin (one/recycle.py): its DocType
+	from the bin too, where it went as Administrator's, and its place in its
+	app. Its table was never dropped."""
+	roles.require()
+	if not frappe.db.exists("DocType", ours.record_doctype):
+		gone = frappe.get_all(
+			"Deleted Document",
+			filters={"deleted_doctype": "DocType", "deleted_name": ours.record_doctype, "restored": 0},
+			fields=["name", "data"],
+			order_by="creation desc",
+			limit=1,
+		)
+		if not gone:
+			frappe.throw(_("{0} can't be restored.").format(ours.record_doctype))
+		with extensions._as_administrator():
+			doctype = frappe.get_doc(json.loads(gone[0].data))
+			doctype.flags.from_restore = True
+			doctype.insert(ignore_permissions=True)
+		frappe.db.set_value(
+			"Deleted Document", gone[0].name, {"restored": 1, "new_name": ours.record_doctype}
+		)
+	ours.flags.from_restore = True
+	ours.insert(ignore_permissions=True)
+	_place(ours.record_doctype, ours.app)
+	return ours.name
 
 
 def remove(doc, method=None) -> None:

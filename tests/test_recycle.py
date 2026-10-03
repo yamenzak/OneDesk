@@ -44,3 +44,19 @@ def test_putting_back_keeps_frappes_checks():
 def test_machinery_and_tables_stay_out():
 	assert 'MACHINERY = ("Core", "Custom")' in SOURCE
 	assert '"istable": 1' in _body("_machinery")
+
+
+def test_a_custom_field_and_a_collection_come_back_whole():
+	"""A custom field and a collection are frappe machinery an administrator
+	still sees in the bin, and each comes back through its own restorer: the
+	field into the Custom Fields list with its values, the collection with
+	its DocType and its place in its app."""
+	assert '"Custom Field": "onedesk.one.customize.restored"' in SOURCE
+	assert '"Record Type": "onedesk.one_studio.record_types.restored"' in SOURCE
+	assert '"name": ["not in", list(RESTORERS)]' in _body("_machinery")
+	assert "frappe.get_attr(RESTORERS[doc.doctype])(doc)" in _body("restore")
+	customize = (tree.APP / "one" / "customize.py").read_text().split("def restored(", 1)[1].split("\ndef ", 1)[0]
+	assert "may(field.dt)" in customize and '_note(field.dt, "Custom Field", field.name)' in customize
+	studio = (tree.APP / "one_studio" / "record_types.py").read_text().split("def restored(", 1)[1].split("\ndef ", 1)[0]
+	assert "roles.require()" in studio and '"deleted_doctype": "DocType"' in studio
+	assert "_place(ours.record_doctype, ours.app)" in studio

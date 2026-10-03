@@ -138,6 +138,8 @@ Fields** on a form's own menu opens the list filtered to that form.
 - **Change a field**: click it. OneAI asks what to change.
 - **Export or Reset**: tick fields, then choose from **Actions**. Reset
   removes everything the workspace changed on those forms.
+- **Restore a field**: a removed field is in One › **Recycle Bin**. Restoring
+  it brings back its values too.
 
 See Customizing a Form in One's documentation.
 
@@ -178,7 +180,8 @@ example "Add a colour to Company Van." A removed field is hidden, not deleted, s
 data is lost.
 
 **Deleting one.** Delete its records first. A collection that still has
-records can't be deleted.
+records can't be deleted. A deleted collection is in One › **Recycle Bin**, and
+restoring it brings back its records list.
 
 ## Notifications
 

@@ -58,21 +58,30 @@ SYSTEM = ("Administrator", "Guest")
 #: record somebody made, and never in the bin.
 MACHINERY = ("Core", "Custom")
 
+#: What a workspace makes of frappe's machinery, which its administrators see
+#: in the bin all the same, and what puts each back: a plain insert would
+#: leave a field out of the Custom Fields list, or a collection without its
+#: records. Each restorer checks who may and returns the name it came back as.
+RESTORERS = {
+	"Custom Field": "onedesk.one.customize.restored",
+	"Record Type": "onedesk.one_studio.record_types.restored",
+}
+
 
 def _machinery() -> list[str]:
 	"""Every kind of record the bin leaves out: tables, frappe's machinery and
 	the platform's own."""
 	modules = [*MACHINERY, *REFUSED_MODULES]
-	return frappe.get_all("DocType", filters={"module": ["in", modules]}, pluck="name") + frappe.get_all(
-		"DocType", filters={"istable": 1}, pluck="name"
-	)
+	return frappe.get_all(
+		"DocType", filters={"module": ["in", modules], "name": ["not in", list(RESTORERS)]}, pluck="name"
+	) + frappe.get_all("DocType", filters={"istable": 1}, pluck="name")
 
 
 def _kinds(user: str) -> list[str]:
 	"""The kinds of record an administrator sees deleted: those they may read
 	and that are records."""
 	left_out = set(_machinery())
-	return [one for one in get_doctypes_with_read() if one not in left_out]
+	return [one for one in get_doctypes_with_read() if one not in left_out] + list(RESTORERS)
 
 
 def query(user: str | None = None) -> str | None:
@@ -123,6 +132,14 @@ def restore(name: str, alert: bool = True) -> str:
 		)
 
 	doc = frappe.get_doc(json.loads(deleted.data))
+	if doc.doctype in RESTORERS:
+		name = frappe.get_attr(RESTORERS[doc.doctype])(doc)
+		deleted.new_name = name
+		deleted.restored = 1
+		deleted.db_update()
+		if alert:
+			frappe.msgprint(_("{0} is back.").format(deleted.deleted_name), alert=True, indicator="green")
+		return name
 	if not frappe.has_permission(doc.doctype, "create"):
 		frappe.throw(
 			_("You cannot make a {0}, so you cannot put one back.").format(_(doc.doctype)),

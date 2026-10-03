@@ -5997,6 +5997,26 @@ list and pointed at its records. It is gone, as Custom Fields' was:
 - "Delete them first; deleting it would delete them too" is now "Delete
   them first."
 
+**Deleted, then restored.** Your question: "Does a deleted custom field or
+collection go into Deleted like frappe and can be restored, or does it
+orphan?" Tested live, it orphaned:
+
+- A custom field went to frappe's Deleted Documents, but the Recycle Bin
+  hid it as frappe's machinery. Its column and values stayed in the table
+  with no way back.
+- A collection was in the bin, but restoring it brought back only its row.
+  Its DocType went to the bin as Administrator's, which the bin hides.
+
+Now a custom field and a collection are in the bin for administrators, each
+with its own restore (`RESTORERS` in one/recycle.py). A field comes back into
+the ledger and the Custom Fields list, with its values. A collection comes
+back with its DocType and its place in its app's rail. The bin names a field
+"Loyalty Tier on Customer" and calls a collection a Custom Collection.
+Verified in the browser as wsadmin: both restored, the field's value back,
+the collection's records list opening.
+
+Still open: deleted extensions show in the bin by their random ID.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
