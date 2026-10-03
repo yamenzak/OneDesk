@@ -135,15 +135,15 @@ The ones changed here come first. Choose an app beside the search to see only
 its forms, and search by name. The table keeps up as forms are changed and
 extensions made.
 
-Open one to change it on its **Customize** page: a field's label, whether it
-is hidden, required or in the list, their order, fields of your own, what the
-top of the form shows, its connections and its buttons. **Customize** in a
-form's own menu opens the same page. How each part is filled in, and
-**Save**, **Export** and **Reset**, are under Customizing a Form in One's
-documentation.
-
-At the foot, **Extensions** lists what runs on the form, on or off, each
-leading to its own page; they are read here and changed in Extensions.
+Open one to see what the workspace changed about it on its **Customize**
+page: the fields it added, and the forms each was carried to; the fields it
+changed; what shows above the fields; its connections and buttons; and its
+extensions, each a table. **Customize** in a form's own menu opens the same
+page. Nothing there is edited by hand: **Add a Field**, or a click on a
+field, asks OneAI, which goes step by step, recommends how the field is
+checked and shown and which other forms should carry it (an Item field onto
+the items of invoices and orders), and makes one card to approve. How it
+goes is under Customizing a Form in One's documentation.
 
 **Who sees and changes it.** Workspace administrators only, on the forms they
 may open; never the framework's own forms, nor One's. A change applies to
@@ -151,9 +151,10 @@ everybody who opens the form. The other administrators are told who changed
 which form (**Form Customized**, on the bell).
 
 **OneAI** on the list says which forms were changed and how, or changes the
-one you name. On a form it suggests changes as one card, adds a field, says
-what was changed and which extensions run on it, or explains how customizing
-works.
+one you name. On a form it adds a field step by step, suggests changes as one
+card, says what was changed and which extensions run on it, or explains how
+customizing works. A check no field setting can say, it offers as an
+extension.
 
 ## Record Types
 

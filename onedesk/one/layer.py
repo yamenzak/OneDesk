@@ -54,6 +54,41 @@ KINDS = (
 	"Tab Break",
 )
 
+#: What a field the workspace adds may say about itself, besides its kind,
+#: label, choices and place: how it is checked, shown, copied and carried.
+#: Nothing here runs; `fetch_from` is held by `_fetched`.
+ADDED = (
+	"reqd",
+	"unique",
+	"default",
+	"description",
+	"placeholder",
+	"in_list_view",
+	"in_standard_filter",
+	"in_preview",
+	"bold",
+	"hidden",
+	"read_only",
+	"depends_on",
+	"mandatory_depends_on",
+	"read_only_depends_on",
+	"fetch_from",
+	"fetch_if_empty",
+	"length",
+	"non_negative",
+	"precision",
+	"no_copy",
+	"allow_on_submit",
+	"print_hide",
+	"translatable",
+	"set_only_once",
+	"allow_in_quick_entry",
+	"collapsible",
+)
+
+#: What a Data field may hold besides any text, checked by frappe as it saves.
+DATA_OPTIONS = ("", "Email", "Name", "Phone", "URL", "Barcode", "IBAN")
+
 #: What a workspace may change about a field, or a form (`field_order`).
 PROPERTIES = (
 	"label",
@@ -141,7 +176,36 @@ def custom_field(doc, method=None) -> None:
 		frappe.throw(_("{0}: a field worked out by code is not the workspace's to add.").format(where))
 	if doc.get("permlevel") or doc.get("ignore_user_permissions"):
 		frappe.throw(_("{0}: who may see a field is set by the roles, not here.").format(where))
+	if doc.fieldtype == "Data" and (doc.options or "") not in DATA_OPTIONS:
+		frappe.throw(
+			_(
+				"{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
+			).format(where)
+		)
 	_conditions(doc, where)
+	_fetched(doc, where)
+
+
+def _fetched(doc, where: str) -> None:
+	"""A field filled from a record this one links to (`fetch_from`: the Link
+	field, a dot, the field there) only shows what whoever saves may read: a
+	Link field of this form, and a field of that record at no level above the
+	first, of a kind that is not a secret."""
+	if not doc.get("fetch_from"):
+		return
+	link, _dot, field = (doc.fetch_from or "").partition(".")
+	through = frappe.get_meta(doc.dt).get_field(link)
+	if not through or through.fieldtype != "Link" or not field:
+		frappe.throw(_("{0}: a field is filled through a Link field of the same form.").format(where))
+	there = frappe.get_meta(through.options).get_field(field)
+	if not there or there.permlevel or there.fieldtype in ("Password", "Code", "HTML", "Button"):
+		frappe.throw(
+			_("{0}: {1} has no field {2} that everybody who reads it may see.").format(
+				where, _(through.options), field
+			)
+		)
+	if not frappe.has_permission(through.options, "read"):
+		frappe.throw(_("{0}: you cannot read {1}.").format(where, _(through.options)))
 
 
 #: The doctype defaults a module may set through set_default.

@@ -136,6 +136,7 @@ GROUPS = {
 			"extension_places",
 			"record_types_here",
 			"forms_here",
+			"form_relations",
 			"write_extension",
 			"mend_extension",
 			"design_record_type",
@@ -247,7 +248,15 @@ MODULES = {
 DOCTYPES = {"Employee": "hr", "File": "files", "Communication": "mail"}
 
 #: Desk pages, by route, to their group.
-PAGES = {"onemail": "mail", "onecloud": "files", "workspace-settings": "workspace", "one-admin": "console"}
+PAGES = {
+	"onemail": "mail",
+	"onecloud": "files",
+	"workspace-settings": "workspace",
+	"one-admin": "console",
+	# The Customize page and the Forms list are OneStudio's: a form is changed
+	# by customize, after form_relations.
+	"customize": "studio",
+}
 
 
 def of(tool: str) -> str | None:

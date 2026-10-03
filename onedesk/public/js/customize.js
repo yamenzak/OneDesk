@@ -1,8 +1,8 @@
 // A form, customized by the workspace (one/customize.py, docs/SHELL.md
-// decision 6). The page is the shell's Editor, so it is a record's page in
-// all but name: dirty against what loaded, a warning before leaving, Save in
-// the head with Ctrl+S, and a save refused when somebody else saved first.
-// Every part is frappe's own: FieldGroup, and its grids for the tables.
+// decision 6), read here and changed by OneAI: every part is one of frappe's
+// tables of what the workspace added or changed, and Add a Field asks OneAI,
+// whose card writes what the page used to (one/ai.py customize). A form with
+// no form named is the Forms list. It redraws when anybody changes the form.
 frappe.provide("onedesk");
 
 onedesk.Customize = class Customize extends onedesk.shell.Editor {
@@ -11,14 +11,12 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	constructor(page) {
 		super(page);
 		this.$section = page.$shell;
-		// Somebody else changed this form's customizations: another
-		// administrator, or a OneAI card approved. Untouched, the page
-		// reloads; with changes in it, it says so and keeps them.
+		// This form's customizations changed: a OneAI card approved, a
+		// Reset, or another administrator. The page reads them again.
 		frappe.realtime.on("one_customized", (data) => {
 			if (!this.doctype) return this.listed();
-			if (!this.data || data.doctype !== this.doctype || data.token === this.data.token || this.saving) return;
-			if (this.dirty) this.conflict();
-			else if (this.$content && this.$content.is(":visible")) this.refresh();
+			if (!this.data || data.doctype !== this.doctype || data.token === this.data.token) return;
+			if (this.$content && this.$content.is(":visible")) this.refresh();
 		});
 		// An extension made, turned on or off, or deleted: the list's counts
 		// and the form's Extensions change with it, edits kept.
@@ -103,152 +101,139 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		return this.list;
 	}
 
-	saver(values) {
-		return { method: Customize.API + "save", args: { doctype: this.doctype, values, token: this.data.token } };
-	}
-
 	redraw(said) {
 		this.data = said;
+		this.$content.empty();
 		this.draw(said);
 	}
 
+	// What the workspace changed about the form, read here and changed by
+	// OneAI: each part is one of frappe's tables, and a part with nothing in
+	// it is not drawn, but for the fields added, which says how to add one.
 	draw(data) {
 		// "Forms / Customer": one form under the Forms list, as the rail says;
 		// the form's own list is Open on the menu.
 		onedesk.shell.trail(__("Forms"), "/desk/customize", data.label);
 		this.menu(data);
-		const table = (fieldname, label, description, fields, rows) => ({
-			fieldtype: "Table",
-			fieldname,
-			label,
-			description,
-			fields,
-			data: rows.map((row) => ({ ...row })),
-			in_place_edit: true,
+		const esc = frappe.utils.escape_html;
+		const badge = (label, theme = "gray") => frappe.ui.badge.html({ label, theme });
+		const ask = (text) => onedesk.oneai.open({ ask: text });
+		const parts = {};
+		for (const key of ["added", "changed", "above", "connections", "extensions"]) {
+			parts[key] = $('<div class="one-shell-section"></div>').appendTo(this.$content);
+		}
+		const drawn = new Set(["added", "extensions"]);
+
+		// The fields added here, and the forms each was carried to.
+		const rules = (one) =>
+			[
+				one.came_with ? badge(__("Came With the Form"), "blue") : "",
+				one.reqd ? badge(__("Required"), "orange") : "",
+				one.unique ? badge(__("Unique")) : "",
+				one.in_list_view ? badge(__("In the List")) : "",
+				one.read_only ? badge(__("Read Only")) : "",
+				one.default ? badge(__("Default {0}", [one.default])) : "",
+				one.depends_on ? badge(__("Shown When")) : "",
+				one.fetch_from ? badge(__("Filled From {0}", [one.fetch_from.split(".")[0]])) : "",
+				one.non_negative ? badge(__("Never Below Zero")) : "",
+				one.length ? badge(__("Up to {0}", [one.length])) : "",
+			]
+				.filter(Boolean)
+				.join(" ");
+		onedesk.shell.table(parts.added, {
+			title: __("Fields Added Here"),
+			note: __("Ask OneAI to add one: it asks what the field is for, suggests how it is checked and shown, and which other forms should carry it."),
+			rows: data.added || [],
+			icon: "text-cursor-input",
+			empty: __("Nothing added to {0} yet.", [data.label]),
+			actions: onedesk.oneai.button(__("Add a Field"), __("I want to add a field to {0}.", [data.label])),
+			open: (one) => ask(__("I want to change the field {0} on {1}.", [one.label, data.label])),
+			columns: [
+				{
+					label: __("Field"),
+					render: (one) => `${esc(one.label)}${one.description ? `<div class="one-shell-quiet">${esc(one.description)}</div>` : ""}`,
+				},
+				{ label: __("Kind"), render: (one) => esc(__(one.fieldtype)) + (one.options ? ` <span class="one-shell-quiet">${esc(one.options.split("\n").join(", "))}</span>` : "") },
+				{ label: __("Rules"), render: rules },
+				{ label: __("Also On"), render: (one) => esc((one.also_on || []).map((form) => __(form)).join(", ")) },
+			],
 		});
-		const select = (options, extra = {}) => ({ fieldtype: "Select", options: ["", ...options].join("\n"), ...extra });
-		const kinds = [...new Set([...data.choices.kinds, ...data.values.fields.map((one) => one.fieldtype)])];
-		const fields = [
-			table(
-				"fields",
-				__("Fields"),
-				__("In the order the form shows them; drag a row to move it. A field the record came with may be hidden, not removed."),
-				[
-					{ fieldtype: "Data", fieldname: "label", label: __("Label"), in_list_view: 1, columns: 3 },
+
+		// What was changed about the fields the form came with.
+		const said = {
+			label: (value) => __("Called {0}", [value]),
+			hidden: (value) => (+value ? __("Hidden") : __("Shown")),
+			reqd: (value) => (+value ? __("Required") : __("Optional")),
+			in_list_view: (value) => (+value ? __("In the List") : __("Not in the List")),
+			in_standard_filter: (value) => (+value ? __("A Filter") : __("Not a Filter")),
+			bold: () => __("Bold"),
+			read_only: (value) => (+value ? __("Read Only") : __("Editable")),
+			default: (value) => __("Default {0}", [value]),
+			description: () => __("Described"),
+			depends_on: () => __("Shown When"),
+		};
+		if ((data.changed || []).length) {
+			drawn.add("changed");
+			onedesk.shell.table(parts.changed, {
+				title: __("Fields Changed Here"),
+				note: __("What the workspace changed about the fields {0} came with.", [data.label]),
+				rows: data.changed,
+				icon: "pencil",
+				open: (one) => ask(__("I want to change the field {0} on {1}.", [one.label, data.label])),
+				columns: [
+					{ label: __("Field"), render: (one) => esc(one.label) },
 					{
-						...select(kinds),
-						fieldname: "fieldtype",
-						label: __("Kind"),
-						in_list_view: 1,
-						columns: 2,
-						read_only_depends_on: "eval:doc.fieldname && !doc.mine",
+						label: __("What Changed"),
+						render: (one) => one.changes.map((change) => badge((said[change.property] || (() => __(change.property)))(change.value))).join(" "),
 					},
-					{ fieldtype: "Data", fieldname: "options", label: __("Choices or Form"), in_list_view: 1, columns: 2, read_only_depends_on: "eval:doc.fieldname && !doc.mine" },
-					{ fieldtype: "Check", fieldname: "hidden", label: __("Hidden"), in_list_view: 1, columns: 1 },
-					{ fieldtype: "Check", fieldname: "reqd", label: __("Required"), in_list_view: 1, columns: 1 },
-					{ fieldtype: "Check", fieldname: "in_list_view", label: __("In the List"), in_list_view: 1, columns: 1 },
-					{ fieldtype: "Data", fieldname: "fieldname", label: __("Name"), read_only: 1 },
-					{ fieldtype: "Check", fieldname: "mine", label: __("Made Here"), read_only: 1 },
 				],
-				data.values.fields
-			),
-			table(
-				"band",
-				__("Numbers Under the Title"),
-				__("Each is a field, a field of a linked record, a count or a sum, or a measure a module keeps."),
-				[
-					{ fieldtype: "Data", fieldname: "label", label: __("Label"), in_list_view: 1, columns: 2, reqd: 1 },
-					{ ...select(["Field", "Linked Field", "Count", "Sum", "Measure"]), fieldname: "source", label: __("Value"), in_list_view: 1, columns: 2, reqd: 1 },
-					{ ...select(data.choices.fields), fieldname: "field", label: __("Field"), in_list_view: 1, columns: 2 },
-					{ ...select(data.choices.measures), fieldname: "measure", label: __("Measure"), in_list_view: 1, columns: 2 },
-					{ ...select(["quiet", "waiting", "alarm"]), fieldname: "tone", label: __("Tone"), in_list_view: 1, columns: 1 },
-					{ ...select(data.choices.links), fieldname: "link_field", label: __("Through") },
-					{ fieldtype: "Link", options: "DocType", fieldname: "of_doctype", label: __("Of") },
-					{ fieldtype: "Data", fieldname: "filters", label: __("Counting") },
-					{ fieldtype: "Data", fieldname: "shown_when", label: __("Shown When") },
-					{ fieldtype: "Data", fieldname: "route", label: __("Leads To") },
-					{ fieldtype: "Check", fieldname: "hide_empty", label: __("Hide When Empty") },
-				],
-				data.values.band
-			),
-			table(
-				"verbs",
-				__("Buttons That Do Something"),
-				__("What a module offers to do to this record. Each shows only when it can be done."),
-				[
-					{ ...select(data.choices.verbs), fieldname: "verb", label: __("Verb"), in_list_view: 1, columns: 4, reqd: 1 },
-					{ fieldtype: "Data", fieldname: "label", label: __("Label"), in_list_view: 1, columns: 4 },
-					{ fieldtype: "Check", fieldname: "primary", label: __("Primary"), in_list_view: 1, columns: 2 },
-				],
-				data.values.verbs
-			),
-			table(
-				"charts",
-				__("Charts Beside the Numbers"),
-				__("What a module draws of this record, such as a customer's billing month by month."),
-				[
-					{ ...select(data.choices.charts), fieldname: "chart", label: __("Chart"), in_list_view: 1, columns: 5, reqd: 1 },
-					{ fieldtype: "Data", fieldname: "label", label: __("Label"), in_list_view: 1, columns: 5 },
-				],
-				data.values.charts
-			),
-			table(
-				"linked",
-				__("Linked Sections"),
-				__("Fields of a record this one links to, edited here and saved in the same save."),
-				[
-					{ fieldtype: "Data", fieldname: "label", label: __("Heading"), in_list_view: 1, columns: 2, reqd: 1 },
-					{ ...select(data.choices.links), fieldname: "link_field", label: __("Through"), in_list_view: 1, columns: 2, reqd: 1 },
-					{ fieldtype: "Small Text", fieldname: "fields", label: __("Fields"), in_list_view: 1, columns: 4, reqd: 1 },
-					{ ...select(data.choices.fields), fieldname: "placed_in", label: __("In the Tab Of"), in_list_view: 1, columns: 2 },
-				],
-				data.values.linked
-			),
-			table(
-				"links",
-				__("Connections"),
-				__("Records of another form that link to this one, listed under Connections."),
-				[
-					{ fieldtype: "Link", options: "DocType", fieldname: "link_doctype", label: __("Form"), in_list_view: 1, columns: 4, reqd: 1 },
-					{ fieldtype: "Data", fieldname: "link_fieldname", label: __("Its Link Field"), in_list_view: 1, columns: 3, reqd: 1 },
-					{ fieldtype: "Data", fieldname: "group", label: __("Group"), in_list_view: 1, columns: 3 },
-				],
-				data.values.links
-			),
-			table(
-				"actions",
-				__("Buttons That Go Somewhere"),
-				__("A place in the desk to open from this record, as a route."),
-				[
-					{ fieldtype: "Data", fieldname: "label", label: __("Label"), in_list_view: 1, columns: 3, reqd: 1 },
-					{ fieldtype: "Data", fieldname: "action", label: __("Goes To"), in_list_view: 1, columns: 4, reqd: 1 },
-					{ fieldtype: "Data", fieldname: "group", label: __("Group"), in_list_view: 1, columns: 3 },
-				],
-				data.values.actions
-			),
+			});
+		}
+
+		// The workspace's own rows above the fields.
+		const above = [
+			...data.values.band.map((one) => ({ kind: __("Number"), label: one.label, detail: __(one.source || "") })),
+			...data.values.verbs.map((one) => ({ kind: __("Button"), label: one.label || one.verb, detail: one.verb })),
+			...data.values.charts.map((one) => ({ kind: __("Chart"), label: one.label || one.chart, detail: one.chart })),
+			...data.values.linked.map((one) => ({ kind: __("Linked Section"), label: one.label, detail: one.link_field })),
 		];
-		const declared = data.declared
-			? __("{0} of what shows above the fields comes with the form, from {1}, and stays as it is.", [data.declared, data.declared_by || __("a module")])
-			: "";
-		this.form(
-			{ fields, values: {} },
-			{
-				rows: [
-					{ stack: ["fields"] },
-					{ heading: __("Above the Fields"), note: declared || __("The numbers and charts under the title, the buttons, and fields of the records this one links to.") },
-					{ stack: ["band"] },
-					{ stack: ["verbs"] },
-					{ stack: ["charts"] },
-					{ stack: ["linked"] },
-					{ heading: __("Connections and Buttons") },
-					{ stack: ["links"] },
-					{ stack: ["actions"] },
-					{ heading: __("Extensions"), note: __("What runs on this form, written by OneAI and turned on in OneStudio › Extensions. Read here; changed there.") },
-					{ html: '<div class="one-customize-extensions"></div>' },
+		if (above.length) {
+			drawn.add("above");
+			onedesk.shell.table(parts.above, {
+				title: __("Above the Fields"),
+				note: __("Numbers, buttons, charts and linked sections the workspace added under the title."),
+				rows: above,
+				icon: "layout-panel-top",
+				columns: [
+					{ label: __("Kind"), render: (one) => esc(one.kind) },
+					{ label: __("Label"), render: (one) => esc(one.label || "") },
+					{ label: __("From"), render: (one) => `<span class="one-shell-quiet">${esc(one.detail || "")}</span>` },
 				],
-			}
-		);
+			});
+		}
+
+		// Connections, and buttons that open somewhere.
+		const joined = [
+			...data.values.links.map((one) => ({ kind: __("Connection"), label: __(one.link_doctype), detail: one.link_fieldname })),
+			...data.values.actions.map((one) => ({ kind: __("Goes To"), label: one.label, detail: one.action })),
+		];
+		if (joined.length) {
+			drawn.add("connections");
+			onedesk.shell.table(parts.connections, {
+				title: __("Connections and Buttons"),
+				rows: joined,
+				icon: "link",
+				columns: [
+					{ label: __("Kind"), render: (one) => esc(one.kind) },
+					{ label: __("Label"), render: (one) => esc(one.label || "") },
+					{ label: __("Through"), render: (one) => `<span class="one-shell-quiet">${esc(one.detail || "")}</span>` },
+				],
+			});
+		}
+
+		parts.extensions.addClass("one-customize-extensions");
 		this.ran(data);
+		for (const [key, $part] of Object.entries(parts)) if (!drawn.has(key)) $part.remove();
 	}
 
 	// The extensions on this form (one_studio/forms.py), in one of frappe's
@@ -258,6 +243,8 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		if (!$into.length) return;
 		const esc = frappe.utils.escape_html;
 		onedesk.shell.table($into, {
+			title: __("Extensions"),
+			note: __("What runs on this form, written by OneAI and turned on in OneStudio › Extensions. Read here; changed there."),
 			rows: this.extensions || [],
 			icon: "code",
 			empty: __("Nothing runs on {0}", [data.label]),
@@ -288,8 +275,6 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			frappe.confirm(__("Take back everything this workspace changed about {0}?", [data.label]), async () => {
 				const said = await frappe.xcall(Customize.API + "reset", { doctype: data.doctype });
 				frappe.show_alert({ message: __("{0} is as it came.", [data.label]), indicator: "green" });
-				this.set_dirty(false);
-				this.$content.empty();
 				this.redraw(said);
 			})
 		);

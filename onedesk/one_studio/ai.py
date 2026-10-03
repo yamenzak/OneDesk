@@ -483,6 +483,8 @@ def forms_here(
 		return {"changed_forms": changed, "forms_that_may_be_changed": len(forms.forms())}
 	if not frappe.db.exists("DocType", record):
 		return {"error": f"{record} is not a form here."}
+	from onedesk.one import customize as page
+
 	ledger = frappe.get_all(
 		"Workspace Customization", filters={"record_doctype": record}, fields=["kind", "row"]
 	)
@@ -507,6 +509,78 @@ def forms_here(
 		],
 		"fields_changed": changes,
 		"extensions": forms.extensions(record),
+		# What the buttons, charts and numbers above the fields may name.
+		"choices": {
+			key: value
+			for key, value in page.load(record)["choices"].items()
+			if key in ("verbs", "charts", "measures")
+		},
+	}
+
+
+def form_relations(
+	record: Annotated[str, "The form a field is being added to, as its DocType name, such as Item."],
+) -> dict:
+	"""Which other forms a field added to this one might belong on too: the
+	tables of other forms that link to it (Item's Sales Invoice Item, Purchase
+	Order Item and the rest, each filled from it through that link), the forms
+	that link to it, and the fields it has now, so a field is not added twice.
+	Read it before suggesting a new field."""
+	if not roles.administers():
+		return {"error": "Only a workspace administrator customizes a form."}
+	from onedesk.one import customize as page
+
+	try:
+		page.may(record)
+	except (frappe.ValidationError, frappe.PermissionError) as refused:
+		return {"error": frappe.utils.strip_html(str(refused))}
+	links = frappe.get_all(
+		"DocField",
+		filters={"fieldtype": "Link", "options": record, "parenttype": "DocType"},
+		fields=["parent", "fieldname", "label"],
+	) + frappe.get_all(
+		"Custom Field",
+		filters={"fieldtype": "Link", "options": record},
+		fields=["dt as parent", "fieldname", "label"],
+	)
+	tables, forms, seen = [], [], set()
+	for one in links:
+		if one.parent == record or one.parent in seen:
+			continue
+		seen.add(one.parent)
+		meta = frappe.get_meta(one.parent)
+		try:
+			page.may_carry(one.parent, record)
+		except (frappe.ValidationError, frappe.PermissionError):
+			continue
+		if meta.istable:
+			parents = sorted(
+				set(
+					frappe.get_all(
+						"DocField",
+						filters={"fieldtype": ["in", ["Table", "Table MultiSelect"]], "options": one.parent},
+						pluck="parent",
+					)
+				)
+			)
+			tables.append(
+				{"table": one.parent, "through": page.links_to(one.parent, record), "in": parents[:12]}
+			)
+		else:
+			forms.append({"form": one.parent, "through": page.links_to(one.parent, record)})
+	fields = [
+		f"{df.label} ({df.fieldtype})"
+		for df in frappe.get_meta(record).fields
+		if df.label and df.fieldtype not in ("Section Break", "Column Break", "Tab Break")
+	]
+	return {
+		"form": record,
+		"fields_now": fields,
+		"tables_linking_here": sorted(tables, key=lambda one: one["table"])[:40],
+		"forms_linking_here": sorted(forms, key=lambda one: one["form"])[:40],
+		"next": "Recommend which of these should carry the new field, and why, in a sentence each: a table "
+		"whose rows show this form's details (an invoice's items, an order's items) usually should, filled "
+		"from here; a form that only points here usually should not. Ask before adding them.",
 	}
 
 
@@ -527,4 +601,5 @@ def make_record_type(changes: dict) -> str:
 
 write_extension.action = mend_extension.action = design_record_type.action = extension_code.action = "studio"
 extension_places.action = "studio"
+form_relations.action = "studio"
 write_extension.unshown = extension_code.unshown = ("code",)

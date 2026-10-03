@@ -157,7 +157,9 @@ SUGGESTIONS = {
 		},
 		{
 			"label": _lt("Which mails use a template?"),
-			"ask": _lt("Which of our mail templates does a setting send, and which are only picked in the composer?"),
+			"ask": _lt(
+				"Which of our mail templates does a setting send, and which are only picked in the composer?"
+			),
 			"expects": "workspace_mail_templates",
 		},
 	],
@@ -208,14 +210,18 @@ SUGGESTIONS = {
 	"Personal Data Download Request": [
 		{
 			"label": _lt("What would this copy give?"),
-			"ask": _lt("What would this copy of their data give, kind by kind, and is any of it other people's or the company's confidential information I should withhold?"),
+			"ask": _lt(
+				"What would this copy of their data give, kind by kind, and is any of it other people's or the company's confidential information I should withhold?"
+			),
 			"expects": "privacy_request",
 		},
 	],
 	"Personal Data Deletion Request": [
 		{
 			"label": _lt("What would deleting them remove?"),
-			"ask": _lt("If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"),
+			"ask": _lt(
+				"If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"
+			),
 			"expects": "privacy_request",
 		},
 	],
@@ -250,7 +256,9 @@ SUGGESTIONS = {
 	"Activity Log": [
 		{
 			"label": _lt("Any odd sign-ins?"),
-			"ask": _lt("In the last week, which sign-ins failed, and did anybody sign in from somewhere new?"),
+			"ask": _lt(
+				"In the last week, which sign-ins failed, and did anybody sign in from somewhere new?"
+			),
 			"expects": "audit_log",
 		},
 	],
@@ -271,7 +279,9 @@ SUGGESTIONS = {
 	"page:workspace-settings/access": [
 		{
 			"label": _lt("Who can do what?"),
-			"ask": _lt("What may each app's users, managers and our own levels do, and who is at each? Say anything that looks too wide."),
+			"ask": _lt(
+				"What may each app's users, managers and our own levels do, and who is at each? Say anything that looks too wide."
+			),
 			"expects": "workspace_access",
 		},
 		{
@@ -332,7 +342,9 @@ SUGGESTIONS = {
 	"page:workspace-settings/oneai": [
 		{
 			"label": _lt("Which actions cost the most?"),
-			"ask": _lt("Which of OneAI's actions used the most credits in the last thirty days, and on which models?"),
+			"ask": _lt(
+				"Which of OneAI's actions used the most credits in the last thirty days, and on which models?"
+			),
 			"expects": "workspace_oneai",
 		},
 		{
@@ -438,9 +450,9 @@ SUGGESTIONS = {
 			"record": True,
 		},
 		{
+			# Asked about first, step by step: nothing is expected of the first turn.
 			"label": _lt("Add a field"),
-			"ask": _lt("Help me add a field to this form. Ask me what it holds, then suggest it."),
-			"expects": "customize",
+			"ask": _lt("I want to add a field to this form."),
 			"record": True,
 		},
 		{
@@ -451,7 +463,9 @@ SUGGESTIONS = {
 		},
 		{
 			"label": _lt("Which forms have we changed?"),
-			"ask": _lt("Which forms has the workspace changed, how, and which have extensions running on them?"),
+			"ask": _lt(
+				"Which forms has the workspace changed, how, and which have extensions running on them?"
+			),
 			"expects": "forms_here",
 			"record": False,
 		},
@@ -675,10 +689,13 @@ def _customize_page(doctype: str | None) -> str:
 		"and how."
 	)
 	return (
-		"The reader is on the Customize page, where a workspace administrator changes how a form looks "
-		"for everybody." + opened + " customize suggests a change as a card they approve; it never writes "
-		"code, never removes a field the form came with, and never changes who may see a field. How it "
-		"works is in One's documentation under One › Customizing a Form (how_to)."
+		"The reader is on the Customize page, where a workspace administrator sees what the workspace "
+		"changed about a form, and changes it only through you." + opened + " customize suggests a change "
+		"as a card they approve: fields added (asked about step by step, after form_relations, and carried "
+		"to the forms that should have them), changed, hidden or taken away, and what shows above the "
+		"fields. It never writes code, never removes a field the form came with, and never changes who may "
+		"see a field; a check no field property can say is an extension. How it works is in One's "
+		"documentation under One › Customizing a Form (how_to)."
 	)
 
 
@@ -924,19 +941,61 @@ def draft_notification(
 	}
 
 
+#: What an added field may say, as the model names it, to frappe's property.
+FIELD_SAYS = {
+	"required": "reqd",
+	"unique": "unique",
+	"default": "default",
+	"description": "description",
+	"placeholder": "placeholder",
+	"in_list": "in_list_view",
+	"in_filter": "in_standard_filter",
+	"bold": "bold",
+	"read_only": "read_only",
+	"show_when": "depends_on",
+	"required_when": "mandatory_depends_on",
+	"read_only_when": "read_only_depends_on",
+	"fetch_from": "fetch_from",
+	"length": "length",
+	"non_negative": "non_negative",
+	"precision": "precision",
+	"no_copy": "no_copy",
+	"allow_on_submit": "allow_on_submit",
+	"print_hide": "print_hide",
+	"set_only_once": "set_only_once",
+	"in_quick_entry": "allow_in_quick_entry",
+}
+
+
 def customize(
-	doctype: Annotated[str, "The form, as its DocType name, such as Employee or Sales Invoice."],
+	doctype: Annotated[str, "The form, as its DocType name, such as Item or Sales Invoice."],
 	add: Annotated[
 		list[dict],
-		"New fields, each {label, kind, choices, after, required, in_list}. kind is Data, Select, Check, Date, "
-		"Link, Currency, Phone, Small Text or another a person types; choices are a Select's options or a "
-		"Link's form; after names the field it follows.",
+		"New fields, each {label, kind, choices, after, also_on, and any of: required, unique, default, "
+		"description, placeholder, in_list, in_filter, bold, read_only, show_when, required_when, "
+		"read_only_when, fetch_from, length, non_negative, precision, no_copy, allow_on_submit, print_hide, "
+		"set_only_once, in_quick_entry}. kind is Data, Small Text, Text, Text Editor, Int, Float, Currency, "
+		"Percent, Check, Date, Datetime, Time, Duration, Select, Link, Phone, Rating, Attach, Attach Image, "
+		"Color or a Section Break, Column Break or Tab Break. choices are a Select's options, a Link's form, "
+		"or for Data one of Email, Name, Phone, URL, Barcode, IBAN, which frappe then checks. show_when and "
+		"the other conditions are a field's name or eval:doc.field == 'value'. fetch_from is "
+		"link_field.field_there. also_on carries the same field to other forms, each {form, fetch, through, "
+		"editable}: fetch fills it from this form through their Link field (an Item field onto Sales "
+		"Invoice Item through item_code); fetch false copies it when one is made from the other (a Sales "
+		"Order field onto Delivery Note).",
 	]
 	| None = None,
 	change: Annotated[
 		list[dict],
-		"Fields the form has, each {field, label, hidden, required, in_list, after}: field is its name or "
-		"label, and only what is given changes.",
+		"Fields the form has, each {field, label, hidden, required, in_list, after}, and for a field added "
+		"here any property add takes: field is its name or label, and only what is given changes.",
+	]
+	| None = None,
+	remove: Annotated[list[str], "Fields added here to take away, by name or label."] | None = None,
+	carry: Annotated[
+		list[dict],
+		"A field the form has already, carried to other forms as also_on does, each {field, form, fetch, "
+		"through, editable}: field is its name or label (Item's Country of Origin onto Sales Invoice Item).",
 	]
 	| None = None,
 	band: Annotated[
@@ -945,19 +1004,39 @@ def customize(
 		"tone}. source is Field, Linked Field, Count, Sum or Measure.",
 	]
 	| None = None,
+	buttons: Annotated[
+		list[dict], "Buttons that do something, each {verb, label, primary}: verb is one forms_here lists."
+	]
+	| None = None,
+	charts: Annotated[
+		list[dict], "Charts beside the numbers, each {chart, label}: chart is one forms_here lists."
+	]
+	| None = None,
 	linked: Annotated[
 		list[dict],
 		"Sections of a linked record's fields, edited on this form, each {label, through, fields, in_tab_of}: "
 		"through is a Link field of this form, fields are the linked form's field names.",
 	]
 	| None = None,
+	connections: Annotated[
+		list[dict],
+		"Another form's records that link here, listed under Connections, each {form, link_field, group}.",
+	]
+	| None = None,
+	go_to: Annotated[
+		list[dict],
+		"Buttons that open a place in the desk, each {label, route, group}: route such as /desk/item.",
+	]
+	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
 ) -> dict:
-	"""Suggest a change to how a form looks, as a card the workspace
-	administrator applies: fields added, renamed, hidden, required or moved,
-	numbers under the title, and sections of a linked record's fields. Nothing
-	that runs, and nothing changes until they approve it. Workspace
-	administrators only."""
+	"""Suggest a change to a form, as one card the workspace administrator
+	approves: fields added with everything about them (checks, defaults, when
+	shown, filled from a linked record) and carried to the forms that should
+	have them too, fields renamed, hidden, required, moved or taken away,
+	numbers, buttons and charts above the fields, and connections. Nothing that
+	runs: a check no property can say is an extension (write_extension).
+	Workspace administrators only. Read forms_here and form_relations first."""
 	from frappe.utils import strip_html
 
 	from onedesk.one import customize as page
@@ -971,6 +1050,7 @@ def customize(
 		said = page.load(doctype)
 		values, summary = said["values"], []
 		fields = values["fields"]
+		values["carry"] = []
 
 		def find(name):
 			key = frappe.scrub(str(name or ""))
@@ -989,6 +1069,21 @@ def customize(
 				fields.remove(row)
 			fields.insert(fields.index(there) + 1 if there else len(fields), row)
 
+		def properties(one: dict, row: dict) -> list[str]:
+			"""The model's words for a field's properties, onto the row; what was set."""
+			said_of = []
+			for key, prop in FIELD_SAYS.items():
+				if one.get(key) in (None, ""):
+					continue
+				value = one[key]
+				row[prop] = (1 if value else 0) if isinstance(value, bool) else value
+				said_of.append(
+					key.replace("_", " ")
+					if isinstance(value, bool) and value
+					else f"{key.replace('_', ' ')} {value}"
+				)
+			return said_of
+
 		for one in change or []:
 			row = find(one.get("field"))
 			if not row:
@@ -998,14 +1093,17 @@ def customize(
 			if one.get("label"):
 				row["label"] = one["label"]
 				said_of.append(_("called {0}").format(one["label"]))
-			for key, prop, yes, no in (
-				("hidden", "hidden", _("hidden"), _("shown")),
-				("required", "reqd", _("required"), _("optional")),
-				("in_list", "in_list_view", _("in the list"), _("not in the list")),
-			):
-				if one.get(key) is not None:
-					row[prop] = 1 if one[key] else 0
-					said_of.append(yes if one[key] else no)
+			if row.get("mine"):
+				said_of += properties({k: v for k, v in one.items() if k in FIELD_SAYS}, row)
+			else:
+				for key, prop, yes, no in (
+					("hidden", "hidden", _("hidden"), _("shown")),
+					("required", "reqd", _("required"), _("optional")),
+					("in_list", "in_list_view", _("in the list"), _("not in the list")),
+				):
+					if one.get(key) is not None:
+						row[prop] = 1 if one[key] else 0
+						said_of.append(yes if one[key] else no)
 			if one.get("after"):
 				if not find(one["after"]):
 					return missing(one["after"])
@@ -1013,6 +1111,17 @@ def customize(
 				before = find(one["after"])["label"] or one["after"]
 				said_of.append(_("after {0}").format(_(before)))
 			summary.append({"label": called, "value": ", ".join(said_of)})
+
+		for name in remove or []:
+			row = find(name)
+			if not row:
+				return missing(name)
+			if not row.get("mine"):
+				return {
+					"error": f"{row['label'] or name} came with {doctype}; it can be hidden, not taken away."
+				}
+			fields.remove(row)
+			summary.append({"label": _("Taken away"), "value": row["label"] or name})
 
 		for one in add or []:
 			kind = one.get("kind") or "Data"
@@ -1023,18 +1132,81 @@ def customize(
 				"fieldtype": kind,
 				"options": "\n".join(choices) if isinstance(choices, list) else (choices or ""),
 				"hidden": 0,
-				"reqd": 1 if one.get("required") else 0,
-				"in_list_view": 1 if one.get("in_list") else 0,
+				"reqd": 0,
+				"in_list_view": 0,
 				"mine": 1,
 			}
+			said_of = properties(one, row)
 			if one.get("after") and not find(one["after"]):
 				return missing(one["after"])
 			place(row, one.get("after"))
-			summary.append({"label": _("New field"), "value": f"{row['label']} ({_(kind)})"})
+			summary.append(
+				{
+					"label": _("New field"),
+					"value": f"{row['label']} ({_(kind)})" + (f": {', '.join(said_of)}" if said_of else ""),
+				}
+			)
+			for other in one.get("also_on") or []:
+				form = other.get("form") if isinstance(other, dict) else other
+				fetch = other.get("fetch", True) if isinstance(other, dict) else True
+				values["carry"].append(
+					{
+						"to": form,
+						"label": row["label"],
+						"fetch": 1 if fetch else 0,
+						"through": other.get("through") if isinstance(other, dict) else None,
+						"editable": 1 if isinstance(other, dict) and other.get("editable") else 0,
+					}
+				)
+				summary.append(
+					{
+						"label": _("Also on {0}").format(_(form)),
+						"value": _("{0}, filled from {1}").format(row["label"], _(doctype))
+						if fetch
+						else _("{0}, copied when made from {1}").format(row["label"], _(doctype)),
+					}
+				)
+
+		for one in carry or []:
+			row = find(one.get("field"))
+			if not row:
+				return missing(one.get("field"))
+			fetch = one.get("fetch", True)
+			values["carry"].append(
+				{
+					"to": one.get("form"),
+					"label": row["label"],
+					"fetch": 1 if fetch else 0,
+					"through": one.get("through"),
+					"editable": 1 if one.get("editable") else 0,
+				}
+			)
+			summary.append(
+				{
+					"label": _("Also on {0}").format(_(one.get("form") or "")),
+					"value": _("{0}, filled from {1}").format(_(row["label"]), _(doctype))
+					if fetch
+					else _("{0}, copied when made from {1}").format(_(row["label"]), _(doctype)),
+				}
+			)
 
 		for one in band or []:
 			values["band"].append({key: one.get(key) for key in page.HEAD_COLUMNS["band"] if one.get(key)})
 			summary.append({"label": _("Under the title"), "value": one.get("label") or ""})
+
+		for one in buttons or []:
+			values["verbs"].append(
+				{
+					"verb": one.get("verb"),
+					"label": one.get("label"),
+					"primary": 1 if one.get("primary") else 0,
+				}
+			)
+			summary.append({"label": _("Button"), "value": one.get("label") or one.get("verb") or ""})
+
+		for one in charts or []:
+			values["charts"].append({"chart": one.get("chart"), "label": one.get("label")})
+			summary.append({"label": _("Chart"), "value": one.get("label") or one.get("chart") or ""})
 
 		for one in linked or []:
 			through = find(one.get("through"))
@@ -1051,11 +1223,35 @@ def customize(
 			)
 			summary.append({"label": _("Linked section"), "value": one.get("label") or ""})
 
+		for one in connections or []:
+			values["links"].append(
+				{
+					"link_doctype": one.get("form"),
+					"link_fieldname": one.get("link_field"),
+					"group": one.get("group"),
+				}
+			)
+			summary.append({"label": _("Connection"), "value": _(one.get("form") or "")})
+
+		for one in go_to or []:
+			values["actions"].append(
+				{"label": one.get("label"), "action": one.get("route"), "group": one.get("group")}
+			)
+			summary.append(
+				{"label": _("Goes to"), "value": f"{one.get('label') or ''} ({one.get('route') or ''})"}
+			)
+
 		if not summary:
-			return {"error": "Say what to change: add, change, band or linked."}
+			return {
+				"error": "Say what to change: add, change, remove, carry, band, buttons, charts, linked, connections or go_to."
+			}
 		# Everything the save would refuse, refused now, so the card that
 		# reaches the administrator is one that applies.
 		page._check(doctype, values)
+		page._carries(doctype, values["carry"])
+		for row in fields:
+			if row.get("mine") and not row.get("fieldname"):
+				_trial_field(doctype, row)
 	except (frappe.ValidationError, frappe.PermissionError) as refused:
 		return {"error": strip_html(str(refused))}
 	return {
@@ -1066,9 +1262,41 @@ def customize(
 			why=why,
 		),
 		"state": "Proposed",
-		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
-		"Customize page takes it back.",
+		"next": "Say in a sentence what the card changes. It changes the form for everybody once they approve "
+		"it, and Reset on its Customize page takes it back. If a check was asked for that no property says, "
+		"offer an extension for it.",
 	}
+
+
+def _trial_field(doctype: str, row: dict) -> None:
+	"""A new field's properties read as the save will read them, before the card
+	is made: frappe's own checks and the workspace layer's, nothing written."""
+	from onedesk.one import layer
+
+	field = frappe.get_doc(
+		{
+			"doctype": "Custom Field",
+			"dt": doctype,
+			"label": row.get("label"),
+			"fieldtype": row.get("fieldtype"),
+			"options": row.get("options"),
+			**{key: row[key] for key in layer.ADDED if row.get(key) not in (None, "")},
+		}
+	)
+	where = row.get("label") or "?"
+	layer._conditions(field, where)
+	layer._fetched(field, where)
+	if field.fieldtype == "Data" and (field.options or "") not in layer.DATA_OPTIONS:
+		frappe.throw(
+			_(
+				"{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
+			).format(where)
+		)
+	if field.fieldtype == "Link" and not frappe.db.exists("DocType", field.options or ""):
+		frappe.throw(_("{0}: {1} is not a form here.").format(where, field.options or "?"))
+
+
+customize.action = "studio"
 
 
 def workspace_people() -> dict:
@@ -1118,7 +1346,10 @@ def workspace_access() -> dict:
 					"level": tier,
 					"app": app,
 					"made_by_the_workspace": bool(one["own"]),
-					"may": {row["doctype"]: [access.SAID[r] for r in access.RIGHTS if row.get(r)] for row in one["rows"]},
+					"may": {
+						row["doctype"]: [access.SAID[r] for r in access.RIGHTS if row.get(r)]
+						for row in one["rows"]
+					},
 					"people": one["people"],
 				}
 			)
@@ -1131,15 +1362,32 @@ def workspace_access() -> dict:
 	return {
 		"levels": levels,
 		"profiles": [
-			{"profile": one["name"], "sets": {app: level for app, level in one["levels"].items() if level != "None"}, "people": one["people"]}
+			{
+				"profile": one["name"],
+				"sets": {app: level for app, level in one["levels"].items() if level != "None"},
+				"people": one["people"],
+			}
 			for one in access.profiles()
 		],
 		"groups": [
-			{"group": one["name"], "people": frappe.get_all("User Group Member", filters={"parent": one["name"], "parenttype": "User Group"}, pluck="user")}
+			{
+				"group": one["name"],
+				"people": frappe.get_all(
+					"User Group Member",
+					filters={"parent": one["name"], "parenttype": "User Group"},
+					pluck="user",
+				),
+			}
 			for one in access.groups()
 		],
 		"held_to": [
-			{"person": one.user, "kind": one.allow, "record": one.for_value, "only_on": one.applicable_for or "everywhere"} for one in holds
+			{
+				"person": one.user,
+				"kind": one.allow,
+				"record": one.for_value,
+				"only_on": one.applicable_for or "everywhere",
+			}
+			for one in holds
 		],
 		"next": "Every level, User and Manager too, may be given or have taken away anything on the kinds its app works with. "
 		"The administrator changes all of this on Workspace › Access, "
@@ -1172,25 +1420,57 @@ def workspace_reports() -> dict:
 		doc = frappe.get_doc("Dashboard", name)
 		said = {"dashboard": name, "charts": [], "cards": []}
 		for row in doc.charts:
-			chart = frappe.db.get_value(
-				"Dashboard Chart", row.chart, ["chart_type", "document_type", "report_name", "based_on", "value_based_on", "group_by_based_on"], as_dict=True
-			) or {}
+			chart = (
+				frappe.db.get_value(
+					"Dashboard Chart",
+					row.chart,
+					[
+						"chart_type",
+						"document_type",
+						"report_name",
+						"based_on",
+						"value_based_on",
+						"group_by_based_on",
+					],
+					as_dict=True,
+				)
+				or {}
+			)
 			said["charts"].append({"chart": row.chart, **{k: v for k, v in chart.items() if v}})
 		for row in doc.cards:
-			card = frappe.db.get_value("Number Card", row.card, ["type", "document_type", "function", "report_name"], as_dict=True) or {}
+			card = (
+				frappe.db.get_value(
+					"Number Card",
+					row.card,
+					["type", "document_type", "function", "report_name"],
+					as_dict=True,
+				)
+				or {}
+			)
 			said["cards"].append({"card": row.card, **{k: v for k, v in card.items() if v}})
 		dashboards.append(said)
 	mailed = []
 	if roles.administers():
 		mailed = [
-			{"report": one.report, "how_often": one.frequency, "to": one.email_to, "on": bool(one.enabled), "runs_as": one.user}
+			{
+				"report": one.report,
+				"how_often": one.frequency,
+				"to": one.email_to,
+				"on": bool(one.enabled),
+				"runs_as": one.user,
+			}
 			for one in frappe.get_all(
 				"Auto Email Report", fields=["report", "frequency", "email_to", "enabled", "user"], limit=100
 			)
 		]
 	return {
 		"saved_reports": [
-			{"report": one.name, "of": one.ref_doctype, "saved_by": one.owner, "in_everybody's_sidebar": one.name in shared}
+			{
+				"report": one.name,
+				"of": one.ref_doctype,
+				"saved_by": one.owner,
+				"in_everybody's_sidebar": one.name in shared,
+			}
 			for one in saved
 		],
 		"dashboards": dashboards,
@@ -1323,7 +1603,11 @@ def webhooks(
 				"tries_again": one.max_retries or 0,
 				"calls": {row.status or "Sending": row.calls for row in calls},
 				"last_given_up": [
-					{"record": row.reference_document, "answer": (row.response or "")[:300], "at": str(row.creation)}
+					{
+						"record": row.reference_document,
+						"answer": (row.response or "")[:300],
+						"at": str(row.creation),
+					}
 					for row in gave_up
 				],
 			}
@@ -1441,7 +1725,9 @@ def audit_log(
 
 
 def privacy_request(
-	name: Annotated[str, "The request, by its name: a copy's id, or a deletion such as deleted-user-0001@example.com."],
+	name: Annotated[
+		str, "The request, by its name: a copy's id, or a deletion such as deleted-user-0001@example.com."
+	],
 ) -> dict:
 	"""For a workspace administrator: what a privacy request would give or do,
 	without doing it. For a copy, each kind of data and how much of it. For a
@@ -1508,14 +1794,19 @@ def workspace_holidays() -> dict:
 		return {"error": "Only a workspace administrator sees the workspace's holidays."}
 	said = settings._holidays()
 	if said.get("empty"):
-		return {"holiday_list": None, "meaning": "no list: every day is a working day for leave and attendance"}
+		return {
+			"holiday_list": None,
+			"meaning": "no list: every day is a working day for leave and attendance",
+		}
 	listed = said["list"]
 	values = said["values"]
 	missing = []
 	if values.get("country"):
 		held = {one["holiday_date"] for one in values["holidays"]}
 		try:
-			found = holidays.country_holidays(values["country"], listed["from_date"], listed["to_date"], values.get("subdivision"))
+			found = holidays.country_holidays(
+				values["country"], listed["from_date"], listed["to_date"], values.get("subdivision")
+			)
 		except Exception:
 			found = []
 		missing = [one for one in found if one["holiday_date"] not in held]
@@ -1586,7 +1877,9 @@ def change_holidays(
 			}
 		covering.add(found)
 	if len(covering) > 1:
-		return {"error": f"Those dates are on {len(covering)} lists ({', '.join(sorted(covering))}); suggest each list's days apart."}
+		return {
+			"error": f"Those dates are on {len(covering)} lists ({', '.join(sorted(covering))}); suggest each list's days apart."
+		}
 	target = covering.pop() if covering else holidays.in_force()
 	if not target:
 		return {"error": "The workspace has no holiday list yet."}
@@ -1603,12 +1896,16 @@ def change_holidays(
 		if rows.get(day) == name:
 			continue
 		value = f"{formatdate(day)} · {name}"
-		summary.append({"label": label, "value": _("{0} (was {1})").format(value, rows[day]) if day in rows else value})
+		summary.append(
+			{"label": label, "value": _("{0} (was {1})").format(value, rows[day]) if day in rows else value}
+		)
 		rows[day] = name
 	for one in remove or []:
 		day = str(getdate(one))
 		if day not in rows:
-			return {"error": f"{day} is not a holiday on {target}. A weekly day off is changed with days_off."}
+			return {
+				"error": f"{day} is not a holiday on {target}. A weekly day off is changed with days_off."
+			}
 		summary.append({"label": _("Remove"), "value": f"{formatdate(day)} · {rows.pop(day)}"})
 	off = was_off
 	if days_off is not None:
@@ -1622,12 +1919,15 @@ def change_holidays(
 				{
 					"label": _("Days Off Each Week"),
 					"value": _("{0} (was {1})").format(
-						", ".join(_(day) for day in off) or _("none"), ", ".join(_(day) for day in was_off) or _("none")
+						", ".join(_(day) for day in off) or _("none"),
+						", ".join(_(day) for day in was_off) or _("none"),
 					),
 				}
 			)
 	if not summary:
-		return {"error": "That is what the list already says, so there is nothing to change. Say it is right as it is."}
+		return {
+			"error": "That is what the list already says, so there is nothing to change. Say it is right as it is."
+		}
 	return {
 		"proposal": proposals.propose(
 			"Holidays",
@@ -1638,7 +1938,9 @@ def change_holidays(
 					"weekly_offs": off,
 					"country": values.get("country"),
 					"subdivision": values.get("subdivision"),
-					"holidays": [{"holiday_date": day, "description": name} for day, name in sorted(rows.items())],
+					"holidays": [
+						{"holiday_date": day, "description": name} for day, name in sorted(rows.items())
+					],
 				},
 				"summary": summary,
 			},
@@ -1679,13 +1981,21 @@ def workspace_oneai() -> dict:
 				"product": one["product"],
 				"model": runs["label"] if runs else one["model"],
 				"chosen_here": bool(one["model"]),
-				"costs_now": {"per_1000_words_read": runs.get("read"), "per_1000_words_written": runs.get("written")}
+				"costs_now": {
+					"per_1000_words_read": runs.get("read"),
+					"per_1000_words_written": runs.get("written"),
+				}
 				if runs
 				else None,
 				"added_instructions": one["extra"] or None,
 				"last_30_days": {"credits": one["credits"], "calls": one["calls"]},
 				"could_run_on": [
-					{"model": m["label"], "maker": m["maker"], "read": m.get("read"), "written": m.get("written")}
+					{
+						"model": m["label"],
+						"maker": m["maker"],
+						"read": m.get("read"),
+						"written": m.get("written"),
+					}
 					for m in offered
 				][:12],
 			}
@@ -2031,7 +2341,9 @@ NAMING_HELP = (
 
 
 def workspace_numbering(
-	doctype: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice. Empty lists them all."]
+	doctype: Annotated[
+		str, "The kind of record, as its DocType name, such as Sales Invoice. Empty lists them all."
+	]
 	| None = None,
 ) -> dict:
 	"""How a kind of record is named, for the workspace's administrators:
@@ -2127,7 +2439,9 @@ def change_numbering(
 			numbering.check(doctype, wanted)
 		moves, summary, changed_rules = [], [], []
 		if wanted != was:
-			summary.append({"label": _("Series"), "value": _("{0} (was {1})").format(", ".join(wanted), ", ".join(was))})
+			summary.append(
+				{"label": _("Series"), "value": _("{0} (was {1})").format(", ".join(wanted), ", ".join(was))}
+			)
 		named = numbering.naming_by(doctype)
 		name_by = (name_by or "").strip() or None
 		if name_by and not named:
@@ -2135,12 +2449,16 @@ def change_numbering(
 		if name_by and name_by != named["value"]:
 			if name_by not in numbering.choices(named):
 				if named["app"] or name_by.startswith("field:"):
-					return {"error": f"{doctype} cannot be named by {name_by}; the choices are {', '.join(numbering.choices(named))}."}
+					return {
+						"error": f"{doctype} cannot be named by {name_by}; the choices are {', '.join(numbering.choices(named))}."
+					}
 				numbering.check_pattern(doctype, name_by)
 			summary.append(
 				{
 					"label": _("Named By"),
-					"value": _("{0} (was {1})").format(numbering.label(named, name_by), numbering.label(named, named["value"])),
+					"value": _("{0} (was {1})").format(
+						numbering.label(named, name_by), numbering.label(named, named["value"])
+					),
 				}
 			)
 		else:
@@ -2153,26 +2471,41 @@ def change_numbering(
 			row = rows.get(name) or {"current": 0, "used": 0}
 			floor = max(row["current"], row["used"])
 			if to < floor:
-				return {"error": f"{name} has reached {floor}; a lower number would repeat a name already used."}
+				return {
+					"error": f"{name} has reached {floor}; a lower number would repeat a name already used."
+				}
 			if to == row["current"]:
 				continue
 			moves.append({"series": name, "to": to})
-			summary.append({"label": name, "value": _("Continues after {0} (was {1})").format(to, row["current"])})
+			summary.append(
+				{"label": name, "value": _("Continues after {0} (was {1})").format(to, row["current"])}
+			)
 		for one in rules or []:
 			if one.get("delete"):
-				if not one.get("name") or not frappe.db.exists("Document Naming Rule", {"name": one["name"], "document_type": doctype}):
+				if not one.get("name") or not frappe.db.exists(
+					"Document Naming Rule", {"name": one["name"], "document_type": doctype}
+				):
 					return {"error": f"{one.get('name')} is not a rule of {doctype}."}
 				changed_rules.append({"name": one["name"], "delete": True})
 				summary.append({"label": _("Rule"), "value": _("Remove {0}").format(one["name"])})
 				continue
 			doc = numbering.rule_doc(doctype, one)
-			changed_rules.append({key: one.get(key) for key in ("name", "prefix", "digits", "priority", "disabled", "conditions")})
-			summary.append({"label": _("Rule") if one.get("name") else _("New Rule"), "value": _rule_said(doc)})
+			changed_rules.append(
+				{
+					key: one.get(key)
+					for key in ("name", "prefix", "digits", "priority", "disabled", "conditions")
+				}
+			)
+			summary.append(
+				{"label": _("Rule") if one.get("name") else _("New Rule"), "value": _rule_said(doc)}
+			)
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		return {"error": str(e)}
 	if not summary:
-		return {"error": "That is how it is numbered already, so there is nothing to change. Say it is right as it is."}
+		return {
+			"error": "That is how it is numbered already, so there is nothing to change. Say it is right as it is."
+		}
 	return {
 		"proposal": proposals.propose(
 			"Numbering",
@@ -2362,7 +2695,9 @@ def change_printing(
 			top_said = {key: letter_head[key] for key in letter_heads.TOP_KEYS if key in letter_head}
 			preset = top_said.get("preset")
 			if preset and preset not in letter_heads.PRESETS:
-				return {"error": f"{preset} is not a header preset; they are {', '.join(letter_heads.PRESETS)}."}
+				return {
+					"error": f"{preset} is not a header preset; they are {', '.join(letter_heads.PRESETS)}."
+				}
 			if top_said and not preset and not was.one_top:
 				return {
 					"error": "Its header is not drawn from a preset (it is a picture or written by hand); "
@@ -2393,7 +2728,9 @@ def change_printing(
 					head["one_top"] = after
 					head["source"] = "HTML"
 					head["content"] = letter_heads.draw(after)
-					summary.append({"label": _("Header"), "value": str(letter_heads.PRESETS[after["preset"]])})
+					summary.append(
+						{"label": _("Header"), "value": str(letter_heads.PRESETS[after["preset"]])}
+					)
 			if logo and not top and not top_said:
 				head["source"] = "Image"
 				head["image"] = logo
@@ -2402,7 +2739,9 @@ def change_printing(
 				head["source"] = "HTML"
 				head["content"] = print_html.letter_head_html(top, _("Header"))
 				summary.append({"label": _("Header"), "value": _("Designed in HTML")})
-			if no_foot and (was.one_foot or name is None or frappe.db.get_value("Letter Head", name, "footer")):
+			if no_foot and (
+				was.one_foot or name is None or frappe.db.get_value("Letter Head", name, "footer")
+			):
 				head["one_foot"] = None
 				head["footer_source"] = "HTML"
 				head["footer"] = ""
@@ -2544,6 +2883,7 @@ def _how() -> str:
 		"their own writes its own classes in css instead."
 	)
 
+
 #: What a block may say about itself beyond what it is, in the shorter words a
 #: model may write; any of frappe's own (print_props) may be written as well.
 FIELD_OPTIONS = ("label", "show_label", "align", "bold", "show_empty", "spread")
@@ -2573,7 +2913,9 @@ def _block(one) -> dict:
 		# {field: 'items', columns: [...]} can only mean the table.
 		one = {**one, "table": one.get("field") or one.get("fieldname")}
 	if one.get("columns") and not one.get("table"):
-		frappe.throw(_("A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."))
+		frappe.throw(
+			_("A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}.")
+		)
 	where = str(one.get("table") or one.get("field") or one.get("fieldname") or "")
 	if one.get("table"):
 		columns = []
@@ -2606,7 +2948,11 @@ def _block(one) -> dict:
 			"table_bordered": 1 if one.get("bordered") else 0,
 			**({"table_style": "striped"} if one.get("striped") else {}),
 			**print_props.taken(
-				{key: value for key, value in one.items() if key != "show_label" or value in ("show", "hide")},
+				{
+					key: value
+					for key, value in one.items()
+					if key != "show_label" or value in ("show", "hide")
+				},
 				print_props.TABLE,
 				where,
 				ours=SHORT,
@@ -2630,9 +2976,9 @@ def _block(one) -> dict:
 			"barcode_field": str(one.get("barcode") or ""),
 			**({"barcode_value": str(one["value"])} if one.get("value") else {}),
 			**own("Barcode"),
-			"barcode_format": print_props.taken({"barcode_format": kind}, print_props.BLOCKS["Barcode"], "barcode")[
-				"barcode_format"
-			],
+			"barcode_format": print_props.taken(
+				{"barcode_format": kind}, print_props.BLOCKS["Barcode"], "barcode"
+			)["barcode_format"],
 		}
 	if one.get("linked"):
 		return {"fieldtype": "Linked Field", "link_path": str(one["linked"]), **own("Linked Field")}
@@ -2718,7 +3064,9 @@ def _linked(meta, path: str) -> list[str]:
 	link, _sep, target = path.partition(".")
 	field = meta.get_field(link)
 	if not field or field.fieldtype != "Link" or not target:
-		return [_("{0} is not a link field and one of its fields, such as customer.customer_group").format(path)]
+		return [
+			_("{0} is not a link field and one of its fields, such as customer.customer_group").format(path)
+		]
 	if not frappe.get_meta(field.options).has_field(target):
 		return [_("{0} has no field {1}").format(field.options, target)]
 	return []
@@ -2808,7 +3156,9 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 					width = sum(frappe.utils.cint(c.get("width")) for c in block["table_columns"])
 					if width > 100:
 						problems.append(
-							_("the columns of {0} come to {1}%, more than the page").format(block["fieldname"], width)
+							_("the columns of {0} come to {1}%, more than the page").format(
+								block["fieldname"], width
+							)
 						)
 				elif meta and block.get("fieldname") and not block.get("fieldtype"):
 					field = meta.get_field(block["fieldname"])
@@ -2847,7 +3197,9 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 			for c in section["columns"]
 			for block in c["fields"]
 		) + str(heading or "")
-		missing = [one for one in print_recipes.essentials(doctype) if one not in printed and one not in written]
+		missing = [
+			one for one in print_recipes.essentials(doctype) if one not in printed and one not in written
+		]
 		if missing:
 			problems.append(_("it does not print {0}").format(", ".join(missing)))
 	if problems:
@@ -2902,7 +3254,10 @@ def _written(layout, meta=None) -> dict | None:
 		if kind == "Divider":
 			return {"divider": True, **more} if more else "---"
 		if kind == "Spacer":
-			return {"space": one.get("height") or 10, **print_props.stored(one, print_props.BLOCKS[kind], ("height",))}
+			return {
+				"space": one.get("height") or 10,
+				**print_props.stored(one, print_props.BLOCKS[kind], ("height",)),
+			}
 		if kind == "Image":
 			return {"image": one.get("image_url") or "", **more}
 		if kind == "Barcode":
@@ -3031,7 +3386,8 @@ def _style_of(css: str | None) -> dict:
 
 def print_layout(
 	doctype: Annotated[str, "The kind of record, such as Sales Invoice."],
-	print_format: Annotated[str, "A format of that kind to start from; its default when left out."] | None = None,
+	print_format: Annotated[str, "A format of that kind to start from; its default when left out."]
+	| None = None,
 ) -> dict:
 	"""A kind of record's fields, the layout a format of it starts from, and one
 	of its builder formats as sections, the way design_print_format takes them:
@@ -3046,7 +3402,9 @@ def print_layout(
 		meta = frappe.get_meta(doctype)
 		name = print_format or next(iter(printing.starts(doctype)), frappe._dict()).get("name")
 		held = (
-			frappe.db.get_value("Print Format", name, ["doc_type", "format_data", "css", "page_number", "font"], as_dict=True)
+			frappe.db.get_value(
+				"Print Format", name, ["doc_type", "format_data", "css", "page_number", "font"], as_dict=True
+			)
 			if name
 			else None
 		)
@@ -3081,7 +3439,9 @@ def design_print_format(
 		"changing a format, to keep its layout and change only its look.",
 	]
 	| None = None,
-	heading: Annotated[str, "The title at the top, as an HTML template of the record; frappe's own if left out."]
+	heading: Annotated[
+		str, "The title at the top, as an HTML template of the record; frappe's own if left out."
+	]
 	| None = None,
 	css: Annotated[
 		str,
@@ -3187,7 +3547,6 @@ def design_print_format(
 	}
 
 
-
 # ------------------------------------------------------------------ mail templates
 
 #: What a template may say, for the model: the same words the editor's help gives.
@@ -3202,7 +3561,9 @@ TEMPLATE_HELP = (
 
 
 def workspace_mail_templates(
-	doctype: Annotated[str, "A kind of record, such as Sales Invoice, to also read the fields a template may name."]
+	doctype: Annotated[
+		str, "A kind of record, such as Sales Invoice, to also read the fields a template may name."
+	]
 	| None = None,
 ) -> dict:
 	"""The workspace's mail templates, for its administrators: each one's
@@ -3219,7 +3580,9 @@ def workspace_mail_templates(
 		if frappe.db.exists("DocType", single):
 			template = frappe.db.get_single_value(single, field)
 			if template:
-				named_by.setdefault(template, []).append(f"{_(single)}: {frappe.get_meta(single).get_label(field)}")
+				named_by.setdefault(template, []).append(
+					f"{_(single)}: {frappe.get_meta(single).get_label(field)}"
+				)
 	said = {
 		"templates": [
 			{
@@ -3249,7 +3612,8 @@ def workspace_mail_templates(
 def write_mail_template(
 	subject: Annotated[str, "One line. Fields of the record as {{ fieldname }}."],
 	message: Annotated[str, "The mail itself, paragraphs separated by a blank line. " + TEMPLATE_HELP],
-	name: Annotated[str, "An existing template to change, as workspace_mail_templates names it."] | None = None,
+	name: Annotated[str, "An existing template to change, as workspace_mail_templates names it."]
+	| None = None,
 	new_name: Annotated[str, "A new template's name, such as Payment Reminder."] | None = None,
 	for_doctype: Annotated[str, "The kind of record it is for, such as Sales Invoice. Empty: any record."]
 	| None = None,
@@ -3264,14 +3628,28 @@ def write_mail_template(
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
-		return {"mend": "write_mail_template", "error": "Only a workspace administrator writes mail templates."}
+		return {
+			"mend": "write_mail_template",
+			"error": "Only a workspace administrator writes mail templates.",
+		}
 	if bool(name) == bool(new_name):
-		return {"mend": "write_mail_template", "error": "Give name to change a template, or new_name for a new one."}
-	held = frappe.get_doc("Email Template", name) if name and frappe.db.exists("Email Template", name) else None
+		return {
+			"mend": "write_mail_template",
+			"error": "Give name to change a template, or new_name for a new one.",
+		}
+	held = (
+		frappe.get_doc("Email Template", name) if name and frappe.db.exists("Email Template", name) else None
+	)
 	if name and not held:
-		return {"mend": "write_mail_template", "error": f"There is no template {name}; read workspace_mail_templates for them."}
+		return {
+			"mend": "write_mail_template",
+			"error": f"There is no template {name}; read workspace_mail_templates for them.",
+		}
 	if new_name and frappe.db.exists("Email Template", new_name.strip()):
-		return {"mend": "write_mail_template", "error": f"{new_name} is already a template; change it by its name instead."}
+		return {
+			"mend": "write_mail_template",
+			"error": f"{new_name} is already a template; change it by its name instead.",
+		}
 	kind = (for_doctype or "").strip() or (held.reference_doctype if held else None) or None
 	try:
 		if kind:
@@ -3281,14 +3659,23 @@ def write_mail_template(
 		return {"mend": "write_mail_template", "error": str(e)}
 	# Notification rules name a field as {{ doc.x }}; a template names it bare, and
 	# the one is the other, so it is written the way that works.
-	subject, message = (re.sub(r"\{\{-?\s*doc\.(\w+)\s*-?\}\}", r"{{ \1 }}", text or "") for text in (subject, message))
+	subject, message = (
+		re.sub(r"\{\{-?\s*doc\.(\w+)\s*-?\}\}", r"{{ \1 }}", text or "") for text in (subject, message)
+	)
 	if not kind and mail_templates.FIELD.search(subject + message):
-		return {"mend": "write_mail_template", "error": "A template that names fields is for one kind of record: give for_doctype, such as Sales Invoice."}
+		return {
+			"mend": "write_mail_template",
+			"error": "A template that names fields is for one kind of record: give for_doctype, such as Sales Invoice.",
+		}
 	kept = mail_templates._tags(held)
 	for text in (subject, message):
 		wrong = mail_templates.check(kind, text, kept)
 		if wrong:
-			fields = f" Read workspace_mail_templates with doctype {kind} for the fields it may name." if kind else ""
+			fields = (
+				f" Read workspace_mail_templates with doctype {kind} for the fields it may name."
+				if kind
+				else ""
+			)
 			return {"mend": "write_mail_template", "error": wrong + fields}
 	paragraphs = [one.strip() for one in re.split(r"\n\s*\n", message or "") if one.strip()]
 	html = "".join(f"<p>{frappe.utils.escape_html(one).replace(chr(10), '<br>')}</p>" for one in paragraphs)
@@ -3297,7 +3684,9 @@ def write_mail_template(
 	proposal = (
 		proposals.propose("Edit", "Email Template", changes=changes, record=held.name, why=why)
 		if held
-		else proposals.propose("Create", "Email Template", changes={"name": new_name.strip(), **changes}, why=why)
+		else proposals.propose(
+			"Create", "Email Template", changes={"name": new_name.strip(), **changes}, why=why
+		)
 	)
 	return {
 		"proposal": proposal,
@@ -3330,7 +3719,9 @@ APPROVAL_HELP = (
 
 
 def workspace_approvals(
-	doctype: Annotated[str, "A kind of record, such as Purchase Invoice, to also read what an approval of it may use."]
+	doctype: Annotated[
+		str, "A kind of record, such as Purchase Invoice, to also read what an approval of it may use."
+	]
 	| None = None,
 ) -> dict:
 	"""The workspace's approvals, for its administrators: each approval, the
@@ -3356,7 +3747,8 @@ def workspace_approvals(
 			"fields": [
 				f"{df.fieldname} ({df.label}, {df.fieldtype})"
 				for df in meta.fields
-				if df.fieldtype in ("Currency", "Float", "Int", "Percent", "Select", "Link", "Data", "Check", "Date")
+				if df.fieldtype
+				in ("Currency", "Float", "Int", "Percent", "Select", "Link", "Data", "Check", "Date")
 				and not df.permlevel
 				and not df.hidden
 			][:80],
@@ -3391,18 +3783,26 @@ def suggest_approval(
 	if not name and not new_name:
 		new_name = _("{0} Approval").format(_(doctype))
 	if name and new_name:
-		return {"mend": "suggest_approval", "error": "Give name to change an approval, or new_name for a new one, not both."}
+		return {
+			"mend": "suggest_approval",
+			"error": "Give name to change an approval, or new_name for a new one, not both.",
+		}
 	try:
 		meta = approvals._doctype(doctype)
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		return {"mend": "suggest_approval", "error": str(e)}
 	if new_name and frappe.db.exists("Workflow", new_name.strip()):
-		return {"mend": "suggest_approval", "error": f"{new_name} is already an approval; change it by its name instead."}
+		return {
+			"mend": "suggest_approval",
+			"error": f"{new_name} is already an approval; change it by its name instead.",
+		}
 	offered = [one["role"] for one in approvals.roles_offered()]
 	known = set(offered) | set(frappe.get_all("Role", pluck="name"))
 	numbers = [
-		df.fieldname for df in meta.fields if df.fieldtype in ("Currency", "Float", "Int", "Percent") and not df.permlevel
+		df.fieldname
+		for df in meta.fields
+		if df.fieldtype in ("Currency", "Float", "Int", "Percent") and not df.permlevel
 	][:20]
 	rows, said = [], []
 	for one in states or []:
@@ -3411,17 +3811,31 @@ def suggest_approval(
 			return {"mend": "suggest_approval", "error": "Every state needs a name."}
 		submitted = bool(one.get("submitted"))
 		if submitted and not meta.is_submittable:
-			return {"mend": "suggest_approval", "error": f"{doctype} is not submitted, so no state submits it."}
+			return {
+				"mend": "suggest_approval",
+				"error": f"{doctype} is not submitted, so no state submits it.",
+			}
 		role = one.get("editable_by") or roles.ADMINISTRATOR
 		if role not in known:
-			return {"mend": "suggest_approval", "error": f"{role} is not a role; a state is editable by one of {', '.join(offered)}."}
+			return {
+				"mend": "suggest_approval",
+				"error": f"{role} is not a role; a state is editable by one of {', '.join(offered)}.",
+			}
 		if submitted and not rows:
-			return {"mend": "suggest_approval", "error": f"{state} is the first state, where a record starts as a draft; a later state submits it."}
+			return {
+				"mend": "suggest_approval",
+				"error": f"{state} is the first state, where a record starts as a draft; a later state submits it.",
+			}
 		row = {"state": state, "doc_status": "1" if submitted else "0", "allow_edit": role}
 		sets = one.get("sets") or {}
 		if sets.get("field"):
 			df = meta.get_field(sets["field"])
-			if not df or df.permlevel or df.fieldtype in no_value_fields or sets["field"] in approvals.BOOKKEEPING:
+			if (
+				not df
+				or df.permlevel
+				or df.fieldtype in no_value_fields
+				or sets["field"] in approvals.BOOKKEEPING
+			):
 				return {"mend": "suggest_approval", "error": f"{state} cannot set {sets['field']}."}
 			row.update({"update_field": sets["field"], "update_value": str(sets.get("value") or "")})
 		rows.append(row)
@@ -3436,22 +3850,45 @@ def suggest_approval(
 		if start not in names or end not in names:
 			return {"mend": "suggest_approval", "error": f"{start} to {end}: both must be among the states."}
 		if not action or role not in known:
-			return {"mend": "suggest_approval", "error": f"{start} to {end}: give an action and the role it is for, one of {', '.join(offered)}."}
+			return {
+				"mend": "suggest_approval",
+				"error": f"{start} to {end}: give an action and the role it is for, one of {', '.join(offered)}.",
+			}
 		if not approvals.plain_condition(meta, when):
 			return {
 				"mend": "suggest_approval",
 				"error": f"{start} to {end}: when compares the record's own fields with plain values, as "
-				f"doc.grand_total > 5000; its number fields are {', '.join(numbers)}."
+				f"doc.grand_total > 5000; its number fields are {', '.join(numbers)}.",
 			}
 		submits = {row["state"]: row["doc_status"] == "1" for row in rows}
 		if submits[start] and not submits[end]:
-			return {"mend": "suggest_approval", "error": f"{start} is submitted, so no step goes from it back to {end}, a draft; take {end} from an earlier state."}
-		moves.append({"state": start, "action": action, "next_state": end, "allowed": role, "condition": when, "allow_self_approval": 1})
-		said.append({"label": _(action), "value": _("{0} to {1}, by {2}").format(_(start), _(end), _(role)) + (f" ({when})" if when else "")})
+			return {
+				"mend": "suggest_approval",
+				"error": f"{start} is submitted, so no step goes from it back to {end}, a draft; take {end} from an earlier state.",
+			}
+		moves.append(
+			{
+				"state": start,
+				"action": action,
+				"next_state": end,
+				"allowed": role,
+				"condition": when,
+				"allow_self_approval": 1,
+			}
+		)
+		said.append(
+			{
+				"label": _(action),
+				"value": _("{0} to {1}, by {2}").format(_(start), _(end), _(role))
+				+ (f" ({when})" if when else ""),
+			}
+		)
 	if not moves:
 		return {"mend": "suggest_approval", "error": "An approval needs at least one step."}
 	if name and approvals.unchanged(name, rows, moves, turn_on):
-		return {"error": f"{name} is already set up exactly so; tell them it is right as it is and nothing changes."}
+		return {
+			"error": f"{name} is already set up exactly so; tell them it is right as it is and nothing changes."
+		}
 	called = [row["state"] for row in rows]
 	summary = [{"label": _("States"), "value": ", ".join(_(one) for one in called)}, *said]
 	summary.append({"label": _("On"), "value": _("Yes") if turn_on else _("No")})
@@ -3507,7 +3944,9 @@ WHEN = {
 
 
 def workspace_automations(
-	doctype: Annotated[str, "A kind of record, such as Sales Invoice, to also read what an automation of it may use."]
+	doctype: Annotated[
+		str, "A kind of record, such as Sales Invoice, to also read what an automation of it may use."
+	]
 	| None = None,
 ) -> dict:
 	"""The workspace's automations, for its administrators: each one, the kind
@@ -3580,9 +4019,9 @@ def suggest_automation(
 		return {**mend, "error": f"when is one of {', '.join(WHEN)}."}
 	held = None
 	if name:
-		held = frappe.db.get_value("Automation Flow", {"name": name, "document_type": doctype}, "name") or frappe.db.get_value(
-			"Automation Flow", {"title": name, "document_type": doctype}, "name"
-		)
+		held = frappe.db.get_value(
+			"Automation Flow", {"name": name, "document_type": doctype}, "name"
+		) or frappe.db.get_value("Automation Flow", {"title": name, "document_type": doctype}, "name")
 		if not held:
 			title, name = title or name, None
 	values = {
@@ -3608,12 +4047,28 @@ def suggest_automation(
 		who = one.get("who") or []
 		who = [who] if isinstance(who, str) else list(who)
 		if do == "set":
-			rows.append({"step_type": "Action", "action_type": "SetFieldValue", "params": json.dumps({"field": one.get("field"), "value": str(one.get("value") or "")})})
+			rows.append(
+				{
+					"step_type": "Action",
+					"action_type": "SetFieldValue",
+					"params": json.dumps({"field": one.get("field"), "value": str(one.get("value") or "")}),
+				}
+			)
 			said.append({"label": _("Set"), "value": f"{one.get('field')} = {one.get('value')}"})
 		elif do == "tell":
-			params = {"recipients": who, "email_template": one.get("template") or "", "subject": one.get("subject") or "", "message": one.get("message") or ""}
+			params = {
+				"recipients": who,
+				"email_template": one.get("template") or "",
+				"subject": one.get("subject") or "",
+				"message": one.get("message") or "",
+			}
 			rows.append({"step_type": "Action", "action_type": "TellPeople", "params": json.dumps(params)})
-			said.append({"label": _("Tell"), "value": ", ".join(who) + ": " + (one.get("template") or one.get("subject") or "")})
+			said.append(
+				{
+					"label": _("Tell"),
+					"value": ", ".join(who) + ": " + (one.get("template") or one.get("subject") or ""),
+				}
+			)
 		elif do == "assign":
 			# frappe's step assigns users by name; whoever made the record is a
 			# stand-in only Tell People reads.
@@ -3623,7 +4078,13 @@ def suggest_automation(
 					"error": "Assign names people by their user, such as a@b.com; it cannot assign whoever made the "
 					"record. Tell them instead, or name the people.",
 				}
-			rows.append({"step_type": "Action", "action_type": "AssignToUser", "params": json.dumps({"assign_to": who, "description": one.get("note") or ""})})
+			rows.append(
+				{
+					"step_type": "Action",
+					"action_type": "AssignToUser",
+					"params": json.dumps({"assign_to": who, "description": one.get("note") or ""}),
+				}
+			)
 			said.append({"label": _("Assign"), "value": ", ".join(who)})
 		else:
 			return {**mend, "error": f"A step does set, tell or assign, not {do or 'nothing'}."}
@@ -3637,9 +4098,18 @@ def suggest_automation(
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		return {**mend, "error": frappe.utils.strip_html_tags(str(e))}
-	summary = [{"label": _("When"), "value": _(trigger) + (f" ({field})" if field else "") + (f" ({date_field})" if date_field else "")}]
+	summary = [
+		{
+			"label": _("When"),
+			"value": _(trigger)
+			+ (f" ({field})" if field else "")
+			+ (f" ({date_field})" if date_field else ""),
+		}
+	]
 	if only_when:
-		summary.append({"label": _("Only When"), "value": "; ".join(" ".join(str(x) for x in one) for one in only_when)})
+		summary.append(
+			{"label": _("Only When"), "value": "; ".join(" ".join(str(x) for x in one) for one in only_when)}
+		)
 	summary += said
 	summary.append({"label": _("On"), "value": _("Yes") if turn_on else _("No")})
 	proposal = (
@@ -3652,6 +4122,7 @@ def suggest_automation(
 		"state": "Proposed",
 		"next": "Tell them it runs as them once they approve it, and opens in Automations to change there.",
 	}
+
 
 # The two tools that lay a page out are run by Print Design, not the chat: a
 # small model lays a page out wrong, so the chat hands the conversation over

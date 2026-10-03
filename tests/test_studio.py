@@ -427,7 +427,9 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onemail.conversation": (public / "onemail.js").read_text(),
 		"onemail.compose": (public / "mail_compose.js").read_text(),
 		"record_head.drawn": (public / "head.js").read_text(),
-		"onecalendar.event": (tree.APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
+		"onecalendar.event": (
+			tree.APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js"
+		).read_text(),
 		"onetask.listed": (tree.APP / "one_task" / "page" / "my_tasks" / "my_tasks.js").read_text(),
 		"onecloud.file": (public / "onecloud.js").read_text(),
 		"intake.reading": (tree.APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
@@ -485,3 +487,32 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	# Every form has an app by its module where no rail links to it, and the
 	# extensions on one are read only where the form may be customized.
 	assert "module in MODULES" in forms and "\tmay(doctype)\n" in forms
+
+
+def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs():
+	"""The Customize page reads, OneAI changes: its card adds a field with
+	everything about it and carries it to the forms that should have it,
+	filled through their link or copied as one is made from the other."""
+	page = (tree.APP / "public" / "js" / "customize.js").read_text()
+	# Nothing is edited by hand on the page: no FieldGroup, no Save.
+	assert "this.form(" not in page and "saver(" not in page
+	assert 'onedesk.oneai.button(__("Add a Field")' in page
+	customize = (tree.APP / "one" / "customize.py").read_text()
+	# Every carry checked before anything is written; each noted in the
+	# form's own ledger, so its Reset takes it back.
+	assert customize.index("carried = _carries(") < customize.index("_fields(doctype, values.get")
+	assert '_note(doctype, "Custom Field", field.name)' in customize.split("def _carry(")[1]
+	# A table is carried to only through a form the administrator may customize.
+	assert "may(parent)" in customize.split("def may_carry(")[1].split("def ")[0]
+	layer = (tree.APP / "one" / "layer.py").read_text()
+	assert '"fetch_from",' in layer and "_fetched(doc, where)" in layer
+	assert "there.permlevel" in layer and 'frappe.has_permission(through.options, "read")' in layer
+	ai = (tree.APP / "one" / "ai.py").read_text()
+	assert 'customize.action = "studio"' in ai and "also_on" in ai
+	studio = (STUDIO / "ai.py").read_text()
+	assert 'form_relations.action = "studio"' in studio
+	assert '"onedesk.one_studio.ai.form_relations"' in HOOKS
+	assert '"customize": "studio"' in (tree.APP / "one_ai" / "groups.py").read_text()
+	actions = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
+	said = {one["name"]: one["instruction"] for one in actions}
+	assert "step by step" in said["chat"] and "For a form:" in said["studio"]

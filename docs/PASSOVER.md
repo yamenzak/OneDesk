@@ -5814,6 +5814,50 @@ against what loaded, Save in the head, a save refused against a newer one,
 9. Built from frappe: FieldGroup and its grids, frappe's badge, empty
    state, `xcall` and `realtime`; ours is the list's grouping and counts.
 
+**Your word, after: the form is customized only through OneAI.** "Just show
+the custom fields in a table, and to add one, speak with OneAI, which asks step
+by step, recommends from common sense, and works out which other forms should
+have it too (an Item field onto Sales Invoice Item and the rest)."
+
+- **The page reads; OneAI changes.** The Customize page is tables of what the
+  workspace changed: Fields Added Here (each with its kind, its rules and the
+  forms it was carried to; a field the form came with and carried shows too,
+  marked so), Fields Changed Here, Above the Fields, Connections and Buttons,
+  Extensions. A part with nothing in it is not drawn. **Add a Field** (a
+  OneAI button) and a click on a field ask OneAI. No grid, no Save.
+- **The tool** (`one/ai.py customize`) takes every property a field may have
+  (required, unique, default, in the list or a filter, shown, required or
+  read only when, filled from a linked record, never below zero, a length,
+  Email, Phone or URL checked by frappe, and the rest), `also_on` to carry a
+  new field and `carry` for one the form has, `remove`, and the buttons,
+  charts, connections and links it could not set before. One card, checked
+  as the save will check it before it is made.
+- **Carrying** (`customize._carries`, `_carry`): to a table of another form
+  (Sales Invoice Item) only through a form the administrator may customize;
+  filled from this form through the table's own Link field (item_code before
+  fg_item), read only; or copied, under the same name, when one document is
+  made from another. Each is noted in this form's ledger, so its Reset takes
+  them back too.
+- **Research**: `form_relations` lists the tables and forms that link to a
+  form and the fields it has, so nothing is added twice.
+- **The layer holds it**: a field filled from a linked record only reads a
+  Link field of the same form, a field there at the first level and not a
+  secret, of a kind the person may read; a Data field holds only frappe's
+  own checked kinds.
+- **OneAI**: the chat goes step by step (what it holds, then form_relations,
+  then a recommendation, then which forms carry it); the studio instruction
+  says what common sense recommends, and that a check no property can say is
+  an extension. The Customize page gives OneAI OneStudio's tools.
+- **Tried live** (four turns on Item): it asked what the field holds; told
+  "the country it was made in", it found Item has Country of Origin already;
+  asked to carry it, it named the item tables; on yes, one card for Sales
+  Invoice, Sales Order, Purchase Invoice and Purchase Order items, each filled
+  through item_code. Approved: all four written, read only. Its first try
+  named Sales Invoice Item as the form, was refused, and mended it.
+- **Found on the way**: the "Add a field" suggestion expected a card on the
+  first turn, so the run pressed for one before anything was asked; it now
+  expects nothing.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

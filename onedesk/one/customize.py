@@ -180,6 +180,8 @@ def load(doctype: str) -> dict:
 	}
 	declared = sum(1 for table in heads.TABLES for row in (head.get(table) if head else []) if not row.custom)
 	return {
+		"added": added(doctype),
+		"changed": changed_fields(doctype),
 		"doctype": doctype,
 		"label": _(doctype),
 		"token": state(doctype),
@@ -214,6 +216,86 @@ def load(doctype: str) -> dict:
 	}
 
 
+def added(doctype: str) -> list[dict]:
+	"""The fields the workspace added to this form, and where each was carried,
+	as the page lists them."""
+	rows = frappe.get_all(
+		"Custom Field",
+		filters={"name": ["in", list(_ledger(doctype, "Custom Field")) or [""]]},
+		fields=[
+			"name",
+			"dt",
+			"fieldname",
+			"label",
+			"fieldtype",
+			"options",
+			"reqd",
+			"unique",
+			"in_list_view",
+			"default",
+			"fetch_from",
+			"description",
+			"depends_on",
+			"read_only",
+			"non_negative",
+			"length",
+		],
+		order_by="idx asc",
+	)
+	here = [
+		row
+		for row in rows
+		if row.dt == doctype and row.fieldtype not in ("Section Break", "Column Break", "Tab Break")
+	]
+	for row in here:
+		row["also_on"] = sorted(
+			other.dt for other in rows if other.dt != doctype and other.fieldname == row.fieldname
+		)
+	# A field the form came with, carried to others: listed too, as the form's own.
+	meta = frappe.get_meta(doctype)
+	carried = {row.fieldname for row in rows if row.dt != doctype} - {row.fieldname for row in here}
+	for fieldname in sorted(carried):
+		df = meta.get_field(fieldname)
+		if df:
+			here.append(
+				{
+					"fieldname": fieldname,
+					"label": _(df.label),
+					"fieldtype": df.fieldtype,
+					"options": df.options if df.fieldtype in ("Link", "Select") else "",
+					"came_with": 1,
+					"also_on": sorted(
+						row.dt for row in rows if row.fieldname == fieldname and row.dt != doctype
+					),
+				}
+			)
+	return here
+
+
+def changed_fields(doctype: str) -> list[dict]:
+	"""What the workspace changed about the fields the form came with: each
+	field, and what was changed about it."""
+	out = {}
+	for row in frappe.get_all(
+		"Property Setter",
+		filters={"name": ["in", list(_ledger(doctype, "Property Setter")) or [""]]},
+		fields=["field_name", "property", "value"],
+	):
+		if not row.field_name or row.property == "field_order":
+			continue
+		df = frappe.get_meta(doctype).get_field(row.field_name)
+		out.setdefault(
+			row.field_name,
+			{
+				"fieldname": row.field_name,
+				"label": _(df.label) if df and df.label else row.field_name,
+				"changes": [],
+			},
+		)
+		out[row.field_name]["changes"].append({"property": row.property, "value": row.value})
+	return list(out.values())
+
+
 # ------------------------------------------------------------------ saved
 
 
@@ -237,12 +319,16 @@ def save(doctype: str, values: str | dict, token: str) -> dict:
 		# alters the table, which the database commits there and then, so a
 		# refusal half-way would leave half a save.
 		_check(doctype, values)
+		carried = _carries(doctype, values.get("carry") or [])
 		_fields(doctype, values.get("fields") or [])
+		_carry(doctype, carried)
 		_head(doctype, values)
 		_links(doctype, values.get("links") or [])
 		_actions(doctype, values.get("actions") or [])
 	finally:
 		frappe.flags.one_workspace_layer = False
+	for one in carried:
+		frappe.clear_cache(doctype=one["to"])
 	_changed(doctype)
 	_told(doctype)
 	return load(doctype)
@@ -320,7 +406,7 @@ def _fields(doctype: str, rows: list) -> None:
 				field = frappe.get_doc("Custom Field", custom[name])
 				changed = [
 					key
-					for key in (*FIELD_PROPERTIES, "fieldtype", "options")
+					for key in (*FIELD_PROPERTIES, *layer.ADDED, "fieldtype", "options")
 					if key in row and not _same(row[key], field.get(key))
 				]
 				for key in changed:
@@ -347,6 +433,7 @@ def _fields(doctype: str, rows: list) -> None:
 				else f"custom_{frappe.scrub(row.get('fieldtype'))}_{frappe.generate_hash(length=6)}",
 				"fieldtype": row.get("fieldtype") or "Data",
 				"options": row.get("options"),
+				**{key: row[key] for key in layer.ADDED if row.get(key) not in (None, "")},
 				"reqd": cint(row.get("reqd")),
 				"hidden": cint(row.get("hidden")),
 				"in_list_view": cint(row.get("in_list_view")),
@@ -375,6 +462,116 @@ def _fields(doctype: str, rows: list) -> None:
 		)
 	if order != [df.fieldname for df in meta.fields]:
 		_set(doctype, None, "field_order", json.dumps(order))
+
+
+# ------------------------------------------------------------------ carried to other forms
+
+
+def may_carry(other: str, doctype: str) -> None:
+	"""Whether a field added to `doctype` may be carried to `other`: a form the
+	administrator may customize, or a table of one (Sales Invoice Item, which
+	has no Customize page of its own, through Sales Invoice)."""
+	if not frappe.db.exists("DocType", other) or other == doctype:
+		frappe.throw(_("{0} is not another form here.").format(other))
+	meta = frappe.get_meta(other)
+	if not meta.istable:
+		may(other)
+		return
+	if meta.module in REFUSED_MODULES:
+		frappe.throw(_("{0} is not a form a workspace customizes.").format(_(other)))
+	parents = frappe.get_all(
+		"DocField",
+		filters={"fieldtype": ["in", ["Table", "Table MultiSelect"]], "options": other},
+		pluck="parent",
+	)
+	for parent in parents:
+		try:
+			may(parent)
+			return
+		except (frappe.ValidationError, frappe.PermissionError):
+			continue
+	frappe.throw(_("{0} is not a table of a form you may customize.").format(_(other)))
+
+
+def links_to(other: str, doctype: str) -> list[str]:
+	"""The Link fields of `other` that point at `doctype`, the one a row is
+	about first: named for the form (item, item_code), then a required one,
+	then the rest, so Purchase Order Item's item_code comes before fg_item."""
+	key = frappe.scrub(doctype)
+	links = [df for df in frappe.get_meta(other).fields if df.fieldtype == "Link" and df.options == doctype]
+	links.sort(key=lambda df: (df.fieldname not in (key, f"{key}_code", f"{key}_name"), not df.reqd, df.idx))
+	return [df.fieldname for df in links]
+
+
+def _through(other: str, doctype: str, named: str | None = None) -> str | None:
+	"""The Link field of `other` a carried field is filled through: the one
+	named, or the one its rows are about."""
+	links = links_to(other, doctype)
+	if named:
+		return named if named in links else None
+	return links[0] if links else None
+
+
+def _carries(doctype: str, rows: list) -> list[dict]:
+	"""Each carry checked before anything is written: where it goes, the field
+	of this form it copies (named by its label), and, when it is filled through
+	a link, the Link field it is filled through."""
+	out = []
+	for row in rows:
+		other = row.get("to") or ""
+		may_carry(other, doctype)
+		if not row.get("label"):
+			frappe.throw(_("{0}: say which new field goes there.").format(_(other)))
+		through = None
+		if cint(row.get("fetch", 1)):
+			through = _through(other, doctype, row.get("through"))
+			if not through:
+				frappe.throw(
+					_("{0} has no field that links to {1}, so the field cannot be filled from it.").format(
+						_(other), _(doctype)
+					)
+				)
+		fieldname = frappe.scrub(row["label"])
+		if frappe.get_meta(other).get_field(fieldname) or frappe.get_meta(other).get_field(
+			f"custom_{fieldname}"
+		):
+			frappe.throw(_("{0} already has a field called {1}.").format(_(other), row["label"]))
+		out.append({**row, "to": other, "through": through})
+	return out
+
+
+def _carry(doctype: str, carried: list[dict]) -> None:
+	"""The fields carried to other forms, each under the same name as here, so
+	frappe also copies it when one is made from the other (an order into its
+	delivery note), and filled from this form through their link when it has
+	one. Each is noted in this form's ledger, so its Reset takes it back."""
+	if not carried:
+		return
+	meta = frappe.get_meta(doctype, cached=False)
+	for row in carried:
+		source = next((df for df in meta.fields if df.label == row["label"]), None)
+		if not source:
+			frappe.throw(_("{0} has no new field called {1} to carry.").format(_(doctype), row["label"]))
+		through = row.get("through")
+		field = frappe.get_doc(
+			{
+				"doctype": "Custom Field",
+				"dt": row["to"],
+				"label": source.label,
+				"fieldname": source.fieldname,
+				"fieldtype": source.fieldtype,
+				"options": source.options,
+				"fetch_from": f"{through}.{source.fieldname}" if through else None,
+				"fetch_if_empty": 0 if not through else cint(row.get("editable")),
+				"read_only": 1 if through and not cint(row.get("editable")) else 0,
+				"in_list_view": cint(row.get("in_list_view")),
+				"insert_after": through or None,
+				"is_system_generated": 0,
+			}
+		)
+		field.autoname()
+		_note(doctype, "Custom Field", field.name)
+		field.insert(ignore_permissions=True)
 
 
 def _check(doctype: str, values: dict) -> None:
