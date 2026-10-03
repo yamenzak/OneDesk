@@ -48,7 +48,7 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 				frappe.xcall("onedesk.one_studio.forms.extensions", { doctype: this.doctype }),
 			]);
 		} catch (e) {
-			this.$content.html(frappe.ui.alert.html({ title: __("This form cannot be customized here."), theme: "red" }));
+			this.$content.html(frappe.ui.alert.html({ title: __("This form can't be customized."), theme: "red" }));
 			return;
 		}
 		this.$content.empty();
@@ -82,14 +82,14 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		const count = (n, label) => (n ? frappe.ui.badge.html({ label, theme: "blue" }) : "");
 		const app = this.app;
 		this.list = await onedesk.shell.table($('<div class="one-shell-section"></div>').appendTo(this.$content), {
-			title: __("Every Form You May Change"),
-			note: __("The ones changed here come first. Open one to customize it."),
-			choose: { key: "app", all: __("Every App"), value: app },
+			title: __("Forms"),
+			note: __("Customized forms are listed first."),
+			choose: { key: "app", all: __("All Apps"), value: app },
 			rows,
 			icon: "file-text",
 			page_size: 50,
-			empty: __("There is no form you may change."),
-			none: __("No form by that name."),
+			empty: __("No forms"),
+			none: __("No matching forms"),
 			open: (one) => frappe.set_route("customize", one.doctype),
 			columns: [
 				{ label: __("Form"), render: (one) => esc(one.label) },
@@ -127,63 +127,63 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		// The fields added here, and the forms each was carried to.
 		const rules = (one) =>
 			[
-				one.came_with ? badge(__("Came With the Form"), "blue") : "",
+				one.came_with ? badge(__("Standard Field"), "blue") : "",
 				one.reqd ? badge(__("Required"), "orange") : "",
 				one.unique ? badge(__("Unique")) : "",
-				one.in_list_view ? badge(__("In the List")) : "",
+				one.in_list_view ? badge(__("In List View")) : "",
 				one.read_only ? badge(__("Read Only")) : "",
 				one.default ? badge(__("Default {0}", [one.default])) : "",
-				one.depends_on ? badge(__("Shown When")) : "",
-				one.fetch_from ? badge(__("Filled From {0}", [one.fetch_from.split(".")[0]])) : "",
-				one.non_negative ? badge(__("Never Below Zero")) : "",
-				one.length ? badge(__("Up to {0}", [one.length])) : "",
+				one.depends_on ? badge(__("Depends On")) : "",
+				one.fetch_from ? badge(__("Fetched From {0}", [one.fetch_from.split(".")[0]])) : "",
+				one.non_negative ? badge(__("Non Negative")) : "",
+				one.length ? badge(__("Length {0}", [one.length])) : "",
 			]
 				.filter(Boolean)
 				.join(" ");
 		onedesk.shell.table(parts.added, {
-			title: __("Fields Added Here"),
-			note: __("Ask OneAI to add one: it asks what the field is for, suggests how it is checked and shown, and which other forms should carry it."),
+			title: __("Custom Fields"),
+			note: __("Ask OneAI to add or change a field."),
 			rows: data.added || [],
 			icon: "text-cursor-input",
-			empty: __("Nothing added to {0} yet.", [data.label]),
-			actions: onedesk.oneai.button(__("Add a Field"), __("I want to add a field to {0}.", [data.label])),
+			empty: __("No custom fields"),
+			actions: onedesk.oneai.button(__("Add Field"), __("I want to add a field to {0}.", [data.label])),
 			open: (one) => ask(__("I want to change the field {0} on {1}.", [one.label, data.label])),
 			columns: [
 				{
 					label: __("Field"),
 					render: (one) => `${esc(one.label)}${one.description ? `<div class="one-shell-quiet">${esc(one.description)}</div>` : ""}`,
 				},
-				{ label: __("Kind"), render: (one) => esc(__(one.fieldtype)) + (one.options ? ` <span class="one-shell-quiet">${esc(one.options.split("\n").join(", "))}</span>` : "") },
-				{ label: __("Rules"), render: rules },
-				{ label: __("Also On"), render: (one) => esc((one.also_on || []).map((form) => __(form)).join(", ")) },
+				{ label: __("Type"), render: (one) => esc(__(one.fieldtype)) + (one.options ? ` <span class="one-shell-quiet">${esc(one.options.split("\n").join(", "))}</span>` : "") },
+				{ label: __("Properties"), render: rules },
+				{ label: __("Also Added To"), render: (one) => esc((one.also_on || []).map((form) => __(form)).join(", ")) },
 			],
 		});
 
 		// What was changed about the fields the form came with.
 		const said = {
-			label: (value) => __("Called {0}", [value]),
+			label: (value) => __("Renamed to {0}", [value]),
 			hidden: (value) => (+value ? __("Hidden") : __("Shown")),
 			reqd: (value) => (+value ? __("Required") : __("Optional")),
-			in_list_view: (value) => (+value ? __("In the List") : __("Not in the List")),
-			in_standard_filter: (value) => (+value ? __("A Filter") : __("Not a Filter")),
+			in_list_view: (value) => (+value ? __("In List View") : __("Not in List View")),
+			in_standard_filter: (value) => (+value ? __("In Filters") : __("Not in Filters")),
 			bold: () => __("Bold"),
 			read_only: (value) => (+value ? __("Read Only") : __("Editable")),
 			default: (value) => __("Default {0}", [value]),
-			description: () => __("Described"),
-			depends_on: () => __("Shown When"),
+			description: () => __("Description Changed"),
+			depends_on: () => __("Depends On"),
 		};
 		if ((data.changed || []).length) {
 			drawn.add("changed");
 			onedesk.shell.table(parts.changed, {
-				title: __("Fields Changed Here"),
-				note: __("What the workspace changed about the fields {0} came with.", [data.label]),
+				title: __("Changed Fields"),
+				note: __("Standard fields changed in this workspace."),
 				rows: data.changed,
 				icon: "pencil",
 				open: (one) => ask(__("I want to change the field {0} on {1}.", [one.label, data.label])),
 				columns: [
 					{ label: __("Field"), render: (one) => esc(one.label) },
 					{
-						label: __("What Changed"),
+						label: __("Changes"),
 						render: (one) => one.changes.map((change) => badge((said[change.property] || (() => __(change.property)))(change.value))).join(" "),
 					},
 				],
@@ -200,14 +200,14 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		if (above.length) {
 			drawn.add("above");
 			onedesk.shell.table(parts.above, {
-				title: __("Above the Fields"),
-				note: __("Numbers, buttons, charts and linked sections the workspace added under the title."),
+				title: __("Form Header"),
+				note: __("Numbers, buttons, charts and linked sections shown above the fields."),
 				rows: above,
 				icon: "layout-panel-top",
 				columns: [
-					{ label: __("Kind"), render: (one) => esc(one.kind) },
+					{ label: __("Type"), render: (one) => esc(one.kind) },
 					{ label: __("Label"), render: (one) => esc(one.label || "") },
-					{ label: __("From"), render: (one) => `<span class="one-shell-quiet">${esc(one.detail || "")}</span>` },
+					{ label: __("Source"), render: (one) => `<span class="one-shell-quiet">${esc(one.detail || "")}</span>` },
 				],
 			});
 		}
@@ -215,7 +215,7 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		// Connections, and buttons that open somewhere.
 		const joined = [
 			...data.values.links.map((one) => ({ kind: __("Connection"), label: __(one.link_doctype), detail: one.link_fieldname })),
-			...data.values.actions.map((one) => ({ kind: __("Goes To"), label: one.label, detail: one.action })),
+			...data.values.actions.map((one) => ({ kind: __("Shortcut"), label: one.label, detail: one.action })),
 		];
 		if (joined.length) {
 			drawn.add("connections");
@@ -224,9 +224,9 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 				rows: joined,
 				icon: "link",
 				columns: [
-					{ label: __("Kind"), render: (one) => esc(one.kind) },
+					{ label: __("Type"), render: (one) => esc(one.kind) },
 					{ label: __("Label"), render: (one) => esc(one.label || "") },
-					{ label: __("Through"), render: (one) => `<span class="one-shell-quiet">${esc(one.detail || "")}</span>` },
+					{ label: __("Field"), render: (one) => `<span class="one-shell-quiet">${esc(one.detail || "")}</span>` },
 				],
 			});
 		}
@@ -244,16 +244,16 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		onedesk.shell.table($into, {
 			title: __("Extensions"),
-			note: __("What runs on this form, written by OneAI and turned on in OneStudio › Extensions. Read here; changed there."),
+			note: __("Manage them in OneStudio › Extensions."),
 			rows: this.extensions || [],
 			icon: "code",
-			empty: __("Nothing runs on {0}", [data.label]),
+			empty: __("No extensions"),
 			open: (one) => frappe.set_route("Form", "Extension", one.name),
 			columns: [
 				{ label: __("Extension"), render: (one) => esc(one.title) },
-				{ label: __("What It Does"), render: (one) => esc(one.explanation || "") },
+				{ label: __("Description"), render: (one) => esc(one.explanation || "") },
 				{ label: __("When"), render: (one) => esc([__(one.runs), one.event ? __(one.event) : ""].filter(Boolean).join(" · ")) },
-				{ label: __("On"), render: (one) => frappe.ui.badge.html({ label: one.enabled ? __("On") : __("Off"), theme: one.enabled ? "green" : "gray" }) },
+				{ label: __("Status"), render: (one) => frappe.ui.badge.html({ label: one.enabled ? __("On") : __("Off"), theme: one.enabled ? "green" : "gray" }) },
 			],
 		});
 	}
@@ -272,9 +272,9 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			URL.revokeObjectURL(link.href);
 		});
 		this.page.add_menu_item(__("Reset"), () =>
-			frappe.confirm(__("Take back everything this workspace changed about {0}?", [data.label]), async () => {
+			frappe.confirm(__("Reset {0}? This removes all custom fields and changes.", [data.label]), async () => {
 				const said = await frappe.xcall(Customize.API + "reset", { doctype: data.doctype });
-				frappe.show_alert({ message: __("{0} is as it came.", [data.label]), indicator: "green" });
+				frappe.show_alert({ message: __("{0} reset", [data.label]), indicator: "green" });
 				this.redraw(said);
 			})
 		);

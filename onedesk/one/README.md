@@ -1295,58 +1295,54 @@ the list ends with no list after it.
 
 ## Customizing a Form
 
-**Customize** on any form's menu opens the form's own customization page, for
-an administrator of this workspace. It shows what the workspace changed about
-the form, each part as a table; changing it is done by talking to OneAI, and
-nothing changes until you approve its card. What changes changes the form for
-everybody who opens it; nothing typed there is code.
+**Customize** on a form's menu opens its customization page. Only workspace
+administrators can open it. The page lists what this workspace changed on the
+form. You don't edit anything on the page. Ask OneAI instead, and approve the
+card it makes. Changes apply to everybody who uses the form.
 
-- **Fields Added Here**: each field the workspace added, its kind, its rules
-  (required, unique, in the list, a default, filled from a linked record,
-  never below zero) and the other forms it was carried to.
-- **Fields Changed Here**: the fields the form came with that were renamed,
-  hidden, made required or put in the list.
-- **Above the Fields**: numbers under the title, buttons that do something,
-  charts and linked sections the workspace added.
-- **Connections and Buttons**: another form's records listed under
-  Connections, and buttons that open a place in the desk.
-- **Extensions**: what runs on the form, on or off, each leading to its own
-  page in OneStudio › Extensions.
+The page has these tables. A table with no rows is hidden, except Custom
+Fields.
 
-A part with nothing in it is not shown, but for the fields added.
+- **Custom Fields**: fields added in this workspace, with their type,
+  properties and the other forms they were also added to.
+- **Changed Fields**: standard fields that were renamed, hidden, made
+  required or shown in list view.
+- **Form Header**: numbers, buttons, charts and linked sections shown above
+  the fields.
+- **Connections and Buttons**: records from other forms listed under
+  Connections, and shortcut buttons.
+- **Extensions**: scripts that run on the form. Open one to manage it in
+  OneStudio › Extensions.
 
-**Adding a field.** Press **Add a Field**, or say "add a field to Item" to
-OneAI anywhere. It goes step by step, a short question at a time, each with
-what it recommends, so you can just say yes:
+### Adding a field
 
-1. What the field holds, if you have not said.
-2. What it recommends about it: the kind (a tick, a choice, a link to
-   another form, a date, money, a number, text), whether it is required or
-   unique, a default, whether it shows in the list or as a filter, whether
-   it shows only in some cases, and whether it is filled from a record this
-   one links to. Any check it needs: an email, a phone number or a web
-   address that frappe checks, never below zero, a length. A check no
-   setting can say (one field against another) becomes an extension, which
-   it offers after.
-3. Which other forms should carry it. A field on Item usually belongs on
-   the items of an invoice or an order too, filled from the item; a field
-   on a sales order belongs on the delivery note made from it, copied as it
-   is made. It says why, and asks.
+Click **Add Field**, or ask OneAI from anywhere, for example "add a field to
+Item". OneAI asks a few short questions and recommends an answer for each.
 
-Then it makes one card listing every change. **Approve** writes it all at
-once, the carried fields too, and the other administrators are told who
-changed which form. A field the form has already is not added twice.
+1. What the field is for.
+2. The field type and properties: required, unique, default, list view,
+   filters, depends on, fetch from, length and validation (email, phone, URL,
+   non negative). A check that no property covers, such as comparing two
+   fields, becomes an extension.
+3. Whether related forms need the field too. For example, a field on Item
+   usually belongs on Sales Invoice Item and Purchase Order Item, fetched from
+   the item.
 
-**Changing one.** Click a field, or say what to change: rename, hide, make
-required, move, or take away a field the workspace added. A field the form
-came with can be hidden but not taken away, and one the form needs stays
-required. Numbers, buttons, charts, linked sections and connections are
-asked for the same way.
+OneAI then makes one card with every change. **Approve** applies them all, and
+the other administrators are notified. OneAI won't add a field the form
+already has.
 
-**Export** on the menu downloads what this workspace changed; **Reset** takes
-it all back, the fields carried to other forms with it, and leaves what the
-form came with. A card made before somebody else changed the form no longer
-applies and says so.
+### Changing a field
+
+Click a field, or tell OneAI what to change. You can rename, hide, require,
+move or remove a custom field. Standard fields can be hidden but not removed,
+and fields the form needs stay required.
+
+### Export and Reset
+
+**Export** on the menu downloads this workspace's changes. **Reset** removes
+them all, including fields added to related forms. If someone changes the
+form after OneAI made a card, the card can't be applied and says so.
 
 ## A Form's Settings
 

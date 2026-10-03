@@ -1,10 +1,10 @@
 # The passover
 
-Every screen of One, one at a time, checked against nine points. You decide when
+Every screen of One, one at a time, checked against ten points. You decide when
 a screen is done and when the next one starts. This file is where each screen's
 findings and fixes are written down.
 
-## The nine points
+## The ten points
 
 1. **Notifications and email templates**: what the screen's events send, to
    whom, and whether the message reads well.
@@ -53,10 +53,18 @@ findings and fixes are written down.
    3. frappe's **primitives and utilities**: `frappe.call`/`xcall`,
       `frappe.realtime`, `frappe.utils`, `frappe.format`, `__()`, the model
       and the router.
+10. **Plain words**: every heading, note, button, column, badge, empty state
+    and confirmation on the screen reads like a good SaaS product, as
+    `docs/WORDING.md` says under On a Screen. A heading is the plain name of
+    what is listed. A note is optional and one short sentence. Frappe's own
+    words, never our coinages ("carry", "came with", "take back"). No colon or
+    semicolon joining two clauses, and no narrating how OneAI works. The
+    screen's README section is written the same way. Its strings come out of
+    `tests/screen_wording_known.json`.
 
 ## Everything follows frappe
 
-This applies to every screen, on top of the nine points. How a screen looks can
+This applies to every screen, on top of the ten points. How a screen looks can
 be ours; how it behaves is frappe's.
 
 - **Fields** are frappe's own controls (`frappe.ui.FieldGroup`, or the desk
@@ -86,7 +94,7 @@ be ours; how it behaves is frappe's.
 
 ## A record answers first
 
-On top of the nine points, every record screen is checked against the record
+On top of the ten points, every record screen is checked against the record
 shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 
 - **Its head answers what somebody opened it for**, above the fields and on
@@ -115,7 +123,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
-2. Write the findings under the nine points, then "A record answers first"
+2. Write the findings under the ten points, then "A record answers first"
    for a record screen, then anything else about using it (UX).
 3. Fix them, look again in the browser, and run the gates.
 4. Commit, push, and show you a screenshot.
@@ -5857,6 +5865,26 @@ have it too (an Item field onto Sales Invoice Item and the rest)."
 - **Found on the way**: the "Add a field" suggestion expected a card on the
   first turn, so the run pressed for one before anything was asked; it now
   expects nothing.
+
+**Your word, after: the writing.** "This shitty way of typing and writing...
+so disturbing and cringe", about the note under Fields Added Here. Made the
+tenth point.
+
+- **This screen, rewritten.** Fields Added Here is **Custom Fields**, with
+  "Ask OneAI to add or change a field." Fields Changed Here is **Changed
+  Fields**, Above the Fields is **Form Header**. Columns are Type, Properties,
+  Also Added To. Badges use frappe's words (In List View, Depends On, Fetched
+  From, Non Negative, Length, Standard Field). Empty states are "No custom
+  fields", "No extensions". Add a Field is **Add Field**. Reset asks "Reset
+  Item? This removes all custom fields and changes." The Forms list heading is
+  **Forms**, "Customized forms are listed first."
+- **Docs.** One's Customizing a Form and OneStudio's Forms are rewritten in
+  the same plain style.
+- **The rule.** `docs/WORDING.md` gains On a Screen. `tests/test_wording.py`
+  gains `test_what_a_screen_says_is_plain`: no colon or semicolon joining
+  clauses, no em dash, nothing over 140 characters, in every `__()` in
+  `public/js`. The 52 strings written before it are listed in
+  `tests/screen_wording_known.json` and come out as each screen is passed.
 
 ## OneLegal
 

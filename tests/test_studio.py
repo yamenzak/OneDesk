@@ -496,7 +496,7 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	page = (tree.APP / "public" / "js" / "customize.js").read_text()
 	# Nothing is edited by hand on the page: no FieldGroup, no Save.
 	assert "this.form(" not in page and "saver(" not in page
-	assert 'onedesk.oneai.button(__("Add a Field")' in page
+	assert 'onedesk.oneai.button(__("Add Field")' in page
 	customize = (tree.APP / "one" / "customize.py").read_text()
 	# Every carry checked before anything is written; each noted in the
 	# form's own ledger, so its Reset takes it back.

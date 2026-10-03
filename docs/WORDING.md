@@ -110,6 +110,47 @@ carries "This cannot be changed later. Files stay where the workspace was
 built", because that is the field it is true of. It is not repeated on the
 plan, on the button, or on the page that follows.
 
+## On a Screen
+
+Headings, notes under a heading, buttons, column names, badges, empty states
+and confirmations read like any good SaaS product. Plain words a person
+already knows, and nothing clever.
+
+**A heading is the plain name of what is listed.** `Custom Fields`, not
+`Fields Added Here`. `Changed Fields`, not `Fields Changed Here`.
+
+**A note under a heading is optional, and one short sentence.** It says what
+to do or where to go: `Ask OneAI to add or change a field.` It never explains
+how the machinery works, never runs two clauses together with a colon or a
+semicolon, and never narrates OneAI ("it asks what the field is for,
+suggests…"). Most sections need no note.
+
+**Use frappe's words.** In List View, Depends On, Fetched From, Non Negative,
+Length, Type, Properties, Standard Field. Not our own coinages: never
+"carry", "came with", "take back", "as it came", "Rules", "Kind".
+
+**A button is a verb and a noun.** `Add Field`, `Reset`, `Export`. No article.
+
+**An empty state is short.** `No custom fields`, `No extensions`,
+`No matching forms`. Not "Nothing added to Item yet." or "Nothing runs on
+Item".
+
+**A confirmation asks the question and states the effect.**
+`Reset Item? This removes all custom fields and changes.`
+
+Before and after, from the Customize page:
+
+    Fields Added Here
+    Ask OneAI to add one: it asks what the field is for, suggests how it is
+    checked and shown, and which other forms should carry it.
+
+    Custom Fields
+    Ask OneAI to add or change a field.
+
+The guard below checks the part a machine can see: no colon or semicolon
+joining two clauses, no em dash, nothing over 140 characters. The rest is
+checked on every screen of the passover.
+
 ## The guard
 
 `tests/test_wording.py` holds every doctype and every custom field in the app
@@ -119,6 +160,10 @@ two sentences, with no first person, no em dash and no colon except after
 is a name rather than a sentence ("What It Reads" was a label here). The rest of
 this page — no reasoning, frappe's openers, most fields with no description at
 all — is still read by a person.
+
+`test_what_a_screen_says_is_plain` reads every `__("…")` in `public/js` for the
+On a Screen rules. What was written before them is listed in
+`tests/screen_wording_known.json`, which only shrinks as screens are passed.
 
 ## Translation
 

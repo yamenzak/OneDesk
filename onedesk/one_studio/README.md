@@ -127,23 +127,18 @@ extension says **Cannot Run Here**, ask us.
 
 ## Forms
 
-**Forms** is a table of every form you may change: its name, the app it
-belongs to (OneBook, OneCRM, OneHR, OneInventory and the rest, or **Other
-Forms** for what every app shares, such as an address or a department), how
-many changes your workspace made to it, and how many extensions run on it.
-The ones changed here come first. Choose an app beside the search to see only
-its forms, and search by name. The table keeps up as forms are changed and
-extensions made.
+**Forms** lists every form you can customize, with its app, how many changes
+your workspace made to it and how many extensions run on it. Customized forms
+are listed first. Filter by app or search by name. The list updates as forms
+change.
 
-Open one to see what the workspace changed about it on its **Customize**
-page: the fields it added, and the forms each was carried to; the fields it
-changed; what shows above the fields; its connections and buttons; and its
-extensions, each a table. **Customize** in a form's own menu opens the same
-page. Nothing there is edited by hand: **Add a Field**, or a click on a
-field, asks OneAI, which goes step by step, recommends how the field is
-checked and shown and which other forms should carry it (an Item field onto
-the items of invoices and orders), and makes one card to approve. How it
-goes is under Customizing a Form in One's documentation.
+Open a form to see its **Customize** page: custom fields, changed fields, the
+form header, connections and buttons, and extensions. **Customize** on a
+form's own menu opens the same page. You don't edit anything there. Click
+**Add Field** or a field to ask OneAI, which asks a few questions, recommends
+the field type and properties, suggests related forms that need the field too
+(for example Item fields on invoice and order items), and makes one card to
+approve. See Customizing a Form in One's documentation.
 
 **Who sees and changes it.** Workspace administrators only, on the forms they
 may open; never the framework's own forms, nor One's. A change applies to
