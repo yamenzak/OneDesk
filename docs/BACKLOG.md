@@ -11,12 +11,6 @@ OneCloud, OneCalendar, OneTask and OneAdmin › Home. Still to go, one screen at
 a time: **OneProject**, **OneCRM**, **OneBook**, **OneInventory**, **OneHR**,
 **OneAI**, **OneIntake** and the rest of **OneAdmin**.
 
-## Frappe's desk that One has not replaced yet
-
-Gaps 10 and 11 in `docs/DESK-COVERAGE.md` (The desk around the doctypes):
-frappe's error pages, and four of frappe's reports. Gaps 1 to 9 are done
-(`one/outside.py`, `public/js/outside.js`).
-
 ## Frappe that One does not reach yet (P3)
 
 Small, or for some customers. Each row in `docs/DESK-COVERAGE.md` says the

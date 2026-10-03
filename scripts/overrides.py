@@ -354,6 +354,20 @@ OVERRIDES = [
 		"get_reports: function (keywords) {",
 	),
 	(
+		"A desk page that is not found or not permitted is One's",
+		"frappe draws its own sorry picture over a bare page without the rail; outside.js replaces frappe.show_not_found and show_not_permitted with frappe's empty state on a page built by make_app_page, and an address naming no page at all is not found rather than not permitted",
+		"onedesk/public/js/outside.js",
+		"frappe/frappe/public/js/frappe/views/pageview.js",
+		"frappe.show_not_permitted = function (page_name) {",
+	),
+	(
+		"Frappe's web pages for not found, a message, an error and /me are One's",
+		"apps are searched in reverse, so onedesk/www shadows frappe's 404, message, error and me in One's portal look; message and error keep frappe's get_context, and /me sends someone with a desk to their profile and an account holder to /account",
+		"onedesk/www/me.py",
+		"frappe/frappe/www/me.py",
+		"def get_context(context):",
+	),
+	(
 		"One's desk has no Edit Sidebar",
 		"frappe's sidebar header offers its arrangement editor to everyone; outside.js leaves the option named edit-sidebar out of SidebarHeader.menu_items",
 		"onedesk/public/js/outside.js",

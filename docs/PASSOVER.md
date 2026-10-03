@@ -6095,6 +6095,30 @@ Your word: "Yes do 7 to 9".
   modules hold. Point of Sale and the Sales Funnel are gone; General Ledger
   and Stock Balance stay. Its Calendar entry is OneCalendar only.
 
+### The desk around the doctypes (gaps 10 and 11)
+
+Your word: "10 and 11".
+
+- **Fixed** (`outside.js`): a desk address that is not found, or not
+  permitted, shows frappe's empty state with Home, on a page that keeps the
+  rail and the panel. Frappe drew its sorry picture over a bare page, and
+  "No permission for Page" for an address naming no page at all.
+- **Fixed** (`www/`): frappe's web pages for not found, a message, an error
+  and `/me` are drawn as One's portal. `/me` sends someone with a desk to
+  Profile and an account holder to `/account`. An error's details are folded
+  under Show Error.
+- **Fixed**: Set Password showed Sign in with a Passkey. The passkey button
+  is the sign-in card's only.
+- **Fixed**: **Addresses and Contacts** is in OneCRM › Sales, opening on
+  customers. It is erpnext's report: frappe's own filed every row under the
+  first party. Its party filter was a link to DocType, which only the
+  platform may read, so it refused every pick; it is a choice of the kinds
+  the reader can open.
+- Kept as the platform's: Permitted Documents For User (frappe allows only
+  its System Manager), Document Share Report (on DocShare, the same) and User
+  Doctype Permissions (frappe's raw doctypes). Who sees what is Workspace ›
+  Access and a person's page in People.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -60,6 +60,11 @@
 	margin: 0 0 2rem;
 }
 
+/* A page with nothing under its heading but the way out (404). */
+.one-portal h1 + .one-button {
+	margin-top: 1rem;
+}
+
 .one-portal label.one-field {
 	display: block;
 	margin-bottom: 1.25rem;
@@ -989,4 +994,20 @@ a.one-portal__row:hover {
 	display: flex;
 	gap: 0.5rem;
 	margin-top: 0.5rem;
+}
+
+/* frappe's server error page (www/error.html): the traceback, folded. */
+.one-portal .one-error {
+	margin: 0 0 24px;
+	color: var(--text-muted);
+	font-size: 13px;
+}
+
+.one-portal .one-error pre {
+	max-height: 320px;
+	overflow: auto;
+	padding: 12px;
+	border-radius: 8px;
+	background: var(--subtle-fg);
+	white-space: pre-wrap;
 }

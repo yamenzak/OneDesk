@@ -38,11 +38,11 @@ def test_menus_offer_no_screen_the_reader_cannot_open():
 	assert 'frappe.model.can_read("Audit Trail")' in js
 	assert 'frappe.model.can_read("Auto Email Report")' in js
 	# Print Settings an administrator may only read: off One's desk for everyone.
-	assert 'if (!frappe.boot.one_elsewhere) return super.setup_menu();' in js
+	assert "if (!frappe.boot.one_elsewhere) return super.setup_menu();" in js
 	assert '"/assets/onedesk/js/outside.js"' in (tree.APP / "hooks.py").read_text()
 	assert 'bootinfo["user"]["can_import"] = []' in SOURCE
 	declutter = (tree.APP / "one" / "declutter.py").read_text()
-	assert "\"System Health\": \"frappe.model.can_read('System Health Report')\"" in declutter
+	assert '"System Health": "frappe.model.can_read(\'System Health Report\')"' in declutter
 
 
 def test_frappes_furniture_editors_are_not_offered():
@@ -77,7 +77,39 @@ def test_help_mail_and_search_are_ones():
 	reports."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert "get_help_siblings()" in js and '__("Ask OneAI")' in js
-	assert 'new frappe.ui.ThemeSwitcher().show()' in js and '["edit-sidebar", "all-apps"]' in js
+	assert "new frappe.ui.ThemeSwitcher().show()" in js and '["edit-sidebar", "all-apps"]' in js
 	assert 'return !name || name === "view" ? ["onemail"] : null;' in js
 	assert "utils.get_pages = function" in js and "utils.get_reports = function" in js
 	assert 'app_of(info[name]?.module) === "onedesk"' in js
+
+
+def test_frappes_error_pages_are_ones():
+	"""Gap 10: the desk's not-found and not-permitted pages keep the rail, and
+	frappe's web pages are drawn in One's portal look."""
+	js = (tree.APP / "public" / "js" / "outside.js").read_text()
+	assert (
+		"frappe.show_not_found = (page_name) =>" in js and "frappe.show_not_permitted = (page_name) =>" in js
+	)
+	assert "frappe.ui.make_app_page({ parent: wrapper, single_column: true });" in js
+	assert "frappe.views.pageview.show = function (name)" in js
+	www = tree.APP / "www"
+	for page in ("404", "message", "error", "me"):
+		assert "one-portal" in (www / f"{page}.html").read_text(), page
+	assert "return message.get_context(context)" in (www / "message.py").read_text()
+	assert "context.http_status_code = 404" in (www / "404.py").read_text()
+	me = (www / "me.py").read_text()
+	assert '"/desk/settings?section=profile"' in me and '"/account"' in me
+	# The passkey button is the sign-in card's, not Set Password's.
+	assert '".for-login .page-card-body"' in (tree.APP / "public" / "js" / "login.js").read_text()
+
+
+def test_addresses_and_contacts_is_in_onecrm():
+	"""Gap 11: erpnext's working report of a party's addresses and contacts,
+	opening on customers. frappe's own files every row under the first party."""
+	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())
+	assert "Address And Contacts" in [one.get("link_to") for one in crm["items"]]
+	reports = (tree.APP / "public" / "js" / "reports.js").read_text()
+	assert (
+		'"Address And Contacts": { party_type: ["Customer", "Lead", "Supplier", "Sales Partner"] }' in reports
+	)
+	assert "frappe.model.can_read(kind)" in reports

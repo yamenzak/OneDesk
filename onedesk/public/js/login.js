@@ -12,7 +12,8 @@
 // the body but the login card is drawn by a block above it, and reading for a
 // card that is not there yet is how the button quietly never appears.
 const draw = () => {
-	const $card = document.querySelector(".page-card-body");
+	// The sign-in card only: Set Password draws the same card.
+	const $card = document.querySelector(".for-login .page-card-body");
 	if (!$card) return;
 	if (!(window.PublicKeyCredential && navigator.credentials && window.isSecureContext)) return;
 

@@ -1,0 +1,24 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Your Account") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+	<h1>{{ current_user.full_name|e }}</h1>
+	<p class="one-portal__lede">{{ current_user.name|e }} <a href="/logout">{{ _("Sign out") }}</a></p>
+	<ul class="one-held">
+		<li><span>{{ _("Profile") }}</span><a class="one-button" href="/update-profile/{{ current_user.name|urlencode }}">{{ _("Edit Profile") }}</a></li>
+		<li><span>{{ _("Password") }}</span><a class="one-button" href="/update-password">{{ _("Change Password") }}</a></li>
+		{% if show_deletion %}
+		<li><span>{{ _("Account") }}</span><a class="one-button" href="/request-for-account-deletion?new=1">{{ _("Delete Account") }}</a></li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %}

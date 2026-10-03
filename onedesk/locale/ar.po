@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 13:29+0000\n"
-"PO-Revision-Date: 2026-10-03 13:29+0000\n"
+"POT-Creation-Date: 2026-10-03 14:06+0000\n"
+"PO-Revision-Date: 2026-10-03 14:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -981,7 +981,7 @@ msgid "Access Key"
 msgstr ""
 
 #. Label of the account (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/www/me.html:20
 msgid "Account"
 msgstr ""
 
@@ -1424,6 +1424,11 @@ msgstr "موجّه إلى"
 #: onedesk/public/js/settings.js:2429
 msgid "Addresses"
 msgstr "العناوين"
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Addresses and Contacts"
+msgstr "العناوين وجهات الاتصال"
 
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -1945,7 +1950,7 @@ msgstr "كل ما يحتاج من يبتّ في الطلب إلى معرفته."
 #: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:455
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/doctype_settings.js:336 onedesk/public/js/reports.js:364
+#: onedesk/public/js/doctype_settings.js:336 onedesk/public/js/reports.js:379
 #: onedesk/public/js/settings.js:1178 onedesk/public/js/settings.js:1199
 #: onedesk/public/js/settings.js:3099
 msgid "App"
@@ -2292,7 +2297,7 @@ msgstr "اطلب مجدداً من ملفك الشخصي إن كنت لا تزا
 msgid "Ask again on the workspace's Your Data page."
 msgstr "اطلب مجددًا من صفحة «بياناتك» في مساحة العمل."
 
-#: onedesk/public/js/desk.js:340
+#: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:219
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
 
@@ -3532,7 +3537,7 @@ msgid "Change"
 msgstr "التغيير"
 
 #: onedesk/public/js/settings.js:583 onedesk/public/js/settings.js:635
-#: onedesk/public/js/settings.js:647
+#: onedesk/public/js/settings.js:647 onedesk/www/me.html:18
 msgid "Change Password"
 msgstr "تغيير كلمة المرور"
 
@@ -5358,6 +5363,10 @@ msgstr "الافتراضي: {0}"
 msgid "Delete"
 msgstr "حذف"
 
+#: onedesk/www/me.html:20
+msgid "Delete Account"
+msgstr ""
+
 #: onedesk/public/js/settings.js:259 onedesk/public/js/settings.js:277
 msgid "Delete My Account"
 msgstr "حذف حسابي"
@@ -6143,6 +6152,10 @@ msgstr "تعديل التكاليف"
 msgid "Edit Memory"
 msgstr "تعديل الذكرى"
 
+#: onedesk/www/me.html:17
+msgid "Edit Profile"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:1082
 msgid "Edit Rule"
 msgstr "تعديل القاعدة"
@@ -6803,7 +6816,7 @@ msgstr "كل من في {0}"
 msgid "Everyone who manages {0}"
 msgstr "كل من يدير {0}"
 
-#: onedesk/public/js/reports.js:375
+#: onedesk/public/js/reports.js:390
 msgid "Everyone who uses the app"
 msgstr "كل من يستخدم التطبيق"
 
@@ -8279,7 +8292,9 @@ msgstr "العطلات في {0}"
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/outside.js:211
+#: onedesk/www/404.html:18 onedesk/www/error.html:22
+#: onedesk/www/message.html:19
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -11050,7 +11065,7 @@ msgstr "دمج في {0}"
 #: onedesk/public/js/doctype_settings.js:548 onedesk/public/js/oneai.js:451
 #: onedesk/public/js/onecloud.js:1642 onedesk/public/js/onemail.js:574
 #: onedesk/public/js/onemail.js:930 onedesk/public/js/settings.js:3149
-#: onedesk/public/js/settings.js:3269
+#: onedesk/public/js/settings.js:3269 onedesk/www/message.html:2
 msgid "Message"
 msgstr "الرسالة"
 
@@ -11768,6 +11783,10 @@ msgstr "التالي: {0}"
 msgid "No"
 msgstr ""
 
+#: onedesk/public/js/outside.js:219
+msgid "No Access"
+msgstr "لا يوجد وصول"
+
 #: onedesk/public/js/crm_record.js:91
 msgid "No Answer"
 msgstr ""
@@ -12257,6 +12276,10 @@ msgstr "لم يسجّل الحضور"
 msgid "Not Estimated"
 msgstr "غير مُقدَّرة"
 
+#: onedesk/public/js/outside.js:217 onedesk/www/404.html:2
+msgid "Not Found"
+msgstr ""
+
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
 msgstr "غير مسجّل"
@@ -12612,7 +12635,7 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: onedesk/public/js/reports.js:365
+#: onedesk/public/js/reports.js:380
 msgid "Nowhere"
 msgstr "لا مكان"
 
@@ -13554,7 +13577,7 @@ msgstr "المدعوون فقط"
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
 msgstr "يُسمح فقط بالحروف والأرقام والمسافات و - / _ . # { }."
 
-#: onedesk/public/js/reports.js:374
+#: onedesk/public/js/reports.js:389
 msgid "Only me"
 msgstr "أنا فقط"
 
@@ -14105,6 +14128,10 @@ msgstr "الحزمة"
 msgid "Page"
 msgstr ""
 
+#: onedesk/www/404.html:17
+msgid "Page not found"
+msgstr ""
+
 #. Label of the page_count (Int) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Pages"
@@ -14270,7 +14297,7 @@ msgstr "أُعيد تعيين مفتاح المرور"
 #: onedesk/public/js/onecloud.js:1435 onedesk/public/js/onecloud.js:1593
 #: onedesk/public/js/onecloud.js:1797 onedesk/public/js/onemail.js:879
 #: onedesk/public/js/settings.js:509 onedesk/public/js/settings.js:581
-#: onedesk/www/s.html:46
+#: onedesk/www/me.html:18 onedesk/www/s.html:46
 msgid "Password"
 msgstr "كلمة المرور"
 
@@ -15058,7 +15085,7 @@ msgstr "يُطبع بـ"
 msgid "Priority"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:40 onedesk/public/js/login.js:91
+#: onedesk/one_legal/gate.py:40 onedesk/public/js/login.js:92
 #: onedesk/www/start.html:74 onedesk/www/your_data.html:49
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
@@ -15101,6 +15128,7 @@ msgstr ""
 #: onedesk/public/js/settings.js:1291
 #: onedesk/templates/includes/one_account_tabs.html:5
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
+#: onedesk/www/me.html:17
 msgid "Profile"
 msgstr "الملف الشخصي"
 
@@ -16785,7 +16813,7 @@ msgstr "بنفس صيغة السلسلة."
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1613 onedesk/public/js/onemail.js:932
 #: onedesk/public/js/onemail.js:956 onedesk/public/js/project.js:96
-#: onedesk/public/js/reports.js:382 onedesk/public/js/settings.js:490
+#: onedesk/public/js/reports.js:397 onedesk/public/js/settings.js:490
 #: onedesk/public/js/settings.js:787 onedesk/public/js/settings.js:2712
 #: onedesk/public/js/shell.js:458 onedesk/www/account_profile.html:29
 msgid "Save"
@@ -16803,7 +16831,7 @@ msgstr "احفظ قبل إعداد Cloudflare."
 msgid "Save to My Files"
 msgstr "حفظ في ملفاتي"
 
-#: onedesk/public/js/reports.js:391 onedesk/public/js/shell.js:516
+#: onedesk/public/js/reports.js:406 onedesk/public/js/shell.js:516
 msgid "Saved"
 msgstr "تم الحفظ"
 
@@ -16815,7 +16843,7 @@ msgstr "التقرير المحفوظ {0}"
 msgid "Saved to My Files"
 msgstr "تم الحفظ في ملفاتي"
 
-#: onedesk/public/js/reports.js:435
+#: onedesk/public/js/reports.js:450
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr "حُفظ تحت «التقارير المحفوظة» في الشريط الجانبي لهذا التطبيق."
 
@@ -17226,6 +17254,10 @@ msgstr ""
 msgid "Server"
 msgstr "الخادم"
 
+#: onedesk/www/error.html:2 onedesk/www/error.html:14
+msgid "Server Error"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1864
 msgid "Server connection"
 msgstr "اتصال بخادم"
@@ -17567,12 +17599,16 @@ msgstr ""
 msgid "Show All Actions"
 msgstr "عرض جميع الإجراءات"
 
-#: onedesk/public/js/reports.js:359
+#: onedesk/www/error.html:18
+msgid "Show Error"
+msgstr ""
+
+#: onedesk/public/js/reports.js:374
 msgid "Show In"
 msgstr "عرض في"
 
-#: onedesk/public/js/reports.js:404 onedesk/public/js/reports.js:420
-#: onedesk/public/js/reports.js:436 onedesk/public/js/reports.js:449
+#: onedesk/public/js/reports.js:419 onedesk/public/js/reports.js:435
+#: onedesk/public/js/reports.js:451 onedesk/public/js/reports.js:464
 msgid "Show In…"
 msgstr "عرض في…"
 
@@ -17666,7 +17702,7 @@ msgstr "سجّل الدخول أولاً."
 msgid "Sign in to your One account first."
 msgstr "سجّل الدخول إلى حسابك في One أولًا."
 
-#: onedesk/public/js/login.js:70
+#: onedesk/public/js/login.js:71
 msgid "Sign in with a Passkey"
 msgstr "تسجيل الدخول بمفتاح المرور"
 
@@ -17674,7 +17710,7 @@ msgstr "تسجيل الدخول بمفتاح المرور"
 msgid "Sign in with a drive password, not your One password."
 msgstr "سجّل الدخول بكلمة مرور محرك الأقراص، لا بكلمة مرور One."
 
-#: onedesk/www/account.html:18
+#: onedesk/www/account.html:18 onedesk/www/me.html:15
 msgid "Sign out"
 msgstr "تسجيل الخروج"
 
@@ -18175,6 +18211,10 @@ msgstr "الحالة"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Status Since"
 msgstr "الحالة منذ"
+
+#: onedesk/www/message.html:17
+msgid "Status: {0}"
+msgstr ""
 
 #. Label of the step (Data) field in DocType 'Provisioning Job'
 #. Label of the step (Data) field in DocType 'Task Step'
@@ -21747,7 +21787,7 @@ msgstr "عرض مساحات العمل"
 msgid "Views"
 msgstr "طرق العرض"
 
-#: onedesk/public/js/reports.js:372
+#: onedesk/public/js/reports.js:387
 msgid "Visible To"
 msgstr "مرئي لـ"
 
@@ -24219,6 +24259,10 @@ msgstr "لا يُسمح لك بتشغيل {0}."
 msgid "You may not {0} {1}."
 msgstr "لا يجوز لك {0} {1}."
 
+#: onedesk/www/me.py:14
+msgid "You need to be logged in to access this page"
+msgstr ""
+
 #: onedesk/public/js/settings.js:245
 msgid "You requested a copy {0}. It's waiting for approval."
 msgstr "طلبت نسخة {0}. الطلب بانتظار الموافقة."
@@ -24255,7 +24299,11 @@ msgstr "لقد طلبت ذلك بالفعل. سيقرر أحد المسؤولي�
 msgid "You've sent everything. You can still replace a file."
 msgstr "لقد أرسلت كل شيء. لا يزال بإمكانك استبدال ملف."
 
-#: onedesk/public/js/login.js:90 onedesk/public/js/settings.js:212
+#: onedesk/www/me.html:2
+msgid "Your Account"
+msgstr "حسابك"
+
+#: onedesk/public/js/login.js:91 onedesk/public/js/settings.js:212
 msgid "Your Data"
 msgstr "بياناتك"
 
@@ -25563,7 +25611,7 @@ msgstr "{0} و{1} ليسا في المنطقة نفسها."
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
-#: onedesk/public/js/reports.js:367
+#: onedesk/public/js/reports.js:382
 msgid "{0} appears in the app's sidebar under {1}."
 msgstr "يظهر {0} في الشريط الجانبي للتطبيق ضمن {1}."
 

@@ -196,3 +196,36 @@ if (frappe.boot.one_elsewhere && frappe.search?.utils) {
 		return keep("Report", frappe.boot.allowed_reports || {}, reports.call(this, keywords));
 	};
 }
+
+// Frappe's not-found and not-permitted pages, as One's: frappe's empty state
+// with a way Home. A desk address that names no page at all is not found,
+// rather than frappe's "No permission for Page" over an empty screen.
+if (frappe.boot.one_elsewhere) {
+	const draw = (page_name, opts) => {
+		page_name = page_name || frappe.get_route_str();
+		const wrapper = frappe.pages[page_name] || frappe.container.add_page(page_name);
+		// A frappe page, so the rail and the panel stay as on any other.
+		if (!wrapper.page) frappe.ui.make_app_page({ parent: wrapper, single_column: true });
+		const state = frappe.ui.empty_state({
+			...opts,
+			actions: [{ label: __("Home"), onclick: () => frappe.set_route("one") }],
+			css_class: "one-shell-empty one-outside-missing",
+		});
+		$(wrapper.page.main).empty().append(state);
+		frappe.container.change_to(page_name);
+	};
+	frappe.show_not_found = (page_name) => draw(page_name, { title: __("Not Found"), icon: "search-x" });
+	frappe.show_not_permitted = (page_name) =>
+		draw(page_name, { title: __("No Access"), description: __("Ask an administrator for access."), icon: "lock" });
+
+	const show = frappe.views.pageview.show;
+	frappe.views.pageview.show = function (name) {
+		const known =
+			!name ||
+			frappe.standard_pages[name] ||
+			frappe.boot.page_info?.[name] ||
+			frappe.pages[name] ||
+			locals.Page?.[name];
+		return known ? show.call(this, name) : frappe.show_not_found(name);
+	};
+}

@@ -251,11 +251,16 @@ Started. What is left, the most visible first:
    search offers the pages and reports a One sidebar lists or One's own
    modules hold, and OneCalendar rather than frappe's event calendar. Records
    of every kind are still found.
-10. **Frappe's not-permitted, not-found and error pages** and its web pages
-    (`/me`, `/update-password`) are frappe's own.
-11. **Frappe reports not in One:** Addresses And Contacts (open to sales,
-    purchase and accounts users), and for an administrator Permitted
-    Documents For User, User Doctype Permissions and Document Share Report.
+10. ~~**Frappe's not-permitted, not-found and error pages.**~~ **Done**: the
+    desk's are frappe's empty state on a page that keeps the rail
+    (`outside.js`); the web pages for not found, a message, an error and
+    `/me` are One's portal (`www/`). Set Password is frappe's, already in
+    One's look.
+11. ~~**Frappe reports not in One.**~~ **Done**: Addresses and Contacts is
+    in OneCRM › Sales, from erpnext's working report. Permitted Documents For
+    User, User Doctype Permissions and Document Share Report stay the
+    platform's: frappe allows only its System Manager, and Access and People
+    answer who sees what.
 
 Kept as frappe's on purpose: list views and their switcher, bulk actions,
 filters, group-by, report view, a form's menu, its sidebar (assign, tags,

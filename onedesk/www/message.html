@@ -1,0 +1,30 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title or _("Message") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+	{% if title %}<h1>{{ title }}</h1>{% endif %}
+	{% block message_body %}
+	{% if message %}<div class="one-portal__lede">{{ message }}</div>{% endif %}
+	{% if error_code %}<p class="one-note">{{ _("Status: {0}").format(error_code) }}</p>{% endif %}
+	{% if primary_action %}
+	<a class="one-button one-button--solid" href="{{ primary_action or '/' }}">{{ primary_label or _("Home") }}</a>
+	{% endif %}
+	{% endblock %}
+</div>
+<script>
+	frappe.ready(function () {
+		if (window.location.hash || window.location.href.includes("/desk")) {
+			localStorage.setItem("session_last_route", window.location.pathname);
+		}
+	});
+</script>
+{% endblock %}

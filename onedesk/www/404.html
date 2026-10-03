@@ -1,0 +1,20 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Not Found") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<script>
+	window.is_404 = true;
+</script>
+<div class="one-portal">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+	<h1>{{ _("Page not found") }}</h1>
+	<a class="one-button" href="/">{{ _("Home") }}</a>
+</div>
+{% endblock %}

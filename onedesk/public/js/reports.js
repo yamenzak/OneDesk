@@ -256,6 +256,12 @@ onedesk.reports.the_period = () => {
 // report where the same question asked of Department would have answered it.
 const CHOSEN = { "Employee Analytics": { parameter: "Department" } };
 
+// A filter that asks for a kind of record as a link to DocType, which only the
+// platform may read: erpnext's Address And Contacts (OneCRM's Addresses and
+// Contacts) refused every pick. It becomes a choice of the kinds the reader
+// can read, customers first, so the rule above answers it.
+const KINDS = { "Address And Contacts": { party_type: ["Customer", "Lead", "Supplier", "Sales Partner"] } };
+
 onedesk.reports.a_choice_is_made = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_choice) return;
@@ -263,6 +269,15 @@ onedesk.reports.a_choice_is_made = () => {
 
 	const theirs = QueryReport.prototype.setup_filters;
 	QueryReport.prototype.setup_filters = function () {
+		const kinds = KINDS[this.report_name] || {};
+		for (const df of this.report_settings?.filters || []) {
+			if (!kinds[df.fieldname]) continue;
+			Object.assign(df, {
+				fieldtype: "Select",
+				options: kinds[df.fieldname].filter((kind) => frappe.model.can_read(kind)),
+				get_query: null,
+			});
+		}
 		theirs.call(this);
 		const named = CHOSEN[this.report_name] || {};
 		(this.filters || []).forEach((filter) => {
