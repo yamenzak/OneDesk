@@ -947,6 +947,7 @@ one_makes_records = {
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],
 	"Supplier": ["one", "one_book"],
+	"Supplier Quotation": ["one"],
 	"Task": ["one_project", "one_task"],
 	"Timesheet": ["one_task"],
 	"UAE VAT Settings": ["one_book"],
@@ -1242,6 +1243,9 @@ jinja = {
 		"onedesk.one.portal.one_portal_tone",
 		"onedesk.one.portal.one_portal_home",
 		"onedesk.one.portal.one_portal_record",
+		"onedesk.one.portal.one_portal_rfq",
+		"onedesk.one.portal.one_portal_status",
+		"onedesk.one.portal.one_portal_quoted",
 		"onedesk.one.portal.one_portal_me",
 		"onedesk.one.portal.one_portal_columns",
 	]

@@ -91,3 +91,26 @@ def test_a_record_page_is_the_portals():
 	assert '"terms": sanitize_html(doc.terms)' in SOURCE
 	side = (INCLUDES / "one_portal_sidebar.html").read_text()
 	assert 'selectattr("current")' in side
+
+
+def test_a_supplier_answers_a_quote_request_on_the_portal():
+	"""erpnext's request page, in the portal's shell: the rows priced in place
+	and sent through one/portal.send_quote, which reads everything but the
+	rate, quantity and notes from the request itself, checks the reader is the
+	supplier's portal user, keeps the quote theirs, and tells the buyer."""
+	page = (tree.APP / "www" / "rfq.html").read_text()
+	assert "rfq.get_context(context)" in (tree.APP / "www" / "rfq.py").read_text()
+	assert "one_portal_rfq(doc)" in page and "onedesk.one.portal.send_quote" in page
+	assert "doc.as_json()" not in page and "rfq.js" not in page
+	send = SOURCE.split("def send_quote", 1)[1].split("\ndef ", 1)[0]
+	assert '@frappe.whitelist(methods=["POST"])\ndef send_quote' in SOURCE
+	assert 'frappe.db.exists("Portal User", {"parent": supplier, "user": user})' in send
+	assert "check_supplier_has_docname_access(supplier)" in send
+	assert "for row in doc.items:" in send and "validate_existing_supplier_quotation" in send
+	assert "finally:\n\t\tfrappe.session.user = user" in send
+	assert 'quote.db_set({"owner": user, "modified_by": user}' in send
+	assert 'notify.notify(\n\t\t"Quote Received"' in send
+	row = (INCLUDES / "transaction_row.html").read_text()
+	assert "one_portal_quoted(doc.name)" in row and "one_portal_status(" in row
+	notes = (tree.APP / "one_inventory" / "notifications.py").read_text()
+	assert '_lt("Quote Received")' in notes and '_lt("Quote Request Sent")' in notes

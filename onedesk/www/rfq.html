@@ -1,0 +1,168 @@
+{% extends "templates/web.html" %}
+{#- erpnext's quote request page, in One's portal (one/portal.py): the
+    portal's shell, PageHeader with Breadcrumbs, the Badge and Send Quote; the
+    buyer's message and the request's facts; its rows as frappe-ui's ListView
+    with a TextInput for the quantity and the rate; a Textarea for notes; and
+    the quotes already sent. Sending goes through one/portal.send_quote. -#}
+{%- set show_sidebar = False -%}
+{%- set full_width = True -%}
+{% block title %}{{ doc.name }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+{%- set here = one_portal_tabs() | selectattr("current") | first %}
+{%- set one = one_portal_rfq(doc) %}
+<div class="one-portal one-portal--wide one-portal--app">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
+	{% include "templates/includes/one_portal_head.html" %}
+
+	<div class="one-page-head">
+		<h1 class="one-crumbs">
+			{% if here %}<a href="{{ here.route }}">{{ here.title }}</a><span aria-hidden="true">/</span>{% endif %}
+			<span>{{ doc.name | e }}</span>
+			<span class="one-badge one-badge--{{ one.tone }}">{{ one.status }}</span>
+		</h1>
+		{% if not one.quoted and one.rows %}
+		<div class="one-actions">
+			<button type="button" class="one-btn one-btn--solid" data-one-send>{{ _("Send Quote") }}</button>
+		</div>
+		{% endif %}
+	</div>
+
+	<div class="one-portal__body">
+		{% if one.message %}<div class="one-message">{{ one.message }}</div>{% endif %}
+
+		<dl class="one-facts">
+			{% for fact in one.facts %}
+			<div>
+				<dt>{{ fact.label }}</dt>
+				<dd{% if fact.lines %} class="one-facts__lines"{% endif %}>{{ fact.value | e }}</dd>
+			</div>
+			{% endfor %}
+		</dl>
+
+		<form class="one-list-view one-items-view one-quote" data-one-quote autocomplete="off">
+			<div class="one-list-view__head" aria-hidden="true">
+				<span>{{ _("Item") }}</span>
+				<span>{{ _("Quantity") }}</span>
+				{% if one.quoted %}<span></span><span></span>{% else %}
+				<span>{{ _("Rate") }}</span>
+				<span>{{ _("Amount") }}</span>
+				{% endif %}
+			</div>
+			{% for row in one.rows %}
+			<div class="one-list__row" data-row="{{ row.name | e }}">
+				<span class="one-list__what">
+					<span>{{ row.item | e }}</span>
+					{% if row.about %}<small>{{ row.about | truncate(140) | e }}</small>{% endif %}
+					{% if row.needed_by %}<small>{{ _("Needed by {0}").format(row.needed_by) }}</small>{% endif %}
+				</span>
+				{% if one.quoted %}
+				<span class="one-items-view__qty">{{ row.qty_said }} <small>{{ row.uom }}</small></span>
+				<span></span><span></span>
+				{% else %}
+				<label class="one-quote__field">
+					<span class="one-quote__label">{{ _("Quantity") }}</span>
+					<input class="one-input" name="qty" inputmode="decimal" value="{{ row.qty }}" aria-label="{{ _('Quantity') }}">
+					<small>{{ row.uom }}</small>
+				</label>
+				<label class="one-quote__field">
+					<span class="one-quote__label">{{ _("Rate") }}</span>
+					<input class="one-input" name="rate" inputmode="decimal" placeholder="0.00" aria-label="{{ _('Rate') }}">
+				</label>
+				<span class="one-list__amount" data-amount>{{ one.zero }}</span>
+				{% endif %}
+			</div>
+			{% endfor %}
+		</form>
+
+		{% if not one.quoted %}
+		<dl class="one-totals">
+			<div class="one-totals__strong">
+				<dt>{{ _("Total") }}</dt>
+				<dd data-total>{{ one.zero }}</dd>
+			</div>
+		</dl>
+
+		<section class="one-section">
+			<h2><label for="one-notes">{{ _("Notes") }}</label></h2>
+			<textarea id="one-notes" class="one-textarea" rows="4" data-one-notes></textarea>
+		</section>
+		{% endif %}
+
+		{% if one.quotes %}
+		<section class="one-section">
+			<h2>{{ _("Your Quotes") }}</h2>
+			<div class="one-list-view">
+				{% for quote in one.quotes %}
+				<a class="one-list__row" href="/supplier-quotations/{{ quote.name | urlencode }}">
+					<span class="one-list__what">
+						<span>{{ quote.name | e }}</span>
+						<small>{{ quote.date | e }}</small>
+					</span>
+					<span><span class="one-badge one-badge--{{ quote.tone }}">{{ quote.status }}</span></span>
+					<span></span>
+				</a>
+				{% endfor %}
+			</div>
+		</section>
+		{% endif %}
+
+		{% if one.terms %}
+		<section class="one-section">
+			<h2>{{ _("Terms") }}</h2>
+			<div class="one-terms">{{ one.terms }}</div>
+		</section>
+		{% endif %}
+	</div>
+	</div>
+</div>
+{% if not one.quoted and one.rows %}
+<script>
+frappe.ready(() => {
+	const form = document.querySelector("[data-one-quote]");
+	const currency = {{ doc.currency | tojson }};
+	const money = (value) => format_currency(value, currency);
+	const rows = () => [...form.querySelectorAll("[data-row]")];
+	const sum = () => {
+		let total = 0;
+		for (const row of rows()) {
+			const amount = flt(row.querySelector("[name=qty]").value) * flt(row.querySelector("[name=rate]").value);
+			row.querySelector("[data-amount]").textContent = money(amount);
+			total += amount;
+		}
+		document.querySelector("[data-total]").textContent = money(total);
+	};
+	form.addEventListener("input", sum);
+	form.addEventListener("submit", (event) => event.preventDefault());
+	document.querySelector("[data-one-send]").addEventListener("click", (event) => {
+		const answer = {};
+		for (const row of rows()) {
+			answer[row.dataset.row] = {
+				qty: flt(row.querySelector("[name=qty]").value),
+				rate: flt(row.querySelector("[name=rate]").value),
+			};
+		}
+		frappe.call({
+			method: "onedesk.one.portal.send_quote",
+			type: "POST",
+			args: {
+				rfq: {{ doc.name | tojson }},
+				rows: answer,
+				notes: document.querySelector("[data-one-notes]").value,
+			},
+			btn: event.currentTarget,
+			freeze: true,
+			callback: (r) => {
+				if (r.message) window.location.href = "/supplier-quotations/" + encodeURIComponent(r.message);
+			},
+		});
+	});
+});
+</script>
+{% endif %}
+{% endblock %}

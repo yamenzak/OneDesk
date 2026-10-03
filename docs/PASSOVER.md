@@ -6252,7 +6252,49 @@ purchase invoice) share erpnext's `order` page.
    is set up, which One does not install.
 10. **Plain words**: "Download PDF", "To pay", "Your reference".
 
-Next: a supplier answering a quote request.
+### Portals 3: a supplier answers a quote request
+
+erpnext's `rfq` page, where a supplier prices a Request for Quotation.
+
+1. **Notifications**, **Added**: Quote Received tells whoever made the
+   request, in the bell and by mail, with the supplier, the total and the
+   items. erpnext's own mail to the supplier is listed as Quote Request Sent
+   (mailed by erpnext, with the link to the page).
+2. **OneAI**: none; the reader is a supplier.
+3. **Intake**: none.
+4. **Permissions**, **Fixed**:
+   - erpnext's page handed its script the whole request as JSON, the other
+     suppliers' names and addresses with it. One's page sends nothing but the
+     rows' names; the server reads the rest from the request.
+   - erpnext's script sent the whole edited request back, so a supplier could
+     change items or prices of rows they did not quote. `send_quote` takes a
+     rate, a quantity and notes, nothing else.
+   - It checks the reader is a portal user of the supplier and that the
+     request was sent to that supplier, as erpnext's mapper does.
+5. **Cross-module**: the quote is OneInventory's Supplier Quotation, linked
+   to the request's rows, for the buyer to compare and order.
+6. **Bespoke UI**, **Fixed**: the portal's shell with Breadcrumbs, a Badge
+   (To quote, Quoted) and Send Quote; the buyer's message, the date and when
+   it is needed; the rows as ListView with TextInputs for quantity and rate,
+   the amount and the total worked out as they type (frappe's
+   `format_currency`); a Textarea for notes; Your Quotes; the terms. The
+   list says To quote or Quoted for each request; a quote waiting on the
+   buyer says Sent rather than erpnext's Draft. On a phone each row stacks
+   its fields.
+7. **Documented**: the README's Portal section.
+8. **Legal**: the DPA's portal clause covers it.
+9. **From frappe**, **Fixed**: erpnext's flow did not work for any supplier.
+   - Its page crashed on a row with no item name.
+   - Making the quote fills its defaults by reading each Item, which a portal
+     user may not, so Make Quotation always failed.
+   - `send_quote` takes the mapper's own steps (`add_items`,
+     `validate_existing_supplier_quotation`) and saves with the session's
+     user switched, as frappe's web form does for a save it has authorized.
+     The quote is then set back to the supplier's user.
+10. **Plain words**: "Send Quote", "To quote", "Needed by", "Notes" (was
+    "Notes: ", "Quotations: ", "UOM:Nos", "Make Quotation").
+
+Next: addresses, timesheets, the projects list and the rest.
 
 ## OneLegal
 

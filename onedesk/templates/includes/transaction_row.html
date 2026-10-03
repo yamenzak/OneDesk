@@ -7,8 +7,12 @@
 		<span>{{ doc.name | e }}</span>
 		<small>{{ frappe.format_date(when) }}{% if doc.items_preview %} · {{ doc.items_preview | e }}{% endif %}</small>
 	</span>
-	{%- if doc.doctype != "Request for Quotation" %}
-	<span><span class="one-badge one-badge--{{ one_portal_tone(doc.indicator_color or ('blue' if doc.docstatus == 1 else 'gray')) }}">{{ _(doc.status) }}</span></span>
-	{%- else %}<span></span>{% endif %}
+	{%- if doc.doctype == "Request for Quotation" %}
+	{%- set quoted = one_portal_quoted(doc.name) %}
+	<span><span class="one-badge one-badge--{{ 'green' if quoted else 'amber' }}">{{ _("Quoted") if quoted else _("To quote") }}</span></span>
+	{%- else %}
+	{%- set state = one_portal_status(doc.doctype, doc.status, doc.docstatus, doc.indicator_color) %}
+	<span><span class="one-badge one-badge--{{ state[0] }}">{{ state[1] }}</span></span>
+	{%- endif %}
 	<span class="one-list__amount">{% if doc.get(total) %}{{ doc.get_formatted(total) }}{% endif %}</span>
 </a>

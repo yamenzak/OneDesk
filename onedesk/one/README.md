@@ -1579,6 +1579,11 @@ Opening a record shows its dates, items and totals, and **Download PDF**
 gives the printed copy. An invoice that is partly paid also shows what is
 paid and what is left to pay. Each sees only their own records.
 
+A supplier answers a quote request on the portal: they set a rate for each
+item they can supply, change the quantity if they need to, add notes, and
+choose **Send Quote**. Their quote lands in Quotes, and whoever made the
+request is told (Quote Received). A request they have answered says Quoted.
+
 ## Asking OneAI
 
 The OneAI button at the bottom of every page opens the OneAI panel. Every

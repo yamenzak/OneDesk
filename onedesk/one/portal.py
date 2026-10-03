@@ -115,6 +115,38 @@ def one_portal_tone(colour: str | None) -> str:
 	return TONES.get((colour or "").strip(), "gray")
 
 
+#: How a state reads to the portal's reader where erpnext's word is written
+#: for the workspace: a supplier's quote the buyer has yet to take up is, to
+#: the supplier, sent.
+SAID_TO_READER = {("Supplier Quotation", "Draft"): ("blue", _lt("Sent"))}
+
+
+def one_portal_status(doctype: str, status: str | None, docstatus: int = 1, colour: str | None = None):
+	"""A record's state as the portal's Badge says it: its tone and its word."""
+	if said := SAID_TO_READER.get((doctype, status)):
+		return said[0], str(said[1])
+	tone = one_portal_tone(colour or ("blue" if docstatus == 1 else "gray"))
+	return tone, _(status or "Submitted")
+
+
+def one_portal_quoted(rfq: str) -> bool:
+	"""Whether the reader's supplier has quoted for a request (the list's
+	badge, as the request's own page says it)."""
+	from erpnext.controllers.website_list_for_contact import get_customers_suppliers
+
+	_customers, suppliers = get_customers_suppliers("Request for Quotation Supplier", frappe.session.user)
+	if not suppliers:
+		return False
+	return bool(
+		frappe.db.sql(
+			"""select 1 from `tabSupplier Quotation` sq join `tabSupplier Quotation Item` sqi
+			on sqi.parent = sq.name where sqi.request_for_quotation = %s and sq.supplier in %s
+			and sq.docstatus < 2 limit 1""",
+			(rfq, tuple(suppliers)),
+		)
+	)
+
+
 def one_portal_home() -> list[dict]:
 	"""What the reader has, a row a tab with anything in it: how many of each
 	kind are theirs, read the way the tab's own list reads them, and how many
@@ -212,13 +244,161 @@ def one_portal_record(doc) -> dict:
 				{"label": _("To pay"), "value": doc.get_formatted("outstanding_amount"), "strong": True}
 			)
 
+	tone, status = one_portal_status(
+		doc.doctype,
+		doc.get("indicator_title") or doc.get("status"),
+		doc.docstatus,
+		doc.get("indicator_color"),
+	)
 	return {
-		"tone": one_portal_tone(doc.get("indicator_color") or ("blue" if doc.docstatus == 1 else "gray")),
-		"status": _(doc.get("indicator_title") or doc.get("status") or "Submitted"),
+		"tone": tone,
+		"status": status,
 		"facts": facts,
 		"totals": totals,
 		"terms": sanitize_html(doc.terms) if doc.get("terms") else "",
 	}
+
+
+def one_portal_rfq(doc) -> dict:
+	"""What a quote request's page shows (www/rfq.html), after erpnext's own
+	context has found the reader's supplier and their quotes (rfq_links):
+	whether they have answered, its facts, the buyer's message and terms, and
+	the rows they price."""
+	from frappe.utils import fmt_money, global_date_format, sanitize_html, strip_html
+
+	quotes = []
+	for one in doc.get("rfq_links") or []:
+		quote = frappe.db.get_value(
+			"Supplier Quotation", one.name, ["transaction_date", "status", "docstatus"], as_dict=True
+		)
+		tone, status = one_portal_status("Supplier Quotation", quote.status, quote.docstatus)
+		quotes.append(
+			{
+				"name": one.name,
+				"date": global_date_format(quote.transaction_date),
+				"status": status,
+				"tone": tone,
+			}
+		)
+	facts = [{"label": _("Date"), "value": global_date_format(doc.transaction_date)}]
+	if doc.get("schedule_date"):
+		facts.append({"label": _("Needed by"), "value": global_date_format(doc.schedule_date)})
+	if doc.get("shipping_address_display"):
+		lines = re.sub(r"<br\s*/?>", "\n", doc.shipping_address_display)
+		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
+	rows = []
+	for row in doc.items:
+		about = strip_html(row.description or "").strip()
+		rows.append(
+			{
+				"name": row.name,
+				"item": row.item_name or row.item_code,
+				"about": about if about and about != (row.item_name or row.item_code) else "",
+				"qty": int(row.qty) if row.qty == int(row.qty) else row.qty,
+				"qty_said": frappe.format_value(row.qty, {"fieldtype": "Float"}),
+				"uom": _(row.uom or ""),
+				"needed_by": global_date_format(row.schedule_date)
+				if row.schedule_date and row.schedule_date != doc.get("schedule_date")
+				else "",
+			}
+		)
+	return {
+		"quoted": bool(quotes),
+		"tone": "green" if quotes else "amber",
+		"status": _("Quoted") if quotes else _("To quote"),
+		"quotes": quotes,
+		"facts": facts,
+		"message": sanitize_html(doc.message_for_supplier) if doc.get("message_for_supplier") else "",
+		"terms": sanitize_html(doc.terms) if doc.get("terms") else "",
+		"rows": rows,
+		"zero": fmt_money(0, currency=doc.get("currency")),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
+	"""The supplier's answer to a quote request: a rate (and the quantity they
+	can supply) for each row they price, and their notes. Everything else is
+	read from the request itself, never from the page.
+
+	erpnext's own mapper (create_supplier_quotation) cannot finish for a
+	portal user: filling the quote's defaults reads each Item, which a
+	supplier may not. So its steps are taken here: the reader is checked to be
+	one of the supplier's portal users, the request to be one sent to that
+	supplier, and then, as frappe's web form does for a save it has already
+	authorized, the quote is made with the session's user switched, owned by
+	the supplier's user."""
+	from erpnext.buying.doctype.request_for_quotation.mapper import (
+		add_items,
+		validate_existing_supplier_quotation,
+	)
+	from erpnext.templates.pages.rfq import check_supplier_has_docname_access, get_supplier
+	from frappe.utils import flt
+
+	user = frappe.session.user
+	# erpnext's page reads which request it is on from the form.
+	frappe.form_dict.doctype, frappe.form_dict.name = "Request for Quotation", rfq
+	supplier = get_supplier()
+	if (
+		not supplier
+		or not check_supplier_has_docname_access(supplier)
+		or not frappe.db.exists("Portal User", {"parent": supplier, "user": user})
+	):
+		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+	doc = frappe.get_doc("Request for Quotation", rfq)
+	if doc.docstatus != 1:
+		frappe.throw(_("This request is closed."))
+	answered = frappe.parse_json(rows) or {}
+	items = []
+	for row in doc.items:
+		given = answered.get(row.name) or {}
+		rate, qty = flt(given.get("rate")), flt(given.get("qty"))
+		if rate <= 0 or qty <= 0:
+			continue
+		item = row.as_dict()
+		item.update({"rate": rate, "qty": qty, "stock_qty": qty * flt(row.conversion_factor or 1)})
+		items.append(item)
+	if not items:
+		frappe.throw(_("Add a rate for at least one item."))
+	validate_existing_supplier_quotation(supplier, items)
+
+	supplier_doc = frappe.get_cached_doc("Supplier", supplier)
+	quote = frappe.get_doc(
+		{
+			"doctype": "Supplier Quotation",
+			"supplier": supplier,
+			"company": doc.company,
+			"currency": supplier_doc.default_currency
+			or frappe.get_cached_value("Company", doc.company, "default_currency"),
+			"buying_price_list": supplier_doc.default_price_list
+			or frappe.db.get_single_value("Buying Settings", "buying_price_list"),
+			"terms": notes or "",
+		}
+	)
+	add_items(quote, supplier, items)
+	quote.flags.ignore_permissions = True
+	frappe.session.user = "Administrator"
+	try:
+		quote.run_method("set_missing_values")
+		quote.insert()
+	finally:
+		frappe.session.user = user
+	# Saved with the user switched, the quote is the supplier's all the same.
+	quote.db_set({"owner": user, "modified_by": user}, update_modified=False)
+
+	from onedesk.one import notify
+
+	notify.notify(
+		"Quote Received",
+		doc.owner,
+		record=("Supplier Quotation", quote.name),
+		sender=user,
+		supplier=quote.supplier_name or supplier,
+		request=doc.name,
+		total=quote.get_formatted("grand_total"),
+		items=", ".join(row.item_name or row.item_code for row in quote.items),
+	)
+	return quote.name
 
 
 #: Who a contact's login may be a portal user of.

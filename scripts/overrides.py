@@ -382,6 +382,13 @@ OVERRIDES = [
 		'<span class="font-md">{{ _(\'Actions\') }}</span>',
 	),
 	(
+		"A quote request on the portal is One's page, and sending a quote works",
+		"erpnext's rfq page hands its script the whole request, the other suppliers' names and addresses with it, and fails on a row without an item name; its mapper cannot make the quote for a portal user, since filling the defaults reads each Item. onedesk/www/rfq.html is found first and runs erpnext's own context; one/portal.send_quote reads the rows from the request, checks the reader is the supplier's portal user, and takes the mapper's steps with the session's user switched, as frappe's web form does",
+		"onedesk/www/rfq.html",
+		"erpnext/erpnext/templates/pages/rfq.html",
+		'<script>{% include "templates/includes/rfq.js" %}</script>',
+	),
+	(
 		"A quotation, order or invoice on the portal's list is One's row",
 		"erpnext draws each with Bootstrap's grid and a hidden link; onedesk's template of the same path is found first and draws the row frappe-ui's ListView draws",
 		"onedesk/templates/includes/transaction_row.html",

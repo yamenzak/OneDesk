@@ -1480,6 +1480,8 @@ a.one-portal__row:hover {
 
 /* frappe-ui's Button, solid. */
 .one-portal--app .one-btn.one-btn--solid {
+	border: 0;
+	font-weight: 500;
 	background: var(--surface-gray-10, var(--gray-900));
 	color: var(--ink-base, var(--white));
 }
@@ -1586,6 +1588,103 @@ a.one-portal__row:hover {
 	padding: 0 8px;
 	color: var(--ink-gray-6);
 	font-size: 13px;
+}
+
+/* A quote request (www/rfq.html): the buyer's message, then each row's
+ * quantity and rate in frappe-ui's TextInput (subtle, md), and the notes in
+ * its Textarea. */
+.one-message {
+	margin: 0 0 20px;
+	padding: 0 8px;
+	color: var(--ink-gray-7);
+	font-size: 14px;
+}
+
+.one-message p {
+	margin: 0 0 6px;
+}
+
+.one-portal--app .one-input,
+.one-portal--app .one-textarea {
+	width: 100%;
+	border: 1px solid var(--surface-gray-2);
+	border-radius: 8px;
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
+	font-size: 14px;
+	transition: border-color 0.15s, background-color 0.15s;
+}
+
+.one-portal--app .one-input {
+	height: 28px;
+	padding: 0 8px;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.one-portal--app .one-textarea {
+	display: block;
+	max-width: 36rem;
+	margin: 0 8px;
+	width: calc(100% - 16px);
+	padding: 6px 8px;
+	resize: vertical;
+}
+
+.one-portal--app .one-input::placeholder,
+.one-portal--app .one-textarea::placeholder {
+	color: var(--ink-gray-4);
+}
+
+.one-portal--app .one-input:hover,
+.one-portal--app .one-textarea:hover {
+	border-color: var(--surface-gray-3);
+	background: var(--surface-gray-3);
+}
+
+.one-portal--app .one-input:focus,
+.one-portal--app .one-textarea:focus {
+	outline: none;
+	border-color: var(--outline-gray-4);
+	background: var(--surface-base);
+	box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+.one-quote .one-list__row {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.one-quote__field {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 6px;
+	margin: 0;
+	font-weight: 400;
+}
+
+.one-quote__field .one-input {
+	width: 6rem;
+}
+
+.one-quote__field small {
+	min-width: 2rem;
+	color: var(--ink-gray-5);
+	font-size: 12px;
+}
+
+.one-quote__label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+}
+
+.one-portal--app .one-section h2 label {
+	margin: 0;
+	font-weight: inherit;
 }
 
 /* frappe-ui's Sidebar, 15rem on the sidebar surface: SidebarHeader's 48px
@@ -1812,5 +1911,43 @@ a.one-portal__row:hover {
 	}
 	.one-totals {
 		width: 100%;
+	}
+	.one-quote .one-list__row {
+		grid-template-columns: 1fr 1fr;
+		gap: 8px 12px;
+	}
+	.one-quote .one-list__what {
+		grid-column: 1 / -1;
+	}
+	.one-quote .one-list__row > .one-quote__field {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-row: 2;
+		align-items: center;
+		justify-self: stretch;
+		gap: 2px 6px;
+	}
+	.one-quote .one-list__row > .one-quote__field:nth-child(2) {
+		grid-column: 1;
+	}
+	.one-quote .one-list__row > .one-quote__field:nth-child(3) {
+		grid-column: 2;
+	}
+	.one-quote .one-quote__field > .one-quote__label {
+		grid-column: 1 / -1;
+	}
+	.one-quote .one-quote__label {
+		position: static;
+		width: auto;
+		height: auto;
+		color: var(--ink-gray-5);
+		font-size: 12px;
+	}
+	.one-quote .one-quote__field .one-input {
+		width: 100%;
+	}
+	.one-quote .one-list__amount {
+		grid-column: 1 / -1;
+		grid-row: 3;
 	}
 }

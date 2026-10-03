@@ -98,7 +98,8 @@
 
 		{% if one.terms %}
 		<section class="one-section">
-			<h2>{{ _("Terms") }}</h2>
+			{#- A supplier's quote keeps the notes they sent with it here. -#}
+			<h2>{{ _("Notes") if doc.doctype == "Supplier Quotation" else _("Terms") }}</h2>
 			<div class="one-terms">{{ one.terms }}</div>
 		</section>
 		{% endif %}

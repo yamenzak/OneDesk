@@ -247,6 +247,7 @@ No doctypes yet.
 * `onedesk.one.numbering.set_current`
 * `onedesk.one.numbering.set_naming_by`
 * `onedesk.one.outside.kind_of`
+* `onedesk.one.portal.send_quote`
 * `onedesk.one.printing.default`
 * `onedesk.one.printing.design_letter_head`
 * `onedesk.one.printing.download_builder_preview_pdf`

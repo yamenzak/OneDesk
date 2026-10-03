@@ -1,8 +1,9 @@
 """What OneInventory tells people, as notification types (one/notify.py).
 
-All of them are ERPNext's: one it mailed and now tells here (tell.py), one of
-its rules carried to the bell, and the reports its nightly jobs mail when
-they fail, which nothing lets us send in its place.
+One is ours, a supplier's quote from the portal. The rest are ERPNext's: one
+it mailed and now tells here (tell.py), one of its rules carried to the bell,
+the quote request it mails a supplier, and the reports its nightly jobs mail
+when they fail, which nothing lets us send in its place.
 """
 
 from frappe import _lt
@@ -20,6 +21,26 @@ TYPES = [
 		"email_default": True,
 		"replaces": (("Stock Settings", "reorder_email_notify"),),
 		"starts_as": ("Stock Settings", "reorder_email_notify"),
+	},
+	# ours: a supplier answered a quote request on the portal (one/portal.py).
+	{
+		"name": _lt("Quote Received"),
+		"app": "OneInventory",
+		"roles": ("Purchase Manager", "Purchase User"),
+		"about": _lt("When a supplier sends a quote for your request."),
+		"to": _lt("Whoever made the request"),
+		"subject": _lt("{supplier} sent a quote for {request}"),
+		"message": _lt("{total} for {items}."),
+		"email_default": True,
+	},
+	# What ERPNext mails a supplier when a request is sent to them, with the
+	# link to answer it on the portal.
+	{
+		"name": _lt("Quote Request Sent"),
+		"app": "OneInventory",
+		"about": _lt("When a quote request is sent to a supplier, with the link to answer it."),
+		"to": _lt("The supplier's contact"),
+		"mailed_by": True,
 	},
 	# ERPNext's own rule, carried to the bell in its words (one/rules.py).
 	{

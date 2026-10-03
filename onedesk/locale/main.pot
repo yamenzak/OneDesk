@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 17:46+0000\n"
-"PO-Revision-Date: 2026-10-03 17:46+0000\n"
+"POT-Creation-Date: 2026-10-03 18:09+0000\n"
+"PO-Revision-Date: 2026-10-03 18:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1223,6 +1223,10 @@ msgstr ""
 msgid "Add a number to a field on the target document."
 msgstr ""
 
+#: onedesk/one/portal.py:362
+msgid "Add a rate for at least one item."
+msgstr ""
+
 #: onedesk/one_admin/ledger.py:328
 msgid "Add a reason."
 msgstr ""
@@ -1729,7 +1733,7 @@ msgstr ""
 #: onedesk/one_book/heads.py:272 onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 #: onedesk/public/js/intake.js:161 onedesk/public/js/settings.js:1753
-#: onedesk/www/order.html:59
+#: onedesk/www/order.html:59 onedesk/www/rfq.html:54
 msgid "Amount"
 msgstr ""
 
@@ -5076,8 +5080,8 @@ msgid "Database Used"
 msgstr ""
 
 #. Label of the date (Date) field in DocType 'Reading Date'
-#: onedesk/one/portal.py:156 onedesk/one/portal.py:157
-#: onedesk/one/settings.py:1622
+#: onedesk/one/portal.py:188 onedesk/one/portal.py:189
+#: onedesk/one/portal.py:283 onedesk/one/settings.py:1622
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -5512,7 +5516,7 @@ msgstr ""
 msgid "Deliveries received from Stripe, used to ignore repeats."
 msgstr ""
 
-#: onedesk/one/portal.py:159 onedesk/one/portal.py:160
+#: onedesk/one/portal.py:191 onedesk/one/portal.py:192
 msgid "Delivery"
 msgstr ""
 
@@ -5550,7 +5554,7 @@ msgstr ""
 msgid "Depreciation"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:37
+#: onedesk/one_inventory/notifications.py:58
 msgid "Depreciation Not Posted"
 msgstr ""
 
@@ -5692,7 +5696,7 @@ msgstr ""
 msgid "Disconnected"
 msgstr ""
 
-#: onedesk/one/portal.py:195
+#: onedesk/one/portal.py:227
 msgid "Discount"
 msgstr ""
 
@@ -6011,7 +6015,7 @@ msgid "Dropped"
 msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one/portal.py:161 onedesk/one_admin/accounts.py:230
+#: onedesk/one/portal.py:193 onedesk/one_admin/accounts.py:230
 #: onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_project/heads.py:169
@@ -7610,7 +7614,7 @@ msgstr ""
 msgid "For video calls. The browser asks which tab to share."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:19
+#: onedesk/one_inventory/notifications.py:20
 msgid "For what fell to its reorder level: {items}."
 msgstr ""
 
@@ -9358,6 +9362,7 @@ msgstr ""
 
 #: onedesk/one_inventory/report/to_order/to_order.py:15
 #: onedesk/public/js/project.js:122 onedesk/www/order.html:56
+#: onedesk/www/rfq.html:50
 msgid "Item"
 msgstr ""
 
@@ -10980,11 +10985,11 @@ msgstr ""
 msgid "Matching mail is moved too"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:13
+#: onedesk/one_inventory/notifications.py:14
 msgid "Material Request Raised"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:26
+#: onedesk/one_inventory/notifications.py:47
 msgid "Material Request Received"
 msgstr ""
 
@@ -11484,6 +11489,14 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2783
 msgid "Needed Review"
+msgstr ""
+
+#: onedesk/one/portal.py:285
+msgid "Needed by"
+msgstr ""
+
+#: onedesk/www/rfq.html:62
+msgid "Needed by {0}"
 msgstr ""
 
 #. Label of the capability (Select) field in DocType 'AI Action'
@@ -12314,8 +12327,8 @@ msgstr ""
 msgid "Not Found"
 msgstr ""
 
-#: onedesk/www/message.html:11 onedesk/www/message.html:21
-#: onedesk/www/message.html:24
+#: onedesk/one/portal.py:347 onedesk/www/message.html:11
+#: onedesk/www/message.html:21 onedesk/www/message.html:24
 msgid "Not Permitted"
 msgstr ""
 
@@ -12520,6 +12533,10 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
 #: onedesk/public/js/settings.js:2277 onedesk/public/js/tenant.js:72
 msgid "Note"
+msgstr ""
+
+#: onedesk/www/rfq.html:92
+msgid "Notes"
 msgstr ""
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:46
@@ -14184,7 +14201,7 @@ msgid "Pages"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
-#: onedesk/one/portal.py:206 onedesk/one_admin/accounts.py:229
+#: onedesk/one/portal.py:242 onedesk/one_admin/accounts.py:229
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:90
@@ -15428,7 +15445,7 @@ msgstr ""
 msgid "Purchase Tax Templates"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:17
+#: onedesk/one_inventory/notifications.py:18
 msgid "Purchasing"
 msgstr ""
 
@@ -15489,6 +15506,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_add_on/tenant_add_on.json
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 #: onedesk/public/js/settings.js:1902 onedesk/www/order.html:57
+#: onedesk/www/rfq.html:51 onedesk/www/rfq.html:69 onedesk/www/rfq.html:70
 msgid "Quantity"
 msgstr ""
 
@@ -15516,8 +15534,20 @@ msgstr ""
 msgid "Quotation"
 msgstr ""
 
+#: onedesk/one_inventory/notifications.py:27
+msgid "Quote Received"
+msgstr ""
+
+#: onedesk/one_inventory/notifications.py:39
+msgid "Quote Request Sent"
+msgstr ""
+
 #: onedesk/one/portal.py:32
 msgid "Quote Requests"
+msgstr ""
+
+#: onedesk/one/portal.py:308 onedesk/templates/includes/transaction_row.html:12
+msgid "Quoted"
 msgstr ""
 
 #: onedesk/one/portal.py:32
@@ -15567,7 +15597,8 @@ msgstr ""
 msgid "Rank the applicants again"
 msgstr ""
 
-#: onedesk/www/order.html:58
+#: onedesk/www/order.html:58 onedesk/www/rfq.html:53 onedesk/www/rfq.html:74
+#: onedesk/www/rfq.html:75
 msgid "Rate"
 msgstr ""
 
@@ -16338,11 +16369,11 @@ msgstr ""
 msgid "Reorder"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:58
+#: onedesk/one_inventory/notifications.py:79
 msgid "Reordering Failed"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:18
+#: onedesk/one_inventory/notifications.py:19
 msgid "Reordering raised {request}"
 msgstr ""
 
@@ -16413,7 +16444,7 @@ msgstr ""
 msgid "Reports by Mail"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:44
+#: onedesk/one_inventory/notifications.py:65
 msgid "Reposting Failed"
 msgstr ""
 
@@ -17122,6 +17153,10 @@ msgstr ""
 msgid "Send Prompt"
 msgstr ""
 
+#: onedesk/www/rfq.html:31
+msgid "Send Quote"
+msgstr ""
+
 #: onedesk/public/js/settings.js:363
 msgid "Send Test"
 msgstr ""
@@ -17192,6 +17227,7 @@ msgstr ""
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
+#: onedesk/one/portal.py:121
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -17644,7 +17680,7 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
-#: onedesk/one/portal.py:188
+#: onedesk/one/portal.py:220 onedesk/one/portal.py:288
 msgid "Ship to"
 msgstr ""
 
@@ -18332,7 +18368,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:51
+#: onedesk/one_inventory/notifications.py:72
 msgid "Stock Account Wrong"
 msgstr ""
 
@@ -18374,8 +18410,8 @@ msgstr ""
 msgid "Stock is valued in the books"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:47
-#: onedesk/one_inventory/notifications.py:54
+#: onedesk/one_inventory/notifications.py:68
+#: onedesk/one_inventory/notifications.py:75
 msgid "Stock managers"
 msgstr ""
 
@@ -18622,7 +18658,7 @@ msgstr ""
 msgid "Submit {0} drafts?"
 msgstr ""
 
-#: onedesk/one/portal.py:213
+#: onedesk/one/portal.py:129
 msgid "Submitted"
 msgstr ""
 
@@ -18643,7 +18679,7 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: onedesk/one/portal.py:192
+#: onedesk/one/portal.py:224
 msgid "Subtotal"
 msgstr ""
 
@@ -19073,6 +19109,7 @@ msgid "Tenant Event"
 msgstr ""
 
 #: onedesk/one/print_recipes.py:202 onedesk/www/order.html:101
+#: onedesk/www/rfq.html:117
 msgid "Terms"
 msgstr ""
 
@@ -20044,7 +20081,7 @@ msgstr ""
 msgid "The revision and the hash of the text, as one_legal/assemble.py makes it."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:40
+#: onedesk/one_inventory/notifications.py:61
 msgid "The role Accounts Settings names"
 msgstr ""
 
@@ -20091,7 +20128,7 @@ msgstr ""
 msgid "The site stops serving. Data is retained."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:61
+#: onedesk/one_inventory/notifications.py:82
 msgid "The site's administrators"
 msgstr ""
 
@@ -20118,6 +20155,10 @@ msgstr ""
 #. Description of the 'Stripe Item' (Data) field in DocType 'Tenant Add-on'
 #: onedesk/one_admin/doctype/tenant_add_on/tenant_add_on.json
 msgid "The subscription item Stripe bills it on."
+msgstr ""
+
+#: onedesk/one_inventory/notifications.py:42
+msgid "The supplier's contact"
 msgstr ""
 
 #. Description of the 'Priced by Hand' (Check) field in DocType 'AI Model'
@@ -20673,7 +20714,8 @@ msgstr ""
 msgid "This request expired. Try again."
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1739 onedesk/www/r.html:27 onedesk/www/r.py:19
+#: onedesk/one/portal.py:350 onedesk/public/js/onecloud.js:1739
+#: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr ""
 
@@ -20934,9 +20976,13 @@ msgstr ""
 msgid "To or Cc Contains"
 msgstr ""
 
-#: onedesk/one/portal.py:208
+#: onedesk/one/portal.py:244
 #: onedesk/one_book/report/vat_return/vat_return.py:81
 msgid "To pay"
+msgstr ""
+
+#: onedesk/one/portal.py:308 onedesk/templates/includes/transaction_row.html:12
+msgid "To quote"
 msgstr ""
 
 #: onedesk/one_book/report/vat_return/vat_return.py:81
@@ -21048,12 +21094,12 @@ msgid "Top Preset"
 msgstr ""
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: onedesk/one/portal.py:55 onedesk/one/portal.py:201
+#: onedesk/one/portal.py:55 onedesk/one/portal.py:237
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:56
 #: onedesk/one_book/heads.py:316
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
-#: onedesk/one_intake/panel.py:138
+#: onedesk/one_intake/panel.py:138 onedesk/www/rfq.html:86
 msgid "Total"
 msgstr ""
 
@@ -21764,7 +21810,7 @@ msgstr ""
 msgid "Valid Until"
 msgstr ""
 
-#: onedesk/one/portal.py:158
+#: onedesk/one/portal.py:190
 msgid "Valid until"
 msgstr ""
 
@@ -22766,12 +22812,20 @@ msgstr ""
 msgid "When a published price takes over from the one before it."
 msgstr ""
 
+#: onedesk/one_inventory/notifications.py:41
+msgid "When a quote request is sent to a supplier, with the link to answer it."
+msgstr ""
+
 #: onedesk/one/notifications.py:28
 msgid "When a record reaches an approval step for one of your roles."
 msgstr ""
 
 #: onedesk/one_hr/notifications.py:70
 msgid "When a shift has check-ins but writes no attendance from them. At most once a week."
+msgstr ""
+
+#: onedesk/one_inventory/notifications.py:30
+msgid "When a supplier sends a quote for your request."
 msgstr ""
 
 #: onedesk/one_admin/notifications.py:246
@@ -22786,7 +22840,7 @@ msgstr ""
 msgid "When a training event you attend is scheduled."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:53
+#: onedesk/one_inventory/notifications.py:74
 msgid "When a warehouse's account is not a stock account, so stock and books disagree."
 msgstr ""
 
@@ -22990,7 +23044,7 @@ msgstr ""
 msgid "When it runs, as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:16
+#: onedesk/one_inventory/notifications.py:17
 msgid "When items fall to their reorder level and a material request is raised for them."
 msgstr ""
 
@@ -23036,7 +23090,7 @@ msgstr ""
 msgid "When payment for the workspace is overdue, with the day it will be suspended."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:60
+#: onedesk/one_inventory/notifications.py:81
 msgid "When reordering cannot raise a material request."
 msgstr ""
 
@@ -23140,7 +23194,7 @@ msgstr ""
 msgid "When someone who isn't a user makes a request on the Your Data page."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:46
+#: onedesk/one_inventory/notifications.py:67
 msgid "When stock values cannot be recalculated after a back-dated entry."
 msgstr ""
 
@@ -23181,7 +23235,7 @@ msgstr ""
 msgid "When the nightly job cannot allocate earned leave."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:39
+#: onedesk/one_inventory/notifications.py:60
 msgid "When the nightly job cannot post depreciation."
 msgstr ""
 
@@ -23217,7 +23271,7 @@ msgstr ""
 msgid "When this shift runs, read from the Shift Type."
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:28
+#: onedesk/one_inventory/notifications.py:49
 msgid "When what your material request asked for is received."
 msgstr ""
 
@@ -23595,7 +23649,8 @@ msgstr ""
 msgid "Whoever made it and everybody invited"
 msgstr ""
 
-#: onedesk/one_inventory/notifications.py:29
+#: onedesk/one_inventory/notifications.py:31
+#: onedesk/one_inventory/notifications.py:50
 msgid "Whoever made the request"
 msgstr ""
 
@@ -24457,6 +24512,10 @@ msgstr ""
 msgid "Your Password"
 msgstr ""
 
+#: onedesk/www/rfq.html:99
+msgid "Your Quotes"
+msgstr ""
+
 #: onedesk/one/notifications.py:193
 msgid "Your Request Is On Hold"
 msgstr ""
@@ -24593,7 +24652,7 @@ msgstr ""
 msgid "Your profile"
 msgstr ""
 
-#: onedesk/one/portal.py:162 onedesk/one/portal.py:163
+#: onedesk/one/portal.py:194 onedesk/one/portal.py:195
 msgid "Your reference"
 msgstr ""
 
@@ -27504,6 +27563,10 @@ msgstr ""
 msgid "{subject}"
 msgstr ""
 
+#: onedesk/one_inventory/notifications.py:32
+msgid "{supplier} sent a quote for {request}"
+msgstr ""
+
 #: onedesk/one_task/notifications.py:38
 msgid "{tasks}"
 msgstr ""
@@ -27522,6 +27585,10 @@ msgstr ""
 
 #: onedesk/one/print_props.py:214
 msgid "{top, right, bottom, left} in pixels"
+msgstr ""
+
+#: onedesk/one_inventory/notifications.py:33
+msgid "{total} for {items}."
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:194
