@@ -1,6 +1,5 @@
 // Frappe's Settings dialog for a doctype (frappe/public/js/frappe/form/doctype_settings/),
 // opened for a workspace administrator from One's own menu item, beside Customize.
-// docs/DESK-COVERAGE.md.
 //
 // Frappe offers its item only to whoever may create a Custom Field and a Property
 // Setter, which a workspace administrator is never given (the Customize page writes
@@ -43,8 +42,8 @@ onedesk.doctype_settings.open = (doctype, tab = null, closed = null) =>
 // and opens them in Workspace › Notifications, the one place a rule is written
 // (one/rules.py). Frappe's tab opens frappe's Notification form, whose rail is
 // frappe's; this is the same list, frappe's list panel, pointed at ours.
-// The tabs a workspace administrator is given, as each is opened to workspaces
-// (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
+// The tabs a workspace administrator is given, as each is opened to workspaces.
+// Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
 onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow", "automations", "access"];

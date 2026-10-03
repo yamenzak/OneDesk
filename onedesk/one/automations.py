@@ -1,6 +1,5 @@
 """Automations: what happens by itself when a record is made, changed or
-reaches a date, for a workspace's administrators. docs/DESK-COVERAGE.md,
-stage 6.
+reaches a date, for a workspace's administrators.
 
 An automation is frappe's own Automation Flow: a trigger, the records it
 matches, and steps (set a field, make a record, notify, assign, call a

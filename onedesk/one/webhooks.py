@@ -1,5 +1,5 @@
 """Webhooks: tell another system when a record is made or changed, for a
-workspace's administrators. docs/DESK-COVERAGE.md, P2 Integrations.
+workspace's administrators.
 
 A webhook is frappe's own Webhook: a kind of record, an event, an address,
 and what to send. The workspace administrator is given it and its Webhook

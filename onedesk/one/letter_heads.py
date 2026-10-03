@@ -1,4 +1,4 @@
-"""A letter head's top and foot, drawn from the company. docs/DESK-COVERAGE.md, stage 3.
+"""A letter head's top and foot, drawn from the company.
 
 frappe keeps a letter head's top as HTML, and ERPNext's own reads the
 company's logo, name, address and contacts from the document as it prints. A

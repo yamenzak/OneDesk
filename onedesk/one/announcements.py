@@ -1,5 +1,5 @@
 """Announcements: a message to everybody in the workspace, from its
-administrators. docs/DESK-COVERAGE.md, P3.
+administrators.
 
 An announcement is frappe's own Note, made public and shown on sign-in:
 frappe pops it up for each person the next time they sign in, once or on

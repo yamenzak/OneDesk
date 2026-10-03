@@ -1,5 +1,5 @@
 """Approvals: the states a workspace's records move through, and who moves
-them, for its administrators. docs/DESK-COVERAGE.md, stage 5.
+them, for its administrators.
 
 An approval is frappe's own Workflow: its states, the actions between them,
 and the role each action is for, drawn in frappe's workflow builder. The

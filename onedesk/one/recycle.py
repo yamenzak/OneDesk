@@ -1,4 +1,4 @@
-"""The Recycle Bin: what was deleted, and putting it back. docs/DESK-COVERAGE.md, P2.
+"""The Recycle Bin: what was deleted, and putting it back.
 
 Every record frappe deletes is kept whole as a `Deleted Document`, and frappe
 puts one back with its own `restore`. Both are its System Manager's, whom no

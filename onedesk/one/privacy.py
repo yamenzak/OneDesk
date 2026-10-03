@@ -1,5 +1,4 @@
 """Privacy Requests: a copy of your data, and your account deleted.
-docs/DESK-COVERAGE.md, P2.
 
 Frappe has both: a `Personal Data Download Request` that gathers what a person
 left across the workspace (the `user_data_fields` hooks) into one file, and a

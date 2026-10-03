@@ -1,5 +1,5 @@
 """Mail templates: the words a workspace sends again and again, for its
-administrators. docs/DESK-COVERAGE.md, stage 4.
+administrators.
 
 A template is frappe's own Email Template: a subject and a message, for one
 kind of record or for any, picked in the mail composer or named by a setting

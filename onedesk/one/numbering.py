@@ -8,7 +8,7 @@ setters itself). So the workspace administrator is not given that Single.
 These are the doors instead, each guarded to a doctype the workspace may
 change and its administrator may read, and each calling frappe's own logic:
 `update_series` validates a series and refuses one another doctype uses,
-`NamingSeries` previews and counts. docs/DESK-COVERAGE.md, stage 2.
+`NamingSeries` previews and counts.
 
 The one thing frappe lets its System Managers do that this does not: set a
 series' next number lower. Going down repeats a number already used, and the

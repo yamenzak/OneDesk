@@ -15,8 +15,8 @@ rest of **OneAdmin**.
 
 ## Frappe that One does not reach yet (P3)
 
-Small, or for some customers. Each row in `docs/DESK-COVERAGE.md` says the
-same in a line.
+Small, or for some customers. Every other doctype frappe ships is reached in
+One, runs underneath, or is the platform's.
 
 - **A Lists page** for Salutation, Gender, Address Template and Print Heading
   (Tax Invoice, Proforma): small lists only reachable through a field today.

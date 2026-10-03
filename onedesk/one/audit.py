@@ -1,5 +1,5 @@
 """The Audit Log: who changed what, who signed in, and what left the workspace
-as a file. docs/DESK-COVERAGE.md, P2.
+as a file.
 
 Frappe already writes all three: a `Version` for every change to a record that
 tracks its changes, an `Activity Log` for every sign-in and sign-out (failed

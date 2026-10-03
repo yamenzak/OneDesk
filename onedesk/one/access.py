@@ -1,5 +1,4 @@
 """Access: who sees and does what, past the app levels People sets.
-docs/DESK-COVERAGE.md, P2.
 
 People gives each person None, User or Manager on each app that is somebody's
 job (one/settings.py APPS), and those are erpnext's own roles. Access adds four

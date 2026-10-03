@@ -1,5 +1,4 @@
 """Reports and dashboards: what a workspace keeps of its own over its records.
-docs/DESK-COVERAGE.md, P2.
 
 Three things, each frappe's own:
 

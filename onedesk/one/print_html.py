@@ -1,5 +1,5 @@
 """HTML on a workspace's printed page: a builder's HTML block, and a letter
-head whose top or foot is written in HTML. docs/DESK-COVERAGE.md, stage 3.
+head whose top or foot is written in HTML.
 
 A printed page is drawn on this site's address, where a script runs as
 whoever opens it, and a PDF is drawn by a browser on the server, which fetches

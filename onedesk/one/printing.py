@@ -1,5 +1,4 @@
 """Printing: how a workspace's documents look on paper, for its administrators.
-docs/DESK-COVERAGE.md, stage 3.
 
 The formats are frappe's own: Print Format made in frappe's print format
 builder, and Letter Head. The workspace administrator is given both, and the
