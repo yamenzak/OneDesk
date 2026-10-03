@@ -6128,9 +6128,11 @@ not creative".
   desk's not found and no access (`templates/includes/one_lost.html`,
   `css/lost.css`, `outside.js`). It is centred on the page, with One's ring
   as the 0 of 404 and 500, turning, with the products' colours in orbit.
-  The ring's core shows a faint "1" on a 404, the "1" knocked over on a 500,
-  a lock for no access, a tick for a message that went well, and One's
-  mark for any other message.
+  Your word: "Maybe the 1 in our one logo can become 0 for 500 and 404 and
+  make the entire logo the size of the font's 0". So on a code its 1 is a
+  0, and the whole mark is the height of the digits, on their line. Without
+  a code its core shows a lock for no access, a tick for a message that
+  went well, and the 1 for any other message.
 - **Fixed**: the words. "Page not found" with "The link may be broken, or
   the page has moved.", Go Back and Go Home. "Something went wrong" with
   "Try again in a moment.", Try Again and Go Home. Frappe said "Server

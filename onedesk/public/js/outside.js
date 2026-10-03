@@ -209,11 +209,12 @@ onedesk.outside.lost = ({ code = "", core = "one" }) => {
 	const digit = (d) => (code ? `<span class="one-lost__digit">${d}</span>` : "");
 	const mark = {
 		lock: `<g transform="translate(96 98) scale(2.4) translate(-12 -12)" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g>`,
+		zero: `<ellipse cx="96" cy="96" rx="14" ry="25" stroke-width="12"/>`,
 		check: `<path d="M74 97l15 15 30-32" stroke-width="12"/>`,
 	}[core] || `<path d="M86 78l10-8v52M84 122h24" stroke-width="12"/>`;
 	return `<div class="one-lost__art" aria-hidden="true">${digit(code[0])}<span class="one-lost__ring">
 		<span class="one-lost__orbit"><i></i><i></i><i></i><i></i></span>
-		<svg viewBox="0 0 192 192" fill="none"><defs>
+		<svg viewBox="19 19 154 154" fill="none"><defs>
 			<linearGradient id="${id}-band" x1="28" y1="28" x2="164" y2="164" gradientUnits="userSpaceOnUse">
 				<stop offset="0" stop-color="#38BDF8"/><stop offset=".35" stop-color="#E11D48"/>
 				<stop offset=".68" stop-color="#FBBF24"/><stop offset="1" stop-color="#10B981"/></linearGradient>
@@ -249,7 +250,7 @@ if (frappe.boot.one_elsewhere) {
 	frappe.show_not_found = (page_name) =>
 		draw(page_name, {
 			code: "404",
-			core: "ghost",
+			core: "zero",
 			title: __("Page not found"),
 			line: __("The link may be broken, or the page has moved."),
 		});

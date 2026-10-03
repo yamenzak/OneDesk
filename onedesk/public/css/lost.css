@@ -1,7 +1,7 @@
 /* A page that is not where somebody meant to be: 404, 500, a message, and the
- * desk's not found and no access. One's ring stands in for the 0 of the code,
- * turning, with the products' colours in orbit; what sits in its core says the
- * rest (templates/includes/one_lost.html, public/js/outside.js).
+ * desk's not found and no access. One's mark stands in for the 0 of the code,
+ * its 1 a 0 and the whole of it the height of the digits beside it, turning,
+ * with the products' colours in orbit. Without a code, its core says the rest (templates/includes/one_lost.html, public/js/outside.js).
  *
  * The web pages take their colours from .one-portal (portal.css), the desk's
  * from espresso, under the same names. */
@@ -30,7 +30,7 @@
 .one-lost__art {
 	position: relative;
 	display: flex;
-	align-items: center;
+	align-items: baseline;
 	justify-content: center;
 	gap: 0.06em;
 	margin-bottom: 44px;
@@ -64,10 +64,12 @@
 .one-lost__ring {
 	position: relative;
 	flex: none;
-	width: 0.84em;
-	height: 0.84em;
-	margin: 0 0.04em;
-	animation: one-lost-bob 6s ease-in-out infinite;
+	/* As tall as a digit, sitting on the same line. */
+	width: 0.73em;
+	height: 0.73em;
+	width: 1cap;
+	height: 1cap;
+	margin: 0 0.08em;
 }
 
 .one-lost__ring svg {
@@ -83,17 +85,6 @@
 	animation: one-lost-turn 12s linear infinite;
 }
 
-/* 404: the one that should be here, only its outline. */
-.one-lost__core--ghost {
-	animation: one-lost-ghost 3s ease-in-out infinite;
-}
-
-/* 500: the one, knocked over and still rocking. */
-.one-lost__core--fallen {
-	transform-origin: 96px 96px;
-	animation: one-lost-rock 2.4s ease-in-out infinite;
-}
-
 .one-lost__core--check {
 	stroke-dasharray: 80;
 	stroke-dashoffset: 80;
@@ -102,7 +93,7 @@
 
 .one-lost__orbit {
 	position: absolute;
-	inset: -16%;
+	inset: -11%;
 	animation: one-lost-turn 9s linear infinite reverse;
 }
 
@@ -161,34 +152,14 @@
 	to { transform: rotate(360deg); }
 }
 
-@keyframes one-lost-bob {
-	0%, 100% { transform: translateY(0); }
-	50% { transform: translateY(-0.04em); }
-}
-
-@keyframes one-lost-ghost {
-	0%, 100% { opacity: 0.12; }
-	50% { opacity: 0.4; }
-}
-
-@keyframes one-lost-rock {
-	0%, 100% { transform: rotate(84deg); }
-	50% { transform: rotate(96deg); }
-}
-
 @keyframes one-lost-draw {
 	to { stroke-dashoffset: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.one-lost__ring,
 	.one-lost__band,
-	.one-lost__orbit,
-	.one-lost__core--ghost,
-	.one-lost__core--fallen {
+	.one-lost__orbit {
 		animation: none;
 	}
-	.one-lost__core--ghost { opacity: 0.25; }
-	.one-lost__core--fallen { transform: rotate(90deg); }
 	.one-lost__core--check { animation: none; stroke-dashoffset: 0; }
 }
