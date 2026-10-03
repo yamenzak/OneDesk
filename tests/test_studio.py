@@ -539,3 +539,11 @@ def test_custom_fields_is_frappes_list_of_what_the_ledger_holds():
 	).items()
 	head = (tree.APP / "public" / "js" / "head.js").read_text()
 	assert 'frappe.set_route("List", "Workspace Field", { form: frm.doctype })' in head
+
+
+def test_an_extension_is_added_by_asking_oneai():
+	"""The Extensions list's Add asks OneAI, as Custom Fields' does: an
+	extension is never made by hand."""
+	listed = (STUDIO / "doctype" / "extension" / "extension_list.js").read_text()
+	assert '__("Add Extension")' in listed and "onedesk.oneai.open(" in listed
+	assert json.loads((STUDIO / "doctype" / "extension" / "extension.json").read_text())["in_create"] == 1

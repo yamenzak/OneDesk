@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 08:47+0000\n"
-"PO-Revision-Date: 2026-10-03 08:47+0000\n"
+"POT-Creation-Date: 2026-10-03 09:33+0000\n"
+"PO-Revision-Date: 2026-10-03 09:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1148,6 +1148,10 @@ msgstr "إضافة حساب بنكي"
 #: onedesk/public/js/settings.js:2420 onedesk/public/js/settings.js:2536
 msgid "Add Domain"
 msgstr "إضافة نطاق"
+
+#: onedesk/one_studio/doctype/extension/extension_list.js:21
+msgid "Add Extension"
+msgstr "إضافة جديدة"
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 msgid "Add Field"
@@ -2320,12 +2324,12 @@ msgstr "اسأل الشخص الذي دعاك."
 msgid "Ask the sender for a new one."
 msgstr "اطلب رابطًا جديدًا من المرسل."
 
-#: onedesk/public/js/oneai.js:129 onedesk/public/js/oneai.js:130
+#: onedesk/public/js/oneai.js:132 onedesk/public/js/oneai.js:133
 #: onedesk/public/js/oneai/Panel.vue:180
 msgid "Ask {0}"
 msgstr "اسأل {0}"
 
-#: onedesk/public/js/oneai.js:234
+#: onedesk/public/js/oneai.js:237
 msgid "Ask {0} about this"
 msgstr "اسأل {0} عن هذا"
 
@@ -8513,6 +8517,10 @@ msgstr "أحتاج خطابًا من الموارد البشرية — شهاد�
 msgid "I understand everything in it will be deleted"
 msgstr "أفهم أن كل ما فيها سيُحذف"
 
+#: onedesk/one_studio/doctype/extension/extension_list.js:22
+msgid "I want a new extension."
+msgstr "أريد إضافة جديدة."
+
 #: onedesk/one_studio/ai.py:51
 msgid "I want to add a field to "
 msgstr "أريد إضافة حقل إلى "
@@ -10981,7 +10989,7 @@ msgstr "دمج في {0}"
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:547
-#: onedesk/public/js/doctype_settings.js:548 onedesk/public/js/oneai.js:448
+#: onedesk/public/js/doctype_settings.js:548 onedesk/public/js/oneai.js:451
 #: onedesk/public/js/onecloud.js:1642 onedesk/public/js/onemail.js:574
 #: onedesk/public/js/onemail.js:930 onedesk/public/js/settings.js:3149
 #: onedesk/public/js/settings.js:3269
@@ -12733,7 +12741,7 @@ msgstr "المعروض للبيع"
 
 #. Option for the 'Runs' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/one_studio/doctype/extension/extension_list.js:19
+#: onedesk/one_studio/doctype/extension/extension_list.js:31
 msgid "On Screen"
 msgstr "على الشاشة"
 
@@ -16508,7 +16516,7 @@ msgstr "أعد كتابة هذا الإشعار"
 msgid "Rewrite with OneAI"
 msgstr "أعد الكتابة مع OneAI"
 
-#: onedesk/public/js/oneai.js:302
+#: onedesk/public/js/oneai.js:305
 msgid "Rewrite with {0}"
 msgstr "إعادة الكتابة باستخدام {0}"
 
@@ -21779,7 +21787,7 @@ msgstr "كان"
 msgid "Was Due"
 msgstr "كان مستحقًا"
 
-#: onedesk/public/js/oneai.js:259
+#: onedesk/public/js/oneai.js:262
 msgid "Was {0}"
 msgstr "كان {0}"
 
@@ -22046,7 +22054,7 @@ msgstr "ما الذي حدث عندما يُرسل هذا."
 msgid "What have I agreed to?"
 msgstr "على ماذا وافقت؟"
 
-#: onedesk/public/js/oneai.js:243
+#: onedesk/public/js/oneai.js:246
 msgid "What is \"{0}\" in {1} for? Suggest a value."
 msgstr "ما الغرض من «{0}» في {1}؟ اقترح قيمة."
 
@@ -23880,7 +23888,7 @@ msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المت�
 msgid "Write up a call"
 msgstr "سجّل مكالمة"
 
-#: onedesk/public/js/oneai.js:302 onedesk/public/js/oneai.js:428
+#: onedesk/public/js/oneai.js:305 onedesk/public/js/oneai.js:431
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
@@ -23934,7 +23942,7 @@ msgstr "يُكتب من الإعدادات، الإشعارات. يُرسل إل
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نموذج مُسعَّر يدوياً."
 
-#: onedesk/public/js/oneai.js:308
+#: onedesk/public/js/oneai.js:311
 msgid "Written by {0}"
 msgstr "كتبه {0}"
 
@@ -26331,7 +26339,7 @@ msgstr "تبقى {0}، أي نحو ثلاثة أيام بمعدل استخدام
 msgid "{0} links to {1}, which is not a kind of record you may open."
 msgstr "{0} يرتبط بـ {1}، وهو ليس نوع سجل يمكنك فتحه."
 
-#: onedesk/public/js/oneai.js:55
+#: onedesk/public/js/oneai.js:59
 msgid "{0} list"
 msgstr "قائمة {0}"
 

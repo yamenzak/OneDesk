@@ -12,6 +12,18 @@ frappe.listview_settings["Extension"] = {
 			return [__("Cannot Run Here"), "orange", "runs,=,On Server"];
 		return [__("Off"), "gray", "enabled,=,0"];
 	},
+	// An extension is never made by hand: Add Extension asks OneAI, which
+	// asks what it should do and writes it, as Add Field does on Custom Fields.
+	onload(list) {
+		if (!frappe.user.has_role("Workspace Administrator")) return;
+		list.set_primary_action = () =>
+			list.page.set_primary_action(
+				__("Add Extension"),
+				() => onedesk.oneai.open({ ask: __("I want a new extension.") }),
+				"plus",
+			);
+		list.set_primary_action();
+	},
 	formatters: {
 		// When: the event on the server, the form or the list on the screen,
 		// which also says where it runs. A screen one's event is frappe's

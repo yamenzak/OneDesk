@@ -5946,6 +5946,11 @@ fields is weird and pointless."
   Fields, not "Workspace Field list").
 - One's Customizing a Form and OneStudio's Custom Fields docs say the same.
 
+**Your word, after: Add on Extensions too.** The Extensions list gets
+**Add Extension**, for workspace administrators, which opens OneAI with "I
+want a new extension." as Add Field does on Custom Fields. A row still opens
+the extension's page: its code, review, Errors tab and Turn On live there.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

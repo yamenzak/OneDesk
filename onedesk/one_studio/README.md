@@ -26,8 +26,8 @@ An extension makes a form do something it did not: refuse to save a customer
 without a mobile number, fill in a field from another, warn when a discount is
 over a limit, hide a field until another is ticked.
 
-**Asking for one.** Open OneAI from Extensions and press **Write an
-extension…**, or just say what you want: "Stop an invoice being saved
+**Asking for one.** Click **Add Extension** and tell OneAI what you need, or
+just say it in OneAI anywhere: "Stop an invoice being saved
 without a purchase order number." OneAI writes it, a second check reads what
 it wrote against what it says it does, and you get a card saying what it
 does. **Approve** turns it on. Nothing runs before that.

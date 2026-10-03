@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 08:47+0000\n"
-"PO-Revision-Date: 2026-10-03 08:47+0000\n"
+"POT-Creation-Date: 2026-10-03 09:33+0000\n"
+"PO-Revision-Date: 2026-10-03 09:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1148,6 +1148,10 @@ msgstr "Bankkonto hinzufügen"
 #: onedesk/public/js/settings.js:2420 onedesk/public/js/settings.js:2536
 msgid "Add Domain"
 msgstr "Domain hinzufügen"
+
+#: onedesk/one_studio/doctype/extension/extension_list.js:21
+msgid "Add Extension"
+msgstr "Erweiterung hinzufügen"
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 msgid "Add Field"
@@ -2320,12 +2324,12 @@ msgstr "Fragen Sie die Person, die Sie eingeladen hat."
 msgid "Ask the sender for a new one."
 msgstr "Bitten Sie den Absender um einen neuen."
 
-#: onedesk/public/js/oneai.js:129 onedesk/public/js/oneai.js:130
+#: onedesk/public/js/oneai.js:132 onedesk/public/js/oneai.js:133
 #: onedesk/public/js/oneai/Panel.vue:180
 msgid "Ask {0}"
 msgstr "{0} fragen"
 
-#: onedesk/public/js/oneai.js:234
+#: onedesk/public/js/oneai.js:237
 msgid "Ask {0} about this"
 msgstr "{0} dazu fragen"
 
@@ -8513,6 +8517,10 @@ msgstr "Ich brauche einen Brief von HR – eine Gehaltsbescheinigung, ein Arbeit
 msgid "I understand everything in it will be deleted"
 msgstr "Ich verstehe, dass alles darin gelöscht wird"
 
+#: onedesk/one_studio/doctype/extension/extension_list.js:22
+msgid "I want a new extension."
+msgstr "Ich möchte eine neue Erweiterung."
+
 #: onedesk/one_studio/ai.py:51
 msgid "I want to add a field to "
 msgstr "Ich möchte ein Feld hinzufügen zu "
@@ -10981,7 +10989,7 @@ msgstr "Mit {0} zusammenführen"
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:547
-#: onedesk/public/js/doctype_settings.js:548 onedesk/public/js/oneai.js:448
+#: onedesk/public/js/doctype_settings.js:548 onedesk/public/js/oneai.js:451
 #: onedesk/public/js/onecloud.js:1642 onedesk/public/js/onemail.js:574
 #: onedesk/public/js/onemail.js:930 onedesk/public/js/settings.js:3149
 #: onedesk/public/js/settings.js:3269
@@ -12733,7 +12741,7 @@ msgstr "Im Angebot"
 
 #. Option for the 'Runs' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/one_studio/doctype/extension/extension_list.js:19
+#: onedesk/one_studio/doctype/extension/extension_list.js:31
 msgid "On Screen"
 msgstr "Auf dem Bildschirm"
 
@@ -16508,7 +16516,7 @@ msgstr "Diese Benachrichtigung umformulieren"
 msgid "Rewrite with OneAI"
 msgstr "Mit OneAI umformulieren"
 
-#: onedesk/public/js/oneai.js:302
+#: onedesk/public/js/oneai.js:305
 msgid "Rewrite with {0}"
 msgstr "Mit {0} neu schreiben"
 
@@ -21779,7 +21787,7 @@ msgstr "War"
 msgid "Was Due"
 msgstr "War fällig"
 
-#: onedesk/public/js/oneai.js:259
+#: onedesk/public/js/oneai.js:262
 msgid "Was {0}"
 msgstr "War {0}"
 
@@ -22046,7 +22054,7 @@ msgstr "Was passiert ist, wenn dies gesendet wird."
 msgid "What have I agreed to?"
 msgstr "Wozu habe ich zugestimmt?"
 
-#: onedesk/public/js/oneai.js:243
+#: onedesk/public/js/oneai.js:246
 msgid "What is \"{0}\" in {1} for? Suggest a value."
 msgstr "Wofür ist „{0}“ in {1}? Schlage einen Wert vor."
 
@@ -23880,7 +23888,7 @@ msgstr "Schreibe die Beschreibung dieser Stelle und was eine starke Bewerbung mi
 msgid "Write up a call"
 msgstr "Anruf festhalten"
 
-#: onedesk/public/js/oneai.js:302 onedesk/public/js/oneai.js:428
+#: onedesk/public/js/oneai.js:305 onedesk/public/js/oneai.js:431
 msgid "Write with {0}"
 msgstr "Mit {0} schreiben"
 
@@ -23934,7 +23942,7 @@ msgstr "Wird von Einstellungen, Benachrichtigungen geschrieben. Geht an die Ger�
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "Vom Abgleich geschrieben. Nur bei einem von Hand bepreisten Modell änderbar."
 
-#: onedesk/public/js/oneai.js:308
+#: onedesk/public/js/oneai.js:311
 msgid "Written by {0}"
 msgstr "Geschrieben von {0}"
 
@@ -26331,7 +26339,7 @@ msgstr "{0} übrig, etwa drei Tage beim jetzigen Verbrauch des Arbeitsbereichs."
 msgid "{0} links to {1}, which is not a kind of record you may open."
 msgstr "{0} verweist auf {1}, eine Datensatzart, die Sie nicht öffnen dürfen."
 
-#: onedesk/public/js/oneai.js:55
+#: onedesk/public/js/oneai.js:59
 msgid "{0} list"
 msgstr "{0}-Liste"
 
