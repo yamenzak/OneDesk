@@ -37,6 +37,7 @@ def settle() -> None:
 	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
 
 	roles.grant(GRANTS)
+	_titles()
 	where = {"parent": "Deleted Document", "role": "Desk User", "permlevel": 0, "if_owner": 0}
 	if frappe.db.get_value("Custom DocPerm", where, "read"):
 		return
@@ -44,6 +45,51 @@ def settle() -> None:
 	if not frappe.db.exists("Custom DocPerm", where):
 		add_permission("Deleted Document", "Desk User", 0)
 	update_permission_property("Deleted Document", "Desk User", 0, "read", 1, validate=False)
+
+
+def _title(doctype: str, doc) -> str:
+	"""What a deleted record is called in the bin: its title, a custom field's
+	label (the list adds its form), or its name."""
+	if doctype == "Custom Field":
+		return doc.get("label") or doc.get("name") or ""
+	meta = frappe.get_meta(doctype) if frappe.db.exists("DocType", doctype) else None
+	field = meta.get_title_field() if meta else None
+	return str((field and doc.get(field)) or doc.get("name") or "")[:140]
+
+
+def titled(doc, method=None) -> None:
+	"""on_trash: frappe writes the Deleted Document after every hook and with
+	none of its own, so its title is set just before the transaction commits.
+	The bin then lists a record by its title, not its ID."""
+	if doc.doctype == "Deleted Document" or not frappe.get_meta("Deleted Document").has_field("one_title"):
+		return
+	title = _title(doc.doctype, doc)
+	frappe.db.before_commit.add(
+		lambda: frappe.db.set_value(
+			"Deleted Document",
+			{"deleted_doctype": doc.doctype, "deleted_name": doc.name, "one_title": ("is", "not set")},
+			"one_title",
+			title,
+			update_modified=False,
+		)
+	)
+
+
+def _titles() -> None:
+	"""What was deleted before the bin kept titles, given one from what it kept."""
+	if not frappe.get_meta("Deleted Document").has_field("one_title"):
+		return
+	for row in frappe.get_all(
+		"Deleted Document",
+		filters={"one_title": ("is", "not set")},
+		fields=["name", "deleted_doctype", "deleted_name", "data"],
+	):
+		try:
+			kept = json.loads(row.data or "{}")
+		except ValueError:
+			kept = {}
+		title = _title(row.deleted_doctype, frappe._dict(kept)) or row.deleted_name
+		frappe.db.set_value("Deleted Document", row.name, "one_title", title, update_modified=False)
 
 
 def _trusted(user: str) -> bool:

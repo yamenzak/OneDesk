@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 11:12+0000\n"
-"PO-Revision-Date: 2026-10-03 11:12+0000\n"
+"POT-Creation-Date: 2026-10-03 11:27+0000\n"
+"PO-Revision-Date: 2026-10-03 11:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -4917,7 +4917,7 @@ msgstr "حالياً"
 msgid "Custom"
 msgstr "مخصص"
 
-#: onedesk/public/js/deleted_document_list.js:13
+#: onedesk/public/js/deleted_document_list.js:15
 msgid "Custom Collection"
 msgstr "مجموعة مخصصة"
 
@@ -5440,7 +5440,7 @@ msgstr "حذف {0}؟ سيؤدي ذلك إلى إزالة صلاحياته."
 
 #. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/public/js/deleted_document_list.js:15
+#: onedesk/public/js/deleted_document_list.js:17
 #: onedesk/public/js/onecloud.js:649
 #: onedesk/public/js/privacy_request_list.js:12
 msgid "Deleted"
@@ -9290,7 +9290,7 @@ msgstr "لم تعد تعمل على {kind}. {explanation}"
 msgid "It was at {was}."
 msgstr "كانت في {was}."
 
-#: onedesk/one/recycle.py:156
+#: onedesk/one/recycle.py:202
 msgid "It was cancelled, so it comes back as a draft."
 msgstr "كان ملغى، لذلك يعود كمسودة."
 
@@ -15945,7 +15945,7 @@ msgstr "متكرر"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_storage/namespace.py:395
-#: onedesk/public/js/deleted_document_list.js:17
+#: onedesk/public/js/deleted_document_list.js:19
 msgid "Recycle Bin"
 msgstr "سلة المحذوفات"
 
@@ -16436,7 +16436,7 @@ msgstr "تاريخ الاستقالة مضافًا إليه فترة الإشع�
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:615 onedesk/public/js/deleted_document.js:5
 #: onedesk/public/js/deleted_document.js:7
-#: onedesk/public/js/deleted_document_list.js:18
+#: onedesk/public/js/deleted_document_list.js:20
 #: onedesk/public/js/onecloud.js:107 onedesk/public/js/onecloud.js:741
 #: onedesk/public/js/onecloud.js:1903
 msgid "Restore"
@@ -16444,7 +16444,7 @@ msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/deleted_document_list.js:15
+#: onedesk/public/js/deleted_document_list.js:17
 msgid "Restored"
 msgstr "مستعاد"
 
@@ -20706,12 +20706,14 @@ msgstr "مرات الفتح"
 msgid "Timesheet"
 msgstr ""
 
+#. Label of the one_title (Data) field in DocType 'Deleted Document'
 #. Label of the title (Data) field in DocType 'AI Chat'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
 #. Label of the title (Data) field in DocType 'Reading'
 #. Label of the title (Data) field in DocType 'Legal Document Version'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #. Label of the title (Data) field in DocType 'Extension'
+#: onedesk/one/custom/deleted_document.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_intake/bundle.py:83
@@ -24122,7 +24124,7 @@ msgstr "لا يمكنك فتح {0}."
 msgid "You can't share {0}."
 msgstr "لا يمكنك مشاركة {0}."
 
-#: onedesk/one/recycle.py:145
+#: onedesk/one/recycle.py:191
 msgid "You cannot make a {0}, so you cannot put one back."
 msgstr "لا يمكنك إنشاء {0}، لذلك لا يمكنك استعادته."
 
@@ -24137,7 +24139,7 @@ msgstr "لا يمكنك فتح هذا السجل."
 #: onedesk/one/approvals.py:82 onedesk/one/automations.py:77
 #: onedesk/one/customize.py:93 onedesk/one/mail_templates.py:145
 #: onedesk/one/numbering.py:74 onedesk/one/printing.py:99
-#: onedesk/one/recycle.py:128 onedesk/one/recycle.py:149
+#: onedesk/one/recycle.py:174 onedesk/one/recycle.py:195
 #: onedesk/one/reports.py:91 onedesk/one/reports.py:94
 #: onedesk/one/reports.py:104
 msgid "You cannot open {0}."
@@ -25138,7 +25140,7 @@ msgstr "استعاده من سلة المحذوفات"
 msgid "restored version {0}"
 msgstr "استعاد الإصدار {0}"
 
-#: onedesk/one/recycle.py:164
+#: onedesk/one/recycle.py:210
 msgid "restored {0} as {1}"
 msgstr ""
 
@@ -25714,7 +25716,7 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — و�
 msgid "{0} could not be registered; each says why on its page."
 msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في صفحته."
 
-#: onedesk/public/js/deleted_document_list.js:25
+#: onedesk/public/js/deleted_document_list.js:27
 msgid "{0} couldn't be restored."
 msgstr "تعذّرت استعادة {0}."
 
@@ -26078,11 +26080,11 @@ msgstr "{0} هو الافتراضي بالفعل لـ{1}."
 msgid "{0} is already under {1}, so it cannot be its parent."
 msgstr "{0} يقع بالفعل تحت {1}، لذا لا يمكن أن يكون أصله."
 
-#: onedesk/one/recycle.py:131
+#: onedesk/one/recycle.py:177
 msgid "{0} is back already."
 msgstr "{0} مستعاد بالفعل."
 
-#: onedesk/one/recycle.py:141 onedesk/one/recycle.py:170
+#: onedesk/one/recycle.py:187 onedesk/one/recycle.py:216
 msgid "{0} is back."
 msgstr "تمت استعادة {0}."
 
@@ -26527,7 +26529,7 @@ msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
 #: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:549
-#: onedesk/public/js/deleted_document_list.js:11 onedesk/public/js/push.js:47
+#: onedesk/public/js/deleted_document_list.js:13 onedesk/public/js/push.js:47
 #: onedesk/public/js/settings.js:1525
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
@@ -26592,7 +26594,7 @@ msgstr "تم إعداد {0} أوامر شراء كمسودات."
 msgid "{0} reset"
 msgstr "أُعيد تعيين {0}"
 
-#: onedesk/public/js/deleted_document_list.js:23
+#: onedesk/public/js/deleted_document_list.js:25
 msgid "{0} restored."
 msgstr "تمت استعادة {0}."
 
@@ -26714,7 +26716,7 @@ msgstr "أخذ شخص آخر {0} بعد التخلي عن هذا التسجيل.
 msgid "{0} weeks"
 msgstr "{0} أسابيع"
 
-#: onedesk/public/js/deleted_document_list.js:24
+#: onedesk/public/js/deleted_document_list.js:26
 msgid "{0} were already restored."
 msgstr "{0} مستعادة مسبقًا."
 

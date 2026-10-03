@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 11:12+0000\n"
-"PO-Revision-Date: 2026-10-03 11:12+0000\n"
+"POT-Creation-Date: 2026-10-03 11:27+0000\n"
+"PO-Revision-Date: 2026-10-03 11:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -4917,7 +4917,7 @@ msgstr "Derzeit"
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: onedesk/public/js/deleted_document_list.js:13
+#: onedesk/public/js/deleted_document_list.js:15
 msgid "Custom Collection"
 msgstr "Benutzerdefinierte Sammlung"
 
@@ -5440,7 +5440,7 @@ msgstr "{0} löschen? Damit werden seine Berechtigungen entfernt."
 
 #. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/public/js/deleted_document_list.js:15
+#: onedesk/public/js/deleted_document_list.js:17
 #: onedesk/public/js/onecloud.js:649
 #: onedesk/public/js/privacy_request_list.js:12
 msgid "Deleted"
@@ -9290,7 +9290,7 @@ msgstr "Sie läuft nicht mehr auf {kind}. {explanation}"
 msgid "It was at {was}."
 msgstr "Es war am {was}."
 
-#: onedesk/one/recycle.py:156
+#: onedesk/one/recycle.py:202
 msgid "It was cancelled, so it comes back as a draft."
 msgstr "Es war storniert, daher kommt es als Entwurf zurück."
 
@@ -15945,7 +15945,7 @@ msgstr "Wiederkehrend"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_storage/namespace.py:395
-#: onedesk/public/js/deleted_document_list.js:17
+#: onedesk/public/js/deleted_document_list.js:19
 msgid "Recycle Bin"
 msgstr "Papierkorb"
 
@@ -16436,7 +16436,7 @@ msgstr "Kündigungsdatum plus Kündigungsfrist. Weicht vom Austrittsdatum ab, we
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:615 onedesk/public/js/deleted_document.js:5
 #: onedesk/public/js/deleted_document.js:7
-#: onedesk/public/js/deleted_document_list.js:18
+#: onedesk/public/js/deleted_document_list.js:20
 #: onedesk/public/js/onecloud.js:107 onedesk/public/js/onecloud.js:741
 #: onedesk/public/js/onecloud.js:1903
 msgid "Restore"
@@ -16444,7 +16444,7 @@ msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/deleted_document_list.js:15
+#: onedesk/public/js/deleted_document_list.js:17
 msgid "Restored"
 msgstr "Wiederhergestellt"
 
@@ -20706,12 +20706,14 @@ msgstr "Wie oft geöffnet"
 msgid "Timesheet"
 msgstr ""
 
+#. Label of the one_title (Data) field in DocType 'Deleted Document'
 #. Label of the title (Data) field in DocType 'AI Chat'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
 #. Label of the title (Data) field in DocType 'Reading'
 #. Label of the title (Data) field in DocType 'Legal Document Version'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #. Label of the title (Data) field in DocType 'Extension'
+#: onedesk/one/custom/deleted_document.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_intake/bundle.py:83
@@ -24122,7 +24124,7 @@ msgstr "Sie können {0} nicht öffnen."
 msgid "You can't share {0}."
 msgstr "Sie können {0} nicht teilen."
 
-#: onedesk/one/recycle.py:145
+#: onedesk/one/recycle.py:191
 msgid "You cannot make a {0}, so you cannot put one back."
 msgstr "Sie können kein(e) {0} anlegen und es daher auch nicht zurückholen."
 
@@ -24137,7 +24139,7 @@ msgstr "Du kannst diesen Datensatz nicht öffnen."
 #: onedesk/one/approvals.py:82 onedesk/one/automations.py:77
 #: onedesk/one/customize.py:93 onedesk/one/mail_templates.py:145
 #: onedesk/one/numbering.py:74 onedesk/one/printing.py:99
-#: onedesk/one/recycle.py:128 onedesk/one/recycle.py:149
+#: onedesk/one/recycle.py:174 onedesk/one/recycle.py:195
 #: onedesk/one/reports.py:91 onedesk/one/reports.py:94
 #: onedesk/one/reports.py:104
 msgid "You cannot open {0}."
@@ -25138,7 +25140,7 @@ msgstr "hat es aus dem Papierkorb wiederhergestellt"
 msgid "restored version {0}"
 msgstr "hat Version {0} wiederhergestellt"
 
-#: onedesk/one/recycle.py:164
+#: onedesk/one/recycle.py:210
 msgid "restored {0} as {1}"
 msgstr ""
 
@@ -25714,7 +25716,7 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
 
-#: onedesk/public/js/deleted_document_list.js:25
+#: onedesk/public/js/deleted_document_list.js:27
 msgid "{0} couldn't be restored."
 msgstr "{0} konnten nicht wiederhergestellt werden."
 
@@ -26078,11 +26080,11 @@ msgstr "{0} ist bereits der Standard für {1}."
 msgid "{0} is already under {1}, so it cannot be its parent."
 msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Projekt sein."
 
-#: onedesk/one/recycle.py:131
+#: onedesk/one/recycle.py:177
 msgid "{0} is back already."
 msgstr "{0} ist bereits zurück."
 
-#: onedesk/one/recycle.py:141 onedesk/one/recycle.py:170
+#: onedesk/one/recycle.py:187 onedesk/one/recycle.py:216
 msgid "{0} is back."
 msgstr "{0} ist zurück."
 
@@ -26527,7 +26529,7 @@ msgid "{0} on the odometer since the last log."
 msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 
 #: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:549
-#: onedesk/public/js/deleted_document_list.js:11 onedesk/public/js/push.js:47
+#: onedesk/public/js/deleted_document_list.js:13 onedesk/public/js/push.js:47
 #: onedesk/public/js/settings.js:1525
 msgid "{0} on {1}"
 msgstr "{0} bei {1}"
@@ -26592,7 +26594,7 @@ msgstr "{0} Bestellungen als Entwurf angelegt."
 msgid "{0} reset"
 msgstr "{0} zurückgesetzt"
 
-#: onedesk/public/js/deleted_document_list.js:23
+#: onedesk/public/js/deleted_document_list.js:25
 msgid "{0} restored."
 msgstr "{0} wiederhergestellt."
 
@@ -26714,7 +26716,7 @@ msgstr "{0} wurde von jemand anderem belegt, nachdem diese Anmeldung abgebrochen
 msgid "{0} weeks"
 msgstr "{0} Wochen"
 
-#: onedesk/public/js/deleted_document_list.js:24
+#: onedesk/public/js/deleted_document_list.js:26
 msgid "{0} were already restored."
 msgstr "{0} waren bereits wiederhergestellt."
 

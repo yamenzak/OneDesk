@@ -6015,7 +6015,10 @@ back with its DocType and its place in its app's rail. The bin names a field
 Verified in the browser as wsadmin: both restored, the field's value back,
 the collection's records list opening.
 
-Still open: deleted extensions show in the bin by their random ID.
+Deleted extensions showed in the bin by their random ID. Now every entry
+keeps its record's title (a `one_title` field on Deleted Document, set as the
+record is deleted and backfilled after migrate), so an extension reads "No
+Territory Indicator".
 
 ## OneLegal
 

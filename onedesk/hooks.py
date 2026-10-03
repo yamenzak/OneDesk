@@ -370,6 +370,8 @@ doc_events = {
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
 		# Deleting a record OneAI made is a lesson, read before its mark goes.
 		"on_trash": [
+			# What the Recycle Bin calls it. See one/recycle.py.
+			"onedesk.one.recycle.titled",
 			"onedesk.one_intake.lessons.deleted",
 			"onedesk.one_ai.touch.forget",
 			"onedesk.one_intake.identity.forget",

@@ -60,3 +60,19 @@ def test_a_custom_field_and_a_collection_come_back_whole():
 	studio = (tree.APP / "one_studio" / "record_types.py").read_text().split("def restored(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in studio and '"deleted_doctype": "DocType"' in studio
 	assert "_place(ours.record_doctype, ours.app)" in studio
+
+
+def test_the_bin_lists_a_record_by_its_title():
+	"""frappe keeps a deleted record by its name, a random ID for many: the bin
+	keeps its title too, set before the delete commits, and backfills what
+	was deleted before."""
+	import json
+
+	custom = json.loads((tree.APP / "one" / "custom" / "deleted_document.json").read_text())
+	assert [one["fieldname"] for one in custom["custom_fields"]] == ["one_title"]
+	assert {"property": "title_field", "value": "one_title"}.items() <= {
+		key: value for one in custom["property_setters"] if one["property"] == "title_field" for key, value in one.items()
+	}.items()
+	assert '"onedesk.one.recycle.titled"' in HOOKS
+	assert "frappe.db.before_commit.add(" in _body("titled")
+	assert "_titles()" in _body("settle")

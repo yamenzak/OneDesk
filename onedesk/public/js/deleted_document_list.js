@@ -2,14 +2,15 @@
 // One's restore rather than frappe's, which is its System Manager's.
 frappe.listview_settings["Deleted Document"] = {
 	...frappe.listview_settings["Deleted Document"],
-	add_fields: ["deleted_doctype", "deleted_name", "restored", "owner"],
+	add_fields: ["deleted_doctype", "deleted_name", "one_title", "restored", "owner"],
 	formatters: {
-		// A custom field is kept as "Form-fieldname", said here as a field on its form.
-		deleted_name(value, df, doc) {
-			value = String(value ?? "");
-			if (doc.deleted_doctype !== "Custom Field" || !value.includes("-")) return frappe.utils.escape_html(value);
-			const at = value.lastIndexOf("-");
-			return frappe.utils.escape_html(__("{0} on {1}", [frappe.unscrub(value.slice(at + 1)), __(value.slice(0, at))]));
+		// Its title, kept as it was deleted (one/recycle.py), and a custom
+		// field's form, from its name "Form-fieldname".
+		one_title(value, df, doc) {
+			const name = String(doc.deleted_name ?? "");
+			value = value || name;
+			if (doc.deleted_doctype !== "Custom Field" || !name.includes("-")) return frappe.utils.escape_html(value);
+			return frappe.utils.escape_html(__("{0} on {1}", [value, __(name.slice(0, name.lastIndexOf("-")))]));
 		},
 		deleted_doctype: (value) => frappe.utils.escape_html(value === "Record Type" ? __("Custom Collection") : __(value)),
 	},

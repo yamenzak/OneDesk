@@ -1,0 +1,34 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Deleted Document",
+   "fieldname": "one_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "insert_after": "deleted_name",
+   "label": "Title",
+   "module": "One",
+   "read_only": 1
+  }
+ ],
+ "doctype": "Deleted Document",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Deleted Document",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "one_title"
+  },
+  {
+   "doc_type": "Deleted Document",
+   "doctype_or_field": "DocField",
+   "field_name": "deleted_name",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}
