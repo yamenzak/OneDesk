@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 11:27+0000\n"
-"PO-Revision-Date: 2026-10-03 11:27+0000\n"
+"POT-Creation-Date: 2026-10-03 13:29+0000\n"
+"PO-Revision-Date: 2026-10-03 13:29+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1385,6 +1385,7 @@ msgstr ""
 #. Label of the one_email (Data) field in DocType 'Personal Data Download
 #. Request'
 #. Label of the slug (Data) field in DocType 'Account Request'
+#. Label of a Sidebar Item
 #. Label of the address (Data) field in DocType 'Clock Attempt'
 #. Label of the address (Data) field in DocType 'Clock Network'
 #. Label of the address (Small Text) field in DocType 'Reading Party'
@@ -1392,6 +1393,7 @@ msgstr ""
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/letter_heads.py:65
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -2261,7 +2263,7 @@ msgstr "كما يسمّيه {0} الآن"
 msgid "Ask HR for a letter"
 msgstr "طلب خطاب من الموارد البشرية"
 
-#: onedesk/public/js/settings.js:3075
+#: onedesk/public/js/outside.js:93 onedesk/public/js/settings.js:3075
 msgid "Ask OneAI"
 msgstr "اسأل OneAI"
 
@@ -2290,7 +2292,7 @@ msgstr "اطلب مجدداً من ملفك الشخصي إن كنت لا تزا
 msgid "Ask again on the workspace's Your Data page."
 msgstr "اطلب مجددًا من صفحة «بياناتك» في مساحة العمل."
 
-#: onedesk/public/js/desk.js:333
+#: onedesk/public/js/desk.js:340
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
 
@@ -3657,8 +3659,8 @@ msgstr "الفحص"
 msgid "Check Again"
 msgstr "تحقق مرة أخرى"
 
-#: onedesk/public/js/desk.js:133 onedesk/public/js/desk.js:192
-#: onedesk/public/js/desk.js:196
+#: onedesk/public/js/desk.js:140 onedesk/public/js/desk.js:199
+#: onedesk/public/js/desk.js:203
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
@@ -3766,11 +3768,11 @@ msgstr "تُكتب تسجيلات الحضور التي تقع درجتها بي
 msgid "Checked By"
 msgstr "راجعه"
 
-#: onedesk/public/js/desk.js:196 onedesk/public/js/desk.js:246
+#: onedesk/public/js/desk.js:203 onedesk/public/js/desk.js:253
 msgid "Checked In"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:246
+#: onedesk/public/js/desk.js:253
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
@@ -3782,7 +3784,7 @@ msgstr "تمت مطابقتها مع المستند والطلب"
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:190
+#: onedesk/public/js/desk.js:197
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
 
@@ -3794,11 +3796,11 @@ msgstr "سجّل الانصراف"
 msgid "Checked when someone sets or changes their password."
 msgstr "يُفحص عندما يعيّن شخص كلمة مروره أو يغيّرها."
 
-#: onedesk/public/js/desk.js:210
+#: onedesk/public/js/desk.js:217
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
 
-#: onedesk/public/js/desk.js:210
+#: onedesk/public/js/desk.js:217
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
@@ -4598,7 +4600,7 @@ msgstr "تعذّر تحميل السجل."
 msgid "Couldn't reach the server."
 msgstr "تعذّر الوصول إلى الخادم."
 
-#: onedesk/public/js/desk.js:215
+#: onedesk/public/js/desk.js:222
 msgid "Couldn't record the check-in."
 msgstr "تعذر تسجيل الحضور."
 
@@ -8387,6 +8389,10 @@ msgstr "كيف يعمل التخصيص؟"
 #: onedesk/one/ai.py:431
 msgid "How does mail work here?"
 msgstr "كيف يعمل البريد هنا؟"
+
+#: onedesk/public/js/outside.js:95
+msgid "How does this page work?"
+msgstr "كيف تعمل هذه الصفحة؟"
 
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
@@ -12243,7 +12249,7 @@ msgstr "لم تتم الموافقة"
 msgid "Not Billed"
 msgstr "غير مفوتر"
 
-#: onedesk/public/js/desk.js:238
+#: onedesk/public/js/desk.js:245
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -12311,7 +12317,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not checked until the workspace is linked to an account."
 msgstr "لا يُفحص حتى تُربط مساحة العمل بحساب."
 
-#: onedesk/public/js/desk.js:193
+#: onedesk/public/js/desk.js:200
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
@@ -12481,7 +12487,7 @@ msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغ
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
-#: onedesk/public/js/desk.js:332
+#: onedesk/public/js/desk.js:339
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
 
@@ -12497,7 +12503,7 @@ msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
 
-#: onedesk/public/js/desk.js:203
+#: onedesk/public/js/desk.js:210
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
@@ -13321,8 +13327,8 @@ msgstr "إعداد OneHR"
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:147
-#: onedesk/public/js/desk.js:170
+#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:154
+#: onedesk/public/js/desk.js:177
 msgid "OneIntake"
 msgstr "OneIntake"
 
@@ -15016,6 +15022,10 @@ msgstr "النطاق الرئيسي"
 msgid "Print Formats"
 msgstr "تنسيقات الطباعة"
 
+#: onedesk/public/js/outside.js:70
+msgid "Print Settings"
+msgstr ""
+
 #: onedesk/one/printing.py:138
 msgid "Print formats are made in the print format builder here, not written by hand."
 msgstr "تُصنع تنسيقات الطباعة هنا في منشئ تنسيقات الطباعة، ولا تُكتب يدويًا."
@@ -16059,7 +16069,7 @@ msgstr "سجّل هذا الجهاز"
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
-#: onedesk/public/js/desk.js:226
+#: onedesk/public/js/desk.js:233
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
@@ -17419,6 +17429,10 @@ msgstr ""
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr "الإعداد"
+
+#: onedesk/public/js/outside.js:52
+msgid "Setup Auto Email"
+msgstr ""
 
 #: onedesk/one_admin/accounts.py:200
 msgid "Setup hit a problem on our side. We're working on it."
@@ -20143,6 +20157,10 @@ msgstr "أُنهي مفتاح المرور وتعيينات الورديات، �
 #: onedesk/one_hr/notifications.py:164
 msgid "Their shift approver"
 msgstr "معتمد مناوباته"
+
+#: onedesk/public/js/outside.js:110
+msgid "Theme"
+msgstr ""
 
 #. Label of the section_then (Section Break) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -24985,7 +25003,7 @@ msgid "not known yet"
 msgstr "غير معروف بعد"
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:379
-#: onedesk/public/js/desk.js:270
+#: onedesk/public/js/desk.js:277
 msgid "nothing"
 msgstr "لا شيء"
 
@@ -26695,7 +26713,7 @@ msgstr "{0} مستخدم، بلا حد"
 msgid "{0} users"
 msgstr "مستخدمو {0}"
 
-#: onedesk/public/js/desk.js:170
+#: onedesk/public/js/desk.js:177
 msgid "{0} waiting in OneIntake"
 msgstr "{0} بانتظارك في OneIntake"
 

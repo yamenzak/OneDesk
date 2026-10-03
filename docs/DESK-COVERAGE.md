@@ -242,13 +242,15 @@ Started. What is left, the most visible first:
 6. ~~**Frappe's editors for its own furniture are open to everybody.**~~
    **Done**: Edit Sidebar and Manage Dock are not offered on One's desk, and a
    private Workspace cannot be made.
-7. **Help is erpnext's:** docs.erpnext.com links on 104 pages, none of One's.
-   Theme and Full Width have no place in One's Settings.
-8. **The Communication list and the Inbox view** are frappe's mail client in
-   frappe's Email sidebar, beside OneMail.
-9. **Search** lists every workspace, page and report a person may open,
-   frappe's and erpnext's included (point-of-sale, sales-funnel,
-   stock-balance).
+7. ~~**Help is erpnext's.**~~ **Done** (`outside.js`): Help is **Ask OneAI**,
+   which answers from each product's README, and the site's own help rows.
+   The theme is in the user menu. All apps, which only led Home, is gone.
+8. ~~**The Communication list and the Inbox view.**~~ **Done**: both open
+   OneMail. A single message keeps its form.
+9. ~~**Search lists frappe's and erpnext's pages and reports.**~~ **Done**:
+   search offers the pages and reports a One sidebar lists or One's own
+   modules hold, and OneCalendar rather than frappe's event calendar. Records
+   of every kind are still found.
 10. **Frappe's not-permitted, not-found and error pages** and its web pages
     (`/me`, `/update-password`) are frappe's own.
 11. **Frappe reports not in One:** Addresses And Contacts (open to sales,

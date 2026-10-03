@@ -75,11 +75,26 @@ onedesk.outside.without = (groups, names) =>
 })();
 
 // Edit Sidebar and Manage Dock arrange frappe's sidebars and dock; One's desk
-// has One's (one/outside.py).
+// has One's (one/outside.py). The user menu gains the theme, which frappe's
+// own settings dialog held, and Help is One's.
 if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 	frappe.ui.SidebarHeader = class OneSidebarHeader extends frappe.ui.SidebarHeader {
 		menu_items() {
-			return onedesk.outside.without(super.menu_items(), ["edit-sidebar"]);
+			// All apps opens frappe's apps screen, which One's desk sends Home; the rail is the switcher.
+			return onedesk.outside.without(super.menu_items(), ["edit-sidebar", "all-apps"]);
+		}
+
+		// Help is One's: OneAI answers from each product's own docs. erpnext's
+		// links to its documentation are left out; the site's own help rows stay.
+		get_help_siblings() {
+			const [, site] = super.get_help_siblings();
+			const ask = {
+				name: "ask-oneai",
+				label: __("Ask OneAI"),
+				icon: "sparkles",
+				onclick: () => onedesk.oneai.open({ ask: __("How does this page work?") }),
+			};
+			return [{ group: "", options: [ask] }, site];
 		}
 	};
 	frappe.ui.Sidebar = class OneUserMenuSidebar extends frappe.ui.Sidebar {
@@ -87,7 +102,16 @@ if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 			const Dropdown = frappe.ui.Dropdown;
 			frappe.ui.Dropdown = class extends Dropdown {
 				constructor(opts) {
-					super({ ...opts, options: onedesk.outside.without(opts.options, ["workspace-selector"]) });
+					const options = onedesk.outside.without(opts.options, ["workspace-selector"]);
+					// The theme, which frappe's own settings dialog held, beside Reload.
+					const group = options.find((one) => Array.isArray(one.options) && one.options.some((o) => o.name === "reload"));
+					group?.options.splice(group.options.findIndex((o) => o.name === "reload"), 0, {
+						name: "theme",
+						label: __("Theme"),
+						icon: "sun-moon",
+						onclick: () => new frappe.ui.ThemeSwitcher().show(),
+					});
+					super({ ...opts, options });
 				}
 			};
 			try {
@@ -122,6 +146,9 @@ onedesk.outside.instead = (sub_path) => {
 		case "print-format":
 		case "letter-head":
 			return name ? null : ["workspace-settings", { section: "printing" }];
+		// frappe's mail client, the list and its Inbox view; a message's own form stays.
+		case "communication":
+			return !name || name === "view" ? ["onemail"] : null;
 	}
 	return null;
 };
@@ -134,5 +161,38 @@ if (frappe.boot.one_elsewhere) {
 		frappe.route_flags.replace_route = true;
 		frappe.set_route(...instead);
 		return true;
+	};
+}
+
+// Search offers the pages and reports of One's desk: those a One sidebar
+// lists, and One's own. Frappe's and erpnext's others (point of sale, the sales
+// funnel, stock balance) are left out; records of every kind are still found.
+onedesk.outside.ours = (kind) => {
+	const named = new Set();
+	for (const sidebar of Object.values(frappe.boot.module_sidebars || {})) {
+		for (const item of sidebar.items || []) if (item.link_type === kind && item.link_to) named.add(item.link_to);
+	}
+	return named;
+};
+
+if (frappe.boot.one_elsewhere && frappe.search?.utils) {
+	const utils = frappe.search.utils;
+	const app_of = (module) => (frappe.boot.module_app || {})[frappe.scrub(module || "")];
+	const keep = (kind, info, found) => {
+		const named = onedesk.outside.ours(kind);
+		return found.filter((one) => {
+			const name = (one.route || []).at(-1);
+			return named.has(name) || app_of(info[name]?.module) === "onedesk";
+		});
+	};
+	const pages = utils.get_pages;
+	utils.get_pages = function (keywords) {
+		// frappe's own Calendar entry opens its event calendar; OneCalendar is a page of One's.
+		const found = pages.call(this, keywords).filter((one) => one.type !== "Calendar");
+		return keep("Page", frappe.boot.page_info || {}, found);
+	};
+	const reports = utils.get_reports;
+	utils.get_reports = function (keywords) {
+		return keep("Report", frappe.boot.allowed_reports || {}, reports.call(this, keywords));
 	};
 }

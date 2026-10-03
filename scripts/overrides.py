@@ -340,6 +340,20 @@ OVERRIDES = [
 		"if (this.re_route(sub_path)) return;",
 	),
 	(
+		"Help on One's desk is Ask OneAI",
+		"frappe's header Help lists the help links registered for the page, erpnext's to its documentation, then the site's help rows; outside.js overrides SidebarHeader.get_help_siblings to keep the site's rows and put Ask OneAI in place of the links",
+		"onedesk/public/js/outside.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar_header.js",
+		"get_help_siblings() {",
+	),
+	(
+		"Search offers the pages and reports of One's desk",
+		"frappe's awesome bar lists every page and report in the boot; outside.js wraps frappe.search.utils.get_pages and get_reports to keep those a One sidebar lists or One's own modules hold, read from the route each result carries",
+		"onedesk/public/js/outside.js",
+		"frappe/frappe/public/js/frappe/ui/toolbar/search_utils.js",
+		"get_reports: function (keywords) {",
+	),
+	(
 		"One's desk has no Edit Sidebar",
 		"frappe's sidebar header offers its arrangement editor to everyone; outside.js leaves the option named edit-sidebar out of SidebarHeader.menu_items",
 		"onedesk/public/js/outside.js",

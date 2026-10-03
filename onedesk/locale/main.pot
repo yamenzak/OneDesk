@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 11:27+0000\n"
-"PO-Revision-Date: 2026-10-03 11:27+0000\n"
+"POT-Creation-Date: 2026-10-03 13:29+0000\n"
+"PO-Revision-Date: 2026-10-03 13:29+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1383,6 +1383,7 @@ msgstr ""
 #. Label of the one_email (Data) field in DocType 'Personal Data Download
 #. Request'
 #. Label of the slug (Data) field in DocType 'Account Request'
+#. Label of a Sidebar Item
 #. Label of the address (Data) field in DocType 'Clock Attempt'
 #. Label of the address (Data) field in DocType 'Clock Network'
 #. Label of the address (Small Text) field in DocType 'Reading Party'
@@ -1390,6 +1391,7 @@ msgstr ""
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/letter_heads.py:65
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -2259,7 +2261,7 @@ msgstr ""
 msgid "Ask HR for a letter"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3075
+#: onedesk/public/js/outside.js:93 onedesk/public/js/settings.js:3075
 msgid "Ask OneAI"
 msgstr ""
 
@@ -2288,7 +2290,7 @@ msgstr ""
 msgid "Ask again on the workspace's Your Data page."
 msgstr ""
 
-#: onedesk/public/js/desk.js:333
+#: onedesk/public/js/desk.js:340
 msgid "Ask an administrator for access."
 msgstr ""
 
@@ -3655,8 +3657,8 @@ msgstr ""
 msgid "Check Again"
 msgstr ""
 
-#: onedesk/public/js/desk.js:133 onedesk/public/js/desk.js:192
-#: onedesk/public/js/desk.js:196
+#: onedesk/public/js/desk.js:140 onedesk/public/js/desk.js:199
+#: onedesk/public/js/desk.js:203
 msgid "Check In"
 msgstr ""
 
@@ -3764,11 +3766,11 @@ msgstr ""
 msgid "Checked By"
 msgstr ""
 
-#: onedesk/public/js/desk.js:196 onedesk/public/js/desk.js:246
+#: onedesk/public/js/desk.js:203 onedesk/public/js/desk.js:253
 msgid "Checked In"
 msgstr ""
 
-#: onedesk/public/js/desk.js:246
+#: onedesk/public/js/desk.js:253
 msgid "Checked Out"
 msgstr ""
 
@@ -3780,7 +3782,7 @@ msgstr ""
 msgid "Checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:190
+#: onedesk/public/js/desk.js:197
 msgid "Checked in {0}"
 msgstr ""
 
@@ -3792,11 +3794,11 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: onedesk/public/js/desk.js:210
+#: onedesk/public/js/desk.js:217
 msgid "Checking in…"
 msgstr ""
 
-#: onedesk/public/js/desk.js:210
+#: onedesk/public/js/desk.js:217
 msgid "Checking out…"
 msgstr ""
 
@@ -4596,7 +4598,7 @@ msgstr ""
 msgid "Couldn't reach the server."
 msgstr ""
 
-#: onedesk/public/js/desk.js:215
+#: onedesk/public/js/desk.js:222
 msgid "Couldn't record the check-in."
 msgstr ""
 
@@ -8385,6 +8387,10 @@ msgstr ""
 
 #: onedesk/one/ai.py:431
 msgid "How does mail work here?"
+msgstr ""
+
+#: onedesk/public/js/outside.js:95
+msgid "How does this page work?"
 msgstr ""
 
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
@@ -12243,7 +12249,7 @@ msgstr ""
 msgid "Not Billed"
 msgstr ""
 
-#: onedesk/public/js/desk.js:238
+#: onedesk/public/js/desk.js:245
 msgid "Not Checked In"
 msgstr ""
 
@@ -12311,7 +12317,7 @@ msgstr ""
 msgid "Not checked until the workspace is linked to an account."
 msgstr ""
 
-#: onedesk/public/js/desk.js:193
+#: onedesk/public/js/desk.js:200
 msgid "Not checking in today"
 msgstr ""
 
@@ -12481,7 +12487,7 @@ msgstr ""
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr ""
 
-#: onedesk/public/js/desk.js:332
+#: onedesk/public/js/desk.js:339
 msgid "Nothing here yet"
 msgstr ""
 
@@ -12497,7 +12503,7 @@ msgstr ""
 msgid "Nothing shared with you"
 msgstr ""
 
-#: onedesk/public/js/desk.js:203
+#: onedesk/public/js/desk.js:210
 msgid "Nothing to check in. You're {0} today."
 msgstr ""
 
@@ -13321,8 +13327,8 @@ msgstr ""
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:147
-#: onedesk/public/js/desk.js:170
+#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:154
+#: onedesk/public/js/desk.js:177
 msgid "OneIntake"
 msgstr ""
 
@@ -15016,6 +15022,10 @@ msgstr ""
 msgid "Print Formats"
 msgstr ""
 
+#: onedesk/public/js/outside.js:70
+msgid "Print Settings"
+msgstr ""
+
 #: onedesk/one/printing.py:138
 msgid "Print formats are made in the print format builder here, not written by hand."
 msgstr ""
@@ -16059,7 +16069,7 @@ msgstr ""
 msgid "Register a passkey before checking in."
 msgstr ""
 
-#: onedesk/public/js/desk.js:226
+#: onedesk/public/js/desk.js:233
 msgid "Register a passkey on this phone first?"
 msgstr ""
 
@@ -17418,6 +17428,10 @@ msgstr ""
 #: onedesk/one_task/page/my_tasks/my_tasks.js:86
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
+msgstr ""
+
+#: onedesk/public/js/outside.js:52
+msgid "Setup Auto Email"
 msgstr ""
 
 #: onedesk/one_admin/accounts.py:200
@@ -20142,6 +20156,10 @@ msgstr ""
 
 #: onedesk/one_hr/notifications.py:164
 msgid "Their shift approver"
+msgstr ""
+
+#: onedesk/public/js/outside.js:110
+msgid "Theme"
 msgstr ""
 
 #. Label of the section_then (Section Break) field in DocType 'Mail Rule'
@@ -24985,7 +25003,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:379
-#: onedesk/public/js/desk.js:270
+#: onedesk/public/js/desk.js:277
 msgid "nothing"
 msgstr ""
 
@@ -26688,7 +26706,7 @@ msgstr ""
 msgid "{0} users"
 msgstr ""
 
-#: onedesk/public/js/desk.js:170
+#: onedesk/public/js/desk.js:177
 msgid "{0} waiting in OneIntake"
 msgstr ""
 

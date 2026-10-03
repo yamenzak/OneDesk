@@ -6081,6 +6081,20 @@ them, so:
   record's Activity tab already shows every change. Setup Auto Email is the
   administrator's, and is One › Reports by Mail.
 
+### The desk around the doctypes (gaps 7 to 9)
+
+Your word: "Yes do 7 to 9".
+
+- **Fixed**: Help is **Ask OneAI** (it asks "How does this page work?"),
+  in place of erpnext's documentation links. All apps is gone from the same
+  menu, since it only led Home.
+- **Fixed**: **Theme** is in the user menu, opening One's theme dialog,
+  which was reachable only by a shortcut.
+- **Fixed**: frappe's mail list and its Inbox view open OneMail.
+- **Fixed**: search offers the pages and reports One's sidebars list or One's
+  modules hold. Point of Sale and the Sales Funnel are gone; General Ledger
+  and Stock Balance stay. Its Calendar entry is OneCalendar only.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
