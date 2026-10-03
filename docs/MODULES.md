@@ -175,6 +175,7 @@ No doctypes yet.
 |---|--:|---|
 | Extension | 21 | document |
 | Record Type | 6 | document |
+| Workspace Field | 7 | document |
 
 ## Desk records shipped as fixtures
 

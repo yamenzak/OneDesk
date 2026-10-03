@@ -2,7 +2,7 @@
 // decision 6), read here and changed by OneAI: every part is one of frappe's
 // tables of what the workspace added or changed, and Add a Field asks OneAI,
 // whose card writes what the page used to (one/ai.py customize). A form with
-// no form named is the Forms list. It redraws when anybody changes the form.
+// no form named opens the Custom Fields list. It redraws when anybody changes the form.
 frappe.provide("onedesk");
 
 onedesk.Customize = class Customize extends onedesk.shell.Editor {
@@ -14,15 +14,13 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		// This form's customizations changed: a OneAI card approved, a
 		// Reset, or another administrator. The page reads them again.
 		frappe.realtime.on("one_customized", (data) => {
-			if (!this.doctype) return this.listed();
 			if (!this.data || data.doctype !== this.doctype || data.token === this.data.token) return;
 			if (this.$content && this.$content.is(":visible")) this.refresh();
 		});
 		// An extension made, turned on or off, or deleted: the list's counts
 		// and the form's Extensions change with it, edits kept.
 		frappe.realtime.on("list_update", async (data) => {
-			if (data.doctype !== "Extension" || !this.$content || !this.$content.is(":visible")) return;
-			if (!this.doctype) return this.listed();
+			if (data.doctype !== "Extension" || !this.doctype || !this.$content || !this.$content.is(":visible")) return;
 			this.extensions = await frappe.xcall("onedesk.one_studio.forms.extensions", { doctype: this.doctype });
 			this.ran(this.data);
 		});
@@ -38,8 +36,10 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	async refresh() {
 		this.unsaved();
 		this.$content = onedesk.shell.body(this.$section, { wide: true });
+		// No form named: the list of every custom field is frappe's own
+		// (Workspace Field, OneStudio's Custom Fields).
 		if (!this.doctype) {
-			this.forms();
+			frappe.set_route("List", "Workspace Field");
 			return;
 		}
 		try {
@@ -55,51 +55,6 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		this.draw(this.data);
 	}
 
-	// The list again, as it was searched, when it is the one showing.
-	listed() {
-		if (this.doctype || !this.$content || !this.$content.is(":visible")) return;
-		const query = this.$content.find(".embedded-list-search").val();
-		this.forms().then((list) => query && list.$wrapper.find(".embedded-list-search").val(query).trigger("input"));
-	}
-
-	// The app the list was narrowed to, kept while the page is open.
-	get app() {
-		return this.list ? this.list.chosen : null;
-	}
-
-	// No form named: every form the administrator may customize, in one of
-	// frappe's tables, the ones the workspace has changed first, then by app
-	// (one_studio/forms.py). A row opens the form's Customize page.
-	async forms() {
-		this.data = null;
-		// A table: the wide body, not the form's column (docs/SHELL.md, bodies).
-		this.$content = onedesk.shell.body(this.$section, { wide: true });
-		this.page.set_title(__("Forms"));
-		onedesk.shell.trail(__("OneStudio"), "/desk/extension", __("Forms"));
-		const rows = await frappe.xcall("onedesk.one_studio.forms.forms");
-		this.$content.empty();
-		const esc = frappe.utils.escape_html;
-		const count = (n, label) => (n ? frappe.ui.badge.html({ label, theme: "blue" }) : "");
-		const app = this.app;
-		this.list = await onedesk.shell.table($('<div class="one-shell-section"></div>').appendTo(this.$content), {
-			title: __("Forms"),
-			choose: { key: "app", all: __("All Apps"), value: app },
-			rows,
-			icon: "file-text",
-			page_size: 50,
-			empty: __("No forms"),
-			none: __("No matching forms"),
-			open: (one) => frappe.set_route("customize", one.doctype),
-			columns: [
-				{ label: __("Form"), render: (one) => esc(one.label) },
-				{ label: __("App"), render: (one) => onedesk.shell.app(one.app, one.mark) },
-				{ label: __("Changes"), render: (one) => count(one.changes, one.changes === 1 ? __("1 change") : __("{0} changes", [one.changes])) },
-				{ label: __("Extensions"), render: (one) => count(one.extensions, one.extensions === 1 ? __("1 extension") : __("{0} extensions", [one.extensions])) },
-			],
-		});
-		return this.list;
-	}
-
 	redraw(said) {
 		this.data = said;
 		this.$content.empty();
@@ -110,9 +65,9 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	// OneAI: each part is one of frappe's tables, and a part with nothing in
 	// it is not drawn, but for the fields added, which says how to add one.
 	draw(data) {
-		// "Forms / Customer": one form under the Forms list, as the rail says;
-		// the form's own list is Open on the menu.
-		onedesk.shell.trail(__("Forms"), "/desk/customize", data.label);
+		// "Custom Fields / Customer": one form under the Custom Fields list,
+		// as the rail says; the form's own list is Open on the menu.
+		onedesk.shell.trail(__("Custom Fields"), "/desk/workspace-field", data.label);
 		this.menu(data);
 		const esc = frappe.utils.escape_html;
 		const badge = (label, theme = "gray") => frappe.ui.badge.html({ label, theme });

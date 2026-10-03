@@ -49,10 +49,15 @@ const WHEN = {
 
 // Where a page extension runs, said of its place (one_studio/places.py).
 const PLACES = {
-	"onemail.conversation": () => __("In OneMail, each time a conversation is opened"),
-	"onemail.compose": () => __("Each time a message is written, anywhere in One"),
-	"record_head.drawn": (kind) => __("In the header of each {0}, when it is opened or saved", [kind]),
-	"onecalendar.event": () => __("In OneCalendar, each time an event's card is opened"),
+	"onemail.conversation": () => __("In OneMail, when a conversation opens"),
+	"onemail.compose": () => __("When an email is written"),
+	"record_head.drawn": (kind) => __("In the header of each {0}", [kind]),
+	"onetask.listed": () => __("On My Tasks"),
+	"onecloud.file": () => __("In OneCloud, when a file preview opens"),
+	"intake.reading": () => __("In OneIntake, when a document opens"),
+	"onecrm.board": () => __("On the OneCRM pipeline board"),
+	"space.home": () => __("On each space's home page"),
+	"onecalendar.event": () => __("In OneCalendar, when an event opens"),
 };
 
 // How mend.py marks each fix it adds to the request.
@@ -65,6 +70,8 @@ frappe.ui.form.on("Extension", {
 			.find(".form-assignments, .form-attachments, .form-tags, .form-shared")
 			.addClass("hidden");
 		frm.toggle_display(DRAWN, false);
+		// The Code section's title already says it.
+		frm.set_df_property("code", "label", "");
 		frm.events.draw(frm);
 	},
 
@@ -82,8 +89,8 @@ frappe.ui.form.on("Extension", {
 				: doc.view === "Page"
 				? (PLACES[doc.place] || (() => doc.place || ""))(kind)
 				: doc.view === "List"
-					? __("On the {0} list, in the browser", [kind])
-					: __("On the {0} form, in the browser", [kind]);
+					? __("On the {0} list", [kind])
+					: __("On the {0} form", [kind]);
 
 		const sections = [];
 		// The head says what it does, unless the review refused it: then the
@@ -91,17 +98,18 @@ frappe.ui.form.on("Extension", {
 		if (doc.review === "Refused" && doc.explanation) {
 			sections.push(shell.section(__("What It Does"), text(doc.explanation)));
 		}
+		// Where, in words, then on the server or the screen; the record type
+		// links to its list, except where a page is the place.
+		const record =
+			doc.record_doctype && doc.view !== "Page"
+				? ` · <a href="/desk/${frappe.router.slug(doc.record_doctype)}">${esc(kind)}</a>`
+				: "";
 		sections.push(
 			shell.section(
 				__("Where It Runs"),
 				shell.row({
-					title: esc(
-						doc.runs === "On Server" ? __("On the Server") : __("On the Screen"),
-					),
-					sub: esc(where),
-					meta: doc.record_doctype
-						? `<a href="/desk/${frappe.router.slug(doc.record_doctype)}">${esc(kind)}</a>`
-						: "",
+					title: esc(where),
+					sub: esc(doc.runs === "On Server" ? __("On the server") : __("In the browser")) + record,
 				}),
 			),
 		);

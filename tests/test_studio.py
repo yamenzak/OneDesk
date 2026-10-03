@@ -516,3 +516,27 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	actions = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
 	said = {one["name"]: one["instruction"] for one in actions}
 	assert "step by step" in said["chat"] and "For a form:" in said["studio"]
+
+
+def test_custom_fields_is_frappes_list_of_what_the_ledger_holds():
+	"""OneStudio's Custom Fields is frappe's own list: a virtual doctype read
+	from the workspace's ledger, for its administrators only. A row opens its
+	form's Customize page, and Add Field asks OneAI rather than making one."""
+	folder = STUDIO / "doctype" / "workspace_field"
+	spec = json.loads((folder / "workspace_field.json").read_text())
+	assert spec["is_virtual"] == 1 and spec["module"] == "One Studio"
+	controller = (folder / "workspace_field.py").read_text()
+	assert "if not roles.administers():\n\t\treturn []" in controller
+	assert "roles.require()" in controller.split("def load_from_db(")[1]
+	assert '"Workspace Customization"' in controller and "customize.added(doctype)" in controller
+	for verb in ("db_insert", "db_update", "delete"):
+		assert f"def {verb}(" in controller
+	listed = (folder / "workspace_field_list.js").read_text()
+	assert "/desk/customize/" in listed and "onedesk.oneai.open(" in listed
+	assert '"one_customized"' in listed
+	rail = json.loads((STUDIO / "sidebar" / "onestudio" / "onestudio.json").read_text())
+	assert {"label": "Custom Fields", "link_to": "Workspace Field"}.items() <= next(
+		one for one in rail["items"] if one["link_to"] == "Workspace Field"
+	).items()
+	page = (tree.APP / "public" / "js" / "customize.js").read_text()
+	assert 'frappe.set_route("List", "Workspace Field")' in page

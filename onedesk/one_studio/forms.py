@@ -1,10 +1,7 @@
-"""Forms: every form a workspace administrator may customize, in one place.
-
-Customizing a form was reached only from the form itself (its menu's
-Customize). OneStudio lists them all, by the app each belongs to, with what
-the workspace has changed on each and how many extensions run on it, and
-opens frappe's form on the Customize page (one/customize.py), which stays
-what it was.
+"""Every form a workspace administrator may customize: its app, how many of
+its customizations are the workspace's, and how many extensions run on it.
+OneAI reads it (forms_here); people see OneStudio's Custom Fields list
+(doctype/workspace_field) and each form's Customize page (one/customize.py).
 """
 
 import frappe

@@ -6,7 +6,7 @@ answer "how do I…" questions. Under the hood is for the people who build it.
 
 OneStudio is where a workspace's administrators make One work the way their
 business does: **Extensions** that make a form behave the way you need,
-**Forms** to change what a form shows, and **Record Types** for the things
+**Custom Fields** to change what a form shows, and **Record Types** for the things
 you keep that no app came with. You describe what you want to OneAI; it does
 the making, and nothing changes until you approve it.
 
@@ -17,7 +17,7 @@ Only workspace administrators see OneStudio.
 **OneStudio** in the dock opens it. The rail has:
 
 - **Extensions** — what OneAI has written for your workspace, on or off.
-- **Forms** — every form you may change, the ones you have changed first.
+- **Custom Fields** — every field your workspace added or changed.
 - **Record Types** — the kinds of record your workspace keeps of its own.
 
 ## Extensions
@@ -125,25 +125,28 @@ schedule, or that tells people, an **Automation** is the way.
 **Server extensions** run only on workspaces where they are turned on. If an
 extension says **Cannot Run Here**, ask us.
 
-## Forms
+## Custom Fields
 
-**Forms** lists every form you can customize, with its app, how many changes
-your workspace made to it and how many extensions run on it. Customized forms
-are listed first. Filter by app or search by name. The list updates as forms
-change.
+**Custom Fields** lists every field your workspace added to a form or changed
+on it: the field, its form, its type, and the other forms it was also added
+to. **Added** marks a field the workspace made, **Changed** a standard field
+it changed. Filter by form, status or app, or search by name.
 
-Open a form to see its **Customize** page: custom fields, changed fields, the
-form header, connections and buttons, and extensions. **Customize** on a
-form's own menu opens the same page. You don't edit anything there. Click
-**Add Field** or a field to ask OneAI, which asks a few questions, recommends
-the field type and properties, suggests related forms that need the field too
-(for example Item fields on invoice and order items), and makes one card to
-approve. See Customizing a Form in One's documentation.
+To add a field, click **Add Field** and tell OneAI what you need. It asks a
+few questions, recommends the field type and properties, suggests related
+forms that need the field too (for example Item fields on invoice and order
+items), and makes one card to approve.
+
+Click a field to open its form's **Customize** page: custom fields, changed
+fields, the form header, connections and buttons, and extensions.
+**Customize** on a form's own menu opens the same page. You don't edit
+anything there. Ask OneAI to change or remove a field. See Customizing a Form
+in One's documentation.
 
 **Who sees and changes it.** Workspace administrators only, on the forms they
-may open; never the framework's own forms, nor One's. A change applies to
-everybody who opens the form. The other administrators are told who changed
-which form (**Form Customized**, on the bell).
+can open, and never the framework's own forms or One's. A change applies to
+everyone who opens the form. The other administrators are notified
+(**Form Customized**).
 
 **OneAI** on the list says which forms were changed and how, or changes the
 one you name. On a form it adds a field step by step, suggests changes as one
@@ -172,8 +175,8 @@ links to a kind of record you may open, or to another record type. The first
 text field names each record.
 
 **Changing one.** Ask OneAI: "Add a colour to Company Van." A field you take
-away is hidden, never deleted, so nothing anybody entered is lost. **Forms**
-changes how its form looks, as for any other form.
+away is hidden, never deleted, so nothing anybody entered is lost. Its fields are listed in
+**Custom Fields**, as for any other form.
 
 **Deleting one.** Delete its records first: a record type that still has
 records cannot be deleted.
@@ -201,8 +204,8 @@ which says what each does and whether any is failing. On an extension:
 **Change this one…**; when it is on, **Has this one run into errors?**, which
 reads what went wrong and on which record (never its code); when it is off,
 **Why is this one off?** On Record Types: **Make a record type…**, and on
-one: **Add a field to this one…** On Forms: **Which forms have we changed?**
-and **Change a form…**; on a form's Customize page: **Suggest changes to this
+one: **Add a field to this one…** On Custom Fields: **Add a field…**, **Which forms
+have we changed?** and **How does customizing work?**; on a form's Customize page: **Suggest changes to this
 form**, **Add a field**, **What have we changed here?** and **How does
 customizing work?**
 
@@ -219,7 +222,8 @@ customizing work?**
 | `trial.py` | Tries an extension before it is kept: node parses screen code; server code runs once on a real record, undone after. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
-| `forms.py` | The Forms list, each form's app and counts, and the extensions on one form. The Customize page is `page/customize` and `../public/js/customize.js`; what it saves is `../one/customize.py`. |
+| `doctype/workspace_field` | Custom Fields: a virtual doctype read from the workspace's ledger, frappe's own list. |
+| `forms.py` | Each form's app and counts, for OneAI, and the extensions on one form. The Customize page is `page/customize` and `../public/js/customize.js`; what it saves is `../one/customize.py`. |
 | `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |
@@ -321,7 +325,7 @@ saved reports. Fields are frappe's own kinds, nothing that runs.
 
 ### The plan
 
-Done: Extensions, the review, Forms, Record Types. Not built: a child table in
+Done: Extensions, the review, Custom Fields, Record Types. Not built: a child table in
 a record type, a record type's own numbering (Numbering does it once it
 exists), scheduled extensions (an Automation's schedule instead), and
 extensions on API calls.

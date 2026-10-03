@@ -5911,6 +5911,26 @@ nine points done. Point 10, plain words, is now done on all seven.
   Conditions, Who Is Told → Recipients, and the rest.
 - ar and de for all of it.
 
+**Your word, after: Custom Fields, and the Extensions look.** "Extensions
+page look much cleaner than forms, and can we rename forms to Custom Fields."
+
+- **Custom Fields** replaces Forms in OneStudio's rail. It is frappe's own
+  list, like Extensions, over a virtual doctype (`Workspace Field`) read from
+  the workspace's ledger: one row a field, with its form, type, status
+  (Added or Changed) and the other forms it was also added to. Filters by
+  form, status and app, frappe's search, sort and paging. A row opens the
+  form's Customize page, **Add Field** asks OneAI, and the list refreshes on
+  `one_customized`. Administrators only; nothing can be written through it.
+- The count that disagreed (Item "8 changes" against two fields) is gone with
+  the old list.
+- **Extension page.** Where It Runs says where in words ("On My Tasks", "In
+  the header of each Customer") with "On the server" or "In the browser"
+  under it, and the record type as a link beside that. Every place has its
+  words now, not its hook name. Code is said once.
+- The eight test extensions (asked "test") are deleted.
+- OneAI's Custom Fields suggestions, the page text, the Form Customized
+  message and the OneStudio README follow the new name.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

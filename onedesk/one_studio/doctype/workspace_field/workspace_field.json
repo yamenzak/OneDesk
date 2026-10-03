@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "creation": "2026-10-04 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "label",
+  "form",
+  "fieldtype",
+  "status",
+  "also_added_to",
+  "app",
+  "fieldname"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Field",
+   "read_only": 1
+  },
+  {
+   "fieldname": "form",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Form",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fieldtype",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Added\nChanged",
+   "read_only": 1
+  },
+  {
+   "fieldname": "also_added_to",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Also Added To",
+   "read_only": 1
+  },
+  {
+   "fieldname": "app",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "App",
+   "options": "\nOne Book\nOne CRM\nOne HR\nOne Inventory\nOne Project\nOne Intake\nOne Mail\nOne Storage\nOne Task\nOne Calendar\nOther Forms",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fieldname",
+   "fieldtype": "Data",
+   "label": "Fieldname",
+   "read_only": 1
+  }
+ ],
+ "is_virtual": 1,
+ "links": [],
+ "modified": "2026-10-04 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Studio",
+ "name": "Workspace Field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Workspace Administrator"
+  },
+  {
+   "read": 1,
+   "role": "System Manager"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "label"
+}

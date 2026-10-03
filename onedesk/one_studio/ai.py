@@ -43,6 +43,30 @@ SUGGESTIONS = {
 			"expects": "design_record_type",
 		},
 	],
+	# Custom Fields in OneStudio, every field the workspace added or changed.
+	"Workspace Field": [
+		{
+			# Asked about first, step by step: nothing is expected of the first turn.
+			"label": _lt("Add a field…"),
+			"ask": _lt("I want to add a field to "),
+			"fill": True,
+			"view": "List",
+		},
+		{
+			"label": _lt("Which forms have we changed?"),
+			"ask": _lt(
+				"Which forms has the workspace changed, how, and which have extensions running on them?"
+			),
+			"expects": "forms_here",
+			"view": "List",
+		},
+		{
+			"label": _lt("How does customizing work?"),
+			"ask": _lt("How does customizing a form work in One, and what can and cannot be changed?"),
+			"expects": "how_to",
+			"view": "List",
+		},
+	],
 	"Extension": [
 		{
 			# The reader says what; the model writes it.
@@ -469,7 +493,7 @@ def forms_here(
 	]
 	| None = None,
 ) -> dict:
-	"""The forms the workspace has changed (OneStudio, Forms): each with how
+	"""The forms the workspace has changed (OneStudio, Custom Fields): each with how
 	many of its customizations are the workspace's and how many extensions run
 	on it, or, for one form, each change itself: a field added, hidden,
 	renamed, required or in the list, the head's own rows, and its

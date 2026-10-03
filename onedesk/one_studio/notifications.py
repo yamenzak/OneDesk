@@ -67,8 +67,8 @@ TYPES = [
 		"to": _lt("The other administrators"),
 		"subject": _lt("{who} changed {form}"),
 		"message": _lt(
-			"{who} changed how {form} looks, for everybody who opens it. Its Customize page in "
-			"OneStudio › Forms shows how it is now."
+			"{who} changed {form} for everyone. See it in "
+			"OneStudio › Custom Fields."
 		),
 		"email_default": False,
 	},
