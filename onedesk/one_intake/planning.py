@@ -289,6 +289,8 @@ def _money(ctx: dict, reading) -> None:
 	ctx["supplier"] = parties.get("Supplier") or (reading.party_name if reading.party_doctype == "Supplier" else None)
 	ctx["customer"] = parties.get("Customer") or (reading.party_name if reading.party_doctype == "Customer" else None)
 	ctx["contract_party"] = ("Supplier", ctx["supplier"]) if ctx["supplier"] else (("Customer", ctx["customer"]) if ctx["customer"] else None)
+	# The project a bill is for, when it names one (one_project/intake.py).
+	ctx["project"] = _project_named(reading) if ctx["supplier"] else None
 	ctx["file"] = frappe.db.get_value("File", {"one_reading": reading.name}, "name") or (reading.source_name if reading.source_doctype == "File" else None)
 	refs = {row.kind: row.value for row in reading.refs}
 	named = [row.value for row in reading.refs]
@@ -575,3 +577,10 @@ def applicant_arrived(doc, method=None) -> None:
 			doc.db_set({"one_duplicate_type": "Job Applicant", "one_duplicate_of": other.name, "one_duplicate_on": "email"}, update_modified=False)
 		break
 
+
+def _project_named(reading) -> str | None:
+	"""The open project the document names, from what it says and its lines."""
+	from onedesk.one_project import intake
+
+	said = " ".join(filter(None, [reading.title, reading.summary, reading.text, *[row.get("text") for row in reading.lines]]))
+	return intake.named(said)

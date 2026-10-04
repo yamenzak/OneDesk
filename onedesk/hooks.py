@@ -485,12 +485,14 @@ doc_events = {
 	},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
-		"before_validate": "onedesk.one_project.members.invite",
+		"before_validate": ["onedesk.one_project.members.invite", "onedesk.one_project.members.unlist"],
 		"validate": ["onedesk.one_project.naming.validate", "onedesk.one_project.tree.validate"],
 		"on_update": [
 			"onedesk.one_project.naming.on_update",
 			"onedesk.one_project.members.forget",
 			"onedesk.one_project.tree.forget",
+			# Who was added, who now runs it, how it is going. See one_project/tell.py.
+			"onedesk.one_project.tell.changed",
 		],
 		"on_trash": ["onedesk.one_project.members.forget", "onedesk.one_project.tree.forget"],
 	},
@@ -785,6 +787,8 @@ doctype_list_js = {
 	"Lead": "public/js/lead_list.js",
 	# A due date is a day, red once passed. See public/js/task_list.js.
 	"Task": "public/js/task_list.js",
+	# A project's status is its status, and its manager a name.
+	"Project": "public/js/project_list.js",
 }
 
 override_doctype_dashboards = {
@@ -1047,6 +1051,9 @@ one_ai_reads = [
 	"onedesk.one_hr.ai_policy.hr_policy",
 	"onedesk.one_hr.ai_growth.goal_facts",
 	"onedesk.one_hr.ai_growth.training_options",
+	# A project as its page shows it, and which projects need attention. See one_project/ai.py.
+	"onedesk.one_project.ai.project_facts",
+	"onedesk.one_project.ai.projects_needing_attention",
 	"onedesk.one_crm.ai.deal_facts",
 	"onedesk.one_crm.ai.lead_facts",
 	"onedesk.one_crm.ai.gone_quiet",
@@ -1125,6 +1132,7 @@ one_ai_suggestions = [
 	"onedesk.one_storage.ai.SUGGESTIONS",
 	"onedesk.one_calendar.ai.SUGGESTIONS",
 	"onedesk.one_task.ai.SUGGESTIONS",
+	"onedesk.one_project.ai.SUGGESTIONS",
 	"onedesk.one_admin.ai.SUGGESTIONS",
 	"onedesk.one_studio.ai.SUGGESTIONS",
 ]

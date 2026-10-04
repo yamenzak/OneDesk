@@ -583,3 +583,22 @@ onedesk.shell.Editor = class Editor {
 		if (breadcrumbs.then) this.append_breadcrumb_element("", breadcrumbs.then, "title-text-form");
 	};
 }
+
+// An amount reads the way it is written. Frappe writes a dirham's symbol
+// before the number, "د.إ -1,210", and the symbol's Arabic letters make the
+// browser read the minus and the digits right to left, as "1,210- د.إ". A
+// left-to-right mark after a right-to-left symbol keeps the number as
+// written. Frappe's own money (forms, lists, reports) is made by
+// `format_currency`; a Record Head's figures come made from the server.
+{
+	const RTL = "\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF";
+	const symbol = new RegExp(`([${RTL}][^\\s\\d]*)(\\s+)(?=[-+(]?\\d)`, "g");
+	onedesk.shell.ltr = (text) => (typeof text === "string" ? text.replace(symbol, "$1\u200e$2") : text);
+	const theirs = window.format_currency;
+	if (theirs && !theirs.__one_ltr) {
+		window.format_currency = function (...args) {
+			return onedesk.shell.ltr(theirs.apply(this, args));
+		};
+		window.format_currency.__one_ltr = true;
+	}
+}

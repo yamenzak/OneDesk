@@ -115,6 +115,9 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 		"due_date": due if due and due >= day else None,
 		"currency": reading.get("currency"),
 		"remarks": " ".join(remarks) or None,
+		# The project the bill names, on the bill and each line, which is where
+		# a project's cost counts it from.
+		"project": ctx.get("project"),
 	}
 	head = {key: value for key, value in head.items() if value}
 	if kind == "Credit Note":
@@ -126,6 +129,8 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 	rows = lines(reading, ctx.get("items") or {}, ctx.get("expense_account"))
 	if not rows:
 		return []
+	if head.get("project"):
+		rows = [{**row, "project": head["project"]} for row in rows]
 	return [Action("Create", "Purchase Invoice", values={**head, "items": rows}, key="books|invoice", propose_on_error=True)]
 
 

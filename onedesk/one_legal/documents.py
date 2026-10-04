@@ -184,7 +184,8 @@ DOCUMENTS = {
 		# 8: OneAI writes extensions, read a second time, and designs record types.
 		# 9: OneAI mends an extension from its errors, which can carry record data.
 		# 10: an extension tried once on a record, and what happened told to OneAI.
-		"revision": 10,
+		# 11: OneAI reads a project when asked, and suggests its tasks.
+		"revision": 11,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

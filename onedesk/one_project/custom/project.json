@@ -7,9 +7,9 @@
    "label": "Parent Project",
    "options": "Project",
    "insert_after": "project_name",
-   "in_standard_filter": 1,
-   "description": "The project this is part of. Its time, costs and invoices stay its own, and add up into the parent's.",
-   "module": "One Project"
+   "in_standard_filter": 0,
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project",
@@ -18,8 +18,8 @@
    "label": "Task Prefix",
    "insert_after": "project_name",
    "length": 10,
-   "description": "Tasks made in this project are named with it, as WEB-14. Leave empty to use the standard series.",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project",
@@ -31,8 +31,8 @@
    "insert_after": "status",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "description": "Whether a running project is going to plan. Status says whether it is running.",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project",
@@ -44,8 +44,8 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "default": "__user",
-   "description": "Who runs it. They always see it, listed under Users or not.",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   }
  ],
  "doctype": "Project",
@@ -58,6 +58,357 @@
    "property": "options",
    "property_type": "Text",
    "value": "Twice Daily\nDaily\nWeekly"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocType",
+   "property": "field_order",
+   "property_type": "Text",
+   "value": "[\"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"users_section\", \"users\", \"costing_tab\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"monitor_progress_tab\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "section_break_18",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Dates"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "section_break_18",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "actual_start_date",
+   "property": "label",
+   "property_type": "Data",
+   "value": "First Time Logged"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "actual_end_date",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Last Time Logged"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "actual_time",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Hours Logged"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "users_section",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Members"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "users_section",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "users",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Members"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "users",
+   "property": "description",
+   "property_type": "Text",
+   "value": ""
+  },
+  {
+   "doc_type": "Project User",
+   "doctype_or_field": "DocField",
+   "field_name": "view_attachments",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "customer_details",
+   "property": "label",
+   "property_type": "Data",
+   "value": ""
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "customer_details",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "is_active",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "percent_complete",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:doc.percent_complete_method == 'Manual'"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "project_details",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Cost and Billing"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_costing_amount",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Time Cost"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_purchase_cost",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Purchases"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_consumed_material_cost",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Materials Used"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "cost_center",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Cost Center"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_sales_amount",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Ordered"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billable_amount",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Billable Time"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billed_amount",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Billed"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "gross_margin",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Margin"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "per_gross_margin",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Margin %"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "subject",
+   "property": "mandatory_depends_on",
+   "property_type": "Data",
+   "value": ""
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "message",
+   "property": "mandatory_depends_on",
+   "property_type": "Data",
+   "value": ""
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "message",
+   "property": "description",
+   "property_type": "Text",
+   "value": ""
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "label",
+   "property_type": "Data",
+   "value": "How Often"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "day_to_send",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Day"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "weekly_time_to_send",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Time"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "daily_time_to_send",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Time"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "first_email",
+   "property": "label",
+   "property_type": "Data",
+   "value": "First Ask"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "second_email",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Second Ask"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "project_type",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "expected_start_date",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "estimated_costing",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "customer",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "project_type",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "priority",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "customer",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "default",
+   "property_type": "Text",
+   "value": "Weekly"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_expense_claim",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Expense Claims"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "margin",
+   "property": "label",
+   "property_type": "Data",
+   "value": ""
   }
  ],
  "sync_on_migrate": 1

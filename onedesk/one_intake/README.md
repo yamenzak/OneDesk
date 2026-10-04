@@ -197,6 +197,8 @@ submit.
     order, so it's matched to it.
   - If the bill is already booked, the document is attached and nothing new
     is created.
+  - A bill that names one open project, by its name, is for that project, and
+    so is each line, so the project's cost includes it.
 - **Receipt the company paid**: a draft bill marked as not to be paid. One a
   colleague forwards becomes their expense claim.
 - **Credit note**: a return against the bill it credits, or a proposal if

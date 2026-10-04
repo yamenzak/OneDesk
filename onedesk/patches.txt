@@ -38,3 +38,4 @@ onedesk.one_studio.patches.collection_groups
 onedesk.one.patches.portal_settle
 onedesk.one.patches.portal_address_button
 onedesk.one.patches.portal_account_forms
+onedesk.one_project.patches.no_hourly_asks

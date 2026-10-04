@@ -158,7 +158,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneStudio › Forms | done |
 | Products | OneStudio › Custom Collections | done, second pass |
 | Outside the desk | The portal, and the public Your Data page | done (Portals 1 to 8) |
-| Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
+| Products | OneProject › Projects | done |
+| Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -6815,6 +6816,147 @@ supplier (Sara, Gulf Office), on a desktop and a phone.
     data, or to delete it.", "Send Link", "If Four Degree Labs knows this
     address, a link to confirm is on its way.", "Enter a valid email
     address."
+
+### OneProject › Projects
+
+Your word: "Ok time for OneProject officially". Projects is the first row of
+OneProject's rail: frappe's list of ERPNext's Project, and a project's page
+with its Record Head (Health, Done, Due, Cost, Billed, Margin, Overdue Tasks,
+Next Milestone and the hours chart) over ERPNext's tabs: Details, Costing,
+Progress, More Info, Connections, then Mail, Files and Activity. Looked at as
+the workspace administrator, given OneProject's Manager level on People.
+
+1. **Notifications**:
+   - Being listed under **Users** sends ERPNext's own mail, outside the hub:
+     "Project Collaboration Invitation", "You have been invited to
+     collaborate on the project Villa Windows (PROJ-0005)", in English
+     whatever the person's language, with no bell. Being made **Project
+     Manager** sends nothing.
+   - **Health** turning At Risk or Off Track tells nobody, though it is the
+     one judgement a project's people need to hear.
+   - The update ask and the morning summary (Project Update Asked, Project
+     Summary) are One's and hold.
+2. **OneAI**: OneProject has no `ai.py`. On a project the panel offers
+   nothing of its own and has nothing that reads a project as its page does:
+   the figures, what is late and what it holds up, the next milestone, the
+   team's updates. On the list it cannot say which projects need attention.
+3. **Intake**: nothing Intake reads lands on a project. A supplier's bill for
+   the villa's glass is drafted with no project, so the project's **Cost**
+   misses it until somebody sets it by hand.
+4. **Permissions**: `members.py` holds. A Projects Manager sees every project,
+   anybody else the ones they made, run, are listed on, or that list nobody,
+   and what is under them, in the list and the page alike. The **Users**
+   table is labelled "Project will be accessible on the website to these
+   users", which is wrong here: it decides who on the team sees the project.
+   Its **View attachments** column is a portal setting nobody here uses.
+5. **Cross-module**: **Customer** (OneCRM, OneBook) and **Sales Order** sit
+   in a folded More Info section, though billing, sub-projects and the
+   portal all hang on the customer.
+6. **Bespoke UI**:
+   - a. **The list is cramped**: eleven columns cut the name to eight
+     letters ("Villa Al Ba"). ID, Expected Start, Estimated Cost and Project
+     Type take the room, and Project Manager shows an email.
+   - b. **The status reads wrong**: ERPNext shows "33%" in orange in place of
+     Open once a task is done, and Open in red otherwise. The same pill sits
+     beside the page's title, beside **Done 33%**.
+   - c. **Two rows of filters**: ID, Project Name, Parent Project, Status,
+     Health, Project Manager, Project Type, Priority.
+   - d. **The dates are hidden**: Expected Start and Expected End are in a
+     folded Timeline at the foot of Details, under Department, Is Active,
+     % Completed (the head's Done again), % Complete Method and Project
+     Type. **Users** and **Customer** are folded under More Info.
+   - e. **A negative amount reads backwards**: the margin says
+     "1,210- د.إ" in the head and on Costing. Frappe writes "د.إ -1,210",
+     and the dirham's Arabic letters make the browser read the number right
+     to left. Every amount in dirhams has it, everywhere in the desk.
+   - f. **Costing** is ERPNext's words: "Total Costing Amount (via
+     Timesheet)", "Total Consumed Material Cost (via Stock Entry)", "Gross
+     Margin %".
+   - g. **Progress** asks for a Subject and a Message as soon as Collect
+     Progress is ticked, though One asks in its own words when they are
+     empty. Villa Windows has it ticked and both empty, so the page cannot be
+     saved. "Frequency To Collect Progress" and "Weekly Time to send" are
+     ERPNext's labels.
+7. **Documented**: the README's project sections are the manual and OneAI
+   answers from them, but they are written in the old style: dashes,
+   "Health — whether it is going to plan", colons joining clauses. "Users"
+   is called members in one sentence and Users in the next.
+8. **Legal**: OneProject has no `legal.py`. The portal's projects are in the
+   Privacy Policy (one/legal.py). If OneAI reads projects (2), the AI
+   Addendum says so.
+9. **Built from frappe**: the list is frappe's list, the page is frappe's
+   form with the Record Head, the board is ERPNext's Kanban, the schedule
+   frappe's Gantt. The page hears changes through the form's own
+   `doc_subscribe`. Holds.
+10. **Plain words**: the notes under Task Prefix ("Tasks made in this project
+    are named with it, as WEB-14. Leave empty to use the standard series."),
+    Parent Project, Health and Project Manager explain what the README
+    explains, and are instructions. ERPNext's note under Message too.
+
+**A record answers first**: the head answers (Health, Done, Due, Cost,
+Billed, Margin, what is late, the next milestone) and holds, apart from the
+pill (6b) and the backwards margin (6e).
+
+Your word, earlier: "Idk figure it out". All of them, done:
+
+- **Notifications** (`one_project/tell.py`): **Added to Project** (to each
+  person added), **Made Project Manager** (to the new manager) and **Project
+  Health** (to the manager and members when a project is marked At Risk or
+  Off Track), all through the hub, in each person's language, never to
+  whoever did it. ERPNext's English invitation is never sent
+  (`members.invite`). Checked on the dev site: each arrived, and no
+  invitation mail was queued.
+- **Found on the way, and fixed**: a member could not be taken off a project
+  by anybody in a workspace. ERPNext takes back the share with frappe's
+  `share.remove`, which needs System Manager's delete on DocShare;
+  `members.unlist` takes it back first. And seven of the eight projects could
+  not be saved at all: they still said Hourly, which OneProject had taken off
+  the choices. `patches/no_hourly_asks.py` moves them to Weekly, now the
+  default.
+- **OneAI** (`one_project/ai.py`): `project_facts` reads a project as its
+  page does, with its late tasks, who is on each and what waits on them, the
+  milestones to come and the team's updates; `projects_needing_attention`
+  reads the list as the reader sees it. A `projects` group gives them on a
+  project's page or when the request says "project". Suggestions on a
+  project: **How is this project going?**, **What is late?**, **Write the
+  customer an update**, **Plan the tasks** (OneTask's `plan_task` cards). On
+  the list: **Which projects need attention?** Checked by calling the tools
+  as the administrator and as Rania, who is refused; no model was called.
+- **Intake**: a supplier's bill that names one open project, by its whole
+  name, is drafted for that project, on the bill and each line
+  (`one_project/intake.py`, `one_intake/money.py`). Two projects or none is
+  left for a person.
+- **The list**: Project Name, Status, Customer, Health, Project Manager (a
+  name, since every link to a person now reads as one:
+  `show_title_field_in_link` on User), Expected End Date and % Completed. No
+  ID column or filter. One row of filters: name, customer, status, health,
+  manager. Status is Open in blue, Completed in green, Cancelled in grey.
+- **The page**: Details has the name, Customer and Parent Project beside
+  Status, Health and Project Manager, then **Dates** (open: expected start
+  and end, first and last time logged, hours logged), then **Members**. Costing
+  carries the Sales Order and plain labels (Time Cost, Expense Claims,
+  Purchases, Materials Used, Ordered, Billable Time, Billed, Margin). Progress
+  asks How Often, Day and Time, and Subject and Message are optional. More
+  Info has the priority, type, department, task prefix and how % done is
+  worked out. Is Active is hidden, and % Completed shows only when it is set
+  by hand. The notes under our fields are gone.
+- **Amounts read the way they are written**, everywhere in the desk:
+  `onedesk.shell.ltr` puts a left-to-right mark after a right-to-left symbol,
+  in frappe's `format_currency` and in every Record Head's figures. "د.إ
+  -1,210" now reads as written.
+- **README**: rewritten in plain words, with Projects, A project's page,
+  Members, Being told and Asking OneAI. OneIntake's README says a bill can
+  land on a project.
+- **Legal**: `one_project/legal.py`, `oneproject-asks` in the AI Addendum,
+  revision 11. OneLegal had never assembled a new module's `legal.py` unless
+  it was listed by hand; `test_every_modules_legal_file_is_assembled` now
+  fails when one is missing.
+- Arabic and German for every new string.
+
+Noticed, not this screen's: syncing every customization on the dev site
+stops at OneHR's Employee Advance ("Currency cannot be hidden and mandatory
+without default"). Nothing in the repo hides it, so it is this site's own
+data; it would stop `bench migrate` here.
 
 ## OneLegal
 

@@ -110,11 +110,26 @@ def test_a_project_is_its_members():
 	assert "onedesk.one_project.members.forget" in HOOKS
 
 
-def test_a_member_can_be_added_without_outgoing_mail():
+def test_a_member_is_told_in_ours_not_erpnexts_mail():
+	# ERPNext's English invitation is never sent, with mail or without; the
+	# member hears Added to Project through the hub (tell.py).
 	source = (PROJECT / "members.py").read_text()
 	invite = _body(source, "invite")
-	assert '"default_outgoing": 1, "enable_outgoing": 1' in invite and "row.welcome_email_sent = 1" in invite
-	assert '"before_validate": "onedesk.one_project.members.invite"' in HOOKS
+	assert "row.welcome_email_sent = 1" in invite and "Email Account" not in invite
+	assert (
+		'"before_validate": ["onedesk.one_project.members.invite", "onedesk.one_project.members.unlist"]'
+		in HOOKS
+	)
+	# A member taken off loses the share before ERPNext's System-Manager-only removal.
+	unlist = _body(source, "unlist")
+	assert '"DocShare"' in unlist and "ignore_permissions=True" in unlist
+	tell = (PROJECT / "tell.py").read_text()
+	assert 'notify.notify("Added to Project"' in tell and 'notify.notify("Made Project Manager"' in tell
+	assert 'notify.notify("Project Health"' in tell and 'WORSE = ("At Risk", "Off Track")' in tell
+	assert '"onedesk.one_project.tell.changed"' in HOOKS
+	types = (PROJECT / "notifications.py").read_text()
+	for name in ("Added to Project", "Made Project Manager", "Project Health"):
+		assert f'"name": _lt("{name}")' in types
 
 
 def _tree():
@@ -404,7 +419,8 @@ def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
 	assert "is_website_user()" in (tree.APP / "__init__.py").read_text()
 	assert '"onedesk.one.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
 	assert (
-		'{"doctype": "Portal User", **where, "user": doc.user}' in (tree.APP / "one" / "portal.py").read_text()
+		'{"doctype": "Portal User", **where, "user": doc.user}'
+		in (tree.APP / "one" / "portal.py").read_text()
 	), "the only thing ERPNext's portal reads"
 	source = (PROJECT / "portal.py").read_text()
 	assert "has_website_permission(doc" in _body(source, "may_see")
@@ -476,3 +492,110 @@ def test_what_the_old_oneproject_had_that_is_kept():
 		'where["project_type"] = ["!=", BOARDING]'
 		in (PROJECT / "report" / "project_tree" / "project_tree.py").read_text()
 	)
+
+
+def test_the_projects_list_says_status_and_names_the_manager():
+	js = (tree.APP / "public" / "js" / "project_list.js").read_text()
+	assert "hide_name_column: true" in js and "hide_name_filter: true" in js
+	assert 'Open: "blue", Completed: "green"' in js, "Open is not red, and a share is not a status"
+	user = json.loads((tree.APP / "one" / "custom" / "user.json").read_text())
+	assert any(
+		row["property"] == "show_title_field_in_link" and row["value"] == "1"
+		for row in user["property_setters"]
+	)
+	assert '"Project": "public/js/project_list.js"' in HOOKS
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	said = {
+		(row["doc_type"], row.get("field_name"), row["property"]): row["value"]
+		for row in custom["property_setters"]
+	}
+	for field in ("project_type", "expected_start_date", "estimated_costing"):
+		assert said[("Project", field, "in_list_view")] == "0"
+	assert said[("Project", "customer", "in_list_view")] == "1"
+	assert said[("Project", "customer", "in_standard_filter")] == "1"
+
+
+def test_a_projects_page_puts_its_dates_and_members_on_details():
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	said = {
+		(row["doc_type"], row.get("field_name"), row["property"]): row["value"]
+		for row in custom["property_setters"]
+	}
+	order = json.loads(said[("Project", None, "field_order")])
+	assert (
+		order.index("customer")
+		< order.index("section_break_18")
+		< order.index("users")
+		< order.index("costing_tab")
+	)
+	assert said[("Project", "section_break_18", "collapsible")] == "0"
+	assert (
+		said[("Project", "users", "label")] == "Members" and said[("Project", "users", "description")] == ""
+	)
+	assert said[("Project User", "view_attachments", "in_list_view")] == "0"
+	# One asks in its own words when the project has none (updates.py).
+	assert said[("Project", "subject", "mandatory_depends_on")] == ""
+	assert said[("Project", "message", "mandatory_depends_on")] == ""
+	assert said[("Project", "total_costing_amount", "label")] == "Time Cost"
+	# Hourly is not offered, so it is not where a project starts, and the
+	# projects that said it say Weekly (patches/no_hourly_asks.py).
+	assert (
+		"Hourly" not in said[("Project", "frequency", "options")]
+		and said[("Project", "frequency", "default")] == "Weekly"
+	)
+	assert "onedesk.one_project.patches.no_hourly_asks" in (tree.APP / "patches.txt").read_text()
+	# Our fields carry no notes; the README says what they are. An empty note
+	# is written out, since frappe's sync leaves a missing one as it was.
+	assert all(
+		one.get("description") == "" for one in custom["custom_fields"] if one["fieldname"].startswith("one_")
+	)
+
+
+def test_a_bill_lands_on_the_one_project_it_names():
+	import re
+
+	space = _load(PROJECT / "intake.py", ("SHORTEST", "pick"), re=re)
+	pick = space["pick"]
+	projects = [("P1", "Villa Al Barsha"), ("P2", "Villa Windows"), ("P3", "Handrails"), ("P4", "Web")]
+	assert pick("Glass panels for villa al barsha, site 4", projects) == "P1"
+	assert pick("Frames: Villa Windows, phase 2", projects) == "P2"
+	assert pick("Handrails and Villa Windows", projects) is None, "two projects is a person's call"
+	assert pick("Web hosting for March", projects) is None, "a short name says too little"
+	assert pick("Handrailsteel", projects) is None, "a name counts whole"
+	assert pick("", projects) is None
+	planning = (tree.APP / "one_intake" / "planning.py").read_text()
+	money = (tree.APP / "one_intake" / "money.py").read_text()
+	assert 'ctx["project"] = _project_named(reading)' in planning and "intake.named(" in planning
+	assert '"project": ctx.get("project")' in money and '{**row, "project": head["project"]}' in money
+
+
+def test_oneai_reads_a_project_as_its_page_does():
+	ai = (PROJECT / "ai.py").read_text()
+	assert (
+		"overview.overview(project)" in ai and 'frappe.has_permission("Project", "read", doc=project)' in ai
+	)
+	assert "frappe.get_list(" in ai, "tasks are read as the reader"
+	for tool in ("project_facts", "projects_needing_attention"):
+		assert f'"onedesk.one_project.ai.{tool}"' in HOOKS
+	assert '"onedesk.one_project.ai.SUGGESTIONS"' in HOOKS
+	groups = (tree.APP / "one_ai" / "groups.py").read_text()
+	assert (
+		'"tools": ("project_facts", "projects_needing_attention")' in groups
+		and '"One Project": "projects"' in groups
+	)
+	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
+	for heading in ("## Being told", "## Asking OneAI", "## Who sees a project"):
+		assert heading in readme
+	legal = (PROJECT / "legal.py").read_text()
+	assert 'key="oneproject-asks"' in legal
+
+
+def test_an_amount_reads_the_way_it_is_written():
+	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
+	assert (
+		"onedesk.shell.ltr = " in shell
+		and "\\u200e" in shell
+		and "window.format_currency = function" in shell
+	)
+	band = (tree.APP / "public" / "js" / "band.js").read_text()
+	assert "onedesk.shell.ltr(when(value))" in band

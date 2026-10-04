@@ -106,6 +106,11 @@ GROUPS = {
 			"صفقة", "عميل", "مبيعات", "عملاء",
 		),
 	},
+	"projects": {
+		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention",
+		"tools": ("project_facts", "projects_needing_attention"),
+		"words": ("project", "milestone", "projekt", "meilenstein", "مشروع", "مشاريع"),
+	},
 	"hr": {
 		"about": "people: appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",
 		"tools": (
@@ -231,6 +236,8 @@ MODULES = {
 	"CRM": "crm",
 	"Selling": "crm",
 	"One CRM": "crm",
+	"Projects": "projects",
+	"One Project": "projects",
 	"HR": "hr",
 	"Payroll": "hr",
 	"One HR": "hr",

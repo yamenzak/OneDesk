@@ -19,11 +19,14 @@ project is seen by whoever may see the project, and by its own people always.
 with each person on Users and takes the share back when they are removed, so a
 member opens the project through frappe's share as well as through this rule.
 
-**A workspace with no outgoing mail can still add a member.** ERPNext mails an
-invitation to each new member while the project saves, and frappe refuses to
-queue mail with no outgoing account — so the save failed, and nobody could be
-added at all. Where there is no account the invitation is marked as sent
-(`invite`); the member has their access either way.
+**A member can be taken off.** ERPNext takes back a removed member's share in
+a way only a System Manager may, so the save failed for everybody in a
+workspace; `unlist` takes it back first.
+
+**A member is told in ours.** ERPNext mails an invitation to each new member
+while the project saves: English mail outside the hub, which also failed the
+save where the workspace has no outgoing mail. `invite` marks it sent, and
+tell.py tells the member as Added to Project instead.
 
 Only somebody holding Projects User is narrowed here. Twenty other roles have
 Select on Project so a sales order or an invoice can name one; they pick from
@@ -100,8 +103,29 @@ def names(projects: set[str]) -> str:
 
 
 def invite(doc, method=None) -> None:
-	"""Project before_validate: no invitation to send where no mail can go."""
-	if frappe.db.exists("Email Account", {"default_outgoing": 1, "enable_outgoing": 1}):
-		return
+	"""Project before_validate: ERPNext's invitation is never sent. A member is
+	told in ours, Added to Project (tell.py), in their language and as they
+	chose; ERPNext's is English mail outside the hub, and fails the save where
+	no mail can go."""
 	for row in doc.get("users") or []:
 		row.welcome_email_sent = 1
+
+
+def unlist(doc, method=None) -> None:
+	"""Project before_validate: a member taken off loses ERPNext's share here.
+	ERPNext takes it back with frappe's `share.remove`, which deletes the
+	DocShare as the person saving and needs System Manager's delete on it, so
+	nobody in a workspace could take a member off a project. Whoever may save
+	the project may say who is on it; ERPNext then finds nothing left to take
+	back."""
+	before = doc.get_doc_before_save()
+	if not before:
+		return
+	gone = {row.user for row in before.get("users") or []} - {row.user for row in doc.get("users") or []}
+	for user in gone:
+		for share in frappe.get_all(
+			"DocShare",
+			filters={"share_doctype": "Project", "share_name": doc.name, "user": user},
+			pluck="name",
+		):
+			frappe.delete_doc("DocShare", share, ignore_permissions=True)

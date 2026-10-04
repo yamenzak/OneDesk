@@ -27,7 +27,7 @@ VERSIONS = {
 	"cookies": "1.32b1addc",
 	"dpa": "4.042bc9fa",
 	"subprocessors": "4.609e7a2d",
-	"ai": "10.40f2a309",
+	"ai": "11.172725bd",
 	"licences": "1.c71daf62",
 }
 
@@ -128,3 +128,13 @@ def test_every_model_provider_offered_is_a_declared_subprocessor():
 	declared = set(registry.SUBPROCESSORS)
 	unnamed = {provider: company for provider, company in makers.PROVIDERS.items() if company not in declared}
 	assert not unnamed, f"Model providers offered without a subprocessor entry: {unnamed}"
+
+
+def test_every_modules_legal_file_is_assembled():
+	# A module's legal.py the list leaves out declares clauses no document
+	# carries. www/legal.py is the page that shows them, and one_legal the
+	# documents themselves.
+	from onedesk.one_legal.assemble import MODULES
+
+	found = {path.parent.name for path in tree.APP.glob("one*/legal.py") if path.parent.name != "one_legal"}
+	assert found <= set(MODULES), f"not in one_legal/assemble.py MODULES: {sorted(found - set(MODULES))}"
