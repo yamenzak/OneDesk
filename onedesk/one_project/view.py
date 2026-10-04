@@ -184,8 +184,6 @@ def _first(doc, cash: dict) -> dict:
 			"money": quote["value"],
 			"note": _("Not ordered yet"),
 			"route": f"/desk/quotation/{quote['name']}",
-			"action": "order",
-			"quotation": quote,
 		}
 	return {"key": "contract", "money": 0, "action": "add_contract"}
 
@@ -337,23 +335,62 @@ def _due(view: dict) -> dict:
 	}
 
 
+def _quotes(doc) -> list[dict]:
+	"""The customer's quotations for the project, newest first, drafts too,
+	read as the reader reads quotations."""
+	if not doc.customer or not frappe.has_permission("Quotation", "read"):
+		return []
+	return [
+		{
+			"name": one.name,
+			"date": one.transaction_date,
+			"status": "Draft" if one.docstatus == 0 else one.status,
+			"value": flt(one.net_total),
+			"currency": one.currency,
+			"extra": bool(one.one_extra_work),
+		}
+		for one in frappe.get_list(
+			"Quotation",
+			filters={"project": doc.name, "docstatus": ["<", 2]},
+			fields=[
+				"name",
+				"transaction_date",
+				"status",
+				"docstatus",
+				"net_total",
+				"currency",
+				"one_extra_work",
+			],
+			order_by="transaction_date desc, creation desc",
+			limit_page_length=SHOWN,
+		)
+	]
+
+
 def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 	"""What the kind's Overview shows beyond its figures. Each thing is in
 	one place: what is in a section is not in Needs You as well."""
 	said = {
 		"needs": needs(doc, view, kind),
 		"sub_projects": _sub_projects(doc.name),
+		"quotes": _quotes(doc),
 	}
 	if kind in (kinds.FIXED, kinds.INTERNAL):
 		said["milestones"] = _milestones(view["tree"])
 	if kind == kinds.FIXED:
-		said["billing"] = {
-			"done": view["share"],
-			"billed": share(cash["invoiced"], cash["contract"]),
-			"paid": share(
-				{one["label"]: one["value"] for one in cash["customer"]}.get(_("Paid"), 0), cash["contract"]
-			),
-		}
+		# Work against billing means nothing until something is ordered.
+		said["billing"] = (
+			{
+				"done": view["share"],
+				"billed": share(cash["invoiced"], cash["contract"]),
+				"paid": share(
+					{one["label"]: one["value"] for one in cash["customer"]}.get(_("Paid"), 0),
+					cash["contract"],
+				),
+			}
+			if contract(doc)
+			else None
+		)
 		said["budget"] = _budget_lines(doc.name)
 		said["subcontracts"] = cash["suppliers"][:SHOWN]
 		order = contract(doc)

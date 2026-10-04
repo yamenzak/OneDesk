@@ -14,7 +14,7 @@
       </Section>
 
       <template v-if="kind === 'Fixed Price'">
-        <Section :title="__('Work and Billing')">
+        <Section v-if="view.billing" :title="__('Work and Billing')">
           <Rows :rows="[
             { key: 'done', label: __('Work Done'), progress: view.billing.done, value: `${view.billing.done}%` },
             { key: 'billed', label: __('Billed'), progress: view.billing.billed, value: `${view.billing.billed}%` },
@@ -60,6 +60,9 @@
         </Section>
       </template>
 
+      <Section v-if="view.quotes?.length" :title="__('Quotations')">
+        <Rows :rows="view.quotes.map((one) => ({ key: one.name, label: one.name, sub: one.extra ? __('Extra Work') : '', dot: QUOTE[one.status] || 'gray', dim: `${__(one.status)} · ${date(one.date)}`, value: money(one.value, one.currency), route: `/desk/quotation/${one.name}` }))" />
+      </Section>
       <Section :title="__('Updates')">
         <Updates :said="said" @changed="$emit('changed')" />
       </Section>
@@ -119,6 +122,9 @@ const emit = defineEmits(["changed", "view"]);
 const view = computed(() => props.said.overview);
 const kind = computed(() => props.said.kind);
 
+// A quotation's status as a dot: still open, ordered, or gone.
+const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "orange", Draft: "gray" };
+
 const NAMES = () => ({
   contract: __("Contract"), quoted: __("Quoted"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), done: __("Done"),
   hours: __("Hours This Month"), month: __("This Month"), unbilled: __("Not Invoiced Yet"), fee: __("Monthly Fee"),
@@ -146,7 +152,6 @@ const next = (card) => {
   if (!can("create", "Sales Order")) return null;
   if (card.action === "add_contract" && props.said.can_write && props.said.customer)
     return { label: __("Add Contract"), icon: "lucide-plus", onClick: () => onedesk().project.add_contract(frm()) };
-  if (card.action === "order") return { label: __("Make Order"), icon: "lucide-file-check", onClick: () => onedesk().project.order_quote(card.quotation) };
   return null;
 };
 

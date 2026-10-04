@@ -1199,11 +1199,22 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 
 	assert first("SO-1", None) == {"key": "contract", "money": 500, "route": "/desk/sales-order/SO-1"}
 	quoted = first(None, {"name": "QTN-1", "value": 180, "count": 1, "alternatives": False})
-	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["action"] == "order"
+	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["route"] == "/desk/quotation/QTN-1"
 	assert first(None, None) == {"key": "contract", "money": 0, "action": "add_contract"}
 	# With several open, which one is ordered is picked on their list.
 	several = first(None, {"name": "QTN-2", "value": 195, "count": 2, "list": "/desk/quotation?x"})
 	assert several["route"] == "/desk/quotation?x" and "action" not in several
+	# Quoted, the order is the next step: the page's main button, while one
+	# quote is open. A Fixed Price project can be quoted again until ordered.
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert 'if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))' in page
+	assert 'if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation")' in page
+	# Its quotations are listed, and work against billing waits for an order.
+	view_py = (PROJECT / "view.py").read_text()
+	assert '"quotes": _quotes(doc),' in view_py and "if contract(doc)\n\t\t\telse None" in view_py
+	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert '<Section v-if="view.billing" :title="__(\'Work and Billing\')">' in overview_vue
+	assert ":title=\"__('Quotations')\"" in overview_vue
 	view = (PROJECT / "view.py").read_text()
 	assert '"quotation": None if contract(doc) else quotation(doc)' in view
 	assert '"one_extra_work": 0' in view and '_("{0}% of the quote")' in view
@@ -1222,13 +1233,13 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	# The page asks for the next step under the figure, with frappe-ui's
 	# Button, and makes the order with ERPNext's own quotation mapper.
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	assert 'can("create", "Sales Order")' in overview and "__(\"Make Order\")" in overview
+	assert 'can("create", "Sales Order")' in overview and "__(\"Add Contract\")" in overview
 	assert '<Button v-if="one.button"' in (tree.ROOT / "frontend" / "src" / "kit" / "Figures.vue").read_text()
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "erpnext.selling.doctype.quotation.mapper.make_sales_order" in actions
 	assert "onedesk.one_project.kinds.add_contract" in actions
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert '__("New Quotation")' in page and '__("Quote Extra Work")' in page
+	assert '__("New Quotation")' in page and '__("Quote Extra Work")' in page and '__("Make Order")' in page
 
 
 def test_a_quote_counts_while_it_stands_and_names_its_project():

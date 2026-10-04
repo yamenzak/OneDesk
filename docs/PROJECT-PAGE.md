@@ -42,8 +42,10 @@ quotation, gets it on its page. While the quotation is open the first card is
 `make_sales_order`, so the order is made as it is from the quotation). With
 neither, the card offers **Add Contract** (kinds.py `add_contract`), the same
 Sales Order the dialog makes. Both orders are in the customer's currency.
-With several open quotations the card says how many and opens them as a list
-instead of offering Make Order.
+With one open quotation, Make Order is the page's main button; with several,
+the card says how many and opens them as a list. New Quotation stays in ···
+until the project is ordered. The Overview lists the project's quotations
+(view.py `_quotes`), and Work and Billing waits for an order.
 
 ## The page
 

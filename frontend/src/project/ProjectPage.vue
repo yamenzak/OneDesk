@@ -205,12 +205,11 @@ function actions(s) {
   if (main) list.push({ ...main, primary: true });
   list.push({ label: __("Edit Details"), onClick: () => go(`/desk/project/${encodeURIComponent(s.name)}?edit=1`) });
   if (main?.key !== "post") list.push({ label: __("Post Update"), onClick: () => desk().project.post(frm()) });
-  // A Fixed Price project is quoted first; once it has its contract, what
-  // is quoted after is extra work, ordered as a sub-project.
+  // A Fixed Price project is quoted, and quoted again, until it has its
+  // contract; what is quoted after is extra work, ordered as a sub-project.
   if (s.customer && can("create", "Quotation")) {
-    if (s.kind === "Fixed Price" && !s.contract) {
-      if (!s.quotation) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer }) });
-    } else list.push({ label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) });
+    if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer }) });
+    else list.push({ label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) });
   }
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
   if (can("create", "Project Template")) list.push({ label: __("Save as Template"), onClick: () => desk().project.save_as(frm()) });
@@ -219,6 +218,9 @@ function actions(s) {
 }
 
 function mainAction(s) {
+  // While it's quoted and not ordered, the next step is the customer's order.
+  if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))
+    return { key: "order", label: __("Make Order"), onClick: () => desk().project.order_quote(s.quotation) };
   if (s.kind === "Fixed Price" && s.contract && can("create", "Sales Invoice"))
     return { key: "bill", label: __("Bill Progress"), onClick: () => desk().progress.ask({ doctype: "Sales Order", doc: { name: s.contract } }) };
   if (s.kind === "Time and Materials" && s.customer && can("create", "Sales Invoice"))

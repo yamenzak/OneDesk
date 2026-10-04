@@ -7660,6 +7660,18 @@ ERPNext already does"):
   the customer's open projects, and names the one Fixed Price project with
   nothing ordered yet when there's exactly one.
 
+**Quoting from the page.** Looking again at a quoted project:
+
+- **New Quotation** hid once a quote existed, which is just when a revised
+  quote or a second option is wanted. It now stays in **···** until the
+  project is ordered.
+- The main button was **Post Update** while the next step was the customer's
+  order. With one quote open it's **Make Order**, which left the figure.
+- The page never listed its quotations. **Quotations** on the Overview lists
+  them, newest first, drafts too, each with where it stands.
+- **Work and Billing** showed three empty bars before anything was ordered.
+  It shows once there's an order.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

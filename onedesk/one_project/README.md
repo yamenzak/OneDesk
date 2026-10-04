@@ -270,8 +270,9 @@ The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **Invoice Time** for Time and Materials, and **Post Update** otherwise.
 **···** has the rest: **Edit Details**, **Post Update**, **Quote Extra
 Work**, **Group Under New Project**, **Save as Template** and **Open Task
-Board**. On a Fixed Price project with no contract or quotation yet,
-**New Quotation** takes the place of **Quote Extra Work**.
+Board**. On a Fixed Price project with no contract yet, **New Quotation**
+takes the place of **Quote Extra Work**, and while one quotation is open
+**Make Order** is the main button.
 
 **Edit Details** opens the project's form, with every field: its name,
 customer, parent project, status, health and manager, its dates and members,
@@ -487,11 +488,16 @@ paid.
 
 ### Before the customer orders
 
-A Fixed Price project can start before anything is agreed. While the
-customer's quotation is open, **Contract** on the Overview reads **Quoted**
-with the quotation's value, **Forecast Margin** is worked out against it, and
-**Make Order** turns the quotation into the sales order. A quotation with
+A Fixed Price project can start before anything is agreed. **New Quotation**
+(in **···**) starts a quotation for the project's customer, as often as you
+need until one is ordered. While the customer's quotation is open,
+**Contract** on the Overview reads **Quoted** with the quotation's value,
+**Forecast Margin** is worked out against it, and **Make Order** at the top
+of the page turns the quotation into the sales order. A quotation with
 alternative items opens instead, so you can pick which ones were ordered.
+**Quotations** on the Overview lists the project's quotations, drafts too,
+with where each stands. **Work and Billing** shows once something is
+ordered.
 
 A project can have more than one quotation, a revised price or a choice of
 two. With several open, **Quoted** shows the newest and says how many there
