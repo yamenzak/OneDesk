@@ -54,8 +54,9 @@ the project is and how it's going, then views of the same work.
   kind's facts sit over it, the team in its corner, and the views right
   under it (on a phone the facts go under the photo). The kind's facts are
   the contract on a Fixed Price project, the start and hours a month on a
-  Retainer, days left on an Internal one. **Add Cover** opens frappe's upload
-  dialog with media.py's `add` as its method. Someone whose system asks for less motion gets the
+  Retainer, days left on an Internal one. With no photos the same sits on a plain panel,
+  with **Add Cover**, which opens frappe's upload dialog with media.py's `add`
+  as its method. Someone whose system asks for less motion gets the
   photos still.
 - **Views**, in one bar under the head, kept in `?view=`:
   - **Overview**: laid out for the kind, each thing once. The brief when

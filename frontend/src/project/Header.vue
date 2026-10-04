@@ -1,15 +1,20 @@
 <template>
   <!-- The project's head: its Featured Media turning behind its name and
        what its kind is watched by, changed right here (Hero.vue, Facts.vue),
-       the team in the corner. With no photos, the name, then the facts. -->
+       the team in the corner. -->
   <header class="pt-6">
-    <template v-if="!said.media.length">
-      <div class="flex items-center gap-3">
-        <Title :said="said" @change="relay" />
-        <Button v-if="said.can_write" class="ms-auto" variant="ghost" icon-left="lucide-image-plus" :label="__('Add Cover')" @click="add" />
+    <!-- With no photos, a quiet panel in their place, laid out the same. -->
+    <div v-if="!said.media.length" class="relative rounded-7 bg-surface-gray-2 p-6 lg:p-8">
+      <Button v-if="said.can_write" class="absolute end-4 top-4 lg:end-6 lg:top-6" variant="outline" icon-left="lucide-image-plus" :label="__('Add Cover')" @click="add" />
+      <div class="mb-2 text-sm font-medium uppercase tracking-widest text-ink-gray-5">{{ __(said.kind) }}</div>
+      <div class="flex items-end justify-between gap-6">
+        <div class="min-w-0">
+          <Title :said="said" size="text-6xl lg:text-8xl" @change="relay" />
+          <Facts class="mt-4" :said="said" @change="relay" />
+        </div>
+        <People class="shrink-0 max-sm:hidden" :users="said.team.map((one) => one.user)" :people="teamPeople" :max="6" size="md" />
       </div>
-      <Facts class="mt-3" :said="said" :progress="progress" @change="relay" />
-    </template>
+    </div>
 
     <template v-else>
       <Hero :media="said.media" :can-add="said.can_write" @open="show" @add="add">
@@ -23,7 +28,7 @@
         </template>
       </Hero>
       <!-- On a phone the photo is too small to carry the facts. -->
-      <Facts class="mt-4 sm:hidden" :said="said" :progress="progress" @change="relay" />
+      <Facts class="mt-4 sm:hidden" :said="said" @change="relay" />
     </template>
 
     <Media v-model:open="viewing" v-model:at="at" :media="said.media" :project="said.name" :can-add="said.can_write" @add="add" />
@@ -42,7 +47,6 @@ import Title from "./Title.vue";
 
 const props = defineProps({
   said: { type: Object, required: true },
-  progress: { type: Number, default: null },
 });
 const emit = defineEmits(["change", "media"]);
 const relay = (fieldname, value) => emit("change", fieldname, value);

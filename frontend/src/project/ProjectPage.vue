@@ -2,7 +2,7 @@
   <Page>
     <Loading v-if="!said" />
     <template v-else>
-      <Header :said="said" :progress="progress" @change="changeProject" @media="load" />
+      <Header :said="said" @change="changeProject" @media="load" />
 
       <!-- The views, as monday's and Asana's: each opens in place, and the
            task views share one toolbar. -->
@@ -168,14 +168,6 @@ const groupChoices = computed(() => Object.entries(GROUPS()).map(([key, label]) 
 const shown = computed(() => (work.value ? visible(work.value, { search: search.value, showDone: showDone.value }) : []));
 const groups = computed(() => (work.value ? groupTasks(work.value, shown.value, groupBy.value) : []));
 const team = computed(() => [...new Set([...(said.value?.team || []).map((one) => one.user), ...Object.keys(work.value?.people || {})])]);
-// One figure for how far along it is, the same the Done figure shows.
-const progress = computed(() => {
-  if (said.value?.progress !== undefined && said.value.progress !== null) return said.value.progress;
-  if (!work.value?.tasks.length) return null;
-  const all = work.value.tasks.filter((one) => one.status !== "Cancelled");
-  return all.length ? Math.floor((100 * all.filter((one) => one.status === "Completed").length) / all.length) : null;
-});
-
 function open(task) {
   opened.value = find(task) || null;
 }

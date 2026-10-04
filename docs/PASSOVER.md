@@ -7578,8 +7578,11 @@ photos, a strip), the first is the project page's and the third the portal's.
 tabs, two thin lines of grey text that read as one. The facts and status now
 sit on the photo under the name, the team in its corner, the photo's own
 buttons at its top right, so the views are the only row under it. Progress
-was there twice and is now only in Overview's figures. Without photos the head
-is as it was; on a phone the facts go under the photo.
+was there twice and is now only in Overview's figures. On a phone the facts go
+under the photo. Without photos the head was still the kind's icon, the name and
+a badge, then a row of facts, then the tabs; it is now a plain panel laid out as
+the photo is (kind, name, facts, team, **Add Cover** in the corner), so every
+project's page is a head, the views, then the page.
 
 ## OneLegal
 

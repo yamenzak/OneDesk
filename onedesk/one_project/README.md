@@ -118,17 +118,17 @@ Featured Media; whoever may see the project sees it.
 Opening a project opens its page. At the top are its Featured Media, across
 the page, with its kind, name, status, health and the kind's facts over them
 and the team in the corner. Its views sit right under them. A project with no
-photos shows its name, then its facts and how far along it is, then the views. What else the top
-shows depends on the kind:
+photos shows the same on a plain panel, with **Add Cover** in its corner. The
+facts depend on the kind:
 
-- **Fixed Price**: the customer, the contract, the dates, the manager and how
-  far along it is.
-- **Time and Materials**: the customer, the dates, the manager and how far
-  along it is.
+- **Fixed Price**: the customer, the contract, the dates and the manager.
+- **Time and Materials**: the customer, the dates and the manager.
 - **Retainer**: the customer, when it started, the hours a month and the
   manager.
-- **Internal**: the dates, how many days are left (or how late it is), the
-  manager and how far along it is.
+- **Internal**: the dates, how many days are left (or how late it is) and the
+  manager.
+
+How far along it is shows in the Overview's figures.
 
 Click the name to rename it; click the status or health to change it. With
 no photos yet, **Add Cover** puts one in Featured Media. Click a photo to see
