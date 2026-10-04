@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 23:22+0000\n"
-"PO-Revision-Date: 2026-10-03 23:22+0000\n"
+"POT-Creation-Date: 2026-10-04 06:14+0000\n"
+"PO-Revision-Date: 2026-10-04 06:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "+{0} more"
 msgstr ""
 
-#: onedesk/one/settings.py:838
+#: onedesk/one/settings.py:840
 msgid "1 day"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
-#: onedesk/one/settings.py:833
+#: onedesk/one/settings.py:835
 msgid "1 hour"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "1 item selected"
 msgstr ""
 
-#: onedesk/one/settings.py:833
+#: onedesk/one/settings.py:835
 msgid "1 minute"
 msgstr ""
 
@@ -77,27 +77,27 @@ msgstr ""
 msgid "1 not checked"
 msgstr ""
 
-#: onedesk/one/settings.py:839
+#: onedesk/one/settings.py:841
 msgid "1 week"
 msgstr ""
 
-#: onedesk/one/settings.py:840
+#: onedesk/one/settings.py:842
 msgid "10 days"
 msgstr ""
 
-#: onedesk/one/settings.py:833
+#: onedesk/one/settings.py:835
 msgid "15 minutes"
 msgstr ""
 
-#: onedesk/one/settings.py:841
+#: onedesk/one/settings.py:843
 msgid "30 days"
 msgstr ""
 
-#: onedesk/one/settings.py:833
+#: onedesk/one/settings.py:835
 msgid "5 minutes"
 msgstr ""
 
-#: onedesk/one/settings.py:837
+#: onedesk/one/settings.py:839
 msgid "8 hours"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
 msgstr ""
 
-#: onedesk/one/settings.py:914
+#: onedesk/one/settings.py:916
 msgid "A code after the password. Each person sets it up the next time they sign in."
 msgstr ""
 
@@ -392,7 +392,7 @@ msgstr ""
 msgid "A group holds people of the workspace."
 msgstr ""
 
-#: onedesk/one_studio/record_types.py:201
+#: onedesk/one_studio/record_types.py:203
 msgid "A group's name is 2 to 40 letters, numbers and spaces."
 msgstr ""
 
@@ -450,11 +450,11 @@ msgstr ""
 msgid "A library needs a name."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2279
+#: onedesk/public/js/settings.js:2435
 msgid "A line in the Brand Colour over the footer."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2259
+#: onedesk/public/js/settings.js:2415
 msgid "A line in the Brand Colour under the header."
 msgstr ""
 
@@ -729,7 +729,7 @@ msgstr ""
 msgid "A standard day is {0} hours. Time beyond that is overtime."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2210
+#: onedesk/public/js/settings.js:2366
 msgid "A standard letter head can only be set as default or disabled."
 msgstr ""
 
@@ -794,7 +794,7 @@ msgstr ""
 msgid "A workspace needs a slug and a domain."
 msgstr ""
 
-#: onedesk/one/settings.py:1193
+#: onedesk/one/settings.py:1195
 msgid "A workspace needs at least one administrator."
 msgstr ""
 
@@ -928,7 +928,7 @@ msgstr ""
 msgid "About {0}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2672
+#: onedesk/public/js/settings.js:2828
 msgid "About {0} credits per 1,000 words read and {1} per 1,000 written."
 msgstr ""
 
@@ -1068,7 +1068,7 @@ msgstr ""
 msgid "Accurate to about {0} metres."
 msgstr ""
 
-#: onedesk/one/settings.py:483
+#: onedesk/one/settings.py:485
 msgid "Across One"
 msgstr ""
 
@@ -1091,7 +1091,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:41
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/doctype_settings.js:629 onedesk/public/js/settings.js:2601
+#: onedesk/public/js/doctype_settings.js:629 onedesk/public/js/settings.js:2757
 msgid "Action"
 msgstr ""
 
@@ -1102,8 +1102,8 @@ msgstr ""
 #: onedesk/public/js/settings.js:992 onedesk/public/js/settings.js:1003
 #: onedesk/public/js/settings.js:1015 onedesk/public/js/settings.js:1024
 #: onedesk/public/js/settings.js:1260 onedesk/public/js/settings.js:1309
-#: onedesk/public/js/settings.js:1341 onedesk/public/js/settings.js:2585
-#: onedesk/public/js/settings.js:3199 onedesk/public/js/settings.js:3256
+#: onedesk/public/js/settings.js:1341 onedesk/public/js/settings.js:2741
+#: onedesk/public/js/settings.js:3355 onedesk/public/js/settings.js:3412
 msgid "Actions"
 msgstr ""
 
@@ -1152,7 +1152,8 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1509 onedesk/public/js/settings.js:787
 #: onedesk/public/js/settings.js:1381 onedesk/public/js/settings.js:1495
 #: onedesk/public/js/settings.js:1496 onedesk/public/js/settings.js:1905
-#: onedesk/public/js/settings.js:2548 onedesk/public/js/settings.js:2901
+#: onedesk/public/js/settings.js:2289 onedesk/public/js/settings.js:2704
+#: onedesk/public/js/settings.js:3057
 msgid "Add"
 msgstr ""
 
@@ -1168,7 +1169,7 @@ msgstr ""
 msgid "Add Collection"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2420 onedesk/public/js/settings.js:2536
+#: onedesk/public/js/settings.js:2576 onedesk/public/js/settings.js:2692
 msgid "Add Domain"
 msgstr ""
 
@@ -1180,8 +1181,12 @@ msgstr ""
 msgid "Add Field"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2874 onedesk/public/js/settings.js:2883
+#: onedesk/public/js/settings.js:3030 onedesk/public/js/settings.js:3039
 msgid "Add Folder"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2156
+msgid "Add Heading"
 msgstr ""
 
 #: onedesk/public/js/settings.js:725 onedesk/public/js/settings.js:781
@@ -1192,7 +1197,7 @@ msgstr ""
 msgid "Add Photo"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2999
+#: onedesk/public/js/settings.js:3155
 msgid "Add Public Holidays"
 msgstr ""
 
@@ -1208,6 +1213,10 @@ msgstr ""
 
 #: onedesk/one_task/page/my_tasks/my_tasks.js:40
 msgid "Add Task"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2169
+msgid "Add Template"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1369 onedesk/public/js/settings.js:1394
@@ -1302,7 +1311,7 @@ msgstr ""
 msgid "Add the contact's email first."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2559
+#: onedesk/public/js/settings.js:2715
 msgid "Add this record at your DNS provider."
 msgstr ""
 
@@ -1314,7 +1323,7 @@ msgstr ""
 msgid "Add to Plan"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:217
+#: onedesk/one_intake/panel.py:217 onedesk/public/js/settings.js:2262
 msgid "Add to {0}"
 msgstr ""
 
@@ -1385,7 +1394,7 @@ msgstr ""
 msgid "Added to {0}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2709
+#: onedesk/public/js/settings.js:2865
 msgid "Added to {0}'s own instructions for everyone."
 msgstr ""
 
@@ -1408,7 +1417,6 @@ msgstr ""
 #. Label of the one_email (Data) field in DocType 'Personal Data Download
 #. Request'
 #. Label of the slug (Data) field in DocType 'Account Request'
-#. Label of a Sidebar Item
 #. Label of the address (Data) field in DocType 'Clock Attempt'
 #. Label of the address (Data) field in DocType 'Clock Network'
 #. Label of the address (Small Text) field in DocType 'Reading Party'
@@ -1416,18 +1424,26 @@ msgstr ""
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/letter_heads.py:65 onedesk/one/portal.py:79
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1581 onedesk/public/js/onecloud.js:1777
 #: onedesk/public/js/settings.js:200 onedesk/public/js/settings.js:685
-#: onedesk/public/js/settings.js:697 onedesk/public/js/settings.js:2198
+#: onedesk/public/js/settings.js:697 onedesk/public/js/settings.js:2354
 msgid "Address"
 msgstr ""
 
-#: onedesk/one/settings.py:865
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "Address Book"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2163
+msgid "Address Templates"
+msgstr ""
+
+#: onedesk/one/settings.py:867
 msgid "Address in Mails"
 msgstr ""
 
@@ -1443,8 +1459,9 @@ msgstr ""
 
 #. Label of the domains_section (Section Break) field in DocType 'Workspace
 #. Account'
+#. Label of a Sidebar Item
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/public/js/settings.js:2429
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/settings.js:2585
 msgid "Addresses"
 msgstr ""
 
@@ -1458,7 +1475,7 @@ msgstr ""
 msgid "Addresses employees may check in from."
 msgstr ""
 
-#: onedesk/one/settings.py:1110 onedesk/public/js/settings.js:958
+#: onedesk/one/settings.py:1112 onedesk/public/js/settings.js:958
 #: onedesk/public/js/settings.js:1037
 msgid "Administrator"
 msgstr ""
@@ -1467,7 +1484,7 @@ msgstr ""
 msgid "Administrator Added"
 msgstr ""
 
-#: onedesk/one/settings.py:911
+#: onedesk/one/settings.py:913
 msgid "Administrators"
 msgstr ""
 
@@ -1536,7 +1553,7 @@ msgstr ""
 msgid "After a {0} is submitted"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2961
+#: onedesk/public/js/settings.js:3117
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
 msgstr ""
 
@@ -1548,7 +1565,7 @@ msgstr ""
 msgid "After the {0} interview: {1}"
 msgstr ""
 
-#: onedesk/one/settings.py:857
+#: onedesk/one/settings.py:859
 msgid "After this many wrong passwords in a row, signing in is refused for a while."
 msgstr ""
 
@@ -1627,7 +1644,7 @@ msgstr ""
 msgid "All day"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3026
+#: onedesk/public/js/settings.js:3182
 msgid "All holidays are already in the list."
 msgstr ""
 
@@ -1656,7 +1673,7 @@ msgstr ""
 msgid "All {0} done"
 msgstr ""
 
-#: onedesk/one/settings.py:1339
+#: onedesk/one/settings.py:1341
 msgid "All {0} seats are in use. Disable someone or add seats to the plan."
 msgstr ""
 
@@ -1708,7 +1725,7 @@ msgstr ""
 msgid "Also Allow Check-in From"
 msgstr ""
 
-#: onedesk/one/settings.py:149
+#: onedesk/one/settings.py:150
 msgid "Also by Email"
 msgstr ""
 
@@ -1726,7 +1743,7 @@ msgstr ""
 msgid "Always"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3056
+#: onedesk/public/js/settings.js:3212
 msgid "Always Emailed"
 msgstr ""
 
@@ -1734,7 +1751,7 @@ msgstr ""
 msgid "Always included"
 msgstr ""
 
-#: onedesk/one/settings.py:509
+#: onedesk/one/settings.py:511
 msgid "Always mailed, so you can answer it by replying."
 msgstr ""
 
@@ -1780,6 +1797,14 @@ msgstr ""
 msgid "An add-on must be recurring."
 msgstr ""
 
+#: onedesk/one/lists.py:94
+msgid "An address has no field {0}."
+msgstr ""
+
+#: onedesk/one/lists.py:92
+msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
+msgstr ""
+
 #: onedesk/one_admin/accounts.py:308
 msgid "An administrator"
 msgstr ""
@@ -1812,7 +1837,7 @@ msgstr ""
 msgid "An attachment field on the record, which the file fills."
 msgstr ""
 
-#: onedesk/one/settings.py:853
+#: onedesk/one/settings.py:855
 msgid "An authenticator app on their phone, or a code by email."
 msgstr ""
 
@@ -1835,7 +1860,7 @@ msgstr ""
 msgid "An email address is needed."
 msgstr ""
 
-#: onedesk/one/settings.py:388
+#: onedesk/one/settings.py:390
 msgid "An emergency contact needs a name and a phone number, so HR can call them."
 msgstr ""
 
@@ -1930,7 +1955,7 @@ msgstr ""
 msgid "Any of these"
 msgstr ""
 
-#: onedesk/one/settings.py:921
+#: onedesk/one/settings.py:923
 msgid "Any password"
 msgstr ""
 
@@ -1940,7 +1965,7 @@ msgstr ""
 msgid "Anybody may pick another model for their own conversations in the OneAI panel. Off, only administrators can."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2700
+#: onedesk/public/js/settings.js:2856
 msgid "Anyone can pick a model for their own chats in the OneAI panel. When off, only administrators can."
 msgstr ""
 
@@ -1985,7 +2010,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/doctype_settings.js:335 onedesk/public/js/reports.js:379
 #: onedesk/public/js/settings.js:1178 onedesk/public/js/settings.js:1199
-#: onedesk/public/js/settings.js:3099
+#: onedesk/public/js/settings.js:3255
 msgid "App"
 msgstr ""
 
@@ -2047,7 +2072,7 @@ msgstr ""
 msgid "Applies To"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2928
+#: onedesk/public/js/settings.js:3084
 msgid "Applies to everyone from today, or from its start date. Used for leave, attendance, check-ins, the calendar and deadlines."
 msgstr ""
 
@@ -2116,7 +2141,7 @@ msgid "Approval of {0}"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/settings.py:48 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:49 onedesk/one/sidebar/one/one.json
 #: onedesk/public/js/doctype_settings.js:78
 #: onedesk/public/js/doctype_settings.js:214 onedesk/public/js/settings.js:2043
 msgid "Approvals"
@@ -2305,7 +2330,7 @@ msgstr ""
 msgid "Ask HR for a letter"
 msgstr ""
 
-#: onedesk/public/js/outside.js:93 onedesk/public/js/settings.js:3075
+#: onedesk/public/js/outside.js:93 onedesk/public/js/settings.js:3231
 msgid "Ask OneAI"
 msgstr ""
 
@@ -2498,7 +2523,7 @@ msgstr ""
 msgid "Assigned to Me"
 msgstr ""
 
-#: onedesk/one/automations.py:172 onedesk/one/settings.py:2064
+#: onedesk/one/automations.py:172 onedesk/one/settings.py:2077
 msgid "Assignees"
 msgstr ""
 
@@ -2512,7 +2537,7 @@ msgstr ""
 msgid "At checkout"
 msgstr ""
 
-#: onedesk/one/settings.py:854
+#: onedesk/one/settings.py:856
 msgid "At the foot of every mail the workspace sends. Leave it empty for none."
 msgstr ""
 
@@ -2687,7 +2712,7 @@ msgstr ""
 msgid "Authenticator (AAGUID)"
 msgstr ""
 
-#: onedesk/one/settings.py:893
+#: onedesk/one/settings.py:895
 msgid "Authenticator App"
 msgstr ""
 
@@ -2731,7 +2756,7 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3152
+#: onedesk/public/js/settings.js:3308
 msgid "Available fields: {0}"
 msgstr ""
 
@@ -2778,7 +2803,7 @@ msgstr ""
 msgid "Back to your account"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2968
+#: onedesk/public/js/settings.js:3124
 msgid "Back to {0}"
 msgstr ""
 
@@ -3002,7 +3027,7 @@ msgstr ""
 msgid "Below this, OneAI's changes wait in Needs Review."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2804
+#: onedesk/public/js/settings.js:2960
 msgid "Below this, a person reviews it."
 msgstr ""
 
@@ -3117,7 +3142,7 @@ msgstr ""
 msgid "Blocked in this browser"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3061
+#: onedesk/public/js/settings.js:3217
 msgid "Blue means on by default."
 msgstr ""
 
@@ -3196,7 +3221,7 @@ msgstr ""
 msgid "Brand Colour"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2259 onedesk/public/js/settings.js:2279
+#: onedesk/public/js/settings.js:2415 onedesk/public/js/settings.js:2435
 msgid "Brand Line"
 msgstr ""
 
@@ -3433,7 +3458,7 @@ msgstr ""
 msgid "Can include a field of the record, such as {0}."
 msgstr ""
 
-#: onedesk/one/settings.py:1111
+#: onedesk/one/settings.py:1113
 msgid "Can manage people, the plan, domains and OneAI. Other administrators are notified."
 msgstr ""
 
@@ -3558,7 +3583,7 @@ msgstr ""
 msgid "Cc"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2260
+#: onedesk/public/js/settings.js:2416
 msgid "Centre"
 msgstr ""
 
@@ -3644,9 +3669,9 @@ msgstr ""
 
 #. Label of the one_channels_section (Section Break) field in DocType
 #. 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/public/js/settings.js:3102
-#: onedesk/public/js/settings.js:3143 onedesk/public/js/settings.js:3156
-#: onedesk/public/js/settings.js:3161 onedesk/public/js/settings.js:3272
+#: onedesk/one/custom/notification_type.json onedesk/public/js/settings.js:3258
+#: onedesk/public/js/settings.js:3299 onedesk/public/js/settings.js:3312
+#: onedesk/public/js/settings.js:3317 onedesk/public/js/settings.js:3428
 msgid "Channels"
 msgstr ""
 
@@ -3702,7 +3727,7 @@ msgstr ""
 
 #: onedesk/one_admin/heads.py:661 onedesk/one_admin/home.py:487
 #: onedesk/public/js/legal.js:73 onedesk/public/js/settings.js:1499
-#: onedesk/public/js/settings.js:2421
+#: onedesk/public/js/settings.js:2577
 msgid "Check Again"
 msgstr ""
 
@@ -3839,7 +3864,7 @@ msgstr ""
 msgid "Checked out"
 msgstr ""
 
-#: onedesk/one/settings.py:926
+#: onedesk/one/settings.py:928
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
@@ -3907,7 +3932,7 @@ msgstr ""
 msgid "Choose the Tax Charged by Default"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3012
+#: onedesk/public/js/settings.js:3168
 msgid "Choose the country first."
 msgstr ""
 
@@ -3936,7 +3961,7 @@ msgstr ""
 msgid "Chosen Model"
 msgstr ""
 
-#: onedesk/one/portal.py:79 onedesk/one/settings.py:115
+#: onedesk/one/portal.py:79 onedesk/one/settings.py:116
 #: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
 msgstr ""
@@ -4331,7 +4356,7 @@ msgstr ""
 msgid "Computer"
 msgstr ""
 
-#: onedesk/one/ai.py:4042 onedesk/public/js/settings.js:3265
+#: onedesk/one/ai.py:4042 onedesk/public/js/settings.js:3421
 msgid "Conditions"
 msgstr ""
 
@@ -4341,7 +4366,7 @@ msgstr ""
 msgid "Conditions on the record, as frappe filters. Empty is always."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2804
+#: onedesk/public/js/settings.js:2960
 msgid "Confidence"
 msgstr ""
 
@@ -4480,9 +4505,7 @@ msgstr ""
 msgid "Consent Confirmed On"
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Label of the 'contact_details' field in DocType 'Employee'
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/custom/employee.json
 msgid "Contact"
 msgstr ""
@@ -4494,6 +4517,11 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:875
 msgid "Contact and Branding"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "Contacts"
 msgstr ""
 
 #: onedesk/one/privacy_copy.py:40
@@ -4557,7 +4585,7 @@ msgstr ""
 #: onedesk/public/js/intake.js:156 onedesk/public/js/intake.js:191
 #: onedesk/public/js/onecloud.js:100 onedesk/public/js/onecloud.js:1696
 #: onedesk/public/js/onecloud.js:1793 onedesk/public/js/onecloud.js:1918
-#: onedesk/public/js/settings.js:2509
+#: onedesk/public/js/settings.js:2665
 msgid "Copy"
 msgstr ""
 
@@ -4706,10 +4734,11 @@ msgstr ""
 
 #. Label of the country (Link) field in DocType 'Account Request'
 #. Label of the country (Link) field in DocType 'Tenant'
-#: onedesk/one/settings.py:1613
+#: onedesk/one/settings.py:1615
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/public/js/settings.js:865
+#: onedesk/public/js/settings.js:865 onedesk/public/js/settings.js:2172
+#: onedesk/public/js/settings.js:2216
 msgid "Country"
 msgstr ""
 
@@ -4730,7 +4759,7 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1802 onedesk/public/js/opportunity.js:18
 #: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:68
 #: onedesk/public/js/project.js:129 onedesk/public/js/settings.js:1113
-#: onedesk/public/js/settings.js:1219 onedesk/public/js/settings.js:2217
+#: onedesk/public/js/settings.js:1219 onedesk/public/js/settings.js:2373
 msgid "Create"
 msgstr ""
 
@@ -4754,7 +4783,7 @@ msgstr ""
 msgid "Create Link"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2956 onedesk/public/js/settings.js:3029
+#: onedesk/public/js/settings.js:3112 onedesk/public/js/settings.js:3185
 msgid "Create Next Year's List"
 msgstr ""
 
@@ -4848,7 +4877,7 @@ msgstr ""
 msgid "Credit Reservation"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2579
+#: onedesk/public/js/settings.js:2735
 msgid "Credit Usage"
 msgstr ""
 
@@ -5064,7 +5093,7 @@ msgstr ""
 msgid "Cut {0} items"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2443
+#: onedesk/public/js/settings.js:2599
 msgid "DNS Record"
 msgstr ""
 
@@ -5132,7 +5161,7 @@ msgstr ""
 
 #. Label of the date (Date) field in DocType 'Reading Date'
 #: onedesk/one/portal.py:338 onedesk/one/portal.py:339
-#: onedesk/one/portal.py:441 onedesk/one/settings.py:1622
+#: onedesk/one/portal.py:441 onedesk/one/settings.py:1624
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -5178,7 +5207,7 @@ msgstr ""
 msgid "Day Starts"
 msgstr ""
 
-#: onedesk/one/settings.py:2060
+#: onedesk/one/settings.py:2073
 msgid "Days"
 msgstr ""
 
@@ -5188,11 +5217,11 @@ msgstr ""
 msgid "Days Left"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2995
+#: onedesk/public/js/settings.js:3151
 msgid "Days Off"
 msgstr ""
 
-#: onedesk/one/ai.py:1851 onedesk/one/settings.py:1602
+#: onedesk/one/ai.py:1851 onedesk/one/settings.py:1604
 msgid "Days Off Each Week"
 msgstr ""
 
@@ -5349,9 +5378,10 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:398
 #: onedesk/public/js/doctype_settings.js:422
-#: onedesk/public/js/doctype_settings.js:475 onedesk/public/js/settings.js:2159
-#: onedesk/public/js/settings.js:2214 onedesk/public/js/settings.js:2649
-#: onedesk/public/js/settings.js:2651 onedesk/public/js/settings.js:2664
+#: onedesk/public/js/doctype_settings.js:475 onedesk/public/js/settings.js:2173
+#: onedesk/public/js/settings.js:2217 onedesk/public/js/settings.js:2315
+#: onedesk/public/js/settings.js:2370 onedesk/public/js/settings.js:2805
+#: onedesk/public/js/settings.js:2807 onedesk/public/js/settings.js:2820
 msgid "Default"
 msgstr ""
 
@@ -5396,7 +5426,7 @@ msgid "Default model"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:110
-#: onedesk/public/js/doctype_settings.js:198 onedesk/public/js/settings.js:2164
+#: onedesk/public/js/doctype_settings.js:198 onedesk/public/js/settings.js:2320
 msgid "Default updated"
 msgstr ""
 
@@ -5404,7 +5434,7 @@ msgstr ""
 msgid "Default, {0}×"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2664
+#: onedesk/public/js/settings.js:2820
 msgid "Default: {0}"
 msgstr ""
 
@@ -5419,7 +5449,7 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1936 onedesk/public/js/onemail.js:103
 #: onedesk/public/js/onemail.js:424 onedesk/public/js/settings.js:1259
 #: onedesk/public/js/settings.js:1308 onedesk/public/js/settings.js:1340
-#: onedesk/public/js/settings.js:2393 onedesk/public/js/settings.js:3256
+#: onedesk/public/js/settings.js:2549 onedesk/public/js/settings.js:3412
 msgid "Delete"
 msgstr ""
 
@@ -5446,7 +5476,7 @@ msgstr ""
 msgid "Delete Recording Audio After (Days)"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2394
+#: onedesk/public/js/settings.js:2550
 msgid "Delete letter head {0}?"
 msgstr ""
 
@@ -5454,7 +5484,7 @@ msgstr ""
 msgid "Delete permanently"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3241
+#: onedesk/public/js/settings.js:3397
 msgid "Delete rule {0}? It stops sending notifications."
 msgstr ""
 
@@ -5632,10 +5662,11 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:480
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
-#: onedesk/one_studio/ai.py:465
+#: onedesk/one_studio/ai.py:468
 #: onedesk/one_studio/doctype/record_type/record_type.json
-#: onedesk/public/js/settings.js:1619 onedesk/public/js/settings.js:3079
-#: onedesk/public/js/settings.js:3254
+#: onedesk/public/js/settings.js:1619 onedesk/public/js/settings.js:2159
+#: onedesk/public/js/settings.js:2184 onedesk/public/js/settings.js:3235
+#: onedesk/public/js/settings.js:3410
 msgid "Description"
 msgstr ""
 
@@ -5732,8 +5763,8 @@ msgstr ""
 #: onedesk/one_admin/doctype/offering/offering_list.js:15
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/public/js/doctype_settings.js:1105 onedesk/public/js/settings.js:936
-#: onedesk/public/js/settings.js:1033 onedesk/public/js/settings.js:2147
-#: onedesk/public/js/settings.js:2215
+#: onedesk/public/js/settings.js:1033 onedesk/public/js/settings.js:2303
+#: onedesk/public/js/settings.js:2371
 msgid "Disabled"
 msgstr ""
 
@@ -5877,7 +5908,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
-#: onedesk/public/js/settings.js:2464 onedesk/public/js/settings.js:2541
+#: onedesk/public/js/settings.js:2620 onedesk/public/js/settings.js:2697
 msgid "Domain"
 msgstr ""
 
@@ -5889,7 +5920,7 @@ msgstr ""
 msgid "Domain Working"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2552
+#: onedesk/public/js/settings.js:2708
 msgid "Domain added. It works a few minutes after the DNS record is set."
 msgstr ""
 
@@ -5897,7 +5928,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one/account.py:595
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/settings.py:50 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:51 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Domains"
 msgstr ""
@@ -6169,7 +6200,7 @@ msgstr ""
 msgid "Each person added"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3050
+#: onedesk/public/js/settings.js:3206
 msgid "Each person chooses"
 msgstr ""
 
@@ -6210,7 +6241,7 @@ msgstr ""
 msgid "Each time a {0} is saved, before it is written"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2815
+#: onedesk/public/js/settings.js:2971
 msgid "Each uses OneAI credits."
 msgstr ""
 
@@ -6248,7 +6279,7 @@ msgstr ""
 msgid "Edit connection…"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2388
+#: onedesk/public/js/settings.js:2544
 msgid "Edit in Builder"
 msgstr ""
 
@@ -6256,11 +6287,11 @@ msgstr ""
 msgid "Edit {0}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3046
+#: onedesk/public/js/settings.js:3202
 msgid "Edited"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3149
+#: onedesk/public/js/settings.js:3305
 msgid "Edited text is no longer translated."
 msgstr ""
 
@@ -6283,8 +6314,8 @@ msgstr ""
 #. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the email (Data) field in DocType 'Cloud Link Invitee'
-#: onedesk/one/letter_heads.py:67 onedesk/one/settings.py:463
-#: onedesk/one/settings.py:893
+#: onedesk/one/letter_heads.py:67 onedesk/one/settings.py:465
+#: onedesk/one/settings.py:895
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -6293,8 +6324,8 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
 #: onedesk/public/js/settings.js:323 onedesk/public/js/settings.js:1440
-#: onedesk/public/js/settings.js:1795 onedesk/public/js/settings.js:2200
-#: onedesk/public/js/settings.js:3057 onedesk/www/account_profile.html:33
+#: onedesk/public/js/settings.js:1795 onedesk/public/js/settings.js:2356
+#: onedesk/public/js/settings.js:3213 onedesk/www/account_profile.html:33
 #: onedesk/www/start.html:37 onedesk/www/your_data.html:131
 msgid "Email"
 msgstr ""
@@ -6304,7 +6335,7 @@ msgid "Email Address"
 msgstr ""
 
 #. Label of the one_allow_email (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2115
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2128
 msgid "Email Allowed"
 msgstr ""
 
@@ -6319,7 +6350,7 @@ msgstr ""
 msgid "Email Group"
 msgstr ""
 
-#: onedesk/one/settings.py:866
+#: onedesk/one/settings.py:868
 msgid "Email Link Sign-in"
 msgstr ""
 
@@ -6341,11 +6372,11 @@ msgid "Email addresses, one per line."
 msgstr ""
 
 #. Label of the one_email_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2116
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2129
 msgid "Email for New People"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3156
+#: onedesk/public/js/settings.js:3312
 msgid "Email is always sent so people can reply."
 msgstr ""
 
@@ -6353,7 +6384,7 @@ msgstr ""
 msgid "Email isn't set up, so these links weren't sent."
 msgstr ""
 
-#: onedesk/one/settings.py:150
+#: onedesk/one/settings.py:151
 msgid "Emails you the notifications turned on for email below."
 msgstr ""
 
@@ -6454,7 +6485,7 @@ msgstr ""
 msgid "Employee Group"
 msgstr ""
 
-#: onedesk/one/settings.py:355
+#: onedesk/one/settings.py:357
 msgid "Employee ID"
 msgstr ""
 
@@ -6507,7 +6538,7 @@ msgstr ""
 msgid "Employees"
 msgstr ""
 
-#: onedesk/one/settings.py:73
+#: onedesk/one/settings.py:74
 msgid "Employees, leave, attendance and pay."
 msgstr ""
 
@@ -6585,7 +6616,7 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2987
+#: onedesk/public/js/settings.js:3143
 msgid "Ended"
 msgstr ""
 
@@ -6819,7 +6850,7 @@ msgstr ""
 msgid "Every morning, what is on your calendar that day. Not sent on a day with nothing on it."
 msgstr ""
 
-#: onedesk/one/settings.py:1607
+#: onedesk/one/settings.py:1609
 msgid "Every one of these days in the list is a day off. Tick two for a weekend of two days."
 msgstr ""
 
@@ -6878,7 +6909,7 @@ msgstr ""
 msgid "Everybody who holds it"
 msgstr ""
 
-#: onedesk/one/settings.py:912
+#: onedesk/one/settings.py:914
 msgid "Everyone"
 msgstr ""
 
@@ -7150,11 +7181,11 @@ msgstr ""
 msgid "Extensions ran into errors yesterday"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3054
+#: onedesk/public/js/settings.js:3210
 msgid "External Email"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2707
+#: onedesk/public/js/settings.js:2863
 msgid "Extra Instructions"
 msgstr ""
 
@@ -7273,7 +7304,7 @@ msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
-#: onedesk/one_studio/ai.py:466
+#: onedesk/one_studio/ai.py:469
 msgid "Fields"
 msgstr ""
 
@@ -7432,7 +7463,7 @@ msgstr ""
 msgid "Files use {0} GB and the plan allows {1} GB."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2807
+#: onedesk/public/js/settings.js:2963
 msgid "Filing"
 msgstr ""
 
@@ -7595,7 +7626,7 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:144 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:342 onedesk/public/js/onecloud.js:485
 #: onedesk/public/js/onecloud.js:650 onedesk/public/js/onecloud.js:1868
-#: onedesk/public/js/settings.js:2871 onedesk/public/js/settings.js:2889
+#: onedesk/public/js/settings.js:3027 onedesk/public/js/settings.js:3045
 msgid "Folder"
 msgstr ""
 
@@ -7618,7 +7649,7 @@ msgid "Folder {0} not found"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:141 onedesk/public/js/onecloud.js:700
-#: onedesk/public/js/settings.js:2864
+#: onedesk/public/js/settings.js:3020
 msgid "Folders"
 msgstr ""
 
@@ -7637,7 +7668,7 @@ msgstr ""
 
 #: onedesk/one/ai.py:2679 onedesk/one/ai.py:2687 onedesk/one/ai.py:2690
 #: onedesk/one/ai.py:2691 onedesk/one/printing.py:348
-#: onedesk/public/js/settings.js:2293
+#: onedesk/public/js/settings.js:2449
 msgid "Footer"
 msgstr ""
 
@@ -7648,7 +7679,7 @@ msgstr ""
 msgid "For"
 msgstr ""
 
-#: onedesk/one/settings.py:849 onedesk/one/settings.py:850
+#: onedesk/one/settings.py:851 onedesk/one/settings.py:852
 msgid "For everyone who hasn't chosen their own in Profile."
 msgstr ""
 
@@ -7661,7 +7692,7 @@ msgstr ""
 msgid "For example, Senior Sales."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2277
+#: onedesk/public/js/settings.js:2433
 msgid "For example, a thank-you line."
 msgstr ""
 
@@ -7902,6 +7933,10 @@ msgstr ""
 msgid "Gathering"
 msgstr ""
 
+#: onedesk/one/lists.py:37
+msgid "Genders"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:41 onedesk/one/sidebar/one/one.json
 msgid "General"
@@ -7960,7 +7995,7 @@ msgstr ""
 msgid "Give the profile a name."
 msgstr ""
 
-#: onedesk/one/settings.py:2163
+#: onedesk/one/settings.py:2176
 msgid "Give the rule a name."
 msgstr ""
 
@@ -8168,7 +8203,7 @@ msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/public/js/settings.js:2817
+#: onedesk/public/js/settings.js:2973
 msgid "HR Settings"
 msgstr ""
 
@@ -8215,7 +8250,7 @@ msgstr ""
 msgid "Handled"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2782
+#: onedesk/public/js/settings.js:2938
 msgid "Handled by OneAI"
 msgstr ""
 
@@ -8224,7 +8259,7 @@ msgstr ""
 msgid "Harassment"
 msgstr ""
 
-#: onedesk/one/settings.py:922
+#: onedesk/one/settings.py:924
 msgid "Hard to guess"
 msgstr ""
 
@@ -8250,7 +8285,7 @@ msgid "Head Office"
 msgstr ""
 
 #: onedesk/one/ai.py:2663 onedesk/one/ai.py:2671 onedesk/one/ai.py:2672
-#: onedesk/one/printing.py:342 onedesk/public/js/settings.js:2292
+#: onedesk/one/printing.py:342 onedesk/public/js/settings.js:2448
 msgid "Header"
 msgstr ""
 
@@ -8260,6 +8295,7 @@ msgstr ""
 
 #. Label of the label (Data) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/public/js/settings.js:2158 onedesk/public/js/settings.js:2183
 msgid "Heading"
 msgstr ""
 
@@ -8290,7 +8326,7 @@ msgstr ""
 msgid "Help me set this up"
 msgstr ""
 
-#: onedesk/one/ai.py:457 onedesk/public/js/settings.js:3108
+#: onedesk/one/ai.py:457 onedesk/public/js/settings.js:3264
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr ""
 
@@ -8341,7 +8377,7 @@ msgstr ""
 msgid "Holder"
 msgstr ""
 
-#: onedesk/one/settings.py:1623 onedesk/one/settings.py:1670
+#: onedesk/one/settings.py:1625 onedesk/one/settings.py:1672
 #: onedesk/one_hr/employee.py:130 onedesk/one_hr/employee.py:287
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/band.js:174
 msgid "Holiday"
@@ -8349,7 +8385,7 @@ msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/public/js/settings.js:2923
+#: onedesk/public/js/settings.js:3079
 msgid "Holiday List"
 msgstr ""
 
@@ -8365,9 +8401,9 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one/settings.py:53 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:54 onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_hr/calendar.py:37 onedesk/public/js/settings.js:2948
+#: onedesk/one_hr/calendar.py:37 onedesk/public/js/settings.js:3104
 msgid "Holidays"
 msgstr ""
 
@@ -8558,11 +8594,11 @@ msgstr ""
 msgid "How long before its end it must be cancelled, as the contract says."
 msgstr ""
 
-#: onedesk/one/settings.py:858
+#: onedesk/one/settings.py:860
 msgid "How long signing in is refused after too many wrong passwords."
 msgstr ""
 
-#: onedesk/one/settings.py:852
+#: onedesk/one/settings.py:854
 msgid "How long someone stays signed in while inactive."
 msgstr ""
 
@@ -8619,7 +8655,7 @@ msgstr ""
 msgid "How often people are told their coming holidays. Whether they are is decided on Notifications."
 msgstr ""
 
-#: onedesk/one/settings.py:2098
+#: onedesk/one/settings.py:2111
 msgid "How people will know it when they choose how to get it."
 msgstr ""
 
@@ -8801,7 +8837,7 @@ msgstr ""
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2528
+#: onedesk/public/js/settings.js:2684
 msgid "If yours doesn't, add www.{0} instead and redirect {0} to it."
 msgstr ""
 
@@ -8887,7 +8923,7 @@ msgstr ""
 msgid "In it"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2257
+#: onedesk/public/js/settings.js:2413
 msgid "In pixels."
 msgstr ""
 
@@ -8933,8 +8969,8 @@ msgstr ""
 msgid "In, per 1M Tokens"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3143 onedesk/public/js/settings.js:3161
-#: onedesk/public/js/settings.js:3272
+#: onedesk/public/js/settings.js:3299 onedesk/public/js/settings.js:3317
+#: onedesk/public/js/settings.js:3428
 msgid "In-app notifications are always on."
 msgstr ""
 
@@ -9277,7 +9313,7 @@ msgstr ""
 msgid "Invoices carry the company's TRN"
 msgstr ""
 
-#: onedesk/one/settings.py:70
+#: onedesk/one/settings.py:71
 msgid "Invoices, bills, payments and the books."
 msgstr ""
 
@@ -9470,7 +9506,7 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: onedesk/one/settings.py:71
+#: onedesk/one/settings.py:72
 msgid "Items, stock, buying and assets."
 msgstr ""
 
@@ -9700,7 +9736,7 @@ msgstr ""
 #. Label of the body (Text Editor) field in DocType 'AI Knowledge'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
-#: onedesk/public/js/settings.js:2578
+#: onedesk/public/js/settings.js:2734
 msgid "Knowledge"
 msgstr ""
 
@@ -9743,7 +9779,7 @@ msgstr ""
 msgid "Last 14 days"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2609
+#: onedesk/public/js/settings.js:2765
 msgid "Last 30 Days"
 msgstr ""
 
@@ -9793,7 +9829,7 @@ msgstr ""
 msgid "Last Day to Cancel"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2987
+#: onedesk/public/js/settings.js:3143
 msgid "Last Day, in {0} days"
 msgstr ""
 
@@ -9999,7 +10035,7 @@ msgstr ""
 msgid "Leads Won (%)"
 msgstr ""
 
-#: onedesk/one/settings.py:69
+#: onedesk/one/settings.py:70
 msgid "Leads, deals, customers and quotes."
 msgstr ""
 
@@ -10146,7 +10182,7 @@ msgstr ""
 msgid "Ledger"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2260
+#: onedesk/public/js/settings.js:2416
 msgid "Left"
 msgstr ""
 
@@ -10204,7 +10240,7 @@ msgstr ""
 msgid "Lets people see their calendar in another app through a private link. Off, every link is deleted and none can be made."
 msgstr ""
 
-#: onedesk/one/settings.py:938
+#: onedesk/one/settings.py:940
 msgid "Lets people share a record with someone who can't otherwise open it."
 msgstr ""
 
@@ -10239,11 +10275,11 @@ msgstr ""
 msgid "Letter Type"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2231
+#: onedesk/public/js/settings.js:2387
 msgid "Letter head created"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2231
+#: onedesk/public/js/settings.js:2387
 msgid "Letter head updated"
 msgstr ""
 
@@ -10430,6 +10466,11 @@ msgstr ""
 msgid "List Everyone Unmarked"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one/settings.py:46 onedesk/one/sidebar/one/one.json
+msgid "Lists"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/accounts.py:144
@@ -10488,7 +10529,7 @@ msgstr ""
 msgid "Lock Books"
 msgstr ""
 
-#: onedesk/one/settings.py:869
+#: onedesk/one/settings.py:871
 msgid "Locked Out For"
 msgstr ""
 
@@ -10538,7 +10579,7 @@ msgstr ""
 
 #. Label of the one_logo (Attach Image) field in DocType 'Bank'
 #: onedesk/one/ai.py:2668 onedesk/one/letter_heads.py:48
-#: onedesk/one_mail/custom/bank.json onedesk/public/js/settings.js:2274
+#: onedesk/one_mail/custom/bank.json onedesk/public/js/settings.js:2430
 msgid "Logo"
 msgstr ""
 
@@ -10546,11 +10587,11 @@ msgstr ""
 msgid "Logo Above"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2260
+#: onedesk/public/js/settings.js:2416
 msgid "Logo Alignment"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2257
+#: onedesk/public/js/settings.js:2413
 msgid "Logo Height"
 msgstr ""
 
@@ -10739,7 +10780,7 @@ msgstr ""
 msgid "Mail"
 msgstr ""
 
-#: onedesk/one/settings.py:153
+#: onedesk/one/settings.py:154
 msgid "Mail About What Is Assigned to You"
 msgstr ""
 
@@ -10768,7 +10809,7 @@ msgid "Mail Template"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/settings.py:47 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:48 onedesk/one/sidebar/one/one.json
 #: onedesk/public/js/doctype_settings.js:77
 #: onedesk/public/js/doctype_settings.js:170 onedesk/public/js/settings.js:2070
 msgid "Mail Templates"
@@ -10801,7 +10842,7 @@ msgstr ""
 #: onedesk/one_mail/ai.py:277
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/public/js/settings.js:441 onedesk/public/js/settings.js:2843
+#: onedesk/public/js/settings.js:441 onedesk/public/js/settings.js:2999
 msgid "Mailbox"
 msgstr ""
 
@@ -10814,7 +10855,7 @@ msgid "Mailbox connected"
 msgstr ""
 
 #: onedesk/public/js/onemail.js:81 onedesk/public/js/settings.js:435
-#: onedesk/public/js/settings.js:2836
+#: onedesk/public/js/settings.js:2992
 msgid "Mailboxes"
 msgstr ""
 
@@ -10824,7 +10865,7 @@ msgstr ""
 msgid "Mailed to addresses outside the workspace, so nobody chooses channels for it."
 msgstr ""
 
-#: onedesk/one/settings.py:154
+#: onedesk/one/settings.py:155
 msgid "Mails you each new mail on a record you were given to do."
 msgstr ""
 
@@ -10834,7 +10875,7 @@ msgstr ""
 
 #. Label of the is_main (Check) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/public/js/settings.js:2474
+#: onedesk/public/js/settings.js:2630
 msgid "Main Address"
 msgstr ""
 
@@ -10867,7 +10908,7 @@ msgstr ""
 msgid "Make Default"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2481
+#: onedesk/public/js/settings.js:2637
 msgid "Make Main Address"
 msgstr ""
 
@@ -10915,7 +10956,7 @@ msgstr ""
 msgid "Make {0}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2490
+#: onedesk/public/js/settings.js:2646
 msgid "Make {0} the main address? Sign-in, invitations and links in emails will use it."
 msgstr ""
 
@@ -10925,7 +10966,7 @@ msgstr ""
 
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
-#: onedesk/one/settings.py:1027 onedesk/one_hr/custom/employee.json
+#: onedesk/one/settings.py:1029 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/public/js/settings.js:1127 onedesk/public/js/settings.js:1190
 msgid "Manager"
@@ -11150,7 +11191,7 @@ msgstr ""
 msgid "Member"
 msgstr ""
 
-#: onedesk/one/settings.py:1765 onedesk/public/js/onecloud.js:110
+#: onedesk/one/settings.py:1767 onedesk/public/js/onecloud.js:110
 #: onedesk/public/js/onecloud.js:1527 onedesk/public/js/settings.js:1156
 #: onedesk/public/js/settings.js:1355
 msgid "Members"
@@ -11188,14 +11229,14 @@ msgstr ""
 #: onedesk/one/automation_steps.py:46 onedesk/one/custom/notification_type.json
 #: onedesk/one/mail_templates.py:131 onedesk/one/mail_templates.py:132
 #: onedesk/one/notify.py:303 onedesk/one/rules.py:75
-#: onedesk/one/settings.py:2063 onedesk/one_crm/custom/lead.json
+#: onedesk/one/settings.py:2076 onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:546
 #: onedesk/public/js/doctype_settings.js:547 onedesk/public/js/oneai.js:451
 #: onedesk/public/js/onecloud.js:1642 onedesk/public/js/onemail.js:574
-#: onedesk/public/js/onemail.js:930 onedesk/public/js/settings.js:3149
-#: onedesk/public/js/settings.js:3269 onedesk/www/message.html:2
+#: onedesk/public/js/onemail.js:930 onedesk/public/js/settings.js:3305
+#: onedesk/public/js/settings.js:3425 onedesk/www/message.html:2
 msgid "Message"
 msgstr ""
 
@@ -11231,7 +11272,7 @@ msgstr ""
 msgid "Minimum 8 characters, including at least one number or special character."
 msgstr ""
 
-#: onedesk/one/settings.py:115
+#: onedesk/one/settings.py:116
 msgid "Mobile"
 msgstr ""
 
@@ -11262,8 +11303,8 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/oneai/Panel.vue:561 onedesk/public/js/settings.js:2607
-#: onedesk/public/js/settings.js:2686
+#: onedesk/public/js/oneai/Panel.vue:561 onedesk/public/js/settings.js:2763
+#: onedesk/public/js/settings.js:2842
 msgid "Model"
 msgstr ""
 
@@ -11281,7 +11322,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:127
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/public/js/settings.js:2824
+#: onedesk/public/js/settings.js:2980
 msgid "Models"
 msgstr ""
 
@@ -11505,9 +11546,9 @@ msgstr ""
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/letter_heads.py:64 onedesk/one/settings.py:1744
-#: onedesk/one/settings.py:1764 onedesk/one/settings.py:1797
-#: onedesk/one/settings.py:2095
+#: onedesk/one/letter_heads.py:64 onedesk/one/settings.py:1746
+#: onedesk/one/settings.py:1766 onedesk/one/settings.py:1799
+#: onedesk/one/settings.py:2108
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -11521,8 +11562,9 @@ msgstr ""
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/oneai/Panel.vue:610 onedesk/public/js/onecloud.js:143
 #: onedesk/public/js/onecloud.js:1572 onedesk/public/js/settings.js:1112
-#: onedesk/public/js/settings.js:1195 onedesk/public/js/settings.js:2197
-#: onedesk/public/js/settings.js:2211 onedesk/public/js/settings.js:2519
+#: onedesk/public/js/settings.js:1195 onedesk/public/js/settings.js:2263
+#: onedesk/public/js/settings.js:2290 onedesk/public/js/settings.js:2353
+#: onedesk/public/js/settings.js:2367 onedesk/public/js/settings.js:2675
 msgid "Name"
 msgstr ""
 
@@ -11589,7 +11631,7 @@ msgstr ""
 msgid "Narrow the List"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2783
+#: onedesk/public/js/settings.js:2939
 msgid "Needed Review"
 msgstr ""
 
@@ -11667,6 +11709,10 @@ msgstr ""
 msgid "New"
 msgstr ""
 
+#: onedesk/public/js/settings.js:2213
+msgid "New Address Template"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:216 onedesk/public/js/settings.js:2040
 msgid "New Approval"
 msgstr ""
@@ -11713,7 +11759,7 @@ msgid "New Lead"
 msgstr ""
 
 #: onedesk/one/ai.py:2654 onedesk/public/js/settings.js:2097
-#: onedesk/public/js/settings.js:2207
+#: onedesk/public/js/settings.js:2363
 msgid "New Letter Head"
 msgstr ""
 
@@ -11742,6 +11788,10 @@ msgstr ""
 msgid "New Print Format"
 msgstr ""
 
+#: onedesk/public/js/settings.js:2181
+msgid "New Print Heading"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1133
 msgid "New Profile"
 msgstr ""
@@ -11751,8 +11801,8 @@ msgid "New Project"
 msgstr ""
 
 #: onedesk/one/ai.py:2431 onedesk/public/js/doctype_settings.js:296
-#: onedesk/public/js/settings.js:3076 onedesk/public/js/settings.js:3248
-#: onedesk/public/js/settings.js:3252
+#: onedesk/public/js/settings.js:3232 onedesk/public/js/settings.js:3404
+#: onedesk/public/js/settings.js:3408
 msgid "New Rule"
 msgstr ""
 
@@ -11907,7 +11957,7 @@ msgstr ""
 msgid "Next Step Due"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3028
+#: onedesk/public/js/settings.js:3184
 msgid "Next Year's List"
 msgstr ""
 
@@ -11957,7 +12007,7 @@ msgstr ""
 msgid "No Model"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2986
+#: onedesk/public/js/settings.js:3142
 msgid "No More Holidays This Year"
 msgstr ""
 
@@ -11978,7 +12028,7 @@ msgstr ""
 msgid "No access levels"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2598
+#: onedesk/public/js/settings.js:2754
 msgid "No actions"
 msgstr ""
 
@@ -11988,6 +12038,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:1889
 msgid "No add-ons available"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2166
+msgid "No address templates"
 msgstr ""
 
 #: onedesk/public/js/settings.js:850
@@ -12050,7 +12104,7 @@ msgstr ""
 msgid "No documents this month"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2461
+#: onedesk/public/js/settings.js:2617
 msgid "No domains"
 msgstr ""
 
@@ -12090,15 +12144,19 @@ msgstr ""
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2869
+#: onedesk/public/js/settings.js:3025
 msgid "No folders"
+msgstr ""
+
+#: onedesk/one/lists.py:37
+msgid "No genders"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1152
 msgid "No groups"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2948
+#: onedesk/public/js/settings.js:3104
 msgid "No holiday list"
 msgstr ""
 
@@ -12114,7 +12172,7 @@ msgstr ""
 msgid "No item yet"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2112
+#: onedesk/public/js/settings.js:2115
 msgid "No letter heads"
 msgstr ""
 
@@ -12126,7 +12184,7 @@ msgstr ""
 msgid "No libraries"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2652
+#: onedesk/public/js/settings.js:2808
 msgid "No longer offered"
 msgstr ""
 
@@ -12143,7 +12201,7 @@ msgid "No mailbox can send as {0}."
 msgstr ""
 
 #: onedesk/public/js/onemail.js:224 onedesk/public/js/onemail.js:253
-#: onedesk/public/js/settings.js:438 onedesk/public/js/settings.js:2841
+#: onedesk/public/js/settings.js:438 onedesk/public/js/settings.js:2997
 msgid "No mailboxes"
 msgstr ""
 
@@ -12151,12 +12209,16 @@ msgstr ""
 msgid "No markup is set, so this model can't be called."
 msgstr ""
 
-#: onedesk/public/js/shell.js:138
+#: onedesk/public/js/settings.js:2287 onedesk/public/js/shell.js:138
 msgid "No matches"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2048
 msgid "No matching approvals"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2154
+msgid "No matching headings"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1171
@@ -12167,7 +12229,7 @@ msgstr ""
 msgid "No matching memories"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3088
+#: onedesk/public/js/settings.js:3244
 msgid "No matching notifications"
 msgstr ""
 
@@ -12179,7 +12241,7 @@ msgstr ""
 msgid "No matching records"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2075
+#: onedesk/public/js/settings.js:2075 onedesk/public/js/settings.js:2167
 msgid "No matching templates"
 msgstr ""
 
@@ -12250,8 +12312,12 @@ msgstr ""
 msgid "No price for this model on the published page."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2119
+#: onedesk/public/js/settings.js:2122
 msgid "No print formats"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2153
+msgid "No print headings"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1132
@@ -12278,7 +12344,7 @@ msgstr ""
 msgid "No results"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:298 onedesk/public/js/settings.js:3072
+#: onedesk/public/js/doctype_settings.js:298 onedesk/public/js/settings.js:3228
 msgid "No rules"
 msgstr ""
 
@@ -12288,6 +12354,10 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:321
 msgid "No salary slips yet for {0} to {1}."
+msgstr ""
+
+#: onedesk/one/lists.py:36
+msgid "No salutations"
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:146
@@ -12387,7 +12457,7 @@ msgid "Nobody on this list checked in"
 msgstr ""
 
 #: onedesk/one/ai.py:2679 onedesk/one/ai_setup.py:139
-#: onedesk/public/js/settings.js:2350
+#: onedesk/public/js/settings.js:2506
 msgid "None"
 msgstr ""
 
@@ -12407,7 +12477,7 @@ msgstr ""
 msgid "None yet"
 msgstr ""
 
-#: onedesk/one/settings.py:1102
+#: onedesk/one/settings.py:1104
 msgid "None, set by hand"
 msgstr ""
 
@@ -12448,7 +12518,7 @@ msgstr ""
 
 #. Label of the one_unsaved (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
-#: onedesk/public/js/settings.js:3249 onedesk/public/js/shell.js:354
+#: onedesk/public/js/settings.js:3405 onedesk/public/js/shell.js:354
 msgid "Not Saved"
 msgstr ""
 
@@ -12457,7 +12527,7 @@ msgstr ""
 msgid "Not Shown"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2473
+#: onedesk/public/js/settings.js:2629
 msgid "Not Working"
 msgstr ""
 
@@ -12535,7 +12605,7 @@ msgstr ""
 msgid "Not joined yet"
 msgstr ""
 
-#: onedesk/one/settings.py:511
+#: onedesk/one/settings.py:513
 msgid "Not mailed in this workspace."
 msgstr ""
 
@@ -12556,7 +12626,7 @@ msgstr ""
 msgid "Not paid within {0} days, so its name is free again."
 msgstr ""
 
-#: onedesk/one/settings.py:513
+#: onedesk/one/settings.py:515
 msgid "Not pushed in this workspace."
 msgstr ""
 
@@ -12606,7 +12676,7 @@ msgstr ""
 msgid "Not synced yet."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2613
+#: onedesk/public/js/settings.js:2769
 msgid "Not used"
 msgstr ""
 
@@ -12615,7 +12685,7 @@ msgstr ""
 msgid "Not working"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2457
+#: onedesk/public/js/settings.js:2613
 msgid "Not working. Check the DNS record below, then remove the domain and add it again."
 msgstr ""
 
@@ -12641,7 +12711,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/heads.py:167 onedesk/one_hr/heads.py:538
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/public/js/settings.js:2277 onedesk/public/js/tenant.js:72
+#: onedesk/public/js/settings.js:2433 onedesk/public/js/tenant.js:72
 msgid "Note"
 msgstr ""
 
@@ -12755,15 +12825,15 @@ msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/settings.js:3092
+#: onedesk/public/js/settings.js:3248
 msgid "Notification"
 msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:35 onedesk/one/settings.py:44
-#: onedesk/one/settings.py:145 onedesk/one/sidebar/one/one.json
-#: onedesk/public/js/doctype_settings.js:295 onedesk/public/js/settings.js:3084
-#: onedesk/public/js/settings.js:3182 onedesk/public/js/settings.js:3246
+#: onedesk/one/settings.py:146 onedesk/one/sidebar/one/one.json
+#: onedesk/public/js/doctype_settings.js:295 onedesk/public/js/settings.js:3240
+#: onedesk/public/js/settings.js:3338 onedesk/public/js/settings.js:3402
 msgid "Notifications"
 msgstr ""
 
@@ -12867,16 +12937,16 @@ msgstr ""
 msgid "Of Whom"
 msgstr ""
 
-#: onedesk/one/ai.py:2697 onedesk/one/settings.py:910
+#: onedesk/one/ai.py:2697 onedesk/one/settings.py:912
 #: onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271
 #: onedesk/public/js/doctype_settings.js:308
 #: onedesk/public/js/doctype_settings.js:1065 onedesk/public/js/settings.js:592
-#: onedesk/public/js/settings.js:2832 onedesk/public/js/settings.js:3045
-#: onedesk/public/js/settings.js:3080 onedesk/public/js/settings.js:3185
-#: onedesk/public/js/settings.js:3249
+#: onedesk/public/js/settings.js:2988 onedesk/public/js/settings.js:3201
+#: onedesk/public/js/settings.js:3236 onedesk/public/js/settings.js:3341
+#: onedesk/public/js/settings.js:3405
 msgid "Off"
 msgstr ""
 
@@ -12946,7 +13016,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271 onedesk/public/js/settings.js:592
-#: onedesk/public/js/settings.js:3185 onedesk/public/js/settings.js:3249
+#: onedesk/public/js/settings.js:3341 onedesk/public/js/settings.js:3405
 msgid "On"
 msgstr ""
 
@@ -12958,7 +13028,7 @@ msgstr ""
 #: onedesk/one_intake/custom/file.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/settings.js:2845 onedesk/public/js/settings.js:2872
+#: onedesk/public/js/settings.js:3001 onedesk/public/js/settings.js:3028
 msgid "On Behalf Of"
 msgstr ""
 
@@ -13044,7 +13114,7 @@ msgstr ""
 msgid "On leave"
 msgstr ""
 
-#: onedesk/one/settings.py:847
+#: onedesk/one/settings.py:849
 msgid "On printed and sent invoices, quotes and orders."
 msgstr ""
 
@@ -13130,7 +13200,7 @@ msgstr ""
 msgid "One Calendar"
 msgstr ""
 
-#: onedesk/one/settings.py:867
+#: onedesk/one/settings.py:869
 msgid "One Device at a Time"
 msgstr ""
 
@@ -13220,7 +13290,7 @@ msgstr ""
 msgid "One line. A name in {{ }} is filled in when it is sent, and shown in bold."
 msgstr ""
 
-#: onedesk/one/settings.py:2062
+#: onedesk/one/settings.py:2075
 msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr ""
 
@@ -13322,7 +13392,7 @@ msgstr ""
 msgid "OneAI Action"
 msgstr ""
 
-#: onedesk/one/settings.py:51
+#: onedesk/one/settings.py:52
 msgid "OneAI Actions"
 msgstr ""
 
@@ -13445,11 +13515,11 @@ msgstr ""
 msgid "OneAI will read new files in {0}."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2855
+#: onedesk/public/js/settings.js:3011
 msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2897
+#: onedesk/public/js/settings.js:3053
 msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr ""
 
@@ -13468,7 +13538,7 @@ msgstr ""
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
-#: onedesk/public/js/settings.js:2810
+#: onedesk/public/js/settings.js:2966
 msgid "OneBook"
 msgstr ""
 
@@ -13506,7 +13576,7 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr/onehr.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
-#: onedesk/public/js/settings.js:2815
+#: onedesk/public/js/settings.js:2971
 msgid "OneHR"
 msgstr ""
 
@@ -13528,7 +13598,7 @@ msgstr ""
 msgid "OneIntake Changed"
 msgstr ""
 
-#: onedesk/one/settings.py:52
+#: onedesk/one/settings.py:53
 msgid "OneIntake Settings"
 msgstr ""
 
@@ -13778,11 +13848,11 @@ msgstr ""
 msgid "Only people on the team can request files."
 msgstr ""
 
-#: onedesk/public/js/settings.js:3266
+#: onedesk/public/js/settings.js:3422
 msgid "Only people with access to the record are notified."
 msgstr ""
 
-#: onedesk/one/settings.py:2057
+#: onedesk/one/settings.py:2070
 msgid "Only record types you can open."
 msgstr ""
 
@@ -13802,7 +13872,7 @@ msgstr ""
 msgid "Only the five everyone has"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2853
+#: onedesk/public/js/settings.js:3009
 msgid "Only the owner of {0} can turn this on, because OneAI acts on their behalf."
 msgstr ""
 
@@ -14456,7 +14526,7 @@ msgstr ""
 msgid "Passkey Added"
 msgstr ""
 
-#: onedesk/one/settings.py:864
+#: onedesk/one/settings.py:866
 msgid "Passkey Sign-in"
 msgstr ""
 
@@ -14498,11 +14568,11 @@ msgstr ""
 msgid "Password reset sent"
 msgstr ""
 
-#: onedesk/one/settings.py:919
+#: onedesk/one/settings.py:921
 msgid "Passwords"
 msgstr ""
 
-#: onedesk/one/settings.py:870
+#: onedesk/one/settings.py:872
 msgid "Passwords Expire After (Days)"
 msgstr ""
 
@@ -14742,11 +14812,11 @@ msgstr ""
 
 #. Label of the people_choose (Check) field in DocType 'AI Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
-#: onedesk/public/js/settings.js:2698
+#: onedesk/public/js/settings.js:2854
 msgid "People Choose the Model"
 msgstr ""
 
-#: onedesk/one/settings.py:2103
+#: onedesk/one/settings.py:2116
 msgid "People With the Role"
 msgstr ""
 
@@ -14756,15 +14826,15 @@ msgstr ""
 msgid "People asked"
 msgstr ""
 
-#: onedesk/one/settings.py:855
+#: onedesk/one/settings.py:857
 msgid "People can sign in with a link sent to their email instead of a password."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2988
+#: onedesk/public/js/settings.js:3144
 msgid "People on Other Lists"
 msgstr ""
 
-#: onedesk/one/settings.py:851
+#: onedesk/one/settings.py:853
 msgid "People sign in with the passkey on their own device, without a password."
 msgstr ""
 
@@ -14881,10 +14951,10 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the phone (Data) field in DocType 'Reading Party'
-#: onedesk/one/letter_heads.py:66 onedesk/one/settings.py:115
+#: onedesk/one/letter_heads.py:66 onedesk/one/settings.py:116
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/settings.js:2199
+#: onedesk/public/js/settings.js:2355
 msgid "Phone"
 msgstr ""
 
@@ -14994,7 +15064,7 @@ msgid "Plan Key"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/settings.py:49 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:50 onedesk/one/sidebar/one/one.json
 msgid "Plan and Credits"
 msgstr ""
 
@@ -15165,7 +15235,7 @@ msgstr ""
 msgid "Press Site"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3120
+#: onedesk/public/js/settings.js:3276
 msgid "Preview"
 msgstr ""
 
@@ -15223,7 +15293,7 @@ msgstr ""
 msgid "Priced by hand with no rates."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2673
+#: onedesk/public/js/settings.js:2829
 msgid "Priced per use."
 msgstr ""
 
@@ -15243,6 +15313,10 @@ msgstr ""
 msgid "Print Formats"
 msgstr ""
 
+#: onedesk/public/js/settings.js:2150
+msgid "Print Headings"
+msgstr ""
+
 #: onedesk/public/js/outside.js:70
 msgid "Print Settings"
 msgstr ""
@@ -15255,13 +15329,13 @@ msgstr ""
 msgid "Print formats can only be made for this workspace's record types."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2214
+#: onedesk/public/js/settings.js:2370
 msgid "Printed on a document unless another is chosen."
 msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one/settings.py:46 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:47 onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/doctype_settings.js:79
 msgid "Printing"
@@ -15318,7 +15392,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/portal.py:67 onedesk/one/settings.py:34
-#: onedesk/one/settings.py:1101 onedesk/one/sidebar/one/one.json
+#: onedesk/one/settings.py:1103 onedesk/one/sidebar/one/one.json
 #: onedesk/public/js/settings.js:1136 onedesk/public/js/settings.js:1291
 #: onedesk/templates/includes/one_account_tabs.html:5
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
@@ -15414,7 +15488,7 @@ msgstr ""
 msgid "Projects Settings"
 msgstr ""
 
-#: onedesk/one/settings.py:72
+#: onedesk/one/settings.py:73
 msgid "Projects, tasks and timesheets."
 msgstr ""
 
@@ -15486,7 +15560,7 @@ msgstr ""
 msgid "Provided"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2466
+#: onedesk/public/js/settings.js:2622
 msgid "Provided by One"
 msgstr ""
 
@@ -15528,8 +15602,8 @@ msgstr ""
 msgid "Provisioning failed"
 msgstr ""
 
-#: onedesk/one/settings.py:1620 onedesk/public/js/settings.js:2984
-#: onedesk/public/js/settings.js:2997
+#: onedesk/one/settings.py:1622 onedesk/public/js/settings.js:3140
+#: onedesk/public/js/settings.js:3153
 msgid "Public Holidays"
 msgstr ""
 
@@ -15578,8 +15652,8 @@ msgstr ""
 msgid "Purpose of Travel"
 msgstr ""
 
-#: onedesk/one/settings.py:470 onedesk/public/js/settings.js:323
-#: onedesk/public/js/settings.js:367 onedesk/public/js/settings.js:3057
+#: onedesk/one/settings.py:472 onedesk/public/js/settings.js:323
+#: onedesk/public/js/settings.js:367 onedesk/public/js/settings.js:3213
 msgid "Push"
 msgstr ""
 
@@ -15589,7 +15663,7 @@ msgid "Push Address"
 msgstr ""
 
 #. Label of the one_allow_push (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2117
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2130
 msgid "Push Allowed"
 msgstr ""
 
@@ -15599,7 +15673,7 @@ msgid "Push Device"
 msgstr ""
 
 #. Label of the one_push_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2118
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2131
 msgid "Push for New People"
 msgstr ""
 
@@ -15789,7 +15863,7 @@ msgstr ""
 #: onedesk/one_intake/custom/file.json onedesk/public/js/intake.js:55
 #: onedesk/public/js/intake.js:75 onedesk/public/js/intake.js:127
 #: onedesk/public/js/onecloud.js:532 onedesk/public/js/onecloud.js:722
-#: onedesk/public/js/settings.js:450 onedesk/public/js/settings.js:2844
+#: onedesk/public/js/settings.js:450 onedesk/public/js/settings.js:3000
 msgid "Read by OneAI"
 msgstr ""
 
@@ -15846,7 +15920,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/settings.js:2801 onedesk/public/js/settings.js:2832
+#: onedesk/public/js/settings.js:2957 onedesk/public/js/settings.js:2988
 msgid "Reading"
 msgstr ""
 
@@ -15901,7 +15975,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:6
-#: onedesk/public/js/settings.js:2812
+#: onedesk/public/js/settings.js:2968
 msgid "Ready to Submit"
 msgstr ""
 
@@ -15957,7 +16031,7 @@ msgstr ""
 msgid "Receivables"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2781
+#: onedesk/public/js/settings.js:2937
 msgid "Received"
 msgstr ""
 
@@ -15982,8 +16056,8 @@ msgstr ""
 msgid "Recipient"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1639 onedesk/public/js/settings.js:3192
-#: onedesk/public/js/settings.js:3266
+#: onedesk/public/js/onecloud.js:1639 onedesk/public/js/settings.js:3348
+#: onedesk/public/js/settings.js:3422
 msgid "Recipients"
 msgstr ""
 
@@ -16087,7 +16161,7 @@ msgstr ""
 msgid "Record Payment"
 msgstr ""
 
-#: onedesk/one/settings.py:937
+#: onedesk/one/settings.py:939
 msgid "Record Sharing"
 msgstr ""
 
@@ -16096,7 +16170,7 @@ msgstr ""
 #. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
-#: onedesk/one/settings.py:1785 onedesk/one/settings.py:2057
+#: onedesk/one/settings.py:1787 onedesk/one/settings.py:2070
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
@@ -16414,7 +16488,8 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1332 onedesk/public/js/onecloud.js:1378
 #: onedesk/public/js/onecloud.js:1525 onedesk/public/js/onecloud.js:1812
 #: onedesk/public/js/settings.js:391 onedesk/public/js/settings.js:1403
-#: onedesk/public/js/settings.js:1585 onedesk/public/js/settings.js:2482
+#: onedesk/public/js/settings.js:1585 onedesk/public/js/settings.js:2238
+#: onedesk/public/js/settings.js:2638
 msgid "Remove"
 msgstr ""
 
@@ -16450,11 +16525,15 @@ msgstr ""
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2497
+#: onedesk/public/js/settings.js:2240
+msgid "Remove {0}?"
+msgstr ""
+
+#: onedesk/public/js/settings.js:2653
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr ""
 
-#: onedesk/one/ai.py:1055
+#: onedesk/one/ai.py:1055 onedesk/public/js/settings.js:2243
 msgid "Removed"
 msgstr ""
 
@@ -16680,11 +16759,11 @@ msgstr ""
 msgid "Reset Passkey"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2730 onedesk/public/js/settings.js:3199
+#: onedesk/public/js/settings.js:2886 onedesk/public/js/settings.js:3355
 msgid "Reset to Default"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2731
+#: onedesk/public/js/settings.js:2887
 msgid "Reset {0}? It runs on the default model with no extra instructions."
 msgstr ""
 
@@ -16839,7 +16918,7 @@ msgstr ""
 msgid "Revoked by {0}: {1}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3171
+#: onedesk/public/js/settings.js:3327
 msgid "Rewrite the \"{0}\" notification to be short, plain and friendly. Keep every field it uses and suggest it as a change I can apply."
 msgstr ""
 
@@ -16851,7 +16930,7 @@ msgstr ""
 msgid "Rewrite this notification"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3198
+#: onedesk/public/js/settings.js:3354
 msgid "Rewrite with OneAI"
 msgstr ""
 
@@ -16861,7 +16940,7 @@ msgstr ""
 
 #. Option for the 'Audit' (Select) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/public/js/settings.js:2260
+#: onedesk/public/js/settings.js:2416
 msgid "Right"
 msgstr ""
 
@@ -16890,7 +16969,7 @@ msgstr ""
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:46
-#: onedesk/public/js/doctype_settings.js:308 onedesk/public/js/settings.js:3078
+#: onedesk/public/js/doctype_settings.js:308 onedesk/public/js/settings.js:3234
 msgid "Rule"
 msgstr ""
 
@@ -16903,7 +16982,7 @@ msgid "Rule updated"
 msgstr ""
 
 #: onedesk/one/rules.py:47 onedesk/public/js/doctype_settings.js:1053
-#: onedesk/public/js/onemail.js:1045 onedesk/public/js/settings.js:3069
+#: onedesk/public/js/onemail.js:1045 onedesk/public/js/settings.js:3225
 msgid "Rules"
 msgstr ""
 
@@ -16920,7 +16999,7 @@ msgstr ""
 #. Label of the reference (Data) field in DocType 'AI Proposal'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/settings.js:2752
+#: onedesk/public/js/settings.js:2908
 msgid "Run"
 msgstr ""
 
@@ -16928,7 +17007,7 @@ msgstr ""
 msgid "Run Now"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2755
+#: onedesk/public/js/settings.js:2911
 msgid "Running…"
 msgstr ""
 
@@ -16943,7 +17022,7 @@ msgstr ""
 msgid "Runs On"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2748
+#: onedesk/public/js/settings.js:2904
 msgid "Runs once with the settings above and uses OneAI credits."
 msgstr ""
 
@@ -17046,6 +17125,10 @@ msgstr ""
 msgid "Sales are reported under the company's emirate."
 msgstr ""
 
+#: onedesk/one/lists.py:36
+msgid "Salutations"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:957
 #: onedesk/public/js/doctype_settings.js:986
 msgid "Same format as a series."
@@ -17058,8 +17141,9 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:1613 onedesk/public/js/onemail.js:932
 #: onedesk/public/js/onemail.js:956 onedesk/public/js/project.js:96
 #: onedesk/public/js/reports.js:397 onedesk/public/js/settings.js:490
-#: onedesk/public/js/settings.js:787 onedesk/public/js/settings.js:2712
-#: onedesk/public/js/shell.js:458
+#: onedesk/public/js/settings.js:787 onedesk/public/js/settings.js:2186
+#: onedesk/public/js/settings.js:2220 onedesk/public/js/settings.js:2264
+#: onedesk/public/js/settings.js:2868 onedesk/public/js/shell.js:458
 #: onedesk/website/doctype/web_form/templates/web_form.html:19
 #: onedesk/www/account_profile.html:29
 msgid "Save"
@@ -17081,7 +17165,9 @@ msgstr ""
 msgid "Save to My Files"
 msgstr ""
 
-#: onedesk/public/js/reports.js:406 onedesk/public/js/shell.js:516
+#: onedesk/public/js/reports.js:406 onedesk/public/js/settings.js:2201
+#: onedesk/public/js/settings.js:2227 onedesk/public/js/settings.js:2275
+#: onedesk/public/js/shell.js:516
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
 msgstr ""
@@ -17098,7 +17184,7 @@ msgstr ""
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr ""
 
-#: onedesk/public/js/settings.js:494 onedesk/public/js/settings.js:2722
+#: onedesk/public/js/settings.js:494 onedesk/public/js/settings.js:2878
 #: onedesk/www/account_profile.html:78
 msgid "Saved."
 msgstr ""
@@ -17123,7 +17209,7 @@ msgstr ""
 msgid "Say no to this?"
 msgstr ""
 
-#: onedesk/one/settings.py:631
+#: onedesk/one/settings.py:633
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
@@ -17274,7 +17360,7 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3293
+#: onedesk/public/js/settings.js:3449
 msgid "Select a record type first."
 msgstr ""
 
@@ -17320,7 +17406,7 @@ msgstr ""
 msgid "Send Test"
 msgstr ""
 
-#: onedesk/one/settings.py:1952 onedesk/one/settings.py:2056
+#: onedesk/one/settings.py:1965 onedesk/one/settings.py:2069
 msgid "Send This"
 msgstr ""
 
@@ -17410,11 +17496,11 @@ msgstr ""
 msgid "Sent by a Machine"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3052
+#: onedesk/public/js/settings.js:3208
 msgid "Sent by {0}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3166
+#: onedesk/public/js/settings.js:3322
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
 msgstr ""
 
@@ -17581,7 +17667,7 @@ msgstr ""
 msgid "Set Up Naming"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:194 onedesk/public/js/settings.js:2161
+#: onedesk/public/js/doctype_settings.js:194 onedesk/public/js/settings.js:2317
 msgid "Set as Default"
 msgstr ""
 
@@ -17663,7 +17749,7 @@ msgstr ""
 msgid "Set when the row was a module's before the workspace changed it."
 msgstr ""
 
-#: onedesk/one/settings.py:1103
+#: onedesk/one/settings.py:1105
 msgid "Sets every app below. Changing an app by hand removes the profile."
 msgstr ""
 
@@ -17851,11 +17937,11 @@ msgstr ""
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2251 onedesk/public/js/settings.js:2271
+#: onedesk/public/js/settings.js:2407 onedesk/public/js/settings.js:2427
 msgid "Show"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2586
+#: onedesk/public/js/settings.js:2742
 msgid "Show All Actions"
 msgstr ""
 
@@ -17896,7 +17982,7 @@ msgstr ""
 msgid "Show {0} more"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2581
+#: onedesk/public/js/settings.js:2737
 msgid "Showing {0} actions only."
 msgstr ""
 
@@ -17988,7 +18074,7 @@ msgstr ""
 msgid "Sign out other sessions? You'll be signed out on every other device."
 msgstr ""
 
-#: onedesk/one/settings.py:1232
+#: onedesk/one/settings.py:1234
 msgid "Sign yourself out from your own Sign-in page."
 msgstr ""
 
@@ -18035,7 +18121,7 @@ msgstr ""
 msgid "Signature saved"
 msgstr ""
 
-#: onedesk/one/settings.py:888
+#: onedesk/one/settings.py:890
 msgid "Signed Out After"
 msgstr ""
 
@@ -18063,7 +18149,7 @@ msgstr ""
 msgid "Signed out everywhere."
 msgstr ""
 
-#: onedesk/one/settings.py:856
+#: onedesk/one/settings.py:858
 msgid "Signing in somewhere new signs a person out everywhere else."
 msgstr ""
 
@@ -18134,7 +18220,7 @@ msgstr ""
 msgid "Some Drafts Not Submitted"
 msgstr ""
 
-#: onedesk/one/settings.py:1615
+#: onedesk/one/settings.py:1617
 msgid "Some countries have holidays only in part of the country."
 msgstr ""
 
@@ -18235,7 +18321,7 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2790
+#: onedesk/public/js/settings.js:2946
 msgid "Sources"
 msgstr ""
 
@@ -18262,7 +18348,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/report/spending/spending.json
-#: onedesk/public/js/settings.js:2812
+#: onedesk/public/js/settings.js:2968
 msgid "Spending"
 msgstr ""
 
@@ -18307,7 +18393,7 @@ msgstr ""
 msgid "Stalled"
 msgstr ""
 
-#: onedesk/one/ai.py:2603 onedesk/public/js/settings.js:2146
+#: onedesk/one/ai.py:2603 onedesk/public/js/settings.js:2302
 msgid "Standard"
 msgstr ""
 
@@ -18434,7 +18520,7 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: onedesk/one/settings.py:115 onedesk/one/settings.py:1615
+#: onedesk/one/settings.py:116 onedesk/one/settings.py:1617
 msgid "State or Region"
 msgstr ""
 
@@ -18486,7 +18572,7 @@ msgstr ""
 #: onedesk/one_project/report/project_tree/project_tree.py:51
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/settings.js:1754 onedesk/public/js/settings.js:2471
+#: onedesk/public/js/settings.js:1754 onedesk/public/js/settings.js:2627
 msgid "Status"
 msgstr ""
 
@@ -18596,11 +18682,11 @@ msgstr ""
 msgid "Stop Offering"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2876
+#: onedesk/public/js/settings.js:3032
 msgid "Stop OneAI reading new files in {0} and the folders inside it?"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2849
+#: onedesk/public/js/settings.js:3005
 msgid "Stop OneAI reading new mail in {0}?"
 msgstr ""
 
@@ -18755,7 +18841,7 @@ msgstr ""
 msgid "Stripe's webhook secret"
 msgstr ""
 
-#: onedesk/one/settings.py:924
+#: onedesk/one/settings.py:926
 msgid "Strongest"
 msgstr ""
 
@@ -18782,7 +18868,7 @@ msgstr ""
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
 #: onedesk/one/automation_steps.py:45 onedesk/one/custom/notification_type.json
 #: onedesk/one/mail_templates.py:130 onedesk/one/notify.py:303
-#: onedesk/one/rules.py:75 onedesk/one/settings.py:2062
+#: onedesk/one/rules.py:75 onedesk/one/settings.py:2075
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:448
 #: onedesk/public/js/doctype_settings.js:190
 #: onedesk/public/js/doctype_settings.js:536 onedesk/public/js/onemail.js:807
@@ -19087,7 +19173,7 @@ msgstr ""
 msgid "Taken from the provider's own word for the model and from every input price it publishes."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2445
+#: onedesk/public/js/settings.js:2601
 msgid "Takes effect a few minutes after it's added."
 msgstr ""
 
@@ -19177,7 +19263,7 @@ msgid "Tax Assessment"
 msgstr ""
 
 #: onedesk/one/letter_heads.py:69 onedesk/one/letter_heads.py:171
-#: onedesk/one/letter_heads.py:379 onedesk/public/js/settings.js:2202
+#: onedesk/one/letter_heads.py:379 onedesk/public/js/settings.js:2358
 msgid "Tax ID"
 msgstr ""
 
@@ -19236,7 +19322,7 @@ msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:189
-#: onedesk/public/js/settings.js:2079
+#: onedesk/public/js/settings.js:2079 onedesk/public/js/settings.js:2218
 msgid "Template"
 msgstr ""
 
@@ -19310,7 +19396,7 @@ msgstr ""
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/settings.js:2749
+#: onedesk/public/js/settings.js:2905
 msgid "Text"
 msgstr ""
 
@@ -19360,7 +19446,7 @@ msgstr ""
 #: onedesk/one/access.py:599 onedesk/one/access.py:624
 #: onedesk/one/access.py:688 onedesk/one/ai_setup.py:823
 #: onedesk/one/reports.py:261 onedesk/one/reports.py:293
-#: onedesk/one/settings.py:1078 onedesk/one/settings.py:1167
+#: onedesk/one/settings.py:1080 onedesk/one/settings.py:1169
 msgid "That cannot be set."
 msgstr ""
 
@@ -19390,7 +19476,7 @@ msgstr ""
 msgid "That is not a recording."
 msgstr ""
 
-#: onedesk/one/settings.py:1277
+#: onedesk/one/settings.py:1279
 msgid "That is not an email address."
 msgstr ""
 
@@ -19398,7 +19484,7 @@ msgstr ""
 msgid "That is not one of this workspace's invoices."
 msgstr ""
 
-#: onedesk/one/settings.py:617
+#: onedesk/one/settings.py:619
 msgid "That is not one of your memories."
 msgstr ""
 
@@ -19461,7 +19547,7 @@ msgstr ""
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr ""
 
-#: onedesk/one/settings.py:894
+#: onedesk/one/settings.py:896
 msgid "The Code Comes From"
 msgstr ""
 
@@ -19473,7 +19559,7 @@ msgstr ""
 msgid "The Company's TRN"
 msgstr ""
 
-#: onedesk/one/settings.py:2059
+#: onedesk/one/settings.py:2072
 msgid "The Date"
 msgstr ""
 
@@ -19481,7 +19567,7 @@ msgstr ""
 msgid "The European Union keeps the workspace's files in the EU. This cannot be changed later."
 msgstr ""
 
-#: onedesk/one/settings.py:2061
+#: onedesk/one/settings.py:2074
 msgid "The Field"
 msgstr ""
 
@@ -19510,7 +19596,7 @@ msgstr ""
 msgid "The OneAI model the call ran on."
 msgstr ""
 
-#: onedesk/one/settings.py:2109
+#: onedesk/one/settings.py:2122
 msgid "The Person on the Record"
 msgstr ""
 
@@ -19947,7 +20033,7 @@ msgstr ""
 msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2261
+#: onedesk/public/js/settings.js:2417
 msgid "The name, logo, address, contacts and colour come from Workspace › General."
 msgstr ""
 
@@ -19975,7 +20061,7 @@ msgstr ""
 msgid "The next step to run. Steps can safely run more than once."
 msgstr ""
 
-#: onedesk/one/settings.py:2063
+#: onedesk/one/settings.py:2076
 msgid "The notification detail and the email body. Optional."
 msgstr ""
 
@@ -20342,11 +20428,11 @@ msgstr ""
 msgid "The text before the number, such as {0}"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3139
+#: onedesk/public/js/settings.js:3295
 msgid "The text comes from {0}'s rule {1}."
 msgstr ""
 
-#: onedesk/public/js/settings.js:3140
+#: onedesk/public/js/settings.js:3296
 msgid "The text comes from {0}."
 msgstr ""
 
@@ -20497,7 +20583,7 @@ msgstr ""
 msgid "Then"
 msgstr ""
 
-#: onedesk/one/settings.py:859
+#: onedesk/one/settings.py:861
 msgid "Then a new one is asked for at sign-in. 0 means they never expire."
 msgstr ""
 
@@ -20514,7 +20600,7 @@ msgstr ""
 msgid "There is already a group called {0}."
 msgstr ""
 
-#: onedesk/one/settings.py:2165
+#: onedesk/one/settings.py:2178
 msgid "There is already a notification called {0}."
 msgstr ""
 
@@ -20570,12 +20656,12 @@ msgstr ""
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr ""
 
-#: onedesk/one/notify.py:488 onedesk/one/settings.py:1943
+#: onedesk/one/notify.py:488 onedesk/one/settings.py:1956
 msgid "There is no notification type {0}."
 msgstr ""
 
-#: onedesk/one/settings.py:2046 onedesk/one/settings.py:2168
-#: onedesk/one/settings.py:2196
+#: onedesk/one/settings.py:2059 onedesk/one/settings.py:2181
+#: onedesk/one/settings.py:2209
 msgid "There is no rule {0}."
 msgstr ""
 
@@ -20591,7 +20677,7 @@ msgstr ""
 msgid "There is no such party."
 msgstr ""
 
-#: onedesk/one/settings.py:222
+#: onedesk/one/settings.py:224
 msgid "There is no such section."
 msgstr ""
 
@@ -20611,8 +20697,8 @@ msgstr ""
 msgid "There is nothing to check in: you are {0} today."
 msgstr ""
 
-#: onedesk/one/settings.py:250 onedesk/one/settings.py:1824
-#: onedesk/one/settings.py:1991
+#: onedesk/one/settings.py:252 onedesk/one/settings.py:1826
+#: onedesk/one/settings.py:2004
 msgid "There is nothing to save here."
 msgstr ""
 
@@ -20674,7 +20760,7 @@ msgstr ""
 msgid "This IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2787
+#: onedesk/public/js/settings.js:2943
 msgid "This Month"
 msgstr ""
 
@@ -20758,7 +20844,7 @@ msgstr ""
 msgid "This folder is empty."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2364
+#: onedesk/public/js/settings.js:2520
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr ""
 
@@ -20766,7 +20852,7 @@ msgstr ""
 msgid "This form has been modified after you have loaded it"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2342
+#: onedesk/public/js/settings.js:2498
 msgid "This header is custom HTML. Choosing a preset replaces it."
 msgstr ""
 
@@ -20821,7 +20907,7 @@ msgstr ""
 msgid "This link no longer works"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2960
+#: onedesk/public/js/settings.js:3116
 msgid "This list ends on {0}, in {1} days"
 msgstr ""
 
@@ -21426,7 +21512,7 @@ msgstr ""
 msgid "Tries"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3261
+#: onedesk/public/js/settings.js:3417
 msgid "Trigger"
 msgstr ""
 
@@ -21434,7 +21520,7 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2725
+#: onedesk/public/js/settings.js:2881
 msgid "Try It"
 msgstr ""
 
@@ -21446,7 +21532,7 @@ msgstr ""
 msgid "Try again in a moment."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2746
+#: onedesk/public/js/settings.js:2902
 msgid "Try {0}"
 msgstr ""
 
@@ -21467,7 +21553,7 @@ msgstr ""
 msgid "Turn On or Off"
 msgstr ""
 
-#: onedesk/one/settings.py:146
+#: onedesk/one/settings.py:147
 msgid "Turn off to stop all notifications."
 msgstr ""
 
@@ -21475,7 +21561,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one/settings.py:1243
+#: onedesk/one/settings.py:1245
 msgid "Turn them on first."
 msgstr ""
 
@@ -21517,7 +21603,7 @@ msgstr ""
 msgid "Two-Factor Authentication"
 msgstr ""
 
-#: onedesk/one/settings.py:908
+#: onedesk/one/settings.py:910
 msgid "Two-Factor Sign-in"
 msgstr ""
 
@@ -21532,7 +21618,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/onecloud.js:146 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:646 onedesk/public/js/onecloud.js:1575
-#: onedesk/public/js/settings.js:443 onedesk/public/js/settings.js:2519
+#: onedesk/public/js/settings.js:443 onedesk/public/js/settings.js:2675
 msgid "Type"
 msgstr ""
 
@@ -21629,7 +21715,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/page/intake/intake.js:241 onedesk/public/js/intake.js:286
-#: onedesk/public/js/intake.js:380 onedesk/public/js/settings.js:2785
+#: onedesk/public/js/intake.js:380 onedesk/public/js/settings.js:2941
 msgid "Undone"
 msgstr ""
 
@@ -21741,7 +21827,7 @@ msgstr ""
 msgid "Until then, everything works as usual."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2973
+#: onedesk/public/js/settings.js:3129
 msgid "Until then, {0} applies."
 msgstr ""
 
@@ -21772,7 +21858,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:492
 #: onedesk/public/js/doctype_settings.js:554
 #: onedesk/public/js/doctype_settings.js:1109
-#: onedesk/public/js/settings.js:2217
+#: onedesk/public/js/settings.js:2373
 msgid "Update"
 msgstr ""
 
@@ -21831,8 +21917,8 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2921 onedesk/public/js/settings.js:2950
-#: onedesk/public/js/settings.js:3030
+#: onedesk/public/js/settings.js:3077 onedesk/public/js/settings.js:3106
+#: onedesk/public/js/settings.js:3186
 msgid "Use Another List"
 msgstr ""
 
@@ -21840,7 +21926,7 @@ msgstr ""
 msgid "Use Declare Lost to say why it was lost."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2932
+#: onedesk/public/js/settings.js:3088
 msgid "Use List"
 msgstr ""
 
@@ -21879,7 +21965,7 @@ msgstr ""
 msgid "Used by OneAI, {0} calls"
 msgstr ""
 
-#: onedesk/one/settings.py:848
+#: onedesk/one/settings.py:850
 msgid "Used for the company name, lines and banner in letter heads."
 msgstr ""
 
@@ -22001,7 +22087,7 @@ msgstr ""
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/public/js/doctype_settings.js:1101
-#: onedesk/public/js/settings.js:2519
+#: onedesk/public/js/settings.js:2675
 msgid "Value"
 msgstr ""
 
@@ -22072,7 +22158,7 @@ msgstr ""
 msgid "Versions"
 msgstr ""
 
-#: onedesk/one/settings.py:923
+#: onedesk/one/settings.py:925
 msgid "Very hard to guess"
 msgstr ""
 
@@ -22156,8 +22242,8 @@ msgstr ""
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
 #: onedesk/one_intake/page/intake/intake.js:27
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
-#: onedesk/public/js/onecloud.js:1720 onedesk/public/js/settings.js:2449
-#: onedesk/public/js/settings.js:2784
+#: onedesk/public/js/onecloud.js:1720 onedesk/public/js/settings.js:2605
+#: onedesk/public/js/settings.js:2940
 msgid "Waiting"
 msgstr ""
 
@@ -22189,7 +22275,7 @@ msgstr ""
 msgid "Waiting for an administrator to review it, being gathered, or ready for the person to download."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2456
+#: onedesk/public/js/settings.js:2612
 msgid "Waiting for the DNS record below."
 msgstr ""
 
@@ -22288,7 +22374,7 @@ msgstr ""
 #. Label of the website (Data) field in DocType 'Reading Party'
 #: onedesk/one/letter_heads.py:68
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/settings.js:2201
+#: onedesk/public/js/settings.js:2357
 msgid "Website"
 msgstr ""
 
@@ -22305,7 +22391,7 @@ msgstr ""
 msgid "Weekly"
 msgstr ""
 
-#: onedesk/public/js/settings.js:2985
+#: onedesk/public/js/settings.js:3141
 msgid "Weekly Days Off"
 msgstr ""
 
@@ -22862,7 +22948,7 @@ msgstr ""
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: onedesk/one/ai.py:4034 onedesk/one/settings.py:2058
+#: onedesk/one/ai.py:4034 onedesk/one/settings.py:2071
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:278 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -22872,7 +22958,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:1067
 #: onedesk/public/js/doctype_settings.js:1094
 #: onedesk/public/js/extension_errors.js:19 onedesk/public/js/intake.js:107
-#: onedesk/public/js/settings.js:696 onedesk/public/js/settings.js:3191
+#: onedesk/public/js/settings.js:696 onedesk/public/js/settings.js:3347
 msgid "When"
 msgstr ""
 
@@ -23484,7 +23570,7 @@ msgstr ""
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/heads.py:666 onedesk/one_inventory/heads.py:357
-#: onedesk/one_studio/ai.py:464
+#: onedesk/one_studio/ai.py:467
 msgid "Where"
 msgstr ""
 
@@ -24023,7 +24109,7 @@ msgstr ""
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:14
 #: onedesk/one_admin/heads.py:54 onedesk/one_task/custom/task.json
-#: onedesk/public/js/settings.js:2449
+#: onedesk/public/js/settings.js:2605
 msgid "Working"
 msgstr ""
 
@@ -24220,7 +24306,7 @@ msgstr ""
 msgid "Workspace name"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3253
+#: onedesk/public/js/settings.js:3409
 msgid "Workspace rule"
 msgstr ""
 
@@ -24435,7 +24521,7 @@ msgstr ""
 msgid "Wrong"
 msgstr ""
 
-#: onedesk/one/settings.py:868
+#: onedesk/one/settings.py:870
 msgid "Wrong Passwords Before a Lockout"
 msgstr ""
 
@@ -24527,7 +24613,7 @@ msgstr ""
 msgid "You cannot make a {0}."
 msgstr ""
 
-#: onedesk/one/settings.py:634
+#: onedesk/one/settings.py:636
 msgid "You cannot open that record."
 msgstr ""
 
@@ -24540,7 +24626,7 @@ msgstr ""
 msgid "You cannot open {0}."
 msgstr ""
 
-#: onedesk/one/settings.py:1252
+#: onedesk/one/settings.py:1254
 msgid "You cannot turn yourself off."
 msgstr ""
 
@@ -24766,7 +24852,7 @@ msgstr ""
 msgid "Your desk session is signed in from a different address."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2514
+#: onedesk/public/js/settings.js:2670
 msgid "Your domain, such as office.example.com"
 msgstr ""
 
@@ -24971,7 +25057,7 @@ msgstr ""
 msgid "a workspace"
 msgstr ""
 
-#: onedesk/one/settings.py:1689
+#: onedesk/one/settings.py:1691
 msgid "added {0}"
 msgstr ""
 
@@ -24980,7 +25066,7 @@ msgstr ""
 msgid "address"
 msgstr ""
 
-#: onedesk/one/settings.py:1210
+#: onedesk/one/settings.py:1212
 msgid "administrator of the workspace"
 msgstr ""
 
@@ -25005,7 +25091,7 @@ msgstr ""
 msgid "an operator"
 msgstr ""
 
-#: onedesk/one/settings.py:1696 onedesk/one_admin/heads.py:570
+#: onedesk/one/settings.py:1698 onedesk/one_admin/heads.py:570
 #: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2141
 msgid "and {0} more"
 msgstr ""
@@ -25095,7 +25181,7 @@ msgstr ""
 msgid "credits a month"
 msgstr ""
 
-#: onedesk/one/settings.py:102
+#: onedesk/one/settings.py:103
 msgid "current address"
 msgstr ""
 
@@ -25120,8 +25206,8 @@ msgstr ""
 msgid "email"
 msgstr ""
 
-#: onedesk/one/settings.py:104 onedesk/one/settings.py:105
-#: onedesk/one/settings.py:106
+#: onedesk/one/settings.py:105 onedesk/one/settings.py:106
+#: onedesk/one/settings.py:107
 msgid "emergency contact"
 msgstr ""
 
@@ -25330,7 +25416,7 @@ msgstr ""
 msgid "no file can be kept"
 msgstr ""
 
-#: onedesk/one/settings.py:1210
+#: onedesk/one/settings.py:1212
 msgid "no longer an administrator"
 msgstr ""
 
@@ -25338,7 +25424,7 @@ msgstr ""
 msgid "no longer only the records of {0} {1}"
 msgstr ""
 
-#: onedesk/one/settings.py:1207
+#: onedesk/one/settings.py:1209
 msgid "no longer {0}"
 msgstr ""
 
@@ -25362,7 +25448,7 @@ msgstr ""
 msgid "nobody yet"
 msgstr ""
 
-#: onedesk/one/ai.py:1853 onedesk/one/ai.py:1854 onedesk/one/settings.py:1684
+#: onedesk/one/ai.py:1853 onedesk/one/ai.py:1854 onedesk/one/settings.py:1686
 msgid "none"
 msgstr ""
 
@@ -25477,7 +25563,7 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: onedesk/one/settings.py:103
+#: onedesk/one/settings.py:104
 msgid "permanent address"
 msgstr ""
 
@@ -25510,7 +25596,7 @@ msgstr ""
 msgid "register number"
 msgstr ""
 
-#: onedesk/one/settings.py:1690
+#: onedesk/one/settings.py:1692
 msgid "removed {0}"
 msgstr ""
 
@@ -25518,7 +25604,7 @@ msgstr ""
 msgid "renamed it from {0}"
 msgstr ""
 
-#: onedesk/one/settings.py:1691
+#: onedesk/one/settings.py:1693
 msgid "renamed {0}"
 msgstr ""
 
@@ -25643,7 +25729,7 @@ msgstr ""
 msgid "the day of the year"
 msgstr ""
 
-#: onedesk/one/settings.py:1684
+#: onedesk/one/settings.py:1686
 msgid "the days off each week are now {0}"
 msgstr ""
 
@@ -25931,11 +26017,11 @@ msgstr ""
 msgid "{0} always sends this. It can't be turned off."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2437
+#: onedesk/public/js/settings.js:2593
 msgid "{0} always works."
 msgstr ""
 
-#: onedesk/one/settings.py:416
+#: onedesk/one/settings.py:418
 msgid "{0} and {1}"
 msgstr ""
 
@@ -25955,15 +26041,15 @@ msgstr ""
 msgid "{0} are not in this section."
 msgstr ""
 
-#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1306
+#: onedesk/one/settings.py:1209 onedesk/one/settings.py:1308
 msgid "{0} as a manager"
 msgstr ""
 
-#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1306
+#: onedesk/one/settings.py:1209 onedesk/one/settings.py:1308
 msgid "{0} as a user"
 msgstr ""
 
-#: onedesk/one/settings.py:1208 onedesk/one/settings.py:1308
+#: onedesk/one/settings.py:1210 onedesk/one/settings.py:1310
 msgid "{0} as {1}"
 msgstr ""
 
@@ -26007,7 +26093,7 @@ msgstr ""
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2612
+#: onedesk/public/js/settings.js:2768
 msgid "{0} calls"
 msgstr ""
 
@@ -26019,7 +26105,7 @@ msgstr ""
 msgid "{0} can't be edited."
 msgstr ""
 
-#: onedesk/one_studio/record_types.py:452
+#: onedesk/one_studio/record_types.py:462
 msgid "{0} can't be restored."
 msgstr ""
 
@@ -26119,12 +26205,12 @@ msgstr ""
 msgid "{0} counts nothing."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2943
+#: onedesk/public/js/settings.js:3099
 msgid "{0} created"
 msgstr ""
 
 #: onedesk/one_admin/doctype/offering/offering.py:102
-#: onedesk/public/js/settings.js:2612
+#: onedesk/public/js/settings.js:2768
 msgid "{0} credits"
 msgstr ""
 
@@ -26148,7 +26234,7 @@ msgstr ""
 msgid "{0} credits · {1}"
 msgstr ""
 
-#: onedesk/public/js/ai_model.js:84 onedesk/public/js/settings.js:2760
+#: onedesk/public/js/ai_model.js:84 onedesk/public/js/settings.js:2916
 msgid "{0} credits."
 msgstr ""
 
@@ -26289,7 +26375,7 @@ msgstr ""
 msgid "{0} has a template error ({1})."
 msgstr ""
 
-#: onedesk/one/settings.py:1322
+#: onedesk/one/settings.py:1324
 msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
 
@@ -26366,11 +26452,11 @@ msgstr ""
 msgid "{0} held"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3026
+#: onedesk/public/js/settings.js:3182
 msgid "{0} holidays added. Save to keep them."
 msgstr ""
 
-#: onedesk/one/settings.py:887 onedesk/one_crm/heads.py:39
+#: onedesk/one/settings.py:889 onedesk/one_crm/heads.py:39
 #: onedesk/public/js/band.js:235
 msgid "{0} hours"
 msgstr ""
@@ -26407,7 +26493,7 @@ msgstr ""
 msgid "{0} is a personal mailbox and can't be shared."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2528
+#: onedesk/public/js/settings.js:2684
 msgid "{0} is a root domain and needs a CNAME or ALIAS record, which not every DNS provider allows."
 msgstr ""
 
@@ -26455,7 +26541,7 @@ msgstr ""
 msgid "{0} is already on another workspace."
 msgstr ""
 
-#: onedesk/one/settings.py:1279
+#: onedesk/one/settings.py:1281
 msgid "{0} is already on the workspace."
 msgstr ""
 
@@ -26503,7 +26589,7 @@ msgstr ""
 msgid "{0} is in someone else's files. Copy it instead."
 msgstr ""
 
-#: onedesk/one_studio/record_types.py:199
+#: onedesk/one_studio/record_types.py:200
 msgid "{0} is kept for saved reports and dashboards. Choose another group."
 msgstr ""
 
@@ -26652,7 +26738,7 @@ msgid "{0} is not an add-on on sale."
 msgstr ""
 
 #: onedesk/one_studio/record_types.py:110
-#: onedesk/one_studio/record_types.py:416
+#: onedesk/one_studio/record_types.py:426
 msgid "{0} is not an app a collection can belong to."
 msgstr ""
 
@@ -26761,7 +26847,7 @@ msgstr ""
 msgid "{0} is the last owner of {1}. Make someone else an owner first."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2433
+#: onedesk/public/js/settings.js:2589
 msgid "{0} is the main address."
 msgstr ""
 
@@ -26920,11 +27006,11 @@ msgstr ""
 msgid "{0} of {1} workspaces"
 msgstr ""
 
-#: onedesk/one/settings.py:1572
+#: onedesk/one/settings.py:1574
 msgid "{0} off"
 msgstr ""
 
-#: onedesk/one/settings.py:1572
+#: onedesk/one/settings.py:1574
 msgid "{0} on"
 msgstr ""
 
@@ -27014,7 +27100,7 @@ msgstr ""
 msgid "{0} seats"
 msgstr ""
 
-#: onedesk/one/settings.py:882
+#: onedesk/one/settings.py:884
 msgid "{0} seconds"
 msgstr ""
 
@@ -27022,11 +27108,11 @@ msgstr ""
 msgid "{0} selected"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3131
+#: onedesk/public/js/settings.js:3287
 msgid "{0} sends this email itself. It's listed so you can see everything the workspace sends."
 msgstr ""
 
-#: onedesk/public/js/settings.js:3130
+#: onedesk/public/js/settings.js:3286
 msgid "{0} sends this email itself. Send This is the same switch as in its settings."
 msgstr ""
 
@@ -27042,11 +27128,11 @@ msgstr ""
 msgid "{0} shows nothing."
 msgstr ""
 
-#: onedesk/public/js/settings.js:2972
+#: onedesk/public/js/settings.js:3128
 msgid "{0} starts on {1}"
 msgstr ""
 
-#: onedesk/one_studio/record_types.py:473
+#: onedesk/one_studio/record_types.py:482
 msgid "{0} still has records. Delete them first."
 msgstr ""
 
@@ -27075,11 +27161,11 @@ msgid "{0} to pay"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:226 onedesk/one_hr/heads.py:354
-#: onedesk/public/js/settings.js:2991
+#: onedesk/public/js/settings.js:3147
 msgid "{0} to {1}"
 msgstr ""
 
-#: onedesk/one/settings.py:1570
+#: onedesk/one/settings.py:1572
 msgid "{0} to {1}%"
 msgstr ""
 

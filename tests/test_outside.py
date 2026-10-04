@@ -66,8 +66,9 @@ def test_frappes_screens_open_ones_own():
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js
-	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())
-	links = [one.get("link_to") for one in crm["items"]]
+	# Contacts and Addresses are the workspace's, together in One's Address Book.
+	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
+	links = [item.get("link_to") for item in one["items"]]
 	assert links.index("Address") == links.index("Contact") + 1
 
 

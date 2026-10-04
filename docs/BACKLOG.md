@@ -18,8 +18,6 @@ rest of **OneAdmin**.
 Small, or for some customers. Every other doctype frappe ships is reached in
 One, runs underneath, or is the platform's.
 
-- **A Lists page** for Salutation, Gender, Address Template and Print Heading
-  (Tax Invoice, Proforma): small lists only reachable through a field today.
 - **SMS** (SMS Settings, SMS Log): notifications by text message, which some
   markets expect. Needs a provider and its own subprocessor line.
 - **Translation**: a workspace's own words for ours, such as calling a Lead a

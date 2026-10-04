@@ -43,6 +43,7 @@ SECTIONS = [
 	("access", _lt("Access"), "shield-check", "workspace"),
 	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
+	("lists", _lt("Lists"), "list", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
 	("mail_templates", _lt("Mail Templates"), "mails", "workspace"),
 	("approvals", _lt("Approvals"), "route", "workspace"),
@@ -214,6 +215,7 @@ def load(
 		"holidays": _holidays,
 		"notification_types": _notification_types,
 		"numbering": _numbering,
+		"lists": _lists,
 		"printing": _printing,
 		"mail_templates": _mail_templates,
 		"approvals": _approvals,
@@ -1841,6 +1843,13 @@ def _approvals() -> dict:
 	return {"rows": approvals.approvals()}
 
 
+def _lists() -> dict:
+	"""The short lists every app's records pick from (one/lists.py)."""
+	from onedesk.one import lists
+
+	return {"lists": lists.lists()}
+
+
 def _mail_templates() -> dict:
 	"""Every mail template, and what each is the default for (one/mail_templates.py)."""
 	from onedesk.one import mail_templates
@@ -1859,8 +1868,12 @@ def _printing() -> dict:
 	doc = {"company": company.name if company else None}
 	for one in heads:
 		one["drawn_top"], one["drawn_foot"] = (_drawn(one.get(key), doc) for key in ("content", "footer"))
+	from onedesk.one import lists
+
 	return {
 		"letter_heads": heads,
+		"headings": lists.print_headings(),
+		"address_templates": lists.address_templates(),
 		"formats": printing.formats(),
 		# A new letter head starts with the logo Workspace > General keeps.
 		"company_logo": company.company_logo if company else None,

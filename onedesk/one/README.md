@@ -7,8 +7,11 @@ hood is for the people who build One.
 
 ## Finding your way
 
-The sidebar has three groups:
+The sidebar has these groups:
 
+- **Address Book**: the workspace's **Contacts** and **Addresses**. Customers,
+  suppliers, companies and employees all use them, so they live here rather
+  than in one app. You see the ones your work lets you open.
 - **You**: your own settings. Everyone has these.
 - **Workspace**: settings for the whole workspace. Only administrators see
   this group.
@@ -1023,6 +1026,33 @@ do invoices print with?**
 Each suggestion is a card an administrator approves. **See the Page** on the
 card previews it first: a format on the record type's latest record, or a
 letter head's header and footer.
+
+**Print Headings**
+
+The title printed above a document, such as **Tax Invoice** or **Proforma
+Invoice**. A print format picks one. Click one to rename or remove it, or
+**Add Heading** for a new one.
+
+**Address Templates**
+
+How an address is laid out on a printed page and wherever it's shown, one
+template per country. The **Default** template is used for any country without
+its own. A template names the address's fields, such as `{{ city }}`, and can
+leave out a line when a field is empty with `{% if state %}`…`{% endif %}`.
+Nothing else can go in it.
+
+### Lists, for the Workspace
+
+The short lists records pick from, shared by every app. Only administrators
+see this.
+
+- **Salutations**: Mr, Ms, Dr and the like, on contacts, employees and leads.
+- **Genders**: on contacts, employees and users.
+
+**Add** puts a new value in a list. Click a value to rename it (salutations
+only) or remove it. A value records still use can't be removed. You can also
+add one straight from the field on a record, with **Create a new** at the
+bottom of its list.
 
 ### Mail Templates, for the Workspace
 

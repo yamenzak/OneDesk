@@ -21,7 +21,8 @@ The rail on the left has the whole of OneCRM in it:
   has got.
 - **Pipeline** — every open deal on a board, one column per stage.
 - **Customer** — somebody who has bought, or is about to.
-- **Contact** and **Prospect** — the people, and the businesses they work for.
+- **Prospect** — a business you want to sell to. Its people are contacts, in
+  One's **Address Book** with every other app's.
 - **Sales**, **Campaigns**, **Setup** — one group each, opened with the arrow.
   Quotations, sales orders, appointments, contracts and the four sales reports
   are under Sales. A sales order is what a won deal becomes: OneInventory

@@ -147,6 +147,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | OneAI (now OneAI › Actions) | done |
 | Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
 | Settings, Workspace | Holidays | done |
+| Settings, Workspace | Lists, and the Address Book | done |
 | Products | One › Home | done |
 | Products | OneMail | done |
 | Products | OneCloud | done |
@@ -6073,6 +6074,49 @@ the rail already has (OneInventory › Assets) or a new one:
 
 Custom apps of a workspace's own, with their own icon and rail in the dock,
 are in `docs/BACKLOG.md`.
+
+### Shared by every app: the Address Book, Lists, and two Printing lists
+
+Your question: "Where would you put salutation, gender and other small
+doctypes?", and then: "contacts, addresses and other stuff also belong to the
+workspace since companies, employees, customers, etc. use it."
+
+1. **Notifications**: none. These are settings, changed by administrators.
+2. **OneAI**: answers from the README (how_to) for each new section.
+3. **Intake**: a contact Intake makes is in the Address Book like any other.
+4. **Permissions**: Salutation, Gender, Print Heading and Address Template
+   were frappe's System Manager's alone, so no administrator could add one,
+   not even from a field. They are given to the workspace administrator
+   (`one/lists.py`, `roles.grant`), and frappe's own "Create a new" under a
+   field now works for them. Contacts and Addresses keep erpnext's rules: you
+   see the ones your work lets you open.
+5. **Cross-module**: Contacts and Addresses left OneCRM's rail for One's new
+   **Address Book** group, since customers, suppliers, the company and
+   employees all use them, and opened cold they open there.
+6. **Bespoke UI**: Workspace › **Lists** holds Salutations and Genders, each
+   frappe's EmbeddedList with its own **Add**; a value opens in frappe's
+   dialog to rename (salutations) or **Remove**. Printing gains **Print
+   Headings** and **Address Templates** below the formats, each in the same
+   list, opening in frappe's dialog (an address template in frappe's Code
+   control).
+7. **Documented**: One's README has the Address Book in Finding Your Way,
+   Lists, and the two Printing lists. OneCRM's README points to the Address
+   Book.
+8. **Legal**: nothing new is sent anywhere.
+9. **From frappe**: frappe's doctypes, EmbeddedList, Dialog, Code control,
+   `frappe.client` insert, save (against `modified`), rename and delete, and
+   frappe's own refusal to remove a value records still use.
+10. **Plain words**: "Address Book", "Lists", "Salutations", "Genders",
+    "Print Headings", "Address Templates", "Add Heading", "Add Template",
+    "Remove {0}?", "No salutations".
+
+**An address template runs as code.** It is Jinja, drawn wherever an address
+is shown or printed, so one the workspace writes is held as a mail template is:
+every tag it adds names a field of the address, is an `if` on one and its
+`endif`, or a plain label in the reader's language (`{{ _("Phone") }}`);
+the tags it already had stay. Checked in the browser: a template reading
+another table through `frappe.db` is refused with "An address template can
+name a field of the address, as {{ city }}, and nothing else."
 
 ### The desk around the doctypes (gaps 1 to 4)
 

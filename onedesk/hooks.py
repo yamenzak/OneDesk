@@ -61,6 +61,8 @@ after_migrate = [
 	# Printing, mail templates, approvals and automations for the workspace administrator: one/printing.py and beside it.
 	"onedesk.one.printing.settle",
 	"onedesk.one.mail_templates.settle",
+	# Salutations, genders, print headings and address templates. See one/lists.py.
+	"onedesk.one.lists.settle",
 	"onedesk.one.approvals.settle",
 	"onedesk.one.automations.settle",
 	"onedesk.one.numbering.settle",
@@ -250,6 +252,8 @@ doc_events = {
 	"Address": {"on_update": "onedesk.one.letter_heads.redraw"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
+	# An address template the workspace writes names fields of the address. See one/lists.py.
+	"Address Template": {"validate": "onedesk.one.lists.validate_address_template"},
 	"Workflow": {"validate": "onedesk.one.approvals.validate"},
 	# Whoever a step of an approval waits on is told through the hub. See one/approvals.py.
 	"Workflow Action": {"after_insert": "onedesk.one.approvals.waiting"},
