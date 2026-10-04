@@ -142,6 +142,19 @@ def _kind(doctype: str) -> tuple:
 	return found
 
 
+def homes() -> dict[str, list[dict]]:
+	"""`one_homes`: a value's form leads back to Masters and its list there."""
+	groups = _groups()
+	return {
+		doctype: [
+			{"label": _("Masters"), "route": "/desk/masters"},
+			{"label": label, "route": f"/desk/masters?type={doctype}"},
+		]
+		for group, doctype, label, _one in KINDS
+		if group in groups
+	}
+
+
 @frappe.whitelist()
 def kinds() -> list[dict]:
 	"""Every kind the reader may see, grouped, with how many values each has

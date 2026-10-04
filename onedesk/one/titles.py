@@ -27,7 +27,8 @@ RENAMES = ("Report", "Dashboard", "DocType")
 
 
 def for_boot() -> dict[str, dict[str, str]]:
-	"""{kind: {name: label}} for every row in a One rail that disagrees.
+	"""{kind: {name: label}} for every row in a One rail that disagrees, and
+	`Crumb`, what a list's crumb says.
 
 	A doctype is renamed only when it is ours and the rails call it one thing:
 	`Tenant` is Workspaces. erpnext's are left their own names, since one of
@@ -54,6 +55,15 @@ def for_boot() -> dict[str, dict[str, str]]:
 	for doctype, labels in called.items():
 		if doctype in ours and len(labels) == 1 and doctype not in labels:
 			found["DocType"][doctype] = next(iter(labels))
+	# A crumb leads back to the list the rail shows, so it says what the row
+	# says, for any app's doctype the rails call one thing: "Items" over an
+	# item, "Recycle Bin" over a deleted document. One that is two rows keeps
+	# its own name. Read in public/js/shell.js.
+	found["Crumb"] = {
+		doctype: next(iter(labels))
+		for doctype, labels in called.items()
+		if len(labels) == 1 and doctype not in labels
+	}
 
 	return {kind: names for kind, names in found.items() if names}
 

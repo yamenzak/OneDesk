@@ -332,12 +332,25 @@ onedesk.reports.who_is_leaving = () => {
 onedesk.reports.lists_too = () => {
 	const BaseList = frappe.views && frappe.views.BaseList;
 	const ours = (doctype) => ((frappe.boot.one_titles || {}).DocType || {})[doctype];
+	const crumb = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
 	if (BaseList && !BaseList.prototype.__one_titles) {
 		BaseList.prototype.__one_titles = true;
 		const theirs = BaseList.prototype.set_title;
 		BaseList.prototype.set_title = function () {
-			if (ours(this.doctype) && !frappe.router.doctype_layout) this.page_title = __(ours(this.doctype));
+			// Its heading is its crumb, so it says what the rail's row says (shell.js).
+			const label = ours(this.doctype) || crumb(this.doctype);
+			if (label && !frappe.router.doctype_layout) this.page_title = __(label);
 			return theirs.call(this);
+		};
+	}
+	// A tree's heading too: "Cost Centers", not "Cost Center Tree".
+	const TreeView = frappe.views && frappe.views.TreeView;
+	if (TreeView && !TreeView.prototype.__one_titles) {
+		TreeView.prototype.__one_titles = true;
+		const theirs = TreeView.prototype.set_title;
+		TreeView.prototype.set_title = function () {
+			const label = !this.opts.title && crumb(this.doctype);
+			return label ? this.page.set_title(__(label)) : theirs.call(this);
 		};
 	}
 	// A record's connections name each list, and frappe writes the doctype.
@@ -354,15 +367,7 @@ onedesk.reports.lists_too = () => {
 			return out;
 		};
 	}
-	if (frappe.breadcrumbs && !frappe.breadcrumbs.__one_lists) {
-		frappe.breadcrumbs.__one_lists = true;
-		const theirs = frappe.breadcrumbs.set_list_breadcrumb;
-		frappe.breadcrumbs.set_list_breadcrumb = function (breadcrumbs) {
-			theirs.call(this, breadcrumbs);
-			const label = ours(breadcrumbs.doctype);
-			if (label) this.$breadcrumbs.find("li a.title-text").last().text(__(label));
-		};
-	}
+	// The crumb is named in shell.js, at load, for a record opened cold too.
 };
 
 // Where a saved report or a dashboard is listed: which app's sidebar, and for whom

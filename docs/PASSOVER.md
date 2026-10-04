@@ -6211,6 +6211,37 @@ the tags it already had stay. Checked in the browser: a template reading
 another table through `frappe.db` is refused with "An address template can
 name a field of the address, as {{ city }}, and nothing else."
 
+### Breadcrumbs, everywhere
+
+Your word: "when you go to Masters and open a record, Masters doesn't show in
+the breadcrumbs. Fix this all over the app, I noticed many similar issues."
+
+A crawl opened every DocType and Page link in every One rail, as an
+administrator, then each list's newest record, and read the trail. Four kinds
+of fault:
+1. **The record's crumb disagreed with its own list.** Recycle Bin, Data
+   Copies, Account Deletions, Changes, Sign-ins, Exports and Prints, Chart of
+   Accounts, Cost Centers, Warehouses and Locations: the list said the rail's
+   name, the record went back to "Deleted Document", "Version", "Account".
+   The renaming was installed only once a list had been opened, so a record
+   opened by its address, or after a reload, missed it.
+2. **41 more said the doctype, not the row**: Contacts, Items, Payments,
+   Exemption Declaration and the rest, on the list and on its records.
+3. **A kind whose home is a page** (every Masters value) led to a list no
+   rail links: "Department / Engineering - ONE".
+4. **Three rail rows carried another row's filter**: Contacts and Addresses
+   had the Recycle Bin's `restored = 0`, Announcements the Dashboards'
+   `is_standard = 0`, copied when the Address Book was made. Fixed, and
+   `test_a_rail_row_filters_only_its_own_list` keeps it so.
+
+Now, set at load in shell.js: a crumb says what its row in the rail says
+wherever the rails call a kind one thing (a kind that is two rows, Sales
+Invoice, keeps its name); a list's and a tree's heading say the same; and a
+kind a module keeps on a page leads to the page, "Masters / Departments /
+Engineering", with Masters lit in the rail, by Edit Full Form or by address.
+A second crawl after the change found every record's crumb matching its list
+and its row.
+
 ### The desk around the doctypes (gaps 1 to 4)
 
 Your word: "Yes", to starting with the four that came from the same place.

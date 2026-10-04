@@ -50,6 +50,11 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_calendar_links"] = feed.allowed()
 
+	# Where a record whose home is a page leads back to; see one/homes.py.
+	from onedesk.one import homes
+
+	bootinfo["one_homes"] = homes.for_boot()
+
 	# The doctypes that hold a record OneAI made and nobody checked, so a list
 	# of anything else never asks. See one_intake/mark.py.
 	from onedesk.one_intake import mark

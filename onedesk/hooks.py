@@ -1138,6 +1138,11 @@ one_ai_page = [
 	"onedesk.one_admin.ai.page",
 ]
 
+# Kinds of record whose home is one of a module's pages rather than their own
+# list, as {doctype: [crumb, ...]} for the reader: a form's trail leads back
+# there. See one/homes.py.
+one_homes = ["onedesk.one.masters.homes"]
+
 # What each module tells people, as notification types. See one/notify.py.
 one_notification_types = [
 	"onedesk.one.notifications.TYPES",

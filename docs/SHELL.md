@@ -135,6 +135,14 @@ composes them rather than drawing its own:
   text) uses `onedesk.shell.record` directly; a page that only opens on
   something (a doctype's Customize, a record's Calendar) still names it with
   `trail`: "Forms / Customer", "Client Example Ltd / Calendar".
+- **A form's trail**: frappe's form leads back through its list. Where the
+  rail calls that list one thing, the crumb says it ("Items / A4 Paper Box",
+  "Recycle Bin / …"), on the list, the tree and every record under them
+  (`one/titles.py`, `Crumb`). A kind whose home is a page says the page
+  instead, and the rail lights it: a department reads "Masters / Departments
+  / Engineering" (`one_homes` in hooks.py, `one/homes.py`). Both are set in
+  `shell.js` at load, so a record opened by its address reads the same as one
+  reached by a click. `tests/test_crumbs.py`.
   `tests/test_shell.py` fails on a back button in a page, on `shell.name`
   given a route, and on a page that opens on a record from its address
   without the trail. It fails too on a table made anywhere but the shell,

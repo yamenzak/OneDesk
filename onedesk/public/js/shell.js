@@ -521,6 +521,51 @@ onedesk.shell.Editor = class Editor {
 	}
 };
 
+// A crumb leads back where the reader came from, as the rail names it. A kind
+// of record whose home is a page (a department on Masters) leads to that page,
+// where frappe's crumb would name a list no rail links (one/homes.py); any
+// other says what its row in the rail says, "Items" over an item, on its
+// list, its tree and every record under them (one/titles.py). Set here, at
+// load, so a record opened by its address is named as one reached by a click.
+{
+	const named = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
+	const theirs = frappe.breadcrumbs.set_list_breadcrumb.bind(frappe.breadcrumbs);
+	frappe.breadcrumbs.set_list_breadcrumb = function (breadcrumbs) {
+		const home = (frappe.boot.one_homes || {})[breadcrumbs.doctype];
+		const esc = frappe.utils.escape_html;
+		if (home) {
+			for (const one of home) this.append_breadcrumb_element(encodeURI(one.route), esc(__(one.label)));
+			return;
+		}
+		theirs(breadcrumbs);
+		const label = named(breadcrumbs.doctype);
+		if (label) this.$breadcrumbs.find("li a.title-text").last().text(__(label));
+	};
+	const tree = frappe.breadcrumbs.set_tree_breadcrumb.bind(frappe.breadcrumbs);
+	frappe.breadcrumbs.set_tree_breadcrumb = function (breadcrumbs) {
+		tree(breadcrumbs);
+		const label = named(breadcrumbs.doctype);
+		if (label) this.$breadcrumbs.find("li a.title-text").last().text(__(label));
+	};
+
+	// And the rail lights its home, where frappe finds no item for the route.
+	const Sidebar = frappe.ui.Sidebar;
+	if (Sidebar && !Sidebar.prototype.__one_homes) {
+		Sidebar.prototype.__one_homes = true;
+		const matched = Sidebar.prototype.is_route_in_sidebar;
+		Sidebar.prototype.is_route_in_sidebar = function () {
+			if (matched.call(this)) return true;
+			const route = frappe.get_route();
+			const home = route[0] === "Form" && (frappe.boot.one_homes || {})[route[1]];
+			const $item = home && $(`.item-anchor[href="${home[0].route}"]`).first().parent();
+			if (!$item || !$item.length) return false;
+			if (this.active_item) this.active_item.removeClass("active-sidebar");
+			this.active_item = $item;
+			return true;
+		};
+	}
+}
+
 // Frappe's custom breadcrumb is one name; a record in a page adds its own
 // after it (`trail`), linking back to the page as a form's links to its list.
 {
