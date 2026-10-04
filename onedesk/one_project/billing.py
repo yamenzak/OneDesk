@@ -14,11 +14,13 @@ submitting it is what marks the hours billed and adds to the project's Billed,
 which is ERPNext's (TimesheetBillingService). A sub-project's time is its own
 and is invoiced from it.
 
-**A quotation for extra work becomes a sub-project** (`ordered`). **Sub-project
-Of** on a Quotation is carried to its Sales Order (the same field on both, so
-ERPNext's mapping carries it), and when the order is submitted a project is
-made for it under that one — ERPNext's own "Create > Project" from an order,
-with the order's total as its estimate — so the handrails a customer asked for
+**A quotation for extra work becomes a sub-project** (`ordered`). A quotation
+names its project like any other (chain.py), and **Extra Work** says it is
+more than the job was ordered for. Both are carried to its Sales Order (the
+same fields on both, so ERPNext's mapping carries them), and when the order is
+submitted a project is made for it under that one, ERPNext's own "Create >
+Project" from an order with the order's total as its estimate. The order and
+its lines then name the sub-project, so the handrails a customer asked for
 halfway through the windows have their own order, time, costs and invoices,
 and add up into the villa's.
 """
@@ -27,8 +29,9 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
-#: The field on Quotation and Sales Order naming the project an order goes under.
-UNDER = "one_project"
+#: The tick on Quotation and Sales Order saying the order is extra work, to
+#: become a sub-project of the project it names.
+EXTRA = "one_extra_work"
 
 
 @frappe.whitelist()
@@ -131,8 +134,8 @@ def _last_item() -> str | None:
 def ordered(doc, method=None) -> None:
 	"""Sales Order on_submit: an order for extra work on a project becomes a
 	sub-project of it."""
-	parent = doc.get(UNDER)
-	if not parent or doc.project or frappe.db.exists("Project", {"sales_order": doc.name}):
+	parent = doc.get("project")
+	if not doc.get(EXTRA) or not parent or frappe.db.exists("Project", {"sales_order": doc.name}):
 		return
 	from erpnext.selling.doctype.sales_order.mapper import make_project
 
@@ -141,7 +144,10 @@ def ordered(doc, method=None) -> None:
 	project.set("one_parent", parent)
 	project.flags.ignore_permissions = True
 	project.insert()
-	# The order is linked to it in its after_insert, after its sales were added up.
+	# The order and its lines are the sub-project's now. ERPNext links an order
+	# to its project only when it names none, and this one named the parent.
+	doc.db_set("project", project.name)
+	frappe.db.set_value("Sales Order Item", {"parent": doc.name}, "project", project.name)
 	project.update_sales_amount()
 	project.db_set("total_sales_amount", project.total_sales_amount)
 	frappe.msgprint(

@@ -2,16 +2,23 @@
  "custom_fields": [
   {
    "dt": "Quotation",
-   "fieldname": "one_project",
+   "fieldname": "project",
+   "label": "Project",
    "fieldtype": "Link",
-   "label": "Sub-project Of",
-   "options": "Project",
    "insert_after": "valid_till",
-   "description": "When it is ordered, the order becomes a new project under this one, with its own time, costs and invoices.",
-   "allow_on_submit": 0,
-   "no_copy": 0,
-   "print_hide": 1,
-   "module": "One Project"
+   "module": "One Project",
+   "options": "Project",
+   "print_hide": 1
+  },
+  {
+   "dt": "Quotation",
+   "fieldname": "one_extra_work",
+   "label": "Extra Work",
+   "fieldtype": "Check",
+   "insert_after": "project",
+   "module": "One Project",
+   "depends_on": "project",
+   "print_hide": 1
   }
  ],
  "doctype": "Quotation",

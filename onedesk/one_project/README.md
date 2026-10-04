@@ -147,6 +147,24 @@ and the rest at the bottom change the scale.
 **Drag a bar to move a task**, or drag its end to make it longer.
 Double-click a bar to open the task.
 
+## Documents on a project
+
+Every document about a project names it:
+
+- **Customer**: quotations, sales orders, delivery notes and sales invoices.
+- **Suppliers**: material requests, requests for quotation, supplier
+  quotations, purchase orders, purchase receipts and purchase invoices.
+- **Work**: tasks, timesheets, updates, expense claims and stock used.
+- **Payments**: payments in and out.
+
+Set the project once. A document made from another takes its project, so an
+order made from a quotation names the quotation's project. A line with no
+project takes the document's, and a document with no project takes its
+lines' if they all name the same one.
+
+**Connections** on the project's page lists them in those four groups, and
+**+** next to one starts it on the project.
+
 ## What a project costs, and billing it
 
 **Time is priced for you.** Every hour on a timesheet (the timer on a task
@@ -173,17 +191,16 @@ invoiced from the sub-project.
 ## Extra work becomes a sub-project
 
 When a customer asks for more in the middle of a job, such as handrails on a
-villa whose windows you're fitting, quote it as its own piece of work. On the
-project's page, **+** next to **Quotation** under Connections starts a
-quotation for its customer with **Sub-project Of** filled in. You can also
-set **Sub-project Of** on any quotation. When the customer orders it and the
-**Sales Order** is submitted, a new project is created for the order under
-that one, named after what was ordered, with the order's total as its
-estimate. It has its own time, costs and invoices, and they add up into the
-parent's.
+villa whose windows you're fitting, quote it as its own piece of work.
+**Quote Extra Work** (in **Actions**) starts a quotation for the project's
+customer, on the project, with **Extra Work** ticked. You can also tick
+**Extra Work** on any quotation for the project. When the customer orders it
+and the **Sales Order** is submitted, a new project is created for the order
+under this one, named after what was ordered, with the order's total as its
+estimate. The order then belongs to the sub-project. It has its own time,
+costs and invoices, and they add up into the parent's.
 
-To add an order to a project as it is, without a sub-project, set the order's
-**Project** instead.
+To add an order to the project as it is, leave **Extra Work** unticked.
 
 ## Asking the team how it's going
 
@@ -337,6 +354,11 @@ one field for it.
 - `ai.py` — OneAI's `project_facts` (a project as its page reads it, with its
   late tasks, what waits on them, milestones and updates) and
   `projects_needing_attention`, and the page's suggestions.
+- `chain.py` — every money document and its lines name the same project.
+  Quotation, Request for Quotation and Material Request get a `project` field
+  (custom/), named as on every other document so ERPNext's mapping carries
+  it. Extra work is `one_extra_work` on Quotation and Sales Order
+  (billing.py); `patches/extra_work.py` turned the old Sub-project Of into it.
 - `intake.py` — which open project a document names, for the bills OneIntake
   drafts (one_intake/money.py).
 - `tree.py` — sub-projects: Parent Project (`one_parent`), the only field
@@ -359,12 +381,13 @@ one field for it.
   `frappe.model.open_mapped_doc`) is their Sales Invoice with its Time Sheets
   filled from their own list of billable unbilled hours
   (`get_projectwise_timesheet_data`), lines by activity (`lines`, pure);
-  submitting it is theirs too. **Sub-project Of** (`one_project`, the same
+  submitting it is theirs too. **Extra Work** (`one_extra_work`, the same
   field on Quotation and Sales Order so their mapping carries it) makes the
-  submitted order a sub-project through their own `make_project` (`ordered`,
-  named by `title`, pure), and adds up its sales once their after_insert has
-  linked the order. `public/js/quotation.js` gives such a quotation the
-  project's customer, and `tree.dashboard` lists quotations on the project.
+  submitted order a sub-project of its project through their own
+  `make_project` (`ordered`, named by `title`, pure), and moves the order and
+  its lines onto it. **Quote Extra Work** (`public/js/project.js`) starts
+  such a quotation, and `public/js/quotation.js` gives it the project's
+  customer.
 - `updates.py` — ERPNext's Project Update, asked and answered. Their asking
   mailed only (and raised where no mail goes), asked hourly all day and twice
   daily in two hours running, and read email replies back every hour, adding

@@ -186,16 +186,27 @@ def group_under(
 
 
 def dashboard(data: dict) -> dict:
-	"""Sub-projects on a project's page, first among its connections, so + makes
-	one with the parent filled in; and the quotations for work under it."""
+	"""A project's connections: its sub-projects first, so + makes one with the
+	parent filled in; then its work and what it used, what the customer was
+	quoted, ordered, sent and invoiced, what was asked of, ordered from and
+	billed by suppliers, and the payments, each by the project it names
+	(chain.py)."""
 	data.setdefault("non_standard_fieldnames", {})["Project"] = PARENT
-	data.setdefault("transactions", []).insert(0, {"label": _("Sub-projects"), "items": ["Project"]})
-	# Quotations for extra work under it (billing.py), beside its orders.
-	data["non_standard_fieldnames"]["Quotation"] = "one_project"
-	for group in data["transactions"]:
-		if "Sales Order" in group.get("items", []):
-			group["items"].insert(group["items"].index("Sales Order"), "Quotation")
-			break
-	else:
-		data["transactions"].append({"label": _("Sales"), "items": ["Quotation"]})
+	data["transactions"] = [
+		{"label": _("Sub-projects"), "items": ["Project"]},
+		{"label": _("Work"), "items": ["Task", "Timesheet", "Project Update", "Expense Claim", "Stock Entry"]},
+		{"label": _("Customer"), "items": ["Quotation", "Sales Order", "Delivery Note", "Sales Invoice"]},
+		{
+			"label": _("Suppliers"),
+			"items": [
+				"Material Request",
+				"Request for Quotation",
+				"Supplier Quotation",
+				"Purchase Order",
+				"Purchase Receipt",
+				"Purchase Invoice",
+			],
+		},
+		{"label": _("Payments"), "items": ["Payment Entry"]},
+	]
 	return data

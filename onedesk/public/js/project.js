@@ -1,5 +1,6 @@
 // A project's page: its board, calendar and plan as buttons of their own,
-// Group Under New Project, Save as Template, Invoice Time and Post Update.
+// Group Under New Project, Save as Template, Invoice Time, Quote Extra Work and
+// Post Update.
 // What it says above its fields is its Record Head (one_project/heads.py).
 //
 // The board is ERPNext's own, made the way their button makes it
@@ -28,6 +29,21 @@ frappe.ui.form.on("Project", {
 		}
 		if (frm.doc.customer && frappe.model.can_create("Sales Invoice")) {
 			frm.add_custom_button(__("Invoice Time"), () => onedesk.project.invoice_time(frm), __("Actions"));
+		}
+		// Extra work the customer asks for: a quotation that becomes a sub-project
+		// when it's ordered (one_project/billing.py).
+		if (frm.doc.customer && frappe.model.can_create("Quotation")) {
+			frm.add_custom_button(
+				__("Quote Extra Work"),
+				() =>
+					frappe.new_doc("Quotation", {
+						project: frm.doc.name,
+						one_extra_work: 1,
+						quotation_to: "Customer",
+						party_name: frm.doc.customer,
+					}),
+				__("Actions")
+			);
 		}
 		if (frappe.model.can_create("Project Template")) {
 			frm.add_custom_button(__("Save as Template"), () => onedesk.project.save_as(frm), __("Actions"));

@@ -286,7 +286,11 @@ doc_events = {
 	# An app's own switch for a mail it sends is that type's Send This.
 	"Payroll Settings": {"on_update": "onedesk.one.notify.switched"},
 	# A request raised by reordering is told to Purchasing. See one_inventory/tell.py.
-	"Material Request": {"on_submit": "onedesk.one_inventory.tell.raised"},
+	"Material Request": {
+		"on_submit": "onedesk.one_inventory.tell.raised",
+		# A request and its lines name the same project. See one_project/chain.py.
+		"validate": "onedesk.one_project.chain.agree",
+	},
 	# A customer's or supplier's contact invited as a user sees their records on
 	# the portal. See one/portal.py.
 	"Contact": {
@@ -313,7 +317,7 @@ doc_events = {
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
 		# The emirate a sale is reported under. See one_book/vat.py.
-		"validate": "onedesk.one_book.vat.emirate",
+		"validate": ["onedesk.one_book.vat.emirate", "onedesk.one_project.chain.agree"],
 	},
 	# A bill's reclaimable VAT is kept at the VAT on it. See one_book/vat.py.
 	# A bill that updates stock registers its assets. See one_inventory/assets.py.
@@ -323,7 +327,11 @@ doc_events = {
 	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
-		"validate": ["onedesk.one_book.vat.reclaimed", "onedesk.one_inventory.assets.located"],
+		"validate": [
+			"onedesk.one_book.vat.reclaimed",
+			"onedesk.one_inventory.assets.located",
+			"onedesk.one_project.chain.agree",
+		],
 		"on_submit": "onedesk.one_inventory.assets.registered",
 	},
 	# The assets register finishes itself. See one_inventory/assets.py.
@@ -331,7 +339,7 @@ doc_events = {
 	# A schedule with an end date is due too. See one_inventory/maintenance.py.
 	"Asset Maintenance": {"validate": "onedesk.one_inventory.maintenance.due"},
 	"Purchase Receipt": {
-		"validate": "onedesk.one_inventory.assets.located",
+		"validate": ["onedesk.one_inventory.assets.located", "onedesk.one_project.chain.agree"],
 		"on_submit": "onedesk.one_inventory.assets.registered",
 	},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
@@ -483,6 +491,11 @@ doc_events = {
 			"onedesk.one_task.tell.done",
 		],
 	},
+	# A money document and its lines name the same project. See one_project/chain.py.
+	"Request for Quotation": {"validate": "onedesk.one_project.chain.agree"},
+	"Supplier Quotation": {"validate": "onedesk.one_project.chain.agree"},
+	"Purchase Order": {"validate": "onedesk.one_project.chain.agree"},
+	"Delivery Note": {"validate": "onedesk.one_project.chain.agree"},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
 		"before_validate": ["onedesk.one_project.members.invite", "onedesk.one_project.members.unlist"],
@@ -561,6 +574,7 @@ doc_events = {
 		"on_update_after_submit": "onedesk.one_crm.stages.follow",
 	},
 	"Sales Order": {
+		"validate": "onedesk.one_project.chain.agree",
 		"on_submit": [
 			"onedesk.one_crm.stages.follow",
 			# An order for extra work becomes a sub-project. See one_project/billing.py.

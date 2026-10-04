@@ -355,7 +355,7 @@ def test_what_erpnext_and_hrms_mail_is_brought_in():
 		'"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit"'
 		in HOOKS
 	)
-	assert '"Material Request": {"on_submit": "onedesk.one_inventory.tell.raised"}' in HOOKS
+	assert '"on_submit": "onedesk.one_inventory.tell.raised"' in HOOKS
 	assert '"Payroll Settings": {"on_update": "onedesk.one.notify.switched"}' in HOOKS
 	for job in (
 		"birthdays",

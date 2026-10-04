@@ -6958,6 +6958,26 @@ stops at OneHR's Employee Advance ("Currency cannot be hidden and mandatory
 without default"). Nothing in the repo hides it, so it is this site's own
 data; it would stop `bench migrate` here.
 
+### OneProject: the project, built in stages
+
+The design is `docs/PROJECT.md`, built one stage per commit.
+
+**Stage 1, the project on every document.**
+
+- **Project** on Quotation, Request for Quotation and Material Request, named
+  `project` as on every other document, so ERPNext's "make from" carries it.
+- **`one_project/chain.py`**: on save, lines with no project take the
+  document's, and a document with no project takes its lines' when they all
+  name the same one. Nine documents, both chains.
+- **Extra work** is now an **Extra Work** tick beside the project, in place of
+  a second "Sub-project Of" field. **Quote Extra Work** on the project starts
+  one. Once ordered, the order and its lines move onto the new sub-project.
+  `patches/extra_work.py` moved the old field's values over.
+- **Connections** groups every document: Sub-projects, Work, Customer,
+  Suppliers, Payments.
+- `hooks.py` named Material Request twice, so the later entry dropped OneInventory's
+  "raised" notice. `test_no_hook_table_names_a_doctype_twice` now guards it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

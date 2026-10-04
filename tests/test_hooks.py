@@ -138,3 +138,16 @@ def test_the_asset_exists(said):
 		relative = "public/" + relative
 	on_disk = SERVED_FROM / relative
 	assert on_disk.exists(), f"{said}: nothing at {on_disk.relative_to(ROOT)}"
+
+
+def test_no_hook_table_names_a_doctype_twice():
+	# A second key in a dict literal silently replaces the first, so a hook
+	# added under a doctype that already had some would undo them.
+	import ast
+
+	tree_ = ast.parse((APP / "hooks.py").read_text(encoding="utf-8"))
+	for node in tree_.body:
+		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
+			keys = [key.value for key in node.value.keys if isinstance(key, ast.Constant)]
+			twice = {key for key in keys if keys.count(key) > 1}
+			assert not twice, f"{node.targets[0].id} names {sorted(twice)} twice"

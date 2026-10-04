@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 10:01+0000\n"
-"PO-Revision-Date: 2026-10-04 10:01+0000\n"
+"POT-Creation-Date: 2026-10-04 10:21+0000\n"
+"PO-Revision-Date: 2026-10-04 10:21+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1105,14 +1105,15 @@ msgid "Action"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:27
-#: onedesk/public/js/project.js:30 onedesk/public/js/project.js:33
-#: onedesk/public/js/project.js:152 onedesk/public/js/settings.js:982
-#: onedesk/public/js/settings.js:992 onedesk/public/js/settings.js:1003
-#: onedesk/public/js/settings.js:1015 onedesk/public/js/settings.js:1024
-#: onedesk/public/js/settings.js:1260 onedesk/public/js/settings.js:1309
-#: onedesk/public/js/settings.js:1341 onedesk/public/js/settings.js:2585
-#: onedesk/public/js/settings.js:3200 onedesk/public/js/settings.js:3257
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:28
+#: onedesk/public/js/project.js:31 onedesk/public/js/project.js:39
+#: onedesk/public/js/project.js:43 onedesk/public/js/project.js:162
+#: onedesk/public/js/settings.js:982 onedesk/public/js/settings.js:992
+#: onedesk/public/js/settings.js:1003 onedesk/public/js/settings.js:1015
+#: onedesk/public/js/settings.js:1024 onedesk/public/js/settings.js:1260
+#: onedesk/public/js/settings.js:1309 onedesk/public/js/settings.js:1341
+#: onedesk/public/js/settings.js:2585 onedesk/public/js/settings.js:3200
+#: onedesk/public/js/settings.js:3257
 msgid "Actions"
 msgstr ""
 
@@ -3169,7 +3170,7 @@ msgstr ""
 msgid "Blue means on by default."
 msgstr ""
 
-#: onedesk/public/js/project.js:14
+#: onedesk/public/js/project.js:15
 msgid "Board"
 msgstr ""
 
@@ -4795,8 +4796,8 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:554
 #: onedesk/public/js/doctype_settings.js:889 onedesk/public/js/onecloud.js:1478
 #: onedesk/public/js/onecloud.js:1802 onedesk/public/js/opportunity.js:18
-#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:68
-#: onedesk/public/js/project.js:129 onedesk/public/js/settings.js:1113
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:78
+#: onedesk/public/js/project.js:139 onedesk/public/js/settings.js:1113
 #: onedesk/public/js/settings.js:1219 onedesk/public/js/settings.js:2217
 msgid "Create"
 msgstr ""
@@ -5093,6 +5094,7 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_project/report/project_tree/project_tree.py:50
+#: onedesk/one_project/tree.py:198
 msgid "Customer"
 msgstr ""
 
@@ -7259,6 +7261,13 @@ msgstr ""
 msgid "Extra Instructions"
 msgstr ""
 
+#. Label of the one_extra_work (Check) field in DocType 'Quotation'
+#. Label of the one_extra_work (Check) field in DocType 'Sales Order'
+#: onedesk/one_project/custom/quotation.json
+#: onedesk/one_project/custom/sales_order.json
+msgid "Extra Work"
+msgstr ""
+
 #. Name of a DocType
 #: onedesk/one_mail/doctype/face/face.json
 msgid "Face"
@@ -8000,7 +8009,7 @@ msgstr ""
 msgid "GB"
 msgstr ""
 
-#: onedesk/public/js/project.js:23
+#: onedesk/public/js/project.js:24
 msgid "Gantt Chart"
 msgstr ""
 
@@ -8095,7 +8104,7 @@ msgstr ""
 msgid "Give the rule a name."
 msgstr ""
 
-#: onedesk/one_project/billing.py:63
+#: onedesk/one_project/billing.py:66
 msgid "Give {0} a customer to bill its time to."
 msgstr ""
 
@@ -8254,7 +8263,7 @@ msgstr ""
 msgid "Group By"
 msgstr ""
 
-#: onedesk/public/js/project.js:27 onedesk/public/js/project.js:57
+#: onedesk/public/js/project.js:28 onedesk/public/js/project.js:67
 msgid "Group Under New Project"
 msgstr ""
 
@@ -9429,7 +9438,7 @@ msgstr ""
 msgid "Invoice Number"
 msgstr ""
 
-#: onedesk/public/js/project.js:30 onedesk/public/js/project.js:109
+#: onedesk/public/js/project.js:31 onedesk/public/js/project.js:119
 msgid "Invoice Time"
 msgstr ""
 
@@ -9612,7 +9621,7 @@ msgid "It would overwrite {0}."
 msgstr ""
 
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/project.js:122 onedesk/www/order.html:56
+#: onedesk/public/js/project.js:132 onedesk/www/order.html:56
 #: onedesk/www/rfq.html:50
 msgid "Item"
 msgstr ""
@@ -9784,7 +9793,7 @@ msgstr ""
 msgid "KB"
 msgstr ""
 
-#: onedesk/public/js/project.js:13
+#: onedesk/public/js/project.js:14
 msgid "Kanban Board"
 msgstr ""
 
@@ -11585,7 +11594,7 @@ msgstr ""
 msgid "Move"
 msgstr ""
 
-#: onedesk/public/js/project.js:63
+#: onedesk/public/js/project.js:73
 msgid "Move These Beside It"
 msgstr ""
 
@@ -12232,7 +12241,7 @@ msgstr ""
 msgid "No automations"
 msgstr ""
 
-#: onedesk/public/js/project.js:105
+#: onedesk/public/js/project.js:115
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr ""
 
@@ -14095,7 +14104,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:907 onedesk/public/js/intake.js:215
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:740
 #: onedesk/public/js/onecloud.js:1886 onedesk/public/js/onecloud.js:1894
-#: onedesk/public/js/onecloud.js:1910 onedesk/public/js/project.js:92
+#: onedesk/public/js/onecloud.js:1910 onedesk/public/js/project.js:102
 #: onedesk/www/account.html:31 onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr ""
@@ -14908,6 +14917,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_project/tree.py:210
 msgid "Payments"
 msgstr ""
 
@@ -15146,7 +15156,7 @@ msgstr ""
 msgid "Pick the emirate."
 msgstr ""
 
-#: onedesk/one_project/billing.py:58
+#: onedesk/one_project/billing.py:61
 msgid "Pick the item to invoice the time as."
 msgstr ""
 
@@ -15335,12 +15345,12 @@ msgstr ""
 msgid "Possible duplicate of {0}."
 msgstr ""
 
-#: onedesk/public/js/project.js:171
+#: onedesk/public/js/project.js:181
 msgid "Post"
 msgstr ""
 
-#: onedesk/public/js/project.js:150 onedesk/public/js/project.js:152
-#: onedesk/public/js/project.js:170
+#: onedesk/public/js/project.js:160 onedesk/public/js/project.js:162
+#: onedesk/public/js/project.js:180
 msgid "Post Update"
 msgstr ""
 
@@ -15608,8 +15618,14 @@ msgstr ""
 msgid "Progress…"
 msgstr ""
 
+#. Label of the project (Link) field in DocType 'Material Request'
+#. Label of the project (Link) field in DocType 'Quotation'
+#. Label of the project (Link) field in DocType 'Request for Quotation'
 #: onedesk/one/portal.py:77
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
+#: onedesk/one_project/custom/material_request.json
+#: onedesk/one_project/custom/quotation.json
+#: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
 #: onedesk/public/js/timesheet.js:49
@@ -15626,7 +15642,7 @@ msgstr ""
 msgid "Project Manager"
 msgstr ""
 
-#: onedesk/public/js/project.js:59
+#: onedesk/public/js/project.js:69
 msgid "Project Name"
 msgstr ""
 
@@ -15919,6 +15935,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_crm/heads.py:209 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Quotation"
+msgstr ""
+
+#: onedesk/public/js/project.js:37
+msgid "Quote Extra Work"
 msgstr ""
 
 #: onedesk/one_inventory/notifications.py:27
@@ -17293,7 +17313,7 @@ msgid "Salary Withholding"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json onedesk/one_project/tree.py:200
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Sales"
 msgstr ""
 
@@ -17342,7 +17362,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:488
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1613 onedesk/public/js/onemail.js:932
-#: onedesk/public/js/onemail.js:956 onedesk/public/js/project.js:96
+#: onedesk/public/js/onemail.js:956 onedesk/public/js/project.js:106
 #: onedesk/public/js/reports.js:402 onedesk/public/js/settings.js:490
 #: onedesk/public/js/settings.js:787 onedesk/public/js/settings.js:2712
 #: onedesk/public/js/shell.js:458
@@ -17355,7 +17375,7 @@ msgstr ""
 msgid "Save Address"
 msgstr ""
 
-#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:95
+#: onedesk/public/js/project.js:43 onedesk/public/js/project.js:105
 msgid "Save as Template"
 msgstr ""
 
@@ -17452,7 +17472,7 @@ msgstr ""
 
 #. Label of the cron (Data) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/public/js/project.js:24
+#: onedesk/public/js/project.js:25
 msgid "Schedule"
 msgstr ""
 
@@ -19066,14 +19086,7 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
-#. Label of the one_project (Link) field in DocType 'Quotation'
-#. Label of the one_project (Link) field in DocType 'Sales Order'
-#: onedesk/one_project/custom/quotation.json
-#: onedesk/one_project/custom/sales_order.json
-msgid "Sub-project Of"
-msgstr ""
-
-#: onedesk/one_project/heads.py:167 onedesk/one_project/tree.py:192
+#: onedesk/one_project/heads.py:167 onedesk/one_project/tree.py:196
 #: onedesk/www/projects.html:68
 msgid "Sub-projects"
 msgstr ""
@@ -19258,6 +19271,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/one_project/tree.py:200
 msgid "Suppliers"
 msgstr ""
 
@@ -19554,7 +19568,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
-#: onedesk/public/js/project.js:86
+#: onedesk/public/js/project.js:96
 msgid "Template Name"
 msgstr ""
 
@@ -21371,7 +21385,7 @@ msgstr ""
 #. Label of the 'daily_time_to_send' field in DocType 'Project'
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/one_project/billing.py:77 onedesk/one_project/custom/project.json
+#: onedesk/one_project/billing.py:80 onedesk/one_project/custom/project.json
 msgid "Time"
 msgstr ""
 
@@ -22436,7 +22450,7 @@ msgstr ""
 #. Label of the view (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/onecloud.js:158 onedesk/public/js/onecloud.js:1307
-#: onedesk/public/js/project.js:13 onedesk/public/js/project.js:23
+#: onedesk/public/js/project.js:14 onedesk/public/js/project.js:24
 #: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr ""
@@ -23157,7 +23171,7 @@ msgstr ""
 msgid "What was done and for what, so the same thing is never done twice."
 msgstr ""
 
-#: onedesk/public/js/project.js:163
+#: onedesk/public/js/project.js:173
 msgid "What was done, what comes next, and anything in the way."
 msgstr ""
 
@@ -23559,11 +23573,6 @@ msgstr ""
 msgid "When files use 90% of the plan's storage."
 msgstr ""
 
-#. Description of the 'Sub-project Of' (Link) field in DocType 'Quotation'
-#: onedesk/one_project/custom/quotation.json
-msgid "When it is ordered, the order becomes a new project under this one, with its own time, costs and invoices."
-msgstr ""
-
 #. Description of the 'Schedule' (Data) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "When it runs, as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
@@ -23737,11 +23746,6 @@ msgstr ""
 
 #: onedesk/one_inventory/notifications.py:67
 msgid "When stock values cannot be recalculated after a back-dated entry."
-msgstr ""
-
-#. Description of the 'Sub-project Of' (Link) field in DocType 'Sales Order'
-#: onedesk/one_project/custom/sales_order.json
-msgid "When submitted, a new project is made for this order under this one. Set Project instead to add it to a project as it is."
 msgstr ""
 
 #. Description of the 'Last Heard' (Datetime) field in DocType 'Workspace
@@ -24361,6 +24365,10 @@ msgstr ""
 #. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline."
+msgstr ""
+
+#: onedesk/one_project/tree.py:197
+msgid "Work"
 msgstr ""
 
 #: onedesk/one_hr/notifications.py:190
@@ -25076,7 +25084,7 @@ msgstr ""
 msgid "Your Request Is On Hold"
 msgstr ""
 
-#: onedesk/public/js/project.js:161
+#: onedesk/public/js/project.js:171
 msgid "Your Update"
 msgstr ""
 
@@ -25236,11 +25244,11 @@ msgstr ""
 msgid "Your trial has started. The workspace is being built."
 msgstr ""
 
-#: onedesk/public/js/project.js:167
+#: onedesk/public/js/project.js:177
 msgid "Your update is on the project."
 msgstr ""
 
-#: onedesk/public/js/project.js:149
+#: onedesk/public/js/project.js:159
 msgid "Your update on this project is asked for today."
 msgstr ""
 
@@ -26325,7 +26333,7 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
-#: onedesk/one_project/billing.py:163
+#: onedesk/one_project/billing.py:169
 msgid "{0} and {1} more"
 msgstr ""
 
@@ -26692,7 +26700,7 @@ msgstr ""
 msgid "{0} has no attendance marked on {1}."
 msgstr ""
 
-#: onedesk/one_project/billing.py:66
+#: onedesk/one_project/billing.py:69
 msgid "{0} has no billable time that is not invoiced yet."
 msgstr ""
 
@@ -26761,7 +26769,7 @@ msgstr ""
 msgid "{0} hours in 12 weeks"
 msgstr ""
 
-#: onedesk/public/js/project.js:116
+#: onedesk/public/js/project.js:126
 msgid "{0} hours, {1}, not invoiced yet."
 msgstr ""
 
@@ -26805,7 +26813,7 @@ msgstr ""
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr ""
 
-#: onedesk/one_project/billing.py:148
+#: onedesk/one_project/billing.py:154
 msgid "{0} is a sub-project of {1}."
 msgstr ""
 
@@ -26813,7 +26821,7 @@ msgstr ""
 msgid "{0} is a table: give it its columns"
 msgstr ""
 
-#: onedesk/public/js/project.js:90
+#: onedesk/public/js/project.js:100
 msgid "{0} is a template."
 msgstr ""
 

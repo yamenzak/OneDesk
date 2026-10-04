@@ -1,0 +1,18 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Request for Quotation",
+   "fieldname": "project",
+   "label": "Project",
+   "fieldtype": "Link",
+   "insert_after": "schedule_date",
+   "module": "One Project",
+   "options": "Project",
+   "print_hide": 1
+  }
+ ],
+ "doctype": "Request for Quotation",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

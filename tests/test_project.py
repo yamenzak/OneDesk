@@ -344,14 +344,17 @@ def test_an_order_for_extra_work_is_named_by_what_it_orders():
 def test_an_order_under_a_project_becomes_its_sub_project():
 	orders = HOOKS.split('"Sales Order": {', 1)[1].split("},", 1)[0]
 	assert '"onedesk.one_project.billing.ordered"' in orders
-	for doctype in ("quotation", "sales_order"):
-		custom = json.loads((PROJECT / "custom" / f"{doctype}.json").read_text())
-		assert [f["fieldname"] for f in custom["custom_fields"]] == ["one_project"], (
-			"the same field, so the mapping carries it"
-		)
+	# The project and the Extra Work tick, by the same names on both, so the
+	# mapping carries them from quotation to order.
+	quote = json.loads((PROJECT / "custom" / "quotation.json").read_text())
+	assert [f["fieldname"] for f in quote["custom_fields"]] == ["project", "one_extra_work"]
+	order_ = json.loads((PROJECT / "custom" / "sales_order.json").read_text())
+	assert [f["fieldname"] for f in order_["custom_fields"]] == ["one_extra_work"]
 	source = (PROJECT / "billing.py").read_text()
 	assert "make_project(doc.name)" in source and 'project.set("one_parent", parent)' in source
-	assert 'data["non_standard_fieldnames"]["Quotation"] = "one_project"' in (PROJECT / "tree.py").read_text()
+	assert 'doc.db_set("project", project.name)' in source, "the order is the sub-project's"
+	assert "onedesk.one_project.patches.extra_work" in (tree.APP / "patches.txt").read_text()
+	assert "Quote Extra Work" in (tree.APP / "public" / "js" / "project.js").read_text()
 	assert '"Quotation": "public/js/quotation.js"' in HOOKS
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert '"onedesk.one_project.billing.invoice_time"' in page and "frappe.model.open_mapped_doc" in page
@@ -599,3 +602,50 @@ def test_an_amount_reads_the_way_it_is_written():
 	)
 	band = (tree.APP / "public" / "js" / "band.js").read_text()
 	assert "onedesk.shell.ltr(when(value))" in band
+
+
+def test_every_money_document_names_its_project_once():
+	space = _load(PROJECT / "chain.py", ("LINES", "agree"))
+	agree, lines = space["agree"], space["LINES"]
+
+	class Doc(dict):
+		def __init__(self, doctype, project=None, rows=()):
+			super().__init__(project=project, items=[_Line(row) for row in rows])
+			self.doctype = doctype
+
+		def __getattr__(self, key):
+			return self.get(key)
+
+		def __setattr__(self, key, value):
+			if key == "doctype":
+				object.__setattr__(self, key, value)
+			else:
+				self[key] = value
+
+	class _Line(dict):
+		def set(self, key, value):
+			self[key] = value
+
+	# A line with no project takes the document's.
+	doc = Doc("Purchase Order", "P1", [{"project": None}, {"project": "P2"}])
+	agree(doc)
+	assert [row["project"] for row in doc["items"]] == ["P1", "P2"]
+	# A document with none takes its lines' when they agree, and not otherwise.
+	doc = Doc("Sales Invoice", None, [{"project": "P1"}, {"project": "P1"}, {"project": None}])
+	agree(doc)
+	assert doc["project"] == "P1" and doc["items"][2]["project"] == "P1"
+	doc = Doc("Sales Invoice", None, [{"project": "P1"}, {"project": "P2"}])
+	agree(doc)
+	assert doc["project"] is None
+	# A request for quotation's lines call it project_name.
+	doc = Doc("Request for Quotation", "P1", [{"project_name": None}])
+	agree(doc)
+	assert doc["items"][0]["project_name"] == "P1"
+	for doctype in lines:
+		assert f'"{doctype}"' in HOOKS.split("doc_events", 1)[1] and "onedesk.one_project.chain.agree" in HOOKS
+	for name in ("request_for_quotation", "material_request"):
+		custom = json.loads((PROJECT / "custom" / f"{name}.json").read_text())
+		assert [f["fieldname"] for f in custom["custom_fields"]] == ["project"]
+	connections = (PROJECT / "tree.py").read_text()
+	for doctype in ("Quotation", "Request for Quotation", "Supplier Quotation", "Payment Entry", "Expense Claim"):
+		assert f'"{doctype}"' in connections
