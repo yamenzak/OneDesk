@@ -237,8 +237,8 @@ off, and what's been paid. Click a supplier to open the order.
 
 **Bill Progress** (under **Create** on a submitted order) asks how far the
 work has got. Say 40% and it drafts the supplier's bill for 40% of the order,
-less what's been billed already, at the order's prices. Check it and submit
-it as any other bill.
+less what's been billed already, at the order's prices. The bill shows the
+share as **Work Done**. Check it and submit it as any other bill.
 
 **Retention**: set **Retention** (the share held back, often 5 or 10%) and
 **Retention Due** on the order's **Terms** tab. Each bill then holds that
@@ -308,6 +308,11 @@ updates by email the next morning.
 - **Project Update Asked**: the project asks for your update.
 - **Project Summary**: each morning, what the project's people said the day
   before.
+- **Over Budget**: what's ordered and spent on one of a project's cost types
+  passes its budget. To the project's manager and whoever set the budget,
+  once for each budget.
+- **Progress Bill Drafted**: someone saves a bill or invoice made with **Bill
+  Progress** on a project you manage, for you to check.
 
 Each is on the bell, and by email or push if you chose. Change them under
 **Settings › Notifications**.
@@ -315,11 +320,13 @@ Each is on the bell, and by email or push if you chose. Change them under
 ## Asking OneAI
 
 On a project's page, OneAI offers **How is this project going?**, **What is
-late?**, **Write the customer an update** and **Plan the tasks**. On the
+late?**, **Write the customer an update**, **Where is the money going?**,
+**What's left to pay the subcontractors?** and **Plan the tasks**. On the
 Projects list, it offers **Which projects need attention?**
 
-OneAI reads a project as you see it on its page: its figures, its tasks, its
-people and the team's updates, including the sub-projects you can see. Tasks
+OneAI reads a project as you see it on its page: its figures, its money with
+the customer and suppliers, its cost types, its tasks, its people and the
+team's updates, including the sub-projects you can see. Tasks
 it suggests come as cards, and nothing is added until you approve one.
 
 ## Who has room this week

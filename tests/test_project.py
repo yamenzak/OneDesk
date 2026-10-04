@@ -762,3 +762,21 @@ def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
 	assert "one_budget" in {f["fieldname"] for f in layout["custom_fields"]}
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert "onedesk.one_project.budget.set_budget" in page and '__("Add Cost Type")' in page
+
+
+def test_the_money_is_told_and_read():
+	kinds = (PROJECT / "notifications.py").read_text()
+	assert '_lt("Over Budget")' in kinds and '_lt("Progress Bill Drafted")' in kinds
+	budget = (PROJECT / "budget.py").read_text()
+	# Once for each budget: a revised budget can tell again.
+	assert 'dedupe_on=["document_type", "document_name"]' in budget and '("Budget", one["budget_name"])' in budget
+	assert "budget.over(project)" in (PROJECT / "money.py").read_text()
+	assert HOOKS.count('"onedesk.one_project.progress.drafted"') == 2
+	assert "invoice.one_progress = done" in (PROJECT / "progress.py").read_text()
+	for name in ("purchase_invoice.json", "sales_invoice.json"):
+		field = json.loads((PROJECT / "custom" / name).read_text())["custom_fields"][0]
+		assert field["fieldname"] == "one_progress" and field["read_only"] == 1 and field["no_copy"] == 1
+	ai = (PROJECT / "ai.py").read_text()
+	assert '"money": _money(project)' in ai and '_lt("Where is the money going?")' in ai
+	legal = (PROJECT / "legal.py").read_text()
+	assert "its money with the customer and with suppliers" in legal

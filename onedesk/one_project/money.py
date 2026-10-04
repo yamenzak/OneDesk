@@ -200,6 +200,11 @@ def moved(doc, method=None) -> None:
 	named.discard("")
 	if not named:
 		return
+	from onedesk.one_project import budget
+
+	for project in named:
+		# A cost type this took over its budget is told (budget.py).
+		budget.over(project)
 	of = tree.parents()
 	for project in {one for each in named for one in tree.above(each, of)}:
 		frappe.publish_realtime(

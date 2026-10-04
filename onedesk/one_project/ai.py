@@ -2,8 +2,10 @@
 which projects need attention.
 
 `project_facts` hands over the page's own answers (`overview.overview`): how
-far it has got, its dates, cost against the estimate, what is billed, what is
-late and the next milestone, for the project and everything under it. Beside
+far it has got, its dates, cost against the budget, what is billed, what is
+late and the next milestone, for the project and everything under it, and the
+Costing tab: both sides of the money, the subcontracts, the cost types and
+the forecast (`_money`). Beside
 them, what the page has further down: the late tasks with who is on each and
 what waits on them, the milestones to come, its people, and the team's last
 updates. `projects_needing_attention` reads the Projects list as the reader
@@ -52,6 +54,27 @@ SUGGESTIONS = {
 			"ask": _lt(
 				"Write a short update on this project for its customer: what was done, what comes next and "
 				"when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
+			),
+			"can": "read",
+			"view": "Form",
+			"expects": "project_facts",
+		},
+		{
+			"label": _lt("Where is the money going?"),
+			"ask": _lt(
+				"Where is this project's money going? Say what the customer has been invoiced and paid, what "
+				"it has cost and on what, which cost types are close to or over their budget, and where the "
+				"forecast margin is heading."
+			),
+			"can": "read",
+			"view": "Form",
+			"expects": "project_facts",
+		},
+		{
+			"label": _lt("What's left to pay the subcontractors?"),
+			"ask": _lt(
+				"For each subcontractor on this project, what is left to bill, the retention held, any advance "
+				"not yet set off, and what has been paid."
 			),
 			"can": "read",
 			"view": "Form",
@@ -146,6 +169,35 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 			for one in milestones
 		],
 		"updates": _updates(project),
+		"money": _money(project),
+	}
+
+
+def _money(project: str) -> dict:
+	"""The Costing tab as the page shows it: both sides, the subcontracts, the
+	cost types and the forecast (money.py, budget.py)."""
+	from onedesk.one_project import budget, money
+
+	said = money.money(project)
+	return {
+		"customer": {one["label"]: one["value"] for one in said["customer"]},
+		"cost": {one["label"]: one["value"] for one in said["cost"] + said["own"]},
+		"subcontracts": [
+			{
+				key: one[key]
+				for key in ("supplier", "order", "ordered", "billed", "left", "retention", "advance", "paid")
+			}
+			for one in said["suppliers"][:MOST]
+		],
+		"cost_types": [
+			{key: one[key] for key in ("cost_type", "budget", "committed", "spent", "left")}
+			for one in budget._lines(project)
+		],
+		"contract": said["contract"],
+		"budget": said["budget"],
+		"forecast_cost": said["forecast_cost"],
+		"forecast_margin": said["forecast_margin"],
+		"margin_so_far": said["margin"],
 	}
 
 

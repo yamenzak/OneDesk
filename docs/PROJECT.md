@@ -129,3 +129,12 @@ committed, spent, left.
 5. **Budget by cost type**: ERPNext's Budget against the project, on
    Costing.
 6. **Notifications, OneAI, README, legal and translations** for all of it.
+
+All six stages are built. Two findings changed the design as it was built:
+
+- **ERPNext keeps an invoice at the order's rate**, so Bill Progress bills a
+  part of the quantity. A package of work is ordered as 1 **Lump Sum**, a
+  unit that can be split.
+- **ERPNext's budget check takes orders and spending each on their own**,
+  so a cost type also turns on its cumulative check.
+

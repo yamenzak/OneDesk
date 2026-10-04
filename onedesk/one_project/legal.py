@@ -13,7 +13,8 @@ clause(
 	module=M,
 	body="""
 		In OneProject, when you ask OneAI about a project, it reads the project as you see it on its page:
-		its figures, its tasks, its people and the team's updates, with those of its sub-projects you may
+		its figures, its money with the customer and with suppliers (orders, invoices, payments, retention
+		and budgets), its tasks, its people and the team's updates, with those of its sub-projects you may
 		see. A task it suggests for a project is added only when you approve it.
 	""",
 )

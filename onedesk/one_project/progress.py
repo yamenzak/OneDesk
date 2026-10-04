@@ -22,6 +22,8 @@ billed the same way, a share at a time:
   moves it on every invoice made from it (`release`).
 - **Advances** paid against the order are set off by ERPNext on each
   invoice (`allocate_advances_automatically`).
+- The invoice says the share it's for (**Work Done**, `one_progress`), and
+  saving it tells the project's manager to check it (`drafted`).
 """
 
 from typing import Annotated
@@ -122,6 +124,7 @@ def bill_progress(
 	if not kept:
 		frappe.throw(_("{0} is billed up to {1}% already.").format(order.name, billed_share(order.items)))
 	invoice.set("items", kept)
+	invoice.one_progress = done
 	invoice.allocate_advances_automatically = 1
 	invoice.run_method("set_missing_values")
 	invoice.run_method("calculate_taxes_and_totals")
@@ -191,6 +194,36 @@ def retained(doc, method=None) -> None:
 		row.base_payment_amount = flt(amount * flt(doc.conversion_rate or 1), 2)
 		row.outstanding = amount
 		row.base_outstanding = row.base_payment_amount
+
+
+def drafted(doc, method=None) -> None:
+	"""Purchase/Sales Invoice after_insert: a bill for a share of the work is
+	the project manager's to check (Progress Bill Drafted)."""
+	if not doc.get("one_progress"):
+		return
+	from frappe.utils import fmt_money, get_fullname
+
+	from onedesk.one import notify
+
+	link = "purchase_order" if doc.doctype == "Purchase Invoice" else "sales_order"
+	order = next((row.get(link) for row in doc.items if row.get(link)), None)
+	project = doc.get("project") or next((row.project for row in doc.items if row.get("project")), None)
+	if not project:
+		return
+	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
+	if not head or not head.one_manager:
+		return
+	notify.notify(
+		"Progress Bill Drafted",
+		head.one_manager,
+		record=(doc.doctype, doc.name),
+		who=get_fullname(frappe.session.user),
+		share=f"{flt(doc.one_progress):g}",
+		order=order or doc.name,
+		project=head.project_name,
+		party=doc.get("supplier_name") or doc.get("customer_name") or "",
+		amount=fmt_money(doc.grand_total, currency=doc.currency),
+	)
 
 
 def release(doc, method=None) -> None:

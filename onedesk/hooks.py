@@ -320,6 +320,7 @@ doc_events = {
 	# supplier's number. See one_book/repeat.py.
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
+		"after_insert": "onedesk.one_project.progress.drafted",
 		# The emirate a sale is reported under. See one_book/vat.py.
 		"validate": [
 			"onedesk.one_book.vat.emirate",
@@ -336,6 +337,8 @@ doc_events = {
 	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
+		# A bill for a share of the work, for the project's manager to check. See one_project/progress.py.
+		"after_insert": "onedesk.one_project.progress.drafted",
 		"validate": [
 			"onedesk.one_book.vat.reclaimed",
 			"onedesk.one_inventory.assets.located",

@@ -2,7 +2,8 @@
 
 Sent by `updates.py` (the update asked, and the morning's answers) and
 `tell.py` (a person added to a project or made its manager, and a project
-marked at risk or off track).
+marked at risk or off track), `budget.py` (a cost type over its budget) and
+`progress.py` (a bill drafted for a share of the work).
 """
 
 from frappe import _lt
@@ -65,6 +66,29 @@ TYPES = [
 		"to": _lt("The project's manager and members, but whoever marked it"),
 		"subject": _lt("{who} marked {project} {health}"),
 		"message": _lt("<b>{project}</b> is {health}{due}"),
+		"push_default": True,
+	},
+	# budget: orders and spending on a cost type pass its budget.
+	{
+		"name": _lt("Over Budget"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("When what's ordered and spent on a project's cost type passes its budget."),
+		"to": _lt("The project's manager and whoever set the budget"),
+		"subject": _lt("{cost_type} is over budget on {project}"),
+		"message": _lt("<b>{project}</b> · {cost_type} · {total} of {budget}"),
+		"email_default": True,
+		"push_default": True,
+	},
+	# progress: a bill or invoice for a share of the work, waiting to be checked.
+	{
+		"name": _lt("Progress Bill Drafted"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("When somebody saves a bill or invoice for a share of the work done."),
+		"to": _lt("The project's manager, unless they saved it"),
+		"subject": _lt("{who} drafted a bill for {order} at {share}% done"),
+		"message": _lt("<b>{project}</b> · {party} · {amount}"),
 		"push_default": True,
 	},
 ]

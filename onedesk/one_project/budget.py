@@ -18,6 +18,8 @@ against it, and warns or stops as the budget says (`Over Budget`).
   cancelled and copied with the new amount. Removing one cancels it.
 - The project's **Budget** is then the cost types added up (`sync`), so the
   forecast and the head read the same number.
+- **Over Budget** tells the project's manager and whoever set the budget,
+  once for each budget, when its orders and spending pass it (`over`).
 - Making a budget is for whoever ERPNext lets make one (Accounts Manager);
   everybody who sees the project sees the cost types.
 """
@@ -44,7 +46,7 @@ def _budgets(project: str) -> list:
 	return frappe.get_all(
 		"Budget",
 		filters={"budget_against": "Project", "project": project, "docstatus": 1},
-		fields=["name", "account", "budget_amount", "action_if_annual_budget_exceeded_on_po"],
+		fields=["name", "owner", "account", "budget_amount", "action_if_annual_budget_exceeded_on_po"],
 		order_by="account asc",
 	)
 
@@ -54,6 +56,10 @@ def _budgets(project: str) -> list:
 def lines(project: Annotated[str, "The project."]) -> dict:
 	"""Each cost type: budget, committed, spent and left."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
+	return {"can_set": bool(frappe.has_permission("Budget", "create")), "lines": _lines(project)}
+
+
+def _lines(project: str) -> list[dict]:
 	budgets = _budgets(project)
 	accounts = [one.account for one in budgets]
 	committed = _committed(project, accounts)
@@ -63,21 +69,20 @@ def lines(project: Annotated[str, "The project."]) -> dict:
 			"Account", filters={"name": ["in", accounts]}, fields=["name", "account_name"], as_list=True
 		)
 	)
-	return {
-		"can_set": bool(frappe.has_permission("Budget", "create")),
-		"lines": [
-			{
-				"account": one.account,
-				"cost_type": names.get(one.account) or one.account,
-				"budget": flt(one.budget_amount),
-				"committed": committed.get(one.account, 0.0),
-				"spent": spent.get(one.account, 0.0),
-				"left": left(one.budget_amount, committed.get(one.account), spent.get(one.account)),
-				"action": one.action_if_annual_budget_exceeded_on_po or "Warn",
-			}
-			for one in budgets
-		],
-	}
+	return [
+		{
+			"account": one.account,
+			"cost_type": names.get(one.account) or one.account,
+			"budget": flt(one.budget_amount),
+			"committed": committed.get(one.account, 0.0),
+			"spent": spent.get(one.account, 0.0),
+			"left": left(one.budget_amount, committed.get(one.account), spent.get(one.account)),
+			"action": one.action_if_annual_budget_exceeded_on_po or "Warn",
+			"budget_name": one.name,
+			"set_by": one.owner,
+		}
+		for one in budgets
+	]
 
 
 def _committed(project: str, accounts: list[str]) -> dict:
@@ -183,6 +188,35 @@ def remove_budget(
 			frappe.get_doc("Budget", one.name).cancel()
 	sync(project)
 	return lines(project)
+
+
+def over(project: str) -> None:
+	"""Tell the project's manager and whoever set it when a cost type's
+	orders and spending pass its budget: once for each budget, so a revised
+	budget can tell again (money.moved, after every submit)."""
+	from frappe.utils import fmt_money
+
+	from onedesk.one import notify
+
+	gone = [one for one in _lines(project) if one["left"] < 0]
+	if not gone:
+		return
+	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
+	currency = frappe.db.get_default("currency")
+	for one in gone:
+		people = sorted({head.one_manager, one["set_by"]} - {None, "Administrator", "Guest"})
+		if people:
+			notify.notify(
+				"Over Budget",
+				people,
+				record=("Budget", one["budget_name"]),
+				link=f"/desk/project/{project}",
+				dedupe_on=["document_type", "document_name"],
+				project=head.project_name,
+				cost_type=one["cost_type"],
+				total=fmt_money(one["committed"] + one["spent"], precision=0, currency=currency),
+				budget=fmt_money(one["budget"], precision=0, currency=currency),
+			)
 
 
 def sync(project: str) -> None:

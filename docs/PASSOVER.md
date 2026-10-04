@@ -7058,6 +7058,30 @@ The design is `docs/PROJECT.md`, built one stage per commit.
 - **Permissions** are ERPNext's: only Accounts Manager may make a budget.
   Everybody who sees the project sees the cost types.
 
+**Stage 6, told, asked, written down.**
+
+- **Notifications**, both through the hub:
+  - **Over Budget** goes to the project's manager and whoever set the
+    budget. It's checked after every submit naming the project, and sent
+    once for each budget.
+  - **Progress Bill Drafted** goes to the project's manager when someone
+    saves a bill or invoice made by Bill Progress. The bill shows **Work
+    Done**, the share it brings the order to.
+  - Checked on the site: a 30,000 order took Cost of Goods Sold to 110,000
+    of 100,000, and saving a 70% bill told the manager.
+- **OneAI**: `project_facts` reads the Costing tab too: both sides, the
+  subcontracts, the cost types and the forecast. Two suggestions: **Where is
+  the money going?** and **What's left to pay the subcontractors?**
+- **Legal**: the AI Addendum's OneProject clause names the money OneAI
+  reads. Revision 12.
+- **README**: Budget by cost type, Subcontracts, Billing the customer, Being
+  told and Asking OneAI, and Under the hood for money.py, progress.py and
+  budget.py.
+- **Open**: a bill holding retention shows the retention date as its Due
+  Date. ERPNext sets an invoice's due date to its last payment term. The
+  Payments tab shows what's due now, and "Based On Payment Terms" on
+  Accounts Payable ages each part.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
