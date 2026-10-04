@@ -33,6 +33,8 @@
         <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
         <Timeline v-else :work="work" :groups="groups" @open="open" />
       </template>
+      <Money v-else-if="view === 'money'" :said="said" @changed="load" />
+      <Suppliers v-else-if="view === 'suppliers'" :said="said" />
       <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
       <Activity v-else-if="view === 'activity'" :key="said.name" doctype="Project" :name="said.name" />
 
@@ -54,7 +56,9 @@ import { Loading, Page, __, call, can, follow, go, listen, newDoc, onedesk, setQ
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
+import Money from "./Money.vue";
 import Overview from "./Overview.vue";
+import Suppliers from "./Suppliers.vue";
 import TaskPanel from "./TaskPanel.vue";
 import Tasks from "./Tasks.vue";
 import Timeline from "./Timeline.vue";
@@ -117,9 +121,18 @@ const VIEWS = computed(() => [
   { key: "tasks", label: __("Tasks"), icon: "lucide-list-checks", count: count.value || null },
   { key: "board", label: __("Board"), icon: "lucide-kanban" },
   { key: "timeline", label: __("Timeline"), icon: "lucide-chart-gantt" },
+  // Money and Suppliers only for whoever may see them, and Suppliers where
+  // there are subcontracts or a Fixed Price project expects them (view.py).
+  ...(said.value?.views.includes("money") ? [{ key: "money", label: __("Money"), icon: "lucide-wallet" }] : []),
+  ...(said.value?.views.includes("suppliers")
+    ? [{ key: "suppliers", label: __("Suppliers"), icon: "lucide-truck", count: said.value.money.suppliers.length || null }]
+    : []),
   { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
   { key: "activity", label: __("Activity"), icon: "lucide-activity" },
 ]);
+
+// A view the reader may not see (Money, Suppliers) opens Overview instead.
+watch(VIEWS, (now) => said.value && !now.some((one) => one.key === view.value) && (view.value = "overview"));
 
 const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Owner"), due: __("Due Date") });
 const groupLabel = computed(() => GROUPS()[groupBy.value]);

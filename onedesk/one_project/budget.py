@@ -10,7 +10,7 @@ against it, and warns or stops as the budget says (`Over Budget`).
   `applicable_on_cumulative_expense` is set, which a cost type always is:
   an order is over budget when it, the open orders and what's spent come to
   more than the budget.
-- **Cost Types** on the Costing tab lists each one: its budget, what's
+- **Cost Types** on the page's Money view lists each one: its budget, what's
   committed on supplier orders not yet billed, what's been spent (the
   general ledger), and what's left (`lines`).
 - **Add Cost Type** and changing one (`set_budget`) are ERPNext's own: a new

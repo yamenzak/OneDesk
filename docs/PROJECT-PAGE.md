@@ -62,7 +62,18 @@ the project is and how it's going, then views of the same work.
   - **Activity**: frappe's timeline of the project, with a comment box.
 - **A task opens beside the page**, as Asana's does: its fields, its
   description and its own activity, without leaving the project.
-- **Money** and **Suppliers** come in stage 3, as views in the same bar.
+- **Money**: the forecast as figures (Contract, Budget, Forecast Cost,
+  Forecast Margin, Margin So Far; or Budget, Spent, Forecast Cost and Left
+  for a project with no customer), the customer's side and the cost side as
+  rows with a bar against what was ordered, and Cost Types as a table with
+  **Add Cost Type**. The budget is changed from its figure until there are
+  cost types.
+- **Suppliers**: a card per subcontract, with how much is billed, what's
+  left, paid, retention and advance, **Open Order** and **Bill Progress**;
+  **New Purchase Order** above them. Shown on a Fixed Price project, and on
+  any other once it has an order.
+- The form's Costing tab keeps only the Budget and ERPNext's own fields; the
+  HTML sections that drew the money there are gone.
 
 ## Built from frappe
 
@@ -70,8 +81,9 @@ the project is and how it's going, then views of the same work.
   Button, Tabs, Dropdown, DatePicker, TextInput, Avatar and Progress from
   frappe-ui; `frappe-ui/list` for the table; NumberCard and BarChart from
   `frappe-ui/charts`; ActivityTimeline from `@framework/ui`.
-- Data from `one_project/view.py`: `said` for the head and Overview, `work`
-  for the tasks, `files` and `updates`.
+- Data from `one_project/view.py`: `said` for the head, Overview, Money and
+  Suppliers (with money.py's figures), `work` for the tasks, `files` and
+  `updates`; budget.py's `lines` for the cost types.
 - Changes are frappe's: `set_value`, `insert` and `assign_to` for tasks and
   the project; the form behind Edit Details for the rest. The page follows
   the project through `doc_subscribe` and `doc_update`, the tasks through
@@ -84,8 +96,8 @@ the project is and how it's going, then views of the same work.
 
 1. **Kinds**: `one_kind`, the patch that sets it, and the New Project dialog.
 2. **The page**: head, title, cards and Overview for each kind; the list
-   opens it; Edit Details opens the form.
-3. **Money and Suppliers** on the page; the form's Costing tab goes.
+   opens it; Edit Details opens the form. Done, as the workspace.
+3. **Money and Suppliers** on the page; the form's Costing tab goes. Done.
 4. **Tasks, Schedule, Time, Invoices, Team, Files, Activity** tabs.
 5. **Retainer**: the monthly allowance and Invoice Month.
 6. **Phone layout, OneAI** (`where`, suggestions by kind), **README,

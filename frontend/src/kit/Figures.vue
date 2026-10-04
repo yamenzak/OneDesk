@@ -1,9 +1,13 @@
 <template>
-  <!-- A row of figures: frappe-ui's NumberCard, borderless, as Frappe Books' dashboard. -->
-  <div class="grid grid-cols-2 gap-x-8 gap-y-6 pb-3 lg:grid-cols-4">
+  <!-- A row of figures: frappe-ui's NumberCard, borderless, as Frappe Books' dashboard.
+       A figure may open its documents (`route`) or carry an `action`. -->
+  <div class="grid grid-cols-2 gap-x-8 gap-y-6 pb-3" :class="COLUMNS[figures.length] || 'lg:grid-cols-4'">
     <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col">
       <NumberCard :title="one.title" :value="one.value" :card="false" :color="one.alarm ? 'var(--ink-red-5)' : undefined">
-        <template v-if="one.route" #actions>
+        <template v-if="one.action" #actions>
+          <Button variant="ghost" :icon="one.action.icon" :aria-label="one.action.label" @click="one.action.onClick" />
+        </template>
+        <template v-else-if="one.route" #actions>
           <Button variant="ghost" icon="lucide-arrow-up-right" :aria-label="one.title" @click="go(one.route)" />
         </template>
       </NumberCard>
@@ -20,4 +24,5 @@ import { NumberCard } from "frappe-ui/charts";
 import { go } from "./desk";
 
 defineProps({ figures: { type: Array, required: true } });
+const COLUMNS = { 3: "lg:grid-cols-3", 5: "lg:grid-cols-5" };
 </script>

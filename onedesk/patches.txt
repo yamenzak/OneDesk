@@ -41,3 +41,4 @@ onedesk.one.patches.portal_account_forms
 onedesk.one_project.patches.no_hourly_asks
 onedesk.one_project.patches.extra_work
 onedesk.one_project.patches.kinds
+onedesk.one_project.patches.costing_on_the_page

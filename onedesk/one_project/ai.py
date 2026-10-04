@@ -4,7 +4,7 @@ which projects need attention.
 `project_facts` hands over the page's own answers (`overview.overview`): how
 far it has got, its dates, cost against the budget, what is billed, what is
 late and the next milestone, for the project and everything under it, and the
-Costing tab: both sides of the money, the subcontracts, the cost types and
+Money view: both sides of the money, the subcontracts, the cost types and
 the forecast (`_money`). Beside
 them, what the page has further down: the late tasks with who is on each and
 what waits on them, the milestones to come, its people, and the team's last
@@ -174,7 +174,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 
 
 def _money(project: str) -> dict:
-	"""The Costing tab as the page shows it: both sides, the subcontracts, the
+	"""The money as the page shows it: both sides, the subcontracts, the
 	cost types and the forecast (money.py, budget.py)."""
 	from onedesk.one_project import budget, money
 

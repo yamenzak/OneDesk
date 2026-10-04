@@ -681,13 +681,25 @@ def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
 	assert "tree.above(" in money and "after_commit=True" in money
 	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
 	fields = {f["fieldname"]: f for f in layout["custom_fields"]}
-	assert {"one_customer", "one_cost", "one_forecast"} <= set(fields)
+	# The money is the page's Money and Suppliers views; the form's HTML
+	# sections that drew it are gone, from the layout and from every site.
+	gone = {"one_customer", "one_cost", "one_forecast", "one_suppliers", "one_budget"}
+	assert not gone & set(fields)
+	patch = (PROJECT / "patches" / "costing_on_the_page.py").read_text()
+	assert all(f'"{name}"' in patch for name in gone)
+	assert "onedesk.one_project.patches.costing_on_the_page" in (tree.APP / "patches.txt").read_text()
 	hidden = {
 		p["field_name"] for p in layout["property_setters"] if p["property"] == "hidden" and p["value"] == "1"
 	}
 	assert {"total_purchase_cost", "gross_margin", "total_billed_amount"} <= hidden
+	view = (PROJECT / "view.py").read_text()
+	assert '"money": cash' in view
+	island = tree.ROOT / "frontend" / "src" / "project"
+	money_view = (island / "Money.vue").read_text()
+	assert "said.money" in money_view and all(name in money_view for name in ('__("Forecast Margin")', "__('Customer')", "__('Cost')"))
+	assert "onedesk().progress.ask" in (island / "Suppliers.vue").read_text()
 	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
-	assert "onedesk.one_project.money.money" in page and '"one_project_money"' in page
+	assert '"one_project_money"' in page
 	heads = (PROJECT / "heads.py").read_text()
 	assert '"project.forecast": forecast' in heads and '_lt("Forecast Margin")' in heads
 
@@ -758,8 +770,8 @@ def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
 	# Making one is for whoever ERPNext lets; nobody gets a back door.
 	assert 'frappe.has_permission("Budget", "create", throw=True)' in budget
 	assert "ignore_permissions" not in budget
-	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
-	assert "one_budget" in {f["fieldname"] for f in layout["custom_fields"]}
+	money_view = (tree.ROOT / "frontend" / "src" / "project" / "Money.vue").read_text()
+	assert '"onedesk.one_project.budget.lines"' in money_view and "project.cost_type(" in money_view
 	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert "onedesk.one_project.budget.set_budget" in page and '__("Add Cost Type")' in page
 
@@ -814,9 +826,10 @@ def test_a_project_opens_on_its_own_page():
 	assert page["name"] == "project-view" and page["module"] == "One Project"
 	view = (PROJECT / "view.py").read_text()
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in view
-	# Every kind has its cards and its tabs.
-	for kind in ("FIXED", "TIME", "RETAINER", "INTERNAL"):
-		assert f"kinds.{kind}: [" in view
+	# Every kind has its cards; Money and Suppliers show for whoever may see
+	# them, Suppliers where a Fixed Price project expects subcontracts.
+	assert "def views(kind: str, cash: dict)" in view and '"views": views(kind, cash)' in view
+	assert 'frappe.has_permission("Purchase Order", "read")' in view
 	script = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert '"onedesk.one_project.view.said"' in script
 	# The page follows the record as a form does, through the kit's bridge to desk.

@@ -58,13 +58,16 @@ Opening a project opens its page. At the top are its name, kind, status and
 health, the customer, the dates, the manager, how far along it is, and the
 team. Click the name to rename it; click the status or health to change it.
 
-Below are six views, and the page remembers which one is open:
+Below are its views, and the page remembers which one is open:
 
 - **Overview**: the brief, four figures, milestones, updates and Needs You.
 - **Tasks**: every task in a table, grouped by project, status, owner or due
   date.
 - **Board**: tasks in columns by status. Drag a card to change its status.
 - **Timeline**: tasks as bars across the weeks, with today marked.
+- **Money**: the forecast, the customer's side, the cost side and the budget
+  by cost type. Shown to whoever may see the documents behind it.
+- **Suppliers**: each subcontract as a card, with **Bill Progress**.
 - **Files**: everything attached to the project and its tasks.
 - **Activity**: comments and every change, newest first.
 
@@ -120,7 +123,7 @@ Board**.
 
 **Edit Details** opens the project's form, with every field: its name,
 customer, parent project, status, health and manager, its dates and members,
-**Costing**, **Progress** (how often the team is asked for an update) and
+**Costing** (the budget), **Progress** (how often the team is asked for an update) and
 **More Info** (priority, type, department, task prefix, how the % done is
 worked out, and notes, which are the brief).
 
@@ -230,17 +233,19 @@ lines' if they all name the same one.
 
 ## What a project costs, and billing it
 
-**Costing** shows the money in three rows, for the project and its
-sub-projects together. Click a figure to see the documents behind it.
+**Money** on the project's page shows the money for the project and its
+sub-projects together. Click a row to see the documents behind it.
 
+- **Forecast**: the **Contract** (what the customer ordered, or the billable
+  time if nothing was), the **Budget**, the **Forecast Cost**, the **Forecast
+  Margin** and the **Margin So Far**. A project without a customer shows its
+  **Budget**, what's **Spent**, the **Forecast Cost** and what's **Left**.
 - **Customer**: what they've been **Quoted**, what they've **Ordered**, what's
-  been **Delivered** and **Invoiced**, and what they've **Paid**.
+  been **Delivered** and **Invoiced**, and what they've **Paid**, each with a
+  bar against what they ordered.
 - **Cost**: what's been **Ordered** from suppliers, **Received** and
   **Billed**, what they've been **Paid**, and the team's own **Time**,
   **Stock Used** and **Expense Claims**.
-- **Forecast**: the **Contract** (what the customer ordered, or the billable
-  time if nothing was), the **Budget**, the **Forecast Cost**, the **Forecast
-  Margin** and the **Margin So Far**.
 
 Amounts are before tax, except payments. The forecast cost is everything
 spent, plus what suppliers still have to bill on their orders, plus the
@@ -248,8 +253,8 @@ budget not yet used. So it's never under the budget, and an order that takes
 spending past the budget shows in the forecast the day it's placed, not when
 the bill arrives. The page updates as documents are submitted.
 
-Set the **Budget** on **Costing** to what you expect the whole project to
-cost.
+Set the **Budget** to what you expect the whole project to cost: the pencil
+on **Budget** under **Money**, or **Edit Details**.
 
 **Time is priced for you.** Every hour on a timesheet (the timer on a task
 writes one) is costed and billed at the rate set for that person and activity
@@ -274,7 +279,7 @@ invoiced from the sub-project.
 
 ## Budget by cost type
 
-Split the budget by **cost type** under **Cost Types** on **Costing**: one
+Split the budget by **cost type** under **Cost Types** on **Money**: one
 for each kind of cost you track, such as labour, materials, subcontracts or
 equipment (each is an expense account in OneBook). Each shows its
 **Budget**, what's **Committed** on supplier orders not yet billed, what's
@@ -294,11 +299,14 @@ A subcontract is a **purchase order** on the project, one for each supplier
 and package of work: the glazing, the joinery, the electrics. Order a package
 as 1 **Lump Sum**, so it can be billed a part at a time.
 
-**Suppliers** on **Costing** lists each one: what it was ordered for, what's
-been billed, what's left to bill, the retention held, the advance not yet set
-off, and what's been paid. Click a supplier to open the order.
+**Suppliers** on the project's page shows each one as a card: what it was
+ordered for, how much of it is billed, what's left to bill, what's been paid,
+the retention held and the advance not yet set off. **Open Order** opens it,
+and **New Purchase Order** starts one on the project. A Fixed Price project
+always shows **Suppliers**; others once they have an order.
 
-**Bill Progress** (under **Create** on a submitted order) asks how far the
+**Bill Progress** (on the supplier's card, or under **Create** on a submitted
+order) asks how far the
 work has got. Say 40% and it drafts the supplier's bill for 40% of the order,
 less what's been billed already, at the order's prices. The bill shows the
 share as **Work Done**. Check it and submit it as any other bill.
@@ -322,7 +330,7 @@ Progress** (under **Create** on a submitted order) works as it does for a
 supplier: say how far the work has got and it drafts the invoice for that
 share, less what's been invoiced already. Set **Retention** and **Retention
 Due** on the order's **Terms** tab to hold the customer's retention the same
-way. **Customer** on **Costing** shows the **Retention Held** still to be
+way. **Customer** under **Money** shows the **Retention Held** still to be
 paid.
 
 ## Extra work becomes a sub-project
@@ -606,16 +614,17 @@ one field for it.
   tasks done of all, days to the expected end (`days_left`), the money
   (money.py), overdue tasks, the next milestone, and the hours logged a week
   for twelve weeks.
-- `money.py` — the Costing tab's two sides and forecast, over the whole tree:
+- `money.py` — the page's Money view, two sides and a forecast, over the whole tree:
   each figure is the submitted lines naming a project in it, before tax, as
   ERPNext adds up a project's Billed and Purchases, with the list behind it
   (`WHERE` finds the project on the lines). Time, stock used and expense
   claims are ERPNext's totals on the project; Margin So Far counts expense
   claims, which ERPNext's own gross margin leaves out. `forecast` and
   `unbilled` are pure. `moved` (every submit and cancel) tells the open
-  pages of the project and those above it to redraw. The tab's three
-  sections are HTML fields drawn with the band's figures; ERPNext's stored
-  totals are hidden from the form, not removed.
+  pages of the project and those above it to redraw. `_suppliers` is the
+  Suppliers view, one card per order. ERPNext's stored totals are hidden from
+  the form, not removed; the form's Costing tab keeps the Budget and the
+  fields ERPNext needs (patches/costing_on_the_page.py took the rest).
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
 - `view.py` — the project's page (`page/project_view`): `said` gives it, in

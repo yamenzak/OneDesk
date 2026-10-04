@@ -22,12 +22,16 @@ from onedesk.one_project import billing, budget, kinds, money, overview, tree
 SHOWN = 6
 
 #: The tabs each kind has, in order, as far as they are built.
-TABS = {
-	kinds.FIXED: ["overview"],
-	kinds.TIME: ["overview"],
-	kinds.RETAINER: ["overview"],
-	kinds.INTERNAL: ["overview"],
-}
+def views(kind: str, cash: dict) -> list[str]:
+	"""The views the page shows beyond Overview and the tasks: Money when the
+	reader may see any of it, Suppliers when there are subcontracts or the
+	project is a Fixed Price one, which is where they're expected."""
+	shown = []
+	if cash["customer"] or cash["cost"]:
+		shown.append("money")
+	if cash["suppliers"] or (kind == kinds.FIXED and frappe.has_permission("Purchase Order", "read")):
+		shown.append("suppliers")
+	return shown
 
 
 def share(part: float, whole: float) -> int:
@@ -71,7 +75,9 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"contract": contract(doc),
 		"currency": cash["currency"],
 		"can_write": bool(frappe.has_permission("Project", "write", doc=doc)),
-		"tabs": TABS[kind],
+		"views": views(kind, cash),
+		"money": cash,
+		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),
 		"overview": _overview(kind, doc, view, cash),
 	}

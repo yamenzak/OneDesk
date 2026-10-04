@@ -100,7 +100,7 @@ def _lines(doctype: str, projects: list[str]) -> float:
 
 def _figure(label: str, value: float, doctype: str | None, projects: list[str], **filters) -> dict:
 	"""One figure, opening the submitted documents behind it."""
-	said = {"label": label, "value": value}
+	said = {"label": label, "value": value, "doctype": doctype}
 	if doctype:
 		where = {WHERE.get(doctype, "project"): ["in", projects]}
 		said["route"] = _route(doctype, {**where, "docstatus": 1, **filters})
@@ -177,6 +177,8 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"cost": cost,
 		"own": own,
 		"suppliers": _suppliers(projects) if _sees("Purchase Order") else [],
+		"can_bill": bool(frappe.has_permission("Purchase Invoice", "create")),
+		"can_order": bool(frappe.has_permission("Purchase Order", "create")),
 		"contract": contract,
 		"budget": flt(kept["estimated_costing"]),
 		"spent": spent,
@@ -287,6 +289,8 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"supplier",
 				"supplier_name",
 				"status",
+				"per_billed",
+				"transaction_date",
 				"advance_paid",
 				"conversion_rate",
 				"one_retention",
@@ -346,6 +350,11 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"retention": retained,
 				"advance": advance,
 				"paid": paid + advance,
+				"status": head.status,
+				"ordered_on": str(head.transaction_date) if head.transaction_date else None,
+				# Bill Progress drafts the next bill; an order closed, held or
+				# billed in full has none.
+				"can_bill": head.status not in ("Closed", "On Hold", "Completed") and flt(head.per_billed) < 100,
 				"route": f"/desk/purchase-order/{quote(name, safe='')}",
 			}
 		)

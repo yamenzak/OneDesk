@@ -180,6 +180,9 @@ In the order they'd pay off:
   brings, loads through `defineAsyncComponent`. `@framework/ui` is imported
   by its part (`@framework/ui/ActivityTimeline`), never whole: the whole
   needs a newer frappe-ui than the one we pin.
-- **Built so far**: the project page (`onedesk.project`). Next, in order:
-  OneBook Home, then the project's Money and Suppliers, then a document's
-  actions, then reports. One screen at a time, as the passover goes.
+- **Built so far**: the project page (`onedesk.project`), with its Money and
+  Suppliers views. Next, in order: OneBook Home, then a document's actions,
+  then reports. One screen at a time, as the passover goes.
+- **Desk's dialogs stay desk's.** A field an island edits outside a row (a
+  budget, a cost type, Bill Progress) opens the desk dialog the form uses,
+  through `onedesk()`, so its controls, links and checks are frappe's.

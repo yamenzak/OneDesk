@@ -1,6 +1,7 @@
 // What can be done to a project, from its page (one_project/page/project_view)
 // and its form alike: the schedule, grouping it under a new project, saving it
-// as a template, invoicing its time and posting an update, and the board. Each takes the
+// as a template, invoicing its time and posting an update, the board, and its
+// budget and cost types. Each takes the
 // project as `frm`, whose `doc` names it; the page passes its own.
 frappe.provide("onedesk.project");
 
@@ -133,4 +134,78 @@ onedesk.project.post = (frm) => {
 		__("Post Update"),
 		__("Post"),
 	);
+};
+
+// The budget: what the whole project is expected to cost, ERPNext's
+// estimated_costing. Once it has cost types, it is their total and not set here.
+onedesk.project.budget = async (frm, done) => {
+	const own = (await frappe.db.get_value("Project", frm.doc.name, "estimated_costing")).message?.estimated_costing;
+	const dialog = new frappe.ui.Dialog({
+		title: __("Budget"),
+		fields: [{ fieldtype: "Currency", fieldname: "amount", label: __("Budget"), reqd: 1, default: own }],
+		primary_action_label: __("Save"),
+		primary_action: async ({ amount }) => {
+			await frappe.xcall("frappe.client.set_value", {
+				doctype: "Project",
+				name: frm.doc.name,
+				fieldname: "estimated_costing",
+				value: amount,
+			});
+			dialog.hide();
+			done && done();
+		},
+	});
+	dialog.show();
+};
+
+// A cost type: ERPNext's own Budget against the project, one per expense
+// account (one_project/budget.py). Without a row it adds one; with one it
+// changes its budget or removes it.
+onedesk.project.cost_type = async (frm, row, done) => {
+	const company = frm.doc.company || (await frappe.db.get_value("Project", frm.doc.name, "company")).message?.company;
+	const dialog = new frappe.ui.Dialog({
+		title: row ? row.cost_type : __("Add Cost Type"),
+		fields: [
+			{
+				fieldtype: "Link",
+				fieldname: "account",
+				label: __("Cost Type"),
+				options: "Account",
+				reqd: 1,
+				default: row && row.account,
+				read_only: row ? 1 : 0,
+				get_query: () => ({ filters: { root_type: "Expense", is_group: 0, company } }),
+			},
+			{ fieldtype: "Currency", fieldname: "amount", label: __("Budget"), reqd: 1, default: row && row.budget },
+			{
+				fieldtype: "Select",
+				fieldname: "action",
+				label: __("Over Budget"),
+				options: [
+					{ value: "Warn", label: __("Warn") },
+					{ value: "Stop", label: __("Stop") },
+				],
+				default: (row && row.action) || "Warn",
+			},
+		],
+		primary_action_label: __("Save"),
+		primary_action: async (values) => {
+			const said = await frappe.xcall("onedesk.one_project.budget.set_budget", { project: frm.doc.name, ...values });
+			dialog.hide();
+			done && done(said);
+		},
+		secondary_action_label: row ? __("Remove") : null,
+		secondary_action: row
+			? () =>
+					frappe.confirm(__("Remove {0}?", [row.cost_type]), async () => {
+						const said = await frappe.xcall("onedesk.one_project.budget.remove_budget", {
+							project: frm.doc.name,
+							account: row.account,
+						});
+						dialog.hide();
+						done && done(said);
+					})
+			: null,
+	});
+	dialog.show();
 };

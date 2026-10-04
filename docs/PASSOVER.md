@@ -7226,6 +7226,47 @@ changed where it's shown.
   task, changing its status in the row and by dragging on the board,
   commenting in the task panel. The test data was put back.
 
+**Stage 3: Money and Suppliers on the page.** The money was HTML drawn into
+the form's Costing tab. It is now two views in the page's bar.
+
+- **Money**:
+  - the forecast as figures: Contract, Budget, Forecast Cost, Forecast
+    Margin and Margin So Far. A project without a customer has no contract,
+    so it shows Budget, Spent, Forecast Cost and Left;
+  - the customer's side and the cost side as rows, each with a bar against
+    what was ordered and opening the documents behind it. A side with
+    nothing yet says so instead of a column of zeros;
+  - Cost Types as a table (Budget, Committed, Spent, Left, Used), with **Add
+    Cost Type**. A row opens the cost type to change or remove;
+  - the budget changes from its figure's pencil until there are cost types.
+- **Suppliers**: a card per subcontract with how much is billed, what's left,
+  paid, retention and advance, **Open Order** and **Bill Progress**, and the
+  totals and **New Purchase Order** above. Shown on a Fixed Price project,
+  and on others once they have an order.
+- **Permissions**: Money shows when the reader may see any of its documents,
+  Suppliers when they may read purchase orders. Bill Progress needs Purchase
+  Invoice create, New Purchase Order needs Purchase Order create, and cost
+  types stay with whoever may create a Budget. A view the reader may not see
+  opens Overview instead.
+- **Built from frappe**: the budget, the cost type and Bill Progress open
+  desk's own dialogs (`project_actions.js`, `progress.js`), the ones the
+  form used, so their controls and checks are frappe's. The page redraws on
+  `one_project_money` and on the project's `doc_update`, as before.
+- **The form**: the Costing tab keeps the Budget and ERPNext's fields; the
+  ten HTML fields that drew the money are gone
+  (`patches/costing_on_the_page.py`), and project.js no longer draws them.
+- **Found on the way**: the page's Budget is the whole tree's (Villa Al
+  Barsha 140,500), the form's is the project's own (100,000). The pencil
+  shows only where the two are the same (no cost types, no sub-projects),
+  and the dialog starts from the project's own figure.
+- `money.py` names each figure's doctype, so a side knows its "Ordered"
+  without reading a translated label, and gives each order its status, date
+  and whether it can be billed further.
+- Checked on the site with Villa Al Barsha (Fixed Price, three
+  subcontracts), Villa Windows (Time and Materials) and Website Relaunch
+  (Internal): every figure; changing the budget (then putting it back);
+  Add Cost Type and Bill Progress opening desk's dialogs.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
