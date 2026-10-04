@@ -7558,6 +7558,22 @@ already showed.
 - By Person was empty on a retainer whose timesheets have an employee and no
   user. It now names the employee.
 
+**Featured Media turning.** Of four heads drawn with real photos (one photo
+across the page with the name over it, a mosaic, the project beside its
+photos, a strip), the first is the project page's and the third the portal's.
+
+- Both turn on their own: the cover, then each photo for six seconds with a
+  slow draw-in, and each video muted to its end. A single video plays on a
+  loop. A bar per item shows where it is; the pointer over it pauses it.
+  Someone whose system asks for less motion gets the photos still.
+- The portal's is plain JavaScript (`public/js/one_gallery.js`) beside the
+  project's facts, with arrows, a count and the small photos below; on a
+  phone the photos come first.
+- Both show the cover first (`media.shown`), so the page and the portal open on
+  the same photo.
+- ERPNext lets a Project have four attachments, which stopped Featured Media
+  and the project's folder at four files. A property setter lifts it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

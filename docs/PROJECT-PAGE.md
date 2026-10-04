@@ -45,13 +45,17 @@ It is laid out as monday and Asana lay out a project: a head that says what
 the project is and how it's going, then views of the same work.
 
 - **Desk's head**: Projects / name, **···**, and the kind's main action.
-- **The project's head**: the cover from Featured Media (one_project/
-  media.py) with the next few beside it, opening the rest in frappe-ui's
-  Dialog; the kind's icon, the name (click to rename), the status and
-  health as pills that change in place, and the team. The rest is the
-  kind's: the contract on a Fixed Price project, when it started and the
-  hours a month on a Retainer, days left on an Internal one. **Add Cover**
-  opens frappe's upload dialog with media.py's `add` as its method.
+- **The project's head**: its Featured Media across the page (Hero.vue),
+  the cover first and then each in turn, cross-fading: a photo for six
+  seconds, slowly drawing in; a video muted to its end; a single video on a
+  loop. A bar per item shows where it is, the pointer over it pauses it, and
+  a click opens the rest in frappe-ui's Dialog. The kind and the name (click
+  to rename) sit over it; below are the status and health as pills that
+  change in place, the kind's facts (the contract on a Fixed Price project,
+  the start and hours a month on a Retainer, days left on an Internal one),
+  and the team. **Add Cover** opens frappe's upload dialog with media.py's
+  `add` as its method. Someone whose system asks for less motion gets the
+  photos still.
 - **Views**, in one bar under the head, kept in `?view=`:
   - **Overview**: laid out for the kind, each thing once. The brief when
     written, the kind's figures, then Fixed Price: Work and Billing,
@@ -125,5 +129,7 @@ the project is and how it's going, then views of the same work.
 5. **Retainer**: the monthly allowance and Invoice Month. Done.
 6. **Per kind**: the head and Overview laid out for each kind, the cover and
    Featured Media in the head. Done.
+7. **Featured Media turning**: across the head of the page, and beside the
+   project on the customer's portal (one_gallery.js). Done.
 6. **Phone layout, OneAI** (`where`, suggestions by kind), **README,
    notifications, translations**. Done.

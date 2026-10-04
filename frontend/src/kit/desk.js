@@ -89,6 +89,9 @@ export const comment = (doctype, name, content) =>
 		comment_by: frappe().session.user_fullname,
 	});
 
+/** Whether the reader's system asks for less motion. */
+export const lessMotion = () => Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
+
 /** Desk's own upload dialog, attaching to a record; `options` are the
  * dialog's own (a `method` to send the file to, `restrictions`). */
 export function upload(doctype, name, done, options = {}) {

@@ -64,12 +64,8 @@ def view(project: str) -> dict:
 
 	return {
 		"doc": doc,
-		# The photos and videos the project is shown with, newest first.
-		"media": [
-			{"url": one.file_url, "title": one.file_name, "kind": media.kind_of(one.file_name)}
-			for one in media.rows(project)
-			if media.kind_of(one.file_name)
-		],
+		# The photos and videos the project is shown with, its cover first.
+		"media": media.shown(project),
 		"parent": frappe.db.get_value("Project", doc.get(tree.PARENT), ["name", "project_name"], as_dict=True)
 		if doc.get(tree.PARENT) and may_see(frappe.get_doc("Project", doc.get(tree.PARENT)))
 		else None,

@@ -28,37 +28,62 @@
 	</div>
 
 	<div class="one-portal__body">
-		{%- if media %}
-		{#- The project's Featured Media: the newest large, the rest beside it. -#}
-		<div class="one-media one-media--{{ [media | length, 4] | min }}">
-			{%- for one in media[:5] %}
-			{%- if one.kind == "video" %}
-			<video class="one-media__item" src="{{ one.url }}" controls preload="metadata" aria-label="{{ one.title | e }}"></video>
-			{%- else %}
-			<a class="one-media__item" href="{{ one.url }}" target="_blank" rel="noopener"><img src="{{ one.url }}" alt="{{ one.title | e }}" loading="lazy"></a>
+		{#- The project beside its photos and videos (one_gallery.js): its
+		    cover first, then each in turn. -#}
+		<div class="one-showcase{{ ' one-showcase--media' if media else '' }}">
+			<div class="one-showcase__about">
+				<h2 class="one-showcase__title">{{ doc.project_name | e }}</h2>
+				<dl class="one-facts">
+					<div>
+						<dt>{{ _("Progress") }}</dt>
+						<dd>{{ share }}%{% if total %} <small class="one-facts__aside">{{ _("{0} of {1} tasks done").format(done, total) }}</small>{% endif %}</dd>
+					</div>
+					{% if doc.expected_end_date %}
+					<div>
+						<dt>{{ _("Expected End") }}</dt>
+						<dd>{{ frappe.format_date(doc.expected_end_date) }}{% if when %} <small class="one-facts__aside{{ ' one-facts__late' if days_left < 0 else '' }}">{{ when }}</small>{% endif %}</dd>
+					</div>
+					{% endif %}
+					{% if parent %}
+					<div>
+						<dt>{{ _("Part of") }}</dt>
+						<dd><a href="/projects?project={{ parent.name | urlencode }}">{{ parent.project_name | e }}</a></dd>
+					</div>
+					{% endif %}
+				</dl>
+				<div class="one-progress" role="progressbar" aria-valuenow="{{ share }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ share }}%"></span></div>
+			</div>
+			{%- if media %}
+			<div class="one-gallery" data-one-gallery>
+				<div class="one-gallery__stage">
+					{%- for one in media %}
+					<a class="one-gallery__slide{{ ' is-on' if loop.first else '' }}" href="{{ one.url }}" target="_blank" rel="noopener" aria-label="{{ one.title | e }}">
+						{%- if one.kind == "video" %}
+						<video src="{{ one.url }}" muted playsinline preload="metadata"{% if media | length == 1 %} loop{% endif %}></video>
+						{%- else %}
+						<img src="{{ one.url }}" alt="{{ one.title | e }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
+						{%- endif %}
+					</a>
+					{%- endfor %}
+					{%- if media | length > 1 %}
+					<div class="one-gallery__bars" aria-hidden="true">{% for one in media %}<span><span></span></span>{% endfor %}</div>
+					<button type="button" class="one-gallery__turn one-gallery__turn--back" data-back aria-label="{{ _('Previous') }}"><svg class="one-icon" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+					<button type="button" class="one-gallery__turn one-gallery__turn--on" data-on aria-label="{{ _('Next') }}"><svg class="one-icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+					<span class="one-gallery__count">1 / {{ media | length }}</span>
+					{%- endif %}
+				</div>
+				{%- if media | length > 1 %}
+				<div class="one-gallery__thumbs">
+					{%- for one in media %}
+					<button type="button" class="one-gallery__thumb{{ ' is-on' if loop.first else '' }}" aria-label="{{ one.title | e }}">
+						{%- if one.kind == "video" %}<video src="{{ one.url }}#t=0.1" muted preload="metadata"></video>{% else %}<img src="{{ one.thumbnail or one.url }}" alt="" loading="lazy">{% endif %}
+					</button>
+					{%- endfor %}
+				</div>
+				{%- endif %}
+			</div>
 			{%- endif %}
-			{%- endfor %}
 		</div>
-		{%- endif %}
-		<dl class="one-facts">
-			<div>
-				<dt>{{ _("Progress") }}</dt>
-				<dd>{{ share }}%{% if total %} <small class="one-facts__aside">{{ _("{0} of {1} tasks done").format(done, total) }}</small>{% endif %}</dd>
-			</div>
-			{% if doc.expected_end_date %}
-			<div>
-				<dt>{{ _("Expected End") }}</dt>
-				<dd>{{ frappe.format_date(doc.expected_end_date) }}{% if when %} <small class="one-facts__aside{{ ' one-facts__late' if days_left < 0 else '' }}">{{ when }}</small>{% endif %}</dd>
-			</div>
-			{% endif %}
-			{% if parent %}
-			<div>
-				<dt>{{ _("Part of") }}</dt>
-				<dd><a href="/projects?project={{ parent.name | urlencode }}">{{ parent.project_name | e }}</a></dd>
-			</div>
-			{% endif %}
-		</dl>
-		<div class="one-progress" role="progressbar" aria-valuenow="{{ share }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ share }}%"></span></div>
 
 		{% if milestones %}
 		<section class="one-section">
@@ -138,3 +163,5 @@
 	</div>
 </div>
 {% endblock %}
+
+{% block script %}{{ super() }}<script src="/assets/onedesk/js/one_gallery.js"></script>{% endblock %}

@@ -134,7 +134,10 @@ def featured(project: str) -> list[dict]:
 
 
 def shown(project: str) -> list[dict]:
-	return [
+	"""The project's photos and videos in the order they're shown: its Cover
+	first, then the rest newest first."""
+	cover = frappe.db.get_value("Project", project, "one_cover")
+	found = [
 		{
 			"name": one.name,
 			"title": one.file_name,
@@ -145,6 +148,7 @@ def shown(project: str) -> list[dict]:
 		for one in rows(project)
 		if kind_of(one.file_name)
 	]
+	return sorted(found, key=lambda one: one["url"] != cover)
 
 
 @frappe.whitelist(methods=["POST"])

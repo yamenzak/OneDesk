@@ -98,9 +98,13 @@ and Materials with billable time or a customer, Internal otherwise.
 Every project's folder in OneCloud (**Records › Project ›** the project) has a
 **Featured Media** folder. Put the project's best photos and videos in it:
 
-- They're shown on the project's page and on the customer's portal.
+- They're shown on the project's page and on the customer's portal, the cover
+  first and then each in turn: a photo for a few seconds, a video muted to its
+  end. A single video plays on a loop. Holding the pointer over them pauses
+  them.
 - The newest photo is the project's **cover**, shown wherever the project has a
   picture.
+- A project can have as many photos and videos as it needs.
 - Anyone with the link to one can open it, so they can go on a website too.
   Put nothing there that isn't meant to be seen.
 
@@ -111,8 +115,9 @@ Featured Media; whoever may see the project sees it.
 
 ## A project's page
 
-Opening a project opens its page. At the top are its cover and Featured
-Media, its name, kind, status and health, and the team. What else the top
+Opening a project opens its page. At the top are its Featured Media, across
+the page with its kind and name over them, then its status and health, and
+the team. What else the top
 shows depends on the kind:
 
 - **Fixed Price**: the customer, the contract, the dates, the manager and how
@@ -125,8 +130,8 @@ shows depends on the kind:
   manager and how far along it is.
 
 Click the name to rename it; click the status or health to change it. With
-no photos yet, **Add Cover** puts one in Featured Media. Click the cover to
-see every photo and video, add more, or open the folder in OneCloud.
+no photos yet, **Add Cover** puts one in Featured Media. Click a photo to see
+every photo and video, add more, or open the folder in OneCloud.
 
 Below are its views, and the page remembers which one is open:
 
@@ -596,6 +601,8 @@ quotations, orders and invoices.
 
 **Projects** lists the customer's open projects. Opening one shows:
 
+- its Featured Media beside its name, turning on its own as on the project's
+  page, with arrows and the small photos to turn it by hand;
 - how far along it is (the whole project, sub-projects included) and how many
   tasks are done;
 - the **Expected End**, and how many days are left or how late it is;

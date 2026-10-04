@@ -4,7 +4,7 @@
   <Dialog v-model:open="open" :title="item?.title" size="4xl">
     <div v-if="item" class="flex flex-col gap-4">
       <div class="relative flex h-[60vh] items-center justify-center overflow-hidden rounded-5 bg-surface-gray-2">
-        <video v-if="item.kind === 'video'" :key="item.url" :src="item.url" controls class="max-h-full max-w-full" />
+        <video v-if="item.kind === 'video'" :key="item.url" :src="item.url" autoplay muted playsinline loop controls class="max-h-full max-w-full" />
         <img v-else :src="item.url" :alt="item.title" class="max-h-full max-w-full object-contain" />
         <template v-if="media.length > 1">
           <Button class="absolute start-3 top-1/2 -translate-y-1/2" icon="lucide-chevron-left" :aria-label="__('Previous')" @click="move(-1)" />

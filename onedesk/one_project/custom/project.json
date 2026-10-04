@@ -584,6 +584,13 @@
   {
    "doc_type": "Project",
    "doctype_or_field": "DocType",
+   "property": "max_attachments",
+   "property_type": "Int",
+   "value": "0"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocType",
    "property": "sort_order",
    "property_type": "Data",
    "value": "DESC"

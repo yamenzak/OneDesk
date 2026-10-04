@@ -1128,7 +1128,7 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	assert hooks.count('"onedesk.one_project.media.changed"') == 3
 	assert "media.handing_over(self)" in (tree.APP / "one_storage" / "file.py").read_text()
 	# The portal shows it; the agreements say who can open it.
-	assert '"media": [' in (PROJECT / "portal.py").read_text()
+	assert '"media": media.shown(project)' in (PROJECT / "portal.py").read_text()
 	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
 
 
@@ -1164,3 +1164,26 @@ def test_a_projects_page_is_laid_out_for_its_kind():
 	assert 'listen("one_project_media"' in page
 	media = (PROJECT / "media.py").read_text()
 	assert '@frappe.whitelist(methods=["POST"])\ndef add()' in media and "upload._place(node(project)" in media
+
+
+def test_featured_media_turns_on_the_page_and_the_portal():
+	# A project may have as many photos and videos as it needs: ERPNext's four
+	# attachments would stop its folder and Featured Media at four.
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	assert {"property": "max_attachments", "value": "0"}.items() <= next(
+		one for one in custom["property_setters"] if one["property"] == "max_attachments"
+	).items()
+	# The cover first, on both.
+	assert 'sorted(found, key=lambda one: one["url"] != cover)' in (PROJECT / "media.py").read_text()
+	# The page: each in turn, a video muted to its end, one video on a loop,
+	# paused under the pointer, still for whoever asked for less motion.
+	hero = (tree.ROOT / "frontend" / "src" / "project" / "Hero.vue").read_text()
+	for part in ("muted", "playsinline", ':loop="media.length === 1"', '@ended="i === at && next()"', "lessMotion()", "@mouseenter"):
+		assert part in hero, part
+	# The portal: the same, in plain JavaScript beside the project's facts.
+	page = (tree.APP / "www" / "projects.html").read_text()
+	assert "data-one-gallery" in page and "/assets/onedesk/js/one_gallery.js" in page
+	assert "muted playsinline" in page and "{% if media | length == 1 %} loop{% endif %}" in page
+	gallery = (tree.APP / "public" / "js" / "one_gallery.js").read_text()
+	for part in ('addEventListener("ended"', "prefers-reduced-motion", '"mouseenter"', "clip.play()"):
+		assert part in gallery, part
