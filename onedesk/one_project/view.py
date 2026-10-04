@@ -14,7 +14,17 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, add_months, flt, formatdate, get_first_day, get_fullname, getdate, nowdate
+from frappe.utils import (
+	add_days,
+	add_months,
+	date_diff,
+	flt,
+	formatdate,
+	get_first_day,
+	get_fullname,
+	getdate,
+	nowdate,
+)
 
 from onedesk.one_project import billing, budget, kinds, media, money, overview, retainer, tree
 
@@ -126,7 +136,7 @@ def quotation(doc) -> dict | None:
 	found = frappe.get_all(
 		"Quotation",
 		filters=filters,
-		fields=["name", "base_net_total"],
+		fields=["name", "base_net_total", "valid_till"],
 		order_by="transaction_date desc, creation desc",
 	)
 	if not found:
@@ -135,6 +145,7 @@ def quotation(doc) -> dict | None:
 	return {
 		"name": one.name,
 		"value": flt(one.base_net_total),
+		"valid_till": one.valid_till,
 		"count": len(found),
 		"list": _route("Quotation", filters),
 		# ERPNext asks which alternative items to take on the quotation itself.
@@ -177,6 +188,7 @@ def _first(doc, cash: dict) -> dict:
 			"money": quote["value"],
 			"note": _("{0} open quotes").format(quote["count"]),
 			"route": quote["list"],
+			"valid_till": quote["valid_till"],
 		}
 	if quote:
 		return {
@@ -184,8 +196,26 @@ def _first(doc, cash: dict) -> dict:
 			"money": quote["value"],
 			"note": _("Not ordered yet"),
 			"route": f"/desk/quotation/{quote['name']}",
+			"valid_till": quote["valid_till"],
 		}
 	return {"key": "contract", "money": 0, "action": "add_contract"}
+
+
+def _valid(until) -> dict:
+	"""The day an open quote lapses, and how far off it is."""
+	left = date_diff(until, nowdate()) if until else None
+	return {
+		"key": "valid",
+		"value": until,
+		"date": True,
+		"note": None
+		if left is None
+		else _("Today")
+		if left == 0
+		else _("In {0} days").format(left)
+		if left > 0
+		else None,
+	}
 
 
 def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
@@ -203,14 +233,25 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		# While it's only quoted, the margin is measured against the quote.
 		worth = first["money"] if first["key"] == "quoted" else cash["contract"]
 		margin = worth - cash["forecast_cost"] if first["key"] == "quoted" else cash["forecast_margin"]
+		# Billed means nothing until something is ordered: while it's quoted the
+		# quote's last day stands in its place, and with nothing yet, nothing.
+		valid = first.pop("valid_till", None)
+		if first["key"] == "quoted":
+			second = [_valid(valid)]
+		elif first.get("action") == "add_contract":
+			second = []
+		else:
+			second = [
+				{
+					"key": "billed",
+					"value": f"{percent(cash['invoiced'], cash['contract'])}%",
+					"note_money": [[_("{0} invoiced"), [cash["invoiced"]]]],
+					"bar": share(cash["invoiced"], cash["contract"]),
+				}
+			]
 		return [
 			first,
-			{
-				"key": "billed",
-				"value": f"{percent(cash['invoiced'], cash['contract'])}%",
-				"note_money": [[_("{0} invoiced"), [cash["invoiced"]]]],
-				"bar": share(cash["invoiced"], cash["contract"]),
-			},
+			*second,
 			{
 				"key": "cost",
 				"money": cash["spent"],

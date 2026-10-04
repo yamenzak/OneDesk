@@ -1198,12 +1198,23 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 		return space["_first"](None, {"contract": 500})
 
 	assert first("SO-1", None) == {"key": "contract", "money": 500, "route": "/desk/sales-order/SO-1"}
-	quoted = first(None, {"name": "QTN-1", "value": 180, "count": 1, "alternatives": False})
+	quoted = first(
+		None, {"name": "QTN-1", "value": 180, "count": 1, "valid_till": "2026-11-05", "alternatives": False}
+	)
 	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["route"] == "/desk/quotation/QTN-1"
 	assert first(None, None) == {"key": "contract", "money": 0, "action": "add_contract"}
 	# With several open, which one is ordered is picked on their list.
-	several = first(None, {"name": "QTN-2", "value": 195, "count": 2, "list": "/desk/quotation?x"})
+	several = first(
+		None, {"name": "QTN-2", "value": 195, "count": 2, "list": "/desk/quotation?x", "valid_till": None}
+	)
 	assert several["route"] == "/desk/quotation?x" and "action" not in several
+	# While quoted, the quote's last day stands where Billed will be.
+	days = lambda a, b: int(a[-2:]) - int(b[-2:])  # noqa: E731
+	space = _load(PROJECT / "view.py", ("_valid",), _=lambda text: text, nowdate=lambda: "2026-10-05", date_diff=days)
+	valid = space["_valid"]
+	assert valid("2026-10-15") == {"key": "valid", "value": "2026-10-15", "date": True, "note": "In 10 days"}
+	assert valid(None)["note"] is None
+	assert 'second = [_valid(valid)]' in (PROJECT / "view.py").read_text()
 	# Quoted, the order is the next step: the page's main button, while one
 	# quote is open. A Fixed Price project can be quoted again until ordered.
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()

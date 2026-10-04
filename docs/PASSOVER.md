@@ -7671,6 +7671,9 @@ ERPNext already does"):
   them, newest first, drafts too, each with where it stands.
 - **Work and Billing** showed three empty bars before anything was ordered.
   It shows once there's an order.
+- **Billed** read "0%, 0 invoiced" on a quoted project. While quoted it's
+  **Valid Till**, the quote's last day and how far off it is; with no quote
+  and no order it isn't shown.
 
 ## OneLegal
 

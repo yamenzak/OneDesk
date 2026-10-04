@@ -126,7 +126,7 @@ const kind = computed(() => props.said.kind);
 const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "orange", Draft: "gray" };
 
 const NAMES = () => ({
-  contract: __("Contract"), quoted: __("Quoted"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), done: __("Done"),
+  contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), done: __("Done"),
   hours: __("Hours This Month"), month: __("This Month"), unbilled: __("Not Invoiced Yet"), fee: __("Monthly Fee"),
   months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Budget Used"), due: __("Due"), overdue: __("Overdue Tasks"),
 });

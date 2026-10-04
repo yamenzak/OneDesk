@@ -161,7 +161,8 @@ The Overview is laid out for the kind, and each thing on it shows once.
 
 - **Fixed Price**: **Contract**, **Billed** (how much of the contract is
   invoiced), **Cost** against the budget, and **Forecast Margin**. Before
-  the customer orders, **Contract** shows what they've been **Quoted**. Under
+  the customer orders, **Contract** shows what they've been **Quoted** and
+  **Billed** gives way to **Valid Till**, the quote's last day. Under
   them, **Work and Billing** puts the work done beside what's billed and
   paid, **Budget** shows each cost type, and **Milestones**. On the right,
   **Subcontracts** and **Retention**.
