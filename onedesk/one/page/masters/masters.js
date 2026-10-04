@@ -1,10 +1,10 @@
 // Masters: the short lists records pick their values from, in one place
 // (one/masters.py). The kinds down the left, grouped by where they are used;
 // the chosen kind's values beside them in frappe's EmbeddedList. Add is the
-// page head's primary action; a value opens in frappe's dialog to rename or
-// remove it, with how many records use it. Every write is frappe's own
-// (insert, rename_doc, delete), so its permission checks and its refusal to
-// remove a value in use are the ones that apply.
+// page head's primary action; a value opens in frappe's dialog with the kind's
+// own fields, as quick entry draws them, and how many records use it. Every
+// write is frappe's own (insert, save, rename_doc, delete), so its permission
+// checks and its refusal to remove a value in use are the ones that apply.
 
 frappe.pages["masters"].on_page_load = (wrapper) => {
 	const page = onedesk.shell.page(wrapper, __("Masters"));
@@ -73,14 +73,11 @@ onedesk.Masters = class Masters {
 		onedesk.shell.name(__("Masters"));
 		if (kind.create) this.page.set_primary_action(__("Add"), () => this.open(null), "plus");
 		const rows = await frappe.xcall(`${Masters.API}values`, { doctype: kind.doctype });
+		// The name, then what frappe's own list of the kind shows beside it.
 		const columns = [
-			{
-				label: __("Name"),
-				render: (one) =>
-					esc(__(one.label || one.name)) + (one.is_default ? " " + frappe.ui.badge.html({ label: __("Default"), theme: "blue" }) : ""),
-			},
+			{ label: __("Name"), render: (one) => esc(__(one.label || one.name)) },
+			...kind.columns.map((df) => ({ label: df.label, render: (one) => frappe.format(one[df.fieldname], df, { inline: true }) })),
 		];
-		if (kind.doctype === "Print Heading") columns.push({ label: __("Description"), fieldname: "description" });
 		const $main = $(`<div class="one-masters-main"></div>`);
 		this.panes.values.empty().append($main);
 		onedesk.shell.table($main, {
@@ -99,50 +96,83 @@ onedesk.Masters = class Masters {
 		this.load();
 	}
 
-	// A value: its name, how many records use it, and Remove. The two kinds with
-	// more to them have dialogs of their own.
+	// A value in frappe's dialog, with the kind's own fields as quick entry
+	// draws them (a unit's symbol and whether it is whole, an item group's
+	// parent), the name first. What a dialog can't hold, a department's
+	// approvers, is in frappe's form behind Edit Full Form.
 	async open(one) {
 		const kind = this.kind;
-		if (kind.doctype === "Print Heading") return this.print_heading(one);
-		if (kind.doctype === "Address Template") return this.address_template(one);
-		const editable = !one || kind.rename;
+		await frappe.model.with_doctype(kind.doctype);
+		const doc = one ? await frappe.xcall("frappe.client.get", { doctype: kind.doctype, name: one.name }) : null;
+		const fields = this.fields(kind, doc);
 		const dialog = new frappe.ui.Dialog({
 			title: one ? __(one.label || one.name) : __("Add to {0}", [kind.label]),
-			fields: [
-				{ fieldname: "value", fieldtype: "Data", label: __("Name"), reqd: 1, default: one ? one.label || one.name : "", read_only: !editable },
-				{ fieldname: "used", fieldtype: "HTML", options: one ? onedesk.shell.quiet("&nbsp;") : "" },
-			],
-			primary_action_label: editable ? __("Save") : null,
-			primary_action: editable
-				? async ({ value }) => {
-						dialog.hide();
-						if (!one) {
-							await frappe.xcall(`${Masters.API}add`, { doctype: kind.doctype, value });
-							frappe.show_alert({ message: __("Saved"), indicator: "green" });
-						} else if (value !== (one.label || one.name)) {
-							// frappe says it was renamed.
-							await frappe.xcall(`${Masters.API}rename`, { doctype: kind.doctype, name: one.name, value });
-						}
-						this.again();
-				  }
-				: null,
+			fields: [...fields, { fieldname: "__used", fieldtype: "HTML", options: one ? onedesk.shell.quiet("&nbsp;") : "" }],
+			primary_action_label: __("Save"),
+			primary_action: () => this.save(dialog, kind, doc, fields),
 		});
-		if (one) {
-			// What else the kind holds is in frappe's form, as quick entry offers it.
-			if (kind.full) {
+		if (doc) {
+			if (kind.tables) {
 				dialog.add_custom_action(__("Edit Full Form"), () => {
 					dialog.hide();
-					frappe.set_route("Form", kind.doctype, one.name);
+					frappe.set_route("Form", kind.doctype, doc.name);
 				});
 			}
-			this.removable(dialog, kind, one.name, one.label);
-			frappe.xcall(`${Masters.API}used`, { doctype: kind.doctype, name: one.name }).then((count) => {
-				dialog.fields_dict.used.$wrapper.html(
+			this.removable(dialog, kind, doc.name, one.label);
+			frappe.xcall(`${Masters.API}used`, { doctype: kind.doctype, name: doc.name }).then((count) => {
+				dialog.fields_dict.__used.$wrapper.html(
 					onedesk.shell.quiet(count ? __("Used on {0} records", [count]) : __("Not used on any record"))
 				);
 			});
 		}
 		dialog.show();
+	}
+
+	// The kind's fields from frappe's meta: every one with a value, but a
+	// tree's bookkeeping, the company, and tables. The name comes first; a
+	// kind named as it is asked to be (Lead Sources) gets a Name field.
+	fields(kind, doc) {
+		const kept = new Set(["lft", "rgt", "old_parent", "company"]);
+		const shown = frappe.meta
+			.get_docfields(kind.doctype)
+			.filter((df) => !df.hidden && !kept.has(df.fieldname) && !frappe.model.no_value_type.includes(df.fieldtype))
+			.map((df) => ({ ...df, default: doc ? doc[df.fieldname] : df.default }));
+		const at = shown.findIndex((df) => df.fieldname === kind.name_field);
+		const name = at >= 0 ? shown.splice(at, 1)[0] : { fieldname: "__newname", fieldtype: "Data", label: __("Name"), default: doc ? doc.name : "" };
+		Object.assign(name, { reqd: 1, read_only: doc && !kind.rename ? 1 : 0 });
+		return [name, ...shown];
+	}
+
+	// Save: a new value through masters.add; a changed name through frappe's
+	// rename, then the rest through frappe.client.save against `modified`.
+	async save(dialog, kind, doc, fields) {
+		const values = dialog.get_values();
+		if (!values) return;
+		const name_field = fields[0].fieldname;
+		if (!doc) {
+			await frappe.xcall(`${Masters.API}add`, { doctype: kind.doctype, values });
+			frappe.show_alert({ message: __("Saved"), indicator: "green" });
+		} else {
+			let name = doc.name;
+			const was = name_field === "__newname" ? doc.name : doc[name_field];
+			if (values[name_field] !== was) {
+				// frappe says it was renamed.
+				name = await frappe.xcall(`${Masters.API}rename`, { doctype: kind.doctype, name, value: values[name_field] });
+			}
+			const changed = {};
+			for (const df of fields.slice(1)) {
+				if (df.read_only) continue;
+				const value = values[df.fieldname] ?? null;
+				if (String(value ?? "") !== String(doc[df.fieldname] ?? "")) changed[df.fieldname] = value;
+			}
+			if (Object.keys(changed).length) {
+				const fresh = name === doc.name ? doc : await frappe.xcall("frappe.client.get", { doctype: kind.doctype, name });
+				await frappe.xcall("frappe.client.save", { doc: { ...fresh, ...changed } });
+				frappe.show_alert({ message: __("Saved"), indicator: "green" });
+			}
+		}
+		dialog.hide();
+		this.again();
 	}
 
 	// Remove, beside a dialog's Save, with frappe's own confirmation. Frappe
@@ -158,64 +188,5 @@ onedesk.Masters = class Masters {
 				this.again();
 			})
 		);
-	}
-
-	// A print heading: what a printed page says above a document.
-	print_heading(one) {
-		const kind = this.kind;
-		const dialog = new frappe.ui.Dialog({
-			title: one ? one.name : __("New Print Heading"),
-			fields: [
-				{ fieldname: "print_heading", fieldtype: "Data", label: __("Heading"), reqd: 1, default: one ? one.name : "", read_only: !!one && !kind.rename },
-				{ fieldname: "description", fieldtype: "Small Text", label: __("Description"), default: one ? one.description : "" },
-			],
-			primary_action_label: __("Save"),
-			primary_action: async (values) => {
-				if (!one) {
-					await frappe.xcall("frappe.client.insert", { doc: { doctype: "Print Heading", ...values } });
-				} else {
-					let name = one.name;
-					if (values.print_heading !== one.name) {
-						name = await frappe.xcall("frappe.client.rename_doc", { doctype: "Print Heading", old_name: one.name, new_name: values.print_heading });
-					}
-					if ((values.description || "") !== (one.description || "")) {
-						const doc = await frappe.xcall("frappe.client.get", { doctype: "Print Heading", name });
-						await frappe.xcall("frappe.client.save", { doc: { ...doc, description: values.description } });
-					}
-				}
-				dialog.hide();
-				frappe.show_alert({ message: __("Saved"), indicator: "green" });
-				this.again();
-			},
-		});
-		if (one) this.removable(dialog, kind, one.name);
-		dialog.show();
-	}
-
-	// An address template: the country it is for, whether it is the default, and
-	// the template, which names the address's fields (one/masters.py holds it).
-	address_template(one) {
-		const kind = this.kind;
-		const dialog = new frappe.ui.Dialog({
-			title: one ? __(one.country) : __("New Address Template"),
-			size: "large",
-			fields: [
-				{ fieldname: "country", fieldtype: "Link", options: "Country", label: __("Country"), reqd: 1, default: one ? one.country : "", read_only: !!one },
-				{ fieldname: "is_default", fieldtype: "Check", label: __("Default"), default: one ? one.is_default : 0 },
-				{ fieldname: "template", fieldtype: "Code", options: "Jinja", label: __("Template"), reqd: 1, default: one ? one.template : "" },
-			],
-			primary_action_label: __("Save"),
-			primary_action: async (values) => {
-				const doc = one
-					? { doctype: "Address Template", name: one.name, modified: one.modified, ...values }
-					: { doctype: "Address Template", ...values };
-				await frappe.xcall(one ? "frappe.client.save" : "frappe.client.insert", { doc });
-				dialog.hide();
-				frappe.show_alert({ message: __("Saved"), indicator: "green" });
-				this.again();
-			},
-		});
-		if (one) this.removable(dialog, kind, one.name);
-		dialog.show();
 	}
 };

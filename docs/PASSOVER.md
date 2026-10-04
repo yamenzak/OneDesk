@@ -6146,6 +6146,19 @@ rail links".
 - A value that holds more than its name, such as a department's approvers or
   a customer group's price list, has frappe's **Edit Full Form** in its
   dialog, as quick entry has.
+- Your word: "some stuff in those masters have other fields beyond the name,
+  for example units". Now a value's dialog draws the kind's own fields from
+  frappe's meta, as quick entry does: a unit's symbol, common code, category,
+  Enabled and Must Be Whole Number; an item group's parent; a customer group's
+  price list and payment terms; a print heading's description; an address
+  template's country, default and template. The name comes first (a Name
+  field for kinds named as they are asked to be). A new value goes through
+  `masters.add` with all of them; a change is frappe's rename for the name,
+  then `frappe.client.save` against `modified` for the rest. Tables (a
+  department's approvers, a customer group's accounts) stay behind Edit Full
+  Form. The list shows what frappe's own list does beside the name
+  (in_list_view): a unit's category, an item group's parent. Print headings
+  and address templates no longer need dialogs of their own.
 
 **An address template runs as code.** It is Jinja, drawn wherever an address
 is shown or printed, so one the workspace writes is held as a mail template is:

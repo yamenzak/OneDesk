@@ -59,8 +59,9 @@ KINDS = (
 #: What the workspace administrator may do with each kind.
 MANAGE = ("read", "write", "create", "delete")
 
-#: Kinds that take more than a name, each with a dialog of its own on the page.
-OWN_DIALOG = ("Print Heading", "Address Template")
+#: Fields a value's dialog leaves out: a tree's bookkeeping, and the company,
+#: which One has one of.
+KEPT = {"lft", "rgt", "old_parent", "company"}
 
 #: Kinds named by more than their name: a department is "Sales - ONE", for
 #: the company, and says "Sales".
@@ -162,8 +163,9 @@ def kinds() -> list[dict]:
 				"create": bool(frappe.has_permission(doctype, "create")),
 				"delete": bool(frappe.has_permission(doctype, "delete")),
 				"rename": bool(meta.allow_rename and frappe.has_permission(doctype, "write")),
-				"own_dialog": doctype in OWN_DIALOG,
-				"full": _more_than_a_name(meta),
+				"name_field": _name_field(meta),
+				"columns": _columns(meta),
+				"tables": _has_tables(meta),
 			}
 		)
 	return out
@@ -171,37 +173,43 @@ def kinds() -> list[dict]:
 
 @frappe.whitelist()
 def values(doctype: str) -> list[dict]:
-	"""A kind's values: their names, and for the two with more to them, the rest."""
+	"""A kind's values: their names, and what frappe's own list of them shows."""
 	_kind(doctype)
-	if doctype == "Print Heading":
-		return frappe.get_list(
-			doctype, fields=["name", "description", "modified"], order_by="name asc", limit=0
-		)
-	if doctype == "Address Template":
-		return frappe.get_list(
-			doctype,
-			fields=["name", "country", "is_default", "template", "modified"],
-			order_by="is_default desc, country asc",
-			limit=0,
-		)
+	meta = frappe.get_meta(doctype)
 	field = LABEL.get(doctype)
-	fields = ["name", f"{field} as label"] if field else ["name"]
+	fields = [
+		"name",
+		*([f"{field} as label"] if field else []),
+		*(one["fieldname"] for one in _columns(meta)),
+	]
 	return frappe.get_list(doctype, fields=fields, filters=_below_root(doctype), order_by="name asc", limit=0)
 
 
-#: Fields every kind has that say nothing more about a value.
-PLAIN = {"description", "disabled", "is_group", "lft", "rgt", "old_parent"}
+def _name_field(meta) -> str:
+	"""The field a value's name is typed in: the one frappe names it from, a
+	department's label, or `__newname` for a kind named as it is asked to be."""
+	if (meta.autoname or "").startswith("field:"):
+		return meta.autoname.removeprefix("field:")
+	return LABEL.get(meta.name) or "__newname"
 
 
-def _more_than_a_name(meta) -> bool:
-	"""Whether a kind holds more than its name (a department's approvers, a
-	customer group's price list), so a value also opens in frappe's form."""
-	named = {(meta.autoname or "").removeprefix("field:"), LABEL.get(meta.name), meta.nsm_parent_field}
-	layout = {"Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Button"}
-	return any(
-		not field.hidden and field.fieldtype not in layout and field.fieldname not in named | PLAIN
-		for field in meta.fields
-	)
+def _columns(meta) -> list[dict]:
+	"""What frappe's own list of a kind shows beside the name (in_list_view)."""
+	left = {_name_field(meta)} | KEPT
+	return [
+		{"fieldname": df.fieldname, "label": _(df.label), "fieldtype": df.fieldtype, "options": df.options}
+		for df in meta.fields
+		if df.in_list_view
+		and not df.hidden
+		and df.fieldname not in left
+		and df.fieldtype not in frappe.model.table_fields
+	][:3]
+
+
+def _has_tables(meta) -> bool:
+	"""Whether a kind holds tables (a department's approvers, a customer
+	group's accounts), which a dialog leaves to frappe's form."""
+	return any(df.fieldtype in frappe.model.table_fields and not df.hidden for df in meta.fields)
 
 
 def _below_root(doctype: str) -> dict:
@@ -212,25 +220,29 @@ def _below_root(doctype: str) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def add(doctype: str, value: str) -> str:
-	"""A new value of a kind that is only a name: a tree's goes under its root,
-	a department belongs to the workspace's company. frappe checks whether the
-	reader may make one."""
+def add(doctype: str, values: str | dict) -> str:
+	"""A new value, from its dialog: a tree's goes under its root unless it
+	says otherwise, a department belongs to the workspace's company. frappe
+	checks whether the reader may make one."""
 	_kind(doctype)
-	value = (value or "").strip()
+	values = frappe.parse_json(values) or {}
+	meta = frappe.get_meta(doctype)
+	field = _name_field(meta)
+	value = str(values.get(field) or "").strip()
 	if not value:
 		frappe.throw(_("Give it a name."))
-	meta = frappe.get_meta(doctype)
 	doc = frappe.new_doc(doctype)
-	if meta.autoname and meta.autoname.startswith("field:"):
-		doc.set(meta.autoname.removeprefix("field:"), value)
-	elif LABEL.get(doctype):
-		# Named by its own code from the label (a department, for the company).
-		doc.set(LABEL[doctype], value)
-	else:
-		# Named as it is asked to be (UTM Source, Grievance Type).
+	editable = {
+		df.fieldname
+		for df in meta.fields
+		if df.fieldtype not in frappe.model.no_value_fields and df.fieldname not in KEPT
+	}
+	doc.update({key: one for key, one in values.items() if key in editable})
+	if field == "__newname":
 		doc.set("__newname", value)
-	if meta.is_tree:
+	else:
+		doc.set(field, value)
+	if meta.is_tree and not doc.get(meta.nsm_parent_field):
 		root = frappe.db.get_value(
 			doctype, {"is_group": 1, meta.nsm_parent_field: ("in", ("", None))}, "name"
 		)

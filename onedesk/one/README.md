@@ -1051,9 +1051,11 @@ stages, leave types and salary components.
 Administrators see every group. An app's managers see their app's group and
 can add, rename and remove its values. Nobody else sees Masters.
 
-**Add** puts a new value in the open list. Click a value to rename or remove
-it. It also says how many records use it. Where a value holds more than its
-name, such as a department's approvers, **Edit Full Form** opens all of it.
+**Add** puts a new value in the open list. Click a value to change, rename or
+remove it: it has the same fields as anywhere else, such as a unit's symbol
+and whether it must be a whole number, or an item group's parent. It also says
+how many records use it. Tables, such as a department's approvers, are in
+**Edit Full Form**.
 Renaming a value changes it on every record that uses it. A value records
 still use can't be removed. You can also add a value straight from a field on
 a record, with **Create a new** at the bottom of its list.

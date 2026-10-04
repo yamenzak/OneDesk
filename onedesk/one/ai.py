@@ -513,8 +513,8 @@ def page(said: dict) -> str | None:
 			"The reader is on Masters: the short lists records pick from (salutations, customer groups, units, "
 			"departments and the like), grouped by the app that uses them. An administrator sees them all, an "
 			"app's manager their app's. They add a value from the page head, and rename or remove one by clicking "
-			"it, which also says how many records use it and, where a value holds more than its name, opens frappe's "
-			"form for the rest. How is in One's documentation under Masters (how_to)."
+			"it, which shows its own fields (a unit's symbol and whether it is whole, an item group's parent), says "
+			"how many records use it, and opens frappe's form for tables such as a department's approvers. How is in One's documentation under Masters (how_to)."
 		)
 	if said.get("workspace") == "One":
 		return (

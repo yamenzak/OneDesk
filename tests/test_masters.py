@@ -79,7 +79,10 @@ def test_the_page_is_for_administrators_and_app_managers():
 	assert '@frappe.whitelist(methods=["POST"])\ndef add(' in SOURCE
 	assert "doc.insert()" in SOURCE and "ignore_permissions" not in SOURCE
 	js = (PAGE / "masters.js").read_text()
-	assert "frappe.client.rename_doc" in js and "frappe.client.delete" in js and "frappe.confirm(" in js
+	assert "frappe.client.delete" in js and "frappe.confirm(" in js
+	# A value's dialog draws the kind's own fields from frappe's meta, and
+	# saves the rest through frappe against `modified`.
+	assert "frappe.meta" in js and ".get_docfields(kind.doctype)" in js and "frappe.client.save" in js
 
 
 def test_an_address_template_names_only_fields_of_the_address():
@@ -126,4 +129,4 @@ def test_a_master_has_one_home():
 	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())["items"]
 	assert "Sales Stage" in {row.get("link_to") for row in crm}
 	js = (PAGE / "masters.js").read_text()
-	assert 'add_custom_action(__("Edit Full Form")' in js and '"full": _more_than_a_name(meta)' in SOURCE
+	assert 'add_custom_action(__("Edit Full Form")' in js and '"tables": _has_tables(meta)' in SOURCE
