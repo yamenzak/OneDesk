@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 17:04+0000\n"
-"PO-Revision-Date: 2026-10-04 17:04+0000\n"
+"POT-Creation-Date: 2026-10-04 17:24+0000\n"
+"PO-Revision-Date: 2026-10-04 17:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -984,6 +984,11 @@ msgstr "فوق مستواه"
 #: onedesk/public/js/band.js:175
 msgid "Absent"
 msgstr "غائب"
+
+#. Label of a number card
+#: onedesk/one_hr/number_card/absent_today/absent_today.json
+msgid "Absent Today"
+msgstr "الغائبون اليوم"
 
 #: onedesk/one_hr/heads.py:621
 msgid "Accept"
@@ -2231,7 +2236,9 @@ msgstr "موافقة على {0}"
 msgid "Approvals"
 msgstr "الاعتمادات"
 
+#. Label of a number card
 #. Label of a number card in the One Workspace
+#: onedesk/one/number_card/approvals_waiting/approvals_waiting.json
 #: onedesk/one/workspace/one/one.json
 msgid "Approvals Waiting"
 msgstr "موافقات بانتظارك"
@@ -2616,6 +2623,11 @@ msgstr "المُسنَد إليهم"
 msgid "At Risk"
 msgstr "في خطر"
 
+#. Label of a number card
+#: onedesk/one_project/number_card/projects_at_risk/projects_at_risk.json
+msgid "At Risk or Off Track"
+msgstr "في خطر أو خارج المسار"
+
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/heads.py:43
 msgid "At checkout"
@@ -2719,6 +2731,11 @@ msgstr "إعدادات الحضور"
 #: onedesk/one_hr/custom/employee.json
 msgid "Attendance Standing"
 msgstr "تقييم الحضور"
+
+#. Name of a dashboard chart
+#: onedesk/one_hr/dashboard_chart/attendance_this_month/attendance_this_month.json
+msgid "Attendance This Month"
+msgstr "الحضور هذا الشهر"
 
 #. Name of a report
 #. Label of a Sidebar Item
@@ -3415,8 +3432,10 @@ msgstr "أنشئ مساحة العمل"
 msgid "Build {0} for {1}?"
 msgstr "إنشاء {0} لـ {1}؟"
 
+#. Label of a number card
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/home.py:78
+#: onedesk/one_admin/number_card/building_now/building_now.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Building"
 msgstr "قيد الإنشاء"
@@ -3721,7 +3740,9 @@ msgstr "قضية"
 msgid "Case Number"
 msgstr "رقم القضية"
 
+#. Label of a number card
 #. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/number_card/cash/cash.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Cash"
 msgstr "النقد"
@@ -3961,6 +3982,11 @@ msgstr "أُغلق تسجيل حضورك نيابة عنك"
 #: onedesk/one_hr/notifications.py:56
 msgid "Check-in Flagged"
 msgstr "تسجيل حضور بحاجة لمراجعة"
+
+#. Name of a dashboard chart
+#: onedesk/one_hr/dashboard_chart/check_in_outcomes/check_in_outcomes.json
+msgid "Check-in Outcomes"
+msgstr "نتائج تسجيلات الحضور"
 
 #: onedesk/one_hr/notifications.py:110
 msgid "Check-in Place Proposed"
@@ -6094,7 +6120,9 @@ msgstr "منشئ السجل"
 msgid "Documents"
 msgstr "المستندات"
 
+#. Label of a number card
 #. Label of a number card in the One Workspace
+#: onedesk/one/number_card/documents_waiting/documents_waiting.json
 #: onedesk/one/workspace/one/one.json
 msgid "Documents Waiting"
 msgstr "مستندات بانتظارك"
@@ -6342,7 +6370,9 @@ msgstr "الاستحقاق"
 msgid "Due Date"
 msgstr "تاريخ الاستحقاق"
 
+#. Label of a number card
 #. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/number_card/due_this_week/due_this_week.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Due This Week"
 msgstr "المستحق هذا الأسبوع"
@@ -7456,6 +7486,7 @@ msgstr "المعلومة"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Label of a number card
 #. Label of a number card in the One Admin Workspace
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
@@ -7466,6 +7497,7 @@ msgstr "المعلومة"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:36
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:37
 #: onedesk/one_admin/home.py:80
+#: onedesk/one_admin/number_card/jobs_failed/jobs_failed.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
@@ -7884,6 +7916,11 @@ msgstr "الإشارة عند درجة أقل من"
 #: onedesk/public/js/checkin_list.js:18
 msgid "Flagged"
 msgstr "مُشار إليه"
+
+#. Label of a number card
+#: onedesk/one_hr/number_card/flags_waiting/flags_waiting.json
+msgid "Flags Waiting"
+msgstr "تنبيهات بانتظار المراجعة"
 
 #. Label of the flow (Data) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -9258,6 +9295,11 @@ msgstr "في Finder، اختر «انتقال › الاتصال بالخادم�
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:84
 msgid "In It Now"
 msgstr "فيها الآن"
+
+#. Label of a number card
+#: onedesk/one_hr/number_card/in_now/in_now.json
+msgid "In Now"
+msgstr "موجودون الآن"
 
 #: onedesk/public/js/settings.js:1756
 msgid "In OneBook"
@@ -10897,11 +10939,13 @@ msgid "List Everyone Unmarked"
 msgstr "عرض كل من لم يُسجَّل"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Label of a number card
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/accounts.py:144
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:22
 #: onedesk/one_admin/heads.py:25 onedesk/one_admin/home.py:77
+#: onedesk/one_admin/number_card/workspaces_live/workspaces_live.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Live"
 msgstr "يعمل"
@@ -11652,7 +11696,9 @@ msgstr "طبي"
 msgid "Medical Report"
 msgstr "تقرير طبي"
 
+#. Label of a number card
 #. Label of a number card in the One Workspace
+#: onedesk/one/number_card/meetings_today/meetings_today.json
 #: onedesk/one/workspace/one/one.json
 msgid "Meetings Today"
 msgstr "اجتماعات اليوم"
@@ -13576,6 +13622,11 @@ msgstr "المتوفر"
 msgid "On Hold"
 msgstr ""
 
+#. Label of a number card
+#: onedesk/one_hr/number_card/on_leave_today/on_leave_today.json
+msgid "On Leave Today"
+msgstr "في إجازة اليوم"
+
 #: onedesk/one_studio/doctype/extension/extension.js:55
 msgid "On My Tasks"
 msgstr "في مهامي"
@@ -13943,7 +13994,9 @@ msgstr "أرصدة OneAI"
 msgid "OneAI Rating"
 msgstr "تقييم OneAI"
 
+#. Label of a number card
 #. Label of a number card in the One Workspace
+#: onedesk/one/number_card/oneai_suggestions/oneai_suggestions.json
 #: onedesk/one/workspace/one/one.json
 msgid "OneAI Suggestions"
 msgstr "اقتراحات OneAI"
@@ -14507,6 +14560,11 @@ msgstr ""
 msgid "Open Plan"
 msgstr "فتح الخطة"
 
+#. Label of a number card
+#: onedesk/one_project/number_card/projects_under_way/projects_under_way.json
+msgid "Open Projects"
+msgstr "المشاريع المفتوحة"
+
 #: onedesk/one_legal/gate.py:50
 msgid "Open Source and Third-Party Notices"
 msgstr "إشعارات المصادر المفتوحة والأطراف الثالثة"
@@ -14839,11 +14897,13 @@ msgstr "تجاوز التخزين"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
+#. Label of a number card
 #. Label of a number card in the OneBook Workspace
 #: frontend/src/project/Invoices.vue:77
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:350 onedesk/one_book/heads.py:372
+#: onedesk/one_book/number_card/overdue/overdue.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:43
 #: onedesk/one_task/mine.py:24 onedesk/one_task/page/my_tasks/my_tasks.js:192
@@ -14907,7 +14967,9 @@ msgstr "عمل إضافي مُسجَّل يدوياً: {0} ساعة، {1}."
 msgid "Overview"
 msgstr "نظرة عامة"
 
+#. Label of a number card
 #. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/number_card/owed_to_us/owed_to_us.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Owed to Us"
 msgstr "المستحق لنا"
@@ -14917,9 +14979,11 @@ msgid "Owes Us"
 msgstr "مستحق لنا"
 
 #. Label of the owing (Check) field in DocType 'Workspace Account'
+#. Label of a number card
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/home.py:79
+#: onedesk/one_admin/number_card/owing_now/owing_now.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Owing"
 msgstr "عليها مستحقات"
@@ -15009,8 +15073,10 @@ msgstr "يُدفع وفق"
 msgid "Paid {0}"
 msgstr "مدفوع {0}"
 
+#. Label of a number card
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/home.py:81
+#: onedesk/one_admin/number_card/signups_unbuilt/signups_unbuilt.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Paid, Not Built"
 msgstr "مدفوعة ولم تُنشأ"
@@ -15162,6 +15228,11 @@ msgstr "كلمات المرور"
 #: onedesk/one/settings.py:870
 msgid "Passwords Expire After (Days)"
 msgstr "تنتهي صلاحية كلمات المرور بعد (أيام)"
+
+#. Label of a number card
+#: onedesk/one_project/number_card/projects_past_due/projects_past_due.json
+msgid "Past Due"
+msgstr "متأخرة"
 
 #: onedesk/public/js/timesheet.js:107
 msgid "Past the expected hours."
@@ -15593,7 +15664,9 @@ msgstr "اختر نوع هذا المشروع."
 msgid "Pipeline"
 msgstr "مسار المبيعات"
 
+#. Label of a number card
 #. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/number_card/pipeline_value/pipeline_value.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Pipeline Value"
 msgstr "قيمة خط المبيعات"
@@ -15832,6 +15905,11 @@ msgstr "قيد التجهيز. ستُبلَّغ عند جاهزيته."
 msgid "Present"
 msgstr "حاضر"
 
+#. Label of a number card
+#: onedesk/one_hr/number_card/present_today/present_today.json
+msgid "Present Today"
+msgstr "الحاضرون اليوم"
+
 #: onedesk/public/js/onecloud.js:41
 msgid "Presentation"
 msgstr "عرض تقديمي"
@@ -16029,7 +16107,9 @@ msgstr "الملف الوظيفي {0}"
 msgid "Profiles"
 msgstr "الملفات الوظيفية"
 
+#. Label of a number card
 #. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/number_card/profit_this_month/profit_this_month.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Profit This Month"
 msgstr "ربح هذا الشهر"
@@ -16064,7 +16144,7 @@ msgstr "التقدم…"
 #: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/page/project_view/project_view.js:8
 #: onedesk/one_project/report/workload/workload.js:7
-#: onedesk/public/js/timesheet.js:49
+#: onedesk/public/js/project_list.js:111 onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr "المشروع"
 
@@ -16119,9 +16199,29 @@ msgstr "المخزون المتوقع"
 msgid "Projects"
 msgstr "المشاريع"
 
-#: onedesk/public/js/project_list.js:35
+#: onedesk/public/js/project_list.js:39
 msgid "Projects Settings"
 msgstr "إعدادات المشاريع"
+
+#. Name of a dashboard chart
+#: onedesk/one_project/dashboard_chart/projects_started/projects_started.json
+msgid "Projects Started"
+msgstr "المشاريع التي بدأت"
+
+#. Name of a dashboard chart
+#: onedesk/one_project/dashboard_chart/projects_by_customer/projects_by_customer.json
+msgid "Projects by Customer"
+msgstr "المشاريع حسب العميل"
+
+#. Name of a dashboard chart
+#: onedesk/one_project/dashboard_chart/projects_by_kind/projects_by_kind.json
+msgid "Projects by Kind"
+msgstr "المشاريع حسب النوع"
+
+#. Name of a dashboard chart
+#: onedesk/one_project/dashboard_chart/projects_by_manager/projects_by_manager.json
+msgid "Projects by Manager"
+msgstr "المشاريع حسب المدير"
 
 #: onedesk/one/settings.py:72
 msgid "Projects, tasks and timesheets."
@@ -20002,7 +20102,9 @@ msgstr ""
 msgid "Tasks"
 msgstr "المهام"
 
+#. Label of a number card
 #. Label of a number card in the One Workspace
+#: onedesk/one/number_card/tasks_due_or_late/tasks_due_or_late.json
 #: onedesk/one/workspace/one/one.json
 msgid "Tasks Due or Late"
 msgstr "مهام مستحقة أو متأخرة"
@@ -23187,8 +23289,10 @@ msgstr "كان مستحقًا"
 msgid "Was {0}"
 msgstr "كان {0}"
 
+#. Label of a number card
 #. Label of a number card in the OneBook Workspace
 #: onedesk/one_book/heads.py:371
+#: onedesk/one_book/number_card/we_owe/we_owe.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "We Owe"
 msgstr "ما علينا"
@@ -23262,7 +23366,9 @@ msgstr ""
 msgid "Weekly off"
 msgstr "راحة أسبوعية"
 
+#. Label of a number card
 #. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/number_card/weighted_pipeline/weighted_pipeline.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Weighted Pipeline"
 msgstr "خط المبيعات المرجّح"
@@ -24944,7 +25050,9 @@ msgstr "لماذا لم تُنشأ مساحة العمل لهذا التسجيل
 msgid "Win Rate (%)"
 msgstr "نسبة الفوز (%)"
 
+#. Label of a number card
 #. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/number_card/win_rate_90_days/win_rate_90_days.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Win Rate (90 Days)"
 msgstr "نسبة الفوز (90 يوماً)"
@@ -24985,7 +25093,9 @@ msgstr "بلا حساب: {0}."
 msgid "Won"
 msgstr "مكسوبة"
 
+#. Label of a number card
 #. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/number_card/won_this_month/won_this_month.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Won This Month"
 msgstr "المكسوب هذا الشهر"
@@ -28392,7 +28502,7 @@ msgid "{0}% billed"
 msgstr "{0}% مفوتر"
 
 #: frontend/src/project/Header.vue:37 onedesk/one_project/view.py:283
-#: onedesk/public/js/project_list.js:41 onedesk/public/js/project_tree.js:18
+#: onedesk/public/js/project_list.js:45 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0}% منجز"

@@ -129,3 +129,12 @@ def unlist(doc, method=None) -> None:
 			pluck="name",
 		):
 			frappe.delete_doc("DocShare", share, ignore_permissions=True)
+
+
+def nobody(doc, method=None) -> None:
+	"""Project before_validate: Administrator runs no project. The manager
+	defaults to whoever makes it, and a project made by a script, a patch or
+	OneAI working for nobody was otherwise run by a person nobody can ask, or
+	even see (frappe hides Administrator from everyone else)."""
+	if doc.get("one_manager") in ("Administrator", "Guest"):
+		doc.one_manager = None

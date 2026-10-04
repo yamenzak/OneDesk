@@ -7432,6 +7432,37 @@ column people scan by, was cut to "Marina Offic".
 - Money columns stay off: the list is everyone's, and the money is on each
   project's page for whoever may see it.
 
+**The other views of Projects.** Report, Dashboard and Kanban were frappe's
+defaults over ERPNext's records; Calendar drew the Gantt's bars on a month.
+
+- **Report View** raised "Not permitted" once per manager. frappe fetches a
+  person's name for a link through `get_link_title`, which asks for read on
+  their User, and most people may only select a colleague. It now gives the
+  name to whoever may select or read the record, and the plain name to anyone
+  else, without an error (`one/link_titles.py`, an
+  `override_whitelisted_methods` row). Two projects were run by Administrator,
+  whom nobody else may see at all: the manager field defaults to whoever makes
+  the project, and a script made them. Administrator now runs nothing
+  (`members.nobody`, and `patches/nobody_runs_it.py` for the two).
+- The ID column already reads as the project's name and opens it, so it is
+  **Project**, and the Project Name column that repeated it is off the default
+  columns.
+- **Every view leaves out HR checklists** by default (`filters` in the list
+  settings), as the rail's Projects row does; clearing the filter shows them.
+- **Dashboard View** showed ERPNext's two: Completed Projects by when each was
+  last changed, and an Open Projects count with the HR checklists in it. It is
+  now OneProject's own: three numbers (Open Projects, At Risk or Off Track,
+  Past Due) and four charts (open projects by kind, by manager and by
+  customer, and projects started each month), standard records in
+  `one_project/number_card` and `one_project/dashboard_chart`. One blue, thin
+  bars, the counts over them, labels uncut.
+- **Kanban View** opened on a dialog asking which field to group by. A board,
+  **Projects by Health**, is now made once (`board.settle`), so it opens
+  straight on it; dragging a card sets the health and tells the project's
+  people.
+- **Calendar View** is gone from Projects: a project is weeks long, and the
+  Gantt draws it better.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

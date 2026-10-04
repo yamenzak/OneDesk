@@ -1023,3 +1023,43 @@ def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 	css = (tree.APP / "public" / "css" / "desk.css").read_text()
 	assert '[data-page-route="List/Project/List"] .frappe-list .result .list-row-container' in css
 
+
+def test_the_other_views_of_projects_are_oneprojects_own():
+	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
+	# Every view leaves out the HR checklists until the filter is cleared.
+	assert 'filters: [["project_type", "!=", "Employee Boarding"]]' in listing
+	# Report: the ID column is the Project column, and Project Name is not repeated.
+	assert 'name !== "project_name"' in listing and 'built.name = built.content = __("Project")' in listing
+	# Dashboard: OneProject's cards and charts, not ERPNext's two.
+	assert 'module: "One Project"' in listing
+	cards = {
+		json.loads(path.read_text())["label"]: json.loads(path.read_text())
+		for path in (PROJECT / "number_card").glob("*/*.json")
+	}
+	assert set(cards) == {"Open Projects", "At Risk or Off Track", "Past Due"}
+	for card in cards.values():
+		assert card["is_standard"] and card["is_public"] and card["document_type"] == "Project"
+		assert ["Project", "project_type", "!=", "Employee Boarding", False] in json.loads(card["filters_json"])
+	charts = {path.stem: json.loads(path.read_text()) for path in (PROJECT / "dashboard_chart").glob("*/*.json")}
+	assert set(charts) == {"projects_by_kind", "projects_by_manager", "projects_by_customer", "projects_started"}
+	for chart in charts.values():
+		assert chart["module"] == "One Project" and chart["document_type"] == "Project"
+		assert chart["chart_type"] in ("Count", "Group By") and chart["type"] == "Bar"
+		assert chart["color"] == "#2a78d6"
+	# Kanban: a board by health, made once.
+	board = (PROJECT / "board.py").read_text()
+	assert 'HEALTH_BOARD = "Projects by Health"' in board
+	assert 'HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}' in board
+	# Calendar is not a view of Projects.
+	assert 'if (this.doctype === "Project") delete found.Calendar;' in listing
+
+
+def test_a_person_in_a_link_reads_as_their_name_to_whoever_may_pick_them():
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"frappe.desk.search.get_link_title": "onedesk.one.link_titles.get_link_title"' in hooks
+	source = (tree.APP / "one" / "link_titles.py").read_text()
+	assert '("select", "read")' in source and "return docname" in source
+	# Administrator runs no project.
+	assert '"onedesk.one_project.members.nobody",' in hooks
+	assert "onedesk.one_project.patches.nobody_runs_it" in (tree.APP / "patches.txt").read_text()
+

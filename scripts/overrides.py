@@ -536,6 +536,20 @@ OVERRIDES = [
 		"def get_email_template(template_name: str, doc: str | dict[str, Any], sender: str | None = None):",
 	),
 	(
+		"A number card's label and a chart's name are translated",
+		"babel_extractors.csv adds one/babel.py's two extractors to frappe's for this app, so a standard card or chart, which the dashboard shows through __(), has its words in the POT",
+		"babel_extractors.csv",
+		"frappe/frappe/gettext/translate.py",
+		'file_path = Path(frappe.get_app_path(app)).parent / "babel_extractors.csv"',
+	),
+	(
+		"A person in a link reads as their name to whoever may pick them",
+		"get_link_title is overridden (hooks override_whitelisted_methods): frappe's asks for read, so a Report View with a person the reader may only select in it raised Not permitted per person; ours gives the title for select or read and the name otherwise",
+		"onedesk/one/link_titles.py",
+		"frappe/frappe/desk/search.py",
+		"def get_link_title(doctype: str, docname: str | int):",
+	),
+	(
 		"The templates hrms and erpnext make on setup are told what they are for",
 		"mail_templates.settle sets reference_doctype on the templates the apps make with none, by the setting that names each or the name it is made with, so the composer offers them only on their record",
 		"onedesk/one/mail_templates.py",

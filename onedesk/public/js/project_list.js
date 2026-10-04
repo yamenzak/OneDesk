@@ -28,6 +28,10 @@ function quiet(listview) {
 frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Project"] || {}, {
 	hide_name_column: true,
 	hide_name_filter: true,
+	// Every view of Projects (Report, Kanban, Dashboard) leaves out an
+	// employee's onboarding or exit checklist until somebody clears the
+	// filter, as the rail's Projects row does.
+	filters: [["project_type", "!=", "Employee Boarding"]],
 	// Projects Settings has four ticks about time; it is opened from here by
 	// whoever may change it, rather than taking a row in the rail.
 	onload(listview) {
@@ -86,3 +90,65 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 	"one_health",
 	"one_parent"
 );
+
+// The other views of Projects.
+(() => {
+	const Report = frappe.views.ReportView;
+	if (Report && !Report.prototype.one_projects) {
+		Report.prototype.one_projects = true;
+		// The ID column already reads as the project's name (Project shows its
+		// title in a link) and opens it, so it is the Project column, and the
+		// Project Name column beside it would only say the same again.
+		const fields = Report.prototype.set_default_fields;
+		Report.prototype.set_default_fields = function () {
+			fields.call(this);
+			if (this.doctype === "Project") this.fields = this.fields.filter(([name]) => name !== "project_name");
+		};
+		const column = Report.prototype.build_column;
+		Report.prototype.build_column = function (c) {
+			const built = column.call(this, c);
+			if (built && this.doctype === "Project" && c[0] === "name" && (c[1] || "Project") === "Project") {
+				built.name = built.content = __("Project");
+			}
+			return built;
+		};
+	}
+
+	// The dashboard is OneProject's cards and charts (one_project/number_card,
+	// one_project/dashboard_chart). ERPNext's two count every project, the
+	// HR checklists with them, by when it was last changed.
+	const Dashboard = frappe.views.DashboardView;
+	if (Dashboard && !Dashboard.prototype.one_projects) {
+		Dashboard.prototype.one_projects = true;
+		// Where things stand first, then who and what for, then over time.
+		const ORDER = [
+			"Projects Under Way",
+			"Projects at Risk",
+			"Projects Past Due",
+			"Projects by Kind",
+			"Projects by Manager",
+			"Projects by Customer",
+			"Projects Started",
+		];
+		const fetch = Dashboard.prototype.fetch_dashboard_items;
+		Dashboard.prototype.fetch_dashboard_items = function (doctype, filters, obj_name) {
+			if (this.doctype !== "Project") return fetch.call(this, doctype, filters, obj_name);
+			return fetch.call(this, doctype, { ...filters, module: "One Project" }, obj_name).then(() => {
+				this[obj_name].sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
+			});
+		};
+	}
+
+	// A project is a stretch of weeks, drawn on the Timeline (Gantt); a month
+	// grid of the same bars says less, so Projects has no Calendar view.
+	const Select = frappe.views.ListViewSelect;
+	if (Select && !Select.prototype.one_projects) {
+		Select.prototype.one_projects = true;
+		const views = Select.prototype.get_views;
+		Select.prototype.get_views = function () {
+			const found = views.call(this);
+			if (this.doctype === "Project") delete found.Calendar;
+			return found;
+		};
+	}
+})();

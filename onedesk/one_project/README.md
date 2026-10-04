@@ -29,11 +29,22 @@ types are in One's **Masters**.
 The view switch at the top of **Projects** lays them out as:
 
 - **List View**: the list, with its filters.
+- **Report View**: a table you can sort, group and add columns to, and save
+  as a report of your own.
+- **Dashboard View**: open projects, those at risk or off track, and those
+  past due, then charts of open projects by kind, manager and customer, and
+  how many started each month. Click a number to see its projects.
+- **Kanban View**: **Projects by Health**, open projects in On Track, At Risk
+  and Off Track. Drag a card to change its health; the project's people are
+  told as when it's changed on its page.
 - **Tree View**: each project under its parent. Click one to open it;
   **Show Completed** adds finished projects.
 - **Gantt View**: each project as a bar from its start to its end, filled as
   far as it's done, with its milestones to come marked under it. Drag a bar
   to change its dates. A project with no dates isn't shown.
+
+Every view leaves out employee onboarding and exit checklists until you
+clear that filter.
 
 **Projects Settings**, in the ··· menu, is for whoever may change it.
 

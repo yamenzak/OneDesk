@@ -13,6 +13,10 @@ task is follows from its date, and every list in One already shows it from
 there (My Tasks has an Overdue group; the calendar draws it on its day). So the
 job is stopped, and Overdue is taken off the status list (custom/task.json).
 ERPNext's Project Summary report counted Overdue tasks, and now counts none.
+
+**The Projects list has a board too**: Projects by Health, open projects in
+On Track, At Risk and Off Track, made once by `settle` so the Kanban view
+opens on it rather than on a dialog asking which field to group by.
 """
 
 import json
@@ -36,9 +40,21 @@ COLUMNS = {
 CARD = ["priority", "exp_end_date"]
 
 
+#: The Projects list's own board: open projects by how they are going, ready
+#: in the Kanban view for anybody who works in projects. Dragging a card sets
+#: the project's health, which tells its people as a change on the page does.
+HEALTH_BOARD = "Projects by Health"
+HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}
+HEALTH_FILTERS = [
+	["Project", "status", "=", "Open", False],
+	["Project", "project_type", "!=", "Employee Boarding", False],
+]
+HEALTH_CARD = ["customer", "expected_end_date"]
+
+
 def settle(*_args) -> None:
-	"""Stop the Overdue job, give back the status it took, and shape the
-	boards already made."""
+	"""Stop the Overdue job, give back the status it took, shape the boards
+	already made, and make the Projects board."""
 	job = frappe.db.exists("Scheduled Job Type", {"method": OVERDUE_JOB})
 	if job and not frappe.db.get_value("Scheduled Job Type", job, "stopped"):
 		frappe.db.set_value("Scheduled Job Type", job, "stopped", 1)
@@ -48,6 +64,22 @@ def settle(*_args) -> None:
 		if shape(board):
 			board.flags.ignore_permissions = True
 			board.save()
+	if not frappe.db.exists("Kanban Board", HEALTH_BOARD):
+		board = frappe.new_doc("Kanban Board")
+		board.update(
+			{
+				"kanban_board_name": HEALTH_BOARD,
+				"reference_doctype": "Project",
+				"field_name": "one_health",
+				"filters": json.dumps(HEALTH_FILTERS),
+				"fields": json.dumps(HEALTH_CARD),
+				"show_labels": 0,
+				"private": 0,
+			}
+		)
+		for column, colour in HEALTH.items():
+			board.append("columns", {"column_name": column, "indicator": colour, "status": "Active"})
+		board.insert(ignore_permissions=True)
 
 
 def shape(doc, method=None) -> bool:
