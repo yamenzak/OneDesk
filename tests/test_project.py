@@ -820,6 +820,9 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 	for step in ('name: "kind"', 'name: "details"', 'name: "plan"'):
 		assert step in page
 	assert "step.form.is_dialog = true;" in page
+	# A retainer runs month to month: Plan asks when it starts, not when it ends.
+	assert 'depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),' in page
+	assert 'if (this.kind === "Retainer") delete values.ends;' in page
 	# The cards are drawn with frappe's tokens of today: --border-radius-* are gone,
 	# and a corner written with one is square.
 	for sheet in (tree.APP / "public" / "css").glob("*.css"):

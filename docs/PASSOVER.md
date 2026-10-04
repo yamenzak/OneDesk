@@ -7491,6 +7491,8 @@ fields split by three rules, with no kind looking picked, money fields reading
   dialog's, so Customer is marked required by setting `is_dialog`; and a Slide
   copies its fields as JSON, so Bill As's item filter is set after.
 - Money fields start empty.
+- A retainer has no end: Plan asks only when it starts, and an end typed
+  before the kind became Retainer is left out.
 - The kind cards were square: they asked for `--border-radius-lg`, a token
   frappe no longer has, so the corner fell back to none. They now use frappe's
   `--radius-md`, a grey surface on hover and a dark ring once picked, as

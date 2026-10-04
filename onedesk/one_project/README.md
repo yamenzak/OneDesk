@@ -88,7 +88,8 @@ decides what **Details** asks for and what the project's page shows.
 - **Internal**: no customer. Give a **Budget** if there is one.
 
 Every kind asks for a name. **Plan** asks when it starts and ends, its manager
-(you, unless you pick someone) and a template to start its tasks from. A project made some
+(you, unless you pick someone) and a template to start its tasks from. A
+retainer runs month to month, so it has a start and no end. A project made some
 other way gets the kind its records say: Fixed Price with a sales order, Time
 and Materials with billable time or a customer, Internal otherwise.
 

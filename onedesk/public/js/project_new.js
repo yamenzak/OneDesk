@@ -96,10 +96,18 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Float", fieldname: "monthly_hours", label: __("Hours a Month") },
 		];
 		const plan = [
+			{ fieldtype: "Data", fieldname: "kind", hidden: 1 },
 			{ fieldtype: "Date", fieldname: "starts", label: __("Starts"), default: doc.expected_start_date },
 			{ fieldtype: "Link", fieldname: "manager", label: __("Manager"), options: "User" },
 			{ fieldtype: "Column Break" },
-			{ fieldtype: "Date", fieldname: "ends", label: __("Ends"), default: doc.expected_end_date },
+			// A retainer runs month to month, so it has a start and no end.
+			{
+				fieldtype: "Date",
+				fieldname: "ends",
+				label: __("Ends"),
+				default: doc.expected_end_date,
+				depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),
+			},
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
 		];
 		const said = frappe.xcall("onedesk.one_project.kinds.defaults");
@@ -133,6 +141,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					title: __("Plan"),
 					fields: plan,
 					onload: (step) => {
+						step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
 						said.then((found) => {
 							if (!step.get_value("manager")) step.form.set_value("manager", found.user);
 						});
@@ -197,8 +206,10 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			$kinds.find("[data-kind]").on("click", (e) => {
 				this.kind = e.currentTarget.dataset.kind;
 				draw();
-				const details = this.slides.slide_dict[1];
-				if (details.made) details.form.set_value("kind", this.kind).then(() => details.form.refresh_dependency());
+				// The steps after this one ask for what the kind needs.
+				for (const step of [this.slides.slide_dict[1], this.slides.slide_dict[2]]) {
+					if (step.made) step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
+				}
 				this.go(1);
 			});
 		};
@@ -210,6 +221,8 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 		if (!plan.set_values() || this.working) return;
 		// Hidden fields are not among the values frappe's form returns.
 		const values = { ...details.values, ...plan.values, kind: this.kind, parent: details.get_value("parent") };
+		// An end typed before the kind became Retainer is not one it has.
+		if (this.kind === "Retainer") delete values.ends;
 		this.working = true;
 		try {
 			const name = await frappe.xcall("onedesk.one_project.kinds.make", { values });
