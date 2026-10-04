@@ -7,6 +7,10 @@ email or push as they chose, in their language.
 
 **Made its manager.** Nobody was told. `added` tells the new manager too.
 
+**Completed.** A project is completed by somebody or, in ERPNext, by its
+last task. `completed` tells its manager, with what's still owed on it, so a
+job done isn't taken for a job paid.
+
 **At risk.** Health is somebody's judgement that a project is in trouble
 before any figure says so. `health` tells its manager and members when it is
 marked At Risk or Off Track; whoever marked it already knows.
@@ -19,7 +23,8 @@ is still time to say so to the customer.
 """
 
 import frappe
-from frappe.utils import add_months, flt, formatdate, get_first_day, get_fullname, getdate, nowdate
+from frappe import _
+from frappe.utils import add_months, flt, fmt_money, formatdate, get_first_day, get_fullname, getdate, nowdate
 
 from onedesk.one import notify
 from onedesk.one_project import kinds, retainer
@@ -35,6 +40,7 @@ def changed(doc, method=None) -> None:
 	before = doc.get_doc_before_save()
 	added(doc, before)
 	health(doc, before)
+	completed(doc, before)
 
 
 def added(doc, before) -> None:
@@ -60,6 +66,28 @@ def health(doc, before) -> None:
 	people = sorted(one for one in people if one and one not in ("Administrator", "Guest"))
 	if people:
 		notify.notify("Project Health", people, record=("Project", doc.name), health=said, **_facts(doc))
+
+
+def completed(doc, before) -> None:
+	"""The manager is told when the project is completed, by whoever or by its
+	last task, with what's still owed on it (status.due)."""
+	if doc.status != "Completed" or not before or before.get("status") == "Completed":
+		return
+	manager = doc.get("one_manager")
+	if not manager or manager in ("Administrator", "Guest") or manager == frappe.session.user:
+		return
+	from onedesk.one_project.status import due
+
+	owed = sum(one["money"] for one in due(doc.name))
+	notify.notify(
+		"Project Completed",
+		manager,
+		record=("Project", doc.name),
+		owed=" · " + _("{0} still owed").format(fmt_money(owed, currency=frappe.db.get_default("currency")))
+		if owed
+		else "",
+		**_facts(doc),
+	)
 
 
 def _facts(doc) -> dict:

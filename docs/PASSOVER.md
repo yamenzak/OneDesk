@@ -7675,6 +7675,27 @@ ERPNext already does"):
   **Valid Till**, the quote's last day and how far off it is; with no quote
   and no order it isn't shown.
 
+**Status.** ERPNext has four (Open, On hold, Completed, Cancelled) and sets
+the status again on every save from the project's tasks.
+
+- Marking a project with open tasks Completed didn't hold. The save set it
+  back to Open while the pill still said Completed. Completing or cancelling
+  now asks about the open tasks and sub-projects ("Al Manar Fit-out still has
+  2 open tasks. Complete them too?") and closes them with it; No leaves it as
+  it was. A task already closed keeps its own status, unlike ERPNext's
+  `set_project_status`, which overwrites them all.
+- Completing a project with no tasks of its own turned its progress to by
+  hand at 100% for good. Opening it again puts progress back on its tasks.
+- Opening a project whose tasks are all done would complete itself again on
+  save. It now says so and asks for a new task.
+- **On hold** wasn't offered anywhere. The pill, the Projects list and the
+  portal have it, in amber.
+- A project completed with money still owed said nothing. **Needs You** lists
+  the contract not invoiced, invoices not paid and retention held, and the
+  manager gets **Project Completed** with what's still owed.
+- The health pill showed on a completed project. Health is how an open
+  project is going, so it shows only while Open, as the list and head do.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

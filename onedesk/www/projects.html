@@ -23,7 +23,7 @@
 		<h1 class="one-crumbs">
 			{% if here %}<a href="{{ here.route }}">{{ here.title }}</a><span aria-hidden="true">/</span>{% endif %}
 			<span>{{ doc.project_name | e }}</span>
-			<span class="one-badge one-badge--{{ 'green' if doc.status == 'Completed' else 'gray' if doc.status == 'Cancelled' else 'blue' }}">{{ _(doc.status) }}</span>
+			<span class="one-badge one-badge--{{ 'green' if doc.status == 'Completed' else 'gray' if doc.status == 'Cancelled' else 'amber' if doc.status == 'On hold' else 'blue' }}">{{ _(doc.status) }}</span>
 		</h1>
 	</div>
 
@@ -110,7 +110,7 @@
 						<span>{{ one.project_name | e }}</span>
 						{% if one.expected_end_date %}<small>{{ _("Ends {0}").format(frappe.format_date(one.expected_end_date)) }}</small>{% endif %}
 					</span>
-					<span><span class="one-badge one-badge--{{ 'green' if one.status == 'Completed' else 'blue' }}">{{ _(one.status) }}</span></span>
+					<span><span class="one-badge one-badge--{{ 'green' if one.status == 'Completed' else 'amber' if one.status == 'On hold' else 'blue' }}">{{ _(one.status) }}</span></span>
 					<span class="one-list__amount">{{ one_portal_progress(one.name) }}%</span>
 				</a>
 				{% endfor %}

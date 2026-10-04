@@ -50,7 +50,7 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 		if (doc.status === "Open" && doc.one_health) {
 			return [__(doc.one_health), HEALTH[doc.one_health] || "gray", `one_health,=,${doc.one_health}`];
 		}
-		const colour = { Open: "blue", Completed: "green", Cancelled: "gray" }[doc.status] || "gray";
+		const colour = { Open: "blue", "On hold": "orange", Completed: "green", Cancelled: "gray" }[doc.status] || "gray";
 		return [__(doc.status), colour, `status,=,${doc.status}`];
 	},
 	formatters: {

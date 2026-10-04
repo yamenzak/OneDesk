@@ -556,6 +556,8 @@ No doctypes yet.
 * `onedesk.one_project.retainer.asked`
 * `onedesk.one_project.retainer.invoice_month`
 * `onedesk.one_project.retainer.months`
+* `onedesk.one_project.status.ask`
+* `onedesk.one_project.status.change`
 * `onedesk.one_project.team.add`
 * `onedesk.one_project.team.remove`
 * `onedesk.one_project.team.team`

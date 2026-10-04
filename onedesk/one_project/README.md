@@ -64,8 +64,9 @@ another shows that project's name before its own: **Villa Al Barsha ›
 Handrails**.
 
 The pill says where a project stands. An open project shows its health,
-**On Track**, **At Risk** or **Off Track**; a finished one shows **Completed**
-or **Cancelled**. Click a pill to see the projects that share it.
+**On Track**, **At Risk** or **Off Track**; otherwise it shows **On hold**,
+**Completed** or **Cancelled**. Click a pill to see the projects that share
+it.
 
 Filter by name, kind, status, health or manager at the top, or by customer
 and anything else under **Filters**. **Add Project** starts one.
@@ -133,6 +134,24 @@ How far along it is shows in the Overview's figures.
 Click the name to rename it; click the status or health to change it. With
 no photos yet, **Add Cover** puts one in Featured Media. Click a photo to see
 every photo and video, add more, or open the folder in OneCloud.
+
+### Status
+
+A project is **Open**, **On hold**, **Completed** or **Cancelled**.
+
+- A project completes itself when its last task is done, and opens again
+  when a new task is added. **On hold** and **Cancelled** stay as you set
+  them.
+- Marking a project **Completed** or **Cancelled** while tasks or
+  sub-projects are still open asks first, and closes them with it. Say no
+  and it stays as it was.
+- A project whose tasks are all done can't be opened again until it has a
+  new task.
+- Once completed, **Needs You** shows what's still owed: the contract not
+  invoiced yet, invoices not paid yet and retention still held. Its manager
+  is told.
+
+**Health** is separate: how an open project is going, set by its people.
 
 Below are its views, and the page remembers which one is open:
 
@@ -570,6 +589,8 @@ updates by email the next morning.
 - **Made Project Manager**: someone makes you a project's manager.
 - **Project Health**: someone marks a project you manage or are a member of
   **At Risk** or **Off Track**.
+- **Project Completed**: a project you manage is completed, by someone or by
+  its last task. Says what's still owed on it.
 - **Project Update Asked**: the project asks for your update.
 - **Project Summary**: each morning, what the project's people said the day
   before.
@@ -733,8 +754,14 @@ one field for it.
   nobody (`visible`, kept for the request). A project's tasks follow it
   through one_task/access.py. Being listed is also ERPNext's own share.
   ERPNext's invitation mail is never sent (`invite`); tell.py says it in ours.
-- `tell.py` — Added to Project, Made Project Manager and Project Health,
-  through the hub.
+- `tell.py` — Added to Project, Made Project Manager, Project Health and
+  Project Completed, through the hub.
+- `status.py` — the status, ERPNext's four. ERPNext sets it again on every
+  save from the tasks (`update_percent_complete`), so `change` closes the
+  open tasks and sub-projects first when asked (`ask`), keeps a task's own
+  status when it's already closed, and puts progress back on the tasks when
+  a project completed without any is opened again. `due` is what's still
+  owed on a completed project.
 - `ai.py` — OneAI's `project_facts` (a project as its page reads it, with its
   late tasks, what waits on them, milestones and updates) and
   `projects_needing_attention`, and the page's suggestions.

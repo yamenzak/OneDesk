@@ -62,6 +62,9 @@ export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
 /** Ask before doing something that can't be taken back, as desk asks. */
 export const confirm = (message, yes) => frappe().confirm(message, yes);
+// A list in words, "2 open tasks and 1 open sub-project", as frappe writes it.
+export const andList = (items) => frappe().utils.comma_and(items);
+export const escape = (text) => frappe().utils.escape_html(text);
 
 /** OneDesk's own desk-side code: its dialogs and actions (public/js). */
 export const onedesk = () => window.onedesk;

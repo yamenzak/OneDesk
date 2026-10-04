@@ -4,8 +4,8 @@
        photo it is drawn in white. -->
   <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-base" :class="onImage ? 'text-white-overlay-900' : 'text-ink-gray-6'">
     <div class="flex items-center gap-2">
-      <Pill :value="said.status" :options="['Open', 'Completed', 'Cancelled']" :colors="PROJECT_STATUS" :label="__('Status')" :readonly="!said.can_write" @change="(v) => $emit('change', 'status', v)" />
-      <Pill :value="said.health" :options="['On Track', 'At Risk', 'Off Track']" :colors="HEALTH" :label="__('Health')" :empty="__('Set Health')" :readonly="!said.can_write" @change="(v) => $emit('change', 'one_health', v)" />
+      <Pill :value="said.status" :options="['Open', 'On hold', 'Completed', 'Cancelled']" :colors="PROJECT_STATUS" :label="__('Status')" :readonly="!said.can_write" @change="(v) => $emit('change', 'status', v)" />
+      <Pill v-if="said.status === 'Open'" :value="said.health" :options="['On Track', 'At Risk', 'Off Track']" :colors="HEALTH" :label="__('Health')" :empty="__('Set Health')" :readonly="!said.can_write" @change="(v) => $emit('change', 'one_health', v)" />
     </div>
     <button v-if="said.customer" class="flex items-center gap-1.5 hover:underline" @click="go(`/desk/customer/${said.customer}`)">
       <span class="lucide-building size-4" :class="icon" />{{ said.customer_name || said.customer }}

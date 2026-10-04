@@ -464,8 +464,13 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	"""What wants somebody now, worst first: cost types over budget (where the
 	page has no budget section of its own), bills to check, and late tasks. A
-	retainer's months and the time not invoiced have sections of their own."""
+	retainer's months and the time not invoiced have sections of their own.
+	A completed project still owed money says so first."""
 	found = []
+	if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):
+		from onedesk.one_project.status import due
+
+		found += [{"tone": "orange", "text": one["text"], "money": one["money"]} for one in due(doc.name)]
 	if kind != kinds.FIXED:
 		for one in budget._lines(doc.name):
 			if one["left"] < 0:

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 21:45+0000\n"
-"PO-Revision-Date: 2026-10-04 21:45+0000\n"
+"POT-Creation-Date: 2026-10-04 21:58+0000\n"
+"PO-Revision-Date: 2026-10-04 21:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -81,6 +81,14 @@ msgstr ""
 msgid "1 not checked"
 msgstr ""
 
+#: frontend/src/project/ProjectPage.vue:201
+msgid "1 open sub-project"
+msgstr ""
+
+#: frontend/src/project/ProjectPage.vue:200
+msgid "1 open task"
+msgstr ""
+
 #: frontend/src/project/Team.vue:9
 msgid "1 person"
 msgstr ""
@@ -149,22 +157,26 @@ msgstr ""
 msgid "<b>{project}</b> is {health}{due}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:80
+#: onedesk/one_project/notifications.py:92
 msgid "<b>{project}</b> · {cost_type} · {total} of {budget}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:103
-#: onedesk/one_project/notifications.py:113
+#: onedesk/one_project/notifications.py:115
+#: onedesk/one_project/notifications.py:125
 msgid "<b>{project}</b> · {hours} h of {allowance} h{customer}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:92
+#: onedesk/one_project/notifications.py:104
 msgid "<b>{project}</b> · {party} · {amount}"
 msgstr ""
 
 #: onedesk/one_project/notifications.py:47
 #: onedesk/one_project/notifications.py:58
 msgid "<b>{project}</b>{customer}{due}"
+msgstr ""
+
+#: onedesk/one_project/notifications.py:81
+msgid "<b>{project}</b>{customer}{owed}"
 msgstr ""
 
 #: onedesk/one_task/notifications.py:17
@@ -3177,7 +3189,7 @@ msgstr ""
 msgid "Bill As"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:225
+#: frontend/src/project/ProjectPage.vue:246
 #: frontend/src/project/Suppliers.vue:46 onedesk/public/js/progress.js:20
 #: onedesk/public/js/progress.js:29
 msgid "Bill Progress"
@@ -3191,7 +3203,7 @@ msgstr ""
 msgid "Bill Progress is for purchase and sales orders."
 msgstr ""
 
-#: onedesk/one_project/view.py:497
+#: onedesk/one_project/view.py:502
 msgid "Bill from {0} to check"
 msgstr ""
 
@@ -3707,7 +3719,7 @@ msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_admin/accounts.py:237 onedesk/one_calendar/tell.py:176
-#: onedesk/one_task/custom/task.json
+#: onedesk/one_project/status.py:36 onedesk/one_task/custom/task.json
 msgid "Cancelled"
 msgstr ""
 
@@ -4563,7 +4575,8 @@ msgid "Complete"
 msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/project/Overview.vue:103 onedesk/one_task/custom/task.json
+#: frontend/src/project/Overview.vue:103 onedesk/one_project/status.py:35
+#: onedesk/one_task/custom/task.json
 msgid "Completed"
 msgstr ""
 
@@ -4786,6 +4799,10 @@ msgstr ""
 
 #: onedesk/public/js/project_actions.js:127 onedesk/public/js/project_new.js:74
 msgid "Contract Value"
+msgstr ""
+
+#: onedesk/one_project/status.py:126
+msgid "Contract not invoiced yet"
 msgstr ""
 
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
@@ -6557,7 +6574,7 @@ msgstr ""
 msgid "Edit Costs"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:206
+#: frontend/src/project/ProjectPage.vue:227
 msgid "Edit Details"
 msgstr ""
 
@@ -7187,6 +7204,10 @@ msgstr ""
 
 #: onedesk/one_inventory/ready.py:87
 msgid "Every receipt and delivery is posted to the stock accounts."
+msgstr ""
+
+#: onedesk/one_project/status.py:108
+msgid "Every task on {0} is done, so it stays Completed. Add a task to open it again."
 msgstr ""
 
 #: onedesk/one_legal/gate.py:47
@@ -8557,7 +8578,7 @@ msgstr ""
 msgid "Group By"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:214 onedesk/public/js/project.js:25
+#: frontend/src/project/ProjectPage.vue:235 onedesk/public/js/project.js:25
 #: onedesk/public/js/project_actions.js:33
 msgid "Group Under New Project"
 msgstr ""
@@ -9772,7 +9793,7 @@ msgid "Invoice"
 msgstr ""
 
 #: frontend/src/project/Invoices.vue:12 frontend/src/project/Months.vue:19
-#: frontend/src/project/ProjectPage.vue:229 onedesk/public/js/project.js:30
+#: frontend/src/project/ProjectPage.vue:250 onedesk/public/js/project.js:30
 #: onedesk/public/js/project_actions.js:337
 msgid "Invoice Month"
 msgstr ""
@@ -9782,16 +9803,16 @@ msgid "Invoice Number"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:38
-#: frontend/src/project/ProjectPage.vue:227 frontend/src/project/Time.vue:110
+#: frontend/src/project/ProjectPage.vue:248 frontend/src/project/Time.vue:110
 #: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:85
 msgid "Invoice Time"
 msgstr ""
 
-#: onedesk/one_project/view.py:499
+#: onedesk/one_project/view.py:504
 msgid "Invoice to {0} to check"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:102
+#: onedesk/one_project/notifications.py:114
 msgid "Invoice {project} for last month"
 msgstr ""
 
@@ -9823,6 +9844,10 @@ msgstr ""
 
 #: onedesk/one_book/ready.py:173
 msgid "Invoices carry the company's TRN"
+msgstr ""
+
+#: onedesk/one_project/status.py:135
+msgid "Invoices not paid yet"
 msgstr ""
 
 #: onedesk/one/settings.py:70
@@ -11456,7 +11481,7 @@ msgstr ""
 msgid "Make Main Address"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:223
+#: frontend/src/project/ProjectPage.vue:244
 msgid "Make Order"
 msgstr ""
 
@@ -12398,7 +12423,7 @@ msgstr ""
 msgid "New Purchase Order"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:211
+#: frontend/src/project/ProjectPage.vue:232
 msgid "New Quotation"
 msgstr ""
 
@@ -13772,6 +13797,10 @@ msgstr ""
 msgid "On each statement run's schedule, in the words set on the run."
 msgstr ""
 
+#: onedesk/one_project/status.py:34
+msgid "On hold"
+msgstr ""
+
 #: onedesk/public/js/privacy_request.js:10
 msgid "On hold. {0} was notified of the reason."
 msgstr ""
@@ -13798,7 +13827,7 @@ msgstr ""
 msgid "On the OneCRM pipeline board"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:100
+#: onedesk/one_project/notifications.py:112
 msgid "On the first of the month, for each retainer whose last month isn't invoiced."
 msgstr ""
 
@@ -14615,6 +14644,7 @@ msgstr ""
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/intake/intake.js:190
+#: onedesk/one_project/status.py:33
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_task/custom/task.json onedesk/public/js/audit_list.js:10
 #: onedesk/public/js/doctype_settings.js:907 onedesk/public/js/intake.js:215
@@ -14667,7 +14697,7 @@ msgstr ""
 msgid "Open Source and Third-Party Notices"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:216
+#: frontend/src/project/ProjectPage.vue:237
 msgid "Open Task Board"
 msgstr ""
 
@@ -14845,7 +14875,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/report/spending/spending.py:26
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/view.py:603 onedesk/one_project/view.py:704
+#: onedesk/one_project/view.py:608 onedesk/one_project/view.py:709
 #: onedesk/public/js/oneai/Panel.vue:583
 msgid "Other"
 msgstr ""
@@ -14975,7 +15005,7 @@ msgstr ""
 msgid "Outstanding"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:74
+#: onedesk/one_project/notifications.py:86
 #: onedesk/public/js/project_actions.js:234
 msgid "Over Budget"
 msgstr ""
@@ -15765,6 +15795,10 @@ msgstr ""
 msgid "Pick what kind of project this is."
 msgstr ""
 
+#: onedesk/one_project/status.py:76
+msgid "Pick {0}."
+msgstr ""
+
 #. Label of a Sidebar Item
 #. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -15957,8 +15991,8 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:207
-#: frontend/src/project/ProjectPage.vue:230 onedesk/public/js/project.js:74
+#: frontend/src/project/ProjectPage.vue:228
+#: frontend/src/project/ProjectPage.vue:251 onedesk/public/js/project.js:74
 #: onedesk/public/js/project.js:76 onedesk/public/js/project_actions.js:185
 msgid "Post Update"
 msgstr ""
@@ -16235,7 +16269,7 @@ msgstr ""
 msgid "Progress"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:86
+#: onedesk/one_project/notifications.py:98
 msgid "Progress Bill Drafted"
 msgstr ""
 
@@ -16256,6 +16290,10 @@ msgstr ""
 #: onedesk/one_project/report/workload/workload.js:7
 #: onedesk/public/js/project_list.js:111 onedesk/public/js/timesheet.js:49
 msgid "Project"
+msgstr ""
+
+#: onedesk/one_project/notifications.py:73
+msgid "Project Completed"
 msgstr ""
 
 #: onedesk/one_project/notifications.py:63
@@ -16586,7 +16624,7 @@ msgstr ""
 msgid "Quotations"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:212 onedesk/public/js/project.js:39
+#: frontend/src/project/ProjectPage.vue:233 onedesk/public/js/project.js:39
 msgid "Quote Extra Work"
 msgstr ""
 
@@ -17734,7 +17772,7 @@ msgstr ""
 msgid "Retainer"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:107
+#: onedesk/one_project/notifications.py:119
 msgid "Retainer Hours Used"
 msgstr ""
 
@@ -17743,7 +17781,7 @@ msgstr ""
 msgid "Retainer Month"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:97
+#: onedesk/one_project/notifications.py:109
 msgid "Retainer Month to Invoice"
 msgstr ""
 
@@ -17768,6 +17806,10 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:11 frontend/src/project/Suppliers.vue:74
 #: onedesk/one_project/money.py:152 onedesk/one_project/view.py:443
 msgid "Retention Held"
+msgstr ""
+
+#: onedesk/one_project/status.py:138
+msgid "Retention still held"
 msgstr ""
 
 #: onedesk/one_inventory/custody.py:76
@@ -18080,7 +18122,7 @@ msgstr ""
 msgid "Save Address"
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:215 onedesk/public/js/project.js:51
+#: frontend/src/project/ProjectPage.vue:236 onedesk/public/js/project.js:51
 #: onedesk/public/js/project_actions.js:71
 msgid "Save as Template"
 msgstr ""
@@ -21286,16 +21328,20 @@ msgstr ""
 msgid "The project's manager and members, but whoever marked it"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:78
+#: onedesk/one_project/notifications.py:90
 msgid "The project's manager and whoever set the budget"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:101
-#: onedesk/one_project/notifications.py:111
+#: onedesk/one_project/notifications.py:113
+#: onedesk/one_project/notifications.py:123
 msgid "The project's manager, or whoever made it"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:90
+#: onedesk/one_project/notifications.py:79
+msgid "The project's manager, unless they completed it"
+msgstr ""
+
+#: onedesk/one_project/notifications.py:102
 msgid "The project's manager, unless they saved it"
 msgstr ""
 
@@ -24192,6 +24238,10 @@ msgstr ""
 msgid "When a payslip is submitted, with the payslip as a PDF."
 msgstr ""
 
+#: onedesk/one_project/notifications.py:76
+msgid "When a project is completed, by somebody or by its last task, with what's still owed on it."
+msgstr ""
+
 #. Description of the 'Starts' (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "When a published price takes over from the one before it."
@@ -24522,7 +24572,7 @@ msgstr ""
 msgid "When somebody outside the workspace is invited to an event, or it changes or is cancelled."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:89
+#: onedesk/one_project/notifications.py:101
 msgid "When somebody saves a bill or invoice for a share of the work done."
 msgstr ""
 
@@ -24657,7 +24707,7 @@ msgstr ""
 msgid "When the provider last said this model exists."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:110
+#: onedesk/one_project/notifications.py:122
 msgid "When the time logged on a retainer passes its hours for the month."
 msgstr ""
 
@@ -24674,7 +24724,7 @@ msgstr ""
 msgid "When what your material request asked for is received."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:77
+#: onedesk/one_project/notifications.py:89
 msgid "When what's ordered and spent on a project's cost type passes its budget."
 msgstr ""
 
@@ -28113,7 +28163,7 @@ msgstr ""
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr ""
 
-#: onedesk/one_project/view.py:475
+#: onedesk/one_project/view.py:480
 msgid "{0} is over budget"
 msgstr ""
 
@@ -28353,6 +28403,14 @@ msgstr ""
 msgid "{0} open quotes"
 msgstr ""
 
+#: frontend/src/project/ProjectPage.vue:201
+msgid "{0} open sub-projects"
+msgstr ""
+
+#: frontend/src/project/ProjectPage.vue:200
+msgid "{0} open tasks"
+msgstr ""
+
 #: onedesk/one_hr/heads.py:365
 msgid "{0} out of 5"
 msgstr ""
@@ -28458,8 +28516,24 @@ msgstr ""
 msgid "{0} starts on {1}"
 msgstr ""
 
+#: onedesk/one_project/status.py:83
+msgid "{0} still has open work."
+msgstr ""
+
 #: onedesk/one_studio/record_types.py:482
 msgid "{0} still has records. Delete them first."
+msgstr ""
+
+#: frontend/src/project/ProjectPage.vue:205
+msgid "{0} still has {1}. Cancel them too?"
+msgstr ""
+
+#: frontend/src/project/ProjectPage.vue:205
+msgid "{0} still has {1}. Complete them too?"
+msgstr ""
+
+#: onedesk/one_project/tell.py:86
+msgid "{0} still owed"
 msgstr ""
 
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:68
@@ -28661,7 +28735,7 @@ msgstr ""
 msgid "{0}% billed"
 msgstr ""
 
-#: onedesk/one_project/view.py:500 onedesk/public/js/project_list.js:45
+#: onedesk/one_project/view.py:505 onedesk/public/js/project_list.js:45
 #: onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
@@ -28998,7 +29072,7 @@ msgstr ""
 msgid "{changes}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:79
+#: onedesk/one_project/notifications.py:91
 msgid "{cost_type} is over budget on {project}"
 msgstr ""
 
@@ -29170,8 +29244,12 @@ msgstr ""
 msgid "{person} is now an administrator"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:112
+#: onedesk/one_project/notifications.py:124
 msgid "{project} has used its {allowance} h for this month"
+msgstr ""
+
+#: onedesk/one_project/notifications.py:80
+msgid "{project} is completed"
 msgstr ""
 
 #: onedesk/one_storage/notifications.py:40
@@ -29287,7 +29365,7 @@ msgstr ""
 msgid "{who} deleted {title}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:91
+#: onedesk/one_project/notifications.py:103
 #, python-format
 msgid "{who} drafted a bill for {order} at {share}% done"
 msgstr ""

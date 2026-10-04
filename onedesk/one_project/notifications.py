@@ -2,7 +2,7 @@
 
 Sent by `updates.py` (the update asked, and the morning's answers) and
 `tell.py` (a person added to a project or made its manager, and a project
-marked at risk or off track), `budget.py` (a cost type over its budget) and
+marked at risk or off track, and a project completed), `budget.py` (a cost type over its budget) and
 `progress.py` (a bill drafted for a share of the work), and `tell.py` again
 for a retainer (its month ready to invoice, its hours for the month used).
 """
@@ -67,6 +67,18 @@ TYPES = [
 		"to": _lt("The project's manager and members, but whoever marked it"),
 		"subject": _lt("{who} marked {project} {health}"),
 		"message": _lt("<b>{project}</b> is {health}{due}"),
+		"push_default": True,
+	},
+	{
+		"name": _lt("Project Completed"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt(
+			"When a project is completed, by somebody or by its last task, with what's still owed on it."
+		),
+		"to": _lt("The project's manager, unless they completed it"),
+		"subject": _lt("{project} is completed"),
+		"message": _lt("<b>{project}</b>{customer}{owed}"),
 		"push_default": True,
 	},
 	# budget: orders and spending on a cost type pass its budget.

@@ -57,7 +57,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TabList, Tabs, TabTrigger, TextInput } from "frappe-ui";
 
-import { Loading, Page, __, call, can, follow, go, listen, newDoc, onedesk, setQuery, setValue } from "../kit";
+import { Loading, Page, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onedesk, setQuery, setValue } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
@@ -180,10 +180,31 @@ function newTask() {
   newDoc("Task", { project: name.value });
 }
 async function changeProject(fieldname, value) {
+  if (fieldname === "status") return changeStatus(value);
   if (fieldname === "project_name") said.value.title = value;
   else said.value[fieldname === "one_health" ? "health" : fieldname] = value;
   await setValue("Project", name.value, fieldname, value);
   load();
+}
+
+// Completing or cancelling a project closes what's still open in it, on the
+// reader's say-so; ERPNext would set it back to Open otherwise
+// (one_project/status.py).
+async function changeStatus(value) {
+  const project = name.value;
+  const set = (close) => call("onedesk.one_project.status.change", { project, status: value, close: close ? 1 : 0 }).finally(load);
+  if (value !== "Completed" && value !== "Cancelled") return set(false);
+  const open = await call("onedesk.one_project.status.ask", { project });
+  if (!open.tasks && !open.projects) return set(false);
+  const parts = [
+    open.tasks && (open.tasks === 1 ? __("1 open task") : __("{0} open tasks", [open.tasks])),
+    open.projects && (open.projects === 1 ? __("1 open sub-project") : __("{0} open sub-projects", [open.projects])),
+  ].filter(Boolean);
+  const title = escape(said.value.title);
+  confirm(
+    value === "Completed" ? __("{0} still has {1}. Complete them too?", [title, andList(parts)]) : __("{0} still has {1}. Cancel them too?", [title, andList(parts)]),
+    () => set(true)
+  );
 }
 
 // The project as desk's shared actions take it (project_actions.js).

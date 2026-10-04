@@ -504,7 +504,7 @@ def test_what_the_old_oneproject_had_that_is_kept():
 def test_the_projects_list_says_status_and_names_the_manager():
 	js = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert "hide_name_column: true" in js and "hide_name_filter: true" in js
-	assert 'Open: "blue", Completed: "green"' in js, "Open is not red, and a share is not a status"
+	assert 'Open: "blue", "On hold": "orange", Completed: "green"' in js, "Open is not red, and a share is not a status"
 	# Customer is a column; it filters under Filters, not in the quick filters.
 	user = json.loads((tree.APP / "one" / "custom" / "user.json").read_text())
 	assert any(
@@ -1298,3 +1298,33 @@ def test_a_party_billed_in_another_currency_is_billed_in_it(monkeypatch):
 	# customer's currency.
 	assert '"currency": retainer.fee_currency(doc)' in (PROJECT / "view.py").read_text()
 	assert 'options: "currency"' in (tree.APP / "public" / "js" / "project_new.js").read_text()
+
+
+def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
+	status = (PROJECT / "status.py").read_text()
+	# ERPNext's four, On hold among them, everywhere the status is picked or shown.
+	assert '"On hold": _lt("On hold")' in status
+	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
+	assert ":options=\"['Open', 'On hold', 'Completed', 'Cancelled']\"" in facts
+	assert "<Pill v-if=\"said.status === 'Open'\" :value=\"said.health\"" in facts, "health is an open project's"
+	assert '"On hold": "amber"' in (tree.ROOT / "frontend" / "src" / "project" / "colors.js").read_text()
+	assert '"On hold": "orange"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
+	assert "'amber' if doc.status == 'On hold'" in (tree.APP / "www" / "projects.html").read_text()
+	# Completing or cancelling asks first, and closes the open tasks and
+	# sub-projects with it; a task already closed keeps its status.
+	change = status[status.index("def change(") : status.index("def due(")]
+	assert "if (below or tasks) and not int(close):" in change
+	assert 'OPEN_TASK = ["not in", ("Completed", "Cancelled", "Template")]' in status
+	assert 'frappe.db.set_value("Task", name, "status", status)' in change
+	# Opening a project ERPNext turned to progress by hand puts it back on its
+	# tasks; one whose tasks are all done says it can't be opened.
+	assert 'doc.percent_complete_method = "Task Completion"' in change
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert 'if (fieldname === "status") return changeStatus(value);' in page
+	assert '"onedesk.one_project.status.ask"' in page and '"onedesk.one_project.status.change"' in page
+	# A completed project says what's still owed, and its manager is told.
+	view = (PROJECT / "view.py").read_text()
+	assert 'if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):' in view
+	tell = (PROJECT / "tell.py").read_text()
+	assert "completed(doc, before)" in tell and '"Project Completed"' in tell
+	assert '"name": _lt("Project Completed")' in (PROJECT / "notifications.py").read_text()
