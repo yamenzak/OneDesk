@@ -62,7 +62,10 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"parent_title": frappe.db.get_value("Project", doc.one_parent, "project_name")
 		if doc.get("one_parent")
 		else None,
-		"team": [row.user for row in doc.users],
+		"team": [
+			{"user": row.user, "name": get_fullname(row.user), "image": frappe.db.get_value("User", row.user, "user_image")}
+			for row in doc.users
+		],
 		"contract": contract(doc),
 		"currency": cash["currency"],
 		"can_write": bool(frappe.has_permission("Project", "write", doc=doc)),

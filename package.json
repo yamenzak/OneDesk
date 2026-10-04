@@ -1,0 +1,9 @@
+{
+  "name": "onedesk",
+  "private": true,
+  "description": "Builds OneDesk's frappe-ui islands (frontend/). `bench build` runs `build`.",
+  "scripts": {
+    "postinstall": "yarn --cwd frontend install --frozen-lockfile",
+    "build": "yarn --cwd frontend build"
+  }
+}

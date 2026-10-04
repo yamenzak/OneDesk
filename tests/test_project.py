@@ -817,10 +817,10 @@ def test_a_project_opens_on_its_own_page():
 	# Every kind has its cards and its tabs.
 	for kind in ("FIXED", "TIME", "RETAINER", "INTERNAL"):
 		assert f"kinds.{kind}: [" in view
-	script = (tree.APP / "public" / "js" / "project_page.js").read_text()
+	script = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert '"onedesk.one_project.view.said"' in script
-	# The page follows the record as a form does.
-	for follows in ("new onedesk.shell.Editor(page)", "this.follow.hear(", '"one_project_money"'):
+	# The page follows the record as a form does, through the kit's bridge to desk.
+	for follows in ('follow("Project"', 'listen("one_project_money"'):
 		assert follows in script
 	# /desk/project/<name> is the page; ?edit=1 and a new project are the form.
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
@@ -829,4 +829,4 @@ def test_a_project_opens_on_its_own_page():
 	# What the page and the form both do is one file, loaded by both.
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
 	loader = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
-	assert "/assets/onedesk/js/project_actions.js" in loader and "/assets/onedesk/js/project_page.js" in loader
+	assert "/assets/onedesk/js/project_actions.js" in loader and 'island: "onedesk.project"' in loader

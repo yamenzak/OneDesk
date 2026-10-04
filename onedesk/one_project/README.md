@@ -587,15 +587,18 @@ one field for it.
   totals are hidden from the form, not removed.
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
-- `view.py` — the project's page (`page/project_view`,
-  `public/js/project_page.js`): `said` gives it, in one call read as the
-  reader, the head, the kind's four cards (`cards`) and its Overview, from
-  overview.py, money.py, budget.py, billing.py and tree.py. `needs` is Needs
-  You; `contract` is the project's Sales Order or the first one against it.
-  `public/js/project_new.js` hands `/desk/project/<name>` to the page; the
-  form is the same address with `?edit=1`, and a new project's form stays.
-  The page follows the record by `doc_subscribe` and `doc_update`, and its
-  money by `one_project_money`.
+- `view.py` — the project's page (`page/project_view`): `said` gives it, in
+  one call read as the reader, the head, the kind's four cards (`cards`) and
+  its Overview, from overview.py, money.py, budget.py, billing.py and
+  tree.py. `needs` is Needs You; `contract` is the project's Sales Order or
+  the first one against it. The page's body is the `onedesk.project` island,
+  `frontend/src/project/ProjectPage.vue`, built from the kit in
+  `frontend/src/kit` (docs/ISLANDS.md); desk keeps its head through
+  `onedesk.island_page`, and the island reports the name, the status and the
+  actions. `public/js/project_new.js` hands `/desk/project/<name>` to the
+  page; the form is the same address with `?edit=1`, and a new project's form
+  stays. The page follows the record through the kit (`follow`, desk's
+  `doc_subscribe` and `doc_update`) and its money through `one_project_money`.
 - `public/js/project_actions.js` — Board, Schedule, Group Under New Project,
   Save as Template, Invoice Time and Post Update, for the page and the form
   alike. `public/js/project.js` is the form: those as its buttons, and

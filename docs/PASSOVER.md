@@ -7151,6 +7151,30 @@ The design is `docs/PROJECT-PAGE.md`.
   (Time and Materials), Halcyon Support (Retainer) and Office Move
   (Internal); list to page, Edit Details to the form and Back again.
 
+**Stage 2, again: the page as a frappe-ui island.** The jQuery page still
+did not look like frappe-ui. Frappe Books (frappe/frappe-books) builds every
+screen from frappe-ui itself, and frappe's desk islands let us do the same
+without leaving desk. docs/ISLANDS.md is the plan and the rule.
+
+- The body is now `frontend/src/project/ProjectPage.vue`, drawn with
+  frappe-ui:
+  - the figures are NumberCard;
+  - the lists are `frappe-ui/list`;
+  - hours by week is frappe-ui's BarChart;
+  - badges, tabs and progress are frappe-ui's.
+- Desk keeps the head, filled from what the island reports: the title, the
+  status and the actions.
+- `onedesk.island_page` and the kit (`frontend/src/kit`) are for every app's
+  screens from now on. `tests/test_islands.py` guards them.
+- `bench build` builds the islands through the root `package.json`, as
+  Frappe Books does.
+- **Found on the way**:
+  - frappe-ui's `call` looks for the CSRF token on `window`, where desk
+    doesn't keep it. The kit calls through desk's `xcall` instead.
+  - A chart's class beside frappe-ui's own `h-full` loses; a chart is sized
+    by the box around it.
+  - A production build needs `esbuild` for minifying under Vite 8.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

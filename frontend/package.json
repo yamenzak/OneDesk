@@ -1,0 +1,26 @@
+{
+  "name": "onedesk-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build-islands.mjs --production",
+    "dev": "node build-islands.mjs --watch"
+  },
+  "dependencies": {
+    "@framework/ui": "link:../../frappe/ui",
+    "frappe-ui": "1.0.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "autoprefixer": "^10.4.20",
+    "esbuild": "^0.28.2",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vite": "^8.1.5"
+  },
+  "description": "OneDesk's islands: screens drawn with frappe-ui inside desk pages. See docs/ISLANDS.md."
+}

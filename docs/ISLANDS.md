@@ -40,15 +40,9 @@ Frappe already has the way, in our bench's frappe: **desk islands**
 - `@framework/ui` (frappe's own Vue parts, taken from CRM) is there too: Link,
   FormLayout, Grid, ListView, Filter, ActivityTimeline and FileUpload.
 
-**The proof.** The project page's body was rebuilt this way as a spike (not
-committed):
-
-- `frontend/` holds Vue 3, frappe-ui 1.0.0 and `@framework/ui`.
-- `frontend/src/project/ProjectPage.vue` draws the body with `NumberCard`,
-  `frappe-ui/list`, `BarChart`, `Badge`, `Tabs` and `Progress`.
-- The desk page keeps its head and mounts the island.
-- It reads the same `one_project/view.py` call as before. It took one fix:
-  desk keeps its CSRF token on `frappe`, and frappe-ui looks on `window`.
+**Decided.** Every bespoke screen, in every app, is an island built from one
+kit. Desk keeps everything desk does. The project page was the first,
+replacing the jQuery page of stage 2.
 
 ## What changes in how we build
 
@@ -133,10 +127,43 @@ In the order they'd pay off:
   reconciliation and the cash-flow statement. They stay.
 - **Not taken**: Books' own ledger and doctypes. OneBook stays on ERPNext.
 
-## To decide
+## How it is built
 
-- Islands for OneProject's and OneBook's own screens, everything else
-  staying as it is.
-- frappe-ui 1.0.0 in our frontend, as Books uses. Frappe's own page-island
-  toolchain on our bench is still on 1.0.0-beta.55.
-- Start with stage 1 and the project page, or with OneBook Home.
+- **`frontend/`** holds Vue 3, frappe-ui (pinned, 1.0.0 as Books) and
+  `@framework/ui`, linked from frappe.
+  - `build-islands.mjs` builds every island in one Vite build, so they share
+    one Vue and one frappe-ui. Its `ISLANDS` names each one.
+  - The root `package.json` has a `build` script, so `bench build`, and so
+    Frappe Cloud, builds the islands with the rest of the app.
+- **`frontend/src/kit/`** is what every screen is made from:
+  - `desk.js` is the one bridge to desk: `__`, `call` (desk's `xcall`, so
+    CSRF and errors are desk's), `money`, `date`, `hours`, `go`, `can`,
+    `follow` (a record's realtime room, as a form follows it), `listen`,
+    `newDoc` and `onedesk()` for our desk-side dialogs;
+  - `mount.js` (`screen`) mounts a screen through frappe's contract, with
+    `__` in every template;
+  - `Page`, `Title`, `Figures` (NumberCard), `Section`, `Rows`
+    (`frappe-ui/list`), `Facts` and `Loading`.
+  - A part is added here only when frappe-ui and `@framework/ui` have none.
+- **`onedesk.island_page`** (`public/js/island_page.js`) is the desk page
+  around an island, as frappe draws its own Frappe UI pages:
+  - it gives the island the route below the page and the query;
+  - it sets the head from what the island reports: `onTitle`, `onStatus`
+    and `onActions` (frappe's `{ label, onClick | href }`, with `primary` for
+    the main button and `button` for one beside it; the rest go in the ···
+    menu).
+- **A new screen** takes:
+  1. a component in `frontend/src/<screen>/`;
+  2. an entry in `frontend/src/islands/` (`export const mount =
+     screen(Component)`);
+  3. a line in `ISLANDS` and in `hooks.py` `ui_islands`;
+  4. a desk Page whose script calls `onedesk.island_page`.
+- **Guards** (`tests/test_islands.py`):
+  - every island is declared, built and mounted by a desk page;
+  - `bench build` builds them, with frappe-ui pinned;
+  - a `.vue` file has no style, colour or import of its own;
+  - only `kit/desk.js` reaches into desk;
+  - every word goes through `__`, which frappe's extractor reads in `.vue`.
+- **Built so far**: the project page (`onedesk.project`). Next, in order:
+  OneBook Home, then the project's Money and Suppliers, then a document's
+  actions, then reports. One screen at a time, as the passover goes.

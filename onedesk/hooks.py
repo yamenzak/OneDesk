@@ -908,6 +908,10 @@ app_include_css = [
 ]
 # /start and /welcome, which are not desk screens and load none of the above.
 web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
+# Screens drawn with frappe-ui inside desk pages: frontend/, each built by
+# frontend/build-islands.mjs and mounted by onedesk.island_page. docs/ISLANDS.md.
+ui_islands = {"onedesk.project": "onedesk_project"}
+
 app_include_js = [
 	"/assets/onedesk/js/theme.js",
 	# "One" of a product's name at a light weight, wherever it is drawn.
@@ -935,6 +939,7 @@ app_include_js = [
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
 	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
+	"/assets/onedesk/js/island_page.js",
 	"/assets/onedesk/js/project_new.js",
 	# Frappe's Settings dialog for a doctype, for a workspace administrator.
 	"/assets/onedesk/js/doctype_settings.js",

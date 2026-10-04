@@ -36,12 +36,16 @@ ON_THE_SHELL = {
 	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
 	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
 	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
-	"project_view": ("public/js/project_page.js", "public/css/project_page.css"),
 }
 
 #: Pages not on it yet, and the stage of docs/SHELL.md that moves them. None
 #: is left; a new page is in neither, and fails until it is on the shell.
 NOT_YET = {}
+
+#: Pages whose body is a frappe-ui island (docs/ISLANDS.md, tests/test_islands.py):
+#: desk keeps their head through onedesk.island_page, and the island draws the
+#: rest with frappe-ui rather than the shell.
+ISLAND_PAGES = {"project_view"}
 
 #: What the shell has, so a page may not style its own: a row of a list, an
 #: empty state, a quiet line, a boxed card, a body or a section.
@@ -62,7 +66,7 @@ def _pages():
 def test_every_page_is_on_the_shell_or_named_as_not_yet():
 	pages = _pages()
 	assert pages, "no pages found"
-	unknown = set(pages) - set(ON_THE_SHELL) - set(NOT_YET)
+	unknown = set(pages) - set(ON_THE_SHELL) - set(NOT_YET) - ISLAND_PAGES
 	assert not unknown, f"a new page goes on the shell (onedesk.shell.page): {sorted(unknown)}"
 	assert not set(ON_THE_SHELL) & set(NOT_YET)
 
