@@ -6271,6 +6271,24 @@ Paths that named the old group now name the new one: the README, OneAI's page
 notes, OneStudio's README, and the Data Copy notification ("Review and send it
 in Privacy › Data Copies within one month"), in English, Arabic and German.
 
+Then, "Do you think more subgroups or enough", "Idk figure it out":
+
+- **Enough groups.** Each holds 2 to 7 rows, and frappe's sidebar is one
+  level deep. More would mean groups of two and a sidebar of our own.
+- **Setup starts folded** too. It's set once and rarely opened after.
+- **Workspace Notifications**: Automation's Notifications row shared its name
+  with You › Notifications. The page, its heading, the README section,
+  OneAI's note and the paths in OneBook's README now say Workspace
+  Notifications.
+- **Recycle Bin stays at the top.** Everyone uses it, and Audit Log is for
+  administrators only, so inside it the bin would have sat alone under an
+  administrator's heading.
+- **Fixed**: a settings page in a folded group, such as Workspace
+  Notifications or Approvals, left its group folded on a cold load. Frappe
+  looks for the active row's group before the sidebar has opened, and only
+  lists look again. shell.js looks again once it has opened
+  (`test_a_folded_group_opens_around_the_page_it_holds`).
+
 ### The desk around the doctypes (gaps 1 to 4)
 
 Your word: "Yes", to starting with the four that came from the same place.

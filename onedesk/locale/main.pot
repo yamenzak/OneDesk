@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 08:56+0000\n"
-"PO-Revision-Date: 2026-10-04 08:56+0000\n"
+"POT-Creation-Date: 2026-10-04 09:22+0000\n"
+"PO-Revision-Date: 2026-10-04 09:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -12898,10 +12898,10 @@ msgid "Notification"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/settings.py:35 onedesk/one/settings.py:44
-#: onedesk/one/settings.py:145 onedesk/one/sidebar/one/one.json
-#: onedesk/public/js/doctype_settings.js:295 onedesk/public/js/settings.js:3084
-#: onedesk/public/js/settings.js:3182 onedesk/public/js/settings.js:3246
+#: onedesk/one/settings.py:35 onedesk/one/settings.py:145
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/doctype_settings.js:295
+#: onedesk/public/js/settings.js:3084 onedesk/public/js/settings.js:3182
+#: onedesk/public/js/settings.js:3246
 msgid "Notifications"
 msgstr ""
 
@@ -24399,6 +24399,11 @@ msgstr ""
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "Workspace Name"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/settings.py:44 onedesk/one/sidebar/one/one.json
+msgid "Workspace Notifications"
 msgstr ""
 
 #: onedesk/one_admin/notifications.py:193

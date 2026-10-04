@@ -41,7 +41,7 @@ SECTIONS = [
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
 	("access", _lt("Access"), "shield-check", "workspace"),
-	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
+	("notification_types", _lt("Workspace Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
 	("mail_templates", _lt("Mail Templates"), "mails", "workspace"),

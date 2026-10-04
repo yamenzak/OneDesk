@@ -69,7 +69,7 @@ clause(
 	order=7,
 )
 
-# Workspace Settings › Notifications
+# Automation › Workspace Notifications
 
 clause(
 	document="aup",

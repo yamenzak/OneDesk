@@ -44,3 +44,10 @@ def test_a_crumb_says_what_the_rail_says_and_leads_home():
 	assert 'found["Crumb"]' in titles and "len(labels) == 1" in titles
 	masters = (tree.APP / "one" / "masters.py").read_text()
 	assert 'f"/desk/masters?type={doctype}"' in masters.split("def homes(", 1)[1].split("\ndef ", 1)[0]
+
+
+def test_a_folded_group_opens_around_the_page_it_holds():
+	# Frappe looks for the active row's group before the sidebar opens on a cold
+	# load; shell.js looks again once it has.
+	assert "Sidebar.prototype.expand_sidebar = function" in SHELL
+	assert "if (this.sidebar_expanded) this.expand_parent_section();" in SHELL

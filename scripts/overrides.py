@@ -488,7 +488,7 @@ OVERRIDES = [
 	),
 	(
 		"The Settings dialog's Notifications tab lists the workspace's rules and opens them in One",
-		"frappe's tab opens frappe's Notification form; doctype_settings.js registers its own builder under the same id, on frappe's own list panel, so a rule is written in Workspace › Notifications",
+		"frappe's tab opens frappe's Notification form; doctype_settings.js registers its own builder under the same id, on frappe's own list panel, so a rule is written in Automation › Workspace Notifications",
 		"onedesk/public/js/doctype_settings.js",
 		"frappe/frappe/public/js/frappe/form/doctype_settings/tabs/notification.js",
 		'frappe.doctype_settings.register("notifications", function (panel, doctype) {',

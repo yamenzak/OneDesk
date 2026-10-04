@@ -268,7 +268,7 @@
    "filters": "{\"section\": \"domains\"}"
   },
   {
-   "keep_closed": 0,
+   "keep_closed": 1,
    "type": "Section Break",
    "label": "Setup",
    "icon": "building-2",
@@ -346,7 +346,7 @@
   {
    "keep_closed": 0,
    "type": "Link",
-   "label": "Notifications",
+   "label": "Workspace Notifications",
    "link_to": "workspace-settings",
    "link_type": "Page",
    "icon": "bell-ring",
@@ -618,7 +618,7 @@
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-24 12:00:00.000000",
+ "modified": "2026-10-24 13:00:00",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

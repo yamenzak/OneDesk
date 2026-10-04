@@ -119,10 +119,12 @@ def test_what_oneai_offers_on_settings_is_for_a_section_that_exists_and_is_docum
 	for key in offered:
 		assert key in keys, key
 		assert f"### {labels[key]}" in readme, f"Settings › {labels[key]} is not in one/README.md"
-	# A workspace section is written up as "<label>, for the Workspace".
+	# A workspace section is written up as "<label>, for the Workspace", or
+	# as its label when that already names the workspace.
 	for key in re.findall(r'"page:workspace-settings/(\w+)"', ai):
 		assert key in keys, key
-		assert f"### {labels[key]}, for the Workspace" in readme, f"Workspace › {labels[key]} is not in one/README.md"
+		heading = labels[key] if labels[key].startswith("Workspace ") else f"{labels[key]}, for the Workspace"
+		assert f"### {heading}\n" in readme, f"Workspace › {labels[key]} is not in one/README.md"
 
 
 def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole():

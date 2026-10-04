@@ -17,7 +17,7 @@ The sidebar has these groups:
   holidays, plan and domains.
 - **Setup**: how records work: Masters, Numbering, Printing, Mail Templates
   and Approvals.
-- **Automation**: what happens by itself: Notifications, Automations,
+- **Automation**: what happens by itself: Workspace Notifications, Automations,
   Reports by Mail and Webhooks.
 - **Privacy**: requests for a copy of someone's data or to delete an account.
 - **Audit Log**: who changed, signed in, exported or printed what.
@@ -173,7 +173,7 @@ appears in One. Here you choose which ones you also get by **email** and by
   before your events, and emails about records assigned to you.
 
 Click **Save** at the top right. Administrators choose what new people start
-with, and the text of each notification, under Automation › Notifications.
+with, and the text of each notification, under Automation › Workspace Notifications.
 
 OneAI offers:
 
@@ -700,9 +700,9 @@ deleting them remove?** The answer lists each type of data and how much, or
 what's deleted, what's kept without their name, and what's still assigned to
 them that someone should take over first.
 
-### Notifications, for the Workspace
+### Workspace Notifications
 
-**Notifications**, under Workspace, lists every notification One sends,
+**Workspace Notifications**, under Automation, lists every notification One sends,
 grouped by app. For example, a file shared with you, a letter requested from
 HR, or a document OneAI flags as phishing. Only administrators see it.
 
@@ -1147,7 +1147,7 @@ open. Frappe's and One's own record types can't have approvals.
 People with the role see the action on the record. Each step waiting on their
 role counts in **Approvals Waiting** on their Home. They're also notified in
 One, and by email if they chose (**Approval Waiting** in Automation ›
-Notifications), when a record reaches their step.
+Workspace Notifications), when a record reaches their step.
 
 **Conditions**
 
@@ -1204,7 +1204,7 @@ A value can include a field of the record, such as `{{ doc.customer_name }}`.
 
 **Tell People** notifies the people it names (team members, the record's
 creator or its assignee) in One, and by email if they chose (**Automation
-Notice** in Automation › Notifications). Give it a subject and message, or a
+Notice** in Automation › Workspace Notifications). Give it a subject and message, or a
 **Mail Template**. The template is filled in from the record the same way the
 email window does it, with amounts and dates as the record shows them.
 
@@ -1606,7 +1606,7 @@ frappe's own Settings window. Each part appears once the workspace can use it.
   the builder and save it under a new name.
 - **Notifications**: the workspace's notification rules for this record type.
   Opening one, or clicking **New Rule**, opens it in Automation ›
-  Notifications, set to this record type.
+  Workspace Notifications, set to this record type.
 - **Mail Templates**: the email templates for this record type. **New**
   creates one, and clicking one opens it. **Set as Default** makes the email
   window start with it. See Mail Templates, for the Workspace.

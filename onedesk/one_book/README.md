@@ -118,7 +118,7 @@ show you.
 
 **Reminding a late customer.** Once turned on (the Books Check's **A late
 customer is reminded**), a customer is mailed the invoice a week after it
-fell due, if it is still unpaid. The wording is **Setup › Notifications ›
+fell due, if it is still unpaid. The wording is **Automation › Workspace Notifications ›
 Payment Reminder**.
 
 ## Repeating invoices and bills

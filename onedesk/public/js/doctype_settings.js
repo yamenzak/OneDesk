@@ -39,7 +39,7 @@ onedesk.doctype_settings.open = (doctype, tab = null, closed = null) =>
 	);
 
 // The dialog's Notifications tab lists the workspace's own rules on the doctype
-// and opens them in Workspace › Notifications, the one place a rule is written
+// and opens them in Automation › Workspace Notifications, the one place a rule is written
 // (one/rules.py). Frappe's tab opens frappe's Notification form, whose rail is
 // frappe's; this is the same list, frappe's list panel, pointed at ours.
 // The tabs a workspace administrator is given, as each is opened to workspaces.

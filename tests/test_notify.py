@@ -237,7 +237,7 @@ def test_an_edited_text_sees_nothing_but_its_slots():
 
 def test_the_workspace_screen_is_for_administrators():
 	settings = (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
-	assert '("notification_types", _lt("Notifications"), "bell-ring", "workspace")' in settings
+	assert '("notification_types", _lt("Workspace Notifications"), "bell-ring", "workspace")' in settings
 	preview = settings.split("def preview_notification(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in preview
 	assert '"Notification Type": {"validate": "onedesk.one.notify.validate"' in HOOKS

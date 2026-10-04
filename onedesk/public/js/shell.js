@@ -563,6 +563,14 @@ onedesk.shell.Editor = class Editor {
 			this.active_item = $item;
 			return true;
 		};
+		// Frappe opens the active row's group only while the sidebar is open, and
+		// on a cold load it looks before the sidebar has opened. Lists look again
+		// and pages do not, so a page in a folded group stayed folded around it.
+		const expand = Sidebar.prototype.expand_sidebar;
+		Sidebar.prototype.expand_sidebar = function () {
+			expand.call(this);
+			if (this.sidebar_expanded) this.expand_parent_section();
+		};
 	}
 }
 

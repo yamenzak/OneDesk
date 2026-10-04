@@ -671,7 +671,7 @@ def _notifications_page(record: str | None) -> str:
 		"notification One sends says and which channels it may use." + open_on + " notification_type reads a "
 		"type's text, slots and channels; rewrite_notification suggests new text as a card they apply; "
 		"draft_notification suggests a new rule (when something happens to a record, tell somebody). How "
-		"it works is in One's documentation under Workspace Settings › Notifications (how_to)."
+		"it works is in One's documentation under Workspace Notifications (how_to)."
 	)
 
 
