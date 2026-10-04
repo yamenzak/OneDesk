@@ -7040,6 +7040,24 @@ The design is `docs/PROJECT.md`, built one stage per commit.
   60,000: 57,000 due now and 3,000 held. After the customer paid 57,000,
   Retention Held read 3,000.
 
+**Stage 5, budget by cost type.**
+
+- **Cost Types** on Costing (`one_project/budget.py`): a cost type is
+  ERPNext's own Budget against the project, one per expense account,
+  submitted. It shows Budget, Committed (open order lines on that account),
+  Spent (the ledger) and Left.
+- **Add Cost Type**, changing one and Remove are ERPNext's own: a new
+  Budget, or the old one revised as Revise Budget does it (cancel, copy,
+  submit). Once a project has cost types, its Budget is their total and the
+  field is read-only.
+- **Found**: ERPNext's budget check now takes orders and spending each on
+  their own. A 30,000 order with 48,000 already ordered and 32,000 spent
+  passed a 100,000 budget. Cost types also turn on ERPNext's cumulative
+  check, and the same order was then refused under Stop ("collectively
+  exceeded by 10,000").
+- **Permissions** are ERPNext's: only Accounts Manager may make a budget.
+  Everybody who sees the project sees the cost types.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

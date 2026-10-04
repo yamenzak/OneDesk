@@ -745,3 +745,20 @@ def test_the_customers_contract_is_billed_the_same_way():
 	assert HOOKS.count('"onedesk.one_project.progress.retained"') == 2
 	money = (PROJECT / "money.py").read_text()
 	assert '_("Retention Held")' in money and "def _retained(" in money
+
+
+def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	left = _load(PROJECT / "budget.py", ("left",), flt=flt)["left"]
+	assert left(100000, 48000, 32000) == 20000 and left(100000, 78000, 32000) == -10000
+	budget = (PROJECT / "budget.py").read_text()
+	# ERPNext checks it; orders and spending together, not only each alone.
+	assert '"budget_against": "Project"' in budget and '"applicable_on_cumulative_expense": 1' in budget
+	assert "new.submit()" in budget and "new.revision_of = old.name" in budget
+	# Making one is for whoever ERPNext lets; nobody gets a back door.
+	assert 'frappe.has_permission("Budget", "create", throw=True)' in budget
+	assert "ignore_permissions" not in budget
+	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
+	assert "one_budget" in {f["fieldname"] for f in layout["custom_fields"]}
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "onedesk.one_project.budget.set_budget" in page and '__("Add Cost Type")' in page

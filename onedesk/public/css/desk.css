@@ -522,6 +522,10 @@ a.one-stat:hover .one-stat-value {
 	white-space: nowrap;
 }
 
+.one-add {
+	margin-bottom: var(--margin-md);
+}
+
 .one-band-chart {
 	display: flex;
 	flex-direction: column;

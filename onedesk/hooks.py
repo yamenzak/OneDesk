@@ -958,6 +958,7 @@ one_makes_records = {
 	"Attendance Request": ["one_hr"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
+	"Budget": ["one_project"],
 	"Call Log": ["one_crm"],
 	"Contact": ["one_admin", "one_calendar"],
 	"Customer": ["one_admin", "one_book", "one_crm"],

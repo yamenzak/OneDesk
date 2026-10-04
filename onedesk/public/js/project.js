@@ -50,12 +50,18 @@ frappe.ui.form.on("Project", {
 		}
 		onedesk.project.asked(frm);
 		onedesk.project.money(frm);
+		onedesk.project.cost_types(frm);
 		frappe.realtime.off("one_project_money");
 		frappe.realtime.on("one_project_money", (data) => {
 			// The head's figures come with the record, so an unchanged form is
 			// read again; one being edited keeps its edits and redraws the tab.
 			if (cur_frm !== frm || data.project !== frm.doc.name) return;
-			frm.is_dirty() ? onedesk.project.money(frm) : frm.reload_doc();
+			if (frm.is_dirty()) {
+				onedesk.project.money(frm);
+				onedesk.project.cost_types(frm);
+			} else {
+				frm.reload_doc();
+			}
 		});
 	},
 });
@@ -218,6 +224,102 @@ onedesk.project.suppliers = (frm, said, money) => {
 	frm.get_field("one_suppliers").$wrapper.html(
 		`<div class="table-responsive one-suppliers"><table class="table table-sm"><thead>${head}</thead><tbody>${body}</tbody></table></div>`
 	);
+};
+
+// The budget by cost type: ERPNext's own Budget against the project, one
+// per expense account (one_project/budget.py). A row opens it to change.
+onedesk.project.cost_types = async (frm, said) => {
+	said = said || (await frappe.xcall("onedesk.one_project.budget.lines", { project: frm.doc.name }));
+	if (frm.doc.name !== cur_frm?.doc?.name) return;
+	const rows = said.lines;
+	frm.toggle_display("one_budget_section", rows.length > 0 || said.can_set);
+	// The project's Budget is the cost types added up once there are any.
+	frm.set_df_property("estimated_costing", "read_only", rows.length ? 1 : 0);
+	const $field = frm.get_field("one_budget").$wrapper;
+	const esc = frappe.utils.escape_html;
+	const money = (value) => format_currency(value, frappe.defaults.get_default("currency"), 0);
+	const columns = [
+		["budget", __("Budget")],
+		["committed", __("Committed")],
+		["spent", __("Spent")],
+		["left", __("Left")],
+	];
+	const table = rows.length
+		? `<div class="table-responsive one-suppliers"><table class="table table-sm"><thead><tr><th>${esc(__("Cost Type"))}</th>` +
+			columns.map(([, label]) => `<th class="text-right">${esc(label)}</th>`).join("") +
+			`</tr></thead><tbody>` +
+			rows
+				.map(
+					(row, i) =>
+						`<tr data-row="${i}"><td>${said.can_set ? `<a href="#" data-row="${i}">${esc(row.cost_type)}</a>` : esc(row.cost_type)}</td>` +
+						columns
+							.map(
+								([key]) =>
+									`<td class="text-right${key === "left" && row.left < 0 ? " text-danger" : ""}">${esc(onedesk.shell.ltr(money(row[key])))}</td>`
+							)
+							.join("") +
+						`</tr>`
+				)
+				.join("") +
+			`</tbody></table></div>`
+		: `<p class="text-muted">${esc(__("No cost types"))}</p>`;
+	$field.html(
+		table + (said.can_set ? `<button class="btn btn-xs btn-default one-add" data-add>${esc(__("Add Cost Type"))}</button>` : "")
+	);
+	$field.find("a[data-row]").on("click", (e) => {
+		e.preventDefault();
+		onedesk.project.cost_type(frm, rows[Number(e.currentTarget.dataset.row)]);
+	});
+	$field.find("[data-add]").on("click", () => onedesk.project.cost_type(frm));
+};
+
+onedesk.project.cost_type = (frm, row) => {
+	const dialog = new frappe.ui.Dialog({
+		title: row ? row.cost_type : __("Add Cost Type"),
+		fields: [
+			{
+				fieldtype: "Link",
+				fieldname: "account",
+				label: __("Cost Type"),
+				options: "Account",
+				reqd: 1,
+				default: row && row.account,
+				read_only: row ? 1 : 0,
+				get_query: () => ({ filters: { root_type: "Expense", is_group: 0, company: frm.doc.company } }),
+			},
+			{ fieldtype: "Currency", fieldname: "amount", label: __("Budget"), reqd: 1, default: row && row.budget },
+			{
+				fieldtype: "Select",
+				fieldname: "action",
+				label: __("Over Budget"),
+				options: [
+					{ value: "Warn", label: __("Warn") },
+					{ value: "Stop", label: __("Stop") },
+				],
+				default: (row && row.action) || "Warn",
+			},
+		],
+		primary_action_label: __("Save"),
+		primary_action: async (values) => {
+			const said = await frappe.xcall("onedesk.one_project.budget.set_budget", { project: frm.doc.name, ...values });
+			dialog.hide();
+			onedesk.project.cost_types(frm, said);
+			frm.reload_doc();
+		},
+		secondary_action_label: row ? __("Remove") : null,
+		secondary_action: row
+			? () =>
+					frappe.confirm(__("Remove {0}?", [row.cost_type]), async () => {
+						const said = await frappe.xcall("onedesk.one_project.budget.remove_budget", {
+							project: frm.doc.name,
+							account: row.account,
+						});
+						dialog.hide();
+						onedesk.project.cost_types(frm, said);
+					})
+			: null,
+	});
+	dialog.show();
 };
 
 onedesk.project.asked = async (frm) => {

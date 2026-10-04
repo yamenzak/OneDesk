@@ -209,6 +209,22 @@ opens the invoice unsaved for you to check. Submitting it marks the hours as
 invoiced, and the project's **Billed** goes up. A sub-project's time is
 invoiced from the sub-project.
 
+## Budget by cost type
+
+Split the budget by **cost type** under **Cost Types** on **Costing**: one
+for each kind of cost you track, such as labour, materials, subcontracts or
+equipment (each is an expense account in OneBook). Each shows its
+**Budget**, what's **Committed** on supplier orders not yet billed, what's
+been **Spent**, and what's **Left**.
+
+**Add Cost Type** asks for the cost type, its budget, and what happens
+**Over Budget**: **Warn** shows a warning on an order or expense that takes
+it over, and **Stop** refuses it. Click a cost type to change its budget or
+remove it. Once a project has cost types, its **Budget** is their total.
+
+Cost types are set by whoever looks after the books (Accounts Manager).
+Everyone who can see the project sees them.
+
 ## Subcontracts
 
 A subcontract is a **purchase order** on the project, one for each supplier
@@ -417,6 +433,12 @@ one field for it.
   (custom/), named as on every other document so ERPNext's mapping carries
   it. Extra work is `one_extra_work` on Quotation and Sales Order
   (billing.py); `patches/extra_work.py` turned the old Sub-project Of into it.
+- `budget.py` — cost types: ERPNext's own Budget against the project, one per
+  expense account, checked on orders and expenses alone and together
+  (`applicable_on_cumulative_expense`). Changing one revises it as ERPNext's
+  Revise Budget does (cancel, copy, submit). Committed is the open order
+  lines on that account (`money.unbilled`); spent is the ledger. `sync` makes
+  the project's Budget their total. Budget permissions are ERPNext's.
 - `progress.py` — Bill Progress on a purchase or sales order: ERPNext's own
   "Create > Invoice" mapper with each line's quantity cut to the share done
   less what's billed (`to_bill`), since ERPNext keeps an invoice at the
