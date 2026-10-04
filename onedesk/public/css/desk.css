@@ -494,7 +494,7 @@ a.one-stat:hover .one-stat-value {
 }
 
 .one-figures .one-stats {
-	grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
 	justify-content: stretch;
 	padding-left: 0;
 	border-left: 0;

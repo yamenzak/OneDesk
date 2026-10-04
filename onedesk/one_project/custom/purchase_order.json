@@ -8,7 +8,8 @@
    "insert_after": "payment_terms_template",
    "module": "One Project",
    "print_hide": 1,
-   "description": ""
+   "description": "",
+   "allow_on_submit": 1
   },
   {
    "dt": "Purchase Order",

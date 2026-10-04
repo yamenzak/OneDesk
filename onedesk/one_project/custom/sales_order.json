@@ -10,6 +10,30 @@
    "depends_on": "project",
    "print_hide": 1,
    "allow_on_submit": 0
+  },
+  {
+   "dt": "Sales Order",
+   "fieldname": "one_retention",
+   "label": "Retention",
+   "fieldtype": "Percent",
+   "insert_after": "payment_terms_template",
+   "module": "One Project",
+   "print_hide": 1,
+   "description": "",
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Sales Order",
+   "fieldname": "one_retention_due",
+   "label": "Retention Due",
+   "fieldtype": "Date",
+   "insert_after": "one_retention",
+   "module": "One Project",
+   "allow_on_submit": 1,
+   "depends_on": "one_retention",
+   "mandatory_depends_on": "one_retention",
+   "print_hide": 1,
+   "description": ""
   }
  ],
  "doctype": "Sales Order",

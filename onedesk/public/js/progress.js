@@ -1,11 +1,13 @@
 // Bill Progress on an order: the share of the work done, billed at the
 // order's rate, less what's been billed and less retention. The invoice opens
 // unsaved. See one_project/progress.py.
-frappe.ui.form.on("Purchase Order", {
-	refresh(frm) {
-		onedesk.progress.button(frm);
-	},
-});
+for (const doctype of ["Purchase Order", "Sales Order"]) {
+	frappe.ui.form.on(doctype, {
+		refresh(frm) {
+			onedesk.progress.button(frm);
+		},
+	});
+}
 
 frappe.provide("onedesk.progress");
 

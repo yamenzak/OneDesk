@@ -321,7 +321,12 @@ doc_events = {
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
 		# The emirate a sale is reported under. See one_book/vat.py.
-		"validate": ["onedesk.one_book.vat.emirate", "onedesk.one_project.chain.agree"],
+		"validate": [
+			"onedesk.one_book.vat.emirate",
+			"onedesk.one_project.chain.agree",
+			# Retention is the share of the work billed. See one_project/progress.py.
+			"onedesk.one_project.progress.retained",
+		],
 	},
 	# A bill's reclaimable VAT is kept at the VAT on it. See one_book/vat.py.
 	# A bill that updates stock registers its assets. See one_inventory/assets.py.
@@ -596,6 +601,8 @@ doc_events = {
 			"onedesk.one_project.billing.ordered",
 		],
 		"on_cancel": "onedesk.one_crm.stages.follow",
+		# A new Retention Due moves the retention on its invoices. See one_project/progress.py.
+		"on_update_after_submit": "onedesk.one_project.progress.release",
 	},
 	# Submitting is the approval, and it says which shift. See one_hr/shift.py.
 	"Shift Request": {
@@ -790,9 +797,10 @@ doctype_js = {
 	# The project's board is a button of its own. See one_project/board.py.
 	"Project": "public/js/project.js",
 	"Project Template": "public/js/project_template.js",
-	# Bill Progress on a subcontract. See one_project/progress.py.
+	# Bill Progress on a subcontract and on the customer's contract. See one_project/progress.py.
 	"Purchase Order": "public/js/progress.js",
 	"Quotation": "public/js/quotation.js",
+	"Sales Order": "public/js/progress.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
 }

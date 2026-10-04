@@ -351,7 +351,7 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	quote = json.loads((PROJECT / "custom" / "quotation.json").read_text())
 	assert [f["fieldname"] for f in quote["custom_fields"]] == ["project", "one_extra_work"]
 	order_ = json.loads((PROJECT / "custom" / "sales_order.json").read_text())
-	assert [f["fieldname"] for f in order_["custom_fields"]] == ["one_extra_work"]
+	assert [f["fieldname"] for f in order_["custom_fields"]] == ["one_extra_work", "one_retention", "one_retention_due"]
 	source = (PROJECT / "billing.py").read_text()
 	assert "make_project(doc.name)" in source and 'project.set("one_parent", parent)' in source
 	assert 'doc.db_set("project", project.name)' in source, "the order is the sub-project's"
@@ -727,3 +727,21 @@ def test_subcontracts_are_billed_through_erpnexts_own_invoice():
 	assert '"Purchase Order": "public/js/progress.js"' in HOOKS
 	money = (PROJECT / "money.py").read_text()
 	assert "def _suppliers(" in money and "held(" in money
+
+
+def test_the_customers_contract_is_billed_the_same_way():
+	assert '"Sales Order": "public/js/progress.js"' in HOOKS
+	page = (tree.APP / "public" / "js" / "progress.js").read_text()
+	assert '["Purchase Order", "Sales Order"]' in page
+	for name in ("sales_order.json", "purchase_order.json"):
+		fields = {
+			f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]
+		}
+		assert fields["one_retention"]["allow_on_submit"] == 1
+		assert fields["one_retention_due"]["allow_on_submit"] == 1
+	# A new date moves the retention on both sides' invoices, and both sides'
+	# invoices hold the share of the work.
+	assert HOOKS.count('"onedesk.one_project.progress.release"') == 2
+	assert HOOKS.count('"onedesk.one_project.progress.retained"') == 2
+	money = (PROJECT / "money.py").read_text()
+	assert '_("Retention Held")' in money and "def _retained(" in money

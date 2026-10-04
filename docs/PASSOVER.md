@@ -7029,6 +7029,17 @@ The design is `docs/PROJECT.md`, built one stage per commit.
   8,000 advance. Billing 40% gave 32,000: 20,800 due now and 3,200 held,
   with Suppliers and the forecast to match.
 
+**Stage 4, the customer's contract.**
+
+- **Bill Progress** on a submitted sales order, the same code as for a
+  supplier (`progress.py` covers both sides). **Retention** and **Retention
+  Due** on the sales order, and on both orders they can now be set after
+  submitting, since retention is often agreed late.
+- **Customer** on Costing gains **Retention Held**.
+- Checked with a 200,000 fit-out order and 5% retention. Billing 30% gave
+  60,000: 57,000 due now and 3,000 held. After the customer paid 57,000,
+  Retention Held read 3,000.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

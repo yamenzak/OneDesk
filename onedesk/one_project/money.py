@@ -138,6 +138,10 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	received = _paid(projects, "Receive")
 	if received is not None:
 		customer.append(_figure(_("Paid"), received, "Payment Entry", projects, payment_type="Receive"))
+	if _sees("Sales Invoice"):
+		retention = _retained(projects)
+		if retention:
+			customer.append(_figure(_("Retention Held"), retention, None, projects))
 
 	open_orders = 0.0
 	if _sees("Purchase Order"):
@@ -215,6 +219,40 @@ def _paid(projects: list[str], kind: str) -> float | None:
 		.run()
 	)
 	return flt(found[0][0]) if found else 0.0
+
+
+def _retained(projects: list[str]) -> float:
+	"""The customer's retention still held on the tree's invoices
+	(progress.py): on each, the retention or what's owed, whichever is less."""
+	from onedesk.one_project.progress import RETENTION, held
+
+	names = list(
+		set(
+			frappe.get_all(
+				"Sales Invoice Item", filters={"project": ["in", projects], "docstatus": 1}, pluck="parent"
+			)
+		)
+	)
+	if not names:
+		return 0.0
+	kept = {
+		one.parent: flt(one.base_payment_amount)
+		for one in frappe.get_all(
+			"Payment Schedule",
+			filters={"parent": ["in", names], "parenttype": "Sales Invoice", "payment_term": RETENTION},
+			fields=["parent", "base_payment_amount"],
+		)
+	}
+	if not kept:
+		return 0.0
+	owed = frappe.get_all(
+		"Sales Invoice",
+		filters={"name": ["in", list(kept)]},
+		fields=["name", "outstanding_amount", "conversion_rate"],
+	)
+	return sum(
+		held(kept[one.name], flt(one.outstanding_amount) * flt(one.conversion_rate or 1)) for one in owed
+	)
 
 
 def _suppliers(projects: list[str]) -> list[dict]:

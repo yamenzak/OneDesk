@@ -236,6 +236,16 @@ bill sets it off.
 Extra work from a supplier gets an order of its own, so the original stays
 readable.
 
+## Billing the customer as the work gets done
+
+The customer's contract is their **sales order** on the project. **Bill
+Progress** (under **Create** on a submitted order) works as it does for a
+supplier: say how far the work has got and it drafts the invoice for that
+share, less what's been invoiced already. Set **Retention** and **Retention
+Due** on the order's **Terms** tab to hold the customer's retention the same
+way. **Customer** on **Costing** shows the **Retention Held** still to be
+paid.
+
 ## Extra work becomes a sub-project
 
 When a customer asks for more in the middle of a job, such as handrails on a
@@ -412,7 +422,8 @@ one field for it.
   less what's billed (`to_bill`), since ERPNext keeps an invoice at the
   order's rate. `settle` makes the **Lump Sum** unit (can be split) and the
   **Retention** payment term. Retention is the order's `one_retention` and
-  `one_retention_due` (custom/purchase_order.json); the invoice's payment
+  `one_retention_due` (custom/purchase_order.json and sales_order.json, both
+  editable after submit); the invoice's payment
   schedule holds it under that term, set again after ERPNext's own split so
   it's the share of the work billed, not of what's left after advances
   (`retained`, `split`). A new Retention Due moves it on the order's
