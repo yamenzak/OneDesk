@@ -116,8 +116,9 @@ Featured Media; whoever may see the project sees it.
 ## A project's page
 
 Opening a project opens its page. At the top are its Featured Media, across
-the page with its kind and name over them, then its status and health, and
-the team. What else the top
+the page, with its kind, name, status, health and the kind's facts over them
+and the team in the corner. Its views sit right under them. A project with no
+photos shows its name, then its facts and how far along it is, then the views. What else the top
 shows depends on the kind:
 
 - **Fixed Price**: the customer, the contract, the dates, the manager and how

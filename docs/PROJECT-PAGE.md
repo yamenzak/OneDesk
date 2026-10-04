@@ -49,12 +49,13 @@ the project is and how it's going, then views of the same work.
   the cover first and then each in turn, cross-fading: a photo for six
   seconds, slowly drawing in; a video muted to its end; a single video on a
   loop. A bar per item shows where it is, the pointer over it pauses it, and
-  a click opens the rest in frappe-ui's Dialog. The kind and the name (click
-  to rename) sit over it; below are the status and health as pills that
-  change in place, the kind's facts (the contract on a Fixed Price project,
-  the start and hours a month on a Retainer, days left on an Internal one),
-  and the team. **Add Cover** opens frappe's upload dialog with media.py's
-  `add` as its method. Someone whose system asks for less motion gets the
+  a click opens the rest in frappe-ui's Dialog. The kind, the name (click
+  to rename), the status and health as pills that change in place and the
+  kind's facts sit over it, the team in its corner, and the views right
+  under it (on a phone the facts go under the photo). The kind's facts are
+  the contract on a Fixed Price project, the start and hours a month on a
+  Retainer, days left on an Internal one. **Add Cover** opens frappe's upload
+  dialog with media.py's `add` as its method. Someone whose system asks for less motion gets the
   photos still.
 - **Views**, in one bar under the head, kept in `?view=`:
   - **Overview**: laid out for the kind, each thing once. The brief when

@@ -7574,6 +7574,13 @@ photos, a strip), the first is the project page's and the third the portal's.
 - ERPNext lets a Project have four attachments, which stopped Featured Media
   and the project's folder at four files. A property setter lifts it.
 
+**One row under the photo.** Under the photo were a row of facts and a row of
+tabs, two thin lines of grey text that read as one. The facts and status now
+sit on the photo under the name, the team in its corner, the photo's own
+buttons at its top right, so the views are the only row under it. Progress
+was there twice and is now only in Overview's figures. Without photos the head
+is as it was; on a phone the facts go under the photo.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

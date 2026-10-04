@@ -1,9 +1,10 @@
 <template>
   <!-- The project's Featured Media across the top of its page, the cover
        first, then each photo and video in turn: a photo for a few seconds,
-       slowly drawing in, a video muted to its end. The name sits over it.
+       slowly drawing in, a video muted to its end. The name and the facts sit
+       over it, the team in the corner.
        Holding the pointer over it pauses it; a click opens the viewer. -->
-  <div class="group relative h-72 overflow-hidden rounded-7 bg-surface-gray-9 lg:h-[22rem]" @mouseenter="held = true" @mouseleave="held = false">
+  <div class="group relative h-80 overflow-hidden rounded-7 bg-surface-gray-9 lg:h-[26rem]" @mouseenter="held = true" @mouseleave="held = false">
     <button class="absolute inset-0 block" :aria-label="__('Featured Media')" @click="$emit('open', at)">
       <div v-for="(one, i) in media" :key="one.name" class="absolute inset-0 transition-opacity duration-1000 motion-reduce:transition-none" :class="i === at ? 'opacity-100' : 'opacity-0'">
         <video
@@ -30,22 +31,24 @@
       </span>
     </div>
 
-    <div class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 lg:p-8">
-      <div class="pointer-events-auto min-w-0"><slot name="over" /></div>
-      <div class="pointer-events-auto flex shrink-0 items-center gap-3 max-sm:hidden">
-        <div v-if="media.length > 1" class="flex -space-x-3">
-          <button v-for="one in upcoming" :key="one.name" class="size-11 overflow-hidden rounded-4 ring-2 ring-white-overlay-900 transition hover:-translate-y-0.5" :aria-label="one.title" @click="go(media.indexOf(one))">
-            <Thumb :item="one" />
-          </button>
-        </div>
-        <button class="flex h-9 items-center gap-2 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-3 text-base font-medium text-white backdrop-blur-md hover:bg-black-overlay-600" @click="$emit('open', at)">
-          <span class="lucide-images size-4" />{{ media.length > 1 ? __("View All {0}", [media.length]) : __("View") }}
+    <div class="absolute end-6 top-9 flex items-center gap-2 lg:end-8">
+      <button v-if="canAdd" class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white opacity-0 backdrop-blur-md transition hover:bg-black-overlay-600 group-hover:opacity-100" @click="$emit('add')">
+        <span class="lucide-image-plus size-4" />{{ __("Add Photos") }}
+      </button>
+      <div v-if="media.length > 1" class="flex -space-x-2.5 max-sm:hidden">
+        <button v-for="one in upcoming" :key="one.name" class="size-8 overflow-hidden rounded-3 ring-2 ring-white-overlay-900 transition hover:-translate-y-0.5" :aria-label="one.title" @click="go(media.indexOf(one))">
+          <Thumb :item="one" />
         </button>
       </div>
+      <button class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white backdrop-blur-md hover:bg-black-overlay-600" @click="$emit('open', at)">
+        <span class="lucide-images size-4" />{{ media.length > 1 ? __("View All {0}", [media.length]) : __("View") }}
+      </button>
     </div>
-    <button v-if="canAdd" class="absolute end-4 top-9 flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white opacity-0 backdrop-blur-md transition hover:bg-black-overlay-600 group-hover:opacity-100 lg:end-6" @click="$emit('add')">
-      <span class="lucide-image-plus size-4" />{{ __("Add Photos") }}
-    </button>
+
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 lg:p-8">
+      <div class="pointer-events-auto min-w-0"><slot name="over" /></div>
+      <div class="pointer-events-auto shrink-0 max-sm:hidden"><slot name="corner" /></div>
+    </div>
   </div>
 </template>
 

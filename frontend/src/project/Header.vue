@@ -1,7 +1,7 @@
 <template>
-  <!-- The project's head: its Featured Media turning behind its name
-       (Hero.vue), then what its kind is watched by, changed right here
-       (Facts.vue). -->
+  <!-- The project's head: its Featured Media turning behind its name and
+       what its kind is watched by, changed right here (Hero.vue, Facts.vue),
+       the team in the corner. With no photos, the name, then the facts. -->
   <header class="pt-6">
     <template v-if="!said.media.length">
       <div class="flex items-center gap-3">
@@ -16,9 +16,14 @@
         <template #over>
           <div class="mb-2 text-sm font-medium uppercase tracking-widest text-white-overlay-800">{{ __(said.kind) }}</div>
           <Title :said="said" on-image size="text-6xl lg:text-8xl" @change="relay" />
+          <Facts class="mt-4 max-sm:hidden" :said="said" on-image @change="relay" />
+        </template>
+        <template #corner>
+          <People :users="said.team.map((one) => one.user)" :people="teamPeople" :max="6" size="md" />
         </template>
       </Hero>
-      <Facts class="mt-4" :said="said" :progress="progress" @change="relay" />
+      <!-- On a phone the photo is too small to carry the facts. -->
+      <Facts class="mt-4 sm:hidden" :said="said" :progress="progress" @change="relay" />
     </template>
 
     <Media v-model:open="viewing" v-model:at="at" :media="said.media" :project="said.name" :can-add="said.can_write" @add="add" />
@@ -26,10 +31,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 
-import { __, upload } from "../kit";
+import { People, __, upload } from "../kit";
 import Facts from "./Facts.vue";
 import Hero from "./Hero.vue";
 import Media from "./Media.vue";
@@ -41,6 +46,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["change", "media"]);
 const relay = (fieldname, value) => emit("change", fieldname, value);
+const teamPeople = computed(() => Object.fromEntries(props.said.team.map((one) => [one.user, one])));
 
 const viewing = ref(false);
 const at = ref(0);
