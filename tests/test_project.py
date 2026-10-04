@@ -820,6 +820,10 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 	for step in ('name: "kind"', 'name: "details"', 'name: "plan"'):
 		assert step in page
 	assert "step.form.is_dialog = true;" in page
+	# The cards are drawn with frappe's tokens of today: --border-radius-* are gone,
+	# and a corner written with one is square.
+	for sheet in (tree.APP / "public" / "css").glob("*.css"):
+		assert "var(--border-radius" not in sheet.read_text(), sheet.name
 	# The dialog's fieldnames are its own: a quick entry takes the doctype's
 	# label and hidden flag for a field of the same name.
 	for taken in ('fieldname: "project_name"', 'fieldname: "one_kind"', 'fieldname: "customer"'):

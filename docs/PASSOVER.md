@@ -7491,6 +7491,12 @@ fields split by three rules, with no kind looking picked, money fields reading
   dialog's, so Customer is marked required by setting `is_dialog`; and a Slide
   copies its fields as JSON, so Bill As's item filter is set after.
 - Money fields start empty.
+- The kind cards were square: they asked for `--border-radius-lg`, a token
+  frappe no longer has, so the corner fell back to none. They now use frappe's
+  `--radius-md`, a grey surface on hover and a dark ring once picked, as
+  frappe-ui's padded Radio does. Four other corners in desk.css and
+  settings.css (the Domains DNS table among them) used the old names too, and
+  a test keeps them out.
 
 
 ## OneLegal
