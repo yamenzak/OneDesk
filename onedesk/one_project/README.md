@@ -74,6 +74,10 @@ Below are its views, and the page remembers which one is open:
 - **Files**: everything attached to the project and its tasks.
 - **Activity**: comments and every change, newest first.
 
+On a phone the views scroll sideways, and the lists keep their main columns:
+the day, who and the hours on **Time**, the person and their open tasks on
+**Team**, the invoice, its status and total on **Invoices**.
+
 ### Overview
 
 The four figures are picked by the kind:
@@ -119,7 +123,9 @@ it. Submitting it marks that time invoiced, so it's never billed again, and
 the month shows its invoice. A month is invoiced once.
 
 A retainer's hours are billed with its months, so **Invoice Time** isn't
-offered on one.
+offered on one. Its **Time** shows this month's hours against the allowance
+instead of amounts, and its **Invoices** has **Invoice Month** instead of
+**New Invoice**.
 
 ### Tasks
 
@@ -446,21 +452,41 @@ updates by email the next morning.
   once for each budget.
 - **Progress Bill Drafted**: someone saves a bill or invoice made with **Bill
   Progress** on a project you manage, for you to check.
+- **Retainer Month to Invoice**: on the first of the month, a retainer you
+  manage whose last month isn't invoiced, with its hours against the
+  allowance. To whoever made it when it has no manager.
+- **Retainer Hours Used**: a submitted timesheet takes a retainer you manage
+  past its hours for this month.
 
 Each is on the bell, and by email or push if you chose. Change them under
 **Settings › Notifications**.
 
 ## Asking OneAI
 
-On a project's page, OneAI offers **How is this project going?**, **What is
-late?**, **Write the customer an update**, **Where is the money going?**,
-**What's left to pay the subcontractors?** and **Plan the tasks**. On the
-Projects list, it offers **Which projects need attention?**
+On a project's page, OneAI offers what fits the view you're on:
+
+- **Overview**: **How is this project going?**, **What is late?**, **Write
+  the customer an update** and **Plan the tasks**. On a retainer, first
+  **How much of this month's hours are used?**
+- **Tasks**: **What is late?**, **Plan the tasks** and **Who has too much
+  on?**
+- **Time**: **Where did the time go?**, **What's still to invoice?** and
+  **Who has too much on?**
+- **Money**: **Where is the money going?**, **What's still to invoice?** and
+  **What's left to pay the subcontractors?**
+- **Invoices**: **What's still to invoice?**
+- **Suppliers**: **What's left to pay the subcontractors?**
+- **Team**: **Who has too much on?** and **What is late?**
+
+An internal project has no customer, so it isn't offered the customer
+update or what's still to invoice. On the Projects list, OneAI offers
+**Which projects need attention?**
 
 OneAI reads a project as you see it on its page: its figures, its money with
-the customer and suppliers, its cost types, its tasks, its people and the
-team's updates, including the sub-projects you can see. Tasks
-it suggests come as cards, and nothing is added until you approve one.
+the customer and suppliers, its cost types, its tasks, its time, its people
+and their load, a retainer's months, and the team's updates, including the
+sub-projects you can see. Tasks it suggests come as cards, and nothing is
+added until you approve one.
 
 ## Who has room this week
 

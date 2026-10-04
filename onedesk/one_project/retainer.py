@@ -135,6 +135,25 @@ def months(project: Annotated[str, "The project."]) -> dict:
 	}
 
 
+def logged(project: str, month) -> float:
+	"""Everyone's hours on the project in a month, drafts too, whoever reads."""
+	found = frappe.db.sql(
+		"""select sum(detail.hours) from `tabTimesheet Detail` detail
+		join `tabTimesheet` sheet on sheet.name = detail.parent
+		where detail.project = %s and detail.from_time >= %s and detail.from_time < %s
+		and sheet.docstatus < 2""",
+		(project, str(month), str(add_months(month, 1))),
+	)
+	return flt(found[0][0]) if found else 0.0
+
+
+def invoiced(project: str, month) -> bool:
+	"""Whether a month has an invoice that isn't cancelled, whoever reads."""
+	return bool(
+		frappe.db.exists("Sales Invoice", {"project": project, MONTH: str(month), "docstatus": ["<", 2]})
+	)
+
+
 def waiting(project: str) -> list[str]:
 	"""Months that have ended and aren't invoiced, oldest first."""
 	said = months(project)
@@ -207,7 +226,9 @@ def invoice_month(source_name: str, month: str | None = None, item: str | None =
 				"item_code": item,
 				"qty": round(extra, 2),
 				"rate": rate(billable),
-				"description": _("Hours over the {0} h a month").format(f"{flt(doc.get('one_monthly_hours'), 1):g}"),
+				"description": _("Hours over the {0} h a month").format(
+					f"{flt(doc.get('one_monthly_hours'), 1):g}"
+				),
 			},
 		)
 	for row in billable:

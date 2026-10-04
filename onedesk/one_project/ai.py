@@ -22,7 +22,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
 
-from onedesk.one_project import overview
+from onedesk.one_project import kinds, overview
 
 #: Not a project here: an employee's onboarding or exit checklist (README).
 HR = "Employee Boarding"
@@ -30,66 +30,123 @@ HR = "Employee Boarding"
 #: How many of each list the model is shown.
 MOST = 15
 
+GOING = {
+	"label": _lt("How is this project going?"),
+	"ask": _lt(
+		"How is this project going? Say in a few lines where it stands against its dates and its "
+		"budget, what is late and what it holds up, the next milestone, and what the team said last."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+LATE = {
+	"label": _lt("What is late?"),
+	"ask": _lt("Which of this project's tasks are late, who is on each, and what waits on them?"),
+	"can": "read",
+	"expects": "project_facts",
+}
+UPDATE = {
+	"label": _lt("Write the customer an update"),
+	"ask": _lt(
+		"Write a short update on this project for its customer: what was done, what comes next and "
+		"when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+MONEY = {
+	"label": _lt("Where is the money going?"),
+	"ask": _lt(
+		"Where is this project's money going? Say what the customer has been invoiced and paid, what "
+		"it has cost and on what, which cost types are close to or over their budget, and where the "
+		"forecast margin is heading."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+SUPPLIERS = {
+	"label": _lt("What's left to pay the subcontractors?"),
+	"ask": _lt(
+		"For each subcontractor on this project, what is left to bill, the retention held, any advance "
+		"not yet set off, and what has been paid."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+PLAN = {
+	"label": _lt("Plan the tasks"),
+	"ask": _lt(
+		"Read this project, then suggest the tasks it still needs, each with a due date before its "
+		"end, as cards I can approve."
+	),
+	"can": "write",
+	"expects": "plan_task",
+}
+LOAD = {
+	"label": _lt("Who has too much on?"),
+	"ask": _lt(
+		"Who on this project has too much on? Say who has the most open and late tasks and the most "
+		"hours this month, and which tasks could go to somebody with less."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+TIME = {
+	"label": _lt("Where did the time go?"),
+	"ask": _lt(
+		"Where did this project's time go this month? Say who logged it, on which tasks, how much is "
+		"billable, and what is still a draft."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+UNBILLED = {
+	"label": _lt("What's still to invoice?"),
+	"ask": _lt(
+		"What on this project is still to invoice? Say what time is billable and not invoiced, what of "
+		"the contract is not billed yet, and what is invoiced and not paid."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+ALLOWANCE = {
+	"label": _lt("How much of this month's hours are used?"),
+	"ask": _lt(
+		"How much of this month's retainer hours are used, how many are left, and at this pace will "
+		"the month go over? Say which months went over and which are not invoiced yet."
+	),
+	"can": "read",
+	"expects": "project_facts",
+}
+
+#: The project page (project-view), by its open view, from `?view=`.
+PAGE = "project-view"
+#: The kinds with a customer to bill and to write to; an Internal project has none.
+BILLED = (kinds.FIXED, kinds.TIME, kinds.RETAINER)
+#: The Tasks view's layouts are the same view.
+LAYOUTS = {"board": "tasks", "timeline": "tasks"}
+
+
+def _here(*offered, kinds: tuple | None = None) -> list[dict]:
+	"""Suggestions as the project page offers them: checked on the project the
+	page is open on, and, with `kinds`, only on a project of those kinds."""
+	said = []
+	for one in offered:
+		one = {**one, "doctype": one.get("doctype") or "Project"}
+		if kinds:
+			one["when"] = {"one_kind": list(kinds)}
+		said.append(one)
+	return said
+
+
 SUGGESTIONS = {
 	"Project": [
-		{
-			"label": _lt("How is this project going?"),
-			"ask": _lt(
-				"How is this project going? Say in a few lines where it stands against its dates and its "
-				"budget, what is late and what it holds up, the next milestone, and what the team said last."
-			),
-			"can": "read",
-			"view": "Form",
-			"expects": "project_facts",
-		},
-		{
-			"label": _lt("What is late?"),
-			"ask": _lt("Which of this project's tasks are late, who is on each, and what waits on them?"),
-			"can": "read",
-			"view": "Form",
-			"expects": "project_facts",
-		},
-		{
-			"label": _lt("Write the customer an update"),
-			"ask": _lt(
-				"Write a short update on this project for its customer: what was done, what comes next and "
-				"when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
-			),
-			"can": "read",
-			"view": "Form",
-			"expects": "project_facts",
-		},
-		{
-			"label": _lt("Where is the money going?"),
-			"ask": _lt(
-				"Where is this project's money going? Say what the customer has been invoiced and paid, what "
-				"it has cost and on what, which cost types are close to or over their budget, and where the "
-				"forecast margin is heading."
-			),
-			"can": "read",
-			"view": "Form",
-			"expects": "project_facts",
-		},
-		{
-			"label": _lt("What's left to pay the subcontractors?"),
-			"ask": _lt(
-				"For each subcontractor on this project, what is left to bill, the retention held, any advance "
-				"not yet set off, and what has been paid."
-			),
-			"can": "read",
-			"view": "Form",
-			"expects": "project_facts",
-		},
-		{
-			"label": _lt("Plan the tasks"),
-			"ask": _lt(
-				"Read this project, then suggest the tasks it still needs, each with a due date before its "
-				"end, as cards I can approve."
-			),
-			"can": "write",
-			"view": "Form",
-			"expects": "plan_task",
-		},
+		{**GOING, "view": "Form"},
+		{**LATE, "view": "Form"},
+		{**UPDATE, "view": "Form"},
+		{**MONEY, "view": "Form"},
+		{**SUPPLIERS, "view": "Form"},
+		{**PLAN, "view": "Form"},
 		{
 			"label": _lt("Which projects need attention?"),
 			"ask": _lt(
@@ -101,7 +158,59 @@ SUGGESTIONS = {
 			"expects": "projects_needing_attention",
 		},
 	],
+	# A retainer's first question is its hours, wherever it is asked.
+	f"page:{PAGE}": _here(ALLOWANCE, kinds=(kinds.RETAINER,))
+	+ _here(GOING, LATE)
+	+ _here(UPDATE, kinds=BILLED)
+	+ _here(PLAN),
+	f"page:{PAGE}/tasks": _here(LATE, PLAN, LOAD),
+	f"page:{PAGE}/time": _here(ALLOWANCE, kinds=(kinds.RETAINER,)) + _here(TIME, UNBILLED, LOAD),
+	f"page:{PAGE}/money": _here(MONEY) + _here(UNBILLED, kinds=BILLED) + _here(SUPPLIERS),
+	f"page:{PAGE}/invoices": _here(UNBILLED) + _here(ALLOWANCE, kinds=(kinds.RETAINER,)),
+	f"page:{PAGE}/suppliers": _here(SUPPLIERS, MONEY),
+	f"page:{PAGE}/team": _here(LOAD, LATE),
+	f"page:{PAGE}/files": _here(GOING) + _here(UPDATE, kinds=BILLED),
+	f"page:{PAGE}/activity": _here(GOING) + _here(UPDATE, kinds=BILLED),
 }
+for _layout, _view in LAYOUTS.items():
+	SUGGESTIONS[f"page:{PAGE}/{_layout}"] = SUGGESTIONS[f"page:{PAGE}/{_view}"]
+
+#: What each view is, as the model is told it.
+VIEWS = {
+	"overview": "the Overview: where it stands, what needs the reader, its numbers and milestones",
+	"tasks": "the Tasks view: its tasks as a table, a board or a timeline",
+	"time": "the Time view: the hours logged on it",
+	"money": "the Money view: what the customer is billed and has paid, and what it costs",
+	"invoices": "the Invoices view: its sales invoices",
+	"suppliers": "the Suppliers view: its subcontracts and purchase orders",
+	"team": "the Team view: its people, their open tasks and their hours",
+	"files": "the Files view: its files",
+	"activity": "the Activity view: what happened on it",
+}
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on a project's page."""
+	if said.get("page") != PAGE:
+		return None
+	name = (said.get("record") or "").strip()
+	if (
+		not name
+		or not frappe.db.exists("Project", name)
+		or not frappe.has_permission("Project", "read", doc=name)
+	):
+		return "The reader is on a project's page."
+	title, kind = frappe.db.get_value("Project", name, ["project_name", "one_kind"])
+	view = (said.get("section") or "").strip() or "overview"
+	view = LAYOUTS.get(view, view)
+	return (
+		f"The reader is on the page of project {name} (“{title}”"
+		+ (f", a project of kind {kind}" if kind else "")
+		+ f"), on {VIEWS.get(view, VIEWS['overview'])}. project_facts reads it as its page shows it: its "
+		"dates, tasks, money, time, team and, for a retainer, its months; plan_task suggests a task on it as "
+		"a card that adds it when the reader approves. Nothing is changed until the reader approves. How "
+		"OneProject works is in its documentation (how_to)."
+	)
 
 
 def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."]) -> dict:
@@ -170,6 +279,79 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		],
 		"updates": _updates(project),
 		"money": _money(project),
+		"kind": doc.get("one_kind"),
+		"time": _time(project, doc.get("one_kind")),
+		"team": _team(project),
+		"months": _months(project) if doc.get("one_kind") == kinds.RETAINER else None,
+	}
+
+
+def _time(project: str, kind: str | None) -> dict:
+	"""The time as the Time view shows it: its totals, and this month's hours
+	by person and by task (hours.py). A retainer's hours are billed with its
+	month, so it has no time to invoice of its own."""
+	from onedesk.one_project import hours
+
+	said = hours.entries(project)
+	month = str(getdate(nowdate()).replace(day=1))
+	by_person: dict[str, float] = {}
+	by_task: dict[str, float] = {}
+	for one in said["entries"]:
+		if not one["date"] or one["date"] < month:
+			continue
+		who = one["who"] or one["user"] or "?"
+		by_person[who] = by_person.get(who, 0) + one["hours"]
+		if one["task_subject"]:
+			by_task[one["task_subject"]] = by_task.get(one["task_subject"], 0) + one["hours"]
+	totals = dict(said["totals"])
+	if kind == kinds.RETAINER:
+		totals.pop("to_invoice")
+		totals.pop("invoiced")
+	return {
+		**totals,
+		"this_month_by_person": {key: round(value, 2) for key, value in by_person.items()},
+		"this_month_by_task": dict(sorted(by_task.items(), key=lambda item: -item[1])[:MOST]),
+	}
+
+
+def _team(project: str) -> list[dict]:
+	"""Its people as the Team view shows them: open and late tasks, hours."""
+	from onedesk.one_project import team
+
+	return [
+		{
+			"name": one["name"],
+			"manager": one["manager"],
+			"member": one["member"],
+			"open_tasks": one["open"],
+			"late_tasks": one["late"],
+			"hours_this_month": one["month"],
+			"hours": one["hours"],
+		}
+		for one in team.team(project)["people"][:MOST]
+	]
+
+
+def _months(project: str) -> dict:
+	"""A retainer's months as the page shows them (retainer.py)."""
+	from onedesk.one_project import retainer
+
+	said = retainer.months(project)
+	return {
+		"fee": said["fee"],
+		"hours_a_month": said["allowance"],
+		"renews": said["renews"],
+		"months": [
+			{
+				"month": one["month"],
+				"hours": one["hours"],
+				"over": one["over"],
+				"drafts": one["drafts"],
+				"current": one["current"],
+				"invoice": one["invoice"],
+			}
+			for one in said["months"]
+		],
 	}
 
 

@@ -114,6 +114,10 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 			for row in rows[:SHOWN]
 		],
 		"more": max(0, len(rows) - SHOWN),
+		# A retainer's hours are counted against its month, not priced here.
+		"allowance": flt(frappe.db.get_value("Project", project, "one_monthly_hours"))
+		if frappe.db.get_value("Project", project, "one_kind") == "Retainer"
+		else None,
 		"can_log": bool(frappe.has_permission("Timesheet", "create")),
 		# A retainer's hours are billed with its month (retainer.py), not here.
 		"can_invoice": frappe.db.get_value("Project", project, "one_kind") != "Retainer"

@@ -75,7 +75,8 @@ onedesk.oneai = {
 				doctype: "",
 				name: "",
 				page: route[0],
-				section: params.section || (cloud && cloud.file ? "file" : ""),
+				// A project's page names its open view the same way (?view=money).
+				section: params.section || params.view || (cloud && cloud.file ? "file" : ""),
 				// A record's own calendar names it as ?doctype=&name=.
 				record: params.type || params.rule || params.thread || (cloud && cloud.file) || params.name || route[1] || "",
 				box: params.box || params.doctype || "",

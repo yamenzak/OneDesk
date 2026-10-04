@@ -3,7 +3,8 @@
 Sent by `updates.py` (the update asked, and the morning's answers) and
 `tell.py` (a person added to a project or made its manager, and a project
 marked at risk or off track), `budget.py` (a cost type over its budget) and
-`progress.py` (a bill drafted for a share of the work).
+`progress.py` (a bill drafted for a share of the work), and `tell.py` again
+for a retainer (its month ready to invoice, its hours for the month used).
 """
 
 from frappe import _lt
@@ -89,6 +90,27 @@ TYPES = [
 		"to": _lt("The project's manager, unless they saved it"),
 		"subject": _lt("{who} drafted a bill for {order} at {share}% done"),
 		"message": _lt("<b>{project}</b> · {party} · {amount}"),
+		"push_default": True,
+	},
+	# tell: a retainer's month, to invoice and over its hours.
+	{
+		"name": _lt("Retainer Month to Invoice"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("On the first of the month, for each retainer whose last month isn't invoiced."),
+		"to": _lt("The project's manager, or whoever made it"),
+		"subject": _lt("Invoice {project} for last month"),
+		"message": _lt("<b>{project}</b> · {hours} h of {allowance} h{customer}"),
+		"email_default": True,
+	},
+	{
+		"name": _lt("Retainer Hours Used"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("When the time logged on a retainer passes its hours for the month."),
+		"to": _lt("The project's manager, or whoever made it"),
+		"subject": _lt("{project} has used its {allowance} h for this month"),
+		"message": _lt("<b>{project}</b> · {hours} h of {allowance} h{customer}"),
 		"push_default": True,
 	},
 ]

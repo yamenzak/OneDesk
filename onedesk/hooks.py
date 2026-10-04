@@ -214,7 +214,11 @@ scheduler_events = {
 	],
 	# What OneAI read for each person this week. See one_intake/digest.py.
 	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
-	"monthly": ["onedesk.one_hr.tell.holidays_monthly"],
+	"monthly": [
+		"onedesk.one_hr.tell.holidays_monthly",
+		# A retainer's last month, to invoice. See one_project/tell.py.
+		"onedesk.one_project.tell.retainer_months",
+	],
 }
 
 # Every email this workspace sends: an address on the mail domain through
@@ -433,7 +437,11 @@ doc_events = {
 		"validate": "onedesk.one_hr.overtime.no_double_pay",
 	},
 	# A block reads as a block. See one_hr/timesheet.py.
-	"Timesheet": {"before_validate": "onedesk.one_hr.timesheet.before_validate"},
+	"Timesheet": {
+		"before_validate": "onedesk.one_hr.timesheet.before_validate",
+		# A retainer's hours for the month, used. See one_project/tell.py.
+		"on_submit": "onedesk.one_project.tell.hours_used",
+	},
 	# The third request doctype, answered like the other two. See one_hr/leave.py.
 	"Leave Application": {"before_submit": "onedesk.one_hr.leave.before_submit"},
 	"Expense Claim": {
@@ -1207,6 +1215,7 @@ one_ai_page = [
 	"onedesk.one_calendar.ai.page",
 	"onedesk.one_task.ai.page",
 	"onedesk.one_admin.ai.page",
+	"onedesk.one_project.ai.page",
 ]
 
 # Kinds of record whose home is one of a module's pages rather than their own

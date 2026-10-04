@@ -7332,6 +7332,50 @@ and Board and Timeline folded into Tasks.
   13,800), and a submitted August invoice marking the month and its time
   invoiced, refused a second time, then cancelled and deleted.
 
+**Stage 6: the phone, OneAI, notifications.** The last stage.
+
+- **Phone** (point 6, 9): every list takes frappe-ui's columns by breakpoint
+  and hides its minor cells below `md` (`max-md:hidden`), as the List's own
+  docs show: Time keeps the day, who and the hours; Team the person and
+  their open tasks; Invoices the invoice, status and total; the cost types
+  their left and used; a retainer's months the hours and the invoice. The
+  views scroll sideways in their own strip, and the task toolbar wraps with
+  Search on its own line. No page scrolls sideways at 390 px.
+- **Found on the way**:
+  - The Activity timeline said "in 3 hours" for a change made 30 minutes
+    ago: frappe-ui reads times in `systemTimezone` and shows them in
+    `localTimezone`, which a Frappe UI app sets from its boot. The island
+    now sets both from `frappe.boot.time_zone` (`kit/mount.js`).
+  - A retainer's Time view showed **To Invoice** and **Invoiced** amounts,
+    though its hours are billed with the month. It now shows this month's
+    hours against the allowance, and its Invoices view has **Invoice Month**
+    in place of **New Invoice**.
+- **OneAI** (point 2, 7):
+  - The panel names the open view as the page's section (`?view=` in
+    `oneai.where()`), and the page tells it when the view changes, since
+    switching views is no route change (`setQuery`).
+  - `one_project.ai.page` tells the model the project, its kind and the
+    view; suggestions are keyed per view (`page:project-view/<view>`, the
+    board and timeline sharing Tasks'). A suggestion for some kinds only
+    carries `when: {one_kind: …}`, checked on the record the page is open
+    on (`suggest.py` now reads a page's `record`, and only one the reader
+    may read). A retainer starts with its hours; an internal project isn't
+    offered the customer update or what's still to invoice. New: **Who has
+    too much on?**, **Where did the time go?**, **What's still to
+    invoice?**, **How much of this month's hours are used?**
+  - `project_facts` gains the kind, the time (totals, this month by person
+    and task), the team's load and a retainer's months.
+- **Notifications** (point 1): **Retainer Month to Invoice**, on the first of
+  the month for each open retainer whose last month isn't invoiced, and
+  **Retainer Hours Used**, when a submitted timesheet takes this month past
+  the allowance. Both to the manager, or whoever made the project. A member
+  added from Team is told by **Added to Project**, as from the form.
+- **README**: the phone, a retainer's Time and Invoices, the two
+  notifications, and what OneAI offers in each view.
+- Checked on the site: the panel on Halcyon Support's Time view (the hours
+  question first), then Team after a tab click; Villa Al Barsha's Money;
+  both notifications sent to the manager; every view at 390 px.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

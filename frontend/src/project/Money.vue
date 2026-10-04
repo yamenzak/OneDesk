@@ -23,21 +23,21 @@
       </div>
       <Loading v-if="!types" />
       <div v-else-if="!types.lines.length" class="py-3 text-base text-ink-gray-5">{{ __("No cost types") }}</div>
-      <List v-else :columns="['minmax(0,1.4fr)', '7rem', '7rem', '7rem', '7rem', 'minmax(6rem,1fr)']" :row-height="44" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+      <List v-else :columns="{ base: ['minmax(0,1fr)', '6.5rem', '4rem'], md: ['minmax(0,1.4fr)', '7rem', '7rem', '7rem', '7rem', 'minmax(6rem,1fr)'] }" :row-height="44" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Cost Type") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Budget") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Committed") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Spent") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-md:hidden">{{ __("Budget") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-md:hidden">{{ __("Committed") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-md:hidden">{{ __("Spent") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Left") }}</ListHeaderCell>
           <ListHeaderCell>{{ __("Used") }}</ListHeaderCell>
         </ListHeader>
         <ListRows :items="types.lines" row-key="account" v-slot="{ item }">
           <ListRow v-bind="types.can_set ? { onClick: () => costType(item) } : {}">
             <ListCell class="min-w-0"><span class="truncate text-base text-ink-gray-8">{{ item.cost_type }}</span></ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7">{{ amount(item.budget) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7">{{ amount(item.committed) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7">{{ amount(item.spent) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.budget) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.committed) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.spent) }}</ListCell>
             <ListCell class="justify-end tabular-nums" :class="item.left < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ amount(item.left) }}</ListCell>
             <ListCell><Progress :value="used(item)" size="md" class="w-full" /></ListCell>
           </ListRow>

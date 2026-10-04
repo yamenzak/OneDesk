@@ -10,12 +10,19 @@ email or push as they chose, in their language.
 **At risk.** Health is somebody's judgement that a project is in trouble
 before any figure says so. `health` tells its manager and members when it is
 marked At Risk or Off Track; whoever marked it already knows.
+
+**A retainer's month.** On the first of the month, `retainer_months` tells
+whoever runs each open retainer that last month isn't invoiced, with its
+hours against the allowance. And when a submitted timesheet takes this
+month's hours past the allowance, `hours_used` tells them then, while there
+is still time to say so to the customer.
 """
 
 import frappe
-from frappe.utils import formatdate, get_fullname
+from frappe.utils import add_months, flt, formatdate, get_first_day, get_fullname, getdate, nowdate
 
 from onedesk.one import notify
+from onedesk.one_project import kinds, retainer
 
 #: The health worth telling people about.
 WORSE = ("At Risk", "Off Track")
@@ -63,4 +70,68 @@ def _facts(doc) -> dict:
 		"project": doc.project_name,
 		"customer": f" · {doc.customer}" if doc.get("customer") else "",
 		"due": f" · {formatdate(doc.expected_end_date)}" if doc.get("expected_end_date") else "",
+	}
+
+
+def retainer_months() -> None:
+	"""Monthly: each open retainer whose last month isn't invoiced, told to
+	whoever runs it."""
+	last = add_months(get_first_day(getdate(nowdate())), -1)
+	for one in frappe.get_all(
+		"Project",
+		filters={"one_kind": kinds.RETAINER, "status": "Open", "one_monthly_fee": [">", 0]},
+		fields=[
+			"name",
+			"project_name",
+			"customer",
+			"one_monthly_hours",
+			"one_manager",
+			"owner",
+			"creation",
+			"expected_start_date",
+		],
+	):
+		if get_first_day(getdate(one.expected_start_date or one.creation)) > last:
+			continue
+		if retainer.invoiced(one.name, last):
+			continue
+		said = _retainer(one, retainer.logged(one.name, last))
+		if said:
+			notify.notify("Retainer Month to Invoice", **said)
+
+
+def hours_used(doc, method=None) -> None:
+	"""Timesheet on_submit: a retainer whose hours this month the timesheet
+	takes past its allowance."""
+	month = get_first_day(getdate(nowdate()))
+	here: dict[str, float] = {}
+	for row in doc.get("time_logs") or []:
+		if row.project and row.from_time and get_first_day(getdate(row.from_time)) == month:
+			here[row.project] = here.get(row.project, 0.0) + flt(row.hours)
+	if not here:
+		return
+	for one in frappe.get_all(
+		"Project",
+		filters={"name": ["in", list(here)], "one_kind": kinds.RETAINER, "one_monthly_hours": [">", 0]},
+		fields=["name", "project_name", "customer", "one_monthly_hours", "one_manager", "owner"],
+	):
+		hours = retainer.logged(one.name, month)
+		if hours - here[one.name] < flt(one.one_monthly_hours) <= hours:
+			said = _retainer(one, hours)
+			if said:
+				notify.notify("Retainer Hours Used", **said)
+
+
+def _retainer(one, hours: float) -> dict | None:
+	"""Who to tell about a retainer, and what: its manager, or whoever made it."""
+	person = one.one_manager or one.owner
+	if not person or person in ("Administrator", "Guest"):
+		return None
+	return {
+		"users": person,
+		"record": ("Project", one.name),
+		"project": one.project_name,
+		"hours": f"{flt(hours, 1):g}",
+		"allowance": f"{flt(one.one_monthly_hours, 1):g}",
+		"customer": f" · {one.customer}" if one.customer else "",
 	}

@@ -114,4 +114,4 @@ the project is and how it's going, then views of the same work.
 4. **Tasks, Schedule, Time, Invoices, Team, Files, Activity** tabs. Done.
 5. **Retainer**: the monthly allowance and Invoice Month. Done.
 6. **Phone layout, OneAI** (`where`, suggestions by kind), **README,
-   notifications, translations**.
+   notifications, translations**. Done.

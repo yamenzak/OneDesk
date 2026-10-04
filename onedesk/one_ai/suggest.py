@@ -89,7 +89,8 @@ def for_page(page: dict | None) -> list[dict]:
 		# And for a record in one state only: "why did this job fail?" on a
 		# job that did not fail is a question with no answer. `when` is
 		# {field: [values]}, read from the record the panel is open on.
-		if one.get("when") and not _holds(on, page.get("name"), one["when"]):
+		# A desk page names the record it is open on as `record`.
+		if one.get("when") and not _holds(on, page.get("name") or page.get("record"), one["when"]):
 			continue
 		if one.get("run"):
 			# Something to do rather than something to ask: a job run on the
@@ -144,6 +145,8 @@ def expected(text: str | None) -> str | None:
 def _holds(doctype: str | None, name: str | None, when: dict) -> bool:
 	"""Whether the open record's fields have one of the values `when` names."""
 	if not doctype or not name or not frappe.db.exists(doctype, name):
+		return False
+	if not frappe.has_permission(doctype, "read", doc=name):
 		return False
 	held = frappe.db.get_value(doctype, name, list(when), as_dict=True) or {}
 	return all(held.get(field) in values for field, values in when.items())

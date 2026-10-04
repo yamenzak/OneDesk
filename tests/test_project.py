@@ -924,3 +924,51 @@ def test_a_retainer_is_invoiced_by_the_month():
 	assert "desk().project.invoice_month(frm())" in page
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.invoice_month" in actions and '"onedesk.one_project.retainer.invoice_month"' in actions
+
+
+def test_the_project_page_tells_oneai_where_it_is():
+	# The panel names the open view as the page's section (oneai.js where()),
+	# and is told when the view changes without a route change (kit setQuery).
+	oneai = (tree.APP / "public" / "js" / "oneai.js").read_text()
+	assert "params.section || params.view" in oneai
+	kit = (tree.ROOT / "frontend" / "src" / "kit" / "desk.js").read_text()
+	assert "oneai.panel.moved(oneai.where())" in kit
+	assert '"onedesk.one_project.ai.page"' in HOOKS
+	ai = (PROJECT / "ai.py").read_text()
+	assert 'PAGE = "project-view"' in ai and 'frappe.has_permission("Project", "read", doc=name)' in ai
+	# A suggestion for one kind of project is checked on the record the page
+	# is open on, and only one the reader may read.
+	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
+	assert 'page.get("name") or page.get("record")' in suggest
+	assert 'frappe.has_permission(doctype, "read", doc=name)' in suggest
+	# Every view has its own, and the Tasks layouts share the Tasks view's.
+	for view in ("", "/tasks", "/board", "/timeline", "/time", "/money", "/invoices", "/suppliers", "/team"):
+		assert f"page:{{PAGE}}{view}" in ai or (view in ("/board", "/timeline") and "LAYOUTS" in ai)
+	assert "_here(UPDATE, kinds=BILLED)" in ai and "_here(ALLOWANCE, kinds=(kinds.RETAINER,))" in ai
+	for part in ('"time": _time(', '"team": _team(', '"months": _months('):
+		assert part in ai
+
+
+def test_a_retainer_tells_whoever_runs_it():
+	types = {str(one["name"]) for one in _load(PROJECT / "notifications.py", ("TYPES",), _lt=str)["TYPES"]}
+	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= types
+	assert '"onedesk.one_project.tell.retainer_months"' in HOOKS
+	assert '"on_submit": "onedesk.one_project.tell.hours_used"' in HOOKS
+	tell = (PROJECT / "tell.py").read_text()
+	# Told once, when this timesheet takes the month past the allowance.
+	assert "hours - here[one.name] < flt(one.one_monthly_hours) <= hours" in tell
+	assert "retainer.invoiced(one.name, last)" in tell and "one.one_manager or one.owner" in tell
+	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
+	assert "**Retainer Month to Invoice**" in readme and "**Retainer Hours Used**" in readme
+
+
+def test_the_project_page_fits_a_phone():
+	src = tree.ROOT / "frontend" / "src" / "project"
+	# frappe-ui's own way: a list's columns by breakpoint, minor cells hidden.
+	for name in ("Time", "Team", "Invoices", "Money", "Months"):
+		vue = (src / f"{name}.vue").read_text()
+		assert ':columns="{ base: [' in vue and "max-md:hidden" in vue, name
+	page = (src / "ProjectPage.vue").read_text()
+	assert '<Tabs v-model="tab" class="max-w-full overflow-x-auto' in page
+	mount = (tree.ROOT / "frontend" / "src" / "kit" / "mount.js").read_text()
+	assert 'setConfig("systemTimezone", zone.system)' in mount

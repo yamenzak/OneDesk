@@ -7,16 +7,17 @@
       <!-- The views, as monday's and Asana's: each opens in place, and the
            task views share one toolbar. -->
       <div class="sticky top-0 z-10 mt-4 flex flex-wrap items-center gap-x-2 border-b border-outline-gray-2 bg-surface-base">
-        <Tabs v-model="tab">
+        <!-- On a phone the views scroll sideways, as an app's tab bar does. -->
+        <Tabs v-model="tab" class="max-w-full overflow-x-auto [scrollbar-width:none]">
           <TabList class="border-0">
             <TabTrigger v-for="one in VIEWS" :key="one.key" :value="one.key" :label="one.label" :icon-left="one.icon">
               <template v-if="one.count" #suffix><span class="ms-1 text-sm text-ink-gray-5">{{ one.count }}</span></template>
             </TabTrigger>
           </TabList>
         </Tabs>
-        <div v-if="taskView" class="ms-auto flex items-center gap-2 py-2">
+        <div v-if="taskView" class="ms-auto flex max-w-full flex-wrap items-center gap-2 py-2 max-md:w-full">
           <TabButtons v-model="view" :options="LAYOUTS" />
-          <TextInput v-model="search" size="sm" class="w-44" :placeholder="__('Search')">
+          <TextInput v-model="search" size="sm" class="w-44 max-md:order-last max-md:w-full" :placeholder="__('Search')">
             <template #prefix><span class="lucide-search size-4 text-ink-gray-5" /></template>
           </TextInput>
           <Dropdown v-if="view === 'tasks' || view === 'timeline'" :options="groupChoices">
@@ -36,7 +37,7 @@
       </template>
       <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :currency="said.currency" :tree="tree" />
       <Money v-else-if="view === 'money'" :said="said" @changed="load" />
-      <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :customer="said.customer" :currency="said.currency" />
+      <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :project-title="said.title" :kind="said.kind" :customer="said.customer" :currency="said.currency" />
       <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />
       <Suppliers v-else-if="view === 'suppliers'" :said="said" />
       <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />

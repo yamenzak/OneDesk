@@ -130,9 +130,18 @@ export function deskSession() {
 }
 
 /** Keep a view's choice in the address, so a link or a reload opens it again. */
+// The site's timezone and the reader's, as frappe's boot has them.
+export function timeZone() {
+  return (window.frappe && frappe.boot && frappe.boot.time_zone) || {};
+}
+
 export function setQuery(key, value) {
 	const url = new URL(window.location.href);
 	if (value) url.searchParams.set(key, value);
 	else url.searchParams.delete(key);
 	window.history.replaceState(window.history.state, "", url);
+	// No route change for frappe to announce, so the OneAI panel is told
+	// itself: what it offers follows the view (oneai.js where()).
+	const oneai = window.onedesk && window.onedesk.oneai;
+	if (oneai && oneai.panel) oneai.panel.moved(oneai.where());
 }

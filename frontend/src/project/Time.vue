@@ -17,27 +17,27 @@
         <span class="flex size-12 items-center justify-center rounded-full bg-surface-gray-2 text-ink-gray-5"><span class="lucide-clock size-5" /></span>
         <p class="text-base text-ink-gray-7">{{ __("No time logged") }}</p>
       </div>
-      <List v-else :columns="['6.5rem', 'minmax(9rem,1fr)', 'minmax(7rem,0.8fr)', 'minmax(10rem,1.4fr)', '4.5rem', '7rem', '7.5rem']" :row-height="44" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+      <List v-else :columns="{ base: ['6.5rem', 'minmax(0,1fr)', '3.5rem'], md: ['6.5rem', 'minmax(9rem,1fr)', 'minmax(7rem,0.8fr)', 'minmax(10rem,1.4fr)', '4.5rem', '7rem', '7.5rem'] }" :row-height="44" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Date") }}</ListHeaderCell>
           <ListHeaderCell>{{ __("Person") }}</ListHeaderCell>
-          <ListHeaderCell>{{ __("Activity") }}</ListHeaderCell>
-          <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
+          <ListHeaderCell class="max-md:hidden">{{ __("Activity") }}</ListHeaderCell>
+          <ListHeaderCell class="max-md:hidden">{{ __("Task") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Hours") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Amount") }}</ListHeaderCell>
-          <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-md:hidden">{{ __("Amount") }}</ListHeaderCell>
+          <ListHeaderCell class="max-md:hidden">{{ __("Status") }}</ListHeaderCell>
         </ListHeader>
         <ListRows :items="rows" row-key="name" v-slot="{ item }">
           <ListRow @click="go(`/desk/timesheet/${item.timesheet}`)">
             <ListCell class="tabular-nums text-ink-gray-7">{{ date(item.date) }}</ListCell>
             <ListCell class="min-w-0 gap-2"><Avatar :label="item.who || item.user" size="sm" /><span class="truncate text-ink-gray-8">{{ item.who || item.user }}</span></ListCell>
-            <ListCell class="min-w-0"><span class="truncate text-ink-gray-7">{{ item.activity || "–" }}</span></ListCell>
-            <ListCell class="min-w-0">
+            <ListCell class="min-w-0 max-md:hidden"><span class="truncate text-ink-gray-7">{{ item.activity || "–" }}</span></ListCell>
+            <ListCell class="min-w-0 max-md:hidden">
               <span class="truncate text-ink-gray-7">{{ item.task_subject || "–" }}<span v-if="item.project !== projectName" class="text-ink-gray-5"> · {{ item.project_title }}</span></span>
             </ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8">{{ hours(item.hours) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7">{{ item.amount ? amount(item.amount) : "–" }}</ListCell>
-            <ListCell><Badge :label="__(item.state)" :theme="STATE[item.state]" size="md" /></ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ item.amount ? amount(item.amount) : "–" }}</ListCell>
+            <ListCell class="max-md:hidden"><Badge :label="__(item.state)" :theme="STATE[item.state]" size="md" /></ListCell>
           </ListRow>
         </ListRows>
       </List>
@@ -88,6 +88,19 @@ watch(() => props.projectName, load, { immediate: true });
 const rows = computed(() => (said.value?.entries || []).filter((one) => shown.value === "all" || one.state === shown.value));
 const figures = computed(() => {
   const t = said.value.totals;
+  const allowance = said.value.allowance;
+  // A retainer's hours are billed with its month (Months, on the Overview).
+  if (allowance != null)
+    return [
+      {
+        title: __("This Month"),
+        value: hours(t.month),
+        note: allowance ? __("of {0} a month", [hours(allowance)]) : "",
+        bar: allowance ? Math.min(100, Math.round((100 * t.month) / allowance)) : undefined,
+        alarm: allowance > 0 && t.month > allowance,
+      },
+      { title: __("All Time"), value: hours(t.hours), note: t.drafts ? __("{0} not submitted", [hours(t.drafts)]) : "" },
+    ];
   return [
     { title: __("This Month"), value: hours(t.month) },
     { title: __("All Time"), value: hours(t.hours), note: t.drafts ? __("{0} not submitted", [hours(t.drafts)]) : "" },
