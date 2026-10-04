@@ -107,7 +107,7 @@ def propose(
 def apply(proposal: str) -> dict:
 	"""Do it, as the person who pressed the button and with their permissions.
 
-	An ordinary insert, save or delete. Nothing here is done on the model's
+	An ordinary insert, save, rename or delete. Nothing here is done on the model's
 	authority, and nothing here runs as anybody but the caller.
 	"""
 	entry = frappe.get_doc("AI Proposal", proposal)
@@ -278,11 +278,26 @@ def apply(proposal: str) -> dict:
 		apply_workflow(held, changes.get("action"))
 		return _done(entry, held.name)
 
+	held = _renamed(held, changes)
 	held.update(changes)
 	held.save()
 	touch.wrote(entry.for_doctype, held.name, changes, entry.name)
 	_attach(entry, held.name)
 	return _done(entry, held.name)
+
+
+def _renamed(held, changes: dict):
+	"""A record named from one of its fields (a unit, a customer group) is
+	renamed, as frappe renames anything, when a card changes that field:
+	saving the field alone would leave its name, and every link to it, behind.
+	frappe checks the person may, and that the kind may be renamed."""
+	autoname = frappe.get_meta(held.doctype).autoname or ""
+	field = autoname.removeprefix("field:") if autoname.startswith("field:") else None
+	new = changes.get(field) if field else None
+	if not new or new == held.name:
+		return held
+	frappe.rename_doc(held.doctype, held.name, new)
+	return frappe.get_doc(held.doctype, new)
 
 
 def refuse(proposal: str) -> dict:

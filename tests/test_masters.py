@@ -130,3 +130,23 @@ def test_a_master_has_one_home():
 	assert "Sales Stage" in {row.get("link_to") for row in crm}
 	js = (PAGE / "masters.js").read_text()
 	assert 'add_custom_action(__("Edit Full Form")' in js and '"tables": _has_tables(meta)' in SOURCE
+
+
+def test_a_value_is_placed_and_renamed_however_it_is_made():
+	"""A tree's value goes under its root on every path (the page, a OneAI card,
+	frappe's form), and a card that changes the field a value is named from
+	renames it."""
+	for doctype in ("Customer Group", "Territory", "Item Group", "Supplier Group", "Department"):
+		assert f'"{doctype}": {{"before_insert": "onedesk.one.masters.place"}}' in HOOKS, doctype
+	add = SOURCE.split("def add(", 1)[1].split("\ndef ", 1)[0]
+	assert "nsm_parent_field" not in add, "add leaves the root to place"
+	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
+	assert "held = _renamed(held, changes)" in proposals and "frappe.rename_doc(held.doctype" in proposals
+
+
+def test_oneai_knows_the_open_list():
+	js = (PAGE / "masters.js").read_text()
+	assert 'get_url_arg("type")' in js and "?type=" in js and "panel.moved(" in js
+	assert "frappe.realtime.doctype_subscribe" in js and '"list_update"' in js
+	ai = (tree.APP / "one" / "ai.py").read_text()
+	assert '"page:masters": [' in ai and 'said.get("page") == "masters"' in ai

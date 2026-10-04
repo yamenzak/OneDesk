@@ -6160,6 +6160,43 @@ rail links".
   (in_list_view): a unit's category, an item group's parent. Print headings
   and address templates no longer need dialogs of their own.
 
+**The Masters tool, passed over.** Your word: "oneai already has full access
+to those right, they are basically doctypes. Just double check and do a
+passover for the new masters tool."
+1. **Notifications**: none. These are settings; nobody needs telling.
+2. **OneAI**: its record tools reach every kind through frappe's own
+   permissions, and every write is a card a person approves. Four gaps, fixed:
+   - A customer group, territory, item group, supplier group or department
+     made by a card had no parent (frappe refuses a second root) and a
+     department no company. `masters.place` is now their `before_insert`, so
+     every path fills it in: the page, a card, frappe's form, an import.
+   - No card could rename. A card that changes the field a value is named
+     from (a unit's name) now renames it with frappe's `rename_doc`
+     (`proposals._renamed`); saving the field alone left the name and every
+     link to it behind.
+   - The panel did not know which list was open: the page now keeps it in
+     `?type=`, which oneai.js sends, and tells the panel when it changes. One's
+     page note names the open list.
+   - The page offers **Add several at once** (one card per line of a pasted
+     list) and **What is this list for?** (how_to).
+   Checked as the workspace administrator: a card made a customer group under
+   All Customer Groups, a department "Zz Support - ONE" for the company, a
+   lead source by its typed name, and renamed a unit with its symbol changed.
+3. **Intake**: none. Intake matches what it reads to existing values; it does
+   not make them.
+4. **Permissions**: unchanged; page and cards both answer to frappe's.
+5. **Cross-module**: each app's lists in one place; Edit Full Form opens the
+   value in frappe's form, in One's rail.
+6. **Bespoke UI**: on a phone the panes stack, so choosing a list scrolls to
+   it.
+7. **Documented**: README says where a new tree value goes.
+8. **Legal**: nothing new is sent anywhere.
+9. **From frappe**: `before_insert`, `rename_doc`, `frappe.realtime`
+   (`doctype_subscribe`, `list_update`): a value added anywhere redraws the
+   open list and its count.
+10. **Plain words**: **Add Unit** rather than Add, **New Unit** as the
+    dialog's title, "Used on 1 record".
+
 **An address template runs as code.** It is Jinja, drawn wherever an address
 is shown or printed, so one the workspace writes is held as a mail template is:
 every tag it adds names a field of the address, is an `if` on one and its

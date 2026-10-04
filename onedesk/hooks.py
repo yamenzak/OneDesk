@@ -254,6 +254,13 @@ doc_events = {
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
 	# An address template the workspace writes names fields of the address. See one/masters.py.
 	"Address Template": {"validate": "onedesk.one.masters.validate_address_template"},
+	# A new value of a tree goes under its root, and a department is the
+	# workspace's company's, however it is made: Masters, OneAI, frappe's form.
+	"Customer Group": {"before_insert": "onedesk.one.masters.place"},
+	"Territory": {"before_insert": "onedesk.one.masters.place"},
+	"Item Group": {"before_insert": "onedesk.one.masters.place"},
+	"Supplier Group": {"before_insert": "onedesk.one.masters.place"},
+	"Department": {"before_insert": "onedesk.one.masters.place"},
 	"Workflow": {"validate": "onedesk.one.approvals.validate"},
 	# Whoever a step of an approval waits on is told through the hub. See one/approvals.py.
 	"Workflow Action": {"after_insert": "onedesk.one.approvals.waiting"},

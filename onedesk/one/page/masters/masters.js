@@ -24,11 +24,29 @@ onedesk.Masters = class Masters {
 	constructor(page) {
 		this.page = page;
 		this.panes = onedesk.shell.panes(page.$shell, [{ key: "kinds", width: 260 }, { key: "values" }]);
+		this.listen();
+	}
+
+	// A value added, changed or removed anywhere (another person, a OneAI
+	// card, frappe's form) draws the open list and the counts again.
+	listen() {
+		const again = frappe.utils.debounce(() => this.load(), 800);
+		frappe.realtime.on("list_update", (data) => {
+			if (data && this.kind && data.doctype === this.kind.doctype && this.panes.values.is(":visible")) again();
+		});
+	}
+
+	// Told of changes to the open kind only.
+	watch() {
+		if (this.watched === this.kind.doctype) return;
+		if (this.watched) frappe.realtime.doctype_unsubscribe(this.watched);
+		this.watched = this.kind.doctype;
+		frappe.realtime.doctype_subscribe(this.watched);
 	}
 
 	async load() {
 		this.kinds = await frappe.xcall(`${Masters.API}kinds`);
-		const asked = frappe.utils.get_url_arg("kind");
+		const asked = frappe.utils.get_url_arg("type");
 		const kept = this.kind && this.kinds.find((one) => one.doctype === this.kind.doctype);
 		this.kind = this.kinds.find((one) => one.doctype === asked) || kept || this.kinds[0];
 		this.draw_kinds();
@@ -59,9 +77,15 @@ onedesk.Masters = class Masters {
 		);
 		this.panes.kinds.find("[data-kind]").on("click", (event) => {
 			this.kind = this.kinds.find((one) => one.doctype === event.currentTarget.dataset.kind);
-			history.replaceState(null, "", `${location.pathname}?kind=${encodeURIComponent(this.kind.doctype)}`);
+			history.replaceState(null, "", `${location.pathname}?type=${encodeURIComponent(this.kind.doctype)}`);
 			this.draw_kinds();
-			this.draw_values();
+			// On a phone the panes stack, so the chosen list is brought into view.
+			this.draw_values().then(() => {
+				if (!window.matchMedia("(max-width: 767px)").matches) return;
+				requestAnimationFrame(() => this.panes.values[0].scrollIntoView({ block: "start" }));
+			});
+			// An open OneAI panel is told which list is open now.
+			if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 		});
 	}
 
@@ -71,7 +95,8 @@ onedesk.Masters = class Masters {
 		this.page.clear_primary_action();
 		if (!kind) return this.panes.values.empty();
 		onedesk.shell.name(__("Masters"));
-		if (kind.create) this.page.set_primary_action(__("Add"), () => this.open(null), "plus");
+		this.watch();
+		if (kind.create) this.page.set_primary_action(__("Add {0}", [kind.one]), () => this.open(null), "plus");
 		const rows = await frappe.xcall(`${Masters.API}values`, { doctype: kind.doctype });
 		// The name, then what frappe's own list of the kind shows beside it.
 		const columns = [
@@ -80,7 +105,7 @@ onedesk.Masters = class Masters {
 		];
 		const $main = $(`<div class="one-masters-main"></div>`);
 		this.panes.values.empty().append($main);
-		onedesk.shell.table($main, {
+		await onedesk.shell.table($main, {
 			title: kind.label,
 			rows,
 			page_size: 100,
@@ -106,7 +131,7 @@ onedesk.Masters = class Masters {
 		const doc = one ? await frappe.xcall("frappe.client.get", { doctype: kind.doctype, name: one.name }) : null;
 		const fields = this.fields(kind, doc);
 		const dialog = new frappe.ui.Dialog({
-			title: one ? __(one.label || one.name) : __("Add to {0}", [kind.label]),
+			title: one ? __(one.label || one.name) : __("New {0}", [kind.one]),
 			fields: [...fields, { fieldname: "__used", fieldtype: "HTML", options: one ? onedesk.shell.quiet("&nbsp;") : "" }],
 			primary_action_label: __("Save"),
 			primary_action: () => this.save(dialog, kind, doc, fields),
@@ -121,7 +146,9 @@ onedesk.Masters = class Masters {
 			this.removable(dialog, kind, doc.name, one.label);
 			frappe.xcall(`${Masters.API}used`, { doctype: kind.doctype, name: doc.name }).then((count) => {
 				dialog.fields_dict.__used.$wrapper.html(
-					onedesk.shell.quiet(count ? __("Used on {0} records", [count]) : __("Not used on any record"))
+					onedesk.shell.quiet(
+						count > 1 ? __("Used on {0} records", [count]) : count ? __("Used on 1 record") : __("Not used on any record")
+					)
 				);
 			});
 		}

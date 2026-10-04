@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 07:33+0000\n"
-"PO-Revision-Date: 2026-10-04 07:33+0000\n"
+"POT-Creation-Date: 2026-10-04 07:43+0000\n"
+"PO-Revision-Date: 2026-10-04 07:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -623,7 +623,7 @@ msgstr "Der Kopf eines Datensatzes wird in seinem Formular gezeichnet: jedes Mal
 msgid "A repeating event can only be moved from its own page."
 msgstr "Ein wiederkehrender Termin kann nur auf seiner eigenen Seite verschoben werden."
 
-#: onedesk/one_ai/proposals.py:545 onedesk/public/js/oneai/Record.vue:159
+#: onedesk/one_ai/proposals.py:560 onedesk/public/js/oneai/Record.vue:159
 msgid "A reply to {0}"
 msgstr "Eine Antwort auf {0}"
 
@@ -701,7 +701,7 @@ msgstr "Eine geplante Erweiterung läuft höchstens einmal pro Stunde."
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "Ein zweiter Agent prüft die Aktionen zu jedem Dokument, genehmigt, was stimmt, und gibt Falsches an einen Menschen weiter."
 
-#: onedesk/one/ai.py:3075
+#: onedesk/one/ai.py:3097
 msgid "A section is a list of columns, each a list of blocks."
 msgstr "Ein Abschnitt ist eine Liste von Spalten, jede eine Liste von Blöcken."
 
@@ -739,7 +739,7 @@ msgstr "Ein Standard-Briefkopf kann nur als Standard festgelegt oder deaktiviert
 msgid "A supplier's bill cannot be entered twice"
 msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 
-#: onedesk/one/ai.py:2856
+#: onedesk/one/ai.py:2878
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr "Ein Tabellenblock nennt seine Tabelle: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
@@ -808,7 +808,7 @@ msgstr "Ein(e) {0} kann nicht {1} Credits betragen."
 msgid "A {0} can't have {1}."
 msgstr "Ein(e) {0} kann kein(e) {1} haben."
 
-#: onedesk/one_ai/proposals.py:443
+#: onedesk/one_ai/proposals.py:458
 msgid "A {0} has to name a record."
 msgstr "Ein {0} muss einen Datensatz nennen."
 
@@ -1145,8 +1145,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one/ai.py:1834 onedesk/one/page/masters/masters.js:74
-#: onedesk/one_book/report/books_check/books_check.js:18
+#: onedesk/one/ai.py:1856 onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
@@ -1301,6 +1300,10 @@ msgstr "Leads aus Visitenkarten anlegen"
 msgid "Add people"
 msgstr "Personen hinzufügen"
 
+#: onedesk/one/ai.py:86
+msgid "Add several at once"
+msgstr "Mehrere auf einmal hinzufügen"
+
 #: onedesk/one/portal_invite.py:101
 msgid "Add the contact's email first."
 msgstr "Fügen Sie zuerst die E-Mail-Adresse des Kontakts hinzu."
@@ -1317,9 +1320,13 @@ msgstr "Zu OneBook hinzufügen"
 msgid "Add to Plan"
 msgstr "Zum Tarif hinzufügen"
 
-#: onedesk/one/page/masters/masters.js:109 onedesk/one_intake/panel.py:217
+#: onedesk/one_intake/panel.py:217
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
+
+#: onedesk/one/page/masters/masters.js:98
+msgid "Add {0}"
+msgstr ""
 
 #. Label of the offering (Data) field in DocType 'Workspace Add-on'
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
@@ -1432,6 +1439,10 @@ msgstr "Adresse"
 #: onedesk/one/sidebar/one/one.json
 msgid "Address Book"
 msgstr "Adressbuch"
+
+#: onedesk/one/masters.py:34
+msgid "Address Template"
+msgstr ""
 
 #: onedesk/one/masters.py:34
 msgid "Address Templates"
@@ -1723,7 +1734,7 @@ msgstr "Einchecken auch erlauben von"
 msgid "Also by Email"
 msgstr "Auch per E-Mail"
 
-#: onedesk/one/ai.py:1102 onedesk/one/ai.py:1125
+#: onedesk/one/ai.py:1124 onedesk/one/ai.py:1147
 msgid "Also on {0}"
 msgstr "Auch auf {0}"
 
@@ -1791,11 +1802,11 @@ msgstr "Ein Add-on fügt genau eine Sache hinzu."
 msgid "An add-on must be recurring."
 msgstr "Ein Add-on muss wiederkehrend sein."
 
-#: onedesk/one/masters.py:318
+#: onedesk/one/masters.py:326
 msgid "An address has no field {0}."
 msgstr "Eine Adresse hat kein Feld {0}."
 
-#: onedesk/one/masters.py:316
+#: onedesk/one/masters.py:324
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr "Eine Adressvorlage kann nur Felder der Adresse nennen, etwa {{ city }}."
 
@@ -1940,7 +1951,7 @@ msgstr "Antwortet aus Ihren eigenen Datensätzen"
 msgid "Any"
 msgstr "Beliebig"
 
-#: onedesk/one/ai.py:258
+#: onedesk/one/ai.py:273
 msgid "Any odd sign-ins?"
 msgstr "Auffällige Anmeldungen?"
 
@@ -2130,7 +2141,7 @@ msgstr "Genehmigung"
 msgid "Approval Waiting"
 msgstr "Freigabe wartet"
 
-#: onedesk/one_ai/proposals.py:541 onedesk/public/js/oneai/Record.vue:158
+#: onedesk/one_ai/proposals.py:556 onedesk/public/js/oneai/Record.vue:158
 msgid "Approval of {0}"
 msgstr "Freigabe für {0}"
 
@@ -2154,7 +2165,7 @@ msgstr ""
 msgid "Approve and Delete"
 msgstr "Genehmigen und löschen"
 
-#: onedesk/one/ai.py:168
+#: onedesk/one/ai.py:183
 msgid "Approve bills by amount"
 msgstr "Rechnungen nach Betrag freigeben"
 
@@ -2239,19 +2250,19 @@ msgstr "Archivieren von {0} fehlgeschlagen"
 msgid "Archiving {0} is stalled"
 msgstr "Archivierung von {0} hängt"
 
-#: onedesk/one/ai.py:427
+#: onedesk/one/ai.py:442
 msgid "Are any of my mailboxes not working, why, and what do I do about it?"
 msgstr "Funktioniert eines meiner Postfächer nicht, warum, und was tue ich dagegen?"
 
-#: onedesk/one/ai.py:382
+#: onedesk/one/ai.py:397
 msgid "Are our holidays ready for next year?"
 msgstr "Sind unsere Feiertage für nächstes Jahr bereit?"
 
-#: onedesk/one/ai.py:237
+#: onedesk/one/ai.py:252
 msgid "Are the webhooks working?"
 msgstr "Funktionieren die Webhooks?"
 
-#: onedesk/one/ai.py:311
+#: onedesk/one/ai.py:326
 msgid "Are we on the cheapest plan?"
 msgstr "Sind wir im günstigsten Tarif?"
 
@@ -2493,7 +2504,7 @@ msgstr "Gekaufte Anlagegüter werden von selbst erfasst und abgeschrieben."
 msgid "Assets have categories"
 msgstr "Anlagegüter haben Kategorien"
 
-#: onedesk/one/ai.py:4027
+#: onedesk/one/ai.py:4049
 msgid "Assign"
 msgstr ""
 
@@ -3204,6 +3215,7 @@ msgstr "Unzustellbar"
 msgid "Box"
 msgstr ""
 
+#: onedesk/one/masters.py:51
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:82
 msgid "Branch"
 msgstr ""
@@ -3211,6 +3223,10 @@ msgstr ""
 #: onedesk/one/masters.py:51
 msgid "Branches"
 msgstr "Filialen"
+
+#: onedesk/one/masters.py:44
+msgid "Brand"
+msgstr ""
 
 #. Label of the one_brand_colour (Color) field in DocType 'Company'
 #: onedesk/one/custom/company.json
@@ -3281,7 +3297,7 @@ msgstr "Erstellt"
 msgid "Busy"
 msgstr ""
 
-#: onedesk/one/ai.py:1144
+#: onedesk/one/ai.py:1166
 msgid "Button"
 msgstr ""
 
@@ -3632,7 +3648,7 @@ msgstr "Diese ändern…"
 msgid "Change {0}"
 msgstr "{0} ändern"
 
-#: onedesk/one_ai/proposals.py:552
+#: onedesk/one_ai/proposals.py:567
 msgid "Change {0} on {1}"
 msgstr "{0} an {1} ändern"
 
@@ -3642,7 +3658,7 @@ msgstr "{0} an {1} ändern"
 msgid "Changed"
 msgstr "Geändert"
 
-#: onedesk/one/ai.py:3458
+#: onedesk/one/ai.py:3480
 msgid "Changed Format"
 msgstr "Geändertes Format"
 
@@ -3680,7 +3696,7 @@ msgid "Charged at {0}× the provider's price."
 msgstr "Berechnet mit dem {0}-fachen Preis des Anbieters."
 
 #. Label of the chart (Data) field in DocType 'Record Head Chart'
-#: onedesk/one/ai.py:1148
+#: onedesk/one/ai.py:1170
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "Chart"
 msgstr ""
@@ -4351,7 +4367,7 @@ msgstr "ZIP-komprimierter Ordner"
 msgid "Computer"
 msgstr "Computer"
 
-#: onedesk/one/ai.py:4050 onedesk/public/js/settings.js:3265
+#: onedesk/one/ai.py:4072 onedesk/public/js/settings.js:3265
 msgid "Conditions"
 msgstr ""
 
@@ -4466,7 +4482,7 @@ msgstr "Verbunden"
 msgid "Connected to OneMail"
 msgstr "Mit OneMail verbunden"
 
-#: onedesk/one/ai.py:1173 onedesk/public/js/settings.js:463
+#: onedesk/one/ai.py:1195 onedesk/public/js/settings.js:463
 msgid "Connection"
 msgstr "Verbindung"
 
@@ -4536,7 +4552,7 @@ msgstr "Weiter zur Zahlung"
 msgid "Continue to payment"
 msgstr "Weiter zur Zahlung"
 
-#: onedesk/one/ai.py:2420
+#: onedesk/one/ai.py:2442
 msgid "Continues after {0} (was {1})"
 msgstr "Geht nach {0} weiter (war {1})"
 
@@ -5053,6 +5069,10 @@ msgid "Customer"
 msgstr "Kunde"
 
 #: onedesk/one/masters.py:35
+msgid "Customer Group"
+msgstr ""
+
+#: onedesk/one/masters.py:35
 msgid "Customer Groups"
 msgstr ""
 
@@ -5070,7 +5090,7 @@ msgstr ""
 msgid "Customize"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:531 onedesk/public/js/oneai/Record.vue:153
+#: onedesk/one_ai/proposals.py:546 onedesk/public/js/oneai/Record.vue:153
 msgid "Customize {0}"
 msgstr "{0} anpassen"
 
@@ -5214,7 +5234,7 @@ msgstr "Verbleibende Tage"
 msgid "Days Off"
 msgstr "Freie Tage"
 
-#: onedesk/one/ai.py:1859 onedesk/one/settings.py:1602
+#: onedesk/one/ai.py:1881 onedesk/one/settings.py:1602
 msgid "Days Off Each Week"
 msgstr "Freie Tage jede Woche"
 
@@ -5367,7 +5387,7 @@ msgstr "Erfasst"
 msgid "Declared By"
 msgstr "Festgelegt von"
 
-#: onedesk/one/ai.py:2702 onedesk/public/js/ai_model_list.js:17
+#: onedesk/one/ai.py:2724 onedesk/public/js/ai_model_list.js:17
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:398
 #: onedesk/public/js/doctype_settings.js:422
@@ -5492,7 +5512,7 @@ msgstr "Vorlage {0} löschen?"
 msgid "Delete this rule?"
 msgstr "Diese Regel löschen?"
 
-#: onedesk/one_ai/proposals.py:547 onedesk/public/js/oneai/Record.vue:152
+#: onedesk/one_ai/proposals.py:562 onedesk/public/js/oneai/Record.vue:152
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
@@ -5604,6 +5624,7 @@ msgstr ""
 msgid "Delivery Note"
 msgstr "Lieferschein"
 
+#: onedesk/one/masters.py:49
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:29
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:31
@@ -5663,22 +5684,23 @@ msgstr "Abschreibungen buchen sich selbst"
 msgid "Description"
 msgstr ""
 
-#: onedesk/one/ai.py:128
+#: onedesk/one/ai.py:143
 msgid "Design a clean invoice format"
 msgstr "Ein klares Rechnungsformat gestalten"
 
-#: onedesk/one/ai.py:129
+#: onedesk/one/ai.py:144
 msgid "Design a clean, modern print format for Sales Invoice: the customer and dates at the top, the items as a table, and the totals on the right."
 msgstr "Gestalten Sie ein klares, modernes Druckformat für Ausgangsrechnungen: Kunde und Daten oben, die Positionen als Tabelle und die Summen rechts."
 
-#: onedesk/one/ai.py:120
+#: onedesk/one/ai.py:135
 msgid "Design a letter head from our details"
 msgstr "Einen Briefkopf aus unseren Angaben gestalten"
 
-#: onedesk/one/ai.py:121
+#: onedesk/one/ai.py:136
 msgid "Design a letter head in HTML from the company's details in Workspace › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr "Gestalten Sie einen Briefkopf in HTML aus den Angaben des Unternehmens unter Arbeitsbereich › Allgemein: Name und Logo in der Kopfzeile, Adresse, Telefon und E-Mail in der Fußzeile, jeweils nach ihrem Symbol."
 
+#: onedesk/one/masters.py:50
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:25
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:192
 msgid "Designation"
@@ -5688,7 +5710,7 @@ msgstr ""
 msgid "Designations"
 msgstr "Positionen"
 
-#: onedesk/one/ai.py:2680 onedesk/one/ai.py:2699
+#: onedesk/one/ai.py:2702 onedesk/one/ai.py:2721
 msgid "Designed in HTML"
 msgstr "In HTML gestaltet"
 
@@ -6258,7 +6280,7 @@ msgstr "Bearbeiten"
 msgid "Edit Costs"
 msgstr "Kosten bearbeiten"
 
-#: onedesk/one/page/masters/masters.js:116
+#: onedesk/one/page/masters/masters.js:140
 msgid "Edit Full Form"
 msgstr ""
 
@@ -6550,6 +6572,10 @@ msgstr "Beschäftigung"
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Employment Letter"
 msgstr "Beschäftigungsbestätigung"
+
+#: onedesk/one/masters.py:52
+msgid "Employment Type"
+msgstr "Beschäftigungsart"
 
 #: onedesk/one/masters.py:52
 msgid "Employment Types"
@@ -7506,6 +7532,10 @@ msgid "Filters on what is counted. A value may name the record's fields as {{ do
 msgstr "Filter auf das Gezählte. Ein Wert kann Felder des Datensatzes als {{ doc.fieldname }} nennen."
 
 #: onedesk/one/masters.py:42
+msgid "Finance Book"
+msgstr ""
+
+#: onedesk/one/masters.py:42
 msgid "Finance Books"
 msgstr "Finanzbücher"
 
@@ -7672,8 +7702,8 @@ msgstr "Systemeinstellung folgen"
 msgid "Foot Preset"
 msgstr "Fußzeilenvorlage"
 
-#: onedesk/one/ai.py:2687 onedesk/one/ai.py:2695 onedesk/one/ai.py:2698
-#: onedesk/one/ai.py:2699 onedesk/one/printing.py:348
+#: onedesk/one/ai.py:2709 onedesk/one/ai.py:2717 onedesk/one/ai.py:2720
+#: onedesk/one/ai.py:2721 onedesk/one/printing.py:348
 #: onedesk/public/js/settings.js:2293
 msgid "Footer"
 msgstr ""
@@ -7702,7 +7732,7 @@ msgstr "Zum Beispiel Senior Sales."
 msgid "For example, a thank-you line."
 msgstr "Zum Beispiel eine Dankeszeile."
 
-#: onedesk/one/ai.py:352
+#: onedesk/one/ai.py:367
 msgid "For the actions we use most, is there a cheaper model on offer that would do the job, and what would it save?"
 msgstr "Gibt es für die Aktionen, die wir am meisten nutzen, ein günstigeres Modell, das die Aufgabe erfüllt, und was würde es sparen?"
 
@@ -7940,6 +7970,10 @@ msgid "Gathering"
 msgstr "Wird erstellt"
 
 #: onedesk/one/masters.py:32
+msgid "Gender"
+msgstr ""
+
+#: onedesk/one/masters.py:32
 msgid "Genders"
 msgstr "Geschlechter"
 
@@ -7989,7 +8023,7 @@ msgstr "Aufgeben nach"
 msgid "Give a subject or a mail template"
 msgstr "Gib einen Betreff oder eine Mailvorlage an"
 
-#: onedesk/one/masters.py:233 onedesk/one/masters.py:266
+#: onedesk/one/masters.py:233 onedesk/one/masters.py:274
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
@@ -8075,7 +8109,7 @@ msgstr "Geh diese Einstellungen mit mir durch: welche für ein Unternehmen wie u
 msgid "Goal"
 msgstr ""
 
-#: onedesk/one/ai.py:1180
+#: onedesk/one/ai.py:1202
 msgid "Goes to"
 msgstr "Führt zu"
 
@@ -8137,6 +8171,10 @@ msgstr "Grafik"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Grievance"
 msgstr "Beschwerde"
+
+#: onedesk/one/masters.py:55
+msgid "Grievance Type"
+msgstr ""
 
 #: onedesk/one/masters.py:55
 msgid "Grievance Types"
@@ -8293,7 +8331,7 @@ msgstr "Sie haben ein One-Konto?"
 msgid "Head Office"
 msgstr "Hauptsitz"
 
-#: onedesk/one/ai.py:2671 onedesk/one/ai.py:2679 onedesk/one/ai.py:2680
+#: onedesk/one/ai.py:2693 onedesk/one/ai.py:2701 onedesk/one/ai.py:2702
 #: onedesk/one/printing.py:342 onedesk/public/js/settings.js:2292
 msgid "Header"
 msgstr ""
@@ -8334,7 +8372,7 @@ msgstr "Hilf mir, Urlaub zu buchen."
 msgid "Help me set this up"
 msgstr "Hilf mir, das einzurichten"
 
-#: onedesk/one/ai.py:457 onedesk/public/js/settings.js:3108
+#: onedesk/one/ai.py:472 onedesk/public/js/settings.js:3108
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr "Hilf mir, eine Benachrichtigungsregel einzurichten. Frag mich, was passieren soll und wer benachrichtigt werden soll, und schlage dann die Regel vor."
 
@@ -8427,7 +8465,7 @@ msgstr "Anstehende Feiertage"
 msgid "Holidays Run Out Soon"
 msgstr "Feiertage laufen bald aus"
 
-#: onedesk/one_ai/proposals.py:535 onedesk/public/js/oneai/Record.vue:155
+#: onedesk/one_ai/proposals.py:550 onedesk/public/js/oneai/Record.vue:155
 msgid "Holidays in {0}"
 msgstr "Feiertage in {0}"
 
@@ -8497,15 +8535,15 @@ msgstr "Wie OneAI liest, was in diesem Arbeitsbereich ankommt."
 msgid "How OneAI works, which models run, and what happens to what you send it."
 msgstr "Wie OneAI arbeitet, welche Modelle laufen und was mit dem geschieht, was du ihm schickst."
 
-#: onedesk/one/ai.py:238
+#: onedesk/one/ai.py:253
 msgid "How did the webhooks' calls go this week, and why did any give up?"
 msgstr "Wie liefen die Aufrufe der Webhooks diese Woche, und warum haben welche aufgegeben?"
 
-#: onedesk/one/ai.py:411
+#: onedesk/one/ai.py:426
 msgid "How do I add it?"
 msgstr "Wie füge ich ihn hinzu?"
 
-#: onedesk/one/ai.py:412 onedesk/public/js/settings.js:537
+#: onedesk/one/ai.py:427 onedesk/public/js/settings.js:537
 msgid "How do I add my calendar to Google Calendar, Apple Calendar or Outlook?"
 msgstr "Wie füge ich meinen Kalender zu Google Kalender, Apple Kalender oder Outlook hinzu?"
 
@@ -8513,15 +8551,15 @@ msgstr "Wie füge ich meinen Kalender zu Google Kalender, Apple Kalender oder Ou
 msgid "How do I fill this in?"
 msgstr "Wie fülle ich das aus?"
 
-#: onedesk/one/ai.py:432
+#: onedesk/one/ai.py:447
 msgid "How do my mailboxes work in One: which I have, which I send from, and how they sign?"
 msgstr "Wie funktionieren meine Postfächer in One: welche ich habe, von welchen ich sende und wie sie signieren?"
 
-#: onedesk/one/ai.py:465
+#: onedesk/one/ai.py:480
 msgid "How do notifications work in One, and what can I change on this page?"
 msgstr "Wie funktionieren Benachrichtigungen in One, und was kann ich auf dieser Seite ändern?"
 
-#: onedesk/one/ai.py:464
+#: onedesk/one/ai.py:479
 msgid "How do notifications work?"
 msgstr "Wie funktionieren Benachrichtigungen?"
 
@@ -8545,7 +8583,7 @@ msgstr "Wie funktioniert das Anpassen eines Formulars in One, und was lässt sic
 msgid "How does customizing work?"
 msgstr "Wie funktioniert das Anpassen?"
 
-#: onedesk/one/ai.py:431
+#: onedesk/one/ai.py:446
 msgid "How does mail work here?"
 msgstr "Wie funktioniert Mail hier?"
 
@@ -8610,11 +8648,11 @@ msgstr "Wie lange die Anmeldung nach zu vielen falschen Passwörtern verweigert 
 msgid "How long someone stays signed in while inactive."
 msgstr "Wie lange jemand bei Inaktivität angemeldet bleibt."
 
-#: onedesk/one/ai.py:320
+#: onedesk/one/ai.py:335
 msgid "How long will our OneAI credits last at the rate we use them, and do any expire before we would use them?"
 msgstr "Wie lange reicht unser OneAI-Guthaben bei unserem Verbrauch, und verfällt etwas davon, bevor wir es nutzen würden?"
 
-#: onedesk/one/ai.py:319
+#: onedesk/one/ai.py:334
 msgid "How long will our credits last?"
 msgstr "Wie lange reicht unser Guthaben?"
 
@@ -8742,6 +8780,10 @@ msgstr "Ich möchte das Feld {0} auf {1} ändern."
 msgid "I want to change {0}."
 msgstr "Ich möchte {0} ändern."
 
+#: onedesk/one/ai.py:87
+msgid "I will paste a list. Suggest each line as a new value of the list I have open, leaving out any it already has."
+msgstr "Ich füge eine Liste ein. Schlage jede Zeile als neuen Wert der geöffneten Liste vor und lass weg, was schon darin steht."
+
 #: onedesk/one_crm/ai.py:114
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr "Ich füge eine E-Mail-Signatur ein. Lege die Person darin als Lead an."
@@ -8763,6 +8805,10 @@ msgstr "IBAN"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "IBAN to Pay"
 msgstr "Zahlungs-IBAN"
+
+#: onedesk/one/masters.py:56
+msgid "ID Document Type"
+msgstr "Ausweisdokumentart"
 
 #: onedesk/one/masters.py:56
 msgid "ID Document Types"
@@ -8813,7 +8859,7 @@ msgstr "Ausweisdokumente"
 msgid "If"
 msgstr "Wenn"
 
-#: onedesk/one/ai.py:222
+#: onedesk/one/ai.py:237
 msgid "If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"
 msgstr "Wenn ich diese Anfrage genehmige: Was wird gelöscht, was bleibt ohne den Namen, und gehört der Person noch etwas, das zuerst jemand übernehmen sollte?"
 
@@ -8961,7 +9007,7 @@ msgstr "Im Browser"
 msgid "In the header of each {0}"
 msgstr "In der Kopfzeile jedes {0}"
 
-#: onedesk/one/ai.py:259
+#: onedesk/one/ai.py:274
 msgid "In the last week, which sign-ins failed, and did anybody sign in from somewhere new?"
 msgstr "Welche Anmeldungen sind in der letzten Woche fehlgeschlagen, und hat sich jemand von einem neuen Ort angemeldet?"
 
@@ -9077,6 +9123,10 @@ msgstr "Anzeigen"
 #: onedesk/one/masters.py:37
 msgid "Industries"
 msgstr "Branchen"
+
+#: onedesk/one/masters.py:37
+msgid "Industry"
+msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -9346,11 +9396,11 @@ msgstr "Ist Ordner"
 msgid "Is My Account Safe?"
 msgstr "Ist mein Konto sicher?"
 
-#: onedesk/one/ai.py:361
+#: onedesk/one/ai.py:376
 msgid "Is OneIntake set up well for us?"
 msgstr "Ist OneIntake gut für uns eingerichtet?"
 
-#: onedesk/one/ai.py:86
+#: onedesk/one/ai.py:101
 msgid "Is any numbering out of step?"
 msgstr "Ist eine Nummerierung aus dem Takt?"
 
@@ -9362,27 +9412,27 @@ msgstr "Ist alles eingerichtet, worauf OneAdmin läuft? Nennen Sie, welche Verbi
 msgid "Is everything set up?"
 msgstr "Ist alles eingerichtet?"
 
-#: onedesk/one/ai.py:402
+#: onedesk/one/ai.py:417
 msgid "Is my account safe?"
 msgstr "Ist mein Konto sicher?"
 
-#: onedesk/one/ai.py:403 onedesk/public/js/settings.js:572
+#: onedesk/one/ai.py:418 onedesk/public/js/settings.js:572
 msgid "Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do."
 msgstr "Ist mein Konto sicher? Schau dir an, wie ich mich anmelde und wo ich angemeldet bin, und sag mir, was zu tun ist."
 
-#: onedesk/one/ai.py:312
+#: onedesk/one/ai.py:327
 msgid "Is our plan, with what is added to it, the cheapest way to have what we use now? If not, what should we change to and what would it save?"
 msgstr "Ist unser Tarif mit seinen Zusatzpaketen der günstigste Weg zu dem, was wir jetzt nutzen? Wenn nicht, wohin sollten wir wechseln und was würde es sparen?"
 
-#: onedesk/one/ai.py:392
+#: onedesk/one/ai.py:407
 msgid "Is signing in here safe enough?"
 msgstr "Ist die Anmeldung hier sicher genug?"
 
-#: onedesk/one/ai.py:393
+#: onedesk/one/ai.py:408
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "Ist die Anmeldung in diesem Arbeitsbereich sicher genug? Sieh dir unsere Regeln an und wie sich die Leute anmelden, und sag, was wir ändern sollten."
 
-#: onedesk/one/ai.py:351
+#: onedesk/one/ai.py:366
 msgid "Is there a cheaper model that would do?"
 msgstr "Gibt es ein günstigeres Modell, das reicht?"
 
@@ -9501,6 +9551,10 @@ msgstr "Artikel"
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 msgid "Item Code"
 msgstr "Artikelnummer"
+
+#: onedesk/one/masters.py:43
+msgid "Item Group"
+msgstr ""
 
 #: onedesk/one/masters.py:43
 msgid "Item Groups"
@@ -9707,6 +9761,10 @@ msgstr "In diesem Arbeitsbereich gespeichert, ohne eigenen Server, weil es eine 
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Key"
 msgstr "Schlüssel"
+
+#: onedesk/one/masters.py:54
+msgid "Key Result Area"
+msgstr "Hauptergebnisbereich"
 
 #: onedesk/one/masters.py:54
 msgid "Key Result Areas"
@@ -10018,6 +10076,10 @@ msgstr "Lead-Zuweisung"
 #: onedesk/one_crm/calendar.py:22
 msgid "Lead Next Steps"
 msgstr "Nächste Schritte bei Leads"
+
+#: onedesk/one/masters.py:39
+msgid "Lead Source"
+msgstr ""
 
 #. Name of a report
 #. Label of a Sidebar Item
@@ -10432,7 +10494,7 @@ msgstr "Über E-Mail-Adresse verknüpft"
 msgid "Linked manually"
 msgstr "Manuell verknüpft"
 
-#: onedesk/one/ai.py:1163
+#: onedesk/one/ai.py:1185
 msgid "Linked section"
 msgstr "Verknüpfter Abschnitt"
 
@@ -10583,7 +10645,7 @@ msgid "Login with Passkey is not enabled on this site."
 msgstr "Die Anmeldung mit Passkey ist auf dieser Site nicht aktiviert."
 
 #. Label of the one_logo (Attach Image) field in DocType 'Bank'
-#: onedesk/one/ai.py:2676 onedesk/one/letter_heads.py:48
+#: onedesk/one/ai.py:2698 onedesk/one/letter_heads.py:48
 #: onedesk/one_mail/custom/bank.json onedesk/public/js/settings.js:2274
 msgid "Logo"
 msgstr "Logo"
@@ -10623,11 +10685,11 @@ msgstr "Längste Dauer in Tagen"
 msgid "Longitude"
 msgstr "Länge"
 
-#: onedesk/one/ai.py:362
+#: onedesk/one/ai.py:377
 msgid "Look at OneIntake's settings and this month's numbers. Is anything set in a way that sends too much to a person, or lets too much through, and what would you change?"
 msgstr "Sieh dir die Einstellungen von OneIntake und die Zahlen dieses Monats an. Schickt etwas zu viel an eine Person oder lässt zu viel durch, und was würdest du ändern?"
 
-#: onedesk/one/ai.py:87
+#: onedesk/one/ai.py:102
 msgid "Look at how each kind of record is numbered. Is any counter behind the records already made, or any series that looks mistyped?"
 msgstr "Sehen Sie sich an, wie jede Datensatzart nummeriert wird. Liegt ein Zähler hinter den bereits erstellten Datensätzen, oder sieht eine Serie vertippt aus?"
 
@@ -10643,15 +10705,15 @@ msgstr "Sieh dir mein Profil und, falls vorhanden, meinen Mitarbeiterdatensatz a
 msgid "Look at my tasks and say which I should do first and why: what is late, what is due soonest, and what is most pressing."
 msgstr "Sehen Sie sich meine Aufgaben an und sagen Sie, welche ich zuerst erledigen soll und warum: was überfällig ist, was am ehesten fällig ist und was am dringendsten ist."
 
-#: onedesk/one/ai.py:113
+#: onedesk/one/ai.py:128
 msgid "Look at our default letter head's footer and suggest a cleaner one: what it should show, which preset, and whether it needs a note."
 msgstr "Sehen Sie sich die Fußzeile unseres Standard-Briefkopfs an und schlagen Sie eine aufgeräumtere vor: was sie zeigen soll, welche Vorlage und ob sie einen Hinweis braucht."
 
-#: onedesk/one/ai.py:383
+#: onedesk/one/ai.py:398
 msgid "Look at our holiday list. When does it end, is there a list after it, is anything missing for our country, and who is on a list of their own?"
 msgstr "Sieh dir unsere Feiertagsliste an. Wann endet sie, folgt eine weitere, fehlt etwas für unser Land, und wer hat eine eigene Liste?"
 
-#: onedesk/one/ai.py:449
+#: onedesk/one/ai.py:464
 msgid "Look at the notifications One sends here. Which should people get by email as well as in the bell, and which are better left to the bell? Say why for each."
 msgstr "Sieh dir die Benachrichtigungen an, die One hier sendet. Welche sollten die Leute zusätzlich zur Glocke per E-Mail bekommen, und welche bleiben besser bei der Glocke? Begründe jede."
 
@@ -10678,6 +10740,7 @@ msgstr "Hat etwas nachgeschlagen"
 msgid "Lost"
 msgstr ""
 
+#: onedesk/one/masters.py:40
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:23
 msgid "Lost Reason"
 msgstr ""
@@ -10928,7 +10991,7 @@ msgstr "Erstelle eine Sammlung für "
 msgid "Make a collection…"
 msgstr "Sammlung erstellen…"
 
-#: onedesk/one/ai.py:456
+#: onedesk/one/ai.py:471
 msgid "Make a rule"
 msgstr "Eine Regel erstellen"
 
@@ -11047,6 +11110,10 @@ msgid "Marked {0}."
 msgstr "Als {0} markiert."
 
 #: onedesk/one/masters.py:38
+msgid "Market Segment"
+msgstr ""
+
+#: onedesk/one/masters.py:38
 msgid "Market Segments"
 msgstr "Marktsegmente"
 
@@ -11082,8 +11149,8 @@ msgstr "Der Aufschlag kann nicht negativ sein."
 
 #. Label of a Sidebar Item
 #: onedesk/one/page/masters/masters.js:10
-#: onedesk/one/page/masters/masters.js:58
-#: onedesk/one/page/masters/masters.js:73 onedesk/one/sidebar/one/one.json
+#: onedesk/one/page/masters/masters.js:76
+#: onedesk/one/page/masters/masters.js:96 onedesk/one/sidebar/one/one.json
 msgid "Masters"
 msgstr "Stammdaten"
 
@@ -11565,8 +11632,8 @@ msgstr "Meine Aufgaben"
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:78
-#: onedesk/one/page/masters/masters.js:141 onedesk/one/settings.py:1744
+#: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:102
+#: onedesk/one/page/masters/masters.js:167 onedesk/one/settings.py:1744
 #: onedesk/one/settings.py:1764 onedesk/one/settings.py:1797
 #: onedesk/one/settings.py:2095
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -11621,7 +11688,7 @@ msgstr "Benennen Sie den Standort."
 msgid "Name the template."
 msgstr "Geben Sie der Vorlage einen Namen."
 
-#: onedesk/one/ai.py:2397
+#: onedesk/one/ai.py:2419
 msgid "Named By"
 msgstr "Benannt nach"
 
@@ -11755,7 +11822,7 @@ msgstr "Neuer Termin"
 msgid "New Fiscal Year"
 msgstr "Neues Geschäftsjahr"
 
-#: onedesk/one/ai.py:3458
+#: onedesk/one/ai.py:3480
 msgid "New Format"
 msgstr "Neues Format"
 
@@ -11773,7 +11840,7 @@ msgstr "Neue Rechnung"
 msgid "New Lead"
 msgstr "Neuer Lead"
 
-#: onedesk/one/ai.py:2662 onedesk/public/js/settings.js:2097
+#: onedesk/one/ai.py:2684 onedesk/public/js/settings.js:2097
 #: onedesk/public/js/settings.js:2207
 msgid "New Letter Head"
 msgstr "Neuer Briefkopf"
@@ -11811,7 +11878,7 @@ msgstr "Neues Profil"
 msgid "New Project"
 msgstr "Neues Projekt"
 
-#: onedesk/one/ai.py:2439 onedesk/public/js/doctype_settings.js:296
+#: onedesk/one/ai.py:2461 onedesk/public/js/doctype_settings.js:296
 #: onedesk/public/js/settings.js:3076 onedesk/public/js/settings.js:3248
 #: onedesk/public/js/settings.js:3252
 msgid "New Rule"
@@ -11838,7 +11905,7 @@ msgstr "Neue Unterhaltung"
 msgid "New drive password"
 msgstr "Neues Laufwerkspasswort"
 
-#: onedesk/one/ai.py:1084
+#: onedesk/one/ai.py:1106
 msgid "New field"
 msgstr "Neues Feld"
 
@@ -11889,11 +11956,12 @@ msgstr "Neue E-Mails kommen nicht an. Verbinden Sie es erneut mit seinem Passwor
 msgid "New workspaces can't be built until a server is added."
 msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzugefügt ist."
 
-#: onedesk/one_ai/proposals.py:529 onedesk/public/js/oneai/Record.vue:147
+#: onedesk/one/page/masters/masters.js:133 onedesk/one_ai/proposals.py:544
+#: onedesk/public/js/oneai/Record.vue:147
 msgid "New {0}"
 msgstr "Neu: {0}"
 
-#: onedesk/one_ai/proposals.py:528
+#: onedesk/one_ai/proposals.py:543
 msgid "New {0}: {1}"
 msgstr "Neu: {0} {1}"
 
@@ -11987,8 +12055,8 @@ msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 msgid "Next: {0}"
 msgstr "Als Nächstes: {0}"
 
-#: onedesk/one/ai.py:2702 onedesk/one/ai.py:2705 onedesk/one/ai.py:3833
-#: onedesk/one/ai.py:4053 onedesk/one_ai/chat.py:740
+#: onedesk/one/ai.py:2724 onedesk/one/ai.py:2727 onedesk/one/ai.py:3855
+#: onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:740
 #: onedesk/public/js/onecloud.js:722
 msgid "No"
 msgstr ""
@@ -12212,11 +12280,11 @@ msgstr "Keine Postfächer"
 msgid "No markup is set, so this model can't be called."
 msgstr "Es ist kein Aufschlag festgelegt, daher kann dieses Modell nicht aufgerufen werden."
 
-#: onedesk/one/page/masters/masters.js:58
+#: onedesk/one/page/masters/masters.js:76
 msgid "No masters"
 msgstr "Keine Stammdaten"
 
-#: onedesk/one/page/masters/masters.js:89 onedesk/public/js/shell.js:138
+#: onedesk/one/page/masters/masters.js:113 onedesk/public/js/shell.js:138
 msgid "No matches"
 msgstr "Keine Treffer"
 
@@ -12451,7 +12519,7 @@ msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt
 msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
 
-#: onedesk/one/ai.py:2687 onedesk/one/ai_setup.py:139
+#: onedesk/one/ai.py:2709 onedesk/one/ai_setup.py:139
 #: onedesk/public/js/settings.js:2350
 msgid "None"
 msgstr ""
@@ -12675,7 +12743,7 @@ msgstr "Noch nicht synchronisiert."
 msgid "Not used"
 msgstr "Nicht genutzt"
 
-#: onedesk/one/page/masters/masters.js:124
+#: onedesk/one/page/masters/masters.js:149
 msgid "Not used on any record"
 msgstr "In keinem Datensatz verwendet"
 
@@ -12746,7 +12814,7 @@ msgstr "Danach kann niemand mehr etwas mit diesem oder früherem Datum erfassen,
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Berechtigungen geprüft."
 
-#: onedesk/one/page/masters/masters.js:88 onedesk/public/js/desk.js:339
+#: onedesk/one/page/masters/masters.js:112 onedesk/public/js/desk.js:339
 #: onedesk/www/portal.html:36 onedesk/www/portal.html:72
 msgid "Nothing here yet"
 msgstr "Hier ist noch nichts"
@@ -12856,7 +12924,7 @@ msgstr "{0} benachrichtigt"
 msgid "Notifies people in One and by email, as each person prefers."
 msgstr "Benachrichtigt Personen in One und per E-Mail, wie jede Person es wünscht."
 
-#: onedesk/one/ai.py:4007
+#: onedesk/one/ai.py:4029
 msgid "Notify"
 msgstr "Benachrichtigen"
 
@@ -12889,7 +12957,7 @@ msgstr "Erinnerung"
 msgid "Number"
 msgstr "Nummer"
 
-#: onedesk/one/ai.py:94
+#: onedesk/one/ai.py:109
 msgid "Number invoices by year"
 msgstr "Rechnungen nach Jahr nummerieren"
 
@@ -12908,7 +12976,7 @@ msgstr "Anzahl verschiedener Mitarbeiter und jeweiliger Eincheckungen, bevor ein
 msgid "Numbering"
 msgstr "Nummerierung"
 
-#: onedesk/one_ai/proposals.py:537 onedesk/public/js/oneai/Record.vue:156
+#: onedesk/one_ai/proposals.py:552 onedesk/public/js/oneai/Record.vue:156
 msgid "Numbering of {0}"
 msgstr "Nummerierung von {0}"
 
@@ -12936,7 +13004,7 @@ msgstr "Von"
 msgid "Of Whom"
 msgstr "Von wem"
 
-#: onedesk/one/ai.py:2705 onedesk/one/settings.py:910
+#: onedesk/one/ai.py:2727 onedesk/one/settings.py:910
 #: onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:235
@@ -13011,7 +13079,7 @@ msgstr "Angebote"
 msgid "Old Password"
 msgstr ""
 
-#: onedesk/one/ai.py:3833 onedesk/one/ai.py:4053 onedesk/one_ai/chat.py:739
+#: onedesk/one/ai.py:3855 onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271 onedesk/public/js/settings.js:592
@@ -15317,6 +15385,10 @@ msgid "Print Formats"
 msgstr "Druckformate"
 
 #: onedesk/one/masters.py:33
+msgid "Print Heading"
+msgstr ""
+
+#: onedesk/one/masters.py:33
 msgid "Print Headings"
 msgstr "Drucküberschriften"
 
@@ -15344,11 +15416,11 @@ msgstr "Wird auf ein Dokument gedruckt, sofern kein anderer gewählt wird."
 msgid "Printing"
 msgstr "Drucken"
 
-#: onedesk/one_ai/proposals.py:539 onedesk/public/js/oneai/Record.vue:157
+#: onedesk/one_ai/proposals.py:554 onedesk/public/js/oneai/Record.vue:157
 msgid "Printing of {0}"
 msgstr "Druck von {0}"
 
-#: onedesk/one/ai.py:2610 onedesk/one/ai.py:3462
+#: onedesk/one/ai.py:2632 onedesk/one/ai.py:3484
 msgid "Prints With"
 msgstr "Druckt mit"
 
@@ -15462,6 +15534,10 @@ msgstr ""
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Project Tree"
 msgstr "Projektbaum"
+
+#: onedesk/one/masters.py:48
+msgid "Project Type"
+msgstr ""
 
 #: onedesk/one/masters.py:48
 msgid "Project Types"
@@ -15883,7 +15959,7 @@ msgstr "Aus den beiden Zeiten unten gelesen."
 msgid "Read new files in {0} and its subfolders with OneAI? OneAI files them and acts on them. Scans and photos use credits."
 msgstr "Neue Dateien in {0} und seinen Unterordnern mit OneAI lesen? OneAI legt sie ab und bearbeitet sie. Scans und Fotos verbrauchen Guthaben."
 
-#: onedesk/one/ai.py:152
+#: onedesk/one/ai.py:167
 msgid "Read the leave approval and leave status mails and suggest clearer, friendlier wording for each, keeping what they already fill in."
 msgstr "Lies die Mails zur Urlaubsgenehmigung und zum Urlaubsstatus und schlage für jede eine klarere, freundlichere Formulierung vor, wobei alles, was sie bereits ausfüllen, erhalten bleibt."
 
@@ -16486,7 +16562,7 @@ msgstr "Erinnerung: {who} hat Dateien für {request} angefordert"
 msgid "Remote pictures are hidden."
 msgstr "Externe Bilder werden ausgeblendet."
 
-#: onedesk/one/ai.py:1848 onedesk/one/page/masters/masters.js:182
+#: onedesk/one/ai.py:1870 onedesk/one/page/masters/masters.js:208
 #: onedesk/public/js/oneai/Panel.vue:172 onedesk/public/js/onecloud.js:1332
 #: onedesk/public/js/onecloud.js:1378 onedesk/public/js/onecloud.js:1525
 #: onedesk/public/js/onecloud.js:1812 onedesk/public/js/settings.js:391
@@ -16515,7 +16591,7 @@ msgstr "Stern entfernen"
 msgid "Remove the port from the domain."
 msgstr "Entfernen Sie den Port aus der Domain."
 
-#: onedesk/one/ai.py:2429
+#: onedesk/one/ai.py:2451
 msgid "Remove {0}"
 msgstr "{0} entfernen"
 
@@ -16527,7 +16603,7 @@ msgstr "{0} Dateien aus ihren Datensätzen entfernen? Dies kann nicht rückgäng
 msgid "Remove {0} from its record? This can't be undone."
 msgstr "{0} aus seinem Datensatz entfernen? Dies kann nicht rückgängig gemacht werden."
 
-#: onedesk/one/page/masters/masters.js:184
+#: onedesk/one/page/masters/masters.js:210
 msgid "Remove {0}?"
 msgstr "{0} entfernen?"
 
@@ -16535,7 +16611,7 @@ msgstr "{0} entfernen?"
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr "{0} entfernen? Der Arbeitsbereich ist unter dieser Domain nicht mehr erreichbar."
 
-#: onedesk/one/ai.py:1063 onedesk/one/page/masters/masters.js:187
+#: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:213
 msgid "Removed"
 msgstr "Entfernt"
 
@@ -16545,7 +16621,7 @@ msgstr "Adresse wird entfernt"
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one/ai.py:1834
+#: onedesk/one/ai.py:1856
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/public/js/oneai/Panel.vue:23 onedesk/public/js/oneai/Panel.vue:616
@@ -16924,11 +17000,11 @@ msgstr "Entzogen von {0}: {1}"
 msgid "Rewrite the \"{0}\" notification to be short, plain and friendly. Keep every field it uses and suggest it as a change I can apply."
 msgstr "Formuliere die Benachrichtigung „{0}“ kurz, klar und freundlich. Behalte jedes verwendete Feld und schlage es als Änderung vor, die ich übernehmen kann."
 
-#: onedesk/one/ai.py:441
+#: onedesk/one/ai.py:456
 msgid "Rewrite the text of the notification I have open so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply."
 msgstr "Formuliere den Text der geöffneten Benachrichtigung kurz, klar und freundlich um und behalte jeden Platzhalter bei. Schlage ihn als Änderung vor, die ich übernehmen kann."
 
-#: onedesk/one/ai.py:440
+#: onedesk/one/ai.py:455
 msgid "Rewrite this notification"
 msgstr "Diese Benachrichtigung umformulieren"
 
@@ -16967,7 +17043,7 @@ msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
 
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label of the rule (Data) field in DocType 'Reading Date'
-#: onedesk/one/ai.py:2429 onedesk/one/ai.py:2439
+#: onedesk/one/ai.py:2451 onedesk/one/ai.py:2461
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:46
@@ -17128,6 +17204,10 @@ msgid "Sales are reported under the company's emirate."
 msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 
 #: onedesk/one/masters.py:31
+msgid "Salutation"
+msgstr ""
+
+#: onedesk/one/masters.py:31
 msgid "Salutations"
 msgstr "Anreden"
 
@@ -17136,7 +17216,7 @@ msgstr "Anreden"
 msgid "Same format as a series."
 msgstr "Gleiches Format wie eine Serie."
 
-#: onedesk/one/page/masters/masters.js:111
+#: onedesk/one/page/masters/masters.js:135
 #: onedesk/one_book/report/books_check/books_check.js:25
 #: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:488
@@ -17167,8 +17247,8 @@ msgstr "Speichern Sie, bevor Sie Cloudflare einrichten."
 msgid "Save to My Files"
 msgstr "In Meinen Dateien speichern"
 
-#: onedesk/one/page/masters/masters.js:154
-#: onedesk/one/page/masters/masters.js:171 onedesk/public/js/reports.js:406
+#: onedesk/one/page/masters/masters.js:180
+#: onedesk/one/page/masters/masters.js:197 onedesk/public/js/reports.js:406
 #: onedesk/public/js/shell.js:516
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
@@ -17331,7 +17411,7 @@ msgstr "Geheimnis"
 msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
 
-#: onedesk/one/ai.py:3459
+#: onedesk/one/ai.py:3481
 msgid "Sections"
 msgstr "Abschnitte"
 
@@ -17569,7 +17649,7 @@ msgstr "Seriennummern"
 msgid "Serial and batch numbers can be used"
 msgstr "Serien- und Chargennummern sind nutzbar"
 
-#: onedesk/one/ai.py:2382 onedesk/public/js/doctype_settings.js:397
+#: onedesk/one/ai.py:2404 onedesk/public/js/doctype_settings.js:397
 #: onedesk/public/js/doctype_settings.js:466 onedesk/public/js/settings.js:2024
 msgid "Series"
 msgstr ""
@@ -17634,7 +17714,7 @@ msgstr "Leistung"
 msgid "Session Address"
 msgstr "Sitzungsadresse"
 
-#: onedesk/one/ai.py:3996
+#: onedesk/one/ai.py:4018
 msgid "Set"
 msgstr ""
 
@@ -17722,7 +17802,7 @@ msgstr "Legen Sie den Zeitraum fest."
 msgid "Set to 0 to keep them indefinitely."
 msgstr "Auf 0 setzen, um sie unbegrenzt aufzubewahren."
 
-#: onedesk/one/ai.py:184
+#: onedesk/one/ai.py:199
 msgid "Set up an automation: when a Sales Invoice's status changes to Paid, tell its owner that the customer has paid, naming the invoice and the amount."
 msgstr "Richte eine Automatisierung ein: Wenn der Status einer Ausgangsrechnung auf Bezahlt wechselt, benachrichtige ihren Ersteller, dass der Kunde bezahlt hat, mit Rechnung und Betrag."
 
@@ -18115,7 +18195,7 @@ msgstr "Anmeldungen"
 msgid "Signature"
 msgstr "Signatur"
 
-#: onedesk/one_ai/proposals.py:533 onedesk/public/js/oneai/Record.vue:154
+#: onedesk/one_ai/proposals.py:548 onedesk/public/js/oneai/Record.vue:154
 #: onedesk/public/js/onemail.js:946
 msgid "Signature for {0}"
 msgstr "Signatur für {0}"
@@ -18197,6 +18277,10 @@ msgstr "Site nach einem Backup gelöscht. Dateien behalten."
 #: onedesk/public/js/onecloud.js:702
 msgid "Size"
 msgstr "Größe"
+
+#: onedesk/one/masters.py:53
+msgid "Skill"
+msgstr ""
 
 #: onedesk/one/masters.py:53
 msgid "Skills"
@@ -18400,7 +18484,7 @@ msgstr "Veraltet"
 msgid "Stalled"
 msgstr "Hängt"
 
-#: onedesk/one/ai.py:2611 onedesk/public/js/settings.js:2146
+#: onedesk/one/ai.py:2633 onedesk/public/js/settings.js:2146
 msgid "Standard"
 msgstr ""
 
@@ -18540,7 +18624,7 @@ msgstr "Kontoauszug"
 msgid "Statements"
 msgstr "Kontoauszüge"
 
-#: onedesk/one/ai.py:3832
+#: onedesk/one/ai.py:3854
 msgid "States"
 msgstr ""
 
@@ -18943,19 +19027,19 @@ msgstr "Abonnieren"
 msgid "Subtotal"
 msgstr "Zwischensumme"
 
-#: onedesk/one/ai.py:104
+#: onedesk/one/ai.py:119
 msgid "Suggest a letter head"
 msgstr "Einen Briefkopf vorschlagen"
 
-#: onedesk/one/ai.py:105
+#: onedesk/one/ai.py:120
 msgid "Suggest a letter head drawn from our details in Workspace › General: the header and the footer presets that suit us, as the default."
 msgstr "Schlagen Sie einen Briefkopf aus unseren Angaben unter Arbeitsbereich › Allgemein vor: die passenden Vorlagen für Kopf- und Fußzeile, als Standard."
 
-#: onedesk/one/ai.py:169
+#: onedesk/one/ai.py:184
 msgid "Suggest an approval for Purchase Invoices: a bill starts Pending, an accounts user approves it up to 5,000 and an accounts manager above that, and a manager may reject it."
 msgstr "Schlage eine Freigabe für Eingangsrechnungen vor: Eine Rechnung beginnt als Ausstehend, ein Buchhaltungsbenutzer gibt sie bis 5.000 frei und ein Buchhaltungsleiter darüber, und ein Leiter kann sie ablehnen."
 
-#: onedesk/one/ai.py:95
+#: onedesk/one/ai.py:110
 msgid "Suggest numbering new Sales Invoices as INV-, the year and a five-digit number that starts again each year, keeping the series already in use."
 msgstr "Schlagen Sie vor, neue Ausgangsrechnungen als INV-, das Jahr und eine fünfstellige Nummer zu nummerieren, die jedes Jahr neu beginnt, und die bisher verwendete Serie zu behalten."
 
@@ -19027,6 +19111,10 @@ msgstr "Zusammenfassung"
 #: onedesk/one_inventory/report/to_order/to_order.py:19
 msgid "Supplier"
 msgstr "Lieferant"
+
+#: onedesk/one/masters.py:47
+msgid "Supplier Group"
+msgstr ""
 
 #: onedesk/one/masters.py:47
 msgid "Supplier Groups"
@@ -19277,6 +19365,10 @@ msgstr "Steuerbescheid"
 msgid "Tax Categories"
 msgstr "Steuerkategorien"
 
+#: onedesk/one/masters.py:41
+msgid "Tax Category"
+msgstr ""
+
 #: onedesk/one/letter_heads.py:69 onedesk/one/letter_heads.py:171
 #: onedesk/one/letter_heads.py:379 onedesk/public/js/settings.js:2202
 msgid "Tax ID"
@@ -19390,6 +19482,10 @@ msgstr "Nutzungsbedingungen"
 msgid "Territories"
 msgstr "Gebiete"
 
+#: onedesk/one/masters.py:36
+msgid "Territory"
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:10 onedesk/public/js/ai_model.js:33
 msgid "Test Call"
 msgstr "Testaufruf"
@@ -19439,7 +19535,7 @@ msgstr "Zugestimmter Text"
 msgid "Text document"
 msgstr "Textdokument"
 
-#: onedesk/one/ai.py:183
+#: onedesk/one/ai.py:198
 msgid "Thank customers who pay"
 msgstr "Zahlenden Kunden danken"
 
@@ -19995,7 +20091,7 @@ msgstr "Der letzte Fehler, wie ihn der fehlgeschlagene Dienst gemeldet hat."
 msgid "The law says a business keeps this until then. It cannot be deleted before."
 msgstr "Das Gesetz verlangt, dass ein Unternehmen dies bis dahin aufbewahrt. Vorher kann es nicht gelöscht werden."
 
-#: onedesk/one/ai.py:3145
+#: onedesk/one/ai.py:3167
 msgid "The layout would print badly: {0}."
 msgstr "Das Layout würde schlecht gedruckt: {0}."
 
@@ -20430,7 +20526,7 @@ msgstr "Der Kontakt des Lieferanten"
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr "Der Abgleich lässt die Preise unten unangetastet. Für ein Modell, dessen Seite nicht gelesen werden kann."
 
-#: onedesk/one/ai.py:2879
+#: onedesk/one/ai.py:2901
 msgid "The table {0} needs its columns."
 msgstr "Die Tabelle {0} braucht ihre Spalten."
 
@@ -21133,11 +21229,11 @@ msgstr "Gesetzt, wenn der Timer diesen Block beendet hat, oder von Hand. Eine ni
 msgid "Ticked {0} of {1}"
 msgstr "{0} von {1} angekreuzt"
 
-#: onedesk/one/ai.py:112
+#: onedesk/one/ai.py:127
 msgid "Tidy our footer"
 msgstr "Unsere Fußzeile aufräumen"
 
-#: onedesk/one/ai.py:151
+#: onedesk/one/ai.py:166
 msgid "Tidy the leave mails"
 msgstr "Urlaubsmails aufräumen"
 
@@ -21690,7 +21786,7 @@ msgstr "Unbestätigt"
 msgid "Under a minute. Nothing added."
 msgstr "Unter einer Minute. Nichts hinzugefügt."
 
-#: onedesk/one/ai.py:1134
+#: onedesk/one/ai.py:1156
 msgid "Under the title"
 msgstr "Unter dem Titel"
 
@@ -21743,6 +21839,7 @@ msgid "Undone {0} times before for this party."
 msgstr "Bei diesem Partner bereits {0}-mal rückgängig gemacht."
 
 #. Label of the unit (Data) field in DocType 'AI Model Rate'
+#: onedesk/one/masters.py:45
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_inventory/report/to_order/to_order.py:18
 #: onedesk/public/js/doctype_settings.js:697
@@ -21753,6 +21850,10 @@ msgstr "Einheit"
 #: onedesk/one/masters.py:46
 msgid "Unit Categories"
 msgstr "Einheitenkategorien"
+
+#: onedesk/one/masters.py:46
+msgid "Unit Category"
+msgstr "Einheitenkategorie"
 
 #. Label of the unit_price (Float) field in DocType 'Reading Line'
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
@@ -21997,7 +22098,11 @@ msgstr "Wird in URLs verwendet. Nach dem ersten Verkauf nicht mehr ändern."
 msgid "Used in the Last 30 Days"
 msgstr "In den letzten 30 Tagen verbraucht"
 
-#: onedesk/one/page/masters/masters.js:124
+#: onedesk/one/page/masters/masters.js:149
+msgid "Used on 1 record"
+msgstr "In 1 Datensatz verwendet"
+
+#: onedesk/one/page/masters/masters.js:149
 msgid "Used on {0} records"
 msgstr "In {0} Datensätzen verwendet"
 
@@ -22567,11 +22672,11 @@ msgstr "Worüber kann One mich informieren, und was davon bekomme ich auch per E
 msgid "What changed since last month?"
 msgstr "Was hat sich seit letztem Monat geändert?"
 
-#: onedesk/one/ai.py:251
+#: onedesk/one/ai.py:266
 msgid "What changed today?"
 msgstr "Was hat sich heute geändert?"
 
-#: onedesk/one/ai.py:198
+#: onedesk/one/ai.py:213
 msgid "What do our dashboards show?"
 msgstr "Was zeigen unsere Dashboards?"
 
@@ -22645,16 +22750,24 @@ msgstr "Was belegt in meinen Dateien am meisten Platz, und was könnte ich entfe
 msgid "What is taking the space?"
 msgstr "Was belegt den Speicher?"
 
+#: onedesk/one/ai.py:95
+msgid "What is the list I have open used for, on which records, and who may change it?"
+msgstr "Wofür wird die geöffnete Liste verwendet, in welchen Datensätzen, und wer darf sie ändern?"
+
+#: onedesk/one/ai.py:94
+msgid "What is this list for?"
+msgstr "Wofür ist diese Liste?"
+
 #. Description of the 'Gives' (Data) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "What it gives, in one line, written when it is saved."
 msgstr "Was es bietet, in einer Zeile, beim Speichern geschrieben."
 
-#: onedesk/one/ai.py:267
+#: onedesk/one/ai.py:282
 msgid "What left as a file?"
 msgstr "Was ging als Datei hinaus?"
 
-#: onedesk/one/ai.py:282
+#: onedesk/one/ai.py:297
 msgid "What may each app's users, managers and our own levels do, and who is at each? Say anything that looks too wide."
 msgstr "Was dürfen die Benutzer, Manager und unsere eigenen Stufen jeder App, und wer ist auf welcher? Nennen Sie alles, was zu weit wirkt."
 
@@ -22666,15 +22779,15 @@ msgstr "Was braucht eine Antwort?"
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr "Was braucht mich heute in OneAdmin? Nennen Sie zuerst das Dringendste, warum jedes feststeckt und was ich tun soll."
 
-#: onedesk/one/ai.py:372 onedesk/one_admin/ai.py:23
+#: onedesk/one/ai.py:387 onedesk/one_admin/ai.py:23
 msgid "What needs me today?"
 msgstr "Was braucht mich heute?"
 
-#: onedesk/one/ai.py:373
+#: onedesk/one/ai.py:388
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in OneIntake, OneAI's suggestions and what I have to approve, and say what to do first."
 msgstr "Was braucht mich heute? Sieh dir meine Aufgaben, meine Termine, was in OneIntake auf mich wartet, die Vorschläge von OneAI und was ich genehmigen muss an, und sag, womit ich anfangen soll."
 
-#: onedesk/one/ai.py:191
+#: onedesk/one/ai.py:206
 msgid "What runs by itself?"
 msgstr "Was läuft von selbst?"
 
@@ -22879,11 +22992,11 @@ msgstr "Was zu senden ist, so wie die Person es sieht."
 msgid "What training would help?"
 msgstr "Welche Schulung würde helfen?"
 
-#: onedesk/one/ai.py:328
+#: onedesk/one/ai.py:343
 msgid "What used the most OneAI credits in the last thirty days, by model and by person?"
 msgstr "Was hat in den letzten dreißig Tagen das meiste OneAI-Guthaben verbraucht, nach Modell und nach Person?"
 
-#: onedesk/one/ai.py:327
+#: onedesk/one/ai.py:342
 msgid "What used the most credits this month?"
 msgstr "Was hat diesen Monat das meiste Guthaben verbraucht?"
 
@@ -22892,15 +23005,15 @@ msgstr "Was hat diesen Monat das meiste Guthaben verbraucht?"
 msgid "What was added to the plan. Changed from the workspace, through Stripe."
 msgstr "Was zum Tarif hinzugefügt wurde. Wird im Arbeitsbereich über Stripe geändert."
 
-#: onedesk/one/ai.py:252
+#: onedesk/one/ai.py:267
 msgid "What was changed today, by whom, and does anything look out of place?"
 msgstr "Was wurde heute von wem geändert, und wirkt etwas ungewöhnlich?"
 
-#: onedesk/one/ai.py:275
+#: onedesk/one/ai.py:290
 msgid "What was deleted in the last week, by whom, and is any of it worth putting back?"
 msgstr "Was wurde in der letzten Woche gelöscht, von wem, und lohnt es sich, etwas davon zurückzuholen?"
 
-#: onedesk/one/ai.py:274
+#: onedesk/one/ai.py:289
 msgid "What was deleted lately?"
 msgstr "Was wurde zuletzt gelöscht?"
 
@@ -22913,7 +23026,7 @@ msgstr "Was wofür getan wurde, damit nichts zweimal geschieht."
 msgid "What was done, what comes next, and anything in the way."
 msgstr "Was erledigt ist, was als Nächstes kommt und was im Weg steht."
 
-#: onedesk/one/ai.py:268
+#: onedesk/one/ai.py:283
 msgid "What was exported or printed in the last week, by whom, and was any of it large?"
 msgstr "Was wurde in der letzten Woche von wem exportiert oder gedruckt, und war etwas davon umfangreich?"
 
@@ -22929,15 +23042,15 @@ msgstr "Was wir mit personenbezogenen Daten tun: deinen und denen, die deine Org
 msgid "What will I be told about?"
 msgstr "Worüber werde ich informiert?"
 
-#: onedesk/one/ai.py:221
+#: onedesk/one/ai.py:236
 msgid "What would deleting them remove?"
 msgstr "Was würde das Löschen entfernen?"
 
-#: onedesk/one/ai.py:212
+#: onedesk/one/ai.py:227
 msgid "What would this copy give?"
 msgstr "Was würde diese Kopie enthalten?"
 
-#: onedesk/one/ai.py:213
+#: onedesk/one/ai.py:228
 msgid "What would this copy of their data give, kind by kind, and is any of it other people's or the company's confidential information I should withhold?"
 msgstr "Was würde diese Datenkopie enthalten, Art für Art, und ist etwas davon vertraulich für andere Personen oder das Unternehmen, das ich zurückhalten sollte?"
 
@@ -22969,7 +23082,7 @@ msgstr "Was {0} sieht"
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: onedesk/one/ai.py:4042 onedesk/one/settings.py:2058
+#: onedesk/one/ai.py:4064 onedesk/one/settings.py:2058
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:278 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -23670,7 +23783,7 @@ msgstr "Ob ein laufendes Projekt nach Plan verläuft. Der Status sagt, ob es lä
 msgid "Which OneAI actions have no model to run on, and which offered model would each fall to? Say which models are the defaults and what they cost."
 msgstr "Welche OneAI-Aktionen haben kein Modell, und auf welches angebotene Modell würde jede zurückfallen? Nennen Sie die Standardmodelle und was sie kosten."
 
-#: onedesk/one/ai.py:344
+#: onedesk/one/ai.py:359
 msgid "Which actions cost the most?"
 msgstr "Welche Aktionen kosten am meisten?"
 
@@ -23678,11 +23791,11 @@ msgstr "Welche Aktionen kosten am meisten?"
 msgid "Which actions have no model?"
 msgstr "Welche Aktionen haben kein Modell?"
 
-#: onedesk/one/ai.py:177
+#: onedesk/one/ai.py:192
 msgid "Which approvals are on, and who takes each step?"
 msgstr "Welche Freigaben sind aktiv, und wer übernimmt welchen Schritt?"
 
-#: onedesk/one/ai.py:192
+#: onedesk/one/ai.py:207
 msgid "Which automations are on, what starts each, and what does each do?"
 msgstr "Welche Automatisierungen sind aktiv, was startet sie, und was tun sie?"
 
@@ -23695,7 +23808,7 @@ msgstr "Für welchen Computer oder welche App es erstellt wurde."
 msgid "Which conversations in this folder are waiting for an answer from us? Oldest first."
 msgstr "Welche Unterhaltungen in diesem Ordner warten auf eine Antwort von uns? Die ältesten zuerst."
 
-#: onedesk/one/ai.py:199
+#: onedesk/one/ai.py:214
 msgid "Which dashboards do we have, and what does each chart and card count?"
 msgstr "Welche Dashboards haben wir, und was zählt jedes Diagramm und jede Karte?"
 
@@ -23711,7 +23824,7 @@ msgstr "Welches Gerät?"
 msgid "Which extensions does this workspace have, what does each do, and is any of them failing?"
 msgstr "Welche Erweiterungen hat dieser Arbeitsbereich, was macht jede, und schlägt eine davon fehl?"
 
-#: onedesk/one/ai.py:136
+#: onedesk/one/ai.py:151
 msgid "Which format do invoices print with?"
 msgstr "Mit welchem Format werden Rechnungen gedruckt?"
 
@@ -23727,19 +23840,19 @@ msgstr "Welche Formulare haben wir geändert?"
 msgid "Which leads are waiting on us?"
 msgstr "Welche Leads warten auf uns?"
 
-#: onedesk/one/ai.py:159
+#: onedesk/one/ai.py:174
 msgid "Which mails use a template?"
 msgstr "Welche Mails nutzen eine Vorlage?"
 
-#: onedesk/one/ai.py:345
+#: onedesk/one/ai.py:360
 msgid "Which of OneAI's actions used the most credits in the last thirty days, and on which models?"
 msgstr "Welche OneAI-Aktionen haben in den letzten dreißig Tagen die meisten Credits verbraucht, und auf welchen Modellen?"
 
-#: onedesk/one/ai.py:160
+#: onedesk/one/ai.py:175
 msgid "Which of our mail templates does a setting send, and which are only picked in the composer?"
 msgstr "Welche unserer Mailvorlagen versendet eine Einstellung, und welche werden nur beim Schreiben ausgewählt?"
 
-#: onedesk/one/ai.py:335
+#: onedesk/one/ai.py:350
 msgid "Which of our own domains are not working, and what should we check or change in the DNS to fix each one?"
 msgstr "Welche unserer eigenen Domains funktionieren nicht, und was sollten wir im DNS prüfen oder ändern, um jede zu beheben?"
 
@@ -23774,23 +23887,23 @@ msgstr "Welche Vorlage die Fußzeile aus den Angaben des Unternehmens zeichnet u
 msgid "Which preset draws the top from the company's details, and what it shows. It is drawn again whenever the company changes."
 msgstr "Welche Vorlage den Kopf aus den Firmenangaben zeichnet und was er zeigt. Er wird neu gezeichnet, sobald sich die Firma ändert."
 
-#: onedesk/one/ai.py:137
+#: onedesk/one/ai.py:152
 msgid "Which print format do Sales Invoices print with, and which others could they use?"
 msgstr "Mit welchem Druckformat werden Ausgangsrechnungen gedruckt, und welche anderen könnten sie verwenden?"
 
-#: onedesk/one/ai.py:206
+#: onedesk/one/ai.py:221
 msgid "Which reports are mailed, how often, and to whom?"
 msgstr "Welche Berichte werden per E-Mail verschickt, wie oft und an wen?"
 
-#: onedesk/one/ai.py:205
+#: onedesk/one/ai.py:220
 msgid "Which reports go out by mail?"
 msgstr "Welche Berichte gehen per E-Mail hinaus?"
 
-#: onedesk/one/ai.py:448
+#: onedesk/one/ai.py:463
 msgid "Which should be emailed?"
 msgstr "Welche sollten gemailt werden?"
 
-#: onedesk/one/ai.py:245
+#: onedesk/one/ai.py:260
 msgid "Which webhook calls gave up this week, and what did the other system answer?"
 msgstr "Welche Webhook-Aufrufe haben diese Woche aufgegeben, und was hat das andere System geantwortet?"
 
@@ -23813,11 +23926,11 @@ msgstr "Wer hat es"
 msgid "Who Supplies the Rest?"
 msgstr "Wer liefert den Rest?"
 
-#: onedesk/one/ai.py:176
+#: onedesk/one/ai.py:191
 msgid "Who approves what?"
 msgstr "Wer gibt was frei?"
 
-#: onedesk/one/ai.py:281
+#: onedesk/one/ai.py:296
 msgid "Who can do what?"
 msgstr "Wer darf was?"
 
@@ -23837,23 +23950,23 @@ msgstr "Wer kann das sehen?"
 msgid "Who else sees my data?"
 msgstr "Wer sieht meine Daten noch?"
 
-#: onedesk/one/ai.py:295
+#: onedesk/one/ai.py:310
 msgid "Who has access to what?"
 msgstr "Wer hat worauf Zugriff?"
 
-#: onedesk/one/ai.py:230
+#: onedesk/one/ai.py:245
 msgid "Who has not read it?"
 msgstr "Wer hat sie nicht gelesen?"
 
-#: onedesk/one/ai.py:231
+#: onedesk/one/ai.py:246
 msgid "Who has not seen the latest announcement yet?"
 msgstr "Wer hat die neueste Ankündigung noch nicht gesehen?"
 
-#: onedesk/one/ai.py:303
+#: onedesk/one/ai.py:318
 msgid "Who has not signed in for a month or more, and should any of them be turned off to free a seat?"
 msgstr "Wer hat sich seit einem Monat oder länger nicht angemeldet, und sollte jemand davon ausgeschaltet werden, um einen Platz freizugeben?"
 
-#: onedesk/one/ai.py:302
+#: onedesk/one/ai.py:317
 msgid "Who has not signed in lately?"
 msgstr "Wer hat sich in letzter Zeit nicht angemeldet?"
 
@@ -23861,11 +23974,11 @@ msgstr "Wer hat sich in letzter Zeit nicht angemeldet?"
 msgid "Who has this?"
 msgstr "Wer hat das?"
 
-#: onedesk/one/ai.py:296
+#: onedesk/one/ai.py:311
 msgid "Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."
 msgstr "Wer in diesem Arbeitsbereich kann welche Apps nutzen, und wer verwaltet ihn? Nenne alles, was zu weit gefasst wirkt."
 
-#: onedesk/one/ai.py:289
+#: onedesk/one/ai.py:304
 msgid "Who is held to a territory, a department or another record, and to which?"
 msgstr "Wer ist auf ein Gebiet, eine Abteilung oder einen anderen Datensatz beschränkt, und auf welchen?"
 
@@ -23890,7 +24003,7 @@ msgstr "Der Zahler wurde nicht geändert"
 msgid "Who runs it. They always see it, listed under Users or not."
 msgstr "Wer es leitet. Diese Person sieht es immer, ob unter Benutzer aufgeführt oder nicht."
 
-#: onedesk/one/ai.py:288
+#: onedesk/one/ai.py:303
 msgid "Who sees only part?"
 msgstr "Wer sieht nur einen Teil?"
 
@@ -23969,7 +24082,7 @@ msgstr "Warum gehen Leute?"
 msgid "Why are we losing deals?"
 msgstr "Warum verlieren wir Deals?"
 
-#: onedesk/one/ai.py:244
+#: onedesk/one/ai.py:259
 msgid "Why did these fail?"
 msgstr "Warum sind diese fehlgeschlagen?"
 
@@ -23989,11 +24102,11 @@ msgstr "Warum haben in den letzten zwölf Monaten Leute gekündigt, und wie viel
 msgid "Why have we lost deals this year?"
 msgstr "Warum haben wir dieses Jahr Deals verloren?"
 
-#: onedesk/one/ai.py:426
+#: onedesk/one/ai.py:441
 msgid "Why is a mailbox not working?"
 msgstr "Warum funktioniert ein Postfach nicht?"
 
-#: onedesk/one/ai.py:334
+#: onedesk/one/ai.py:349
 msgid "Why is our domain not working?"
 msgstr "Warum funktioniert unsere Domain nicht?"
 
@@ -24395,11 +24508,11 @@ msgstr "Schreibe einen Brief über diese Person – frag mich, welche Art und f�
 msgid "Write a letter for this person"
 msgstr "Einen Brief für diese Person schreiben"
 
-#: onedesk/one/ai.py:143
+#: onedesk/one/ai.py:158
 msgid "Write a payment reminder"
 msgstr "Zahlungserinnerung schreiben"
 
-#: onedesk/one/ai.py:144
+#: onedesk/one/ai.py:159
 msgid "Write a polite mail template for Sales Invoice reminding the customer that an invoice is due, with its number, amount and due date."
 msgstr "Schreibe eine höfliche Mailvorlage für Ausgangsrechnungen, die den Kunden an eine fällige Rechnung erinnert, mit Nummer, Betrag und Fälligkeitsdatum."
 
@@ -24419,7 +24532,7 @@ msgstr "Schreibe eine kurze E-Mail-Signatur mit meinem Namen, meiner Position un
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr "Schreibe eine kurze, freundliche Nachricht, dass diese Bewerbung nicht ausgewählt wurde, und bedanke dich für etwas Bestimmtes darin. Nenne keine Gründe."
 
-#: onedesk/one/ai.py:419
+#: onedesk/one/ai.py:434
 msgid "Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep it short, and suggest it as a card I can approve."
 msgstr "Schreibe eine Signatur für das Postfach, von dem ich sende, aus meinem Namen, meiner Stelle und wie man mich erreicht. Halte sie kurz und schlage sie als Karte vor, die ich bestätigen kann."
 
@@ -24444,7 +24557,7 @@ msgstr "In HTML schreiben"
 msgid "Write my bio"
 msgstr "Meine Biografie schreiben"
 
-#: onedesk/one/ai.py:418
+#: onedesk/one/ai.py:433
 msgid "Write my signature"
 msgstr "Meine Signatur schreiben"
 
@@ -24476,7 +24589,7 @@ msgstr "Mit {0} schreiben"
 msgid "Write your update first."
 msgstr "Schreiben Sie zuerst Ihr Update."
 
-#: onedesk/one_ai/proposals.py:551
+#: onedesk/one_ai/proposals.py:566
 msgid "Write {0} on a new {1}"
 msgstr "{0} in einem neuen {1} schreiben"
 
@@ -24558,8 +24671,8 @@ msgstr ""
 msgid "Year-end close of {0}"
 msgstr "Jahresabschluss {0}"
 
-#: onedesk/one/ai.py:2702 onedesk/one/ai.py:2705 onedesk/one/ai.py:3833
-#: onedesk/one/ai.py:4053 onedesk/one_ai/chat.py:740
+#: onedesk/one/ai.py:2724 onedesk/one/ai.py:2727 onedesk/one/ai.py:3855
+#: onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:740
 #: onedesk/public/js/onecloud.js:722
 msgid "Yes"
 msgstr ""
@@ -24679,7 +24792,7 @@ msgstr "Sie haben anstehende Feiertage"
 msgid "You haven't downloaded the workspace."
 msgstr "Sie haben den Arbeitsbereich nicht heruntergeladen."
 
-#: onedesk/one_ai/proposals.py:425
+#: onedesk/one_ai/proposals.py:440
 msgid "You may not change how {0} signs."
 msgstr "Sie dürfen nicht ändern, wie {0} signiert."
 
@@ -24699,7 +24812,7 @@ msgstr "Sie dürfen {0} nicht lesen."
 msgid "You may not run {0}."
 msgstr "Sie dürfen {0} nicht ausführen."
 
-#: onedesk/one_ai/proposals.py:448
+#: onedesk/one_ai/proposals.py:463
 msgid "You may not {0} {1}."
 msgstr "Sie dürfen {1} nicht {0}."
 
@@ -25038,7 +25151,7 @@ msgstr "eine Farbe wie #0f766e"
 msgid "a colour such as #0f766e or var(--gray-100)"
 msgstr "eine Farbe wie #0f766e oder var(--gray-100)"
 
-#: onedesk/one/ai.py:3080
+#: onedesk/one/ai.py:3102
 msgid "a column"
 msgstr "eine Spalte"
 
@@ -25091,7 +25204,7 @@ msgstr "Adresse"
 msgid "administrator of the workspace"
 msgstr "Administrator des Arbeitsbereichs"
 
-#: onedesk/one/ai.py:1051 onedesk/one_crm/heads.py:118
+#: onedesk/one/ai.py:1073 onedesk/one_crm/heads.py:118
 msgid "after {0}"
 msgstr "nach {0}"
 
@@ -25156,7 +25269,7 @@ msgstr "von {0} am {1}"
 msgid "cached"
 msgstr "zwischengespeichert"
 
-#: onedesk/one/ai.py:1034
+#: onedesk/one/ai.py:1056
 msgid "called {0}"
 msgstr "heißt {0}"
 
@@ -25304,7 +25417,7 @@ msgstr ""
 msgid "green"
 msgstr ""
 
-#: onedesk/one/ai.py:1039
+#: onedesk/one/ai.py:1061
 msgid "hidden"
 msgstr "ausgeblendet"
 
@@ -25321,7 +25434,7 @@ msgstr "verspätet gekommen"
 msgid "in late, left early"
 msgstr "verspätet gekommen, früher gegangen"
 
-#: onedesk/one/ai.py:1041
+#: onedesk/one/ai.py:1063
 msgid "in the list"
 msgstr "in der Liste"
 
@@ -25334,7 +25447,7 @@ msgstr "Eingabe"
 msgid "invites you to"
 msgstr "lädt Sie ein zu"
 
-#: onedesk/one/ai.py:3143
+#: onedesk/one/ai.py:3165
 msgid "it does not print {0}"
 msgstr "es druckt {0} nicht"
 
@@ -25363,7 +25476,7 @@ msgstr ""
 msgid "just you"
 msgstr "nur Sie"
 
-#: onedesk/one/ai.py:1126 onedesk/one/ai.py:1128
+#: onedesk/one/ai.py:1148 onedesk/one/ai.py:1150
 msgid "label"
 msgstr ""
 
@@ -25469,7 +25582,7 @@ msgstr "hat kein Arbeitsbereich eine Adresse"
 msgid "nobody yet"
 msgstr "noch niemand"
 
-#: onedesk/one/ai.py:1861 onedesk/one/ai.py:1862 onedesk/one/settings.py:1684
+#: onedesk/one/ai.py:1883 onedesk/one/ai.py:1884 onedesk/one/settings.py:1684
 msgid "none"
 msgstr ""
 
@@ -25477,7 +25590,7 @@ msgstr ""
 msgid "none of them live."
 msgstr "keiner davon aktiv."
 
-#: onedesk/one/ai.py:1041
+#: onedesk/one/ai.py:1063
 msgid "not in the list"
 msgstr "nicht in der Liste"
 
@@ -25543,7 +25656,7 @@ msgstr "nur die Datensätze von {0} {1}, {2}"
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"
 
-#: onedesk/one/ai.py:1040
+#: onedesk/one/ai.py:1062
 msgid "optional"
 msgstr "optional"
 
@@ -25629,7 +25742,7 @@ msgstr "hat es von {0} umbenannt"
 msgid "renamed {0}"
 msgstr "{0} umbenannt"
 
-#: onedesk/one/ai.py:1040
+#: onedesk/one/ai.py:1062
 msgid "required"
 msgstr "erforderlich"
 
@@ -25650,19 +25763,19 @@ msgstr ""
 msgid "seats"
 msgstr "Plätze"
 
-#: onedesk/one/ai.py:3070
+#: onedesk/one/ai.py:3092
 msgid "section {0}"
 msgstr "Abschnitt {0}"
 
-#: onedesk/one/ai.py:3088
+#: onedesk/one/ai.py:3110
 msgid "section {0} is empty"
 msgstr "Abschnitt {0} ist leer"
 
-#: onedesk/one/ai.py:3055
+#: onedesk/one/ai.py:3077
 msgid "sections is a list of sections, each a list of columns."
 msgstr "sections ist eine Liste von Abschnitten, jeder eine Liste von Spalten."
 
-#: onedesk/one/ai.py:2980
+#: onedesk/one/ai.py:3002
 msgid "sections is not JSON: {0}."
 msgstr "sections ist kein JSON: {0}."
 
@@ -25670,7 +25783,7 @@ msgstr "sections ist kein JSON: {0}."
 msgid "shared it with {0}"
 msgstr "hat es mit {0} geteilt"
 
-#: onedesk/one/ai.py:1039
+#: onedesk/one/ai.py:1061
 msgid "shown"
 msgstr "angezeigt"
 
@@ -25726,7 +25839,7 @@ msgstr "die zusätzlichen Anweisungen"
 msgid "the added instructions, to none"
 msgstr "die zusätzlichen Anweisungen, auf keine"
 
-#: onedesk/one/ai.py:3098
+#: onedesk/one/ai.py:3120
 msgid "the columns of {0} come to {1}%, more than the page"
 msgstr "die Spalten von {0} ergeben {1} %, mehr als die Seite"
 
@@ -25806,7 +25919,7 @@ msgstr "die letzten zwei Ziffern des Jahres, 26"
 msgid "the year, 2026"
 msgstr "das Jahr, 2026"
 
-#: onedesk/one/ai.py:3112
+#: onedesk/one/ai.py:3134
 msgid "there is no field {0} for the barcode"
 msgstr "es gibt kein Feld {0} für den Barcode"
 
@@ -25937,8 +26050,8 @@ msgstr "{0} (neuer Ordner)"
 msgid "{0} (none)"
 msgstr "{0} (keine)"
 
-#: onedesk/one/ai.py:1839 onedesk/one/ai.py:1860 onedesk/one/ai.py:2382
-#: onedesk/one/ai.py:2398 onedesk/one/ai.py:2611
+#: onedesk/one/ai.py:1861 onedesk/one/ai.py:1882 onedesk/one/ai.py:2404
+#: onedesk/one/ai.py:2420 onedesk/one/ai.py:2633
 msgid "{0} (was {1})"
 msgstr "{0} (war {1})"
 
@@ -25959,7 +26072,7 @@ msgstr "{0} + {1} Zusatzpakete"
 msgid "{0} AI credits a month"
 msgstr "{0} KI-Guthaben im Monat"
 
-#: onedesk/one/ai.py:3723
+#: onedesk/one/ai.py:3745
 msgid "{0} Approval"
 msgstr "Freigabe {0}"
 
@@ -26098,7 +26211,7 @@ msgstr "{0} auf der Stufe {1}"
 msgid "{0} at {1}"
 msgstr "{0} für {1}"
 
-#: onedesk/one/ai.py:3967
+#: onedesk/one/ai.py:3989
 msgid "{0} automation"
 msgstr "Automatisierung {0}"
 
@@ -26436,7 +26549,7 @@ msgstr "{0} hat kein benutzerdefiniertes Feld namens {1}."
 msgid "{0} has no field that links to {1}, so the field cannot be filled from it."
 msgstr "{0} hat kein Feld, das auf {1} verweist, daher kann das Feld nicht daraus gefüllt werden."
 
-#: onedesk/one/ai.py:3010 onedesk/one/ai.py:3022
+#: onedesk/one/ai.py:3032 onedesk/one/ai.py:3044
 msgid "{0} has no field {1}"
 msgstr "{0} hat kein Feld {1}"
 
@@ -26541,7 +26654,7 @@ msgstr "{0} ist ein Standardformat. Es kann nur als Standard festgelegt oder aus
 msgid "{0} is a sub-project of {1}."
 msgstr "{0} ist jetzt ein Unterprojekt von {1}."
 
-#: onedesk/one/ai.py:3105
+#: onedesk/one/ai.py:3127
 msgid "{0} is a table: give it its columns"
 msgstr "{0} ist eine Tabelle: geben Sie ihre Spalten an"
 
@@ -26701,7 +26814,7 @@ msgstr "{0} ist kein Auftrag."
 msgid "{0} is not a library."
 msgstr "{0} ist keine Bibliothek."
 
-#: onedesk/one/ai.py:3007
+#: onedesk/one/ai.py:3029
 msgid "{0} is not a link field and one of its fields, such as customer.customer_group"
 msgstr "{0} ist kein Verknüpfungsfeld mit einem seiner Felder, etwa customer.customer_group"
 
@@ -26733,7 +26846,7 @@ msgstr "{0} ist keine Regel von {1}."
 msgid "{0} is not a series of {1}."
 msgstr "{0} ist keine Serie von {1}."
 
-#: onedesk/one/ai.py:3094
+#: onedesk/one/ai.py:3116
 msgid "{0} is not a table"
 msgstr "{0} ist keine Tabelle"
 
@@ -26741,7 +26854,7 @@ msgstr "{0} ist keine Tabelle"
 msgid "{0} is not a table of a form you may customize."
 msgstr "{0} ist keine Tabelle eines Formulars, das Sie anpassen dürfen."
 
-#: onedesk/one/ai.py:3019
+#: onedesk/one/ai.py:3041
 msgid "{0} is not a table to repeat"
 msgstr "{0} ist keine Tabelle zum Wiederholen"
 
@@ -26822,7 +26935,7 @@ msgstr "{0} wird nicht mit Formaten gedruckt, die dieser Arbeitsbereich festlegt
 msgid "{0} is not something done to {1}."
 msgstr "{0} ist nichts, was mit {1} gemacht wird."
 
-#: onedesk/one_ai/proposals.py:434
+#: onedesk/one_ai/proposals.py:449
 msgid "{0} is not something that can be proposed."
 msgstr "{0} lässt sich nicht vorschlagen."
 
@@ -27054,7 +27167,7 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag, mit {1} {2} für 
 msgid "{0} on the odometer since the last log."
 msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 
-#: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:549
+#: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:564
 #: onedesk/public/js/deleted_document_list.js:13 onedesk/public/js/push.js:47
 #: onedesk/public/js/settings.js:1525
 msgid "{0} on {1}"
@@ -27201,7 +27314,7 @@ msgstr "{0} bis {1}"
 msgid "{0} to {1}%"
 msgstr "{0} auf {1} %"
 
-#: onedesk/one/ai.py:3821
+#: onedesk/one/ai.py:3843
 msgid "{0} to {1}, by {2}"
 msgstr "{0} zu {1}, durch {2}"
 
@@ -27234,7 +27347,7 @@ msgid "{0} waiting in OneIntake"
 msgstr "{0} warten in OneIntake"
 
 #: onedesk/one_admin/ledger.py:175 onedesk/one_ai/proposals.py:116
-#: onedesk/one_ai/proposals.py:293 onedesk/one_ai/touch.py:211
+#: onedesk/one_ai/proposals.py:308 onedesk/one_ai/touch.py:211
 msgid "{0} was already {1}."
 msgstr "{0} war bereits {1}."
 
@@ -27271,7 +27384,7 @@ msgstr "{0} kann sich weder einchecken noch einen weiteren Passkey registrieren.
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte wird stillgelegt, nicht gelöscht."
 
-#: onedesk/one/ai.py:2318
+#: onedesk/one/ai.py:2340
 msgid "{0} with {1} digits"
 msgstr "{0} mit {1} Ziffern"
 
@@ -27364,15 +27477,15 @@ msgstr "{0} % belegt."
 msgid "{0}% · {1} of {2} tasks"
 msgstr "{0} % · {1} von {2} Aufgaben"
 
-#: onedesk/one/ai.py:1105 onedesk/one/ai.py:1128
+#: onedesk/one/ai.py:1127 onedesk/one/ai.py:1150
 msgid "{0}, copied when made from {1}"
 msgstr "{0}, kopiert beim Erstellen aus {1}"
 
-#: onedesk/one/ai.py:1103 onedesk/one/ai.py:1126
+#: onedesk/one/ai.py:1125 onedesk/one/ai.py:1148
 msgid "{0}, filled from {1}"
 msgstr "{0}, gefüllt aus {1}"
 
-#: onedesk/one/ai.py:2319
+#: onedesk/one/ai.py:2341
 msgid "{0}, for every record"
 msgstr "{0}, für jeden Datensatz"
 
@@ -27412,7 +27525,7 @@ msgstr "{0}, beginnt als {1}"
 msgid "{0}, unmetered"
 msgstr "{0}, ohne Begrenzung"
 
-#: onedesk/one/ai.py:2319
+#: onedesk/one/ai.py:2341
 msgid "{0}, when {1}"
 msgstr "{0}, wenn {1}"
 
@@ -27473,7 +27586,7 @@ msgstr "{0}: Ein Stil darf kein Markup enthalten und nichts laden."
 msgid "{0}: a style may only use this site's files and images."
 msgstr "{0}: Ein Stil darf nur Dateien und Bilder dieser Website verwenden."
 
-#: onedesk/one/ai.py:1230 onedesk/one/layer.py:181
+#: onedesk/one/ai.py:1252 onedesk/one/layer.py:181
 msgid "{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
 msgstr "{0}: Ein Textfeld kann beliebigen Text enthalten oder eine E-Mail, einen Namen, eine Telefonnummer, eine Webadresse, einen Barcode oder eine IBAN."
 
@@ -27560,7 +27673,7 @@ msgstr "{0}: {1} kann hier nicht erstellt werden."
 msgid "{0}: {1} has no field {2} visible to everyone who can read it."
 msgstr "{0}: {1} hat kein Feld {2}, das für alle Leser sichtbar ist."
 
-#: onedesk/one/ai.py:1235
+#: onedesk/one/ai.py:1257
 msgid "{0}: {1} is not a form here."
 msgstr "{0}: {1} ist hier kein Formular."
 

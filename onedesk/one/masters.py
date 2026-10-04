@@ -25,35 +25,35 @@ from frappe import _, _lt
 
 from onedesk.one import layer, roles, rules
 
-#: (group, doctype, label), in the order the page lists them. "Shared" is
-#: the administrator's; an app's group is its managers' too.
+#: (group, doctype, label, one of them), in the order the page lists them.
+#: "Shared" is the administrator's; an app's group is its managers' too.
 KINDS = (
-	("Shared", "Salutation", _lt("Salutations")),
-	("Shared", "Gender", _lt("Genders")),
-	("Shared", "Print Heading", _lt("Print Headings")),
-	("Shared", "Address Template", _lt("Address Templates")),
-	("OneCRM", "Customer Group", _lt("Customer Groups")),
-	("OneCRM", "Territory", _lt("Territories")),
-	("OneCRM", "Industry Type", _lt("Industries")),
-	("OneCRM", "Market Segment", _lt("Market Segments")),
-	("OneCRM", "UTM Source", _lt("Lead Sources")),
-	("OneCRM", "Opportunity Lost Reason", _lt("Lost Reasons")),
-	("OneBook", "Tax Category", _lt("Tax Categories")),
-	("OneBook", "Finance Book", _lt("Finance Books")),
-	("OneInventory", "Item Group", _lt("Item Groups")),
-	("OneInventory", "Brand", _lt("Brands")),
-	("OneInventory", "UOM", _lt("Units")),
-	("OneInventory", "UOM Category", _lt("Unit Categories")),
-	("OneInventory", "Supplier Group", _lt("Supplier Groups")),
-	("OneProject", "Project Type", _lt("Project Types")),
-	("OneHR", "Department", _lt("Departments")),
-	("OneHR", "Designation", _lt("Designations")),
-	("OneHR", "Branch", _lt("Branches")),
-	("OneHR", "Employment Type", _lt("Employment Types")),
-	("OneHR", "Skill", _lt("Skills")),
-	("OneHR", "KRA", _lt("Key Result Areas")),
-	("OneHR", "Grievance Type", _lt("Grievance Types")),
-	("OneHR", "Identification Document Type", _lt("ID Document Types")),
+	("Shared", "Salutation", _lt("Salutations"), _lt("Salutation")),
+	("Shared", "Gender", _lt("Genders"), _lt("Gender")),
+	("Shared", "Print Heading", _lt("Print Headings"), _lt("Print Heading")),
+	("Shared", "Address Template", _lt("Address Templates"), _lt("Address Template")),
+	("OneCRM", "Customer Group", _lt("Customer Groups"), _lt("Customer Group")),
+	("OneCRM", "Territory", _lt("Territories"), _lt("Territory")),
+	("OneCRM", "Industry Type", _lt("Industries"), _lt("Industry")),
+	("OneCRM", "Market Segment", _lt("Market Segments"), _lt("Market Segment")),
+	("OneCRM", "UTM Source", _lt("Lead Sources"), _lt("Lead Source")),
+	("OneCRM", "Opportunity Lost Reason", _lt("Lost Reasons"), _lt("Lost Reason")),
+	("OneBook", "Tax Category", _lt("Tax Categories"), _lt("Tax Category")),
+	("OneBook", "Finance Book", _lt("Finance Books"), _lt("Finance Book")),
+	("OneInventory", "Item Group", _lt("Item Groups"), _lt("Item Group")),
+	("OneInventory", "Brand", _lt("Brands"), _lt("Brand")),
+	("OneInventory", "UOM", _lt("Units"), _lt("Unit")),
+	("OneInventory", "UOM Category", _lt("Unit Categories"), _lt("Unit Category")),
+	("OneInventory", "Supplier Group", _lt("Supplier Groups"), _lt("Supplier Group")),
+	("OneProject", "Project Type", _lt("Project Types"), _lt("Project Type")),
+	("OneHR", "Department", _lt("Departments"), _lt("Department")),
+	("OneHR", "Designation", _lt("Designations"), _lt("Designation")),
+	("OneHR", "Branch", _lt("Branches"), _lt("Branch")),
+	("OneHR", "Employment Type", _lt("Employment Types"), _lt("Employment Type")),
+	("OneHR", "Skill", _lt("Skills"), _lt("Skill")),
+	("OneHR", "KRA", _lt("Key Result Areas"), _lt("Key Result Area")),
+	("OneHR", "Grievance Type", _lt("Grievance Types"), _lt("Grievance Type")),
+	("OneHR", "Identification Document Type", _lt("ID Document Types"), _lt("ID Document Type")),
 )
 
 #: What the workspace administrator may do with each kind.
@@ -86,7 +86,7 @@ GIVEN = "onedesk_masters_given"
 
 def settle() -> None:
 	roles.grant(
-		{doctype: MANAGE for _group, doctype, _label in KINDS if frappe.db.exists("DocType", doctype)}
+		{doctype: MANAGE for _group, doctype, _label, _one in KINDS if frappe.db.exists("DocType", doctype)}
 	)
 	_give_managers()
 
@@ -103,7 +103,7 @@ def _give_managers() -> None:
 
 	managers = {label: roles_ for label, _code, _users, roles_ in APPS}
 	given = set(json.loads(frappe.db.get_default(GIVEN) or "[]"))
-	for group, doctype, _label in KINDS:
+	for group, doctype, _label, _one in KINDS:
 		if not frappe.db.exists("DocType", doctype):
 			continue
 		for role in managers.get(group, ()):
@@ -125,7 +125,7 @@ def _groups() -> set[str]:
 	from onedesk.one.settings import APPS
 
 	if roles.administers():
-		return {group for group, _doctype, _label in KINDS}
+		return {group for group, _doctype, _label, _one in KINDS}
 	held = set(frappe.get_roles())
 	mine = {label for label, _code, _users, managers in APPS if held & set(managers)}
 	if not mine:
@@ -148,7 +148,7 @@ def kinds() -> list[dict]:
 	and what they may do with it."""
 	groups = _groups()
 	out = []
-	for group, doctype, label in KINDS:
+	for group, doctype, label, one in KINDS:
 		if group not in groups or not frappe.db.exists("DocType", doctype):
 			continue
 		if not frappe.has_permission(doctype, "read"):
@@ -159,6 +159,7 @@ def kinds() -> list[dict]:
 				"group": group,
 				"doctype": doctype,
 				"label": str(label),
+				"one": str(one),
 				"count": frappe.db.count(doctype, _below_root(doctype)),
 				"create": bool(frappe.has_permission(doctype, "create")),
 				"delete": bool(frappe.has_permission(doctype, "delete")),
@@ -221,9 +222,8 @@ def _below_root(doctype: str) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def add(doctype: str, values: str | dict) -> str:
-	"""A new value, from its dialog: a tree's goes under its root unless it
-	says otherwise, a department belongs to the workspace's company. frappe
-	checks whether the reader may make one."""
+	"""A new value, from its dialog (`place` puts it under its tree's root).
+	frappe checks whether the reader may make one."""
 	_kind(doctype)
 	values = frappe.parse_json(values) or {}
 	meta = frappe.get_meta(doctype)
@@ -242,18 +242,26 @@ def add(doctype: str, values: str | dict) -> str:
 		doc.set("__newname", value)
 	else:
 		doc.set(field, value)
+	doc.insert()
+	return doc.name
+
+
+def place(doc, method=None) -> None:
+	"""before_insert: a tree's new value goes under its root unless it names a
+	parent, and a department is the workspace's company's. erpnext's forms do
+	this in the browser, so a value made anywhere else (Masters, a OneAI card)
+	would otherwise be a second root, which frappe refuses."""
+	meta = frappe.get_meta(doc.doctype)
 	if meta.is_tree and not doc.get(meta.nsm_parent_field):
 		root = frappe.db.get_value(
-			doctype, {"is_group": 1, meta.nsm_parent_field: ("in", ("", None))}, "name"
+			doc.doctype, {"is_group": 1, meta.nsm_parent_field: ("in", ("", None))}, "name"
 		)
-		if root:
+		if root and root != doc.name:
 			doc.set(meta.nsm_parent_field, root)
 	if meta.has_field("company") and not doc.get("company"):
 		doc.company = frappe.defaults.get_user_default("Company") or frappe.db.get_single_value(
 			"Global Defaults", "default_company"
 		)
-	doc.insert()
-	return doc.name
 
 
 @frappe.whitelist(methods=["POST"])
