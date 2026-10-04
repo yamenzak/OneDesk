@@ -1,7 +1,30 @@
-// Projects: where each one stands, said as its status. ERPNext's list put
-// "33%" in place of Open once a task was done, and Open in red otherwise;
-// how far it has got is its own column. The manager reads as a name because
-// every link to a person does (`show_title_field_in_link` on User).
+// Projects: where each one stands, in one pill. An open project's pill is its
+// health (On Track, At Risk, Off Track), since every open project would
+// otherwise read "Open"; a finished one says Completed or Cancelled. ERPNext's
+// list put "33%" in place of Open once a task was done; how far it has got is
+// its own column. The manager reads as a name because every link to a person
+// does (`show_title_field_in_link` on User).
+//
+// A sub-project reads after the project it is under, "Villa Al Barsha ›
+// Handrails", the way My Tasks names where a task is (one_project/tree.py
+// `path`): a parent on the page is read off the page, one that isn't is
+// asked for once, and the parent's part is drawn quieter than the name.
+const ONE_PARENTS = {};
+const HEALTH = { "On Track": "green", "At Risk": "orange", "Off Track": "red" };
+
+// The parent's part of the name, quieter: frappe writes the name as text.
+function quiet(listview) {
+	listview.$result.find(".list-row a.ellipsis[data-name]").each((_, link) => {
+		const doc = listview.data.find((one) => one.name === link.dataset.name);
+		const up = doc && doc.one_parent && ONE_PARENTS[doc.one_parent];
+		if (!up || link.querySelector(".text-muted") || !link.textContent.startsWith(`${up} › `)) return;
+		link.replaceChildren(
+			Object.assign(document.createElement("span"), { className: "text-muted", textContent: `${up} › ` }),
+			document.createTextNode(link.textContent.slice(up.length + 3))
+		);
+	});
+}
+
 frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Project"] || {}, {
 	hide_name_column: true,
 	hide_name_filter: true,
@@ -20,11 +43,46 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			<div class="subtitle">${[done, ends].filter(Boolean).join(" · ")}</div>`;
 	},
 	get_indicator(doc) {
+		if (doc.status === "Open" && doc.one_health) {
+			return [__(doc.one_health), HEALTH[doc.one_health] || "gray", `one_health,=,${doc.one_health}`];
+		}
 		const colour = { Open: "blue", Completed: "green", Cancelled: "gray" }[doc.status] || "gray";
 		return [__(doc.status), colour, `status,=,${doc.status}`];
+	},
+	formatters: {
+		project_name(value, df, doc) {
+			const up = doc.one_parent && ONE_PARENTS[doc.one_parent];
+			return up ? `${up} › ${value}` : value;
+		},
+	},
+	// The parents on the page are known before its rows are drawn.
+	before_render() {
+		const listview = window.cur_list;
+		if (listview && listview.doctype === "Project") {
+			for (const doc of listview.data || []) ONE_PARENTS[doc.name] = doc.project_name || doc.name;
+		}
+	},
+	refresh(listview) {
+		const missing = [...new Set(listview.data.map((doc) => doc.one_parent))].filter(
+			(name) => name && !(name in ONE_PARENTS)
+		);
+		if (!missing.length) return quiet(listview);
+		frappe.db
+			.get_list("Project", { filters: { name: ["in", missing] }, fields: ["name", "project_name"], limit: missing.length })
+			.then((rows) => {
+				for (const name of missing) ONE_PARENTS[name] = name;
+				for (const row of rows) ONE_PARENTS[row.name] = row.project_name || row.name;
+				listview.render();
+				quiet(listview);
+			});
 	},
 });
 
 // The Timeline leaves out an employee's onboarding or exit checklist, as the
 // rail's Projects and the Tree do (one_hr/lifecycle.py); it reads the type.
-(frappe.listview_settings["Project"].add_fields = frappe.listview_settings["Project"].add_fields || []).push("project_type");
+// The pill reads the health, and the name the project it is under.
+(frappe.listview_settings["Project"].add_fields = frappe.listview_settings["Project"].add_fields || []).push(
+	"project_type",
+	"one_health",
+	"one_parent"
+);

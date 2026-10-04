@@ -46,9 +46,17 @@ one, and the activity's when there isn't.
 
 ## Projects
 
-The list shows each project's kind, status, health, customer, manager, how
-much is done and when it's due. Filter by name, kind, status, health, manager
-or customer. A project's status is **Open**, **Completed** or **Cancelled**.
+The list shows each project with its customer, manager, kind, due date and
+how much is done, the ones worked on most recently first. A project under
+another shows that project's name before its own: **Villa Al Barsha ›
+Handrails**.
+
+The pill says where a project stands. An open project shows its health,
+**On Track**, **At Risk** or **Off Track**; a finished one shows **Completed**
+or **Cancelled**. Click a pill to see the projects that share it.
+
+Filter by name, kind, status, health or manager at the top, or by customer
+and anything else under **Filters**. **Add Project** starts one.
 
 ## Starting a project
 

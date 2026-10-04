@@ -7406,6 +7406,32 @@ project's is on its page.
   reads its view mode off a fresh object each time, so the default is set
   through frappe-gantt's own `change_view_mode`.
 
+**The Projects list.** Eight columns shared the width, so the name, the one
+column people scan by, was cut to "Marina Offic".
+
+- **One pill.** Status read "Open" on nearly every row beside a Health pill.
+  The pill is now an open project's health (green, orange, red) and a
+  finished one's Completed or Cancelled, and filters by what it says; the
+  Health column goes (`get_indicator`, `one_health` off the list view).
+- **A sub-project reads after its parent**, "Villa Al Barsha › Handrails", the
+  parent's part quieter (`formatters.project_name`; parents off the page are
+  asked for once). frappe writes the name as text, so the quieter part is
+  set after the rows are drawn.
+- **Room for the name**: 260 px (a `width` property setter, which frappe's
+  list reads for a column's width).
+- **Due Date** and **Start Date** for Expected End and Start Date, on the
+  list and the form.
+- **Quick filters**: name, status, health, manager and kind, on one row;
+  Customer is under Filters.
+- **Sorted by Last Updated**, the projects being worked on first.
+- **Add Project** on the Tree too, frappe's own words for the list's button.
+- **Phone**: frappe draws the rows in a table that grows to its longest name,
+  so with the parent's name the pill went off the edge. On the Projects list
+  the table is a block, each row as wide as the list, and the pill no longer
+  reserves 130 px for a 65 px pill.
+- Money columns stay off: the list is everyone's, and the money is on each
+  project's page for whoever may see it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

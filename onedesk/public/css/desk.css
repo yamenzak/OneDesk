@@ -615,6 +615,24 @@ a.one-chart-head:hover .one-stat-label {
 	display: block;
 }
 
+/* On a phone the Projects list is as wide as the screen: frappe draws its rows
+ * in a table that grows to its longest name, and a sub-project's name carries
+ * its parent's ("Villa Al Barsha › Handrails"), so the status pill went off
+ * the edge. As a block the name shortens with an ellipsis instead. */
+@media (max-width: 767px) {
+	[data-page-route="List/Project/List"] .layout-main-section-wrapper .frappe-list .result-container .result.result {
+		display: block;
+	}
+	[data-page-route="List/Project/List"] .frappe-list .result .list-row-container {
+		max-width: 100%;
+	}
+	[data-page-route="List/Project/List"] .frappe-list .result .list-row,
+	[data-page-route="List/Project/List"] .frappe-list .result .list-row .level-left,
+	[data-page-route="List/Project/List"] .frappe-list .result .list-row .level-right {
+		min-width: 0;
+	}
+}
+
 /* A project's milestone on the Projects timeline (project_calendar.js): a mark
  * on its day, in the warning colour, that can't be dragged or opened, being a
  * task changed on its project's page. */

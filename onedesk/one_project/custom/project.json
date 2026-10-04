@@ -29,7 +29,7 @@
    "options": "On Track\nAt Risk\nOff Track",
    "default": "On Track",
    "insert_after": "status",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "in_standard_filter": 1,
    "module": "One Project",
    "description": ""
@@ -416,7 +416,7 @@
    "field_name": "customer",
    "property": "in_standard_filter",
    "property_type": "Check",
-   "value": "1"
+   "value": "0"
   },
   {
    "doc_type": "Project",
@@ -537,6 +537,44 @@
    "property": "label",
    "property_type": "Data",
    "value": "Budget"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Start Date",
+   "field_name": "expected_start_date"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Due Date",
+   "field_name": "expected_end_date"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "260",
+   "field_name": "project_name"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocType",
+   "property": "sort_field",
+   "property_type": "Data",
+   "value": "modified"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocType",
+   "property": "sort_order",
+   "property_type": "Data",
+   "value": "DESC"
   }
  ],
  "sync_on_migrate": 1

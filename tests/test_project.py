@@ -505,6 +505,7 @@ def test_the_projects_list_says_status_and_names_the_manager():
 	js = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert "hide_name_column: true" in js and "hide_name_filter: true" in js
 	assert 'Open: "blue", Completed: "green"' in js, "Open is not red, and a share is not a status"
+	# Customer is a column; it filters under Filters, not in the quick filters.
 	user = json.loads((tree.APP / "one" / "custom" / "user.json").read_text())
 	assert any(
 		row["property"] == "show_title_field_in_link" and row["value"] == "1"
@@ -519,7 +520,7 @@ def test_the_projects_list_says_status_and_names_the_manager():
 	for field in ("project_type", "expected_start_date", "estimated_costing"):
 		assert said[("Project", field, "in_list_view")] == "0"
 	assert said[("Project", "customer", "in_list_view")] == "1"
-	assert said[("Project", "customer", "in_standard_filter")] == "1"
+	assert said[("Project", "customer", "in_standard_filter")] == "0"
 
 
 def test_a_projects_page_puts_its_dates_and_members_on_details():
@@ -996,4 +997,29 @@ def test_the_rail_is_projects_workload_time_and_setup():
 	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert 'frappe.model.can_write("Projects Settings")' in listing
 	assert '"route": "/desk/project/view/tree"' in (PROJECT / "heads.py").read_text()
+
+
+def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
+	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
+	# One pill: an open project's health, a finished one's status.
+	assert 'doc.status === "Open" && doc.one_health' in listing
+	assert '"On Track": "green", "At Risk": "orange", "Off Track": "red"' in listing
+	# A sub-project reads after its parent, the parent's part quieter.
+	assert "project_name(value, df, doc)" in listing and "`${up} › ${value}`" in listing
+	assert '"one_health",' in listing and '"one_parent"' in listing
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	setters = {
+		(one.get("field_name"), one["property"]): one["value"] for one in custom["property_setters"]
+	}
+	assert setters[("customer", "in_standard_filter")] == "0"
+	assert setters[("expected_end_date", "label")] == "Due Date"
+	assert setters[("project_name", "width")] == "260"
+	assert setters[(None, "sort_field")] == "modified" and setters[(None, "sort_order")] == "DESC"
+	fields = {one["fieldname"]: one for one in custom["custom_fields"]}
+	assert not fields["one_health"]["in_list_view"] and fields["one_health"]["in_standard_filter"]
+	# The Tree's button is the list's.
+	assert '__("Add {0}", [__("Project")])' in (tree.APP / "public" / "js" / "project_tree.js").read_text()
+	# On a phone the list is as wide as the screen.
+	css = (tree.APP / "public" / "css" / "desk.css").read_text()
+	assert '[data-page-route="List/Project/List"] .frappe-list .result .list-row-container' in css
 

@@ -29,7 +29,7 @@ frappe.treeview_settings["Project"] = {
 	],
 	onload(tree) {
 		if (frappe.model.can_create("Project")) {
-			tree.page.set_primary_action(__("New Project"), () => frappe.new_doc("Project"), "plus");
+			tree.page.set_primary_action(__("Add {0}", [__("Project")]), () => frappe.new_doc("Project"), "plus");
 		}
 		tree.make_tree();
 	},

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 16:38+0000\n"
-"PO-Revision-Date: 2026-10-04 16:38+0000\n"
+"POT-Creation-Date: 2026-10-04 17:04+0000\n"
+"PO-Revision-Date: 2026-10-04 17:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1382,9 +1382,9 @@ msgstr "Zum Tarif hinzufügen"
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
 
-#: onedesk/one/page/masters/masters.js:130
+#: onedesk/one/page/masters/masters.js:130 onedesk/public/js/project_tree.js:32
 msgid "Add {0}"
-msgstr ""
+msgstr "{0} hinzufügen"
 
 #. Label of the offering (Data) field in DocType 'Workspace Add-on'
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
@@ -5303,7 +5303,7 @@ msgstr "DNS-Ziel"
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Daily"
-msgstr ""
+msgstr "Täglich"
 
 #: onedesk/one/ai_setup.py:381
 msgid "Dashboard {0}"
@@ -6333,8 +6333,10 @@ msgstr "Verworfen"
 msgid "Due"
 msgstr "Fällig"
 
+#. Label of the 'expected_end_date' field in DocType 'Project'
 #. Label of the due_date (Date) field in DocType 'Cloud File Request'
 #: frontend/src/project/ProjectPage.vue:161
+#: onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/onecloud.js:1641
 msgid "Due Date"
@@ -12272,7 +12274,6 @@ msgid "New Profile"
 msgstr "Neues Profil"
 
 #: onedesk/public/js/project_new.js:41 onedesk/public/js/project_template.js:7
-#: onedesk/public/js/project_tree.js:32
 msgid "New Project"
 msgstr "Neues Projekt"
 
@@ -13607,7 +13608,7 @@ msgstr "Auf dem Server"
 #. Option for the 'Health' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "On Track"
-msgstr ""
+msgstr "Auf Kurs"
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -16074,7 +16075,7 @@ msgstr "Projektzustand"
 #. Label of the one_manager (Link) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Project Manager"
-msgstr ""
+msgstr "Projektleitung"
 
 #: frontend/src/project/Header.vue:14 onedesk/public/js/project_actions.js:35
 msgid "Project Name"
@@ -16118,7 +16119,7 @@ msgstr "Geplanter Bestand"
 msgid "Projects"
 msgstr "Projekte"
 
-#: onedesk/public/js/project_list.js:12
+#: onedesk/public/js/project_list.js:35
 msgid "Projects Settings"
 msgstr "Projekteinstellungen"
 
@@ -19171,9 +19172,11 @@ msgstr "Mit Stern"
 msgid "Start"
 msgstr ""
 
+#. Label of the 'expected_start_date' field in DocType 'Project'
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:51
+#: onedesk/one_project/custom/project.json
 msgid "Start Date"
-msgstr ""
+msgstr "Startdatum"
 
 #: onedesk/public/js/doctype_settings.js:883
 msgid "Start From"
@@ -22415,7 +22418,7 @@ msgstr "Züge"
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Twice Daily"
-msgstr ""
+msgstr "Zweimal täglich"
 
 #: onedesk/one/letter_heads.py:41
 msgid "Two Sides"
@@ -23245,7 +23248,7 @@ msgstr "Woche vom"
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Weekly"
-msgstr ""
+msgstr "Wöchentlich"
 
 #: onedesk/public/js/settings.js:2985
 msgid "Weekly Days Off"
@@ -28389,7 +28392,7 @@ msgid "{0}% billed"
 msgstr "{0} % berechnet"
 
 #: frontend/src/project/Header.vue:37 onedesk/one_project/view.py:283
-#: onedesk/public/js/project_list.js:18 onedesk/public/js/project_tree.js:18
+#: onedesk/public/js/project_list.js:41 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0} % erledigt"
