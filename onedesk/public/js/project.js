@@ -180,6 +180,7 @@ onedesk.project.money = async (frm) => {
 	draw("one_customer", said.customer);
 	// What suppliers were asked for, then what the team spent itself.
 	draw("one_cost", said.cost, said.own);
+	onedesk.project.suppliers(frm, said, money);
 	draw("one_forecast", [
 		{ label: __("Contract"), value: said.contract },
 		{ label: __("Budget"), value: said.budget },
@@ -187,6 +188,36 @@ onedesk.project.money = async (frm) => {
 		{ label: __("Forecast Margin"), value: said.forecast_margin, tone: said.forecast_margin < 0 ? "alarm" : null },
 		{ label: __("Margin So Far"), value: said.margin, tone: said.margin < 0 ? "alarm" : null },
 	]);
+};
+
+// Each order from a supplier on the project, the subcontracts, as a table:
+// what it's for, billed, left to bill, retention held, advance not yet set
+// off, and paid. The supplier opens the order.
+onedesk.project.suppliers = (frm, said, money) => {
+	const rows = said.suppliers || [];
+	frm.toggle_display("one_suppliers_section", rows.length > 0);
+	if (!rows.length) return;
+	const esc = frappe.utils.escape_html;
+	const columns = [
+		["ordered", __("Ordered")],
+		["billed", __("Billed")],
+		["left", __("Left to Bill")],
+		["retention", __("Retention Held")],
+		["advance", __("Advance Left")],
+		["paid", __("Paid")],
+	];
+	const head = `<tr><th>${esc(__("Supplier"))}</th>${columns.map(([, label]) => `<th class="text-right">${esc(label)}</th>`).join("")}</tr>`;
+	const body = rows
+		.map(
+			(row) =>
+				`<tr><td><a href="${row.route}">${esc(row.supplier)}</a><div class="text-muted small">${esc(row.order)}</div></td>` +
+				columns.map(([key]) => `<td class="text-right">${esc(money(row[key]))}</td>`).join("") +
+				`</tr>`
+		)
+		.join("");
+	frm.get_field("one_suppliers").$wrapper.html(
+		`<div class="table-responsive one-suppliers"><table class="table table-sm"><thead>${head}</thead><tbody>${body}</tbody></table></div>`
+	);
 };
 
 onedesk.project.asked = async (frm) => {

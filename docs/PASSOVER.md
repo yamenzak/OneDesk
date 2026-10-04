@@ -7005,6 +7005,30 @@ The design is `docs/PROJECT.md`, built one stage per commit.
   rate, and "Nos" must be whole, so Bill Progress can't bill a share by
   changing the rate or quantity. Stage 3 has to work within that.
 
+**Stage 3, subcontracts.**
+
+- **Bill Progress** (`one_project/progress.py`, under Create on a submitted
+  purchase order) drafts ERPNext's own bill from the order, each line cut to
+  the share done less what's billed. ERPNext keeps the order's rate, so a
+  share is a part of the quantity. `settle` makes a **Lump Sum** unit that
+  can be split, and the dialog refuses a whole-number unit in plain words.
+- **Retention** and **Retention Due** on the order's Terms tab. Each bill's
+  payment schedule holds the retention under a **Retention** payment term
+  due on that date.
+  - ERPNext worked the share out on what was left after the advance (2,400
+    held instead of 3,200 on a 32,000 bill with 8,000 advanced).
+    `retained` sets it again after ERPNext's split, as the share of the work
+    billed.
+  - Changing Retention Due on the order moves it on every bill made from it.
+- **Advances** paid against the order are set off by ERPNext on each bill
+  (`allocate_advances_automatically`).
+- **Suppliers** on Costing lists each order on the project: ordered, billed,
+  left to bill, retention held, advance left and paid. The supplier opens
+  the order.
+- Checked on the site with an 80,000 glazing package, 10% retention and an
+  8,000 advance. Billing 40% gave 32,000: 20,800 due now and 3,200 held,
+  with Suppliers and the forecast to match.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

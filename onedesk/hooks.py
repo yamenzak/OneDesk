@@ -49,6 +49,8 @@ after_install = [
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
+	# Lump Sum and the Retention payment term. See one_project/progress.py.
+	"onedesk.one_project.progress.settle",
 	"onedesk.one_project.updates.settle",
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
@@ -110,6 +112,8 @@ after_migrate = [
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
+	# Lump Sum and the Retention payment term. See one_project/progress.py.
+	"onedesk.one_project.progress.settle",
 	"onedesk.one_project.updates.settle",
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
@@ -331,6 +335,7 @@ doc_events = {
 			"onedesk.one_book.vat.reclaimed",
 			"onedesk.one_inventory.assets.located",
 			"onedesk.one_project.chain.agree",
+			"onedesk.one_project.progress.retained",
 		],
 		"on_submit": "onedesk.one_inventory.assets.registered",
 	},
@@ -500,7 +505,11 @@ doc_events = {
 	# A money document and its lines name the same project. See one_project/chain.py.
 	"Request for Quotation": {"validate": "onedesk.one_project.chain.agree"},
 	"Supplier Quotation": {"validate": "onedesk.one_project.chain.agree"},
-	"Purchase Order": {"validate": "onedesk.one_project.chain.agree"},
+	"Purchase Order": {
+		"validate": "onedesk.one_project.chain.agree",
+		# A new Retention Due moves the retention on its invoices. See one_project/progress.py.
+		"on_update_after_submit": "onedesk.one_project.progress.release",
+	},
 	"Delivery Note": {"validate": "onedesk.one_project.chain.agree"},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
@@ -781,6 +790,8 @@ doctype_js = {
 	# The project's board is a button of its own. See one_project/board.py.
 	"Project": "public/js/project.js",
 	"Project Template": "public/js/project_template.js",
+	# Bill Progress on a subcontract. See one_project/progress.py.
+	"Purchase Order": "public/js/progress.js",
 	"Quotation": "public/js/quotation.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
@@ -969,6 +980,7 @@ one_makes_records = {
 	"Opportunity": ["one_admin", "one_crm"],
 	"Opportunity Lost Reason": ["one_admin", "one_crm"],
 	"Overtime Slip": ["one_hr"],
+	"Payment Term": ["one_project"],
 	"Payroll Entry": ["one_hr"],
 	"Payroll Period": ["one"],
 	"Period Closing Voucher": ["one_book"],
@@ -988,6 +1000,7 @@ one_makes_records = {
 	"Task": ["one_project", "one_task"],
 	"Timesheet": ["one_task"],
 	"UAE VAT Settings": ["one_book"],
+	"UOM": ["one_project"],
 	"Vehicle Log": ["one_hr"],
 	"Warehouse": ["one_inventory"],
 }

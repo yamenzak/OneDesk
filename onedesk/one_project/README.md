@@ -209,6 +209,33 @@ opens the invoice unsaved for you to check. Submitting it marks the hours as
 invoiced, and the project's **Billed** goes up. A sub-project's time is
 invoiced from the sub-project.
 
+## Subcontracts
+
+A subcontract is a **purchase order** on the project, one for each supplier
+and package of work: the glazing, the joinery, the electrics. Order a package
+as 1 **Lump Sum**, so it can be billed a part at a time.
+
+**Suppliers** on **Costing** lists each one: what it was ordered for, what's
+been billed, what's left to bill, the retention held, the advance not yet set
+off, and what's been paid. Click a supplier to open the order.
+
+**Bill Progress** (under **Create** on a submitted order) asks how far the
+work has got. Say 40% and it drafts the supplier's bill for 40% of the order,
+less what's been billed already, at the order's prices. Check it and submit
+it as any other bill.
+
+**Retention**: set **Retention** (the share held back, often 5 or 10%) and
+**Retention Due** on the order's **Terms** tab. Each bill then holds that
+share of the work back, due on that date. Change the date when the work is
+handed over, or after the defects period, and every bill from the order moves
+with it.
+
+**Advances**: pay the supplier against the order before any bill, and each
+bill sets it off.
+
+Extra work from a supplier gets an order of its own, so the original stays
+readable.
+
 ## Extra work becomes a sub-project
 
 When a customer asks for more in the middle of a job, such as handrails on a
@@ -380,6 +407,18 @@ one field for it.
   (custom/), named as on every other document so ERPNext's mapping carries
   it. Extra work is `one_extra_work` on Quotation and Sales Order
   (billing.py); `patches/extra_work.py` turned the old Sub-project Of into it.
+- `progress.py` — Bill Progress on a purchase or sales order: ERPNext's own
+  "Create > Invoice" mapper with each line's quantity cut to the share done
+  less what's billed (`to_bill`), since ERPNext keeps an invoice at the
+  order's rate. `settle` makes the **Lump Sum** unit (can be split) and the
+  **Retention** payment term. Retention is the order's `one_retention` and
+  `one_retention_due` (custom/purchase_order.json); the invoice's payment
+  schedule holds it under that term, set again after ERPNext's own split so
+  it's the share of the work billed, not of what's left after advances
+  (`retained`, `split`). A new Retention Due moves it on the order's
+  invoices (`release`). What's still held is the retention or what's owed,
+  whichever is smaller (`held`). `public/js/progress.js` is the dialog;
+  `money._suppliers` is the Suppliers table.
 - `intake.py` — which open project a document names, for the bills OneIntake
   drafts (one_intake/money.py).
 - `tree.py` — sub-projects: Parent Project (`one_parent`), the only field

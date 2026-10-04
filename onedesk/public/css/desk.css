@@ -504,6 +504,24 @@ a.one-stat:hover .one-stat-value {
 	white-space: nowrap;
 }
 
+/* A project's subcontracts: a list as frappe-ui's ListView draws one, its
+   header in the muted small type and the amounts on one line. */
+.one-suppliers .table {
+	margin-bottom: var(--margin-sm);
+}
+
+.one-suppliers th {
+	border-top: 0;
+	font-weight: var(--weight-regular);
+	font-size: var(--text-sm);
+	color: var(--text-muted);
+	white-space: nowrap;
+}
+
+.one-suppliers td + td {
+	white-space: nowrap;
+}
+
 .one-band-chart {
 	display: flex;
 	flex-direction: column;

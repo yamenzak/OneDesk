@@ -172,6 +172,7 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"customer": customer,
 		"cost": cost,
 		"own": own,
+		"suppliers": _suppliers(projects) if _sees("Purchase Order") else [],
 		"contract": contract,
 		"budget": flt(kept["estimated_costing"]),
 		"spent": spent,
@@ -214,6 +215,98 @@ def _paid(projects: list[str], kind: str) -> float | None:
 		.run()
 	)
 	return flt(found[0][0]) if found else 0.0
+
+
+def _suppliers(projects: list[str]) -> list[dict]:
+	"""Each order from a supplier on the tree, the subcontracts: what it's
+	for, what's billed, what's left to bill, the retention still held, the
+	advance not yet set off, and what's been paid (progress.py)."""
+	from onedesk.one_project.progress import RETENTION, held
+
+	item = frappe.qb.DocType("Purchase Order Item")
+	rows = (
+		frappe.qb.from_(item)
+		.select(item.parent, Sum(item.base_net_amount).as_("ordered"))
+		.where(item.project.isin(projects) & (item.docstatus == 1))
+		.groupby(item.parent)
+		.run(as_dict=True)
+	)
+	if not rows:
+		return []
+	orders = {row.parent: row.ordered for row in rows}
+	heads = {
+		one.name: one
+		for one in frappe.get_all(
+			"Purchase Order",
+			filters={"name": ["in", list(orders)]},
+			fields=[
+				"name",
+				"supplier",
+				"supplier_name",
+				"status",
+				"advance_paid",
+				"conversion_rate",
+				"one_retention",
+			],
+		)
+	}
+	lines = frappe.get_all(
+		"Purchase Order Item",
+		filters={"parent": ["in", list(orders)]},
+		fields=["parent", "amount", "billed_amt", "base_net_amount"],
+	)
+	bills = frappe.get_all(
+		"Purchase Invoice Item",
+		filters={"purchase_order": ["in", list(orders)], "docstatus": 1},
+		fields=["parent", "purchase_order", "base_net_amount"],
+	)
+	invoices = {
+		one.name: one
+		for one in frappe.get_all(
+			"Purchase Invoice",
+			filters={"name": ["in", list({bill.parent for bill in bills})]},
+			fields=["name", "base_grand_total", "outstanding_amount", "conversion_rate", "total_advance"],
+		)
+	}
+	kept = {
+		one.parent: flt(one.base_payment_amount)
+		for one in frappe.get_all(
+			"Payment Schedule",
+			filters={
+				"parent": ["in", list(invoices)],
+				"parenttype": "Purchase Invoice",
+				"payment_term": RETENTION,
+			},
+			fields=["parent", "base_payment_amount"],
+		)
+	}
+	found = []
+	for name, ordered in orders.items():
+		head = heads[name]
+		mine = {bill.parent for bill in bills if bill.purchase_order == name}
+		billed = sum(flt(bill.base_net_amount) for bill in bills if bill.purchase_order == name)
+		left = 0.0 if head.status == "Closed" else unbilled([one for one in lines if one.parent == name])
+		retained = paid = advanced = 0.0
+		for invoice in (invoices[one] for one in mine if one in invoices):
+			owed = flt(invoice.outstanding_amount) * flt(invoice.conversion_rate or 1)
+			retained += held(kept.get(invoice.name), owed)
+			paid += flt(invoice.base_grand_total) - owed
+			advanced += flt(invoice.total_advance)
+		advance = max(0.0, flt(head.advance_paid) * flt(head.conversion_rate or 1) - advanced)
+		found.append(
+			{
+				"order": name,
+				"supplier": head.supplier_name or head.supplier,
+				"ordered": flt(ordered),
+				"billed": billed,
+				"left": left,
+				"retention": retained,
+				"advance": advance,
+				"paid": paid + advance,
+				"route": f"/desk/purchase-order/{quote(name, safe='')}",
+			}
+		)
+	return sorted(found, key=lambda one: -one["ordered"])
 
 
 def _open_orders(projects: list[str]) -> float:

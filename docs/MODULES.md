@@ -539,6 +539,8 @@ No doctypes yet.
 * `onedesk.one_project.billing.unbilled`
 * `onedesk.one_project.money.money`
 * `onedesk.one_project.overview.overview`
+* `onedesk.one_project.progress.bill_progress`
+* `onedesk.one_project.progress.progress`
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`
 * `onedesk.one_project.tree.totals`

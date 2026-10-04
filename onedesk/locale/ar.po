@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 10:36+0000\n"
-"PO-Revision-Date: 2026-10-04 10:36+0000\n"
+"POT-Creation-Date: 2026-10-04 10:52+0000\n"
+"PO-Revision-Date: 2026-10-04 10:52+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1109,7 +1109,7 @@ msgstr "إجراء"
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:28
 #: onedesk/public/js/project.js:31 onedesk/public/js/project.js:45
-#: onedesk/public/js/project.js:49 onedesk/public/js/project.js:199
+#: onedesk/public/js/project.js:49 onedesk/public/js/project.js:230
 #: onedesk/public/js/settings.js:982 onedesk/public/js/settings.js:992
 #: onedesk/public/js/settings.js:1003 onedesk/public/js/settings.js:1015
 #: onedesk/public/js/settings.js:1024 onedesk/public/js/settings.js:1260
@@ -1506,6 +1506,10 @@ msgstr "أُضيف مسؤول"
 #: onedesk/one/settings.py:911
 msgid "Administrators"
 msgstr "المسؤولون"
+
+#: onedesk/public/js/project.js:206
+msgid "Advance Left"
+msgstr "الدفعة المقدمة المتبقية"
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -3071,6 +3075,18 @@ msgstr "طلب مزايا"
 msgid "Benefit Claim"
 msgstr "مطالبة مزايا"
 
+#: onedesk/public/js/progress.js:18 onedesk/public/js/progress.js:27
+msgid "Bill Progress"
+msgstr "فوترة التقدم"
+
+#: onedesk/one_project/progress.py:115
+msgid "Bill Progress can't bill part of a {0}. Order {1} in {2} to bill it in parts."
+msgstr "لا يمكن لفوترة التقدم فوترة جزء من {0}. اطلب {1} بوحدة {2} لفوترته على أجزاء."
+
+#: onedesk/one_project/progress.py:93 onedesk/one_project/progress.py:229
+msgid "Bill Progress is for purchase and sales orders."
+msgstr "فوترة التقدم مخصصة لأوامر الشراء والبيع."
+
 #. Label of the 'billing_details' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
 msgid "Billable"
@@ -3086,13 +3102,17 @@ msgstr "الوقت القابل للفوترة"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:211
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:243
 #: onedesk/one_project/custom/project.json onedesk/one_project/heads.py:182
-#: onedesk/one_project/money.py:152
+#: onedesk/one_project/money.py:152 onedesk/public/js/project.js:203
 msgid "Billed"
 msgstr "المفوتر"
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:247
 msgid "Billed %"
 msgstr "نسبة المفوتر"
+
+#: onedesk/public/js/progress.js:31
+msgid "Billed So Far"
+msgstr "المفوتر حتى الآن"
 
 #: onedesk/one_book/heads.py:351
 msgid "Billed This Year"
@@ -3285,7 +3305,7 @@ msgid "Browser"
 msgstr "المتصفح"
 
 #. Label of the 'estimated_costing' field in DocType 'Project'
-#: onedesk/one_project/custom/project.json onedesk/public/js/project.js:185
+#: onedesk/one_project/custom/project.json onedesk/public/js/project.js:186
 msgid "Budget"
 msgstr "الميزانية"
 
@@ -4589,7 +4609,7 @@ msgstr "يستمر بعد {0} (كان {1})"
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/public/js/project.js:184
+#: onedesk/public/js/project.js:185
 msgid "Contract"
 msgstr "عقد"
 
@@ -4802,7 +4822,8 @@ msgstr "شمول العطل أيضاً"
 #: onedesk/public/js/doctype_settings.js:554
 #: onedesk/public/js/doctype_settings.js:889 onedesk/public/js/onecloud.js:1478
 #: onedesk/public/js/onecloud.js:1802 onedesk/public/js/opportunity.js:18
-#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:92
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/progress.js:18
+#: onedesk/public/js/progress.js:41 onedesk/public/js/project.js:92
 #: onedesk/public/js/project.js:153 onedesk/public/js/settings.js:1113
 #: onedesk/public/js/settings.js:1219 onedesk/public/js/settings.js:2217
 msgid "Create"
@@ -6011,8 +6032,9 @@ msgstr "نطاقات بالانتظار"
 #: onedesk/one_project/portal.py:38
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/learned.js:34 onedesk/public/js/onecloud.js:2266
+#: onedesk/public/js/progress.js:29
 msgid "Done"
-msgstr ""
+msgstr "المُنجز"
 
 #. Label of the done_when (Small Text) field in DocType 'Task Step'
 #: onedesk/one_task/doctype/task_step/task_step.json
@@ -7830,11 +7852,11 @@ msgstr "لمؤسستك"
 msgid "Forecast"
 msgstr "التوقعات"
 
-#: onedesk/public/js/project.js:186
+#: onedesk/public/js/project.js:187
 msgid "Forecast Cost"
 msgstr "التكلفة المتوقعة"
 
-#: onedesk/one_project/heads.py:184 onedesk/public/js/project.js:187
+#: onedesk/one_project/heads.py:184 onedesk/public/js/project.js:188
 msgid "Forecast Margin"
 msgstr "الهامش المتوقع"
 
@@ -8682,6 +8704,10 @@ msgstr "كيف يعمل البريد هنا؟"
 #: onedesk/public/js/outside.js:95
 msgid "How does this page work?"
 msgstr "كيف تعمل هذه الصفحة؟"
+
+#: onedesk/one_project/progress.py:95
+msgid "How far the work has got is a share between 1 and 100."
+msgstr "نسبة الإنجاز رقم بين 1 و100."
 
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
@@ -10384,6 +10410,10 @@ msgstr "من غادروا مبكراً فقط"
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
 msgstr "إذا تُرك فارغاً، يُستخدم حساب السلف الخاص بالشركة ومركز التكلفة الخاص بالقسم."
 
+#: onedesk/public/js/project.js:204
+msgid "Left to Bill"
+msgstr "المتبقي للفوترة"
+
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Legal"
@@ -11179,7 +11209,7 @@ msgstr "الهامش"
 msgid "Margin %"
 msgstr "الهامش ٪"
 
-#: onedesk/one_project/heads.py:183 onedesk/public/js/project.js:188
+#: onedesk/one_project/heads.py:183 onedesk/public/js/project.js:189
 msgid "Margin So Far"
 msgstr "الهامش حتى الآن"
 
@@ -13928,6 +13958,10 @@ msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخ�
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "لا يمكن أن يكون صندوق بريد مساحة العمل إلا صندوقًا مشتركًا."
 
+#: onedesk/one_project/progress.py:233
+msgid "Only a submitted order still open can be billed."
+msgstr "لا يمكن فوترة إلا أمر مُعتمد ولا يزال مفتوحًا."
+
 #: onedesk/one_ai/touch.py:213
 msgid "Only a suggested change can be applied in the form."
 msgstr "لا يمكن تطبيق شيء في النموذج إلا التغيير المقترح."
@@ -14272,7 +14306,7 @@ msgstr "الطلب والفواتير"
 
 #. Label of the 'total_sales_amount' field in DocType 'Project'
 #: onedesk/one_project/custom/project.json onedesk/one_project/money.py:130
-#: onedesk/one_project/money.py:144
+#: onedesk/one_project/money.py:144 onedesk/public/js/project.js:202
 msgid "Ordered"
 msgstr "المطلوب"
 
@@ -14593,7 +14627,8 @@ msgstr "الصفحات"
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/one_project/money.py:140 onedesk/one_project/money.py:155
-#: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:118
+#: onedesk/public/js/project.js:207 onedesk/public/js/settings.js:1744
+#: onedesk/www/projects.html:118
 msgid "Paid"
 msgstr "المدفوع"
 
@@ -15375,12 +15410,12 @@ msgstr "نوع التكرار المحتمل"
 msgid "Possible duplicate of {0}."
 msgstr "تكرار محتمل لـ {0}."
 
-#: onedesk/public/js/project.js:218
+#: onedesk/public/js/project.js:249
 msgid "Post"
 msgstr "نشر"
 
-#: onedesk/public/js/project.js:197 onedesk/public/js/project.js:199
-#: onedesk/public/js/project.js:217
+#: onedesk/public/js/project.js:228 onedesk/public/js/project.js:230
+#: onedesk/public/js/project.js:248
 msgid "Post Update"
 msgstr "نشر تحديث"
 
@@ -17096,6 +17131,21 @@ msgstr ""
 #: onedesk/one_admin/heads.py:639
 msgid "Resume {0} from the step it stopped on?"
 msgstr "استئناف {0} من الخطوة التي توقف عندها؟"
+
+#. Label of the one_retention (Percent) field in DocType 'Purchase Order'
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/progress.py:150 onedesk/public/js/progress.js:35
+msgid "Retention"
+msgstr "المحتجز"
+
+#. Label of the one_retention_due (Date) field in DocType 'Purchase Order'
+#: onedesk/one_project/custom/purchase_order.json
+msgid "Retention Due"
+msgstr "موعد استحقاق المحتجز"
+
+#: onedesk/public/js/project.js:205
+msgid "Retention Held"
+msgstr "المحتجز القائم"
 
 #: onedesk/one_inventory/custody.py:76
 msgid "Return {0} ({1})"
@@ -19283,6 +19333,7 @@ msgstr "الملخص"
 
 #: onedesk/one_inventory/report/to_order/to_order.js:24
 #: onedesk/one_inventory/report/to_order/to_order.py:19
+#: onedesk/public/js/project.js:209
 msgid "Supplier"
 msgstr "المورّد"
 
@@ -19304,9 +19355,11 @@ msgid "Supplier Quotations"
 msgstr "عروض أسعار الموردين"
 
 #. Label of a Sidebar Item
+#. Label of the one_suppliers_section (Section Break) field in DocType
+#. 'Project'
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-#: onedesk/one_project/tree.py:201
+#: onedesk/one_project/custom/project.json onedesk/one_project/tree.py:201
 msgid "Suppliers"
 msgstr "الموردون"
 
@@ -23207,7 +23260,7 @@ msgstr "ما الذي حُذف مؤخرًا؟"
 msgid "What was done and for what, so the same thing is never done twice."
 msgstr "ما فُعل ولأجل ماذا، كي لا يتكرر الأمر نفسه."
 
-#: onedesk/public/js/project.js:210
+#: onedesk/public/js/project.js:241
 msgid "What was done, what comes next, and anything in the way."
 msgstr "ما أُنجز، وما التالي، وأي عائق."
 
@@ -25120,7 +25173,7 @@ msgstr "سجلاتك"
 msgid "Your Request Is On Hold"
 msgstr "طلبك معلّق"
 
-#: onedesk/public/js/project.js:208
+#: onedesk/public/js/project.js:239
 msgid "Your Update"
 msgstr "تحديثك"
 
@@ -25280,11 +25333,11 @@ msgstr "تسجيلات دخولك"
 msgid "Your trial has started. The workspace is being built."
 msgstr "بدأت تجربتك. ويجري إنشاء مساحة العمل."
 
-#: onedesk/public/js/project.js:214
+#: onedesk/public/js/project.js:245
 msgid "Your update is on the project."
 msgstr "تحديثك الآن في المشروع."
 
-#: onedesk/public/js/project.js:196
+#: onedesk/public/js/project.js:227
 msgid "Your update on this project is asked for today."
 msgstr "مطلوب منك اليوم تحديث عن هذا المشروع."
 
@@ -26923,6 +26976,10 @@ msgstr "تمت استعادة {0}."
 #: onedesk/one_intake/drafts.py:71
 msgid "{0} is billed at {1}, ordered at {2}."
 msgstr "{0} مفوتر بسعر {1} ومطلوب بسعر {2}."
+
+#: onedesk/one_project/progress.py:123
+msgid "{0} is billed up to {1}% already."
+msgstr "تمت فوترة {0} حتى {1}% بالفعل."
 
 #: onedesk/one_intake/drafts.py:73
 msgid "{0} is billed {1} times, ordered {2}."

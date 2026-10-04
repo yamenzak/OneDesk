@@ -690,3 +690,40 @@ def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
 	assert "onedesk.one_project.money.money" in page and '"one_project_money"' in page
 	heads = (PROJECT / "heads.py").read_text()
 	assert '"project.forecast": forecast' in heads and '_lt("Forecast Margin")' in heads
+
+
+def test_progress_bills_the_share_done_and_holds_retention_on_the_work():
+	flt = lambda value=0, *args: round(float(value or 0), args[0]) if args else float(value or 0)  # noqa: E731
+	space = _load(PROJECT / "progress.py", ("to_bill", "billed_share", "held", "split"), flt=flt)
+	to_bill, billed_share, held, split = space["to_bill"], space["billed_share"], space["held"], space["split"]
+	# 40% of one Lump Sum, nothing billed: 0.4. At 70% with 0.4 billed: 0.3.
+	assert to_bill(1, 0, 40) == 0.4 and round(to_bill(1, 0.4, 70), 6) == 0.3
+	# Never a credit for going backwards.
+	assert to_bill(1, 0.4, 30) == 0
+	assert billed_share([_Row(amount=80000, billed_amt=32000), _Row(amount=20000, billed_amt=0)]) == 32.0
+	# Retention is the share of the work billed, whatever advance is set off:
+	# 32,000 billed, 8,000 advance, 10% held.
+	assert split(24000, 32000, 10) == (20800, 3200)
+	# Retention is paid last: what's held is never more than what's owed.
+	assert held(3200, 24000) == 3200 and held(3200, 1000) == 1000 and held(3200, 0) == 0
+
+
+def test_subcontracts_are_billed_through_erpnexts_own_invoice():
+	progress = (PROJECT / "progress.py").read_text()
+	# ERPNext's own mappers, with the order's rate kept.
+	assert "make_purchase_invoice" in progress and "make_sales_invoice" in progress
+	assert "row.rate" not in progress
+	assert 'LUMP_SUM = "Lump Sum"' in progress and '"must_be_whole_number": 0' in progress
+	assert "allocate_advances_automatically = 1" in progress
+	assert HOOKS.count('"onedesk.one_project.progress.settle"') == 2
+	assert '"onedesk.one_project.progress.release"' in HOOKS
+	assert '"onedesk.one_project.progress.retained"' in HOOKS
+	order = json.loads((PROJECT / "custom" / "purchase_order.json").read_text())
+	fields = {f["fieldname"]: f for f in order["custom_fields"]}
+	assert fields["one_retention_due"]["allow_on_submit"] == 1
+	assert fields["one_retention_due"]["mandatory_depends_on"] == "one_retention"
+	page = (tree.APP / "public" / "js" / "progress.js").read_text()
+	assert "frappe.model.open_mapped_doc" in page and '__("Bill Progress")' in page
+	assert '"Purchase Order": "public/js/progress.js"' in HOOKS
+	money = (PROJECT / "money.py").read_text()
+	assert "def _suppliers(" in money and "held(" in money
