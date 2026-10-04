@@ -232,7 +232,7 @@ TYPES = [
 		"to": _lt("Every administrator"),
 		"subject": _lt("{person} asked for a copy of their data"),
 		"message": _lt(
-			"{person} asked for a copy of their data. Review and send it in Workspace › Data Copies within "
+			"{person} asked for a copy of their data. Review and send it in Privacy › Data Copies within "
 			"one month."
 		),
 		"email": False,

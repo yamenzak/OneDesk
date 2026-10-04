@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 08:05+0000\n"
-"PO-Revision-Date: 2026-10-04 08:05+0000\n"
+"POT-Creation-Date: 2026-10-04 08:56+0000\n"
+"PO-Revision-Date: 2026-10-04 08:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1800,11 +1800,11 @@ msgstr ""
 msgid "An add-on must be recurring."
 msgstr ""
 
-#: onedesk/one/masters.py:330
+#: onedesk/one/masters.py:343
 msgid "An address has no field {0}."
 msgstr ""
 
-#: onedesk/one/masters.py:328
+#: onedesk/one/masters.py:341
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr ""
 
@@ -2011,7 +2011,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:72
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/doctype_settings.js:335 onedesk/public/js/reports.js:379
+#: onedesk/public/js/doctype_settings.js:335 onedesk/public/js/reports.js:384
 #: onedesk/public/js/settings.js:1178 onedesk/public/js/settings.js:1199
 #: onedesk/public/js/settings.js:3099
 msgid "App"
@@ -2741,7 +2741,8 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:270
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/doctype_settings.js:270
 msgid "Automation"
 msgstr ""
 
@@ -6963,7 +6964,7 @@ msgstr ""
 msgid "Everyone who manages {0}"
 msgstr ""
 
-#: onedesk/public/js/reports.js:390
+#: onedesk/public/js/reports.js:395
 msgid "Everyone who uses the app"
 msgstr ""
 
@@ -8022,7 +8023,7 @@ msgstr ""
 msgid "Give a subject or a mail template"
 msgstr ""
 
-#: onedesk/one/masters.py:237 onedesk/one/masters.py:278
+#: onedesk/one/masters.py:250 onedesk/one/masters.py:291
 msgid "Give it a name."
 msgstr ""
 
@@ -11148,8 +11149,8 @@ msgid "Markup can't be negative."
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/page/masters/masters.js:10
-#: onedesk/one/page/masters/masters.js:88
+#: onedesk/one/masters.py:150 onedesk/one/page/masters/masters.js:10
+#: onedesk/one/page/masters/masters.js:89
 #: onedesk/one/page/masters/masters.js:128 onedesk/one/sidebar/one/one.json
 msgid "Masters"
 msgstr ""
@@ -12280,7 +12281,7 @@ msgstr ""
 msgid "No markup is set, so this model can't be called."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:88
+#: onedesk/one/page/masters/masters.js:89
 msgid "No masters"
 msgstr ""
 
@@ -12936,7 +12937,7 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: onedesk/public/js/reports.js:380
+#: onedesk/public/js/reports.js:385
 msgid "Nowhere"
 msgstr ""
 
@@ -13891,7 +13892,7 @@ msgstr ""
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
 msgstr ""
 
-#: onedesk/public/js/reports.js:389
+#: onedesk/public/js/reports.js:394
 msgid "Only me"
 msgstr ""
 
@@ -15426,6 +15427,11 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:1104
 msgid "Priority"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "Privacy"
 msgstr ""
 
 #: onedesk/one_legal/gate.py:40 onedesk/public/js/login.js:92
@@ -17223,7 +17229,7 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1613 onedesk/public/js/onemail.js:932
 #: onedesk/public/js/onemail.js:956 onedesk/public/js/project.js:96
-#: onedesk/public/js/reports.js:397 onedesk/public/js/settings.js:490
+#: onedesk/public/js/reports.js:402 onedesk/public/js/settings.js:490
 #: onedesk/public/js/settings.js:787 onedesk/public/js/settings.js:2712
 #: onedesk/public/js/shell.js:458
 #: onedesk/website/doctype/web_form/templates/web_form.html:19
@@ -17248,7 +17254,7 @@ msgid "Save to My Files"
 msgstr ""
 
 #: onedesk/one/page/masters/masters.js:212
-#: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:406
+#: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:411
 #: onedesk/public/js/shell.js:516
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
@@ -17262,7 +17268,7 @@ msgstr ""
 msgid "Saved to My Files"
 msgstr ""
 
-#: onedesk/public/js/reports.js:450
+#: onedesk/public/js/reports.js:455
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr ""
 
@@ -17870,8 +17876,9 @@ msgstr ""
 msgid "Settled"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Label of a Sidebar Item
+#. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
@@ -18032,12 +18039,12 @@ msgstr ""
 msgid "Show Error"
 msgstr ""
 
-#: onedesk/public/js/reports.js:374
+#: onedesk/public/js/reports.js:379
 msgid "Show In"
 msgstr ""
 
-#: onedesk/public/js/reports.js:419 onedesk/public/js/reports.js:435
-#: onedesk/public/js/reports.js:451 onedesk/public/js/reports.js:464
+#: onedesk/public/js/reports.js:424 onedesk/public/js/reports.js:440
+#: onedesk/public/js/reports.js:456 onedesk/public/js/reports.js:469
 msgid "Show In…"
 msgstr ""
 
@@ -22330,7 +22337,7 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
-#: onedesk/public/js/reports.js:387
+#: onedesk/public/js/reports.js:392
 msgid "Visible To"
 msgstr ""
 
@@ -26167,7 +26174,7 @@ msgstr ""
 msgid "{0} and {1} more"
 msgstr ""
 
-#: onedesk/public/js/reports.js:382
+#: onedesk/public/js/reports.js:387
 msgid "{0} appears in the app's sidebar under {1}."
 msgstr ""
 
@@ -27939,7 +27946,7 @@ msgid "{person} asked for a copy of their data"
 msgstr ""
 
 #: onedesk/one/notifications.py:234
-msgid "{person} asked for a copy of their data. Review and send it in Workspace › Data Copies within one month."
+msgid "{person} asked for a copy of their data. Review and send it in Privacy › Data Copies within one month."
 msgstr ""
 
 #: onedesk/one/notifications.py:272

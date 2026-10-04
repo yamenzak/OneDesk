@@ -6242,6 +6242,35 @@ Engineering", with Masters lit in the rail, by Edit Full Form or by address.
 A second crawl after the change found every record's crumb matching its list
 and its row.
 
+### One's rail, grouped
+
+Your word: "Now one sidebar has become massive lets group it into collapsible
+sections".
+
+Before, Workspace held 20 rows: settings, setup, automation and privacy
+together. Now One's rail reads:
+
+- Home, Dashboards, Announcements, Recycle Bin
+- **Address Book**: Contacts, Addresses
+- **You**: Profile, Notifications, Mail, Calendar, Sign-in, What OneAI
+  Remembers, Agreements
+- **Workspace**: General, People, Access, Holidays, Plan and Credits, Domains
+- **Setup**: Masters, Numbering, Printing, Mail Templates, Approvals
+- **Automation**: Notifications, Automations, Reports by Mail, Webhooks,
+  Webhook Calls
+- **Privacy**: Data Copies, Account Deletions
+- **Audit Log**, **OneAI**, **OneIntake**
+
+Every group folds by its name, as frappe's sidebar does (`collapsible`).
+Automation, Privacy, Audit Log, OneAI and OneIntake start folded
+(`keep_closed`), and the group holding the open screen opens. Who sees which
+group is unchanged: administrators see Workspace, Setup, Automation, Privacy
+and Audit Log; app managers see Masters.
+
+Paths that named the old group now name the new one: the README, OneAI's page
+notes, OneStudio's README, and the Data Copy notification ("Review and send it
+in Privacy › Data Copies within one month"), in English, Arabic and German.
+
 ### The desk around the doctypes (gaps 1 to 4)
 
 Your word: "Yes", to starting with the four that came from the same place.

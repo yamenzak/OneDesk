@@ -13,9 +13,19 @@ The sidebar has these groups:
   suppliers, companies and employees all use them, so they live here rather
   than in one app. You see the ones your work lets you open.
 - **You**: your own settings. Everyone has these.
-- **Workspace**: settings for the whole workspace. Only administrators see
-  this group, except **Masters**, which an app's managers see too.
-- **OneAI**: credits, your conversations with OneAI, and its suggestions.
+- **Workspace**: the workspace itself: its details, people, access,
+  holidays, plan and domains.
+- **Setup**: how records work: Masters, Numbering, Printing, Mail Templates
+  and Approvals.
+- **Automation**: what happens by itself: Notifications, Automations,
+  Reports by Mail and Webhooks.
+- **Privacy**: requests for a copy of someone's data or to delete an account.
+- **Audit Log**: who changed, signed in, exported or printed what.
+- **OneAI** and **OneIntake**: their settings, history and inboxes.
+
+Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
+except **Masters**, which an app's managers see too. Click a group's name to
+fold it away; the quieter ones start folded.
 
 The round OneAI button in the corner opens OneAI on any page. It offers
 suggestions for that page, and you can ask it how anything in One works.
@@ -163,7 +173,7 @@ appears in One. Here you choose which ones you also get by **email** and by
   before your events, and emails about records assigned to you.
 
 Click **Save** at the top right. Administrators choose what new people start
-with, and the text of each notification, under Workspace › Notifications.
+with, and the text of each notification, under Automation › Notifications.
 
 OneAI offers:
 
@@ -528,7 +538,7 @@ by month or how many are unpaid.
 
 **Reports by Mail**
 
-Workspace › **Reports by Mail**, or **Setup Auto Email** on a report's menu,
+Automation › **Reports by Mail**, or **Setup Auto Email** on a report's menu,
 emails a report daily, weekly or monthly to the addresses you enter. The
 report shows what the person who set it up can see.
 
@@ -619,7 +629,7 @@ a file?**, using only what you can see in the log.
 
 People ask for a copy of their data, or for their account to be deleted, under
 You › Profile › **Your Data**. People without an account use the workspace's
-**/your-data** page. Administrators handle requests under Workspace › **Data
+**/your-data** page. Administrators handle requests under Privacy › **Data
 Copies** and **Account Deletions**.
 
 - Administrators are notified of each new request in One and by email, and
@@ -1136,7 +1146,7 @@ open. Frappe's and One's own record types can't have approvals.
 
 People with the role see the action on the record. Each step waiting on their
 role counts in **Approvals Waiting** on their Home. They're also notified in
-One, and by email if they chose (**Approval Waiting** in Workspace ›
+One, and by email if they chose (**Approval Waiting** in Automation ›
 Notifications), when a record reaches their step.
 
 **Conditions**
@@ -1194,7 +1204,7 @@ A value can include a field of the record, such as `{{ doc.customer_name }}`.
 
 **Tell People** notifies the people it names (team members, the record's
 creator or its assignee) in One, and by email if they chose (**Automation
-Notice** in Workspace › Notifications). Give it a subject and message, or a
+Notice** in Automation › Notifications). Give it a subject and message, or a
 **Mail Template**. The template is filled in from the record the same way the
 email window does it, with amounts and dates as the record shows them.
 
@@ -1213,7 +1223,7 @@ it, it runs as you.
 ### Webhooks, for the Workspace
 
 A webhook notifies another system, such as Zapier, Make, n8n or your own
-server, when a record is created or changed. Workspace › **Webhooks** lists
+server, when a record is created or changed. Automation › **Webhooks** lists
 them, and **Webhook Calls** lists every call each one made. Only
 administrators see either.
 
@@ -1585,7 +1595,7 @@ frappe's own Settings window. Each part appears once the workspace can use it.
   it lists the series, with the default first, and the name the next record
   gets. **Add Series** adds one. Click a series to edit it or move its number
   up. A number only goes up, since going down would repeat a name already
-  used. A series another record type uses is refused. **Workspace ›
+  used. A series another record type uses is refused. **Setup ›
   Numbering** lists every record type with a series that you can open, and
   opens each one here.
 - **Print Formats**: every format this record type can print with, each shown
@@ -1595,7 +1605,7 @@ frappe's own Settings window. Each part appears once the workspace can use it.
   can be printed with or starred, but not changed. To change one, open it in
   the builder and save it under a new name.
 - **Notifications**: the workspace's notification rules for this record type.
-  Opening one, or clicking **New Rule**, opens it in Workspace ›
+  Opening one, or clicking **New Rule**, opens it in Automation ›
   Notifications, set to this record type.
 - **Mail Templates**: the email templates for this record type. **New**
   creates one, and clicking one opens it. **Set as Default** makes the email
@@ -1659,7 +1669,7 @@ their initials on a phone):
 - **Your Data**: **Request My Data** asks for a copy, which an administrator
   reviews first; when it is ready, **Download My Data**. **Delete My
   Account** asks for the account to be deleted, confirmed with their
-  password, and an administrator decides (Workspace › Account Deletions).
+  password, and an administrator decides (Privacy › Account Deletions).
   **Cancel Deletion** withdraws it until then.
 - **Third Party Apps**: shown once they have let an app sign in for them.
   **Revoke** signs the app out.
@@ -1674,7 +1684,7 @@ conversation is saved, and the arrow at the top left lists them.
   uses the model the workspace set for chat. Only administrators can choose,
   unless an administrator turns on **People Choose the Model** for the Chat
   action. The menu shows each model's maker, and what each costs is in
-  Workspace › OneAI › Actions. If the work moves to another OneAI action, such
+  OneAI › Actions. If the work moves to another OneAI action, such
   as designing a print format, your choice applies there too.
 - **Records read**: the answer comes first. Below it are the records OneAI
   read, with one record as a card and several as a list. The list shows three.

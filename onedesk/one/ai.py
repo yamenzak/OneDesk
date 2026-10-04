@@ -1437,7 +1437,7 @@ def workspace_reports() -> dict:
 		"dashboards": dashboards,
 		"reports_by_mail": mailed,
 		"next": "A list's Report view is saved from its menu (Save As) and lands under Saved Reports in its app. "
-		"Dashboards are under One › Dashboards; reports by mail under Workspace › Reports by Mail, set from a report's "
+		"Dashboards are under One › Dashboards; reports by mail under Automation › Reports by Mail, set from a report's "
 		"menu (Setup Auto Email). How is in One's documentation under Reports and dashboards (how_to).",
 	}
 
@@ -1576,7 +1576,7 @@ def webhooks(
 	return {
 		"days": days,
 		"webhooks": said,
-		"how": "Workspace > Webhooks. A webhook sends every record of its kind on its event; to send only some, "
+		"how": "Automation > Webhooks. A webhook sends every record of its kind on its event; to send only some, "
 		"use an automation with a Call Webhook step. It goes over https to a public address.",
 	}
 
@@ -2746,7 +2746,7 @@ def change_printing(
 		),
 		"state": "Proposed",
 		"next": "Tell them See the Page on the card shows it before they approve it, that it applies once "
-		"they do, and that Workspace › Printing shows it.",
+		"they do, and that Setup › Printing shows it.",
 	}
 
 

@@ -112,7 +112,7 @@ def test_contacts_and_addresses_are_the_workspaces_not_onecrms():
 	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())["items"]
 	assert not {item.get("link_to") for item in crm} & {"Contact", "Address"}
 	at = labels.index("Masters")
-	assert at == labels.index("Numbering") + 1 and "Lists" not in labels
+	assert at == labels.index("Setup") + 1 and "Lists" not in labels
 	assert one[at]["link_type"] == "Page" and one[at]["link_to"] == "masters"
 
 
