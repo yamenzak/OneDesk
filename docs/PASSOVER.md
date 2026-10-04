@@ -91,6 +91,40 @@ be ours; how it behaves is frappe's.
   one row, and espresso put the button on a line of its own. The desk part
   stays; only its look is brought in line. Behaviour is still frappe's.
 
+## What ERPNext already does
+
+ERPNext handles more than a screen shows, and anything we build on top has to
+keep it working. On every doctype the pass checks:
+
+- **Currency.** A customer or supplier can be billed in their own currency,
+  set by their receivable or payable account. A document we make for them
+  takes that currency (`get_party_account_currency`), or ERPNext refuses it.
+  Figures that add documents up use the `base_` amounts, in the company's
+  currency, never the document's own. A rate we keep on our side (a monthly
+  fee, a contract value) says which currency it is in.
+- **The company.** No Company field or filter is shown, but every document
+  still has one, from the user's default, and its accounts are that
+  company's.
+- **Draft, submitted, cancelled, amended.** Only submitted documents count.
+  An amended document replaces the one it amends, and a revised quotation
+  replaces the earlier one, so neither is counted twice.
+- **Statuses ERPNext moves itself**, such as Expired, Overdue, Lost, Ordered,
+  Partially Ordered and Completed. We read them, never work them out again.
+- **One document made from another** goes through ERPNext's own mapper
+  (`make_sales_order`, `make_sales_invoice` and the rest). It keeps the links
+  between lines that ordered, billed and delivered amounts are counted from.
+- **Taxes, price lists and discounts** come from the party and the item. A
+  figure says whether it is before or after tax (we use net).
+- **Precision and rounding** come from the field's precision through
+  `flt(value, precision)`, never from rounding by hand.
+- **Dates** show in the user's date format and time zone, and money periods
+  follow the fiscal year.
+- **Record access.** A User Permission (only this customer, only this
+  project) narrows every list, figure and link the screen shows.
+- **Units, stock and payment terms.** Quantities use the item's unit and
+  conversion factor; a stock item moves stock; an invoice's due dates come
+  from its payment terms.
+
 ## A record answers first
 
 On top of the ten points, every record screen is checked against the record
@@ -7601,6 +7635,23 @@ set it from the page.
 - **···** offers **New Quotation** on such a project, and **Quote Extra Work**
   once there's a contract.
 - Figures gained a button under a figure, frappe-ui's Button.
+
+**Still open, from the contract work** (checked against "What ERPNext
+already does"):
+
+- **Invoice Time** (`billing.py`) and **Invoice Month** (`retainer.py`) make
+  their sales invoice without the customer's currency. For a customer billed
+  in USD, ERPNext refuses it, as it did the contract ("can only be made in
+  currency: USD"). A retainer's monthly fee is kept in the company's
+  currency, so it also needs converting.
+- OneInventory's reorder (`one_inventory/order.py`) makes purchase orders the
+  same way, for a supplier billed in another currency.
+- **Quoted** under Money adds up every submitted quotation that isn't Lost,
+  including expired ones and earlier revisions of the same quote. The
+  Overview's **Quoted** shows only the newest open quotation, and says
+  nothing of any others.
+- A quotation made from a deal in OneCRM has no project until someone picks
+  it on the quotation, so it doesn't show on the project.
 
 ## OneLegal
 
