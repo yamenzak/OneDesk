@@ -6289,6 +6289,13 @@ Then, "Do you think more subgroups or enough", "Idk figure it out":
   lists look again. shell.js looks again once it has opened
   (`test_a_folded_group_opens_around_the_page_it_holds`).
 
+Then, "Why is that ask oneai button not styled with the uniform ai style
+button?": Workspace Notifications' **Ask OneAI**, beside New Rule, was a
+plain ghost button with sparkles, drawn before `onedesk.oneai.button`
+existed. **Fixed**: it is the shared OneAI button, and it asks the panel's
+own **Make a rule** question. `test_no_oneai_button_is_drawn_by_hand` keeps
+any page from drawing one by hand again. It was the only one.
+
 ### The desk around the doctypes (gaps 1 to 4)
 
 Your word: "Yes", to starting with the four that came from the same place.

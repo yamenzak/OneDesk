@@ -28,3 +28,12 @@ def test_nothing_badges_oneai_by_hand():
 		source = path.read_text(encoding="utf-8")
 		for badge in re.findall(r"frappe\.ui\.badge\.html\(\{[^}]*\}", source):
 			assert "OneAI" not in badge, f"{path.name}: use onedesk.oneai.tag for {badge}"
+
+
+def test_no_oneai_button_is_drawn_by_hand():
+	# An "Ask OneAI" drawn as a plain button with sparkles looked like any other
+	# button; onedesk.oneai.button is the one look.
+	for path in sorted(JS.rglob("*.js")):
+		source = path.read_text(encoding="utf-8")
+		for call in re.findall(r"onedesk\.shell\.button\([^;]*?\)", source):
+			assert "OneAI" not in call and '"sparkles"' not in call, f"{path.name}: use onedesk.oneai.button for {call}"

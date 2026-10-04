@@ -3072,7 +3072,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			empty: __("No rules"),
 			open: (one) => open_rule(one.name),
 			actions:
-				onedesk.shell.button(__("Ask OneAI"), { "data-rule-ai": "1" }, "ghost", "sparkles") +
+				// The panel's own "Make a rule" (one/ai.py), so it is answered the same way.
+				onedesk.oneai.button(
+					__("Ask OneAI"),
+					__("Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule.")
+				) +
 				onedesk.shell.button(__("New Rule"), { "data-rule-new": "1" }, "subtle", "plus"),
 			columns: [
 				{ label: __("Rule"), fieldname: "name" },
@@ -3104,9 +3108,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			],
 		});
 		this.$content.on("click", "[data-rule-new]", () => open_rule("new"));
-		this.$content.on("click", "[data-rule-ai]", () =>
-			onedesk.oneai.open({ ask: __("Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule.") })
-		);
 	}
 
 	// One type, edited as a form is: its text and its channels, saved from the
