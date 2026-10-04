@@ -142,8 +142,11 @@ In the order they'd pay off:
     `newDoc` and `onedesk()` for our desk-side dialogs;
   - `mount.js` (`screen`) mounts a screen through frappe's contract, with
     `__` in every template;
-  - `Page`, `Title`, `Figures` (NumberCard), `Section`, `Rows`
-    (`frappe-ui/list`), `Facts` and `Loading`.
+  - `Page`, `Figures` (NumberCard), `Section`, `Rows` (`frappe-ui/list`),
+    `Facts` and `Loading`;
+  - `Pill` (a value from a short list, changed in place, as monday's status
+    column), `People` (an avatar stack that assigns) and `Drawer` (a record
+    opened beside the page, as Asana opens a task).
   - A part is added here only when frappe-ui and `@framework/ui` have none.
 - **`onedesk.island_page`** (`public/js/island_page.js`) is the desk page
   around an island, as frappe draws its own Frappe UI pages:
@@ -164,6 +167,19 @@ In the order they'd pay off:
   - a `.vue` file has no style, colour or import of its own;
   - only `kit/desk.js` reaches into desk;
   - every word goes through `__`, which frappe's extractor reads in `.vue`.
+- **frappe-ui 1.0's tokens, not Tailwind's**: surfaces are `surface-base`
+  (the page) and `surface-elevation-1` (a panel over it), and corners are
+  `rounded-1` to `rounded-7`. `bg-surface-white`, `rounded`, `rounded-md`
+  and `rounded-lg` don't exist there and draw nothing.
+- **frappe-ui's resources call through `frappeRequest`.** The kit sets it as
+  frappe-ui's resource fetcher when an island mounts, as a Frappe UI app does
+  at start. A part that doesn't pass its own fetcher would otherwise call a
+  path under the page.
+- **Load the heavy parts when first shown.** An island loads within frappe's
+  budget (2 MB). frappe-ui's editor, which `@framework/ui`'s timeline
+  brings, loads through `defineAsyncComponent`. `@framework/ui` is imported
+  by its part (`@framework/ui/ActivityTimeline`), never whole: the whole
+  needs a newer frappe-ui than the one we pin.
 - **Built so far**: the project page (`onedesk.project`). Next, in order:
   OneBook Home, then the project's Money and Suppliers, then a document's
   actions, then reports. One screen at a time, as the passover goes.

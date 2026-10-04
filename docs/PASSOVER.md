@@ -7175,6 +7175,57 @@ without leaving desk. docs/ISLANDS.md is the plan and the rule.
     by the box around it.
   - A production build needs `esbuild` for minifying under Vite 8.
 
+**Stage 2, a third time: the project as a workspace.** The island looked
+like frappe-ui, but it still presented a project as a record with tabs of
+facts. monday and Asana present it as a place where the work is done: a head
+that says what it is and how it's going, then views of the same tasks, each
+changed where it's shown.
+
+- **The head** is the project's own: kind, name (click to rename), status
+  and health as pills that change in place, customer, dates, manager, how
+  far along and the team. Desk's head keeps only the trail, **···** and the
+  main action.
+- **Views in one bar**: Overview, Tasks, Board, Timeline, Files, Activity,
+  kept in `?view=`. Tasks, Board and Timeline share a toolbar: Search,
+  Group by, Done and New Task.
+- **Tasks** is monday's table: a group per project in the tree, owner,
+  status, due date and priority changed in the row, **Add Task** at the foot
+  of each group. **Board** changes status by dragging. **Timeline** shows the
+  dated tasks over the weeks and counts the rest.
+- **A task opens beside the page**, as Asana's does, with its fields,
+  description and comments; the arrow opens its full form.
+- **Overview** gains the brief and an update box (health and a note, then
+  Post Update). **Files** lists what's attached to the project and its
+  tasks. **Activity** is `@framework/ui`'s timeline with a comment box.
+- **Everything follows frappe**: tasks change through `set_value`, `insert`
+  and `assign_to`; the views follow the Task list through `list_update` and
+  the project through `doc_update`. Each change shows at once and is read
+  back from the server.
+- **Found on the way**:
+  - frappe-ui 1.0 has its own tokens. `bg-surface-white` and Tailwind's
+    `rounded`, `rounded-md` and `rounded-lg` draw nothing there: the task
+    panel was see-through and every corner square. They're now
+    `surface-base`, `surface-elevation-1` and `rounded-1` to `rounded-7`,
+    and `test_an_island_uses_frappe_ui_tokens` keeps them out.
+  - Importing all of `@framework/ui` pulls in parts that need a newer
+    frappe-ui and fails the build. Each part is imported by its own path.
+  - The timeline brings frappe-ui's editor, which put the island over
+    frappe's 2 MB budget. It loads when first shown (1.3 MB now).
+  - The activity timeline asked for its data at a path under the page
+    (`/desk/project/frappe.desk...`) and always said "No activity yet".
+    frappe-ui's resources need `frappeRequest` set as their fetcher, as a
+    Frappe UI app does at start; the kit sets it now.
+  - The head said 13% done and the Done figure 12%. Both read one figure
+    from the server now.
+  - Dates in the table were ISO and on the board "Sep 25". Both use desk's
+    date format now.
+  - Wording: "Add a brief", "Write an update", "Group by Project",
+    "Unassigned"; the notes that read as instructions are gone.
+- Checked on the site with Website Relaunch (Internal, eight tasks) and
+  Villa Al Barsha (Fixed Price, three sub-projects): every view; adding a
+  task, changing its status in the row and by dragging on the board,
+  commenting in the task panel. The test data was put back.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

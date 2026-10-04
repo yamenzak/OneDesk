@@ -41,43 +41,44 @@ Bill Progress works from day one.
 `/desk/project/<name>` opens the page instead of the form. The form stays,
 under **···** › **Edit Details**, for every field the page doesn't show.
 
-- **Head**: Projects / name, the kind, status and health as badges, Board
-  and Schedule, **···**, and the kind's main action.
-- **Title**: the name, then customer, dates and manager in one line, and the
-  team's avatars.
-- **Four figures**, the kind's (table above), drawn as the desk's metric:
-  label, value, a line under it, and a bar where there is something to
-  fill.
-- **Tabs**, by kind:
-  - Fixed Price: Overview, Tasks, Schedule, Money, Suppliers, Team, Files,
-    Activity.
-  - Time and Materials and Retainer: Overview, Tasks, Time, Invoices, Team,
-    Files, Activity.
-  - Internal: Overview, Tasks, Schedule, Money, Team, Files, Activity.
-- **Overview**:
-  - Fixed Price: milestones as a line, **Needs you** (over budget, bills to
-    check, late tasks, retention coming due), the latest update, then About,
-    sub-projects and subcontracts on the right.
-  - Time and Materials: hours by week, hours by activity, Needs you (time
-    not invoiced, late tasks), then About and who logged time.
-- **Money** is today's Costing tab, laid out on the page: Customer, Cost,
-  Cost Types, Forecast. **Suppliers** is the subcontracts as cards, each with
-  Bill Progress.
-- **Tasks**, **Schedule**, **Files** and **Activity** are the parts that
-  exist (the board, the Gantt, OneCloud, frappe's timeline), shown in the tab.
+It is laid out as monday and Asana lay out a project: a head that says what
+the project is and how it's going, then views of the same work.
+
+- **Desk's head**: Projects / name, **···**, and the kind's main action.
+- **The project's head**: the kind's icon, the name (click to rename), the
+  status and health as pills that change in place, customer, dates,
+  manager, how far along, and the team.
+- **Views**, in one bar under the head, kept in `?view=`:
+  - **Overview**: the brief, the kind's four figures, milestones, updates
+    with a box to post one, and hours by week; Needs You, About,
+    sub-projects, subcontracts and who logged time beside it.
+  - **Tasks**: monday's table. One group per project in the tree (or by
+    status, owner or due date), each with its colour, count and an **Add
+    Task** row. Owner, status, due date and priority change in the row.
+  - **Board**: columns by status; a card is dragged to change it.
+  - **Timeline**: the dated tasks as bars over the weeks, today marked.
+  - **Files**: what is attached to the project and its tasks, with
+    **Upload**.
+  - **Activity**: frappe's timeline of the project, with a comment box.
+- **A task opens beside the page**, as Asana's does: its fields, its
+  description and its own activity, without leaving the project.
+- **Money** and **Suppliers** come in stage 3, as views in the same bar.
 
 ## Built from frappe
 
-- A desk Page on the shell, as OneMail and OneCloud are, in plain JS with
-  frappe-ui's look: Badge, Button, Tabs and Progress as frappe-ui draws
-  them, and lists as the shell's table (frappe's EmbeddedList).
-- Data from one call (`one_project/view.py`), over the modules that exist:
-  overview, money, budget, billing, tree.
-- Changes are frappe's: fields in dialogs of frappe controls, saved against
-  `modified`; the page follows the record through `doc_subscribe` and
-  `doc_update`, and money through `one_project_money`.
+- A desk Page whose body is a frappe-ui island (docs/ISLANDS.md): Badge,
+  Button, Tabs, Dropdown, DatePicker, TextInput, Avatar and Progress from
+  frappe-ui; `frappe-ui/list` for the table; NumberCard and BarChart from
+  `frappe-ui/charts`; ActivityTimeline from `@framework/ui`.
+- Data from `one_project/view.py`: `said` for the head and Overview, `work`
+  for the tasks, `files` and `updates`.
+- Changes are frappe's: `set_value`, `insert` and `assign_to` for tasks and
+  the project; the form behind Edit Details for the rest. The page follows
+  the project through `doc_subscribe` and `doc_update`, the tasks through
+  `list_update`, and money through `one_project_money`.
 - Permissions are the record's: whoever may read the project sees the page;
-  each action shows only to whoever may do it.
+  whoever may write it or its tasks may change them in place; each action
+  shows only to whoever may do it.
 
 ## Stages
 

@@ -4,10 +4,12 @@
 // same.
 export * from "./desk";
 export { screen } from "./mount";
+export { default as Drawer } from "./Drawer.vue";
 export { default as Facts } from "./Facts.vue";
 export { default as Figures } from "./Figures.vue";
 export { default as Loading } from "./Loading.vue";
 export { default as Page } from "./Page.vue";
+export { default as People } from "./People.vue";
+export { default as Pill } from "./Pill.vue";
 export { default as Rows } from "./Rows.vue";
 export { default as Section } from "./Section.vue";
-export { default as Title } from "./Title.vue";

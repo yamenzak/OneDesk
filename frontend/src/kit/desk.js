@@ -23,6 +23,9 @@ export function money(value, currency) {
 /** A date as the reader's settings write it. */
 export const date = (value) => (value ? frappe().datetime.str_to_user(value) : "");
 
+// Desk's date format in the form frappe-ui's DatePicker reads (dd-mm-yyyy → DD-MM-YYYY).
+export const dateFormat = () => (frappe().boot.sysdefaults?.date_format || "yyyy-mm-dd").toUpperCase();
+
 /** Hours, to one decimal where there is one. */
 export const hours = (value) =>
 	__("{0} h", [window.format_number(value || 0, null, Number(value) % 1 ? 1 : 0)]);
@@ -59,3 +62,70 @@ export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
 /** OneDesk's own desk-side code: its dialogs and actions (public/js). */
 export const onedesk = () => window.onedesk;
+
+/** Change one field of a record, as desk does: permissions and validation are the record's. */
+export const setValue = (doctype, name, fieldname, value) =>
+	call("frappe.client.set_value", { doctype, name, fieldname, value });
+
+/** Make a record. */
+export const insert = (doc) => call("frappe.client.insert", { doc });
+
+/** Assign a record to people, or take it off them, through desk's assignments. */
+export const assign = (doctype, name, users) =>
+	call("frappe.desk.form.assign_to.add", { doctype, name, assign_to: users });
+export const unassign = (doctype, name, user) =>
+	call("frappe.desk.form.assign_to.remove", { doctype, name, assign_to: user });
+
+/** A comment on a record, as the form's comment box adds one. */
+export const comment = (doctype, name, content) =>
+	call("frappe.desk.form.utils.add_comment", {
+		reference_doctype: doctype,
+		reference_name: name,
+		content,
+		comment_email: frappe().session.user,
+		comment_by: frappe().session.user_fullname,
+	});
+
+/** Desk's own upload dialog, attaching to a record. */
+export function upload(doctype, name, done) {
+	return new (frappe().ui.FileUploader)({ doctype, docname: name, on_success: done });
+}
+
+/** Hear when any record of a doctype changes, as a list view does. */
+export function followList(doctype, changed) {
+	const realtime = frappe().realtime;
+	const heard = (data) => data.doctype === doctype && changed(data);
+	realtime.doctype_subscribe?.(doctype);
+	realtime.on("list_update", heard);
+	return () => realtime.off("list_update", heard);
+}
+
+/** The signed-in user. */
+export const me = () => frappe().session.user;
+
+/** A date in the past? Compared as desk's dates are, by day. */
+export const isPast = (value) => Boolean(value) && value < frappe().datetime.get_today();
+
+/** A short date, "3 Oct", for chips; the long form is `date`. */
+export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");
+
+/** When, said as desk says it: "2 hours ago". */
+export const ago = (value) => (value ? frappe().datetime.prettyDate(value) : "");
+
+/**
+ * What a mounted island needs from desk once: frappe-ui's own calls send the
+ * CSRF token they find on `window`, and @framework/ui's live parts listen on
+ * the socket they are given. Desk keeps both; this hands them over.
+ */
+export function deskSession() {
+	if (!window.csrf_token && frappe()?.csrf_token) window.csrf_token = frappe().csrf_token;
+	return { socket: frappe()?.realtime?.socket };
+}
+
+/** Keep a view's choice in the address, so a link or a reload opens it again. */
+export function setQuery(key, value) {
+	const url = new URL(window.location.href);
+	if (value) url.searchParams.set(key, value);
+	else url.searchParams.delete(key);
+	window.history.replaceState(window.history.state, "", url);
+}

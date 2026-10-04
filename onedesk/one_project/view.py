@@ -47,6 +47,8 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"name": doc.name,
 		"title": doc.project_name,
 		"modified": str(doc.modified),
+		"notes": doc.notes,
+		"percent_complete": flt(doc.percent_complete),
 		"kind": kind,
 		"status": doc.status,
 		"health": doc.get("one_health"),
@@ -389,3 +391,131 @@ def _people(project: str) -> list[dict]:
 		{"user": user, "name": get_fullname(user), "hours": round(hours, 1)}
 		for user, hours in sorted(found.items(), key=lambda one: -one[1])[:SHOWN]
 	]
+
+
+#: A task's fields as the workspace's views show them.
+TASK_FIELDS = (
+	"name",
+	"subject",
+	"project",
+	"status",
+	"priority",
+	"parent_task",
+	"is_group",
+	"is_milestone",
+	"exp_start_date",
+	"exp_end_date",
+	"progress",
+	"expected_time",
+	"actual_time",
+	"_assign",
+	"modified",
+)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def work(project: Annotated[str, "The project."]) -> dict:
+	"""The project's tasks and its sub-projects', for the Tasks, Board and
+	Timeline views: one group per project in the tree, this one first. Read as
+	the reader, so a task they may not see is not here."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	tree_ = tree.totals(project)
+	groups = [{"key": project, "title": frappe.db.get_value("Project", project, "project_name"), "own": True}]
+	groups += [{"key": one["name"], "title": one["title"] or one["name"]} for one in tree_["under"]]
+	rows = frappe.get_list(
+		"Task",
+		filters=[["project", "in", [one["key"] for one in groups]], ["status", "!=", "Template"]],
+		fields=list(TASK_FIELDS),
+		order_by="exp_end_date asc, creation asc",
+		limit_page_length=0,
+	)
+	people: set[str] = set()
+	tasks = []
+	for row in rows:
+		assigned = frappe.parse_json(row._assign or "[]")
+		people.update(assigned)
+		tasks.append(
+			{
+				**{key: row.get(key) for key in TASK_FIELDS if key != "_assign"},
+				"assigned": assigned,
+				"exp_start_date": str(row.exp_start_date).split(" ")[0] if row.exp_start_date else None,
+				"exp_end_date": str(row.exp_end_date).split(" ")[0] if row.exp_end_date else None,
+				"modified": str(row.modified),
+			}
+		)
+	meta = frappe.get_meta("Task")
+	return {
+		"groups": groups,
+		"tasks": tasks,
+		"people": _people_of(people),
+		"statuses": [one for one in meta.get_field("status").options.split("\n") if one and one != "Template"],
+		"priorities": [one for one in meta.get_field("priority").options.split("\n") if one],
+		"can_create": bool(frappe.has_permission("Task", "create")),
+		"can_write": bool(frappe.has_permission("Task", "write")),
+		"today": nowdate(),
+	}
+
+
+def _people_of(users) -> dict:
+	"""Each user's name and picture, for avatars."""
+	users = [one for one in users if one]
+	if not users:
+		return {}
+	return {
+		one.name: {"name": one.full_name or one.name, "image": one.user_image}
+		for one in frappe.get_all(
+			"User", filters={"name": ["in", users]}, fields=["name", "full_name", "user_image"]
+		)
+	}
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def files(project: Annotated[str, "The project."]) -> list[dict]:
+	"""What is attached to the project, its sub-projects and their tasks, newest
+	first, each saying where it is attached."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	projects = [project] + [one["name"] for one in tree.totals(project)["under"]]
+	tasks = frappe.get_list("Task", filters={"project": ["in", projects]}, pluck="name", limit_page_length=0)
+	found = []
+	for doctype, names in (("Project", projects), ("Task", tasks)):
+		if not names:
+			continue
+		found += frappe.get_all(
+			"File",
+			filters={"attached_to_doctype": doctype, "attached_to_name": ["in", names], "is_folder": 0},
+			fields=[
+				"name",
+				"file_name",
+				"file_url",
+				"file_size",
+				"is_private",
+				"owner",
+				"creation",
+				"attached_to_doctype",
+				"attached_to_name",
+			],
+			order_by="creation desc",
+			limit=200,
+		)
+	found.sort(key=lambda one: one.creation, reverse=True)
+	people = _people_of({one.owner for one in found})
+	return [
+		{
+			**one,
+			"creation": str(one.creation),
+			"by": people.get(one.owner, {}).get("name", one.owner),
+		}
+		for one in found
+	]
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def updates(project: Annotated[str, "The project."]) -> list[dict]:
+	"""The team's updates on the project, newest first: who, when, what."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	from onedesk.one_project.ai import _updates
+
+	return _updates(project)

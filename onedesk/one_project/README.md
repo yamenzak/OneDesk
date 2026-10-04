@@ -54,10 +54,23 @@ and Materials with billable time or a customer, Internal otherwise.
 
 ## A project's page
 
-Opening a project opens its page. At the top are its kind, status and
-health, the customer, the dates and the manager, and the team.
+Opening a project opens its page. At the top are its name, kind, status and
+health, the customer, the dates, the manager, how far along it is, and the
+team. Click the name to rename it; click the status or health to change it.
 
-Four figures follow, picked by the kind:
+Below are six views, and the page remembers which one is open:
+
+- **Overview**: the brief, four figures, milestones, updates and Needs You.
+- **Tasks**: every task in a table, grouped by project, status, owner or due
+  date.
+- **Board**: tasks in columns by status. Drag a card to change its status.
+- **Timeline**: tasks as bars across the weeks, with today marked.
+- **Files**: everything attached to the project and its tasks.
+- **Activity**: comments and every change, newest first.
+
+### Overview
+
+The four figures are picked by the kind:
 
 - **Fixed Price**: **Contract** (invoiced and paid so far), **Cost** (and
   what's still on order), **Forecast Margin** and **Done**.
@@ -70,32 +83,50 @@ Four figures follow, picked by the kind:
 A figure turns red when something's wrong: cost heading over budget, a
 margin below zero, more hours than the retainer covers, a late end date.
 
-**Overview** shows what needs someone now under **Needs You**: cost types
-over budget, bills drafted by Bill Progress to check, time not invoiced yet,
-and late tasks. A Fixed Price or Internal project also shows its milestones;
-a Fixed Price one its subcontracts and how far each is billed. A Time and
-Materials or Retainer project shows hours by week, this month's hours by
-activity, and who logged them. **About**, the sub-projects and the latest
-update are beside it.
+**Needs You** lists what needs someone now: cost types over budget, bills
+drafted by Bill Progress to check, time not invoiced yet, and late tasks.
+**Updates** is where the team says how it's going: pick On Track, At Risk
+or Off Track, write the update, and **Post Update**. A Fixed Price or
+Internal project also shows its milestones and subcontracts; a Time and
+Materials or Retainer project shows hours by week, hours by activity, and
+who logged them.
 
 **Health** is set by hand, because a project can be in trouble before the
 numbers show it. A project with sub-projects counts them all: the villa's
 cost includes the windows and the handrails.
 
-**Board** and **Schedule** open the project's tasks as a board and a
-timeline. The main button is the kind's: **Bill Progress** on a Fixed Price
-contract, **Invoice Time** for Time and Materials, and **Post Update**
-otherwise. **···** has the rest: **Edit Details**, **Post Update**, **Quote
-Extra Work**, **Group Under New Project** and **Save as Template**.
+### Tasks, Board and Timeline
+
+A project's tasks and its sub-projects' tasks are shown together, grouped
+by project at first. **Group by** changes the grouping, **Search** finds a
+task, and **Done** shows finished and cancelled tasks too.
+
+In the table, change a task's owner, status, due date or priority right in
+its row. **Add Task** at the foot of a group adds one there; **New Task**
+adds one to the project. Click a task's name to open it beside the page,
+with its details, description and comments. The arrow at the top opens its
+full form.
+
+Late due dates are red. Whatever someone else changes shows up without
+reloading.
+
+### Buttons
+
+The main button is the kind's: **Bill Progress** on a Fixed Price contract,
+**Invoice Time** for Time and Materials, and **Post Update** otherwise.
+**···** has the rest: **Edit Details**, **Post Update**, **Quote Extra
+Work**, **Group Under New Project**, **Save as Template** and **Open Task
+Board**.
 
 **Edit Details** opens the project's form, with every field: its name,
 customer, parent project, status, health and manager, its dates and members,
 **Costing**, **Progress** (how often the team is asked for an update) and
 **More Info** (priority, type, department, task prefix, how the % done is
-worked out, and notes).
+worked out, and notes, which are the brief).
 
-Whoever can open a project sees its page. Each button shows only to whoever
-may do what it does.
+Whoever can open a project sees its page. Whoever can change it can rename
+it and change its status and health. Whoever can change tasks can change
+them here. Each button shows only to whoever may do what it does.
 
 ## Who runs a project
 
@@ -591,9 +622,15 @@ one field for it.
   one call read as the reader, the head, the kind's four cards (`cards`) and
   its Overview, from overview.py, money.py, budget.py, billing.py and
   tree.py. `needs` is Needs You; `contract` is the project's Sales Order or
-  the first one against it. The page's body is the `onedesk.project` island,
-  `frontend/src/project/ProjectPage.vue`, built from the kit in
-  `frontend/src/kit` (docs/ISLANDS.md); desk keeps its head through
+  the first one against it. `work` gives the Tasks, Board and Timeline views
+  the tasks of the project and its sub-projects, the people they're assigned
+  to, and the statuses and priorities to pick from; `files` and `updates`
+  give the Files view and the Overview's updates. The page's body is the
+  `onedesk.project` island, `frontend/src/project/ProjectPage.vue` and the
+  views beside it, built from the kit in `frontend/src/kit`
+  (docs/ISLANDS.md). A task is changed as desk changes it
+  (`frappe.client.set_value`, `insert`, `assign_to`), and the views follow
+  the Task list through desk's `list_update`. Desk keeps its head through
   `onedesk.island_page`, and the island reports the name, the status and the
   actions. `public/js/project_new.js` hands `/desk/project/<name>` to the
   page; the form is the same address with `?edit=1`, and a new project's form

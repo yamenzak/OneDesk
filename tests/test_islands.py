@@ -84,6 +84,19 @@ def test_an_island_is_frappe_ui_and_nothing_of_its_own():
 			assert allowed.match(specifier), f"{path.name} imports {specifier}"
 
 
+def test_an_island_uses_frappe_ui_tokens():
+	"""frappe-ui 1.0's tokens are not Tailwind's. A class from Tailwind's own
+	scale builds without complaint and draws nothing: corners stay square and
+	panels see-through. And `@framework/ui` is imported by its part, because
+	the whole of it needs a newer frappe-ui than the one we pin."""
+	for path in [*SRC.rglob("*.vue"), *SRC.rglob("*.js")]:
+		source = path.read_text(encoding="utf-8")
+		name = path.relative_to(SRC)
+		assert not re.search(r"(?<![\w-])rounded(-(sm|md|lg|xl|2xl))?(?![\w-])", source), f"{name} uses Tailwind's corners; use rounded-1 to rounded-7"
+		assert not re.search(r"\b(bg|ring|border)-surface-white\b", source), f"{name} uses surface-white; use surface-base or surface-elevation-1"
+		assert 'from "@framework/ui"' not in source, f"{name} imports all of @framework/ui; import the part"
+
+
 def test_only_the_kit_reaches_into_desk():
 	"""Desk's words, formats, calls, routes and realtime come through one
 	bridge, kit/desk.js, so an island never redoes what desk does."""
