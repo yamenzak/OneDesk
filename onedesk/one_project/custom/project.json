@@ -46,6 +46,57 @@
    "default": "__user",
    "module": "One Project",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_customer_section",
+   "fieldtype": "Section Break",
+   "insert_after": "per_gross_margin",
+   "module": "One Project",
+   "description": "",
+   "label": "Customer"
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_customer",
+   "fieldtype": "HTML",
+   "insert_after": "one_customer_section",
+   "module": "One Project",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_cost_section",
+   "fieldtype": "Section Break",
+   "insert_after": "one_customer",
+   "module": "One Project",
+   "description": "",
+   "label": "Cost"
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_cost",
+   "fieldtype": "HTML",
+   "insert_after": "one_cost_section",
+   "module": "One Project",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_forecast_section",
+   "fieldtype": "Section Break",
+   "insert_after": "one_cost",
+   "module": "One Project",
+   "description": "",
+   "label": "Forecast"
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_forecast",
+   "fieldtype": "HTML",
+   "insert_after": "one_forecast_section",
+   "module": "One Project",
+   "description": ""
   }
  ],
  "doctype": "Project",
@@ -64,7 +115,7 @@
    "doctype_or_field": "DocType",
    "property": "field_order",
    "property_type": "Text",
-   "value": "[\"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"users_section\", \"users\", \"costing_tab\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"monitor_progress_tab\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
+   "value": "[\"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"users_section\", \"users\", \"costing_tab\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"one_customer_section\", \"one_customer\", \"one_cost_section\", \"one_cost\", \"one_forecast_section\", \"one_forecast\", \"monitor_progress_tab\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
   },
   {
    "doc_type": "Project",
@@ -184,7 +235,7 @@
    "field_name": "project_details",
    "property": "label",
    "property_type": "Data",
-   "value": "Cost and Billing"
+   "value": ""
   },
   {
    "doc_type": "Project",
@@ -409,6 +460,102 @@
    "property": "label",
    "property_type": "Data",
    "value": ""
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_costing_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_purchase_cost",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_consumed_material_cost",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_sales_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billable_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billed_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "total_expense_claim",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "margin",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "gross_margin",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "per_gross_margin",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "column_break_37",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "estimated_costing",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Budget"
   }
  ],
  "sync_on_migrate": 1

@@ -1,7 +1,7 @@
 """What a project's page says above its fields. See one/head.py.
 
 How far it has got, whether it is on time, cost against budget, billed
-against what there is to bill, the margin, what is late and what comes next,
+against the contract, the margin so far and the forecast margin, what is late and what comes next,
 for the whole tree when it has sub-projects, and the hours logged on it week
 by week. The figures are overview.py's, worked out once per request.
 """
@@ -104,6 +104,16 @@ def margin(doc):
 	return {"value": _money(said, said["margin"]), "tone": "alarm" if said["margin"] < 0 else None}
 
 
+def forecast(doc):
+	"""Where the margin is heading: the contract against everything spent,
+	still to be billed on orders, and the budget left (money.py)."""
+	said = _said(doc.name)
+	if not said["forecast"]:
+		return None
+	value = said["forecast_margin"]
+	return {"value": _money(said, value), "tone": "alarm" if value < 0 else None}
+
+
 def late(doc):
 	"""The late tasks across the tree: the list, filtered by route options."""
 	said = _said(doc.name)
@@ -151,6 +161,7 @@ MEASURES = {
 	"project.cost": cost,
 	"project.billed": billed,
 	"project.margin": margin,
+	"project.forecast": forecast,
 	"project.late": late,
 	"project.milestone": milestone,
 }
@@ -169,7 +180,8 @@ HEADS = [
 			{"label": _lt("Due"), "source": "Measure", "measure": "project.due"},
 			{"label": _lt("Cost"), "source": "Measure", "measure": "project.cost"},
 			{"label": _lt("Billed"), "source": "Measure", "measure": "project.billed"},
-			{"label": _lt("Margin"), "source": "Measure", "measure": "project.margin"},
+			{"label": _lt("Margin So Far"), "source": "Measure", "measure": "project.margin"},
+			{"label": _lt("Forecast Margin"), "source": "Measure", "measure": "project.forecast"},
 			{"label": _lt("Overdue Tasks"), "source": "Measure", "measure": "project.late"},
 			{"label": _lt("Next Milestone"), "source": "Measure", "measure": "project.milestone"},
 		],

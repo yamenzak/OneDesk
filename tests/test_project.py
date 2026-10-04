@@ -218,7 +218,9 @@ def test_the_overview_is_the_whole_tree_and_its_chart_is_the_bands():
 	assert "overview.overview(name)" in heads and '"doctype": "Project"' in heads
 	assert '"charts": [{"chart": "project.hours"}]' in heads
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
-	assert "onedesk.band" not in page
+	# The band is the Record Head's; the page only borrows its figures for
+	# the Costing tab.
+	assert "onedesk.band.show" not in page
 	# The hours are the reader's own list of timesheets, and the chart is the
 	# band's (frappe.Chart in band.js), never one drawn here.
 	weekly = source.split("def _weekly(", 1)[1]
@@ -649,3 +651,42 @@ def test_every_money_document_names_its_project_once():
 	connections = (PROJECT / "tree.py").read_text()
 	for doctype in ("Quotation", "Request for Quotation", "Supplier Quotation", "Payment Entry", "Expense Claim"):
 		assert f'"{doctype}"' in connections
+
+
+def test_the_forecast_is_never_under_the_budget_and_counts_open_orders():
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	space = _load(PROJECT / "money.py", ("forecast", "unbilled"), flt=flt)
+	forecast, unbilled = space["forecast"], space["unbilled"]
+	# Spending under budget: the budget is the forecast.
+	assert forecast(50_000, 10_000, 5_000, 40_000) == {"cost": 40_000, "margin": 10_000}
+	# An order that takes spending past the budget shows the day it's placed.
+	assert forecast(50_000, 10_000, 45_000, 40_000) == {"cost": 55_000, "margin": -5_000}
+	# What a supplier still has to bill, in the company's currency.
+	rows = [
+		_Row(amount=1000, billed_amt=400, base_net_amount=3670),
+		_Row(amount=500, billed_amt=600, base_net_amount=500),
+		_Row(amount=0, billed_amt=0, base_net_amount=0),
+	]
+	assert round(unbilled(rows), 2) == 2202.0
+
+
+def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
+	money = (PROJECT / "money.py").read_text()
+	for label in ('_("Quoted")', '_("Delivered")', '_("Invoiced")', '_("Received")', '_("Stock Used")'):
+		assert label in money
+	# Every figure is submitted documents, read for the reader only if they may.
+	assert '"docstatus": 1' in money and "_sees(" in money
+	# A submit or cancel anywhere redraws the open project and those above it.
+	assert HOOKS.count('"onedesk.one_project.money.moved"') == 2
+	assert "tree.above(" in money and "after_commit=True" in money
+	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
+	fields = {f["fieldname"]: f for f in layout["custom_fields"]}
+	assert {"one_customer", "one_cost", "one_forecast"} <= set(fields)
+	hidden = {
+		p["field_name"] for p in layout["property_setters"] if p["property"] == "hidden" and p["value"] == "1"
+	}
+	assert {"total_purchase_cost", "gross_margin", "total_billed_amount"} <= hidden
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "onedesk.one_project.money.money" in page and '"one_project_money"' in page
+	heads = (PROJECT / "heads.py").read_text()
+	assert '"project.forecast": forecast' in heads and '_lt("Forecast Margin")' in heads

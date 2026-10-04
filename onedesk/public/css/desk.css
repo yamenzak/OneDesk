@@ -484,6 +484,26 @@ a.one-stat:hover .one-stat-value {
 	white-space: nowrap;
 }
 
+/* Rows of figures inside a form's section (a project's Costing tab): the
+   band's numbers in columns that line up from one row to the next. */
+.one-figures {
+	display: flex;
+	flex-direction: column;
+	gap: var(--margin-lg);
+	padding-bottom: var(--padding-md);
+}
+
+.one-figures .one-stats {
+	grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+	justify-content: stretch;
+	padding-left: 0;
+	border-left: 0;
+}
+
+.one-figures .one-stat {
+	white-space: nowrap;
+}
+
 .one-band-chart {
 	display: flex;
 	flex-direction: column;

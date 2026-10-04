@@ -592,7 +592,8 @@ onedesk.shell.Editor = class Editor {
 // `format_currency`; a Record Head's figures come made from the server.
 {
 	const RTL = "\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF";
-	const symbol = new RegExp(`([${RTL}][^\\s\\d]*)(\\s+)(?=[-+(]?\\d)`, "g");
+	// The mark itself is not part of a symbol, so marking twice marks once.
+	const symbol = new RegExp(`([${RTL}][^\\s\\d\u200e]*)(\\s+)(?=[-+(]?\\d)`, "g");
 	onedesk.shell.ltr = (text) => (typeof text === "string" ? text.replace(symbol, "$1\u200e$2") : text);
 	const theirs = window.format_currency;
 	if (theirs && !theirs.__one_ltr) {

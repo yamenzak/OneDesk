@@ -537,6 +537,7 @@ No doctypes yet.
 * `onedesk.one_mail.rules.set_away`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`
+* `onedesk.one_project.money.money`
 * `onedesk.one_project.overview.overview`
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`

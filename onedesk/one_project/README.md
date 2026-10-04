@@ -42,11 +42,12 @@ The top of the page shows how the project is going:
   because a project can be in trouble before the numbers show it.
 - **Done**: how much of the work is finished, and how many tasks of how many.
 - **Due**: days until the expected end date, or how many days late.
-- **Cost**: what it has cost so far (time, purchases and materials) against
-  the **Estimated Cost**. Red once it's over.
-- **Billed**: what has been invoiced against what there is to bill (the sales
-  order, or the billable time if there isn't one).
-- **Margin**: billed minus cost. Red below zero.
+- **Cost**: what it has cost so far (supplier bills, time, stock used and
+  expense claims) against the **Budget**. Red once it's over.
+- **Billed**: what has been invoiced against the contract (the sales orders,
+  or the billable time if there are none).
+- **Margin So Far**: invoiced minus cost. Red below zero.
+- **Forecast Margin**: where the margin is heading. See below.
 - **Overdue Tasks**: how many are past their due date. Click it for the list.
 - **Next Milestone**: the next milestone still to do, and when.
 
@@ -60,8 +61,7 @@ as a board, a calendar and a timeline.
 and manager. Below that are its **Dates**: the expected start and end, and
 when time was first and last logged on it. Then its **Members**.
 
-**Costing** has the estimate and what the project has cost and billed, with
-its sales order. **Progress** sets how often the team is asked for an
+**Costing** has the budget and the project's money, both sides. **Progress** sets how often the team is asked for an
 update. **More Info** has the priority, type, department, task prefix, how
 the % done is worked out, and notes.
 
@@ -166,6 +166,27 @@ lines' if they all name the same one.
 **+** next to one starts it on the project.
 
 ## What a project costs, and billing it
+
+**Costing** shows the money in three rows, for the project and its
+sub-projects together. Click a figure to see the documents behind it.
+
+- **Customer**: what they've been **Quoted**, what they've **Ordered**, what's
+  been **Delivered** and **Invoiced**, and what they've **Paid**.
+- **Cost**: what's been **Ordered** from suppliers, **Received** and
+  **Billed**, what they've been **Paid**, and the team's own **Time**,
+  **Stock Used** and **Expense Claims**.
+- **Forecast**: the **Contract** (what the customer ordered, or the billable
+  time if nothing was), the **Budget**, the **Forecast Cost**, the **Forecast
+  Margin** and the **Margin So Far**.
+
+Amounts are before tax, except payments. The forecast cost is everything
+spent, plus what suppliers still have to bill on their orders, plus the
+budget not yet used. So it's never under the budget, and an order that takes
+spending past the budget shows in the forecast the day it's placed, not when
+the bill arrives. The page updates as documents are submitted.
+
+Set the **Budget** on **Costing** to what you expect the whole project to
+cost.
 
 **Time is priced for you.** Every hour on a timesheet (the timer on a task
 writes one) is costed and billed at the rate set for that person and activity
@@ -430,9 +451,19 @@ one field for it.
   the Tasks rail entries leave templates out, and a new project's prefix rule
   is written before ERPNext makes its tasks (naming.py).
 - `overview.py` — what the band answers, over the tree the reader may see:
-  tasks done of all, days to the expected end (`days_left`), ERPNext's cost,
-  billing and margin added up (tree.totals), overdue tasks, the next
-  milestone, and the hours logged a week for twelve weeks.
+  tasks done of all, days to the expected end (`days_left`), the money
+  (money.py), overdue tasks, the next milestone, and the hours logged a week
+  for twelve weeks.
+- `money.py` — the Costing tab's two sides and forecast, over the whole tree:
+  each figure is the submitted lines naming a project in it, before tax, as
+  ERPNext adds up a project's Billed and Purchases, with the list behind it
+  (`WHERE` finds the project on the lines). Time, stock used and expense
+  claims are ERPNext's totals on the project; Margin So Far counts expense
+  claims, which ERPNext's own gross margin leaves out. `forecast` and
+  `unbilled` are pure. `moved` (every submit and cancel) tells the open
+  pages of the project and those above it to redraw. The tab's three
+  sections are HTML fields drawn with the band's figures; ERPNext's stored
+  totals are hidden from the form, not removed.
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
 - `public/js/project.js` — the Board, Calendar and Schedule buttons, Group

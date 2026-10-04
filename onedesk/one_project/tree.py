@@ -36,6 +36,7 @@ FIGURES = (
 	"total_costing_amount",
 	"total_purchase_cost",
 	"total_consumed_material_cost",
+	"total_expense_claim",
 	"total_sales_amount",
 	"total_billable_amount",
 	"total_billed_amount",

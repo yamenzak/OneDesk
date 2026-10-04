@@ -362,6 +362,8 @@ doc_events = {
 			# Submitting runs no on_update: linked fields changed with it are
 			# saved here. See one/linked.py.
 			"onedesk.one.linked.save",
+			# A project's money changed: its open page redraws. See one_project/money.py.
+			"onedesk.one_project.money.moved",
 		],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
@@ -386,7 +388,11 @@ doc_events = {
 			"onedesk.one.linked.save",
 		],
 		"on_update_after_submit": "onedesk.one.linked.save",
-		"on_cancel": ["onedesk.one_intake.mark.looked_at", "onedesk.one_intake.steps.record_changed"],
+		"on_cancel": [
+			"onedesk.one_intake.mark.looked_at",
+			"onedesk.one_intake.steps.record_changed",
+			"onedesk.one_project.money.moved",
+		],
 		"before_rename": "onedesk.one_intake.mark.before_rename",
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
 		# Deleting a record OneAI made is a lesson, read before its mark goes.

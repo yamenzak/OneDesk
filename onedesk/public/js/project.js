@@ -49,6 +49,14 @@ frappe.ui.form.on("Project", {
 			frm.add_custom_button(__("Save as Template"), () => onedesk.project.save_as(frm), __("Actions"));
 		}
 		onedesk.project.asked(frm);
+		onedesk.project.money(frm);
+		frappe.realtime.off("one_project_money");
+		frappe.realtime.on("one_project_money", (data) => {
+			// The head's figures come with the record, so an unchanged form is
+			// read again; one being edited keeps its edits and redraws the tab.
+			if (cur_frm !== frm || data.project !== frm.doc.name) return;
+			frm.is_dirty() ? onedesk.project.money(frm) : frm.reload_doc();
+		});
 	},
 });
 
@@ -158,6 +166,29 @@ onedesk.project.invoice_time = async (frm) => {
 // Post Update: the reader's note on how the project is going
 // (one_project/updates.py). Always under Actions; a button of its own, and a
 // line at the top, when today's ask is waiting on the reader.
+// The Costing tab: the customer's side, the cost side and the forecast, each
+// figure opening the documents behind it (one_project/money.py).
+onedesk.project.money = async (frm) => {
+	const said = await frappe.xcall("onedesk.one_project.money.money", { project: frm.doc.name });
+	if (frm.doc.name !== said.project) return;
+	const money = (value) => format_currency(value, said.currency, 0);
+	const row = (figures) =>
+		`<div class="one-stats">${figures.map((one) => onedesk.band.stat(one.label, money(one.value), one.route, one.tone)).join("")}</div>`;
+	const draw = (field, ...rows) => {
+		frm.get_field(field).$wrapper.html(`<div class="one-figures">${rows.map(row).join("")}</div>`);
+	};
+	draw("one_customer", said.customer);
+	// What suppliers were asked for, then what the team spent itself.
+	draw("one_cost", said.cost, said.own);
+	draw("one_forecast", [
+		{ label: __("Contract"), value: said.contract },
+		{ label: __("Budget"), value: said.budget },
+		{ label: __("Forecast Cost"), value: said.forecast_cost },
+		{ label: __("Forecast Margin"), value: said.forecast_margin, tone: said.forecast_margin < 0 ? "alarm" : null },
+		{ label: __("Margin So Far"), value: said.margin, tone: said.margin < 0 ? "alarm" : null },
+	]);
+};
+
 onedesk.project.asked = async (frm) => {
 	const waiting = await frappe.xcall("onedesk.one_project.updates.asked", { project: frm.doc.name });
 	if (frm.doc.name !== cur_frm?.doc?.name) return;

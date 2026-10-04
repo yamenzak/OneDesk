@@ -3,9 +3,8 @@ what it has cost against what was budgeted, what has been billed against what
 there is to bill, what is late and what comes next, and the hours logged on
 it week by week for a quarter.
 
-All of it is ERPNext's own: `expected_end_date`, `estimated_costing`, the
-costing and billing totals it keeps from timesheets, purchases and invoices,
-and the project's tasks. A project with sub-projects answers for the whole tree
+All of it is ERPNext's own: `expected_end_date`, the project's tasks, and
+the money on its documents as money.py adds it up. A project with sub-projects answers for the whole tree
 (tree.py), since the villa's question is about the villa, handrails included.
 """
 
@@ -15,7 +14,7 @@ import frappe
 from frappe.utils import date_diff, flt, formatdate, getdate, nowdate
 
 from onedesk.one import figures
-from onedesk.one_project import members, tree
+from onedesk.one_project import members, money, tree
 
 #: What a task that is still to do cannot be.
 DONE = ("Completed", "Cancelled", "Template")
@@ -64,8 +63,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		order_by="exp_end_date asc",
 		limit=1,
 	)
-	money = tree.totals(project)
-	totals = money["tree"]
+	said = money.money(project)
 	return {
 		"projects": len(projects),
 		"tree": sorted(projects),
@@ -74,16 +72,16 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"share": share(done, total) if total else round(doc.percent_complete or 0),
 		"end": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"days_left": days_left(doc.expected_end_date, today, doc.status in ("Completed", "Cancelled")),
-		"estimated": totals["estimated_costing"],
-		"cost": totals["total_costing_amount"]
-		+ totals["total_purchase_cost"]
-		+ totals["total_consumed_material_cost"],
-		"billed": totals["total_billed_amount"],
-		"to_bill": totals["total_sales_amount"] or totals["total_billable_amount"],
-		"margin": totals["gross_margin"],
+		"estimated": said["budget"],
+		"cost": said["spent"],
+		"billed": said["invoiced"],
+		"to_bill": said["contract"],
+		"margin": said["margin"],
+		"forecast_margin": said["forecast_margin"],
+		"forecast": bool(said["contract"] or said["budget"]),
 		"late": late,
 		"milestone": milestone[0] if milestone else None,
-		"currency": money["currency"],
+		"currency": said["currency"],
 		"weekly": _weekly(projects, getdate(today)),
 	}
 

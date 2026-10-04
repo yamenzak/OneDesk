@@ -6978,6 +6978,33 @@ The design is `docs/PROJECT.md`, built one stage per commit.
 - `hooks.py` named Material Request twice, so the later entry dropped OneInventory's
   "raised" notice. `test_no_hook_table_names_a_doctype_twice` now guards it.
 
+**Stage 2, costing in two sides.**
+
+- **`one_project/money.py`** adds up the project and its sub-projects from
+  the submitted lines that name them, before tax, as ERPNext adds up Billed
+  and Purchases.
+  - Customer: Quoted, Ordered, Delivered, Invoiced, Paid.
+  - Cost: Ordered, Received, Billed and Paid with suppliers, then the team's
+    Time, Stock Used and Expense Claims.
+  - Forecast: Contract, Budget, Forecast Cost, Forecast Margin, Margin So Far.
+- **The forecast cost** is spent plus what suppliers still have to bill on
+  open orders, and never less than the budget. A supplier order past the
+  budget shows the day it's placed.
+- **Each figure opens its list**, filtered on the lines' project
+  (`Purchase Order Item.project`).
+- **Costing** has the Budget (ERPNext's Estimated Cost), Cost Center and Sales
+  Order, then three sections drawn with the band's own figures. ERPNext's
+  stored totals are hidden from the form.
+- **The head** gains Forecast Margin. Margin becomes Margin So Far, which
+  counts expense claims; ERPNext's gross margin leaves them out.
+- **Realtime**: every submit and cancel naming a project tells that page,
+  and the pages above it, to redraw (`money.moved`, after commit).
+- `onedesk.shell.ltr` marked a symbol twice when given money already marked.
+  It now marks once.
+- Found for stage 3: ERPNext won't let a supplier bill change the order's
+  rate, and "Nos" must be whole, so Bill Progress can't bill a share by
+  changing the rate or quantity. Stage 3 has to work within that.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
