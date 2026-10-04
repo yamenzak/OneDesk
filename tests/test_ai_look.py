@@ -36,4 +36,6 @@ def test_no_oneai_button_is_drawn_by_hand():
 	for path in sorted(JS.rglob("*.js")):
 		source = path.read_text(encoding="utf-8")
 		for call in re.findall(r"onedesk\.shell\.button\([^;]*?\)", source):
-			assert "OneAI" not in call and '"sparkles"' not in call, f"{path.name}: use onedesk.oneai.button for {call}"
+			assert "OneAI" not in call and '"sparkles"' not in call, (
+				f"{path.name}: use onedesk.oneai.button for {call}"
+			)
