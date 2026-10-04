@@ -6126,6 +6126,27 @@ for each kind (`masters._give_managers`), and a change made later in Access
 stands. Checked in the browser as a Sales Manager: OneCRM's five lists only,
 each with Add and Remove, and Departments refused.
 
+**Every simple list, one home.** Your question: "did you move all masters
+from all doctypes into here?" Not then. Your word: "move them and remove the
+rail links".
+- Masters gains Market Segments and Lost Reasons (OneCRM), Tax Categories and
+  Finance Books (a new OneBook group), Unit Categories (OneInventory), Project
+  Types (a new OneProject group), and Skills, Key Result Areas, Grievance Types
+  and ID Document Types (OneHR). Accounts and Projects Managers see their groups.
+- The rail links to what Masters holds are gone: Territory, Customer Group and
+  Lead Source from OneCRM's Setup; Item Groups, Units and Brands from
+  OneInventory's; Project Type from OneProject's; and Branch, Department,
+  Designation, KRA and Grievance Type from OneHR's Setup page.
+  `test_a_master_has_one_home` keeps it so.
+- Not moved, because each carries settings of its own: Sales Stage (position,
+  probability, outcome; it goes back to OneCRM's Setup, where the first cut
+  had taken it from), Employee Grade (salary structure, base pay), Employee
+  Group (its people), Interview Type (interviewers, skills), Incoterm (code
+  and title), UTM Campaign, and the leave, pay, shift and expense types.
+- A value that holds more than its name, such as a department's approvers or
+  a customer group's price list, has frappe's **Edit Full Form** in its
+  dialog, as quick entry has.
+
 **An address template runs as code.** It is Jinja, drawn wherever an address
 is shown or printed, so one the workspace writes is held as a mail template is:
 every tag it adds names a field of the address, is an `if` on one and its

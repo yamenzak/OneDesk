@@ -1036,19 +1036,27 @@ salutation, a customer's group, an item's unit, an employee's department.
 They are grouped by the app that uses them.
 
 - **Shared**: Salutations, Genders, Print Headings and Address Templates.
-- **OneCRM**: Customer Groups, Territories, Industries, Lead Sources and Sales
-  Stages.
-- **OneInventory**: Item Groups, Brands, Units and Supplier Groups.
-- **OneHR**: Departments, Designations, Branches and Employment Types.
+- **OneCRM**: Customer Groups, Territories, Industries, Market Segments, Lead
+  Sources and Lost Reasons.
+- **OneBook**: Tax Categories and Finance Books.
+- **OneInventory**: Item Groups, Brands, Units, Unit Categories and Supplier
+  Groups.
+- **OneProject**: Project Types.
+- **OneHR**: Departments, Designations, Branches, Employment Types, Skills, Key
+  Result Areas, Grievance Types and ID Document Types.
+
+Lists that carry settings of their own stay in their app's Setup, such as sales
+stages, leave types and salary components.
 
 Administrators see every group. An app's managers see their app's group and
 can add, rename and remove its values. Nobody else sees Masters.
 
 **Add** puts a new value in the open list. Click a value to rename or remove
-it. It also says how many records use it. Renaming a value changes it on every
-record that uses it. A value records still use can't be removed. You can also
-add a value straight from a field on a record, with **Create a new** at the
-bottom of its list.
+it. It also says how many records use it. Where a value holds more than its
+name, such as a department's approvers, **Edit Full Form** opens all of it.
+Renaming a value changes it on every record that uses it. A value records
+still use can't be removed. You can also add a value straight from a field on
+a record, with **Create a new** at the bottom of its list.
 
 **Print Headings**: the title printed above a document, such as **Tax
 Invoice** or **Proforma Invoice**. A print format picks one.

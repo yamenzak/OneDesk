@@ -181,7 +181,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
-* **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
+* **workspace** — one, one_admin, onebook, onecrm, onehr
 
 ## Whitelisted methods
 

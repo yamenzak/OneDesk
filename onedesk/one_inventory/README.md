@@ -33,7 +33,8 @@ asset's depreciation lands in OneBook's books by itself.
 - **Reports**, **More** and **Setup** — the stock ledger, projected stock,
   ageing, what is still to arrive, stock against the books, asset balances and
   depreciation; pick lists, landed costs, prices, serial numbers and batches;
-  warehouses, item groups, units, price lists, asset categories and locations.
+  warehouses, price lists, asset categories and locations. Item groups, brands
+  and units are in One's **Masters**.
 
 ## An item's page
 

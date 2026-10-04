@@ -35,16 +35,25 @@ KINDS = (
 	("OneCRM", "Customer Group", _lt("Customer Groups")),
 	("OneCRM", "Territory", _lt("Territories")),
 	("OneCRM", "Industry Type", _lt("Industries")),
+	("OneCRM", "Market Segment", _lt("Market Segments")),
 	("OneCRM", "UTM Source", _lt("Lead Sources")),
-	("OneCRM", "Sales Stage", _lt("Sales Stages")),
+	("OneCRM", "Opportunity Lost Reason", _lt("Lost Reasons")),
+	("OneBook", "Tax Category", _lt("Tax Categories")),
+	("OneBook", "Finance Book", _lt("Finance Books")),
 	("OneInventory", "Item Group", _lt("Item Groups")),
 	("OneInventory", "Brand", _lt("Brands")),
 	("OneInventory", "UOM", _lt("Units")),
+	("OneInventory", "UOM Category", _lt("Unit Categories")),
 	("OneInventory", "Supplier Group", _lt("Supplier Groups")),
+	("OneProject", "Project Type", _lt("Project Types")),
 	("OneHR", "Department", _lt("Departments")),
 	("OneHR", "Designation", _lt("Designations")),
 	("OneHR", "Branch", _lt("Branches")),
 	("OneHR", "Employment Type", _lt("Employment Types")),
+	("OneHR", "Skill", _lt("Skills")),
+	("OneHR", "KRA", _lt("Key Result Areas")),
+	("OneHR", "Grievance Type", _lt("Grievance Types")),
+	("OneHR", "Identification Document Type", _lt("ID Document Types")),
 )
 
 #: What the workspace administrator may do with each kind.
@@ -154,6 +163,7 @@ def kinds() -> list[dict]:
 				"delete": bool(frappe.has_permission(doctype, "delete")),
 				"rename": bool(meta.allow_rename and frappe.has_permission(doctype, "write")),
 				"own_dialog": doctype in OWN_DIALOG,
+				"full": _more_than_a_name(meta),
 			}
 		)
 	return out
@@ -177,6 +187,21 @@ def values(doctype: str) -> list[dict]:
 	field = LABEL.get(doctype)
 	fields = ["name", f"{field} as label"] if field else ["name"]
 	return frappe.get_list(doctype, fields=fields, filters=_below_root(doctype), order_by="name asc", limit=0)
+
+
+#: Fields every kind has that say nothing more about a value.
+PLAIN = {"description", "disabled", "is_group", "lft", "rgt", "old_parent"}
+
+
+def _more_than_a_name(meta) -> bool:
+	"""Whether a kind holds more than its name (a department's approvers, a
+	customer group's price list), so a value also opens in frappe's form."""
+	named = {(meta.autoname or "").removeprefix("field:"), LABEL.get(meta.name), meta.nsm_parent_field}
+	layout = {"Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Button"}
+	return any(
+		not field.hidden and field.fieldtype not in layout and field.fieldname not in named | PLAIN
+		for field in meta.fields
+	)
 
 
 def _below_root(doctype: str) -> dict:
@@ -203,7 +228,7 @@ def add(doctype: str, value: str) -> str:
 		# Named by its own code from the label (a department, for the company).
 		doc.set(LABEL[doctype], value)
 	else:
-		# Named as it is asked to be (UTM Source).
+		# Named as it is asked to be (UTM Source, Grievance Type).
 		doc.set("__newname", value)
 	if meta.is_tree:
 		root = frappe.db.get_value(

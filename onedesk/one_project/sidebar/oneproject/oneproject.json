@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "oneproject",
  "idx": 0,
- "modified": "2026-09-28 12:00:00.000000",
+ "modified": "2026-10-22 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Project",
  "name": "OneProject",
@@ -116,18 +116,6 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Project Template"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Project Type",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Project Type"
   },
   {
    "child": 1,

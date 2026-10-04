@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 06:40+0000\n"
-"PO-Revision-Date: 2026-10-04 06:40+0000\n"
+"POT-Creation-Date: 2026-10-04 07:25+0000\n"
+"PO-Revision-Date: 2026-10-04 07:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -701,7 +701,7 @@ msgstr "Eine geplante Erweiterung läuft höchstens einmal pro Stunde."
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "Ein zweiter Agent prüft die Aktionen zu jedem Dokument, genehmigt, was stimmt, und gibt Falsches an einen Menschen weiter."
 
-#: onedesk/one/ai.py:3074
+#: onedesk/one/ai.py:3075
 msgid "A section is a list of columns, each a list of blocks."
 msgstr "Ein Abschnitt ist eine Liste von Spalten, jede eine Liste von Blöcken."
 
@@ -739,7 +739,7 @@ msgstr "Ein Standard-Briefkopf kann nur als Standard festgelegt oder deaktiviert
 msgid "A supplier's bill cannot be entered twice"
 msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 
-#: onedesk/one/ai.py:2855
+#: onedesk/one/ai.py:2856
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr "Ein Tabellenblock nennt seine Tabelle: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
@@ -1135,9 +1135,7 @@ msgstr "Aktivität"
 msgid "Activity Cost"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
 #. Label of a Sidebar Item
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/public/js/timesheet.js:45
 msgid "Activity Type"
@@ -1145,7 +1143,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one/ai.py:1833 onedesk/one/page/masters/masters.js:74
+#: onedesk/one/ai.py:1834 onedesk/one/page/masters/masters.js:74
 #: onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
@@ -1464,11 +1462,6 @@ msgstr "Adressen"
 msgid "Addresses and Contacts"
 msgstr "Adressen und Kontakte"
 
-#. Description of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Addresses employees may check in from."
-msgstr "Adressen, von denen Mitarbeiter einchecken dürfen."
-
 #: onedesk/one/settings.py:1110 onedesk/public/js/settings.js:958
 #: onedesk/public/js/settings.js:1037
 msgid "Administrator"
@@ -1723,7 +1716,7 @@ msgstr "Einchecken auch erlauben von"
 msgid "Also by Email"
 msgstr "Auch per E-Mail"
 
-#: onedesk/one/ai.py:1101 onedesk/one/ai.py:1124
+#: onedesk/one/ai.py:1102 onedesk/one/ai.py:1125
 msgid "Also on {0}"
 msgstr "Auch auf {0}"
 
@@ -1791,11 +1784,11 @@ msgstr "Ein Add-on fügt genau eine Sache hinzu."
 msgid "An add-on must be recurring."
 msgstr "Ein Add-on muss wiederkehrend sein."
 
-#: onedesk/one/masters.py:275
+#: onedesk/one/masters.py:306
 msgid "An address has no field {0}."
 msgstr "Eine Adresse hat kein Feld {0}."
 
-#: onedesk/one/masters.py:273
+#: onedesk/one/masters.py:304
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr "Eine Adressvorlage kann nur Felder der Adresse nennen, etwa {{ city }}."
 
@@ -2095,11 +2088,6 @@ msgstr "Termin"
 msgid "Appointment Letter"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Appointment Letter Template"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Appraisal"
@@ -2113,11 +2101,6 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Appraisal Overview"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Appraisal Template"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -2493,7 +2476,7 @@ msgstr "Gekaufte Anlagegüter werden von selbst erfasst und abgeschrieben."
 msgid "Assets have categories"
 msgstr "Anlagegüter haben Kategorien"
 
-#: onedesk/one/ai.py:4026
+#: onedesk/one/ai.py:4027
 msgid "Assign"
 msgstr ""
 
@@ -3204,13 +3187,11 @@ msgstr "Unzustellbar"
 msgid "Box"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:82
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Branch"
 msgstr ""
 
-#: onedesk/one/masters.py:46
+#: onedesk/one/masters.py:51
 msgid "Branches"
 msgstr "Filialen"
 
@@ -3223,9 +3204,7 @@ msgstr "Markenfarbe"
 msgid "Brand Line"
 msgstr "Markenlinie"
 
-#. Label of a Sidebar Item
-#: onedesk/one/masters.py:41
-#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/one/masters.py:44
 msgid "Brands"
 msgstr "Marken"
 
@@ -3285,7 +3264,7 @@ msgstr "Erstellt"
 msgid "Busy"
 msgstr ""
 
-#: onedesk/one/ai.py:1143
+#: onedesk/one/ai.py:1144
 msgid "Button"
 msgstr ""
 
@@ -3646,7 +3625,7 @@ msgstr "{0} an {1} ändern"
 msgid "Changed"
 msgstr "Geändert"
 
-#: onedesk/one/ai.py:3457
+#: onedesk/one/ai.py:3458
 msgid "Changed Format"
 msgstr "Geändertes Format"
 
@@ -3684,7 +3663,7 @@ msgid "Charged at {0}× the provider's price."
 msgstr "Berechnet mit dem {0}-fachen Preis des Anbieters."
 
 #. Label of the chart (Data) field in DocType 'Record Head Chart'
-#: onedesk/one/ai.py:1147
+#: onedesk/one/ai.py:1148
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "Chart"
 msgstr ""
@@ -3783,9 +3762,7 @@ msgid "Check your email to confirm."
 msgstr "Prüfen Sie Ihre E-Mails, um zu bestätigen."
 
 #. Label of the one_section (Section Break) field in DocType 'Shift Location'
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/custom/shift_location.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Check-in"
 msgstr ""
 
@@ -4000,53 +3977,43 @@ msgstr "Zeiterfassung"
 #. Label of the one_attempt (Link) field in DocType 'Employee Checkin'
 #. Name of a DocType
 #. Label of a Sidebar Item
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Clock Attempt"
 msgstr "Einchecken-Versuch"
 
 #. Label of the device (Link) field in DocType 'Clock Attempt'
 #. Name of a DocType
 #. Label of a Sidebar Item
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Clock Device"
 msgstr "Einchecken-Gerät"
 
 #. Label of the network (Link) field in DocType 'Clock Attempt'
 #. Name of a DocType
 #. Label of a Sidebar Item
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Clock Network"
 msgstr "Einchecken-Netzwerk"
 
 #. Label of the zone (Link) field in DocType 'Clock Attempt'
 #. Name of a DocType
 #. Label of a Sidebar Item
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Clock Place"
 msgstr "Einchecken-Ort"
 
 #. Name of a DocType
 #. Label of a Sidebar Item
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Clock Reason"
 msgstr "Einchecken-Grund"
 
@@ -4305,9 +4272,7 @@ msgstr "Ihre Kommentare"
 msgid "Compact"
 msgstr "Kompakt"
 
-#. Label of a Link in the OneHR Setup Workspace
 #. Option for the 'Ours' (Select) field in DocType 'Reading Party'
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:390
 #: onedesk/one_storage/namespace.py:528 onedesk/one_storage/namespace.py:629
@@ -4355,7 +4320,7 @@ msgstr "ZIP-komprimierter Ordner"
 msgid "Computer"
 msgstr "Computer"
 
-#: onedesk/one/ai.py:4049 onedesk/public/js/settings.js:3265
+#: onedesk/one/ai.py:4050 onedesk/public/js/settings.js:3265
 msgid "Conditions"
 msgstr ""
 
@@ -4470,7 +4435,7 @@ msgstr "Verbunden"
 msgid "Connected to OneMail"
 msgstr "Mit OneMail verbunden"
 
-#: onedesk/one/ai.py:1172 onedesk/public/js/settings.js:463
+#: onedesk/one/ai.py:1173 onedesk/public/js/settings.js:463
 msgid "Connection"
 msgstr "Verbindung"
 
@@ -4540,7 +4505,7 @@ msgstr "Weiter zur Zahlung"
 msgid "Continue to payment"
 msgstr "Weiter zur Zahlung"
 
-#: onedesk/one/ai.py:2419
+#: onedesk/one/ai.py:2420
 msgid "Continues after {0} (was {1})"
 msgstr "Geht nach {0} weiter (war {1})"
 
@@ -4733,7 +4698,7 @@ msgstr "Zählung"
 
 #. Label of the country (Link) field in DocType 'Account Request'
 #. Label of the country (Link) field in DocType 'Tenant'
-#: onedesk/one/page/masters/masters.js:196 onedesk/one/settings.py:1613
+#: onedesk/one/page/masters/masters.js:203 onedesk/one/settings.py:1613
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/public/js/settings.js:865
@@ -5056,11 +5021,6 @@ msgstr "Eigene Stufen liegen zwischen Benutzer und Manager."
 msgid "Customer"
 msgstr "Kunde"
 
-#. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Customer Group"
-msgstr ""
-
 #: onedesk/one/masters.py:35
 msgid "Customer Groups"
 msgstr ""
@@ -5223,7 +5183,7 @@ msgstr "Verbleibende Tage"
 msgid "Days Off"
 msgstr "Freie Tage"
 
-#: onedesk/one/ai.py:1858 onedesk/one/settings.py:1602
+#: onedesk/one/ai.py:1859 onedesk/one/settings.py:1602
 msgid "Days Off Each Week"
 msgstr "Freie Tage jede Woche"
 
@@ -5376,8 +5336,8 @@ msgstr "Erfasst"
 msgid "Declared By"
 msgstr "Festgelegt von"
 
-#: onedesk/one/ai.py:2701 onedesk/one/page/masters/masters.js:80
-#: onedesk/one/page/masters/masters.js:197
+#: onedesk/one/ai.py:2702 onedesk/one/page/masters/masters.js:80
+#: onedesk/one/page/masters/masters.js:204
 #: onedesk/public/js/ai_model_list.js:17
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:398
@@ -5615,7 +5575,6 @@ msgstr ""
 msgid "Delivery Note"
 msgstr "Lieferschein"
 
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:29
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:31
@@ -5623,12 +5582,11 @@ msgstr "Lieferschein"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:21
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:235
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/leave_control_panel.js:35
 msgid "Department"
 msgstr ""
 
-#: onedesk/one/masters.py:44
+#: onedesk/one/masters.py:49
 msgid "Departments"
 msgstr "Abteilungen"
 
@@ -5665,7 +5623,7 @@ msgstr "Abschreibungen buchen sich selbst"
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
 #. Label of the description (Small Text) field in DocType 'Record Type'
 #: onedesk/one/automations.py:165 onedesk/one/page/masters/masters.js:83
-#: onedesk/one/page/masters/masters.js:163
+#: onedesk/one/page/masters/masters.js:170
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:480
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -5693,18 +5651,16 @@ msgstr "Einen Briefkopf aus unseren Angaben gestalten"
 msgid "Design a letter head in HTML from the company's details in Workspace › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr "Gestalten Sie einen Briefkopf in HTML aus den Angaben des Unternehmens unter Arbeitsbereich › Allgemein: Name und Logo in der Kopfzeile, Adresse, Telefon und E-Mail in der Fußzeile, jeweils nach ihrem Symbol."
 
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:25
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:192
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Designation"
 msgstr ""
 
-#: onedesk/one/masters.py:45
+#: onedesk/one/masters.py:50
 msgid "Designations"
 msgstr "Positionen"
 
-#: onedesk/one/ai.py:2679 onedesk/one/ai.py:2698
+#: onedesk/one/ai.py:2680 onedesk/one/ai.py:2699
 msgid "Designed in HTML"
 msgstr "In HTML gestaltet"
 
@@ -6099,11 +6055,6 @@ msgstr "Entnommen aus {0}: {1}"
 msgid "Drive passwords"
 msgstr "Laufwerkspasswörter"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Driver"
-msgstr ""
-
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Drop"
@@ -6273,6 +6224,10 @@ msgstr "Bearbeiten"
 #: onedesk/one_admin/report/price_check/price_check.js:14
 msgid "Edit Costs"
 msgstr "Kosten bearbeiten"
+
+#: onedesk/one/page/masters/masters.js:133
+msgid "Edit Full Form"
+msgstr ""
 
 #: onedesk/public/js/settings.js:781
 msgid "Edit Memory"
@@ -6481,21 +6436,6 @@ msgstr "Mitarbeiterdokument"
 msgid "Employee Exits"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Employee Feedback Criteria"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Employee Grade"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Employee Group"
-msgstr ""
-
 #: onedesk/one/settings.py:355
 msgid "Employee ID"
 msgstr "Personalnummer"
@@ -6532,16 +6472,6 @@ msgstr "Mitarbeiterdatensatz"
 msgid "Employee Referral"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Employee Skill Map"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Employee Tax Exemption Category"
-msgstr ""
-
 #. Label of the voters (Int) field in DocType 'Clock Network'
 #. Label of the voters (Int) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -6563,7 +6493,7 @@ msgstr "Beschäftigung"
 msgid "Employment Letter"
 msgstr "Beschäftigungsbestätigung"
 
-#: onedesk/one/masters.py:47
+#: onedesk/one/masters.py:52
 msgid "Employment Types"
 msgstr "Beschäftigungsarten"
 
@@ -6789,11 +6719,6 @@ msgstr "Jedes Anlagegut befindet sich an einem Standort."
 #: onedesk/one_inventory/ready.py:126
 msgid "Every asset is registered"
 msgstr "Jedes Anlagegut ist erfasst"
-
-#. Description of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Every check-in attempt, allowed, flagged or refused."
-msgstr "Jeder Einchecken-Versuch, ob erlaubt, markiert oder abgelehnt."
 
 #. Description of the 'Verification' (Section Break) field in DocType 'HR
 #. Settings'
@@ -7060,11 +6985,6 @@ msgstr "Spesenabrechnung beantwortet"
 msgid "Expense Claim Asked"
 msgstr "Spesenabrechnung eingereicht"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Expense Claim Type"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Expense Overview"
@@ -7072,10 +6992,8 @@ msgstr "Auslagenübersicht"
 
 #. Label of a Sidebar Item
 #. Label of a quick_list in the OneHR Workspace
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Expenses"
 msgstr ""
 
@@ -7517,6 +7435,10 @@ msgstr "Filter auf den Datensatz, wie ein Listenfilter sie schreibt. Leer heißt
 msgid "Filters on what is counted. A value may name the record's fields as {{ doc.fieldname }}."
 msgstr "Filter auf das Gezählte. Ein Wert kann Felder des Datensatzes als {{ doc.fieldname }} nennen."
 
+#: onedesk/one/masters.py:42
+msgid "Finance Books"
+msgstr "Finanzbücher"
+
 #: onedesk/one_storage/ai.py:31 onedesk/one_storage/ai.py:57
 msgid "Find a file…"
 msgstr "Datei finden…"
@@ -7680,8 +7602,8 @@ msgstr "Systemeinstellung folgen"
 msgid "Foot Preset"
 msgstr "Fußzeilenvorlage"
 
-#: onedesk/one/ai.py:2686 onedesk/one/ai.py:2694 onedesk/one/ai.py:2697
-#: onedesk/one/ai.py:2698 onedesk/one/printing.py:348
+#: onedesk/one/ai.py:2687 onedesk/one/ai.py:2695 onedesk/one/ai.py:2698
+#: onedesk/one/ai.py:2699 onedesk/one/printing.py:348
 #: onedesk/public/js/settings.js:2293
 msgid "Footer"
 msgstr ""
@@ -7997,7 +7919,7 @@ msgstr "Aufgeben nach"
 msgid "Give a subject or a mail template"
 msgstr "Gib einen Betreff oder eine Mailvorlage an"
 
-#: onedesk/one/masters.py:191 onedesk/one/masters.py:223
+#: onedesk/one/masters.py:222 onedesk/one/masters.py:254
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
@@ -8083,7 +8005,7 @@ msgstr "Geh diese Einstellungen mit mir durch: welche für ein Unternehmen wie u
 msgid "Goal"
 msgstr ""
 
-#: onedesk/one/ai.py:1179
+#: onedesk/one/ai.py:1180
 msgid "Goes to"
 msgstr "Führt zu"
 
@@ -8146,10 +8068,9 @@ msgstr "Grafik"
 msgid "Grievance"
 msgstr "Beschwerde"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Grievance Type"
-msgstr ""
+#: onedesk/one/masters.py:55
+msgid "Grievance Types"
+msgstr "Beschwerdearten"
 
 #: onedesk/one_project/report/project_tree/project_tree.py:59
 msgid "Gross Margin"
@@ -8186,9 +8107,7 @@ msgid "Groups"
 msgstr ""
 
 #. Label of a Sidebar Item
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Growth"
 msgstr "Entwicklung"
 
@@ -8219,8 +8138,6 @@ msgstr "HR"
 msgid "HR Manager"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/settings.js:2817
 msgid "HR Settings"
 msgstr "HR-Einstellungen"
@@ -8302,7 +8219,7 @@ msgstr "Sie haben ein One-Konto?"
 msgid "Head Office"
 msgstr "Hauptsitz"
 
-#: onedesk/one/ai.py:2670 onedesk/one/ai.py:2678 onedesk/one/ai.py:2679
+#: onedesk/one/ai.py:2671 onedesk/one/ai.py:2679 onedesk/one/ai.py:2680
 #: onedesk/one/printing.py:342 onedesk/public/js/settings.js:2292
 msgid "Header"
 msgstr ""
@@ -8313,7 +8230,7 @@ msgstr ""
 
 #. Label of the label (Data) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
-#: onedesk/one/page/masters/masters.js:162
+#: onedesk/one/page/masters/masters.js:169
 msgid "Heading"
 msgstr ""
 
@@ -8363,9 +8280,7 @@ msgid "High"
 msgstr ""
 
 #. Label of a Sidebar Item
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Hiring"
 msgstr "Personalgewinnung"
 
@@ -8401,16 +8316,9 @@ msgstr "Inhaber"
 msgid "Holiday"
 msgstr "Feiertag"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/settings.js:2923
 msgid "Holiday List"
 msgstr "Feiertagsliste"
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Holiday List Assignment"
-msgstr "Zuweisung der Feiertagsliste"
 
 #. Label of the 'frequency' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -8774,6 +8682,10 @@ msgstr "IBAN"
 msgid "IBAN to Pay"
 msgstr "Zahlungs-IBAN"
 
+#: onedesk/one/masters.py:56
+msgid "ID Document Types"
+msgstr "Ausweisdokumentarten"
+
 #: onedesk/public/js/onemail.js:894
 msgid "IMAP Port"
 msgstr "IMAP-Port"
@@ -9044,11 +8956,6 @@ msgstr ""
 msgid "Income Tax Deductions"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Income Tax Slab"
-msgstr ""
-
 #: onedesk/public/js/crm_record.js:81
 msgid "Incoming"
 msgstr ""
@@ -9198,11 +9105,6 @@ msgstr "Vorstellungsgespräch in Kürze"
 #: onedesk/one_hr/notifications.py:225
 msgid "Interview Soon, to the Applicant"
 msgstr "Vorstellungsgespräch in Kürze, an den Bewerber"
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Interview Type"
-msgstr ""
 
 #: onedesk/one_hr/notifications.py:218
 msgid "Interview with {applicant} at {when}"
@@ -9508,9 +9410,7 @@ msgstr "Artikel"
 msgid "Item Code"
 msgstr "Artikelnummer"
 
-#. Label of a Sidebar Item
-#: onedesk/one/masters.py:40
-#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/one/masters.py:43
 msgid "Item Groups"
 msgstr ""
 
@@ -9597,21 +9497,11 @@ msgstr "Auftrag fehlgeschlagen"
 msgid "Job Offer"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Job Offer Term Template"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:19
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Job Opening"
 msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Job Opening Template"
-msgstr "Vorlage für Stellenausschreibung"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -9668,11 +9558,6 @@ msgstr "Rechtsraum"
 msgid "KB"
 msgstr "KB"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "KRA"
-msgstr ""
-
 #: onedesk/public/js/project.js:13
 msgid "Kanban Board"
 msgstr ""
@@ -9720,6 +9605,10 @@ msgstr "In diesem Arbeitsbereich gespeichert, ohne eigenen Server, weil es eine 
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Key"
 msgstr "Schlüssel"
+
+#: onedesk/one/masters.py:54
+msgid "Key Result Areas"
+msgstr "Hauptergebnisbereiche"
 
 #. Label of the kind (Select) field in DocType 'Workspace Customization'
 #. Label of the kind (Select) field in DocType 'AI Model Rate'
@@ -10028,14 +9917,9 @@ msgstr "Lead-Zuweisung"
 msgid "Lead Next Steps"
 msgstr "Nächste Schritte bei Leads"
 
-#. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Lead Source"
-msgstr ""
-
 #. Name of a report
 #. Label of a Sidebar Item
-#: onedesk/one/masters.py:38
+#: onedesk/one/masters.py:39
 #: onedesk/one_crm/report/lead_sources/lead_sources.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Lead Sources"
@@ -10100,11 +9984,9 @@ msgstr "Mindestmarge"
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
 #. Label of a quick_list in the OneHR Workspace
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/calendar.py:55 onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/heads.py:670 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Leave"
 msgstr "Abwesenheit"
 
@@ -10136,11 +10018,6 @@ msgstr ""
 msgid "Leave Balance Summary"
 msgstr "Übersicht Urlaubskonten"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Leave Block List"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Control Panel"
@@ -10151,24 +10028,9 @@ msgstr ""
 msgid "Leave Encashment"
 msgstr ""
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Leave Period"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Leave Policy"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Policy Assignment"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Leave Type"
 msgstr ""
 
 #. Label of the keep_in_place (Check) field in DocType 'Intake Settings'
@@ -10446,7 +10308,7 @@ msgstr "Über E-Mail-Adresse verknüpft"
 msgid "Linked manually"
 msgstr "Manuell verknüpft"
 
-#: onedesk/one/ai.py:1162
+#: onedesk/one/ai.py:1163
 msgid "Linked section"
 msgstr "Verknüpfter Abschnitt"
 
@@ -10534,11 +10396,6 @@ msgstr "Die Standortberechtigung wurde verweigert."
 msgid "Locations"
 msgstr "Standorte"
 
-#. Description of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Locations employees may check in from, each with a radius."
-msgstr "Orte, von denen Mitarbeiter einchecken dürfen, jeweils mit einem Radius."
-
 #: onedesk/one_book/report/vat_return/vat_return.js:57
 msgid "Lock"
 msgstr "Sperren"
@@ -10597,7 +10454,7 @@ msgid "Login with Passkey is not enabled on this site."
 msgstr "Die Anmeldung mit Passkey ist auf dieser Site nicht aktiviert."
 
 #. Label of the one_logo (Attach Image) field in DocType 'Bank'
-#: onedesk/one/ai.py:2675 onedesk/one/letter_heads.py:48
+#: onedesk/one/ai.py:2676 onedesk/one/letter_heads.py:48
 #: onedesk/one_mail/custom/bank.json onedesk/public/js/settings.js:2274
 msgid "Logo"
 msgstr "Logo"
@@ -10695,6 +10552,10 @@ msgstr ""
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:23
 msgid "Lost Reason"
 msgstr ""
+
+#: onedesk/one/masters.py:40
+msgid "Lost Reasons"
+msgstr "Verlustgründe"
 
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:72
 msgid "Lost Value"
@@ -11055,6 +10916,10 @@ msgstr "Als anwesend erfasst"
 #: onedesk/one_hr/learned.py:28
 msgid "Marked {0}."
 msgstr "Als {0} markiert."
+
+#: onedesk/one/masters.py:38
+msgid "Market Segments"
+msgstr "Marktsegmente"
 
 #: onedesk/one_admin/steps.py:87
 msgid "Marking it archived"
@@ -11627,7 +11492,7 @@ msgstr "Benennen Sie den Standort."
 msgid "Name the template."
 msgstr "Geben Sie der Vorlage einen Namen."
 
-#: onedesk/one/ai.py:2396
+#: onedesk/one/ai.py:2397
 msgid "Named By"
 msgstr "Benannt nach"
 
@@ -11734,7 +11599,7 @@ msgstr "Nie verwendet"
 msgid "New"
 msgstr "Neu"
 
-#: onedesk/one/page/masters/masters.js:193
+#: onedesk/one/page/masters/masters.js:200
 msgid "New Address Template"
 msgstr "Neue Adressvorlage"
 
@@ -11765,7 +11630,7 @@ msgstr "Neuer Termin"
 msgid "New Fiscal Year"
 msgstr "Neues Geschäftsjahr"
 
-#: onedesk/one/ai.py:3457
+#: onedesk/one/ai.py:3458
 msgid "New Format"
 msgstr "Neues Format"
 
@@ -11783,7 +11648,7 @@ msgstr "Neue Rechnung"
 msgid "New Lead"
 msgstr "Neuer Lead"
 
-#: onedesk/one/ai.py:2661 onedesk/public/js/settings.js:2097
+#: onedesk/one/ai.py:2662 onedesk/public/js/settings.js:2097
 #: onedesk/public/js/settings.js:2207
 msgid "New Letter Head"
 msgstr "Neuer Briefkopf"
@@ -11813,7 +11678,7 @@ msgstr "Neuer Tarif"
 msgid "New Print Format"
 msgstr "Neues Druckformat"
 
-#: onedesk/one/page/masters/masters.js:160
+#: onedesk/one/page/masters/masters.js:167
 msgid "New Print Heading"
 msgstr "Neue Drucküberschrift"
 
@@ -11825,7 +11690,7 @@ msgstr "Neues Profil"
 msgid "New Project"
 msgstr "Neues Projekt"
 
-#: onedesk/one/ai.py:2438 onedesk/public/js/doctype_settings.js:296
+#: onedesk/one/ai.py:2439 onedesk/public/js/doctype_settings.js:296
 #: onedesk/public/js/settings.js:3076 onedesk/public/js/settings.js:3248
 #: onedesk/public/js/settings.js:3252
 msgid "New Rule"
@@ -11852,7 +11717,7 @@ msgstr "Neue Unterhaltung"
 msgid "New drive password"
 msgstr "Neues Laufwerkspasswort"
 
-#: onedesk/one/ai.py:1083
+#: onedesk/one/ai.py:1084
 msgid "New field"
 msgstr "Neues Feld"
 
@@ -12001,8 +11866,8 @@ msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 msgid "Next: {0}"
 msgstr "Als Nächstes: {0}"
 
-#: onedesk/one/ai.py:2701 onedesk/one/ai.py:2704 onedesk/one/ai.py:3832
-#: onedesk/one/ai.py:4052 onedesk/one_ai/chat.py:740
+#: onedesk/one/ai.py:2702 onedesk/one/ai.py:2705 onedesk/one/ai.py:3833
+#: onedesk/one/ai.py:4053 onedesk/one_ai/chat.py:740
 #: onedesk/public/js/onecloud.js:722
 msgid "No"
 msgstr ""
@@ -12465,7 +12330,7 @@ msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt
 msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
 
-#: onedesk/one/ai.py:2686 onedesk/one/ai_setup.py:139
+#: onedesk/one/ai.py:2687 onedesk/one/ai_setup.py:139
 #: onedesk/public/js/settings.js:2350
 msgid "None"
 msgstr ""
@@ -12689,7 +12554,7 @@ msgstr "Noch nicht synchronisiert."
 msgid "Not used"
 msgstr "Nicht genutzt"
 
-#: onedesk/one/page/masters/masters.js:134
+#: onedesk/one/page/masters/masters.js:141
 msgid "Not used on any record"
 msgstr "In keinem Datensatz verwendet"
 
@@ -12870,7 +12735,7 @@ msgstr "{0} benachrichtigt"
 msgid "Notifies people in One and by email, as each person prefers."
 msgstr "Benachrichtigt Personen in One und per E-Mail, wie jede Person es wünscht."
 
-#: onedesk/one/ai.py:4006
+#: onedesk/one/ai.py:4007
 msgid "Notify"
 msgstr "Benachrichtigen"
 
@@ -12950,7 +12815,7 @@ msgstr "Von"
 msgid "Of Whom"
 msgstr "Von wem"
 
-#: onedesk/one/ai.py:2704 onedesk/one/settings.py:910
+#: onedesk/one/ai.py:2705 onedesk/one/settings.py:910
 #: onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:235
@@ -13025,7 +12890,7 @@ msgstr "Angebote"
 msgid "Old Password"
 msgstr ""
 
-#: onedesk/one/ai.py:3832 onedesk/one/ai.py:4052 onedesk/one_ai/chat.py:739
+#: onedesk/one/ai.py:3833 onedesk/one/ai.py:4053 onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271 onedesk/public/js/settings.js:592
@@ -13322,11 +13187,6 @@ msgstr "One öffnet sich, sobald Ihr Administrator {0} zustimmt."
 msgid "One passkey per employee, registered on their own phone. Replacing it requires an HR reset."
 msgstr "Ein Passkey pro Mitarbeiter, registriert auf dem eigenen Telefon. Ein Austausch erfordert ein Zurücksetzen durch die Personalabteilung."
 
-#. Description of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "One passkey per employee. Reset it when a phone changes."
-msgstr "Ein Passkey pro Mitarbeiter. Beim Gerätewechsel zurücksetzen."
-
 #. Description of the 'Screening Criteria' (Small Text) field in DocType 'Job
 #. Opening'
 #: onedesk/one_hr/custom/job_opening.json
@@ -13593,11 +13453,6 @@ msgstr "OneCloud"
 msgid "OneHR"
 msgstr "OneHR"
 
-#. Name of a Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "OneHR Setup"
-msgstr "OneHR-Einrichtung"
-
 #. Label of a Sidebar Item
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #: onedesk/one/sidebar/one/one.json
@@ -13752,7 +13607,7 @@ msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
 msgid "Only a workspace administrator can agree to this for the organisation."
 msgstr "Nur ein Administrator des Arbeitsbereichs kann dem für die Organisation zustimmen."
 
-#: onedesk/one/masters.py:120
+#: onedesk/one/masters.py:131
 msgid "Only administrators and an app's managers see Masters."
 msgstr "Stammdaten sehen nur Administratoren und die Manager einer App."
 
@@ -14328,8 +14183,6 @@ msgstr "Überstunden doppelt erfasst"
 msgid "Overtime Slip"
 msgstr "Überstundenbeleg"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/overtime.js:36
 msgid "Overtime Type"
 msgstr "Überstundenart"
@@ -14617,12 +14470,10 @@ msgstr "Patient"
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
-#. Label of a Card Break in the OneHR Setup Workspace
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/intake.js:53 onedesk/www/account.html:30
@@ -14773,11 +14624,6 @@ msgstr ""
 msgid "Payroll Overview"
 msgstr "Übersicht Lohnabrechnung"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Payroll Settings"
-msgstr ""
-
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:143
 msgid "Pays Now"
 msgstr "Zahlt jetzt"
@@ -14814,11 +14660,9 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Label of the one_people (Int) field in DocType 'Training Result'
-#. Label of a Card Break in the OneHR Setup Workspace
 #. Label of the recipients (Table) field in DocType 'Cloud File Request'
 #: onedesk/one/settings.py:42 onedesk/one/sidebar/one/one.json
 #: onedesk/one_hr/custom/training_result.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/settings.js:926 onedesk/public/js/settings.js:1040
 #: onedesk/public/js/settings.js:1145 onedesk/public/js/settings.js:1162
@@ -15362,7 +15206,7 @@ msgstr "Drucken"
 msgid "Printing of {0}"
 msgstr "Druck von {0}"
 
-#: onedesk/one/ai.py:2609 onedesk/one/ai.py:3461
+#: onedesk/one/ai.py:2610 onedesk/one/ai.py:3462
 msgid "Prints With"
 msgstr "Druckt mit"
 
@@ -15477,10 +15321,9 @@ msgstr ""
 msgid "Project Tree"
 msgstr "Projektbaum"
 
-#. Label of a Sidebar Item
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
-msgid "Project Type"
-msgstr ""
+#: onedesk/one/masters.py:48
+msgid "Project Types"
+msgstr "Projekttypen"
 
 #: onedesk/one_project/notifications.py:8
 msgid "Project Update Asked"
@@ -16020,11 +15863,6 @@ msgstr "Angezeigter Grund"
 msgid "Reason for Withholding"
 msgstr "Grund für das Zurückhalten"
 
-#. Description of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Reasons offered to employees on check out."
-msgstr "Gründe, die Mitarbeitern beim Auschecken angeboten werden."
-
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Receipt"
@@ -16501,7 +16339,7 @@ msgstr "Erinnerung: {who} hat Dateien für {request} angefordert"
 msgid "Remote pictures are hidden."
 msgstr "Externe Bilder werden ausgeblendet."
 
-#: onedesk/one/ai.py:1847 onedesk/one/page/masters/masters.js:145
+#: onedesk/one/ai.py:1848 onedesk/one/page/masters/masters.js:152
 #: onedesk/public/js/oneai/Panel.vue:172 onedesk/public/js/onecloud.js:1332
 #: onedesk/public/js/onecloud.js:1378 onedesk/public/js/onecloud.js:1525
 #: onedesk/public/js/onecloud.js:1812 onedesk/public/js/settings.js:391
@@ -16530,7 +16368,7 @@ msgstr "Stern entfernen"
 msgid "Remove the port from the domain."
 msgstr "Entfernen Sie den Port aus der Domain."
 
-#: onedesk/one/ai.py:2428
+#: onedesk/one/ai.py:2429
 msgid "Remove {0}"
 msgstr "{0} entfernen"
 
@@ -16542,7 +16380,7 @@ msgstr "{0} Dateien aus ihren Datensätzen entfernen? Dies kann nicht rückgäng
 msgid "Remove {0} from its record? This can't be undone."
 msgstr "{0} aus seinem Datensatz entfernen? Dies kann nicht rückgängig gemacht werden."
 
-#: onedesk/one/page/masters/masters.js:147
+#: onedesk/one/page/masters/masters.js:154
 msgid "Remove {0}?"
 msgstr "{0} entfernen?"
 
@@ -16550,7 +16388,7 @@ msgstr "{0} entfernen?"
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr "{0} entfernen? Der Arbeitsbereich ist unter dieser Domain nicht mehr erreichbar."
 
-#: onedesk/one/ai.py:1062 onedesk/one/page/masters/masters.js:150
+#: onedesk/one/ai.py:1063 onedesk/one/page/masters/masters.js:157
 msgid "Removed"
 msgstr "Entfernt"
 
@@ -16560,7 +16398,7 @@ msgstr "Adresse wird entfernt"
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one/ai.py:1833
+#: onedesk/one/ai.py:1834
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/public/js/oneai/Panel.vue:23 onedesk/public/js/oneai/Panel.vue:616
@@ -16982,7 +16820,7 @@ msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
 
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label of the rule (Data) field in DocType 'Reading Date'
-#: onedesk/one/ai.py:2428 onedesk/one/ai.py:2438
+#: onedesk/one/ai.py:2429 onedesk/one/ai.py:2439
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:46
@@ -17081,11 +16919,6 @@ msgstr "Wird dem Modell vor der eigenen Anweisung jeder Aktion gesagt, damit das
 msgid "Salary Certificate"
 msgstr "Gehaltsbescheinigung"
 
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Salary Component"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Salary Register"
@@ -17094,11 +16927,6 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Salary Slip"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Salary Structure"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -17133,10 +16961,6 @@ msgstr ""
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one/masters.py:39
-msgid "Sales Stages"
-msgstr "Verkaufsphasen"
-
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Sales Tax Templates"
@@ -17156,8 +16980,8 @@ msgid "Same format as a series."
 msgstr "Gleiches Format wie eine Serie."
 
 #: onedesk/one/page/masters/masters.js:115
-#: onedesk/one/page/masters/masters.js:165
-#: onedesk/one/page/masters/masters.js:200
+#: onedesk/one/page/masters/masters.js:172
+#: onedesk/one/page/masters/masters.js:207
 #: onedesk/one_book/report/books_check/books_check.js:25
 #: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:488
@@ -17189,8 +17013,8 @@ msgid "Save to My Files"
 msgstr "In Meinen Dateien speichern"
 
 #: onedesk/one/page/masters/masters.js:121
-#: onedesk/one/page/masters/masters.js:180
-#: onedesk/one/page/masters/masters.js:207 onedesk/public/js/reports.js:406
+#: onedesk/one/page/masters/masters.js:187
+#: onedesk/one/page/masters/masters.js:214 onedesk/public/js/reports.js:406
 #: onedesk/public/js/shell.js:516
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
@@ -17353,7 +17177,7 @@ msgstr "Geheimnis"
 msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
 
-#: onedesk/one/ai.py:3458
+#: onedesk/one/ai.py:3459
 msgid "Sections"
 msgstr "Abschnitte"
 
@@ -17591,7 +17415,7 @@ msgstr "Seriennummern"
 msgid "Serial and batch numbers can be used"
 msgstr "Serien- und Chargennummern sind nutzbar"
 
-#: onedesk/one/ai.py:2381 onedesk/public/js/doctype_settings.js:397
+#: onedesk/one/ai.py:2382 onedesk/public/js/doctype_settings.js:397
 #: onedesk/public/js/doctype_settings.js:466 onedesk/public/js/settings.js:2024
 msgid "Series"
 msgstr ""
@@ -17656,7 +17480,7 @@ msgstr "Leistung"
 msgid "Session Address"
 msgstr "Sitzungsadresse"
 
-#: onedesk/one/ai.py:3995
+#: onedesk/one/ai.py:3996
 msgid "Set"
 msgstr ""
 
@@ -17794,10 +17618,8 @@ msgid "Setting up the address"
 msgstr "Adresse wird eingerichtet"
 
 #. Label of a Sidebar Item
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one/page/settings/settings.js:5 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/doctype_settings.js:1167 onedesk/public/js/head.js:36
 msgid "Settings"
 msgstr "Einstellungen"
@@ -17909,11 +17731,9 @@ msgstr "Schichtzeiten"
 #. Label of the shift_location (Link) field in DocType 'Clock Network'
 #. Label of the shift_location (Link) field in DocType 'Clock Place'
 #. Label of the shift_location (Link) field in DocType 'Shift Location Place'
-#. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/shift_location_place/shift_location_place.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Shift Location"
 msgstr ""
 
@@ -17929,16 +17749,6 @@ msgstr "Schicht liest keine Anmeldungen"
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Shift Request"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Shift Schedule"
-msgstr ""
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Shift Type"
 msgstr ""
 
 #. Label of the 'shift_settings_section' field in DocType 'HR Settings'
@@ -18220,6 +18030,10 @@ msgstr "Site nach einem Backup gelöscht. Dateien behalten."
 msgid "Size"
 msgstr "Größe"
 
+#: onedesk/one/masters.py:53
+msgid "Skills"
+msgstr "Fähigkeiten"
+
 #: onedesk/one_admin/home.py:320
 msgid "Slow"
 msgstr "Langsam"
@@ -18418,7 +18232,7 @@ msgstr "Veraltet"
 msgid "Stalled"
 msgstr "Hängt"
 
-#: onedesk/one/ai.py:2610 onedesk/public/js/settings.js:2146
+#: onedesk/one/ai.py:2611 onedesk/public/js/settings.js:2146
 msgid "Standard"
 msgstr ""
 
@@ -18558,7 +18372,7 @@ msgstr "Kontoauszug"
 msgid "Statements"
 msgstr "Kontoauszüge"
 
-#: onedesk/one/ai.py:3831
+#: onedesk/one/ai.py:3832
 msgid "States"
 msgstr ""
 
@@ -19046,7 +18860,7 @@ msgstr "Zusammenfassung"
 msgid "Supplier"
 msgstr "Lieferant"
 
-#: onedesk/one/masters.py:43
+#: onedesk/one/masters.py:47
 msgid "Supplier Groups"
 msgstr "Lieferantengruppen"
 
@@ -19291,6 +19105,10 @@ msgstr "Steuern & Leistungen"
 msgid "Tax Assessment"
 msgstr "Steuerbescheid"
 
+#: onedesk/one/masters.py:41
+msgid "Tax Categories"
+msgstr "Steuerkategorien"
+
 #: onedesk/one/letter_heads.py:69 onedesk/one/letter_heads.py:171
 #: onedesk/one/letter_heads.py:379 onedesk/public/js/settings.js:2202
 msgid "Tax ID"
@@ -19350,7 +19168,7 @@ msgid "Tell us who you are and what you need, and we will get back to you."
 msgstr "Sagen Sie uns, wer Sie sind und was Sie brauchen, und wir melden uns."
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: onedesk/one/page/masters/masters.js:198 onedesk/one_task/custom/task.json
+#: onedesk/one/page/masters/masters.js:205 onedesk/one_task/custom/task.json
 #: onedesk/public/js/doctype_settings.js:189 onedesk/public/js/settings.js:2079
 msgid "Template"
 msgstr ""
@@ -19403,11 +19221,6 @@ msgstr "Nutzungsbedingungen"
 #: onedesk/one/masters.py:36
 msgid "Territories"
 msgstr "Gebiete"
-
-#. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Territory"
-msgstr ""
 
 #: onedesk/public/js/ai_model.js:10 onedesk/public/js/ai_model.js:33
 msgid "Test Call"
@@ -20014,7 +19827,7 @@ msgstr "Der letzte Fehler, wie ihn der fehlgeschlagene Dienst gemeldet hat."
 msgid "The law says a business keeps this until then. It cannot be deleted before."
 msgstr "Das Gesetz verlangt, dass ein Unternehmen dies bis dahin aufbewahrt. Vorher kann es nicht gelöscht werden."
 
-#: onedesk/one/ai.py:3144
+#: onedesk/one/ai.py:3145
 msgid "The layout would print badly: {0}."
 msgstr "Das Layout würde schlecht gedruckt: {0}."
 
@@ -20449,7 +20262,7 @@ msgstr "Der Kontakt des Lieferanten"
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr "Der Abgleich lässt die Preise unten unangetastet. Für ein Modell, dessen Seite nicht gelesen werden kann."
 
-#: onedesk/one/ai.py:2878
+#: onedesk/one/ai.py:2879
 msgid "The table {0} needs its columns."
 msgstr "Die Tabelle {0} braucht ihre Spalten."
 
@@ -21165,9 +20978,7 @@ msgid "Tiles"
 msgstr "Kacheln"
 
 #. Label of a Sidebar Item
-#. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/billing.py:77
 msgid "Time"
 msgstr ""
@@ -21709,7 +21520,7 @@ msgstr "Unbestätigt"
 msgid "Under a minute. Nothing added."
 msgstr "Unter einer Minute. Nichts hinzugefügt."
 
-#: onedesk/one/ai.py:1133
+#: onedesk/one/ai.py:1134
 msgid "Under the title"
 msgstr "Unter dem Titel"
 
@@ -21769,19 +21580,18 @@ msgstr "Bei diesem Partner bereits {0}-mal rückgängig gemacht."
 msgid "Unit"
 msgstr "Einheit"
 
+#: onedesk/one/masters.py:46
+msgid "Unit Categories"
+msgstr "Einheitenkategorien"
+
 #. Label of the unit_price (Float) field in DocType 'Reading Line'
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 msgid "Unit Price"
 msgstr "Einzelpreis"
 
-#: onedesk/one/masters.py:42
+#: onedesk/one/masters.py:45
 msgid "Units"
 msgstr "Einheiten"
-
-#. Label of a Sidebar Item
-#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-msgid "Units of Measure"
-msgstr "Maßeinheiten"
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_hr/presence.py:120
@@ -22017,7 +21827,7 @@ msgstr "Wird in URLs verwendet. Nach dem ersten Verkauf nicht mehr ändern."
 msgid "Used in the Last 30 Days"
 msgstr "In den letzten 30 Tagen verbraucht"
 
-#: onedesk/one/page/masters/masters.js:134
+#: onedesk/one/page/masters/masters.js:141
 msgid "Used on {0} records"
 msgstr "In {0} Datensätzen verwendet"
 
@@ -22136,11 +21946,6 @@ msgstr "Wert"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Values collected by the steps that have run so far."
 msgstr "Werte, die die bisher gelaufenen Schritte gesammelt haben."
-
-#. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-msgid "Vehicle"
-msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -22989,7 +22794,7 @@ msgstr "Was {0} sieht"
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: onedesk/one/ai.py:4041 onedesk/one/settings.py:2058
+#: onedesk/one/ai.py:4042 onedesk/one/settings.py:2058
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:278 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -24578,8 +24383,8 @@ msgstr ""
 msgid "Year-end close of {0}"
 msgstr "Jahresabschluss {0}"
 
-#: onedesk/one/ai.py:2701 onedesk/one/ai.py:2704 onedesk/one/ai.py:3832
-#: onedesk/one/ai.py:4052 onedesk/one_ai/chat.py:740
+#: onedesk/one/ai.py:2702 onedesk/one/ai.py:2705 onedesk/one/ai.py:3833
+#: onedesk/one/ai.py:4053 onedesk/one_ai/chat.py:740
 #: onedesk/public/js/onecloud.js:722
 msgid "Yes"
 msgstr ""
@@ -25058,7 +24863,7 @@ msgstr "eine Farbe wie #0f766e"
 msgid "a colour such as #0f766e or var(--gray-100)"
 msgstr "eine Farbe wie #0f766e oder var(--gray-100)"
 
-#: onedesk/one/ai.py:3079
+#: onedesk/one/ai.py:3080
 msgid "a column"
 msgstr "eine Spalte"
 
@@ -25111,7 +24916,7 @@ msgstr "Adresse"
 msgid "administrator of the workspace"
 msgstr "Administrator des Arbeitsbereichs"
 
-#: onedesk/one/ai.py:1050 onedesk/one_crm/heads.py:118
+#: onedesk/one/ai.py:1051 onedesk/one_crm/heads.py:118
 msgid "after {0}"
 msgstr "nach {0}"
 
@@ -25176,7 +24981,7 @@ msgstr "von {0} am {1}"
 msgid "cached"
 msgstr "zwischengespeichert"
 
-#: onedesk/one/ai.py:1033
+#: onedesk/one/ai.py:1034
 msgid "called {0}"
 msgstr "heißt {0}"
 
@@ -25324,7 +25129,7 @@ msgstr ""
 msgid "green"
 msgstr ""
 
-#: onedesk/one/ai.py:1038
+#: onedesk/one/ai.py:1039
 msgid "hidden"
 msgstr "ausgeblendet"
 
@@ -25341,7 +25146,7 @@ msgstr "verspätet gekommen"
 msgid "in late, left early"
 msgstr "verspätet gekommen, früher gegangen"
 
-#: onedesk/one/ai.py:1040
+#: onedesk/one/ai.py:1041
 msgid "in the list"
 msgstr "in der Liste"
 
@@ -25354,7 +25159,7 @@ msgstr "Eingabe"
 msgid "invites you to"
 msgstr "lädt Sie ein zu"
 
-#: onedesk/one/ai.py:3142
+#: onedesk/one/ai.py:3143
 msgid "it does not print {0}"
 msgstr "es druckt {0} nicht"
 
@@ -25383,7 +25188,7 @@ msgstr ""
 msgid "just you"
 msgstr "nur Sie"
 
-#: onedesk/one/ai.py:1125 onedesk/one/ai.py:1127
+#: onedesk/one/ai.py:1126 onedesk/one/ai.py:1128
 msgid "label"
 msgstr ""
 
@@ -25489,7 +25294,7 @@ msgstr "hat kein Arbeitsbereich eine Adresse"
 msgid "nobody yet"
 msgstr "noch niemand"
 
-#: onedesk/one/ai.py:1860 onedesk/one/ai.py:1861 onedesk/one/settings.py:1684
+#: onedesk/one/ai.py:1861 onedesk/one/ai.py:1862 onedesk/one/settings.py:1684
 msgid "none"
 msgstr ""
 
@@ -25497,7 +25302,7 @@ msgstr ""
 msgid "none of them live."
 msgstr "keiner davon aktiv."
 
-#: onedesk/one/ai.py:1040
+#: onedesk/one/ai.py:1041
 msgid "not in the list"
 msgstr "nicht in der Liste"
 
@@ -25563,7 +25368,7 @@ msgstr "nur die Datensätze von {0} {1}, {2}"
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"
 
-#: onedesk/one/ai.py:1039
+#: onedesk/one/ai.py:1040
 msgid "optional"
 msgstr "optional"
 
@@ -25649,7 +25454,7 @@ msgstr "hat es von {0} umbenannt"
 msgid "renamed {0}"
 msgstr "{0} umbenannt"
 
-#: onedesk/one/ai.py:1039
+#: onedesk/one/ai.py:1040
 msgid "required"
 msgstr "erforderlich"
 
@@ -25670,19 +25475,19 @@ msgstr ""
 msgid "seats"
 msgstr "Plätze"
 
-#: onedesk/one/ai.py:3069
+#: onedesk/one/ai.py:3070
 msgid "section {0}"
 msgstr "Abschnitt {0}"
 
-#: onedesk/one/ai.py:3087
+#: onedesk/one/ai.py:3088
 msgid "section {0} is empty"
 msgstr "Abschnitt {0} ist leer"
 
-#: onedesk/one/ai.py:3054
+#: onedesk/one/ai.py:3055
 msgid "sections is a list of sections, each a list of columns."
 msgstr "sections ist eine Liste von Abschnitten, jeder eine Liste von Spalten."
 
-#: onedesk/one/ai.py:2979
+#: onedesk/one/ai.py:2980
 msgid "sections is not JSON: {0}."
 msgstr "sections ist kein JSON: {0}."
 
@@ -25690,7 +25495,7 @@ msgstr "sections ist kein JSON: {0}."
 msgid "shared it with {0}"
 msgstr "hat es mit {0} geteilt"
 
-#: onedesk/one/ai.py:1038
+#: onedesk/one/ai.py:1039
 msgid "shown"
 msgstr "angezeigt"
 
@@ -25746,7 +25551,7 @@ msgstr "die zusätzlichen Anweisungen"
 msgid "the added instructions, to none"
 msgstr "die zusätzlichen Anweisungen, auf keine"
 
-#: onedesk/one/ai.py:3097
+#: onedesk/one/ai.py:3098
 msgid "the columns of {0} come to {1}%, more than the page"
 msgstr "die Spalten von {0} ergeben {1} %, mehr als die Seite"
 
@@ -25826,7 +25631,7 @@ msgstr "die letzten zwei Ziffern des Jahres, 26"
 msgid "the year, 2026"
 msgstr "das Jahr, 2026"
 
-#: onedesk/one/ai.py:3111
+#: onedesk/one/ai.py:3112
 msgid "there is no field {0} for the barcode"
 msgstr "es gibt kein Feld {0} für den Barcode"
 
@@ -25957,8 +25762,8 @@ msgstr "{0} (neuer Ordner)"
 msgid "{0} (none)"
 msgstr "{0} (keine)"
 
-#: onedesk/one/ai.py:1838 onedesk/one/ai.py:1859 onedesk/one/ai.py:2381
-#: onedesk/one/ai.py:2397 onedesk/one/ai.py:2610
+#: onedesk/one/ai.py:1839 onedesk/one/ai.py:1860 onedesk/one/ai.py:2382
+#: onedesk/one/ai.py:2398 onedesk/one/ai.py:2611
 msgid "{0} (was {1})"
 msgstr "{0} (war {1})"
 
@@ -25979,7 +25784,7 @@ msgstr "{0} + {1} Zusatzpakete"
 msgid "{0} AI credits a month"
 msgstr "{0} KI-Guthaben im Monat"
 
-#: onedesk/one/ai.py:3722
+#: onedesk/one/ai.py:3723
 msgid "{0} Approval"
 msgstr "Freigabe {0}"
 
@@ -26118,7 +25923,7 @@ msgstr "{0} auf der Stufe {1}"
 msgid "{0} at {1}"
 msgstr "{0} für {1}"
 
-#: onedesk/one/ai.py:3966
+#: onedesk/one/ai.py:3967
 msgid "{0} automation"
 msgstr "Automatisierung {0}"
 
@@ -26456,7 +26261,7 @@ msgstr "{0} hat kein benutzerdefiniertes Feld namens {1}."
 msgid "{0} has no field that links to {1}, so the field cannot be filled from it."
 msgstr "{0} hat kein Feld, das auf {1} verweist, daher kann das Feld nicht daraus gefüllt werden."
 
-#: onedesk/one/ai.py:3009 onedesk/one/ai.py:3021
+#: onedesk/one/ai.py:3010 onedesk/one/ai.py:3022
 msgid "{0} has no field {1}"
 msgstr "{0} hat kein Feld {1}"
 
@@ -26561,7 +26366,7 @@ msgstr "{0} ist ein Standardformat. Es kann nur als Standard festgelegt oder aus
 msgid "{0} is a sub-project of {1}."
 msgstr "{0} ist jetzt ein Unterprojekt von {1}."
 
-#: onedesk/one/ai.py:3104
+#: onedesk/one/ai.py:3105
 msgid "{0} is a table: give it its columns"
 msgstr "{0} ist eine Tabelle: geben Sie ihre Spalten an"
 
@@ -26721,7 +26526,7 @@ msgstr "{0} ist kein Auftrag."
 msgid "{0} is not a library."
 msgstr "{0} ist keine Bibliothek."
 
-#: onedesk/one/ai.py:3006
+#: onedesk/one/ai.py:3007
 msgid "{0} is not a link field and one of its fields, such as customer.customer_group"
 msgstr "{0} ist kein Verknüpfungsfeld mit einem seiner Felder, etwa customer.customer_group"
 
@@ -26753,7 +26558,7 @@ msgstr "{0} ist keine Regel von {1}."
 msgid "{0} is not a series of {1}."
 msgstr "{0} ist keine Serie von {1}."
 
-#: onedesk/one/ai.py:3093
+#: onedesk/one/ai.py:3094
 msgid "{0} is not a table"
 msgstr "{0} ist keine Tabelle"
 
@@ -26761,7 +26566,7 @@ msgstr "{0} ist keine Tabelle"
 msgid "{0} is not a table of a form you may customize."
 msgstr "{0} ist keine Tabelle eines Formulars, das Sie anpassen dürfen."
 
-#: onedesk/one/ai.py:3018
+#: onedesk/one/ai.py:3019
 msgid "{0} is not a table to repeat"
 msgstr "{0} ist keine Tabelle zum Wiederholen"
 
@@ -26826,7 +26631,7 @@ msgstr "{0} wird hier nicht angeboten."
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
 
-#: onedesk/one/masters.py:127
+#: onedesk/one/masters.py:139
 msgid "{0} is not one of the masters you manage."
 msgstr "{0} gehört nicht zu den Stammdaten, die Sie verwalten."
 
@@ -27221,7 +27026,7 @@ msgstr "{0} bis {1}"
 msgid "{0} to {1}%"
 msgstr "{0} auf {1} %"
 
-#: onedesk/one/ai.py:3820
+#: onedesk/one/ai.py:3821
 msgid "{0} to {1}, by {2}"
 msgstr "{0} zu {1}, durch {2}"
 
@@ -27291,7 +27096,7 @@ msgstr "{0} kann sich weder einchecken noch einen weiteren Passkey registrieren.
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte wird stillgelegt, nicht gelöscht."
 
-#: onedesk/one/ai.py:2317
+#: onedesk/one/ai.py:2318
 msgid "{0} with {1} digits"
 msgstr "{0} mit {1} Ziffern"
 
@@ -27384,15 +27189,15 @@ msgstr "{0} % belegt."
 msgid "{0}% · {1} of {2} tasks"
 msgstr "{0} % · {1} von {2} Aufgaben"
 
-#: onedesk/one/ai.py:1104 onedesk/one/ai.py:1127
+#: onedesk/one/ai.py:1105 onedesk/one/ai.py:1128
 msgid "{0}, copied when made from {1}"
 msgstr "{0}, kopiert beim Erstellen aus {1}"
 
-#: onedesk/one/ai.py:1102 onedesk/one/ai.py:1125
+#: onedesk/one/ai.py:1103 onedesk/one/ai.py:1126
 msgid "{0}, filled from {1}"
 msgstr "{0}, gefüllt aus {1}"
 
-#: onedesk/one/ai.py:2318
+#: onedesk/one/ai.py:2319
 msgid "{0}, for every record"
 msgstr "{0}, für jeden Datensatz"
 
@@ -27432,7 +27237,7 @@ msgstr "{0}, beginnt als {1}"
 msgid "{0}, unmetered"
 msgstr "{0}, ohne Begrenzung"
 
-#: onedesk/one/ai.py:2318
+#: onedesk/one/ai.py:2319
 msgid "{0}, when {1}"
 msgstr "{0}, wenn {1}"
 
@@ -27493,7 +27298,7 @@ msgstr "{0}: Ein Stil darf kein Markup enthalten und nichts laden."
 msgid "{0}: a style may only use this site's files and images."
 msgstr "{0}: Ein Stil darf nur Dateien und Bilder dieser Website verwenden."
 
-#: onedesk/one/ai.py:1229 onedesk/one/layer.py:181
+#: onedesk/one/ai.py:1230 onedesk/one/layer.py:181
 msgid "{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
 msgstr "{0}: Ein Textfeld kann beliebigen Text enthalten oder eine E-Mail, einen Namen, eine Telefonnummer, eine Webadresse, einen Barcode oder eine IBAN."
 
@@ -27580,7 +27385,7 @@ msgstr "{0}: {1} kann hier nicht erstellt werden."
 msgid "{0}: {1} has no field {2} visible to everyone who can read it."
 msgstr "{0}: {1} hat kein Feld {2}, das für alle Leser sichtbar ist."
 
-#: onedesk/one/ai.py:1234
+#: onedesk/one/ai.py:1235
 msgid "{0}: {1} is not a form here."
 msgstr "{0}: {1} ist hier kein Formular."
 

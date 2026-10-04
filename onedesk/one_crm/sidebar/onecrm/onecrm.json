@@ -274,30 +274,6 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Territory",
-   "link_to": "Territory",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Customer Group",
-   "link_to": "Customer Group",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
    "label": "Sales Person",
    "link_to": "Sales Person",
    "link_type": "DocType",
@@ -312,18 +288,6 @@
    "keep_closed": 0,
    "label": "Sales Stage",
    "link_to": "Sales Stage",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Lead Source",
-   "link_to": "UTM Source",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
@@ -366,7 +330,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-21 12:00:00.000000",
+ "modified": "2026-10-22 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One CRM",
  "name": "OneCRM",

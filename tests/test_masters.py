@@ -41,9 +41,14 @@ def test_masters_are_granted_to_the_administrator_and_wired():
 	assert {line.split('"')[1] for line in kinds.strip().splitlines()} == {
 		"Shared",
 		"OneCRM",
+		"OneBook",
 		"OneInventory",
+		"OneProject",
 		"OneHR",
 	}
+	# A kind that carries settings of its own stays in its app's Setup.
+	for doctype in ("Sales Stage", "Leave Type", "Employee Grade", "Interview Type"):
+		assert f'"{doctype}", _lt(' not in kinds, doctype
 	assert 'MANAGE = ("read", "write", "create", "delete")' in SOURCE
 	assert '"onedesk.one.masters.settle"' in HOOKS
 	assert '"Address Template": {"validate": "onedesk.one.masters.validate_address_template"}' in HOOKS
@@ -59,6 +64,8 @@ def test_the_page_is_for_administrators_and_app_managers():
 	roles = {one["role"] for one in page["roles"]}
 	assert roles == {
 		"Workspace Administrator",
+		"Accounts Manager",
+		"Projects Manager",
 		"Sales Manager",
 		"Stock Manager",
 		"Purchase Manager",
@@ -104,3 +111,19 @@ def test_contacts_and_addresses_are_the_workspaces_not_onecrms():
 	at = labels.index("Masters")
 	assert at == labels.index("Numbering") + 1 and "Lists" not in labels
 	assert one[at]["link_type"] == "Page" and one[at]["link_to"] == "masters"
+
+
+def test_a_master_has_one_home():
+	"""What Masters holds is no longer linked from an app's rail or setup."""
+	kinds = SOURCE.split("KINDS = (", 1)[1].split("\n)\n", 1)[0]
+	held = {line.split('"')[3] for line in kinds.strip().splitlines()}
+	places = [*tree.APP.glob("*/sidebar/*/*.json"), *tree.APP.glob("*/workspace/*/*.json")]
+	for path in places:
+		doc = json.loads(path.read_text())
+		rows = doc.get("items") or doc.get("links") or []
+		linked = {row.get("link_to") for row in rows if row.get("type") == "Link"}
+		assert not linked & held, f"{path.name} links {sorted(linked & held)}, which Masters holds"
+	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())["items"]
+	assert "Sales Stage" in {row.get("link_to") for row in crm}
+	js = (PAGE / "masters.js").read_text()
+	assert 'add_custom_action(__("Edit Full Form")' in js and '"full": _more_than_a_name(meta)' in SOURCE

@@ -128,6 +128,13 @@ onedesk.Masters = class Masters {
 				: null,
 		});
 		if (one) {
+			// What else the kind holds is in frappe's form, as quick entry offers it.
+			if (kind.full) {
+				dialog.add_custom_action(__("Edit Full Form"), () => {
+					dialog.hide();
+					frappe.set_route("Form", kind.doctype, one.name);
+				});
+			}
 			this.removable(dialog, kind, one.name, one.label);
 			frappe.xcall(`${Masters.API}used`, { doctype: kind.doctype, name: one.name }).then((count) => {
 				dialog.fields_dict.used.$wrapper.html(

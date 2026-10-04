@@ -26,8 +26,8 @@ well as on the project's board.
 - **Milestones** — every milestone still to come, across projects.
 - **Tasks** — every task, in projects and out of them (OneTask's list).
 - **Timesheet** — the time people have logged.
-- Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
-  **Activity Cost** and **Projects Settings**. Projects Settings is the
+- Under **Setup**, **Project Template**, **Activity Type**, **Activity Cost**
+  and **Projects Settings**. Project types are in One's **Masters**. Projects Settings is the
   Projects Manager's: ERPNext keeps it for its System Manager (`access.py`).
 
 ## A project at a glance

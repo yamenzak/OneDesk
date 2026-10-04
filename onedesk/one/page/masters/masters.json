@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2026-10-04 12:00:00.000000",
+ "modified": "2026-10-04 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "masters",
@@ -12,6 +12,8 @@
  "page_name": "masters",
  "roles": [
   {"role": "Workspace Administrator"},
+  {"role": "Accounts Manager"},
+  {"role": "Projects Manager"},
   {"role": "Sales Manager"},
   {"role": "Stock Manager"},
   {"role": "Purchase Manager"},

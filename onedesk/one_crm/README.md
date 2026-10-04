@@ -269,9 +269,10 @@ the last contact and times the first reply. Anybody in sales may approve one.
 
 ## Setup
 
-**Territory**, **Customer Group**, **Sales Person**, **Sales Stage**, **Lead
-Source**, **Lead Assignment**, **Get in Touch Form** and **CRM Settings** are
-in the Setup group. **Campaigns** has Campaign, Email Campaign, Email Group
+**Sales Person**, **Sales Stage**, **Lead Assignment**, **Get in Touch Form**
+and **CRM Settings** are in the Setup group. Territories, customer groups,
+industries, market segments, lead sources and lost reasons are in One's
+**Masters**. **Campaigns** has Campaign, Email Campaign, Email Group
 and Campaign Efficiency. The workspace's mailboxes are in Settings › Mail.
 
 A Sales Manager runs Email Campaign, Email Group, Lead Source and Lead
