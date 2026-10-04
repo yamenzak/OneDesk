@@ -55,7 +55,9 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 	total = sum(row.n for row in counts)
 	done = sum(row.n for row in counts if row.status == "Completed")
 	open_ = [["project", "in", projects], ["status", "not in", DONE]]
-	late = frappe.db.count("Task", [*open_, ["exp_end_date", "<", today]])
+	# frappe reads a missing date as the earliest one, so a task with no due
+	# date would count as late.
+	late = frappe.db.count("Task", [*open_, ["exp_end_date", "is", "set"], ["exp_end_date", "<", today]])
 	milestone = frappe.get_all(
 		"Task",
 		filters=[*open_, ["is_milestone", "=", 1], ["exp_end_date", ">=", today]],
@@ -69,6 +71,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"tree": sorted(projects),
 		"tasks": total,
 		"done": done,
+		"statuses": {row.status: row.n for row in counts},
 		"share": share(done, total) if total else round(doc.percent_complete or 0),
 		"end": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"days_left": days_left(doc.expected_end_date, today, doc.status in ("Completed", "Cancelled")),

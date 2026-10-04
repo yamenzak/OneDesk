@@ -89,9 +89,10 @@ export const comment = (doctype, name, content) =>
 		comment_by: frappe().session.user_fullname,
 	});
 
-/** Desk's own upload dialog, attaching to a record. */
-export function upload(doctype, name, done) {
-	return new (frappe().ui.FileUploader)({ doctype, docname: name, on_success: done });
+/** Desk's own upload dialog, attaching to a record; `options` are the
+ * dialog's own (a `method` to send the file to, `restrictions`). */
+export function upload(doctype, name, done, options = {}) {
+	return new (frappe().ui.FileUploader)({ doctype, docname: name, on_success: done, ...options });
 }
 
 /** Hear when any record of a doctype changes, as a list view does. */

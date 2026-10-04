@@ -14,9 +14,9 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_months, flt, formatdate, get_first_day, get_fullname, getdate, nowdate
+from frappe.utils import add_days, add_months, flt, formatdate, get_first_day, get_fullname, getdate, nowdate
 
-from onedesk.one_project import billing, budget, kinds, money, overview, retainer, tree
+from onedesk.one_project import billing, budget, kinds, media, money, overview, retainer, tree
 
 #: How many of each list the Overview shows.
 SHOWN = 6
@@ -92,6 +92,11 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"money": cash,
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),
+		"progress": view["share"] if view["tasks"] or doc.percent_complete else None,
+		"days_left": view["days_left"],
+		"monthly_hours": flt(doc.get("one_monthly_hours")),
+		"cover": doc.get("one_cover"),
+		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
 	}
 
@@ -112,31 +117,33 @@ def contract(doc) -> str | None:
 
 
 def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
-	"""The kind's four figures, each with what it's of and a bar where there's
-	something to fill."""
-	done = {
-		"key": "done",
-		"value": f"{view['share']}%",
-		"note": _("{0} of {1} tasks").format(view["done"], view["tasks"]) if view["tasks"] else None,
-		"bar": view["share"],
+	"""The kind's figures, each with what it's of and a bar where there's
+	something to fill (docs/PROJECT-PAGE.md)."""
+	customer = {one["label"]: one["value"] for one in cash["customer"]}
+	paid = customer.get(_("Paid"), 0)
+	invoiced = {
+		"key": "invoiced",
+		"money": cash["invoiced"],
+		"note_money": [[_("Paid {0}"), [paid]]],
 	}
 	if kind == kinds.FIXED:
-		customer = {one["label"]: one["value"] for one in cash["customer"]}
-		paid = customer.get(_("Paid"), 0)
 		return [
+			{"key": "contract", "money": cash["contract"]},
 			{
-				"key": "contract",
-				"money": cash["contract"],
-				"note_money": [[_("Invoiced {0}"), [cash["invoiced"]]], [_("paid {0}"), [paid]]],
+				"key": "billed",
+				"value": f"{percent(cash['invoiced'], cash['contract'])}%",
+				"note_money": [[_("{0} invoiced"), [cash["invoiced"]]]],
 				"bar": share(cash["invoiced"], cash["contract"]),
 			},
 			{
 				"key": "cost",
 				"money": cash["spent"],
-				"note_money": [[_("{0} more on order"), [cash["open_orders"]]]]
+				"note_money": [[_("of {0} budget"), [cash["budget"]]]]
+				if cash["budget"]
+				else [[_("{0} more on order"), [cash["open_orders"]]]]
 				if cash["open_orders"]
 				else None,
-				"bar": share(cash["spent"], cash["spent"] + cash["open_orders"]),
+				"bar": share(cash["spent"], cash["budget"]) if cash["budget"] else None,
 				"tone": "alarm" if cash["budget"] and cash["forecast_cost"] > cash["budget"] else None,
 			},
 			{
@@ -147,57 +154,84 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 				else None,
 				"tone": "alarm" if cash["forecast_margin"] < 0 else None,
 			},
-			done,
 		]
-	if kind in (kinds.TIME, kinds.RETAINER):
-		hours = _month_hours(doc.name)
+	if kind == kinds.TIME:
 		waiting = billing.unbilled(doc.name)
-		customer = {one["label"]: one["value"] for one in cash["customer"]}
-		first = {
-			"key": "hours",
-			"hours": hours,
-			"note": _("of {0} h a month").format(f"{flt(doc.one_monthly_hours, 1):g}")
-			if kind == kinds.RETAINER and doc.one_monthly_hours
-			else None,
-			"bar": share(hours, doc.one_monthly_hours) if kind == kinds.RETAINER else None,
-			"tone": "alarm"
-			if kind == kinds.RETAINER and doc.one_monthly_hours and hours > doc.one_monthly_hours
-			else None,
-		}
-		second = {
-			"key": "unbilled",
-			"money": flt(waiting.get("amount")),
-			"note": _("{0} h").format(flt(waiting.get("hours"), 1)) if waiting.get("hours") else None,
-		}
-		if kind == kinds.RETAINER:
-			second = {
+		return [
+			{
+				"key": "unbilled",
+				"money": flt(waiting.get("amount")),
+				"note": _("{0} h").format(f"{flt(waiting.get('hours'), 1):g}")
+				if waiting.get("hours")
+				else None,
+			},
+			{"key": "hours", "hours": _month_hours(view["tree"])},
+			invoiced,
+			_budget_card(cash) if cash["budget"] else _done(view),
+		]
+	if kind == kinds.RETAINER:
+		hours = _month_hours([doc.name])
+		allowance = flt(doc.one_monthly_hours)
+		# A retainer's months that have ended without an invoice, at its fee.
+		late = retainer.waiting(doc.name) if doc.customer else []
+		return [
+			{
+				"key": "month",
+				"hours": hours,
+				"note": _("of {0} h").format(f"{allowance:g}") if allowance else None,
+				"bar": share(hours, allowance) if allowance else None,
+				"tone": "alarm" if allowance and hours > allowance else None,
+			},
+			{
 				"key": "fee",
 				"money": flt(doc.one_monthly_fee),
 				"note": _("Renews {0}").format(formatdate(add_months(get_first_day(nowdate()), 1))),
-			}
-		third = {
-			"key": "invoiced",
-			"money": cash["invoiced"],
-			"note_money": [[_("Paid {0}"), [customer.get(_("Paid"), 0)]]],
-		}
-		if kind == kinds.RETAINER:
-			# A retainer's months that have ended without an invoice, at its fee.
-			late = retainer.waiting(doc.name) if doc.customer else []
-			fourth = {
-				"key": "unbilled",
+			},
+			{
+				"key": "months_waiting",
 				"money": len(late) * flt(doc.one_monthly_fee),
-				"note": _("{0} months").format(len(late)) if len(late) > 1 else _("1 month") if late else None,
+				"note": _("{0} months").format(len(late))
+				if len(late) > 1
+				else _("1 month")
+				if late
+				else None,
 				"tone": "alarm" if late else None,
-			}
-			return [first, second, third, fourth]
-		return [first, second, third, _budget_card(cash) if cash["budget"] else done]
-	return [_budget_card(cash), {"key": "spent", "money": cash["spent"]}, done, _due(view)]
+			},
+			invoiced,
+		]
+	found = [
+		_done(view),
+		_due(view),
+		{
+			"key": "overdue",
+			"value": view["late"],
+			"note": _("of {0} open").format(view["tasks"] - view["done"])
+			if view["tasks"] > view["done"]
+			else None,
+			"tone": "alarm" if view["late"] else None,
+		},
+	]
+	return [*found, _budget_card(cash)] if cash["budget"] else found
+
+
+def percent(part: float, whole: float) -> int:
+	"""Part of a whole, out of 100, past 100 when it's more. Pure."""
+	return max(0, round(100 * flt(part) / flt(whole))) if flt(whole) else 0
+
+
+def _done(view: dict) -> dict:
+	return {
+		"key": "done",
+		"value": f"{view['share']}%",
+		"note": _("{0} of {1} tasks").format(view["done"], view["tasks"]) if view["tasks"] else None,
+		"bar": view["share"],
+	}
 
 
 def _budget_card(cash: dict) -> dict:
 	return {
 		"key": "budget",
-		"value": f"{share(cash['spent'], cash['budget'])}%",
+		"value": f"{percent(cash['spent'], cash['budget'])}%",
 		"note_money": [[_("{0} of {1}"), [cash["spent"], cash["budget"]]]] if cash["budget"] else None,
 		"bar": share(cash["spent"], cash["budget"]),
 		"tone": "alarm" if cash["budget"] and cash["spent"] > cash["budget"] else None,
@@ -222,43 +256,66 @@ def _due(view: dict) -> dict:
 
 
 def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
+	"""What the kind's Overview shows beyond its figures. Each thing is in
+	one place: what is in a section is not in Needs You as well."""
 	said = {
-		"needs": needs(doc, view),
-		"update": _latest_update(doc.name),
+		"needs": needs(doc, view, kind),
 		"sub_projects": _sub_projects(doc.name),
 	}
 	if kind in (kinds.FIXED, kinds.INTERNAL):
 		said["milestones"] = _milestones(view["tree"])
 	if kind == kinds.FIXED:
+		said["billing"] = {
+			"done": view["share"],
+			"billed": share(cash["invoiced"], cash["contract"]),
+			"paid": share(
+				{one["label"]: one["value"] for one in cash["customer"]}.get(_("Paid"), 0), cash["contract"]
+			),
+		}
+		said["budget"] = _budget_lines(doc.name)
 		said["subcontracts"] = cash["suppliers"][:SHOWN]
 		order = contract(doc)
-		said["retention"] = (
+		terms = (
 			frappe.db.get_value("Sales Order", order, ["one_retention", "one_retention_due"], as_dict=True)
 			if order
 			else None
 		)
+		held = {one["label"]: one["value"] for one in cash["customer"]}.get(_("Retention Held"), 0)
+		said["retention"] = (
+			{"percent": flt(terms.one_retention), "due": terms.one_retention_due, "held": held}
+			if terms and terms.one_retention
+			else None
+		)
 	if kind == kinds.RETAINER:
 		said["months"] = retainer.months(doc.name)
+		said["people"] = _people(doc.name)
 	if kind in (kinds.TIME, kinds.RETAINER):
 		said["weekly"] = view["weekly"]
 		said["activities"] = _activities(doc.name)
-		said["people"] = _people(doc.name)
+	if kind == kinds.TIME:
+		said["unbilled"] = _unbilled_people(doc.name)
+	if kind == kinds.INTERNAL:
+		said["statuses"] = view["statuses"]
+		said["due_soon"] = _due_soon(view["tree"])
+		said["on_it"] = _on_it(view["tree"])
 	return said
 
 
-def needs(doc, view: dict) -> list[dict]:
-	"""What wants somebody now, worst first: cost types over budget, bills to
-	check, time not invoiced from before this month, and late tasks."""
+def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
+	"""What wants somebody now, worst first: cost types over budget (where the
+	page has no budget section of its own), bills to check, and late tasks. A
+	retainer's months and the time not invoiced have sections of their own."""
 	found = []
-	for one in budget._lines(doc.name):
-		if one["left"] < 0:
-			found.append(
-				{
-					"tone": "red",
-					"text": _("{0} is over budget").format(one["cost_type"]),
-					"money": one["left"],
-				}
-			)
+	if kind != kinds.FIXED:
+		for one in budget._lines(doc.name):
+			if one["left"] < 0:
+				found.append(
+					{
+						"tone": "red",
+						"text": _("{0} is over budget").format(one["cost_type"]),
+						"money": one["left"],
+					}
+				)
 	for doctype in ("Purchase Invoice", "Sales Invoice"):
 		if not frappe.has_permission(doctype, "read"):
 			continue
@@ -285,37 +342,14 @@ def needs(doc, view: dict) -> list[dict]:
 					"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/{bill.name}",
 				}
 			)
-	if doc.get("one_kind") == kinds.RETAINER and doc.customer:
-		# A retainer's time is billed by the month, with the fee: a month that
-		# has ended without an invoice is what's waiting, not its hours.
-		for month in retainer.waiting(doc.name):
-			starts = getdate(month)
-			found.append(
-				{
-					"tone": "orange",
-					"text": _("{0} not invoiced").format(_(starts.strftime("%B")) + starts.strftime(" %Y")),
-					"money": flt(doc.one_monthly_fee),
-					"action": "invoice_month",
-					"month": month,
-				}
-			)
-	before = billing.unbilled(doc.name)
-	if flt(before.get("hours")) and doc.get("one_kind") == kinds.TIME:
-		found.append(
-			{
-				"tone": "orange",
-				"text": _("Time not invoiced yet"),
-				"dim": _("{0} h").format(flt(before.get("hours"), 1)),
-				"money": flt(before.get("amount")),
-				"action": "invoice_time",
-			}
-		)
 	today = nowdate()
 	for task in frappe.get_list(
 		"Task",
 		filters=[
 			["project", "in", view["tree"]],
 			["status", "not in", overview.DONE],
+			# frappe reads a missing date as the earliest one.
+			["exp_end_date", "is", "set"],
 			["exp_end_date", "<", today],
 		],
 		fields=["name", "subject", "exp_end_date", "_assign"],
@@ -333,6 +367,86 @@ def needs(doc, view: dict) -> list[dict]:
 			}
 		)
 	return found[: SHOWN + 2]
+
+
+def _budget_lines(project: str) -> list[dict]:
+	"""Each cost type's budget and what is spent and ordered against it."""
+	return [
+		{
+			"cost_type": one["cost_type"],
+			"budget": one["budget"],
+			"used": one["spent"] + one["committed"],
+			"left": one["left"],
+		}
+		for one in budget._lines(project)
+	][:SHOWN]
+
+
+def _due_soon(projects: list[str]) -> list[dict]:
+	"""Open tasks due in the next two weeks, soonest first."""
+	today = getdate(nowdate())
+	rows = frappe.get_list(
+		"Task",
+		filters=[
+			["project", "in", projects],
+			["status", "not in", overview.DONE],
+			["exp_end_date", ">=", str(today)],
+			["exp_end_date", "<=", str(add_days(today, 14))],
+		],
+		fields=["name", "subject", "exp_end_date", "_assign"],
+		order_by="exp_end_date asc",
+		limit=SHOWN,
+	)
+	return [
+		{
+			"name": one.name,
+			"subject": one.subject,
+			"due": str(getdate(one.exp_end_date)),
+			"who": (lambda people: get_fullname(people[0]) if people else None)(
+				frappe.parse_json(one._assign or "[]")
+			),
+		}
+		for one in rows
+	]
+
+
+def _on_it(projects: list[str]) -> list[dict]:
+	"""Who has open tasks on the project, most first."""
+	found: dict = {}
+	for one in frappe.get_list(
+		"Task",
+		filters=[["project", "in", projects], ["status", "not in", overview.DONE]],
+		fields=["_assign"],
+		limit_page_length=0,
+	):
+		for user in frappe.parse_json(one._assign or "[]"):
+			found[user] = found.get(user, 0) + 1
+	return [
+		{"user": user, "name": get_fullname(user), "tasks": n}
+		for user, n in sorted(found.items(), key=lambda one: -one[1])[:SHOWN]
+	]
+
+
+def _unbilled_people(project: str) -> list[dict]:
+	"""The billable time not invoiced yet, by who logged it."""
+	rows = billing._rows(project)
+	names = dict(
+		frappe.get_all(
+			"Timesheet",
+			filters={"name": ["in", list({row.time_sheet for row in rows})]},
+			fields=["name", "employee_name"],
+			as_list=True,
+		)
+	)
+	found: dict = {}
+	for row in rows:
+		one = found.setdefault(names.get(row.time_sheet) or _("Other"), {"hours": 0.0, "amount": 0.0})
+		one["hours"] += flt(row.billing_hours)
+		one["amount"] += flt(row.billing_amount)
+	return sorted(
+		({"name": key, "hours": round(v["hours"], 1), "amount": v["amount"]} for key, v in found.items()),
+		key=lambda one: (-one["amount"], -one["hours"]),
+	)[:SHOWN]
 
 
 def _milestones(projects: list[str]) -> list[dict]:
@@ -377,13 +491,15 @@ def _sub_projects(project: str) -> list[dict]:
 	]
 
 
-def _month_hours(project: str) -> float:
+def _month_hours(projects: list[str]) -> float:
+	"""This month's hours on the projects, as Hours by Week counts them."""
 	rows = frappe.get_list(
 		"Timesheet Detail",
 		parent_doctype="Timesheet",
 		filters=[
-			["Timesheet Detail", "project", "=", project],
+			["Timesheet Detail", "project", "in", projects],
 			["Timesheet Detail", "from_time", ">=", str(get_first_day(nowdate()))],
+			["Timesheet Detail", "from_time", "<", str(get_first_day(add_months(nowdate(), 1)))],
 			["Timesheet", "docstatus", "<", 2],
 		],
 		fields=["hours"],
@@ -406,16 +522,19 @@ def _time_rows(project: str) -> list:
 		fields=["parent", "activity_type", "hours", "billing_amount"],
 		limit_page_length=0,
 	)
-	users = dict(
-		frappe.get_all(
+	sheets = {
+		one.name: one
+		for one in frappe.get_all(
 			"Timesheet",
 			filters={"name": ["in", list({row.parent for row in rows})]},
-			fields=["name", "user"],
-			as_list=True,
+			fields=["name", "user", "employee", "employee_name"],
 		)
-	)
+	}
 	for row in rows:
-		row.user = users.get(row.parent)
+		sheet = sheets.get(row.parent) or frappe._dict()
+		# A timesheet is the employee's; the user is there only when they have one.
+		row.user = sheet.user or sheet.employee
+		row.who = get_fullname(sheet.user) if sheet.user else sheet.employee_name
 	return rows
 
 
@@ -433,11 +552,13 @@ def _activities(project: str) -> list[dict]:
 
 def _people(project: str) -> list[dict]:
 	found: dict = {}
+	names: dict = {}
 	for row in _time_rows(project):
 		if row.user:
 			found[row.user] = found.get(row.user, 0.0) + flt(row.hours)
+			names[row.user] = row.who
 	return [
-		{"user": user, "name": get_fullname(user), "hours": round(hours, 1)}
+		{"user": user, "name": names[user] or user, "hours": round(hours, 1)}
 		for user, hours in sorted(found.items(), key=lambda one: -one[1])[:SHOWN]
 	]
 

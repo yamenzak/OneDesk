@@ -2,7 +2,7 @@
   <Page>
     <Loading v-if="!said" />
     <template v-else>
-      <Header :said="said" :progress="progress" @change="changeProject" />
+      <Header :said="said" :progress="progress" @change="changeProject" @media="load" />
 
       <!-- The views, as monday's and Asana's: each opens in place, and the
            task views share one toolbar. -->
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <Overview v-if="view === 'overview'" :said="said" @changed="load" />
+      <Overview v-if="view === 'overview'" :said="said" @changed="load" @view="(now) => (view = now)" />
       <template v-else-if="taskView">
         <Loading v-if="!work" />
         <Tasks v-else-if="view === 'tasks'" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
@@ -113,7 +113,11 @@ watch(
     said.value = null;
     opened.value = null;
     if (!now) return;
-    stop = [follow("Project", now, load), listen("one_project_money", (data) => data.project === now && load())];
+    stop = [
+      follow("Project", now, load),
+      listen("one_project_money", (data) => data.project === now && load()),
+      listen("one_project_media", (data) => data.project === now && load()),
+    ];
     load();
     loadWork();
   },
@@ -166,8 +170,7 @@ const groups = computed(() => (work.value ? groupTasks(work.value, shown.value, 
 const team = computed(() => [...new Set([...(said.value?.team || []).map((one) => one.user), ...Object.keys(work.value?.people || {})])]);
 // One figure for how far along it is, the same the Done figure shows.
 const progress = computed(() => {
-  const done = said.value?.cards?.find((card) => card.key === "done");
-  if (done) return done.bar ?? null;
+  if (said.value?.progress !== undefined && said.value.progress !== null) return said.value.progress;
   if (!work.value?.tasks.length) return null;
   const all = work.value.tasks.filter((one) => one.status !== "Cancelled");
   return all.length ? Math.floor((100 * all.filter((one) => one.status === "Completed").length) / all.length) : null;

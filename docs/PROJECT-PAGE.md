@@ -45,13 +45,22 @@ It is laid out as monday and Asana lay out a project: a head that says what
 the project is and how it's going, then views of the same work.
 
 - **Desk's head**: Projects / name, **···**, and the kind's main action.
-- **The project's head**: the kind's icon, the name (click to rename), the
-  status and health as pills that change in place, customer, dates,
-  manager, how far along, and the team.
+- **The project's head**: the cover from Featured Media (one_project/
+  media.py) with the next few beside it, opening the rest in frappe-ui's
+  Dialog; the kind's icon, the name (click to rename), the status and
+  health as pills that change in place, and the team. The rest is the
+  kind's: the contract on a Fixed Price project, when it started and the
+  hours a month on a Retainer, days left on an Internal one. **Add Cover**
+  opens frappe's upload dialog with media.py's `add` as its method.
 - **Views**, in one bar under the head, kept in `?view=`:
-  - **Overview**: the brief, the kind's four figures, milestones, updates
-    with a box to post one, and hours by week; Needs You, About,
-    sub-projects, subcontracts and who logged time beside it.
+  - **Overview**: laid out for the kind, each thing once. The brief when
+    written, the kind's figures, then Fixed Price: Work and Billing,
+    Budget, Milestones (Subcontracts and Retention beside). Time and
+    Materials: Hours by Week, Not Invoiced Yet by person (By Activity
+    beside). Retainer: Months, Hours by Week (By Person and By Activity
+    beside). Internal: Tasks by status, Milestones, Due Soon (Who's On It
+    beside). Updates is the latest one and a line to post the next; Needs
+    You, About and sub-projects are on every kind.
   - **Tasks**: monday's table. One group per project in the tree (or by
     status, owner or due date), each with its colour, count and an **Add
     Task** row. Owner, status, due date and priority change in the row. A
@@ -100,7 +109,8 @@ the project is and how it's going, then views of the same work.
 - Changes are frappe's: `set_value`, `insert` and `assign_to` for tasks and
   the project; the form behind Edit Details for the rest. The page follows
   the project through `doc_subscribe` and `doc_update`, the tasks through
-  `list_update`, and money through `one_project_money`.
+  `list_update`, money through `one_project_money` and the cover through
+  `one_project_media`.
 - Permissions are the record's: whoever may read the project sees the page;
   whoever may write it or its tasks may change them in place; each action
   shows only to whoever may do it.
@@ -113,5 +123,7 @@ the project is and how it's going, then views of the same work.
 3. **Money and Suppliers** on the page; the form's Costing tab goes. Done.
 4. **Tasks, Schedule, Time, Invoices, Team, Files, Activity** tabs. Done.
 5. **Retainer**: the monthly allowance and Invoice Month. Done.
+6. **Per kind**: the head and Overview laid out for each kind, the cover and
+   Featured Media in the head. Done.
 6. **Phone layout, OneAI** (`where`, suggestions by kind), **README,
    notifications, translations**. Done.

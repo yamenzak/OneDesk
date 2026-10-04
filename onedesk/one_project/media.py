@@ -88,7 +88,9 @@ def settle_cover(project: str, without: str | None = None) -> None:
 	cover = cover_of(project, without)
 	if frappe.db.get_value("Project", project, "one_cover") != cover:
 		frappe.db.set_value("Project", project, "one_cover", cover, update_modified=False)
-	frappe.publish_realtime("one_project_media", {"project": project}, doctype="Project", docname=project, after_commit=True)
+	frappe.publish_realtime(
+		"one_project_media", {"project": project}, doctype="Project", docname=project, after_commit=True
+	)
 
 
 def changed(doc, method=None) -> None:
@@ -128,6 +130,10 @@ def feature(name: str, on: bool) -> None:
 def featured(project: str) -> list[dict]:
 	"""What the project is shown with, newest first: for its page and portal."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
+	return shown(project)
+
+
+def shown(project: str) -> list[dict]:
 	return [
 		{
 			"name": one.name,
@@ -139,3 +145,21 @@ def featured(project: str) -> list[dict]:
 		for one in rows(project)
 		if kind_of(one.file_name)
 	]
+
+
+@frappe.whitelist(methods=["POST"])
+def add() -> dict:
+	"""frappe's upload dialog on the project's page, sent here (its `method`):
+	the file goes in the project's Featured Media. frappe's upload_file has
+	read the file and checked the project may be written to."""
+	from onedesk.one_storage import api, upload
+
+	content = getattr(frappe.local, "uploaded_file", None)
+	if content is None:
+		frappe.throw(_("Choose a photo or a video from your computer."))
+	project = frappe.form_dict.docname
+	if frappe.form_dict.doctype != "Project" or not project:
+		frappe.throw(_("Photos and videos are added to a project."))
+	name = api._clean(frappe.local.uploaded_filename) or "file"
+	upload._place(node(project), None, {"file_name": name, "content": content})
+	return {"project": project}

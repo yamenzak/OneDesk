@@ -111,13 +111,27 @@ Featured Media; whoever may see the project sees it.
 
 ## A project's page
 
-Opening a project opens its page. At the top are its name, kind, status and
-health, the customer, the dates, the manager, how far along it is, and the
-team. Click the name to rename it; click the status or health to change it.
+Opening a project opens its page. At the top are its cover and Featured
+Media, its name, kind, status and health, and the team. What else the top
+shows depends on the kind:
+
+- **Fixed Price**: the customer, the contract, the dates, the manager and how
+  far along it is.
+- **Time and Materials**: the customer, the dates, the manager and how far
+  along it is.
+- **Retainer**: the customer, when it started, the hours a month and the
+  manager.
+- **Internal**: the dates, how many days are left (or how late it is), the
+  manager and how far along it is.
+
+Click the name to rename it; click the status or health to change it. With
+no photos yet, **Add Cover** puts one in Featured Media. Click the cover to
+see every photo and video, add more, or open the folder in OneCloud.
 
 Below are its views, and the page remembers which one is open:
 
-- **Overview**: the brief, four figures, milestones, updates and Needs You.
+- **Overview**: the project's figures and what its kind is run by, with
+  updates and Needs You.
 - **Tasks**: every task, as a table grouped by project, status, owner or due
   date, as a board in columns by status, or as a timeline across the weeks.
 - **Time**: every hour logged on the project, with **Log Time**.
@@ -137,38 +151,43 @@ the day, who and the hours on **Time**, the person and their open tasks on
 
 ### Overview
 
-The four figures are picked by the kind:
+The Overview is laid out for the kind, and each thing on it shows once.
 
-- **Fixed Price**: **Contract** (invoiced and paid so far), **Cost** (and
-  what's still on order), **Forecast Margin** and **Done**.
-- **Time and Materials**: **Hours This Month**, **Not Invoiced Yet**,
-  **Invoiced** and **Budget Used**.
-- **Retainer**: **Hours This Month** out of the hours a month, **Monthly
-  Fee** and when it renews, **Invoiced**, and **Not Invoiced Yet** (the fee
-  for each month that has ended without an invoice).
-- **Internal**: **Budget Used**, **Spent**, **Done** and **Due**.
+- **Fixed Price**: **Contract**, **Billed** (how much of the contract is
+  invoiced), **Cost** against the budget, and **Forecast Margin**. Under
+  them, **Work and Billing** puts the work done beside what's billed and
+  paid, **Budget** shows each cost type, and **Milestones**. On the right,
+  **Subcontracts** and **Retention**.
+- **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
+  **Invoiced** and **Budget Used** (or **Done** with no budget). Under them,
+  **Hours by Week**, and **Not Invoiced Yet** by person with **Invoice
+  Time**. On the right, **By Activity**.
+- **Retainer**: **This Month** against the hours a month, **Monthly Fee**
+  and when it renews, **Months Not Invoiced**, and **Invoiced**. Under them,
+  **Months** and **Hours by Week**. On the right, **By Person** and **By
+  Activity**.
+- **Internal**: **Done**, **Due**, **Overdue Tasks**, and **Budget Used**
+  when it has a budget. Under them, **Tasks** by status, **Milestones** and
+  **Due Soon** (the next two weeks). On the right, **Who's On It**.
 
 A figure turns red when something's wrong: cost heading over budget, a
 margin below zero, more hours than the retainer covers, a late end date.
+**Budget Used** shows the real share, past 100% when it's over.
 
-**Needs You** lists what needs someone now: cost types over budget, bills
-drafted by Bill Progress to check, time not invoiced yet, and late tasks.
-**Updates** is where the team says how it's going: pick On Track, At Risk
-or Off Track, write the update, and **Post Update**. A Fixed Price or
-Internal project also shows its milestones and subcontracts; a Time and
-Materials or Retainer project shows hours by week, hours by activity, and
-who logged them.
+**Needs You** lists what needs someone now: cost types over budget (on a
+Fixed Price project they're in **Budget** instead), bills drafted by Bill
+Progress to check, and late tasks. **About** has the facts, and **Add
+Brief** while the project has no brief; once written, the brief is at the
+top.
 
-**Health** is set by hand, because a project can be in trouble before the
-numbers show it. A project with sub-projects counts them all: the villa's
-cost includes the windows and the handrails.
+**Updates** shows the latest update. Write the next one on the line under
+it, pick On Track, At Risk or Off Track beside it, and **Post**.
 
 ### A retainer's months
 
 A Retainer's **Overview** lists its months, newest first, from the one it
 starts in: the hours used of the month's allowance, any over, and the
-month's invoice. A month that has ended without one has **Invoice Month**,
-and shows under **Needs You** too.
+month's invoice. A month that has ended without one has **Invoice Month**.
 
 **Invoice Month** (also the page's main button) asks for the month and the
 item to invoice it as. It shows the hours used of the allowance, and any on

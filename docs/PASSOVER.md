@@ -7522,6 +7522,42 @@ folder: the photos and videos the project is shown with.
   lands in the project.
 
 
+**The page per kind.** Every kind had the same page: the brief box empty at the
+top, four figures, a full update form, and Needs You repeating what sections
+already showed.
+
+- The head has the cover from Featured Media with the next three beside it,
+  opening the rest in frappe-ui's Dialog with **Add Photos** and **Open
+  Folder**. With none yet, **Add Cover** opens frappe's upload dialog, sending
+  the file to Featured Media (`media.add` as its `method`). The rest of the
+  head is the kind's: the contract on Fixed Price, the start and hours a month
+  on a Retainer (no progress bar, since it doesn't end), days left on Internal.
+- The Overview is laid out per kind, each thing once:
+  - Fixed Price: Contract, Billed, Cost against the budget, Forecast Margin;
+    Work and Billing (done, billed, paid), Budget by cost type, Milestones;
+    Subcontracts and Retention (held, rate, due) beside.
+  - Time and Materials: Not Invoiced Yet, Hours This Month, Invoiced, Budget
+    Used; Hours by Week, Not Invoiced Yet by person with Invoice Time; By
+    Activity beside.
+  - Retainer: This Month, Monthly Fee, Months Not Invoiced, Invoiced; Months
+    (the one place a month waiting for its invoice shows), Hours by Week; By
+    Person and By Activity beside.
+  - Internal: Done, Due, Overdue Tasks, Budget Used with a budget; Tasks by
+    status as one bar, Milestones, Due Soon; Who's On It beside.
+- Needs You keeps cost types over budget (not on Fixed Price, where Budget
+  shows them), bills to check and late tasks.
+- The brief shows only once written; until then **Add Brief** is under About.
+- Updates is the latest update and one line to post the next, with the health
+  beside it; earlier ones open under it.
+- Budget Used read 100% at most. It now says the real share, 156% when over.
+- Hours This Month counted this project only, Hours by Week its whole tree,
+  and nothing said the chart was twelve weeks. Both count the tree; the chart
+  says "5.5 h in 12 weeks".
+- A task with no due date counted as late, in Needs You and in the late
+  count: frappe reads a missing date as the earliest one. Both ask for a date.
+- By Person was empty on a retainer whose timesheets have an employee and no
+  user. It now names the employee.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

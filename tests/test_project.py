@@ -934,7 +934,11 @@ def test_a_retainer_is_invoiced_by_the_month():
 	custom = json.loads((PROJECT / "custom" / "sales_invoice.json").read_text())
 	assert "one_retainer_month" in {one["fieldname"] for one in custom["custom_fields"]}
 	view = (PROJECT / "view.py").read_text()
-	assert 'said["months"] = retainer.months(doc.name)' in view and '"action": "invoice_month"' in view
+	assert 'said["months"] = retainer.months(doc.name)' in view
+	# A month waiting for its invoice has Invoice Month in Months, the one
+	# place it shows.
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert "onedesk().project.invoice_month(frm(), month)" in overview
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert "desk().project.invoice_month(frm())" in page
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
@@ -1126,3 +1130,37 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	# The portal shows it; the agreements say who can open it.
 	assert '"media": [' in (PROJECT / "portal.py").read_text()
 	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
+
+
+def test_a_projects_page_is_laid_out_for_its_kind():
+	space = _load(PROJECT / "view.py", ("percent",), flt=float)
+	percent = space["percent"]
+	# Budget Used says the real share, past 100 when over; a bar stops at 100.
+	assert percent(156, 100) == 156 and percent(5, 0) == 0 and percent(-5, 10) == 0
+	view = (PROJECT / "view.py").read_text()
+	assert '"value": f"{percent(cash[\'spent\'], cash[\'budget\'])}%"' in view
+	# A task with no due date is not late: frappe reads a missing date as the
+	# earliest one, so the date is asked for.
+	assert view.count('["exp_end_date", "is", "set"],\n\t\t\t["exp_end_date", "<", today]') == 1
+	assert '["exp_end_date", "is", "set"], ["exp_end_date", "<", today]' in (PROJECT / "overview.py").read_text()
+	# Each thing shows once: a retainer's months and time not invoiced have
+	# sections of their own, and a Fixed Price project's budget is its own.
+	needs = view[view.index("def needs(") : view.index("def _budget_lines(")]
+	assert "retainer.waiting" not in needs and "billing.unbilled" not in needs
+	assert "if kind != kinds.FIXED:" in needs
+	# This month's hours are the tree's, as Hours by Week counts them.
+	assert '{"key": "hours", "hours": _month_hours(view["tree"])}' in view
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	for kind in ("'Fixed Price'", "'Time and Materials'", "'Retainer'"):
+		assert f'kind === {kind}' in overview
+	assert '<Section v-if="said.notes"' in overview and "__('Add Brief')" in overview
+	assert "<Updates " in overview
+	# The head shows the cover and the rest of Featured Media, and adds to it
+	# through frappe's upload dialog.
+	header = (tree.ROOT / "frontend" / "src" / "project" / "Header.vue").read_text()
+	assert 'method: "onedesk.one_project.media.add"' in header and '"image/*", "video/*"' in header
+	assert '"media": media.shown(doc.name)' in view
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert 'listen("one_project_media"' in page
+	media = (PROJECT / "media.py").read_text()
+	assert '@frappe.whitelist(methods=["POST"])\ndef add()' in media and "upload._place(node(project)" in media
