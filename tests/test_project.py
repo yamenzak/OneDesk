@@ -828,7 +828,7 @@ def test_a_project_opens_on_its_own_page():
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in view
 	# Every kind has its cards; Money and Suppliers show for whoever may see
 	# them, Suppliers where a Fixed Price project expects subcontracts.
-	assert "def views(kind: str, cash: dict)" in view and '"views": views(kind, cash)' in view
+	assert "def views(kind: str, cash: dict, customer" in view and '"views": views(kind, cash, doc.customer)' in view
 	assert 'frappe.has_permission("Purchase Order", "read")' in view
 	script = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert '"onedesk.one_project.view.said"' in script
@@ -843,3 +843,44 @@ def test_a_project_opens_on_its_own_page():
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
 	loader = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
 	assert "/assets/onedesk/js/project_actions.js" in loader and 'island: "onedesk.project"' in loader
+
+
+def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
+	from datetime import date, datetime, time as clock
+
+	space = _load(PROJECT / "hours.py", ("state", "after", "DAY_STARTS"), time=clock, datetime=datetime)
+	state = space["state"]
+	assert state(0, True, None) == "Draft" and state(1, True, "SINV-1") == "Invoiced"
+	assert state(1, True, None) == "To Invoice" and state(1, False, None) == "Not Billable"
+	# A hand-logged entry starts after the day's last one, so none overlap.
+	space.update(
+		getdate=lambda value: value.date() if isinstance(value, datetime) else value, get_datetime=lambda value: value
+	)
+	after = space["after"]
+	day = date(2026, 10, 5)
+	empty = _Row(time_logs=[])
+	assert after(empty, day) == datetime(2026, 10, 5, 9, 0)
+	busy = _Row(time_logs=[_Row(to_time=datetime(2026, 10, 5, 12, 30)), _Row(to_time=datetime(2026, 10, 4, 18, 0))])
+	assert after(busy, day) == datetime(2026, 10, 5, 12, 30)
+
+	hours = (PROJECT / "hours.py").read_text()
+	team = (PROJECT / "team.py").read_text()
+	billing = (PROJECT / "billing.py").read_text()
+	# Each reads as the reader reads the records behind it, and changes only
+	# what the reader may change.
+	for source in (hours, team, billing):
+		assert 'frappe.has_permission("Project", "read"' in source
+	assert 'parent_doctype="Timesheet"' in hours and 'frappe.has_permission("Timesheet", "create", throw=True)' in hours
+	assert "timer._this_week(frappe.session.user)" in hours
+	assert team.count('doc.check_permission("write")') == 2 and "doc.save()" in team
+	assert "ignore_permissions" not in hours + team
+	assert 'parent_doctype="Sales Invoice"' in billing and 'frappe.has_permission("Sales Invoice", "read")' in billing
+	view = (PROJECT / "view.py").read_text()
+	for shown in ('shown.append("time")', 'shown.append("invoices")', 'shown.append("team")'):
+		assert shown in view
+	island = tree.ROOT / "frontend" / "src" / "project"
+	assert '"onedesk.one_project.hours.entries"' in (island / "Time.vue").read_text()
+	assert '"onedesk.one_project.billing.invoices"' in (island / "Invoices.vue").read_text()
+	assert '"onedesk.one_project.team.team"' in (island / "Team.vue").read_text()
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.log_time" in actions and "onedesk.project.add_member" in actions

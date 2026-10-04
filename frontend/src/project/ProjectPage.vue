@@ -7,7 +7,7 @@
       <!-- The views, as monday's and Asana's: each opens in place, and the
            task views share one toolbar. -->
       <div class="sticky top-0 z-10 mt-4 flex flex-wrap items-center gap-x-2 border-b border-outline-gray-2 bg-surface-base">
-        <Tabs v-model="view">
+        <Tabs v-model="tab">
           <TabList class="border-0">
             <TabTrigger v-for="one in VIEWS" :key="one.key" :value="one.key" :label="one.label" :icon-left="one.icon">
               <template v-if="one.count" #suffix><span class="ms-1 text-sm text-ink-gray-5">{{ one.count }}</span></template>
@@ -15,6 +15,7 @@
           </TabList>
         </Tabs>
         <div v-if="taskView" class="ms-auto flex items-center gap-2 py-2">
+          <TabButtons v-model="view" :options="LAYOUTS" />
           <TextInput v-model="search" size="sm" class="w-44" :placeholder="__('Search')">
             <template #prefix><span class="lucide-search size-4 text-ink-gray-5" /></template>
           </TextInput>
@@ -33,7 +34,10 @@
         <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
         <Timeline v-else :work="work" :groups="groups" @open="open" />
       </template>
+      <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :currency="said.currency" :tree="tree" />
       <Money v-else-if="view === 'money'" :said="said" @changed="load" />
+      <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :customer="said.customer" :currency="said.currency" />
+      <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />
       <Suppliers v-else-if="view === 'suppliers'" :said="said" />
       <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
       <Activity v-else-if="view === 'activity'" :key="said.name" doctype="Project" :name="said.name" />
@@ -50,17 +54,20 @@
 // desk does. Desk's own page head above it carries the main action and the
 // rest (onedesk.island_page), from what `report` says.
 import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
-import { Button, Dropdown, TabList, Tabs, TabTrigger, TextInput } from "frappe-ui";
+import { Button, Dropdown, TabButtons, TabList, Tabs, TabTrigger, TextInput } from "frappe-ui";
 
 import { Loading, Page, __, call, can, follow, go, listen, newDoc, onedesk, setQuery, setValue } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
+import Invoices from "./Invoices.vue";
 import Money from "./Money.vue";
 import Overview from "./Overview.vue";
 import Suppliers from "./Suppliers.vue";
 import TaskPanel from "./TaskPanel.vue";
+import Team from "./Team.vue";
 import Tasks from "./Tasks.vue";
+import Time from "./Time.vue";
 import Timeline from "./Timeline.vue";
 import { groupTasks, visible } from "./group";
 import { useWork } from "./useWork";
@@ -116,23 +123,39 @@ watch(view, (now) => setQuery("view", now === "overview" ? null : now));
 watch(() => props.query.view, (now) => now && (view.value = now));
 
 const taskView = computed(() => ["tasks", "board", "timeline"].includes(view.value));
-const VIEWS = computed(() => [
-  { key: "overview", label: __("Overview"), icon: "lucide-layout-dashboard" },
-  { key: "tasks", label: __("Tasks"), icon: "lucide-list-checks", count: count.value || null },
-  { key: "board", label: __("Board"), icon: "lucide-kanban" },
-  { key: "timeline", label: __("Timeline"), icon: "lucide-chart-gantt" },
-  // Money and Suppliers only for whoever may see them, and Suppliers where
-  // there are subcontracts or a Fixed Price project expects them (view.py).
-  ...(said.value?.views.includes("money") ? [{ key: "money", label: __("Money"), icon: "lucide-wallet" }] : []),
-  ...(said.value?.views.includes("suppliers")
-    ? [{ key: "suppliers", label: __("Suppliers"), icon: "lucide-truck", count: said.value.money.suppliers.length || null }]
-    : []),
-  { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
-  { key: "activity", label: __("Activity"), icon: "lucide-activity" },
-]);
+// The views in the bar. Board and Timeline are the tasks laid out another way,
+// as monday's views of a board are, so they sit under Tasks and its switch.
+const LAYOUTS = [
+  { value: "tasks", label: __("Table"), icon: "lucide-table" },
+  { value: "board", label: __("Board"), icon: "lucide-kanban" },
+  { value: "timeline", label: __("Timeline"), icon: "lucide-chart-gantt" },
+];
+const allowed = (key) => said.value?.views.includes(key);
+const VIEWS = computed(() =>
+  [
+    { key: "overview", label: __("Overview"), icon: "lucide-layout-dashboard" },
+    { key: "tasks", label: __("Tasks"), icon: "lucide-list-checks", count: count.value || null },
+    // Each of these only for whoever may see it (view.py `views`).
+    allowed("time") && { key: "time", label: __("Time"), icon: "lucide-clock" },
+    allowed("money") && { key: "money", label: __("Money"), icon: "lucide-wallet" },
+    allowed("invoices") && { key: "invoices", label: __("Invoices"), icon: "lucide-receipt" },
+    allowed("suppliers") && { key: "suppliers", label: __("Suppliers"), icon: "lucide-truck", count: said.value.money.suppliers.length || null },
+    allowed("team") && { key: "team", label: __("Team"), icon: "lucide-users" },
+    { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
+    { key: "activity", label: __("Activity"), icon: "lucide-activity" },
+  ].filter(Boolean)
+);
+// The tab shown as chosen: Tasks for any of its layouts, which it reopens on.
+const layout = ref(["board", "timeline"].includes(props.query.view) ? props.query.view : "tasks");
+watch(view, (now) => taskView.value && (layout.value = now));
+const tab = computed({
+  get: () => (taskView.value ? "tasks" : view.value),
+  set: (now) => (view.value = now === "tasks" ? layout.value : now),
+});
+const tree = computed(() => (work.value?.groups || []).map((one) => one.key));
 
 // A view the reader may not see (Money, Suppliers) opens Overview instead.
-watch(VIEWS, (now) => said.value && !now.some((one) => one.key === view.value) && (view.value = "overview"));
+watch(VIEWS, (now) => said.value && !now.some((one) => one.key === tab.value) && (view.value = "overview"));
 
 const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Owner"), due: __("Due Date") });
 const groupLabel = computed(() => GROUPS()[groupBy.value]);

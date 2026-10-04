@@ -22,15 +22,23 @@ from onedesk.one_project import billing, budget, kinds, money, overview, tree
 SHOWN = 6
 
 #: The tabs each kind has, in order, as far as they are built.
-def views(kind: str, cash: dict) -> list[str]:
-	"""The views the page shows beyond Overview and the tasks: Money when the
-	reader may see any of it, Suppliers when there are subcontracts or the
-	project is a Fixed Price one, which is where they're expected."""
+def views(kind: str, cash: dict, customer: str | None = None) -> list[str]:
+	"""The views the page shows beyond Overview, the tasks, Files and
+	Activity, each for whoever may see what it shows: Time to whoever may read
+	timesheets; Money when the reader may see any of it; Invoices on a project
+	with a customer, to whoever may read invoices; Suppliers where there are
+	subcontracts or the project is a Fixed Price one, which is where they're
+	expected; and Team to everyone."""
 	shown = []
+	if frappe.has_permission("Timesheet", "read"):
+		shown.append("time")
 	if cash["customer"] or cash["cost"]:
 		shown.append("money")
+	if customer and frappe.has_permission("Sales Invoice", "read"):
+		shown.append("invoices")
 	if cash["suppliers"] or (kind == kinds.FIXED and frappe.has_permission("Purchase Order", "read")):
 		shown.append("suppliers")
+	shown.append("team")
 	return shown
 
 
@@ -75,7 +83,7 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"contract": contract(doc),
 		"currency": cash["currency"],
 		"can_write": bool(frappe.has_permission("Project", "write", doc=doc)),
-		"views": views(kind, cash),
+		"views": views(kind, cash, doc.customer),
 		"money": cash,
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),

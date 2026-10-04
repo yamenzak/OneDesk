@@ -7267,6 +7267,41 @@ the form's Costing tab. It is now two views in the page's bar.
   (Internal): every figure; changing the budget (then putting it back);
   Add Cost Type and Bill Progress opening desk's dialogs.
 
+**Stage 4: Time, Invoices and Team.** The last three views a project needed,
+and Board and Timeline folded into Tasks.
+
+- **Tasks** has a switch for **Table**, **Board** and **Timeline** (frappe-ui's
+  TabButtons), as monday's views of one board, so the bar holds the views
+  that show different things: Overview, Tasks, Time, Money, Invoices,
+  Suppliers, Team, Files, Activity. `?view=board` and `?view=timeline` still
+  open those layouts.
+- **Time** (`hours.py`): the tree's timesheet entries with where each stands
+  (Draft, To Invoice, Invoiced, Not Billable), figures for this month, all
+  time, to invoice and invoiced, filters for To Invoice and Draft, and **Log
+  Time**. Log Time writes into the reader's draft timesheet for the week, the
+  one the task timer writes into, after the day's last entry so two never
+  overlap. **Invoice Time** sits on the To Invoice figure.
+- **Invoices** (`billing.py` `invoices`): the customer's invoices naming the
+  tree on the invoice or a line, with Invoiced, Paid, Outstanding and
+  Overdue, and **New Invoice**.
+- **Team** (`team.py`): members, manager, assignees and whoever logged time,
+  with open and late tasks and hours; **Add Member** and removing one change
+  the project's Members as the form does, for whoever may change it.
+- **Permissions**: Time shows to whoever may read timesheets, Invoices on a
+  project with a customer to whoever may read invoices, Team to everyone who
+  sees the project. Every read is the reader's own (`get_list`), so somebody
+  who may see only their own timesheets sees only their hours.
+- **Realtime**: Time and Invoices follow their doctype's `list_update`; Team
+  follows the project's `doc_update`.
+- **Found on the way**: the timesheets seeded here, as many made by HR or an
+  import, have an employee and no user, so the person showed blank and Team
+  counted nobody's hours. `whose` takes the employee's user, the employee's
+  name to show, and with no employee the timesheet's maker, as the timer
+  keeps it.
+- Checked on the site with Villa Windows (Time and Materials) and Villa Al
+  Barsha (Fixed Price): every view; Log Time (1.5 h, then taken out); adding
+  and removing a member (the members put back).
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

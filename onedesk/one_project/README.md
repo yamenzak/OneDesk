@@ -61,13 +61,16 @@ team. Click the name to rename it; click the status or health to change it.
 Below are its views, and the page remembers which one is open:
 
 - **Overview**: the brief, four figures, milestones, updates and Needs You.
-- **Tasks**: every task in a table, grouped by project, status, owner or due
-  date.
-- **Board**: tasks in columns by status. Drag a card to change its status.
-- **Timeline**: tasks as bars across the weeks, with today marked.
+- **Tasks**: every task, as a table grouped by project, status, owner or due
+  date, as a board in columns by status, or as a timeline across the weeks.
+- **Time**: every hour logged on the project, with **Log Time**.
 - **Money**: the forecast, the customer's side, the cost side and the budget
   by cost type. Shown to whoever may see the documents behind it.
+- **Invoices**: the customer's invoices for the project, with what's paid and
+  what's still owed.
 - **Suppliers**: each subcontract as a card, with **Bill Progress**.
+- **Team**: who's on the project, what's on them and the hours they've put
+  in.
 - **Files**: everything attached to the project and its tasks.
 - **Activity**: comments and every change, newest first.
 
@@ -98,11 +101,14 @@ who logged them.
 numbers show it. A project with sub-projects counts them all: the villa's
 cost includes the windows and the handrails.
 
-### Tasks, Board and Timeline
+### Tasks
 
 A project's tasks and its sub-projects' tasks are shown together, grouped
-by project at first. **Group by** changes the grouping, **Search** finds a
-task, and **Done** shows finished and cancelled tasks too.
+by project at first. The switch beside **Search** lays them out as a
+**Table**, a **Board** or a **Timeline**. **Group by** changes the grouping,
+**Search** finds a task, and **Done** shows finished and cancelled tasks
+too. On the board, drag a card to change its status; the timeline marks
+today and counts the tasks without dates.
 
 In the table, change a task's owner, status, due date or priority right in
 its row. **Add Task** at the foot of a group adds one there; **New Task**
@@ -112,6 +118,42 @@ full form.
 
 Late due dates are red. Whatever someone else changes shows up without
 reloading.
+
+### Time
+
+Every hour logged on the project and its sub-projects, newest first: the
+day, who, the activity, the task, the hours, the amount, and where they
+stand. **Draft** is on a timesheet not yet submitted, **To Invoice** is
+billable and not invoiced, **Invoiced** is on an invoice, and **Not Billable**
+won't be. The figures above are this month's hours, all hours, what's still
+to invoice and what's been invoiced. **Invoice Time** is the button on
+**To Invoice**, and in the page's buttons. Click an entry to open its timesheet.
+
+**Log Time** asks for the day, the hours, the activity, and the task if
+there was one. The entry goes into your timesheet for the week, the same one
+the timer on a task writes into, ready to submit with the rest. It's
+billable when the project has a customer, unless you untick it.
+
+Whoever may read timesheets sees Time, and sees the entries they may read.
+
+### Invoices
+
+The customer's invoices for the project and those under it, newest first,
+with their date, due date, status, total and what's still owed. The
+figures above are what's been invoiced, paid, outstanding and overdue.
+**New Invoice** starts one for the customer on the project; **Invoice Time**
+and **Bill Progress** are in the page's buttons. Shown on a project with a
+customer, to whoever may read invoices.
+
+### Team
+
+Everyone on the project: its **Members**, its manager, whoever a task is
+assigned to and whoever logged time on it. Each shows their open tasks, how
+many are late, and their hours this month and in all.
+
+**Add Member** adds somebody to the project's members, and the button at
+the end of a member's row takes them off. Their tasks and time stay.
+Whoever may change the project may change its members.
 
 ### Buttons
 
@@ -625,6 +667,16 @@ one field for it.
   Suppliers view, one card per order. ERPNext's stored totals are hidden from
   the form, not removed; the form's Costing tab keeps the Budget and the
   fields ERPNext needs (patches/costing_on_the_page.py took the rest).
+- `hours.py` — the Time view: `entries` reads the tree's Timesheet Detail
+  as the reader reads timesheets, with where each stands (`state`, pure);
+  `log` writes into the reader's draft timesheet for the week through
+  one_task/timer.py, after the day's last entry (`after`, pure); `whose`
+  finds who a timesheet is for when it has no user of its own.
+- `team.py` — the Team view: members, manager, assignees and whoever logged
+  time, with open and late tasks and hours; `add` and `remove` change the
+  project's Members as the form does.
+- `billing.py` `invoices` — the Invoices view: Sales Invoices naming the
+  tree on the invoice or a line, read as the reader reads them.
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
 - `view.py` — the project's page (`page/project_view`): `said` gives it, in

@@ -100,12 +100,101 @@ def invoice_time(source_name: str, item: str | None = None):
 	return invoice
 
 
+@frappe.whitelist()
+@frappe.read_only()
+def invoices(project: str) -> dict:
+	"""The customer's invoices for the project and those under it, newest
+	first, read as the reader reads invoices: an invoice names the project, or
+	one of its lines does. Drafts and returns included, cancelled ones not."""
+	from onedesk.one_project import tree
+
+	frappe.has_permission("Project", "read", project, throw=True)
+	if not frappe.has_permission("Sales Invoice", "read"):
+		return {"invoices": [], "totals": {}, "can_create": False}
+	projects = sorted(tree.below({project}, tree.parents()))
+	named = set(
+		frappe.get_list(
+			"Sales Invoice",
+			filters={"project": ["in", projects], "docstatus": ["<", 2]},
+			pluck="name",
+			limit_page_length=0,
+		)
+	)
+	named |= {
+		row.parent
+		for row in frappe.get_list(
+			"Sales Invoice Item",
+			parent_doctype="Sales Invoice",
+			filters=[
+				["Sales Invoice Item", "project", "in", projects],
+				["Sales Invoice", "docstatus", "<", 2],
+			],
+			fields=["parent"],
+			limit_page_length=0,
+		)
+	}
+	rows = (
+		frappe.get_list(
+			"Sales Invoice",
+			filters={"name": ["in", list(named)]},
+			fields=[
+				"name",
+				"customer_name",
+				"posting_date",
+				"due_date",
+				"status",
+				"docstatus",
+				"is_return",
+				"currency",
+				"grand_total",
+				"base_grand_total",
+				"outstanding_amount",
+				"conversion_rate",
+			],
+			order_by="posting_date desc, creation desc",
+			limit_page_length=0,
+		)
+		if named
+		else []
+	)
+	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "drafts": 0}
+	for row in rows:
+		if row.docstatus == 0:
+			totals["drafts"] += 1
+			continue
+		owed = flt(row.outstanding_amount) * flt(row.conversion_rate or 1)
+		totals["invoiced"] += flt(row.base_grand_total)
+		totals["paid"] += flt(row.base_grand_total) - owed
+		totals["outstanding"] += owed
+		if row.status == "Overdue":
+			totals["overdue"] += owed
+	return {
+		"invoices": [
+			{
+				"name": row.name,
+				"customer": row.customer_name,
+				"date": str(row.posting_date) if row.posting_date else None,
+				"due": str(row.due_date) if row.due_date else None,
+				"status": "Draft" if row.docstatus == 0 else row.status,
+				"currency": row.currency,
+				"total": flt(row.grand_total),
+				"outstanding": flt(row.outstanding_amount),
+			}
+			for row in rows
+		],
+		"totals": totals,
+		"can_create": bool(frappe.has_permission("Sales Invoice", "create")),
+	}
+
+
 def lines(rows: list) -> list[dict]:
 	"""Time by activity, in the order each activity first appears: its hours
 	and the rate that gives its amount. Pure."""
 	found: dict = {}
 	for row in rows:
-		one = found.setdefault(row.get("activity_type"), {"activity": row.get("activity_type"), "hours": 0.0, "amount": 0.0})
+		one = found.setdefault(
+			row.get("activity_type"), {"activity": row.get("activity_type"), "hours": 0.0, "amount": 0.0}
+		)
 		one["hours"] += flt(row.get("billing_hours"))
 		one["amount"] += flt(row.get("billing_amount"))
 	return [

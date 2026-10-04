@@ -54,9 +54,17 @@ the project is and how it's going, then views of the same work.
     sub-projects, subcontracts and who logged time beside it.
   - **Tasks**: monday's table. One group per project in the tree (or by
     status, owner or due date), each with its colour, count and an **Add
-    Task** row. Owner, status, due date and priority change in the row.
-  - **Board**: columns by status; a card is dragged to change it.
-  - **Timeline**: the dated tasks as bars over the weeks, today marked.
+    Task** row. Owner, status, due date and priority change in the row. A
+    switch lays the same tasks out as a **Board** (columns by status; a card
+    is dragged to change it) or a **Timeline** (the dated tasks as bars over
+    the weeks, today marked), as monday's views of one board.
+  - **Time**: the tree's timesheet entries with where each stands (Draft, To
+    Invoice, Invoiced, Not Billable), figures for this month, all time, to
+    invoice and invoiced, **Log Time** and **Invoice Time**.
+  - **Invoices**: the customer's invoices on the tree, with Invoiced, Paid,
+    Outstanding and Overdue, and **New Invoice**.
+  - **Team**: members, manager, assignees and whoever logged time, with open
+    and late tasks and hours; **Add Member** and removing a member.
   - **Files**: what is attached to the project and its tasks, with
     **Upload**.
   - **Activity**: frappe's timeline of the project, with a comment box.
@@ -83,7 +91,8 @@ the project is and how it's going, then views of the same work.
   `frappe-ui/charts`; ActivityTimeline from `@framework/ui`.
 - Data from `one_project/view.py`: `said` for the head, Overview, Money and
   Suppliers (with money.py's figures), `work` for the tasks, `files` and
-  `updates`; budget.py's `lines` for the cost types.
+  `updates`; budget.py's `lines` for the cost types; hours.py, billing.py's
+  `invoices` and team.py for Time, Invoices and Team.
 - Changes are frappe's: `set_value`, `insert` and `assign_to` for tasks and
   the project; the form behind Edit Details for the rest. The page follows
   the project through `doc_subscribe` and `doc_update`, the tasks through
@@ -98,7 +107,7 @@ the project is and how it's going, then views of the same work.
 2. **The page**: head, title, cards and Overview for each kind; the list
    opens it; Edit Details opens the form. Done, as the workspace.
 3. **Money and Suppliers** on the page; the form's Costing tab goes. Done.
-4. **Tasks, Schedule, Time, Invoices, Team, Files, Activity** tabs.
+4. **Tasks, Schedule, Time, Invoices, Team, Files, Activity** tabs. Done.
 5. **Retainer**: the monthly allowance and Invoice Month.
 6. **Phone layout, OneAI** (`where`, suggestions by kind), **README,
    notifications, translations**.

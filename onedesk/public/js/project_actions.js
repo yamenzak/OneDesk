@@ -209,3 +209,61 @@ onedesk.project.cost_type = async (frm, row, done) => {
 	});
 	dialog.show();
 };
+
+// Log Time: an entry in the reader's draft timesheet for the week, the one the
+// task timer writes into (one_project/hours.py). `frm.tree` names the projects
+// whose tasks it may be on; billable is ticked when the project has a customer.
+onedesk.project.log_time = (frm, done) => {
+	const tree = frm.tree || [frm.doc.name];
+	const dialog = new frappe.ui.Dialog({
+		title: __("Log Time"),
+		fields: [
+			{ fieldtype: "Date", fieldname: "date", label: __("Date"), reqd: 1, default: frappe.datetime.get_today() },
+			{ fieldtype: "Float", fieldname: "hours", label: __("Hours"), reqd: 1, precision: 2 },
+			{ fieldtype: "Column Break" },
+			{ fieldtype: "Link", fieldname: "activity_type", label: __("Activity"), options: "Activity Type", reqd: 1 },
+			{
+				fieldtype: "Link",
+				fieldname: "task",
+				label: __("Task"),
+				options: "Task",
+				get_query: () => ({ filters: { project: ["in", tree], status: ["not in", ["Cancelled", "Template"]] } }),
+			},
+			{ fieldtype: "Section Break" },
+			{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },
+			{ fieldtype: "Check", fieldname: "billable", label: __("Billable"), default: frm.doc.customer ? 1 : 0 },
+		],
+		primary_action_label: __("Log Time"),
+		primary_action: async (values) => {
+			await frappe.xcall("onedesk.one_project.hours.log", { project: frm.doc.name, ...values });
+			dialog.hide();
+			frappe.show_alert({ message: __("Time logged"), indicator: "green" });
+			done && done();
+		},
+	});
+	dialog.show();
+};
+
+// Add Member: somebody joins the project's Members (one_project/team.py).
+onedesk.project.add_member = (frm, done) => {
+	const dialog = new frappe.ui.Dialog({
+		title: __("Add Member"),
+		fields: [
+			{
+				fieldtype: "Link",
+				fieldname: "user",
+				label: __("User"),
+				options: "User",
+				reqd: 1,
+				get_query: () => ({ filters: { enabled: 1, name: ["not in", ["Administrator", "Guest"]] } }),
+			},
+		],
+		primary_action_label: __("Add Member"),
+		primary_action: async ({ user }) => {
+			const said = await frappe.xcall("onedesk.one_project.team.add", { project: frm.doc.name, user });
+			dialog.hide();
+			done && done(said);
+		},
+	});
+	dialog.show();
+};

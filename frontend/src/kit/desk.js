@@ -60,6 +60,9 @@ export function listen(event, heard) {
 /** A new record, opened in desk's form as frappe.new_doc opens one. */
 export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
+/** Ask before doing something that can't be taken back, as desk asks. */
+export const confirm = (message, yes) => frappe().confirm(message, yes);
+
 /** OneDesk's own desk-side code: its dialogs and actions (public/js). */
 export const onedesk = () => window.onedesk;
 
