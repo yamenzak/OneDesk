@@ -970,6 +970,8 @@ app_include_js = [
 	"/assets/onedesk/js/head.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",
+	# A chart's colours follow its labels. See public/js/chart_colors.js.
+	"/assets/onedesk/js/chart_colors.js",
 	"/assets/onedesk/js/oneai.js",
 	"/assets/onedesk/js/intake.js",
 	"/assets/onedesk/js/legal.js",

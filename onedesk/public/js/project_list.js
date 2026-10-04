@@ -125,6 +125,7 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			"Projects Under Way",
 			"Projects at Risk",
 			"Projects Past Due",
+			"Projects by Health",
 			"Projects by Kind",
 			"Projects by Manager",
 			"Projects by Customer",
@@ -135,6 +136,8 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			if (this.doctype !== "Project") return fetch.call(this, doctype, filters, obj_name);
 			return fetch.call(this, doctype, { ...filters, module: "One Project" }, obj_name).then(() => {
 				this[obj_name].sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
+				// Twelve months read better across the page.
+				for (const item of this[obj_name]) if (item.timeseries) item.width = "Full";
 			});
 		};
 	}

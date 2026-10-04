@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 17:24+0000\n"
-"PO-Revision-Date: 2026-10-04 17:24+0000\n"
+"POT-Creation-Date: 2026-10-04 17:47+0000\n"
+"PO-Revision-Date: 2026-10-04 17:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -16212,6 +16212,11 @@ msgstr "Begonnene Projekte"
 #: onedesk/one_project/dashboard_chart/projects_by_customer/projects_by_customer.json
 msgid "Projects by Customer"
 msgstr "Projekte nach Kunde"
+
+#. Name of a dashboard chart
+#: onedesk/one_project/dashboard_chart/projects_by_health/projects_by_health.json
+msgid "Projects by Health"
+msgstr "Projekte nach Zustand"
 
 #. Name of a dashboard chart
 #: onedesk/one_project/dashboard_chart/projects_by_kind/projects_by_kind.json

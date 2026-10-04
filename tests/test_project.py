@@ -1041,11 +1041,31 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 		assert card["is_standard"] and card["is_public"] and card["document_type"] == "Project"
 		assert ["Project", "project_type", "!=", "Employee Boarding", False] in json.loads(card["filters_json"])
 	charts = {path.stem: json.loads(path.read_text()) for path in (PROJECT / "dashboard_chart").glob("*/*.json")}
-	assert set(charts) == {"projects_by_kind", "projects_by_manager", "projects_by_customer", "projects_started"}
+	assert set(charts) == {
+		"projects_by_health",
+		"projects_by_kind",
+		"projects_by_manager",
+		"projects_by_customer",
+		"projects_started",
+	}
 	for chart in charts.values():
 		assert chart["module"] == "One Project" and chart["document_type"] == "Project"
-		assert chart["chart_type"] in ("Count", "Group By") and chart["type"] == "Bar"
-		assert chart["color"] == "#2a78d6"
+		assert chart["chart_type"] in ("Count", "Group By")
+	assert {name: chart["type"] for name, chart in charts.items()} == {
+		"projects_by_health": "Donut",
+		"projects_by_kind": "Pie",
+		"projects_by_manager": "Bar",
+		"projects_by_customer": "Bar",
+		"projects_started": "Line",
+	}
+	# A slice's colour follows what it is: health in the pill's colours.
+	health = json.loads(charts["projects_by_health"]["custom_options"])["one_colors"]
+	assert list(health) == ["On Track", "At Risk", "Off Track"]
+	kinds = json.loads(charts["projects_by_kind"]["custom_options"])["one_colors"]
+	assert set(kinds) == {"Fixed Price", "Time and Materials", "Retainer", "Internal"}
+	colours = (tree.APP / "public" / "js" / "chart_colors.js").read_text()
+	assert "built.colors = labels.map((label) => named[label]" in colours and "built.showLegend = 0" in colours
+	assert '"/assets/onedesk/js/chart_colors.js"' in (tree.APP / "hooks.py").read_text()
 	# Kanban: a board by health, made once.
 	board = (PROJECT / "board.py").read_text()
 	assert 'HEALTH_BOARD = "Projects by Health"' in board

@@ -7462,6 +7462,16 @@ defaults over ERPNext's records; Calendar drew the Gantt's bars on a month.
   people.
 - **Calendar View** is gone from Projects: a project is weeks long, and the
   Gantt draws it better.
+- **The dashboard in colour.** Health is a donut in the pill's own green,
+  orange and red; kind a pie with a colour per kind; manager and customer
+  violet and orange bars; projects started a blue line across the page. A
+  Group By chart lists its groups by count and frappe paints them in that
+  order, so a colour belonged to whichever group was largest. A chart may now
+  name a colour per label (`one_colors` in its Custom Options), set from its
+  labels each time it draws (`public/js/chart_colors.js`), and a pie or donut
+  so coloured has its legend as a wrapping row under it: frappe-charts spaced
+  items 150 px apart with one too many on a row, so "Time and Materials" ran
+  into the next and the fourth went off the edge.
 
 ## OneLegal
 

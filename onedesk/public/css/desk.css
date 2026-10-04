@@ -849,3 +849,27 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 		grid-template-columns: 1fr;
 	}
 }
+
+/* A coloured pie or donut's legend, under it, wrapping (public/js/chart_colors.js). */
+.one-chart-legend {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 6px 18px;
+	padding: 0 16px 16px;
+	font-size: var(--text-sm);
+	color: var(--text-color);
+}
+.one-chart-legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.one-chart-legend-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+}
+.one-chart-legend-count {
+	color: var(--text-muted);
+}

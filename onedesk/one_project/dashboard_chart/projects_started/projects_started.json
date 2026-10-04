@@ -1,6 +1,6 @@
 {
  "creation": "2026-10-04 12:00:00.000000",
- "modified": "2026-10-04 12:30:00.000000",
+ "modified": "2026-10-04 18:10:00.000000",
  "modified_by": "Administrator",
  "owner": "Administrator",
  "docstatus": 0,
@@ -18,9 +18,9 @@
  "timespan": "Last Year",
  "time_interval": "Monthly",
  "use_report_chart": 0,
- "type": "Bar",
+ "type": "Line",
  "color": "#2a78d6",
  "filters_json": "[[\"Project\", \"project_type\", \"!=\", \"Employee Boarding\", false]]",
  "dynamic_filters_json": "[]",
- "custom_options": "{\"barOptions\": {\"spaceRatio\": 0.6}}"
+ "custom_options": "{\"lineOptions\": {\"regionFill\": 1, \"dotSize\": 5}}"
 }

@@ -32,8 +32,9 @@ The view switch at the top of **Projects** lays them out as:
 - **Report View**: a table you can sort, group and add columns to, and save
   as a report of your own.
 - **Dashboard View**: open projects, those at risk or off track, and those
-  past due, then charts of open projects by kind, manager and customer, and
-  how many started each month. Click a number to see its projects.
+  past due, then charts of open projects by health, kind, manager and
+  customer, and how many started each month. Click a number to see its
+  projects.
 - **Kanban View**: **Projects by Health**, open projects in On Track, At Risk
   and Off Track. Drag a card to change its health; the project's people are
   told as when it's changed on its page.
