@@ -54,34 +54,48 @@ and Materials with billable time or a customer, Internal otherwise.
 
 ## A project's page
 
-The top of the page shows how the project is going:
+Opening a project opens its page. At the top are its kind, status and
+health, the customer, the dates and the manager, and the team.
 
-- **Health**: **On Track**, **At Risk** or **Off Track**. It's set by hand,
-  because a project can be in trouble before the numbers show it.
-- **Done**: how much of the work is finished, and how many tasks of how many.
-- **Due**: days until the expected end date, or how many days late.
-- **Cost**: what it has cost so far (supplier bills, time, stock used and
-  expense claims) against the **Budget**. Red once it's over.
-- **Billed**: what has been invoiced against the contract (the sales orders,
-  or the billable time if there are none).
-- **Margin So Far**: invoiced minus cost. Red below zero.
-- **Forecast Margin**: where the margin is heading. See below.
-- **Overdue Tasks**: how many are past their due date. Click it for the list.
-- **Next Milestone**: the next milestone still to do, and when.
+Four figures follow, picked by the kind:
 
-A project with sub-projects shows the totals for **all of them together**:
-the villa's cost includes the windows and the handrails.
+- **Fixed Price**: **Contract** (invoiced and paid so far), **Cost** (and
+  what's still on order), **Forecast Margin** and **Done**.
+- **Time and Materials**: **Hours This Month**, **Not Invoiced Yet**,
+  **Invoiced** and **Budget Used**.
+- **Retainer**: **Hours This Month** out of the hours a month, **Monthly
+  Fee**, **Invoiced** and **Done**.
+- **Internal**: **Budget Used**, **Spent**, **Done** and **Due**.
 
-**Board**, **Calendar** and **Schedule** at the top open the project's tasks
-as a board, a calendar and a timeline.
+A figure turns red when something's wrong: cost heading over budget, a
+margin below zero, more hours than the retainer covers, a late end date.
 
-**Details** has the project's name, customer, parent project, status, health
-and manager. Below that are its **Dates**: the expected start and end, and
-when time was first and last logged on it. Then its **Members**.
+**Overview** shows what needs someone now under **Needs You**: cost types
+over budget, bills drafted by Bill Progress to check, time not invoiced yet,
+and late tasks. A Fixed Price or Internal project also shows its milestones;
+a Fixed Price one its subcontracts and how far each is billed. A Time and
+Materials or Retainer project shows hours by week, this month's hours by
+activity, and who logged them. **About**, the sub-projects and the latest
+update are beside it.
 
-**Costing** has the budget and the project's money, both sides. **Progress** sets how often the team is asked for an
-update. **More Info** has the priority, type, department, task prefix, how
-the % done is worked out, and notes.
+**Health** is set by hand, because a project can be in trouble before the
+numbers show it. A project with sub-projects counts them all: the villa's
+cost includes the windows and the handrails.
+
+**Board** and **Schedule** open the project's tasks as a board and a
+timeline. The main button is the kind's: **Bill Progress** on a Fixed Price
+contract, **Invoice Time** for Time and Materials, and **Post Update**
+otherwise. **···** has the rest: **Edit Details**, **Post Update**, **Quote
+Extra Work**, **Group Under New Project** and **Save as Template**.
+
+**Edit Details** opens the project's form, with every field: its name,
+customer, parent project, status, health and manager, its dates and members,
+**Costing**, **Progress** (how often the team is asked for an update) and
+**More Info** (priority, type, department, task prefix, how the % done is
+worked out, and notes).
+
+Whoever can open a project sees its page. Each button shows only to whoever
+may do what it does.
 
 ## Who runs a project
 
@@ -573,9 +587,19 @@ one field for it.
   totals are hidden from the form, not removed.
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
-- `public/js/project.js` — the Board, Calendar and Schedule buttons, Group
-  Under New Project, Save as Template, Invoice Time and Post Update;
-  `public/js/project_template.js` is a template's New Project.
+- `view.py` — the project's page (`page/project_view`,
+  `public/js/project_page.js`): `said` gives it, in one call read as the
+  reader, the head, the kind's four cards (`cards`) and its Overview, from
+  overview.py, money.py, budget.py, billing.py and tree.py. `needs` is Needs
+  You; `contract` is the project's Sales Order or the first one against it.
+  `public/js/project_new.js` hands `/desk/project/<name>` to the page; the
+  form is the same address with `?edit=1`, and a new project's form stays.
+  The page follows the record by `doc_subscribe` and `doc_update`, and its
+  money by `one_project_money`.
+- `public/js/project_actions.js` — Board, Schedule, Group Under New Project,
+  Save as Template, Invoice Time and Post Update, for the page and the form
+  alike. `public/js/project.js` is the form: those as its buttons, and
+  Calendar; `public/js/project_template.js` is a template's New Project.
 
 ### What OneTask has to keep doing for projects
 

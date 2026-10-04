@@ -199,7 +199,7 @@ def test_no_form_script_draws_a_head():
 			if isinstance(node, ast.Assign) and node.targets[0].id == "doctype_js"
 		)
 	)
-	paths = {tree.APP / path for path in scripts.values()}
+	paths = {tree.APP / path for one in scripts.values() for path in ([one] if isinstance(one, str) else one)}
 	paths |= set(tree.APP.glob("*/doctype/*/*.js"))
 	assert len(paths) > 20
 	for path in sorted(paths):

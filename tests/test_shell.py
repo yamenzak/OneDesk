@@ -36,6 +36,7 @@ ON_THE_SHELL = {
 	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
 	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
 	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
+	"project_view": ("public/js/project_page.js", "public/css/project_page.css"),
 }
 
 #: Pages not on it yet, and the stage of docs/SHELL.md that moves them. None

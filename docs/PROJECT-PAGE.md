@@ -45,8 +45,9 @@ under **···** › **Edit Details**, for every field the page doesn't show.
   and Schedule, **···**, and the kind's main action.
 - **Title**: the name, then customer, dates and manager in one line, and the
   team's avatars.
-- **Four cards**, the kind's figures (table above), each with a bar where
-  there is something to fill.
+- **Four figures**, the kind's (table above), drawn as the desk's metric:
+  label, value, a line under it, and a bar where there is something to
+  fill.
 - **Tabs**, by kind:
   - Fixed Price: Overview, Tasks, Schedule, Money, Suppliers, Team, Files,
     Activity.
@@ -67,10 +68,11 @@ under **···** › **Edit Details**, for every field the page doesn't show.
 
 ## Built from frappe
 
-- A desk Page, as OneMail and OneCloud are, in plain JS with frappe-ui's
-  look: Badge, Button, Tabs, Progress and ListView as frappe-ui draws them.
-- Data from one call per tab (`one_project/page.py`), over the modules that
-  exist: overview, money, budget, progress, tree.
+- A desk Page on the shell, as OneMail and OneCloud are, in plain JS with
+  frappe-ui's look: Badge, Button, Tabs and Progress as frappe-ui draws
+  them, and lists as the shell's table (frappe's EmbeddedList).
+- Data from one call (`one_project/view.py`), over the modules that exist:
+  overview, money, budget, billing, tree.
 - Changes are frappe's: fields in dialogs of frappe controls, saved against
   `modified`; the page follows the record through `doc_subscribe` and
   `doc_update`, and money through `one_project_money`.

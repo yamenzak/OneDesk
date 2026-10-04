@@ -10,6 +10,7 @@
 // chart is, in one hue.
 frappe.provide("onedesk.band");
 
+// `extra.note` is a line under the value, as HTML the caller has escaped.
 onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 	const esc = frappe.utils.escape_html;
 	// A time since is sent as the moment and said here, the way the desk says
@@ -24,6 +25,7 @@ onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 		`<span class="one-stat-label">${esc(when(label))}</span>` +
 		`<span class="one-stat-value">${esc(onedesk.shell.ltr(when(value)))}</span>` +
 		onedesk.band.delta(extra.delta) +
+		(extra.note ? `<span class="one-stat-note">${extra.note}</span>` : "") +
 		onedesk.band.meter(extra.meter);
 	const cls = `one-stat${tone ? " one-stat-" + tone : ""}`;
 	return route ? `<a class="${cls}" href="${route}">${inner}</a>` : `<span class="${cls}">${inner}</span>`;

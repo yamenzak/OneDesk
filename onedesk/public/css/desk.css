@@ -292,6 +292,13 @@ a.one-day:hover {
 	color: var(--ink-gray-8);
 }
 
+/* A line under the value: what it's of, or what's behind it. */
+.one-stat-note {
+	font-size: var(--text-sm);
+	line-height: 1.35;
+	color: var(--ink-gray-5);
+}
+
 /* How it changed: the Number Card's own pill and wording, a size down. */
 .one-stat-delta {
 	display: inline-flex;

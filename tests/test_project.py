@@ -217,7 +217,7 @@ def test_the_overview_is_the_whole_tree_and_its_chart_is_the_bands():
 	heads = (PROJECT / "heads.py").read_text()
 	assert "overview.overview(name)" in heads and '"doctype": "Project"' in heads
 	assert '"charts": [{"chart": "project.hours"}]' in heads
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	# The band is the Record Head's; the page only borrows its figures for
 	# the Costing tab.
 	assert "onedesk.band.show" not in page
@@ -254,7 +254,7 @@ def test_a_slip_crosses_sub_projects_and_the_plan_is_the_tree():
 	assert 'has_value_changed("exp_end_date")' in body and "- {doc.project}" in body, (
 		"ERPNext's own pass does its project"
 	)
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert 'project: ["in", said.tree]' in page and '"List", "Task", "Gantt"' in page
 	assert 'remove_custom_button(__("Gantt Chart"), __("View"))' in page
 	gantt = (tree.APP / "public" / "js" / "task_list.js").read_text()
@@ -301,7 +301,7 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 		"the prefix names a template's tasks"
 	)
 	assert "after_rollback.add(_forget)" in (PROJECT / "naming.py").read_text()
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert "onedesk.one_project.templates.save_as" in page
 	assert '"Project Template": "public/js/project_template.js"' in HOOKS
 	for rail in (
@@ -358,7 +358,7 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	assert "onedesk.one_project.patches.extra_work" in (tree.APP / "patches.txt").read_text()
 	assert "Quote Extra Work" in (tree.APP / "public" / "js" / "project.js").read_text()
 	assert '"Quotation": "public/js/quotation.js"' in HOOKS
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert '"onedesk.one_project.billing.invoice_time"' in page and "frappe.model.open_mapped_doc" in page
 	assert "get_projectwise_timesheet_data" in source, "ERPNext's own list of hours not yet billed"
 
@@ -405,7 +405,7 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
 	assert "Hourly" not in frequency["value"]
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert "onedesk.one_project.updates.asked" in page and "onedesk.one_project.updates.post" in page
 
 
@@ -686,7 +686,7 @@ def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
 		p["field_name"] for p in layout["property_setters"] if p["property"] == "hidden" and p["value"] == "1"
 	}
 	assert {"total_purchase_cost", "gross_margin", "total_billed_amount"} <= hidden
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert "onedesk.one_project.money.money" in page and '"one_project_money"' in page
 	heads = (PROJECT / "heads.py").read_text()
 	assert '"project.forecast": forecast' in heads and '_lt("Forecast Margin")' in heads
@@ -760,7 +760,7 @@ def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
 	assert "ignore_permissions" not in budget
 	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
 	assert "one_budget" in {f["fieldname"] for f in layout["custom_fields"]}
-	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert "onedesk.one_project.budget.set_budget" in page and '__("Add Cost Type")' in page
 
 
@@ -804,3 +804,29 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 	# label and hidden flag for a field of the same name.
 	for taken in ('fieldname: "project_name"', 'fieldname: "one_kind"', 'fieldname: "customer"'):
 		assert taken not in page
+
+
+def test_a_project_opens_on_its_own_page():
+	space = _load(PROJECT / "view.py", ("share",), flt=float)
+	share = space["share"]
+	assert share(30, 120) == 25 and share(5, 0) == 0 and share(300, 100) == 100 and share(-5, 10) == 0
+	page = json.loads((PROJECT / "page" / "project_view" / "project_view.json").read_text())
+	assert page["name"] == "project-view" and page["module"] == "One Project"
+	view = (PROJECT / "view.py").read_text()
+	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in view
+	# Every kind has its cards and its tabs.
+	for kind in ("FIXED", "TIME", "RETAINER", "INTERNAL"):
+		assert f"kinds.{kind}: [" in view
+	script = (tree.APP / "public" / "js" / "project_page.js").read_text()
+	assert '"onedesk.one_project.view.said"' in script
+	# The page follows the record as a form does.
+	for follows in ("new onedesk.shell.Editor(page)", "this.follow.hear(", '"one_project_money"'):
+		assert follows in script
+	# /desk/project/<name> is the page; ?edit=1 and a new project are the form.
+	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
+	assert 'return ["project-view", name];' in route and 'has("edit")' in route and '"new-project"' in route
+	assert "?edit=1" in script
+	# What the page and the form both do is one file, loaded by both.
+	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
+	loader = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
+	assert "/assets/onedesk/js/project_actions.js" in loader and "/assets/onedesk/js/project_page.js" in loader

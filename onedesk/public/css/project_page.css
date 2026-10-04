@@ -1,0 +1,254 @@
+/* A project's page (public/js/project_page.js). frappe-ui's tokens and parts
+   (Badge, Tabs, Progress, Avatar), the shell's sections and tables and
+   the desk's metric; only the layout is ours. */
+
+.one-pp {
+	padding-bottom: calc(var(--spacing) * 12);
+	color: var(--ink-gray-8);
+}
+
+/* The head of the page lines up with the sections under it. */
+.one-pp-title,
+.one-pp-figures,
+.one-pp-tabs .es-tabs__list {
+	padding-inline: calc(var(--spacing) * 4);
+}
+
+/* What a section holds starts a little under its heading. */
+.one-pp-list,
+.one-pp-about,
+.one-pp-milestones,
+.one-pp-chart,
+.one-pp-update {
+	margin-top: calc(var(--spacing) * 3);
+}
+
+/* The name and its badges, who it's for and when, the team on the right. */
+.one-pp-title {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 4);
+	padding-block: calc(var(--spacing) * 5);
+}
+
+.one-pp-name {
+	min-width: 0;
+}
+
+.one-pp-name h1 {
+	display: inline;
+	margin: 0 calc(var(--spacing) * 2) 0 0;
+	font-size: var(--text-2xl);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: -0.01em;
+	color: var(--ink-gray-9);
+	vertical-align: middle;
+}
+
+.one-pp-name .es-badge {
+	vertical-align: middle;
+	margin-inline-end: calc(var(--spacing) * 1);
+}
+
+.one-pp-sub {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	margin-top: calc(var(--spacing) * 2);
+	font-size: var(--text-base);
+	color: var(--ink-gray-6);
+}
+
+.one-pp-sub a {
+	color: inherit;
+}
+
+.one-pp-sep,
+.one-pp-dim {
+	color: var(--ink-gray-5);
+}
+
+.one-pp-team {
+	flex: none;
+}
+
+/* The kind's four figures: the desk's metric (band.js), a size up, side by
+   side. */
+.one-pp-figures {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: calc(var(--spacing) * 6);
+	padding-top: calc(var(--spacing) * 1);
+	padding-bottom: calc(var(--spacing) * 6);
+}
+
+.one-pp-figures .one-stat-value {
+	font-size: var(--text-2xl);
+	letter-spacing: -0.01em;
+	font-variant-numeric: tabular-nums;
+}
+
+.one-pp-figures .one-stat-meter {
+	max-width: none;
+	margin-top: calc(var(--spacing) * 2);
+}
+
+/* Overview: what's going on, and what it is beside it. */
+
+
+.one-pp-overview {
+	display: grid;
+	grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+	gap: calc(var(--spacing) * 4);
+}
+
+.one-pp-count {
+	font-weight: var(--font-weight-regular, 400);
+	color: var(--ink-gray-5);
+}
+
+.one-pp-dot {
+	display: inline-block;
+	margin-inline-end: calc(var(--spacing) * 2);
+	width: 8px;
+	height: 8px;
+	border-radius: var(--radius-full);
+	background: var(--ink-gray-4);
+}
+
+.one-pp-dot.is-red {
+	background: var(--ink-red-5);
+}
+
+.one-pp-dot.is-orange {
+	background: var(--ink-amber-5);
+}
+
+/* Milestones as a line: done filled, the next ringed. */
+.one-pp-milestones {
+	display: flex;
+	overflow-x: auto;
+	padding-top: calc(var(--spacing) * 1);
+}
+
+.one-pp-milestone {
+	position: relative;
+	flex: 1 0 7rem;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding-top: calc(var(--spacing) * 5);
+	color: var(--ink-gray-8);
+	text-decoration: none;
+}
+
+.one-pp-milestone:hover {
+	text-decoration: none;
+	color: var(--ink-gray-9);
+}
+
+.one-pp-milestone::before {
+	content: "";
+	position: absolute;
+	top: 6px;
+	inset-inline: 0;
+	height: 2px;
+	background: var(--outline-gray-2);
+}
+
+.one-pp-milestone.is-done::before {
+	background: var(--ink-gray-9);
+}
+
+.one-pp-milestone-dot {
+	position: absolute;
+	top: 1px;
+	inset-inline-start: 0;
+	width: 12px;
+	height: 12px;
+	border-radius: var(--radius-full);
+	border: 2px solid var(--outline-gray-3);
+	background: var(--surface-white, var(--bg-color));
+}
+
+.one-pp-milestone.is-done .one-pp-milestone-dot {
+	border-color: var(--ink-gray-9);
+	background: var(--ink-gray-9);
+}
+
+.one-pp-milestone.is-next .one-pp-milestone-dot {
+	border-color: var(--ink-gray-9);
+}
+
+.one-pp-milestone-name {
+	font-weight: var(--font-weight-medium, 500);
+	padding-inline-end: calc(var(--spacing) * 3);
+}
+
+.one-pp-milestone-due {
+	font-size: var(--text-sm);
+	color: var(--ink-gray-5);
+}
+
+.one-pp-chart {
+	margin-inline: calc(var(--spacing) * -2);
+}
+
+.one-pp-update {
+	padding: calc(var(--spacing) * 3.5) calc(var(--spacing) * 4);
+	border-radius: var(--radius-xl);
+	background: var(--surface-gray-1, var(--subtle-fg));
+	line-height: 1.5;
+}
+
+.one-pp-update-by {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: calc(var(--spacing) * 1);
+	font-weight: var(--font-weight-medium, 500);
+}
+
+.one-pp-update-by .one-pp-dim {
+	font-weight: var(--font-weight-regular, 400);
+}
+
+.one-pp-about {
+	display: grid;
+	grid-template-columns: 7rem minmax(0, 1fr);
+	row-gap: calc(var(--spacing) * 2.5);
+	margin-bottom: 0;
+}
+
+.one-pp-about dt {
+	font-weight: var(--font-weight-regular, 400);
+	color: var(--ink-gray-5);
+}
+
+.one-pp-about dd {
+	margin: 0;
+	color: var(--ink-gray-8);
+}
+
+@media (max-width: 991px) {
+	.one-pp-figures {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.one-pp-overview {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0;
+	}
+}
+
+@media (max-width: 575px) {
+	.one-pp-title {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.one-pp-figures .one-stat-value {
+		font-size: var(--text-xl);
+	}
+}

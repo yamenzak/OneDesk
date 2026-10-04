@@ -7107,6 +7107,50 @@ The design is `docs/PROJECT-PAGE.md`.
   doctype when the fieldnames match, which showed the hidden Kind and named
   the dates "Expected Start Date". The dialog's fieldnames are its own.
 
+**Stage 2, the page.**
+
+- **Opening a project opens its page** (`page/project_view`,
+  `public/js/project_page.js`), at the project's own address. The list, a
+  link, a search result and New Project all land on it. **Edit Details** is
+  the same address with `?edit=1`, the form with every field; Back returns to
+  the page. A new project's form is untouched.
+- **The page head is frappe's**: Projects / name, the status as its
+  indicator, Board and Schedule, the rest under **···**, and the kind's main
+  action as the primary button (Bill Progress on a Fixed Price contract,
+  Invoice Time for Time and Materials, Post Update otherwise). Each shows
+  only to whoever may do it.
+- **The title line**: the name with its kind and health as frappe-ui
+  badges, then the parent, customer, dates and manager, and the team as
+  frappe's avatar group.
+- **Four figures by kind**, as the desk draws a figure (`onedesk.band.stat`,
+  which gained a line under the value): label, value, a note, and
+  frappe-ui's Progress where there's a whole. Red when something's wrong.
+- **Tabs** are frappe's Tabs; Overview only for now (stages 3 and 4 add the
+  rest).
+- **Overview**: Needs You (cost types over budget, bills to check, time not
+  invoiced, late tasks), milestones, hours by week and by activity, who
+  logged time, the latest update, About, sub-projects and subcontracts.
+  Every list is the shell's table (frappe's EmbeddedList) inside a shell
+  section; a row opens what it's about.
+- **Built from frappe**: one read call (`one_project/view.py` `said`, as
+  the reader, checked for read permission); the record followed through the
+  shell's Editor (`doc_subscribe`, `doc_update`) and money through
+  `one_project_money`; the shared actions moved to
+  `public/js/project_actions.js` for the page and the form alike.
+- **Found and fixed on the way**:
+  - A project whose contract was made before kinds had no `sales_order`, so
+    Bill Progress couldn't find it. `view.contract` takes the first
+    submitted order against the project.
+  - This month's time read the timesheet's user through a join that frappe
+    already makes for the parent filter ("Not unique table/alias"). It's
+    read in a second query.
+  - The mockups had boxed cards. The shell's rule is that a page draws no
+    card or section of its own (`tests/test_shell.py`), so the figures are
+    the desk's metric, unboxed, and lists are its table.
+- Checked on the site with Villa Al Barsha (Fixed Price), Villa Windows
+  (Time and Materials), Halcyon Support (Retainer) and Office Move
+  (Internal); list to page, Edit Details to the form and Back again.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -807,7 +807,8 @@ doctype_js = {
 	# Next Step Done, which asks what comes next. See public/js/next_step.js.
 	"Lead": "public/js/lead.js",
 	# The project's board is a button of its own. See one_project/board.py.
-	"Project": "public/js/project.js",
+	# What the form and the project's page both do is project_actions.js.
+	"Project": ["public/js/project_actions.js", "public/js/project.js"],
 	"Project Template": "public/js/project_template.js",
 	# Bill Progress on a subcontract and on the customer's contract. See one_project/progress.py.
 	"Purchase Order": "public/js/progress.js",

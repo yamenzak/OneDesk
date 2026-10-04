@@ -551,6 +551,7 @@ No doctypes yet.
 * `onedesk.one_project.tree.totals`
 * `onedesk.one_project.updates.asked`
 * `onedesk.one_project.updates.post`
+* `onedesk.one_project.view.said`
 * `onedesk.one_storage.api.attach`
 * `onedesk.one_storage.api.copy`
 * `onedesk.one_storage.api.delete`
