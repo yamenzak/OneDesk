@@ -7473,6 +7473,26 @@ defaults over ERPNext's records; Calendar drew the Gantt's bars on a month.
   items 150 px apart with one too many on a row, so "Time and Materials" ran
   into the next and the fourth went off the edge.
 
+**New Project in three steps.** The dialog was the four kinds above eight
+fields split by three rules, with no kind looking picked, money fields reading
+0.00 and 0, and the fields of a kind nobody had chosen yet.
+
+- frappe-ui has no stepper or wizard in any version on the bench; the desk
+  has `frappe.ui.Slides`, the setup wizard's, so the dialog is three Slides:
+  **Kind** (the cards; a click picks and moves on), **Details** (name, customer
+  and what the kind needs) and **Plan** (dates, manager, template). The dots
+  are frappe's; the dialog's own footer carries **Previous**, **Next** and
+  **Create Project**, and the first step has none, since a card moves on.
+- Next checks the step's own fields with frappe's missing-fields message;
+  Previous keeps what was typed. Every step is the same height, so the dialog
+  doesn't jump and the date's calendar has room.
+- Two things frappe's Slide doesn't do in a dialog: a Slide's fields are a
+  plain field group, where frappe applies `mandatory_depends_on` only for a
+  dialog's, so Customer is marked required by setting `is_dialog`; and a Slide
+  copies its fields as JSON, so Bill As's item filter is set after.
+- Money fields start empty.
+
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 17:47+0000\n"
-"PO-Revision-Date: 2026-10-04 17:47+0000\n"
+"POT-Creation-Date: 2026-10-04 18:04+0000\n"
+"PO-Revision-Date: 2026-10-04 18:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3153,7 +3153,7 @@ msgstr "Antrag auf Zusatzleistung"
 msgid "Benefit Claim"
 msgstr "Erstattung von Zusatzleistungen"
 
-#: onedesk/public/js/project_new.js:64
+#: onedesk/public/js/project_new.js:76
 msgid "Bill As"
 msgstr "Abrechnen als"
 
@@ -3416,7 +3416,7 @@ msgstr "Browser"
 #: onedesk/one_project/custom/project.json
 #: onedesk/public/js/project_actions.js:144
 #: onedesk/public/js/project_actions.js:145
-#: onedesk/public/js/project_actions.js:179 onedesk/public/js/project_new.js:80
+#: onedesk/public/js/project_actions.js:179 onedesk/public/js/project_new.js:91
 msgid "Budget"
 msgstr "Budget"
 
@@ -4755,7 +4755,7 @@ msgstr "Vertrag"
 msgid "Contract Number"
 msgstr "Vertragsnummer"
 
-#: onedesk/public/js/project_new.js:60
+#: onedesk/public/js/project_new.js:72
 msgid "Contract Value"
 msgstr "Vertragswert"
 
@@ -5003,7 +5003,7 @@ msgstr ""
 msgid "Create Next Year's List"
 msgstr "Liste für nächstes Jahr erstellen"
 
-#: onedesk/public/js/project_new.js:95
+#: onedesk/public/js/project_new.js:164
 msgid "Create Project"
 msgstr "Projekt erstellen"
 
@@ -5275,7 +5275,7 @@ msgstr "Eigene Stufen liegen zwischen Benutzer und Manager."
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_project/tree.py:199 onedesk/public/js/project_new.js:53
+#: onedesk/one_project/tree.py:199 onedesk/public/js/project_new.js:65
 msgid "Customer"
 msgstr "Kunde"
 
@@ -5952,7 +5952,7 @@ msgstr "Einzelheit"
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/intake.js:63 onedesk/public/js/onecloud.js:160
-#: onedesk/public/js/onecloud.js:1952
+#: onedesk/public/js/onecloud.js:1952 onedesk/public/js/project_new.js:116
 msgid "Details"
 msgstr "Details"
 
@@ -6896,7 +6896,7 @@ msgstr "Beendet am"
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: frontend/src/project/Overview.vue:170
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/public/js/project_new.js:90
+#: onedesk/public/js/project_new.js:102
 msgid "Ends"
 msgstr "Endet"
 
@@ -8817,7 +8817,7 @@ msgid "Hours Worked"
 msgstr "Geleistete Stunden"
 
 #. Label of the one_monthly_hours (Float) field in DocType 'Project'
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:85
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:96
 msgid "Hours a Month"
 msgstr "Stunden pro Monat"
 
@@ -10184,7 +10184,7 @@ msgstr "Hauptergebnisbereiche"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/project_new.js:114
+#: onedesk/public/js/project_new.js:113 onedesk/public/js/project_new.js:184
 msgid "Kind"
 msgstr "Art"
 
@@ -11451,7 +11451,7 @@ msgstr "Von der Personalabteilung verwaltet."
 #: frontend/src/project/Overview.vue:163 frontend/src/project/Team.vue:30
 #: onedesk/one/settings.py:1027 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/public/js/project_new.js:88 onedesk/public/js/settings.js:1127
+#: onedesk/public/js/project_new.js:100 onedesk/public/js/settings.js:1127
 #: onedesk/public/js/settings.js:1190
 msgid "Manager"
 msgstr "Leitung"
@@ -11885,7 +11885,7 @@ msgstr "Monatliches Guthaben"
 
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
 #: frontend/src/project/Overview.vue:116
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:83
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:94
 msgid "Monthly Fee"
 msgstr "Monatliche Gebühr"
 
@@ -12087,7 +12087,7 @@ msgstr "Meine Aufgaben"
 #: onedesk/public/js/doctype_settings.js:879
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/oneai/Panel.vue:610 onedesk/public/js/onecloud.js:143
-#: onedesk/public/js/onecloud.js:1572 onedesk/public/js/project_new.js:48
+#: onedesk/public/js/onecloud.js:1572 onedesk/public/js/project_new.js:60
 #: onedesk/public/js/settings.js:1112 onedesk/public/js/settings.js:1195
 #: onedesk/public/js/settings.js:2197 onedesk/public/js/settings.js:2211
 #: onedesk/public/js/settings.js:2519
@@ -12319,7 +12319,7 @@ msgstr "Neues Druckformat"
 msgid "New Profile"
 msgstr "Neues Profil"
 
-#: onedesk/public/js/project_new.js:41 onedesk/public/js/project_template.js:7
+#: onedesk/public/js/project_new.js:51 onedesk/public/js/project_template.js:7
 msgid "New Project"
 msgstr "Neues Projekt"
 
@@ -12428,7 +12428,8 @@ msgid "Newsletters"
 msgstr "Newsletter"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
-#: onedesk/public/js/doctype_settings.js:400 onedesk/public/js/settings.js:2030
+#: onedesk/public/js/doctype_settings.js:400
+#: onedesk/public/js/project_new.js:164 onedesk/public/js/settings.js:2030
 msgid "Next"
 msgstr ""
 
@@ -15713,8 +15714,9 @@ msgstr "Ich ordne alle anhand meiner Notizen neu ein. Die Bewerberliste aktualis
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:673
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:160
-#: onedesk/public/js/settings.js:1538 onedesk/public/js/settings.js:1540
-#: onedesk/public/js/settings.js:1829 onedesk/www/start.html:58
+#: onedesk/public/js/project_new.js:133 onedesk/public/js/settings.js:1538
+#: onedesk/public/js/settings.js:1540 onedesk/public/js/settings.js:1829
+#: onedesk/www/start.html:58
 msgid "Plan"
 msgstr "Tarif"
 
@@ -15937,6 +15939,7 @@ msgid "Preview: {0}"
 msgstr "Vorschau: {0}"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
+#: onedesk/public/js/project_new.js:149
 msgid "Previous"
 msgstr ""
 
@@ -17638,7 +17641,7 @@ msgstr "Retainer-Monat abrechnen"
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/one_project/progress.py:153 onedesk/public/js/progress.js:37
-#: onedesk/public/js/project_new.js:71
+#: onedesk/public/js/project_new.js:82
 msgid "Retention"
 msgstr "Einbehalt"
 
@@ -17646,7 +17649,7 @@ msgstr "Einbehalt"
 #. Label of the one_retention_due (Date) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/public/js/project_new.js:75
+#: onedesk/public/js/project_new.js:86
 msgid "Retention Due"
 msgstr "Einbehalt fällig am"
 
@@ -19328,7 +19331,7 @@ msgstr "Beginnt bald"
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
 #: frontend/src/project/Overview.vue:169 frontend/src/project/TaskPanel.vue:24
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/public/js/project_new.js:87
+#: onedesk/public/js/project_new.js:99
 msgid "Starts"
 msgstr "Beginnt"
 
@@ -20203,7 +20206,7 @@ msgstr "Sagen Sie uns, wer Sie sind und was Sie brauchen, und wir melden uns."
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:189
-#: onedesk/public/js/project_new.js:91 onedesk/public/js/settings.js:2079
+#: onedesk/public/js/project_new.js:103 onedesk/public/js/settings.js:2079
 msgid "Template"
 msgstr "Vorlage"
 
@@ -27299,7 +27302,7 @@ msgstr "{0} konnten nicht wiederhergestellt werden."
 msgid "{0} counts nothing."
 msgstr "{0} zählt nichts."
 
-#: onedesk/public/js/project_new.js:147 onedesk/public/js/settings.js:2943
+#: onedesk/public/js/project_new.js:217 onedesk/public/js/settings.js:2943
 msgid "{0} created"
 msgstr "{0} erstellt"
 

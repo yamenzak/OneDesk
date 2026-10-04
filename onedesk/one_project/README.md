@@ -72,8 +72,9 @@ and anything else under **Filters**. **Add Project** starts one.
 
 ## Starting a project
 
-**Add Project** first asks what kind of project it is. The kind decides what
-it asks for and what the project's page shows.
+**Add Project** takes three steps: **Kind**, **Details** and **Plan**. Click a
+kind to move on; **Previous** goes back without losing what you typed. The kind
+decides what **Details** asks for and what the project's page shows.
 
 - **Fixed Price**: an agreed price, billed as the work gets done. Give the
   **Contract Value**, the item to **Bill As** (**Contract Work** is there to
@@ -86,8 +87,8 @@ it asks for and what the project's page shows.
   Fee** and the **Hours a Month**.
 - **Internal**: no customer. Give a **Budget** if there is one.
 
-Every kind asks for a name, when it starts and ends, its manager (you, unless
-you pick someone) and a template to start its tasks from. A project made some
+Every kind asks for a name. **Plan** asks when it starts and ends, its manager
+(you, unless you pick someone) and a template to start its tasks from. A project made some
 other way gets the kind its records say: Fixed Price with a sales order, Time
 and Materials with billable time or a customer, Internal otherwise.
 

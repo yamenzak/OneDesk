@@ -844,6 +844,37 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	color: var(--text-muted);
 }
 
+/* New Project's steps: frappe's Slides inside the dialog rather than on the
+   setup wizard's page (public/js/project_new.js). */
+/* Each step the same height, so the dialog doesn't jump, and room under the
+   dates for their calendar. */
+.one-new-project .slide-container {
+	min-height: 330px;
+}
+.one-new-project .slides-progress {
+	margin: 0 0 var(--margin-md);
+}
+.one-new-project .slides-wrapper {
+	max-width: none;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+.one-new-project .slide-body .content {
+	text-align: start !important;
+}
+.one-new-project .slides-wrapper h1.slide-title {
+	margin: 0;
+	font-size: var(--text-lg);
+	font-weight: var(--weight-semibold);
+}
+.one-new-project .slides-wrapper .form-wrapper {
+	margin-top: var(--margin-md);
+}
+.one-new-project .slides-wrapper .form-wrapper .form .form-section {
+	padding: 0;
+}
+
 @media (max-width: 575px) {
 	.one-kinds {
 		grid-template-columns: 1fr;
