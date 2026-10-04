@@ -1,0 +1,171 @@
+"""A project's kind: how it's paid for, which decides what it asks for when it
+is made and what its page shows (docs/PROJECT-PAGE.md).
+
+- **Fixed Price**: an agreed price, billed as the work gets done. Its
+  contract is the customer's Sales Order, made with the project (`make`), so
+  Bill Progress works from the first day (progress.py).
+- **Time and Materials**: billed by the hour at agreed rates, plus what's
+  bought for it (billing.py's Invoice Time).
+- **Retainer**: a monthly fee for a set number of hours (`one_monthly_fee`,
+  `one_monthly_hours`).
+- **Internal**: no customer; a budget and the work.
+
+The kind is `one_kind` on Project. A project made without one, by ERPNext,
+HR or an import, is given the kind its records say (`guess`, `fill`), as
+`patches/kinds.py` did for the projects made before kinds existed.
+"""
+
+from typing import Annotated
+
+import frappe
+from frappe import _
+from frappe.utils import add_days, flt, getdate, nowdate
+
+FIXED = "Fixed Price"
+TIME = "Time and Materials"
+RETAINER = "Retainer"
+INTERNAL = "Internal"
+KINDS = (FIXED, TIME, RETAINER, INTERNAL)
+
+
+def guess(has_order: bool, has_billable_time: bool, customer: str | None) -> str:
+	"""The kind a project's records say it is. Pure."""
+	if has_order:
+		return FIXED
+	if has_billable_time or customer:
+		return TIME
+	return INTERNAL
+
+
+def fill(doc, method=None) -> None:
+	"""Project before_validate: a project made without a kind gets the one its
+	records say."""
+	if doc.get("one_kind"):
+		return
+	name = None if doc.is_new() else doc.name
+	has_order = bool(doc.get("sales_order")) or bool(
+		name and frappe.db.exists("Sales Order", {"project": name, "docstatus": 1})
+	)
+	billable = bool(name and frappe.db.exists("Timesheet Detail", {"project": name, "is_billable": 1}))
+	doc.one_kind = guess(has_order, billable, doc.get("customer"))
+
+
+@frappe.whitelist(methods=["POST"])
+def make(values: Annotated[dict | str, "What the New Project dialog asked for."]) -> str:
+	"""Make a project of a kind, with what that kind needs; for Fixed Price,
+	its contract too. Returns the project's name."""
+	values = frappe._dict(frappe.parse_json(values))
+	frappe.has_permission("Project", "create", throw=True)
+	kind = values.kind
+	if kind not in KINDS:
+		frappe.throw(_("Pick what kind of project this is."))
+	if kind != INTERNAL and not values.client:
+		frappe.throw(_("Pick the customer."))
+	contract = flt(values.contract)
+	if kind == FIXED and contract:
+		frappe.has_permission("Sales Order", "create", throw=True)
+		if not values.item:
+			frappe.throw(_("Pick the item to bill the contract as."))
+
+	project = frappe.new_doc("Project")
+	project.update(
+		{
+			"project_name": (values.title or "").strip(),
+			"one_kind": kind,
+			"customer": values.client if kind != INTERNAL else None,
+			"expected_start_date": values.starts,
+			"expected_end_date": values.ends,
+			"one_manager": values.manager or frappe.session.user,
+			"project_template": values.template,
+			"estimated_costing": flt(values.budget) if kind in (TIME, INTERNAL) else 0,
+			"one_monthly_fee": flt(values.monthly_fee) if kind == RETAINER else 0,
+			"one_monthly_hours": flt(values.monthly_hours) if kind == RETAINER else 0,
+		}
+	)
+	if values.parent:
+		project.one_parent = values.parent
+	project.insert()
+
+	if kind == FIXED and contract:
+		order = _contract(project, values, contract)
+		project.db_set("sales_order", order)
+	return project.name
+
+
+def _contract(project, values, contract: float) -> str:
+	"""The customer's Sales Order for the contract value, submitted: the
+	contract Bill Progress bills against."""
+	start = getdate(values.starts or nowdate())
+	ends = getdate(values.ends) if values.ends else add_days(start, 30)
+	order = frappe.new_doc("Sales Order")
+	order.update(
+		{
+			"customer": project.customer,
+			"project": project.name,
+			"transaction_date": nowdate(),
+			"delivery_date": max(ends, getdate(nowdate())),
+			"one_retention": flt(values.retention),
+			"one_retention_due": values.retention_due if flt(values.retention) else None,
+		}
+	)
+	order.append(
+		"items",
+		{
+			"item_code": values.item,
+			"qty": 1,
+			"rate": contract,
+			"delivery_date": order.delivery_date,
+			"description": project.project_name,
+		},
+	)
+	order.insert()
+	order.submit()
+	return order.name
+
+
+#: The item a contract is billed as when the workspace has none of its own:
+#: a service in Lump Sum, so Bill Progress can bill it in parts.
+CONTRACT_ITEM = "Contract Work"
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def defaults() -> dict:
+	"""What the New Project dialog starts with: the item the last project's
+	contract was billed as, or Contract Work."""
+	found = frappe.get_all(
+		"Sales Order Item",
+		filters={"docstatus": 1, "project": ["is", "set"]},
+		fields=["item_code"],
+		order_by="creation desc",
+		limit=1,
+	)
+	item = found[0].item_code if found else None
+	if not item and frappe.db.exists("Item", CONTRACT_ITEM):
+		item = CONTRACT_ITEM
+	return {"item": item, "user": frappe.session.user}
+
+
+def settle() -> None:
+	"""Contract Work, made once; the workspace may change or replace it."""
+	from onedesk.one_project.progress import LUMP_SUM
+
+	if frappe.db.exists("Item", CONTRACT_ITEM) or not frappe.db.exists("UOM", LUMP_SUM):
+		return
+	group = "Services" if frappe.db.exists("Item Group", "Services") else None
+	group = group or frappe.db.get_value("Item Group", {"is_group": 0}, "name", order_by="lft asc")
+	if not group:
+		return
+	frappe.get_doc(
+		{
+			"doctype": "Item",
+			"item_code": CONTRACT_ITEM,
+			"item_name": CONTRACT_ITEM,
+			"item_group": group,
+			"stock_uom": LUMP_SUM,
+			"is_stock_item": 0,
+			"is_sales_item": 1,
+			"is_purchase_item": 1,
+			"description": "Work under a fixed-price contract, billed as it gets done.",
+		}
+	).insert(ignore_permissions=True)

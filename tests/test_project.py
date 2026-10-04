@@ -117,7 +117,7 @@ def test_a_member_is_told_in_ours_not_erpnexts_mail():
 	invite = _body(source, "invite")
 	assert "row.welcome_email_sent = 1" in invite and "Email Account" not in invite
 	assert (
-		'"before_validate": ["onedesk.one_project.members.invite", "onedesk.one_project.members.unlist"]'
+		'"onedesk.one_project.members.invite",\n\t\t\t"onedesk.one_project.members.unlist",'
 		in HOOKS
 	)
 	# A member taken off loses the share before ERPNext's System-Manager-only removal.
@@ -780,3 +780,27 @@ def test_the_money_is_told_and_read():
 	assert '"money": _money(project)' in ai and '_lt("Where is the money going?")' in ai
 	legal = (PROJECT / "legal.py").read_text()
 	assert "its money with the customer and with suppliers" in legal
+
+
+def test_a_project_has_a_kind_and_new_project_asks_by_kind():
+	space = _load(PROJECT / "kinds.py", ("FIXED", "TIME", "RETAINER", "INTERNAL", "KINDS", "guess"))
+	guess = space["guess"]
+	assert guess(True, True, "C") == "Fixed Price"
+	assert guess(False, True, None) == "Time and Materials" and guess(False, False, "C") == "Time and Materials"
+	assert guess(False, False, None) == "Internal"
+	kinds = (PROJECT / "kinds.py").read_text()
+	# The contract is ERPNext's own Sales Order, submitted, so Bill Progress works.
+	assert "order.submit()" in kinds and 'project.db_set("sales_order", order)' in kinds
+	assert 'frappe.has_permission("Project", "create", throw=True)' in kinds
+	assert '"onedesk.one_project.kinds.fill"' in HOOKS and HOOKS.count('"onedesk.one_project.kinds.settle"') == 2
+	assert '"/assets/onedesk/js/project_new.js"' in HOOKS
+	assert "onedesk.one_project.patches.kinds" in (tree.APP / "patches.txt").read_text()
+	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
+	kind = next(f for f in layout["custom_fields"] if f["fieldname"] == "one_kind")
+	assert kind["options"].split("\n")[1:] == list(space["KINDS"])
+	page = (tree.APP / "public" / "js" / "project_new.js").read_text()
+	assert "frappe.ui.form.ProjectQuickEntryForm" in page and "onedesk.one_project.kinds.make" in page
+	# The dialog's fieldnames are its own: a quick entry takes the doctype's
+	# label and hidden flag for a field of the same name.
+	for taken in ('fieldname: "project_name"', 'fieldname: "one_kind"', 'fieldname: "customer"'):
+		assert taken not in page

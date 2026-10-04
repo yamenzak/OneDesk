@@ -51,6 +51,8 @@ after_install = [
 	"onedesk.one_project.templates.settle",
 	# Lump Sum and the Retention payment term. See one_project/progress.py.
 	"onedesk.one_project.progress.settle",
+	# Contract Work, the item a fixed-price contract is billed as. See one_project/kinds.py.
+	"onedesk.one_project.kinds.settle",
 	"onedesk.one_project.updates.settle",
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
@@ -114,6 +116,8 @@ after_migrate = [
 	"onedesk.one_project.templates.settle",
 	# Lump Sum and the Retention payment term. See one_project/progress.py.
 	"onedesk.one_project.progress.settle",
+	# Contract Work, the item a fixed-price contract is billed as. See one_project/kinds.py.
+	"onedesk.one_project.kinds.settle",
 	"onedesk.one_project.updates.settle",
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
@@ -521,7 +525,12 @@ doc_events = {
 	"Delivery Note": {"validate": "onedesk.one_project.chain.agree"},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
-		"before_validate": ["onedesk.one_project.members.invite", "onedesk.one_project.members.unlist"],
+		"before_validate": [
+			"onedesk.one_project.members.invite",
+			"onedesk.one_project.members.unlist",
+			# A project made without a kind gets the one its records say. See one_project/kinds.py.
+			"onedesk.one_project.kinds.fill",
+		],
 		"validate": ["onedesk.one_project.naming.validate", "onedesk.one_project.tree.validate"],
 		"on_update": [
 			"onedesk.one_project.naming.on_update",
@@ -924,6 +933,8 @@ app_include_js = [
 	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
+	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
+	"/assets/onedesk/js/project_new.js",
 	# Frappe's Settings dialog for a doctype, for a workspace administrator.
 	"/assets/onedesk/js/doctype_settings.js",
 	# Extensions on One's own pages: OneMail, OneCalendar, a record's head. See one_studio/places.py.
@@ -978,7 +989,7 @@ one_makes_records = {
 	"Holiday List Assignment": ["one"],
 	"Interview": ["one_hr"],
 	"Interview Feedback": ["one_hr"],
-	"Item": ["one", "one_admin", "one_inventory"],
+	"Item": ["one", "one_admin", "one_inventory", "one_project"],
 	"Item Group": ["one_admin"],
 	"Job Applicant": ["one_hr"],
 	"Job Opening": ["one_hr"],
@@ -1004,6 +1015,7 @@ one_makes_records = {
 	"Purchase Order": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
 	"Sales Invoice": ["one_admin", "one_project"],
+	"Sales Order": ["one_project"],
 	"Sales Stage": ["one_admin", "one_crm"],
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],

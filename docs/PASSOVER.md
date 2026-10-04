@@ -7082,6 +7082,31 @@ The design is `docs/PROJECT.md`, built one stage per commit.
   Payments tab shows what's due now, and "Based On Payment Terms" on
   Accounts Payable ages each part.
 
+### OneProject: the project page, built in stages
+
+The design is `docs/PROJECT-PAGE.md`.
+
+**Stage 1, kinds and New Project.**
+
+- **A project has a kind** (`one_kind`): Fixed Price, Time and Materials,
+  Retainer or Internal. Retainer also has Monthly Fee and Hours a Month.
+  `patches/kinds.py` gave every existing project the kind its records say:
+  Fixed Price with a sales order, Time and Materials with billable time or a
+  customer, Internal otherwise. A project made elsewhere (HR's checklists,
+  an import) gets the same on save.
+- **Add Project** is frappe's quick entry for Project, made our own
+  (`ProjectQuickEntryForm`). It shows the four kinds as cards, then only
+  the picked kind's fields.
+  - For Fixed Price it makes the customer's Sales Order for the contract
+    value, submitted, so Bill Progress works from the first day.
+  - **Contract Work**, a service item in Lump Sum, is there to bill it as.
+  - Checked on the site: a Fixed Price project, its order and its retention
+    were made from the dialog, and Retainer and Internal from the server. A
+    customer project with no customer is refused.
+- **Found**: a quick entry takes each field's label and hidden flag from the
+  doctype when the fieldnames match, which showed the hidden Kind and named
+  the dates "Expected Start Date". The dialog's fieldnames are its own.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

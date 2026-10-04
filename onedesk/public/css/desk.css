@@ -758,3 +758,59 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	padding-top: calc(var(--spacing, 4px) * 16);
 }
 
+
+/* New Project: the kinds as cards, one picked, as frappe-ui draws a radio
+   card: a hairline, and the ink colour around the one picked. */
+.one-kinds {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--margin-sm);
+}
+
+.one-kind {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 4px;
+	padding: var(--padding-md);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-lg);
+	background: var(--card-bg, transparent);
+	text-align: left;
+	color: var(--text-color);
+}
+
+.one-kind:hover {
+	border-color: var(--gray-400);
+}
+
+.one-kind.on {
+	border-color: var(--text-color);
+	box-shadow: 0 0 0 1px var(--text-color);
+}
+
+.one-kind-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	margin-bottom: 4px;
+	border-radius: var(--border-radius);
+	background: var(--subtle-fg);
+}
+
+.one-kind-name {
+	font-weight: var(--weight-semibold);
+}
+
+.one-kind-said {
+	font-size: var(--text-sm);
+	color: var(--text-muted);
+}
+
+@media (max-width: 575px) {
+	.one-kinds {
+		grid-template-columns: 1fr;
+	}
+}

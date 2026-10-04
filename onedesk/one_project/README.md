@@ -27,12 +27,30 @@ project task assigned to you shows on your My Tasks and on the project's board.
 
 ## Projects
 
-The list shows each project's status, health, customer, manager, how much is
-done and when it's due. Filter by name, status, health, manager or customer.
-A project's status is **Open**, **Completed** or **Cancelled**. How far it has
-got is its own column.
+The list shows each project's kind, status, health, customer, manager, how
+much is done and when it's due. Filter by name, kind, status, health, manager
+or customer. A project's status is **Open**, **Completed** or **Cancelled**.
 
-**Add Project** asks for its name. Everything else is on its page.
+## Starting a project
+
+**Add Project** first asks what kind of project it is. The kind decides what
+it asks for and what the project's page shows.
+
+- **Fixed Price**: an agreed price, billed as the work gets done. Give the
+  **Contract Value**, the item to **Bill As** (**Contract Work** is there to
+  start with), and any **Retention** with the date it's due. The customer's
+  sales order for the contract is made with the project, so **Bill Progress**
+  works from the first day.
+- **Time and Materials**: billed by the hour at agreed rates, plus what's
+  bought for it. Give a **Budget** if there is one.
+- **Retainer**: a monthly fee for a set number of hours. Give the **Monthly
+  Fee** and the **Hours a Month**.
+- **Internal**: no customer. Give a **Budget** if there is one.
+
+Every kind asks for a name, when it starts and ends, its manager (you, unless
+you pick someone) and a template to start its tasks from. A project made some
+other way gets the kind its records say: Fixed Price with a sales order, Time
+and Materials with billable time or a customer, Internal otherwise.
 
 ## A project's page
 
@@ -446,6 +464,16 @@ one field for it.
   Revise Budget does (cancel, copy, submit). Committed is the open order
   lines on that account (`money.unbilled`); spent is the ledger. `sync` makes
   the project's Budget their total. Budget permissions are ERPNext's.
+- `kinds.py` — a project's kind (`one_kind`, and `one_monthly_fee` and
+  `one_monthly_hours` for a Retainer). `make` is New Project: the project,
+  and for Fixed Price its customer's Sales Order, submitted, as its
+  `sales_order`. `fill` gives a project made elsewhere the kind its records
+  say (`guess`, pure); `patches/kinds.py` did it for the projects before.
+  `settle` makes the **Contract Work** item, in Lump Sum.
+  `public/js/project_new.js` is frappe's quick entry for Project
+  (`ProjectQuickEntryForm`): the kinds as cards, then the kind's fields. Its
+  fieldnames are its own, since a quick entry takes a field's label and
+  whether it's hidden from the doctype when the names match.
 - `progress.py` — Bill Progress on a purchase or sales order: ERPNext's own
   "Create > Invoice" mapper with each line's quantity cut to the share done
   less what's billed (`to_bill`), since ERPNext keeps an invoice at the

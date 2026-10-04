@@ -540,6 +540,8 @@ No doctypes yet.
 * `onedesk.one_project.budget.lines`
 * `onedesk.one_project.budget.remove_budget`
 * `onedesk.one_project.budget.set_budget`
+* `onedesk.one_project.kinds.defaults`
+* `onedesk.one_project.kinds.make`
 * `onedesk.one_project.money.money`
 * `onedesk.one_project.overview.overview`
 * `onedesk.one_project.progress.bill_progress`

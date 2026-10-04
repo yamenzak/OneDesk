@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 11:11+0000\n"
-"PO-Revision-Date: 2026-10-04 11:11+0000\n"
+"POT-Creation-Date: 2026-10-04 12:56+0000\n"
+"PO-Revision-Date: 2026-10-04 12:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -530,6 +530,10 @@ msgstr "النموذج الذي يستطيع أكثر من هذا قد يجيب�
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "A month, in the price list's currency. The Price Check and the Plan Calculator price from these."
 msgstr "شهريًا، بعملة قائمة الأسعار. يحسب منها فحص الأسعار وحاسبة الخطط."
+
+#: onedesk/public/js/project_new.js:13
+msgid "A monthly fee for a set number of hours."
+msgstr "رسوم شهرية مقابل عدد محدد من الساعات."
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
 msgid "A network belongs to a Shift Location or to one employee, not to both."
@@ -1860,6 +1864,10 @@ msgstr "يراجع أحد المسؤولين الطلب. بعد ذلك يتم ت
 msgid "An administrator reviews the request. Then you're signed out, and your OneAI chats, memory, notifications and devices are deleted."
 msgstr "يراجع مسؤول الطلب. بعدها يُسجَّل خروجك وتُحذف محادثاتك مع OneAI وذاكرته وإشعاراتك وأجهزتك."
 
+#: onedesk/public/js/project_new.js:10
+msgid "An agreed price, billed as the work gets done. Subcontracts, retention and a budget."
+msgstr "سعر متفق عليه يُفوتر مع تقدم العمل. عقود من الباطن ومحتجزات وميزانية."
+
 #. Description of the 'Approved Request' (Link) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3087,6 +3095,10 @@ msgstr "طلب مزايا"
 msgid "Benefit Claim"
 msgstr "مطالبة مزايا"
 
+#: onedesk/public/js/project_new.js:48
+msgid "Bill As"
+msgstr "الفوترة كـ"
+
 #: onedesk/public/js/progress.js:20 onedesk/public/js/progress.js:29
 msgid "Bill Progress"
 msgstr "فوترة التقدم"
@@ -3133,6 +3145,10 @@ msgstr "المفوتر هذا العام"
 #: onedesk/public/js/settings.js:1542
 msgid "Billed To"
 msgstr "الفاتورة باسم"
+
+#: onedesk/public/js/project_new.js:12
+msgid "Billed by the hour at agreed rates, plus what's bought for it."
+msgstr "يُفوتر بالساعة بأسعار متفق عليها، إضافة إلى ما يُشترى له."
 
 #: onedesk/one_book/heads.py:331
 msgid "Billed by {0}"
@@ -3319,6 +3335,7 @@ msgstr "المتصفح"
 #. Label of the 'estimated_costing' field in DocType 'Project'
 #: onedesk/one_project/custom/project.json onedesk/public/js/project.js:192
 #: onedesk/public/js/project.js:242 onedesk/public/js/project.js:290
+#: onedesk/public/js/project_new.js:64
 msgid "Budget"
 msgstr "الميزانية"
 
@@ -4634,6 +4651,10 @@ msgstr "عقد"
 msgid "Contract Number"
 msgstr "رقم العقد"
 
+#: onedesk/public/js/project_new.js:44
+msgid "Contract Value"
+msgstr "قيمة العقد"
+
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "Conversation"
@@ -4878,6 +4899,10 @@ msgstr ""
 #: onedesk/public/js/settings.js:2956 onedesk/public/js/settings.js:3029
 msgid "Create Next Year's List"
 msgstr "إنشاء قائمة العام القادم"
+
+#: onedesk/public/js/project_new.js:79
+msgid "Create Project"
+msgstr "إنشاء المشروع"
 
 #: onedesk/one/automations.py:152
 msgid "Create a new document."
@@ -5149,7 +5174,7 @@ msgstr "المستويات المخصصة تقع بين المستخدم وال�
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/report/project_tree/project_tree.py:50
-#: onedesk/one_project/tree.py:199
+#: onedesk/one_project/tree.py:199 onedesk/public/js/project_new.js:37
 msgid "Customer"
 msgstr "العميل"
 
@@ -6751,6 +6776,7 @@ msgstr "انتهى في"
 
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+#: onedesk/public/js/project_new.js:74
 msgid "Ends"
 msgstr "ينتهي"
 
@@ -7748,6 +7774,11 @@ msgstr "صحّح الإملاء والنحو"
 msgid "Fixed"
 msgstr "تم الإصلاح"
 
+#. Option for the 'Kind' (Select) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json
+msgid "Fixed Price"
+msgstr "سعر ثابت"
+
 #: onedesk/one_studio/mend.py:120
 msgid "Fixed: {0}"
 msgstr "أُصلحت: {0}"
@@ -8645,6 +8676,11 @@ msgstr "استغلال الساعات"
 msgid "Hours Worked"
 msgstr "الساعات المعمولة"
 
+#. Label of the one_monthly_hours (Float) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:69
+msgid "Hours a Month"
+msgstr "الساعات شهريًا"
+
 #: onedesk/public/js/overtime.js:47
 msgid "Hours worked beyond the standard day."
 msgstr "الساعات التي تتجاوز يوم العمل القياسي."
@@ -9348,7 +9384,9 @@ msgstr "بانتظارك في الوارد، أمر واحد"
 msgid "Intake Weekly"
 msgstr "الوارد الأسبوعي"
 
+#. Option for the 'Kind' (Select) field in DocType 'Project'
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:18
+#: onedesk/one_project/custom/project.json
 msgid "Internal"
 msgstr "داخلي"
 
@@ -9946,6 +9984,7 @@ msgstr "مجالات النتائج الرئيسية"
 #. Label of the kind (Select) field in DocType 'Reading Reference'
 #. Label of the kind (Select) field in DocType 'Face'
 #. Label of the kind (Select) field in DocType 'Mail Folder'
+#. Label of the one_kind (Select) field in DocType 'Project'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -9959,7 +9998,9 @@ msgstr "مجالات النتائج الرئيسية"
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+#: onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
+#: onedesk/public/js/project_new.js:98
 msgid "Kind"
 msgstr "النوع"
 
@@ -11216,9 +11257,10 @@ msgstr "يديره قسم الموارد البشرية."
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one/settings.py:1027 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/public/js/settings.js:1127 onedesk/public/js/settings.js:1190
+#: onedesk/public/js/project_new.js:72 onedesk/public/js/settings.js:1127
+#: onedesk/public/js/settings.js:1190
 msgid "Manager"
-msgstr ""
+msgstr "المدير"
 
 #. Label of the area (Geolocation) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -11645,6 +11687,11 @@ msgstr "الحضور الشهري"
 msgid "Monthly Credits"
 msgstr "الرصيد الشهري"
 
+#. Label of the one_monthly_fee (Currency) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:67
+msgid "Monthly Fee"
+msgstr "الرسوم الشهرية"
+
 #: onedesk/one_admin/topup.py:118
 msgid "Monthly credit for {0}"
 msgstr "رصيد شهر {0}"
@@ -11842,9 +11889,10 @@ msgstr "مهامي"
 #: onedesk/public/js/doctype_settings.js:879
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/oneai/Panel.vue:610 onedesk/public/js/onecloud.js:143
-#: onedesk/public/js/onecloud.js:1572 onedesk/public/js/settings.js:1112
-#: onedesk/public/js/settings.js:1195 onedesk/public/js/settings.js:2197
-#: onedesk/public/js/settings.js:2211 onedesk/public/js/settings.js:2519
+#: onedesk/public/js/onecloud.js:1572 onedesk/public/js/project_new.js:32
+#: onedesk/public/js/settings.js:1112 onedesk/public/js/settings.js:1195
+#: onedesk/public/js/settings.js:2197 onedesk/public/js/settings.js:2211
+#: onedesk/public/js/settings.js:2519
 msgid "Name"
 msgstr "الاسم"
 
@@ -12068,7 +12116,7 @@ msgstr "تنسيق طباعة جديد"
 msgid "New Profile"
 msgstr "ملف وظيفي جديد"
 
-#: onedesk/public/js/project_template.js:7
+#: onedesk/public/js/project_new.js:25 onedesk/public/js/project_template.js:7
 msgid "New Project"
 msgstr "مشروع جديد"
 
@@ -12360,6 +12408,10 @@ msgstr "لا توجد أنواع تكاليف"
 #: onedesk/public/js/settings.js:1973
 msgid "No credit packs available"
 msgstr "لا توجد باقات رصيد متاحة"
+
+#: onedesk/public/js/project_new.js:14
+msgid "No customer. A budget and the work."
+msgstr "بلا عميل. ميزانية والعمل."
 
 #: onedesk/public/js/onecloud.js:377
 msgid "No deleted items"
@@ -15263,13 +15315,25 @@ msgstr "قوائم الانتقاء"
 msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
 msgstr "اختر اسماً وخطة. وتُنشأ مساحة العمل فور قبول البطاقة."
 
+#: onedesk/one_project/kinds.py:63
+msgid "Pick the customer."
+msgstr "اختر العميل."
+
 #: onedesk/one_book/vat.py:83
 msgid "Pick the emirate."
 msgstr "اختر الإمارة."
 
+#: onedesk/one_project/kinds.py:68
+msgid "Pick the item to bill the contract as."
+msgstr "اختر الصنف الذي يُفوتر العقد به."
+
 #: onedesk/one_project/billing.py:61
 msgid "Pick the item to invoice the time as."
 msgstr "اختر الصنف الذي يُفوتر به الوقت."
+
+#: onedesk/one_project/kinds.py:61
+msgid "Pick what kind of project this is."
+msgstr "اختر نوع هذا المشروع."
 
 #. Label of a Sidebar Item
 #. Label of a shortcut in the OneCRM Workspace
@@ -17182,11 +17246,17 @@ msgstr ""
 msgid "Resume {0} from the step it stopped on?"
 msgstr "استئناف {0} من الخطوة التي توقف عندها؟"
 
+#. Option for the 'Kind' (Select) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json
+msgid "Retainer"
+msgstr "اشتراك شهري"
+
 #. Label of the one_retention (Percent) field in DocType 'Purchase Order'
 #. Label of the one_retention (Percent) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/one_project/progress.py:153 onedesk/public/js/progress.js:37
+#: onedesk/public/js/project_new.js:55
 msgid "Retention"
 msgstr "المحتجز"
 
@@ -17194,6 +17264,7 @@ msgstr "المحتجز"
 #. Label of the one_retention_due (Date) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
+#: onedesk/public/js/project_new.js:59
 msgid "Retention Due"
 msgstr "موعد استحقاق المحتجز"
 
@@ -18855,6 +18926,7 @@ msgstr "يبدأ قريبًا"
 
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+#: onedesk/public/js/project_new.js:71
 msgid "Starts"
 msgstr "يبدأ"
 
@@ -19711,9 +19783,9 @@ msgstr "أخبرنا من أنت وما تحتاجه، وسنعاود التوا
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:189
-#: onedesk/public/js/settings.js:2079
+#: onedesk/public/js/project_new.js:75 onedesk/public/js/settings.js:2079
 msgid "Template"
-msgstr ""
+msgstr "القالب"
 
 #: onedesk/public/js/project.js:116
 msgid "Template Name"
@@ -21549,6 +21621,11 @@ msgstr "الوقت"
 #: onedesk/one_project/custom/project.json
 msgid "Time Cost"
 msgstr "تكلفة الوقت"
+
+#. Option for the 'Kind' (Select) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json
+msgid "Time and Materials"
+msgstr "الوقت والمواد"
 
 #: onedesk/one/automations.py:170
 msgid "Timeout (seconds)"
@@ -26703,9 +26780,9 @@ msgstr "تعذّرت استعادة {0}."
 msgid "{0} counts nothing."
 msgstr "{0} لا يعدّ شيئًا."
 
-#: onedesk/public/js/settings.js:2943
+#: onedesk/public/js/project_new.js:131 onedesk/public/js/settings.js:2943
 msgid "{0} created"
-msgstr ""
+msgstr "تم إنشاء {0}"
 
 #: onedesk/one_admin/doctype/offering/offering.py:102
 #: onedesk/public/js/settings.js:2612
