@@ -68,8 +68,10 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 				mandatory_depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 			},
+			// The contract and the fee are agreed in the customer's own currency.
+			{ fieldtype: "Link", fieldname: "currency", options: "Currency", hidden: 1 },
 			{ fieldtype: "Section Break", depends_on: kind(["Fixed Price"]) },
-			{ fieldtype: "Currency", fieldname: "contract", label: __("Contract Value") },
+			{ fieldtype: "Currency", fieldname: "contract", label: __("Contract Value"), options: "currency" },
 			{
 				fieldtype: "Link",
 				fieldname: "item",
@@ -91,7 +93,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Currency", fieldname: "budget", label: __("Budget") },
 			{ fieldtype: "Column Break" },
 			{ fieldtype: "Section Break", depends_on: kind(["Retainer"]) },
-			{ fieldtype: "Currency", fieldname: "monthly_fee", label: __("Monthly Fee") },
+			{ fieldtype: "Currency", fieldname: "monthly_fee", label: __("Monthly Fee"), options: "currency" },
 			{ fieldtype: "Column Break" },
 			{ fieldtype: "Float", fieldname: "monthly_hours", label: __("Hours a Month") },
 		];
@@ -134,6 +136,13 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 						said.then((found) => {
 							if (!step.get_value("item") && found.item) step.form.set_value("item", found.item);
 						});
+						// The contract and the fee are in the currency the customer is billed in.
+						const billed = (customer) =>
+							frappe
+								.xcall("onedesk.one_project.kinds.defaults", { customer })
+								.then((found) => step.form.set_value("currency", found.currency || frappe.defaults.get_default("currency")));
+						step.get_field("client").df.onchange = () => billed(step.get_value("client"));
+						billed(step.get_value("client"));
 					},
 				},
 				{

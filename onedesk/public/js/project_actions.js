@@ -369,7 +369,7 @@ onedesk.project.invoice_month = async (frm, month) => {
 	const show = async (value) => {
 		const asked = await frappe.xcall("onedesk.one_project.retainer.asked", { project: frm.doc.name, month: value });
 		if (!dialog.get_value("item") && asked.item) dialog.set_value("item", asked.item);
-		const money = (amount) => format_currency(amount, frappe.defaults.get_default("currency"));
+		const money = (amount) => format_currency(amount, asked.currency);
 		const hours = (value) => format_number(value, null, value % 1 ? 1 : 0);
 		const lines = [__("{0} h used of {1} h.", [hours(asked.hours), hours(said.allowance)])];
 		if (asked.drafts) lines.push(__("{0} h are on timesheets not submitted yet.", [hours(asked.drafts)]));

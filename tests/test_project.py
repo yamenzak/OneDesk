@@ -1198,9 +1198,12 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 		return space["_first"](None, {"contract": 500})
 
 	assert first("SO-1", None) == {"key": "contract", "money": 500, "route": "/desk/sales-order/SO-1"}
-	quoted = first(None, {"name": "QTN-1", "value": 180, "alternatives": False})
+	quoted = first(None, {"name": "QTN-1", "value": 180, "count": 1, "alternatives": False})
 	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["action"] == "order"
 	assert first(None, None) == {"key": "contract", "money": 0, "action": "add_contract"}
+	# With several open, which one is ordered is picked on their list.
+	several = first(None, {"name": "QTN-2", "value": 195, "count": 2, "list": "/desk/quotation?x"})
+	assert several["route"] == "/desk/quotation?x" and "action" not in several
 	view = (PROJECT / "view.py").read_text()
 	assert '"quotation": None if contract(doc) else quotation(doc)' in view
 	assert '"one_extra_work": 0' in view and '_("{0}% of the quote")' in view
@@ -1215,7 +1218,7 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 		"order = _contract(doc, values, flt(contract))",
 	):
 		assert part in add, part
-	assert 'get_party_account_currency("Customer", project.customer, company)' in kinds
+	assert 'bill_in(order, "Customer", project.customer)' in kinds
 	# The page asks for the next step under the figure, with frappe-ui's
 	# Button, and makes the order with ERPNext's own quotation mapper.
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
@@ -1226,3 +1229,50 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert "onedesk.one_project.kinds.add_contract" in actions
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert '__("New Quotation")' in page and '__("Quote Extra Work")' in page
+
+
+def test_a_quote_counts_while_it_stands_and_names_its_project():
+	money = (PROJECT / "money.py").read_text()
+	assert 'QUOTED = ("Open", "Replied", "Partially Ordered", "Ordered")' in money
+	assert "q.status.isin(QUOTED)" in money and '(q.status != "Lost")' not in money
+	view = (PROJECT / "view.py").read_text()
+	to_quote = view[view.index("def to_quote(") : view.index("def _first(")]
+	assert '"one_kind": kinds.FIXED' in to_quote and "if not contract(one)" in to_quote
+	assert "return found[0] if len(found) == 1 else None" in to_quote
+	script = (tree.APP / "public" / "js" / "quotation.js").read_text()
+	assert 'frm.set_query("project"' in script and "onedesk.one_project.view.to_quote" in script
+
+
+def test_a_party_billed_in_another_currency_is_billed_in_it(monkeypatch):
+	import types
+
+	space = _load(tree.APP / "one_book" / "currency.py", ("rate",), flt=float, nowdate=lambda: "2026-10-04")
+	rates = {("USD", "AED"): 3.6725}
+	setup = types.ModuleType("erpnext.setup.utils")
+	setup.get_exchange_rate = lambda a, b, date: rates.get((a, b), 0)
+	for name in ("erpnext", "erpnext.setup"):
+		monkeypatch.setitem(sys.modules, name, sys.modules.get(name) or types.ModuleType(name))
+	monkeypatch.setitem(sys.modules, "erpnext.setup.utils", setup)
+	rate = space["rate"]
+	assert rate("AED", "AED") == 1.0 and rate(None, "AED") == 1.0
+	assert rate("USD", "AED") == 3.6725
+	# ERPNext keeps the rate one way; the other way is its inverse.
+	assert abs(rate("AED", "USD") - 1 / 3.6725) < 1e-12
+	# Every document OneDesk makes for a party goes through bill_in.
+	for path, party in (
+		(PROJECT / "kinds.py", '"Customer", project.customer'),
+		(PROJECT / "billing.py", '"Customer", source.customer'),
+		(PROJECT / "retainer.py", '"Customer", doc.customer'),
+		(tree.APP / "one_inventory" / "order.py", '"Supplier", name'),
+	):
+		assert any(f"bill_in({doc}, {party})" in path.read_text() for doc in ("order", "invoice", "doc")), path
+	# Hours are turned into the invoice's currency from each timesheet's own.
+	billing = _load(
+		PROJECT / "billing.py", ("in_currency",), flt=float, currency_rate=lambda a, b: {"AED": 1 / 4}.get(a, 1.0)
+	)
+	rows = billing["in_currency"]([{"currency": "AED", "billing_amount": 400.0}], "USD")
+	assert rows[0]["billing_amount"] == 100.0
+	# A retainer's fee is shown, and the New Project dialog asks for it, in the
+	# customer's currency.
+	assert '"currency": retainer.fee_currency(doc)' in (PROJECT / "view.py").read_text()
+	assert 'options: "currency"' in (tree.APP / "public" / "js" / "project_new.js").read_text()

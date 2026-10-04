@@ -1,0 +1,58 @@
+"""Billing a customer or supplier in their own currency.
+
+A customer or supplier whose receivable or payable account is in another
+currency can only be billed in that currency: ERPNext refuses any other
+(`validate_party_account_currency`). Its forms pick the currency as the party
+is chosen, but a document made in code starts in the company's. `bill_in`
+sets what the form would: the company, the party's currency and its rate to
+the company's currency. `rate` turns an amount from one currency into another
+at ERPNext's own exchange rate (Currency Exchange, then its provider), or
+the inverse of the rate the other way when only that one is kept.
+"""
+
+import frappe
+from frappe import _
+from frappe.utils import flt, nowdate
+
+
+def billed_in(party_type: str, party: str, company: str | None = None) -> str:
+	"""The currency ERPNext bills the party in, for the company."""
+	from erpnext import get_company_currency, get_default_company
+	from erpnext.accounts.party import get_party_account_currency
+
+	company = company or get_default_company()
+	return get_party_account_currency(party_type, party, company) or get_company_currency(company)
+
+
+def rate(source: str | None, target: str, date=None) -> float:
+	"""What one of `source` is worth in `target`; refused when ERPNext has no
+	rate for the pair."""
+	if not source or source == target:
+		return 1.0
+	from erpnext.setup.utils import get_exchange_rate
+
+	date = date or nowdate()
+	found = flt(get_exchange_rate(source, target, date))
+	if not found:
+		# A rate kept one way only, USD to AED say, read the other way.
+		back = flt(get_exchange_rate(target, source, date))
+		found = 1 / back if back else 0.0
+	if not found:
+		frappe.throw(
+			_("There's no exchange rate from {0} to {1}. Add one in Currency Exchange.").format(
+				source, target
+			)
+		)
+	return found
+
+
+def bill_in(doc, party_type: str, party: str) -> str:
+	"""Puts a new sales or buying document in the party's currency, with its
+	rate to the company's, and returns the currency."""
+	from erpnext import get_company_currency, get_default_company
+
+	doc.company = doc.get("company") or get_default_company()
+	doc.currency = billed_in(party_type, party, doc.company)
+	date = doc.get("transaction_date") or doc.get("posting_date")
+	doc.conversion_rate = rate(doc.currency, get_company_currency(doc.company), date)
+	return doc.currency

@@ -25,6 +25,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, nowdate
 
+from onedesk.one_book.currency import bill_in
 from onedesk.one_inventory.item import last_bought
 
 
@@ -110,6 +111,9 @@ def order(rows: str | list, supplier: str | None = None) -> list[str]:
 		doc.company = get_default_company()
 		doc.supplier = name
 		doc.transaction_date = nowdate()
+		# A supplier billing in another currency is ordered from in theirs;
+		# ERPNext prices the lines in it from the buying price list.
+		bill_in(doc, "Supplier", name)
 		for line in lines:
 			lead = frappe.get_cached_value("Item", line["item_code"], "lead_time_days") or 0
 			doc.append(

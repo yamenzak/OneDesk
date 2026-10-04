@@ -40,7 +40,7 @@
       </template>
 
       <template v-else-if="kind === 'Retainer'">
-        <Section v-if="view.months" :title="__('Months')" :aside="__('{0} a month', [money(view.months.fee, said.currency)])">
+        <Section v-if="view.months" :title="__('Months')" :aside="__('{0} a month', [money(view.months.fee, view.months.currency)])">
           <Months :months="view.months" @invoice="(month) => onedesk().project.invoice_month(frm(), month)" />
         </Section>
         <Section v-if="weekly.length" :title="__('Hours by Week')" :aside="__('{0} in 12 weeks', [hours(view.weekly.total)])">
@@ -125,7 +125,7 @@ const NAMES = () => ({
   months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Budget Used"), due: __("Due"), overdue: __("Overdue Tasks"),
 });
 const figure = (card) => {
-  if (card.money !== undefined) return money(card.money, props.said.currency);
+  if (card.money !== undefined) return money(card.money, card.currency || props.said.currency);
   if (card.hours !== undefined) return hours(card.hours);
   if (card.date) return card.value ? date(card.value) : "–";
   return card.value ?? "–";

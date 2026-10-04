@@ -29,6 +29,9 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
+from onedesk.one_book.currency import bill_in
+from onedesk.one_book.currency import rate as currency_rate
+
 #: The tick on Quotation and Sales Order saying the order is extra work, to
 #: become a sub-project of the project it names.
 EXTRA = "one_extra_work"
@@ -74,6 +77,10 @@ def invoice_time(source_name: str, item: str | None = None):
 	invoice = frappe.new_doc("Sales Invoice")
 	invoice.customer = source.customer
 	invoice.project = project
+	# The customer is billed in their currency, and each timesheet's amount is
+	# turned into it, as ERPNext's own Fetch Timesheet does.
+	bill_in(invoice, "Customer", source.customer)
+	rows = in_currency(rows, invoice.currency)
 	for line in lines(rows):
 		invoice.append(
 			"items",
@@ -206,6 +213,18 @@ def lines(rows: list) -> list[dict]:
 		for one in found.values()
 		if one["hours"] or one["amount"]
 	]
+
+
+def in_currency(rows: list, currency: str) -> list:
+	"""Timesheet rows with their billing amount in `currency`, each from its
+	timesheet's own."""
+	rates: dict = {}
+	for row in rows:
+		source = row.get("currency")
+		if source not in rates:
+			rates[source] = currency_rate(source, currency)
+		row["billing_amount"] = flt(row.get("billing_amount")) * rates[source]
+	return rows
 
 
 def _rows(project: str) -> list:

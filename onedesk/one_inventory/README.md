@@ -106,8 +106,9 @@ ordered, and every item that is low and not yet requested — how many, for
 which warehouse, from whom (the item's default supplier, or whoever it was
 last bought from) and what it last cost. Tick the rows and press **Order**:
 one draft purchase order is made for each supplier, and rows with no
-supplier go to the one you pick. Read the drafts, correct prices and
-quantities, and submit them. A row on a draft order leaves the list, and a
+supplier go to the one you pick. A supplier billed in another currency gets
+their order in it. Read the drafts, correct prices and quantities, and submit
+them. A row on a draft order leaves the list, and a
 request is marked ordered when its order is submitted.
 
 ## Buying equipment

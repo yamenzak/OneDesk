@@ -493,10 +493,29 @@ with the quotation's value, **Forecast Margin** is worked out against it, and
 **Make Order** turns the quotation into the sales order. A quotation with
 alternative items opens instead, so you can pick which ones were ordered.
 
+A project can have more than one quotation, a revised price or a choice of
+two. With several open, **Quoted** shows the newest and says how many there
+are, and clicking it lists them so you can order the right one. Mark a
+quotation **Lost** once it's replaced, or cancel and amend it for a new
+revision. A lost, expired or cancelled quotation no longer counts.
+
+A quotation made outside the project, from a deal in OneCRM or the
+Quotation list, offers the customer's open projects to pick from. If the
+customer has one open Fixed Price project with nothing ordered yet, it's
+picked for you.
+
 With no quotation and no order, **Add Contract** under **Contract** makes the
 sales order from a **Contract Value**, the item to **Bill As** and any
-**Retention**, as **Add Project** does. It's in the customer's currency.
-To change a contract once it's made, change its sales order.
+**Retention**, as **Add Project** does. To change a contract once it's made,
+change its sales order.
+
+### Customers billed in another currency
+
+A customer whose account is in another currency, such as USD, is billed in
+it. The contract value and a retainer's monthly fee are agreed in that
+currency, and the contract, **Invoice Time** and **Invoice Month** make their
+orders and invoices in it. Hours are turned into it at the day's exchange
+rate. The project's own figures are all in your company's currency.
 
 **Make Order** and **Add Contract** show to whoever may create sales orders;
 **Add Contract** also needs the right to change the project.
@@ -683,6 +702,13 @@ one field for it.
   Project Summary report counted Overdue tasks, and now counts none.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
+- Currency: every order and invoice made here goes through one_book/currency.py
+  `bill_in`, so a customer billed in USD is billed in USD. Timesheet amounts
+  are turned into the invoice's currency by `billing.in_currency`, as
+  ERPNext's own Fetch Timesheet does. A retainer's fee is in the customer's
+  currency (`retainer.fee_currency`); the page shows it so (a card's own
+  `currency`). Money's **Quoted** counts quotations still standing
+  (`money.QUOTED`), and `view.to_quote` names a new quotation's project.
 - `media.py` — a project's **Featured Media**: its files marked `one_featured`
   (File), shown in OneCloud as a folder inside the project's own
   (`@featured/<project>`, one_storage/namespace.py), so nothing is stored for

@@ -255,6 +255,13 @@ fails a small business on first use or leaves a question unanswered.
   are rows with a key, and the fix for a key is `fix` — Accounts Manager or
   Workspace Administrator only. The page is `public/js/check.js`, which the
   Inventory Check draws too.
+- `currency.py` — billing a party in their own currency. ERPNext refuses a
+  document in any currency but the one on the party's receivable or payable
+  account, and a document made in code starts in the company's. `bill_in`
+  sets the company, the party's currency and its rate, as the form would;
+  `rate` reads ERPNext's exchange rate, or the inverse of the one kept the
+  other way. OneProject's contract, Invoice Time and Invoice Month and
+  OneInventory's reorder all make their documents through it.
 
 ### The plan
 

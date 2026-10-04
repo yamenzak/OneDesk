@@ -21,6 +21,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, nowdate
 
+from onedesk.one_book.currency import bill_in, billed_in
+
 FIXED = "Fixed Price"
 TIME = "Time and Materials"
 RETAINER = "Retainer"
@@ -98,17 +100,12 @@ def _contract(project, values, contract: float) -> str:
 	start = getdate(values.starts or nowdate())
 	ends = getdate(values.ends) if values.ends else add_days(start, 30)
 	order = frappe.new_doc("Sales Order")
-	company = project.company or frappe.defaults.get_user_default("Company")
-	# A customer billed in another currency is ordered from in theirs, as
-	# ERPNext refuses any other for their account.
-	from erpnext.accounts.party import get_party_account_currency
-
-	currency = get_party_account_currency("Customer", project.customer, company)
+	order.company = project.company
+	# The contract value is in the customer's own currency, as the order is.
+	bill_in(order, "Customer", project.customer)
 	order.update(
 		{
 			"customer": project.customer,
-			"company": company,
-			"currency": currency,
 			"project": project.name,
 			"transaction_date": nowdate(),
 			"delivery_date": max(ends, getdate(nowdate())),
@@ -189,10 +186,7 @@ def defaults(customer: Annotated[str | None, "The customer, for their currency."
 		item = CONTRACT_ITEM
 	currency = None
 	if customer and frappe.has_permission("Customer", "read", doc=customer):
-		from erpnext.accounts.party import get_party_account_currency
-
-		company = frappe.defaults.get_user_default("Company")
-		currency = get_party_account_currency("Customer", customer, company)
+		currency = billed_in("Customer", customer)
 	return {"item": item, "user": frappe.session.user, "currency": currency}
 
 

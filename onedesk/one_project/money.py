@@ -63,6 +63,12 @@ def unbilled(rows: list) -> float:
 	return left
 
 
+#: A quotation that still stands: open, or ordered. A lost or expired one
+#: doesn't, and an amended one is cancelled, so a revision counts once.
+QUOTED = ("Open", "Replied", "Partially Ordered", "Ordered")
+#: A quotation the customer hasn't answered yet.
+OPEN_QUOTE = ("Open", "Replied")
+
 #: Documents whose submitting or cancelling changes a project's money.
 MOVES = {*LINES, "Quotation", "Payment Entry", "Timesheet", "Expense Claim", "Stock Entry"}
 
@@ -121,10 +127,12 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		quoted = (
 			frappe.qb.from_(q)
 			.select(Sum(q.base_net_total))
-			.where(q.project.isin(projects) & (q.docstatus == 1) & (q.status != "Lost"))
+			.where(q.project.isin(projects) & (q.docstatus == 1) & q.status.isin(QUOTED))
 			.run()
 		)
-		customer.append(_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["!=", "Lost"]))
+		customer.append(
+			_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)])
+		)
 	ordered = _lines("Sales Order", projects)
 	for doctype, label, value in (
 		("Sales Order", _("Ordered"), ordered),
@@ -354,7 +362,8 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"ordered_on": str(head.transaction_date) if head.transaction_date else None,
 				# Bill Progress drafts the next bill; an order closed, held or
 				# billed in full has none.
-				"can_bill": head.status not in ("Closed", "On Hold", "Completed") and flt(head.per_billed) < 100,
+				"can_bill": head.status not in ("Closed", "On Hold", "Completed")
+				and flt(head.per_billed) < 100,
 				"route": f"/desk/purchase-order/{quote(name, safe='')}",
 			}
 		)

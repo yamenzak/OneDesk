@@ -7636,22 +7636,29 @@ set it from the page.
   once there's a contract.
 - Figures gained a button under a figure, frappe-ui's Button.
 
-**Still open, from the contract work** (checked against "What ERPNext
-already does"):
+**Quotes and currencies, after the contract work** (checked against "What
+ERPNext already does"):
 
-- **Invoice Time** (`billing.py`) and **Invoice Month** (`retainer.py`) make
-  their sales invoice without the customer's currency. For a customer billed
-  in USD, ERPNext refuses it, as it did the contract ("can only be made in
-  currency: USD"). A retainer's monthly fee is kept in the company's
-  currency, so it also needs converting.
-- OneInventory's reorder (`one_inventory/order.py`) makes purchase orders the
-  same way, for a supplier billed in another currency.
-- **Quoted** under Money adds up every submitted quotation that isn't Lost,
-  including expired ones and earlier revisions of the same quote. The
-  Overview's **Quoted** shows only the newest open quotation, and says
-  nothing of any others.
-- A quotation made from a deal in OneCRM has no project until someone picks
-  it on the quotation, so it doesn't show on the project.
+- **Invoice Time** (`billing.py`) and **Invoice Month** (`retainer.py`) made
+  their sales invoice in the company's currency, which ERPNext refused for a
+  customer billed in USD. OneInventory's reorder did the same for a supplier.
+  All of them, and the contract, now go through OneBook's `currency.py`
+  (`bill_in`), which sets the party's currency and its rate as the form would.
+  Hours are turned into the invoice's currency from each timesheet's own, as
+  ERPNext's Fetch Timesheet does. ERPNext keeps one rate per pair and doesn't
+  read it backwards, so `rate` inverts the other way's when that's all there
+  is.
+- A retainer's monthly fee and a contract's value are agreed in the customer's
+  currency. The New Project dialog asks for them in it, the page shows the fee
+  in it, and Invoice Month bills it as it is.
+- **Quoted** under Money counted every quotation that wasn't Lost, so an
+  expired one and an earlier revision counted too. It now counts those still
+  standing (Open, Replied, Partially Ordered, Ordered).
+- The Overview showed only the newest open quotation. With several it now
+  says "2 open quotes" and opens them as a list, so the right one is ordered.
+- A quotation made from a deal had no project. The Project field now offers
+  the customer's open projects, and names the one Fixed Price project with
+  nothing ordered yet when there's exactly one.
 
 ## OneLegal
 

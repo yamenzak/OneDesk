@@ -20,6 +20,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_months, flt, get_first_day, getdate, nowdate
 
+from onedesk.one_book.currency import bill_in, billed_in
 from onedesk.one_project import billing, kinds
 
 #: The field on Sales Invoice naming the month it bills.
@@ -82,6 +83,30 @@ def _time(project: str, month) -> list:
 	)
 
 
+def fee_currency(doc) -> str:
+	"""The currency a retainer's fee is in: the customer's own."""
+	from erpnext import get_company_currency, get_default_company
+
+	if doc.get("customer"):
+		return billed_in("Customer", doc.customer, doc.get("company"))
+	return get_company_currency(doc.get("company") or get_default_company())
+
+
+def _priced(rows: list, currency: str) -> list:
+	"""Time rows with their billing amount in `currency`."""
+	sheets = {row.parent for row in rows}
+	found = dict(
+		frappe.get_all(
+			"Timesheet", filters={"name": ["in", list(sheets)]}, fields=["name", "currency"], as_list=True
+		)
+		if sheets
+		else []
+	)
+	for row in rows:
+		row["currency"] = found.get(row.parent)
+	return billing.in_currency(rows, currency)
+
+
 def _invoices(project: str) -> dict:
 	"""Each month's invoice, the latest that isn't cancelled."""
 	if not frappe.has_permission("Sales Invoice", "read"):
@@ -128,6 +153,7 @@ def months(project: Annotated[str, "The project."]) -> dict:
 		)
 	return {
 		"fee": flt(doc.get("one_monthly_fee")),
+		"currency": fee_currency(doc),
 		"allowance": allowance,
 		"months": found,
 		"renews": str(add_months(this, 1)),
@@ -171,9 +197,13 @@ def asked(project: Annotated[str, "The project."], month: Annotated[str, "The mo
 	rows = _time(project, month)
 	hours = sum(flt(row.hours) for row in rows)
 	extra = over(hours, doc.get("one_monthly_hours"))
-	billable = [row for row in rows if row.is_billable and row.docstatus == 1 and not row.sales_invoice]
+	currency = fee_currency(doc)
+	billable = _priced(
+		[row for row in rows if row.is_billable and row.docstatus == 1 and not row.sales_invoice], currency
+	)
 	return {
 		"month": str(month),
+		"currency": currency,
 		"fee": flt(doc.get("one_monthly_fee")),
 		"hours": round(hours, 2),
 		"over": round(extra, 2),
@@ -215,6 +245,10 @@ def invoice_month(source_name: str, month: str | None = None, item: str | None =
 	invoice.customer = doc.customer
 	invoice.project = project
 	invoice.set(MONTH, month)
+	# The fee is agreed in the customer's currency, and the hours over are
+	# turned into it from each timesheet's own.
+	bill_in(invoice, "Customer", doc.customer)
+	billable = _priced(billable, invoice.currency)
 	invoice.append(
 		"items", {"item_code": item, "qty": 1, "rate": flt(doc.get("one_monthly_fee")), "description": named}
 	)

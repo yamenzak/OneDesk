@@ -118,19 +118,16 @@ def contract(doc) -> str | None:
 
 
 def quotation(doc) -> dict | None:
-	"""While nothing is ordered, the customer's quotation for the project:
-	the newest still open, extra work aside."""
+	"""While nothing is ordered, the customer's quotations for the project
+	still open, extra work aside: the newest, and how many there are."""
+	from onedesk.one_project.money import OPEN_QUOTE, _route
+
+	filters = {"project": doc.name, "docstatus": 1, "status": ["in", list(OPEN_QUOTE)], "one_extra_work": 0}
 	found = frappe.get_all(
 		"Quotation",
-		filters={
-			"project": doc.name,
-			"docstatus": 1,
-			"status": ["in", ("Open", "Replied")],
-			"one_extra_work": 0,
-		},
+		filters=filters,
 		fields=["name", "base_net_total"],
-		order_by="transaction_date desc",
-		limit=1,
+		order_by="transaction_date desc, creation desc",
 	)
 	if not found:
 		return None
@@ -138,9 +135,32 @@ def quotation(doc) -> dict | None:
 	return {
 		"name": one.name,
 		"value": flt(one.base_net_total),
+		"count": len(found),
+		"list": _route("Quotation", filters),
 		# ERPNext asks which alternative items to take on the quotation itself.
 		"alternatives": bool(frappe.db.exists("Quotation Item", {"parent": one.name, "is_alternative": 1})),
 	}
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def to_quote(customer: Annotated[str, "The customer being quoted."]) -> str | None:
+	"""A new quotation's project: the customer's one open Fixed Price project
+	with nothing ordered yet, when there is exactly one. Other kinds are never
+	ordered as a whole, so they aren't waiting for a quote."""
+	if not frappe.has_permission("Customer", "read", doc=customer):
+		return None
+	found = [
+		one.name
+		for one in frappe.get_list(
+			"Project",
+			filters={"customer": customer, "status": "Open", "one_kind": kinds.FIXED},
+			fields=["name", "sales_order"],
+			limit_page_length=0,
+		)
+		if not contract(one)
+	]
+	return found[0] if len(found) == 1 else None
 
 
 def _first(doc, cash: dict) -> dict:
@@ -150,11 +170,20 @@ def _first(doc, cash: dict) -> dict:
 	if order:
 		return {"key": "contract", "money": cash["contract"], "route": f"/desk/sales-order/{order}"}
 	quote = quotation(doc)
+	if quote and quote["count"] > 1:
+		# Which of them is ordered is the customer's answer, picked on the list.
+		return {
+			"key": "quoted",
+			"money": quote["value"],
+			"note": _("{0} open quotes").format(quote["count"]),
+			"route": quote["list"],
+		}
 	if quote:
 		return {
 			"key": "quoted",
 			"money": quote["value"],
 			"note": _("Not ordered yet"),
+			"route": f"/desk/quotation/{quote['name']}",
 			"action": "order",
 			"quotation": quote,
 		}
@@ -236,11 +265,13 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 			{
 				"key": "fee",
 				"money": flt(doc.one_monthly_fee),
+				"currency": retainer.fee_currency(doc),
 				"note": _("Renews {0}").format(formatdate(add_months(get_first_day(nowdate()), 1))),
 			},
 			{
 				"key": "months_waiting",
 				"money": len(late) * flt(doc.one_monthly_fee),
+				"currency": retainer.fee_currency(doc),
 				"note": _("{0} months").format(len(late))
 				if len(late) > 1
 				else _("1 month")
