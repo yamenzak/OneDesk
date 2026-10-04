@@ -211,3 +211,81 @@ def dashboard(data: dict) -> dict:
 		{"label": _("Payments"), "items": ["Payment Entry"]},
 	]
 	return data
+
+
+#: Task statuses that are no longer work to do.
+FINISHED = ("Completed", "Cancelled", "Template")
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def nodes(
+	doctype: str = "Project",
+	parent: str | None = None,
+	is_root: bool | int | str = False,
+	closed: bool | int | str = False,
+	**filters,
+) -> list[dict]:
+	"""The projects directly under one, for the Projects list's Tree view
+	(frappe's treeview, public/js/project_tree.js): under the root, those at
+	the top. Read as the reader reads projects, so a project whose parent they
+	may not see is at the top. Finished ones only when `closed` is ticked."""
+	from onedesk.one_hr.lifecycle import BOARDING
+
+	where = [["project_type", "!=", BOARDING]]
+	if not _yes(closed):
+		where.append(["status", "not in", ["Completed", "Cancelled"]])
+	rows = frappe.get_list(
+		"Project",
+		filters=where,
+		fields=["name", "project_name", PARENT, "status", "one_health", "percent_complete"],
+		limit_page_length=0,
+	)
+	return under(rows, None if _yes(is_root) else parent)
+
+
+def _yes(value) -> bool:
+	"""A tick as the tree sends it: true, "true", 1 or "1". Pure."""
+	return str(value).strip().lower() in ("1", "true", "yes")
+
+
+def under(rows: list[dict], parent: str | None) -> list[dict]:
+	"""The rows directly under `parent`, or at the top when it is None, each
+	saying whether anything is under it. Pure."""
+	names = {row["name"] for row in rows}
+	up = {row["name"]: row.get(PARENT) if row.get(PARENT) in names else None for row in rows}
+	has = set(up.values())
+	return [
+		{
+			"value": row["name"],
+			"title": row.get("project_name") or row["name"],
+			"expandable": row["name"] in has,
+			"status": row.get("status"),
+			"health": row.get("one_health"),
+			"percent": flt(row.get("percent_complete")),
+		}
+		for row in sorted(rows, key=lambda one: (one.get("project_name") or one["name"]).lower())
+		if up[row["name"]] == parent
+	]
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def milestones(projects: Annotated[list[str] | str, "The projects on the timeline."]) -> list[dict]:
+	"""The milestones still to come on these projects, for the Timeline view
+	of Projects, read as the reader reads tasks."""
+	projects = frappe.parse_json(projects) if isinstance(projects, str) else projects
+	if not projects:
+		return []
+	return frappe.get_list(
+		"Task",
+		filters=[
+			["project", "in", list(projects)[:500]],
+			["is_milestone", "=", 1],
+			["status", "not in", FINISHED],
+			["exp_end_date", "is", "set"],
+		],
+		fields=["name", "subject", "project", "exp_end_date"],
+		order_by="exp_end_date asc",
+		limit_page_length=0,
+	)

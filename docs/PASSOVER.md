@@ -7376,6 +7376,36 @@ and Board and Timeline folded into Tasks.
   question first), then Team after a tab click; Villa Al Barsha's Money;
   both notifications sent to the manager; every view at 390 px.
 
+**The OneProject rail.** Eleven rows to five: what's across projects stays,
+what's a way of seeing projects becomes a view of them, and what's one
+project's is on its page.
+
+- **Projects**, **Workload** and **Time** (Timesheet, renamed) stay.
+- **Project Tree** is the Projects list's **Tree View**: frappe's treeview
+  over `tree.nodes`, each project with how far along it is and its health
+  when at risk, **Show Completed**, a project opening its page, and
+  **New Project**. frappe's add, move, rename and delete on a node are left
+  out; a project is moved by its Parent Project. The report is deleted
+  (`patches/tree_is_a_view.py`), and the sub-projects measure on a project
+  leads to the Tree.
+- **Milestones** is the **Gantt View**: frappe's, over the project's dates,
+  opening by the week, with each project's milestones to come as rows of
+  their own under it that can't be dragged (they're tasks). frappe's switcher
+  calls it Gantt View, frappe's own word, so it's left. Onboarding and exit
+  checklists are left off, as on the Tree.
+- **Tasks** leaves: OneTask has the list, and a project's tasks are on its
+  page.
+- **Setup** is **Project Templates** and **Rates**. Rates is the Activity
+  Type list; an Activity Cost, a person's own rates for one activity, is now
+  its connection (**Rates for a Person**, with +) and leads back to Rates,
+  and ERPNext's button opening the same list goes.
+- **Projects Settings** is in the Projects list's ··· menu, for whoever may
+  change it, and leads back to Projects.
+- Found on the way: frappe's tree sends its root tick as the string "true",
+  which `cint` reads as 0, so the first Tree was empty; and frappe's Gantt
+  reads its view mode off a fresh object each time, so the default is set
+  through frappe-gantt's own `change_view_mode`.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

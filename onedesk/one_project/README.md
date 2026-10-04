@@ -16,14 +16,33 @@ project task assigned to you shows on your My Tasks and on the project's board.
 
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
-- **Project Tree**: every project under its parent, with its own figures.
 - **Workload**: how many hours of open work each person has in a week.
-- **Milestones**: every milestone still to come, across projects.
-- **Tasks**: every task, in a project or not (OneTask's list).
-- **Timesheet**: the time people have logged.
-- **Setup**: **Project Template**, **Activity Type**, **Activity Cost** and
-  **Projects Settings**. Projects Settings is for Projects Managers. Project
-  types are in One's **Masters**.
+- **Time**: the time people have logged, across projects.
+- **Setup**: **Project Templates**, and **Rates**, what an hour of each
+  activity costs and is billed at.
+
+Tasks are in OneTask, and a project's own tasks are on its page. Project
+types are in One's **Masters**.
+
+### Seeing projects another way
+
+The view switch at the top of **Projects** lays them out as:
+
+- **List View**: the list, with its filters.
+- **Tree View**: each project under its parent. Click one to open it;
+  **Show Completed** adds finished projects.
+- **Gantt View**: each project as a bar from its start to its end, filled as
+  far as it's done, with its milestones to come marked under it. Drag a bar
+  to change its dates. A project with no dates isn't shown.
+
+**Projects Settings**, in the ··· menu, is for whoever may change it.
+
+### Rates
+
+Each activity, such as Design or Execution, has a default rate an hour costs
+and a rate it's billed at. Under **Rates for a Person**, give somebody their
+own rates for that activity. A timesheet uses the person's rate when there's
+one, and the activity's when there isn't.
 
 ## Projects
 
@@ -636,7 +655,12 @@ one field for it.
   figures are ERPNext's own added up each time (`totals`), and
   `group_under` puts a new project above one. `path` is where a task is, for My
   Tasks and a parent's calendar. Sub-projects are a connection on the page
-  (`dashboard`), and `report/project_tree` is frappe's tree report over them.
+  (`dashboard`). The Projects list's Tree view is frappe's treeview over
+  `nodes` (`public/js/project_tree.js`, `under` is pure), and its Gantt view
+  is frappe's over the project's dates, with `milestones` added as rows of
+  their own that can't be dragged (`public/js/project_calendar.js`).
+- `rates.py` — Rates: Activity Type is the rail's row, and an Activity Cost,
+  a person's own rates for one, is its connection and leads back to it.
 - `plan.py` — each dependency row names its project, the field ERPNext's own
   rescheduling looks dependants up by and never writes; and a slip moves the
   dependants in the rest of the tree, which theirs never looks at
@@ -673,7 +697,7 @@ one field for it.
   how it is going nor one person who runs it.
 - Boarding projects — HRMS builds an onboarding or an exit out of a Project —
   are typed **Employee Boarding** by one_hr/lifecycle.py, and the Projects
-  rail entry and the Project Tree leave that type out.
+  rail entry, the Tree view and the Timeline leave that type out.
 - `report/workload` — Workload: planned hours from ERPNext's Expected Time
   and Actual Time on the reader's visible tasks (`in_week`, `load` pure),
   capacity from the holiday list (the employee's, else the company's), HR

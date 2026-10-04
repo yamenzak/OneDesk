@@ -557,6 +557,8 @@ No doctypes yet.
 * `onedesk.one_project.team.team`
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`
+* `onedesk.one_project.tree.milestones`
+* `onedesk.one_project.tree.nodes`
 * `onedesk.one_project.tree.totals`
 * `onedesk.one_project.updates.asked`
 * `onedesk.one_project.updates.post`

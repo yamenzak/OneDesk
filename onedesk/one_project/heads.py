@@ -52,7 +52,7 @@ def sub_projects(doc):
 	said = _said(doc.name)
 	if said["projects"] <= 1:
 		return None
-	return {"value": said["projects"] - 1, "route": "/desk/query-report/Project Tree"}
+	return {"value": said["projects"] - 1, "route": "/desk/project/view/tree"}
 
 
 def done(doc):

@@ -42,3 +42,4 @@ onedesk.one_project.patches.no_hourly_asks
 onedesk.one_project.patches.extra_work
 onedesk.one_project.patches.kinds
 onedesk.one_project.patches.costing_on_the_page
+onedesk.one_project.patches.tree_is_a_view

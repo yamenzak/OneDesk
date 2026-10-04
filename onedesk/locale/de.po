@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 16:04+0000\n"
-"PO-Revision-Date: 2026-10-04 16:04+0000\n"
+"POT-Creation-Date: 2026-10-04 16:38+0000\n"
+"PO-Revision-Date: 2026-10-04 16:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -21,10 +21,6 @@ msgstr ""
 #: onedesk/one_ai/run.py:606
 msgid " and "
 msgstr " und "
-
-#: onedesk/one_project/report/project_tree/project_tree.py:54
-msgid "% Completed"
-msgstr "% abgeschlossen"
 
 #: onedesk/public/js/ai_model.js:80
 msgid "(estimated)"
@@ -1177,15 +1173,12 @@ msgstr ""
 msgid "Activity"
 msgstr "Aktivität"
 
-#. Label of a Sidebar Item
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
-msgid "Activity Cost"
-msgstr ""
+#: onedesk/public/js/activity_type.js:5
+msgid "Activity Cost per Employee"
+msgstr "Aktivitätskosten je Mitarbeiter"
 
 #. Label of a Link in the OneHR Setup Workspace
-#. Label of a Sidebar Item
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/public/js/timesheet.js:45
 msgid "Activity Type"
 msgstr ""
@@ -1696,6 +1689,10 @@ msgstr "Alle Details"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:103
 msgid "All Events"
 msgstr "Alle Termine"
+
+#: onedesk/public/js/project_tree.js:8
+msgid "All Projects"
+msgstr "Alle Projekte"
 
 #. Label of the backfilled (Check) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
@@ -5252,7 +5249,6 @@ msgstr "Eigene Stufen liegen zwischen Benutzer und Manager."
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_project/report/project_tree/project_tree.py:50
 #: onedesk/one_project/tree.py:199 onedesk/public/js/project_new.js:53
 msgid "Customer"
 msgstr "Kunde"
@@ -6940,10 +6936,6 @@ msgstr "Fehler"
 msgid "Errors in the Last 7 Days"
 msgstr "Fehler in den letzten 7 Tagen"
 
-#: onedesk/one_project/report/project_tree/project_tree.py:56
-msgid "Estimated Cost"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/public/js/doctype_settings.js:702
@@ -7261,10 +7253,6 @@ msgstr "Ausklappen"
 #: onedesk/www/projects.html:38
 msgid "Expected End"
 msgstr "Voraussichtliches Ende"
-
-#: onedesk/one_project/report/project_tree/project_tree.py:55
-msgid "Expected End Date"
-msgstr ""
 
 #: onedesk/public/js/timesheet.js:54
 msgid "Expected Hrs"
@@ -8454,10 +8442,6 @@ msgstr ""
 msgid "Grievance Types"
 msgstr "Beschwerdearten"
 
-#: onedesk/one_project/report/project_tree/project_tree.py:59
-msgid "Gross Margin"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Gross Profit"
@@ -8627,7 +8611,6 @@ msgstr ""
 #. Label of the one_health (Select) field in DocType 'Project'
 #: frontend/src/project/Header.vue:27 onedesk/one_project/custom/project.json
 #: onedesk/one_project/heads.py:177
-#: onedesk/one_project/report/project_tree/project_tree.py:52
 msgid "Health"
 msgstr "Zustand"
 
@@ -9380,10 +9363,6 @@ msgstr "Posteingangsbenutzer"
 #: onedesk/public/js/hiring.js:56
 msgid "Include Audio From Another Tab"
 msgstr "Audio aus einem anderen Tab einbeziehen"
-
-#: onedesk/one_project/report/project_tree/project_tree.js:11
-msgid "Include Completed"
-msgstr "Abgeschlossene einbeziehen"
 
 #: onedesk/one_admin/report/price_check/price_check.js:8
 msgid "Include Disabled"
@@ -11749,10 +11728,7 @@ msgstr ""
 msgid "Milestone"
 msgstr "Meilenstein"
 
-#. Label of a Sidebar Item
-#: frontend/src/project/Overview.vue:20
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
-#: onedesk/www/projects.html:53
+#: frontend/src/project/Overview.vue:20 onedesk/www/projects.html:53
 msgid "Milestones"
 msgstr "Meilensteine"
 
@@ -12296,6 +12272,7 @@ msgid "New Profile"
 msgstr "Neues Profil"
 
 #: onedesk/public/js/project_new.js:41 onedesk/public/js/project_template.js:7
+#: onedesk/public/js/project_tree.js:32
 msgid "New Project"
 msgstr "Neues Projekt"
 
@@ -14496,7 +14473,8 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:740
 #: onedesk/public/js/onecloud.js:1886 onedesk/public/js/onecloud.js:1894
 #: onedesk/public/js/onecloud.js:1910 onedesk/public/js/project_actions.js:68
-#: onedesk/www/account.html:31 onedesk/www/s.html:48 onedesk/www/s.html:56
+#: onedesk/public/js/project_tree.js:23 onedesk/www/account.html:31
+#: onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr "Offen"
 
@@ -16084,7 +16062,6 @@ msgstr "Fortschritt…"
 #: onedesk/one_project/custom/quotation.json
 #: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/page/project_view/project_view.js:8
-#: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
 #: onedesk/public/js/timesheet.js:49
 msgid "Project"
@@ -16096,7 +16073,6 @@ msgstr "Projektzustand"
 
 #. Label of the one_manager (Link) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
-#: onedesk/one_project/report/project_tree/project_tree.py:53
 msgid "Project Manager"
 msgstr ""
 
@@ -16110,15 +16086,8 @@ msgstr "Projektzusammenfassung"
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
-msgid "Project Template"
-msgstr ""
-
-#. Name of a report
-#. Label of a Sidebar Item
-#: onedesk/one_project/report/project_tree/project_tree.json
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
-msgid "Project Tree"
-msgstr "Projektbaum"
+msgid "Project Templates"
+msgstr "Projektvorlagen"
 
 #: onedesk/one/masters.py:48
 msgid "Project Type"
@@ -16143,14 +16112,15 @@ msgstr "Geplanter Bestand"
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/page/project_view/project_view.js:9
+#: onedesk/one_project/rates.py:27
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/public/js/project_tree.js:9
 msgid "Projects"
 msgstr "Projekte"
 
-#. Label of a Sidebar Item
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/public/js/project_list.js:12
 msgid "Projects Settings"
-msgstr ""
+msgstr "Projekteinstellungen"
 
 #: onedesk/one/settings.py:72
 msgid "Projects, tasks and timesheets."
@@ -16483,9 +16453,16 @@ msgid "Rated {0} of 5"
 msgstr "Bewertet mit {0} von 5"
 
 #. Label of the rates (Table) field in DocType 'AI Model'
+#. Label of a Sidebar Item
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_project/rates.py:26
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Rates"
-msgstr ""
+msgstr "Sätze"
+
+#: onedesk/one_project/rates.py:17
+msgid "Rates for a Person"
+msgstr "Sätze für eine Person"
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:210
 msgid "Rating"
@@ -18695,6 +18672,10 @@ msgstr ""
 msgid "Show All Actions"
 msgstr "Alle Aktionen anzeigen"
 
+#: onedesk/public/js/project_tree.js:12
+msgid "Show Completed"
+msgstr "Abgeschlossene anzeigen"
+
 #: onedesk/www/error.html:25
 msgid "Show Error"
 msgstr ""
@@ -19335,7 +19316,6 @@ msgstr ""
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:23
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:161
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:205
-#: onedesk/one_project/report/project_tree/project_tree.py:51
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/settings.js:1754 onedesk/public/js/settings.js:2471
@@ -20015,7 +19995,6 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/project/ProjectPage.vue:138 onedesk/one_project/calendar.py:17
 #: onedesk/one_project/report/workload/workload.py:151
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json onedesk/www/projects.html:87
 msgid "Tasks"
 msgstr "Aufgaben"
@@ -21961,6 +21940,7 @@ msgstr "Kacheln"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/billing.py:84 onedesk/one_project/custom/project.json
 #: onedesk/one_project/money.py:164
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Time"
 msgstr "Uhrzeit"
 
@@ -21997,7 +21977,6 @@ msgstr "Wie oft geöffnet"
 
 #. Label of a Sidebar Item
 #: onedesk/one/portal.py:78 onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
 
@@ -22212,14 +22191,6 @@ msgstr "Kopfvorlage"
 #: onedesk/one_intake/panel.py:138 onedesk/www/rfq.html:86
 msgid "Total"
 msgstr "Gesamt"
-
-#: onedesk/one_project/report/project_tree/project_tree.py:58
-msgid "Total Billed Amount"
-msgstr ""
-
-#: onedesk/one_project/report/project_tree/project_tree.py:57
-msgid "Total Costing Amount"
-msgstr ""
 
 #: onedesk/one_book/report/vat_return/vat_return.py:71
 msgid "Total charged"
@@ -28418,6 +28389,7 @@ msgid "{0}% billed"
 msgstr "{0} % berechnet"
 
 #: frontend/src/project/Header.vue:37 onedesk/one_project/view.py:283
+#: onedesk/public/js/project_list.js:18 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0} % erledigt"

@@ -165,12 +165,9 @@ def test_a_tree_adds_up_erpnexts_own_figures():
 	assert "gross_margin" in space["FIGURES"] and "total_costing_amount" in space["FIGURES"]
 
 
-def test_the_tree_report_puts_each_project_under_its_parent():
-	ordered = _load(
-		PROJECT / "report" / "project_tree" / "project_tree.py",
-		("ordered",),
-		tree=type("T", (), {"PARENT": "one_parent"}),
-	)["ordered"]
+def test_the_tree_view_puts_each_project_under_its_parent():
+	space = _load(PROJECT / "tree.py", ("PARENT", "under", "_yes"), flt=lambda value: float(value or 0))
+	under, yes = space["under"], space["_yes"]
 	rows = [
 		{"name": "W", "project_name": "Windows", "one_parent": "V"},
 		{"name": "V", "project_name": "Villa", "one_parent": None},
@@ -178,8 +175,19 @@ def test_the_tree_report_puts_each_project_under_its_parent():
 		{"name": "H", "project_name": "Handrails", "one_parent": "V"},
 		{"name": "S", "project_name": "Secret", "one_parent": "X"},
 	]
-	said = [(row["name"], row["indent"], row["parent"]) for row in ordered(rows)]
-	assert said == [("S", 0, None), ("V", 0, None), ("H", 1, "V"), ("G", 2, "H"), ("W", 1, "V")]
+	# A project whose parent the reader can't see is at the top.
+	assert [(one["value"], one["expandable"]) for one in under(rows, None)] == [("S", False), ("V", True)]
+	assert [one["title"] for one in under(rows, "V")] == ["Handrails", "Windows"]
+	assert [one["value"] for one in under(rows, "H")] == ["G"]
+	assert yes(True) and yes("true") and yes("1") and not yes("0") and not yes(None)
+	# frappe's own Tree and Gantt views, from the Projects list's switcher.
+	assert '"Project": "public/js/project_tree.js"' in HOOKS and '"Project": "public/js/project_calendar.js"' in HOOKS
+	tree_js = (tree.APP / "public" / "js" / "project_tree.js").read_text()
+	assert 'get_tree_nodes: "onedesk.one_project.tree.nodes"' in tree_js and "disable_add_node: true" in tree_js
+	timeline = (tree.APP / "public" / "js" / "project_calendar.js").read_text()
+	assert '"onedesk.one_project.tree.milestones"' in timeline and "depends_on: null" in timeline
+	assert not (PROJECT / "report" / "project_tree").exists()
+	assert "onedesk.one_project.patches.tree_is_a_view" in (tree.APP / "patches.txt").read_text()
 
 
 def test_sub_projects_are_wired_and_members_see_below():
@@ -304,12 +312,10 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	page = "".join((tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js"))
 	assert "onedesk.one_project.templates.save_as" in page
 	assert '"Project Template": "public/js/project_template.js"' in HOOKS
-	for rail in (
-		PROJECT / "sidebar" / "oneproject" / "oneproject.json",
-		TASK / "sidebar" / "onetask" / "onetask.json",
-	):
-		tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Tasks")
-		assert "is_template" in tasks["filters"], rail.name
+	# Tasks are OneTask's rail's, which leaves a template's tasks out.
+	rail = TASK / "sidebar" / "onetask" / "onetask.json"
+	tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Tasks")
+	assert "is_template" in tasks["filters"], rail.name
 
 
 def test_time_is_invoiced_by_activity():
@@ -488,15 +494,11 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	assert "doc.one_health" in (PROJECT / "heads.py").read_text(), "health leads the band"
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
-	assert "is_milestone" in items["Milestones"]["filters"]
 	assert "Employee Boarding" in items["Projects"]["filters"], "somebody's first week is not client work"
 	lifecycle = (tree.APP / "one_hr" / "lifecycle.py").read_text()
 	assert 'BOARDING = "Employee Boarding"' in lifecycle
 	assert HOOKS.count('"on_submit": "onedesk.one_hr.lifecycle.typed"') == 2
-	assert (
-		'where["project_type"] = ["!=", BOARDING]'
-		in (PROJECT / "report" / "project_tree" / "project_tree.py").read_text()
-	)
+	assert 'where = [["project_type", "!=", BOARDING]]' in (PROJECT / "tree.py").read_text()
 
 
 def test_the_projects_list_says_status_and_names_the_manager():
@@ -972,3 +974,26 @@ def test_the_project_page_fits_a_phone():
 	assert '<Tabs v-model="tab" class="max-w-full overflow-x-auto' in page
 	mount = (tree.ROOT / "frontend" / "src" / "kit" / "mount.js").read_text()
 	assert 'setConfig("systemTimezone", zone.system)' in mount
+
+
+def test_the_rail_is_projects_workload_time_and_setup():
+	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
+	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
+	assert said == [
+		("Projects", "Project"),
+		("Workload", "Workload"),
+		("Time", "Timesheet"),
+		("Setup", None),
+		("Project Templates", "Project Template"),
+		("Rates", "Activity Type"),
+	]
+	# Rates: an activity's rates for a person are its connection, and lead back to it.
+	assert '"Activity Type": ["onedesk.one_project.rates.dashboard"]' in HOOKS
+	assert '"onedesk.one_project.rates.homes"' in HOOKS
+	rates = (PROJECT / "rates.py").read_text()
+	assert 'data["fieldname"] = "activity_type"' in rates and '"Activity Cost"' in rates
+	# Projects Settings is in the Projects list's menu, for whoever may change it.
+	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
+	assert 'frappe.model.can_write("Projects Settings")' in listing
+	assert '"route": "/desk/project/view/tree"' in (PROJECT / "heads.py").read_text()
+

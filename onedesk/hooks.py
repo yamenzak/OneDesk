@@ -817,6 +817,8 @@ doctype_js = {
 	# The project's board is a button of its own. See one_project/board.py.
 	# What the form and the project's page both do is project_actions.js.
 	"Project": ["public/js/project_actions.js", "public/js/project.js"],
+	# An activity's rates for a person are its connection (one_project/rates.py).
+	"Activity Type": "public/js/activity_type.js",
 	"Project Template": "public/js/project_template.js",
 	# Bill Progress on a subcontract and on the customer's contract. See one_project/progress.py.
 	"Purchase Order": "public/js/progress.js",
@@ -827,6 +829,11 @@ doctype_js = {
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
+# The Projects list as a tree and on a timeline: frappe's Tree and Gantt views.
+# See one_project/tree.py.
+doctype_tree_js = {"Project": "public/js/project_tree.js"}
+doctype_calendar_js = {"Project": "public/js/project_calendar.js"}
+
 doctype_list_js = {
 	"Deleted Document": "public/js/deleted_document_list.js",
 	# The Audit Log's three lists, as One's sidebar names them. See one/audit.py.
@@ -857,6 +864,8 @@ override_doctype_dashboards = {
 	"Task": ["onedesk.one_task.task.dashboard"],
 	# A project's sub-projects, the same way. See one_project/tree.py.
 	"Project": ["onedesk.one_project.tree.dashboard"],
+	# An activity's rates for each person, under the activity. See one_project/rates.py.
+	"Activity Type": ["onedesk.one_project.rates.dashboard"],
 }
 
 # Every shift location counts, not the first. See one_hr/checkin.py.
@@ -1221,7 +1230,7 @@ one_ai_page = [
 # Kinds of record whose home is one of a module's pages rather than their own
 # list, as {doctype: [crumb, ...]} for the reader: a form's trail leads back
 # there. See one/homes.py.
-one_homes = ["onedesk.one.masters.homes"]
+one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
 
 # What each module tells people, as notification types. See one/notify.py.
 one_notification_types = [

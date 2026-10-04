@@ -615,6 +615,16 @@ a.one-chart-head:hover .one-stat-label {
 	display: block;
 }
 
+/* A project's milestone on the Projects timeline (project_calendar.js): a mark
+ * on its day, in the warning colour, that can't be dragged or opened, being a
+ * task changed on its project's page. */
+.gantt .bar-wrapper.one-milestone {
+	pointer-events: none;
+}
+.gantt .bar-wrapper.one-milestone .bar {
+	fill: var(--orange-400);
+}
+
 /* A record's Files (record_files.js). Here and not in onecloud.css, which
  * is loaded only when the explorer first opens: the sidebar's Attachments,
  * reduced to a row that opens the Files tab — its list, Show All and its
