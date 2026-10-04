@@ -115,6 +115,57 @@ onedesk.project.invoice_time = async (frm) => {
 	dialog.show();
 };
 
+// Add Contract: a Fixed Price project's contract, made after the project,
+// as the New Project dialog makes it (one_project/kinds.py `add_contract`).
+onedesk.project.add_contract = async (frm) => {
+	const said = await frappe.xcall("onedesk.one_project.kinds.defaults", { customer: frm.doc.customer });
+	const dialog = new frappe.ui.Dialog({
+		title: __("Add Contract"),
+		fields: [
+			// In what the customer is billed in, which the order is made in.
+			{ fieldtype: "Link", fieldname: "currency", options: "Currency", hidden: 1, default: said.currency },
+			{ fieldtype: "Currency", fieldname: "contract", label: __("Contract Value"), reqd: 1, options: "currency" },
+			{
+				fieldtype: "Link",
+				fieldname: "item",
+				label: __("Bill As"),
+				options: "Item",
+				reqd: 1,
+				default: said.item,
+				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0, is_stock_item: 0 } }),
+			},
+			{ fieldtype: "Column Break" },
+			{ fieldtype: "Percent", fieldname: "retention", label: __("Retention") },
+			{
+				fieldtype: "Date",
+				fieldname: "retention_due",
+				label: __("Retention Due"),
+				depends_on: "eval:doc.retention",
+				mandatory_depends_on: "eval:doc.retention",
+			},
+		],
+		primary_action_label: __("Add Contract"),
+		primary_action: async (values) => {
+			const { currency, ...asked } = values;
+			await frappe.xcall("onedesk.one_project.kinds.add_contract", { project: frm.doc.name, ...asked });
+			dialog.hide();
+			frm.reload_doc();
+		},
+	});
+	dialog.show();
+};
+
+// Make Order: the quotation the customer accepted becomes the sales order,
+// as ERPNext's Create › Sales Order makes it. A quotation with alternative
+// items opens instead, where ERPNext asks which to take.
+onedesk.project.order_quote = (quote) => {
+	if (quote.alternatives) return frappe.set_route("Form", "Quotation", quote.name);
+	frappe.model.open_mapped_doc({
+		method: "erpnext.selling.doctype.quotation.mapper.make_sales_order",
+		source_name: quote.name,
+	});
+};
+
 // Post Update: the reader's note on how the project is going
 // (one_project/updates.py).
 onedesk.project.post = (frm) => {

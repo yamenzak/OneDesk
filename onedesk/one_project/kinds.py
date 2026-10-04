@@ -98,9 +98,17 @@ def _contract(project, values, contract: float) -> str:
 	start = getdate(values.starts or nowdate())
 	ends = getdate(values.ends) if values.ends else add_days(start, 30)
 	order = frappe.new_doc("Sales Order")
+	company = project.company or frappe.defaults.get_user_default("Company")
+	# A customer billed in another currency is ordered from in theirs, as
+	# ERPNext refuses any other for their account.
+	from erpnext.accounts.party import get_party_account_currency
+
+	currency = get_party_account_currency("Customer", project.customer, company)
 	order.update(
 		{
 			"customer": project.customer,
+			"company": company,
+			"currency": currency,
 			"project": project.name,
 			"transaction_date": nowdate(),
 			"delivery_date": max(ends, getdate(nowdate())),
@@ -123,6 +131,41 @@ def _contract(project, values, contract: float) -> str:
 	return order.name
 
 
+@frappe.whitelist(methods=["POST"])
+def add_contract(
+	project: Annotated[str, "The project."],
+	contract: Annotated[float, "The contract value."],
+	item: Annotated[str, "The item to bill it as."],
+	retention: Annotated[float | None, "Retention, in percent."] = None,
+	retention_due: Annotated[str | None, "When the retention is due."] = None,
+) -> str:
+	"""A Fixed Price project's contract, made after the project: the same
+	submitted Sales Order the New Project dialog makes. Returns its name."""
+	from onedesk.one_project.view import contract as ordered
+
+	doc = frappe.get_doc("Project", project)
+	frappe.has_permission("Project", "write", doc=doc, throw=True)
+	frappe.has_permission("Sales Order", "create", throw=True)
+	if not doc.customer:
+		frappe.throw(_("Pick the project's customer first."))
+	if flt(contract) <= 0:
+		frappe.throw(_("Enter the contract value."))
+	if not item:
+		frappe.throw(_("Pick the item to bill the contract as."))
+	if ordered(doc):
+		frappe.throw(_("{0} has a contract already. Change it on its sales order.").format(doc.project_name))
+	values = frappe._dict(
+		item=item,
+		retention=retention,
+		retention_due=retention_due,
+		starts=doc.expected_start_date,
+		ends=doc.expected_end_date,
+	)
+	order = _contract(doc, values, flt(contract))
+	doc.db_set("sales_order", order)
+	return order
+
+
 #: The item a contract is billed as when the workspace has none of its own:
 #: a service in Lump Sum, so Bill Progress can bill it in parts.
 CONTRACT_ITEM = "Contract Work"
@@ -130,9 +173,10 @@ CONTRACT_ITEM = "Contract Work"
 
 @frappe.whitelist()
 @frappe.read_only()
-def defaults() -> dict:
-	"""What the New Project dialog starts with: the item the last project's
-	contract was billed as, or Contract Work."""
+def defaults(customer: Annotated[str | None, "The customer, for their currency."] = None) -> dict:
+	"""What the New Project and Add Contract dialogs start with: the item the
+	last project's contract was billed as, or Contract Work, and the
+	currency the customer is billed in."""
 	found = frappe.get_all(
 		"Sales Order Item",
 		filters={"docstatus": 1, "project": ["is", "set"]},
@@ -143,7 +187,13 @@ def defaults() -> dict:
 	item = found[0].item_code if found else None
 	if not item and frappe.db.exists("Item", CONTRACT_ITEM):
 		item = CONTRACT_ITEM
-	return {"item": item, "user": frappe.session.user}
+	currency = None
+	if customer and frappe.has_permission("Customer", "read", doc=customer):
+		from erpnext.accounts.party import get_party_account_currency
+
+		company = frappe.defaults.get_user_default("Company")
+		currency = get_party_account_currency("Customer", customer, company)
+	return {"item": item, "user": frappe.session.user, "currency": currency}
 
 
 def settle() -> None:

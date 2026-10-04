@@ -86,6 +86,7 @@ def said(project: Annotated[str, "The project."]) -> dict:
 			for row in doc.users
 		],
 		"contract": contract(doc),
+		"quotation": None if contract(doc) else quotation(doc),
 		"currency": cash["currency"],
 		"can_write": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"views": views(kind, cash, doc.customer),
@@ -116,6 +117,50 @@ def contract(doc) -> str | None:
 	return found[0] if found else None
 
 
+def quotation(doc) -> dict | None:
+	"""While nothing is ordered, the customer's quotation for the project:
+	the newest still open, extra work aside."""
+	found = frappe.get_all(
+		"Quotation",
+		filters={
+			"project": doc.name,
+			"docstatus": 1,
+			"status": ["in", ("Open", "Replied")],
+			"one_extra_work": 0,
+		},
+		fields=["name", "base_net_total"],
+		order_by="transaction_date desc",
+		limit=1,
+	)
+	if not found:
+		return None
+	one = found[0]
+	return {
+		"name": one.name,
+		"value": flt(one.base_net_total),
+		# ERPNext asks which alternative items to take on the quotation itself.
+		"alternatives": bool(frappe.db.exists("Quotation Item", {"parent": one.name, "is_alternative": 1})),
+	}
+
+
+def _first(doc, cash: dict) -> dict:
+	"""A Fixed Price project's first figure: its contract once ordered, the
+	quote while one is out, or nothing yet with Add Contract."""
+	order = contract(doc)
+	if order:
+		return {"key": "contract", "money": cash["contract"], "route": f"/desk/sales-order/{order}"}
+	quote = quotation(doc)
+	if quote:
+		return {
+			"key": "quoted",
+			"money": quote["value"],
+			"note": _("Not ordered yet"),
+			"action": "order",
+			"quotation": quote,
+		}
+	return {"key": "contract", "money": 0, "action": "add_contract"}
+
+
 def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 	"""The kind's figures, each with what it's of and a bar where there's
 	something to fill (docs/PROJECT-PAGE.md)."""
@@ -127,8 +172,12 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		"note_money": [[_("Paid {0}"), [paid]]],
 	}
 	if kind == kinds.FIXED:
+		first = _first(doc, cash)
+		# While it's only quoted, the margin is measured against the quote.
+		worth = first["money"] if first["key"] == "quoted" else cash["contract"]
+		margin = worth - cash["forecast_cost"] if first["key"] == "quoted" else cash["forecast_margin"]
 		return [
-			{"key": "contract", "money": cash["contract"]},
+			first,
 			{
 				"key": "billed",
 				"value": f"{percent(cash['invoiced'], cash['contract'])}%",
@@ -148,11 +197,13 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 			},
 			{
 				"key": "forecast",
-				"money": cash["forecast_margin"],
-				"note": _("{0}% of the contract").format(share(cash["forecast_margin"], cash["contract"]))
-				if cash["contract"] and cash["forecast_margin"] > 0
+				"money": margin,
+				"note": (
+					_("{0}% of the quote") if first["key"] == "quoted" else _("{0}% of the contract")
+				).format(share(margin, worth))
+				if worth and margin > 0
 				else None,
-				"tone": "alarm" if cash["forecast_margin"] < 0 else None,
+				"tone": "alarm" if worth and margin < 0 else None,
 			},
 		]
 	if kind == kinds.TIME:

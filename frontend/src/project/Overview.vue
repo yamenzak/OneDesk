@@ -120,7 +120,7 @@ const view = computed(() => props.said.overview);
 const kind = computed(() => props.said.kind);
 
 const NAMES = () => ({
-  contract: __("Contract"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), done: __("Done"),
+  contract: __("Contract"), quoted: __("Quoted"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), done: __("Done"),
   hours: __("Hours This Month"), month: __("This Month"), unbilled: __("Not Invoiced Yet"), fee: __("Monthly Fee"),
   months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Budget Used"), due: __("Due"), overdue: __("Overdue Tasks"),
 });
@@ -137,8 +137,18 @@ const figures = computed(() =>
     note: card.note || (card.note_money ? card.note_money.map(([text, values]) => text.replace(/\{(\d+)\}/g, (_, i) => money(values[Number(i)], props.said.currency))).join(" · ") : ""),
     bar: card.bar,
     alarm: card.tone === "alarm",
+    route: card.route,
+    button: next(card),
   }))
 );
+// What the first figure asks for next, for whoever may do it.
+const next = (card) => {
+  if (!can("create", "Sales Order")) return null;
+  if (card.action === "add_contract" && props.said.can_write && props.said.customer)
+    return { label: __("Add Contract"), icon: "lucide-plus", onClick: () => onedesk().project.add_contract(frm()) };
+  if (card.action === "order") return { label: __("Make Order"), icon: "lucide-file-check", onClick: () => onedesk().project.order_quote(card.quotation) };
+  return null;
+};
 
 const frm = () => ({ doctype: "Project", doc: { name: props.said.name, project_name: props.said.title, customer: props.said.customer }, reload_doc: () => emit("changed") });
 const needs = computed(() =>

@@ -544,6 +544,7 @@ No doctypes yet.
 * `onedesk.one_project.budget.set_budget`
 * `onedesk.one_project.hours.entries`
 * `onedesk.one_project.hours.log`
+* `onedesk.one_project.kinds.add_contract`
 * `onedesk.one_project.kinds.defaults`
 * `onedesk.one_project.kinds.make`
 * `onedesk.one_project.media.add`

@@ -36,6 +36,13 @@ The dialog is frappe's own (fields are frappe controls). It makes the Project
 and, for Fixed Price, the customer's Sales Order for the contract value, so
 Bill Progress works from day one.
 
+A Fixed Price project made without a contract value, or started from a
+quotation, gets it on its page. While the quotation is open the first card is
+**Quoted** with **Make Order** (ERPNext's quotation mapper,
+`make_sales_order`, so the order is made as it is from the quotation). With
+neither, the card offers **Add Contract** (kinds.py `add_contract`), the same
+Sales Order the dialog makes. Both orders are in the customer's currency.
+
 ## The page
 
 `/desk/project/<name>` opens the page instead of the form. The form stays,

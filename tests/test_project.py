@@ -1187,3 +1187,42 @@ def test_featured_media_turns_on_the_page_and_the_portal():
 	gallery = (tree.APP / "public" / "js" / "one_gallery.js").read_text()
 	for part in ('addEventListener("ended"', "prefers-reduced-motion", '"mouseenter"', "clip.play()"):
 		assert part in gallery, part
+
+
+def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
+	# The first figure: the contract once ordered, the quote while one is out,
+	# and Add Contract with neither.
+	def first(order, quote):
+		space = _load(PROJECT / "view.py", ("_first",), _=lambda text: text)
+		space.update(contract=lambda doc: order, quotation=lambda doc: quote)
+		return space["_first"](None, {"contract": 500})
+
+	assert first("SO-1", None) == {"key": "contract", "money": 500, "route": "/desk/sales-order/SO-1"}
+	quoted = first(None, {"name": "QTN-1", "value": 180, "alternatives": False})
+	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["action"] == "order"
+	assert first(None, None) == {"key": "contract", "money": 0, "action": "add_contract"}
+	view = (PROJECT / "view.py").read_text()
+	assert '"quotation": None if contract(doc) else quotation(doc)' in view
+	assert '"one_extra_work": 0' in view and '_("{0}% of the quote")' in view
+	# Add Contract makes the dialog's own order, once, for whoever may change
+	# the project and make orders, in the customer's currency.
+	kinds = (PROJECT / "kinds.py").read_text()
+	add = kinds[kinds.index("def add_contract(") : kinds.index("CONTRACT_ITEM =")]
+	for part in (
+		'frappe.has_permission("Project", "write", doc=doc, throw=True)',
+		'frappe.has_permission("Sales Order", "create", throw=True)',
+		"if ordered(doc):",
+		"order = _contract(doc, values, flt(contract))",
+	):
+		assert part in add, part
+	assert 'get_party_account_currency("Customer", project.customer, company)' in kinds
+	# The page asks for the next step under the figure, with frappe-ui's
+	# Button, and makes the order with ERPNext's own quotation mapper.
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert 'can("create", "Sales Order")' in overview and "__(\"Make Order\")" in overview
+	assert '<Button v-if="one.button"' in (tree.ROOT / "frontend" / "src" / "kit" / "Figures.vue").read_text()
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "erpnext.selling.doctype.quotation.mapper.make_sales_order" in actions
+	assert "onedesk.one_project.kinds.add_contract" in actions
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert '__("New Quotation")' in page and '__("Quote Extra Work")' in page

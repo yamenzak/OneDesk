@@ -160,7 +160,8 @@ the day, who and the hours on **Time**, the person and their open tasks on
 The Overview is laid out for the kind, and each thing on it shows once.
 
 - **Fixed Price**: **Contract**, **Billed** (how much of the contract is
-  invoiced), **Cost** against the budget, and **Forecast Margin**. Under
+  invoiced), **Cost** against the budget, and **Forecast Margin**. Before
+  the customer orders, **Contract** shows what they've been **Quoted**. Under
   them, **Work and Billing** puts the work done beside what's billed and
   paid, **Budget** shows each cost type, and **Milestones**. On the right,
   **Subcontracts** and **Retention**.
@@ -269,7 +270,8 @@ The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **Invoice Time** for Time and Materials, and **Post Update** otherwise.
 **···** has the rest: **Edit Details**, **Post Update**, **Quote Extra
 Work**, **Group Under New Project**, **Save as Template** and **Open Task
-Board**.
+Board**. On a Fixed Price project with no contract or quotation yet,
+**New Quotation** takes the place of **Quote Extra Work**.
 
 **Edit Details** opens the project's form, with every field: its name,
 customer, parent project, status, health and manager, its dates and members,
@@ -482,6 +484,22 @@ share, less what's been invoiced already. Set **Retention** and **Retention
 Due** on the order's **Terms** tab to hold the customer's retention the same
 way. **Customer** under **Money** shows the **Retention Held** still to be
 paid.
+
+### Before the customer orders
+
+A Fixed Price project can start before anything is agreed. While the
+customer's quotation is open, **Contract** on the Overview reads **Quoted**
+with the quotation's value, **Forecast Margin** is worked out against it, and
+**Make Order** turns the quotation into the sales order. A quotation with
+alternative items opens instead, so you can pick which ones were ordered.
+
+With no quotation and no order, **Add Contract** under **Contract** makes the
+sales order from a **Contract Value**, the item to **Bill As** and any
+**Retention**, as **Add Project** does. It's in the customer's currency.
+To change a contract once it's made, change its sales order.
+
+**Make Order** and **Add Contract** show to whoever may create sales orders;
+**Add Contract** also needs the right to change the project.
 
 ## Extra work becomes a sub-project
 
@@ -833,7 +851,11 @@ one field for it.
   one call read as the reader, the head, the kind's four cards (`cards`) and
   its Overview, from overview.py, money.py, budget.py, billing.py and
   tree.py. `needs` is Needs You; `contract` is the project's Sales Order or
-  the first one against it. `work` gives the Tasks, Board and Timeline views
+  the first one against it; `quotation` is its open quotation (not extra
+  work) while nothing is ordered, which the first Fixed Price card shows as
+  **Quoted** (`_first`). kinds.py's `add_contract` makes the contract after
+  the project, as `_contract` does for the New Project dialog, in the
+  customer's party account currency. `work` gives the Tasks, Board and Timeline views
   the tasks of the project and its sub-projects, the people they're assigned
   to, and the statuses and priorities to pick from; `files` and `updates`
   give the Files view and the Overview's updates. The page's body is the

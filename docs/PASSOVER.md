@@ -7584,6 +7584,24 @@ a badge, then a row of facts, then the tabs; it is now a plain panel laid out as
 the photo is (kind, name, facts, team, **Add Cover** in the corner), so every
 project's page is a head, the views, then the page.
 
+**The contract, and before it.** A Fixed Price project's contract could only
+be set in the New Project dialog. One made without it, or started from a
+quotation, showed a contract of 0 and a forecast margin of 0, with no way to
+set it from the page.
+
+- While the customer's quotation is open and nothing is ordered, the first
+  card is **Quoted** with the quotation's value, "Not ordered yet" and **Make
+  Order**, which runs ERPNext's quotation mapper (a quotation with
+  alternatives opens instead). The forecast margin is against the quote.
+- With neither, the card offers **Add Contract**: Contract Value, Bill As and
+  Retention, making the same submitted Sales Order the dialog makes.
+- The contract's order was made in the company's currency, which ERPNext
+  refuses for a customer billed in another one ("can only be made in
+  currency: USD"). It now takes the customer's currency, in the dialog too.
+- **···** offers **New Quotation** on such a project, and **Quote Extra Work**
+  once there's a contract.
+- Figures gained a button under a figure, frappe-ui's Button.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
