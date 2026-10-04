@@ -150,3 +150,11 @@ def test_oneai_knows_the_open_list():
 	assert "frappe.realtime.doctype_subscribe" in js and '"list_update"' in js
 	ai = (tree.APP / "one" / "ai.py").read_text()
 	assert '"page:masters": [' in ai and 'said.get("page") == "masters"' in ai
+
+
+def test_each_group_has_its_apps_mark_and_folds():
+	assert '"mark": settings._mark("" if group == "Shared" else group)' in SOURCE
+	js = (PAGE / "masters.js").read_text()
+	assert "one-masters-shut" in js and 'aria-expanded="${!shut}"' in js and 'frappe.model.user_settings.save("Masters", "closed"' in js
+	css = (PAGE / "masters.css").read_text()
+	assert ".one-masters-shut .one-masters-kinds" in css

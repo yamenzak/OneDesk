@@ -146,6 +146,8 @@ def _kind(doctype: str) -> tuple:
 def kinds() -> list[dict]:
 	"""Every kind the reader may see, grouped, with how many values each has
 	and what they may do with it."""
+	from onedesk.one import settings
+
 	groups = _groups()
 	out = []
 	for group, doctype, label, one in KINDS:
@@ -160,6 +162,8 @@ def kinds() -> list[dict]:
 				"doctype": doctype,
 				"label": str(label),
 				"one": str(one),
+				# The app's mark beside its group's name; One's own for Shared.
+				"mark": settings._mark("" if group == "Shared" else group),
 				"count": frappe.db.count(doctype, _below_root(doctype)),
 				"create": bool(frappe.has_permission(doctype, "create")),
 				"delete": bool(frappe.has_permission(doctype, "delete")),

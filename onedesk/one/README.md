@@ -1049,7 +1049,8 @@ Lists that carry settings of their own stay in their app's Setup, such as sales
 stages, leave types and salary components.
 
 Administrators see every group. An app's managers see their app's group and
-can add, rename and remove its values. Nobody else sees Masters.
+can add, rename and remove its values. Nobody else sees Masters. Click a
+group's name to fold it away; it stays folded for you on every device.
 
 **Add**, in the page head, puts a new value in the open list. A new customer
 group, territory, item group, supplier group or department goes under the top

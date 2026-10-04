@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 07:43+0000\n"
-"PO-Revision-Date: 2026-10-04 07:43+0000\n"
+"POT-Creation-Date: 2026-10-04 08:05+0000\n"
+"PO-Revision-Date: 2026-10-04 08:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1322,7 +1322,7 @@ msgstr ""
 msgid "Add to {0}"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:98
+#: onedesk/one/page/masters/masters.js:130
 msgid "Add {0}"
 msgstr ""
 
@@ -1800,11 +1800,11 @@ msgstr ""
 msgid "An add-on must be recurring."
 msgstr ""
 
-#: onedesk/one/masters.py:326
+#: onedesk/one/masters.py:330
 msgid "An address has no field {0}."
 msgstr ""
 
-#: onedesk/one/masters.py:324
+#: onedesk/one/masters.py:328
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr ""
 
@@ -6278,7 +6278,7 @@ msgstr ""
 msgid "Edit Costs"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:140
+#: onedesk/one/page/masters/masters.js:172
 msgid "Edit Full Form"
 msgstr ""
 
@@ -8022,7 +8022,7 @@ msgstr ""
 msgid "Give a subject or a mail template"
 msgstr ""
 
-#: onedesk/one/masters.py:233 onedesk/one/masters.py:274
+#: onedesk/one/masters.py:237 onedesk/one/masters.py:278
 msgid "Give it a name."
 msgstr ""
 
@@ -11149,8 +11149,8 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/page/masters/masters.js:10
-#: onedesk/one/page/masters/masters.js:76
-#: onedesk/one/page/masters/masters.js:96 onedesk/one/sidebar/one/one.json
+#: onedesk/one/page/masters/masters.js:88
+#: onedesk/one/page/masters/masters.js:128 onedesk/one/sidebar/one/one.json
 msgid "Masters"
 msgstr ""
 
@@ -11632,8 +11632,8 @@ msgstr ""
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:102
-#: onedesk/one/page/masters/masters.js:167 onedesk/one/settings.py:1744
+#: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:134
+#: onedesk/one/page/masters/masters.js:199 onedesk/one/settings.py:1744
 #: onedesk/one/settings.py:1764 onedesk/one/settings.py:1797
 #: onedesk/one/settings.py:2095
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -11956,7 +11956,7 @@ msgstr ""
 msgid "New workspaces can't be built until a server is added."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:133 onedesk/one_ai/proposals.py:544
+#: onedesk/one/page/masters/masters.js:165 onedesk/one_ai/proposals.py:544
 #: onedesk/public/js/oneai/Record.vue:147
 msgid "New {0}"
 msgstr ""
@@ -12280,11 +12280,11 @@ msgstr ""
 msgid "No markup is set, so this model can't be called."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:76
+#: onedesk/one/page/masters/masters.js:88
 msgid "No masters"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:113 onedesk/public/js/shell.js:138
+#: onedesk/one/page/masters/masters.js:145 onedesk/public/js/shell.js:138
 msgid "No matches"
 msgstr ""
 
@@ -12743,7 +12743,7 @@ msgstr ""
 msgid "Not used"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:149
+#: onedesk/one/page/masters/masters.js:181
 msgid "Not used on any record"
 msgstr ""
 
@@ -12814,7 +12814,7 @@ msgstr ""
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:112 onedesk/public/js/desk.js:339
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:339
 #: onedesk/www/portal.html:36 onedesk/www/portal.html:72
 msgid "Nothing here yet"
 msgstr ""
@@ -16562,7 +16562,7 @@ msgstr ""
 msgid "Remote pictures are hidden."
 msgstr ""
 
-#: onedesk/one/ai.py:1870 onedesk/one/page/masters/masters.js:208
+#: onedesk/one/ai.py:1870 onedesk/one/page/masters/masters.js:240
 #: onedesk/public/js/oneai/Panel.vue:172 onedesk/public/js/onecloud.js:1332
 #: onedesk/public/js/onecloud.js:1378 onedesk/public/js/onecloud.js:1525
 #: onedesk/public/js/onecloud.js:1812 onedesk/public/js/settings.js:391
@@ -16603,7 +16603,7 @@ msgstr ""
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:210
+#: onedesk/one/page/masters/masters.js:242
 msgid "Remove {0}?"
 msgstr ""
 
@@ -16611,7 +16611,7 @@ msgstr ""
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr ""
 
-#: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:213
+#: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:245
 msgid "Removed"
 msgstr ""
 
@@ -17216,7 +17216,7 @@ msgstr ""
 msgid "Same format as a series."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:135
+#: onedesk/one/page/masters/masters.js:167
 #: onedesk/one_book/report/books_check/books_check.js:25
 #: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:488
@@ -17247,8 +17247,8 @@ msgstr ""
 msgid "Save to My Files"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:180
-#: onedesk/one/page/masters/masters.js:197 onedesk/public/js/reports.js:406
+#: onedesk/one/page/masters/masters.js:212
+#: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:406
 #: onedesk/public/js/shell.js:516
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
@@ -22098,11 +22098,11 @@ msgstr ""
 msgid "Used in the Last 30 Days"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:149
+#: onedesk/one/page/masters/masters.js:181
 msgid "Used on 1 record"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:149
+#: onedesk/one/page/masters/masters.js:181
 msgid "Used on {0} records"
 msgstr ""
 

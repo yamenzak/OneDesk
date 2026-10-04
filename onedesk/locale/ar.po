@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 07:43+0000\n"
-"PO-Revision-Date: 2026-10-04 07:43+0000\n"
+"POT-Creation-Date: 2026-10-04 08:05+0000\n"
+"PO-Revision-Date: 2026-10-04 08:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1324,7 +1324,7 @@ msgstr "إضافة إلى الخطة"
 msgid "Add to {0}"
 msgstr "أضف إلى {0}"
 
-#: onedesk/one/page/masters/masters.js:98
+#: onedesk/one/page/masters/masters.js:130
 msgid "Add {0}"
 msgstr ""
 
@@ -1802,11 +1802,11 @@ msgstr "الإضافة تضيف شيئًا واحدًا فقط."
 msgid "An add-on must be recurring."
 msgstr "يجب أن تكون الإضافة متكررة."
 
-#: onedesk/one/masters.py:326
+#: onedesk/one/masters.py:330
 msgid "An address has no field {0}."
 msgstr "لا يحتوي العنوان على الحقل {0}."
 
-#: onedesk/one/masters.py:324
+#: onedesk/one/masters.py:328
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr "يمكن لقالب العنوان أن يذكر حقلًا من حقول العنوان فقط، مثل {{ city }}."
 
@@ -6280,7 +6280,7 @@ msgstr "تعديل"
 msgid "Edit Costs"
 msgstr "تعديل التكاليف"
 
-#: onedesk/one/page/masters/masters.js:140
+#: onedesk/one/page/masters/masters.js:172
 msgid "Edit Full Form"
 msgstr ""
 
@@ -8023,7 +8023,7 @@ msgstr "التوقف بعد"
 msgid "Give a subject or a mail template"
 msgstr "أدخل موضوعًا أو قالب بريد"
 
-#: onedesk/one/masters.py:233 onedesk/one/masters.py:274
+#: onedesk/one/masters.py:237 onedesk/one/masters.py:278
 msgid "Give it a name."
 msgstr "أعطه اسمًا."
 
@@ -11149,8 +11149,8 @@ msgstr "لا يمكن أن يكون هامش الربح سالبًا."
 
 #. Label of a Sidebar Item
 #: onedesk/one/page/masters/masters.js:10
-#: onedesk/one/page/masters/masters.js:76
-#: onedesk/one/page/masters/masters.js:96 onedesk/one/sidebar/one/one.json
+#: onedesk/one/page/masters/masters.js:88
+#: onedesk/one/page/masters/masters.js:128 onedesk/one/sidebar/one/one.json
 msgid "Masters"
 msgstr "البيانات الأساسية"
 
@@ -11632,8 +11632,8 @@ msgstr "مهامي"
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:102
-#: onedesk/one/page/masters/masters.js:167 onedesk/one/settings.py:1744
+#: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:134
+#: onedesk/one/page/masters/masters.js:199 onedesk/one/settings.py:1744
 #: onedesk/one/settings.py:1764 onedesk/one/settings.py:1797
 #: onedesk/one/settings.py:2095
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -11956,7 +11956,7 @@ msgstr "البريد الجديد لا يصل. أعد ربطه بكلمة الم
 msgid "New workspaces can't be built until a server is added."
 msgstr "لا يمكن إنشاء مساحات عمل جديدة حتى يُضاف خادم."
 
-#: onedesk/one/page/masters/masters.js:133 onedesk/one_ai/proposals.py:544
+#: onedesk/one/page/masters/masters.js:165 onedesk/one_ai/proposals.py:544
 #: onedesk/public/js/oneai/Record.vue:147
 msgid "New {0}"
 msgstr "{0} جديد"
@@ -12280,11 +12280,11 @@ msgstr "لا توجد صناديق بريد"
 msgid "No markup is set, so this model can't be called."
 msgstr "لم يُحدد هامش ربح، لذا لا يمكن استدعاء هذا النموذج."
 
-#: onedesk/one/page/masters/masters.js:76
+#: onedesk/one/page/masters/masters.js:88
 msgid "No masters"
 msgstr "لا توجد بيانات أساسية"
 
-#: onedesk/one/page/masters/masters.js:113 onedesk/public/js/shell.js:138
+#: onedesk/one/page/masters/masters.js:145 onedesk/public/js/shell.js:138
 msgid "No matches"
 msgstr "لا توجد نتائج"
 
@@ -12743,7 +12743,7 @@ msgstr "لم تتم المزامنة بعد."
 msgid "Not used"
 msgstr "غير مستخدم"
 
-#: onedesk/one/page/masters/masters.js:149
+#: onedesk/one/page/masters/masters.js:181
 msgid "Not used on any record"
 msgstr "غير مستخدم في أي سجل"
 
@@ -12814,7 +12814,7 @@ msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغ
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
-#: onedesk/one/page/masters/masters.js:112 onedesk/public/js/desk.js:339
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:339
 #: onedesk/www/portal.html:36 onedesk/www/portal.html:72
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
@@ -16562,7 +16562,7 @@ msgstr "تذكير: طلب {who} ملفات لـ {request}"
 msgid "Remote pictures are hidden."
 msgstr "الصور الخارجية مخفية."
 
-#: onedesk/one/ai.py:1870 onedesk/one/page/masters/masters.js:208
+#: onedesk/one/ai.py:1870 onedesk/one/page/masters/masters.js:240
 #: onedesk/public/js/oneai/Panel.vue:172 onedesk/public/js/onecloud.js:1332
 #: onedesk/public/js/onecloud.js:1378 onedesk/public/js/onecloud.js:1525
 #: onedesk/public/js/onecloud.js:1812 onedesk/public/js/settings.js:391
@@ -16603,7 +16603,7 @@ msgstr "إزالة {0} ملفات من سجلاتها؟ لا يمكن الترا
 msgid "Remove {0} from its record? This can't be undone."
 msgstr "إزالة {0} من سجله؟ لا يمكن التراجع عن ذلك."
 
-#: onedesk/one/page/masters/masters.js:210
+#: onedesk/one/page/masters/masters.js:242
 msgid "Remove {0}?"
 msgstr "إزالة {0}؟"
 
@@ -16611,7 +16611,7 @@ msgstr "إزالة {0}؟"
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr "إزالة {0}؟ لن تُفتح مساحة العمل على هذا النطاق بعد الآن."
 
-#: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:213
+#: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:245
 msgid "Removed"
 msgstr "تمت الإزالة"
 
@@ -17216,7 +17216,7 @@ msgstr "الألقاب"
 msgid "Same format as a series."
 msgstr "بنفس صيغة السلسلة."
 
-#: onedesk/one/page/masters/masters.js:135
+#: onedesk/one/page/masters/masters.js:167
 #: onedesk/one_book/report/books_check/books_check.js:25
 #: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:488
@@ -17247,8 +17247,8 @@ msgstr "احفظ قبل إعداد Cloudflare."
 msgid "Save to My Files"
 msgstr "حفظ في ملفاتي"
 
-#: onedesk/one/page/masters/masters.js:180
-#: onedesk/one/page/masters/masters.js:197 onedesk/public/js/reports.js:406
+#: onedesk/one/page/masters/masters.js:212
+#: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:406
 #: onedesk/public/js/shell.js:516
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
@@ -22098,11 +22098,11 @@ msgstr "يُستعمل في الروابط. لا تغيّره بعد بيع ال
 msgid "Used in the Last 30 Days"
 msgstr "المستخدم في آخر 30 يومًا"
 
-#: onedesk/one/page/masters/masters.js:149
+#: onedesk/one/page/masters/masters.js:181
 msgid "Used on 1 record"
 msgstr "مستخدم في سجل واحد"
 
-#: onedesk/one/page/masters/masters.js:149
+#: onedesk/one/page/masters/masters.js:181
 msgid "Used on {0} records"
 msgstr "مستخدم في {0} سجل"
 

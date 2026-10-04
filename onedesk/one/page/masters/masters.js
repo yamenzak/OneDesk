@@ -45,6 +45,7 @@ onedesk.Masters = class Masters {
 	}
 
 	async load() {
+		if (!this.folded) this.folded = ((await frappe.model.user_settings.get("Masters")) || {}).closed || [];
 		this.kinds = await frappe.xcall(`${Masters.API}kinds`);
 		const asked = frappe.utils.get_url_arg("type");
 		const kept = this.kind && this.kinds.find((one) => one.doctype === this.kind.doctype);
@@ -55,9 +56,12 @@ onedesk.Masters = class Masters {
 
 	// The kinds as a sidebar, as OneMail's folders and OneTask's views, under
 	// their group's name.
+	// Each group under its app's mark, folded away and opened again as the
+	// rail's sections are; the open list's group stays open.
 	draw_kinds() {
 		const esc = frappe.utils.escape_html;
 		const groups = [...new Set(this.kinds.map((one) => one.group))];
+		const closed = this.closed();
 		const html = groups
 			.map((group) => {
 				const kinds = this.kinds
@@ -69,12 +73,29 @@ onedesk.Masters = class Masters {
 						</button>`;
 					})
 					.join("");
-				return `<div class="one-masters-group">${esc(Masters.GROUPS[group] || group)}</div>${kinds}`;
+				const mark = this.kinds.find((one) => one.group === group).mark;
+				const shut = closed.includes(group) && !(this.kind && this.kind.group === group);
+				return `<div class="one-masters-section${shut ? " one-masters-shut" : ""}" data-group="${esc(group)}">
+					<button class="one-masters-group" aria-expanded="${!shut}">
+						${mark ? `<span class="one-masters-mark">${frappe.utils.icon(mark, "sm")}</span>` : ""}
+						<span class="one-masters-group-label">${esc(Masters.GROUPS[group] || group)}</span>
+						${frappe.utils.icon("chevron-down", "xs", "one-masters-chevron")}
+					</button>
+					<div class="one-masters-kinds">${kinds}</div>
+				</div>`;
 			})
 			.join("");
 		this.panes.kinds.html(
 			html ? `<nav class="one-masters-side" aria-label="${__("Masters")}">${html}</nav>` : onedesk.shell.empty(__("No masters"), null, { icon: "database" })
 		);
+		this.panes.kinds.find(".one-masters-group").on("click", (event) => {
+			const $section = $(event.currentTarget).closest(".one-masters-section");
+			const shut = !$section.hasClass("one-masters-shut");
+			$section.toggleClass("one-masters-shut", shut);
+			$(event.currentTarget).attr("aria-expanded", String(!shut));
+			const group = $section.attr("data-group");
+			this.closed(shut ? [...new Set([...this.closed(), group])] : this.closed().filter((one) => one !== group));
+		});
 		this.panes.kinds.find("[data-kind]").on("click", (event) => {
 			this.kind = this.kinds.find((one) => one.doctype === event.currentTarget.dataset.kind);
 			history.replaceState(null, "", `${location.pathname}?type=${encodeURIComponent(this.kind.doctype)}`);
@@ -87,6 +108,16 @@ onedesk.Masters = class Masters {
 			// An open OneAI panel is told which list is open now.
 			if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 		});
+	}
+
+	// The groups this person folded away, kept in frappe's user settings as
+	// OneMail keeps its own, so they follow them from device to device.
+	closed(groups) {
+		if (groups) {
+			this.folded = groups;
+			frappe.model.user_settings.save("Masters", "closed", groups);
+		}
+		return this.folded || [];
 	}
 
 	async draw_values() {

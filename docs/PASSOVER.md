@@ -6197,6 +6197,12 @@ passover for the new masters tool."
 10. **Plain words**: **Add Unit** rather than Add, **New Unit** as the
     dialog's title, "Used on 1 record".
 
+Your word, last: "make sections collapsible and add the svg logo to each app
+so it's more organized". Each group's name now carries its app's mark (One's
+own for Shared), and folds away with a chevron, as the rail's sections do.
+What a person folded is kept in frappe's user settings, as OneMail keeps its
+own; the open list's group stays open.
+
 **An address template runs as code.** It is Jinja, drawn wherever an address
 is shown or printed, so one the workspace writes is held as a mail template is:
 every tag it adds names a field of the address, is an `if` on one and its

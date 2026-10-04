@@ -9,15 +9,74 @@
 	padding: calc(var(--spacing) * 2);
 }
 
-/* A group's name, as frappe-ui's Sidebar labels a section. */
+/* A group's name under its app's mark, as frappe-ui's Sidebar labels a
+   section it can fold: the chevron turns when the group is folded away. */
 .one-masters-group {
-	padding: calc(var(--spacing) * 4) calc(var(--spacing) * 2) calc(var(--spacing) * 1);
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	width: 100%;
+	height: 30px;
+	margin-top: calc(var(--spacing) * 2);
+	padding: 0 calc(var(--spacing) * 2);
+	border: 0;
+	border-radius: var(--radius-md, 6px);
+	background: none;
 	font-size: var(--text-sm);
-	color: var(--ink-gray-5);
+	color: var(--ink-gray-6);
+	text-align: start;
+	cursor: pointer;
 }
 
-.one-masters-group:first-child {
-	padding-top: calc(var(--spacing) * 1);
+.one-masters-section:first-child .one-masters-group {
+	margin-top: 0;
+}
+
+.one-masters-group:hover {
+	background: var(--surface-gray-2);
+}
+
+.one-masters-mark {
+	display: inline-flex;
+	flex: none;
+}
+
+.one-masters-mark .icon {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+}
+
+.one-masters-group-label {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.one-masters-group .one-masters-chevron {
+	flex: none;
+	margin: 0;
+	color: var(--ink-gray-5);
+	transform-origin: 50% 50%;
+	transition: transform 0.15s ease;
+}
+
+.one-masters-shut .one-masters-chevron {
+	transform: rotate(-90deg);
+}
+
+.one-masters-shut .one-masters-kinds {
+	display: none;
+}
+
+/* A group's lists sit in under its name. */
+.one-masters-kinds {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	padding-inline-start: calc(var(--spacing) * 3);
 }
 
 .one-masters-kind {
