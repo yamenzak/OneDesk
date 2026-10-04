@@ -508,6 +508,13 @@ def page(said: dict) -> str | None:
 			"and submitting matching e-invoices; and what it does by itself in OneHR. workspace_intake reads it all. They change a switch or a number "
 			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
 		)
+	if said.get("page") == "masters":
+		return (
+			"The reader is on Masters: the short lists records pick from (salutations, customer groups, units, "
+			"departments and the like), grouped by the app that uses them. An administrator sees them all, an "
+			"app's manager their app's. They add a value from the page head, and rename or remove one by clicking "
+			"it, which also says how many records use it. How is in One's documentation under Masters (how_to)."
+		)
 	if said.get("workspace") == "One":
 		return (
 			"The reader is on One's Home: today's numbers for them (tasks due or late, meetings today, documents "

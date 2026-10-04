@@ -284,13 +284,11 @@
   {
    "keep_closed": 0,
    "type": "Link",
-   "label": "Lists",
-   "link_to": "workspace-settings",
+   "label": "Masters",
+   "link_to": "masters",
    "link_type": "Page",
-   "icon": "list",
+   "icon": "database",
    "child": 1,
-   "route_options": "{\"section\": \"lists\"}",
-   "filters": "{\"section\": \"lists\"}",
    "idx": 24
   },
   {
@@ -593,7 +591,7 @@
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-21 12:00:00.000000",
+ "modified": "2026-10-22 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

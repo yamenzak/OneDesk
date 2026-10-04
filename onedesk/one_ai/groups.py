@@ -252,6 +252,7 @@ PAGES = {
 	"onemail": "mail",
 	"onecloud": "files",
 	"workspace-settings": "workspace",
+	"masters": "workspace",
 	"one-admin": "console",
 }
 

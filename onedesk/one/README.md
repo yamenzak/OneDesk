@@ -14,7 +14,7 @@ The sidebar has these groups:
   than in one app. You see the ones your work lets you open.
 - **You**: your own settings. Everyone has these.
 - **Workspace**: settings for the whole workspace. Only administrators see
-  this group.
+  this group, except **Masters**, which an app's managers see too.
 - **OneAI**: credits, your conversations with OneAI, and its suggestions.
 
 The round OneAI button in the corner opens OneAI on any page. It offers
@@ -1027,32 +1027,37 @@ Each suggestion is a card an administrator approves. **See the Page** on the
 card previews it first: a format on the record type's latest record, or a
 letter head's header and footer.
 
-**Print Headings**
+Print headings and address templates are in **Masters**.
 
-The title printed above a document, such as **Tax Invoice** or **Proforma
-Invoice**. A print format picks one. Click one to rename or remove it, or
-**Add Heading** for a new one.
+### Masters
 
-**Address Templates**
+The short lists records pick their values from, in one place: a contact's
+salutation, a customer's group, an item's unit, an employee's department.
+They are grouped by the app that uses them.
 
-How an address is laid out on a printed page and wherever it's shown, one
-template per country. The **Default** template is used for any country without
-its own. A template names the address's fields, such as `{{ city }}`, and can
-leave out a line when a field is empty with `{% if state %}`…`{% endif %}`.
-Nothing else can go in it.
+- **Shared**: Salutations, Genders, Print Headings and Address Templates.
+- **OneCRM**: Customer Groups, Territories, Industries, Lead Sources and Sales
+  Stages.
+- **OneInventory**: Item Groups, Brands, Units and Supplier Groups.
+- **OneHR**: Departments, Designations, Branches and Employment Types.
 
-### Lists, for the Workspace
+Administrators see every group. An app's managers see their app's group and
+can add, rename and remove its values. Nobody else sees Masters.
 
-The short lists records pick from, shared by every app. Only administrators
-see this.
-
-- **Salutations**: Mr, Ms, Dr and the like, on contacts, employees and leads.
-- **Genders**: on contacts, employees and users.
-
-**Add** puts a new value in a list. Click a value to rename it (salutations
-only) or remove it. A value records still use can't be removed. You can also
-add one straight from the field on a record, with **Create a new** at the
+**Add** puts a new value in the open list. Click a value to rename or remove
+it. It also says how many records use it. Renaming a value changes it on every
+record that uses it. A value records still use can't be removed. You can also
+add a value straight from a field on a record, with **Create a new** at the
 bottom of its list.
+
+**Print Headings**: the title printed above a document, such as **Tax
+Invoice** or **Proforma Invoice**. A print format picks one.
+
+**Address Templates**: how an address is laid out on a printed page and
+wherever it's shown, one template per country. The **Default** template is
+used for any country without its own. A template names the address's fields,
+such as `{{ city }}`, and can leave out a line when a field is empty with
+`{% if state %}`…`{% endif %}`. Nothing else can go in it.
 
 ### Mail Templates, for the Workspace
 
