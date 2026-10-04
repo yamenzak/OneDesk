@@ -78,6 +78,18 @@
    "module": "One Project",
    "depends_on": "eval:doc.one_kind=='Retainer'",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_cover",
+   "fieldtype": "Attach Image",
+   "label": "Cover",
+   "insert_after": "one_monthly_hours",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Project",
+   "description": ""
   }
  ],
  "doctype": "Project",
@@ -96,7 +108,7 @@
    "doctype_or_field": "DocType",
    "property": "field_order",
    "property_type": "Text",
-   "value": "[\"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"one_kind\", \"one_monthly_fee\", \"one_monthly_hours\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"users_section\", \"users\", \"costing_tab\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"monitor_progress_tab\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
+   "value": "[\"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"one_kind\", \"one_monthly_fee\", \"one_monthly_hours\", \"one_cover\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"users_section\", \"users\", \"costing_tab\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"monitor_progress_tab\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
   },
   {
    "doc_type": "Project",
@@ -575,6 +587,13 @@
    "property": "sort_order",
    "property_type": "Data",
    "value": "DESC"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocType",
+   "property": "image_field",
+   "property_type": "Data",
+   "value": "one_cover"
   }
  ],
  "sync_on_migrate": 1

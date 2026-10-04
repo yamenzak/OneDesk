@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-04 18:04+0000\n"
-"PO-Revision-Date: 2026-10-04 18:04+0000\n"
+"POT-Creation-Date: 2026-10-04 18:44+0000\n"
+"PO-Revision-Date: 2026-10-04 18:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -393,7 +393,7 @@ msgstr "Eine Datei, die außer an ihren Ablageort auch zu einem Datensatz gehör
 msgid "A file with this name is already here"
 msgstr "Eine Datei mit diesem Namen ist bereits hier"
 
-#: onedesk/one_storage/api.py:221 onedesk/one_storage/api.py:336
+#: onedesk/one_storage/api.py:231 onedesk/one_storage/api.py:362
 msgid "A folder can't be moved into itself."
 msgstr "Ein Ordner kann nicht in sich selbst verschoben werden."
 
@@ -3709,7 +3709,7 @@ msgstr "Läuft hier nicht"
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr "Nicht änderbar. Der Speicher wird bei der Erstellung daran gebunden."
 
-#: onedesk/one_storage/file.py:71
+#: onedesk/one_storage/file.py:75
 msgid "Cannot get file contents of a Folder"
 msgstr ""
 
@@ -4269,7 +4269,7 @@ msgstr "Anfrage schließen"
 #: onedesk/one_admin/accounts.py:166 onedesk/one_admin/accounts.py:186
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_storage/file_requests.py:204
+#: onedesk/one_storage/file_requests.py:207
 msgid "Closed"
 msgstr "Geschlossen"
 
@@ -4505,9 +4505,9 @@ msgstr "Kompakt"
 #. Option for the 'Ours' (Select) field in DocType 'Reading Party'
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:390
-#: onedesk/one_storage/namespace.py:528 onedesk/one_storage/namespace.py:629
-#: onedesk/one_storage/namespace.py:812 onedesk/public/js/settings.js:864
+#: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:397
+#: onedesk/one_storage/namespace.py:537 onedesk/one_storage/namespace.py:638
+#: onedesk/one_storage/namespace.py:843 onedesk/public/js/settings.js:864
 #: onedesk/public/js/settings.js:872
 msgid "Company"
 msgstr "Unternehmen"
@@ -4956,6 +4956,11 @@ msgstr "Zählung"
 msgid "Country"
 msgstr ""
 
+#. Label of the one_cover (Attach Image) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json
+msgid "Cover"
+msgstr "Titelbild"
+
 #. Label of the 'include_holidays' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Cover Holidays Too"
@@ -5003,7 +5008,7 @@ msgstr ""
 msgid "Create Next Year's List"
 msgstr "Liste für nächstes Jahr erstellen"
 
-#: onedesk/public/js/project_new.js:164
+#: onedesk/public/js/project_new.js:173
 msgid "Create Project"
 msgstr "Projekt erstellen"
 
@@ -5952,7 +5957,7 @@ msgstr "Einzelheit"
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/intake.js:63 onedesk/public/js/onecloud.js:160
-#: onedesk/public/js/onecloud.js:1952 onedesk/public/js/project_new.js:116
+#: onedesk/public/js/onecloud.js:1952 onedesk/public/js/project_new.js:124
 msgid "Details"
 msgstr "Details"
 
@@ -6381,11 +6386,11 @@ msgstr "Fällig diese Woche"
 msgid "Due in the next 7 days"
 msgstr "Fällig in den nächsten 7 Tagen"
 
-#: onedesk/one_project/portal.py:145
+#: onedesk/one_project/portal.py:153
 msgid "Due today"
 msgstr "Heute fällig"
 
-#: onedesk/one_storage/file_requests.py:149 onedesk/www/r.html:23
+#: onedesk/one_storage/file_requests.py:152 onedesk/www/r.html:23
 msgid "Due {0}."
 msgstr "Fällig am {0}."
 
@@ -6896,7 +6901,7 @@ msgstr "Beendet am"
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: frontend/src/project/Overview.vue:170
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/public/js/project_new.js:102
+#: onedesk/public/js/project_new.js:107
 msgid "Ends"
 msgstr "Endet"
 
@@ -6910,7 +6915,7 @@ msgid "Ends the Shift"
 msgstr "Beendet die Schicht"
 
 #: onedesk/templates/includes/projects/project_row.html:6
-#: onedesk/www/projects.html:74
+#: onedesk/www/projects.html:86
 msgid "Ends {0}"
 msgstr "Endet {0}"
 
@@ -7282,7 +7287,7 @@ msgstr "Austrittsfragebogen"
 msgid "Expand"
 msgstr "Ausklappen"
 
-#: onedesk/www/projects.html:38
+#: onedesk/www/projects.html:50
 msgid "Expected End"
 msgstr "Voraussichtliches Ende"
 
@@ -7547,6 +7552,15 @@ msgstr "Fehlergrund"
 msgid "Failures in a Row"
 msgstr "Fehlschläge in Folge"
 
+#. Label of the one_featured (Check) field in DocType 'File'
+#: onedesk/one_project/custom/file.json
+msgid "Featured"
+msgstr "Ausgewählt"
+
+#: onedesk/one_storage/namespace.py:741 onedesk/one_storage/namespace.py:807
+msgid "Featured Media"
+msgstr "Ausgewählte Medien"
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:28
 msgid "Feb"
 msgstr ""
@@ -7659,7 +7673,7 @@ msgstr "Datei nicht gefunden"
 msgid "File received. Thank you."
 msgstr "Datei empfangen. Vielen Dank."
 
-#: onedesk/one_storage/file_requests.py:131 onedesk/public/js/onecloud.js:484
+#: onedesk/one_storage/file_requests.py:134 onedesk/public/js/onecloud.js:484
 #: onedesk/public/js/onecloud.js:1865 onedesk/public/js/onecloud.js:1874
 msgid "File request"
 msgstr "Dateianfrage"
@@ -7686,7 +7700,7 @@ msgstr "Abgelegt bei {0}"
 #: frontend/src/project/ProjectPage.vue:145
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_storage/namespace.py:41
+#: onedesk/one_storage/namespace.py:46
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud.js:363 onedesk/public/js/onecloud.js:701
 #: onedesk/public/js/onecloud.js:1096 onedesk/public/js/onecloud.js:1647
@@ -7961,7 +7975,7 @@ msgstr "Ordner {0} nicht gefunden"
 msgid "Folders"
 msgstr "Ordner"
 
-#: onedesk/one_storage/api.py:321
+#: onedesk/one_storage/api.py:347
 msgid "Folders can't be copied to or from a server. Copy the files in {0} instead."
 msgstr "Ordner können nicht auf einen oder von einem Server kopiert werden. Kopieren Sie stattdessen die Dateien in {0}."
 
@@ -9375,7 +9389,7 @@ msgid "In the subject or anywhere in the message."
 msgstr "Im Betreff oder irgendwo in der Nachricht."
 
 #: onedesk/one_admin/heads.py:201 onedesk/one_project/heads.py:77
-#: onedesk/one_project/portal.py:146 onedesk/one_project/view.py:219
+#: onedesk/one_project/portal.py:154 onedesk/one_project/view.py:219
 msgid "In {0} days"
 msgstr "In {0} Tagen"
 
@@ -10184,7 +10198,7 @@ msgstr "Hauptergebnisbereiche"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/project_new.js:113 onedesk/public/js/project_new.js:184
+#: onedesk/public/js/project_new.js:121 onedesk/public/js/project_new.js:193
 msgid "Kind"
 msgstr "Art"
 
@@ -10777,8 +10791,8 @@ msgstr "Stufe {0}"
 msgid "Levels"
 msgstr "Stufen"
 
-#: onedesk/one_storage/namespace.py:389 onedesk/one_storage/namespace.py:631
-#: onedesk/one_storage/namespace.py:797
+#: onedesk/one_storage/namespace.py:396 onedesk/one_storage/namespace.py:640
+#: onedesk/one_storage/namespace.py:828
 msgid "Libraries"
 msgstr "Bibliotheken"
 
@@ -11258,7 +11272,7 @@ msgstr "{0} angelegt"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_mail/cloud.py:79 onedesk/one_mail/linking.py:44
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:392
+#: onedesk/one_storage/namespace.py:399
 msgid "Mail"
 msgstr "Mail"
 
@@ -11451,7 +11465,7 @@ msgstr "Von der Personalabteilung verwaltet."
 #: frontend/src/project/Overview.vue:163 frontend/src/project/Team.vue:30
 #: onedesk/one/settings.py:1027 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/public/js/project_new.js:100 onedesk/public/js/settings.js:1127
+#: onedesk/public/js/project_new.js:101 onedesk/public/js/settings.js:1127
 #: onedesk/public/js/settings.js:1190
 msgid "Manager"
 msgstr "Leitung"
@@ -11776,7 +11790,7 @@ msgstr ""
 msgid "Milestone"
 msgstr "Meilenstein"
 
-#: frontend/src/project/Overview.vue:20 onedesk/www/projects.html:53
+#: frontend/src/project/Overview.vue:20 onedesk/www/projects.html:65
 msgid "Milestones"
 msgstr "Meilensteine"
 
@@ -12020,9 +12034,9 @@ msgstr "Wird mit den Anbieterkosten multipliziert. 2 berechnet das Doppelte des 
 msgid "My Events"
 msgstr "Meine Termine"
 
-#: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:360
-#: onedesk/one_storage/namespace.py:385 onedesk/one_storage/namespace.py:528
-#: onedesk/one_storage/namespace.py:633 onedesk/one_storage/namespace.py:794
+#: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:367
+#: onedesk/one_storage/namespace.py:392 onedesk/one_storage/namespace.py:537
+#: onedesk/one_storage/namespace.py:642 onedesk/one_storage/namespace.py:825
 msgid "My Files"
 msgstr "Meine Dateien"
 
@@ -12035,11 +12049,11 @@ msgstr "Meine Dateien von"
 msgid "My Files can't be shared. Share the folders in it instead."
 msgstr "Meine Dateien können nicht geteilt werden. Teilen Sie stattdessen die Ordner darin."
 
-#: onedesk/one_storage/api.py:215
+#: onedesk/one_storage/api.py:225
 msgid "My Files cannot be moved."
 msgstr "„Meine Dateien“ kann nicht verschoben werden."
 
-#: onedesk/one_storage/api.py:166
+#: onedesk/one_storage/api.py:173
 msgid "My Files cannot be renamed."
 msgstr "„Meine Dateien“ kann nicht umbenannt werden."
 
@@ -12107,7 +12121,7 @@ msgstr "Jeden neuen {0} benennen nach"
 msgid "Name each new {0} by {1}? Existing records keep their names."
 msgstr "Jeden neuen {0} nach {1} benennen? Bestehende Datensätze behalten ihre Namen."
 
-#: onedesk/one_storage/api.py:169
+#: onedesk/one_storage/api.py:176
 msgid "Name is required."
 msgstr "Name ist erforderlich."
 
@@ -12209,7 +12223,7 @@ msgstr "Netto"
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:393
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:400
 msgid "Network"
 msgstr "Netzwerk"
 
@@ -12375,7 +12389,7 @@ msgstr "Neue Dateien gehen in den Cloud-Speicher"
 msgid "New files in this folder and the folders inside it are read, filed and acted on by OneAI."
 msgstr "Neue Dateien in diesem Ordner und seinen Unterordnern werden von OneAI gelesen, abgelegt und bearbeitet."
 
-#: onedesk/one_storage/api.py:146 onedesk/one_storage/api.py:150
+#: onedesk/one_storage/api.py:153 onedesk/one_storage/api.py:157
 #: onedesk/public/js/onecloud.js:1190 onedesk/public/js/onecloud.js:1946
 msgid "New folder"
 msgstr "Neuer Ordner"
@@ -12429,7 +12443,7 @@ msgstr "Newsletter"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400
-#: onedesk/public/js/project_new.js:164 onedesk/public/js/settings.js:2030
+#: onedesk/public/js/project_new.js:173 onedesk/public/js/settings.js:2030
 msgid "Next"
 msgstr ""
 
@@ -12945,7 +12959,7 @@ msgstr "Keine Aufgaben im Eingang"
 msgid "No tasks with dates"
 msgstr "Keine Aufgaben mit Terminen"
 
-#: onedesk/www/projects.html:99
+#: onedesk/www/projects.html:111
 msgid "No tasks yet"
 msgstr "Noch keine Aufgaben"
 
@@ -14148,8 +14162,8 @@ msgid "OneCalendar"
 msgstr "OneCalendar"
 
 #. Title of a Sidebar
-#: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:230
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:760
+#: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:233
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:787
 #: onedesk/one_storage/page/onecloud/onecloud.js:7
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud_picker.js:108
@@ -14448,6 +14462,10 @@ msgstr "Nur Personen im Team können Dateien anfordern."
 msgid "Only people with access to the record are notified."
 msgstr "Nur Personen mit Zugriff auf den Datensatz werden benachrichtigt."
 
+#: onedesk/one_project/media.py:58
+msgid "Only photos and videos go in Featured Media. {0} is neither."
+msgstr "In Ausgewählte Medien kommen nur Fotos und Videos. {0} ist keins von beiden."
+
 #: onedesk/one/settings.py:2057
 msgid "Only record types you can open."
 msgstr "Nur Datensatztypen, die Sie öffnen können."
@@ -14670,7 +14688,7 @@ msgstr "Die Auswahl stammt aus Einchecken-Grund."
 #: onedesk/one_inventory/report/to_order/to_order.js:9
 #: onedesk/one_inventory/report/to_order/to_order.js:30
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/www/projects.html:110
+#: onedesk/www/projects.html:122
 msgid "Order"
 msgstr "Bestellen"
 
@@ -14683,7 +14701,7 @@ msgstr "Auftragsbestätigung"
 msgid "Order Number"
 msgstr "Bestellnummer"
 
-#: onedesk/www/projects.html:106
+#: onedesk/www/projects.html:118
 msgid "Order and Invoices"
 msgstr "Auftrag und Rechnungen"
 
@@ -15032,7 +15050,7 @@ msgstr "Seiten"
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/one_project/money.py:140 onedesk/one_project/money.py:159
 #: onedesk/one_project/view.py:125 onedesk/one_project/view.py:181
-#: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:118
+#: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:130
 msgid "Paid"
 msgstr "Bezahlt"
 
@@ -15120,7 +15138,7 @@ msgstr "Teil"
 msgid "Part Of"
 msgstr "Teil von"
 
-#: onedesk/www/projects.html:44
+#: onedesk/www/projects.html:56
 msgid "Part of"
 msgstr "Teil von"
 
@@ -15714,7 +15732,7 @@ msgstr "Ich ordne alle anhand meiner Notizen neu ein. Die Bewerberliste aktualis
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:673
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:160
-#: onedesk/public/js/project_new.js:133 onedesk/public/js/settings.js:1538
+#: onedesk/public/js/project_new.js:141 onedesk/public/js/settings.js:1538
 #: onedesk/public/js/settings.js:1540 onedesk/public/js/settings.js:1829
 #: onedesk/www/start.html:58
 msgid "Plan"
@@ -15939,7 +15957,7 @@ msgid "Preview: {0}"
 msgstr "Vorschau: {0}"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
-#: onedesk/public/js/project_new.js:149
+#: onedesk/public/js/project_new.js:158
 msgid "Previous"
 msgstr ""
 
@@ -16124,7 +16142,7 @@ msgstr ""
 
 #: frontend/src/project/Tasks.vue:21 onedesk/one/portal.py:77
 #: onedesk/public/js/onecloud.js:340 onedesk/public/js/onecloud.js:650
-#: onedesk/www/projects.html:33
+#: onedesk/www/projects.html:45
 msgid "Progress"
 msgstr "Fortschritt"
 
@@ -16807,7 +16825,7 @@ msgstr "Zugegangen 4 Tage nach Aufgabe zur Post (§ 122 AO)"
 msgid "Receives Only"
 msgstr "Nur Empfang"
 
-#: onedesk/one_storage/namespace.py:386
+#: onedesk/one_storage/namespace.py:393
 msgid "Recent"
 msgstr "Zuletzt verwendet"
 
@@ -17012,11 +17030,11 @@ msgstr "Aufnahmen werden verschriftlicht, und OneAI kommentiert das Gespräch."
 msgid "Recording…"
 msgstr "Aufnahme läuft…"
 
-#: onedesk/one_storage/namespace.py:391 onedesk/one_storage/namespace.py:778
+#: onedesk/one_storage/namespace.py:398 onedesk/one_storage/namespace.py:809
 msgid "Records"
 msgstr "Datensätze"
 
-#: onedesk/one_storage/api.py:149 onedesk/one_storage/api.py:334
+#: onedesk/one_storage/api.py:156 onedesk/one_storage/api.py:360
 msgid "Records can't contain folders."
 msgstr "Datensätze können keine Ordner enthalten."
 
@@ -17047,7 +17065,7 @@ msgid "Recurring"
 msgstr "Wiederkehrend"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/one_storage/namespace.py:395
+#: onedesk/one/sidebar/one/one.json onedesk/one_storage/namespace.py:402
 #: onedesk/public/js/deleted_document_list.js:19
 msgid "Recycle Bin"
 msgstr "Papierkorb"
@@ -17482,8 +17500,8 @@ msgstr "Angefordert. Sie werden über die Entscheidung benachrichtigt."
 msgid "Requested. You'll be notified when it's ready."
 msgstr "Angefordert. Sie werden benachrichtigt, sobald sie bereit ist."
 
-#: onedesk/one_storage/file_requests.py:231
-#: onedesk/one_storage/namespace.py:394
+#: onedesk/one_storage/file_requests.py:234
+#: onedesk/one_storage/namespace.py:401
 msgid "Requests"
 msgstr "Anfragen"
 
@@ -18685,8 +18703,8 @@ msgstr "Geteilt von"
 msgid "Shared with"
 msgstr "Geteilt mit"
 
-#: onedesk/one_storage/namespace.py:388 onedesk/one_storage/namespace.py:633
-#: onedesk/one_storage/namespace.py:805
+#: onedesk/one_storage/namespace.py:395 onedesk/one_storage/namespace.py:642
+#: onedesk/one_storage/namespace.py:836
 msgid "Shared with Me"
 msgstr "Mit mir geteilt"
 
@@ -19272,7 +19290,7 @@ msgstr "Stern"
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
-#: onedesk/one_storage/namespace.py:387 onedesk/public/js/onecloud.js:530
+#: onedesk/one_storage/namespace.py:394 onedesk/public/js/onecloud.js:530
 msgid "Starred"
 msgstr "Mit Stern"
 
@@ -19331,7 +19349,7 @@ msgstr "Beginnt bald"
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
 #: frontend/src/project/Overview.vue:169 frontend/src/project/TaskPanel.vue:24
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/public/js/project_new.js:99
+#: onedesk/public/js/project_new.js:100
 msgid "Starts"
 msgstr "Beginnt"
 
@@ -19711,7 +19729,7 @@ msgid "Style"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:62 onedesk/one_project/heads.py:178
-#: onedesk/one_project/tree.py:197 onedesk/www/projects.html:68
+#: onedesk/one_project/tree.py:197 onedesk/www/projects.html:80
 msgid "Sub-projects"
 msgstr "Unterprojekte"
 
@@ -20106,7 +20124,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/project/ProjectPage.vue:138 onedesk/one_project/calendar.py:17
 #: onedesk/one_project/report/workload/workload.py:151
-#: onedesk/one_task/sidebar/onetask/onetask.json onedesk/www/projects.html:87
+#: onedesk/one_task/sidebar/onetask/onetask.json onedesk/www/projects.html:99
 msgid "Tasks"
 msgstr "Aufgaben"
 
@@ -20206,7 +20224,7 @@ msgstr "Sagen Sie uns, wer Sie sind und was Sie brauchen, und wir melden uns."
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:189
-#: onedesk/public/js/project_new.js:103 onedesk/public/js/settings.js:2079
+#: onedesk/public/js/project_new.js:111 onedesk/public/js/settings.js:2079
 msgid "Template"
 msgstr "Vorlage"
 
@@ -21588,7 +21606,7 @@ msgstr "Diesen Bereich gibt es nicht."
 msgid "There is no warehouse, so nothing can be received."
 msgstr "Es gibt kein Lager, daher kann nichts eingehen."
 
-#: onedesk/one_storage/api.py:138
+#: onedesk/one_storage/api.py:145
 msgid "There is no {0} here."
 msgstr "Hier gibt es kein {0}."
 
@@ -21788,10 +21806,10 @@ msgstr "Dies wird in einer anderen Währung bezahlt. Verwenden Sie Erstellen ›
 msgid "This is taking longer than usual. We will mail {0} when it is ready."
 msgstr "Das dauert länger als üblich. Wir schreiben an {0}, sobald er bereit ist."
 
-#: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:91
+#: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:96
 #: onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
-#: onedesk/one_storage/file_requests.py:171 onedesk/one_storage/history.py:76
+#: onedesk/one_storage/file_requests.py:174 onedesk/one_storage/history.py:76
 #: onedesk/one_storage/history.py:244 onedesk/one_storage/library.py:75
 #: onedesk/one_storage/mounts.py:82 onedesk/one_storage/mounts.py:102
 #: onedesk/one_storage/share.py:48
@@ -22720,7 +22738,7 @@ msgid "Unlock"
 msgstr "Entsperren"
 
 #: onedesk/one_admin/accounts.py:236 onedesk/public/js/settings.js:1744
-#: onedesk/www/projects.html:118
+#: onedesk/www/projects.html:130
 msgid "Unpaid"
 msgstr ""
 
@@ -25657,15 +25675,16 @@ msgstr "Sie können nur einen Brief über sich selbst anfordern."
 msgid "You can use {0}."
 msgstr "Sie können {0} nutzen."
 
-#: onedesk/one_storage/api.py:50 onedesk/one_storage/file_requests.py:123
+#: onedesk/one_storage/api.py:51 onedesk/one_storage/api.py:55
+#: onedesk/one_storage/file_requests.py:126
 msgid "You can't add files to {0}."
 msgstr "Sie können keine Dateien zu {0} hinzufügen."
 
-#: onedesk/one_storage/api.py:54
+#: onedesk/one_storage/api.py:59
 msgid "You can't add items here."
 msgstr "Sie können hier keine Elemente hinzufügen."
 
-#: onedesk/one_storage/api.py:56
+#: onedesk/one_storage/api.py:61
 msgid "You can't add to this folder."
 msgstr "Sie können diesem Ordner nichts hinzufügen."
 
@@ -25673,8 +25692,8 @@ msgstr "Sie können diesem Ordner nichts hinzufügen."
 msgid "You can't change {0}."
 msgstr "Sie können {0} nicht ändern."
 
-#: onedesk/one_storage/api.py:253 onedesk/one_storage/api.py:274
-#: onedesk/one_storage/api.py:319
+#: onedesk/one_storage/api.py:279 onedesk/one_storage/api.py:300
+#: onedesk/one_storage/api.py:345
 msgid "You can't open {0}."
 msgstr "Sie können {0} nicht öffnen."
 
@@ -26469,7 +26488,7 @@ msgstr "darf jetzt {0}"
 msgid "move it on"
 msgstr "es weiterzugeben"
 
-#: onedesk/one_storage/api.py:228
+#: onedesk/one_storage/api.py:238
 msgid "moved it from {0}"
 msgstr "hat es aus {0} verschoben"
 
@@ -26689,7 +26708,7 @@ msgstr "Registernummer"
 msgid "removed {0}"
 msgstr "{0} entfernt"
 
-#: onedesk/one_storage/api.py:177
+#: onedesk/one_storage/api.py:184
 msgid "renamed it from {0}"
 msgstr "hat es von {0} umbenannt"
 
@@ -26701,7 +26720,7 @@ msgstr "{0} umbenannt"
 msgid "required"
 msgstr "erforderlich"
 
-#: onedesk/one_storage/api.py:425
+#: onedesk/one_storage/api.py:457
 msgid "restored it from the Recycle Bin"
 msgstr "hat es aus dem Papierkorb wiederhergestellt"
 
@@ -27215,7 +27234,7 @@ msgstr "{0} kann nicht in einer Adresse verwendet werden. Verwenden Sie Buchstab
 msgid "{0} cannot be changed by you."
 msgstr "{0} können Sie nicht ändern."
 
-#: onedesk/one_storage/api.py:390
+#: onedesk/one_storage/api.py:422
 msgid "{0} cannot be deleted."
 msgstr "{0} kann nicht gelöscht werden."
 
@@ -27302,7 +27321,7 @@ msgstr "{0} konnten nicht wiederhergestellt werden."
 msgid "{0} counts nothing."
 msgstr "{0} zählt nichts."
 
-#: onedesk/public/js/project_new.js:217 onedesk/public/js/settings.js:2943
+#: onedesk/public/js/project_new.js:230 onedesk/public/js/settings.js:2943
 msgid "{0} created"
 msgstr "{0} erstellt"
 
@@ -27357,7 +27376,7 @@ msgid "{0} days before {1}"
 msgstr "{0} Tage vor {1}"
 
 #: frontend/src/project/Overview.vue:142 onedesk/one_project/heads.py:76
-#: onedesk/one_project/portal.py:143 onedesk/one_project/view.py:215
+#: onedesk/one_project/portal.py:151 onedesk/one_project/view.py:215
 msgid "{0} days late"
 msgstr "{0} Tage überfällig"
 
@@ -27601,7 +27620,7 @@ msgstr "{0} in {1} Tagen."
 msgid "{0} is a One address and can't be added."
 msgstr "{0} ist eine One-Adresse und kann nicht hinzugefügt werden."
 
-#: onedesk/one_storage/api.py:272
+#: onedesk/one_storage/api.py:298
 msgid "{0} is a folder. Choose the files in it."
 msgstr "{0} ist ein Ordner. Wählen Sie die Dateien darin."
 
@@ -27709,7 +27728,7 @@ msgstr "{0} ist {1}-mal berechnet, bestellt {2}."
 msgid "{0} is filling up"
 msgstr "{0} wird voll"
 
-#: onedesk/one_storage/api.py:217
+#: onedesk/one_storage/api.py:227
 msgid "{0} is in someone else's files. Copy it instead."
 msgstr "{0} befindet sich in den Dateien einer anderen Person. Kopieren Sie es stattdessen."
 
@@ -28135,7 +28154,7 @@ msgstr "{0} von {1}"
 msgid "{0} of {1} ({2}%)"
 msgstr "{0} von {1} ({2} %)"
 
-#: onedesk/one_storage/file_requests.py:206
+#: onedesk/one_storage/file_requests.py:209
 msgid "{0} of {1} complete"
 msgstr "{0} von {1} vollständig"
 
@@ -28159,7 +28178,7 @@ msgstr "{0} von {1} Plätzen belegt."
 msgid "{0} of {1} tasks"
 msgstr "{0} von {1} Aufgaben"
 
-#: onedesk/www/projects.html:34
+#: onedesk/www/projects.html:46
 msgid "{0} of {1} tasks done"
 msgstr "{0} von {1} Aufgaben erledigt"
 

@@ -7501,6 +7501,27 @@ fields split by three rules, with no kind looking picked, money fields reading
   a test keeps them out.
 
 
+**Featured Media.** Every project's folder in OneCloud has a Featured Media
+folder: the photos and videos the project is shown with.
+
+- Nothing is stored for the folder. Like the project's own folder, it is worked
+  out from the files attached to the project: those marked `one_featured`
+  (File). Putting a file in attaches it to the project and marks it; dragging it
+  back to the project's folder clears the mark. A folder of that name anywhere
+  else is just a folder (`@featured/<project>`, namespace.py).
+- Only photos and videos go in, and they are public: shown on the project's page,
+  on the customer's portal, and anywhere else by link. Taken out, a file needs a
+  sign-in again. The privacy notice says so (revision 17).
+- The newest photo is the project's **Cover** (`one_cover`, Project's image
+  field), kept in step as files come and go. frappe refuses to delete a file a
+  record's field still names, so `CloudFile.on_trash` hands the Cover to the
+  next photo first.
+- The customer's portal page for a project opens with them: the newest large,
+  up to four beside it, two rows on a phone.
+- A drive (WebDAV) can drop files into it, and a file request made from it
+  lands in the project.
+
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

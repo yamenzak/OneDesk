@@ -476,15 +476,21 @@ doc_events = {
 	# file's OneCloud links and versions go with it.
 	"File": {
 		# Every new file is read, once per content. See one_intake/pipeline.py.
-		"after_insert": "onedesk.one_intake.pipeline.file_added",
+		# A project's Featured Media sets its Cover; see one_project/media.py.
+		"after_insert": ["onedesk.one_intake.pipeline.file_added", "onedesk.one_project.media.changed"],
 		# An open OneCloud folder redraws; see one_storage/live.py. A file OneAI
 		# filed and a person moved back is a lesson; see one_intake/lessons.py.
-		"on_update": ["onedesk.one_storage.live.changed", "onedesk.one_intake.lessons.moved"],
+		"on_update": [
+			"onedesk.one_storage.live.changed",
+			"onedesk.one_intake.lessons.moved",
+			"onedesk.one_project.media.changed",
+		],
 		"on_trash": [
 			"onedesk.one_hr.hiring.keep_sound",
 			"onedesk.one_storage.links.forget_file",
 			"onedesk.one_storage.history.forget",
 			"onedesk.one_storage.live.changed",
+			"onedesk.one_project.media.changed",
 		]
 	},
 	# An onboarding is for somebody who is not an employee yet, so the holiday

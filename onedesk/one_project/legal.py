@@ -18,3 +18,16 @@ clause(
 		see. A task it suggests for a project is added only when you approve it.
 	""",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneproject-featured",
+	module=M,
+	body="""
+		Photos and videos put in a project's Featured Media folder in OneCloud are there to show the project:
+		on its page, on its customer's portal and wherever your organisation chooses to show it. Anyone with
+		the link to one of them can open it, so put nothing there that is not meant to be seen. Taken out of
+		the folder, a file is the project's again and needs a sign-in to open.
+	""",
+)

@@ -116,8 +116,11 @@ def _emails(text) -> list[str]:
 
 
 def _where(node: str, title: str | None) -> dict:
-	"""Where free files go, from where the request was made."""
+	"""Where free files go, from where the request was made. Asked from a
+	project's Featured Media, they go to the project, to be featured by hand."""
 	kind = ns.parse(node)
+	if kind[0] == "featured":
+		kind = (ns.RECORDS, "Project", kind[1])
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		if not frappe.has_permission(kind[1], "write", kind[2]):
 			frappe.throw(_("You can't add files to {0}.").format(kind[2]), frappe.PermissionError)

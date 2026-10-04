@@ -48,6 +48,9 @@ with **New › File request**. Click the path to open the record's folder in
 OneCloud. The tab appears once the record is saved. **Files** in the side
 panel opens the same tab.
 
+A project's folder also has a **Featured Media** folder: the photos and
+videos the project is shown with. See OneProject's README.
+
 ### Attaching from OneCloud
 
 The upload dialog (any attach button, an image in the text editor, a
@@ -355,7 +358,8 @@ not a second R2 integration.
   may be written into a web page or an email template no row knows about.
 
 - `namespace.py` — one tree of node ids over File: `@my`, `@company`,
-  `@shared`, `@records[/<DocType>[/<name>]]`, `@bin`, and any File by name.
+  `@shared`, `@records[/<DocType>[/<name>]]`, a project's `@featured/<name>`
+  (one_project/media.py), `@bin`, and any File by name.
   Record folders are derived from `attached_to_*` each time they are opened,
   so there is nothing to keep in step with the record. **Who may do what is
   `may` and nothing else**: a record's file answers to the record; its owner

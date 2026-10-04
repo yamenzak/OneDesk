@@ -137,6 +137,12 @@ def _place(node: str, path: str | None, fields: dict, replace: int = 0, version_
 			)
 		)
 		fields.update(attached_to_doctype=where[1], attached_to_name=where[2])
+		if len(where) > 3:
+			# A project's Featured Media: photos and videos, open to be shown.
+			from onedesk.one_project import media
+
+			media.check(fields["file_name"])
+			fields.update(one_featured=1, is_private=0)
 	else:
 		folder = where[1]
 		for part in split_path(path):

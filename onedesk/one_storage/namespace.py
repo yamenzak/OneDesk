@@ -16,6 +16,9 @@ rule here is a rule everywhere. A node is named by an id:
 - `@mail`, `@mail/<mailbox>` — derived, like records: the reader's mailboxes,
   and the files that came or went with a mailbox's messages
   (one_mail/cloud.py). A message's files are here and not under Records.
+- `@featured/<project>` — derived, inside a project's own folder: its
+  Featured Media, the files of the project marked `one_featured`
+  (one_project/media.py). Only projects have one.
 - `@bin` — what the reader deleted, for thirty days.
 - anything else — a File, by its name.
 
@@ -34,6 +37,8 @@ from frappe import _, _lt
 from onedesk.one import roles
 
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
+#: A project's Featured Media (one_project/media.py), inside its own folder.
+FEATURED = "@featured/"
 
 #: Every record's Files tab: OneCloud on the record's own room, drawn by
 #: record_files.js. File itself has no room, and an extension (one_studio)
@@ -64,7 +69,7 @@ FIELDS = [
 	"name", "file_name", "is_folder", "folder", "file_url", "file_size", "is_private", "owner",
 	"modified", "creation", "attached_to_doctype", "attached_to_name", "one_home_of", "one_deleted",
 	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
-	"one_intake",
+	"one_intake", "one_featured",
 ]  # fmt: skip
 
 
@@ -82,6 +87,8 @@ def parse(node: str) -> tuple:
 		return ("request", node)
 	if node.startswith("@mount/"):
 		return ("mount", node)
+	if node.startswith(FEATURED):
+		return ("featured", node[len(FEATURED) :])
 	if node.startswith(RECORDS + "/"):
 		rest = node[len(RECORDS) + 1 :]
 		doctype, _sep, name = rest.partition("/")
@@ -435,6 +442,8 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 		from onedesk.one_mail import cloud
 
 		return cloud.mailboxes() if len(kind) == 1 else cloud.files(kind[1], search)
+	if kind[0] == "featured":
+		return featured(kind[1])
 	if kind[0] == RECORDS:
 		if len(kind) == 1:
 			return record_doctypes()
@@ -724,7 +733,12 @@ def attachments(doctype: str, name: str) -> list[dict]:
 		fields=FIELDS,
 		order_by="file_name asc",
 	)
-	out = [node(one) for one in found]
+	out = [node(one) for one in found if not one.get("one_featured")]
+	if doctype == "Project":
+		# A project's photos and videos to show it with, as a folder of its own.
+		from onedesk.one_project import media
+
+		out.insert(0, virtual(media.node(name), _("Featured Media"), icon="image"))
 	# Files that belong here as well as where they are kept (one_intake's File
 	# Link). A link never grants read: only those the reader may open.
 	linked = frappe.get_all("File Link", filters={"for_doctype": doctype, "for_name": name}, pluck="file")
@@ -734,6 +748,19 @@ def attachments(doctype: str, name: str) -> list[dict]:
 			if one.name not in held and may(one):
 				out.append({**node(one), "linked": True})
 	return out
+
+
+def featured(project: str) -> list[dict]:
+	"""A project's Featured Media, for whoever may read the project."""
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", project):
+		return []
+	found = frappe.get_all(
+		"File",
+		filters={"attached_to_doctype": "Project", "attached_to_name": project, "one_featured": 1, "is_folder": 0},
+		fields=FIELDS,
+		order_by="creation desc",
+	)
+	return [node(one) for one in found]
 
 
 def binned(user: str | None = None) -> list[dict]:
@@ -774,6 +801,10 @@ def trail(node_id: str) -> list[dict]:
 		return file_requests.trail(node_id)
 	if kind[0] in (MY, SHARED, COMPANY, BIN, LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS):
 		return top + [{"id": node_id, "name": next(r["name"] for r in roots() if r["id"] == node_id)}]
+	if kind[0] == "featured":
+		from onedesk.one_project import media
+
+		return [*trail(record_node("Project", kind[1])), {"id": node_id, "name": _("Featured Media")}]
 	if kind[0] == RECORDS:
 		out = top + [{"id": RECORDS, "name": _("Records")}]
 		if len(kind) > 1:

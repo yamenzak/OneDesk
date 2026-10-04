@@ -137,19 +137,13 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 2: push, a new thing kept about a person who turns it on.
-		# 3: a calendar link, the person's calendar read by an app they choose.
-		# 4: administrators see where a person is signed in, and sign them out.
-		# 5: OneCloud's links and file requests reach people outside, and a
-		#    connected server's password is kept.
-		# 6: OneCalendar's guests are kept as contacts and mailed, and the
-		#    Google Calendar connection.
-		# 7: OneAI reads an organisation's account for the people who run One.
-		# 8: what the signup page keeps, and that it becomes a lead of ours.
-		# 9: the One account and mailed sign-in links. 10: the Recycle Bin.
-		# 11: the Audit Log. 12 to 14: your data copied or deleted, users or not.
-		# 15: webhooks send what an administrator chooses; 16: who read an announcement.
-		"revision": 16,
+		# 2: push. 3: a calendar link. 4: where a person is signed in. 5: OneCloud's
+		# links, file requests and servers. 6: OneCalendar's guests and Google.
+		# 7: OneAI reads an organisation's account. 8: the signup page. 9: the One
+		# account. 10: the Recycle Bin. 11: the Audit Log. 12 to 14: your data
+		# copied or deleted. 15: webhooks. 16: who read an announcement.
+		# 17: a project's Featured Media opens for anybody with its link.
+		"revision": 17,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

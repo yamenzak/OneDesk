@@ -28,6 +28,18 @@
 	</div>
 
 	<div class="one-portal__body">
+		{%- if media %}
+		{#- The project's Featured Media: the newest large, the rest beside it. -#}
+		<div class="one-media one-media--{{ [media | length, 4] | min }}">
+			{%- for one in media[:5] %}
+			{%- if one.kind == "video" %}
+			<video class="one-media__item" src="{{ one.url }}" controls preload="metadata" aria-label="{{ one.title | e }}"></video>
+			{%- else %}
+			<a class="one-media__item" href="{{ one.url }}" target="_blank" rel="noopener"><img src="{{ one.url }}" alt="{{ one.title | e }}" loading="lazy"></a>
+			{%- endif %}
+			{%- endfor %}
+		</div>
+		{%- endif %}
 		<dl class="one-facts">
 			<div>
 				<dt>{{ _("Progress") }}</dt>

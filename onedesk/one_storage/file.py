@@ -60,8 +60,12 @@ class CloudFile(File):
 		its day (one_intake/keep.py). Asked before Frappe's own on_trash,
 		which removes the stored content."""
 		from onedesk.one_intake import keep
+		from onedesk.one_project import media
 
 		keep.guard(self)
+		# A project's Cover hands over to its next photo first: frappe will not
+		# delete a file whose address is still in one of the record's fields.
+		media.handing_over(self)
 		return super().on_trash()
 
 	def get_content(self, encodings=None) -> bytes | str:

@@ -45,6 +45,11 @@ def _target(node_id: str) -> tuple:
 	if mounts.is_mount(node_id):
 		return ("mount", node_id)
 	kind = ns.parse(node_id)
+	if kind[0] == "featured":
+		# A project's Featured Media: attached to the project, and marked.
+		if not frappe.has_permission("Project", "write", kind[1]):
+			frappe.throw(_("You can't add files to {0}.").format(kind[1]), frappe.PermissionError)
+		return ("record", "Project", kind[1], "featured")
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		if not frappe.has_permission(kind[1], "write", kind[2]):
 			frappe.throw(_("You can't add files to {0}.").format(kind[2]), frappe.PermissionError)
@@ -94,6 +99,8 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 		can_add = ns.may(_item(ns.folder_of(node)), "add")
 	elif kind[0] == ns.RECORDS and len(kind) == 3:
 		can_add = bool(frappe.has_permission(kind[1], "write", kind[2]))
+	elif kind[0] == "featured":
+		can_add = bool(frappe.has_permission("Project", "write", kind[1]))
 	elif kind[0] == "mount":
 		# The server decides; a refusal comes back as its own words.
 		can_add = True
@@ -103,7 +110,7 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 		"watch": live.watch(node, bool(search)),
 		"items": _searched(node, search, int(everywhere or 0)) if search else ns.children(node),
 		"can_add": can_add,
-		"can_make_folder": can_add and kind[0] != ns.RECORDS,
+		"can_make_folder": can_add and kind[0] not in (ns.RECORDS, "featured"),
 		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),
 		"can_make_mount": kind[0] == ns.MOUNTS and ns._staff(frappe.session.user),
 	}
@@ -207,6 +214,9 @@ def move(nodes: str | list, target: str) -> list[str]:
 	for node_id in nodes:
 		item = _item(node_id)
 		attached = bool(item.attached_to_doctype and item.attached_to_name)
+		if _refeature(item, where):
+			moved.append(node_id)
+			continue
 		if where[0] == "record" or attached:
 			moved += copy([node_id], target)
 			continue
@@ -227,6 +237,22 @@ def move(nodes: str | list, target: str) -> list[str]:
 		moved.append(_rename_folder(node_id) if item.is_folder else node_id)
 		_note(moved[-1], _("moved it from {0}").format(frappe.db.get_value("File", item.folder, "file_name") or item.folder))
 	return moved
+
+
+def _refeature(item: dict, where: tuple) -> bool:
+	"""A project's own file moved between its folder and its Featured Media
+	is the same file, marked or not: nothing is copied. Whether it was."""
+	if where[0] != "record" or where[1] != "Project" or item.attached_to_doctype != "Project":
+		return False
+	if item.attached_to_name != where[2]:
+		return False
+	from onedesk.one_project import media
+
+	on = len(where) > 3
+	if bool(item.get("one_featured")) != on:
+		_need(item, "write")
+		media.feature(item.name, on)
+	return True
 
 
 def _leaves_its_owner(item: dict, folder: str) -> bool:
@@ -350,7 +376,8 @@ def _copy(item: dict, where: tuple) -> str:
 	fields = {
 		"doctype": "File",
 		"file_url": item.file_url,
-		"is_private": item.is_private,
+		# Featured media is public to be shown; a copy of it elsewhere is not.
+		"is_private": 1 if item.get("one_featured") else item.is_private,
 		"file_size": item.file_size,
 		"content_hash": frappe.db.get_value("File", item.name, "content_hash"),
 	}
@@ -367,6 +394,11 @@ def _copy(item: dict, where: tuple) -> str:
 			attached_to_doctype=where[1],
 			attached_to_name=where[2],
 		)
+		if len(where) > 3:
+			from onedesk.one_project import media
+
+			media.check(item.file_name)
+			fields.update(one_featured=1, is_private=0)
 	else:
 		fields.update(file_name=ns.unique_name(item.file_name, _taken(where[1])), folder=where[1])
 	doc = frappe.get_doc(fields)

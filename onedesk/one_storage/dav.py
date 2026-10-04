@@ -462,7 +462,7 @@ class Folder(_DAVCollection):
 	def create_empty_resource(self, name):
 		if litter(name):
 			raise _error(403)
-		if not ns.folder_of(self.item["id"]) and not self.item["id"].startswith(ns.RECORDS + "/"):
+		if not ns.folder_of(self.item["id"]) and not self.item["id"].startswith((ns.RECORDS + "/", ns.FEATURED)):
 			raise _error(403)
 		return Document(self.path.rstrip("/") + "/" + name, self.environ, {"id": None, "name": name, "parent": self.item})
 

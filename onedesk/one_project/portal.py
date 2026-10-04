@@ -60,8 +60,16 @@ def view(project: str) -> dict:
 		one.due = one.exp_end_date or one.exp_start_date
 		one.late = bool(one.due and one.status != "Completed" and getdate(one.due) < getdate(nowdate()))
 	under = tree.children(of).get(project, [])
+	from onedesk.one_project import media
+
 	return {
 		"doc": doc,
+		# The photos and videos the project is shown with, newest first.
+		"media": [
+			{"url": one.file_url, "title": one.file_name, "kind": media.kind_of(one.file_name)}
+			for one in media.rows(project)
+			if media.kind_of(one.file_name)
+		],
 		"parent": frappe.db.get_value("Project", doc.get(tree.PARENT), ["name", "project_name"], as_dict=True)
 		if doc.get(tree.PARENT) and may_see(frappe.get_doc("Project", doc.get(tree.PARENT)))
 		else None,

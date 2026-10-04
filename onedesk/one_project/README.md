@@ -93,6 +93,22 @@ retainer runs month to month, so it has a start and no end. A project made some
 other way gets the kind its records say: Fixed Price with a sales order, Time
 and Materials with billable time or a customer, Internal otherwise.
 
+## Photos and videos of a project
+
+Every project's folder in OneCloud (**Records › Project ›** the project) has a
+**Featured Media** folder. Put the project's best photos and videos in it:
+
+- They're shown on the project's page and on the customer's portal.
+- The newest photo is the project's **cover**, shown wherever the project has a
+  picture.
+- Anyone with the link to one can open it, so they can go on a website too.
+  Put nothing there that isn't meant to be seen.
+
+Only photos and videos go in. Drag a file from the project's folder into
+Featured Media to show it, or back out to stop showing it. A file taken out
+needs a sign-in to open again. Whoever may change the project may change its
+Featured Media; whoever may see the project sees it.
+
 ## A project's page
 
 Opening a project opens its page. At the top are its name, kind, status and
@@ -622,6 +638,15 @@ one field for it.
   Project Summary report counted Overdue tasks, and now counts none.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
+- `media.py` — a project's **Featured Media**: its files marked `one_featured`
+  (File), shown in OneCloud as a folder inside the project's own
+  (`@featured/<project>`, one_storage/namespace.py), so nothing is stored for
+  the folder. Putting a file in attaches it to the project, marks it and makes
+  it public; taking it back to the project's folder clears both. The newest
+  photo is `one_cover`, Project's `image_field`, set as the folder changes
+  (File after_insert, on_update, on_trash), and `CloudFile.on_trash` hands the
+  cover to the next photo before frappe's check that no field still names the
+  file. `featured` lists them for the page; `portal.view` for the portal.
 - `naming.py` — a project's Task Prefix, as a frappe Document Naming Rule for
   Task with the condition "project is this one". ERPNext's Task class is not
   overridden, and frappe's series for a prefix never reuses a name.

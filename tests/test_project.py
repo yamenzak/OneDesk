@@ -1095,3 +1095,34 @@ def test_a_person_in_a_link_reads_as_their_name_to_whoever_may_pick_them():
 	assert '"onedesk.one_project.members.nobody",' in hooks
 	assert "onedesk.one_project.patches.nobody_runs_it" in (tree.APP / "patches.txt").read_text()
 
+
+
+def test_a_projects_featured_media_is_a_folder_of_its_own():
+	import mimetypes
+
+	space = _load(PROJECT / "media.py", ("PREFIX", "kind_of", "project_of"), mimetypes=mimetypes)
+	assert space["kind_of"]("front.JPG") == "photo" and space["kind_of"]("walk.mp4") == "video"
+	assert space["kind_of"]("brief.pdf") is None and space["kind_of"](None) is None
+	assert space["project_of"]("@featured/PROJ-0008") == "PROJ-0008"
+	assert space["project_of"]("@records/Project/PROJ-0008") is None and space["project_of"]("@featured/") is None
+	# The file is marked; the project has a Cover, its picture wherever frappe shows one.
+	file_fields = json.loads((PROJECT / "custom" / "file.json").read_text())["custom_fields"]
+	assert [one["fieldname"] for one in file_fields] == ["one_featured"]
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	cover = next(one for one in custom["custom_fields"] if one["fieldname"] == "one_cover")
+	assert cover["fieldtype"] == "Attach Image" and cover["read_only"]
+	assert any(one["property"] == "image_field" and one["value"] == "one_cover" for one in custom["property_setters"])
+	# OneCloud shows it inside the project's own folder, and only there.
+	names = (tree.APP / "one_storage" / "namespace.py").read_text()
+	assert 'FEATURED = "@featured/"' in names and 'if doctype == "Project":' in names
+	api = (tree.APP / "one_storage" / "api.py").read_text()
+	assert 'return ("record", "Project", kind[1], "featured")' in api and "def _refeature(" in api
+	upload = (tree.APP / "one_storage" / "upload.py").read_text()
+	assert "media.check(fields[\"file_name\"])" in upload and "fields.update(one_featured=1, is_private=0)" in upload
+	# The cover follows the folder, and hands over before a delete frappe would refuse.
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert hooks.count('"onedesk.one_project.media.changed"') == 3
+	assert "media.handing_over(self)" in (tree.APP / "one_storage" / "file.py").read_text()
+	# The portal shows it; the agreements say who can open it.
+	assert '"media": [' in (PROJECT / "portal.py").read_text()
+	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
