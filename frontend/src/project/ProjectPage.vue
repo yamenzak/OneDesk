@@ -222,6 +222,8 @@ function mainAction(s) {
     return { key: "bill", label: __("Bill Progress"), onClick: () => desk().progress.ask({ doctype: "Sales Order", doc: { name: s.contract } }) };
   if (s.kind === "Time and Materials" && s.customer && can("create", "Sales Invoice"))
     return { key: "invoice_time", label: __("Invoice Time"), onClick: () => desk().project.invoice_time(frm()) };
+  if (s.kind === "Retainer" && s.customer && can("create", "Sales Invoice"))
+    return { key: "invoice_month", label: __("Invoice Month"), onClick: () => desk().project.invoice_month(frm()) };
   return { key: "post", label: __("Post Update"), onClick: () => desk().project.post(frm()) };
 }
 </script>

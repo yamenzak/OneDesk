@@ -12,6 +12,19 @@
    "depends_on": "one_progress",
    "print_hide": 1,
    "description": ""
+  },
+  {
+   "dt": "Sales Invoice",
+   "fieldname": "one_retainer_month",
+   "label": "Retainer Month",
+   "fieldtype": "Date",
+   "insert_after": "one_progress",
+   "module": "One Project",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "one_retainer_month",
+   "print_hide": 1,
+   "description": ""
   }
  ],
  "doctype": "Sales Invoice",

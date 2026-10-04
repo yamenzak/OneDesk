@@ -61,7 +61,11 @@ def invoice_time(source_name: str, item: str | None = None):
 		frappe.throw(_("Pick the item to invoice the time as."))
 	frappe.has_permission("Project", "read", project, throw=True)
 	frappe.has_permission("Sales Invoice", "create", throw=True)
-	source = frappe.db.get_value("Project", project, ["project_name", "customer"], as_dict=True)
+	source = frappe.db.get_value("Project", project, ["project_name", "customer", "one_kind"], as_dict=True)
+	if source.one_kind == "Retainer":
+		# Its hours are covered by the fee and billed with the month
+		# (retainer.py); billing them here would bill them twice.
+		frappe.throw(_("{0} is a retainer. Invoice it by the month.").format(source.project_name))
 	if not source.customer:
 		frappe.throw(_("Give {0} a customer to bill its time to.").format(source.project_name))
 	rows = _rows(project)

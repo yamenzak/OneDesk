@@ -549,6 +549,9 @@ No doctypes yet.
 * `onedesk.one_project.overview.overview`
 * `onedesk.one_project.progress.bill_progress`
 * `onedesk.one_project.progress.progress`
+* `onedesk.one_project.retainer.asked`
+* `onedesk.one_project.retainer.invoice_month`
+* `onedesk.one_project.retainer.months`
 * `onedesk.one_project.team.add`
 * `onedesk.one_project.team.remove`
 * `onedesk.one_project.team.team`

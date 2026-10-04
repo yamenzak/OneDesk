@@ -80,6 +80,10 @@ the project is and how it's going, then views of the same work.
   left, paid, retention and advance, **Open Order** and **Bill Progress**;
   **New Purchase Order** above them. Shown on a Fixed Price project, and on
   any other once it has an order.
+- **A Retainer's Overview** lists its months: hours used of the allowance,
+  any over, and the invoice or **Invoice Month**. Invoice Month is a draft
+  invoice with the fee, the hours over, and the month's time on it, so the
+  time is marked invoiced when it's submitted.
 - The form's Costing tab keeps only the Budget and ERPNext's own fields; the
   HTML sections that drew the money there are gone.
 
@@ -108,6 +112,6 @@ the project is and how it's going, then views of the same work.
    opens it; Edit Details opens the form. Done, as the workspace.
 3. **Money and Suppliers** on the page; the form's Costing tab goes. Done.
 4. **Tasks, Schedule, Time, Invoices, Team, Files, Activity** tabs. Done.
-5. **Retainer**: the monthly allowance and Invoice Month.
+5. **Retainer**: the monthly allowance and Invoice Month. Done.
 6. **Phone layout, OneAI** (`where`, suggestions by kind), **README,
    notifications, translations**.

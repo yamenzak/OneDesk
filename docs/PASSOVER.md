@@ -7302,6 +7302,36 @@ and Board and Timeline folded into Tasks.
   Barsha (Fixed Price): every view; Log Time (1.5 h, then taken out); adding
   and removing a member (the members put back).
 
+**Stage 5: the Retainer.** A fee each month for a set number of hours.
+
+- **Months** on a retainer's Overview: newest first from its start, the hours
+  used of the allowance as a bar (red past it), the hours over, and the
+  month's invoice, or **Invoice Month** for a month that has ended without
+  one. Those months are also under **Needs You**, and the fourth figure is
+  **Not Invoiced Yet**, the fees waiting. **Monthly Fee** says when it renews.
+- **Invoice Month** (`retainer.py`), the main button on a retainer: a desk
+  dialog for the month and the item, showing the hours used and any on
+  timesheets not submitted, with a tick to bill the hours over when the
+  month went over. It opens a draft invoice, as Invoice Time does: the month's fee, the
+  hours over at the month's average billing rate, and the month's billable
+  time on the Time Sheets table, so submitting it marks that time invoiced.
+  The invoice carries its month (`one_retainer_month`, a read-only field on
+  Sales Invoice), and a month is invoiced once.
+- **No billing twice**: Invoice Time refuses a retainer, and neither the page,
+  the Time view nor the form offers it on one; the form offers Invoice Month
+  instead.
+- **Permissions**: the months read time as the reader reads timesheets and
+  invoices as they read invoices; Invoice Month needs Sales Invoice create.
+- **Found on the way**: frappe's `sync_customizations` for the app stops at
+  hrms's Employee Advance, so a new custom field in a fixture has to be
+  synced by its own file on a dev site. `bench migrate` does the same on a
+  real one.
+- Checked on the site with Halcyon Support, seeded from August with 32 h,
+  46 h (6 over the 40) and 10 h: the months, the dialog (46 h of 40 h, 6 h
+  over for 1,800), the draft it opens (the fee, 6 h at 300, six time entries,
+  13,800), and a submitted August invoice marking the month and its time
+  invoiced, refused a second time, then cancelled and deleted.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -13,6 +13,10 @@
         <Figures :figures="figures" />
       </Section>
 
+      <Section v-if="view.months" :title="__('Months')" :aside="__('{0} a month', [money(view.months.fee, said.currency)])">
+        <Months :months="view.months" @invoice="(month) => onedesk().project.invoice_month(frm(), month)" />
+      </Section>
+
       <Section v-if="view.milestones?.length" :title="__('Milestones')">
         <Milestones :milestones="view.milestones" />
       </Section>
@@ -79,6 +83,7 @@ import { BarChart } from "frappe-ui/charts";
 import { Facts, Figures, Rows, Section, __, call, date, go, hours, money, onedesk, setValue } from "../kit";
 import { HEALTH } from "./colors";
 import Milestones from "./Milestones.vue";
+import Months from "./Months.vue";
 
 const props = defineProps({ said: { type: Object, required: true } });
 const emit = defineEmits(["changed"]);
@@ -136,7 +141,12 @@ const needs = computed(() =>
     sub: one.dim,
     value: one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : "",
     route: one.route,
-    onClick: one.action === "invoice_time" ? () => onedesk().project.invoice_time(frm()) : undefined,
+    onClick:
+      one.action === "invoice_time"
+        ? () => onedesk().project.invoice_time(frm())
+        : one.action === "invoice_month"
+          ? () => onedesk().project.invoice_month(frm(), one.month)
+          : undefined,
   }))
 );
 

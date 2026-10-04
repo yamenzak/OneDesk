@@ -267,3 +267,69 @@ onedesk.project.add_member = (frm, done) => {
 	});
 	dialog.show();
 };
+
+// Invoice Month: a retainer's month as a draft invoice, the fee and any hours
+// over the allowance (one_project/retainer.py). It opens unsaved, to be read
+// first. `month` is the month to start on; the dialog offers every month not
+// invoiced yet.
+onedesk.project.invoice_month = async (frm, month) => {
+	const said = await frappe.xcall("onedesk.one_project.retainer.months", { project: frm.doc.name });
+	const open = said.months.filter((one) => !one.invoice);
+	if (!open.length) {
+		frappe.ui.toast({ message: __("Every month of {0} is invoiced.", [frm.doc.project_name]), type: "info" });
+		return;
+	}
+	const named = (value) => moment(value).format("MMMM YYYY");
+	const ended = open.filter((one) => !one.current);
+	const first = month || (ended.length ? ended[ended.length - 1] : open[0]).month;
+	const dialog = new frappe.ui.Dialog({
+		title: __("Invoice Month"),
+		fields: [
+			{
+				fieldtype: "Select",
+				fieldname: "month",
+				label: __("Month"),
+				reqd: 1,
+				options: open.map((one) => ({ value: one.month, label: named(one.month) })),
+				default: first,
+				change: () => show(dialog.get_value("month")),
+			},
+			{
+				fieldtype: "Link",
+				fieldname: "item",
+				label: __("Item"),
+				options: "Item",
+				reqd: 1,
+				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0 } }),
+			},
+			{ fieldtype: "HTML", fieldname: "said" },
+			{ fieldtype: "Check", fieldname: "overage", label: __("Bill the hours over"), default: 1, hidden: 1 },
+		],
+		primary_action_label: __("Create"),
+		primary_action: ({ month, item, overage }) => {
+			dialog.hide();
+			frappe.model.open_mapped_doc({
+				method: "onedesk.one_project.retainer.invoice_month",
+				source_name: frm.doc.name,
+				args: { month, item, overage: overage ? 1 : 0 },
+			});
+		},
+	});
+	const show = async (value) => {
+		const asked = await frappe.xcall("onedesk.one_project.retainer.asked", { project: frm.doc.name, month: value });
+		if (!dialog.get_value("item") && asked.item) dialog.set_value("item", asked.item);
+		const money = (amount) => format_currency(amount, frappe.defaults.get_default("currency"));
+		const hours = (value) => format_number(value, null, value % 1 ? 1 : 0);
+		const lines = [__("{0} h used of {1} h.", [hours(asked.hours), hours(said.allowance)])];
+		if (asked.drafts) lines.push(__("{0} h are on timesheets not submitted yet.", [hours(asked.drafts)]));
+		dialog.get_field("said").$wrapper.html(lines.map((line) => `<p class="text-muted">${frappe.utils.escape_html(line)}</p>`).join(""));
+		dialog.set_df_property("overage", "hidden", asked.over && asked.over_amount ? 0 : 1);
+		dialog.set_df_property(
+			"overage",
+			"label",
+			__("Bill the {0} h over, {1}", [hours(asked.over), money(asked.over_amount)])
+		);
+	};
+	dialog.show();
+	show(first);
+};

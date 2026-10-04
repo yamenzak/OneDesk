@@ -83,7 +83,8 @@ The four figures are picked by the kind:
 - **Time and Materials**: **Hours This Month**, **Not Invoiced Yet**,
   **Invoiced** and **Budget Used**.
 - **Retainer**: **Hours This Month** out of the hours a month, **Monthly
-  Fee**, **Invoiced** and **Done**.
+  Fee** and when it renews, **Invoiced**, and **Not Invoiced Yet** (the fee
+  for each month that has ended without an invoice).
 - **Internal**: **Budget Used**, **Spent**, **Done** and **Due**.
 
 A figure turns red when something's wrong: cost heading over budget, a
@@ -100,6 +101,25 @@ who logged them.
 **Health** is set by hand, because a project can be in trouble before the
 numbers show it. A project with sub-projects counts them all: the villa's
 cost includes the windows and the handrails.
+
+### A retainer's months
+
+A Retainer's **Overview** lists its months, newest first, from the one it
+starts in: the hours used of the month's allowance, any over, and the
+month's invoice. A month that has ended without one has **Invoice Month**,
+and shows under **Needs You** too.
+
+**Invoice Month** (also the page's main button) asks for the month and the
+item to invoice it as. It shows the hours used of the allowance, and any on
+timesheets not submitted yet, which the invoice won't include. When the
+month went over, a tick to bill the hours over adds a line for them at what the
+month's hours were billed at on average; untick it to leave them. It opens a
+draft invoice with the month's fee, any hours over, and the month's time on
+it. Submitting it marks that time invoiced, so it's never billed again, and
+the month shows its invoice. A month is invoiced once.
+
+A retainer's hours are billed with its months, so **Invoice Time** isn't
+offered on one.
 
 ### Tasks
 
@@ -677,6 +697,12 @@ one field for it.
   project's Members as the form does.
 - `billing.py` `invoices` — the Invoices view: Sales Invoices naming the
   tree on the invoice or a line, read as the reader reads them.
+- `retainer.py` — a Retainer's months: `months` (hours used of the
+  allowance, over, the month's invoice), `waiting`, `asked` (what Invoice
+  Month would bill) and `invoice_month`, a draft Sales Invoice with the fee,
+  the hours over at the month's average rate (`over`, `rate`, pure) and the
+  month's billable time on its Time Sheets table. The month is
+  `one_retainer_month` on Sales Invoice. Invoice Time refuses a retainer.
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
 - `view.py` — the project's page (`page/project_view`): `said` gives it, in

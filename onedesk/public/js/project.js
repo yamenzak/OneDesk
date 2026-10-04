@@ -25,7 +25,12 @@ frappe.ui.form.on("Project", {
 			frm.add_custom_button(__("Group Under New Project"), () => onedesk.project.group(frm), __("Actions"));
 		}
 		if (frm.doc.customer && frappe.model.can_create("Sales Invoice")) {
-			frm.add_custom_button(__("Invoice Time"), () => onedesk.project.invoice_time(frm), __("Actions"));
+			// A retainer is invoiced by the month, its hours with it (retainer.py).
+			if (frm.doc.one_kind === "Retainer") {
+				frm.add_custom_button(__("Invoice Month"), () => onedesk.project.invoice_month(frm), __("Actions"));
+			} else {
+				frm.add_custom_button(__("Invoice Time"), () => onedesk.project.invoice_time(frm), __("Actions"));
+			}
 		}
 		// Extra work the customer asks for: a quotation that becomes a sub-project
 		// when it's ordered (one_project/billing.py).

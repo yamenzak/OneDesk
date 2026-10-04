@@ -14,12 +14,13 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_months, flt, get_first_day, get_fullname, getdate, nowdate
+from frappe.utils import add_months, flt, formatdate, get_first_day, get_fullname, getdate, nowdate
 
-from onedesk.one_project import billing, budget, kinds, money, overview, tree
+from onedesk.one_project import billing, budget, kinds, money, overview, retainer, tree
 
 #: How many of each list the Overview shows.
 SHOWN = 6
+
 
 #: The tabs each kind has, in order, as far as they are built.
 def views(kind: str, cash: dict, customer: str | None = None) -> list[str]:
@@ -77,7 +78,11 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		if doc.get("one_parent")
 		else None,
 		"team": [
-			{"user": row.user, "name": get_fullname(row.user), "image": frappe.db.get_value("User", row.user, "user_image")}
+			{
+				"user": row.user,
+				"name": get_fullname(row.user),
+				"image": frappe.db.get_value("User", row.user, "user_image"),
+			}
 			for row in doc.users
 		],
 		"contract": contract(doc),
@@ -151,7 +156,7 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		first = {
 			"key": "hours",
 			"hours": hours,
-			"note": _("of {0} h a month").format(flt(doc.one_monthly_hours, 1))
+			"note": _("of {0} h a month").format(f"{flt(doc.one_monthly_hours, 1):g}")
 			if kind == kinds.RETAINER and doc.one_monthly_hours
 			else None,
 			"bar": share(hours, doc.one_monthly_hours) if kind == kinds.RETAINER else None,
@@ -165,12 +170,26 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 			"note": _("{0} h").format(flt(waiting.get("hours"), 1)) if waiting.get("hours") else None,
 		}
 		if kind == kinds.RETAINER:
-			second = {"key": "fee", "money": flt(doc.one_monthly_fee)}
+			second = {
+				"key": "fee",
+				"money": flt(doc.one_monthly_fee),
+				"note": _("Renews {0}").format(formatdate(add_months(get_first_day(nowdate()), 1))),
+			}
 		third = {
 			"key": "invoiced",
 			"money": cash["invoiced"],
 			"note_money": [[_("Paid {0}"), [customer.get(_("Paid"), 0)]]],
 		}
+		if kind == kinds.RETAINER:
+			# A retainer's months that have ended without an invoice, at its fee.
+			late = retainer.waiting(doc.name) if doc.customer else []
+			fourth = {
+				"key": "unbilled",
+				"money": len(late) * flt(doc.one_monthly_fee),
+				"note": _("{0} months").format(len(late)) if len(late) > 1 else _("1 month") if late else None,
+				"tone": "alarm" if late else None,
+			}
+			return [first, second, third, fourth]
 		return [first, second, third, _budget_card(cash) if cash["budget"] else done]
 	return [_budget_card(cash), {"key": "spent", "money": cash["spent"]}, done, _due(view)]
 
@@ -218,6 +237,8 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 			if order
 			else None
 		)
+	if kind == kinds.RETAINER:
+		said["months"] = retainer.months(doc.name)
 	if kind in (kinds.TIME, kinds.RETAINER):
 		said["weekly"] = view["weekly"]
 		said["activities"] = _activities(doc.name)
@@ -264,8 +285,22 @@ def needs(doc, view: dict) -> list[dict]:
 					"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/{bill.name}",
 				}
 			)
+	if doc.get("one_kind") == kinds.RETAINER and doc.customer:
+		# A retainer's time is billed by the month, with the fee: a month that
+		# has ended without an invoice is what's waiting, not its hours.
+		for month in retainer.waiting(doc.name):
+			starts = getdate(month)
+			found.append(
+				{
+					"tone": "orange",
+					"text": _("{0} not invoiced").format(_(starts.strftime("%B")) + starts.strftime(" %Y")),
+					"money": flt(doc.one_monthly_fee),
+					"action": "invoice_month",
+					"month": month,
+				}
+			)
 	before = billing.unbilled(doc.name)
-	if flt(before.get("hours")) and doc.get("one_kind") in (kinds.TIME, kinds.RETAINER):
+	if flt(before.get("hours")) and doc.get("one_kind") == kinds.TIME:
 		found.append(
 			{
 				"tone": "orange",
@@ -463,7 +498,9 @@ def work(project: Annotated[str, "The project."]) -> dict:
 		"groups": groups,
 		"tasks": tasks,
 		"people": _people_of(people),
-		"statuses": [one for one in meta.get_field("status").options.split("\n") if one and one != "Template"],
+		"statuses": [
+			one for one in meta.get_field("status").options.split("\n") if one and one != "Template"
+		],
 		"priorities": [one for one in meta.get_field("priority").options.split("\n") if one],
 		"can_create": bool(frappe.has_permission("Task", "create")),
 		"can_write": bool(frappe.has_permission("Task", "write")),

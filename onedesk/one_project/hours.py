@@ -115,7 +115,9 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 		],
 		"more": max(0, len(rows) - SHOWN),
 		"can_log": bool(frappe.has_permission("Timesheet", "create")),
-		"can_invoice": bool(frappe.db.get_value("Project", project, "customer"))
+		# A retainer's hours are billed with its month (retainer.py), not here.
+		"can_invoice": frappe.db.get_value("Project", project, "one_kind") != "Retainer"
+		and bool(frappe.db.get_value("Project", project, "customer"))
 		and bool(frappe.has_permission("Sales Invoice", "create")),
 	}
 

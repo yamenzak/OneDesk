@@ -884,3 +884,43 @@ def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
 	assert '"onedesk.one_project.team.team"' in (island / "Team.vue").read_text()
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.log_time" in actions and "onedesk.project.add_member" in actions
+
+
+def test_a_retainer_is_invoiced_by_the_month():
+	from datetime import date
+
+	def add_months(day, n):
+		month = day.month - 1 + n
+		return date(day.year + month // 12, month % 12 + 1, 1)
+
+	space = _load(
+		PROJECT / "retainer.py",
+		("over", "rate", "month_list", "SHOWN"),
+		flt=lambda value, *a: float(value or 0),
+		getdate=lambda value: date.fromisoformat(value) if isinstance(value, str) else value,
+		get_first_day=lambda day: day.replace(day=1),
+		add_months=add_months,
+	)
+	over, rate, month_list = space["over"], space["rate"], space["month_list"]
+	assert over(46, 40) == 6 and over(32, 40) == 0 and over(10, 0) == 0
+	assert rate([{"billing_hours": 4, "billing_amount": 1200}, {"billing_hours": 2, "billing_amount": 600}]) == 300
+	assert rate([]) == 0
+	assert month_list("2026-08-12", "2026-10-04") == [date(2026, 10, 1), date(2026, 9, 1), date(2026, 8, 1)]
+	assert len(month_list("2024-01-01", "2026-10-04")) == space["SHOWN"]
+
+	source = (PROJECT / "retainer.py").read_text()
+	# The month's time goes on the invoice, so submitting it marks that time
+	# invoiced and Invoice Time never bills it again; a month is billed once.
+	assert '"timesheets"' in source and "is invoiced already" in source
+	assert 'frappe.has_permission("Sales Invoice", "create", throw=True)' in source
+	assert 'parent_doctype="Timesheet"' in source and "ignore_permissions" not in source
+	billing = (PROJECT / "billing.py").read_text()
+	assert 'source.one_kind == "Retainer"' in billing
+	custom = json.loads((PROJECT / "custom" / "sales_invoice.json").read_text())
+	assert "one_retainer_month" in {one["fieldname"] for one in custom["custom_fields"]}
+	view = (PROJECT / "view.py").read_text()
+	assert 'said["months"] = retainer.months(doc.name)' in view and '"action": "invoice_month"' in view
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert "desk().project.invoice_month(frm())" in page
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.invoice_month" in actions and '"onedesk.one_project.retainer.invoice_month"' in actions

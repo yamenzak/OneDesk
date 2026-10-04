@@ -110,6 +110,10 @@ export const me = () => frappe().session.user;
 export const isPast = (value) => Boolean(value) && value < frappe().datetime.get_today();
 
 /** A short date, "3 Oct", for chips; the long form is `date`. */
+/** A month as desk names it, in the reader's language: "October 2026". */
+export const monthName = (value) =>
+	value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "long", year: "numeric" }) : "";
+
 export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");
 
 /** When, said as desk says it: "2 hours ago". */
