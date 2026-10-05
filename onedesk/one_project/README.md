@@ -90,8 +90,25 @@ decides what **Details** asks for and what the project's page shows.
 - **Internal**: no customer. Give a **Budget** if there is one.
 
 Every kind asks for a name. **Plan** asks when it starts and ends, its manager
-(you, unless you pick someone) and a template to start its tasks from. A
-retainer runs month to month, so it has a start and no end. A project made some
+(you, unless you pick someone), a template to start its tasks from, and how
+its **Time** is counted. A retainer runs month to month, so it has a start and
+no end.
+
+**Time** is separate from the kind, which is how the customer pays:
+
+- **Timesheets**: people log their hours on the project, by hand or with a
+  task's timer. For people who work on several jobs in a day.
+- **Attendance on Site**: pick the project's **Site** (a check-in location in
+  OneHR). Each day someone's attendance has them at the site counts as a day
+  on the project. For crews who spend the whole day on one site.
+- **Not Tracked**: hours aren't counted, and the page has no Time view.
+
+It starts as **Count Time By** under **Projects Settings**, and can be changed
+later in **About**. A site belongs to one open project at a time.
+
+Whether hours are billed follows the kind. Time and Materials and Retainer
+hours are billable; a Fixed Price or Internal project's hours are its labour
+cost, not invoiced. A project made some
 other way gets the kind its records say: Fixed Price with a sales order, Time
 and Materials with billable time or a customer, Internal otherwise.
 
@@ -298,20 +315,41 @@ reloading.
 
 ### Time
 
-Every hour logged on the project and its sub-projects, newest first: the
-day, who, the activity, the task, the hours, the amount, and where they
-stand. **Draft** is on a timesheet not yet submitted, **To Invoice** is
+Every hour on the project and its sub-projects, newest first: the day, who,
+the activity, the task (with the sub-project under it), the hours, and where
+they stand. **Draft** is on a timesheet not yet submitted, **To Invoice** is
 billable and not invoiced, **Invoiced** is on an invoice, and **Not Billable**
-won't be. The figures above are this month's hours, all hours, what's still
-to invoice and what's been invoiced. **Invoice Time** is the button on
-**To Invoice**, and in the page's buttons. Click an entry to open its timesheet.
+is cost only. **Group By** puts them under each person, activity, task or
+sub-project, with their total. Click an entry to open its timesheet.
 
-**Log Time** asks for the day, the hours, the activity, and the task if
-there was one. The entry goes into your timesheet for the week, the same one
-the timer on a task writes into, ready to submit with the rest. It's
-billable when the project has a customer, unless you untick it.
+The figures:
 
-Whoever may read timesheets sees Time, and sees the entries they may read.
+- **Logged**: all the hours, against what the tasks plan (their Expected
+  Time), with what's not submitted yet.
+- **This Month**: this month's hours.
+- **To Invoice** and **Invoiced**: on a project that bills hours, or one with
+  a sub-project that does (it says which). **Invoice Time** is the button on
+  **To Invoice**. On a project with sub-projects it invoices all their billable
+  hours for the same customer on one invoice.
+- **Labour Cost**: what the hours cost at each person's cost rate.
+
+A retainer shows this month's hours against its allowance instead.
+
+Money shows only to those who may see time rates (Accounts Users, as ERPNext
+sets it). Everyone else sees the hours. Amounts are in the company's
+currency.
+
+**Log Time** asks for the day, the hours, the activity, and the task if there
+was one. On a project with sub-projects it asks which one, and picking a task
+picks its sub-project. The entry goes into your timesheet for the week, the
+same one the timer on a task writes into, ready to submit with the rest.
+Hours from before this week still in draft show in **Needs You** as **Submit
+your timesheet**. On a project counted by attendance, the days come from
+attendance and there's no Log Time.
+
+Whoever may read timesheets sees Time, and sees the entries they may read. A
+project whose time isn't tracked has no Time view, unless someone logged time
+on it anyway.
 
 ### Invoices
 

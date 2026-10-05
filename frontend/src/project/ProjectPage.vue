@@ -35,7 +35,7 @@
         <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
         <Timeline v-else :work="work" :groups="groups" @open="open" />
       </template>
-      <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :currency="said.currency" :tree="tree" />
+      <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :title="said.title" :tree="tree" />
       <Money v-else-if="view === 'money'" :said="said" @changed="load" />
       <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :project-title="said.title" :kind="said.kind" :customer="said.customer" :currency="said.currency" />
       <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />

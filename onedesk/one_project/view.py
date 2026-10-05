@@ -29,6 +29,7 @@ from frappe.utils import (
 from onedesk.one_project import (
 	billing,
 	budget,
+	hours,
 	kinds,
 	media,
 	milestones,
@@ -48,15 +49,19 @@ SHOWN = 6
 
 
 #: The tabs each kind has, in order, as far as they are built.
-def views(kind: str, cash: dict, customer: str | None = None) -> list[str]:
+def views(kind: str, cash: dict, customer: str | None = None, name: str | None = None) -> list[str]:
 	"""The views the page shows beyond Overview, the tasks, Files and
 	Activity, each for whoever may see what it shows: Time to whoever may read
-	timesheets; Money when the reader may see any of it; Invoices on a project
+	timesheets, on a project that counts time or has some; Money when the reader may see any of it; Invoices on a project
 	with a customer, to whoever may read invoices; Suppliers where there are
 	subcontracts or the project is a Fixed Price one, which is where they're
 	expected; and Team to everyone."""
 	shown = []
-	if frappe.has_permission("Timesheet", "read"):
+	# Not on a project that doesn't count time, unless somebody logged some anyway.
+	if frappe.has_permission("Timesheet", "read") and (
+		hours.method(name) != hours.NOT_TRACKED
+		or (name and frappe.db.exists("Timesheet Detail", {"project": name, "parenttype": "Timesheet"}))
+	):
 		shown.append("time")
 	if cash["customer"] or cash["cost"]:
 		shown.append("money")
@@ -102,6 +107,9 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"above": _above(doc.name),
 		"priority": doc.priority,
 		"progress_method": doc.percent_complete_method,
+		# How its time is counted, and its site (hours.py).
+		"time": hours.method(doc.name),
+		"site": doc.get("one_site"),
 		"parent_title": frappe.db.get_value("Project", doc.one_parent, "project_name")
 		if doc.get("one_parent")
 		else None,
@@ -119,7 +127,7 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"quotation": None if contract(doc) else quotation(doc),
 		"currency": cash["currency"],
 		"can_write": bool(frappe.has_permission("Project", "write", doc=doc)),
-		"views": views(kind, cash, doc.customer),
+		"views": views(kind, cash, doc.customer, doc.name),
 		"money": cash,
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),
@@ -696,6 +704,8 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 			)
 	found += _overdue_bills(view["tree"], user)
 	found += retention.asks(view["tree"], user)
+	# The reader's own time on it still in draft from before this week (hours.py).
+	found += hours.late_drafts(view["tree"], user)
 	today = getdate(nowdate())
 	titles = dict(
 		frappe.get_all(

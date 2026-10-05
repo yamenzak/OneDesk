@@ -81,10 +81,32 @@
   },
   {
    "dt": "Project",
+   "fieldname": "one_time",
+   "label": "Time",
+   "fieldtype": "Select",
+   "options": "\nTimesheets\nAttendance on Site\nNot Tracked",
+   "insert_after": "one_monthly_hours",
+   "module": "One Project",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_site",
+   "label": "Site",
+   "fieldtype": "Link",
+   "options": "Shift Location",
+   "insert_after": "one_time",
+   "module": "One Project",
+   "depends_on": "eval:doc.one_time=='Attendance on Site'",
+   "mandatory_depends_on": "eval:doc.one_time=='Attendance on Site'",
+   "description": ""
+  },
+  {
+   "dt": "Project",
    "fieldname": "one_cover",
    "fieldtype": "Attach Image",
    "label": "Cover",
-   "insert_after": "one_monthly_hours",
+   "insert_after": "one_site",
    "hidden": 1,
    "read_only": 1,
    "no_copy": 1,

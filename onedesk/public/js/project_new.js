@@ -120,6 +120,28 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),
 			},
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
+			// How its time is counted, apart from how it's paid for (one_project/hours.py).
+			{ fieldtype: "Section Break" },
+			{
+				fieldtype: "Select",
+				fieldname: "time",
+				label: __("Time"),
+				options: [
+					{ value: "Timesheets", label: __("Timesheets") },
+					{ value: "Attendance on Site", label: __("Attendance on Site") },
+					{ value: "Not Tracked", label: __("Not Tracked") },
+				],
+				reqd: 1,
+			},
+			{ fieldtype: "Column Break" },
+			{
+				fieldtype: "Link",
+				fieldname: "site",
+				label: __("Site"),
+				options: "Shift Location",
+				depends_on: "eval:doc.time == 'Attendance on Site'",
+				mandatory_depends_on: "eval:doc.time == 'Attendance on Site'",
+			},
 		];
 		const said = frappe.xcall("onedesk.one_project.kinds.defaults");
 
@@ -160,8 +182,10 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					fields: plan,
 					onload: (step) => {
 						step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
+						step.form.is_dialog = true;
 						said.then((found) => {
 							if (!step.get_value("manager")) step.form.set_value("manager", found.user);
+							if (!step.get_value("time")) step.form.set_value("time", found.time || "Timesheets");
 						});
 					},
 				},

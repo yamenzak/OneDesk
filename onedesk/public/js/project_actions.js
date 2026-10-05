@@ -288,7 +288,8 @@ onedesk.project.cost_type = async (frm, row, done) => {
 
 // Log Time: an entry in the reader's draft timesheet for the week, the one the
 // task timer writes into (one_project/hours.py). `frm.tree` names the projects
-// whose tasks it may be on; billable is ticked when the project has a customer.
+// it may be on; billable is ticked when the project's kind bills hours
+// (`frm.bills_hours`).
 onedesk.project.log_time = (frm, done) => {
 	const tree = frm.tree || [frm.doc.name];
 	const dialog = new frappe.ui.Dialog({
@@ -304,10 +305,35 @@ onedesk.project.log_time = (frm, done) => {
 				label: __("Task"),
 				options: "Task",
 				get_query: () => ({ filters: { project: ["in", tree], status: ["not in", ["Cancelled", "Template"]] } }),
+				// The time goes on the task's project.
+				onchange: () => {
+					const task = dialog.get_value("task");
+					if (task && tree.length > 1) frappe.db.get_value("Task", task, "project").then(({ message }) => message && dialog.set_value("on", message.project));
+				},
+			},
+			// Where the time was, on a project with sub-projects (one_project/hours.py `log`).
+			{
+				fieldtype: "Link",
+				fieldname: "on",
+				label: __("Project"),
+				options: "Project",
+				default: frm.doc.name,
+				hidden: tree.length < 2,
+				get_query: () => ({ filters: { name: ["in", tree] } }),
+				// Billable when that project's kind bills hours.
+				onchange: () => {
+					const on = dialog.get_value("on");
+					if (!on) return;
+					frappe.db.get_value("Project", on, ["one_kind", "customer"]).then(({ message }) => {
+						const bills = Boolean(message?.customer) && ["Time and Materials", "Retainer"].includes(message?.one_kind);
+						dialog.set_value("billable", bills ? 1 : 0);
+					});
+				},
 			},
 			{ fieldtype: "Section Break" },
 			{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },
-			{ fieldtype: "Check", fieldname: "billable", label: __("Billable"), default: frm.doc.customer ? 1 : 0 },
+			// Billable when the project's kind bills hours; cost only otherwise.
+			{ fieldtype: "Check", fieldname: "billable", label: __("Billable"), default: frm.bills_hours ? 1 : 0 },
 		],
 		primary_action_label: __("Log Time"),
 		primary_action: async (values) => {
@@ -532,7 +558,7 @@ onedesk.project.ask_updates = async (project, done) => {
 // fields, saved against the project as the page loaded it, so a change made
 // meanwhile is refused as a form's would be. % Complete is typed only when
 // progress is Manual.
-onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority"];
+onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site"];
 
 onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
 	await frappe.model.with_doctype("Project");

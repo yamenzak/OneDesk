@@ -82,6 +82,9 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 			"estimated_costing": flt(values.budget) if kind in (TIME, INTERNAL) else 0,
 			"one_monthly_fee": flt(values.monthly_fee) if kind == RETAINER else 0,
 			"one_monthly_hours": flt(values.monthly_hours) if kind == RETAINER else 0,
+			# How its time is counted, and where (hours.py).
+			"one_time": values.time,
+			"one_site": values.site,
 		}
 	)
 	if values.parent:
@@ -175,8 +178,8 @@ CONTRACT_ITEM = "Contract Work"
 @frappe.read_only()
 def defaults(customer: Annotated[str | None, "The customer, for their currency."] = None) -> dict:
 	"""What the New Project and Add Contract dialogs start with: the item the
-	last project's contract was billed as, or Contract Work, and the
-	currency the customer is billed in."""
+	last project's contract was billed as, or Contract Work, the currency the
+	customer is billed in, and how the workspace counts time."""
 	found = frappe.get_all(
 		"Sales Order Item",
 		filters={"docstatus": 1, "project": ["is", "set"]},
@@ -190,7 +193,9 @@ def defaults(customer: Annotated[str | None, "The customer, for their currency."
 	currency = None
 	if customer and frappe.has_permission("Customer", "read", doc=customer):
 		currency = billed_in("Customer", customer)
-	return {"item": item, "user": frappe.session.user, "currency": currency}
+	from onedesk.one_project.hours import default
+
+	return {"item": item, "user": frappe.session.user, "currency": currency, "time": default()}
 
 
 def settle() -> None:

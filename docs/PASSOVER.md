@@ -7955,6 +7955,38 @@ frappe's Assign does; Pending Review tells whoever made the task.
   completed early, with no lock on starting. A formal sign-off is a Workflow
   under Approvals.
 
+**Time** (the project page's Time view).
+
+- Every project was treated as billing its hours. A project now says how its
+  time is counted, apart from how it's paid for: Timesheets, Attendance on
+  Site (with its site, a Shift Location) or Not Tracked (`hours.fill`),
+  asked in New Project's Plan step, changed in About, defaulted from Projects
+  Settings' Count Time By. Existing projects kept Timesheets
+  (patches/time_counted.py).
+- Time logged on a Fixed Price project with a customer was billable, so it
+  turned up as To Invoice. Billable now follows the kind, in Log Time and the
+  task timer (`bills_hours`): Time and Materials and Retainer bill hours,
+  Fixed Price and Internal count them as cost.
+- Invoice Time on the villa did nothing: its To Invoice counted the tree,
+  the button only the villa. Invoice Time now takes the whole tree's billable
+  hours for the same customer, each Time Sheets row naming its project
+  (`billing._rows`), so the villa invoices the windows' 9 hours, 2,560.
+- A Projects User saw To Invoice 0 and "–" amounts, because ERPNext keeps
+  time rates to Accounts Users. Money now shows only to those who may read
+  rates (`sees_rates`), and is ERPNext's base amounts, in the company's
+  currency.
+- The figures were the same for every kind. Now Logged against the tasks'
+  planned hours (9 of 45 on the villa), This Month, To Invoice and Invoiced
+  where hours are billed (on the villa, "On Villa Windows"), and Labour Cost
+  (1,210).
+- No breakdown: Group By person, activity, task or sub-project, with totals.
+  The filters have all four states. The Task column shows the task with its
+  sub-project under it.
+- Log Time from a parent put the hours on the parent. It asks which project,
+  and a task picks its own. Old drafts are in Needs You as Submit your
+  timesheet (`late_drafts`). A project that doesn't track time has no Time
+  view unless time was logged on it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

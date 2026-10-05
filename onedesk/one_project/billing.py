@@ -11,8 +11,11 @@ Sheets table filled: every billable hour on the project not yet invoiced, as
 lines by activity — Design 12 h, Site visits 4 h — at what the hours come to.
 It opens as a draft for somebody to read before it is submitted, and
 submitting it is what marks the hours billed and adds to the project's Billed,
-which is ERPNext's (TimesheetBillingService). A sub-project's time is its own
-and is invoiced from it.
+which is ERPNext's (TimesheetBillingService). On a project with sub-projects
+it takes the whole tree's billable time for the same customer, each line of
+the invoice's Time Sheets naming its project, so the villa's page invoices
+the windows' hours too (`_rows`). A retainer's hours are billed with its
+month, never here.
 
 **A quotation for extra work becomes a sub-project** (`ordered`). A quotation
 names its project like any other (chain.py), and **Extra Work** says it is
@@ -29,7 +32,7 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
-from onedesk.one_book.currency import bill_in
+from onedesk.one_book.currency import bill_in, billed_in
 from onedesk.one_book.currency import rate as currency_rate
 
 #: The tick on Quotation and Sales Order saying the order is extra work, to
@@ -43,13 +46,19 @@ def unbilled(project: str) -> dict:
 	"""What Invoice Time would bill: the hours, their amount, and the item used
 	for time last time."""
 	frappe.has_permission("Project", "read", project, throw=True)
+	customer = frappe.db.get_value("Project", project, "customer")
 	rows = _rows(project)
+	# Each timesheet's amount in the currency the customer is billed in.
+	currency = (billed_in("Customer", customer) if customer else None) or (rows[0].currency if rows else None)
+	if rows and currency:
+		rows = in_currency(rows, currency)
 	return {
 		"hours": sum(flt(row.billing_hours) for row in rows),
 		"amount": sum(flt(row.billing_amount) for row in rows),
-		"currency": rows[0].currency if rows else None,
-		"customer": frappe.db.get_value("Project", project, "customer"),
+		"currency": currency,
+		"customer": customer,
 		"item": _last_item(),
+		"projects": sorted({row.project_name for row in rows if row.get("project_name")}),
 	}
 
 
@@ -228,9 +237,21 @@ def in_currency(rows: list, currency: str) -> list:
 
 
 def _rows(project: str) -> list:
+	"""The billable time not yet invoiced on the project and those under it
+	billed to the same customer, a retainer's left out, by ERPNext's own
+	Fetch Timesheet read."""
 	from erpnext.projects.doctype.timesheet.timesheet import get_projectwise_timesheet_data
 
-	return get_projectwise_timesheet_data(project=project)
+	from onedesk.one_project import kinds, tree
+
+	customer = frappe.db.get_value("Project", project, "customer")
+	found = []
+	for one in sorted(tree.below({project}, tree.parents())):
+		head = frappe.db.get_value("Project", one, ["customer", "one_kind"], as_dict=True)
+		if not head or head.one_kind == kinds.RETAINER or (one != project and head.customer != customer):
+			continue
+		found.extend(get_projectwise_timesheet_data(project=one))
+	return found
 
 
 def _last_item() -> str | None:

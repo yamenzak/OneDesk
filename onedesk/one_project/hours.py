@@ -1,5 +1,23 @@
 """A project's time, for the page's Time view (docs/PROJECT-PAGE.md).
 
+**How time is counted** (`one_time`) is asked when a project is made, beside
+its kind, which says how the customer pays. The two are separate questions:
+a fixed-price villa counts its crews' days on site, and a fixed-price
+software build counts timesheets.
+
+- **Timesheets**: people log hours on the project, by hand or with a task's
+  timer.
+- **Attendance on Site**: the project names its site (an HRMS Shift
+  Location), and each day somebody's attendance has them there is a day on
+  the project (site_time.py).
+- **Not Tracked**: hours aren't counted. The page has no Time view unless
+  somebody logged some anyway.
+
+A project made without one (by ERPNext, HR or an import) is given the
+workspace's default, **Count Time By** in Projects Settings (`fill`). Whether
+an hour is billable follows the kind (`bills_hours`): Time and Materials and
+Retainer hours are, and a Fixed Price or Internal project's are cost only.
+
 Every hour is ERPNext's Timesheet Detail on the project or a project under
 it, read as the reader reads timesheets, so somebody who may see only their
 own sees only their own. Each entry says where it stands: a draft not yet
@@ -18,14 +36,68 @@ import frappe
 from frappe import _
 from frappe.utils import flt, get_datetime, get_first_day, get_fullname, getdate, nowdate
 
-from onedesk.one_project import tree
+from onedesk.one_project import kinds, tree
 from onedesk.one_task import timer
+
+#: How a project counts its time.
+TIMESHEETS = "Timesheets"
+ATTENDANCE = "Attendance on Site"
+NOT_TRACKED = "Not Tracked"
+METHODS = (TIMESHEETS, ATTENDANCE, NOT_TRACKED)
 
 #: How many entries the view lists, newest first; the totals count them all.
 SHOWN = 200
 
 #: Where an hand-logged entry starts on its day when nothing else is logged.
 DAY_STARTS = time(9, 0)
+
+
+def default() -> str:
+	"""How the workspace counts time on a new project."""
+	found = frappe.db.get_single_value("Projects Settings", "one_time_default")
+	return found if found in METHODS else TIMESHEETS
+
+
+def method(project: str | None) -> str:
+	"""How a project counts its time."""
+	found = frappe.db.get_value("Project", project, "one_time") if project else None
+	return found if found in METHODS else TIMESHEETS
+
+
+def billed_by_the_hour(kind: str | None) -> bool:
+	"""Whether a kind's hours are billable: Time and Materials and Retainer
+	bill hours, Fixed Price and Internal count them as cost. Pure."""
+	return kind in (kinds.TIME, kinds.RETAINER)
+
+
+def bills_hours(project: str | None) -> bool:
+	"""Whether an hour on a project is billable unless somebody says not."""
+	if not project:
+		return False
+	found = frappe.db.get_value("Project", project, ["one_kind", "customer"], as_dict=True)
+	return bool(found and found.customer and billed_by_the_hour(found.one_kind))
+
+
+def fill(doc, method=None) -> None:
+	"""Project before_validate: how it counts time, the workspace's default
+	when nobody said; a site only on a project counted by attendance, and
+	only one open project at a site."""
+	if doc.get("one_time") not in METHODS:
+		doc.one_time = default()
+	if doc.one_time != ATTENDANCE:
+		doc.one_site = None
+		return
+	if not doc.get("one_site"):
+		frappe.throw(_("Pick the site."))
+	if doc.status != "Open":
+		return
+	taken = frappe.db.get_value(
+		"Project",
+		{"one_site": doc.one_site, "one_time": ATTENDANCE, "status": "Open", "name": ["!=", doc.name or ""]},
+		"project_name",
+	)
+	if taken:
+		frappe.throw(_("{0} is already the site of {1}.").format(doc.one_site, taken))
 
 
 def state(docstatus: int, billable: bool, invoice: str | None) -> str:
@@ -37,12 +109,60 @@ def state(docstatus: int, billable: bool, invoice: str | None) -> str:
 	return "To Invoice" if billable else "Not Billable"
 
 
+def sees_rates() -> bool:
+	"""Whether the reader may see what time costs and bills: ERPNext keeps a
+	timesheet's rates and amounts to those it lets read them (Accounts User,
+	by default)."""
+	return 1 in frappe.get_meta("Timesheet").get_permlevel_access("read")
+
+
+def count(rows: list, month, money: bool) -> dict:
+	"""The figures over the entries: hours this month and in all, what's on
+	drafts, and, for whoever sees money, what's to invoice, invoiced and what
+	it cost, all in the company's currency. A draft is no cost yet. Pure."""
+	totals = {"month": 0.0, "hours": 0.0, "drafts": 0.0}
+	if money:
+		totals.update({"to_invoice": 0.0, "invoiced": 0.0, "cost": 0.0})
+	for row in rows:
+		hours = flt(row.get("hours"))
+		totals["hours"] += hours
+		if row.get("from_time") and getdate(row["from_time"]) >= month:
+			totals["month"] += hours
+		if row.get("docstatus") == 0:
+			totals["drafts"] += hours
+			continue
+		if not money:
+			continue
+		totals["cost"] += flt(row.get("base_costing_amount"))
+		if row.get("is_billable"):
+			totals["invoiced" if row.get("sales_invoice") else "to_invoice"] += flt(
+				row.get("base_billing_amount")
+			)
+	return {key: round(value, 2) for key, value in totals.items()}
+
+
+def planned(projects: list[str]) -> float:
+	"""The hours the tree's open and finished tasks plan, a cancelled one's
+	left out (ERPNext's Expected Time)."""
+	found = frappe.get_all(
+		"Task",
+		filters={"project": ["in", projects], "status": ["not in", ("Cancelled", "Template")]},
+		pluck="expected_time",
+	)
+	return round(sum(flt(one) for one in found), 2)
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def entries(project: Annotated[str, "The project."]) -> dict:
-	"""The project tree's time, newest first, with its totals."""
+	"""The project tree's time, newest first, with its figures: hours for
+	everybody, money for whoever may see rates."""
+	from onedesk.one_project import milestones
+
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	projects = sorted(tree.below({project}, tree.parents()))
+	of = tree.parents()
+	projects = sorted(tree.below({project}, of))
+	money = sees_rates()
 	rows = frappe.get_list(
 		"Timesheet Detail",
 		parent_doctype="Timesheet",
@@ -56,28 +176,18 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 			"from_time",
 			"hours",
 			"is_billable",
-			"billing_amount",
 			"sales_invoice",
 			"description",
 			"docstatus",
+			*(("base_billing_amount", "base_costing_amount") if money else ()),
 		],
 		order_by="from_time desc",
 		limit_page_length=0,
 	)
 	people = whose({row.parent for row in rows})
-	month = getdate(get_first_day(nowdate()))
-	totals = {"month": 0.0, "hours": 0.0, "billable": 0.0, "to_invoice": 0.0, "invoiced": 0.0, "drafts": 0.0}
-	for row in rows:
-		hours = flt(row.hours)
-		totals["hours"] += hours
-		if row.from_time and getdate(row.from_time) >= month:
-			totals["month"] += hours
-		if row.docstatus == 0:
-			totals["drafts"] += hours
-		if row.is_billable:
-			totals["billable"] += hours
-			if row.docstatus == 1:
-				totals["invoiced" if row.sales_invoice else "to_invoice"] += flt(row.billing_amount)
+	head = frappe.db.get_value(
+		"Project", project, ["one_kind", "customer", "one_monthly_hours", "company"], as_dict=True
+	)
 	tasks = dict(
 		frappe.get_all(
 			"Task",
@@ -91,8 +201,27 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
 		)
 	)
+	totals = count(rows, getdate(get_first_day(nowdate())), money)
+	totals["planned"] = planned(projects)
+	# Billable time on a sub-project shows where it is, on a parent that
+	# doesn't bill hours itself (the villa's windows).
+	billing_on = sorted(
+		{
+			titles.get(row.project) or row.project
+			for row in rows
+			if row.is_billable and row.docstatus == 1 and not row.sales_invoice and row.project != project
+		}
+	)
 	return {
-		"totals": {key: round(value, 2) for key, value in totals.items()},
+		"kind": head.one_kind,
+		"time": method(project),
+		"bills_hours": billed_by_the_hour(head.one_kind),
+		"money": money,
+		"currency": frappe.get_cached_value("Company", head.company, "default_currency")
+		if head.company
+		else None,
+		"totals": totals,
+		"billing_on": billing_on,
 		"entries": [
 			{
 				"name": row.name,
@@ -105,8 +234,10 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 				"task": row.task,
 				"task_subject": tasks.get(row.task),
 				"project": row.project,
-				"project_title": titles.get(row.project),
-				"amount": flt(row.billing_amount),
+				# Where it is under this project, as a path (milestones.where).
+				"where": milestones.where(row.project, project, of, titles),
+				"amount": flt(row.get("base_billing_amount")) if row.is_billable else None,
+				"cost": flt(row.get("base_costing_amount")) if money else None,
 				"state": state(row.docstatus, bool(row.is_billable), row.sales_invoice),
 				"invoice": row.sales_invoice,
 				"description": row.description,
@@ -114,16 +245,52 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 			for row in rows[:SHOWN]
 		],
 		"more": max(0, len(rows) - SHOWN),
+		"has_sub_projects": len(projects) > 1,
 		# A retainer's hours are counted against its month, not priced here.
-		"allowance": flt(frappe.db.get_value("Project", project, "one_monthly_hours"))
-		if frappe.db.get_value("Project", project, "one_kind") == "Retainer"
-		else None,
-		"can_log": bool(frappe.has_permission("Timesheet", "create")),
+		"allowance": flt(head.one_monthly_hours) if head.one_kind == kinds.RETAINER else None,
+		# Time on a project counted by attendance comes from attendance (site_time.py).
+		"can_log": method(project) != ATTENDANCE and bool(frappe.has_permission("Timesheet", "create")),
 		# A retainer's hours are billed with its month (retainer.py), not here.
-		"can_invoice": frappe.db.get_value("Project", project, "one_kind") != "Retainer"
-		and bool(frappe.db.get_value("Project", project, "customer"))
+		"can_invoice": head.one_kind != kinds.RETAINER
+		and bool(head.customer)
 		and bool(frappe.has_permission("Sales Invoice", "create")),
 	}
+
+
+def late_drafts(projects: list[str], user: str) -> list[dict]:
+	"""Needs You: the reader's own timesheets still in draft with time on the
+	projects from before this week, to submit."""
+	from frappe.utils import get_first_day_of_week
+
+	monday = get_first_day_of_week(getdate(nowdate()))
+	found = frappe.get_all(
+		"Timesheet Detail",
+		filters={
+			"project": ["in", projects],
+			"parenttype": "Timesheet",
+			"docstatus": 0,
+			"from_time": ["<", str(monday)],
+		},
+		fields=["parent", "hours"],
+	)
+	if not found:
+		return []
+	mine = {
+		name: info for name, info in whose({row.parent for row in found}).items() if info.get("user") == user
+	}
+	said = []
+	for sheet in sorted(mine):
+		hours = sum(flt(row.hours) for row in found if row.parent == sheet)
+		said.append(
+			{
+				"tone": "orange",
+				"text": _("Submit your timesheet"),
+				"dim": _("{0} h not submitted").format(f"{hours:g}"),
+				"route": f"/desk/timesheet/{sheet}",
+				"mine": True,
+			}
+		)
+	return said
 
 
 @frappe.whitelist(methods=["POST"])
@@ -135,16 +302,24 @@ def log(
 	task: Annotated[str | None, "The task, if the time was on one."] = None,
 	description: Annotated[str | None, "What was done."] = None,
 	billable: Annotated[int | None, "Whether the customer is billed for it."] = None,
+	on: Annotated[str | None, "The project or sub-project the time was on, when not the page's."] = None,
 ) -> str:
-	"""An entry in the reader's draft timesheet for the week. Its timesheet."""
+	"""An entry in the reader's draft timesheet for the week, on the task's
+	project, or the one chosen under the page's. Its timesheet."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
 	frappe.has_permission("Timesheet", "create", throw=True)
 	if flt(hours) <= 0:
 		frappe.throw(_("Give the time a number of hours."))
-	if task and frappe.db.get_value("Task", task, "project") not in tree.below({project}, tree.parents()):
-		frappe.throw(_("{0} is not a task on this project.").format(task))
+	below = tree.below({project}, tree.parents())
+	if task:
+		on = frappe.db.get_value("Task", task, "project")
+		if on not in below:
+			frappe.throw(_("{0} is not a task on this project.").format(task))
+	if on and on not in below:
+		frappe.throw(_("{0} is not under this project.").format(on))
+	project = on or project
 	if billable is None:
-		billable = 1 if frappe.db.get_value("Project", project, "customer") else 0
+		billable = 1 if bills_hours(project) else 0
 	sheet = timer._this_week(frappe.session.user)
 	starts = after(sheet, getdate(date))
 	sheet.append(

@@ -16,6 +16,34 @@
    "insert_after": "one_billing_section",
    "module": "One Project",
    "default": "0"
+  },
+  {
+   "dt": "Projects Settings",
+   "fieldname": "one_time_section",
+   "label": "Time",
+   "fieldtype": "Section Break",
+   "insert_after": "one_retention",
+   "module": "One Project"
+  },
+  {
+   "dt": "Projects Settings",
+   "fieldname": "one_time_default",
+   "label": "Count Time By",
+   "fieldtype": "Select",
+   "options": "Timesheets\nAttendance on Site\nNot Tracked",
+   "default": "Timesheets",
+   "insert_after": "one_time_section",
+   "module": "One Project",
+   "description": "For new projects"
+  },
+  {
+   "dt": "Projects Settings",
+   "fieldname": "one_site_activity",
+   "label": "Activity for Days on Site",
+   "fieldtype": "Link",
+   "options": "Activity Type",
+   "insert_after": "one_time_default",
+   "module": "One Project"
   }
  ],
  "doctype": "Projects Settings",

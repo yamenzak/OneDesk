@@ -556,6 +556,8 @@ doc_events = {
 			"onedesk.one_project.members.unlist",
 			# A project made without a kind gets the one its records say. See one_project/kinds.py.
 			"onedesk.one_project.kinds.fill",
+			# How it counts its time, and its site. See one_project/hours.py.
+			"onedesk.one_project.hours.fill",
 		],
 		"validate": ["onedesk.one_project.naming.validate", "onedesk.one_project.tree.validate"],
 		"on_update": [

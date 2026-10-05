@@ -990,7 +990,7 @@ def test_a_project_opens_on_its_own_page():
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in view
 	# Every kind has its cards; Money and Suppliers show for whoever may see
 	# them, Suppliers where a Fixed Price project expects subcontracts.
-	assert "def views(kind: str, cash: dict, customer" in view and '"views": views(kind, cash, doc.customer)' in view
+	assert "def views(kind: str, cash: dict, customer" in view and '"views": views(kind, cash, doc.customer, doc.name)' in view
 	assert 'frappe.has_permission("Purchase Order", "read")' in view
 	script = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert '"onedesk.one_project.view.said"' in script
@@ -1677,6 +1677,42 @@ def test_a_task_goes_to_a_group_a_template_joins_a_running_project_and_people_he
 	kinds = {str(one["name"]) for one in _load(tree.APP / "one_task" / "notifications.py", ("TYPES",), _lt=str)["TYPES"]}
 	assert {"Task Ready", "Pending Review", "Due Date Changed"} <= kinds
 	assert '"onedesk.one_task.tell.changed"' in (tree.APP / "hooks.py").read_text()
+
+
+def test_time_is_counted_apart_from_how_the_customer_pays():
+	from datetime import date
+
+	space = _load(
+		PROJECT / "hours.py",
+		("count", "billed_by_the_hour"),
+		flt=lambda value=0, *args: round(float(value or 0), *args),
+		getdate=lambda value: date.fromisoformat(str(value)[:10]),
+		kinds=type("kinds", (), {"TIME": "Time and Materials", "RETAINER": "Retainer"}),
+	)
+	assert space["billed_by_the_hour"]("Time and Materials") and space["billed_by_the_hour"]("Retainer")
+	assert not space["billed_by_the_hour"]("Fixed Price") and not space["billed_by_the_hour"]("Internal")
+	rows = [
+		{"hours": 4, "from_time": "2026-09-22", "docstatus": 1, "is_billable": 1, "base_billing_amount": 1120, "base_costing_amount": 520},
+		{"hours": 2, "from_time": "2026-10-02", "docstatus": 1, "is_billable": 1, "sales_invoice": "SINV-1", "base_billing_amount": 600, "base_costing_amount": 300},
+		{"hours": 3, "from_time": "2026-10-03", "docstatus": 0, "is_billable": 1, "base_billing_amount": 840, "base_costing_amount": 390},
+	]
+	money = space["count"](rows, date(2026, 10, 1), True)
+	# A draft is hours, not yet cost or billing.
+	assert money == {"month": 5, "hours": 9, "drafts": 3, "to_invoice": 1120, "invoiced": 600, "cost": 820}
+	assert space["count"](rows, date(2026, 10, 1), False) == {"month": 5, "hours": 9, "drafts": 3}
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_project.hours.fill"' in hooks
+	project = json.loads((PROJECT / "custom" / "project.json").read_text())
+	said = {one["fieldname"]: one for one in project["custom_fields"]}
+	assert said["one_time"]["options"] == "\nTimesheets\nAttendance on Site\nNot Tracked"
+	assert said["one_site"]["options"] == "Shift Location"
+	assert "onedesk.one_project.patches.time_counted" in (tree.APP / "patches.txt").read_text()
+	timer = (tree.APP / "one_task" / "timer.py").read_text()
+	assert '"is_billable": 1 if bills_hours(doc.project) else 0' in timer
+	billing = (PROJECT / "billing.py").read_text()
+	assert "for one in sorted(tree.below({project}, tree.parents()))" in billing
+	view = (tree.ROOT / "frontend" / "src" / "project" / "Time.vue").read_text()
+	assert "ListGroup" in view and '__("Labour Cost")' in view and "said.money" in view
 
 
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():

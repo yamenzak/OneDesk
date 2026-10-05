@@ -13,9 +13,9 @@ the reason given there. A timer stopped within a minute of starting was a
 slip, and its row is taken out rather than left at nought hours to be refused
 on submit.
 
-Time on a project with a customer is billable until somebody unticks it: an
-unticked hour quietly never reaches an invoice, and a ticked one is a line
-somebody is looking at anyway.
+Time is billable on a project whose kind bills hours (Time and Materials, or
+a Retainer) until somebody unticks it, and cost only on any other
+(one_project/hours.py `bills_hours`).
 
 The activity is the one the person used last, since it is required when the
 timesheet is submitted and is usually the same all week; they change it on the
@@ -72,6 +72,8 @@ def running() -> dict | None:
 @frappe.whitelist(methods=["POST"])
 def start(task: str) -> dict | None:
 	"""Start timing a task, stopping whatever was running."""
+	from onedesk.one_project.hours import bills_hours
+
 	doc = frappe.get_doc("Task", task)
 	doc.check_permission("read")
 	stop()
@@ -85,7 +87,7 @@ def start(task: str) -> dict | None:
 			"activity_type": _last_activity(user),
 			"from_time": now_datetime(),
 			"completed": 0,
-			"is_billable": 1 if doc.project and frappe.db.get_value("Project", doc.project, "customer") else 0,
+			"is_billable": 1 if bills_hours(doc.project) else 0,
 		},
 	)
 	sheet.save()

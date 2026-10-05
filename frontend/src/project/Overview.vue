@@ -229,7 +229,8 @@ const unbilledTotal = computed(() => {
 });
 
 // What the head doesn't say: how progress is measured, when it's due and how
-// far off that is, who's on it and how much it matters. The head has the
+// far off that is, who's on it, how much it matters and how its time is
+// counted. The head has the
 // customer, the order, the dates and the manager; the breadcrumb has where
 // a sub-project sits.
 const facts = computed(() => {
@@ -245,6 +246,7 @@ const facts = computed(() => {
     },
     s.team?.length && { label: __("Team"), value: s.team.length === 1 ? __("1 person") : __("{0} people", [s.team.length]), avatars: s.team.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
     s.priority && { label: __("Priority"), value: __(s.priority) },
+    s.time && { label: __("Time"), value: [__(s.time), s.site].filter(Boolean).join(" · ") },
   ].filter(Boolean);
 });
 function ends(left) {
