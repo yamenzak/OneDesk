@@ -61,6 +61,23 @@ Webhooks are the integration One offers today (Workspace › Webhooks).
 - **frappe-ui beta.55 to beta.76** (DESK 2b): catch the frontend up.
 - **The hostname** (INFRA 1): where a workspace lives by default.
 
+## OneProject billing (P2)
+
+Checked against ERPNext while passing OneProject's Time tab.
+
+- **Advance recovered by share**: an advance comes off each invoice in full
+  until it is used up. Many building contracts take back a share of each
+  bill, say 10%. Today the amount is changed by hand on each invoice.
+- **Retainers other than monthly**: `retainer.py` bills by calendar month
+  only, so a quarterly or yearly retainer is not possible.
+- **Work Orders on the project**: the material a Work Order uses already
+  counts in Stock Used, but the project does not list its Work Orders and
+  One has no manufacturing app. Matters to firms that make what they fit.
+- **Price escalation** (rare): raising a contract's prices by an index.
+  Workable today as a variation or an extra invoice line.
+- **Revenue by progress** (rare): recognising revenue by percent complete
+  (IFRS 15). ERPNext defers revenue by time only.
+
 ## Noticed along the way
 
 - **Sign-in** says "288 sessions" for the administrator: it counts every
