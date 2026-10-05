@@ -1,6 +1,6 @@
 <template>
   <!-- Rows of a list: frappe-ui's List. A row says what it is, a quiet aside,
-       a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
+       a badge after the name, a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
        aside then goes under the name; with
        `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
        value on the right; it may carry a
@@ -14,8 +14,11 @@
           <span v-if="item.dot" class="h-2 w-2 shrink-0 rounded-full" :class="dots[item.dot] || dots.gray" />
           <Avatar v-if="item.avatar" :label="item.avatar" size="sm" />
           <div class="min-w-0 flex-1">
-            <div class="truncate text-base text-ink-gray-8">
-              {{ item.label }}<span v-if="item.sub" class="text-ink-gray-5"> · {{ item.sub }}</span>
+            <div class="flex min-w-0 items-center gap-2">
+              <div class="truncate text-base text-ink-gray-8">
+                {{ item.label }}<span v-if="item.sub" class="text-ink-gray-5"> · {{ item.sub }}</span>
+              </div>
+              <Badge v-if="item.badge" :label="item.badge" size="sm" />
             </div>
             <div v-if="bars && item.dim" class="truncate text-sm tabular-nums text-ink-gray-5">{{ item.dim }}</div>
             <div v-if="item.below" class="truncate text-sm text-ink-gray-5">{{ item.below }}</div>
@@ -39,7 +42,7 @@
 
 <script setup>
 import { computed } from "vue";
-import { Avatar, Progress } from "frappe-ui";
+import { Avatar, Badge, Progress } from "frappe-ui";
 import { List, ListCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { go } from "./desk";

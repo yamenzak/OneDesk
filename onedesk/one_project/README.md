@@ -553,16 +553,19 @@ arrow on the heading opens **Suppliers**.
 
 The customer's contract is their **sales order** on the project, and a
 project can have more than one: a variation ordered later is a second order
-on the same project. **Contract** adds them all up. With more than one, the
-project's head says how many, **Orders** on the Overview lists each with how
-much of it is billed, and **Bill Progress** asks which order to bill, each
-with what's left on it. **Bill Progress** (also under **Create** on a
+on the same project, and extra work is ordered on its own sub-project.
+**Contract** adds up the orders on the project and those under it. With more
+than one, the project's head says how many, **Orders** on the Overview lists
+each with where it is, what it's for, what's left to bill and how much of it
+is billed (or its status when it's on hold or closed), and **Bill Progress**
+asks which order to bill, each with where it is and what's left on it. The
+heading's arrow opens the orders. **Bill Progress** (also under **Create** on a
 submitted order) works as it does for a supplier: say how far the work has got and it drafts the invoice for that
 share, less what's been invoiced already. Set **Retention** and **Retention
 Due** on the order's **Terms** tab to hold the customer's retention the same
 way. **Customer** under **Money** shows the **Retention Held** still to be
-paid, and **Retention** on the Overview adds it up across the project's
-orders, with the rate when they all hold the same and the first day any is
+paid, and **Retention** on the Overview adds it up across the orders on the
+project and those under it, with the rate when they all hold the same and the first day any is
 due.
 
 ### Before the customer orders

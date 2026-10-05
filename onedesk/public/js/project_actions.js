@@ -389,8 +389,13 @@ onedesk.project.invoice_month = async (frm, month) => {
 // what's left to bill; with one, it bills that one (progress.js).
 // A project billed by milestones starts from the share they come to.
 onedesk.project.bill_progress = (orders, contract, currency, share) => {
-	const open = (orders || []).filter((one) => one.billable);
-	const bill = (name) => onedesk.progress.ask({ doctype: "Sales Order", doc: { name } }, share);
+	const open = (orders || []).filter((one) => one.billable && one.billed < 100);
+	// The milestones' share is the page's own, so an order under it starts
+	// from what it has billed.
+	const bill = (name) => {
+		const one = open.find((order) => order.name === name);
+		onedesk.progress.ask({ doctype: "Sales Order", doc: { name } }, !one || one.own ? share : null);
+	};
 	if (open.length <= 1) return bill(open.length ? open[0].name : contract);
 	const dialog = new frappe.ui.Dialog({
 		title: __("Bill Progress"),
@@ -402,7 +407,7 @@ onedesk.project.bill_progress = (orders, contract, currency, share) => {
 				reqd: 1,
 				options: open.map((one) => ({
 					value: one.name,
-					label: __("{0} · {1} left", [one.name, format_currency(one.left, currency)]),
+					label: [one.name, one.where, __("{0} left", [format_currency(one.left, currency)])].filter(Boolean).join(" · "),
 				})),
 				default: open[0].name,
 			},

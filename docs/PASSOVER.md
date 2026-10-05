@@ -7832,6 +7832,24 @@ over.
 - The right column is narrow, so the bar gave way to lines under the name
   (`lines` on Rows). "1 days late" reads "1 day late" across the page.
 
+**Orders.** The customer's orders, with what's left to bill.
+
+- It read the project's own orders only, 160,000 of Villa Al Barsha's
+  375,000, both at 0% while 60,000 was invoiced, on Handrails' order. It now
+  lists every order on the tree, oldest first, and says where each is.
+- Two Window Works rows were told apart by number alone. Each says what it's
+  for (`money.bought`), and extra work has an Extra Work badge (`badge` on
+  Rows, frappe-ui's Badge).
+- Only a percentage. A part-billed order says what's left, and one on hold or
+  closed shows ERPNext's status instead of a share it can't be billed on.
+- No way to the orders. The heading's arrow and Show All open them across
+  the tree, and the head's "4 orders" counts the same.
+- Bill Progress offered only the project's own orders, so Handrails' couldn't
+  be billed from the villa. It offers each open order on the tree, with where
+  it is, and the milestones' share starts only the project's own.
+- Retention read the same own orders and hid the 3,000 held on Handrails. It
+  shows, at 5%, due 30-09-2027.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

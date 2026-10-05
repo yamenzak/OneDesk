@@ -80,8 +80,9 @@
           <Rows :rows="subcontracts" />
           <Button v-if="view.subcontracts_count > view.subcontracts.length && said.views?.includes('suppliers')" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="$emit('view', 'suppliers')" />
         </Section>
-        <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length">
-          <Rows :rows="said.orders.map((one) => ({ key: one.name, label: one.name, dim: money(one.value, said.currency), value: one.billed >= 100 ? __('Billed') : __('{0}% billed', [one.billed]), route: `/desk/sales-order/${one.name}` }))" />
+        <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length" :action="{ icon: 'lucide-arrow-up-right', label: __('Orders'), onClick: () => go(said.orders_route) }">
+          <Rows :rows="orders" />
+          <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
         </Section>
         <Section v-if="view.retention" :title="__('Retention')">
           <Facts :facts="[
@@ -240,6 +241,23 @@ const facts = computed(() => {
     s.parent && { label: __("Part Of"), value: s.parent_title || s.parent, route: `/desk/project/${s.parent}` },
   ].filter(Boolean);
 });
+// As many as the other sections show (view.SHOWN).
+const SHOWN = 8;
+// The customer's orders across the tree: where each is and what it's for,
+// what's left to bill, and ERPNext's status when it can't be billed.
+const orders = computed(() =>
+  props.said.orders.slice(0, SHOWN).map((one) => ({
+    key: one.name,
+    label: one.name,
+    badge: one.extra ? __("Extra Work") : undefined,
+    lines: [
+      [one.where, one.for].filter(Boolean).join(" · "),
+      [money(one.value, props.said.currency), one.billed > 0 && one.billed < 100 && __("{0} left", [money(one.left, props.said.currency)])].filter(Boolean).join(" · "),
+    ].filter(Boolean),
+    value: one.billed >= 100 ? __("Billed") : one.billable ? __("{0}% billed", [one.billed]) : __(one.status),
+    route: `/desk/sales-order/${one.name}`,
+  }))
+);
 const billed = (one) => (one.ordered ? Math.round((100 * one.billed) / one.ordered) : 0);
 // Each order: what it's for and where, how far it's billed, and when that's
 // ahead of the work on its project, or there's something to pay.

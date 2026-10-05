@@ -100,7 +100,7 @@ def said(project: Annotated[str, "The project."]) -> dict:
 			for row in doc.users
 		],
 		"contract": contract(doc),
-		"orders": orders(doc),
+		"orders": orders(doc, view["tree"]),
 		"orders_route": _orders_route(doc),
 		"quotation": None if contract(doc) else quotation(doc),
 		"currency": cash["currency"],
@@ -139,15 +139,52 @@ def contract(doc) -> str | None:
 UNBILLABLE = ("Closed", "On Hold", "Completed")
 
 
-def orders(doc) -> list[dict]:
-	"""The customer's submitted orders on the project itself, oldest first,
-	each with what's left to bill. Extra work is ordered on its own
-	sub-project, so it's that one's."""
+def orders(doc, projects: list[str] | None = None) -> list[dict]:
+	"""The customer's submitted orders on the project and those under it,
+	oldest first: where each is, what it's for, whether it's extra work, and
+	what's left to bill. `own` is one on the page's project itself."""
 	if not frappe.has_permission("Sales Order", "read"):
 		return []
+	of = tree.parents()
+	projects = projects or sorted(tree.below({doc.name}, of))
+	found = frappe.get_list(
+		"Sales Order",
+		filters={"project": ["in", projects], "docstatus": 1},
+		fields=[
+			"name",
+			"project",
+			"base_net_total",
+			"per_billed",
+			"status",
+			"one_extra_work",
+			"one_retention",
+			"one_retention_due",
+		],
+		order_by="transaction_date asc, creation asc",
+	)
+	if not found:
+		return []
+	lines = {}
+	for line in frappe.get_all(
+		"Sales Order Item",
+		filters={"parent": ["in", [one.name for one in found]]},
+		fields=["parent", "item_name"],
+		order_by="idx asc",
+	):
+		lines.setdefault(line.parent, []).append(line)
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
+		)
+	)
 	return [
 		{
 			"name": one.name,
+			"project": one.project,
+			"own": one.project == doc.name,
+			"where": milestones.where(one.project, doc.name, of, titles),
+			"for": money.bought(lines.get(one.name, [])),
+			"extra": bool(one.one_extra_work),
 			"value": flt(one.base_net_total),
 			"left": flt(one.base_net_total) * max(0.0, 100 - flt(one.per_billed)) / 100,
 			"billed": round(flt(one.per_billed)),
@@ -156,26 +193,15 @@ def orders(doc) -> list[dict]:
 			"retention": flt(one.one_retention),
 			"retention_due": one.one_retention_due,
 		}
-		for one in frappe.get_list(
-			"Sales Order",
-			filters={"project": doc.name, "docstatus": 1},
-			fields=[
-				"name",
-				"base_net_total",
-				"per_billed",
-				"status",
-				"one_retention",
-				"one_retention_due",
-			],
-			order_by="transaction_date asc, creation asc",
-		)
+		for one in found
 	]
 
 
 def _orders_route(doc) -> str:
 	from onedesk.one_project.money import _route
 
-	return _route("Sales Order", {"project": doc.name, "docstatus": 1})
+	projects = sorted(tree.below({doc.name}, tree.parents()))
+	return _route("Sales Order", {"project": ["in", projects], "docstatus": 1})
 
 
 def quotation(doc) -> dict | None:
@@ -577,7 +603,7 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		said["budget"] = _budget_lines(view["tree"], cash)
 		said["subcontracts"] = _subcontracts(doc.name, view, cash["suppliers"][:SHOWN])
 		said["subcontracts_count"] = len(cash["suppliers"])
-		said["retention"] = _retention(orders(doc), cash)
+		said["retention"] = _retention(orders(doc, view["tree"]), cash)
 	if kind == kinds.RETAINER:
 		said["months"] = retainer.months(doc.name)
 		said["people"] = _people(doc.name)
