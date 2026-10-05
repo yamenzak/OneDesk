@@ -669,7 +669,11 @@ is billed (or its status when it's on hold or closed), and **Bill Progress**
 asks which order to bill, each with where it is and what's left on it. The
 heading's arrow opens the orders. **Bill Progress** (also under **Create** on a
 submitted order) works as it does for a supplier: say how far the work has got and it drafts the invoice for that
-share, less what's been invoiced already. Set **Retention** and **Retention
+share, less what's been invoiced already. On an order of several lines, such
+as a bill of quantities, tick **By Line** to give each line its own share
+done: 50% of the lights and 30% of the cabling bills 20 of 40 lights and 180
+of 600 m. Each line shows what's ordered and what's billed so far, and the
+invoice's **Work Done** is the share of the whole by value. Set **Retention** and **Retention
 Due** on the order's **Terms** tab to hold the customer's retention the same
 way. **Customer** under **Money** shows the **Retention Held** still to be
 paid. **Retention** on the Overview sets what the customer holds (**From the

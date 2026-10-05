@@ -5,8 +5,10 @@ package of work. The customer's contract is their Sales Order. Both are
 billed the same way, a share at a time:
 
 - **Bill Progress** (`bill_progress`) asks how far the work has got, as a
-  share of the order, and drafts the invoice for what that share comes to
-  less what's been billed already. It's ERPNext's own "Create > Invoice" from
+  share of the order, or line by line (`lines`) where work is measured
+  against a bill of quantities, and drafts the invoice for what that comes to
+  less what's been billed already. The invoice's Work Done is then the
+  share of the whole by amount (`overall`). It's ERPNext's own "Create > Invoice" from
   the order with each line's quantity cut to that share, so the order's
   billed amount, its status and the project's figures are ERPNext's. ERPNext
   keeps an invoice at the order's rate, so a share is a part of the quantity:
@@ -29,7 +31,7 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, getdate
+from frappe.utils import add_days, flt, getdate, strip_html
 
 from onedesk.one_project.retention import HANDOVER, HELD, RETENTION, parts
 
@@ -68,9 +70,33 @@ def billed_share(lines: list) -> float:
 @frappe.whitelist()
 @frappe.read_only()
 def progress(doctype: str, name: str) -> dict:
-	"""What Bill Progress asks with: how far the order is billed already."""
+	"""What Bill Progress asks with: how far the order is billed already, as
+	a whole and line by line."""
 	order = _order(doctype, name)
-	return {"billed": billed_share(order.items), "retention": flt(order.get("one_retention"))}
+	return {
+		"billed": billed_share(order.items),
+		"retention": flt(order.get("one_retention")),
+		"lines": [
+			{
+				"line": line.name,
+				# A bill of quantities' lines often share one item; its description says which.
+				"item": strip_html(line.description or "").strip() or line.item_name or line.item_code,
+				"ordered": f"{flt(line.qty):g} {line.uom or ''}".strip(),
+				"billed": round(100 * flt(line.billed_amt) / flt(line.amount), 1)
+				if flt(line.amount)
+				else 0.0,
+			}
+			for line in order.items
+		],
+	}
+
+
+def overall(lines: list, done: dict) -> float:
+	"""How far an order is done as a whole, by amount, when each line has
+	its own share done. Pure."""
+	total = sum(flt(line.amount) for line in lines)
+	worth = sum(flt(line.amount) * flt(done.get(line.name)) / 100 for line in lines)
+	return round(100 * worth / total, 2) if total else 0.0
 
 
 @frappe.whitelist(methods=["POST"])
@@ -78,18 +104,28 @@ def bill_progress(
 	source_name: Annotated[str, "The order."],
 	doctype: Annotated[str | None, "Purchase Order or Sales Order."] = None,
 	done: Annotated[float | None, "How far the work has got, out of 100."] = None,
+	lines: Annotated[dict | str | None, "How far each order line has got, out of 100, by line."] = None,
 ):
 	"""A draft invoice for the share of the order done and not yet billed, for
 	the page to open through frappe.model.open_mapped_doc, which passes the
-	doctype and share in its args. Nothing is saved."""
+	doctype and share in its args. Each line may have its own share done
+	(`lines`), as work measured against a bill of quantities is: 120 of 400 m²
+	of tiling and 80% of the glazing. Nothing is saved."""
 	args = frappe.flags.args or {}
 	doctype = doctype or args.get("doctype")
-	done = flt(done if done is not None else args.get("done"))
+	shares = frappe.parse_json(lines if lines is not None else args.get("lines")) or None
 	if doctype not in SIDES:
 		frappe.throw(_("Bill Progress is for purchase and sales orders."))
-	if not 0 < done <= 100:
-		frappe.throw(_("How far the work has got is a share between 1 and 100."))
 	order = _order(doctype, source_name)
+	if shares:
+		shares = {key: flt(value) for key, value in shares.items()}
+		if any(not 0 <= value <= 100 for value in shares.values()) or not any(shares.values()):
+			frappe.throw(_("How far the work has got is a share between 1 and 100."))
+		done = overall(order.items, shares)
+	else:
+		done = flt(done if done is not None else args.get("done"))
+		if not 0 < done <= 100:
+			frappe.throw(_("How far the work has got is a share between 1 and 100."))
 	side = SIDES[doctype]
 	frappe.has_permission(side["invoice"], "create", throw=True)
 
@@ -102,7 +138,7 @@ def bill_progress(
 		if not line:
 			continue
 		# The mapper leaves what's not billed yet; the rest is billed.
-		qty = to_bill(line.qty, flt(line.qty) - flt(row.qty), done)
+		qty = to_bill(line.qty, flt(line.qty) - flt(row.qty), shares.get(line.name, 0) if shares else done)
 		qty = flt(qty, row.precision("qty"))
 		if qty <= 0:
 			continue

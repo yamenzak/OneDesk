@@ -1761,6 +1761,23 @@ def test_a_task_over_its_hours_is_told_and_timing_it_does_not_finish_it():
 	assert '"completed": 0,' in (PROJECT / "hours.py").read_text()
 
 
+def test_bill_progress_bills_each_line_of_a_bill_of_quantities_by_its_own_share():
+	from types import SimpleNamespace as Line
+
+	space = _load(PROJECT / "progress.py", ("to_bill", "overall"), flt=lambda value=0, *args: float(value or 0))
+	lights = Line(name="lights", qty=40, amount=18000)
+	cabling = Line(name="cabling", qty=600, amount=15000)
+	commissioning = Line(name="commissioning", qty=1, amount=6000)
+	done = {"lights": 50, "cabling": 30}
+	# By value: 9,000 and 4,500 of 39,000.
+	assert space["overall"]([lights, cabling, commissioning], done) == 34.62
+	assert space["to_bill"](40, 0, 50) == 20 and space["to_bill"](600, 0, 30) == 180
+	assert space["to_bill"](600, 180, 30) == 0
+	dialog = (tree.APP / "public" / "js" / "progress.js").read_text()
+	assert 'fieldname: "by_line"' in dialog and 'fieldtype: "Table"' in dialog
+	assert "shares.get(line.name, 0) if shares else done" in (PROJECT / "progress.py").read_text()
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

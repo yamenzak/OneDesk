@@ -8007,6 +8007,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - Nobody heard when a task ran past its hours. **Hours Over Plan** tells
   whoever has it and the project's manager, once, as its logged hours pass
   its planned hours (`tell.over_plan`).
+- Bill Progress took one share for the whole order, so work measured line by
+  line against a bill of quantities couldn't be billed. **By Line** gives each
+  order line its own share done, in frappe's table in the same dialog
+  (`progress.bill_progress` `lines`, `overall`). Showroom Lighting's contract
+  billed at 50% of the lights and 30% of the cabling comes to 13,500, Work
+  Done 34.62%.
 
 ## OneLegal
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 19:55+0000\n"
-"PO-Revision-Date: 2026-10-05 19:55+0000\n"
+"POT-Creation-Date: 2026-10-05 20:00+0000\n"
+"PO-Revision-Date: 2026-10-05 20:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -3330,15 +3330,15 @@ msgstr "فوترة التكاليف باسم"
 #: frontend/src/project/Overview.vue:19
 #: frontend/src/project/ProjectPage.vue:249
 #: frontend/src/project/Suppliers.vue:46 onedesk/public/js/progress.js:20
-#: onedesk/public/js/progress.js:30 onedesk/public/js/project_actions.js:463
+#: onedesk/public/js/progress.js:33 onedesk/public/js/project_actions.js:463
 msgid "Bill Progress"
 msgstr "فوترة التقدم"
 
-#: onedesk/one_project/progress.py:111
+#: onedesk/one_project/progress.py:145
 msgid "Bill Progress can't bill part of a {0}. Order {1} in {2} to bill it in parts."
 msgstr "لا يمكن لفوترة التقدم فوترة جزء من {0}. اطلب {1} بوحدة {2} لفوترته على أجزاء."
 
-#: onedesk/one_project/progress.py:89 onedesk/one_project/progress.py:274
+#: onedesk/one_project/progress.py:116 onedesk/one_project/progress.py:308
 msgid "Bill Progress is for purchase and sales orders."
 msgstr "فوترة التقدم مخصصة لأوامر الشراء والبيع."
 
@@ -3395,7 +3395,7 @@ msgstr "مفوتر قبل المراحل"
 msgid "Billed Ahead of the Work"
 msgstr "مفوتر قبل إنجاز العمل"
 
-#: onedesk/public/js/progress.js:34
+#: onedesk/public/js/progress.js:45 onedesk/public/js/progress.js:69
 msgid "Billed So Far"
 msgstr "المفوتر حتى الآن"
 
@@ -3702,6 +3702,10 @@ msgstr "حسب"
 #: frontend/src/project/Overview.vue:94
 msgid "By Activity"
 msgstr "حسب النشاط"
+
+#: onedesk/public/js/progress.js:55
+msgid "By Line"
+msgstr "حسب البند"
 
 #: frontend/src/project/Overview.vue:91
 msgid "By Person"
@@ -5199,7 +5203,7 @@ msgstr "شمول العطل أيضاً"
 #: onedesk/public/js/doctype_settings.js:889 onedesk/public/js/onecloud.js:1478
 #: onedesk/public/js/onecloud.js:1802 onedesk/public/js/opportunity.js:18
 #: onedesk/public/js/opportunity.js:19 onedesk/public/js/progress.js:20
-#: onedesk/public/js/progress.js:44 onedesk/public/js/project_actions.js:44
+#: onedesk/public/js/progress.js:74 onedesk/public/js/project_actions.js:44
 #: onedesk/public/js/project_actions.js:134
 #: onedesk/public/js/project_actions.js:421 onedesk/public/js/settings.js:1113
 #: onedesk/public/js/settings.js:1219 onedesk/public/js/settings.js:2217
@@ -6418,7 +6422,7 @@ msgstr "نطاقات بالانتظار"
 #: onedesk/one_project/portal.py:38
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/learned.js:34 onedesk/public/js/onecloud.js:2266
-#: onedesk/public/js/progress.js:32
+#: onedesk/public/js/progress.js:39 onedesk/public/js/progress.js:70
 msgid "Done"
 msgstr "المُنجز"
 
@@ -9252,7 +9256,7 @@ msgstr "كيف يعمل البريد هنا؟"
 msgid "How does this page work?"
 msgstr "كيف تعمل هذه الصفحة؟"
 
-#: onedesk/one_project/progress.py:91
+#: onedesk/one_project/progress.py:121 onedesk/one_project/progress.py:126
 msgid "How far the work has got is a share between 1 and 100."
 msgstr "نسبة الإنجاز رقم بين 1 و100."
 
@@ -10260,7 +10264,7 @@ msgid "It would overwrite {0}."
 msgstr "سيؤدي ذلك إلى استبدال {0}."
 
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/project_actions.js:116
+#: onedesk/public/js/progress.js:67 onedesk/public/js/project_actions.js:116
 #: onedesk/public/js/project_actions.js:413 onedesk/www/order.html:56
 #: onedesk/www/rfq.html:50
 msgid "Item"
@@ -11158,6 +11162,7 @@ msgstr "البند"
 
 #. Label of the lines (Table) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/public/js/progress.js:59
 msgid "Lines"
 msgstr "البنود"
 
@@ -14765,7 +14770,7 @@ msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخ�
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "لا يمكن أن يكون صندوق بريد مساحة العمل إلا صندوقًا مشتركًا."
 
-#: onedesk/one_project/progress.py:278
+#: onedesk/one_project/progress.py:312
 msgid "Only a submitted order still open can be billed."
 msgstr "لا يمكن فوترة إلا أمر مُعتمد ولا يزال مفتوحًا."
 
@@ -15145,6 +15150,7 @@ msgstr "الطلب والفواتير"
 #. Label of the 'total_sales_amount' field in DocType 'Project'
 #: frontend/src/project/Suppliers.vue:8 onedesk/one_project/custom/project.json
 #: onedesk/one_project/money.py:138 onedesk/one_project/money.py:156
+#: onedesk/public/js/progress.js:68
 msgid "Ordered"
 msgstr "المطلوب"
 
@@ -18156,7 +18162,7 @@ msgstr "شهر اشتراك للفوترة"
 #: frontend/src/project/Overview.vue:87
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/one_project/progress.py:156 onedesk/public/js/progress.js:38
+#: onedesk/one_project/progress.py:190 onedesk/public/js/progress.js:49
 #: onedesk/public/js/project_actions.js:167 onedesk/public/js/project_new.js:86
 msgid "Retention"
 msgstr "المحتجز"
@@ -18175,7 +18181,7 @@ msgstr "موعد استحقاق المحتجز"
 msgid "Retention Held"
 msgstr "المحتجز القائم"
 
-#: onedesk/one_project/progress.py:156
+#: onedesk/one_project/progress.py:190
 msgid "Retention at Handover"
 msgstr "المحتجز عند التسليم"
 
@@ -28451,7 +28457,7 @@ msgstr "تمت استعادة {0}."
 msgid "{0} is billed at {1}, ordered at {2}."
 msgstr "{0} مفوتر بسعر {1} ومطلوب بسعر {2}."
 
-#: onedesk/one_project/progress.py:119
+#: onedesk/one_project/progress.py:153
 msgid "{0} is billed up to {1}% already."
 msgstr "تمت فوترة {0} حتى {1}% بالفعل."
 

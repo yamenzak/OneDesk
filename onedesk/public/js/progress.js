@@ -26,10 +26,21 @@ onedesk.progress.ask = async (frm, share) => {
 		doctype: frm.doctype,
 		name: frm.doc.name,
 	});
+	// An order of several lines may be billed line by line, as work measured
+	// against a bill of quantities is (one_project/progress.py `lines`).
+	const several = said.lines.length > 1;
 	const dialog = new frappe.ui.Dialog({
 		title: __("Bill Progress"),
+		size: several ? "large" : undefined,
 		fields: [
-			{ fieldtype: "Percent", fieldname: "done", label: __("Done"), reqd: 1, default: share || said.billed },
+			{
+				fieldtype: "Percent",
+				fieldname: "done",
+				label: __("Done"),
+				default: share || said.billed,
+				depends_on: "eval:!doc.by_line",
+				mandatory_depends_on: "eval:!doc.by_line",
+			},
 			{ fieldtype: "Column Break" },
 			{ fieldtype: "Percent", fieldname: "billed", label: __("Billed So Far"), read_only: 1, default: said.billed },
 			{
@@ -40,14 +51,33 @@ onedesk.progress.ask = async (frm, share) => {
 				default: said.retention,
 				hidden: !said.retention,
 			},
+			{ fieldtype: "Section Break", hidden: !several },
+			{ fieldtype: "Check", fieldname: "by_line", label: __("By Line") },
+			{
+				fieldtype: "Table",
+				fieldname: "lines",
+				label: __("Lines"),
+				depends_on: "eval:doc.by_line",
+				cannot_add_rows: true,
+				cannot_delete_rows: true,
+				in_place_edit: true,
+				data: said.lines.map((one) => ({ ...one, done: one.billed })),
+				fields: [
+					{ fieldtype: "Data", fieldname: "line", hidden: 1 },
+					{ fieldtype: "Data", fieldname: "item", label: __("Item"), read_only: 1, in_list_view: 1, columns: 4 },
+					{ fieldtype: "Data", fieldname: "ordered", label: __("Ordered"), read_only: 1, in_list_view: 1, columns: 2 },
+					{ fieldtype: "Percent", fieldname: "billed", label: __("Billed So Far"), read_only: 1, in_list_view: 1, columns: 2 },
+					{ fieldtype: "Percent", fieldname: "done", label: __("Done"), in_list_view: 1, columns: 2 },
+				],
+			},
 		],
 		primary_action_label: __("Create"),
-		primary_action: ({ done }) => {
+		primary_action: ({ done, by_line, lines }) => {
 			dialog.hide();
 			frappe.model.open_mapped_doc({
 				method: "onedesk.one_project.progress.bill_progress",
 				source_name: frm.doc.name,
-				args: { doctype: frm.doctype, done },
+				args: by_line ? { doctype: frm.doctype, lines: Object.fromEntries((lines || []).map((one) => [one.line, one.done || 0])) } : { doctype: frm.doctype, done },
 			});
 		},
 	});
