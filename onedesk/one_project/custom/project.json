@@ -81,11 +81,21 @@
   },
   {
    "dt": "Project",
+   "fieldname": "one_markup",
+   "label": "Markup on Costs",
+   "fieldtype": "Percent",
+   "insert_after": "one_monthly_hours",
+   "module": "One Project",
+   "depends_on": "eval:doc.one_kind=='Time and Materials'",
+   "description": ""
+  },
+  {
+   "dt": "Project",
    "fieldname": "one_time",
    "label": "Time",
    "fieldtype": "Select",
    "options": "\nTimesheets\nAttendance on Site\nNot Tracked",
-   "insert_after": "one_monthly_hours",
+   "insert_after": "one_markup",
    "module": "One Project",
    "description": ""
   },

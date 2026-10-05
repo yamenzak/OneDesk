@@ -82,6 +82,7 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 			"estimated_costing": flt(values.budget) if kind in (TIME, INTERNAL) else 0,
 			"one_monthly_fee": flt(values.monthly_fee) if kind == RETAINER else 0,
 			"one_monthly_hours": flt(values.monthly_hours) if kind == RETAINER else 0,
+			"one_markup": flt(values.markup) if kind == TIME else 0,
 			# How its time is counted, and where (hours.py).
 			"one_time": values.time,
 			"one_site": values.site,

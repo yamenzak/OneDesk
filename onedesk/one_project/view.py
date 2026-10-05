@@ -387,13 +387,26 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		]
 	if kind == kinds.TIME:
 		waiting = billing.unbilled(doc.name)
+		costs = waiting.get("costs") or {}
 		return [
 			{
 				"key": "unbilled",
-				"money": flt(waiting.get("amount")),
-				"note": _("{0} h").format(f"{flt(waiting.get('hours'), 1):g}")
-				if waiting.get("hours")
-				else None,
+				# The hours and what was bought for it, not invoiced yet.
+				"money": flt(waiting.get("amount")) + flt(costs.get("amount")),
+				"note": " · ".join(
+					filter(
+						None,
+						[
+							_("{0} h").format(f"{flt(waiting.get('hours'), 1):g}")
+							if waiting.get("hours")
+							else None,
+							(_("1 cost") if costs["count"] == 1 else _("{0} costs").format(costs["count"]))
+							if costs.get("count")
+							else None,
+						],
+					)
+				)
+				or None,
 			},
 			{"key": "hours", "hours": _month_hours(view["tree"])},
 			invoiced,

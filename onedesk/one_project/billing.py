@@ -17,6 +17,16 @@ the invoice's Time Sheets naming its project, so the villa's page invoices
 the windows' hours too (`_rows`). A retainer's hours are billed with its
 month, never here.
 
+**What was bought for it** (`costs`). A Time and Materials job bills the
+materials and outside work bought for it as well as its hours: supplier
+bills' lines on the project, stock issued to it, and approved expense claims
+for it, each at what it cost the company plus the project's **Markup on
+Costs** (`one_markup`). Invoice Time adds them as lines under the time, one
+per cost, and each line names the cost it bills (`one_rebills`), so a cost is
+never billed twice and is billable again if its invoice is cancelled. Only a
+Time and Materials project's costs are billed this way; a fixed price covers
+its own.
+
 **A quotation for extra work becomes a sub-project** (`ordered`). A quotation
 names its project like any other (chain.py), and **Extra Work** says it is
 more than the job was ordered for. Both are carried to its Sales Order (the
@@ -52,6 +62,8 @@ def unbilled(project: str) -> dict:
 	currency = (billed_in("Customer", customer) if customer else None) or (rows[0].currency if rows else None)
 	if rows and currency:
 		rows = in_currency(rows, currency)
+	found = costs(project) if frappe.has_permission("Sales Invoice", "create") else []
+	rate = currency_rate(_company_currency(project), currency) if found and currency else 1
 	return {
 		"hours": sum(flt(row.billing_hours) for row in rows),
 		"amount": sum(flt(row.billing_amount) for row in rows),
@@ -59,16 +71,24 @@ def unbilled(project: str) -> dict:
 		"customer": customer,
 		"item": _last_item(),
 		"projects": sorted({row.project_name for row in rows if row.get("project_name")}),
+		"costs": {
+			"count": len(found),
+			"amount": round(sum(one["charge"] for one in found) * flt(rate), 2),
+			"item": _last_item(costs=True),
+		},
 	}
 
 
 @frappe.whitelist(methods=["POST"])
-def invoice_time(source_name: str, item: str | None = None):
+def invoice_time(source_name: str, item: str | None = None, cost_item: str | None = None):
 	"""A draft Sales Invoice for the project's billable time not yet invoiced,
-	for the page to open through frappe.model.open_mapped_doc, which passes the
-	item in its args. Nothing is saved."""
+	and its costs not yet billed when `cost_item` is given, for the page to
+	open through frappe.model.open_mapped_doc, which passes the items in its
+	args. Nothing is saved."""
 	project = source_name
-	item = item or (frappe.flags.args or {}).get("item")
+	args = frappe.flags.args or {}
+	item = item or args.get("item")
+	cost_item = cost_item or args.get("cost_item")
 	if not item:
 		frappe.throw(_("Pick the item to invoice the time as."))
 	frappe.has_permission("Project", "read", project, throw=True)
@@ -81,7 +101,8 @@ def invoice_time(source_name: str, item: str | None = None):
 	if not source.customer:
 		frappe.throw(_("Give {0} a customer to bill its time to.").format(source.project_name))
 	rows = _rows(project)
-	if not rows:
+	found = costs(project) if cost_item else []
+	if not rows and not found:
 		frappe.throw(_("{0} has no billable time that is not invoiced yet.").format(source.project_name))
 	invoice = frappe.new_doc("Sales Invoice")
 	invoice.customer = source.customer
@@ -98,6 +119,20 @@ def invoice_time(source_name: str, item: str | None = None):
 				"qty": line["hours"],
 				"rate": line["rate"],
 				"description": line["activity"] or _("Time"),
+			},
+		)
+	# What was bought for it, at cost plus the project's markup, in the
+	# currency the customer is billed in.
+	rate = currency_rate(_company_currency(project), invoice.currency) if found else 1
+	for one in found:
+		invoice.append(
+			"items",
+			{
+				"item_code": cost_item,
+				"qty": 1,
+				"rate": flt(one["charge"] * flt(rate), 2),
+				"description": one["title"],
+				"one_rebills": one["key"],
 			},
 		)
 	for row in rows:
@@ -254,14 +289,95 @@ def _rows(project: str) -> list:
 	return found
 
 
-def _last_item() -> str | None:
-	"""The item the last invoice for time was made out in."""
+def _last_item(costs: bool = False) -> str | None:
+	"""The item the last invoice for time, or for costs, was made out in."""
 	found = frappe.db.sql(
 		"""select item.item_code from `tabSales Invoice Item` item
-		where exists (select 1 from `tabSales Invoice Timesheet` time where time.parent = item.parent)
+		where ifnull(item.one_rebills, '') != '' order by item.creation desc limit 1"""
+		if costs
+		else """select item.item_code from `tabSales Invoice Item` item
+		where ifnull(item.one_rebills, '') = ''
+		and exists (select 1 from `tabSales Invoice Timesheet` time where time.parent = item.parent)
 		order by item.creation desc limit 1"""
 	)
 	return found[0][0] if found else None
+
+
+def _company_currency(project: str) -> str | None:
+	company = frappe.db.get_value("Project", project, "company")
+	return frappe.get_cached_value("Company", company, "default_currency") if company else None
+
+
+def charge(cost: float, markup: float) -> float:
+	"""What a cost is billed at: the cost plus the markup, a share of it. Pure."""
+	return round(flt(cost) * (1 + flt(markup) / 100), 2)
+
+
+def costs(project: str) -> list[dict]:
+	"""What was bought for the project and those under it, on Time and
+	Materials projects billed to the same customer, not billed yet: supplier
+	bills' lines, stock issued to it and approved expense claims, each with
+	what it cost the company and what it's billed at."""
+	from onedesk.one_project import kinds, tree
+
+	customer = frappe.db.get_value("Project", project, "customer")
+	heads = {
+		one.name: one
+		for one in frappe.get_all(
+			"Project",
+			filters={"name": ["in", sorted(tree.below({project}, tree.parents()))]},
+			fields=["name", "project_name", "customer", "one_kind", "one_markup"],
+		)
+		if one.one_kind == kinds.TIME and one.customer == customer
+	}
+	if not heads:
+		return []
+	found = []
+	for row in frappe.get_all(
+		"Purchase Invoice Item",
+		filters={"project": ["in", list(heads)], "docstatus": 1, "parenttype": "Purchase Invoice"},
+		fields=["name", "parent", "project", "item_name", "base_net_amount as cost"],
+	):
+		supplier = frappe.db.get_value("Purchase Invoice", row.parent, "supplier_name")
+		found.append(_cost("Purchase Invoice Item", row, heads, f"{row.item_name} · {supplier}"))
+	for row in frappe.get_all(
+		"Stock Entry Detail",
+		filters={
+			"project": ["in", list(heads)],
+			"docstatus": 1,
+			"s_warehouse": ["is", "set"],
+			"t_warehouse": ["is", "not set"],
+		},
+		fields=["name", "parent", "project", "item_name", "amount as cost"],
+	):
+		found.append(_cost("Stock Entry Detail", row, heads, row.item_name))
+	for row in frappe.get_all(
+		"Expense Claim",
+		filters={"project": ["in", list(heads)], "docstatus": 1, "approval_status": "Approved"},
+		fields=["name", "name as parent", "project", "employee_name", "total_sanctioned_amount as cost"],
+	):
+		found.append(_cost("Expense Claim", row, heads, _("Expenses · {0}").format(row.employee_name)))
+	found = [one for one in found if one["cost"] > 0]
+	billed = set(
+		frappe.get_all(
+			"Sales Invoice Item",
+			filters={"one_rebills": ["in", [one["key"] for one in found] or [""]], "docstatus": ["<", 2]},
+			pluck="one_rebills",
+		)
+	)
+	return [one for one in found if one["key"] not in billed]
+
+
+def _cost(doctype: str, row, heads: dict, title: str) -> dict:
+	head = heads[row.project]
+	return {
+		"key": f"{doctype}:{row.name}",
+		"parent": row.parent,
+		"project": row.project,
+		"title": title if len(heads) == 1 else f"{title} · {head.project_name}",
+		"cost": flt(row.cost),
+		"charge": charge(row.cost, head.one_markup),
+	}
 
 
 def ordered(doc, method=None) -> None:

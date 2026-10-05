@@ -101,6 +101,8 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Section Break", depends_on: kind(["Time and Materials", "Internal"]) },
 			{ fieldtype: "Currency", fieldname: "budget", label: __("Budget") },
 			{ fieldtype: "Column Break" },
+			// What's bought for a Time and Materials job is billed at cost plus this (one_project/billing.py).
+			{ fieldtype: "Percent", fieldname: "markup", label: __("Markup on Costs"), depends_on: kind(["Time and Materials"]) },
 			{ fieldtype: "Section Break", depends_on: kind(["Retainer"]) },
 			{ fieldtype: "Currency", fieldname: "monthly_fee", label: __("Monthly Fee"), options: "currency" },
 			{ fieldtype: "Column Break" },

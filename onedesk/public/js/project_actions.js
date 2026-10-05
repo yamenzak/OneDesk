@@ -92,24 +92,24 @@ onedesk.project.add_template = (project, done) => {
 };
 
 // A draft invoice for the project's billable time not yet invoiced, by
-// activity (one_project/billing.py). It opens unsaved, to be read first.
+// activity, and on a Time and Materials job what was bought for it at cost
+// plus its markup (one_project/billing.py). It opens unsaved, to be read first.
 onedesk.project.invoice_time = async (frm) => {
 	const said = await frappe.xcall("onedesk.one_project.billing.unbilled", { project: frm.doc.name });
-	if (!said.hours) {
+	const costs = said.costs || {};
+	if (!said.hours && !costs.count) {
 		frappe.ui.toast({ message: __("No billable time on {0} is waiting to be invoiced.", [frm.doc.project_name]), type: "info" });
 		return;
 	}
+	// What's waiting: the hours, and what was bought for it at cost plus the markup.
+	const waiting = [
+		said.hours && __("{0} hours, {1}", [format_number(said.hours, null, 2), format_currency(said.amount, said.currency)]),
+		costs.count && (costs.count === 1 ? __("1 cost, {0}", [format_currency(costs.amount, said.currency)]) : __("{0} costs, {1}", [costs.count, format_currency(costs.amount, said.currency)])),
+	].filter(Boolean);
 	const dialog = new frappe.ui.Dialog({
 		title: __("Invoice Time"),
 		fields: [
-			{
-				fieldtype: "HTML",
-				fieldname: "said",
-				options: `<p class="text-muted">${__("{0} hours, {1}, not invoiced yet.", [
-					format_number(said.hours, null, 2),
-					format_currency(said.amount, said.currency),
-				])}</p>`,
-			},
+			{ fieldtype: "HTML", fieldname: "said", options: `<p class="text-muted">${__("{0} not invoiced yet.", [waiting.join(" · ")])}</p>` },
 			{
 				fieldtype: "Link",
 				fieldname: "item",
@@ -119,14 +119,25 @@ onedesk.project.invoice_time = async (frm) => {
 				default: said.item,
 				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0 } }),
 			},
+			{ fieldtype: "Check", fieldname: "with_costs", label: __("Bill Costs"), default: costs.count ? 1 : 0, hidden: !costs.count },
+			{
+				fieldtype: "Link",
+				fieldname: "cost_item",
+				label: __("Bill Costs As"),
+				options: "Item",
+				default: costs.item || said.item,
+				depends_on: "eval:doc.with_costs",
+				mandatory_depends_on: "eval:doc.with_costs",
+				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0 } }),
+			},
 		],
 		primary_action_label: __("Create"),
-		primary_action: ({ item }) => {
+		primary_action: ({ item, with_costs, cost_item }) => {
 			dialog.hide();
 			frappe.model.open_mapped_doc({
 				method: "onedesk.one_project.billing.invoice_time",
 				source_name: frm.doc.name,
-				args: { item },
+				args: { item, cost_item: with_costs ? cost_item : null },
 			});
 		},
 	});

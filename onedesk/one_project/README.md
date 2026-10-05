@@ -84,7 +84,8 @@ decides what **Details** asks for and what the project's page shows.
   sales order for the contract is made with the project, so **Bill Progress**
   works from the first day.
 - **Time and Materials**: billed by the hour at agreed rates, plus what's
-  bought for it. Give a **Budget** if there is one.
+  bought for it. Give a **Budget** if there is one, and the **Markup on
+  Costs** added to what's bought when it's billed.
 - **Retainer**: a monthly fee for a set number of hours. Give the **Monthly
   Fee** and the **Hours a Month**.
 - **Internal**: no customer. Give a **Budget** if there is one.
@@ -331,6 +332,14 @@ The figures:
   a sub-project that does (it says which). **Invoice Time** is the button on
   **To Invoice**. On a project with sub-projects it invoices all their billable
   hours for the same customer on one invoice.
+
+  On a Time and Materials job, **Invoice Time** also offers **Bill Costs**:
+  what was bought for it and not billed yet (supplier bills' lines, stock
+  issued to it and approved expense claims), one line each at cost plus the
+  project's **Markup on Costs**, made out as the item you pick in **Bill
+  Costs As**. A cost billed once isn't offered again, unless its invoice is
+  cancelled. A Fixed Price job's costs are covered by its price and are never
+  billed this way.
 - **Labour Cost**: what the hours cost at each person's cost rate.
 
 A retainer shows this month's hours against its allowance instead.

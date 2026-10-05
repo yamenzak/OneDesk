@@ -7995,6 +7995,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - Legal: the Privacy Policy says a day at a project's site becomes time on
   that project, the day and its hours only (`oneproject-days-on-site`,
   revision 18).
+- Time and Materials said "plus what's bought for it", but Invoice Time billed
+  only hours. It now offers Bill Costs: supplier bills' lines, stock issued
+  and approved expense claims on the job's Time and Materials projects, at
+  cost plus the project's Markup on Costs, each line naming the cost it bills
+  (`one_rebills`), so nothing is billed twice (`billing.costs`). Villa
+  Windows' aluminium frames, 30,000 at 10%, bill as 33,000 beside its 9 hours.
 
 ## OneLegal
 

@@ -1736,6 +1736,19 @@ def test_a_day_on_site_is_a_day_on_the_project():
 	assert timesheet["custom_fields"][0]["fieldname"] == "one_attendance"
 
 
+def test_what_was_bought_for_a_time_and_materials_job_is_billed_once():
+	charge = _load(PROJECT / "billing.py", ("charge",), flt=lambda value=0, *args: float(value or 0))["charge"]
+	assert charge(30000, 10) == 33000 and charge(250, 0) == 250
+	billing = (PROJECT / "billing.py").read_text()
+	# Only a Time and Materials project's costs, and never one already on an invoice.
+	assert "if one.one_kind == kinds.TIME and one.customer == customer" in billing
+	assert '"one_rebills": ["in", [one["key"] for one in found] or [""]], "docstatus": ["<", 2]' in billing
+	item = json.loads((PROJECT / "custom" / "sales_invoice_item.json").read_text())
+	assert item["doctype"] == "Sales Invoice Item" and item["custom_fields"][0]["fieldname"] == "one_rebills"
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "args: { item, cost_item: with_costs ? cost_item : null }" in actions
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}
