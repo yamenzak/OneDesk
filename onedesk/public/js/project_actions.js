@@ -558,3 +558,71 @@ onedesk.project.edit_about = (project, modified, done) =>
 
 onedesk.project.edit_brief = (project, modified, done) =>
 	onedesk.project.edit(project, modified, ["notes"], __("Brief"), done);
+
+// A task's details, changed from the project's task panel: ERPNext's own
+// Task fields in frappe's controls, Depends On as frappe's table, saved
+// against the task as the panel loaded it. One_task/README.md has what each
+// is for.
+onedesk.project.task_details = async (task, modified, done) => {
+	await frappe.model.with_doctype("Task");
+	const doc = await frappe.db.get_doc("Task", task);
+	// The table names each task by its subject, as Task links do.
+	for (const row of doc.depends_on || []) if (row.subject) frappe.utils.add_link_title("Task", row.task, row.subject);
+	const field = (fieldname, extra = {}) => ({ ...frappe.meta.get_docfield("Task", fieldname), default: doc[fieldname], ...extra });
+	const fields = [
+		field("type"),
+		field("expected_time"),
+		field("parent_task", {
+			get_query: () => ({ filters: { name: ["!=", task], project: doc.project || undefined, status: ["!=", "Template"] } }),
+		}),
+		doc.is_milestone && frappe.meta.get_docfield("Task", "one_bill_share") ? field("one_bill_share") : null,
+		{
+			fieldtype: "Table",
+			fieldname: "depends_on",
+			label: __("Waits On"),
+			in_place_edit: true,
+			data: (doc.depends_on || []).map((row) => ({ task: row.task })),
+			fields: [
+				{
+					fieldtype: "Link",
+					fieldname: "task",
+					options: "Task",
+					label: __("Task"),
+					in_list_view: 1,
+					reqd: 1,
+					get_query: () => ({ filters: { name: ["!=", task], status: ["!=", "Template"] } }),
+				},
+			],
+		},
+		field("description", { label: __("Description") }),
+	].filter(Boolean);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Edit Details"),
+		size: "large",
+		fields,
+		primary_action_label: __("Save"),
+		primary_action: async (values) => {
+			dialog.disable_primary_action();
+			try {
+				const depends_on = (values.depends_on || []).filter((row) => row.task).map((row) => ({ task: row.task }));
+				await frappe.xcall("frappe.client.save", { doc: { ...doc, ...values, depends_on, modified } });
+				dialog.hide();
+				done?.();
+			} catch {
+				// frappe has said why, as a changed task's "Please refresh".
+			} finally {
+				dialog.enable_primary_action();
+			}
+		},
+	});
+	dialog.show();
+};
+
+// Repeat, as the task's form offers it: frappe's own Auto Repeat prompt.
+onedesk.project.repeat_task = (task, done) =>
+	frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }, reload_doc: () => done?.() });
+
+onedesk.project.stop_repeat = async (repeat, done) => {
+	await frappe.xcall("frappe.client.set_value", { doctype: "Auto Repeat", name: repeat, fieldname: "disabled", value: 1 });
+	done?.();
+};

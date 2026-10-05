@@ -7934,6 +7934,13 @@ frappe's Assign does; Pending Review tells whoever made the task.
   Windows 27 h.
 - Sub-tasks were drawn flat. Each sits under its Parent Task, indented, and
   a parent says how many of its own are done (`nest`).
+- The panel was a smaller task than OneTask's. It has the checklist (ticked
+  and added, the task saved so its progress follows), sub-tasks, what it
+  waits on, the timer, Repeat (frappe's own Auto Repeat prompt), and Edit
+  Details: type, hours, parent task, Waits On as frappe's table, Bill on
+  Completion and the description, saved against the task as loaded.
+- Task links named tasks by number (TASK-2026-00032). Task shows its title
+  in links (frappe's Show Title in Link Fields), everywhere.
 
 ## OneLegal
 

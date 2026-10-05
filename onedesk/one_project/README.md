@@ -283,9 +283,13 @@ right in its row. **Hours** is the time planned for it (ERPNext's Expected
 Time), and each group's heading adds them up. A task that depends on others
 not yet done says what it's **waiting on**. A sub-task sits under its
 parent, and a parent says how many of its own are done. **Add Task** at the foot of a group adds one there; **New Task**
-adds one to the project. Click a task's name to open it beside the page,
-with its details, description and comments. The arrow at the top opens its
-full form.
+adds one to the project. Click a task's name to open it beside the page.
+It's the same task OneTask opens: change its owner, priority, dates, hours
+and whether it's a milestone in place; see what it's part of and what it
+**Waits On**; tick and add its **Checklist**; add **Sub-tasks**; and read
+and write its comments. ▷ times it onto your timesheet. **⋯** has **Edit
+Details** (its type, hours, parent task, what it waits on, Bill on
+Completion and description), **Repeat** and **Open Full Form**.
 
 Late due dates are red. Whatever someone else changes shows up without
 reloading.

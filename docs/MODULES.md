@@ -634,6 +634,8 @@ No doctypes yet.
 * `onedesk.one_studio.record_types.move`
 * `onedesk.one_task.mine.counts`
 * `onedesk.one_task.mine.tasks`
+* `onedesk.one_task.task.add_step`
+* `onedesk.one_task.task.tick`
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`
 * `onedesk.one_task.timer.stop`

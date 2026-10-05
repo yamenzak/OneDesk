@@ -69,3 +69,30 @@ def recurring(doc, method=None, reference_doc=None, auto_repeat_doc=None, **kwar
 	people = frappe.db.get_value("Task", reference_doc.name, "_assign") if reference_doc else None
 	doc.flags.one_assign_to = frappe.parse_json(people) if people else None
 	doc._assign = None
+
+
+@frappe.whitelist(methods=["POST"])
+def tick(task: str, step: str, done: int | str = 1) -> float:
+	"""Tick or untick a step of a task's checklist, saved as the task, so its
+	progress and its project's follow. Returns the task's progress."""
+	doc = frappe.get_doc("Task", task)
+	doc.check_permission("write")
+	row = next((one for one in doc.get("one_steps") or [] if one.name == step), None)
+	if not row:
+		frappe.throw(_("That step isn't on this task any more."))
+	row.done = 1 if str(done) in ("1", "true", "True") else 0
+	doc.save()
+	return flt(doc.progress)
+
+
+@frappe.whitelist(methods=["POST"])
+def add_step(task: str, step: str) -> str:
+	"""A step added at the end of a task's checklist. Returns its row name."""
+	step = (step or "").strip()
+	if not step:
+		frappe.throw(_("Write the step first."))
+	doc = frappe.get_doc("Task", task)
+	doc.check_permission("write")
+	row = doc.append("one_steps", {"step": step})
+	doc.save()
+	return row.name

@@ -1646,6 +1646,23 @@ def test_the_tasks_table_says_what_waits_and_how_long_and_nests_sub_tasks():
 	assert "export function nest(tasks)" in group and "subDone" in group
 
 
+def test_the_task_panel_is_the_same_task_onetask_opens():
+	panel = (tree.ROOT / "frontend" / "src" / "project" / "TaskPanel.vue").read_text()
+	# Its checklist, sub-tasks, what it waits on, the timer and Repeat.
+	for said in ("onedesk.one_task.task.tick", "onedesk.one_task.task.add_step", "onedesk.one_task.timer.start"):
+		assert said in panel
+	assert 'emit("add", props.task.project, text, { parent_task: props.task.name })' in panel
+	assert '__("Waits On")' in panel and '__("Repeat")' in panel and '__("Stop Repeating")' in panel
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.task_details = async (task, modified, done) =>" in actions
+	assert 'frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }' in actions
+	assert '{ doc: { ...doc, ...values, depends_on, modified } }' in actions
+	steps = (tree.APP / "one_task" / "task.py").read_text()
+	assert "def tick(task: str, step: str" in steps and "def add_step(task: str, step: str)" in steps
+	task = json.loads((tree.APP / "one_task" / "custom" / "task.json").read_text())
+	assert any(one["property"] == "show_title_field_in_link" for one in task["property_setters"])
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

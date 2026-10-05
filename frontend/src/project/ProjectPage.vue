@@ -43,7 +43,7 @@
       <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
       <Activity v-else-if="view === 'activity'" :key="said.name" doctype="Project" :name="said.name" />
 
-      <TaskPanel :task="opened" :work="work || EMPTY" :team="team" :can-write="work?.can_write" @close="opened = null" @set="set" @give="give" @take="take" />
+      <TaskPanel :task="opened" :work="work || EMPTY" :team="team" :can-write="work?.can_write" @close="opened = null" @set="set" @give="give" @take="take" @open="open" @add="add" @changed="loadWork" />
     </template>
   </Page>
 </template>
@@ -173,8 +173,8 @@ function open(task) {
 }
 watch(work, () => opened.value && (opened.value = find(opened.value.name) || null));
 
-async function add(project, subject) {
-  await addTask(project || name.value, subject);
+async function add(project, subject, extra) {
+  await addTask(project || name.value, subject, extra);
 }
 function newTask() {
   newDoc("Task", { project: name.value });
