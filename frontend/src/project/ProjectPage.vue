@@ -233,6 +233,7 @@ function actions(s) {
     if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer }) });
     else list.push({ label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) });
   }
+  if (s.can_write && can("create", "Project")) list.push({ label: __("Add Sub-project"), onClick: () => newDoc("Project", { one_parent: s.name, customer: s.customer }) });
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
   if (can("create", "Project Template")) list.push({ label: __("Save as Template"), onClick: () => desk().project.save_as(frm()) });
   if (can("read", "Task")) list.push({ label: __("Open Task Board"), onClick: () => desk().project.board(frm()) });

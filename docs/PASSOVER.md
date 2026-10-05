@@ -7890,6 +7890,23 @@ schedule, so the accounts are ERPNext's in any country.
 - "About" as a heading read "Worum" in German, the Mail Rule's sense. It
   has its own context ("About", "Project") and reads "Angaben".
 
+**Sub-projects.** The projects under this one.
+
+- Villa Windows is 7 days late, At Risk and 11,210 over its 20,000 budget,
+  and its row was a grey bar at 50% like the rest. Each row now says its
+  kind, when it's due or how late, and who runs it, with a red dot for late,
+  Off Track or over budget and amber for At Risk.
+- `tree.totals` added up each branch's money and the section dropped it.
+  Each row says what's ordered and billed, or what's spent against the
+  budget (`branch_money`).
+- Pergola, ordered as extra work, read as the contract. It has the Extra
+  Work badge, and Handrails says "1 sub-project".
+- The count was of the rows shown, at most 6. It counts them all, and Show
+  All opens the Projects list under this one.
+- A sub-project could only come from extra work, Group Under New Project or
+  the desk form. Add Sub-project, in the section and the menu, opens New
+  Sub-project with this project and its customer filled in.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

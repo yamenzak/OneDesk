@@ -233,6 +233,15 @@ save against the project as the page loaded it, so a change someone made
 meanwhile is never overwritten. A sub-project's breadcrumb names the
 projects it sits under.
 
+**Sub-projects** lists the projects directly under this one, each with its
+kind, when it's due or how late, who runs it and how far it's done, and its
+money for everything under it: what's ordered and how much is billed, or
+what's spent against its budget. A red dot marks one that's late, Off Track
+or over budget, and an amber one At Risk. Extra work has the **Extra Work**
+badge, and one with projects of its own says how many. **Show All** lists
+them all when there are more than it shows. **Add Sub-project**, here or in
+the menu, starts a new project under this one for the same customer.
+
 **Updates** shows the latest update. Write the next one on the line under
 it and **Post** (see Asking the team how it's going).
 

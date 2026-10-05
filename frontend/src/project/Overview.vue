@@ -102,8 +102,10 @@
         <Facts :facts="facts" />
         <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
       </Section>
-      <Section v-if="view.sub_projects.length" :title="__('Sub-projects')" :aside="view.sub_projects.length">
-        <Rows :rows="view.sub_projects.map((one) => ({ key: one.name, label: one.title || one.name, value: one.status === 'Completed' ? __('Completed') : `${one.share}%`, progress: one.share, route: `/desk/project/${one.name}` }))" />
+      <Section v-if="view.sub_projects.count" :title="__('Sub-projects')" :aside="view.sub_projects.count">
+        <Rows :rows="subProjects" />
+        <Button v-if="view.sub_projects.all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.sub_projects.all)" />
+        <Button v-if="canAddSub" variant="ghost" class="mt-2 -ms-2" icon-left="lucide-plus" :label="__('Add Sub-project')" @click="addSub" />
       </Section>
     </div>
   </div>
@@ -114,7 +116,7 @@ import { computed } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart } from "frappe-ui/charts";
 
-import { Facts, Figures, Rows, Section, __, can, date, go, hours, money, onedesk, shortDate } from "../kit";
+import { Facts, Figures, Rows, Section, __, can, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
 import Statuses from "./Statuses.vue";
@@ -272,6 +274,41 @@ const retention = computed(() =>
       };
     })
 );
+// Each sub-project: how it's going (kind, when it's due, who runs it), its
+// branch's money by kind, and a dot when it's late, over budget or not on
+// track (view._sub_projects).
+const subProjects = computed(() =>
+  view.value.sub_projects.list.map((one) => {
+    const late = one.days_left !== null && one.days_left !== undefined && one.days_left < 0;
+    const sum = (value) => money(value, props.said.currency);
+    const worth = one.ordered
+      ? [sum(one.ordered), one.billed && __("{0}% billed", [Math.round((100 * one.billed) / one.ordered)])]
+      : one.budget
+        ? [__("{0} of {1} budget", [sum(one.spent), sum(one.budget)])]
+        : [one.spent && __("{0} spent", [sum(one.spent)])];
+    return {
+      key: one.name,
+      label: one.title || one.name,
+      badge: one.extra ? __("Extra Work") : undefined,
+      lines: [
+        [one.kind && __(one.kind), when(one.days_left), one.manager].filter(Boolean).join(" · "),
+        [...worth, one.below && (one.below === 1 ? __("1 sub-project") : __("{0} sub-projects", [one.below]))].filter(Boolean).join(" · "),
+      ].filter(Boolean),
+      value: one.status === "Completed" ? __("Completed") : `${one.share}%`,
+      dot: one.health === "Off Track" || late || one.over ? "red" : one.health === "At Risk" ? "orange" : undefined,
+      route: `/desk/project/${encodeURIComponent(one.name)}`,
+    };
+  })
+);
+function when(left) {
+  if (left === null || left === undefined) return "";
+  if (left === -1) return __("1 day late");
+  if (left < 0) return __("{0} days late", [-left]);
+  if (left === 0) return __("Due today");
+  return left === 1 ? __("Due tomorrow") : __("Due in {0} days", [left]);
+}
+const canAddSub = computed(() => props.said.can_write && can("create", "Project"));
+const addSub = () => newDoc("Project", { one_parent: props.said.name, customer: props.said.customer });
 // As many as the other sections show (view.SHOWN).
 const SHOWN = 8;
 // The customer's orders across the tree: where each is and what it's for,

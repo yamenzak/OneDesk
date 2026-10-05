@@ -50,7 +50,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 		const doc = this.doc || {};
 		const kind = (want) => `eval:${JSON.stringify(want)}.includes(doc.kind)`;
 		this.kind = doc.one_kind || null;
-		this.title = __("New Project");
+		this.title = doc.one_parent ? __("New Sub-project") : __("New Project");
 		this.size = "large";
 		this.fields = [{ fieldtype: "HTML", fieldname: "steps" }];
 		super.make();

@@ -917,16 +917,77 @@ def _latest_update(project: str) -> dict | None:
 	return found[0] if found else None
 
 
-def _sub_projects(project: str) -> list[dict]:
-	return [
-		{
-			"name": one["name"],
-			"title": one["title"],
-			"status": one["status"],
-			"share": 100 if one["status"] == "Completed" else round(flt(one["percent_complete"])),
-		}
-		for one in tree.totals(project)["under"][:SHOWN]
-	]
+def _sub_projects(project: str) -> dict:
+	"""The sub-projects directly under the project, each with how it's going
+	(kind, when it's due, who runs it, health), its money for its whole
+	branch (what's ordered and billed, or spent against its budget), whether
+	it's extra work and how many are under it; the first few, and how many."""
+	under = tree.totals(project)["under"]
+	if not under:
+		return {"list": [], "count": 0, "all": None}
+	names = [one["name"] for one in under]
+	heads = {
+		one.name: one
+		for one in frappe.get_all(
+			"Project",
+			filters={"name": ["in", names]},
+			fields=["name", "one_kind", "one_manager", "expected_end_date", "one_health"],
+		)
+	}
+	extra = set(
+		frappe.get_all(
+			"Sales Order",
+			filters={"project": ["in", names], "docstatus": 1, billing.EXTRA: 1},
+			pluck="project",
+		)
+	)
+	today = getdate(nowdate())
+	found = []
+	for one in under[:SHOWN]:
+		head = heads.get(one["name"]) or frappe._dict()
+		finished = one["status"] in ("Completed", "Cancelled")
+		found.append(
+			{
+				"name": one["name"],
+				"title": one["title"],
+				"status": one["status"],
+				"share": 100 if one["status"] == "Completed" else round(flt(one["percent_complete"])),
+				"kind": head.one_kind,
+				"manager": get_fullname(head.one_manager) if head.one_manager else None,
+				"days_left": overview.days_left(head.expected_end_date, today, finished),
+				"health": None if finished else head.one_health,
+				"below": one["below"],
+				"extra": one["name"] in extra,
+				**branch_money(one),
+			}
+		)
+	return {
+		"list": found,
+		"count": len(under),
+		"all": money._route("Project", {"one_parent": project}) if len(under) > SHOWN else None,
+	}
+
+
+def branch_money(figures: dict) -> dict:
+	"""A branch's money as a sub-project's row says it: what's ordered and
+	billed, and what's spent against its budget. Pure."""
+	spent = sum(
+		flt(figures.get(field))
+		for field in (
+			"total_costing_amount",
+			"total_purchase_cost",
+			"total_consumed_material_cost",
+			"total_expense_claim",
+		)
+	)
+	budget = flt(figures.get("estimated_costing"))
+	return {
+		"ordered": flt(figures.get("total_sales_amount")),
+		"billed": flt(figures.get("total_billed_amount")),
+		"spent": spent,
+		"budget": budget,
+		"over": bool(budget) and spent > budget,
+	}
 
 
 def _month_hours(projects: list[str]) -> float:

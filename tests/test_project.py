@@ -1614,6 +1614,26 @@ def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
 	assert "props.onTitle?.({ title: s.title, between:" in page
 
 
+def test_sub_projects_say_how_each_is_going_and_what_it_is_worth():
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	branch_money = _load(PROJECT / "view.py", ("branch_money",), flt=flt)["branch_money"]
+	# Villa Windows: 30,000 bought and 1,210 of time against a 20,000 budget.
+	windows = {"estimated_costing": 20000, "total_costing_amount": 1210, "total_purchase_cost": 30000}
+	assert branch_money(windows) == {"ordered": 0, "billed": 0, "spent": 31210, "budget": 20000, "over": True}
+	handrails = {"total_sales_amount": 200000, "total_billed_amount": 60000, "estimated_costing": 5500}
+	assert branch_money(handrails)["ordered"] == 200000 and not branch_money(handrails)["over"]
+	view = (PROJECT / "view.py").read_text()
+	assert '"count": len(under),' in view and '"extra": one["name"] in extra,' in view
+	assert 'money._route("Project", {"one_parent": project}) if len(under) > SHOWN else None' in view
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert ':aside="view.sub_projects.count"' in overview
+	assert 'dot: one.health === "Off Track" || late || one.over ? "red"' in overview
+	assert 'newDoc("Project", { one_parent: props.said.name, customer: props.said.customer })' in overview
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert '__("Add Sub-project")' in page
+	assert 'doc.one_parent ? __("New Sub-project") : __("New Project")' in (tree.APP / "public" / "js" / "project_new.js").read_text()
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

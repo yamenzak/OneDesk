@@ -78,7 +78,7 @@ const budgetFigure = () => {
     // The figure is the whole tree's; it's changed here only where it's the
     // project's own, with no cost types adding it up and no sub-projects.
     action:
-      props.said.can_budget && types.value && !types.value.lines.length && !props.said.overview.sub_projects?.length
+      props.said.can_budget && types.value && !types.value.lines.length && !props.said.overview.sub_projects?.count
         ? { icon: "lucide-pencil", label: __("Change Budget"), onClick: changeBudget }
         : null,
   };
