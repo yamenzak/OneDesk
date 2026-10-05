@@ -498,13 +498,19 @@ readable.
 
 ## Billing the customer as the work gets done
 
-The customer's contract is their **sales order** on the project. **Bill
-Progress** (under **Create** on a submitted order) works as it does for a
-supplier: say how far the work has got and it drafts the invoice for that
+The customer's contract is their **sales order** on the project, and a
+project can have more than one: a variation ordered later is a second order
+on the same project. **Contract** adds them all up. With more than one, the
+project's head says how many, **Orders** on the Overview lists each with how
+much of it is billed, and **Bill Progress** asks which order to bill, each
+with what's left on it. **Bill Progress** (also under **Create** on a
+submitted order) works as it does for a supplier: say how far the work has got and it drafts the invoice for that
 share, less what's been invoiced already. Set **Retention** and **Retention
 Due** on the order's **Terms** tab to hold the customer's retention the same
 way. **Customer** under **Money** shows the **Retention Held** still to be
-paid.
+paid, and **Retention** on the Overview adds it up across the project's
+orders, with the rate when they all hold the same and the first day any is
+due.
 
 ### Before the customer orders
 

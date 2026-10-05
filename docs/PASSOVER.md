@@ -7699,6 +7699,22 @@ the status again on every save from the project's tasks.
   done is counted from tasks. Completed reads 100% on the page, the head,
   its parent's sub-projects, OneAI and the portal.
 
+**Several orders on one project.** **Contract** already added up every
+submitted order on the project and those under it, as ERPNext's own total
+sales figure does. But the head, **Bill Progress**, **Retention** and About
+each read one order, the project's own or its first. A variation ordered as a
+second order on the same project was counted and then couldn't be billed from
+the page.
+
+- With more than one order, the head says "2 orders" and opens them as a
+  list.
+- **Bill Progress** asks which order to bill, each with what's left on it,
+  then opens the same Bill Progress as before.
+- **Retention** adds up across the orders, gives the rate only when they all
+  hold the same, and the first day any is due.
+- **Orders** on the Overview lists each with its amount and how much is
+  billed, in place of About's single Contract line.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

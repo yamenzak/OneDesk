@@ -10,7 +10,10 @@
     <button v-if="said.customer" class="flex items-center gap-1.5 hover:underline" @click="go(`/desk/customer/${said.customer}`)">
       <span class="lucide-building size-4" :class="icon" />{{ said.customer_name || said.customer }}
     </button>
-    <button v-if="said.kind === 'Fixed Price' && said.contract" class="flex items-center gap-1.5 hover:underline" @click="go(`/desk/sales-order/${said.contract}`)">
+    <button v-if="said.kind === 'Fixed Price' && said.orders?.length > 1" class="flex items-center gap-1.5 hover:underline" @click="go(said.orders_route)">
+      <span class="lucide-file-signature size-4" :class="icon" />{{ __("{0} orders", [said.orders.length]) }}
+    </button>
+    <button v-else-if="said.kind === 'Fixed Price' && said.contract" class="flex items-center gap-1.5 hover:underline" @click="go(`/desk/sales-order/${said.contract}`)">
       <span class="lucide-file-signature size-4" :class="icon" />{{ said.contract }}
     </button>
     <template v-if="said.kind === 'Retainer'">

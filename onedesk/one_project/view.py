@@ -96,6 +96,8 @@ def said(project: Annotated[str, "The project."]) -> dict:
 			for row in doc.users
 		],
 		"contract": contract(doc),
+		"orders": orders(doc),
+		"orders_route": _orders_route(doc),
 		"quotation": None if contract(doc) else quotation(doc),
 		"currency": cash["currency"],
 		"can_write": bool(frappe.has_permission("Project", "write", doc=doc)),
@@ -125,6 +127,49 @@ def contract(doc) -> str | None:
 		limit=1,
 	)
 	return found[0] if found else None
+
+
+#: An order Bill Progress can't bill: closed, held or done.
+UNBILLABLE = ("Closed", "On Hold", "Completed")
+
+
+def orders(doc) -> list[dict]:
+	"""The customer's submitted orders on the project itself, oldest first,
+	each with what's left to bill. Extra work is ordered on its own
+	sub-project, so it's that one's."""
+	if not frappe.has_permission("Sales Order", "read"):
+		return []
+	return [
+		{
+			"name": one.name,
+			"value": flt(one.base_net_total),
+			"left": flt(one.base_net_total) * max(0.0, 100 - flt(one.per_billed)) / 100,
+			"billed": round(flt(one.per_billed)),
+			"status": one.status,
+			"billable": one.status not in UNBILLABLE,
+			"retention": flt(one.one_retention),
+			"retention_due": one.one_retention_due,
+		}
+		for one in frappe.get_list(
+			"Sales Order",
+			filters={"project": doc.name, "docstatus": 1},
+			fields=[
+				"name",
+				"base_net_total",
+				"per_billed",
+				"status",
+				"one_retention",
+				"one_retention_due",
+			],
+			order_by="transaction_date asc, creation asc",
+		)
+	]
+
+
+def _orders_route(doc) -> str:
+	from onedesk.one_project.money import _route
+
+	return _route("Sales Order", {"project": doc.name, "docstatus": 1})
 
 
 def quotation(doc) -> dict | None:
@@ -376,6 +421,21 @@ def _due(view: dict) -> dict:
 	}
 
 
+def _retention(ordered: list[dict], cash: dict) -> dict | None:
+	"""The customer's retention across the project's orders: what's held, the
+	rate when every order holds the same, and the first day any is due."""
+	held_on = [one for one in ordered if one["retention"]]
+	if not held_on:
+		return None
+	rates = {one["retention"] for one in held_on}
+	dues = sorted(str(one["retention_due"]) for one in held_on if one["retention_due"])
+	return {
+		"held": {one["label"]: one["value"] for one in cash["customer"]}.get(_("Retention Held"), 0),
+		"percent": rates.pop() if len(rates) == 1 else None,
+		"due": dues[0] if dues else None,
+	}
+
+
 def _quotes(doc) -> list[dict]:
 	"""The customer's quotations for the project, newest first, drafts too,
 	read as the reader reads quotations."""
@@ -434,18 +494,7 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		)
 		said["budget"] = _budget_lines(doc.name)
 		said["subcontracts"] = cash["suppliers"][:SHOWN]
-		order = contract(doc)
-		terms = (
-			frappe.db.get_value("Sales Order", order, ["one_retention", "one_retention_due"], as_dict=True)
-			if order
-			else None
-		)
-		held = {one["label"]: one["value"] for one in cash["customer"]}.get(_("Retention Held"), 0)
-		said["retention"] = (
-			{"percent": flt(terms.one_retention), "due": terms.one_retention_due, "held": held}
-			if terms and terms.one_retention
-			else None
-		)
+		said["retention"] = _retention(orders(doc), cash)
 	if kind == kinds.RETAINER:
 		said["months"] = retainer.months(doc.name)
 		said["people"] = _people(doc.name)

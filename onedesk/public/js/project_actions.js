@@ -384,3 +384,33 @@ onedesk.project.invoice_month = async (frm, month) => {
 	dialog.show();
 	show(first);
 };
+
+// Bill Progress on a project with more than one order asks which, each with
+// what's left to bill; with one, it bills that one (progress.js).
+onedesk.project.bill_progress = (orders, contract, currency) => {
+	const open = (orders || []).filter((one) => one.billable);
+	const bill = (name) => onedesk.progress.ask({ doctype: "Sales Order", doc: { name } });
+	if (open.length <= 1) return bill(open.length ? open[0].name : contract);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Bill Progress"),
+		fields: [
+			{
+				fieldtype: "Select",
+				fieldname: "order",
+				label: __("Order"),
+				reqd: 1,
+				options: open.map((one) => ({
+					value: one.name,
+					label: __("{0} · {1} left", [one.name, format_currency(one.left, currency)]),
+				})),
+				default: open[0].name,
+			},
+		],
+		primary_action_label: __("Next"),
+		primary_action: ({ order }) => {
+			dialog.hide();
+			bill(order);
+		},
+	});
+	dialog.show();
+};

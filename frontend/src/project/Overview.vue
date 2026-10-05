@@ -77,10 +77,13 @@
         <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" :aside="view.subcontracts.length">
           <Rows :rows="view.subcontracts.map((one) => ({ key: one.order, label: one.supplier, dim: money(one.ordered, said.currency), value: billed(one) >= 100 ? __('Billed') : __('{0}% billed', [billed(one)]), progress: billed(one), route: one.route }))" />
         </Section>
+        <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length">
+          <Rows :rows="said.orders.map((one) => ({ key: one.name, label: one.name, dim: money(one.value, said.currency), value: one.billed >= 100 ? __('Billed') : __('{0}% billed', [one.billed]), route: `/desk/sales-order/${one.name}` }))" />
+        </Section>
         <Section v-if="view.retention" :title="__('Retention')">
           <Facts :facts="[
             { label: __('Held'), value: money(view.retention.held, said.currency) },
-            { label: __('Rate'), value: `${view.retention.percent}%` },
+            view.retention.percent !== null && { label: __('Rate'), value: `${view.retention.percent}%` },
             view.retention.due && { label: __('Due'), value: date(view.retention.due) },
           ].filter(Boolean)" />
         </Section>
@@ -181,7 +184,7 @@ const facts = computed(() => {
   return [
     s.customer && { label: __("Customer"), value: s.customer_name || s.customer, route: `/desk/customer/${s.customer}` },
     s.manager && { label: __("Manager"), value: s.manager_name || s.manager },
-    s.contract && { label: __("Contract"), value: s.contract, route: `/desk/sales-order/${s.contract}` },
+    s.contract && !(s.orders?.length > 1) && { label: __("Contract"), value: s.contract, route: `/desk/sales-order/${s.contract}` },
     s.starts && { label: __("Starts"), value: date(s.starts) },
     s.ends && { label: __("Ends"), value: date(s.ends) },
     s.parent && { label: __("Part Of"), value: s.parent_title || s.parent, route: `/desk/project/${s.parent}` },

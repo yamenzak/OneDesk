@@ -1336,3 +1336,30 @@ def test_a_completed_project_reads_as_done():
 	assert '"share": 100\n\t\tif doc.status == "Completed"' in (PROJECT / "overview.py").read_text()
 	assert '100\n\t\tif doc.status == "Completed"\n\t\telse overview.share(' in (PROJECT / "portal.py").read_text()
 	assert '"share": 100 if one["status"] == "Completed" else' in (PROJECT / "view.py").read_text()
+
+
+def test_a_project_with_several_orders_bills_and_holds_each():
+	view = (PROJECT / "view.py").read_text()
+	assert '"orders": orders(doc),' in view and 'filters={"project": doc.name, "docstatus": 1}' in view
+	# Retention across the orders: what's held, one rate only when they agree,
+	# and the first day any is due.
+	retention = _load(PROJECT / "view.py", ("_retention",), _=lambda text: text)["_retention"]
+	cash = {"customer": [{"label": "Retention Held", "value": 9000}]}
+	same = [
+		{"retention": 5.0, "retention_due": "2027-03-01"},
+		{"retention": 5.0, "retention_due": "2027-01-01"},
+	]
+	assert retention(same, cash) == {"held": 9000, "percent": 5.0, "due": "2027-01-01"}
+	mixed = [{"retention": 5.0, "retention_due": None}, {"retention": 10.0, "retention_due": None}]
+	assert retention(mixed, cash)["percent"] is None and retention(mixed, cash)["due"] is None
+	assert retention([{"retention": 0.0, "retention_due": None}], cash) is None
+	# The head names the order, or says how many; Bill Progress asks which.
+	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
+	assert '__("{0} orders", [said.orders.length])' in facts
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert "desk().project.bill_progress(s.orders, s.contract, s.currency)" in page
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.bill_progress = (orders, contract, currency) =>" in actions
+	assert 'if (open.length <= 1) return bill(open.length ? open[0].name : contract);' in actions
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert '<Section v-if="said.orders?.length > 1" :title="__(\'Orders\')"' in overview
