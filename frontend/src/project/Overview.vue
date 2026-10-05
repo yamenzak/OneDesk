@@ -136,7 +136,7 @@ const NAMES = () => ({
   months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Budget Used"), due: __("Due"), overdue: __("Overdue Tasks"),
 });
 const figure = (card) => {
-  if (card.money !== undefined) return money(card.money, card.currency || props.said.currency);
+  if (card.money !== undefined && card.money !== null) return money(card.money, card.currency || props.said.currency);
   if (card.hours !== undefined) return hours(card.hours);
   if (card.date) return card.value ? date(card.value) : "–";
   return card.value ?? "–";

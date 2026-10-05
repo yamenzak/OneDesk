@@ -408,8 +408,8 @@ Whoever may change the project may change its members.
 The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **Invoice Time** for Time and Materials, and **Post Update** otherwise.
 **···** has the rest: **Edit Details**, **Post Update**, **Quote Extra
-Work**, **Group Under New Project**, **Save as Template** and **Open Task
-Board**. On a Fixed Price project with no contract yet, **New Quotation**
+Work**, **Issue Stock**, **New Expense Claim**, **Group Under New Project**,
+**Save as Template** and **Open Task Board**. On a Fixed Price project with no contract yet, **New Quotation**
 takes the place of **Quote Extra Work**, and while one quotation is open
 **Make Order** is the main button.
 
@@ -543,6 +543,11 @@ order made from a quotation names the quotation's project. A line with no
 project takes the document's, and a document with no project takes its
 lines' if they all name the same one.
 
+A payment made on its own, or for several invoices at once, takes the
+project its invoices and orders all name. A new sales order, delivery note
+or sales invoice for a customer with one open project names that project.
+With more than one, pick it.
+
 **Connections** on the project's page lists them in those four groups, and
 **+** next to one starts it on the project.
 
@@ -551,22 +556,37 @@ lines' if they all name the same one.
 **Money** on the project's page shows the money for the project and its
 sub-projects together. Click a row to see the documents behind it.
 
-- **Forecast**: the **Contract** (what the customer ordered, or the billable
-  time if nothing was), the **Budget**, the **Forecast Cost**, the **Forecast
-  Margin** and the **Margin So Far**. A project without a customer shows its
-  **Budget**, what's **Spent**, the **Forecast Cost** and what's **Left**.
+- **Forecast**, by the project's kind:
+  - **Fixed Price**: the **Contract** (what the customer ordered), the
+    **Budget**, the **Forecast Cost**, the **Forecast Margin** and the
+    **Margin So Far** (invoiced less spent).
+  - **Time and Materials**, under **So Far**: what's **Earned** (invoiced, and
+    time and costs not invoiced yet), the **Cost**, the **Margin So Far**
+    (earned less cost), and the **Budget** if it has one. With an order,
+    what was **Ordered** and the **Forecast Margin** against it.
+  - **Retainer**, under **So Far**: the **Monthly Fee**, what's **Invoiced**,
+    the **Cost** and the **Margin So Far**.
+  - **Internal**: the **Budget**, what's **Spent**, the **Forecast Cost** and
+    what's **Left**.
 - **Customer**: what they've been **Quoted**, what they've **Ordered**, what's
-  been **Delivered** and **Invoiced**, and what they've **Paid**, each with a
-  bar against what they ordered.
+  been **Delivered** and **Invoiced**, what's **Not Invoiced Yet** on Time and
+  Materials, and what they've **Paid**, each with a bar against what they
+  ordered.
 - **Cost**: what's been **Ordered** from suppliers, **Received** and
   **Billed**, what they've been **Paid**, and the team's own **Time**,
-  **Stock Used** and **Expense Claims**.
+  **Stock Used**, **Expense Claims** and **Journal Entries** (such as payroll
+  or depreciation charged to the project).
 
-Amounts are before tax, except payments. The forecast cost is everything
-spent, plus what suppliers still have to bill on their orders, plus the
-budget not yet used. So it's never under the budget, and an order that takes
-spending past the budget shows in the forecast the day it's placed, not when
-the bill arrives. The page updates as documents are submitted.
+A row still at nothing isn't shown. Amounts are before tax, except payments.
+**Paid** is what's been paid on the project's invoices or bills, however it
+was paid, with advances on its orders not yet set against a bill. The page
+updates as documents are submitted.
+
+The forecast cost is, for each cost type, what's been spent and what
+suppliers still have to bill on their orders, or its budget while that's
+more; then the same for the rest of the budget. So an order that takes a
+cost type past its budget shows the day it's placed, even while another cost
+type is under. With no budget there's no forecast.
 
 Set the **Budget** to what you expect the whole project to cost: the pencil
 on **Budget** under **Money**, or **Edit Details**.
@@ -598,12 +618,14 @@ Split the budget by **cost type** under **Cost Types** on **Money**: one
 for each kind of cost you track, such as labour, materials, subcontracts or
 equipment (each is an expense account in OneBook). Each shows its
 **Budget**, what's **Committed** on supplier orders not yet billed, what's
-been **Spent**, and what's **Left**.
+been **Spent**, and what's **Left**, over the project and its sub-projects.
+**Other** is the rest of the budget and cost.
 
 **Add Cost Type** asks for the cost type, its budget, and what happens
 **Over Budget**: **Warn** shows a warning on an order or expense that takes
 it over, and **Stop** refuses it. Click a cost type to change its budget or
-remove it. Once a project has cost types, its **Budget** is their total.
+remove it. One only a sub-project budgets for adds this project's own. Once
+a project has cost types, its **Budget** is their total.
 
 On a Fixed Price project's **Overview**, **Budget** adds up each cost type
 over the project and its sub-projects. A cost type counts only what's spent
@@ -649,6 +671,12 @@ bill sets it off.
 
 Extra work from a supplier gets an order of its own, so the original stays
 readable.
+
+**Buying**, under the cards, lists what's being bought for the project and
+its sub-projects: material requests, requests for quotation, the suppliers'
+quotations and the goods received, newest first. **New Material Request**
+asks for material for the project, and **Request Prices** asks suppliers to
+quote.
 
 **Subcontracts** on a Fixed Price project's Overview lists the orders: what
 each is for, which sub-project it's on, how much is billed, and what's to pay

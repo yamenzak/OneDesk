@@ -446,7 +446,7 @@ def _months(project: str) -> dict:
 def _money(project: str) -> dict:
 	"""The money as the page shows it: both sides, the subcontracts, the
 	cost types and the forecast (money.py, budget.py)."""
-	from onedesk.one_project import budget, money
+	from onedesk.one_project import money
 
 	said = money.money(project)
 	return {
@@ -461,13 +461,15 @@ def _money(project: str) -> dict:
 		],
 		"cost_types": [
 			{key: one[key] for key in ("cost_type", "budget", "committed", "spent", "left")}
-			for one in budget._lines(project)
+			for one in said["cost_types"]["lines"]
 		],
 		"contract": said["contract"],
 		"budget": said["budget"],
 		"forecast_cost": said["forecast_cost"],
 		"forecast_margin": said["forecast_margin"],
 		"margin_so_far": said["margin"],
+		"earned": said["earned"],
+		"kind": said["kind"],
 	}
 
 

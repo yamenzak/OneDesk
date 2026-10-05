@@ -10,9 +10,12 @@ against it, and warns or stops as the budget says (`Over Budget`).
   `applicable_on_cumulative_expense` is set, which a cost type always is:
   an order is over budget when it, the open orders and what's spent come to
   more than the budget.
-- **Cost Types** on the page's Money view lists each one: its budget, what's
-  committed on supplier orders not yet billed, what's been spent (the
-  general ledger), and what's left (`lines`).
+- **Cost Types** on the page's Money view lists each one over the project
+  and those under it, as the Overview does: its budget, what's committed on
+  supplier orders not yet billed, what's been spent (the general ledger),
+  and what's left, with Other for what they leave out (`lines`). A row the
+  project budgets for itself is changed there; any other adds the
+  project's own.
 - **Add Cost Type** and changing one (`set_budget`) are ERPNext's own: a new
   Budget, or the old one revised as ERPNext's Revise Budget does it,
   cancelled and copied with the new amount. Removing one cancels it.
@@ -54,9 +57,20 @@ def _budgets(project: str) -> list:
 @frappe.whitelist()
 @frappe.read_only()
 def lines(project: Annotated[str, "The project."]) -> dict:
-	"""Each cost type: budget, committed, spent and left."""
-	frappe.has_permission("Project", "read", doc=project, throw=True)
-	return {"can_set": bool(frappe.has_permission("Budget", "create")), "lines": _lines(project)}
+	"""Each cost type over the project and those under it (money.py)."""
+	return money.money(project)["cost_types"]
+
+
+def types(project: str, projects: list[str]) -> list[dict]:
+	"""Each cost type over the projects, with the project's own budget and
+	its Over Budget where it has one."""
+	found = across(projects)
+	own = {one.account: one for one in _budgets(project)}
+	for one in found:
+		mine = own.get(one["account"])
+		one["own"] = flt(mine.budget_amount) if mine else None
+		one["action"] = (mine.action_if_annual_budget_exceeded_on_po or "Warn") if mine else "Warn"
+	return found
 
 
 def _lines(project: str) -> list[dict]:
@@ -114,6 +128,7 @@ def across(projects: list[str]) -> list[dict]:
 	)
 	return [
 		{
+			"account": account,
 			"cost_type": names.get(account) or account,
 			**line,
 			"left": left(line["budget"], line["committed"], line["spent"]),

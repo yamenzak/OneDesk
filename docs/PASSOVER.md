@@ -8014,6 +8014,46 @@ frappe's Assign does; Pending Review tells whoever made the task.
   billed at 50% of the lights and 30% of the cabling comes to 13,500, Work
   Done 34.62%.
 
+**Money** (the project page's Money view, and buying on Suppliers).
+
+- Cost Types listed only the project's own budgets (the villa: 100,000, 32,000
+  spent) while the Overview's Budget, which opens it, added up the tree with
+  Other. Money now shows the tree and Other too (`budget.types`), and a cost
+  type only a sub-project budgets for adds the project's own.
+- The forecast took the larger of the whole budget and spent plus on order,
+  so one cost type over its budget hid behind another under. It's now worked
+  out per cost type, then the rest (`money.forecast`): the villa's Cost of
+  Goods Sold was 10,000 over, so the forecast cost was 150,500, not 142,785.
+- A Fixed Price project with no budget forecast the whole contract as margin
+  (Showroom Lighting, 39,000, 100%). With no budget there's no forecast: "–",
+  No budget.
+- Contract was hours at their rates when nothing was ordered, wrong for a
+  retainer (Halcyon Support showed 26,400) and for time and materials, which
+  rebills costs too. The forecast is now by kind: time and materials shows
+  Earned (invoiced and not invoiced yet, time and costs with markup), Cost
+  and Margin So Far, under So Far, with Ordered and Forecast Margin when
+  there's an order; a retainer shows its Monthly Fee, Invoiced, Cost and
+  Margin So Far. Villa Windows: Earned 35,560, Cost 31,210, 12% margin.
+- Paid counted only payments carrying the project, so a payment matched to
+  invoices later, or covering several, was missed or misplaced. Paid is now
+  read from the project's invoices and bills, whatever paid them, in the
+  project's share of each, with order advances not yet set off and payments
+  on account naming the project (`_paid_on`). A payment with no project
+  takes the one its invoices and orders all name (`chain.paid_for`).
+- Journal entries charged to the project (payroll, depreciation, accruals)
+  weren't counted. Journal Entries is a cost row, read from the ledger's
+  expense accounts, and counts in spent and the forecast.
+- Rows at nothing (Delivered, Received on a services job) are no longer
+  shown.
+- Buying had nowhere on the page: Suppliers now lists the tree's material
+  requests, requests for quotation, supplier quotations and receipts
+  (`buying.papers`), with New Material Request and Request Prices. The page's
+  menu has Issue Stock and New Expense Claim. A new sales order, delivery
+  note or invoice for a customer with one open project names it
+  (`chain.customer_project`).
+- Checked end to end, quotation to payment and material request to payment:
+  every document and its ledger entries carry the project.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -251,7 +251,9 @@ onedesk.project.budget = async (frm, done) => {
 onedesk.project.cost_type = async (frm, row, done) => {
 	const company = frm.doc.company || (await frappe.db.get_value("Project", frm.doc.name, "company")).message?.company;
 	const dialog = new frappe.ui.Dialog({
-		title: row ? row.cost_type : __("Add Cost Type"),
+		// A row the project doesn't budget for itself yet is added, its
+		// account given.
+		title: row && !row.fresh ? row.cost_type : __("Add Cost Type"),
 		fields: [
 			{
 				fieldtype: "Link",
@@ -260,7 +262,7 @@ onedesk.project.cost_type = async (frm, row, done) => {
 				options: "Account",
 				reqd: 1,
 				default: row && row.account,
-				read_only: row ? 1 : 0,
+				read_only: row && !row.fresh ? 1 : 0,
 				get_query: () => ({ filters: { root_type: "Expense", is_group: 0, company } }),
 			},
 			{ fieldtype: "Currency", fieldname: "amount", label: __("Budget"), reqd: 1, default: row && row.budget },
@@ -281,8 +283,8 @@ onedesk.project.cost_type = async (frm, row, done) => {
 			dialog.hide();
 			done && done(said);
 		},
-		secondary_action_label: row ? __("Remove") : null,
-		secondary_action: row
+		secondary_action_label: row && !row.fresh ? __("Remove") : null,
+		secondary_action: row && !row.fresh
 			? () =>
 					frappe.confirm(__("Remove {0}?", [row.cost_type]), async () => {
 						const said = await frappe.xcall("onedesk.one_project.budget.remove_budget", {

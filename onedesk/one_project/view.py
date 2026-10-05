@@ -344,7 +344,11 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		first = _first(doc, cash)
 		# While it's only quoted, the margin is measured against the quote.
 		worth = first["money"] if first["key"] == "quoted" else cash["contract"]
-		margin = worth - cash["forecast_cost"] if first["key"] == "quoted" else cash["forecast_margin"]
+		# With no budget there's no forecast cost, so no margin to forecast.
+		if cash["forecast_cost"] is None:
+			margin = None
+		else:
+			margin = worth - cash["forecast_cost"] if first["key"] == "quoted" else cash["forecast_margin"]
 		# Billed means nothing until something is ordered: while it's quoted the
 		# quote's last day stands in its place, and with nothing yet, nothing.
 		valid = first.pop("valid_till", None)
@@ -377,12 +381,14 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 				"view": "money",
 				"key": "forecast",
 				"money": margin,
-				"note": (
+				"note": _("No budget")
+				if margin is None
+				else (
 					_("{0}% of the quote") if first["key"] == "quoted" else _("{0}% of the contract")
 				).format(share(margin, worth))
 				if worth and margin > 0
 				else None,
-				"tone": "alarm" if worth and margin < 0 else None,
+				"tone": "alarm" if worth and margin is not None and margin < 0 else None,
 			},
 		]
 	if kind == kinds.TIME:
@@ -633,7 +639,7 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 			if contract(doc)
 			else None
 		)
-		said["budget"] = _budget_lines(view["tree"], cash)
+		said["budget"] = _budget_lines(cash)
 		said["subcontracts"] = _subcontracts(doc.name, view, cash["suppliers"][:SHOWN])
 		said["subcontracts_count"] = len(cash["suppliers"])
 		said["retention"] = (
@@ -853,12 +859,12 @@ def _late_route(projects: list[str]) -> str:
 	)
 
 
-def _budget_lines(projects: list[str], cash: dict) -> dict:
+def _budget_lines(cash: dict) -> dict:
 	"""Each cost type over the project and those under it, and Other for
 	what they leave out, so the rows add up to the project's Budget and
-	Cost."""
-	lines = budget.across(projects)
-	rest = budget.other(lines, cash["budget"], cash["spent"], cash["open_orders"]) if lines else None
+	Cost (money.py)."""
+	lines = cash["cost_types"]["lines"]
+	rest = cash["cost_types"]["other"]
 	return {
 		"lines": lines[:SHOWN],
 		"count": len(lines),

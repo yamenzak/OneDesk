@@ -13,9 +13,10 @@ and expense claims are the totals ERPNext keeps on the project.
 
 **The forecast** answers before the money's gone. The contract is what the
 customer ordered, or the billable time when nothing was ordered. The forecast
-cost is what's been spent, plus what suppliers still have to bill on their
-orders, plus the budget not yet used: at least the budget, more once the
-spending and the orders pass it (`forecast`).
+cost is, for each cost type, what's been spent and what suppliers still have
+to bill on their orders, or its budget while that's more; then the same for
+the rest of the budget. A cost type over its budget shows, even while
+another is under. With no budget there's no forecast (`forecast`).
 """
 
 import json
@@ -41,13 +42,29 @@ LINES = {
 }
 
 
-def forecast(contract: float, spent: float, open_orders: float, budget: float) -> dict:
+def forecast(
+	contract: float,
+	spent: float,
+	open_orders: float,
+	budget: float,
+	types: list[dict] | None = None,
+	rest: dict | None = None,
+) -> dict:
 	"""The forecast cost and margin. Pure.
 
-	What's spent and what's still to be billed on orders will be spent
-	whatever the budget says; the budget is what the rest is expected to
-	cost, so the forecast is never under it."""
-	cost = max(flt(budget), flt(spent) + flt(open_orders))
+	What's spent and still to be billed on orders will be spent whatever the
+	budget says; the budget is what the rest is expected to cost, so each
+	cost type's forecast is never under its budget, and one over its budget
+	isn't made up for by another under. Without cost types the whole budget
+	is one. With no budget there's nothing to forecast against: None."""
+	if not flt(budget):
+		return {"cost": None, "margin": None}
+	if types:
+		cost = sum(max(flt(one["budget"]), flt(one["spent"]) + flt(one["committed"])) for one in types)
+		if rest:
+			cost += max(flt(rest["budget"]), flt(rest["spent"]) + flt(rest["committed"]))
+	else:
+		cost = max(flt(budget), flt(spent) + flt(open_orders))
 	return {"cost": cost, "margin": flt(contract) - cost}
 
 
@@ -70,7 +87,7 @@ QUOTED = ("Open", "Replied", "Partially Ordered", "Ordered")
 OPEN_QUOTE = ("Open", "Replied")
 
 #: Documents whose submitting or cancelling changes a project's money.
-MOVES = {*LINES, "Quotation", "Payment Entry", "Timesheet", "Expense Claim", "Stock Entry"}
+MOVES = {*LINES, "Quotation", "Payment Entry", "Timesheet", "Expense Claim", "Stock Entry", "Journal Entry"}
 
 #: Where a list finds the project when it isn't the document's own `project`.
 WHERE = {
@@ -143,9 +160,11 @@ def money(project: Annotated[str, "The project."]) -> dict:
 			customer.append(
 				_figure(label, value if value is not None else _lines(doctype, projects), doctype, projects)
 			)
-	received = _paid(projects, "Receive")
+	received = _paid_on(projects, "Sales Invoice")
 	if received is not None:
-		customer.append(_figure(_("Paid"), received, "Payment Entry", projects, payment_type="Receive"))
+		customer.append(
+			_figure(_("Paid"), received["paid"], "Payment Entry", projects) | {"route": received["route"]}
+		)
 	if _sees("Sales Invoice"):
 		retention = _retained(projects)
 		if retention:
@@ -162,22 +181,50 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	billed = _lines("Purchase Invoice", projects)
 	if _sees("Purchase Invoice"):
 		cost.append(_figure(_("Billed"), billed, "Purchase Invoice", projects))
-	paid = _paid(projects, "Pay")
+	paid = _paid_on(projects, "Purchase Invoice")
 	if paid is not None:
-		cost.append(_figure(_("Paid"), paid, "Payment Entry", projects, payment_type="Pay"))
+		cost.append(_figure(_("Paid"), paid["paid"], "Payment Entry", projects) | {"route": paid["route"]})
 	time = flt(kept["total_costing_amount"])
 	stock = flt(kept["total_consumed_material_cost"])
 	claims = flt(kept["total_expense_claim"])
+	journals = _journals(projects)
 	own = [
 		_figure(_("Time"), time, "Timesheet" if _sees("Timesheet") else None, projects),
 		_figure(_("Stock Used"), stock, "Stock Entry" if _sees("Stock Entry") else None, projects),
 		_figure(_("Expense Claims"), claims, "Expense Claim" if _sees("Expense Claim") else None, projects),
+		_figure(
+			_("Journal Entries"), journals, "Journal Entry" if _sees("Journal Entry") else None, projects
+		),
 	]
 
+	from onedesk.one_project import budget, kinds
+
+	kind = frappe.db.get_value("Project", project, "one_kind")
 	invoiced = _lines("Sales Invoice", projects)
-	spent = billed + time + stock + claims
-	contract = ordered or flt(kept["total_billable_amount"])
-	ahead = forecast(contract, spent, open_orders, flt(kept["estimated_costing"]))
+	spent = billed + time + stock + claims + journals
+	# Time and materials earns as the work is done: what's invoiced and what's
+	# still to invoice. Everything else earns as it's invoiced.
+	to_invoice = _to_invoice(project) if kind == kinds.TIME else 0.0
+	earned = invoiced + to_invoice
+	if kind == kinds.RETAINER:
+		# The fee is what it brings in, not its hours at their rates.
+		contract = ordered
+	elif kind == kinds.TIME:
+		contract = ordered or earned
+	else:
+		contract = ordered or flt(kept["total_billable_amount"])
+
+	if to_invoice and _sees("Sales Invoice"):
+		customer.append(_figure(_("Not Invoiced Yet"), to_invoice, None, projects))
+
+	types = budget.types(project, projects)
+	rest = budget.other(types, flt(kept["estimated_costing"]), spent, open_orders) if types else None
+	ahead = forecast(contract, spent, open_orders, flt(kept["estimated_costing"]), types, rest)
+	# A margin to forecast needs a price to forecast it against: a contract,
+	# or an order capping time and materials. A retainer is measured by the
+	# month, an internal project against its budget.
+	if kind in (kinds.RETAINER, kinds.INTERNAL) or (kind == kinds.TIME and not ordered):
+		ahead["margin"] = None
 	return {
 		"project": project,
 		"currency": frappe.db.get_default("currency"),
@@ -194,7 +241,15 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"forecast_cost": ahead["cost"],
 		"forecast_margin": ahead["margin"],
 		"invoiced": invoiced,
-		"margin": invoiced - spent,
+		"to_invoice": to_invoice,
+		"earned": earned,
+		"margin": earned - spent,
+		"kind": kind,
+		"cost_types": {
+			"can_set": bool(frappe.has_permission("Budget", "create")),
+			"lines": types,
+			"other": rest,
+		},
 	}
 
 
@@ -204,7 +259,7 @@ def moved(doc, method=None) -> None:
 	if doc.doctype not in MOVES:
 		return
 	named = {doc.get("project")} | {
-		row.get("project") for row in doc.get("items") or doc.get("time_logs") or []
+		row.get("project") for row in doc.get("items") or doc.get("time_logs") or doc.get("accounts") or []
 	}
 	named.discard(None)
 	named.discard("")
@@ -222,18 +277,145 @@ def moved(doc, method=None) -> None:
 		)
 
 
-def _paid(projects: list[str], kind: str) -> float | None:
-	if not _sees("Payment Entry"):
+#: An invoice's order, on its lines, and the payment kind that pays it.
+PAID = {
+	"Sales Invoice": ("sales_order", "Sales Order", "Receive"),
+	"Purchase Invoice": ("purchase_order", "Purchase Order", "Pay"),
+}
+
+
+def paid_share(invoices: list, mine: dict) -> float:
+	"""What's been paid of the invoices, in the company's currency: each
+	one's total less what's still owed, in the share of it that's the
+	project's. Tax is included, as it's paid. Pure."""
+	paid = 0.0
+	for one in invoices:
+		whole = flt(one.base_net_total)
+		share = flt(mine.get(one.name)) / whole if whole else 1.0
+		owed = flt(one.outstanding_amount) * flt(one.conversion_rate or 1)
+		paid += (flt(one.base_grand_total) - owed) * share
+	return paid
+
+
+def _paid_on(projects: list[str], doctype: str) -> dict | None:
+	"""What's been paid on the tree's invoices, whichever payment paid them,
+	with the advances on its orders not yet set against an invoice and the
+	payments naming the project that aren't allocated yet; and the payments
+	behind it, as a list."""
+	if not _sees(doctype) or not _sees("Payment Entry"):
 		return None
+	on_order, order_type, kind = PAID[doctype]
+	child = frappe.qb.DocType(LINES[doctype])
+	rows = (
+		frappe.qb.from_(child)
+		.select(child.parent, child[on_order], Sum(child.base_net_amount).as_("amount"))
+		.where(child.project.isin(projects) & (child.docstatus == 1))
+		.groupby(child.parent, child[on_order])
+		.run(as_dict=True)
+	)
+	mine: dict = {}
+	for row in rows:
+		mine[row.parent] = mine.get(row.parent, 0.0) + flt(row.amount)
+	invoices = frappe.get_all(
+		doctype,
+		filters={"name": ["in", list(mine) or [""]]},
+		fields=[
+			"name",
+			"base_net_total",
+			"base_grand_total",
+			"outstanding_amount",
+			"conversion_rate",
+			"total_advance",
+		],
+	)
+	paid = paid_share(invoices, mine)
+	# An order's advance not yet set against its invoices.
+	order_lines = frappe.qb.DocType(LINES[order_type])
+	orders = [
+		one[0]
+		for one in frappe.qb.from_(order_lines)
+		.select(order_lines.parent)
+		.distinct()
+		.where(order_lines.project.isin(projects) & (order_lines.docstatus == 1))
+		.run()
+	]
+	set_off: dict = {}
+	advanced = {one.name: flt(one.total_advance) for one in invoices}
+	for row in rows:
+		if row.get(on_order):
+			set_off[row[on_order]] = set_off.get(row[on_order], 0.0) + advanced.pop(row.parent, 0.0)
+	for one in frappe.get_all(
+		order_type,
+		filters={"name": ["in", orders or [""]]},
+		fields=["name", "advance_paid", "conversion_rate"],
+	):
+		paid += max(0.0, flt(one.advance_paid) * flt(one.conversion_rate or 1) - set_off.get(one.name, 0.0))
+	# Paid on account, naming the project, not matched to anything yet.
 	pe = frappe.qb.DocType("Payment Entry")
-	amount = pe.base_received_amount if kind == "Receive" else pe.base_paid_amount
-	found = (
+	party = pe.paid_amount if kind == "Receive" else pe.received_amount
+	base = pe.base_paid_amount if kind == "Receive" else pe.base_received_amount
+	for one in (
 		frappe.qb.from_(pe)
-		.select(Sum(amount))
-		.where(pe.project.isin(projects) & (pe.docstatus == 1) & (pe.payment_type == kind))
+		.select(pe.unallocated_amount, party.as_("amount"), base.as_("base"))
+		.where(
+			pe.project.isin(projects)
+			& (pe.docstatus == 1)
+			& (pe.payment_type == kind)
+			& (pe.unallocated_amount > 0)
+		)
+		.run(as_dict=True)
+	):
+		paid += flt(one.unallocated_amount) * (flt(one.base) / flt(one.amount) if flt(one.amount) else 1)
+	route = _route(
+		"Payment Entry",
+		{
+			"payment_type": kind,
+			"docstatus": 1,
+			"Payment Entry Reference.reference_name": ["in", sorted(mine) + orders],
+		}
+		if mine or orders
+		else {"payment_type": kind, "docstatus": 1, "project": ["in", projects]},
+	)
+	return {"paid": paid, "route": route}
+
+
+def _journals(projects: list[str]) -> float:
+	"""What journal entries charged to the tree's expense accounts: payroll,
+	depreciation, accruals."""
+	gl = frappe.qb.DocType("GL Entry")
+	account = frappe.qb.DocType("Account")
+	found = (
+		frappe.qb.from_(gl)
+		.join(account)
+		.on(gl.account == account.name)
+		.select(Sum(gl.debit) - Sum(gl.credit))
+		.where(
+			gl.project.isin(projects)
+			& (gl.voucher_type == "Journal Entry")
+			& (gl.is_cancelled == 0)
+			& (account.root_type == "Expense")
+		)
 		.run()
 	)
 	return flt(found[0][0]) if found else 0.0
+
+
+def _to_invoice(project: str) -> float:
+	"""What time and materials has still to invoice, in the company's
+	currency: the billable time not invoiced and the costs not billed on,
+	with their markup (billing.py)."""
+	from onedesk.one_project import billing
+
+	rows = billing._rows(project)
+	time = sum(
+		flt(one)
+		for one in frappe.get_all(
+			"Timesheet Detail",
+			filters={"name": ["in", [row.name for row in rows] or [""]]},
+			pluck="base_billing_amount",
+		)
+	)
+	return time + sum(one["charge"] for one in billing.costs(project))
 
 
 def _retained(projects: list[str]) -> float:

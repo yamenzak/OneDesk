@@ -151,7 +151,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"to_bill": said["contract"],
 		"margin": said["margin"],
 		"forecast_margin": said["forecast_margin"],
-		"forecast": bool(said["contract"] or said["budget"]),
+		"forecast": said["forecast_margin"] is not None,
 		"late": late,
 		"milestone": milestone[0] if milestone else None,
 		"currency": said["currency"],

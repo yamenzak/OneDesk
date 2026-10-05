@@ -345,7 +345,12 @@ doc_events = {
 	# A bill that updates stock registers its assets. See one_inventory/assets.py.
 	# A payment lowers an invoice's outstanding amount with db_set, so the task
 	# step waiting for it is checked from the payment. See one_intake/steps.py.
-	"Payment Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
+	"Payment Entry": {
+		"on_submit": "onedesk.one_intake.steps.paid",
+		"on_cancel": "onedesk.one_intake.steps.paid",
+		# A payment takes the project its invoices name. See one_project/chain.py.
+		"validate": "onedesk.one_project.chain.paid_for",
+	},
 	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
@@ -857,7 +862,11 @@ doctype_js = {
 	# Bill Progress on a subcontract and on the customer's contract. See one_project/progress.py.
 	"Purchase Order": "public/js/progress.js",
 	"Quotation": "public/js/quotation.js",
-	"Sales Order": "public/js/progress.js",
+	# A customer's one open project is named on a new order, delivery or
+	# invoice. See one_project/chain.py.
+	"Sales Order": ["public/js/progress.js", "public/js/customer_project.js"],
+	"Delivery Note": "public/js/customer_project.js",
+	"Sales Invoice": "public/js/customer_project.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
 }

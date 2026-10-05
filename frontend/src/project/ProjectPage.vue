@@ -233,6 +233,10 @@ function actions(s) {
     if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer }) });
     else list.push({ label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) });
   }
+  // What the work uses: stock taken out for it, and what the team paid
+  // themselves, each naming the project (one_project/money.py).
+  if (can("create", "Stock Entry")) list.push({ label: __("Issue Stock"), onClick: () => newDoc("Stock Entry", { stock_entry_type: "Material Issue", purpose: "Material Issue", project: s.name }) });
+  if (can("create", "Expense Claim")) list.push({ label: __("New Expense Claim"), onClick: () => newDoc("Expense Claim", { project: s.name }) });
   if (s.can_write && can("create", "Project")) list.push({ label: __("Add Sub-project"), onClick: () => newDoc("Project", { one_parent: s.name, customer: s.customer }) });
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
   if (can("create", "Task") && can("read", "Project Template")) list.push({ label: __("Add from Template"), onClick: () => desk().project.add_template(s.name, loadWork) });
