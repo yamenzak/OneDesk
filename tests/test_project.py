@@ -1328,3 +1328,11 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	tell = (PROJECT / "tell.py").read_text()
 	assert "completed(doc, before)" in tell and '"Project Completed"' in tell
 	assert '"name": _lt("Project Completed")' in (PROJECT / "notifications.py").read_text()
+
+
+def test_a_completed_project_reads_as_done():
+	# ERPNext keeps a project completed without tasks of its own at its old
+	# share, so the page, the head, OneAI and the portal read Completed as 100%.
+	assert '"share": 100\n\t\tif doc.status == "Completed"' in (PROJECT / "overview.py").read_text()
+	assert '100\n\t\tif doc.status == "Completed"\n\t\telse overview.share(' in (PROJECT / "portal.py").read_text()
+	assert '"share": 100 if one["status"] == "Completed" else' in (PROJECT / "view.py").read_text()

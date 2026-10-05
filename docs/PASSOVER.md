@@ -7695,6 +7695,9 @@ the status again on every save from the project's tasks.
   manager gets **Project Completed** with what's still owed.
 - The health pill showed on a completed project. Health is how an open
   project is going, so it shows only while Open, as the list and head do.
+- A completed project read 0% done when it had no tasks of its own, since
+  done is counted from tasks. Completed reads 100% on the page, the head,
+  its parent's sub-projects, OneAI and the portal.
 
 ## OneLegal
 

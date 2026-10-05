@@ -650,7 +650,7 @@ def _sub_projects(project: str) -> list[dict]:
 			"name": one["name"],
 			"title": one["title"],
 			"status": one["status"],
-			"share": round(flt(one["percent_complete"])),
+			"share": 100 if one["status"] == "Completed" else round(flt(one["percent_complete"])),
 		}
 		for one in tree.totals(project)["under"][:SHOWN]
 	]

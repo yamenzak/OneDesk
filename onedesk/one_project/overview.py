@@ -72,7 +72,13 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"tasks": total,
 		"done": done,
 		"statuses": {row.status: row.n for row in counts},
-		"share": share(done, total) if total else round(doc.percent_complete or 0),
+		# A completed project is done, whatever its tasks say: one completed
+		# with no tasks of its own has none to count.
+		"share": 100
+		if doc.status == "Completed"
+		else share(done, total)
+		if total
+		else round(doc.percent_complete or 0),
 		"end": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"days_left": days_left(doc.expected_end_date, today, doc.status in ("Completed", "Cancelled")),
 		"estimated": said["budget"],

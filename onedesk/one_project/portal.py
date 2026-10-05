@@ -49,7 +49,16 @@ def view(project: str) -> dict:
 	tasks = frappe.get_all(
 		"Task",
 		filters={"project": project, "status": ["in", list(SHOWN)]},
-		fields=["name", "subject", "status", "exp_end_date", "exp_start_date", "is_milestone", "parent_task", "lft"],
+		fields=[
+			"name",
+			"subject",
+			"status",
+			"exp_end_date",
+			"exp_start_date",
+			"is_milestone",
+			"parent_task",
+			"lft",
+		],
 		order_by="lft asc",
 	)
 	of = tree.parents()
@@ -87,7 +96,10 @@ def view(project: str) -> dict:
 		if under
 		else [],
 		"order": frappe.db.get_value(
-			"Sales Order", {"name": doc.sales_order, "docstatus": 1}, ["name", "grand_total", "currency"], as_dict=True
+			"Sales Order",
+			{"name": doc.sales_order, "docstatus": 1},
+			["name", "grand_total", "currency"],
+			as_dict=True,
 		)
 		if doc.sales_order
 		else None,
@@ -110,9 +122,17 @@ def progress(doc, of: dict | None = None) -> tuple[int, int, int]:
 		for one in tree.below({doc.name}, of)
 		if one == doc.name or frappe.db.get_value("Project", one, "customer") == doc.customer
 	]
-	counted = frappe.get_all("Task", filters={"project": ["in", theirs], "status": ["in", list(SHOWN)]}, pluck="status")
+	counted = frappe.get_all(
+		"Task", filters={"project": ["in", theirs], "status": ["in", list(SHOWN)]}, pluck="status"
+	)
 	done = sum(1 for one in counted if one == "Completed")
-	share = overview.share(done, len(counted)) if counted else round(flt(doc.percent_complete))
+	share = (
+		100
+		if doc.status == "Completed"
+		else overview.share(done, len(counted))
+		if counted
+		else round(flt(doc.percent_complete))
+	)
 	return share, done, len(counted)
 
 
