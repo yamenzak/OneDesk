@@ -81,6 +81,17 @@ TYPES = [
 		"message": _lt("<b>{project}</b>{customer}{owed}"),
 		"push_default": True,
 	},
+	# milestones: a milestone billed on completion is done.
+	{
+		"name": _lt("Milestone Done"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("When a milestone that's billed on completion is done."),
+		"to": _lt("The manager of the project with the order, unless they marked it done"),
+		"subject": _lt("{milestone} is done"),
+		"message": _lt("<b>{project}</b> · Bill {share}"),
+		"push_default": True,
+	},
 	# budget: orders and spending on a cost type pass its budget.
 	{
 		"name": _lt("Over Budget"),

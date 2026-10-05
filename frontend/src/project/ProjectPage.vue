@@ -243,7 +243,7 @@ function mainAction(s) {
   if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))
     return { key: "order", label: __("Make Order"), onClick: () => desk().project.order_quote(s.quotation) };
   if (s.kind === "Fixed Price" && s.contract && can("create", "Sales Invoice"))
-    return { key: "bill", label: __("Bill Progress"), onClick: () => desk().project.bill_progress(s.orders, s.contract, s.currency) };
+    return { key: "bill", label: __("Bill Progress"), onClick: () => desk().project.bill_progress(s.orders, s.contract, s.currency, s.overview?.billing?.billable?.share) };
   if (s.kind === "Time and Materials" && s.customer && can("create", "Sales Invoice"))
     return { key: "invoice_time", label: __("Invoice Time"), onClick: () => desk().project.invoice_time(frm()) };
   if (s.kind === "Retainer" && s.customer && can("create", "Sales Invoice"))

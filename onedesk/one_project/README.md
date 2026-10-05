@@ -197,8 +197,8 @@ The Overview is laid out for the kind, and each thing on it shows once.
   them, **Work and Billing** puts the work done beside what's billed and
   paid, and when the customer was last billed. **Budget** shows each cost
   type, what's spent and on order against it, and **Other** for the rest,
-  so its rows add up to Numbers. Then **Milestones**. On the right,
-  **Subcontracts** and **Retention**.
+  so its rows add up to Numbers. Then **Milestones** (see below). On the
+  right, **Subcontracts** and **Retention**.
 - **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
   **Invoiced** and **Budget Used** (or **Done** with no budget). Under them,
   **Hours by Week**, and **Not Invoiced Yet** by person with **Invoice
@@ -399,6 +399,28 @@ and the rest at the bottom change the scale.
 
 **Drag a bar to move a task**, or drag its end to make it longer.
 Double-click a bar to open the task.
+
+## Milestones
+
+A milestone is a task marked **Milestone**, on the project or on any
+sub-project. **Add Milestone** under **Milestones** on the Overview asks for
+its name, which project it's on, and its due date. To make an existing task
+a milestone, open it and turn on **Milestone**.
+
+**Milestones** on the Overview shows the last two done and the ones to come.
+Each says when it's due and how far off it is, and turns red once it's late.
+One on a sub-project says which.
+
+**Bill on Completion** is optional. Give a milestone a share of the contract
+and the project is billed by its milestones: **Work and Billing** shows
+**Billable on Milestones**, the shares of the milestones done, and **Not
+Invoiced Yet** is measured against that instead of the work done. When such
+a milestone is done, the project's manager is told, and **Bill Progress**
+starts from that share. A project whose milestones have no share is billed
+by the work done, as before.
+
+Anyone who can add tasks can add a milestone. Its share is on the task, so
+whoever can change the task can change it.
 
 ## Documents on a project
 
@@ -618,6 +640,8 @@ updates by email the next morning.
   **At Risk** or **Off Track**.
 - **Project Completed**: a project you manage is completed, by someone or by
   its last task. Says what's still owed on it.
+- **Milestone Done**: a milestone billed on completion is done, on a project
+  you manage or one under it. Says what share of the contract to bill.
 - **Project Update Asked**: the project asks for your update.
 - **Project Summary**: each morning, what the project's people said the day
   before.
@@ -783,6 +807,10 @@ one field for it.
   ERPNext's invitation mail is never sent (`invite`); tell.py says it in ours.
 - `tell.py` — Added to Project, Made Project Manager, Project Health and
   Project Completed, through the hub.
+- `milestones.py` — the Overview's milestones over the tree: the last two
+  done and the ones to come (`pick`), where each is (`where`), and billing on
+  them when one has a **Bill on Completion** share (`one_bill_share` on Task,
+  `billable`). `reached` tells the manager of the project with the order.
 - `status.py` — the status, ERPNext's four. ERPNext sets it again on every
   save from the tasks (`update_percent_complete`), so `change` closes the
   open tasks and sub-projects first when asked (`ask`), keeps a task's own

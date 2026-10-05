@@ -779,6 +779,55 @@ def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
 	assert "onedesk.one_project.budget.set_budget" in page and '__("Add Cost Type")' in page
 
 
+def test_milestones_say_where_and_when_and_may_be_billed_on_completion():
+	from types import SimpleNamespace
+
+	above = _load(PROJECT / "tree.py", ("above",))["above"]
+	space = _load(
+		PROJECT / "milestones.py",
+		("pick", "where", "billable"),
+		tree=SimpleNamespace(above=above),
+		flt=float,
+		SHOWN=8,
+		DONE_SHOWN=2,
+	)
+	pick, where, billable = space["pick"], space["where"], space["billable"]
+	rows = [
+		{"subject": f"Done {n}", "done": True, "due": f"2026-09-0{n}", "share": 0} for n in range(1, 5)
+	] + [
+		{"subject": "Undated", "done": False, "due": None, "share": 0},
+		{"subject": "Handover", "done": False, "due": "2026-10-13", "share": 0},
+		{"subject": "Frames", "done": False, "due": "2026-09-27", "share": 0},
+	]
+	# The last two done, then the ones to come soonest first, undated last.
+	assert [one["subject"] for one in pick(rows)] == ["Done 3", "Done 4", "Frames", "Handover", "Undated"]
+	of = {"GLASS": "RAILS", "RAILS": "VILLA"}
+	titles = {"GLASS": "Glass for handrails", "RAILS": "Handrails", "VILLA": "Villa Al Barsha"}
+	assert where("GLASS", "VILLA", of, titles) == "Handrails › Glass for handrails"
+	assert where("VILLA", "VILLA", of, titles) is None
+	# Billing on milestones is only for a project whose milestones carry a share.
+	assert billable(rows) is None
+	shared = [
+		{"subject": "Frames", "done": True, "share": 20},
+		{"subject": "Handover", "done": False, "share": 30},
+	]
+	assert billable(shared) == {"share": 20, "names": ["Frames"]}
+	lenient = lambda value=0, *args: float(value or 0)  # noqa: E731
+	work = _load(PROJECT / "view.py", ("work_and_billing",), _=lambda text: text, flt=lenient)["work_and_billing"]
+	cash = {"contract": 375000, "invoiced": 60000, "customer": [{"label": "Paid", "value": 57000}]}
+	assert work(29, cash, 0, None, billable(shared))["unbilled"] == 15000
+	assert work(29, cash, 0)["unbilled"] == round(375000 * 0.29 - 60000)
+	custom = json.loads((PROJECT / "custom" / "task.json").read_text())["custom_fields"]
+	assert [(one["fieldname"], one["depends_on"]) for one in custom] == [("one_bill_share", "is_milestone")]
+	assert '"onedesk.one_project.milestones.reached",' in HOOKS
+	notes = (PROJECT / "notifications.py").read_text()
+	assert '_lt("Milestone Done")' in notes
+	page = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.add_milestone = (projects, billed, done)" in page and "is_milestone: 1" in page
+	panel = (tree.ROOT / "frontend" / "src" / "project" / "TaskPanel.vue").read_text()
+	assert "'is_milestone', v ? 1 : 0" in panel
+
+
 def test_the_overview_budget_adds_up_to_numbers():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	space = _load(PROJECT / "budget.py", ("left", "other"), flt=flt)
@@ -1245,7 +1294,7 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert 'if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation")' in page
 	# Its quotations are listed, and work against billing waits for an order.
 	view_py = (PROJECT / "view.py").read_text()
-	assert '"quotes": _quotes(doc),' in view_py and "work_and_billing(view[\"share\"], cash, _overdue(view[\"tree\"]), _last_billed(view[\"tree\"]))" in view_py and "if contract(doc)" in view_py
+	assert '"quotes": _quotes(doc),' in view_py and 'said["milestones"]["billable"],' in view_py and "_last_billed(view[\"tree\"])," in view_py and "if contract(doc)" in view_py
 	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert '<Section v-if="view.billing" :title="__(\'Work and Billing\')">' in overview_vue
 	assert ":title=\"__('Quotations')\"" in overview_vue
@@ -1380,9 +1429,9 @@ def test_a_project_with_several_orders_bills_and_holds_each():
 	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
 	assert '__("{0} orders", [said.orders.length])' in facts
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert "desk().project.bill_progress(s.orders, s.contract, s.currency)" in page
+	assert "desk().project.bill_progress(s.orders, s.contract, s.currency, s.overview?.billing?.billable?.share)" in page
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
-	assert "onedesk.project.bill_progress = (orders, contract, currency) =>" in actions
+	assert "onedesk.project.bill_progress = (orders, contract, currency, share) =>" in actions
 	assert 'if (open.length <= 1) return bill(open.length ? open[0].name : contract);' in actions
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert '<Section v-if="said.orders?.length > 1" :title="__(\'Orders\')"' in overview

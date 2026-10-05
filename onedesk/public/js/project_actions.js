@@ -387,9 +387,10 @@ onedesk.project.invoice_month = async (frm, month) => {
 
 // Bill Progress on a project with more than one order asks which, each with
 // what's left to bill; with one, it bills that one (progress.js).
-onedesk.project.bill_progress = (orders, contract, currency) => {
+// A project billed by milestones starts from the share they come to.
+onedesk.project.bill_progress = (orders, contract, currency, share) => {
 	const open = (orders || []).filter((one) => one.billable);
-	const bill = (name) => onedesk.progress.ask({ doctype: "Sales Order", doc: { name } });
+	const bill = (name) => onedesk.progress.ask({ doctype: "Sales Order", doc: { name } }, share);
 	if (open.length <= 1) return bill(open.length ? open[0].name : contract);
 	const dialog = new frappe.ui.Dialog({
 		title: __("Bill Progress"),
@@ -410,6 +411,49 @@ onedesk.project.bill_progress = (orders, contract, currency) => {
 		primary_action: ({ order }) => {
 			dialog.hide();
 			bill(order);
+		},
+	});
+	dialog.show();
+};
+
+// A milestone: a task marked Is Milestone, on the project or one under it,
+// billed on completion when it carries a share of the contract. See
+// one_project/milestones.py.
+onedesk.project.add_milestone = (projects, billed, done) => {
+	const dialog = new frappe.ui.Dialog({
+		title: __("Add Milestone"),
+		fields: [
+			{ fieldtype: "Data", fieldname: "subject", label: __("Milestone"), reqd: 1 },
+			{
+				fieldtype: "Select",
+				fieldname: "project",
+				label: __("Project"),
+				reqd: 1,
+				options: projects,
+				default: projects[0]?.value,
+				hidden: projects.length < 2,
+			},
+			{ fieldtype: "Date", fieldname: "exp_end_date", label: __("Due Date"), reqd: 1 },
+			{
+				fieldtype: "Percent",
+				fieldname: "one_bill_share",
+				label: __("Bill on Completion"),
+				description: __("Share of the contract"),
+				hidden: !billed,
+			},
+		],
+		primary_action_label: __("Add Milestone"),
+		primary_action: async (values) => {
+			dialog.disable_primary_action();
+			try {
+				await frappe.xcall("frappe.client.insert", {
+					doc: { doctype: "Task", is_milestone: 1, ...values },
+				});
+				dialog.hide();
+				done?.();
+			} finally {
+				dialog.enable_primary_action();
+			}
 		},
 	});
 	dialog.show();

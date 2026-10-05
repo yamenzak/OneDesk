@@ -526,6 +526,8 @@ doc_events = {
 			"onedesk.one_project.plan.reschedule",
 			# A task done is told to whoever gave it. See one_task/tell.py.
 			"onedesk.one_task.tell.done",
+			# A milestone billed on completion, done. See one_project/milestones.py.
+			"onedesk.one_project.milestones.reached",
 		],
 	},
 	# A money document and its lines name the same project. See one_project/chain.py.

@@ -236,7 +236,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 	milestones = frappe.get_list(
 		"Task",
 		filters=[*open_, ["is_milestone", "=", 1]],
-		fields=["subject", "exp_end_date"],
+		fields=["subject", "exp_end_date", "one_bill_share"],
 		order_by="exp_end_date asc",
 		limit_page_length=5,
 	)
@@ -274,7 +274,11 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		],
 		"late_count": said["late"],
 		"milestones": [
-			{"milestone": one.subject, "due": str(one.exp_end_date) if one.exp_end_date else None}
+			{
+				"milestone": one.subject,
+				"due": str(one.exp_end_date) if one.exp_end_date else None,
+				"bill_on_completion": f"{flt(one.one_bill_share):g}%" if flt(one.one_bill_share) else None,
+			}
 			for one in milestones
 		],
 		"updates": _updates(project),

@@ -7762,6 +7762,23 @@ over.
   none. The heading's arrow opens Money, "No cost types" shows when there are
   none, and a count shows when the rows are cut short.
 
+**Milestones.** Tasks marked Is Milestone over the tree, on a line.
+
+- Handover sat on Glass for handrails, two levels down, and read as Villa Al
+  Barsha's own. A milestone on a sub-project now says where it is, as a path.
+- A late milestone looked like one to come. Each now says how far off it is,
+  or how late in red.
+- The first 8 by date could all be done, and an undated one came first. Now
+  the last two done, then the ones to come, undated last (`milestones.pick`).
+- No way in. Add Milestone asks for the name, the project in the tree, the
+  due date, and on a Fixed Price project the share to bill. The task panel
+  has a Milestone switch.
+- Billing on milestones, optional: Bill on Completion (`one_bill_share` on
+  Task). Only when a milestone has one does Work and Billing count the
+  shares of the milestones done (Billable on Milestones) instead of the work
+  done, Bill Progress start from it, and Milestone Done tell the manager of
+  the project with the order. ERPNext's own payment terms stay as they are.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

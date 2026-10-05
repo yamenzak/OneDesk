@@ -25,6 +25,12 @@
         <dd><Due :value="task.exp_start_date" done :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_start_date', v)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Due") }}</dt>
         <dd><Due :value="task.exp_end_date" :done="task.status === 'Completed'" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_end_date', v)" /></dd>
+        <dt class="text-ink-gray-5">{{ __("Milestone") }}</dt>
+        <dd><Switch :model-value="Boolean(task.is_milestone)" :disabled="!canWrite" :aria-label="__('Milestone')" @update:model-value="(v) => $emit('set', task.name, 'is_milestone', v ? 1 : 0)" /></dd>
+        <template v-if="task.is_milestone && task.one_bill_share">
+          <dt class="text-ink-gray-5">{{ __("Bill on Completion") }}</dt>
+          <dd class="text-ink-gray-8">{{ __("{0}% of the contract", [task.one_bill_share]) }}</dd>
+        </template>
         <dt class="text-ink-gray-5">{{ __("Project") }}</dt>
         <dd class="truncate text-ink-gray-8">{{ work.groups.find((g) => g.key === task.project)?.title }}</dd>
         <dt v-if="task.expected_time || task.actual_time" class="text-ink-gray-5">{{ __("Hours") }}</dt>
@@ -45,7 +51,7 @@
 
 <script setup>
 import { defineAsyncComponent, ref, watch } from "vue";
-import { Button } from "frappe-ui";
+import { Button, Switch } from "frappe-ui";
 
 import { Drawer, People, Pill, __, call, go, hours } from "../kit";
 import { PRIORITY, TASK_STATUS } from "./colors";

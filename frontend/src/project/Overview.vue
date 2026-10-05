@@ -16,13 +16,15 @@
       <template v-if="kind === 'Fixed Price'">
         <Section v-if="view.billing" :title="__('Work and Billing')">
           <Rows :rows="workAndBilling" />
-          <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency)" />
+          <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency, view.billing.billable?.share)" />
         </Section>
         <Section :title="__('Budget')" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
           <Rows :rows="budget" :empty="__('No cost types')" />
         </Section>
-        <Section v-if="view.milestones?.length" :title="__('Milestones')">
-          <Milestones :milestones="view.milestones" />
+        <Section :title="__('Milestones')">
+          <Milestones v-if="view.milestones.list.length" :milestones="view.milestones.list" />
+          <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
+          <Button v-if="can('create', 'Task')" class="mt-3" icon-left="lucide-plus" :label="__('Add Milestone')" @click="onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed'))" />
         </Section>
       </template>
 
@@ -49,8 +51,10 @@
         <Section v-if="Object.keys(view.statuses).length" :title="__('Tasks')">
           <Statuses :statuses="view.statuses" @open="$emit('view', 'tasks')" />
         </Section>
-        <Section v-if="view.milestones?.length" :title="__('Milestones')">
-          <Milestones :milestones="view.milestones" />
+        <Section :title="__('Milestones')">
+          <Milestones v-if="view.milestones.list.length" :milestones="view.milestones.list" />
+          <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
+          <Button v-if="can('create', 'Task')" class="mt-3" icon-left="lucide-plus" :label="__('Add Milestone')" @click="onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed'))" />
         </Section>
         <Section :title="__('Due Soon')" :aside="__('Next 2 weeks')">
           <Rows :rows="view.due_soon.map((one) => ({ key: one.name, label: one.subject, sub: one.who, value: shortDate(one.due), route: `/desk/task/${one.name}` }))" :empty="__('Nothing due')" />
@@ -155,8 +159,9 @@ const workAndBilling = computed(() => {
   const owed = [b.overdue && __("{0} overdue", [sum(b.overdue)]), b.retention && __("{0} retention", [sum(Math.min(b.retention, b.owed))])].filter(Boolean);
   return [
     { key: "done", label: __("Work Done"), progress: b.done, value: `${b.done}%` },
+    b.billable && { key: "billable", label: __("Billable on Milestones"), dim: b.billable.names.join(", "), progress: b.billable.share, value: `${b.billable.share}%` },
     b.unbilled && { key: "unbilled", label: __("Not Invoiced Yet"), value: sum(b.unbilled) },
-    b.ahead && { key: "ahead", label: __("Billed Ahead of the Work"), value: sum(b.ahead) },
+    b.ahead && { key: "ahead", label: b.billable ? __("Billed Ahead of the Milestones") : __("Billed Ahead of the Work"), value: sum(b.ahead) },
     b.owed && { key: "owed", label: __("Owed"), dim: owed.join(" · "), value: sum(b.owed), dot: b.overdue ? "red" : undefined },
     b.advance && { key: "advance", label: __("Paid in Advance"), value: sum(b.advance) },
     b.last && { key: "last", label: __("Last Billed"), dim: b.last.share !== null ? __("{0}% billed", [b.last.share]) : "", value: date(b.last.date) },

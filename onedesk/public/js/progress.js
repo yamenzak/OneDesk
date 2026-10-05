@@ -20,7 +20,8 @@ onedesk.progress.button = (frm) => {
 	frm.add_custom_button(__("Bill Progress"), () => onedesk.progress.ask(frm), __("Create"));
 };
 
-onedesk.progress.ask = async (frm) => {
+// `share`: where to start, the milestones done on a project billed by them.
+onedesk.progress.ask = async (frm, share) => {
 	const said = await frappe.xcall("onedesk.one_project.progress.progress", {
 		doctype: frm.doctype,
 		name: frm.doc.name,
@@ -28,7 +29,7 @@ onedesk.progress.ask = async (frm) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Bill Progress"),
 		fields: [
-			{ fieldtype: "Percent", fieldname: "done", label: __("Done"), reqd: 1, default: said.billed },
+			{ fieldtype: "Percent", fieldname: "done", label: __("Done"), reqd: 1, default: share || said.billed },
 			{ fieldtype: "Column Break" },
 			{ fieldtype: "Percent", fieldname: "billed", label: __("Billed So Far"), read_only: 1, default: said.billed },
 			{

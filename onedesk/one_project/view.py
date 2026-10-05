@@ -26,7 +26,7 @@ from frappe.utils import (
 	nowdate,
 )
 
-from onedesk.one_project import billing, budget, kinds, media, money, overview, retainer, tree
+from onedesk.one_project import billing, budget, kinds, media, milestones, money, overview, retainer, tree
 
 #: How many of each list the Overview shows.
 SHOWN = 6
@@ -435,16 +435,22 @@ def _due(view: dict) -> dict:
 	}
 
 
-def work_and_billing(done: int, cash: dict, overdue: float, last: dict | None = None) -> dict:
+def work_and_billing(
+	done: int, cash: dict, overdue: float, last: dict | None = None, billable: dict | None = None
+) -> dict:
 	"""The work done beside what's billed and paid, as amounts: the work done
 	not invoiced yet (or invoiced ahead of it), what the customer owes and how
 	much of that is overdue or retention, anything paid in advance, and when
-	the customer was last billed, at what share of the contract."""
+	the customer was last billed, at what share of the contract. A project
+	billed by milestones measures what's not invoiced against the milestones
+	done instead (milestones.billable)."""
 	customer = {one["label"]: one["value"] for one in cash["customer"]}
 	paid = flt(customer.get(_("Paid")))
-	gap = cash["contract"] * done / 100 - cash["invoiced"]
+	earned = billable["share"] if billable else done
+	gap = cash["contract"] * earned / 100 - cash["invoiced"]
 	return {
 		"done": done,
+		"billable": billable,
 		"unbilled": round(gap) if gap >= 1 else 0,
 		"ahead": round(-gap) if gap <= -1 else 0,
 		"owed": max(0.0, cash["invoiced"] - paid),
@@ -545,11 +551,17 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		"quotes": _quotes(doc),
 	}
 	if kind in (kinds.FIXED, kinds.INTERNAL):
-		said["milestones"] = _milestones(view["tree"])
+		said["milestones"] = milestones.read(doc.name, view["tree"])
 	if kind == kinds.FIXED:
 		# Work against billing means nothing until something is ordered.
 		said["billing"] = (
-			work_and_billing(view["share"], cash, _overdue(view["tree"]), _last_billed(view["tree"]))
+			work_and_billing(
+				view["share"],
+				cash,
+				_overdue(view["tree"]),
+				_last_billed(view["tree"]),
+				said["milestones"]["billable"],
+			)
 			if contract(doc)
 			else None
 		)
@@ -724,29 +736,6 @@ def _unbilled_people(project: str) -> list[dict]:
 	)[:SHOWN]
 
 
-def _milestones(projects: list[str]) -> list[dict]:
-	rows = frappe.get_list(
-		"Task",
-		filters=[
-			["project", "in", projects],
-			["is_milestone", "=", 1],
-			["status", "not in", ("Cancelled", "Template")],
-		],
-		fields=["name", "subject", "status", "exp_end_date"],
-		order_by="exp_end_date asc",
-		limit=8,
-	)
-	return [
-		{
-			"name": one.name,
-			"subject": one.subject,
-			"done": one.status == "Completed",
-			"due": str(one.exp_end_date).split(" ")[0] if one.exp_end_date else None,
-		}
-		for one in rows
-	]
-
-
 def _latest_update(project: str) -> dict | None:
 	from onedesk.one_project.ai import _updates
 
@@ -848,6 +837,7 @@ TASK_FIELDS = (
 	"parent_task",
 	"is_group",
 	"is_milestone",
+	"one_bill_share",
 	"exp_start_date",
 	"exp_end_date",
 	"progress",
