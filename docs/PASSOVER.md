@@ -8001,6 +8001,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
   cost plus the project's Markup on Costs, each line naming the cost it bills
   (`one_rebills`), so nothing is billed twice (`billing.costs`). Villa
   Windows' aluminium frames, 30,000 at 10%, bill as 33,000 beside its 9 hours.
+- Submitting a timesheet completed every task it timed: Log Time and the
+  timer both ticked the row's Completed, which ERPNext reads as "the task is
+  done". They no longer do, so a timed task goes to Working.
+- Nobody heard when a task ran past its hours. **Hours Over Plan** tells
+  whoever has it and the project's manager, once, as its logged hours pass
+  its planned hours (`tell.over_plan`).
 
 ## OneLegal
 

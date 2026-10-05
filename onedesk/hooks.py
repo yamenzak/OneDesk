@@ -536,6 +536,8 @@ doc_events = {
 			"onedesk.one_project.milestones.reached",
 			# The projects above measure their tree again. See one_project/overview.py.
 			"onedesk.one_project.overview.task_changed",
+			# Its logged hours passing its plan is told. See one_project/tell.py.
+			"onedesk.one_project.tell.over_plan",
 		],
 		"after_delete": "onedesk.one_project.overview.task_changed",
 	},

@@ -5,7 +5,8 @@ Sent by `updates.py` (the update asked, and the morning's answers) and
 marked at risk or off track, and a project completed), `budget.py` (a cost type over its budget) and
 `progress.py` (a bill drafted for a share of the work), `retention.py`
 (retention falling due), and `tell.py` again
-for a retainer (its month ready to invoice, its hours for the month used).
+for a retainer (its month ready to invoice, its hours for the month used),
+and for a task whose logged hours pass what it planned.
 """
 
 from frappe import _lt
@@ -138,6 +139,17 @@ TYPES = [
 		"subject": _lt("Invoice {project} for last month"),
 		"message": _lt("<b>{project}</b> · {hours} h of {allowance} h{customer}"),
 		"email_default": True,
+	},
+	# tell: a task's logged hours pass its planned hours.
+	{
+		"name": _lt("Hours Over Plan"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("When the hours logged on a task pass the hours it planned."),
+		"to": _lt("Whoever the task is given to, and the project's manager"),
+		"subject": _lt("{task} is over its planned hours"),
+		"message": _lt("<b>{task}</b>{project} · {logged} h of {planned} h"),
+		"push_default": True,
 	},
 	{
 		"name": _lt("Retainer Hours Used"),

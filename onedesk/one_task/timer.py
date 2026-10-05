@@ -113,7 +113,8 @@ def stop() -> float:
 		return 0
 	one.to_time = ends
 	one.hours = time_diff_in_hours(ends, one.from_time)
-	one.completed = 1
+	# Not "completed": ERPNext completes the task itself when a submitted
+	# timesheet says so, and timing it isn't finishing it.
 	sheet.save()
 	return one.hours
 

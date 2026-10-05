@@ -163,3 +163,34 @@ def _retainer(one, hours: float) -> dict | None:
 		"allowance": f"{flt(one.one_monthly_hours, 1):g}",
 		"customer": f" · {one.customer}" if one.customer else "",
 	}
+
+
+def over_plan(doc, method=None) -> None:
+	"""Task on_update: its logged hours (ERPNext's Actual Time, from
+	submitted timesheets) just passed its planned hours (Expected Time). Told
+	once, as they pass, to whoever has the task and the project's manager."""
+	planned = flt(doc.expected_time)
+	before = doc.get_doc_before_save()
+	if planned <= 0 or not before or not doc.has_value_changed("actual_time"):
+		return
+	if not (flt(before.actual_time) <= planned < flt(doc.actual_time)):
+		return
+	people = set(frappe.parse_json(doc.get("_assign") or "[]"))
+	head = (
+		frappe.db.get_value("Project", doc.project, ["project_name", "one_manager"], as_dict=True)
+		if doc.project
+		else None
+	)
+	if head and head.one_manager:
+		people.add(head.one_manager)
+	people = sorted(one for one in people if one not in ("Administrator", "Guest", frappe.session.user))
+	if people:
+		notify.notify(
+			"Hours Over Plan",
+			people,
+			record=("Task", doc.name),
+			task=doc.subject,
+			project=f" · {head.project_name}" if head else "",
+			logged=f"{flt(doc.actual_time, 1):g}",
+			planned=f"{planned:g}",
+		)

@@ -1749,6 +1749,18 @@ def test_what_was_bought_for_a_time_and_materials_job_is_billed_once():
 	assert "args: { item, cost_item: with_costs ? cost_item : null }" in actions
 
 
+def test_a_task_over_its_hours_is_told_and_timing_it_does_not_finish_it():
+	kinds = {str(one["name"]) for one in _load(PROJECT / "notifications.py", ("TYPES",), _lt=str)["TYPES"]}
+	assert "Hours Over Plan" in kinds
+	tell = (PROJECT / "tell.py").read_text()
+	# Once, as the hours pass the plan.
+	assert "if not (flt(before.actual_time) <= planned < flt(doc.actual_time)):" in tell
+	assert '"onedesk.one_project.tell.over_plan"' in (tree.APP / "hooks.py").read_text()
+	# ERPNext completes a task when a submitted timesheet's row says so.
+	assert "one.completed = 1" not in (tree.APP / "one_task" / "timer.py").read_text()
+	assert '"completed": 0,' in (PROJECT / "hours.py").read_text()
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

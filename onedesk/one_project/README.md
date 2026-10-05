@@ -352,6 +352,7 @@ currency.
 was one. On a project with sub-projects it asks which one, and picking a task
 picks its sub-project. The entry goes into your timesheet for the week, the
 same one the timer on a task writes into, ready to submit with the rest.
+Logging time on a task doesn't complete it; complete it when it's done.
 Hours from before this week still in draft show in **Needs You** as **Submit
 your timesheet**. On a project counted by attendance, the days come from
 attendance and there's no Log Time.
@@ -793,6 +794,9 @@ updates by email the next morning.
   allowance. To whoever made it when it has no manager.
 - **Retainer Hours Used**: a submitted timesheet takes a retainer you manage
   past its hours for this month.
+- **Hours Over Plan**: the hours logged on a task pass its planned hours
+  (Expected Time). To whoever has the task and the project's manager, once,
+  as they pass.
 
 A task's own notifications (**Task Given**, **Task Done**, **Task Ready**,
 **Pending Review** and **Due Date Changed**) are OneTask's, and listed with

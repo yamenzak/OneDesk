@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 19:52+0000\n"
-"PO-Revision-Date: 2026-10-05 19:52+0000\n"
+"POT-Creation-Date: 2026-10-05 19:55+0000\n"
+"PO-Revision-Date: 2026-10-05 19:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "+{0} more"
 msgstr ""
 
-#: onedesk/one_project/view.py:401
+#: onedesk/one_project/view.py:403
 msgid "1 cost"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 #: frontend/src/project/Facts.vue:46 frontend/src/project/Milestones.vue:32
 #: frontend/src/project/Overview.vue:217 frontend/src/project/Overview.vue:254
 #: frontend/src/project/Overview.vue:307 onedesk/one_project/retention.py:134
-#: onedesk/one_project/view.py:798
+#: onedesk/one_project/view.py:800
 msgid "1 day late"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "1 minute"
 msgstr ""
 
-#: onedesk/one_project/view.py:438
+#: onedesk/one_project/view.py:440
 msgid "1 month"
 msgstr ""
 
@@ -176,33 +176,33 @@ msgstr ""
 msgid "<b>{inviter}</b> invited you to the <b>{workspace}</b> portal, where you can see {what}.<br><br><a href=\"{link}\">Choose your password</a><br><br>The link works for {days} days. You sign in with {address}."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:70
+#: onedesk/one_project/notifications.py:71
 msgid "<b>{project}</b> is {health}{due}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:93
+#: onedesk/one_project/notifications.py:94
 msgid "<b>{project}</b> · Bill {share}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:104
+#: onedesk/one_project/notifications.py:105
 msgid "<b>{project}</b> · {cost_type} · {total} of {budget}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:139
-#: onedesk/one_project/notifications.py:149
+#: onedesk/one_project/notifications.py:140
+#: onedesk/one_project/notifications.py:161
 msgid "<b>{project}</b> · {hours} h of {allowance} h{customer}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:116
+#: onedesk/one_project/notifications.py:117
 msgid "<b>{project}</b> · {party} · {amount}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:48
-#: onedesk/one_project/notifications.py:59
+#: onedesk/one_project/notifications.py:49
+#: onedesk/one_project/notifications.py:60
 msgid "<b>{project}</b>{customer}{due}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:82
+#: onedesk/one_project/notifications.py:83
 msgid "<b>{project}</b>{customer}{owed}"
 msgstr ""
 
@@ -216,6 +216,10 @@ msgstr ""
 
 #: onedesk/one_task/notifications.py:29
 msgid "<b>{task}</b>{project} is done."
+msgstr ""
+
+#: onedesk/one_project/notifications.py:151
+msgid "<b>{task}</b>{project} · {logged} h of {planned} h"
 msgstr ""
 
 #: onedesk/one_task/notifications.py:57
@@ -1544,7 +1548,7 @@ msgstr ""
 msgid "Added to OneBook as a draft bill."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:42
+#: onedesk/one_project/notifications.py:43
 msgid "Added to Project"
 msgstr ""
 
@@ -2513,7 +2517,7 @@ msgstr ""
 msgid "As of {0}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:19
+#: onedesk/one_project/notifications.py:20
 msgid "As often as a project says, to ask how it is going. A project's own question replaces this text."
 msgstr ""
 
@@ -4123,7 +4127,7 @@ msgstr ""
 msgid "Check Out"
 msgstr ""
 
-#: onedesk/one_project/view.py:699
+#: onedesk/one_project/view.py:701
 msgid "Check bill from {0}"
 msgstr ""
 
@@ -4132,7 +4136,7 @@ msgstr ""
 msgid "Check in"
 msgstr ""
 
-#: onedesk/one_project/view.py:701
+#: onedesk/one_project/view.py:703
 msgid "Check invoice to {0}"
 msgstr ""
 
@@ -6700,7 +6704,7 @@ msgstr ""
 msgid "Each person added"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:46
+#: onedesk/one_project/notifications.py:47
 msgid "Each person added, but whoever added them"
 msgstr ""
 
@@ -7382,7 +7386,7 @@ msgstr ""
 msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:35
+#: onedesk/one_project/notifications.py:36
 msgid "Every morning, what a project's people said about it the day before."
 msgstr ""
 
@@ -7613,7 +7617,7 @@ msgstr ""
 msgid "Expenses"
 msgstr ""
 
-#: onedesk/one_project/billing.py:354
+#: onedesk/one_project/billing.py:359
 msgid "Expenses · {0}"
 msgstr ""
 
@@ -8346,7 +8350,7 @@ msgstr ""
 msgid "Forecast Margin"
 msgstr ""
 
-#: onedesk/one_project/view.py:468
+#: onedesk/one_project/view.py:470
 msgid "Forecast over by {0}"
 msgstr ""
 
@@ -9120,6 +9124,10 @@ msgstr ""
 msgid "Hours Logged, Week by Week"
 msgstr ""
 
+#: onedesk/one_project/notifications.py:145
+msgid "Hours Over Plan"
+msgstr ""
+
 #: frontend/src/project/Overview.vue:135
 msgid "Hours This Month"
 msgstr ""
@@ -9269,7 +9277,7 @@ msgstr ""
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:23
+#: onedesk/one_project/notifications.py:24
 msgid "How is {project} going?"
 msgstr ""
 
@@ -9697,7 +9705,7 @@ msgstr ""
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:257
 #: onedesk/one_admin/heads.py:201 onedesk/one_project/heads.py:77
 #: onedesk/one_project/portal.py:170 onedesk/one_project/view.py:327
-#: onedesk/one_project/view.py:511
+#: onedesk/one_project/view.py:513
 msgid "In {0} days"
 msgstr ""
 
@@ -10049,7 +10057,7 @@ msgstr ""
 msgid "Invoice Time"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:138
+#: onedesk/one_project/notifications.py:139
 msgid "Invoice {project} for last month"
 msgstr ""
 
@@ -11542,7 +11550,7 @@ msgstr ""
 msgid "Made On"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:53
+#: onedesk/one_project/notifications.py:54
 msgid "Made Project Manager"
 msgstr ""
 
@@ -12128,7 +12136,7 @@ msgstr ""
 msgid "Milestone"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:87
+#: onedesk/one_project/notifications.py:88
 msgid "Milestone Done"
 msgstr ""
 
@@ -14139,11 +14147,11 @@ msgstr ""
 msgid "On the OneCRM pipeline board"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:124
+#: onedesk/one_project/notifications.py:125
 msgid "On the day retention held by a customer, or from a supplier, falls due."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:136
+#: onedesk/one_project/notifications.py:137
 msgid "On the first of the month, for each retainer whose last month isn't invoiced."
 msgstr ""
 
@@ -15200,7 +15208,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/report/spending/spending.py:26
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/view.py:925 onedesk/one_project/view.py:1064
+#: onedesk/one_project/view.py:927 onedesk/one_project/view.py:1066
 #: onedesk/public/js/oneai/Panel.vue:583
 msgid "Other"
 msgstr ""
@@ -15330,7 +15338,7 @@ msgstr ""
 msgid "Outstanding"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:98
+#: onedesk/one_project/notifications.py:99
 #: onedesk/public/js/project_actions.js:270
 msgid "Over Budget"
 msgstr ""
@@ -15488,7 +15496,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/one_project/money.py:148 onedesk/one_project/money.py:167
-#: onedesk/one_project/view.py:337 onedesk/one_project/view.py:526
+#: onedesk/one_project/view.py:337 onedesk/one_project/view.py:528
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:155
 msgid "Paid"
 msgstr ""
@@ -15737,7 +15745,7 @@ msgstr ""
 msgid "Pay it from Payment Method so the workspace stays open."
 msgstr ""
 
-#: onedesk/one_project/view.py:824
+#: onedesk/one_project/view.py:826
 msgid "Pay retention to {0}"
 msgstr ""
 
@@ -15757,7 +15765,7 @@ msgstr ""
 msgid "Pay within {0} days to avoid suspension."
 msgstr ""
 
-#: onedesk/one_project/view.py:824 onedesk/www/order.html:37
+#: onedesk/one_project/view.py:826 onedesk/www/order.html:37
 msgid "Pay {0}"
 msgstr ""
 
@@ -16338,7 +16346,7 @@ msgstr ""
 msgid "Post Update"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:24
+#: onedesk/one_project/notifications.py:25
 msgid "Post your update on the project's page, or reply to the email."
 msgstr ""
 
@@ -16611,7 +16619,7 @@ msgstr ""
 msgid "Progress"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:110
+#: onedesk/one_project/notifications.py:111
 msgid "Progress Bill Drafted"
 msgstr ""
 
@@ -16637,11 +16645,11 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:74
+#: onedesk/one_project/notifications.py:75
 msgid "Project Completed"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:64
+#: onedesk/one_project/notifications.py:65
 msgid "Project Health"
 msgstr ""
 
@@ -16654,7 +16662,7 @@ msgstr ""
 msgid "Project Name"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:32
+#: onedesk/one_project/notifications.py:33
 msgid "Project Summary"
 msgstr ""
 
@@ -16671,7 +16679,7 @@ msgstr ""
 msgid "Project Types"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:16
+#: onedesk/one_project/notifications.py:17
 msgid "Project Update Asked"
 msgstr ""
 
@@ -17836,7 +17844,7 @@ msgstr ""
 msgid "Renew the {0} of {1}"
 msgstr ""
 
-#: onedesk/one_project/view.py:430
+#: onedesk/one_project/view.py:432
 msgid "Renews {0}"
 msgstr ""
 
@@ -18130,7 +18138,7 @@ msgstr ""
 msgid "Retainer"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:143
+#: onedesk/one_project/notifications.py:155
 msgid "Retainer Hours Used"
 msgstr ""
 
@@ -18139,7 +18147,7 @@ msgstr ""
 msgid "Retainer Month"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:133
+#: onedesk/one_project/notifications.py:134
 msgid "Retainer Month to Invoice"
 msgstr ""
 
@@ -18157,13 +18165,13 @@ msgstr ""
 #. Label of the one_retention_due (Date) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/one_project/notifications.py:121
+#: onedesk/one_project/notifications.py:122
 #: onedesk/public/js/project_actions.js:171 onedesk/public/js/project_new.js:90
 msgid "Retention Due"
 msgstr ""
 
 #: frontend/src/project/Suppliers.vue:11 frontend/src/project/Suppliers.vue:74
-#: onedesk/one_project/money.py:152 onedesk/one_project/view.py:536
+#: onedesk/one_project/money.py:152 onedesk/one_project/view.py:538
 msgid "Retention Held"
 msgstr ""
 
@@ -18171,7 +18179,7 @@ msgstr ""
 msgid "Retention at Handover"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:126
+#: onedesk/one_project/notifications.py:127
 msgid "Retention on {project} is due today"
 msgstr ""
 
@@ -21476,7 +21484,7 @@ msgstr ""
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:91
+#: onedesk/one_project/notifications.py:92
 msgid "The manager of the project with the order, unless they marked it done"
 msgstr ""
 
@@ -21529,7 +21537,7 @@ msgstr ""
 msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:57
+#: onedesk/one_project/notifications.py:58
 msgid "The new manager, unless they made themselves it"
 msgstr ""
 
@@ -21747,33 +21755,33 @@ msgstr ""
 msgid "The product this action works for, which is how a workspace's list of actions is grouped."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:125
+#: onedesk/one_project/notifications.py:126
 msgid "The project's manager"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:68
+#: onedesk/one_project/notifications.py:69
 msgid "The project's manager and members, but whoever marked it"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:102
+#: onedesk/one_project/notifications.py:103
 msgid "The project's manager and whoever set the budget"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:137
-#: onedesk/one_project/notifications.py:147
+#: onedesk/one_project/notifications.py:138
+#: onedesk/one_project/notifications.py:159
 msgid "The project's manager, or whoever made it"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:80
+#: onedesk/one_project/notifications.py:81
 msgid "The project's manager, unless they completed it"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:114
+#: onedesk/one_project/notifications.py:115
 msgid "The project's manager, unless they saved it"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:22
-#: onedesk/one_project/notifications.py:36
+#: onedesk/one_project/notifications.py:23
+#: onedesk/one_project/notifications.py:37
 msgid "The project's people"
 msgstr ""
 
@@ -22816,7 +22824,7 @@ msgstr ""
 #: frontend/src/project/Overview.vue:256 onedesk/one_book/heads.py:47
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
 #: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:325
-#: onedesk/one_project/view.py:509 onedesk/one_task/mine.py:25
+#: onedesk/one_project/view.py:511 onedesk/one_task/mine.py:25
 #: onedesk/one_task/tell.py:225
 msgid "Today"
 msgstr ""
@@ -24521,7 +24529,7 @@ msgstr ""
 msgid "What was exported or printed in the last week, by whom, and was any of it large?"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:37
+#: onedesk/one_project/notifications.py:38
 msgid "What was said about {project} on {date}"
 msgstr ""
 
@@ -24672,7 +24680,7 @@ msgstr ""
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:90
+#: onedesk/one_project/notifications.py:91
 msgid "When a milestone that's billed on completion is done."
 msgstr ""
 
@@ -24700,7 +24708,7 @@ msgstr ""
 msgid "When a payslip is submitted, with the payslip as a PDF."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:77
+#: onedesk/one_project/notifications.py:78
 msgid "When a project is completed, by somebody or by its last task, with what's still owed on it."
 msgstr ""
 
@@ -24986,7 +24994,7 @@ msgstr ""
 msgid "When reordering cannot raise a material request."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:45
+#: onedesk/one_project/notifications.py:46
 msgid "When somebody adds you to a project's members."
 msgstr ""
 
@@ -25026,11 +25034,11 @@ msgstr ""
 msgid "When somebody is leaving, in the template HR Settings names."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:56
+#: onedesk/one_project/notifications.py:57
 msgid "When somebody makes you a project's manager."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:67
+#: onedesk/one_project/notifications.py:68
 msgid "When somebody marks a project At Risk or Off Track."
 msgstr ""
 
@@ -25042,7 +25050,7 @@ msgstr ""
 msgid "When somebody outside the workspace is invited to an event, or it changes or is cancelled."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:113
+#: onedesk/one_project/notifications.py:114
 msgid "When somebody saves a bill or invoice for a share of the work done."
 msgstr ""
 
@@ -25146,6 +25154,10 @@ msgstr ""
 msgid "When the holiday list ends in 60, 30 or 7 days with no list after it."
 msgstr ""
 
+#: onedesk/one_project/notifications.py:148
+msgid "When the hours logged on a task pass the hours it planned."
+msgstr ""
+
 #: onedesk/one_task/notifications.py:35
 msgid "When the last task a task waits on is done."
 msgstr ""
@@ -25181,7 +25193,7 @@ msgstr ""
 msgid "When the provider last said this model exists."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:146
+#: onedesk/one_project/notifications.py:158
 msgid "When the time logged on a retainer passes its hours for the month."
 msgstr ""
 
@@ -25198,7 +25210,7 @@ msgstr ""
 msgid "When what your material request asked for is received."
 msgstr ""
 
-#: onedesk/one_project/notifications.py:101
+#: onedesk/one_project/notifications.py:102
 msgid "When what's ordered and spent on a project's cost type passes its budget."
 msgstr ""
 
@@ -25610,6 +25622,10 @@ msgstr ""
 #: onedesk/one_inventory/notifications.py:31
 #: onedesk/one_inventory/notifications.py:50
 msgid "Whoever made the request"
+msgstr ""
+
+#: onedesk/one_project/notifications.py:149
+msgid "Whoever the task is given to, and the project's manager"
 msgstr ""
 
 #. Description of the 'Account' (Link) field in DocType 'Tenant'
@@ -26291,8 +26307,8 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:168
-#: onedesk/one_project/view.py:707 onedesk/one_project/view.py:753
-#: onedesk/one_project/view.py:830 onedesk/public/js/oneai/Panel.vue:98
+#: onedesk/one_project/view.py:709 onedesk/one_project/view.py:755
+#: onedesk/one_project/view.py:832 onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
 msgstr ""
 
@@ -27226,15 +27242,15 @@ msgstr ""
 msgid "of {0} a month"
 msgstr ""
 
-#: onedesk/one_project/view.py:468
+#: onedesk/one_project/view.py:470
 msgid "of {0} budget"
 msgstr ""
 
-#: onedesk/one_project/view.py:422
+#: onedesk/one_project/view.py:424
 msgid "of {0} h"
 msgstr ""
 
-#: onedesk/one_project/view.py:451
+#: onedesk/one_project/view.py:453
 msgid "of {0} open"
 msgstr ""
 
@@ -27803,7 +27819,7 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
-#: onedesk/one_project/billing.py:413
+#: onedesk/one_project/billing.py:418
 msgid "{0} and {1} more"
 msgstr ""
 
@@ -27975,7 +27991,7 @@ msgstr ""
 msgid "{0} cost types"
 msgstr ""
 
-#: onedesk/one_project/view.py:401
+#: onedesk/one_project/view.py:403
 msgid "{0} costs"
 msgstr ""
 
@@ -28053,7 +28069,7 @@ msgstr ""
 #: frontend/src/project/Overview.vue:217 frontend/src/project/Overview.vue:255
 #: frontend/src/project/Overview.vue:308 onedesk/one_project/heads.py:76
 #: onedesk/one_project/portal.py:167 onedesk/one_project/retention.py:134
-#: onedesk/one_project/view.py:507 onedesk/one_project/view.py:798
+#: onedesk/one_project/view.py:509 onedesk/one_project/view.py:800
 msgid "{0} days late"
 msgstr ""
 
@@ -28356,7 +28372,7 @@ msgstr ""
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr ""
 
-#: onedesk/one_project/billing.py:398
+#: onedesk/one_project/billing.py:403
 msgid "{0} is a sub-project of {1}."
 msgstr ""
 
@@ -28701,7 +28717,7 @@ msgstr ""
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr ""
 
-#: onedesk/one_project/view.py:676
+#: onedesk/one_project/view.py:678
 msgid "{0} is over budget"
 msgstr ""
 
@@ -28811,7 +28827,7 @@ msgstr ""
 msgid "{0} models, {1} priced, {2} need review."
 msgstr ""
 
-#: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:436
+#: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:438
 msgid "{0} months"
 msgstr ""
 
@@ -28868,7 +28884,7 @@ msgstr ""
 #: frontend/src/project/TaskPanel.vue:92 frontend/src/project/Tasks.vue:33
 #: onedesk/one/heads.py:71 onedesk/one_admin/doctype/tenant/tenant_list.js:43
 #: onedesk/one_admin/heads.py:160 onedesk/one_project/heads.py:35
-#: onedesk/one_project/view.py:493 onedesk/public/js/settings.js:1516
+#: onedesk/one_project/view.py:495 onedesk/public/js/settings.js:1516
 msgid "{0} of {1}"
 msgstr ""
 
@@ -28900,7 +28916,7 @@ msgstr ""
 msgid "{0} of {1} seats used."
 msgstr ""
 
-#: onedesk/one_project/view.py:484
+#: onedesk/one_project/view.py:486
 msgid "{0} of {1} tasks"
 msgstr ""
 
@@ -28928,7 +28944,7 @@ msgstr ""
 msgid "{0} on"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:185 onedesk/one_project/view.py:471
+#: frontend/src/project/Overview.vue:185 onedesk/one_project/view.py:473
 msgid "{0} on order"
 msgstr ""
 
@@ -29309,7 +29325,7 @@ msgstr ""
 msgid "{0}% billed"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:342 onedesk/one_project/view.py:706
+#: frontend/src/project/Overview.vue:342 onedesk/one_project/view.py:708
 #: onedesk/public/js/project_list.js:45 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
@@ -29647,7 +29663,7 @@ msgstr ""
 msgid "{changes}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:103
+#: onedesk/one_project/notifications.py:104
 msgid "{cost_type} is over budget on {project}"
 msgstr ""
 
@@ -29795,7 +29811,7 @@ msgstr ""
 msgid "{message}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:92
+#: onedesk/one_project/notifications.py:93
 msgid "{milestone} is done"
 msgstr ""
 
@@ -29823,11 +29839,11 @@ msgstr ""
 msgid "{person} is now an administrator"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:148
+#: onedesk/one_project/notifications.py:160
 msgid "{project} has used its {allowance} h for this month"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:81
+#: onedesk/one_project/notifications.py:82
 msgid "{project} is completed"
 msgstr ""
 
@@ -29853,6 +29869,10 @@ msgstr ""
 
 #: onedesk/one_task/notifications.py:68
 msgid "{tasks}"
+msgstr ""
+
+#: onedesk/one_project/notifications.py:150
+msgid "{task} is over its planned hours"
 msgstr ""
 
 #: onedesk/one_task/notifications.py:37
@@ -29900,7 +29920,7 @@ msgstr ""
 msgid "{who} added you to the library {library}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:47
+#: onedesk/one_project/notifications.py:48
 msgid "{who} added you to {project}"
 msgstr ""
 
@@ -29952,7 +29972,7 @@ msgstr ""
 msgid "{who} deleted {title}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:115
+#: onedesk/one_project/notifications.py:116
 #, python-format
 msgid "{who} drafted a bill for {order} at {share}% done"
 msgstr ""
@@ -29965,11 +29985,11 @@ msgstr ""
 msgid "{who} invited you to {event}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:58
+#: onedesk/one_project/notifications.py:59
 msgid "{who} made you the manager of {project}"
 msgstr ""
 
-#: onedesk/one_project/notifications.py:69
+#: onedesk/one_project/notifications.py:70
 msgid "{who} marked {project} {health}"
 msgstr ""
 

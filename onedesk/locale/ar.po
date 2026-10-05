@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 19:52+0000\n"
-"PO-Revision-Date: 2026-10-05 19:52+0000\n"
+"POT-Creation-Date: 2026-10-05 19:55+0000\n"
+"PO-Revision-Date: 2026-10-05 19:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -43,7 +43,7 @@ msgstr "* مطلوب"
 msgid "+{0} more"
 msgstr "+{0} أخرى"
 
-#: onedesk/one_project/view.py:401
+#: onedesk/one_project/view.py:403
 msgid "1 cost"
 msgstr "تكلفة واحدة"
 
@@ -58,7 +58,7 @@ msgstr "يوم واحد"
 #: frontend/src/project/Facts.vue:46 frontend/src/project/Milestones.vue:32
 #: frontend/src/project/Overview.vue:217 frontend/src/project/Overview.vue:254
 #: frontend/src/project/Overview.vue:307 onedesk/one_project/retention.py:134
-#: onedesk/one_project/view.py:798
+#: onedesk/one_project/view.py:800
 msgid "1 day late"
 msgstr "متأخر يومًا واحدًا"
 
@@ -94,7 +94,7 @@ msgstr "عنصر واحد محدد"
 msgid "1 minute"
 msgstr "دقيقة واحدة"
 
-#: onedesk/one_project/view.py:438
+#: onedesk/one_project/view.py:440
 msgid "1 month"
 msgstr "شهر واحد"
 
@@ -178,33 +178,33 @@ msgstr "دعاك <b>{inviter}</b> إلى <b>{workspace}</b> على One.{apps}<br
 msgid "<b>{inviter}</b> invited you to the <b>{workspace}</b> portal, where you can see {what}.<br><br><a href=\"{link}\">Choose your password</a><br><br>The link works for {days} days. You sign in with {address}."
 msgstr "دعاك <b>{inviter}</b> إلى بوابة <b>{workspace}</b>، حيث يمكنك رؤية {what}.<br><br><a href=\"{link}\">اختر كلمة المرور</a><br><br>يعمل الرابط لمدة {days} أيام. تسجّل الدخول باستخدام {address}."
 
-#: onedesk/one_project/notifications.py:70
+#: onedesk/one_project/notifications.py:71
 msgid "<b>{project}</b> is {health}{due}"
 msgstr "<b>{project}</b>: {health}{due}"
 
-#: onedesk/one_project/notifications.py:93
+#: onedesk/one_project/notifications.py:94
 msgid "<b>{project}</b> · Bill {share}"
 msgstr "<b>{project}</b> · فوترة {share}"
 
-#: onedesk/one_project/notifications.py:104
+#: onedesk/one_project/notifications.py:105
 msgid "<b>{project}</b> · {cost_type} · {total} of {budget}"
 msgstr "<b>{project}</b> · {cost_type} · {total} من {budget}"
 
-#: onedesk/one_project/notifications.py:139
-#: onedesk/one_project/notifications.py:149
+#: onedesk/one_project/notifications.py:140
+#: onedesk/one_project/notifications.py:161
 msgid "<b>{project}</b> · {hours} h of {allowance} h{customer}"
 msgstr "<b>{project}</b> · {hours} س من {allowance} س{customer}"
 
-#: onedesk/one_project/notifications.py:116
+#: onedesk/one_project/notifications.py:117
 msgid "<b>{project}</b> · {party} · {amount}"
 msgstr "<b>{project}</b> · {party} · {amount}"
 
-#: onedesk/one_project/notifications.py:48
-#: onedesk/one_project/notifications.py:59
+#: onedesk/one_project/notifications.py:49
+#: onedesk/one_project/notifications.py:60
 msgid "<b>{project}</b>{customer}{due}"
 msgstr "<b>{project}</b>{customer}{due}"
 
-#: onedesk/one_project/notifications.py:82
+#: onedesk/one_project/notifications.py:83
 msgid "<b>{project}</b>{customer}{owed}"
 msgstr "<b>{project}</b>{customer}{owed}"
 
@@ -219,6 +219,10 @@ msgstr "<b>{task}</b>{due}{project}<br>تم إنجاز {done}."
 #: onedesk/one_task/notifications.py:29
 msgid "<b>{task}</b>{project} is done."
 msgstr "اكتملت <b>{task}</b>{project}."
+
+#: onedesk/one_project/notifications.py:151
+msgid "<b>{task}</b>{project} · {logged} h of {planned} h"
+msgstr "<b>{task}</b>{project} · {logged} س من {planned} س"
 
 #: onedesk/one_task/notifications.py:57
 msgid "<b>{task}</b>{was}{project}"
@@ -1546,7 +1550,7 @@ msgstr "التعليمات المضافة {0} حرفاً، والحد الأقص
 msgid "Added to OneBook as a draft bill."
 msgstr "أُضيفت إلى OneBook كفاتورة مشتريات مسودة."
 
-#: onedesk/one_project/notifications.py:42
+#: onedesk/one_project/notifications.py:43
 msgid "Added to Project"
 msgstr "أُضفت إلى مشروع"
 
@@ -2515,7 +2519,7 @@ msgstr "كما حُسبت بصمته"
 msgid "As of {0}"
 msgstr "حتى {0}"
 
-#: onedesk/one_project/notifications.py:19
+#: onedesk/one_project/notifications.py:20
 msgid "As often as a project says, to ask how it is going. A project's own question replaces this text."
 msgstr "بالوتيرة التي يحددها المشروع، للسؤال عن سير العمل. سؤال المشروع نفسه يحل محل هذا النص."
 
@@ -4125,7 +4129,7 @@ msgstr "افحص ملفي الشخصي"
 msgid "Check Out"
 msgstr "تسجيل الانصراف"
 
-#: onedesk/one_project/view.py:699
+#: onedesk/one_project/view.py:701
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
 
@@ -4134,7 +4138,7 @@ msgstr "راجع فاتورة {0}"
 msgid "Check in"
 msgstr "تسجيل الحضور"
 
-#: onedesk/one_project/view.py:701
+#: onedesk/one_project/view.py:703
 msgid "Check invoice to {0}"
 msgstr "راجع الفاتورة إلى {0}"
 
@@ -6702,7 +6706,7 @@ msgstr "كل عنوان مدعو"
 msgid "Each person added"
 msgstr "كل شخص أُضيف"
 
-#: onedesk/one_project/notifications.py:46
+#: onedesk/one_project/notifications.py:47
 msgid "Each person added, but whoever added them"
 msgstr "كل شخص أُضيف، عدا من أضافه"
 
@@ -7384,7 +7388,7 @@ msgstr "كل صباح، النطاقات التي تنتظر DNS لأكثر من
 msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
 msgstr "كل صباح، الإضافات التي وقعت في أخطاء في اليوم السابق. لا يُرسل إن لم يقع أي منها."
 
-#: onedesk/one_project/notifications.py:35
+#: onedesk/one_project/notifications.py:36
 msgid "Every morning, what a project's people said about it the day before."
 msgstr "كل صباح، ما قاله فريق المشروع عنه في اليوم السابق."
 
@@ -7615,7 +7619,7 @@ msgstr "نظرة عامة على المصروفات"
 msgid "Expenses"
 msgstr "المصروفات"
 
-#: onedesk/one_project/billing.py:354
+#: onedesk/one_project/billing.py:359
 msgid "Expenses · {0}"
 msgstr "مصاريف · {0}"
 
@@ -8347,7 +8351,7 @@ msgstr "التكلفة المتوقعة"
 msgid "Forecast Margin"
 msgstr "الهامش المتوقع"
 
-#: onedesk/one_project/view.py:468
+#: onedesk/one_project/view.py:470
 msgid "Forecast over by {0}"
 msgstr "التوقع متجاوز بمقدار {0}"
 
@@ -9121,6 +9125,10 @@ msgstr "الساعات المسجّلة"
 msgid "Hours Logged, Week by Week"
 msgstr "الساعات المسجلة أسبوعًا بأسبوع"
 
+#: onedesk/one_project/notifications.py:145
+msgid "Hours Over Plan"
+msgstr "ساعات فوق المخطط"
+
 #: frontend/src/project/Overview.vue:135
 msgid "Hours This Month"
 msgstr "ساعات هذا الشهر"
@@ -9270,7 +9278,7 @@ msgstr "ما حال مساحة العمل هذه؟"
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr "ما حال مساحة العمل هذه؟ قل أين تقف وهل هناك خطأ ما: مدفوعاتها وتخزينها وأرصدتها ونطاقاتها وآخر مهامها، وما الذي عليّ فعله حيال أي خطأ."
 
-#: onedesk/one_project/notifications.py:23
+#: onedesk/one_project/notifications.py:24
 msgid "How is {project} going?"
 msgstr "كيف يسير {project}؟"
 
@@ -9698,7 +9706,7 @@ msgstr "في الموضوع أو في أي مكان في الرسالة."
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:257
 #: onedesk/one_admin/heads.py:201 onedesk/one_project/heads.py:77
 #: onedesk/one_project/portal.py:170 onedesk/one_project/view.py:327
-#: onedesk/one_project/view.py:511
+#: onedesk/one_project/view.py:513
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
 
@@ -10050,7 +10058,7 @@ msgstr "رقم الفاتورة"
 msgid "Invoice Time"
 msgstr "فوترة الوقت"
 
-#: onedesk/one_project/notifications.py:138
+#: onedesk/one_project/notifications.py:139
 msgid "Invoice {project} for last month"
 msgstr "أصدر فاتورة {project} عن الشهر الماضي"
 
@@ -11543,7 +11551,7 @@ msgstr "صُنع هنا"
 msgid "Made On"
 msgstr "أُنشئ في"
 
-#: onedesk/one_project/notifications.py:53
+#: onedesk/one_project/notifications.py:54
 msgid "Made Project Manager"
 msgstr "عُيّنت مديراً لمشروع"
 
@@ -12128,7 +12136,7 @@ msgstr ""
 msgid "Milestone"
 msgstr "مرحلة رئيسية"
 
-#: onedesk/one_project/notifications.py:87
+#: onedesk/one_project/notifications.py:88
 msgid "Milestone Done"
 msgstr "اكتملت المرحلة"
 
@@ -14139,11 +14147,11 @@ msgstr "على نطاق البريد"
 msgid "On the OneCRM pipeline board"
 msgstr "على لوحة مسار المبيعات في OneCRM"
 
-#: onedesk/one_project/notifications.py:124
+#: onedesk/one_project/notifications.py:125
 msgid "On the day retention held by a customer, or from a supplier, falls due."
 msgstr "في اليوم الذي يستحق فيه المحتجز لدى العميل أو من المورد."
 
-#: onedesk/one_project/notifications.py:136
+#: onedesk/one_project/notifications.py:137
 msgid "On the first of the month, for each retainer whose last month isn't invoiced."
 msgstr "في أول كل شهر، لكل اشتراك لم يُفوتر شهره الماضي."
 
@@ -15200,7 +15208,7 @@ msgstr "الأصل"
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/report/spending/spending.py:26
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/view.py:925 onedesk/one_project/view.py:1064
+#: onedesk/one_project/view.py:927 onedesk/one_project/view.py:1066
 #: onedesk/public/js/oneai/Panel.vue:583
 msgid "Other"
 msgstr "أخرى"
@@ -15330,7 +15338,7 @@ msgstr "رموز المخرجات"
 msgid "Outstanding"
 msgstr "المتبقي"
 
-#: onedesk/one_project/notifications.py:98
+#: onedesk/one_project/notifications.py:99
 #: onedesk/public/js/project_actions.js:270
 msgid "Over Budget"
 msgstr "عند تجاوز الميزانية"
@@ -15488,7 +15496,7 @@ msgstr "الصفحات"
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/one_project/money.py:148 onedesk/one_project/money.py:167
-#: onedesk/one_project/view.py:337 onedesk/one_project/view.py:526
+#: onedesk/one_project/view.py:337 onedesk/one_project/view.py:528
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:155
 msgid "Paid"
 msgstr "المدفوع"
@@ -15737,7 +15745,7 @@ msgstr "الرواتب"
 msgid "Pay it from Payment Method so the workspace stays open."
 msgstr "ادفعها من طريقة الدفع لتبقى مساحة العمل مفتوحة."
 
-#: onedesk/one_project/view.py:824
+#: onedesk/one_project/view.py:826
 msgid "Pay retention to {0}"
 msgstr "ادفع المحتجز إلى {0}"
 
@@ -15757,7 +15765,7 @@ msgstr "ادفع خلال {0} يوم لتجنب الحذف."
 msgid "Pay within {0} days to avoid suspension."
 msgstr "ادفع خلال {0} يوم لتجنب الإيقاف."
 
-#: onedesk/one_project/view.py:824 onedesk/www/order.html:37
+#: onedesk/one_project/view.py:826 onedesk/www/order.html:37
 msgid "Pay {0}"
 msgstr "ادفع {0}"
 
@@ -16338,7 +16346,7 @@ msgstr "نشر"
 msgid "Post Update"
 msgstr "نشر تحديث"
 
-#: onedesk/one_project/notifications.py:24
+#: onedesk/one_project/notifications.py:25
 msgid "Post your update on the project's page, or reply to the email."
 msgstr "انشر تحديثك في صفحة المشروع، أو رد على البريد."
 
@@ -16611,7 +16619,7 @@ msgstr ""
 msgid "Progress"
 msgstr "التقدم"
 
-#: onedesk/one_project/notifications.py:110
+#: onedesk/one_project/notifications.py:111
 msgid "Progress Bill Drafted"
 msgstr "مسودة فاتورة تقدم"
 
@@ -16637,11 +16645,11 @@ msgstr "التقدم…"
 msgid "Project"
 msgstr "المشروع"
 
-#: onedesk/one_project/notifications.py:74
+#: onedesk/one_project/notifications.py:75
 msgid "Project Completed"
 msgstr "اكتمل المشروع"
 
-#: onedesk/one_project/notifications.py:64
+#: onedesk/one_project/notifications.py:65
 msgid "Project Health"
 msgstr "حالة المشروع"
 
@@ -16654,7 +16662,7 @@ msgstr "مدير المشروع"
 msgid "Project Name"
 msgstr "اسم المشروع"
 
-#: onedesk/one_project/notifications.py:32
+#: onedesk/one_project/notifications.py:33
 msgid "Project Summary"
 msgstr "ملخص المشروع"
 
@@ -16671,7 +16679,7 @@ msgstr ""
 msgid "Project Types"
 msgstr "أنواع المشاريع"
 
-#: onedesk/one_project/notifications.py:16
+#: onedesk/one_project/notifications.py:17
 msgid "Project Update Asked"
 msgstr "طُلب تحديث المشروع"
 
@@ -17836,7 +17844,7 @@ msgstr "أُعيدت تسميته إلى {0}"
 msgid "Renew the {0} of {1}"
 msgstr "جدد {0} الخاص بـ {1}"
 
-#: onedesk/one_project/view.py:430
+#: onedesk/one_project/view.py:432
 msgid "Renews {0}"
 msgstr "يتجدد في {0}"
 
@@ -18130,7 +18138,7 @@ msgstr "استئناف {0} من الخطوة التي توقف عندها؟"
 msgid "Retainer"
 msgstr "اشتراك شهري"
 
-#: onedesk/one_project/notifications.py:143
+#: onedesk/one_project/notifications.py:155
 msgid "Retainer Hours Used"
 msgstr "استُخدمت ساعات الاشتراك"
 
@@ -18139,7 +18147,7 @@ msgstr "استُخدمت ساعات الاشتراك"
 msgid "Retainer Month"
 msgstr "شهر الاشتراك"
 
-#: onedesk/one_project/notifications.py:133
+#: onedesk/one_project/notifications.py:134
 msgid "Retainer Month to Invoice"
 msgstr "شهر اشتراك للفوترة"
 
@@ -18157,13 +18165,13 @@ msgstr "المحتجز"
 #. Label of the one_retention_due (Date) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/one_project/notifications.py:121
+#: onedesk/one_project/notifications.py:122
 #: onedesk/public/js/project_actions.js:171 onedesk/public/js/project_new.js:90
 msgid "Retention Due"
 msgstr "موعد استحقاق المحتجز"
 
 #: frontend/src/project/Suppliers.vue:11 frontend/src/project/Suppliers.vue:74
-#: onedesk/one_project/money.py:152 onedesk/one_project/view.py:536
+#: onedesk/one_project/money.py:152 onedesk/one_project/view.py:538
 msgid "Retention Held"
 msgstr "المحتجز القائم"
 
@@ -18171,7 +18179,7 @@ msgstr "المحتجز القائم"
 msgid "Retention at Handover"
 msgstr "المحتجز عند التسليم"
 
-#: onedesk/one_project/notifications.py:126
+#: onedesk/one_project/notifications.py:127
 msgid "Retention on {project} is due today"
 msgstr "المحتجز على {project} يستحق اليوم"
 
@@ -21476,7 +21484,7 @@ msgstr "السجل الذي كتبته هذه المحاولة. يكون فار�
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
 msgstr "مجلد صندوق البريد الذي هي فيه، باسمه على الخادم، أو INBOX أو Sent أو Archive أو Junk أو Trash لعنوان على نطاق البريد."
 
-#: onedesk/one_project/notifications.py:91
+#: onedesk/one_project/notifications.py:92
 msgid "The manager of the project with the order, unless they marked it done"
 msgstr "مدير المشروع صاحب الطلب، ما لم يكن هو من أكملها"
 
@@ -21529,7 +21537,7 @@ msgstr "الأيام الجديدة مضافاً إليها ما رُحِّل. �
 msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
 msgstr "المسمى الوظيفي الجديد، محفوظاً على المستند كي تصل إليه القائمة والفلتر، وهو خلاف ذلك مجرد صف في جدول فرعي."
 
-#: onedesk/one_project/notifications.py:57
+#: onedesk/one_project/notifications.py:58
 msgid "The new manager, unless they made themselves it"
 msgstr "المدير الجديد، ما لم يعيّن نفسه"
 
@@ -21747,33 +21755,33 @@ msgstr "العنوان السابق"
 msgid "The product this action works for, which is how a workspace's list of actions is grouped."
 msgstr "المنتج الذي يعمل له هذا الإجراء، وبه تُجمَّع قائمة إجراءات مساحة العمل."
 
-#: onedesk/one_project/notifications.py:125
+#: onedesk/one_project/notifications.py:126
 msgid "The project's manager"
 msgstr "مدير المشروع"
 
-#: onedesk/one_project/notifications.py:68
+#: onedesk/one_project/notifications.py:69
 msgid "The project's manager and members, but whoever marked it"
 msgstr "مدير المشروع وأعضاؤه، عدا من صنّفه"
 
-#: onedesk/one_project/notifications.py:102
+#: onedesk/one_project/notifications.py:103
 msgid "The project's manager and whoever set the budget"
 msgstr "مدير المشروع ومن حدّد الميزانية"
 
-#: onedesk/one_project/notifications.py:137
-#: onedesk/one_project/notifications.py:147
+#: onedesk/one_project/notifications.py:138
+#: onedesk/one_project/notifications.py:159
 msgid "The project's manager, or whoever made it"
 msgstr "مدير المشروع، أو من أنشأه"
 
-#: onedesk/one_project/notifications.py:80
+#: onedesk/one_project/notifications.py:81
 msgid "The project's manager, unless they completed it"
 msgstr "مدير المشروع، ما لم يكن هو من أكمله"
 
-#: onedesk/one_project/notifications.py:114
+#: onedesk/one_project/notifications.py:115
 msgid "The project's manager, unless they saved it"
 msgstr "مدير المشروع، ما لم يكن هو من حفظها"
 
-#: onedesk/one_project/notifications.py:22
-#: onedesk/one_project/notifications.py:36
+#: onedesk/one_project/notifications.py:23
+#: onedesk/one_project/notifications.py:37
 msgid "The project's people"
 msgstr "فريق المشروع"
 
@@ -22816,7 +22824,7 @@ msgstr "المهام المسندة إليك"
 #: frontend/src/project/Overview.vue:256 onedesk/one_book/heads.py:47
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
 #: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:325
-#: onedesk/one_project/view.py:509 onedesk/one_task/mine.py:25
+#: onedesk/one_project/view.py:511 onedesk/one_task/mine.py:25
 #: onedesk/one_task/tell.py:225
 msgid "Today"
 msgstr "اليوم"
@@ -24521,7 +24529,7 @@ msgstr "ما أُنجز، وما التالي، وأي عائق."
 msgid "What was exported or printed in the last week, by whom, and was any of it large?"
 msgstr "ما الذي صُدِّر أو طُبع في الأسبوع الماضي، ومن قام بذلك، وهل كان شيء منه كبيراً؟"
 
-#: onedesk/one_project/notifications.py:37
+#: onedesk/one_project/notifications.py:38
 msgid "What was said about {project} on {date}"
 msgstr "ما قيل عن {project} في {date}"
 
@@ -24672,7 +24680,7 @@ msgstr "عند مشاركة رابط مع عنوان بريد إلكتروني."
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr "عندما يتوقف صندوق بريد تملكه عن الاتصال. مرة واحدة، عند تعطّله."
 
-#: onedesk/one_project/notifications.py:90
+#: onedesk/one_project/notifications.py:91
 msgid "When a milestone that's billed on completion is done."
 msgstr "عند اكتمال مرحلة تُفوتر عند إنجازها."
 
@@ -24700,7 +24708,7 @@ msgstr "عند وصول دفعة لمساحة عمل أُرشف موقعها."
 msgid "When a payslip is submitted, with the payslip as a PDF."
 msgstr "عند اعتماد قسيمة راتب، مع القسيمة بصيغة PDF."
 
-#: onedesk/one_project/notifications.py:77
+#: onedesk/one_project/notifications.py:78
 msgid "When a project is completed, by somebody or by its last task, with what's still owed on it."
 msgstr "عند اكتمال مشروع، من قِبل شخص أو بإنجاز آخر مهامه، مع ما لا يزال مستحقاً عليه."
 
@@ -24986,7 +24994,7 @@ msgstr "عندما يتأخر دفع مساحة العمل، مع يوم تعل�
 msgid "When reordering cannot raise a material request."
 msgstr "عندما يتعذّر على إعادة الطلب إنشاء طلب مواد."
 
-#: onedesk/one_project/notifications.py:45
+#: onedesk/one_project/notifications.py:46
 msgid "When somebody adds you to a project's members."
 msgstr "عندما يضيفك أحد إلى أعضاء مشروع."
 
@@ -25026,11 +25034,11 @@ msgstr "عندما يُسند إليك أحدٌ مهمة."
 msgid "When somebody is leaving, in the template HR Settings names."
 msgstr "عندما يغادر أحد، بالقالب المحدد في إعدادات الموارد البشرية."
 
-#: onedesk/one_project/notifications.py:56
+#: onedesk/one_project/notifications.py:57
 msgid "When somebody makes you a project's manager."
 msgstr "عندما يعيّنك أحد مديراً لمشروع."
 
-#: onedesk/one_project/notifications.py:67
+#: onedesk/one_project/notifications.py:68
 msgid "When somebody marks a project At Risk or Off Track."
 msgstr "عندما يصنّف أحد مشروعاً بأنه معرّض للخطر أو خارج المسار."
 
@@ -25042,7 +25050,7 @@ msgstr "عندما يضع أحدهم مهمة في حالة انتظار الم�
 msgid "When somebody outside the workspace is invited to an event, or it changes or is cancelled."
 msgstr "حين يُدعى شخص من خارج مساحة العمل إلى حدث، أو يتغير الحدث أو يُلغى."
 
-#: onedesk/one_project/notifications.py:113
+#: onedesk/one_project/notifications.py:114
 msgid "When somebody saves a bill or invoice for a share of the work done."
 msgstr "عندما يحفظ أحدهم فاتورة لجزء من العمل المنجز."
 
@@ -25146,6 +25154,10 @@ msgstr "عندما يجهز التنزيل الكامل لمساحة العمل 
 msgid "When the holiday list ends in 60, 30 or 7 days with no list after it."
 msgstr "عندما تنتهي قائمة العطلات بعد 60 أو 30 أو 7 أيام دون قائمة تليها."
 
+#: onedesk/one_project/notifications.py:148
+msgid "When the hours logged on a task pass the hours it planned."
+msgstr "عندما تتجاوز الساعات المسجلة على مهمة الساعات المخطط لها."
+
 #: onedesk/one_task/notifications.py:35
 msgid "When the last task a task waits on is done."
 msgstr "عند إنجاز آخر مهمة تنتظرها المهمة."
@@ -25181,7 +25193,7 @@ msgstr "عندما يطلب من يدفع لمساحة العمل إغلاقها
 msgid "When the provider last said this model exists."
 msgstr "آخر مرة قال فيها المزوّد إن هذا النموذج موجود."
 
-#: onedesk/one_project/notifications.py:146
+#: onedesk/one_project/notifications.py:158
 msgid "When the time logged on a retainer passes its hours for the month."
 msgstr "عندما يتجاوز الوقت المسجّل على اشتراك ساعاته لهذا الشهر."
 
@@ -25198,7 +25210,7 @@ msgstr "وقت هذه المناوبة، مقروءاً من نوع المناو
 msgid "When what your material request asked for is received."
 msgstr "عند استلام ما طلبه طلب المواد الخاص بك."
 
-#: onedesk/one_project/notifications.py:101
+#: onedesk/one_project/notifications.py:102
 msgid "When what's ordered and spent on a project's cost type passes its budget."
 msgstr "عندما يتجاوز المطلوب والمنفَق على نوع تكلفة في المشروع ميزانيته."
 
@@ -25611,6 +25623,10 @@ msgstr "من أنشأه وكل المدعوين"
 #: onedesk/one_inventory/notifications.py:50
 msgid "Whoever made the request"
 msgstr "من قدّم الطلب"
+
+#: onedesk/one_project/notifications.py:149
+msgid "Whoever the task is given to, and the project's manager"
+msgstr "من أُسندت إليه المهمة، ومدير المشروع"
 
 #. Description of the 'Account' (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -26291,8 +26307,8 @@ msgstr "نعم، في إشعاراتهم"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:168
-#: onedesk/one_project/view.py:707 onedesk/one_project/view.py:753
-#: onedesk/one_project/view.py:830 onedesk/public/js/oneai/Panel.vue:98
+#: onedesk/one_project/view.py:709 onedesk/one_project/view.py:755
+#: onedesk/one_project/view.py:832 onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
 msgstr "أنت"
 
@@ -27226,15 +27242,15 @@ msgstr "لا شيء يستطيع {0} الآن"
 msgid "of {0} a month"
 msgstr "من {0} شهريًا"
 
-#: onedesk/one_project/view.py:468
+#: onedesk/one_project/view.py:470
 msgid "of {0} budget"
 msgstr "من ميزانية {0}"
 
-#: onedesk/one_project/view.py:422
+#: onedesk/one_project/view.py:424
 msgid "of {0} h"
 msgstr "من {0} س"
 
-#: onedesk/one_project/view.py:451
+#: onedesk/one_project/view.py:453
 msgid "of {0} open"
 msgstr "من {0} مفتوحة"
 
@@ -27803,7 +27819,7 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr "{0} و{1} ليسا في المنطقة نفسها."
 
-#: onedesk/one_project/billing.py:413
+#: onedesk/one_project/billing.py:418
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
@@ -27982,7 +27998,7 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — و�
 msgid "{0} cost types"
 msgstr "{0} أنواع تكاليف"
 
-#: onedesk/one_project/view.py:401
+#: onedesk/one_project/view.py:403
 msgid "{0} costs"
 msgstr "{0} تكاليف"
 
@@ -28060,7 +28076,7 @@ msgstr "قبل {1} بـ {0} أيام"
 #: frontend/src/project/Overview.vue:217 frontend/src/project/Overview.vue:255
 #: frontend/src/project/Overview.vue:308 onedesk/one_project/heads.py:76
 #: onedesk/one_project/portal.py:167 onedesk/one_project/retention.py:134
-#: onedesk/one_project/view.py:507 onedesk/one_project/view.py:798
+#: onedesk/one_project/view.py:509 onedesk/one_project/view.py:800
 msgid "{0} days late"
 msgstr "متأخر {0} يوم"
 
@@ -28363,7 +28379,7 @@ msgstr "{0} مجلد قياسي ولا يمكن تغييره."
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr "{0} تنسيق قياسي. يمكن فقط تعيينه افتراضيًا أو إيقافه."
 
-#: onedesk/one_project/billing.py:398
+#: onedesk/one_project/billing.py:403
 msgid "{0} is a sub-project of {1}."
 msgstr "أصبح {0} مشروعًا فرعيًا من {1}."
 
@@ -28708,7 +28724,7 @@ msgstr "{0} لا يعمل."
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} على شبكة خاصة. لا يمكن لـ OneCloud الاتصال به."
 
-#: onedesk/one_project/view.py:676
+#: onedesk/one_project/view.py:678
 msgid "{0} is over budget"
 msgstr "{0} تجاوز الميزانية"
 
@@ -28818,7 +28834,7 @@ msgstr "لا يجوز أن تقارن {0} إلا حقول السجل بقيم ب
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة."
 
-#: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:436
+#: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:438
 msgid "{0} months"
 msgstr "{0} أشهر"
 
@@ -28875,7 +28891,7 @@ msgstr "منها {0} تعمل."
 #: frontend/src/project/TaskPanel.vue:92 frontend/src/project/Tasks.vue:33
 #: onedesk/one/heads.py:71 onedesk/one_admin/doctype/tenant/tenant_list.js:43
 #: onedesk/one_admin/heads.py:160 onedesk/one_project/heads.py:35
-#: onedesk/one_project/view.py:493 onedesk/public/js/settings.js:1516
+#: onedesk/one_project/view.py:495 onedesk/public/js/settings.js:1516
 msgid "{0} of {1}"
 msgstr "{0} من {1}"
 
@@ -28907,7 +28923,7 @@ msgstr "{0} من {1} شهرًا"
 msgid "{0} of {1} seats used."
 msgstr "{0} من {1} مقاعد مستخدمة."
 
-#: onedesk/one_project/view.py:484
+#: onedesk/one_project/view.py:486
 msgid "{0} of {1} tasks"
 msgstr "{0} من {1} مهام"
 
@@ -28935,7 +28951,7 @@ msgstr "{0} إدخالات أقدم"
 msgid "{0} on"
 msgstr "{0} مفعّل"
 
-#: frontend/src/project/Overview.vue:185 onedesk/one_project/view.py:471
+#: frontend/src/project/Overview.vue:185 onedesk/one_project/view.py:473
 msgid "{0} on order"
 msgstr "{0} قيد الطلب"
 
@@ -29316,7 +29332,7 @@ msgstr "{0} – جارٍ"
 msgid "{0}% billed"
 msgstr "{0}% مفوتر"
 
-#: frontend/src/project/Overview.vue:342 onedesk/one_project/view.py:706
+#: frontend/src/project/Overview.vue:342 onedesk/one_project/view.py:708
 #: onedesk/public/js/project_list.js:45 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
@@ -29654,7 +29670,7 @@ msgstr "نقل {by} الفوترة لـ {workspace} إلى شخص آخر. لن �
 msgid "{changes}"
 msgstr "{changes}"
 
-#: onedesk/one_project/notifications.py:103
+#: onedesk/one_project/notifications.py:104
 msgid "{cost_type} is over budget on {project}"
 msgstr "{cost_type} تجاوز الميزانية في {project}"
 
@@ -29802,7 +29818,7 @@ msgstr "{mailbox} لا يتصل: {reason}"
 msgid "{message}"
 msgstr "{message}"
 
-#: onedesk/one_project/notifications.py:92
+#: onedesk/one_project/notifications.py:93
 msgid "{milestone} is done"
 msgstr "اكتملت {milestone}"
 
@@ -29830,11 +29846,11 @@ msgstr "طلب {person} حذف حسابه"
 msgid "{person} is now an administrator"
 msgstr "{person} أصبح مسؤولًا الآن"
 
-#: onedesk/one_project/notifications.py:148
+#: onedesk/one_project/notifications.py:160
 msgid "{project} has used its {allowance} h for this month"
 msgstr "استخدم {project} ساعاته البالغة {allowance} س لهذا الشهر"
 
-#: onedesk/one_project/notifications.py:81
+#: onedesk/one_project/notifications.py:82
 msgid "{project} is completed"
 msgstr "اكتمل {project}"
 
@@ -29861,6 +29877,10 @@ msgstr "أرسل {supplier} عرض سعر لـ {request}"
 #: onedesk/one_task/notifications.py:68
 msgid "{tasks}"
 msgstr "{tasks}"
+
+#: onedesk/one_project/notifications.py:150
+msgid "{task} is over its planned hours"
+msgstr "{task} تجاوزت ساعاتها المخطط لها"
 
 #: onedesk/one_task/notifications.py:37
 msgid "{task} is ready"
@@ -29907,7 +29927,7 @@ msgstr "{where}، على {kind}. {explanation}"
 msgid "{who} added you to the library {library}"
 msgstr "أضافك {who} إلى المكتبة {library}"
 
-#: onedesk/one_project/notifications.py:47
+#: onedesk/one_project/notifications.py:48
 msgid "{who} added you to {project}"
 msgstr "أضافك {who} إلى {project}"
 
@@ -29959,7 +29979,7 @@ msgstr "حذف {who} المجموعة {collection}"
 msgid "{who} deleted {title}"
 msgstr "حذف {who} {title}"
 
-#: onedesk/one_project/notifications.py:115
+#: onedesk/one_project/notifications.py:116
 #, python-format
 msgid "{who} drafted a bill for {order} at {share}% done"
 msgstr "أعدّ {who} فاتورة لـ {order} عند إنجاز {share}%"
@@ -29972,11 +29992,11 @@ msgstr "أسند إليك {who} {task}"
 msgid "{who} invited you to {event}"
 msgstr "دعاك {who} إلى {event}"
 
-#: onedesk/one_project/notifications.py:58
+#: onedesk/one_project/notifications.py:59
 msgid "{who} made you the manager of {project}"
 msgstr "عيّنك {who} مديراً لـ {project}"
 
-#: onedesk/one_project/notifications.py:69
+#: onedesk/one_project/notifications.py:70
 msgid "{who} marked {project} {health}"
 msgstr "صنّف {who} المشروع {project}: {health}"
 

@@ -331,7 +331,8 @@ def log(
 			"from_time": starts,
 			"to_time": starts + timedelta(hours=flt(hours)),
 			"hours": flt(hours),
-			"completed": 1,
+			# Logging time isn't finishing the task; ERPNext would complete it.
+			"completed": 0,
 			"is_billable": 1 if billable else 0,
 			"description": description,
 		},
