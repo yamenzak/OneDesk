@@ -215,14 +215,17 @@ A figure turns red when something's wrong: cost heading over budget, a
 margin below zero, more hours than the retainer covers, a late end date.
 **Budget Used** shows the real share, past 100% when it's over.
 
-**Needs You** lists what needs someone now: cost types over budget (on a
-Fixed Price project they're in **Budget** instead), bills drafted by Bill
-Progress to check, and late tasks. **About** has the facts, and **Add
+**Needs You** lists what needs someone now, yours first and marked **You**:
+cost types over budget over the project and its sub-projects (on a Fixed
+Price project they're in **Budget** instead), bills drafted by Bill Progress
+to check, late tasks, and tasks due today. A task on a sub-project says
+which. The heading counts them all, and **Show All** lists the late tasks
+when there are more than it shows. **About** has the facts, and **Add
 Brief** while the project has no brief; once written, the brief is at the
 top.
 
 **Updates** shows the latest update. Write the next one on the line under
-it, pick On Track, At Risk or Off Track beside it, and **Post**.
+it and **Post** (see Asking the team how it's going).
 
 ### A retainer's months
 

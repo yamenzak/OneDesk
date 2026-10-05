@@ -1252,13 +1252,26 @@ def test_a_projects_page_is_laid_out_for_its_kind():
 	assert '"value": f"{percent(cash[\'spent\'], cash[\'budget\'])}%"' in view
 	# A task with no due date is not late: frappe reads a missing date as the
 	# earliest one, so the date is asked for.
-	assert view.count('["exp_end_date", "is", "set"],\n\t\t\t["exp_end_date", "<", today]') == 1
+	assert view.count(
+		'["exp_end_date", "is", "set"],\n\t\t\t# Before tomorrow: the due date is kept with a time.\n'
+		'\t\t\t["exp_end_date", "<", str(add_days(today, 1))]'
+	) == 1
 	assert '["exp_end_date", "is", "set"], ["exp_end_date", "<", today]' in (PROJECT / "overview.py").read_text()
 	# Each thing shows once: a retainer's months and time not invoiced have
 	# sections of their own, and a Fixed Price project's budget is its own.
 	needs = view[view.index("def needs(") : view.index("def _budget_lines(")]
 	assert "retainer.waiting" not in needs and "billing.unbilled" not in needs
 	assert "if kind != kinds.FIXED:" in needs
+	# Needs You: verb first, where each task is, the reader's own first, due
+	# today too, counted whole, and over budget across the tree.
+	assert '_("Check bill from {0}")' in needs and '_("Check invoice to {0}")' in needs
+	assert "milestones.where(task.project, doc.name, of, titles)" in needs
+	assert 'sorted(found, key=lambda one: not one.get("mine"))' in needs
+	assert '"today": not late' in needs and "budget.across(view[\"tree\"])" in needs
+	assert '"needs_count": len(needed)' in view and '"needs_all": _late_route(view["tree"])' in view
+	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert ':aside="view.needs_count || \'\'"' in overview_vue and "go(view.needs_all)" in overview_vue
+	assert 'one.today ? __("Today")' in overview_vue
 	# This month's hours are the tree's, as Hours by Week counts them.
 	assert '{"key": "hours", "hours": _month_hours(view["tree"])}' in view
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()

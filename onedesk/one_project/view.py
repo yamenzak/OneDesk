@@ -29,6 +29,9 @@ from frappe.utils import (
 from onedesk.one_project import billing, budget, kinds, media, milestones, money, overview, retainer, tree
 from onedesk.one_project import updates as asking
 
+#: The most late tasks Needs You reads, to count and to show some of.
+LISTED = 200
+
 #: How many of each list the Overview shows.
 SHOWN = 6
 
@@ -548,8 +551,11 @@ def _quotes(doc) -> list[dict]:
 def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 	"""What the kind's Overview shows beyond its figures. Each thing is in
 	one place: what is in a section is not in Needs You as well."""
+	needed = needs(doc, view, kind)
 	said = {
-		"needs": needs(doc, view, kind),
+		"needs": needed[: SHOWN + 2],
+		"needs_count": len(needed),
+		"needs_all": _late_route(view["tree"]) if len(needed) > SHOWN + 2 else None,
 		"sub_projects": _sub_projects(doc.name),
 		"quotes": _quotes(doc),
 	}
@@ -587,17 +593,20 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 
 
 def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
-	"""What wants somebody now, worst first: cost types over budget (where the
-	page has no budget section of its own), bills to check, and late tasks. A
-	retainer's months and the time not invoiced have sections of their own.
-	A completed project still owed money says so first."""
+	"""What wants somebody now, the reader's own first, then worst first:
+	cost types over budget over the project and those under it (where the
+	page has no budget section of its own), bills to check, late tasks and
+	tasks due today. A retainer's months and the time not invoiced have
+	sections of their own. A completed project still owed money says so
+	first. Every row there is, for the Overview to show some and count all."""
+	user = frappe.session.user
 	found = []
 	if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):
 		from onedesk.one_project.status import due
 
 		found += [{"tone": "orange", "text": one["text"], "money": one["money"]} for one in due(doc.name)]
 	if kind != kinds.FIXED:
-		for one in budget._lines(doc.name):
+		for one in budget.across(view["tree"]):
 			if one["left"] < 0:
 				found.append(
 					{
@@ -614,25 +623,41 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 			filters={"docstatus": 0, "one_progress": [">", 0], "project": ["in", view["tree"]]},
 			fields=[
 				"name",
+				"owner",
 				"one_progress",
 				"grand_total",
 				"supplier_name" if doctype == "Purchase Invoice" else "customer_name",
 			],
-			limit=SHOWN,
 		):
 			party = bill.get("supplier_name") or bill.get("customer_name")
+			mine = bill.owner == user
 			found.append(
 				{
 					"tone": "orange",
-					"text": _("Bill from {0} to check").format(party)
+					"text": _("Check bill from {0}").format(party)
 					if doctype == "Purchase Invoice"
-					else _("Invoice to {0} to check").format(party),
-					"dim": _("{0}% done").format(f"{flt(bill.one_progress):g}"),
+					else _("Check invoice to {0}").format(party),
+					"dim": " · ".join(
+						filter(
+							None,
+							[
+								_("{0}% done").format(f"{flt(bill.one_progress):g}"),
+								_("You") if mine else None,
+							],
+						)
+					),
 					"money": bill.grand_total,
 					"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/{bill.name}",
+					"mine": mine,
 				}
 			)
-	today = nowdate()
+	today = getdate(nowdate())
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	of = tree.parents()
 	for task in frappe.get_list(
 		"Task",
 		filters=[
@@ -640,23 +665,49 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 			["status", "not in", overview.DONE],
 			# frappe reads a missing date as the earliest one.
 			["exp_end_date", "is", "set"],
-			["exp_end_date", "<", today],
+			# Before tomorrow: the due date is kept with a time.
+			["exp_end_date", "<", str(add_days(today, 1))],
 		],
-		fields=["name", "subject", "exp_end_date", "_assign"],
+		fields=["name", "subject", "exp_end_date", "_assign", "project"],
 		order_by="exp_end_date asc",
-		limit=SHOWN,
+		limit=LISTED,
 	):
 		people = frappe.parse_json(task._assign or "[]")
+		mine = user in people
+		late = (today - getdate(task.exp_end_date)).days
 		found.append(
 			{
-				"tone": "red",
+				"tone": "red" if late else "orange",
 				"text": task.subject,
-				"dim": get_fullname(people[0]) if people else None,
-				"late": (getdate(today) - getdate(task.exp_end_date)).days,
+				"dim": " · ".join(
+					filter(
+						None,
+						[
+							milestones.where(task.project, doc.name, of, titles),
+							_("You") if mine else (get_fullname(people[0]) if people else None),
+						],
+					)
+				),
+				"late": late,
+				"today": not late,
 				"route": f"/desk/task/{task.name}",
+				"mine": mine,
 			}
 		)
-	return found[: SHOWN + 2]
+	# The reader's own first; the rest keep their order, worst first.
+	return sorted(found, key=lambda one: not one.get("mine"))
+
+
+def _late_route(projects: list[str]) -> str:
+	"""Every late task on the project and those under it, as the desk lists them."""
+	return money._route(
+		"Task",
+		{
+			"project": ["in", projects],
+			"status": ["not in", list(overview.DONE)],
+			"exp_end_date": ["<", nowdate()],
+		},
+	)
 
 
 def _budget_lines(projects: list[str], cash: dict) -> dict:

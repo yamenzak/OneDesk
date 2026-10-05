@@ -70,8 +70,9 @@
     </div>
 
     <div class="min-w-0">
-      <Section :title="__('Needs You')" :aside="view.needs.length || ''">
+      <Section :title="__('Needs You')" :aside="view.needs_count || ''">
         <Rows :rows="needs" :empty="__('Nothing needs you')" />
+        <Button v-if="view.needs_all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.needs_all)" />
       </Section>
 
       <template v-if="kind === 'Fixed Price'">
@@ -212,8 +213,8 @@ const needs = computed(() =>
     key: i,
     dot: one.tone,
     label: one.text,
-    sub: one.dim,
-    value: one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : "",
+    below: one.dim,
+    value: one.today ? __("Today") : one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : "",
     route: one.route,
   }))
 );

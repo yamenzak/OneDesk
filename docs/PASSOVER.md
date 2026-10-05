@@ -7800,6 +7800,20 @@ over.
 - OneAI: Draft my update reads the reader's week (`project_facts` `you`) and
   suggests a card; approving puts the draft in the line. Nothing is posted.
 
+**Needs You.** What wants somebody now, worst first.
+
+- "Bill from Gulf Office Supplies to check" lost its verb to the cut. Rows
+  now lead with it: Check bill from, Check invoice to.
+- Late tasks didn't say where they were. A task on a sub-project now says
+  which, as Milestones does.
+- Nothing was the reader's own. Their tasks and bills come first, marked You.
+- A task due today showed nowhere on a Fixed Price Overview. It's here, in
+  orange, "Today".
+- The count was of the rows shown, at most 8. It now counts everything, and
+  Show All opens the late tasks in the desk's list.
+- Over budget read the project alone on the other kinds. It now reads the
+  tree's cost types, as Budget does.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
