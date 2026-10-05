@@ -1222,7 +1222,7 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert 'if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation")' in page
 	# Its quotations are listed, and work against billing waits for an order.
 	view_py = (PROJECT / "view.py").read_text()
-	assert '"quotes": _quotes(doc),' in view_py and "if contract(doc)\n\t\t\telse None" in view_py
+	assert '"quotes": _quotes(doc),' in view_py and "work_and_billing(view[\"share\"], cash, _overdue(view[\"tree\"]))" in view_py and "if contract(doc)" in view_py
 	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert '<Section v-if="view.billing" :title="__(\'Work and Billing\')">' in overview_vue
 	assert ":title=\"__('Quotations')\"" in overview_vue
@@ -1377,3 +1377,28 @@ def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	assert '"view": "invoices",' in view and view.count('"view": "money",') == 2
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert 'card.view && !card.route && props.said.views?.includes(card.view)' in overview
+
+
+def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
+	progress = _load(PROJECT / "overview.py", ("progress", "share"), flt=float)["progress"]
+	tasks = [
+		{"status": "Completed", "progress": 0, "task_weight": 1},
+		{"status": "Open", "progress": 50, "task_weight": 3},
+	]
+	assert progress("Task Completion", tasks, 0) == 50
+	assert progress("Task Progress", tasks, 0) == 75
+	assert progress("Task Weight", tasks, 0) == round((100 * 1 + 50 * 3) / 4)
+	assert progress("Manual", tasks, 40) == 40 and progress("Task Completion", [], 12) == 12
+	billing = _load(PROJECT / "view.py", ("work_and_billing",), _=lambda text: text, flt=float)["work_and_billing"]
+	cash = {
+		"contract": 375000,
+		"invoiced": 60000,
+		"customer": [{"label": "Paid", "value": 57000}, {"label": "Retention Held", "value": 3000}],
+	}
+	said = billing(17, cash, 0)
+	assert said["unbilled"] == 3750 and said["ahead"] == 0
+	assert said["owed"] == 3000 and said["retention"] == 3000 and said["advance"] == 0
+	ahead = billing(10, cash, 0)
+	assert ahead["ahead"] == 22500 and ahead["unbilled"] == 0
+	early = billing(0, {**cash, "invoiced": 0}, 0)
+	assert early["advance"] == 57000 and early["owed"] == 0

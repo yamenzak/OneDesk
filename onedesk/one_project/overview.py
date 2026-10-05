@@ -33,13 +33,36 @@ def share(done: int, total: int) -> int:
 	return round(100 * done / total) if total else 0
 
 
+def progress(method: str | None, tasks: list, manual: float) -> int:
+	"""How much of the work is done, out of 100, measured as the project says
+	(ERPNext's % Complete Method), over its tasks and those under it: tasks
+	completed, each task's own progress, or that progress by each task's
+	weight. A completed task is all done. Pure."""
+	if method == "Manual" or not tasks:
+		return round(flt(manual))
+
+	def done(task) -> float:
+		return 100.0 if task.get("status") == "Completed" else flt(task.get("progress"))
+
+	if method == "Task Weight":
+		weight = sum(flt(task.get("task_weight")) for task in tasks)
+		if weight:
+			return round(sum(done(task) * flt(task.get("task_weight")) for task in tasks) / weight)
+	if method == "Task Progress":
+		return round(sum(done(task) for task in tasks) / len(tasks))
+	return share(sum(1 for task in tasks if task.get("status") == "Completed"), len(tasks))
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def overview(project: Annotated[str, "The project."]) -> dict:
 	frappe.has_permission("Project", "read", doc=project, throw=True)
 	user = frappe.session.user
 	doc = frappe.db.get_value(
-		"Project", project, ["status", "expected_end_date", "percent_complete"], as_dict=True
+		"Project",
+		project,
+		["status", "expected_end_date", "percent_complete", "percent_complete_method"],
+		as_dict=True,
 	)
 	projects = [
 		one for one in tree.below({project}, tree.parents()) if one == project or members.sees(one, user)
@@ -51,6 +74,11 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		filters={"project": ["in", projects], "status": ["not in", ("Cancelled", "Template")]},
 		fields=["status", {"COUNT": "*", "as": "n"}],
 		group_by="status",
+	)
+	tasks = frappe.get_all(
+		"Task",
+		filters={"project": ["in", projects], "status": ["not in", ("Cancelled", "Template")]},
+		fields=["status", "progress", "task_weight"],
 	)
 	total = sum(row.n for row in counts)
 	done = sum(row.n for row in counts if row.status == "Completed")
@@ -76,9 +104,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		# with no tasks of its own has none to count.
 		"share": 100
 		if doc.status == "Completed"
-		else share(done, total)
-		if total
-		else round(doc.percent_complete or 0),
+		else progress(doc.percent_complete_method, tasks, doc.percent_complete),
 		"end": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"days_left": days_left(doc.expected_end_date, today, doc.status in ("Completed", "Cancelled")),
 		"estimated": said["budget"],

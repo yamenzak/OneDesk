@@ -15,11 +15,8 @@
 
       <template v-if="kind === 'Fixed Price'">
         <Section v-if="view.billing" :title="__('Work and Billing')">
-          <Rows :rows="[
-            { key: 'done', label: __('Work Done'), progress: view.billing.done, value: `${view.billing.done}%` },
-            { key: 'billed', label: __('Billed'), progress: view.billing.billed, value: `${view.billing.billed}%` },
-            { key: 'paid', label: __('Paid'), progress: view.billing.paid, value: `${view.billing.paid}%` },
-          ]" />
+          <Rows :rows="workAndBilling" />
+          <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency)" />
         </Section>
         <Section v-if="view.budget.length" :title="__('Budget')">
           <Rows :rows="view.budget.map((one) => ({ key: one.cost_type, label: one.cost_type, dim: __('{0} of {1}', [money(one.used, said.currency), money(one.budget, said.currency)]), progress: Math.min(100, one.budget ? Math.round((100 * one.used) / one.budget) : 0), value: one.left < 0 ? __('{0} over', [money(-one.left, said.currency)]) : __('{0} left', [money(one.left, said.currency)]), dot: one.left < 0 ? 'red' : undefined }))" />
@@ -151,6 +148,20 @@ const figures = computed(() =>
     button: next(card),
   }))
 );
+// The work done beside what's billed and paid, as amounts (view.work_and_billing).
+const workAndBilling = computed(() => {
+  const b = view.value.billing;
+  const sum = (value) => money(value, props.said.currency);
+  const owed = [b.overdue && __("{0} overdue", [sum(b.overdue)]), b.retention && __("{0} retention", [sum(Math.min(b.retention, b.owed))])].filter(Boolean);
+  return [
+    { key: "done", label: __("Work Done"), progress: b.done, value: `${b.done}%` },
+    b.unbilled && { key: "unbilled", label: __("Not Invoiced Yet"), value: sum(b.unbilled) },
+    b.ahead && { key: "ahead", label: __("Billed Ahead of the Work"), value: sum(b.ahead) },
+    b.owed && { key: "owed", label: __("Owed"), dim: owed.join(" · "), value: sum(b.owed), dot: b.overdue ? "red" : undefined },
+    b.advance && { key: "advance", label: __("Paid in Advance"), value: sum(b.advance) },
+  ].filter(Boolean);
+});
+
 // A figure whose documents are a view of this page opens that view.
 const opens = (card) =>
   card.view && !card.route && props.said.views?.includes(card.view)

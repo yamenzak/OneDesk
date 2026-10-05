@@ -179,7 +179,13 @@ the day, who and the hours on **Time**, the person and their open tasks on
 The Overview is laid out for the kind, and each thing on it shows once.
 
 - **Fixed Price**: **Contract**, **Billed** (how much of the contract is
-  invoiced), **Cost** against the budget, and **Forecast Margin**. Before
+  invoiced), **Cost** against the budget, and **Forecast Margin**. **Work and
+  Billing** shows **Work Done**, then what that work is worth but isn't
+  invoiced yet (**Not Invoiced Yet**, with **Bill Progress**) or what's been
+  invoiced ahead of it, what the customer **Owes** and how much of that is
+  overdue or retention, and anything **Paid in Advance**. Work Done is
+  measured the way the project says under **% Complete Method**: tasks
+  completed, each task's progress, or progress by each task's weight. Before
   the customer orders, **Contract** shows what they've been **Quoted** and
   **Billed** gives way to **Valid Till**, the quote's last day. **Cost** is
   what's been spent: supplier bills, time, stock used and expense claims.

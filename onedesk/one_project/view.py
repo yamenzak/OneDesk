@@ -435,6 +435,38 @@ def _due(view: dict) -> dict:
 	}
 
 
+def work_and_billing(done: int, cash: dict, overdue: float) -> dict:
+	"""The work done beside what's billed and paid, as amounts: the work done
+	not invoiced yet (or invoiced ahead of it), what the customer owes and how
+	much of that is overdue or retention, and anything paid in advance."""
+	customer = {one["label"]: one["value"] for one in cash["customer"]}
+	paid = flt(customer.get(_("Paid")))
+	gap = cash["contract"] * done / 100 - cash["invoiced"]
+	return {
+		"done": done,
+		"unbilled": round(gap) if gap >= 1 else 0,
+		"ahead": round(-gap) if gap <= -1 else 0,
+		"owed": max(0.0, cash["invoiced"] - paid),
+		"overdue": overdue,
+		"retention": flt(customer.get(_("Retention Held"))),
+		"advance": max(0.0, paid - cash["invoiced"]),
+	}
+
+
+def _overdue(projects: list[str]) -> float:
+	"""What the customer owes on invoices past their due date, in the
+	company's currency, for whoever reads invoices."""
+	if not frappe.has_permission("Sales Invoice", "read"):
+		return 0.0
+	return flt(
+		frappe.db.sql(
+			"""select sum(outstanding_amount * conversion_rate) from `tabSales Invoice`
+			where docstatus = 1 and status = 'Overdue' and project in %s""",
+			(projects,),
+		)[0][0]
+	)
+
+
 def _retention(ordered: list[dict], cash: dict) -> dict | None:
 	"""The customer's retention across the project's orders: what's held, the
 	rate when every order holds the same, and the first day any is due."""
@@ -495,16 +527,7 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 	if kind == kinds.FIXED:
 		# Work against billing means nothing until something is ordered.
 		said["billing"] = (
-			{
-				"done": view["share"],
-				"billed": share(cash["invoiced"], cash["contract"]),
-				"paid": share(
-					{one["label"]: one["value"] for one in cash["customer"]}.get(_("Paid"), 0),
-					cash["contract"],
-				),
-			}
-			if contract(doc)
-			else None
+			work_and_billing(view["share"], cash, _overdue(view["tree"])) if contract(doc) else None
 		)
 		said["budget"] = _budget_lines(doc.name)
 		said["subcontracts"] = cash["suppliers"][:SHOWN]

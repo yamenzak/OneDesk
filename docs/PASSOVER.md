@@ -7727,6 +7727,19 @@ over the project and those under it, in the company's currency.
 - Billed, Cost and Forecast Margin led nowhere. Billed opens Invoices, and
   Cost and Forecast Margin open Money, for whoever sees those views.
 
+**Work and Billing.** Three bars, Work Done, Billed and Paid, each a share of
+the contract.
+
+- Work Done counted every task the same and ignored the project's own %
+  Complete Method. It now follows it over the project and those under it:
+  tasks completed, each task's progress, or progress by weight, with a
+  completed task all done (`overview.progress`).
+- Billed repeated Numbers. In its place the gap, as an amount: Not Invoiced
+  Yet with Bill Progress beside it, or Billed Ahead of the Work.
+- Paid read as a late payment when the gap was retention. In its place Owed,
+  saying how much is overdue and how much is retention, and Paid in Advance
+  when the customer has paid more than is invoiced.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
