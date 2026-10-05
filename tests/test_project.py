@@ -1222,7 +1222,7 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert 'if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation")' in page
 	# Its quotations are listed, and work against billing waits for an order.
 	view_py = (PROJECT / "view.py").read_text()
-	assert '"quotes": _quotes(doc),' in view_py and "work_and_billing(view[\"share\"], cash, _overdue(view[\"tree\"]))" in view_py and "if contract(doc)" in view_py
+	assert '"quotes": _quotes(doc),' in view_py and "work_and_billing(view[\"share\"], cash, _overdue(view[\"tree\"]), _last_billed(view[\"tree\"]))" in view_py and "if contract(doc)" in view_py
 	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert '<Section v-if="view.billing" :title="__(\'Work and Billing\')">' in overview_vue
 	assert ":title=\"__('Quotations')\"" in overview_vue
@@ -1402,3 +1402,7 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 	assert ahead["ahead"] == 22500 and ahead["unbilled"] == 0
 	early = billing(0, {**cash, "invoiced": 0}, 0)
 	assert early["advance"] == 57000 and early["owed"] == 0
+	assert said["last"] is None
+	last = billing(17, cash, 0, {"posting_date": "2026-10-04", "one_progress": 0})
+	assert last["last"] == {"date": "2026-10-04", "share": 16}
+	assert billing(17, cash, 0, {"posting_date": "2026-10-04", "one_progress": 15})["last"]["share"] == 15

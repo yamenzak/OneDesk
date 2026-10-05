@@ -195,7 +195,7 @@ The Overview is laid out for the kind, and each thing on it shows once.
   the budget, or what's spent and still on order when that's more. Billed
   opens **Invoices**, and Cost and Forecast Margin open **Money**. Under
   them, **Work and Billing** puts the work done beside what's billed and
-  paid, **Budget** shows each cost type, and **Milestones**. On the right,
+  paid, and when the customer was last billed, **Budget** shows each cost type, and **Milestones**. On the right,
   **Subcontracts** and **Retention**.
 - **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
   **Invoiced** and **Budget Used** (or **Done** with no budget). Under them,

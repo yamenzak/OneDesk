@@ -159,6 +159,7 @@ const workAndBilling = computed(() => {
     b.ahead && { key: "ahead", label: __("Billed Ahead of the Work"), value: sum(b.ahead) },
     b.owed && { key: "owed", label: __("Owed"), dim: owed.join(" · "), value: sum(b.owed), dot: b.overdue ? "red" : undefined },
     b.advance && { key: "advance", label: __("Paid in Advance"), value: sum(b.advance) },
+    b.last && { key: "last", label: __("Last Billed"), dim: b.last.share !== null ? __("{0}% billed", [b.last.share]) : "", value: date(b.last.date) },
   ].filter(Boolean);
 });
 

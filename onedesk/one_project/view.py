@@ -435,10 +435,11 @@ def _due(view: dict) -> dict:
 	}
 
 
-def work_and_billing(done: int, cash: dict, overdue: float) -> dict:
+def work_and_billing(done: int, cash: dict, overdue: float, last: dict | None = None) -> dict:
 	"""The work done beside what's billed and paid, as amounts: the work done
 	not invoiced yet (or invoiced ahead of it), what the customer owes and how
-	much of that is overdue or retention, and anything paid in advance."""
+	much of that is overdue or retention, anything paid in advance, and when
+	the customer was last billed, at what share of the contract."""
 	customer = {one["label"]: one["value"] for one in cash["customer"]}
 	paid = flt(customer.get(_("Paid")))
 	gap = cash["contract"] * done / 100 - cash["invoiced"]
@@ -450,7 +451,28 @@ def work_and_billing(done: int, cash: dict, overdue: float) -> dict:
 		"overdue": overdue,
 		"retention": flt(customer.get(_("Retention Held"))),
 		"advance": max(0.0, paid - cash["invoiced"]),
+		"last": last
+		and {
+			"date": last["posting_date"],
+			"share": round(flt(last.get("one_progress")))
+			or (round(cash["invoiced"] * 100 / cash["contract"]) if cash["contract"] else None),
+		},
 	}
+
+
+def _last_billed(projects: list[str]) -> dict | None:
+	"""The newest invoice to the customer on the project, for whoever reads
+	invoices. A return isn't a billing."""
+	if not frappe.has_permission("Sales Invoice", "read"):
+		return None
+	found = frappe.get_list(
+		"Sales Invoice",
+		filters={"docstatus": 1, "is_return": 0, "project": ["in", projects]},
+		fields=["posting_date", "one_progress"],
+		order_by="posting_date desc, creation desc",
+		limit=1,
+	)
+	return found[0] if found else None
 
 
 def _overdue(projects: list[str]) -> float:
@@ -527,7 +549,9 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 	if kind == kinds.FIXED:
 		# Work against billing means nothing until something is ordered.
 		said["billing"] = (
-			work_and_billing(view["share"], cash, _overdue(view["tree"])) if contract(doc) else None
+			work_and_billing(view["share"], cash, _overdue(view["tree"]), _last_billed(view["tree"]))
+			if contract(doc)
+			else None
 		)
 		said["budget"] = _budget_lines(doc.name)
 		said["subcontracts"] = cash["suppliers"][:SHOWN]

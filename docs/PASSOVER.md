@@ -7739,6 +7739,10 @@ the contract.
 - Paid read as a late payment when the gap was retention. In its place Owed,
   saying how much is overdue and how much is retention, and Paid in Advance
   when the customer has paid more than is invoiced.
+- Nothing said when the customer was last billed. Last Billed now gives the
+  newest invoice's date and the share of the contract billed by then: the
+  invoice's own Work Done when it's a progress invoice, or else invoiced over
+  contract. A return isn't counted.
 
 ## OneLegal
 
