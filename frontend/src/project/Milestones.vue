@@ -29,7 +29,7 @@ function when(one) {
   if (!one.due) return __("No date");
   const day = date(one.due);
   if (one.done || one.days === null) return day;
-  const off = one.days < 0 ? __("{0} days late", [-one.days]) : one.days === 0 ? __("Today") : one.days === 1 ? __("Tomorrow") : __("In {0} days", [one.days]);
+  const off = one.days === -1 ? __("1 day late") : one.days < 0 ? __("{0} days late", [-one.days]) : one.days === 0 ? __("Today") : one.days === 1 ? __("Tomorrow") : __("In {0} days", [one.days]);
   return `${day} · ${off}`;
 }
 </script>

@@ -867,6 +867,34 @@ def test_milestones_say_where_and_when_and_may_be_billed_on_completion():
 	assert "'is_milestone', v ? 1 : 0" in panel
 
 
+def test_subcontracts_say_what_where_how_far_and_what_to_pay():
+	from types import SimpleNamespace as row
+
+	bought = _load(PROJECT / "money.py", ("bought",), _=lambda text: text)["bought"]
+	assert bought([row(item_name="Glazing Package")]) == "Glazing Package"
+	assert bought([row(item_name="Glazing Package"), row(item_name="Fixings"), row(item_name="Sealant")]) == (
+		"Glazing Package +2"
+	)
+	assert bought([]) is None
+	money_py = (PROJECT / "money.py").read_text()
+	suppliers = money_py[money_py.index("def _suppliers(") : money_py.index("def bought(")]
+	assert '"to_pay": max(0.0, owing - retained)' in suppliers and '"for": bought(own)' in suppliers
+	view_py = (PROJECT / "view.py").read_text()
+	subs = view_py[view_py.index("def _subcontracts(") : view_py.index("def late(")]
+	assert "milestones.where(" in subs and 'done[project] = view["share"]' in subs
+	assert '"subcontracts_count": len(cash["suppliers"])' not in view_py  # set on said, below
+	assert 'said["subcontracts_count"] = len(cash["suppliers"])' in view_py
+	bills = view_py[view_py.index("def _overdue_bills(") : view_py.index("def _late_route(")]
+	# By the payment schedule, retention not yet due left out.
+	assert "ps.due_date < %(today)s" in bills and '_("Pay {0}")' in bills
+	assert 'found += _overdue_bills(view["tree"], user)' in view_py
+	late = _load(PROJECT / "view.py", ("late",), _=lambda text: text)["late"]
+	assert late(1) == "1 day late" and late(3) == "3 days late"
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert "billed(one) > one.done" in overview and '__("{0} to pay"' in overview
+	assert ":aside=\"view.subcontracts_count\"" in overview and "$emit('view', 'suppliers')" in overview
+
+
 def test_the_overview_budget_adds_up_to_numbers():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	space = _load(PROJECT / "budget.py", ("left", "other"), flt=flt)

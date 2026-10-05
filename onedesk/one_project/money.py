@@ -302,13 +302,15 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"advance_paid",
 				"conversion_rate",
 				"one_retention",
+				"project",
 			],
 		)
 	}
 	lines = frappe.get_all(
 		"Purchase Order Item",
 		filters={"parent": ["in", list(orders)]},
-		fields=["parent", "amount", "billed_amt", "base_net_amount"],
+		fields=["parent", "amount", "billed_amt", "base_net_amount", "item_name", "project"],
+		order_by="idx asc",
 	)
 	bills = frappe.get_all(
 		"Purchase Invoice Item",
@@ -341,17 +343,23 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		mine = {bill.parent for bill in bills if bill.purchase_order == name}
 		billed = sum(flt(bill.base_net_amount) for bill in bills if bill.purchase_order == name)
 		left = 0.0 if head.status == "Closed" else unbilled([one for one in lines if one.parent == name])
-		retained = paid = advanced = 0.0
+		retained = paid = advanced = owing = 0.0
 		for invoice in (invoices[one] for one in mine if one in invoices):
 			owed = flt(invoice.outstanding_amount) * flt(invoice.conversion_rate or 1)
 			retained += held(kept.get(invoice.name), owed)
 			paid += flt(invoice.base_grand_total) - owed
 			advanced += flt(invoice.total_advance)
+			owing += owed
+		own = [one for one in lines if one.parent == name]
 		advance = max(0.0, flt(head.advance_paid) * flt(head.conversion_rate or 1) - advanced)
 		found.append(
 			{
 				"order": name,
 				"supplier": head.supplier_name or head.supplier,
+				"for": bought(own),
+				"project": head.project or next((one.project for one in own if one.project), None),
+				# What's billed and not paid, less the retention held till later.
+				"to_pay": max(0.0, owing - retained),
 				"ordered": flt(ordered),
 				"billed": billed,
 				"left": left,
@@ -368,6 +376,14 @@ def _suppliers(projects: list[str]) -> list[dict]:
 			}
 		)
 	return sorted(found, key=lambda one: -one["ordered"])
+
+
+def bought(lines: list) -> str | None:
+	"""What an order is for: its first line, and how many more. Pure."""
+	names = [one.item_name for one in lines if one.item_name]
+	if not names:
+		return None
+	return names[0] if len(names) == 1 else _("{0} +{1}").format(names[0], len(names) - 1)
 
 
 def _open_orders(projects: list[str]) -> float:

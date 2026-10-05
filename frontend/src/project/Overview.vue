@@ -76,8 +76,9 @@
       </Section>
 
       <template v-if="kind === 'Fixed Price'">
-        <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" :aside="view.subcontracts.length">
-          <Rows :rows="view.subcontracts.map((one) => ({ key: one.order, label: one.supplier, dim: money(one.ordered, said.currency), value: billed(one) >= 100 ? __('Billed') : __('{0}% billed', [billed(one)]), progress: billed(one), route: one.route }))" />
+        <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" :aside="view.subcontracts_count" :action="said.views?.includes('suppliers') ? { icon: 'lucide-arrow-up-right', label: __('Suppliers'), onClick: () => $emit('view', 'suppliers') } : null">
+          <Rows :rows="subcontracts" />
+          <Button v-if="view.subcontracts_count > view.subcontracts.length && said.views?.includes('suppliers')" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="$emit('view', 'suppliers')" />
         </Section>
         <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length">
           <Rows :rows="said.orders.map((one) => ({ key: one.name, label: one.name, dim: money(one.value, said.currency), value: one.billed >= 100 ? __('Billed') : __('{0}% billed', [one.billed]), route: `/desk/sales-order/${one.name}` }))" />
@@ -214,7 +215,7 @@ const needs = computed(() =>
     dot: one.tone,
     label: one.text,
     below: one.dim,
-    value: one.today ? __("Today") : one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : "",
+    value: one.today ? __("Today") : one.late === 1 ? __("1 day late") : one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : "",
     route: one.route,
   }))
 );
@@ -240,4 +241,23 @@ const facts = computed(() => {
   ].filter(Boolean);
 });
 const billed = (one) => (one.ordered ? Math.round((100 * one.billed) / one.ordered) : 0);
+// Each order: what it's for and where, how far it's billed, and when that's
+// ahead of the work on its project, or there's something to pay.
+const subcontracts = computed(() =>
+  view.value.subcontracts.map((one) => {
+    const ahead = one.done !== null && one.done !== undefined && billed(one) > one.done;
+    return {
+      key: one.order,
+      label: one.supplier,
+      lines: [
+        [one.where, one.for].filter(Boolean).join(" · "),
+        [money(one.ordered, props.said.currency), ahead && __("{0}% done", [one.done])].filter(Boolean).join(" · "),
+        one.to_pay >= 1 && __("{0} to pay", [money(one.to_pay, props.said.currency)]),
+      ].filter(Boolean),
+      value: billed(one) >= 100 ? __("Billed") : __("{0}% billed", [billed(one)]),
+      dot: ahead ? "orange" : undefined,
+      route: one.route,
+    };
+  })
+);
 </script>

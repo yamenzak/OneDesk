@@ -542,6 +542,13 @@ bill sets it off.
 Extra work from a supplier gets an order of its own, so the original stays
 readable.
 
+**Subcontracts** on a Fixed Price project's Overview lists the orders: what
+each is for, which sub-project it's on, how much is billed, and what's to pay
+once retention is set aside. An amber dot marks an order billed further than
+the work on its project has got, with how far that is. A supplier's bill with
+a payment past its due date is in **Needs You** as **Pay** the supplier. The
+arrow on the heading opens **Suppliers**.
+
 ## Billing the customer as the work gets done
 
 The customer's contract is their **sales order** on the project, and a

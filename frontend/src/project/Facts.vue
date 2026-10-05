@@ -43,6 +43,7 @@ const dates = computed(() => [props.said.starts, props.said.ends].filter(Boolean
 const due = computed(() => {
   const left = props.said.days_left;
   if (left === null || left === undefined) return "";
+  if (left === -1) return __("1 day late");
   if (left < 0) return __("{0} days late", [-left]);
   return left === 0 ? __("Due today") : __("Due in {0} days", [left]);
 });

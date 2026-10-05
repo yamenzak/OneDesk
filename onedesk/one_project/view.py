@@ -575,7 +575,8 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 			else None
 		)
 		said["budget"] = _budget_lines(view["tree"], cash)
-		said["subcontracts"] = cash["suppliers"][:SHOWN]
+		said["subcontracts"] = _subcontracts(doc.name, view, cash["suppliers"][:SHOWN])
+		said["subcontracts_count"] = len(cash["suppliers"])
 		said["retention"] = _retention(orders(doc), cash)
 	if kind == kinds.RETAINER:
 		said["months"] = retainer.months(doc.name)
@@ -595,8 +596,8 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	"""What wants somebody now, the reader's own first, then worst first:
 	cost types over budget over the project and those under it (where the
-	page has no budget section of its own), bills to check, late tasks and
-	tasks due today. A retainer's months and the time not invoiced have
+	page has no budget section of its own), bills to check, supplier bills
+	past due, late tasks and tasks due today. A retainer's months and the time not invoiced have
 	sections of their own. A completed project still owed money says so
 	first. Every row there is, for the Overview to show some and count all."""
 	user = frappe.session.user
@@ -651,6 +652,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 					"mine": mine,
 				}
 			)
+	found += _overdue_bills(view["tree"], user)
 	today = getdate(nowdate())
 	titles = dict(
 		frappe.get_all(
@@ -696,6 +698,80 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 		)
 	# The reader's own first; the rest keep their order, worst first.
 	return sorted(found, key=lambda one: not one.get("mine"))
+
+
+def _subcontracts(project: str, view: dict, orders: list[dict]) -> list[dict]:
+	"""The orders as the Overview shows them: where each is, and how far the
+	work on its project has got, to set beside what's billed."""
+	if not orders:
+		return []
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	done = {
+		one.name: 100 if one.status == "Completed" else round(flt(one.percent_complete))
+		for one in frappe.get_all(
+			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "status", "percent_complete"]
+		)
+	}
+	# The page's own project is as far along as its Work Done.
+	done[project] = view["share"]
+	of = tree.parents()
+	return [
+		{
+			**one,
+			"where": milestones.where(one["project"], project, of, titles) if one.get("project") else None,
+			"done": done.get(one.get("project") or project),
+		}
+		for one in orders
+	]
+
+
+def late(days: int) -> str:
+	"""How late, in plain words."""
+	return _("1 day late") if days == 1 else _("{0} days late").format(days)
+
+
+def _overdue_bills(projects: list[str], user: str) -> list[dict]:
+	"""Supplier bills on the project with a payment past its due date, by
+	their payment schedule (ERPNext marks a bill Overdue overnight): what's
+	due and how late, retention not yet due left out."""
+	if not frappe.has_permission("Purchase Invoice", "read"):
+		return []
+	rows = frappe.db.sql(
+		"""select pi.name, pi.supplier_name, pi.owner, pi.conversion_rate,
+			sum(ps.outstanding) as due, min(ps.due_date) as since
+		from `tabPurchase Invoice` pi
+		join `tabPayment Schedule` ps on ps.parent = pi.name and ps.parenttype = 'Purchase Invoice'
+		where pi.docstatus = 1 and pi.outstanding_amount > 0 and ps.outstanding > 0 and ps.due_date < %(today)s
+			and pi.name in (select parent from `tabPurchase Invoice Item` where project in %(projects)s)
+		group by pi.name
+		order by since asc""",
+		{"today": nowdate(), "projects": tuple(projects)},
+		as_dict=True,
+	)
+	today = getdate(nowdate())
+	return [
+		{
+			"tone": "red",
+			"text": _("Pay {0}").format(one.supplier_name),
+			"dim": " · ".join(
+				filter(
+					None,
+					[
+						late((today - getdate(one.since)).days),
+						_("You") if one.owner == user else None,
+					],
+				)
+			),
+			"money": flt(one.due) * flt(one.conversion_rate or 1),
+			"route": f"/desk/purchase-invoice/{one.name}",
+			"mine": one.owner == user,
+		}
+		for one in rows
+	]
 
 
 def _late_route(projects: list[str]) -> str:

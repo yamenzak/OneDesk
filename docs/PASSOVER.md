@@ -7814,6 +7814,24 @@ over.
 - Over budget read the project alone on the other kinds. It now reads the
   tree's cost types, as Budget does.
 
+**Subcontracts.** Each supplier's order on the tree, with how far it's billed.
+
+- Two Gulf Office Supplies rows looked the same. Each now says what it's for
+  (its first line, and how many more, `money.bought`).
+- Al Noor's order is on Villa Windows and read as the villa's own. It says
+  where, as Milestones does.
+- "Billed" with a full bar hid that Al Noor billed the frames in full with
+  Villa Windows half done. An order billed ahead of the work on its project
+  gets an amber dot and how far the work is.
+- What's owed to suppliers was nowhere on the Overview. Each row says what's
+  to pay, retention aside (`to_pay`), and a bill with a payment past due is
+  in Needs You as Pay the supplier, read from the payment schedule since
+  ERPNext only marks a bill Overdue overnight.
+- No way to Suppliers, and a count of the rows shown. The heading's arrow
+  opens Suppliers, the count is of every order, and Show All goes there.
+- The right column is narrow, so the bar gave way to lines under the name
+  (`lines` on Rows). "1 days late" reads "1 day late" across the page.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
