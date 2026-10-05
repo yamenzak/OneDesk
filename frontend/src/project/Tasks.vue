@@ -36,7 +36,7 @@
                 </div>
               </ListCell>
               <ListCell>
-                <People :users="item.assigned" :people="work.people" :options="canWrite ? team : null" @add="(u) => $emit('give', item.name, u)" @remove="(u) => $emit('take', item.name, u)" />
+                <People :users="item.assigned" :people="work.people" :options="canWrite ? team : null" :groups="canWrite ? work.user_groups || [] : []" @add="(u) => $emit('give', item.name, u)" @group="(users) => $emit('give', item.name, users)" @remove="(u) => $emit('take', item.name, u)" />
               </ListCell>
               <ListCell>
                 <Pill :value="item.status" :options="work.statuses" :colors="TASK_STATUS" :label="__('Status')" :readonly="!canWrite" @change="(v) => $emit('set', item.name, 'status', v)" />

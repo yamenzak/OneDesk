@@ -235,6 +235,7 @@ function actions(s) {
   }
   if (s.can_write && can("create", "Project")) list.push({ label: __("Add Sub-project"), onClick: () => newDoc("Project", { one_parent: s.name, customer: s.customer }) });
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
+  if (can("create", "Task") && can("read", "Project Template")) list.push({ label: __("Add from Template"), onClick: () => desk().project.add_template(s.name, loadWork) });
   if (can("create", "Project Template")) list.push({ label: __("Save as Template"), onClick: () => desk().project.save_as(frm()) });
   if (can("read", "Task")) list.push({ label: __("Open Task Board"), onClick: () => desk().project.board(frm()) });
   return list;

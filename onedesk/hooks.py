@@ -528,8 +528,10 @@ doc_events = {
 		"on_update": [
 			# A slip moves what waits on it, across sub-projects. See one_project/plan.py.
 			"onedesk.one_project.plan.reschedule",
-			# A task done is told to whoever gave it. See one_task/tell.py.
+			# A task done is told to whoever gave it, and one ready, sent for
+			# review or moved, to its people. See one_task/tell.py.
 			"onedesk.one_task.tell.done",
+			"onedesk.one_task.tell.changed",
 			# A milestone billed on completion, done. See one_project/milestones.py.
 			"onedesk.one_project.milestones.reached",
 			# The projects above measure their tree again. See one_project/overview.py.

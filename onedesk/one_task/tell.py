@@ -11,6 +11,17 @@ due and its project. frappe's line for an assignment taken away is left alone.
 frappe tells nobody. `done` tells whoever gave the task, and whoever made it,
 unless they completed it themselves.
 
+**A task changed** (`changed`). Three things about a task are told to its
+people:
+- *Task Ready*: the last task it waits on (ERPNext's Depends On) is done, told
+  to whoever it's given to, or whoever made it when nobody is. ERPNext adds a
+  sub-task to its parent's Depends On, so a parent is ready when its sub-tasks
+  are done.
+- *Pending Review*: somebody marks it Pending Review, told to whoever gave it
+  and whoever made it. A formal approval is a Workflow (Settings, Approvals).
+- *Due Date Changed*: its due date moved, told to whoever it's given to.
+Whoever made the change is never told.
+
 **The morning.** `today` tells each person what is due that day and what is
 late, from the tasks given to them, as My Tasks groups them (mine.py).
 """
@@ -77,6 +88,93 @@ def done(doc, method=None) -> None:
 		task=doc.subject,
 		project=_facts(doc)["project"],
 	)
+
+
+def changed(doc, method=None) -> None:
+	"""Task on_update: a task ready, sent for review, or moved, told to its people."""
+	if frappe.flags.in_install or frappe.flags.in_migrate or frappe.flags.in_import or frappe.flags.in_patch:
+		return
+	if doc.is_template:
+		return
+	if doc.status in DONE and doc.has_value_changed("status"):
+		for name in set(
+			frappe.get_all(
+				"Task Depends On", filters={"task": doc.name, "parenttype": "Task"}, pluck="parent"
+			)
+		):
+			_ready(name, doc.subject)
+	if doc.status == "Pending Review" and doc.has_value_changed("status"):
+		people = _others({*_gave(doc.name), doc.owner})
+		if people:
+			notify.notify(
+				"Pending Review",
+				people,
+				record=("Task", doc.name),
+				who=get_fullname(frappe.session.user),
+				task=doc.subject,
+				**_facts(doc),
+			)
+	before = doc.get_doc_before_save()
+	if before and doc.exp_end_date and _day(before.exp_end_date) != _day(doc.exp_end_date):
+		people = _others(_given(doc.name))
+		if people:
+			notify.notify(
+				"Due Date Changed",
+				people,
+				record=("Task", doc.name),
+				who=get_fullname(frappe.session.user),
+				task=doc.subject,
+				due=formatdate(doc.exp_end_date),
+				was=_(" · was {0}").format(formatdate(before.exp_end_date)) if before.exp_end_date else "",
+				project=_facts(doc)["project"],
+			)
+
+
+def _ready(name: str, done: str) -> None:
+	"""A task waiting on one just done: Task Ready when nothing it waits on is open."""
+	task = frappe.db.get_value(
+		"Task",
+		name,
+		["name", "subject", "project", "status", "owner", "exp_start_date", "exp_end_date"],
+		as_dict=True,
+	)
+	if not task or task.status in DONE:
+		return
+	waits = frappe.get_all("Task Depends On", filters={"parent": name, "parenttype": "Task"}, pluck="task")
+	if frappe.db.exists("Task", {"name": ["in", waits], "status": ["not in", DONE]}):
+		return
+	people = _others(set(_given(name)) or {task.owner})
+	if people:
+		notify.notify(
+			"Task Ready", people, record=("Task", name), task=task.subject, done=done, **_facts(task)
+		)
+
+
+def _others(people) -> list[str]:
+	"""A task's people, but whoever made the change."""
+	return sorted(one for one in people if one and one not in ("Administrator", "Guest", frappe.session.user))
+
+
+def _given(task: str) -> list[str]:
+	"""Whoever the task is given to: its open assignments."""
+	return frappe.get_all(
+		"ToDo",
+		filters={"reference_type": "Task", "reference_name": task, "status": "Open"},
+		pluck="allocated_to",
+	)
+
+
+def _gave(task: str) -> list[str]:
+	"""Whoever gave the task to somebody."""
+	return frappe.get_all(
+		"ToDo",
+		filters={"reference_type": "Task", "reference_name": task, "status": ["!=", "Cancelled"]},
+		pluck="assigned_by",
+	)
+
+
+def _day(value) -> str | None:
+	return str(getdate(value)) if value else None
 
 
 def _facts(task) -> dict:

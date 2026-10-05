@@ -23,7 +23,7 @@
       />
       <dl class="grid grid-cols-[7rem_minmax(0,1fr)] items-center gap-y-3 text-base">
         <dt class="text-ink-gray-5">{{ __("Owner") }}</dt>
-        <dd><People :users="task.assigned" :people="work.people" :options="canWrite ? team : null" @add="(u) => $emit('give', task.name, u)" @remove="(u) => $emit('take', task.name, u)" /></dd>
+        <dd><People :users="task.assigned" :people="work.people" :options="canWrite ? team : null" :groups="canWrite ? work.user_groups || [] : []" @add="(u) => $emit('give', task.name, u)" @group="(users) => $emit('give', task.name, users)" @remove="(u) => $emit('take', task.name, u)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Priority") }}</dt>
         <dd><Pill :value="task.priority" :options="work.priorities" :colors="PRIORITY" :label="__('Priority')" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'priority', v)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Starts") }}</dt>

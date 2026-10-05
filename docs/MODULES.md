@@ -561,6 +561,7 @@ No doctypes yet.
 * `onedesk.one_project.team.add`
 * `onedesk.one_project.team.remove`
 * `onedesk.one_project.team.team`
+* `onedesk.one_project.templates.add`
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`
 * `onedesk.one_project.tree.milestones`

@@ -1,6 +1,7 @@
 <template>
   <!-- People on something, as overlapping avatars; with `options`, clicking
-       picks who, each one ticked on or off. -->
+       picks who, each one ticked on or off. With `groups` (frappe's User
+       Groups), picking one adds each of its members. -->
   <Dropdown v-if="options" :options="choices">
     <template #trigger>
       <button class="flex items-center rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="__('Assign')">
@@ -24,8 +25,9 @@ const props = defineProps({
   options: Array,
   size: { type: String, default: "sm" },
   max: { type: Number, default: 3 },
+  groups: { type: Array, default: () => [] },
 });
-const emit = defineEmits(["add", "remove"]);
+const emit = defineEmits(["add", "remove", "group"]);
 
 const Stack = defineComponent({
   props: ["users", "people", "size"],
@@ -44,14 +46,27 @@ const Stack = defineComponent({
   },
 });
 
-const choices = computed(() =>
-  (props.options || []).map((user) => {
+const choices = computed(() => {
+  const people = (props.options || []).map((user) => {
     const on = props.users.includes(user);
     return {
       label: props.people[user]?.name || user,
       selected: on,
       onClick: () => emit(on ? "remove" : "add", user),
     };
-  })
-);
+  });
+  const groups = props.groups.filter((one) => one.users.some((user) => !props.users.includes(user)));
+  if (!groups.length) return people;
+  return [
+    { group: __("People"), hideLabel: true, options: people },
+    {
+      group: __("Groups"),
+      options: groups.map((one) => ({
+        label: one.name,
+        icon: "lucide-users",
+        onClick: () => emit("group", one.users.filter((user) => !props.users.includes(user))),
+      })),
+    },
+  ];
+});
 </script>

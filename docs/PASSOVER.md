@@ -7941,6 +7941,19 @@ frappe's Assign does; Pending Review tells whoever made the task.
   Completion and the description, saved against the task as loaded.
 - Task links named tasks by number (TASK-2026-00032). Task shows its title
   in links (frappe's Show Title in Link Fields), everywhere.
+- A task could be given only to one person at a time. The Owner menu lists
+  the workspace's groups too, and a group gives it to each member, as
+  frappe's Assign To does (`_user_groups`). No shared queue: ERPNext has
+  none.
+- A template could only start a new project. **Add from Template** adds one
+  to a running project, through ERPNext's own copy, dated from the day
+  chosen (`templates.add`).
+- Nobody heard when a task could go ahead, was sent for review, or moved.
+  OneTask tells them: Task Ready (its last dependency done), Pending Review
+  (to whoever gave and made it) and Due Date Changed (to whoever has it).
+  Order stays ERPNext's Depends On, which already stops a task being
+  completed early, with no lock on starting. A formal sign-off is a Workflow
+  under Approvals.
 
 ## OneLegal
 

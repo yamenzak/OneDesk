@@ -279,11 +279,13 @@ too. On the board, drag a card to change its status; the timeline marks
 today and counts the tasks without dates.
 
 In the table, change a task's owner, status, due date, priority or hours
-right in its row. **Hours** is the time planned for it (ERPNext's Expected
-Time), and each group's heading adds them up. A task that depends on others
-not yet done says what it's **waiting on**. A sub-task sits under its
-parent, and a parent says how many of its own are done. **Add Task** at the foot of a group adds one there; **New Task**
-adds one to the project. Click a task's name to open it beside the page.
+right in its row. Giving a task to a **group** (under **Settings ›
+Access**) gives it to each person in the group. **Hours** is
+the time planned for it (ERPNext's Expected Time), and each group's heading
+adds them up. A task that depends on others not yet done says what it's
+**waiting on**. A sub-task sits under its parent, and a parent says how many
+of its own are done. **Add Task** at the foot of a group adds one there;
+**New Task** adds one to the project. Click a task's name to open it beside the page.
 It's the same task OneTask opens: change its owner, priority, dates, hours
 and whether it's a milestone in place; see what it's part of and what it
 **Waits On**; tick and add its **Checklist**; add **Sub-tasks**; and read
@@ -722,6 +724,10 @@ updates by email the next morning.
 - **Retainer Hours Used**: a submitted timesheet takes a retainer you manage
   past its hours for this month.
 
+A task's own notifications (**Task Given**, **Task Done**, **Task Ready**,
+**Pending Review** and **Due Date Changed**) are OneTask's, and listed with
+it.
+
 Each is on the bell, and by email or push if you chose. Change them under
 **Settings › Notifications**.
 
@@ -812,6 +818,9 @@ takes, which depends on which, the milestones and the checklists.
   saved, dated from the project's **Expected Start Date** (today if it has
   none), each with its sub-tasks, dependencies, checklist and whether it's a
   milestone, and named with the project's **Task Prefix** if it has one.
+- **Add from Template** (in **Actions** on a project) adds a template's
+  tasks to a project that's already running, beside the tasks it has, dated
+  from the day you choose.
 - **Project Template** under **Setup** lists them. A template's tasks are
   ordinary tasks marked **Is Template**. Open one from the template to change
   its **Begin On (Days)** or **Duration (Days)**.

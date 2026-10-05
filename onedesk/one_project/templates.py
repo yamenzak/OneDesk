@@ -14,6 +14,10 @@ adds is what stopped anybody using it:
   milestones, checklists and expected time. Cancelled tasks are left out, and
   so are dependencies on tasks in other projects, since a template is one
   project.
+- **Add from Template** (`add`). ERPNext copies a template only into a new
+  project with no tasks yet. A running project may take one too: its tasks
+  are made by ERPNext's own copy (`create_task_from_template`,
+  `dependency_mapping`), dated from the day chosen, beside the tasks it has.
 - **What ERPNext's copy leaves behind** (`task_made`). Their copy carries the
   subject, dates, priority, type and a few more, and not whether a task is a
   milestone, its expected time or its checklist; the new task takes them from
@@ -31,7 +35,7 @@ naming rule is written when the project is, not after (naming.py).
 import frappe
 from frappe import _
 from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
-from frappe.utils import date_diff, getdate
+from frappe.utils import date_diff, getdate, nowdate
 
 #: The Task fields a template task keeps, beside its dates.
 KEPT = ("subject", "description", "priority", "type", "is_group", "is_milestone", "expected_time", "task_weight", "color")
@@ -119,6 +123,25 @@ def save_as(project: str, title: str) -> str:
 		template.append("tasks", {"task": made[task.name], "subject": task.subject})
 	template.insert(set_name=title)
 	return template.name
+
+
+@frappe.whitelist(methods=["POST"])
+def add(project: str, template: str, starts: str | None = None) -> int:
+	"""A template's tasks added to a running project, dated from `starts`
+	(today when not given). Returns how many were made."""
+	frappe.has_permission("Project", "read", project, throw=True)
+	frappe.has_permission("Project Template", "read", template, throw=True)
+	frappe.has_permission("Task", "create", throw=True)
+	doc = frappe.get_doc("Project", project)
+	# ERPNext's copy counts each task's Begin On from the project's start; here
+	# that's the day chosen, and the project itself isn't saved.
+	doc.expected_start_date = getdate(starts or nowdate())
+	sources = [frappe.get_doc("Task", row.task) for row in frappe.get_doc("Project Template", template).tasks]
+	if not sources:
+		frappe.throw(_("{0} has no tasks.").format(template))
+	made = [doc.create_task_from_template(one) for one in sources]
+	doc.dependency_mapping(sources, made)
+	return len(made)
 
 
 def start_of(project_starts, tasks: list) -> object:

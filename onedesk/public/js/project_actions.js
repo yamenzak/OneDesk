@@ -73,6 +73,24 @@ onedesk.project.save_as = (frm) => {
 	);
 };
 
+// A template's tasks added to a running project, dated from the day chosen
+// (one_project/templates.py `add`).
+onedesk.project.add_template = (project, done) => {
+	frappe.prompt(
+		[
+			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template", reqd: 1 },
+			{ fieldtype: "Date", fieldname: "starts", label: __("Starts"), default: frappe.datetime.get_today(), reqd: 1 },
+		],
+		async ({ template, starts }) => {
+			const made = await frappe.xcall("onedesk.one_project.templates.add", { project, template, starts });
+			frappe.ui.toast({ message: made === 1 ? __("Added 1 task") : __("Added {0} tasks", [made]), type: "success" });
+			done?.();
+		},
+		__("Add from Template"),
+		__("Add Tasks"),
+	);
+};
+
 // A draft invoice for the project's billable time not yet invoiced, by
 // activity (one_project/billing.py). It opens unsaved, to be read first.
 onedesk.project.invoice_time = async (frm) => {

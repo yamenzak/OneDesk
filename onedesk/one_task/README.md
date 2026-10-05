@@ -130,6 +130,14 @@ assigned to several people.
   date and project. Also sent by email if you turned that on.
 - **Task Done**: someone completes a task you assigned to them, or one you
   created.
+- **Task Ready**: the last task yours waits on is done, so it can go ahead.
+  To whoever the task is assigned to, or whoever created it if nobody is. A
+  parent task is ready when its sub-tasks are done.
+- **Pending Review**: someone marks a task you assigned or created **Pending
+  Review**. For a formal sign-off, set up an approval under **Settings ›
+  Approvals**.
+- **Due Date Changed**: someone moves the due date of a task assigned to
+  you.
 - **Today's Tasks**: each morning, what's due today and what's overdue, if
   anything.
 
@@ -208,7 +216,8 @@ is:
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
 - `task.py` also has `recurring`, which gives a repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
   dates, its status and its people.
-- `tell.py` and `notifications.py` — Task Given, Task Done and Today's
+- `tell.py` and `notifications.py` — Task Given, Task Done, Task Ready,
+  Pending Review, Due Date Changed and Today's
   Tasks. Task Given is frappe's own assignment line said in ours: a
   Notification Log `before_insert` turns frappe's "assigned a new task Task"
   into it, since `assign_to.add` writes that line with no switch to stop it.

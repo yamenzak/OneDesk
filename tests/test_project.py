@@ -1663,6 +1663,22 @@ def test_the_task_panel_is_the_same_task_onetask_opens():
 	assert any(one["property"] == "show_title_field_in_link" for one in task["property_setters"])
 
 
+def test_a_task_goes_to_a_group_a_template_joins_a_running_project_and_people_hear():
+	people = (tree.ROOT / "frontend" / "src" / "kit" / "People.vue").read_text()
+	assert 'group: __("Groups")' in people and 'emit("group"' in people
+	for panel in ("Tasks.vue", "TaskPanel.vue"):
+		said = (tree.ROOT / "frontend" / "src" / "project" / panel).read_text()
+		assert ':groups="canWrite ? work.user_groups || [] : []"' in said
+	assert "def _user_groups() -> list[dict]:" in (PROJECT / "view.py").read_text()
+	templates = (PROJECT / "templates.py").read_text()
+	# ERPNext's own copy, dated from the day chosen, beside the tasks it has.
+	assert "doc.create_task_from_template(one)" in templates and "doc.dependency_mapping(sources, made)" in templates
+	assert "desk().project.add_template(s.name, loadWork)" in (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	kinds = {str(one["name"]) for one in _load(tree.APP / "one_task" / "notifications.py", ("TYPES",), _lt=str)["TYPES"]}
+	assert {"Task Ready", "Pending Review", "Due Date Changed"} <= kinds
+	assert '"onedesk.one_task.tell.changed"' in (tree.APP / "hooks.py").read_text()
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

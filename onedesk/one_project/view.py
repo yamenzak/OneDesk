@@ -1132,10 +1132,13 @@ def work(project: Annotated[str, "The project."]) -> dict:
 	waiting = _waiting([one["name"] for one in tasks if one["status"] not in overview.DONE])
 	for one in tasks:
 		one["waiting"] = waiting.get(one["name"], [])
+	teams = _user_groups()
+	people.update(user for one in teams for user in one["users"])
 	meta = frappe.get_meta("Task")
 	return {
 		"groups": groups,
 		"tasks": tasks,
+		"user_groups": teams,
 		"people": _people_of(people),
 		"statuses": [
 			one for one in meta.get_field("status").options.split("\n") if one and one != "Template"
@@ -1145,6 +1148,33 @@ def work(project: Annotated[str, "The project."]) -> dict:
 		"can_write": bool(frappe.has_permission("Task", "write")),
 		"today": nowdate(),
 	}
+
+
+def _user_groups() -> list[dict]:
+	"""The workspace's User Groups and their enabled members, to give a task to
+	a whole group as frappe's Assign To does: each member gets it."""
+	members: dict[str, list[str]] = {}
+	for row in frappe.get_all(
+		"User Group Member", filters={"parenttype": "User Group"}, fields=["parent", "user"], order_by="idx"
+	):
+		members.setdefault(row.parent, []).append(row.user)
+	if not members:
+		return []
+	enabled = set(
+		frappe.get_all(
+			"User",
+			filters={
+				"name": ["in", list({user for users in members.values() for user in users})],
+				"enabled": 1,
+			},
+			pluck="name",
+		)
+	)
+	return [
+		{"name": name, "users": [user for user in users if user in enabled]}
+		for name, users in sorted(members.items())
+		if any(user in enabled for user in users)
+	]
 
 
 def _waiting(names: list[str]) -> dict[str, list[str]]:

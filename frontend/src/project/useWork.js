@@ -48,10 +48,12 @@ export function useWork(project) {
 		return made;
 	}
 
-	async function give(name, user) {
+	// One person, or a User Group's members, as frappe's Assign To gives them.
+	async function give(name, users) {
+		users = [].concat(users);
 		const task = find(name);
-		if (task && !task.assigned.includes(user)) task.assigned = [...task.assigned, user];
-		await assign("Task", name, [user]);
+		if (task) task.assigned = [...new Set([...task.assigned, ...users])];
+		await assign("Task", name, users);
 		soon();
 	}
 
