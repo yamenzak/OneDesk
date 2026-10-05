@@ -111,6 +111,7 @@ def _contract(project, values, contract: float) -> str:
 			"delivery_date": max(ends, getdate(nowdate())),
 			"one_retention": flt(values.retention),
 			"one_retention_due": values.retention_due if flt(values.retention) else None,
+			"one_retention_handover": flt(values.retention_handover) if flt(values.retention) else 0,
 		}
 	)
 	order.append(
@@ -135,6 +136,7 @@ def add_contract(
 	item: Annotated[str, "The item to bill it as."],
 	retention: Annotated[float | None, "Retention, in percent."] = None,
 	retention_due: Annotated[str | None, "When the retention is due."] = None,
+	retention_handover: Annotated[float | None, "The share of the retention released at handover."] = None,
 ) -> str:
 	"""A Fixed Price project's contract, made after the project: the same
 	submitted Sales Order the New Project dialog makes. Returns its name."""
@@ -155,6 +157,7 @@ def add_contract(
 		item=item,
 		retention=retention,
 		retention_due=retention_due,
+		retention_handover=retention_handover,
 		starts=doc.expected_start_date,
 		ends=doc.expected_end_date,
 	)

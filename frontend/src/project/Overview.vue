@@ -84,12 +84,8 @@
           <Rows :rows="orders" />
           <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
         </Section>
-        <Section v-if="view.retention" :title="__('Retention')">
-          <Facts :facts="[
-            { label: __('Held'), value: money(view.retention.held, said.currency) },
-            view.retention.percent !== null && { label: __('Rate'), value: `${view.retention.percent}%` },
-            view.retention.due && { label: __('Due'), value: date(view.retention.due) },
-          ].filter(Boolean)" />
+        <Section v-if="view.retention" :title="__('Retention')" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
+          <Rows :rows="retention" />
         </Section>
       </template>
       <Section v-if="view.people?.length" :title="__('By Person')" :aside="__('This month')">
@@ -241,6 +237,24 @@ const facts = computed(() => {
     s.parent && { label: __("Part Of"), value: s.parent_title || s.parent, route: `/desk/project/${s.parent}` },
   ].filter(Boolean);
 });
+// What the customer holds and what's held from suppliers, each with its rate
+// when the orders agree and when the first of it is due (retention.sides).
+const retention = computed(() =>
+  [
+    ["customer", __("From the Customer")],
+    ["suppliers", __("To Suppliers")],
+  ]
+    .filter(([key]) => view.value.retention[key])
+    .map(([key, label]) => {
+      const one = view.value.retention[key];
+      return {
+        key,
+        label,
+        below: [one.percent !== null && `${one.percent}%`, __("Due {0}", [date(one.due)])].filter(Boolean).join(" · "),
+        value: money(one.held, props.said.currency),
+      };
+    })
+);
 // As many as the other sections show (view.SHOWN).
 const SHOWN = 8;
 // The customer's orders across the tree: where each is and what it's for,

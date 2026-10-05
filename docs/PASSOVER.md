@@ -7850,6 +7850,26 @@ over.
 - Retention read the same own orders and hid the 3,000 held on Handrails. It
   shows, at 5%, due 30-09-2027.
 
+**Retention.** What the customer holds back, and what's held from suppliers.
+ERPNext has no retention of its own. One's is ERPNext's invoice and payment
+schedule, so the accounts are ERPNext's in any country.
+
+- Every workspace saw Retention on every order, though only contractors hold
+  it. **Hold Retention** in Projects Settings is off for a new workspace, and
+  was turned on by the update where an order already holds it. Off, it leaves
+  the orders, the New Project and Add Contract dialogs and the Overview.
+- Only the customer's side. The Overview sets **From the Customer** 3,000 at
+  5%, due 30-09-2027, beside **To Suppliers** 3,200 at 10%, due 31-03-2027,
+  with the arrow to Money.
+- One release date, where building work releases half at handover.
+  **Released at Handover** on the order splits each invoice's retention in
+  two: that part due on the delivery date, or the day the project is marked
+  Completed, and the rest at Retention Due (`retention.parts`,
+  `handed_over`).
+- Nothing reminded anyone a year on. Needs You asks for the customer's
+  retention a month ahead, says "Pay retention to" a supplier when theirs is
+  due, and the manager gets **Retention Due** on the day.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

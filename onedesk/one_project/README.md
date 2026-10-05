@@ -79,7 +79,8 @@ decides what **Details** asks for and what the project's page shows.
 
 - **Fixed Price**: an agreed price, billed as the work gets done. Give the
   **Contract Value**, the item to **Bill As** (**Contract Work** is there to
-  start with), and any **Retention** with the date it's due. The customer's
+  start with), and any **Retention** with the date it's due and the share
+  **Released at Handover** (when the workspace holds retention). The customer's
   sales order for the contract is made with the project, so **Bill Progress**
   works from the first day.
 - **Time and Materials**: billed by the hour at agreed rates, plus what's
@@ -530,11 +531,16 @@ work has got. Say 40% and it drafts the supplier's bill for 40% of the order,
 less what's been billed already, at the order's prices. The bill shows the
 share as **Work Done**. Check it and submit it as any other bill.
 
-**Retention**: set **Retention** (the share held back, often 5 or 10%) and
-**Retention Due** on the order's **Terms** tab. Each bill then holds that
-share of the work back, due on that date. Change the date when the work is
-handed over, or after the defects period, and every bill from the order moves
-with it.
+**Retention**: a share of each bill held back and paid later, as contractors
+are paid. It's off until **Hold Retention** is ticked in **Projects
+Settings**, since most businesses never hold it. Then set **Retention** (the
+share held back, often 5 or 10%) and **Retention Due** on the order's
+**Terms** tab. Each bill holds that share of the work back, due on that date.
+To release part of it at handover, as is usual on building work, set
+**Released at Handover** to that part of the retention (often 50%): it falls
+due on the order's delivery date, or the day the project is marked
+**Completed** if that's sooner, and the rest at Retention Due. Change Retention
+Due and every bill from the order moves with it.
 
 **Advances**: pay the supplier against the order before any bill, and each
 bill sets it off.
@@ -564,9 +570,16 @@ submitted order) works as it does for a supplier: say how far the work has got a
 share, less what's been invoiced already. Set **Retention** and **Retention
 Due** on the order's **Terms** tab to hold the customer's retention the same
 way. **Customer** under **Money** shows the **Retention Held** still to be
-paid, and **Retention** on the Overview adds it up across the orders on the
-project and those under it, with the rate when they all hold the same and the first day any is
-due.
+paid. **Retention** on the Overview sets what the customer holds (**From the
+Customer**) beside what's held from suppliers (**To Suppliers**), across the
+project and those under it, each with the rate when the orders agree and when
+the first of it is due. A month before the customer's retention is due,
+Needs You says to ask for it, and a supplier's past due says to pay it. The
+project's manager is told on the day any of it falls due (**Retention Due**).
+The invoice is for the whole amount and the retention is a later part of its
+payment schedule, so the accounts are ERPNext's own: it stays in Debtors and
+Creditors until paid, and Accounts Receivable by payment terms shows it not
+yet due.
 
 ### Before the customer orders
 
@@ -874,15 +887,20 @@ one field for it.
   "Create > Invoice" mapper with each line's quantity cut to the share done
   less what's billed (`to_bill`), since ERPNext keeps an invoice at the
   order's rate. `settle` makes the **Lump Sum** unit (can be split) and the
-  **Retention** payment term. Retention is the order's `one_retention` and
-  `one_retention_due` (custom/purchase_order.json and sales_order.json, both
-  editable after submit); the invoice's payment
-  schedule holds it under that term, set again after ERPNext's own split so
-  it's the share of the work billed, not of what's left after advances
-  (`retained`, `split`). A new Retention Due moves it on the order's
-  invoices (`release`). What's still held is the retention or what's owed,
-  whichever is smaller (`held`). `public/js/progress.js` is the dialog;
-  `money._suppliers` is the Suppliers table.
+  **Retention** and **Retention at Handover** payment terms. Retention is the
+  order's `one_retention`, `one_retention_due` and `one_retention_handover`
+  (custom/purchase_order.json and sales_order.json, all editable after
+  submit); the invoice's payment schedule holds it under those terms
+  (`retention.parts`), set again after ERPNext's own split so it's the share
+  of the work billed, not of what's left after advances (`retained`,
+  `split`). A new Retention Due moves it on the order's invoices (`release`).
+  `public/js/progress.js` is the dialog; `money._suppliers` is the Suppliers
+  table.
+- `retention.py` — the **Hold Retention** switch (`on`, Projects Settings'
+  `one_retention`, in the boot for the desk), what's still held on an
+  invoice part by part (`still_held`, `held_on`), the Overview's two sides
+  (`sides`), Needs You's asks (`asks`), handover falling due when a project
+  is completed (`handed_over`), and the daily Retention Due (`due`).
 - `intake.py` — which open project a document names, for the bills OneIntake
   drafts (one_intake/money.py).
 - `tree.py` — sub-projects: Parent Project (`one_parent`), the only field

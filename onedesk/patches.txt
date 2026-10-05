@@ -44,3 +44,4 @@ onedesk.one_project.patches.kinds
 onedesk.one_project.patches.costing_on_the_page
 onedesk.one_project.patches.tree_is_a_view
 onedesk.one_project.patches.nobody_runs_it
+onedesk.one_project.patches.retention_switch

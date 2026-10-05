@@ -357,7 +357,12 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	quote = json.loads((PROJECT / "custom" / "quotation.json").read_text())
 	assert [f["fieldname"] for f in quote["custom_fields"]] == ["project", "one_extra_work"]
 	order_ = json.loads((PROJECT / "custom" / "sales_order.json").read_text())
-	assert [f["fieldname"] for f in order_["custom_fields"]] == ["one_extra_work", "one_retention", "one_retention_due"]
+	assert [f["fieldname"] for f in order_["custom_fields"]] == [
+		"one_extra_work",
+		"one_retention",
+		"one_retention_due",
+		"one_retention_handover",
+	]
 	source = (PROJECT / "billing.py").read_text()
 	assert "make_project(doc.name)" in source and 'project.set("one_parent", parent)' in source
 	assert 'doc.db_set("project", project.name)' in source, "the order is the sub-project's"
@@ -748,8 +753,9 @@ def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
 
 def test_progress_bills_the_share_done_and_holds_retention_on_the_work():
 	flt = lambda value=0, *args: round(float(value or 0), args[0]) if args else float(value or 0)  # noqa: E731
-	space = _load(PROJECT / "progress.py", ("to_bill", "billed_share", "held", "split"), flt=flt)
-	to_bill, billed_share, held, split = space["to_bill"], space["billed_share"], space["held"], space["split"]
+	space = _load(PROJECT / "progress.py", ("to_bill", "billed_share", "split"), flt=flt)
+	to_bill, billed_share, split = space["to_bill"], space["billed_share"], space["split"]
+	still_held = _load(PROJECT / "retention.py", ("still_held",), flt=flt)["still_held"]
 	# 40% of one Lump Sum, nothing billed: 0.4. At 70% with 0.4 billed: 0.3.
 	assert to_bill(1, 0, 40) == 0.4 and round(to_bill(1, 0.4, 70), 6) == 0.3
 	# Never a credit for going backwards.
@@ -759,7 +765,9 @@ def test_progress_bills_the_share_done_and_holds_retention_on_the_work():
 	# 32,000 billed, 8,000 advance, 10% held.
 	assert split(24000, 32000, 10) == (20800, 3200)
 	# Retention is paid last: what's held is never more than what's owed.
-	assert held(3200, 24000) == 3200 and held(3200, 1000) == 1000 and held(3200, 0) == 0
+	assert still_held([("2027-03-31", 3200)], 24000) == [("2027-03-31", 3200)]
+	assert still_held([("2027-03-31", 3200)], 1000) == [("2027-03-31", 1000)]
+	assert still_held([("2027-03-31", 3200)], 0) == []
 
 
 def test_subcontracts_are_billed_through_erpnexts_own_invoice():
@@ -780,7 +788,7 @@ def test_subcontracts_are_billed_through_erpnexts_own_invoice():
 	assert "frappe.model.open_mapped_doc" in page and '__("Bill Progress")' in page
 	assert '"Purchase Order": "public/js/progress.js"' in HOOKS
 	money = (PROJECT / "money.py").read_text()
-	assert "def _suppliers(" in money and "held(" in money
+	assert "def _suppliers(" in money and "retention.held_on(" in money
 
 
 def test_the_customers_contract_is_billed_the_same_way():
@@ -1494,18 +1502,6 @@ def test_a_project_with_several_orders_bills_and_holds_each():
 	view = (PROJECT / "view.py").read_text()
 	assert '"orders": orders(doc, view["tree"]),' in view
 	assert 'filters={"project": ["in", projects], "docstatus": 1}' in view
-	# Retention across the orders: what's held, one rate only when they agree,
-	# and the first day any is due.
-	retention = _load(PROJECT / "view.py", ("_retention",), _=lambda text: text)["_retention"]
-	cash = {"customer": [{"label": "Retention Held", "value": 9000}]}
-	same = [
-		{"retention": 5.0, "retention_due": "2027-03-01"},
-		{"retention": 5.0, "retention_due": "2027-01-01"},
-	]
-	assert retention(same, cash) == {"held": 9000, "percent": 5.0, "due": "2027-01-01"}
-	mixed = [{"retention": 5.0, "retention_due": None}, {"retention": 10.0, "retention_due": None}]
-	assert retention(mixed, cash)["percent"] is None and retention(mixed, cash)["due"] is None
-	assert retention([{"retention": 0.0, "retention_due": None}], cash) is None
 	# The head names the order, or says how many; Bill Progress asks which.
 	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
 	assert '__("{0} orders", [said.orders.length])' in facts
@@ -1525,7 +1521,7 @@ def test_orders_cover_the_tree_and_say_where_what_for_and_what_is_left():
 	assert '"where": milestones.where(one.project, doc.name, of, titles),' in view
 	assert '"for": money.bought(lines.get(one.name, [])),' in view
 	assert '"extra": bool(one.one_extra_work),' in view
-	assert 'said["retention"] = _retention(orders(doc, view["tree"]), cash)' in view
+	assert 'retention.sides(view["tree"], orders(doc, view["tree"]), cash["suppliers"])\n\t\t\tif retention.on()' in view
 	assert '_route("Sales Order", {"project": ["in", projects], "docstatus": 1})' in view
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert 'badge: one.extra ? __("Extra Work") : undefined,' in overview
@@ -1539,6 +1535,59 @@ def test_orders_cover_the_tree_and_say_where_what_for_and_what_is_left():
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "!one || one.own ? share : null" in actions
 	assert '[one.name, one.where, __("{0} left", [format_currency(one.left, currency)])]' in actions
+
+
+def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
+	flt = lambda value=0, *args: round(float(value or 0), args[0]) if args else float(value or 0)  # noqa: E731
+	space = _load(
+		PROJECT / "retention.py",
+		("parts", "still_held", "side", "HANDOVER", "RETENTION"),
+		flt=flt,
+	)
+	parts, still_held, side = space["parts"], space["still_held"], space["side"]
+	# 5% held, half of it at handover; none at handover is one part, as before.
+	assert parts(5, 50) == [(None, 95), ("Retention at Handover", 2.5), ("Retention", 2.5)]
+	assert parts(5, 0) == [(None, 95), ("Retention", 5)]
+	assert parts(5, 100) == [(None, 95), ("Retention at Handover", 5)]
+	# Paid last, and the handover part before the rest.
+	held = [("2027-09-30", 500), ("2026-12-03", 500)]
+	assert still_held(held, 57500) == [("2026-12-03", 500), ("2027-09-30", 500)]
+	assert still_held(held, 700) == [("2026-12-03", 200), ("2027-09-30", 500)]
+	assert still_held(held, 300) == [("2027-09-30", 300)]
+	# A side: what's held, the rate when the orders agree, the first due.
+	assert side([("2027-09-30", 3000)], {5.0}) == {"held": 3000, "percent": 5.0, "due": "2027-09-30"}
+	assert side([("2027-03-31", 1000), ("2027-01-01", 500)], {5.0, 10.0}) == {
+		"held": 1500,
+		"percent": None,
+		"due": "2027-01-01",
+	}
+	assert side([], {5.0}) is None
+	# The switch: off unless the workspace holds retention, and the desk hides it.
+	settings = json.loads((PROJECT / "custom" / "projects_settings.json").read_text())
+	switch = {f["fieldname"]: f for f in settings["custom_fields"]}["one_retention"]
+	assert switch["label"] == "Hold Retention" and switch["default"] == "0"
+	assert "onedesk.one_project.patches.retention_switch" in (tree.APP / "patches.txt").read_text()
+	assert '"onedesk.one_project.retention.boot"' in HOOKS
+	for name in ("sales_order.json", "purchase_order.json"):
+		fields = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]}
+		assert fields["one_retention"]["depends_on"] == "eval:frappe.boot.one_retention || doc.one_retention"
+		assert fields["one_retention_handover"]["label"] == "Released at Handover"
+		assert fields["one_retention_handover"]["allow_on_submit"] == 1
+	for name in ("project_new.js", "project_actions.js"):
+		page = (tree.APP / "public" / "js" / name).read_text()
+		assert "hidden: !frappe.boot.one_retention" in page and 'fieldname: "retention_handover"' in page
+	# Handover falls due when the project is completed; the day it's due is told.
+	assert '"onedesk.one_project.retention.handed_over"' in HOOKS
+	assert '"onedesk.one_project.retention.due"' in HOOKS
+	notes = (PROJECT / "notifications.py").read_text()
+	assert '_lt("Retention Due")' in notes and '_lt("Retention on {project} is due today")' in notes
+	# Needs You asks the customer for it, and says when a supplier's is to pay.
+	view = (PROJECT / "view.py").read_text()
+	assert 'found += retention.asks(view["tree"], user)' in view
+	assert '_("Pay retention to {0}") if one.held else _("Pay {0}")' in view
+	assert '_("Ask for retention from {0}")' in (PROJECT / "retention.py").read_text()
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert '["customer", __("From the Customer")]' in overview and '["suppliers", __("To Suppliers")]' in overview
 
 
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():

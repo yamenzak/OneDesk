@@ -123,6 +123,8 @@ after_migrate = [
 ]
 extend_bootinfo = [
 	"onedesk.one.boot.boot_session",
+	# The desk hides retention while a workspace doesn't hold it. See one_project/retention.py.
+	"onedesk.one_project.retention.boot",
 	# OneAdmin's rail and Home are offered to operators only. See one_admin/site.py.
 	"onedesk.one_admin.site.offer",
 	# Unseen announcements, which frappe works out for Guest. See one/announcements.py.
@@ -161,6 +163,8 @@ scheduler_events = {
 	"daily": [
 		# Privacy requests nobody decided in a week. See one/privacy.py.
 		"onedesk.one.privacy.remind",
+		# Retention falling due today is told. See one_project/retention.py.
+		"onedesk.one_project.retention.due",
 		# Task steps that waited for a day. See one_intake/steps.py.
 		"onedesk.one_intake.steps.daily",
 		# The company field follows the holiday list in force; a list about to end is told.
@@ -555,6 +559,8 @@ doc_events = {
 			"onedesk.one_project.tree.forget",
 			# Who was added, who now runs it, how it is going. See one_project/tell.py.
 			"onedesk.one_project.tell.changed",
+			# Handed over, the retention released at handover falls due. See one_project/retention.py.
+			"onedesk.one_project.retention.handed_over",
 		],
 		"on_trash": ["onedesk.one_project.members.forget", "onedesk.one_project.tree.forget"],
 	},

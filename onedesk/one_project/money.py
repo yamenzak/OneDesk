@@ -238,43 +238,18 @@ def _paid(projects: list[str], kind: str) -> float | None:
 
 def _retained(projects: list[str]) -> float:
 	"""The customer's retention still held on the tree's invoices
-	(progress.py): on each, the retention or what's owed, whichever is less."""
-	from onedesk.one_project.progress import RETENTION, held
+	(retention.py)."""
+	from onedesk.one_project import retention
 
-	names = list(
-		set(
-			frappe.get_all(
-				"Sales Invoice Item", filters={"project": ["in", projects], "docstatus": 1}, pluck="parent"
-			)
-		)
-	)
-	if not names:
-		return 0.0
-	kept = {
-		one.parent: flt(one.base_payment_amount)
-		for one in frappe.get_all(
-			"Payment Schedule",
-			filters={"parent": ["in", names], "parenttype": "Sales Invoice", "payment_term": RETENTION},
-			fields=["parent", "base_payment_amount"],
-		)
-	}
-	if not kept:
-		return 0.0
-	owed = frappe.get_all(
-		"Sales Invoice",
-		filters={"name": ["in", list(kept)]},
-		fields=["name", "outstanding_amount", "conversion_rate"],
-	)
-	return sum(
-		held(kept[one.name], flt(one.outstanding_amount) * flt(one.conversion_rate or 1)) for one in owed
-	)
+	held = retention.held_on("Sales Invoice", retention.invoices("Sales Invoice", projects))
+	return sum(amount for kept in held.values() for _due, amount in kept)
 
 
 def _suppliers(projects: list[str]) -> list[dict]:
 	"""Each order from a supplier on the tree, the subcontracts: what it's
 	for, what's billed, what's left to bill, the retention still held, the
 	advance not yet set off, and what's been paid (progress.py)."""
-	from onedesk.one_project.progress import RETENTION, held
+	from onedesk.one_project import retention
 
 	item = frappe.qb.DocType("Purchase Order Item")
 	rows = (
@@ -326,16 +301,8 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		)
 	}
 	kept = {
-		one.parent: flt(one.base_payment_amount)
-		for one in frappe.get_all(
-			"Payment Schedule",
-			filters={
-				"parent": ["in", list(invoices)],
-				"parenttype": "Purchase Invoice",
-				"payment_term": RETENTION,
-			},
-			fields=["parent", "base_payment_amount"],
-		)
+		name: sum(amount for _due, amount in held)
+		for name, held in retention.held_on("Purchase Invoice", list(invoices)).items()
 	}
 	found = []
 	for name, ordered in orders.items():
@@ -346,7 +313,7 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		retained = paid = advanced = owing = 0.0
 		for invoice in (invoices[one] for one in mine if one in invoices):
 			owed = flt(invoice.outstanding_amount) * flt(invoice.conversion_rate or 1)
-			retained += held(kept.get(invoice.name), owed)
+			retained += kept.get(invoice.name, 0.0)
 			paid += flt(invoice.base_grand_total) - owed
 			advanced += flt(invoice.total_advance)
 			owing += owed
@@ -364,6 +331,7 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"billed": billed,
 				"left": left,
 				"retention": retained,
+				"rate": flt(head.one_retention),
 				"advance": advance,
 				"paid": paid + advance,
 				"status": head.status,

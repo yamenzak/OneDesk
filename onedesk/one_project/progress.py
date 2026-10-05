@@ -16,10 +16,9 @@ billed the same way, a share at a time:
   on the order with the date it's due (`one_retention`, `one_retention_due`).
   The invoice's payment schedule splits in two: the rest, due as usual, and
   **Retention**, a Payment Term of that name due on that date, the share of
-  the work billed before tax, whatever advance is set off (`retained`). What's still
-  held on an invoice is the retention or what's left to pay on it, whichever
-  is smaller, since retention is paid last. Changing the date on the order
-  moves it on every invoice made from it (`release`).
+  the work billed before tax, whatever advance is set off (`retained`). Part
+  of it may be released at handover first (retention.py). Changing the date
+  on the order moves it on every invoice made from it (`release`).
 - **Advances** paid against the order are set off by ERPNext on each
   invoice (`allocate_advances_automatically`).
 - The invoice says the share it's for (**Work Done**, `one_progress`), and
@@ -31,6 +30,8 @@ from typing import Annotated
 import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate
+
+from onedesk.one_project.retention import HANDOVER, HELD, RETENTION, parts
 
 #: How an order is billed: the invoice it makes, ERPNext's own mapper, and the
 #: field on an invoice line naming the order line it came from.
@@ -47,9 +48,8 @@ SIDES = {
 	},
 }
 
-#: The Payment Term retention is held under, and the unit a package of work
-#: is ordered in.
-RETENTION = "Retention"
+#: The unit a package of work is ordered in. Retention's payment terms are
+#: retention.py's.
 LUMP_SUM = "Lump Sum"
 
 
@@ -63,12 +63,6 @@ def billed_share(lines: list) -> float:
 	"""How far an order has been billed, out of 100, by amount. Pure."""
 	total = sum(flt(line.amount) for line in lines)
 	return round(100 * sum(flt(line.billed_amt) for line in lines) / total, 1) if total else 0.0
-
-
-def held(retention: float, outstanding: float) -> float:
-	"""What's still held on one invoice: retention is paid last, so it's the
-	retention or what's left to pay, whichever is smaller. Pure."""
-	return max(0.0, min(flt(retention), flt(outstanding)))
 
 
 @frappe.whitelist()
@@ -133,25 +127,34 @@ def bill_progress(
 
 
 def _retain(invoice, order) -> None:
-	"""Split the invoice's payment in two when the order holds retention."""
+	"""Split the invoice's payment when the order holds retention: the rest
+	now, any part released at handover, and the rest at Retention Due."""
 	share = flt(order.get("one_retention"))
 	if not share:
 		return
 	posting = getdate(invoice.get("posting_date") or invoice.get("bill_date"))
 	due = getdate(invoice.get("due_date") or posting)
-	# Two terms can't fall on one day, and retention comes after the rest.
-	release = max(getdate(order.get("one_retention_due") or due), add_days(due, 1))
+	# Two terms can't fall on one day, and each comes after the one before.
+	handover = add_days(due, 1)
+	if order.get("delivery_date") or order.get("schedule_date"):
+		handover = max(getdate(order.get("delivery_date") or order.get("schedule_date")), handover)
+	split_at = parts(share, order.get("one_retention_handover"))
+	after = (
+		add_days(handover, 1) if any(term == HANDOVER for term, _portion in split_at) else add_days(due, 1)
+	)
+	release = max(getdate(order.get("one_retention_due") or due), after)
+	dates = {None: due, HANDOVER: handover, RETENTION: release}
 	total = flt(invoice.get("rounded_total") or invoice.grand_total)
 	invoice.payment_terms_template = None
 	invoice.ignore_default_payment_terms_template = 1
 	invoice.set("payment_schedule", [])
-	for term, portion, when in ((None, 100 - share, due), (RETENTION, share, release)):
+	for term, portion in split_at:
 		invoice.append(
 			"payment_schedule",
 			{
 				"payment_term": term,
-				"description": _("Retention") if term else None,
-				"due_date": when,
+				"description": {HANDOVER: _("Retention at Handover"), RETENTION: _("Retention")}.get(term),
+				"due_date": dates[term],
 				"invoice_portion": portion,
 				"payment_amount": flt(total * portion / 100, 2),
 			},
@@ -168,17 +171,21 @@ def split(payable: float, net: float, share: float) -> tuple[float, float]:
 def retained(doc, method=None) -> None:
 	"""Purchase/Sales Invoice validate, after ERPNext's own: ERPNext splits
 	the payment by share of what's left after advances, so the retention is
-	set again as the share of the work billed (`split`)."""
+	set again as the share of the work billed (`split`), and divided between
+	handover and the rest as the order says."""
 	rows = doc.get("payment_schedule") or []
-	held_row = [row for row in rows if row.payment_term == RETENTION]
-	if len(rows) != 2 or len(held_row) != 1:
+	held_rows = [row for row in rows if row.payment_term in HELD]
+	if not held_rows or len(held_rows) > 2 or len(rows) != len(held_rows) + 1:
 		return
 	link = "purchase_order" if doc.doctype == "Purchase Invoice" else "sales_order"
 	orders = {row.get(link) for row in doc.items if row.get(link)}
 	if len(orders) != 1:
 		return
 	order_type = "Purchase Order" if doc.doctype == "Purchase Invoice" else "Sales Order"
-	share = flt(frappe.db.get_value(order_type, orders.pop(), "one_retention"))
+	order = frappe.db.get_value(
+		order_type, orders.pop(), ["one_retention", "one_retention_handover"], as_dict=True
+	)
+	share = flt(order.one_retention) if order else 0
 	if not share:
 		return
 	payable = (
@@ -187,8 +194,13 @@ def retained(doc, method=None) -> None:
 		- flt(doc.get("total_advance"))
 	)
 	now, kept = split(payable, doc.net_total, share)
-	rest = rows[0] if rows[1] is held_row[0] else rows[1]
-	for row, amount in ((rest, now), (held_row[0], kept)):
+	first = flt(kept * min(100.0, flt(order.one_retention_handover)) / 100, 2) if len(held_rows) == 2 else 0
+	amounts = {HANDOVER: first, RETENTION: kept - first} if len(held_rows) == 2 else {}
+	for row in rows:
+		if row.payment_term in HELD:
+			amount = amounts.get(row.payment_term, kept)
+		else:
+			amount = now
 		row.payment_amount = amount
 		row.invoice_portion = 100 * amount / payable if payable else 0
 		row.base_payment_amount = flt(amount * flt(doc.conversion_rate or 1), 2)
@@ -274,13 +286,17 @@ def settle() -> None:
 		frappe.get_doc({"doctype": "UOM", "uom_name": LUMP_SUM, "must_be_whole_number": 0}).insert(
 			ignore_permissions=True
 		)
-	if not frappe.db.exists("Payment Term", RETENTION):
-		frappe.get_doc(
-			{
-				"doctype": "Payment Term",
-				"payment_term_name": RETENTION,
-				"description": "Held back until the work is handed over.",
-				"due_date_based_on": "Day(s) after invoice date",
-				"credit_days": 0,
-			}
-		).insert(ignore_permissions=True)
+	for term, said in (
+		(RETENTION, "Held back until the work has proved sound."),
+		(HANDOVER, "Held back until the work is handed over."),
+	):
+		if not frappe.db.exists("Payment Term", term):
+			frappe.get_doc(
+				{
+					"doctype": "Payment Term",
+					"payment_term_name": term,
+					"description": said,
+					"due_date_based_on": "Day(s) after invoice date",
+					"credit_days": 0,
+				}
+			).insert(ignore_permissions=True)

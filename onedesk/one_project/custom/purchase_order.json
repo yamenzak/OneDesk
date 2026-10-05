@@ -9,7 +9,8 @@
    "module": "One Project",
    "print_hide": 1,
    "description": "",
-   "allow_on_submit": 1
+   "allow_on_submit": 1,
+   "depends_on": "eval:frappe.boot.one_retention || doc.one_retention"
   },
   {
    "dt": "Purchase Order",
@@ -23,6 +24,18 @@
    "mandatory_depends_on": "one_retention",
    "print_hide": 1,
    "description": ""
+  },
+  {
+   "dt": "Purchase Order",
+   "fieldname": "one_retention_handover",
+   "label": "Released at Handover",
+   "fieldtype": "Percent",
+   "insert_after": "one_retention_due",
+   "module": "One Project",
+   "allow_on_submit": 1,
+   "depends_on": "one_retention",
+   "print_hide": 1,
+   "description": "Share of the retention"
   }
  ],
  "doctype": "Purchase Order",

@@ -1,0 +1,25 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Projects Settings",
+   "fieldname": "one_billing_section",
+   "label": "Billing",
+   "fieldtype": "Section Break",
+   "insert_after": "fetch_timesheet_in_sales_invoice",
+   "module": "One Project"
+  },
+  {
+   "dt": "Projects Settings",
+   "fieldname": "one_retention",
+   "label": "Hold Retention",
+   "fieldtype": "Check",
+   "insert_after": "one_billing_section",
+   "module": "One Project",
+   "default": "0"
+  }
+ ],
+ "doctype": "Projects Settings",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

@@ -26,7 +26,18 @@ from frappe.utils import (
 	nowdate,
 )
 
-from onedesk.one_project import billing, budget, kinds, media, milestones, money, overview, retainer, tree
+from onedesk.one_project import (
+	billing,
+	budget,
+	kinds,
+	media,
+	milestones,
+	money,
+	overview,
+	retainer,
+	retention,
+	tree,
+)
 from onedesk.one_project import updates as asking
 
 #: The most late tasks Needs You reads, to count and to show some of.
@@ -527,21 +538,6 @@ def _overdue(projects: list[str]) -> float:
 	)
 
 
-def _retention(ordered: list[dict], cash: dict) -> dict | None:
-	"""The customer's retention across the project's orders: what's held, the
-	rate when every order holds the same, and the first day any is due."""
-	held_on = [one for one in ordered if one["retention"]]
-	if not held_on:
-		return None
-	rates = {one["retention"] for one in held_on}
-	dues = sorted(str(one["retention_due"]) for one in held_on if one["retention_due"])
-	return {
-		"held": {one["label"]: one["value"] for one in cash["customer"]}.get(_("Retention Held"), 0),
-		"percent": rates.pop() if len(rates) == 1 else None,
-		"due": dues[0] if dues else None,
-	}
-
-
 def _quotes(doc) -> list[dict]:
 	"""The customer's quotations for the project, newest first, drafts too,
 	read as the reader reads quotations."""
@@ -603,7 +599,11 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		said["budget"] = _budget_lines(view["tree"], cash)
 		said["subcontracts"] = _subcontracts(doc.name, view, cash["suppliers"][:SHOWN])
 		said["subcontracts_count"] = len(cash["suppliers"])
-		said["retention"] = _retention(orders(doc, view["tree"]), cash)
+		said["retention"] = (
+			retention.sides(view["tree"], orders(doc, view["tree"]), cash["suppliers"])
+			if retention.on()
+			else None
+		)
 	if kind == kinds.RETAINER:
 		said["months"] = retainer.months(doc.name)
 		said["people"] = _people(doc.name)
@@ -679,6 +679,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 				}
 			)
 	found += _overdue_bills(view["tree"], user)
+	found += retention.asks(view["tree"], user)
 	today = getdate(nowdate())
 	titles = dict(
 		frappe.get_all(
@@ -768,21 +769,22 @@ def _overdue_bills(projects: list[str], user: str) -> list[dict]:
 		return []
 	rows = frappe.db.sql(
 		"""select pi.name, pi.supplier_name, pi.owner, pi.conversion_rate,
-			sum(ps.outstanding) as due, min(ps.due_date) as since
+			sum(ps.outstanding) as due, min(ps.due_date) as since,
+			sum(case when ps.payment_term in %(held)s then 0 else 1 end) = 0 as held
 		from `tabPurchase Invoice` pi
 		join `tabPayment Schedule` ps on ps.parent = pi.name and ps.parenttype = 'Purchase Invoice'
 		where pi.docstatus = 1 and pi.outstanding_amount > 0 and ps.outstanding > 0 and ps.due_date < %(today)s
 			and pi.name in (select parent from `tabPurchase Invoice Item` where project in %(projects)s)
 		group by pi.name
 		order by since asc""",
-		{"today": nowdate(), "projects": tuple(projects)},
+		{"today": nowdate(), "projects": tuple(projects), "held": retention.HELD},
 		as_dict=True,
 	)
 	today = getdate(nowdate())
 	return [
 		{
 			"tone": "red",
-			"text": _("Pay {0}").format(one.supplier_name),
+			"text": (_("Pay retention to {0}") if one.held else _("Pay {0}")).format(one.supplier_name),
 			"dim": " · ".join(
 				filter(
 					None,

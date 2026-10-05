@@ -3,7 +3,8 @@
 Sent by `updates.py` (the update asked, and the morning's answers) and
 `tell.py` (a person added to a project or made its manager, and a project
 marked at risk or off track, and a project completed), `budget.py` (a cost type over its budget) and
-`progress.py` (a bill drafted for a share of the work), and `tell.py` again
+`progress.py` (a bill drafted for a share of the work), `retention.py`
+(retention falling due), and `tell.py` again
 for a retainer (its month ready to invoice, its hours for the month used).
 """
 
@@ -113,6 +114,18 @@ TYPES = [
 		"to": _lt("The project's manager, unless they saved it"),
 		"subject": _lt("{who} drafted a bill for {order} at {share}% done"),
 		"message": _lt("<b>{project}</b> · {party} · {amount}"),
+		"push_default": True,
+	},
+	# retention: a share held back on either side, falling due.
+	{
+		"name": _lt("Retention Due"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("On the day retention held by a customer, or from a supplier, falls due."),
+		"to": _lt("The project's manager"),
+		"subject": _lt("Retention on {project} is due today"),
+		"message": "{held}",
+		"email_default": True,
 		"push_default": True,
 	},
 	# tell: a retainer's month, to invoice and over its hours.

@@ -23,7 +23,9 @@ onedesk.project.KINDS = () => [
 	{
 		value: "Fixed Price",
 		icon: "file-text",
-		said: __("An agreed price, billed as the work gets done. Subcontracts, retention and a budget."),
+		said: frappe.boot.one_retention
+			? __("An agreed price, billed as the work gets done. Subcontracts, retention and a budget.")
+			: __("An agreed price, billed as the work gets done. Subcontracts and a budget."),
 	},
 	{ value: "Time and Materials", icon: "clock", said: __("Billed by the hour at agreed rates, plus what's bought for it.") },
 	{ value: "Retainer", icon: "repeat", said: __("A monthly fee for a set number of hours.") },
@@ -81,13 +83,20 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				mandatory_depends_on: "eval:doc.contract",
 			},
 			{ fieldtype: "Column Break" },
-			{ fieldtype: "Percent", fieldname: "retention", label: __("Retention") },
+			{ fieldtype: "Percent", fieldname: "retention", label: __("Retention"), hidden: !frappe.boot.one_retention },
 			{
 				fieldtype: "Date",
 				fieldname: "retention_due",
 				label: __("Retention Due"),
 				depends_on: "eval:doc.retention",
 				mandatory_depends_on: "eval:doc.retention",
+			},
+			{
+				fieldtype: "Percent",
+				fieldname: "retention_handover",
+				label: __("Released at Handover"),
+				description: __("Share of the retention"),
+				depends_on: "eval:doc.retention",
 			},
 			{ fieldtype: "Section Break", depends_on: kind(["Time and Materials", "Internal"]) },
 			{ fieldtype: "Currency", fieldname: "budget", label: __("Budget") },
