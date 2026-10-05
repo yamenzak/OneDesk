@@ -7907,6 +7907,26 @@ schedule, so the accounts are ERPNext's in any country.
   the desk form. Add Sub-project, in the section and the menu, opens New
   Sub-project with this project and its customer filled in.
 
+**Tasks.** Settled first, ERPNext's own everywhere and fit for any company:
+the same task as OneTask's; order is ERPNext's Depends On, with what's
+waiting shown and the people told when it's ready, no harder lock; templates
+are ERPNext's Project Templates, added to a running project too; one
+progress figure, ERPNext's % Complete; a User Group assigns its members, as
+frappe's Assign does; Pending Review tells whoever made the task.
+
+- The tab read the projects directly under, so Glass for handrails' Fit the
+  rails (9 days late) and Handover (a milestone) were missing, though Needs
+  You and Milestones showed them. It reads every project under, at any
+  depth, titled by path, and Board and Timeline with it.
+- Villa Al Barsha's page said 29% done while ERPNext's % Complete, which the
+  Projects list, board and reports read, said 0%: ERPNext counts a project's
+  own tasks only. A project with sub-projects now stores its tree's figure
+  as its % Complete, the way ERPNext measures (a cancelled task is
+  finished), whenever a task or project under it changes
+  (`overview.roll_up`), and the page reads it. The villa reads 28.57% in
+  both, and completing Measure the openings moves Villa Windows to 75% and
+  the villa to 42.86%.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

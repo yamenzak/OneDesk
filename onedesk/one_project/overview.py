@@ -33,13 +33,13 @@ def share(done: int, total: int) -> int:
 	return round(100 * done / total) if total else 0
 
 
-def progress(method: str | None, tasks: list, manual: float) -> int:
-	"""How much of the work is done, out of 100, measured as the project says
-	(ERPNext's % Complete Method), over its tasks and those under it: tasks
-	completed, each task's own progress, or that progress by each task's
-	weight. A completed task is all done. Pure."""
+def progress(method: str | None, tasks: list, manual: float) -> float:
+	"""How much of the work is done, out of 100, as ERPNext measures a
+	project's own tasks (its % Complete Method), over a whole tree's: tasks
+	completed or cancelled, each task's progress, or that progress by each
+	task's weight. A completed task is all done. Pure."""
 	if method == "Manual" or not tasks:
-		return round(flt(manual))
+		return flt(manual)
 
 	def done(task) -> float:
 		return 100.0 if task.get("status") == "Completed" else flt(task.get("progress"))
@@ -47,10 +47,53 @@ def progress(method: str | None, tasks: list, manual: float) -> int:
 	if method == "Task Weight":
 		weight = sum(flt(task.get("task_weight")) for task in tasks)
 		if weight:
-			return round(sum(done(task) * flt(task.get("task_weight")) for task in tasks) / weight)
+			return flt(sum(done(task) * flt(task.get("task_weight")) for task in tasks) / weight, 2)
 	if method == "Task Progress":
-		return round(sum(done(task) for task in tasks) / len(tasks))
-	return share(sum(1 for task in tasks if task.get("status") == "Completed"), len(tasks))
+		return flt(sum(done(task) for task in tasks) / len(tasks), 2)
+	finished = sum(1 for task in tasks if task.get("status") in ("Completed", "Cancelled"))
+	return flt(100 * finished / len(tasks), 2)
+
+
+def roll_up(project: str | None) -> None:
+	"""Store the tree's progress as ERPNext's own % Complete on the project
+	and every project above it that has sub-projects, so the page, the lists,
+	the reports and the parents read one figure. A project without
+	sub-projects keeps ERPNext's own, and a Manual one what was typed."""
+	if not project:
+		return
+	of = tree.parents()
+	down = tree.children(of)
+	for one in tree.above(project, of):
+		if not down.get(one):
+			continue
+		doc = frappe.db.get_value(
+			"Project", one, ["percent_complete", "percent_complete_method"], as_dict=True
+		)
+		if not doc or doc.percent_complete_method == "Manual":
+			continue
+		tasks = frappe.get_all(
+			"Task",
+			filters={"project": ["in", list(tree.below({one}, of))], "status": ["!=", "Template"]},
+			fields=["status", "progress", "task_weight"],
+		)
+		value = progress(doc.percent_complete_method, tasks, doc.percent_complete)
+		if flt(value, 2) != flt(doc.percent_complete, 2):
+			frappe.db.set_value("Project", one, "percent_complete", value, update_modified=False)
+
+
+def task_changed(doc, method=None) -> None:
+	"""Task on_update and after_delete, after ERPNext's own: the projects
+	above it measure the tree again."""
+	roll_up(doc.project)
+
+
+def project_changed(doc, method=None) -> None:
+	"""Project on_update, after ERPNext set its own figure: it and the
+	projects above measure their trees again, and the one it left too."""
+	roll_up(doc.name)
+	before = doc.get_doc_before_save()
+	if before and before.get("one_parent") and before.get("one_parent") != doc.get("one_parent"):
+		roll_up(before.get("one_parent"))
 
 
 @frappe.whitelist()
@@ -75,11 +118,6 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		fields=["status", {"COUNT": "*", "as": "n"}],
 		group_by="status",
 	)
-	tasks = frappe.get_all(
-		"Task",
-		filters={"project": ["in", projects], "status": ["not in", ("Cancelled", "Template")]},
-		fields=["status", "progress", "task_weight"],
-	)
 	total = sum(row.n for row in counts)
 	done = sum(row.n for row in counts if row.status == "Completed")
 	open_ = [["project", "in", projects], ["status", "not in", DONE]]
@@ -102,9 +140,9 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"statuses": {row.status: row.n for row in counts},
 		# A completed project is done, whatever its tasks say: one completed
 		# with no tasks of its own has none to count.
-		"share": 100
-		if doc.status == "Completed"
-		else progress(doc.percent_complete_method, tasks, doc.percent_complete),
+		# ERPNext's own % Complete, the tree's for a project with sub-projects
+		# (roll_up), so this page and the lists say the same.
+		"share": 100 if doc.status == "Completed" else round(flt(doc.percent_complete)),
 		"end": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"days_left": days_left(doc.expected_end_date, today, doc.status in ("Completed", "Cancelled")),
 		"estimated": said["budget"],

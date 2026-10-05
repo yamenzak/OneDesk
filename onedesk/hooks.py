@@ -532,7 +532,10 @@ doc_events = {
 			"onedesk.one_task.tell.done",
 			# A milestone billed on completion, done. See one_project/milestones.py.
 			"onedesk.one_project.milestones.reached",
+			# The projects above measure their tree again. See one_project/overview.py.
+			"onedesk.one_project.overview.task_changed",
 		],
+		"after_delete": "onedesk.one_project.overview.task_changed",
 	},
 	# A money document and its lines name the same project. See one_project/chain.py.
 	"Request for Quotation": {"validate": "onedesk.one_project.chain.agree"},
@@ -561,6 +564,8 @@ doc_events = {
 			"onedesk.one_project.tell.changed",
 			# Handed over, the retention released at handover falls due. See one_project/retention.py.
 			"onedesk.one_project.retention.handed_over",
+			# One progress figure for the tree. See one_project/overview.py.
+			"onedesk.one_project.overview.project_changed",
 		],
 		"on_trash": ["onedesk.one_project.members.forget", "onedesk.one_project.tree.forget"],
 	},

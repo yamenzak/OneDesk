@@ -1493,7 +1493,7 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 def test_a_completed_project_reads_as_done():
 	# ERPNext keeps a project completed without tasks of its own at its old
 	# share, so the page, the head, OneAI and the portal read Completed as 100%.
-	assert '"share": 100\n\t\tif doc.status == "Completed"' in (PROJECT / "overview.py").read_text()
+	assert '"share": 100 if doc.status == "Completed" else' in (PROJECT / "overview.py").read_text()
 	assert '100\n\t\tif doc.status == "Completed"\n\t\telse overview.share(' in (PROJECT / "portal.py").read_text()
 	assert '"share": 100 if one["status"] == "Completed" else' in (PROJECT / "view.py").read_text()
 
@@ -1649,15 +1649,29 @@ def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 
 
 def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
-	progress = _load(PROJECT / "overview.py", ("progress", "share"), flt=float)["progress"]
+	progress = _load(
+		PROJECT / "overview.py", ("progress", "share"), flt=lambda value=0, *args: round(float(value or 0), *args)
+	)["progress"]
 	tasks = [
 		{"status": "Completed", "progress": 0, "task_weight": 1},
 		{"status": "Open", "progress": 50, "task_weight": 3},
 	]
 	assert progress("Task Completion", tasks, 0) == 50
 	assert progress("Task Progress", tasks, 0) == 75
-	assert progress("Task Weight", tasks, 0) == round((100 * 1 + 50 * 3) / 4)
+	assert progress("Task Weight", tasks, 0) == (100 * 1 + 50 * 3) / 4
 	assert progress("Manual", tasks, 40) == 40 and progress("Task Completion", [], 12) == 12
+	# As ERPNext measures its own: a cancelled task is finished.
+	assert progress("Task Completion", [*tasks, {"status": "Cancelled", "progress": 0}], 0) == round(200 / 3, 2)
+	# One figure: the tree's stored as ERPNext's % Complete, read by the page.
+	overview = (PROJECT / "overview.py").read_text()
+	assert '"share": 100 if doc.status == "Completed" else round(flt(doc.percent_complete)),' in overview
+	assert 'frappe.db.set_value("Project", one, "percent_complete", value, update_modified=False)' in overview
+	assert '"onedesk.one_project.overview.task_changed"' in HOOKS
+	assert '"onedesk.one_project.overview.project_changed"' in HOOKS
+	assert "onedesk.one_project.patches.tree_progress" in (tree.APP / "patches.txt").read_text()
+	# The Tasks tab reads every project under, at any depth, by path.
+	view = (PROJECT / "view.py").read_text()
+	assert "milestones.where(one, project, of, titles)" in view.split("def work(", 1)[1]
 	billing = _load(PROJECT / "view.py", ("work_and_billing",), _=lambda text: text, flt=float)["work_and_billing"]
 	cash = {
 		"contract": 375000,

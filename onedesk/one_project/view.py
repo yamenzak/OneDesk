@@ -1090,9 +1090,24 @@ def work(project: Annotated[str, "The project."]) -> dict:
 	Timeline views: one group per project in the tree, this one first. Read as
 	the reader, so a task they may not see is not here."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	tree_ = tree.totals(project)
-	groups = [{"key": project, "title": frappe.db.get_value("Project", project, "project_name"), "own": True}]
-	groups += [{"key": one["name"], "title": one["title"] or one["name"]} for one in tree_["under"]]
+	of = tree.parents()
+	below = tree.below({project}, of)
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ["in", list(below)]}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	# Every project under it, at any depth, the reader may see, by path:
+	# Handrails, then Glass for handrails under it (milestones.where).
+	under = sorted(
+		(
+			{"key": one, "title": milestones.where(one, project, of, titles) or titles.get(one) or one}
+			for one in below - {project}
+			if frappe.has_permission("Project", "read", doc=one)
+		),
+		key=lambda one: one["title"],
+	)
+	groups = [{"key": project, "title": titles.get(project) or project, "own": True}, *under]
 	rows = frappe.get_list(
 		"Task",
 		filters=[["project", "in", [one["key"] for one in groups]], ["status", "!=", "Template"]],

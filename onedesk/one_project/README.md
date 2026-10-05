@@ -184,9 +184,12 @@ The Overview is laid out for the kind, and each thing on it shows once.
   Billing** shows **Work Done**, then what that work is worth but isn't
   invoiced yet (**Not Invoiced Yet**, with **Bill Progress**) or what's been
   invoiced ahead of it, what the customer **Owes** and how much of that is
-  overdue or retention, and anything **Paid in Advance**. Work Done is
-  measured the way the project says under **% Complete Method**: tasks
-  completed, each task's progress, or progress by each task's weight. Before
+  overdue or retention, and anything **Paid in Advance**. Work Done is the
+  project's **% Complete**, measured the way it says under **% Complete
+  Method**: tasks completed or cancelled, each task's progress, or progress
+  by each task's weight. A project with sub-projects measures them all
+  together, and that's the figure the Projects list and the reports show
+  too. Before
   the customer orders, **Contract** shows what they've been **Quoted** and
   **Billed** gives way to **Valid Till**, the quote's last day. **Cost** is
   what's been spent: supplier bills, time, stock used and expense claims.
@@ -267,8 +270,9 @@ instead of amounts, and its **Invoices** has **Invoice Month** instead of
 
 ### Tasks
 
-A project's tasks and its sub-projects' tasks are shown together, grouped
-by project at first. The switch beside **Search** lays them out as a
+A project's tasks and those of every project under it are shown together,
+grouped by project at first, each titled by where it sits (Handrails ›
+Glass for handrails). The switch beside **Search** lays them out as a
 **Table**, a **Board** or a **Timeline**. **Group by** changes the grouping,
 **Search** finds a task, and **Done** shows finished and cancelled tasks
 too. On the board, drag a card to change its status; the timeline marks
@@ -372,7 +376,8 @@ counts towards the parent. Sub-projects can have sub-projects.
 
 - A sub-project gets its parent's **customer** unless you set another.
 - A parent's page shows the **whole tree added up** (estimated cost, cost,
-  billed and margin). **Sub-projects** lists the ones directly under it.
+  billed and margin), and its **% Complete** measures every task under it.
+  **Sub-projects** lists the ones directly under it.
 - A parent's **Calendar** includes its sub-projects' tasks, each titled with
   its sub-project.
 - **Members** of a project see everything under it.
