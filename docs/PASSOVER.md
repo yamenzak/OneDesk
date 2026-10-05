@@ -7926,6 +7926,14 @@ frappe's Assign does; Pending Review tells whoever made the task.
   (`overview.roll_up`), and the page reads it. The villa reads 28.57% in
   both, and completing Measure the openings moves Villa Windows to 75% and
   the villa to 42.86%.
+- Install the handrails, due today, looked ready though it waits on Fit the
+  frames, 3 days late. A task with an open Depends On says "Waiting on Fit
+  the frames" under its name.
+- Hours were in the panel only. Hours is a column, changed in place
+  (frappe-ui's TextInput), and each group's heading adds them up: Villa
+  Windows 27 h.
+- Sub-tasks were drawn flat. Each sits under its Parent Task, indented, and
+  a parent says how many of its own are done (`nest`).
 
 ## OneLegal
 

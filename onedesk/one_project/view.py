@@ -1129,6 +1129,9 @@ def work(project: Annotated[str, "The project."]) -> dict:
 				"modified": str(row.modified),
 			}
 		)
+	waiting = _waiting([one["name"] for one in tasks if one["status"] not in overview.DONE])
+	for one in tasks:
+		one["waiting"] = waiting.get(one["name"], [])
 	meta = frappe.get_meta("Task")
 	return {
 		"groups": groups,
@@ -1142,6 +1145,33 @@ def work(project: Annotated[str, "The project."]) -> dict:
 		"can_write": bool(frappe.has_permission("Task", "write")),
 		"today": nowdate(),
 	}
+
+
+def _waiting(names: list[str]) -> dict[str, list[str]]:
+	"""What each task still waits on: the tasks under its ERPNext Depends On
+	not yet completed or cancelled, by subject."""
+	if not names:
+		return {}
+	rows = frappe.get_all(
+		"Task Depends On",
+		filters={"parent": ["in", names], "parenttype": "Task"},
+		fields=["parent", "task"],
+	)
+	if not rows:
+		return {}
+	open_ = {
+		one.name: one.subject
+		for one in frappe.get_all(
+			"Task",
+			filters={"name": ["in", list({row.task for row in rows})], "status": ["not in", overview.DONE]},
+			fields=["name", "subject"],
+		)
+	}
+	found: dict[str, list[str]] = {}
+	for row in rows:
+		if row.task in open_:
+			found.setdefault(row.parent, []).append(open_[row.task])
+	return found
 
 
 def _people_of(users) -> dict:

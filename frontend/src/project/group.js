@@ -53,3 +53,24 @@ export function groupTasks(work, tasks, by) {
 		project: group.key,
 	}));
 }
+
+// A group's tasks with each sub-task under its parent (ERPNext's Parent
+// Task), how deep it sits, and for a parent how many of its own are done.
+export function nest(tasks) {
+	const here = new Set(tasks.map((one) => one.name));
+	const under = {};
+	for (const one of tasks) {
+		const parent = one.parent_task && here.has(one.parent_task) ? one.parent_task : "";
+		(under[parent] ||= []).push(one);
+	}
+	const out = [];
+	const walk = (parent, depth) => {
+		for (const one of under[parent] || []) {
+			const own = under[one.name] || [];
+			out.push({ ...one, depth, sub: own.length, subDone: own.filter((child) => child.status === "Completed").length });
+			if (depth < 5) walk(one.name, depth + 1);
+		}
+	};
+	walk("", 0);
+	return out;
+}

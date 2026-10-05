@@ -1634,6 +1634,18 @@ def test_sub_projects_say_how_each_is_going_and_what_it_is_worth():
 	assert 'doc.one_parent ? __("New Sub-project") : __("New Project")' in (tree.APP / "public" / "js" / "project_new.js").read_text()
 
 
+def test_the_tasks_table_says_what_waits_and_how_long_and_nests_sub_tasks():
+	view = (PROJECT / "view.py").read_text()
+	assert 'one["waiting"] = waiting.get(one["name"], [])' in view
+	assert '"Task Depends On"' in view.split("def _waiting(", 1)[1]
+	tasks = (tree.ROOT / "frontend" / "src" / "project" / "Tasks.vue").read_text()
+	assert '__("Waiting on {0}", [item.waiting.join(", ")])' in tasks
+	assert "$emit('set', item.name, 'expected_time'" in tasks and '<ListHeaderCell>{{ __("Hours") }}</ListHeaderCell>' in tasks
+	assert ':items="nest(group.tasks)"' in tasks and "<TextInput" in tasks
+	group = (tree.ROOT / "frontend" / "src" / "project" / "group.js").read_text()
+	assert "export function nest(tasks)" in group and "subDone" in group
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

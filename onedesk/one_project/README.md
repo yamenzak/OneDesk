@@ -278,8 +278,11 @@ Glass for handrails). The switch beside **Search** lays them out as a
 too. On the board, drag a card to change its status; the timeline marks
 today and counts the tasks without dates.
 
-In the table, change a task's owner, status, due date or priority right in
-its row. **Add Task** at the foot of a group adds one there; **New Task**
+In the table, change a task's owner, status, due date, priority or hours
+right in its row. **Hours** is the time planned for it (ERPNext's Expected
+Time), and each group's heading adds them up. A task that depends on others
+not yet done says what it's **waiting on**. A sub-task sits under its
+parent, and a parent says how many of its own are done. **Add Task** at the foot of a group adds one there; **New Task**
 adds one to the project. Click a task's name to open it beside the page,
 with its details, description and comments. The arrow at the top opens its
 full form.
