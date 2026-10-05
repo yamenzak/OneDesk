@@ -7986,6 +7986,15 @@ frappe's Assign does; Pending Review tells whoever made the task.
   and a task picks its own. Old drafts are in Needs You as Submit your
   timesheet (`late_drafts`). A project that doesn't track time has no Time
   view unless time was logged on it.
+- Site crews' time had nowhere to come from but timesheets they don't fill
+  in. On a project counted by Attendance on Site, a submitted attendance at
+  the site (a check-in inside it, or the shift that names it) becomes a
+  submitted timesheet on the project, at the Activity for Days on Site, and
+  cancelling the attendance cancels it (`site_time.py`). The villa's crew,
+  Tarek and Omar on 1 and 2 October, shows as 35 h and 1,575 of labour cost.
+- Legal: the Privacy Policy says a day at a project's site becomes time on
+  that project, the day and its hours only (`oneproject-days-on-site`,
+  revision 18).
 
 ## OneLegal
 

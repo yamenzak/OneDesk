@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Timesheet",
+   "fieldname": "one_attendance",
+   "label": "Attendance",
+   "fieldtype": "Link",
+   "options": "Attendance",
+   "insert_after": "parent_project",
+   "module": "One Project",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "eval:doc.one_attendance",
+   "description": ""
+  }
+ ],
+ "doctype": "Timesheet",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

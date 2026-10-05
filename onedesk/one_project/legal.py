@@ -31,3 +31,16 @@ clause(
 		the folder, a file is the project's again and needs a sign-in to open.
 	""",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneproject-days-on-site",
+	module=M,
+	body="""
+		On a project whose time is counted by attendance on site, your attendance for a day you checked in at
+		the project's site, or your shift that day named it, is written as a timesheet on that project: the
+		day and the hours, nothing about where else you were. It is seen by whoever may read the project's
+		time, and costs or bills the day as any timesheet does.
+	""",
+)

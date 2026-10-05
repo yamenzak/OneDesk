@@ -1715,6 +1715,27 @@ def test_time_is_counted_apart_from_how_the_customer_pays():
 	assert "ListGroup" in view and '__("Labour Cost")' in view and "said.money" in view
 
 
+def test_a_day_on_site_is_a_day_on_the_project():
+	space = _load(
+		PROJECT / "site_time.py",
+		("WORKED", "worked"),
+		flt=lambda value=0, precision=None: float(value or 0) if precision is None else round(float(value or 0), precision),
+	)
+	worked = space["worked"]
+	# What attendance measured, else the standard day, half for a Half Day.
+	assert worked(9.1, "Present", 8.5) == 9.1
+	assert worked(0, "Present", 8.5) == 8.5 and worked(0, "Half Day", 8.5) == 4.25
+	assert worked(0, "Absent", 8.5) == 0
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"on_submit": "onedesk.one_project.site_time.attended"' in hooks
+	assert '"on_cancel": "onedesk.one_project.site_time.cancelled"' in hooks
+	site = (PROJECT / "site_time.py").read_text()
+	# Only the site's own circles count, not every clock place in the workspace.
+	assert 'filters={"shift_location": site' in site and "gates._zones" not in site
+	timesheet = json.loads((PROJECT / "custom" / "timesheet.json").read_text())
+	assert timesheet["custom_fields"][0]["fieldname"] == "one_attendance"
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

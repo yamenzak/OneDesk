@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 19:41+0000\n"
-"PO-Revision-Date: 2026-10-05 19:41+0000\n"
+"POT-Creation-Date: 2026-10-05 19:47+0000\n"
+"PO-Revision-Date: 2026-10-05 19:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -366,6 +366,10 @@ msgstr "مساحة عمل لعميل. تُنشأ من طلب حساب مدفوع
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "A date a document gives, and what it is for."
 msgstr "تاريخ يذكره مستند، وما الغرض منه."
+
+#: onedesk/one_project/site_time.py:57
+msgid "A day on site wasn't written for {0}"
+msgstr "لم يُسجَّل يوم في الموقع لـ {0}"
 
 #. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
 #. Stage'
@@ -1810,7 +1814,7 @@ msgstr "قُرئ الكل"
 msgid "All Tasks"
 msgstr "كل المهام"
 
-#: frontend/src/project/Team.vue:22 frontend/src/project/Time.vue:153
+#: frontend/src/project/Team.vue:22 frontend/src/project/Time.vue:151
 msgid "All Time"
 msgstr "الإجمالي"
 
@@ -2834,10 +2838,12 @@ msgstr "الحضور"
 #. Group in Employee's connections
 #. Label of the one_attendance_tab (Tab Break) field in DocType 'HR Settings'
 #. Label of a Sidebar Item
+#. Label of the one_attendance (Link) field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/hr_settings.json
 #: onedesk/one_hr/heads.py:140
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:175
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_project/custom/timesheet.json
 msgid "Attendance"
 msgstr "الحضور"
 
@@ -8615,7 +8621,7 @@ msgstr "أعطِ الملف الوظيفي اسمًا."
 msgid "Give the rule a name."
 msgstr "أعطِ القاعدة اسماً."
 
-#: onedesk/one_project/hours.py:299
+#: onedesk/one_project/hours.py:312
 msgid "Give the time a number of hours."
 msgstr "أدخل عدد الساعات."
 
@@ -10014,7 +10020,7 @@ msgid "Invoice Number"
 msgstr "رقم الفاتورة"
 
 #: frontend/src/project/Overview.vue:37
-#: frontend/src/project/ProjectPage.vue:251 frontend/src/project/Time.vue:172
+#: frontend/src/project/ProjectPage.vue:251 frontend/src/project/Time.vue:170
 #: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:103
 msgid "Invoice Time"
 msgstr "فوترة الوقت"
@@ -10024,7 +10030,7 @@ msgid "Invoice {project} for last month"
 msgstr "أصدر فاتورة {project} عن الشهر الماضي"
 
 #: frontend/src/project/Invoices.vue:74 frontend/src/project/Overview.vue:136
-#: frontend/src/project/Time.vue:81 frontend/src/project/Time.vue:174
+#: frontend/src/project/Time.vue:81 frontend/src/project/Time.vue:172
 #: onedesk/one_project/money.py:140
 msgid "Invoiced"
 msgstr "المفوتر"
@@ -10516,7 +10522,7 @@ msgstr "يعرف عن"
 msgid "Label"
 msgstr ""
 
-#: frontend/src/project/Time.vue:176
+#: frontend/src/project/Time.vue:174
 msgid "Labour Cost"
 msgstr "تكلفة العمالة"
 
@@ -11331,7 +11337,7 @@ msgstr "تسجيل مكالمة"
 msgid "Log in to create a calendar link."
 msgstr "سجّل الدخول لإنشاء رابط تقويم."
 
-#: frontend/src/project/Time.vue:157
+#: frontend/src/project/Time.vue:155
 msgid "Logged"
 msgstr "المسجَّل"
 
@@ -12910,7 +12916,7 @@ msgstr "لا توجد إجراءات"
 msgid "No active sessions"
 msgstr "لا توجد جلسات نشطة"
 
-#: frontend/src/project/Time.vue:116
+#: frontend/src/project/Time.vue:114
 msgid "No activity"
 msgstr "بلا نشاط"
 
@@ -13286,7 +13292,7 @@ msgstr "لا توجد عقود من الباطن"
 msgid "No such check-in attempt."
 msgstr "لا توجد محاولة تسجيل بهذا المعرّف."
 
-#: frontend/src/project/Time.vue:117
+#: frontend/src/project/Time.vue:115
 msgid "No task"
 msgstr "بلا مهمة"
 
@@ -13350,7 +13356,7 @@ msgstr "لم تُضبط حاوية {0}."
 msgid "No."
 msgstr ""
 
-#: frontend/src/project/Time.vue:115 onedesk/one_inventory/heads.py:160
+#: frontend/src/project/Time.vue:113 onedesk/one_inventory/heads.py:160
 msgid "Nobody"
 msgstr "لا أحد"
 
@@ -14139,7 +14145,7 @@ msgstr "في قائمة {0}"
 msgid "On trial"
 msgstr "فترة تجريبية"
 
-#: frontend/src/project/Time.vue:171
+#: frontend/src/project/Time.vue:169
 msgid "On {0}"
 msgstr "في {0}"
 
@@ -20295,7 +20301,7 @@ msgstr "اعتماد الكل"
 msgid "Submit Matching E-Invoices"
 msgstr "اعتماد الفواتير الإلكترونية المطابقة"
 
-#: onedesk/one_project/hours.py:274
+#: onedesk/one_project/hours.py:287
 msgid "Submit your timesheet"
 msgstr "أرسل سجل دوامك"
 
@@ -22226,7 +22232,7 @@ msgid "This IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "رقم IBAN هذا غير مسجل لـ {0}. تأكد منه هاتفيًا قبل الدفع."
 
 #: frontend/src/project/Overview.vue:135 frontend/src/project/Team.vue:21
-#: frontend/src/project/Time.vue:147 frontend/src/project/Time.vue:163
+#: frontend/src/project/Time.vue:145 frontend/src/project/Time.vue:161
 #: onedesk/public/js/settings.js:2787
 msgid "This Month"
 msgstr "هذا الشهر"
@@ -22713,7 +22719,7 @@ msgstr "إلى تاريخ"
 msgid "To Do"
 msgstr "للتنفيذ"
 
-#: frontend/src/project/Time.vue:80 frontend/src/project/Time.vue:169
+#: frontend/src/project/Time.vue:80 frontend/src/project/Time.vue:167
 msgid "To Invoice"
 msgstr "للفوترة"
 
@@ -27186,7 +27192,7 @@ msgstr "لا شيء"
 msgid "nothing can do {0} now"
 msgstr "لا شيء يستطيع {0} الآن"
 
-#: frontend/src/project/Time.vue:149
+#: frontend/src/project/Time.vue:147
 msgid "of {0} a month"
 msgstr "من {0} شهريًا"
 
@@ -27202,7 +27208,7 @@ msgstr "من {0} س"
 msgid "of {0} open"
 msgstr "من {0} مفتوحة"
 
-#: frontend/src/project/Time.vue:159
+#: frontend/src/project/Time.vue:157
 msgid "of {0} planned"
 msgstr "من {0} مخطط لها"
 
@@ -28145,7 +28151,7 @@ msgstr "{0} س شهريًا"
 msgid "{0} h are on timesheets not submitted yet."
 msgstr "{0} س في جداول زمنية لم تُقدَّم بعد."
 
-#: onedesk/one_project/hours.py:275
+#: onedesk/one_project/hours.py:288
 msgid "{0} h not submitted"
 msgstr "{0} ساعة غير مُرسلة"
 
@@ -28543,7 +28549,7 @@ msgstr "{0} ليس جدولًا في نموذج يمكنك تخصيصه."
 msgid "{0} is not a table to repeat"
 msgstr "{0} ليس جدولًا للتكرار"
 
-#: onedesk/one_project/hours.py:304
+#: onedesk/one_project/hours.py:317
 msgid "{0} is not a task on this project."
 msgstr "{0} ليست مهمة في هذا المشروع."
 
@@ -28640,7 +28646,7 @@ msgstr "{0} ليس مما يقترحه نظام التسجيل."
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr "{0} ليس شيئاً يعرفه هذا الإشعار. يمكنه استخدام {1}."
 
-#: onedesk/one_project/hours.py:306
+#: onedesk/one_project/hours.py:319
 msgid "{0} is not under this project."
 msgstr "{0} ليس ضمن هذا المشروع."
 
@@ -28807,7 +28813,7 @@ msgstr "{0} غير مُراجَعة"
 msgid "{0} not found"
 msgstr "{0} غير موجود"
 
-#: frontend/src/project/Time.vue:142
+#: frontend/src/project/Time.vue:140
 msgid "{0} not submitted"
 msgstr "{0} غير مقدمة"
 

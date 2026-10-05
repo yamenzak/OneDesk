@@ -577,6 +577,11 @@ doc_events = {
 	"Kanban Board": {"before_insert": "onedesk.one_project.board.shape"},
 	"Training Result": {"before_validate": "onedesk.one_hr.lifecycle.result"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
+	# A day at a project's site is a day on the project. See one_project/site_time.py.
+	"Attendance": {
+		"on_submit": "onedesk.one_project.site_time.attended",
+		"on_cancel": "onedesk.one_project.site_time.cancelled",
+	},
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
 		"before_submit": "onedesk.one_hr.request.before_submit",
@@ -1014,6 +1019,7 @@ code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 # nameable by it. Intake is not here: it asks OneAI for what is missing (one_intake/fill.py).
 one_makes_records = {
 	"Account": ["one", "one_admin", "one_book"],
+	"Activity Type": ["one_project"],
 	"Address": ["one", "one_book"],
 	"Appraisal": ["one_hr"],
 	"Asset": ["one_inventory"],
@@ -1074,7 +1080,7 @@ one_makes_records = {
 	"Supplier": ["one", "one_book"],
 	"Supplier Quotation": ["one"],
 	"Task": ["one_project", "one_task"],
-	"Timesheet": ["one_task"],
+	"Timesheet": ["one_project", "one_task"],
 	"UAE VAT Settings": ["one_book"],
 	"UOM": ["one_project"],
 	"Vehicle Log": ["one_hr"],

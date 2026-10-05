@@ -351,6 +351,29 @@ Whoever may read timesheets sees Time, and sees the entries they may read. A
 project whose time isn't tracked has no Time view, unless someone logged time
 on it anyway.
 
+#### Days on site
+
+On a project counted by **Attendance on Site**, each day someone's attendance
+is submitted and they were at the site, the day becomes a timesheet on the
+project, made and submitted for them:
+
+- **At the site** means one of their check-ins that day was inside the site's
+  circle (or a clock place drawn on it). When check-ins have no position, their
+  shift that day names the site.
+- **The hours** are the attendance's working hours, or the standard working
+  day from HR Settings (half of it for a Half Day).
+- **The activity** is **Activity for Days on Site** in Projects Settings
+  (**Site Work** to start with). Set its costing rate, or each person's
+  Activity Cost, so the days carry their labour cost.
+- **Billable** follows the kind: daywork on a Time and Materials project is
+  billed, a Fixed Price project's days are cost.
+- **Cancelling the attendance** cancels its timesheet, unless it's been
+  invoiced.
+
+HR keeps attendance for payroll as it is. A day that can't be written, such
+as one whose hours overlap a timesheet the person already has, doesn't stop
+the attendance. It's in the Error Log.
+
 ### Invoices
 
 The customer's invoices for the project and those under it, newest first,

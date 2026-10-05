@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 19:41+0000\n"
-"PO-Revision-Date: 2026-10-05 19:41+0000\n"
+"POT-Creation-Date: 2026-10-05 19:47+0000\n"
+"PO-Revision-Date: 2026-10-05 19:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -366,6 +366,10 @@ msgstr "Ein Kunden-Arbeitsbereich. Wird aus einer bezahlten Kontoanfrage angeleg
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "A date a document gives, and what it is for."
 msgstr "Ein Datum aus einem Dokument und wofür es gilt."
+
+#: onedesk/one_project/site_time.py:57
+msgid "A day on site wasn't written for {0}"
+msgstr "Ein Tag vor Ort wurde für {0} nicht erfasst"
 
 #. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
 #. Stage'
@@ -1810,7 +1814,7 @@ msgstr "Alles gelesen"
 msgid "All Tasks"
 msgstr "Alle Aufgaben"
 
-#: frontend/src/project/Team.vue:22 frontend/src/project/Time.vue:153
+#: frontend/src/project/Team.vue:22 frontend/src/project/Time.vue:151
 msgid "All Time"
 msgstr "Insgesamt"
 
@@ -2834,10 +2838,12 @@ msgstr "Teilnehmen"
 #. Group in Employee's connections
 #. Label of the one_attendance_tab (Tab Break) field in DocType 'HR Settings'
 #. Label of a Sidebar Item
+#. Label of the one_attendance (Link) field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/hr_settings.json
 #: onedesk/one_hr/heads.py:140
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:175
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_project/custom/timesheet.json
 msgid "Attendance"
 msgstr ""
 
@@ -8615,7 +8621,7 @@ msgstr "Geben Sie dem Profil einen Namen."
 msgid "Give the rule a name."
 msgstr "Geben Sie der Regel einen Namen."
 
-#: onedesk/one_project/hours.py:299
+#: onedesk/one_project/hours.py:312
 msgid "Give the time a number of hours."
 msgstr "Geben Sie die Stundenzahl an."
 
@@ -10014,7 +10020,7 @@ msgid "Invoice Number"
 msgstr "Rechnungsnummer"
 
 #: frontend/src/project/Overview.vue:37
-#: frontend/src/project/ProjectPage.vue:251 frontend/src/project/Time.vue:172
+#: frontend/src/project/ProjectPage.vue:251 frontend/src/project/Time.vue:170
 #: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:103
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
@@ -10024,7 +10030,7 @@ msgid "Invoice {project} for last month"
 msgstr "{project} für den letzten Monat abrechnen"
 
 #: frontend/src/project/Invoices.vue:74 frontend/src/project/Overview.vue:136
-#: frontend/src/project/Time.vue:81 frontend/src/project/Time.vue:174
+#: frontend/src/project/Time.vue:81 frontend/src/project/Time.vue:172
 #: onedesk/one_project/money.py:140
 msgid "Invoiced"
 msgstr "In Rechnung gestellt"
@@ -10516,7 +10522,7 @@ msgstr "Kennt"
 msgid "Label"
 msgstr ""
 
-#: frontend/src/project/Time.vue:176
+#: frontend/src/project/Time.vue:174
 msgid "Labour Cost"
 msgstr "Lohnkosten"
 
@@ -11331,7 +11337,7 @@ msgstr "Anruf erfassen"
 msgid "Log in to create a calendar link."
 msgstr "Melden Sie sich an, um einen Kalenderlink zu erstellen."
 
-#: frontend/src/project/Time.vue:157
+#: frontend/src/project/Time.vue:155
 msgid "Logged"
 msgstr "Erfasst"
 
@@ -12910,7 +12916,7 @@ msgstr "Keine Aktionen"
 msgid "No active sessions"
 msgstr "Keine aktiven Sitzungen"
 
-#: frontend/src/project/Time.vue:116
+#: frontend/src/project/Time.vue:114
 msgid "No activity"
 msgstr "Keine Tätigkeit"
 
@@ -13286,7 +13292,7 @@ msgstr "Keine Unteraufträge"
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
 
-#: frontend/src/project/Time.vue:117
+#: frontend/src/project/Time.vue:115
 msgid "No task"
 msgstr "Keine Aufgabe"
 
@@ -13350,7 +13356,7 @@ msgstr "Es ist kein {0}-Bucket eingerichtet."
 msgid "No."
 msgstr ""
 
-#: frontend/src/project/Time.vue:115 onedesk/one_inventory/heads.py:160
+#: frontend/src/project/Time.vue:113 onedesk/one_inventory/heads.py:160
 msgid "Nobody"
 msgstr "Niemand"
 
@@ -14139,7 +14145,7 @@ msgstr "In der Liste {0}"
 msgid "On trial"
 msgstr "In der Testphase"
 
-#: frontend/src/project/Time.vue:171
+#: frontend/src/project/Time.vue:169
 msgid "On {0}"
 msgstr "Zu {0}"
 
@@ -20295,7 +20301,7 @@ msgstr "Alle buchen"
 msgid "Submit Matching E-Invoices"
 msgstr "Passende E-Rechnungen buchen"
 
-#: onedesk/one_project/hours.py:274
+#: onedesk/one_project/hours.py:287
 msgid "Submit your timesheet"
 msgstr "Zeiterfassung einreichen"
 
@@ -22226,7 +22232,7 @@ msgid "This IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "Diese IBAN ist für {0} nicht hinterlegt. Bestätigen Sie sie vor der Zahlung telefonisch."
 
 #: frontend/src/project/Overview.vue:135 frontend/src/project/Team.vue:21
-#: frontend/src/project/Time.vue:147 frontend/src/project/Time.vue:163
+#: frontend/src/project/Time.vue:145 frontend/src/project/Time.vue:161
 #: onedesk/public/js/settings.js:2787
 msgid "This Month"
 msgstr "Diesen Monat"
@@ -22713,7 +22719,7 @@ msgstr "Bis Datum"
 msgid "To Do"
 msgstr "Zu erledigen"
 
-#: frontend/src/project/Time.vue:80 frontend/src/project/Time.vue:169
+#: frontend/src/project/Time.vue:80 frontend/src/project/Time.vue:167
 msgid "To Invoice"
 msgstr "Zu fakturieren"
 
@@ -27186,7 +27192,7 @@ msgstr "nichts"
 msgid "nothing can do {0} now"
 msgstr "nichts kann jetzt {0}"
 
-#: frontend/src/project/Time.vue:149
+#: frontend/src/project/Time.vue:147
 msgid "of {0} a month"
 msgstr "von {0} im Monat"
 
@@ -27202,7 +27208,7 @@ msgstr "von {0} Std."
 msgid "of {0} open"
 msgstr "von {0} offenen"
 
-#: frontend/src/project/Time.vue:159
+#: frontend/src/project/Time.vue:157
 msgid "of {0} planned"
 msgstr "von {0} geplant"
 
@@ -28145,7 +28151,7 @@ msgstr "{0} Std. im Monat"
 msgid "{0} h are on timesheets not submitted yet."
 msgstr "{0} h stehen auf noch nicht eingereichten Zeiterfassungen."
 
-#: onedesk/one_project/hours.py:275
+#: onedesk/one_project/hours.py:288
 msgid "{0} h not submitted"
 msgstr "{0} Std. nicht eingereicht"
 
@@ -28543,7 +28549,7 @@ msgstr "{0} ist keine Tabelle eines Formulars, das Sie anpassen dürfen."
 msgid "{0} is not a table to repeat"
 msgstr "{0} ist keine Tabelle zum Wiederholen"
 
-#: onedesk/one_project/hours.py:304
+#: onedesk/one_project/hours.py:317
 msgid "{0} is not a task on this project."
 msgstr "{0} ist keine Aufgabe dieses Projekts."
 
@@ -28640,7 +28646,7 @@ msgstr "{0} wird von der Zeiterfassung nicht vorgeschlagen."
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr "{0} kennt diese Benachrichtigung nicht. Verwendbar ist {1}."
 
-#: onedesk/one_project/hours.py:306
+#: onedesk/one_project/hours.py:319
 msgid "{0} is not under this project."
 msgstr "{0} gehört nicht zu diesem Projekt."
 
@@ -28807,7 +28813,7 @@ msgstr "{0} nicht geprüft"
 msgid "{0} not found"
 msgstr "{0} nicht gefunden"
 
-#: frontend/src/project/Time.vue:142
+#: frontend/src/project/Time.vue:140
 msgid "{0} not submitted"
 msgstr "{0} nicht eingereicht"
 
