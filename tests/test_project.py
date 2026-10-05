@@ -779,6 +779,29 @@ def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
 	assert "onedesk.one_project.budget.set_budget" in page and '__("Add Cost Type")' in page
 
 
+def test_the_overview_budget_adds_up_to_numbers():
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	space = _load(PROJECT / "budget.py", ("left", "other"), flt=flt)
+	other = space["other"]
+	# Villa Al Barsha: Cost of Goods Sold budgeted on the project itself; a
+	# sub-project's bill and the team's time are outside it.
+	lines = [{"budget": 100000, "spent": 32000, "committed": 78000}]
+	rest = other(lines, 140500, 63210, 78000)
+	assert rest == {"budget": 40500, "spent": 31210, "committed": 0, "left": 9290}
+	assert sum(one["budget"] for one in [*lines, rest]) == 140500
+	assert other(lines, 100000, 32000, 78000) is None
+	assert other(lines, 90000, 30000, 70000) is None
+	budget = (PROJECT / "budget.py").read_text()
+	# A cost type counts only the projects that budget for it, as ERPNext checks.
+	assert "committed.get((one.project, one.account), 0.0)" in budget and "spent.get((one.project, one.account), 0.0)" in budget
+	view_py = (PROJECT / "view.py").read_text()
+	assert 'said["budget"] = _budget_lines(view["tree"], cash)' in view_py
+	assert 'budget.other(lines, cash["budget"], cash["spent"], cash["open_orders"])' in view_py
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert ":empty=\"__('No cost types')\"" in overview and "$emit('view', 'money')" in overview
+	assert '__("{0} on order", [sum(one.committed)])' in overview and 'then: one.budget' in overview
+
+
 def test_the_money_is_told_and_read():
 	kinds = (PROJECT / "notifications.py").read_text()
 	assert '_lt("Over Budget")' in kinds and '_lt("Progress Bill Drafted")' in kinds

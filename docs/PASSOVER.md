@@ -7744,6 +7744,24 @@ the contract.
   invoice's own Work Done when it's a progress invoice, or else invoiced over
   contract. A return isn't counted.
 
+**Budget.** A row for each cost type with a bar, used of budget, and left or
+over.
+
+- It covered the project alone while Numbers covers its sub-projects too, so
+  Villa Al Barsha read 10,000 over in Budget and 710 over in Numbers. It now
+  adds up each cost type over the tree. A cost type counts only what's spent
+  and ordered on the projects that budget for it, as ERPNext's own check
+  does (`budget.across`).
+- What fell outside the cost types (budget not split, a sub-project's bills,
+  the team's time, which ERPNext books to no account) showed nowhere. Other
+  now carries it, so the rows add up to Numbers' Budget and Cost
+  (`budget.other`).
+- "110,000 of 100,000" mixed spent with ordered. The row now says each, and
+  the bar shows spent dark and on order light.
+- No way to Money, where cost types are set, and nothing when there were
+  none. The heading's arrow opens Money, "No cost types" shows when there are
+  none, and a count shows when the rows are cut short.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

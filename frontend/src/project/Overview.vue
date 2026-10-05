@@ -18,8 +18,8 @@
           <Rows :rows="workAndBilling" />
           <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency)" />
         </Section>
-        <Section v-if="view.budget.length" :title="__('Budget')">
-          <Rows :rows="view.budget.map((one) => ({ key: one.cost_type, label: one.cost_type, dim: __('{0} of {1}', [money(one.used, said.currency), money(one.budget, said.currency)]), progress: Math.min(100, one.budget ? Math.round((100 * one.used) / one.budget) : 0), value: one.left < 0 ? __('{0} over', [money(-one.left, said.currency)]) : __('{0} left', [money(one.left, said.currency)]), dot: one.left < 0 ? 'red' : undefined }))" />
+        <Section :title="__('Budget')" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
+          <Rows :rows="budget" :empty="__('No cost types')" />
         </Section>
         <Section v-if="view.milestones?.length" :title="__('Milestones')">
           <Milestones :milestones="view.milestones" />
@@ -161,6 +161,31 @@ const workAndBilling = computed(() => {
     b.advance && { key: "advance", label: __("Paid in Advance"), value: sum(b.advance) },
     b.last && { key: "last", label: __("Last Billed"), dim: b.last.share !== null ? __("{0}% billed", [b.last.share]) : "", value: date(b.last.date) },
   ].filter(Boolean);
+});
+
+// Each cost type over the project and those under it, then Other for the
+// rest, so the rows add up to Numbers (view._budget_lines).
+const budget = computed(() => {
+  const b = view.value.budget;
+  const sum = (value) => money(value, props.said.currency);
+  const row = (one, key, label) => {
+    const used = one.spent + one.committed;
+    const whole = Math.max(one.budget, used) || 1;
+    return {
+      key,
+      label,
+      dim: [
+        one.spent && __("{0} spent", [sum(one.spent)]),
+        one.committed && __("{0} on order", [sum(one.committed)]),
+        one.budget && __("{0} budget", [sum(one.budget)]),
+      ].filter(Boolean).join(" · "),
+      progress: one.budget ? Math.round((100 * one.spent) / whole) : null,
+      then: one.budget ? Math.round((100 * one.committed) / whole) : null,
+      value: !one.budget ? sum(used) : one.left < 0 ? __("{0} over", [sum(-one.left)]) : __("{0} left", [sum(one.left)]),
+      dot: one.budget && one.left < 0 ? "red" : undefined,
+    };
+  };
+  return [...b.lines.map((one) => row(one, one.cost_type, one.cost_type)), b.other && row(b.other, "other", __("Other"))].filter(Boolean);
 });
 
 // A figure whose documents are a view of this page opens that view.

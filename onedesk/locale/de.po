@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 11:26+0000\n"
-"PO-Revision-Date: 2026-10-05 11:26+0000\n"
+"POT-Creation-Date: 2026-10-05 11:35+0000\n"
+"PO-Revision-Date: 2026-10-05 11:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1235,7 +1235,7 @@ msgstr "Kurzbeschreibung hinzufügen"
 msgid "Add Collection"
 msgstr "Sammlung hinzufügen"
 
-#: frontend/src/project/Overview.vue:175
+#: frontend/src/project/Overview.vue:200
 #: onedesk/public/js/project_actions.js:123
 #: onedesk/public/js/project_actions.js:147
 msgid "Add Contract"
@@ -4793,7 +4793,7 @@ msgstr "Geht nach {0} weiter (war {1})"
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Money.vue:100 frontend/src/project/Overview.vue:129
-#: frontend/src/project/Overview.vue:205
+#: frontend/src/project/Overview.vue:230
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -5327,7 +5327,7 @@ msgstr "Eigene Stufen liegen zwischen Benutzer und Manager."
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/src/project/Money.vue:11 frontend/src/project/Overview.vue:203
+#: frontend/src/project/Money.vue:11 frontend/src/project/Overview.vue:228
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
@@ -6960,7 +6960,7 @@ msgid "Ended On"
 msgstr "Beendet am"
 
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
-#: frontend/src/project/Overview.vue:207
+#: frontend/src/project/Overview.vue:232
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/public/js/project_new.js:109
 msgid "Ends"
@@ -8405,7 +8405,7 @@ msgstr "Gib einen Betreff oder eine Mailvorlage an"
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
-#: onedesk/one_project/budget.py:141
+#: onedesk/one_project/budget.py:200
 msgid "Give the cost type a budget."
 msgstr "Geben Sie der Kostenart ein Budget."
 
@@ -11552,7 +11552,7 @@ msgstr "Von der Personalabteilung verwaltet."
 
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
-#: frontend/src/project/Overview.vue:204 frontend/src/project/Team.vue:30
+#: frontend/src/project/Overview.vue:229 frontend/src/project/Team.vue:30
 #: onedesk/one/settings.py:1027 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/public/js/project_new.js:103 onedesk/public/js/settings.js:1127
@@ -11958,6 +11958,7 @@ msgstr "Geändert"
 
 #. Label of the money_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the section_money (Section Break) field in DocType 'Reading'
+#: frontend/src/project/Overview.vue:21
 #: frontend/src/project/ProjectPage.vue:145
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -12733,7 +12734,7 @@ msgstr "Keine Unterhaltung ausgewählt"
 msgid "No conversations"
 msgstr "Keine Unterhaltungen"
 
-#: frontend/src/project/Money.vue:25
+#: frontend/src/project/Money.vue:25 frontend/src/project/Overview.vue:22
 msgid "No cost types"
 msgstr "Keine Kostenarten"
 
@@ -14883,6 +14884,7 @@ msgstr "Original"
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
+#: frontend/src/project/Overview.vue:188
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:69
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:97
@@ -15029,7 +15031,7 @@ msgstr "Offen"
 msgid "Over Budget"
 msgstr "Bei Überschreitung"
 
-#: onedesk/one_project/budget.py:139
+#: onedesk/one_project/budget.py:198
 msgid "Over Budget is Warn or Stop."
 msgstr "Bei Überschreitung ist Warnen oder Stoppen."
 
@@ -15270,7 +15272,7 @@ msgid "Part"
 msgstr "Teil"
 
 #. Label of the part_of (Link) field in DocType 'Reading'
-#: frontend/src/project/Overview.vue:208
+#: frontend/src/project/Overview.vue:233
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Part Of"
 msgstr "Teil von"
@@ -18731,7 +18733,7 @@ msgstr "Legen Sie den Zeitraum fest."
 msgid "Set to 0 to keep them indefinitely."
 msgstr "Auf 0 setzen, um sie unbegrenzt aufzubewahren."
 
-#: onedesk/one_project/budget.py:244
+#: onedesk/one_project/budget.py:303
 msgid "Set up a fiscal year in OneBook first."
 msgstr "Legen Sie zuerst in OneBook ein Geschäftsjahr an."
 
@@ -19518,7 +19520,7 @@ msgid "Starting Soon"
 msgstr "Beginnt bald"
 
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
-#: frontend/src/project/Overview.vue:206 frontend/src/project/TaskPanel.vue:24
+#: frontend/src/project/Overview.vue:231 frontend/src/project/TaskPanel.vue:24
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/public/js/project_new.js:102
 msgid "Starts"
@@ -27398,6 +27400,10 @@ msgstr "{0} wird {1}"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
 
+#: frontend/src/project/Overview.vue:180
+msgid "{0} budget"
+msgstr "{0} Budget"
+
 #: onedesk/public/js/settings.js:2612
 msgid "{0} calls"
 msgstr "{0} Aufrufe"
@@ -27505,6 +27511,10 @@ msgstr "{0} hat {1} für {2} geltend gemacht, und alles davon ist zulässig."
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
 msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der Rest liegt über einer Kategoriegrenze."
 
+#: frontend/src/project/Overview.vue:21
+msgid "{0} cost types"
+msgstr "{0} Kostenarten"
+
 #: onedesk/one_inventory/ready.py:164
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
@@ -27571,7 +27581,7 @@ msgstr "{0} Tage vor {2} eines {1}"
 msgid "{0} days before {1}"
 msgstr "{0} Tage vor {1}"
 
-#: frontend/src/project/Facts.vue:46 frontend/src/project/Overview.vue:186
+#: frontend/src/project/Facts.vue:46 frontend/src/project/Overview.vue:211
 #: onedesk/one_project/heads.py:76 onedesk/one_project/portal.py:167
 #: onedesk/one_project/view.py:429
 msgid "{0} days late"
@@ -28274,7 +28284,7 @@ msgstr "{0} Elemente"
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
-#: frontend/src/project/Overview.vue:22 onedesk/one_hr/heads.py:90
+#: frontend/src/project/Overview.vue:184 onedesk/one_hr/heads.py:90
 msgid "{0} left"
 msgstr "{0} übrig"
 
@@ -28351,9 +28361,8 @@ msgstr "{0} der {1} Credits wurden entzogen."
 msgid "{0} of them live."
 msgstr "{0} davon aktiv."
 
-#: frontend/src/project/Months.vue:11 frontend/src/project/Overview.vue:22
-#: frontend/src/project/TaskPanel.vue:31 onedesk/one/heads.py:71
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:43
+#: frontend/src/project/Months.vue:11 frontend/src/project/TaskPanel.vue:31
+#: onedesk/one/heads.py:71 onedesk/one_admin/doctype/tenant/tenant_list.js:43
 #: onedesk/one_admin/heads.py:160 onedesk/one_project/heads.py:35
 #: onedesk/one_project/view.py:415 onedesk/public/js/settings.js:1516
 msgid "{0} of {1}"
@@ -28411,7 +28420,7 @@ msgstr "{0} ältere Einträge"
 msgid "{0} on"
 msgstr "{0} an"
 
-#: onedesk/one_project/view.py:393
+#: frontend/src/project/Overview.vue:179 onedesk/one_project/view.py:393
 msgid "{0} on order"
 msgstr "{0} bestellt"
 
@@ -28457,7 +28466,7 @@ msgstr "{0} Aufträge"
 msgid "{0} out of 5"
 msgstr "{0} von 5"
 
-#: frontend/src/project/Months.vue:14 frontend/src/project/Overview.vue:22
+#: frontend/src/project/Months.vue:14 frontend/src/project/Overview.vue:184
 msgid "{0} over"
 msgstr "{0} darüber"
 
@@ -28558,7 +28567,7 @@ msgstr "{0} hat dies mit Ihnen geteilt."
 msgid "{0} shows nothing."
 msgstr "{0} zeigt nichts."
 
-#: frontend/src/project/Money.vue:75
+#: frontend/src/project/Money.vue:75 frontend/src/project/Overview.vue:178
 msgid "{0} spent"
 msgstr "{0} ausgegeben"
 

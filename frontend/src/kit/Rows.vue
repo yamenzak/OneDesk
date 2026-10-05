@@ -1,6 +1,7 @@
 <template>
   <!-- Rows of a list: frappe-ui's List. A row says what it is, a quiet aside,
-       a bar of how far along it is (the aside then goes under the name), and a
+       a bar of how far along it is (the aside then goes under the name; with
+       `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
        value on the right; it may carry a
        dot or an avatar, and
        opens its `route` or runs its `onClick`. -->
@@ -18,7 +19,14 @@
             <div v-if="bars && item.dim" class="truncate text-sm tabular-nums text-ink-gray-5">{{ item.dim }}</div>
           </div>
         </ListCell>
-        <ListCell v-if="bars"><Progress v-if="item.progress !== undefined && item.progress !== null" :value="item.progress" size="md" class="w-full" /></ListCell>
+        <ListCell v-if="bars">
+          <div v-if="item.then" class="flex h-1 w-full gap-[2px] overflow-hidden rounded-7" role="img" :aria-label="item.dim">
+            <div v-if="item.progress" class="bg-surface-gray-10" :style="{ width: `${item.progress}%` }" />
+            <div class="bg-surface-gray-5" :style="{ width: `${item.then}%` }" />
+            <div class="flex-1 bg-surface-gray-2" />
+          </div>
+          <Progress v-else-if="item.progress !== undefined && item.progress !== null" :value="item.progress" size="md" class="w-full" />
+        </ListCell>
         <ListCell v-else class="justify-end text-base tabular-nums text-ink-gray-5">{{ item.dim }}</ListCell>
         <ListCell class="justify-end text-base tabular-nums text-ink-gray-7">{{ item.value }}</ListCell>
       </ListRow>

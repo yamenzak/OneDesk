@@ -553,7 +553,7 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 			if contract(doc)
 			else None
 		)
-		said["budget"] = _budget_lines(doc.name)
+		said["budget"] = _budget_lines(view["tree"], cash)
 		said["subcontracts"] = cash["suppliers"][:SHOWN]
 		said["retention"] = _retention(orders(doc), cash)
 	if kind == kinds.RETAINER:
@@ -644,17 +644,17 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	return found[: SHOWN + 2]
 
 
-def _budget_lines(project: str) -> list[dict]:
-	"""Each cost type's budget and what is spent and ordered against it."""
-	return [
-		{
-			"cost_type": one["cost_type"],
-			"budget": one["budget"],
-			"used": one["spent"] + one["committed"],
-			"left": one["left"],
-		}
-		for one in budget._lines(project)
-	][:SHOWN]
+def _budget_lines(projects: list[str], cash: dict) -> dict:
+	"""Each cost type over the project and those under it, and Other for
+	what they leave out, so the rows add up to the project's Budget and
+	Cost."""
+	lines = budget.across(projects)
+	rest = budget.other(lines, cash["budget"], cash["spent"], cash["open_orders"]) if lines else None
+	return {
+		"lines": lines[:SHOWN],
+		"count": len(lines),
+		"other": rest,
+	}
 
 
 def _due_soon(projects: list[str]) -> list[dict]:

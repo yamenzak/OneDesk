@@ -62,8 +62,8 @@ def lines(project: Annotated[str, "The project."]) -> dict:
 def _lines(project: str) -> list[dict]:
 	budgets = _budgets(project)
 	accounts = [one.account for one in budgets]
-	committed = _committed(project, accounts)
-	spent = _spent(project, accounts)
+	committed = _committed([project], accounts)
+	spent = _spent([project], accounts)
 	names = dict(
 		frappe.get_all(
 			"Account", filters={"name": ["in", accounts]}, fields=["name", "account_name"], as_list=True
@@ -85,8 +85,61 @@ def _lines(project: str) -> list[dict]:
 	]
 
 
-def _committed(project: str, accounts: list[str]) -> dict:
-	"""What suppliers still have to bill on the project's orders, by account."""
+def across(projects: list[str]) -> list[dict]:
+	"""Each cost type over the projects, a project and those under it: the
+	budgets for the same account added up, with what's committed, spent and
+	left of them. A cost type counts what's spent and ordered only on the
+	projects that budget for it, as ERPNext checks each project's own; the
+	rest is Other's."""
+	budgets = frappe.get_all(
+		"Budget",
+		filters={"budget_against": "Project", "project": ["in", projects], "docstatus": 1},
+		fields=["project", "account", "budget_amount"],
+	)
+	if not budgets:
+		return []
+	accounts = sorted({one.account for one in budgets})
+	committed = _committed(projects, accounts, by_project=True)
+	spent = _spent(projects, accounts, by_project=True)
+	found: dict = {}
+	for one in budgets:
+		line = found.setdefault(one.account, {"budget": 0.0, "committed": 0.0, "spent": 0.0})
+		line["budget"] += flt(one.budget_amount)
+		line["committed"] += committed.get((one.project, one.account), 0.0)
+		line["spent"] += spent.get((one.project, one.account), 0.0)
+	names = dict(
+		frappe.get_all(
+			"Account", filters={"name": ["in", accounts]}, fields=["name", "account_name"], as_list=True
+		)
+	)
+	return [
+		{
+			"cost_type": names.get(account) or account,
+			**line,
+			"left": left(line["budget"], line["committed"], line["spent"]),
+		}
+		for account, line in sorted(found.items())
+	]
+
+
+def other(lines: list[dict], budget: float, spent: float, committed: float) -> dict | None:
+	"""What the cost types leave out of the project's figures: budget not
+	split into cost types, and cost booked or ordered outside them (time
+	among it, which ERPNext doesn't book to an account). None when there's
+	nothing. Pure."""
+	rest = {
+		"budget": max(0.0, flt(budget) - sum(one["budget"] for one in lines)),
+		"spent": max(0.0, flt(spent) - sum(one["spent"] for one in lines)),
+		"committed": max(0.0, flt(committed) - sum(one["committed"] for one in lines)),
+	}
+	if not any(value >= 1 for value in rest.values()):
+		return None
+	return {**rest, "left": left(rest["budget"], rest["committed"], rest["spent"])}
+
+
+def _committed(projects: list[str], accounts: list[str], by_project: bool = False) -> dict:
+	"""What suppliers still have to bill on the projects' orders, by account,
+	or by project and account."""
 	if not accounts:
 		return {}
 	item = frappe.qb.DocType("Purchase Order Item")
@@ -95,9 +148,9 @@ def _committed(project: str, accounts: list[str]) -> dict:
 		frappe.qb.from_(item)
 		.join(po)
 		.on(item.parent == po.name)
-		.select(item.expense_account, item.amount, item.billed_amt, item.base_net_amount)
+		.select(item.project, item.expense_account, item.amount, item.billed_amt, item.base_net_amount)
 		.where(
-			(item.project == project)
+			item.project.isin(projects)
 			& item.expense_account.isin(accounts)
 			& (po.docstatus == 1)
 			& (po.status != "Closed")
@@ -106,23 +159,29 @@ def _committed(project: str, accounts: list[str]) -> dict:
 	)
 	found: dict = {}
 	for row in rows:
-		found[row.expense_account] = found.get(row.expense_account, 0.0) + money.unbilled([row])
+		key = (row.project, row.expense_account) if by_project else row.expense_account
+		found[key] = found.get(key, 0.0) + money.unbilled([row])
 	return found
 
 
-def _spent(project: str, accounts: list[str]) -> dict:
-	"""What's been booked to each account on the project: the ledger."""
+def _spent(projects: list[str], accounts: list[str], by_project: bool = False) -> dict:
+	"""What's been booked to each account on the projects, or to each
+	project and account: the ledger."""
 	if not accounts:
 		return {}
 	gl = frappe.qb.DocType("GL Entry")
 	rows = (
 		frappe.qb.from_(gl)
-		.select(gl.account, (Sum(gl.debit) - Sum(gl.credit)).as_("spent"))
-		.where((gl.project == project) & gl.account.isin(accounts) & (gl.is_cancelled == 0))
-		.groupby(gl.account)
+		.select(gl.project, gl.account, (Sum(gl.debit) - Sum(gl.credit)).as_("spent"))
+		.where(gl.project.isin(projects) & gl.account.isin(accounts) & (gl.is_cancelled == 0))
+		.groupby(gl.project, gl.account)
 		.run(as_dict=True)
 	)
-	return {row.account: flt(row.spent) for row in rows}
+	found: dict = {}
+	for row in rows:
+		key = (row.project, row.account) if by_project else row.account
+		found[key] = found.get(key, 0.0) + flt(row.spent)
+	return found
 
 
 @frappe.whitelist(methods=["POST"])

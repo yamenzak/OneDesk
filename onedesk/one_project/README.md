@@ -195,7 +195,9 @@ The Overview is laid out for the kind, and each thing on it shows once.
   the budget, or what's spent and still on order when that's more. Billed
   opens **Invoices**, and Cost and Forecast Margin open **Money**. Under
   them, **Work and Billing** puts the work done beside what's billed and
-  paid, and when the customer was last billed, **Budget** shows each cost type, and **Milestones**. On the right,
+  paid, and when the customer was last billed. **Budget** shows each cost
+  type, what's spent and on order against it, and **Other** for the rest,
+  so its rows add up to Numbers. Then **Milestones**. On the right,
   **Subcontracts** and **Retention**.
 - **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
   **Invoiced** and **Budget Used** (or **Done** with no budget). Under them,
@@ -474,6 +476,13 @@ been **Spent**, and what's **Left**.
 **Over Budget**: **Warn** shows a warning on an order or expense that takes
 it over, and **Stop** refuses it. Click a cost type to change its budget or
 remove it. Once a project has cost types, its **Budget** is their total.
+
+On a Fixed Price project's **Overview**, **Budget** adds up each cost type
+over the project and its sub-projects. A cost type counts only what's spent
+and ordered on the projects that budget for it, as the warning does.
+**Other** is everything else: budget not split into cost types, and cost
+outside them, such as the team's time. The arrow on the heading opens
+**Money**.
 
 Cost types are set by whoever looks after the books (Accounts Manager).
 Everyone who can see the project sees them.
