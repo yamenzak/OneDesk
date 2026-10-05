@@ -26,6 +26,12 @@ work, and this replaces those two:
 - **The summary of yesterday's answers was only mailed**, and only where mail
   could go. `sum_up` tells the project's people in One instead, and each
   chooses whether it is mailed too.
+- **An answer kept no health.** `_answer` keeps the project's health on the
+  answer (`one_health` on its row), so the page shows how it was going when
+  each was written, and tells the page's readers it was posted
+  (`one_project_update`).
+- **Nothing on the page said whether the team is asked.** `asking` says how
+  often, for the Updates heading.
 """
 
 from datetime import time
@@ -200,12 +206,39 @@ def answered(doc, method=None) -> None:
 
 
 def _answer(update, user: str, note: str) -> None:
-	"""One row per person on an ask: a second answer replaces the first."""
+	"""One row per person on an ask: a second answer replaces the first. It
+	keeps the project's health as it was when written."""
 	who = frappe.db.get_value("User", user, ["full_name", "user_image"], as_dict=True) or {}
 	row = next((one for one in update.users if one.user == user), None) or update.append("users", {"user": user})
-	row.update({"full_name": who.get("full_name"), "image": who.get("user_image"), "project_status": note})
+	row.update(
+		{
+			"full_name": who.get("full_name"),
+			"image": who.get("user_image"),
+			"project_status": note,
+			"one_health": frappe.db.get_value("Project", update.project, "one_health"),
+		}
+	)
 	update.flags.ignore_permissions = True
 	update.save()
+	frappe.publish_realtime(
+		"one_project_update", {"project": update.project}, doctype="Project", docname=update.project, after_commit=True
+	)
+
+
+def asking(settings: dict) -> str | None:
+	"""How often the team is asked, as the Updates heading says it, or None
+	when it isn't. Pure."""
+	if not settings.get("collect_progress"):
+		return None
+	frequency = settings.get("frequency")
+	if frequency == "Daily":
+		return _("Asked daily")
+	if frequency == "Twice Daily":
+		return _("Asked twice a day")
+	day = settings.get("day_to_send")
+	if frequency == "Weekly" and day:
+		return _("Asked every {0}").format(_(day))
+	return None
 
 
 def timeline(doctype: str, docname: str) -> list[dict]:

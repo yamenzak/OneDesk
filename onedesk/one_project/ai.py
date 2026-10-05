@@ -16,11 +16,12 @@ neither are its tasks. Tasks are only suggested (one_task/ai.py `plan_task`),
 as cards the reader approves.
 """
 
+import re
 from typing import Annotated
 
 import frappe
 from frappe import _lt
-from frappe.utils import date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
+from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
 
 from onedesk.one_project import kinds, overview
 
@@ -119,6 +120,16 @@ ALLOWANCE = {
 	"expects": "project_facts",
 }
 
+DRAFT = {
+	"label": _lt("Draft my update"),
+	"ask": _lt(
+		"Draft my update on this project from my week: what I finished, the time I logged, and what is "
+		"next or late for me. Two to four plain sentences, in the first person, as a card I can approve."
+	),
+	"can": "read",
+	"expects": "draft_update",
+}
+
 #: The project page (project-view), by its open view, from `?view=`.
 PAGE = "project-view"
 #: The kinds with a customer to bill and to write to; an Internal project has none.
@@ -160,7 +171,7 @@ SUGGESTIONS = {
 	],
 	# A retainer's first question is its hours, wherever it is asked.
 	f"page:{PAGE}": _here(ALLOWANCE, kinds=(kinds.RETAINER,))
-	+ _here(GOING, LATE)
+	+ _here(DRAFT, GOING, LATE)
 	+ _here(UPDATE, kinds=BILLED)
 	+ _here(PLAN),
 	f"page:{PAGE}/tasks": _here(LATE, PLAN, LOAD),
@@ -170,7 +181,7 @@ SUGGESTIONS = {
 	f"page:{PAGE}/suppliers": _here(SUPPLIERS, MONEY),
 	f"page:{PAGE}/team": _here(LOAD, LATE),
 	f"page:{PAGE}/files": _here(GOING) + _here(UPDATE, kinds=BILLED),
-	f"page:{PAGE}/activity": _here(GOING) + _here(UPDATE, kinds=BILLED),
+	f"page:{PAGE}/activity": _here(DRAFT, GOING) + _here(UPDATE, kinds=BILLED),
 }
 for _layout, _view in LAYOUTS.items():
 	SUGGESTIONS[f"page:{PAGE}/{_layout}"] = SUGGESTIONS[f"page:{PAGE}/{_view}"]
@@ -207,8 +218,10 @@ def page(said: dict) -> str | None:
 		f"The reader is on the page of project {name} (“{title}”"
 		+ (f", a project of kind {kind}" if kind else "")
 		+ f"), on {VIEWS.get(view, VIEWS['overview'])}. project_facts reads it as its page shows it: its "
-		"dates, tasks, money, time, team and, for a retainer, its months; plan_task suggests a task on it as "
-		"a card that adds it when the reader approves. Nothing is changed until the reader approves. How "
+		"dates, tasks, money, time, team and, for a retainer, its months, and the reader's own week on it; "
+		"plan_task suggests a task on it as a card that adds it when the reader approves, and draft_update "
+		"drafts the reader's update as a card that puts it under Updates to post. Nothing is changed until "
+		"the reader approves. How "
 		"OneProject works is in its documentation (how_to)."
 	)
 
@@ -217,8 +230,9 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 	"""One project as its page shows it, with its sub-projects added up: where
 	it stands, its dates, what it cost against the estimate, what was billed,
 	its late tasks (who is on each, what waits on each), its milestones to
-	come, its people and the team's last updates. Read before saying how a
-	project is going, what is late, or writing about it."""
+	come, its people, the team's last updates, and the reader's own week on
+	it. Read before saying how a project is going, what is late, or writing
+	about it."""
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
 		return {"error": f"No project the reader may see is {project}."}
 	doc = frappe.get_doc("Project", project)
@@ -282,11 +296,81 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 			for one in milestones
 		],
 		"updates": _updates(project),
+		"you": _yours(said["tree"]),
 		"money": _money(project),
 		"kind": doc.get("one_kind"),
 		"time": _time(project, doc.get("one_kind")),
 		"team": _team(project),
 		"months": _months(project) if doc.get("one_kind") == kinds.RETAINER else None,
+	}
+
+
+def _yours(projects: list[str]) -> dict:
+	"""The reader's own last seven days on the project and those under it:
+	the tasks of theirs they finished, the hours they logged, and their tasks
+	still open, soonest due first."""
+	user = frappe.session.user
+	today = getdate(nowdate())
+	since = add_days(today, -7)
+	theirs = [["project", "in", projects], ["_assign", "like", f'%"{user}"%']]
+	done = frappe.get_list(
+		"Task",
+		filters=[*theirs, ["status", "=", "Completed"], ["modified", ">=", str(since)]],
+		pluck="subject",
+		limit_page_length=MOST,
+	)
+	open_ = frappe.get_list(
+		"Task",
+		filters=[*theirs, ["status", "not in", overview.DONE]],
+		fields=["subject", "exp_end_date"],
+		order_by="exp_end_date asc",
+		limit_page_length=MOST,
+	)
+	hours = frappe.db.sql(
+		"""select sum(d.hours) from `tabTimesheet Detail` d join `tabTimesheet` t on t.name = d.parent
+		where t.docstatus < 2 and t.user = %s and d.project in %s and date(d.from_time) >= %s""",
+		(user, tuple(projects), since),
+	)[0][0]
+	return {
+		"who": get_fullname(user),
+		"finished_this_week": done,
+		"hours_this_week": flt(hours, 1),
+		"open": [
+			{
+				"task": one.subject,
+				"due": str(getdate(one.exp_end_date)) if one.exp_end_date else None,
+				"late": bool(one.exp_end_date and getdate(one.exp_end_date) < today),
+			}
+			for one in open_
+		],
+	}
+
+
+def draft_update(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	update: Annotated[
+		str,
+		"The reader's update, in their words and in the first person: what they finished, what is next, "
+		"and anything in the way. Two to four plain sentences, from project_facts' `you`. Plain text.",
+	],
+	why: Annotated[str, "In a sentence, what the update says."] | None = None,
+) -> dict:
+	"""Suggest the reader's update on a project, as a card they approve. Read
+	project_facts first. Approving puts it in the line under Updates on the
+	project's page, to be read, changed and posted by the reader: nothing is
+	posted from here."""
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	text = (update or "").strip()
+	if not text:
+		return {"error": "Write the update itself."}
+	return {
+		"proposal": proposals.propose("Update", "Project", changes={"text": text}, record=project, why=why),
+		"state": "Proposed",
+		"next": "Tell them Approve puts the update under Updates on the project's page, to change and post; "
+		"it is not posted until they post it.",
 	}
 
 
@@ -475,7 +559,8 @@ def _waiting_on(tasks: list[str]) -> dict[str, list[str]]:
 
 
 def _updates(project: str) -> list[dict]:
-	"""The team's last updates, newest first, as the project's activity shows them."""
+	"""The team's last updates, newest first, as the project's activity shows
+	them, each with the health it was written in and its lines kept."""
 	asks = frappe.get_all(
 		"Project Update",
 		filters={"project": project},
@@ -493,7 +578,7 @@ def _updates(project: str) -> list[dict]:
 			"parent": ["in", list(day)],
 			"project_status": ["is", "set"],
 		},
-		fields=["parent", "user", "project_status"],
+		fields=["parent", "user", "project_status", "one_health"],
 		order_by="modified desc",
 		limit=8,
 	)
@@ -501,7 +586,19 @@ def _updates(project: str) -> list[dict]:
 		{
 			"by": get_fullname(row.user),
 			"on": day[row.parent],
-			"said": " ".join(strip_html_tags(row.project_status).split())[:600],
+			"said": plain(row.project_status)[:LONGEST],
+			"health": row.one_health,
 		}
 		for row in rows
 	]
+
+
+#: The longest update the page and the model are given.
+LONGEST = 4000
+
+
+def plain(html: str | None) -> str:
+	"""An update as text, its paragraphs and line breaks kept. Pure."""
+	text = re.sub(r"(?i)<br\s*/?>|</?(p|div|li)\b[^>]*>", "\n", html or "")
+	lines = (" ".join(strip_html_tags(line).split()) for line in text.split("\n"))
+	return "\n".join(line for line in lines if line)

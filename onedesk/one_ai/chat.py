@@ -349,6 +349,15 @@ def _suggests(row: dict) -> dict:
 			"fields": [{"label": frappe._("Reply"), "value": str(changes.get("text") or "")}],
 		}
 
+	if row.get("kind") == "Update":
+		# The update as it will be posted, under the project it is on.
+		return {
+			"doctype": doctype,
+			"name": frappe.db.get_value("Project", row.get("record"), "project_name") or row.get("record") or "",
+			"title": "",
+			"fields": [{"label": frappe._("Update"), "value": str(changes.get("text") or "")}],
+		}
+
 	if row.get("kind") == "Signature":
 		# The signature as it will read, a line each.
 		from frappe.utils import strip_html

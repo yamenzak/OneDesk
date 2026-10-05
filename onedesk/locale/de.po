@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-05 11:58+0000\n"
-"PO-Revision-Date: 2026-10-05 11:58+0000\n"
+"POT-Creation-Date: 2026-10-05 12:22+0000\n"
+"PO-Revision-Date: 2026-10-05 12:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -75,7 +75,7 @@ msgstr "1 Element ausgewählt"
 msgid "1 minute"
 msgstr "1 Minute"
 
-#: onedesk/one_project/view.py:360
+#: onedesk/one_project/view.py:363
 msgid "1 month"
 msgstr "1 Monat"
 
@@ -681,7 +681,7 @@ msgstr "Der Kopf eines Datensatzes wird in seinem Formular gezeichnet: jedes Mal
 msgid "A repeating event can only be moved from its own page."
 msgstr "Ein wiederkehrender Termin kann nur auf seiner eigenen Seite verschoben werden."
 
-#: onedesk/one_ai/proposals.py:560 onedesk/public/js/oneai/Record.vue:159
+#: onedesk/one_ai/proposals.py:575 onedesk/public/js/oneai/Record.vue:159
 msgid "A reply to {0}"
 msgstr "Eine Antwort auf {0}"
 
@@ -866,7 +866,7 @@ msgstr "Ein(e) {0} kann nicht {1} Credits betragen."
 msgid "A {0} can't have {1}."
 msgstr "Ein(e) {0} kann kein(e) {1} haben."
 
-#: onedesk/one_ai/proposals.py:458
+#: onedesk/one_ai/proposals.py:473
 msgid "A {0} has to name a record."
 msgstr "Ein {0} muss einen Datensatz nennen."
 
@@ -2037,6 +2037,10 @@ msgstr "Ein Artikel kann Seriennummern oder Chargen haben."
 msgid "An unknown device"
 msgstr "Ein unbekanntes Gerät"
 
+#: onedesk/one_ai/proposals.py:577
+msgid "An update on {0}"
+msgstr "Ein Update zu {0}"
+
 #: onedesk/one_hr/notifications.py:50
 msgid "An urgent grievance was raised"
 msgstr "Eine dringende Beschwerde wurde eingereicht"
@@ -2269,7 +2273,7 @@ msgstr "Genehmigung"
 msgid "Approval Waiting"
 msgstr "Freigabe wartet"
 
-#: onedesk/one_ai/proposals.py:556 onedesk/public/js/oneai/Record.vue:158
+#: onedesk/one_ai/proposals.py:571 onedesk/public/js/oneai/Record.vue:158
 msgid "Approval of {0}"
 msgstr "Freigabe für {0}"
 
@@ -2494,6 +2498,11 @@ msgstr "Fragen Sie unter Ihre Daten erneut, wenn Sie Ihr Konto weiterhin lösche
 msgid "Ask an administrator for access."
 msgstr "Bitten Sie einen Administrator um Zugriff."
 
+#: frontend/src/project/ProjectPage.vue:229
+#: onedesk/public/js/project_actions.js:482
+msgid "Ask for Updates"
+msgstr "Updates anfordern"
+
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Photo"
@@ -2570,10 +2579,22 @@ msgstr "Angefragt am"
 msgid "Asked and Reviewed"
 msgstr "Angefragt und geprüft"
 
+#: onedesk/one_project/updates.py:235
+msgid "Asked daily"
+msgstr "Täglich angefragt"
+
+#: onedesk/one_project/updates.py:240
+msgid "Asked every {0}"
+msgstr "Jeden {0} angefragt"
+
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr "Wird nur beim Auschecken abgefragt. Die Auswahl stammt aus Einchecken-Grund."
+
+#: onedesk/one_project/updates.py:237
+msgid "Asked twice a day"
+msgstr "Zweimal täglich angefragt"
 
 #: onedesk/public/js/admin_settings.js:84 onedesk/public/js/ai_model.js:61
 msgid "Asking…"
@@ -2663,7 +2684,9 @@ msgid "Assignees"
 msgstr "Zugewiesene"
 
 #. Option for the 'Health' (Select) field in DocType 'Project'
+#. Option for the 'Health' (Select) field in DocType 'Project User'
 #: onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/project_user.json
 msgid "At Risk"
 msgstr "Gefährdet"
 
@@ -3202,7 +3225,7 @@ msgid "Bill As"
 msgstr "Abrechnen als"
 
 #: frontend/src/project/Overview.vue:19
-#: frontend/src/project/ProjectPage.vue:246
+#: frontend/src/project/ProjectPage.vue:247
 #: frontend/src/project/Suppliers.vue:46 onedesk/public/js/progress.js:20
 #: onedesk/public/js/progress.js:30 onedesk/public/js/project_actions.js:396
 msgid "Bill Progress"
@@ -3216,7 +3239,7 @@ msgstr "Fortschritt abrechnen kann keinen Teil von {0} abrechnen. Bestellen Sie 
 msgid "Bill Progress is for purchase and sales orders."
 msgstr "Fortschritt abrechnen gibt es für Bestellungen und Kundenaufträge."
 
-#: onedesk/one_project/view.py:624
+#: onedesk/one_project/view.py:627
 msgid "Bill from {0} to check"
 msgstr "Rechnung von {0} zu prüfen"
 
@@ -3890,7 +3913,7 @@ msgstr "Diese ändern…"
 msgid "Change {0}"
 msgstr "{0} ändern"
 
-#: onedesk/one_ai/proposals.py:567
+#: onedesk/one_ai/proposals.py:584
 msgid "Change {0} on {1}"
 msgstr "{0} an {1} ändern"
 
@@ -5383,7 +5406,7 @@ msgstr ""
 msgid "Customize"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:546 onedesk/public/js/oneai/Record.vue:153
+#: onedesk/one_ai/proposals.py:561 onedesk/public/js/oneai/Record.vue:153
 msgid "Customize {0}"
 msgstr "{0} anpassen"
 
@@ -5811,7 +5834,7 @@ msgstr "Vorlage {0} löschen?"
 msgid "Delete this rule?"
 msgstr "Diese Regel löschen?"
 
-#: onedesk/one_ai/proposals.py:562 onedesk/public/js/oneai/Record.vue:152
+#: onedesk/one_ai/proposals.py:579 onedesk/public/js/oneai/Record.vue:152
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
@@ -6383,6 +6406,14 @@ msgstr "Entwirf meine Ziele für diesen Beurteilungszyklus aus meiner Rolle, den
 #: onedesk/one_hr/ai.py:242
 msgid "Draft my goals for this cycle"
 msgstr "Meine Ziele für diesen Zyklus entwerfen"
+
+#: onedesk/one_project/ai.py:124
+msgid "Draft my update"
+msgstr "Mein Update entwerfen"
+
+#: onedesk/one_project/ai.py:125
+msgid "Draft my update on this project from my week: what I finished, the time I logged, and what is next or late for me. Two to four plain sentences, in the first person, as a card I can approve."
+msgstr "Entwirf mein Update zu diesem Projekt aus meiner Woche: was ich abgeschlossen habe, die erfasste Zeit und was als Nächstes ansteht oder verspätet ist. Zwei bis vier einfache Sätze in der Ich-Form, als Karte, die ich freigeben kann."
 
 #: onedesk/one_hr/ai.py:130
 msgid "Draft the opening"
@@ -8096,7 +8127,7 @@ msgstr ""
 msgid "For"
 msgstr "Für"
 
-#: onedesk/one_project/ai.py:69
+#: onedesk/one_project/ai.py:70
 msgid "For each subcontractor on this project, what is left to bill, the retention held, any advance not yet set off, and what has been paid."
 msgstr "Für jeden Nachunternehmer dieses Projekts: was noch abzurechnen ist, der Einbehalt, jede noch nicht verrechnete Anzahlung und was bezahlt wurde."
 
@@ -8154,7 +8185,7 @@ msgstr "Prognostizierte Kosten"
 msgid "Forecast Margin"
 msgstr "Prognostizierte Marge"
 
-#: onedesk/one_project/view.py:390
+#: onedesk/one_project/view.py:393
 msgid "Forecast over by {0}"
 msgstr "Prognose um {0} darüber"
 
@@ -8612,7 +8643,7 @@ msgstr "Gruppe"
 msgid "Group By"
 msgstr "Gruppieren nach"
 
-#: frontend/src/project/ProjectPage.vue:235 onedesk/public/js/project.js:25
+#: frontend/src/project/ProjectPage.vue:236 onedesk/public/js/project.js:25
 #: onedesk/public/js/project_actions.js:33
 msgid "Group Under New Project"
 msgstr "Unter neuem Projekt gruppieren"
@@ -8761,8 +8792,11 @@ msgid "Heading"
 msgstr ""
 
 #. Label of the one_health (Select) field in DocType 'Project'
-#: frontend/src/project/Facts.vue:8 frontend/src/project/Updates.vue:16
-#: onedesk/one_project/custom/project.json onedesk/one_project/heads.py:177
+#. Label of the one_health (Select) field in DocType 'Project User'
+#: frontend/src/project/Facts.vue:8 frontend/src/project/Updates.vue:11
+#: frontend/src/project/Updates.vue:22 onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/project_user.json
+#: onedesk/one_project/heads.py:177
 msgid "Health"
 msgstr "Zustand"
 
@@ -8881,7 +8915,7 @@ msgstr "Anstehende Feiertage"
 msgid "Holidays Run Out Soon"
 msgstr "Feiertage laufen bald aus"
 
-#: onedesk/one_ai/proposals.py:550 onedesk/public/js/oneai/Record.vue:155
+#: onedesk/one_ai/proposals.py:565 onedesk/public/js/oneai/Record.vue:155
 msgid "Holidays in {0}"
 msgstr "Feiertage in {0}"
 
@@ -9017,7 +9051,7 @@ msgstr "Wie schneiden unsere Tarife im Vergleich ab?"
 msgid "How do our plans compare? Go through the price list: what each plan costs and gives, where the steps between plans are uneven, and whether the add-ons and packs are priced in line with them."
 msgstr "Wie schneiden unsere Tarife im Vergleich ab? Gehen Sie die Preisliste durch: was jeder Tarif kostet und bietet, wo die Stufen zwischen den Tarifen ungleich sind und ob Zusätze und Pakete dazu passend bepreist sind."
 
-#: onedesk/one_ai/proposals.py:202
+#: onedesk/one_ai/proposals.py:213
 msgid "How documents print has changed since this was suggested, so it no longer applies."
 msgstr "Wie Dokumente gedruckt werden, hat sich seit diesem Vorschlag geändert, daher gilt er nicht mehr."
 
@@ -9047,11 +9081,11 @@ msgstr "Der Fortschritt ist ein Anteil zwischen 1 und 100."
 msgid "How good the browser said the position was."
 msgstr "Wie genau die Position laut Browser war."
 
-#: onedesk/one_project/ai.py:34
+#: onedesk/one_project/ai.py:35
 msgid "How is this project going?"
 msgstr "Wie läuft dieses Projekt?"
 
-#: onedesk/one_project/ai.py:35
+#: onedesk/one_project/ai.py:36
 msgid "How is this project going? Say in a few lines where it stands against its dates and its budget, what is late and what it holds up, the next milestone, and what the team said last."
 msgstr "Wie läuft dieses Projekt? Sagen Sie in wenigen Zeilen, wo es gegenüber Terminen und Budget steht, was verspätet ist und was es aufhält, den nächsten Meilenstein und was das Team zuletzt gesagt hat."
 
@@ -9150,11 +9184,11 @@ msgstr "Wie viel Urlaub habe ich noch, und wer aus meinem Team ist in den nächs
 msgid "How much leave do I have?"
 msgstr "Wie viel Urlaub habe ich?"
 
-#: onedesk/one_project/ai.py:113
+#: onedesk/one_project/ai.py:114
 msgid "How much of this month's hours are used?"
 msgstr "Wie viele Stunden dieses Monats sind verbraucht?"
 
-#: onedesk/one_project/ai.py:114
+#: onedesk/one_project/ai.py:115
 msgid "How much of this month's retainer hours are used, how many are left, and at this pace will the month go over? Say which months went over and which are not invoiced yet."
 msgstr "Wie viele der Retainer-Stunden dieses Monats sind verbraucht, wie viele bleiben, und wird der Monat bei diesem Tempo überschritten? Nenne die Monate, die überschritten wurden, und die noch nicht abgerechneten."
 
@@ -9190,7 +9224,7 @@ msgstr "Wie die Nachricht bei diesem Datensatz abgelegt wurde."
 msgid "How we handle personal data your organisation is responsible for. Part of the Terms of Service."
 msgstr "Wie wir personenbezogene Daten behandeln, für die deine Organisation verantwortlich ist. Teil der Nutzungsbedingungen."
 
-#: onedesk/one_ai/proposals.py:173
+#: onedesk/one_ai/proposals.py:184
 msgid "How {0} is numbered has changed since this was suggested, so it no longer applies."
 msgstr "Die Nummerierung von {0} hat sich seit diesem Vorschlag geändert, daher gilt er nicht mehr."
 
@@ -9490,7 +9524,7 @@ msgstr "Im Betreff oder irgendwo in der Nachricht."
 
 #: frontend/src/project/Milestones.vue:32 onedesk/one_admin/heads.py:201
 #: onedesk/one_project/heads.py:77 onedesk/one_project/portal.py:170
-#: onedesk/one_project/view.py:260 onedesk/one_project/view.py:433
+#: onedesk/one_project/view.py:263 onedesk/one_project/view.py:436
 msgid "In {0} days"
 msgstr "In {0} Tagen"
 
@@ -9827,7 +9861,7 @@ msgid "Invoice"
 msgstr "Rechnung"
 
 #: frontend/src/project/Invoices.vue:12 frontend/src/project/Months.vue:19
-#: frontend/src/project/ProjectPage.vue:250 onedesk/public/js/project.js:30
+#: frontend/src/project/ProjectPage.vue:251 onedesk/public/js/project.js:30
 #: onedesk/public/js/project_actions.js:337
 msgid "Invoice Month"
 msgstr "Monat fakturieren"
@@ -9837,12 +9871,12 @@ msgid "Invoice Number"
 msgstr "Rechnungsnummer"
 
 #: frontend/src/project/Overview.vue:37
-#: frontend/src/project/ProjectPage.vue:248 frontend/src/project/Time.vue:110
+#: frontend/src/project/ProjectPage.vue:249 frontend/src/project/Time.vue:110
 #: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:85
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
 
-#: onedesk/one_project/view.py:626
+#: onedesk/one_project/view.py:629
 msgid "Invoice to {0} to check"
 msgstr "Rechnung an {0} zu prüfen"
 
@@ -11518,7 +11552,7 @@ msgstr "Als Standard festlegen"
 msgid "Make Main Address"
 msgstr "Zur Hauptadresse machen"
 
-#: frontend/src/project/ProjectPage.vue:244
+#: frontend/src/project/ProjectPage.vue:245
 msgid "Make Order"
 msgstr "Auftrag erstellen"
 
@@ -12467,7 +12501,7 @@ msgstr "Neues Projekt"
 msgid "New Purchase Order"
 msgstr "Neue Bestellung"
 
-#: frontend/src/project/ProjectPage.vue:232
+#: frontend/src/project/ProjectPage.vue:233
 msgid "New Quotation"
 msgstr "Neues Angebot"
 
@@ -12553,12 +12587,12 @@ msgstr "Neue E-Mails kommen nicht an. Verbinden Sie es erneut mit seinem Passwor
 msgid "New workspaces can't be built until a server is added."
 msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzugefügt ist."
 
-#: onedesk/one/page/masters/masters.js:165 onedesk/one_ai/proposals.py:544
+#: onedesk/one/page/masters/masters.js:165 onedesk/one_ai/proposals.py:559
 #: onedesk/public/js/oneai/Record.vue:147
 msgid "New {0}"
 msgstr "Neu: {0}"
 
-#: onedesk/one_ai/proposals.py:543
+#: onedesk/one_ai/proposals.py:558
 msgid "New {0}: {1}"
 msgstr "Neu: {0} {1}"
 
@@ -12661,7 +12695,7 @@ msgid "Next: {0}"
 msgstr "Als Nächstes: {0}"
 
 #: onedesk/one/ai.py:2724 onedesk/one/ai.py:2727 onedesk/one/ai.py:3855
-#: onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:740
+#: onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:749
 #: onedesk/public/js/onecloud.js:722
 msgid "No"
 msgstr ""
@@ -13268,7 +13302,7 @@ msgstr "In letzter Zeit nicht aktiv"
 msgid "Not allowed"
 msgstr "Nicht erlaubt"
 
-#: onedesk/one_ai/chat.py:454 onedesk/one_ai/chat.py:457
+#: onedesk/one_ai/chat.py:463 onedesk/one_ai/chat.py:466
 msgid "Not answered"
 msgstr "Nicht beantwortet"
 
@@ -13281,7 +13315,7 @@ msgstr "Nicht bei Cloudflare"
 msgid "Not built yet"
 msgstr "Noch nicht eingerichtet"
 
-#: onedesk/one_ai/chat.py:1135
+#: onedesk/one_ai/chat.py:1144
 msgid "Not changed"
 msgstr "Nicht geändert"
 
@@ -13342,7 +13376,7 @@ msgstr "Nicht erfasst"
 msgid "Not offered"
 msgstr "Nicht angeboten"
 
-#: onedesk/one_project/view.py:242
+#: onedesk/one_project/view.py:245
 msgid "Not ordered yet"
 msgstr "Noch nicht beauftragt"
 
@@ -13650,7 +13684,7 @@ msgstr "Anzahl verschiedener Mitarbeiter und jeweiliger Eincheckungen, bevor ein
 msgid "Numbering"
 msgstr "Nummerierung"
 
-#: onedesk/one_ai/proposals.py:552 onedesk/public/js/oneai/Record.vue:156
+#: onedesk/one_ai/proposals.py:567 onedesk/public/js/oneai/Record.vue:156
 msgid "Numbering of {0}"
 msgstr "Nummerierung von {0}"
 
@@ -13683,7 +13717,7 @@ msgid "Of Whom"
 msgstr "Von wem"
 
 #: onedesk/one/ai.py:2727 onedesk/one/settings.py:910
-#: onedesk/one_ai/chat.py:739
+#: onedesk/one_ai/chat.py:748
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271
@@ -13696,7 +13730,9 @@ msgid "Off"
 msgstr "Aus"
 
 #. Option for the 'Health' (Select) field in DocType 'Project'
+#. Option for the 'Health' (Select) field in DocType 'Project User'
 #: onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/project_user.json
 msgid "Off Track"
 msgstr "Nicht auf Kurs"
 
@@ -13757,7 +13793,7 @@ msgstr "Angebote"
 msgid "Old Password"
 msgstr ""
 
-#: onedesk/one/ai.py:3855 onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:739
+#: onedesk/one/ai.py:3855 onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:748
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271 onedesk/public/js/settings.js:592
@@ -13826,7 +13862,9 @@ msgid "On Server"
 msgstr "Auf dem Server"
 
 #. Option for the 'Health' (Select) field in DocType 'Project'
+#. Option for the 'Health' (Select) field in DocType 'Project User'
 #: onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/project_user.json
 msgid "On Track"
 msgstr "Auf Kurs"
 
@@ -14196,7 +14234,7 @@ msgstr "OneAI kann nicht antworten"
 msgid "OneAI could not answer just now. Try again in a moment."
 msgstr "OneAI konnte gerade nicht antworten. Versuchen Sie es gleich noch einmal."
 
-#: onedesk/one_ai/chat.py:453
+#: onedesk/one_ai/chat.py:462
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen Sie es erneut."
 
@@ -14527,7 +14565,7 @@ msgstr "Das kann nur ein Administrator dieses Arbeitsbereichs."
 msgid "Only an administrator or the customer's or supplier's manager can do this."
 msgstr "Das kann nur ein Administrator oder der Verantwortliche für den Kunden oder Lieferanten."
 
-#: onedesk/one_ai/chat.py:1132
+#: onedesk/one_ai/chat.py:1141
 msgid "Only an administrator picks the model here."
 msgstr "Hier wählt nur ein Administrator das Modell."
 
@@ -14751,7 +14789,7 @@ msgstr "Offene Projekte"
 msgid "Open Source and Third-Party Notices"
 msgstr "Open-Source- und Drittanbieterhinweise"
 
-#: frontend/src/project/ProjectPage.vue:237
+#: frontend/src/project/ProjectPage.vue:238
 msgid "Open Task Board"
 msgstr "Aufgabenboard öffnen"
 
@@ -14934,7 +14972,7 @@ msgstr "Original"
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/report/spending/spending.py:26
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/view.py:730 onedesk/one_project/view.py:808
+#: onedesk/one_project/view.py:733 onedesk/one_project/view.py:811
 #: onedesk/public/js/oneai/Panel.vue:583
 msgid "Other"
 msgstr "Sonstige"
@@ -15222,7 +15260,7 @@ msgstr "Seiten"
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/one_project/money.py:148 onedesk/one_project/money.py:167
-#: onedesk/one_project/view.py:270 onedesk/one_project/view.py:448
+#: onedesk/one_project/view.py:273 onedesk/one_project/view.py:451
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:155
 msgid "Paid"
 msgstr "Bezahlt"
@@ -15265,7 +15303,7 @@ msgstr "Im Voraus bezahlt"
 msgid "Paid under"
 msgstr "Vergütet nach"
 
-#: onedesk/one_project/view.py:274
+#: onedesk/one_project/view.py:277
 msgid "Paid {0}"
 msgstr "Bezahlt {0}"
 
@@ -15967,7 +16005,7 @@ msgstr "Meinen Tag planen"
 msgid "Plan the first two weeks"
 msgstr "Die ersten zwei Wochen planen"
 
-#: onedesk/one_project/ai.py:77
+#: onedesk/one_project/ai.py:78
 msgid "Plan the tasks"
 msgstr "Aufgaben planen"
 
@@ -16053,12 +16091,12 @@ msgstr "Typ des möglichen Duplikats"
 msgid "Possible duplicate of {0}."
 msgstr "Mögliches Duplikat von {0}."
 
-#: frontend/src/project/Updates.vue:18 onedesk/public/js/project_actions.js:186
+#: frontend/src/project/Updates.vue:24 onedesk/public/js/project_actions.js:186
 msgid "Post"
 msgstr "Posten"
 
 #: frontend/src/project/ProjectPage.vue:228
-#: frontend/src/project/ProjectPage.vue:251 onedesk/public/js/project.js:74
+#: frontend/src/project/ProjectPage.vue:252 onedesk/public/js/project.js:74
 #: onedesk/public/js/project.js:76 onedesk/public/js/project_actions.js:185
 msgid "Post Update"
 msgstr "Update posten"
@@ -16244,7 +16282,7 @@ msgstr "Wird auf ein Dokument gedruckt, sofern kein anderer gewählt wird."
 msgid "Printing"
 msgstr "Drucken"
 
-#: onedesk/one_ai/proposals.py:554 onedesk/public/js/oneai/Record.vue:157
+#: onedesk/one_ai/proposals.py:569 onedesk/public/js/oneai/Record.vue:157
 msgid "Printing of {0}"
 msgstr "Druck von {0}"
 
@@ -16691,7 +16729,7 @@ msgstr ""
 msgid "Quotations"
 msgstr "Angebote"
 
-#: frontend/src/project/ProjectPage.vue:233 onedesk/public/js/project.js:39
+#: frontend/src/project/ProjectPage.vue:234 onedesk/public/js/project.js:39
 msgid "Quote Extra Work"
 msgstr "Zusatzarbeiten anbieten"
 
@@ -16862,7 +16900,7 @@ msgstr "Neue Dateien in {0} und seinen Unterordnern mit OneAI lesen? OneAI legt 
 msgid "Read the leave approval and leave status mails and suggest clearer, friendlier wording for each, keeping what they already fill in."
 msgstr "Lies die Mails zur Urlaubsgenehmigung und zum Urlaubsstatus und schlage für jede eine klarere, freundlichere Formulierung vor, wobei alles, was sie bereits ausfüllen, erhalten bleibt."
 
-#: onedesk/one_project/ai.py:78
+#: onedesk/one_project/ai.py:79
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
 msgstr "Lesen Sie dieses Projekt und schlagen Sie die Aufgaben vor, die noch fehlen, jede mit einem Fälligkeitsdatum vor seinem Ende, als Karten, die ich genehmigen kann."
 
@@ -17549,7 +17587,7 @@ msgstr "Umbenannt in {0}"
 msgid "Renew the {0} of {1}"
 msgstr "{0} von {1} erneuern"
 
-#: onedesk/one_project/view.py:352
+#: onedesk/one_project/view.py:355
 msgid "Renews {0}"
 msgstr "Verlängert sich am {0}"
 
@@ -17871,8 +17909,8 @@ msgid "Retention Due"
 msgstr "Einbehalt fällig am"
 
 #: frontend/src/project/Suppliers.vue:11 frontend/src/project/Suppliers.vue:74
-#: onedesk/one_project/money.py:152 onedesk/one_project/view.py:458
-#: onedesk/one_project/view.py:507
+#: onedesk/one_project/money.py:152 onedesk/one_project/view.py:461
+#: onedesk/one_project/view.py:510
 msgid "Retention Held"
 msgstr "Einbehalten"
 
@@ -18178,7 +18216,8 @@ msgstr "Gleiches Format wie eine Serie."
 #: onedesk/public/js/onecloud.js:1613 onedesk/public/js/onemail.js:932
 #: onedesk/public/js/onemail.js:956 onedesk/public/js/project_actions.js:72
 #: onedesk/public/js/project_actions.js:197
-#: onedesk/public/js/project_actions.js:242 onedesk/public/js/reports.js:402
+#: onedesk/public/js/project_actions.js:242
+#: onedesk/public/js/project_actions.js:486 onedesk/public/js/reports.js:402
 #: onedesk/public/js/settings.js:490 onedesk/public/js/settings.js:787
 #: onedesk/public/js/settings.js:2712 onedesk/public/js/shell.js:458
 #: onedesk/website/doctype/web_form/templates/web_form.html:19
@@ -18190,7 +18229,7 @@ msgstr "Speichern"
 msgid "Save Address"
 msgstr "Adresse speichern"
 
-#: frontend/src/project/ProjectPage.vue:236 onedesk/public/js/project.js:51
+#: frontend/src/project/ProjectPage.vue:237 onedesk/public/js/project.js:51
 #: onedesk/public/js/project_actions.js:71
 msgid "Save as Template"
 msgstr "Als Vorlage speichern"
@@ -19026,11 +19065,11 @@ msgstr "Zeigen in"
 msgid "Show In…"
 msgstr "Zeigen in…"
 
-#: frontend/src/project/Updates.vue:20
+#: frontend/src/project/Updates.vue:26
 msgid "Show Less"
 msgstr "Weniger anzeigen"
 
-#: onedesk/www/portal.html:67
+#: frontend/src/project/Updates.vue:14 onedesk/www/portal.html:67
 msgid "Show More"
 msgstr "Mehr anzeigen"
 
@@ -19050,7 +19089,7 @@ msgstr "Weniger anzeigen"
 msgid "Show pictures"
 msgstr "Bilder anzeigen"
 
-#: frontend/src/project/Updates.vue:20
+#: frontend/src/project/Updates.vue:26
 msgid "Show {0} Earlier"
 msgstr "{0} frühere anzeigen"
 
@@ -19180,7 +19219,7 @@ msgid "Sign-ins"
 msgstr "Anmeldungen"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one_ai/chat.py:361
+#: onedesk/one_ai/chat.py:370
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/onemail.js:951 onedesk/public/js/onemail.js:1049
 #: onedesk/public/js/settings.js:456 onedesk/public/js/settings.js:485
@@ -19188,7 +19227,7 @@ msgstr "Anmeldungen"
 msgid "Signature"
 msgstr "Signatur"
 
-#: onedesk/one_ai/proposals.py:548 onedesk/public/js/oneai/Record.vue:154
+#: onedesk/one_ai/proposals.py:563 onedesk/public/js/oneai/Record.vue:154
 #: onedesk/public/js/onemail.js:946
 msgid "Signature for {0}"
 msgstr "Signatur für {0}"
@@ -20620,7 +20659,7 @@ msgstr "Das ist nicht Ihr Passwort."
 msgid "That isn't on offer."
 msgstr "Das wird nicht angeboten."
 
-#: onedesk/one_ai/chat.py:1135
+#: onedesk/one_ai/chat.py:1144
 msgid "That model is not offered."
 msgstr "Dieses Modell wird nicht angeboten."
 
@@ -20802,7 +20841,7 @@ msgstr "Die App, deren Ereignisse dies senden."
 msgid "The applicant"
 msgstr "Der Bewerber"
 
-#: onedesk/one_ai/proposals.py:224
+#: onedesk/one_ai/proposals.py:235
 msgid "The approvals on {0} have changed since this was suggested, so it no longer applies."
 msgstr "Die Freigaben für {0} haben sich seit diesem Vorschlag geändert, er gilt daher nicht mehr."
 
@@ -22018,7 +22057,7 @@ msgstr "Diese Einladung ist abgelaufen"
 msgid "This invitation was withdrawn"
 msgstr "Diese Einladung wurde zurückgezogen"
 
-#: onedesk/one_ai/proposals.py:257
+#: onedesk/one_ai/proposals.py:268
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "Das gilt für ein noch nicht gespeichertes Dokument. Übernehmen Sie es in dessen Formular."
 
@@ -22026,7 +22065,7 @@ msgstr "Das gilt für ein noch nicht gespeichertes Dokument. Übernehmen Sie es 
 msgid "This is for a person to decide."
 msgstr "Das entscheidet eine Person."
 
-#: onedesk/one_ai/proposals.py:256
+#: onedesk/one_ai/proposals.py:267
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr "Dies ist für eine E-Mail, die gerade geschrieben wird. Übernehmen Sie es bei geöffnetem E-Mail-Fenster."
 
@@ -22447,8 +22486,8 @@ msgstr "Ihnen zugewiesene Aufgaben"
 
 #: frontend/src/project/Milestones.vue:32 onedesk/one_book/heads.py:47
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
-#: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:258
-#: onedesk/one_project/view.py:431 onedesk/one_task/mine.py:25
+#: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:261
+#: onedesk/one_project/view.py:434 onedesk/one_task/mine.py:25
 #: onedesk/one_task/tell.py:127
 msgid "Today"
 msgstr "Heute"
@@ -23042,10 +23081,12 @@ msgstr "Nach oben"
 msgid "Up To"
 msgstr "Bis"
 
+#. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #. Option for the 'Change' (Select) field in DocType 'Reading'
-#: onedesk/one_admin/home.py:409
+#: onedesk/one_admin/home.py:409 onedesk/one_ai/chat.py:358
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -23829,7 +23870,7 @@ msgstr "Wofür ist „{0}“ in {1}? Schlage einen Wert vor."
 msgid "What is happening"
 msgstr "Was gerade läuft"
 
-#: onedesk/one_project/ai.py:43
+#: onedesk/one_project/ai.py:44
 msgid "What is late?"
 msgstr "Was ist verspätet?"
 
@@ -23894,7 +23935,7 @@ msgstr "Was braucht mich heute?"
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in OneIntake, OneAI's suggestions and what I have to approve, and say what to do first."
 msgstr "Was braucht mich heute? Sieh dir meine Aufgaben, meine Termine, was in OneIntake auf mich wartet, die Vorschläge von OneAI und was ich genehmigen muss an, und sag, womit ich anfangen soll."
 
-#: onedesk/one_project/ai.py:105
+#: onedesk/one_project/ai.py:106
 msgid "What on this project is still to invoice? Say what time is billable and not invoiced, what of the contract is not billed yet, and what is invoiced and not paid."
 msgstr "Was ist bei diesem Projekt noch abzurechnen? Nenne die abrechenbare, noch nicht abgerechnete Zeit, was vom Vertrag noch nicht berechnet ist und was berechnet, aber nicht bezahlt ist."
 
@@ -24189,11 +24230,11 @@ msgstr "Was Sie exportiert oder gedruckt haben, ohne die Seiten"
 msgid "What {0} sees"
 msgstr "Was {0} sieht"
 
-#: onedesk/one_project/ai.py:68
+#: onedesk/one_project/ai.py:69
 msgid "What's left to pay the subcontractors?"
 msgstr "Was ist an die Nachunternehmer noch zu zahlen?"
 
-#: onedesk/one_project/ai.py:104
+#: onedesk/one_project/ai.py:105
 msgid "What's still to invoice?"
 msgstr "Was ist noch abzurechnen?"
 
@@ -24863,11 +24904,11 @@ msgstr "Stand"
 msgid "Where did the credits go?"
 msgstr "Wohin sind die Credits gegangen?"
 
-#: onedesk/one_project/ai.py:95
+#: onedesk/one_project/ai.py:96
 msgid "Where did the time go?"
 msgstr "Wohin ist die Zeit gegangen?"
 
-#: onedesk/one_project/ai.py:96
+#: onedesk/one_project/ai.py:97
 msgid "Where did this project's time go this month? Say who logged it, on which tasks, how much is billable, and what is still a draft."
 msgstr "Wohin ist die Zeit dieses Projekts in diesem Monat gegangen? Nenne, wer sie erfasst hat, auf welchen Aufgaben, wie viel abrechenbar ist und was noch Entwurf ist."
 
@@ -24887,11 +24928,11 @@ msgstr "Wo steht dieser Deal? Sag in wenigen Zeilen, worum es geht, wie weit er 
 msgid "Where files are kept"
 msgstr "Wo die Dateien gespeichert werden"
 
-#: onedesk/one_project/ai.py:58
+#: onedesk/one_project/ai.py:59
 msgid "Where is the money going?"
 msgstr "Wohin fließt das Geld?"
 
-#: onedesk/one_project/ai.py:59
+#: onedesk/one_project/ai.py:60
 msgid "Where is this project's money going? Say what the customer has been invoiced and paid, what it has cost and on what, which cost types are close to or over their budget, and where the forecast margin is heading."
 msgstr "Wohin fließt das Geld dieses Projekts? Sag, was dem Kunden in Rechnung gestellt wurde und was er bezahlt hat, was es gekostet hat und wofür, welche Kostenarten nahe an ihrem Budget oder darüber sind und wohin die prognostizierte Marge geht."
 
@@ -25012,7 +25053,7 @@ msgstr "Welche unserer eigenen Domains funktionieren nicht, und was sollten wir 
 msgid "Which of the notifications I get by email could I leave to the bell, or have pushed instead? Say which to untick and why."
 msgstr "Welche der Benachrichtigungen, die ich per E-Mail bekomme, könnte ich der Glocke überlassen oder stattdessen pushen lassen? Sag, welche ich abwählen soll und warum."
 
-#: onedesk/one_project/ai.py:44
+#: onedesk/one_project/ai.py:45
 msgid "Which of this project's tasks are late, who is on each, and what waits on them?"
 msgstr "Welche Aufgaben dieses Projekts sind verspätet, wer arbeitet daran und was wartet darauf?"
 
@@ -25024,7 +25065,7 @@ msgstr "Welche offenen Deals sind eingeschlafen: Seit zwei Wochen hat niemand mi
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "Welche offenen Leads warten auf uns: Seit einer Woche hat niemand mit ihnen gesprochen, und nichts ist geplant?"
 
-#: onedesk/one_project/ai.py:152
+#: onedesk/one_project/ai.py:163
 msgid "Which open projects need attention: marked at risk or off track, with late tasks, past their end date, or over their estimated cost?"
 msgstr "Welche offenen Projekte brauchen Aufmerksamkeit: als gefährdet oder nicht im Plan markiert, mit verspäteten Aufgaben, über ihrem Enddatum oder über den geschätzten Kosten?"
 
@@ -25051,7 +25092,7 @@ msgstr "Welche Vorlage den Kopf aus den Firmenangaben zeichnet und was er zeigt.
 msgid "Which print format do Sales Invoices print with, and which others could they use?"
 msgstr "Mit welchem Druckformat werden Ausgangsrechnungen gedruckt, und welche anderen könnten sie verwenden?"
 
-#: onedesk/one_project/ai.py:151
+#: onedesk/one_project/ai.py:162
 msgid "Which projects need attention?"
 msgstr "Welche Projekte brauchen Aufmerksamkeit?"
 
@@ -25138,7 +25179,7 @@ msgstr "Wer hat sich in letzter Zeit nicht angemeldet?"
 msgid "Who has this?"
 msgstr "Wer hat das?"
 
-#: onedesk/one_project/ai.py:86
+#: onedesk/one_project/ai.py:87
 msgid "Who has too much on?"
 msgstr "Wer hat zu viel zu tun?"
 
@@ -25162,7 +25203,7 @@ msgstr "Wer gibt am meisten aus?"
 msgid "Who it changes"
 msgstr "Wen es betrifft"
 
-#: onedesk/one_project/ai.py:87
+#: onedesk/one_project/ai.py:88
 msgid "Who on this project has too much on? Say who has the most open and late tasks and the most hours this month, and which tasks could go to somebody with less."
 msgstr "Wer in diesem Projekt hat zu viel zu tun? Nenne, wer die meisten offenen und überfälligen Aufgaben und die meisten Stunden in diesem Monat hat, und welche Aufgaben jemand mit weniger übernehmen könnte."
 
@@ -25724,7 +25765,7 @@ msgstr "Schreibe eine kurze Biografie für mein Profil aus meiner Stelle, meiner
 msgid "Write a short email signature with my name, job title and contact details for me to approve."
 msgstr "Schreibe eine kurze E-Mail-Signatur mit meinem Namen, meiner Position und meinen Kontaktdaten zur Freigabe."
 
-#: onedesk/one_project/ai.py:50
+#: onedesk/one_project/ai.py:51
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
 msgstr "Schreiben Sie ein kurzes Update zu diesem Projekt für den Kunden: was erledigt ist, was als Nächstes kommt und wann es fertig sein soll. Einfache Worte. Ohne Stunden, Kosten und wer im Team was macht."
 
@@ -25744,7 +25785,7 @@ msgstr "Schreibe eine Erweiterung, die "
 msgid "Write an extension…"
 msgstr "Erweiterung schreiben…"
 
-#: frontend/src/project/Updates.vue:17
+#: frontend/src/project/Updates.vue:23
 msgid "Write an update"
 msgstr "Update schreiben"
 
@@ -25765,7 +25806,7 @@ msgstr "Meine Biografie schreiben"
 msgid "Write my signature"
 msgstr "Meine Signatur schreiben"
 
-#: onedesk/one_project/ai.py:49
+#: onedesk/one_project/ai.py:50
 msgid "Write the customer an update"
 msgstr "Ein Update für den Kunden schreiben"
 
@@ -25793,11 +25834,11 @@ msgstr "Anruf festhalten"
 msgid "Write with {0}"
 msgstr "Mit {0} schreiben"
 
-#: onedesk/one_project/updates.py:174
+#: onedesk/one_project/updates.py:180
 msgid "Write your update first."
 msgstr "Schreiben Sie zuerst Ihr Update."
 
-#: onedesk/one_ai/proposals.py:566
+#: onedesk/one_ai/proposals.py:583
 msgid "Write {0} on a new {1}"
 msgstr "{0} in einem neuen {1} schreiben"
 
@@ -25880,7 +25921,7 @@ msgid "Year-end close of {0}"
 msgstr "Jahresabschluss {0}"
 
 #: onedesk/one/ai.py:2724 onedesk/one/ai.py:2727 onedesk/one/ai.py:3855
-#: onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:740
+#: onedesk/one/ai.py:4075 onedesk/one_ai/chat.py:749
 #: onedesk/public/js/onecloud.js:722
 msgid "Yes"
 msgstr ""
@@ -26001,7 +26042,7 @@ msgstr "Sie haben anstehende Feiertage"
 msgid "You haven't downloaded the workspace."
 msgstr "Sie haben den Arbeitsbereich nicht heruntergeladen."
 
-#: onedesk/one_ai/proposals.py:440
+#: onedesk/one_ai/proposals.py:455
 msgid "You may not change how {0} signs."
 msgstr "Sie dürfen nicht ändern, wie {0} signiert."
 
@@ -26021,7 +26062,7 @@ msgstr "Sie dürfen {0} nicht lesen."
 msgid "You may not run {0}."
 msgstr "Sie dürfen {0} nicht ausführen."
 
-#: onedesk/one_ai/proposals.py:463
+#: onedesk/one_ai/proposals.py:478
 msgid "You may not {0} {1}."
 msgstr "Sie dürfen {1} nicht {0}."
 
@@ -26282,6 +26323,10 @@ msgstr "Ihre Anmeldungen"
 #: onedesk/www/welcome.py:32 onedesk/www/welcome.py:33
 msgid "Your trial has started. The workspace is being built."
 msgstr "Ihre Testphase hat begonnen. Der Arbeitsbereich wird angelegt."
+
+#: frontend/src/project/Updates.vue:19
+msgid "Your update is due today"
+msgstr "Dein Update ist heute fällig"
 
 #: onedesk/public/js/project_actions.js:182
 msgid "Your update is on the project."
@@ -26820,15 +26865,15 @@ msgstr "nichts kann jetzt {0}"
 msgid "of {0} a month"
 msgstr "von {0} im Monat"
 
-#: onedesk/one_project/view.py:390
+#: onedesk/one_project/view.py:393
 msgid "of {0} budget"
 msgstr "von {0} Budget"
 
-#: onedesk/one_project/view.py:344
+#: onedesk/one_project/view.py:347
 msgid "of {0} h"
 msgstr "von {0} Std."
 
-#: onedesk/one_project/view.py:373
+#: onedesk/one_project/view.py:376
 msgid "of {0} open"
 msgstr "von {0} offenen"
 
@@ -27636,7 +27681,7 @@ msgstr "{0} Tage vor {1}"
 
 #: frontend/src/project/Facts.vue:46 frontend/src/project/Milestones.vue:32
 #: frontend/src/project/Overview.vue:216 onedesk/one_project/heads.py:76
-#: onedesk/one_project/portal.py:167 onedesk/one_project/view.py:429
+#: onedesk/one_project/portal.py:167 onedesk/one_project/view.py:432
 msgid "{0} days late"
 msgstr "{0} Tage überfällig"
 
@@ -27752,7 +27797,7 @@ msgstr "{0} geht über {1}, das keine Verknüpfung ist."
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "{0} reicht bereits bis {1}, daher kann sie nur auf {1} oder mehr gesetzt werden."
 
-#: frontend/src/kit/desk.js:31 onedesk/one_project/view.py:327
+#: frontend/src/kit/desk.js:31 onedesk/one_project/view.py:330
 #: onedesk/templates/includes/timesheet/timesheet_row.html:12
 msgid "{0} h"
 msgstr "{0} Std."
@@ -27781,8 +27826,8 @@ msgstr "{0} hat einen Vorlagenfehler ({1})."
 msgid "{0} has already joined. Send a password reset instead."
 msgstr "{0} ist bereits beigetreten. Senden Sie stattdessen eine Passwort-Zurücksetzung."
 
-#: onedesk/one/ai_setup.py:791 onedesk/one_ai/proposals.py:157
-#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:410
+#: onedesk/one/ai_setup.py:791 onedesk/one_ai/proposals.py:168
+#: onedesk/one_ai/proposals.py:274 onedesk/one_studio/ai.py:410
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "{0} hat sich seit dem Vorschlag geändert, daher gilt er nicht mehr."
 
@@ -27887,7 +27932,7 @@ msgstr "{0} in {1} Aufrufen"
 msgid "{0} in {1} days."
 msgstr "{0} in {1} Tagen."
 
-#: onedesk/one_project/view.py:293
+#: onedesk/one_project/view.py:296
 msgid "{0} invoiced"
 msgstr "{0} abgerechnet"
 
@@ -28228,7 +28273,7 @@ msgstr "{0} wird nicht mit Formaten gedruckt, die dieser Arbeitsbereich festlegt
 msgid "{0} is not something done to {1}."
 msgstr "{0} ist nichts, was mit {1} gemacht wird."
 
-#: onedesk/one_ai/proposals.py:449
+#: onedesk/one_ai/proposals.py:464
 msgid "{0} is not something that can be proposed."
 msgstr "{0} lässt sich nicht vorschlagen."
 
@@ -28260,7 +28305,7 @@ msgstr "{0} funktioniert nicht."
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} befindet sich in einem privaten Netzwerk. OneCloud kann sich nicht damit verbinden."
 
-#: onedesk/one_project/view.py:602
+#: onedesk/one_project/view.py:605
 msgid "{0} is over budget"
 msgstr "{0} liegt über dem Budget"
 
@@ -28365,7 +28410,7 @@ msgstr "{0} darf nur die Felder des Datensatzes mit einfachen Werten vergleichen
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} Modelle, {1} bepreist, {2} brauchen Prüfung."
 
-#: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:358
+#: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:361
 msgid "{0} months"
 msgstr "{0} Monate"
 
@@ -28417,7 +28462,7 @@ msgstr "{0} davon aktiv."
 #: frontend/src/project/Months.vue:11 frontend/src/project/TaskPanel.vue:37
 #: onedesk/one/heads.py:71 onedesk/one_admin/doctype/tenant/tenant_list.js:43
 #: onedesk/one_admin/heads.py:160 onedesk/one_project/heads.py:35
-#: onedesk/one_project/view.py:415 onedesk/public/js/settings.js:1516
+#: onedesk/one_project/view.py:418 onedesk/public/js/settings.js:1516
 msgid "{0} of {1}"
 msgstr "{0} von {1}"
 
@@ -28445,7 +28490,7 @@ msgstr "{0} von {1} Monaten"
 msgid "{0} of {1} seats used."
 msgstr "{0} von {1} Plätzen belegt."
 
-#: onedesk/one_project/view.py:406
+#: onedesk/one_project/view.py:409
 msgid "{0} of {1} tasks"
 msgstr "{0} von {1} Aufgaben"
 
@@ -28473,7 +28518,7 @@ msgstr "{0} ältere Einträge"
 msgid "{0} on"
 msgstr "{0} an"
 
-#: frontend/src/project/Overview.vue:184 onedesk/one_project/view.py:393
+#: frontend/src/project/Overview.vue:184 onedesk/one_project/view.py:396
 msgid "{0} on order"
 msgstr "{0} bestellt"
 
@@ -28485,7 +28530,7 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag, mit {1} {2} für 
 msgid "{0} on the odometer since the last log."
 msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 
-#: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:564
+#: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:581
 #: onedesk/public/js/deleted_document_list.js:13 onedesk/public/js/push.js:47
 #: onedesk/public/js/settings.js:1525
 msgid "{0} on {1}"
@@ -28499,7 +28544,7 @@ msgstr "{0} einmalig"
 msgid "{0} open of {1}"
 msgstr "{0} von {1} offen"
 
-#: onedesk/one_project/view.py:234
+#: onedesk/one_project/view.py:237
 msgid "{0} open quotes"
 msgstr "{0} offene Angebote"
 
@@ -28560,7 +28605,7 @@ msgstr "{0} Personen."
 msgid "{0} plan"
 msgstr "Tarif {0}"
 
-#: onedesk/one_project/updates.py:229
+#: onedesk/one_project/updates.py:262
 msgid "{0} posted an update"
 msgstr "{0} hat ein Update gepostet"
 
@@ -28722,7 +28767,7 @@ msgid "{0} waiting in OneIntake"
 msgstr "{0} warten in OneIntake"
 
 #: onedesk/one_admin/ledger.py:175 onedesk/one_ai/proposals.py:116
-#: onedesk/one_ai/proposals.py:308 onedesk/one_ai/touch.py:211
+#: onedesk/one_ai/proposals.py:319 onedesk/one_ai/touch.py:211
 msgid "{0} was already {1}."
 msgstr "{0} war bereits {1}."
 
@@ -28852,19 +28897,19 @@ msgstr "{0} – läuft"
 msgid "{0}% billed"
 msgstr "{0} % berechnet"
 
-#: onedesk/one_project/view.py:627 onedesk/public/js/project_list.js:45
+#: onedesk/one_project/view.py:630 onedesk/public/js/project_list.js:45
 #: onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0} % erledigt"
 
 #: frontend/src/project/Money.vue:103 frontend/src/project/TaskPanel.vue:32
-#: onedesk/one_project/milestones.py:137 onedesk/one_project/view.py:314
+#: onedesk/one_project/milestones.py:137 onedesk/one_project/view.py:317
 #, python-format
 msgid "{0}% of the contract"
 msgstr "{0} % des Vertrags"
 
-#: onedesk/one_project/view.py:314
+#: onedesk/one_project/view.py:317
 #, python-format
 msgid "{0}% of the quote"
 msgstr "{0} % des Angebots"

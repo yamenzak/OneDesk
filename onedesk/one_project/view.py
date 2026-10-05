@@ -27,6 +27,7 @@ from frappe.utils import (
 )
 
 from onedesk.one_project import billing, budget, kinds, media, milestones, money, overview, retainer, tree
+from onedesk.one_project import updates as asking
 
 #: How many of each list the Overview shows.
 SHOWN = 6
@@ -111,6 +112,8 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"cover": doc.get("one_cover"),
 		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
+		"update_due": asking.asked(doc.name),
+		"asking": asking.asking(doc.as_dict()),
 	}
 
 

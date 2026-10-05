@@ -45,8 +45,8 @@ MOST_ROWS = 20
 
 #: Kinds whose changes are the tool's own, checked by it, rather than a
 #: record's values: how a form looks, how a mailbox signs, the workspace's
-#: holidays, and a reply to a conversation.
-OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval", "Setup")
+#: holidays, a reply to a conversation, and an update on a project.
+OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval", "Setup", "Update")
 
 
 def propose(
@@ -143,6 +143,17 @@ def apply(proposal: str) -> dict:
 		actions.require(changes.get("account"))
 		_done(entry, entry.record)
 		return {"proposal": entry.name, "state": "Applied", "reply": changes}
+
+	if entry.kind == "Update":
+		# Nothing is posted from here. Approving puts the draft in the line under
+		# Updates on the project's page, to be read, changed and posted by the
+		# person (Updates.vue, `one_project_draft`).
+		frappe.has_permission("Project", "read", doc=entry.record, throw=True)
+		frappe.publish_realtime(
+			"one_project_draft", {"project": entry.record, "text": changes.get("text")}, user=frappe.session.user
+		)
+		_done(entry, entry.record)
+		return {"proposal": entry.name, "state": "Applied", "update": changes}
 
 	if entry.kind == "Holidays":
 		# The Holidays page's own save, as the administrator who pressed
@@ -433,6 +444,10 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		actions.require(frappe.db.get_value("Communication", record, "email_account"))
 		return None
+	if kind == "Update":
+		# Whoever may read the project may post on it (one_project/updates.py).
+		frappe.has_permission("Project", "read", doc=record, throw=True)
+		return None
 	if kind == "Signature":
 		from onedesk.one_mail import holders
 
@@ -558,6 +573,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return changes.get("title") or doctype
 	if kind == "Reply":
 		return frappe._("A reply to {0}").format(changes.get("subject") or record)
+	if kind == "Update":
+		return frappe._("An update on {0}").format(frappe.db.get_value("Project", record, "project_name") or record)
 	if kind == "Delete":
 		return frappe._("Delete {0}").format(record)
 	if kind == "Move":

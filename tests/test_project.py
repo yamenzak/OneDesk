@@ -577,6 +577,45 @@ def test_a_bill_lands_on_the_one_project_it_names():
 	assert '"project": ctx.get("project")' in money and '{**row, "project": head["project"]}' in money
 
 
+def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
+	asking = _load(PROJECT / "updates.py", ("asking",), _=lambda text: text)["asking"]
+	assert asking({"collect_progress": 0, "frequency": "Daily"}) is None
+	assert asking({"collect_progress": 1, "frequency": "Daily"}) == "Asked daily"
+	assert asking({"collect_progress": 1, "frequency": "Twice Daily"}) == "Asked twice a day"
+	assert asking({"collect_progress": 1, "frequency": "Weekly", "day_to_send": "Monday"}) == "Asked every Monday"
+	import re
+
+	plain = _load(PROJECT / "ai.py", ("plain",), re=re, strip_html_tags=lambda html: re.sub(r"<[^>]+>", "", html))[
+		"plain"
+	]
+	assert plain("Frames are on site.<br>Glass is late.<p>Next: <b>pergola</b></p>") == (
+		"Frames are on site.\nGlass is late.\nNext: pergola"
+	)
+	source = (PROJECT / "updates.py").read_text()
+	answer = _body(source, "_answer")
+	assert '"one_health": frappe.db.get_value("Project", update.project, "one_health")' in answer
+	assert '"one_project_update"' in answer and "after_commit=True" in answer
+	custom = json.loads((PROJECT / "custom" / "project_user.json").read_text())["custom_fields"]
+	assert [(one["fieldname"], one["read_only"]) for one in custom] == [("one_health", 1)]
+	view_py = (PROJECT / "view.py").read_text()
+	assert '"update_due": asking.asked(doc.name)' in view_py and '"asking": asking.asking(doc.as_dict())' in view_py
+	panel = (tree.ROOT / "frontend" / "src" / "project" / "Updates.vue").read_text()
+	# Health is set in the head; the line shows it, read-only.
+	assert ':colors="HEALTH" :label="__(\'Health\')" readonly' in panel and "setValue" not in panel
+	assert 'listen("one_project_update"' in panel and 'listen("one_project_draft"' in panel
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert 'label: __("Post Update"), onClick: writeUpdate' in page and "desk().project.ask_updates(" in page
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert 'frappe.xcall("frappe.client.save", { doc: { ...doc, ...values } })' in actions
+	# OneAI drafts; nothing is posted until the reader posts it.
+	ai = (PROJECT / "ai.py").read_text()
+	assert '"expects": "draft_update"' in ai and 'proposals.propose("Update", "Project"' in ai
+	assert '"onedesk.one_project.ai.draft_update",' in HOOKS
+	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
+	update = proposals.split('if entry.kind == "Update":', 1)[1].split("\n\n", 1)[0]
+	assert '"one_project_draft"' in update and "insert" not in update and "save" not in update
+
+
 def test_oneai_reads_a_project_as_its_page_does():
 	ai = (PROJECT / "ai.py").read_text()
 	assert (
@@ -588,7 +627,7 @@ def test_oneai_reads_a_project_as_its_page_does():
 	assert '"onedesk.one_project.ai.SUGGESTIONS"' in HOOKS
 	groups = (tree.APP / "one_ai" / "groups.py").read_text()
 	assert (
-		'"tools": ("project_facts", "projects_needing_attention")' in groups
+		'"tools": ("project_facts", "projects_needing_attention", "draft_update")' in groups
 		and '"One Project": "projects"' in groups
 	)
 	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]

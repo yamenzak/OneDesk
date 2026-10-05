@@ -107,8 +107,8 @@ GROUPS = {
 		),
 	},
 	"projects": {
-		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention",
-		"tools": ("project_facts", "projects_needing_attention"),
+		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, drafting your update",
+		"tools": ("project_facts", "projects_needing_attention", "draft_update"),
 		"words": ("project", "milestone", "projekt", "meilenstein", "مشروع", "مشاريع"),
 	},
 	"hr": {

@@ -7779,6 +7779,27 @@ over.
   done, Bill Progress start from it, and Milestone Done tell the manager of
   the project with the order. ERPNext's own payment terms stay as they are.
 
+**Updates.** The team's latest note and a line to post the next one.
+
+- The Health pill on the line saved only with a post and the head's saved at
+  once. Health is set in the head; the line shows it read-only.
+- An update kept no health. Each answer now keeps the project's health when
+  written (`one_health` on Project User), shown on it.
+- Nothing on the page said an update was due. "Your update is due today"
+  shows on a day you're asked (`updates.asked`).
+- Whether and how often the team is asked was on the desk form only. The
+  heading says it ("Asked every Monday", `updates.asking`), and Ask for
+  Updates opens ERPNext's own Collect Progress fields, saved against the
+  project as loaded.
+- Another person's update showed only on reload. A post tells the page
+  (`one_project_update`).
+- Line breaks were flattened and notes cut at 600 characters. Lines are kept,
+  and a long note opens with Show More.
+- Post Update in the menu opened a second, separate dialog. It now brings the
+  reader to the line.
+- OneAI: Draft my update reads the reader's week (`project_facts` `you`) and
+  suggests a card; approving puts the draft in the line. Nothing is posted.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

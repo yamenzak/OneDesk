@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <Overview v-if="view === 'overview'" :said="said" @changed="load" @view="(now) => (view = now)" />
+      <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" />
       <template v-else-if="taskView">
         <Loading v-if="!work" />
         <Tasks v-else-if="view === 'tasks'" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
@@ -225,7 +225,8 @@ function actions(s) {
   const main = mainAction(s);
   if (main) list.push({ ...main, primary: true });
   list.push({ label: __("Edit Details"), onClick: () => go(`/desk/project/${encodeURIComponent(s.name)}?edit=1`) });
-  if (main?.key !== "post") list.push({ label: __("Post Update"), onClick: () => desk().project.post(frm()) });
+  if (main?.key !== "post") list.push({ label: __("Post Update"), onClick: writeUpdate });
+  if (s.can_write) list.push({ label: __("Ask for Updates"), onClick: () => desk().project.ask_updates(s.name, load) });
   // A Fixed Price project is quoted, and quoted again, until it has its
   // contract; what is quoted after is extra work, ordered as a sub-project.
   if (s.customer && can("create", "Quotation")) {
@@ -248,6 +249,15 @@ function mainAction(s) {
     return { key: "invoice_time", label: __("Invoice Time"), onClick: () => desk().project.invoice_time(frm()) };
   if (s.kind === "Retainer" && s.customer && can("create", "Sales Invoice"))
     return { key: "invoice_month", label: __("Invoice Month"), onClick: () => desk().project.invoice_month(frm()) };
-  return { key: "post", label: __("Post Update"), onClick: () => desk().project.post(frm()) };
+  return { key: "post", label: __("Post Update"), onClick: writeUpdate };
+}
+
+// An update is written in the line under Updates on the Overview, which
+// takes the cursor when `writing` is set (Updates.vue).
+const writing = ref(false);
+function writeUpdate() {
+  view.value = "overview";
+  writing.value = true;
+  setTimeout(() => (writing.value = false), 2000);
 }
 </script>

@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Project User",
+   "fieldname": "one_health",
+   "label": "Health",
+   "fieldtype": "Select",
+   "options": "\nOn Track\nAt Risk\nOff Track",
+   "insert_after": "project_status",
+   "module": "One Project",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1,
+   "description": ""
+  }
+ ],
+ "doctype": "Project User",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

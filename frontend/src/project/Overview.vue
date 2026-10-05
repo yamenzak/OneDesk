@@ -64,8 +64,8 @@
       <Section v-if="view.quotes?.length" :title="__('Quotations')">
         <Rows :rows="view.quotes.map((one) => ({ key: one.name, label: one.name, sub: one.extra ? __('Extra Work') : '', dot: QUOTE[one.status] || 'gray', dim: `${__(one.status)} · ${date(one.date)}`, value: money(one.value, one.currency), route: `/desk/quotation/${one.name}` }))" />
       </Section>
-      <Section :title="__('Updates')">
-        <Updates :said="said" @changed="$emit('changed')" />
+      <Section :title="__('Updates')" :aside="said.asking">
+        <Updates :said="said" :writing="writing" @changed="$emit('changed')" />
       </Section>
     </div>
 
@@ -121,7 +121,7 @@ import Months from "./Months.vue";
 import Statuses from "./Statuses.vue";
 import Updates from "./Updates.vue";
 
-const props = defineProps({ said: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view"]);
 const view = computed(() => props.said.overview);
 const kind = computed(() => props.said.kind);

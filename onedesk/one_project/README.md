@@ -611,22 +611,33 @@ To add an order to the project as it is, leave **Extra Work** unticked.
 
 ## Asking the team how it's going
 
-Tick **Collect Progress** on a project's **Progress** tab, choose **How
-Often** (**Daily**, **Twice Daily** or **Weekly**) and when, and the project
-asks its members for an update at that time. Each gets a notification that
-opens the project, and an email if the workspace sends mail. **Subject** and
-**Message** are what the request says. Leave them empty and One asks in its
-own words.
+**Updates** on a project's Overview shows the team's latest update, with the
+health the project was in when it was written. **Show Earlier** opens the
+rest. Write yours in the line under it and press **Post**. **Post Update** in
+the page's menu brings you to the same line. Health is set in the page's head,
+and each update keeps the health it was posted in.
 
-- The project's page says **Your update on this project is asked for today**
-  and shows **Post Update** until you answer. Write what was done, what's
-  next, and anything in the way.
-- **Post Update** is also in **Actions** any day, asked or not.
+**Ask for Updates** in the page's menu asks the team for an update: **How
+Often** (**Daily**, **Twice Daily** or **Weekly**) and when. The Updates
+heading then says how often, such as **Asked every Monday**. Each member gets
+a notification that opens the project, and an email if the workspace sends
+mail. **Subject** and **Message** are what the request says. Leave them empty
+and One asks in its own words.
+
+- On a day you're asked, Updates says **Your update is due today** until you
+  post it.
 - Posting again the same day replaces your earlier update.
 - Replying to the email works too, whenever the reply comes.
+- An update posted by someone else shows without reloading the page.
 - Every update is in the project's **Activity**, under who wrote it.
 - No one is asked on a day off in the project's **Holiday List**, and a
   project with no members asks no one.
+- **Draft my update** in OneAI writes a first draft from your week on the
+  project: what you finished, the hours you logged and what's next or late.
+  Approving it puts it in the line, to change and post.
+
+Anyone who can see a project can post an update on it. Asking the team is for
+whoever can change the project.
 
 If the workspace sends mail, everyone on the project also gets the day's
 updates by email the next morning.
@@ -807,6 +818,11 @@ one field for it.
   ERPNext's invitation mail is never sent (`invite`); tell.py says it in ours.
 - `tell.py` — Added to Project, Made Project Manager, Project Health and
   Project Completed, through the hub.
+- `updates.py` also keeps each answer's health (`one_health` on Project
+  User), says how often the team is asked (`asking`), and tells the page an
+  update was posted (`one_project_update`). OneAI's `draft_update` is a card
+  whose approval puts the draft in the line (`one_project_draft`); nothing is
+  posted from it.
 - `milestones.py` — the Overview's milestones over the tree: the last two
   done and the ones to come (`pick`), where each is (`where`), and billing on
   them when one has a **Bill on Completion** share (`one_bill_share` on Task,

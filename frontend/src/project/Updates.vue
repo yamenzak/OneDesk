@@ -1,19 +1,25 @@
 <template>
-  <!-- The team's latest update, and a line to post the next one with the
-       project's health. Earlier ones open under it. -->
+  <!-- The team's latest update, each with the health it was written in, and
+       a line to post the next one. Earlier ones open under it. -->
   <div>
     <div v-for="(one, i) in shown" :key="i" class="flex gap-3 pb-4">
       <Avatar :label="one.by" size="md" />
       <div class="min-w-0 flex-1">
-        <div class="flex items-baseline gap-2 text-base">
+        <div class="flex items-center gap-2 text-base">
           <span class="font-medium text-ink-gray-8">{{ one.by }}</span>
           <span class="text-sm text-ink-gray-5">{{ date(one.on) }}</span>
+          <Pill v-if="one.health" :value="one.health" :colors="HEALTH" :label="__('Health')" readonly />
         </div>
-        <p class="mt-1 text-base leading-relaxed text-ink-gray-7">{{ one.said }}</p>
+        <p class="mt-1 whitespace-pre-line text-base leading-relaxed text-ink-gray-7" :class="!open[i] && 'line-clamp-4'">{{ one.said }}</p>
+        <Button v-if="long(one) && !open[i]" variant="ghost" size="sm" class="-ms-2 mt-1" :label="__('Show More')" @click="open[i] = true" />
       </div>
     </div>
-    <div class="flex items-center gap-2">
-      <Pill :value="health" :options="HEALTHS" :colors="HEALTH" :label="__('Health')" @change="(v) => (health = v)" />
+    <div v-if="said.update_due && !note" class="mb-2 flex items-center gap-2 text-base text-ink-gray-7">
+      <span class="h-2 w-2 rounded-full bg-surface-blue-5" />
+      {{ __("Your update is due today") }}
+    </div>
+    <div ref="line" class="flex items-center gap-2">
+      <Pill v-if="said.health" :value="said.health" :colors="HEALTH" :label="__('Health')" readonly />
       <TextInput v-model="note" class="min-w-0 flex-1" :placeholder="__('Write an update')" @keydown.enter="post" />
       <Button v-if="note.trim()" variant="solid" :label="__('Post')" :loading="posting" @click="post" />
     </div>
@@ -22,31 +28,29 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Button, TextInput } from "frappe-ui";
 
-import { Pill, __, call, date, setValue } from "../kit";
+import { Pill, __, call, date, listen } from "../kit";
 import { HEALTH } from "./colors";
 
-const props = defineProps({ said: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed"]);
-const HEALTHS = ["On Track", "At Risk", "Off Track"];
 
 const updates = ref([]);
 const all = ref(false);
+const open = reactive({});
 const load = async () => (updates.value = await call("onedesk.one_project.view.updates", { project: props.said.name }));
 watch(() => [props.said.name, props.said.modified], load, { immediate: true });
 const shown = computed(() => (all.value ? updates.value : updates.value.slice(0, 1)));
+const long = (one) => one.said.length > 320 || one.said.split("\n").length > 4;
 
-const health = ref(props.said.health || "On Track");
-watch(() => props.said.health, (now) => now && (health.value = now));
 const note = ref("");
 const posting = ref(false);
 async function post() {
   if (!note.value.trim() || posting.value) return;
   posting.value = true;
   try {
-    if (health.value !== props.said.health) await setValue("Project", props.said.name, "one_health", health.value);
     await call("onedesk.one_project.updates.post", { project: props.said.name, note: note.value.trim() });
     note.value = "";
     await load();
@@ -55,4 +59,31 @@ async function post() {
     posting.value = false;
   }
 }
+
+// Somebody else's update shows as it is posted; a draft OneAI wrote, once
+// approved, lands in the line to be read and posted (one_ai/proposals.py).
+const stop = [
+  listen("one_project_update", (data) => {
+    if (data.project !== props.said.name) return;
+    load();
+    // Whether the reader's own update is still due may have changed with it.
+    if (props.said.update_due) emit("changed");
+  }),
+  listen("one_project_draft", (data) => {
+    if (data.project !== props.said.name) return;
+    note.value = data.text || "";
+    focus();
+  }),
+];
+onBeforeUnmount(() => stop.forEach((one) => one()));
+
+// Post Update in the page's menu brings the reader here (ProjectPage.vue).
+const line = ref(null);
+function focus() {
+  const input = line.value?.querySelector("input");
+  input?.scrollIntoView({ block: "center", behavior: "smooth" });
+  input?.focus();
+}
+// After the menu that asked has closed and handed focus back to its button.
+watch(() => props.writing, (now) => now && nextTick(() => setTimeout(focus, 300)), { immediate: true });
 </script>

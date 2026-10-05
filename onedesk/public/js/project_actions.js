@@ -458,3 +458,42 @@ onedesk.project.add_milestone = (projects, billed, done) => {
 	});
 	dialog.show();
 };
+
+// Ask for Updates: ERPNext's own Collect Progress fields on the project, how
+// often and when the team is asked, saved against the project as it was
+// loaded. See one_project/updates.py.
+onedesk.project.ASKING = [
+	"collect_progress",
+	"frequency",
+	"daily_time_to_send",
+	"first_email",
+	"second_email",
+	"day_to_send",
+	"weekly_time_to_send",
+	"holiday_list",
+	"subject",
+	"message",
+];
+
+onedesk.project.ask_updates = async (project, done) => {
+	await frappe.model.with_doctype("Project");
+	const doc = await frappe.db.get_doc("Project", project);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Ask for Updates"),
+		fields: onedesk.project.ASKING.map((fieldname) => frappe.meta.get_docfield("Project", fieldname))
+			.filter(Boolean)
+			.map((df) => ({ ...df, default: doc[df.fieldname] })),
+		primary_action_label: __("Save"),
+		primary_action: async (values) => {
+			dialog.disable_primary_action();
+			try {
+				await frappe.xcall("frappe.client.save", { doc: { ...doc, ...values } });
+				dialog.hide();
+				done?.();
+			} finally {
+				dialog.enable_primary_action();
+			}
+		},
+	});
+	dialog.show();
+};

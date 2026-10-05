@@ -1179,6 +1179,8 @@ one_ai_suggests = [
 	"onedesk.one_hr.ai_letters.request_letter",
 	"onedesk.one_hr.ai_growth.draft_goal",
 	"onedesk.one_crm.ai.add_lead",
+	# The reader's update on a project, put under Updates to post. See one_project/ai.py.
+	"onedesk.one_project.ai.draft_update",
 	"onedesk.one_crm.ai.plan_next_step",
 	"onedesk.one_crm.ai.write_up_call",
 	"onedesk.one.ai.rewrite_notification",
