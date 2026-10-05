@@ -221,9 +221,17 @@ cost types over budget over the project and its sub-projects (on a Fixed
 Price project they're in **Budget** instead), bills drafted by Bill Progress
 to check, late tasks, and tasks due today. A task on a sub-project says
 which. The heading counts them all, and **Show All** lists the late tasks
-when there are more than it shows. **About** has the facts, and **Add
-Brief** while the project has no brief; once written, the brief is at the
-top.
+when there are more than it shows.
+
+**About** has what the head doesn't: **Progress** (how Work Done is
+measured, ERPNext's % Complete Method: Manual, Task Completion, Task Progress
+or Task Weight), when it's **Due** and how far off or late that is, the
+**Team**, and its **Priority**. The pencil on the heading changes them in
+place, and a % Complete to type when Progress is Manual. **Add Brief** writes
+the project's brief, which then sits at the top with its own pencil. Both
+save against the project as the page loaded it, so a change someone made
+meanwhile is never overwritten. A sub-project's breadcrumb names the
+projects it sits under.
 
 **Updates** shows the latest update. Write the next one on the line under
 it and **Post** (see Asking the team how it's going).

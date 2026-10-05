@@ -5,7 +5,7 @@
        in one place. -->
   <div class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
-      <Section v-if="said.notes" :title="__('Brief')">
+      <Section v-if="said.notes" :title="__('Brief')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">
         <div class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.notes" />
       </Section>
 
@@ -98,9 +98,9 @@
         <Rows :rows="view.on_it.map((one) => ({ key: one.user, label: one.name, avatar: one.name, value: one.tasks === 1 ? __('1 task') : __('{0} tasks', [one.tasks]) }))" />
       </Section>
 
-      <Section :title="__('About')">
+      <Section :title="__('About', null, 'Project')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit About'), onClick: editAbout } : null">
         <Facts :facts="facts" />
-        <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="go(`/desk/project/${said.name}?edit=1`)" />
+        <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
       </Section>
       <Section v-if="view.sub_projects.length" :title="__('Sub-projects')" :aside="view.sub_projects.length">
         <Rows :rows="view.sub_projects.map((one) => ({ key: one.name, label: one.title || one.name, value: one.status === 'Completed' ? __('Completed') : `${one.share}%`, progress: one.share, route: `/desk/project/${one.name}` }))" />
@@ -226,17 +226,34 @@ const unbilledTotal = computed(() => {
   return all.length ? money(all.reduce((sum, one) => sum + one.amount, 0), props.said.currency) : "";
 });
 
+// What the head doesn't say: how progress is measured, when it's due and how
+// far off that is, who's on it and how much it matters. The head has the
+// customer, the order, the dates and the manager; the breadcrumb has where
+// a sub-project sits.
 const facts = computed(() => {
   const s = props.said;
+  const left = s.days_left;
+  const open = s.status === "Open";
   return [
-    s.customer && { label: __("Customer"), value: s.customer_name || s.customer, route: `/desk/customer/${s.customer}` },
-    s.manager && { label: __("Manager"), value: s.manager_name || s.manager },
-    s.contract && !(s.orders?.length > 1) && { label: __("Contract"), value: s.contract, route: `/desk/sales-order/${s.contract}` },
-    s.starts && { label: __("Starts"), value: date(s.starts) },
-    s.ends && { label: __("Ends"), value: date(s.ends) },
-    s.parent && { label: __("Part Of"), value: s.parent_title || s.parent, route: `/desk/project/${s.parent}` },
+    s.progress_method && { label: __("Progress"), value: __(s.progress_method) },
+    s.kind !== "Internal" && {
+      label: __("Due"),
+      value: s.ends ? [date(s.ends), open && ends(left)].filter(Boolean).join(" · ") : __("Not set"),
+      tone: !s.ends ? "gray" : open && left < 0 ? "red" : undefined,
+    },
+    s.team?.length && { label: __("Team"), value: s.team.length === 1 ? __("1 person") : __("{0} people", [s.team.length]), avatars: s.team.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
+    s.priority && { label: __("Priority"), value: __(s.priority) },
   ].filter(Boolean);
 });
+function ends(left) {
+  if (left === null || left === undefined) return "";
+  if (left === -1) return __("1 day late");
+  if (left < 0) return __("{0} days late", [-left]);
+  if (left === 0) return __("Today");
+  return left === 1 ? __("Tomorrow") : __("In {0} days", [left]);
+}
+const editAbout = () => onedesk().project.edit_about(props.said.name, props.said.modified, () => emit("changed"));
+const editBrief = () => onedesk().project.edit_brief(props.said.name, props.said.modified, () => emit("changed"));
 // What the customer holds and what's held from suppliers, each with its rate
 // when the orders agree and when the first of it is due (retention.sides).
 const retention = computed(() =>

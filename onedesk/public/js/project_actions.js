@@ -509,3 +509,52 @@ onedesk.project.ask_updates = async (project, done) => {
 	});
 	dialog.show();
 };
+
+// About on a project's Overview, changed in place: ERPNext's own Project
+// fields, saved against the project as the page loaded it, so a change made
+// meanwhile is refused as a form's would be. % Complete is typed only when
+// progress is Manual.
+onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority"];
+
+onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
+	await frappe.model.with_doctype("Project");
+	const doc = await frappe.db.get_doc("Project", project);
+	const fields = fieldnames
+		.map((fieldname) => frappe.meta.get_docfield("Project", fieldname))
+		.filter(Boolean)
+		.map((df) => {
+			const field = { ...df, default: doc[df.fieldname] };
+			if (df.fieldname === "percent_complete") {
+				Object.assign(field, { read_only: 0, depends_on: "eval:doc.percent_complete_method == 'Manual'" });
+			}
+			// Named as About names them; the Brief is the dialog's whole.
+			if (df.fieldname === "percent_complete_method") field.label = __("Progress");
+			if (df.fieldname === "notes") field.label = "";
+			return field;
+		});
+	const dialog = new frappe.ui.Dialog({
+		title,
+		size: fieldnames.includes("notes") ? "large" : undefined,
+		fields,
+		primary_action_label: __("Save"),
+		primary_action: async (values) => {
+			dialog.disable_primary_action();
+			try {
+				await frappe.xcall("frappe.client.save", { doc: { ...doc, ...values, modified } });
+				dialog.hide();
+				done?.();
+			} catch {
+				// frappe has said why, as a changed record's "Please refresh".
+			} finally {
+				dialog.enable_primary_action();
+			}
+		},
+	});
+	dialog.show();
+};
+
+onedesk.project.edit_about = (project, modified, done) =>
+	onedesk.project.edit(project, modified, onedesk.project.ABOUT, __("Edit About"), done);
+
+onedesk.project.edit_brief = (project, modified, done) =>
+	onedesk.project.edit(project, modified, ["notes"], __("Brief"), done);

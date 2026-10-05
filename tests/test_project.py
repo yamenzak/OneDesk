@@ -1590,6 +1590,30 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 	assert '["customer", __("From the Customer")]' in overview and '["suppliers", __("To Suppliers")]' in overview
 
 
+def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	about = overview.split("const facts = computed(() => {", 1)[1].split("});", 1)[0]
+	# Only what the head doesn't say.
+	for gone in ("s.customer", "s.manager", "s.contract", "s.starts", "s.parent"):
+		assert gone not in about
+	for said in ('__("Progress")', '__("Due")', '__("Team")', '__("Priority")'):
+		assert said in about
+	assert "__('About', null, 'Project')" in overview
+	# Changed in place, with frappe's controls, against the loaded record.
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert 'onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date"' in actions
+	assert "frappe.meta.get_docfield(\"Project\", fieldname)" in actions
+	assert '{ doc: { ...doc, ...values, modified } }' in actions
+	assert "onedesk().project.edit_brief(props.said.name, props.said.modified" in overview
+	assert "edit=1" not in overview
+	# A sub-project's breadcrumb names its parents.
+	view = (PROJECT / "view.py").read_text()
+	assert '"above": _above(doc.name),' in view
+	assert "for (const one of breadcrumbs.between || [])" in (tree.APP / "public" / "js" / "shell.js").read_text()
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert "props.onTitle?.({ title: s.title, between:" in page
+
+
 def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
 	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}

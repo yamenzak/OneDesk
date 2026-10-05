@@ -90,10 +90,17 @@ $.extend(onedesk.shell, {
 
 	// A record inside a page: its section's name and then its own, as a
 	// form's breadcrumb reads "Customer / Client Example Ltd". Frappe's custom
-	// breadcrumb holds one name; `then` is the second (patched below).
-	trail(parent, route, label) {
+	// breadcrumb holds one name; `then` is the last, and `between` any
+	// records it sits under, as a sub-project's parents (patched below).
+	trail(parent, route, label, between = []) {
 		const esc = frappe.utils.escape_html;
-		frappe.breadcrumbs.add({ type: "Custom", label: esc(parent), route, then: esc(label) });
+		frappe.breadcrumbs.add({
+			type: "Custom",
+			label: esc(parent),
+			route,
+			between: between.map((one) => ({ label: esc(one.label), route: one.route })),
+			then: esc(label),
+		});
 		frappe.utils.set_title(label);
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	},
@@ -580,6 +587,7 @@ onedesk.shell.Editor = class Editor {
 	const theirs = frappe.breadcrumbs.set_custom_breadcrumbs.bind(frappe.breadcrumbs);
 	frappe.breadcrumbs.set_custom_breadcrumbs = function (breadcrumbs) {
 		theirs(breadcrumbs);
+		for (const one of breadcrumbs.between || []) this.append_breadcrumb_element(one.route, one.label);
 		if (breadcrumbs.then) this.append_breadcrumb_element("", breadcrumbs.then, "title-text-form");
 	};
 }

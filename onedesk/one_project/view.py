@@ -99,6 +99,9 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"manager": doc.get("one_manager"),
 		"manager_name": get_fullname(doc.one_manager) if doc.get("one_manager") else None,
 		"parent": doc.get("one_parent"),
+		"above": _above(doc.name),
+		"priority": doc.priority,
+		"progress_method": doc.percent_complete_method,
 		"parent_title": frappe.db.get_value("Project", doc.one_parent, "project_name")
 		if doc.get("one_parent")
 		else None,
@@ -129,6 +132,19 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"update_due": asking.asked(doc.name),
 		"asking": asking.asking(doc.as_dict()),
 	}
+
+
+def _above(project: str) -> list[dict]:
+	"""The projects a sub-project sits under, top first, for the breadcrumb."""
+	chain = tree.above(project, tree.parents())[1:]
+	if not chain:
+		return []
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ["in", chain]}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	return [{"name": one, "title": titles.get(one) or one} for one in reversed(chain)]
 
 
 def contract(doc) -> str | None:

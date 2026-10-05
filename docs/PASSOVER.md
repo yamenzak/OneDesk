@@ -7870,6 +7870,26 @@ schedule, so the accounts are ERPNext's in any country.
   retention a month ahead, says "Pay retention to" a supplier when theirs is
   due, and the manager gets **Retention Due** on the day.
 
+**About.** The project's facts.
+
+- Four of its five rows repeated the head: customer, manager, order, dates.
+  About now has what the head doesn't: Progress, Due with how far off or
+  late, Team and Priority.
+- Where a sub-project sits was its last row. The breadcrumb names its
+  parents, Projects / Villa Al Barsha / Handrails / Glass for handrails
+  (`trail`'s `between`, frappe's custom breadcrumb).
+- How Work Done is measured wasn't on the page, so Handrails read 0% done at
+  30% billed with no reason given. Progress shows ERPNext's % Complete Method.
+- Nothing changed in place. The pencil opens Manager, dates, Progress (with
+  % Complete when Manual) and Priority as frappe's own controls, from the
+  Project's fields. Saved with the `modified` the page loaded, a change made
+  meanwhile is refused with frappe's "has been modified after you have opened
+  it".
+- Add Brief opened the whole desk form. It writes the brief in frappe's text
+  editor, and the Brief section has its own pencil.
+- "About" as a heading read "Worum" in German, the Mail Rule's sense. It
+  has its own context ("About", "Project") and reads "Angaben".
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -213,7 +213,7 @@ const desk = onedesk;
 
 function report() {
   const s = said.value;
-  props.onTitle?.(s.title);
+  props.onTitle?.({ title: s.title, between: (s.above || []).map((one) => ({ label: one.title, route: `/desk/project/${encodeURIComponent(one.name)}` })) });
   props.onStatus?.(null);
   props.onActions?.(actions(s));
 }

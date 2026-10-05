@@ -5,7 +5,8 @@
 //
 // The island gets the route below the page and the query, as frappe's page
 // islands do, and reports:
-// - `onTitle(title)`: the page's name, after `parent` in the breadcrumb;
+// - `onTitle(title)`: the page's name, after `parent` in the breadcrumb, or
+//   `{ title, between }` with `{ label, route }`s between the two;
 // - `onStatus({ label, color })`: the indicator beside it, or null;
 // - `onActions(actions)`: frappe's `{ label, icon?, onClick | href }`, with
 //   `primary` for the page's main button and `button` for one beside it; the
@@ -15,12 +16,12 @@ frappe.provide("onedesk");
 onedesk.island_page = (wrapper, { island, title, parent = null, requires = [] }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true });
 	const $body = $('<div class="one-island"></div>').appendTo(page.main);
-	const chrome = { title: null, status: null, actions: [] };
+	const chrome = { title: null, between: [], status: null, actions: [] };
 	let handle = null;
 
 	const draw_chrome = () => {
 		const name = chrome.title || title;
-		if (parent) onedesk.shell.trail(parent.label, parent.route, name);
+		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between);
 		else onedesk.shell.name(name);
 		if (chrome.status) page.set_indicator(chrome.status.label, chrome.status.color);
 		else page.clear_indicator();
@@ -46,7 +47,11 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [] })
 			else {
 				handle = frappe.ui.mount_island(island, $body[0], {
 					...where(),
-					onTitle: (said) => ((chrome.title = said), draw_chrome()),
+					onTitle: (said) => {
+						chrome.title = typeof said === "string" ? said : said?.title;
+						chrome.between = (typeof said === "object" && said?.between) || [];
+						draw_chrome();
+					},
 					onStatus: (said) => ((chrome.status = said), draw_chrome()),
 					onActions: (said) => ((chrome.actions = said || []), draw_chrome()),
 				});
