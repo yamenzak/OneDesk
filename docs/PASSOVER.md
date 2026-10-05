@@ -7715,6 +7715,18 @@ the page.
 - **Orders** on the Overview lists each with its amount and how much is
   billed, in place of About's single Contract line.
 
+**Numbers, one by one.** Contract, Billed, Cost and Forecast Margin, each
+over the project and those under it, in the company's currency.
+
+- Cost turned red when the forecast passed the budget, with only "of 140,500
+  budget" under it, so 63,210 read as fine and red at once. The note now says
+  "Forecast over by 710" when it is.
+- What suppliers still have to bill on their orders counts in the forecast,
+  but showed under Cost only when there was no budget. It shows either way
+  ("78,000 on order"), each part on its own line.
+- Billed, Cost and Forecast Margin led nowhere. Billed opens Invoices, and
+  Cost and Forecast Margin open Money, for whoever sees those views.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

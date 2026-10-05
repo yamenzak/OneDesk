@@ -12,7 +12,7 @@
           <Button variant="ghost" icon="lucide-arrow-up-right" :aria-label="one.title" @click="go(one.route)" />
         </template>
       </NumberCard>
-      <div v-if="one.note" class="mt-1 truncate text-sm text-ink-gray-5">{{ one.note }}</div>
+      <div v-if="one.note" class="mt-1 line-clamp-3 whitespace-pre-line text-sm text-ink-gray-5">{{ one.note }}</div>
       <Button v-if="one.button" class="mt-2 self-start" size="sm" :icon-left="one.button.icon" :label="one.button.label" @click="one.button.onClick" />
       <Progress v-if="one.bar !== undefined && one.bar !== null" :value="one.bar" size="md" class="mt-3" />
     </div>

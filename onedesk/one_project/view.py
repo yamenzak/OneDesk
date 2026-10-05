@@ -292,6 +292,7 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 					"value": f"{percent(cash['invoiced'], cash['contract'])}%",
 					"note_money": [[_("{0} invoiced"), [cash["invoiced"]]]],
 					"bar": share(cash["invoiced"], cash["contract"]),
+					"view": "invoices",
 				}
 			]
 		return [
@@ -300,15 +301,13 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 			{
 				"key": "cost",
 				"money": cash["spent"],
-				"note_money": [[_("of {0} budget"), [cash["budget"]]]]
-				if cash["budget"]
-				else [[_("{0} more on order"), [cash["open_orders"]]]]
-				if cash["open_orders"]
-				else None,
+				"note_money": cost_note(cash) or None,
 				"bar": share(cash["spent"], cash["budget"]) if cash["budget"] else None,
 				"tone": "alarm" if cash["budget"] and cash["forecast_cost"] > cash["budget"] else None,
+				"view": "money",
 			},
 			{
+				"view": "money",
 				"key": "forecast",
 				"money": margin,
 				"note": (
@@ -378,6 +377,21 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		},
 	]
 	return [*found, _budget_card(cash)] if cash["budget"] else found
+
+
+def cost_note(cash: dict) -> list:
+	"""Under Cost: the budget, or by how much the forecast passes it, which is
+	why the figure is red; then what suppliers still have to bill on their
+	orders, which the forecast counts and Cost doesn't yet."""
+	said = []
+	if cash["budget"]:
+		over = cash["forecast_cost"] - cash["budget"]
+		said.append(
+			[_("Forecast over by {0}"), [over]] if over > 0 else [_("of {0} budget"), [cash["budget"]]]
+		)
+	if cash["open_orders"]:
+		said.append([_("{0} on order"), [cash["open_orders"]]])
+	return said
 
 
 def percent(part: float, whole: float) -> int:

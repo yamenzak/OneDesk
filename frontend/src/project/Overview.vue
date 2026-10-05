@@ -143,13 +143,19 @@ const figures = computed(() =>
   props.said.cards.map((card) => ({
     title: NAMES()[card.key] || card.key,
     value: figure(card),
-    note: card.note || (card.note_money ? card.note_money.map(([text, values]) => text.replace(/\{(\d+)\}/g, (_, i) => money(values[Number(i)], props.said.currency))).join(" · ") : ""),
+    note: card.note || (card.note_money ? card.note_money.map(([text, values]) => text.replace(/\{(\d+)\}/g, (_, i) => money(values[Number(i)], props.said.currency))).join("\n") : ""),
     bar: card.bar,
     alarm: card.tone === "alarm",
     route: card.route,
+    action: opens(card),
     button: next(card),
   }))
 );
+// A figure whose documents are a view of this page opens that view.
+const opens = (card) =>
+  card.view && !card.route && props.said.views?.includes(card.view)
+    ? { icon: "lucide-arrow-up-right", label: NAMES()[card.key] || card.key, onClick: () => emit("view", card.view) }
+    : null;
 // What the first figure asks for next, for whoever may do it.
 const next = (card) => {
   if (!can("create", "Sales Order")) return null;

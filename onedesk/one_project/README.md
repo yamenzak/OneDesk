@@ -181,7 +181,13 @@ The Overview is laid out for the kind, and each thing on it shows once.
 - **Fixed Price**: **Contract**, **Billed** (how much of the contract is
   invoiced), **Cost** against the budget, and **Forecast Margin**. Before
   the customer orders, **Contract** shows what they've been **Quoted** and
-  **Billed** gives way to **Valid Till**, the quote's last day. Under
+  **Billed** gives way to **Valid Till**, the quote's last day. **Cost** is
+  what's been spent: supplier bills, time, stock used and expense claims.
+  Under it, the budget, or by how much the forecast passes it when it does
+  (which is when Cost turns red), and what suppliers still have to bill on
+  their orders. **Forecast Margin** is the contract less the forecast cost:
+  the budget, or what's spent and still on order when that's more. Billed
+  opens **Invoices**, and Cost and Forecast Margin open **Money**. Under
   them, **Work and Billing** puts the work done beside what's billed and
   paid, **Budget** shows each cost type, and **Milestones**. On the right,
   **Subcontracts** and **Retention**.

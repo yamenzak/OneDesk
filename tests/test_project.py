@@ -1363,3 +1363,17 @@ def test_a_project_with_several_orders_bills_and_holds_each():
 	assert 'if (open.length <= 1) return bill(open.length ? open[0].name : contract);' in actions
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert '<Section v-if="said.orders?.length > 1" :title="__(\'Orders\')"' in overview
+
+
+def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
+	note = _load(PROJECT / "view.py", ("cost_note",), _=lambda text: text)["cost_note"]
+	over = {"budget": 140500, "forecast_cost": 141210, "open_orders": 78000}
+	assert note(over) == [["Forecast over by {0}", [710]], ["{0} on order", [78000]]]
+	under = {"budget": 200000, "forecast_cost": 141210, "open_orders": 0}
+	assert note(under) == [["of {0} budget", [200000]]]
+	assert note({"budget": 0, "forecast_cost": 0, "open_orders": 5000}) == [["{0} on order", [5000]]]
+	# Billed opens Invoices; Cost and Forecast Margin open Money.
+	view = (PROJECT / "view.py").read_text()
+	assert '"view": "invoices",' in view and view.count('"view": "money",') == 2
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert 'card.view && !card.route && props.said.views?.includes(card.view)' in overview
