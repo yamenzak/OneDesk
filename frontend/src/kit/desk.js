@@ -149,6 +149,11 @@ export const isPast = (value) => Boolean(value) && value < frappe().datetime.get
 export const monthName = (value) =>
 	value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "long", year: "numeric" }) : "";
 
+/** A month's short name, "Oct", for a dated line's ticks. */
+export const shortMonth = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "short" }) : "");
+/** Today as desk has it, "2026-10-06". */
+export const today = () => frappe().datetime.get_today();
+
 export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");
 
 /** When, said as desk says it: "2 hours ago". */

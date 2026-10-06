@@ -8236,6 +8236,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
   OneAI's project facts carry `main`. Wrapping the original under a new
   parent automatically was weighed and left out: the original's ID, link,
   portal, team and submitted documents would all have to move.
+- On a whole job the milestones were one line sorted by date, so parts read
+  as one sequence and the cap of eight could hide a part entirely. They are
+  now a row per part on one dated line with today across them
+  (`milestones.lanes`, MilestoneLanes.vue), each row's next one named and the
+  rest on hover (frappe-ui Tooltip); on a phone, a row per part. The Main
+  view and a project without sub-projects keep the single line.
 
 ## OneLegal
 

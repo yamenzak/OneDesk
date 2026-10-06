@@ -46,7 +46,8 @@
           <Rows v-if="over.length" class="mt-2" :rows="over" />
         </Section>
         <Section :title="__('Milestones')">
-          <Milestones v-if="view.milestones.list.length" :milestones="view.milestones.list" />
+          <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
+          <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
           <Button v-if="can('create', 'Task')" class="mt-3" icon-left="lucide-plus" :label="__('Add Milestone')" @click="onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed'))" />
         </Section>
@@ -67,7 +68,8 @@
 
       <template v-else>
         <Section :title="__('Milestones')">
-          <Milestones v-if="view.milestones.list.length" :milestones="view.milestones.list" />
+          <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
+          <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
           <Button v-if="can('create', 'Task')" class="mt-3" icon-left="lucide-plus" :label="__('Add Milestone')" @click="onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed'))" />
         </Section>
@@ -128,6 +130,7 @@ import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
 import { Facts, Figures, Rows, Section, __, can, colors, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
+import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
 import Updates from "./Updates.vue";

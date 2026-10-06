@@ -4,6 +4,9 @@ project or any project under it.
 - The Overview shows the last two done and the ones to come, soonest first,
   with those without a date last (`pick`). One on a sub-project says which
   (`where`), and each says how far off or how late it is.
+- On a whole job, they are a row per part of it on one dated line: Main,
+  then each sub-project directly under the page with what is under it
+  (`lanes`).
 - **Bill on Completion** (`one_bill_share`) is a milestone's share of the
   contract, and it's optional. A project bills by milestones only when one
   of its milestones has a share: Work and Billing then counts the shares of
@@ -43,6 +46,40 @@ def where(project: str, top: str, of: dict[str, str], titles: dict[str, str]) ->
 			break
 		chain.append(one)
 	return " › ".join(titles.get(one) or one for one in reversed(chain)) or None
+
+
+def lane(project: str, top: str, of: dict[str, str]) -> str:
+	"""Which part of the page's job a project's milestone belongs to: the page's
+	own project, or the sub-project directly under it that it sits in. Pure."""
+	chain = tree.above(project, of)
+	return chain[chain.index(top) - 1] if top in chain and chain.index(top) else top
+
+
+def lanes(rows: list[dict], top: str, titles: dict[str, str]) -> list[dict]:
+	"""The milestones a row per part of the job, Main first and then the
+	parts by their next milestone, each soonest first and those without a
+	date last. None when there is only one part. Pure."""
+	found = {}
+	for one in rows:
+		found.setdefault(one["lane"], []).append(one)
+	if len(found) < 2:
+		return []
+	order = lambda one: (not one["due"], one["due"] or "")  # noqa: E731
+
+	def ahead(key):
+		return min((order(one) for one in found[key] if not one["done"]), default=(True, "~"))
+
+	keys = [top] if top in found else []
+	keys += sorted((key for key in found if key != top), key=lambda key: (ahead(key), titles.get(key) or key))
+	return [
+		{
+			"key": key,
+			"title": None if key == top else titles.get(key) or key,
+			"milestones": sorted(found[key], key=order),
+			"done": sum(1 for one in found[key] if one["done"]),
+		}
+		for key in keys
+	]
 
 
 def billable(rows: list[dict]) -> dict | None:
@@ -86,11 +123,16 @@ def read(project: str, projects: list[str]) -> dict:
 			"days": date_diff(one.exp_end_date, today) if one.exp_end_date else None,
 			"where": where(one.project, project, of, titles),
 			"share": flt(one.one_bill_share),
+			"lane": lane(one.project, project, of),
+			"in_lane": where(one.project, lane(one.project, project, of), of, titles),
 		}
 		for one in found
 	]
 	return {
 		"list": pick(rows),
+		# The whole job's milestones a row per part of it, Main first; none
+		# when there is only one part.
+		"lanes": lanes(rows, project, titles) if not tree.narrowed(project) else [],
 		"billable": billable(rows),
 		"projects": [
 			{"value": project, "label": titles.get(project) or project},

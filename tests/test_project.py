@@ -2388,3 +2388,29 @@ def test_a_parent_can_be_read_without_what_is_under_it():
 	for one in ("Files.vue", "Invoices.vue", "ProjectActivity.vue", "Team.vue", "Time.vue", "Suppliers.vue"):
 		assert "...onlyArg(only)" in (src / one).read_text(), one
 	assert '"main": _main(project)' in (PROJECT / "ai.py").read_text()
+
+
+def test_a_whole_jobs_milestones_are_a_row_per_part():
+	of = {"Handrails": "Villa", "Glass": "Handrails", "Pergola": "Villa"}
+	space = _load(PROJECT / "milestones.py", ("lane", "lanes"), tree=type("T", (), {"above": staticmethod(_load(PROJECT / "tree.py", ("above",))["above"])}))
+	lane, lanes = space["lane"], space["lanes"]
+	assert lane("Villa", "Villa", of) == "Villa" and lane("Glass", "Villa", of) == "Handrails" and lane("Pergola", "Villa", of) == "Pergola"
+	row = lambda subject, due, done, at: {"subject": subject, "due": due, "done": done, "lane": at}  # noqa: E731
+	rows = [
+		row("Handover", "2026-10-13", False, "Handrails"),
+		row("Site ready", "2026-09-20", True, "Villa"),
+		row("Frame up", "2026-10-02", False, "Pergola"),
+		row("Keys", None, False, "Villa"),
+	]
+	found = lanes(rows, "Villa", {"Handrails": "Handrails", "Pergola": "Pergola"})
+	# Main first, then by each part's next milestone; within a part, soonest first and undated last.
+	assert [one["key"] for one in found] == ["Villa", "Pergola", "Handrails"]
+	assert found[0]["title"] is None and [one["subject"] for one in found[0]["milestones"]] == ["Site ready", "Keys"]
+	assert found[0]["done"] == 1
+	assert lanes(rows[:2][1:], "Villa", {}) == []
+	read = (PROJECT / "milestones.py").read_text()
+	assert '"lanes": lanes(rows, project, titles) if not tree.narrowed(project) else [],' in read
+	src = tree.ROOT / "frontend" / "src" / "project"
+	assert '<MilestoneLanes v-if="view.milestones.lanes?.length"' in (src / "Overview.vue").read_text()
+	vue = (src / "MilestoneLanes.vue").read_text()
+	assert "<Tooltip" in vue and '__("Today")' in vue and '<Rows class="md:hidden"' in vue

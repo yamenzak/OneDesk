@@ -593,6 +593,14 @@ a milestone, open it and turn on **Milestone**.
 Each says when it's due and how far off it is, and turns red once it's late.
 One on a sub-project says which.
 
+On a project with sub-projects, **Milestones** is a row per part of the job
+on one dated line: **Main** first, then each sub-project with what's under
+it, and a line for today across them all. Done ones are filled, a late one is
+red, and each row's next one is named with its date. Point at the others to
+see theirs. Each row counts how many are done. Click **Main** to see the
+project's own work, or a sub-project's name to open it. On a phone each part
+is a line with its next milestone.
+
 **Bill on Completion** is optional. Give a milestone a share of the contract
 and the project is billed by its milestones: **Work and Billing** shows
 **Billable on Milestones**, the shares of the milestones done, and **Not
