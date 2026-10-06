@@ -17,6 +17,8 @@ project. Nothing of ERPNext's is copied or changed.
   the villa above the windows — and moves it and whichever of its sub-projects
   are ticked underneath, so they become siblings.
 - **Members of a project see what is under it** (members.under).
+- **A page can read a parent on its own** (`narrow`, `scope`): its Main,
+  the work on the project itself without what is under it.
 - **Where a task is** reads as a path, Villa › Handrails (`path`), on My Tasks
   and on a project's calendar.
 """
@@ -25,7 +27,7 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import flt
+from frappe.utils import cint, flt
 
 #: The field.
 PARENT = "one_parent"
@@ -78,6 +80,25 @@ def below(projects: set[str], of: dict[str, str]) -> set[str]:
 				found.add(child)
 				waiting.append(child)
 	return found
+
+
+def narrow(project: str, only=None) -> None:
+	"""The page asked for `project`'s own work, its Main: until the request
+	ends, `scope(project)` is the project alone. Only ever set, so a call
+	inside the request that doesn't ask keeps what the page asked."""
+	if cint(only):
+		frappe.local.one_project_only = project
+
+
+def narrowed(project: str) -> bool:
+	"""Whether this request reads `project` on its own (`narrow`)."""
+	return getattr(frappe.local, "one_project_only", None) == project
+
+
+def scope(project: str) -> set[str]:
+	"""What a project's page counts: it and everything under it, or itself
+	alone when the page is narrowed to its Main."""
+	return {project} if narrowed(project) else below({project}, parents())
 
 
 def above(project: str, of: dict[str, str]) -> list[str]:

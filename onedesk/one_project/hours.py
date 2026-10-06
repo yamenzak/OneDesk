@@ -154,14 +154,18 @@ def planned(projects: list[str]) -> float:
 
 @frappe.whitelist()
 @frappe.read_only()
-def entries(project: Annotated[str, "The project."]) -> dict:
+def entries(
+	project: Annotated[str, "The project."],
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
+) -> dict:
 	"""The project tree's time, newest first, with its figures: hours for
 	everybody, money for whoever may see rates."""
 	from onedesk.one_project import milestones
 
 	frappe.has_permission("Project", "read", doc=project, throw=True)
+	tree.narrow(project, only)
 	of = tree.parents()
-	projects = sorted(tree.below({project}, of))
+	projects = sorted(tree.scope(project))
 	money = sees_rates()
 	rows = frappe.get_list(
 		"Timesheet Detail",

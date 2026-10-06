@@ -87,9 +87,12 @@ import { Badge, Button, TabButtons, Textarea } from "frappe-ui";
 import { ActivityTimeline, TimelineContainer, useActivityTimeline } from "@framework/ui/ActivityTimeline";
 
 import { __, andList, call, comment, followList, go, hours, listen, money } from "../kit";
+import { onlyArg, useOnly } from "./only";
 import ActivityLine from "./ActivityLine.vue";
 
 const props = defineProps({ project: { type: String, required: true }, modified: String });
+// Only the project's own work when the page shows its Main (only.js).
+const only = useOnly();
 defineEmits(["task"]);
 
 // What of the project's own fields its timeline shows (Project tracks its changes).
@@ -123,7 +126,7 @@ async function load(older = false) {
   fetching.value = true;
   try {
     const before = older ? history.value.reduce((oldest, one) => (one.timestamp < oldest ? one.timestamp : oldest), "9999") : null;
-    const said = await call("onedesk.one_project.activity.activity", { project: props.project, before });
+    const said = await call("onedesk.one_project.activity.activity", { project: props.project, before, ...onlyArg(only) });
     const kept = older ? history.value : [];
     const seen = new Set(kept.map((one) => one.key));
     history.value = [...kept, ...said.activities.filter((one) => !seen.has(one.key))];

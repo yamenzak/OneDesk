@@ -67,8 +67,11 @@ import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Figures, Loading, Section, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk } from "../kit";
+import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ projectName: { type: String, required: true }, projectTitle: String, kind: String, customer: String, currency: String });
+// Only the project's own work when the page shows its Main (only.js).
+const only = useOnly();
 
 // ERPNext's own colours for an invoice's status.
 const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
@@ -76,7 +79,7 @@ const said = ref(null);
 const amount = (value) => money(value, props.currency);
 
 async function load() {
-  said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName });
+  said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName, ...onlyArg(only) });
 }
 let timer = null;
 const later = () => {

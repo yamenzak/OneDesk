@@ -28,13 +28,16 @@ import { onBeforeUnmount, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 
 import { Loading, __, ago, call, follow, upload } from "../kit";
+import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ project: { type: String, required: true }, work: Object });
+// Only the project's own work when the page shows its Main (only.js).
+const only = useOnly();
 const emit = defineEmits(["count"]);
 const files = ref(null);
 
 async function load() {
-  files.value = await call("onedesk.one_project.view.files", { project: props.project });
+  files.value = await call("onedesk.one_project.view.files", { project: props.project, ...onlyArg(only) });
   emit("count", files.value.length);
 }
 let stop = () => {};

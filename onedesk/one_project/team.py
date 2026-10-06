@@ -26,11 +26,15 @@ DONE = ("Completed", "Cancelled", "Template")
 
 @frappe.whitelist()
 @frappe.read_only()
-def team(project: Annotated[str, "The project."]) -> dict:
+def team(
+	project: Annotated[str, "The project."],
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
+) -> dict:
 	"""Everyone on the project, members first, with their load and hours."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
 	doc = frappe.get_doc("Project", project)
-	projects = sorted(tree.below({project}, tree.parents()))
+	tree.narrow(project, only)
+	projects = sorted(tree.scope(project))
 	people: dict[str, dict] = {}
 
 	def person(user: str) -> dict:

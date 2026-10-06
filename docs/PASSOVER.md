@@ -8226,6 +8226,16 @@ frappe's Assign does; Pending Review tells whoever made the task.
   the customer's logo, as Subcontracts lead with each supplier's. To
   Suppliers takes the Suppliers tab's icon in the same square so both rows
   line up (`Rows` takes an `icon` in place of an avatar).
+- A parent's page added up everything under it, with no way to see the
+  project's own work alone. **Main** now leads the Overview's Sub-projects
+  with the project's own value, billing and progress, and opens the page for
+  that alone (`?only=1`): every tab's call takes `only`, and `tree.narrow`
+  makes `tree.scope` the project itself for the rest of the request. A
+  **Main ×** chip in the head goes back. Nothing moves in the data. The
+  whole-job Contract card says how much was ordered as extra work, and
+  OneAI's project facts carry `main`. Wrapping the original under a new
+  parent automatically was weighed and left out: the original's ID, link,
+  portal, team and submitted documents would all have to move.
 
 ## OneLegal
 

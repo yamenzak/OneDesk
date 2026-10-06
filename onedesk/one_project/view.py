@@ -81,8 +81,12 @@ def share(part: float, whole: float) -> int:
 
 @frappe.whitelist()
 @frappe.read_only()
-def said(project: Annotated[str, "The project."]) -> dict:
+def said(
+	project: Annotated[str, "The project."],
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
+) -> dict:
 	frappe.has_permission("Project", "read", doc=project, throw=True)
+	tree.narrow(project, only)
 	doc = frappe.get_doc("Project", project)
 	kind = doc.get("one_kind") or kinds.guess(bool(doc.sales_order), False, doc.customer)
 	view = overview.overview(project)
@@ -142,12 +146,16 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"money": cash,
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),
-		"progress": view["share"] if view["tasks"] or doc.percent_complete else None,
+		"progress": view["share"]
+		if view["tasks"] or (doc.percent_complete and not tree.narrowed(doc.name))
+		else None,
 		"days_left": view["days_left"],
 		"monthly_hours": flt(doc.get("one_monthly_hours")),
 		"cover": doc.get("one_cover"),
 		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
+		# The page shows only the project's own work, its Main (tree.narrow).
+		"only": tree.narrowed(doc.name) and bool(tree.children(tree.parents()).get(doc.name)),
 		"update_due": asking.asked(doc.name),
 		"asking": asking.asking(doc.as_dict()),
 	}
@@ -192,7 +200,7 @@ def orders(doc, projects: list[str] | None = None) -> list[dict]:
 	if not frappe.has_permission("Sales Order", "read"):
 		return []
 	of = tree.parents()
-	projects = projects or sorted(tree.below({doc.name}, of))
+	projects = projects or sorted(tree.scope(doc.name))
 	found = frappe.get_list(
 		"Sales Order",
 		filters={"project": ["in", projects], "docstatus": 1},
@@ -246,7 +254,7 @@ def orders(doc, projects: list[str] | None = None) -> list[dict]:
 def _orders_route(doc) -> str:
 	from onedesk.one_project.money import _route
 
-	projects = sorted(tree.below({doc.name}, tree.parents()))
+	projects = sorted(tree.scope(doc.name))
 	return _route("Sales Order", {"project": ["in", projects], "docstatus": 1})
 
 
@@ -363,6 +371,10 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		# Billed means nothing until something is ordered: while it's quoted the
 		# quote's last day stands in its place, and with nothing yet, nothing.
 		valid = first.pop("valid_till", None)
+		# How much of the contract came as extra work since, on the whole job.
+		extra = sum(one["value"] for one in orders(doc, view["tree"]) if one["extra"])
+		if first["key"] == "contract" and extra and not first.get("action"):
+			first["note_money"] = [[_("{0} extra work"), [extra]]]
 		if first["key"] == "quoted":
 			second = [_valid(valid)]
 		elif first.get("action") == "add_contract":
@@ -1023,10 +1035,16 @@ def _sub_projects(project: str) -> dict:
 	"""The sub-projects directly under the project, each with how it's going
 	(kind, when it's due, who runs it, health), its money for its whole
 	branch (what's ordered and billed, or spent against its budget), whether
-	it's extra work and how many are under it; the first few, and how many."""
-	under = tree.totals(project)["under"]
-	if not under:
-		return {"list": [], "count": 0, "all": None}
+	it's extra work and how many are under it; the first few, and how many.
+	`main` is the project's own work beside them. None when the page shows
+	only that."""
+	figures = tree.totals(project)
+	under = figures["under"]
+	if not under or tree.narrowed(project):
+		return {"list": [], "count": 0, "all": None, "main": None}
+	head = frappe.db.get_value(
+		"Project", project, ["percent_complete", "percent_complete_method", "status"], as_dict=True
+	)
 	names = [one["name"] for one in under]
 	heads = {
 		one.name: one
@@ -1067,6 +1085,14 @@ def _sub_projects(project: str) -> dict:
 		"list": found,
 		"count": len(under),
 		"all": money._route("Project", {"one_parent": project}) if len(under) > SHOWN else None,
+		# The project's own work, first in the list: opening it narrows the
+		# page to it (tree.narrow).
+		"main": {
+			"share": 100
+			if head.status == "Completed"
+			else overview.own_progress(project, head.percent_complete_method, head.percent_complete),
+			**branch_money(figures["own"]),
+		},
 	}
 
 
@@ -1212,13 +1238,17 @@ TASK_FIELDS = (
 
 @frappe.whitelist()
 @frappe.read_only()
-def work(project: Annotated[str, "The project."]) -> dict:
+def work(
+	project: Annotated[str, "The project."],
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
+) -> dict:
 	"""The project's tasks and its sub-projects', for the Tasks, Board and
 	Timeline views: one group per project in the tree, this one first. Read as
 	the reader, so a task they may not see is not here."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
+	tree.narrow(project, only)
 	of = tree.parents()
-	below = tree.below({project}, of)
+	below = tree.scope(project)
 	titles = dict(
 		frappe.get_all(
 			"Project", filters={"name": ["in", list(below)]}, fields=["name", "project_name"], as_list=True
@@ -1346,11 +1376,17 @@ def _people_of(users) -> dict:
 
 @frappe.whitelist()
 @frappe.read_only()
-def files(project: Annotated[str, "The project."]) -> list[dict]:
+def files(
+	project: Annotated[str, "The project."],
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
+) -> list[dict]:
 	"""What is attached to the project, its sub-projects and their tasks, newest
 	first, each saying where it is attached."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	projects = [project] + [one["name"] for one in tree.totals(project)["under"]]
+	tree.narrow(project, only)
+	projects = [project] + (
+		[] if tree.narrowed(project) else [one["name"] for one in tree.totals(project)["under"]]
+	)
 	tasks = frappe.get_list("Task", filters={"project": ["in", projects]}, pluck="name", limit_page_length=0)
 	found = []
 	for doctype, names in (("Project", projects), ("Task", tasks)):

@@ -275,7 +275,10 @@ save against the project as the page loaded it, so a change someone made
 meanwhile is never overwritten. A sub-project's breadcrumb names the
 projects it sits under.
 
-**Sub-projects** lists the projects directly under this one, each with its
+**Sub-projects** starts with **Main**, the project's own work without what's
+under it: what's ordered on it and how much is billed, and how far its own
+tasks are. Click it to see the page for that alone. Then come the projects
+directly under this one, each with its
 kind, when it's due or how late, who runs it and how far it's done, and its
 money for everything under it: what's ordered and how much is billed, or
 what's spent against its budget. A red dot marks one that's late, Off Track
@@ -524,7 +527,13 @@ counts towards the parent. Sub-projects can have sub-projects.
 - A sub-project gets its parent's **customer** unless you set another.
 - A parent's page shows the **whole tree added up** (estimated cost, cost,
   billed and margin), and its **% Complete** measures every task under it.
-  **Sub-projects** lists the ones directly under it.
+  **Sub-projects** lists the ones directly under it. The **Contract** card
+  says how much of it was ordered as extra work.
+- **Main**, first in **Sub-projects**, shows the page for the parent's own
+  work alone: its own orders, tasks, time, invoices, bills, team and
+  activity, and its figures without what's under it. **Main** in the page's
+  head shows it's on, and its **×** goes back to the whole project. The
+  address keeps it, so the link opens the same view.
 - A parent's **Calendar** includes its sub-projects' tasks, each titled with
   its sub-project.
 - **Members** of a project see everything under it.
@@ -942,7 +951,8 @@ update or what's still to invoice. On the Projects list, OneAI offers
 OneAI reads a project as you see it on its page: its figures, its money with
 the customer and suppliers, its cost types, its tasks, its time, its people
 and their load, a retainer's months, and the team's updates, including the
-sub-projects you can see. Tasks it suggests come as cards, and nothing is
+sub-projects you can see, and the project's own work apart from them, so it
+can say what the job is worth without its extra work. Tasks it suggests come as cards, and nothing is
 added until you approve one.
 
 ## Who has room this week

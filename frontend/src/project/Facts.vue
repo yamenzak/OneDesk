@@ -6,6 +6,10 @@
     <div class="flex items-center gap-2">
       <Pill :value="said.status" :options="['Open', 'On hold', 'Completed', 'Cancelled']" :colors="PROJECT_STATUS" :label="__('Status')" :readonly="!said.can_write" @change="(v) => $emit('change', 'status', v)" />
       <Pill v-if="said.status === 'Open'" :value="said.health" :options="['On Track', 'At Risk', 'Off Track']" :colors="HEALTH" :label="__('Health')" :empty="__('Set Health')" :readonly="!said.can_write" @change="(v) => $emit('change', 'one_health', v)" />
+      <!-- Showing only the project's own work: back to the whole project. -->
+      <button v-if="said.only" class="inline-flex rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="__('Show Whole Project')" @click="$emit('whole')">
+        <Badge :label="__('Main', null, 'Project')" theme="gray" size="md"><template #suffix><span class="lucide-x size-3" /></template></Badge>
+      </button>
     </div>
     <button v-if="said.customer" class="flex items-center gap-1.5 hover:underline" @click="go(`/desk/customer/${said.customer}`)">
       <Avatar v-if="said.customer_image" :label="said.customer_name || said.customer" :image="said.customer_image" shape="square" size="xs" :class="onImage && 'bg-white'" />
@@ -31,13 +35,13 @@
 
 <script setup>
 import { computed } from "vue";
-import { Avatar } from "frappe-ui";
+import { Avatar, Badge } from "frappe-ui";
 
 import { Pill, __, date, go } from "../kit";
 import { HEALTH, PROJECT_STATUS } from "./colors";
 
 const props = defineProps({ said: { type: Object, required: true }, onImage: Boolean });
-defineEmits(["change"]);
+defineEmits(["change", "whole"]);
 
 const icon = computed(() => (props.onImage ? "text-white-overlay-700" : "text-ink-gray-5"));
 const dates = computed(() => [props.said.starts, props.said.ends].filter(Boolean).map(date).join(" – "));

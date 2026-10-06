@@ -136,8 +136,8 @@ def _figure(label: str, value: float, doctype: str | None, projects: list[str], 
 def money(project: Annotated[str, "The project."]) -> dict:
 	"""The project's two sides and its forecast, its sub-projects included."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	projects = sorted(tree.below({project}, tree.parents()))
-	kept = tree.totals(project)["tree"]
+	projects = sorted(tree.scope(project))
+	kept = tree.totals(project)["own" if tree.narrowed(project) else "tree"]
 
 	customer, cost = [], []
 	if _sees("Quotation"):

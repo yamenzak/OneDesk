@@ -114,7 +114,7 @@
         <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
       </Section>
       <Section v-if="view.sub_projects.count" :title="__('Sub-projects')" :aside="view.sub_projects.count">
-        <Rows :rows="subProjects" />
+        <Rows :rows="[...mainRow, ...subProjects]" />
         <Button v-if="view.sub_projects.all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.sub_projects.all)" />
         <Button v-if="canAddSub" variant="ghost" class="mt-2 -ms-2" icon-left="lucide-plus" :label="__('Add Sub-project')" @click="addSub" />
       </Section>
@@ -133,7 +133,7 @@ import Months from "./Months.vue";
 import Updates from "./Updates.vue";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
-const emit = defineEmits(["changed", "view"]);
+const emit = defineEmits(["changed", "view", "main"]);
 const view = computed(() => props.said.overview);
 // The charts' colours, as frappe-ui reads them for this island and its theme.
 const root = ref();
@@ -314,6 +314,28 @@ const retention = computed(() =>
 // Each sub-project: how it's going (kind, when it's due, who runs it), its
 // branch's money by kind, and a dot when it's late, over budget or not on
 // track (view._sub_projects).
+// The project's own work first, as a row of its own: opening it shows the
+// page for that alone (view.py `_sub_projects` "main").
+const mainRow = computed(() => {
+  const one = view.value.sub_projects.main;
+  if (!one) return [];
+  const sum = (value) => money(value, props.said.currency);
+  const worth = one.ordered
+    ? [sum(one.ordered), one.billed && __("{0}% billed", [Math.round((100 * one.billed) / one.ordered)])]
+    : one.budget
+      ? [__("{0} of {1} budget", [sum(one.spent), sum(one.budget)])]
+      : [one.spent && __("{0} spent", [sum(one.spent)])];
+  return [
+    {
+      key: "main",
+      label: __("Main", null, "Project"),
+      lines: [worth.filter(Boolean).join(" · ")].filter(Boolean),
+      value: one.share === null || one.share === undefined ? "" : `${one.share}%`,
+      dot: one.over ? "red" : undefined,
+      onClick: () => emit("main"),
+    },
+  ];
+});
 const subProjects = computed(() =>
   view.value.sub_projects.list.map((one) => {
     const late = one.days_left !== null && one.days_left !== undefined && one.days_left < 0;

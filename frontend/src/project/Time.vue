@@ -65,6 +65,7 @@ import { Avatar, Badge, Button, Dropdown, TabButtons } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
 import { Figures, Loading, Section, __, call, date, followList, go, hours, money, onedesk } from "../kit";
+import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({
   projectName: { type: String, required: true },
@@ -72,6 +73,8 @@ const props = defineProps({
   title: String,
   tree: { type: Array, default: () => [] },
 });
+// Only the project's own work when the page shows its Main (only.js).
+const only = useOnly();
 
 const STATE = { Draft: "gray", "Not Billable": "gray", "To Invoice": "orange", Invoiced: "green" };
 const FILTERS = [
@@ -91,7 +94,7 @@ const value = (item) => (said.value.bills_hours ? item.amount : item.cost);
 const frm = () => ({ doctype: "Project", doc: { name: props.projectName, project_name: props.title, customer: props.customer }, tree: props.tree, bills_hours: said.value?.bills_hours });
 
 async function load() {
-  said.value = await call("onedesk.one_project.hours.entries", { project: props.projectName });
+  said.value = await call("onedesk.one_project.hours.entries", { project: props.projectName, ...onlyArg(only) });
 }
 let timer = null;
 const stop = followList("Timesheet", () => {

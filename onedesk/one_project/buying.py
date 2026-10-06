@@ -34,11 +34,15 @@ SHOWN = 20
 
 @frappe.whitelist()
 @frappe.read_only()
-def papers(project: Annotated[str, "The project."]) -> dict:
+def papers(
+	project: Annotated[str, "The project."],
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
+) -> dict:
 	"""The tree's requests, supplier quotations and receipts, not cancelled,
 	newest first, and which the reader may make."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	projects = sorted(tree.below({project}, tree.parents()))
+	tree.narrow(project, only)
+	projects = sorted(tree.scope(project))
 	found = []
 	for doctype, (child, field, day) in PAPERS.items():
 		if not frappe.has_permission(doctype, "read"):

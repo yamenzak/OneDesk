@@ -38,6 +38,8 @@ halfway through the windows have their own order, time, costs and invoices,
 and add up into the villa's.
 """
 
+from typing import Annotated
+
 import frappe
 from frappe import _
 from frappe.utils import flt, getdate, nowdate
@@ -157,7 +159,9 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 
 @frappe.whitelist()
 @frappe.read_only()
-def invoices(project: str) -> dict:
+def invoices(
+	project: str, only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None
+) -> dict:
 	"""The customer's invoices for the project and those under it, newest
 	first, read as the reader reads invoices: an invoice names the project, or
 	one of its lines does. Drafts and returns included, cancelled ones not.
@@ -166,17 +170,25 @@ def invoices(project: str) -> dict:
 	figures count the project's share of an invoice that's partly another's,
 	tax included, as it's paid; retention still held is apart from what's
 	owed now; and an advance not yet set against an invoice is said."""
+	from onedesk.one_project import tree
+
+	tree.narrow(project, only)
 	said = _listed(project, "Sales Invoice")
 	return {**said, "invoices": said.pop("rows")}
 
 
 @frappe.whitelist()
 @frappe.read_only()
-def bills(project: str) -> dict:
+def bills(
+	project: str, only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None
+) -> dict:
 	"""The suppliers' bills for the project and those under it, as
 	`invoices` lists the customer's: what each is for, from whom, what's
 	owed now and when, the retention held apart. A draft from Bill Progress
 	is there to check."""
+	from onedesk.one_project import tree
+
+	tree.narrow(project, only)
 	said = _listed(project, "Purchase Invoice")
 	return {**said, "bills": said.pop("rows")}
 
@@ -207,7 +219,7 @@ def _listed(project: str, doctype: str) -> dict:
 		return {"rows": [], "totals": {}, "can_create": False}
 	how = LISTED[doctype]
 	child = f"{doctype} Item"
-	projects = sorted(tree.below({project}, tree.parents()))
+	projects = sorted(tree.scope(project))
 	named = set(
 		frappe.get_list(
 			doctype,
@@ -411,7 +423,7 @@ def _rows(project: str) -> list:
 
 	customer = frappe.db.get_value("Project", project, "customer")
 	found = []
-	for one in sorted(tree.below({project}, tree.parents())):
+	for one in sorted(tree.scope(project)):
 		head = frappe.db.get_value("Project", one, ["customer", "one_kind"], as_dict=True)
 		if not head or head.one_kind == kinds.RETAINER or (one != project and head.customer != customer):
 			continue
@@ -455,7 +467,7 @@ def costs(project: str) -> list[dict]:
 		one.name: one
 		for one in frappe.get_all(
 			"Project",
-			filters={"name": ["in", sorted(tree.below({project}, tree.parents()))]},
+			filters={"name": ["in", sorted(tree.scope(project))]},
 			fields=["name", "project_name", "customer", "one_kind", "one_markup"],
 		)
 		if one.one_kind == kinds.TIME and one.customer == customer

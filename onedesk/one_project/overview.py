@@ -54,6 +54,20 @@ def progress(method: str | None, tasks: list, manual: float) -> float:
 	return flt(100 * finished / len(tasks), 2)
 
 
+def own_progress(project: str, method: str | None, stored) -> int | None:
+	"""How far the project's own tasks are, its sub-projects' left out, by
+	its % Complete method: what its Main shows. None with no tasks of its
+	own, as the stored figure is the tree's."""
+	if method == "Manual":
+		return round(flt(stored))
+	tasks = frappe.get_all(
+		"Task",
+		filters={"project": project, "status": ["!=", "Template"]},
+		fields=["status", "progress", "task_weight"],
+	)
+	return round(progress(method, tasks, stored)) if tasks else None
+
+
 def roll_up(project: str | None) -> None:
 	"""Store the tree's progress as ERPNext's own % Complete on the project
 	and every project above it that has sub-projects, so the page, the lists,
@@ -107,9 +121,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		["status", "expected_end_date", "percent_complete", "percent_complete_method"],
 		as_dict=True,
 	)
-	projects = [
-		one for one in tree.below({project}, tree.parents()) if one == project or members.sees(one, user)
-	]
+	projects = [one for one in tree.scope(project) if one == project or members.sees(one, user)]
 	today = nowdate()
 
 	counts = frappe.get_all(
@@ -152,8 +164,13 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		# A completed project is done, whatever its tasks say: one completed
 		# with no tasks of its own has none to count.
 		# ERPNext's own % Complete, the tree's for a project with sub-projects
-		# (roll_up), so this page and the lists say the same.
-		"share": 100 if doc.status == "Completed" else round(flt(doc.percent_complete)),
+		# (roll_up), so this page and the lists say the same; its own tasks'
+		# when the page shows its Main.
+		"share": 100
+		if doc.status == "Completed"
+		else own_progress(project, doc.percent_complete_method, doc.percent_complete) or 0
+		if tree.narrowed(project)
+		else round(flt(doc.percent_complete)),
 		"end": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"days_left": days_left(doc.expected_end_date, today, doc.status in ("Completed", "Cancelled")),
 		"estimated": said["budget"],

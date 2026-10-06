@@ -89,8 +89,11 @@ import { Avatar, Badge, Button, Tooltip } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Loading, __, call, confirm, hours, onedesk } from "../kit";
+import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ projectName: { type: String, required: true }, modified: String });
+// Only the project's own work when the page shows its Main (only.js).
+const only = useOnly();
 const emit = defineEmits(["changed"]);
 const said = ref(null);
 
@@ -98,7 +101,7 @@ const said = ref(null);
 const outside = ref(null);
 async function load() {
   [said.value, outside.value] = await Promise.all([
-    call("onedesk.one_project.team.team", { project: props.projectName }),
+    call("onedesk.one_project.team.team", { project: props.projectName, ...onlyArg(only) }),
     call("onedesk.one_project.contacts.contacts", { project: props.projectName }),
   ]);
 }

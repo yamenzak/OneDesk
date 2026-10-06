@@ -18,7 +18,7 @@
           </div>
         </nav>
         <div class="min-w-0">
-          <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
+          <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" @whole="only = false" />
           <!-- The task views' toolbar, and below a desktop's width the views as a
                tab bar that scrolls sideways, as an app's does. It sticks under
                desk's page head, never over it (the head is z-index 6). -->
@@ -43,7 +43,7 @@
             </div>
           </div>
 
-          <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" />
+          <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" @main="only = true" />
           <template v-else-if="taskView">
             <Loading v-if="!work" />
             <Tasks v-else-if="view === 'tasks'" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
@@ -88,6 +88,7 @@ import Tasks from "./Tasks.vue";
 import Time from "./Time.vue";
 import Timeline from "./Timeline.vue";
 import { groupTasks, visible } from "./group";
+import { onlyArg, provideOnly } from "./only";
 import { useWork } from "./useWork";
 
 // The timeline brings frappe-ui's editor, so it loads when first shown.
@@ -110,13 +111,17 @@ const showDone = ref(false);
 const groupBy = ref("project");
 const fileCount = ref(null);
 const opened = ref(null);
+// Only the project's own work, its Main, and not what is under it: kept in
+// the address so it can be shared and survives a reload.
+const only = ref(props.query.only === "1");
+provideOnly(only);
 
-const { work, load: loadWork, set, add: addTask, give, take, find, count } = useWork(name);
+const { work, load: loadWork, set, add: addTask, give, take, find, count } = useWork(name, only);
 
 async function load() {
   const asked = name.value;
   if (!asked) return;
-  const got = await call("onedesk.one_project.view.said", { project: asked });
+  const got = await call("onedesk.one_project.view.said", { project: asked, ...onlyArg(only) });
   if (asked !== name.value) return;
   said.value = got;
   report();
@@ -142,6 +147,15 @@ watch(
 );
 onBeforeUnmount(() => stop.forEach((one) => one()));
 watch(view, (now) => setQuery("view", now === "overview" ? null : now));
+watch(only, (now) => {
+  setQuery("only", now ? "1" : null);
+  said.value = null;
+  load();
+  loadWork();
+});
+watch(() => props.query.only, (now) => (only.value = now === "1"));
+// A project with nothing under it has no Main to show on its own.
+watch(said, (now) => now && only.value && !now.only && (only.value = false));
 watch(() => props.query.view, (now) => now && (view.value = now));
 
 const taskView = computed(() => ["tasks", "board", "timeline"].includes(view.value));

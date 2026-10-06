@@ -23,7 +23,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
 
-from onedesk.one_project import kinds, overview
+from onedesk.one_project import kinds, overview, tree
 
 #: Not a project here: an employee's onboarding or exit checklist (README).
 HR = "Employee Boarding"
@@ -226,9 +226,30 @@ def page(said: dict) -> str | None:
 	)
 
 
+def _main(project: str) -> dict:
+	"""The project's own work, its sub-projects left out (view.py `_sub_projects`
+	"main"), and how much of the whole was ordered as extra work."""
+	from onedesk.one_project import billing, view
+
+	own = view.branch_money(tree.totals(project)["own"])
+	under = sorted(tree.below({project}, tree.parents()))
+	extra = frappe.get_all(
+		"Sales Order",
+		filters={"project": ["in", under], "docstatus": 1, billing.EXTRA: 1},
+		fields=[{"SUM": "base_net_total", "as": "total"}],
+	)
+	return {
+		"ordered": own["ordered"],
+		"billed": own["billed"],
+		"cost": own["spent"],
+		"budget": own["budget"],
+		"extra_work_ordered": flt(extra[0].total) if extra else 0,
+	}
+
+
 def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."]) -> dict:
-	"""One project as its page shows it, with its sub-projects added up: where
-	it stands, its dates, what it cost against the estimate, what was billed,
+	"""One project as its page shows it, with its sub-projects added up, and
+	its own work apart from them as `main`: where it stands, its dates, what it cost against the estimate, what was billed,
 	its late tasks (who is on each, what waits on each), its milestones to
 	come, its people and its contacts outside the company, the team's last updates, and the reader's own week on
 	it. Read before saying how a project is going, what is late, or writing
@@ -264,6 +285,8 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		"members": [get_fullname(row.user) for row in doc.users],
 		"parent": doc.get("one_parent"),
 		"sub_projects": len(said["tree"]) - 1,
+		# Its own work apart from what is under it, as its Main row says it.
+		"main": _main(project) if len(said["tree"]) > 1 else None,
 		"starts": str(doc.expected_start_date) if doc.expected_start_date else None,
 		"ends": said["end"],
 		"days_left": said["days_left"],

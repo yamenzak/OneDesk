@@ -6,15 +6,16 @@ import { computed, onBeforeUnmount, ref } from "vue";
 
 import { assign, call, followList, insert, setValue, unassign } from "../kit";
 import { DONE } from "./colors";
+import { onlyArg } from "./only";
 
-export function useWork(project) {
+export function useWork(project, only) {
 	const work = ref(null);
 	let timer = null;
 
 	async function load() {
 		const asked = project.value;
 		if (!asked) return;
-		const got = await call("onedesk.one_project.view.work", { project: asked });
+		const got = await call("onedesk.one_project.view.work", { project: asked, ...onlyArg(only) });
 		if (asked === project.value) work.value = got;
 	}
 	const soon = () => {

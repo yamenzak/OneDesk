@@ -57,10 +57,12 @@ PHOTO = re.compile(r"\.(jpe?g|png|gif|webp|heic|avif)$", re.I)
 def activity(
 	project: Annotated[str, "The project."],
 	before: Annotated[str | None, "Only what happened before this time, for the next page."] = None,
+	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
 ) -> dict:
 	"""A page of the project's history, newest first."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	projects = sorted(tree.below({project}, tree.parents()))
+	tree.narrow(project, only)
+	projects = sorted(tree.scope(project))
 	titles = dict(
 		frappe.get_all(
 			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True

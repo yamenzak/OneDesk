@@ -223,7 +223,7 @@ def test_the_overview_counts_days_and_work():
 
 def test_the_overview_is_the_whole_tree_and_its_chart_is_the_bands():
 	source = (PROJECT / "overview.py").read_text()
-	assert "tree.below({project}, tree.parents())" in source and "members.sees(one, user)" in source
+	assert "tree.scope(project)" in source and "members.sees(one, user)" in source
 	# What the page says above its fields is its Record Head, over the overview.
 	heads = (PROJECT / "heads.py").read_text()
 	assert "overview.overview(name)" in heads and '"doctype": "Project"' in heads
@@ -843,7 +843,7 @@ def test_subcontracts_are_cards_goods_are_bought_and_bills_are_listed():
 	assert next_due(terms, 1200, "2026-10-06") == "2026-11-01"
 	assert next_due(terms, 200, "2026-10-06") is None
 	billing = (PROJECT / "billing.py").read_text()
-	assert "def bills(project: str)" in billing and 'said = _listed(project, "Purchase Invoice")' in billing
+	assert "\ndef bills(" in billing and 'said = _listed(project, "Purchase Invoice")' in billing
 	vue = (tree.ROOT / "frontend" / "src" / "project" / "Suppliers.vue").read_text()
 	assert (
 		"orders.value.filter((one) => one.subcontract)" in vue and "onedesk.one_project.billing.bills" in vue
@@ -1749,7 +1749,7 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 def test_a_completed_project_reads_as_done():
 	# ERPNext keeps a project completed without tasks of its own at its old
 	# share, so the page, the head, OneAI and the portal read Completed as 100%.
-	assert '"share": 100 if doc.status == "Completed" else' in (PROJECT / "overview.py").read_text()
+	assert '"share": 100\n\t\tif doc.status == "Completed"\n\t\telse' in (PROJECT / "overview.py").read_text()
 	assert (
 		'100\n\t\tif doc.status == "Completed"\n\t\telse overview.share('
 		in (PROJECT / "portal.py").read_text()
@@ -2024,7 +2024,7 @@ def test_time_is_counted_apart_from_how_the_customer_pays():
 	timer = (tree.APP / "one_task" / "timer.py").read_text()
 	assert '"is_billable": 1 if bills_hours(doc.project) else 0' in timer
 	billing = (PROJECT / "billing.py").read_text()
-	assert "for one in sorted(tree.below({project}, tree.parents()))" in billing
+	assert "for one in sorted(tree.scope(project))" in billing
 	view = (tree.ROOT / "frontend" / "src" / "project" / "Time.vue").read_text()
 	assert "ListGroup" in view and '__("Labour Cost")' in view and "said.money" in view
 
@@ -2132,7 +2132,7 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 	)
 	# One figure: the tree's stored as ERPNext's % Complete, read by the page.
 	overview = (PROJECT / "overview.py").read_text()
-	assert '"share": 100 if doc.status == "Completed" else round(flt(doc.percent_complete)),' in overview
+	assert '\t\telse round(flt(doc.percent_complete)),' in overview and '"share": 100\n\t\tif doc.status == "Completed"' in overview
 	assert 'frappe.db.set_value("Project", one, "percent_complete", value, update_modified=False)' in overview
 	assert '"onedesk.one_project.overview.task_changed"' in HOOKS
 	assert '"onedesk.one_project.overview.project_changed"' in HOOKS
@@ -2331,3 +2331,60 @@ def test_a_suppliers_logo_shows_where_the_supplier_does():
 	# The Overview's orders and the customer's retention carry it too.
 	assert 'image: props.said.customer_image } : { icon: "lucide-truck" }),' in (src / "Overview.vue").read_text()
 	assert "    image: props.said.customer_image,\n    square: true," in (src / "Overview.vue").read_text()
+
+
+def test_a_parent_can_be_read_without_what_is_under_it():
+	# tree.narrow makes tree.scope the project alone for the rest of the
+	# request; a call inside it that doesn't ask keeps what the page asked.
+	import types
+
+	frappe = types.SimpleNamespace(local=types.SimpleNamespace())
+	of = {"Handrails": "Villa", "Glass": "Handrails", "Pergola": "Villa"}
+	space = _load(
+		PROJECT / "tree.py",
+		("narrow", "narrowed", "scope", "below", "children"),
+		frappe=frappe,
+		cint=lambda value: int(value or 0),
+		parents=lambda: of,
+	)
+	assert space["scope"]("Villa") == {"Villa", "Handrails", "Glass", "Pergola"}
+	space["narrow"]("Villa", None)
+	assert not space["narrowed"]("Villa")
+	space["narrow"]("Villa", 1)
+	space["narrow"]("Villa", None)
+	assert space["narrowed"]("Villa") and not space["narrowed"]("Handrails")
+	assert space["scope"]("Villa") == {"Villa"}
+	assert space["scope"]("Handrails") == {"Handrails", "Glass"}
+
+	# Every view the page reads takes `only` and counts through tree.scope.
+	ONLY = 'only: Annotated[bool | None, "Only the project\'s own work, not what is under it."] = None'
+	for module, name in (
+		("view.py", "said"),
+		("view.py", "work"),
+		("view.py", "files"),
+		("billing.py", "invoices"),
+		("billing.py", "bills"),
+		("hours.py", "entries"),
+		("team.py", "team"),
+		("activity.py", "activity"),
+		("buying.py", "papers"),
+	):
+		body = (PROJECT / module).read_text().split(f"\ndef {name}(", 1)[1].split("\ndef ", 1)[0]
+		assert ONLY in body and "tree.narrow(project, only)" in body, (module, name)
+	for module in ("money.py", "overview.py", "team.py", "activity.py", "buying.py", "hours.py"):
+		assert "tree.scope(project)" in (PROJECT / module).read_text(), module
+	assert '"own" if tree.narrowed(project) else "tree"' in (PROJECT / "money.py").read_text()
+
+	# The page: Main first in Sub-projects, the chip back, the address keeps it.
+	src = tree.ROOT / "frontend" / "src" / "project"
+	view = (PROJECT / "view.py").read_text()
+	assert '"main": {' in view and "overview.own_progress(" in view
+	assert '_("{0} extra work")' in view
+	overview_vue = (src / "Overview.vue").read_text()
+	assert ':rows="[...mainRow, ...subProjects]"' in overview_vue and 'onClick: () => emit("main")' in overview_vue
+	assert ':aria-label="__(\'Show Whole Project\')" @click="$emit(\'whole\')"' in (src / "Facts.vue").read_text()
+	page = (src / "ProjectPage.vue").read_text()
+	assert 'const only = ref(props.query.only === "1");' in page and 'setQuery("only", now ? "1" : null);' in page
+	for one in ("Files.vue", "Invoices.vue", "ProjectActivity.vue", "Team.vue", "Time.vue", "Suppliers.vue"):
+		assert "...onlyArg(only)" in (src / one).read_text(), one
+	assert '"main": _main(project)' in (PROJECT / "ai.py").read_text()

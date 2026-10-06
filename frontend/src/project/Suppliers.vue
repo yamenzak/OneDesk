@@ -153,8 +153,11 @@ import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Loading, __, call, date, followList, go, money, newDoc, onedesk } from "../kit";
+import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ said: { type: Object, required: true } });
+// Only the project's own work when the page shows its Main (only.js).
+const only = useOnly();
 
 const STATUS = { "On Hold": "orange", Closed: "gray", Completed: "green" };
 const cash = computed(() => props.said.money);
@@ -224,8 +227,8 @@ const editSupplier = (one) => onedesk().project.contact(props.said.name, one, (n
 
 async function load() {
   [buying.value, bills.value, contacts.value] = await Promise.all([
-    call("onedesk.one_project.buying.papers", { project: props.said.name }),
-    call("onedesk.one_project.billing.bills", { project: props.said.name }),
+    call("onedesk.one_project.buying.papers", { project: props.said.name, ...onlyArg(only) }),
+    call("onedesk.one_project.billing.bills", { project: props.said.name, ...onlyArg(only) }),
     call("onedesk.one_project.contacts.contacts", { project: props.said.name }),
   ]);
 }
