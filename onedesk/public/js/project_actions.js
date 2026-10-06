@@ -683,3 +683,15 @@ onedesk.project.stop_repeat = async (repeat, done) => {
 	await frappe.xcall("frappe.client.set_value", { doctype: "Auto Repeat", name: repeat, fieldname: "disabled", value: 1 });
 	done?.();
 };
+
+// Pay Advance: ERPNext's own payment against the order, opened to check and
+// submit, as the order's Create › Payment makes it.
+onedesk.project.pay_advance = (order) =>
+	frappe.call({
+		method: "erpnext.accounts.doctype.payment_entry.payment_entry.get_payment_entry",
+		args: { dt: "Purchase Order", dn: order },
+		callback({ message }) {
+			const doc = frappe.model.sync(message)[0];
+			frappe.set_route("Form", doc.doctype, doc.name);
+		},
+	});

@@ -656,13 +656,18 @@ Everyone who can see the project sees them.
 
 A subcontract is a **purchase order** on the project, one for each supplier
 and package of work: the glazing, the joinery, the electrics. Order a package
-as 1 **Lump Sum**, so it can be billed a part at a time.
+as 1 **Lump Sum**, so it can be billed a part at a time. An order with a Lump
+Sum line, or for anything not kept in stock, is a subcontract. An order for
+stock items is goods, and is listed under **Buying**.
 
-**Suppliers** on the project's page shows each one as a card: what it was
-ordered for, how much of it is billed, what's left to bill, what's been paid,
-the retention held and the advance not yet set off. **Open Order** opens it,
-and **New Purchase Order** starts one on the project. A Fixed Price project
-always shows **Suppliers**; others once they have an order.
+**Suppliers** on the project's page shows each subcontract as a card: the
+supplier, what it was ordered for and which sub-project, how much of it is
+billed, what's left to bill, what's been paid, what's **To Pay** now (in red,
+with how late, once it's past due), the retention held and the advance not
+yet set off. **Open Order** opens it, **···** offers **Pay Advance**, and
+**New Purchase Order** starts one on the project. The line above adds up
+what's ordered, billed, left to bill, to pay, overdue and held. A Fixed
+Price project always shows **Suppliers**; others once they have an order.
 
 **Bill Progress** (on the supplier's card, or under **Create** on a submitted
 order) asks how far the
@@ -681,19 +686,26 @@ due on the order's delivery date, or the day the project is marked
 **Completed** if that's sooner, and the rest at Retention Due. Change Retention
 Due and every bill from the order moves with it.
 
-**Advances**: pay the supplier against the order before any bill, and each
-bill sets it off.
+**Advances**: **Pay Advance** on the card opens ERPNext's payment against
+the order, to check and submit. Each bill sets it off.
+
+**Bills** lists the suppliers' bills for the project and its sub-projects,
+newest first: what each is for (**Work done 70%**, or its first item), from
+whom, when it's due (in red once it's past), its status, total and what's
+still owed. A draft from Bill Progress is there to check. **···** on a bill
+offers **Record Payment**.
 
 Extra work from a supplier gets an order of its own, so the original stays
 readable.
 
 **Buying**, under the cards, lists what's being bought for the project and
 its sub-projects: material requests, requests for quotation, the suppliers'
-quotations and the goods received, newest first. **New Material Request**
+quotations, orders for goods (with how much is received and billed, in amber
+when it's billed ahead of what's come) and the goods received, newest first. **New Material Request**
 asks for material for the project, and **Request Prices** asks suppliers to
 quote.
 
-**Subcontracts** on a Fixed Price project's Overview lists the orders: what
+**Subcontracts** on a Fixed Price project's Overview lists the subcontracts: what
 each is for, which sub-project it's on, how much is billed, and what's to pay
 once retention is set aside. An amber dot marks an order billed further than
 the work on its project has got, with how far that is. A supplier's bill with

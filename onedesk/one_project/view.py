@@ -640,8 +640,10 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 			else None
 		)
 		said["budget"] = _budget_lines(cash)
-		said["subcontracts"] = _subcontracts(doc.name, view, cash["suppliers"][:SHOWN])
-		said["subcontracts_count"] = len(cash["suppliers"])
+		# Goods bought for the job are on Suppliers' Buying, not here.
+		packages = [one for one in cash["suppliers"] if one["subcontract"]]
+		said["subcontracts"] = _subcontracts(doc.name, view, packages[:SHOWN])
+		said["subcontracts_count"] = len(packages)
 		said["retention"] = (
 			retention.sides(view["tree"], orders(doc, view["tree"]), cash["suppliers"])
 			if retention.on()
@@ -809,26 +811,6 @@ def late(days: int) -> str:
 	return _("1 day late") if days == 1 else _("{0} days late").format(days)
 
 
-def past_due(terms: list, outstanding: float, today) -> dict | None:
-	"""What's past due on one invoice or bill: its payment terms, soonest
-	first, with what's been paid taken off the earliest, as payments are;
-	what's left of those already due, since when, and whether it's only
-	retention. ERPNext's own per-term outstanding moves only when a payment
-	names the term, so it's worked out here. None when nothing's due. Pure."""
-	terms = sorted(terms, key=lambda one: str(one["due_date"]))
-	paid = max(0.0, sum(flt(one["amount"]) for one in terms) - flt(outstanding))
-	due, since, held = 0.0, None, True
-	for one in terms:
-		left = flt(one["amount"]) - min(flt(one["amount"]), paid)
-		paid -= min(flt(one["amount"]), paid)
-		if left < 0.005 or str(one["due_date"]) >= str(today):
-			continue
-		due += left
-		since = since or one["due_date"]
-		held = held and one["held"]
-	return {"due": due, "since": since, "held": held} if due >= 0.005 else None
-
-
 def _past_due(doctype: str, projects: list[str]) -> list[dict]:
 	"""The tree's invoices or bills with a payment past its due date."""
 	child = f"{doctype} Item"
@@ -850,7 +832,7 @@ def _past_due(doctype: str, projects: list[str]) -> list[dict]:
 	said = []
 	for name, one in found.items():
 		head = one["head"]
-		due = past_due(one["terms"], head.outstanding_amount, today)
+		due = money.past_due(one["terms"], head.outstanding_amount, today)
 		if due:
 			said.append({"name": name, "head": head, **due})
 	return sorted(said, key=lambda one: str(one["since"]))

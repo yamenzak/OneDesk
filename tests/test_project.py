@@ -823,6 +823,37 @@ def test_an_invoice_says_what_it_is_for_and_what_is_owed_now():
 	assert 'if doc.status != "Completed":\n\t\tfound += _overdue_invoices(view["tree"], user)' in view
 
 
+def test_subcontracts_are_cards_goods_are_bought_and_bills_are_listed():
+	from types import SimpleNamespace as row
+
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	space = _load(PROJECT / "money.py", ("subcontract", "next_due"), flt=flt, LUMP_SUM="Lump Sum")
+	# A Lump Sum, or anything not kept in stock, is a package of work.
+	assert "LUMP_SUM" in (PROJECT / "money.py").read_text()
+	subcontract = space["subcontract"]
+	stock = {"Handrail Bracket"}
+	brackets = [row(uom="Nos", item_code="Handrail Bracket")]
+	glazing = [row(uom="Nos", item_code="Glazing Package")]
+	assert subcontract(brackets, stock) is False and subcontract(glazing, stock) is True
+	next_due = space["next_due"]
+	term = lambda due, amount, held=False: {"due_date": due, "amount": amount, "held": held}  # noqa: E731
+	# Paid the first part, the second still coming; retention never counts.
+	terms = [term("2026-09-01", 1000), term("2026-11-01", 1000), term("2027-09-01", 200, True)]
+	assert next_due(terms, 1200, "2026-10-06") == "2026-11-01"
+	assert next_due(terms, 200, "2026-10-06") is None
+	billing = (PROJECT / "billing.py").read_text()
+	assert "def bills(project: str)" in billing and 'said = _listed(project, "Purchase Invoice")' in billing
+	vue = (tree.ROOT / "frontend" / "src" / "project" / "Suppliers.vue").read_text()
+	assert (
+		"orders.value.filter((one) => one.subcontract)" in vue and "onedesk.one_project.billing.bills" in vue
+	)
+	assert "project.pay_advance(one.order)" in vue and '"invoice.record_payment"' in vue
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.pay_advance = (order)" in actions and "get_payment_entry" in actions
+	buying = (PROJECT / "buying.py").read_text()
+	assert "money.kinds(list(names))" in buying
+
+
 def test_buying_lists_what_is_bought_for_the_project():
 	shown = _load(PROJECT / "buying.py", ("shown",), _=lambda text: text)["shown"]
 	assert shown([]) is None and shown(["Glass"]) == "Glass"
@@ -1016,12 +1047,13 @@ def test_subcontracts_say_what_where_how_far_and_what_to_pay():
 	subs = view_py[view_py.index("def _subcontracts(") : view_py.index("def late(")]
 	assert "milestones.where(" in subs and 'done[project] = view["share"]' in subs
 	assert '"subcontracts_count": len(cash["suppliers"])' not in view_py  # set on said, below
-	assert 'said["subcontracts_count"] = len(cash["suppliers"])' in view_py
+	# Goods bought for the job are on Buying; the Overview counts the packages.
+	assert 'said["subcontracts_count"] = len(packages)' in view_py
 	bills = view_py[view_py.index("def _overdue_bills(") : view_py.index("def _late_route(")]
 	# By the payment schedule, retention not yet due left out.
 	assert '_("Pay {0}")' in bills and '_("Chase {0}")' in bills and '"Purchase Invoice", projects' in bills
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
-	past_due = _load(PROJECT / "view.py", ("past_due",), flt=flt)["past_due"]
+	past_due = _load(PROJECT / "money.py", ("past_due",), flt=flt)["past_due"]
 	term = lambda due, amount, held=False: {"due_date": due, "amount": amount, "held": held}  # noqa: E731
 	# The villa's handrails: 57,000 paid of 60,000, the 3,000 retention due
 	# next year. Nothing is past due, whatever the per-term outstanding says.
@@ -1198,10 +1230,8 @@ def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
 	assert "timer._this_week(frappe.session.user)" in hours
 	assert team.count('doc.check_permission("write")') == 2 and "doc.save()" in team
 	assert "ignore_permissions" not in hours + team
-	assert (
-		'parent_doctype="Sales Invoice"' in billing
-		and 'frappe.has_permission("Sales Invoice", "read")' in billing
-	)
+	# Invoices and bills are read as the reader may read them.
+	assert "parent_doctype=doctype" in billing and 'frappe.has_permission(doctype, "read")' in billing
 	view = (PROJECT / "view.py").read_text()
 	for shown in ('shown.append("time")', 'shown.append("invoices")', 'shown.append("team")'):
 		assert shown in view

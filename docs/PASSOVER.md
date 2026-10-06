@@ -8080,6 +8080,26 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - An advance on the order shows under Paid. A project with no invoices shows
   only "No invoices". Payments redraw the view, not only invoices.
 
+**Suppliers** (the project page's Suppliers view).
+
+- Every purchase order was a subcontract card with Bill Progress, the villa's
+  1,960 of handrail brackets among them. An order with a Lump Sum line or for
+  anything not kept in stock is a subcontract (`money.subcontract`); goods
+  are on Buying, with how much is received and billed, amber when billed
+  ahead of delivery.
+- A card didn't say what it was for: the two Gulf Office Supplies orders
+  read alike. It says Glazing Package, and Aluminium Frames · Villa Windows.
+- What was owed wasn't on the card, nor that Al Noor's 30,000 was two days
+  late. **To Pay** shows, red with how late, or when it's due
+  (`money.past_due`, `next_due`). The line above adds To Pay and Overdue
+  (50,800).
+- Supplier bills were nowhere on the page. **Bills** lists them as Invoices
+  lists the customer's (`billing.bills`, sharing `_listed`), with Record
+  Payment. Lateness is read from the due dates, as ERPNext marks Overdue only
+  overnight.
+- Nothing could be paid from here. **Pay Advance** opens ERPNext's payment
+  against the order (`project.pay_advance`).
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

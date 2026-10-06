@@ -537,6 +537,7 @@ No doctypes yet.
 * `onedesk.one_mail.linking.unfile`
 * `onedesk.one_mail.rules.away_of`
 * `onedesk.one_mail.rules.set_away`
+* `onedesk.one_project.billing.bills`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.invoices`
 * `onedesk.one_project.billing.unbilled`

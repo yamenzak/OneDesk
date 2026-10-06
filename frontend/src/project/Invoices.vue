@@ -42,7 +42,7 @@
                 <div class="text-ink-gray-7">{{ date(item.retention_due) }}</div>
                 <div class="truncate text-sm text-ink-gray-5">{{ __("Retention") }}</div>
               </div>
-              <span v-else :class="item.status === 'Overdue' ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ date(item.due) }}</span>
+              <span v-else :class="item.late ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ date(item.due) }}</span>
             </ListCell>
             <ListCell><Badge :label="__(item.status)" :theme="STATUS[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8">{{ money(item.total, item.currency) }}</ListCell>

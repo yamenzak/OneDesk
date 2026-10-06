@@ -1,6 +1,8 @@
 """What's being bought for a project, before and after the order: the
 requests for material, the requests for prices sent to suppliers, the
-quotations they sent back, and the goods received. The Suppliers view lists
+quotations they sent back, the orders for goods (a subcontract has its own
+card, money.subcontract), and the goods received. An order for goods says
+how much is received and billed, and when it's billed ahead of delivery. The Suppliers view lists
 them beside the subcontracts, the project's and those under it, each opening
 its document (`papers`).
 
@@ -14,7 +16,7 @@ from frappe import _
 from frappe.query_builder.functions import Sum
 from frappe.utils import flt
 
-from onedesk.one_project import tree
+from onedesk.one_project import money, tree
 
 #: Each document, the line table naming the project and what it calls it,
 #: and its date.
@@ -22,6 +24,7 @@ PAPERS = {
 	"Material Request": ("Material Request Item", "project", "transaction_date"),
 	"Request for Quotation": ("Request for Quotation Item", "project_name", "transaction_date"),
 	"Supplier Quotation": ("Supplier Quotation Item", "project", "transaction_date"),
+	"Purchase Order": ("Purchase Order Item", "project", "transaction_date"),
 	"Purchase Receipt": ("Purchase Receipt Item", "project", "posting_date"),
 }
 
@@ -49,11 +52,16 @@ def papers(project: Annotated[str, "The project."]) -> dict:
 			.groupby(line.parent)
 			.run()
 		}
+		if doctype == "Purchase Order":
+			goods = money.kinds(list(names))
+			names = {name: amount for name, amount in names.items() if not goods[name]}
 		if not names:
 			continue
 		fields = ["name", "status", "docstatus", day]
-		if doctype in ("Supplier Quotation", "Purchase Receipt"):
+		if doctype in ("Supplier Quotation", "Purchase Receipt", "Purchase Order"):
 			fields += ["supplier_name", "currency"]
+		if doctype == "Purchase Order":
+			fields += ["per_received", "per_billed"]
 		for one in frappe.get_list(
 			doctype,
 			filters={"name": ["in", list(names)]},
@@ -71,6 +79,8 @@ def papers(project: Annotated[str, "The project."]) -> dict:
 					"amount": names[one.name] if doctype != "Request for Quotation" else None,
 					"currency": one.get("currency"),
 					"what": _items(child, one.name),
+					"received": flt(one.per_received) if doctype == "Purchase Order" else None,
+					"billed": flt(one.per_billed) if doctype == "Purchase Order" else None,
 				}
 			)
 	found.sort(key=lambda one: one["date"] or "", reverse=True)

@@ -26,9 +26,10 @@ from urllib.parse import quote
 import frappe
 from frappe import _
 from frappe.query_builder.functions import Sum
-from frappe.utils import flt
+from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_project import tree
+from onedesk.one_project.progress import LUMP_SUM
 
 #: Documents whose lines name the project: the line table, and what a figure
 #: adds up on it.
@@ -233,7 +234,8 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"customer": customer,
 		"cost": cost,
 		"own": own,
-		"suppliers": _suppliers(projects) if _sees("Purchase Order") else [],
+		"suppliers": _placed(_suppliers(projects), project) if _sees("Purchase Order") else [],
+		"can_pay": bool(frappe.has_permission("Payment Entry", "create")),
 		"can_bill": bool(frappe.has_permission("Purchase Invoice", "create")),
 		"can_order": bool(frappe.has_permission("Purchase Order", "create")),
 		"contract": contract,
@@ -449,9 +451,11 @@ def _retained(projects: list[str]) -> float:
 
 
 def _suppliers(projects: list[str]) -> list[dict]:
-	"""Each order from a supplier on the tree, the subcontracts: what it's
-	for, what's billed, what's left to bill, the retention still held, the
-	advance not yet set off, and what's been paid (progress.py)."""
+	"""Each order from a supplier on the tree: what it's for, whether it's a
+	subcontract or goods (`subcontract`), what's billed, what's left to bill,
+	what's received, the retention still held, the advance not yet set off,
+	what's been paid, and what's to pay now, by when or how late
+	(progress.py, view.past_due)."""
 	from onedesk.one_project import retention
 
 	item = frappe.qb.DocType("Purchase Order Item")
@@ -481,13 +485,23 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"conversion_rate",
 				"one_retention",
 				"project",
+				"per_received",
 			],
 		)
 	}
 	lines = frappe.get_all(
 		"Purchase Order Item",
 		filters={"parent": ["in", list(orders)]},
-		fields=["parent", "amount", "billed_amt", "base_net_amount", "item_name", "project"],
+		fields=[
+			"parent",
+			"amount",
+			"billed_amt",
+			"base_net_amount",
+			"item_name",
+			"project",
+			"item_code",
+			"uom",
+		],
 		order_by="idx asc",
 	)
 	bills = frappe.get_all(
@@ -507,19 +521,29 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		name: sum(amount for _due, amount in held)
 		for name, held in retention.held_on("Purchase Invoice", list(invoices)).items()
 	}
+	stock = _stock({one.item_code for one in lines if one.item_code})
+	terms = _terms("Purchase Invoice", list(invoices))
+	today = getdate(nowdate())
 	found = []
 	for name, ordered in orders.items():
 		head = heads[name]
 		mine = {bill.parent for bill in bills if bill.purchase_order == name}
 		billed = sum(flt(bill.base_net_amount) for bill in bills if bill.purchase_order == name)
 		left = 0.0 if head.status == "Closed" else unbilled([one for one in lines if one.parent == name])
-		retained = paid = advanced = owing = 0.0
+		retained = paid = advanced = owing = overdue = 0.0
+		since = due = None
 		for invoice in (invoices[one] for one in mine if one in invoices):
 			owed = flt(invoice.outstanding_amount) * flt(invoice.conversion_rate or 1)
 			retained += kept.get(invoice.name, 0.0)
 			paid += flt(invoice.base_grand_total) - owed
 			advanced += flt(invoice.total_advance)
 			owing += owed
+			late = past_due(terms.get(invoice.name, []), invoice.outstanding_amount, today)
+			if late:
+				overdue += late["due"] * flt(invoice.conversion_rate or 1)
+				since = min(filter(None, [since, str(late["since"])]))
+			coming = next_due(terms.get(invoice.name, []), invoice.outstanding_amount, today)
+			due = min(filter(None, [due, coming])) if coming else due
 		own = [one for one in lines if one.parent == name]
 		advance = max(0.0, flt(head.advance_paid) * flt(head.conversion_rate or 1) - advanced)
 		found.append(
@@ -530,6 +554,14 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"project": head.project or next((one.project for one in own if one.project), None),
 				# What's billed and not paid, less the retention held till later.
 				"to_pay": max(0.0, owing - retained),
+				# What of it is past its date, since when, and when the rest
+				# falls due.
+				"overdue": overdue,
+				"late": (today - getdate(since)).days if since else None,
+				"due": due,
+				"subcontract": subcontract(own, stock),
+				"received": flt(head.per_received),
+				"goods": any(one.item_code in stock for one in own),
 				"ordered": flt(ordered),
 				"billed": billed,
 				"left": left,
@@ -547,6 +579,104 @@ def _suppliers(projects: list[str]) -> list[dict]:
 			}
 		)
 	return sorted(found, key=lambda one: -one["ordered"])
+
+
+def subcontract(lines: list, stock: set) -> bool:
+	"""Whether an order is a subcontract, a package of work billed as it gets
+	done, rather than goods billed as they're received: a line ordered as a
+	Lump Sum, or for something that isn't kept in stock. Pure."""
+	return any(one.uom == LUMP_SUM or one.item_code not in stock for one in lines)
+
+
+def next_due(terms: list, outstanding: float, today) -> str | None:
+	"""When the next payment on a bill or invoice falls due, retention
+	left out: its earliest term not yet paid nor past. Pure."""
+	terms = sorted(terms, key=lambda one: str(one["due_date"]))
+	paid = max(0.0, sum(flt(one["amount"]) for one in terms) - flt(outstanding))
+	for one in terms:
+		left = flt(one["amount"]) - min(flt(one["amount"]), paid)
+		paid -= min(flt(one["amount"]), paid)
+		if left >= 0.005 and not one["held"] and str(one["due_date"]) >= str(today):
+			return str(one["due_date"])
+	return None
+
+
+def past_due(terms: list, outstanding: float, today) -> dict | None:
+	"""What's past due on one invoice or bill: its payment terms, soonest
+	first, with what's been paid taken off the earliest, as payments are;
+	what's left of those already due, since when, and whether it's only
+	retention. ERPNext's own per-term outstanding moves only when a payment
+	names the term, so it's worked out here. None when nothing's due. Pure."""
+	terms = sorted(terms, key=lambda one: str(one["due_date"]))
+	paid = max(0.0, sum(flt(one["amount"]) for one in terms) - flt(outstanding))
+	due, since, held = 0.0, None, True
+	for one in terms:
+		left = flt(one["amount"]) - min(flt(one["amount"]), paid)
+		paid -= min(flt(one["amount"]), paid)
+		if left < 0.005 or str(one["due_date"]) >= str(today):
+			continue
+		due += left
+		since = since or one["due_date"]
+		held = held and one["held"]
+	return {"due": due, "since": since, "held": held} if due >= 0.005 else None
+
+
+def _terms(doctype: str, names: list[str]) -> dict[str, list[dict]]:
+	"""Each invoice's or bill's payment terms, and whether each is retention."""
+	from onedesk.one_project import retention
+
+	found: dict = {}
+	for one in frappe.get_all(
+		"Payment Schedule",
+		filters={"parenttype": doctype, "parent": ["in", names or [""]]},
+		fields=["parent", "due_date", "payment_amount", "payment_term"],
+	):
+		found.setdefault(one.parent, []).append(
+			{
+				"due_date": one.due_date,
+				"amount": one.payment_amount,
+				"held": one.payment_term in retention.HELD,
+			}
+		)
+	return found
+
+
+def _stock(items: set) -> set:
+	"""Which of the items are kept in stock."""
+	return set(
+		frappe.get_all(
+			"Item", filters={"name": ["in", list(items) or [""]], "is_stock_item": 1}, pluck="name"
+		)
+	)
+
+
+def kinds(orders: list[str]) -> dict[str, bool]:
+	"""Each order: a subcontract or not (`subcontract`)."""
+	lines = frappe.get_all(
+		"Purchase Order Item",
+		filters={"parent": ["in", orders or [""]]},
+		fields=["parent", "item_code", "uom"],
+	)
+	stock = _stock({one.item_code for one in lines if one.item_code})
+	return {name: subcontract([one for one in lines if one.parent == name], stock) for name in orders}
+
+
+def _placed(orders: list[dict], project: str) -> list[dict]:
+	"""Each order with the sub-project it's for, by name, when it isn't the
+	page's own project."""
+	titles = dict(
+		frappe.get_all(
+			"Project",
+			filters={"name": ["in", [one["project"] for one in orders if one.get("project")] or [""]]},
+			fields=["name", "project_name"],
+			as_list=True,
+		)
+	)
+	for one in orders:
+		one["where"] = (
+			titles.get(one["project"]) if one.get("project") and one["project"] != project else None
+		)
+	return orders
 
 
 def bought(lines: list) -> str | None:
