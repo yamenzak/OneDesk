@@ -1681,9 +1681,9 @@ one field for it.
 - `templates.py` — ERPNext's Project Template, which already makes a
   project's tasks from template tasks as the project is saved. Added: **Save
   as Template** (`save_as`, with `start_of` and `days` pure), what their copy
-  leaves out — milestone, expected time, checklist (`task_made`) — and a
-  Projects Manager may keep templates (`settle`; ERPNext allowed only a System
-  Manager). A template task is not assigned to its maker
+  leaves out — milestone, expected time, checklist (`task_made`). A Projects
+  Manager may keep templates (access.py `_templates`; ERPNext allowed only a
+  System Manager). A template task is not assigned to its maker
   (one_task/capture.py), everybody in projects sees it (one_task/access.py),
   the Tasks rail entries leave templates out, and a new project's prefix rule
   is written before ERPNext makes its tasks (naming.py).
@@ -1966,7 +1966,7 @@ The books read every **Project**, since they invoice its time and progress
 
 A role that reads it already, by ERPNext's rules or the workspace's, keeps
 what it has (one/roles.py `give`). Tasks and project templates are
-one_task/access.py and templates.py.
+one_task/access.py and `_templates` here.
 
 ### activity.py
 

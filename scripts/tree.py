@@ -51,3 +51,14 @@ def notifications() -> dict[str, dict]:
 		assert one["name"] not in found, f"{one['name']} is declared twice"
 		found[one["name"]] = {**one, "module": path.parent.name, "file": path}
 	return found
+
+
+def granted() -> dict:
+	"""What one/access.py gives the workspace administrator, by doctype."""
+	import ast
+
+	for node in ast.parse((APP / "one" / "access.py").read_text()).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "ADMINISTRATOR":
+			return ast.literal_eval(node.value)
+	raise AssertionError("one/access.py has no ADMINISTRATOR")
+

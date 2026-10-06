@@ -27,7 +27,7 @@ def test_only_an_administrator_and_only_on_what_they_read():
 	assert "roles.administers(user)" in allowed and "_kinds()" in allowed
 	assert 'ptype not in ("read", "report", None)' in allowed, "the log is read only"
 	assert 'return "1=0"' in _body("query") and 'return "1=0"' in _body("log_query")
-	assert "write" not in SOURCE.split("GRANTS = ", 1)[1].split("\n", 1)[0].split("LOG:", 1)[1]
+	assert "write" not in tree.granted()["Webhook Request Log"], "the log is read only"
 
 
 def test_what_a_workspace_webhook_may_send_and_where():

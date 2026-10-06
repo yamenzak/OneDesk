@@ -27,7 +27,9 @@ def test_the_request_is_guarded_and_decided_only_through_one():
 	assert 'ptype in ("read", "report", None) and roles.administers(user)' in _body("has_permission")
 	assert 'return "1=0"' in _body("query")
 	assert "roles.require()" in _body("_waiting")
-	assert "write" not in SOURCE.split("GRANTS = ", 1)[1].split("\n", 1)[0]
+	granted = tree.granted()
+	for doctype in ("Personal Data Deletion Request", "Personal Data Download Request"):
+		assert "write" not in granted[doctype], doctype
 
 
 def test_only_the_person_asks_and_proves_it_is_them():
@@ -103,7 +105,7 @@ def test_the_copy_is_the_persons_alone():
 		"_file_of", COPY
 	)
 	assert '"file_name": ["like", "Personal-Data-%"]' in _body("erase")
-	assert '"role": "All"' in _body("settle")
+	assert '"role": "All"' in _body("_no_copies_in_the_sidebar", (tree.APP / "one" / "access.py").read_text())
 
 
 def test_everybody_concerned_is_told():

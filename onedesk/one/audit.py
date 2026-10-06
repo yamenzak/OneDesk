@@ -11,12 +11,6 @@ from frappe.permissions import get_doctypes_with_read
 from onedesk.one import roles
 from onedesk.one.customize import REFUSED_MODULES
 
-GRANTS = {
-	"Version": ("read", "report"),
-	"Activity Log": ("read", "report"),
-	"Access Log": ("read", "report"),
-}
-
 #: Who acts as the system rather than as a person.
 SYSTEM = ("Administrator", "Guest", "oneai@one.invalid")
 
@@ -28,10 +22,6 @@ PEOPLE = ("User", "User Permission", "Role Profile", "User Group")
 #: A downloaded file is a `File`, which is Core's; who took which one is the
 #: point of the log.
 DOWNLOADS = ("File",)
-
-
-def settle() -> None:
-	roles.grant(GRANTS)
 
 
 def _trusted(user: str) -> bool:

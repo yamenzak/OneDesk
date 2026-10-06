@@ -14,8 +14,6 @@ from frappe import _
 from onedesk.one import layer, roles, rules
 from onedesk.one.customize import REFUSED_MODULES
 
-GRANTS = {"Email Template": ("read", "write", "create", "delete")}
-
 #: A Jinja tag, as the template is read here: each `{{ }}` and `{% %}` in it.
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 
@@ -50,7 +48,6 @@ TEXT = ("subject", "response", "response_html")
 
 
 def settle() -> None:
-	roles.grant(GRANTS)
 	_for_what()
 
 

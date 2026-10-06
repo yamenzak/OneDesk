@@ -2,7 +2,6 @@
 
 import frappe
 from frappe import _
-from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
 from frappe.utils import date_diff, getdate, nowdate
 
 #: The Task fields a template task keeps, beside its dates.
@@ -10,25 +9,6 @@ KEPT = ("subject", "description", "priority", "type", "is_group", "is_milestone"
 
 #: What ERPNext's copy leaves out and the new task takes from its template task.
 LEFT_OUT = ("is_milestone", "expected_time")
-
-MANAGER = "Projects Manager"
-USER = "Projects User"
-
-
-def settle() -> None:
-	"""A Projects Manager may keep templates. Written once, like
-	one_task/access.py: a Project Template with Custom DocPerm rows has been
-	decided by the workspace."""
-	if frappe.db.exists("Custom DocPerm", {"parent": "Project Template"}):
-		return
-	setup_custom_perms("Project Template")
-	if not frappe.db.exists("Custom DocPerm", {"parent": "Project Template", "role": MANAGER, "permlevel": 0}):
-		add_permission("Project Template", MANAGER, 0)
-	for ptype in ("read", "write", "create", "delete"):
-		update_permission_property("Project Template", MANAGER, 0, ptype, 1, validate=False)
-	if frappe.db.exists("Custom DocPerm", {"parent": "Project Template", "role": USER, "permlevel": 0}):
-		update_permission_property("Project Template", USER, 0, "read", 1, validate=False)
-
 
 def task_made(doc, method=None) -> None:
 	"""Task before_insert: a task made from a template task takes what

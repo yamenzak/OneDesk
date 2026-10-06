@@ -24,7 +24,7 @@ def test_every_log_is_guarded_both_ways():
 	for doctype, query in zip(LOGS, ("version_query", "activity_query", "access_query"), strict=True):
 		assert f'"{doctype}": "onedesk.one.audit.has_permission"' in HOOKS, doctype
 		assert f'"{doctype}": "onedesk.one.audit.{query}"' in HOOKS, doctype
-	assert '"onedesk.one.audit.settle"' in HOOKS
+	assert '"onedesk.one.access.settle"' in HOOKS
 	assert '"Version": {"onload": "onedesk.one.audit.onload"}' in HOOKS
 
 
@@ -33,8 +33,9 @@ def test_only_an_administrator_reads_and_nobody_writes():
 		assert 'return "1=0"' in _body(query), query
 	allowed = _body("has_permission")
 	assert 'ptype not in ("read", "report", None)' in allowed and "roles.administers(user)" in allowed
-	grants = SOURCE.split("GRANTS = {", 1)[1].split("}", 1)[0]
-	assert "write" not in grants and "delete" not in grants and "create" not in grants
+	granted = tree.granted()
+	for log in LOGS:
+		assert not {"write", "delete", "create"} & set(granted[log]), log
 
 
 def test_the_system_and_the_machinery_are_left_out():

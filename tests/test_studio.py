@@ -419,33 +419,6 @@ def test_every_page_says_what_it_gives_and_lends_only_known_powers():
 	assert places.doctype_for("record_head.drawn", "Customer") == "Customer"
 
 
-def test_each_page_fires_its_events_with_only_its_powers():
-	"""What places.py lists is what the pages fire, and nothing else."""
-	places = _places()
-	public = tree.APP / "public" / "js"
-	fired = {
-		"onemail.conversation": (public / "onemail.js").read_text(),
-		"onemail.compose": (public / "mail_compose.js").read_text(),
-		"record_head.drawn": (public / "head.js").read_text(),
-		"onecalendar.event": (
-			tree.APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js"
-		).read_text(),
-		"onetask.listed": (tree.APP / "one_task" / "page" / "my_tasks" / "my_tasks.js").read_text(),
-		"onecloud.file": (public / "onecloud.js").read_text(),
-		"intake.reading": (tree.APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
-		"onecrm.board": (public / "opportunity_list.js").read_text(),
-		"space.home": (public / "places.js").read_text(),
-		"oneproject.project": (tree.APP.parent / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
-	}
-	assert set(fired) == set(places.keys())
-	for key, source in fired.items():
-		assert f'"{key}"' in source, key
-	runtime = (public / "places.js").read_text()
-	assert "JSON.parse(JSON.stringify(data" in runtime, "an extension sees a copy, never the page's own"
-	assert "onedesk.places.tripped" in runtime
-	assert "/assets/onedesk/js/places.js" in HOOKS
-
-
 def test_a_page_extension_on_onemail_is_not_held_to_opening_mail_records():
 	"""It sees only what OneMail hands it, so Communication, which the
 	administrator may not open as records, is not checked."""

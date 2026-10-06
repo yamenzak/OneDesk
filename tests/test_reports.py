@@ -22,7 +22,7 @@ def _body(name: str) -> str:
 def test_the_guards_are_hooked():
 	for method in ("report_kept", "placed", "removed", "chart_kept", "mail_kept"):
 		assert f'"onedesk.one.reports.{method}"' in HOOKS, method
-	assert '"onedesk.one.reports.settle"' in HOOKS
+	assert '"onedesk.one.access.settle"' in HOOKS
 
 
 def test_a_workspace_saves_report_builder_reports_only():

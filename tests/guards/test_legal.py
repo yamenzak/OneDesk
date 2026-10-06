@@ -9,8 +9,8 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree  # noqa: E402
 
@@ -107,7 +107,7 @@ def test_only_a_new_revision_asks_again():
 	again; a new revision asks everybody."""
 	import ast as _ast
 
-	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_legal" / "gate.py").read_text(encoding="utf-8")
+	source = (Path(__file__).resolve().parents[2] / "onedesk" / "one_legal" / "gate.py").read_text(encoding="utf-8")
 	space = {}
 	for node in _ast.parse(source).body:
 		if isinstance(node, _ast.FunctionDef) and node.name in ("revision", "agreed"):

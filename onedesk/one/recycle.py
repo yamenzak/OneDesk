@@ -14,23 +14,11 @@ from frappe.permissions import get_doctypes_with_read
 from onedesk.one import layer, roles
 from onedesk.one.customize import REFUSED_MODULES
 
-GRANTS = {"Deleted Document": ("read", "delete")}
-
 
 def settle() -> None:
 	"""The administrator's grant, and read for everybody, narrowed to their own
 	deletions by `query` and `has_permission`."""
-	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
-
-	roles.grant(GRANTS)
 	_titles()
-	where = {"parent": "Deleted Document", "role": "Desk User", "permlevel": 0, "if_owner": 0}
-	if frappe.db.get_value("Custom DocPerm", where, "read"):
-		return
-	setup_custom_perms("Deleted Document")
-	if not frappe.db.exists("Custom DocPerm", where):
-		add_permission("Deleted Document", "Desk User", 0)
-	update_permission_property("Deleted Document", "Desk User", 0, "read", 1, validate=False)
 
 
 def _title(doctype: str, doc) -> str:

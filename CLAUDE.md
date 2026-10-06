@@ -188,15 +188,16 @@ dependency.
 ## The guards
 
 `python -m pytest` — fast, no site needed, and every guard has a test proving
-it still catches its own example.
+it still catches its own example. Every guard is listed by the passover point
+it serves in `tests/guards/registry.py` and lives in `tests/guards/`.
 
 - `test_borrowing.py` — a named list of what the framework does for us, and the
   pattern that must not appear. Add a rule when you find another.
 - `test_declarative.py` — desk furniture is fixture JSON, and `modules.txt`
   agrees with the folders.
-- `test_source_style.py` — no comment essays, no file that is mostly comment,
+- `guards/test_source_style.py` — no comment essays, no file that is mostly comment,
   nothing imported and unused.
-- `test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, upstream
+- `guards/test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, upstream
   was read this fortnight, and every line we override is still there.
 
 `python scripts/reference.py` regenerates `docs/FRAMEWORK.md` from the frappe

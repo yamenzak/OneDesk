@@ -161,7 +161,7 @@ In the order they'd pay off:
      screen(Component)`);
   3. a line in `ISLANDS` and in `hooks.py` `ui_islands`;
   4. a desk Page whose script calls `onedesk.island_page`.
-- **Guards** (`tests/test_islands.py`):
+- **Guards** (`tests/guards/test_islands.py`):
   - every island is declared, built and mounted by a desk page;
   - `bench build` builds them, with frappe-ui pinned;
   - a `.vue` file has no style, colour or import of its own;

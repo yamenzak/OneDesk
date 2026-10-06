@@ -23,7 +23,7 @@ from pathlib import Path
 
 import pytest
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 LOCALE = ROOT / "onedesk" / "locale"
 BENCH = Path("/home/frappe/bench1/apps")
 

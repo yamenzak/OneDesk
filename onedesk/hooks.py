@@ -11,19 +11,11 @@ after_sync = [
 	"onedesk.one.roles.ensure",
 	# What after_migrate settles, settled on a new site as well.
 	"onedesk.one.notify.install",
-	"onedesk.one.printing.settle",
+	# What One's roles are given on frappe's doctypes. See one/access.py.
+	"onedesk.one.access.settle",
 	"onedesk.one.print_blocks.settle",
 	"onedesk.one.mail_templates.settle",
-	"onedesk.one.masters.settle",
-	"onedesk.one.approvals.settle",
-	"onedesk.one.automations.settle",
-	"onedesk.one.numbering.settle",
-	"onedesk.one.reports.settle",
 	"onedesk.one.recycle.settle",
-	"onedesk.one.audit.settle",
-	"onedesk.one.webhooks.settle",
-	"onedesk.one.announcements.settle",
-	"onedesk.one.privacy.settle",
 	"onedesk.one_calendar.tell.install",
 	"onedesk.one.head.install",
 	"onedesk.one_intake.search.index",
@@ -66,7 +58,6 @@ after_sync = [
 	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
-	"onedesk.one_project.templates.settle",
 	# Lump Sum and the Retention payment term. See one_project/progress.py.
 	"onedesk.one_project.progress.settle",
 	# Contract Work, the item a fixed-price contract is billed as. See one_project/kinds.py.
@@ -80,27 +71,12 @@ after_sync = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
-	# Printing, mail templates, approvals and automations for the workspace administrator: one/printing.py and beside it.
-	"onedesk.one.printing.settle",
+	# What One's roles are given on frappe's doctypes. See one/access.py.
+	"onedesk.one.access.settle",
 	"onedesk.one.print_blocks.settle",
 	"onedesk.one.mail_templates.settle",
-	# The workspace's masters, for its administrator and the apps' managers. See one/masters.py.
-	"onedesk.one.masters.settle",
-	"onedesk.one.approvals.settle",
-	"onedesk.one.automations.settle",
-	"onedesk.one.numbering.settle",
-	# Saved reports for everybody; dashboards and reports by mail for the administrator.
-	"onedesk.one.reports.settle",
-	# The Recycle Bin for everybody's own deletions. See one/recycle.py.
+	# The Recycle Bin's titles for what was deleted before. See one/recycle.py.
 	"onedesk.one.recycle.settle",
-	# The Audit Log for the workspace administrator. See one/audit.py.
-	"onedesk.one.audit.settle",
-	# Webhooks for the workspace administrator. See one/webhooks.py.
-	"onedesk.one.webhooks.settle",
-	# Announcements, by the workspace administrator. See one/announcements.py.
-	"onedesk.one.announcements.settle",
-	# Privacy requests for the workspace administrator. See one/privacy.py.
-	"onedesk.one.privacy.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -133,7 +109,6 @@ after_migrate = [
 	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
-	"onedesk.one_project.templates.settle",
 	# Lump Sum and the Retention payment term. See one_project/progress.py.
 	"onedesk.one_project.progress.settle",
 	# Contract Work, the item a fixed-price contract is billed as. See one_project/kinds.py.

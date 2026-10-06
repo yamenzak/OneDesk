@@ -41,9 +41,6 @@ KINDS = (
 	("OneHR", "Identification Document Type", _lt("ID Document Types"), _lt("ID Document Type")),
 )
 
-#: What the workspace administrator may do with each kind.
-MANAGE = ("read", "write", "create", "delete")
-
 #: Fields a value's dialog leaves out: a tree's bookkeeping, and the company,
 #: which One has one of.
 KEPT = {"lft", "rgt", "old_parent", "company"}
@@ -63,30 +60,6 @@ END = re.compile(r"\{%-?\s*(endif|else)\s*-?%\}")
 #: A label in the reader's language, as frappe's own templates write one: {{ _("Phone") }}.
 WORDS = re.compile(r"""\{\{-?\s*_\(\s*(?:"[^"{}%\\]*"|'[^'{}%\\]*')\s*\)\s*-?\}\}""")
 
-
-#: Where settle keeps which (kind, role) an app's managers were given, so a
-#: change made later in Access stands.
-GIVEN = "onedesk_masters_given"
-
-
-def settle() -> None:
-	roles.grant(
-		{doctype: MANAGE for _group, doctype, _label, _one in KINDS if frappe.db.exists("DocType", doctype)}
-	)
-	_give_managers()
-
-
-def _give_managers() -> None:
-	"""An app's managers manage its masters. erpnext keeps several for a role
-	of its own (Customer Group for its Sales Master Manager); One's managers
-	are given them, once for each kind and role."""
-	from onedesk.one.settings import APPS
-
-	managers = {label: roles_ for label, _code, _users, roles_ in APPS}
-	roles.raise_once(
-		{doctype: dict.fromkeys(managers.get(group, ()), MANAGE) for group, doctype, _label, _one in KINDS},
-		GIVEN,
-	)
 
 
 def _groups() -> set[str]:

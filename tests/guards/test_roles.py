@@ -11,7 +11,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree
 
@@ -54,7 +54,7 @@ def test_no_screen_waits_for_system_manager():
 	waiting = [
 		path.relative_to(tree.ROOT)
 		for path in (tree.APP / "public" / "js").rglob("*")
-		if path.suffix in (".js", ".vue") and "has_role(\"System Manager\")" in path.read_text(encoding="utf-8")
+		if path.suffix in (".js", ".vue") and 'has_role("System Manager")' in path.read_text(encoding="utf-8")
 	]
 	assert not waiting, f"{waiting} draw a control for a role nobody holds"
 
@@ -75,3 +75,26 @@ def test_the_role_exists_before_anything_runs():
 	for hook in ("after_sync", "after_migrate"):
 		first = said.split(f"{hook} = [", 1)[1].split(",", 1)[0].strip()
 		assert first == '"onedesk.one.roles.ensure"', f"{hook} starts with {first}"
+
+
+def test_every_operator_verb_is_gated():
+	"""Both gates, on every whitelisted method, without exception.
+
+	`_may` is `require_admin` plus `only_for`. A verb that forgot it would be a
+	workspace anybody with a desk login could archive.
+	"""
+	source = (tree.APP / "one_admin" / "operator.py").read_text(encoding="utf-8")
+	for node in ast.parse(source).body:
+		if not isinstance(node, ast.FunctionDef):
+			continue
+		whitelisted = any(
+			isinstance(one, ast.Attribute) and one.attr == "whitelist" for one in node.decorator_list
+		)
+		if not whitelisted:
+			continue
+		calls = {
+			one.func.id
+			for one in ast.walk(node)
+			if isinstance(one, ast.Call) and isinstance(one.func, ast.Name)
+		}
+		assert "_may" in calls, f"{node.name} is whitelisted and does not call _may()"

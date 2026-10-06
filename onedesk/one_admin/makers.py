@@ -1,5 +1,5 @@
 """Who made a model, who runs it, and what to call it. Pure, so the guard in
-tests/test_legal.py can read it without Frappe.
+tests/guards/test_legal.py can read it without Frappe.
 
 The provider runs the model and is a subprocessor; the maker trained it and
 its logo is the one shown. A provider missing from `PROVIDERS` is never offered.

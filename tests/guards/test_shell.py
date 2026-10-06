@@ -12,7 +12,7 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree
 
@@ -42,7 +42,7 @@ ON_THE_SHELL = {
 #: is left; a new page is in neither, and fails until it is on the shell.
 NOT_YET = {}
 
-#: Pages whose body is a frappe-ui island (docs/ISLANDS.md, tests/test_islands.py):
+#: Pages whose body is a frappe-ui island (docs/ISLANDS.md, tests/guards/test_islands.py):
 #: desk keeps their head through onedesk.island_page, and the island draws the
 #: rest with frappe-ui rather than the shell.
 ISLAND_PAGES = {"project_view"}

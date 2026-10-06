@@ -1,5 +1,6 @@
-"""The guard registry holds together: every guard runs somewhere real, every
-point has a guard or says which is coming, and no id is used twice."""
+"""The guard registry holds together. Every guard runs somewhere real in
+tests/guards, every point has a guard or says which is coming, and no id is
+used twice."""
 
 import ast
 from pathlib import Path
@@ -20,6 +21,7 @@ def test_every_guard_runs_somewhere_real():
 			assert (ROOT / script).exists(), guard.id
 			continue
 		file, name = guard.runs.split("::")
+		assert file.startswith("tests/guards/"), f"{guard.id} lives outside tests/guards"
 		assert (ROOT / file).exists(), guard.id
 		assert name in _tests_in(ROOT / file), guard.id
 

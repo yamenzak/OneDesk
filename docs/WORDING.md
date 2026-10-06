@@ -156,7 +156,7 @@ checked on every screen of the passover.
 
 ## The guard
 
-`tests/test_wording.py` holds every doctype and every custom field in the app
+`tests/guards/test_wording.py` holds every doctype and every custom field in the app
 to what can be checked by machine: a description of at most 130 characters and
 two sentences, with no first person, no em dash and no colon except after
 `Example`; a label in Title Case with no full stop, at most 60 characters, that
@@ -187,7 +187,7 @@ says in the wrong sense — "Leave" translated as the verb where our rail means
 the noun. Ours wins there because onedesk is installed last and its MO is
 merged last.
 
-`tests/test_translations.py` reads all of that back: nothing in the POT is left
+`tests/guards/test_translations.py` reads all of that back: nothing in the POT is left
 without a translation from somewhere, nothing is translated that the POT no
 longer says, and a `{0}` in the English is a `{0}` in both translations.
 

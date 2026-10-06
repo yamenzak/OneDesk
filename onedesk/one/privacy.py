@@ -14,8 +14,6 @@ from onedesk.one import roles, tell
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
 
-GRANTS = {DELETION: ("read", "report"), DOWNLOAD: ("read", "report")}
-
 #: What is only the person's and of no use to the workspace once they are
 #: gone: deleted outright before frappe's erasure, as {doctype: field}.
 ONLY_THEIRS = {
@@ -37,19 +35,6 @@ REMIND_AFTER_DAYS = 7
 
 #: Where a deletion waits: confirmed, or for the person's mailed link.
 OPEN = ("Pending Verification", "Pending Approval", "On Hold")
-
-
-def settle() -> None:
-	"""The administrator's read on both kinds of request. Frappe also lets
-	everybody read their own copy requests, which put Data Copies in every
-	person's sidebar; the person sees theirs on their profile instead."""
-	from frappe.permissions import setup_custom_perms
-
-	roles.grant(GRANTS)
-	setup_custom_perms(DOWNLOAD)
-	for name in frappe.get_all("Custom DocPerm", filters={"parent": DOWNLOAD, "role": "All"}, pluck="name"):
-		frappe.delete_doc("Custom DocPerm", name, ignore_permissions=True)
-		frappe.clear_cache(doctype=DOWNLOAD)
 
 
 def _administrators() -> list[str]:

@@ -9,32 +9,8 @@ from frappe import _
 
 from onedesk.one import layer, roles
 
-GRANTS = {
-	"Report": ("read", "write", "create", "delete"),
-	"Auto Email Report": ("read", "write", "create", "delete"),
-	"Dashboard": ("read", "write", "create", "delete"),
-	"Dashboard Chart": ("read", "write", "create", "delete"),
-	"Number Card": ("read", "write", "create", "delete"),
-}
-
 #: What the section a saved report goes under is called in a sidebar.
 SECTION = "Saved Reports"
-
-
-def settle() -> None:
-	"""The administrator's grants, and Save As for everybody: frappe's Desk
-	User may read a Report and not make one."""
-	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
-
-	roles.grant(GRANTS)
-	desk = "Desk User"
-	where = {"parent": "Report", "role": desk, "permlevel": 0, "if_owner": 0}
-	if frappe.db.get_value("Custom DocPerm", where, "create"):
-		return
-	setup_custom_perms("Report")
-	if not frappe.db.exists("Custom DocPerm", where):
-		add_permission("Report", desk, 0)
-	update_permission_property("Report", desk, 0, "create", 1, validate=False)
 
 
 def _trusted() -> bool:

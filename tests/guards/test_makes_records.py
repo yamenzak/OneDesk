@@ -18,7 +18,7 @@ from pathlib import Path
 
 import pytest
 
-ROOT = Path(__file__).resolve().parent.parent / "onedesk"
+ROOT = Path(__file__).resolve().parents[2] / "onedesk"
 APPS = Path("/home/frappe/bench1/apps")
 
 #: Modules that ask OneAI for whatever a record they make still needs, its

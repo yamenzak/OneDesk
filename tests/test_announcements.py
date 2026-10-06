@@ -20,8 +20,9 @@ def _body(name: str, source: str = SOURCE) -> str:
 
 
 def test_only_an_administrator_announces():
-	assert 'LEVELS = {1: ("read", "write"), 2: ("read",)}' in SOURCE
-	assert "roles.ADMINISTRATOR, level" in _body("settle")
+	access = (tree.APP / "one" / "access.py").read_text()
+	assert 'NOTE_LEVELS = {1: ("read", "write"), 2: ("read",)}' in access
+	assert "roles.ADMINISTRATOR, level" in _body("_note_levels", access)
 	check = _body("validate")
 	assert "doc.public or doc.notify_on_login" in check and "roles.administers()" in check
 	assert "doc.public = 1" in _body("before_validate")

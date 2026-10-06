@@ -1518,7 +1518,7 @@ OVERRIDES = [
 	(
 		"A Projects Manager may keep project templates",
 		"theirs lets only a System Manager open a Project Template; the project roles may only pick one",
-		"onedesk/one_project/templates.py",
+		"onedesk/one_project/access.py",
 		"erpnext/erpnext/projects/doctype/project_template/project_template.json",
 		'"role": "Projects Manager",',
 	),

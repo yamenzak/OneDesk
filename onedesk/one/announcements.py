@@ -11,29 +11,9 @@ from onedesk.one import roles
 
 NOTE = "Note"
 
-GRANTS = {NOTE: ("read", "write", "create", "delete")}
-
 #: How much of an announcement the bell and the mail carry.
 SAID = 300
 
-
-#: The levels of a Note beyond the first: 1 makes it public and shown on
-#: sign-in, 2 is who has seen it.
-LEVELS = {1: ("read", "write"), 2: ("read",)}
-
-
-def settle() -> None:
-	from frappe.permissions import add_permission, update_permission_property
-
-	roles.grant(GRANTS)
-	for level, ptypes in LEVELS.items():
-		if frappe.db.exists(
-			"Custom DocPerm", {"parent": NOTE, "role": roles.ADMINISTRATOR, "permlevel": level}
-		):
-			continue
-		add_permission(NOTE, roles.ADMINISTRATOR, level)
-		for ptype in ptypes:
-			update_permission_property(NOTE, roles.ADMINISTRATOR, level, ptype, 1, validate=False)
 
 
 def _free(user: str | None = None) -> bool:

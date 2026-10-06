@@ -93,11 +93,11 @@ Privacy Policy and the Subprocessors list change with it.
 **A version is `revision.hash`.** `revision` is a number in `documents.py`, bumped
 when a change is material, and bumping it makes everybody agree again. `hash` is
 eight hex characters of a SHA-256 over the assembled plain text, so it moves the
-moment any clause does. `tests/test_legal.py` holds every document's hash. When
+moment any clause does. `tests/guards/test_legal.py` holds every document's hash. When
 a clause changes the test fails, and there are two ways out: bump the revision
 (material), or record the new hash (a typo).
 
-**Every outside company One calls is declared.** `tests/test_legal.py` finds
+**Every outside company One calls is declared.** `tests/guards/test_legal.py` finds
 every `https://` host the Python calls, and fails on one not mapped to a declared
 subprocessor (or listed as not receiving customer data). Declaring a new
 supplier changes the Subprocessors list's hash, so it is a decision, not an
@@ -163,7 +163,7 @@ it. The version is the whole point of the file. It is `revision.hash`:
   material. Bumping it is what makes every workspace agree again.
 * `hash` is the first eight hex characters of a SHA-256 over the assembled text.
   Nobody types it. It changes the moment any clause anywhere changes, which is
-  how `tests/test_legal.py` can tell a typo from a new subprocessor and insist
+  how `tests/guards/test_legal.py` can tell a typo from a new subprocessor and insist
   somebody says which.
 
 So a document that has drifted without a bump fails the suite, and a document
@@ -179,7 +179,7 @@ module does. What is in `documents.py` is the frame they are slotted into.
 
 **Revisions.** Each document carries a `revision`. Bump it when a change is
 material: a new subprocessor, a changed retention period, anything that alters
-what somebody agreed to. Do not bump it for a typo. `tests/test_legal.py` carries
+what somebody agreed to. Do not bump it for a typo. `tests/guards/test_legal.py` carries
 the hash of every document's assembled text and fails when the text moves, so
 the choice is always made on purpose: either "this is material, everybody agrees
 again", or "this is a typo, record the new hash".

@@ -16,15 +16,6 @@ from frappe.model import no_value_fields, table_fields
 from onedesk.one import layer, roles
 from onedesk.one.customize import REFUSED_MODULES
 
-GRANTS = {
-	"Workflow": ("read", "write", "create", "delete"),
-	"Workflow State": ("read", "write", "create"),
-	"Workflow Action Master": ("read", "write", "create"),
-}
-
-#: frappe's workflow builder, a page whose only role is System Manager.
-BUILDER = "workflow-builder"
-
 #: Fields every record keeps for itself, which no state sets.
 BOOKKEEPING = (
 	"name",
@@ -39,11 +30,6 @@ BOOKKEEPING = (
 )
 
 FIELDNAME = re.compile(r"^[a-z][a-z0-9_]*$")
-
-
-def settle() -> None:
-	roles.grant(GRANTS)
-	roles.open_page(BUILDER)
 
 
 def _doctype(doctype: str):

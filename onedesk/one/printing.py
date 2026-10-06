@@ -18,22 +18,6 @@ from onedesk.one import layer, print_html, roles
 from onedesk.one.customize import REFUSED_MODULES
 from onedesk.one_storage import store
 
-#: What the workspace administrator may do with each.
-GRANTS = {
-	"Print Format": ("read", "write", "create", "delete", "print"),
-	"Letter Head": ("read", "write", "create", "delete"),
-	# The builder's Library: saved parts of a layout, checked as a format is.
-	"Print Format Snippet": ("read", "write", "create", "delete"),
-	# The builder's field templates, One's print blocks among them; only a
-	# standard one is placed (validate_format), so they are read and not made.
-	"Print Format Field Template": ("read",),
-	# The builder reads the page size; changing it stays frappe's.
-	"Print Settings": ("read",),
-}
-
-#: frappe's print format builder, a page whose only role is System Manager.
-BUILDER = "print-format-builder"
-
 #: Builder blocks the workspace may not add: Typst reads files.
 UNSAFE_BLOCKS = ("Typst",)
 
@@ -61,13 +45,6 @@ FILE_URL = re.compile(rf"""^{FILES}[^"'<>]+$""")
 
 #: What a URL in a style may point at: this site's files, or an inline image.
 SAFE_URL = re.compile(rf"""url\(\s*['"]?\s*({FILES}|data:image/)""", re.I)
-
-
-def settle() -> None:
-	"""The grants, once per doctype (a doctype with a Custom DocPerm row for
-	the role has been decided by the workspace), and the builder page."""
-	roles.grant(GRANTS)
-	roles.open_page(BUILDER)
 
 
 def _doctype(doctype: str) -> None:

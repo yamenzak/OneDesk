@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 
 sys.path.insert(0, str(ROOT / "scripts"))

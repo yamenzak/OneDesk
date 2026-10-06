@@ -277,7 +277,7 @@ shared parts in `public/js/oneai.js`:
   comes back the same way (a card to approve, where there is one). Inside a
   dialog it closes the dialog first.
 
-Nothing badges OneAI by hand (`tests/test_ai_look.py`), and the passover
+Nothing badges OneAI by hand (`tests/guards/test_ai_look.py`), and the passover
 counts a violet badge or a plain button standing in for either as a finding.
 
 ## The stages
@@ -901,7 +901,7 @@ every chip and bubble went white on dark. They are the `--surface-*` and
 nothing may wait for it. `one/roles.py` adds **Workspace Administrator** — not
 frappe's Workspace Manager, which is about the desk's sidebar pages — and it is
 what `AI Action Setting`, the model list, *Try it*, the model pill, the
-workspace's address and buying credits all check. `tests/test_roles.py` refuses
+workspace's address and buying credits all check. `tests/guards/test_roles.py` refuses
 any new `System Manager` gate; the one place it is still read is the apps
 screen, where hiding frappe's Framework tile from everybody is the point.
 

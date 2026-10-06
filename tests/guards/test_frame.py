@@ -46,7 +46,16 @@ def test_a_page_keeps_its_forms_menu_and_sidebar(doctype):
 	assert "<Record " in source
 	assert "record.menu(" in source
 	assert "follow(" in source, "the page hears the record saved, as a form does"
-	for word in ("Print", "Email", "Show Links", "Duplicate", "Rename", "Delete", "Remind Me", "Copy to Clipboard"):
+	for word in (
+		"Print",
+		"Email",
+		"Show Links",
+		"Duplicate",
+		"Rename",
+		"Delete",
+		"Remind Me",
+		"Copy to Clipboard",
+	):
 		assert f'__("{word}")' in RECORD, word
 	assert "!!action.standard" in (APP / "public" / "js" / "island_page.js").read_text()
 
@@ -80,3 +89,28 @@ def test_a_page_declares_its_places_and_fires_them(doctype):
 			assert f'"{place}.{event}"' in source
 	# What is written for the record's head runs on its page as well.
 	assert '"record_head.drawn"' in source
+
+
+def test_each_page_fires_its_events_with_only_its_powers():
+	"""What places.py lists is what the pages fire, and nothing else."""
+	places = _places()
+	public = APP / "public" / "js"
+	fired = {
+		"onemail.conversation": (public / "onemail.js").read_text(),
+		"onemail.compose": (public / "mail_compose.js").read_text(),
+		"record_head.drawn": (public / "head.js").read_text(),
+		"onecalendar.event": (APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
+		"onetask.listed": (APP / "one_task" / "page" / "my_tasks" / "my_tasks.js").read_text(),
+		"onecloud.file": (public / "onecloud.js").read_text(),
+		"intake.reading": (APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
+		"onecrm.board": (public / "opportunity_list.js").read_text(),
+		"space.home": (public / "places.js").read_text(),
+		"oneproject.project": (ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
+	}
+	assert set(fired) == set(places.keys())
+	for key, source in fired.items():
+		assert f'"{key}"' in source, key
+	runtime = (public / "places.js").read_text()
+	assert "JSON.parse(JSON.stringify(data" in runtime, "an extension sees a copy, never the page's own"
+	assert "onedesk.places.tripped" in runtime
+	assert "/assets/onedesk/js/places.js" in (APP / "hooks.py").read_text()

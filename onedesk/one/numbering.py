@@ -44,9 +44,6 @@ NAMING_RULE = {
 }
 FIELD_KINDS = ("Data", "Link", "Select", "Int")
 
-#: What a workspace administrator is given to write Naming Rules with.
-GRANTS = {"Document Naming Rule": ("read", "write", "create", "delete")}
-
 
 def _meta(doctype: str):
 	"""The doctype, if how it is named is this workspace's to change."""
@@ -624,10 +621,6 @@ def _set_autoname(doctype: str, was: str, value: str) -> None:
 # ------------------------------------------------------------------ naming rules
 
 
-def settle() -> None:
-	from onedesk.one import roles
-
-	roles.grant(GRANTS)
 
 
 def validate_rule(doc, method=None) -> None:

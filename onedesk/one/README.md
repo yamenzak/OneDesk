@@ -1916,6 +1916,16 @@ profile's members on every save and locks the profile until a worker runs it.
 One's profiles have none of frappe's members (they are applied here), so the
 lock only refuses the next save.
 
+`settle` gives the workspace administrator what each Settings page needs, all
+in one list (`ADMINISTRATOR`): Printing, Approvals, Automations, Numbering,
+Mail Templates, Reports and Dashboards, Masters, Audit Log, Webhooks,
+Announcements, Privacy Requests and the Recycle Bin. It also opens the two
+builders (workflow and print format), the Note's two field levels, and the
+two rights everybody at a desk has (making a report and reading what they
+deleted). A right the administrator already has is left alone, and a master
+given once is not given again after the workspace takes it away
+(`onedesk_masters_given`).
+
 ### account.py
 
 A tenant site knows four things, all written into its own config when it was

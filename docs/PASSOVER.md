@@ -117,7 +117,7 @@ on any screen gets a guard first, then the fix.
       - a `subprocessor()` for any company it sends data to.
     - OneLegal assembles them into the documents people agree to
       (`one_legal/README.md`).
-    - A changed clause fails `tests/test_legal.py` until it is either a new
+    - A changed clause fails `tests/guards/test_legal.py` until it is either a new
       revision (material, so everybody agrees again) or a recorded hash (a
       typo).
 17. **Clean code**: the module keeps one layout, its logic, endpoints,
@@ -262,7 +262,11 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 Foundations done so far:
 
 - **The points** above, and the guard registry (`tests/guards/registry.py`,
-  `python3 scripts/guards.py`).
+  `python3 scripts/guards.py`). Every guard now lives in `tests/guards`. The
+  twelve older files that were nothing but guards moved there whole, and the
+  guards inside feature tests (notifications, the operator console,
+  OneStudio's places, record tabs) moved into the file of their point. The
+  registry fails on a guard anywhere else.
 - **Tiers** (`onedesk/one/tiers.py`): one page of its own (Project), 37
   records with a Record Head, the collections we set up, and our 11 desk
   pages, each with what it is. Projects had its Calendar view taken away; it
@@ -433,13 +437,13 @@ Foundations done so far:
   README, under Under the hood, word for word where it could (about 380
   docstrings and 110 comment blocks). Every notification goes out from its
   module's `tell.py`, and every OneAI hook points at a module's `ai.py`.
-  Guarded (`tests/test_source_style.py`, `tests/guards/test_layout.py`), and
+  Guarded (`tests/guards/test_source_style.py`, `tests/guards/test_layout.py`), and
   a new guard fails on any import of a name frappe, erpnext or hrms no longer
   has (`tests/guards/test_upstream_imports.py`).
-  - **Still open, for you**: the workspace administrator's grants are given
-    by each feature that needs them (Printing, Approvals, Reports and nine
-    more), not from `one/access.py`. Moving them there was stopped by the
-    session's permission check, so they stay where they are until you say.
+  - Every right a role is given is given in a module's `access.py`. The
+    workspace administrator's (Printing, Approvals, Reports and nine more)
+    moved into one list in `one/access.py`, and Project Template's into
+    `one_project/access.py`. Guarded (`test_roles_are_given_in_access`).
 
 Up next, in this order:
 
@@ -6126,7 +6130,7 @@ against what loaded, Save in the head, a save refused against a newer one,
    search and Load More, a row opening the form. A form's Extensions is a
    table too (Extension, What It Does, When, On).
 
-   Why it kept coming back: the guard (`tests/test_shell.py`) refused only a
+   Why it kept coming back: the guard (`tests/guards/test_shell.py`) refused only a
    row that opened through `link:`, and these opened through `href:`. It now
    refuses, outside a mailbox's pane, any `shell.list`, a row that goes
    anywhere, rows made one per record in a `.map`, and the row's markup
@@ -6207,7 +6211,7 @@ tenth point.
   **Forms**, "Customized forms are listed first."
 - **Docs.** One's Customizing a Form and OneStudio's Forms are rewritten in
   the same plain style.
-- **The rule.** `docs/WORDING.md` gains On a Screen. `tests/test_wording.py`
+- **The rule.** `docs/WORDING.md` gains On a Screen. `tests/guards/test_wording.py`
   gains `test_what_a_screen_says_is_plain`: no colon or semicolon joining
   clauses, no em dash, nothing over 140 characters, in every `__()` in
   `public/js`. A label and its value ("Default: {0}") is allowed.
@@ -7470,7 +7474,7 @@ The design is `docs/PROJECT-PAGE.md`.
     already makes for the parent filter ("Not unique table/alias"). It's
     read in a second query.
   - The mockups had boxed cards. The shell's rule is that a page draws no
-    card or section of its own (`tests/test_shell.py`), so the figures are
+    card or section of its own (`tests/guards/test_shell.py`), so the figures are
     the desk's metric, unboxed, and lists are its table.
 - Checked on the site with Villa Al Barsha (Fixed Price), Villa Windows
   (Time and Materials), Halcyon Support (Retainer) and Office Move
@@ -7490,7 +7494,7 @@ without leaving desk. docs/ISLANDS.md is the plan and the rule.
 - Desk keeps the head, filled from what the island reports: the title, the
   status and the actions.
 - `onedesk.island_page` and the kit (`frontend/src/kit`) are for every app's
-  screens from now on. `tests/test_islands.py` guards them.
+  screens from now on. `tests/guards/test_islands.py` guards them.
 - `bench build` builds the islands through the root `package.json`, as
   Frappe Books does.
 - **Found on the way**:
@@ -8555,7 +8559,7 @@ reaches it (point 8). `one_legal/README.md` is the reference.
   - Intake acts without being asked each time, and the AI Addendum says so.
   - The lifecycle's periods are read from `one_admin/ladder.py`.
   - Nothing is promised that is not built.
-- **Every company One calls is declared**, and `tests/test_legal.py` fails on a
+- **Every company One calls is declared**, and `tests/guards/test_legal.py` fails on a
   new outside host that is not:
   - Cloudflare (R2, AI Gateway and Workers AI, sending mail);
   - Google (Gemini, and the favicon lookup);

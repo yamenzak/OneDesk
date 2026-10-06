@@ -1,6 +1,7 @@
 """Point 17: a module keeps one layout. Who is told lives in its tell.py,
-what OneAI reads and offers in its ai.py (or ai_<topic>.py), its clauses in
-legal.py, and the long form in its README.
+what OneAI reads and offers in its ai.py (or ai_<topic>.py), the rights it
+gives roles in access.py, its clauses in legal.py, and the long form in its
+README.
 These read the code."""
 
 import ast
@@ -10,8 +11,12 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 #: Where a module's notifications go out from.
 TELL = "tell.py"
-#: The door itself.
-DOORS = {APP / "one" / "notify.py"}
+#: Where a module's roles are given.
+ACCESS = "access.py"
+#: The doors themselves.
+DOORS = {APP / "one" / "notify.py", APP / "one" / "roles.py"}
+#: frappe's own ways of writing a role's rights.
+WRITERS = ("add_permission", "update_permission_property")
 
 
 def _python():
@@ -53,7 +58,27 @@ def test_oneai_hooks_point_at_ai_files():
 	assert not wrong, wrong
 
 
+def _writes(path: Path) -> list[int]:
+	return [
+		node.lineno
+		for node in ast.walk(ast.parse(path.read_text()))
+		if isinstance(node, ast.Call) and getattr(node.func, "id", getattr(node.func, "attr", "")) in WRITERS
+	]
+
+
+def test_roles_are_given_in_access():
+	outside = [
+		f"{path.relative_to(ROOT)}:{line}"
+		for path in _python()
+		if path.name != ACCESS
+		for line in _calls(path, "roles", ("give", "grant", "raise_once", "open_page")) + _writes(path)
+	]
+	assert not outside, outside
+
+
 def test_the_scans_would_catch_one(tmp_path):
 	stray = tmp_path / "stray.py"
 	stray.write_text("from onedesk.one import notify\n\ndef x():\n\tnotify.notify('A', 'b')\n")
 	assert _calls(stray, "notify", ("notify", "mail")) == [4]
+	stray.write_text("from frappe.permissions import add_permission\n\ndef x():\n\tadd_permission('Note', 'A', 0)\n")
+	assert _writes(stray) == [4]

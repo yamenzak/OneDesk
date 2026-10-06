@@ -770,3 +770,131 @@ def new_group(title: str, members: str | list) -> str:
 def remove_group(name: str) -> None:
 	roles.require()
 	frappe.delete_doc("User Group", name, ignore_permissions=True, force=True)
+
+
+# ------------------------------------------------------------------ what One gives on frappe's doctypes
+
+#: What the workspace administrator is given where frappe keeps a doctype for
+#: its System Manager, by the screen that needs it.
+ADMINISTRATOR = {
+	# Announcements: frappe's Note.
+	"Note": ("read", "write", "create", "delete"),
+	# Approvals.
+	"Workflow": ("read", "write", "create", "delete"),
+	"Workflow State": ("read", "write", "create"),
+	"Workflow Action Master": ("read", "write", "create"),
+	# Audit Log.
+	"Version": ("read", "report"),
+	"Activity Log": ("read", "report"),
+	"Access Log": ("read", "report"),
+	# Automations.
+	"Automation Flow": ("read", "write", "create", "delete"),
+	# Mail Templates.
+	"Email Template": ("read", "write", "create", "delete"),
+	# Numbering.
+	"Document Naming Rule": ("read", "write", "create", "delete"),
+	# Notifications, so what OneAI suggests (a rewrite, a rule) is applied as them.
+	"Notification Type": ("read", "write"),
+	"Notification": ("read", "write", "create", "delete"),
+	# Printing. Field templates are read only, since only a standard one is placed.
+	"Print Format": ("read", "write", "create", "delete", "print"),
+	"Letter Head": ("read", "write", "create", "delete"),
+	"Print Format Snippet": ("read", "write", "create", "delete"),
+	"Print Format Field Template": ("read",),
+	"Print Settings": ("read",),
+	# Privacy Requests.
+	"Personal Data Deletion Request": ("read", "report"),
+	"Personal Data Download Request": ("read", "report"),
+	# Recycle Bin.
+	"Deleted Document": ("read", "delete"),
+	# Reports and Dashboards.
+	"Report": ("read", "write", "create", "delete"),
+	"Auto Email Report": ("read", "write", "create", "delete"),
+	"Dashboard": ("read", "write", "create", "delete"),
+	"Dashboard Chart": ("read", "write", "create", "delete"),
+	"Number Card": ("read", "write", "create", "delete"),
+	# Webhooks.
+	"Webhook": ("read", "write", "create", "delete"),
+	"Webhook Request Log": ("read", "report"),
+}
+
+#: frappe's builder pages, whose only role is System Manager: Approvals and Printing.
+PAGES = ("workflow-builder", "print-format-builder")
+
+#: The levels of a Note beyond the first: 1 makes it public and shown on
+#: sign-in, 2 is who has seen it.
+NOTE_LEVELS = {1: ("read", "write"), 2: ("read",)}
+
+#: What the administrator, and an app's managers, may do with a master.
+MASTER = ("read", "write", "create", "delete")
+
+#: Where settle keeps which master and role an app's managers were given, so a
+#: change made later in Access stands.
+MASTERS_GIVEN = "onedesk_masters_given"
+
+#: The role every desk user holds.
+DESK = "Desk User"
+
+
+def settle() -> None:
+	"""after_sync and after_migrate: what One's roles are given on frappe's doctypes."""
+	roles.grant(ADMINISTRATOR)
+	for page in PAGES:
+		roles.open_page(page)
+	_note_levels()
+	_masters()
+	_everybody("Report", "create")
+	_everybody("Deleted Document", "read")
+	_no_copies_in_the_sidebar()
+
+
+def _note_levels() -> None:
+	"""The administrator's rights on a Note's higher levels, once each."""
+	from frappe.permissions import add_permission, update_permission_property
+
+	for level, ptypes in NOTE_LEVELS.items():
+		if frappe.db.exists("Custom DocPerm", {"parent": "Note", "role": roles.ADMINISTRATOR, "permlevel": level}):
+			continue
+		add_permission("Note", roles.ADMINISTRATOR, level)
+		for ptype in ptypes:
+			update_permission_property("Note", roles.ADMINISTRATOR, level, ptype, 1, validate=False)
+
+
+def _masters() -> None:
+	"""The administrator manages every master, and an app's managers its own.
+	erpnext keeps several for a role of its own (Customer Group for its Sales
+	Master Manager), so One's managers are given them once each."""
+	from onedesk.one.masters import KINDS
+	from onedesk.one.settings import APPS
+
+	roles.grant({doctype: MASTER for _group, doctype, _label, _one in KINDS if frappe.db.exists("DocType", doctype)})
+	managers = {label: roles_ for label, _code, _users, roles_ in APPS}
+	roles.raise_once(
+		{doctype: dict.fromkeys(managers.get(group, ()), MASTER) for group, doctype, _label, _one in KINDS},
+		MASTERS_GIVEN,
+	)
+
+
+def _everybody(doctype: str, ptype: str) -> None:
+	"""One right for every desk user, once: Save As on a report (frappe lets a
+	Desk User read one and not make one), and reading their own deletions,
+	narrowed by one/recycle.py's `query` and `has_permission`."""
+	from frappe.permissions import add_permission, update_permission_property
+
+	where = {"parent": doctype, "role": DESK, "permlevel": 0, "if_owner": 0}
+	if frappe.db.get_value("Custom DocPerm", where, ptype):
+		return
+	setup_custom_perms(doctype)
+	if not frappe.db.exists("Custom DocPerm", where):
+		add_permission(doctype, DESK, 0)
+	update_permission_property(doctype, DESK, 0, ptype, 1, validate=False)
+
+
+def _no_copies_in_the_sidebar() -> None:
+	"""frappe lets everybody read their own copy requests, which put Data
+	Copies in every person's sidebar. The person sees theirs on their profile."""
+	download = "Personal Data Download Request"
+	setup_custom_perms(download)
+	for name in frappe.get_all("Custom DocPerm", filters={"parent": download, "role": "All"}, pluck="name"):
+		frappe.delete_doc("Custom DocPerm", name, ignore_permissions=True)
+		frappe.clear_cache(doctype=download)

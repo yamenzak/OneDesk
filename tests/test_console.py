@@ -88,7 +88,7 @@ def test_the_console_is_gated_on_the_operator_role():
 	# so the boot is told of OneAdmin only for an operator on the admin site.
 	assert '"onedesk.one_admin.site.offer"' in (tree.APP / "hooks.py").read_text()
 	offer = (ADMIN / "site.py").read_text().split("def offer(", 1)[1]
-	assert "is_admin() and OPERATOR in frappe.get_roles()" in offer and 'pop(MODULE' in offer
+	assert "is_admin() and OPERATOR in frappe.get_roles()" in offer and "pop(MODULE" in offer
 
 
 def test_every_rail_entry_points_at_something_real():
@@ -97,9 +97,7 @@ def test_every_rail_entry_points_at_something_real():
 	for item in rail:
 		if item.get("link_type") != "DocType":
 			continue
-		assert item["link_to"] in owned, (
-			f"the rail names {item['link_to']!r}, which OneAdmin does not own"
-		)
+		assert item["link_to"] in owned, f"the rail names {item['link_to']!r}, which OneAdmin does not own"
 
 
 def test_the_rail_starts_at_home():
@@ -119,15 +117,17 @@ def test_nothing_is_reachable_only_by_typing_its_name():
 
 def test_the_home_page_names_number_cards_that_exist():
 	shipped = {
-		_json(one / f"{one.name}.json")["name"]
-		for one in (ADMIN / "number_card").iterdir()
-		if one.is_dir()
+		_json(one / f"{one.name}.json")["name"] for one in (ADMIN / "number_card").iterdir() if one.is_dir()
 	}
 	named = {row["number_card_name"] for row in _workspace().get("number_cards") or []}
 	assert named <= shipped, f"the home page names cards that do not exist: {named - shipped}"
 	# The layout names a card by the workspace's own row label, not the card.
 	labels = {row["label"] for row in _workspace()["number_cards"]}
-	laid = {one["data"]["number_card_name"] for one in json.loads(_workspace()["content"]) if one["type"] == "number_card"}
+	laid = {
+		one["data"]["number_card_name"]
+		for one in json.loads(_workspace()["content"])
+		if one["type"] == "number_card"
+	}
 	assert laid == labels, f"the layout names cards the workspace does not carry: {laid ^ labels}"
 
 
@@ -190,9 +190,7 @@ def test_the_console_wears_its_own_mark():
 	"""OneAdmin is its own product with its own mark; `one` is a different one."""
 	assert _sidebar()["header_icon"] == "oneadmin"
 	assert _workspace()["icon"] == "oneadmin"
-	shipped = json.loads(
-		(tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8")
-	)
+	shipped = json.loads((tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8"))
 	assert "oneadmin" in {one["name"] for one in shipped}
 
 
@@ -227,74 +225,6 @@ def test_nothing_on_a_workspace_is_typed():
 	for perm in doc["permissions"]:
 		assert not perm.get("write"), "a Tenant can be saved, so the form offers Save"
 		assert not perm.get("delete"), "a Tenant can be deleted"
-
-
-def test_no_screen_text_reads_like_a_commit_message():
-	"""Field help is written the way frappe and erpnext write it.
-
-	Theirs runs to a median of 68 characters, plain and instructional — "Zero
-	means unlimited", "If enabled, changes to the document are tracked". Mine
-	started as paragraphs lifted from the reasoning: four lines about ladder.py
-	under a Select, on a screen somebody opens to find out whether a customer is
-	paying. The reasoning belongs in docs/ and in the docstrings, which is what
-	CLAUDE.md already says.
-
-	Three things are checked, all of them proxies for the same thing. Length,
-	because a paragraph is the usual symptom. First person, because "we" and
-	"our" are the voice of an argument rather than of a field label. And the
-	word `press`, because that is the name of Frappe Cloud's own app: correct
-	in code, meaningless to the person reading the form.
-	"""
-	import re
-
-	LONGEST = 130
-	VOICE = re.compile(r"\b(we|our|us|ours)\b", re.I)
-	THEIR_APP = re.compile(r"\bpress\b", re.I)
-
-	wrong = []
-	for folder in sorted(one.name for one in (ADMIN / "doctype").iterdir() if one.is_dir()):
-		path = ADMIN / "doctype" / folder / f"{folder}.json"
-		if not path.exists():
-			continue
-		doc = _json(path)
-		said = [("[doctype]", doc.get("description") or "")]
-		said += [(one["fieldname"], one.get("description") or "") for one in doc["fields"]]
-		for where, text in said:
-			if not text:
-				continue
-			if len(text) > LONGEST:
-				wrong.append(f"{folder}.{where}: {len(text)} characters")
-			if VOICE.search(text):
-				wrong.append(f"{folder}.{where}: first person")
-			if THEIR_APP.search(text):
-				wrong.append(f"{folder}.{where}: says press rather than Frappe Cloud")
-	assert not wrong, "screen text out of register:\n  " + "\n  ".join(wrong)
-
-
-def test_every_operator_verb_is_gated():
-	"""Both gates, on every whitelisted method, without exception.
-
-	`_may` is `require_admin` plus `only_for`. A verb that forgot it would be a
-	workspace anybody with a desk login could archive.
-	"""
-	import ast
-
-	source = (ADMIN / "operator.py").read_text(encoding="utf-8")
-	for node in ast.parse(source).body:
-		if not isinstance(node, ast.FunctionDef):
-			continue
-		whitelisted = any(
-			isinstance(one, ast.Attribute) and one.attr == "whitelist"
-			for one in node.decorator_list
-		)
-		if not whitelisted:
-			continue
-		calls = {
-			one.func.id
-			for one in ast.walk(node)
-			if isinstance(one, ast.Call) and isinstance(one.func, ast.Name)
-		}
-		assert "_may" in calls, f"{node.name} is whitelisted and does not call _may()"
 
 
 def test_an_operator_may_only_send_a_workspace_to_a_real_rung():
@@ -423,7 +353,7 @@ def test_a_new_workspace_invites_its_owner_and_says_it_is_ready():
 	assert "onedesk.one.account.wake" in steps and "tell.ready(tenant)" in steps
 	assert '"owner": known.owner_email' in (ADMIN / "proxy.py").read_text()
 	owner = (tree.APP / "one" / "owner.py").read_text()
-	assert "if roles.administrators() or frappe.db.exists(\"User\", email)" in owner
+	assert 'if roles.administrators() or frappe.db.exists("User", email)' in owner
 	assert "roles.ADMINISTRATOR" in owner and 'invite.send(user.name, inviter="One")' in owner
 	account = (tree.APP / "one" / "account.py").read_text()
 	assert "owner.arrive(said)" in account and "@rate_limit(" in account.split("def wake(", 1)[0][-200:]
@@ -446,7 +376,9 @@ def test_jobs_are_published_and_never_shared():
 
 def test_oneai_asks_about_a_job_only_in_the_state_it_is_in():
 	source = (ADMIN / "ai.py").read_text()
-	assert '"when": {"status": ["Failed"]}' in source and '"when": {"status": ["Pending", "Waiting"]}' in source
+	assert (
+		'"when": {"status": ["Failed"]}' in source and '"when": {"status": ["Pending", "Waiting"]}' in source
+	)
 	body = source.split("def job_facts(", 1)[1]
 	assert body.index("if not _operator()") < body.index("frappe.get_doc")
 	assert '"onedesk.one_admin.ai.job_facts"' in (tree.APP / "hooks.py").read_text()
@@ -487,7 +419,12 @@ def test_a_domain_is_said_in_the_customers_words_and_says_what_it_needs():
 	said = heads.split("def domain_said(", 1)[1].split("\ndef ", 1)[0]
 	assert "Frappe Cloud" not in said and "It needs a CNAME record from {0} to {1}." in said
 	pills = heads.split("DOMAIN = {", 1)[1].split("}", 1)[0]
-	assert '"Working"' in pills and '"Waiting"' in pills and '"Not working"' in pills and "In Progress" not in pills
+	assert (
+		'"Working"' in pills
+		and '"Waiting"' in pills
+		and '"Not working"' in pills
+		and "In Progress" not in pills
+	)
 	listing = (ADMIN / "doctype" / "tenant_domain" / "tenant_domain_list.js").read_text()
 	assert "Frappe Cloud" not in listing and "In Progress" not in listing
 	assert '_("Check Again")' in heads.split('"domain.refresh"', 1)[1][:300]
@@ -495,7 +432,9 @@ def test_a_domain_is_said_in_the_customers_words_and_says_what_it_needs():
 	assert "_mark_main(" in domains and ".notify_update()" in domains
 	source = (ADMIN / "ai.py").read_text()
 	assert '"expects": "domain_facts"' in source
-	assert source.split("def domain_facts(", 1)[1].index("if not _operator()") < source.split("def domain_facts(", 1)[1].index("frappe.get_doc")
+	assert source.split("def domain_facts(", 1)[1].index("if not _operator()") < source.split(
+		"def domain_facts(", 1
+	)[1].index("frappe.get_doc")
 
 
 def test_the_price_list_says_who_has_an_offering_and_shows_only_what_its_kind_carries():
@@ -605,9 +544,13 @@ def test_an_action_nobody_picked_a_model_for_still_runs_on_gemini():
 	choose = actions.split("def _model(")[1].split("\ndef ")[0]
 	assert "fallback = action_default(asked)" in choose and "is not a model this account offers" not in choose
 	# An action may name its own model (Print Design); else the capability's.
-	assert "return default_model(asked.capability)" in actions.split("def action_default(")[1].split("\ndef ")[0]
+	assert (
+		"return default_model(asked.capability)" in actions.split("def action_default(")[1].split("\ndef ")[0]
+	)
 	settings = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
-	assert {f["fieldname"]: f for f in settings["fields"]}["prefer_models_from"]["default"] == "google-ai-studio"
+	assert {f["fieldname"]: f for f in settings["fields"]}["prefer_models_from"][
+		"default"
+	] == "google-ai-studio"
 	catalogue = (ADMIN / "catalogue.py").read_text()
 	assert "tell.models_gone(" in catalogue and '"Model Withdrawn"' in (ADMIN / "tell.py").read_text()
 	assert "*_unmodelled()" in (ADMIN / "home.py").read_text()

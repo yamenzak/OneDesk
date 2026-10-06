@@ -143,7 +143,7 @@ composes them rather than drawing its own:
   / Engineering" (`one_homes` in hooks.py, `one/homes.py`). Both are set in
   `shell.js` at load, so a record opened by its address reads the same as one
   reached by a click. `tests/test_crumbs.py`.
-  `tests/test_shell.py` fails on a back button in a page, on `shell.name`
+  `tests/guards/test_shell.py` fails on a back button in a page, on `shell.name`
   given a route, and on a page that opens on a record from its address
   without the trail. It fails too on a table made anywhere but the shell,
   a row that opens a record outside a pane, sessions drawn by hand, a modal
@@ -162,7 +162,7 @@ composes them rather than drawing its own:
   row that opens something, belong only to a pane beside them (OneMail,
   OneIntake, a record's Mail). The Forms list was drawn as rows under a
   heading per app, and slipped past a guard that knew only `link:`; the
-  guard (`tests/test_shell.py`) now refuses a list of rows, a row that goes
+  guard (`tests/guards/test_shell.py`) now refuses a list of rows, a row that goes
   anywhere, rows made one per record, and the row's markup written by hand.
 - **Dialogs** are frappe.ui.Dialog; nothing draws a modal of its own.
 - **Pages outside the desk** (`www/`: /start, /welcome, the share and
@@ -182,7 +182,7 @@ on one screen, and the desk form itself is not an island yet. When frappe
 moves the form onto `@framework/ui`, the shell moves with it; until then it
 matches what the reader sees on every other screen.
 
-A guard (`tests/test_shell.py`) fails when a page draws its own head, its own
+A guard (`tests/guards/test_shell.py`) fails when a page draws its own head, its own
 empty state or row, sizes itself to the window, or ships CSS for a part the
 shell has.
 
@@ -353,7 +353,7 @@ product by product.
   writes (`settings.py`, a notification kind's quiet line), which was renamed
   too. Dirty, undo back to clean, a save elsewhere raising the conflict,
   Refresh, and Ctrl+S were each tried in the browser.
-- `tests/test_shell.py`: every page is on the shell or named with the stage
+- `tests/guards/test_shell.py`: every page is on the shell or named with the stage
   that moves it; a page on the shell is made by `onedesk.shell.page`; only
   `shell.css` styles the shell's parts; a page on the shell styles no row,
   empty state, quiet line, card or section of its own, and writes no

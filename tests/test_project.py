@@ -306,7 +306,7 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	source = (PROJECT / "templates.py").read_text()
 	assert '"is_milestone", "expected_time"' in source and '"one_steps"' in _body(source, "task_made")
 	assert '"onedesk.one_project.templates.task_made"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
-	assert HOOKS.count('"onedesk.one_project.templates.settle"') == 2, "after_sync and after_migrate"
+	assert '"Project Template", MANAGER' in _body((PROJECT / "access.py").read_text(), "_templates")
 	assert "doc.is_template" in _body((TASK / "capture.py").read_text(), "task_made"), "nobody's work"
 	access = (TASK / "access.py").read_text()
 	assert (

@@ -129,7 +129,6 @@ def install(*_args) -> None:
 			values["enabled"] = _switch(one)
 		frappe.db.set_value("Notification Type", name, values, update_modified=False)
 	_settle()
-	_grant()
 	_push_once()
 
 
@@ -220,20 +219,6 @@ def _push_once() -> None:
 		seed_push(name)
 	frappe.db.set_default("onedesk_push_seeded", "1")
 
-
-#: What a workspace administrator is given on frappe's doctypes, so what OneAI
-#: suggests (a rewrite, a rule) is applied as them. A rule they write is held
-#: to a workspace rule's limits by one/rules.py whatever screen they use.
-GRANTS = {
-	"Notification Type": ("read", "write"),
-	"Notification": ("read", "write", "create", "delete"),
-}
-
-
-def _grant() -> None:
-	from onedesk.one import roles
-
-	roles.grant(GRANTS)
 
 
 def validate(doc, method=None) -> None:

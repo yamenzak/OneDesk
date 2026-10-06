@@ -49,8 +49,8 @@ def test_masters_are_granted_to_the_administrator_and_wired():
 	# A kind that carries settings of its own stays in its app's Setup.
 	for doctype in ("Sales Stage", "Leave Type", "Employee Grade", "Interview Type"):
 		assert f'"{doctype}", _lt(' not in kinds, doctype
-	assert 'MANAGE = ("read", "write", "create", "delete")' in SOURCE
-	assert '"onedesk.one.masters.settle"' in HOOKS
+	assert 'MASTER = ("read", "write", "create", "delete")' in (tree.APP / "one" / "access.py").read_text()
+	assert '"onedesk.one.access.settle"' in HOOKS
 	assert '"Address Template": {"validate": "onedesk.one.masters.validate_address_template"}' in HOOKS
 	settings = (tree.APP / "one" / "settings.py").read_text()
 	assert '"lists"' not in settings and "address_templates" not in settings
