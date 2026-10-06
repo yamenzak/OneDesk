@@ -194,7 +194,7 @@ VIEWS = {
 	"money": "the Money view: what the customer is billed and has paid, and what it costs",
 	"invoices": "the Invoices view: its sales invoices",
 	"suppliers": "the Suppliers view: its subcontracts and purchase orders",
-	"team": "the Team view: its people, their open tasks and their hours",
+	"team": "the Team view: its people, their open tasks and their hours, and its contacts outside the company",
 	"files": "the Files view: its files",
 	"activity": "the Activity view: what happened on it",
 }
@@ -218,7 +218,7 @@ def page(said: dict) -> str | None:
 		f"The reader is on the page of project {name} (“{title}”"
 		+ (f", a project of kind {kind}" if kind else "")
 		+ f"), on {VIEWS.get(view, VIEWS['overview'])}. project_facts reads it as its page shows it: its "
-		"dates, tasks, money, time, team and, for a retainer, its months, and the reader's own week on it; "
+		"dates, tasks, money, time, team, contacts and, for a retainer, its months, and the reader's own week on it; "
 		"plan_task suggests a task on it as a card that adds it when the reader approves, and draft_update "
 		"drafts the reader's update as a card that puts it under Updates to post. Nothing is changed until "
 		"the reader approves. How "
@@ -230,7 +230,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 	"""One project as its page shows it, with its sub-projects added up: where
 	it stands, its dates, what it cost against the estimate, what was billed,
 	its late tasks (who is on each, what waits on each), its milestones to
-	come, its people, the team's last updates, and the reader's own week on
+	come, its people and its contacts outside the company, the team's last updates, and the reader's own week on
 	it. Read before saying how a project is going, what is late, or writing
 	about it."""
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
@@ -301,6 +301,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		"kind": doc.get("one_kind"),
 		"time": _time(project, doc.get("one_kind")),
 		"team": _team(project),
+		"contacts": _contacts(project),
 		"months": _months(project) if doc.get("one_kind") == kinds.RETAINER else None,
 	}
 
@@ -417,6 +418,23 @@ def _team(project: str) -> list[dict]:
 			"hours": one["hours"],
 		}
 		for one in team.team(project)["people"][:MOST]
+	]
+
+
+def _contacts(project: str) -> list[dict]:
+	"""Who outside the company is on it, as the Team view lists them."""
+	from onedesk.one_project import contacts
+
+	return [
+		{
+			"role": one["role"],
+			"name": one["person"],
+			"company": one["company"],
+			"email": one["email"],
+			"phone": one["phone"],
+			"note": one["note"],
+		}
+		for one in contacts.contacts(project)["contacts"][:MOST]
 	]
 
 

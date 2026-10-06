@@ -15,7 +15,17 @@
         <span v-if="bills?.totals.overdue" class="text-ink-red-5">{{ __("Overdue") }} <span class="tabular-nums">{{ amount(bills.totals.overdue) }}</span></span>
         <span v-if="total('retention')">{{ __("Retention Held") }} <span class="tabular-nums text-ink-gray-9">{{ amount(total("retention")) }}</span></span>
       </div>
-      <Button v-if="cash.can_order" class="ms-auto" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
+      <div class="ms-auto flex gap-2">
+        <Button v-if="contacts?.can_change" size="sm" icon-left="lucide-plus" :label="__('Add Supplier')" @click="addSupplier" />
+        <Button v-if="cash.can_order" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
+      </div>
+    </div>
+
+    <div v-if="waiting.length" class="mb-6">
+      <h2 class="mb-2 text-base font-medium text-ink-gray-7">{{ __("No Order Yet") }}</h2>
+      <div class="flex flex-wrap gap-2">
+        <Button v-for="one in waiting" :key="one.row" size="sm" variant="subtle" :label="[one.company, __(one.role)].join(' · ')" @click="editSupplier(one)" />
+      </div>
     </div>
 
     <div v-if="!packages.length" class="flex flex-col items-center gap-3 py-12 text-center">
@@ -199,10 +209,23 @@ const received = (item) =>
 const ahead = (item) => item.billed > item.received;
 const buying = ref(null);
 
+// The suppliers on the project with nothing ordered from them yet: its
+// Contacts as Subcontractor or Supplier (one_project/contacts.py).
+const contacts = ref(null);
+const waiting = computed(() =>
+  (contacts.value?.contacts || []).filter(
+    (one) => ["Subcontractor", "Supplier"].includes(one.role) && one.supplier && !orders.value.some((order) => order.supplier_id === one.supplier)
+  )
+);
+const addSupplier = () =>
+  onedesk().project.contact(props.said.name, null, (now) => (contacts.value = now), { role: "Subcontractor", title: __("Add Supplier") });
+const editSupplier = (one) => onedesk().project.contact(props.said.name, one, (now) => (contacts.value = now));
+
 async function load() {
-  [buying.value, bills.value] = await Promise.all([
+  [buying.value, bills.value, contacts.value] = await Promise.all([
     call("onedesk.one_project.buying.papers", { project: props.said.name }),
     call("onedesk.one_project.billing.bills", { project: props.said.name }),
+    call("onedesk.one_project.contacts.contacts", { project: props.said.name }),
   ]);
 }
 watch(() => [props.said.name, props.said.modified, cash.value.open_orders, cash.value.spent], load, { immediate: true });

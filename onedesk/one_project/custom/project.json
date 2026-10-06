@@ -122,6 +122,26 @@
    "no_copy": 1,
    "module": "One Project",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_contacts_section",
+   "fieldtype": "Section Break",
+   "label": "Contacts",
+   "insert_after": "users",
+   "collapsible": 0,
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_contacts",
+   "fieldtype": "Table",
+   "label": "Contacts",
+   "options": "Project Contact",
+   "insert_after": "one_contacts_section",
+   "description": ""
   }
  ],
  "doctype": "Project",

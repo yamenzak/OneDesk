@@ -550,6 +550,7 @@ def _suppliers(projects: list[str]) -> list[dict]:
 			{
 				"order": name,
 				"supplier": head.supplier_name or head.supplier,
+				"supplier_id": head.supplier,
 				"for": bought(own),
 				"project": head.project or next((one.project for one in own if one.project), None),
 				# What's billed and not paid, less the retention held till later.

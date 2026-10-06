@@ -2152,3 +2152,37 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 	last = billing(17, cash, 0, {"posting_date": "2026-10-04", "one_progress": 0})
 	assert last["last"] == {"date": "2026-10-04", "share": 16}
 	assert billing(17, cash, 0, {"posting_date": "2026-10-04", "one_progress": 15})["last"]["share"] == 15
+
+
+def test_a_project_lists_who_outside_the_company_is_on_it():
+	space = _load(PROJECT / "contacts.py", ("ROLES", "SUPPLYING", "_person"))
+	assert space["ROLES"][:2] == space["SUPPLYING"] == ("Subcontractor", "Supplier")
+	assert "Client's Representative" in space["ROLES"] and space["ROLES"][-1] == "Other"
+	person = space["_person"]
+	# The phone, or the mobile when there's none; nothing without a Contact.
+	assert person({"phone": "", "mobile_no": "+971 50 1"}, "phone", "mobile_no") == "+971 50 1"
+	assert person({"phone": "+971 4 5"}, "phone", "mobile_no") == "+971 4 5"
+	assert person(None, "phone") is None
+	table = json.loads((PROJECT / "doctype" / "project_contact" / "project_contact.json").read_text())
+	assert table["istable"] == 1
+	fields = {one["fieldname"]: one for one in table["fields"]}
+	assert fields["role"]["options"].split("\n") == list(space["ROLES"]) and fields["role"]["reqd"]
+	assert fields["organisation"]["depends_on"] == "eval:!doc.supplier"
+	assert fields["email"]["fetch_from"] == "contact.email_id"
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())["custom_fields"]
+	assert any(one["fieldname"] == "one_contacts" and one["options"] == "Project Contact" for one in custom)
+	contacts_py = (PROJECT / "contacts.py").read_text()
+	save = contacts_py[contacts_py.index("def save(") : contacts_py.index("def remove(")]
+	assert 'doc.check_permission("write")' in save and "linked(contact, project)" in save
+	assert '_("Give the supplier, the company or the contact.")' in save
+	assert 'person.has_permission("write")' in contacts_py
+	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
+	assert "onedesk.project.contact = (project, row, done, preset = {})" in actions
+	assert '__("Remove {0} from the project?"' in actions
+	src = tree.ROOT / "frontend" / "src" / "project"
+	team = (src / "Team.vue").read_text()
+	assert "onedesk.one_project.contacts.contacts" in team and "__('Add Contact')" in team
+	suppliers = (src / "Suppliers.vue").read_text()
+	assert "__('Add Supplier')" in suppliers and "order.supplier_id === one.supplier" in suppliers
+	assert '"supplier_id": head.supplier' in (PROJECT / "money.py").read_text()
+	assert '"contacts": _contacts(project)' in (PROJECT / "ai.py").read_text()

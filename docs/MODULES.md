@@ -100,7 +100,9 @@ No doctypes yet.
 
 `onedesk/one_project`
 
-No doctypes yet.
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Project Contact | 7 | child |
 
 ## One Book
 
@@ -546,6 +548,9 @@ No doctypes yet.
 * `onedesk.one_project.budget.set_budget`
 * `onedesk.one_project.buying.papers`
 * `onedesk.one_project.chain.customer_project`
+* `onedesk.one_project.contacts.contacts`
+* `onedesk.one_project.contacts.remove`
+* `onedesk.one_project.contacts.save`
 * `onedesk.one_project.hours.entries`
 * `onedesk.one_project.hours.log`
 * `onedesk.one_project.kinds.add_contract`

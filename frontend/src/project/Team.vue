@@ -40,6 +40,40 @@
           </ListRow>
         </ListRows>
       </List>
+
+      <section class="mt-8">
+        <div class="mb-3 flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-ink-gray-9">{{ __("Contacts") }}</h2>
+          <Button v-if="outside?.can_change" class="ms-auto" size="sm" icon-left="lucide-plus" :label="__('Add Contact')" @click="contact()" />
+        </div>
+        <div v-if="!outside?.contacts.length" class="py-3 text-base text-ink-gray-5">{{ __("No contacts") }}</div>
+        <List v-else :columns="{ base: ['minmax(0,1fr)', 'auto'], md: ['minmax(12rem,1.4fr)', '11rem', 'minmax(10rem,1fr)', '9rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+          <ListHeader>
+            <ListHeaderCell>{{ __("Contact") }}</ListHeaderCell>
+            <ListHeaderCell>{{ __("Role") }}</ListHeaderCell>
+            <ListHeaderCell class="max-md:hidden">{{ __("Email") }}</ListHeaderCell>
+            <ListHeaderCell class="max-md:hidden">{{ __("Phone") }}</ListHeaderCell>
+          </ListHeader>
+          <ListRows :items="outside.contacts" row-key="row" v-slot="{ item }">
+            <ListRow v-bind="outside.can_change ? { onClick: () => contact(item) } : {}">
+              <ListCell class="min-w-0 gap-2.5">
+                <Avatar :label="item.person || item.company" size="md" />
+                <div class="min-w-0">
+                  <div class="truncate text-base text-ink-gray-8">{{ item.person || item.company }}</div>
+                  <div class="truncate text-sm text-ink-gray-5">{{ [item.person ? item.company : "", item.note].filter(Boolean).join(" · ") }}</div>
+                </div>
+              </ListCell>
+              <ListCell><Badge :label="__(item.role)" theme="gray" size="md" /></ListCell>
+              <ListCell class="min-w-0 max-md:hidden">
+                <a v-if="item.email" class="truncate text-ink-gray-7 hover:underline" :href="`mailto:${item.email}`" @click.stop>{{ item.email }}</a>
+              </ListCell>
+              <ListCell class="min-w-0 max-md:hidden">
+                <a v-if="item.phone" class="truncate tabular-nums text-ink-gray-7 hover:underline" :href="`tel:${item.phone}`" @click.stop>{{ item.phone }}</a>
+              </ListCell>
+            </ListRow>
+          </ListRows>
+        </List>
+      </section>
     </template>
   </div>
 </template>
@@ -55,9 +89,19 @@ const props = defineProps({ projectName: { type: String, required: true }, modif
 const emit = defineEmits(["changed"]);
 const said = ref(null);
 
+// Who outside the company is on it (one_project/contacts.py).
+const outside = ref(null);
 async function load() {
-  said.value = await call("onedesk.one_project.team.team", { project: props.projectName });
+  [said.value, outside.value] = await Promise.all([
+    call("onedesk.one_project.team.team", { project: props.projectName }),
+    call("onedesk.one_project.contacts.contacts", { project: props.projectName }),
+  ]);
 }
+const contact = (row) =>
+  onedesk().project.contact(props.projectName, row || null, (now) => {
+    outside.value = now;
+    emit("changed");
+  });
 // A member added or taken off changes the project, which the page follows.
 watch(() => [props.projectName, props.modified], load, { immediate: true });
 

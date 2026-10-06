@@ -383,6 +383,53 @@ onedesk.project.add_member = (frm, done) => {
 	dialog.show();
 };
 
+// Add Contact, and changing one: somebody outside the company on the project,
+// as what (one_project/contacts.py). `row` is the contact being changed;
+// `preset` fills in a new one, as Add Supplier does.
+onedesk.project.contact = (project, row, done, preset = {}) => {
+	const roles = ["Subcontractor", "Supplier", "Consultant", "Architect", "Engineer", "Client's Representative", "Authority", "Other"];
+	const values = row || preset;
+	const dialog = new frappe.ui.Dialog({
+		title: row ? row.person || row.company : preset.title || __("Add Contact"),
+		fields: [
+			{
+				fieldtype: "Select",
+				fieldname: "role",
+				label: __("Role"),
+				options: roles.map((one) => ({ value: one, label: __(one) })),
+				reqd: 1,
+				default: values.role || "Consultant",
+			},
+			{ fieldtype: "Link", fieldname: "supplier", label: __("Supplier"), options: "Supplier", default: values.supplier },
+			{
+				fieldtype: "Data",
+				fieldname: "organisation",
+				label: __("Company"),
+				depends_on: "eval:!doc.supplier",
+				default: values.organisation,
+			},
+			{ fieldtype: "Link", fieldname: "contact", label: __("Contact"), options: "Contact", default: values.contact },
+			{ fieldtype: "Data", fieldname: "note", label: __("Note"), default: values.note },
+		],
+		primary_action_label: row ? __("Save") : preset.title || __("Add Contact"),
+		primary_action: async (picked) => {
+			const said = await frappe.xcall("onedesk.one_project.contacts.save", { project, row: row && row.row, ...picked });
+			dialog.hide();
+			done && done(said);
+		},
+		secondary_action_label: row ? __("Remove") : null,
+		secondary_action: row
+			? () =>
+					frappe.confirm(__("Remove {0} from the project?", [row.person || row.company]), async () => {
+						const said = await frappe.xcall("onedesk.one_project.contacts.remove", { project, row: row.row });
+						dialog.hide();
+						done && done(said);
+					})
+			: null,
+	});
+	dialog.show();
+};
+
 // Invoice Month: a retainer's month as a draft invoice, the fee and any hours
 // over the allowance (one_project/retainer.py). It opens unsaved, to be read
 // first. `month` is the month to start on; the dialog offers every month not

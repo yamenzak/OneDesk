@@ -418,6 +418,15 @@ many are late, and their hours this month and in all.
 the end of a member's row takes them off. Their tasks and time stay.
 Whoever may change the project may change its members.
 
+**Contacts** lists the people outside the company on the project: the
+subcontractors and suppliers, consultants, the architect, the engineer, the
+client's representative and the authorities. Each has a **Role**, the
+**Supplier** or, for anyone who isn't one, the **Company**, the **Contact**
+(their email and phone come from it) and a **Note**. **Add Contact** adds
+one, and clicking one changes it or removes it. The contact then lists the
+project among its links. Whoever can open the project sees its contacts;
+whoever can change it can change them.
+
 ### Buttons
 
 The main button is the kind's: **Bill Progress** on a Fixed Price contract,
@@ -665,7 +674,9 @@ supplier, what it was ordered for and which sub-project, how much of it is
 billed, what's left to bill, what's been paid, what's **To Pay** now (in red,
 with how late, once it's past due), the retention held and the advance not
 yet set off. **Open Order** opens it, **···** offers **Pay Advance**, and
-**New Purchase Order** starts one on the project. The line above adds up
+**New Purchase Order** starts one on the project. **Add Supplier** adds a
+supplier to the project's contacts before anything is ordered from them,
+and they're listed under **No Order Yet** until there's an order. The line above adds up
 what's ordered, billed, left to bill, to pay, overdue and held. A Fixed
 Price project always shows **Suppliers**; others once they have an order.
 

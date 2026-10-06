@@ -8100,6 +8100,21 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - Nothing could be paid from here. **Pay Advance** opens ERPNext's payment
   against the order (`project.pay_advance`).
 
+**Contacts** (the project page's Team view, and Add Supplier on Suppliers).
+
+- A project had no place for anyone outside the company: the architect, the
+  consultants, the client's representative, a subcontractor not yet ordered
+  from. Project Contact rows (Role, Supplier or Company, Contact, Note) are
+  listed under **Contacts** on Team, with **Add Contact** (`contacts.py`).
+- A supplier could only reach the project with a purchase order. **Add
+  Supplier** adds one as a contact, shown under **No Order Yet** until
+  there's an order.
+- The Contact lists the project among its links, as frappe links contacts
+  to customers and suppliers. Email and phone are read from the Contact,
+  the mobile when there's no phone.
+- OneAI reads the contacts in `project_facts`.
+- Left for later: giving a consultant the portal.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
