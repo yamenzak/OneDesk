@@ -8154,6 +8154,28 @@ frappe's Assign does; Pending Review tells whoever made the task.
   row of tabs on a phone. Both stick under desk's page head at a z-index
   under its 6; the tab bar had been `z-10`, over it.
 
+**Overview** (the project page's first view).
+
+- It read as one column of text: four figures without edges, then section
+  after section of rows. The figures are now frappe-ui's NumberCard in
+  ChartCard's bordered surface, across the full width (`Figures boxed`), and
+  Needs You sits in the same card (`Section boxed`). The rest stays on the
+  page.
+- Under the figures, two charts for every kind: **Tasks**, frappe-ui's
+  DonutChart of the tasks by status in their badges' colours, and **Hours by
+  Week**, the BarChart that only Time and Materials and Retainer had. A task
+  past its due date counts as Overdue, as the Overdue Tasks figure does;
+  ERPNext only marks one so overnight. The Internal kind's status bar
+  (`Statuses.vue`) went, as the ring says the same.
+- **Budget** is a stacked BarChart per cost type, spent, on order and left,
+  in the ramp's blue at two strengths and the axis gray. A cost type over its
+  budget is a row under it with how far over. The rows with thin bars went.
+- The colours come from frappe-ui's tokens through `useChartTokens`, read on
+  the island's own root, as its CSS variables are not on the page's. The
+  ring draws its largest slice first, so the colours follow the same order.
+- The demo projects' photos were re-uploaded (`media_seed.py`) after the
+  file store lost them.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

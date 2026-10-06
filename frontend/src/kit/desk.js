@@ -30,6 +30,20 @@ export const dateFormat = () => (frappe().boot.sysdefaults?.date_format || "yyyy
 export const hours = (value) =>
 	__("{0} h", [window.format_number(value || 0, null, Number(value) % 1 ? 1 : 0)]);
 
+/** A number in a few characters (12K, 1.2M), for a chart's axis. */
+export const compact = (value) =>
+	new Intl.NumberFormat(frappe().boot.lang || undefined, { notation: "compact", maximumFractionDigits: 1 }).format(value || 0);
+
+/**
+ * Colours by name (`--outline-gray-3`) as `el` sees them, for a chart, which
+ * draws in values, not variables. An island's own tokens are on its root,
+ * not the page's.
+ */
+export const colors = (el, ...names) => {
+	const styles = el ? getComputedStyle(el) : null;
+	return names.map((name) => (styles ? styles.getPropertyValue(name).trim() : ""));
+};
+
 /** Go somewhere in desk. */
 export const go = (route) => frappe().set_route(route);
 

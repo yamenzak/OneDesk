@@ -123,7 +123,18 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 	open_ = [["project", "in", projects], ["status", "not in", DONE]]
 	# frappe reads a missing date as the earliest one, so a task with no due
 	# date would count as late.
-	late = frappe.db.count("Task", [*open_, ["exp_end_date", "is", "set"], ["exp_end_date", "<", today]])
+	late_filters = [*open_, ["exp_end_date", "is", "set"], ["exp_end_date", "<", today]]
+	late = frappe.db.count("Task", late_filters)
+	# A late task is Overdue whatever its status says: ERPNext only marks
+	# one so overnight, and the figures count it late from the day after.
+	statuses = {row.status: row.n for row in counts}
+	if late:
+		for row in frappe.get_all(
+			"Task", filters=late_filters, fields=["status", {"COUNT": "*", "as": "n"}], group_by="status"
+		):
+			statuses[row.status] -= row.n
+		statuses["Overdue"] = late
+		statuses = {status: n for status, n in statuses.items() if n}
 	milestone = frappe.get_all(
 		"Task",
 		filters=[*open_, ["is_milestone", "=", 1], ["exp_end_date", ">=", today]],
@@ -137,7 +148,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"tree": sorted(projects),
 		"tasks": total,
 		"done": done,
-		"statuses": {row.status: row.n for row in counts},
+		"statuses": statuses,
 		# A completed project is done, whatever its tasks say: one completed
 		# with no tasks of its own has none to count.
 		# ERPNext's own % Complete, the tree's for a project with sub-projects

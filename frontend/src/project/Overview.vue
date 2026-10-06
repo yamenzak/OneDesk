@@ -1,17 +1,27 @@
 <template>
   <!-- What the project is and how it is going, laid out for its kind
-       (docs/PROJECT-PAGE.md): its figures and what the kind is worked by on
-       the left; what needs someone and the facts on the right. Each thing is
-       in one place. -->
-  <div class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+       (docs/PROJECT-PAGE.md): its figures, each in a card, its tasks and
+       hours as charts, and what the kind is worked by on the left; what
+       needs someone, in a card, and the facts on the right. Each thing is in
+       one place. -->
+  <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+    <div class="min-w-0 py-5 lg:col-span-2">
+      <Figures :figures="figures" boxed />
+    </div>
+
     <div class="min-w-0">
       <Section v-if="said.notes" :title="__('Brief')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">
         <div class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.notes" />
       </Section>
 
-      <Section :title="__('Numbers')">
-        <Figures :figures="figures" />
-      </Section>
+      <div v-if="taskSlices.length || weekly.length" class="grid gap-3 border-b border-outline-gray-1 py-5" :class="{ 'sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]': taskSlices.length && weekly.length }">
+        <ChartCard v-if="taskSlices.length" class="h-64">
+          <DonutChart :title="__('Tasks')" :subtitle="tasksSaid" :data="taskSlices" category="status" value="n" :center-label="tasks.length === 1 ? tasks[0].status : __('Tasks')" :palette="taskColors" @select="$emit('view', 'tasks')" />
+        </ChartCard>
+        <ChartCard v-if="weekly.length" class="h-64">
+          <BarChart :title="__('Hours by Week')" :subtitle="__('{0} in 12 weeks', [hours(view.weekly.total)])" :data="weekly" x="week" :y="['hours']" :series-config="{ hours: { label: __('Hours') } }" />
+        </ChartCard>
+      </div>
 
       <template v-if="kind === 'Fixed Price'">
         <Section v-if="view.billing" :title="__('Work and Billing')">
@@ -19,7 +29,11 @@
           <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency, view.billing.billable?.share)" />
         </Section>
         <Section :title="__('Budget')" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
-          <Rows :rows="budget" :empty="__('No cost types')" />
+          <ChartCard v-if="budgetBars.length" :style="{ height: `${5.5 + 2.25 * budgetBars.length}rem` }">
+            <BarChart :data="budgetBars" x="type" :y="['spent', 'committed', 'left']" horizontal stacked :series-config="budgetSeries" :y-axis="{ format: (value) => money(value, said.currency) }" />
+          </ChartCard>
+          <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No cost types") }}</div>
+          <Rows v-if="over.length" class="mt-2" :rows="over" />
         </Section>
         <Section :title="__('Milestones')">
           <Milestones v-if="view.milestones.list.length" :milestones="view.milestones.list" />
@@ -29,9 +43,6 @@
       </template>
 
       <template v-else-if="kind === 'Time and Materials'">
-        <Section v-if="weekly.length" :title="__('Hours by Week')" :aside="__('{0} in 12 weeks', [hours(view.weekly.total)])">
-          <div class="h-56"><BarChart :data="weekly" x="week" :y="['hours']" :series-config="{ hours: { label: __('Hours') } }" /></div>
-        </Section>
         <Section :title="__('Not Invoiced Yet')" :aside="unbilledTotal">
           <Rows :rows="view.unbilled.map((one) => ({ key: one.name, label: one.name, avatar: one.name, dim: hours(one.hours), value: money(one.amount, said.currency) }))" :empty="__('All time is invoiced')" />
           <Button v-if="view.unbilled.length && said.customer && can('create', 'Sales Invoice')" class="mt-3" :label="__('Invoice Time')" @click="onedesk().project.invoice_time(frm())" />
@@ -42,15 +53,9 @@
         <Section v-if="view.months" :title="__('Months')" :aside="__('{0} a month', [money(view.months.fee, view.months.currency)])">
           <Months :months="view.months" @invoice="(month) => onedesk().project.invoice_month(frm(), month)" />
         </Section>
-        <Section v-if="weekly.length" :title="__('Hours by Week')" :aside="__('{0} in 12 weeks', [hours(view.weekly.total)])">
-          <div class="h-56"><BarChart :data="weekly" x="week" :y="['hours']" :series-config="{ hours: { label: __('Hours') } }" /></div>
-        </Section>
       </template>
 
       <template v-else>
-        <Section v-if="Object.keys(view.statuses).length" :title="__('Tasks')">
-          <Statuses :statuses="view.statuses" @open="$emit('view', 'tasks')" />
-        </Section>
         <Section :title="__('Milestones')">
           <Milestones v-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
@@ -70,7 +75,7 @@
     </div>
 
     <div class="min-w-0">
-      <Section :title="__('Needs You')" :aside="view.needs_count || ''">
+      <Section boxed :title="__('Needs You')" :aside="view.needs_count || ''">
         <Rows :rows="needs" :empty="__('Nothing needs you')" />
         <Button v-if="view.needs_all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.needs_all)" />
       </Section>
@@ -112,19 +117,21 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
-import { BarChart } from "frappe-ui/charts";
+import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Facts, Figures, Rows, Section, __, can, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
+import { Facts, Figures, Rows, Section, __, can, colors, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
-import Statuses from "./Statuses.vue";
 import Updates from "./Updates.vue";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view"]);
 const view = computed(() => props.said.overview);
+// The charts' colours, as frappe-ui reads them for this island and its theme.
+const root = ref();
+const { tokens } = useChartTokens(root);
 const kind = computed(() => props.said.kind);
 
 // A quotation's status as a dot: still open, ordered, or gone.
@@ -170,28 +177,46 @@ const workAndBilling = computed(() => {
 });
 
 // Each cost type over the project and those under it, then Other for the
-// rest, so the rows add up to Numbers (view._budget_lines).
-const budget = computed(() => {
+// rest, so the bars add up to the figures (view._budget_lines): what's
+// spent, what's on order, and what's left of its budget. A cost type over
+// its budget is a row under the chart, as a red figure is.
+const budgetLines = computed(() => {
   const b = view.value.budget;
-  const sum = (value) => money(value, props.said.currency);
-  const row = (one, key, label) => {
-    const used = one.spent + one.committed;
-    const whole = Math.max(one.budget, used) || 1;
-    return {
-      key,
-      label,
-      dim: [
-        one.spent && __("{0} spent", [sum(one.spent)]),
-        one.committed && __("{0} on order", [sum(one.committed)]),
-        one.budget && __("{0} budget", [sum(one.budget)]),
-      ].filter(Boolean).join(" · "),
-      progress: one.budget ? Math.round((100 * one.spent) / whole) : null,
-      then: one.budget ? Math.round((100 * one.committed) / whole) : null,
-      value: !one.budget ? sum(used) : one.left < 0 ? __("{0} over", [sum(-one.left)]) : __("{0} left", [sum(one.left)]),
-      dot: one.budget && one.left < 0 ? "red" : undefined,
-    };
-  };
-  return [...b.lines.map((one) => row(one, one.cost_type, one.cost_type)), b.other && row(b.other, "other", __("Other"))].filter(Boolean);
+  return [...b.lines.map((one) => ({ ...one, type: one.cost_type })), b.other && { ...b.other, type: __("Other") }].filter(Boolean);
+});
+const budgetBars = computed(() =>
+  budgetLines.value.map((one) => ({ type: one.type, spent: one.spent, committed: one.committed, left: Math.max(one.left || 0, 0) }))
+);
+// Spent and on order are one hue at two strengths; what's left is the track.
+const budgetSeries = computed(() => {
+  const [spent, committed] = tokens.value.categorical;
+  return { spent: { label: __("Spent"), color: spent }, committed: { label: __("On Order"), color: committed }, left: { label: __("Left"), color: tokens.value.axisLine } };
+});
+const over = computed(() =>
+  budgetLines.value
+    .filter((one) => one.budget && one.left < 0)
+    .map((one) => ({ key: one.type, dot: "red", label: one.type, below: __("{0} budget", [money(one.budget, props.said.currency)]), value: __("{0} over", [money(-one.left, props.said.currency)]) }))
+);
+
+// The tasks by status, in the colours their badges have: Completed, Working,
+// Pending Review and Overdue in the ramp's green, blue, amber and red, Open,
+// not started, in gray. The ring draws the largest first, so the colours are
+// listed in that order too.
+const TASK_ORDER = ["Completed", "Working", "Pending Review", "Overdue", "Open"];
+const tasks = computed(() =>
+  TASK_ORDER.filter((status) => view.value.statuses?.[status])
+    .map((status) => ({ key: status, status: __(status), n: view.value.statuses[status] }))
+    .sort((a, b) => b.n - a.n)
+);
+const taskSlices = computed(() => tasks.value.map(({ status, n }) => ({ status, n })));
+const taskColors = computed(() => {
+  const ramp = tokens.value.categorical;
+  const tone = { Completed: ramp[2], Working: ramp[0], "Pending Review": ramp[6], Overdue: ramp[8], Open: colors(root.value, "--outline-gray-3")[0] };
+  return tasks.value.map((one) => tone[one.key]);
+});
+const tasksSaid = computed(() => {
+  const all = Object.values(view.value.statuses || {}).reduce((a, b) => a + b, 0);
+  return __("{0} of {1} done", [view.value.statuses?.Completed || 0, all]);
 });
 
 // A figure whose documents are a view of this page opens that view.

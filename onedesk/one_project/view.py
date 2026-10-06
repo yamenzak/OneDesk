@@ -630,6 +630,9 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		"needs_all": _late_route(view["tree"]) if len(needed) > SHOWN + 2 else None,
 		"sub_projects": _sub_projects(doc.name),
 		"quotes": _quotes(doc),
+		# Every kind charts its tasks by status and its hours by week.
+		"statuses": view["statuses"],
+		"weekly": view["weekly"],
 	}
 	if kind in (kinds.FIXED, kinds.INTERNAL):
 		said["milestones"] = milestones.read(doc.name, view["tree"])
@@ -660,12 +663,10 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		said["months"] = retainer.months(doc.name)
 		said["people"] = _people(doc.name)
 	if kind in (kinds.TIME, kinds.RETAINER):
-		said["weekly"] = view["weekly"]
 		said["activities"] = _activities(doc.name)
 	if kind == kinds.TIME:
 		said["unbilled"] = _unbilled_people(doc.name)
 	if kind == kinds.INTERNAL:
-		said["statuses"] = view["statuses"]
 		said["due_soon"] = _due_soon(view["tree"])
 		said["on_it"] = _on_it(view["tree"])
 	return said

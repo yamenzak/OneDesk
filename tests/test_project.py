@@ -2,6 +2,7 @@
 over the tasks it shares with OneTask."""
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -1100,8 +1101,8 @@ def test_the_overview_budget_adds_up_to_numbers():
 		in (PROJECT / "money.py").read_text()
 	)
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	assert ":empty=\"__('No cost types')\"" in overview and "$emit('view', 'money')" in overview
-	assert '__("{0} on order", [sum(one.committed)])' in overview and "then: one.budget" in overview
+	assert "__(\"No cost types\")" in overview and "$emit('view', 'money')" in overview
+	assert ":y=\"['spent', 'committed', 'left']\"" in overview and "left: Math.max(one.left || 0, 0)" in overview
 
 
 def test_the_money_is_told_and_read():
@@ -2263,3 +2264,23 @@ def test_a_projects_views_are_a_column_on_a_desktop_and_never_over_the_page_head
 	assert "z-10" not in page and page.count("z-[5]") == 2
 	assert page.count("top-[var(--page-head-height,48px)]") == 1
 	assert "lg:max-w-[85rem]': wide" in (tree.ROOT / "frontend" / "src" / "kit" / "Page.vue").read_text()
+
+
+def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budget():
+	src = tree.ROOT / "frontend" / "src"
+	overview = (src / "project" / "Overview.vue").read_text()
+	assert '<Figures :figures="figures" boxed />' in overview and "lg:col-span-2" in overview
+	assert '<Section boxed :title="__(\'Needs You\')"' in overview
+	assert "<DonutChart" in overview and "<ChartCard" in overview and "horizontal stacked" in overview
+	# Colours from frappe-ui's tokens on the island's own root, never hex.
+	assert "useChartTokens(root)" in overview and not re.search(r"#[0-9a-fA-F]{6}", overview)
+	# The ring draws the largest first: the colours are listed in that order.
+	assert ".sort((a, b) => b.n - a.n)" in overview
+	assert not (src / "project" / "Statuses.vue").exists()
+	assert "rounded-4 border border-outline-gray-1 bg-surface-elevation-2" in (src / "kit" / "Figures.vue").read_text()
+	# Every kind charts its tasks and hours, and a late task is Overdue.
+	view = (PROJECT / "view.py").read_text().split("def _overview(", 1)[1].split("\ndef ", 1)[0]
+	assert '"statuses": view["statuses"]' in view and '"weekly": view["weekly"]' in view
+	assert 'said["weekly"]' not in view and 'said["statuses"]' not in view
+	overview_py = (PROJECT / "overview.py").read_text()
+	assert 'statuses["Overdue"] = late' in overview_py

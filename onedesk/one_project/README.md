@@ -206,6 +206,10 @@ the day, who and the hours on **Time**, the person and their open tasks on
 ### Overview
 
 The Overview is laid out for the kind, and each thing on it shows once.
+Its figures are cards across the top. Under them, **Tasks** is a ring of the
+project's tasks by status, a late one counted as **Overdue**, and **Hours by
+Week** is the hours logged in the last twelve weeks. Clicking the ring opens
+**Tasks**.
 
 - **Fixed Price**: **Contract**, **Billed** (how much of the contract is
   invoiced), **Cost** against the budget, and **Forecast Margin**. **Work and
@@ -227,21 +231,21 @@ The Overview is laid out for the kind, and each thing on it shows once.
   the budget, or what's spent and still on order when that's more. Billed
   opens **Invoices**, and Cost and Forecast Margin open **Money**. Under
   them, **Work and Billing** puts the work done beside what's billed and
-  paid, and when the customer was last billed. **Budget** shows each cost
-  type, what's spent and on order against it, and **Other** for the rest,
-  so its rows add up to Numbers. Then **Milestones** (see below). On the
+  paid, and when the customer was last billed. **Budget** charts each cost
+  type, what's spent, on order and left of it, and **Other** for the rest,
+  so its bars add up to the figures. A cost type over its budget is listed
+  under the chart, with how far over. Then **Milestones** (see below). On the
   right, **Subcontracts** and **Retention**.
 - **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
   **Invoiced** and **Budget Used** (or **Done** with no budget). Under them,
-  **Hours by Week**, and **Not Invoiced Yet** by person with **Invoice
+  **Not Invoiced Yet** by person with **Invoice
   Time**. On the right, **By Activity**.
 - **Retainer**: **This Month** against the hours a month, **Monthly Fee**
   and when it renews, **Months Not Invoiced**, and **Invoiced**. Under them,
-  **Months** and **Hours by Week**. On the right, **By Person** and **By
+  **Months**. On the right, **By Person** and **By
   Activity**.
 - **Internal**: **Done**, **Due**, **Overdue Tasks**, and **Budget Used**
-  when it has a budget. Under them, **Tasks** by status, **Milestones** and
-  **Due Soon** (the next two weeks). On the right, **Who's On It**.
+  when it has a budget. Under them, **Milestones** and **Due Soon** (the next two weeks). On the right, **Who's On It**.
 
 A figure turns red when something's wrong: cost heading over budget, a
 margin below zero, more hours than the retainer covers, a late end date.
