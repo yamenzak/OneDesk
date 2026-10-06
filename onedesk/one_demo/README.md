@@ -18,7 +18,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | Step | What it makes |
 |---|---|
 | setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds |
-| people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives |
+| people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
 | masters | 10 customers and 9 suppliers in four currencies, 23 items, prices, activity types, asset categories |
 | stock | The stock the year opened with |
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, euro orders |
@@ -28,7 +28,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
 | books | The bank account, opening balances, rent and utilities each month |
-| hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants and an offer |
+| hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter |
 
 Every record is made the way a click makes it, through frappe's controllers,
 ERPNext's mappers and One's own actions, and by the person whose work it is.
@@ -70,6 +70,9 @@ against ERPNext's own records. It writes nothing.
   report view cell or a Data Import row, as the person who would change it.
   A project with open work is not closed, an internal project bills nobody,
   the books lock up to today at most, and nobody is turned on past the seats.
+- Every notification file is on Settings › Notifications.
+- Every paper that leaves the company prints with One's format, as the owner
+  prints it, under the company's letter head and in its colour.
 
 A failed check names the records behind it. A new feature adds its records
 to the step it belongs to and a check here.

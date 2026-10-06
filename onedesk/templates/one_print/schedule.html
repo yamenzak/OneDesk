@@ -1,0 +1,13 @@
+{%- set b = one_print_block(doc, "schedule") -%}
+{%- if b %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+	{%- for due, said, amount in b.rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827;width:30%">{{ due|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ said|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ amount|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}

@@ -1,0 +1,29 @@
+{%- set b = one_print_block(doc, "totals") -%}
+{%- if b %}
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+	{%- for label, value in b.rows %}
+	<tr>
+		<td style="padding:4px 0;color:#6b7280">{{ label|e }}</td>
+		<td style="padding:4px 0;text-align:right;color:#111827">{{ value|e }}</td>
+	</tr>
+	{%- endfor %}
+	<tr>
+		<td style="padding:9px 0 4px;border-top:1px solid #111827;font-size:14px;font-weight:600;color:#111827">{{ b.total[0]|e }}</td>
+		<td style="padding:9px 0 4px;border-top:1px solid #111827;text-align:right;font-size:16px;font-weight:700;color:{{ b.colour }}">{{ b.total[1]|e }}</td>
+	</tr>
+	{%- for label, value in b.owed %}
+	<tr>
+		<td style="padding:4px 0;color:#6b7280{% if loop.last %};font-weight:600;color:#111827{% endif %}">{{ label|e }}</td>
+		<td style="padding:4px 0;text-align:right;color:#111827{% if loop.last %};font-weight:600{% endif %}">{{ value|e }}</td>
+	</tr>
+	{%- endfor %}
+	{%- if b.base %}
+	<tr>
+		<td style="padding:6px 0 0;color:#6b7280">{{ b.base.label|e }}</td>
+		<td style="padding:6px 0 0;text-align:right;color:#374151">{{ b.base.value|e }}</td>
+	</tr>
+	<tr><td colspan="2" style="padding:0;text-align:right;font-size:10px;color:#9ca3af">{{ b.base.rate|e }}</td></tr>
+	{%- endif %}
+</table>
+{%- if b.words %}<div style="margin-top:8px;font-size:11px;color:#6b7280;text-align:right">{{ b.words|e }}</div>{% endif %}
+{%- endif %}

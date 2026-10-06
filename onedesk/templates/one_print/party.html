@@ -1,0 +1,15 @@
+{%- set b = one_print_block(doc, "party") -%}
+{%- if b %}
+<div style="font-size:12px;line-height:1.55;color:#111827">
+	<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.heading|e }}</div>
+	<div style="font-size:14px;font-weight:600">{{ b.name|e }}</div>
+	{%- for line in b.lines %}<div style="color:#374151">{{ line|e }}</div>{% endfor %}
+	{%- if b.address %}<div style="color:#374151">{{ b.address }}</div>{% endif %}
+	{%- if b.contact %}<div style="color:#374151;margin-top:4px">{{ b.contact|e }}{% if b.email %} · {{ b.email|e }}{% endif %}</div>{% endif %}
+	{%- if b.tax %}<div style="color:#6b7280;margin-top:4px">{{ b.tax|e }}</div>{% endif %}
+	{%- if b.ship %}
+	<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin:12px 0 4px">{{ b.ship_heading|e }}</div>
+	<div style="color:#374151">{{ b.ship }}</div>
+	{%- endif %}
+</div>
+{%- endif %}

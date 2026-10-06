@@ -46,6 +46,9 @@ GRANTS = {
 	"Letter Head": ("read", "write", "create", "delete"),
 	# The builder's Library: saved parts of a layout, checked as a format is.
 	"Print Format Snippet": ("read", "write", "create", "delete"),
+	# The builder's field templates, One's print blocks among them; only a
+	# standard one is placed (validate_format), so they are read and not made.
+	"Print Format Field Template": ("read",),
 	# The builder reads the page size; changing it stays frappe's.
 	"Print Settings": ("read",),
 }

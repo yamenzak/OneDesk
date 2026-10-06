@@ -972,6 +972,34 @@ To add a format:
 A format belongs to one record type. A printed record stays inside its app,
 with that app's sidebar.
 
+**Formats One ships**
+
+Everything that leaves the company prints from a format of ours unless the
+workspace chooses another: One Quotation, One Sales Order, One Sales Invoice,
+One Payment Receipt, One Delivery Note, One Purchase Order, One Request for
+Quotation, One Payslip, One Job Offer and One Appointment Letter. Each prints
+under the default letter head, with its title and total in the company's
+Brand Colour (Workspace › General). To change one, open it in the builder and
+save a copy, which the star then makes the default.
+
+Their blocks are in the builder's **Library**, for any format of the
+workspace's own:
+
+- **One Title**: what the paper is (an invoice, a credit note, a receipt) and
+  its number. A Print Heading chosen on the record replaces it.
+- **One Party**: who it's for, their address, contact and tax ID, and where
+  the goods go when that's somewhere else.
+- **One Details**: its dates and references, the ones that are set.
+- **One Totals**: the subtotal, discount and each tax, the total, what's paid
+  and still owed, the total in the company's currency when the record is in
+  another, and the total in words.
+- **One Payment Schedule** and **One Bank Details**: when it's due, and the
+  company's bank account to pay into, its default one first.
+- **One Payslip**: earnings, deductions and net pay.
+- **One Payment**: the amount and the invoices it settles.
+- **One Signatures**: a line for each side to sign, on a quotation, a
+  delivery note, a job offer and an appointment letter.
+
 In the builder, a format is made of the record's fields, tables, text, images,
 barcodes, the standard field templates and **Custom HTML** blocks.
 

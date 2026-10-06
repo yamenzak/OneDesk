@@ -1,0 +1,11 @@
+{%- set b = one_print_block(doc, "details") -%}
+{%- if b %}
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+	{%- for label, value in b.rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ label|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ value|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}

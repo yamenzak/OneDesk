@@ -1,0 +1,11 @@
+{%- set b = one_print_block(doc, "bank") -%}
+{%- if b %}
+<div style="font-size:12px;line-height:1.6;color:#111827">
+	<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.heading|e }}</div>
+	<table style="border-collapse:collapse">
+		{%- for label, value in b.rows %}
+		<tr><td style="padding:1px 16px 1px 0;color:#6b7280">{{ label|e }}</td><td style="padding:1px 0">{{ value|e }}</td></tr>
+		{%- endfor %}
+	</table>
+</div>
+{%- endif %}

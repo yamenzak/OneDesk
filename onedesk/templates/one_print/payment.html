@@ -1,0 +1,19 @@
+{%- set b = one_print_block(doc, "payment") -%}
+{%- if b %}
+<div style="padding:14px 16px;border:1px solid #e5e7eb;border-radius:8px">
+	<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280">{{ b.label|e }}</div>
+	<div style="font-size:22px;font-weight:700;color:{{ b.colour }};margin-top:2px">{{ b.amount|e }}</div>
+</div>
+{%- if b.rows %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin:14px 0 4px">{{ b.heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+	{%- for kind, name, amount in b.rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ kind|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ name|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ amount|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}
+{%- endif %}

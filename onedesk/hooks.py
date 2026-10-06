@@ -15,6 +15,7 @@ after_sync = [
 	# What after_migrate settles, settled on a new site as well.
 	"onedesk.one.notify.install",
 	"onedesk.one.printing.settle",
+	"onedesk.one.print_blocks.settle",
 	"onedesk.one.mail_templates.settle",
 	"onedesk.one.masters.settle",
 	"onedesk.one.approvals.settle",
@@ -83,6 +84,7 @@ after_migrate = [
 	"onedesk.one.notify.install",
 	# Printing, mail templates, approvals and automations for the workspace administrator: one/printing.py and beside it.
 	"onedesk.one.printing.settle",
+	"onedesk.one.print_blocks.settle",
 	"onedesk.one.mail_templates.settle",
 	# The workspace's masters, for its administrator and the apps' managers. See one/masters.py.
 	"onedesk.one.masters.settle",
@@ -1461,6 +1463,8 @@ after_request = ["onedesk.one_storage.dav.headers"]
 jinja = {
 	"methods": [
 		"onedesk.one.print_html.one_html_block",
+		# What One's print blocks show, in templates/one_print/. See one/print_blocks.py.
+		"onedesk.one.print_blocks.one_print_block",
 		# The portal's tabs, its home and its pills. See one/portal.py.
 		"onedesk.one.portal.one_portal_tabs",
 		"onedesk.one.portal.one_portal_tone",

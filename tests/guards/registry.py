@@ -416,13 +416,37 @@ GUARDS = [
 		"an endpoint writing a field a rule owns with frappe.db.set_value",
 		"tests/guards/test_rules.py::test_no_endpoint_writes_round_a_rule",
 	),
+	# 11 Printed
+	Guard(
+		"print-shipped",
+		11,
+		"a record that leaves the company with no format we ship, laid out in the builder from One's blocks",
+		"tests/guards/test_print.py::test_every_record_that_leaves_has_a_format_we_ship",
+	),
+	Guard(
+		"print-blocks",
+		11,
+		"a block on a shipped format that is not a field template of One's with its template",
+		"tests/guards/test_print.py::test_every_block_is_a_field_template_with_its_template",
+	),
+	Guard(
+		"print-wired",
+		11,
+		"the blocks not reachable from Jinja, or One's formats not made the default after migrate",
+		"tests/guards/test_print.py::test_the_blocks_reach_jinja_and_settle_after_migrate",
+	),
+	Guard(
+		"print-escaped",
+		11,
+		"a block showing a record's value without escaping it",
+		"tests/guards/test_print.py::test_a_template_escapes_what_it_shows",
+	),
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
 PLANNED = {
 	1: "a module with a feature and no demo record or check on it, held as each module is passed over again",
 	3: "a module README without its Connections section (ARC 10)",
-	11: "a record that leaves the company with no shipped print format (ARC 9)",
 	14: "a module with no Intake sample for its records (ARC 10)",
 	17: "a narrative comment of more than a few lines, or a module out of the one layout (ARC 10)",
 }

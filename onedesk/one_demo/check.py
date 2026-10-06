@@ -571,3 +571,22 @@ def the_payment_reminder_is_turned_on_where_every_notification_is():
 	finally:
 		frappe.flags.in_import = False
 	assert frappe.db.get_value("Notification Type", "Payment Reminder", "enabled") == 0
+
+
+@check
+def every_paper_prints_in_the_companys_look():
+	"""Each record that leaves the company prints with One's format by default,
+	as the owner prints it, under the company's letter head and in its colour."""
+	from onedesk.one import print_blocks
+
+	colour = frappe.db.get_value("Company", COMPANY, "one_brand_colour")
+	assert colour, "the demo company has no Brand Colour"
+	assert frappe.db.get_value("Letter Head", {"is_default": 1}) == COMPANY
+	for doctype, (name, _module) in print_blocks.FORMATS.items():
+		assert frappe.get_meta(doctype).default_print_format == name, doctype
+		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2]}, order_by="creation desc", limit=1, pluck="name")
+		assert record, f"the demo has no {doctype}"
+		with as_user(OWNER):
+			html = frappe.get_print(doctype, record[0], name)
+		title = str(print_blocks.title(frappe.get_doc(doctype, record[0]))["title"])
+		assert title in html and colour in html and record[0] in html, f"{doctype} {record[0]}"

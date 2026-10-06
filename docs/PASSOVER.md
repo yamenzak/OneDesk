@@ -364,14 +364,36 @@ Foundations done so far:
     one.
   - Reports by mail, and frappe's own password reset link and sign-in code.
     They are listed as mailed by frappe.
+- **Printed**: every record that leaves the company prints from a format we
+  ship. The quotation, the sales order, the invoice, the receipt, the
+  delivery note, the purchase order, the request for quotation, the payslip,
+  the job offer and the appointment letter are each laid out in frappe's
+  print format builder (`print_format/` in each module), so a workspace opens
+  one there, changes it or copies it. What the builder can't say is One's
+  print blocks, frappe's own field templates, in the builder's Library for
+  any format (`one/print_blocks.py`): the title in the company's Brand
+  Colour, who it is for, its dates, the totals with what is paid and owed and
+  the total in the company's currency, when it is due, where to pay, a
+  payslip's pay, what a payment settles, and where each side signs. One's
+  format is the default unless the workspace chose another. Guarded
+  (`tests/guards/test_print.py`), and the demo prints every one as the owner,
+  under the company's letter head and in its colour. Found on the way:
+  - The demo company had no Brand Colour, contact details or letter head.
+    Its owner now sets them on General and Printing, as a new workspace
+    does.
+  - A workspace administrator's builder showed every field template as
+    "Couldn't render", since only whoever set the workspace up could read
+    them. Printing grants them to read now.
+  - **Still open**: a report that leaves the company. The Statement of
+    Accounts prints from ERPNext's own template.
 
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the
    tier registry, formats from frappe, the record frame and places on the
    project page, the demo company and its suite, rules on the server,
-   notifications in one place (done), shipped print formats, hand-offs, Intake
-   samples and the code cleanup.
+   notifications in one place, shipped print formats (done), hand-offs,
+   Intake samples and the code cleanup.
 2. **Project templates**, right after:
    - **The page**: Templates in the OneProject rail; a template opens in the
      Tasks table in template mode ("Day 12 · 5 days"), added, renamed, nested,

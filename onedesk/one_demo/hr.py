@@ -267,5 +267,58 @@ def _hiring():
 					"company": COMPANY,
 					"offer_date": ago(3),
 					"status": "Awaiting Response",
+					"offer_terms": [{"offer_term": _term(term), "value": value} for term, value in OFFER],
+					"terms": "<p>This offer stands for fourteen days. It starts once your visa and labour card are issued, and is subject to references and a medical check.</p>",
 				}
 			)
+			make(
+				{
+					"doctype": "Appointment Letter",
+					"job_applicant": applicant.name,
+					"applicant_name": name,
+					"company": COMPANY,
+					"appointment_date": ahead(30),
+					"appointment_letter_template": _appointment(),
+				}
+			)
+
+
+#: What the demo's offer sets out, as a hiring manager writes it.
+OFFER = (
+	("Monthly Salary", "AED 16,000"),
+	("Housing Allowance", "AED 4,000 a month"),
+	("Annual Leave", "30 days a year"),
+	("Probation", "Six months"),
+	("Working Hours", "Monday to Saturday, 8:00 to 17:00"),
+)
+
+
+#: What the demo's appointment letter sets out.
+APPOINTED = (
+	("Reporting To", "Samir Aoun, Projects Manager"),
+	("Place of Work", "Our site projects across Dubai, and the workshop in Dubai Investments Park"),
+	("Pay", "As in your offer, paid on the last working day of each month"),
+	("Notice", "One month on either side once probation ends"),
+)
+
+
+def _appointment():
+	"""The template the demo's letters are written from, as the people officer keeps it."""
+	name = "Site Staff"
+	if not frappe.db.exists("Appointment Letter Template", name):
+		make(
+			{
+				"doctype": "Appointment Letter Template",
+				"template_name": name,
+				"introduction": f"We are glad to appoint you at {COMPANY}, on the terms of the offer you accepted.",
+				"terms": [{"title": term, "description": value} for term, value in APPOINTED],
+				"closing_notes": "Please sign a copy of this letter and bring it on your first day. We look forward to working with you.",
+			}
+		)
+	return name
+
+
+def _term(name):
+	if not frappe.db.exists("Offer Term", name):
+		make({"doctype": "Offer Term", "offer_term": name})
+	return name

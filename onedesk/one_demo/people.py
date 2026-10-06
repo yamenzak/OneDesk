@@ -94,6 +94,30 @@ def run(password=None):
 		if boss:
 			frappe.db.set_value("Employee", made[first], "reports_to", made[boss])
 	_agree()
+	_look()
+
+
+#: What the owner fills in on Workspace › General, for every paper the company sends.
+LOOK = {
+	"one_brand_colour": "#0E6E8C",
+	"phone_no": "+971 4 885 2210",
+	"email": "hello@saharaglass.test",
+	"website": "saharaglass.test",
+	"tax_id": "100234567800003",
+	"address_line1": "Plot 597-1024, Dubai Investments Park 2",
+	"city": "Dubai",
+}
+
+
+def _look():
+	"""The company's look and its letter head, set by the owner as a new
+	workspace sets them: Workspace › General, then Printing."""
+	from onedesk.one import printing, settings
+
+	with _as(OWNER):
+		settings.save("general", LOOK)
+		if not frappe.db.exists("Letter Head", COMPANY):
+			printing.save_letter_head({"letter_head_name": COMPANY, "is_default": 1})
 
 
 def _abbr():

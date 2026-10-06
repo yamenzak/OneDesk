@@ -1,0 +1,12 @@
+{%- set b = one_print_block(doc, "title") -%}
+<table style="width:100%;border-collapse:collapse;border-bottom:2px solid {{ b.colour }};margin-bottom:6px">
+	<tr>
+		<td style="vertical-align:bottom;padding:0 0 10px 0">
+			<span style="font-size:24px;font-weight:600;letter-spacing:-0.01em;color:{{ b.colour }}">{{ b.title|e }}</span>
+		</td>
+		<td style="vertical-align:bottom;text-align:right;padding:0 0 10px 0">
+			<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280">{{ b.label|e }}</div>
+			<div style="font-size:14px;font-weight:600;color:#111827">{{ b.name|e }}</div>
+		</td>
+	</tr>
+</table>

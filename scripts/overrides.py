@@ -144,6 +144,20 @@ OVERRIDES = [
 		"{{ frappe.render_template(df.html, {'doc': doc}) }}",
 	),
 	(
+		"One's print blocks print through frappe's field template macro",
+		"a standard Print Format Field Template is drawn from its template_file; One's blocks are standard field templates whose files call one_print_block, and their text includes the same file so the builder's canvas shows them",
+		"onedesk/one/print_blocks.py",
+		"frappe/frappe/templates/print_format/macros/FieldTemplate.html",
+		"{{ frappe.render_template(template.template_file if template.standard else template.template, {'doc': doc}) }}",
+	),
+	(
+		"One's formats replace the default ERPNext sets when it is installed",
+		"ERPNext makes its Modern with Images formats the default as a system-generated property setter; print_blocks.settle reads such a row as nobody's choice and sets One's format, and leaves a format the workspace chose",
+		"onedesk/one/print_blocks.py",
+		"erpnext/erpnext/setup/install.py",
+		"def set_default_print_formats():",
+	),
+	(
 		"The sandbox is One's, not frappe's render globals",
 		"frappe renders a template with globals that read any table and fetch any address; print_html renders a workspace's block in an ImmutableSandboxedEnvironment holding only the record and _()",
 		"onedesk/one/print_html.py",

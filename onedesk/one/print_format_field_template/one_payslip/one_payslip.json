@@ -1,0 +1,15 @@
+{
+ "creation": "2026-10-07 00:36:58.273251",
+ "docstatus": 0,
+ "doctype": "Print Format Field Template",
+ "document_type": "Salary Slip",
+ "idx": 0,
+ "modified": "2026-10-06 20:47:43.345611",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "One Payslip",
+ "owner": "Administrator",
+ "standard": 1,
+ "template": "{% include \"templates/one_print/payslip.html\" %}",
+ "template_file": "templates/one_print/payslip.html"
+}
