@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 17:21+0000\n"
-"PO-Revision-Date: 2026-10-06 17:21+0000\n"
+"POT-Creation-Date: 2026-10-06 18:43+0000\n"
+"PO-Revision-Date: 2026-10-06 18:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -815,7 +815,7 @@ msgid "A series is parts joined by dots. Text stays as written, such as INV- or 
 msgstr "Eine Serie besteht aus Teilen, die durch Punkte verbunden sind. Text bleibt, wie er geschrieben ist, etwa INV- oder SO/."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
-#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:82
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:85
 msgid "A sheet covers at most {0} days."
 msgstr "Ein Blatt umfasst höchstens {0} Tage."
 
@@ -1516,7 +1516,7 @@ msgstr "Zum Tarif hinzufügen"
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
 
-#: frontend/src/kit/Record.vue:116 onedesk/one/page/masters/masters.js:130
+#: frontend/src/kit/Record.vue:111 onedesk/one/page/masters/masters.js:130
 #: onedesk/public/js/project_tree.js:32
 msgid "Add {0}"
 msgstr "{0} hinzufügen"
@@ -4369,7 +4369,7 @@ msgstr "Wählen Sie zuerst eine Datei."
 msgid "Choose a folder."
 msgstr "Wählen Sie einen Ordner."
 
-#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:84
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:87
 msgid "Choose a month and a year."
 msgstr "Wählen Sie Monat und Jahr."
 
@@ -7083,7 +7083,7 @@ msgstr "Emirat"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:18
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:233
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
-#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:169
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_inventory/heads.py:271
@@ -7744,7 +7744,7 @@ msgstr "Auslagenübersicht"
 msgid "Expenses"
 msgstr ""
 
-#: onedesk/one_project/billing.py:501
+#: onedesk/one_project/billing.py:504
 msgid "Expenses · {0}"
 msgstr "Auslagen · {0}"
 
@@ -7948,7 +7948,7 @@ msgstr "Das Erscheinungsbild konnte nicht gesetzt werden"
 msgid "Failed to set the working day"
 msgstr "Der Arbeitstag konnte nicht eingerichtet werden"
 
-#: onedesk/one/setup_wizard.py:16
+#: onedesk/one/setup_wizard.py:16 onedesk/one/setup_wizard.py:31
 msgid "Failed to set up One"
 msgstr "One konnte nicht eingerichtet werden"
 
@@ -19322,7 +19322,7 @@ msgid "Set only what this add-on adds."
 msgstr "Nur festlegen, was dieses Add-on hinzufügt."
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:67
-#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:78
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:81
 msgid "Set the date range."
 msgstr "Legen Sie den Zeitraum fest."
 
@@ -22179,7 +22179,7 @@ msgid "The software One is built from, and the licences it carries."
 msgstr "Die Software, aus der One besteht, und ihre Lizenzen."
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:69
-#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:80
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:83
 msgid "The start date is after the end date."
 msgstr "Das Startdatum liegt nach dem Enddatum."
 
@@ -22489,7 +22489,7 @@ msgstr "Es gibt nichts einzuchecken: Sie sind heute {0}."
 msgid "There is nothing to save here."
 msgstr "Hier gibt es nichts zu speichern."
 
-#: onedesk/one_book/currency.py:42
+#: onedesk/one_book/currency.py:60
 msgid "There's no exchange rate from {0} to {1}. Add one in Currency Exchange."
 msgstr "Es gibt keinen Wechselkurs von {0} zu {1}. Fügen Sie einen unter Währungs-Umrechnung hinzu."
 
@@ -22944,7 +22944,7 @@ msgstr "Kacheln"
 #: frontend/src/project/ProjectPage.vue:185 frontend/src/project/Time.vue:9
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/one_project/billing.py:123 onedesk/one_project/custom/project.json
+#: onedesk/one_project/billing.py:117 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:195
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -28184,7 +28184,7 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr "{0} und {1} sind nicht in derselben Zone."
 
-#: onedesk/one_project/billing.py:560
+#: onedesk/one_project/billing.py:563
 msgid "{0} and {1} more"
 msgstr "{0} und {1} weitere"
 
@@ -28562,7 +28562,8 @@ msgstr "{0} geht über {1}, das keine Verknüpfung ist."
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "{0} reicht bereits bis {1}, daher kann sie nur auf {1} oder mehr gesetzt werden."
 
-#: frontend/src/kit/desk.js:31 onedesk/one_project/view.py:429
+#: frontend/src/kit/desk.js:31 onedesk/one_project/billing.py:432
+#: onedesk/one_project/view.py:429
 #: onedesk/templates/includes/timesheet/timesheet_row.html:12
 msgid "{0} h"
 msgstr "{0} Std."
@@ -28757,7 +28758,7 @@ msgstr "{0} ist ein Standardordner und kann nicht geändert werden."
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr "{0} ist ein Standardformat. Es kann nur als Standard festgelegt oder ausgeschaltet werden."
 
-#: onedesk/one_project/billing.py:545
+#: onedesk/one_project/billing.py:548
 msgid "{0} is a sub-project of {1}."
 msgstr "{0} ist jetzt ein Unterprojekt von {1}."
 

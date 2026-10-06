@@ -194,3 +194,22 @@ def test_the_year_is_closed_into_retained_earnings_and_then_locked():
 	close = _body(BOOK / "closing.py", "close_year")
 	assert "retained_earnings(company)" in close and "accounts_frozen_till_date" in close
 	assert "'close'" in _body(READY, "fix")
+
+
+def test_an_accounts_manager_can_add_a_bank():
+	"""Add Bank makes the bank first, and ERPNext lets only a System Manager
+	add one, which nobody in a workspace is."""
+	ready = READY.read_text(encoding="utf-8")
+	assert '"doctype": "Bank", "bank_name"' in ready
+	access = (BOOK / "access.py").read_text(encoding="utf-8")
+	given = access[access.index("GIVEN = {") :].split("\n}\n")[0]
+	bank = next(line for line in given.splitlines() if line.strip().startswith('"Bank":'))
+	assert "MANAGER" in bank and '"create"' in bank
+
+
+def test_what_is_owed_is_in_the_companys_currency():
+	"""ERPNext keeps what is outstanding in the party's currency, so the home
+	turns a party billed in dollars into the company's at the invoice's rate."""
+	home = (BOOK / "home.py").read_text(encoding="utf-8")
+	unpaid = home[home.index("def _unpaid") :].split("\n\n\n")[0]
+	assert "party_account_currency" in unpaid and "conversion_rate" in unpaid

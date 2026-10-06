@@ -13,14 +13,6 @@
   {
    "doc_type": "Timesheet",
    "doctype_or_field": "DocField",
-   "field_name": "currency",
-   "property": "hidden",
-   "property_type": "Check",
-   "value": "1"
-  },
-  {
-   "doc_type": "Timesheet",
-   "doctype_or_field": "DocField",
    "field_name": "exchange_rate",
    "property": "hidden",
    "property_type": "Check",

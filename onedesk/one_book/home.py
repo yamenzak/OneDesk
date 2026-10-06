@@ -67,12 +67,23 @@ def profit_this_month(filters: str | None = None) -> dict:
 
 
 def _unpaid(doctype: str) -> list:
-	return frappe.get_list(
+	"""What each still owes, in the company's currency. ERPNext keeps it in
+	the party's, so an invoice in dollars to a party billed in dollars is
+	turned at the invoice's own rate."""
+	from erpnext import get_company_currency
+
+	company = _company()
+	ours = get_company_currency(company)
+	rows = frappe.get_list(
 		doctype,
-		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": _company()},
-		fields=["outstanding_amount", "due_date"],
+		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": company},
+		fields=["outstanding_amount", "due_date", "conversion_rate", "party_account_currency"],
 		limit=0,
 	)
+	for row in rows:
+		if row.party_account_currency and row.party_account_currency != ours:
+			row.outstanding_amount = flt(row.outstanding_amount) * flt(row.conversion_rate or 1)
+	return rows
 
 
 def outstanding(rows: list, until=None) -> float:

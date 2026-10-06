@@ -329,11 +329,67 @@ GUARDS = [
 		"a place in one_studio/places.py that no page fires",
 		"tests/test_studio.py::test_each_page_fires_its_events_with_only_its_powers",
 	),
+	# 15 Permissions
+	Guard(
+		"answers-kept",
+		15,
+		"an Approve or Reject whose verdict frappe can put back for an approver without the field's level",
+		"tests/guards/test_decisions.py::test_every_answer_carries_its_verdict_through_the_save",
+	),
+	Guard(
+		"answers-set-again",
+		15,
+		"an answered record that does not set the verdict again before it validates",
+		"tests/guards/test_decisions.py::test_every_answered_record_sets_the_verdict_again_before_it_validates",
+	),
+	# 1 Demo coverage
+	Guard(
+		"install-hidden-mandatory",
+		1,
+		"a shipped customization hiding a mandatory field, which stops a new site installing",
+		"tests/guards/test_install.py::test_no_shipped_customization_hides_a_mandatory_field",
+	),
+	Guard(
+		"install-after-sync",
+		1,
+		"setup run in after_install, before the app's custom fields exist",
+		"tests/guards/test_install.py::test_install_hooks_run_after_the_custom_fields_exist",
+	),
+	Guard(
+		"install-settled",
+		1,
+		"something after_migrate sets up that a new site never gets",
+		"tests/guards/test_install.py::test_a_new_site_is_settled_as_a_migrated_one_is",
+	),
+	Guard(
+		"install-after-wizard",
+		1,
+		"a new workspace not settled once the setup wizard has made its company",
+		"tests/guards/test_install.py::test_a_new_workspace_is_settled_once_its_company_exists",
+	),
+	Guard(
+		"demo-steps",
+		1,
+		"a demo step not built, or not in the demo's README",
+		"tests/guards/test_demo.py::test_every_step_is_built_and_written_down",
+	),
+	Guard(
+		"demo-apps",
+		1,
+		"an app People gives that nobody in the demo company is given",
+		"tests/guards/test_demo.py::test_every_app_people_gives_is_given_to_somebody_in_the_demo",
+	),
+	Guard(
+		"demo-suite",
+		1,
+		"an integration suite that writes, or checks next to nothing",
+		"tests/guards/test_demo.py::test_the_suite_checks_and_writes_nothing",
+	),
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
 PLANNED = {
-	1: "a module with a feature and no demo record or integration test on it (the demo company, ARC 6)",
+	1: "a module with a feature and no demo record or check on it, held as each module is passed over again",
 	2: "a rule decided in an endpoint or a button rather than the record's own hooks (ARC 7)",
 	3: "a module README without its Connections section (ARC 10)",
 	11: "a record that leaves the company with no shipped print format (ARC 9)",

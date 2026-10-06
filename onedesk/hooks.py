@@ -8,8 +8,27 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 
 # The site wears One from its first boot and carries nobody else's navbar rows or
 # checklists; after that all of it is the tenant's, in Website and Navbar Settings.
-after_install = [
+# frappe runs these when the app is installed, after its custom fields are
+# synced (after_install runs before them, and much of this reads them).
+after_sync = [
 	"onedesk.one.roles.ensure",
+	# What after_migrate settles, settled on a new site as well.
+	"onedesk.one.notify.install",
+	"onedesk.one.printing.settle",
+	"onedesk.one.mail_templates.settle",
+	"onedesk.one.masters.settle",
+	"onedesk.one.approvals.settle",
+	"onedesk.one.automations.settle",
+	"onedesk.one.numbering.settle",
+	"onedesk.one.reports.settle",
+	"onedesk.one.recycle.settle",
+	"onedesk.one.audit.settle",
+	"onedesk.one.webhooks.settle",
+	"onedesk.one.announcements.settle",
+	"onedesk.one.privacy.settle",
+	"onedesk.one_calendar.tell.install",
+	"onedesk.one.head.install",
+	"onedesk.one_intake.search.index",
 	# Storage is what a tenant pays for, not file size.
 	"onedesk.one_storage.store.unlimit",
 	# Portal Settings rows One has no use for. See one/portal.py.
@@ -469,7 +488,10 @@ doc_events = {
 		"on_submit": "onedesk.one_project.tell.hours_used",
 	},
 	# The third request doctype, answered like the other two. See one_hr/leave.py.
-	"Leave Application": {"before_submit": "onedesk.one_hr.leave.before_submit"},
+	"Leave Application": {
+		"before_validate": "onedesk.one_hr.decision.kept",
+		"before_submit": "onedesk.one_hr.leave.before_submit",
+	},
 	"Expense Claim": {
 		"before_validate": "onedesk.one_hr.expense.before_validate",
 		"before_submit": "onedesk.one_hr.expense.before_submit",

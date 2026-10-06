@@ -46,7 +46,7 @@ def test_every_way_in_is_hooked():
 	assert '"after_insert": "onedesk.one_crm.capture.assigned"' in HOOKS.split('"ToDo": {', 1)[1].split('}', 1)[0]
 	for doctype in ("Communication", "Call Log"):
 		assert '"onedesk.one_crm.capture.replied"' in HOOKS.split(f'"{doctype}": {{', 1)[1].split("}", 1)[0], doctype
-	assert '"onedesk.one_crm.capture.defaults"' in HOOKS.split("after_migrate")[0], "on install only"
+	assert '"onedesk.one_crm.capture.defaults"' in HOOKS.split("after_migrate = [")[0], "on install only"
 
 
 def test_the_web_form_writes_only_what_a_lead_has():

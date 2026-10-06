@@ -114,15 +114,7 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 	bill_in(invoice, "Customer", source.customer)
 	rows = in_currency(rows, invoice.currency)
 	for line in lines(rows):
-		invoice.append(
-			"items",
-			{
-				"item_code": item,
-				"qty": line["hours"],
-				"rate": line["rate"],
-				"description": line["activity"] or _("Time"),
-			},
-		)
+		invoice.append("items", hours_line(item, line["hours"], line["rate"], line["activity"] or _("Time")))
 	# What was bought for it, at cost plus the project's markup, in the
 	# currency the customer is billed in.
 	rate = currency_rate(_company_currency(project), invoice.currency) if found else 1
@@ -429,6 +421,17 @@ def _rows(project: str) -> list:
 			continue
 		found.extend(get_projectwise_timesheet_data(project=one))
 	return found
+
+
+def hours_line(item: str, hours: float, rate: float, description: str) -> dict:
+	"""An invoice line for hours. An item counted in whole units, such as a
+	visit in Nos, takes them as one line priced in full, the hours said in
+	its description, as ERPNext refuses part of a whole unit."""
+	uom = frappe.get_cached_value("Item", item, "stock_uom")
+	if flt(hours) % 1 and frappe.get_cached_value("UOM", uom, "must_be_whole_number"):
+		hours_said = _("{0} h").format(f"{flt(hours, 2):g}")
+		return {"item_code": item, "qty": 1, "rate": flt(flt(hours, 2) * flt(rate), 2), "description": f"{description} ({hours_said})"}
+	return {"item_code": item, "qty": flt(hours, 2), "rate": rate, "description": description}
 
 
 def _last_item(costs: bool = False) -> str | None:

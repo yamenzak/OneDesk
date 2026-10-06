@@ -285,12 +285,48 @@ Foundations done so far:
 - **Places on the page**: OneStudio extensions reach the project page
   (`oneproject.project`), and those written for a Project's head run there
   too. Points 6 and 7 are now guarded (`tests/guards/test_frame.py`).
+- **The demo company** (`onedesk/one_demo`, its README): Sahara Glass &
+  Aluminium, a year of a Dubai glazing contractor, built on a new site in
+  twelve steps by the people whose work each record is. The integration
+  suite (`one_demo/check.py`) reads it back as them. Building it on a new
+  site found these, now fixed:
+  - A new site stopped installing. System Settings refused to save, the
+    install hooks ran before One's own fields existed, three of One's
+    customizations hid fields ERPNext requires, and the names of the mail
+    accounts were sent while the site was still being made. The install now
+    runs after the fields are synced and does everything a migrate does
+    (`tests/guards/test_install.py`).
+  - A new workspace could not run payroll until its first migrate. Much of
+    what the install sets up is about the company, and the setup wizard
+    makes the company afterwards. One's own wizard stage now runs it all
+    again once the company exists.
+  - Nobody on a workspace could add a bank, so OneBook's own Add Bank
+    stopped for everybody. An accounts manager adds one now.
+  - A project page did not open for its team once its customer had an
+    account of its own (a customer billed in euros, say). ERPNext asks
+    whether the reader may open that ledger account just to learn the
+    currency. One reads the currency without asking.
+  - Invoice Month refused a retainer whose item is counted in whole units
+    (a visit, in Nos) when the hours over came to a part of an hour. Hours
+    on such an item now go on one line priced in full, the hours in its
+    description. Invoice Time does the same.
+  - **Reject approved.** The approver an expense claim or a leave
+    application names often holds no HR role, and frappe put the verdict
+    back for them, since the field is above their level. The record came
+    back unanswered, and the submit read that as a yes, so their Reject
+    approved it. One's Approve and Reject now carry the verdict through the
+    save (`tests/guards/test_decisions.py`).
+  - The books' home added what customers owe in dollars as if it were
+    dirhams. It is turned into the company's currency now.
+  - Storage Check did not run for a workspace administrator.
+  - Monthly Attendance broke when run without a month picked, as from a
+    scheduled mail.
 
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the
    tier registry, formats from frappe, the record frame and places on the
-   project page, the demo company and its suite, rules on the server,
+   project page, the demo company and its suite (done), rules on the server,
    notifications in one place, shipped print formats, hand-offs, Intake
    samples and the code cleanup.
 2. **Project templates**, right after:
@@ -311,6 +347,22 @@ Noticed along the way, for the screen it belongs to:
 
 - **Sign-in**: says "288 sessions" for the administrator. That counts every
   session ever left open, not the devices a person uses.
+- **Access, for ARC 7**: found building the demo, each worked around there
+  the way a workspace would.
+  - hrms keeps everybody with an employee record to their own records, so a
+    project manager cannot log or approve the crew's time and the books
+    cannot see the timesheets they invoice. ERPNext's answer is the
+    employee's Create User Permission box. The demo unticks it for whoever
+    manages an app, and People could do that when it makes somebody a
+    manager.
+  - No app of One's gives ERPNext's manufacturing roles, so bills of
+    materials and work orders are made by whoever set the workspace up.
+  - A project manager cannot set a budget by cost type. ERPNext's Budget is
+    the books'.
+  - Assigning a maintenance task to somebody who cannot open it needs the
+    right to share it, which no level of One's gives.
+  - A project manager cannot make the invoices for a project's time, and the
+    books cannot read the project to make them. The owner makes them.
 
 ## Settings
 

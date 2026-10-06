@@ -34,6 +34,7 @@ REJECTED = "Rejected"
 
 
 def before_validate(doc, method=None) -> None:
+	decision.kept(doc)
 	_company(doc)
 	doc.one_when = hours(doc.shift_type)
 
@@ -115,7 +116,7 @@ def _answer(name: str, verdict: str, note) -> None:
 	if doc.docstatus != 0:
 		frappe.throw(_("Only a request still waiting can be answered."))
 
-	doc.status = verdict
+	decision.carry(doc, "status", verdict)
 	doc.one_note = note or ""
 	doc.submit()
 

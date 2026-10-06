@@ -213,7 +213,7 @@ def test_a_workspace_holds_no_copy_of_the_instruction():
 	assert '"instruction", ""' in said
 
 	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
-	for when in ("after_install", "after_migrate"):
+	for when in ("after_sync", "after_migrate"):
 		at = hooks.index(when)
 		block = hooks[at : hooks.index("]", at)]
 		assert "onedesk.one_ai.instructions.trim" in block, f"{when} does not trim"

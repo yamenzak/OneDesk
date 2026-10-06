@@ -10,6 +10,15 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Job Offer",
+   "doctype_or_field": "DocField",
+   "field_name": "applicant_name",
+   "name": "Job Offer-applicant_name-reqd",
+   "property": "reqd",
+   "property_type": "Check",
+   "value": "0"
   }
  ],
  "sync_on_migrate": 1

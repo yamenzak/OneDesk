@@ -306,7 +306,7 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	source = (PROJECT / "templates.py").read_text()
 	assert '"is_milestone", "expected_time"' in source and '"one_steps"' in _body(source, "task_made")
 	assert '"onedesk.one_project.templates.task_made"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
-	assert HOOKS.count('"onedesk.one_project.templates.settle"') == 2, "after_install and after_migrate"
+	assert HOOKS.count('"onedesk.one_project.templates.settle"') == 2, "after_sync and after_migrate"
 	assert "doc.is_template" in _body((TASK / "capture.py").read_text(), "task_made"), "nobody's work"
 	access = (TASK / "access.py").read_text()
 	assert (
@@ -2414,3 +2414,15 @@ def test_a_whole_jobs_milestones_are_a_row_per_part():
 	assert '<MilestoneLanes v-if="view.milestones.lanes?.length"' in (src / "Overview.vue").read_text()
 	vue = (src / "MilestoneLanes.vue").read_text()
 	assert "<Tooltip" in vue and '__("Today")' in vue and '<Rows class="md:hidden"' in vue
+
+
+def test_hours_on_an_invoice_respect_a_whole_unit():
+	"""A retainer's fee item is usually a visit or a month, counted in Nos;
+	its hours over, and Invoice Time's, go through one line maker that
+	never asks ERPNext for part of a whole unit."""
+	billing = (PROJECT / "billing.py").read_text(encoding="utf-8")
+	retainer = (PROJECT / "retainer.py").read_text(encoding="utf-8")
+	maker = billing[billing.index("def hours_line") :].split("\n\n\n")[0]
+	assert "must_be_whole_number" in maker
+	assert "hours_line(item, line[\"hours\"]" in billing
+	assert "billing.hours_line(" in retainer and '"qty": round(extra' not in retainer

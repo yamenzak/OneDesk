@@ -50,4 +50,7 @@ def apply() -> None:
 		settings = frappe.get_single(doctype)
 		for field, value in values.items():
 			settings.set(field, value)
+		# On a new site this runs before the setup wizard has asked for
+		# System Settings' language and time zone.
+		settings.flags.ignore_mandatory = True
 		settings.save(ignore_permissions=True)

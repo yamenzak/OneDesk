@@ -25,9 +25,23 @@ def get_setup_stages(args=None):
 					"args": args,
 					"fail_msg": frappe._("Failed to set the working day"),
 				},
+				{
+					"fn": settle,
+					"args": args,
+					"fail_msg": frappe._("Failed to set up One"),
+				},
 			],
 		}
 	]
+
+
+def settle(args=None):
+	"""Everything an install sets up, again once the wizard has made the
+	company. Much of it is about the company (its accounts, its fiscal year,
+	its letter head), and a new site has none until now, so without this a
+	workspace waits for its first migrate. Each is safe to run twice."""
+	for method in frappe.get_hooks("after_sync", app_name="onedesk"):
+		frappe.get_attr(method)()
 
 
 def set_appearance(args):

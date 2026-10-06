@@ -118,7 +118,7 @@ def signed(key: str, filename: str | None = None, inline: bool = True) -> str:
 
 
 def unlimit() -> None:
-	"""after_install and after_migrate: the attach button's size limit
+	"""after_sync and after_migrate: the attach button's size limit
 	(System Settings, in MB) raised to LARGEST. The limit on every other
 	request is the site's config, which admin writes when it builds the site."""
 	wanted = LARGEST // (1024 * 1024)

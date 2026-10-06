@@ -25,7 +25,7 @@ import tree
 CALLABLE_HOOKS = (
 	"scheduler_events",
 	"doc_events",
-	"after_install",
+	"after_sync",
 	"after_migrate",
 	"override_whitelisted_methods",
 	"on_session_creation",

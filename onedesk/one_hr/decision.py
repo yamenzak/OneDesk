@@ -33,6 +33,23 @@ def may_decide(doc) -> None:
 		)
 
 
+def carry(doc, field: str, verdict: str) -> None:
+	"""The verdict One's own Approve or Reject sets, kept through the save.
+	frappe puts back any field the person may not write at its level, and the
+	approver a record names often holds no HR role, so a Reject came back as
+	unanswered and the submit then read it as a yes. `kept` sets it again."""
+	doc.set(field, verdict)
+	doc.flags.one_verdict = (field, verdict)
+
+
+def kept(doc, method=None) -> None:
+	"""before_validate, which runs after frappe's reset: the verdict `carry`
+	set, back on the record."""
+	if doc.flags.get("one_verdict"):
+		field, verdict = doc.flags.one_verdict
+		doc.set(field, verdict)
+
+
 def sign(doc, note=None) -> None:
 	"""Stamp the decision onto a document that is about to be saved."""
 	doc.one_decided_by = frappe.session.user

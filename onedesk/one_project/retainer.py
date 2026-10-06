@@ -256,14 +256,12 @@ def invoice_month(source_name: str, month: str | None = None, item: str | None =
 	if overage and extra and rate(billable):
 		invoice.append(
 			"items",
-			{
-				"item_code": item,
-				"qty": round(extra, 2),
-				"rate": rate(billable),
-				"description": _("Hours over the {0} h a month").format(
-					f"{flt(doc.get('one_monthly_hours'), 1):g}"
-				),
-			},
+			billing.hours_line(
+				item,
+				extra,
+				rate(billable),
+				_("Hours over the {0} h a month").format(f"{flt(doc.get('one_monthly_hours'), 1):g}"),
+			),
 		)
 	for row in billable:
 		invoice.append(

@@ -1,0 +1,141 @@
+"""The people: the owner who paid for the workspace, the team invited from
+People with the apps their work needs, and everybody on the payroll as an
+employee, office and workshop alike."""
+
+import frappe
+from frappe.utils.password import update_password
+
+from onedesk.one_demo.base import COMPANY, make, on, tag
+
+OWNER = "wsadmin@one.test"
+APPS = ("OneCRM", "OneBook", "OneInventory", "OneProject", "OneHR")
+
+#: first, last, email, department, designation, gender, joined, monthly pay,
+#: reports to (by first name), what they may use.
+PEOPLE = (
+	("Layla", "Haddad", OWNER, "Management", "General Manager", "Female", (2019, 3, 1), 42000, None, dict.fromkeys(APPS, "Manager")),
+	("Samir", "Aoun", "samir@one.test", "Projects", "Projects Manager", "Male", (2020, 6, 14), 28000, "Layla", {"OneProject": "Manager", "OneCRM": "User", "OneInventory": "User"}),
+	("Omar", "Farouk", "omar@one.test", "Sales", "Sales Manager", "Male", (2021, 1, 10), 24000, "Layla", {"OneCRM": "Manager", "OneProject": "User", "OneBook": "User"}),
+	("Huda", "Nasser", "huda@one.test", "Accounts", "Accountant", "Female", (2021, 9, 1), 18000, "Layla", {"OneBook": "Manager", "OneInventory": "User", "OneProject": "User"}),
+	("Karim", "Mansour", "karim@one.test", "Purchase", "Procurement Officer", "Male", (2022, 2, 20), 15000, "Samir", {"OneInventory": "Manager", "OneBook": "User", "OneProject": "User"}),
+	("Mariam", "Saleh", "mariam@one.test", "Human Resources", "HR Officer", "Female", (2022, 5, 3), 15000, "Layla", {"OneHR": "Manager"}),
+	("Rania", "Sabbagh", "rania@one.test", "Projects", "Site Engineer", "Female", (2022, 8, 15), 16000, "Samir", {"OneProject": "User", "OneInventory": "User"}),
+	("Nadia", "Khoury", "nadia@one.test", "Design", "Designer", "Female", (2023, 3, 1), 14000, "Samir", {"OneProject": "User"}),
+	("Tariq", "Haidar", "tariq@one.test", "Workshop", "Workshop Supervisor", "Male", (2020, 11, 2), 12000, "Samir", {"OneProject": "User", "OneInventory": "User"}),
+	("Yousef", "Bakr", "yousef@one.test", "Workshop", "Installer", "Male", (2023, 7, 9), 6500, "Tariq", {"OneInventory": "User"}),
+	("Arun", "Kumar", None, "Workshop", "Fabricator", "Male", (2021, 4, 12), 4800, "Tariq", None),
+	("Ravi", "Menon", None, "Workshop", "Fabricator", "Male", (2022, 1, 17), 4500, "Tariq", None),
+	("Joseph", "Mathew", None, "Workshop", "Glazier", "Male", (2022, 10, 3), 4600, "Tariq", None),
+	("Bilal", "Ahmed", None, "Workshop", "Installer", "Male", (2023, 2, 6), 4200, "Tariq", None),
+	("Imran", "Khan", None, "Workshop", "Installer", "Male", (2024, 5, 20), 4000, "Tariq", None),
+	("Sanjay", "Patel", None, "Workshop", "Driver", "Male", (2024, 9, 1), 3800, "Tariq", None),
+	("Fatima", "Zahra", None, "Accounts", "Accounts Assistant", "Female", (2025, 1, 12), 7000, "Huda", None),
+	("Noor", "Hassan", None, "Sales", "Estimator", "Female", (on(2, 1).year, 2, 1), 9000, "Omar", None),
+)
+
+
+def run(password=None):
+	from onedesk.one import settings
+
+	from onedesk.one_demo.setup import BUILDER
+
+	frappe.db.set_single_value("System Settings", "enable_password_policy", 0)
+	# The owner, invited by whoever set the workspace up, and made its
+	# administrator; then the team, invited by the owner from People.
+	if not frappe.db.exists("User", OWNER):
+		with _as(BUILDER):
+			settings.invite(OWNER, "Layla", "Haddad", dict.fromkeys(APPS, "Manager"))
+	settings._set_access(frappe.get_doc("User", OWNER), dict.fromkeys(APPS, "Manager"), 1, told=False)
+	for first, last, email, *_rest, access in PEOPLE:
+		if not email or email == OWNER:
+			continue
+		with _as(OWNER):
+			if frappe.db.exists("User", email):
+				settings._set_access(frappe.get_doc("User", email), access, 0, told=False)
+			else:
+				settings.invite(email, first, last, access)
+	for _first, _last, email, *_rest in PEOPLE:
+		if email and password:
+			update_password(email, password)
+
+	for name in {one[3] for one in PEOPLE}:
+		if not frappe.db.exists("Department", f"{name} - {_abbr()}") and not frappe.db.exists("Department", name):
+			make({"doctype": "Department", "department_name": name, "company": COMPANY})
+	for name in {one[4] for one in PEOPLE}:
+		if not frappe.db.exists("Designation", name):
+			make({"doctype": "Designation", "designation_name": name})
+
+	made = {}
+	for first, last, email, department, designation, gender, joined, _pay, boss, _access in PEOPLE:
+		found = frappe.db.get_value("Employee", {"first_name": first, "last_name": last})
+		if found:
+			made[first] = found
+			continue
+		doc = frappe.get_doc(
+			{
+				"doctype": "Employee",
+				"first_name": first,
+				"last_name": last,
+				"gender": gender,
+				"date_of_birth": f"{1975 + len(first) * 2 + len(last)}-0{1 + len(last) % 9}-1{len(first) % 9}",
+				"date_of_joining": f"{joined[0]}-{joined[1]:02d}-{joined[2]:02d}",
+				"company": COMPANY,
+				"department": _department(department),
+				"designation": designation,
+				"user_id": email,
+				"prefered_email": email,
+				"cell_number": f"+97150{len(first)}{len(last)}{abs(hash(first + last)) % 100000:05d}",
+				"status": "Active",
+			}
+		)
+		doc.insert()
+		made[first] = tag(doc).name
+	for first, *_rest, boss, _access in PEOPLE:
+		if boss:
+			frappe.db.set_value("Employee", made[first], "reports_to", made[boss])
+	# hrms keeps everybody with an employee record to their own records, and
+	# ERPNext's way out is the employee's Create User Permission box,
+	# unticked for those who work with everybody's: here whoever manages an
+	# app (docs/PASSOVER.md, Noticed).
+	_agree()
+	for first, *_rest, access in PEOPLE:
+		if access and "Manager" in access.values():
+			doc = frappe.get_doc("Employee", made[first])
+			if doc.create_user_permission:
+				doc.create_user_permission = 0
+				doc.save()
+
+
+def _abbr():
+	return frappe.db.get_value("Company", COMPANY, "abbr")
+
+
+def _department(name):
+	return frappe.db.exists("Department", f"{name} - {_abbr()}") or name
+
+
+class _as:
+	def __init__(self, user):
+		self.user = user
+
+	def __enter__(self):
+		self.was = frappe.session.user
+		frappe.set_user(self.user)
+
+	def __exit__(self, *args):
+		frappe.set_user(self.was)
+
+
+def _agree():
+	"""What each person agrees to on their first sign-in, the owner first,
+	for the workspace and for themselves (one_legal/gate.py)."""
+	from onedesk.one_legal import gate
+
+	for _first, _last, email, *_rest in PEOPLE:
+		if not email:
+			continue
+		with _as(email):
+			waiting = [row["document"] for row in gate.standing() if not row["accepted"]]
+			if waiting:
+				gate.accept(waiting)
+

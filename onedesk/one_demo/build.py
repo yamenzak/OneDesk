@@ -1,0 +1,62 @@
+"""The demo workspace, built step by step on a new site: Sahara Glass &
+Aluminium, a Dubai contractor that sells, designs, fabricates, installs and
+maintains glazing, and runs every part of One to do it.
+
+    bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
+
+Each step makes its records the way a person's click makes them: frappe's
+controllers, ERPNext's mappers and One's own actions, never rows written
+straight into tables, so what the demo shows is what a workspace would. A
+step that has run is remembered and not run twice; a step that fails stops
+the build with what it tripped on, and the next run starts from it.
+"""
+
+import json
+
+import frappe
+
+DONE = "one_demo_done"
+
+#: In order: each step leans on what the steps before it made.
+STEPS = (
+	"setup",
+	"people",
+	"masters",
+	"stock",
+	"buying",
+	"making",
+	"crm",
+	"projects",
+	"selling",
+	"assets",
+	"books",
+	"hr",
+)
+
+
+def done() -> list[str]:
+	return json.loads(frappe.db.get_default(DONE) or "[]")
+
+
+def _mark(step: str) -> None:
+	frappe.db.set_default(DONE, json.dumps([*done(), step]))
+	frappe.db.commit()
+
+
+def load(password: str | None = None, only: str | None = None) -> None:
+	"""Build what is not built yet, or only the step named."""
+	frappe.flags.mute_emails = True
+	frappe.flags.in_demo = True
+	frappe.set_user("Administrator")
+	for step in STEPS:
+		if only and step != only:
+			continue
+		if step in done() and not only:
+			continue
+		print(f"demo: {step}")
+		module = frappe.get_module(f"onedesk.one_demo.{step}")
+		module.run(password=password)
+		frappe.db.commit()
+		if step not in done():
+			_mark(step)
+	print("demo: built")

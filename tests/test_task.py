@@ -22,7 +22,7 @@ def _body(source: str, name: str) -> str:
 def test_both_permission_hooks_are_wired_and_the_grant_comes_first():
 	assert '"Task": "onedesk.one_task.access.allowed"' in HOOKS
 	assert '"Task": "onedesk.one_task.access.query"' in HOOKS
-	assert HOOKS.count('"onedesk.one_task.access.settle"') == 2, "after_install and after_migrate"
+	assert HOOKS.count('"onedesk.one_task.access.settle"') == 2, "after_sync and after_migrate"
 
 
 def test_a_task_with_no_project_is_seen_by_its_own_people_only():

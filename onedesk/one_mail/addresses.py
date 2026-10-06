@@ -230,11 +230,26 @@ def _make(address: str, sends: bool) -> str:
 
 def publish() -> None:
 	"""Tell the Worker, through admin, which names this workspace receives
-	for, so it refuses the rest while the sender is still connected."""
+	for, so it refuses the rest while the sender is still connected. Sent in
+	the background once the change is saved: a workspace whose account can't
+	be reached still gets its people and addresses, and the whole list goes
+	again with the next change."""
 	from onedesk.one import account
 
 	if not account.configured():
 		return
+	frappe.enqueue(
+		"onedesk.one_mail.addresses.send_names",
+		queue="short",
+		job_id="one_mail_names",
+		deduplicate=True,
+		enqueue_after_commit=True,
+	)
+
+
+def send_names() -> None:
+	from onedesk.one import account
+
 	names = sorted({row.email_id.split("@")[0] for row in hosted() if row.email_id.endswith("@" + domain())})
 	if names:
 		account.ask("onedesk.one_admin.proxy.mail_names", names=frappe.as_json(names))

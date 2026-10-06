@@ -39,6 +39,7 @@ def before_validate(doc, method=None) -> None:
 	most of the ones in this audit and still a field nobody typed because there
 	is only one answer.
 	"""
+	decision.kept(doc)
 	if not doc.company:
 		return
 	if not doc.cost_center:
@@ -94,6 +95,6 @@ def _answer(name: str, verdict: str, note: str | None) -> None:
 	if doc.docstatus != 0:
 		frappe.throw(_("Only a claim still waiting can be answered."))
 
-	doc.approval_status = verdict
+	decision.carry(doc, "approval_status", verdict)
 	decision.sign(doc, note)
 	doc.submit()

@@ -73,6 +73,9 @@ def _the_company(filters) -> None:
 
 
 def _check(filters) -> None:
+	# A month when nothing picked one, as from a scheduled mail or OneAI,
+	# the way the page starts.
+	filters.filter_based_on = filters.filter_based_on or "Month"
 	if filters.filter_based_on == "Date Range":
 		if not (filters.start_date and filters.end_date):
 			frappe.throw(_("Set the date range."))
