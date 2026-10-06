@@ -110,6 +110,20 @@ export function followList(doctype, changed) {
 	return () => realtime.off("list_update", heard);
 }
 
+/** A record's form, with frappe's Email open on it: the record's print
+ * attached, its contact and templates offered. */
+export function emailRecord(doctype, name) {
+	const ours = (frm) => frm && frm.doctype === doctype && frm.doc.name === name;
+	// The form says it's ready with frappe's own form-refresh.
+	const ready = (_event, frm) => {
+		if (!ours(frm)) return;
+		window.$(document).off("form-refresh", ready);
+		frm.email_doc();
+	};
+	window.$(document).on("form-refresh", ready);
+	frappe().set_route("Form", doctype, name);
+}
+
 /** The signed-in user. */
 export const me = () => frappe().session.user;
 

@@ -8054,6 +8054,32 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - Checked end to end, quotation to payment and material request to payment:
   every document and its ledger entries carry the project.
 
+**Invoices** (the project page's Invoices view).
+
+- A row was a number. Each now says what it's for, from the invoice itself
+  (`billing.for_what`: Work done 50%, hours of time and costs, a retainer's
+  month, Credit note, its first item) and which sub-project it's on: the
+  villa's 60,000 is Fit-out Works on Handrails.
+- The villa's 3,000 outstanding is retention, and Due said 30-09-2027 as if
+  the invoice were due then. Outstanding is now what's owed now, Retention
+  Held its own figure, and a row owing only retention says so under Due.
+- An invoice partly another project's counted whole here and its share in
+  Money. Both count the project's share now; this view with tax, as paid.
+- Work and Billing's Owed took invoiced before tax from paid with tax, so a
+  fully paid 5% VAT invoice showed a false advance. Owed and the advance now
+  come from the invoices (`money.owed_share`, `_paid_on`).
+- Nothing could be done from the list. **Record Payment** is OneBook's own
+  verb, offered through the record head (`head.offer`); **Send** opens the
+  invoice with frappe's Email, its print attached (`emailRecord`).
+- An overdue invoice reached Needs You only once the project was Completed.
+  **Chase** the customer now shows it with how late. The past-due amount is
+  worked out from what's owed, earliest term first (`view.past_due`):
+  ERPNext's per-term outstanding moves only when a payment names the term, so
+  the villa's paid invoice read as 57,000 overdue and supplier bills as more
+  than owed. The Pergola's 7,500, 17 days late, is the one shown.
+- An advance on the order shows under Paid. A project with no invoices shows
+  only "No invoices". Payments redraw the view, not only invoices.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -782,6 +782,47 @@ def test_paid_is_read_from_the_invoices_however_they_were_paid():
 	assert '"Sales Invoice": "public/js/customer_project.js"' in HOOKS
 
 
+def test_an_invoice_says_what_it_is_for_and_what_is_owed_now():
+	from types import SimpleNamespace
+
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	space = _load(PROJECT / "billing.py", ("for_what",), flt=flt)
+	for_what = space["for_what"]
+	row = lambda **kw: {
+		"is_return": 0,
+		"one_progress": 0,
+		"one_retainer_month": None,
+		"total_billing_hours": 0,
+		**kw,
+	}  # noqa: E731
+	assert for_what(row(is_return=1), []) == {"kind": "credit"}
+	assert for_what(row(one_progress=50), []) == {"kind": "progress", "value": 50.0}
+	assert for_what(row(one_retainer_month="2026-09-01"), []) == {"kind": "month", "value": "2026-09-01"}
+	assert for_what(row(total_billing_hours=9), [{"one_rebills": "PINV-1"}]) == {
+		"kind": "time_costs",
+		"value": 9.0,
+	}
+	assert for_what(row(), [{"one_rebills": "PINV-1"}]) == {"kind": "costs"}
+	assert for_what(row(), [{"item_name": "Fit-out Works"}, {"item_name": "Glass"}]) == {
+		"kind": "items",
+		"value": "Fit-out Works",
+		"more": 1,
+	}
+	owed_share = _load(PROJECT / "money.py", ("owed_share",), flt=flt)["owed_share"]
+	invoice = SimpleNamespace(name="A", base_net_total=1000, outstanding_amount=500, conversion_rate=1)
+	assert owed_share([invoice], {"A": 500}) == 250.0
+	billing = (PROJECT / "billing.py").read_text()
+	assert "retention.held_on(" in billing and '"retention_due"' in billing
+	assert '"payment_term": ["not in", retention.HELD]' in billing
+	head = (tree.APP / "one" / "head.py").read_text()
+	assert "def offer(doctype: str, name: str, verb: str)" in head
+	vue = (tree.ROOT / "frontend" / "src" / "project" / "Invoices.vue").read_text()
+	assert '"invoice.record_payment"' in vue and 'emailRecord("Sales Invoice"' in vue
+	assert 'followList("Payment Entry"' in vue
+	view = (PROJECT / "view.py").read_text()
+	assert 'if doc.status != "Completed":\n\t\tfound += _overdue_invoices(view["tree"], user)' in view
+
+
 def test_buying_lists_what_is_bought_for_the_project():
 	shown = _load(PROJECT / "buying.py", ("shown",), _=lambda text: text)["shown"]
 	assert shown([]) is None and shown(["Glass"]) == "Glass"
@@ -978,7 +1019,22 @@ def test_subcontracts_say_what_where_how_far_and_what_to_pay():
 	assert 'said["subcontracts_count"] = len(cash["suppliers"])' in view_py
 	bills = view_py[view_py.index("def _overdue_bills(") : view_py.index("def _late_route(")]
 	# By the payment schedule, retention not yet due left out.
-	assert "ps.due_date < %(today)s" in bills and '_("Pay {0}")' in bills
+	assert '_("Pay {0}")' in bills and '_("Chase {0}")' in bills and '"Purchase Invoice", projects' in bills
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	past_due = _load(PROJECT / "view.py", ("past_due",), flt=flt)["past_due"]
+	term = lambda due, amount, held=False: {"due_date": due, "amount": amount, "held": held}  # noqa: E731
+	# The villa's handrails: 57,000 paid of 60,000, the 3,000 retention due
+	# next year. Nothing is past due, whatever the per-term outstanding says.
+	handrails = [term("2026-09-30", 57000), term("2027-09-30", 3000, True)]
+	assert past_due(handrails, 3000, "2026-10-06") is None
+	# Unpaid and past its date: all of it, since the term's day.
+	assert past_due([term("2026-09-19", 7500)], 7500, "2026-10-06") == {
+		"due": 7500,
+		"since": "2026-09-19",
+		"held": False,
+	}
+	# Paid but for the retention, now due: retention only.
+	assert past_due(handrails, 3000, "2027-10-01") == {"due": 3000, "since": "2027-09-30", "held": True}
 	assert 'found += _overdue_bills(view["tree"], user)' in view_py
 	late = _load(PROJECT / "view.py", ("late",), _=lambda text: text)["late"]
 	assert late(1) == "1 day late" and late(3) == "3 days late"
@@ -1752,7 +1808,7 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 	# Needs You asks the customer for it, and says when a supplier's is to pay.
 	view = (PROJECT / "view.py").read_text()
 	assert 'found += retention.asks(view["tree"], user)' in view
-	assert '_("Pay retention to {0}") if one.held else _("Pay {0}")' in view
+	assert '_("Pay retention to {0}") if one["held"] else _("Pay {0}")' in view
 	assert '_("Ask for retention from {0}")' in (PROJECT / "retention.py").read_text()
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert (
@@ -2048,14 +2104,20 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 		"contract": 375000,
 		"invoiced": 60000,
 		"customer": [{"label": "Paid", "value": 57000}, {"label": "Retention Held", "value": 3000}],
+		"owed": 3000,
+		"advance": 0,
 	}
 	said = billing(17, cash, 0)
 	assert said["unbilled"] == 3750 and said["ahead"] == 0
 	assert said["owed"] == 3000 and said["retention"] == 3000 and said["advance"] == 0
 	ahead = billing(10, cash, 0)
 	assert ahead["ahead"] == 22500 and ahead["unbilled"] == 0
-	early = billing(0, {**cash, "invoiced": 0}, 0)
+	early = billing(0, {**cash, "invoiced": 0, "owed": 0, "advance": 57000}, 0)
 	assert early["advance"] == 57000 and early["owed"] == 0
+	# Paid with 5% VAT on a 100,000 invoice is no advance: owed and paid
+	# ahead are both read from the invoices, tax included (money._paid_on).
+	taxed = billing(17, {**cash, "invoiced": 100000, "owed": 0, "advance": 0}, 0)
+	assert taxed["advance"] == 0 and taxed["owed"] == 0
 	assert said["last"] is None
 	last = billing(17, cash, 0, {"posting_date": "2026-10-04", "one_progress": 0})
 	assert last["last"] == {"date": "2026-10-04", "share": 16}

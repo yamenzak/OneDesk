@@ -531,7 +531,6 @@ def work_and_billing(
 	billed by milestones measures what's not invoiced against the milestones
 	done instead (milestones.billable)."""
 	customer = {one["label"]: one["value"] for one in cash["customer"]}
-	paid = flt(customer.get(_("Paid")))
 	earned = billable["share"] if billable else done
 	gap = cash["contract"] * earned / 100 - cash["invoiced"]
 	return {
@@ -539,10 +538,11 @@ def work_and_billing(
 		"billable": billable,
 		"unbilled": round(gap) if gap >= 1 else 0,
 		"ahead": round(-gap) if gap <= -1 else 0,
-		"owed": max(0.0, cash["invoiced"] - paid),
+		# Both tax included, as the invoices owe them (money._paid_on).
+		"owed": flt(cash.get("owed")),
 		"overdue": overdue,
 		"retention": flt(customer.get(_("Retention Held"))),
-		"advance": max(0.0, paid - cash["invoiced"]),
+		"advance": flt(cash.get("advance")),
 		"last": last
 		and {
 			"date": last["posting_date"],
@@ -722,6 +722,9 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 				}
 			)
 	found += _overdue_bills(view["tree"], user)
+	# A completed project's owed money is said whole, above.
+	if doc.status != "Completed":
+		found += _overdue_invoices(view["tree"], user)
 	found += retention.asks(view["tree"], user)
 	# The reader's own time on it still in draft from before this week (hours.py).
 	found += hours.late_drafts(view["tree"], user)
@@ -806,44 +809,109 @@ def late(days: int) -> str:
 	return _("1 day late") if days == 1 else _("{0} days late").format(days)
 
 
-def _overdue_bills(projects: list[str], user: str) -> list[dict]:
-	"""Supplier bills on the project with a payment past its due date, by
-	their payment schedule (ERPNext marks a bill Overdue overnight): what's
-	due and how late, retention not yet due left out."""
-	if not frappe.has_permission("Purchase Invoice", "read"):
-		return []
+def past_due(terms: list, outstanding: float, today) -> dict | None:
+	"""What's past due on one invoice or bill: its payment terms, soonest
+	first, with what's been paid taken off the earliest, as payments are;
+	what's left of those already due, since when, and whether it's only
+	retention. ERPNext's own per-term outstanding moves only when a payment
+	names the term, so it's worked out here. None when nothing's due. Pure."""
+	terms = sorted(terms, key=lambda one: str(one["due_date"]))
+	paid = max(0.0, sum(flt(one["amount"]) for one in terms) - flt(outstanding))
+	due, since, held = 0.0, None, True
+	for one in terms:
+		left = flt(one["amount"]) - min(flt(one["amount"]), paid)
+		paid -= min(flt(one["amount"]), paid)
+		if left < 0.005 or str(one["due_date"]) >= str(today):
+			continue
+		due += left
+		since = since or one["due_date"]
+		held = held and one["held"]
+	return {"due": due, "since": since, "held": held} if due >= 0.005 else None
+
+
+def _past_due(doctype: str, projects: list[str]) -> list[dict]:
+	"""The tree's invoices or bills with a payment past its due date."""
+	child = f"{doctype} Item"
 	rows = frappe.db.sql(
-		"""select pi.name, pi.supplier_name, pi.owner, pi.conversion_rate,
-			sum(ps.outstanding) as due, min(ps.due_date) as since,
-			sum(case when ps.payment_term in %(held)s then 0 else 1 end) = 0 as held
-		from `tabPurchase Invoice` pi
-		join `tabPayment Schedule` ps on ps.parent = pi.name and ps.parenttype = 'Purchase Invoice'
-		where pi.docstatus = 1 and pi.outstanding_amount > 0 and ps.outstanding > 0 and ps.due_date < %(today)s
-			and pi.name in (select parent from `tabPurchase Invoice Item` where project in %(projects)s)
-		group by pi.name
-		order by since asc""",
-		{"today": nowdate(), "projects": tuple(projects), "held": retention.HELD},
+		f"""select inv.name, inv.owner, inv.conversion_rate, inv.outstanding_amount,
+			{"inv.supplier_name" if doctype == "Purchase Invoice" else "inv.customer_name"} as party,
+			ps.due_date, ps.payment_amount as amount, ps.payment_term in %(held)s as held
+		from `tab{doctype}` inv
+		join `tabPayment Schedule` ps on ps.parent = inv.name and ps.parenttype = %(doctype)s
+		where inv.docstatus = 1 and inv.is_return = 0 and inv.outstanding_amount > 0
+			and inv.name in (select parent from `tab{child}` where project in %(projects)s)""",
+		{"projects": tuple(projects), "held": retention.HELD, "doctype": doctype},
 		as_dict=True,
 	)
+	today = getdate(nowdate())
+	found = {}
+	for row in rows:
+		found.setdefault(row.name, {"head": row, "terms": []})["terms"].append(row)
+	said = []
+	for name, one in found.items():
+		head = one["head"]
+		due = past_due(one["terms"], head.outstanding_amount, today)
+		if due:
+			said.append({"name": name, "head": head, **due})
+	return sorted(said, key=lambda one: str(one["since"]))
+
+
+def _overdue_bills(projects: list[str], user: str) -> list[dict]:
+	"""Supplier bills on the project with a payment past its due date, by
+	their payment schedule: what's due and how late, retention not yet due
+	left out (`past_due`)."""
+	if not frappe.has_permission("Purchase Invoice", "read"):
+		return []
 	today = getdate(nowdate())
 	return [
 		{
 			"tone": "red",
-			"text": (_("Pay retention to {0}") if one.held else _("Pay {0}")).format(one.supplier_name),
+			"text": (_("Pay retention to {0}") if one["held"] else _("Pay {0}")).format(one["head"].party),
 			"dim": " · ".join(
 				filter(
 					None,
 					[
-						late((today - getdate(one.since)).days),
-						_("You") if one.owner == user else None,
+						late((today - getdate(one["since"])).days),
+						_("You") if one["head"].owner == user else None,
 					],
 				)
 			),
-			"money": flt(one.due) * flt(one.conversion_rate or 1),
-			"route": f"/desk/purchase-invoice/{one.name}",
-			"mine": one.owner == user,
+			"money": one["due"] * flt(one["head"].conversion_rate or 1),
+			"route": f"/desk/purchase-invoice/{one['name']}",
+			"mine": one["head"].owner == user,
 		}
-		for one in rows
+		for one in _past_due("Purchase Invoice", projects)
+	]
+
+
+def _overdue_invoices(projects: list[str], user: str) -> list[dict]:
+	"""The customer's invoices on the project with a payment past its due
+	date: what's due and how late, retention not yet due left out
+	(`past_due`). Chasing them is whoever reads invoices'."""
+	if not frappe.has_permission("Sales Invoice", "read"):
+		return []
+	today = getdate(nowdate())
+	return [
+		{
+			"tone": "red",
+			"text": (_("Chase retention from {0}") if one["held"] else _("Chase {0}")).format(
+				one["head"].party
+			),
+			"dim": " · ".join(
+				filter(
+					None,
+					[
+						late((today - getdate(one["since"])).days),
+						one["name"],
+						_("You") if one["head"].owner == user else None,
+					],
+				)
+			),
+			"money": one["due"] * flt(one["head"].conversion_rate or 1),
+			"route": f"/desk/sales-invoice/{one['name']}",
+			"mine": one["head"].owner == user,
+		}
+		for one in _past_due("Sales Invoice", projects)
 	]
 
 

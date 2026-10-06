@@ -462,6 +462,20 @@ def _verb(doc, row) -> dict | None:
 	}
 
 
+@frappe.whitelist()
+@frappe.read_only()
+def offer(doctype: str, name: str, verb: str) -> dict | None:
+	"""A verb a record's head offers, for a page that lists the record to
+	offer it too (a project's invoices offer Record Payment): None where the
+	head wouldn't offer it now. `run` does it, checking again."""
+	doc = frappe.get_doc(doctype, name)
+	doc.check_permission("read")
+	if doctype not in headed():
+		return None
+	row = next((one for one in frappe.get_cached_doc("Record Head", doctype).verbs if one.verb == verb), None)
+	return _verb(doc, row) if row else None
+
+
 @frappe.whitelist(methods=["POST"])
 def run(doctype: str, name: str, verb: str, values: dict | str | None = None) -> str:
 	"""Do a verb the record's head offers, if it still can be done."""

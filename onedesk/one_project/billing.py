@@ -160,8 +160,13 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 def invoices(project: str) -> dict:
 	"""The customer's invoices for the project and those under it, newest
 	first, read as the reader reads invoices: an invoice names the project, or
-	one of its lines does. Drafts and returns included, cancelled ones not."""
-	from onedesk.one_project import tree
+	one of its lines does. Drafts and returns included, cancelled ones not.
+
+	Each says what it's for (`for_what`) and which sub-project it's on. The
+	figures count the project's share of an invoice that's partly another's,
+	tax included, as it's paid; retention still held is apart from what's
+	owed now; and an advance not yet set against an invoice is said."""
+	from onedesk.one_project import money, retention, tree
 
 	frappe.has_permission("Project", "read", project, throw=True)
 	if not frappe.has_permission("Sales Invoice", "read"):
@@ -203,8 +208,13 @@ def invoices(project: str) -> dict:
 				"currency",
 				"grand_total",
 				"base_grand_total",
+				"base_net_total",
 				"outstanding_amount",
 				"conversion_rate",
+				"project",
+				"one_progress",
+				"one_retainer_month",
+				"total_billing_hours",
 			],
 			order_by="posting_date desc, creation desc",
 			limit_page_length=0,
@@ -212,34 +222,100 @@ def invoices(project: str) -> dict:
 		if named
 		else []
 	)
-	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "drafts": 0}
+	names = [row.name for row in rows] or [""]
+	lines = frappe.get_all(
+		"Sales Invoice Item",
+		filters={"parent": ["in", names]},
+		fields=["parent", "project", "base_net_amount", "item_name", "one_rebills"],
+		order_by="idx asc",
+	)
+	held = retention.held_on("Sales Invoice", [row.name for row in rows if row.docstatus == 1])
+	# When each is due, retention left out: the last of its other payments.
+	due = {}
+	for one in frappe.get_all(
+		"Payment Schedule",
+		filters={
+			"parenttype": "Sales Invoice",
+			"parent": ["in", names],
+			"payment_term": ["not in", retention.HELD],
+		},
+		fields=["parent", "due_date"],
+	):
+		due[one.parent] = max(due.get(one.parent) or one.due_date, one.due_date)
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "retention": 0.0, "drafts": 0}
+	found = []
 	for row in rows:
+		own = [one for one in lines if one.parent == row.name]
+		mine = sum(flt(one.base_net_amount) for one in own if one.project in titles)
+		share = mine / flt(row.base_net_total) if flt(row.base_net_total) else 1.0
+		owed = flt(row.outstanding_amount) * flt(row.conversion_rate or 1)
+		kept = held.get(row.name) or []
+		holding = sum(amount for _due, amount in kept)
+		now = max(0.0, owed - holding)
 		if row.docstatus == 0:
 			totals["drafts"] += 1
-			continue
-		owed = flt(row.outstanding_amount) * flt(row.conversion_rate or 1)
-		totals["invoiced"] += flt(row.base_grand_total)
-		totals["paid"] += flt(row.base_grand_total) - owed
-		totals["outstanding"] += owed
-		if row.status == "Overdue":
-			totals["overdue"] += owed
-	return {
-		"invoices": [
+		else:
+			totals["invoiced"] += flt(row.base_grand_total) * share
+			totals["paid"] += (flt(row.base_grand_total) - owed) * share
+			totals["outstanding"] += now * share
+			totals["retention"] += holding * share
+			if row.status == "Overdue":
+				totals["overdue"] += now * share
+		on = sorted({one.project for one in own if one.project in titles} | ({row.project} & set(titles)))
+		elsewhere = [titles[one] for one in on if one != project]
+		found.append(
 			{
 				"name": row.name,
 				"customer": row.customer_name,
 				"date": str(row.posting_date) if row.posting_date else None,
-				"due": str(row.due_date) if row.due_date else None,
+				# What's held back falls due later; the date is when the rest
+				# is due, or the retention's once only it is left.
+				"due": str(due.get(row.name) or row.due_date or "") or None,
+				"retention_due": str(kept[0][0]) if kept and now < 0.005 else None,
 				"status": "Draft" if row.docstatus == 0 else row.status,
 				"currency": row.currency,
 				"total": flt(row.grand_total),
 				"outstanding": flt(row.outstanding_amount),
+				"for": for_what(row, own),
+				"where": money.bought([frappe._dict(item_name=one) for one in elsewhere]),
+				"can_pay": row.docstatus == 1 and not row.is_return and flt(row.outstanding_amount) > 0,
 			}
-			for row in rows
-		],
+		)
+	cash = money._paid_on(projects, "Sales Invoice") or {}
+	totals["advance"] = flt(cash.get("advance"))
+	return {
+		"invoices": found,
 		"totals": totals,
 		"can_create": bool(frappe.has_permission("Sales Invoice", "create")),
+		"can_pay": bool(frappe.has_permission("Payment Entry", "create")),
 	}
+
+
+def for_what(row, lines: list) -> dict:
+	"""What an invoice is for, for the page to say: a credit note, a share
+	of the work, a retainer's month, time and costs, or its first item and
+	how many more. Pure."""
+	if row.get("is_return"):
+		return {"kind": "credit"}
+	if flt(row.get("one_progress")):
+		return {"kind": "progress", "value": flt(row.get("one_progress"))}
+	if row.get("one_retainer_month"):
+		return {"kind": "month", "value": str(row.get("one_retainer_month"))}
+	hours = flt(row.get("total_billing_hours"))
+	costs = any(one.get("one_rebills") for one in lines)
+	if hours:
+		return {"kind": "time_costs" if costs else "time", "value": hours}
+	if costs:
+		return {"kind": "costs"}
+	names = [one.get("item_name") for one in lines if one.get("item_name")]
+	if not names:
+		return {"kind": None}
+	return {"kind": "items", "value": names[0], "more": len(names) - 1}
 
 
 def lines(rows: list) -> list[dict]:

@@ -240,7 +240,10 @@ margin below zero, more hours than the retainer covers, a late end date.
 **Needs You** lists what needs someone now, yours first and marked **You**:
 cost types over budget over the project and its sub-projects (on a Fixed
 Price project they're in **Budget** instead), bills drafted by Bill Progress
-to check, late tasks, and tasks due today. A task on a sub-project says
+to check, supplier bills to pay and customer invoices to chase that are past
+due (**Chase** the customer, with the invoice and how late), late tasks, and
+tasks due today. What's past due is worked out from what's still owed,
+earliest payment first, so retention not yet due never counts. A task on a sub-project says
 which. The heading counts them all, and **Show All** lists the late tasks
 when there are more than it shows.
 
@@ -386,12 +389,24 @@ the attendance. It's in the Error Log.
 
 ### Invoices
 
-The customer's invoices for the project and those under it, newest first,
-with their date, due date, status, total and what's still owed. The
-figures above are what's been invoiced, paid, outstanding and overdue.
-**New Invoice** starts one for the customer on the project; **Invoice Time**
-and **Bill Progress** are in the page's buttons. Shown on a project with a
-customer, to whoever may read invoices.
+The customer's invoices for the project and those under it, newest first.
+Each says what it's for (**Work done 40%**, **9 h of time and costs**, a
+retainer's month, **Credit note**, or its first item) and which sub-project
+it's on, with its date, when it's due, its status, total and what's still
+owed. An invoice whose only debt is retention shows the retention's date
+under **Due**.
+
+The figures above are what's been **Invoiced**, **Paid** (with anything paid
+in advance on the order), **Outstanding** now, **Overdue**, and
+**Retention Held** when there is some. They count with tax, as the customer
+pays, and only the project's part of an invoice that's partly another's.
+
+**···** on an invoice offers **Record Payment** (how much, when, into which
+account) and **Send**, which opens the invoice with its email ready and the
+invoice attached. **New Invoice** starts one for the customer on the
+project; **Invoice Time** and **Bill Progress** are in the page's buttons.
+Shown on a project with a customer, to whoever may read invoices; Record
+Payment to whoever may make payments.
 
 ### Team
 

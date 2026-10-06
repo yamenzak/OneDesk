@@ -161,6 +161,8 @@ def money(project: Annotated[str, "The project."]) -> dict:
 				_figure(label, value if value is not None else _lines(doctype, projects), doctype, projects)
 			)
 	received = _paid_on(projects, "Sales Invoice")
+	owed = received["owed"] if received else 0.0
+	advance = received["advance"] if received else 0.0
 	if received is not None:
 		customer.append(
 			_figure(_("Paid"), received["paid"], "Payment Entry", projects) | {"route": received["route"]}
@@ -242,6 +244,10 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"forecast_margin": ahead["margin"],
 		"invoiced": invoiced,
 		"to_invoice": to_invoice,
+		# What the customer still owes on the invoices, and has paid ahead of
+		# them, tax included as it's paid.
+		"owed": owed,
+		"advance": advance,
 		"earned": earned,
 		"margin": earned - spent,
 		"kind": kind,
@@ -297,11 +303,22 @@ def paid_share(invoices: list, mine: dict) -> float:
 	return paid
 
 
+def owed_share(invoices: list, mine: dict) -> float:
+	"""What's still owed on the invoices, in the company's currency, in the
+	share of each that's the project's. Tax included, as it's owed. Pure."""
+	owed = 0.0
+	for one in invoices:
+		whole = flt(one.base_net_total)
+		share = flt(mine.get(one.name)) / whole if whole else 1.0
+		owed += flt(one.outstanding_amount) * flt(one.conversion_rate or 1) * share
+	return owed
+
+
 def _paid_on(projects: list[str], doctype: str) -> dict | None:
 	"""What's been paid on the tree's invoices, whichever payment paid them,
 	with the advances on its orders not yet set against an invoice and the
-	payments naming the project that aren't allocated yet; and the payments
-	behind it, as a list."""
+	payments naming the project that aren't allocated yet; what's still owed
+	on them; the advance alone; and the payments behind it, as a list."""
 	if not _sees(doctype) or not _sees("Payment Entry"):
 		return None
 	on_order, order_type, kind = PAID[doctype]
@@ -329,6 +346,8 @@ def _paid_on(projects: list[str], doctype: str) -> dict | None:
 		],
 	)
 	paid = paid_share(invoices, mine)
+	owed = owed_share(invoices, mine)
+	advance = 0.0
 	# An order's advance not yet set against its invoices.
 	order_lines = frappe.qb.DocType(LINES[order_type])
 	orders = [
@@ -349,7 +368,9 @@ def _paid_on(projects: list[str], doctype: str) -> dict | None:
 		filters={"name": ["in", orders or [""]]},
 		fields=["name", "advance_paid", "conversion_rate"],
 	):
-		paid += max(0.0, flt(one.advance_paid) * flt(one.conversion_rate or 1) - set_off.get(one.name, 0.0))
+		advance += max(
+			0.0, flt(one.advance_paid) * flt(one.conversion_rate or 1) - set_off.get(one.name, 0.0)
+		)
 	# Paid on account, naming the project, not matched to anything yet.
 	pe = frappe.qb.DocType("Payment Entry")
 	party = pe.paid_amount if kind == "Receive" else pe.received_amount
@@ -365,7 +386,7 @@ def _paid_on(projects: list[str], doctype: str) -> dict | None:
 		)
 		.run(as_dict=True)
 	):
-		paid += flt(one.unallocated_amount) * (flt(one.base) / flt(one.amount) if flt(one.amount) else 1)
+		advance += flt(one.unallocated_amount) * (flt(one.base) / flt(one.amount) if flt(one.amount) else 1)
 	route = _route(
 		"Payment Entry",
 		{
@@ -376,7 +397,7 @@ def _paid_on(projects: list[str], doctype: str) -> dict | None:
 		if mine or orders
 		else {"payment_type": kind, "docstatus": 1, "project": ["in", projects]},
 	)
-	return {"paid": paid, "route": route}
+	return {"paid": paid + advance, "owed": owed, "advance": advance, "route": route}
 
 
 def _journals(projects: list[str]) -> float:

@@ -220,6 +220,7 @@ No doctypes yet.
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
 * `onedesk.one.customize.save`
+* `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`
 * `onedesk.one.holidays.country_holidays`
