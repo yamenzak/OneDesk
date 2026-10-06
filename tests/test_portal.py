@@ -112,8 +112,8 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	assert 'notify.notify(\n\t\t"Quote Received"' in send
 	row = (INCLUDES / "transaction_row.html").read_text()
 	assert "one_portal_quoted(doc.name)" in row and "one_portal_status(" in row
-	notes = (tree.APP / "one_inventory" / "notifications.py").read_text()
-	assert '_lt("Quote Received")' in notes and '_lt("Quote Request Sent")' in notes
+	notes = tree.notifications()
+	assert notes["Quote Received"]["module"] == notes["Quote Request Sent"]["module"] == "one_inventory"
 
 
 def test_the_rest_of_the_portal_is_in_its_shell():
@@ -180,7 +180,7 @@ def test_a_contact_is_invited_to_the_portal_by_one():
 	assert "invite.send(user, what=_what(doc))" in invite and "clear_sessions(user=user, force=True)" in invite
 	assert "is someone in the workspace" in invite
 	assert 'notify.mail("Portal Invitation", email, what=what, **said)' in (tree.APP / "one" / "invite.py").read_text()
-	assert '"name": _lt("Portal Invitation")' in (tree.APP / "one" / "notifications.py").read_text()
+	assert tree.notifications()["Portal Invitation"]["outside"]
 	assert "row.db_insert()" in SOURCE and "user.add_roles(*sorted(missing))" in SOURCE and "party.save()" not in SOURCE
 	js = (tree.APP / "public" / "js" / "contact.js").read_text()
 	for verb in ("Invite to Portal", "Invite Again", "Revoke Access", "Restore Access"):

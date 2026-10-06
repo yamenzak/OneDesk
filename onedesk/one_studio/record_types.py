@@ -319,7 +319,7 @@ def change(
 
 def _told(doctype: str, app: str, description: str | None, link: bool = True) -> dict:
 	"""What the other administrators hear of a collection added, changed or
-	deleted (notifications.py): it is in its app for everyone."""
+	deleted (notifications/one_studio/): it is in its app for everyone."""
 	shown = [
 		_(df.label)
 		for df in frappe.get_meta(doctype).fields

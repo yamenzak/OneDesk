@@ -667,7 +667,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 - `home.counts` and `home.needs` are the operator's only (`operator._may`).
   The actions are `operator.py`'s own verbs: `resume`, `retry_signup` and
   `refresh_domain`.
-- `tell.py` and `notifications.py`: the machinery writes with `db_set`, so
+- `tell.py`, with the types in `notifications/one_admin/`: the machinery writes with `db_set`, so
   there is no document hook to hang a notice on. Each is called where the
   thing happens: `runner._stop`, `signup.accept`, `steps._arrive` and
   `domains.nightly`. A notice that fails is logged and never stops the job.

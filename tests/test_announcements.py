@@ -33,7 +33,7 @@ def test_everybody_is_told_once():
 	told = _body("on_update")
 	assert 'doc.has_value_changed("public") or doc.flags.in_insert' in told
 	assert '"Announcement"' in told and "NOT_PEOPLE" in told
-	assert '_lt("Announcement")' in (tree.APP / "one" / "notifications.py").read_text()
+	assert "Announcement" in tree.notifications()
 
 
 def test_it_pops_up_for_the_person_not_for_guest():

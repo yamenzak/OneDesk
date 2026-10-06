@@ -121,7 +121,8 @@ def test_every_module_folder_is_in_modules_txt():
 		if p.is_dir()
 		and (p / "__init__.py").exists()
 		and p.name not in known
-		# one_demo is the demo company's builder, plain Python with no doctypes.
-		and p.name not in {"public", "patches", "config", "templates", "www", "one_demo"}
+		# one_demo is the demo company's builder, and notifications every
+		# module's notification files: plain Python and files, no doctypes.
+		and p.name not in {"public", "patches", "config", "templates", "www", "one_demo", "notifications"}
 	]
 	assert not strays, f"module folders missing from modules.txt: {strays}"

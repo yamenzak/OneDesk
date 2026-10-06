@@ -171,7 +171,7 @@ EXPIRY_NOTICE = 7
 
 def _tell(before, after, gift: dict | None = None) -> None:
 	"""What changed since the account was last asked, told to the workspace's
-	administrators (one/notifications.py). Each is said when a line is crossed
+	administrators (notifications/one/). Each is said when a line is crossed
 	rather than while it stays crossed, so a nightly refresh does not repeat
 	itself; the two told by date remember the date they were told of."""
 	from onedesk.one import notify

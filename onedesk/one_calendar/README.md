@@ -182,7 +182,7 @@ For the people who build OneCalendar. OneAI does not read past this heading.
 - `tell.py` — who is told of an event (invited, changed, cancelled, starting
   soon, and each morning), through the hub; guests mailed an iCalendar
   invitation. frappe's own morning mail is stopped on migrate. The types are
-  `notifications.py`.
+  in `notifications/one_calendar/`, a file each.
 - `ai.py` — OneAI here: `my_calendar`, `busy_times` (times only) and
   `plan_event`, a Create card whose guests ride on Event's `one_guests`.
 - `events.make` and `events.card` — New Event with its people, and an

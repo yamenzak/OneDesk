@@ -1,4 +1,4 @@
-"""Telling the operator, and a workspace's owner (one_admin/notifications.py).
+"""Telling the operator, and a workspace's owner (notifications/one_admin/).
 
 Each is called where the thing happens rather than from a document hook,
 because the machinery writes with `db_set`, which runs no hooks: a job stops

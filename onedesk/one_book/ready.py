@@ -249,7 +249,11 @@ def fix(key: str, **values) -> None:
 	elif key == "reminder":
 		from onedesk.one_book.paid import REMINDER
 
-		frappe.db.set_value("Notification", REMINDER, "enabled", 1)
+		# Its Send This, which turns the Notification that mails it on too.
+		doc = frappe.get_doc("Notification Type", REMINDER)
+		doc.enabled = 1
+		doc.flags.ignore_permissions = True
+		doc.save()
 	else:
 		frappe.throw(_("Nothing to fix for {0}.").format(key))
 

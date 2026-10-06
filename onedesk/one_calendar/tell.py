@@ -1,4 +1,4 @@
-"""What OneCalendar tells people, and when (the types are notifications.py).
+"""What OneCalendar tells people, and when (the types are in notifications/one_calendar/).
 
 **On save** (`saved`, Event on_update): whoever was just added is told they are
 invited; if the time or the place changed, everybody already on it is told;

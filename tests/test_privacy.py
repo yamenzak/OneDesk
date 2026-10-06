@@ -105,7 +105,7 @@ def test_the_copy_is_the_persons_alone():
 
 
 def test_everybody_concerned_is_told():
-	types = (tree.APP / "one" / "notifications.py").read_text()
+	types = tree.notifications()
 	for name in (
 		"Your Data Is Ready",
 		"Deletion Asked",
@@ -113,7 +113,7 @@ def test_everybody_concerned_is_told():
 		"Account Deleted",
 		"Person Deleted",
 	):
-		assert f'_lt("{name}")' in types, name
+		assert name in types, name
 	assert '"Deletion Asked"' in _body("_ask_administrators")
 	assert '"Copy Asked"' in _body("ask", COPY)
 	assert '"onedesk.one.privacy.remind"' in HOOKS

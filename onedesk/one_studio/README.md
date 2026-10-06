@@ -242,7 +242,7 @@ have we changed?** and **How does customizing work?**
 | `forms.py` | Each form's app and counts, and the extensions on one form, for OneAI. What OneAI's card saves is `../one/customize.py`. |
 | `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
-| `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |
+| `heads.py`, `legal.py` | The record heads, and what the Terms and the AI Addendum say. Extensions Failing and an extension turned on, off or deleted are in `notifications/one_studio/`. |
 
 ### How it is made
 

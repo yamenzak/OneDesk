@@ -139,5 +139,4 @@ def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole()
 	tell = tell[: tell.index("\ndef ")]
 	assert '"Employee Details Changed"' in tell and '"HR Manager"' in tell
 	assert "NOT_PEOPLE" in tell and "frappe.session.user" in tell, "not the bench account, not themselves"
-	types = (tree.APP / "one_hr" / "notifications.py").read_text()
-	assert '_lt("Employee Details Changed")' in types
+	assert tree.notifications()["Employee Details Changed"]["module"] == "one_hr"

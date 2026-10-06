@@ -216,7 +216,7 @@ is:
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
 - `task.py` also has `recurring`, which gives a repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
   dates, its status and its people.
-- `tell.py` and `notifications.py` — Task Given, Task Done, Task Ready,
+- `tell.py`, with the types in `notifications/one_task/` — Task Given, Task Done, Task Ready,
   Pending Review, Due Date Changed and Today's
   Tasks. Task Given is frappe's own assignment line said in ours: a
   Notification Log `before_insert` turns frappe's "assigned a new task Task"

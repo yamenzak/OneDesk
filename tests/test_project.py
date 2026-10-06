@@ -125,9 +125,9 @@ def test_a_member_is_told_in_ours_not_erpnexts_mail():
 	assert 'notify.notify("Added to Project"' in tell and 'notify.notify("Made Project Manager"' in tell
 	assert 'notify.notify("Project Health"' in tell and 'WORSE = ("At Risk", "Off Track")' in tell
 	assert '"onedesk.one_project.tell.changed"' in HOOKS
-	types = (PROJECT / "notifications.py").read_text()
+	types = tree.notifications()
 	for name in ("Added to Project", "Made Project Manager", "Project Health"):
-		assert f'"name": _lt("{name}")' in types
+		assert types[name]["module"] == "one_project", name
 
 
 def _tree():
@@ -1024,8 +1024,7 @@ def test_milestones_say_where_and_when_and_may_be_billed_on_completion():
 	custom = json.loads((PROJECT / "custom" / "task.json").read_text())["custom_fields"]
 	assert [(one["fieldname"], one["depends_on"]) for one in custom] == [("one_bill_share", "is_milestone")]
 	assert '"onedesk.one_project.milestones.reached",' in HOOKS
-	notes = (PROJECT / "notifications.py").read_text()
-	assert '_lt("Milestone Done")' in notes
+	assert "Milestone Done" in tree.notifications()
 	page = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.add_milestone = (projects, billed, done)" in page and "is_milestone: 1" in page
 	panel = (tree.ROOT / "frontend" / "src" / "project" / "TaskPanel.vue").read_text()
@@ -1106,8 +1105,8 @@ def test_the_overview_budget_adds_up_to_numbers():
 
 
 def test_the_money_is_told_and_read():
-	kinds = (PROJECT / "notifications.py").read_text()
-	assert '_lt("Over Budget")' in kinds and '_lt("Progress Bill Drafted")' in kinds
+	kinds = tree.notifications()
+	assert "Over Budget" in kinds and "Progress Bill Drafted" in kinds
 	budget = (PROJECT / "budget.py").read_text()
 	# Once for each budget: a revised budget can tell again.
 	assert (
@@ -1318,8 +1317,7 @@ def test_the_project_page_tells_oneai_where_it_is():
 
 
 def test_a_retainer_tells_whoever_runs_it():
-	types = {str(one["name"]) for one in _load(PROJECT / "notifications.py", ("TYPES",), _lt=str)["TYPES"]}
-	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= types
+	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= set(tree.notifications())
 	assert '"onedesk.one_project.tell.retainer_months"' in HOOKS
 	assert '"on_submit": "onedesk.one_project.tell.hours_used"' in HOOKS
 	tell = (PROJECT / "tell.py").read_text()
@@ -1748,7 +1746,7 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	assert 'if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):' in view
 	tell = (PROJECT / "tell.py").read_text()
 	assert "completed(doc, before)" in tell and '"Project Completed"' in tell
-	assert '"name": _lt("Project Completed")' in (PROJECT / "notifications.py").read_text()
+	assert "Project Completed" in tree.notifications()
 
 
 def test_a_completed_project_reads_as_done():
@@ -1851,8 +1849,7 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 	# Handover falls due when the project is completed; the day it's due is told.
 	assert '"onedesk.one_project.retention.handed_over"' in HOOKS
 	assert '"onedesk.one_project.retention.due"' in HOOKS
-	notes = (PROJECT / "notifications.py").read_text()
-	assert '_lt("Retention Due")' in notes and '_lt("Retention on {project} is due today")' in notes
+	assert tree.notifications()["Retention Due"]["subject"] == "Retention on {project} is due today"
 	# Needs You asks the customer for it, and says when a supplier's is to pay.
 	view = (PROJECT / "view.py").read_text()
 	assert 'found += retention.asks(view["tree"], user)' in view
@@ -1968,11 +1965,7 @@ def test_a_task_goes_to_a_group_a_template_joins_a_running_project_and_people_he
 		"desk().project.add_template(s.name, loadWork)"
 		in (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	)
-	kinds = {
-		str(one["name"])
-		for one in _load(tree.APP / "one_task" / "notifications.py", ("TYPES",), _lt=str)["TYPES"]
-	}
-	assert {"Task Ready", "Pending Review", "Due Date Changed"} <= kinds
+	assert {"Task Ready", "Pending Review", "Due Date Changed"} <= set(tree.notifications())
 	assert '"onedesk.one_task.tell.changed"' in (tree.APP / "hooks.py").read_text()
 
 
@@ -2073,8 +2066,7 @@ def test_what_was_bought_for_a_time_and_materials_job_is_billed_once():
 
 
 def test_a_task_over_its_hours_is_told_and_timing_it_does_not_finish_it():
-	kinds = {str(one["name"]) for one in _load(PROJECT / "notifications.py", ("TYPES",), _lt=str)["TYPES"]}
-	assert "Hours Over Plan" in kinds
+	assert "Hours Over Plan" in tree.notifications()
 	tell = (PROJECT / "tell.py").read_text()
 	# Once, as the hours pass the plan.
 	assert "if not (flt(before.actual_time) <= planned < flt(doc.actual_time)):" in tell

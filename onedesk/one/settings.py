@@ -1195,7 +1195,7 @@ def _not_the_last_administrator(user: str) -> None:
 
 def _told_of_access(doc, before: set, after: set) -> None:
 	"""The person hears what they may now use; every other administrator
-	hears of a new administrator, always by mail (one/notifications.py)."""
+	hears of a new administrator, always by mail (notifications/one/)."""
 	from onedesk.one import notify
 
 	said = []
@@ -1961,7 +1961,9 @@ def _notification_type(name: str) -> dict:
 			field.update({"wrap": 1, "min_lines": 3, "max_lines": 12})
 		if field["fieldname"] == "enabled":
 			field["label"] = _("Send This")
-			fixed = one.get("required") or (one.get("mailed_by") and not one.get("switch"))
+			fixed = one.get("required") or (
+				one.get("mailed_by") and not (one.get("switch") or one.get("notification"))
+			)
 			field["read_only"] = 1 if fixed else 0
 	if one.get("mailed_by"):
 		# Mailed by the app itself: whether it is sent, where the app lets us say.
@@ -1985,6 +1987,7 @@ def _notification_type(name: str) -> dict:
 			"mailed_by": one["app"] if one.get("mailed_by") else "",
 			"rule": one.get("rule") or "",
 			"switch": bool(one.get("switch")),
+			"notification": bool(one.get("notification")),
 			"slots": notify.slots(name),
 			"default_subject": doc.one_default_subject,
 			"default_message": doc.one_default_message,

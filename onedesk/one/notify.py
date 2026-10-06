@@ -6,9 +6,10 @@ emails it to them if they chose email for that type. We add what frappe's type
 lacks, as custom fields on Notification Type: the app it belongs to, what it is
 about, its text, and which channels it may use.
 
-**A type is declared by the module that sends it**, in its `notifications.py`,
-and named in `hooks.py` under `one_notification_types`. `install()` makes each
-one a Notification Type after every migrate. From then on the workspace's
+**A type is one file in `onedesk/notifications/`**, under the module that
+sends it, in one layout (notifications/layout.py). The folder is named in
+`hooks.py` under `one_notification_types`, where another app may name its own
+list. `install()` makes each one a Notification Type after every migrate. From then on the workspace's
 administrator owns its text and its channels.
 
 **Two texts, and whose words they are.** A type's default subject and message
@@ -37,7 +38,8 @@ whose screens it belongs to, in one of three ways:
 - mailed by them (`mailed_by`), where nothing lets us stand in their place, or
   the mail itself is the point (a payslip). Listed, so the administrator sees
   everything the workspace sends; where the app has a switch for it
-  (`switch`), that switch and Send This are one.
+  (`switch`), or a frappe Notification of ours sends it (`notification`),
+  that switch or the Notification's Enabled and Send This are one.
 
 Every value put into a text is escaped first, because the text is HTML in the
 bell and in the mail, and a file or person's name is not ours to trust.
@@ -79,9 +81,8 @@ ONEAI = "oneai@one.invalid"
 
 
 def declared() -> dict[str, dict]:
-	"""Every type the modules declare, by its untranslated name. A module
-	declares a list, each with its `name` as `_lt` so the name is translated
-	where it is shown."""
+	"""Every type declared, by its untranslated name, each with its `name` as
+	`_lt` so the name is translated where it is shown."""
 	found = {}
 	for path in frappe.get_hooks("one_notification_types") or []:
 		for one in frappe.get_attr(path):
@@ -171,7 +172,7 @@ def install(*_args) -> None:
 			values["one_subject"] = subject
 		if not was.one_message or was.one_message == was.one_default_message:
 			values["one_message"] = message
-		if one.get("switch"):
+		if one.get("switch") or one.get("notification"):
 			values["enabled"] = _switch(one)
 		frappe.db.set_value("Notification Type", name, values, update_modified=False)
 	_settle()
@@ -182,7 +183,7 @@ def install(*_args) -> None:
 def _starts(one: dict) -> int:
 	"""Whether a type starts on: as the app's own switch for it stood, so a
 	workspace that had turned birthday mails off is not told birthdays now."""
-	if one.get("switch"):
+	if one.get("switch") or one.get("notification"):
 		return _switch(one)
 	was = one.get("starts_as")
 	if was:
@@ -191,6 +192,10 @@ def _starts(one: dict) -> int:
 
 
 def _switch(one: dict) -> int:
+	"""Whether the app's own switch for a type is on: a setting, or the
+	Enabled box of the frappe Notification that sends it."""
+	if one.get("notification"):
+		return 1 if frappe.db.get_value("Notification", one["notification"], "enabled") else 0
 	return 1 if frappe.db.get_single_value(*one["switch"]) else 0
 
 
@@ -205,12 +210,17 @@ def _settle() -> None:
 
 
 def switched(doc, method=None) -> None:
-	"""An app's settings saved: a type whose Send This is one of its switches
-	follows it."""
+	"""An app's settings saved, or the Notification that sends a type: a type
+	whose Send This is that switch follows it."""
 	for name, one in declared().items():
-		doctype, field = one.get("switch") or (None, None)
-		if doctype != doc.doctype:
-			continue
+		if doc.doctype == "Notification":
+			if one.get("notification") != doc.name:
+				continue
+			field = "enabled"
+		else:
+			doctype, field = one.get("switch") or (None, None)
+			if doctype != doc.doctype:
+				continue
 		on = 1 if doc.get(field) else 0
 		if frappe.db.get_value("Notification Type", name, "enabled") != on:
 			frappe.db.set_value("Notification Type", name, "enabled", on)
@@ -286,7 +296,7 @@ def validate(doc, method=None) -> None:
 		doc.one_allow_push = doc.one_push_default = 0
 	if one.get("mailed_by"):
 		doc.one_allow_email = 0
-		if not one.get("switch") and not doc.enabled:
+		if not (one.get("switch") or one.get("notification")) and not doc.enabled:
 			frappe.throw(
 				_("{0} always sends this. It can't be turned off.").format(one["app"])
 			)
@@ -294,6 +304,9 @@ def validate(doc, method=None) -> None:
 		doctype, field = one["switch"]
 		if (1 if frappe.db.get_single_value(doctype, field) else 0) != (1 if doc.enabled else 0):
 			frappe.db.set_single_value(doctype, field, 1 if doc.enabled else 0)
+	if one.get("notification") and _switch(one) != (1 if doc.enabled else 0):
+		frappe.db.set_value("Notification", one["notification"], "enabled", 1 if doc.enabled else 0)
+		frappe.clear_document_cache("Notification", one["notification"])
 	if upstream(one):
 		doc.one_subject = doc.one_message = ""
 	if not doc.one_allow_email:

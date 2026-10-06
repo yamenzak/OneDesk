@@ -3129,6 +3129,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				html: `<div class="one-shell-quiet">${esc(
 					type.switch
 						? __("{0} sends this email itself. Send This is the same switch as in its settings.", [type.mailed_by])
+						: type.notification
+						? __("{0} sends this email itself. Send This turns it on and off.", [type.mailed_by])
 						: __("{0} sends this email itself. It's listed so you can see everything the workspace sends.", [type.mailed_by])
 				)}</div>`,
 			});

@@ -12,7 +12,7 @@ HRMS tells people things four ways, and none of them is the bell:
   switch is off, and hidden, because this tells them now.
 - **Reminders** are mailed by its scheduler: birthdays, work anniversaries,
   upcoming holidays, an interview soon, feedback not given. Each has a switch
-  in HR Settings; those are off and hidden (`replaces` in notifications.py),
+  in HR Settings; those are off and hidden (`replaces` in notifications/one_hr/),
   and the jobs here tell the same people the same things. A type starts on
   only if its switch was on.
 - **A rescheduled interview** is mailed to interviewers and applicant alike,

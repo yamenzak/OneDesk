@@ -188,6 +188,18 @@ GUARDS = [
 		"a notification that does not say what it needs",
 		"tests/test_notify.py::test_every_type_says_what_it_needs",
 	),
+	Guard(
+		"one-folder",
+		10,
+		"a notification declared anywhere but its own file in onedesk/notifications/",
+		"tests/test_notify.py::test_nothing_declares_a_notification_anywhere_else",
+	),
+	Guard(
+		"one-layout",
+		10,
+		"a notification file not named for its type or not in the one layout",
+		"tests/test_notify.py::test_every_notification_is_one_file_in_one_layout",
+	),
 	# 12 Plain words
 	Guard(
 		"screen-plain",

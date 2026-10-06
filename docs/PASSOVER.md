@@ -351,13 +351,26 @@ Foundations done so far:
     ERPNext's hourly job would.
   - **Still as ERPNext does it**: closing a project with its open work
     closes the tasks without their own hooks, as ERPNext closes them.
+- **Notifications in one place**: every notification and mail One sends is
+  one file in `onedesk/notifications/`, under the module that sends it, in one
+  layout (its README). The header says who it goes to and how it is switched,
+  and the subject and message below read as the mail does. The thirteen
+  module lists are gone, with every word kept, so translations and each
+  workspace's own copy still match. Guarded (`tests/test_notify.py`), and the
+  demo checks every file is on Settings › Notifications. Moving them found
+  four mails sent with no type and on no page:
+  - The Payment Reminder OneBook mails a customer a week after an invoice is
+    due. It is listed now, and its Send This and the rule's Enabled box are
+    one.
+  - Reports by mail, and frappe's own password reset link and sign-in code.
+    They are listed as mailed by frappe.
 
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the
    tier registry, formats from frappe, the record frame and places on the
-   project page, the demo company and its suite, rules on the server (done),
-   notifications in one place, shipped print formats, hand-offs, Intake
+   project page, the demo company and its suite, rules on the server,
+   notifications in one place (done), shipped print formats, hand-offs, Intake
    samples and the code cleanup.
 2. **Project templates**, right after:
    - **The page**: Templates in the OneProject rail; a template opens in the

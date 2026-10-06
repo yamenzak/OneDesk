@@ -332,3 +332,24 @@ Summary, and ERPNext's appointments, delivery trips, proforma invoices,
 payment requests and email digests. The project invitation ERPNext mails a
 project's users is already not sent (`one_project/members.py`).
 
+## In one folder
+
+Every type is now one file in `onedesk/notifications/`, under the module that
+sends it, in one layout (`notifications/README.md`). A module's own
+`notifications.py` list is gone, and `hooks.py` names the folder once. The
+words in the files are the words the lists had, so every translation and every
+workspace's own copy still matches.
+
+Moving them found four mails sent with no type, so they were on no page:
+
+- **Payment Reminder**, OneBook's own Notification to a customer whose invoice
+  is a week overdue. It is listed now, and its Send This and the
+  Notification's Enabled box are one (`notification`). The books check turns
+  it on through Send This.
+- **Report by Mail**, frappe's Auto Email Report, which a workspace sets from
+  a report's menu.
+- **Password Reset Link** and **Sign-in Code**, frappe's own sign-in mails.
+
+The last three are mailed by frappe in its words and listed so everything sent
+is on one page.
+

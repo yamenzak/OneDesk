@@ -533,3 +533,41 @@ def a_folder_reads_for_whoever_turned_it_on():
 	for way, got in _each_way("samir@one.test", "File", folder.name, {"one_intake": 1, "one_intake_for": "omar@one.test"}).items():
 		assert not isinstance(got, Exception), (way, got)
 		assert got.one_intake_for == "samir@one.test", (way, got)
+
+
+@check
+def every_notification_file_is_on_the_notifications_page():
+	"""Each file in onedesk/notifications/ is a type the workspace has, with
+	the file's words, and listed for its administrator to change."""
+	from onedesk.one import notify, settings
+
+	declared = notify.declared()
+	with as_user(OWNER):
+		listed = {one["name"] for app in settings._notification_types()["apps"] for one in app["types"]}
+	missing = sorted(set(declared) - listed)
+	assert not missing, missing
+	wrong = [
+		name
+		for name, one in declared.items()
+		if frappe.db.get_value("Notification Type", name, "one_default_subject") != notify.jinja(one.get("subject"))
+	]
+	assert not wrong, wrong
+
+
+@check
+def the_payment_reminder_is_turned_on_where_every_notification_is():
+	"""Send This on the Payment Reminder and the rule that mails it are one."""
+	with as_user(OWNER):
+		kind = frappe.get_doc("Notification Type", "Payment Reminder")
+		kind.enabled = 1
+		kind.save()
+	assert frappe.db.get_value("Notification", "Payment Reminder", "enabled") == 1
+	# Turned off on the rule itself, as its list would. In developer mode frappe
+	# writes a standard rule back to its file on save, and the suite writes
+	# nothing.
+	frappe.flags.in_import = True
+	try:
+		frappe.client.set_value("Notification", "Payment Reminder", "enabled", 0)
+	finally:
+		frappe.flags.in_import = False
+	assert frappe.db.get_value("Notification Type", "Payment Reminder", "enabled") == 0

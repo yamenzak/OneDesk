@@ -3,7 +3,7 @@
 A notification sent any other way has text an administrator cannot change and
 channels nobody can choose, so nothing else in OneDesk may call
 `frappe.sendmail`, write a Notification Log, or enqueue one. Each type a module
-sends is declared in its `notifications.py`, and each name sent is declared.
+sends is one file in `onedesk/notifications/`, and each name sent is declared.
 """
 
 import ast
@@ -46,37 +46,75 @@ def test_nothing_else_sends():
 
 
 def _declared() -> dict[str, dict]:
-	"""Each module's TYPES, read as literals: `_lt("x")` becomes "x"."""
-	paths = re.findall(r'"onedesk\.(\w+)\.notifications\.TYPES"', HOOKS)
-	assert paths, "no module declares notification types"
-	found = {}
-	for module in paths:
-		source = (tree.APP / module / "notifications.py").read_text(encoding="utf-8")
-		for node in ast.walk(ast.parse(source)):
-			if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "TYPES":
-				for one in node.value.elts:
-					declared = {
-						key.value: (
-							value.args[0].value if isinstance(value, ast.Call) else ast.literal_eval(value)
-						)
-						for key, value in zip(one.keys, one.values, strict=True)
-					}
-					assert declared["name"] not in found, f"{declared['name']} is declared twice"
-					found[declared["name"]] = {**declared, "module": module}
-	return found
+	"""Every notification file, read in its layout (onedesk/notifications/)."""
+	return tree.notifications()
+
+
+def _layout():
+	import importlib.util
+
+	spec = importlib.util.spec_from_file_location("layout", tree.APP / "notifications" / "layout.py")
+	layout = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(layout)
+	return layout
+
+
+def test_every_notification_is_one_file_in_one_layout():
+	"""One folder, a file a type, under the module that sends it, named for
+	the type and written exactly as the layout writes it, so the header keys
+	are always in one order and a message always wraps the same way."""
+	layout = _layout()
+	modules = {path.name for path in tree.APP.iterdir() if (path / "__init__.py").exists()}
+	for name, one in _declared().items():
+		path = one["file"]
+		assert path.name == layout.slug(name), f"{name} is in {path.name}"
+		assert one["module"] in modules, f"{name} is under {one['module']}, which is no module"
+		text = path.read_text(encoding="utf-8")
+		assert text == layout.write(layout.read(text)), f"{path.name} is not in the one layout"
+	assert re.search(r'one_notification_types = \["onedesk\.notifications\.TYPES"\]', HOOKS)
+
+
+def test_nothing_declares_a_notification_anywhere_else():
+	"""A list of types in a module's own file is a second place to look."""
+	stray = [
+		str(path.relative_to(tree.APP))
+		for path in _python()
+		if path.name == "notifications.py"
+		or re.search(r'"subject": _lt\(', path.read_text(encoding="utf-8"))
+	]
+	assert not stray, stray
+
+
+def test_a_layout_reads_back_what_it_writes():
+	layout = _layout()
+	one = {
+		"name": "Invitation",
+		"app": "One",
+		"roles": ("HR Manager", "HR User"),
+		"about": "When an administrator invites someone: today.",
+		"to": "The person invited",
+		"outside": True,
+		"replaces": (("HR Settings", "send_birthday_reminders"), ("Stock Settings", "reorder_email_notify")),
+		"subject": "{inviter} invited you",
+		"message": "<b>{inviter}</b> invited you.<br><br><a href=\"{link}\">Choose your password</a><br><br>"
+		+ "The link works for {days} days. " * 6,
+	}
+	one["message"] = one["message"].strip()
+	assert layout.read(layout.write(one)) == one
+	assert layout.only_slots("{reasons}") and not layout.only_slots("{task} is late")
 
 
 #: Every key a declaration may carry (one/notify.py says what each means).
 KEYS = {
 	"name", "app", "about", "subject", "message", "roles", "email", "push", "email_default",
 	"push_default", "outside", "required", "always_mailed", "words", "rule", "mailed_by", "switch",
-	"replaces", "starts_as", "to", "follows", "oneai",
+	"replaces", "starts_as", "to", "follows", "oneai", "notification",
 }  # fmt: skip
 
 
 def test_every_type_says_what_it_needs():
 	for name, one in _declared().items():
-		assert set(one) - {"module"} <= KEYS, f"{name}: {sorted(set(one) - KEYS - {'module'})}"
+		assert set(one) - {"module", "file"} <= KEYS, f"{name}: {sorted(set(one) - KEYS - {'module', 'file'})}"
 		upstream = one.get("mailed_by") or one.get("words")
 		assert {"name", "app", "about"} <= set(one), name
 		# Our own words need a subject; the apps' own are theirs to write.

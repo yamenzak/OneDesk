@@ -365,8 +365,7 @@ def test_the_operator_is_told_where_each_thing_happens():
 		assert call in (ADMIN / path).read_text(), f"{path} does not call {call}"
 	tell = (ADMIN / "tell.py").read_text()
 	assert "frappe.log_error" in tell, "a notice that fails must not stop the job"
-	assert '"roles": ("One Operator",)' in (ADMIN / "notifications.py").read_text()
-	assert '"onedesk.one_admin.notifications.TYPES"' in (tree.APP / "hooks.py").read_text()
+	assert any(one.get("roles") == ("One Operator",) for one in tree.notifications().values())
 
 
 def test_oneai_reads_the_console_for_an_operator_only():
@@ -387,8 +386,8 @@ def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
 	tell = (ADMIN / "tell.py").read_text().split("def owner(", 1)[1].split("\n@", 1)[0]
 	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Closed", "Workspace Restored"):
 		assert f'notify.mail("{name}"' in tell, name
-	types = (ADMIN / "notifications.py").read_text()
-	assert types.count('"outside": True') == 12, (
+	types = [one for one in tree.notifications().values() if one["module"] == "one_admin"]
+	assert sum(bool(one.get("outside")) for one in types) == 12, (
 		"Ready, Suspended, Archived, Closed, Restored, Delayed, Finish, Sign-in, Moved to, Moved away, Confirm, Changed"
 	)
 
@@ -584,7 +583,7 @@ def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
 	assert '"kind": "Spend"' in take and 'held.source != "Operator"' in take
 	assert '"gift": ledger.last_gift(' in (ADMIN / "proxy.py").read_text()
 	assert '_once("gift"' in (tree.APP / "one" / "account.py").read_text()
-	assert "{note}" in (tree.APP / "one" / "notifications.py").read_text()
+	assert any("{note}" in one.get("message", "") for one in tree.notifications().values())
 	heads = (ADMIN / "heads.py").read_text()
 	assert '"credit.said": credit_said' in heads and '"credit.take_back": {' in heads
 	listed = (tree.APP / "public" / "js" / "credit_ledger_entry_list.js").read_text()

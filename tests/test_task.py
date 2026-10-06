@@ -186,7 +186,6 @@ def test_onetask_is_one_column_that_listens():
 def test_a_task_given_is_said_in_ours_and_a_task_done_is_told():
 	assert '"before_insert": "onedesk.one_task.tell.given"' in HOOKS
 	assert '"onedesk.one_task.tell.done"' in HOOKS and '"onedesk.one_task.tell.today"' in HOOKS
-	assert '"onedesk.one_task.notifications.TYPES"' in HOOKS
 	given = _body((TASK / "tell.py").read_text(), "given")
 	assert 'doc.type != "Assignment"' in given and '"status": "Open"' in given, "a removal stays frappe's"
 	done = _body((TASK / "tell.py").read_text(), "done")

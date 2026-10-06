@@ -159,7 +159,6 @@ def test_it_is_wired():
 		'"onedesk.one_studio.ai.extension_code"',
 		'"onedesk.one_studio.ai.SUGGESTIONS"',
 		'"onedesk.one_studio.extensions.failing"',
-		'"onedesk.one_studio.notifications.TYPES"',
 		'"onedesk.one_studio.heads.HEADS"',
 	):
 		assert hook in HOOKS, hook
@@ -248,9 +247,9 @@ def test_a_screen_extension_runs_wrapped_and_a_meant_throw_still_stops_the_save(
 
 
 def test_the_other_administrators_hear_of_one_turned_on_off_or_deleted():
-	names = (STUDIO / "notifications.py").read_text()
+	names = tree.notifications()
 	for name in ("Extension Turned On", "Extension Turned Off", "Extension Deleted"):
-		assert f'_lt("{name}")' in names, name
+		assert name in names, name
 	source = (STUDIO / "extensions.py").read_text()
 	assert 'notify.notify("Extension Deleted", roles.administrators()' in source
 	assert "before and before.enabled != doc.enabled" in source
@@ -476,7 +475,7 @@ def test_a_scheduled_extension_has_no_record_to_use():
 def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	"""A form changed for everybody is told to the other administrators, from
 	Save and Reset alike; the Forms list offers nothing about one form."""
-	assert '_lt("Form Customized")' in (STUDIO / "notifications.py").read_text()
+	assert "Form Customized" in tree.notifications()
 	customize = (tree.APP / "one" / "customize.py").read_text()
 	assert customize.count("\t_told(doctype)\n") == 2
 	assert '"Form Customized",\n\t\troles.administrators()' in customize

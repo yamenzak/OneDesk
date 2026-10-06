@@ -27,7 +27,7 @@ Notification roles is a **workspace rule** (`one_rule`), held to this:
 
 **The rules erpnext and hrms ship mail whoever they name**, whatever those
 people chose. A module that declares one as a type (`rule` in its
-`notifications.py`) has it carried: the people in the workspace are told
+`notifications/`) has it carried: the people in the workspace are told
 through the hub, in the rule's own words, and only an address that is nobody
 here is still mailed (`Rule.send_an_email`). The rule itself is not changed,
 so a new version of it arrives with the app.

@@ -335,6 +335,8 @@ doc_events = {
 	"Notification Settings": {"before_insert": "onedesk.one.notify.new_person"},
 	# An app's own switch for a mail it sends is that type's Send This.
 	"Payroll Settings": {"on_update": "onedesk.one.notify.switched"},
+	# A mail one of our Notifications sends: its Enabled and Send This are one.
+	"Notification": {"on_update": "onedesk.one.notify.switched"},
 	# A request raised by reordering is told to Purchasing. See one_inventory/tell.py.
 	"Material Request": {
 		"on_submit": "onedesk.one_inventory.tell.raised",
@@ -1355,22 +1357,9 @@ one_ai_page = [
 # there. See one/homes.py.
 one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
 
-# What each module tells people, as notification types. See one/notify.py.
-one_notification_types = [
-	"onedesk.one.notifications.TYPES",
-	"onedesk.one_hr.notifications.TYPES",
-	"onedesk.one_intake.notifications.TYPES",
-	"onedesk.one_storage.notifications.TYPES",
-	"onedesk.one_calendar.notifications.TYPES",
-	"onedesk.one_task.notifications.TYPES",
-	"onedesk.one_admin.notifications.TYPES",
-	"onedesk.one_project.notifications.TYPES",
-	"onedesk.one_book.notifications.TYPES",
-	"onedesk.one_inventory.notifications.TYPES",
-	"onedesk.one_crm.notifications.TYPES",
-	"onedesk.one_mail.notifications.TYPES",
-	"onedesk.one_studio.notifications.TYPES",
-]
+# Every notification and mail One sends, one file each, by module, in
+# onedesk/notifications/. Another app may add its own. See one/notify.py.
+one_notification_types = ["onedesk.notifications.TYPES"]
 
 # What a record's form says above its fields, as rows: each module's heads,
 # the measures they place and the verbs they offer. See one/head.py.

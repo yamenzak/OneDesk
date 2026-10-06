@@ -71,12 +71,11 @@ def test_the_account_hears_only_from_the_workspace_itself():
 
 
 def test_everybody_concerned_is_told():
-	here = (tree.APP / "one" / "notifications.py").read_text()
+	types = tree.notifications()
 	for name in ("Full Download Ready", "Workspace Closing", "Workspace Staying Open"):
-		assert f'_lt("{name}")' in here, name
-	there = (tree.APP / "one_admin" / "notifications.py").read_text()
+		assert types[name]["module"] == "one", name
 	for name in ("Workspace Asked to Close", "Workspace Closed"):
-		assert f'_lt("{name}")' in there, name
+		assert types[name]["module"] == "one_admin", name
 	assert 'if tenant.get("closing_on"):\n\t\t\t# Closed because they asked' in TELL
 	for name in ("close", "keep"):
 		assert 'sender="Administrator"' in _body(name, HERE), "the payer is told too"

@@ -53,8 +53,7 @@ def test_the_administrators_hear_when_calls_give_up():
 	assert '"onedesk.one.webhooks.failing"' in HOOKS
 	failing = _body("failing")
 	assert '"status": "Exhausted"' in failing and 'notify.notify(\n\t\t"Webhooks Failing"' in failing
-	types = (tree.APP / "one" / "notifications.py").read_text()
-	assert '_lt("Webhooks Failing")' in types
+	assert "Webhooks Failing" in tree.notifications()
 
 
 def test_the_sidebar_reaches_both():

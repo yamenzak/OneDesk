@@ -1,4 +1,4 @@
-"""Telling people about tasks (one_task/notifications.py).
+"""Telling people about tasks (notifications/one_task/).
 
 **A task given.** Giving somebody a task is frappe's assignment, and frappe
 writes its own line for it: "Samir assigned a new task Task Write the copy to

@@ -68,8 +68,7 @@ def test_every_approval_is_told_through_the_hub_and_laid_out():
 	validate = SOURCE.split("def validate(", 1)[1].split("\ndef ", 1)[0]
 	assert "doc.send_email_alert = 0" in validate and "_laid_out(doc)" in validate
 	assert '"Workflow Action": {"after_insert": "onedesk.one.approvals.waiting"}' in HOOKS
-	notifications = (tree.APP / "one" / "notifications.py").read_text()
-	assert '_lt("Approval Waiting")' in notifications
+	assert "Approval Waiting" in tree.notifications()
 
 
 def test_intake_takes_the_approval_step_and_oneai_never_does():

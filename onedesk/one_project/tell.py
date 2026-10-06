@@ -1,4 +1,4 @@
-"""Telling people about a project (one_project/notifications.py).
+"""Telling people about a project (notifications/one_project/).
 
 **Added to a project.** ERPNext mails each new member its own "Project
 Collaboration Invitation", in English, outside the hub. `members.invite`

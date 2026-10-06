@@ -35,3 +35,19 @@ def _walk():
 		if not path.is_file() or any(part in SKIP_DIRS for part in path.parts):
 			continue
 		yield path
+
+
+def notifications() -> dict[str, dict]:
+	"""Every notification file read in its layout, by name, each with the
+	module whose folder it is in (onedesk/notifications/)."""
+	import importlib.util
+
+	spec = importlib.util.spec_from_file_location("layout", APP / "notifications" / "layout.py")
+	layout = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(layout)
+	found = {}
+	for path in sorted((APP / "notifications").glob("*/*.md")):
+		one = layout.read(path.read_text(encoding="utf-8"))
+		assert one["name"] not in found, f"{one['name']} is declared twice"
+		found[one["name"]] = {**one, "module": path.parent.name, "file": path}
+	return found

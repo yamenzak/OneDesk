@@ -643,7 +643,7 @@ def test_the_workspaces_signature_is_its_administrators():
 def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again():
 	sync = (MAIL / "sync.py").read_text()
 	assert "if not doc.one_error:\n\t\t\tbroke(doc, said)" in sync, "once, when it breaks"
-	assert '"Mailbox Not Reachable"' in sync and "one_mail.notifications.TYPES" in HOOKS
+	assert '"Mailbox Not Reachable"' in sync and "Mailbox Not Reachable" in tree.notifications()
 	connect = (MAIL / "connect.py").read_text()
 	again = connect.split("def reconnect(", 1)[1].split("\ndef ", 1)[0]
 	# Tried where it already is, by a holder, and the workspace's by an administrator.
