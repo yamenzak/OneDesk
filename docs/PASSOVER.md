@@ -424,6 +424,10 @@ Foundations done so far:
     of ours, so a CV from such an address was never read as an applicant.
   - A tax number without its country letters was dropped, and an import
     ERPNext had moved stopped the lead conversion.
+  - A model call a sample does not answer now fails the sample, even where
+    Intake carries on without it. Four samples were missing one (placing an
+    attachment with its mail, and the fields an employee from a contract
+    still needs).
 - **Clean code**: a comment says why in a line or two and a docstring says
   what a file or function is for. Everything longer moved into the module's
   README, under Under the hood, word for word where it could (about 380
@@ -462,6 +466,9 @@ Noticed along the way, for the screen it belongs to:
 
 - **OneAI**: a card says Approve and Refuse, and the same proposal's own
   page says Apply and Refuse.
+- **The demo company** sends no mail. It has no outgoing mailbox, so every
+  notification a person chose to have by mail lands in the Error Log as
+  "Failed to send notification email".
 - **Workspace › Mail**: every workspace carries the Jobs mailbox HRMS makes
   on install (jobs@example.com). It reads and sends nothing, so Intake no
   longer counts it, but it still sits in the list.

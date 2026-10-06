@@ -38,7 +38,8 @@
    "sensitivity": "Ordinary",
    "confidence": 0.9
   },
-  "intake_audit": "right"
+  "intake_audit": "right",
+  "intake_place": "first"
  },
  "makes": [
   {

@@ -6,6 +6,7 @@ import json
 import re
 from contextlib import contextmanager
 from pathlib import Path
+from typing import NamedTuple
 from unittest.mock import patch
 
 import frappe
@@ -15,18 +16,28 @@ ROOT = Path(frappe.get_app_path("onedesk")).parent / "tests" / "samples" / "inta
 
 #: An auditor's answer a sample may give as a word: every action shown is right.
 RIGHT = "right"
+#: A placing answer a sample may give as a word: the first open matter shown.
+FIRST = "first"
+
+
+class Handled(NamedTuple):
+	made: list[dict]
+	#: The model calls Intake made that the sample has no answer for.
+	unanswered: list[str]
 
 
 def samples() -> list[Path]:
 	return sorted(ROOT.glob("*/*.json"))
 
 
-def handle(path: Path) -> list[dict]:
-	"""One sample through Intake as it arrives: the Intake Action rows it made."""
+def handle(path: Path) -> Handled:
+	"""One sample through Intake as it arrives: the Intake Action rows it made,
+	and any model call the sample does not answer."""
 	spec = json.loads(path.read_text())
 	content = path.with_name(spec["file"]).read_bytes()
 	started = now_datetime()
-	with _answered(path.name, spec.get("answers") or {}), _unkept():
+	unanswered = []
+	with _answered(path.name, spec.get("answers") or {}, unanswered), _unkept():
 		_arrive(spec["file"], content)
 		readings = frappe.get_all(
 			"Reading",
@@ -38,17 +49,20 @@ def handle(path: Path) -> list[dict]:
 
 		for name in readings:
 			matters.act_now(name)
-	return frappe.get_all(
+	made = frappe.get_all(
 		"Intake Action",
 		filters={"reading": ["in", readings or [""]]},
 		fields=["kind", "level", "target_doctype", "target_name", "after", "why"],
 		order_by="creation asc",
 	)
+	return Handled(made, unanswered)
 
 
-def unmet(path: Path, made: list[dict]) -> list[str]:
-	"""What a sample says Intake makes and it did not."""
-	out = []
+def unmet(path: Path, handled: Handled) -> list[str]:
+	"""What a sample says Intake makes and it did not, and what Intake asked
+	that the sample does not answer."""
+	made = handled.made
+	out = [f"no answer for {action}" for action in dict.fromkeys(handled.unanswered)]
 	for want in json.loads(path.read_text()).get("makes") or []:
 		found = [
 			one
@@ -91,16 +105,20 @@ def _arrive(name: str, content: bytes) -> None:
 
 
 @contextmanager
-def _answered(sample: str, answers: dict):
-	"""Every model call answered from the sample, and one it has no answer for
-	refused, so a sample says everything Intake asked about it."""
+def _answered(sample: str, answers: dict, unanswered: list):
+	"""Every model call answered from the sample. One it has no answer for is
+	refused and noted, since Intake may carry on without it."""
 
 	def once(action, text, files=None, reference=None):
 		said = answers.get(action)
 		if said == RIGHT:
 			ids = re.findall(r'"id": "([^"]+)"', text)
 			said = {"actions": [{"id": one, "verdict": "right", "why": "As the document says."} for one in ids]}
+		elif said == FIRST:
+			shown = re.findall(r"^- (\S+): ", text, flags=re.M)
+			said = {"matter": shown[0] if shown else None}
 		if said is None:
+			unanswered.append(action)
 			raise AssertionError(f"{sample} has no answer for {action}")
 		return json.dumps(said)
 

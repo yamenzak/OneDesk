@@ -29,8 +29,10 @@ A sample is two files with the same name:
 
 - `answers` holds each model call Intake makes about the document, by its
   action, in the shape the action asks for. `"right"` for the auditor
-  approves every action it is shown. A call with no answer fails the sample,
-  so a sample always says everything Intake asked.
+  approves every action it is shown, and `"first"` for placing puts the
+  document with the first open matter it is shown (an attachment with its
+  mail). A call with no answer fails the sample, even where Intake carries on
+  without it, so a sample always says everything Intake asked.
 - `makes` lists what must be done: a `doctype`, its `kind` (`Create`
   unless said) and `level` (`Done` unless said, or `Proposed` for what waits
   for a person), and `values` the record must hold.

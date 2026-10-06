@@ -4,9 +4,9 @@ Subject: Invoice AN-2026-0418
 Date: Mon, 05 Oct 2026 15:20:00 +0400
 Message-ID: <supplier-einvoice@samples.sahara-glass.test>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============1693377393311451383=="
+Content-Type: multipart/mixed; boundary="===============1491140212222225347=="
 
---===============1693377393311451383==
+--===============1491140212222225347==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
@@ -19,7 +19,7 @@ Best regards,
 Faisal Noor
 Al Noor Aluminium
 
---===============1693377393311451383==
+--===============1491140212222225347==
 Content-Type: application/xml
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="AN-2026-0418.xml"
@@ -70,4 +70,4 @@ PjwvY2FjOkl0ZW0+CiAgPGNhYzpQcmljZT48Y2JjOlByaWNlQW1vdW50IGN1cnJlbmN5SUQ9IkFF
 RCI+MTguNTA8L2NiYzpQcmljZUFtb3VudD48L2NhYzpQcmljZT48L2NhYzpJbnZvaWNlTGluZT4K
 PC9JbnZvaWNlPgo=
 
---===============1693377393311451383==--
+--===============1491140212222225347==--
