@@ -4,7 +4,8 @@
        aside then goes under the name; with
        `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
        value on the right; it may carry a
-       dot or an avatar (`avatar` the name, `image` the picture), and
+       dot or an avatar (`avatar` the name, `image` the picture, or an
+       `icon` in its place), and
        opens its `route` or runs its `onClick`. -->
   <div v-if="!rows.length && empty" class="py-3 text-base text-ink-gray-5">{{ empty }}</div>
   <List v-else :columns="['minmax(0,1fr)', bars ? '6rem' : 'auto', '8rem']" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
@@ -13,6 +14,7 @@
         <ListCell class="min-w-0 gap-2.5">
           <span v-if="item.dot" class="h-2 w-2 shrink-0 rounded-full" :class="dots[item.dot] || dots.gray" />
           <Avatar v-if="item.avatar" :label="item.avatar" :image="item.image" :shape="item.square ? 'square' : 'circle'" size="sm" />
+          <Avatar v-else-if="item.icon" :shape="item.square ? 'square' : 'circle'" size="sm"><span :class="item.icon" class="size-3" /></Avatar>
           <div class="min-w-0 flex-1">
             <div class="flex min-w-0 items-center gap-2">
               <div class="truncate text-base text-ink-gray-8">

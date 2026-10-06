@@ -291,6 +291,8 @@ const editAbout = () => onedesk().project.edit_about(props.said.name, props.said
 const editBrief = () => onedesk().project.edit_brief(props.said.name, props.said.modified, () => emit("changed"));
 // What the customer holds and what's held from suppliers, each with its rate
 // when the orders agree and when the first of it is due (retention.sides).
+// The customer's side carries their logo, the suppliers' side the Suppliers
+// tab's icon.
 const retention = computed(() =>
   [
     ["customer", __("From the Customer")],
@@ -302,6 +304,8 @@ const retention = computed(() =>
       return {
         key,
         label,
+        ...(key === "customer" ? { avatar: props.said.customer_name || props.said.customer, image: props.said.customer_image } : { icon: "lucide-truck" }),
+        square: true,
         below: [one.percent !== null && `${one.percent}%`, __("Due {0}", [date(one.due)])].filter(Boolean).join(" · "),
         value: money(one.held, props.said.currency),
       };
@@ -362,6 +366,9 @@ const orders = computed(() =>
   props.said.orders.slice(0, SHOWN).map((one) => ({
     key: one.name,
     label: one.name,
+    avatar: props.said.customer_name || props.said.customer,
+    image: props.said.customer_image,
+    square: true,
     badge: one.extra ? __("Extra Work") : undefined,
     lines: [
       [one.where, one.for].filter(Boolean).join(" · "),

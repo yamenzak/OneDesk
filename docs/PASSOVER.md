@@ -8222,6 +8222,10 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - The customer chip in the project's head shows the customer's logo in
   place of the building icon (`view.py` sends `customer_image`), on a white
   backing over the cover photo so a see-through logo still reads.
+- The Overview's Orders rows and Retention's From the Customer row lead with
+  the customer's logo, as Subcontracts lead with each supplier's. To
+  Suppliers takes the Suppliers tab's icon in the same square so both rows
+  line up (`Rows` takes an `icon` in place of an avatar).
 
 ## OneLegal
 

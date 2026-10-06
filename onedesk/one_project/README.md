@@ -155,7 +155,8 @@ facts depend on the kind:
 - **Internal**: the dates, how many days are left (or how late it is) and the
   manager.
 
-The customer shows with their logo and the manager with their picture.
+The customer shows with their logo, here and on the Overview's orders and
+retention, and the manager with their picture.
 
 How far along it is shows in the Overview's figures.
 
