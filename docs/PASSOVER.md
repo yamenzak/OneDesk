@@ -8196,6 +8196,14 @@ frappe's Assign does; Pending Review tells whoever made the task.
   It and Team's contacts were given a name and no image. Each now carries
   the user's picture, the employee's for someone with no user
   (`view._faces`, `hours._faces`), or the Contact's own.
+- Faces and logos (`one_mail/faces.py`) dressed contacts, leads, customers,
+  suppliers and banks only, so everyone who works here showed initials.
+  User, Employee, Company and Manufacturer are dressed now: a user or
+  employee takes the photo on their other record first, then their
+  Gravatar face, never a logo (their domain is our own); a photo put on one
+  goes to the other. The company gets its website's logo and its drawn
+  letter heads redraw. Administrator and Guest are left alone. The privacy
+  clause says so (revision 19), and a patch dresses what exists.
 
 ## OneLegal
 

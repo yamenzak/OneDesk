@@ -238,7 +238,13 @@ doc_events = {
 	"One Admin Settings": {"on_update": "onedesk.one_admin.offerings.warn"},
 	# Everyone who works here has an address on the mail domain. See
 	# one_mail/addresses.py.
-	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
+	# A user without a picture gets their face, or their employee's photo.
+	# See one_mail/faces.py.
+	"User": {
+		"before_save": "onedesk.one_mail.addresses.for_person",
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"on_update": "onedesk.one_mail.faces.dress_later",
+	},
 	# Calendar Links off deletes every calendar link. See one_calendar/feed.py.
 	"System Settings": {"on_update": "onedesk.one_calendar.feed.switched"},
 	# What a workspace writes about a form is held: nothing that runs, nothing
@@ -264,7 +270,11 @@ doc_events = {
 	"Auto Email Report": {"validate": "onedesk.one.reports.mail_kept"},
 	"Letter Head": {"validate": "onedesk.one.printing.validate_letter_head"},
 	# A letter head's drawn top says what General says now (one/letter_heads.py).
-	"Company": {"on_update": "onedesk.one.letter_heads.redraw"},
+	# The company without a logo gets its website's. See one_mail/faces.py.
+	"Company": {
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"on_update": ["onedesk.one.letter_heads.redraw", "onedesk.one_mail.faces.dress_later"],
+	},
 	"Address": {"on_update": "onedesk.one.letter_heads.redraw"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
@@ -326,6 +336,10 @@ doc_events = {
 	},
 	"Supplier": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
 	"Bank": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
+	"Manufacturer": {
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"on_update": "onedesk.one_mail.faces.dress_later",
+	},
 	# A company bank account wires the bank modes of payment. See one_book/ready.py.
 	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
 	# A repeated invoice keeps its days to pay; a repeated bill drops the
@@ -437,7 +451,10 @@ doc_events = {
 	},
 	"Employee": {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",
-		"on_update": "onedesk.one_hr.leaving.on_employee_update",
+		# An employee without a photo gets their user's picture, or their face.
+		# See one_mail/faces.py.
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"on_update": ["onedesk.one_hr.leaving.on_employee_update", "onedesk.one_mail.faces.dress_later"],
 	},
 	# One day's overtime is claimed once, and the slip says what it pays.
 	# See one_hr/overtime.py.

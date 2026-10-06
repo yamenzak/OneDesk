@@ -9,8 +9,13 @@ asked once per address or domain rather than every time a face is drawn,
 and a tenant's pictures are theirs, in their own storage.
 
 Used everywhere, not only by mail:
-- a Contact without a picture gets its person's face;
-- a Customer or Supplier without an image gets its website's logo;
+- a Contact or Lead without a picture gets its person's face;
+- a User without a picture gets their face, or their Employee's photo;
+- an Employee without a photo gets their User's picture, or their face;
+- a Customer, Supplier or Manufacturer without an image gets its website's
+  logo;
+- the Company without a logo gets its website's, and its drawn letter
+  heads take it;
 - a Bank gets its website's logo in `one_logo`, which ERPNext's Bank lacks;
 - the Mail page draws each sender's contact picture, else their face, else
   their organisation's logo.
@@ -240,10 +245,17 @@ def again() -> None:
 DRESSED = {
 	"Contact": ("image", "person"),
 	"Lead": ("image", "person"),
+	"User": ("user_image", "face"),
+	"Employee": ("image", "face"),
 	"Customer": ("image", "organisation"),
 	"Supplier": ("image", "organisation"),
+	"Manufacturer": ("logo", "organisation"),
+	"Company": ("company_logo", "organisation"),
 	"Bank": ("one_logo", "bank"),
 }
+
+#: Users who are nobody to look for.
+NOBODY = ("Administrator", "Guest")
 
 
 def sources(kind: str, email: str | None, website: str | None) -> list[str]:
@@ -251,6 +263,8 @@ def sources(kind: str, email: str | None, website: str | None) -> list[str]:
 	Pure.
 	- a person: their face, then their organisation's logo by the domain of
 	  their address, then by their website;
+	- someone who works here (a user, an employee): their face only, as
+	  their address's domain is our own;
 	- an organisation: its website's logo, then its address's domain's, then
 	  a face registered to the address itself (some register a logo against
 	  info@);
@@ -267,6 +281,8 @@ def sources(kind: str, email: str | None, website: str | None) -> list[str]:
 			by_email if by_email not in PROVIDERS else None,
 			by_site if by_site not in PROVIDERS else None,
 		]
+	elif kind == "face":
+		order = [address]
 	elif kind == "organisation":
 		order = [*logos, address]
 	else:
@@ -276,6 +292,10 @@ def sources(kind: str, email: str | None, website: str | None) -> list[str]:
 
 def _email_of(doc) -> str | None:
 	"""A record's address: its own, else its primary contact's."""
+	if doc.doctype == "User":
+		return None if doc.name in NOBODY else doc.get("email") or doc.name
+	if doc.doctype == "Employee":
+		return doc.get("prefered_email") or doc.get("company_email") or doc.get("personal_email")
 	if doc.doctype == "Contact":
 		return doc.get("email_id") or next(
 			(row.email_id for row in doc.get("email_ids") or [] if row.email_id), None
@@ -291,11 +311,40 @@ def sources_of(doc) -> list[str]:
 	return sources(DRESSED[doc.doctype][1], _email_of(doc), doc.get("website"))
 
 
+def _other_record(doc) -> tuple[str, str] | None:
+	"""The same person's other record: an Employee's User, a User's Employee."""
+	if doc.doctype == "Employee" and doc.get("user_id"):
+		return ("User", doc.user_id)
+	if doc.doctype == "User" and doc.name not in NOBODY:
+		employee = frappe.db.get_value("Employee", {"user_id": doc.name}, "name")
+		return ("Employee", employee) if employee else None
+	return None
+
+
+def borrowed(doc) -> str | None:
+	"""A picture the same person already has on their other record: an
+	Employee's user's, a User's employee's. Uploaded there, it is theirs, and
+	comes before any face looked for."""
+	if doc.doctype == "Employee" and doc.get("user_id"):
+		return frappe.db.get_value("User", doc.user_id, "user_image")
+	if doc.doctype == "User" and doc.name not in NOBODY:
+		return frappe.db.get_value("Employee", {"user_id": doc.name, "image": ["is", "set"]}, "image")
+	return None
+
+
 def dress_later(doc, method=None) -> None:
 	"""after_insert and on_update of the records in DRESSED: one without a
-	picture gets one, in the background."""
+	picture gets one, in the background. A person's photo put on their User
+	or their Employee goes to the other one too, when it has none."""
 	field = DRESSED.get(doc.doctype, (None, None))[0]
-	if not field or not doc.meta.has_field(field) or doc.get(field) or not sources_of(doc):
+	if not field or not doc.meta.has_field(field):
+		return
+	if doc.get(field):
+		other = _other_record(doc)
+		if other and not frappe.db.get_value(*other, DRESSED[other[0]][0]):
+			frappe.db.set_value(*other, DRESSED[other[0]][0], doc.get(field), update_modified=False)
+		return
+	if not sources_of(doc) and not _other_record(doc):
 		return
 	frappe.enqueue(
 		"onedesk.one_mail.faces.dress",
@@ -323,12 +372,16 @@ def dress(doctype: str, name: str) -> str | None:
 	field = DRESSED[doctype][0]
 	if doc.get(field):
 		return None
-	for key in sources_of(doc):
-		image = picture(key)
-		if image:
-			frappe.db.set_value(doctype, name, field, image, update_modified=False)
-			return image
-	return None
+	image = borrowed(doc) or next((found for key in sources_of(doc) if (found := picture(key))), None)
+	if not image:
+		return None
+	frappe.db.set_value(doctype, name, field, image, update_modified=False)
+	if doctype == "Company":
+		# A drawn letter head shows the logo as soon as there is one.
+		from onedesk.one import letter_heads
+
+		letter_heads.redraw()
+	return image
 
 
 def dress_all() -> int:
@@ -340,6 +393,8 @@ def dress_all() -> int:
 		if not frappe.db.exists("DocType", doctype) or not frappe.get_meta(doctype).has_field(field):
 			continue
 		for name in frappe.get_all(doctype, filters={field: ["is", "not set"]}, pluck="name", limit=5000):
+			if doctype == "User" and name in NOBODY:
+				continue
 			try:
 				dressed += int(bool(dress(doctype, name)))
 				frappe.db.commit()

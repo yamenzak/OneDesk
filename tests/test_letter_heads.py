@@ -43,7 +43,7 @@ def test_what_the_company_says_is_escaped():
 
 
 def test_a_top_is_drawn_again_when_the_company_changes():
-	assert '"Company": {"on_update": "onedesk.one.letter_heads.redraw"}' in HOOKS
+	assert '"on_update": ["onedesk.one.letter_heads.redraw", "onedesk.one_mail.faces.dress_later"]' in HOOKS
 	assert '"Address": {"on_update": "onedesk.one.letter_heads.redraw"}' in HOOKS
 	assert "is_your_company_address" in _body("redraw")
 	printing = (tree.APP / "one" / "printing.py").read_text()

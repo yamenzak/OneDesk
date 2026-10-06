@@ -278,7 +278,9 @@ def test_everyone_gets_an_address_named_by_whoever_adds_them():
 	assert "onedesk.one_mail.addresses.for_person" in HOOKS
 	custom = (MAIL / "custom" / "user.json").read_text()
 	assert '"one_mail_name"' in custom
-	assert "It can't be changed" in (MAIL / "addresses.py").read_text(), "an address, once given, is not renamed"
+	assert "It can't be changed" in (MAIL / "addresses.py").read_text(), (
+		"an address, once given, is not renamed"
+	)
 
 
 def test_only_the_workspaces_mailboxes_are_shared_out():
@@ -394,7 +396,9 @@ def _faces():
 		"file_name",
 		"sources",
 	)
-	return _load(MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse, PROVIDERS=PROVIDERS)
+	return _load(
+		MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse, PROVIDERS=PROVIDERS
+	)
 
 
 def test_a_sender_is_looked_for_as_a_person_then_as_an_organisation():
@@ -421,7 +425,17 @@ def test_pictures_are_asked_for_so_that_none_means_none():
 	assert "requests.get(" in source and "enqueue_after_commit=True" in source, (
 		"fetched by the server, in the background"
 	)
-	for doctype in ("Contact", "Lead", "Customer", "Supplier", "Bank"):
+	for doctype in (
+		"Contact",
+		"Lead",
+		"User",
+		"Employee",
+		"Customer",
+		"Supplier",
+		"Manufacturer",
+		"Company",
+		"Bank",
+	):
 		assert f'"{doctype}": {{' in HOOKS and "faces.dress_later" in HOOKS
 	assert "onedesk.one_mail.patches.dress_existing" in (tree.APP / "patches.txt").read_text()
 
@@ -439,6 +453,24 @@ def test_a_record_tries_both_services_in_the_order_that_fits_it():
 	assert sources("organisation", "hello@gmail.com", None) == ["hello@gmail.com"], "never gmail's logo"
 	assert sources("bank", "x@hsbc.com", "hsbc.com") == ["hsbc.com"]
 	assert sources("organisation", None, None) == []
+	# Someone who works here gets their own face, never our own logo.
+	assert sources("face", "ana@ourco.example", None) == ["ana@ourco.example"]
+	assert sources("face", None, None) == []
+
+
+def test_a_user_and_their_employee_share_a_photo_and_nobody_is_dressed():
+	source = (MAIL / "faces.py").read_text()
+	for doctype, field in (
+		("User", "user_image"),
+		("Employee", "image"),
+		("Company", "company_logo"),
+		("Manufacturer", "logo"),
+	):
+		assert f'"{doctype}": ("{field}",' in source
+	assert 'NOBODY = ("Administrator", "Guest")' in source
+	assert "borrowed(doc) or next(" in source, "an uploaded photo on the other record comes first"
+	assert "letter_heads.redraw()" in source, "a dressed company's letter heads show the logo"
+	assert "onedesk.one_mail.patches.dress_people_and_company" in (tree.APP / "patches.txt").read_text()
 
 
 # ------------------------------------------------------------------ mail and records

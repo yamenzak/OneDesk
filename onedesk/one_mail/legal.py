@@ -43,10 +43,11 @@ clause(
 	key="onemail-faces",
 	module=M,
 	body="""
-		To show who a message is from, One asks Gravatar for a person's picture, sending only a one-way hash
-		of their address, and asks Google for an organisation's logo, sending only its web domain. Each is
-		asked once, by our server and never by your browser, and the answer is kept in the workspace, so
-		nobody outside learns when a message is opened.
+		To show who a message is from, and a picture for each contact, lead, user and employee without one,
+		One asks Gravatar for a person's picture, sending only a one-way hash of their address, and asks
+		Google for an organisation's logo, your own company's included, sending only its web domain. Each
+		is asked once, by our server and never by your browser, and the answer is kept in the workspace, so
+		nobody outside learns when a message is opened. A picture uploaded to a record always comes first.
 	""",
 )
 

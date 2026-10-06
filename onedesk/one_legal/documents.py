@@ -144,7 +144,8 @@ DOCUMENTS = {
 		# copied or deleted. 15: webhooks. 16: who read an announcement.
 		# 17: a project's Featured Media opens for anybody with its link.
 		# 18: attendance on a project's site becomes time on the project.
-		"revision": 18,
+		# 19: users' and employees' pictures from Gravatar, the company's logo.
+		"revision": 19,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

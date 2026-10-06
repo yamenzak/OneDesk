@@ -163,7 +163,12 @@ up space or add storage in Plan and Credits.
 
 **Sender pictures:** people who write to you show with their contact
 picture, their Gravatar photo or their organization's logo. Contacts, leads,
-customers, suppliers and banks without a picture get one the same way.
+customers, suppliers, manufacturers and banks without a picture get one the
+same way. So do your own people: a user or employee without a photo gets
+the one on their other record (a photo on the employee goes to the user,
+and back), else their Gravatar photo. Your company without a logo gets its
+website's, and the letter heads drawn from it show it. A picture you upload
+always comes first.
 Pictures are fetched once by the workspace, never by your browser, and kept
 in Company › Logos, so opening a message reveals nothing to the sender.
 
@@ -390,7 +395,8 @@ Stage 7, faces and logos, is built.
   unreachable source is not taken to mean "has none".
 - Mail providers' domains (gmail.com and the like) and our own mail domain
   never give a sender a logo, since the provider is not who wrote.
-- `dress_later` runs on Contact, Lead, Customer, Supplier and Bank. A record
+- `dress_later` runs on Contact, Lead, User, Employee, Customer, Supplier,
+  Manufacturer, Company and Bank. A record
   without a picture is dressed in the background from both services, in the
   order that fits it (`sources`), stopping at the first picture:
   - a contact or lead: their face, then their company's logo by the domain
@@ -398,10 +404,17 @@ Stage 7, faces and logos, is built.
   - a customer or supplier: its website's logo, then its address's domain
     (its own, or its primary contact's), then a face registered to the
     address itself, since some register a logo against info@;
+  - a user or employee: the photo on their other record first (a User's
+    Employee, an Employee's User), then their face only, never a logo, since
+    their address's domain is our own; Administrator and Guest are nobody.
+    A photo put on either record goes to the other when it has none;
+  - a manufacturer or the company: as a customer, by its website; a
+    company dressed redraws the letter heads drawn from it;
   - a bank: its website's logo only.
   Bank gains `one_logo`, set as its image field, since ERPNext's Bank has no
-  picture. A patch runs `dress_all` once in the background for records that
-  existed before; a migrate does not wait on Gravatar or Google.
+  picture. Patches run `dress_all` once in the background for records that
+  existed before (`dress_existing`, then `dress_people_and_company` for the
+  four added later); a migrate does not wait on Gravatar or Google.
 - `lookup` is what the page asks: the contact's picture, else the person's
   face, else the organisation's logo. Addresses never looked for are looked
   for in the background and appear on the next draw.
