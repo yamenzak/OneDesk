@@ -297,16 +297,8 @@ onedesk.OneMail = class OneMail {
 		return frappe.datetime.str_to_user(value.slice(0, 10));
 	}
 
-	// As the explorer writes a size.
 	size_text(bytes) {
-		if (!bytes) return "";
-		const units = [__("B"), __("KB"), __("MB"), __("GB")];
-		let at = 0;
-		while (bytes >= 1024 && at < units.length - 1) {
-			bytes /= 1024;
-			at++;
-		}
-		return `${at ? bytes.toFixed(bytes < 10 ? 1 : 0) : bytes} ${units[at]}`;
+		return onedesk.size(bytes);
 	}
 
 	face(name, email, picture) {

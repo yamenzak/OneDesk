@@ -994,6 +994,7 @@ app_include_js = [
 	# "One" of a product's name at a light weight, wherever it is drawn.
 	"/assets/onedesk/js/brand.js",
 	"/assets/onedesk/js/check.js",
+	"/assets/onedesk/js/size.js",
 	"/assets/onedesk/js/desk.js",
 	# What of frappe's own desk a workspace is not offered; see one/outside.py.
 	"/assets/onedesk/js/outside.js",

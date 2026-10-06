@@ -1,12 +1,7 @@
 // The portal's file picker (templates/includes/one_drop.html): dropping onto
 // the box, the names of what was chosen, and a button that says it is busy.
 (function () {
-	const size = (bytes) => {
-		const units = ["B", "KB", "MB", "GB"];
-		let at = 0;
-		while (bytes >= 1024 && at < units.length - 1) (bytes /= 1024), at++;
-		return `${at ? bytes.toFixed(1) : bytes} ${units[at]}`;
-	};
+	const size = (bytes) => onedesk.size(bytes);
 
 	document.querySelectorAll(".one-drop").forEach((box) => {
 		const input = box.querySelector("input[type=file]");

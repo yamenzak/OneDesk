@@ -490,15 +490,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	size_text(bytes) {
-		if (!bytes) return "";
-		const units = [__("B"), __("KB"), __("MB"), __("GB"), __("TB")];
-		let at = 0,
-			value = bytes;
-		while (value >= 1024 && at < units.length - 1) {
-			value /= 1024;
-			at++;
-		}
-		return `${value >= 10 || at === 0 ? Math.round(value) : value.toFixed(1)} ${units[at]}`;
+		return onedesk.size(bytes);
 	}
 
 	// One of two sentences, the second with the number put in.

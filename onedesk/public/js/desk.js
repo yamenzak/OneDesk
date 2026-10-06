@@ -269,21 +269,8 @@ onedesk.dock.told = (done, ready) => {
 
 frappe.provide("onedesk.tenant");
 
-// Bytes, in the units somebody says out loud. Base ten rather than base two,
-// because that is what a plan is sold in and what a customer will compare it
-// against.
-onedesk.tenant.size = (bytes) => {
-	const n = Number(bytes || 0);
-	if (!n) return __("nothing");
-	const units = ["B", "KB", "MB", "GB", "TB"];
-	let at = 0;
-	let left = n;
-	while (left >= 1000 && at < units.length - 1) {
-		left /= 1000;
-		at += 1;
-	}
-	return `${left >= 10 || at === 0 ? Math.round(left) : left.toFixed(1)} ${units[at]}`;
-};
+// A plan's storage, in the 1000s it is sold in.
+onedesk.tenant.size = (bytes) => onedesk.size(bytes, 1000) || __("nothing");
 
 // Frappe's workflow builder draws every field of a step, and its controls show a
 // hidden one all the same. An approval tells whoever it waits on through One's hub

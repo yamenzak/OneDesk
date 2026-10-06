@@ -267,6 +267,13 @@ Foundations done so far:
   records with a Record Head, the collections we set up, and our 11 desk
   pages, each with what it is. Projects had its Calendar view taken away; it
   is back, with Image beside it, and no view frappe offers may be taken away.
+- **Formats**: every value is written by frappe. Money on the project page
+  follows the workspace's Currency Precision (frappe's own default) instead
+  of whole units, so a workspace that wants whole units sets Currency
+  Precision to 0. Sizes come from one `onedesk.size` (`public/js/size.js`)
+  that writes the number through `format_number`, used by OneMail, OneCloud,
+  the plan pages and the portal's file picker. OneAI credits go through
+  `format_number`. Only the kit may wrap frappe's formatters.
 
 Up next, in this order:
 

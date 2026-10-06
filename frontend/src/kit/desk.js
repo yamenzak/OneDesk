@@ -14,9 +14,9 @@ export function __(text, args, context) {
 /** A whitelisted method, through desk's own `frappe.xcall`. */
 export const call = (method, args = {}) => frappe().xcall(method, args);
 
-/** Money as desk formats it, whole units, kept left-to-right in Arabic. */
+/** Money as desk formats it, to the workspace's currency precision, kept left-to-right in Arabic. */
 export function money(value, currency) {
-	const said = window.format_currency(value || 0, currency, 0);
+	const said = window.format_currency(value || 0, currency);
 	return window.onedesk?.shell?.ltr ? window.onedesk.shell.ltr(said) : said;
 }
 
@@ -29,10 +29,6 @@ export const dateFormat = () => (frappe().boot.sysdefaults?.date_format || "yyyy
 /** Hours, to one decimal where there is one. */
 export const hours = (value) =>
 	__("{0} h", [window.format_number(value || 0, null, Number(value) % 1 ? 1 : 0)]);
-
-/** A number in a few characters (12K, 1.2M), for a chart's axis. */
-export const compact = (value) =>
-	new Intl.NumberFormat(frappe().boot.lang || undefined, { notation: "compact", maximumFractionDigits: 1 }).format(value || 0);
 
 /**
  * Colours by name (`--outline-gray-3`) as `el` sees them, for a chart, which

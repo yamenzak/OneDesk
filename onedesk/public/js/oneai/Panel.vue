@@ -803,10 +803,10 @@ function when(said) {
 	return said ? $("<span>").html(frappe.datetime.comment_when(said)).text() : "";
 }
 
-// Not `frappe.format`, which answers with markup for a Float and would print
-// its own div into the sentence.
+// frappe's format_number, not `frappe.format`, which answers with markup for
+// a Float and would print its own div into the sentence.
 function format(credits) {
-	return Number(credits || 0).toFixed(4);
+	return format_number(credits || 0, null, 4);
 }
 
 
