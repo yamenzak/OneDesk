@@ -2324,3 +2324,6 @@ def test_a_suppliers_logo_shows_where_the_supplier_does():
 	assert 'one["party_image"] = logos.get(one.pop("supplier"))' in (PROJECT / "buying.py").read_text()
 	assert (src / "Suppliers.vue").read_text().count(':image="item.party_image" shape="square"') == 2
 	assert '<Avatar :label="item.party" :image="item.party_image" shape="square"' in (src / "Invoices.vue").read_text()
+	# And the customer's on the head, beside the project's name.
+	assert '"customer_image": frappe.db.get_value("Customer", doc.customer, "image")' in (PROJECT / "view.py").read_text()
+	assert ':image="said.customer_image" shape="square"' in (src / "Facts.vue").read_text()

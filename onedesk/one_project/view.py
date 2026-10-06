@@ -100,6 +100,7 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"customer_name": frappe.db.get_value("Customer", doc.customer, "customer_name")
 		if doc.customer
 		else None,
+		"customer_image": frappe.db.get_value("Customer", doc.customer, "image") if doc.customer else None,
 		"starts": str(doc.expected_start_date) if doc.expected_start_date else None,
 		"ends": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"manager": doc.get("one_manager"),

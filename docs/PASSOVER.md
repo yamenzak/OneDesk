@@ -8219,6 +8219,9 @@ frappe's Assign does; Pending Review tells whoever made the task.
   supplier, and keeps Date on wide screens only. On a tablet both lists ran
   their row menu off the edge; their first two columns are narrower now.
   The demo customers were given real firms' sites to show it.
+- The customer chip in the project's head shows the customer's logo in
+  place of the building icon (`view.py` sends `customer_image`), on a white
+  backing over the cover photo so a see-through logo still reads.
 
 ## OneLegal
 
