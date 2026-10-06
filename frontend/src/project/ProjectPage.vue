@@ -1,47 +1,64 @@
 <template>
-  <Page>
+  <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
+      <!-- The views, as monday's and Asana's: each opens in place. On a
+           desktop they are a column beside the project, where OneProject's
+           sidebar was. -->
+      <div class="lg:grid lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-8">
+        <nav class="max-lg:hidden">
+          <div class="sticky top-[calc(var(--page-head-height,48px)+1.5rem)] z-[5] pt-6">
+            <Tabs v-model="tab" vertical>
+              <TabList variant="ghost" class="w-full">
+                <TabTrigger v-for="one in VIEWS" :key="one.key" :value="one.key" :label="one.label" :icon-left="one.icon">
+                  <template v-if="one.count" #suffix><span class="ms-auto ps-2 text-sm text-ink-gray-5">{{ one.count }}</span></template>
+                </TabTrigger>
+              </TabList>
+            </Tabs>
+          </div>
+        </nav>
+        <div class="min-w-0">
+          <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
+          <!-- The task views' toolbar, and below a desktop's width the views as a
+               tab bar that scrolls sideways, as an app's does. It sticks under
+               desk's page head, never over it (the head is z-index 6). -->
+          <div class="sticky top-[var(--page-head-height,48px)] z-[5] mt-4 flex flex-wrap items-center gap-x-2 border-b border-outline-gray-2 bg-surface-base" :class="{ 'lg:hidden': !taskView }">
+            <Tabs v-model="tab" class="max-w-full overflow-x-auto [scrollbar-width:none] lg:hidden">
+              <TabList class="border-0">
+                <TabTrigger v-for="one in VIEWS" :key="one.key" :value="one.key" :label="one.label" :icon-left="one.icon">
+                  <template v-if="one.count" #suffix><span class="ms-1 text-sm text-ink-gray-5">{{ one.count }}</span></template>
+                </TabTrigger>
+              </TabList>
+            </Tabs>
+            <div v-if="taskView" class="ms-auto flex max-w-full flex-wrap items-center gap-2 py-2 max-md:w-full">
+              <TabButtons v-model="view" :options="LAYOUTS" />
+              <TextInput v-model="search" size="sm" class="w-44 max-md:order-last max-md:w-full" :placeholder="__('Search')">
+                <template #prefix><span class="lucide-search size-4 text-ink-gray-5" /></template>
+              </TextInput>
+              <Dropdown v-if="view === 'tasks' || view === 'timeline'" :options="groupChoices">
+                <template #trigger><Button size="sm" icon-left="lucide-rows-3" :label="__('Group by {0}', [groupLabel])" /></template>
+              </Dropdown>
+              <Button size="sm" :variant="showDone ? 'subtle' : 'ghost'" icon-left="lucide-circle-check" :label="__('Done')" @click="showDone = !showDone" />
+              <Button v-if="work?.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Task')" @click="newTask" />
+            </div>
+          </div>
 
-      <!-- The views, as monday's and Asana's: each opens in place, and the
-           task views share one toolbar. -->
-      <div class="sticky top-0 z-10 mt-4 flex flex-wrap items-center gap-x-2 border-b border-outline-gray-2 bg-surface-base">
-        <!-- On a phone the views scroll sideways, as an app's tab bar does. -->
-        <Tabs v-model="tab" class="max-w-full overflow-x-auto [scrollbar-width:none]">
-          <TabList class="border-0">
-            <TabTrigger v-for="one in VIEWS" :key="one.key" :value="one.key" :label="one.label" :icon-left="one.icon">
-              <template v-if="one.count" #suffix><span class="ms-1 text-sm text-ink-gray-5">{{ one.count }}</span></template>
-            </TabTrigger>
-          </TabList>
-        </Tabs>
-        <div v-if="taskView" class="ms-auto flex max-w-full flex-wrap items-center gap-2 py-2 max-md:w-full">
-          <TabButtons v-model="view" :options="LAYOUTS" />
-          <TextInput v-model="search" size="sm" class="w-44 max-md:order-last max-md:w-full" :placeholder="__('Search')">
-            <template #prefix><span class="lucide-search size-4 text-ink-gray-5" /></template>
-          </TextInput>
-          <Dropdown v-if="view === 'tasks' || view === 'timeline'" :options="groupChoices">
-            <template #trigger><Button size="sm" icon-left="lucide-rows-3" :label="__('Group by {0}', [groupLabel])" /></template>
-          </Dropdown>
-          <Button size="sm" :variant="showDone ? 'subtle' : 'ghost'" icon-left="lucide-circle-check" :label="__('Done')" @click="showDone = !showDone" />
-          <Button v-if="work?.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Task')" @click="newTask" />
+          <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" />
+          <template v-else-if="taskView">
+            <Loading v-if="!work" />
+            <Tasks v-else-if="view === 'tasks'" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
+            <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
+            <Timeline v-else :work="work" :groups="groups" @open="open" />
+          </template>
+          <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :title="said.title" :tree="tree" />
+          <Money v-else-if="view === 'money'" :said="said" @changed="load" />
+          <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :project-title="said.title" :kind="said.kind" :customer="said.customer" :currency="said.currency" />
+          <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />
+          <Suppliers v-else-if="view === 'suppliers'" :said="said" />
+          <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
+          <ProjectActivity v-else-if="view === 'activity'" :key="said.name" :project="said.name" :modified="said.modified" @task="open" />
         </div>
       </div>
-
-      <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" />
-      <template v-else-if="taskView">
-        <Loading v-if="!work" />
-        <Tasks v-else-if="view === 'tasks'" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
-        <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
-        <Timeline v-else :work="work" :groups="groups" @open="open" />
-      </template>
-      <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :title="said.title" :tree="tree" />
-      <Money v-else-if="view === 'money'" :said="said" @changed="load" />
-      <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :project-title="said.title" :kind="said.kind" :customer="said.customer" :currency="said.currency" />
-      <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />
-      <Suppliers v-else-if="view === 'suppliers'" :said="said" />
-      <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
-      <ProjectActivity v-else-if="view === 'activity'" :key="said.name" :project="said.name" :modified="said.modified" @task="open" />
 
       <TaskPanel :task="opened" :work="work || EMPTY" :team="team" :can-write="work?.can_write" @close="opened = null" @set="set" @give="give" @take="take" @open="open" @add="add" @changed="loadWork" />
     </template>

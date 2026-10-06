@@ -8149,6 +8149,10 @@ frappe's Assign does; Pending Review tells whoever made the task.
   breadcrumb `menu_items`.
 - Workload failed for a task with an empty assignment (`_assign` of ""),
   and so did OneTask's daily reminder. Both read it as none.
+- With the sidebar gone, a project's views are frappe-ui's vertical Tabs in
+  a column on the left on a desktop (`ProjectPage.vue`, `Page wide`), and a
+  row of tabs on a phone. Both stick under desk's page head at a z-index
+  under its 6; the tab bar had been `z-10`, over it.
 
 ## OneLegal
 

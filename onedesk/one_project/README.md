@@ -144,7 +144,7 @@ Featured Media; whoever may see the project sees it.
 
 Opening a project opens its page. At the top are its Featured Media, across
 the page, with its kind, name, status, health and the kind's facts over them
-and the team in the corner. Its views sit right under them. A project with no
+and the team in the corner. A project with no
 photos shows the same on a plain panel, with **Add Cover** in its corner. The
 facts depend on the kind:
 
@@ -179,7 +179,8 @@ A project is **Open**, **On hold**, **Completed** or **Cancelled**.
 
 **Health** is separate: how an open project is going, set by its people.
 
-Below are its views, and the page remembers which one is open:
+Its views are a column on the left, and the page remembers which one is
+open. On a phone they are a row of tabs under the head:
 
 - **Overview**: the project's figures and what its kind is run by, with
   updates and Needs You.
@@ -197,7 +198,8 @@ Below are its views, and the page remembers which one is open:
 - **Activity**: what happened on the project and its sub-projects, and its
   comments.
 
-On a phone the views scroll sideways, and the lists keep their main columns:
+On a phone the row of views scrolls sideways, and the lists keep their main
+columns:
 the day, who and the hours on **Time**, the person and their open tasks on
 **Team**, the invoice, its status and total on **Invoices**.
 

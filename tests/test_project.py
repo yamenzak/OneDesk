@@ -2252,3 +2252,14 @@ def test_activity_is_the_projects_history_not_only_its_record():
 	assert "onedesk.one_project.activity.activity" in view and 'useActivityTimeline("Project", props.project' in view
 	assert "#item-document" in view and "isPagedRow" in view and '__("Show earlier activity")' in view
 	assert '<ProjectActivity v-else-if="view === \'activity\'"' in (src / "ProjectPage.vue").read_text()
+
+
+def test_a_projects_views_are_a_column_on_a_desktop_and_never_over_the_page_head():
+	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+	assert "<Page wide>" in page and "lg:grid-cols-[11rem_minmax(0,1fr)]" in page
+	assert '<Tabs v-model="tab" vertical>' in page, "frappe-ui's own vertical tabs"
+	assert 'class="max-w-full overflow-x-auto [scrollbar-width:none] lg:hidden"' in page, "a row on a phone"
+	# Desk's page head is sticky at z-index 6: what sticks under it stays below.
+	assert "z-10" not in page and page.count("z-[5]") == 2
+	assert page.count("top-[var(--page-head-height,48px)]") == 1
+	assert "lg:max-w-[85rem]': wide" in (tree.ROOT / "frontend" / "src" / "kit" / "Page.vue").read_text()
