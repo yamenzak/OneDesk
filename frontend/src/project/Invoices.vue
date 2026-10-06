@@ -18,10 +18,11 @@
         <span class="flex size-12 items-center justify-center rounded-full bg-surface-gray-2 text-ink-gray-5"><span class="lucide-receipt size-5" /></span>
         <p class="text-base text-ink-gray-7">{{ __("No invoices") }}</p>
       </div>
-      <List v-else :columns="{ base: ['minmax(0,1fr)', 'auto', '6.5rem', '2rem'], md: ['minmax(12rem,1fr)', '7rem', '8rem', '8.5rem', '8rem', '8rem', '2rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+      <List v-else :columns="{ base: ['minmax(0,1fr)', 'auto', '6.5rem', '2rem'], md: ['minmax(9rem,1.3fr)', 'minmax(6rem,1fr)', '8rem', '8.5rem', '8rem', '8rem', '2rem'], lg: ['minmax(12rem,1.3fr)', 'minmax(8rem,1fr)', '7rem', '8rem', '8.5rem', '8rem', '8rem', '2rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Invoice") }}</ListHeaderCell>
-          <ListHeaderCell class="max-md:hidden">{{ __("Date") }}</ListHeaderCell>
+          <ListHeaderCell class="max-md:hidden">{{ __("Customer") }}</ListHeaderCell>
+          <ListHeaderCell class="max-lg:hidden">{{ __("Date") }}</ListHeaderCell>
           <ListHeaderCell class="max-md:hidden">{{ __("Due") }}</ListHeaderCell>
           <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Total") }}</ListHeaderCell>
@@ -36,7 +37,8 @@
                 <div class="truncate text-sm text-ink-gray-5">{{ [forText(item) ? item.name : "", item.where].filter(Boolean).join(" · ") }}</div>
               </div>
             </ListCell>
-            <ListCell class="tabular-nums text-ink-gray-7 max-md:hidden">{{ date(item.date) }}</ListCell>
+            <ListCell class="min-w-0 gap-2 max-md:hidden"><Avatar :label="item.party" :image="item.party_image" shape="square" size="sm" /><span class="truncate text-ink-gray-7">{{ item.party }}</span></ListCell>
+            <ListCell class="tabular-nums text-ink-gray-7 max-lg:hidden">{{ date(item.date) }}</ListCell>
             <ListCell class="min-w-0 tabular-nums max-md:hidden">
               <div v-if="item.retention_due" class="min-w-0">
                 <div class="text-ink-gray-7">{{ date(item.retention_due) }}</div>
@@ -61,7 +63,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from "vue";
-import { Badge, Button, Dropdown } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Figures, Loading, Section, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk } from "../kit";

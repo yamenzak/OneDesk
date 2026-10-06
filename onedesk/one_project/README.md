@@ -407,8 +407,8 @@ the attendance. It's in the Error Log.
 The customer's invoices for the project and those under it, newest first.
 Each says what it's for (**Work done 40%**, **9 h of time and costs**, a
 retainer's month, **Credit note**, or its first item) and which sub-project
-it's on, with its date, when it's due, its status, total and what's still
-owed. An invoice whose only debt is retention shows the retention's date
+it's on, with the customer and their logo, its date, when it's due, its
+status, total and what's still owed. An invoice whose only debt is retention shows the retention's date
 under **Due**.
 
 The figures above are what's been **Invoiced**, **Paid** (with anything paid

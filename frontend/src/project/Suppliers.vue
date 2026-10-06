@@ -71,7 +71,7 @@
 
     <section v-if="bills?.bills.length" class="mt-8">
       <h2 class="mb-3 text-lg font-semibold text-ink-gray-9">{{ __("Bills") }}</h2>
-      <List :columns="{ base: ['minmax(0,1fr)', 'auto', '6.5rem', '2rem'], md: ['minmax(12rem,1.3fr)', 'minmax(8rem,1fr)', '8rem', '8.5rem', '8rem', '8rem', '2rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+      <List :columns="{ base: ['minmax(0,1fr)', 'auto', '6.5rem', '2rem'], md: ['minmax(9rem,1.3fr)', 'minmax(6rem,1fr)', '8rem', '8.5rem', '8rem', '8rem', '2rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Bill") }}</ListHeaderCell>
           <ListHeaderCell class="max-md:hidden">{{ __("Supplier") }}</ListHeaderCell>

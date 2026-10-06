@@ -8215,6 +8215,10 @@ frappe's Assign does; Pending Review tells whoever made the task.
   `buying.papers` for orders, quotations and receipts). A contact who is
   not a supplier shows their own picture: their Gravatar face, else their
   company's logo by the domain of their address.
+- The Invoices list names the customer with their logo, as Bills names the
+  supplier, and keeps Date on wide screens only. On a tablet both lists ran
+  their row menu off the edge; their first two columns are narrower now.
+  The demo customers were given real firms' sites to show it.
 
 ## OneLegal
 
