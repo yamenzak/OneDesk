@@ -35,17 +35,17 @@ const Stack = defineComponent({
     return () =>
       h(
         "span",
-        { class: "flex -space-x-1.5" },
+        { class: "flex -space-x-1" },
         [
           ...stack.users.slice(0, props.max).map((user) => {
             const one = stack.people[user] || { name: user };
             return h(Tooltip, { text: one.name }, () =>
-              h(Avatar, { label: one.name, image: one.image, size: stack.size, class: "ring-2 ring-outline-gray-1" })
+              h(Avatar, { label: one.name, image: one.image, size: stack.size, class: "ring-2 ring-outline-base" })
             );
           }),
           // The rest as one more avatar, "+3", as frappe-ui's Avatar takes a slot.
           stack.users.length > props.max &&
-            h(Avatar, { label: "+", size: stack.size, class: "ring-2 ring-outline-gray-1" }, () =>
+            h(Avatar, { label: "+", size: stack.size, class: "ring-2 ring-outline-base" }, () =>
               h("span", { class: "text-xs font-medium normal-case tabular-nums" }, `+${stack.users.length - props.max}`)
             ),
         ].filter(Boolean)

@@ -8185,6 +8185,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
   they're one flow, and each ordered quotation showed again as its order.
   Orders now follows Work and Billing, Quotations after it, and Quotations
   lists only what isn't ordered yet (`view._quotes`).
+- About's Team avatars were cropped: the row truncates, which clips what
+  stands outside the line, and their ring named a colour frappe-ui's preset
+  doesn't make (`ring-surface-base`), so it fell back to Tailwind's blue.
+  About now draws them with the kit's People, unclipped, and People rings
+  each avatar in `outline-base`, the page's own colour, so one cuts the next
+  cleanly here and in the hero.
 
 ## OneLegal
 
