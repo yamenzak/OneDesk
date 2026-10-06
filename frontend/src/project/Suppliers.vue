@@ -35,7 +35,8 @@
 
     <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       <article v-for="one in packages" :key="one.order" class="flex flex-col rounded-5 border border-outline-gray-2 bg-surface-base p-4">
-        <div class="flex items-start gap-2">
+        <div class="flex items-start gap-3">
+          <Avatar :label="one.supplier" :image="one.image" shape="square" size="xl" />
           <div class="min-w-0 flex-1">
             <h3 class="truncate text-base font-semibold text-ink-gray-9">{{ one.supplier }}</h3>
             <p class="truncate text-sm text-ink-gray-7">{{ [one.for, one.where].filter(Boolean).join(" · ") }}</p>
@@ -148,7 +149,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from "vue";
-import { Badge, Button, Dropdown, Progress } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Loading, __, call, date, followList, go, money, newDoc, onedesk } from "../kit";

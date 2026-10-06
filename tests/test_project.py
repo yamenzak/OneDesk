@@ -2310,3 +2310,12 @@ def test_every_avatar_on_a_project_shows_the_persons_picture():
 	assert '"manager_image"' in view and "def _faces(" in view and "row.image = faces.get(row.user)" in view
 	assert "faces = _faces(people.values())" in (PROJECT / "hours.py").read_text()
 	assert '"image": _person(people.get(one.contact), "image")' in (PROJECT / "contacts.py").read_text()
+
+
+def test_a_suppliers_logo_shows_where_the_supplier_does():
+	money = (PROJECT / "money.py").read_text()
+	assert '"image": logos.get(head.supplier),' in money
+	src = tree.ROOT / "frontend" / "src" / "project"
+	assert '<Avatar :label="one.supplier" :image="one.image" shape="square"' in (src / "Suppliers.vue").read_text()
+	assert "image: one.image,\n      square: true," in (src / "Overview.vue").read_text()
+	assert "or logos.get(one.supplier)" in (PROJECT / "contacts.py").read_text()

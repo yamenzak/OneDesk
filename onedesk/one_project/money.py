@@ -523,6 +523,15 @@ def _suppliers(projects: list[str]) -> list[dict]:
 	}
 	stock = _stock({one.item_code for one in lines if one.item_code})
 	terms = _terms("Purchase Invoice", list(invoices))
+	# Each supplier's logo (one_mail/faces.py dresses a supplier without one).
+	logos = dict(
+		frappe.get_all(
+			"Supplier",
+			filters={"name": ["in", list({one.supplier for one in heads.values()})]},
+			fields=["name", "image"],
+			as_list=True,
+		)
+	)
 	today = getdate(nowdate())
 	found = []
 	for name, ordered in orders.items():
@@ -551,6 +560,7 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"order": name,
 				"supplier": head.supplier_name or head.supplier,
 				"supplier_id": head.supplier,
+				"image": logos.get(head.supplier),
 				"for": bought(own),
 				"project": head.project or next((one.project for one in own if one.project), None),
 				# What's billed and not paid, less the retention held till later.

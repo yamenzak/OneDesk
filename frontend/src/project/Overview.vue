@@ -380,6 +380,9 @@ const subcontracts = computed(() =>
     return {
       key: one.order,
       label: one.supplier,
+      avatar: one.supplier,
+      image: one.image,
+      square: true,
       lines: [
         [one.where, one.for].filter(Boolean).join(" · "),
         [money(one.ordered, props.said.currency), ahead && __("{0}% done", [one.done])].filter(Boolean).join(" · "),

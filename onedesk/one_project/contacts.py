@@ -61,6 +61,14 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 			as_list=True,
 		)
 	)
+	logos = dict(
+		frappe.get_all(
+			"Supplier",
+			filters={"name": ["in", list(suppliers) or [""]]},
+			fields=["name", "image"],
+			as_list=True,
+		)
+	)
 	return {
 		"contacts": [
 			{
@@ -73,7 +81,8 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 				"person": _person(people.get(one.contact), "full_name") or one.contact,
 				"email": _person(people.get(one.contact), "email_id") or one.email,
 				"phone": _person(people.get(one.contact), "phone", "mobile_no") or one.phone,
-				"image": _person(people.get(one.contact), "image"),
+				# The person's picture, else their company's logo.
+				"image": _person(people.get(one.contact), "image") or logos.get(one.supplier),
 				"note": one.note,
 			}
 			for one in doc.get("one_contacts") or []

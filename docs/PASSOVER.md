@@ -8204,6 +8204,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
   goes to the other. The company gets its website's logo and its drawn
   letter heads redraw. Administrator and Guest are left alone. The privacy
   clause says so (revision 19), and a patch dresses what exists.
+- The Suppliers tab named each supplier with no logo, though suppliers were
+  dressed. Each subcontract card now leads with the supplier's logo
+  (`money._suppliers` reads `Supplier.image`), as do the Overview's
+  Subcontracts rows (square, as an organisation is) and a supplier contact
+  on Team with no person. The demo suppliers had no website to look a logo
+  up by; they were given real firms' sites to show it.
 
 ## OneLegal
 

@@ -12,7 +12,7 @@
       <ListRow v-bind="opens(item)">
         <ListCell class="min-w-0 gap-2.5">
           <span v-if="item.dot" class="h-2 w-2 shrink-0 rounded-full" :class="dots[item.dot] || dots.gray" />
-          <Avatar v-if="item.avatar" :label="item.avatar" :image="item.image" size="sm" />
+          <Avatar v-if="item.avatar" :label="item.avatar" :image="item.image" :shape="item.square ? 'square' : 'circle'" size="sm" />
           <div class="min-w-0 flex-1">
             <div class="flex min-w-0 items-center gap-2">
               <div class="truncate text-base text-ink-gray-8">
