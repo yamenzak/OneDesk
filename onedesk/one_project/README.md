@@ -187,7 +187,8 @@ Below are its views, and the page remembers which one is open:
 - **Team**: who's on the project, what's on them and the hours they've put
   in.
 - **Files**: everything attached to the project and its tasks.
-- **Activity**: comments and every change, newest first.
+- **Activity**: what happened on the project and its sub-projects, and its
+  comments.
 
 On a phone the views scroll sideways, and the lists keep their main columns:
 the day, who and the hours on **Time**, the person and their open tasks on
@@ -430,8 +431,27 @@ client's representative and the authorities. Each has a **Role**, the
 **Supplier** or, for anyone who isn't one, the **Company**, the **Contact**
 (their email and phone come from it) and a **Note**. **Add Contact** adds
 one, and clicking one changes it or removes it. The contact then lists the
-project among its links. Whoever can open the project sees its contacts;
-whoever can change it can change them.
+project among its links. Whoever can open the project sees its contacts,
+and whoever can change it can change them.
+
+### Activity
+
+What happened on the project and its sub-projects, the newest at the foot:
+
+- **Documents**: each quotation, order, delivery, invoice, payment, request,
+  receipt, expense claim, stock entry and journal entry made for it, when it
+  was made, submitted and cancelled, with the party and the amount. Clicking
+  one opens it.
+- **Changes to the project**: its name, status, health, manager, customer,
+  dates, budget, priority, kind and members, from frappe's record of its
+  changes.
+- **Work**: tasks added and completed, the team's updates, the hours each
+  person logged in a day, files added or removed, and sub-projects started.
+- **Comments and emails** on the project. **Comment** at the foot adds one.
+
+**All**, **Money**, **Work** and **Comments** narrow it. **Show earlier
+activity** loads older rows. A document only shows to whoever may read its
+type.
 
 ### Buttons
 

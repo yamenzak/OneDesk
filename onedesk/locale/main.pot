@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 07:26+0000\n"
-"PO-Revision-Date: 2026-10-06 07:26+0000\n"
+"POT-Creation-Date: 2026-10-06 07:40+0000\n"
+"PO-Revision-Date: 2026-10-06 07:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1793,6 +1793,7 @@ msgid "Agreements"
 msgstr ""
 
 #. Name of a role
+#: frontend/src/project/ProjectActivity.vue:100
 #: frontend/src/project/Time.vue:78 onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
@@ -4734,6 +4735,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: frontend/src/project/Activity.vue:6
+#: frontend/src/project/ProjectActivity.vue:79
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Comment"
@@ -4741,6 +4743,10 @@ msgstr ""
 
 #: onedesk/one_intake/panel.py:231
 msgid "Commented on {0}"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:103
+msgid "Comments"
 msgstr ""
 
 #: onedesk/one/privacy_copy.py:45
@@ -12320,6 +12326,7 @@ msgstr ""
 #. Label of the money_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the section_money (Section Break) field in DocType 'Reading'
 #: frontend/src/project/Overview.vue:21 frontend/src/project/Overview.vue:87
+#: frontend/src/project/ProjectActivity.vue:101
 #: frontend/src/project/ProjectPage.vue:145
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -13067,6 +13074,7 @@ msgstr ""
 msgid "No active sessions"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:11
 #: frontend/src/project/Time.vue:114
 msgid "No activity"
 msgstr ""
@@ -19535,6 +19543,10 @@ msgstr ""
 msgid "Show When People Sign In"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:141
+msgid "Show earlier activity"
+msgstr ""
+
 #: onedesk/public/js/oneai/Found.vue:20 onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
 msgstr ""
@@ -25982,7 +25994,7 @@ msgstr ""
 msgid "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline."
 msgstr ""
 
-#: onedesk/one_project/tree.py:198
+#: frontend/src/project/ProjectActivity.vue:102 onedesk/one_project/tree.py:198
 msgid "Work"
 msgstr ""
 
@@ -26286,6 +26298,7 @@ msgid "Write With OneAI"
 msgstr ""
 
 #: frontend/src/project/Activity.vue:5
+#: frontend/src/project/ProjectActivity.vue:78
 msgid "Write a comment"
 msgstr ""
 
@@ -27012,8 +27025,32 @@ msgstr ""
 msgid "a workspace"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:114
+msgid "added a file"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:113
+msgid "added a photo"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:28
+msgid "added task"
+msgstr ""
+
 #: onedesk/one/settings.py:1689
 msgid "added {0}"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:114
+msgid "added {0} files"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:113
+msgid "added {0} photos"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:32
+msgid "added {0} tasks"
 msgstr ""
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
@@ -27106,13 +27143,22 @@ msgstr ""
 msgid "can view"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:106
 #: onedesk/one_calendar/tell.py:177
 msgid "cancelled"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:40
+msgid "completed"
 msgstr ""
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "contact"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:106
+msgid "created"
 msgstr ""
 
 #: onedesk/one_storage/links.py:126
@@ -27125,6 +27171,10 @@ msgstr ""
 
 #: onedesk/one_storage/history.py:259
 msgid "created it"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:71
+msgid "created the project"
 msgstr ""
 
 #: onedesk/one/account.py:294
@@ -27316,6 +27366,10 @@ msgstr ""
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:134
 #: onedesk/public/js/band.js:236
 msgid "left early"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:46
+msgid "logged {0}"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1771
@@ -27550,6 +27604,10 @@ msgstr ""
 msgid "placed {0} of {1}"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:51
+msgid "posted an update"
+msgstr ""
+
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 msgid "purple"
@@ -27571,8 +27629,16 @@ msgstr ""
 msgid "register number"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:112
+msgid "removed a file"
+msgstr ""
+
 #: onedesk/one/settings.py:1690
 msgid "removed {0}"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:112
+msgid "removed {0} files"
 msgstr ""
 
 #: onedesk/one_storage/api.py:184
@@ -27652,9 +27718,17 @@ msgstr ""
 msgid "someone has renamed it since"
 msgstr ""
 
+#: frontend/src/project/ProjectActivity.vue:68
+msgid "started sub-project"
+msgstr ""
+
 #: onedesk/one_admin/heads.py:390 onedesk/one_admin/offerings.py:206
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:24
 msgid "storage"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:106
+msgid "submitted"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:40
@@ -29028,6 +29102,10 @@ msgstr ""
 
 #: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:451
 msgid "{0} months"
+msgstr ""
+
+#: frontend/src/project/ProjectActivity.vue:33
+msgid "{0} more"
 msgstr ""
 
 #: frontend/src/project/Money.vue:90

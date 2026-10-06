@@ -653,6 +653,13 @@
    "property": "image_field",
    "property_type": "Data",
    "value": "one_cover"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocType",
+   "property": "track_changes",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1

@@ -8120,6 +8120,21 @@ frappe's Assign does; Pending Review tells whoever made the task.
   "people"), five avatars and "+1", opening Team. A row that isn't a member
   offers Make Member, when the person is a user.
 
+**Activity** (the project page's Activity view).
+
+- It was frappe's timeline of the Project record only. The villa had 298
+  rows, 293 of them single "attached" lines for featured photos, and none of
+  its orders, invoices or payments. Project kept no changes either, as
+  ERPNext turns tracking off.
+- `activity.py` adds the tree's documents (made, submitted, cancelled, from
+  their Versions), tasks added (a day's as one row) and completed, updates,
+  hours per person per day, files per person per day, and sub-projects
+  started. Project now tracks changes (a property setter), and frappe's
+  timeline gives its comments, emails and field changes. Both render in
+  frappe's ActivityTimeline, our rows through its `item-{type}` slots.
+- All, Money, Work and Comments filter it. The comment box moved to the foot,
+  as frappe has it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

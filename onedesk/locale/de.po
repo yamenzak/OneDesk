@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 07:26+0000\n"
-"PO-Revision-Date: 2026-10-06 07:26+0000\n"
+"POT-Creation-Date: 2026-10-06 07:40+0000\n"
+"PO-Revision-Date: 2026-10-06 07:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1795,6 +1795,7 @@ msgid "Agreements"
 msgstr "Vereinbarungen"
 
 #. Name of a role
+#: frontend/src/project/ProjectActivity.vue:100
 #: frontend/src/project/Time.vue:78 onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
@@ -4736,6 +4737,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: frontend/src/project/Activity.vue:6
+#: frontend/src/project/ProjectActivity.vue:79
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Comment"
@@ -4744,6 +4746,10 @@ msgstr "Kommentieren"
 #: onedesk/one_intake/panel.py:231
 msgid "Commented on {0}"
 msgstr "{0} kommentiert"
+
+#: frontend/src/project/ProjectActivity.vue:103
+msgid "Comments"
+msgstr "Kommentare"
 
 #: onedesk/one/privacy_copy.py:45
 msgid "Comments you wrote"
@@ -12320,6 +12326,7 @@ msgstr "Geändert"
 #. Label of the money_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the section_money (Section Break) field in DocType 'Reading'
 #: frontend/src/project/Overview.vue:21 frontend/src/project/Overview.vue:87
+#: frontend/src/project/ProjectActivity.vue:101
 #: frontend/src/project/ProjectPage.vue:145
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -13067,6 +13074,7 @@ msgstr "Keine Aktionen"
 msgid "No active sessions"
 msgstr "Keine aktiven Sitzungen"
 
+#: frontend/src/project/ProjectActivity.vue:11
 #: frontend/src/project/Time.vue:114
 msgid "No activity"
 msgstr "Keine Tätigkeit"
@@ -19535,6 +19543,10 @@ msgstr "Anzeigen bis"
 msgid "Show When People Sign In"
 msgstr "Bei der Anmeldung anzeigen"
 
+#: frontend/src/project/ProjectActivity.vue:141
+msgid "Show earlier activity"
+msgstr "Frühere Aktivität anzeigen"
+
 #: onedesk/public/js/oneai/Found.vue:20 onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
 msgstr "Weniger anzeigen"
@@ -25982,7 +25994,7 @@ msgstr "Gewonnen und verloren"
 msgid "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline."
 msgstr "Gewonnen wandelt den Deal um, Verloren fragt nach dem Grund. Zurückgestellt hält ihn offen, aber außerhalb der Pipeline."
 
-#: onedesk/one_project/tree.py:198
+#: frontend/src/project/ProjectActivity.vue:102 onedesk/one_project/tree.py:198
 msgid "Work"
 msgstr "Arbeit"
 
@@ -26286,6 +26298,7 @@ msgid "Write With OneAI"
 msgstr "Mit OneAI schreiben"
 
 #: frontend/src/project/Activity.vue:5
+#: frontend/src/project/ProjectActivity.vue:78
 msgid "Write a comment"
 msgstr "Kommentar schreiben"
 
@@ -27012,9 +27025,33 @@ msgstr "eine Breite in Pixeln, etwa 120px"
 msgid "a workspace"
 msgstr "ein Arbeitsbereich"
 
+#: frontend/src/project/ProjectActivity.vue:114
+msgid "added a file"
+msgstr "hat eine Datei hinzugefügt"
+
+#: frontend/src/project/ProjectActivity.vue:113
+msgid "added a photo"
+msgstr "hat ein Foto hinzugefügt"
+
+#: frontend/src/project/ProjectActivity.vue:28
+msgid "added task"
+msgstr "hat die Aufgabe hinzugefügt"
+
 #: onedesk/one/settings.py:1689
 msgid "added {0}"
 msgstr "{0} hinzugefügt"
+
+#: frontend/src/project/ProjectActivity.vue:114
+msgid "added {0} files"
+msgstr "hat {0} Dateien hinzugefügt"
+
+#: frontend/src/project/ProjectActivity.vue:113
+msgid "added {0} photos"
+msgstr "hat {0} Fotos hinzugefügt"
+
+#: frontend/src/project/ProjectActivity.vue:32
+msgid "added {0} tasks"
+msgstr "hat {0} Aufgaben hinzugefügt"
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
@@ -27106,14 +27143,23 @@ msgstr "kann hochladen"
 msgid "can view"
 msgstr "kann ansehen"
 
+#: frontend/src/project/ProjectActivity.vue:106
 #: onedesk/one_calendar/tell.py:177
 msgid "cancelled"
 msgstr "hat abgesagt"
+
+#: frontend/src/project/ProjectActivity.vue:40
+msgid "completed"
+msgstr "hat erledigt"
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "contact"
 msgstr "Kontakt"
+
+#: frontend/src/project/ProjectActivity.vue:106
+msgid "created"
+msgstr "hat erstellt"
 
 #: onedesk/one_storage/links.py:126
 msgid "created a link for {0}"
@@ -27126,6 +27172,10 @@ msgstr "hat einen öffentlichen Link erstellt"
 #: onedesk/one_storage/history.py:259
 msgid "created it"
 msgstr "hat es erstellt"
+
+#: frontend/src/project/ProjectActivity.vue:71
+msgid "created the project"
+msgstr "hat das Projekt erstellt"
 
 #: onedesk/one/account.py:294
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:26
@@ -27317,6 +27367,10 @@ msgstr "später"
 #: onedesk/public/js/band.js:236
 msgid "left early"
 msgstr "früher gegangen"
+
+#: frontend/src/project/ProjectActivity.vue:46
+msgid "logged {0}"
+msgstr "hat {0} erfasst"
 
 #: onedesk/public/js/onecloud.js:1771
 msgid "macOS"
@@ -27550,6 +27604,10 @@ msgstr "Telefonnummer"
 msgid "placed {0} of {1}"
 msgstr "Platz {0} von {1}"
 
+#: frontend/src/project/ProjectActivity.vue:51
+msgid "posted an update"
+msgstr "hat ein Update gepostet"
+
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 msgid "purple"
@@ -27571,9 +27629,17 @@ msgstr ""
 msgid "register number"
 msgstr "Registernummer"
 
+#: frontend/src/project/ProjectActivity.vue:112
+msgid "removed a file"
+msgstr "hat eine Datei entfernt"
+
 #: onedesk/one/settings.py:1690
 msgid "removed {0}"
 msgstr "{0} entfernt"
+
+#: frontend/src/project/ProjectActivity.vue:112
+msgid "removed {0} files"
+msgstr "hat {0} Dateien entfernt"
 
 #: onedesk/one_storage/api.py:184
 msgid "renamed it from {0}"
@@ -27652,10 +27718,18 @@ msgstr "jemand hat es inzwischen verschoben"
 msgid "someone has renamed it since"
 msgstr "jemand hat es inzwischen umbenannt"
 
+#: frontend/src/project/ProjectActivity.vue:68
+msgid "started sub-project"
+msgstr "hat das Teilprojekt gestartet"
+
 #: onedesk/one_admin/heads.py:390 onedesk/one_admin/offerings.py:206
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:24
 msgid "storage"
 msgstr "Speicher"
+
+#: frontend/src/project/ProjectActivity.vue:106
+msgid "submitted"
+msgstr "hat gebucht"
 
 #: onedesk/public/js/crm_record.js:40
 msgid "tax number"
@@ -29036,6 +29110,10 @@ msgstr "{0} Modelle, {1} bepreist, {2} brauchen Prüfung."
 #: onedesk/one_intake/understand.py:396 onedesk/one_project/view.py:451
 msgid "{0} months"
 msgstr "{0} Monate"
+
+#: frontend/src/project/ProjectActivity.vue:33
+msgid "{0} more"
+msgstr "{0} mehr"
 
 #: frontend/src/project/Money.vue:90
 msgid "{0} more on order"

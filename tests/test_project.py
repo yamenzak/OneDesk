@@ -2201,3 +2201,42 @@ def test_the_head_shows_everyone_team_lists_and_any_user_can_be_made_a_member():
 	assert "item.can_join" in team and "onedesk.one_project.team.add" in team
 	assert '__("Remove {0} from the project?"' in team
 	assert "stack.users.length > props.max" in (src / "kit" / "People.vue").read_text()
+
+
+def test_activity_is_the_projects_history_not_only_its_record():
+	from datetime import datetime
+
+	space = _load(
+		PROJECT / "activity.py",
+		("SAME_SITTING", "PAGE", "events", "moved", "page", "grouped"),
+		get_datetime=lambda value: datetime.fromisoformat(str(value)),
+		defaultdict=__import__("collections").defaultdict,
+		re=__import__("re"),
+	)
+	events, moved, page = space["events"], space["moved"], space["page"]
+	doc = {"creation": "2026-10-04 14:50:00", "owner": "wren", "docstatus": 1, "modified": "2026-10-04 15:00:00", "modified_by": "wren"}
+	# Made and submitted in one sitting by the same person: one row.
+	assert events(doc, [("2026-10-04 14:55:00", "wren", 1)]) == [("submitted", "2026-10-04 14:55:00", "wren")]
+	# Submitted by somebody else, then cancelled: three rows.
+	said = events({**doc, "docstatus": 2}, [("2026-10-04 15:00:00", "samir", 1), ("2026-10-05 09:00:00", "samir", 2)])
+	assert [one[0] for one in said] == ["created", "submitted", "cancelled"]
+	# A type that keeps no Versions: submitted when last changed.
+	assert events({**doc, "creation": "2026-10-01 09:00:00"}, [])[1] == ("submitted", "2026-10-04 15:00:00", "wren")
+	assert events({**doc, "docstatus": 0}, []) == [("created", "2026-10-04 14:50:00", "wren")]
+	assert moved('{"changed":[["status","Draft","To Bill"],["docstatus",0,1]]}') == 1
+	assert moved('{"changed":[["docstatus", 1, 2]]}') == 2 and moved('{"changed":[]}') is None
+	rows = [{"timestamp": f"2026-10-0{day} 10:00:00", "key": str(day)} for day in range(1, 7)]
+	shown, more = page(rows, None, 4)
+	assert [one["key"] for one in shown] == ["6", "5", "4", "3"] and more
+	assert [one["key"] for one in page(rows, "2026-10-03 00:00:00", 4)[0]] == ["2", "1"]
+	activity = (PROJECT / "activity.py").read_text()
+	for doctype in ("Purchase Order", "Sales Invoice", "Payment Entry", "Expense Claim", "Stock Entry", "Journal Entry"):
+		assert f'"{doctype}":' in activity
+	assert 'frappe.has_permission(doctype, "read")' in activity and "frappe.get_list(doctype" in activity
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	assert any(one["property"] == "track_changes" and one["value"] == "1" for one in custom["property_setters"])
+	src = tree.ROOT / "frontend" / "src" / "project"
+	view = (src / "ProjectActivity.vue").read_text()
+	assert "onedesk.one_project.activity.activity" in view and 'useActivityTimeline("Project", props.project' in view
+	assert "#item-document" in view and "isPagedRow" in view and '__("Show earlier activity")' in view
+	assert '<ProjectActivity v-else-if="view === \'activity\'"' in (src / "ProjectPage.vue").read_text()
