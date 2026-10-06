@@ -2,7 +2,7 @@
   <Page>
     <Loading v-if="!said" />
     <template v-else>
-      <Header :said="said" @change="changeProject" @media="load" />
+      <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
 
       <!-- The views, as monday's and Asana's: each opens in place, and the
            task views share one toolbar. -->

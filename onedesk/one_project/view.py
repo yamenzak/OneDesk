@@ -37,6 +37,7 @@ from onedesk.one_project import (
 	overview,
 	retainer,
 	retention,
+	team,
 	tree,
 )
 from onedesk.one_project import updates as asking
@@ -120,6 +121,12 @@ def said(project: Annotated[str, "The project."]) -> dict:
 				"image": frappe.db.get_value("User", row.user, "user_image"),
 			}
 			for row in doc.users
+		],
+		# Everyone the Team view lists, for the head and About: the manager,
+		# members, and whoever the tasks or the time name.
+		"people": [
+			{"user": one["user"], "name": one["name"], "image": one["image"]}
+			for one in team.team(doc.name)["people"]
 		],
 		"contract": contract(doc),
 		"orders": orders(doc, view["tree"]),

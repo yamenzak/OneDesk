@@ -8114,6 +8114,11 @@ frappe's Assign does; Pending Review tells whoever made the task.
   the mobile when there's no phone.
 - OneAI reads the contacts in `project_facts`.
 - Left for later: giving a consultant the portal.
+- Team listed six people on the villa but only Wren could be removed, and
+  the head showed one avatar: both read the project's Users table, where
+  only Wren was. The head and About now show everyone Team lists (`view.py`
+  "people"), five avatars and "+1", opening Team. A row that isn't a member
+  offers Make Member, when the person is a user.
 
 ## OneLegal
 

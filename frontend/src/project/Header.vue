@@ -1,7 +1,7 @@
 <template>
   <!-- The project's head: its Featured Media turning behind its name and
        what its kind is watched by, changed right here (Hero.vue, Facts.vue),
-       the team in the corner. -->
+       everyone on it in the corner, which opens Team. -->
   <header class="pt-6">
     <!-- With no photos, a quiet panel in their place, laid out the same. -->
     <div v-if="!said.media.length" class="relative rounded-7 bg-surface-gray-2 p-6 lg:p-8">
@@ -12,7 +12,9 @@
           <Title :said="said" size="text-6xl lg:text-8xl" @change="relay" />
           <Facts class="mt-4" :said="said" @change="relay" />
         </div>
-        <People class="shrink-0 max-sm:hidden" :users="said.team.map((one) => one.user)" :people="teamPeople" :max="6" size="md" />
+        <button class="shrink-0 rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3 max-sm:hidden" :aria-label="__('Team')" @click="$emit('view', 'team')">
+          <People :users="users" :people="teamPeople" :max="5" size="md" />
+        </button>
       </div>
     </div>
 
@@ -24,7 +26,9 @@
           <Facts class="mt-4 max-sm:hidden" :said="said" on-image @change="relay" />
         </template>
         <template #corner>
-          <People :users="said.team.map((one) => one.user)" :people="teamPeople" :max="6" size="md" />
+          <button class="rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="__('Team')" @click="$emit('view', 'team')">
+            <People :users="users" :people="teamPeople" :max="5" size="md" />
+          </button>
         </template>
       </Hero>
       <!-- On a phone the photo is too small to carry the facts. -->
@@ -48,9 +52,11 @@ import Title from "./Title.vue";
 const props = defineProps({
   said: { type: Object, required: true },
 });
-const emit = defineEmits(["change", "media"]);
+const emit = defineEmits(["change", "media", "view"]);
 const relay = (fieldname, value) => emit("change", fieldname, value);
-const teamPeople = computed(() => Object.fromEntries(props.said.team.map((one) => [one.user, one])));
+// Everyone Team lists, manager first (view.py "people").
+const users = computed(() => props.said.people.map((one) => one.user));
+const teamPeople = computed(() => Object.fromEntries(props.said.people.map((one) => [one.user, one])));
 
 const viewing = ref(false);
 const at = ref(0);

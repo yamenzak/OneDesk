@@ -98,6 +98,8 @@ def team(project: Annotated[str, "The project."]) -> dict:
 		one["name"] = (known.full_name if known else None) or one.pop("shown", None) or user
 		one.pop("shown", None)
 		one["image"] = known.user_image if known else None
+		# Only a user who can sign in can be made a member.
+		one["can_join"] = bool(known and known.enabled) and not one["member"]
 		one["hours"] = round(one["hours"], 1)
 		one["month"] = round(one["month"], 1)
 	return {

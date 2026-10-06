@@ -414,9 +414,15 @@ Everyone on the project: its **Members**, its manager, whoever a task is
 assigned to and whoever logged time on it. Each shows their open tasks, how
 many are late, and their hours this month and in all.
 
-**Add Member** adds somebody to the project's members, and the button at
-the end of a member's row takes them off. Their tasks and time stay.
-Whoever may change the project may change its members.
+**Add Member** adds somebody to the project's members. The button at the
+end of a row makes that person a member, or removes a member. Their tasks
+and time stay, so somebody removed is still listed while the work names
+them. Only somebody who signs in can be a member. An employee who only has
+their time logged can't be. Whoever may change the project may change its
+members.
+
+The avatars in the project's head are the same people, the manager first,
+and open **Team**. **About** on the Overview counts them too.
 
 **Contacts** lists the people outside the company on the project: the
 subcontractors and suppliers, consultants, the architect, the engineer, the

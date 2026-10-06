@@ -244,7 +244,7 @@ const facts = computed(() => {
       value: s.ends ? [date(s.ends), open && ends(left)].filter(Boolean).join(" · ") : __("Not set"),
       tone: !s.ends ? "gray" : open && left < 0 ? "red" : undefined,
     },
-    s.team?.length && { label: __("Team"), value: s.team.length === 1 ? __("1 person") : __("{0} people", [s.team.length]), avatars: s.team.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
+    s.people?.length && { label: __("Team"), value: s.people.length === 1 ? __("1 person") : __("{0} people", [s.people.length]), avatars: s.people.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
     s.priority && { label: __("Priority"), value: __(s.priority) },
     s.time && { label: __("Time"), value: [__(s.time), s.site].filter(Boolean).join(" · ") },
   ].filter(Boolean);

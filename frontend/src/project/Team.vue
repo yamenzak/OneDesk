@@ -35,7 +35,12 @@
             <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ item.month ? hours(item.month) : "–" }}</ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ item.hours ? hours(item.hours) : "–" }}</ListCell>
             <ListCell class="justify-end">
-              <Button v-if="said.can_change && item.member" variant="ghost" size="sm" icon="lucide-user-minus" :aria-label="__('Remove {0}', [item.name])" @click="removeMember(item)" />
+              <Tooltip v-if="said.can_change && item.member" :text="__('Remove Member')">
+                <Button variant="ghost" size="sm" icon="lucide-user-minus" :aria-label="__('Remove {0}', [item.name])" @click="removeMember(item)" />
+              </Tooltip>
+              <Tooltip v-else-if="said.can_change && item.can_join" :text="__('Make Member')">
+                <Button variant="ghost" size="sm" icon="lucide-user-plus" :aria-label="__('Make {0} a member', [item.name])" @click="makeMember(item)" />
+              </Tooltip>
             </ListCell>
           </ListRow>
         </ListRows>
@@ -80,7 +85,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { Avatar, Badge, Button } from "frappe-ui";
+import { Avatar, Badge, Button, Tooltip } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Loading, __, call, confirm, hours, onedesk } from "../kit";
@@ -110,8 +115,12 @@ const addMember = () =>
     said.value = now;
     emit("changed");
   });
+async function makeMember(person) {
+  said.value = await call("onedesk.one_project.team.add", { project: props.projectName, user: person.user });
+  emit("changed");
+}
 function removeMember(person) {
-  confirm(__("Take {0} off the project?", [person.name]), async () => {
+  confirm(__("Remove {0} from the project?", [person.name]), async () => {
     said.value = await call("onedesk.one_project.team.remove", { project: props.projectName, user: person.user });
     emit("changed");
   });

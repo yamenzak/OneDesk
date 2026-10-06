@@ -2186,3 +2186,18 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	assert "__('Add Supplier')" in suppliers and "order.supplier_id === one.supplier" in suppliers
 	assert '"supplier_id": head.supplier' in (PROJECT / "money.py").read_text()
 	assert '"contacts": _contacts(project)' in (PROJECT / "ai.py").read_text()
+
+
+def test_the_head_shows_everyone_team_lists_and_any_user_can_be_made_a_member():
+	view_py = (PROJECT / "view.py").read_text()
+	assert 'for one in team.team(doc.name)["people"]' in view_py
+	team_py = (PROJECT / "team.py").read_text()
+	assert 'one["can_join"] = bool(known and known.enabled) and not one["member"]' in team_py
+	src = tree.ROOT / "frontend" / "src"
+	header = (src / "project" / "Header.vue").read_text()
+	assert "props.said.people.map" in header and ':max="5"' in header and "$emit('view', 'team')" in header
+	assert "s.people?.length" in (src / "project" / "Overview.vue").read_text()
+	team = (src / "project" / "Team.vue").read_text()
+	assert "item.can_join" in team and "onedesk.one_project.team.add" in team
+	assert '__("Remove {0} from the project?"' in team
+	assert "stack.users.length > props.max" in (src / "kit" / "People.vue").read_text()
