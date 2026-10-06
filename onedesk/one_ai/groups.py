@@ -88,9 +88,9 @@ GROUPS = {
 		),
 	},
 	"projects": {
-		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, drafting your update",
-		"tools": ("project_facts", "projects_needing_attention", "draft_update"),
-		"words": ("project", "milestone", "projekt", "meilenstein", "مشروع", "مشاريع"),
+		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, drafting your update, project templates and drafting one",
+		"tools": ("project_facts", "projects_needing_attention", "draft_update", "project_templates", "draft_template"),
+		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},
 	"hr": {
 		"about": "people: appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",

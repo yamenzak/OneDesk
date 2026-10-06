@@ -127,6 +127,13 @@ CASES = [
 		"card": True,
 	},
 	{
+		"id": "template",
+		"page": {"page": "project-template-view", "record": "Aluminium & Glazing"},
+		"ask": "Draft a template for a bathroom refit: strip out, plumbing and tiling, then fitting and a final clean.",
+		"tools": ("draft_template",),
+		"card": True,
+	},
+	{
 		"id": "event",
 		"page": {},
 		"ask": "Put a call with Omar from Gulf Distributors in my calendar tomorrow at 10.",

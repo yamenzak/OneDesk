@@ -1223,6 +1223,7 @@ one_ai_reads = [
 	# A project as its page shows it, and which projects need attention. See one_project/ai.py.
 	"onedesk.one_project.ai.project_facts",
 	"onedesk.one_project.ai.projects_needing_attention",
+	"onedesk.one_project.ai.project_templates",
 	"onedesk.one_crm.ai.deal_facts",
 	"onedesk.one_crm.ai.lead_facts",
 	"onedesk.one_crm.ai.gone_quiet",
@@ -1256,6 +1257,8 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.add_lead",
 	# The reader's update on a project, put under Updates to post. See one_project/ai.py.
 	"onedesk.one_project.ai.draft_update",
+	# A project template, made when the reader approves. See one_project/library.py.
+	"onedesk.one_project.ai.draft_template",
 	"onedesk.one_crm.ai.plan_next_step",
 	"onedesk.one_crm.ai.write_up_call",
 	"onedesk.one.ai.rewrite_notification",

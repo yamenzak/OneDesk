@@ -155,3 +155,14 @@ def test_a_template_opens_on_its_page_and_every_change_saves_it():
 	assert 'follow("Project Template"' in page
 	tasks = (ROOT / "frontend" / "src" / "template" / "Tasks.vue").read_text()
 	assert '__("Day {0}", [one.start || 0])' in tasks
+
+
+def test_oneai_drafts_a_template_as_a_card_made_by_the_library():
+	ai = (APP / "one_project" / "ai.py").read_text()
+	draft = ai[ai.index("def draft_template(") : ai.index("def _time(")]
+	assert 'proposals.propose("Setup", "Project Template"' in draft and "library.rows(preset)" in draft
+	assert 'frappe.has_permission("Project Template", "create")' in draft
+	setup = (APP / "one" / "ai_setup.py").read_text()
+	assert 'if what == "template":' in setup and 'library.drafted(changes["preset"])' in setup
+	assert '"onedesk.one_project.ai.draft_template"' in HOOKS and '"onedesk.one_project.ai.project_templates"' in HOOKS
+	assert '"expects": "draft_template"' in ai

@@ -741,6 +741,11 @@ def apply(changes: dict) -> str:
 	"""A Setup card approved: the page's own code, as whoever pressed Approve.
 	Returns what was made or changed."""
 	what = changes.get("what")
+	if what == "template":
+		# A project template OneAI drafted, made as the library makes one (one_project/library.py).
+		from onedesk.one_project import library
+
+		return library.drafted(changes["preset"])
 	if what == "report":
 		from frappe.desk.reportview import save_report
 

@@ -655,7 +655,7 @@ def test_oneai_reads_a_project_as_its_page_does():
 	assert '"onedesk.one_project.ai.SUGGESTIONS"' in HOOKS
 	groups = (tree.APP / "one_ai" / "groups.py").read_text()
 	assert (
-		'"tools": ("project_facts", "projects_needing_attention", "draft_update")' in groups
+		'"tools": ("project_facts", "projects_needing_attention", "draft_update", "project_templates", "draft_template")' in groups
 		and '"One Project": "projects"' in groups
 	)
 	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]

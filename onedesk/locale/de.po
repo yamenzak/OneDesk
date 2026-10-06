@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 23:42+0000\n"
-"PO-Revision-Date: 2026-10-06 23:42+0000\n"
+"POT-Creation-Date: 2026-10-06 23:48+0000\n"
+"PO-Revision-Date: 2026-10-06 23:48+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -6278,6 +6278,10 @@ msgstr "Arbeitsbeginn"
 msgid "Day {0}"
 msgstr "Tag {0}"
 
+#: onedesk/one_project/ai.py:478
+msgid "Day {0} · {1} days"
+msgstr "Tag {0} · {1} Tage"
+
 #: onedesk/one/settings.py:1999
 msgid "Days"
 msgstr "Tage"
@@ -7200,6 +7204,10 @@ msgstr "Nachfass-E-Mail entwerfen"
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr "Entwirf aus dieser Anforderung eine Stellenausschreibung – Titel, Beschreibung und was eine starke Bewerbung mitbringt, je eine kurze Zeile – und schlage vor, sie anzulegen."
 
+#: onedesk/one_project/ai.py:144
+msgid "Draft a project template for a kind of job we do. Ask me first what the job is, then offer a template we have or one from the library before drafting a new one."
+msgstr "Entwirf eine Projektvorlage für eine Art von Auftrag, die wir ausführen. Frag mich zuerst, um welchen Auftrag es geht, und biete eine vorhandene Vorlage oder eine aus der Bibliothek an, bevor du eine neue entwirfst."
+
 #: onedesk/one_crm/ai.py:65 onedesk/one_mail/ai.py:32
 msgid "Draft a reply"
 msgstr "Antwort entwerfen"
@@ -7215,6 +7223,10 @@ msgstr "Entwirf eine kurze erste Antwort an diesen Lead, die seine Frage beantwo
 #: onedesk/one_crm/ai.py:44
 msgid "Draft a short follow-up email to them from this deal's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
 msgstr "Entwirf eine kurze Nachfass-E-Mail an sie aus dem Verlauf dieses Deals: was zuletzt gesagt wurde, was wir vereinbart haben und das eine, worum wir bitten. Einfache Worte, keine Verkaufssprache."
+
+#: onedesk/one_project/ai.py:143
+msgid "Draft a template"
+msgstr "Vorlage entwerfen"
 
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
@@ -20271,7 +20283,7 @@ msgid "Running…"
 msgstr "Wird ausgeführt…"
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:375
+#: onedesk/one_project/ai.py:474 onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
 msgstr "Läuft"
@@ -22868,7 +22880,8 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/project/Overview.vue:20
-#: frontend/src/project/ProjectPage.vue:183 onedesk/one_project/calendar.py:17
+#: frontend/src/project/ProjectPage.vue:183 onedesk/one_project/ai.py:472
+#: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/report/workload/workload.py:131
 #: onedesk/one_task/sidebar/onetask/onetask.json onedesk/www/projects.html:124
 msgid "Tasks"
@@ -23194,7 +23207,7 @@ msgstr "Diese Adresse hat bereits ein Konto. Melden Sie sich stattdessen damit a
 
 #: onedesk/one/access.py:419 onedesk/one/access.py:544
 #: onedesk/one/access.py:581 onedesk/one/access.py:606
-#: onedesk/one/access.py:666 onedesk/one/ai_setup.py:816
+#: onedesk/one/access.py:666 onedesk/one/ai_setup.py:821
 #: onedesk/one/reports.py:214 onedesk/one/reports.py:246
 #: onedesk/one/settings.py:1038 onedesk/one/settings.py:1127
 msgid "That cannot be set."
@@ -24493,7 +24506,7 @@ msgstr "Es gibt bereits ein Profil namens {0}."
 msgid "There is already a role called {0}."
 msgstr "Es gibt bereits eine Rolle namens {0}."
 
-#: onedesk/one_project/templates.py:58
+#: onedesk/one_project/library.py:118 onedesk/one_project/templates.py:58
 msgid "There is already a template called {0}."
 msgstr "Es gibt bereits eine Vorlage namens {0}."
 
@@ -28084,7 +28097,7 @@ msgstr "Welche offenen Deals sind eingeschlafen: Seit zwei Wochen hat niemand mi
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "Welche offenen Leads warten auf uns: Seit einer Woche hat niemand mit ihnen gesprochen, und nichts ist geplant?"
 
-#: onedesk/one_project/ai.py:149
+#: onedesk/one_project/ai.py:165
 msgid "Which open projects need attention: marked at risk or off track, with late tasks, past their end date, or over their estimated cost?"
 msgstr "Welche offenen Projekte brauchen Aufmerksamkeit: als gefährdet oder nicht im Plan markiert, mit verspäteten Aufgaben, über ihrem Enddatum oder über den geschätzten Kosten?"
 
@@ -28111,7 +28124,7 @@ msgstr "Welche Vorlage den Kopf aus den Firmenangaben zeichnet und was er zeigt.
 msgid "Which print format do Sales Invoices print with, and which others could they use?"
 msgstr "Mit welchem Druckformat werden Ausgangsrechnungen gedruckt, und welche anderen könnten sie verwenden?"
 
-#: onedesk/one_project/ai.py:148
+#: onedesk/one_project/ai.py:164
 msgid "Which projects need attention?"
 msgstr "Welche Projekte brauchen Aufmerksamkeit?"
 
@@ -30861,6 +30874,7 @@ msgstr "{0} Guthaben."
 #: frontend/src/template/Tasks.vue:126
 #: frontend/src/template/TemplatePage.vue:83 onedesk/one_crm/heads.py:32
 #: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:389
+#: onedesk/one_project/ai.py:475
 msgid "{0} days"
 msgstr "{0} Tage"
 
@@ -31047,7 +31061,7 @@ msgstr "{0} hat einen Vorlagenfehler ({1})."
 msgid "{0} has already joined. Send a password reset instead."
 msgstr "{0} ist bereits beigetreten. Senden Sie stattdessen eine Passwort-Zurücksetzung."
 
-#: onedesk/one/ai_setup.py:784 onedesk/one_ai/proposals.py:150
+#: onedesk/one/ai_setup.py:789 onedesk/one_ai/proposals.py:150
 #: onedesk/one_ai/proposals.py:256 onedesk/one_studio/ai.py:394
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "{0} hat sich seit dem Vorschlag geändert, daher gilt er nicht mehr."

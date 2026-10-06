@@ -673,3 +673,31 @@ def a_template_is_laid_out_and_changed_on_its_page():
 			pass
 		else:
 			raise AssertionError("a projects user changed a template")
+
+
+@check
+def oneai_drafts_a_template_as_a_card():
+	"""A template OneAI drafts is a card: nothing is made until the project
+	manager approves it, approving makes it as the library would, and a
+	projects user is not offered one."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import ai, template_view
+
+	phases = [
+		{"subject": "Strip-Out", "milestone": True, "tasks": [{"subject": "Protect the floors", "day": 0, "days": 1}, {"subject": "Take out the old units", "day": 1, "days": 2}]},
+		{"subject": "Fit", "milestone": True, "tasks": [{"subject": "Fit the new units", "day": 3, "days": 3}, {"subject": "Worktops", "day": 6, "days": 1, "after": ["Fit the new units"]}]},
+	]
+	with as_user("samir@one.test"):
+		known = ai.project_templates()
+		assert "Aluminium & Glazing" in known["templates"] and len(known["library"]) == 12
+		said = ai.draft_template("Kitchen Refit", phases, about="A kitchen taken out and fitted again.")
+		assert said.get("state") == "Proposed", said
+		assert not frappe.db.exists("Project Template", "Kitchen Refit"), "nothing is made before it is approved"
+		assert ai.draft_template("Aluminium & Glazing", phases).get("mend") == "draft_template"
+		assert ai.draft_template("Bad", [{"subject": "A", "tasks": [{"subject": "b", "when": 3}]}]).get("mend")
+		proposals.apply(said["proposal"])
+		made = template_view.read("Kitchen Refit")
+		assert [one["subject"] for one in made["tasks"]] == ["Strip-Out", "Protect the floors", "Take out the old units", "Fit", "Fit the new units", "Worktops"]
+		assert made["days"] == 7 and all(one["is_milestone"] for one in made["tasks"] if one["is_group"])
+	with as_user("rania@one.test"):
+		assert "error" in ai.draft_template("Garden Shed", phases)

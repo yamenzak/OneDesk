@@ -110,6 +110,15 @@ def copy(key: str) -> str:
 	return make(title, made)
 
 
+def drafted(preset: dict) -> str:
+	"""A template OneAI drafted and a person approved, made as a preset is,
+	by whoever approved it. Returns its name."""
+	frappe.has_permission("Project Template", "create", throw=True)
+	if frappe.db.exists("Project Template", preset["title"]):
+		frappe.throw(_("There is already a template called {0}.").format(preset["title"]))
+	return make(preset["title"], rows(preset))
+
+
 def make(title: str, made: list[dict], project_type: str | None = None) -> str:
 	"""A Project Template from rows as `rows` gives them: a template task for
 	each, nested, waiting on what it comes after."""

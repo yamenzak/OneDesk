@@ -484,6 +484,15 @@ Up next, in this order:
        in New Project, Add from Template and on the Templates list, and the
        first use copies a preset into the workspace, in its language (every
        title and task is in the translations).
+     - **OneAI.** **Draft a template** is offered on the Templates list and
+       on a template's page, to whoever may make templates. OneAI reads the
+       workspace's templates and the library first (`project_templates`) and
+       offers one of those before drafting. A draft is a Setup card listing
+       its phases, tasks and days (`draft_template`). Approving makes it as
+       a preset is made (`library.drafted`), by whoever approved it. Checked
+       on the demo (`oneai_drafts_a_template_as_a_card`), and an eval case
+       added. The live eval could not run, because the rebuilt demo site is
+       not linked to an admin site for OneAI calls.
      - **Checked** on the demo (`a_template_is_laid_out_and_changed_on_its_page`):
        the project manager reads and changes the template, copies a preset,
        starts a project from the library and adds one to a running project,

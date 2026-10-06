@@ -6,7 +6,7 @@ import re
 from typing import Annotated
 
 import frappe
-from frappe import _lt
+from frappe import _, _lt
 from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
 
 from onedesk.one_project import kinds, overview, tree
@@ -136,7 +136,23 @@ def _here(*offered, kinds: tuple | None = None) -> list[dict]:
 	return said
 
 
+#: A project template's page (page/project_template_view).
+TEMPLATE_PAGE = "project-template-view"
+
+DRAFT_TEMPLATE = {
+	"label": _lt("Draft a template"),
+	"ask": _lt(
+		"Draft a project template for a kind of job we do. Ask me first what the job is, then offer a "
+		"template we have or one from the library before drafting a new one."
+	),
+	"can": "create",
+	"doctype": "Project Template",
+	"expects": "draft_template",
+}
+
 SUGGESTIONS = {
+	"Project Template": [{**DRAFT_TEMPLATE, "view": "List"}],
+	f"page:{TEMPLATE_PAGE}": [DRAFT_TEMPLATE],
 	"Project": [
 		{**GOING, "view": "Form"},
 		{**LATE, "view": "Form"},
@@ -187,7 +203,15 @@ VIEWS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on a project's page."""
+	"""The sentence the model is told on a project's page, or a template's."""
+	if said.get("page") == TEMPLATE_PAGE:
+		name = (said.get("record") or "").strip()
+		return (
+			f"The reader is on the page of project template “{name}”, its tasks in a table, each a day after "
+			"the project starts and a number of days long. project_templates lists the workspace's templates "
+			"and the library's, and draft_template suggests a new one as a card that makes it when the reader "
+			"approves. How templates work is in OneProject's documentation (how_to)."
+		)
 	if said.get("page") != PAGE:
 		return None
 	name = (said.get("record") or "").strip()
@@ -381,6 +405,92 @@ def draft_update(
 		"state": "Proposed",
 		"next": "Tell them Approve puts the update under Updates on the project's page, to change and post; "
 		"it is not posted until they post it.",
+	}
+
+
+def project_templates() -> dict:
+	"""The workspace's project templates, and the library's presets with what
+	each is for. Read before drafting a template, so one that is already there
+	is offered first."""
+	from onedesk.one_project import library
+
+	return {
+		"templates": frappe.get_list("Project Template", filters={"disabled": 0}, pluck="name", limit=50),
+		"library": [
+			{
+				"key": one["key"],
+				"title": one["title"],
+				"about": one["about"],
+				"tasks": one["tasks"],
+				"days": one["days"],
+			}
+			for one in library.presets()
+		],
+	}
+
+
+def draft_template(
+	title: Annotated[str, "The template's name, as the kind of job it is for: Kitchen Refit."],
+	phases: Annotated[
+		list[dict],
+		"Its phases in order, each {subject, milestone: true, tasks: [{subject, day, days}]}: `day` is the day "
+		"after the project starts that a task begins on, `days` how long it lasts. A task may say what it "
+		"comes after by subject (`after`). Tasks are named as work, a noun or a verb first: Order glass.",
+	],
+	about: Annotated[str, "What kind of job it is for, in a sentence."] | None = None,
+	why: Annotated[str, "In a sentence, why this template."] | None = None,
+) -> dict:
+	"""Suggest a project template, as a card the reader approves. Read
+	project_templates first: offer a template the workspace has, or one from
+	the library, before drafting a new one. Approving makes it, as the
+	library's copy would, and opens it to change."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import library
+
+	if not frappe.has_permission("Project Template", "create"):
+		return {"error": "The reader may not make project templates. A Projects Manager may."}
+	title = (title or "").strip()
+	if not title:
+		return {"mend": "draft_template", "error": "Give the template a name."}
+	if frappe.db.exists("Project Template", title):
+		return {
+			"mend": "draft_template",
+			"error": f"There is already a template called {title}. Pick another name.",
+		}
+	preset = {"title": title, "about": (about or "").strip(), "tasks": phases or []}
+	try:
+		made = library.rows(preset)
+	except (KeyError, TypeError, ValueError) as e:
+		return {
+			"mend": "draft_template",
+			"error": f"A task is not written as asked ({e}). Each needs a subject, day and days.",
+		}
+	if not any(not one["is_group"] for one in made):
+		return {"mend": "draft_template", "error": "A template needs tasks."}
+	tasks = [one for one in made if not one["is_group"]]
+	summary = [
+		{"label": _("Tasks"), "value": str(len(tasks))},
+		{
+			"label": _("Runs"),
+			"value": _("{0} days").format(max(one["start"] + one["duration"] for one in made)),
+		},
+		*(
+			{"label": one["subject"], "value": _("Day {0} · {1} days").format(one["start"], one["duration"])}
+			for one in made
+			if one["is_group"]
+		),
+	]
+	changes = {
+		"what": "template",
+		"title": title,
+		"preset": preset,
+		"summary": summary,
+		"route": ["project-template-view", title],
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project Template", changes=changes, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it does. Nothing is made until they approve it.",
 	}
 
 

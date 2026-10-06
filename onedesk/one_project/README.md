@@ -980,6 +980,12 @@ sub-projects you can see, and the project's own work apart from them, so it
 can say what the job is worth without its extra work. Tasks it suggests come as cards, and nothing is
 added until you approve one.
 
+On **Templates** and on a template's page, OneAI offers **Draft a template**.
+Say what kind of job it is for. It offers a template you already have, or
+one from the library, first. A new one comes as a card listing its phases,
+how many tasks it has and how many days it runs. Approving it makes the
+template and opens it to change.
+
 ## Who has room this week
 
 **Workload** in the rail shows each person with open tasks in a week. It
@@ -1782,6 +1788,9 @@ one field for it.
   (one/babel.py `project_template` puts every title and task in the
   translations), and returns that one after. New Project (kinds.py `make`)
   and Add from Template (templates.py `add`) take a preset as `library`.
+  `drafted` makes a template OneAI drafted, once a person approves its card
+  (ai.py `draft_template`, a Setup card applied by one/ai_setup.py), the same
+  way as a preset and as whoever approved it.
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), the money
   (money.py), overdue tasks, the next milestone, and the hours logged a week
