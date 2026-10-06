@@ -8191,6 +8191,11 @@ frappe's Assign does; Pending Review tells whoever made the task.
   About now draws them with the kit's People, unclipped, and People rings
   each avatar in `outline-base`, the page's own colour, so one cuts the next
   cleanly here and in the hero.
+- Half the project's avatars showed initials whoever had a picture: the
+  manager, updates, the Time list, Not Invoiced Yet, By Person, Who's On
+  It and Team's contacts were given a name and no image. Each now carries
+  the user's picture, the employee's for someone with no user
+  (`view._faces`, `hours._faces`), or the Contact's own.
 
 ## OneLegal
 

@@ -3,7 +3,7 @@
        a line to post the next one. Earlier ones open under it. -->
   <div>
     <div v-for="(one, i) in shown" :key="i" class="flex gap-3 pb-4">
-      <Avatar :label="one.by" size="md" />
+      <Avatar :label="one.by" :image="one.image" size="md" />
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-2 text-base">
           <span class="font-medium text-ink-gray-8">{{ one.by }}</span>

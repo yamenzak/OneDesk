@@ -104,6 +104,9 @@ def said(project: Annotated[str, "The project."]) -> dict:
 		"ends": str(doc.expected_end_date) if doc.expected_end_date else None,
 		"manager": doc.get("one_manager"),
 		"manager_name": get_fullname(doc.one_manager) if doc.get("one_manager") else None,
+		"manager_image": frappe.db.get_value("User", doc.one_manager, "user_image")
+		if doc.get("one_manager")
+		else None,
 		"parent": doc.get("one_parent"),
 		"above": _above(doc.name),
 		"priority": doc.priority,
@@ -970,30 +973,40 @@ def _on_it(projects: list[str]) -> list[dict]:
 	):
 		for user in frappe.parse_json(one._assign or "[]"):
 			found[user] = found.get(user, 0) + 1
+	most = sorted(found.items(), key=lambda one: -one[1])[:SHOWN]
+	people = _people_of(user for user, n in most)
 	return [
-		{"user": user, "name": get_fullname(user), "tasks": n}
-		for user, n in sorted(found.items(), key=lambda one: -one[1])[:SHOWN]
+		{"user": user, "name": get_fullname(user), "image": people.get(user, {}).get("image"), "tasks": n}
+		for user, n in most
 	]
 
 
 def _unbilled_people(project: str) -> list[dict]:
 	"""The billable time not invoiced yet, by who logged it."""
 	rows = billing._rows(project)
-	names = dict(
-		frappe.get_all(
+	sheets = {
+		one.name: one
+		for one in frappe.get_all(
 			"Timesheet",
 			filters={"name": ["in", list({row.time_sheet for row in rows})]},
-			fields=["name", "employee_name"],
-			as_list=True,
+			fields=["name", "employee_name", "user", "employee"],
 		)
-	)
+	}
+	faces = _faces(sheets.values())
 	found: dict = {}
 	for row in rows:
-		one = found.setdefault(names.get(row.time_sheet) or _("Other"), {"hours": 0.0, "amount": 0.0})
+		sheet = sheets.get(row.time_sheet) or frappe._dict()
+		one = found.setdefault(
+			sheet.employee_name or _("Other"),
+			{"hours": 0.0, "amount": 0.0, "image": faces.get(sheet.user or sheet.employee)},
+		)
 		one["hours"] += flt(row.billing_hours)
 		one["amount"] += flt(row.billing_amount)
 	return sorted(
-		({"name": key, "hours": round(v["hours"], 1), "amount": v["amount"]} for key, v in found.items()),
+		(
+			{"name": key, "hours": round(v["hours"], 1), "amount": v["amount"], "image": v["image"]}
+			for key, v in found.items()
+		),
 		key=lambda one: (-one["amount"], -one["hours"]),
 	)[:SHOWN]
 
@@ -1117,12 +1130,35 @@ def _time_rows(project: str) -> list:
 			fields=["name", "user", "employee", "employee_name"],
 		)
 	}
+	faces = _faces(sheets.values())
 	for row in rows:
 		sheet = sheets.get(row.parent) or frappe._dict()
 		# A timesheet is the employee's; the user is there only when they have one.
 		row.user = sheet.user or sheet.employee
 		row.who = get_fullname(sheet.user) if sheet.user else sheet.employee_name
+		row.image = faces.get(row.user)
 	return rows
+
+
+def _faces(sheets) -> dict:
+	"""The picture of whoever each timesheet is for: their user's, or the
+	employee's when they have no user."""
+	sheets = list(sheets)
+	users = {one.user for one in sheets if one.user}
+	employees = {one.employee for one in sheets if one.employee and not one.user}
+	faces = {user: one["image"] for user, one in _people_of(users).items()}
+	if employees:
+		faces.update(
+			dict(
+				frappe.get_all(
+					"Employee",
+					filters={"name": ["in", list(employees)]},
+					fields=["name", "image"],
+					as_list=True,
+				)
+			)
+		)
+	return faces
 
 
 def _activities(project: str) -> list[dict]:
@@ -1140,12 +1176,14 @@ def _activities(project: str) -> list[dict]:
 def _people(project: str) -> list[dict]:
 	found: dict = {}
 	names: dict = {}
+	faces: dict = {}
 	for row in _time_rows(project):
 		if row.user:
 			found[row.user] = found.get(row.user, 0.0) + flt(row.hours)
 			names[row.user] = row.who
+			faces[row.user] = row.image
 	return [
-		{"user": user, "name": names[user] or user, "hours": round(hours, 1)}
+		{"user": user, "name": names[user] or user, "image": faces[user], "hours": round(hours, 1)}
 		for user, hours in sorted(found.items(), key=lambda one: -one[1])[:SHOWN]
 	]
 
@@ -1390,4 +1428,6 @@ def updates(project: Annotated[str, "The project."]) -> list[dict]:
 	frappe.has_permission("Project", "read", doc=project, throw=True)
 	from onedesk.one_project.ai import _updates
 
-	return _updates(project)
+	said = _updates(project)
+	people = _people_of({one["user"] for one in said})
+	return [{**one, "image": people.get(one["user"], {}).get("image")} for one in said]

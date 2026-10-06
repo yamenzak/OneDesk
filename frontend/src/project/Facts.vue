@@ -23,7 +23,7 @@
     <span v-else-if="dates" class="flex items-center gap-1.5"><span class="lucide-calendar size-4" :class="icon" />{{ dates }}</span>
     <span v-if="said.kind === 'Internal' && due" class="flex items-center gap-1.5" :class="said.days_left < 0 && 'text-ink-red-5'"><span class="lucide-flag size-4" :class="said.days_left < 0 ? 'text-ink-red-5' : icon" />{{ due }}</span>
     <span v-if="said.manager_name" class="flex items-center gap-1.5">
-      <Avatar :label="said.manager_name" size="xs" />{{ said.manager_name }}
+      <Avatar :label="said.manager_name" :image="said.manager_image" size="xs" />{{ said.manager_name }}
     </span>
   </div>
 </template>

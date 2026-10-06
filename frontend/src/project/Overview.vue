@@ -54,7 +54,7 @@
 
       <template v-else-if="kind === 'Time and Materials'">
         <Section :title="__('Not Invoiced Yet')" :aside="unbilledTotal">
-          <Rows :rows="view.unbilled.map((one) => ({ key: one.name, label: one.name, avatar: one.name, dim: hours(one.hours), value: money(one.amount, said.currency) }))" :empty="__('All time is invoiced')" />
+          <Rows :rows="view.unbilled.map((one) => ({ key: one.name, label: one.name, avatar: one.name, image: one.image, dim: hours(one.hours), value: money(one.amount, said.currency) }))" :empty="__('All time is invoiced')" />
           <Button v-if="view.unbilled.length && said.customer && can('create', 'Sales Invoice')" class="mt-3" :label="__('Invoice Time')" @click="onedesk().project.invoice_time(frm())" />
         </Section>
       </template>
@@ -100,13 +100,13 @@
         </Section>
       </template>
       <Section v-if="view.people?.length" :title="__('By Person')" :aside="__('This month')">
-        <Rows :rows="view.people.map((one) => ({ key: one.user, label: one.name, value: hours(one.hours), avatar: one.name }))" />
+        <Rows :rows="view.people.map((one) => ({ key: one.user, label: one.name, value: hours(one.hours), avatar: one.name, image: one.image }))" />
       </Section>
       <Section v-if="view.activities?.length" :title="__('By Activity')" :aside="__('This month')">
         <Rows :rows="view.activities.map((one) => ({ key: one.activity, label: one.activity, dim: one.amount ? money(one.amount, said.currency) : '', value: hours(one.hours) }))" />
       </Section>
       <Section v-if="view.on_it?.length" :title="__('Who\'s On It')">
-        <Rows :rows="view.on_it.map((one) => ({ key: one.user, label: one.name, avatar: one.name, value: one.tasks === 1 ? __('1 task') : __('{0} tasks', [one.tasks]) }))" />
+        <Rows :rows="view.on_it.map((one) => ({ key: one.user, label: one.name, avatar: one.name, image: one.image, value: one.tasks === 1 ? __('1 task') : __('{0} tasks', [one.tasks]) }))" />
       </Section>
 
       <Section :title="__('About', null, 'Project')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit About'), onClick: editAbout } : null">

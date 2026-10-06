@@ -62,7 +62,7 @@
           <ListRows :items="outside.contacts" row-key="row" v-slot="{ item }">
             <ListRow v-bind="outside.can_change ? { onClick: () => contact(item) } : {}">
               <ListCell class="min-w-0 gap-2.5">
-                <Avatar :label="item.person || item.company" size="md" />
+                <Avatar :label="item.person || item.company" :image="item.image" size="md" />
                 <div class="min-w-0">
                   <div class="truncate text-base text-ink-gray-8">{{ item.person || item.company }}</div>
                   <div class="truncate text-sm text-ink-gray-5">{{ [item.person ? item.company : "", item.note].filter(Boolean).join(" · ") }}</div>

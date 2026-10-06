@@ -39,7 +39,7 @@
           </template>
           <ListRow v-for="item in group.rows" :key="item.name" @click="go(`/desk/timesheet/${item.timesheet}`)">
             <ListCell class="tabular-nums text-ink-gray-7">{{ date(item.date) }}</ListCell>
-            <ListCell class="min-w-0 gap-2"><Avatar :label="item.who || item.user" size="sm" /><span class="truncate text-ink-gray-8">{{ item.who || item.user }}</span></ListCell>
+            <ListCell class="min-w-0 gap-2"><Avatar :label="item.who || item.user" :image="item.image" size="sm" /><span class="truncate text-ink-gray-8">{{ item.who || item.user }}</span></ListCell>
             <ListCell class="min-w-0 max-md:hidden"><span class="truncate text-ink-gray-7">{{ item.activity || "–" }}</span></ListCell>
             <ListCell class="min-w-0 max-md:hidden">
               <!-- The task, and under it where it is below this project. -->

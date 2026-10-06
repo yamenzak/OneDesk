@@ -2297,3 +2297,16 @@ def test_orders_and_quotations_sit_together_and_an_ordered_quote_is_its_order():
 	assert "__('Orders')" not in right and "__('Quotations')" not in right
 	quotes = (PROJECT / "view.py").read_text().split("def _quotes(", 1)[1].split("\ndef ", 1)[0]
 	assert '"status": ["!=", "Ordered"]' in quotes
+
+
+def test_every_avatar_on_a_project_shows_the_persons_picture():
+	src = tree.ROOT / "frontend" / "src"
+	# Every Avatar is given a picture, save the "+N" one.
+	for path in [*(src / "project").glob("*.vue"), *(src / "kit").glob("*.vue")]:
+		for line in path.read_text().splitlines():
+			if "<Avatar" in line or "h(Avatar" in line:
+				assert ":image=" in line or "image:" in line or 'label: "+"' in line, f"{path.name}: {line.strip()}"
+	view = (PROJECT / "view.py").read_text()
+	assert '"manager_image"' in view and "def _faces(" in view and "row.image = faces.get(row.user)" in view
+	assert "faces = _faces(people.values())" in (PROJECT / "hours.py").read_text()
+	assert '"image": _person(people.get(one.contact), "image")' in (PROJECT / "contacts.py").read_text()

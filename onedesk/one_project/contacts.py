@@ -45,7 +45,7 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 			filters={
 				"name": ["in", [one.contact for one in doc.get("one_contacts") or [] if one.contact] or [""]]
 			},
-			fields=["name", "full_name", "email_id", "phone", "mobile_no"],
+			fields=["name", "full_name", "email_id", "phone", "mobile_no", "image"],
 		)
 	}
 	suppliers = dict(
@@ -73,6 +73,7 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 				"person": _person(people.get(one.contact), "full_name") or one.contact,
 				"email": _person(people.get(one.contact), "email_id") or one.email,
 				"phone": _person(people.get(one.contact), "phone", "mobile_no") or one.phone,
+				"image": _person(people.get(one.contact), "image"),
 				"note": one.note,
 			}
 			for one in doc.get("one_contacts") or []

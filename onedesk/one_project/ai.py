@@ -605,6 +605,7 @@ def _updates(project: str) -> list[dict]:
 	return [
 		{
 			"by": get_fullname(row.user),
+			"user": row.user,
 			"on": day[row.parent],
 			"said": plain(row.project_status)[:LONGEST],
 			"health": row.one_health,

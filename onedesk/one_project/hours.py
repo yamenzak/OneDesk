@@ -185,6 +185,7 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 		limit_page_length=0,
 	)
 	people = whose({row.parent for row in rows})
+	faces = _faces(people.values())
 	head = frappe.db.get_value(
 		"Project", project, ["one_kind", "customer", "one_monthly_hours", "company"], as_dict=True
 	)
@@ -228,6 +229,9 @@ def entries(project: Annotated[str, "The project."]) -> dict:
 				"timesheet": row.parent,
 				"user": people.get(row.parent, {}).get("user"),
 				"who": people.get(row.parent, {}).get("name"),
+				"image": faces.get(
+					people.get(row.parent, {}).get("user") or people.get(row.parent, {}).get("employee")
+				),
 				"date": str(getdate(row.from_time)) if row.from_time else None,
 				"hours": flt(row.hours),
 				"activity": row.activity_type,
@@ -350,6 +354,25 @@ def after(sheet, day) -> datetime:
 	return max(ends) if ends else datetime.combine(day, DAY_STARTS)
 
 
+def _faces(people) -> dict:
+	"""The picture of each person `whose` found: their user's, or their
+	employee's when they have no user."""
+	people = list(people)
+	users = [one["user"] for one in people if one["user"]]
+	employees = [one["employee"] for one in people if one["employee"] and not one["user"]]
+	faces = dict(
+		frappe.get_all(
+			"User", filters={"name": ["in", users or [""]]}, fields=["name", "user_image"], as_list=True
+		)
+	)
+	faces.update(
+		frappe.get_all(
+			"Employee", filters={"name": ["in", employees or [""]]}, fields=["name", "image"], as_list=True
+		)
+	)
+	return faces
+
+
 def whose(sheets) -> dict[str, dict]:
 	"""Who each timesheet is for: its user, its employee's, or, with no
 	employee, whoever made it; and the name to show, the employee's when it
@@ -376,5 +399,6 @@ def whose(sheets) -> dict[str, dict]:
 			"user": user,
 			"key": user or one.employee or one.name,
 			"name": one.employee_name or (get_fullname(user) if user else None),
+			"employee": one.employee,
 		}
 	return said
