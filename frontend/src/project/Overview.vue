@@ -1,20 +1,21 @@
 <template>
   <!-- What the project is and how it is going, laid out for its kind
-       (docs/PROJECT-PAGE.md): its figures, each in a card, its tasks and
-       hours as charts, and what the kind is worked by on the left; what
-       needs someone, in a card, and the facts on the right. Each thing is in
-       one place. -->
+       (docs/PROJECT-PAGE.md): its figures, two to a row in cards, its tasks
+       and hours as charts, and what the kind is worked by on the left; what
+       needs someone, in a card, and the facts on the right. A group of cards
+       is its own divide, so no rule runs above or below one. Each thing is
+       in one place. -->
   <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
-    <div class="min-w-0 py-5 lg:col-span-2">
-      <Figures :figures="figures" boxed />
-    </div>
-
     <div class="min-w-0">
+      <div data-cards class="py-5">
+        <Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />
+      </div>
+
       <Section v-if="said.notes" :title="__('Brief')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">
         <div class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.notes" />
       </Section>
 
-      <div v-if="taskSlices.length || weekly.length" class="grid gap-3 border-b border-outline-gray-1 py-5" :class="{ 'sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]': taskSlices.length && weekly.length }">
+      <div v-if="taskSlices.length || weekly.length" data-cards class="grid gap-3 pb-5 pt-1" :class="{ 'sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]': taskSlices.length && weekly.length }">
         <ChartCard v-if="taskSlices.length" class="h-64">
           <DonutChart :title="__('Tasks')" :subtitle="tasksSaid" :data="taskSlices" category="status" value="n" :center-label="tasks.length === 1 ? tasks[0].status : __('Tasks')" :palette="taskColors" @select="$emit('view', 'tasks')" />
         </ChartCard>

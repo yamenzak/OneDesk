@@ -1,8 +1,9 @@
 <template>
   <!-- A titled part of a screen, on the page, divided from the next by a rule,
        or in a card of its own (`boxed`), as frappe-ui's ChartCard draws one.
+       No rule above a group of cards (`data-cards`): the cards divide it.
        It may open where the whole of it is (`action`), as a figure does. -->
-  <section :class="boxed ? 'my-5 rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-4' : 'border-b border-outline-gray-1 py-5 last:border-0'">
+  <section :class="boxed ? 'my-5 rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-4' : 'border-b border-outline-gray-1 py-5 last:border-0 [&:has(+[data-cards])]:border-b-0'">
     <div class="mb-3 flex items-center justify-between gap-2">
       <h2 class="text-lg font-semibold text-ink-gray-9">{{ title }}</h2>
       <div class="flex items-center gap-1">

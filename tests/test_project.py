@@ -2269,7 +2269,10 @@ def test_a_projects_views_are_a_column_on_a_desktop_and_never_over_the_page_head
 def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budget():
 	src = tree.ROOT / "frontend" / "src"
 	overview = (src / "project" / "Overview.vue").read_text()
-	assert '<Figures :figures="figures" boxed />' in overview and "lg:col-span-2" in overview
+	assert '<Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />' in overview
+	# A group of cards is its own divide: no rule above or below one.
+	assert overview.count("data-cards") == 2 and "border-b" not in overview
+	assert "[&:has(+[data-cards])]:border-b-0" in (src / "kit" / "Section.vue").read_text()
 	assert '<Section boxed :title="__(\'Needs You\')"' in overview
 	assert "<DonutChart" in overview and "<ChartCard" in overview and "horizontal stacked" in overview
 	# Colours from frappe-ui's tokens on the island's own root, never hex.

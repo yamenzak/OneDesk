@@ -8175,6 +8175,12 @@ frappe's Assign does; Pending Review tells whoever made the task.
   ring draws its largest slice first, so the colours follow the same order.
 - The demo projects' photos were re-uploaded (`media_seed.py`) after the
   file store lost them.
+- Rules ran under the Brief, above and below the charts, and under every
+  section, so cards sat between lines. A group of cards (`data-cards`) is now
+  its own divide: the section before one draws no rule
+  (`[&:has(+[data-cards])]:border-b-0` in `Section.vue`), and the group draws
+  none. The four figures are two to a row in the main column, beside Needs
+  You, not four across the page (`Figures :columns`).
 
 ## OneLegal
 

@@ -206,7 +206,8 @@ the day, who and the hours on **Time**, the person and their open tasks on
 ### Overview
 
 The Overview is laid out for the kind, and each thing on it shows once.
-Its figures are cards across the top. Under them, **Tasks** is a ring of the
+Its figures are cards at the top, two to a row when there are four, beside
+**Needs You**. Under them, **Tasks** is a ring of the
 project's tasks by status, a late one counted as **Overdue**, and **Hours by
 Week** is the hours logged in the last twelve weeks. Clicking the ring opens
 **Tasks**.
