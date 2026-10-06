@@ -1,59 +1,86 @@
 # The passover
 
-Every screen of One, one at a time, checked against ten points. You decide when
-a screen is done and when the next one starts. This file is where each screen's
-findings and fixes are written down.
+Every screen of One, one at a time, checked against the points below. You
+decide when a screen is done and when the next one starts. This file is where
+each screen's findings and fixes are written down.
 
-## The ten points
+## The points
 
-1. **Notifications and email templates**: what the screen's events send, to
-   whom, and whether the message reads well.
-2. **OneAI**: what OneAI does here, or should. Whatever is AI on the screen
-   is drawn one way: something OneAI does or did is `onedesk.oneai.tag`
-   ("Read by OneAI"), and something that asks it is `onedesk.oneai.button`,
-   which opens the panel on the same question the page's suggestion asks.
-   Both are frappe's own badge and button with OneAI's mark and spectrum
-   (`oneai.css`). A violet badge or a plain button standing in for one is a
-   finding.
-3. **Intake**: whether what Intake reads lands here, or should.
-4. **Permissions and roles**: who sees the screen, who may change what, and
-   whether the server holds that line.
-5. **Cross-module**: where this screen meets the other modules, for example
-   OneCRM and OneBook's accounts.
-6. **Bespoke UI**: the product has its own look, as OneMail and OneCloud do,
+Seventeen points in five groups. Each has guards in the registry
+(`tests/guards/`) that catch what a reading can miss. A new bad practice found
+on any screen gets a guard first, then the fix.
+
+### Works
+
+1. **Demo coverage**: the screen's records exist in the demo company
+   (`one_demo`), and the integration suite running on it covers every
+   behaviour the screen has: each kind, each branch, each preset, each
+   combination that matters (a project's kind against its sub-projects' kinds
+   against how each bills). A feature without a demo record and a test on it
+   is not finished.
+2. **Rules on the server**: every rule lives in the record's own hooks
+   (`validate`, `on_update`, `on_submit` and the rest, `doc_events` in
+   `hooks.py`). Buttons and endpoints offer and orchestrate, never decide. So
+   the list's bulk edit, the report view's inline edit and Data Import give the
+   same result as the screen, and the demo suite checks they do.
+3. **Hand-offs**: where the screen's data comes from and where it goes in
+   the other modules: a deal's customer on the project, its billing in OneBook,
+   its items in OneInventory, its people in OneHR and One, its tasks in
+   OneTask. The module's README has a **Connections** section saying so, and
+   the demo company runs each hand-off end to end.
+
+### Stays desk
+
+4. **Tier declared**: how the doctype is shown is recorded in the tier
+   registry (`onedesk/one/tiers.py`), for the record and for every collection:
+   - the record: **desk** (frappe's form as it is), **head** (the form with a
+     Record Head), or **page** (a page of its own, for the few records people
+     work inside all day: Project, Deal, Lead, Employee, Applicant);
+   - each collection view frappe has, as frappe's own or ours: List, Report,
+     Kanban, Calendar, Gantt, Tree, Image, Dashboard, Map and Inbox.
+   A record moves up a tier only when the tier it has gets in the way of real
+   work, and the registry says why.
+5. **Our look**: the product has its own look, as OneMail and OneCloud do,
    rather than a standard desk. It still uses frappe-ui and espresso parts.
    Nothing looks boxed in: sections sit on the page, and Save goes in the page
    head.
-7. **Documented, and OneAI knows it**:
-   - The screen has its section in its module's `README.md`, above
-     `## Under the hood`, written for the people using it: what it is for, how
-     to fill it in, and who sees and changes what.
-   - OneAI answers "how do I…" from that section (`how_to`).
-   - The panel knows which screen the reader is on, and what records that
-     means.
-   - It offers the screen's own suggestions, if the screen has any worth
-     offering.
-8. **Legal**:
-   - Whatever the screen does that the agreements must say is declared in its
-     module's `legal.py`, beside the code:
-     - a `clause()` for the Privacy Policy, the Terms, the Data Processing
-       Addendum or the AI Addendum;
-     - a `subprocessor()` for any company it sends data to.
-   - OneLegal assembles them into the documents people agree to
-     (`one_legal/README.md`).
-   - A changed clause fails `tests/test_legal.py` until it is either a new
-     revision (material, so everybody agrees again) or a recorded hash (a
-     typo).
-9. **Built from frappe, in this order**: every part of the screen is taken
+6. **Nothing lost**: a page of its own keeps everything frappe's form gives,
+   through the record frame: the menu (Print, PDF, Email, Copy Link, Duplicate,
+   Delete, Customize, the form itself), the sidebar (Assign, Share, Like, Tags,
+   Followers, attachments, who's viewing, created and modified by), the record
+   kept live (`doc_subscribe`, `doc_update`), a change made against the
+   `modified` it was loaded with, and a warning before leaving unsaved work.
+7. **Extensible**: what a workspace adds still reaches the screen. A Client
+   Script runs on frappe's form; a page of its own declares its places, where
+   OneStudio's extensions go. Server Scripts and our hooks run whatever the
+   screen is.
+8. **Built from frappe, in this order**: every part of the screen is taken
    from the first of these that has it, and only written by us when none does:
    1. a **frappe-ui component** (`node_modules/frappe-ui/src/components/`);
    2. the **desk's own parts**: its controls, `FieldGroup`, `FilterGroup`,
       list and form views, dialogs, and espresso's `frappe.ui.button`,
       `badge` and `alert`, looking the way frappe-ui draws them;
    3. frappe's **primitives and utilities**: `frappe.call`/`xcall`,
-      `frappe.realtime`, `frappe.utils`, `frappe.format`, `__()`, the model
-      and the router.
-10. **Plain words**: every heading, note, button, column, badge, empty state
+      `frappe.realtime`, `frappe.utils`, `__()`, the model and the router.
+   Every value shown goes through `frappe.format` with its field, so the
+   workspace's date, number and currency settings and the field's own
+   precision and options apply. Nothing is formatted by hand.
+9. **Overrides recorded**: whatever of frappe's, erpnext's or hrms's we
+   change is recorded in `scripts/overrides.py` beside what it shadows, so
+   `scripts/upstream.py` flags it when they change it. The order of choice is
+   native first: Custom Fields and Property Setters, then hooks, then a Record
+   Head or a form script, and a page of its own last.
+
+### Speaks
+
+10. **Notifications**: what the screen's events send, to whom, and whether
+    the message reads well. Every notification and mail is one file in
+    `onedesk/notifications/`, by module, on one layout; the workspace changes
+    its own copy in Settings › Notifications.
+11. **Printed**: a record that leaves the company (a quotation, an order, an
+    invoice, a payslip, a report) has a designed print format we ship, built
+    from our print blocks in the house look.
+12. **Plain words**: every heading, note, button, column, badge, empty state
     and confirmation on the screen reads like a good SaaS product, as
     `docs/WORDING.md` says under On a Screen. A heading is the plain name of
     what is listed. A note is optional and one short sentence. Frappe's own
@@ -61,9 +88,45 @@ findings and fixes are written down.
     semicolon joining two clauses, and no narrating how OneAI works. The
     screen's README section is written the same way.
 
+### Knows
+
+13. **Documented, and OneAI knows and does**:
+    - The screen has its section in its module's `README.md`, above
+      `## Under the hood`, written for the people using it: what it is for,
+      how to fill it in, and who sees and changes what.
+    - OneAI answers "how do I…" from that section (`how_to`), knows which
+      screen the reader is on and what records that means, and offers the
+      screen's own suggestions if any are worth offering.
+    - Whatever is AI on the screen is drawn one way: something OneAI does or
+      did is `onedesk.oneai.tag` ("Read by OneAI"), and something that asks it
+      is `onedesk.oneai.button`, opening the panel on the same question. A
+      violet badge or a plain button standing in for one is a finding.
+14. **Intake**: which mails and files should create or change this screen's
+    records, and whether Intake does. The demo company has a real sample of
+    each (`tests/samples`), and the suite has Intake handle them.
+
+### Rules
+
+15. **Permissions and roles**: who sees the screen, who may change what, and
+    whether the server holds that line.
+16. **Legal**:
+    - Whatever the screen does that the agreements must say is declared in its
+      module's `legal.py`, beside the code:
+      - a `clause()` for the Privacy Policy, the Terms, the Data Processing
+        Addendum or the AI Addendum;
+      - a `subprocessor()` for any company it sends data to.
+    - OneLegal assembles them into the documents people agree to
+      (`one_legal/README.md`).
+    - A changed clause fails `tests/test_legal.py` until it is either a new
+      revision (material, so everybody agrees again) or a recorded hash (a
+      typo).
+17. **Clean code**: the module keeps one layout, its logic, endpoints,
+    notifications, legal and AI each in their place; a comment is only there
+    when the code can't say why, in a line; the README carries the rest.
+
 ## Everything follows frappe
 
-This applies to every screen, on top of the ten points. How a screen looks can
+This applies to every screen, on top of the points. How a screen looks can
 be ours; how it behaves is frappe's.
 
 - **Fields** are frappe's own controls (`frappe.ui.FieldGroup`, or the desk
@@ -127,7 +190,7 @@ keep it working. On every doctype the pass checks:
 
 ## A record answers first
 
-On top of the ten points, every record screen is checked against the record
+On top of the points, every record screen is checked against the record
 shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 
 - **Its head answers what somebody opened it for**, above the fields and on
@@ -156,9 +219,10 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
-2. Write the findings under the ten points, then "A record answers first"
+2. Write the findings under the points, then "A record answers first"
    for a record screen, then anything else about using it (UX).
-3. Fix them, look again in the browser, and run the gates.
+3. Fix them, look again in the browser, and run the gates: the fast tests,
+   the guards, and the demo suite for the screen's module.
 4. Commit, push, and show you a screenshot.
 5. Wait for your word before the next screen.
 
@@ -194,6 +258,27 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Outside the desk | The portal, and the public Your Data page | done (Portals 1 to 8) |
 | Products | OneProject › Projects | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
+
+Up next, in this order:
+
+1. **The foundations** (this arc): the points above, the guard registry, the
+   tier registry, formats from frappe, the record frame and places on the
+   project page, the demo company and its suite, rules on the server,
+   notifications in one place, shipped print formats, hand-offs, Intake
+   samples and the code cleanup.
+2. **Project templates**, right after:
+   - **The page**: Templates in the OneProject rail; a template opens in the
+     Tasks table in template mode ("Day 12 · 5 days"), added, renamed, nested,
+     linked and marked as milestones in place.
+   - **The library**: presets shipped as files and offered under **From the
+     library** in New Project and Add from Template, copied into the workspace
+     on use. Aluminium & glazing (five phases, 25 tasks, a milestone ending
+     each phase), interior fit-out, small building works, architectural design
+     stages, website, mobile app, marketing campaign, ERP rollout, office
+     move, event, new client onboarding, year-end audit.
+   - **OneAI** drafts a template from a description, as a card to approve.
+3. The finished modules again, against the new points only, one screen at a
+   time.
 
 Noticed along the way, for the screen it belongs to:
 

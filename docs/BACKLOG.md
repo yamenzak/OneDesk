@@ -13,6 +13,14 @@ screen at a time: **OneStudio › Record Types**, **OneProject**, **OneCRM**,
 **OneBook**, **OneInventory**, **OneHR**, **OneAI**, **OneIntake** and the
 rest of **OneAdmin**.
 
+## Next after the foundations: project templates
+
+Decided, and built right after the foundations arc (`docs/PASSOVER.md`, Up
+next): a template page in the OneProject rail that edits a template in the
+Tasks table ("Day 12 · 5 days"); a library of presets shipped as files and
+copied into a workspace on use, starting with aluminium & glazing; and OneAI
+drafting a template from a description.
+
 ## Frappe that One does not reach yet (P3)
 
 Small, or for some customers. Every other doctype frappe ships is reached in

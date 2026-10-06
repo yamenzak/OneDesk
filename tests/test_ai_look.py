@@ -1,5 +1,5 @@
 """What is AI is drawn one way: onedesk.oneai.tag and onedesk.oneai.button
-(public/js/oneai.js, oneai.css). docs/PASSOVER.md, point 2."""
+(public/js/oneai.js, oneai.css). docs/PASSOVER.md, point 13."""
 
 import re
 import sys
