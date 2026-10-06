@@ -1,25 +1,7 @@
 """The one door every Intake write goes through (docs/INTAKE.md §15.3).
 
 A planner says what should happen as an `Action`; `apply` decides whether it
-happens, and is the only code in Intake that writes. In order:
-
-1. **the key.** An action already written under this key, done, proposed,
-   dismissed or undone, is not done again. A copy, a retry and a re-run find
-   the key and stop there; so does something a person dismissed or undid;
-2. **on whose behalf.** The person who switched the folder or mailbox on must
-   be allowed to do this themselves (§4.3). If not, it is written down as
-   refused and nothing happens;
-3. **the level.** Done, or proposed for a person to look at: an overwrite, the
-   end of somebody's employment, and anything below the confidence floor or
-   from a reading whose facts did not check out (§4.1). Nothing is submitted,
-   so posting stays a draft whatever the level;
-4. **the flow.** A record whose making has a door of its own (`make_employee`,
-   OneCRM's `capture`) is made through it, named by `flow`;
-5. **the write**, as the OneAI user, with what was there before kept for Undo;
-6. **the mark** on a record OneAI made (mark.py), and the `Intake Action` row.
-
-`undo` takes an action back, and says why when it cannot: a record a person
-has since checked, submitted or built on stays.
+happens, and is the only code in Intake that writes. `undo` takes one back.
 """
 
 import hashlib

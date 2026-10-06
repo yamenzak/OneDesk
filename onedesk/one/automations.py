@@ -1,35 +1,8 @@
 """Automations: what happens by itself when a record is made, changed or
 reaches a date, for a workspace's administrators.
 
-An automation is frappe's own Automation Flow: a trigger, the records it
-matches, and steps (set a field, make a record, notify, assign, call a
-webhook, wait). The workspace administrator is given Automation Flow, and
-it is listed in One's sidebar, so its list and form keep One's rail.
-
-Frappe trusts whoever writes a flow, because only its System Managers may.
-A flow runs as Administrator unless told otherwise, its condition and an If
-step's are Python, every step's values are Jinja with frappe's globals, and
-a step can run a Server Script. A flow written by somebody frappe does not
-let customize (layer.held) is held to this:
-
-- it runs as whoever wrote it, so each step can do only what they could do
-  by hand, and frappe's own permission checks decide;
-- it decides by its field rules, never by code: no condition, no If step;
-- it runs no script;
-- a value names a field of a record, `{{ doc.customer_name }}`, and nothing
-  else (as one/mail_templates.py holds a template);
-- a webhook is sent over https (frappe already refuses internal addresses);
-- it is on a kind of record they can open, never frappe's own or One's.
-
-Automation Settings stays the operator's.
-
-**Tell People** (`TellPeople`, one/automation_steps.py) is One's own step,
-added through frappe's `automation_actions` hook: it tells people through the hub (one/notify.py),
-on the bell and by mail as each chose, as Automation Notice, and fills a mail
-template in as the composer does (one/mail_templates.py), from the record's
-own fields. Frappe's Send Notification mails past the hub and renders a
-template with only `doc`, so a template named by its fields prints its tags;
-it is not offered to a workspace's own flows.
+An automation is frappe's own Automation Flow; one written by somebody frappe
+does not let customize (layer.held) is held here.
 """
 
 import json

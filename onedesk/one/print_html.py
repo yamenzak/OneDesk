@@ -1,30 +1,8 @@
 """HTML on a workspace's printed page: a builder's HTML block, and a letter
 head whose top or foot is written in HTML.
 
-A printed page is drawn on this site's address, where a script runs as
-whoever opens it, and a PDF is drawn by a browser on the server, which fetches
-whatever the page points at. And an HTML block is a Jinja template, which
-frappe renders with globals that read any table (`frappe.db.sql`,
-`frappe.get_all`) and fetch any address (`make_get_request`). So what a
-workspace administrator writes in HTML is held to three things:
-
-- **The template reads the record and nothing else** (`check_template`): the
-  record's fields and rows (`doc.grand_total`, `{% for row in doc.items %}`),
-  `doc.get_formatted(...)` and `doc.get(...)`, conditions, loops, arithmetic,
-  `_()` and plain filters. It is rendered in a sandbox of its own that holds
-  only those (`render`), escaping every value, never in frappe's.
-- **The markup is markup for paper** (`clean`): text, headings, tables, lists,
-  images and links, with scripts, forms, frames, media and event handlers
-  taken out.
-- **Nothing is fetched from elsewhere**: an image is this site's file or an
-  inline image, and a style may not import or point off this site.
-
-A block the workspace saves is marked `one_sandboxed`, and onedesk's copy of
-frappe's HTML block macro (templates/print_format/macros/HTML.html) renders a
-marked block through `render`. A block frappe or its System Managers wrote is
-unmarked and renders as frappe renders it. A letter head's HTML is rendered by
-frappe as it is stored (printview.get_letter_head), so it holds no template at
-all and is stored already cleaned.
+What a workspace administrator writes in HTML reads only the record, is markup
+for paper, and fetches nothing from elsewhere.
 """
 
 import re

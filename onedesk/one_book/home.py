@@ -1,12 +1,6 @@
 """The figures on OneBook's Home: cash, what customers owe and how much of it
 is late, what the company owes and what falls due this week, and this month's
 profit.
-
-ERPNext ships accounting number cards, and none answers these: they total
-every invoice ever submitted, count a credit note as a negative invoice, and
-say nothing about what is still unpaid. Each figure here is worked out from
-the ledger or from what is outstanding, for the one company, and opens the
-report it came from.
 """
 
 import frappe

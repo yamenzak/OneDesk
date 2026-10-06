@@ -1,27 +1,5 @@
 """Rent, retainers and subscriptions: an invoice or bill made again on a
 schedule.
-
-Frappe's **Auto Repeat** copies a document on a schedule, and ERPNext's
-invoices were written for it — each has an `auto_repeat` field and an
-`on_recurring` method — but neither is switched on for it
-(`allow_auto_repeat`), so **⋯ › Repeat** is not offered. OneBook switches it
-on (custom/sales_invoice.json, custom/purchase_invoice.json) rather than
-using ERPNext's **Subscription**, which needs a plan per item and a price
-per plan to say what the invoice already says.
-
-The copy is not right as Auto Repeat makes it, and `repeated` (both
-invoices' `on_recurring`, run after ERPNext's own) corrects it:
-
-- **The due date.** Auto Repeat dates every required date field the day it
-  runs, and ERPNext's `on_recurring` empties the due date, so a copy with no
-  payment terms falls due the day it is made and is late the next. The copy
-  keeps the original's days to pay instead.
-- **The payment schedule.** Its rows are copied with last time's dates; the
-  copy's is made again from its own due date or payment terms.
-- **The supplier's bill number.** It is copied, and is the supplier's number
-  for last month's bill; with duplicate bill numbers refused (the Books Check
-  suggests it) the copy cannot even be saved. The copy has none until this
-  month's bill comes, and is dated the day it is made.
 """
 
 from frappe.utils import add_days, date_diff, getdate

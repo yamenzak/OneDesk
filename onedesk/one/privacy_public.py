@@ -1,24 +1,8 @@
 """Your Data, for somebody who is not a user: a customer's contact, a
 supplier, a lead, a job applicant. See one/privacy.py and one/privacy_copy.py.
 
-They have the same rights as a user and no account to ask from, so each
-workspace's own site has a page, `/your-data` (www/your_data.py): they give
-their address and whether they want a copy of what the workspace holds about
-them or that deleted. One mails a signed link to that address, so only
-whoever reads its mail can ask, and nothing is written until it is opened;
-the page says the same whatever the address, so it cannot be used to learn
-who the workspace knows.
-
-Opening the link files the request where a user's goes: Workspace > Data
-Copies or Account Deletions, for an administrator to review and decide the
-same way. A copy for them holds what is about them (contacts and records
-with their address) and the mail, which may be withheld; it is mailed as a
-link that works for a week. Deleting takes their name and address out of
-everything the workspace keeps, by frappe's own redaction, without the step
-that renames an account they do not have.
-
-Somebody whose address is a user's gets the same link; opening it files the
-request as if they had asked from their profile.
+They ask at `/your-data`, and a signed link mailed to their address files the
+request where a user's goes.
 """
 
 import frappe
@@ -27,7 +11,7 @@ from frappe.rate_limiter import rate_limit
 from frappe.utils import add_to_date, get_datetime, now_datetime, validate_email_address
 from frappe.utils.verified_command import get_signed_params, verify_request
 
-from onedesk.one import notify
+from onedesk.one import tell
 
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
@@ -60,14 +44,8 @@ def ask(email: str, kind: str) -> dict:
 	if kind not in KINDS or not validate_email_address(email):
 		frappe.throw(_("Enter a valid email address."))
 	expires = add_to_date(now_datetime(), hours=LINK_HOURS).strftime("%Y-%m-%d %H:%M:%S")
-	notify.mail(
-		"Confirm Your Request",
-		email,
-		now=False,
-		workspace=_workspace(),
-		asked=_("a copy of your data") if kind == "copy" else _("your data to be deleted"),
-		hours=LINK_HOURS,
-		url=_signed("confirm", email=email, kind=kind, expires=expires),
+	tell.request_to_confirm(
+		email, _workspace(), kind, _signed("confirm", email=email, kind=kind, expires=expires), LINK_HOURS
 	)
 	return {"said": _("If {0} knows this address, a link to confirm is on its way.").format(_workspace())}
 
@@ -111,8 +89,6 @@ def confirm(email: str, kind: str, expires: str) -> None:
 
 
 def _ask_copy(email: str) -> None:
-	from onedesk.one import privacy
-
 	user = email if frappe.db.exists("User", email) else None
 	if frappe.db.exists(DOWNLOAD, {"one_email": email, "one_status": ["in", ["Waiting", "Gathering"]]}):
 		return
@@ -128,12 +104,7 @@ def _ask_copy(email: str) -> None:
 	doc.set_new_name()
 	doc.set_user_and_timestamp()
 	doc.db_insert()
-	notify.notify(
-		"Copy Asked",
-		privacy._administrators(),
-		record=(DOWNLOAD, doc.name),
-		person=frappe.utils.get_fullname(user) if user else email,
-	)
+	tell.copy_asked(doc, frappe.utils.get_fullname(user) if user else email)
 
 
 def _ask_deletion(email: str) -> None:
@@ -151,7 +122,7 @@ def _ask_deletion(email: str) -> None:
 	doc.set_new_name()
 	doc.set_user_and_timestamp()
 	doc.db_insert()
-	privacy._ask_administrators(doc)
+	tell.deletion_asked(doc)
 
 
 def download_link(request: str) -> str:

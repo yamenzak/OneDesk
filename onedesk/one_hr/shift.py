@@ -1,26 +1,4 @@
-"""Asking to work a different shift, and the person who answers.
-
-Three things were wrong with HRMS's screen and all three are the same kind of
-thing: the form knows something the person reading it does not.
-
-**The approver picker comes back empty and does not say why.** `Approver` is
-mandatory and HRMS filters it to exactly two sources — the employee's own
-`shift_request_approver`, and the `shift_request_approver` rows on their
-department. An employee with neither gets an empty list, a required field, and
-no way to find out what is missing. So the form fills the field itself where
-there is one obvious answer, and says what to do where there is none.
-
-**Nothing on the screen said what the shift is.** The whole document is about
-moving somebody onto "Evening", and "Evening" is a name. The hours are written
-onto the record so the form and the list both read as a sentence.
-
-**Submitting was the approval and refused to say so.** HRMS's `on_submit`
-throws unless `status` is already Approved or Rejected, which is a rule the
-toolbar button does not know about, and either way nothing recorded who
-decided. Approve and Reject set the status, sign the document and submit it —
-rejecting closes the request and writes no Shift Assignment, which is HRMS's
-own behaviour and the right one.
-"""
+"""Asking to work a different shift, and the person who answers."""
 
 import frappe
 from frappe import _

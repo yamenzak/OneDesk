@@ -1,24 +1,4 @@
-"""Who has how many hours of open work in a week, against the hours they have.
-
-**Planned** is the hours still to do on each person's open tasks in the week:
-a task's Expected Time less the time already logged on it (ERPNext's Actual
-Time), spread evenly over the days from its start to its due date and counted
-for the days that fall in the week, and shared equally when a task is given to
-more than one person. Work already late counts in full this week, since that is
-when it has to be done now. A task with only a due date is a day on it.
-
-**Capacity** is the person's working days in the week — not a holiday on their
-holiday list, not a day of approved leave — times HR Settings' **Standard
-Working Hours**, 8 when it is not set. Somebody with no employee record works
-the company's working days, or Monday to Friday where there is no holiday list.
-
-Hours are only as good as the Expected Time on tasks, so **Not Estimated**
-says how many of a person's tasks in the week have none: a light load with
-five unestimated tasks is not a light load.
-
-Only tasks the reader may see are counted. A project filter counts the tasks
-of that project and everything under it.
-"""
+"""Who has how many hours of open work in a week, against the hours they have."""
 
 import frappe
 from frappe import _

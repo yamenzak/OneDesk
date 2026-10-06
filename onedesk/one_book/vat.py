@@ -1,25 +1,4 @@
 """VAT: what the UAE return needs filled in, and what any return reads.
-
-**The UAE's own return** is ERPNext's UAE VAT 201 (regional/report/uae_vat_201),
-and on a new company three of its inputs are empty and nothing says so:
-
-- **UAE VAT Settings** names the company's VAT accounts. Without them the
-  reverse-charge boxes are nought and a reverse-charge bill will not submit.
-  `uae_accounts` fills them from the chart: the Tax accounts called VAT.
-- **The VAT on a bill** (box 9) is not read from the bill. It is the sum of a
-  field on each, *Recoverable Standard Rated Expenses*, that somebody is meant
-  to type; a bill left at nought does not count, so the company reclaims none
-  of the VAT it paid and pays it twice. `reclaimed` (Purchase Invoice validate)
-  keeps it at the VAT charged on the bill until somebody types their own
-  figure, which is then left alone.
-- **The emirate and the TRN.** Box 1 is by emirate, read from the company's
-  address; a UAE tax invoice must carry the company's TRN. A new company has
-  neither. The Books Check asks for both, and `emirate` (Sales Invoice
-  validate) copies the emirate onto an invoice made anywhere but its page.
-
-**A return any country can read** is report/vat_return: tax charged on
-invoices against tax paid on bills and expense claims, by tax account and
-rate, and what is left to pay or reclaim.
 """
 
 import frappe

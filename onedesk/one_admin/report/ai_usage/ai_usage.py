@@ -1,12 +1,7 @@
 """What each workspace spent on AI, on which models and for which of OneAI's
 actions, and what it cost us.
 
-The numbers are `ledger.usage`'s — one row per model call, what it was charged
-once the provider said what it used, and what the provider charged us for it
-— because only the ledger reads its own tables. This is the cut and the
-columns. Charged is the credits at the smallest credit pack's price a
-credit (offerings.credit_price), so Margin is what OneAI makes on the calls
-at list price.
+The numbers are `ledger.usage`'s; this is the cut and the columns.
 """
 
 import frappe

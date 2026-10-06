@@ -1,27 +1,5 @@
-"""Who sees a task.
-
-ERPNext lets a Projects User see every task and everybody else none. In One
-every person keeps their own to-dos as tasks, so every desk user may now make
-one, and sees:
-
-- **the tasks they made, and the ones assigned to them**, always;
-- **a task in a project they may see**, if a role other than Desk User already
-  lets them read tasks — a Projects User, an HR Manager for boarding tasks.
-  Which projects that is, is OneProject's rule (one_project/members.py): a
-  Projects Manager sees them all, anybody else the ones they made, are
-  members of, or that list nobody;
-- **a template task**, for the same people, since a template is the whole
-  team's (one_project/templates.py);
-- **a task somebody shared with them**, which is frappe's own rule.
-
-A task with no project is somebody's own to-do, so nobody else sees it, a
-Projects User included, unless it is assigned or shared to them.
-
-frappe's permission hooks can only take access away, so the grant is a
-Custom DocPerm for Desk User (`settle`) and the rest is the two hooks below
-narrowing it. Who "already reads tasks" is read off the doctype's own rules,
-so a workspace that gives another role Task read changes the answer without
-touching this file.
+"""Who sees a task: the ones they made or were given, a task in a project they
+may see, a template task, and a task shared with them.
 """
 
 import json

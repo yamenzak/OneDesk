@@ -1,19 +1,7 @@
 """The numbers OneCRM is measured by, and the one fact they all rest on.
 
-**When a deal was won or lost** is the Milestone that recorded it reaching a
-stage whose outcome is Won or Lost (`stages.py`). ERPNext's dashboards use
-`modified`, which is the last time anybody touched the deal: a deal won in
-March and corrected in May was "won in May". Every report and card here reads
-`closed()` instead.
-
-**How long a deal stays in a stage** is read off the same Milestones: each one
-is a deal arriving in a stage, and it left when the next one was written
-(`stays`). What is usual for a stage is the middle of the finished stays in it
-over the last year — the median, so one deal forgotten for a year does not make
-every other deal look quick.
-
-The four figures on Home are Custom number cards, so each is worked out here
-through the reader's own permissions and opens the report behind it.
+When a deal was won or lost is the Milestone that recorded it reaching a stage
+whose outcome is Won or Lost (`closed()`), never `modified`.
 """
 
 from statistics import median

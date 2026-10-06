@@ -11,9 +11,7 @@ from frappe.model.document import Document
 from onedesk.one_admin import capability, site
 
 #: What a person may change. Everything else is a copy of what a provider said,
-#: and a copy somebody edited is a copy that lies — except the rates, and only
-#: on a model nobody could read a price for, where a person typing one off the
-#: page is taking responsibility rather than inventing a default.
+#: and a copy somebody edited is a copy that lies.
 THEIRS = ("offered", "default_for", "priced_by_hand", "markup", "rates")
 
 
@@ -40,9 +38,7 @@ class AIModel(Document):
 					)
 				)
 			# A withdrawn model does not hold a capability's default against a
-			# live one. Measured: Cloudflare dropped llama-3.1-8b-fp8-fast while
-			# it was the default, and every attempt to name a replacement was
-			# refused by a row for a model that no longer exists.
+			# live one.
 			held = frappe.db.get_value(
 				"AI Model",
 				{

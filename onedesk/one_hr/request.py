@@ -1,25 +1,4 @@
-"""Asking for a day to count as worked, and the person who answers.
-
-HRMS ships the asking and not the answering. `Attendance Request` is a
-submittable document whose submit writes the Attendance rows, and the whole of
-its approval is that an Employee has no `submit` grant and HR does — so the
-decision happens, but nothing anywhere records that it was a decision, who made
-it, or that anybody ever said no. A request turned down is a draft nobody
-reopened.
-
-So three things are added and nothing is replaced. Submitting is still what
-writes the attendance, and it now also writes down who approved it and when.
-Rejecting is a verb: the request stays a draft, carries a `Rejected` decision
-that only somebody with the submit grant can set, and cannot be submitted while
-it stands. And the reason stops being two hardcoded words.
-
-**The reason is a record now, but HRMS's field is still the one that decides the
-status.** `AttendanceRequest.get_attendance_status` reads `self.reason` and
-compares it to the literal string "Work From Home"; everything else becomes
-Present. Rather than override that method, `before_validate` writes HRMS's own
-field from the chosen `Attendance Reason` — so a workspace can offer fifteen
-reasons and HRMS keeps marking the days exactly as it always did.
-"""
+"""Asking for a day to count as worked, and the person who answers."""
 
 import frappe
 from frappe import _

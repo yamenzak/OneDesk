@@ -1,29 +1,9 @@
-"""Days the workspace already agreed somebody would not be at work.
-
-An approved `Attendance Request` is the one thing in the product that says, in
-advance and in writing, *this person is working somewhere else on these dates*.
-The clock's network and place gates exist to catch exactly that shape — off the
-office network, outside every location — so without this they would score a
-working-from-home Tuesday the same way they score somebody clocking in from a
-café they have never been near.
-
-That is the whole of it: read the approval, hand it to `clock._signals`, and let
-it drop the four complaints the approval predicted. The attempt still records
-what every gate saw, and it now also records *which request* explains it, so the
-row reads as an answer rather than as a score nobody can account for.
-
-Nothing here decides anything. A request that was never submitted, or one that
-was turned down, or one for a different week, is not an approval and this
-returns nothing.
-"""
+"""Days the workspace already agreed somebody would not be at work."""
 
 import frappe
 from frappe.utils import getdate
 
 #: What an approved day predicts, and therefore what it is allowed to forgive.
-#: Everything else the gates raise — an impossible journey, a shared browser, a
-#: missing passkey — is about the person rather than the place, and an approved
-#: request has nothing to say about any of it.
 FORGIVES = ("network-unknown", "network-personal", "place-outside", "place-absent")
 
 

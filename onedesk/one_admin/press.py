@@ -1,21 +1,7 @@
 """Frappe Cloud, called rather than copied.
 
-We are a press *customer* and not its operator. Its whitelisted HTTP API is the
-whole boundary: no server, no agent daemon, no SSH, nothing that assumes we are
-inside their infrastructure.
-
-**Nothing here is stored.** There is no `Press Server`, no `Press Bench Group`
-and no `Press Site` table, because a table of somebody else's state is wrong
-between syncs and the way you find out is a customer who cannot be placed on a
-bench that exists. What the operator's screens need — which benches exist, which
-clusters a bench can reach, what a site plan costs — is asked for and held in
-redis for a minute, so the answer is press's and the cost is one call a minute
-rather than one a page.
-
-**Failures are classified, because the retry decision depends on it.** A 503 is
-worth another attempt in two minutes and a 400 will fail identically forever.
-That decision lives in `faults.py`, which imports nothing of Frappe and is
-therefore read back by a test rather than by a site.
+We are a press customer and not its operator: its whitelisted HTTP API is the
+whole boundary. Nothing is stored; what screens need is held in redis a minute.
 """
 
 import json

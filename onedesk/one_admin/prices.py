@@ -1,22 +1,7 @@
 """What a model costs, read off the page its provider publishes.
 
-No frappe in here, on purpose and for the usual reason: this is the module that
-decides what a customer is charged, and the way you find out it is wrong is a
-margin rather than an error. Text in, rows and gaps out, so it can be read back
-in milliseconds against a saved copy of each page.
-
-**There is no single unit and nothing here converts between them.** Workers AI
-prices text per million tokens, pictures per 512x512 tile *and* per diffusion
-step, speech per audio minute, classification per million images. Gemini prices
-everything per million tokens but by modality, and publishes prices that change
-on a date. A schema that flattened that to "tokens" would be wrong for half the
-catalogue and wrong silently, so a rate keeps the provider's own words for its
-unit and the metering code matches on them.
-
-**Nothing has a default.** A fragment this cannot read comes back as a `Gap`
-carrying the wording that defeated it, and a model with a gap is not sellable
-until a person has looked. A default price is a number we invented and then
-billed somebody.
+No frappe in here: text in, rows and gaps out. A rate keeps the provider's own
+words for its unit, and a fragment this cannot read is a `Gap`, never a default.
 """
 
 import html
@@ -356,10 +341,8 @@ def _one_table(read: Read, model: str, table: str) -> None:
 		billable += 1
 		named = next((k for spelling, k in LABELLED if label.startswith(spelling)), None)
 		if named is None:
-			# A row whose label is not a kind of price. Veo and Lyria are priced
-			# this way — the label names a variant of the model and the whole row
-			# is its price — and reading one as an output rate would attach a
-			# video's per-second price to whatever model the heading named.
+			# A row whose label is not a kind of price but a variant of the model
+			# (Veo, Lyria): the whole row is its price.
 			read.gaps.append(Gap(model, cells[0], _unreadable(cells[-1])))
 			continue
 		# The paid column is the last one; the free tier is not what we resell.
@@ -420,20 +403,8 @@ def _unit_of(header: list[str]) -> tuple[int, str]:
 def _dated(paid: str, kind: str, modality: str, per: int, unit: str) -> tuple[list[Rate], str]:
 	"""Every amount in the paid cell, in whatever unit it turns out to be in.
 
-	This cell is where Google's page is at its least regular, and all four
-	shapes below are real:
-
-	    $0.75 through December 31, 2026. $1.50 starting January 1, 2027.
-	    $0.10 (text / image / video) $0.30 (audio)
-	    $0.45 ($0.00012 per image)
-	    $0.075 ... $0.50 / 1,000,000 tokens per hour (storage price)
-
-	So an amount is read together with what follows it: a date makes it a price
-	that takes over on a day, a list of modalities makes it a price for those
-	and no others, a unit of its own makes it a rate in that unit rather than
-	the table's, and the word storage makes it a different charge sharing a cell
-	— which is left unread on purpose, because a per-hour charge billed as a
-	per-call one is a customer charged for holding still.
+	An amount is read together with what follows it: a date, a list of
+	modalities, a unit of its own, or the word storage, which is left unread.
 	"""
 	if not paid or paid.lower().startswith(("free", "not available", "n/a")):
 		return [], ""
@@ -447,21 +418,15 @@ def _dated(paid: str, kind: str, modality: str, per: int, unit: str) -> tuple[li
 		said = paid[found.end() : nxt if nxt != -1 else len(paid)]
 		at = nxt if nxt != -1 else len(paid)
 		if any(word in said.lower() for word in NOT_A_CALL):
-			# A storage charge sharing a cell with a call price. Skipped rather
-			# than left unread: a model is perfectly sellable without it, and
-			# flagging it would put every cached-input model in front of a
-			# person for a line that is not a per-call price at all.
+			# A storage charge sharing a cell with a call price, skipped: a model
+			# is perfectly sellable without it.
 			continue
 		if usd is None:
 			unread.append(found.group(0) + said)
 			continue
 
 		# An amount's own unit is only believed when the page attaches it to the
-		# amount — `$0.005/min`, or a parenthetical opened just before it as in
-		# `$0.45 ($0.00012 per image)`. Read loosely, the same pattern picks up
-		# prose like "Equivalent to $0.045 per 0.5K image", where 1K is a
-		# picture's width and not a thousand of anything; reading that as a
-		# multiplier is a bill a thousand times too large.
+		# amount, `$0.005/min` or `$0.45 ($0.00012 per image)`.
 		attached = said.startswith("/") or paid[: found.start()].rstrip().endswith("(")
 		if not attached and AN_OWN_UNIT.match(said):
 			unread.append(found.group(0) + said)

@@ -80,15 +80,8 @@ def set_the_working_day(args):
 def _leave_period(company: str | None, holidays: str | None) -> None:
 	"""This calendar year, so leave has a year to be counted against.
 
-	Nothing in HRMS creates one and four things need it. `Employee Leave Balance`
-	asks `get_leave_period` for the dates to run between, gets `None`, and its
-	`onload` dies on `data.message[0]` — so both mandatory date filters stay
-	empty and the report shows nothing at all, with no hint why. Leave Policy
-	Assignment and the two allocation tools want one too.
-
-	The calendar year rather than a financial one: a leave year that is not the
-	calendar year is a decision a workspace makes deliberately, and this is the
-	answer for everybody who has not made it.
+	Nothing in HRMS creates one, and Employee Leave Balance, Leave Policy
+	Assignment and the two allocation tools need it.
 	"""
 	if not company or frappe.db.exists("Leave Period", {"company": company, "is_active": 1}):
 		return
@@ -102,10 +95,8 @@ def _leave_period(company: str | None, holidays: str | None) -> None:
 	period.optional_holiday_list = holidays
 	period.insert(ignore_permissions=True)
 
-	# Named for its year rather than left as HR-LPR-2026-00001. Leave Period is
-	# a Link on Leave Policy Assignment, Leave Encashment and three report
-	# filters, and none of them has a title field to read instead, so the serial
-	# is what a person sees in all five places.
+	# Named for its year rather than left as HR-LPR-2026-00001: nothing that links it
+	# has a title field to show instead.
 	frappe.rename_doc("Leave Period", period.name, str(year), force=True)
 
 
@@ -172,13 +163,8 @@ def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:
 def _assign(holidays: str, company: str, from_date: str) -> None:
 	"""Tell hrms about the list, which is not the same as telling erpnext.
 
-	`hrms.utils.holiday_list.get_holiday_list_for_employee` replaces erpnext's
-	lookup through the `employee_holiday_list` hook, and reads neither
-	`Employee.holiday_list` nor `Company.default_holiday_list`: only a
-	submitted `Holiday List Assignment`. Without one, every question about
-	whether a date is a holiday throws — leave, attendance requests, and the
-	shift's own processing. `Company.default_holiday_list` is set as well,
-	because erpnext's own reports still read it.
+	hrms reads only a submitted `Holiday List Assignment`; erpnext's own reports
+	read `Company.default_holiday_list`, so both are set.
 	"""
 	frappe.db.set_value("Company", company, "default_holiday_list", holidays)
 

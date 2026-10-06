@@ -1,18 +1,5 @@
 """A mailbox somebody already has, connected by its address and password.
-
-What a person types is an address and a password. The servers are found for
-them, first match wins:
-1. an `Email Domain` a workspace administrator set up for the address's domain;
-2. the well-known providers in `KNOWN`;
-3. a guess, `imap.<domain>` then `mail.<domain>`, on the standard ports.
-Anything found is tried before it is kept. Somebody whose server is none of
-these types it in, and that is tried the same way.
-
-A connected mailbox is an `Email Account` with `one_connected`, and
-`enable_incoming` left off: Frappe's own pull reads one folder and marks what
-it reads, and sync.py reads every folder and changes nothing. The person who
-connects it holds it, through a `User Email` row, as Frappe's own inbox does.
-"""
+The servers are found for them, and each is tried before it is kept."""
 
 import imaplib
 import ssl

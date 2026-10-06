@@ -1,25 +1,8 @@
 """The Audit Log: who changed what, who signed in, and what left the workspace
 as a file.
 
-Frappe already writes all three: a `Version` for every change to a record that
-tracks its changes, an `Activity Log` for every sign-in and sign-out (failed
-ones too), and an `Access Log` for every export, printed PDF and private file
-downloaded. Reading them is its System Manager's, whom no workspace has, so
-nobody here could answer "who changed this price?" across the workspace. Now
-a workspace administrator reads them, as frappe's own lists, with three
-limits:
-
-- only changes to, and exports of, the kinds of record they may read, plus
-  people's accounts and what they may do (the `PEOPLE` kinds), so the log
-  shows no salary to somebody who cannot open a salary slip;
-- never frappe's own machinery or the platform's records;
-- never what the system did (`SYSTEM`): a scheduler, a patch or an operator
-  signed in as Administrator, which is the platform's, not the workspace's.
-
-Nobody writes to it: frappe writes every row, and nobody here may change or
-delete one. Frappe clears sign-ins after 90 days; changes and exports are
-kept. Audit Trail, frappe's comparison of a document's amendments, stays
-out: every submitted record's own timeline already shows each version.
+Frappe already writes all three (Version, Activity Log, Access Log); a
+workspace administrator reads them here, as frappe's own lists, with limits.
 """
 
 import frappe

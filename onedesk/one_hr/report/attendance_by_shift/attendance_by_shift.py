@@ -1,27 +1,4 @@
-"""Every day that was marked, against the shift it was meant to be.
-
-HRMS's `Shift Attendance` showed one row where the month held twenty-seven,
-and said nothing about the twenty-six it dropped. Two inner joins did it:
-
-    .inner_join(shift_type).on(attendance.shift == shift_type.name)
-    .inner_join(checkin).on(checkin.attendance == attendance.name)
-
-The first throws away every Attendance with no shift on it — which is most of
-them on a site that marks attendance by hand or runs one unassigned shift. The
-second throws away every day with no `Employee Checkin` pointing at it, and the
-checkbox that puts those back ("Include Shift Attendance Without Checkins") is
-off by default and reads like it adds something extra rather than restoring what
-was cut.
-
-A number that has quietly discarded its own denominator is worse than no number:
-"Late Entries 0" looked like nobody was late and meant twenty-six days were never
-counted. So every join here is a left join, every day in the period is a row, and
-a day with no shift says so with an empty cell.
-
-The arithmetic is still theirs — `update_late_entry` and `update_early_exit`
-know about grace periods and this does not re-derive them — and it is only
-applied to the rows that have a shift window to measure against.
-"""
+"""Every day that was marked, against the shift it was meant to be."""
 
 import frappe
 from frappe import _
@@ -182,18 +159,7 @@ def _columns() -> list[dict]:
 
 
 def _totals(rows: list) -> list[dict] | None:
-	"""Days, not "records" — the same number, and one of them is a word people say.
-
-	The four status tiles add up to the rows, which is the whole point: a count
-	that has silently dropped its own denominator is what was wrong here. Working
-	from home counts as present, the way HRMS's own summary counts it. Half days
-	and leave only appear when there are some, because five tiles fit on one line
-	and two permanent zeroes are not worth the second.
-
-	`No Shift` is the one that would have explained the old screen: nineteen of
-	these twenty-seven days carry no shift, which is exactly what its inner join
-	threw away without saying so.
-	"""
+	"""Days, not "records" — the same number, and one of them is a word people say."""
 	if not rows:
 		return None
 

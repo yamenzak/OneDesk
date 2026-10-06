@@ -1,20 +1,7 @@
 """A workspace closed because the person who pays for it asked.
 
 The workspace asks (one/closing.py, through the proxy); this writes the day
-and walks it there. Closing is the ladder's own Archive job, started by a
-date rather than by a debt, so it takes the same backup, cancels the same
-subscription and is undone the same way; and from Archived it falls to
-Dropped on the ladder's own clock, which is the day it is deleted for good.
-
-**Notice, not at once.** It closes `NOTICE_DAYS` after it is asked, and
-works as before until then: long enough to take the full download, tell
-everybody and move what they need. Until that day the same person may keep
-it open; after it, the site is gone and restoring it from the backup is an
-operator's decision, as for an archived workspace that pays.
-
-**Billing.** Asking sets the subscription to end with its period, so no
-renewal falls in the notice; the Archive job cancels it outright. What was
-paid for the current period is not refunded, as the Terms say.
+and walks it there, on the ladder's own Archive job.
 """
 
 import frappe

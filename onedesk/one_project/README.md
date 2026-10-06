@@ -1086,6 +1086,25 @@ one field for it.
 - `board.py` — ERPNext's own per-project Kanban, shaped as it is made, and
   their nightly Overdue job stopped: a late task is a date, not a column. Their
   Project Summary report counted Overdue tasks, and now counts none.
+
+  ERPNext already makes the board. **View › Kanban Board** on a project
+  creates a board named after it, filtered to its tasks, with a column per
+  Task status. board.py shapes that board as it is made (`shape`, on the
+  Kanban Board's before_insert): Template and Cancelled are archived, the
+  columns get colours, and a card shows the priority and the due date beside
+  the people on it.
+
+  **Overdue is not a status here.** ERPNext's daily job sets every open task
+  past its due date to Overdue, whatever it was — a task somebody was Working
+  on moves columns overnight, and moving it back lasts until the next night.
+  How late a task is follows from its date, and every list in One already
+  shows it from there (My Tasks has an Overdue group; the calendar draws it on
+  its day). So the job is stopped, and Overdue is taken off the status list
+  (custom/task.json).
+
+  **The Projects list has a board too**: Projects by Health, open projects in
+  On Track, At Risk and Off Track, made once by `settle` so the Kanban view
+  opens on it rather than on a dialog asking which field to group by.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
 - Currency: every order and invoice made here goes through one_book/currency.py
@@ -1104,16 +1123,104 @@ one field for it.
   (File after_insert, on_update, on_trash), and `CloudFile.on_trash` hands the
   cover to the next photo before frappe's check that no field still names the
   file. `featured` lists them for the page; `portal.view` for the portal.
+
+  Every project's own folder in OneCloud, under Records, has a **Featured
+  Media** folder. What is in it is shown on the project's page, on the
+  customer's portal, and wherever else the project is shown off; the newest
+  photo in it is the project's **Cover** (`one_cover`, Project's image field,
+  so frappe shows it wherever it shows a record's picture).
+
+  **Nothing is stored for the folder.** A record's folder in OneCloud is
+  worked out from the files attached to the record each time it is opened
+  (one_storage/namespace.py), and Featured Media is worked out the same way:
+  the project's files with `one_featured` set. Putting a file in it attaches
+  it to the project with the mark; taking it out to the project's own folder
+  clears the mark. A folder called Featured Media anywhere else is just a
+  folder.
+
+  **Featured media is public.** It is there to be shown, on a portal and on a
+  website, so a file put in it opens for anybody with its link (`is_private =
+  0`), which is what frappe's File means by public and what OneCloud's
+  `store.fetch` already honours. Only photos and videos go in.
 - `naming.py` — a project's Task Prefix, as a frappe Document Naming Rule for
   Task with the condition "project is this one". ERPNext's Task class is not
   overridden, and frappe's series for a prefix never reuses a name.
+
+  **Task Prefix** on a project is a short key. Setting it writes a frappe
+  Document Naming Rule for Task with the condition "project is this one",
+  which is the framework's own way to name a doctype differently by a field —
+  nothing of ERPNext's Task is overridden, and a task in a project with no
+  prefix keeps ERPNext's series.
+
+  The number comes from frappe's series for the prefix, which is global to the
+  site: a prefix changed and changed back carries on counting rather than
+  reusing a name. Tasks already made keep the names they have. A new project's
+  rule is written as it is saved, so the tasks a Project Template makes for it
+  carry the prefix too.
 - `members.py` — who sees a project: Projects Managers all, anybody else
   holding Projects User the ones they made, are listed on, or that list
   nobody (`visible`, kept for the request). A project's tasks follow it
   through one_task/access.py. Being listed is also ERPNext's own share.
   ERPNext's invitation mail is never sent (`invite`); tell.py says it in ours.
+
+  ERPNext lets every Projects User read every project. A workspace running a
+  villa for one customer and a website for another does not want the window
+  fitter reading the website's budget, so a project's **Users** decide:
+
+  - a **Projects Manager** sees every project, and so do the books (an
+    **Accounts User** or **Accounts Manager**), who invoice every project's
+    time and progress;
+  - anybody else who works in projects sees a project they made, one they run
+    (**Project Manager**), one they are listed on, and one with **nobody
+    listed** — a project nobody has closed is open to everybody who works in
+    projects, which is also what every project was before this;
+  - members of a project see what is under it (sub-projects; `under`).
+
+  The same rule decides a project's tasks (one_task/access.py): a task in a
+  project is seen by whoever may see the project, and by its own people
+  always.
+
+  **Being listed is ERPNext's own share.** Their Project already shares itself
+  with each person on Users and takes the share back when they are removed, so
+  a member opens the project through frappe's share as well as through this
+  rule.
+
+  **A member can be taken off.** ERPNext takes back a removed member's share
+  in a way only a System Manager may, so the save failed for everybody in a
+  workspace; `unlist` takes it back first.
+
+  **A member is told in ours.** ERPNext mails an invitation to each new member
+  while the project saves: English mail outside the hub, which also failed the
+  save where the workspace has no outgoing mail. `invite` marks it sent, and
+  tell.py tells the member as Added to Project instead.
+
+  Only somebody holding Projects User is narrowed here. Twenty other roles
+  have Select on Project so a sales order or an invoice can name one; they
+  pick from a list and never open the project, and narrowing their list would
+  break their forms, not protect the project.
 - `tell.py` — Added to Project, Made Project Manager, Project Health and
   Project Completed, through the hub.
+
+  **Added to a project.** ERPNext mails each new member its own "Project
+  Collaboration Invitation", in English, outside the hub. `members.invite`
+  marks that mail sent, and `added` tells them in ours: on the bell, and by
+  email or push as they chose, in their language.
+
+  **Made its manager.** Nobody was told. `added` tells the new manager too.
+
+  **Completed.** A project is completed by somebody or, in ERPNext, by its
+  last task. `completed` tells its manager, with what's still owed on it, so a
+  job done isn't taken for a job paid.
+
+  **At risk.** Health is somebody's judgement that a project is in trouble
+  before any figure says so. `health` tells its manager and members when it is
+  marked At Risk or Off Track; whoever marked it already knows.
+
+  **A retainer's month.** On the first of the month, `retainer_months` tells
+  whoever runs each open retainer that last month isn't invoiced, with its
+  hours against the allowance. And when a submitted timesheet takes this
+  month's hours past the allowance, `hours_used` tells them then, while there
+  is still time to say so to the customer.
 - `updates.py` also keeps each answer's health (`one_health` on Project
   User), says how often the team is asked (`asking`), and tells the page an
   update was posted (`one_project_update`). OneAI's `draft_update` is a card
@@ -1123,26 +1230,127 @@ one field for it.
   done and the ones to come (`pick`), where each is (`where`), and billing on
   them when one has a **Bill on Completion** share (`one_bill_share` on Task,
   `billable`). `reached` tells the manager of the project with the order.
+
+  - The Overview shows the last two done and the ones to come, soonest first,
+    with those without a date last (`pick`). One on a sub-project says which
+    (`where`), and each says how far off or how late it is.
+  - On a whole job, they are a row per part of it on one dated line: Main,
+    then each sub-project directly under the page with what is under it
+    (`lanes`).
+  - **Bill on Completion** (`one_bill_share`) is a milestone's share of the
+    contract, and it's optional. A project bills by milestones only when one
+    of its milestones has a share: Work and Billing then counts the shares of
+    the milestones done instead of the work done, and Bill Progress starts
+    from that share (`billable`). When such a milestone is done, the manager
+    of the project with the order is told to bill it (`reached`).
 - `status.py` — the status, ERPNext's four. ERPNext sets it again on every
   save from the tasks (`update_percent_complete`), so `change` closes the
   open tasks and sub-projects first when asked (`ask`), keeps a task's own
   status when it's already closed, and puts progress back on the tasks when
   a project completed without any is opened again. `due` is what's still
   owed on a completed project.
+
+  ERPNext works the status out again on every save
+  (`update_percent_complete`): a project whose tasks are all done is
+  Completed, and one with any task open is Open, unless it's On hold or
+  Cancelled. So marking a project Completed while a task is open doesn't hold;
+  the save sets it back to Open. `change` closes the open work first, on the
+  page's say-so: the project's open tasks, and its open sub-projects with
+  theirs, as ERPNext's own `set_project_status` closes a project's tasks.
+  Unlike it, a task already done or cancelled keeps its status.
+
+  Completing a project with no tasks of its own makes ERPNext keep its
+  progress by hand at 100%, for good. Opening it again puts the progress back
+  on its tasks.
+
+  `due` is what's still owed on a completed project: the contract not yet
+  invoiced, invoices not yet paid, and retention still held. Needs You shows
+  it, and `tell.completed` tells the manager.
+
+  `held` (Project before_validate, ahead of ERPNext's own status from
+  progress) makes the status hold however it is set (the page, a bulk edit, an
+  import):
+
+  - A project closes with its work. Closed from its page, with its open tasks
+    and sub-projects closed too, it closes them there. Set to closed any other
+    way while work is open, it is refused.
+  - Reopened after being completed with no tasks, its progress goes back to
+    its tasks: ERPNext turned it to by hand only because there were none.
 - `ai.py` — OneAI's `project_facts` (a project as its page reads it, with its
   late tasks, what waits on them, milestones and updates) and
   `projects_needing_attention`, and the page's suggestions.
+
+  `project_facts` hands over the page's own answers (`overview.overview`): how
+  far it has got, its dates, cost against the budget, what is billed, what is
+  late and the next milestone, for the project and everything under it, and
+  the Money view: both sides of the money, the subcontracts, the cost types
+  and the forecast (`_money`). Beside them, what the page has further down:
+  the late tasks with who is on each and what waits on them, the milestones to
+  come, its people, and the team's last updates. `projects_needing_attention`
+  reads the Projects list as the reader sees it and keeps the open ones in
+  trouble.
+
+  Both read as the person asking: a project they may not open is not read, and
+  neither are its tasks. Tasks are only suggested (one_task/ai.py
+  `plan_task`), as cards the reader approves.
 - `chain.py` — every money document and its lines name the same project.
   Quotation, Request for Quotation and Material Request get a `project` field
   (custom/), named as on every other document so ERPNext's mapping carries
   it. Extra work is `one_extra_work` on Quotation and Sales Order
   (billing.py); `patches/extra_work.py` turned the old Sub-project Of into it.
+
+  ERPNext lets most money documents name a project, on the document and on
+  each line, and carries it when one is made from another: an order's delivery
+  and invoice, a purchase order's receipt and bill, an invoice's payment.
+  Three couldn't name one at all (Quotation, Request for Quotation and
+  Material Request, which now can: custom/), and nothing kept a document's
+  lines and the document itself in agreement, so a project's figures missed
+  whatever somebody forgot to type.
+
+  `agree` does that as each is validated: a line with no project takes the
+  document's, and a document with no project takes its lines' when they all
+  name the same one. Since the field is called `project` on every one of them,
+  ERPNext's own mapping then carries it from document to document: a quotation
+  to its order, a material request to its purchase order, a request for
+  quotation to the supplier's quotation and on.
+
+  A payment made from an invoice or an order takes its project from it, as
+  ERPNext does. One made on its own and matched to invoices later, or paying
+  several at once, takes the project they all name (`paid_for`). A new order,
+  delivery or invoice for a customer with one open project names it
+  (`customer_project`, public/js/customer_project.js).
 - `budget.py` — cost types: ERPNext's own Budget against the project, one per
   expense account, checked on orders and expenses alone and together
   (`applicable_on_cumulative_expense`). Changing one revises it as ERPNext's
   Revise Budget does (cancel, copy, submit). Committed is the open order
   lines on that account (`money.unbilled`); spent is the ledger. `sync` makes
   the project's Budget their total. Budget permissions are ERPNext's.
+
+  A **cost type** is an expense account (labour, materials, subcontract,
+  equipment, or whatever accounts the workspace uses), and its budget is one
+  ERPNext **Budget** against the project for that account, submitted. ERPNext
+  then checks every purchase order and every expense booked on the project
+  against it, and warns or stops as the budget says (`Over Budget`).
+
+  - ERPNext checks orders and spending each on their own, and together when
+    `applicable_on_cumulative_expense` is set, which a cost type always is: an
+    order is over budget when it, the open orders and what's spent come to
+    more than the budget.
+  - **Cost Types** on the page's Money view lists each one over the project
+    and those under it, as the Overview does: its budget, what's committed on
+    supplier orders not yet billed, what's been spent (the general ledger),
+    and what's left, with Other for what they leave out (`lines`). A row the
+    project budgets for itself is changed there; any other adds the project's
+    own.
+  - **Add Cost Type** and changing one (`set_budget`) are ERPNext's own: a new
+    Budget, or the old one revised as ERPNext's Revise Budget does it,
+    cancelled and copied with the new amount. Removing one cancels it.
+  - The project's **Budget** is then the cost types added up (`sync`), so the
+    forecast and the head read the same number.
+  - **Over Budget** tells the project's manager and whoever set the budget,
+    once for each budget, when its orders and spending pass it (`over`).
+  - Making a budget is for whoever ERPNext lets make one (Accounts Manager);
+    everybody who sees the project sees the cost types.
 - `kinds.py` — a project's kind (`one_kind`, and `one_monthly_fee` and
   `one_monthly_hours` for a Retainer). `make` is New Project: the project,
   and for Fixed Price its customer's Sales Order, submitted, as its
@@ -1153,6 +1361,19 @@ one field for it.
   (`ProjectQuickEntryForm`): the kinds as cards, then the kind's fields. Its
   fieldnames are its own, since a quick entry takes a field's label and
   whether it's hidden from the doctype when the names match.
+
+  - **Fixed Price**: an agreed price, billed as the work gets done. Its
+    contract is the customer's Sales Order, made with the project (`make`), so
+    Bill Progress works from the first day (progress.py).
+  - **Time and Materials**: billed by the hour at agreed rates, plus what's
+    bought for it (billing.py's Invoice Time).
+  - **Retainer**: a monthly fee for a set number of hours (`one_monthly_fee`,
+    `one_monthly_hours`).
+  - **Internal**: no customer; a budget and the work.
+
+  A project made without a kind, by ERPNext, HR or an import, is given the
+  kind its records say (`guess`, `fill`), as `patches/kinds.py` did for the
+  projects made before kinds existed.
 - `progress.py` — Bill Progress on a purchase or sales order: ERPNext's own
   "Create > Invoice" mapper with each line's quantity cut to the share done
   less what's billed (`to_bill`), since ERPNext keeps an invoice at the
@@ -1166,13 +1387,66 @@ one field for it.
   `split`). A new Retention Due moves it on the order's invoices (`release`).
   `public/js/progress.js` is the dialog; `money._suppliers` is the Suppliers
   table.
+
+  A **subcontract** is a Purchase Order on the project, one per supplier per
+  package of work. The customer's contract is their Sales Order. Both are
+  billed the same way, a share at a time:
+
+  - **Bill Progress** (`bill_progress`) asks how far the work has got, as a
+    share of the order, or line by line (`lines`) where work is measured
+    against a bill of quantities, and drafts the invoice for what that comes
+    to less what's been billed already. The invoice's Work Done is then the
+    share of the whole by amount (`overall`). It's ERPNext's own "Create >
+    Invoice" from the order with each line's quantity cut to that share, so
+    the order's billed amount, its status and the project's figures are
+    ERPNext's. ERPNext keeps an invoice at the order's rate, so a share is a
+    part of the quantity: a package of work is ordered as 1 **Lump Sum**
+    (`settle`), a unit that can be split. A line in a unit that can't is
+    refused in plain words.
+  - **Retention** is a share of each invoice held back (often 5 to 10%), set
+    on the order with the date it's due (`one_retention`,
+    `one_retention_due`). The invoice's payment schedule splits in two: the
+    rest, due as usual, and **Retention**, a Payment Term of that name due on
+    that date, the share of the work billed before tax, whatever advance is
+    set off (`retained`). Part of it may be released at handover first
+    (retention.py). Changing the date on the order moves it on every invoice
+    made from it (`release`).
+  - **Advances** paid against the order are set off by ERPNext on each invoice
+    (`allocate_advances_automatically`).
+  - The invoice says the share it's for (**Work Done**, `one_progress`), and
+    saving it tells the project's manager to check it (`drafted`).
 - `retention.py` — the **Hold Retention** switch (`on`, Projects Settings'
   `one_retention`, in the boot for the desk), what's still held on an
   invoice part by part (`still_held`, `held_on`), the Overview's two sides
   (`sides`), Needs You's asks (`asks`), handover falling due when a project
   is completed (`handed_over`), and the daily Retention Due (`due`).
+
+  - **Hold Retention** in Projects Settings turns it on (`on`). Off, the
+    retention fields leave the orders, the project dialogs and the Overview. A
+    workspace already holding retention had it turned on by the update
+    (patches/retention_switch.py).
+  - An order may release part of its retention at **Handover** (`HANDOVER`,
+    `one_retention_handover`), due when the order's delivery date comes, or as
+    soon as its project is marked Completed (`handed_over`), and the rest at
+    **Retention Due** (`RETENTION`).
+  - What's still held on an invoice is read part by part (`still_held`):
+    retention is paid last, its handover part before the rest.
+  - The Overview sets what the customer holds beside what's held from
+    suppliers (`sides`). A customer's retention due within a month, or past
+    due, is in Needs You (`asks`), and a project's manager is told on the day
+    any of it falls due, either side (`due`).
 - `intake.py` — which open project a document names, for the bills OneIntake
   drafts (one_intake/money.py).
+
+  A supplier's bill for the villa's glass says "Villa Al Barsha" somewhere: in
+  its reference, a line, the delivery address. Booked with no project, it was
+  missing from the project's **Cost** until somebody set it by hand. Intake
+  now asks `named` which open project the document names, and the bill it
+  drafts, and each of its lines, carry it.
+
+  A name only counts whole, ignoring case, and only one project may be named:
+  a bill naming two is left for a person, as one naming none is. A name inside
+  a longer one that is also named ("Villa" and "Villa Windows") is the longer.
 - `tree.py` — sub-projects: Parent Project (`one_parent`), the only field
   added, since ERPNext keeps money per project and has no project inside one.
   A loop is refused, a sub-project takes its parent's customer, a tree's
@@ -1183,8 +1457,39 @@ one field for it.
   `nodes` (`public/js/project_tree.js`, `under` is pure), and its Gantt view
   is frappe's over the project's dates, with `milestones` added as rows of
   their own that can't be dragged (`public/js/project_calendar.js`).
+
+  ERPNext keeps a project's money per project — its one Sales Order, its
+  timesheets, its costs, what it has billed and its margin — and has no
+  project inside a project. So a separately billable piece of a job is a
+  project of its own, and the one field tree.py adds is **Parent Project**
+  (`one_parent`). The handrails on a villa are a project under the villa:
+  their own quotation and order, their own time and invoices, and ERPNext's
+  totals for them as for any project. Nothing of ERPNext's is copied or
+  changed.
+
+  - **A project cannot sit under itself**, however far down (`validate`).
+  - **A sub-project takes its parent's customer** when it has none.
+  - **A parent adds up its tree** (`totals`): its own figures and the whole
+    tree's, worked out each time rather than stored, so moving a project in
+    the tree is right straight away.
+  - **Group Under New Project** (`group_under`) puts a new project above one —
+    the villa above the windows — and moves it and whichever of its
+    sub-projects are ticked underneath, so they become siblings.
+  - **Members of a project see what is under it** (members.under).
+  - **A page can read a parent on its own** (`narrow`, `scope`): its Main, the
+    work on the project itself without what is under it.
+  - **Where a task is** reads as a path, Villa › Handrails (`path`), on My
+    Tasks and on a project's calendar.
 - `rates.py` — Rates: Activity Type is the rail's row, and an Activity Cost,
   a person's own rates for one, is its connection and leads back to it.
+
+  ERPNext keeps rates in two places: an **Activity Type** has a default
+  costing and billing rate, and an **Activity Cost** overrides them for one
+  employee. They answer one question, so the rail has one row, Rates, the
+  Activity Type list, and each activity lists its people's own rates under it,
+  with + to add one for somebody (`dashboard`). A timesheet prices an hour
+  from the person's rate if there is one, else the activity's (ERPNext's own
+  rule).
 - `plan.py` — each dependency row names its project, the field ERPNext's own
   rescheduling looks dependants up by and never writes; and a slip moves the
   dependants in the rest of the tree, which theirs never looks at
@@ -1192,6 +1497,28 @@ one field for it.
   Task, filtered to the tree (`public/js/project.js`); `public/js/task_list.js`
   draws a task with only a due date and lights the view mode the chart is in,
   and `public/css/desk.css` lets it scroll.
+
+  **A dependency says which project it is in.** ERPNext moves a task's
+  dependants later when its date slips (`reschedule_dependent_tasks`), and
+  finds them by the project on each Task Depends On row — a read-only field
+  nothing in ERPNext ever writes, so the slip never found anything. The row
+  takes the task's project.
+
+  **A slip crosses sub-projects** (`reschedule`). ERPNext moves only
+  dependants in the same project as the task that slipped. "Install the
+  handrails" in Handrails waits on "Fit the frames" in Windows, both under one
+  villa, and should move when the frames do. So after ERPNext's own pass
+  plan.py moves the dependants in the rest of the same tree, the way theirs
+  moves the others: a task still Open that would start before the new end
+  starts the day after it, keeping its length. It saves the dependant whether
+  or not the person who moved the date may edit it: the date moved because of
+  theirs, and a plan that holds only where the mover is a member is not a
+  plan.
+
+  **The plan is frappe's Gantt** over the tree's tasks (public/js/project.js,
+  Schedule): bars, milestones, the dependency arrows, and dragging a bar moves
+  the task. A task with a due date and no start is drawn as a day on its due
+  date (public/js/task_list.js).
 - `billing.py` — money on ERPNext's own records. Pricing is theirs
   (Activity Cost, then Activity Type, in `TimesheetDetail.update_cost`).
   **Invoice Time** (`invoice_time`, opened through
@@ -1205,6 +1532,44 @@ one field for it.
   its lines onto it. **Quote Extra Work** (`public/js/project.js`) starts
   such a quotation, and `public/js/quotation.js` gives it the project's
   customer.
+
+  **Time is priced by ERPNext.** A timesheet row takes its costing and billing
+  rate from the person's **Activity Cost** for its activity, or the **Activity
+  Type**'s own rates when they have none (`TimesheetDetail.update_cost`), and
+  a submitted timesheet adds its cost and billable amount to the project. The
+  timer (one_task/timer.py) writes those rows; nothing in billing.py prices
+  anything.
+
+  **Invoice Time** (`invoice_time`) is ERPNext's Sales Invoice with its Time
+  Sheets table filled: every billable hour on the project not yet invoiced, as
+  lines by activity — Design 12 h, Site visits 4 h — at what the hours come
+  to. It opens as a draft for somebody to read before it is submitted, and
+  submitting it is what marks the hours billed and adds to the project's
+  Billed, which is ERPNext's (TimesheetBillingService). On a project with
+  sub-projects it takes the whole tree's billable time for the same customer,
+  each line of the invoice's Time Sheets naming its project, so the villa's
+  page invoices the windows' hours too (`_rows`). A retainer's hours are
+  billed with its month, never here.
+
+  **What was bought for it** (`costs`). A Time and Materials job bills the
+  materials and outside work bought for it as well as its hours: supplier
+  bills' lines on the project, stock issued to it, and approved expense claims
+  for it, each at what it cost the company plus the project's **Markup on
+  Costs** (`one_markup`). Invoice Time adds them as lines under the time, one
+  per cost, and each line names the cost it bills (`one_rebills`), so a cost
+  is never billed twice and is billable again if its invoice is cancelled.
+  Only a Time and Materials project's costs are billed this way; a fixed price
+  covers its own.
+
+  **A quotation for extra work becomes a sub-project** (`ordered`). A
+  quotation names its project like any other (chain.py), and **Extra Work**
+  says it is more than the job was ordered for. Both are carried to its Sales
+  Order (the same fields on both, so ERPNext's mapping carries them), and when
+  the order is submitted a project is made for it under that one, ERPNext's
+  own "Create > Project" from an order with the order's total as its estimate.
+  The order and its lines then name the sub-project, so the handrails a
+  customer asked for halfway through the windows have their own order, time,
+  costs and invoices, and add up into the villa's.
 - `updates.py` — ERPNext's Project Update, asked and answered. Their asking
   mailed only (and raised where no mail goes), asked hourly all day and twice
   daily in two hours running, and read email replies back every hour, adding
@@ -1215,6 +1580,38 @@ one field for it.
   (additional_timeline_content) shows the answers in the project's activity.
   Their morning summary still runs, where mail goes (`sum_up`). Hourly is off
   the Frequency choices.
+
+  ERPNext has the parts: **Collect Progress** on a project, how often and
+  when, the subject and message of the ask; a **Project Update** for each ask;
+  the answers as rows on it; and a summary of yesterday's answers mailed to
+  the team (`send_project_status_email_to_users`). The asking and the
+  collecting did not work, and updates.py replaces those two:
+
+  - **It only asked by email, and only where there was mail.** With no
+    outgoing account the ask raised, rolled back its Project Update, and
+    nothing was asked. `ask` makes the Project Update, tells each member in
+    One (a notification that opens the project), and mails them as well where
+    mail can go.
+  - **It asked too often.** Hourly asked every hour of the day, its window
+    tested with `or`; Twice Daily asked in two hours running. `due` asks once
+    a day, twice at the two times, or once on the day of the week. Hourly is
+    taken off the choices: a status note every hour is not a status note.
+  - **An answer could only be an email reply**, and was read back every hour
+    and added again each time, and only on the day it was asked. `post` is
+    **Post Update** on the project's page, which answers today's ask or, with
+    none, makes one; `answered` takes an email reply once, when it arrives,
+    whatever the day.
+  - **The answers were kept out of sight** on the Project Update. `timeline`
+    puts each one in the project's activity, under who wrote it.
+  - **The summary of yesterday's answers was only mailed**, and only where
+    mail could go. `sum_up` tells the project's people in One instead, and
+    each chooses whether it is mailed too.
+  - **An answer kept no health.** `_answer` keeps the project's health on the
+    answer (`one_health` on its row), so the page shows how it was going when
+    each was written, and tells the page's readers it was posted
+    (`one_project_update`).
+  - **Nothing on the page said whether the team is asked.** `asking` says how
+    often, for the Updates heading.
 - `custom/project.json` also carries **Health** (`one_health`) and **Project
   Manager** (`one_manager`, who always sees the project — members.visible),
   both from the old OneProject: ERPNext's Project has neither a judgement of
@@ -1227,6 +1624,27 @@ one field for it.
   capacity from the holiday list (the employee's, else the company's), HR
   Settings' Standard Working Hours and approved Leave Applications. Figures,
   not a chart.
+
+  **Planned** is the hours still to do on each person's open tasks in the
+  week: a task's Expected Time less the time already logged on it (ERPNext's
+  Actual Time), spread evenly over the days from its start to its due date and
+  counted for the days that fall in the week, and shared equally when a task
+  is given to more than one person. Work already late counts in full this
+  week, since that is when it has to be done now. A task with only a due date
+  is a day on it.
+
+  **Capacity** is the person's working days in the week — not a holiday on
+  their holiday list, not a day of approved leave — times HR Settings'
+  **Standard Working Hours**, 8 when it is not set. Somebody with no employee
+  record works the company's working days, or Monday to Friday where there is
+  no holiday list.
+
+  Hours are only as good as the Expected Time on tasks, so **Not Estimated**
+  says how many of a person's tasks in the week have none: a light load with
+  five unestimated tasks is not a light load.
+
+  Only tasks the reader may see are counted. A project filter counts the tasks
+  of that project and everything under it.
 - `portal.py` and `www/projects.py` — ERPNext's portal, reachable. Its list
   (/project) reads the Customer's Portal Users, which Invite as User never
   filled (`invited`, Contact on_update, fills it); a customer signing in was
@@ -1237,6 +1655,29 @@ one field for it.
   (frappe renders the last app's page for a route): `view` checks ERPNext's own
   website permission (`may_see`) and shows progress over the tree, the end,
   milestones, sub-projects, tasks, the order and the invoices; `when` is pure.
+
+  ERPNext's portal lists a customer's projects at /project and shows one at
+  /projects?project=…, to anybody listed under **Portal Users** on the
+  Customer. Two things stopped any customer getting there:
+
+  - **Invite as User** on a customer's Contact makes the login and never lists
+    it under the Customer's Portal Users, which is the only thing their portal
+    reads (`get_customers_suppliers`), so the customer was refused their own
+    projects. `invited` lists it (Contact on_update).
+  - A website user signing in was sent to One's desk, which they cannot open,
+    because One's entry on the apps screen did not refuse them
+    (onedesk.check_app_permission).
+
+  And one thing that stopped a customer seeing a project once there: ERPNext's
+  project page (templates/pages/projects.py) checks the reader's role
+  permissions, which a customer has none of, so it refused every customer. It
+  also showed who in the team each task is assigned to, and a New Task button
+  that let a customer add tasks to the team's project. One's own page takes
+  its place at the same address (www/projects.py, since frappe renders the
+  last app's page for a route): what a customer asks of a project — how far
+  along it is, when it ends, the milestones, the sub-projects, the work and
+  its state, and their order and invoices (`view`). Nothing of the team's: no
+  names, no hours, no updates.
 - `templates.py` — ERPNext's Project Template, which already makes a
   project's tasks from template tasks as the project is saved. Added: **Save
   as Template** (`save_as`, with `start_of` and `days` pure), what their copy
@@ -1246,10 +1687,52 @@ one field for it.
   (one_task/capture.py), everybody in projects sees it (one_task/access.py),
   the Tasks rail entries leave templates out, and a new project's prefix rule
   is written before ERPNext makes its tasks (naming.py).
+
+  ERPNext's **Project Template** is a list of template tasks — Tasks ticked
+  **Is Template**, each with **Begin On (Days)** after the project starts and
+  a **Duration (Days)** — and a project given one gets a task for each, dated
+  from its own start, with the template's sub-tasks and dependencies between
+  them (`Project.copy_from_template`). That part is theirs and stays theirs.
+  What templates.py adds is what stopped anybody using it:
+
+  - **Save as Template** (`save_as`). Building a template meant making each
+    template task by hand on the Task form and then listing it on the
+    template. Now a project that went well is the template: its tasks, their
+    dates as days after the project's start, their lengths, sub-tasks,
+    dependencies, milestones, checklists and expected time. Cancelled tasks
+    are left out, and so are dependencies on tasks in other projects, since a
+    template is one project.
+  - **Add from Template** (`add`). ERPNext copies a template only into a new
+    project with no tasks yet. A running project may take one too: its tasks
+    are made by ERPNext's own copy (`create_task_from_template`,
+    `dependency_mapping`), dated from the day chosen, beside the tasks it has.
+  - **What ERPNext's copy leaves behind** (`task_made`). Their copy carries
+    the subject, dates, priority, type and a few more, and not whether a task
+    is a milestone, its expected time or its checklist; the new task takes
+    them from the template task it was made from.
+  - **Who may keep templates** (`settle`). ERPNext lets only a System Manager
+    open one; a Projects Manager may keep them, and a Projects User read them.
+  - **A template task is nobody's work.** It is not assigned to its maker
+    (one_task/capture.py) and everybody who works in projects sees it
+    (one_task/access.py), since a template is for the whole team.
+
+  A new project's Task Prefix names the tasks a template makes, because the
+  naming rule is written when the project is, not after (naming.py).
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), the money
   (money.py), overdue tasks, the next milestone, and the hours logged a week
   for twelve weeks.
+
+  All of it is ERPNext's own: `expected_end_date`, the project's tasks, and
+  the money on its documents as money.py adds it up. A project with
+  sub-projects answers for the whole tree (tree.py), since the villa's
+  question is about the villa, handrails included.
+
+  How far it has got (`share`): a completed project is done, whatever its
+  tasks say, since one completed with no tasks of its own has none to count.
+  Otherwise it is ERPNext's own % Complete, the tree's for a project with
+  sub-projects (roll_up), so the page and the lists say the same; its own
+  tasks' when the page shows its Main.
 - `money.py` — the page's Money view, two sides and a forecast, over the whole tree:
   each figure is the submitted lines naming a project in it, before tax, as
   ERPNext adds up a project's Billed and Purchases, with the list behind it
@@ -1261,14 +1744,73 @@ one field for it.
   Suppliers view, one card per order. ERPNext's stored totals are hidden from
   the form, not removed; the form's Costing tab keeps the Budget and the
   fields ERPNext needs (patches/costing_on_the_page.py took the rest).
+
+  **Customer**: what they've been quoted, what they've ordered, what's been
+  delivered and invoiced, and what they've paid. **Cost**: what's been ordered
+  from suppliers, received and billed, what they've been paid, and the team's
+  time, stock used and expense claims. Each figure opens the documents behind
+  it, and the project's sub-projects are included, as the head's are.
+
+  Every figure is ERPNext's own record added up, before tax, as ERPNext adds
+  up a project's Billed and Purchases: a document's lines that name the
+  project, on submitted documents. Payments are what was paid, tax included.
+  Time, stock used and expense claims are the totals ERPNext keeps on the
+  project.
+
+  **The forecast** answers before the money's gone. The contract is what the
+  customer ordered, or the billable time when nothing was ordered. The
+  forecast cost is, for each cost type, what's been spent and what suppliers
+  still have to bill on their orders, or its budget while that's more; then
+  the same for the rest of the budget. A cost type over its budget shows, even
+  while another is under. With no budget there's no forecast (`forecast`).
 - `hours.py` — the Time view: `entries` reads the tree's Timesheet Detail
   as the reader reads timesheets, with where each stands (`state`, pure);
   `log` writes into the reader's draft timesheet for the week through
   one_task/timer.py, after the day's last entry (`after`, pure); `whose`
   finds who a timesheet is for when it has no user of its own.
+
+  **How time is counted** (`one_time`) is asked when a project is made, beside
+  its kind, which says how the customer pays. The two are separate questions:
+  a fixed-price villa counts its crews' days on site, and a fixed-price
+  software build counts timesheets.
+
+  - **Timesheets**: people log hours on the project, by hand or with a task's
+    timer.
+  - **Attendance on Site**: the project names its site (an HRMS Shift
+    Location), and each day somebody's attendance has them there is a day on
+    the project (site_time.py).
+  - **Not Tracked**: hours aren't counted. The page has no Time view unless
+    somebody logged some anyway.
+
+  A project made without one (by ERPNext, HR or an import) is given the
+  workspace's default, **Count Time By** in Projects Settings (`fill`).
+  Whether an hour is billable follows the kind (`bills_hours`): Time and
+  Materials and Retainer hours are, and a Fixed Price or Internal project's
+  are cost only.
+
+  Every hour is ERPNext's Timesheet Detail on the project or a project under
+  it, read as the reader reads timesheets, so somebody who may see only their
+  own sees only their own. Each entry says where it stands: a draft not yet
+  submitted, not billable, still to invoice, or invoiced on a Sales Invoice.
+
+  **Log Time** (`log`) writes an entry into the reader's draft timesheet for
+  the week, the one the task timer (one_task/timer.py) writes into, so time
+  logged by hand and timed by the clock end up in the same place and are
+  submitted together.
 - `team.py` — the Team view: members, manager, assignees and whoever logged
   time, with open and late tasks and hours; `add` and `remove` change the
   project's Members as the form does.
+
+  The team is ERPNext's **Members** on the project (Project User), and with
+  them everyone the work names: the manager, whoever a task on the project or
+  a project under it is assigned to, and whoever logged time on it. Each says
+  how much is on them (open tasks, and how many are late) and how much they
+  have put in (hours this month and in all), read as the reader reads tasks
+  and timesheets.
+
+  Adding or removing a member is a change to the project, made by whoever may
+  change it, and saved as the form saves it, so ERPNext's own rules on members
+  (the welcome mail, who sees the project in the portal) run as they do there.
 - `billing.py` `invoices` — the Invoices view: Sales Invoices naming the
   tree on the invoice or a line, read as the reader reads them.
 - `retainer.py` — a Retainer's months: `months` (hours used of the
@@ -1277,6 +1819,18 @@ one field for it.
   the hours over at the month's average rate (`over`, `rate`, pure) and the
   month's billable time on its Time Sheets table. The month is
   `one_retainer_month` on Sales Invoice. Invoice Time refuses a retainer.
+
+  A month is a calendar month from the one the project starts in. Each says
+  how many hours were used of the allowance (`one_monthly_hours`), how many
+  over, and whether it's been invoiced: a Sales Invoice for the project with
+  its **Retainer Month** (`one_retainer_month`) set to the month.
+
+  **Invoice Month** (`invoice_month`) is a draft Sales Invoice, opened unsaved
+  as Invoice Time's is: one line for the month's fee, and, when the month went
+  over, one for the hours over at what the month's billable hours were billed
+  at on average. The month's billable time is put on the invoice's Time Sheets
+  table, so submitting it marks that time invoiced (ERPNext's
+  TimesheetBillingService) and Invoice Time never bills it again.
 - `heads.py` — the band and the hours chart as the project's Record Head
   (one/head.py), each a measure or a chart over `overview`.
 - `view.py` — the project's page (`page/project_view`): `said` gives it, in
@@ -1301,6 +1855,14 @@ one field for it.
   page; the form is the same address with `?edit=1`, and a new project's form
   stays. The page follows the record through the kit (`follow`, desk's
   `doc_subscribe` and `doc_update`) and its money through `one_project_money`.
+
+  The page is `page/project_view` (public/js/project_page.js), opened at the
+  project's own address. `said` gives it the head (the kind, status, health,
+  the main action), the title line, the kind's four cards and its Overview.
+  Everything is read from the modules that work it out already: overview.py
+  (tasks, dates, hours), money.py (both sides), budget.py (cost types),
+  billing.py (time not invoiced) and tree.py (sub-projects). It reads as the
+  person asking and checks they may read the project.
 - `public/js/project_actions.js` — Board, Schedule, Group Under New Project,
   Save as Template, Invoice Time and Post Update, for the page and the form
   alike. `public/js/project.js` is the form: those as its buttons, and
@@ -1387,3 +1949,79 @@ stage below that touches tasks keeps them:
     only their own timesheets, which would stop a project lead invoicing
     their team's time. Its one live leftover in OneApp, OneBook reading the
     OneProject catalogue row on import, is fixed there.
+
+### access.py
+
+ERPNext lets only a **System Manager** open **Projects Settings**, which the
+rail links to: whether a timesheet may overlap another and whether a task's
+dates are checked against its project's. A Projects Manager keeps them.
+
+ERPNext keeps **Budget** to the books, so a project manager could not set a
+project's budget by cost type. A Projects Manager now keeps the budgets of
+projects, and only those (budget.py `kept_to_projects`): a budget against a
+cost centre stays the books'.
+
+The books read every **Project**, since they invoice its time and progress
+(members.py sees to which ones).
+
+A role that reads it already, by ERPNext's rules or the workspace's, keeps
+what it has (one/roles.py `give`). Tasks and project templates are
+one_task/access.py and templates.py.
+
+### activity.py
+
+The Activity view puts the project's history beside frappe's own timeline of the project,
+which keeps its comments, its emails and the changes to its fields (Project
+tracks its changes, `custom/project.json`). Each row here is one of frappe's
+ActivityTimeline rows (`type`, `key`, `timestamp`, `author`, `data`), with a
+`kind`: `money` for documents, `work` for the rest.
+
+A document shows when it was made, submitted and cancelled, read from the
+Version frappe keeps of it, or from the document itself where its type keeps
+none. Tasks added in one day are one row, as are a person's hours in a day and
+the files somebody added in a day.
+
+### buying.py
+
+The orders for goods leave out subcontracts, which have their own card
+(money.subcontract). An order for goods says how much is received and billed,
+and when it's billed ahead of delivery. The Suppliers view lists them beside
+the subcontracts, the project's and those under it, each opening its document
+(`papers`).
+
+Each is ERPNext's own document, naming the project on its lines (chain.py).
+
+### contacts.py
+
+Each person outside the company on a project is a row of its **Contacts** (Project Contact): a **Role**, the
+**Supplier** or, for anyone who isn't one, the **Company**, a frappe
+**Contact** with their email and phone, and a **Note**. The Team view lists
+them under **Contacts**, and Suppliers lists the suppliers among them
+(`contacts`). Adding one is changing the project (`save`, `remove`); the
+Contact is linked to the project too, as frappe links a contact to any record,
+so the project is among the contact's own links.
+
+### site_time.py
+
+HRMS's attendance says who worked and for how long, for payroll; it has no
+project. ERPNext's project costing reads only timesheets. So a day on site is
+written as the timesheet ERPNext expects, made from the attendance, and HR
+keeps attendance as it is:
+
+- **Attendance submitted** (`attended`): when the day was at the site of an
+  open project counted by attendance (`project_at`), a Timesheet for that
+  person is made and submitted. It has one row on the project, the
+  attendance's working hours (or HR Settings' standard day, half of it for a
+  Half Day), at Projects Settings' **Activity for Days on Site**, billable
+  when the project bills hours (`hours.bills_hours`). Its cost is the person's
+  Activity Cost, as any timesheet's.
+- **Where they were**: one of their check-ins that day inside the site (its
+  own circle, or any clock place drawn on it). With no position on any
+  check-in, a shift assignment that day naming the site.
+- **Attendance cancelled** (`cancelled`): its timesheet is cancelled too,
+  unless it's already invoiced, which ERPNext refuses.
+- A timesheet made here names its attendance (`one_attendance`), so neither is
+  made twice.
+
+A day that can't be written (a timesheet already covering those hours, say)
+doesn't stop the attendance. It's logged in the Error Log for HR to see.

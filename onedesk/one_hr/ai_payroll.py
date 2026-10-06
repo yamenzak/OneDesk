@@ -1,15 +1,4 @@
-"""OneAI on a payroll run: what changed against last month, before it is paid.
-
-The comparing is done here, in plain code, and the model is handed the
-differences rather than the slips: which amounts moved and by how much is
-arithmetic, and a model asked to find them in two hundred slips misses some
-and invents others. What the model adds is the sentence — "Rania's net is
-down 1,800 because the housing allowance is missing" — and the order, most
-money first.
-
-Read as the person asking, so a slip they may not see is not compared: the
-salary rules in `one_hr/money.py` apply here exactly as on the list.
-"""
+"""OneAI on a payroll run: what changed against last month, before it is paid."""
 
 from typing import Annotated
 

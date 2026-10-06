@@ -1,14 +1,6 @@
 """What this workspace wants one action to run on, and what it wants added.
 
-The model is a name on the administrator rather than a link, because the
-catalogue lives there and a workspace holds no copy of it — the picker asks for
-the list and stores what was chosen.
-
-`extra` is the whole of what a workspace may say to a model, and it is **added**
-to the action's own instruction rather than replacing it. That distinction is
-the safety of the feature: a workspace can tell the summariser to write in
-Arabic and keep it terse, and cannot tell it to ignore what it was told about
-what it may touch.
+`extra` is added to the action's own instruction, never put in its place.
 """
 
 import frappe

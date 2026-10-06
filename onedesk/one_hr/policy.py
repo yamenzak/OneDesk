@@ -1,18 +1,4 @@
-"""What this workspace has asked for, read from HR Settings in one place.
-
-Every switch below is a Custom Field this app adds to HRMS's own single
-doctype, which is where a tenant already goes to configure HR. The reason they
-are all read through here rather than with `get_single_value` scattered about:
-a default typed twice is a default that will disagree with itself, and a gate
-that cannot be found from one file is a gate nobody can audit.
-
-A Single stores nothing until somebody saves it, and `get_single_value` casts a
-missing Int or Check to zero rather than to None. So a default of 1 would read
-as off on a site nobody has opened HR Settings on, which is how every gate would
-have been silently disabled on a fresh install. `seed()` writes each default
-once, at install and after every migrate, and only where the field has never
-been written — so it can never overrule what a tenant chose.
-"""
+"""What this workspace has asked for, read from HR Settings in one place."""
 
 import frappe
 

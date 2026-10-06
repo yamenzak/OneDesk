@@ -1,30 +1,4 @@
-"""Telling people about tasks (notifications/one_task/).
-
-**A task given.** Giving somebody a task is frappe's assignment, and frappe
-writes its own line for it: "Samir assigned a new task Task Write the copy to
-you". It is written from deep inside `assign_to.add`, with no switch to turn it
-off, so rather than send a second one, `given` says frappe's line in ours as it
-is written: the Notification Log becomes a Task Given, with when the task is
-due and its project. frappe's line for an assignment taken away is left alone.
-
-**A task done.** ERPNext closes a task's assignments when it is completed, and
-frappe tells nobody. `done` tells whoever gave the task, and whoever made it,
-unless they completed it themselves.
-
-**A task changed** (`changed`). Three things about a task are told to its
-people:
-- *Task Ready*: the last task it waits on (ERPNext's Depends On) is done, told
-  to whoever it's given to, or whoever made it when nobody is. ERPNext adds a
-  sub-task to its parent's Depends On, so a parent is ready when its sub-tasks
-  are done.
-- *Pending Review*: somebody marks it Pending Review, told to whoever gave it
-  and whoever made it. A formal approval is a Workflow (Settings, Approvals).
-- *Due Date Changed*: its due date moved, told to whoever it's given to.
-Whoever made the change is never told.
-
-**The morning.** `today` tells each person what is due that day and what is
-late, from the tasks given to them, as My Tasks groups them (mine.py).
-"""
+"""Telling people about tasks (notifications/one_task/)."""
 
 import frappe
 from frappe import _

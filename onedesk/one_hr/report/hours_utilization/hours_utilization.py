@@ -1,33 +1,4 @@
-"""How much of everybody's week ended up on a timesheet.
-
-HRMS's version of this is the third report in the Time group to answer a
-narrower question than the one it is opened for, and the first where the
-narrowing makes every percentage on the screen wrong.
-
-**Its denominator counts weekends.** One line does it:
-
-    TOTAL_HOURS = flt(self.standard_working_hours * self.day_span, 2)
-
-`day_span` is `(to_date - from_date).days` — calendar days. Over 22 August to
-22 September that is thirty-one, so a person's available hours came out as
-8.5 x 31 = 263.5, which assumes they were meant to work four weekends and every
-public holiday in between. Here the available hours are working days only, per
-employee, from the holiday list actually assigned to them.
-
-**Only people who filled a timesheet in were on it**, so the one number the
-report exists to surface — somebody at nought — was the one it could not show.
-
-**And drafts counted.** There is no docstatus filter, so hours nobody has
-submitted were in the totals. They are out of the columns now and in a tile of
-their own, because "why is this so low" is usually answered by them.
-
-Two smaller ones. A timesheet whose start and end both had to fall inside the
-range was dropped whole when it straddled the boundary; the rows are filtered on
-the log's own time instead, so a week spanning the first of the month counts the
-days that belong to the period. And the summary averaged percentages across
-whoever happened to log time, which rises as fewer people fill theirs in; it is
-one division of totals now.
-"""
+"""How much of everybody's week ended up on a timesheet."""
 
 import frappe
 from frappe import _

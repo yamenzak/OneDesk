@@ -1,13 +1,7 @@
 """What happens next on a lead or a deal, and when.
 
-Two fields on the record rather than a ToDo: a ToDo on a record marks the
-record assigned to whoever holds it, and closing it unassigns them, so the
-step and the owner would be one thing. On the record, a missing next step is
-a filter, a column and a count on Home, and the step shows on the board card.
-
-The owner is reminded at the time with frappe's own Reminder. `done` writes
-the step that was done on the timeline before setting the next one, so the
-history of a deal is what was done, not only what was planned.
+Two fields on the record rather than a ToDo. The owner is reminded at the time
+with frappe's own Reminder.
 """
 
 from typing import Annotated

@@ -1,28 +1,4 @@
-"""What a customer sees of their projects, on ERPNext's portal.
-
-ERPNext's portal lists a customer's projects at /project and shows one at
-/projects?project=…, to anybody listed under **Portal Users** on the Customer.
-Two things stopped any customer getting there:
-
-- **Invite as User** on a customer's Contact makes the login and never lists
-  it under the Customer's Portal Users, which is the only thing their portal
-  reads (`get_customers_suppliers`), so the customer was refused their own
-  projects. `invited` lists it (Contact on_update).
-- A website user signing in was sent to One's desk, which they cannot open,
-  because One's entry on the apps screen did not refuse them
-  (onedesk.check_app_permission).
-
-And one thing that stopped a customer seeing a project once there: ERPNext's
-project page (templates/pages/projects.py) checks the reader's role
-permissions, which a customer has none of, so it refused every customer. It
-also showed who in the team each task is assigned to, and a New Task button
-that let a customer add tasks to the team's project. One's own page takes its
-place at the same address (www/projects.py, since frappe renders the last app's
-page for a route): what a customer asks of a project — how far along it is,
-when it ends, the milestones, the sub-projects, the work and its state, and
-their order and invoices (`view`). Nothing of the team's: no names, no hours,
-no updates.
-"""
+"""What a customer sees of their projects, on ERPNext's portal."""
 
 import frappe
 from frappe import _

@@ -2,20 +2,7 @@
 
 Everything here is asked by the workspace through the proxy and answered by
 the calculator (plans.py), so the customer and the operator see the same
-arithmetic: what the workspace has now, what each plan with the cheapest
-add-ons on top would cost for what it needs, and taking one of those.
-
-**Taking an option sets the whole shape.** An option is a plan and the
-add-ons that bring it up to a need, so taking it makes the subscription
-exactly that: the plan swapped if it differs, each add-on set to its count,
-and add-ons the option does not have taken off. Stripe prorates each change
-and charges the difference now; a declined card refuses the change before
-anything here is written (stripe.PRORATED).
-
-**Nothing goes below what is used.** A smaller plan, or an add-on taken
-off, that would leave the workspace over its seats, its storage or its
-database is refused with what to clear first, because the alternative is a
-workspace that cannot save anything the moment the change lands.
+arithmetic.
 """
 
 import frappe

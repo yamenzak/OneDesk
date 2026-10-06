@@ -1,25 +1,7 @@
 """Who has agreed to what, and who may not carry on until they do.
 
-Two parties, because two different things are being agreed to and only one of
-them can be agreed to by somebody else.
-
-* **The workspace.** The Terms of Service, the Data Processing Addendum, the
-  Subprocessors list and the AI Addendum are a contract with the organisation.
-  The person who creates the workspace accepts them, and that binds everybody in
-  it. One acceptance covers the workspace.
-* **The person.** The Privacy Policy and the Cookie Policy describe the handling
-  of *their* personal data, and an employer cannot agree to that on their
-  behalf. Every person who signs in accepts those for themselves, once, and
-  again whenever the version changes.
-
-The Acceptable Use Policy is both: the organisation promises it and each person
-acknowledges it, because it is the one document that describes what an
-individual may not do.
-
-What is recorded is not "yes": it is the document, the exact version, the text
-that version hashed to, the account, the time, and the address it came from.
-`Legal Document Version` keeps the rendered text of every version anybody has
-ever agreed to, so the question "what did I agree to in March" has an answer.
+The workspace agrees to the contract once for everybody in it, and each person
+agrees to what is about their own personal data.
 """
 
 import frappe
@@ -28,10 +10,8 @@ from frappe import _, _lt
 from . import assemble
 from .documents import DOCUMENTS
 
-#: Each document's title and summary, for the dialog to show in the reader's
-#: language. Listed here rather than marked in documents.py, because the version
-#: is a hash of the text: a translated title there would give every language a
-#: different version. The documents themselves are in English, which governs.
+#: Each document's title and summary, for the dialog in the reader's language.
+#: Here, because a translated title in documents.py would change the hash.
 SHOWN = (
 	_lt("Terms of Service"),
 	_lt("The agreement between your organisation and Four Degree Labs for the use of One."),

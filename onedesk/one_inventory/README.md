@@ -215,6 +215,17 @@ a register and a movement form in it would be a rail with five rows.
   Rate with no supplier or date — and `said` reads them into one answer.
   Low is ERPNext's own test, projected quantity at or below the level
   (`summary`, pure), so the band and the reorder list agree.
+
+  An item answers how many there are, how many are free to sell, how many
+  are on order, what they are worth, whether it is time to order more, and
+  what it last cost (`item.py`). An item marked Is Fixed Asset says how many
+  assets it has become instead.
+
+  ERPNext has all of it, in four places: the Bins behind the Stock Levels
+  panel at the foot of the form, the reorder table on the Inventory tab, the
+  item's *Last Purchase Rate* (with no supplier or date beside it), and the
+  Stock Balance report. `said` reads them into one answer for the band
+  (`heads.py`).
 - `order.py` and `report/to_order` — what to order. ERPNext's daily
   `reorder_item` raises a Material Request for everything low, and stops:
   nothing lists the requests, groups them by supplier or makes the orders.
@@ -224,6 +235,26 @@ a register and a movement form in it would be a rail with five rows.
   `material_request_item` so ERPNext's own status update marks the request
   ordered on submit. How many is ERPNext's rule (`quantity`, pure). Rows on a
   draft order are left off so nothing is ordered twice.
+
+  ERPNext reorders by itself: once a day (`reorder_item`, with Stock
+  Settings' *Raise Material Request When Stock Reaches Re-order Level*, on by
+  default) every item at or below its reorder level gets a Material Request.
+  And there it stops. A request is not an order; somebody has to find the
+  requests, open each, make a purchase order from it, pick the supplier, and
+  do it again for the next one. Nothing lists what is short, or who supplies
+  it.
+
+  **To Order** (`report/to_order`) is that list: every open purchase request
+  not yet fully ordered, and every item low with no request yet — how many,
+  for which warehouse, from whom, at what it last cost. **Order** makes one
+  draft purchase order per supplier from the rows ticked, each row still
+  pointing at its request, so ERPNext marks the request ordered when the
+  order is submitted; until then a row on a draft order is off the list.
+  Drafts, because what is ordered and at what price is somebody's decision
+  to read before it is sent.
+
+  The supplier is the item's default supplier, else the one it was last
+  bought from.
 - `assets.py` and `heads.py` — the register that finishes itself, and the
   asset's band and its Give To… and Take Back, as a Record Head.
   ERPNext makes assets from a receipt only if the item also has Auto Create
@@ -236,6 +267,33 @@ a register and a movement form in it would be a rail with five rows.
   at the end of that month rather than the today ERPNext's `get_item_details`
   stamps, then submitted. A failure rolls back to a savepoint, leaves the
   draft, and comments why; the receipt is never blocked by it.
+
+  An asset's head answers what it is worth now, what it cost, how far
+  through its life it is, the next depreciation and service, where it is and
+  who has it (`assets.py`), and offers the two movements a person makes:
+  Give To… and Take Back (`custody.py`).
+
+  ERPNext makes assets from a purchase receipt of an item marked Is Fixed
+  Asset, and three things stand between buying a laptop and a laptop on the
+  register depreciating:
+
+  - **The item.** Assets are made only when the item also has *Auto Create
+    Assets on Purchase* and an asset naming series; both are off. Without
+    them the receipt says "create the asset manually" and nobody does.
+    `fixed_item` (Item validate) sets both when an item becomes a fixed
+    asset.
+  - **The location.** The receipt refuses a fixed-asset row with no *Asset
+    Location*. With one location — Head Office — there is nothing to decide,
+    and `located` (Purchase Receipt validate) fills it.
+  - **The draft.** What the receipt makes is a Draft asset with depreciation
+    off, and a draft is never depreciated or counted; ERPNext expects
+    somebody to open each one, tick Calculate Depreciation, fill the finance
+    book from the category, give it an available-for-use date, and submit.
+    `registered` (Purchase Receipt on_submit, after ERPNext's) does that for
+    each asset the receipt made (`finish`): in use from the day it was
+    bought, depreciating as its category says from the end of that month.
+    One that will not finish is left a draft with the reason on it, and the
+    Inventory Check counts it.
 - `custody.py` — who has what. ERPNext changes an asset's custodian only
   through an Asset Movement, a form whose columns matter or not by purpose;
   **Give To…** is an Issue and **Take Back** a Receipt, one step each, so the
@@ -244,6 +302,21 @@ a register and a movement form in it would be a rail with five rows.
   Return activity per asset for the Stock Manager role (`returns`, pure);
   HRMS turns activities into tasks on submit, and its Full and Final
   Statement already refuses to submit while an asset is out.
+
+  ERPNext keeps it on the asset (`custodian`) and changes it only through an
+  **Asset Movement**: a form with a purpose, a date and time, and a table of
+  assets with a source and target location and a from and to employee, where
+  which columns matter depends on the purpose. `give` and `take_back` are the
+  two movements a person makes, one step each from the asset's page (**Give
+  To…**, **Take Back**); the movement is still ERPNext's, so the asset's
+  history and its custodian are what ERPNext would have written.
+
+  A person's page counts what they hold (`held`, read by
+  `one_hr/employee.overview`). When they leave, `leaving` (Employee
+  Separation before_submit) adds a **Return** activity per asset to the
+  separation's checklist, which HRMS turns into tasks; HRMS's Full and Final
+  Statement already refuses to submit while an asset is unreturned, and this
+  is how it gets returned before then.
 - `maintenance.py` and `calendar.py` — maintenance due. ERPNext's
   `calculate_next_due_date` blanks the next due date whenever a task has an
   end date (`or next_due_date` is true as soon as there is one), so a task
@@ -254,6 +327,24 @@ a register and a movement form in it would be a rail with five rows.
   schedule and person, dated for its first task only; the Assigned to Me
   layer (one_task/calendar.py) leaves those out so nothing is on the calendar
   twice.
+
+  ERPNext's **Asset Maintenance** is a schedule per asset — tasks, each with
+  a periodicity, a start and an optional end, and the person it is assigned
+  to — and an **Asset Maintenance Log** per due date, which somebody
+  completes. It assigns the person a to-do and marks a log Overdue once its
+  day passes. Two things were missing:
+
+  - **A schedule with an end date is never due.** ERPNext's
+    `calculate_next_due_date` blanks the next due date whenever an end date
+    is set (`or next_due_date` is true as soon as there is one), so a task
+    that runs until the warranty ends has no due date, no log and no
+    reminder. `due` (Asset Maintenance validate) works the date out again
+    for those, from ERPNext's own periodicities (`next_due`, pure), and
+    leaves it empty only when the next one falls after the end.
+  - **Due maintenance was on no calendar.** One's calendar has three layers
+    for it (`calendar.py`): the reader's own, everybody's, and an asset's
+    own, each opening the log to record it done. An asset's page says when
+    its next service is (`next_service`, read by `assets.said`).
 - `ready.py` and `report/inventory_check` — the Inventory Check, the Books
   Check's twin, drawn by the same page (`public/js/check.js`). What a new
   company is missing is an asset's two prerequisites: a Location (an Asset
@@ -264,6 +355,34 @@ a register and a movement form in it would be a rail with five rows.
   line, monthly. Serial and batch numbers are off by
   `enable_serial_and_batch_no_for_item`, which hides the item's two checkboxes
   and refuses a bundle.
+
+  The **Inventory Check** (`report/inventory_check`) is a row per check with
+  what it means and the fix beside it.
+
+  - **Somewhere to keep stock.** A warehouse that is not a group. ERPNext's
+    setup makes four; the check catches a site where they were deleted.
+  - **Stock is valued in the books.** Perpetual inventory posts every
+    receipt and delivery to the ledger, through the company's stock
+    accounts; an empty one stops the first receipt.
+  - **Serial and batch numbers.** Switched off by default: the item has no
+    *Has Serial No* or *Has Batch No*, and a bundle is refused — while the
+    rail offers Serial Numbers and Batches. Whether a business tracks them is
+    its decision, so it is a suggestion.
+  - **Somewhere for an asset to be.** An asset will not save without a
+    location, and a new company has none. The fix asks what to call the
+    first.
+  - **Asset categories.** An item marked *Is Fixed Asset* needs a category,
+    and a category needs the ledger its assets are kept in and how they
+    depreciate. A new company has none, and its fixed-asset account is
+    empty. The fix makes the usual ones from the chart's Fixed Assets
+    ledgers, each depreciating straight-line monthly over its usual life.
+  - **Every asset is registered** (`assets.py`): a draft asset is never
+    depreciated or counted; the fix finishes the ones that can be.
+  - **Equipment that needs servicing has a schedule** (`maintenance.py`): a
+    schedule needs a maintenance team, and a new company has none; the fix
+    makes one of the person fixing it.
+  - **Depreciation posts itself.** ERPNext books it daily when Accounts
+    Settings says to; the check catches a site where it does not.
 - `sidebar/oneinventory` — the rail. Items, Receipts, Deliveries, Stock
   Movements, Stock Counts, Purchase Orders, Material Requests and the asset
   doctypes are owned here (`is_default_module`); Supplier is OneBook's and
@@ -290,3 +409,20 @@ a register and a movement form in it would be a rail with five rows.
    back. *Done.*
 7. **Assets: maintenance.** What is due for a service, on the calendar and in
    the owner's tasks. *Done.*
+
+### access.py
+
+ERPNext gives a company's assets to accounts, quality and manufacturing, and
+its item prices to two master roles nobody in a small business holds. In One
+assets and prices are OneInventory's (see What it is made of), so its own
+roles have them:
+
+- **Assets**, their categories, maintenance, repairs, value adjustments and
+  capitalization: a Stock Manager runs them; a Stock User reads the register
+  and does the upkeep (maintenance, its log and teams, repairs).
+- **Item Prices**: whoever manages items, stock or buying keeps them; the
+  people who use stock and buying read them.
+- **Quality Inspections**: a Stock User records one, a Stock Manager runs
+  them.
+- **Suppliers**: ERPNext lets only a Purchase Master Manager add one. Buying
+  adds its suppliers, and its manager removes them (`RAISED`).

@@ -1,26 +1,8 @@
 """Mail and records: which messages belong to which customer, supplier,
 employee, lead or document.
 
-A message's links are Frappe's own `timeline_links` (Communication Link
-rows), so a message shows on several records at once and Frappe's timeline
-reads them. Each row says how it was made, in `one_linked_by`, since a link
-nobody can explain is one nobody will trust:
-- **contact**: Frappe's own, from a Contact with the address and whatever
-  that contact is linked to. Rows Frappe makes carry no mark and read as this.
-- **address**: an Employee or Lead with the address, which contacts do not
-  reach.
-- **thread**: a reply takes the links of the conversation it joins.
-- **text**: a document named in the subject or the new part of the message,
-  by a prefix of a naming series this site issues, and only if that document
-  exists. The quoted history of a reply is not read: its names were found
-  when those messages arrived.
-- **manual**: somebody filed it, or sent it from the record.
-
-**A link never grants read.** Linking a message to a customer does not show
-it to everybody who can read the customer: it opens only for the people who
-hold its mailbox (access.py), and a record's Mail tab and timeline list only
-the messages the reader may open (`visible`).
-"""
+A message's links are Frappe's own `timeline_links`, each marked with how
+it was made (`one_linked_by`). A link never grants read."""
 
 import re
 

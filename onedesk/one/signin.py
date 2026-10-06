@@ -1,17 +1,7 @@
 """How a person signs in, and where they are signed in: the Sign-in page of Settings.
 
-Nothing here is a copy. Frappe already keeps all of it:
-
-- each session in `tabSessions`, with the browser's user agent and the
-  network address it was opened from, and when it was last used;
-- each sign-in, and each failed one, in the Activity Log;
-- when the password was last changed, on the User (`last_password_reset_date`);
-- whether two-factor sign-in applies to the person (`frappe.twofactor`).
-
-What is ours is reading it the way a person asks: "Chrome on Mac, two hours
-ago", this one marked, each with Sign Out. And telling them, always by mail,
-when their password changes or a passkey is added, because that is how
-somebody learns their account was taken.
+Nothing here is a copy: frappe already keeps it all, and this reads it the way a
+person asks, and mails them when their password changes or a passkey is added.
 """
 
 import hashlib
@@ -19,7 +9,6 @@ import json
 
 import frappe
 from frappe import _
-from frappe.utils import now_datetime
 
 #: The sign-ins shown, newest first.
 RECENT = 6
@@ -159,52 +148,11 @@ def update_password(
 	the person is told. Named in hooks.py under override_whitelisted_methods."""
 	from frappe.core.doctype.user.user import update_password as frappes
 
-	from onedesk.one import invite
+	from onedesk.one import invite, tell
 
 	said = frappes(new_password, logout_all_sessions=logout_all_sessions, key=key, old_password=old_password)
 	if frappe.local.response.get("http_status_code") != 410 and frappe.session.user != "Guest":
 		# A first password, set from an invitation, is joining, not a change.
 		if not invite.spend(frappe.session.user):
-			told_password(frappe.session.user)
+			tell.password_changed(frappe.session.user)
 	return said
-
-
-def _said() -> dict:
-	"""When, from which device and address: what a security notice says."""
-	agent = frappe.request.headers.get("User-Agent") if getattr(frappe.local, "request", None) else None
-	return {
-		"device": device(agent),
-		"when": frappe.utils.format_datetime(now_datetime(), "d MMM yyyy, HH:mm"),
-		"address": getattr(frappe.local, "request_ip", None) or "",
-	}
-
-
-def _mailed(user: str) -> tuple[str | None, str | None]:
-	return frappe.db.get_value("User", user, ["email", "language"]) or (None, None)
-
-
-# A security notice goes on the bell and is always mailed, so a person who did
-# not do it finds out wherever they are. It is sent by the workspace rather
-# than the person, or frappe would not tell them of their own act.
-
-
-def told_password(user: str) -> None:
-	from onedesk.one import notify
-
-	slots, (email, lang) = _said(), _mailed(user)
-	notify.notify(
-		"Password Changed", user, link="/desk/settings?section=signin", sender="Administrator", **slots
-	)
-	if email:
-		notify.mail("Password Changed", email, lang=lang, **slots)
-
-
-def told_passkey(user: str) -> None:
-	from onedesk.one import notify
-
-	slots, (email, lang) = _said(), _mailed(user)
-	notify.notify(
-		"Passkey Added", user, link="/desk/settings?section=signin", sender="Administrator", **slots
-	)
-	if email:
-		notify.mail("Passkey Added", email, lang=lang, **slots)

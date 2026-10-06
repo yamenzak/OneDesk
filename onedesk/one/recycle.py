@@ -1,21 +1,7 @@
 """The Recycle Bin: what was deleted, and putting it back.
 
-Every record frappe deletes is kept whole as a `Deleted Document`, and frappe
-puts one back with its own `restore`. Both are its System Manager's, whom no
-workspace has, so nobody here could see or undo a deletion. Now:
-
-- everybody sees what they deleted themselves, and puts it back;
-- a workspace administrator also sees what any person (or OneAI) deleted, of
-  the kinds of record they may read, though not the system's own cleanups;
-  puts it back; and may empty it for good;
-- what is not a record somebody made is never shown: tables, frappe's own
-  machinery (permission rows, property setters) and the platform's records.
-
-Putting one back is frappe's own restore (below, from
-frappe/core/doctype/deleted_document/deleted_document.py, MIT), with its
-checks kept: whoever restores must be able to make and read that kind of
-record. Frappe keeps a deleted record until somebody empties it; it is not
-among the logs it clears on its own.
+Everybody puts back what they deleted, and a workspace administrator what
+anybody deleted of the kinds they may read, by frappe's own restore.
 """
 
 import json
@@ -104,10 +90,8 @@ SYSTEM = ("Administrator", "Guest")
 #: record somebody made, and never in the bin.
 MACHINERY = ("Core", "Custom")
 
-#: What a workspace makes of frappe's machinery, which its administrators see
-#: in the bin all the same, and what puts each back: a plain insert would
-#: leave a field out of the Custom Fields list, or a collection without its
-#: records. Each restorer checks who may and returns the name it came back as.
+#: What puts back what a workspace makes of frappe's machinery, which a plain insert would
+#: not; each checks who may and returns the name it came back as.
 RESTORERS = {
 	"Custom Field": "onedesk.one.customize.restored",
 	"Record Type": "onedesk.one_studio.record_types.restored",

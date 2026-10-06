@@ -1,36 +1,7 @@
 """Fields of another record, edited on this one and saved with it.
 
-"Put the employee's mobile on this form" means a field of a different record.
-Frappe's `fetch_from` copies it, which gives two values that drift apart and
-cannot be edited here. A **Linked Section** on a record's head
-(one/head.py) names a Link field of the record and fields of the record it
-points at; they draw as a section of the form with frappe's own controls, and
-are saved like this (docs/SHELL.md, decision 5):
-
-- **One save, one transaction.** The form sends what changed in the linked
-  record, and the `modified` it loaded, with its own document
-  (`__one_linked`; frappe keeps a key it does not know on the document it
-  saves). `save`, on the record's on_update, saves the linked record in the
-  same request, so if either fails both roll back and there is never half a
-  save.
-- **A clash is frappe's.** The linked record is saved against the `modified`
-  the form loaded, so a change somebody made meanwhile is refused with the
-  record named, and nothing is overwritten. The form hears the linked
-  record's `doc_update` too, and says so before Save is pressed.
-- **Permissions are the linked record's**, down to the field. Its fields are
-  read-only for a reader who may not write it, and the section is not drawn
-  for one who may not read it. A field above permission level nought is
-  hidden from a reader without read at that level and read-only without
-  write, as it is on the record's own form. On a submitted record only
-  fields it allows on submit are editable; on a cancelled one none are.
-- **A child table is the linked record's table**, drawn as frappe's own grid:
-  rows are added, edited, moved and deleted there, and the whole table is
-  sent and set on the linked record, so frappe updates, inserts and deletes
-  the rows as it would from that record's form. The rows on this form are
-  copies under names of their own, so a form of the linked record open
-  elsewhere keeps its own.
-- **Not** computed or fetched fields, or a second link onward: those are a
-  Connection, or a report.
+A Linked Section on a record's head (one/head.py) draws them with frappe's own
+controls, and `save` saves the linked record in the record's own transaction.
 """
 
 import json

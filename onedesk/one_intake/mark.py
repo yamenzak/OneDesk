@@ -1,15 +1,7 @@
 """The OneAI mark on a whole record: OneAI made this, and nobody has checked it.
 
-It is an `AI Touch` row whose field is `*` (docs/INTAKE.md §4.2). The field
-badge of `one_ai/touch.py` compares what OneAI wrote with what a field says
-now; a record has nothing to compare, so its mark is a flag, and the flag is
-taken down by a person doing something to the record: saving it, submitting
-it, cancelling it, pressing Looks right, or merging another record into it.
-Opening it does not, nor does ERPNext touching it with `db_set`, nor another
-OneAI action, which writes with `frappe.flags.one_intake_writing` set.
-
-The clearing hook runs on every save of every doctype, so it first asks a
-cached set of the doctypes that carry any mark at all, which is a handful.
+It is an `AI Touch` row whose field is `*` (docs/INTAKE.md §4.2), taken down
+by a person doing something to the record.
 """
 
 import frappe

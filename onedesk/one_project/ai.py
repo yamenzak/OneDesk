@@ -1,19 +1,5 @@
 """What OneAI does in OneProject: reads a project as its page does, and says
 which projects need attention.
-
-`project_facts` hands over the page's own answers (`overview.overview`): how
-far it has got, its dates, cost against the budget, what is billed, what is
-late and the next milestone, for the project and everything under it, and the
-Money view: both sides of the money, the subcontracts, the cost types and
-the forecast (`_money`). Beside
-them, what the page has further down: the late tasks with who is on each and
-what waits on them, the milestones to come, its people, and the team's last
-updates. `projects_needing_attention` reads the Projects list as the reader
-sees it and keeps the open ones in trouble.
-
-Both read as the person asking: a project they may not open is not read, and
-neither are its tasks. Tasks are only suggested (one_task/ai.py `plan_task`),
-as cards the reader approves.
 """
 
 import re

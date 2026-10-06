@@ -1,11 +1,5 @@
 """The Intake samples in tests/samples/intake, run against the demo company.
-
-Each sample is a real mail or file, the answers a model gave about it, and
-what Intake must make of it (the folder's README says how one is written). A
-mail arrives at the owner's address through OneMail's own Arrival, a file in
-the accounts team's Bank Statements folder (intake.py), and Intake reads,
-understands and acts on it as it would, with each model call answered from
-the sample. Nothing is kept: the suite rolls each sample back.
+Nothing is kept: the suite rolls each sample back.
 """
 
 import json

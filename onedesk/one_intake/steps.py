@@ -1,15 +1,7 @@
 """A task's steps that tick themselves (docs/INTAKE.md §3.4).
 
-A step OneAI writes can say what completes it, in `done_when`: a record
-reaching a state (`{"doctype", "name", "field", "in" | "equals"}`), a reply
-going out in the mail thread the ask came in (`{"reply_in": thread}`), or a
-day passing (`{"after": date}`). It is checked when that record changes,
-when a message is sent and once a day, with no model. A state that changes
-back (a payment cancelled) opens the step again: ERPNext's state changed,
-not a person's mind. When every step is done, a task OneAI made is done.
-
-The hook on record changes runs for every save, so it first asks a cached
-set of the doctypes any open step watches.
+A step OneAI writes can say what completes it in `done_when`, checked with no
+model. When every step is done, a task OneAI made is done.
 """
 
 import json

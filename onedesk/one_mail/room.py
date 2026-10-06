@@ -1,25 +1,15 @@
 """Mail when the workspace's storage is full: the message always arrives.
 
-An attachment is stored in R2 like any file (one_storage/store.py), and a
-full workspace refuses it (`store.NoRoom`). Frappe's receiver does not
-expect that, so before this the whole message failed, the sweep or the sync
-moved past it, and it was never in OneMail. A message is text in the
-database, which has its own limit; only its attachments need the room.
-
-So `Arrival` saves attachments one at a time (inbound.py), and one refused
-for room is written down on its message (`one_unsaved`) instead of failing
-it. The reading pane shows it as not saved. `again`, every hour, takes each
-such message's original again, from R2 for an address on the mail domain
-or from the server for a connected mailbox, and saves what now fits. The
-administrators and the mailbox's holders are told once a day at most while
-attachments are being refused.
-"""
+An attachment refused for room is written down on its message
+(`one_unsaved`), and `again`, every hour, saves what now fits."""
 
 import json
 from urllib.parse import unquote
 
 import frappe
 from frappe.email.receive import Email
+
+from onedesk.one_mail import tell
 
 #: How many messages one hourly pass looks at.
 MOST = 50
@@ -37,7 +27,7 @@ def kept(doc, missing: list[dict]) -> None:
 	# attachments, which would write back what it held.
 	doc.one_unsaved = json.dumps(held)
 	frappe.db.set_value("Communication", doc.name, "one_unsaved", doc.one_unsaved, update_modified=False)
-	_tell(doc)
+	tell.attachments_not_saved(doc)
 
 
 def unsaved(name: str) -> list[dict]:
@@ -125,20 +115,3 @@ def _original(doc) -> bytes:
 	if not row or row.get("body") is None:
 		raise LookupError(f"uid {doc.uid} is no longer in {doc.one_folder}")
 	return row["body"]
-
-
-def _tell(doc) -> None:
-	"""The administrators and the mailbox's holders, once a day at most."""
-	if frappe.cache.get_value(TOLD):
-		return
-	frappe.cache.set_value(TOLD, 1, expires_in_sec=24 * 60 * 60)
-	from onedesk.one import notify, roles
-
-	holders = frappe.get_all("User Email", filters={"email_account": doc.email_account}, pluck="parent")
-	notify.notify(
-		"Attachments Not Saved",
-		list(dict.fromkeys([*roles.administrators(), *holders])),
-		link="/desk/workspace-settings?section=plan",
-		sender="Administrator",
-		mailbox=frappe.db.get_value("Email Account", doc.email_account, "email_id") or doc.email_account,
-	)

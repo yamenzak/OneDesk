@@ -1,27 +1,7 @@
 """What a model may ask for, and what it may only suggest.
 
-Everything a person can do here a tool can do — read a list, read a record,
-count, look at a type, create, edit, delete — and the difference between the
-first four and the last three is the whole of this module's design:
-
-**A read runs. A create, an edit or a delete becomes a card.** Nothing in here
-writes. A write tool checks the asker's permission for the verb, writes an
-`AI Proposal` and hands back its id, and the doing happens when a person presses
-Apply. A tool that saved would be a tool that saves on a model's say-so, and the
-failure mode is not a wrong field — it is a wrong *record*, at the end of a
-chain of lookups nobody read.
-
-**Every tool runs as the session user.** Not as Administrator with a filter
-bolted on afterwards, and not with `ignore_permissions` anywhere: the same
-`frappe.get_list` the browser would have called, under the same permissions, so
-a model asked about somebody else's salary gets what that person would get,
-which is nothing. This is the one rule in the module with no exception and no
-override, and a tool that needs more than its caller has is a tool that does not
-ship.
-
-Reading the whole of Frappe this way is the point. The alternative is a
-hand-written tool per doctype, which is out of date the week somebody adds a
-field.
+A read runs. A create, an edit or a delete becomes a card. Every tool runs as
+the session user.
 """
 
 import datetime
@@ -109,11 +89,8 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(kind.fields_of(meta))}, "
 			"plus name, owner, creation and modified."
 		)
-	# A link filtered on a record that does not exist matches nothing, and an
-	# empty answer reads to a model as "there are none" — "Annual" for a leave
-	# type called "Annual Leave". A read changes nothing, so the one record it
-	# plainly meant is used; anything less plain is said, with the values there
-	# are, and the model left to choose.
+	# A link filtered on a record that does not exist reads to a model as "there
+	# are none": the one record it plainly meant is used, or the values are said.
 	for field, value in (filters or {}).items() if isinstance(filters, dict) else ():
 		df = meta.get_field(field)
 		if df and df.fieldtype == "Link" and isinstance(value, str) and value and not frappe.db.exists(df.options, value):
@@ -305,10 +282,8 @@ def search_everywhere(
 	office", "INV-0042" — then read what it finds."""
 	from frappe.utils.global_search import search
 
-	# frappe's own search: the workspace's Global Search Settings say which
-	# types are indexed, and every hit is checked with has_permission on the
-	# record itself before it is answered, so nothing the reader may not open
-	# is named.
+	# frappe's own search: every hit is checked with has_permission on the record
+	# itself, so nothing the reader may not open is named.
 	found = search(text or "", limit=MOST_FOUND, doctype=doctype or "")
 	return [
 		{
@@ -493,9 +468,7 @@ READS = (
 SUGGESTS = (create_record, edit_record, delete_record, move_record)
 
 #: What runs at once although it writes: only the asker's own memory, which no
-#: one else reads and they see and delete in the memory list. A card asking
-#: them to approve "Omar is our CFO", which they just said, was a card nobody
-#: wanted, and a line saying so in the chat was noise.
+#: one else reads and they see and delete in the memory list.
 KEEPS = (memory.remember,)
 
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}

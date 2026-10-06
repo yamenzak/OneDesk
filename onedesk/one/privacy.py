@@ -1,28 +1,7 @@
 """Privacy Requests: a copy of your data, and your account deleted.
 
-Frappe has both: a `Personal Data Download Request` that gathers what a person
-left across the workspace (the `user_data_fields` hooks) into one file, and a
-`Personal Data Deletion Request` that redacts their name and address from
-those records, disables the account and renames it to an anonymous one. Both
-are driven by its System Manager and its own mails ("Dear User"), and nobody
-on a workspace is either. Here:
-
-- anybody asks from You > Profile: a copy of their data, which an
-  administrator reviews first (one/privacy_copy.py); or their account
-  deleted, confirmed with their password, or by a link One mails them when
-  they sign in without one, because it cannot be undone;
-- a workspace administrator decides on a deletion under Workspace > Privacy
-  Requests: approve it, or hold it with a reason the person is told (an open
-  payroll, a dispute: what the law makes the workspace keep);
-- approving runs frappe's own erasure, as frappe runs it, after One deletes
-  what is only the person's and no use to anybody else: their OneAI
-  conversations and memories, notifications, devices and feeds;
-- what the workspace keeps is kept with the name and address replaced:
-  invoices they raised, tasks they did, the Recycle Bin and the Audit Log.
-  An employee record is HR's, kept as the law requires, and deleted by HR.
-
-Nobody deletes the last administrator, or the person the workspace is billed
-to: both have to be handed to somebody else first.
+Frappe's own Personal Data Download and Deletion Requests, asked for by anybody
+from their profile and decided by a workspace administrator.
 """
 
 import frappe
@@ -30,7 +9,7 @@ from frappe import _
 from frappe.utils import add_days, add_to_date, get_datetime, now_datetime
 from frappe.utils.verified_command import get_signed_params, verify_request
 
-from onedesk.one import roles
+from onedesk.one import roles, tell
 
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
@@ -189,32 +168,18 @@ def ask_to_delete(password: str | None = None) -> dict:
 	if mailed:
 		_mail_confirmation(doc)
 	else:
-		_ask_administrators(doc)
+		tell.deletion_asked(doc)
 	return state(user)
 
 
 def _mail_confirmation(doc) -> None:
-	from onedesk.one import notify
-
 	expires = add_to_date(now_datetime(), hours=LINK_HOURS).strftime("%Y-%m-%d %H:%M:%S")
 	url = (
 		frappe.utils.get_url("/api/method/onedesk.one.privacy.confirm")
 		+ "?"
 		+ get_signed_params({"name": doc.name, "expires": expires})
 	)
-	notify.notify("Confirm Deletion", doc.email, url=url, hours=LINK_HOURS)
-
-
-def _ask_administrators(doc) -> None:
-	from onedesk.one import notify
-
-	notify.notify(
-		"Deletion Asked",
-		_administrators(),
-		record=(DELETION, doc.name),
-		person=frappe.utils.get_fullname(doc.email),
-		email=doc.email,
-	)
+	tell.asked_to_confirm_deletion(doc.email, url, LINK_HOURS)
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
@@ -232,7 +197,7 @@ def confirm(name: str, expires: str) -> None:
 		)
 		return
 	doc.db_set("status", "Pending Approval")
-	_ask_administrators(doc)
+	tell.deletion_asked(doc)
 	frappe.db.commit()
 	frappe.respond_as_web_page(
 		_("Confirmed"),
@@ -280,12 +245,7 @@ def hold(name: str, why: str) -> None:
 		frappe.throw(_("Say why, so they know."))
 	doc.db_set("status", "On Hold")
 	doc.add_comment("Info", why)
-	from onedesk.one import notify
-
-	if _is_user(doc.email):
-		notify.notify("Deletion On Hold", doc.email, link=where(doc.email), why=why)
-	else:
-		notify.mail("Your Request Is On Hold", doc.email, why=why)
+	tell.deletion_held(doc, why)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -296,18 +256,9 @@ def approve(name: str) -> None:
 	_guard(doc.email)
 	if doc.email == frappe.session.user:
 		frappe.throw(_("Another administrator approves deleting your own account."))
-	from onedesk.one import notify
-
-	person = frappe.utils.get_fullname(doc.email)
 	user = _is_user(doc.email)
 	# Told while there is still somebody to tell.
-	if user:
-		notify.notify("Account Deleted", doc.email)
-	else:
-		notify.mail("Your Data Is Being Deleted", doc.email)
-	others = [one for one in _administrators() if one not in (frappe.session.user, doc.email)]
-	if others:
-		notify.notify("Person Deleted", others, by=frappe.utils.get_fullname(), person=person)
+	tell.deletion_approved(doc, user)
 	doc.add_comment("Info", _("Approved by {0}").format(frappe.utils.get_fullname()))
 	if user:
 		_turn_off(doc.email)
@@ -355,18 +306,11 @@ def erase(request: str) -> None:
 def remind() -> None:
 	"""scheduler_events daily: requests nobody has decided after a week, said
 	again to the administrators. The law gives a month to answer."""
-	from onedesk.one import notify
-
 	since = add_days(now_datetime(), -REMIND_AFTER_DAYS)
 	waiting = frappe.db.count(DELETION, {"status": "Pending Approval", "creation": ["<", since]})
 	waiting += frappe.db.count(DOWNLOAD, {"one_status": "Waiting", "creation": ["<", since]})
 	if waiting:
-		notify.notify(
-			"Privacy Requests Waiting",
-			_administrators(),
-			link="/desk/personal-data-download-request",
-			count=waiting,
-		)
+		tell.privacy_requests_waiting(waiting)
 
 
 # ------------------------------------------------------------------ guards

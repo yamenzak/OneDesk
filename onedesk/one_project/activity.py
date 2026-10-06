@@ -1,17 +1,6 @@
 """A project's history, across it and its sub-projects: the documents made
 for it, its tasks, the time logged on it, the team's updates, files added,
 and the sub-projects started under it.
-
-The Activity view puts these beside frappe's own timeline of the project,
-which keeps its comments, its emails and the changes to its fields (Project
-tracks its changes, `custom/project.json`). Each row here is one of
-frappe's ActivityTimeline rows (`type`, `key`, `timestamp`, `author`,
-`data`), with a `kind`: `money` for documents, `work` for the rest.
-
-A document shows when it was made, submitted and cancelled, read from the
-Version frappe keeps of it, or from the document itself where its type keeps
-none. Tasks added in one day are one row, as are a person's hours in a day
-and the files somebody added in a day.
 """
 
 import re

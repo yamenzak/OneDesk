@@ -1,23 +1,14 @@
 """A tool's JSON Schema, read off its signature rather than written twice.
 
-Pure, and small on purpose. The alternative is a schema beside every function,
-and the failure mode of that is not an error: it is a model told a parameter is
-a string when it is a list, calling the tool correctly according to what it was
-told, and being refused. Nobody finds that by reading either half.
-
-So the signature is the schema. `Annotated` carries the description, a union
-with `None` or a default says a parameter may be left out, and `Literal` is a
-closed list — which is the one that matters most, because a model given an open
-string where three values are allowed will eventually invent a fourth.
+`Annotated` carries the description, a union with `None` or a default says a
+parameter may be left out, and `Literal` is a closed list.
 """
 
 import inspect
 import typing
 
 #: What a Python type is called in JSON Schema. Anything not here is refused
-#: rather than guessed at: a parameter whose type nobody wrote down is a
-#: parameter a model has to be told about in prose, and prose is the thing this
-#: module exists to avoid.
+#: rather than guessed at, so no parameter has to be told about in prose.
 CALLED = {
 	str: "string",
 	int: "integer",
@@ -116,10 +107,8 @@ def _typed(tool: str, name: str, hint) -> dict:
 			raise Unreadable(f"{tool}({name}) is a Literal of mixed kinds")
 		return {"type": kinds.pop(), "enum": values}
 
-	# `list[str]` and a bare `list` both land here. Google refuses an array
-	# without `items` — measured: gemini-2.5-flash-lite answers 400 with
-	# "properties[fields].items: missing field" — while OpenAI's dialect accepts
-	# it, so the stricter reading is the one written.
+	# `list[str]` and a bare `list` both land here. Google refuses an array without
+	# `items` while OpenAI accepts it, so the stricter reading is the one written.
 	if typing.get_origin(hint) is list or hint is list:
 		inside = typing.get_args(hint)
 		# A list of lists (a filter's [field, operator, value]) nests.

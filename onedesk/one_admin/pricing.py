@@ -1,23 +1,7 @@
 """What a call costs, in dollars and then in credits.
 
-Pure, like `prices.py` and `credits.py` on either side of it. This is the
-arithmetic between a provider's published rate and a customer's balance, and
-every one of its failures is a wrong number rather than an exception — so it is
-read back against a table of cases rather than against a site.
-
-**Nothing is estimated.** A `Use` is either a count the provider reported or a
-parameter we sent, and it says which. Nothing is derived from the length of a
-string, because a token count guessed from characters is a bill guessed from
-characters.
-
-**A use with no rate to price it is not free.** It comes back named, and the
-caller charges the hold it had already taken rather than charging zero — a call
-the provider answered and billed us for is a call somebody has to pay for, and
-the alternative is a model that quietly costs money and earns none.
-
-**Nothing converts between units.** A rate and a use meet on `(kind, modality,
-unit)` exactly or they do not meet at all; see `prices.py` for why there are ten
-units in the catalogue and no arithmetic between them.
+Pure, like `prices.py` and `credits.py` on either side of it. Nothing is
+estimated, a use with no rate is not free, and nothing converts between units.
 """
 
 from dataclasses import dataclass
@@ -112,14 +96,8 @@ def bill(rates: list, uses: list[Use], markup: float, per_dollar: float) -> Bill
 def ceiling(rates: list, caps: dict, markup: float, per_dollar: float) -> Bill:
 	"""What the most this call could consume would cost.
 
-	A cap, not a forecast. The point of holding it is that two calls cannot both
-	spend the last credit, not that the number is right — the settle replaces it
-	with what the provider reported.
-
-	A cap nothing could price is *not* a reason to refuse: an action that caps
-	its output tokens against a model priced per picture has simply capped
-	something that does not apply. The hold covers what could be priced, and the
-	settle is where an unmeterable call is caught.
+	A cap, not a forecast: the settle replaces it with what the provider reported.
+	A cap nothing could price is not a reason to refuse.
 	"""
 	return bill(rates, asked(caps), markup, per_dollar)
 

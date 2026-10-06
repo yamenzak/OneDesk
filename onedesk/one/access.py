@@ -1,34 +1,14 @@
 """Access: who sees and does what, past the app levels People sets.
 
-People gives each person None, User or Manager on each app that is somebody's
-job (one/settings.py APPS), and those are erpnext's own roles. Access adds four
-things, each frappe's own:
-
-- **Levels.** A Role the workspace makes for one app (`Role.one_app`), between
-  its User and its Manager. A person at a level holds the app's User roles and
-  the level, and the level carries only what it adds, as Custom DocPerm rows:
-  on a kind of record the app's own roles work with, and never a right none of
-  them has there, so a level cannot reach past the app's Manager, another app
-  or frappe's own records.
-- **Record access.** frappe's User Permission: a person sees only the records
-  of a territory, a department or a customer group they are given.
-- **Profiles.** frappe's Role Profile, a named set of app levels, applied
-  through settings._set_access rather than by frappe's own sync, which would
-  take away roles other parts of One give (HR's Employee). `User.one_profile`
-  remembers whose profile it is, and a profile changed is applied again to
-  everybody on it.
-- **Groups.** frappe's User Group, which frappe's assign dialog already takes.
-
-Writing Custom DocPerm copies a kind's standard permissions first, as frappe's
-Role Permissions Manager does, after which an app update to that kind's
-standard permissions no longer reaches it.
+Four things on top of People's None, User and Manager, each frappe's own:
+levels, record access, profiles and groups.
 """
 
 import frappe
 from frappe import _
 from frappe.permissions import setup_custom_perms
 
-from onedesk.one import roles
+from onedesk.one import roles, tell
 from onedesk.one.customize import REFUSED_MODULES
 
 #: The rights a level's page shows, one tick each, in frappe's own names.
@@ -349,7 +329,9 @@ def save_level(key: str, title: str | None, rows: list[dict]) -> str:
 	_set(app, tier, {doctype: wanted[doctype] for doctype in changed})
 	if changed:
 		for user in people_at(app, tier):
-			_told(user, _("what {0} can do in {1}").format(_(tier) if tier in BASE else tier, app))
+			tell.access_changed(
+				user, _("what {0} can do in {1}").format(_(tier) if tier in BASE else tier, app)
+			)
 	if picked:
 		frappe.msgprint(
 			_("So they can fill those in, they may also pick from {0}.").format(
@@ -612,7 +594,7 @@ def hold(user: str, allow: str, for_value: str, applicable_for: str | None = Non
 			"applicable_for": applicable_for or None,
 		}
 	).insert(ignore_permissions=True)
-	_told(user, _("only the records of {0} {1}").format(_(allow), for_value))
+	tell.access_changed(user, _("only the records of {0} {1}").format(_(allow), for_value))
 
 
 @frappe.whitelist(methods=["POST"])
@@ -623,13 +605,9 @@ def let_go(name: str) -> None:
 	if doc.allow not in RECORD_KINDS:
 		frappe.throw(_("That cannot be set."))
 	doc.delete(ignore_permissions=True)
-	_told(doc.user, _("no longer only the records of {0} {1}").format(_(doc.allow), doc.for_value))
-
-
-def _told(user: str, change: str) -> None:
-	from onedesk.one import notify
-
-	notify.notify("Access Changed", user, link="/desk", changes=change, by=frappe.utils.get_fullname())
+	tell.access_changed(
+		doc.user, _("no longer only the records of {0} {1}").format(_(doc.allow), doc.for_value)
+	)
 
 
 # ------------------------------------------------------------------ profiles
@@ -701,10 +679,8 @@ def save_profile(name: str | None, title: str, levels: dict) -> str:
 		doc = frappe.get_doc("Role Profile", name)
 	doc.set("roles", [{"role": one} for one in sorted(wanted) if frappe.db.exists("Role", one)])
 	doc.save(ignore_permissions=True)
-	# frappe queues its own sync of the profile's members on every save and
-	# locks the profile until a worker runs it. One's profiles have none of
-	# frappe's members (they are applied here), so the lock only refuses the
-	# next save.
+	# frappe locks a profile until its member sync runs, and One's profiles have no
+	# frappe members, so the lock would only refuse the next save.
 	doc.unlock()
 	for user in frappe.get_all("User", filters={"one_profile": doc.name}, pluck="name"):
 		put_on(user, doc.name)

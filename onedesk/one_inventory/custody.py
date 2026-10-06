@@ -1,20 +1,5 @@
 """Who has what: an asset given to a person, taken back, and asked for when
 they leave.
-
-ERPNext keeps it on the asset (`custodian`) and changes it only through an
-**Asset Movement**: a form with a purpose, a date and time, and a table of
-assets with a source and target location and a from and to employee, where
-which columns matter depends on the purpose. `give` and `take_back` are the
-two movements a person makes, one step each from the asset's page (**Give
-To…**, **Take Back**); the movement is still ERPNext's, so the asset's
-history and its custodian are what ERPNext would have written.
-
-A person's page counts what they hold (`held`, read by
-one_hr/employee.overview). When they leave, `leaving` (Employee Separation
-before_submit) adds a **Return** activity per asset to the separation's
-checklist, which HRMS turns into tasks; HRMS's Full and Final Statement
-already refuses to submit while an asset is unreturned, and this is how it
-gets returned before then.
 """
 
 import frappe

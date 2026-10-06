@@ -1,12 +1,5 @@
 """Whether an extension's code would work, read before it is kept.
 
-guard.py says what an extension may do; this says whether what it does is
-there. A model writing frappe code invents a field name, or names a handler
-frappe never calls, and the code passes every review and then does nothing,
-or runs into an error on every save. So the names the code uses are read
-against the record's own fields, and what is wrong comes back to OneAI in
-words it can mend from, with the fields that are there.
-
 Pure: what it knows of the site comes in as `fields`, a function from a kind
 of record to its field names (None for a kind it cannot say).
 """

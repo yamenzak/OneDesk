@@ -1,17 +1,8 @@
 """Ready to submit: every draft OneAI made that a person can post in one go
 (docs/INTAKE.md §3.2).
 
-A draft is ready when its document's facts all passed the check, its party
-is known, its total is the document's total, and, for an invoice billed from
-an order, what it bills is what was ordered and received: ERPNext's three-way
-match, read here rather than redone. A supplier whose IBAN on the document is
-not one we have for them is red, and so is anything that fails another
-check. Red drafts are listed apart and stay out of Submit all until somebody
-opens them. Submitting is the person's own act, under their own permission.
-
-An e-invoice from a known supplier, billed from an order and ready, may be
-submitted by OneAI itself when a workspace switches that on (Intake
-Settings); it is off by default.
+A draft is ready when its document's facts passed the check, its party is
+known and its total is the document's. Submitting is the person's own act.
 """
 
 

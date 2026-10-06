@@ -1,29 +1,7 @@
 """Printing: how a workspace's documents look on paper, for its administrators.
 
-The formats are frappe's own: Print Format made in frappe's print format
-builder, and Letter Head. The workspace administrator is given both, and the
-builder page, through frappe's own Custom DocPerm and Custom Role. What is
-held here is what a printed page may carry when somebody frappe does not let
-customize wrote it (layer.held), because the page is drawn on this site's
-origin, where a script runs as whoever opens it, and a PDF is drawn by a
-browser on the server:
-
-- **A format is made in the builder.** No hand-written HTML format, no raw
-  printing, no JS format, and in the builder no Typst block, which reads
-  files. An HTML block is allowed as print_html.py holds it: a template that
-  reads only the record, rendered in a sandbox of its own, its markup cleaned.
-  Everything else the builder offers (fields, tables, text, images, barcodes,
-  a standard field template) is escaped by frappe's own macros.
-- **Styles are styles.** A format's CSS goes into a <style> element as it
-  is, so it may not contain markup, `@import`, or a URL that is not this
-  site's file or an inline image; a block's own style, likewise.
-- **A letter head is a picture or plain HTML.** Its top and foot are each a
-  picture, which frappe turns into its own markup, or HTML with no template in
-  it, stored cleaned (print_html.letter_head_html). The header and footer
-  scripts stay frappe's System Managers'.
-
-A standard format stays frappe's (it refuses changes outside developer
-mode); a workspace copies it in the builder and changes the copy.
+The formats are frappe's own Print Format and Letter Head. What is held here is
+what a printed page may carry when somebody frappe does not let customize wrote it.
 """
 
 import json
@@ -741,10 +719,8 @@ def proposal_preview(proposal: Annotated[str, "An AI Proposal of kind Printing."
 	)
 
 
-#: The workspace's own format frappe's builder opens to design a letter head on:
-#: the builder draws a format's letter head above and below it, top and foot, each
-#: a picture or HTML. It is kept off, so nothing prints with it, and out of every
-#: list of formats.
+#: The workspace's own format frappe's builder opens to design a letter head on, kept
+#: off, so nothing prints with it, and out of every list of formats.
 DESIGNER = "Letter Head Designer"
 
 #: The kinds of record the designer is laid out as, the first one they can open.

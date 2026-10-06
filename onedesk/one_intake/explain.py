@@ -1,15 +1,6 @@
 """Explain this letter, and write the answer to it (docs/INTAKE.md §16.3).
 
-**Explain** in the Intake panel asks OneAI, once, what a document means in
-plain words in the reader's own language, what they have to do and by when,
-and for a letter, a reply in the letter's own language. For a contract with a
-last day to cancel, **Write the cancellation** asks for the cancellation
-letter instead, to reach them by that day.
-
-It is the one Intake call a person starts, so it is kept: the same document
-explained again in the same language costs nothing, and **Again** asks anew.
-Whoever may open the file or the message may ask; nobody else learns it
-exists.
+The one Intake call a person starts, so it is kept per document and language.
 """
 
 import json

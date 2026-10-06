@@ -1,23 +1,4 @@
-"""A project's board: its tasks by status, on the desk's own Kanban.
-
-ERPNext already makes one. **View › Kanban Board** on a project creates a board
-named after it, filtered to its tasks, with a column per Task status. This
-shapes that board as it is made (`shape`, on the Kanban Board's before_insert):
-Template and Cancelled are archived, the columns get colours, and a card shows
-the priority and the due date beside the people on it.
-
-**Overdue is not a status here.** ERPNext's daily job sets every open task past
-its due date to Overdue, whatever it was — a task somebody was Working on moves
-columns overnight, and moving it back lasts until the next night. How late a
-task is follows from its date, and every list in One already shows it from
-there (My Tasks has an Overdue group; the calendar draws it on its day). So the
-job is stopped, and Overdue is taken off the status list (custom/task.json).
-ERPNext's Project Summary report counted Overdue tasks, and now counts none.
-
-**The Projects list has a board too**: Projects by Health, open projects in
-On Track, At Risk and Off Track, made once by `settle` so the Kanban view
-opens on it rather than on a dialog asking which field to group by.
-"""
+"""A project's board: its tasks by status, on the desk's own Kanban."""
 
 import json
 

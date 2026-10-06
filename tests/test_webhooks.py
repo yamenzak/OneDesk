@@ -52,7 +52,9 @@ def test_every_send_is_guarded_on_every_hop():
 def test_the_administrators_hear_when_calls_give_up():
 	assert '"onedesk.one.webhooks.failing"' in HOOKS
 	failing = _body("failing")
-	assert '"status": "Exhausted"' in failing and 'notify.notify(\n\t\t"Webhooks Failing"' in failing
+	assert '"status": "Exhausted"' in failing and "tell.webhooks_failing(rows)" in failing
+	told = (tree.APP / "one" / "tell.py").read_text().split("def webhooks_failing(", 1)[1]
+	assert 'notify.notify(\n\t\t"Webhooks Failing"' in told
 	assert "Webhooks Failing" in tree.notifications()
 
 

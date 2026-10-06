@@ -1,23 +1,8 @@
 """What a workspace may use: its plan, and the add-ons on it.
 
-The limits are a sum and copied onto `Tenant` when the workspace signs up
-(signup.py) and whenever its plan or an add-on changes, and only then: an
-offering is a price list the operator edits, and re-pricing a plan must not
-change what a customer already bought. Everything that enforces a limit
-reads the copy:
-
-* **seats**, pushed to the workspace in `hello`, where People refuses a seat
-  past it;
-* **storage**, refused at upload by `storage.put_url`;
-* **database**, measured by the workspace itself and sent in `hello`, where
-  it is shown and warned about. The sites are on our own Frappe Cloud
-  servers, where a site is unlimited and carries no Frappe Cloud plan, so
-  there is nothing to move it to: the limit is ours to watch, and Home says
-  when a workspace is past it;
-* **credits a month**, granted by `topup.monthly`.
-
-A zero on the plan is no limit, as Offering says; an add-on on an unlimited
-plan changes nothing.
+The limits are a sum, copied onto `Tenant` at signup and whenever its plan or
+an add-on changes, and only then; everything that enforces a limit reads the
+copy. A zero on the plan is no limit.
 """
 
 import frappe

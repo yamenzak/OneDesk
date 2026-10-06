@@ -1,29 +1,4 @@
-"""One month, one row each, everybody on it.
-
-HRMS's `Monthly Attendance Sheet` answers a narrower question than the one people
-open it for, in three ways that compound.
-
-**It keys on employee *and* shift**, so somebody who picked up a shift assignment
-mid-month becomes two rows — one blank-shift, one "Day" — with half their days on
-each and neither being their month.
-
-**It only shows people who have an Attendance row.** Six active employees, three
-rows: anybody with nothing marked at all is not on the sheet, which is exactly
-the person the sheet exists to find. `unmarked_days` in the summarized view has
-the same hole, because the query it sums returns nothing for them.
-
-**And it asks which company**, with an Include Company Descendants checkbox
-underneath. One workspace is one company; see `one/company.py`.
-
-So the rows are built from HRMS's own pieces — its attendance map, its holiday
-map, its status abbreviations — and the three questions above are answered before
-they reach it. Nothing here re-implements what a day means.
-
-The chart is gone rather than replaced. Attendance Overview is where the shape
-of a month is looked at; this is the sheet somebody prints and initials, and a
-three-series line of counts between nought and three, with every date label
-rendered as an ellipsis, was a third of the screen in front of it.
-"""
+"""One month, one row each, everybody on it."""
 
 import frappe
 from frappe import _

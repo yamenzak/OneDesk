@@ -1,18 +1,5 @@
 """Every property frappe's print format builder sets, by where it lives, so
 OneAI can set any of them by frappe's own name (ai.design_print_format).
-
-Read from frappe's builder (public/js/print_format_builder: field_properties.js,
-SectionPropertiesPanel.vue, TableFieldInspector.vue, BarcodeRows.vue and the
-rest of the inspector) and checked against what its renderer reads
-(templates/print_format/print_format.html, macros.html and macros/*): a
-property the builder sets and the page never reads is left out, and so is one
-the page reads that nothing sets. What each accepts is what the builder's own
-control offers.
-
-A value is checked here for its shape; a style for what it may load
-(printing._style), and a condition for its grammar. frappe runs a condition in
-its own safe_eval with the record and the print settings, as the builder's own
-do.
 """
 
 import re

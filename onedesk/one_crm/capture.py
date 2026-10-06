@@ -1,26 +1,8 @@
 """How a lead arrives, and what is done with it before anybody opens it.
 
-Three ways in: the desk, the **Get in Touch** web form, and mail to an inbox
-whose Email Account appends to Lead. Whichever way, somebody who is already a
-lead is not made a second time when that can be avoided, and is flagged when
-it cannot:
-
-- **Mail** from an address that is already a lead is added to that lead.
-  frappe's mail receiver makes a new lead when no thread matches, and if the
-  insert raises DuplicateEntryError it looks the sender up instead; raising
-  exactly that is how the mail finds its lead.
-- **The web form** cannot tell a visitor "you already exist", so the lead is
-  made and marked as a possible duplicate, with Merge and Not a Duplicate on
-  its page.
-- **The desk** is told, as ERPNext's own email check told it; ERPNext's check
-  is switched off at install because it refused the web form and the inbox
-  as well.
-
-A phone number or a business name already on a lead or a customer is never a
-refusal, only a flag: two people share a switchboard, and "Ali" is a name.
-
-A lead from the web form or the inbox belongs to nobody until somebody takes it
-or an Assignment Rule shares it out. It is on Home as Unclaimed until then.
+Three ways in: the desk, the **Get in Touch** web form, and mail to an inbox.
+Somebody who is already a lead is not made a second time when that can be
+avoided, and is flagged when it cannot.
 """
 
 import re
@@ -188,13 +170,7 @@ def replied(doc, method=None) -> None:
 def defaults() -> None:
 	"""CRM Settings a new workspace starts with. On install only: erpnext writes
 	both as 0 when it installs, so there is no "never written" to wait for, and
-	after that they are the workspace's.
-
-	- A deal made from a lead carries the lead's comments and mail.
-	- ERPNext's own refusal of a second lead with the same email is off; the
-	  rules above decide instead.
-	- The Source (UTM) section is shown.
-	"""
+	after that they are the workspace's."""
 	frappe.db.set_single_value("CRM Settings", "carry_forward_communication_and_comments", 1)
 	frappe.db.set_single_value("CRM Settings", "allow_lead_duplication_based_on_emails", 1)
 	# Where a lead came from is shown, not tucked behind a switch: saving Selling

@@ -1,15 +1,7 @@
 """A file somebody dropped on the panel, and what a model may be handed of it.
 
-The file is an ordinary attachment on the `AI Chat` row, so it has an owner, a
-permission and a place in the workspace rather than living inside a conversation
-nobody can find again. What travels to the model is its bytes, base64'd, because
-the account cannot read a workspace's disk — the same reason a tool runs here
-and not there.
-
-**Only the newest turn's files carry their bytes.** The conversation is sent
-whole every round, so a 3 MB attachment on a five-round run is fifteen megabytes
-of HTTP for one question. Older files stay in the transcript by name, which is
-what a person reads them as anyway.
+The file is an ordinary attachment on the `AI Chat` row. Only the newest turn's
+files carry their bytes.
 """
 
 import base64

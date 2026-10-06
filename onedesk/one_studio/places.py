@@ -1,18 +1,6 @@
-"""The pages of One an extension may run on, beyond frappe's forms and lists.
-
-A frappe Client Script reaches a kind of record's form and its list, and
-nothing else: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
-board, a project's page, every space's home and the head of a record (on its
-form, and on a project's page) are One's own, drawn by
-One's code. So each of those says here, once, what happens on it
-that an extension may hear (its events), what each event tells the
-extension (`gives`), and the few things the extension may do there (`may`).
-
-This is the whole contract. The browser runs only these events with only
-these powers (public/js/places.js); guard.py refuses code that listens for
-an event the page does not have; and OneAI reads it to know what each page
-allows (one_studio/ai.py `extension_places`), so what it writes and what
-runs are the same list.
+"""The pages of One an extension may run on, beyond frappe's forms and lists:
+what happens on each (its events), what each event gives, and what an
+extension may do there.
 """
 
 

@@ -1,24 +1,4 @@
-"""Who pressed the button, proved by the phone that holds their passkey.
-
-A passkey is a key pair the phone makes and keeps in its secure hardware or its
-keychain. Registering one is a prompt; using one is Face ID, a fingerprint or
-the device PIN, and every call here asks for `user_verification="required"` so
-that happens on every clock-in rather than only the first.
-
-**One credential per employee**, and a second needs HR to reset the first. That
-rule is the gate. A colleague who knows your password and signs in as you on
-their own phone finds no passkey there and cannot make one, so they cannot clock
-in as you; the only way through is your actual phone with your face or PIN.
-
-**The credential id is the device identity.** It is stable, it is cryptographic,
-and unlike a cookie it survives clearing browser data and is not stepped around
-by a private window, because it lives in the operating system's keychain rather
-than in the browser profile. There is no cookie here and there was never a good
-reason for one.
-
-Verification is `py_webauthn`'s. Writing CBOR parsing and COSE key handling
-ourselves would be security-critical code with no reason to be ours.
-"""
+"""Who pressed the button, proved by the phone that holds their passkey."""
 
 import base64
 
@@ -123,9 +103,9 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 		}
 	)
 	device.insert(ignore_permissions=True)
-	from onedesk.one import signin
+	from onedesk.one import tell
 
-	signin.told_passkey(frappe.session.user)
+	tell.passkey_added(frappe.session.user)
 	return {"device": device.name, "label": device.label}
 
 

@@ -1,16 +1,8 @@
 """Who made a model, who runs it, and what to call it. Pure, so the guard in
 tests/test_legal.py can read it without Frappe.
 
-Two companies here and they are not the same thing. The **provider** runs the
-model and receives what a workspace sends it, so it is a subprocessor and
-has to be named in the agreements (one_ai/legal.py). The **maker** trained it
-(Meta made Llama, which Cloudflare runs), and is what a person recognises, so
-its logo is the one shown.
-
-A provider missing from `PROVIDERS` is never offered to a workspace
-(`actions.offered`), whatever the operator switched on in the catalogue: a
-model whose company the subprocessors list does not name would send customer
-data somewhere the agreements do not say.
+The provider runs the model and is a subprocessor; the maker trained it and
+its logo is the one shown. A provider missing from `PROVIDERS` is never offered.
 """
 
 from urllib.parse import quote

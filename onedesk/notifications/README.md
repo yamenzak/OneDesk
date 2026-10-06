@@ -71,3 +71,14 @@ it to that. The file is named for the type, in lower case with underscores.
 - Settings › Notifications lists every file by app, and a person's own
   Notifications page lists the ones they may choose.
 - `babel.py` reads a file's words for translation.
+
+## Under the hood
+
+### layout.py
+
+The layout is the one under A file. The header says what the type is and who
+it goes to, one key a line, always in the order of `KEYS`. Below it, the
+subject is the heading and the message is the rest. A message is one line of
+HTML: its lines are joined with a space, and straight on after a line that
+ends in `<br>`, so a mail's paragraphs can stand apart. A type in its app's
+own words, or mailed by its app, has neither.

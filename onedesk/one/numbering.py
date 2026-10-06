@@ -1,18 +1,8 @@
 """Numbering: the series a workspace's documents are named by, INV-2026-0001
 and the like, for its administrators.
 
-Frappe keeps this in Document Naming Settings, a Single whose whitelisted
-methods change any doctype's series and run for anybody who can read it
-(`run_doc_method` checks read, and `update_series` writes the property
-setters itself). So the workspace administrator is not given that Single.
-These are the doors instead, each guarded to a doctype the workspace may
-change and its administrator may read, and each calling frappe's own logic:
-`update_series` validates a series and refuses one another doctype uses,
-`NamingSeries` previews and counts.
-
-The one thing frappe lets its System Managers do that this does not: set a
-series' next number lower. Going down repeats a number already used, and the
-save that meets it fails; going up only skips numbers, as a new year does.
+Guarded doors to frappe's own naming logic, in place of Document Naming
+Settings, which the workspace administrator is not given.
 """
 
 from typing import Annotated
@@ -28,10 +18,8 @@ from onedesk.one.customize import REFUSED_MODULES
 
 SETTINGS = "Document Naming Settings"
 
-#: Kinds of record that name themselves in code, by one of their app's own
-#: settings: the Single, the field, the method that shows or hides the series
-#: and the name field to match (or None), and whether the code reads the
-#: setting as a global default, which the Single's save would have written.
+#: Kinds named in code by an app setting: the Single, the field, the method that shows or hides
+#: the series and the name field to match (or None), and whether it is read as a global default.
 NAMED_BY = {
 	"Customer": ("Selling Settings", "cust_master_name", "update_customer_naming_settings", True),
 	"Supplier": ("Buying Settings", "supp_master_name", "update_supplier_naming_settings", True),
@@ -40,10 +28,8 @@ NAMED_BY = {
 	"Campaign": ("CRM Settings", "campaign_naming_by", None, True),
 }
 
-#: How any other kind may be named, as frappe's Customize Form offers it:
-#: the naming rule it records, and what it writes as `autoname`. Frappe's
-#: Autoincrement cannot be changed to or from once records exist, UUID
-#: changes how the name is stored, and By script is code, so none is offered.
+#: How any other kind may be named, as frappe's Customize Form offers it: the naming rule it
+#: records, and what it writes as `autoname`. Autoincrement, UUID and By script are left out.
 SERIES = "Naming Series"
 FIELD = "Field"
 EXPRESSION = "Expression"

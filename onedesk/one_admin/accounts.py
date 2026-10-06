@@ -1,14 +1,7 @@
 """The One account: a person above their workspaces (docs/ONE-ACCOUNT.md).
 
 An account is a frappe `User` on the admin site, of type Website User, named by
-its email. It has no desk and no roles; it signs in at `/login` and sees only
-the portal pages we give it. A workspace belongs to one through
-`Tenant.account`. `owner_email` stays as what the workspace was bought with;
-`account` is who holds it now.
-
-Nothing here makes an account for somebody who has not paid: `hold` runs from
-`signup.accept`, after the money, and from the patch for the workspaces that
-were already there.
+its email. A workspace belongs to one through `Tenant.account`.
 """
 
 import frappe
@@ -65,12 +58,7 @@ def send_login_link(email: str):
 	"""Frappe's "Login with Email Link", on the admin site for accounts only.
 
 	Overrides `frappe.www.login.send_login_link` (hooks). Anywhere but the admin
-	site it is frappe's, untouched. Here the link is made by frappe
-	(`_generate_temporary_login_link`, spent by `login_via_key`), and only for a
-	Website User: an operator keeps their password and passkey, and a mailed
-	link is not a door into the console. Every other address gets the same
-	silent answer an unknown one does, so the page tells nobody who has what.
-	The mail is ours (Sign-in Link), in the same words as every other.
+	site it is frappe's, untouched.
 	"""
 	if not site.is_admin():
 		return login.send_login_link(email)
@@ -79,16 +67,10 @@ def send_login_link(email: str):
 	email = (email or "").strip().lower()
 	if frappe.db.get_value("User", {"name": email, "enabled": 1}, "user_type") != "Website User":
 		return
-	from onedesk.one import notify
+	from onedesk.one_admin import tell
 
 	minutes = frappe.get_system_settings("login_with_email_link_expiry") or 10
-	notify.mail(
-		"Sign-in Link",
-		email,
-		link=login._generate_temporary_login_link(email, minutes),
-		minutes=minutes,
-		now=True,
-	)
+	tell.sign_in_link(email, login._generate_temporary_login_link(email, minutes), minutes)
 
 
 def home_page(user: str) -> str | None:
@@ -288,10 +270,9 @@ def move(tenant: str, email: str, by: str | None = None) -> str:
 	The new holder is mailed that it is theirs and how to sign in; the old one
 	that it has gone. The log keeps both addresses.
 	"""
-	from frappe.utils import get_url, validate_email_address
+	from frappe.utils import validate_email_address
 
-	from onedesk.one import notify
-	from onedesk.one_admin import log
+	from onedesk.one_admin import log, tell
 
 	email = (validate_email_address((email or "").strip().lower(), throw=True) or "").strip().lower()
 	held = frappe.db.get_value("Tenant", tenant, ["account", "workspace_name", "is_house"], as_dict=True)
@@ -303,15 +284,7 @@ def move(tenant: str, email: str, by: str | None = None) -> str:
 		return now
 	frappe.db.set_value("Tenant", tenant, "account", now)
 	log.write(tenant, "Account Moved", f"{was or '—'} → {now}", by="Customer")
-	said = {
-		"workspace": held.workspace_name or tenant,
-		"by": by or frappe._("An administrator"),
-		"reference_doctype": "Tenant",
-		"reference_name": tenant,
-	}
-	notify.mail("Workspace Moved to You", now, account=get_url("/account"), **said)
-	if was:
-		notify.mail("Workspace Moved Away", was, **said)
+	tell.workspace_moved(tenant, held.workspace_name, by, now, was)
 	return now
 
 
@@ -345,7 +318,7 @@ def ask_email_change(email: str) -> dict:
 	"""
 	from frappe.utils import get_url, validate_email_address
 
-	from onedesk.one import notify
+	from onedesk.one_admin import tell
 
 	me = _me()
 	email = (validate_email_address((email or "").strip().lower(), throw=True) or "").strip().lower()
@@ -355,12 +328,8 @@ def ask_email_change(email: str) -> dict:
 		frappe.throw(frappe._("That address already has an account. Sign in with it instead."))
 	key = frappe.generate_hash(length=32)
 	frappe.cache.set_value(f"one_account_email:{key}", [me, email], expires_in_sec=CONFIRM_MINUTES * 60)
-	notify.mail(
-		"Confirm Your New Email",
-		email,
-		link=get_url(f"/api/method/onedesk.one_admin.accounts.confirm_email?key={key}"),
-		minutes=CONFIRM_MINUTES,
-		now=True,
+	tell.email_change_asked(
+		email, get_url(f"/api/method/onedesk.one_admin.accounts.confirm_email?key={key}"), CONFIRM_MINUTES
 	)
 	return {"sent_to": email}
 
@@ -374,7 +343,7 @@ def confirm_email(key: str):
 	included. The person is signed in as the new address, which the click just
 	proved, and the old address is told it changed.
 	"""
-	from onedesk.one import notify
+	from onedesk.one_admin import tell
 
 	held = frappe.cache.get_value(f"one_account_email:{key}")
 	if not held or not site.is_admin():
@@ -392,7 +361,7 @@ def confirm_email(key: str):
 	rename_doc("User", was, now, force=True, ignore_permissions=True, show_alert=False)
 	frappe.db.set_value("User", now, "email", now)
 	frappe.db.commit()
-	notify.mail("Account Email Changed", was, address=now, now=True)
+	tell.account_email_changed(was, now)
 	frappe.local.login_manager.login_as(now)
 	frappe.local.response["type"] = "redirect"
 	frappe.local.response["location"] = "/account/profile?changed=1"

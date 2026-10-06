@@ -1,15 +1,5 @@
 """What the OneMail page reads: a folder's conversations, and one
-conversation's messages.
-
-A conversation is the messages of one thread (`one_thread`) in one mailbox.
-The list shows, per folder, one row per conversation that has a message in
-that folder, dated by its newest message there. Opening it shows every
-message of the conversation in the mailbox, whatever folder each is in, so a
-reply in Sent is read beside the message it answers.
-
-Everything is read as the reader, after `actions.require`: only somebody who
-holds a mailbox reads it.
-"""
+conversation's messages, as the reader, after `actions.require`."""
 
 import re
 from email.utils import parseaddr

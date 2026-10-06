@@ -1,25 +1,7 @@
 """What a model suggested, and the person who decides whether it happens.
 
-**A model cannot write.** What it can do is put a card in front of somebody —
-this record, these fields, that value — and the doing happens afterwards, in a
-request a person made by pressing Apply, down the same path they would have
-taken by hand.
-
-The split is not a formality. A tool that saves is a tool that saves on a
-model's say-so, and the failure mode is not a wrong field: it is a wrong
-*record*, at the end of a chain of lookups nobody read. A person between the
-asking and the doing also puts the diff in front of them while they decide.
-
-**Permissions are checked twice and never bypassed.** Once when the proposal is
-written, so a model cannot suggest something the asker could not do; and again
-when it is applied, as an ordinary insert, save or delete by whoever pressed the
-button. There is no `ignore_permissions` in this file and there is not going to
-be one.
-
-**An edit that would overwrite somebody else's is refused.** A proposal carries
-the record's `modified` from when it was written; if the record has moved since,
-the proposal is stale and says so. Applying it anyway would be a model's diff
-quietly undoing a person's.
+A model cannot write. Permissions are checked twice and never bypassed, and an
+edit that would overwrite somebody else's is refused.
 """
 
 import json

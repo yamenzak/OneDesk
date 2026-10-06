@@ -1,19 +1,8 @@
 """Whether a webhook really came from Stripe.
 
-Nothing of Frappe in here, because an endpoint that takes money on the strength
-of this check is an endpoint anybody on the internet can reach. It has to be
-readable in one sitting and testable in milliseconds, and the two ways to get it
-wrong are both silent:
-
-* **comparing signatures with `==`** leaks how much of a guess was right, one
-  byte at a time, to anybody willing to measure;
-* **ignoring the timestamp** means a signature captured once is good forever, so
-  an old "payment succeeded" can be replayed to provision another workspace.
-
-Stripe's scheme, for the record: the header is `t=<unix>,v1=<hex>,v1=<hex>…`,
-the signed payload is `<t>.<raw body>`, and the signature is HMAC-SHA256 of that
-with the endpoint's own secret. More than one `v1` appears while a secret is
-being rotated, so any of them matching is a match.
+Nothing of Frappe in here: an endpoint that takes money on this check is one
+anybody can reach. Signatures are compared in constant time and the timestamp
+is checked, so a captured one cannot be replayed.
 """
 
 import hashlib

@@ -1,17 +1,8 @@
 """A new workspace's first administrator: the person who paid for it.
 
-The admin site builds the site and knows who paid (`Tenant.owner_email`), but
-it cannot sign in to the site it built, and it holds only a hash of the token
-the site proves itself with. So the workspace asks instead. `hello` names the
-owner in its answer, and a workspace that has no administrator yet makes them
-one and sends them One's own invitation (one/invite.py), with a link that
-works for a week. The admin site's last step of a build asks the new site to
-ask at once (`account.wake`), so the invitation leaves as the build finishes
-rather than at the next nightly refresh.
-
-Once, and only while nobody administers the workspace: an owner who later
-hands it to somebody else is never put back, and nobody who already has an
-account is touched.
+`hello` names the owner, and a workspace with no administrator yet makes them
+one and sends them One's own invitation. Once, and only while nobody
+administers it.
 """
 
 import frappe

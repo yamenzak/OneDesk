@@ -1,26 +1,4 @@
-"""Telling people about a project (notifications/one_project/).
-
-**Added to a project.** ERPNext mails each new member its own "Project
-Collaboration Invitation", in English, outside the hub. `members.invite`
-marks that mail sent, and `added` tells them in ours: on the bell, and by
-email or push as they chose, in their language.
-
-**Made its manager.** Nobody was told. `added` tells the new manager too.
-
-**Completed.** A project is completed by somebody or, in ERPNext, by its
-last task. `completed` tells its manager, with what's still owed on it, so a
-job done isn't taken for a job paid.
-
-**At risk.** Health is somebody's judgement that a project is in trouble
-before any figure says so. `health` tells its manager and members when it is
-marked At Risk or Off Track; whoever marked it already knows.
-
-**A retainer's month.** On the first of the month, `retainer_months` tells
-whoever runs each open retainer that last month isn't invoiced, with its
-hours against the allowance. And when a submitted timesheet takes this
-month's hours past the allowance, `hours_used` tells them then, while there
-is still time to say so to the customer.
-"""
+"""Telling people about a project (notifications/one_project/)."""
 
 import frappe
 from frappe import _
@@ -194,3 +172,122 @@ def over_plan(doc, method=None) -> None:
 			logged=f"{flt(doc.actual_time, 1):g}",
 			planned=f"{planned:g}",
 		)
+
+
+def over_budget(project: str, gone: list[dict]) -> None:
+	"""Cost types past their budget, told to the project's manager and whoever set each."""
+	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
+	currency = frappe.db.get_default("currency")
+	for one in gone:
+		people = sorted({head.one_manager, one["set_by"]} - {None, "Administrator", "Guest"})
+		if people:
+			notify.notify(
+				"Over Budget",
+				people,
+				record=("Budget", one["budget_name"]),
+				link=f"/desk/project/{project}",
+				dedupe_on=["document_type", "document_name"],
+				project=head.project_name,
+				cost_type=one["cost_type"],
+				total=fmt_money(one["committed"] + one["spent"], precision=0, currency=currency),
+				budget=fmt_money(one["budget"], precision=0, currency=currency),
+			)
+
+
+def milestone_done(doc, ordered: str) -> None:
+	"""A milestone billed on completion is done, told to the manager of the project with the order."""
+	project = frappe.db.get_value("Project", ordered, ["name", "project_name", "one_manager"], as_dict=True)
+	if not project.one_manager or project.one_manager in ("Administrator", "Guest", frappe.session.user):
+		return
+	notify.notify(
+		"Milestone Done",
+		project.one_manager,
+		record=("Project", project.name),
+		who=get_fullname(frappe.session.user),
+		milestone=doc.subject,
+		project=project.project_name,
+		share=_("{0}% of the contract").format(f"{flt(doc.one_bill_share):g}"),
+	)
+
+
+def progress_drafted(doc, project: str, order: str | None) -> None:
+	"""A bill for a share of the work was drafted, told to the project's manager to check."""
+	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
+	if not head or not head.one_manager:
+		return
+	notify.notify(
+		"Progress Bill Drafted",
+		head.one_manager,
+		record=(doc.doctype, doc.name),
+		who=get_fullname(frappe.session.user),
+		share=f"{flt(doc.one_progress):g}",
+		order=order or doc.name,
+		project=head.project_name,
+		party=doc.get("supplier_name") or doc.get("customer_name") or "",
+		amount=fmt_money(doc.grand_total, currency=doc.currency),
+	)
+
+
+def retention_due(doctype: str, name: str, project: str, amount: float, company: str, party: str) -> None:
+	"""Retention on an invoice falls due today, told to the project's manager."""
+	kept_by = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
+	if not kept_by or not kept_by.one_manager:
+		return
+	money = fmt_money(amount, currency=frappe.get_cached_value("Company", company, "default_currency"))
+	notify.notify(
+		"Retention Due",
+		kept_by.one_manager,
+		record=(doctype, name),
+		project=kept_by.project_name,
+		held=(_("{0} held by {1}") if doctype == "Sales Invoice" else _("{0} held from {1}")).format(
+			money, party
+		),
+	)
+
+
+def update_asked(doc, people: list[str], update) -> None:
+	"""The team is asked for a status update, in One, and mailed where mail goes."""
+	# The project's own question, where it has one, over the type's text.
+	words = (doc.subject, doc.message)
+	notify.notify(
+		"Project Update Asked", people, record=("Project", doc.name), words=words, project=doc.project_name
+	)
+	if _mail():
+		notify.mail(
+			"Project Update Asked",
+			[frappe.db.get_value("User", user, "email") for user in people],
+			words=words,
+			reference_doctype="Project Update",
+			reference_name=update.name,
+			reply_to=frappe.db.get_value(
+				"Email Account", {"enable_incoming": 1, "default_incoming": 1}, "email_id"
+			),
+			project=doc.project_name,
+		)
+
+
+def _mail() -> bool:
+	return bool(frappe.db.exists("Email Account", {"default_outgoing": 1, "enable_outgoing": 1}))
+
+
+def update_summary(update, yesterday: str) -> None:
+	"""Yesterday's answers to a status update, told to the project's people."""
+	from frappe.utils.html_utils import sanitize_html
+	from markupsafe import Markup
+
+	answers = Markup("").join(
+		Markup("<p><b>{0}</b>: {1}</p>").format(
+			row.full_name or row.user, Markup(sanitize_html(row.project_status or ""))
+		)
+		for row in update.users
+	)
+	notify.notify(
+		"Project Summary",
+		frappe.get_all(
+			"Project User", filters={"parenttype": "Project", "parent": update.project}, pluck="user"
+		),
+		record=("Project", update.project),
+		project=frappe.db.get_value("Project", update.project, "project_name") or update.project,
+		date=formatdate(yesterday),
+		answers=answers,
+	)

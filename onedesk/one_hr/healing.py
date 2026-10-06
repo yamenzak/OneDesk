@@ -1,24 +1,9 @@
-"""What the system teaches itself, and the one rule that keeps it safe.
-
-A router reboots, an office takes a second line for the 5GHz band, a warehouse
-registered at its office door has everybody clocking in at the gate two hundred
-metres away. Today each of those locks people out on a Monday morning and needs
-somebody to edit a settings box. Here they become proposals.
-
-**Only a clock-in that was already corroborated another way may teach anything.**
-Three colleagues in a café cannot promote the café, because none of them was
-inside a fence or on a known network when they voted. And **nothing heals
-towards less security**: a proposal can widen *where* people may clock in, never
-*who* may. Credentials, employees and standing are never promoted automatically.
-
-Run nightly rather than on every clock-in. A proposal is a claim about a
-pattern, and a pattern is not visible from inside one request.
-"""
+"""What the system teaches itself, and the one rule that keeps it safe."""
 
 import frappe
 from frappe.utils import add_to_date, now_datetime, nowdate
 
-from onedesk.one_hr import policy, rules
+from onedesk.one_hr import policy, rules, tell
 
 #: How far back a night's pass looks. Long enough that a new address seen on
 #: Friday and again on Monday is one pattern rather than two.
@@ -217,7 +202,7 @@ def _learn(doctype: str, matching: dict, fields: dict, votes: int, voters: int) 
 		)
 		doc.insert(ignore_permissions=True)
 		if agreed:
-			_tell(doc)
+			tell.place_proposed(doc)
 		return
 
 	row = found[0]
@@ -236,27 +221,8 @@ def _learn(doctype: str, matching: dict, fields: dict, votes: int, voters: int) 
 		update_modified=False,
 	)
 	if agreed and row.status != "Confirmed":
-		_tell(frappe.get_doc(doctype, row.name))
+		tell.place_proposed(frappe.get_doc(doctype, row.name))
 
 
 def _place_of(zone: str | None) -> str | None:
 	return frappe.db.get_value("Clock Place", zone, "shift_location") if zone else None
-
-
-def _tell(doc) -> None:
-	"""One notification, to the people who can undo it.
-
-	Told rather than asked: the row is already Confirmed and already working, on
-	the reasoning that a Monday morning where nobody can clock in is worse than
-	a place on the list that HR can reject at nine. A change nobody was told
-	about is what makes a self-healing system feel haunted, so it is told.
-	"""
-	from onedesk.one import notify
-
-	managers = frappe.get_all(
-		"Has Role",
-		filters={"role": "HR Manager", "parenttype": "User"},
-		pluck="parent",
-		distinct=True,
-	)
-	notify.notify("Check-in Place Proposed", managers, record=(doc.doctype, doc.name))

@@ -1,11 +1,5 @@
 """What OneAI does in OneTask: reads the reader's tasks, suggests a task as a
 card, and breaks a task into the steps of its checklist.
-
-The tasks are read as the reader, through the page's own read (`mine.tasks`):
-OneAI sees exactly the list they do. A task is only ever suggested; approving
-the card makes it, and gives it to whoever the card names then (capture.py),
-which tells them (tell.py). Steps are suggested the same way, as a change to
-the task's checklist the reader approves.
 """
 
 from typing import Annotated

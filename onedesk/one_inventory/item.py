@@ -1,13 +1,6 @@
 """What an item's page says first: how many there are, how many are free to
 sell, how many are on order, what they are worth, whether it is time to order
 more, and what it last cost and from whom.
-
-ERPNext has all of it, in four places: the Bins behind the Stock Levels
-panel at the foot of the form, the reorder table on the Inventory tab, the
-item's *Last Purchase Rate* (with no supplier or date beside it), and the
-Stock Balance report. `said` reads them into one answer for the band
-(heads.py). An item marked Is Fixed Asset says how many assets it
-has become instead.
 """
 
 import frappe

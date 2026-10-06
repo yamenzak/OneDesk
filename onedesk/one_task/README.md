@@ -204,13 +204,65 @@ is:
   `allowed` and `query` narrow that to one's own tasks, plus every project
   task for a person whose other roles already read tasks. Hooks can only take
   access away, which is why the grant comes first.
+
+  ERPNext lets a Projects User see every task and everybody else none. In One
+  every person keeps their own to-dos as tasks, so every desk user may now
+  make one, and sees:
+
+  - **the tasks they made, and the ones assigned to them**, always;
+  - **a task in a project they may see**, if a role other than Desk User
+    already lets them read tasks — a Projects User, an HR Manager for
+    boarding tasks. Which projects that is, is OneProject's rule
+    (one_project/members.py): a Projects Manager sees them all, anybody else
+    the ones they made, are members of, or that list nobody;
+  - **a template task**, for the same people, since a template is the whole
+    team's (one_project/templates.py);
+  - **a task somebody shared with them**, which is frappe's own rule.
+
+  A task with no project is somebody's own to-do, so nobody else sees it, a
+  Projects User included, unless it is assigned or shared to them.
+
+  The grant is a Custom DocPerm for Desk User (`settle`) and the rest is the
+  two hooks narrowing it. Who "already reads tasks" is read off the doctype's
+  own rules, so a workspace that gives another role Task read changes the
+  answer without touching the file.
 - `capture.py` — a to-do about nothing becomes a task; a task of nobody's is
   its maker's; the last assignment ticked off on a task in no project
   completes it. ERPNext already closes the assignments when a task completes.
+
+  frappe has two things called a to-do. A **ToDo** is an assignment —
+  somebody was given something to do about a record — and assigning a task, a
+  deal or a leave application makes one. A ToDo with nothing it is about is
+  the other kind: a note to self, made from the ToDo form or
+  `frappe.desk.doctype.todo.todo.new_todo`, and it lives outside everything
+  else — no project, no sub-tasks, no board. So One keeps one kind of work,
+  the Task:
+
+  - **A to-do with nothing it is about becomes a task** (`todo_made`). The
+    task is made from what was typed, and the ToDo is kept as what it always
+    was, the assignment on it. Whoever it was for is still who it is for.
+  - **A task made with no project and nobody on it is its maker's**
+    (`task_made`), so "assigned to me" is the one question that finds all of
+    a person's work, on the calendar and in every list. A template task is
+    nobody's work (one_project/templates.py) and is not.
+  - **Ticking off the last assignment on a task with no project completes
+    it** (`todo_changed`). ERPNext already does the other direction:
+    completing a task closes its assignments. A task in a project is not
+    completed by one person being done with it.
 - `calendar.py` — **My Tasks** and **Assigned to Me** on OneCalendar (the
   second leaves out assignments on tasks, which are already on the first),
   `due` for any list of tasks (OneProject's calendar reads it), and `move`: a
   task dragged shifts both its dates by the same days (`shifted` is pure).
+
+  A task is drawn on the day it is due, from its own table, and done where it
+  lives. Assignments are drawn too, but only the ones on other records — a
+  deal, a leave application — since an assignment on a task is that task,
+  already on the calendar once. **Dragging a task moves its dates** (`move`):
+  the due date goes to the day it was dropped on, and the start goes with it
+  by as many days, so a task keeps its length. A time of day already set
+  stays. A task is a day on the calendar, so it is dragged, never stretched.
+  A project's own calendar is OneProject's (one_project/calendar.py), and
+  reads tasks through `due`.
 - `custom/task.json` — the due date is asked for when a task is added, the
   Checklist (Task Step) is added, and Overdue is taken off the statuses
   (one_project/board.py says why). The page's order puts Timeline, open,
@@ -219,27 +271,99 @@ is:
   frappe's ID column).
 - `task.py` — a sub-task's parent becomes a group and lends its project; the
   checklist is the progress; sub-tasks are a connection on the task's page.
+
+  **A sub-task is a task** with `parent_task` set, which is ERPNext's own
+  tree. ERPNext refuses a parent that is not marked Is Group, a box nobody
+  ticks before wanting a sub-task, so the parent is marked when the first one
+  is made. A sub-task made from its parent's page is in the parent's project;
+  without that it would be nobody's but its maker's, in their inbox.
+
+  **A step is not a task.** It has no owner, no date and nobody assigned — it
+  is a line to tick on the way to finishing the task (Task Step). When a task
+  has steps, its Progress is the share of them done, which ERPNext's Project
+  already reads when a project measures completion by task progress.
+
+  The sub-tasks are on the task's page as a connection (`dashboard`), so its
+  + makes one with the parent filled in, which is frappe's own way of doing
+  it.
 - `public/js/task_list.js` — a due date read as a day, red once passed.
 - `timer.py` — the timer, as a row on the person's draft timesheet for the
   week; a row with a start and no end is the running one, the same rule as the
   Timesheet form's own timer, so either stops what the other started.
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
+
+  Time is ERPNext's Timesheet, which payroll, costing and billing already
+  read; the timer only saves somebody opening one. **Start** adds a row to the
+  person's draft timesheet for the week — made if there is none — with the
+  task, its project and a start. **Stop** gives the row its end, and ERPNext
+  works out the hours. One timer runs at a time: starting another stops the
+  first. The Timesheet form's own timer is public/js/timesheet.js. Every
+  stamp is `now_datetime`, the site's clock, for the reason given there. A
+  timer stopped within a minute of starting was a slip, and its row is taken
+  out rather than left at nought hours to be refused on submit.
+
+  Time is billable on a project whose kind bills hours (Time and Materials, or
+  a Retainer) until somebody unticks it, and cost only on any other
+  (one_project/hours.py `bills_hours`). The activity is the one the person
+  used last, since it is required when the timesheet is submitted and is
+  usually the same all week; they change it on the timesheet when it is not.
 - `task.py` also has `recurring`, which gives a repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
-  dates, its status and its people.
+  dates, its status and its people. **A repeating task is frappe's Auto
+  Repeat** (Repeat on a task's page). Each repeat is a copy of the task, which
+  would keep its old dates, its Completed and its ticked steps; `recurring`
+  makes it due on the day it repeats and gives it to the same people.
 - `tell.py`, with the types in `notifications/one_task/` — Task Given, Task Done, Task Ready,
   Pending Review, Due Date Changed and Today's
   Tasks. Task Given is frappe's own assignment line said in ours: a
   Notification Log `before_insert` turns frappe's "assigned a new task Task"
   into it, since `assign_to.add` writes that line with no switch to stop it.
+
+  **A task given.** Giving somebody a task is frappe's assignment, and frappe
+  writes its own line for it: "Samir assigned a new task Task Write the copy
+  to you". It is written from deep inside `assign_to.add`, with no switch to
+  turn it off, so rather than send a second one, `given` says frappe's line in
+  ours as it is written: the Notification Log becomes a Task Given, with when
+  the task is due and its project. frappe's line for an assignment taken away
+  is left alone.
+
+  **A task done.** ERPNext closes a task's assignments when it is completed,
+  and frappe tells nobody. `done` tells whoever gave the task, and whoever
+  made it, unless they completed it themselves.
+
+  **A task changed** (`changed`). Three things about a task are told to its
+  people:
+  - *Task Ready*: the last task it waits on (ERPNext's Depends On) is done,
+    told to whoever it's given to, or whoever made it when nobody is. ERPNext
+    adds a sub-task to its parent's Depends On, so a parent is ready when its
+    sub-tasks are done.
+  - *Pending Review*: somebody marks it Pending Review, told to whoever gave
+    it and whoever made it. A formal approval is a Workflow (Settings,
+    Approvals).
+  - *Due Date Changed*: its due date moved, told to whoever it's given to.
+
+  Whoever made the change is never told.
+
+  **The morning.** `today` tells each person what is due that day and what is
+  late, from the tasks given to them, as My Tasks groups them (mine.py).
 - `ai.py` — the page sentence, `my_tasks`, `plan_task` (a Create card; the
   colleagues it names ride on the hidden `one_for` and are given the task by
   `capture.task_made`), `plan_steps` (an Edit card on the checklist), and the
-  suggestions. `legal.py` is its line in the AI Addendum.
+  suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
+  as the reader, through the page's own read (`mine.tasks`), so OneAI sees
+  exactly the list they do. A task is only ever suggested; approving the card
+  makes it, and gives it to whoever the card names then (capture.py), which
+  tells them (tell.py). Steps are suggested the same way, as a change to the
+  task's checklist the reader approves.
 - `mine.py` and `page/my_tasks` — OneTask's page: the column, the two views
   (`?section=inbox`), their counts, and `frappe.realtime` on Task and ToDo.
   The server only reads, as the reader, and groups (`when` is pure); adding
   and ticking are `frappe.db.insert` and `frappe.db.set_value` from the page,
-  so every rule a task has on its own page holds here.
+  so every rule a task has on its own page holds here. Two views: **My
+  Tasks**, everything assigned to the reader, and the **Inbox**, the reader's
+  own tasks in no project. Read as the reader, so it is exactly the tasks they
+  may see. Ticking one off is the page writing the task's status through
+  frappe's own save (my_tasks.js), which ERPNext answers by closing its
+  assignments — so mine.py only reads.
 
 ### The plan
 

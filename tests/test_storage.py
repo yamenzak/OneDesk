@@ -252,7 +252,9 @@ def test_sharing_is_for_the_team_and_a_records_file_goes_with_its_record():
 	assert "ignore_share_permission" in body, "our rule decided, so Frappe's is not asked again"
 	assert "Share the record instead" in _body(SHARE, "_shareable")
 	assert "ns.may(item, 'write')" in _body(SHARE, "_shareable"), "whoever may change it may share it"
-	assert "/desk/onecloud?node=" in _body(SHARE, "_tell"), "the notification opens the explorer"
+	assert "tell.shared(user, item)" in body
+	tell = tree.APP / "one_storage" / "tell.py"
+	assert "/desk/onecloud?node=" in _body(tell, "shared"), "the notification opens the explorer"
 
 
 LINKS = tree.APP / "one_storage" / "links.py"

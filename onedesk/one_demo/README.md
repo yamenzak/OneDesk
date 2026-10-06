@@ -84,3 +84,49 @@ The demo is where each module's hand-offs run end to end. A deal's quotation
 becomes a project's contract. The project's time and progress become
 OneBook's invoices. Its purchases come from OneInventory's suppliers, and its
 crew's time and claims come from OneHR.
+
+## Under the hood
+
+### build.py
+
+Each step makes its records the way a person's click makes them: frappe's
+controllers, ERPNext's mappers and One's own actions, never rows written
+straight into tables, so what the demo shows is what a workspace would. A
+step that has run is remembered and not run twice; a step that fails stops
+the build with what it tripped on, and the next run starts from it.
+
+### check.py
+
+Each check opens what a person would open, as that person, and holds what it
+shows against ERPNext's own records: the books balance, stock never went
+below nothing, every party is billed in its own currency, every project page
+opens for its team and its figures are the documents behind them, every
+report of One's runs, and every rail link opens for the app's people.
+`check.run` prints a line a check and the count that failed. Nothing is
+written: each check is rolled back.
+
+### projects.py
+
+- **Fixed Price**, ordered: the Mansour villa, built from the Aluminium &
+  Glazing template, with a bill of quantities billed in progress, retention,
+  a subcontract billed the same way, cost types, stock issued, time, extra
+  work ordered as a sub-project, and milestones billed on completion.
+- **Fixed Price**, large and in parts: the Bayview tower, with sub-projects
+  of its own, an advance from the customer and a late invoice.
+- **Fixed Price**, quoted and not ordered, in US dollars: Acme's lobby.
+- **Fixed Price**, finished and paid: Aisha Rahman's balcony. And one
+  cancelled before work started: Palm Interiors.
+- **Time and Materials** in euros, billed with Invoice Time and a markup on
+  what was bought for it: Nordlicht's showroom; and a small one just started.
+- **Retainer**, two of them, billed month by month with Invoice Month, one
+  with hours over its allowance.
+- **Internal**, with a budget and no customer: the CNC upgrade.
+
+### samples.py
+
+Each sample is a real mail or file, the answers a model gave about it, and
+what Intake must make of it (the folder's README says how one is written). A
+mail arrives at the owner's address through OneMail's own Arrival, a file in
+the accounts team's Bank Statements folder (`intake.py`), and Intake reads,
+understands and acts on it as it would, with each model call answered from
+the sample.

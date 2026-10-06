@@ -1,25 +1,4 @@
-"""Every to-do is a task.
-
-frappe has two things called a to-do. A **ToDo** is an assignment — somebody
-was given something to do about a record — and assigning a task, a deal or a
-leave application makes one. A ToDo with nothing it is about is the other kind:
-a note to self, made from the ToDo form or `frappe.desk.doctype.todo.todo.new_todo`,
-and it lives outside everything else — no project, no sub-tasks, no board.
-
-So One keeps one kind of work, the Task:
-
-- **A to-do with nothing it is about becomes a task** (`todo_made`). The task is
-  made from what was typed, and the ToDo is kept as what it always was, the
-  assignment on it. Whoever it was for is still who it is for.
-- **A task made with no project and nobody on it is its maker's**
-  (`task_made`), so "assigned to me" is the one question that finds all of a
-  person's work, on the calendar and in every list. A template task is
-  nobody's work (one_project/templates.py) and is not.
-- **Ticking off the last assignment on a task with no project completes it**
-  (`todo_changed`). ERPNext already does the other direction: completing a
-  task closes its assignments. A task in a project is not completed by one
-  person being done with it.
-"""
+"""Every to-do is a task."""
 
 import frappe
 from frappe.desk.form.assign_to import add as assign

@@ -1,12 +1,8 @@
 """Spending: what was bought, read from the receipts and invoices themselves
 (docs/INTAKE.md §3.2).
 
-A household keeps no books, and a company's books answer "what did we spend
-on fuel this quarter" only through a report somebody builds. The readings
-already hold every line with its amount and category, so this adds them up:
-by category, by shop, by person or by month, one currency at a time, with
-the document behind every row one click away. A reader sees what was read on
-their own behalf; an administrator of the workspace sees all of it.
+The readings' lines added up by category, shop, person or month, one currency
+at a time.
 """
 
 import frappe

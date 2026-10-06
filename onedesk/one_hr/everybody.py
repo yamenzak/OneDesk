@@ -1,17 +1,4 @@
-"""Who works with everybody's records, and so is not kept to their own.
-
-hrms gives every employee a User Permission on their own Employee record (the
-employee's Create User Permission box, ticked by default), and from then on
-that person sees only what links to themselves: their own timesheets, claims
-and leave. Right for most people, and wrong for whoever manages an app. A
-project manager could not approve the crew's time, and the books could not
-see the timesheets they invoice.
-
-ERPNext's answer is to untick the box. Here it is unticked for whoever People
-makes a manager of an app or an administrator of the workspace, and ticked
-again when they are neither. It is a rule on the Employee and the User, so it
-holds however either is changed: People, the form, a bulk edit or an import.
-"""
+"""Who works with everybody's records, and so is not kept to their own."""
 
 import frappe
 

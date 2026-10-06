@@ -1,28 +1,6 @@
 """What an extension's code may do, read before it is ever kept.
 
-An extension is code OneAI writes, and nobody else. An administrator could
-still ask OneAI for code that reaches past what they may do, so this reads
-the code itself, as a second line after the review (review.py), and refuses
-what no explanation would excuse. Pure: what it needs from the site comes in
-as `Site`.
-
-**On the server** an extension is a Server Script on a record event, run in
-frappe's sandbox as whoever saved the record. The sandbox already refuses
-imports, files and the private parts of objects; this refuses the rest of
-what it leaves open:
-
-- writing past permissions: `db_set`, `db.set_value`, `ignore_permissions`,
-  frappe's flags, deleting or renaming another record;
-- reading past them: raw SQL, `get_all` (frappe's `get_list` checks), a
-  password, and any field the administrator may not read;
-- reaching outside: requests, mail, jobs, other scripts and whitelisted
-  methods;
-- naming a kind of record they cannot open, or frappe's or One's own, and
-  naming one any way but as plain text, so every kind it touches is known.
-
-**On the screen** an extension is a Client Script, which runs in the browser
-of everybody who opens the form. It may change the form and speak to the
-person; it may not call the server, store or send anything, or write markup.
+Pure: what it needs from the site comes in as `Site`.
 """
 
 import ast
@@ -80,11 +58,8 @@ REFUSED_ATTRIBUTES = frozenset(
 #: than at the first save.
 UNSAFE_IN_FRAPPE = frozenset({"format", "format_map"})
 
-#: The names a server extension's code finds already there: frappe's
-#: safe_exec globals and RestrictedPython's builtins, as get_safe_globals()
-#: answered on frappe develop (Oct 2026), and print, which RestrictedPython
-#: turns into its own collector. Anything else the code reads it must have
-#: set itself, or it runs into a NameError on every save.
+#: The names a server extension's code finds already there. Anything else it
+#: reads it must set itself, or it runs into a NameError on every save.
 IN_THE_SANDBOX = frozenset(
 	"""
 	ArithmeticError AssertionError AttributeError BaseException Exception IndexError KeyError
@@ -435,10 +410,7 @@ def wrapped(name: str, code: str, scheduled: bool = False) -> str:
 
 
 #: How every screen extension is run, the same as on the server: each handler
-#: it gives `frappe.ui.form.on` runs inside a `try`, a `frappe.throw` it means
-#: still stops the save, and anything else it trips on is written down
-#: (extensions.tripped) and the form goes on. Its `frappe` is frappe's own,
-#: with those two wrapped; everything else is frappe's.
+#: runs inside a `try`, and what it trips on is written down (extensions.tripped).
 WRAPPED_ON_SCREEN = """// Written by OneAI in OneStudio. Change it by asking OneAI.
 (function () {{
 	const extension = {name};

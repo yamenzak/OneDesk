@@ -1,14 +1,7 @@
 """Taking the other apps' furniture off One's shell.
 
-Every installed app writes into the same navbar and the same onboarding list, so
-a One site arrives carrying rows nobody here authored. All of it is site data,
-which is why this is a list of names rather than a patch, and why a tenant can
-put any of it back.
-
-`sync_standard_items` matches a navbar row by its label and only appends the
-missing ones, so hiding a row survives every migrate. Marking an onboarding
-complete is what its own "Skip All" writes, and `import_file` never overwrites
-that field.
+A list of names of site data (navbar rows, onboardings, reports) rather than a
+patch, so a tenant can put any of it back.
 """
 
 import frappe
@@ -22,10 +15,8 @@ HIDE_ROWS = ("Frappe Support", "About", "Delete Demo Data")
 #: read check: System Health is a System Manager's report.
 SHOW_IF = {"System Health": "frappe.model.can_read('System Health Report')"}
 
-#: Reports One has replaced with one of its own. Disabling rather than deleting:
-#: the row is theirs and a `bench update` would write it back, and this runs on
-#: every migrate so it settles again after one does. A tenant who wants the
-#: original back enables it.
+#: Reports One has replaced with one of its own, disabled rather than deleted, since
+#: the row is theirs and would come back; a tenant who wants one enables it.
 HIDE_REPORTS = (
 	"Monthly Attendance Sheet",
 	"Shift Attendance",

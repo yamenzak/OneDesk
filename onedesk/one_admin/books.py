@@ -1,34 +1,7 @@
 """Our own books, kept in our own OneBook from what Stripe charges.
 
 The admin site is a One workspace and One is what it sells, so every sale is
-booked the way any company using One books one:
-
-* **An Item per Offering** (`item_for`), a service under One Subscriptions,
-  kept in step with the price list (`synced`, on the Offering's save).
-* **A Sales Invoice per paid Stripe invoice** (`invoiced`): the plan, each
-  add-on at its quantity, and the prorated lines Stripe writes when a plan
-  changes part way through a month. A proration credit (a negative line) is
-  taken off as the invoice's discount, since an invoice line cannot be less
-  than nothing. A credit pack is an invoice of one line (`pack_bought`).
-* **A Payment Entry** into the Stripe account, for what Stripe collected,
-  referenced by the charge.
-* **Stripe's fee** as a Journal Entry from the Stripe account to Stripe Fees,
-  read from the charge's balance transaction.
-* **A refund** as a credit note against the invoice, paid back out of the
-  Stripe account (`refunded`).
-
-The customer is the tenant's (sales.customer_for). Stripe charges in the
-price list's currency, US dollars, and the company keeps its books in its
-own, so the invoice and the payment are in dollars at the day's exchange rate
-into a receivable and a Stripe account in dollars, both made here once
-(`ensure`). ERPNext does the conversion; nothing here multiplies by a rate.
-
-**Booked once.** Each invoice carries the Stripe object it came from
-(`one_stripe_invoice`), so a webhook Stripe redelivers finds it already
-there, and `catch_up` books any paid invoice the webhook missed.
-
-**Never in the way.** A failure here is logged and left for `catch_up`; the
-webhook still moves the workspace, because the customer has paid either way.
+booked the way any company using One books one.
 """
 
 import frappe

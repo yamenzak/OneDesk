@@ -1,15 +1,6 @@
 """The log: one row for each thing that happened to a workspace.
 
-Every row is written here, and each says three things the list used to leave
-out. **Who**: the customer (a plan they changed, through the proxy), an
-operator (a button they pressed, or a job they started), or One (the clock, a
-payment, a nightly measure). **Which job**, when a job did it. And **what**, in
-words: a fixed phrase from `SAID`, which is `_lt` so the list shows it in the
-operator's own language, or plain data (a plan's name, two sizes) that needs
-none.
-
-The workspace's own Activity shows its rows too (`timeline`, frappe's
-`additional_timeline_content`), so its story is on its form.
+Every row is written here, and says who, which job, and what, in words.
 """
 
 import frappe

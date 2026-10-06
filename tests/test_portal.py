@@ -109,7 +109,9 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	assert "for row in doc.items:" in send and "validate_existing_supplier_quotation" in send
 	assert "finally:\n\t\tfrappe.session.user = user" in send
 	assert 'quote.db_set({"owner": user, "modified_by": user}' in send
-	assert 'notify.notify(\n\t\t"Quote Received"' in send
+	assert "tell.quote_received(doc, quote, user, supplier)" in send
+	told = (tree.APP / "one" / "tell.py").read_text().split("def quote_received(", 1)[1]
+	assert 'notify.notify(\n\t\t"Quote Received"' in told
 	row = (INCLUDES / "transaction_row.html").read_text()
 	assert "one_portal_quoted(doc.name)" in row and "one_portal_status(" in row
 	notes = tree.notifications()
@@ -160,8 +162,9 @@ def test_the_account_pages_are_in_the_portals_shell():
 		assert call in data
 	assert 'privacy["copy"]' in data and 'frappe.realtime.on("one_privacy"' in data
 	privacy = (tree.APP / "one" / "privacy.py").read_text()
-	assert 'link=where(doc.email)' in privacy and '"/your-data"' in privacy
-	assert "link=privacy.where(doc.user)" in (tree.APP / "one" / "privacy_copy.py").read_text()
+	told = (tree.APP / "one" / "tell.py").read_text()
+	assert '"/your-data"' in privacy
+	assert "link=privacy.where(doc.email)" in told and "link=privacy.where(user)" in told
 	apps_py = (tree.APP / "www" / "third_party_apps.py").read_text()
 	assert "from frappe.www.third_party_apps import get_context" in apps_py
 	apps = (tree.APP / "www" / "third_party_apps.html").read_text()
@@ -179,7 +182,8 @@ def test_a_contact_is_invited_to_the_portal_by_one():
 	assert "roles.administers()" in invite and '"user_type": "Website User"' in invite
 	assert "invite.send(user, what=_what(doc))" in invite and "clear_sessions(user=user, force=True)" in invite
 	assert "is someone in the workspace" in invite
-	assert 'notify.mail("Portal Invitation", email, what=what, **said)' in (tree.APP / "one" / "invite.py").read_text()
+	assert "tell.invited_to_portal(email, what, **said)" in (tree.APP / "one" / "invite.py").read_text()
+	assert 'notify.mail("Portal Invitation", email, what=what, **said)' in (tree.APP / "one" / "tell.py").read_text()
 	assert tree.notifications()["Portal Invitation"]["outside"]
 	assert "row.db_insert()" in SOURCE and "user.add_roles(*sorted(missing))" in SOURCE and "party.save()" not in SOURCE
 	js = (tree.APP / "public" / "js" / "contact.js").read_text()

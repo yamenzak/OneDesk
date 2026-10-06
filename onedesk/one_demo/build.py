@@ -3,12 +3,6 @@ Aluminium, a Dubai contractor that sells, designs, fabricates, installs and
 maintains glazing, and runs every part of One to do it.
 
     bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
-
-Each step makes its records the way a person's click makes them: frappe's
-controllers, ERPNext's mappers and One's own actions, never rows written
-straight into tables, so what the demo shows is what a workspace would. A
-step that has run is remembered and not run twice; a step that fails stops
-the build with what it tripped on, and the next run starts from it.
 """
 
 import json

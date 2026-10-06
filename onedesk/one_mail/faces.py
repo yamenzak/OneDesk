@@ -1,32 +1,8 @@
 """Faces and logos, for everyone who writes and every organisation.
 
-A person's picture comes from Gravatar, by a hash of their address. An
-organisation's logo comes from Google's favicon service, by its domain. Both
-are fetched by this server, never by anybody's browser, and only once: each
-answer is a `Face` row, and each picture a File in the Logos folder in Company. So a
-sender learns nothing when their message is opened, Google and Gravatar are
-asked once per address or domain rather than every time a face is drawn,
-and a tenant's pictures are theirs, in their own storage.
-
-Used everywhere, not only by mail:
-- a Contact or Lead without a picture gets its person's face;
-- a User without a picture gets their face, or their Employee's photo;
-- an Employee without a photo gets their User's picture, or their face;
-- a Customer, Supplier or Manufacturer without an image gets its website's
-  logo;
-- the Company without a logo gets its website's, and its drawn letter
-  heads take it;
-- a Bank gets its website's logo in `one_logo`, which ERPNext's Bank lacks;
-- the Mail page draws each sender's contact picture, else their face, else
-  their organisation's logo.
-
-Addresses at a mail provider (gmail.com and the like) never get the
-provider's logo, since the provider is not who wrote.
-
-Nothing is fetched while somebody waits. A face not yet looked for is
-looked for in the background and appears the next time it is drawn. One not
-found is looked for again after a month.
-"""
+A person's picture comes from Gravatar and an organisation's logo from
+Google's favicon service, fetched by this server once and kept as a `Face`
+row and a File in Company › Logos."""
 
 import hashlib
 from urllib.parse import quote, urlparse
@@ -259,17 +235,8 @@ NOBODY = ("Administrator", "Guest")
 
 
 def sources(kind: str, email: str | None, website: str | None) -> list[str]:
-	"""Where a record's picture is looked for, in order, until one has it.
-	Pure.
-	- a person: their face, then their organisation's logo by the domain of
-	  their address, then by their website;
-	- someone who works here (a user, an employee): their face only, as
-	  their address's domain is our own;
-	- an organisation: its website's logo, then its address's domain's, then
-	  a face registered to the address itself (some register a logo against
-	  info@);
-	- a bank: its website's logo only.
-	A mail provider's domain is never an organisation's logo."""
+	"""Where a record's picture is looked for, in order, until one has it
+	(README, `sources`). Pure. A mail provider's domain is never a logo."""
 	email = (email or "").strip().lower() or None
 	address = email if email and "@" in email else None
 	by_email = domain_of(address) if address else None

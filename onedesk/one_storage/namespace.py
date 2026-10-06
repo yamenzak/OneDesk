@@ -1,35 +1,7 @@
 """One tree of files, and who may do what in it.
 
 The explorer, WebDAV and mounts all read this module and nothing else, so a
-rule here is a rule everywhere. A node is named by an id:
-
-- `@root` — the top: My Files, Shared with Me, Company, Records, Recycle Bin.
-- `@my`, `@company` — stored folders under other names: the reader's own
-  folder (`home`) and Frappe's own Home, less everybody's own folders and
-  Frappe's Attachments folder.
-- `@shared` — what other people have shared with the reader (stage 4).
-- `@records`, `@records/<DocType>`, `@records/<DocType>/<name>` — derived:
-  the doctypes the reader may read that have files, the records of one, and
-  the files attached to one. Nothing is stored for them; they are worked out
-  from `attached_to_*` whenever they are opened, so a record's folder is
-  always exactly its attachments and is seen by exactly who may read it.
-- `@mail`, `@mail/<mailbox>` — derived, like records: the reader's mailboxes,
-  and the files that came or went with a mailbox's messages
-  (one_mail/cloud.py). A message's files are here and not under Records.
-- `@featured/<project>` — derived, inside a project's own folder: its
-  Featured Media, the files of the project marked `one_featured`
-  (one_project/media.py). Only projects have one.
-- `@bin` — what the reader deleted, for thirty days.
-- anything else — a File, by its name.
-
-**Who may do what** is `may`, and nothing else decides it. A file attached to
-a record answers to the record. Otherwise: its owner may do anything; somebody
-signed in to a portal gets nothing more; a person's own folder and everything
-in it is theirs; the Company folder is
-everybody's to read and add to, and its items are their owner's or a
-Workspace Administrator's to change. Sharing (stage 4) and libraries
-(stage 6) add to this function and to nowhere else.
-"""
+rule here is a rule everywhere."""
 
 import frappe
 from frappe import _, _lt

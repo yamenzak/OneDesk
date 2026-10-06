@@ -1,20 +1,7 @@
 """A sales stage that means something.
 
-ERPNext's `Sales Stage` is a name and nothing else, so an opportunity's stage
-and its status are two answers to one question that nothing keeps in step.
-Here a stage has a position, a probability and an outcome, and the outcome is
-what ties the two together: a stage whose outcome is Won is a converted
-opportunity, one whose outcome is Lost is a lost one, and the stage follows
-when ERPNext's own verbs — Declare Lost, a quotation lost, a sales order —
-change the status instead.
-
-A stage whose outcome is **On Hold** is for the deal that is neither moving
-nor lost: the money is not signed off, the building is not ready. It is still
-open, so its status is left alone, but it is not in the pipeline: the value,
-the weighted value and the forecast leave it out (`measure.alive`).
-
-Stage changes are recorded by frappe's Milestone Tracker, a fixture, so the
-day an opportunity reached its stage is a row rather than a guess.
+Here a stage has a position, a probability and an outcome, and the outcome
+ties an opportunity's stage and its status together.
 """
 
 import frappe

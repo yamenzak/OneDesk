@@ -1,21 +1,5 @@
 """OneAI in OneStudio: it writes the workspace's extensions, and is the only
 thing that does.
-
-- `extensions_here` reads what the workspace has: each extension, where and
-  when it runs, whether it is on, its review, and whether it ran into a
-  error lately. No code.
-- `write_extension` keeps what OneAI wrote, off, after the guard and the
-  review (extensions.write), and makes a card whose Turn On does what the
-  administrator would do in the list. A refused review comes back to the
-  model to mend, under the same extension. The code it wrote is left out of
-  the conversation as it is kept and shown (`unshown`), so it is in the
-  extension alone.
-- `extension_code` hands OneAI the code it is changing, so a change edits it
-  rather than rewriting it from the explanation. Its answer's code is
-  `unshown` too: the run reads it, the kept conversation does not.
-
-Both run on OneStudio Extensions (`studio`), a stronger model than the
-chat's, which is told what an extension may do.
 """
 
 from typing import Annotated, Literal

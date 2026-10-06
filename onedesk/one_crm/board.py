@@ -1,15 +1,7 @@
 """The pipeline: deals by stage, on the desk's own Kanban.
 
-The desk's Kanban reads and writes its column field on the server whatever the
-field's type; only its New Board dialog insists on a Select. So the board is
-made here rather than from that dialog, on `sales_stage` as it is, with one
-column per Sales Stage in position order. A stage added, renamed or removed
-changes the board, which is why the columns are derived rather than a fixture.
-
-Dragging a deal saves it, so a move runs `stages.before_validate` like any
-other: the probability follows and Won converts. A Lost stage is an archived
-column, so nothing can be dropped on it: losing a deal asks why, and a drop
-cannot, so the server refused it and the board left the card where it fell.
+The board is made here, on `sales_stage` as it is, with one column per Sales
+Stage in position order.
 """
 
 import json

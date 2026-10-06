@@ -1,33 +1,4 @@
-"""A project's time, for the page's Time view (docs/PROJECT-PAGE.md).
-
-**How time is counted** (`one_time`) is asked when a project is made, beside
-its kind, which says how the customer pays. The two are separate questions:
-a fixed-price villa counts its crews' days on site, and a fixed-price
-software build counts timesheets.
-
-- **Timesheets**: people log hours on the project, by hand or with a task's
-  timer.
-- **Attendance on Site**: the project names its site (an HRMS Shift
-  Location), and each day somebody's attendance has them there is a day on
-  the project (site_time.py).
-- **Not Tracked**: hours aren't counted. The page has no Time view unless
-  somebody logged some anyway.
-
-A project made without one (by ERPNext, HR or an import) is given the
-workspace's default, **Count Time By** in Projects Settings (`fill`). Whether
-an hour is billable follows the kind (`bills_hours`): Time and Materials and
-Retainer hours are, and a Fixed Price or Internal project's are cost only.
-
-Every hour is ERPNext's Timesheet Detail on the project or a project under
-it, read as the reader reads timesheets, so somebody who may see only their
-own sees only their own. Each entry says where it stands: a draft not yet
-submitted, not billable, still to invoice, or invoiced on a Sales Invoice.
-
-**Log Time** (`log`) writes an entry into the reader's draft timesheet for
-the week, the one the task timer (one_task/timer.py) writes into, so time
-logged by hand and timed by the clock end up in the same place and are
-submitted together.
-"""
+"""A project's time, for the page's Time view (docs/PROJECT-PAGE.md)."""
 
 from datetime import datetime, time, timedelta
 from typing import Annotated

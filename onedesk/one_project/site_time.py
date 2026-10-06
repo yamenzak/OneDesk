@@ -1,28 +1,5 @@
 """Attendance on site: each day somebody's attendance has them at a
 project's site is a day on the project (hours.py, Attendance on Site).
-
-HRMS's attendance says who worked and for how long, for payroll; it has no
-project. ERPNext's project costing reads only timesheets. So a day on site is
-written as the timesheet ERPNext expects, made from the attendance, and HR
-keeps attendance as it is:
-
-- **Attendance submitted** (`attended`): when the day was at the site of an
-  open project counted by attendance (`project_at`), a Timesheet for that
-  person is made and submitted. It has one row on the project, the
-  attendance's working hours (or HR Settings' standard day, half of it for a
-  Half Day), at Projects Settings' **Activity for Days on Site**, billable
-  when the project bills hours (`hours.bills_hours`). Its cost is the person's
-  Activity Cost, as any timesheet's.
-- **Where they were**: one of their check-ins that day inside the site (its
-  own circle, or any clock place drawn on it). With no position on any
-  check-in, a shift assignment that day naming the site.
-- **Attendance cancelled** (`cancelled`): its timesheet is cancelled too,
-  unless it's already invoiced, which ERPNext refuses.
-- A timesheet made here names its attendance (`one_attendance`), so neither
-  is made twice.
-
-A day that can't be written (a timesheet already covering those hours, say)
-doesn't stop the attendance. It's logged in the Error Log for HR to see.
 """
 
 from datetime import datetime, time, timedelta

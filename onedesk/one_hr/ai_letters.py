@@ -1,20 +1,4 @@
-"""OneAI writing an HR letter: a salary certificate, an experience letter.
-
-"I need a salary certificate for the bank" is the most common thing an
-employee asks HR in the Gulf, and the answer is the same few facts every time,
-typed again. Here the employee asks the panel, the facts come off their own
-record, the model phrases them for whoever the letter is for, and the draft
-becomes an `Employee Letter` that HR issues by submitting it.
-
-**Facts from the record, words from the model.** `letter_facts` hands over
-exactly what the letter may say — dates, designation, salary from the last
-slip — and the model is told to use nothing else. HR reads the draft before
-it is issued, which is where a wrong figure is caught.
-
-**About yourself, or HR about anybody.** An employee's letter is always about
-them; the employee is read from who is asking, never taken as an argument.
-HR may name somebody.
-"""
+"""OneAI writing an HR letter: a salary certificate, an experience letter."""
 
 from typing import Annotated
 

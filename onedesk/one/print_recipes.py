@@ -1,34 +1,14 @@
 """A kind of record's starting print layout, for OneAI to adjust rather than invent.
 
-OneAI designs a print format as the builder lays one out (ai.design_print_format).
-Left to itself, two requests for the same invoice came out as two different
-pages. So print_layout offers a starting layout made from the kind's own fields,
-in the order a reader looks for them, and OneAI changes only what was asked.
-The look is frappe's own print style with HOUSE_CSS over it: the same page,
-spaced and toned the way frappe-ui draws one, so it still reads like every
-other format the workspace prints. A format made to a look somebody asked for
-carries their css instead, never this one as well.
-
-Two shapes cover what a workspace prints:
-
-- a document of trade (an invoice, a quotation, an order, a delivery note, a
-  bill): who it is for and where on the left, its dates and references on the
-  right, the items as one table, the amount in words beside the totals, and the
-  terms last;
-- anything else: its main fields in two columns, each of its tables with the
-  columns its list shows, and its long text last, each under its label.
-
-Every layout is written as ai.LAYOUT_HELP describes: sections of columns of
-blocks.
+`print_layout` offers a starting layout made from the kind's own fields, in the
+order a reader looks for them, and OneAI changes only what was asked.
 """
 
 import frappe
 from frappe import _
 
-#: The house finish over frappe's print style, in frappe's own classes and its
-#: grey scale: labels small and muted, room between sections, tables lined
-#: rather than boxed under a soft header, the totals as label and figure on one
-#: line and the grand total set off above them. Sizes are em, as frappe's are.
+#: The house finish over frappe's print style, in frappe's own classes and grey scale;
+#: sizes are em, as frappe's are.
 HOUSE_CSS = """\
 .print-format-doc { line-height: 1.5; }
 .print-format-doc .document-header-content { margin: 1.25em 0 0.5em; }

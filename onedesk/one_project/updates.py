@@ -1,44 +1,10 @@
-"""A project asks its team how it is going, and keeps what they say.
-
-ERPNext has the parts: **Collect Progress** on a project, how often and when,
-the subject and message of the ask; a **Project Update** for each ask; the
-answers as rows on it; and a summary of yesterday's answers mailed to the team
-(`send_project_status_email_to_users`). The asking and the collecting did not
-work, and this replaces those two:
-
-- **It only asked by email, and only where there was mail.** With no outgoing
-  account the ask raised, rolled back its Project Update, and nothing was
-  asked. `ask` makes the Project Update, tells each member in One (a
-  notification that opens the project), and mails them as well where mail can
-  go.
-- **It asked too often.** Hourly asked every hour of the day, its window
-  tested with `or`; Twice Daily asked in two hours running. `due` asks once a
-  day, twice at the two times, or once on the day of the week. Hourly is taken
-  off the choices: a status note every hour is not a status note.
-- **An answer could only be an email reply**, and was read back every hour and
-  added again each time, and only on the day it was asked. `post` is **Post
-  Update** on the project's page, which answers today's ask or, with none,
-  makes one; `answered` takes an email reply once, when it arrives, whatever
-  the day.
-- **The answers were kept out of sight** on the Project Update. `timeline`
-  puts each one in the project's activity, under who wrote it.
-
-- **The summary of yesterday's answers was only mailed**, and only where mail
-  could go. `sum_up` tells the project's people in One instead, and each
-  chooses whether it is mailed too.
-- **An answer kept no health.** `_answer` keeps the project's health on the
-  answer (`one_health` on its row), so the page shows how it was going when
-  each was written, and tells the page's readers it was posted
-  (`one_project_update`).
-- **Nothing on the page said whether the team is asked.** `asking` says how
-  often, for the Updates heading.
-"""
+"""A project asks its team how it is going, and keeps what they say."""
 
 from datetime import time
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, escape_html, formatdate, get_time, now_datetime, nowdate, nowtime
+from frappe.utils import add_days, escape_html, get_time, now_datetime, nowdate, nowtime
 from frappe.utils.html_utils import sanitize_html
 
 #: ERPNext's jobs this replaces: the three askers, the collector, and the
@@ -103,54 +69,21 @@ def _ask(project: str) -> None:
 	update = frappe.get_doc(
 		{"doctype": "Project Update", "project": project, "sent": 0, "date": nowdate(), "time": nowtime()}
 	).insert(ignore_permissions=True)
-	from onedesk.one import notify
+	from onedesk.one_project import tell
 
-	# The project's own question, where it has one, over the type's text.
-	words = (doc.subject, doc.message)
-	notify.notify("Project Update Asked", people, record=("Project", project), words=words, project=doc.project_name)
-	if _mail():
-		notify.mail(
-			"Project Update Asked",
-			[frappe.db.get_value("User", user, "email") for user in people],
-			words=words,
-			reference_doctype="Project Update",
-			reference_name=update.name,
-			reply_to=frappe.db.get_value("Email Account", {"enable_incoming": 1, "default_incoming": 1}, "email_id"),
-			project=doc.project_name,
-		)
-
-
-def _mail() -> bool:
-	return bool(frappe.db.exists("Email Account", {"default_outgoing": 1, "enable_outgoing": 1}))
+	tell.update_asked(doc, people, update)
 
 
 def sum_up() -> None:
 	"""Daily: yesterday's answers, to the project's people, once. ERPNext's
 	`send_project_status_email_to_users`, told in One."""
-	from markupsafe import Markup
-
-	from onedesk.one import notify
+	from onedesk.one_project import tell
 
 	yesterday = add_days(nowdate(), -1)
 	for name in frappe.get_all("Project Update", filters={"date": yesterday, "sent": 0}, pluck="name"):
 		update = frappe.get_doc("Project Update", name)
 		if update.users:
-			answers = Markup("").join(
-				Markup("<p><b>{0}</b>: {1}</p>").format(
-					row.full_name or row.user, Markup(sanitize_html(row.project_status or ""))
-				)
-				for row in update.users
-			)
-			notify.notify(
-				"Project Summary",
-				frappe.get_all(
-					"Project User", filters={"parenttype": "Project", "parent": update.project}, pluck="user"
-				),
-				record=("Project", update.project),
-				project=frappe.db.get_value("Project", update.project, "project_name") or update.project,
-				date=formatdate(yesterday),
-				answers=answers,
-			)
+			tell.update_summary(update, yesterday)
 		update.db_set("sent", 1)
 
 

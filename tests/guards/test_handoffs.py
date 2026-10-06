@@ -12,12 +12,14 @@ BULLET = re.compile(r"^- \*\*(From|To) (\w+)\*\*: \S", re.M)
 
 
 def _products() -> dict[str, str]:
-	"""Each product README (the ones with a manual and its Under the hood), by its title."""
+	"""Each product README (a One title, a manual and its Under the hood), by its title.
+	The demo's and the notifications' READMEs have an Under the hood but are no product."""
 	out = {}
 	for path in sorted(APP.glob("*/README.md")):
 		text = path.read_text()
-		if "\n## Under the hood" in text:
-			out[re.match(r"# (\S+)\n", text)[1]] = text
+		titled = re.match(r"# (One\w*)\n", text)
+		if titled and "\n## Under the hood" in text:
+			out[titled[1]] = text
 	return out
 
 

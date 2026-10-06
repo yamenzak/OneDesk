@@ -1,27 +1,7 @@
 """Every email this workspace sends goes through here.
 
-Frappe's Email Queue builds each message and, for each recipient, calls the
-`override_email_send` hook instead of its own SMTP when one is set. The hook
-replaces the transport for every account, not only ours, so it picks by the
-account the queue is sending from:
-- an address on the mail domain (`one_hosted`) goes to admin, which checks
-  it is this workspace's own and hands it to Cloudflare (one_admin/mailing.py);
-- on the admin site, its own Sender Email goes to Cloudflare directly
-  (one_admin/mailing.py, send_ours);
-- any other account goes over its own SMTP, as Frappe would have sent it.
-
-Email Queue keeps everything else: retries, statuses, the IMAP Sent copy for
-a connected account, the Communication.
-
-A message from an address on the mail domain that is too large to send has
-its largest attachments sent as OneCloud links instead, until it fits
-(`shrink`). The links download without an account and stop working after
-thirty days.
-
-On the way out, a reply gets a `References` header, which Frappe does not
-set. It is its parent's references followed by the parent itself, so the
-other side's mail client threads it as ours does (threads.py).
-"""
+Frappe's `override_email_send` hook, which picks the transport by the
+account the queue sends from."""
 
 import base64
 from email import message_from_bytes
@@ -245,10 +225,8 @@ def file_sent(doc, method=None) -> None:
 	thread of what it answers, and signed only as the composer signed it."""
 	if doc.communication_medium != "Email" or doc.sent_or_received != "Sent":
 		return
-	# Frappe appends a signature on save, the sender's own or the default
-	# outgoing account's, after the composer has closed. The signature belongs
-	# to the address it is sent from, and goes on in the composer, where it can
-	# be seen and changed (public/js/mail_compose.js).
+	# Frappe would sign after the composer closed. The sending address signs,
+	# in the composer (public/js/mail_compose.js).
 	doc.flags.skip_add_signature = True
 	doc.one_folder = doc.one_folder or "Sent"
 	if not doc.one_thread and doc.in_reply_to:

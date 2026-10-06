@@ -1,14 +1,7 @@
 """Where OneAI reads what arrives, and on whose behalf.
 
-Three switches: a OneCloud folder (and every folder inside it), a OneMail
-mailbox, and Intake Settings' "Read Files Attached to Records". Each is turned
-on by a person and remembers who, because OneAI may only do there what that
-person may do (docs/INTAKE.md §4.3). A person's My Files and own mailbox are
-theirs to turn on, not an administrator's.
-
-OneIntake Settings lists every mailbox and every folder OneAI reads
-(`overview`). An administrator may stop any of them from there; turning one
-on is still for whoever holds it, since OneAI then acts as that person.
+Three switches: a OneCloud folder, a OneMail mailbox, and Intake Settings'
+"Read Files Attached to Records", each remembering who turned it on.
 """
 
 import frappe

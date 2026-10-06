@@ -240,15 +240,28 @@ the desk's own Communication list.
   (`one_hosted`, no server, no SMTP login) and a person's on
   `give(user, name)`, which a workspace administrator calls. The part after
   the last dot is the workspace, which `is_workspace_name` checks.
+  The workspace's address is `<slug>@m.4dl.app` and a person's
+  `<name>.<slug>@m.4dl.app`. Neither has a server, because there is none.
+  The mail Worker stores what arrives, `inbound.py` files it, and sending
+  goes through admin to Cloudflare (stage 2). The workspace's address sends
+  and receives, and a person's only receives. A slug has no dot, so
+  `is_workspace_name` is the whole rule, and the Worker and admin apply the
+  same one.
 - **inbound.py**:
   - `notice` believes a notice only with this workspace's HMAC and a
     timestamp within five minutes, then enqueues the sweep.
   - `sweep`, every minute and after a notice, asks admin for what is new and
     takes each message. A message that fails is logged and passed over, and
     its original is still in R2.
+    A missed notice costs a minute, not a message.
   - `take` parses with Frappe's `InboundMail`, files it in INBOX on its
     account's Communication with its thread, references and original key,
     and saves attachments as Files on it. Taking one twice is taking it once.
+    `InboundMail` handles charsets, inline images, attachments and the
+    reply chain. The message goes on the hosted account its name belongs
+    to, its attachments are in R2 like every file, and `one_raw_key` says
+    where the original is, so "show original" and a re-parse are always
+    possible.
 - **threads.py**: the thread is the earliest referenced message we hold,
   otherwise the message's own ID.
 Stage 2, sending, is built. Large attachments sent as OneCloud links, and
@@ -259,10 +272,14 @@ undo send, come with the composer (stage 5).
   for every account, so it picks by the account the queue sends from:
   - an address on the mail domain goes to admin as the finished MIME
     message;
+  - on the admin site, its own Sender Email goes to Cloudflare directly
+    (one_admin/mailing.py, `send_ours`);
   - any other account goes over its own SMTP, as Frappe would have sent it.
   Queue statuses, retries and the IMAP Sent copy stay Frappe's. A reply
   gains a `References` header on the way: its parent's references, then the
   parent.
+  Frappe does not set it, and with it the other side's mail client threads
+  a reply as ours does (threads.py).
 - **one_admin/mailing.py** is admin's half. It checks that the From is on
   the mail domain and is the workspace's own, that the message fits 5 MiB,
   and that the workspace has sends left this hour and this day (200 and
@@ -272,6 +289,9 @@ undo send, come with the composer (stage 5).
   domain.
 - A hosted account names the mail domain as its SMTP host. It is never
   dialled, but Frappe's queue refuses an outgoing account with no host.
+  Sending goes through `override_email_send` (outbound.py). Frappe's queue
+  still builds an SMTPServer for the account, so the mail domain stands in
+  for its host, and the session it would open is never asked for.
 - A Communication sent from here is filed in Sent, in the thread of what it
   answers. A new conversation's thread is its own Message-ID, set once
   Frappe gives it one.
@@ -292,11 +312,19 @@ page to use them is missing (stage 5).
   since it is the right server. The account is an `Email Account` with
   `one_connected` and `enable_incoming` off, held by whoever connected it
   through a `User Email` row.
+  The `Email Domain` is one a workspace administrator set up, and the guess
+  uses the standard ports. Somebody whose server is none of these types it
+  in, and that is tried the same way. `enable_incoming` stays off because
+  Frappe's own pull reads one folder and marks what it reads, while sync.py
+  reads every folder and changes nothing. The `User Email` row is how
+  Frappe's own inbox holds a mailbox.
 - **imap.py** is the protocol: `LIST` lines, a folder's kind from its RFC
   6154 flag or its name in English, German or Arabic, modified UTF-7 folder
   names, `FETCH` responses and `COPYUID`. `Session` is one connection that
   reports MOVE, UIDPLUS and CONDSTORE and does without them where a server
   lacks them.
+  What `imaplib` leaves to the caller is here, pure and tested. A `Session`
+  is opened for one piece of work and closed.
 - **sync.py** runs every minute as one job per account, so two workers never
   read one mailbox. Per folder, a `Mail Folder` keeps UIDVALIDITY, UIDNEXT,
   HIGHESTMODSEQ and the oldest uid read:
@@ -308,6 +336,19 @@ page to use them is missing (stage 5).
   phone or a renumbered folder ends in one Communication, not two. Folders
   that only repeat others, such as Gmail's All Mail, are listed and not read.
   Nothing is marked read by reading it (`BODY.PEEK`).
+  The job's id keeps two from running at once. `LIST` is read every quarter
+  of an hour and on first sync, and each folder becomes or stays a
+  `Mail Folder`, its kind from its RFC 6154 flag or its name. Gmail's
+  Starred and Important repeat others too. A changed UIDVALIDITY means the
+  server renumbered the folder, so its uids are forgotten and messages are
+  matched again by Message-ID as they are read. History is read `BATCH` at
+  a time below the oldest uid read so far, so the last weeks arrive in the
+  first minute and years of history over the following ones. Without
+  CONDSTORE the newest `WATCHED` messages have their flags read back. When
+  the server holds fewer messages than we think, the missing uids are
+  found. A message moved on a phone appears in its new folder with the same
+  Message-ID and is matched to the one we have, keeping its links to
+  records.
 - **actions.py** is what a person does: read, star, move, delete, and make,
   rename or delete a folder. A connected mailbox changes on the server first
   and here once the server has taken it. A hosted one has only our rows, and
@@ -315,6 +356,14 @@ page to use them is missing (stage 5).
   administrator may change a mailbox. Delete moves to Trash. Deleting from
   Trash is for good, but a message linked to a record stays on its timeline.
   Frappe's own links to contacts do not count.
+  For a connected mailbox the server is the truth, so a phone reading the
+  same mailbox sees a change at once, and the next sync finds nothing to
+  undo. A hosted mailbox, on the mail domain, has no server. Read and
+  starred belong to the mailbox, not to the person, so two people holding
+  sales@ see one inbox, as the server does. Deleting from Trash removes the
+  message from the server for good. The Communication goes too, unless it
+  is linked to a record. Then it stays on the record's timeline and only
+  leaves the mailbox.
 - A connected mailbox's sent mail is appended to its Sent folder once per
   message, after the last recipient. Gmail and Outlook are skipped, since
   their SMTP files it there itself.
@@ -331,6 +380,9 @@ Stage 4, holders, is built.
   notion, which Frappe's Communication permission already reads. Only a
   holder may change anything in a mailbox. Being a workspace administrator
   is not enough, because somebody's own Gmail is theirs.
+  Nothing adds a second list, so a message is visible to exactly the people
+  who hold its mailbox, and an administrator does not see into somebody's
+  own.
 - A mailbox is somebody's own or the workspace's (`one_shared`). The
   workspace's are its address on the mail domain and anything an
   administrator connected with `shared`, such as sales@. **holders.py** lets
@@ -345,6 +397,7 @@ Stage 4, holders, is built.
   mailbox, and, if it sends, its default outgoing account. The address on the
   mail domain keeps receiving, so nothing sent to it is lost. `restore` puts
   it back.
+  A connected mailbox can take the place for receiving, sending or both.
 - `holders.mailboxes` is what the page will list: the reader's mailboxes,
   the workspace's first, each with its folders in the usual order and its
   unread count.
@@ -361,11 +414,22 @@ attachment to OneCloud, come with stage 6.
   whatever its folder, with its attachments. `names` turns conversations
   into the messages an action changes: the whole conversation for read and
   starred, and only its messages in the open folder for move and delete.
+  A conversation is the messages of one thread (`one_thread`) in one
+  mailbox. The list shows one row per conversation that has a message in
+  the folder, dated by its newest message there. Opening it shows every
+  message whatever its folder, so a reply in Sent is read beside the message
+  it answers. Only somebody who holds a mailbox reads it
+  (`actions.require`).
 - A Sent folder also answers to `Sent`. Mail sent from here is filed there
   until its copy on the server is read and matched.
 - **live.py** sends `onemail_change` with the mailbox's name to its holders
   only, once per mailbox after the commit. Sync, the sweep, actions and
   every new message announce it.
+  Holders only, so the event says nothing to anyone who may not read that
+  mailbox. After the commit, so nobody re-reads a folder before the change
+  is in it. Changes are announced where they are made, not from
+  Communication hooks, since most of them are `db.set_value`, which runs
+  none.
 - A message is drawn in a sandboxed frame with no scripts, links opening
   elsewhere and a CSP that loads nothing from outside until "Show pictures".
   Handlers and forms are stripped before it is drawn.
@@ -378,14 +442,22 @@ Stage 6, mail in OneCloud, is built.
 - **access.py** is the has_permission hook on Communication. Frappe lets
   anybody with Inbox User open any message by name and only narrows lists,
   so a guessed name opened a message and its files. A message in a mailbox
-  now opens for its holders, and for whoever may read the record it is
-  filed on. Holders get Inbox User with their first mailbox, and a patch
-  gives it to those who already held one.
+  now opens for its holders only. Holders get Inbox User with their first
+  mailbox, and a patch gives it to those who already held one.
+  A message's attachments answer to it (one_storage/namespace.py `may`), so
+  a name guessed or passed on opened those too. Being filed on a record does
+  not change who may open it. A link never grants read, or filing a message
+  on a customer would publish somebody's mail to everyone who can read the
+  customer (linking.py). Holders get Inbox User with their first mailbox in
+  `addresses.hold`, and it is what lets them open a message at all.
 - **cloud.py** is OneCloud's `@mail`: a folder per mailbox the reader
   holds, derived like a record's folder from the Files on the mailbox's
   Communications, newest first. Communication is left out of Records so a
   message's files are listed once. A file there answers to its message
   through `namespace.may`, which asks access.py.
+  Nothing is stored for these folders, so a mailbox's folder is exactly its
+  attachments and is seen by exactly its holders. A copy in My Files is the
+  reader's own.
 - Saving to My Files is OneCloud's own `copy`, a new row on the same
   object. Choosing a OneCloud file in the email window with no record behind
   it hands over the existing File, since sending copies it onto the message.
@@ -402,6 +474,11 @@ Stage 7, faces and logos, is built.
   with the fallback options that make "no logo" a 404. Both are fetched by
   the server in a background job, once. The answer is a `Face` row, keyed by
   address or domain, and the picture a public File in Company › Logos.
+  Fetching on the server, never in anybody's browser, means a sender learns
+  nothing when their message is opened. Google and Gravatar are asked once
+  per address or domain rather than every time a face is drawn, and a
+  tenant's pictures are theirs, in their own storage. Nothing is fetched
+  while somebody waits.
 - A face not found is looked for again after thirty days (daily job). An
   unreachable source is not taken to mean "has none".
 - Mail providers' domains (gmail.com and the like) and our own mail domain
@@ -440,10 +517,17 @@ for OneAI's mail lane.
   not reach), `thread` (a reply takes its conversation's records), `text`
   and `manual`. The first record that is not a contact also becomes the
   message's reference, which Frappe's reply matching reads.
+  So a message shows on several records at once. Each row says how it was
+  made, since a link nobody can explain is one nobody will trust. A
+  `contact` link comes from a Contact with the address and whatever that
+  contact is linked to. `manual` is somebody filing it, or sending it from
+  the record.
 - `text` reads the subject and the new part of the message, never the
   quoted history, for words that start with a naming-series prefix this
   site issues and end in a number. It keeps only those that exist, at most
   ten.
+  The quoted history of a reply is not read, since its names were found
+  when those messages arrived.
 - It runs from `inbound.Arrival.process`, after Frappe has finished. Frappe
   saves a new message a second time after inserting it, which rewrote links
   made in an after_insert hook.
@@ -453,6 +537,8 @@ for OneAI's mail lane.
   `get_communications` are wrapped with `override_whitelisted_methods` and
   narrowed to what the reader may open. Tested: a sales user who holds no
   mailbox sees none of the customer's mail; Frappe alone showed all three.
+  A record's Mail tab and timeline list only the messages the reader may
+  open (`visible`).
 - **record_mail.js** draws the Mail tab beside Files on the records
   `linking.TABS` names; `record_tabs.js` adds it to the layout, not to any
   doctype, as it adds every record tab (one/tabs.py).
@@ -478,6 +564,8 @@ Stage 9, rules, out-of-office and bounces, is built.
   the rules for that message. A rule acts for its mailbox while
   `frappe.flags.one_mail_rules` is set, which `actions.require` lets
   through; nothing else sets it.
+  On a connected mailbox a rule acts on the server, so a phone sees the
+  message where the rule put it.
 - Away is three fields on Email Account (`one_away`, `one_away_until`,
   `one_away_message`) set from the page. Each sender is answered once in
   four days (a cache key), with `Auto-Submitted: auto-replied` and the
@@ -486,6 +574,9 @@ Stage 9, rules, out-of-office and bounces, is built.
   no-reply, mailer-daemon and postmaster senders. The reply goes by
   `outbound.deliver`, the transport `send` now shares, so a person's
   address on the mail domain can answer too.
+  The reply is from the mailbox itself, while its holder is away, and
+  nothing that is itself automatic gets one: mailing lists, bulk mail,
+  other auto-replies, bounces and no-reply senders.
 - A delivery report (multipart/report, delivery-status) with a failed 5.x.x
   recipient puts that address on Frappe's Email Unsubscribe with
   `global_unsubscribe`, which Frappe's queue already leaves out, and says
@@ -501,7 +592,8 @@ across:
   signed by somebody else and nobody saw it. `file_sent` sets
   `skip_add_signature`, and mail_compose.js makes the composer put in the
   sending address's own signature (`holders.signature_for`, since Email
-  Account is not readable to its holders) before the writer's.
+  Account is not readable to its holders) before the writer's, where it
+  can be seen and changed.
 - **Search operators** (`api.operators`), each narrowing the search further.
   The body is still a LIKE: there is no full-text index behind it.
 - **Undo.** `move` and `delete` answer where each message was, and
@@ -676,3 +768,32 @@ Google's favicon service and Gravatar.
 9. **Rules, out-of-office and bounces.** Rules run on both kinds of
    mailbox and move on the server. Out-of-office replies on hosted
    addresses too. Addresses that bounce are suppressed at admin.
+
+### ai.py
+
+Everything is read as the reader, and only from a mailbox they hold
+(`actions.require`), so the rule that decides who may open a message
+decides what OneAI may read of it. A conversation's text goes to the model
+only when the reader asks about it, and nothing of it is kept but the
+answer.
+
+A reply is never sent from here. `draft_reply` writes a card. Approving it
+opens frappe's own email window with the reply written in, the recipients
+and the quoted conversation filled as Reply fills them, and the person
+reads it, changes it and sends it (onemail.js `reply_to`).
+
+### room.py
+
+An attachment is stored in R2 like any file (one_storage/store.py), and a
+full workspace refuses it (`store.NoRoom`). Frappe's receiver does not
+expect that, so before this the whole message failed, the sweep or the sync
+moved past it, and it was never in OneMail. A message is text in the
+database, which has its own limit. Only its attachments need the room.
+
+So `Arrival` saves attachments one at a time (inbound.py), and one refused
+for room is written down on its message (`one_unsaved`) instead of failing
+it. The reading pane shows it as not saved. `again`, every hour, takes each
+such message's original again, from R2 for an address on the mail domain
+or from the server for a connected mailbox, and saves what now fits. The
+administrators and the mailbox's holders are told once a day at most while
+attachments are being refused (tell.py).

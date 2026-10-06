@@ -1,19 +1,7 @@
 """What a call actually consumed, read out of what the provider answered.
 
-Pure, and the shortest module in this arc, because the whole of it is: take the
-numbers the provider reported and turn them into `pricing.Use`. Nothing is
-inferred, nothing is estimated, and a response with no usage in it comes back
-saying so rather than coming back as nothing.
-
-**The two providers report differently, and that is the reason the rate schema
-is unit-aware.** Gemini's `usageMetadata` carries token counts per modality for
-the prompt, the cache and the output, so a multimodal call is exactly meterable.
-Workers AI reports tokens for text and nothing at all for pictures or speech, so
-those are metered from what we asked for — which we know, because we sent it.
-
-**A call that answered but could not be metered is not free.** `read` returns
-what it found and the caller charges the hold, which is the only honest answer:
-the provider billed us for it either way.
+Pure: the numbers the provider reported, turned into `pricing.Use`. Nothing is
+inferred, and a call that answered but could not be metered is not free.
 """
 
 from onedesk.one_admin.pricing import Use
@@ -27,10 +15,8 @@ SAID_AS = {
 	"DOCUMENT": "other",
 }
 
-#: Everything either provider counts in, once counted. Both bill text per
-#: million tokens and both report a count of tokens, so the unit is the same
-#: word — which is a coincidence rather than a rule, and is why it is written
-#: down here rather than assumed at the call site.
+#: Everything either provider counts in, once counted: the same word for both
+#: by coincidence rather than rule, so written down here.
 TOKENS = "tokens"
 
 

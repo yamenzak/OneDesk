@@ -1,24 +1,4 @@
 """The assets register finishes itself.
-
-ERPNext makes assets from a purchase receipt of an item marked Is Fixed
-Asset, and three things stand between buying a laptop and a laptop on the
-register depreciating:
-
-- **The item.** Assets are made only when the item also has *Auto Create
-  Assets on Purchase* and an asset naming series; both are off. Without them
-  the receipt says "create the asset manually" and nobody does. `fixed_item`
-  (Item validate) sets both when an item becomes a fixed asset.
-- **The location.** The receipt refuses a fixed-asset row with no *Asset
-  Location*. With one location — Head Office — there is nothing to decide, and
-  `located` (Purchase Receipt validate) fills it.
-- **The draft.** What the receipt makes is a Draft asset with depreciation
-  off, and a draft is never depreciated or counted; ERPNext expects somebody
-  to open each one, tick Calculate Depreciation, fill the finance book from
-  the category, give it an available-for-use date, and submit. `registered`
-  (Purchase Receipt on_submit, after ERPNext's) does that for each asset the
-  receipt made (`finish`): in use from the day it was bought, depreciating as
-  its category says from the end of that month. One that will not finish is
-  left a draft with the reason on it, and the Inventory Check counts it.
 """
 
 import frappe

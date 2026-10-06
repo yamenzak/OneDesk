@@ -1,17 +1,7 @@
 """What the panel offers when it opens, for the page it opens on.
 
-Not buttons on every screen: the panel is already one press away from all of
-them, and a form carrying an AI button per feature is a form nobody reads. So
-the panel opens on "What would you like to do?" and offers the few things that
-make sense here — a receipt on an expense claim, a summary on a record. That
-includes the things OneAI does without a conversation, like reading an
-applicant's CV again: a suggestion with `run` calls that method on the open
-record, and the panel says what is happening. No OneAI button goes on a page.
-
-Each module owns its own, named in `hooks.py` under `one_ai_suggestions` as a
-dict of doctype to suggestions. A suggestion is offered only to somebody who
-holds the verb it names on that doctype, because offering to make a claim to a
-person who cannot make one is offering a refusal.
+Each module owns its own, under `one_ai_suggestions` in `hooks.py`, and a
+suggestion is offered only to somebody who holds the verb it names.
 """
 
 import frappe
@@ -86,10 +76,8 @@ def for_page(page: dict | None) -> list[dict]:
 		# a page with no form open has no form to add it to.
 		if "record" in one and bool((page.get("record") or "").strip()) != one["record"]:
 			continue
-		# And for a record in one state only: "why did this job fail?" on a
-		# job that did not fail is a question with no answer. `when` is
-		# {field: [values]}, read from the record the panel is open on.
-		# A desk page names the record it is open on as `record`.
+		# And for a record in one state only. `when` is {field: [values]}, read from
+		# the record the panel is open on, which a desk page names as `record`.
 		if one.get("when") and not _holds(on, page.get("name") or page.get("record"), one["when"]):
 			continue
 		if one.get("run"):
@@ -105,10 +93,8 @@ def for_page(page: dict | None) -> list[dict]:
 				}
 			)
 			continue
-		# Labels and questions are `_lt`, so each is in the reader's language:
-		# the question is what the panel shows as theirs, and what it sends.
-		# `fill` puts the question in the panel's box to be finished by the
-		# reader ("Draft a reply that says: …") rather than asking it at once.
+		# Labels and questions are `_lt`, so each is in the reader's language. `fill`
+		# puts the question in the panel's box for the reader to finish.
 		said.append(
 			{
 				"label": str(one["label"]),

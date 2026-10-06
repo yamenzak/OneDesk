@@ -1,42 +1,4 @@
-"""What a project costs and what it is billed, on ERPNext's own records.
-
-**Time is priced by ERPNext.** A timesheet row takes its costing and billing
-rate from the person's **Activity Cost** for its activity, or the **Activity
-Type**'s own rates when they have none (`TimesheetDetail.update_cost`), and a
-submitted timesheet adds its cost and billable amount to the project. The timer
-(one_task/timer.py) writes those rows; nothing here prices anything.
-
-**Invoice Time** (`invoice_time`) is ERPNext's Sales Invoice with its Time
-Sheets table filled: every billable hour on the project not yet invoiced, as
-lines by activity — Design 12 h, Site visits 4 h — at what the hours come to.
-It opens as a draft for somebody to read before it is submitted, and
-submitting it is what marks the hours billed and adds to the project's Billed,
-which is ERPNext's (TimesheetBillingService). On a project with sub-projects
-it takes the whole tree's billable time for the same customer, each line of
-the invoice's Time Sheets naming its project, so the villa's page invoices
-the windows' hours too (`_rows`). A retainer's hours are billed with its
-month, never here.
-
-**What was bought for it** (`costs`). A Time and Materials job bills the
-materials and outside work bought for it as well as its hours: supplier
-bills' lines on the project, stock issued to it, and approved expense claims
-for it, each at what it cost the company plus the project's **Markup on
-Costs** (`one_markup`). Invoice Time adds them as lines under the time, one
-per cost, and each line names the cost it bills (`one_rebills`), so a cost is
-never billed twice and is billable again if its invoice is cancelled. Only a
-Time and Materials project's costs are billed this way; a fixed price covers
-its own.
-
-**A quotation for extra work becomes a sub-project** (`ordered`). A quotation
-names its project like any other (chain.py), and **Extra Work** says it is
-more than the job was ordered for. Both are carried to its Sales Order (the
-same fields on both, so ERPNext's mapping carries them), and when the order is
-submitted a project is made for it under that one, ERPNext's own "Create >
-Project" from an order with the order's total as its estimate. The order and
-its lines then name the sub-project, so the handrails a customer asked for
-halfway through the windows have their own order, time, costs and invoices,
-and add up into the villa's.
-"""
+"""What a project costs and what it is billed, on ERPNext's own records."""
 
 from typing import Annotated
 

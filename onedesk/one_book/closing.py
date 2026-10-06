@@ -1,20 +1,4 @@
 """Closing: locking the books up to a date, and the year-end close.
-
-**The lock** is ERPNext's own — nothing is posted, edited or cancelled on or
-before `Company.accounts_frozen_till_date` (accounts/services/gl_validator.py
-`check_freezing_date`) — but it sits on a tab of the Company form beside a
-role that may post anyway, and nothing leads there. **Lock Books** on the VAT
-Return sets it to the end of the period just filed, since a period that has
-been filed is not to change; the Books Check says where it stands. Locking leaves the role
-empty, so locked means locked for everybody, the Administrator too; to
-correct a locked period, unlock it, correct, and lock again.
-
-**The year-end close** is ERPNext's Period Closing Voucher, which moves the
-year's profit to an equity account and asks which. OneBook answers: the
-chart's Retained Earnings. The Books Check notices a year that has ended with
-entries in it and no closing, and **Close the Year** makes and submits the
-voucher, then locks the books to the year's last day. ERPNext posts it in the
-background.
 """
 
 import frappe

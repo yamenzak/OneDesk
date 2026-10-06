@@ -1,28 +1,8 @@
 """The Customize page: a workspace changes a form the way frappe lets a System
 Manager change one, and nothing it writes is code. docs/SHELL.md, decision 6.
 
-What a workspace administrator changes here is frappe's own records, and one
-of ours:
-
-- **Fields**: a field's label, whether it is hidden, required or in the list,
-  and the order of them all, as **Property Setters**; a field of the
-  workspace's own, as a **Custom Field**, which it may change again or take
-  away. A field the record came with may be hidden, never removed.
-- **Above the fields**: rows of the doctype's **Record Head** (one/head.py):
-  numbers in the band, verbs a module registered, and linked sections
-  (one/linked.py). A module's own rows are shown and kept; the workspace's are
-  marked `custom`, so a migrate keeps them too.
-- **Connections and buttons**: the DocType's own Links and Actions, marked
-  `custom` as frappe's Customize Form marks them. A button here only goes
-  somewhere; one that runs something is a verb.
-
-Every row is written under `frappe.flags.one_workspace_layer`, so the holds in
-one/layer.py read it as the workspace's, and it is saved against the state
-the page loaded (`state`), so two administrators do not overwrite each other.
-What frappe does not mark (a custom field, a property setter) the page writes
-into a ledger, **Workspace Customization**, and **Reset** takes back what the
-ledger names and nothing else: a module's customizations are never the
-workspace's to remove.
+Fields, rows above them, connections and buttons, as frappe's own records and
+one of ours; Reset takes back only what the workspace wrote.
 """
 
 import json
@@ -34,7 +14,7 @@ from frappe.custom.doctype.property_setter.property_setter import make_property_
 from frappe.utils import cint, cstr
 
 from onedesk.one import head as heads
-from onedesk.one import layer, roles
+from onedesk.one import layer, roles, tell
 
 #: Modules that are the framework, or One itself, which no workspace changes.
 REFUSED_MODULES = (
@@ -330,22 +310,8 @@ def save(doctype: str, values: str | dict, token: str) -> dict:
 	for one in carried:
 		frappe.clear_cache(doctype=one["to"])
 	_changed(doctype)
-	_told(doctype)
+	tell.form_customized(doctype)
 	return load(doctype)
-
-
-def _told(doctype: str) -> None:
-	"""The other administrators hear that a form changed for everybody: who,
-	and which (OneStudio's Form Customized)."""
-	from onedesk.one import notify
-
-	notify.notify(
-		"Form Customized",
-		roles.administrators(),
-		link=f"/desk/workspace-field?form={doctype}",
-		who=frappe.utils.get_fullname(),
-		form=_(doctype),
-	)
 
 
 def _changed(doctype: str) -> None:
@@ -753,7 +719,7 @@ def reset(doctype: str) -> dict:
 	frappe.db.delete("DocType Link", {"parent": doctype, "custom": 1})
 	frappe.db.delete("DocType Action", {"parent": doctype, "custom": 1})
 	_changed(doctype)
-	_told(doctype)
+	tell.form_customized(doctype)
 	return load(doctype)
 
 

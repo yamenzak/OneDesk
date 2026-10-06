@@ -1,24 +1,8 @@
 """Stage 7 of Intake: money and goods, as drafts a person submits. Pure.
 
-A company keeps books, so every purchase document becomes a draft matched to
-what came before it: an invoice to its Purchase Order, a supplier's delivery
-note to a Purchase Receipt against the order, a credit note to a return
-against the invoice it credits (docs/INTAKE.md §3.2). An order from a
-customer becomes a draft Sales Order, a payment advice a draft Payment Entry
-against our invoice, a supplier's quote a Supplier Quotation, a contract
-ERPNext's Contract. A bank statement's lines become Bank Transactions, which
-are not postings. Nothing is ever submitted here: posting stays a person's
-act, in Ready to submit (drafts.py).
-
-Every draft is written as the person OneAI acts for, since ERPNext asks the
-signed-in user about every account a draft touches; the OneAI mark still
-says who made it.
-
-A household does not keep books (Intake Settings' Make Drafts in the Books is
-off): nothing here runs, and Spending reads the same readings.
-
-Like plans.py, these take a reading and what planning found out and answer
-actions; they touch nothing.
+Every purchase document becomes a draft matched to what came before it, and
+nothing is ever submitted here. Like plans.py, these answer actions and touch
+nothing.
 """
 
 from datetime import timedelta

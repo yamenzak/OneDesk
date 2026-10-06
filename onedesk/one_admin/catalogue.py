@@ -1,23 +1,7 @@
 """Keeping the model list true without anybody typing it.
 
-Providers ship models weekly and re-price them without an announcement. A table
-of models and prices maintained by hand is wrong inside a month, and the way you
-find out is a margin rather than an error. So it syncs, from two places for two
-different kinds of fact:
-
-* **what exists, and what it can do** — each provider's own API;
-* **what it costs** — the page each provider publishes, parsed by `prices.py`,
-  which has no frappe in it and is read back against a saved copy of each page.
-
-Cloudflare's models are listed from Cloudflare's own API, because the token for
-that is one we already hold and it is not a provider secret. Google's are listed
-*through the gateway*, which forwards the request and attaches the stored key —
-so the catalogue is built without a Google key ever reaching this site.
-
-**The sync never overrules the operator.** It creates rows and refreshes facts.
-Whether a model is *offered* is a decision and stays one. The only two decisions
-it makes on its own are the ones it has to: a model that stopped being priceable
-comes off sale, and a model the provider withdrew is marked gone.
+What exists comes from each provider's API, what it costs from the page each
+provider publishes (`prices.py`). The sync never overrules the operator.
 """
 
 from datetime import date
@@ -165,22 +149,15 @@ def _matched(
 ) -> dict[str, tuple[list[prices.Rate], str]]:
 	"""Each listed model's rates, or the wording that stopped it having any.
 
-	Cloudflare's page names a model by the id its API answers with, so there is
-	nothing to match. Google's page says "Gemini 3.1 Flash Image (Nano Banana 2)"
-	where its API says `gemini-3.1-flash-image`, so both sides go through `fold`
-	— which costs nothing on the Cloudflare side and means one lookup rather
-	than a branch. A name that still does not match is left unpriced rather than
-	guessed at.
+	Both sides go through `fold`, so a page's name and an API's id meet; a name
+	that still does not match is left unpriced rather than guessed at.
 	"""
 	stopped: dict[str, list[str]] = {}
 	for gap in read.gaps:
 		stopped.setdefault(prices.fold(gap.model), []).append(f"{gap.what}: {gap.wording}")
 
-	# Gap models as well as priced ones. A model the page prices in a way this
-	# cannot read — Veo, per second of video and by resolution — would otherwise
-	# be told "no price on the published page", which is the wrong sentence: the
-	# price is there and we could not read it, and those are different problems
-	# with different answers.
+	# Gap models as well as priced ones: the price is there and we could not
+	# read it, which is not the same as no price on the page.
 	by_fold = {prices.fold(name): name for name in read.rates}
 	for gap in read.gaps:
 		by_fold.setdefault(prices.fold(gap.model), gap.model)
@@ -222,9 +199,7 @@ def _write(
 
 	if model.priced_by_hand:
 		# A price somebody typed off the provider's page, for a model this
-		# cannot read — Veo's per-second video prices differ by resolution and
-		# Lyria's are per song. The sync leaves those rows alone rather than
-		# deleting a decision every night, and still refreshes everything else.
+		# cannot read: the sync leaves those rows alone.
 		model.status = "Priced" if model.rates else "Needs Review"
 		model.why = None if model.rates else frappe._("Priced by hand with no rates.")
 	else:
@@ -246,11 +221,8 @@ def _write(
 		model.offered = 0
 		model.default_for = None
 
-	# A provider may reclassify a model — Cloudflare moved llama-3.2-11b-vision
-	# from Vision to Text Generation — and a default it still carries then names
-	# something it can no longer do. The default goes rather than the sync
-	# stopping, because a nightly job that a validation halts is a catalogue
-	# that silently stops updating.
+	# A provider may reclassify a model; the default goes rather than the sync
+	# stopping, or the catalogue silently stops updating.
 	if model.default_for and not capability.able(model.capability, model.default_for):
 		touched.setdefault("undefaulted", []).append(f"{key} ({model.default_for})")
 		model.default_for = None
@@ -324,11 +296,8 @@ def _withdraw(provider: str, still_listed: set[str], touched: dict | None = None
 			touched.setdefault("gone", []).append(
 				{"name": row.name, "label": row.label, "why": "withdrawn", "default_for": row.default_for}
 			)
-		# The default goes with it. A withdrawn model that is still the default
-		# for a capability is a default nothing can replace — every attempt is
-		# refused because the old one still holds the name — and the first call
-		# that needs it fails with "not offered" rather than with anything that
-		# says why.
+		# The default goes with it: a withdrawn default is one nothing can
+		# replace, since the old one still holds the name.
 		frappe.db.set_value(
 			"AI Model",
 			row.name,

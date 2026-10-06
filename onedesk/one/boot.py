@@ -1,12 +1,6 @@
 """What the apps screen shows.
 
-Frappe pins its own Framework tile last on every site. It is the desk's own
-administration — Users, Build, Data, the System settings — and the people who
-need it all hold System Manager, so anyone else gets a tile they cannot use.
-
-The tile comes from frappe's own `add_to_apps_screen` hook, which we cannot
-edit, so it is taken off the screen here instead. `extend_bootinfo` runs after
-`app_data` is built, which is the only seam that sees it.
+Frappe's own Framework tile is taken off it, for everyone it is of no use to.
 """
 
 import frappe
@@ -78,10 +72,8 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_heads_live"] = head.live()
 
-	# What each provisioning step is doing, in words. The list view needs it and
-	# so does the form; putting a copy in JavaScript would be a second list to
-	# be wrong the day somebody adds a step. Only on the admin site, where the
-	# screens that read it exist.
+	# What each provisioning step is doing, in words, for the list and the form alike,
+	# and only on the admin site, where those screens exist.
 	from onedesk.one_admin import site as admin
 
 	if admin.is_admin():

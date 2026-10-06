@@ -1,23 +1,7 @@
 """The arithmetic of a credit balance, with nothing of Frappe in it.
 
-Same reason as `ladder.py` and `keys.py`: this decides what somebody is allowed
-to spend, and a decision that costs money should be readable in milliseconds
-against a table of cases rather than against a site.
-
-Three rules, and the second is the one that is easy to get wrong.
-
-**A grant is a bucket with a date on it.** What is left in one is what was
-granted plus everything drawn from it, and a bucket whose day has passed stops
-counting — which is the whole of expiry. There is no sweep, no expiry row and
-nothing to run nightly: a balance simply stops including it.
-
-**The soonest-expiring bucket is drawn first.** The other order loses somebody
-credits they paid for while a free monthly grant sits unused beside them, and it
-does it quietly, a month later.
-
-**An overdraw belongs to no bucket.** A call the provider answered costs what it
-cost, even if it came to more than was held for it, so the arithmetic has to
-have somewhere to put that rather than refusing after the money is spent.
+A grant is a bucket with a date on it, the soonest-expiring is drawn first,
+and an overdraw belongs to no bucket.
 """
 
 from dataclasses import dataclass

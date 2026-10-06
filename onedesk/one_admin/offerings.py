@@ -1,22 +1,7 @@
 """The price list a new admin site starts with, and what it costs us.
 
-Four plans from 30 a month, the add-ons that go on them, and the credit
-packs. Written once: `install` adds what is missing by key and never touches
-an offering that exists, because the operator's prices are theirs to change
-and a migrate must not put the old ones back. The Price Check report says
-whether the list still makes sense after they do (plans.py).
-
-Why these numbers, briefly (the Price Check shows the rest):
-
-* Each plan is at least twice what it costs us (`COSTS`), and each step up
-  saves more than half over buying the difference as add-ons, so somebody
-  who has outgrown a plan is better off moving up.
-* The smallest add-on of each thing costs less than any step up, so
-  somebody who needs a little more is better off adding it.
-* A bigger add-on is cheaper per unit than a smaller one.
-* Database is dear and storage is cheap, because a GB of database moves the
-  site up Frappe Cloud's plans and is backed up every day, where a GB of
-  files is a GB in R2.
+Four plans from 30 a month, the add-ons that go on them, and the credit packs.
+`install` adds what is missing by key and never touches an offering that exists.
 """
 
 import frappe

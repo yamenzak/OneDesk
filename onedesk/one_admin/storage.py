@@ -1,21 +1,8 @@
 """R2, signed by admin and carried by Cloudflare.
 
-Admin is in the control path and never the data path. It checks the quota, works
-out the key and signs a URL; the browser then talks to R2 directly and not one
-byte passes through this process. Doing it the other way would put every
-tenant's uploads through one Frappe site with four workers, and that is the
-first thing that would fall over.
-
-**Two buckets, Global and EU, and a prefix per tenant.** Jurisdiction is chosen
-once at signup and is permanent — R2 pins a bucket to it at creation, so moving
-afterwards means copying every object. Never a bucket per tenant: a lifecycle
-rule written against one bucket gets written against the next one too, and a key
-scoped to a bucket still reaches every tenant in it.
-
-**Usage is measured, not reported.** The nightly pass lists each prefix and adds
-it up. A workspace that reported its own number would be a workspace that could
-under-report it, and the whole reason storage is billed from here is that a
-tenant cannot be the authority on what it owes.
+Admin checks the quota, works out the key and signs a URL; the browser talks to
+R2 directly. Two buckets, Global and EU, a prefix per tenant, and usage is
+measured nightly, not reported.
 """
 
 import boto3
@@ -117,15 +104,8 @@ AT_A_TIME = 1000
 def empty(tenant) -> int:
 	"""Delete everything under this workspace's prefix, and say how much.
 
-	The last rung of the ladder and the only step on it that destroys anything
-	of ours. It is written to be safe to run twice, because the runner retries:
-	emptying a prefix that is already empty deletes nothing and succeeds, so a
-	sweep that died half way finishes on the next attempt rather than starting
-	an argument about where it got to.
-
-	The prefix comes from `keys.prefix`, which refuses a slug with a slash in
-	it. That is the whole of what stands between this and deleting the wrong
-	workspace's objects, and it is the reason that function is pure and tested.
+	The last rung of the ladder, safe to run twice. The prefix comes from
+	`keys.prefix`, which refuses a slug with a slash in it.
 	"""
 	client = _client(tenant.jurisdiction)
 	bucket = _bucket(tenant.jurisdiction)

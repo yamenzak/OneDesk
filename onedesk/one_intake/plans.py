@@ -1,23 +1,7 @@
 """Stage 6 of Intake: what a document makes, as a list of actions. Pure.
 
 Each planner takes the Reading as a dict and what `planning.context` found out
-about it (who the sender is, which employee, the matter's task) and answers
-the actions the door should take. None of them touches the database or asks
-a model, so each row of docs/INTAKE.md §3.1 is an ordinary unit test: this
-reading, in this context, makes these actions.
-
-Two passes. **Parties** first: the counterpart a document needs and does not
-have yet (a supplier for an invoice, a customer for an order, a lead for an
-inquiry, an applicant for a CV). The door makes them, the reading's parties
-are matched again, and filing runs with the new records in place. Then
-**everything else**: the sender's Contact, a person's documents on their
-Employee, a sick note's leave, an employee's receipt, one task per matter,
-an appointment's event and what our own mail promised.
-
-**A document never creates a party just for being mentioned.** Only the
-counterpart, and only when the kind of document says what it must be. A
-name alone makes nothing: a supplier needs a VAT id, a tax number, an IBAN,
-a register number or its own email domain.
+about it, and answers the actions the door should take, in two passes.
 """
 
 from datetime import timedelta

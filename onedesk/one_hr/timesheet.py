@@ -1,19 +1,4 @@
-"""Hours, written the way somebody reads them back.
-
-One thing here is not cosmetic. ERPNext's timer offers to *resume* any row whose
-Completed box is unticked and whose From Time is in the past — which is every row
-anybody typed by hand, because nothing ticks Completed when you enter a block
-yourself. It then counts from that row's From Time, so a 09:00–13:00 block
-entered yesterday opens the timer at fifteen and a half hours, and pressing
-Complete writes `to_time = now` over the end time that was already there. Four
-hours becomes fifteen, silently, on a document payroll reads.
-
-The fix is in `public/js/timesheet.js` and it is small: a row with a To Time is
-finished, so the only row the timer may resume is one that has a start and no
-end. What is here is the reading half — `one_when` on each row, so the grid says
-"21 Sep 09:00 – 13:00" instead of a truncated datetime and a number of hours
-with no end beside it.
-"""
+"""Hours, written the way somebody reads them back."""
 
 from frappe import _
 from frappe.utils import format_datetime, get_datetime

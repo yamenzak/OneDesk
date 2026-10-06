@@ -1,17 +1,6 @@
 """Inviting a customer's or supplier's contact to the portal, and taking it
 back. See one/portal.py.
 
-frappe's Invite as User makes the login only for somebody who may create
-users, and nobody on a workspace may (one/roles.py), so the portal could not
-be reached. Here a workspace administrator, or the manager of the contact's
-customer (Sales Manager) or supplier (Purchase Manager), invites the contact
-from their form: a Website User is made for the contact's address, linked to
-the contact (portal.invited then makes it a portal user of each customer and
-supplier the contact is for), and One's Portal Invitation is mailed with a
-link that works for a week (one/invite.py). An address that is already
-somebody's in the workspace is refused: they sign in to One, not the
-portal.
-
 Revoke Access turns the login off and signs it out everywhere; Restore Access
 turns it back on.
 """

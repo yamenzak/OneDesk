@@ -1,32 +1,8 @@
-"""What HRMS tells people, told through One's hub instead (docs/NOTIFICATIONS.md,
-stage 6).
+"""What OneHR tells people, through One's hub (docs/NOTIFICATIONS.md, stage 6).
 
-HRMS tells people things four ways, and none of them is the bell:
-
-- **Approvals** go to its own phone app, as PWA Notification rows nobody here
-  reads (`PWANotificationsMixin`): somebody asks for leave, an expense or a
-  shift, and the approver is told; it is answered, and the employee is told.
-  The classes below keep HRMS's own and tell the same moments through the
-  hub, one type per request and per answer. Leave also mailed both moments
-  from Email Templates set in HR Settings (`send_leave_notification`); that
-  switch is off, and hidden, because this tells them now.
-- **Reminders** are mailed by its scheduler: birthdays, work anniversaries,
-  upcoming holidays, an interview soon, feedback not given. Each has a switch
-  in HR Settings; those are off and hidden (`replaces` in notifications/one_hr/),
-  and the jobs here tell the same people the same things. A type starts on
-  only if its switch was on.
-- **A rescheduled interview** is mailed to interviewers and applicant alike,
-  in fixed words, with no switch. `Interview.reschedule_interview` is
-  HRMS's, written again here (HRMS is GPL-3.0, this repository AGPL-3.0) so
-  the interviewers are told in One and the applicant is mailed in a type's
-  words.
-- **Mails that are the point** stay HRMS's: a payslip, the exit
-  questionnaire, and the report of earned leave that failed to allocate. They
-  are listed as types with `mailed_by`, so the administrator sees them.
-
-A person with no user here cannot be told in One. Where HRMS would have mailed
-them, they are mailed in the type's words; a birthday is only told to people
-with a user.
+HRMS's approvals, reminders and rescheduled interviews, told here instead of
+its own app and mails, and OneHR's own moments besides. More in
+one_hr/README.md, Under the hood.
 """
 
 import datetime
@@ -313,3 +289,109 @@ def _holidays(frequency: str) -> None:
 			),
 			count=cint(len(days)),
 		)
+
+
+# ------------------------------------------------------------------ OneHR's own
+
+
+def grievance_flagged(doc, sensitive: bool) -> None:
+	"""A grievance OneAI read as sensitive or urgent, to the HR Managers."""
+	from onedesk.one_hr import ai_grievance, hiring
+
+	users = ai_grievance.trusted_users()
+	if not users:
+		return
+	notify.notify(
+		"Sensitive Grievance" if sensitive else "Urgent Grievance",
+		users,
+		record=("Employee Grievance", doc.name),
+		sender=hiring.AUTHOR,
+	)
+
+
+def day_closed(employee: str, checkin: str) -> None:
+	"""A day nobody clocked out of, closed at the shift's end, to the employee."""
+	user = frappe.db.get_value("Employee", employee, "user_id")
+	if not user:
+		return
+	notify.notify("Check-in Closed for You", user, record=("Employee Checkin", checkin))
+
+
+def letter_requested(doc) -> None:
+	"""An employee asked for a letter, to the HR Managers."""
+	managers = frappe.get_all(
+		"Has Role",
+		filters={
+			"role": "HR Manager",
+			"parenttype": "User",
+			"parent": ["not in", ["Administrator", "Guest"]],
+		},
+		pluck="parent",
+	)
+	enabled = frappe.get_all("User", filters={"name": ["in", managers], "enabled": 1}, pluck="name")
+	if not enabled:
+		return
+	notify.notify(
+		"Letter Requested",
+		enabled,
+		record=(doc.doctype, doc.name),
+		employee=doc.employee_name,
+		kind=frappe._(doc.kind).lower(),
+	)
+
+
+def place_proposed(doc) -> None:
+	"""A network or place the clock learned and confirmed, to the HR Managers."""
+	managers = frappe.get_all(
+		"Has Role",
+		filters={"role": "HR Manager", "parenttype": "User"},
+		pluck="parent",
+		distinct=True,
+	)
+	notify.notify("Check-in Place Proposed", managers, record=(doc.doctype, doc.name))
+
+
+def could_not_mark_left(employee: str, why: str) -> None:
+	"""Somebody past their last day who could not be set to Left, to HR."""
+	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
+	hr = frappe.get_all(
+		"Has Role",
+		filters={"role": ["in", ["HR User", "HR Manager"]], "parenttype": "User"},
+		pluck="parent",
+		distinct=True,
+	)
+	notify.notify(
+		"Could Not Mark Left",
+		hr,
+		record=("Employee", employee),
+		employee=name,
+		why=frappe.utils.strip_html(why),
+	)
+
+
+def check_in_flagged(attempt: str, employee: str, signals: list[str]) -> None:
+	"""A check-in flagged for review, to everybody who can settle it."""
+	from onedesk.one_hr import review, rules
+
+	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
+	told = "\n".join(f"• {frappe._(rules.says(signal))}" for signal in dict.fromkeys(signals))
+	reviewers = frappe.get_all(
+		"Has Role",
+		filters={"role": ["in", list(review.REVIEWERS)], "parenttype": "User"},
+		pluck="parent",
+		distinct=True,
+	)
+	notify.notify(
+		"Check-in Flagged", reviewers, record=("Clock Attempt", attempt), employee=name, reasons=told
+	)
+
+
+def shift_not_reading(shift: str) -> None:
+	"""A shift whose check-ins never become attendance, to the HR Managers."""
+	people = frappe.get_all(
+		"Has Role",
+		filters={"role": "HR Manager", "parenttype": "User"},
+		pluck="parent",
+		ignore_permissions=True,
+	)
+	notify.notify("Shift Not Reading Check-ins", people, record=("Shift Type", shift), shift=shift)

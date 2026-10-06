@@ -1,24 +1,7 @@
 """Turning an action and a workspace's preferences into one call.
 
-This is the module where the safety of the feature is actually written down, and
-it is two rules.
-
-**Ours first, theirs after, and never instead.** An `AI Action` carries the
-system instruction we wrote. A workspace may *add* to it — a house style, a
-language, a length — and there is nowhere for a workspace to put anything that
-replaces it. The two are joined here, in this order, with a sentence between
-them saying which wins, and the whole thing goes where the provider puts a
-system instruction rather than being glued onto the front of the prompt.
-
-**Nothing is ever asked "which model" at the call site.** An action declares the
-capability it needs; a workspace picks a model on a settings screen or does not;
-and if it does not, the operator's default for that capability answers. Code
-that calls a model never names one — see `docs/ONEAI.md`.
-
-The action read here is **the administrator's copy**. A workspace carries the
-same fixture so it knows what it may ask for and so a settings screen has labels
-to draw, but the copy that decides is this one, and a tenant has nobody who may
-write it.
+Our instruction first, the workspace's after and never instead; and the call
+site never names a model. The action read here is the administrator's copy.
 """
 
 import frappe
@@ -295,11 +278,8 @@ def default_model(needs: str) -> str | None:
 	"""What an action needing `needs` runs on when the workspace picked
 	nothing, or picked a model that is no longer offered.
 
-	The model set as the default for it, if there is one. Otherwise an offered
-	model that can do it, from the preferred provider first, a model that is
-	the default for something else before one that is not, and the cheapest of
-	those: so a Gemini default for text generation, which also reads pictures
-	and sound, runs the transcriptions and the scans too.
+	The model set as the default for it, if there is one; otherwise the best
+	offered model that can do it.
 	"""
 	from onedesk.one_admin import makers
 

@@ -1,24 +1,5 @@
-"""Events, and who may see one.
-
-An Event is frappe's: something at a time, with a subject, a place and the
-people it is with. frappe lets a person see a Public event, one they made, one
-shared with them, and one they are a participant in. **One adds a fifth: an
-event about a record is visible to whoever may read that record** — a meeting
-about a deal is on the calendar of everybody who may open the deal, as the deal
-itself is. An event is about a record when its Reference, one of its Links or
-one of its participants names it.
-
-frappe's permission hooks can only take access away, never grant it, so this is
-not a hook: the calendar reads Events itself, here, and shows such an event
-without opening it. Clicking it opens the record it is about. The Event's own
-form still follows frappe's rule, which is why editing one stays with the
-person who made it.
-
-Repeating events are expanded here too (`occurrences`), on the days shown.
-
-**A Public event is on everybody's calendar**, so making one is kept to the
-people who speak for the workspace (PUBLISHERS). frappe lets any desk user do
-it, and a calendar anybody can write on is a calendar nobody reads.
+"""Events, and who may see one: frappe's rule, plus an event about a record
+for whoever may read that record.
 """
 
 from datetime import date, datetime, timedelta

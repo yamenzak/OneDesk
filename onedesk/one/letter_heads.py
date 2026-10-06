@@ -1,21 +1,7 @@
 """A letter head's top and foot, drawn from the company.
 
-frappe keeps a letter head's top as HTML, and ERPNext's own reads the
-company's logo, name, address and contacts from the document as it prints. A
-workspace's letter head may hold no template (print_html.letter_head_html),
-so its top is drawn here instead: one of PRESETS, from what Workspace >
-General keeps (the logo, the name, the company's own address, its phone,
-email, website and tax ID, and its Brand Colour), showing what the
-administrator ticked. The choice is kept on the letter head (`one_top`), and
-the top is drawn again whenever the company or its address changes (`redraw`),
-so a printed page always says what General says now.
-
-The foot is drawn the same way, from FEET (`one_foot`, `draw_foot`). It carries
-no page number: that is the print format's own (Print Format's Page Number),
-which frappe draws on every page.
-
-A top or foot written by hand, in frappe's builder, stays as it was written:
-editing a drawn one there makes it hand-written (`apply`).
+A workspace's letter head may hold no template, so its top and foot are drawn
+here from what Workspace > General keeps, and drawn again when that changes.
 """
 
 import json
@@ -313,10 +299,8 @@ def draw(raw, details: dict | None = None) -> str:
 		+ (f"<div>{reach}</div>" if reach else "")
 		+ (f"<div>{taxed}</div>" if taxed else "")
 	)
-	# The logo's cell as wide as the logo, so the company's lines have the rest
-	# of the width and the address and the contacts each stay one line. Said in
-	# pixels: frappe's print style holds every letter head picture to its cell,
-	# and a cell sized to its content would hold it to nothing.
+	# The logo's cell as wide as the logo, in pixels, since frappe holds a letter head
+	# picture to its cell; the company's lines then each stay one line.
 	ratio = _ratio(details["logo"]) if details.get("logo") else None
 	held = (
 		f"width:{round(said['logo_height'] * (ratio or 1)) + 24}px;padding-right:24px;"

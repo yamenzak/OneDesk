@@ -1,26 +1,6 @@
 """The one layout every notification file is written in. Pure: the loader, the
 translation extractor and the tests all read a file through `read`, and the
 files are written through `write`.
-
-    ---
-    name: Birthday
-    app: OneHR
-    roles: Employee
-    about: On the morning of a colleague's birthday.
-    to: Everybody else at their company
-    replaces: HR Settings.send_birthday_reminders
-    starts_as: HR Settings.send_birthday_reminders
-    ---
-
-    # It is {employee}'s birthday today
-
-    Wish them a happy birthday.
-
-The header says what the type is and who it goes to, one key a line, always
-in the order of KEYS. Below it, the subject is the heading and the message is
-the rest. A message is one line of HTML: its lines are joined with a space,
-and straight on after a line that ends in `<br>`, so a mail's paragraphs can
-stand apart. A type in its app's own words, or mailed by its app, has neither.
 """
 
 import re

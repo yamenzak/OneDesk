@@ -1,15 +1,5 @@
 """Addresses on the mail domain: `<slug>@m.4dl.app` for the workspace, and
-`<name>.<slug>@m.4dl.app` for a person in it.
-
-Each is an `Email Account` with `one_hosted` set. It has no server, because
-there is none: the mail Worker stores what arrives, `inbound.py` files it, and
-sending goes through admin to Cloudflare (stage 2). The workspace's address
-sends and receives, and a person's only receives.
-
-A slug has no dot, so the part after the last dot of a local part is always
-the workspace, and `is_workspace_name` is the whole rule. The Worker and admin
-apply the same one.
-"""
+`<name>.<slug>@m.4dl.app` for a person in it."""
 
 import re
 import unicodedata
@@ -213,10 +203,8 @@ def _make(address: str, sends: bool) -> str:
 			# The workspace's own address sends for it, unless somebody has set up
 			# another account to; replacing it is a workspace setting (stage 4).
 			"default_outgoing": int(sends and not frappe.db.exists("Email Account", {"default_outgoing": 1})),
-			# Sending goes through override_email_send (outbound.py), so no SMTP
-			# server is ever dialled. Frappe's queue still builds an SMTPServer
-			# for the account and refuses one with no host, so the mail domain
-			# stands in for it; the session it would open is never asked for.
+			# Never dialled, since outbound.py sends. Frappe's queue refuses an
+			# account with no SMTP host, so the mail domain stands in.
 			"smtp_server": domain(),
 			"no_smtp_authentication": 1,
 			"always_use_account_email_id_as_sender": 1,

@@ -1,39 +1,7 @@
 """A customer's own name on their workspace, served at the edge like ours.
 
-Two names reach a workspace. `<slug>.t.4dl.app` is given at provisioning and
-lives entirely at the edge: a proxied wildcard, a Worker that rewrites `Host`
-to the Frappe Cloud site name, and the Advanced Certificate Manager wildcard on
-the zone. Frappe Cloud is never told that name exists.
-
-**A customer's own name goes the same way.** It is a *custom hostname* on our
-zone (Cloudflare for SaaS). The customer makes one CNAME record, from their
-name to their `<slug>.t.4dl.app`; Cloudflare sees the name arrive, validates
-it over HTTP and issues its certificate; a Worker route for the name sends it
-to the same router, which finds the site under `host:<name>` in KV. So the
-customer only ever sees our name, Frappe Cloud never sees theirs, and nothing
-issues a certificate but Cloudflare.
-
-This replaced adding the name to Frappe Cloud, which had three costs: the
-CNAME pointed at `*.frappe.cloud`, Frappe Cloud's Let's Encrypt check failed
-for anybody who kept Cloudflare's proxy on, and a workspace that made its
-name primary could not go back. Both at once would clash: Frappe Cloud's
-check would reach Cloudflare and fail. So press is only asked one thing
-here, to write `host_name` into the site's config (`_call_itself`).
-
-**What we keep and what we ask.** A `Tenant Domain` row per name, with
-Cloudflare's id for it, so the workspace's screen draws without a round trip.
-Status is Cloudflare's to decide (`hosts.standing` puts it in our words), and
-`refresh` is what asks: when the screen's Check Again is pressed and nightly
-for names not yet working.
-
-**A refusal here is thrown rather than raised.** It is something a customer
-has to act on, the name is taken or is ours, and `frappe.throw` is the route
-by which the sentence reaches the workspace that asked.
-
-**Bare domains.** A CNAME at the apex (`acme.com`) only works where the
-customer's DNS flattens it (Cloudflare, Route 53's ALIAS and many others).
-Pointing an apex at fixed addresses is an Enterprise feature of Cloudflare
-for SaaS, so the screen says to use a subdomain otherwise.
+It is a custom hostname on our Cloudflare zone, routed to the same Worker as
+`<slug>.t.4dl.app`; Frappe Cloud is never told it exists.
 """
 
 import frappe

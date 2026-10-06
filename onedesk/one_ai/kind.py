@@ -1,18 +1,6 @@
 """A kind of record as whatever fills one in needs to know it, and whether a
 record of it is ready to be made. One place for OneAI's cards and tools and
-for Intake, so each reads a kind the same way and a new required field, a
-Customize change or a naming choice reaches all of them at once.
-
-- `describe` is every field a person could fill: its type, what it may hold,
-  whether it is required or the system fills it, and how a new record of the
-  kind is named (`naming`), which is the one thing frappe asks for that is not
-  a field.
-- `fields_of` is the same, cut to a line per field, for a message to a model.
-- `missing` is what a record still needs before frappe saves it: its required
-  fields, frappe's own list, and its name when the kind is named by a field
-  or typed by whoever makes it.
-- `ready` runs frappe's own checks on a record that is never saved and says
-  what would stop it: links, the kind's own validate, and `missing`.
+for Intake, so each reads a kind the same way.
 """
 
 import frappe
@@ -59,15 +47,8 @@ def naming(doctype: str) -> dict:
 
 def fields(meta, depth: int = 0, printing: bool = False) -> list:
 	"""A kind's fields as a model needs them to fill a form in, or, printing,
-	to lay a page out.
-
-	Hidden fields are left out — that is how a workspace takes a field away,
-	Company among them — and so is anything the reader may not see. A field
-	the system fills (read only, or fetched from a link) is said to be, so the
-	model neither asks for it nor invents it. Printing, what only filling needs
-	(required, defaults, what the system fills) is left out, and a field
-	frappe's own formats leave off the page is said to be, since most of a
-	document of trade's fields are.
+	to lay a page out. Hidden fields and what the reader may not see are left
+	out, and a field the system fills is said to be.
 	"""
 	said = []
 	for f in meta.fields:
@@ -160,12 +141,8 @@ def missing(doc) -> list[tuple[str, str]]:
 def ready(doctype: str, changes: dict) -> None:
 	"""Refuse a new record now that frappe would refuse when it is made.
 
-	Frappe's own checks on a document that is never saved: links resolved and
-	their fetched fields filled, then the kind's own `validate` — which is where
-	HRMS says a leave needs an approver and where Expense Claim sets its
-	exchange rate — inside a savepoint that is always rolled back, then what is
-	still `missing`. A model told "Leave Approver is missing" asks the person; a
-	card that fails when they press Approve teaches them the cards do not work.
+	Frappe's own checks on a document that is never saved, inside a savepoint that
+	is always rolled back, then what is still `missing`.
 	"""
 	meta = frappe.get_meta(doctype)
 	unknown = [

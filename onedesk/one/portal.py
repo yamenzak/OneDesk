@@ -1,16 +1,8 @@
 """The portal a workspace's customers and suppliers sign in to.
 
-Frappe draws it: Portal Settings lists what each role sees (erpnext's
-Quotations, Orders and Invoices for a customer; Requests for Quotation and
-Purchase Orders for a supplier), frappe's `portal` page lists a kind of
-record through the kind's own `get_list_context`, and a row template draws
-each row. One's look replaces the templates only (www/portal.html and the row
-templates under templates/includes); what is listed, and for whom, stays
-erpnext's and frappe's.
-
-The page's Python is frappe's own when it lists a kind of record (its
-ListPage asks for frappe's module by name), so what the template needs beyond
-frappe's context comes from the Jinja methods here.
+Frappe draws it, and what is listed, and for whom, stays erpnext's and
+frappe's. One's look replaces the templates only, and the Jinja methods here
+give them what frappe's context does not.
 """
 
 import re
@@ -59,10 +51,8 @@ ICONS = {
 #: (frappe's web form) is under Addresses, a project's page under Projects.
 ALSO = {"/address": "/addresses", "/projects": "/project"}
 
-#: The reader's own account, under Account in the sidebar: frappe's profile
-#: web form, its Set Password page, One's Your Data (one/privacy.py) and
-#: frappe's Third Party Apps, shown once an app has been let in. As
-#: (route, title, icon); the profile's route is completed with the reader.
+#: The reader's own account, under Account in the sidebar, as (route, title, icon);
+#: the profile's route is completed with the reader.
 ACCOUNT = (
 	("/update-profile", _lt("Profile"), "user"),
 	("/update-password", _lt("Password"), "key-round"),
@@ -477,15 +467,7 @@ def one_portal_rfq(doc) -> dict:
 def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 	"""The supplier's answer to a quote request: a rate (and the quantity they
 	can supply) for each row they price, and their notes. Everything else is
-	read from the request itself, never from the page.
-
-	erpnext's own mapper (create_supplier_quotation) cannot finish for a
-	portal user: filling the quote's defaults reads each Item, which a
-	supplier may not. So its steps are taken here: the reader is checked to be
-	one of the supplier's portal users, the request to be one sent to that
-	supplier, and then, as frappe's web form does for a save it has already
-	authorized, the quote is made with the session's user switched, owned by
-	the supplier's user."""
+	read from the request itself, never from the page."""
 	from erpnext.buying.doctype.request_for_quotation.mapper import (
 		add_items,
 		validate_existing_supplier_quotation,
@@ -544,18 +526,9 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 	# Saved with the user switched, the quote is the supplier's all the same.
 	quote.db_set({"owner": user, "modified_by": user}, update_modified=False)
 
-	from onedesk.one import notify
+	from onedesk.one import tell
 
-	notify.notify(
-		"Quote Received",
-		doc.owner,
-		record=("Supplier Quotation", quote.name),
-		sender=user,
-		supplier=quote.supplier_name or supplier,
-		request=doc.name,
-		total=quote.get_formatted("grand_total"),
-		items=", ".join(row.item_name or row.item_code for row in quote.items),
-	)
+	tell.quote_received(doc, quote, user, supplier)
 	return quote.name
 
 

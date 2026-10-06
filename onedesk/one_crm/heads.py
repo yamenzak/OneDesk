@@ -1,15 +1,6 @@
 """What a lead's and a deal's page say above their fields. See one/head.py.
 
-A deal answers what it is worth and how likely, how long it has been in its
-stage against how long deals usually stay there, what comes next and when,
-when they were last in touch, when it should close, its quotation and where
-it came from. A lead answers when it came in, whether and how fast it was
-answered, what comes next, when they were last in touch and the deals made
-from it. The figures are record.py's `overview`, worked out once per request.
-
-A time since ("yesterday") is sent as the moment itself (`when`), and the
-desk says it with frappe's own `prettyDate` when it draws the band, so it
-reads as every other time on the desk does.
+The figures are record.py's `overview`, worked out once per request.
 """
 
 import frappe

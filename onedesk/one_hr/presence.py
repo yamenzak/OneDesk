@@ -1,34 +1,4 @@
-"""Where somebody is, right now.
-
-The question every HR product is opened for and none of them answers on the
-page you are already on: *is this person in today?* HRMS holds the answer across
-four doctypes and shows it in none of them — Employee Checkin is a log, Attendance
-is a day's verdict written after the fact by a scheduled job, Leave Application
-is an approval, and the Holiday List is a calendar. A person asking "is Omar
-here" has to open three of those and do the reasoning themselves.
-
-So this does the reasoning once, in the order the answers actually rank:
-
-    on leave    an approved Leave Application covering today
-    holiday     today is in the shift's or the company's Holiday List
-    in          the last check-in today was an IN
-    out         the last check-in today was an OUT
-    absent      Attendance marked them so, and nothing above said otherwise
-    unknown     none of the four has anything to say
-
-Ranked rather than merged, and leave first, because the four disagree all the
-time and the disagreement is not an error: somebody on approved leave who badged
-in to collect a laptop is *on leave*, and a product that says "in" because a
-turnstile said so is a product that gets somebody's pay wrong.
-
-`late` is not a state, it is a fact about an `in`. Somebody who arrived at 09:40
-against a 09:00 shift is here — they are simply here late, and making that a
-separate state means a strip of faces cannot count how many people are in.
-
-**This reads. It never writes.** Auto-attendance is HRMS's job and it runs on a
-schedule; a page that marked somebody present because it happened to be open
-would be a second writer on the same rows with no lock between them.
-"""
+"""Where somebody is, right now."""
 
 import frappe
 from frappe import _

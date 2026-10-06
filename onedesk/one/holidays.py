@@ -1,36 +1,16 @@
 """The workspace's holidays: which list is in force, next year's, and who hears.
 
-A Holiday List is erpnext's: a year of dates, the week's day off written out
-as one row per Friday, and the country's public holidays. Two things read it,
-and they read it differently:
-
-- **hrms reads only a submitted `Holiday List Assignment`**
-  (`hrms.utils.holiday_list`): leave, attendance, shifts and check-ins. An
-  assignment holds from its first day until the next one starts.
-- **erpnext's reports read `Company.default_holiday_list`**, whatever the
-  date.
-
-So choosing a list is both (`use`), and the company field follows the
-assignment in force (`daily`), so the two never disagree. OneCalendar and
-Intake's deadlines read by date across every list the company was assigned
-(`public`, `all_dates`), so January is counted against January's list.
-
-**A list ends.** A list is a year, and on 1 January the old assignment still
-holds with no days in it: every Friday becomes a working day, and nothing
-fails. `next_year` makes the next list from this one (same day off, the
-country's public holidays) and assigns it from its first day; `daily` tells
-the administrators 60, 30 and 7 days before a list ends
-with nothing after it. Only administrators change the list here
-(the page is theirs), so only they are told.
+Choosing a list both assigns it for hrms and sets the company's default for
+erpnext (`use`), so the two never disagree.
 """
 
 from collections import Counter
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, date_diff, getdate, today
+from frappe.utils import date_diff, getdate, today
 
-from onedesk.one import roles
+from onedesk.one import roles, tell
 
 #: Days before a list's last day when, with no list after it, people are told.
 WARN = (60, 30, 7)
@@ -226,7 +206,7 @@ def next_year() -> str:
 		return waiting
 	name = make(held, getdate(doc.to_date).year + 1, days_off(doc), doc.country, doc.subdivision)
 	assign(name, held)
-	told(_("made next year's list, {0}").format(name), name)
+	tell.holidays_changed(_("made next year's list, {0}").format(name), name)
 	return name
 
 
@@ -237,7 +217,7 @@ def use(holiday_list: str) -> str:
 	if not frappe.db.exists("Holiday List", holiday_list):
 		frappe.throw(_("There is no holiday list {0}.").format(holiday_list))
 	if assign(holiday_list):
-		told(_("made {0} the holiday list for everyone").format(holiday_list), holiday_list)
+		tell.holidays_changed(_("made {0} the holiday list for everyone").format(holiday_list), holiday_list)
 	return holiday_list
 
 
@@ -308,19 +288,6 @@ def elsewhere(held: str | None = None) -> int:
 	)
 
 
-def told(what: str, holiday_list: str) -> None:
-	from onedesk.one import notify
-
-	notify.notify(
-		"Holidays Changed",
-		roles.administrators(),
-		link="/desk/workspace-settings?section=holidays",
-		by=frappe.utils.get_fullname(),
-		what=what,
-		holiday_list=holiday_list,
-	)
-
-
 def daily() -> None:
 	"""The company's field follows the list in force, and a list about to end
 	with nothing after it is told."""
@@ -334,14 +301,4 @@ def daily() -> None:
 	end = frappe.db.get_value("Holiday List", now, "to_date")
 	left = date_diff(end, today())
 	if left in WARN:
-		from onedesk.one import notify
-
-		notify.notify(
-			"Holidays Run Out Soon",
-			roles.administrators(),
-			link="/desk/workspace-settings?section=holidays",
-			holiday_list=now,
-			last_day=frappe.utils.formatdate(end),
-			days=left,
-			first_day=frappe.utils.formatdate(add_days(end, 1)),
-		)
+		tell.holidays_run_out_soon(now, end, left)

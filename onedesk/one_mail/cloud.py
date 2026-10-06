@@ -1,16 +1,4 @@
-"""Mail in OneCloud: every attachment, in a folder per mailbox.
-
-OneCloud's **Mail** holds one folder for each mailbox the reader holds, and in
-each the files that came or went with its messages, newest first. Nothing is
-stored for these folders. They are worked out from the Files attached to the
-mailbox's Communications whenever they are opened, the way a record's folder
-is, so a mailbox's folder is exactly its attachments and is seen by exactly
-its holders.
-
-A file here answers to its message (one_mail/access.py). Copying one to My
-Files makes a new row on the same object, as any copy in OneCloud does, and
-that copy is the reader's own.
-"""
+"""Mail in OneCloud: every attachment, in a folder per mailbox the reader holds."""
 
 import frappe
 from frappe import _

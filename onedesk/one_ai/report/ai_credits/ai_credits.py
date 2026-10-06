@@ -111,10 +111,8 @@ def _chart(said: dict, start, end) -> dict:
 		day = add_days(day, 1)
 	return {
 		"data": {
-			# The day of the month and nothing more. frappe-charts allows two or
-			# three letters a label at thirty bars and cuts anything longer to
-			# dots, and the report view overwrites the option that would thin
-			# them out. The period itself is in the filters above the chart.
+			# The day of the month and nothing more: frappe-charts cuts a longer label
+			# to dots at thirty bars. The period is in the filters above the chart.
 			"labels": [str(day.day) for day in days],
 			"datasets": [{"name": frappe._("Credits"), "values": [spent.get(str(day), 0) for day in days]}],
 		},

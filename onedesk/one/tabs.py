@@ -1,15 +1,7 @@
 """A record's tabs after its fields: Mail, Files, Activity.
 
 Each is declared by the module that draws it, under `one_record_tabs` in
-hooks.py, as a measure or a verb is (one/head.py): a name, a label, where it
-goes, and which records carry it. The desk draws it with what that module
-registers under the same name in `public/js/record_tabs.js`, which is the one
-place the form's layout is added to for them. Nothing is written to any
-doctype, erpnext's and hrms's included. docs/SHELL.md, stage 8.
-
-A tab is on every record that has a room of its own, which is not a child
-table or a settings page, unless it names the doctypes it is for; `leaves_out`
-names the ones it is not.
+hooks.py, and nothing is written to any doctype.
 """
 
 import frappe

@@ -1,29 +1,7 @@
 """Push: a notification on the devices a person turned it on for.
 
-Standard Web Push (docs/NOTIFICATIONS.md, stage 4). Nothing of Frappe's relay
-and no Firebase account: each message is encrypted on our server for the one
-browser it is for (RFC 8291, by `pywebpush`), and the browser's own push
-service carries it without being able to read it: Google's for Chrome and
-Edge's Chromium, Mozilla's for Firefox, Apple's for Safari, Microsoft's for
-Windows. Those four are the only addresses a message is ever sent to
-(`SERVICES`), because the address comes from a browser and a server that posts
-wherever a browser says is a server anybody can aim.
-
-**Who gets one.** A Notification Log is pushed when its person ticked push for
-its type (Settings, Notifications writes `one_push_notification_types` on
-their Notification Settings, beside frappe's own email list), the workspace
-allows push for it, and they turned push on in at least one browser (a Push
-Device). Pushing is queued after the log is committed, so a slow push service
-never holds up whatever sent the notification.
-
-**The keys.** One VAPID key pair per site, made the first time it is asked
-for and kept in the site's config, never in the database: the private half
-signs every push, and a copy of the database is not a copy of it.
-
-**The worker** is served from a method rather than from /assets, with
-`Service-Worker-Allowed: /`, so it can be registered for the whole site and a
-click can bring an open tab forward instead of opening another. It handles
-push and clicks, and nothing else: it never sees a request the page makes.
+Standard Web Push (docs/NOTIFICATIONS.md, stage 4): each message encrypted on
+our server for one browser, and sent only to the browsers' own push services.
 """
 
 import json

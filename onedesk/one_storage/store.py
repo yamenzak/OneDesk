@@ -1,24 +1,7 @@
 """Where a File's bytes are: R2, through admin's signed URLs.
 
-Frappe writes new content through the `write_file` hook and deletes it through
-`delete_file_data_content`, and reads everything else straight off the disk.
-So `write` puts new content in R2 and gives the File a URL of ours, `delete`
-drops the object when the last File naming it goes, and `file.CloudFile` reads
-it back. A workspace not linked to an account (a bench of one's own, the test
-site) keeps using the disk: `enabled` is the switch, and it is the account's
-configuration, not a setting anybody on the workspace can change.
-
-**A key is the content, not the file.** `files/<private|public>/<md5><ext>` is
-Frappe's own de-duplication (`content_hash`) carried into R2: the same PDF
-attached to ten records is ten File rows and one object.
-
-**A URL of ours, never R2's.** A stored file's URL is
-`/api/method/onedesk.one_storage.store.fetch?key=…`. Frappe counts any
-`/api/method/` URL as remote (`URL_PREFIXES`), so its disk checks pass it by,
-and `fetch` checks the reader may open the file before redirecting to a URL
-admin signed for a quarter of an hour. A signed URL in a saved page is dead
-in fifteen minutes; ours is good for as long as the file is.
-"""
+New content goes to R2 through Frappe's `write_file` hook, under a key that
+is its content, behind a URL of ours, never R2's."""
 
 import mimetypes
 import os
@@ -36,10 +19,8 @@ FETCH = "/api/method/onedesk.one_storage.store.fetch"
 #: How long to wait on R2 for one object, either way.
 PATIENCE = 120
 
-#: The largest file anything in a workspace takes: what R2 accepts in one
-#: PUT. Size is not what a tenant is limited by — their storage is, and
-#: admin refuses a put there is no room for — so every size limit Frappe has
-#: is set to this. See `unlimit`, and one_admin/steps.py push_config.
+#: The largest file anything in a workspace takes: what R2 accepts in one PUT.
+#: Every size limit Frappe has is set to this (`unlimit`, one_admin/steps.py).
 LARGEST = 5 * 1024**3
 
 #: How long a URL admin signed is reused for; admin signs them for fifteen

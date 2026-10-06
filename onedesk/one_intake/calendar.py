@@ -1,18 +1,8 @@
 """Intake on the calendar, and in the Deadlines report (docs/INTAKE.md §6).
 
-Three kinds of date come out of what was read, and each is shown to whoever
-may read the record it sits on:
-
-- **a reading's deadline**: a bill's due date, an authority's "within one
-  month", a document's expiry. It is shown to the person it was read for,
-  with the day it was counted from and the rule, so the arithmetic can be
-  checked. A matter that is closed has none.
-- **a contract's last day to cancel**, from its notice period, for whoever
-  may read the contract.
-- **an employee's document expiring**, a passport or a permit, for whoever
-  may read the employee.
-
-Nothing is copied: each is read from its record as the person looking.
+Three kinds of date from what was read (a reading's deadline, a contract's last
+day to cancel, an employee's document expiring), each shown to whoever may read
+the record it sits on.
 """
 
 import frappe

@@ -1,28 +1,11 @@
-"""Sharing inside the team: people, and what they may do.
-
-A share is Frappe's own DocShare on a File: read to view, read and write to
-edit. `namespace.may` reads it for the item and every folder above it, so a
-folder shared is everything in it shared, including what is put there later,
-and the File's own permission (which already honours DocShare) agrees with us
-for a file shared on its own.
-
-**Whoever may change a thing may share it**, the way it works in every
-drive people know: its owner, a Workspace Administrator, or somebody it was
-shared with to edit. Only staff can be given anything here; a customer or a
-supplier gets a link (stage 5), not a seat.
-
-**A record's file is shared by sharing the record.** Its permission is the
-record's, and a second, file-only door beside it would drift from it.
-"""
-
-from urllib.parse import quote
+"""Sharing inside the team: people, and what they may do."""
 
 import frappe
 import frappe.share
 from frappe import _
 from frappe.utils import get_fullname
 
-from onedesk.one_storage import api, live
+from onedesk.one_storage import api, live, tell
 from onedesk.one_storage import namespace as ns
 
 
@@ -111,7 +94,7 @@ def share(nodes: str | list, users: str | list, edit: int = 0) -> int:
 				share=int(edit),
 				flags={"ignore_share_permission": True},
 			)
-			_tell(user, item)
+			tell.shared(user, item)
 			given += 1
 		if staff - {item.owner, "Administrator"}:
 			from onedesk.one_storage import history
@@ -147,17 +130,3 @@ def set_edit(node: str, user: str, edit: int = 0) -> None:
 	ns.forget()
 
 
-def _tell(user: str, item: dict) -> None:
-	"""A notification that opens the explorer on it, not File's own form."""
-	from onedesk.one import notify
-
-	# A folder opens on itself; a file opens where the reader can see it.
-	node = item.name if item.is_folder else ns.SHARED
-	notify.notify(
-		"Shared With You",
-		user,
-		record=("File", item.name),
-		link=f"/desk/onecloud?node={quote(node, safe='')}",
-		who=get_fullname(frappe.session.user),
-		file=item.file_name,
-	)

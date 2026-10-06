@@ -1,11 +1,5 @@
 """Numbers and dates as a document wrote them, and the check that a model's
-reading of them is really in the document.
-
-A model reading a letter can invent: an amount it expected, a date one day
-off, an IBAN with two digits swapped. So every amount, date, IBAN and
-number it returns has to be found in the document's own text, allowing for
-how it was written there ("1.234,56 €" is 1234.56). One that is not found
-is dropped and the reading is marked unsure. Pure.
+reading of them is really in the document. Pure.
 """
 
 import re

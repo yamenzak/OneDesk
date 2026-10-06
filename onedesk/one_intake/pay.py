@@ -1,14 +1,7 @@
 """Pay from the document (docs/INTAKE.md §16.5).
 
-A bill that asks to be paid by transfer shows, in the Intake panel, whom to
-pay, the IBAN, the amount and the reference, each ready to copy, and a
-GiroCode: the EPC QR code every European banking app scans into a filled-in
-transfer. Nothing is paid from here; the bank does that, as the person.
-
-**A changed IBAN stops it.** When the payee is a supplier we already hold
-bank accounts for and the document's IBAN is none of them, there is no code,
-and the panel says so in red: that is how invoice fraud works, and the one
-safe answer is to ask the supplier on a number already known.
+A bill to be paid by transfer shows whom to pay, the IBAN, the amount, the
+reference and a GiroCode. A changed IBAN stops it.
 """
 
 import frappe

@@ -1,34 +1,4 @@
-"""Nobody is asked what currency they are paid in.
-
-One workspace is one company, and a company pays in one currency — the one on
-the Company record. Every payroll and HR doctype carries a `Currency` Link
-anyway, twenty-two of them, and on a single-company site every one of them shows
-the same three letters beside an amount that is already formatted in them.
-
-**Only the ones nobody types are hidden.** A `read_only` currency or one with a
-`fetch_from` is filled by the framework or by their own controller, so hiding it
-cannot stop a document being saved — that is the whole test, and it is checked
-against the schema rather than assumed. Fourteen of the twenty-two qualify.
-
-What stays visible, and why:
-
-* **Salary Structure** declares the currency the assignments and slips fetch
-  from. It is the root of the chain and the one place the answer is given.
-* **Job Applicant**, **Job Opening** and **Job Opening Template** quote a salary
-  range on an advertisement, which is a thing a workspace may genuinely want to
-  write in somebody else's currency.
-* **Employee Tax Exemption Declaration** and **Proof Submission** are neither
-  read-only nor fetched, but their own form script fills the field from
-  `get_employee_currency` when the employee is chosen. They are named in `ALSO`
-  below rather than found by the rule, because the rule reads the schema and
-  this answer is in a `.js` file.
-* **Payroll Entry** is hidden by its own customization instead, because it is
-  neither read-only nor fetched — their form script fills it from the company,
-  which was checked in the browser rather than read off the schema.
-
-Derived from the site rather than shipped as a fixture, for the same reason
-`one/company.py` is.
-"""
+"""Nobody is asked what currency they are paid in."""
 
 import frappe
 

@@ -1,17 +1,7 @@
 """Talking to an IMAP server: the protocol's details, kept in one place.
 
-Standard library `imaplib` only, as Frappe does. What it leaves to the caller
-is here, pure and tested:
-- reading `LIST` lines;
-- telling a folder's kind, from its RFC 6154 special-use flag or else its
-  name, in the languages people's servers use;
-- IMAP's modified UTF-7 folder names, both ways;
-- reading `FETCH` responses into something with a uid.
-
-`Session` is one connection, opened for one piece of work and closed. It
-reports the capabilities that matter — MOVE, UIDPLUS, CONDSTORE — so a
-caller can use them where a server has them and do without where it does not.
-"""
+Standard library `imaplib` only, as Frappe does. `Session` is one
+connection, opened for one piece of work and closed."""
 
 import base64
 import imaplib

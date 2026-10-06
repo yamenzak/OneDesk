@@ -1,29 +1,8 @@
 """The one thing Cloudflare is asked to do, and the reason it is so little.
 
-A workspace is reached at `<slug>.t.4dl.app`. That name resolves to one proxied
-wildcard record and one Worker route, both made once by **Set up Cloudflare**
-(setup.py); no tenant ever gets a DNS record of its own. What the Worker needs is the answer to one
-question — which press site is this slug? — and this module writes that answer
-into a Workers KV namespace as the site is provisioned.
-
-**Why KV rather than the Worker asking us.** The admin site is the control path
-and must never become the data path. A Worker that calls us on every request
-means an admin outage is an outage for every workspace, which is exactly the
-coupling the rest of this design avoids. KV is Cloudflare's own edge store: once
-the key is written, serving a workspace needs nothing of ours at all.
-
-**Certificates.** `*.t.4dl.app` is covered by the Advanced Certificate
-Manager wildcard on the zone, a one-time purchase rather than a per-tenant
-call. A customer's own domain is a **custom hostname** on the same zone
-(Cloudflare for SaaS): the customer points a CNAME at their `<slug>.t.4dl.app`,
-Cloudflare validates it over HTTP and issues its certificate, and a route
-for that name sends it to the same router, which finds its site under
-`host:<name>` in KV. Frappe Cloud is never told the name exists, exactly as
-it is never told ours — see `domains.py`.
-
-The token needs Workers KV Storage: Edit on the namespace for routing, and
-for customers' own domains SSL and Certificates: Edit and Workers Routes:
-Edit on the zone.
+A workspace is reached at `<slug>.t.4dl.app`; this writes which press site
+each slug is into a Workers KV namespace, so serving a workspace needs nothing
+of ours.
 """
 
 import json

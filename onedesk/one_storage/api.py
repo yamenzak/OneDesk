@@ -1,20 +1,7 @@
 """The verbs of OneCloud: what the explorer, WebDAV and a mount all call.
 
 Every one takes node ids (namespace.py), asks `namespace.may` first, and does
-the work as the framework with that answer in hand — so File's own
-permissions, written for attachments, do not decide who may rename a folder
-in somebody's My Files.
-
-**Moving across is copying.** Within the stored folders a move is a move.
-Between a record and a folder it is a copy, the way an explorer copies
-between two drives: dragging an invoice's PDF into My Files must not take it
-off the invoice, and dropping a file on a record attaches a copy to it. A
-copy is a new File row naming the same object, so no bytes move either way.
-
-**Deleting is into the Recycle Bin** for anything in a folder, for thirty
-days, then gone (`purge_old`). Deleting a record's file removes the
-attachment, as it does on the record's own page.
-"""
+the work as the framework with that answer in hand."""
 
 import frappe
 from frappe import _

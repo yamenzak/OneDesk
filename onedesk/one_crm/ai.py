@@ -1,26 +1,7 @@
 """What OneAI can do in OneCRM.
 
 The tools and suggestions this module adds to the panel, named in `hooks.py`.
-The rules are OneAI's: a read runs as the person asking, and anything that
-would write is a card somebody approves. What this module adds is what sales
-knows — that a deal is an Opportunity, what a deal's history is made of, when
-a deal has gone quiet, and when a person is already a lead.
-
-**The model reads the history; the record keeps it.** `deal_facts` and
-`lead_facts` hand over the page's own answers (`record.overview`) and the
-timeline — mail, calls, comments and stage moves, oldest first — so a summary,
-a next step or a follow-up is written from what was said rather than from the
-fields. Nothing the model writes becomes history until somebody approves it.
-
-**A call written up is a Call Log**, the same record the Log a Call dialog
-makes, so it counts as the last time anybody spoke to them and times the first
-reply. A next step is its own card: one card per suggestion, and a person may
-want the call and not the step.
-
-**A business card becomes a lead only if the person is not one already.**
-`add_lead` runs capture's own match: the same email is refused and said, a
-matching phone or business name is written on the card as a possible
-duplicate, as the web form would have flagged it.
+A read runs as the person asking; anything that would write is a card.
 """
 
 from typing import Annotated

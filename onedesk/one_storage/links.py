@@ -1,25 +1,4 @@
-"""Sharing outside: a link, and the page somebody without an account sees.
-
-A link is a `Cloud Link` row on a File: who may open it (anyone with the link,
-or only the people invited by email), what they may do (view, download, and
-for a folder upload), until when, and with what password. The link itself is
-`/s/<token>`; the row keeps the token encrypted and is found by its hash, so
-the table alone opens nothing.
-
-**Opening one is proving something once.** Anyone-links with no password open
-straight away. A password, or for an invitation a six-digit code sent to the
-address invited, is asked once; the answer is a cookie sealed with the site's
-key that names the link, the address and when it runs out, so nothing about a
-guest is kept on the server and a cookie from one link opens no other.
-
-**What a guest reaches is the link's file, or what is inside its folder**, now:
-something added to a shared folder later is there, something deleted or moved
-out is not. `_within` is the whole of that rule and every guest verb asks it.
-
-**Who may make a link** is whoever may change the thing (`namespace.may`
-write): its owner, a Workspace Administrator, an editor it was shared with,
-or for a record's file whoever may change the record.
-"""
+"""Sharing outside: a link, and the page somebody without an account sees."""
 
 import hashlib
 import hmac
@@ -34,7 +13,7 @@ from frappe.utils import cint, get_datetime, get_fullname, get_url, now_datetime
 from werkzeug.exceptions import Forbidden, NotFound
 from werkzeug.utils import redirect
 
-from onedesk.one_storage import api, store
+from onedesk.one_storage import api, store, tell
 from onedesk.one_storage import namespace as ns
 from onedesk.one_storage.doctype.cloud_link.cloud_link import hashed
 
@@ -144,11 +123,7 @@ def can_mail() -> bool:
 
 
 def _invite(link, emails: list, token: str) -> None:
-	from onedesk.one import notify
-
-	who = get_fullname(frappe.session.user)
-	for email in emails:
-		notify.mail("Link Shared", email, now=False, who=who, file=link.file_name, link=url_of(token))
+	tell.link_shared(link, emails, token)
 
 
 def forget_file(doc, method=None) -> None:
@@ -281,9 +256,7 @@ def ask_code(token: str, email: str | None = None):
 		code = f"{random.SystemRandom().randrange(10**6):06d}"
 		frappe.cache.set_value(f"onestorage:code:{link.name}:{email}", code, expires_in_sec=CODE_LIFE)
 		try:
-			from onedesk.one import notify
-
-			notify.mail("Link Code", email, delayed=False, file=link.file_name, code=code)
+			tell.code_asked(link, email, code)
 		except Exception:
 			# The page says the same thing either way; the owner finds out
 			# from the error log rather than the guest from a stack trace.
@@ -385,22 +358,8 @@ def put(token: str, folder: str | None = None):
 		frappe.db.set_value("File", doc.name, "owner", link.owner, update_modified=False)
 		names.append(doc.file_name)
 	if names:
-		_tell_owner(link, into, names)
+		tell.arrived_through_link(link, into, names)
 	return _back(token, f"sent_{len(names)}", into.name if into.name != link.file else None)
-
-
-def _tell_owner(link, into: dict, names: list) -> None:
-	from onedesk.one import notify
-
-	notify.notify(
-		"Arrived Through a Link" if len(names) > 1 else "Arrived Through a Link, One File",
-		link.owner,
-		record=("File", into.name),
-		link=f"/desk/onecloud?node={quote(into.name, safe='')}",
-		count=len(names),
-		file=names[0],
-		folder=into.file_name,
-	)
 
 
 def seen(link) -> None:

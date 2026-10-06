@@ -1,17 +1,7 @@
 """One conversation with OneAI, and the page it was had on.
 
-Kept rather than held in a tab, because a chat that dies when the tab does is
-one nobody starts anything long in. The store is `AI Chat`: a title, when it was
-last said to, what it has cost, and the turns — the same turns the gateway
-speaks, because the conversation *is* the turns and a second shape beside them
-is a second shape to keep in step.
-
-**The page is a pointer, not a payload.** What travels is the route: the
-doctype, the record's id, which view. Not the record's values — the model has
-`read_record` for that, and that runs as whoever is signed in, so a pointer at
-something the reader may not see buys nothing. It also keeps a conversation
-honest over time: the context of the third message is where they were for the
-third message, not where they are now.
+Kept as `AI Chat` rather than held in a tab. The page travels as a pointer,
+never as the record's values.
 """
 
 import json
@@ -434,9 +424,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 	try:
 		from onedesk.one_ai import files as carrying
 
-		# What the person just dropped on the panel, for a tool that attaches
-		# what it read to what it suggests — a receipt to its claim.
-		# Only this question's: a receipt dropped three questions ago is not
+		# Only this question's files: a receipt dropped three questions ago is not
 		# evidence for whatever is being asked now.
 		newest = next(
 			(one for one in reversed(turns) if one.get("role") == "user" and not one.get("context")), {}

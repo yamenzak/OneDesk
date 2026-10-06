@@ -1,30 +1,7 @@
 """Reports and dashboards: what a workspace keeps of its own over its records.
 
-Three things, each frappe's own:
-
-- **Saved reports.** A list's Report view, saved under a name, is frappe's
-  `Report` of type Report Builder. Anybody may save one (frappe offers Save As
-  to everybody, and its `save_report` only ever writes that type), and it goes
-  in the sidebar of the app whose list it was: for everybody when a workspace
-  administrator saved it, in the person's own sidebar otherwise, through
-  frappe's own sidebar layers (`Custom Sidebar`). Deleted, it leaves.
-- **Dashboards.** frappe's `Dashboard`, of its `Dashboard Chart` and `Number
-  Card`, which a workspace administrator makes. Everybody sees them under One >
-  Dashboards, and frappe shows each chart only to who may read what it counts.
-- **Reports by mail.** frappe's `Auto Email Report`, which a workspace
-  administrator sets from a report's menu (Setup Auto Email).
-
-What frappe trusts to whoever may customize it, and a workspace does not get:
-
-- a report of any type but Report Builder. A Custom Report runs the report it
-  is a copy of with no check of who may open that one, and frappe leaves
-  Script and Query reports to its Script Manager already;
-- a chart or a card of type Custom, which runs code an app wrote and is free
-  to read past the reader's permissions;
-- a report by mail that runs as somebody else.
-
-erpnext's own dashboards are its modules' (Accounts, Stock, CRM), with a
-company on every chart; One > Dashboards lists the workspace's own.
+Saved reports, dashboards and reports by mail, each frappe's own, without what
+frappe trusts only to whoever may customize it.
 """
 
 import frappe

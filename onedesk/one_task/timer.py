@@ -1,26 +1,4 @@
-"""A timer on a task, written into the person's timesheet as it runs.
-
-Time is ERPNext's Timesheet, which payroll, costing and billing already read;
-this only saves somebody opening one. **Start** adds a row to the person's
-draft timesheet for the week — made if there is none — with the task, its
-project and a start. **Stop** gives the row its end, and ERPNext works out the
-hours. One timer runs at a time: starting another stops the first.
-
-A row with a start and no end is the running one, which is the same rule as
-the Timesheet form's own timer (public/js/timesheet.js), so either can stop
-what the other started. Every stamp is `now_datetime`, the site's clock, for
-the reason given there. A timer stopped within a minute of starting was a
-slip, and its row is taken out rather than left at nought hours to be refused
-on submit.
-
-Time is billable on a project whose kind bills hours (Time and Materials, or
-a Retainer) until somebody unticks it, and cost only on any other
-(one_project/hours.py `bills_hours`).
-
-The activity is the one the person used last, since it is required when the
-timesheet is submitted and is usually the same all week; they change it on the
-timesheet when it is not.
-"""
+"""A timer on a task, written into the person's timesheet as it runs."""
 
 import frappe
 from frappe.utils import get_datetime, get_first_day_of_week, now_datetime, time_diff_in_hours

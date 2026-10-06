@@ -1,17 +1,5 @@
-"""Mending an extension from the errors it ran into.
-
-An administrator never reads an extension's code, so they cannot read why it
-fails either: the errors frappe keeps are about the code, line by line. So the
-mending is a separate call, its own AI action (`studio_mend`), made here on
-the server: shown where the extension runs, what it says it does, its code
-and its last errors, and asked what went wrong, in words for somebody who
-does not read code, and for the code mended. Nothing of the chat reaches it,
-and nothing it is shown goes back to the chat: the conversation, and the
-extension's form, hear the diagnosis and nothing else.
-
-What it writes goes through `extensions.write` like anything OneAI writes:
-the guard, the second reading, kept off. The mended version runs only once an
-administrator turns it on.
+"""Mending an extension from the errors it ran into: a separate AI action
+(`studio_mend`), made here on the server, whose diagnosis is all the chat hears.
 """
 
 import frappe

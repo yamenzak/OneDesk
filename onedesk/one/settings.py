@@ -1,24 +1,7 @@
 """Settings: one place for everything a person or a workspace sets.
 
-Before this a workspace manager had no single place to go. The account was a
-bare form, Intake Settings sat in its own sidebar, mailboxes were in OneMail,
-holidays in OneCalendar's Setup, people in frappe's User list, and a person's
-own settings were frappe's My Settings. Now every section is an entry in One's
-own sidebar, so the page itself is one wide column, in two groups:
-
-- **You**, for everybody: profile, notifications, mail, calendar, sign-in, and
-  what OneAI remembers about you.
-- **Workspace**, for its administrators only: general, people, plan and
-  credits, domains, OneAI, Intake and holidays. These open a second page,
-  `workspace-settings`, whose only role is Workspace Administrator, so frappe
-  hides the entries from everybody else.
-
-Nothing new is stored. Each section reads and writes the records that already
-hold it — User, Notification Settings, Company, System Settings, Workspace
-Account, AI Action Setting, Intake Settings, Holiday List — and the verbs that
-already exist are called as they are (a mailbox is connected in OneMail, a
-domain through the account). A workspace section asks `roles.require()`
-first, so a person who is not an administrator cannot reach it by calling it.
+Two groups, You for everybody and Workspace for its administrators. Nothing new
+is stored: each section reads and writes the records that already hold it.
 """
 
 from typing import Annotated
@@ -26,7 +9,7 @@ from typing import Annotated
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import roles
+from onedesk.one import roles, tell
 from onedesk.one.access import all_levels, companion
 
 #: (key, label, icon, group). The icons are Lucide, from frappe's sprite.
@@ -394,8 +377,6 @@ def _save_profile(values: dict) -> None:
 def _tell_hr(employee, was: dict) -> None:
 	"""HR learns when a person changes where they live or who to call, once
 	per save, saying what changed. Not the person themselves, if they are HR."""
-	from onedesk.one import notify
-
 	said = list(
 		dict.fromkeys(
 			str(label) for name, label in TOLD_HR.items() if (was.get(name) or "") != (employee.get(name) or "")
@@ -403,25 +384,7 @@ def _tell_hr(employee, was: dict) -> None:
 	)
 	if not said:
 		return
-	hr = frappe.get_all("Has Role", filters={"role": "HR Manager", "parenttype": "User"}, pluck="parent")
-	hr = [
-		user
-		for user in dict.fromkeys(hr)
-		if user != frappe.session.user
-		and user not in NOT_PEOPLE
-		and frappe.db.get_value("User", user, "enabled")
-	]
-	if not hr:
-		return
-	what = said[0] if len(said) == 1 else _("{0} and {1}").format(", ".join(said[:-1]), said[-1])
-	notify.notify(
-		"Employee Details Changed",
-		hr,
-		record=("Employee", employee.name),
-		link=f"/desk/employee/{employee.name}",
-		employee=employee.employee_name or employee.name,
-		what=what,
-	)
+	tell.employee_details_changed(employee, said)
 
 
 def _notifications() -> dict:
@@ -757,11 +720,8 @@ def _general() -> dict:
 	}
 
 
-#: What a printed or sent document shows about the company, beside its logo:
-#: the Company's own fields, and its address as ERPNext keeps a company's
-#: (an Address linked to it, marked as the company's own and primary). ERPNext
-#: asks for exactly these when an invoice is printed without them
-#: (erpnext/public/js/print.js), so they are asked here once instead.
+#: What a printed or sent document shows about the company, beside its logo, asked here
+#: once because ERPNext asks for these when an invoice is printed without them.
 ON_DOCUMENTS = ("one_brand_colour", "phone_no", "email", "website", "tax_id")
 ADDRESS = ("address_line1", "address_line2", "city", "state", "pincode")
 
@@ -1196,8 +1156,6 @@ def _not_the_last_administrator(user: str) -> None:
 def _told_of_access(doc, before: set, after: set) -> None:
 	"""The person hears what they may now use; every other administrator
 	hears of a new administrator, always by mail (notifications/one/)."""
-	from onedesk.one import notify
-
 	said = []
 	own = all_levels()
 	for name, _icon, used, managed in APPS:
@@ -1209,15 +1167,9 @@ def _told_of_access(doc, before: set, after: set) -> None:
 	if (roles.ADMINISTRATOR in after) != (roles.ADMINISTRATOR in before):
 		said.append(_("administrator of the workspace") if roles.ADMINISTRATOR in after else _("no longer an administrator"))
 	if said:
-		notify.notify("Access Changed", doc.name, link="/desk", changes=", ".join(said), by=frappe.utils.get_fullname())
+		tell.access_changed(doc.name, ", ".join(said))
 	if roles.ADMINISTRATOR in after and roles.ADMINISTRATOR not in before:
-		admins = [one for one in roles.administrators() if one not in (doc.name, *NOT_PEOPLE)]
-		slots = {"person": doc.full_name or doc.name, "by": frappe.utils.get_fullname()}
-		notify.notify("Administrator Added", admins, link="/desk/workspace-settings?section=people", sender="Administrator", **slots)
-		for one in admins:
-			email, lang = frappe.db.get_value("User", one, ["email", "language"])
-			if email:
-				notify.mail("Administrator Added", email, lang=lang, **slots)
+		tell.administrator_added(doc)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -1510,10 +1462,8 @@ def _intake() -> dict:
 	}
 
 
-#: What OneAI does by itself when something arrives in OneHR, kept on HR
-#: Settings (hiring.py, ai_grievance.py) and switched here with the rest of
-#: what OneAI does on its own. Recording consent and how long audio is kept
-#: are HR's policy, and stay in HR Settings.
+#: What OneAI does by itself when something arrives in OneHR, kept on HR Settings and
+#: switched here; recording consent and audio retention stay in HR Settings.
 INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_grievances")
 
 
@@ -1562,32 +1512,7 @@ def _save_intake(values: dict) -> None:
 			held.save(ignore_permissions=True)
 	changed = [name for name in TOLD_OF if was[name] != meant(name)]
 	if changed:
-		_told_of_intake(doc, changed)
-
-
-def _told_of_intake(doc, changed: list[str]) -> None:
-	"""Every other administrator hears what was switched, in the page's words."""
-	from onedesk.one import notify
-	from onedesk.one.account import _administrators
-
-	people = [one for one in _administrators() if one != frappe.session.user]
-	if not people:
-		return
-	meta = frappe.get_meta("Intake Settings")
-	said = []
-	for name in changed:
-		label = _(meta.get_label(name))
-		if name == "floor":
-			said.append(_("{0} to {1}%").format(label, frappe.utils.cint(doc.floor)))
-		else:
-			said.append(_("{0} on").format(label) if doc.get(name) else _("{0} off").format(label))
-	notify.notify(
-		"OneIntake Changed",
-		people,
-		link="/desk/workspace-settings?section=intake",
-		by=frappe.utils.get_fullname(),
-		what=", ".join(said),
-	)
+		tell.intake_changed(doc, changed)
 
 
 def _holidays(record: str | None = None) -> dict:
@@ -1706,7 +1631,7 @@ def _save_holidays(record: str | None, values: dict) -> str:
 			more = len(days) - 3
 			said.append(label.format(shown + (" " + _("and {0} more").format(more) if more > 0 else "")))
 	if said:
-		holidays.told("; ".join(said), doc.name)
+		tell.holidays_changed("; ".join(said), doc.name)
 	return doc.name
 
 

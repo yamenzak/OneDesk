@@ -1,25 +1,10 @@
 """A project's milestones: ERPNext's own tasks marked **Is Milestone**, on the
 project or any project under it.
-
-- The Overview shows the last two done and the ones to come, soonest first,
-  with those without a date last (`pick`). One on a sub-project says which
-  (`where`), and each says how far off or how late it is.
-- On a whole job, they are a row per part of it on one dated line: Main,
-  then each sub-project directly under the page with what is under it
-  (`lanes`).
-- **Bill on Completion** (`one_bill_share`) is a milestone's share of the
-  contract, and it's optional. A project bills by milestones only when one
-  of its milestones has a share: Work and Billing then counts the shares of
-  the milestones done instead of the work done, and Bill Progress starts
-  from that share (`billable`). When such a milestone is done, the manager
-  of the project with the order is told to bill it (`reached`).
 """
 
 import frappe
-from frappe import _
-from frappe.utils import date_diff, flt, get_fullname, getdate, nowdate
+from frappe.utils import date_diff, flt, getdate, nowdate
 
-from onedesk.one import notify
 from onedesk.one_project import tree
 
 #: How many milestones the Overview shows, and how many of those may be done.
@@ -166,15 +151,6 @@ def reached(doc, method=None) -> None:
 	chain = [one for one in tree.above(doc.project, tree.parents()) if one in ordered]
 	if not chain:
 		return
-	project = frappe.db.get_value("Project", chain[0], ["name", "project_name", "one_manager"], as_dict=True)
-	if not project.one_manager or project.one_manager in ("Administrator", "Guest", frappe.session.user):
-		return
-	notify.notify(
-		"Milestone Done",
-		project.one_manager,
-		record=("Project", project.name),
-		who=get_fullname(frappe.session.user),
-		milestone=doc.subject,
-		project=project.project_name,
-		share=_("{0}% of the contract").format(f"{flt(doc.one_bill_share):g}"),
-	)
+	from onedesk.one_project import tell
+
+	tell.milestone_done(doc, chain[0])

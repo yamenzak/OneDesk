@@ -1,38 +1,7 @@
 """Stage 5 of Intake: which matter a document belongs to, and what it changes.
 
-Most of what arrives is not new business. It is the reminder for last month's
-invoice, "sorry, forgot the attachment", the corrected invoice, "paid,
-thanks", or the scan of a letter that also came by mail. A **matter** needs no
-doctype of its own: it is its first document's Reading, and every later
-Reading about it names that one in `matter` (docs/INTAKE.md §5.3).
-
-A document is placed strongest first, stopping at the first that is sure:
-
-1. **its mail**: an attachment belongs where the message carrying it does,
-   and the other way round;
-2. **the thread**: an answer is about what it answers, unless it names a
-   different document of its own;
-3. **a reference**: an invoice, order or case number an earlier document of
-   the same party carried;
-4. **the party and kind**, when that party has exactly one open matter of
-   that kind;
-5. **OneAI**, given that party's open matters as a shortlist, only where a
-   model may be asked at all.
-
-Before any of that, a **copy** (the same kind, number, amount and date from
-the same party) is recognised and does nothing new. The subject line is never
-a key.
-
-**What it changes** is decided without a model where the facts say it (a
-reminder nudges, a different amount updates, an automatic reply is nothing
-new, a payment advice closes), and by the same one question to the model
-otherwise.
-
-**Quiet time.** Reading and understanding start at once, so search finds a
-message in seconds. Acting (filing, and what later stages make) waits until
-the matter has been quiet for Intake Settings' Quiet Minutes, then runs once
-over the burst. Phishing, and money or deadlines due within a day, do not
-wait.
+A **matter** is its first document's Reading, and every later Reading about it
+names that one in `matter` (docs/INTAKE.md §5.3).
 """
 
 import json
@@ -397,7 +366,7 @@ def act_now(name: str) -> None:
 def after(name: str) -> None:
 	"""Once everything is made: the auditor has its say, the document is
 	unread again in its Intake box, and whatever still waits is said once."""
-	from onedesk.one_intake import audit, inbox
+	from onedesk.one_intake import audit, inbox, tell
 
 	try:
 		audit.run(name)
@@ -406,7 +375,7 @@ def after(name: str) -> None:
 		frappe.db.rollback()
 		frappe.log_error(title=f"Intake could not audit {name}")
 	inbox.fresh(name)
-	inbox.tell(name)
+	tell.waiting(name)
 	frappe.db.commit()
 
 

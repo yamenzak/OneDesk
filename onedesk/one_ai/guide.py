@@ -1,16 +1,7 @@
 """How One works, answered from each module's own README.
 
-"How do I register my passkey?" is a question about the product rather than
-about the workspace's records, and a model answers it from what products like
-this usually do — which is how a person is told to find a button that is not
-there. Each module's `README.md` says what it does for the people using it, so
-`how_to` hands the model the sections that match and tells it to answer from
-those alone, naming the section.
-
-Everything above a README's `## Under the hood` heading is for the people
-using the module, and everything below it is for the people building it, so
-the reading stops there: file names and upstream faults are no help to
-somebody asking where their payslips are.
+`how_to` hands the model the sections that match, read only down to
+`## Under the hood`, and tells it to answer from those alone.
 """
 
 import re
@@ -112,12 +103,8 @@ def split(text: str) -> list[dict]:
 def ranked(sections, words: list[str]) -> list[dict]:
 	"""The sections that answer the words asked about, best first. Pure.
 
-	Ranked first by how many of the different words a section holds, then by
-	the words in its heading, then by how often they come up — because a long
-	section mentions everything once, and counting mentions alone made the
-	longest section the answer to every question. A section holding fewer than
-	half the words is not an answer, so a question the documentation does not
-	cover gets nothing rather than the nearest paragraph.
+	Ranked by how many of the different words a section holds, then by its heading,
+	then by mentions. A section holding fewer than half the words is no answer.
 	"""
 	asked = sorted({word for word in words if word})
 	if not asked:

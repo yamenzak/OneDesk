@@ -1,13 +1,7 @@
-"""A deal's value, filled on the server as well as on the form.
+"""A deal's value, filled on the server as well as on the form, and its owner.
 
-ERPNext works out `base_opportunity_amount` only in the form's script, so a
-deal made by import, the API or OneAI is worth nothing in the company's
-currency, and every total that reads it. And a deal priced by its items keeps
-Opportunity Amount empty beside a filled Total. Runs after ERPNext's own
-validate, which sets the exchange rate and the items' total.
-
-A deal has one owner, Deal Owner, and a deal nobody owns is on nobody's Home:
-it takes its lead's owner, or whoever made it.
+Runs after ERPNext's own validate, which sets the exchange rate and the items'
+total.
 """
 
 import frappe

@@ -358,6 +358,11 @@ not a second R2 integration.
   Frappe's own de-duplication by `content_hash` carried over: the same PDF
   attached to ten records is one object, deleted when the last File naming
   it goes.
+  A workspace not linked to an account (a bench of one's own, the test
+  site) keeps using the disk. `enabled` is the switch, and it is the
+  account's configuration, not a setting anybody on the workspace can
+  change. A signed URL in a saved page is dead in fifteen minutes, while
+  ours is good for as long as the file is.
 - `file.py` — `CloudFile`, Frappe's File with three methods sent to R2
   instead of the disk: `get_content`, `exists_on_disk` (so de-duplication
   finds a stored twin) and `make_thumbnail` (made from the bytes and stored
@@ -381,11 +386,39 @@ not a second R2 integration.
   chain per file. A folder's id is its path (Frappe names folders so), so
   renaming or moving one gives it and everything under it new ids — callers
   read ids fresh from a listing, never keep them.
+  The node ids in full:
+  - `@root`, the top: My Files, Shared with Me, Company, Records, Recycle
+    Bin.
+  - `@my` and `@company`, stored folders under other names: the reader's
+    own folder (`home`), and Frappe's own Home less everybody's own folders
+    and Frappe's Attachments folder.
+  - `@shared`, what other people have shared with the reader (stage 4).
+  - `@records`, `@records/<DocType>`, `@records/<DocType>/<name>`, derived:
+    the doctypes the reader may read that have files, the records of one,
+    and the files attached to one. A record's folder is always exactly its
+    attachments and is seen by exactly who may read it.
+  - `@mail`, `@mail/<mailbox>`, derived like records: the reader's
+    mailboxes, and the files that came or went with a mailbox's messages
+    (one_mail/cloud.py). A message's files are here and not under Records.
+  - `@featured/<project>`, derived, inside a project's own folder: its
+    Featured Media, the files of the project marked `one_featured`
+    (one_project/media.py). Only projects have one.
+  - `@bin`, what the reader deleted, for thirty days.
+  - anything else, a File by its name.
+  Sharing (stage 4) and libraries (stage 6) add to `may` and to nowhere
+  else.
 - `api.py` — the verbs: listing, folders, resolve, make_folder, rename,
   move, copy, delete, restore, purge, empty_bin. Between a record and a folder a move is a
   copy, and a copy is a new File row naming the same object. Deleting a
   folder's item is a flag (`one_deleted`, custom/file.json) that hides it and
   everything under it; `purge_old` erases what is thirty days old, daily.
+  So File's own permissions, written for attachments, do not decide who may
+  rename a folder in somebody's My Files. Within the stored folders a move
+  is a move. Between a record and a folder it is a copy, the way an explorer
+  copies between two drives. Dragging an invoice's PDF into My Files must
+  not take it off the invoice, and dropping a file on a record attaches a
+  copy to it. No bytes move either way. Deleting a record's file removes the
+  attachment, as it does on the record's own page.
 
 - `upload.py` — putting files in. `begin` checks the target and asks admin
   for a signed PUT per file, holding a ticket (who, where, which key) in the
@@ -397,6 +430,11 @@ not a second R2 integration.
   account, or if the browser cannot reach R2, `here` takes the file as a form
   post through the same `_place`, which also makes the folders of a dropped
   folder. An uploaded picture's thumbnail is made in the background.
+  The browser shows its own progress, and a gigabyte of video costs this
+  server two small requests. The ticket is the whole of the trust. `done`
+  believes nothing else the browser says except the path inside a dropped
+  folder. Frappe's own files are keyed by their MD5 (`store.key_for`), which
+  a browser cannot work out cheaply for a large file.
 - `public/js/onecloud.js` (and `public/css/onecloud.css`) — the explorer,
   with two hosts: `page/onecloud`, and a record's Files tab. Each loads it
   with `frappe.require` the first time it is opened, so a desk that never
@@ -446,6 +484,13 @@ not a second R2 integration.
   and not while a menu, a rename or a drag is open. A hidden explorer waits
   until it is looked at. The re-listing goes through `may`, so the event
   tells nobody about a file they cannot open.
+  The list view calls `frappe.realtime.off("list_update")` before binding
+  its own handler, so opening any list would silence OneCloud. The explorer
+  joins File's room the way a list view does. A folder's id is a path such
+  as `Home/alice@x.com/Salaries`, hence the HMAC. Recent, Shared with Me,
+  the Recycle Bin, Requests and a search watch everything (`ANY`) and
+  redraw on any change, at most once a second or so. Sending after the
+  commit means nobody re-reads a folder before the change is in it.
 
 - `public/js/record_files.js` — the Files tab on every record, declared as
   `TABS` in `namespace.py` and added to the form by `record_tabs.js`, as
@@ -486,6 +531,14 @@ not a second R2 integration.
   its own File permission when a new row names a private file's URL, which
   knows nothing of folder shares, so `CloudFile.validate_private_file_access`
   accepts any row `may` lets the reader open (an override, listed).
+  A folder shared is everything in it shared, including what is put there
+  later, and File's own permission (which already honours DocShare) agrees
+  for a file shared on its own. Whoever may change a thing may share it,
+  the way it works in every drive people know: its owner, a Workspace
+  Administrator, or somebody it was shared with to edit. A customer or a
+  supplier gets a link (stage 5), not a seat. A record's file is shared by
+  sharing the record, because its permission is the record's and a second,
+  file-only door beside it would drift from it.
 
 - `links.py`, `doctype/cloud_link` and `www/s.py` — links for people outside
   the team. A `Cloud Link` names a File, an audience (anyone, or invited
@@ -504,6 +557,14 @@ not a second R2 integration.
   page is plain forms on the portal stylesheet, no script. A link on a File
   goes when the File does (`forget_file`, on_trash); an invitation needs an
   outgoing email account and says so rather than failing silently.
+  A link may let its guests view, download, and for a folder upload.
+  Anyone-links with no password open straight away. A password or code is
+  asked once. A guest reaches the link's file, or what is in its folder
+  now, so something added to a shared folder later is there and something
+  deleted or moved out is not. `_within` is the whole of that rule. Whoever
+  may change the thing may make a link (`namespace.may` write): its owner, a
+  Workspace Administrator, an editor it was shared with, or for a record's
+  file whoever may change the record.
 
 - `library.py` — team libraries. A library is a folder flagged `one_library`
   under `Home/Libraries` (hidden from Company like Attachments), and its
@@ -512,6 +573,12 @@ not a second R2 integration.
   before an item's owner is, so membership is the only way in; renaming or
   deleting the library itself is an owner's; a Workspace Administrator may
   do anything. The last owner cannot be taken off.
+  It is what SharePoint calls a document library and a team drive calls a
+  shared drive. Living under Libraries, it does not go when the person who
+  made it does, and it is its members' rather than everybody's the way
+  Company is. Since membership is a share, `namespace.granted` already
+  gives a member what is in the library. Only an owner changes who is in
+  it.
 - `history.py` and `doctype/cloud_file_version` — versions, Recent, Starred
   and activity. Replacing points the File at the new object and writes the
   old one down as a `Cloud File Version`; the File keeps its name, so shares
@@ -521,6 +588,12 @@ not a second R2 integration.
   the cache, fed by `fetch` and uploads; Starred is `_liked_by`, written
   directly so a star neither comments nor notifies. Activity is Info comments
   written by the verbs, read back with the versions.
+  Objects are never overwritten (a key is its content, or a random one for
+  an upload), so a version is the object a file used to name. Restoring an
+  old version is the same move the other way, with what was current written
+  down first. Recent holds what the reader opened or put somewhere, newest
+  first. It is a convenience, and losing it loses nothing. A version's
+  bytes go only when the file itself does (`forget`).
 
 - `dav.py` — WebDAV. `serve` is whitelisted for every DAV method and hands
   the request to wsgidav (MIT); `/api/method/<name>/<rest>` leaves the rest
@@ -545,6 +618,17 @@ not a second R2 integration.
   client writes before the real one is not kept as a version. Bytes are
   read into memory on a PUT (Frappe has read them already), so a drive is
   for documents rather than for very large video.
+  Windows (Map network drive), macOS (Connect to Server), Linux file
+  managers and apps like Cyberduck all speak WebDAV. The whitelisted
+  function may accept any HTTP method and return a response of its own, so
+  PROPFIND, MKCOL, MOVE and LOCK reach `serve`, which gives back what
+  wsgidav answers. Each drive password (`make_password`) is shown once and
+  taken away on its own. Anywhere but the drive the same password is just a
+  wrong API key. The Basic challenge is what makes the client ask. Every
+  verb runs as the same person, under the same `namespace.may`. Writing a
+  file whose name is there replaces it and keeps a version, and deleting
+  sends it to the Recycle Bin. A folder is its own drive at the same URL
+  with the folder's path after it, since clients mount any collection.
 
 - `mounts.py` and `doctype/cloud_mount` — servers as folders. A `Cloud
   Mount` keeps where a server is and the sign-in (password and key in
@@ -561,6 +645,14 @@ not a second R2 integration.
   workspace fetching an address somebody typed — unless the bench sets
   `onestorage_mounts_private`. Uploads into a server go through the
   workspace (`upload.here`), which holds the keys.
+  A `Cloud Mount` also says who in the workspace may open it, and shows
+  under **Network** as a folder like any other. Nothing is copied into File
+  unless somebody copies it. Deleting on a server is deleting on the
+  server, as there is no bin there. A mount is its maker's unless a
+  Workspace Administrator has shared it with everyone on the team, and then
+  every member of staff reads and writes it with the credentials it was
+  made with. So only an administrator shares one.
+  `onestorage_mounts_private` is for a developer's own machine.
 
 - Search. `search` walks down from a folder (`below`) and matches names
   there. `everywhere` matches names across every live File, newest first,
@@ -591,6 +683,16 @@ not a second R2 integration.
   daily. Why a doctype and not a flag on a folder: a request has people,
   a due date and a state per person, and a record's request has no folder
   at all.
+  Items are named the way people ask, such as *passport copy* or *last
+  three bank statements*. The page shows what has been sent and takes a
+  replacement until the request is closed. An item that is not for a field
+  goes into the request's own folder, made where the request was made and
+  named after it, with a folder per person, by name, when several are
+  asked. With no folder and a record, it goes onto the record. Either way it
+  is a File like any other, with versions and a place in the explorer, and
+  the request only lists it. A link is somebody's own, so it asks for
+  nothing more. The person who made the request owns what arrives, and is
+  told as it does.
 
 - Size: `store.LARGEST` (5 GB) is every size limit Frappe has. The attach
   button's is System Settings (`unlimit`, on install and every migrate);
@@ -599,6 +701,8 @@ not a second R2 integration.
   site. Uploads that pass through the workspace (the attach button, a
   drive, a link, a server) hold the file in memory on the way; only the
   explorer's go straight to R2.
+  It is what R2 accepts in one PUT. Size is not what a tenant is limited
+  by. Their storage is, and admin refuses a put there is no room for.
 
 ### Research and decisions
 
@@ -666,3 +770,18 @@ repositories, which will be folders with history.
 8. **Mounts.** SFTP and WebDAV servers as folders. *Done.*
 9. **File requests.** Ask people for files by name, into a folder or onto a
    record's fields, through a link that needs no account. *Done.*
+
+### ai.py
+
+Everything is read as the reader, through the explorer's own rule
+(`namespace.may`), so a file OneAI may read is a file the reader may open. A
+file's text goes to the model only when the reader asks about it, and
+nothing of it is kept but the answer. Finding a file by what it says is
+OneIntake's `find_documents`, which already checks each hit the same way.
+Sharing, moving and deleting stay the explorer's, where the reader sees what
+they are doing.
+
+What OneIntake read of a file is read once per content, so a copy of a file
+is found by what it holds. The reader may open the file (`_file`, the
+explorer's own rule), so what OneIntake read of it is theirs to see. Nobody
+may read a Reading row by itself, which is why that read is not `get_list`.

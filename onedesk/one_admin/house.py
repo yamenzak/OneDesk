@@ -1,19 +1,8 @@
 """Four Degree Labs' own workspace: the admin site, as a workspace of One.
 
-The admin site uses One as any company does, OneAI included, and OneAI's
-calls go through the same gateway and credit ledger as a customer's. So the
-admin site is a Tenant of its own, **ours** (`is_house`), and three things
-are true of it that are true of no customer:
-
-* nobody bills it: it has no plan and no Stripe subscription, so the ladder
-  never moves it;
-* its OneAI is never refused for credits (`ledger.reserve`): its balance can
-  go below nothing, and what it spends is what the provider charged us;
-* its AI use is our cost, not a sale, so AI Usage does not count it as
-  charged, and Home does not count it as a live customer.
-
-`ensure` makes it once and links the admin site to it, the way `push_config`
-links a customer's site to its Tenant.
+The admin site uses One as any company does, so it is a Tenant of its own,
+ours (`is_house`): nobody bills it, its OneAI is never refused for credits,
+and its AI use is our cost, not a sale.
 """
 
 import hashlib

@@ -1,30 +1,4 @@
-"""OneCloud, live: an open folder redraws when somebody else changes it.
-
-A list view does this by joining its doctype's socket room and redrawing on
-Frappe's `list_update`. The explorer cannot share that event: the list view
-calls `frappe.realtime.off("list_update")` before binding its own handler,
-which unbinds every other listener, so opening any list would silence
-OneCloud. And a good part of what OneCloud does never reaches it anyway —
-binning, restoring, moving and a new version are `db.set_value`, which
-publishes nothing.
-
-So OneCloud has its own event, `onecloud_change`, in the same place: the
-File doctype's room, which the explorer joins the way a list view does.
-What changed is said as keys, not names. Every desk user may join that room,
-and a folder's id is its path — `Home/alice@x.com/Salaries` — so the keys
-are an HMAC of the folder, or of the record a file is attached to, under the
-site's encryption key. A listing says which keys it is watching (`watch`),
-and the explorer re-asks for the listing when one of them is heard. The
-re-asking goes through `may` like any listing, so an event tells nobody
-anything about a file they may not open.
-
-Views that are not one folder — Recent, Shared with Me, the Recycle Bin,
-Requests, a search — watch everything (`ANY`) and redraw on any change,
-at most once a second or so (the explorer waits for a pause).
-
-Several changes in one request are one message, sent after the commit, so
-nobody re-reads a folder before the change is in it.
-"""
+"""OneCloud, live: an open folder redraws when somebody else changes it."""
 
 import hashlib
 import hmac

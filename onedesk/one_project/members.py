@@ -1,40 +1,4 @@
-"""Who sees a project: its members.
-
-ERPNext lets every Projects User read every project. A workspace running a
-villa for one customer and a website for another does not want the window
-fitter reading the website's budget, so a project's **Users** decide:
-
-- a **Projects Manager** sees every project, and so do the books (an
-  **Accounts User** or **Accounts Manager**), who invoice every project's time
-  and progress;
-- anybody else who works in projects sees a project they made, one they run
-  (**Project Manager**), one they are listed on, and one with **nobody
-  listed** — a project nobody has closed is
-  open to everybody who works in projects, which is also what every project
-  was before this;
-- members of a project see what is under it (sub-projects; `under`).
-
-The same rule decides a project's tasks (one_task/access.py): a task in a
-project is seen by whoever may see the project, and by its own people always.
-
-**Being listed is ERPNext's own share.** Their Project already shares itself
-with each person on Users and takes the share back when they are removed, so a
-member opens the project through frappe's share as well as through this rule.
-
-**A member can be taken off.** ERPNext takes back a removed member's share in
-a way only a System Manager may, so the save failed for everybody in a
-workspace; `unlist` takes it back first.
-
-**A member is told in ours.** ERPNext mails an invitation to each new member
-while the project saves: English mail outside the hub, which also failed the
-save where the workspace has no outgoing mail. `invite` marks it sent, and
-tell.py tells the member as Added to Project instead.
-
-Only somebody holding Projects User is narrowed here. Twenty other roles have
-Select on Project so a sales order or an invoice can name one; they pick from
-a list and never open the project, and narrowing their list would break their
-forms, not protect the project.
-"""
+"""Who sees a project: its members."""
 
 import frappe
 

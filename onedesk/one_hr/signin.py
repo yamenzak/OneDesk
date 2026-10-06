@@ -1,17 +1,4 @@
-"""Signing in with the same passkey somebody clocks in with.
-
-An employee who only ever clocks in has no reason to hold a password, and a
-password they never type is a password they write down. The credential is
-already discoverable — `start_registration` asks for a resident key — so the
-browser offers the account and nothing is typed at all.
-
-**This is the only place in One that logs somebody in**, and it does it through
-`frappe.local.login_manager`, which is the same path the password form takes:
-the session, the login hooks, the rate limiter and the audit trail are all
-frappe's. Verifying a signature and then setting a session by hand would be a
-second way into the product, and a second way in is the one thing a login page
-must not have.
-"""
+"""Signing in with the same passkey somebody clocks in with."""
 
 import frappe
 import webauthn

@@ -1,13 +1,7 @@
 """Asking the account to run an action, from the workspace that wants it.
 
-Two things travel with the call and neither is the instruction: which model this
-workspace picked, and what it asked to have added. The instruction itself is the
-account's, read from its own copy of the fixture, and there is nothing a
-workspace can send that replaces it.
-
-Everything here is one round trip and no decision. Whether the action exists,
-whether the model may answer it, whether there are credits — all of that is
-admin's, for the same reason a workspace cannot sign its own upload URL.
+Which model the workspace picked and what it asked to have added travel with the
+call. The instruction is the account's, and every decision is admin's.
 """
 
 import json
@@ -37,24 +31,8 @@ def ask(
 ) -> dict:
 	"""Run one action, looking things up for the model where it asks.
 
-	`pinned` is the model the person picked in the panel for this
-	conversation. It wins over what the workspace chose, and goes with the
-	conversation when another action takes it over: somebody who picked a
-	model was asked by nobody to have it swapped for them halfway.
-
-	`heard` is told each thing as it happens — a round starting, a tool it ran
-	— so a panel watching a background run can say what it is doing rather
-	than that it is busy.
-
-	The loop is here rather than on the account, and that is the whole shape of
-	this: the model is on the account and the records are here, the account
-	never calls a workspace, and a tool means nothing unless it runs as whoever
-	is signed in. So the workspace asks, is told what the model wants, looks it
-	up with its own permissions, and asks again.
-
-	A tool that refuses comes back as a result saying so rather than as an
-	exception. A model told "you may not see that" can say so; a model told
-	nothing at all writes something plausible instead.
+	`pinned` is the model the person picked for this conversation, and it wins.
+	`heard` is told each thing as it happens: a round starting, a tool it ran.
 	"""
 	from onedesk.one_ai import tools as surface
 
@@ -107,11 +85,8 @@ def ask(
 		more = rounds < ROUNDS and not last
 		wanted = {surface.action_of(want.get("tool")) for want in out.get("wants") or []} - {None, action}
 		if wanted and not handed and rounds < ROUNDS:
-			# The model reached for a tool that another action runs, on a model
-			# that does it well: Print Design lays a page out, which the chat's
-			# small model gets wrong. That action takes the conversation from
-			# here, asked the same thing again, and keeps it to the end of the
-			# run; its calls are charged to it.
+			# The model reached for a tool that another action runs, on a model that does
+			# it well (Print Design): that action takes the conversation from here.
 			handed = True
 			action = sorted(wanted)[0]
 			chose = {**mine(action), **({"model": pinned} if pinned else {})}
@@ -134,11 +109,8 @@ def ask(
 			and not _asks(out)
 			and more
 		):
-			# A suggestion that exists to make a card — "Draft my feedback" —
-			# answered with the draft in the chat and no card. Asked for the
-			# call it was for, with what it just wrote. Not when it ended by
-			# asking the person something: that is theirs to answer, and the
-			# card comes after.
+			# A suggestion that exists to make a card, answered with no card: asked for the
+			# call it was for. Not when it ended by asking the person something.
 			pressed = True
 			turns = [*out["turns"], {"role": "user", "text": CALL_IT.format(expects), "calls": [], "context": True}]
 			rounds += 1
@@ -178,10 +150,7 @@ def ask(
 			and _cannot(out)
 			and not _asks(out)
 		):
-			# Measured on Gemma 4: asked for a scheduled extension with only
-			# the reader's own tools given, it answered "I do not have a tool
-			# for that, but I can write an extension with write_extension".
-			# Before saying it cannot, it looks at every tool there is.
+			# Before saying it has no tool for that, it looks at every tool there is.
 			looked = True
 			turns = [*out["turns"], {"role": "user", "text": SEEK, "calls": [], "context": True}]
 			rounds += 1
@@ -246,21 +215,15 @@ def ask(
 					"role": "tool",
 					"id": want.get("id"),
 					"tool": want.get("tool"),
-					# What the tool answered, and nothing else. The bookkeeping
-					# sits beside it rather than inside it, because `result` is
-					# the only part a provider is sent — and a model handed
-					# `{"tool": ..., "ran": ..., "answer": [...]}` quotes the
-					# wrapper back at the reader as if it were the answer.
+					# What the tool answered, and nothing else: a model handed the bookkeeping
+					# quotes the wrapper back at the reader as if it were the answer.
 					"result": _answer(answer),
 					"ran": bool(answer.get("ran")),
 					"card": card,
 				}
 			)
-		# What this round parked is somebody's to answer, and a round that fails
-		# after it should not take it away. Committed here rather than at the end
-		# of the request, which on a run with five model calls in it is minutes
-		# off — and a transaction held open across all of them is a transaction
-		# holding locks across all of them.
+		# What this round parked is somebody's to answer, so it is committed now
+		# rather than at the end of a request that holds minutes of model calls.
 		frappe.db.commit()
 		rounds += 1
 
@@ -573,8 +536,8 @@ def reset_action(action: str) -> dict:
 def _told(action: str, was: dict, now: dict) -> None:
 	"""Every other administrator hears what changed, and an open Actions page
 	redraws."""
-	from onedesk.one import notify
 	from onedesk.one.account import _administrators
+	from onedesk.one_ai import tell
 
 	people = _administrators()
 	for user in people:
@@ -597,14 +560,7 @@ def _told(action: str, was: dict, now: dict) -> None:
 	if not changed or not others:
 		return
 	label = frappe.db.get_value("AI Action", action, "label") or action
-	notify.notify(
-		"OneAI Changed",
-		others,
-		link="/desk/workspace-settings?section=oneai",
-		by=frappe.utils.get_fullname(),
-		action=frappe._(label),
-		what=frappe._(" and ").join(changed),
-	)
+	tell.action_changed(others, label, changed)
 
 
 def _model_name(name: str) -> str:

@@ -1,35 +1,5 @@
-"""What will fail the first time somebody invoices, is paid or pays.
-
-ERPNext builds a company's chart and most of its defaults when the company is
-made, and leaves a handful of things that nothing complains about until the
-first document that needs them. Each is a row of the **Books Check**
-(report/books_check) with what it means and, where one exists, the fix beside
-it. The ones that need no decision are made without asking:
-
-- **The bank.** The Standard chart has a *group* called Bank Accounts and no
-  bank ledger, so the company's default bank account is empty and every bank
-  mode of payment — Wire Transfer, Cheque, Credit Card, Bank Draft — has no
-  account behind it: a payment by transfer does not know where the money went.
-  **Add Bank Account** makes the bank, its ledger under that group and the
-  company's Bank Account in one step, and a company bank account saved from
-  anywhere fills the company default and every bank mode of payment that has
-  none (`wired`).
-- **Tax.** Five UAE templates ship and none is the default, so an invoice
-  carries no VAT unless somebody picks it. Which is the default is the
-  business's decision, so the fix asks.
-- **The same bill twice.** ERPNext does not stop a supplier's invoice number
-  being entered twice unless told to.
-- **The year.** A date outside every fiscal year stops every document on it.
-  ERPNext makes next year's three days before this one ends, when the
-  scheduler runs; the check catches a site where it did not.
-- **Reminding a late customer.** The Payment Reminder (one_book/paid.py) is
-  shipped off, since it writes to customers; the fix turns it on.
-- **The UAE's VAT** (one_book/vat.py): the VAT accounts the return reads, the
-  TRN a tax invoice must carry, and the emirate sales are reported under.
-- **A year that has ended is closed** (one_book/closing.py): its profit
-  moved to Retained Earnings and the books locked to its last day.
-- **The defaults ERPNext throws on** — receivable, payable, income, cost
-  center, round-off, exchange gain or loss — named when any is empty.
+"""What will fail the first time somebody invoices, is paid or pays: each is a
+row of the Books Check, with the fix beside it.
 """
 
 import frappe

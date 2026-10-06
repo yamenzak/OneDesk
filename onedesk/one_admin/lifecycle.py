@@ -1,27 +1,8 @@
 """What starts a fall, and what stops one.
 
-`ladder.py` decides *whether* a workspace should be on a different rung;
-`steps.py` does the press and R2 work of getting it there. This is the part in
-between: the events that put a workspace on the ladder in the first place, the
-nightly walk, and the one call that takes it off.
-
-**Nothing here talks to press.** Every rung is a job, for the reason every other
-press call is a job: press is another service and it will be slow, down, or
-mid-deploy exactly when the cron fires. A fall that failed half way is a job an
-operator can see and resume, rather than a workspace in a state nobody wrote
-down.
-
-**One rung a night.** `nightly` moves a workspace one step and no further, even
-when the clock says it is three rungs late. Each rung does real work and the
-next one should start from a finished previous one; and a workspace that is
-being suspended tonight and archived tomorrow gives whoever is watching a day to
-notice. A workspace nobody has looked at for a year still gets there, just not
-in one go.
-
-**Falling is never retroactive.** A workspace goes Overdue when a payment fails
-and not a day earlier, so `status_since` is written when the rung is reached.
-The one thing this costs: an operator who fixes a stuck job has reset the clock
-on that rung, which is the forgiving direction.
+Between `ladder.py` (whether) and `steps.py` (the work): the events that put a
+workspace on the ladder, the nightly walk of one rung, and the call that takes
+it off. Nothing here talks to press.
 """
 
 import frappe
@@ -71,10 +52,8 @@ def paid(tenant) -> str | None:
 	if tenant.status == "Live":
 		return None
 	if tenant.status in ("Archived", "Dropped"):
-		# The site is gone, so a payment cannot bring it back on its own; and
-		# throwing here made Stripe redeliver the event for days while nobody
-		# was told. The operators hear it and decide: rebuild from the backup,
-		# or refund.
+		# The site is gone, so a payment cannot bring it back on its own: the
+		# operators hear it and decide, rebuild from the backup or refund.
 		from onedesk.one_admin import tell
 
 		tell.paid_while_archived(tenant)
@@ -142,9 +121,7 @@ def standing(tenant) -> dict:
 		"next": ladder.below(tenant.status),
 		"since": str(tenant.status_since) if tenant.status_since else None,
 		# How long this rung lasts, so a screen drawing a bar has a denominator
-		# without keeping its own copy of the periods. A second copy in
-		# JavaScript is a second copy to be wrong the day somebody lengthens the
-		# grace period because of an outage.
+		# without keeping its own copy of the periods.
 		"days": days.get(tenant.status),
 		"days_left": ladder.days_left(tenant.status, tenant.status_since, now_datetime(), days),
 	}

@@ -220,6 +220,12 @@ fails a small business on first use or leaves a question unanswered.
   (profit leaves out the Period Closing Voucher's entries, which move profit
   rather than make it), what is owed from `outstanding_amount` on submitted
   invoices and bills, by due date (`outstanding`, pure).
+
+  ERPNext ships accounting number cards, and none answers these: they total
+  every invoice ever submitted, count a credit note as a negative invoice, and
+  say nothing about what is still unpaid. Each figure here is worked out from
+  the ledger or from what is outstanding, for the one company, and opens the
+  report it came from.
 - `paid.py` and `heads.py` — the band and **Record Payment**, a Record Head
   (one/head.py).
   ERPNext's **Create › Payment** opens a thirty-field Payment Entry for the
@@ -229,6 +235,21 @@ fails a small business on first use or leaves a question unanswered.
   needs a reference to submit, so the invoice's number stands in when none is
   typed. `notification/payment_reminder` is a standard Notification, Days
   After the due date by seven, shipped disabled.
+
+  ERPNext's **Create › Payment** opens a Payment Entry form of some thirty
+  fields, filled from the invoice, for somebody to read, save and submit; the
+  common case — the customer paid all or part of this invoice into our bank —
+  needs four of them. **Record Payment** on a submitted invoice or bill asks
+  for those four (how much, on what day, into or out of which account, and the
+  bank's reference) and submits ERPNext's own Payment Entry, made by its own
+  `get_payment_entry`. Anything else — a discount, a deduction, another
+  currency, one payment across several invoices — is still **Create ›
+  Payment**.
+
+  An invoice left unpaid is also a reminder: **Payment Reminder**
+  (`notification/payment_reminder`) mails the customer the invoice a week
+  after it fell due. It is shipped off, since it writes to customers; the
+  Books Check turns it on.
 - `repeat.py` and `custom/` — repeating. Frappe's Auto Repeat, switched on
   for both invoices by a property setter (`allow_auto_repeat`), rather than
   ERPNext's Subscription, which needs a plan per item to say what the invoice
@@ -237,6 +258,28 @@ fails a small business on first use or leaves a question unanswered.
   due the day it is made, its payment schedule is made again rather than
   copied with last time's dates, and a bill drops the supplier's number,
   which a duplicate-number check would otherwise refuse.
+
+  Frappe's **Auto Repeat** copies a document on a schedule, and ERPNext's
+  invoices were written for it — each has an `auto_repeat` field and an
+  `on_recurring` method — but neither is switched on for it
+  (`allow_auto_repeat`), so **⋯ › Repeat** is not offered. OneBook switches it
+  on (`custom/sales_invoice.json`, `custom/purchase_invoice.json`) rather than
+  using ERPNext's **Subscription**, which needs a plan per item and a price
+  per plan to say what the invoice already says.
+
+  The copy is not right as Auto Repeat makes it, and `repeated` (both
+  invoices' `on_recurring`, run after ERPNext's own) corrects it:
+
+  - **The due date.** Auto Repeat dates every required date field the day it
+    runs, and ERPNext's `on_recurring` empties the due date, so a copy with
+    no payment terms falls due the day it is made and is late the next. The
+    copy keeps the original's days to pay instead.
+  - **The payment schedule.** Its rows are copied with last time's dates; the
+    copy's is made again from its own due date or payment terms.
+  - **The supplier's bill number.** It is copied, and is the supplier's
+    number for last month's bill; with duplicate bill numbers refused (the
+    Books Check suggests it) the copy cannot even be saved. The copy has none
+    until this month's bill comes, and is dated the day it is made.
 - `vat.py` and `report/vat_return` — VAT. ERPNext's UAE VAT 201 reads three
   things a new company does not have — UAE VAT Settings, the TRN, an address
   with an emirate — and says nothing; the Books Check asks. Its box 9 (VAT on
@@ -248,6 +291,34 @@ fails a small business on first use or leaves a question unanswered.
   Frappe only fetches it there. The VAT Return reads tax rows of submitted
   invoices, bills and expense claims, grouped by account and rate (`lines`,
   pure); it is not a UAE form, and needs nothing set up.
+
+  **The UAE's own return** is ERPNext's UAE VAT 201
+  (`regional/report/uae_vat_201`), and on a new company three of its inputs
+  are empty and nothing says so:
+
+  - **UAE VAT Settings** names the company's VAT accounts. Without them the
+    reverse-charge boxes are nought and a reverse-charge bill will not
+    submit. `uae_accounts` fills them from the chart: the Tax accounts called
+    VAT.
+  - **The VAT on a bill** (box 9) is not read from the bill. It is the sum of
+    a field on each, *Recoverable Standard Rated Expenses*, that somebody is
+    meant to type; a bill left at nought does not count, so the company
+    reclaims none of the VAT it paid and pays it twice. `reclaimed` (Purchase
+    Invoice validate) keeps it at the VAT charged on the bill until somebody
+    types their own figure, which is then left alone.
+  - **The emirate and the TRN.** Box 1 is by emirate, read from the company's
+    address; a UAE tax invoice must carry the company's TRN. A new company
+    has neither. The Books Check asks for both, and `emirate` (Sales Invoice
+    validate) copies the emirate onto an invoice made anywhere but its page.
+
+  **A return any country can read** is `report/vat_return`: tax charged on
+  invoices against tax paid on bills and expense claims, by tax account and
+  rate, and what is left to pay or reclaim. It reads the tax rows of
+  submitted documents, so a credit note lowers what was charged and a debit
+  note what was paid. A bill's tax counts only when it was added to the
+  bill's total: tax added to the cost of what was bought (Valuation) cannot
+  be reclaimed. Journal entries to a tax account are not in it; they are in
+  the General Ledger.
 - `closing.py` — the lock and the year-end close. The lock is ERPNext's
   `Company.accounts_frozen_till_date`, enforced in `check_freezing_date`, on a
   Company tab nothing leads to; **Lock Books** sets it and leaves the role
@@ -256,6 +327,23 @@ fails a small business on first use or leaves a question unanswered.
   Retained Earnings — made and submitted by the Books Check's fix, which
   then locks the books to the year's end. ERPNext posts the voucher in the
   background, so it needs a worker.
+
+  **The lock** is ERPNext's own — nothing is posted, edited or cancelled on
+  or before `Company.accounts_frozen_till_date`
+  (`accounts/services/gl_validator.py` `check_freezing_date`) — but it sits
+  on a tab of the Company form beside a role that may post anyway, and
+  nothing leads there. **Lock Books** on the VAT Return sets it to the end of
+  the period just filed, since a period that has been filed is not to
+  change; the Books Check says where it stands. Locking leaves the role
+  empty, so locked means locked for everybody, the Administrator too; to
+  correct a locked period, unlock it, correct, and lock again.
+
+  **The year-end close** is ERPNext's Period Closing Voucher, which moves the
+  year's profit to an equity account and asks which. OneBook answers: the
+  chart's Retained Earnings. The Books Check notices a year that has ended
+  with entries in it and no closing, and **Close the Year** makes and submits
+  the voucher, then locks the books to the year's last day. ERPNext posts it
+  in the background.
 - `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
   chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
   left empty, and `set_mode_of_payment_account` gives only Cash an account;
@@ -266,6 +354,37 @@ fails a small business on first use or leaves a question unanswered.
   are rows with a key, and the fix for a key is `fix` — Accounts Manager or
   Workspace Administrator only. The page is `public/js/check.js`, which the
   Inventory Check draws too.
+
+  ERPNext builds a company's chart and most of its defaults when the company
+  is made, and leaves a handful of things that nothing complains about until
+  the first document that needs them. Each is a row of the **Books Check**
+  (`report/books_check`) with what it means and, where one exists, the fix
+  beside it. The ones that need no decision are made without asking:
+
+  - **The bank.** The Standard chart has a *group* called Bank Accounts and
+    no bank ledger, so the company's default bank account is empty and every
+    bank mode of payment — Wire Transfer, Cheque, Credit Card, Bank Draft —
+    has no account behind it: a payment by transfer does not know where the
+    money went. **Add Bank Account** makes the bank, its ledger under that
+    group and the company's Bank Account in one step, and a company bank
+    account saved from anywhere fills the company default and every bank
+    mode of payment that has none (`wired`).
+  - **Tax.** Five UAE templates ship and none is the default, so an invoice
+    carries no VAT unless somebody picks it. Which is the default is the
+    business's decision, so the fix asks.
+  - **The same bill twice.** ERPNext does not stop a supplier's invoice
+    number being entered twice unless told to.
+  - **The year.** A date outside every fiscal year stops every document on
+    it. ERPNext makes next year's three days before this one ends, when the
+    scheduler runs; the check catches a site where it did not.
+  - **Reminding a late customer.** The Payment Reminder (`paid.py`) is
+    shipped off, since it writes to customers; the fix turns it on.
+  - **The UAE's VAT** (`vat.py`): the VAT accounts the return reads, the TRN
+    a tax invoice must carry, and the emirate sales are reported under.
+  - **A year that has ended is closed** (`closing.py`): its profit moved to
+    Retained Earnings and the books locked to its last day.
+  - **The defaults ERPNext throws on** — receivable, payable, income, cost
+    center, round-off, exchange gain or loss — named when any is empty.
 - `currency.py` — billing a party in their own currency. ERPNext refuses a
   document in any currency but the one on the party's receivable or payable
   account, and a document made in code starts in the company's. `bill_in`
@@ -273,6 +392,16 @@ fails a small business on first use or leaves a question unanswered.
   `rate` reads ERPNext's exchange rate, or the inverse of the one kept the
   other way. OneProject's contract, Invoice Time and Invoice Month and
   OneInventory's reorder all make their documents through it.
+
+  A customer or supplier whose receivable or payable account is in another
+  currency can only be billed in that currency: ERPNext refuses any other
+  (`validate_party_account_currency`). Its forms pick the currency as the
+  party is chosen, but a document made in code starts in the company's.
+  `bill_in` sets what the form would: the company, the party's currency and
+  its rate to the company's currency. `rate` turns an amount from one
+  currency into another at ERPNext's own exchange rate (Currency Exchange,
+  then its provider), or the inverse of the rate the other way when only
+  that one is kept.
 
 ### The plan
 
@@ -295,3 +424,23 @@ fails a small business on first use or leaves a question unanswered.
    *Done.*
 7. **Closing.** Locking the books up to a date, and the year-end close.
    *Done.*
+
+### access.py
+
+ERPNext lets only a **System Manager** open three of the tools the rail
+links to, or add a bank, and keeps the purchase tax templates from accounts:
+
+- **Bank** (Bank Reconciliation Tool) and **Bank Statement Import**: matching
+  the bank's lines to payments is an accountant's daily work, so an Accounts
+  User may do it and import a statement, and an Accounts Manager too.
+- **Opening Invoices** (Opening Invoice Creation Tool): what customers and
+  suppliers owed on the day the books start, entered once, by an Accounts
+  Manager.
+- **Banks**: the list of banks a bank account picks from. ERPNext lets only
+  a System Manager add one, so One's own Add Bank stopped for everybody; an
+  Accounts Manager adds one here and an Accounts User reads them.
+- **Purchase Tax Templates**: ERPNext gives them to buying. The VAT a bill
+  carries is the books' decision, so an Accounts Manager keeps them and an
+  Accounts User reads them.
+- **Suppliers**: a bill often comes from a new supplier, so an Accounts
+  Manager adds one too (`RAISED`).

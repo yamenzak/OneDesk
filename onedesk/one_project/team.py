@@ -1,16 +1,4 @@
-"""A project's team, for the page's Team view (docs/PROJECT-PAGE.md).
-
-The team is ERPNext's **Members** on the project (Project User), and with
-them everyone the work names: the manager, whoever a task on the project or a
-project under it is assigned to, and whoever logged time on it. Each says how
-much is on them (open tasks, and how many are late) and how much they have
-put in (hours this month and in all), read as the reader reads tasks and
-timesheets.
-
-Adding or removing a member is a change to the project, made by whoever may
-change it, and saved as the form saves it, so ERPNext's own rules on members
-(the welcome mail, who sees the project in the portal) run as they do there.
-"""
+"""A project's team, for the page's Team view (docs/PROJECT-PAGE.md)."""
 
 from typing import Annotated
 

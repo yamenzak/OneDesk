@@ -1,13 +1,5 @@
 """What an item's and an asset's page say above their fields: the heads, the
 measures they place and the verbs they offer. See one/head.py.
-
-An item answers how many there are, how many are free to sell, how many are
-on order, what they are worth, whether it is time to order more, and what it
-last cost (item.py). An item marked Is Fixed Asset says how many assets it has
-become instead. An asset answers what it is worth now, what it cost, how far
-through its life it is, the next depreciation and service, where it is and who
-has it (assets.py), and offers the two movements a person makes: Give To… and
-Take Back (custody.py).
 """
 
 from urllib.parse import quote

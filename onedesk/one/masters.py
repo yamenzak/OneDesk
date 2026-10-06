@@ -1,21 +1,6 @@
 """Masters: the short lists records pick their values from, in one place,
 One's rail > Masters (page `masters`). A salutation, a gender, a customer group,
 a unit, a department.
-
-Each is frappe's or erpnext's own doctype. They are grouped by where they are
-used: Shared for what every app's records pick (and the two a printed page
-reads), then each app's own. An administrator sees every group; an app's
-managers see their app's, and are given what erpnext keeps for a role of its
-own (`_give_managers`). Whether a kind can be added to, renamed or removed is
-frappe's own permission check, as anywhere else; the workspace administrator
-is given the kinds frappe keeps for its System Manager (`settle`), so frappe's
-"Create a new" under a field works for them too.
-
-An address template is Jinja, run wherever an address is shown or printed, so
-one the workspace writes (layer.held) is held to what a mail template is held
-to: every tag it adds names a field of the address, bare, or is an `if` on one
-and its `endif`, or a plain label in the reader's language. Every tag it
-already had stays, so frappe's own per-country templates can be reworded.
 """
 
 import re

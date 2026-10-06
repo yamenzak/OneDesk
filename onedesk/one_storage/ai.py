@@ -1,15 +1,6 @@
 """What OneAI does in OneCloud: knows the folder open and the file chosen,
 reads a file's text, says who can see a file, and says what takes the space.
-
-Everything is read as the reader, through the explorer's own rule
-(`namespace.may`): a file OneAI may read is a file the reader may open. A
-file's text goes to the model only when the reader asks about it, and
-nothing of it is kept but the answer. Finding a file by what it says is
-OneIntake's `find_documents`, which already checks each hit the same way.
-
-Nothing here changes a file. Sharing, moving and deleting stay the
-explorer's, where the reader sees what they are doing.
-"""
+Nothing here changes a file."""
 
 from typing import Annotated
 
@@ -135,10 +126,8 @@ def open_file(
 		"owner": get_fullname(item.owner),
 		"record": [item.attached_to_doctype, item.attached_to_name] if item.get("attached_to_name") else None,
 	}
-	# Read once per content: a copy of a file is found by what it holds. The
-	# reader may open the file (`_file`, the explorer's own rule), so what
-	# OneIntake read of it is theirs to see: nobody may read a Reading row by
-	# itself, which is why this is not `get_list`.
+	# Not `get_list`, since nobody may read a Reading row by itself. The reader
+	# may open this file, so what OneIntake read of it is theirs to see.
 	hashed = frappe.db.get_value("File", item.name, "content_hash")
 	reading = frappe.get_all(
 		"Reading",

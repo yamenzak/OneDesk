@@ -1,21 +1,8 @@
 """How each doctype is shown: its records and its collections
 (docs/PASSOVER.md, point 4).
 
-Frappe shows every doctype the same way: its form for a record, and for the
-collection each view the doctype qualifies for. Most stay that way. Where we
-do more it is declared here, and `tests/guards/test_tiers.py` fails on
-anything done and not declared.
-
-- **A record** is shown in one of three tiers. **desk** is frappe's form as it
-  is, and every doctype not named below. **head** is frappe's form with a
-  Record Head above its fields (`one/head.py`). **page** is a page of its own,
-  for the few records people work inside all day, keeping all the form gives
-  (point 6).
-- **A collection** keeps every view frappe offers it. Ours may set a view up
-  (a list's indicators and filters, a calendar's fields, a tree's parent),
-  never take one away.
-- **A screen** of ours that stands for a collection or a tool is a desk page,
-  named here with what it is.
+Where we do more than frappe it is declared here, and
+`tests/guards/test_tiers.py` fails on anything done and not declared.
 """
 
 #: Every collection view frappe has. Ours set one up; none is taken away.

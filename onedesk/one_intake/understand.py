@@ -1,15 +1,8 @@
 """Stage 3 of Intake: what a document is, who it is about, and what it asks.
 
-Deterministic first. An e-invoice, a bank statement, a contact card and an
-invitation already say all of it as data, and are understood with no model.
-Everything else is looked at once, cheaply, to tell junk from something to
-read (the first look), and then read once into a fixed shape (the reading).
-Every fact the model returns is checked against the document's own text
-(facts.py) before it is kept, and every party is matched to a record through
-the Identifier registry (identity.py).
-
-A model is asked only where somebody switched OneAI on, and never about
-history: what was there before the switch is read for its words only.
+Deterministic first. Everything else is looked at once, cheaply, then read once
+into a fixed shape, its facts checked (facts.py) and its parties matched
+(identity.py).
 """
 
 import json

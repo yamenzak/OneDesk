@@ -1,28 +1,11 @@
-"""OneAI reading a new grievance: a summary, a category, and who may see it.
-
-A grievance about harassment, discrimination or safety is the most sensitive
-record a workspace holds, and HRMS lets every Employee read every grievance.
-So a grievance OneAI reads as one of those is marked **sensitive**, and from
-then on only HR Managers and the person who raised it can see it — in the
-list, in a link, in a report and on its page. HR Managers are told at once.
-
-**OneAI never clears the mark.** A model that misses a sensitive grievance is
-a model that missed; a model that could also make one visible again would be
-a model that exposed somebody. Only an HR Manager unticks it.
-
-**Neutral, and nothing added.** The summary says what the person raised, not
-who is right, and names nobody the grievance does not.
-
-One call per grievance, run as OneAI in the background like the hiring work,
-switched off in HR Settings.
-"""
+"""OneAI reading a new grievance: a summary, a category, and who may see it."""
 
 import html
 
 import frappe
 from frappe.utils import cint
 
-from onedesk.one_hr import hiring, own
+from onedesk.one_hr import hiring, own, tell
 
 #: What a grievance can be about. The last three are sensitive.
 CATEGORIES = (
@@ -100,7 +83,7 @@ def triage(grievance: str) -> None:
 	frappe.db.commit()
 
 	if sensitive or urgency == "High":
-		_tell_hr(doc, sensitive)
+		tell.grievance_flagged(doc, sensitive)
 	hiring._refresh("Employee Grievance", grievance)
 
 
@@ -123,20 +106,6 @@ Answer with one JSON object and nothing else:
   "first_steps": ["up to three things HR should do first"]
 }}
 Name nobody the grievance does not name. When in doubt about sensitive, answer true."""
-
-
-def _tell_hr(doc, sensitive: bool) -> None:
-	from onedesk.one import notify
-
-	users = trusted_users()
-	if not users:
-		return
-	notify.notify(
-		"Sensitive Grievance" if sensitive else "Urgent Grievance",
-		users,
-		record=("Employee Grievance", doc.name),
-		sender=hiring.AUTHOR,
-	)
 
 
 def trusted_users() -> list[str]:

@@ -1,24 +1,8 @@
 """The auditor: a second agent that checks what OneAI did (docs/INTAKE.md §4).
 
-Full automation means a person is asked only when a person is needed. The
-reader that understood a document and planned what to do is not the one to
-judge its own work, so once a document has been acted on, a separate call —
-its own AI action, `intake_audit`, whose model a workspace chooses on its
-own — is shown the document and everything done and proposed because of it,
-and answers for each one whether it is right.
-
-- **A proposal it finds right** is applied for the person it was read for,
-  under their permission, and carries the OneAI mark like anything else OneAI
-  made. **One it finds wrong** is dismissed. **One it is unsure of** waits.
-- **Something done that it finds wrong** stays done and goes to the person's
-  Waiting box with the auditor's reason, to undo or to keep. Undoing on the
-  auditor's word alone would let one model's mistake erase another's work.
-- It never decides what ends somebody's employment, and never retries what
-  was refused for want of permission: those wait for a person whatever it says.
-
-A document with nothing done but filing (moved, renamed, tagged, linked) and
-nothing waiting is not audited: there is little to get wrong and a call to
-pay for. A workspace can turn the auditor off in Intake Settings.
+Once a document has been acted on, a separate call (`intake_audit`) is shown
+the document and everything done and proposed because of it, and answers for
+each one whether it is right.
 """
 
 import json

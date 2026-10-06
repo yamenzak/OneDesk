@@ -1,27 +1,4 @@
-"""Every opening, everyone who applied to it, and how far each one got.
-
-HRMS's `Recruitment Analytics` builds its rows from Staffing Plans:
-
-	staffing_plan_details = get_staffing_plan(filters)
-	staffing_plan_list = list(set([details["name"] for details in staffing_plan_details]))
-	sp_jo_map, jo_list = get_job_opening(staffing_plan_list, filters)
-
-An opening with no `staffing_plan` on it is not in `jo_list`, so its applicants
-are never fetched and its offers never counted. Staffing plans are optional —
-nothing in hiring asks for one, and most workspaces never make one — so the
-report answers "nothing is happening" on a site that is hiring four people. It
-is the same fault as `Shift Attendance`: a measurement built out of the records
-that happen to exist rather than out of the thing being measured.
-
-So this starts from the Job Opening, which is the record hiring actually turns
-on, and left-joins everything else. An opening nobody has applied to is a row
-that says so, because "nobody applied" is the answer somebody opened this to
-find. The staffing plan is a column, not the spine.
-
-The counting is deliberately one row per applicant rather than a tree: a tree
-whose parent rows are blank in nine columns reads worse than a flat list, and
-it cannot be sorted or exported by the column somebody cares about.
-"""
+"""Every opening, everyone who applied to it, and how far each one got."""
 
 import frappe
 from frappe import _

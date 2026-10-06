@@ -1,27 +1,7 @@
 """The documents themselves: who we are, what each one is for, and where its
 clauses go.
 
-The text comes from two places: `legal.py` here, for what is true of One as a
-whole, and each module's own `legal.py`, for what follows from what that module
-does. What is in this file is the frame they are slotted into.
-
-**Revisions.** Each document carries a `revision`. Bump it when a change is
-material: a new subprocessor, a changed retention period, anything that alters
-what somebody agreed to. Do not bump it for a typo. `tests/test_legal.py`
-carries the hash of every document's assembled text and fails when the text
-moves, so the choice is always made on purpose: either "this is material,
-everybody agrees again", or "this is a typo, record the new hash".
-
-**Audience.** Two, and the split is why One asks twice.
-
-- `customer`: the organisation. Accepted by a workspace administrator, whose
-  acceptance binds the organisation and everybody in it.
-- `user`: the person. Accepted by everybody who signs in, because a privacy
-  notice is about *their* personal data, and an employer cannot agree to that
-  for them.
-
-The acceptable use policy is `both`: the organisation promises it, and each
-person acknowledges it.
+Bump a document's `revision` when a change is material, never for a typo.
 """
 
 #: Us. One place, because it appears in eight documents, and an address that is
@@ -120,11 +100,8 @@ DOCUMENTS = {
 	"terms": {
 		"title": "Terms of Service",
 		"audience": "customer",
-		# 7: credits we give by hand, their expiry, and taking back a mistake.
-		# 8: first agreed on the signup page, before payment.
-		# 9: closing a workspace yourself, and the full download.
-		# 10: extensions OneAI writes and an administrator turns on; record types.
 		# 11: extensions on One's own pages and on a schedule, tried once before they are kept.
+		# Earlier revisions: README.md, documents.py.
 		"revision": 11,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
@@ -137,14 +114,8 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 2: push. 3: a calendar link. 4: where a person is signed in. 5: OneCloud's
-		# links, file requests and servers. 6: OneCalendar's guests and Google.
-		# 7: OneAI reads an organisation's account. 8: the signup page. 9: the One
-		# account. 10: the Recycle Bin. 11: the Audit Log. 12 to 14: your data
-		# copied or deleted. 15: webhooks. 16: who read an announcement.
-		# 17: a project's Featured Media opens for anybody with its link.
-		# 18: attendance on a project's site becomes time on the project.
 		# 19: users' and employees' pictures from Gravatar, the company's logo.
+		# Earlier revisions: README.md, documents.py.
 		"revision": 19,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
@@ -174,14 +145,8 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 5: OneAI reads a file in OneCloud when asked.
-		# 6: OneAI reads your calendar, and colleagues' busy times.
-		# 7: OneAI reads your tasks, and suggests tasks and their steps.
-		# 8: OneAI writes extensions, read a second time, and designs record types.
-		# 9: OneAI mends an extension from its errors, which can carry record data.
-		# 10: an extension tried once on a record, and what happened told to OneAI.
-		# 11: OneAI reads a project when asked, and suggests its tasks.
 		# 12: OneAI reads a project's money with its customer and suppliers.
+		# Earlier revisions: README.md, documents.py.
 		"revision": 12,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},

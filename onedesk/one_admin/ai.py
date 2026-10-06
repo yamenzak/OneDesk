@@ -1,13 +1,7 @@
 """What OneAI does in OneAdmin: says what needs the operator, and why, and
 how one workspace is doing.
 
-The operator's own readers, on the admin site only and for One Operator only,
-as every console read is (`operator._may`). `console_today` is Home's own list
-(`home.needs`), so the panel and the page say the same thing;
-`workspace_facts` is what a workspace's own form shows, its head and its
-connections, `job_facts` a job's walk in words, and `domain_facts` why a
-customer's domain does or does not work, and `price_list` the price list. Nothing is changed from here: resuming a job, building a signup,
-checking a domain or giving credits is a button the operator presses.
+The operator's own readers, on the admin site only and for One Operator only.
 """
 
 from typing import Annotated

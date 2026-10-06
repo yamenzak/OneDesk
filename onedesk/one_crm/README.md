@@ -443,3 +443,182 @@ Left behind, with the reason: its own stage, stage-log and call doctypes
 on every screen (the reports and Home's four figures answer the questions);
 renaming Deal per workspace (a Translation row does it); an Organisations
 screen (a Prospect is one, and not every party is a business).
+
+### access.py
+
+- A **Sales User** could delete a deal but not a lead. A deal carries its
+  stage history, its calls and its reasons for being lost, so deleting one is
+  a Sales Manager's, as deleting a lead already was.
+- A **Sales User** could only read a Prospect, so the person who makes a lead
+  into a business could not write the business down. They may now create and
+  edit one.
+- Only a **System Manager** could make a Call Log. Sales people log calls by
+  hand from a lead's or deal's page, and OneAI suggests one from what they
+  said about a call, which they approve as themselves. They may now read,
+  make and correct one.
+- Only a **System Manager** could open what the Campaigns and Setup groups
+  link to: Email Campaign, Email Group, Lead Source and Lead Assignment. A
+  Sales Manager now runs them and a Sales User reads them (`GIVEN`).
+- A **Sales Manager** keeps the Assignment Rules that share out leads and
+  deals, and only those: a rule of theirs is on a lead or a deal, and decides
+  by comparing the record's own fields with plain values, `utm_source ==
+  "Website"`, never by code (`assignment_rule`).
+
+Everybody in sales still sees every lead and deal: a small team shares its
+pipeline, and one that does not can say so with User Permissions.
+
+frappe's `update_permission_property` copies a doctype's standard permissions
+into Custom DocPerm before changing one, which is what the Role Permissions
+Manager does. Written once: a doctype that already has Custom DocPerm rows has
+been decided by the workspace, and is left alone.
+
+### ai.py
+
+The rules are OneAI's: a read runs as the person asking, and anything that
+would write is a card somebody approves. What `ai.py` adds is what sales
+knows — that a deal is an Opportunity, what a deal's history is made of, when
+a deal has gone quiet, and when a person is already a lead.
+
+**The model reads the history; the record keeps it.** `deal_facts` and
+`lead_facts` hand over the page's own answers (`record.overview`) and the
+timeline — mail, calls, comments and stage moves, oldest first — so a summary,
+a next step or a follow-up is written from what was said rather than from the
+fields. Nothing the model writes becomes history until somebody approves it.
+
+**A call written up is a Call Log**, the same record the Log a Call dialog
+makes, so it counts as the last time anybody spoke to them and times the first
+reply. A next step is its own card: one card per suggestion, and a person may
+want the call and not the step.
+
+**A business card becomes a lead only if the person is not one already.**
+`add_lead` runs capture's own match: the same email is refused and said, a
+matching phone or business name is written on the card as a possible
+duplicate, as the web form would have flagged it.
+
+### board.py
+
+The desk's Kanban reads and writes its column field on the server whatever the
+field's type; only its New Board dialog insists on a Select. So the board is
+made in `board.py` rather than from that dialog. A stage added, renamed or
+removed changes the board, which is why the columns are derived rather than a
+fixture.
+
+Dragging a deal saves it, so a move runs `stages.before_validate` like any
+other: the probability follows and Won converts. A Lost stage is an archived
+column, so nothing can be dropped on it: losing a deal asks why, and a drop
+cannot, so the server refused it and the board left the card where it fell.
+
+### capture.py
+
+The inbox's Email Account appends to Lead. Whichever way a lead comes in:
+
+- **Mail** from an address that is already a lead is added to that lead.
+  frappe's mail receiver makes a new lead when no thread matches, and if the
+  insert raises DuplicateEntryError it looks the sender up instead; raising
+  exactly that is how the mail finds its lead.
+- **The web form** cannot tell a visitor "you already exist", so the lead is
+  made and marked as a possible duplicate, with Merge and Not a Duplicate on
+  its page.
+- **The desk** is told, as ERPNext's own email check told it; ERPNext's check
+  is switched off at install because it refused the web form and the inbox as
+  well.
+
+A phone number or a business name already on a lead or a customer is never a
+refusal, only a flag: two people share a switchboard, and "Ali" is a name.
+
+A lead from the web form or the inbox belongs to nobody until somebody takes it
+or an Assignment Rule shares it out. It is on Home as Unclaimed until then.
+
+`defaults` sets, on install: a deal made from a lead carries the lead's
+comments and mail; ERPNext's own refusal of a second lead with the same email
+is off, and capture's own rules decide instead; the Source (UTM) section is
+shown.
+
+### deal.py
+
+ERPNext works out `base_opportunity_amount` only in the form's script, so a
+deal made by import, the API or OneAI is worth nothing in the company's
+currency, and every total that reads it. And a deal priced by its items keeps
+Opportunity Amount empty beside a filled Total.
+
+A deal has one owner, Deal Owner, and a deal nobody owns is on nobody's Home:
+it takes its lead's owner, or whoever made it.
+
+### heads.py
+
+A deal answers what it is worth and how likely, how long it has been in its
+stage against how long deals usually stay there, what comes next and when,
+when they were last in touch, when it should close, its quotation and where
+it came from. A lead answers when it came in, whether and how fast it was
+answered, what comes next, when they were last in touch and the deals made
+from it.
+
+A time since ("yesterday") is sent as the moment itself (`when`), and the
+desk says it with frappe's own `prettyDate` when it draws the band, so it
+reads as every other time on the desk does.
+
+### measure.py
+
+**When a deal was won or lost** is the Milestone that recorded it reaching a
+stage whose outcome is Won or Lost (`stages.py`). ERPNext's dashboards use
+`modified`, which is the last time anybody touched the deal: a deal won in
+March and corrected in May was "won in May". Every report and card here reads
+`closed()` instead.
+
+**How long a deal stays in a stage** is read off the same Milestones: each one
+is a deal arriving in a stage, and it left when the next one was written
+(`stays`). What is usual for a stage is the middle of the finished stays in it
+over the last year — the median, so one deal forgotten for a year does not make
+every other deal look quick.
+
+The four figures on Home are Custom number cards, so each is worked out in
+`measure.py` through the reader's own permissions and opens the report behind
+it.
+
+### next.py
+
+Two fields on the record rather than a ToDo: a ToDo on a record marks the
+record assigned to whoever holds it, and closing it unassigns them, so the
+step and the owner would be one thing. On the record, a missing next step is
+a filter, a column and a count on Home, and the step shows on the board card.
+
+`done` writes the step that was done on the timeline before setting the next
+one, so the history of a deal is what was done, not only what was planned.
+
+### record.py
+
+A deal is opened to find out what it is worth, how far it has got and for how
+long, what happens next, when anybody last spoke to them, and when it should
+close. A lead is opened for how long it has waited, where it came from, what
+happens next and what it has turned into.
+
+A call written down by hand is a Call Log, erpnext's own record of a call, so
+it is on the timeline beside the mail and the comments, and a later telephony
+integration writes the same record.
+
+### report/deal_forecast/deal_forecast.py
+
+A deal counts in the month it is expected to close, at its value and at its
+value weighted by probability. A deal whose expected date has passed is not
+dropped into a month that is over: it is its own row, Overdue, because that
+is the answer somebody opened the forecast to find. So is a deal with no date
+at all. Won is by the day the deal was won (`measure.closed`), not the day it
+was expected.
+
+### stages.py
+
+ERPNext's `Sales Stage` is a name and nothing else, so an opportunity's stage
+and its status are two answers to one question that nothing keeps in step.
+In `stages.py` a stage has a position, a probability and an outcome, and the
+outcome is what ties the two together: a stage whose outcome is Won is a
+converted opportunity, one whose outcome is Lost is a lost one, and the stage
+follows when ERPNext's own verbs — Declare Lost, a quotation lost, a sales
+order — change the status instead.
+
+A stage whose outcome is **On Hold** is for the deal that is neither moving
+nor lost: the money is not signed off, the building is not ready. It is still
+open, so its status is left alone, but it is not in the pipeline: the value,
+the weighted value and the forecast leave it out (`measure.alive`).
+
+Stage changes are recorded by frappe's Milestone Tracker, a fixture, so the
+day an opportunity reached its stage is a row rather than a guess.

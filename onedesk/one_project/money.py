@@ -1,23 +1,4 @@
-"""A project's money, in two sides, and where it is heading.
-
-**Customer**: what they've been quoted, what they've ordered, what's been
-delivered and invoiced, and what they've paid. **Cost**: what's been ordered
-from suppliers, received and billed, what they've been paid, and the team's
-time, stock used and expense claims. Each figure opens the documents behind
-it, and the project's sub-projects are included, as the head's are.
-
-Every figure is ERPNext's own record added up, before tax, as ERPNext adds up a
-project's Billed and Purchases: a document's lines that name the project, on
-submitted documents. Payments are what was paid, tax included. Time, stock used
-and expense claims are the totals ERPNext keeps on the project.
-
-**The forecast** answers before the money's gone. The contract is what the
-customer ordered, or the billable time when nothing was ordered. The forecast
-cost is, for each cost type, what's been spent and what suppliers still have
-to bill on their orders, or its budget while that's more; then the same for
-the rest of the budget. A cost type over its budget shows, even while
-another is under. With no budget there's no forecast (`forecast`).
-"""
+"""A project's money, in two sides, and where it is heading."""
 
 import json
 from typing import Annotated

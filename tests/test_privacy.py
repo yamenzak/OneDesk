@@ -13,6 +13,7 @@ import tree
 
 SOURCE = (tree.APP / "one" / "privacy.py").read_text()
 COPY = (tree.APP / "one" / "privacy_copy.py").read_text()
+TELL = (tree.APP / "one" / "tell.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
@@ -95,7 +96,8 @@ def test_the_copy_never_carries_the_workspaces_values():
 def test_the_copy_is_the_persons_alone():
 	gather = _body("gather", COPY)
 	assert '"is_private": 1' in gather and '"owner", doc.user' in gather
-	assert 'notify.notify(\n\t\t"Your Data Is Ready"' in gather or '"Your Data Is Ready"' in gather
+	assert "tell.copy_ready(doc.user, withheld_said)" in gather
+	assert 'notify.notify(\n\t\t"Your Data Is Ready"' in _body("copy_ready", TELL)
 	assert 'ptype in ("read", "report", None) and roles.administers(user)' in _body("has_permission", COPY)
 	assert '"attached_to_doctype": "User"' in _body("_file_of", COPY) and '"attached_to_name": user' in _body(
 		"_file_of", COPY
@@ -114,10 +116,13 @@ def test_everybody_concerned_is_told():
 		"Person Deleted",
 	):
 		assert name in types, name
-	assert '"Deletion Asked"' in _body("_ask_administrators")
-	assert '"Copy Asked"' in _body("ask", COPY)
+	assert "tell.deletion_asked(doc)" in _body("ask_to_delete") and "tell.deletion_asked(doc)" in _body("confirm")
+	assert '"Deletion Asked"' in _body("deletion_asked", TELL)
+	assert "tell.copy_asked(doc, " in _body("ask", COPY)
+	assert '"Copy Asked"' in _body("copy_asked", TELL)
 	assert '"onedesk.one.privacy.remind"' in HOOKS
-	assert '"Deletion On Hold"' in _body("hold")
+	assert "tell.deletion_held(doc, why)" in _body("hold")
+	assert '"Deletion On Hold"' in _body("deletion_held", TELL)
 
 
 def test_the_sidebar_and_the_profile_reach_it():
@@ -137,7 +142,8 @@ def test_somebody_who_is_not_a_user_asks_on_the_page_by_a_mailed_link():
 	assert '{"from_route": "/your-data", "to_route": "your_data"}' in HOOKS
 	ask = _body("ask", PUBLIC)
 	assert "@rate_limit(limit=ASKS_AN_HOUR" in PUBLIC.split("def ask(", 1)[0].rsplit("\n\n\n", 1)[1]
-	assert 'notify.mail(\n\t\t"Confirm Your Request"' in ask
+	assert "tell.request_to_confirm(" in ask
+	assert 'notify.mail(\n\t\t"Confirm Your Request"' in _body("request_to_confirm", TELL)
 	assert 'return {"said": ' in ask and "exists(" not in ask, (
 		"the page answers the same whatever the address"
 	)
@@ -154,7 +160,8 @@ def test_their_copy_is_what_is_about_them_and_reached_only_by_its_link():
 	download = _body("download", PUBLIC)
 	assert "verify_request()" in download and "get_datetime(expires) < now_datetime()" in download
 	assert "DOWNLOAD_DAYS = 7" in PUBLIC
-	assert '"Your Data Is Ready to Download"' in _body("gather", COPY)
+	assert "tell.copy_ready_to_download(doc.name, address, withheld_said)" in _body("gather", COPY)
+	assert '"Your Data Is Ready to Download"' in _body("copy_ready_to_download", TELL)
 
 
 def test_deleting_them_redacts_as_frappe_does_with_no_account_to_rename():
@@ -164,7 +171,8 @@ def test_deleting_them_redacts_as_frappe_does_with_no_account_to_rename():
 	assert '"status": "Deleted", "email": anon' in erase
 	assert "privacy_public.erase(doc)" in _body("erase")
 	approve = _body("approve")
-	assert '"Your Data Is Being Deleted"' in approve and "_is_user(doc.email)" in approve
+	assert "user = _is_user(doc.email)" in approve and "tell.deletion_approved(doc, user)" in approve
+	assert '"Your Data Is Being Deleted"' in _body("deletion_approved", TELL)
 
 
 def test_somebody_who_is_not_a_user_can_find_the_page():

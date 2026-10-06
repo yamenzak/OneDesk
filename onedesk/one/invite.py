@@ -1,16 +1,7 @@
 """Inviting somebody: One's own mail, and a link that lasts a week.
 
-Frappe's welcome mail was a password-reset link, and a reset link lives as
-long as System Settings' `reset_password_link_expiry_duration`, twenty
-minutes here: somebody who opened the mail after lunch could not get in. It
-said nothing of who asked them or to what either. So the mail is ours, sent
-through the hub as the Invitation type, and its link carries our own key,
-good for `DAYS`. Opening it asks frappe for a fresh reset link and goes
-there, so the password is still set on frappe's own page, however late they
-come. Setting it spends the key.
-
-The key is kept as a hash in frappe's defaults, beside where frappe keeps a
-person's two-factor secret, never as it was sent.
+Opening the link asks frappe for a fresh reset link and goes there, so the
+password is still set on frappe's own page, however late they come.
 """
 
 import hashlib
@@ -39,7 +30,7 @@ def send(
 	owner of a new workspace is invited by One (one/owner.py), since nobody
 	on it asked. A customer's or supplier's contact (one/portal_invite.py)
 	gets the Portal Invitation instead, saying `what` they will see."""
-	from onedesk.one import notify
+	from onedesk.one import tell
 
 	token = frappe.generate_hash(length=32)
 	frappe.db.set_default(_key(user), f"{_hash(token)}|{add_days(now_datetime(), DAYS).isoformat()}")
@@ -54,10 +45,9 @@ def send(
 		"link": get_url(f"/api/method/onedesk.one.invite.accept?key={token}"),
 	}
 	if what:
-		notify.mail("Portal Invitation", email, what=what, **said)
+		tell.invited_to_portal(email, what, **said)
 		return
-	apps_said = (" " + _("You can use {0}.").format(", ".join(apps))) if apps else ""
-	notify.mail("Invitation", email, apps=apps_said, **said)
+	tell.invited(email, apps, **said)
 
 
 def pending(user: str) -> bool:

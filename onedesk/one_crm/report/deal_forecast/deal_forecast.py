@@ -1,11 +1,7 @@
 """What the open deals will bring in, month by month, and what already came.
 
-A deal counts in the month it is expected to close, at its value and at its
-value weighted by probability. A deal whose expected date has passed is not
-dropped into a month that is over: it is its own row, Overdue, because that
-is the answer somebody opened this to find. So is a deal with no date at all.
-Won is by the day the deal was won (`measure.closed`), not the day it was
-expected.
+A deal counts in the month it is expected to close. An overdue or undated deal
+is its own row, and Won is by the day the deal was won (`measure.closed`).
 """
 
 import frappe

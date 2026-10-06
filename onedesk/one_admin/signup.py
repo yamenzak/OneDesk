@@ -1,16 +1,7 @@
 """Turning somebody who asked into a workspace that exists.
 
-Two rules, and the second is the one that matters.
-
-**Nothing is provisioned until money has moved.** A request sits as `New` until
-the payment says otherwise, and `accept` is what the payment calls.
-
-**Nothing unwinds.** `accept` runs after a charge, so the policy is never to
-leave a customer with a receipt and nothing to show for it. Each part records
-where it got to, a failure marks the request failed with a reason an operator can
-read, and the resume is the same call again — which is why every part of it is
-safe to run twice. Unwinding is how you end up having taken money and then
-deleted the thing it bought.
+Nothing is provisioned until money has moved, and nothing unwinds: every part
+is safe to run twice, and the resume is the same call again.
 """
 
 import frappe
@@ -161,10 +152,7 @@ def _tenant_for(asked) -> str:
 			"cluster": asked.cluster,
 			"country": asked.country,
 			# The bench and region are chosen by the build (steps.place_it).
-			# Decimal gigabytes, not binary. The plan says 25 GB, R2 bills in
-			# decimal, and every tool a customer checks with reports decimal —
-			# so 1024³ quietly gave them 26.8 GB and made the screen say 27 for
-			# a plan called 25. Found by putting a progress bar next to it.
+			# Decimal gigabytes, not binary: the plan says 25 GB, R2 bills in decimal.
 			"storage_limit": (sold.storage_gb or 0) * 1000 * 1000 * 1000,
 			"database_limit": (sold.database_gb or 0) * 1000 * 1000 * 1000,
 			"seats": sold.seats or 0,
@@ -275,9 +263,9 @@ def remind() -> None:
 	"""
 	if not site.is_admin():
 		return
-	from frappe.utils import add_days, get_url, now_datetime
+	from frappe.utils import add_days, now_datetime
 
-	from onedesk.one import notify
+	from onedesk.one_admin import tell
 
 	for asked in frappe.get_all(
 		"Account Request",
@@ -291,14 +279,7 @@ def remind() -> None:
 	):
 		if not asked.email or not asked.access_key:
 			continue
-		notify.mail(
-			"Finish Signing Up",
-			asked.email,
-			workspace=asked.workspace_name or asked.slug,
-			link=f"{get_url()}/welcome?request={asked.name}&key={asked.access_key}",
-			reference_doctype="Account Request",
-			reference_name=asked.name,
-		)
+		tell.finish_signing_up(asked)
 		frappe.db.set_value(
 			"Account Request", asked.name, "reminded_on", now_datetime(), update_modified=False
 		)
@@ -310,13 +291,8 @@ def remind() -> None:
 def start(workspace_name: str, offering: str, jurisdiction: str = "Global", email: str | None = None) -> dict:
 	"""Take a signup and hand back somewhere to pay.
 
-	The request is written before the customer is sent to Stripe, so a payment
-	that completes always has something to attach itself to. The reverse — a
-	session created first — leaves a paid customer whose request never existed.
-
-	Somebody signed in to their One account signs up as that account: the
-	email is theirs, whatever the form sent, so the workspace joins the account
-	they are looking at (accounts.hold, at payment).
+	The request is written before the customer is sent to Stripe. Somebody signed
+	in to their One account signs up as that account (accounts.hold, at payment).
 	"""
 	site.require_admin()
 	if frappe.session.user != "Guest":

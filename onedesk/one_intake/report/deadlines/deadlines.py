@@ -1,11 +1,7 @@
 """Deadlines: every date something must be done by, from what was read
 (docs/INTAKE.md §6).
 
-The same three kinds as the calendar's layers, in one list a person can work
-down: what was read for them, contracts' last days to cancel, and employees'
-documents expiring, each for whoever may read its record. A reading's date
-says the day it was counted from and the rule, so the arithmetic can be
-checked. An administrator of the workspace sees what was read for anybody.
+The calendar's three kinds of date, in one list a person can work down.
 """
 
 import frappe

@@ -1,23 +1,7 @@
 """What a person does to mail: read, star, move, delete, and folders.
 
-For a connected mailbox the server is the truth, so each change is made there
-first, and here only once the server has taken it. A phone reading the same
-mailbox sees it at once, and the next sync finds nothing to undo. For a hosted
-mailbox, on the mail domain, there is no server: its folders and flags live
-only here.
-
-Read and starred state belongs to the mailbox, not to the person: two people
-holding sales@ see one inbox, as the server does.
-
-Only somebody who holds a mailbox, through a `User Email` row, may change
-anything in it. Being a workspace administrator is not enough: somebody's own
-mailbox is theirs.
-
-Delete moves to the mailbox's Trash. Deleting from Trash removes the message
-from the server for good. The Communication goes too, unless it is linked to
-a record (a contact does not count, since Frappe links those by itself): then
-it stays on the record's timeline and only leaves the mailbox.
-"""
+A connected mailbox changes on its server first, and here once the server
+has taken it. A hosted mailbox's folders and flags live only here."""
 
 import json
 

@@ -1,19 +1,9 @@
-"""Closing a day nobody closed.
-
-The commonest cause of a wrong half day is somebody who forgot to clock out, and
-`Shift Type` reads the pairs: an IN with no OUT is either a very long day or a
-missing row, and the arithmetic cannot tell which. So the shift's end closes it,
-sends one nudge, and marks the log as closed automatically rather than leaving
-it looking like somebody pressed a button.
-
-Hourly rather than at a fixed time, because a workspace has as many shift ends
-as it has shifts, and each one is a time of day rather than a moment.
-"""
+"""Closing a day nobody closed."""
 
 import frappe
 from frappe.utils import add_to_date, get_datetime, now_datetime, today
 
-from onedesk.one_hr import policy
+from onedesk.one_hr import policy, tell
 
 #: How long after a shift ends before an open log is closed. Long enough that
 #: somebody finishing late closes their own, short enough that it happens the
@@ -84,10 +74,4 @@ def _close(log) -> None:
 	out.one_auto_closed = 1
 	out.one_reason = ending_reason()
 	out.insert(ignore_permissions=True)
-
-	user = frappe.db.get_value("Employee", log.employee, "user_id")
-	if not user:
-		return
-	from onedesk.one import notify
-
-	notify.notify("Check-in Closed for You", user, record=("Employee Checkin", out.name))
+	tell.day_closed(log.employee, out.name)

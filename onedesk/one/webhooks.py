@@ -1,33 +1,8 @@
 """Webhooks: tell another system when a record is made or changed, for a
 workspace's administrators.
 
-A webhook is frappe's own Webhook: a kind of record, an event, an address,
-and what to send. The workspace administrator is given it and its Webhook
-Request Log, and both are in One's sidebar, so the list and form keep One's
-rail. Zapier, Make, n8n or the customer's own server take it from there.
-
-Frappe trusts whoever writes one, because only its System Managers may. A
-webhook written by somebody frappe does not let customize (layer.held) is
-held to what an automation is held to (one/automations.py):
-
-- it is on a kind of record they can open, never frappe's own or One's;
-- it sends only fields they may read: a salary above their level is not
-  theirs to send somewhere else;
-- what it sends names a field of the record, `{{ doc.customer_name }}`, and
-  nothing else, and it decides by no code: a webhook that sends only some
-  records is an automation with a Call Webhook step;
-- it goes over https to a public address, fixed when saved: never a
-  template, never the cloud's metadata service or a neighbour.
-
-**The address is checked when it is sent, too.** frappe's plain sender
-follows redirects and resolves the name only when it calls, so a public
-address could hand the call to an internal one. `install`, run before
-every request and job, sends through frappe's own guarded sender from its
-automation engine instead, which checks each hop.
-
-Every call is in the Webhook Request Log: what was sent, what came back,
-and whether it was delivered, failed and will be tried again, or gave up.
-The administrators hear each morning of any that gave up the day before.
+A webhook is frappe's own Webhook, held as an automation is (one/automations.py),
+and its address is checked again when it is sent (`install`).
 """
 
 import re
@@ -181,8 +156,7 @@ def failing() -> None:
 	administrators. Not sent when none did."""
 	from frappe.utils import add_days, now_datetime
 
-	from onedesk.one import notify
-	from onedesk.one.account import _administrators
+	from onedesk.one import tell
 
 	since = add_days(now_datetime(), -1)
 	rows = frappe.get_all(
@@ -194,14 +168,4 @@ def failing() -> None:
 	)
 	if not rows:
 		return
-	people = _administrators()
-	if not people:
-		return
-	said = ", ".join(_("{0} ({1})").format(one.webhook, one.calls) for one in rows[:10])
-	notify.notify(
-		"Webhooks Failing",
-		people,
-		link="/desk/webhook-request-log?status=Exhausted",
-		sender="Administrator",
-		webhooks=said,
-	)
+	tell.webhooks_failing(rows)

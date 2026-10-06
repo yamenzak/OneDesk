@@ -1,28 +1,13 @@
 """A page is called what the rail called it.
 
-Every report and dashboard the rail points at belongs to erpnext or hrms, and
-its heading is its record's name — "Employee Hours Utilization Based On
-Timesheet" against a rail row reading "Hours Utilization", "Employees working on
-a holiday" against "Working on a Holiday". Five reports and five dashboards
-disagreed with the row somebody had just clicked.
-
-Renaming theirs is not available: the name is the record's identity, and a
-standard Report is rewritten from its app's JSON on every migrate. Forking ten
-of them to change a string is worse than the string.
-
-So the rail's own labels are handed to the browser and the heading is set from
-them. **Read from the Sidebar rows rather than typed into a list**: a second copy
-of those labels is a copy that will disagree with the first the week somebody
-renames a row.
+The rail's own labels, read from the Sidebar rows, are handed to the browser,
+and a report's, dashboard's or list's heading is set from them.
 """
 
 import frappe
 
-#: What the rail can rename. A workspace's heading is the workspace's own
-#: title. All three are read in `public/js/reports.js`, at their own seams: a
-#: report's heading comes from `QueryReport.set_breadcrumbs`, a dashboard's
-#: from the crumb the dashboard page adds, which honours a `label` the page
-#: never passes, and a list's from its title and its crumb.
+#: What the rail can rename, each read in `public/js/reports.js` at its own seam.
+#: A workspace's heading is the workspace's own title.
 RENAMES = ("Report", "Dashboard", "DocType")
 
 
@@ -55,10 +40,8 @@ def for_boot() -> dict[str, dict[str, str]]:
 	for doctype, labels in called.items():
 		if doctype in ours and len(labels) == 1 and doctype not in labels:
 			found["DocType"][doctype] = next(iter(labels))
-	# A crumb leads back to the list the rail shows, so it says what the row
-	# says, for any app's doctype the rails call one thing: "Items" over an
-	# item, "Recycle Bin" over a deleted document. One that is two rows keeps
-	# its own name. Read in public/js/shell.js.
+	# A crumb says what the rail's row says, for a doctype the rails call one thing;
+	# one that is two rows keeps its own name. Read in public/js/shell.js.
 	found["Crumb"] = {
 		doctype: next(iter(labels))
 		for doctype, labels in called.items()

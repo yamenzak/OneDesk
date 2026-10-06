@@ -1,41 +1,4 @@
-"""Overtime, recorded on the day it was worked.
-
-Overtime lives on the Attendance row: `overtime_type`, `actual_overtime_duration`
-and `standard_working_hours`. A shift writes them from the check-ins when it
-processes the day; `record` writes the same three when nobody clocked out, from
-a dialog on the Employee or on the Attendance itself. Either way Overtime Slip
-collects them later without knowing which hand wrote them, which is why there
-is one place to record overtime rather than two.
-
-The fields are read only on the form, and the row is already submitted by the
-time anybody notices the overtime, so `record` writes them straight to the row
-and leaves a comment saying who did it. Nothing downstream of Attendance is
-posted at submit, so there is no ledger to disagree with.
-
-`no_double_pay` is the other half of having one place: Overtime Slip lets a row
-be typed with no Attendance behind it, and a period holding both would be paid
-twice.
-
-The rest of this file is the slip itself. Three things about HRMS's screen are
-worth knowing before reading it:
-
-**Its Fetch button saved the document.** `get_emp_and_overtime_details` ends in
-`self.save()`, so pressing Fetch on a new form inserted a real slip and left the
-person looking at the unsaved blank one — press it twice and it answers that
-"Overtime Slip: HR-OT-SLIP-00001 has been created" about a record nobody
-knowingly made. `collect` reads the same attendance and *returns* it; the form
-fills the grid and the person saves when they mean to.
-
-**It never said what it would pay.** Everything on the screen is hours, and
-submitting writes Additional Salary from the type's rate and multipliers. The
-amount is worked out before the save and written onto the slip, using HRMS's own
-`get_overtime_component_amounts` rather than a second copy of the arithmetic.
-
-**It refused a slip for anybody with no salary structure**, because the only
-thing it wanted the structure for was the payroll frequency that sets the two
-dates. `dates` falls back to the calendar month, which is what a fixed hourly
-rate needs and all it ever needed.
-"""
+"""Overtime, recorded on the day it was worked."""
 
 import frappe
 from frappe import _

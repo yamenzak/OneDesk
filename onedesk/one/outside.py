@@ -1,20 +1,7 @@
 """Frappe's, erpnext's and hrms's own desk, kept out of a workspace's.
 
-One's rail and its sidebars are a workspace's whole desk. Frappe still boots
-every sidebar and workspace a person may open, its own (Build, Users, Email,
-Printing), erpnext's (Accounts, Selling, Stock, Home) and hrms's (Payroll,
-Leaves), and its sidebar resolver picks among all of them: a record no One
-sidebar lists, opened cold or reached from a frappe record, landed in
-erpnext's or frappe's sidebar and rail, and their workspaces opened by address
-and through search.
-
-So the boot carries One's sidebars only, with One's first, and One's
-workspaces only. A record no One sidebar lists stays in the sidebar it was
-opened from, or One's when opened cold (frappe's own steps 5 and 6). The
-workspaces taken out are named in `one_elsewhere`, and desk.js sends their
-addresses, and frappe's apps screen, to One's Home.
-
-The platform's own people (`boot.platform`) keep frappe's whole desk.
+The boot carries One's sidebars and workspaces only; the platform's own people
+(`boot.platform`) keep frappe's whole desk.
 """
 
 import frappe

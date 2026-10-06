@@ -1,21 +1,7 @@
 """Deadlines counted the way the law counts them (docs/INTAKE.md §6). Pure.
 
-A letter rarely gives a date. It says "within one month of receipt", and the
-day that means depends on when it counts as received and on how a month is
-counted:
-
-- **received**: a German authority's posted letter counts as received on the
-  fourth day after it was posted (§ 122 AO and § 41 VwVfG, since 2025), not
-  the day it was scanned; anything else from the day it arrived;
-- **a month or a week** ends on the day of the later month or week with the
-  same number as the day it started from, or the month's last day when there
-  is none (§ 188 BGB): 31 January plus one month is 28 February;
-- **a weekend or a public holiday** moves the end to the next working day
-  (§ 193 BGB), by the workspace's own Holiday List.
-
-The day it was counted from and the rule used are kept beside the date, so a
-person can check the arithmetic. The model never counts; it only copies the
-period as written.
+A letter says "within one month of receipt"; the day that means depends on
+when it counts as received and how a month is counted. The model never counts.
 """
 
 import calendar

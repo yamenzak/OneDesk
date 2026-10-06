@@ -1,34 +1,8 @@
 """Approvals: the states a workspace's records move through, and who moves
 them, for its administrators.
 
-An approval is frappe's own Workflow: its states, the actions between them,
-and the role each action is for, drawn in frappe's workflow builder. The
-workspace administrator is given Workflow, Workflow State and Workflow
-Action Master, and the builder page through frappe's Custom Role.
-
-Frappe trusts whoever writes a Workflow, because only its System Managers
-may, and a workflow can run code: a transition's condition is Python, a
-state's value can be an expression, a transition can run tasks (a Server
-Script's method among them), and the field the workflow keeps its state in is
-written on every record of the kind. A workflow written by somebody frappe
-does not let customize (layer.held) is held to this:
-
-- it is on a kind of record they can open, never frappe's own or One's;
-- its transitions run no tasks, and a condition only compares the record's
-  own fields with plain values (`doc.grand_total > 5000`), so a bill over a
-  sum can go to a manager without a line of code;
-- a state sets a field only to a plain value, and only a field anybody who
-  may edit the record may set (the first permission level, not the record's
-  own bookkeeping);
-- it keeps its state in a field of its own, which is made here the first
-  time, as frappe makes it but as the workspace, since the administrator may
-  not add a field by hand.
-
-Every approval, the workspace's or not, is told through One's hub: frappe's
-own mail to whoever a step waits on is off (`send_email_alert`), and
-`waiting` tells them on the bell, and by mail as they chose, as Approval
-Waiting. One made without the builder (by OneAI, or by code) is laid out for
-it, since frappe's builder stacks every step it has no place for on one spot.
+An approval is frappe's own Workflow, drawn in frappe's workflow builder; one
+written by somebody frappe does not let customize (layer.held) is held here.
 """
 
 import ast
@@ -316,7 +290,7 @@ def waiting(doc, method=None) -> None:
 	role the step is for, and may open the record, is told (Approval Waiting)."""
 	from frappe.model.workflow import get_workflow_name
 
-	from onedesk.one import notify
+	from onedesk.one import tell
 
 	if doc.status != "Open" or not doc.reference_doctype or not doc.reference_name:
 		return
@@ -333,31 +307,7 @@ def waiting(doc, method=None) -> None:
 		filters={"parent": workflow, "state": state, "allowed": ["in", held_by]},
 		pluck="action",
 	)
-	people = {
-		row.parent
-		for row in frappe.get_all(
-			"Has Role", filters={"role": ["in", held_by], "parenttype": "User"}, fields=["parent"], limit=0
-		)
-	}
-	told = [
-		one
-		for one in sorted(people)
-		if one not in ("Administrator", "Guest")
-		and frappe.db.get_value("User", one, "enabled")
-		and frappe.has_permission(record.doctype, "read", record, user=one)
-	]
-	if told:
-		notify.notify(
-			"Approval Waiting",
-			told,
-			record=(record.doctype, record.name),
-			kind=_(record.doctype),
-			record_name=record.name
-			if (record.get_title() or record.name) == record.name
-			else f"{record.name} ({record.get_title()})",
-			state=_(state or ""),
-			actions=", ".join(dict.fromkeys(_(one) for one in actions)) or _("move it on"),
-		)
+	tell.approval_waiting(record, state, held_by, actions)
 
 
 def roles_offered() -> list[dict]:

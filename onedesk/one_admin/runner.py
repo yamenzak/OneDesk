@@ -1,21 +1,7 @@
 """Driving a Provisioning Job forward, on a cron rather than in a request.
 
-A site takes minutes to build. Doing that inline would hold a worker open for
-the whole of it and lose the lot to a restart, so the request creates a job and
-returns, and this walks it.
-
-**A job resumes; it never repeats.** The step it is on is a field, so a worker
-that died between two steps comes back to the second one. Every step is written
-to be safe run twice anyway — see `steps.py` — because the field is written
-after the step returns and a crash in that gap is real.
-
-**Waiting is not failing.** A step that answers WAIT is asked again in a
-minute and never counts toward giving up; only an attempt that failed does.
-
-**Backoff is per step and grows.** A site press has not finished building is
-worth asking about again in a few seconds; a call that failed for a reason we
-cannot see is worth leaving longer each time. The cap stops a stuck job from
-being asked about once a day and finishing a week late.
+A job resumes and never repeats; waiting is not failing; backoff is per step
+and grows, to a cap.
 """
 
 import frappe

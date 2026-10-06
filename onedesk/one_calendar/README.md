@@ -183,24 +183,112 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   what the page draws. A layer with a `move` can be dragged (`layers.move`
   hands the drop to it); one with `about` can draw a record's own calendar,
   which needs the reader to be able to open the record.
+
+  A layer is one kind of dated thing: your events, your to-dos, your deals'
+  next steps, who is off. Each module names its own in `hooks.py` under
+  `one_calendar_layers`, as a list of dicts:
+
+  - `key`, `label`, `color` — what the layer is called and drawn in.
+  - `group` — **Mine** (what is yours) or **Workspace** (what everybody
+    shares).
+  - `on` — whether it is shown before the reader chooses.
+  - `doctype` — the record the layer reads, which is also the permission it
+    needs: a reader who cannot read Leave Application has no Who's Off layer.
+  - `rows(start, end)` — a function returning dicts with `name`, `title`,
+    `start`, and optionally `end`, `all_day`, `doctype` (when a row opens a
+    different record than the layer's), `id` (when one record is on the
+    calendar more than once), `editable`, `resizable` (when it may be dragged
+    but not stretched), `about` and `description`.
+  - `move(name, start, end, all_day)` — optional: what dragging a row does to
+    its record. A row is only editable when its layer has one, and the
+    function checks the reader may write the record, whatever the row said.
+  - `about` — optional: the doctypes whose own calendar this layer can draw,
+    or `["*"]` for any. On a record's calendar (**Calendar** on a project)
+    only these layers are offered, and `rows` is called with a third
+    argument, the `(doctype, name)` it is about. `only_about` keeps a layer
+    off the main calendar and the subscription.
+
+  **Nothing is copied.** A layer reads its own records through
+  `frappe.get_list`, so a deal's next step is on the calendar of whoever may
+  read the deal and of nobody else, and it moves when the deal does. The only
+  records OneCalendar owns are Events, which are frappe's own.
 - `events.py` — frappe's Event, read here rather than through its
   `get_events`, for two reasons: frappe's permission hooks can only take access
   away, so "readable because of the record it is about" cannot be a hook; and
   `get_events` leaves out events a user is only a participant in.
   `occurrences` expands repeats; `validate` keeps Public to PUBLISHERS.
+
+  An Event is frappe's: something at a time, with a subject, a place and the
+  people it is with. frappe lets a person see a Public event, one they made,
+  one shared with them, and one they are a participant in. **One adds a
+  fifth: an event about a record is visible to whoever may read that
+  record** — a meeting about a deal is on the calendar of everybody who may
+  open the deal, as the deal itself is. An event is about a record when its
+  Reference, one of its Links or one of its participants names it.
+
+  Since this is not a hook, the calendar reads Events itself, in events.py,
+  and shows such an event without opening it. Clicking it opens the record it
+  is about. The Event's own form still follows frappe's rule, which is why
+  editing one stays with the person who made it. Repeating events are
+  expanded here too (`occurrences`), on the days shown.
+
+  **A Public event is on everybody's calendar**, so making one is kept to the
+  people who speak for the workspace (PUBLISHERS). frappe lets any desk user
+  do it, and a calendar anybody can write on is a calendar nobody reads.
 - `one_task/calendar.py` — tasks, and assignments on anything but a task.
 - `one_crm/calendar.py`, `one_hr/calendar.py` — each module's own layers.
 - `tell.py` — who is told of an event (invited, changed, cancelled, starting
   soon, and each morning), through the hub; guests mailed an iCalendar
   invitation. frappe's own morning mail is stopped on migrate. The types are
   in `notifications/one_calendar/`, a file each.
+
+  **On save** (`saved`, Event on_update): whoever was just added is told they
+  are invited; if the time or the place changed, everybody already on it is
+  told; an event set to Cancelled is a cancellation. **On delete**
+  (`removed`) it is a cancellation too. Whoever made the change is never told
+  of it.
+
+  People inside the workspace are told through the hub, in their language and
+  by the channels they chose. A guest, somebody outside, is mailed with the
+  event attached as an iCalendar invitation (`invitation`), so it lands in
+  their own calendar: a request when invited or changed, a cancellation when
+  cancelled, each with a newer SEQUENCE so their calendar replaces the last.
+
+  **Starting soon** (`soon`, every five minutes): each event's own reminders
+  (frappe's reminders table on the event), or ten minutes before when it has
+  none, told once per time it happens. **Each morning** (`today_events`)
+  every person with something on their calendar that day is told what, from
+  the same read the calendar makes for them. frappe's own morning mail is
+  stopped (`install`): it went around the hub, in frappe's template, and left
+  out events a person is only invited to.
 - `ai.py` — OneAI here: `my_calendar`, `busy_times` (times only) and
   `plan_event`, a Create card whose guests ride on Event's `one_guests`.
+  The calendar is read as the reader, through the same merge the page draws
+  (`layers.entries`), so OneAI sees on it exactly what they do. A colleague's
+  calendar is never read, only when they are busy, from the events they are
+  on, without what those are. An event is only ever suggested; approving the
+  card makes it, and the people on it are told then (`tell.py`), not before.
 - `events.make` and `events.card` — New Event with its people, and an
   event's card.
 - `feed.py` — the subscription: a token per person, kept encrypted and found
   by its SHA-256, read as a guest and rate-limited, answered as that person. `calendar` writes RFC
   5545 by hand: UTC times, all-day dates, escaped and folded lines.
+
+  Google Calendar (*From URL*), Apple Calendar (*New Calendar Subscription*)
+  and Outlook (*Subscribe from web*) all read the same thing: an iCalendar
+  file at an address. The file asks to be read again every fifteen minutes;
+  Apple and Outlook take that as a guide, and Google ignores it and reads on
+  its own schedule, a few times a day. Each person has one address, with a
+  secret in it, and whoever holds the address reads that person's calendar.
+  The secret is kept encrypted, as frappe keeps an API secret, so the dialog
+  can show the link again; a link is found by the secret's hash, and a new
+  one switches the old one off.
+
+  It carries the layers that are on before anybody chooses, read as that
+  person, so it holds nothing they could not see on the calendar itself. It
+  is one way: an event added in Google stays in Google. frappe's own Google
+  Calendar integration syncs both ways for Events, and needs Google API keys
+  to do it.
 - `page/onecalendar` — the page, on the FullCalendar frappe already bundles
   for its own calendar view. The reader's layers and view are frappe user
   settings under Event.

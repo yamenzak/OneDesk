@@ -1,37 +1,12 @@
 """Connected mailboxes: the server is the truth, and this keeps up with it.
 
-Every minute each connected account is read by one background job (its job
-id keeps two from running at once). For each folder the server lists:
-
-1. **Folders.** `LIST` is read every quarter of an hour and on first sync.
-   Each folder becomes or stays a `Mail Folder`, its kind from its RFC 6154
-   flag or its name. Folders that only repeat others (Gmail's All Mail,
-   Starred, Important) are kept but not read, so no message is read twice.
-2. **New mail.** Everything from the folder's UIDNEXT onward. A changed
-   UIDVALIDITY means the server renumbered the folder. Its uids are then
-   forgotten, and messages are matched again by Message-ID as they are read,
-   so nothing is doubled.
-3. **Older mail.** A folder is read newest first, `BATCH` at a time below the
-   oldest uid read so far, until there is none: the last weeks arrive in the
-   first minute, and years of history arrive over the following ones.
-4. **Flags.** Read and starred are read back: with CONDSTORE, only what
-   changed since the folder's HIGHESTMODSEQ; without it, the newest
-   `WATCHED` messages.
-5. **Gone.** When the server holds fewer messages than we think, the missing
-   uids are found. Their Communications leave the folder but are not
-   deleted: a message moved on a phone appears in its new folder with the same
-   Message-ID and is matched to the one we have, keeping its links to
-   records.
-
-A message is matched to one we hold by Message-ID in the same mailbox, so a
-move made here, a move made elsewhere and a renumbered folder all end with one
-Communication, not two.
-"""
+Every minute each connected account is read by one background job, folder by
+folder, and a message is matched to one we hold by Message-ID in its mailbox."""
 
 import frappe
 from frappe.utils import cint, now_datetime
 
-from onedesk.one_mail import imap, live
+from onedesk.one_mail import imap, live, tell
 from onedesk.one_mail.inbound import Arrival
 
 #: Messages read per folder per run, in each direction.
@@ -98,17 +73,8 @@ def _holders(account: str) -> list[str]:
 
 def broke(doc, said: str) -> None:
 	"""Tell whoever holds a mailbox that it stopped connecting, and why."""
-	from onedesk.one import notify
-
 	holders = _holders(doc.name)
-	notify.notify(
-		"Mailbox Not Reachable",
-		holders,
-		link="/desk/settings?section=mail",
-		sender="Administrator",
-		mailbox=doc.email_id,
-		reason=said,
-	)
+	tell.mailbox_not_reachable(doc, said, holders)
 	told(doc.name, holders)
 
 

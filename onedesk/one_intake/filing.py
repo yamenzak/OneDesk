@@ -1,15 +1,5 @@
 """Filing: where a document goes once it is understood (docs/INTAKE.md §8, §13).
 
-A document that belongs to a record is attached to it, so it is in the
-record's Files tab, and File-Linked to the other records it belongs to. One
-that belongs to no record goes to `{kind}/{year}` below the folder that was
-switched on. It is named `2026-09-24 Stadtwerke Köln – Reminder Strom.pdf` in
-the workspace's language and tagged with its kind, its year and OneAI. A file
-somebody put in their own My Files is linked and tagged, never moved or
-renamed. A message is linked to every record it is about, and junk that came
-straight to a mailbox is moved out of the Inbox; junk that came through a
-trusted channel (a scan, a forward) is set aside, never thrown away.
-
 `plan` is pure: a reading and where it is, to a list of actions. `run` finds
 out where it is, and hands each action to `act.apply`, the one door.
 """
@@ -20,6 +10,7 @@ import re
 import frappe
 from frappe.utils import cint, getdate, today
 
+from onedesk.one_intake import tell
 from onedesk.one_intake.act import Action
 
 #: A match this sure is the record a document belongs to (identity.CERTAIN).
@@ -176,7 +167,7 @@ def run(name: str) -> None:
 		action.key = f"{reading.key[:90]}|{action.key}"
 		act.apply(action, reading)
 	frappe.db.commit()
-	_tell(reading)
+	tell.phishing(reading)
 
 
 def where_of(reading, held: str | None = None) -> dict | None:
@@ -304,29 +295,6 @@ def cut(values: dict):
 	doc.flags.ignore_permissions = True
 	doc.insert()
 	return doc
-
-
-def _tell(reading) -> None:
-	"""Phishing is said at once to the person OneAI acts for, and a phishing
-	file to whoever put it there."""
-	from onedesk.one import notify
-
-	# What waits for a person is said once the auditor has had its say
-	# (inbox.tell), not here, before the rest is even made.
-	if reading.verdict != "Phishing":
-		return
-	people = {reading.on_behalf_of}
-	if reading.source_doctype == "File":
-		people.add(frappe.db.get_value("File", reading.source_name, "owner"))
-	# Once per person and document.
-	notify.notify(
-		"Phishing",
-		list(people),
-		record=("Reading", reading.name),
-		sender=notify.ONEAI,
-		dedupe_on=["document_type", "document_name"],
-		title=reading.title or "",
-	)
 
 
 def forget(doc, method=None) -> None:

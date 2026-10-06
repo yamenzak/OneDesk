@@ -1,11 +1,7 @@
 """What a standard number card, dashboard chart or print format says, for
 translation.
 
-frappe's extractors read doctypes, workspaces, reports and the rest, but not a
-card's label, a chart's name or the labels of a format laid out in the print
-format builder. The dashboard shows the first two through `__()`, and the
-builder's macros print each label through `_()`. An app may add its own
-extractors in `babel_extractors.csv` beside it; these are listed there.
+Extractors listed in `babel_extractors.csv`, for what frappe's own leave out.
 """
 
 import json

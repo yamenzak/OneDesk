@@ -1,18 +1,4 @@
-"""OneTask on the calendar: tasks, and the other things somebody was given.
-
-A task is drawn on the day it is due, from its own table, and done where it
-lives. Assignments are drawn too, but only the ones on other records — a deal,
-a leave application — since an assignment on a task is that task, already on
-the calendar once.
-
-**Dragging a task moves its dates** (`move`): the due date goes to the day it
-was dropped on, and the start goes with it by as many days, so a task keeps
-its length. A time of day already set stays. A task is a day on the calendar,
-so it is dragged, never stretched.
-
-A project's own calendar is OneProject's (one_project/calendar.py), and reads
-tasks through `due` here.
-"""
+"""OneTask on the calendar: tasks, and the other things somebody was given."""
 
 from datetime import datetime, timedelta
 

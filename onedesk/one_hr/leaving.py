@@ -1,26 +1,9 @@
-"""The last day, and what stops on it.
-
-Setting a Relieving Date is what HR does when somebody leaves, and on its own
-it does almost nothing: attendance stops counting past it, `Exit Interview`
-refuses without it, and the shift assignment tool filters on it. It does not
-set the status, so the login keeps working, the passkey keeps clocking in, and
-the roster keeps listing them — and the first thing that objects is payroll,
-weeks later, with "Employee {0} relieved on {1} must be set as 'Left'".
-
-So the date does the obvious things here. The status is the lever the framework
-already wired: erpnext's `update_user_status` disables the User the moment an
-employee stops being Active, so setting the status is also what takes the login
-away. The passkey and the shift assignments are ours.
-
-It runs twice — when the record is saved, and nightly for a date set in
-advance that has since arrived — because a last day is usually typed before it
-happens.
-"""
+"""The last day, and what stops on it."""
 
 import frappe
 from frappe.utils import add_days, getdate, today
 
-from onedesk.one_hr import passkey
+from onedesk.one_hr import passkey, tell
 
 #: Why the status was not set, when erpnext refuses. It refuses for one reason:
 #: somebody still reports to them, and marking them Left would leave those
@@ -101,7 +84,7 @@ def set_left(employee: str) -> bool:
 		doc.save(ignore_permissions=True)
 	except frappe.ValidationError as refused:
 		frappe.db.rollback()
-		_tell(employee, str(refused))
+		tell.could_not_mark_left(employee, str(refused))
 		return False
 	return True
 
@@ -131,22 +114,3 @@ def end_shifts(employee: str) -> int:
 			frappe.db.set_value("Shift Assignment", row.name, "end_date", last)
 			touched += 1
 	return touched
-
-
-def _tell(employee: str, why: str) -> None:
-	from onedesk.one import notify
-
-	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
-	hr = frappe.get_all(
-		"Has Role",
-		filters={"role": ["in", ["HR User", "HR Manager"]], "parenttype": "User"},
-		pluck="parent",
-		distinct=True,
-	)
-	notify.notify(
-		"Could Not Mark Left",
-		hr,
-		record=("Employee", employee),
-		employee=name,
-		why=frappe.utils.strip_html(why),
-	)

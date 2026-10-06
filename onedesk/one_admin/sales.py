@@ -1,23 +1,7 @@
 """Our own customers, in our own OneCRM: somebody signing up is a lead, their
 checkout is a deal, and paying makes them a customer.
 
-The admin site is a One workspace too, and it sells One. So a signup is kept
-the way any company using One keeps a sale, in ERPNext's CRM, rather than
-only in the operator's tables:
-
-* **Lead**, when the signup is taken (`signup.start`): who, the workspace
-  they asked for, and the plan, with the source Website.
-* **Deal**, at the same moment, because a signup is sent straight to pay: an
-  Opportunity from the lead at the Checkout stage, worth a year of the plan.
-  Paying wins it; a checkout left unpaid for `ABANDONED_DAYS` is lost with
-  the reason Checkout Abandoned, which leaves a list somebody can follow up.
-* **Customer**, when the payment lands (`signup.accept`): made from the lead
-  by ERPNext's own mapping, billed in the plan's currency, and written on the
-  Tenant, where our invoices find it (books.py).
-
-Nothing here stops a signup. Every step is wrapped so a CRM that cannot take
-a record logs the failure and the workspace is still made: the money has been
-taken, and a missing lead is a thing to fix, not a reason to refuse.
+Nothing here stops a signup: a CRM that cannot take a record logs the failure.
 """
 
 import frappe

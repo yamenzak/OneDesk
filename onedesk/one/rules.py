@@ -1,36 +1,8 @@
 """Rules: notifications a workspace builds for itself (docs/NOTIFICATIONS.md,
 stage 5).
 
-A rule is frappe's own Notification: what it watches, when it fires, who is
-told, and what it says. It goes to the bell with a notification type of its
-own, so everything else follows from the hub: it is mailed or pushed to each
-person as they chose, and an administrator decides its channels as for any
-other type.
-
-**Frappe trusts whoever writes a Notification**, because only its own roles
-may: the text is rendered with frappe's template globals, a condition or a
-recipient's condition is Python, a rule can set a field on the record after it
-sends, attach its print, and mail any address. A workspace administrator is
-not frappe's administrator, so a rule saved by anybody without frappe's own
-Notification roles is a **workspace rule** (`one_rule`), held to this:
-
-- it watches a kind of record they may read themselves, on one of `EVENTS`;
-- its condition is filters, never Python;
-- its text names only fields of that record, `{{ doc.field }}`, and nothing
-  else (`check_text`);
-- it is told to people by role, by a person field of the record, or to its
-  assignees, with no conditions, copies or addresses of its own;
-- it goes to the bell only, sets nothing and attaches nothing;
-- and when it fires, only the people who may read the record are told
-  (`Rule.get_list_of_recipients`), so a rule never shows anybody what their
-  own permissions would not.
-
-**The rules erpnext and hrms ship mail whoever they name**, whatever those
-people chose. A module that declares one as a type (`rule` in its
-`notifications/`) has it carried: the people in the workspace are told
-through the hub, in the rule's own words, and only an address that is nobody
-here is still mailed (`Rule.send_an_email`). The rule itself is not changed,
-so a new version of it arrives with the app.
+A rule is frappe's own Notification, sent through the hub; one saved without
+frappe's own Notification roles is a workspace rule (`one_rule`), held here.
 """
 
 import json
@@ -97,7 +69,7 @@ class Rule(Notification):
 			return super().send_an_email(doc, context)
 		from markupsafe import Markup
 
-		from onedesk.one import notify
+		from onedesk.one import tell
 
 		recipients, cc, bcc = super().get_list_of_recipients(doc, context)
 		inside = _people(recipients + cc + bcc)
@@ -107,7 +79,7 @@ class Rule(Notification):
 				Markup(frappe.render_template(text or "", context, restrict_globals=True))
 				for text in (self.subject, self.message)
 			]
-			notify.notify(name, inside, record=(doc.doctype, doc.name), words=tuple(said))
+			tell.rule_fired(name, inside, doc, tuple(said))
 		self.flags.one_outside_only = True
 		try:
 			super().send_an_email(doc, context)

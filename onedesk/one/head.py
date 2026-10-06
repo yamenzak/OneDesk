@@ -1,33 +1,8 @@
 """Record Head: what a record's form says above its fields, as rows.
 
-A form of ours used to say it in a script per doctype: an overview method
-worked the numbers out, and the script drew them under the title and added
-its buttons. Now a **Record Head** (one per doctype) holds the pill, the
-sentence, the band of numbers and the verbs as rows, `onload` works them out
-on the server as the reader, and one renderer (`public/js/head.js`) draws what
-it sent. docs/SHELL.md, decision 4, is the argument.
-
-What stays code is what is really a program, registered by name:
-
-- a **measure** (`one_measures`) is a function of the record that answers one
-  number or phrase, and may say its own label, tone and link. The arithmetic
-  stays Python and tested; where it goes on the page is a row.
-- a **verb** (`one_verbs`) is something done to the record: which doctypes it
-  is for, when it can be done, what it asks, and what it does.
-- a **chart** (`one_charts`) is a function of the record that answers a run
-  of figures, drawn beside the band by frappe's own `frappe.Chart`: what this
-  customer was billed month by month, what the asset is worth over its life.
-
-A measure may also say how its number changed (`delta`) and how far it is to
-a whole (`meter`), which the band draws as frappe's Number Card draws a change
-and frappe-ui's Progress a part of a whole.
-
-A row names only those, the record's own fields, and frappe's filters, so a
-row cannot run anything. A count or a sum is taken with the reader's own list
-permissions, so the band never shows a number the reader's list would not.
-
-Each module declares its heads (`one_record_heads`) and `install` writes them
-on every migrate, as notification types are.
+`onload` works the rows out on the server as the reader, and one renderer
+(`public/js/head.js`) draws what it sent. What is really a program (a measure,
+a verb, a chart) stays code, registered by name.
 """
 
 import json

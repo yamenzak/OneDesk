@@ -290,13 +290,13 @@ def document_of(reading: str) -> dict | None:
 		return None
 	own = frappe.db.get_value("File", {"one_reading": reading}, ["name", "file_name", "folder", "attached_to_doctype", "attached_to_name"], as_dict=True)
 	if own:
-		return {"label": own.file_name, "route": search._file_route(own)}
+		return {"label": own.file_name, "route": search.file_route(own)}
 	if doc.source_doctype == "File":
 		file = frappe.db.get_value("File", doc.source_name, ["name", "file_name", "folder", "attached_to_doctype", "attached_to_name"], as_dict=True)
 		if file:
 			if file.attached_to_doctype == "Communication":
 				return _message(file.attached_to_name, file.file_name)
-			return {"label": file.file_name, "route": search._file_route(file)}
+			return {"label": file.file_name, "route": search.file_route(file)}
 	if doc.source_doctype == "Communication":
 		return _message(doc.source_name, doc.title)
 	return {"label": doc.title, "route": None}

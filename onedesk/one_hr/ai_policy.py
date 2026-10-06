@@ -1,15 +1,4 @@
-"""OneAI answering a policy question from what this workspace actually says.
-
-"How many sick days do I get?" has two honest answers: what somebody wrote
-down (an `AI Knowledge` note, the handbook pasted in) and what the system is
-set up to do (the Leave Type's maximum, whether it carries forward). A model
-asked without either answers from what companies usually do, which is a
-confident wrong answer to the one question an employee acts on.
-
-So `hr_policy` hands over both, each with where it came from, and the tool
-says the answer names its source — a note by its title, a rule by its record —
-and says plainly when neither covers the question. Read as the person asking.
-"""
+"""OneAI answering a policy question from what this workspace actually says."""
 
 from typing import Annotated
 

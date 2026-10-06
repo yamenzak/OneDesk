@@ -1,16 +1,4 @@
-"""What a person's record should answer before anyone clicks anything.
-
-The desk already links thirty doctypes off an Employee, which tells you where
-to look and nothing else. This reads the five things somebody opens the record
-to find out — where they are today, what leave is left, what is waiting on an
-approver, what they are paid under, how long they have been here — and each
-answer carries the doctype it came from so the links stay.
-
-Everything here is read through `frappe.get_all` and `frappe.get_doc`, which
-apply the reader's own permissions, so the same call answers differently for an
-HR manager and for the person themselves. Leave is HRMS's own
-`get_leave_details`, because a balance is theirs to calculate and ours to show.
-"""
+"""What a person's record should answer before anyone clicks anything."""
 
 import frappe
 from frappe import _
@@ -78,15 +66,7 @@ def _equipment(doc) -> int:
 
 
 def _standing(doc) -> dict | None:
-	"""The number `healing.standings()` worked out last night, and its band.
-
-	The band is read from HR Settings rather than from the constants, so the
-	colour on the record is the same line the door actually enforces: a site
-	that refuses below 70 should not paint 65 as unremarkable.
-
-	Nothing is returned before the first nightly run has written one. An empty
-	field is not a score of zero and must not be shown as one.
-	"""
+	"""The number `healing.standings()` worked out last night, and its band."""
 	if not frappe.get_meta("Employee").has_field("one_standing"):
 		return None
 	score = doc.get("one_standing")
@@ -207,17 +187,7 @@ def _today(doc) -> dict:
 
 
 def _days(doc) -> list[dict]:
-	"""A quarter of attendance, one square a day, starting on a week boundary.
-
-	Nothing marked and no holiday list is a site that does not keep attendance,
-	and a grid of ninety-odd blank squares says that worse than no grid does.
-
-	A day nobody marked is not absent: attendance is written after the fact, and
-	calling every unwritten day a no-show would be a lie about the person rather
-	than about the data. Everything Attendance knows about a day rides along —
-	the shift, the leave type, the hours, whether they were late — because the
-	square is the only place somebody will ever read it.
-	"""
+	"""A quarter of attendance, one square a day, starting on a week boundary."""
 	start = get_first_day_of_week(add_days(getdate(), -(WEEKS * 7 - 1)), as_str=False)
 	today = getdate()
 	marked = {
@@ -302,11 +272,8 @@ def _leave(doc) -> list[dict]:
 	"""Every type this person holds an allocation for, as HRMS counts it."""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
 
-	# A caught PermissionError still leaves its message behind, and a message
-	# nobody cleared is shown on the next dialog this session opens — which is
-	# how "Insufficient Permission for Leave Policy" ended up on top of a
-	# refused clock-in. Catching the exception means we have already decided it
-	# is not the reader's problem, so the sentence goes with it.
+	# A caught PermissionError still leaves its message for the next dialog, and having
+	# caught it, it is not the reader's problem, so the sentence goes with it.
 	said = len(frappe.local.message_log)
 	try:
 		details = get_leave_details(doc.name, nowdate())

@@ -1,24 +1,6 @@
 """Closing the workspace, and taking everything in it first.
 
-Only the person the workspace is billed to may do either: they are the
-customer, and both are about the whole company's data, salaries included,
-which no administrator role is meant to reach in one go. Workspace >
-Plan and Credits shows everybody else who can.
-
-**The full download** is one zip, built in the background and kept on the
-site until a newer one replaces it or the site is deleted:
-
-- `database/`: frappe's own backup of the database, which any Frappe site
-  restores (`bench restore`);
-- `records/`: every kind of record with rows, one CSV each, readable in
-  any spreadsheet;
-- `files/`: every file, under the folder it is in, from OneCloud's store.
-
-**Closing** asks the account (one_admin/closing.py) to close it in a
-fortnight, confirmed with the payer's password. Until that day it works as
-before and the payer can keep it open; everybody in it is told the day,
-and told again if it stays open. On the day the account archives it, and
-deletes it for good once the Terms' days on Archived have run.
+Only the person the workspace is billed to may do either.
 """
 
 import csv
@@ -30,7 +12,7 @@ import zipfile
 import frappe
 import requests
 from frappe import _
-from frappe.utils import cint, formatdate, now_datetime
+from frappe.utils import cint, now_datetime
 
 from onedesk.one import account, roles
 
@@ -155,18 +137,9 @@ def build(user: str) -> None:
 		update_modified=False,
 	)
 	frappe.db.commit()
-	from onedesk.one import notify
+	from onedesk.one import tell
 
-	notify.notify(
-		"Full Download Ready",
-		user,
-		link=PAGE,
-		sender="Administrator",
-		size=frappe.utils.cstr(_size(os.path.getsize(path))),
-		missing=_("{0} files could not be read and are listed in it.").format(len(missing))
-		if missing
-		else "",
-	)
+	tell.full_download_ready(user, frappe.utils.cstr(_size(os.path.getsize(path))), missing)
 	frappe.publish_realtime("one_closing")
 
 
@@ -318,18 +291,10 @@ def close(password: str) -> dict:
 		frappe.throw(account._plainly(refused), title=_("Not closed"))
 	account.refresh()
 	held = _held()
-	from onedesk.one import notify
+	from onedesk.one import tell
 
 	# Everybody, the payer too: the sender is One, not them.
-	notify.notify(
-		"Workspace Closing",
-		_everybody(),
-		link=PAGE,
-		sender="Administrator",
-		by=frappe.utils.get_fullname(),
-		date=formatdate(held.closing_on),
-		deleted=formatdate(held.deleted_on) if held.deleted_on else _("later"),
-	)
+	tell.workspace_closing(held)
 	frappe.publish_realtime("one_closing", after_commit=True)
 	return state()
 
@@ -343,25 +308,8 @@ def keep() -> dict:
 	except account.faults.Refused as refused:
 		frappe.throw(account._plainly(refused), title=_("Still closing"))
 	account.refresh()
-	from onedesk.one import notify
+	from onedesk.one import tell
 
-	notify.notify(
-		"Workspace Staying Open",
-		_everybody(),
-		link=PAGE,
-		sender="Administrator",
-		by=frappe.utils.get_fullname(),
-	)
+	tell.workspace_staying_open()
 	frappe.publish_realtime("one_closing", after_commit=True)
 	return state()
-
-
-def _everybody() -> list[str]:
-	"""Everybody who signs in to the workspace, the payer included."""
-	from onedesk.one.settings import NOT_PEOPLE
-
-	return frappe.get_all(
-		"User",
-		filters={"enabled": 1, "user_type": "System User", "name": ["not in", list(NOT_PEOPLE)]},
-		pluck="name",
-	)

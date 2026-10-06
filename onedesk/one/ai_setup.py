@@ -1,15 +1,8 @@
 """OneAI sets up what a workspace keeps of its own: saved reports, dashboards,
 reports by mail, levels, profiles, groups and what a person sees.
 
-Each tool here checks what it was asked against the same rules the page does,
-and writes a card (an `AI Proposal` of kind Setup) that does nothing until a
-person approves it. Approving runs the page's own code (one/reports.py,
-one/access.py) as whoever pressed Approve, so a card can do no more than they
-could by hand. A card says in plain words what changes: a level's card names
-every right it gives and takes away.
-
-All of them run on Workspace Setup, the stronger model approvals and
-automations run on.
+Each tool writes a card (an `AI Proposal` of kind Setup) that does nothing
+until a person approves it, and approving runs the page's own code.
 """
 
 import hashlib

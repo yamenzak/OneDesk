@@ -1,24 +1,4 @@
-"""OneAI on growth: goals for a cycle, and the training that would help.
-
-**Goals.** Writing three good goals is the part of an appraisal cycle people
-put off, and the raw material is already here: the person's designation, the
-KRAs this workspace appraises on, last cycle's goals and how far they got,
-and the feedback they were given. `goal_facts` hands that over; `draft_goal`
-turns each goal the model wrote into a Goal card, in the cycle that is open,
-for the person or their manager to approve, change or refuse one by one.
-
-The KRA list, the open cycle's dates and the training catalogue are read
-whatever the reader's role:
-they are the workspace's own names and dates, not anybody's record, and an
-employee who may not open the KRA master still has goals to write against it.
-Goals and feedback are read as the person asking.
-
-**Training.** "What would help?" is answered from this workspace's own
-training programs and events, against where the latest appraisal says the
-person is weakest — not from a catalogue of courses the model has heard of.
-
-Whose goals: your own, your direct reports', or anybody's if you are HR.
-"""
+"""OneAI on growth: goals for a cycle, and the training that would help."""
 
 import difflib
 from typing import Annotated

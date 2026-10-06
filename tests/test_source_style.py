@@ -1,8 +1,7 @@
-"""Comments earn their place, and nothing dead ships.
+"""Comments earn their place, and nothing dead ships (point 17).
 
-The ceilings are deliberately loose — they catch the essay and the orphan, not
-the judgement call. A file that trips one is a file to look at, not a rule to
-raise.
+A comment says why in a line or two; a docstring says what a file or function
+is for. The long form is the module README's, under Under the hood.
 """
 
 import ast
@@ -15,9 +14,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-#: A comment block longer than this is an essay. Docstrings are exempt: they
-#: are the documented interface, and `scripts/docs.py` reads them.
-LONGEST_BLOCK = 12
+#: A comment block longer than this is an essay.
+LONGEST_BLOCK = 3
+
+#: A docstring longer than this belongs in the module's README.
+LONGEST_DOCSTRING = 8
 
 #: Comment lines per code line, per file.
 DENSEST = 0.40
@@ -43,6 +44,26 @@ def test_no_comment_block_is_an_essay():
 	assert not long_ones, (
 		f"comment blocks over {LONGEST_BLOCK} lines in {long_ones} — "
 		"say why in a line or two, and put the long form in the commit message"
+	)
+
+
+def _long_docstrings(path: Path) -> list[str]:
+	out = []
+	for node in ast.walk(ast.parse(path.read_text())):
+		if isinstance(node, ast.Module | ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef):
+			doc = ast.get_docstring(node, clean=False)
+			if doc and doc.count("\n") + 1 > LONGEST_DOCSTRING:
+				out.append(getattr(node, "name", "module"))
+	return out
+
+
+def test_no_docstring_is_an_essay():
+	long_ones = [
+		f"{path.relative_to(tree.ROOT)}: {name}" for path in tree.python() for name in _long_docstrings(path)
+	]
+	assert not long_ones, (
+		f"docstrings over {LONGEST_DOCSTRING} lines in {long_ones}: say what it is for, "
+		"and put the rest in the module's README under Under the hood"
 	)
 
 
@@ -88,3 +109,7 @@ def test_the_essay_scan_would_catch_one(tmp_path):
 	fine = tmp_path / "fine.py"
 	fine.write_text("# why this is here\nx = 1\n")
 	assert max(_python_comment_runs(fine)) == 1
+
+	lecture = tmp_path / "lecture.py"
+	lecture.write_text('"""' + "\n".join(f"line {i}" for i in range(LONGEST_DOCSTRING + 1)) + '"""\n')
+	assert _long_docstrings(lecture) == ["module"] and _long_docstrings(fine) == []

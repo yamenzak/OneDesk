@@ -1,12 +1,8 @@
 """One's own steps for frappe's automation engine (one/automations.py), added
 through its `automation_actions` hook.
 
-Tell People tells people through the hub (one/notify.py), on the bell and by
-mail as each chose, as Automation Notice, and fills a mail template in as the
-composer does (one/mail_templates.py). Frappe's Send Notification mails past
-the hub, and renders a template with only `doc`, so a template that names the
-record's fields bare, as the composer and the leave mails need, prints its
-tags there.
+Tell People tells people through the hub (one/notify.py), as Automation Notice,
+and fills a mail template in as the composer does (one/mail_templates.py).
 """
 
 from typing import ClassVar
@@ -58,9 +54,7 @@ class TellPeople(AutomationAction):
 			raise AutomationParamError(_("Give a subject or a mail template"), fieldname="subject")
 
 	def execute(self, doc, params, context):
-		from markupsafe import Markup
-
-		from onedesk.one import mail_templates, notify
+		from onedesk.one import mail_templates, tell
 
 		people = resolve_recipients(_as_list(params.get("recipients")), doc)
 		if not people:
@@ -71,12 +65,5 @@ class TellPeople(AutomationAction):
 		else:
 			subject = render_value(params.get("subject") or "", doc, context)
 			message = render_value(params.get("message") or "", doc, context)
-		notify.notify(
-			"Automation Notice",
-			people,
-			record=(doc.doctype, doc.name) if doc else None,
-			subject=frappe.utils.strip_html(subject or ""),
-			# The message is the flow's own, or a checked template's: HTML, cleaned.
-			message=Markup(frappe.utils.sanitize_html(message or "")),
-		)
+		tell.told_by_automation(people, doc, subject, message)
 		return _("Notified {0}").format(", ".join(people))

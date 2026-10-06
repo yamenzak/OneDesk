@@ -1,19 +1,5 @@
-"""OneProject, every way a project runs.
-
-- **Fixed Price**, ordered: the Mansour villa, built from the Aluminium &
-  Glazing template, with a bill of quantities billed in progress, retention,
-  a subcontract billed the same way, cost types, stock issued, time, extra
-  work ordered as a sub-project, and milestones billed on completion.
-- **Fixed Price**, large and in parts: the Bayview tower, with sub-projects
-  of its own, an advance from the customer and a late invoice.
-- **Fixed Price**, quoted and not ordered, in US dollars: Acme's lobby.
-- **Fixed Price**, finished and paid: Aisha Rahman's balcony. And one
-  cancelled before work started: Palm Interiors.
-- **Time and Materials** in euros, billed with Invoice Time and a markup on
-  what was bought for it: Nordlicht's showroom; and a small one just started.
-- **Retainer**, two of them, billed month by month with Invoice Month, one
-  with hours over its allowance.
-- **Internal**, with a budget and no customer: the CNC upgrade.
+"""OneProject, every way a project runs: fixed price, time and materials,
+retainer and internal.
 """
 
 import frappe

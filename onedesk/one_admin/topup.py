@@ -1,21 +1,8 @@
 """Buying credits, and the ones a plan promises every month.
 
-Two ways credit arrives and both of them write one `Credit Ledger Entry`, which
-is the point: there is no second path into a balance and no number anybody
-stored. `ledger.grant` takes an idempotency key, so both of the things that
-would otherwise double a customer's credit — Stripe redelivering a webhook, and
-a nightly job running twice — meet a unique index rather than a check somebody
-remembered to write.
-
-**Packs rather than amounts.** A customer buys a row from a price list, not a
-number they typed. That is a decision rather than a shortcut: a calculator on
-this screen is a second place where credits per dollar is decided, and the first
-one is in OneAdmin Settings where it belongs.
-
-**A plan's monthly credit does not roll over.** It carries the end of its own
-month as `expires_on`, which is the case the ledger's draw order was built for —
-the soonest-expiring grant goes first, so nobody loses credit they paid for
-while a free monthly allowance sits unused beside it.
+Both write one `Credit Ledger Entry` through `ledger.grant`, with an
+idempotency key. Packs rather than amounts; a plan's monthly credit does not
+roll over.
 """
 
 import frappe
@@ -24,10 +11,8 @@ from frappe.utils import get_first_day, get_last_day, getdate
 from onedesk.one_admin import ledger, site, stripe
 from onedesk.one_admin.faults import Refused
 
-#: The rungs a workspace is granted its monthly credit on. Overdue is here for
-#: the same reason `proxy.SERVING` carries it: Overdue is defined as nothing
-#: happening to the workspace, and cutting off its allowance would be the grace
-#: period not existing.
+#: The rungs a workspace is granted its monthly credit on, Overdue too, for the
+#: same reason `proxy.SERVING` carries it.
 GRANTED_ON = ("Live", "Overdue")
 
 

@@ -1,55 +1,8 @@
 """Every notification One sends, through one door (docs/NOTIFICATIONS.md).
 
-**The hub is frappe's own.** A notification to somebody in the workspace is a
-Notification Log of a Notification Type. That rings their bell, and frappe
-emails it to them if they chose email for that type. We add what frappe's type
-lacks, as custom fields on Notification Type: the app it belongs to, what it is
-about, its text, and which channels it may use.
-
-**A type is one file in `onedesk/notifications/`**, under the module that
-sends it, in one layout (notifications/layout.py). The folder is named in
-`hooks.py` under `one_notification_types`, where another app may name its own
-list. `install()` makes each one a Notification Type after every migrate. From then on the workspace's
-administrator owns its text and its channels.
-
-**Two texts, and whose words they are.** A type's default subject and message
-are translatable strings with named slots, `_lt("{who} shared {file} with you")`.
-They are sent in each reader's own language, because they are ours and are
-translated. Once an administrator edits a text, it is theirs: Jinja in their
-own words (`{{ who }} shared {{ file }} with you`), sent as they wrote it.
-Resetting a text makes it the default again, and translated again.
-
-**Two ways out:**
-- `notify()`, for people in the workspace: the bell, and whatever else they
-  chose. The bell is always on, because it is the record of what was sent.
-- `mail()`, for addresses outside the workspace (a file request, a shared
-  link, a sign-in code), or a mail somebody replies to. It is still the type's
-  text, so an administrator can still change it.
-
-Nothing else in OneDesk calls `frappe.sendmail` or writes a Notification Log;
-`tests/test_notify.py` holds that.
-
-**What erpnext and hrms send is declared here too** (stage 6), in the module
-whose screens it belongs to, in one of three ways:
-- told through the hub in our words, by our code in their place: their own
-  switch for it is turned off (`replaces`), and hidden;
-- told through the hub in their words (`words`): a standard rule of theirs
-  carried to the bell (`rule`, one/rules.py), whose text is theirs to write;
-- mailed by them (`mailed_by`), where nothing lets us stand in their place, or
-  the mail itself is the point (a payslip). Listed, so the administrator sees
-  everything the workspace sends; where the app has a switch for it
-  (`switch`), or a frappe Notification of ours sends it (`notification`),
-  that switch or the Notification's Enabled and Send This are one.
-
-Every value put into a text is escaped first, because the text is HTML in the
-bell and in the mail, and a file or person's name is not ours to trust.
-
-**An administrator's Jinja sees its slots and nothing else.** Frappe's own
-`render_template` hands a template `frappe.db` and the rest of its safe
-globals, which would let whoever edits a text read any record into it. A
-workspace administrator is not everybody's HR or accounts, so their text is
-rendered in a sandbox with no globals at all, and saving a text that names
-anything but its own slots is refused.
+A notification is frappe's own Notification Log of a Notification Type, with
+its type declared in `onedesk/notifications/`. `notify()` is for people in the
+workspace, `mail()` for addresses outside it.
 """
 
 import re
@@ -424,15 +377,9 @@ FRAPPE_KINDS = {
 
 
 def choosable(user: str | None = None) -> list[dict]:
-	"""Every kind this person can receive, in the order the page lists them:
-	ours by app, frappe's after. A kind declared for some roles is theirs only;
-	one that goes outside the workspace is nobody's to choose. For each, whether
-	it may be mailed (`allowed`), is always mailed (`always`), and may be
-	pushed (`push`).
-
-	A kind that `follows` another is the same event said another way (one
-	thing waiting rather than several), so it is not listed: it rides on the
-	kind it follows, whose `twins` it is in, and takes that kind's choices."""
+	"""Every kind this person can receive, in the order the page lists them: ours
+	by app, frappe's after, each with whether it may be mailed (`allowed`), is
+	always mailed (`always`), and may be pushed (`push`)."""
 	user = user or frappe.session.user
 	held = set(frappe.get_roles(user))
 	declared_types = declared()

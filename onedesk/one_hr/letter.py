@@ -1,22 +1,4 @@
-"""An appointment letter carries the template it was told to use.
-
-`introduction` and `terms` are both required on an Appointment Letter, and both
-are filled by eleven lines of their form script when somebody picks a template:
-
-    frm.doc.terms = [];
-    ... frm.add_child("terms"); ...
-
-Nothing on the server does it, so a letter made any other way — an import, an
-API, the onboarding automation a workspace writes for itself — is refused with
-`MandatoryError: [Appointment Letter, HR-APP-LETTER-00001]: terms`, naming a
-table it cannot see how to fill.
-
-It is the fourth instance of the same fault in this audit, after
-`leave_balance`, the two benefit ceilings and the expense claim's cost centre,
-and it gets the same answer: the template is read, on the server, before
-validate, when the fields are empty. A letter that already carries terms keeps
-them, because somebody edited them deliberately.
-"""
+"""An appointment letter carries the template it was told to use."""
 
 
 

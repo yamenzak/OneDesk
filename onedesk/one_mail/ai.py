@@ -1,17 +1,6 @@
 """What OneAI does in OneMail: reads the conversation that is open, says
 which conversations wait for an answer, and drafts a reply the way the
-reader asks for it.
-
-Everything is read as the reader, and only from a mailbox they hold
-(`actions.require`): the same rule that decides who may open a message
-decides what OneAI may read of it. A conversation's text goes to the model
-only when the reader asks about it; nothing of it is kept but the answer.
-
-A reply is never sent from here. `draft_reply` writes a card; approving it
-opens frappe's own email window with the reply written in, the recipients
-and the quoted conversation filled as Reply fills them, and the person
-reads it, changes it and sends it (onemail.js `reply_to`).
-"""
+reader asks for it."""
 
 import re
 from html import unescape

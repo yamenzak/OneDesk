@@ -167,8 +167,8 @@ def _sent():
 				and getattr(func.value, "id", None) == "notify"
 			):
 				first = node.args[0]
-				if path.name == "rules.py" and isinstance(first, ast.Name):
-					# A standard rule is told as the type that carries it.
+				if path == tree.APP / "one" / "tell.py" and getattr(first, "id", None) == "carried":
+					# A standard rule is told as the type that carries it (rule_fired).
 					yield func.attr, [name for name, one in _declared().items() if one.get("rule")]
 					continue
 				if isinstance(first, ast.Attribute) and getattr(first.value, "id", None) == "self":

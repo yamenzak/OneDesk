@@ -1,22 +1,5 @@
 """A project's status: ERPNext's own four (Open, On hold, Completed,
 Cancelled), and what closing a project means for the work still in it.
-
-ERPNext works the status out again on every save (`update_percent_complete`):
-a project whose tasks are all done is Completed, and one with any task open
-is Open, unless it's On hold or Cancelled. So marking a project Completed
-while a task is open doesn't hold; the save sets it back to Open. `change`
-closes the open work first, on the page's say-so: the project's open tasks,
-and its open sub-projects with theirs, as ERPNext's own `set_project_status`
-closes a project's tasks. Unlike it, a task already done or cancelled keeps
-its status.
-
-Completing a project with no tasks of its own makes ERPNext keep its
-progress by hand at 100%, for good. Opening it again puts the progress back
-on its tasks.
-
-`due` is what's still owed on a completed project: the contract not yet
-invoiced, invoices not yet paid, and retention still held. Needs You shows
-it, and `tell.completed` tells the manager.
 """
 
 from typing import Annotated
@@ -68,12 +51,6 @@ def ask(project: Annotated[str, "The project."]) -> dict:
 def held(doc, method=None) -> None:
 	"""Project before_validate, ahead of ERPNext's own status from progress:
 	the status holds however it is set (the page, a bulk edit, an import).
-
-	- A project closes with its work. Closed from its page, with its open
-	  tasks and sub-projects closed too, it closes them here. Set to closed any
-	  other way while work is open, it is refused.
-	- Reopened after being completed with no tasks, its progress goes back to
-	  its tasks: ERPNext turned it to by hand only because there were none.
 	"""
 	before = None if doc.is_new() else doc.get_doc_before_save()
 	was = before.status if before else None

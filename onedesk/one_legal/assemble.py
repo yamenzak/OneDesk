@@ -1,18 +1,6 @@
 """Declarations plus documents into one rendered page, and the version that
-names it.
-
-The version is the whole point of this file. It is `revision.hash`:
-
-* `revision` is a number in `documents.py` that a person bumps when a change is
-  material. Bumping it is what makes every workspace agree again.
-* `hash` is the first eight hex characters of a SHA-256 over the assembled
-  text. Nobody types it. It changes the moment any clause anywhere changes,
-  which is how `tests/test_legal.py` can tell a typo from a new subprocessor and
-  insist somebody says which.
-
-So a document that has drifted without a bump fails the suite, and a document
-that has been bumped is a document everybody re-agrees to. Neither can happen by
-accident, and that is the difference between a legal page and a legal system.
+names it: `revision.hash`. A bumped revision makes every workspace agree again,
+and the hash moves the moment any clause does.
 """
 
 import hashlib

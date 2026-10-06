@@ -1,21 +1,4 @@
-"""One override on HRMS's `Employee Checkin`, and the reason for it.
-
-`validate_distance_from_shift_location` collects **every** Shift Location
-assigned to the employee for that shift — and then checks `[0]`. The list is
-built and thrown away, so a company with a depot and four live sites can only
-ever have one fence, and whichever row the database happened to return first is
-the one everybody has to stand in.
-
-So this subclass checks all of them and passes on any, adds the zones this app
-lets a workspace draw, and treats a location marked as a site the way field work
-needs: record how far out they were and let them through, because a system that
-locks a plumber out at a customer's door is a system they stop using.
-
-Nothing else is touched. The shift resolution, the duplicate window, the
-geolocation requirement and the auto-attendance link are all still HRMS's, and
-`docs/OVERRIDES.md` carries the line this depends on so an update that moves it
-fails a test rather than a screen.
-"""
+"""One override on HRMS's `Employee Checkin`, and the reason for it."""
 
 import frappe
 from frappe import _
@@ -29,12 +12,8 @@ from onedesk.one_hr import gates, rules
 
 class OneEmployeeCheckin(EmployeeCheckin):
 	def validate_distance_from_shift_location(self):
-		# A row written by `clock.py` has already been through One's own gates,
-		# and those answer a question this one cannot: a workspace that says the
-		# network *or* the place will do has said that being on the office line
-		# settles it. Checking the radius again here would overrule that setting
-		# from underneath it. Every other way a check-in is made — the desk
-		# form, an import, HRMS's own app — still comes through below.
+		# A row from `clock.py` has been through One's own gates, whose network-or-place
+		# setting a second radius check would overrule. Every other way in is checked below.
 		if self.flags.get("one_gated"):
 			return
 

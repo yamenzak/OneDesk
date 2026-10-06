@@ -1,12 +1,7 @@
 """What a press failure is, and whether it is worth trying again.
 
-Nothing of Frappe in here on purpose. Retrying a permanent failure forever is
-how a provisioning queue quietly stops working while looking busy, and the
-decision that prevents it is four lines of arithmetic over a status code — so it
-is four lines that can be read back in milliseconds rather than against a site.
-
-Two exceptions, and `Again` is a subclass of `Refused` so that a caller who does
-not care about the difference does not have to name both.
+Nothing of Frappe in here, so the decision reads back in milliseconds.
+`Again` is a subclass of `Refused`, so a caller may name only the one.
 """
 
 

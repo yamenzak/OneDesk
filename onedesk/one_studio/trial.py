@@ -1,19 +1,5 @@
 """Trying an extension before it is kept, so OneAI hears what is wrong while
 it can still mend it.
-
-- **Screen code is parsed** by node (`node --check`), which reads it and
-  runs nothing: a missing bracket comes back with its line, rather than as a
-  form that silently has no extension. Where the bench has no node, nothing
-  is said.
-- **Server code is run once on a real record** of its kind, the newest the
-  person may read, inside a savepoint that is rolled back: whatever it
-  changed or made is undone. A scheduled one is run once as it will run,
-  with no record, and undone the same way. What happened comes back to OneAI as it would
-  on that record: it stopped the save with this message, it changed these
-  fields, or it ran into this error, which refuses it.
-
-Both come after guard.py and checks.py, so what is tried has already been
-read for what it may do and for the names it uses.
 """
 
 import os

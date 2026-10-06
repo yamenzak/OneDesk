@@ -1,19 +1,7 @@
 """What a workspace may call itself, and what it may never claim.
 
-Nothing of Frappe in here. A mistake in this module is a workspace claiming a
-name that routes somebody else's traffic to it, so it has to be readable in one
-sitting and testable in milliseconds — the same reason `keys.py` is pure.
-
-**Two kinds of name, and they are not the same thing.** `<slug>.t.4dl.app` is
-ours: it is served by a Cloudflare Worker that rewrites `Host` to the site's own
-press name, and press is never told it exists. A customer's own name is theirs:
-press adds it, verifies the DNS itself and issues the certificate. This module
-decides only the second kind, because the first is not asked for — it is given.
-
-**A tenant may not claim a name under a domain we operate.** Not our tenant
-domain, not the admin's own host, not a bare public suffix. Nothing stops
-somebody typing `admin.t.4dl.app` into the box, and the refusal belongs here
-rather than in whatever press would eventually say about it.
+Nothing of Frappe in here: a mistake is a workspace claiming a name that routes
+somebody else's traffic to it. It decides only a customer's own names.
 """
 
 import re
@@ -115,9 +103,7 @@ def ours(name: str, *served) -> bool:
 		if not domain:
 			continue
 		# A port, because the admin's own host carries one in development and the
-		# name being compared never can — `tidy` refuses a port outright. Without
-		# this, `onedesk.localhost` does not match `onedesk.localhost:8002` and
-		# the admin console's own hostname is claimable. Measured, not imagined.
+		# name being compared never can.
 		domain = domain.strip().lower().rstrip(".").split(":", 1)[0]
 		if not domain:
 			continue

@@ -1,24 +1,4 @@
-"""What OneCalendar tells people, and when (the types are in notifications/one_calendar/).
-
-**On save** (`saved`, Event on_update): whoever was just added is told they are
-invited; if the time or the place changed, everybody already on it is told;
-an event set to Cancelled is a cancellation. **On delete** (`removed`) it is a
-cancellation too. Whoever made the change is never told of it.
-
-People inside the workspace are told through the hub, in their language and
-by the channels they chose. A guest, somebody outside, is mailed with the
-event attached as an iCalendar invitation (`invitation`), so it lands in their
-own calendar: a request when invited or changed, a cancellation when
-cancelled, each with a newer SEQUENCE so their calendar replaces the last.
-
-**Starting soon** (`soon`, every five minutes): each event's own reminders
-(frappe's reminders table on the event), or ten minutes before when it has
-none, told once per time it happens. **Each morning** (`today_events`) every
-person with something on their calendar that day is told what, from the same
-read the calendar makes for them. frappe's own morning mail is stopped
-(`install`): it went around the hub, in frappe's template, and left out
-events a person is only invited to.
-"""
+"""What OneCalendar tells people, and when (the types are in notifications/one_calendar/)."""
 
 import time
 from datetime import datetime, timedelta

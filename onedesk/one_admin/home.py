@@ -1,20 +1,7 @@
 """OneAdmin's Home: how the workspaces stand, and what needs the operator.
 
 Two reads, both for the operator only on the admin site (`operator._may`):
-
-- `counts`: live workspaces, workspaces being built, workspaces owing, jobs
-  that failed, and signups paid for but never built. Each says the list it
-  opens, with its filters, so a number and the list it stands for cannot
-  disagree.
-- `needs`: one list of what needs a person, each with why and the one thing
-  to do about it. A failed job is resumed where it stopped, a job that is
-  due and has not moved is run now, a workspace over its storage is
-  opened, a paid signup
-  with no workspace is built again, a domain is asked about again, and a
-  workspace owing is opened.
-
-OneAI's `console_today` reads `needs` (one_admin/ai.py), and so does nothing
-else: the page and the model are told the same thing.
+`counts`, and `needs`, which OneAI's `console_today` reads too.
 """
 
 import frappe

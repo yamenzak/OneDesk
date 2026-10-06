@@ -1,23 +1,7 @@
 """This workspace's own invoices from One, and One as a supplier in its books.
 
-The invoices are Stripe's and the admin site asks for them (billing.py), so
-the Plan and Credits page lists them without keeping a copy: each opens
-Stripe's own page and PDF. **Payment Method** opens Stripe's billing portal,
-where the card, the billing address and old receipts live.
-
-**Into this workspace's OneBook, when asked.** Add to OneBook makes a draft
-Purchase Invoice from the supplier One (the admin site's company, by its own
-name, tax ID and website), with the invoice's lines and its PDF attached,
-for somebody to check the expense account and submit. Never unasked: a
-workspace that does not use OneBook, or books its software another way,
-would find a bill it did not make.
-
-**And OneIntake.** A Stripe invoice or receipt mailed to a mailbox OneIntake
-reads needs nothing from here: OneIntake makes a first-time supplier from
-the name and tax ID on the document and drafts the bill against it
-(one_intake/plans.py, parties). Whichever gets there first books it: Add to
-OneBook finds a bill with the same number, and OneIntake links the mail to
-the bill that exists rather than making another (one_intake/money.py).
+The invoices are Stripe's, asked of the admin site and never copied; Add to
+OneBook drafts a Purchase Invoice from the supplier One, only when asked.
 """
 
 import frappe

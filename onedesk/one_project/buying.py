@@ -1,12 +1,6 @@
 """What's being bought for a project, before and after the order: the
 requests for material, the requests for prices sent to suppliers, the
-quotations they sent back, the orders for goods (a subcontract has its own
-card, money.subcontract), and the goods received. An order for goods says
-how much is received and billed, and when it's billed ahead of delivery. The Suppliers view lists
-them beside the subcontracts, the project's and those under it, each opening
-its document (`papers`).
-
-Each is ERPNext's own document, naming the project on its lines (chain.py).
+quotations they sent back, the orders for goods, and the goods received.
 """
 
 from typing import Annotated

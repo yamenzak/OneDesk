@@ -1,26 +1,4 @@
-"""Every document about a job names its project, once.
-
-ERPNext lets most money documents name a project, on the document and on
-each line, and carries it when one is made from another: an order's
-delivery and invoice, a purchase order's receipt and bill, an invoice's
-payment. Three couldn't name one at all (Quotation, Request for Quotation and
-Material Request, which now can: custom/), and nothing kept a document's
-lines and the document itself in agreement, so a project's figures missed
-whatever somebody forgot to type.
-
-`agree` does that as each is validated: a line with no project takes the
-document's, and a document with no project takes its lines' when they all
-name the same one. Since the field is called `project` on every one of them,
-ERPNext's own mapping then carries it from document to document: a quotation
-to its order, a material request to its purchase order, a request for
-quotation to the supplier's quotation and on.
-
-A payment made from an invoice or an order takes its project from it, as
-ERPNext does. One made on its own and matched to invoices later, or paying
-several at once, takes the project they all name (`paid_for`). A new
-order, delivery or invoice for a customer with one open project names it
-(`customer_project`, public/js/customer_project.js).
-"""
+"""Every document about a job names its project, once."""
 
 import frappe
 

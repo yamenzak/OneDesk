@@ -1,21 +1,7 @@
 """Intake as an inbox: what OneAI did, and what waits for you (docs/INTAKE.md §4).
 
-**Intake** in the rail, under the bell and the clock, opens two boxes that
-work like a mailbox, one line per document:
-
-- **Done**: documents OneAI acted on and nothing waits for. Open one to read
-  what it made and changed, field by field, and undo any of it.
-- **Waiting**: documents with something a person has to decide — a proposal
-  the auditor was unsure of or could not apply, or something done that the
-  auditor thinks is wrong. Apply, dismiss, undo or keep.
-
-What a person has opened is remembered per person with Frappe's own
-`track_seen`, so a document is unread for you until you open it, whoever else
-has, and is unread again when OneAI does something new with it. The rail
-shows how many wait for you.
-
-You see the documents read for you. An administrator of the workspace may
-also look at everybody's, except what is medical, about pay or personal.
+**Intake** in the rail opens two boxes that work like a mailbox, one line per
+document: **Done** and **Waiting**.
 """
 
 from typing import Annotated
@@ -169,27 +155,3 @@ def fresh(name: str) -> None:
 	person = frappe.db.get_value("Reading", name, "on_behalf_of")
 	if person:
 		frappe.publish_realtime("intake_inbox", {"reading": name}, user=person, after_commit=True)
-
-
-def tell(name: str) -> None:
-	"""Once the auditor has had its say: if anything still waits for the
-	person, one notification saying so, pointing at their Waiting box."""
-	from onedesk.one import notify
-
-	reading = frappe.db.get_value("Reading", name, ["name", "title", "on_behalf_of", "change"], as_dict=True)
-	if not reading or not reading.on_behalf_of or reading.change == "Nothing New":
-		return
-	waiting = frappe.db.sql(f"select count(*) from `tabIntake Action` a where a.reading = %s and {WAITS}", name)[0][0]
-	email = frappe.db.get_value("User", reading.on_behalf_of, "email")
-	if not waiting or not email:
-		return
-	notify.notify(
-		"Intake Waiting" if waiting > 1 else "Intake Waiting, One Thing",
-		email,
-		record=("Reading", name),
-		link=f"/app/intake?box=waiting&reading={name}",
-		sender=notify.ONEAI,
-		dedupe_on=["document_type", "document_name"],
-		count=waiting,
-		title=reading.title or "",
-	)

@@ -117,3 +117,155 @@ accident.
 - Inbound mail through Cloudflare Email Routing, when it is turned on.
 
 **The passover adds each screen's lines** (docs/PASSOVER.md, point 8).
+
+### __init__.py
+
+Each module declares the clauses that follow from what it does, in its own
+`legal.py` beside the code the clause is about, and OneLegal assembles them into
+the documents a person is shown and asked to agree to. The package deliberately
+imports nothing: `registry`, `documents`, `legal` and `assemble` are pure, so the
+tests can assemble every document and check its hash without a site.
+
+### registry.py
+
+What a module declares, and where it declares it. Two kinds of declaration, both
+made from the module the fact belongs to:
+
+* a **clause**: a paragraph that has to appear in one of the documents, because
+  of something that module does;
+* a **subprocessor**: a third party that module hands customer data to.
+
+Both are registered by calling a function at import time from
+`<module>/legal.py`. Import time rather than a scan of the source, because a
+clause that has to be found by a regular expression is a clause somebody will
+break by reformatting it.
+
+The ordering is deliberate and dull: within a section, clauses come out in
+`(order, module, key)` order. A stable order means the assembled document's hash
+only changes when the *text* changes, so a version bump means what it says.
+
+`subprocessor()` takes everything a subprocessor list has to say and nothing it
+does not: who they are, what for, what they get, where that sits, and what makes
+the transfer lawful. One company is one row with several uses, because "who are
+your subprocessors" is a question about companies. What a company *does* varies
+by use and so does where it does it (Cloudflare keeps a workspace's files in the
+region it chose and runs a model on whichever of its locations is nearest), so
+`where` belongs to the use. The safeguard is the contract we have with the
+company, so that belongs to the company, and declaring two different ones is an
+error rather than a second row.
+
+### assemble.py
+
+Declarations plus documents into one rendered page, and the version that names
+it. The version is the whole point of the file. It is `revision.hash`:
+
+* `revision` is a number in `documents.py` that a person bumps when a change is
+  material. Bumping it is what makes every workspace agree again.
+* `hash` is the first eight hex characters of a SHA-256 over the assembled text.
+  Nobody types it. It changes the moment any clause anywhere changes, which is
+  how `tests/test_legal.py` can tell a typo from a new subprocessor and insist
+  somebody says which.
+
+So a document that has drifted without a bump fails the suite, and a document
+that has been bumped is a document everybody re-agrees to. Neither can happen by
+accident, and that is the difference between a legal page and a legal system.
+
+### documents.py
+
+The documents themselves: who we are, what each one is for, and where its
+clauses go. The text comes from two places: `legal.py`, for what is true of One
+as a whole, and each module's own `legal.py`, for what follows from what that
+module does. What is in `documents.py` is the frame they are slotted into.
+
+**Revisions.** Each document carries a `revision`. Bump it when a change is
+material: a new subprocessor, a changed retention period, anything that alters
+what somebody agreed to. Do not bump it for a typo. `tests/test_legal.py` carries
+the hash of every document's assembled text and fails when the text moves, so
+the choice is always made on purpose: either "this is material, everybody agrees
+again", or "this is a typo, record the new hash".
+
+**Audience.** Two, and the split is why One asks twice.
+
+- `customer`: the organisation. Accepted by a workspace administrator, whose
+  acceptance binds the organisation and everybody in it.
+- `user`: the person. Accepted by everybody who signs in, because a privacy
+  notice is about *their* personal data, and an employer cannot agree to that
+  for them.
+
+The acceptable use policy is `both`: the organisation promises it, and each
+person acknowledges it.
+
+**What each revision changed**, for the documents whose history is kept here
+(the newest is also beside the number in `documents.py`):
+
+- Terms of Service: 7, credits we give by hand, their expiry, and taking back a
+  mistake. 8, first agreed on the signup page, before payment. 9, closing a
+  workspace yourself, and the full download. 10, extensions OneAI writes and an
+  administrator turns on; record types. 11, extensions on One's own pages and on
+  a schedule, tried once before they are kept.
+- Privacy Policy: 2, push. 3, a calendar link. 4, where a person is signed in.
+  5, OneCloud's links, file requests and servers. 6, OneCalendar's guests and
+  Google. 7, OneAI reads an organisation's account. 8, the signup page. 9, the
+  One account. 10, the Recycle Bin. 11, the Audit Log. 12 to 14, your data
+  copied or deleted. 15, webhooks. 16, who read an announcement. 17, a project's
+  Featured Media opens for anybody with its link. 18, attendance on a project's
+  site becomes time on the project. 19, users' and employees' pictures from
+  Gravatar, the company's logo.
+- AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
+  calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
+  tasks and their steps. 8, OneAI writes extensions, read a second time, and
+  designs record types. 9, OneAI mends an extension from its errors, which can
+  carry record data. 10, an extension tried once on a record, and what happened
+  told to OneAI. 11, OneAI reads a project when asked, and suggests its tasks.
+  12, OneAI reads a project's money with its customer and suppliers.
+
+### gate.py
+
+Who has agreed to what, and who may not carry on until they do. Two parties,
+because two different things are being agreed to and only one of them can be
+agreed to by somebody else.
+
+* **The workspace.** The Terms of Service, the Data Processing Addendum, the
+  Subprocessors list and the AI Addendum are a contract with the organisation.
+  The person who creates the workspace accepts them, and that binds everybody in
+  it. One acceptance covers the workspace.
+* **The person.** The Privacy Policy and the Cookie Policy describe the handling
+  of *their* personal data, and an employer cannot agree to that on their
+  behalf. Every person who signs in accepts those for themselves, once, and
+  again whenever the version changes.
+
+The Acceptable Use Policy is both: the organisation promises it and each person
+acknowledges it, because it is the one document that describes what an
+individual may not do.
+
+What is recorded is not "yes": it is the document, the exact version, the text
+that version hashed to, the account, the time, and the address it came from.
+`Legal Document Version` keeps the rendered text of every version anybody has
+ever agreed to, so the question "what did I agree to in March" has an answer.
+
+`SHOWN` lists each document's title and summary, for the dialog to show in the
+reader's language. They are listed in `gate.py` rather than marked in
+`documents.py`, because the version is a hash of the text: a translated title
+there would give every language a different version. The documents themselves
+are in English, which governs.
+
+### legal.py
+
+OneLegal's own clauses: the part of each document about One as a whole. Every
+other module's `legal.py` says something about that module. This one says what
+is true of the product, the company and the contract, and it is the file to read
+first to know what a customer is agreeing to.
+
+Our own drafting from what the product does, not a lawyer's. Ported from
+OneApp's `onelegal/legal.py` and corrected for what OneDesk actually does:
+
+- Intake writes without being asked each time, so "nothing is written without
+  somebody asking" is gone.
+- The full download (one/closing.py) is offered to whoever pays, not promised as
+  a backup.
+- The lifecycle's periods are read from `one_admin/ladder.py` rather than typed
+  here, so the Terms say what the code does.
+
+Anything not yet confirmed against a screen is left out rather than guessed at.
+The passover (docs/PASSOVER.md, point 8) adds each screen's lines as it reaches
+them.

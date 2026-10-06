@@ -1,22 +1,8 @@
 """Every model call, through one door that holds no provider key.
 
-Calls go to **Cloudflare AI Gateway**, and the thing that makes it worth a
-dependency is where the keys live: the provider key is stored *in the gateway*,
-so this site holds a gateway token and an account id and nothing that would open
-an account at Google or anywhere else. A leaked token here buys somebody our
-gateway's rate limit and spend cap, not a provider bill.
-
-What the gateway gives us beyond that, none of which we would otherwise write:
-caching, retries, a spend limit that is ours rather than the provider's, and a
-per-request log we can tag with the workspace that caused it.
-
-**Nothing on a tenant site ever reaches this module.** A workspace asks admin
-through `proxy.py` and admin makes the call, for the same reason a workspace
-cannot sign its own storage URL: the credential is the product.
-
-`ask` is the un-metered call and stays: it is how an operator proves a token
-works. `call` is the billed one — hold, call, settle — and is the door every
-model call for a customer goes through.
+Calls go to Cloudflare AI Gateway, which stores the provider keys. Nothing on a
+tenant site reaches this module. `ask` is the un-metered call; `call` the
+billed one, hold, call, settle.
 """
 
 import json
@@ -33,29 +19,19 @@ from onedesk.one_admin.faults import Again, Refused
 #: the same escape hatch `press.py` has, for the same reason.
 URL = "https://gateway.ai.cloudflare.com/v1"
 
-#: **Every provider's key is stored in the gateway.** Proven against the real
-#: gateway: with a Google key saved there, a call carries only
-#: `cf-aig-authorization` and Gemini answers — no Google key on this site at all,
-#: which is the whole point of the dependency. An operator setting an account up
-#: stores a key per provider; this module never holds one.
+#: **Every provider's key is stored in the gateway.** An operator stores a key
+#: per provider there; this module never holds one.
 
 #: Long. A generation is two to forty seconds and a timeout here is a call we
 #: paid for and threw away. AI 9 moves this off the web worker entirely.
 TIMEOUT = 60
 
 #: For a call allowed to think (`THINKS` tokens or more), which writes code:
-#: measured on Gemma 4 writing a scheduled extension, past 60 seconds three
-#: times out of three, and each was billed and thrown away. Under the 120
-#: seconds a Frappe Cloud web worker is given (its bench `http_timeout`), as
-#: this runs inside the account's request.
+#: under the 120 seconds a Frappe Cloud web worker is given.
 THOUGHT = 110
 
-#: The gateway's own authorization header.
-#:
-#: Deliberately not `Authorization`. That header is the *provider's*, and the
-#: whole point of this module is that we never send it: the key sits in the
-#: gateway and the gateway attaches it on the way out. If `Authorization` ever
-#: appears in this file, the design has been undone.
+#: The gateway's own authorization header. Deliberately not the provider's,
+#: which the gateway attaches on the way out.
 HEADER = "cf-aig-authorization"
 
 #: Where the gateway's per-request log gets the workspace that caused the call.
@@ -68,17 +44,10 @@ FRESH = "cf-aig-skip-cache"
 
 #: How each provider spells a text generation behind the gateway: where it
 #: lives, how a prompt goes in, and where the words come back.
-#:
-#: Data rather than a branch per provider, because these three differ for every
-#: provider and an `if` here is how a third one becomes a rewrite. The keys are
-#: the gateway's own provider slugs and are not ours to choose.
 PROVIDERS = {
 	"workers-ai": {
-		# One path for every model, with the model in the body — Cloudflare's
-		# OpenAI-compatible endpoint. Measured: the per-model path the direct
-		# API uses, `/workers-ai/@cf/vendor/model`, answers 401 *through the
-		# gateway* with a token that works on the direct API, which reads as a
-		# credential problem and is a path problem.
+		# One path for every model, with the model in the body: Cloudflare's
+		# OpenAI-compatible endpoint, since the per-model path answers 401 here.
 		"path": lambda model: "v1/chat/completions",
 		"talk": lambda model, system, turns, tools, most: {
 			"model": model,
@@ -94,10 +63,8 @@ PROVIDERS = {
 		"calls": lambda body: _openai_calls(body),
 	},
 	"google-ai-studio": {
-		# v1beta, not v1: measured, Google answers v1 with "Function calling is
-		# not enabled for api version v1", and the catalogue already lists
-		# models from v1beta — one version for both, so what is listed is what
-		# can be called.
+		# v1beta, not v1: v1 has no function calling, and the catalogue lists
+		# from v1beta, so what is listed is what can be called.
 		"path": lambda model: f"v1beta/models/{model}:generateContent",
 		"talk": lambda model, system, turns, tools, most: {
 			"contents": [_gemini_turn(one) for one in turns],
@@ -110,10 +77,8 @@ PROVIDERS = {
 	},
 }
 
-#: The least budget a Workers AI model is let think in. Measured: Gemma 4 given
-#: the chat's 800 tokens spends every one on `reasoning_content`, stops at
-#: "length" and answers nothing; told not to think, it answers in twenty. A
-#: model that does not think ignores the switch.
+#: The least budget a Workers AI model is let think in; below it, it is told
+#: not to think, or it spends every token thinking and answers nothing.
 THINKS = 2000
 
 #: How many times a model may ask for a tool before the loop stops. Each round
@@ -122,9 +87,7 @@ THINKS = 2000
 ROUNDS = 5
 
 #: The one model this stage calls, and the last time a model is named in this
-#: app's code. AI 2's catalogue replaces both of these with a row somebody chose
-#: — see the rule in docs/ONEAI.md: an action names a capability, a workspace
-#: names a model, and nothing else knows one exists.
+#: app's code (docs/ONEAI.md).
 FIRST = ("workers-ai", "@cf/meta/llama-3.1-8b-instruct")
 
 #: A ceiling on the answer, so the un-metered call cannot run away before there
@@ -151,17 +114,8 @@ def through(
 ):
 	"""One call. `whole` also hands back the body, which is what carries usage.
 	`fresh` asks past the gateway's cache, for a call made again because the
-	first answer was no answer.
-
-	`turns` is the whole conversation in our shape rather than one prompt: a
-	round where a model asked for a tool, was given the result and answers again
-	is three turns, and a provider has no memory between calls.
-
-	`system` goes where each provider puts a system instruction rather than
-	being glued to the front of the first turn, which is the whole reason an
-	action can be told things a workspace cannot take away from it. `tools` is
-	the same: declared to the provider as tools, never written into the words,
-	so a workspace cannot invent one by typing it.
+	first answer was no answer. `turns` is the whole conversation in our shape;
+	`system` and `tools` go where each provider puts them, never into the words.
 	"""
 	site.require_admin()
 	spoken = PROVIDERS.get(provider)
@@ -206,16 +160,8 @@ def call(
 ) -> dict:
 	"""One model call, billed: hold a ceiling, make it, settle the actual.
 
-	**Hold first.** Reading a balance and then calling is a race, and refusing
-	after the provider has answered is a call we paid for and then told the
-	customer they could not have. The hold is priced from the caps the caller
-	declared — a ceiling, not a forecast — and the only thing that matters about
-	it is that two calls cannot both spend the last credit.
-
-	**Settle on what the provider reported**, never on an estimate. A response
-	that carries no usage at all is charged its hold and flagged, because the
-	provider billed us for it either way and charging zero would be a model that
-	costs money and earns none.
+	Hold first, priced from the caps the caller declared; settle on what the
+	provider reported, never on an estimate.
 	"""
 	site.require_admin()
 	sold = _offered(model)
@@ -343,17 +289,11 @@ def _said(
 		return asking(({"role": "user", "text": ONE_LINE, "calls": []},), fresh=True)
 	except faults.Blank as raised:
 		# Right after a tool answered, nothing is an answer: the model did what
-		# it was asked — a receipt became a card — and has nothing to add.
-		# Measured: gemini-2.5-flash-lite does exactly this, every time, on the
-		# round after `claim_expense`. It is billed like any round.
+		# it was asked and has nothing to add.
 		if turns and (turns[-1] or {}).get("role") == "tool":
 			return "", [], raised.body
-		# Anywhere else, asked again with a turn only it sees. Measured:
-		# gemini-2.5-flash answered an Arabic question with tools declared with
-		# an empty STOP every time, the same request again blank too; told to
-		# answer, it called the tool three times out of three. Past the
-		# gateway's cache, which would hand the same blank back; a second blank
-		# is said as "try again", which is what it is.
+		# Anywhere else, asked again with a turn only it sees, past the
+		# gateway's cache, which would hand the same blank back.
 		return asking(({"role": "user", "text": SAY_IT, "calls": []},), fresh=True)
 
 
@@ -413,9 +353,7 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		)
 	if words is None and not wants:
 		# A 200 with neither words nor a tool call in it is not an empty answer,
-		# it is a shape we do not understand — and treating it as an empty
-		# answer is how a provider changing its response silently starts
-		# returning blanks to customers.
+		# it is a shape we do not understand.
 		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 	return (words or "", wants, body) if whole else (words or "")
 
@@ -479,12 +417,7 @@ def _blank(body) -> bool:
 
 
 # ------------------------------------------------ one conversation, two shapes
-#
-# A turn of ours is `{role, text, calls}` or `{role: "tool", id, tool, result}`,
-# which is neither provider's shape and is deliberately both of theirs written
-# down once. The tenant holds the conversation and sends it with each round —
-# admin keeps nothing, because admin has no session with a workspace and is not
-# going to grow one.
+# A turn of ours is `{role, text, calls}` or `{role: "tool", id, tool, result}`.
 
 
 def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict:
@@ -493,9 +426,7 @@ def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict
 
 
 #: Our turns name the model's own words "model", as Gemini does; OpenAI's
-#: dialect calls them "assistant" and refuses anything else (measured: Gemma 4
-#: on Workers AI, on any conversation where the model had said something
-#: before it called a tool).
+#: dialect calls them "assistant" and refuses anything else.
 OPENAI_ROLES = {"model": "assistant"}
 
 
@@ -527,9 +458,7 @@ def _openai_turn(one: dict) -> dict:
 		return {"role": role, "content": said}
 
 	# OpenAI's dialect carries a picture as a data URL beside the words, and
-	# carries nothing else at all — a model that reads sound or video through
-	# this endpoint is not something either provider offers, and `files.readable`
-	# has already refused anything it could not send.
+	# nothing else; `files.readable` has already refused anything else.
 	return {
 		"role": role,
 		"content": [{"type": "text", "text": said}]
@@ -543,17 +472,8 @@ def _openai_turn(one: dict) -> dict:
 def _workers_ai_said(body: dict | None) -> str | None:
 	"""Workers AI's words, out of either shape it answers in.
 
-	Measured against the real API: the classic text-generation models answer
-	with `result.response`, and the newer ones — gpt-oss, gemma-4, qwen3, glm —
-	answer in OpenAI's shape, `result.choices[0].message.content`. Both are
-	read, because which one a model uses is not something the models list says
-	and not something we find out about before a customer does.
-
-	The thinking is deliberately not read, under either of the two names it
-	arrives with — `reasoning_content` on `/ai/run` and `reasoning` on the
-	gateway's endpoint. It is the model thinking out loud, it is not an answer,
-	and putting it on screen as one is how a person is shown working notes and
-	told they are a reply.
+	`result.response` and OpenAI's `result.choices[0].message.content` are both
+	read; the thinking is deliberately not read, under either of its names.
 	"""
 	# Three shapes now. `result.response` and `result.choices` come off the
 	# direct API's `/ai/run`; the gateway's OpenAI-compatible endpoint answers
@@ -562,19 +482,13 @@ def _workers_ai_said(body: dict | None) -> str | None:
 	if result.get("response") is not None:
 		return result["response"]
 
-	# A choice that came back at all is an answer, even an empty one: a
-	# reasoning model given a small budget spends it all on `reasoning_content`
-	# and omits `content` entirely, and that is the model saying nothing rather
-	# than a shape nobody has seen. `None` is kept for the second case, which is
-	# what makes the guard in `_answered` worth having.
+	# A choice that came back at all is an answer, even an empty one; `None`
+	# is kept for a shape nobody has seen, for the guard in `_answered`.
 	choices = result.get("choices") or []
 	for choice in choices:
 		said = (choice.get("message") or {}).get("content")
-		# A string or nothing. Measured: qwen2.5-coder puts a tool call in
-		# `content` as an object rather than using `tool_calls`, and a dict
-		# handed on as an answer is a crash three functions later. It is not
-		# read as a call either — inventing one from free-form content is how a
-		# model ends up having "asked" for something it never asked for.
+		# A string or nothing: a tool call put in `content` as an object is
+		# neither an answer nor read as a call.
 		if isinstance(said, str):
 			return _without_thinking(said)
 		if said is not None:

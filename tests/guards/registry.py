@@ -473,10 +473,40 @@ GUARDS = [
 		"the demo suite not running every sample",
 		"tests/guards/test_intake_samples.py::test_the_suite_runs_every_sample",
 	),
+	# 17 Clean code
+	Guard(
+		"comments-short",
+		17,
+		"a comment block over 3 lines; the long form goes in the module's README",
+		"tests/test_source_style.py::test_no_comment_block_is_an_essay",
+	),
+	Guard(
+		"docstrings-short",
+		17,
+		"a docstring over 8 lines; the long form goes in the module's README",
+		"tests/test_source_style.py::test_no_docstring_is_an_essay",
+	),
+	Guard(
+		"tell-in-place",
+		17,
+		"a notification sent from anywhere but the module's tell.py",
+		"tests/guards/test_layout.py::test_notifications_go_out_from_tell",
+	),
+	Guard(
+		"ai-in-place",
+		17,
+		"a OneAI hook pointing at anything but a module's ai.py or ai_<topic>.py",
+		"tests/guards/test_layout.py::test_oneai_hooks_point_at_ai_files",
+	),
+	Guard(
+		"upstream-imports",
+		17,
+		"an import of a name frappe, erpnext or hrms no longer has",
+		"tests/guards/test_upstream_imports.py::test_every_upstream_import_is_still_there",
+	),
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
 PLANNED = {
 	1: "a module with a feature and no demo record or check on it, held as each module is passed over again",
-	17: "a narrative comment of more than a few lines, or a module out of the one layout (ARC 10)",
 }

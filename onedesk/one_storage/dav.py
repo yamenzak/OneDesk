@@ -1,33 +1,8 @@
 """OneCloud as a network drive: WebDAV, served from inside Frappe.
 
-Windows (Map network drive), macOS (Connect to Server), Linux file managers,
-and apps like Cyberduck all speak WebDAV. `/api/method/<name>/<anything>`
-reaches a whitelisted function with the rest of the path left alone, and the
-function may accept any HTTP method and return a response of its own — so
-PROPFIND, MKCOL, MOVE and LOCK reach `serve`, which hands the request to
-wsgidav (MIT) and gives back what it answers. There is no second process and
-no second port.
-
-**A drive has passwords of its own.** A person signs in with their email and
-a drive password (`make_password`), one per computer, each shown once and
-taken away on its own. It opens the drive and nothing else: `sign_in` is a
-before_request hook that looks only at requests under the drive's address,
-checks the password, signs the person in, and removes the header before
-Frappe's own API-key check would refuse it. Anywhere else the same
-password is just a wrong API key. A drive password is sixteen random
-letters, so it is stored as a SHA-256 — a slow hash is for passwords people
-choose, and every request a drive makes is checked. A request without one
-gets a 401 asking for Basic, which is what makes the client ask.
-
-**Every verb is the explorer's.** The provider below walks node ids with
-`namespace.children`, and creates, renames, moves, copies and deletes with
-`api` and `upload`, so a drive can do exactly what the explorer can, as the
-same person, under the same `namespace.may`. Writing a file whose name is
-there replaces it and keeps a version; deleting sends it to the Recycle Bin.
-
-**A folder as its own drive** is the same URL with the folder's path after
-it; clients mount any collection.
-"""
+`serve` hands each DAV request to wsgidav, with no second process or port.
+A person signs in with a drive password of their own, and every verb is the
+explorer's."""
 
 import io
 import os

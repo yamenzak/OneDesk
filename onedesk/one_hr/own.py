@@ -1,15 +1,4 @@
-"""Who the reader is here.
-
-The Employee whose `user_id` is the session's user, and nothing else. Not a
-match on email, which is one line shorter and hands somebody their namesake's
-record on any workspace where two people share a personal address, and not a
-match on name. A reader with no such row is nobody here — which is a workspace
-that has not linked its logins, and the fix is a field on a record.
-
-Everything that writes a clock-in reads the employee from here rather than
-taking one as an argument, which is what makes those endpoints safe: there is no
-value a caller can send that points at a colleague.
-"""
+"""Who the reader is here."""
 
 import frappe
 

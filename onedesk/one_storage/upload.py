@@ -1,24 +1,4 @@
-"""Putting files into OneCloud: straight from the browser to R2.
-
-A file dropped on the explorer never passes through this server. `begin` asks
-admin for a URL the browser may PUT each file to and hands back a ticket per
-file; the browser sends the bytes to R2 itself, showing its own progress, and
-then calls `done` with the ticket, which checks the object arrived and writes
-the File row. A gigabyte of video costs this server two small requests.
-
-**The ticket is the whole of the trust.** It is held in the cache for an hour,
-names who asked, where to and under which key, and `done` believes nothing
-else the browser says except the path inside a dropped folder. A ticket is
-used once.
-
-**A key per upload, not per content.** Frappe's own files are keyed by their
-MD5 so ten copies are one object (`store.key_for`); a browser cannot hash a
-large file cheaply before sending it, so an upload gets a random key under
-`files/private/u/`. Copies made inside OneCloud still share their object.
-
-Without an account (a bench of one's own) there is nothing to sign, and `here`
-takes the file as an ordinary form post instead, through the same `_place`.
-"""
+"""Putting files into OneCloud: straight from the browser to R2."""
 
 import json
 import mimetypes

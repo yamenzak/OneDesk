@@ -1,32 +1,5 @@
 """What will fail the first time somebody receives stock, counts it, or
 registers an asset.
-
-The **Inventory Check** (report/inventory_check) is the Books Check's twin:
-a row per check with what it means and the fix beside it.
-
-- **Somewhere to keep stock.** A warehouse that is not a group. ERPNext's
-  setup makes four; the check catches a site where they were deleted.
-- **Stock is valued in the books.** Perpetual inventory posts every receipt
-  and delivery to the ledger, through the company's stock accounts; an empty
-  one stops the first receipt.
-- **Serial and batch numbers.** Switched off by default: the item has no
-  *Has Serial No* or *Has Batch No*, and a bundle is refused — while the rail
-  offers Serial Numbers and Batches. Whether a business tracks them is its
-  decision, so it is a suggestion.
-- **Somewhere for an asset to be.** An asset will not save without a
-  location, and a new company has none. The fix asks what to call the first.
-- **Asset categories.** An item marked *Is Fixed Asset* needs a category, and
-  a category needs the ledger its assets are kept in and how they
-  depreciate. A new company has none, and its fixed-asset account is empty.
-  The fix makes the usual ones from the chart's Fixed Assets ledgers, each
-  depreciating straight-line monthly over its usual life.
-- **Every asset is registered** (one_inventory/assets.py): a draft asset is
-  never depreciated or counted; the fix finishes the ones that can be.
-- **Equipment that needs servicing has a schedule** (maintenance.py): a
-  schedule needs a maintenance team, and a new company has none; the fix
-  makes one of the person fixing it.
-- **Depreciation posts itself.** ERPNext books it daily when Accounts
-  Settings says to; the check catches a site where it does not.
 """
 
 import frappe

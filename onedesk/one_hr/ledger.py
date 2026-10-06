@@ -1,14 +1,4 @@
-"""Every clock-in tried, written down whether it was allowed or refused.
-
-`Employee Checkin` only records successes, and the refusals are the interesting
-ones. So each attempt writes a `Clock Attempt` of its own carrying what every
-gate saw, and that table is three things at once: the review queue, the evidence
-when somebody disputes a day, and what the self-healing reads.
-
-The row is written last and always, including when a gate refused and including
-when writing the check-in itself threw. A ledger that is only written on the
-happy path is a ledger of the wrong half.
-"""
+"""Every clock-in tried, written down whether it was allowed or refused."""
 
 import frappe
 from frappe.utils import now_datetime
@@ -40,10 +30,8 @@ def write(employee: str, direction: str, seen: dict, signals: list[str], **found
 			"signals", {"signal": name, "weight": rules.weight(name), "says": rules.says(name)}
 		)
 	attempt.insert(ignore_permissions=True)
-	# Committed here rather than with the rest of the request, because the next
-	# thing that happens may be HRMS refusing the check-in and a rollback. The
-	# ledger row is the record of the attempt and must not share the fate of
-	# what the attempt went on to try.
+	# Committed now, because HRMS may refuse the check-in next and roll back, and the
+	# attempt's row must not go with it.
 	frappe.db.commit()
 	return attempt.name
 

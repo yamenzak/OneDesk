@@ -1,17 +1,5 @@
 """A Retainer's months: a fee each month for a set number of hours
 (docs/PROJECT-PAGE.md, kinds.py).
-
-A month is a calendar month from the one the project starts in. Each says how
-many hours were used of the allowance (`one_monthly_hours`), how many over,
-and whether it's been invoiced: a Sales Invoice for the project with its
-**Retainer Month** (`one_retainer_month`) set to the month.
-
-**Invoice Month** (`invoice_month`) is a draft Sales Invoice, opened unsaved
-as Invoice Time's is: one line for the month's fee, and, when the month went
-over, one for the hours over at what the month's billable hours were billed
-at on average. The month's billable time is put on the invoice's Time Sheets
-table, so submitting it marks that time invoiced (ERPNext's
-TimesheetBillingService) and Invoice Time never bills it again.
 """
 
 from typing import Annotated

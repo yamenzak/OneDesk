@@ -1,18 +1,5 @@
-"""The calendar as a link other calendar apps subscribe to.
-
-Google Calendar (*From URL*), Apple Calendar (*New Calendar Subscription*) and
-Outlook (*Subscribe from web*) all read the same thing: an iCalendar file at an
-address. The file asks to be read again every fifteen minutes; Apple and
-Outlook take that as a guide, and Google ignores it and reads on its own
-schedule, a few times a day. Each person has one address, with a secret in it, and whoever holds
-the address reads that person's calendar. The secret is kept encrypted, as
-frappe keeps an API secret, so the dialog can show the link again; a link is
-found by the secret's hash, and a new one switches the old one off.
-
-It carries the layers that are on before anybody chooses, read as that person,
-so it holds nothing they could not see on the calendar itself. It is one way:
-an event added in Google stays in Google. frappe's own Google Calendar
-integration syncs both ways for Events, and needs Google API keys to do it.
+"""The calendar as a link other calendar apps subscribe to: an iCalendar file
+per person, at an address with a secret in it.
 """
 
 import hashlib

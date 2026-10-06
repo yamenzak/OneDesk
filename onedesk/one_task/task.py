@@ -1,24 +1,4 @@
-"""A task's parts: the sub-tasks under it and the checklist on it.
-
-**A sub-task is a task** with `parent_task` set, which is ERPNext's own tree.
-ERPNext refuses a parent that is not marked Is Group, a box nobody ticks before
-wanting a sub-task, so the parent is marked when the first one is made. A
-sub-task made from its parent's page is in the parent's project; without that
-it would be nobody's but its maker's, in their inbox.
-
-**A step is not a task.** It has no owner, no date and nobody assigned — it is
-a line to tick on the way to finishing the task (Task Step). When a task has
-steps, its Progress is the share of them done, which ERPNext's Project already
-reads when a project measures completion by task progress.
-
-The sub-tasks are on the task's page as a connection (`dashboard`), so its +
-makes one with the parent filled in, which is frappe's own way of doing it.
-
-**A repeating task is frappe's Auto Repeat** (Repeat on a task's page). Each
-repeat is a copy of the task, which would keep its old dates, its Completed and
-its ticked steps; `recurring` makes it due on the day it repeats and gives it to
-the same people.
-"""
+"""A task's parts: the sub-tasks under it and the checklist on it."""
 
 import frappe
 from frappe import _

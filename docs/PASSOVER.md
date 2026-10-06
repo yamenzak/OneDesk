@@ -390,14 +390,60 @@ Foundations done so far:
     what only a block prints, so it can't pass on the letter head alone.
   - **Still open**: a report that leaves the company. The Statement of
     Accounts prints from ERPNext's own template.
+- **Hand-offs**: every product's README says what it takes from the others
+  and what it hands them, in a Connections section just before Under the
+  hood. OneAI has a README of its own now. The demo holds fourteen hand-offs
+  to the records they leave, such as an order invoiced and delivered, a
+  project's time and costs on it, and a payroll in the books
+  (`every_hand_off_left_its_records`). Guarded
+  (`tests/guards/test_handoffs.py`). Found on the way:
+  - Payroll never reached the books. A salary component had no account, so
+    every run made the slips and never submitted them. An earning now books
+    to the company's Salary account until the workspace picks another
+    (`one_hr/accounts.py`).
+  - The demo's employees had no leave or expense approver. Each now has
+    their manager.
+- **Intake**: `tests/samples/intake` holds 16 real mails and files, one
+  folder per app, each with what a model answered about it and what Intake
+  must make. The demo reads the owner's mailbox and the accounts team's Bank
+  Statements folder, and the suite has each one arrive as it would and checks
+  what Intake made (`every_intake_sample_makes_what_it_should`). Guarded
+  (`tests/guards/test_intake_samples.py`). Running them found:
+  - Nobody in One could add a supplier, since ERPNext keeps that for a role
+    One never gives. Buying adds suppliers, and so does an accounts manager.
+  - A bill from a new supplier made the supplier and never the bill. The
+    record made for whoever sent a document is now matched to it, and
+    learns the address it came from.
+  - An order from a known lead never made the customer, and a signed
+    contract never proposed the employee.
+  - Every Intake step through an ERPNext mapper failed (a bill from a
+    purchase order, a receipt, a credit note, a payment, a customer from a
+    lead, an employee from an offer). They read as the person Intake acts
+    for now.
+  - A placeholder mailbox HRMS makes (jobs@example.com) made example.com one
+    of ours, so a CV from such an address was never read as an applicant.
+  - A tax number without its country letters was dropped, and an import
+    ERPNext had moved stopped the lead conversion.
+- **Clean code**: a comment says why in a line or two and a docstring says
+  what a file or function is for. Everything longer moved into the module's
+  README, under Under the hood, word for word where it could (about 380
+  docstrings and 110 comment blocks). Every notification goes out from its
+  module's `tell.py`, and every OneAI hook points at a module's `ai.py`.
+  Guarded (`tests/test_source_style.py`, `tests/guards/test_layout.py`), and
+  a new guard fails on any import of a name frappe, erpnext or hrms no longer
+  has (`tests/guards/test_upstream_imports.py`).
+  - **Still open, for you**: the workspace administrator's grants are given
+    by each feature that needs them (Printing, Approvals, Reports and nine
+    more), not from `one/access.py`. Moving them there was stopped by the
+    session's permission check, so they stay where they are until you say.
 
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the
    tier registry, formats from frappe, the record frame and places on the
    project page, the demo company and its suite, rules on the server,
-   notifications in one place, shipped print formats (done), hand-offs,
-   Intake samples and the code cleanup.
+   notifications in one place, shipped print formats, hand-offs, Intake
+   samples and the code cleanup (all done).
 2. **Project templates**, right after:
    - **The page**: Templates in the OneProject rail; a template opens in the
      Tasks table in template mode ("Day 12 · 5 days"), added, renamed, nested,
@@ -413,6 +459,12 @@ Up next, in this order:
    time.
 
 Noticed along the way, for the screen it belongs to:
+
+- **OneAI**: a card says Approve and Refuse, and the same proposal's own
+  page says Apply and Refuse.
+- **Workspace › Mail**: every workspace carries the Jobs mailbox HRMS makes
+  on install (jobs@example.com). It reads and sends nothing, so Intake no
+  longer counts it, but it still sits in the list.
 
 - **Sign-in**: says "288 sessions" for the administrator. That counts every
   session ever left open, not the devices a person uses.

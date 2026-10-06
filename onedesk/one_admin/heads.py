@@ -1,11 +1,7 @@
 """What the operator's records say above their fields. See one/head.py.
 
-Every one of these records is read-only, because every field on it is the
-record of something that happened (a signup, a call to Frappe Cloud, a
-measurement, a rung). So each opens on where it stands, in a word and a
-colour; one sentence saying what that means for somebody; for a workspace and
-a job, how far along they are; and the verbs that move them, which run the
-same code the nightly ladder runs (operator.py).
+Each opens on where it stands, in a word and a colour, one sentence on what
+that means, how far along it is, and the verbs that move it (operator.py).
 """
 
 from urllib.parse import quote

@@ -1,14 +1,7 @@
 """What a lead's or a deal's page answers before anybody clicks anything.
 
-A deal is opened to find out what it is worth, how far it has got and for how
-long, what happens next, when anybody last spoke to them, and when it should
-close. A lead is opened for how long it has waited, where it came from, what
-happens next and what it has turned into. Each answer carries where it came
-from so the page still links to it.
-
-A call is written down by hand as a Call Log, erpnext's own record of a call,
-linked to the lead or deal, so it is on the timeline beside the mail and the
-comments, and a later telephony integration writes the same record.
+Each answer carries where it came from, so the page still links to it. A call
+is written down by hand as a Call Log, linked to the lead or deal.
 """
 
 from typing import Annotated

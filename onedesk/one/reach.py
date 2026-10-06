@@ -1,13 +1,5 @@
 """Whether every link in a space's rail opens for the people the space is for.
 
-A space's rail links to erpnext's, hrms's and frappe's kinds of record, and
-each of those decides for itself who may open it. Many open only for frappe's
-System Manager, which nobody on a workspace is given (roles.py), so a link
-can be in the rail and refuse everybody who sees it. This reads every rail
-against the roles People hands out for its app (settings.APPS): a link
-opens if the app's User or Manager roles, or a role everybody holds, may
-read it. Each space's `access.py` gives what is missing.
-
     bench --site <site> execute onedesk.one.reach.check
 
 prints what does not open, and nothing else when everything does.

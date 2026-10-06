@@ -1,32 +1,6 @@
 """Record types: kinds of record a workspace keeps of its own, beside the
 ones its apps came with. A gym's memberships, a school's terms, a fleet's
 vehicles.
-
-A record type is frappe's own custom DocType (`custom`, module One Studio),
-with a **Record Type** of ours beside it that the administrator reads: what
-it is for, the app it belongs to, who asked. OneAI designs one from what was
-asked (ai.py), and approving the card makes it here, as Administrator, since
-frappe makes DocTypes for its own managers alone.
-
-What a workspace's record type may be, whoever asks:
-
-- plain fields of the kinds a form is made of (`FIELDTYPES`): text, numbers,
-  money, dates, ticks, choices, files, and links to a kind of record the
-  administrator may open, or to another record type. Nothing that runs:
-  no code, no HTML block, no button, no condition on another field;
-- a name that is not taken, by frappe, an app, or another record type;
-- belonging to one app: its users make and change records of it, its
-  managers delete them, and it is listed in that app's rail, in the group
-  the administrator chose (one the rail has, or a new one), else under Your
-  Records. One is everybody's.
-
-Each record is numbered from the collection's initials, CV-00001 for a
-Company Van, as the workspace's documents are, so the number a person sees
-beside its title means something; Workspace > Numbering changes it.
-
-Changing one adds fields, renames them and changes their choices; a field
-already holding data is never dropped, only hidden. Deleting one deletes its
-records, so it is refused while it has any.
 """
 
 import json
@@ -35,8 +9,8 @@ import re
 import frappe
 from frappe import _
 
-from onedesk.one import notify, roles
-from onedesk.one_studio import extensions
+from onedesk.one import roles
+from onedesk.one_studio import extensions, tell
 
 RECORD_TYPE = "Record Type"
 MODULE = "One Studio"
@@ -268,7 +242,7 @@ def make(title: str, app: str, description: str, fields: list, asked: str, group
 		}
 	).insert(ignore_permissions=True)
 	_place(doctype.name, app, group)
-	notify.notify("Collection Added", roles.administrators(), **_told(doctype.name, app, description))
+	tell.collection_added(_told(doctype.name, app, description))
 	return doctype.name
 
 
@@ -311,9 +285,7 @@ def change(
 		}
 	)
 	ours.save(ignore_permissions=True)
-	notify.notify(
-		"Collection Changed", roles.administrators(), **_told(ours.record_doctype, app, description)
-	)
+	tell.collection_changed(_told(ours.record_doctype, app, description))
 	return ours.record_doctype
 
 
@@ -455,9 +427,7 @@ def moved(ours) -> None:
 	if app_moved or before.rail_group != ours.rail_group:
 		_place(ours.record_doctype, ours.app, ours.rail_group)
 	if app_moved:
-		notify.notify(
-			"Collection Changed", roles.administrators(), **_told(ours.record_doctype, ours.app, ours.description)
-		)
+		tell.collection_changed(_told(ours.record_doctype, ours.app, ours.description))
 
 
 def restored(ours) -> str:
@@ -495,11 +465,7 @@ def remove(doc, method=None) -> None:
 		return
 	if frappe.db.count(doc.record_doctype):
 		frappe.throw(_("{0} still has records. Delete them first.").format(doc.record_doctype))
-	notify.notify(
-		"Collection Deleted",
-		roles.administrators(),
-		**_told(doc.record_doctype, doc.app, doc.description, link=False),
-	)
+	tell.collection_deleted(_told(doc.record_doctype, doc.app, doc.description, link=False))
 	_unplace(doc.record_doctype)
 	with extensions._as_administrator():
 		frappe.delete_doc("DocType", doc.record_doctype, ignore_permissions=True, force=True)

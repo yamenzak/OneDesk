@@ -255,6 +255,7 @@ have we changed?** and **How does customizing work?**
 | `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `legal.py` | The record heads, and what the Terms and the AI Addendum say. Extensions Failing and an extension turned on, off or deleted are in `notifications/one_studio/`. |
+| `tell.py` | Every notification OneStudio sends: an extension turned on, off or deleted, the ones failing, and a collection added, changed or deleted. |
 
 ### How it is made
 
@@ -357,3 +358,187 @@ Done: Extensions, the review, Custom Fields, Custom Collections. Not built: a ch
 a record type, a record type's own numbering (Numbering does it once it
 exists), scheduled extensions (an Automation's schedule instead), and
 extensions on API calls.
+
+### ai.py
+
+- `extensions_here` reads what the workspace has: each extension, where and
+  when it runs, whether it is on, its review, and whether it ran into a
+  error lately. No code.
+- `write_extension` keeps what OneAI wrote, off, after the guard and the
+  review (`extensions.write`), and makes a card whose Turn On does what the
+  administrator would do in the list. A refused review comes back to the
+  model to mend, under the same extension. The code it wrote is left out of
+  the conversation as it is kept and shown (`unshown`), so it is in the
+  extension alone.
+- `extension_code` hands OneAI the code it is changing, so a change edits it
+  rather than rewriting it from the explanation. Its answer's code is
+  `unshown` too: the run reads it, the kept conversation does not.
+
+Both run on OneStudio Extensions (`studio`), a stronger model than the
+chat's, which is told what an extension may do.
+
+### checks.py
+
+`guard.py` says what an extension may do; this says whether what it does is
+there. A model writing frappe code invents a field name, or names a handler
+frappe never calls, and the code passes every review and then does nothing,
+or runs into an error on every save. So the names the code uses are read
+against the record's own fields, and what is wrong comes back to OneAI in
+words it can mend from, with the fields that are there.
+
+### extensions.py
+
+An extension is one record of ours, **Extension**, and one of frappe's: a
+Client Script for one that runs on the screen, a Server Script on a record
+event for one that runs on the server. Ours holds what the administrator
+reads (the title, what it does, what was asked and the review) and, at a
+level only frappe's System Manager reads, the code; frappe's is made from it
+here, as Administrator, since frappe keeps both to its own managers, and is
+nobody else's to change.
+
+- **Written only by OneAI** (`write`, called by its tool in `ai.py`), after
+  `guard.py` has read the code and `review.py` has had a second model read it
+  against what it says it does. Nothing it writes is on until somebody turns
+  it on.
+- **On only as reviewed.** An extension turns on only if its review passed
+  and its code, record, view and event are the ones that passed
+  (`reviewed_as`). Nothing OneAI wrote changes by hand (`WRITTEN`). One on the
+  server turns on only where the bench runs server scripts at all.
+- **Off and deleted by the administrator.** Off disables frappe's script;
+  deleting the extension deletes it.
+- **An error does not stop the work.** Every extension runs wrapped
+  (`guard.wrapped` on the server, `guard.wrapped_on_screen` in the browser):
+  what it means to stop a save with still stops it, and anything else it
+  trips on is written to the error log under its name (in the browser through
+  `tripped`) and the work goes on. `failing` tells the administrators each
+  morning.
+
+Who hears of an extension turned on, off or deleted, and of the ones failing,
+is `tell.py`.
+
+### guard.py
+
+An extension is code OneAI writes, and nobody else. An administrator could
+still ask OneAI for code that reaches past what they may do, so this reads
+the code itself, as a second line after the review (`review.py`), and refuses
+what no explanation would excuse.
+
+**On the server** an extension is a Server Script on a record event, run in
+frappe's sandbox as whoever saved the record. The sandbox already refuses
+imports, files and the private parts of objects; this refuses the rest of
+what it leaves open:
+
+- writing past permissions: `db_set`, `db.set_value`, `ignore_permissions`,
+  frappe's flags, deleting or renaming another record;
+- reading past them: raw SQL, `get_all` (frappe's `get_list` checks), a
+  password, and any field the administrator may not read;
+- reaching outside: requests, mail, jobs, other scripts and whitelisted
+  methods;
+- naming a kind of record they cannot open, or frappe's or One's own, and
+  naming one any way but as plain text, so every kind it touches is known.
+
+**On the screen** an extension is a Client Script, which runs in the browser
+of everybody who opens the form. It may change the form and speak to the
+person; it may not call the server, store or send anything, or write markup.
+
+`IN_THE_SANDBOX`, the names a server extension's code finds already there, is
+frappe's safe_exec globals and RestrictedPython's builtins, as
+`get_safe_globals()` answered on frappe develop (Oct 2026), and `print`, which
+RestrictedPython turns into its own collector.
+
+`WRAPPED_ON_SCREEN`: each handler a screen extension gives
+`frappe.ui.form.on` runs inside a `try`, a `frappe.throw` it means still stops
+the save, and anything else it trips on is written down
+(`extensions.tripped`) and the form goes on. Its `frappe` is frappe's own,
+with those two wrapped; everything else is frappe's.
+
+### mend.py
+
+An administrator never reads an extension's code, so they cannot read why it
+fails either: the errors frappe keeps are about the code, line by line. So the
+mending is a separate call, its own AI action (`studio_mend`), made here on
+the server: shown where the extension runs, what it says it does, its code
+and its last errors, and asked what went wrong, in words for somebody who
+does not read code, and for the code mended. Nothing of the chat reaches it,
+and nothing it is shown goes back to the chat: the conversation, and the
+extension's form, hear the diagnosis and nothing else.
+
+What it writes goes through `extensions.write` like anything OneAI writes:
+the guard, the second reading, kept off. The mended version runs only once an
+administrator turns it on.
+
+### places.py
+
+A frappe Client Script reaches a kind of record's form and its list, and
+nothing else: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
+board, a project's page, every space's home and the head of a record (on its
+form, and on a project's page) are One's own, drawn by One's code. So each of
+those says here, once, what happens on it that an extension may hear (its
+events), what each event tells the extension (`gives`), and the few things
+the extension may do there (`may`).
+
+This is the whole contract. The browser runs only these events with only
+these powers (`public/js/places.js`); `guard.py` refuses code that listens for
+an event the page does not have; and OneAI reads it to know what each page
+allows (`ai.py` `extension_places`), so what it writes and what runs are the
+same list.
+
+### record_types.py
+
+A record type is frappe's own custom DocType (`custom`, module One Studio),
+with a **Record Type** of ours beside it that the administrator reads: what
+it is for, the app it belongs to, who asked. OneAI designs one from what was
+asked (`ai.py`), and approving the card makes it here, as Administrator, since
+frappe makes DocTypes for its own managers alone.
+
+What a workspace's record type may be, whoever asks:
+
+- plain fields of the kinds a form is made of (`FIELDTYPES`): text, numbers,
+  money, dates, ticks, choices, files, and links to a kind of record the
+  administrator may open, or to another record type. Nothing that runs:
+  no code, no HTML block, no button, no condition on another field;
+- a name that is not taken, by frappe, an app, or another record type;
+- belonging to one app: its users make and change records of it, its
+  managers delete them, and it is listed in that app's rail, in the group
+  the administrator chose (one the rail has, or a new one), else under Your
+  Records. One is everybody's.
+
+Each record is numbered from the collection's initials, CV-00001 for a
+Company Van, as the workspace's documents are, so the number a person sees
+beside its title means something; Workspace > Numbering changes it.
+
+Changing one adds fields, renames them and changes their choices; a field
+already holding data is never dropped, only hidden. Deleting one deletes its
+records, so it is refused while it has any.
+
+Who hears of a collection added, changed or deleted is `tell.py`.
+
+### review.py
+
+OneAI writes an extension from what an administrator asked, so whoever asks
+steers the writer. The reviewer is a separate call, its own AI action
+(`studio_review`), shown the code, the explanation the administrator will
+read, and where it runs, and nothing of the conversation, so nothing said
+there reaches it. It answers Pass or Refuse with a reason. `guard.py` has
+already refused what no explanation could excuse; this catches code that is
+allowed but is not what it says: a check that also copies a field elsewhere,
+a button that does more than its label.
+
+An extension that has not passed, or whose code, record, view or event has
+changed since it passed, cannot be turned on (`extensions.py`).
+
+### trial.py
+
+- **Screen code is parsed** by node (`node --check`), which reads it and
+  runs nothing: a missing bracket comes back with its line, rather than as a
+  form that silently has no extension. Where the bench has no node, nothing
+  is said.
+- **Server code is run once on a real record** of its kind, the newest the
+  person may read, inside a savepoint that is rolled back: whatever it
+  changed or made is undone. A scheduled one is run once as it will run,
+  with no record, and undone the same way. What happened comes back to OneAI
+  as it would on that record: it stopped the save with this message, it
+  changed these fields, or it ran into this error, which refuses it.
+
+Both come after `guard.py` and `checks.py`, so what is tried has already been
+read for what it may do and for the names it uses.

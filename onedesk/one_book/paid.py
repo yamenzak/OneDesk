@@ -1,18 +1,4 @@
 """Recording a payment against an invoice or a bill in one step.
-
-ERPNext's **Create › Payment** opens a Payment Entry form of some thirty
-fields, filled from the invoice, for somebody to read, save and submit; the
-common case — the customer paid all or part of this invoice into our bank —
-needs four of them. **Record Payment** on a submitted invoice or bill asks for
-those four (how much, on what day, into or out of which account, and the
-bank's reference) and submits ERPNext's own Payment Entry, made by its own
-`get_payment_entry`. Anything else — a discount, a deduction, another currency,
-one payment across several invoices — is still **Create › Payment**.
-
-An invoice left unpaid is also a reminder: **Payment Reminder**
-(notification/payment_reminder) mails the customer the invoice a week after it
-fell due. It is shipped off, since it writes to customers; the Books Check
-turns it on.
 """
 
 import frappe

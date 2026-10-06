@@ -1,23 +1,7 @@
 """erpnext and hrms become companions of One rather than apps beside it.
 
-A `Dock` may name a host, and frappe calls an app that does so a companion: it
-gets no tile on the apps screen and no rail of its own, and every workspace it
-owns resolves its app context to the host. That is exactly what One needs from
-the two it is built on — without it, opening an HRMS doctype by URL lands in
-Frappe HR's rail under Frappe HR's mark, because `get_modules_linking` puts the
-shell that owns the doctype first and only continuity from inside One overrode
-it.
-
-The claim is the companion's to make, so it is written onto their own `Dock`
-rows — as a column and not through the document, because saving a standard doc
-in developer mode writes its JSON back, and their app's file is not ours to
-edit. The mount is this site's, which is why it survives nothing: their file
-does not carry it, so a `bench update` shipping a newer dock clears the row, and
-this runs on every migrate rather than only at install.
-
-Mounting appends the companion's rows to the host's rail. We want the host and
-not those nine, so One's site layer carries each of them hidden — the refusal
-frappe names for exactly this, since a host cannot veto a mount.
+Their `Dock` rows are made to name One as their host, on every migrate, so
+their doctypes open in One's rail rather than their own.
 """
 
 import frappe

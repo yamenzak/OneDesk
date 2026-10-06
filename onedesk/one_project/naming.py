@@ -1,17 +1,4 @@
-"""A task named after its project: REEM-14 rather than TASK-2026-00042.
-
-**Task Prefix** on a project is a short key. Setting it writes a frappe
-Document Naming Rule for Task with the condition "project is this one", which
-is the framework's own way to name a doctype differently by a field — nothing
-of ERPNext's Task is overridden, and a task in a project with no prefix keeps
-ERPNext's series.
-
-The number comes from frappe's series for the prefix, which is global to the
-site: a prefix changed and changed back carries on counting rather than
-reusing a name. Tasks already made keep the names they have. A new project's
-rule is written as it is saved, so the tasks a Project Template makes for it
-carry the prefix too.
-"""
+"""A task named after its project: REEM-14 rather than TASK-2026-00042."""
 
 import re
 

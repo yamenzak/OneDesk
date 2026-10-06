@@ -121,46 +121,387 @@ why a model cannot write.
 - `chat.py`: a conversation (`AI Chat`) and the panel's calls (`start`, `say`,
   `answer`, `rename`, `suggestions`, `cards`). The page travels as a pointer,
   never as the record's values.
+
+  A conversation is kept rather than held in a tab, because a chat that dies
+  when the tab does is one nobody starts anything long in. `AI Chat` holds a
+  title, when it was last said to, what it has cost, and the turns: the same
+  turns the gateway speaks, because the conversation *is* the turns and a
+  second shape beside them is a second shape to keep in step.
+
+  **The page is a pointer, not a payload.** What travels is the route: the
+  doctype, the record's id, which view. Not the record's values: the model has
+  `read_record` for that, and that runs as whoever is signed in, so a pointer
+  at something the reader may not see buys nothing. It also keeps a
+  conversation honest over time: the context of the third message is where
+  they were for the third message, not where they are now.
+
+  What the person just dropped on the panel goes to a tool that attaches what
+  it read to what it suggests, a receipt to its claim. Only this question's
+  files: a receipt dropped three questions ago is not evidence for whatever is
+  being asked now.
 - `run.py`: asks the account to run an action (`proxy.ai_run` on OneAdmin),
   with the workspace's model and extra instructions. `once` is a single call
   for other modules (OneIntake, OneHR's hiring, OneStudio's review and mend).
   `apply` and `refuse` settle a card. `set_action`, `reset_action` and
   `try_it` serve OneAI Actions.
+
+  Two things travel with the call and neither is the instruction: which model
+  this workspace picked, and what it asked to have added. The instruction
+  itself is the account's, read from its own copy of the fixture, and there is
+  nothing a workspace can send that replaces it. Everything here is one round
+  trip and no decision. Whether the action exists, whether the model may
+  answer it, whether there are credits: all of that is admin's, for the same
+  reason a workspace cannot sign its own upload URL.
+
+  `ask` runs one action, looking things up for the model where it asks. The
+  loop is here rather than on the account, and that is the whole shape of it:
+  the model is on the account and the records are here, the account never
+  calls a workspace, and a tool means nothing unless it runs as whoever is
+  signed in. So the workspace asks, is told what the model wants, looks it up
+  with its own permissions, and asks again. A tool that refuses comes back as
+  a result saying so rather than as an exception. A model told "you may not
+  see that" can say so; a model told nothing at all writes something plausible
+  instead.
+
+  `pinned` is the model the person picked in the panel for this conversation.
+  It wins over what the workspace chose, and goes with the conversation when
+  another action takes it over: somebody who picked a model was asked by
+  nobody to have it swapped for them halfway. `heard` is told each thing as it
+  happens (a round starting, a tool it ran), so a panel watching a background
+  run can say what it is doing rather than that it is busy.
+
+  Within the loop:
+  - The model reached for a tool that another action runs, on a model that
+    does it well: Print Design lays a page out, which the chat's small model
+    gets wrong. That action takes the conversation from here, asked the same
+    thing again, and keeps it to the end of the run; its calls are charged to
+    it.
+  - A suggestion that exists to make a card ("Draft my feedback") answered
+    with the draft in the chat and no card is asked for the call it was for,
+    with what it just wrote. Not when it ended by asking the person something:
+    that is theirs to answer, and the card comes after.
+  - Measured on Gemma 4: asked for a scheduled extension with only the
+    reader's own tools given, it answered "I do not have a tool for that, but
+    I can write an extension with write_extension". Before saying it cannot,
+    it looks at every tool there is.
+  - A tool's turn holds what the tool answered, and nothing else. The
+    bookkeeping sits beside it rather than inside it, because `result` is the
+    only part a provider is sent, and a model handed
+    `{"tool": ..., "ran": ..., "answer": [...]}` quotes the wrapper back at the
+    reader as if it were the answer.
+  - What a round parked is somebody's to answer, and a round that fails after
+    it should not take it away. It is committed each round rather than at the
+    end of the request, which on a run with five model calls in it is minutes
+    off, and a transaction held open across all of them is a transaction
+    holding locks across all of them.
 - `tools.py`, `schema.py`, `groups.py`: the tools. A read runs as the session
   user. A create, edit or delete writes an `AI Proposal`. A tool's schema is
   read off its signature. `groups.py` picks the tools a request is given, and
   `more_tools` lets the model ask for another group.
+
+  `tools.py` is what a model may ask for, and what it may only suggest.
+  Everything a person can do here a tool can do (read a list, read a record,
+  count, look at a type, create, edit, delete), and the difference between the
+  first four and the last three is the whole of its design.
+
+  **A read runs. A create, an edit or a delete becomes a card.** Nothing in
+  `tools.py` writes. A write tool checks the asker's permission for the verb,
+  writes an `AI Proposal` and hands back its id, and the doing happens when a
+  person presses Apply. A tool that saved would be a tool that saves on a
+  model's say-so, and the failure mode is not a wrong field: it is a wrong
+  *record*, at the end of a chain of lookups nobody read.
+
+  **Every tool runs as the session user.** Not as Administrator with a filter
+  bolted on afterwards, and not with `ignore_permissions` anywhere: the same
+  `frappe.get_list` the browser would have called, under the same permissions,
+  so a model asked about somebody else's salary gets what that person would
+  get, which is nothing. This is the one rule in `tools.py` with no exception
+  and no override, and a tool that needs more than its caller has is a tool
+  that does not ship. Reading the whole of Frappe this way is the point. The
+  alternative is a hand-written tool per doctype, which is out of date the
+  week somebody adds a field.
+
+  A link filtered on a record that does not exist matches nothing, and an
+  empty answer reads to a model as "there are none" ("Annual" for a leave type
+  called "Annual Leave"). A read changes nothing, so the one record it plainly
+  meant is used; anything less plain is said, with the values there are, and
+  the model left to choose.
+
+  `search_everywhere` is frappe's own search: the workspace's Global Search
+  Settings say which types are indexed, and every hit is checked with
+  `has_permission` on the record itself before it is answered, so nothing the
+  reader may not open is named.
+
+  `KEEPS` is what runs at once although it writes: only the asker's own
+  memory, which no one else reads and they see and delete in the memory list.
+  A card asking them to approve "Omar is our CFO", which they just said, was a
+  card nobody wanted, and a line saying so in the chat was noise.
+
+  `schema.py` is pure, and small on purpose. The alternative is a schema
+  beside every function, and the failure mode of that is not an error: it is a
+  model told a parameter is a string when it is a list, calling the tool
+  correctly according to what it was told, and being refused. Nobody finds
+  that by reading either half. So the signature is the schema. `Annotated`
+  carries the description, a union with `None` or a default says a parameter
+  may be left out, and `Literal` is a closed list, which is the one that
+  matters most, because a model given an open string where three values are
+  allowed will eventually invent a fourth.
+
+  A Python type not in `CALLED` is refused rather than guessed at: a parameter
+  whose type nobody wrote down is a parameter a model has to be told about in
+  prose, and prose is the thing `schema.py` exists to avoid. `list[str]` and a
+  bare `list` both become an array with `items`. Google refuses an array
+  without `items` (measured: gemini-2.5-flash-lite answers 400 with
+  "properties[fields].items: missing field") while OpenAI's dialect accepts
+  it, so the stricter reading is the one written.
+
+  `groups.py` decides which tools a request is given. OneAI has some 120
+  tools, and a model handed all of them on every round reads every one of them
+  every round and picks among them all: measured, Gemma 4 reached for
+  `search_everywhere` to find an extension, and the 120 cost some 20,000
+  tokens a round. So the tools are grouped, and a request is given the tools
+  everybody needs (`CORE`, the `you` group and `more_tools`) and the groups it
+  looks like it needs:
+  - the group of the page the person is on (`MODULES`, `DOCTYPES`, `PAGES`);
+  - a group whose words the request uses (`words`, in English, German and
+    Arabic: a guess, and a cheap one);
+  - a group the conversation already used, so a follow-up keeps its tools and
+    the provider's cache keeps what it has.
+
+  None of that is a wall. `more_tools` names every group and what it is for,
+  so the model knows all One can do and asks for a group it was not given; it
+  has it on the next round. A guess that misses costs a round, never an
+  answer. The groups are declared in `groups.py` rather than worked out from
+  module paths, because a group is what a person asks about (their mail, the
+  workspace's setup), and that is not always where the code lives: `one/ai.py`
+  holds both somebody's own day and the workspace's numbering.
 - `proposals.py`: the card. Permissions are checked when it is written and
   again when it is applied, as an ordinary insert, save or delete. A card
   whose record moved past its `modified` is Stale.
+
+  **A model cannot write.** What it can do is put a card in front of somebody
+  (this record, these fields, that value), and the doing happens afterwards,
+  in a request a person made by pressing Apply, down the same path they would
+  have taken by hand. The split is not a formality. A tool that saves is a
+  tool that saves on a model's say-so, and the failure mode is not a wrong
+  field: it is a wrong *record*, at the end of a chain of lookups nobody read.
+  A person between the asking and the doing also puts the diff in front of
+  them while they decide.
+
+  **Permissions are checked twice and never bypassed.** Once when the proposal
+  is written, so a model cannot suggest something the asker could not do; and
+  again when it is applied, as an ordinary insert, save or delete by whoever
+  pressed the button. There is no `ignore_permissions` in `proposals.py` and
+  there is not going to be one.
+
+  **An edit that would overwrite somebody else's is refused.** A proposal
+  carries the record's `modified` from when it was written; if the record has
+  moved since, the proposal is stale and says so. Applying it anyway would be
+  a model's diff quietly undoing a person's.
 - `touch.py`, `doctype/ai_touch`: writing in a field, and the mark. `AI Touch`
   keeps what was written, and the mark shows while the field still says it.
   OneIntake's `act.py` calls `wrote` for the fields it fills.
+
+  **One path, not two.** The control beside a prose field opens the same
+  panel as the launcher, pointed at that field. What comes back is an
+  `AI Proposal` of kind Edit (the same card, the same Apply), so "help me
+  write this" and an agentic edit are one thing to trust rather than two. The
+  difference is only where Apply lands: with the form open, the text goes
+  *into the form*, beside whatever the person has typed and not saved, and
+  they save it the way they save anything. A server-side save there would
+  either lose their edits or be refused as stale.
+
+  **The badge is a comparison, not a flag.** `AI Touch` holds what was
+  written. The form is handed the fields that still say it, and the badge
+  shows while they do. A person's edit makes them differ and the badge is
+  simply no longer true, without a hook on every doctype's write path, and
+  without anybody having to remember to clear it. Text is compared as text:
+  tags stripped and whitespace collapsed, because a Text Editor wraps what it
+  is given in its own markup and would otherwise differ from what was written
+  the moment it was drawn.
 - `memory.py`: `about_record` (what the form's sidebar knows), `AI Memory`,
   `AI Knowledge`, and search over the reader's past conversations.
+
+  Three kinds, kept apart because they have three different owners:
+  - **the records themselves**, read live. `about_record` is everything the
+    form's own sidebar knows about one record (its fields, what links to it,
+    its comments, mail, changes, assignments and files) through the same
+    frappe functions the sidebar calls, so it is never a copy that went stale
+    and never more than the reader may open;
+  - **a person's own memory** (`AI Memory`), short facts somebody told OneAI
+    to keep. Private to them like their conversations, kept at once and
+    quietly (it is what they just said), and seen and deleted in the memory
+    list. The same fact twice is one memory, and a correction replaces what it
+    corrects;
+  - **the workspace's knowledge** (`AI Knowledge`), what an administrator
+    wrote down for everybody: a policy, a glossary, how things are done here.
+
+  And a fourth that is not stored at all: the reader's own past
+  conversations, searched rather than summarised into anything. None of it is
+  pasted into every turn. A few memories and the knowledge for the type on
+  screen are; everything else is a tool the model calls, because whatever is
+  sent is paid for on every message.
+
+  Every read of AI Memory names the owner as well as relying on the doctype's
+  if-owner rule: Administrator is not held by if-owner, and a memory read into
+  somebody else's conversation is the one leak `memory.py` must not have.
 - `guide.py`: answers "how do I" questions from every module's README, above
   `## Under the hood`.
+
+  "How do I register my passkey?" is a question about the product rather than
+  about the workspace's records, and a model answers it from what products
+  like this usually do, which is how a person is told to find a button that
+  is not there. Each module's `README.md` says what it does for the people
+  using it, so `how_to` hands the model the sections that match and tells it
+  to answer from those alone, naming the section. Everything above a README's
+  `## Under the hood` heading is for the people using the module, and
+  everything below it is for the people building it, so the reading stops
+  there: file names and upstream faults are no help to somebody asking where
+  their payslips are.
+
+  `ranked` orders the sections first by how many of the different words a
+  section holds, then by the words in its heading, then by how often they come
+  up, because a long section mentions everything once, and counting mentions
+  alone made the longest section the answer to every question. A section
+  holding fewer than half the words is not an answer, so a question the
+  documentation does not cover gets nothing rather than the nearest paragraph.
 - `suggest.py`: what the panel offers on a page, from each module's
   `one_ai_suggestions`, only to somebody who holds the verb.
+
+  Not buttons on every screen: the panel is already one press away from all
+  of them, and a form carrying an AI button per feature is a form nobody
+  reads. So the panel opens on "What would you like to do?" and offers the few
+  things that make sense here: a receipt on an expense claim, a summary on a
+  record. That includes the things OneAI does without a conversation, like
+  reading an applicant's CV again: a suggestion with `run` calls that method
+  on the open record, and the panel says what is happening. No OneAI button
+  goes on a page.
+
+  Each module owns its own, named in `hooks.py` under `one_ai_suggestions` as
+  a dict of doctype to suggestions. A suggestion is offered only to somebody
+  who holds the verb it names on that doctype, because offering to make a
+  claim to a person who cannot make one is offering a refusal. A suggestion
+  with `when` is for a record in one state only: "why did this job fail?" on
+  a job that did not fail is a question with no answer. Labels and questions
+  are `_lt`, so each is in the reader's language: the question is what the
+  panel shows as theirs, and what it sends. `fill` puts the question in the
+  panel's box to be finished by the reader ("Draft a reply that says: …")
+  rather than asking it at once.
 - `kind.py`: a doctype as a card, a tool and OneIntake need to know it, and
   whether a record of it is ready to be made.
+
+  One place for OneAI's cards and tools and for Intake, so each reads a kind
+  the same way and a new required field, a Customize change or a naming
+  choice reaches all of them at once.
+  - `describe` is every field a person could fill: its type, what it may
+    hold, whether it is required or the system fills it, and how a new record
+    of the kind is named (`naming`), which is the one thing frappe asks for
+    that is not a field.
+  - `fields_of` is the same, cut to a line per field, for a message to a
+    model.
+  - `missing` is what a record still needs before frappe saves it: its
+    required fields, frappe's own list, and its name when the kind is named by
+    a field or typed by whoever makes it.
+  - `ready` runs frappe's own checks on a record that is never saved and says
+    what would stop it: links, the kind's own validate, and `missing`.
+
+  In `fields`, hidden fields are left out (that is how a workspace takes a
+  field away, Company among them), and so is anything the reader may not see.
+  A field the system fills (read only, or fetched from a link) is said to be,
+  so the model neither asks for it nor invents it. Printing, what only filling
+  needs (required, defaults, what the system fills) is left out, and a field
+  frappe's own formats leave off the page is said to be, since most of a
+  document of trade's fields are.
+
+  In `ready`, frappe's own checks are: links resolved and their fetched
+  fields filled, then the kind's own `validate` (which is where HRMS says a
+  leave needs an approver and where Expense Claim sets its exchange rate),
+  inside a savepoint that is always rolled back, then what is still
+  `missing`. A model told "Leave Approver is missing" asks the person; a card
+  that fails when they press Approve teaches them the cards do not work.
 - `files.py`: a file dropped on the panel, kept as an attachment on the
   `AI Chat`. Only the newest turn's files are sent whole.
+
+  Being an ordinary attachment on the `AI Chat` row, the file has an owner, a
+  permission and a place in the workspace rather than living inside a
+  conversation nobody can find again. What travels to the model is its bytes,
+  base64'd, because the account cannot read a workspace's disk: the same
+  reason a tool runs here and not there. The conversation is sent whole every
+  round, so a 3 MB attachment on a five-round run is fifteen megabytes of HTTP
+  for one question. Older files stay in the transcript by name, which is what
+  a person reads them as anyway.
 - `instructions.py`: an action's instruction is the account's. It is emptied
   on a workspace after every migrate.
+
+  `AI Action` is a fixture, so a new action arrives with a migrate and every
+  site gets the row: the label, the capability and the token caps, which is
+  what a workspace needs to pick a model and add to the prompt. The
+  **instruction** is not part of that. It is how the product behaves, a
+  workspace cannot change it, and `proxy.ai_run` has always read it from the
+  account's own copy and ignored anything sent with the call. Shipping it and
+  then declining to render it would be a curtain rather than a wall: the row
+  is in the workspace's database, and `frappe.client.get` reads it. So on a
+  workspace the field is emptied after every migrate, and there is nothing to
+  read.
 - `logos.py`: the model makers' logos, cached.
 - `heads.py`: the head of an `AI Proposal` (its state, its sentence, Apply and
   Refuse) and of an `AI Action Setting`.
 - `legal.py`: the subprocessors and the privacy clause OneAI adds to the
   agreements.
+- `tell.py`: the notification when an action's model or added instructions
+  change (OneAI Changed), sent to the other administrators.
 - `report/ai_credits`: the Credits report, from `proxy.ai_usage`, with the
   person read from the conversation.
+
+  The chart's labels are the day of the month and nothing more. frappe-charts
+  allows two or three letters a label at thirty bars and cuts anything longer
+  to dots, and the report view overwrites the option that would thin them out.
+  The period itself is in the filters above the chart.
 - `custom/file.json`: `ai_generated` (Made by OneAI) on a File OneAI made.
 - `evals.py`: the test bench. It sends real requests, runs on demand, is
   charged, and never runs in the test suite.
+
+  The bench is real requests, asked the way the panel asks them, and what a
+  right answer must have done. It is what says whether a change to OneAI, or a
+  different model, made it smarter or only different. Run on demand, never by
+  the test suite, because every case is a real call and is charged:
+
+      bench --site <site> execute onedesk.one_ai.evals.run
+      bench --site <site> execute onedesk.one_ai.evals.run --kwargs '{"model": "google-ai-studio:gemini-2.5-flash"}'
+      bench --site <site> execute onedesk.one_ai.evals.run --kwargs '{"only": "mail"}'
+
+  Each case is asked as `user` from `page`, through `run.ask` with the same
+  context turn the panel sends. It passes when the run called one of `tools`
+  (or none, for `tools=()`), made a card if `card`, and said something. What
+  it wrote is not graded: the cards and the tools are where a wrong answer
+  shows, and a judge model would grade its own kind. Cards and memories a
+  case made are taken away after it.
 - `public/js/oneai.js`, `public/js/oneai/`: the panel (`Panel.vue`), a card
   (`Record.vue`), the records read (`Found.vue`) and the field marks.
 - `hooks.py`: each module declares what OneAI reads (`one_ai_reads`),
   suggests (`one_ai_suggests`) and offers on a page (`one_ai_suggestions`),
   and what it is told about the page (`one_ai_page`), the reader
   (`one_ai_reader`) and the workspace (`one_ai_workspace`).
+
+### doctype/ai_action
+
+`AI Action` is one thing a model is asked to do, and the instruction it is
+asked with. It is a fixture, so a new action arrives with a migrate and an
+operator's edit to one survives the next. It exists on every site because a
+workspace has to know what it may ask for, but **the copy that decides is the
+one on the administrator**, which is where a call is made from. A workspace
+editing its own copy changes nothing, and the permissions say so: only the
+operator role may write here, and nobody on a tenant site has it.
+
+### doctype/ai_action_setting
+
+`AI Action Setting` is what a workspace wants one action to run on, and what it
+wants added. The model is a name on the administrator rather than a link,
+because the catalogue lives there and a workspace holds no copy of it: the
+picker asks for the list and stores what was chosen.
+
+`extra` is the whole of what a workspace may say to a model, and it is
+**added** to the action's own instruction rather than replacing it. That
+distinction is the safety of the feature: a workspace can tell the summariser
+to write in Arabic and keep it terse, and cannot tell it to ignore what it was
+told about what it may touch.

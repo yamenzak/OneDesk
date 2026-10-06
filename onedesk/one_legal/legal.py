@@ -1,21 +1,7 @@
 """OneLegal's own clauses: the part of each document about One as a whole.
 
-Every other module's `legal.py` says something about that module. This one says
-what is true of the product, the company and the contract, and it is the file
-to read first to know what a customer is agreeing to.
-
-Our own drafting from what the product does, not a lawyer's. Ported from
-OneApp's `onelegal/legal.py` and corrected for what OneDesk actually does:
-- Intake writes without being asked each time, so "nothing is written without
-  somebody asking" is gone.
-- The full download (one/closing.py) is offered to whoever pays, not
-  promised as a backup.
-- The lifecycle's periods are read from `one_admin/ladder.py` rather than
-  typed here, so the Terms say what the code does.
-
-Anything not yet confirmed against a screen is left out rather than guessed at.
-The passover (docs/PASSOVER.md, point 8) adds each screen's lines as it reaches
-them.
+What is true of the product, the company and the contract: the file to read
+first to know what a customer is agreeing to.
 """
 
 from onedesk.one_admin.ladder import DAYS, NOTICE_DAYS

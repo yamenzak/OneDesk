@@ -1,25 +1,7 @@
 """What a record Intake makes still needs, asked of OneAI from the document.
 
-A planner fills the fields it knows a kind by: a task's subject and dates, a
-bill's supplier and lines. What else the kind requires is the workspace's to
-decide, and it changes: a required field added on the Customize page, a kind
-Numbering names by one of its fields, or one whose name a person types. None
-of that is in the planner, so without this the save fails and the action is
-refused.
-
-So while Intake writes a new record (`filling`, from act._write), two hooks
-on every kind ask the model, once each, for what is still `missing`
-(one_ai/kind.py), from the document and nothing else:
-
-- `before_insert`, before frappe names the record: its name, when the kind is
-  named by a field or typed by whoever makes it;
-- `before_save`, after the kind's own validate has filled what it fills: every
-  required field still empty.
-
-A value the document does not give is left empty, and frappe then refuses the
-record as it always would, with its own words, so the action waits for a
-person. Only the record Intake is making is touched, never one its flow makes
-on the way, and never outside Intake's write.
+While Intake writes a new record (`filling`), `before_insert` asks for its name
+and `before_save` for every required field still empty, once each.
 """
 
 import json

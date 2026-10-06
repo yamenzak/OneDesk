@@ -1,28 +1,9 @@
 """Asking somebody for files by name: a file request.
 
-A `Cloud File Request` names the files wanted — *passport copy*, *last three
-bank statements* — each required or not, one file or several, of certain
-kinds, and whether it **fills a field on a record**. Each person asked gets a
-link of their own (`/r/<token>`, `www/r.py`): a checklist with a place to
-send each file, which shows what they have sent and takes a replacement
-until the request is closed.
-
-**Where a file lands** is decided per item. One asked for a record's field
-(an Employee's *Passport*) is attached to the record through that field and
-fills it. Any other goes into the request's own folder, made where the
-request was made and named after it — a folder per person, by name, when
-several are asked — or, with no folder and a record, onto the record.
-Either way it is a File like any other: it has versions, it is in the
-explorer, and the request only lists it. A replacement for an item that
-takes one file becomes a new version of the file sent before.
-
-The token in a link is kept encrypted and found by its hash, like a
-`Cloud Link`'s; a link is somebody's own, so it asks for nothing more. The
-person who made the request owns what arrives, and is told as it does.
-"""
+Each person asked gets a link of their own (`/r/<token>`, `www/r.py`), a
+checklist with a place to send each file."""
 
 import os
-from urllib.parse import quote
 
 import frappe
 from frappe import _
@@ -32,7 +13,7 @@ from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 
 from onedesk.one import roles
-from onedesk.one_storage import api
+from onedesk.one_storage import api, tell
 from onedesk.one_storage import namespace as ns
 from onedesk.one_storage.doctype.cloud_file_request.cloud_file_request import ATTACH, hashed
 
@@ -141,29 +122,7 @@ def _ask(doc, tokens: dict) -> bool:
 
 	if not tokens or not links.can_mail():
 		return False
-	from markupsafe import Markup, escape
-
-	from onedesk.one import notify
-
-	who = get_fullname(doc.owner)
-	# The note and the due date are left out, gap and all, when there are none.
-	note = Markup("<br><br>") + escape(doc.message) if doc.message else ""
-	due = (
-		Markup("<br><br>") + escape(_("Due {0}.").format(frappe.format(doc.due_date, "Date")))
-		if doc.due_date
-		else ""
-	)
-	for email, token in tokens.items():
-		notify.mail(
-			"File Request",
-			email,
-			now=False,
-			who=who,
-			request=doc.title,
-			note=note,
-			due=due,
-			link=url_of(token),
-		)
+	tell.files_requested(doc, tokens)
 	return True
 
 
@@ -282,18 +241,9 @@ def _remind(doc, people) -> int:
 
 	if not people or not links.can_mail():
 		return 0
-	from onedesk.one import notify
-
 	who = get_fullname(doc.owner)
 	for person in people:
-		notify.mail(
-			"File Request Reminder",
-			person.email,
-			now=False,
-			who=who,
-			request=doc.title,
-			link=url_of(person.get_password("token")),
-		)
+		tell.reminded(doc, person, who)
 		frappe.db.set_value(
 			"Cloud File Request Recipient", person.name, "last_reminded", today(), update_modified=False
 		)
@@ -376,7 +326,7 @@ def send(token: str, item: str):
 			_land(doc, person, wanted, one.filename, one.stream.read())
 		_settle(doc, person)
 		doc.save(ignore_permissions=True)
-		_tell(doc, person, wanted, finished=was != "Complete" and person.state == "Complete")
+		tell.request_answered(doc, person, wanted, finished=was != "Complete" and person.state == "Complete")
 	finally:
 		frappe.set_user("Guest")
 	return _back(token, "sent")
@@ -448,21 +398,6 @@ def _settle(doc, person) -> None:
 	elif have:
 		person.state = "Partly Sent"
 	person.last_sent = now_datetime()
-
-
-def _tell(doc, person, item, finished: bool) -> None:
-	"""The owner hears of each item sent, and once when a person has sent all of them."""
-	from onedesk.one import notify
-
-	notify.notify(
-		"File Request Complete" if finished else "File Request Answered",
-		doc.owner,
-		record=("Cloud File Request", doc.name),
-		link=f"/desk/onecloud?node={quote(node_id(doc.name), safe='')}",
-		sender=person.email,
-		request=doc.title,
-		item=item.label,
-	)
 
 
 def _back(token: str, said: str | None = None):

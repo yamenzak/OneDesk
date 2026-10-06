@@ -1,25 +1,7 @@
 """What OneAI knows beyond the record in front of it.
 
-Three kinds, kept apart because they have three different owners:
-
-- **the records themselves**, read live. `about_record` is everything the
-  form's own sidebar knows about one record — its fields, what links to it,
-  its comments, mail, changes, assignments and files — through the same
-  frappe functions the sidebar calls, so it is never a copy that went stale
-  and never more than the reader may open;
-- **a person's own memory** (`AI Memory`), short facts somebody told OneAI to
-  keep. Private to them like their conversations, kept at once and quietly —
-  it is what they just said — and seen and deleted in the memory list. The
-  same fact twice is one memory, and a correction replaces what it corrects;
-- **the workspace's knowledge** (`AI Knowledge`), what an administrator
-  wrote down for everybody: a policy, a glossary, how things are done here.
-
-And a fourth that is not stored at all: the reader's own past conversations,
-searched rather than summarised into anything.
-
-None of it is pasted into every turn. A few memories and the knowledge for
-the type on screen are; everything else is a tool the model calls, because
-whatever is sent is paid for on every message.
+The records themselves (`about_record`), a person's own memory (`AI Memory`),
+the workspace's knowledge (`AI Knowledge`), and the reader's past conversations.
 """
 
 from typing import Annotated
@@ -275,10 +257,7 @@ def told(doctype: str | None = None) -> str:
 
 
 # ------------------------------------------------------------------ helpers
-#
-# Every read of AI Memory names the owner as well as relying on the doctype's
-# if-owner rule: Administrator is not held by if-owner, and a memory read into
-# somebody else's conversation is the one leak this module must not have.
+# Every read of AI Memory names the owner too: if-owner does not hold Administrator.
 
 
 def _names(fact: str, doctype: str, name: str) -> bool:

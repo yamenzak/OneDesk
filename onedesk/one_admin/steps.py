@@ -1,21 +1,8 @@
 """What provisioning does, one idempotent step at a time.
 
-**Every step must be safe to run twice.** A network timeout leaves us genuinely
-unable to tell whether the call landed, and the failure we refuse to accept is
-creating two sites and billing a customer for both. So a step that creates
-something looks first, and a step that sets something sets it to the same value
-it would have set the first time.
-
-A step returns `None` when it is done and the job may advance, or `WAIT` when it
-has started something press has not finished — the runner comes back after a
-backoff and runs the same step again. Raising `faults.Again` means the attempt
-failed but the next one might not; raising `faults.Refused` stops the job and
-records why.
-
-**Nothing unwinds.** A half-provisioned site whose job failed is a site an
-operator resumes, because unwinding is how you end up having taken money and
-then deleted the thing it bought. The customer is told the truth, which is that
-it is taking longer than it should.
+Every step must be safe to run twice. A step returns `None` when done or `WAIT`
+when press has not finished; `faults.Again` retries and `faults.Refused` stops
+the job. Nothing unwinds.
 """
 
 import hashlib
@@ -34,11 +21,6 @@ WAIT = "wait"
 
 #: In order, per kind of job. The job records which step is next, so a worker
 #: restart resumes rather than repeats.
-#:
-#: Every walk but `Provision` is the ladder — see `ladder.py` for what each rung
-#: means and `lifecycle.py` for what starts one. They are here rather than in
-#: their own module because they are the same kind of thing: an idempotent step
-#: that talks to press, driven by the same runner and the same backoff.
 ORDER = (
 	"place_it",
 	"name_is_free",
@@ -61,12 +43,7 @@ WALKS = {
 }
 
 #: What each step is doing, in words an operator reads rather than the function
-#: name. A job that stopped on `archive_site` tells somebody nothing; a job that
-#: stopped while asking Frappe Cloud to delete the site tells them where to look.
-#:
-#: Every step in `WALKS` is named here, and a test fails on one that is not —
-#: because the failure is silent: the screen falls back to the function name and
-#: nobody notices it was meant to say something.
+#: name. Every step in `WALKS` is named here, and a test fails on one that is not.
 SAID = {
 	"place_it": _lt("Choosing a server"),
 	"name_is_free": _lt("Checking the name is free"),
@@ -98,17 +75,9 @@ APPS = ("erpnext", "hrms", "onedesk")
 def place_it(job, tenant) -> None:
 	"""Which of our servers the site goes on.
 
-	Chosen here, by the job, and not on the signup page: a Frappe Cloud that is
-	slow or down must not stop anybody signing up or paying. Every workspace
-	runs on the one bench group Settings names (the first the team owns when
-	none is named), and it has to carry every app a workspace gets: a site
-	asked for on a bench missing one is refused by press half way, so it is
-	refused here first, in words that say what to add.
-
-	The server is the emptiest open one in Settings' list, an EU one for a
-	workspace that asked for the EU, that has room and that the bench group
-	has been added to. None fitting fails the job, saying what to buy or
-	add, and Resume places it once there is one.
+	Chosen by the job, not on the signup page: on the bench group Settings names,
+	on the emptiest open server that fits. None fitting fails the job, saying what
+	to buy or add, and Resume places it once there is one.
 	"""
 	if tenant.site or (tenant.bench and tenant.server):
 		return
@@ -192,10 +161,7 @@ def create_site(job, tenant) -> None:
 	if tenant.site:
 		return
 	# Our own server: press puts a site there only when it is named with the
-	# bench group's version, and on one of its free Unlimited plans, which
-	# sets the CPU time a day and nothing we charge for. The limits a customer
-	# bought are ours (quota.py). Named so, press takes the group on that
-	# server carrying these apps; place_it has already checked it is ours.
+	# bench group's version, and on one of its free Unlimited plans.
 	group = press.call("press.api.bench.get", name=tenant.bench) or {}
 	answered = press.call(
 		"press.api.site.new",
@@ -231,13 +197,8 @@ def site_is_up(job, tenant) -> str | None:
 def route_it(job, tenant) -> None:
 	"""Put the workspace on our own name.
 
-	One key at the edge, the slug against the press site name, which is all the
-	Worker needs to rewrite `Host` and hand the request to press. Nothing is
-	asked of press here, and that is the point: the name it serves is its own,
-	so there is no DNS to verify and no certificate to issue. The browser is
-	served by the wildcard on our zone.
-
-	A plain PUT of a value we already know, so a retry is free.
+	One key at the edge, the slug against the press site name; nothing is asked
+	of press. A plain PUT of a value we already know, so a retry is free.
 	"""
 	if not tenant.site:
 		raise faults.Refused("there is no site to route to yet")
@@ -249,25 +210,7 @@ def push_config(job, tenant) -> None:
 	"""Tell the site who it is, where admin is, and what it is called.
 
 	The token is generated here and never again: only its hash is kept, on the
-	tenant. If this step runs twice the site gets a second token and the first
-	stops working, which is correct — the first one may be the one that leaked.
-
-	A list of `{key, value, type}` rather than an object, because press has two
-	`update_config`s and they disagree: the doc method takes a mapping and the
-	whitelisted `press.api.site.update_config` — the only one a token reaches —
-	iterates and reads `c.key`. Handed a mapping it iterates the keys as strings
-	and dies on the first one.
-
-	`max_file_size` is set here too, since it is the one Frappe limit the
-	site cannot change for itself (see one_storage/store.py unlimit).
-
-	`host_name` is set here and not through press's `set_host_name`, which needs
-	a `Site Domain` record first. Our name is deliberately not one of those: the
-	workspace is reached at it because a Worker rewrites `Host`, and press is
-	never told it exists. So the config key is written directly, and press's own
-	`Site.host_name` stays the press name. Nothing overwrites this unless a
-	customer later makes one of their own domains primary, which is exactly when
-	it should change.
+	tenant. Also sets `max_file_size` and `host_name`.
 	"""
 	token = secrets.token_urlsafe(32)
 	tenant.db_set("token_hash", hashlib.sha256(token.encode()).hexdigest())
@@ -297,13 +240,8 @@ def push_config(job, tenant) -> None:
 def invite_owner(job, tenant) -> str | None:
 	"""Have the new site invite whoever paid for it as its first administrator.
 
-	We cannot sign in to the site we built, and we hold only a hash of its
-	token, so the site does it: `account.wake` makes it ask `proxy.hello`,
-	which names the owner, and a workspace nobody administers yet makes them
-	its administrator and mails One's own invitation (one/owner.py). Safe to
-	run twice: a workspace that has an administrator does nothing. A site that
-	has not read its new config yet answers that nobody administers it, and
-	the step waits and asks again, as `site_is_up` does.
+	The site does it (`account.wake`, one/owner.py), since we cannot sign in to
+	it. Safe to run twice; a site that has not read its new config yet waits.
 	"""
 	if not tenant.get("owner_email"):
 		return None
@@ -398,15 +336,7 @@ def mark_live(job, tenant) -> None:
 def note_backup(job, tenant) -> None:
 	"""Write down which backup press is holding, before the site goes.
 
-	Recorded and not copied. Press takes an offsite backup as part of archiving
-	and keeps it for as long as its own retention says; pulling four gigabytes
-	through this site to put them in our R2 would move real bytes to no end,
-	because restoring is press's `restore` from press's copy either way. What is
-	worth keeping is the name, so somebody can ask for it.
-
-	A workspace with no backup is not a reason to stop. It may be a site that
-	never had one, and refusing to archive it would leave it running for free
-	forever.
+	Recorded and not copied. A workspace with no backup is not a reason to stop.
 	"""
 	if tenant.archived_backup:
 		return
@@ -478,9 +408,7 @@ def mark_dropped(job, tenant) -> None:
 
 
 #: What a Tenant Event calls each rung. Only one differs: arriving at Live is
-#: what somebody reading the log wants to see as Restored, because that is the
-#: interesting half — nothing writes an event for a workspace that was always
-#: Live.
+#: Restored, since nothing writes an event for a workspace that was always Live.
 CALLED = {"Live": "Restored"}
 
 

@@ -1,30 +1,5 @@
 """Extensions: code OneAI writes for a workspace, which its administrators
 turn on and off but never write or read.
-
-An extension is one record of ours, **Extension**, and one of frappe's: a
-Client Script for one that runs on the screen, a Server Script on a record
-event for one that runs on the server. Ours holds what the administrator
-reads (the title, what it does, what was asked and the review) and, at a
-level only frappe's System Manager reads, the code; frappe's is made from it
-here, as Administrator, since frappe keeps both to its own managers, and is
-nobody else's to change.
-
-- **Written only by OneAI** (`write`, called by its tool in ai.py), after
-  guard.py has read the code and review.py has had a second model read it
-  against what it says it does. Nothing it writes is on until somebody turns
-  it on.
-- **On only as reviewed.** An extension turns on only if its review passed
-  and its code, record, view and event are the ones that passed
-  (`reviewed_as`). Nothing OneAI wrote changes by hand (`WRITTEN`). One on the server turns on only
-  where the bench runs server scripts at all.
-- **Off and deleted by the administrator.** Off disables frappe's script;
-  deleting the extension deletes it.
-- **An error does not stop the work.** Every extension runs wrapped
-  (guard.wrapped on the server, guard.wrapped_on_screen in the browser): what
-  it means to stop a save with still stops it, and anything else it trips on
-  is written to the error log under its name (in the browser through
-  `tripped`) and the work goes on. `failing` tells the administrators each
-  morning.
 """
 
 from contextlib import contextmanager
@@ -34,7 +9,7 @@ from frappe import _
 from frappe.rate_limiter import rate_limit
 
 from onedesk.one import roles
-from onedesk.one_studio import checks, guard, review, trial
+from onedesk.one_studio import checks, guard, review, tell, trial
 
 EXTENSION = "Extension"
 ON_SCREEN, ON_SERVER = "On Screen", "On Server"
@@ -379,12 +354,10 @@ def _heard(doc) -> None:
 	# Written again by OneAI, it is off until somebody turns it on, which is
 	# when the others hear.
 	if before and before.enabled != doc.enabled and not doc.flags.written:
-		from onedesk.one import notify
-
 		if doc.enabled:
-			notify.notify("Extension Turned On", roles.administrators(), **_told(doc))
+			tell.extension_turned_on(_told(doc))
 		else:
-			notify.notify("Extension Turned Off", roles.administrators(), **_told(doc))
+			tell.extension_turned_off(_told(doc))
 	frappe.publish_realtime("list_update", {"doctype": EXTENSION, "name": doc.name}, after_commit=True)
 
 
@@ -422,9 +395,7 @@ def _place_said(doc) -> str:
 def remove(doc, method=None) -> None:
 	"""Extension on_trash: frappe's script goes with it, and the other
 	administrators hear of it."""
-	from onedesk.one import notify
-
-	notify.notify("Extension Deleted", roles.administrators(), **_told(doc, link=False))
+	tell.extension_deleted(_told(doc, link=False))
 	with _as_administrator():
 		for doctype, _field in SCRIPTS.values():
 			if doc.script and frappe.db.exists(doctype, doc.script):
@@ -466,8 +437,6 @@ def failing() -> None:
 	administrators. Not sent when none did."""
 	from frappe.utils import add_days, now_datetime
 
-	from onedesk.one import notify
-
 	since = add_days(now_datetime(), -1)
 	rows = frappe.get_all(
 		"Error Log",
@@ -486,10 +455,4 @@ def failing() -> None:
 		name = one.method[len(guard.TITLE) :]
 		title = frappe.db.get_value(EXTENSION, name, "title") or name
 		said.append(_("{0} ({1})").format(title, one.times))
-	notify.notify(
-		"Extensions Failing",
-		people,
-		link="/desk/extension?enabled=1",
-		sender="Administrator",
-		extensions=", ".join(said),
-	)
+	tell.extensions_failing(people, ", ".join(said))

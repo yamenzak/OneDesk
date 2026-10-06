@@ -1,12 +1,4 @@
-"""OneTask's page: the reader's tasks still to do, by when they are due.
-
-Two views: **My Tasks**, everything assigned to the reader, and the **Inbox**,
-the reader's own tasks in no project. Read as the reader, so it is exactly the
-tasks they may see.
-Ticking one off is the page writing the task's status through frappe's own
-save (my_tasks.js), which ERPNext answers by closing its assignments — so this
-file only reads.
-"""
+"""OneTask's page: the reader's tasks still to do, by when they are due."""
 
 from datetime import date, timedelta
 

@@ -1,26 +1,14 @@
 """What a workspace may be called, which objects it may name, and whether it fits.
 
-Nothing of Frappe or boto3 in here, because this is the module where a mistake
-means one customer reading another customer's files. It has to be readable in
-one sitting and testable in milliseconds.
-
-**A tenant never names an object; it names a suffix.** Everything it asks for is
-put under `tenants/<slug>/` by this module, and a key that would escape that is
-refused rather than trimmed. Trimming is how you end up with two tenants sharing
-a prefix because one of them sent something clever.
-
-**A `..` segment is refused outright**, even one that would land back inside the
-prefix. `a/../b` is harmless and nobody legitimate sends it, so the rule that is
-easy to verify beats the rule that is merely correct.
+Nothing of Frappe or boto3 in here: a mistake means one customer reading
+another's files. A tenant names a suffix, never an object, and `..` is refused.
 """
 
 import posixpath
 import re
 
-#: Where a workspace's objects live. One prefix per tenant inside one of two
-#: buckets, never a bucket per tenant: a lifecycle rule written against one
-#: bucket gets written against the next one too, and a key scoped to a bucket
-#: still reaches every tenant in it.
+#: Where a workspace's objects live: one prefix per tenant inside one of two
+#: buckets, never a bucket per tenant.
 ROOT = "tenants"
 
 #: S3 caps a key at 1024 bytes. Ours is shorter so the prefix always fits and a
@@ -86,12 +74,8 @@ def owns(slug: str, full: str) -> bool:
 def room_for(held: int, pending: int, limit: int, wanted: int) -> bool:
 	"""Whether `wanted` more bytes fit.
 
-	`held` is what was measured, `pending` is what has been signed for since —
-	a signed URL is a promise somebody may keep, so it counts against the limit
-	until the next measurement says whether it was kept. A limit of zero or less
-	means unmetered rather than nothing: a plan with no storage line is a plan
-	nobody thought about, and refusing every upload is a worse answer than not
-	enforcing a limit that was never set.
+	`held` is what was measured, `pending` what has been signed for since. A
+	limit of zero or less means unmetered rather than nothing.
 	"""
 	if limit <= 0:
 		return True

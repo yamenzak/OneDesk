@@ -1,16 +1,4 @@
-"""The three gates, each answering rather than throwing.
-
-Nothing here refuses anybody. Each gate reports what it saw and which signals it
-raised, `clock.py` adds them up, and the score decides. That split is what lets
-the same code run in a workspace that enforces every gate and in one that only
-watches, and it is why the ledger records the same fields either way.
-
-The order they run in is about cost, not importance: the passkey first because
-nothing else means anything without knowing who, then the network because it is
-one string comparison with no prompt, then the place, which needs the
-employee's permission and a second or two for a fix and should not be paid for
-by somebody whose passkey already failed.
-"""
+"""The three gates, each answering rather than throwing."""
 
 import frappe
 from frappe.utils import add_to_date, get_datetime, getdate

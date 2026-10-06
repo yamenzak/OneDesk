@@ -1,33 +1,7 @@
 """What One's print blocks show (point 11, docs/PASSOVER.md).
 
-A record that leaves the company prints from a format laid out in frappe's
-print format builder (each module's `print_format/`). Most of the page is the
-builder's own: fields, the items table, the terms. The parts the builder cannot
-say are One's blocks, frappe's own Print Format Field Templates, standard in
-module One (`one/print_format_field_template/`), so a workspace finds them in
-the builder's Library and can place them on a format of its own:
-
-- **One Title**: what the paper is (an invoice, a credit note, a receipt) and
-  its number, in the company's Brand Colour.
-- **One Party**: who it is for, with their address, contact and tax ID, and
-  where the goods go when that is somewhere else.
-- **One Details**: its dates and references, the ones that are set.
-- **One Totals**: the subtotal, discount, each tax, the total, what is paid
-  and owed, the total in the company's currency when the record is in
-  another, and the total in words.
-- **One Payment Schedule**, **One Bank Details**: when it is due, and where
-  to pay it.
-- **One Payslip** and **One Payment**: a payslip's earnings and deductions,
-  and what a payment settles.
-- **One Signatures**: where each side signs, on a paper that is signed and
-  handed back.
-
-Each template (templates/one_print/) is drawn from `one_print_block`, which
-says what to show. Every value is frappe's formatted value, in the record's
-own currency, so nothing here formats a number by hand.
-
-Each record in FORMATS prints with One's format unless the workspace has
-chosen another (`settle`).
+The parts frappe's print format builder cannot say, as frappe's own Print Format
+Field Templates, each drawn from `one_print_block` with frappe's formatted values.
 """
 
 from pathlib import Path

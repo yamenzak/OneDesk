@@ -1,31 +1,4 @@
-"""A project's budget by cost type: ERPNext's own Budget against the project.
-
-A **cost type** is an expense account (labour, materials, subcontract,
-equipment, or whatever accounts the workspace uses), and its budget is one
-ERPNext **Budget** against the project for that account, submitted. ERPNext
-then checks every purchase order and every expense booked on the project
-against it, and warns or stops as the budget says (`Over Budget`).
-
-- ERPNext checks orders and spending each on their own, and together when
-  `applicable_on_cumulative_expense` is set, which a cost type always is:
-  an order is over budget when it, the open orders and what's spent come to
-  more than the budget.
-- **Cost Types** on the page's Money view lists each one over the project
-  and those under it, as the Overview does: its budget, what's committed on
-  supplier orders not yet billed, what's been spent (the general ledger),
-  and what's left, with Other for what they leave out (`lines`). A row the
-  project budgets for itself is changed there; any other adds the
-  project's own.
-- **Add Cost Type** and changing one (`set_budget`) are ERPNext's own: a new
-  Budget, or the old one revised as ERPNext's Revise Budget does it,
-  cancelled and copied with the new amount. Removing one cancels it.
-- The project's **Budget** is then the cost types added up (`sync`), so the
-  forecast and the head read the same number.
-- **Over Budget** tells the project's manager and whoever set the budget,
-  once for each budget, when its orders and spending pass it (`over`).
-- Making a budget is for whoever ERPNext lets make one (Accounts Manager);
-  everybody who sees the project sees the cost types.
-"""
+"""A project's budget by cost type: ERPNext's own Budget against the project."""
 
 from typing import Annotated
 
@@ -279,29 +252,12 @@ def over(project: str) -> None:
 	"""Tell the project's manager and whoever set it when a cost type's
 	orders and spending pass its budget: once for each budget, so a revised
 	budget can tell again (money.moved, after every submit)."""
-	from frappe.utils import fmt_money
-
-	from onedesk.one import notify
+	from onedesk.one_project import tell
 
 	gone = [one for one in _lines(project) if one["left"] < 0]
 	if not gone:
 		return
-	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
-	currency = frappe.db.get_default("currency")
-	for one in gone:
-		people = sorted({head.one_manager, one["set_by"]} - {None, "Administrator", "Guest"})
-		if people:
-			notify.notify(
-				"Over Budget",
-				people,
-				record=("Budget", one["budget_name"]),
-				link=f"/desk/project/{project}",
-				dedupe_on=["document_type", "document_name"],
-				project=head.project_name,
-				cost_type=one["cost_type"],
-				total=fmt_money(one["committed"] + one["spent"], precision=0, currency=currency),
-				budget=fmt_money(one["budget"], precision=0, currency=currency),
-			)
+	tell.over_budget(project, gone)
 
 
 def sync(project: str) -> None:

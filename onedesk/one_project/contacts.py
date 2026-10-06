@@ -1,14 +1,6 @@
 """Who outside the company is on a project, and as what: the subcontractor
 and the suppliers before anything is ordered from them, the consultants,
 the architect, the engineer, the client's representative, the authority.
-
-Each is a row of the project's **Contacts** (Project Contact): a **Role**, the
-**Supplier** or, for anyone who isn't one, the **Company**, a frappe
-**Contact** with their email and phone, and a **Note**. The Team view lists
-them under **Contacts**, and Suppliers lists the suppliers among them
-(`contacts`). Adding one is changing the project (`save`, `remove`); the
-Contact is linked to the project too, as frappe links a contact to any
-record, so the project is among the contact's own links.
 """
 
 from typing import Annotated

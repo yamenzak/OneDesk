@@ -1,15 +1,6 @@
 """The integration suite: the demo workspace read back as the people in it.
 
-Each check opens what a person would open, as that person, and holds what it
-shows against ERPNext's own records: the books balance, stock never went
-below nothing, every party is billed in its own currency, every project page
-opens for its team and its figures are the documents behind them, every
-report of One's runs, and every rail link opens for the app's people.
-
     bench --site <site> execute onedesk.one_demo.check.run
-
-prints a line a check and the count that failed. Nothing is written: each
-check is rolled back.
 """
 
 import frappe

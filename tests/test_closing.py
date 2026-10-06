@@ -14,6 +14,7 @@ HERE = (tree.APP / "one" / "closing.py").read_text()
 THERE = (tree.APP / "one_admin" / "closing.py").read_text()
 PROXY = (tree.APP / "one_admin" / "proxy.py").read_text()
 TELL = (tree.APP / "one_admin" / "tell.py").read_text()
+TOLD = (tree.APP / "one" / "tell.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
@@ -77,8 +78,11 @@ def test_everybody_concerned_is_told():
 	for name in ("Workspace Asked to Close", "Workspace Closed"):
 		assert types[name]["module"] == "one_admin", name
 	assert 'if tenant.get("closing_on"):\n\t\t\t# Closed because they asked' in TELL
-	for name in ("close", "keep"):
-		assert 'sender="Administrator"' in _body(name, HERE), "the payer is told too"
+	assert "tell.workspace_closing(held)" in _body("close", HERE)
+	assert "tell.workspace_staying_open()" in _body("keep", HERE)
+	for name in ("workspace_closing", "workspace_staying_open"):
+		told = _body(name, TOLD)
+		assert 'sender="Administrator"' in told and "_everybody()" in told, "the payer is told too"
 
 
 def test_a_closed_workspace_is_not_asked_to_pay():

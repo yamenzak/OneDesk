@@ -2,29 +2,8 @@
 price list makes sense. No frappe in it: the report, the proxy and the tests
 all hand it plain rows.
 
-A workspace is sold four things it can run out of: **seats**, **storage** (its
-files, in R2), **database** (its site's database on Frappe Cloud, and the
-backups kept of it) and **OneAI credits**. A plan is a bundle of all four at a
-monthly price. An add-on is one of them, in a fixed size, on top of a plan.
-
-**Why a calculator.** A price list is only coherent if three things hold at
-once, and they pull against each other:
-
-1. every price covers what it costs us, with the margin we want
-   (`margin`);
-2. a plan is a better deal than buying its contents as add-ons, and more so
-   the bigger it is, so somebody who needs a lot more moves up
-   (`upgrade`);
-3. an add-on is a better deal than moving up for somebody who needs a
-   little more, or nobody would buy one (`addon`).
-
-Change one price and the other two can quietly stop holding. `check` says
-which, and `quote` answers the customer's version of the same question: given
-what I need, which plan with which add-ons is cheapest.
-
-Credits in a plan are monthly and do not roll over; credits bought in a pack
-never expire (topup.py). A plan's monthly credits are valued at what the same
-credits cost in packs, since that is what a customer would otherwise pay.
+`check` says which of its three rules stopped holding; `quote` is the cheapest
+plan with add-ons for what a customer needs.
 """
 
 from dataclasses import dataclass, field

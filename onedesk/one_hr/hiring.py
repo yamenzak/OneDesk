@@ -3,15 +3,6 @@
 What it does for the people using it is `one_hr/README.md`, under Hiring. The short version: a number goes
 in a field so it sorts, an opinion goes in a comment so it has an author, and
 nothing here changes an applicant's status or reaches the candidate.
-
-**One call per applicant.** The CV is read against the opening's criteria and
-the new applicant is placed among everybody else still in the running in the
-same call — the model is handed the pool as a line each, never a CV twice.
-
-**Everything here runs as OneAI.** A job made by a web-form applicant would
-otherwise run as Guest, and one made by an HR user would write comments in
-their name that they never wrote. `AUTHOR` is a disabled user with the OneAI
-mark as its picture: the timeline says who spoke, and nobody can sign in as it.
 """
 
 import base64
@@ -504,10 +495,8 @@ def _item(kind: str, inner: str) -> str:
 # ------------------------------------------------------------ the recording
 
 
-#: How long one part of a recording is. The recorder restarts on this beat so
-#: each part is a whole file: uploaded as soon as it closes, transcribed as
-#: soon as it lands, and small enough to send — opus at 24 kbit/s is under a
-#: megabyte for five minutes. Said again in public/js/hiring.js.
+#: How long one part of a recording is, so each part is a whole file to upload and
+#: transcribe. Said again in public/js/hiring.js.
 PART_SECONDS = 300
 
 #: What a part's file is, by what the browser could record it as.

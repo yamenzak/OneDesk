@@ -1,26 +1,7 @@
 """Which of OneAI's tools a request is given.
 
-OneAI has some 120 tools, and a model handed all of them on every round reads
-every one of them every round and picks among them all: measured, Gemma 4
-reached for `search_everywhere` to find an extension, and the 120 cost some
-20,000 tokens a round. So the tools are grouped, and a request is given the
-tools everybody needs (`CORE`, the `you` group and `more_tools`) and the
-groups it looks like it needs:
-
-- the group of the page the person is on (`MODULES`, `DOCTYPES`, `PAGES`);
-- a group whose words the request uses (`words`, in English, German and
-  Arabic: a guess, and a cheap one);
-- a group the conversation already used, so a follow-up keeps its tools and
-  the provider's cache keeps what it has.
-
-None of that is a wall. `more_tools` names every group and what it is for, so
-the model knows all One can do and asks for a group it was not given; it has
-it on the next round. A guess that misses costs a round, never an answer.
-
-Declared here rather than worked out from module paths, because a group is
-what a person asks about (their mail, the workspace's setup), and that is not
-always where the code lives: `one/ai.py` holds both somebody's own day and
-the workspace's numbering.
+The tools everybody needs (`CORE`) and the groups the request looks like it
+needs. `more_tools` names every group, so a guess that misses costs a round.
 """
 
 import re

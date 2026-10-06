@@ -1,11 +1,5 @@
 """Tax charged on invoices against tax paid on bills and expense claims, by
 tax account and rate, for a period, and what is left to pay or reclaim.
-
-It reads the tax rows of submitted documents, so a credit note lowers what was
-charged and a debit note what was paid. A bill's tax counts only when it was
-added to the bill's total: tax added to the cost of what was bought (Valuation)
-cannot be reclaimed. Journal entries to a tax account are not in it; they are
-in the General Ledger.
 """
 
 import frappe

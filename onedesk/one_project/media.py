@@ -1,23 +1,4 @@
-"""A project's Featured Media: the photos and videos it is shown with.
-
-Every project's own folder in OneCloud, under Records, has a **Featured
-Media** folder. What is in it is shown on the project's page, on the
-customer's portal, and wherever else the project is shown off; the newest photo
-in it is the project's **Cover** (`one_cover`, Project's image field, so frappe
-shows it wherever it shows a record's picture).
-
-**Nothing is stored for the folder.** A record's folder in OneCloud is worked
-out from the files attached to the record each time it is opened
-(one_storage/namespace.py), and Featured Media is worked out the same way: the
-project's files with `one_featured` set. Putting a file in it attaches it to the
-project with the mark; taking it out to the project's own folder clears the
-mark. A folder called Featured Media anywhere else is just a folder.
-
-**Featured media is public.** It is there to be shown, on a portal and on a
-website, so a file put in it opens for anybody with its link
-(`is_private = 0`), which is what frappe's File means by public and what
-OneCloud's `store.fetch` already honours. Only photos and videos go in.
-"""
+"""A project's Featured Media: the photos and videos it is shown with."""
 
 import mimetypes
 

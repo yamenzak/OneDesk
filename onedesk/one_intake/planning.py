@@ -1,22 +1,8 @@
 """Stage 6 of Intake on the site: what `plans.py` needs to know, and the flows
 it names.
 
-`run` is called once a matter is quiet (matters.act_now). It finds out who
-the sender is, which employee a document is about and whether the matter
-already has a task, asks the pure planners what to do, and hands each action
-to the door. Parties come first; the reading's parties are then matched
-again, so the supplier just made is the record the invoice is filed with
-and the Contact is linked to.
-
-The flows are the functions a planner names in `Action.flow`: a task that is
-assigned to somebody, an event that shows on their calendar, a customer made
-from a lead through ERPNext's own conversion, and an employee made from an
-accepted job offer through HRMS's.
-
-Also here: somebody we knew before they had a record. When a Supplier,
-Customer, Lead, Contact, Employee or Job Applicant is made, the readings
-that named one of its identifiers and matched nobody are matched to it, and
-their documents linked (docs/INTAKE.md §7).
+`run` is called once a matter is quiet (matters.act_now), asks the pure
+planners what to do, and hands each action to the door.
 """
 
 import json
@@ -26,7 +12,7 @@ from frappe import _
 from frappe.utils import cint, today
 
 from onedesk.one_hr.hiring import AUTHOR
-from onedesk.one_intake import act, identity, matters, plans
+from onedesk.one_intake import act, identity, matters, plans, tell
 from onedesk.one_intake import identifiers as ids
 
 #: What a task step says for each ask, and what ticks it by itself.
@@ -63,7 +49,7 @@ def run(name: str, which: str) -> None:
 
 		drafts.maybe_submit(reading)
 	if which == "rest":
-		_tell_closer(reading, ctx)
+		tell.arrived_after_closing(reading, ctx)
 		_hold_iban(reading)
 
 
@@ -272,27 +258,6 @@ def _task(ctx: dict, reading) -> None:
 			ctx["done_when"]["Attend"] = json.dumps({"after": str(one.by_date)})
 
 
-def _tell_closer(reading, ctx: dict) -> None:
-	"""A person's decision is not undone by a message: the task they closed
-	stays closed, and they are told the matter moved."""
-	held = ctx.get("task")
-	if not held or held.status not in ("Completed", "Cancelled") or reading.change in ("Nothing New", "Closing", None):
-		return
-	closer = held.modified_by
-	if not closer or closer == AUTHOR:
-		return
-	from onedesk.one import notify
-
-	notify.notify(
-		"Arrived After Closing",
-		closer,
-		record=("Task", held.name),
-		sender=AUTHOR,
-		dedupe_on=["document_type", "document_name", "subject"],
-		title=reading.title or "",
-	)
-
-
 # ------------------------------------------------------------------ money
 
 
@@ -404,7 +369,7 @@ def _hold_iban(reading) -> None:
 	for them is exactly what invoice fraud looks like. Its draft bill is held
 	(drafts.red) and the IBAN is never written over ours; here the bill is also
 	marked wrong, with why, so it waits for the person like anything else OneAI
-	could not settle, and Intake Waiting says so (inbox.tell)."""
+	could not settle, and Intake Waiting says so (tell.waiting)."""
 	if not reading.iban or reading.party_doctype != "Supplier" or not reading.party_name:
 		return
 	known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": reading.party_name}, pluck="iban") if one]

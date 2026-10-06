@@ -1,18 +1,4 @@
-"""What OneAI can do in OneHR.
-
-The tools and suggestions this module adds to the panel, named in `hooks.py`
-under `one_ai_suggests` and `one_ai_suggestions`. The rules are OneAI's: a tool
-runs as the person asking, and anything that would write is a card somebody
-approves. What this module adds is what HR knows — whose employee record a
-receipt belongs to, what a claim needs, which expense types this workspace has.
-
-**A receipt becomes a claim, never a payment.** `claim_expense` reads nothing
-the person could not, and writes nothing: it suggests an Expense Claim in their
-own name with one row, and the receipt goes on the claim when it is approved.
-The claim then goes through this workspace's approval like any other, which is
-where a wrong amount is caught — by the person who approves expenses, not by the
-model that read the paper.
-"""
+"""What OneAI can do in OneHR."""
 
 import calendar
 from typing import Annotated
@@ -24,11 +10,8 @@ from frappe.utils import add_days, getdate, today
 from onedesk.one_ai import files, proposals
 from onedesk.one_hr import own
 
-#: What the panel offers, by doctype, when it opens on one. `file` means the
-#: chip asks for a file first and then says `ask` with it. `can` is the verb the
-#: reader must hold on the doctype for the chip to be offered at all. `view`
-#: keeps it to the list or the form, and `expects` names the tool the question
-#: exists to call — asked for once more if the answer came without it.
+#: What the panel offers, by doctype, when it opens on one. What each key means
+#: is in README.md.
 SUGGESTIONS = {
 	"Expense Claim": [
 		{

@@ -1,14 +1,4 @@
-"""OneMail, live: an open mailbox redraws when mail arrives or changes.
-
-The event is `onemail_change` with the mailbox's name, sent to each person
-who holds it and to nobody else, so it says nothing to anyone who may not
-read that mailbox. Several changes in one request or job are one message per
-mailbox, sent after the commit, so nobody re-reads a folder before the change
-is in it.
-
-Changes are announced where they are made (sync, the sweep, actions), not
-from Communication hooks: most of them are `db.set_value`, which runs none.
-"""
+"""OneMail, live: an open mailbox redraws when mail arrives or changes."""
 
 import frappe
 

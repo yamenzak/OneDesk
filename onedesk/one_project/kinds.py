@@ -1,18 +1,5 @@
 """A project's kind: how it's paid for, which decides what it asks for when it
 is made and what its page shows (docs/PROJECT-PAGE.md).
-
-- **Fixed Price**: an agreed price, billed as the work gets done. Its
-  contract is the customer's Sales Order, made with the project (`make`), so
-  Bill Progress works from the first day (progress.py).
-- **Time and Materials**: billed by the hour at agreed rates, plus what's
-  bought for it (billing.py's Invoice Time).
-- **Retainer**: a monthly fee for a set number of hours (`one_monthly_fee`,
-  `one_monthly_hours`).
-- **Internal**: no customer; a budget and the work.
-
-The kind is `one_kind` on Project. A project made without one, by ERPNext,
-HR or an import, is given the kind its records say (`guess`, `fill`), as
-`patches/kinds.py` did for the projects made before kinds existed.
 """
 
 from typing import Annotated

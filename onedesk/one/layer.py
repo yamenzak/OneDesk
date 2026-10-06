@@ -1,24 +1,8 @@
 """The workspace layer, held: what a workspace may change about a form, and
 what it may not.
 
-A workspace customizes a form with frappe's own records (Custom Field and
-Property Setter, the DocType's Links and Actions) and one of ours (Record
-Head), on the Customize page (one/customize.py). Frappe trusts whoever writes
-those, because only the people it lets customize can. A workspace administrator is not
-that, so every row written through the Customize page, and any written by
-somebody frappe does not let customize, is **held** here, as a workspace's
-notification rule is (one/rules.py). docs/SHELL.md, decision 6.
-
-- **Nothing that runs.** No virtual field (its options are Python), no HTML
-  field (its options are markup the desk puts on the page), no button, and a
-  `depends_on` that is a field's name or a comparison of fields and plain
-  values, read by `plain` rather than run: the desk runs an `eval:` as
-  JavaScript in every reader's browser, and a row anybody here may write that
-  runs there turns "may customize a form" into "may act as whoever opens it".
-  Client and Server Scripts are refused outright.
-- **Nothing that weakens a guard.** No permission level, no ignoring user
-  permissions, no field made optional that frappe made mandatory, no Link or
-  table pointed somewhere else, and no field changed into another kind.
+Every row written through the Customize page, or by somebody frappe does not
+let customize, is held here: nothing that runs, nothing that weakens a guard.
 """
 
 import re
@@ -252,9 +236,7 @@ def property_setter(doc, method=None) -> None:
 	):
 		return
 	# How a kind of record is named, from Numbering (one/numbering.py set_naming_by),
-	# which has checked the kind and the choice, and writes what Customize Form would:
-	# the autoname and naming rule, the series shown or hidden, and the field a record
-	# is named by made required and unique.
+	# which has checked the kind and the choice and writes what Customize Form would.
 	if (
 		frappe.flags.one_named_by
 		and doc.doc_type == frappe.flags.one_named_by

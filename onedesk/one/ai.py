@@ -2373,15 +2373,12 @@ def change_numbering(
 	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
 ) -> dict:
-	"""Suggest how a kind of record is named, as a card a workspace
-	administrator approves: named by a series, one of its fields, an
-	expression, typed or random; its series added, changed, reordered (the
-	first is the default) or removed; a series' counter moved on, to start a
-	new year at 1000 or to carry on after records brought in from elsewhere;
-	and its naming rules added, changed or removed. Read workspace_numbering
-	first, and check `used` before moving a counter. Nothing changes until
-	they approve it, and records already made keep their names. Workspace
-	administrators only."""
+	"""Suggest how a kind of record is named, as a card a workspace administrator approves: named by a
+	series, one of its fields, an expression, typed or random; its series added, changed, reordered (the
+	first is the default) or removed; a series' counter moved on, to start a new year at 1000 or to carry on
+	after records brought in from elsewhere; and its naming rules added, changed or removed. Read
+	workspace_numbering first, and check `used` before moving a counter. Nothing changes until they approve
+	it, and records already made keep their names. Workspace administrators only."""
 	from onedesk.one import numbering, roles
 	from onedesk.one_ai import proposals
 
@@ -4090,9 +4087,6 @@ def suggest_automation(
 # the moment it reaches for one (one_ai/run.py, tools.action_of).
 print_layout.action = design_print_format.action = "print_design"
 
-# An approval is suggested by Workspace Setup, on a stronger model, for the same
-# reason: its states, steps, roles and conditions have to fit together, and a small
-# model sent back to mend one repeats it. A notification rule goes the same way,
-# since a small model asked to tell somebody and assign the record reached for
-# the rule, which cannot assign, rather than the automation.
+# On Workspace Setup's stronger model too: a small one could not make an approval's parts
+# fit, and reached for a rule, which cannot assign, where an automation was meant.
 suggest_approval.action = suggest_automation.action = draft_notification.action = "workspace_setup"

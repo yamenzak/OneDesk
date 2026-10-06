@@ -1,15 +1,4 @@
-"""Which project a document Intake reads is for (one_intake/money.py).
-
-A supplier's bill for the villa's glass says "Villa Al Barsha" somewhere: in
-its reference, a line, the delivery address. Booked with no project, it was
-missing from the project's **Cost** until somebody set it by hand. Intake now
-asks `named` which open project the document names, and the bill it drafts,
-and each of its lines, carry it.
-
-A name only counts whole, ignoring case, and only one project may be named:
-a bill naming two is left for a person, as one naming none is. A name inside
-a longer one that is also named ("Villa" and "Villa Windows") is the longer.
-"""
+"""Which project a document Intake reads is for (one_intake/money.py)."""
 
 import re
 

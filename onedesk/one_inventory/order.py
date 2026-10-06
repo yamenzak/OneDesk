@@ -1,22 +1,4 @@
 """What to order, and the purchase orders it becomes.
-
-ERPNext reorders by itself: once a day (`reorder_item`, with Stock Settings'
-*Raise Material Request When Stock Reaches Re-order Level*, on by default)
-every item at or below its reorder level gets a Material Request. And there
-it stops. A request is not an order; somebody has to find the requests, open
-each, make a purchase order from it, pick the supplier, and do it again for
-the next one. Nothing lists what is short, or who supplies it.
-
-**To Order** (report/to_order) is that list: every open purchase request not
-yet fully ordered, and every item low with no request yet — how many, for
-which warehouse, from whom, at what it last cost. **Order** makes one draft
-purchase order per supplier from the rows ticked, each row still pointing at
-its request, so ERPNext marks the request ordered when the order is
-submitted; until then a row on a draft order is off the list. Drafts, because what is ordered and at what price is somebody's
-decision to read before it is sent.
-
-The supplier is the item's default supplier, else the one it was last bought
-from.
 """
 
 import json

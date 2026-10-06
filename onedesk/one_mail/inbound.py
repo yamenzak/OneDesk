@@ -1,22 +1,7 @@
 """Mail arriving at an address on the mail domain.
 
-The Worker (deploy/mail/worker.js) has already stored the message, as it
-arrived, in R2 under this workspace's prefix, at `mail/in/<time>-<id>~<name>.eml`,
-before anything here runs. Two things bring it in:
-- **the notice** the Worker posts, signed with this workspace's secret, which
-  only says "look now";
-- **the sweep** every minute, which asks admin for anything after the last key
-  read, and is what actually does the work.
-
-A missed notice costs a minute, not a message.
-
-Each message is parsed by Frappe's own `InboundMail` — charsets, inline
-images, attachments, the reply chain — into a Communication on the hosted
-account its name belongs to. The attachments are Files on it, in R2 like
-every file. The original stays where the Worker put it, and the
-Communication says where (`one_raw_key`), so "show original" and a re-parse
-are always possible.
-"""
+The Worker has already stored the message in R2. A signed notice says "look
+now", and the sweep every minute does the work."""
 
 import hashlib
 import hmac

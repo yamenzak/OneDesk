@@ -1,21 +1,4 @@
-"""A file's past, and a person's: versions, Recent, Starred and activity.
-
-**A version is the object a file used to name.** Objects are never
-overwritten (a key is its content, or a random one for an upload), so
-replacing a file is pointing its row at a new object and writing down the old
-one in `Cloud File Version`. The File keeps its name, so its shares, its
-links and its place in every folder stay as they were; restoring an old
-version is the same move the other way, with what was current written down
-first. `store.delete` counts a version as naming its object, so a version's
-bytes go only when the file itself does (`forget`).
-
-**Recent** is what the reader opened or put somewhere, newest first, kept in
-the cache as a short list per person: it is a convenience, and losing it
-loses nothing. **Starred** is Frappe's own `_liked_by` on File, read and
-written directly so that starring a file does not comment on it or tell its
-owner. **Activity** is Info comments on the File, written by the verbs that
-change something, and read back with the versions.
-"""
+"""A file's past, and a person's: versions, Recent, Starred and activity."""
 
 import json
 

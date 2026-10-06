@@ -1,15 +1,7 @@
 """Lessons: what people take back, remembered (docs/INTAKE.md §10).
 
-Undoing something OneAI did, dismissing what it proposed, deleting a record it
-made and moving a file it filed back are each kept as an **Intake Lesson**,
-with the party and the kind of document that led to it. Two things follow:
-
-- the next document from that party is read with its lessons, so the model
-  is told "last time, people took back the supplier OneAI made";
-- **three** lessons alike (the same party, the same kind of document, the
-  same thing done to the same doctype) and OneAI stops doing it by itself:
-  the door proposes it instead, saying why. Deleting the lessons in the
-  Intake Lesson list lets it act again.
+The next document from that party is read with its lessons, and three alike
+make the door propose instead of act.
 """
 
 import json

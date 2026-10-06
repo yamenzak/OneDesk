@@ -1,13 +1,7 @@
 """Telling the operator, and a workspace's owner (notifications/one_admin/).
 
-Each is called where the thing happens rather than from a document hook,
-because the machinery writes with `db_set`, which runs no hooks: a job stops
-in `runner._stop`, a signup is paid for and built in `signup.accept`, a
-workspace arrives on a rung in `steps._arrive`, and the domains are asked
-about in `domains.nightly`. The owner is mailed from `steps._arrive` when
-their workspace is suspended, archived or restored, and from `steps.live`
-when a new one is ready. Nothing here may stop the thing it tells of, so
-each is wrapped: a notice that fails is logged, and the job carries on.
+Each is called where the thing happens, since the machinery writes with
+`db_set`, which runs no document hooks.
 """
 
 import functools
@@ -285,4 +279,48 @@ def closing(tenant) -> None:
 		who=tenant.closing_asked_by or "",
 		date=formatdate(said.get("closing_on")),
 		deleted=formatdate(said.get("deleted_on")) if said.get("deleted_on") else _("never"),
+	)
+
+
+def sign_in_link(email: str, link: str, minutes) -> None:
+	"""An account asked for a link to sign in (accounts.send_login_link)."""
+	notify.mail("Sign-in Link", email, link=link, minutes=minutes, now=True)
+
+
+def workspace_moved(tenant: str, workspace: str | None, by: str | None, now: str, was: str | None) -> None:
+	"""A workspace went to another account (accounts.move): the new holder and the old one hear it."""
+	from frappe.utils import get_url
+
+	said = {
+		"workspace": workspace or tenant,
+		"by": by or _("An administrator"),
+		"reference_doctype": "Tenant",
+		"reference_name": tenant,
+	}
+	notify.mail("Workspace Moved to You", now, account=get_url("/account"), **said)
+	if was:
+		notify.mail("Workspace Moved Away", was, **said)
+
+
+def email_change_asked(email: str, link: str, minutes: int) -> None:
+	"""An account asked to change its address (accounts.ask_email_change): the new one is mailed a link."""
+	notify.mail("Confirm Your New Email", email, link=link, minutes=minutes, now=True)
+
+
+def account_email_changed(was: str, now: str) -> None:
+	"""An account's address changed (accounts.confirm_email): the old address is told."""
+	notify.mail("Account Email Changed", was, address=now, now=True)
+
+
+def finish_signing_up(asked) -> None:
+	"""A signup was never paid for (signup.remind): one mail back to the welcome page."""
+	from frappe.utils import get_url
+
+	notify.mail(
+		"Finish Signing Up",
+		asked.email,
+		workspace=asked.workspace_name or asked.slug,
+		link=f"{get_url()}/welcome?request={asked.name}&key={asked.access_key}",
+		reference_doctype="Account Request",
+		reference_name=asked.name,
 	)

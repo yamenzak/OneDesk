@@ -1,13 +1,7 @@
 """One movement of credit, submitted on insert and never edited in place.
 
-Submittable because that is what an append-only record is in Frappe: a balance
-is a sum over these rows, so a row somebody could edit is a balance that can be
-changed without leaving a trace. Amending one leaves an `amended_from` trail and
-cancelling leaves the cancelled row.
-
-The sign is carried on the row rather than implied by the kind, so `balance` is
-one SQL sum and not a mapping somebody has to keep in step — and `validate`
-refuses a grant that takes credit away.
+A balance is a sum over these rows, so they are submittable; the sign is
+carried on the row, so `balance` is one SQL sum.
 """
 
 import frappe

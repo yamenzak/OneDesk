@@ -421,9 +421,11 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 		'"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
 	)
 	assert '"Project": ["onedesk.one_project.updates.timeline"]' in HOOKS
-	assert 'notify.notify("Project Update Asked"' in _body(source, "_ask") and "if _mail()" in _body(
-		source, "_ask"
-	), "asked in One, mailed where mail goes"
+	asked = _body((PROJECT / "tell.py").read_text(), "update_asked")
+	assert "tell.update_asked(" in _body(source, "_ask")
+	assert 'notify.notify(\n\t\t"Project Update Asked"' in asked and "if _mail()" in asked, (
+		"asked in One, mailed where mail goes"
+	)
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
 	assert "Hourly" not in frequency["value"]
@@ -1107,12 +1109,10 @@ def test_the_overview_budget_adds_up_to_numbers():
 def test_the_money_is_told_and_read():
 	kinds = tree.notifications()
 	assert "Over Budget" in kinds and "Progress Bill Drafted" in kinds
-	budget = (PROJECT / "budget.py").read_text()
+	assert "tell.over_budget(project, gone)" in (PROJECT / "budget.py").read_text()
+	told = _body((PROJECT / "tell.py").read_text(), "over_budget")
 	# Once for each budget: a revised budget can tell again.
-	assert (
-		'dedupe_on=["document_type", "document_name"]' in budget
-		and '("Budget", one["budget_name"])' in budget
-	)
+	assert 'dedupe_on=["document_type", "document_name"]' in told and '("Budget", one["budget_name"])' in told
 	assert "budget.over(project)" in (PROJECT / "money.py").read_text()
 	assert HOOKS.count('"onedesk.one_project.progress.drafted"') == 2
 	assert "invoice.one_progress = done" in (PROJECT / "progress.py").read_text()

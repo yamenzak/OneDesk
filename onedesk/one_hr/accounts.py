@@ -1,34 +1,4 @@
-"""The accounts erpnext nominates carry the type hrms demands of them.
-
-Twice now the same shape has stopped a screen working on a site nobody had
-touched: erpnext's standard chart of accounts creates an account, names the
-company's default after it, and gives it a type hrms then refuses.
-
-**Payroll Payable** is created under Accounts Payable with an `account_category`
-and *no* `account_type`, and `default_payroll_payable_account` is set to it.
-Payroll Entry answers *"Account type should be set Payable for payroll payable
-account Payroll Payable - ONE, please set and try again"* and a payroll run
-cannot be made at all.
-
-**Employee Advances** is worse, because erpnext contradicts itself in adjacent
-lines — `{"account_type": "Payable", "account_category": "Other Receivables"}` —
-on an account whose root type is Asset. An advance is money the employee owes
-back, so Receivable is right, and `Employee Advance.validate` says so: *"Employee
-advance account Employee Advances - ONE should be of type Receivable."* No
-advance can be made either.
-
-Neither is a decision this product is making. erpnext named both accounts and
-nominated both; this is the missing or mistaken half of a sentence erpnext
-started, and it is corrected only where the value is still exactly what erpnext
-shipped — a workspace that chose its own keeps it.
-
-`fiscal_year` below is the third of the same kind: erpnext creates the Fiscal
-Year and nothing ever makes it the site's default, so a report whose filter
-reads `frappe.defaults.get_user_default("fiscal_year")` gets nothing.
-
-`component` is the fourth: HRMS asks every earning for an account per company,
-and erpnext's chart already has the Salary account it belongs in.
-"""
+"""The accounts erpnext nominates carry the type hrms demands of them."""
 
 import frappe
 
@@ -88,17 +58,7 @@ def components(*_args) -> None:
 
 
 def year(*_args) -> None:
-	"""Point the site's default fiscal year at the one we are in.
-
-	`Vehicle Expenses` defaults its `fiscal_year` filter to
-	`frappe.defaults.get_user_default("fiscal_year")` and then throws **Start
-	Year and End Year are mandatory** in a red modal, before the page has drawn,
-	on a site where nothing ever set that default. erpnext creates the Fiscal
-	Year; it just never nominates one.
-
-	Re-pointed on every migrate rather than written once, because a default that
-	is right in January and wrong the following January is worse than none.
-	"""
+	"""Point the site's default fiscal year at the one we are in."""
 	today = frappe.utils.getdate()
 	now = frappe.get_all(
 		"Fiscal Year",

@@ -2,26 +2,11 @@
 are paid. ERPNext has none of its own, so it's built of ERPNext's parts: the
 invoice is for the whole amount, and its payment schedule holds the retention
 as later payment terms (progress.py makes and keeps them).
-
-- **Hold Retention** in Projects Settings turns it on (`on`). Off, the
-  retention fields leave the orders, the project dialogs and the Overview.
-  A workspace already holding retention had it turned on by the update
-  (patches/retention_switch.py).
-- An order may release part of its retention at **Handover** (`HANDOVER`,
-  `one_retention_handover`), due when the order's delivery date comes, or
-  as soon as its project is marked Completed (`handed_over`), and the rest
-  at **Retention Due** (`RETENTION`).
-- What's still held on an invoice is read part by part (`still_held`):
-  retention is paid last, its handover part before the rest.
-- The Overview sets what the customer holds beside what's held from
-  suppliers (`sides`). A customer's retention due within a month, or past
-  due, is in Needs You (`asks`), and a project's manager is told on the day
-  any of it falls due, either side (`due`).
 """
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, fmt_money, getdate, nowdate
+from frappe.utils import add_days, flt, getdate, nowdate
 
 #: The payment terms retention is held under: the part released at handover,
 #: and the rest.
@@ -214,7 +199,7 @@ def due() -> None:
 	manager of its project (Retention Due)."""
 	if not on():
 		return
-	from onedesk.one import notify
+	from onedesk.one_project import tell
 
 	today = str(getdate(nowdate()))
 	for doctype, party in (("Sales Invoice", "customer_name"), ("Purchase Invoice", "supplier_name")):
@@ -237,18 +222,4 @@ def due() -> None:
 			)
 			if not project:
 				continue
-			kept_by = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
-			if not kept_by or not kept_by.one_manager:
-				continue
-			money = fmt_money(
-				amount, currency=frappe.get_cached_value("Company", head.company, "default_currency")
-			)
-			notify.notify(
-				"Retention Due",
-				kept_by.one_manager,
-				record=(doctype, name),
-				project=kept_by.project_name,
-				held=(_("{0} held by {1}") if doctype == "Sales Invoice" else _("{0} held from {1}")).format(
-					money, head.get(party)
-				),
-			)
+			tell.retention_due(doctype, name, project, amount, head.company, head.get(party))

@@ -1,19 +1,7 @@
 """Asking the administrator, from a workspace that holds one secret.
 
-A tenant site knows four things, all written into its own config when it was
-provisioned: where admin is, which workspace it is, the token that proves it, and
-what hostname it answers on. It knows no provider key, no bucket credential and
-no press token, and that is the whole security argument — a workspace that is
-compromised gives up itself and nothing else.
-
-**Nothing here decides anything.** Quota, price and permission are admin's
-answers; this asks and records. A tenant site that could decide its own quota is
-a tenant site that could raise it.
-
-**An outage degrades rather than stops.** `refresh` failing leaves the last
-answer in place with the error beside it, so a header keeps drawing what was
-last true. What does not survive is anything that needs a fresh decision — a new
-upload, an AI call — and that is the right thing to be fragile about.
+Nothing here decides anything: quota, price and permission are admin's
+answers, and this asks and records them.
 """
 
 import frappe
@@ -38,10 +26,8 @@ def configured() -> bool:
 	return all(frappe.conf.get(key) for key in NEEDED)
 
 
-#: How long an AI run may take on admin: the account waits on the provider for
-#: up to its own sixty seconds, or 110 for a call that thinks
-#: (gateway.THOUGHT), so a caller giving up at ten gave up on answers that
-#: were on their way — a drafted appraisal is longer than a lookup.
+#: How long an AI run may take on admin: longer than the provider's own wait
+#: (60s, or 110 for a call that thinks), so an answer on its way is not dropped.
 PATIENCE_FOR = {"onedesk.one_admin.proxy.ai_run": 120}
 
 
@@ -174,7 +160,7 @@ def _tell(before, after, gift: dict | None = None) -> None:
 	administrators (notifications/one/). Each is said when a line is crossed
 	rather than while it stays crossed, so a nightly refresh does not repeat
 	itself; the two told by date remember the date they were told of."""
-	from onedesk.one import notify
+	from onedesk.one import tell
 
 	# Credits One gave by hand are told once each, with the operator's note.
 	given = gift and _once("gift", gift.get("entry") or "")
@@ -184,64 +170,36 @@ def _tell(before, after, gift: dict | None = None) -> None:
 	people = _administrators()
 	if not people:
 		return
-	told = {"link": PAGE, "sender": "Administrator"}
 
 	was, now = flt(before.get("credits_balance")), flt(after.credits_balance)
 	month = flt(after.credits_month)
 	if month and now < month * LOW <= was:
-		slots = {"balance": _number(now), "days": max(0, int(now / (month / 30)))}
-		notify.notify("Credits Running Low", people, **told, **slots)
-		for email, lang in _addresses(people):
-			notify.mail("Credits Running Low", email, lang=lang, **slots)
+		tell.credits_running_low(people, _number(now), max(0, int(now / (month / 30))))
 	if given:
-		from markupsafe import Markup, escape
-
-		said = [frappe._("A note from One: {0}").format(gift["why"])] if gift.get("why") else []
-		if gift.get("expires_on"):
-			said.append(frappe._("They expire on {0}.").format(formatdate(gift["expires_on"])))
-		note = Markup("<br><br>") + escape(" ".join(said)) if said else ""
-		notify.notify("Credits Added", people, **told, balance=_number(now), note=note)
+		tell.credits_added(people, _number(now), gift)
 	elif now > was + 0.5:
-		notify.notify("Credits Added", people, **told, balance=_number(now), note="")
+		tell.credits_added(people, _number(now))
 
 	expires_on = after.credits_expires_on
 	if flt(after.credits_expiring) and expires_on:
 		left = date_diff(expires_on, today())
 		if 0 <= left <= EXPIRY_NOTICE and _once("expiring", str(expires_on)):
-			notify.notify(
-				"Credits Expiring",
-				people,
-				**told,
-				credits=_number(after.credits_expiring),
-				date=formatdate(expires_on),
-			)
+			tell.credits_expiring(people, _number(after.credits_expiring), formatdate(expires_on))
 
 	limit = flt(after.storage_limit)
 	if limit and flt(before.get("storage_bytes")) < limit * NEARLY_FULL <= flt(after.storage_bytes):
-		from onedesk.one.heads import size
-
-		slots = {"used": size(after.storage_bytes), "limit": size(limit)}
-		notify.notify("Storage Nearly Full", people, **told, **slots)
-		for email, lang in _addresses(people):
-			notify.mail("Storage Nearly Full", email, lang=lang, **slots)
+		tell.storage_nearly_full(people, after.storage_bytes, limit)
 
 	limit = flt(after.database_limit)
 	if limit and flt(before.get("database_bytes")) < limit * NEARLY_FULL <= flt(after.database_bytes):
-		from onedesk.one.heads import size
-
-		slots = {"used": size(after.database_bytes), "limit": size(limit)}
-		notify.notify("Database Nearly Full", people, **told, **slots)
-		for email, lang in _addresses(people):
-			notify.mail("Database Nearly Full", email, lang=lang, **slots)
+		tell.database_nearly_full(people, after.database_bytes, limit)
 
 	_tell_domains(before.get("domains") or [], [one.as_dict() for one in after.domains], after.dns_target)
 
 	if after.owing and after.next_status and after.days_left is not None:
 		on = formatdate(add_days(today(), after.days_left))
 		if _once("overdue", on):
-			notify.notify("Payment Overdue", people, **told, date=on)
-			for email, lang in _addresses(people):
-				notify.mail("Payment Overdue", email, lang=lang, date=on)
+			tell.payment_overdue(people, on)
 
 
 def _once(what: str, value: str) -> bool:
@@ -479,18 +437,9 @@ def plans_take(plan: str, extras: str | dict | None = None, label: str | None = 
 	except faults.Refused as refused:
 		frappe.throw(_plainly(refused), title=frappe._("The plan was not changed"))
 	refresh()
-	from onedesk.one import notify
+	from onedesk.one import tell
 
-	people = [one for one in _administrators() if one != frappe.session.user]
-	if people:
-		notify.notify(
-			"Plan Changed",
-			people,
-			link=PAGE,
-			by=frappe.utils.get_fullname(),
-			plan=label or plan,
-			monthly=frappe.utils.fmt_money(said.get("monthly") or 0, currency=said.get("currency") or "USD"),
-		)
+	tell.plan_changed(label or plan, said)
 	return said
 
 
@@ -505,17 +454,9 @@ def move_billing(email: str) -> dict:
 	except faults.Refused as refused:
 		frappe.throw(_plainly(refused), title=frappe._("Who pays was not changed"))
 	refresh()
-	from onedesk.one import notify
+	from onedesk.one import tell
 
-	people = [one for one in _administrators() if one != frappe.session.user]
-	if people:
-		notify.notify(
-			"Payer Changed",
-			people,
-			link=PAGE,
-			by=frappe.utils.get_fullname(),
-			email=said.get("billed_to") or email,
-		)
+	tell.payer_changed(said.get("billed_to") or email)
 	return said
 
 
@@ -575,14 +516,9 @@ def domain_primary(domain: str) -> dict:
 	roles.require()
 	answer = _domains_ask("domain_primary", domain=domain) or {}
 	_after(_domains_ask("domain_list") or [])
-	people = [one for one in _administrators() if one != frappe.session.user]
-	if people:
-		from onedesk.one import notify
+	from onedesk.one import tell
 
-		slots = {"by": frappe.utils.get_fullname(), "domain": answer.get("domain") or domain}
-		notify.notify("Main Address Changed", people, link=DOMAINS, **slots)
-		for email, lang in _addresses(people):
-			notify.mail("Main Address Changed", email, lang=lang, **slots)
+	tell.main_address_changed(answer.get("domain") or domain)
 	return answer
 
 
@@ -615,19 +551,13 @@ def _tell_domains(before: list, after: list | None, target: str | None, but: str
 	people = [one for one in _administrators() if one != but]
 	if not people:
 		return
-	from onedesk.one import notify
+	from onedesk.one import tell
 
 	for one in after:
 		name, status = one.get("domain"), one.get("status")
 		if one.get("given") or not name:
 			continue
 		if status == WORKING and was.get(name) != WORKING:
-			slots = {"domain": name}
-			notify.notify("Domain Working", people, link=DOMAINS, sender="Administrator", **slots)
-			for email, lang in _addresses(people):
-				notify.mail("Domain Working", email, lang=lang, **slots)
+			tell.domain_working(people, name)
 		elif name in was and was[name] == WORKING and status != WORKING:
-			slots = {"domain": name, "target": target or ""}
-			notify.notify("Domain Stopped Working", people, link=DOMAINS, sender="Administrator", **slots)
-			for email, lang in _addresses(people):
-				notify.mail("Domain Stopped Working", email, lang=lang, **slots)
+			tell.domain_stopped_working(people, name, target)

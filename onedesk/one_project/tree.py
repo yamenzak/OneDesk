@@ -1,27 +1,4 @@
-"""Sub-projects: a project under a project, to any depth.
-
-ERPNext keeps a project's money per project — its one Sales Order, its
-timesheets, its costs, what it has billed and its margin — and has no project
-inside a project. So a separately billable piece of a job is a project of its
-own, and the one field this adds is **Parent Project** (`one_parent`). The
-handrails on a villa are a project under the villa: their own quotation and
-order, their own time and invoices, and ERPNext's totals for them as for any
-project. Nothing of ERPNext's is copied or changed.
-
-- **A project cannot sit under itself**, however far down (`validate`).
-- **A sub-project takes its parent's customer** when it has none.
-- **A parent adds up its tree** (`totals`): its own figures and the whole
-  tree's, worked out each time rather than stored, so moving a project in the
-  tree is right straight away.
-- **Group Under New Project** (`group_under`) puts a new project above one —
-  the villa above the windows — and moves it and whichever of its sub-projects
-  are ticked underneath, so they become siblings.
-- **Members of a project see what is under it** (members.under).
-- **A page can read a parent on its own** (`narrow`, `scope`): its Main,
-  the work on the project itself without what is under it.
-- **Where a task is** reads as a path, Villa › Handrails (`path`), on My Tasks
-  and on a project's calendar.
-"""
+"""Sub-projects: a project under a project, to any depth."""
 
 from typing import Annotated
 

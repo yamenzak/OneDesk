@@ -1,16 +1,7 @@
 """The instruction is the account's, and a workspace does not hold a copy.
 
-`AI Action` is a fixture, so a new action arrives with a migrate and every site
-gets the row — the label, the capability and the token caps, which is what a
-workspace needs to pick a model and add to the prompt. The **instruction** is
-not part of that. It is how the product behaves, a workspace cannot change it,
-and `proxy.ai_run` has always read it from the account's own copy and ignored
-anything sent with the call.
-
-Shipping it and then declining to render it would be a curtain rather than a
-wall: the row is in the workspace's database, and `frappe.client.get` reads it.
-So on a workspace the field is emptied after every migrate, and there is nothing
-to read.
+On a workspace the field is emptied after every migrate, so there is nothing to
+read.
 """
 
 import frappe

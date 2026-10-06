@@ -24,10 +24,8 @@ SAYS = {
 	"Failed": lambda: frappe._("The workspace could not be built. Somebody has been told and will be in touch."),
 }
 
-#: What the same two statuses say when the plan carried a trial. Nothing was
-#: charged, so "Payment received" is simply false — the card was taken and the
-#: first invoice is days away. Done is not here: "The workspace is ready" is
-#: already the whole answer on the screen somebody opens to click Open it.
+#: What the same two statuses say when the plan carried a trial: nothing was
+#: charged, so "Payment received" would be false.
 ON_TRIAL = {
 	"Paid": lambda: frappe._("Your trial has started. The workspace is being built."),
 	"Provisioning": lambda: frappe._("Your trial has started. The workspace is being built."),

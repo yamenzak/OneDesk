@@ -1,31 +1,8 @@
 """Cloudflare, set up from one key.
 
-The operator gives OneAdmin Settings one API token and presses **Set up
-Cloudflare**. Everything a workspace needs from Cloudflare is then found or
-made here:
-- the account and the zone;
-- the KV namespace both Workers read;
-- the two R2 buckets and the S3 keys to them;
-- the web router and the mail Worker, with their routes and DNS;
-- mail routing and sending for the mail domain.
-
-**It never takes what is somebody else's.** A resource that exists under our
-name is ours and is kept. One that exists but belongs to something else — a
-route another Worker answers, a DNS record that points elsewhere — is left as
-it is and reported. Nothing is deleted.
-
-The one deliberate exception is the zone's email catch-all. There is only one
-per zone, and the mail domain cannot work without it, so it is pointed at our
-Worker whatever it held. The operator decided that for `4dl.app`.
-
-**Running it twice is running it once.** Each step reads before it writes, so
-the button is also the check: pressed on a set-up account it changes nothing
-and says so. Our own Workers are the exception: their code is the
-repository's, and a step redeploys one whose deployed code differs, which is
-how a change to deploy/edge or deploy/mail reaches Cloudflare.
-
-A setting already filled in on the form is never replaced. A step that finds
-it empty writes what it found or made.
+The operator gives OneAdmin Settings one API token and presses Set up
+Cloudflare; everything a workspace needs from Cloudflare is found or made here.
+It never takes what is somebody else's, and running it twice is running it once.
 """
 
 import hashlib

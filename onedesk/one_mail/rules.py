@@ -1,23 +1,5 @@
 """What happens to new mail after it is filed: rules, out-of-office replies
-and bounces.
-
-Each runs from `inbound.Arrival.process` once a message is in, on both kinds
-of mailbox:
-
-- **Rules** (`Mail Rule`) sort mail arriving in the Inbox: move it to a
-  folder, mark it read, star it. On a connected mailbox this happens on the
-  server through actions.py, so a phone sees the message where the rule put
-  it. A rule acts for its mailbox whoever the job runs as
-  (`frappe.flags.one_mail_rules`). Rules run on new mail only, never on history read in the background,
-  or connecting a mailbox would re-sort years of it.
-- **Away** replies once per sender in four days, from the mailbox itself,
-  while its holder is away. Nothing that is itself automatic gets one:
-  mailing lists, bulk mail, other auto-replies, bounces, and no-reply senders.
-- **Bounces**: a delivery report saying an address failed for good puts the
-  address on Frappe's own Email Unsubscribe list, which Frappe's queue
-  already honours, and marks the message that bounced. A temporary failure
-  is left alone.
-"""
+and bounces, each run from `inbound.Arrival.process` on both kinds of mailbox."""
 
 import email.utils
 import re

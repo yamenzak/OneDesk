@@ -1,28 +1,10 @@
-"""Clocking yourself in and out. The one thing here that writes.
-
-**What makes it safe is that it takes no employee.** There is no argument to
-point at a colleague: the row is written for `own.employee_of()` and for nobody
-else, so the whole question of whose clock-in this is has one answer that no
-caller can influence.
-
-**Which way it points is read, not asked.** The browser does not send IN or OUT,
-because a tab open since this morning would send whichever the button said when
-it loaded. The direction is the opposite of where the person already is, and
-somebody on leave or on a holiday is not offered one at all — a badge-in on
-approved leave is a disagreement that writing it would manufacture.
-
-**Everything about the day is HRMS's.** The row goes in as an ordinary document
-so its own validation runs: shift resolution, the duplicate window, the
-geolocation radius, whatever a workspace has added. No `ignore_permissions` —
-the seat's `create` grant on Employee Checkin is the permission, and `own.py` is
-not a way around one.
-"""
+"""Clocking yourself in and out. The one thing here that writes."""
 
 import base64
 
 import frappe
 from frappe import _
-from onedesk.one_hr import away, gates, ledger, own, policy, presence, review, rules
+from onedesk.one_hr import away, gates, ledger, own, policy, presence, rules, tell
 
 IN = "IN"
 OUT = "OUT"
@@ -79,12 +61,8 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	if not policy.self_service():
 		frappe.throw(_("Checking yourself in is not enabled on this site."))
 
-	# This endpoint answers in what it returns and never by msgprint, so nothing
-	# may reach the screen except the sentences `told` carries. Anything a gate
-	# or a caught permission check leaves behind would otherwise be merged into
-	# the refusal dialog, which is how "Insufficient Permission for Leave
-	# Policy" ended up on top of a clock-in that was refused for two entirely
-	# different reasons.
+	# This endpoint answers only in what it returns, so anything a gate or a caught
+	# permission check leaves in the message log is cut before it joins the refusal dialog.
 	said = len(frappe.local.message_log)
 
 	seen = frappe.parse_json(seen) if isinstance(seen, str) else (seen or {})
@@ -148,7 +126,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 
 	ledger.mark(attempt, checkin)
 	if outcome == "Flagged":
-		review.tell(attempt, employee, signals)
+		tell.check_in_flagged(attempt, employee, signals)
 	del frappe.local.message_log[said:]
 	return {
 		"ok": True,
@@ -162,18 +140,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 
 
 def _signals(who, network, place, history, agreed=None) -> list[str]:
-	"""Every doubt raised, with the two rules that are about where somebody is.
-
-	The network and the place prove the same thing two ways. Either satisfying
-	it is the sensible default — demanding both means one poor GPS fix stops
-	somebody working — so where the workspace has not asked for both, a gate
-	that passed cancels the other's complaint.
-
-	An approved Attendance Request comes first and outranks both of them, even
-	where the workspace did ask for both: the workspace has already said in
-	writing that this person is working somewhere else today, and scoring them
-	down for being somewhere else is the gate arguing with its own approval.
-	"""
+	"""Every doubt raised, with the two rules that are about where somebody is."""
 	signals = list(who["signals"]) + list(history["signals"])
 	said = list(network["signals"]) + list(place["signals"])
 
@@ -205,12 +172,8 @@ def _refused(attempt: str, score: int, signals: list[str]) -> dict:
 
 
 def _write(employee: str, direction: str, place: dict, reason, attempt: str) -> str:
-	# Anything an `after_insert` hook says is by definition not about whether
-	# the document was accepted, because it was. HRMS's telemetry claims a
-	# milestone row on every check-in and swallows the duplicate in a savepoint
-	# — but the message survives the savepoint, so every clock-in after the
-	# first would put "Duplicate Name" in front of somebody who had just
-	# successfully clocked in.
+	# What an `after_insert` hook says is not about whether the row was accepted, and
+	# HRMS's telemetry leaves a "Duplicate Name" message on every clock-in after the first.
 	said = len(frappe.local.message_log)
 
 	log = frappe.new_doc("Employee Checkin")

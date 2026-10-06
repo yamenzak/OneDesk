@@ -1,16 +1,4 @@
-"""Settling something the clock proposed.
-
-`healing.networks` and `healing.zones` write a `Clock Network` or a `Clock
-Place` as Proposed on the first corroborated sighting and promote it to
-Confirmed once enough employees agree. The two states a person decides between
-are the same on both doctypes, so the verbs are here rather than twice.
-
-Status is read only on those records. It was a dropdown, which made rejecting
-a proposal look like picking a value from a list, and let somebody set a
-rejected address back to Confirmed without saying why. A rejection is final in
-the sense that matters: `healing._learn` matches a Rejected row like any other
-and never promotes it again.
-"""
+"""Settling something the clock proposed."""
 
 import frappe
 from frappe import _

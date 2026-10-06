@@ -1,12 +1,4 @@
-"""Rates: what an hour of each activity costs and is billed at.
-
-ERPNext keeps it in two places: an **Activity Type** has a default costing
-and billing rate, and an **Activity Cost** overrides them for one employee.
-They answer one question, so the rail has one row, Rates, the Activity Type
-list, and each activity lists its people's own rates under it, with + to add
-one for somebody (`dashboard`). A timesheet prices an hour from the person's
-rate if there is one, else the activity's (ERPNext's own rule).
-"""
+"""Rates: what an hour of each activity costs and is billed at."""
 
 from frappe import _
 

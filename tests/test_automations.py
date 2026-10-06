@@ -12,6 +12,7 @@ import tree
 
 SOURCE = (tree.APP / "one" / "automations.py").read_text()
 STEPS = (tree.APP / "one" / "automation_steps.py").read_text()
+TELL = (tree.APP / "one" / "tell.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
@@ -20,7 +21,8 @@ def test_tell_people_is_a_step_of_the_engine_and_goes_through_the_hub():
 	assert "class TellPeople(AutomationAction):" in STEPS
 	assert 'action_type = "TellPeople"' in STEPS
 	execute = STEPS.split("def execute(", 1)[1]
-	assert 'notify.notify(\n\t\t\t"Automation Notice"' in execute
+	assert "tell.told_by_automation(people, doc, subject, message)" in execute
+	assert 'notify.notify(\n\t\t"Automation Notice"' in TELL.split("def told_by_automation(", 1)[1]
 	assert "mail_templates.filled(" in execute
 	assert "sendmail" not in STEPS
 

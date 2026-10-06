@@ -1,26 +1,8 @@
 """Taking the money, and believing the answer only when it is signed.
 
-No `stripe` package. Two calls are needed — make a checkout session, and read a
-webhook — and one of them is a form-encoded POST. A dependency that exists to
-save writing `requests.post` is a dependency to keep current forever.
-
-The webhook is the dangerous half and it has three guards, in this order:
-
-1. **the signature**, checked in `signing.py`, which has no Frappe in it;
-2. **the event id**, which is unique on `Stripe Webhook Event`, so a redelivery
-   meets a database index rather than a check somebody has to remember to write;
-3. **the request's own state**, since `signup.accept` returns the tenant it
-   already made rather than making a second one.
-
-Any one of the three would stop a double provision. All three are here because
-Stripe redelivers by design — on a timeout, on a non-2xx, hours later — and the
-cost of being wrong is a second site somebody is billed for.
-
-The clock is `time.time()` and not `frappe.utils.now_datetime()`. The latter is
-the *site's* local time as a naive datetime, so calling `.timestamp()` on it
-reinterprets it as the server's local time and lands an offset out — measured
-here at four hours, which refused every real delivery. Stripe's `t` is a Unix
-timestamp, so it has to be compared against one.
+No `stripe` package. The webhook has three guards, in order: the signature
+(`signing.py`), the event id (unique on `Stripe Webhook Event`), and the
+request's own state. The clock is `time.time()`, a Unix timestamp like Stripe's.
 """
 
 import json
@@ -38,16 +20,8 @@ PATIENCE = 20
 #: The event that makes a workspace. Everything else is recorded and ignored.
 ACTED_ON = "checkout.session.completed"
 
-#: The two that move a workspace up and down the ladder. A subscription's
-#: invoice failing is what starts a fall; one being paid is what ends it.
-#:
-#: Deliberately these two and no more. Stripe sends dozens of event types and an
-#: endpoint that grows a branch per type is an endpoint nobody can reason about.
-#: `customer.subscription.deleted` is *not* here on purpose: a subscription
-#: cancelled at the end of its period stops paying invoices, and the ladder
-#: notices that by itself and carries the customer through the grace period —
-#: which is the right way to treat somebody who cancelled, rather than
-#: suspending them the same afternoon.
+#: The two that move a workspace up and down the ladder, deliberately these two
+#: and no more: a failed invoice starts a fall, a paid one ends it.
 OWED = "invoice.payment_failed"
 SETTLED = "invoice.paid"
 
@@ -72,12 +46,8 @@ def checkout(request: str) -> str:
 		"cancel_url": _back_to(asked, "cancelled"),
 	}
 	if sold.recurring and sold.trial_days:
-		# A trial changes nothing downstream. Stripe still takes the card, still
-		# completes the session, and still sends `checkout.session.completed` —
-		# the subscription simply starts in `trialing` with a zero invoice. So
-		# the workspace is built here exactly as a paid one is, and when the
-		# trial ends the first real invoice arrives as `invoice.paid` or
-		# `invoice.payment_failed`, which is the ladder we already have.
+		# A trial changes nothing downstream: the subscription starts in
+		# `trialing` and the workspace is built exactly as a paid one is.
 		form["subscription_data[trial_period_days]"] = int(sold.trial_days)
 	made = _post("checkout/sessions", form)
 	asked.db_set({"status": "Paying", "stripe_session": made.get("id")})
@@ -262,19 +232,8 @@ def _ladder(kind: str, body: dict) -> dict:
 def _remember(event: dict):
 	"""Write the event down, find that we already had, or leave it to whoever is.
 
-	The unique index is the idempotency. Catching its refusal is not a fallback
-	for a check we forgot — it *is* the check, and it is the only one that holds
-	when two redeliveries arrive at once.
-
-	The insert is wrapped in a savepoint rather than caught around a bare
-	`rollback()`. A plain rollback undoes the whole request, and measured here it
-	undid the *first* delivery's work when the second one arrived before it had
-	committed — the second then looked for a row it had just destroyed.
-
+	The unique index is the idempotency, and the insert is wrapped in a savepoint.
 	`None` means another delivery holds this event and has not committed yet.
-	The caller answers 200 and does nothing, which is right: the delivery that
-	holds it is about to finish, and a second worker racing it is how one
-	payment becomes two workspaces.
 	"""
 	held = frappe.db.exists("Stripe Webhook Event", event.get("id"))
 	if held:
@@ -297,10 +256,8 @@ def _remember(event: dict):
 	return frappe.get_doc("Stripe Webhook Event", held) if held else None
 
 
-#: How a change to a running subscription is charged: the difference for the
-#: rest of the period, invoiced now, and refused at once if the card declines
-#: rather than left as an unpaid invoice the ladder would notice days later.
-#: A step down is a credit on the next invoice, which Stripe does by itself.
+#: How a change to a running subscription is charged: the difference invoiced
+#: now, and refused at once if the card declines.
 PRORATED = {"proration_behavior": "always_invoice", "payment_behavior": "error_if_incomplete"}
 
 

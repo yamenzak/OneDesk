@@ -1,21 +1,7 @@
 """Sending for the mail domain: a workspace's message, handed to Cloudflare.
 
-A workspace holds no Cloudflare credential, as for storage. It builds the
-message — Frappe's Email Queue does, headers and attachments and all — and
-asks here. What is checked here, because a workspace could lie about it:
-- the From is on the mail domain and is the workspace's own, `<slug>@` or
-  `<name>.<slug>@`;
-- the message fits Cloudflare's 5 MiB;
-- the workspace has sends left this hour and this day.
-
-The counts are atomic increments in the cache, one key per workspace per
-hour and per day, so two workers sending at once cannot both slip under the
-limit. A send refused for the limit raises `faults.Again`, and Email Queue
-retries it later.
-
-Cloudflare's `send_raw` takes the finished MIME message, so nothing is
-rebuilt: what the workspace's Email Queue made is what goes out, signed by
-Cloudflare with the mail domain's DKIM key.
+A workspace holds no Cloudflare credential; it builds the message and asks
+here, where the From, the size and the sends left are checked.
 """
 
 import base64

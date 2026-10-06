@@ -1,19 +1,7 @@
 """How long a document must be kept, and nothing deleted before (docs/INTAKE.md §16.10).
 
-A business must keep its books' papers for years, and which papers and how
-many years is the law of its country:
-
-- **Germany** (§ 147 AO, § 257 HGB, since 2025): invoices, receipts, bank
-  statements and other vouchers eight years; business letters, orders,
-  delivery notes and contracts six; the payroll account six (§ 41 EStG);
-- **the United Arab Emirates** (Federal Decree-Law 50 of 2022, and the VAT
-  law): the books and their papers five years.
-
-The time runs from the end of the year the document is dated in. A reading
-carries the day it may go (Keep Until), and a file whose only copy holds such
-a reading cannot be deleted for good before that day: it may go to the
-Recycle Bin, where it stays. A household keeps no books and has no keeping
-periods, and neither has a country not listed here.
+A reading carries the day it may go (Keep Until), and a file whose only copy
+holds such a reading cannot be deleted for good before that day.
 """
 
 from datetime import date

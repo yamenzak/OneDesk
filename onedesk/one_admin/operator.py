@@ -1,21 +1,7 @@
 """What a person may do to a workspace by hand, and how.
 
-Every one of these exists because the alternative was editing a field. A Status
-that an operator can set from a dropdown is a workspace dropped with no job, no
-call to press and no R2 sweep behind it — a record saying the files are gone
-while the files are still there. So the record is read-only and the verbs live
-here.
-
-**Each verb does exactly what the nightly ladder does.** `suspend` is not a
-shortcut past `lifecycle`; it is `lifecycle.fall` with the rung named, which
-queues the same job, runs the same steps and writes the same event. An operator
-acting early and a clock acting on time are the same code, which is the only way
-the second one stays tested.
-
-**Two gates, as everywhere else in this module.** `require_admin` refuses on a
-workspace site, and `only_for` refuses anybody without the operator role. The
-first cannot be edited from a desk; the second is what keeps a curious
-colleague out.
+The record is read-only and the verbs live here; each does exactly what the
+nightly ladder does, behind two gates (`require_admin`, `only_for`).
 """
 
 import frappe
@@ -240,10 +226,7 @@ def sold(offering: str) -> dict:
 	those carrying it. A credit pack is bought once and used up, so nobody
 	"has" one: `kind` says so and the counts are nought.
 
-	Shown before somebody edits one. The price never reaches them (Stripe
-	keeps a subscriber on the price they signed up at); the quotas do, the
-	next time the customer changes their plan or add-ons (`quota.apply`
-	copies them from here again).
+	Shown before somebody edits one.
 	"""
 	_may()
 	kind = frappe.db.get_value("Offering", offering, "kind")

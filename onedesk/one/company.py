@@ -1,27 +1,7 @@
 """One workspace is one company, so nobody is ever asked which.
 
-Multi-company is not a thing One does. A group that runs four companies buys
-four workspaces, which is the commercial decision and also the simpler product:
-there is no consolidation, no inter-company anything, and no screen anywhere
-that has to ask *whose* this is. What is left over from erpnext and hrms is a
-mandatory `Company` Link on about two hundred and fifty doctypes, showing the
-same value every time — a field that can only be got wrong and never right.
-
-So every one of them is hidden, and the global default fills it. Where the
-field is also mandatory, it is given the company as its default as well:
-frappe holds that a hidden mandatory field has a default, and checks it every
-time a form's fields change, so without it nobody could add a field to one of
-these forms, from the Customize page or frappe's own Customize Form. Where a
-document can do better than the default it does: an attendance request and a
-shift request take the company from the employee, because that is the answer
-even on a site somebody has left two Company records on.
-
-**This is derived from the site rather than shipped as a fixture.** A generated
-fixture would have to be pinned to one bench's set of apps, and a site that does
-not carry erpnext would fail to import rows naming doctypes it has never heard
-of. The list is a query over the schema the site actually has, which is a thing
-only the site knows — so it runs after every migrate, beside `policy.seed`, and
-by the same rule: write it once, and never overrule a tenant who changed it.
+Every `Company` Link is hidden and filled by the global default, worked out
+from the site's own schema after every migrate.
 """
 
 import frappe

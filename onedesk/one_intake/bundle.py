@@ -1,14 +1,7 @@
 """The tax year's documents, in one download (docs/INTAKE.md §16.6).
 
-A tax adviser asks for the same things every spring: the invoices and
-receipts, the payslips, the bank statements, the tax office's letters and
-the contracts, for one year. They have all been read already, so this is a
-zip of them by kind, with a list of every document, its date, whom it is
-from and its amount, that opens in any spreadsheet.
-
-A reader gets what was read for them; an administrator of the workspace gets
-the workspace's. Only a file the reader may open goes in, as everywhere
-else. A DATEV-shaped export for a business is not built.
+A zip of a year's documents by kind, with a list of every document, its date,
+whom it is from and its amount, that opens in any spreadsheet.
 """
 
 import csv

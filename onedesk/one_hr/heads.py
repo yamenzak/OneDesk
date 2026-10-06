@@ -1,20 +1,4 @@
-"""What OneHR's pages say above their fields. See one/head.py.
-
-A person's page, first. Where they are right now as the title's pill; a quarter of attendance as a
-heat map of named days; and beside it the handful of numbers somebody opens
-the record to read: their standing, their last check-in, what leave is left
-of each type, what is waiting on an approver, what they hold and what they
-are paid under. The figures are employee.py's `overview`, worked out once per
-request with the reader's own permissions.
-
-Then the requests and the documents. A request somebody answers (leave, an
-attendance correction, a shift, an expense claim) carries Approve and Reject,
-each asking for a note and saying what it will do; and every one of these
-records opens on a sentence saying what it comes to, which the fields it
-opens on do not: how many days of what, what a slip pays, how far a vehicle
-went on how much. A sentence that reads a field the form can change redraws
-as it changes (`redraw_on`), so it is right before the record is saved.
-"""
+"""What OneHR's pages say above their fields. See one/head.py."""
 
 import re
 from urllib.parse import quote

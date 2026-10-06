@@ -1,17 +1,4 @@
-"""Team libraries: a folder people are members of.
-
-What SharePoint calls a document library and a team drive calls a shared
-drive. It lives under Libraries rather than in anybody's My Files, so it does
-not go when the person who made it does, and it is its members' rather than
-everybody's the way Company is.
-
-Membership is DocShare on the library's folder, like any share, with the role
-in its bits: Reader (read), Member (write), Owner (write and share). So
-`namespace.granted` already gives a member what is in the library, and
-`namespace._library_may` adds the two things only a library has — that
-belonging is the only way in, and that only an owner renames it or changes
-who is in it.
-"""
+"""Team libraries: a folder people are members of."""
 
 import frappe
 import frappe.share
@@ -19,7 +6,7 @@ from frappe import _
 from frappe.utils import get_fullname
 
 from onedesk.one import roles
-from onedesk.one_storage import api
+from onedesk.one_storage import api, tell
 from onedesk.one_storage import namespace as ns
 
 
@@ -105,7 +92,7 @@ def add(node: str, users: str | list, role: str = "Member") -> int:
 	)
 	for user in staff:
 		_give(item.name, user, role)
-		_tell(user, item)
+		tell.added_to_library(user, item)
 	ns.forget()
 	return len(staff)
 
@@ -127,18 +114,3 @@ def remove(node: str, user: str) -> None:
 	ns.forget()
 
 
-def _tell(user: str, item: dict) -> None:
-	from urllib.parse import quote
-
-	from onedesk.one import notify
-
-	if user == frappe.session.user:
-		return
-	notify.notify(
-		"Added to a Library",
-		user,
-		record=("File", item.name),
-		link=f"/desk/onecloud?node={quote(item.name, safe='')}",
-		who=get_fullname(frappe.session.user),
-		library=item.file_name,
-	)

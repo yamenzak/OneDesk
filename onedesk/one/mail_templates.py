@@ -1,27 +1,8 @@
 """Mail templates: the words a workspace sends again and again, for its
 administrators.
 
-A template is frappe's own Email Template: a subject and a message, for one
-kind of record or for any, picked in the mail composer or named by a setting
-(HR Settings' leave mails, the interview reminders). Frappe renders it as
-Jinja with its template globals, as whoever sends it, so whoever writes one
-can make it read anything that person may read and put it in the mail.
-Frappe gives writing one to its System Managers only.
-
-The workspace administrator is given Email Template, and a template written
-by somebody frappe does not let customize (layer.held) is held to what a
-workspace rule's text is held to (one/rules.py): what it adds names a field of
-the record, `{{ customer_name }}`, and nothing else. Never `{{ doc.customer_name }}`:
-the composer, the leave mails, the salary slip and the interview reminders all
-render a template with the record's own fields and no `doc`, so that one fails
-in every one of them. What the template already said stays as it was written,
-so the leave mail hrms made on setup can have its wording changed without its
-logic being refused.
-
-OneMail writes with frappe's composer too, with no form behind it
-(public/js/mail_compose.js): it is offered the templates for the record a
-conversation is filed on, or those for any record, and `get_email_template`
-fills one in from the record itself.
+A template is frappe's own Email Template; one written by somebody frappe does
+not let customize (layer.held) may add only fields of the record, bare.
 """
 
 import re

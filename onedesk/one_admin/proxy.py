@@ -1,25 +1,7 @@
 """The one door a tenant site knocks on, and how it proves who it is.
 
-Everything a workspace is billed for comes through here: a signed URL to put a
-file, a credit hold, a plan change, a domain. **Calls only ever go tenant to
-admin.** Admin never calls a tenant site, which is what removes the dangerous
-credential from this design — there is no admin key that opens every workspace,
-because admin never needs to open one.
-
-A tenant proves itself with the token `push_config` wrote into its own site
-config at provision time. Only a hash of it is here. The comparison is
-constant-time, and **every failure says the same thing**: an unknown workspace,
-a wrong token and a suspended one are one sentence, because a caller who has
-guessed one of the three should not be told which.
-
-The endpoints are `allow_guest` and that is deliberate rather than an oversight.
-The caller has no Frappe session here and should not have one — a login on the
-admin site is a person, and this is a machine holding a bearer token. So Frappe's
-own authentication is not in the path and ours is, which means ours has to be
-the careful kind.
-
-What is *not* here: anything that carries bytes. Admin checks, signs and records;
-R2 and Cloudflare carry. A file never passes through this process.
+Calls only ever go tenant to admin. A tenant proves itself with the token
+`push_config` wrote into its site config; every failure says the same thing.
 """
 
 import hashlib
@@ -31,17 +13,8 @@ from frappe.utils import cint
 
 from onedesk.one_admin import faults, site
 
-#: The rungs a workspace is still served on. Live and Overdue, and nothing
-#: below.
-#:
-#: Overdue is here because Overdue is defined as nothing happening to the
-#: workspace — somebody is told and that is all. Leaving it out would mean a
-#: failed card silently broke every upload on the same afternoon, which is the
-#: grace period not existing.
-#:
-#: Suspended is out, and below that there is no site left to call. It costs
-#: nothing to say so anyway: press has already deactivated a suspended site, so
-#: a call from one is a call from a site that should not be running.
+#: The rungs a workspace is still served on: Live and Overdue, since Overdue
+#: is defined as nothing happening to the workspace.
 SERVING = ("Live", "Overdue")
 
 #: Ours rather than `Authorization`, which Frappe's own API-key authentication
@@ -49,9 +22,7 @@ SERVING = ("Live", "Overdue")
 HEADER = "X-One-Token"
 
 #: Per tenant per minute, and not per IP: every tenant on one bench calls from
-#: one address, so an IP limit would be a limit on the busiest neighbour. High
-#: enough that a workspace doing real work never meets it, low enough that a
-#: leaked token cannot be used to grind through the catalogue.
+#: one address.
 A_MINUTE = 60
 CALLS_A_MINUTE = 120
 
@@ -84,14 +55,8 @@ def caller():
 def _offered_token() -> str:
 	"""Our own header, because `Authorization` is already spoken for.
 
-	A header rather than a parameter: a token in the body is a token in a
-	traceback, in a slow-query log and in anything that echoes what it was sent.
-
-	Not `Authorization`, though, and this was measured rather than reasoned:
-	Frappe's own `validate_auth_via_api_keys` reads that header, sees the word
-	token and splits the rest on a colon to get an API key and secret. A token
-	of ours has no colon, so every call died with `InvalidAuthorizationToken`
-	before reaching this module. A header of our own stays out of its way.
+	A header rather than a parameter, so the token is not in a traceback or a log;
+	not `Authorization`, which Frappe's API-key authentication reads first.
 	"""
 	return (frappe.get_request_header(HEADER) or "").strip()
 
@@ -115,25 +80,9 @@ def _refuse():
 def hello(database_bytes: int | None = None) -> dict:
 	"""Who this workspace is and what it is allowed, in one call.
 
-	`database_bytes` is the workspace's own measure of its database, sent
-	along because the workspace can read it and admin cannot. It is shown
-	and warned about, never billed: the sites are on our own servers, where
-	Frappe Cloud sets no limit, so the limit is ours (quota.py).
-
-	The tenant caches the answer in its own `Workspace Account`, so a screen
-	showing a plan or a quota draws without a round trip and keeps drawing
-	through an admin outage. That is why this returns the whole picture rather
-	than answering one question — the alternative is a workspace making four
-	calls to render a header.
-
-	It returns what exists. A zero is a fact and an absence is the truth, so
-	anything not built yet is left out rather than reported as nothing —
-	`credits` arrived with the ledger and is a real number now.
-
-	`standing` is the ladder: whether money is owed, and how many days are left
-	before the next thing happens. It is here rather than behind a call of its
-	own because a workspace that has to ask a second question to find out it is
-	about to be suspended is a workspace that will not ask.
+	The tenant caches the whole answer in its own `Workspace Account`, so it
+	returns the whole picture, including `standing`, the ladder. It returns what
+	exists: anything not built yet is left out.
 	"""
 	tenant = caller()
 	if database_bytes is not None:
@@ -196,11 +145,8 @@ def hello(database_bytes: int | None = None) -> dict:
 		"seller": billing.seller(),
 		"storage_bytes": known.storage_bytes or 0,
 		"storage_limit": known.storage_limit or 0,
-		# A sum over the ledger rather than a number anybody stored, which is
-		# why it is safe to answer from here rather than keeping a copy on the
-		# workspace that could disagree with its own history.
-		# The last credits an operator gave, with their note, so the customer
-		# hears why and not only that the number went up (one/account.py).
+		# A sum over the ledger, never a stored number; and the last credits an
+		# operator gave, with their note, so the customer hears why.
 		"credits": {
 			**ledger.standing(tenant.name),
 			# Nothing to run low against on our own workspace, which is never
@@ -231,20 +177,9 @@ def ai_run(
 ) -> dict:
 	"""One action, run for this workspace and billed to it.
 
-	`turns` is the conversation so far and `tools` are the ones the workspace is
-	willing to run. Both arrive whole each round, because this is stateless: a
-	model that wants to look something up is answered with what it asked for,
-	the workspace runs the tool as whoever is signed in there, and calls back.
-
-	`model` and `extra` are the workspace's own settings, sent with the call
-	because they live on the workspace's site and admin never calls a workspace.
-	Both are checked here rather than trusted: the model against what is
-	offered and what the action needs, and the extra against a length, because
-	what a tenant sends is what a tenant's administrator typed.
-
-	The instruction the action carries is **not** sent — it is read here, from
-	the administrator's own copy of the fixture, which is the copy a workspace
-	cannot write.
+	Stateless: `turns` and `tools` arrive whole each round. `model` and `extra`
+	are checked here rather than trusted, and the action's instruction is read
+	from the administrator's own copy, never sent.
 	"""
 	from onedesk.one_admin import actions
 
@@ -261,12 +196,8 @@ def ai_run(
 			tools=frappe.parse_json(tools) if isinstance(tools, str) else tools,
 		)
 	except faults.Refused as raised:
-		# Thrown rather than allowed to propagate, because frappe answers an
-		# unhandled exception with a body carrying only `exc_type` — so the
-		# sentence that says *why* ("this has gone five rounds", "that model is
-		# not offered") never reaches the workspace, and the panel has nothing
-		# to show but the endpoint's name. `Again` is a subclass and keeps its
-		# own name, so the caller can still tell retryable from permanent.
+		# Thrown, so the sentence that says why reaches the workspace; `Again`
+		# keeps its own name, so the caller can still tell retryable apart.
 		frappe.throw(str(raised), exc=type(raised))
 
 

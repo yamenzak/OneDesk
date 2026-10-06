@@ -1,22 +1,4 @@
 """Equipment that needs servicing: when it is due, and on whose calendar.
-
-ERPNext's **Asset Maintenance** is a schedule per asset — tasks, each with a
-periodicity, a start and an optional end, and the person it is assigned to —
-and an **Asset Maintenance Log** per due date, which somebody completes. It
-assigns the person a to-do and marks a log Overdue once its day passes. Two
-things were missing:
-
-- **A schedule with an end date is never due.** ERPNext's
-  `calculate_next_due_date` blanks the next due date whenever an end date is
-  set (`or next_due_date` is true as soon as there is one), so a task that
-  runs until the warranty ends has no due date, no log and no reminder.
-  `due` (Asset Maintenance validate) works the date out again for those,
-  from ERPNext's own periodicities (`next_due`, pure), and leaves it empty
-  only when the next one falls after the end.
-- **Due maintenance was on no calendar.** One's calendar has three layers
-  for it (one_inventory/calendar.py): the reader's own, everybody's, and an
-  asset's own, each opening the log to record it done. An asset's page says
-  when its next service is (`next_service`, read by assets.said).
 """
 
 import frappe

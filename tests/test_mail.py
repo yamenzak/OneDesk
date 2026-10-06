@@ -69,7 +69,7 @@ def test_a_thread_is_a_message_id_never_a_subject():
 
 
 def test_mail_is_read_from_r2_every_minute_whatever_the_notice_did():
-	assert re.search(r'"\* \* \* \* \*": \[\s*"onedesk\.one_mail\.inbound\.sweep"', HOOKS)
+	assert re.search(r'"\* \* \* \* \*": \[\s*(?:#[^\n]*\n\s*)*"onedesk\.one_mail\.inbound\.sweep"', HOOKS)
 	source = (MAIL / "inbound.py").read_text()
 	assert "raise frappe.PermissionError" in source and "hmac.compare_digest" in source
 	assert '{"one_raw_key": key}' in source, "taking one twice is taking it once"
@@ -643,7 +643,9 @@ def test_the_workspaces_signature_is_its_administrators():
 def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again():
 	sync = (MAIL / "sync.py").read_text()
 	assert "if not doc.one_error:\n\t\t\tbroke(doc, said)" in sync, "once, when it breaks"
-	assert '"Mailbox Not Reachable"' in sync and "Mailbox Not Reachable" in tree.notifications()
+	assert "tell.mailbox_not_reachable(doc, said, holders)" in sync
+	told = (MAIL / "tell.py").read_text()
+	assert '"Mailbox Not Reachable"' in told and "Mailbox Not Reachable" in tree.notifications()
 	connect = (MAIL / "connect.py").read_text()
 	again = connect.split("def reconnect(", 1)[1].split("\ndef ", 1)[0]
 	# Tried where it already is, by a holder, and the workspace's by an administrator.

@@ -1,25 +1,7 @@
 """Announcements: a message to everybody in the workspace, from its
 administrators.
 
-An announcement is frappe's own Note, made public and shown on sign-in:
-frappe pops it up for each person the next time they sign in, once or on
-every sign-in, until the day it expires, and writes down who has seen it.
-One adds three things:
-
-- **The administrator may announce.** frappe holds a Note's public and
-  sign-in fields at a level only its System Manager writes, so anybody
-  else's note stays private whatever they send. One gives that level, and
-  the one that shows who has seen it, to the workspace administrator.
-- **Everybody is told when one is posted,** on the bell and by mail as
-  each chose (Announcement), not only at their next sign-in.
-- **The administrators see who has read it,** frappe's own Seen By, and
-  OneAI answers who has not.
-
-**It pops up.** frappe works out each person's unseen notes in `on_login`,
-which runs before the session is made, so it works them out for Guest and
-nobody is ever shown one. `boot` works them out again when the desk loads,
-whenever frappe has cleared the list (at sign-in, and when a note changes),
-so a new announcement also reaches somebody already signed in, once.
+An announcement is frappe's own Note, made public and shown on sign-in.
 """
 
 import frappe
@@ -76,27 +58,9 @@ def on_update(doc, method=None) -> None:
 	"""Note on_update: everybody is told, once, when it becomes public."""
 	if not doc.public or not (doc.has_value_changed("public") or doc.flags.in_insert):
 		return
-	from onedesk.one import notify
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one import tell
 
-	people = frappe.get_all(
-		"User",
-		filters={
-			"enabled": 1,
-			"user_type": "System User",
-			"name": ["not in", [*NOT_PEOPLE, frappe.session.user]],
-		},
-		pluck="name",
-	)
-	text = frappe.utils.strip_html(doc.content or "").strip()
-	notify.notify(
-		"Announcement",
-		people,
-		record=(NOTE, doc.name),
-		title=doc.title,
-		by=frappe.utils.get_fullname(),
-		text=text[:SAID] + ("…" if len(text) > SAID else ""),
-	)
+	tell.announced(doc)
 
 
 def boot(bootinfo) -> None:

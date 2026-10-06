@@ -1,17 +1,5 @@
 """The second reading: does an extension's code do what it says, and nothing
-else?
-
-OneAI writes an extension from what an administrator asked, so whoever asks
-steers the writer. The reviewer is a separate call, its own AI action
-(`studio_review`), shown the code, the explanation the administrator will
-read, and where it runs, and nothing of the conversation, so nothing said
-there reaches it. It answers Pass or Refuse with a reason. guard.py has
-already refused what no explanation could excuse; this catches code that is
-allowed but is not what it says: a check that also copies a field elsewhere,
-a button that does more than its label.
-
-An extension that has not passed, or whose code, record, view or event has
-changed since it passed, cannot be turned on (extensions.py).
+else? A separate AI action (`studio_review`) that sees nothing of the chat.
 """
 
 import hashlib

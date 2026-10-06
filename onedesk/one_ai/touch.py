@@ -1,22 +1,7 @@
 """The field tools, and the badge on what OneAI wrote.
 
-**One path, not two.** The control beside a prose field opens the same panel as
-the launcher, pointed at that field. What comes back is an `AI Proposal` of kind
-Edit — the same card, the same Apply — so "help me write this" and an agentic
-edit are one thing to trust rather than two. The difference is only where Apply
-lands: with the form open, the text goes *into the form*, beside whatever the
-person has typed and not saved, and they save it the way they save anything.
-A server-side save there would either lose their edits or be refused as stale.
-
-**The badge is a comparison, not a flag.** `AI Touch` holds what was written.
-The form is handed the fields that still say it, and the badge shows while they
-do. A person's edit makes them differ and the badge is simply no longer true —
-without a hook on every doctype's write path, and without anybody having to
-remember to clear it.
-
-Text is compared as text: tags stripped and whitespace collapsed, because a
-Text Editor wraps what it is given in its own markup and would otherwise differ
-from what was written the moment it was drawn.
+One path, not two: a field's control opens the same panel and makes the same
+card. The badge shows while the field still says what `AI Touch` holds.
 """
 
 import json

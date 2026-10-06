@@ -1,25 +1,5 @@
 """A copy of a person's data, reviewed by an administrator before it goes.
 See one/privacy.py for deletion, and README "Privacy Requests".
-
-Frappe's `get_user_data` hands over every row a person's address appears in,
-whole: mail they were copied on, records they deleted, pages they printed,
-other people's values in the changes they made. Much of that is the
-workspace's, not theirs. GDPR article 15 gives a person a copy of their
-personal data, and 15(4) lets it be limited where it would harm the rights
-of others, the company's confidential information among them. So:
-
-- what is plainly about the person always goes: their account and profile,
-  sign-ins, contacts with their address, what OneAI remembers about them,
-  what they agreed to;
-- what they wrote or touched goes unless an administrator withholds it, kind
-  by kind, with a reason the person is told: mail, comments, to-dos, their
-  OneAI conversations, which records they changed (never the values), what
-  they exported or printed (never the pages), their notifications;
-- what is never theirs to take never goes: the contents of records they
-  deleted, printed pages, values in other people's records, account secrets.
-
-The request is a `Personal Data Download Request`, frappe's own, with three
-custom fields for where it stands, what was withheld and who decided.
 """
 
 import json
@@ -301,7 +281,7 @@ def last(user: str) -> dict | None:
 @frappe.whitelist(methods=["POST"])
 def ask() -> dict:
 	"""A copy asked for by the person, for an administrator to review."""
-	from onedesk.one import notify, privacy
+	from onedesk.one import privacy, tell
 
 	user = privacy._mine()
 	if frappe.db.exists(DOWNLOAD, {"user": user, "one_status": ["in", ["Waiting", "Gathering"]]}):
@@ -319,12 +299,7 @@ def ask() -> dict:
 	doc.set_new_name()
 	doc.set_user_and_timestamp()
 	doc.db_insert()
-	notify.notify(
-		"Copy Asked",
-		privacy._administrators(),
-		record=(DOWNLOAD, doc.name),
-		person=frappe.utils.get_fullname(user),
-	)
+	tell.copy_asked(doc, frappe.utils.get_fullname(user))
 	return privacy.state(user)
 
 
@@ -369,7 +344,7 @@ def gather(request: str, withheld: list | None = None) -> None:
 	"""The copy, as reviewed. A user's is a file only they may open, kept on
 	their account and announced on their bell; somebody who is not a user is
 	mailed a link to download it that works for a week (one/privacy_public.py)."""
-	from onedesk.one import notify, privacy
+	from onedesk.one import tell
 
 	doc = frappe.get_doc(DOWNLOAD, request)
 	address = doc.user or doc.one_email
@@ -404,25 +379,12 @@ def gather(request: str, withheld: list | None = None) -> None:
 	file.save(ignore_permissions=True)
 	withheld_said = doc.one_withheld or _("Nothing")
 	if not doc.user:
-		from onedesk.one import privacy_public
-
 		frappe.db.set_value(DOWNLOAD, doc.name, "one_status", "Ready", update_modified=False)
-		notify.mail(
-			"Your Data Is Ready to Download",
-			address,
-			url=privacy_public.download_link(doc.name),
-			days=privacy_public.DOWNLOAD_DAYS,
-			withheld=withheld_said,
-		)
+		tell.copy_ready_to_download(doc.name, address, withheld_said)
 		return
 	frappe.db.set_value("File", file.name, "owner", doc.user, update_modified=False)
 	frappe.db.set_value(DOWNLOAD, doc.name, {"owner": doc.user, "one_status": "Ready"}, update_modified=False)
-	notify.notify(
-		"Your Data Is Ready",
-		doc.user,
-		link=privacy.where(doc.user),
-		withheld=withheld_said,
-	)
+	tell.copy_ready(doc.user, withheld_said)
 	frappe.publish_realtime("one_privacy", user=doc.user)
 
 

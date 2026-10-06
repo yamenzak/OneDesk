@@ -251,7 +251,8 @@ def test_the_other_administrators_hear_of_one_turned_on_off_or_deleted():
 	for name in ("Extension Turned On", "Extension Turned Off", "Extension Deleted"):
 		assert name in names, name
 	source = (STUDIO / "extensions.py").read_text()
-	assert 'notify.notify("Extension Deleted", roles.administrators()' in source
+	assert 'notify.notify("Extension Deleted", roles.administrators()' in (STUDIO / "tell.py").read_text()
+	assert "tell.extension_deleted(_told(doc, link=False))" in source
 	assert "before and before.enabled != doc.enabled" in source
 
 
@@ -477,8 +478,8 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	Save and Reset alike; the Forms list offers nothing about one form."""
 	assert "Form Customized" in tree.notifications()
 	customize = (tree.APP / "one" / "customize.py").read_text()
-	assert customize.count("\t_told(doctype)\n") == 2
-	assert '"Form Customized",\n\t\troles.administrators()' in customize
+	assert customize.count("\ttell.form_customized(doctype)\n") == 2
+	assert '"Form Customized",\n\t\troles.administrators()' in (tree.APP / "one" / "tell.py").read_text()
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert 'bool((page.get("record") or "").strip()) != one["record"]' in suggest
 	assert '"onedesk.one_studio.ai.forms_here"' in HOOKS

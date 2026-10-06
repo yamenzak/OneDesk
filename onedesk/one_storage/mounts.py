@@ -1,28 +1,7 @@
 """Servers as folders: an SFTP or WebDAV server shown in OneCloud.
 
-A `Cloud Mount` is where a server is, who signs in to it and as whom, and who
-in the workspace may open it. Under **Network** it is a folder like any
-other: its contents are listed live from the server each time it is opened,
-and nothing is copied into File unless somebody copies it — so a mount is a
-window onto the server, not a sync.
-
-**Node ids** are `@mount/<mount>/<path on the server>`, so the explorer's
-verbs reach here through `api` without knowing what is behind them. Within a
-server, rename and move are the server's own; between a server and OneCloud,
-a move is a copy, the way it is between a record and a folder. Deleting on a
-server is deleting on the server: there is no bin there to put it in.
-
-**Who may**: a mount is its maker's unless a Workspace Administrator has
-shared it with everyone on the team, and then every member of staff reads and
-writes it with the credentials it was made with. So only an administrator
-shares one, and the credentials are never sent to a browser.
-
-**Where it may point**: not at this server or the network it sits in. A
-mount is the workspace fetching an address somebody typed, so an address
-that resolves to a private, loopback or link-local address is refused
-(`reachable`), unless the bench says otherwise (`onestorage_mounts_private`,
-for a developer's own machine).
-"""
+Its contents are listed live from the server each time it is opened, so a
+mount is a window onto the server, not a sync."""
 
 import io
 import ipaddress

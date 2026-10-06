@@ -1,15 +1,8 @@
 """Who is who: every identifier a record carries, and the record an identifier
 belongs to.
 
-Frappe, ERPNext and HRMS hold identity in a dozen places: a Contact's emails
-and phones, a Supplier's tax id and website, an Employee's passport, a Bank
-Account's IBAN, an Address's email. Going from an identifier to its record
-was a query per field per doctype. The Identifier table is that in one
-place, kept up on every save, so "who is DE123456789?" is one lookup.
-
-Rows are Dynamic Links to their record, so Frappe's rename and merge carry
-them along (`rename_dynamic_links`). There is no unique index for the same
-reason: a merge would trip it half way. `renamed` tidies the doubles after.
+The Identifier table, kept up on every save, so "who is DE123456789?" is one
+lookup.
 """
 
 import frappe

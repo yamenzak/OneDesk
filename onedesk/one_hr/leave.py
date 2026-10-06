@@ -1,24 +1,4 @@
-"""Answering a leave application, the same way the other two are answered.
-
-Three doctypes in OneHR are asked for and then answered by a person, and until
-now each had its own shape. Attendance Request had no way to say no at all;
-Shift Request had a Status dropdown; this one has a Status dropdown too, and
-`on_submit` throws "Only Leave Applications with status 'Approved' and
-'Rejected' can be submitted" — a rule the toolbar's own Submit button does not
-carry. Three shapes for one question is two too many.
-
-So it gets what the other two got: Approve and Reject, a note, and the three
-fields that say who decided and when. HRMS's `status` stays the verdict and
-becomes read-only, because the buttons set it, and a plain Submit reads as a yes
-rather than throwing.
-
-The headline is the other half. HRMS stacks two — frappe's "Submit this document
-to confirm" and its own "Submit this Leave Application to confirm." — and
-neither says what approving does. The one here says how many days of what, for
-whom, and what it leaves them with, because the table above it does not: it
-shows Available Leaves 21 beside Leaves Pending Approval 3, and the 3 is the
-application you are looking at.
-"""
+"""Answering a leave application, the same way the other two are answered."""
 
 import frappe
 from frappe import _
@@ -30,11 +10,8 @@ OPEN = "Open"
 APPROVED = "Approved"
 REJECTED = "Rejected"
 
-#: What an encashed day is paid as. HRMS ships Casual Leave with
-#: `allow_encashment` on and no earning component, and `create_additional_salary`
-#: throws "Please set Earning Component for Leave type" on *submit* — after the
-#: form has been filled in and the days worked out. The component it is pointed
-#: at is one HRMS installs itself, in `payroll/data/salary_components.json`.
+#: What an encashed day is paid as. HRMS ships Casual Leave encashable with no earning
+#: component, which fails only on submit; HRMS installs this one itself.
 PAID_AS = "Leave Encashment"
 
 

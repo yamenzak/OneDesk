@@ -1791,6 +1791,17 @@ shares. A condition is frappe's filters, and a template names only
 edits a Record Head row by row; OneAI (Customizing a Form, below) places a
 workspace's own numbers, charts, verbs and linked sections.
 
+A form of ours used to say all this in a script per doctype: an overview
+method worked the numbers out, and the script drew them under the title and
+added its buttons. docs/SHELL.md, decision 4, is the argument for rows. What
+stays code is what is really a program, registered by name: a measure's
+arithmetic stays Python and tested, and where it goes on the page is a row. A
+chart is, for instance, what this customer was billed month by month, or what
+the asset is worth over its life. Because a count or a sum is taken with the
+reader's own list permissions, the band never shows a number the reader's list
+would not. `head.install` writes the heads on every migrate, as notification
+types are written.
+
 **A linked section** puts fields of the record a form links to (the
 holder's mobile on an asset) on the form itself, in frappe's own controls,
 and saves them in the form's own save: `__one_linked` carries what changed
@@ -1801,8 +1812,1334 @@ and who edits, down to the field's permission level. A child table is drawn
 as frappe's grid and set whole on the linked record. The fields are laid out
 as the linked record's own form lays them (`placing`).
 
+"Put the employee's mobile on this form" means a field of a different record.
+Frappe's `fetch_from` copies it, which gives two values that drift apart and
+cannot be edited there. A Linked Section names a Link field of the record and
+fields of the record it points at, and is saved like this (docs/SHELL.md,
+decision 5):
+
+- **One save, one transaction.** frappe keeps a key it does not know
+  (`__one_linked`) on the document it saves, and `save` saves the linked
+  record in the same request, so if either fails both roll back and there is
+  never half a save.
+- **A clash is frappe's.** A change somebody made meanwhile is refused with
+  the record named, and nothing is overwritten. The form hears the linked
+  record's `doc_update` too, and says so before Save is pressed.
+- **Permissions are the linked record's**, down to the field. Its fields are
+  read-only for a reader who may not write it, and the section is not drawn
+  for one who may not read it. A field above permission level nought is
+  hidden from a reader without read at that level and read-only without
+  write, as it is on the record's own form. On a submitted record only
+  fields it allows on submit are editable; on a cancelled one none are.
+- **A child table** has its rows added, edited, moved and deleted in the
+  grid, and the whole table is sent and set on the linked record, so frappe
+  updates, inserts and deletes the rows as it would from that record's form.
+  The rows on this form are copies under names of their own, so a form of the
+  linked record open elsewhere keeps its own.
+- **Not** computed or fetched fields, or a second link onward: those are a
+  Connection, or a report.
+
 Profile writes a person's own User record, and their own Employee record when
 they have one (`own.employee_of`), and only the fields named in `PROFILE` and
 `EMPLOYEE_OWN`. Gender, birth date, mobile and photo go to the employee as well
 (`SHARED`), because erpnext copies the employee's values onto the login every
 time the employee is saved.
+
+### www/legal.py
+
+`/start` asks a person to agree to the Terms of Service and the Privacy Policy
+before they pay, and a person cannot agree to what they cannot read. Inside a
+workspace the documents are read in OneLegal's own page, which needs a sign-in;
+`/legal` is the same text, rendered by the same `assemble.render`, for a guest.
+
+On every site rather than the admin site alone: the text is the same
+everywhere, and a workspace's sign-in page may link to it too. What is recorded
+as agreed is still the acceptance in One (`one_legal/gate.py`); reading here
+records nothing.
+
+### www/start.py
+
+A tenant workspace carries this file like every other, and answers 404 for it:
+`one_admin.site.is_admin` decides, and a workspace offering its own customers a
+signup form would be a confusing thing to stumble onto.
+
+Nothing here decides a price. The offerings are read as they are, and the page
+draws what it is given — so a plan withdrawn in OneAdmin is a plan that stops
+being offered without anybody editing a template.
+
+The quota line is built here rather than in the template because it is four
+translated fragments joined by a separator, and a template that does that reads
+worse than the Python does.
+
+### www/welcome.py
+
+`ON_TRIAL`: when the plan carried a trial, nothing was charged, so "Payment
+received" is simply false — the card was taken and the first invoice is days
+away. Done is not in it: "The workspace is ready" is already the whole answer
+on the screen somebody opens to click Open it.
+
+### www/your_data.py
+
+On every workspace's own site. A guest (a customer's contact, a supplier, a
+lead or an applicant with no account) gives their address and is mailed a
+link. A portal reader signed in asks as a user does, in the portal's shell,
+under Account: the same state and calls as You > Profile > Your Data on the
+desk. Someone with a desk is pointed to their profile.
+
+### access.py
+
+People gives each person None, User or Manager on each app that is somebody's
+job (`settings.APPS`), and those are erpnext's own roles. Access adds four
+things, each frappe's own:
+
+- **Levels.** A Role the workspace makes for one app (`Role.one_app`), between
+  its User and its Manager. A person at a level holds the app's User roles and
+  the level, and the level carries only what it adds, as Custom DocPerm rows:
+  on a kind of record the app's own roles work with, and never a right none of
+  them has there, so a level cannot reach past the app's Manager, another app
+  or frappe's own records.
+- **Record access.** frappe's User Permission: a person sees only the records
+  of a territory, a department or a customer group they are given.
+- **Profiles.** frappe's Role Profile, a named set of app levels, applied
+  through `settings._set_access` rather than by frappe's own sync, which would
+  take away roles other parts of One give (HR's Employee). `User.one_profile`
+  remembers whose profile it is, and a profile changed is applied again to
+  everybody on it.
+- **Groups.** frappe's User Group, which frappe's assign dialog already takes.
+
+Writing Custom DocPerm copies a kind's standard permissions first, as frappe's
+Role Permissions Manager does, after which an app update to that kind's
+standard permissions no longer reaches it.
+
+`save_profile` unlocks the profile it saved. Frappe queues its own sync of the
+profile's members on every save and locks the profile until a worker runs it.
+One's profiles have none of frappe's members (they are applied here), so the
+lock only refuses the next save.
+
+### account.py
+
+A tenant site knows four things, all written into its own config when it was
+provisioned: where admin is, which workspace it is, the token that proves it,
+and what hostname it answers on. It knows no provider key, no bucket
+credential and no press token, and that is the whole security argument — a
+workspace that is compromised gives up itself and nothing else.
+
+**Nothing here decides anything.** Quota, price and permission are admin's
+answers; account.py asks and records. A tenant site that could decide its own
+quota is a tenant site that could raise it.
+
+**An outage degrades rather than stops.** `refresh` failing leaves the last
+answer in place with the error beside it, so a header keeps drawing what was
+last true. What does not survive is anything that needs a fresh decision — a
+new upload, an AI call — and that is the right thing to be fragile about.
+
+`PATIENCE_FOR` is how long an AI run may take on admin: the account waits on
+the provider for up to its own sixty seconds, or 110 for a call that thinks
+(`gateway.THOUGHT`), so a caller giving up at ten gave up on answers that were
+on their way — a drafted appraisal is longer than a lookup.
+
+### ai.py
+
+`suggest_approval`, `suggest_automation` and `draft_notification` are run by
+Workspace Setup, on a stronger model, for the same reason the two tools that
+lay a page out are run by Print Design: an approval's states, steps, roles and
+conditions have to fit together, and a small model sent back to mend one
+repeats it. A notification rule goes the same way, since a small model asked
+to tell somebody and assign the record reached for the rule, which cannot
+assign, rather than the automation.
+
+### ai_setup.py
+
+Each tool in ai_setup.py checks what it was asked against the same rules the
+page does, and writes a card (an `AI Proposal` of kind Setup) that does
+nothing until a person approves it. Approving runs the page's own code
+(one/reports.py, one/access.py) as whoever pressed Approve, so a card can do
+no more than they could by hand. A card says in plain words what changes: a
+level's card names every right it gives and takes away.
+
+All of them run on Workspace Setup, the stronger model approvals and
+automations run on.
+
+### announcements.py
+
+An announcement is frappe's own Note, made public and shown on sign-in:
+frappe pops it up for each person the next time they sign in, once or on
+every sign-in, until the day it expires, and writes down who has seen it.
+One adds three things:
+
+- **The administrator may announce.** frappe holds a Note's public and
+  sign-in fields at a level only its System Manager writes, so anybody
+  else's note stays private whatever they send. One gives that level, and
+  the one that shows who has seen it, to the workspace administrator.
+- **Everybody is told when one is posted,** on the bell and by mail as
+  each chose (Announcement), not only at their next sign-in.
+- **The administrators see who has read it,** frappe's own Seen By, and
+  OneAI answers who has not.
+
+**It pops up.** frappe works out each person's unseen notes in `on_login`,
+which runs before the session is made, so it works them out for Guest and
+nobody is ever shown one. `boot` works them out again when the desk loads,
+whenever frappe has cleared the list (at sign-in, and when a note changes),
+so a new announcement also reaches somebody already signed in, once.
+
+### approvals.py
+
+An approval is frappe's own Workflow: its states, the actions between them,
+and the role each action is for, drawn in frappe's workflow builder. The
+workspace administrator is given Workflow, Workflow State and Workflow
+Action Master, and the builder page through frappe's Custom Role.
+
+Frappe trusts whoever writes a Workflow, because only its System Managers
+may, and a workflow can run code: a transition's condition is Python, a
+state's value can be an expression, a transition can run tasks (a Server
+Script's method among them), and the field the workflow keeps its state in is
+written on every record of the kind. A workflow written by somebody frappe
+does not let customize (layer.held) is held to this:
+
+- it is on a kind of record they can open, never frappe's own or One's;
+- its transitions run no tasks, and a condition only compares the record's
+  own fields with plain values (`doc.grand_total > 5000`), so a bill over a
+  sum can go to a manager without a line of code;
+- a state sets a field only to a plain value, and only a field anybody who
+  may edit the record may set (the first permission level, not the record's
+  own bookkeeping);
+- it keeps its state in a field of its own, which is made here the first
+  time, as frappe makes it but as the workspace, since the administrator may
+  not add a field by hand.
+
+Every approval, the workspace's or not, is told through One's hub: frappe's
+own mail to whoever a step waits on is off (`send_email_alert`), and
+`waiting` tells them on the bell, and by mail as they chose, as Approval
+Waiting. One made without the builder (by OneAI, or by code) is laid out for
+it, since frappe's builder stacks every step it has no place for on one spot.
+
+### audit.py
+
+Frappe already writes all three: a `Version` for every change to a record that
+tracks its changes, an `Activity Log` for every sign-in and sign-out (failed
+ones too), and an `Access Log` for every export, printed PDF and private file
+downloaded. Reading them is its System Manager's, whom no workspace has, so
+nobody here could answer "who changed this price?" across the workspace. Now
+a workspace administrator reads them, as frappe's own lists, with three
+limits:
+
+- only changes to, and exports of, the kinds of record they may read, plus
+  people's accounts and what they may do (the `PEOPLE` kinds), so the log
+  shows no salary to somebody who cannot open a salary slip;
+- never frappe's own machinery or the platform's records;
+- never what the system did (`SYSTEM`): a scheduler, a patch or an operator
+  signed in as Administrator, which is the platform's, not the workspace's.
+
+Nobody writes to it: frappe writes every row, and nobody here may change or
+delete one. Frappe clears sign-ins after 90 days; changes and exports are
+kept. Audit Trail, frappe's comparison of a document's amendments, stays
+out: every submitted record's own timeline already shows each version.
+
+### automation_steps.py
+
+Tell People tells people through the hub (one/notify.py), on the bell and by
+mail as each chose, as Automation Notice, and fills a mail template in as the
+composer does (one/mail_templates.py). Frappe's Send Notification mails past
+the hub, and renders a template with only `doc`, so a template that names the
+record's fields bare, as the composer and the leave mails need, prints its
+tags there.
+
+### automations.py
+
+An automation is frappe's own Automation Flow: a trigger, the records it
+matches, and steps (set a field, make a record, notify, assign, call a
+webhook, wait). The workspace administrator is given Automation Flow, and
+it is listed in One's sidebar, so its list and form keep One's rail.
+
+Frappe trusts whoever writes a flow, because only its System Managers may.
+A flow runs as Administrator unless told otherwise, its condition and an If
+step's are Python, every step's values are Jinja with frappe's globals, and
+a step can run a Server Script. A flow written by somebody frappe does not
+let customize (layer.held) is held to this:
+
+- it runs as whoever wrote it, so each step can do only what they could do
+  by hand, and frappe's own permission checks decide;
+- it decides by its field rules, never by code: no condition, no If step;
+- it runs no script;
+- a value names a field of a record, `{{ doc.customer_name }}`, and nothing
+  else (as one/mail_templates.py holds a template);
+- a webhook is sent over https (frappe already refuses internal addresses);
+- it is on a kind of record they can open, never frappe's own or One's.
+
+Automation Settings stays the operator's.
+
+**Tell People** (`TellPeople`, one/automation_steps.py) is One's own step,
+added through frappe's `automation_actions` hook: it tells people through the
+hub (one/notify.py), on the bell and by mail as each chose, as Automation
+Notice, and fills a mail template in as the composer does
+(one/mail_templates.py), from the record's own fields. Frappe's Send
+Notification mails past the hub and renders a template with only `doc`, so a
+template named by its fields prints its tags; it is not offered to a
+workspace's own flows.
+
+### babel.py
+
+frappe's extractors read doctypes, workspaces, reports and the rest, but not a
+card's label, a chart's name or the labels of a format laid out in the print
+format builder. The dashboard shows the first two through `__()`, and the
+builder's macros print each label through `_()`. An app may add its own
+extractors in `babel_extractors.csv` beside it; babel.py's are listed there.
+
+### bills.py
+
+The invoices are Stripe's and the admin site asks for them (billing.py), so
+the Plan and Credits page lists them without keeping a copy: each opens
+Stripe's own page and PDF. **Payment Method** opens Stripe's billing portal,
+where the card, the billing address and old receipts live.
+
+**Into this workspace's OneBook, when asked.** Add to OneBook makes a draft
+Purchase Invoice from the supplier One (the admin site's company, by its own
+name, tax ID and website), with the invoice's lines and its PDF attached,
+for somebody to check the expense account and submit. Never unasked: a
+workspace that does not use OneBook, or books its software another way,
+would find a bill it did not make.
+
+**And OneIntake.** A Stripe invoice or receipt mailed to a mailbox OneIntake
+reads needs nothing from bills.py: OneIntake makes a first-time supplier from
+the name and tax ID on the document and drafts the bill against it
+(one_intake/plans.py, parties). Whichever gets there first books it: Add to
+OneBook finds a bill with the same number, and OneIntake links the mail to
+the bill that exists rather than making another (one_intake/money.py).
+
+### boot.py
+
+Frappe pins its own Framework tile last on every site. It is the desk's own
+administration — Users, Build, Data, the System settings — and the people who
+need it all hold System Manager, so anyone else gets a tile they cannot use.
+
+The tile comes from frappe's own `add_to_apps_screen` hook, which we cannot
+edit, so it is taken off the screen in boot.py instead. `extend_bootinfo` runs
+after `app_data` is built, which is the only seam that sees it.
+
+`boot_session` also sends what each provisioning step is doing, in words. The
+list view needs it and so does the form; putting a copy in JavaScript would be
+a second list to be wrong the day somebody adds a step. Only on the admin
+site, where the screens that read it exist.
+
+### brand.py
+
+Two doctypes because two readers. `Website Settings.app_name` titles the desk,
+the login page and every system email, and its `app_logo` is what
+`get_app_logo` reads first — the navbar, the login page, the password reset,
+the OAuth consent. The desktop screen asks `Navbar Settings.app_logo` instead
+and falls back to frappe's own hook, so that one has to be written as well.
+
+`footer_powered` is there for a third reason: a portal page left alone says
+**Powered by ERPNext** at the foot, which is erpnext's default and which a
+customer signing up to One should never be shown. Found on `/start`. An
+empty one is not enough, because frappe's footer treats empty as unset and
+draws erpnext's line anyway; a space draws nothing. The mails had the same
+line, "Sent via ERPNext", which System Settings' `disable_standard_email_footer`
+leaves out.
+
+`footer_items` puts Your Data and the Privacy Policy at the foot of every
+public page, the sign-in page included, so somebody who is not a user finds
+where to ask for their data (one/privacy_public.py). frappe's own footer
+links, so a workspace can change or add to them in Website Settings.
+
+### closing.py
+
+Only the person the workspace is billed to may do either: they are the
+customer, and both are about the whole company's data, salaries included,
+which no administrator role is meant to reach in one go. Workspace >
+Plan and Credits shows everybody else who can.
+
+**The full download** is one zip, built in the background and kept on the
+site until a newer one replaces it or the site is deleted:
+
+- `database/`: frappe's own backup of the database, which any Frappe site
+  restores (`bench restore`);
+- `records/`: every kind of record with rows, one CSV each, readable in
+  any spreadsheet;
+- `files/`: every file, under the folder it is in, from OneCloud's store.
+
+**Closing** asks the account (one_admin/closing.py) to close it in a
+fortnight, confirmed with the payer's password. Until that day it works as
+before and the payer can keep it open; everybody in it is told the day,
+and told again if it stays open. On the day the account archives it, and
+deletes it for good once the Terms' days on Archived have run.
+
+### companions.py
+
+A `Dock` may name a host, and frappe calls an app that does so a companion: it
+gets no tile on the apps screen and no rail of its own, and every workspace it
+owns resolves its app context to the host. That is exactly what One needs from
+the two it is built on — without it, opening an HRMS doctype by URL lands in
+Frappe HR's rail under Frappe HR's mark, because `get_modules_linking` puts the
+shell that owns the doctype first and only continuity from inside One overrode
+it.
+
+The claim is the companion's to make, so it is written onto their own `Dock`
+rows — as a column and not through the document, because saving a standard doc
+in developer mode writes its JSON back, and their app's file is not ours to
+edit. The mount is this site's, which is why it survives nothing: their file
+does not carry it, so a `bench update` shipping a newer dock clears the row,
+and companions.py runs on every migrate rather than only at install.
+
+Mounting appends the companion's rows to the host's rail. We want the host and
+not those nine, so One's site layer carries each of them hidden — the refusal
+frappe names for exactly this, since a host cannot veto a mount.
+
+### company.py
+
+Multi-company is not a thing One does. A group that runs four companies buys
+four workspaces, which is the commercial decision and also the simpler product:
+there is no consolidation, no inter-company anything, and no screen anywhere
+that has to ask *whose* this is. What is left over from erpnext and hrms is a
+mandatory `Company` Link on about two hundred and fifty doctypes, showing the
+same value every time — a field that can only be got wrong and never right.
+
+So every one of them is hidden, and the global default fills it. Where the
+field is also mandatory, it is given the company as its default as well:
+frappe holds that a hidden mandatory field has a default, and checks it every
+time a form's fields change, so without it nobody could add a field to one of
+these forms, from the Customize page or frappe's own Customize Form. Where a
+document can do better than the default it does: an attendance request and a
+shift request take the company from the employee, because that is the answer
+even on a site somebody has left two Company records on.
+
+**This is derived from the site rather than shipped as a fixture.** A generated
+fixture would have to be pinned to one bench's set of apps, and a site that does
+not carry erpnext would fail to import rows naming doctypes it has never heard
+of. The list is a query over the schema the site actually has, which is a thing
+only the site knows — so it runs after every migrate, beside `policy.seed`, and
+by the same rule: write it once, and never overrule a tenant who changed it.
+
+### customize.py
+
+What a workspace administrator changes on the Customize page is frappe's own
+records, and one of ours:
+
+- **Fields**: a field's label, whether it is hidden, required or in the list,
+  and the order of them all, as **Property Setters**; a field of the
+  workspace's own, as a **Custom Field**, which it may change again or take
+  away. A field the record came with may be hidden, never removed.
+- **Above the fields**: rows of the doctype's **Record Head** (one/head.py):
+  numbers in the band, verbs a module registered, and linked sections
+  (one/linked.py). A module's own rows are shown and kept; the workspace's are
+  marked `custom`, so a migrate keeps them too.
+- **Connections and buttons**: the DocType's own Links and Actions, marked
+  `custom` as frappe's Customize Form marks them. A button there only goes
+  somewhere; one that runs something is a verb.
+
+Every row is written under `frappe.flags.one_workspace_layer`, so the holds in
+one/layer.py read it as the workspace's, and it is saved against the state
+the page loaded (`state`), so two administrators do not overwrite each other.
+What frappe does not mark (a custom field, a property setter) the page writes
+into a ledger, **Workspace Customization**, and **Reset** takes back what the
+ledger names and nothing else: a module's customizations are never the
+workspace's to remove.
+
+### declutter.py
+
+Every installed app writes into the same navbar and the same onboarding list,
+so a One site arrives carrying rows nobody here authored. All of it is site
+data, which is why declutter.py is a list of names rather than a patch, and
+why a tenant can put any of it back.
+
+`sync_standard_items` matches a navbar row by its label and only appends the
+missing ones, so hiding a row survives every migrate. Marking an onboarding
+complete is what its own "Skip All" writes, and `import_file` never overwrites
+that field.
+
+`HIDE_REPORTS` are reports One has replaced with one of its own. They are
+disabled rather than deleted: the row is theirs and a `bench update` would
+write it back, and this runs on every migrate so it settles again after one
+does. A tenant who wants the original back enables it.
+
+### holidays.py
+
+A Holiday List is erpnext's: a year of dates, the week's day off written out
+as one row per Friday, and the country's public holidays. Two things read it,
+and they read it differently:
+
+- **hrms reads only a submitted `Holiday List Assignment`**
+  (`hrms.utils.holiday_list`): leave, attendance, shifts and check-ins. An
+  assignment holds from its first day until the next one starts.
+- **erpnext's reports read `Company.default_holiday_list`**, whatever the
+  date.
+
+So choosing a list is both (`use`), and the company field follows the
+assignment in force (`daily`), so the two never disagree. OneCalendar and
+Intake's deadlines read by date across every list the company was assigned
+(`public`, `all_dates`), so January is counted against January's list.
+
+**A list ends.** A list is a year, and on 1 January the old assignment still
+holds with no days in it: every Friday becomes a working day, and nothing
+fails. `next_year` makes the next list from this one (same day off, the
+country's public holidays) and assigns it from its first day; `daily` tells
+the administrators 60, 30 and 7 days before a list ends with nothing after
+it. Only administrators change the list here (the page is theirs), so only
+they are told.
+
+### home.py
+
+Home is frappe's `One` workspace, and every number on it is a frappe
+`Number Card` of type Custom: a method in home.py that counts for whoever is
+reading, with where a click goes (`route`, `route_options`). Each counts
+through `frappe.get_list` or the product's own reader, so it is exactly what
+the reader may open. The administrators' part is a `Custom HTML Block`
+limited to their role, filled by `attention`, and it hides itself when
+nothing needs them.
+
+Nothing here is kept: each number is asked when Home is drawn.
+
+### homes.py
+
+frappe's form trail is the record's list, then the record. A kind of record
+One keeps on a page of its own (a department on Masters) has a list nobody
+reaches: no rail links it. So its trail named a list the reader never came
+from, and left out the page they did.
+
+A module says which of its kinds live on its pages (`one_homes` in hooks.py),
+as {doctype: [{label, route}, ...]}, for the person reading; the browser puts
+those crumbs where frappe's list crumb would be (public/js/shell.js). A kind
+the rail links keeps frappe's own crumb.
+
+### invite.py
+
+Frappe's welcome mail was a password-reset link, and a reset link lives as
+long as System Settings' `reset_password_link_expiry_duration`, twenty
+minutes here: somebody who opened the mail after lunch could not get in. It
+said nothing of who asked them or to what either. So the mail is ours, sent
+through the hub as the Invitation type, and its link carries our own key,
+good for `DAYS`. Opening it asks frappe for a fresh reset link and goes
+there, so the password is still set on frappe's own page, however late they
+come. Setting it spends the key.
+
+The key is kept as a hash in frappe's defaults, beside where frappe keeps a
+person's two-factor secret, never as it was sent.
+
+### layer.py
+
+A workspace customizes a form with frappe's own records (Custom Field and
+Property Setter, the DocType's Links and Actions) and one of ours (Record
+Head), on the Customize page (one/customize.py). Frappe trusts whoever writes
+those, because only the people it lets customize can. A workspace
+administrator is not that, so every row written through the Customize page,
+and any written by somebody frappe does not let customize, is **held** in
+layer.py, as a workspace's notification rule is (one/rules.py).
+docs/SHELL.md, decision 6.
+
+- **Nothing that runs.** No virtual field (its options are Python), no HTML
+  field (its options are markup the desk puts on the page), no button, and a
+  `depends_on` that is a field's name or a comparison of fields and plain
+  values, read by `plain` rather than run: the desk runs an `eval:` as
+  JavaScript in every reader's browser, and a row anybody here may write that
+  runs there turns "may customize a form" into "may act as whoever opens it".
+  Client and Server Scripts are refused outright.
+- **Nothing that weakens a guard.** No permission level, no ignoring user
+  permissions, no field made optional that frappe made mandatory, no Link or
+  table pointed somewhere else, and no field changed into another kind.
+
+`property_setter` lets through how a kind of record is named when it comes
+from Numbering (one/numbering.py `set_naming_by`), which has checked the kind
+and the choice, and writes what Customize Form would: the autoname and naming
+rule, the series shown or hidden, and the field a record is named by made
+required and unique.
+
+### letter_heads.py
+
+frappe keeps a letter head's top as HTML, and ERPNext's own reads the
+company's logo, name, address and contacts from the document as it prints. A
+workspace's letter head may hold no template (`print_html.letter_head_html`),
+so its top is drawn in letter_heads.py instead: one of `PRESETS`, from what
+Workspace > General keeps (the logo, the name, the company's own address, its
+phone, email, website and tax ID, and its Brand Colour), showing what the
+administrator ticked. The choice is kept on the letter head (`one_top`), and
+the top is drawn again whenever the company or its address changes (`redraw`),
+so a printed page always says what General says now.
+
+The foot is drawn the same way, from `FEET` (`one_foot`, `draw_foot`). It
+carries no page number: that is the print format's own (Print Format's Page
+Number), which frappe draws on every page.
+
+A top or foot written by hand, in frappe's builder, stays as it was written:
+editing a drawn one there makes it hand-written (`apply`).
+
+In `draw`, the logo's cell is as wide as the logo, so the company's lines have
+the rest of the width and the address and the contacts each stay one line. It
+is said in pixels: frappe's print style holds every letter head picture to its
+cell, and a cell sized to its content would hold it to nothing.
+
+### link_titles.py
+
+frappe shows a person's name in place of their address in every link to a User
+(`show_title_field_in_link`), and fetches a title it does not have yet through
+`frappe.desk.search.get_link_title`, which asks for read permission. Most
+people in a workspace may pick a colleague in a link (select) without reading
+their User record, so every Report View with a person in it raised "Not
+permitted" once per person, and a person who may never be read
+(Administrator) raised it for everyone.
+
+The title is what the link's own search already showed them, so it is given
+to anyone who may select or read the record. Anyone else gets the name back,
+as frappe does for a doctype with no title, and no error.
+
+### mail_templates.py
+
+A template is frappe's own Email Template: a subject and a message, for one
+kind of record or for any, picked in the mail composer or named by a setting
+(HR Settings' leave mails, the interview reminders). Frappe renders it as
+Jinja with its template globals, as whoever sends it, so whoever writes one
+can make it read anything that person may read and put it in the mail.
+Frappe gives writing one to its System Managers only.
+
+The workspace administrator is given Email Template, and a template written
+by somebody frappe does not let customize (layer.held) is held to what a
+workspace rule's text is held to (one/rules.py): what it adds names a field
+of the record, `{{ customer_name }}`, and nothing else. Never
+`{{ doc.customer_name }}`: the composer, the leave mails, the salary slip and
+the interview reminders all render a template with the record's own fields
+and no `doc`, so that one fails in every one of them. What the template
+already said stays as it was written, so the leave mail hrms made on setup
+can have its wording changed without its logic being refused.
+
+OneMail writes with frappe's composer too, with no form behind it
+(public/js/mail_compose.js): it is offered the templates for the record a
+conversation is filed on, or those for any record, and `get_email_template`
+fills one in from the record itself.
+
+### masters.py
+
+Each master is frappe's or erpnext's own doctype. They are grouped by where
+they are used: Shared for what every app's records pick (and the two a
+printed page reads), then each app's own. An administrator sees every group;
+an app's managers see their app's, and are given what erpnext keeps for a
+role of its own (`_give_managers`). Whether a kind can be added to, renamed
+or removed is frappe's own permission check, as anywhere else; the workspace
+administrator is given the kinds frappe keeps for its System Manager
+(`settle`), so frappe's "Create a new" under a field works for them too.
+
+An address template is Jinja, run wherever an address is shown or printed, so
+one the workspace writes (layer.held) is held to what a mail template is held
+to: every tag it adds names a field of the address, bare, or is an `if` on one
+and its `endif`, or a plain label in the reader's language. Every tag it
+already had stays, so frappe's own per-country templates can be reworded.
+
+### notify.py
+
+**The hub is frappe's own.** A notification to somebody in the workspace is a
+Notification Log of a Notification Type. That rings their bell, and frappe
+emails it to them if they chose email for that type. We add what frappe's type
+lacks, as custom fields on Notification Type: the app it belongs to, what it is
+about, its text, and which channels it may use.
+
+**A type is one file in `onedesk/notifications/`**, under the module that
+sends it, in one layout (notifications/layout.py). The folder is named in
+`hooks.py` under `one_notification_types`, where another app may name its own
+list. `install()` makes each one a Notification Type after every migrate. From
+then on the workspace's administrator owns its text and its channels.
+
+**Two texts, and whose words they are.** A type's default subject and message
+are translatable strings with named slots, `_lt("{who} shared {file} with you")`.
+They are sent in each reader's own language, because they are ours and are
+translated. Once an administrator edits a text, it is theirs: Jinja in their
+own words (`{{ who }} shared {{ file }} with you`), sent as they wrote it.
+Resetting a text makes it the default again, and translated again.
+
+**Two ways out:**
+- `notify()`, for people in the workspace: the bell, and whatever else they
+  chose. The bell is always on, because it is the record of what was sent.
+- `mail()`, for addresses outside the workspace (a file request, a shared
+  link, a sign-in code), or a mail somebody replies to. It is still the type's
+  text, so an administrator can still change it.
+
+Nothing else in OneDesk calls `frappe.sendmail` or writes a Notification Log;
+`tests/test_notify.py` holds that.
+
+**What erpnext and hrms send is declared here too** (stage 6), in the module
+whose screens it belongs to, in one of three ways:
+- told through the hub in our words, by our code in their place: their own
+  switch for it is turned off (`replaces`), and hidden;
+- told through the hub in their words (`words`): a standard rule of theirs
+  carried to the bell (`rule`, one/rules.py), whose text is theirs to write;
+- mailed by them (`mailed_by`), where nothing lets us stand in their place, or
+  the mail itself is the point (a payslip). Listed, so the administrator sees
+  everything the workspace sends; where the app has a switch for it
+  (`switch`), or a frappe Notification of ours sends it (`notification`),
+  that switch or the Notification's Enabled and Send This are one.
+
+Every value put into a text is escaped first, because the text is HTML in the
+bell and in the mail, and a file or person's name is not ours to trust.
+
+**An administrator's Jinja sees its slots and nothing else.** Frappe's own
+`render_template` hands a template `frappe.db` and the rest of its safe
+globals, which would let whoever edits a text read any record into it. A
+workspace administrator is not everybody's HR or accounts, so their text is
+rendered in a sandbox with no globals at all, and saving a text that names
+anything but its own slots is refused.
+
+`choosable` lists every kind a person can receive. A kind declared for some
+roles is theirs only; one that goes outside the workspace is nobody's to
+choose. A kind that `follows` another is the same event said another way (one
+thing waiting rather than several), so it is not listed: it rides on the kind
+it follows, whose `twins` it is in, and takes that kind's choices.
+
+### numbering.py
+
+Frappe keeps this in Document Naming Settings, a Single whose whitelisted
+methods change any doctype's series and run for anybody who can read it
+(`run_doc_method` checks read, and `update_series` writes the property
+setters itself). So the workspace administrator is not given that Single.
+numbering.py's functions are the doors instead, each guarded to a doctype the
+workspace may change and its administrator may read, and each calling
+frappe's own logic: `update_series` validates a series and refuses one
+another doctype uses, `NamingSeries` previews and counts.
+
+The one thing frappe lets its System Managers do that numbering.py does not:
+set a series' next number lower. Going down repeats a number already used, and
+the save that meets it fails; going up only skips numbers, as a new year does.
+
+`NAMED_BY` holds the kinds of record that name themselves in code, by one of
+their app's own settings: the Single, the field, the method that shows or
+hides the series and the name field to match (or None), and whether the code
+reads the setting as a global default, which the Single's save would have
+written.
+
+`SERIES`, `FIELD` and `EXPRESSION` are how any other kind may be named, as
+frappe's Customize Form offers it: the naming rule it records, and what it
+writes as `autoname`. Frappe's Autoincrement cannot be changed to or from once
+records exist, UUID changes how the name is stored, and By script is code, so
+none is offered.
+
+### outside.py
+
+One's rail and its sidebars are a workspace's whole desk. Frappe still boots
+every sidebar and workspace a person may open, its own (Build, Users, Email,
+Printing), erpnext's (Accounts, Selling, Stock, Home) and hrms's (Payroll,
+Leaves), and its sidebar resolver picks among all of them: a record no One
+sidebar lists, opened cold or reached from a frappe record, landed in
+erpnext's or frappe's sidebar and rail, and their workspaces opened by address
+and through search.
+
+So the boot carries One's sidebars only, with One's first, and One's
+workspaces only. A record no One sidebar lists stays in the sidebar it was
+opened from, or One's when opened cold (frappe's own steps 5 and 6). The
+workspaces taken out are named in `one_elsewhere`, and desk.js sends their
+addresses, and frappe's apps screen, to One's Home.
+
+The platform's own people (`boot.platform`) keep frappe's whole desk.
+
+### owner.py
+
+The admin site builds the site and knows who paid (`Tenant.owner_email`), but
+it cannot sign in to the site it built, and it holds only a hash of the token
+the site proves itself with. So the workspace asks instead. `hello` names the
+owner in its answer, and a workspace that has no administrator yet makes them
+one and sends them One's own invitation (one/invite.py), with a link that
+works for a week. The admin site's last step of a build asks the new site to
+ask at once (`account.wake`), so the invitation leaves as the build finishes
+rather than at the next nightly refresh.
+
+Once, and only while nobody administers the workspace: an owner who later
+hands it to somebody else is never put back, and nobody who already has an
+account is touched.
+
+### portal.py
+
+Frappe draws the portal: Portal Settings lists what each role sees (erpnext's
+Quotations, Orders and Invoices for a customer; Requests for Quotation and
+Purchase Orders for a supplier), frappe's `portal` page lists a kind of
+record through the kind's own `get_list_context`, and a row template draws
+each row. One's look replaces the templates only (www/portal.html and the row
+templates under templates/includes); what is listed, and for whom, stays
+erpnext's and frappe's.
+
+The page's Python is frappe's own when it lists a kind of record (its
+ListPage asks for frappe's module by name), so what the template needs beyond
+frappe's context comes from the Jinja methods in portal.py.
+
+`ACCOUNT` is the reader's own account, under Account in the sidebar: frappe's
+profile web form, its Set Password page, One's Your Data (one/privacy.py) and
+frappe's Third Party Apps, shown once an app has been let in.
+
+`send_quote`: erpnext's own mapper (`create_supplier_quotation`) cannot finish
+for a portal user, since filling the quote's defaults reads each Item, which a
+supplier may not. So its steps are taken in `send_quote`: the reader is
+checked to be one of the supplier's portal users, the request to be one sent
+to that supplier, and then, as frappe's web form does for a save it has
+already authorized, the quote is made with the session's user switched, owned
+by the supplier's user.
+
+### portal_invite.py
+
+frappe's Invite as User makes the login only for somebody who may create
+users, and nobody on a workspace may (one/roles.py), so the portal could not
+be reached. Here a workspace administrator, or the manager of the contact's
+customer (Sales Manager) or supplier (Purchase Manager), invites the contact
+from their form: a Website User is made for the contact's address, linked to
+the contact (`portal.invited` then makes it a portal user of each customer and
+supplier the contact is for), and One's Portal Invitation is mailed with a
+link that works for a week (one/invite.py). An address that is already
+somebody's in the workspace is refused: they sign in to One, not the portal.
+
+Revoke Access turns the login off and signs it out everywhere; Restore Access
+turns it back on.
+
+### print_blocks.py
+
+A record that leaves the company prints from a format laid out in frappe's
+print format builder (each module's `print_format/`). Most of the page is the
+builder's own: fields, the items table, the terms. The parts the builder cannot
+say are One's blocks, frappe's own Print Format Field Templates, standard in
+module One (`one/print_format_field_template/`), so a workspace finds them in
+the builder's Library and can place them on a format of its own:
+
+- **One Title**: what the paper is (an invoice, a credit note, a receipt) and
+  its number, in the company's Brand Colour.
+- **One Party**: who it is for, with their address, contact and tax ID, and
+  where the goods go when that is somewhere else.
+- **One Details**: its dates and references, the ones that are set.
+- **One Totals**: the subtotal, discount, each tax, the total, what is paid
+  and owed, the total in the company's currency when the record is in
+  another, and the total in words.
+- **One Payment Schedule**, **One Bank Details**: when it is due, and where
+  to pay it.
+- **One Payslip** and **One Payment**: a payslip's earnings and deductions,
+  and what a payment settles.
+- **One Signatures**: where each side signs, on a paper that is signed and
+  handed back.
+
+Each template (templates/one_print/) is drawn from `one_print_block`, which
+says what to show. Every value is frappe's formatted value, in the record's
+own currency, so nothing in print_blocks.py formats a number by hand.
+
+Each record in `FORMATS` prints with One's format unless the workspace has
+chosen another (`settle`).
+
+### print_html.py
+
+A printed page is drawn on this site's address, where a script runs as
+whoever opens it, and a PDF is drawn by a browser on the server, which fetches
+whatever the page points at. And an HTML block is a Jinja template, which
+frappe renders with globals that read any table (`frappe.db.sql`,
+`frappe.get_all`) and fetch any address (`make_get_request`). So what a
+workspace administrator writes in HTML is held to three things:
+
+- **The template reads the record and nothing else** (`check_template`): the
+  record's fields and rows (`doc.grand_total`, `{% for row in doc.items %}`),
+  `doc.get_formatted(...)` and `doc.get(...)`, conditions, loops, arithmetic,
+  `_()` and plain filters. It is rendered in a sandbox of its own that holds
+  only those (`render`), escaping every value, never in frappe's.
+- **The markup is markup for paper** (`clean`): text, headings, tables, lists,
+  images and links, with scripts, forms, frames, media and event handlers
+  taken out.
+- **Nothing is fetched from elsewhere**: an image is this site's file or an
+  inline image, and a style may not import or point off this site.
+
+A block the workspace saves is marked `one_sandboxed`, and onedesk's copy of
+frappe's HTML block macro (templates/print_format/macros/HTML.html) renders a
+marked block through `render`. A block frappe or its System Managers wrote is
+unmarked and renders as frappe renders it. A letter head's HTML is rendered by
+frappe as it is stored (printview.get_letter_head), so it holds no template at
+all and is stored already cleaned.
+
+### print_props.py
+
+The properties are read from frappe's builder (public/js/print_format_builder:
+field_properties.js, SectionPropertiesPanel.vue, TableFieldInspector.vue,
+BarcodeRows.vue and the rest of the inspector) and checked against what its
+renderer reads (templates/print_format/print_format.html, macros.html and
+macros/*): a property the builder sets and the page never reads is left out,
+and so is one the page reads that nothing sets. What each accepts is what the
+builder's own control offers.
+
+A value is checked in print_props.py for its shape; a style for what it may
+load (`printing._style`), and a condition for its grammar. frappe runs a
+condition in its own safe_eval with the record and the print settings, as the
+builder's own do.
+
+### print_recipes.py
+
+OneAI designs a print format as the builder lays one out
+(`ai.design_print_format`). Left to itself, two requests for the same invoice
+came out as two different pages. So `print_layout` offers a starting layout
+made from the kind's own fields, in the order a reader looks for them, and
+OneAI changes only what was asked. The look is frappe's own print style with
+`HOUSE_CSS` over it: the same page, spaced and toned the way frappe-ui draws
+one, so it still reads like every other format the workspace prints. A format
+made to a look somebody asked for carries their css instead, never this one as
+well.
+
+Two shapes cover what a workspace prints:
+
+- a document of trade (an invoice, a quotation, an order, a delivery note, a
+  bill): who it is for and where on the left, its dates and references on the
+  right, the items as one table, the amount in words beside the totals, and the
+  terms last;
+- anything else: its main fields in two columns, each of its tables with the
+  columns its list shows, and its long text last, each under its label.
+
+Every layout is written as `ai.LAYOUT_HELP` describes: sections of columns of
+blocks.
+
+`HOUSE_CSS` is the house finish over frappe's print style, in frappe's own
+classes and its grey scale: labels small and muted, room between sections,
+tables lined rather than boxed under a soft header, the totals as label and
+figure on one line and the grand total set off above them. Sizes are em, as
+frappe's are.
+
+### printing.py
+
+The formats are frappe's own: Print Format made in frappe's print format
+builder, and Letter Head. The workspace administrator is given both, and the
+builder page, through frappe's own Custom DocPerm and Custom Role. What is
+held in printing.py is what a printed page may carry when somebody frappe does
+not let customize wrote it (layer.held), because the page is drawn on this
+site's origin, where a script runs as whoever opens it, and a PDF is drawn by
+a browser on the server:
+
+- **A format is made in the builder.** No hand-written HTML format, no raw
+  printing, no JS format, and in the builder no Typst block, which reads
+  files. An HTML block is allowed as print_html.py holds it: a template that
+  reads only the record, rendered in a sandbox of its own, its markup cleaned.
+  Everything else the builder offers (fields, tables, text, images, barcodes,
+  a standard field template) is escaped by frappe's own macros.
+- **Styles are styles.** A format's CSS goes into a `<style>` element as it
+  is, so it may not contain markup, `@import`, or a URL that is not this
+  site's file or an inline image; a block's own style, likewise.
+- **A letter head is a picture or plain HTML.** Its top and foot are each a
+  picture, which frappe turns into its own markup, or HTML with no template in
+  it, stored cleaned (`print_html.letter_head_html`). The header and footer
+  scripts stay frappe's System Managers'.
+
+A standard format stays frappe's (it refuses changes outside developer
+mode); a workspace copies it in the builder and changes the copy.
+
+`DESIGNER` is the workspace's own format frappe's builder opens to design a
+letter head on: the builder draws a format's letter head above and below it,
+top and foot, each a picture or HTML. It is kept off, so nothing prints with
+it, and out of every list of formats.
+
+### privacy.py
+
+Frappe has both: a `Personal Data Download Request` that gathers what a person
+left across the workspace (the `user_data_fields` hooks) into one file, and a
+`Personal Data Deletion Request` that redacts their name and address from
+those records, disables the account and renames it to an anonymous one. Both
+are driven by its System Manager and its own mails ("Dear User"), and nobody
+on a workspace is either. In One:
+
+- anybody asks from You > Profile: a copy of their data, which an
+  administrator reviews first (one/privacy_copy.py); or their account
+  deleted, confirmed with their password, or by a link One mails them when
+  they sign in without one, because it cannot be undone;
+- a workspace administrator decides on a deletion under Workspace > Privacy
+  Requests: approve it, or hold it with a reason the person is told (an open
+  payroll, a dispute: what the law makes the workspace keep);
+- approving runs frappe's own erasure, as frappe runs it, after One deletes
+  what is only the person's and no use to anybody else: their OneAI
+  conversations and memories, notifications, devices and feeds;
+- what the workspace keeps is kept with the name and address replaced:
+  invoices they raised, tasks they did, the Recycle Bin and the Audit Log.
+  An employee record is HR's, kept as the law requires, and deleted by HR.
+
+Nobody deletes the last administrator, or the person the workspace is billed
+to: both have to be handed to somebody else first.
+
+### privacy_copy.py
+
+Frappe's `get_user_data` hands over every row a person's address appears in,
+whole: mail they were copied on, records they deleted, pages they printed,
+other people's values in the changes they made. Much of that is the
+workspace's, not theirs. GDPR article 15 gives a person a copy of their
+personal data, and 15(4) lets it be limited where it would harm the rights
+of others, the company's confidential information among them. So:
+
+- what is plainly about the person always goes: their account and profile,
+  sign-ins, contacts with their address, what OneAI remembers about them,
+  what they agreed to;
+- what they wrote or touched goes unless an administrator withholds it, kind
+  by kind, with a reason the person is told: mail, comments, to-dos, their
+  OneAI conversations, which records they changed (never the values), what
+  they exported or printed (never the pages), their notifications;
+- what is never theirs to take never goes: the contents of records they
+  deleted, printed pages, values in other people's records, account secrets.
+
+The request is a `Personal Data Download Request`, frappe's own, with three
+custom fields for where it stands, what was withheld and who decided.
+
+### privacy_public.py
+
+They have the same rights as a user and no account to ask from, so each
+workspace's own site has a page, `/your-data` (www/your_data.py): they give
+their address and whether they want a copy of what the workspace holds about
+them or that deleted. One mails a signed link to that address, so only
+whoever reads its mail can ask, and nothing is written until it is opened;
+the page says the same whatever the address, so it cannot be used to learn
+who the workspace knows.
+
+Opening the link files the request where a user's goes: Workspace > Data
+Copies or Account Deletions, for an administrator to review and decide the
+same way. A copy for them holds what is about them (contacts and records
+with their address) and the mail, which may be withheld; it is mailed as a
+link that works for a week. Deleting takes their name and address out of
+everything the workspace keeps, by frappe's own redaction, without the step
+that renames an account they do not have.
+
+Somebody whose address is a user's gets the same link; opening it files the
+request as if they had asked from their profile.
+
+### push.py
+
+Standard Web Push (docs/NOTIFICATIONS.md, stage 4). Nothing of Frappe's relay
+and no Firebase account: each message is encrypted on our server for the one
+browser it is for (RFC 8291, by `pywebpush`), and the browser's own push
+service carries it without being able to read it: Google's for Chrome and
+Edge's Chromium, Mozilla's for Firefox, Apple's for Safari, Microsoft's for
+Windows. Those four are the only addresses a message is ever sent to
+(`SERVICES`), because the address comes from a browser and a server that posts
+wherever a browser says is a server anybody can aim.
+
+**Who gets one.** A Notification Log is pushed when its person ticked push for
+its type (Settings, Notifications writes `one_push_notification_types` on
+their Notification Settings, beside frappe's own email list), the workspace
+allows push for it, and they turned push on in at least one browser (a Push
+Device). Pushing is queued after the log is committed, so a slow push service
+never holds up whatever sent the notification.
+
+**The keys.** One VAPID key pair per site, made the first time it is asked
+for and kept in the site's config, never in the database: the private half
+signs every push, and a copy of the database is not a copy of it.
+
+**The worker** is served from a method rather than from /assets, with
+`Service-Worker-Allowed: /`, so it can be registered for the whole site and a
+click can bring an open tab forward instead of opening another. It handles
+push and clicks, and nothing else: it never sees a request the page makes.
+
+### quiet.py
+
+HRMS counts first-time milestones by inserting a row and letting the unique
+index refuse the second attempt:
+
+    with savepoint(catch=Exception):
+        frappe.get_doc({"doctype": MILESTONE_DOCTYPE, "event": event}).insert(...)
+
+The savepoint rolls the row back, but the message the failure left behind does
+not roll back with it — `frappe.local.message_log` is a list on the request,
+not part of the transaction. So from the second leave application onwards,
+every person who approves one is told **"HR Telemetry Milestone
+first_leave_applied already exists"**, and the same on expense claims,
+attendance requests, shift requests, job offers, appraisals, interviews,
+payroll entries and salary slips.
+
+It is the same shape as the "Duplicate Name" that used to land on top of every
+clock-in, which `one_hr/clock.py` handles inside its own endpoint. quiet.py is
+the general case: hooked on `"*"` for the two events HRMS attaches its
+telemetry to, and matching only that doctype's own name, so nothing anybody
+meant to say is touched.
+
+### reach.py
+
+A space's rail links to erpnext's, hrms's and frappe's kinds of record, and
+each of those decides for itself who may open it. Many open only for frappe's
+System Manager, which nobody on a workspace is given (roles.py), so a link
+can be in the rail and refuse everybody who sees it. reach.py reads every
+rail against the roles People hands out for its app (`settings.APPS`): a link
+opens if the app's User or Manager roles, or a role everybody holds, may
+read it. Each space's `access.py` gives what is missing.
+
+### recycle.py
+
+Every record frappe deletes is kept whole as a `Deleted Document`, and frappe
+puts one back with its own `restore`. Both are its System Manager's, whom no
+workspace has, so nobody here could see or undo a deletion. Now:
+
+- everybody sees what they deleted themselves, and puts it back;
+- a workspace administrator also sees what any person (or OneAI) deleted, of
+  the kinds of record they may read, though not the system's own cleanups;
+  puts it back; and may empty it for good;
+- what is not a record somebody made is never shown: tables, frappe's own
+  machinery (permission rows, property setters) and the platform's records.
+
+Putting one back is frappe's own restore (in recycle.py, from
+frappe/core/doctype/deleted_document/deleted_document.py, MIT), with its
+checks kept: whoever restores must be able to make and read that kind of
+record. Frappe keeps a deleted record until somebody empties it; it is not
+among the logs it clears on its own.
+
+`RESTORERS` names what a workspace makes of frappe's machinery, which its
+administrators see in the bin all the same, and what puts each back: a plain
+insert would leave a field out of the Custom Fields list, or a collection
+without its records. Each restorer checks who may and returns the name it
+came back as.
+
+### reports.py
+
+Three things, each frappe's own:
+
+- **Saved reports.** A list's Report view, saved under a name, is frappe's
+  `Report` of type Report Builder. Anybody may save one (frappe offers Save As
+  to everybody, and its `save_report` only ever writes that type), and it goes
+  in the sidebar of the app whose list it was: for everybody when a workspace
+  administrator saved it, in the person's own sidebar otherwise, through
+  frappe's own sidebar layers (`Custom Sidebar`). Deleted, it leaves.
+- **Dashboards.** frappe's `Dashboard`, of its `Dashboard Chart` and `Number
+  Card`, which a workspace administrator makes. Everybody sees them under One >
+  Dashboards, and frappe shows each chart only to who may read what it counts.
+- **Reports by mail.** frappe's `Auto Email Report`, which a workspace
+  administrator sets from a report's menu (Setup Auto Email).
+
+What frappe trusts to whoever may customize it, and a workspace does not get:
+
+- a report of any type but Report Builder. A Custom Report runs the report it
+  is a copy of with no check of who may open that one, and frappe leaves
+  Script and Query reports to its Script Manager already;
+- a chart or a card of type Custom, which runs code an app wrote and is free
+  to read past the reader's permissions;
+- a report by mail that runs as somebody else.
+
+erpnext's own dashboards are its modules' (Accounts, Stock, CRM), with a
+company on every chart; One > Dashboards lists the workspace's own.
+
+### roles.py
+
+Nobody on a workspace is ever given System Manager — not the person who signed
+up, not whoever they hand the keys to. System Manager is the whole desk: every
+doctype, every setting, the scheduler, the users. What somebody running their
+own workspace needs is much narrower — which model an action runs on and what
+it is told, the workspace's address, buying credits — and a role that grants
+exactly that is one that can be handed out without handing out the site.
+
+It is called Workspace Administrator because frappe already ships a role named
+Workspace Manager, and that one is about editing the desk's sidebar pages.
+
+Administrator the user holds every role, so nothing in roles.py locks the
+bench's own account out of anything.
+
+### rules.py
+
+A rule is frappe's own Notification: what it watches, when it fires, who is
+told, and what it says. It goes to the bell with a notification type of its
+own, so everything else follows from the hub: it is mailed or pushed to each
+person as they chose, and an administrator decides its channels as for any
+other type.
+
+**Frappe trusts whoever writes a Notification**, because only its own roles
+may: the text is rendered with frappe's template globals, a condition or a
+recipient's condition is Python, a rule can set a field on the record after it
+sends, attach its print, and mail any address. A workspace administrator is
+not frappe's administrator, so a rule saved by anybody without frappe's own
+Notification roles is a **workspace rule** (`one_rule`), held to this:
+
+- it watches a kind of record they may read themselves, on one of `EVENTS`;
+- its condition is filters, never Python;
+- its text names only fields of that record, `{{ doc.field }}`, and nothing
+  else (`check_text`);
+- it is told to people by role, by a person field of the record, or to its
+  assignees, with no conditions, copies or addresses of its own;
+- it goes to the bell only, sets nothing and attaches nothing;
+- and when it fires, only the people who may read the record are told
+  (`Rule.get_list_of_recipients`), so a rule never shows anybody what their
+  own permissions would not.
+
+**The rules erpnext and hrms ship mail whoever they name**, whatever those
+people chose. A module that declares one as a type (`rule` in its
+`notifications/`) has it carried: the people in the workspace are told
+through the hub, in the rule's own words, and only an address that is nobody
+here is still mailed (`Rule.send_an_email`). The rule itself is not changed,
+so a new version of it arrives with the app.
+
+### settings.py
+
+Before Settings a workspace manager had no single place to go. The account was
+a bare form, Intake Settings sat in its own sidebar, mailboxes were in OneMail,
+holidays in OneCalendar's Setup, people in frappe's User list, and a person's
+own settings were frappe's My Settings. Now every section is an entry in One's
+own sidebar, so the page itself is one wide column, in two groups:
+
+- **You**, for everybody: profile, notifications, mail, calendar, sign-in, and
+  what OneAI remembers about you.
+- **Workspace**, for its administrators only: general, people, plan and
+  credits, domains, OneAI, Intake and holidays. These open a second page,
+  `workspace-settings`, whose only role is Workspace Administrator, so frappe
+  hides the entries from everybody else.
+
+Nothing new is stored. Each section reads and writes the records that already
+hold it — User, Notification Settings, Company, System Settings, Workspace
+Account, AI Action Setting, Intake Settings, Holiday List — and the verbs that
+already exist are called as they are (a mailbox is connected in OneMail, a
+domain through the account). A workspace section asks `roles.require()`
+first, so a person who is not an administrator cannot reach it by calling it.
+
+`ON_DOCUMENTS` and `ADDRESS` are what a printed or sent document shows about
+the company, beside its logo: the Company's own fields, and its address as
+ERPNext keeps a company's (an Address linked to it, marked as the company's
+own and primary). ERPNext asks for exactly these when an invoice is printed
+without them (erpnext/public/js/print.js), so settings.py asks for them once
+instead.
+
+`INTAKE_HR` is what OneAI does by itself when something arrives in OneHR, kept
+on HR Settings (hiring.py, ai_grievance.py) and switched in settings.py with
+the rest of what OneAI does on its own. Recording consent and how long audio
+is kept are HR's policy, and stay in HR Settings.
+
+### setup_wizard.py
+
+`_leave_period` makes this calendar year's Leave Period. Nothing in HRMS
+creates one and four things need it. `Employee Leave Balance` asks
+`get_leave_period` for the dates to run between, gets `None`, and its
+`onload` dies on `data.message[0]` — so both mandatory date filters stay
+empty and the report shows nothing at all, with no hint why. Leave Policy
+Assignment and the two allocation tools want one too.
+
+The calendar year rather than a financial one: a leave year that is not the
+calendar year is a decision a workspace makes deliberately, and this is the
+answer for everybody who has not made it.
+
+The period is named for its year rather than left as HR-LPR-2026-00001. Leave
+Period is a Link on Leave Policy Assignment, Leave Encashment and three report
+filters, and none of them has a title field to read instead, so the serial is
+what a person sees in all five places.
+
+`_assign` tells hrms about the holiday list, which is not the same as telling
+erpnext. `hrms.utils.holiday_list.get_holiday_list_for_employee` replaces
+erpnext's lookup through the `employee_holiday_list` hook, and reads neither
+`Employee.holiday_list` nor `Company.default_holiday_list`: only a submitted
+`Holiday List Assignment`. Without one, every question about whether a date is
+a holiday throws — leave, attendance requests, and the shift's own processing.
+`Company.default_holiday_list` is set as well, because erpnext's own reports
+still read it.
+
+### signin.py
+
+Nothing in signin.py is a copy. Frappe already keeps all of it:
+
+- each session in `tabSessions`, with the browser's user agent and the
+  network address it was opened from, and when it was last used;
+- each sign-in, and each failed one, in the Activity Log;
+- when the password was last changed, on the User (`last_password_reset_date`);
+- whether two-factor sign-in applies to the person (`frappe.twofactor`).
+
+What is ours is reading it the way a person asks: "Chrome on Mac, two hours
+ago", this one marked, each with Sign Out. And telling them, always by mail,
+when their password changes or a passkey is added, because that is how
+somebody learns their account was taken.
+
+### tabs.py
+
+Each tab is declared by the module that draws it, under `one_record_tabs` in
+hooks.py, as a measure or a verb is (one/head.py): a name, a label, where it
+goes, and which records carry it. The desk draws it with what that module
+registers under the same name in `public/js/record_tabs.js`, which is the one
+place the form's layout is added to for them. Nothing is written to any
+doctype, erpnext's and hrms's included. docs/SHELL.md, stage 8.
+
+A tab is on every record that has a room of its own, which is not a child
+table or a settings page, unless it names the doctypes it is for; `leaves_out`
+names the ones it is not.
+
+### tiers.py
+
+Frappe shows every doctype the same way: its form for a record, and for the
+collection each view the doctype qualifies for. Most stay that way. Where we
+do more it is declared in tiers.py, and `tests/guards/test_tiers.py` fails on
+anything done and not declared.
+
+- **A record** is shown in one of three tiers. **desk** is frappe's form as it
+  is, and every doctype not named in tiers.py. **head** is frappe's form with a
+  Record Head above its fields (`one/head.py`). **page** is a page of its own,
+  for the few records people work inside all day, keeping all the form gives
+  (point 6).
+- **A collection** keeps every view frappe offers it. Ours may set a view up
+  (a list's indicators and filters, a calendar's fields, a tree's parent),
+  never take one away.
+- **A screen** of ours that stands for a collection or a tool is a desk page,
+  named in tiers.py with what it is.
+
+### titles.py
+
+Every report and dashboard the rail points at belongs to erpnext or hrms, and
+its heading is its record's name — "Employee Hours Utilization Based On
+Timesheet" against a rail row reading "Hours Utilization", "Employees working
+on a holiday" against "Working on a Holiday". Five reports and five dashboards
+disagreed with the row somebody had just clicked.
+
+Renaming theirs is not available: the name is the record's identity, and a
+standard Report is rewritten from its app's JSON on every migrate. Forking ten
+of them to change a string is worse than the string.
+
+So the rail's own labels are handed to the browser and the heading is set from
+them. **Read from the Sidebar rows rather than typed into a list**: a second
+copy of those labels is a copy that will disagree with the first the week
+somebody renames a row.
+
+`RENAMES` is what the rail can rename. A workspace's heading is the
+workspace's own title. All three are read in `public/js/reports.js`, at their
+own seams: a report's heading comes from `QueryReport.set_breadcrumbs`, a
+dashboard's from the crumb the dashboard page adds, which honours a `label`
+the page never passes, and a list's from its title and its crumb.
+
+`for_boot` also gives each crumb: a crumb leads back to the list the rail
+shows, so it says what the row says, for any app's doctype the rails call one
+thing: "Items" over an item, "Recycle Bin" over a deleted document. One that
+is two rows keeps its own name. Read in public/js/shell.js.
+
+### webhooks.py
+
+A webhook is frappe's own Webhook: a kind of record, an event, an address,
+and what to send. The workspace administrator is given it and its Webhook
+Request Log, and both are in One's sidebar, so the list and form keep One's
+rail. Zapier, Make, n8n or the customer's own server take it from there.
+
+Frappe trusts whoever writes one, because only its System Managers may. A
+webhook written by somebody frappe does not let customize (layer.held) is
+held to what an automation is held to (one/automations.py):
+
+- it is on a kind of record they can open, never frappe's own or One's;
+- it sends only fields they may read: a salary above their level is not
+  theirs to send somewhere else;
+- what it sends names a field of the record, `{{ doc.customer_name }}`, and
+  nothing else, and it decides by no code: a webhook that sends only some
+  records is an automation with a Call Webhook step;
+- it goes over https to a public address, fixed when saved: never a
+  template, never the cloud's metadata service or a neighbour.
+
+**The address is checked when it is sent, too.** frappe's plain sender
+follows redirects and resolves the name only when it calls, so a public
+address could hand the call to an internal one. `install`, run before
+every request and job, sends through frappe's own guarded sender from its
+automation engine instead, which checks each hop.
+
+Every call is in the Webhook Request Log: what was sent, what came back,
+and whether it was delivered, failed and will be tried again, or gave up.
+The administrators hear each morning of any that gave up the day before.
+
+### hooks.py
+
+- `after_sync` runs when the app is installed, after its custom fields are
+  synced; `after_install` runs before them, and much of this reads them. The
+  site wears One from its first boot and carries nobody else's navbar rows or
+  checklists; after that all of it is the tenant's, in Website and Navbar
+  Settings.
+- `code_only_modules`: OneAI is not a place. Its screens live in One, what a
+  workspace administers, and in OneAdmin, what the operator does; a module
+  sidebar of its own was five doctype lists nobody navigates to. Its doctypes
+  and reports stay where they are; only the dock entry goes, and One inherits
+  the rest. The mapping is frappe's and erpnext's own: a module to where its
+  navigation went. OneLegal is the same.
+- The operator console has a second gate. The role decides what is listed;
+  `one_admin.site.refuse_on_a_tenant` decides what is answered, and it reads
+  site_config.json rather than a table, so a tenant administrator granting
+  themselves One Operator on their own workspace gets a rail entry and nothing
+  behind it.
+- `one_ai_*`: what OneAI can do in each module, owned by the module. Reads run
+  as the person asking; suggests write a card; suggestions are what the panel
+  offers when it opens on a page.
+- `before_request` and `after_request`: OneCloud as a network drive. A drive
+  password signs a person in on the drive's address before Frappe's API-key
+  check would refuse it, and Frappe answers OPTIONS before any method runs, so
+  the headers a WebDAV client looks for are added after (one_storage/dav.py).
+  frappe's webhook sender is guarded against internal addresses and redirects
+  to them wherever a webhook may be sent from, a request or a job
+  (one/webhooks.py).
+- `user_data_fields`: frappe's erasure replaces the person's name and address
+  wherever they are written, beyond its own list, because the Recycle Bin keeps
+  deleted records whole, a to-do names who to call and a notification names who
+  did it.

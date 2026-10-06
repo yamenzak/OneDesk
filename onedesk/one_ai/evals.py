@@ -1,20 +1,7 @@
-"""The OneAI test bench: real requests, asked the way the panel asks them,
-and what a right answer must have done.
+"""The OneAI test bench: real requests, asked the way the panel asks them.
 
-It is what says whether a change to OneAI, or a different model, made it
-smarter or only different. Run on demand, never by the test suite, because
-every case is a real call and is charged:
-
-    bench --site <site> execute onedesk.one_ai.evals.run
-    bench --site <site> execute onedesk.one_ai.evals.run --kwargs '{"model": "google-ai-studio:gemini-2.5-flash"}'
-    bench --site <site> execute onedesk.one_ai.evals.run --kwargs '{"only": "mail"}'
-
-Each case is asked as `user` from `page`, through `run.ask` with the same
-context turn the panel sends. It passes when the run called one of `tools`
-(or none, for `tools=()`), made a card if `card`, and said something. What
-it wrote is not graded: the cards and the tools are where a wrong answer
-shows, and a judge model would grade its own kind. Cards and memories a case
-made are taken away after it.
+Run on demand (`bench --site <site> execute onedesk.one_ai.evals.run`), never by
+the test suite, because every case is a real call and is charged.
 """
 
 import json

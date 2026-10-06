@@ -1,15 +1,8 @@
 """One's Home: what is waiting for the reader today, and for administrators,
 what in the workspace needs them.
 
-Home is frappe's `One` workspace, and every number on it is a frappe
-`Number Card` of type Custom: a method here that counts for whoever is
-reading, with where a click goes (`route`, `route_options`). Each counts
-through `frappe.get_list` or the product's own reader, so it is exactly what
-the reader may open. The administrators' part is a `Custom HTML Block`
-limited to their role, filled by `attention`, and it hides itself when
-nothing needs them.
-
-Nothing here is kept: each number is asked when Home is drawn.
+Every number on it is a frappe Number Card counted here for whoever is
+reading, asked when Home is drawn and never kept.
 """
 
 import frappe

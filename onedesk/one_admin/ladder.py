@@ -1,31 +1,7 @@
 """How far a workspace has fallen, and whether it is time for the next rung.
 
-Nothing of Frappe in here. This is the module that decides when somebody's data
-is deleted, so it has to be readable in one sitting and testable in
-milliseconds — the same reason `keys.py` and `hosts.py` are pure.
-
-**Five rungs and one direction.** Live, Overdue, Suspended, Archived, Dropped.
-Money stops and a workspace walks down them, one at a time, never skipping; the
-customer pays and it goes straight back to Live from anywhere above Dropped.
-Each rung has a period, and the period is how long the workspace *stays* on that
-rung before falling to the next.
-
-**What each rung means, so the periods can be argued about honestly.** Overdue
-is nothing at all: the workspace works exactly as it did, and somebody is told.
-Suspended is press deactivating the site — it answers a page and nobody can log
-in, and the data is untouched. Archived is press destroying the site, having
-taken an offsite backup first; our own R2 prefix is not moved, copied or
-touched, because it is already ours and already where it should be. Dropped is
-the only rung that destroys anything of ours, and it is last on purpose.
-
-**A workspace with no timestamp never falls.** `since` is when it arrived on the
-rung it is on, and if we do not know, the answer is to do nothing and let
-somebody look. A clock that deletes data on a missing field is a clock that
-deletes data on a failed migration.
-
-**A period of zero means never.** Not "immediately". An operator who clears the
-grace period is asking for the ladder to stop, not for every overdue workspace
-to be suspended tonight, and the reading that loses data is the wrong one.
+Nothing of Frappe in here: this decides when somebody's data is deleted. Five
+rungs and one direction; no timestamp never falls; a period of zero means never.
 """
 
 #: In order, top to bottom. Falling means moving one place to the right.
@@ -98,15 +74,8 @@ def due(status: str, since, now, days: dict | None = None) -> str | None:
 def falls(status: str, since, now, days: dict | None = None) -> list[str]:
 	"""Every rung between here and where the clock says it should be.
 
-	A workspace nobody looked at for two months has not earned a jump straight to
-	Dropped: each rung does real work — press deactivates, press archives, the
-	edge route goes — and skipping one leaves that work undone. So this returns
-	them in order and the caller walks them, one a night or all at once.
-
-	The period of each rung is counted from the same `since`, which is the
-	conservative reading: a workspace that went Overdue sixty days ago and was
-	never touched is Suspended after seven and Archived after fourteen, not
-	after twenty-one.
+	In order, for the caller to walk one a night or all at once, never skipping;
+	each rung's period is counted from the same `since`.
 	"""
 	walked = []
 	at = status

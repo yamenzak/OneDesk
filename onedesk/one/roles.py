@@ -1,17 +1,7 @@
 """Who administers a workspace.
 
-Nobody on a workspace is ever given System Manager — not the person who signed
-up, not whoever they hand the keys to. System Manager is the whole desk: every
-doctype, every setting, the scheduler, the users. What somebody running their
-own workspace needs is much narrower — which model an action runs on and what
-it is told, the workspace's address, buying credits — and a role that grants
-exactly that is one that can be handed out without handing out the site.
-
-It is called Workspace Administrator because frappe already ships a role named
-Workspace Manager, and that one is about editing the desk's sidebar pages.
-
-Administrator the user holds every role, so nothing here locks the bench's own
-account out of anything.
+Workspace Administrator: exactly what somebody running their own workspace
+needs, in place of System Manager, which nobody on a workspace is ever given.
 """
 
 import frappe

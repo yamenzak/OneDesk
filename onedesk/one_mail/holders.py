@@ -1,22 +1,6 @@
 """Who holds which mailbox, and which one is the workspace's.
 
-To hold a mailbox is to have a `User Email` row for it. That is Frappe's own
-notion, and Frappe's Communication permission already reads it, so a message
-is visible to exactly the people who hold its mailbox. Nothing here adds a
-second list.
-
-A mailbox is either somebody's own (their address on the mail domain, or one
-they connected) or the workspace's (`one_shared`): the workspace's address,
-and addresses such as sales@ a workspace administrator connected for the
-workspace. Only the workspace's mailboxes have their holders chosen by an
-administrator. Somebody's own Gmail is theirs; an administrator does not see
-into it.
-
-The workspace's mailbox is its address on the mail domain until an
-administrator puts a connected one in its place, for receiving, sending or
-both. The address on the mail domain keeps receiving either way, so nothing
-sent to it is lost.
-"""
+To hold a mailbox is to have a `User Email` row for it."""
 
 import json
 import re

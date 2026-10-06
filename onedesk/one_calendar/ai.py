@@ -1,11 +1,5 @@
 """What OneAI does in OneCalendar: reads the reader's calendar, says when
 colleagues are busy, and suggests an event as a card.
-
-The calendar is read as the reader, through the same merge the page draws
-(`layers.entries`): OneAI sees on it exactly what they do. A colleague's
-calendar is never read: only when they are busy, from the events they are on,
-without what those are. An event is only ever suggested; approving the card
-makes it, and the people on it are told then (`tell.py`), not before.
 """
 
 from datetime import timedelta

@@ -1,31 +1,4 @@
-"""Bill Progress: an order billed as the work gets done, less retention.
-
-A **subcontract** is a Purchase Order on the project, one per supplier per
-package of work. The customer's contract is their Sales Order. Both are
-billed the same way, a share at a time:
-
-- **Bill Progress** (`bill_progress`) asks how far the work has got, as a
-  share of the order, or line by line (`lines`) where work is measured
-  against a bill of quantities, and drafts the invoice for what that comes to
-  less what's been billed already. The invoice's Work Done is then the
-  share of the whole by amount (`overall`). It's ERPNext's own "Create > Invoice" from
-  the order with each line's quantity cut to that share, so the order's
-  billed amount, its status and the project's figures are ERPNext's. ERPNext
-  keeps an invoice at the order's rate, so a share is a part of the quantity:
-  a package of work is ordered as 1 **Lump Sum** (`settle`), a unit that can
-  be split. A line in a unit that can't is refused in plain words.
-- **Retention** is a share of each invoice held back (often 5 to 10%), set
-  on the order with the date it's due (`one_retention`, `one_retention_due`).
-  The invoice's payment schedule splits in two: the rest, due as usual, and
-  **Retention**, a Payment Term of that name due on that date, the share of
-  the work billed before tax, whatever advance is set off (`retained`). Part
-  of it may be released at handover first (retention.py). Changing the date
-  on the order moves it on every invoice made from it (`release`).
-- **Advances** paid against the order are set off by ERPNext on each
-  invoice (`allocate_advances_automatically`).
-- The invoice says the share it's for (**Work Done**, `one_progress`), and
-  saving it tells the project's manager to check it (`drafted`).
-"""
+"""Bill Progress: an order billed as the work gets done, less retention."""
 
 from typing import Annotated
 
@@ -249,29 +222,14 @@ def drafted(doc, method=None) -> None:
 	the project manager's to check (Progress Bill Drafted)."""
 	if not doc.get("one_progress"):
 		return
-	from frappe.utils import fmt_money, get_fullname
-
-	from onedesk.one import notify
+	from onedesk.one_project import tell
 
 	link = "purchase_order" if doc.doctype == "Purchase Invoice" else "sales_order"
 	order = next((row.get(link) for row in doc.items if row.get(link)), None)
 	project = doc.get("project") or next((row.project for row in doc.items if row.get("project")), None)
 	if not project:
 		return
-	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
-	if not head or not head.one_manager:
-		return
-	notify.notify(
-		"Progress Bill Drafted",
-		head.one_manager,
-		record=(doc.doctype, doc.name),
-		who=get_fullname(frappe.session.user),
-		share=f"{flt(doc.one_progress):g}",
-		order=order or doc.name,
-		project=head.project_name,
-		party=doc.get("supplier_name") or doc.get("customer_name") or "",
-		amount=fmt_money(doc.grand_total, currency=doc.currency),
-	)
+	tell.progress_drafted(doc, project, order)
 
 
 def release(doc, method=None) -> None:

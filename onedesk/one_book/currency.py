@@ -1,13 +1,5 @@
-"""Billing a customer or supplier in their own currency.
-
-A customer or supplier whose receivable or payable account is in another
-currency can only be billed in that currency: ERPNext refuses any other
-(`validate_party_account_currency`). Its forms pick the currency as the party
-is chosen, but a document made in code starts in the company's. `bill_in`
-sets what the form would: the company, the party's currency and its rate to
-the company's currency. `rate` turns an amount from one currency into another
-at ERPNext's own exchange rate (Currency Exchange, then its provider), or
-the inverse of the rate the other way when only that one is kept.
+"""Billing a customer or supplier in their own currency: `bill_in` sets what
+the form would, and `rate` turns an amount from one currency into another.
 """
 
 import frappe

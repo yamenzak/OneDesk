@@ -1,11 +1,7 @@
 """Stage 1 of Intake: every file and message that arrives becomes a Reading.
 
-A file dropped in OneCloud, a file attached on a form and a message with its
-attachments are each read in the background, once per content. What needs no
-model (a text PDF, an e-invoice, a Word file, a bank statement) is read for
-every file, so a workspace can search inside its documents whether or not it
-uses OneAI. What needs a model (a scan, a photo, a recording) is read only
-where somebody switched OneAI on, and is charged as OneAI credits.
+Each is read in the background, once per content. What needs a model is read
+only where somebody switched OneAI on, and is charged as OneAI credits.
 """
 
 import hashlib

@@ -1,13 +1,5 @@
 """The project page: what it shows, in one call, shaped by the project's kind
 (kinds.py, docs/PROJECT-PAGE.md).
-
-The page is `page/project_view` (public/js/project_page.js), opened at the
-project's own address. `said` gives it the head (the kind, status, health,
-the main action), the title line, the kind's four cards and its Overview. Everything is read from the
-modules that work it out already: overview.py (tasks, dates, hours), money.py
-(both sides), budget.py (cost types), billing.py (time not invoiced) and
-tree.py (sub-projects). It reads as the person asking and checks they may
-read the project.
 """
 
 from typing import Annotated

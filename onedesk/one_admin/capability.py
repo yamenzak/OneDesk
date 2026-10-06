@@ -1,14 +1,7 @@
 """What a model does, which is two facts rather than one word.
 
-Pure, like `prices.py` beside it, and for a related reason: this decides which
-models an action is allowed to pick from, and getting it wrong is a picker that
-offers a transcriber for a job that needs eyes.
-
-**One word was wrong.** The first version of this filed `gemini-2.5-flash-lite`
-as text generation because that is what its API said it could be called with,
-while its own published price list carries input rates for text, pictures, sound
-and video. So a model now carries what it *makes* and what it can be *fed*, the
-second is a set, and the one word on the list is derived from both.
+Pure, like `prices.py` beside it: this decides which models an action is
+allowed to pick from. A model carries what it makes and what it can be fed.
 """
 
 #: Cloudflare's `task.name`, which says plainly what a model does and is the
@@ -23,12 +16,8 @@ A_TASK = {
 	"automatic speech recognition": ("text", {"audio"}),
 	"text-to-speech": ("audio", {"text"}),
 	"text embeddings": ("embedding", {"text"}),
-	# Text in, text out — and none of them can hold a conversation. Measured
-	# against the real models: a reranker, a sentiment classifier and two
-	# translators all answered `Bad input` to a chat body, having been offered
-	# because "produces text from text" is exactly what a chat model does too.
-	# Told apart by what the provider calls the job, which is the only thing
-	# that distinguishes them.
+	# Text in, text out, and none of them can hold a conversation; told apart
+	# by what the provider calls the job.
 	"translation": ("translation", {"text"}),
 	"summarization": ("text", {"text"}),
 	"text classification": ("classification", {"text"}),
@@ -63,10 +52,8 @@ def named(produces: str, reads: set[str]) -> str:
 	if produces != "text":
 		return "Other"
 
-	# What it can be fed, beyond the obvious. A model that reads two of pictures,
-	# sound and video is not a transcriber that happens to see, and calling it
-	# one was the thing wrong with the first version of this: `gemini-2.5-flash-lite`
-	# publishes input rates for all four and came out as "Transcription".
+	# A model that reads two of pictures, sound and video is not a transcriber
+	# that happens to see.
 	others = reads - {"text"}
 	if len(others) >= 2:
 		return "Multimodal"
@@ -77,10 +64,8 @@ def named(produces: str, reads: set[str]) -> str:
 	return "Text Generation"
 
 
-#: Which capabilities cover which. A model that reads more than a job needs can
-#: still do the job; one that reads less cannot. Written down rather than worked
-#: out, because "may this model do this job" is a decision, and a table of them
-#: is a thing somebody can read and disagree with.
+#: Which capabilities cover which: a model that reads more than a job needs can
+#: still do the job; one that reads less cannot.
 COVERS = {
 	# Not Transcription: a model that reads sound and nothing else cannot answer
 	# a job that hands it text, however much text it writes back. Caught by
@@ -114,9 +99,7 @@ def able(model_says: str, action_needs: str) -> bool:
 
 
 #: What a model has to be able to read for a file of this kind to be sent to
-#: it. The key is the first half of the mime type; `application/pdf` is named
-#: in full because a document is read by the same eyes as a picture and by no
-#: other model at all.
+#: it, by the first half of the mime type (a PDF is read as a picture).
 READS = {
 	"image": "reads_image",
 	"audio": "reads_audio",

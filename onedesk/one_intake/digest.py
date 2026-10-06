@@ -1,23 +1,14 @@
 """The week, and the month, in one number each (docs/INTAKE.md §14, §16.9).
 
-**The weekly digest** goes to each person OneAI read for this week, as one
-notification that is also mailed when they get mail for notifications: how
-many documents arrived, how many OneAI dealt with itself, what still waits
-for them, and what falls due in the next seven days. A week with nothing
-read for somebody sends them nothing.
-
-**The monthly number** is what a workspace pays OneAI for, said plainly in
-Intake Settings: "OneAI handled 1,140 of 1,240 documents this month; 100
-needed a person". A document needed a person when OneAI was unsure of what
-it read, or proposed something, or was not allowed to do it. A batch scan
-counts as the letters cut from it.
+**The weekly digest** goes to each person OneAI read for this week, and **the
+monthly number** is what a workspace pays OneAI for, in Intake Settings.
 """
 
 import frappe
 from frappe import _
 from frappe.utils import add_days, get_first_day, getdate, today
 
-from onedesk.one_intake import calendar
+from onedesk.one_intake import calendar, tell
 
 def measured(start, end, person: str | None = None) -> dict:
 	"""How many documents arrived between two days, and how many of those
@@ -68,10 +59,6 @@ def weekly() -> None:
 
 
 def send(person: str, since, until) -> None:
-	from markupsafe import Markup
-
-	from onedesk.one import notify
-
 	email = frappe.db.get_value("User", {"name": person, "enabled": 1}, "email")
 	if not email:
 		return
@@ -87,17 +74,7 @@ def send(person: str, since, until) -> None:
 		as_dict=True,
 	)
 	due = [one for one in calendar.of_readings(add_days(until, 1), add_days(until, 7), everyone=True) if one.get("person") == person]
-	notify.notify(
-		"Intake Weekly",
-		email,
-		link="/desk/query-report/Deadlines",
-		sender=notify.ONEAI,
-		arrived=week["arrived"],
-		handled=week["handled"],
-		waiting=len(waiting),
-		# Built and escaped by body(), in the reader's language.
-		week=Markup(body(week, waiting, due)),
-	)
+	tell.weekly(email, week, waiting, body(week, waiting, due))
 
 
 def body(week: dict, waiting: list, due: list) -> str:

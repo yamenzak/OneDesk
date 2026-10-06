@@ -1,36 +1,4 @@
-"""A project started from one that went well.
-
-ERPNext's **Project Template** is a list of template tasks — Tasks ticked **Is
-Template**, each with **Begin On (Days)** after the project starts and a
-**Duration (Days)** — and a project given one gets a task for each, dated from
-its own start, with the template's sub-tasks and dependencies between them
-(`Project.copy_from_template`). That part is theirs and stays theirs. What this
-adds is what stopped anybody using it:
-
-- **Save as Template** (`save_as`). Building a template meant making each
-  template task by hand on the Task form and then listing it on the template.
-  Now a project that went well is the template: its tasks, their dates as days
-  after the project's start, their lengths, sub-tasks, dependencies,
-  milestones, checklists and expected time. Cancelled tasks are left out, and
-  so are dependencies on tasks in other projects, since a template is one
-  project.
-- **Add from Template** (`add`). ERPNext copies a template only into a new
-  project with no tasks yet. A running project may take one too: its tasks
-  are made by ERPNext's own copy (`create_task_from_template`,
-  `dependency_mapping`), dated from the day chosen, beside the tasks it has.
-- **What ERPNext's copy leaves behind** (`task_made`). Their copy carries the
-  subject, dates, priority, type and a few more, and not whether a task is a
-  milestone, its expected time or its checklist; the new task takes them from
-  the template task it was made from.
-- **Who may keep templates** (`settle`). ERPNext lets only a System Manager
-  open one; a Projects Manager may keep them, and a Projects User read them.
-- **A template task is nobody's work.** It is not assigned to its maker
-  (one_task/capture.py) and everybody who works in projects sees it
-  (one_task/access.py), since a template is for the whole team.
-
-A new project's Task Prefix names the tasks a template makes, because the
-naming rule is written when the project is, not after (naming.py).
-"""
+"""A project started from one that went well, on ERPNext's own Project Template."""
 
 import frappe
 from frappe import _

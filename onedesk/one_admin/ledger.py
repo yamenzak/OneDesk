@@ -1,24 +1,7 @@
 """What a workspace has to spend, and the only place that knows where it comes from.
 
-**The balance is a sum, never a stored number.** There is no `credits_left`
-field anywhere, on purpose: a stored balance can disagree with its own history,
-and when it does there is no way to tell which of the two is lying. Summing the
-rows costs one query and cannot drift.
-
-**Reserve, then commit.** Reading a balance and then spending against it is a
-race — two calls arriving together both see five credits and both spend four.
-So a hold is taken under a lock on the workspace's own row before anybody talks
-to a provider, and settled for what the call actually cost afterwards. The hold
-is a *ceiling* priced from an action's declared limits, not a forecast; the
-point is only that two calls cannot both spend the last credit.
-
-**A spend names the grant it came out of.** Which is what makes the ledger
-append-only: drawing down a bucket without rewriting it means writing a row that
-points at it. `credits.py` decides which bucket and in what order, and has no
-frappe in it.
-
-This module is the only thing in the app that knows a balance is made of rows.
-Everything above it asks for a number.
+The balance is a sum of rows, never a stored number; a call reserves under a
+lock and commits what it cost; a spend names the grant it came out of.
 """
 
 from datetime import date
@@ -36,10 +19,8 @@ class NotEnough(frappe.ValidationError):
 	"""The workspace cannot afford this call. Said before one is made."""
 
 
-#: A hold whose call never came back. A worker that died mid-flight would
-#: otherwise eat a customer's credits for good, so they are let go nightly —
-#: generously, because releasing one that is still running would let a second
-#: call spend the same credits.
+#: A hold whose call never came back, let go nightly, and generously so that
+#: one still running is not released.
 STALE_MINUTES = 60
 
 
@@ -458,19 +439,8 @@ def _settle(holding, amount: float, usd: float | None = None) -> None:
 def _lock(tenant: str) -> None:
 	"""Serialise every credit operation for one workspace.
 
-	The workspace's own row is the mutex: it is the one row every one of these
-	touches and nothing else contends for it.
-
-	**The lock alone is not enough, and this was measured rather than reasoned.**
-	Two processes reserving seven credits against a balance of ten both
-	succeeded: the second waited for the first exactly as intended, and then
-	read a balance from the snapshot its transaction had taken *before* the
-	first one committed. InnoDB's repeatable read fixes that snapshot at a
-	transaction's first read, and a plain SELECT afterwards never sees past it.
-
-	So every read this decision rests on is a locking read — `FOR UPDATE`, which
-	reads the latest committed row rather than the snapshot — and the mutex is
-	what stops the two of them interleaving between the read and the insert.
+	The workspace's own row is the mutex. The lock alone is not enough: every read
+	the decision rests on is a locking read (`FOR UPDATE`) too.
 	"""
 	if not frappe.db.get_value("Tenant", tenant, "name", for_update=True):
 		frappe.throw(frappe._("{0} is not a workspace.").format(tenant))

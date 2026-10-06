@@ -1,32 +1,7 @@
 """The calendar's layers, and the one read that merges them.
 
-A layer is one kind of dated thing: your events, your to-dos, your deals' next
-steps, who is off. Each module names its own in `hooks.py` under
-`one_calendar_layers`, as a list of dicts:
-
-- `key`, `label`, `color` — what the layer is called and drawn in.
-- `group` — **Mine** (what is yours) or **Workspace** (what everybody shares).
-- `on` — whether it is shown before the reader chooses.
-- `doctype` — the record the layer reads, which is also the permission it
-  needs: a reader who cannot read Leave Application has no Who's Off layer.
-- `rows(start, end)` — a function returning dicts with `name`, `title`,
-  `start`, and optionally `end`, `all_day`, `doctype` (when a row opens a
-  different record than the layer's), `id` (when one record is on the
-  calendar more than once), `editable`, `resizable` (when it may be dragged
-  but not stretched), `about` and `description`.
-- `move(name, start, end, all_day)` — optional: what dragging a row does to
-  its record. A row is only editable when its layer has one, and the function
-  checks the reader may write the record, whatever the row said.
-- `about` — optional: the doctypes whose own calendar this layer can draw, or
-  `["*"]` for any. On a record's calendar (**Calendar** on a project) only
-  these layers are offered, and `rows` is called with a third argument, the
-  `(doctype, name)` it is about. `only_about` keeps a layer off the main
-  calendar and the subscription.
-
-**Nothing is copied.** A layer reads its own records through `frappe.get_list`,
-so a deal's next step is on the calendar of whoever may read the deal and of
-nobody else, and it moves when the deal does. The only records OneCalendar
-owns are Events, which are frappe's own.
+Each module names its own in `hooks.py` under `one_calendar_layers`; the
+README says what a layer holds.
 """
 
 from datetime import timedelta

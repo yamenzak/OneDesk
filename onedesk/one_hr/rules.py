@@ -3,26 +3,13 @@
 Addresses, distances and weights are the parts that have to be exactly right
 and are miserable to test against a database, so they live here: no `import
 frappe`, no site, no session. `tests/test_rules.py` reads this file directly.
-
-Everything above it — reading a Shift Location, writing an attempt, deciding who
-may — is in the modules that do import frappe.
 """
 
 import ipaddress
 import math
 
-#: Signals, their weight, and the sentence the employee reads. A weight is how
-#: much the signal takes off the score, out of a hundred. Nothing here is
-#: learned: a refused check-in has to name what was wrong, and a number nobody
-#: can explain cannot be named.
-#:
-#: The dividing line is refuse on what is certain and flag on what is a guess,
-#: so the two that are certain — the wrong network, and outside every location —
-#: are weighted to refuse on their own, while everything probabilistic sits
-#: under the flag band and needs company to get past it.
-#:
-#: `N_` marks the sentence for extraction without importing frappe, which this
-#: module must not do. `clock.py` translates it at the point it is shown.
+#: Signals, their weight off a score of a hundred, and the sentence the employee reads.
+#: `N_` marks the sentence for translation without importing frappe.
 def N_(text: str) -> str:
 	return text
 
@@ -45,16 +32,12 @@ SIGNALS = {
 }
 
 #: Below this a clock-in is refused outright; below the second it is written and
-#: flagged. Both are overridable per workspace, and both are deliberately far
-#: apart: the middle band is where a human looks, and a system with no middle
-#: band is one that argues with its own staff at the door.
+#: flagged. Both are overridable per workspace, and kept far apart on purpose.
 REFUSE_BELOW = 50
 FLAG_BELOW = 85
 
 #: How fast somebody may travel between two clock-ins before the distance stops
-#: being possible, in metres per second. 55 is about two hundred kilometres an
-#: hour — fast enough that a train or a motorway never trips it, slow enough
-#: that two cities in ten minutes does.
+#: being possible, in metres per second (about 200 km/h).
 TOP_SPEED = 55
 
 #: The earth, for the one formula that needs it.
@@ -202,10 +185,8 @@ def _lines(text) -> list[str]:
 	return [line.strip() for line in raw if line.strip() and not line.strip().startswith("#")]
 
 
-#: What a mobile browser says about itself. Not a security control — a caller
-#: can send any user agent they like — but somebody who forges one to enrol a
-#: passkey on the office PC has gone out of their way to weaken their own
-#: credential, and the machine they did it on shows up in the ledger anyway.
+#: What a mobile browser says about itself. Not a security control, since a caller
+#: can send any user agent they like.
 PHONES = ("iphone", "ipod", "android", "mobi", "windows phone")
 
 #: iPadOS Safari calls itself a Macintosh, so a tablet needs the second check.

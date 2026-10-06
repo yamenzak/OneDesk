@@ -2,10 +2,6 @@
 what it has cost against what was budgeted, what has been billed against what
 there is to bill, what is late and what comes next, and the hours logged on
 it week by week for a quarter.
-
-All of it is ERPNext's own: `expected_end_date`, the project's tasks, and
-the money on its documents as money.py adds it up. A project with sub-projects answers for the whole tree
-(tree.py), since the villa's question is about the villa, handrails included.
 """
 
 from typing import Annotated
@@ -161,11 +157,8 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"tasks": total,
 		"done": done,
 		"statuses": statuses,
-		# A completed project is done, whatever its tasks say: one completed
-		# with no tasks of its own has none to count.
-		# ERPNext's own % Complete, the tree's for a project with sub-projects
-		# (roll_up), so this page and the lists say the same; its own tasks'
-		# when the page shows its Main.
+		# A completed project is done, whatever its tasks say; otherwise ERPNext's
+		# own % Complete, so this page and the lists say the same (README).
 		"share": 100
 		if doc.status == "Completed"
 		else own_progress(project, doc.percent_complete_method, doc.percent_complete) or 0
