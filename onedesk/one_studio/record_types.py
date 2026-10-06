@@ -419,30 +419,45 @@ def _without_empty_groups(rows: list) -> list:
 @frappe.whitelist(methods=["POST"])
 def move(record_type: str, app: str, group: str | None = None) -> str:
 	"""A collection moved to another app or another group of its rail. Its
-	records stay as they are; who uses them follows the app."""
+	records stay as they are; who uses them follows the app (moved)."""
 	roles.require()
 	ours = frappe.get_doc(RECORD_TYPE, record_type)
-	if app not in _apps():
-		frappe.throw(_("{0} is not an app a collection can belong to.").format(app))
+	ours.update({"app": app, "rail_group": group or YOUR_RECORDS})
+	ours.save(ignore_permissions=True)
+	return f"{_(app)} › {_(ours.rail_group)}"
+
+
+def held(ours) -> None:
+	"""Record Type validate: an app a collection can belong to, and a group
+	its rail may have."""
+	if ours.app not in _apps():
+		frappe.throw(_("{0} is not an app a collection can belong to.").format(ours.app))
 	try:
-		check_group(app, group)
+		check_group(ours.app, ours.rail_group)
 	except Refused as refused:
 		frappe.throw(str(refused))
-	group = group or YOUR_RECORDS
-	if ours.app != app:
+	ours.rail_group = ours.rail_group or YOUR_RECORDS
+
+
+def moved(ours) -> None:
+	"""Record Type on_update: moved to another app, its record type is used by
+	that app's people and the administrators are told; moved at all, its rail
+	follows."""
+	before = ours.get_doc_before_save()
+	if not before or not frappe.db.exists("DocType", ours.record_doctype):
+		return
+	app_moved = before.app != ours.app
+	if app_moved:
 		with extensions._as_administrator():
 			doctype = frappe.get_doc("DocType", ours.record_doctype)
-			doctype.set("permissions", _permissions(app))
+			doctype.set("permissions", _permissions(ours.app))
 			doctype.save(ignore_permissions=True)
-	_place(ours.record_doctype, app, group)
-	moved_app = ours.app != app
-	ours.update({"app": app, "rail_group": group})
-	ours.save(ignore_permissions=True)
-	if moved_app:
+	if app_moved or before.rail_group != ours.rail_group:
+		_place(ours.record_doctype, ours.app, ours.rail_group)
+	if app_moved:
 		notify.notify(
-			"Collection Changed", roles.administrators(), **_told(ours.record_doctype, app, ours.description)
+			"Collection Changed", roles.administrators(), **_told(ours.record_doctype, ours.app, ours.description)
 		)
-	return f"{_(app)} › {_(group)}"
 
 
 def restored(ours) -> str:

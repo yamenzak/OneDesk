@@ -59,4 +59,18 @@ def load(password: str | None = None, only: str | None = None) -> None:
 		frappe.db.commit()
 		if step not in done():
 			_mark(step)
+	_reposted()
 	print("demo: built")
+
+
+def _reposted() -> None:
+	"""The stock values the back-dated entries changed, worked out now as
+	ERPNext's hourly job would. Until then the books cannot be locked."""
+	from erpnext.stock.doctype.repost_item_valuation.repost_item_valuation import (
+		execute_reposting_entry,
+		get_repost_item_valuation_entries,
+	)
+
+	for row in get_repost_item_valuation_entries():
+		execute_reposting_entry(row.name)
+		frappe.db.commit()

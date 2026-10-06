@@ -225,14 +225,19 @@ def fix(key: str, **values) -> None:
 		trn = (values.get("trn") or "").strip()
 		if not trn:
 			frappe.throw(_("Enter the TRN."))
-		frappe.db.set_value("Company", one.name, "tax_id", trn)
-		frappe.clear_document_cache("Company", one.name)
+		doc = frappe.get_doc("Company", one.name)
+		doc.tax_id = trn
+		doc.flags.ignore_permissions = True
+		doc.save()
 	elif key == "emirate":
 		from onedesk.one_book import vat
 
 		address = vat.company_address(one.name)
 		if address:
-			frappe.db.set_value("Address", address, "emirate", values.get("emirate"))
+			doc = frappe.get_doc("Address", address)
+			doc.emirate = values.get("emirate")
+			doc.flags.ignore_permissions = True
+			doc.save()
 		else:
 			vat.add_address(one.name, values.get("emirate"), values.get("address_line1"), values.get("city"))
 	elif key == "close":

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 18:43+0000\n"
-"PO-Revision-Date: 2026-10-06 18:43+0000\n"
+"POT-Creation-Date: 2026-10-06 19:48+0000\n"
+"PO-Revision-Date: 2026-10-06 19:48+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -470,7 +470,7 @@ msgstr "Ein Ordner mit Mitgliedern, wie die Dokumentbibliothek eines Teams."
 msgid "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
 msgstr "Ein Ordner, der nur andere wiederholt, etwa „Alle Nachrichten“ in Gmail, oder einer, der selbst keine Mails enthält."
 
-#: onedesk/one/printing.py:623
+#: onedesk/one/printing.py:626
 msgid "A font is a Google Font's name, such as Playfair Display."
 msgstr "Eine Schrift ist der Name einer Google-Schrift, etwa Playfair Display."
 
@@ -504,8 +504,8 @@ msgstr "Ein Job braucht einen Arbeitsbereich."
 msgid "A late customer is reminded"
 msgstr "Ein säumiger Kunde wird erinnert"
 
-#: onedesk/one/printing.py:565 onedesk/one/printing.py:655
-#: onedesk/one/printing.py:658
+#: onedesk/one/printing.py:568 onedesk/one/printing.py:658
+#: onedesk/one/printing.py:661
 msgid "A layout has sections, each of columns of blocks."
 msgstr "Ein Layout besteht aus Abschnitten, jeder aus Spalten mit Blöcken."
 
@@ -513,27 +513,27 @@ msgstr "Ein Layout besteht aus Abschnitten, jeder aus Spalten mit Blöcken."
 msgid "A lead cannot be merged into itself."
 msgstr "Ein Lead kann nicht mit sich selbst zusammengeführt werden."
 
-#: onedesk/one/printing.py:336
+#: onedesk/one/printing.py:339
 msgid "A letter head may not run a script."
 msgstr "Ein Briefkopf darf kein Skript ausführen."
 
-#: onedesk/one/printing.py:346
+#: onedesk/one/printing.py:349
 msgid "A letter head needs its image, uploaded here."
 msgstr "Ein Briefkopf braucht sein Bild, hier hochgeladen."
 
-#: onedesk/one/printing.py:351
+#: onedesk/one/printing.py:354
 msgid "A letter head's footer is an image uploaded here."
 msgstr "Die Fußzeile eines Briefkopfs ist ein hier hochgeladenes Bild."
 
-#: onedesk/one/printing.py:361
+#: onedesk/one/printing.py:364
 msgid "A letter head's header and footer are each a picture or HTML."
 msgstr "Kopf- und Fußzeile eines Briefkopfs sind jeweils ein Bild oder HTML."
 
-#: onedesk/one/printing.py:344
+#: onedesk/one/printing.py:347
 msgid "A letter head's header needs something to print."
 msgstr "Die Kopfzeile eines Briefkopfs braucht etwas zum Drucken."
 
-#: onedesk/one/printing.py:340
+#: onedesk/one/printing.py:343
 msgid "A letter head's name may not contain quotes or angle brackets."
 msgstr "Der Name eines Briefkopfs darf keine Anführungszeichen oder spitzen Klammern enthalten."
 
@@ -686,7 +686,7 @@ msgstr "Das Bild einer Person oder das Logo einer Organisation, einmal gesucht u
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "Ein Ort gehört zu einem Standort der Schicht oder zu einem einzelnen Mitarbeiter, nicht zu beiden."
 
-#: onedesk/one/printing.py:519
+#: onedesk/one/printing.py:522
 msgid "A print format needs a name."
 msgstr "Ein Druckformat braucht einen Namen."
 
@@ -732,7 +732,7 @@ msgstr "Eine Antwort auf {0}"
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr "Ein hier gespeicherter Bericht ist die Berichtsansicht einer Liste, unter einem Namen gespeichert."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:56
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:59
 msgid "A request that fills record fields can go to one person only."
 msgstr "Eine Anfrage, die Datensatzfelder füllt, kann nur an eine Person gehen."
 
@@ -885,7 +885,7 @@ msgstr "Eine Adresse des Arbeitsbereichs wie sales@. Sie legen fest, wer Zugriff
 msgid "A workspace customizes with fields and settings, never with code."
 msgstr "Ein Arbeitsbereich passt mit Feldern und Einstellungen an, nie mit Code."
 
-#: onedesk/one/printing.py:334
+#: onedesk/one/printing.py:337
 msgid "A workspace makes its own letter heads."
 msgstr "Ein Arbeitsbereich erstellt seine eigenen Briefköpfe."
 
@@ -1467,7 +1467,7 @@ msgstr "Mitarbeiter anlegen"
 msgid "Add applicants from CVs"
 msgstr "Bewerber aus Lebensläufen anlegen"
 
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.py:36
+#: onedesk/one_storage/doctype/cloud_link/cloud_link.py:42
 msgid "Add at least one email address."
 msgstr "Fügen Sie mindestens eine E-Mail-Adresse hinzu."
 
@@ -1904,7 +1904,7 @@ msgstr "Alle {0} Credits verbraucht."
 msgid "All {0} done"
 msgstr "Alle {0} erledigt"
 
-#: onedesk/one/settings.py:1339
+#: onedesk/one/settings.py:1350
 msgid "All {0} seats are in use. Disable someone or add seats to the plan."
 msgstr "Alle {0} Plätze sind belegt. Deaktivieren Sie jemanden oder fügen Sie dem Plan Plätze hinzu."
 
@@ -2799,7 +2799,7 @@ msgstr ""
 msgid "Assigned to Me"
 msgstr "Mir zugewiesen"
 
-#: onedesk/one/automations.py:172 onedesk/one/settings.py:2064
+#: onedesk/one/automations.py:172 onedesk/one/settings.py:2075
 msgid "Assignees"
 msgstr "Zugewiesene"
 
@@ -4373,7 +4373,7 @@ msgstr "Wählen Sie einen Ordner."
 msgid "Choose a month and a year."
 msgstr "Wählen Sie Monat und Jahr."
 
-#: onedesk/one_project/media.py:163
+#: onedesk/one_project/media.py:172
 msgid "Choose a photo or a video from your computer."
 msgstr "Wählen Sie ein Foto oder Video von Ihrem Computer."
 
@@ -5054,7 +5054,7 @@ msgstr "Vertragsnummer"
 msgid "Contract Value"
 msgstr "Vertragswert"
 
-#: onedesk/one_project/status.py:126
+#: onedesk/one_project/status.py:149
 msgid "Contract not invoiced yet"
 msgstr "Vertrag noch nicht abgerechnet"
 
@@ -5259,7 +5259,7 @@ msgstr "Zählung"
 
 #. Label of the country (Link) field in DocType 'Account Request'
 #. Label of the country (Link) field in DocType 'Tenant'
-#: onedesk/one/settings.py:1613
+#: onedesk/one/settings.py:1624
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/public/js/settings.js:865
@@ -5719,7 +5719,7 @@ msgstr "Belegte Datenbank"
 #: frontend/src/project/Invoices.vue:25 frontend/src/project/Suppliers.vue:127
 #: frontend/src/project/Time.vue:27 onedesk/one/portal.py:338
 #: onedesk/one/portal.py:339 onedesk/one/portal.py:441
-#: onedesk/one/settings.py:1622
+#: onedesk/one/settings.py:1633
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -5770,7 +5770,7 @@ msgstr "Arbeitsende"
 msgid "Day Starts"
 msgstr "Arbeitsbeginn"
 
-#: onedesk/one/settings.py:2060
+#: onedesk/one/settings.py:2071
 msgid "Days"
 msgstr "Tage"
 
@@ -5784,7 +5784,7 @@ msgstr "Verbleibende Tage"
 msgid "Days Off"
 msgstr "Freie Tage"
 
-#: onedesk/one/ai.py:1881 onedesk/one/settings.py:1602
+#: onedesk/one/ai.py:1881 onedesk/one/settings.py:1613
 msgid "Days Off Each Week"
 msgstr "Freie Tage jede Woche"
 
@@ -6992,7 +6992,7 @@ msgid "Email Address"
 msgstr "E-Mail-Adresse"
 
 #. Label of the one_allow_email (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2115
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2126
 msgid "Email Allowed"
 msgstr "E-Mail erlaubt"
 
@@ -7029,7 +7029,7 @@ msgid "Email addresses, one per line."
 msgstr "E-Mail-Adressen, eine pro Zeile."
 
 #. Label of the one_email_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2116
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2127
 msgid "Email for New People"
 msgstr "E-Mail für neue Personen"
 
@@ -7335,7 +7335,7 @@ msgstr "Geben Sie die Steuernummer ein."
 msgid "Enter the amount paid."
 msgstr "Geben Sie den gezahlten Betrag ein."
 
-#: onedesk/one_project/kinds.py:155
+#: onedesk/one_project/kinds.py:173
 msgid "Enter the contract value."
 msgstr "Geben Sie den Vertragswert ein."
 
@@ -7525,7 +7525,7 @@ msgstr "Jeden Morgen, was an dem Tag fällig und was überfällig ist. Nicht an 
 msgid "Every morning, what is on your calendar that day. Not sent on a day with nothing on it."
 msgstr "Jeden Morgen, was an diesem Tag in Ihrem Kalender steht. An einem leeren Tag wird nichts gesendet."
 
-#: onedesk/one/settings.py:1607
+#: onedesk/one/settings.py:1618
 msgid "Every one of these days in the list is a day off. Tick two for a weekend of two days."
 msgstr "Jeder dieser Tage in der Liste ist frei. Zwei ankreuzen für ein Wochenende aus zwei Tagen."
 
@@ -7548,7 +7548,7 @@ msgstr "Jede Berechtigung schließt Lesen ein."
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr "Jeder Wareneingang und jede Lieferung wird auf die Bestandskonten gebucht."
 
-#: onedesk/one_project/status.py:108
+#: onedesk/one_project/status.py:131
 msgid "Every task on {0} is done, so it stays Completed. Add a task to open it again."
 msgstr "Alle Aufgaben in {0} sind erledigt, daher bleibt es abgeschlossen. Fügen Sie eine Aufgabe hinzu, um es wieder zu öffnen."
 
@@ -7703,7 +7703,7 @@ msgstr ""
 msgid "Expected To Close"
 msgstr "Erwarteter Abschluss"
 
-#: onedesk/one/printing.py:260
+#: onedesk/one/printing.py:263
 msgid "Expected an unsaved Print Format document"
 msgstr "Erwartet wurde ein ungespeichertes Druckformat"
 
@@ -7936,7 +7936,7 @@ msgstr "Fehlgeschlagen bei Schritt {0} von {1}"
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr "Fehlgeschlagen bei Schritt {number} von {steps}, {step}.<br>{error}"
 
-#: onedesk/one/printing.py:249
+#: onedesk/one/printing.py:252
 msgid "Failed to render template: {0}"
 msgstr "Die Vorlage konnte nicht dargestellt werden: {0}"
 
@@ -8404,7 +8404,7 @@ msgid "Foot Preset"
 msgstr "Fußzeilenvorlage"
 
 #: onedesk/one/ai.py:2709 onedesk/one/ai.py:2717 onedesk/one/ai.py:2720
-#: onedesk/one/ai.py:2721 onedesk/one/printing.py:348
+#: onedesk/one/ai.py:2721 onedesk/one/printing.py:351
 #: onedesk/public/js/settings.js:2293
 msgid "Footer"
 msgstr ""
@@ -8759,7 +8759,7 @@ msgstr "Gib einen Betreff oder eine Mailvorlage an"
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
-#: onedesk/one_project/budget.py:215
+#: onedesk/one_project/budget.py:227
 msgid "Give the cost type a budget."
 msgstr "Geben Sie der Kostenart ein Budget."
 
@@ -8775,11 +8775,11 @@ msgstr "Geben Sie der Stufe einen Namen."
 msgid "Give the profile a name."
 msgstr "Geben Sie dem Profil einen Namen."
 
-#: onedesk/one/settings.py:2163
+#: onedesk/one/settings.py:2174
 msgid "Give the rule a name."
 msgstr "Geben Sie der Regel einen Namen."
 
-#: onedesk/one_project/contacts.py:116
+#: onedesk/one_project/contacts.py:137
 msgid "Give the supplier, the company or the contact."
 msgstr "Geben Sie den Lieferanten, das Unternehmen oder den Kontakt an."
 
@@ -9022,7 +9022,7 @@ msgstr ""
 msgid "HR managers"
 msgstr "HR-Manager"
 
-#: onedesk/one/print_html.py:221 onedesk/one/printing.py:243
+#: onedesk/one/print_html.py:221 onedesk/one/printing.py:246
 msgid "HTML"
 msgstr ""
 
@@ -9082,7 +9082,7 @@ msgid "Head Office"
 msgstr "Hauptsitz"
 
 #: onedesk/one/ai.py:2693 onedesk/one/ai.py:2701 onedesk/one/ai.py:2702
-#: onedesk/one/printing.py:342 onedesk/public/js/settings.js:2292
+#: onedesk/one/printing.py:345 onedesk/public/js/settings.js:2292
 msgid "Header"
 msgstr ""
 
@@ -9181,7 +9181,7 @@ msgstr "Einbehalt nutzen"
 msgid "Holder"
 msgstr "Inhaber"
 
-#: onedesk/one/settings.py:1623 onedesk/one/settings.py:1670
+#: onedesk/one/settings.py:1634 onedesk/one/settings.py:1681
 #: onedesk/one_hr/employee.py:130 onedesk/one_hr/employee.py:287
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/band.js:176
 msgid "Holiday"
@@ -9514,7 +9514,7 @@ msgstr "Wie oft"
 msgid "How often people are told their coming holidays. Whether they are is decided on Notifications."
 msgstr "Wie oft Mitarbeiter über anstehende Feiertage informiert werden. Ob überhaupt, wird unter Benachrichtigungen entschieden."
 
-#: onedesk/one/settings.py:2098
+#: onedesk/one/settings.py:2109
 msgid "How people will know it when they choose how to get it."
 msgstr "Woran die Leute sie erkennen, wenn sie wählen, wie sie sie bekommen."
 
@@ -10225,7 +10225,7 @@ msgstr "Rechnungen enthalten Steuer"
 msgid "Invoices carry the company's TRN"
 msgstr "Rechnungen tragen die Steuernummer des Unternehmens"
 
-#: onedesk/one_project/status.py:135
+#: onedesk/one_project/status.py:158
 msgid "Invoices not paid yet"
 msgstr "Rechnungen noch nicht bezahlt"
 
@@ -12229,7 +12229,7 @@ msgstr "Mitglied"
 
 #. Label of the 'users_section' field in DocType 'Project'
 #. Label of the 'users' field in DocType 'Project'
-#: onedesk/one/settings.py:1765 onedesk/one_project/custom/project.json
+#: onedesk/one/settings.py:1776 onedesk/one_project/custom/project.json
 #: onedesk/public/js/onecloud.js:110 onedesk/public/js/onecloud.js:1519
 #: onedesk/public/js/settings.js:1156 onedesk/public/js/settings.js:1355
 msgid "Members"
@@ -12271,7 +12271,7 @@ msgstr "Mit {0} zusammenführen"
 #: onedesk/one/automation_steps.py:46 onedesk/one/custom/notification_type.json
 #: onedesk/one/mail_templates.py:131 onedesk/one/mail_templates.py:132
 #: onedesk/one/notify.py:303 onedesk/one/rules.py:75
-#: onedesk/one/settings.py:2063 onedesk/one_crm/custom/lead.json
+#: onedesk/one/settings.py:2074 onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:546
@@ -12609,9 +12609,9 @@ msgstr "Meine Aufgaben"
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:134
-#: onedesk/one/page/masters/masters.js:199 onedesk/one/settings.py:1744
-#: onedesk/one/settings.py:1764 onedesk/one/settings.py:1797
-#: onedesk/one/settings.py:2095
+#: onedesk/one/page/masters/masters.js:199 onedesk/one/settings.py:1755
+#: onedesk/one/settings.py:1775 onedesk/one/settings.py:1808
+#: onedesk/one/settings.py:2106
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -12653,7 +12653,7 @@ msgstr "Name ist erforderlich."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhielt."
 
-#: onedesk/one_book/ready.py:285
+#: onedesk/one_book/ready.py:290
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
 
@@ -13460,7 +13460,7 @@ msgstr "Keine Profile"
 msgid "No recent files"
 msgstr "Keine zuletzt verwendeten Dateien"
 
-#: onedesk/one/printing.py:774
+#: onedesk/one/printing.py:777
 msgid "No record type to preview the letter head on."
 msgstr "Kein Datensatztyp für die Vorschau des Briefkopfs."
 
@@ -13580,7 +13580,7 @@ msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
-#: onedesk/one/printing.py:591
+#: onedesk/one/printing.py:594
 msgid "No."
 msgstr ""
 
@@ -13968,7 +13968,7 @@ msgstr "Nichts mit Ihnen geteilt"
 msgid "Nothing to check in. You're {0} today."
 msgstr "Nichts zum Einstempeln. Sie sind heute {0}."
 
-#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
+#: onedesk/one_book/ready.py:254 onedesk/one_inventory/ready.py:172
 #: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
@@ -14515,7 +14515,7 @@ msgstr "Ein Ordner eines Postfachs und wie weit er gelesen wurde."
 msgid "One line. A name in {{ }} is filled in when it is sent, and shown in bold."
 msgstr "Eine Zeile. Ein Name in {{ }} wird beim Senden eingesetzt und fett angezeigt."
 
-#: onedesk/one/settings.py:2062
+#: onedesk/one/settings.py:2073
 msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr "Eine Zeile. {{ doc.field }} setzt ein Feld des Datensatzes ein."
 
@@ -14907,7 +14907,7 @@ msgstr "Nur ein Arbeitsbereich-Administrator kann einen Server mit allen teilen.
 msgid "Only a Workspace Administrator or HR Manager can put an event on everyone's calendar."
 msgstr "Nur ein Arbeitsbereich-Administrator oder HR-Manager kann einen Termin in alle Kalender eintragen."
 
-#: onedesk/one_hr/expense.py:95
+#: onedesk/one_hr/expense.py:96
 msgid "Only a claim still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
@@ -14943,7 +14943,7 @@ msgstr "Nur ein Lead oder ein Deal hat Anrufe."
 msgid "Only a recurring offering can have a trial."
 msgstr "Nur ein wiederkehrendes Angebot kann eine Testphase haben."
 
-#: onedesk/one_hr/shift.py:116
+#: onedesk/one_hr/shift.py:117
 msgid "Only a request still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
@@ -15092,7 +15092,7 @@ msgstr "Nur Personen mit Zugriff auf den Datensatz werden benachrichtigt."
 msgid "Only photos and videos go in Featured Media. {0} is neither."
 msgstr "In Ausgewählte Medien kommen nur Fotos und Videos. {0} ist keins von beiden."
 
-#: onedesk/one/settings.py:2057
+#: onedesk/one/settings.py:2068
 msgid "Only record types you can open."
 msgstr "Nur Datensatztypen, die Sie öffnen können."
 
@@ -15100,13 +15100,18 @@ msgstr "Nur Datensatztypen, die Sie öffnen können."
 msgid "Only somebody who can approve these may answer this one."
 msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
 
-#: onedesk/one_intake/switches.py:88
+#: onedesk/one_intake/switches.py:88 onedesk/one_intake/switches.py:113
+#: onedesk/one_intake/switches.py:116
 msgid "Only someone who can edit {0} can change this."
 msgstr "Nur wer {0} bearbeiten darf, kann das ändern."
 
 #: onedesk/public/js/settings.js:1671
 msgid "Only the billing owner sees this."
 msgstr "Nur der Rechnungsinhaber sieht dies."
+
+#: onedesk/one_project/budget.py:211
+msgid "Only the books set a budget for a cost centre. Set this one against a project."
+msgstr "Nur die Buchhaltung legt ein Budget für eine Kostenstelle fest. Legen Sie dieses für ein Projekt fest."
 
 #: onedesk/one/ai_setup.py:614
 msgid "Only the five everyone has"
@@ -15541,7 +15546,7 @@ msgstr "Offen"
 msgid "Over Budget"
 msgstr "Bei Überschreitung"
 
-#: onedesk/one_project/budget.py:213
+#: onedesk/one_project/budget.py:225
 msgid "Over Budget is Warn or Stop."
 msgstr "Bei Überschreitung ist Warnen oder Stoppen."
 
@@ -16155,7 +16160,7 @@ msgstr "Personen"
 msgid "People Choose the Model"
 msgstr "Personen wählen das Modell"
 
-#: onedesk/one/settings.py:2103
+#: onedesk/one/settings.py:2114
 msgid "People With the Role"
 msgstr "Personen mit der Rolle"
 
@@ -16308,7 +16313,7 @@ msgstr "Telefon"
 msgid "Photo"
 msgstr "Foto"
 
-#: onedesk/one_project/media.py:166
+#: onedesk/one_project/media.py:175
 msgid "Photos and videos are added to a project."
 msgstr "Fotos und Videos werden einem Projekt hinzugefügt."
 
@@ -16322,6 +16327,10 @@ msgid "Pick a name and a plan. The workspace is built as soon as the card is acc
 msgstr "Wählen Sie einen Namen und einen Tarif. Der Arbeitsbereich wird angelegt, sobald die Karte akzeptiert ist."
 
 #: onedesk/one_project/kinds.py:65
+msgid "Pick the customer {0} bills."
+msgstr "Wählen Sie den Kunden, an den {0} abrechnet."
+
+#: onedesk/one_project/kinds.py:83
 msgid "Pick the customer."
 msgstr "Wählen Sie den Kunden."
 
@@ -16329,7 +16338,11 @@ msgstr "Wählen Sie den Kunden."
 msgid "Pick the emirate."
 msgstr "Wählen Sie das Emirat."
 
-#: onedesk/one_project/kinds.py:70 onedesk/one_project/kinds.py:157
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:21
+msgid "Pick the folder or the record the files go to."
+msgstr "Wählen Sie den Ordner oder den Datensatz, in den die Dateien kommen."
+
+#: onedesk/one_project/kinds.py:88 onedesk/one_project/kinds.py:175
 msgid "Pick the item to bill the contract as."
 msgstr "Wählen Sie den Artikel, als den der Vertrag abgerechnet wird."
 
@@ -16341,7 +16354,7 @@ msgstr "Wählen Sie den Artikel, unter dem die Zeit abgerechnet wird."
 msgid "Pick the month and the item to invoice it as."
 msgstr "Wählen Sie den Monat und den Artikel für die Rechnung."
 
-#: onedesk/one_project/kinds.py:153
+#: onedesk/one_project/kinds.py:171
 msgid "Pick the project's customer first."
 msgstr "Wählen Sie zuerst den Kunden des Projekts."
 
@@ -16353,11 +16366,11 @@ msgstr "Wählen Sie die Rolle."
 msgid "Pick the site."
 msgstr "Wählen Sie den Standort."
 
-#: onedesk/one_project/kinds.py:63
+#: onedesk/one_project/kinds.py:81
 msgid "Pick what kind of project this is."
 msgstr "Wählen Sie die Art dieses Projekts."
 
-#: onedesk/one_project/status.py:76
+#: onedesk/one_project/status.py:112
 msgid "Pick {0}."
 msgstr "Wählen Sie {0}."
 
@@ -16724,11 +16737,11 @@ msgstr "Drucküberschriften"
 msgid "Print Settings"
 msgstr ""
 
-#: onedesk/one/printing.py:137
+#: onedesk/one/printing.py:140
 msgid "Print formats are made in the print format builder here, not written by hand."
 msgstr "Druckformate werden hier im Druckformat-Editor erstellt, nicht von Hand geschrieben."
 
-#: onedesk/one/printing.py:128 onedesk/one/printing.py:204
+#: onedesk/one/printing.py:131 onedesk/one/printing.py:207
 msgid "Print formats can only be made for this workspace's record types."
 msgstr "Druckformate können nur für Datensatztypen dieses Arbeitsbereichs erstellt werden."
 
@@ -17064,7 +17077,7 @@ msgstr "Einrichtungsauftrag"
 msgid "Provisioning failed"
 msgstr "Einrichtung gescheitert"
 
-#: onedesk/one/settings.py:1620 onedesk/public/js/settings.js:2984
+#: onedesk/one/settings.py:1631 onedesk/public/js/settings.js:2984
 #: onedesk/public/js/settings.js:2997
 msgid "Public Holidays"
 msgstr "Gesetzliche Feiertage"
@@ -17130,7 +17143,7 @@ msgid "Push Address"
 msgstr "Push-Adresse"
 
 #. Label of the one_allow_push (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2117
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2128
 msgid "Push Allowed"
 msgstr "Push erlaubt"
 
@@ -17140,7 +17153,7 @@ msgid "Push Device"
 msgstr "Push-Gerät"
 
 #. Label of the one_push_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2118
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2129
 msgid "Push for New People"
 msgstr "Push für neue Personen"
 
@@ -17657,7 +17670,7 @@ msgstr "Teilen von Datensätzen"
 #. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
-#: onedesk/one/settings.py:1785 onedesk/one/settings.py:2057
+#: onedesk/one/settings.py:1796 onedesk/one/settings.py:2068
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
@@ -18428,7 +18441,7 @@ msgstr "Einbehalt bei Übergabe"
 msgid "Retention on {project} is due today"
 msgstr "Der Einbehalt für {project} ist heute fällig"
 
-#: onedesk/one_project/status.py:138
+#: onedesk/one_project/status.py:161
 msgid "Retention still held"
 msgstr "Einbehalt noch einbehalten"
 
@@ -18806,7 +18819,7 @@ msgstr "Sag Hallo in einem kurzen Satz."
 msgid "Say no to this?"
 msgstr "Das ablehnen?"
 
-#: onedesk/one/settings.py:631
+#: onedesk/one/settings.py:631 onedesk/one_ai/doctype/ai_memory/ai_memory.py:19
 msgid "Say what OneAI should keep in mind."
 msgstr "Sag, was OneAI im Kopf behalten soll."
 
@@ -19010,7 +19023,7 @@ msgstr "Angebot senden"
 msgid "Send Test"
 msgstr "Test senden"
 
-#: onedesk/one/settings.py:1952 onedesk/one/settings.py:2056
+#: onedesk/one/settings.py:1963 onedesk/one/settings.py:2067
 msgid "Send This"
 msgstr "Senden"
 
@@ -19332,7 +19345,7 @@ msgstr "Legen Sie den Zeitraum fest."
 msgid "Set to 0 to keep them indefinitely."
 msgstr "Auf 0 setzen, um sie unbegrenzt aufzubewahren."
 
-#: onedesk/one_project/budget.py:318
+#: onedesk/one_project/budget.py:347
 msgid "Set up a fiscal year in OneBook first."
 msgstr "Legen Sie zuerst in OneBook ein Geschäftsjahr an."
 
@@ -19901,7 +19914,7 @@ msgstr "Einige Tage wurden gekürzt"
 msgid "Some Drafts Not Submitted"
 msgstr "Einige Entwürfe nicht gebucht"
 
-#: onedesk/one/settings.py:1615
+#: onedesk/one/settings.py:1626
 msgid "Some countries have holidays only in part of the country."
 msgstr "Manche Länder haben Feiertage nur in einem Teil des Landes."
 
@@ -19926,7 +19939,7 @@ msgstr "Jemand, von dem, an den oder über den ein Dokument ist."
 msgid "Somebody changed how {0} looks after you opened this. Refresh to see it; nothing was saved."
 msgstr "Jemand hat das Aussehen von {0} geändert, nachdem Sie dies geöffnet haben. Aktualisieren Sie; nichts wurde gespeichert."
 
-#: onedesk/one/printing.py:897
+#: onedesk/one/printing.py:900
 msgid "Someone changed {0} after you opened it."
 msgstr "Jemand hat {0} geändert, nachdem Sie es geöffnet haben."
 
@@ -20208,7 +20221,7 @@ msgstr "Beginnt mit den Berechtigungen dieser Stufe."
 msgid "State"
 msgstr "Status"
 
-#: onedesk/one/settings.py:115 onedesk/one/settings.py:1615
+#: onedesk/one/settings.py:115 onedesk/one/settings.py:1626
 msgid "State or Region"
 msgstr "Bundesland oder Region"
 
@@ -20550,7 +20563,7 @@ msgstr "Das Webhook-Geheimnis von Stripe"
 msgid "Strongest"
 msgstr "Am stärksten"
 
-#: onedesk/one/printing.py:138 onedesk/one/printing.py:362
+#: onedesk/one/printing.py:141 onedesk/one/printing.py:365
 msgid "Style"
 msgstr ""
 
@@ -20576,7 +20589,7 @@ msgstr "Nachunternehmeraufträge"
 #: frontend/src/project/TaskPanel.vue:21 onedesk/one/automation_steps.py:45
 #: onedesk/one/custom/notification_type.json onedesk/one/mail_templates.py:130
 #: onedesk/one/notify.py:303 onedesk/one/rules.py:75
-#: onedesk/one/settings.py:2062
+#: onedesk/one/settings.py:2073
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:448
 #: onedesk/public/js/doctype_settings.js:190
 #: onedesk/public/js/doctype_settings.js:536 onedesk/public/js/onemail.js:799
@@ -21231,7 +21244,7 @@ msgstr "Diese Rechnung enthält nichts zu buchen."
 msgid "That is not a recording."
 msgstr "Das ist keine Aufnahme."
 
-#: onedesk/one/settings.py:1277
+#: onedesk/one/settings.py:1280
 msgid "That is not an email address."
 msgstr "Das ist keine E-Mail-Adresse."
 
@@ -21318,7 +21331,7 @@ msgstr "Adresse des Unternehmens"
 msgid "The Company's TRN"
 msgstr "Steuernummer des Unternehmens"
 
-#: onedesk/one/settings.py:2059
+#: onedesk/one/settings.py:2070
 msgid "The Date"
 msgstr "Das Datum"
 
@@ -21326,7 +21339,7 @@ msgstr "Das Datum"
 msgid "The European Union keeps the workspace's files in the EU. This cannot be changed later."
 msgstr "Mit der Europäischen Union werden die Dateien des Arbeitsbereichs in der EU gespeichert. Das lässt sich später nicht ändern."
 
-#: onedesk/one/settings.py:2061
+#: onedesk/one/settings.py:2072
 msgid "The Field"
 msgstr "Das Feld"
 
@@ -21355,7 +21368,7 @@ msgstr "Das One-Konto, das diesen Arbeitsbereich hält, seine Rechnungen erhält
 msgid "The OneAI model the call ran on."
 msgstr "Das OneAI-Modell, auf dem der Aufruf lief."
 
-#: onedesk/one/settings.py:2109
+#: onedesk/one/settings.py:2120
 msgid "The Person on the Record"
 msgstr "Die Person im Datensatz"
 
@@ -21456,7 +21469,7 @@ msgstr "Die Glocke ist immer an. Dies sind die Kanäle, die man hinzufügen kann
 msgid "The books are locked up to {0}."
 msgstr "Die Bücher sind bis {0} gesperrt."
 
-#: onedesk/one_book/closing.py:44
+#: onedesk/one_book/closing.py:59
 msgid "The books can only be locked up to today."
 msgstr "Die Bücher können nur bis heute gesperrt werden."
 
@@ -21480,11 +21493,11 @@ msgstr "Der Kontenplan hat keine Anlagenkonten für Anlagegüter."
 msgid "The chart of accounts has no Tax account with VAT in its name."
 msgstr "Der Kontenplan hat kein Steuerkonto mit VAT im Namen."
 
-#: onedesk/one_book/closing.py:60
+#: onedesk/one_book/closing.py:80
 msgid "The chart of accounts has no equity account to close the year into."
 msgstr "Der Kontenplan hat kein Eigenkapitalkonto, in das das Jahr abgeschlossen werden kann."
 
-#: onedesk/one_book/ready.py:323
+#: onedesk/one_book/ready.py:328
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "Der Kontenplan hat keine Gruppe für Bankkonten. Legen Sie eine unter Umlaufvermögen mit dem Typ Bank an."
 
@@ -21828,7 +21841,7 @@ msgstr "Die neue Leitung, außer sie hat sich selbst eingetragen"
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "Der nächste auszuführende Schritt. Schritte dürfen mehrfach laufen."
 
-#: onedesk/one/settings.py:2063
+#: onedesk/one/settings.py:2074
 msgid "The notification detail and the email body. Optional."
 msgstr "Details der Benachrichtigung und Text der E-Mail. Optional."
 
@@ -21888,7 +21901,7 @@ msgstr "Die anderen Betreiber"
 msgid "The owner is reminded at this time."
 msgstr "Der Verantwortliche wird zu diesem Zeitpunkt erinnert."
 
-#: onedesk/one/printing.py:626
+#: onedesk/one/printing.py:629
 msgid "The page"
 msgstr "Die Seite"
 
@@ -21901,7 +21914,7 @@ msgstr "Die Seite, auf der sie läuft, und worauf sie dort wartet, etwa OneMail,
 msgid "The page lists this model with no current price."
 msgstr "Die Seite listet dieses Modell ohne aktuellen Preis."
 
-#: onedesk/one/printing.py:620
+#: onedesk/one/printing.py:623
 msgid "The page number position must be one of {0}."
 msgstr "Die Position der Seitenzahl muss eine von {0} sein."
 
@@ -22387,7 +22400,7 @@ msgstr "War schon da, bevor OneAI eingeschaltet wurde, und wird deshalb nur abge
 msgid "There is already a group called {0}."
 msgstr "Es gibt bereits eine Gruppe namens {0}."
 
-#: onedesk/one/settings.py:2165
+#: onedesk/one/settings.py:2176
 msgid "There is already a notification called {0}."
 msgstr "Es gibt bereits eine Benachrichtigung namens {0}."
 
@@ -22427,7 +22440,7 @@ msgstr "Es gibt keine Feiertagsliste, von der man ausgehen kann."
 msgid "There is no holiday list {0}."
 msgstr "Es gibt keine Feiertagsliste {0}."
 
-#: onedesk/one/printing.py:617 onedesk/one/printing.py:754
+#: onedesk/one/printing.py:620 onedesk/one/printing.py:757
 msgid "There is no letter head {0}."
 msgstr "Es gibt keinen Briefkopf {0}."
 
@@ -22443,12 +22456,12 @@ msgstr "Es gibt keine Mailvorlage {0}"
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 
-#: onedesk/one/notify.py:488 onedesk/one/settings.py:1943
+#: onedesk/one/notify.py:488 onedesk/one/settings.py:1954
 msgid "There is no notification type {0}."
 msgstr "Es gibt keinen Benachrichtigungstyp {0}."
 
-#: onedesk/one/settings.py:2046 onedesk/one/settings.py:2168
-#: onedesk/one/settings.py:2196
+#: onedesk/one/settings.py:2057 onedesk/one/settings.py:2179
+#: onedesk/one/settings.py:2207
 msgid "There is no rule {0}."
 msgstr "Es gibt keine Regel {0}."
 
@@ -22484,8 +22497,8 @@ msgstr "Es gibt kein(e) {0} {1}."
 msgid "There is nothing to check in: you are {0} today."
 msgstr "Es gibt nichts einzuchecken: Sie sind heute {0}."
 
-#: onedesk/one/settings.py:250 onedesk/one/settings.py:1824
-#: onedesk/one/settings.py:1991
+#: onedesk/one/settings.py:250 onedesk/one/settings.py:1835
+#: onedesk/one/settings.py:2002
 msgid "There is nothing to save here."
 msgstr "Hier gibt es nichts zu speichern."
 
@@ -22804,7 +22817,7 @@ msgstr "Diese Site verwaltet diesen Arbeitsbereich nicht."
 msgid "This site doesn't manage workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 
-#: onedesk/one/printing.py:707
+#: onedesk/one/printing.py:710
 msgid "This suggestion does not change how anything prints."
 msgstr "Dieser Vorschlag ändert nicht, wie etwas gedruckt wird."
 
@@ -24886,7 +24899,7 @@ msgstr "Was ist noch abzurechnen?"
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: onedesk/one/ai.py:4064 onedesk/one/settings.py:2058
+#: onedesk/one/ai.py:4064 onedesk/one/settings.py:2069
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:278 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -26594,7 +26607,7 @@ msgstr "Falscher Preis"
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_book/closing.py:106
+#: onedesk/one_book/closing.py:126
 msgid "Year-end close of {0}"
 msgstr "Jahresabschluss {0}"
 
@@ -26678,7 +26691,7 @@ msgstr "Sie können kein(e) {0} anlegen und es daher auch nicht zurückholen."
 msgid "You cannot make a {0}."
 msgstr "Sie können kein(e) {0} anlegen."
 
-#: onedesk/one/settings.py:634
+#: onedesk/one/settings.py:634 onedesk/one_ai/doctype/ai_memory/ai_memory.py:23
 msgid "You cannot open that record."
 msgstr "Du kannst diesen Datensatz nicht öffnen."
 
@@ -27138,7 +27151,7 @@ msgstr "hat ein Foto hinzugefügt"
 msgid "added task"
 msgstr "hat die Aufgabe hinzugefügt"
 
-#: onedesk/one/settings.py:1689
+#: onedesk/one/settings.py:1700
 msgid "added {0}"
 msgstr "{0} hinzugefügt"
 
@@ -27184,7 +27197,7 @@ msgstr "eine Stunde"
 msgid "an operator"
 msgstr "einem Betreiber"
 
-#: onedesk/one/settings.py:1696 onedesk/one_admin/heads.py:570
+#: onedesk/one/settings.py:1707 onedesk/one_admin/heads.py:570
 #: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2133
 msgid "and {0} more"
 msgstr "und {0} weitere"
@@ -27558,7 +27571,7 @@ msgstr "hat kein Arbeitsbereich eine Adresse"
 msgid "nobody yet"
 msgstr "noch niemand"
 
-#: onedesk/one/ai.py:1883 onedesk/one/ai.py:1884 onedesk/one/settings.py:1684
+#: onedesk/one/ai.py:1883 onedesk/one/ai.py:1884 onedesk/one/settings.py:1695
 msgid "none"
 msgstr ""
 
@@ -27734,7 +27747,7 @@ msgstr "Registernummer"
 msgid "removed a file"
 msgstr "hat eine Datei entfernt"
 
-#: onedesk/one/settings.py:1690
+#: onedesk/one/settings.py:1701
 msgid "removed {0}"
 msgstr "{0} entfernt"
 
@@ -27746,7 +27759,7 @@ msgstr "hat {0} Dateien entfernt"
 msgid "renamed it from {0}"
 msgstr "hat es von {0} umbenannt"
 
-#: onedesk/one/settings.py:1691
+#: onedesk/one/settings.py:1702
 msgid "renamed {0}"
 msgstr "{0} umbenannt"
 
@@ -27879,7 +27892,7 @@ msgstr "der Tag im Monat"
 msgid "the day of the year"
 msgstr "der Tag im Jahr"
 
-#: onedesk/one/settings.py:1684
+#: onedesk/one/settings.py:1695
 msgid "the days off each week are now {0}"
 msgstr "die freien Tage jede Woche sind jetzt {0}"
 
@@ -28196,15 +28209,15 @@ msgstr "{0} erscheint in der Seitenleiste der App unter {1}."
 msgid "{0} are not in this section."
 msgstr "{0} gehören nicht zu diesem Abschnitt."
 
-#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1306
+#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1308
 msgid "{0} as a manager"
 msgstr "{0} als Manager"
 
-#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1306
+#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1308
 msgid "{0} as a user"
 msgstr "{0} als Benutzer"
 
-#: onedesk/one/settings.py:1208 onedesk/one/settings.py:1308
+#: onedesk/one/settings.py:1208 onedesk/one/settings.py:1310
 msgid "{0} as {1}"
 msgstr "{0} als {1}"
 
@@ -28264,7 +28277,7 @@ msgstr "{0} kann in einem Arbeitsbereich nicht geändert werden."
 msgid "{0} can't be edited."
 msgstr "{0} kann nicht bearbeitet werden."
 
-#: onedesk/one_studio/record_types.py:462
+#: onedesk/one_studio/record_types.py:477
 msgid "{0} can't be restored."
 msgstr "{0} kann nicht wiederhergestellt werden."
 
@@ -28530,7 +28543,7 @@ msgstr "{0} Dateien aus der Zeit vor dem Cloud-Speicher liegen noch auf der Fest
 msgid "{0} files with these names are already here"
 msgstr "{0} Dateien mit diesen Namen sind bereits hier"
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:42
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:45
 msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} füllt ein Datensatzfeld, daher muss die Anfrage an einem Datensatz erfolgen."
 
@@ -28592,7 +28605,7 @@ msgstr "{0} Std. Zeit und Kosten"
 msgid "{0} h used of {1} h."
 msgstr "{0} h von {1} h genutzt."
 
-#: onedesk/one_project/kinds.py:159
+#: onedesk/one_project/kinds.py:177
 msgid "{0} has a contract already. Change it on its sales order."
 msgstr "{0} hat bereits einen Vertrag. Ändern Sie ihn im Kundenauftrag."
 
@@ -28600,7 +28613,7 @@ msgstr "{0} hat bereits einen Vertrag. Ändern Sie ihn im Kundenauftrag."
 msgid "{0} has a template error ({1})."
 msgstr "{0} hat einen Vorlagenfehler ({1})."
 
-#: onedesk/one/settings.py:1322
+#: onedesk/one/settings.py:1324
 msgid "{0} has already joined. Send a password reset instead."
 msgstr "{0} ist bereits beigetreten. Senden Sie stattdessen eine Passwort-Zurücksetzung."
 
@@ -28613,7 +28626,7 @@ msgstr "{0} hat sich seit dem Vorschlag geändert, daher gilt er nicht mehr."
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "{0} ist abgelaufen, und der Gewinn ist noch nicht in die Gewinnrücklagen übertragen."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:44
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:47
 msgid "{0} has no attachment field called {1}."
 msgstr "{0} hat kein Anhangsfeld namens {1}."
 
@@ -28637,7 +28650,7 @@ msgstr "{0} hat kein Feld, das auf {1} verweist, daher kann das Feld nicht darau
 msgid "{0} has no field {1}"
 msgstr "{0} hat kein Feld {1}"
 
-#: onedesk/one/mail_templates.py:116 onedesk/one/printing.py:612
+#: onedesk/one/mail_templates.py:116 onedesk/one/printing.py:615
 msgid "{0} has no field {1}."
 msgstr "{0} hat kein Feld {1}."
 
@@ -28754,7 +28767,7 @@ msgstr "{0} ist ein Standardfeld und kann nicht gelöscht werden. Blenden Sie es
 msgid "{0} is a standard folder and can't be changed."
 msgstr "{0} ist ein Standardordner und kann nicht geändert werden."
 
-#: onedesk/one/printing.py:328 onedesk/one/printing.py:758
+#: onedesk/one/printing.py:331 onedesk/one/printing.py:761
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr "{0} ist ein Standardformat. Es kann nur als Standard festgelegt oder ausgeschaltet werden."
 
@@ -28790,7 +28803,7 @@ msgstr "{0} ist bereits verbunden."
 msgid "{0} is already on another workspace."
 msgstr "{0} gehört bereits zu einem anderen Arbeitsbereich."
 
-#: onedesk/one/settings.py:1279
+#: onedesk/one/settings.py:1282
 msgid "{0} is already on the workspace."
 msgstr "{0} ist bereits im Arbeitsbereich."
 
@@ -28862,7 +28875,7 @@ msgstr "{0} ist größer als {1} MB, und mehr darf eine Frage nicht tragen."
 msgid "{0} is listed twice under Servers."
 msgstr "{0} ist unter Server zweimal eingetragen."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:35
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:38
 msgid "{0} is listed twice."
 msgstr "{0} ist doppelt aufgeführt."
 
@@ -28898,7 +28911,7 @@ msgstr "{0} ist kein Feld zum Bearbeiten."
 msgid "{0} is not a field."
 msgstr "{0} ist kein Feld."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:22
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:25
 msgid "{0} is not a folder."
 msgstr "{0} ist kein Ordner."
 
@@ -28910,15 +28923,15 @@ msgstr "{0} ist kein Formular, das ein Arbeitsbereich anpasst."
 msgid "{0} is not a form here."
 msgstr "{0} ist hier kein Formular."
 
-#: onedesk/one/printing.py:678
+#: onedesk/one/printing.py:681
 msgid "{0} is not a format of {1} this workspace made."
 msgstr "{0} ist kein Format von {1}, das dieser Arbeitsbereich erstellt hat."
 
-#: onedesk/one/printing.py:428
+#: onedesk/one/printing.py:431
 msgid "{0} is not a format of {1}."
 msgstr "{0} ist kein Format von {1}."
 
-#: onedesk/one/printing.py:522
+#: onedesk/one/printing.py:525
 msgid "{0} is not a format {1} can start from."
 msgstr "{0} ist kein Format, von dem {1} ausgehen kann."
 
@@ -29011,7 +29024,7 @@ msgid "{0} is not an add-on on sale."
 msgstr "{0} ist kein angebotenes Zusatzpaket."
 
 #: onedesk/one_studio/record_types.py:110
-#: onedesk/one_studio/record_types.py:426
+#: onedesk/one_studio/record_types.py:434
 msgid "{0} is not an app a collection can belong to."
 msgstr "{0} ist keine App, zu der eine Sammlung gehören kann."
 
@@ -29059,7 +29072,7 @@ msgstr "{0} gehört nicht zu den Stammdaten, die Sie verwalten."
 msgid "{0} is not one of the workspace's levels."
 msgstr "{0} ist keine der Stufen des Arbeitsbereichs."
 
-#: onedesk/one/printing.py:96 onedesk/one/printing.py:426
+#: onedesk/one/printing.py:96 onedesk/one/printing.py:429
 msgid "{0} is not printed from formats this workspace sets."
 msgstr "{0} wird nicht mit Formaten gedruckt, die dieser Arbeitsbereich festlegt."
 
@@ -29328,7 +29341,7 @@ msgstr "{0} von {1} belegt"
 msgid "{0} of {1} workspaces"
 msgstr "{0} von {1} Arbeitsbereichen"
 
-#: onedesk/one/settings.py:1572
+#: onedesk/one/settings.py:1583
 msgid "{0} off"
 msgstr "{0} aus"
 
@@ -29336,7 +29349,7 @@ msgstr "{0} aus"
 msgid "{0} older entries"
 msgstr "{0} ältere Einträge"
 
-#: onedesk/one/settings.py:1572
+#: onedesk/one/settings.py:1583
 msgid "{0} on"
 msgstr "{0} an"
 
@@ -29504,11 +29517,11 @@ msgstr "{0} ausgegeben"
 msgid "{0} starts on {1}"
 msgstr "{0} beginnt am {1}"
 
-#: onedesk/one_project/status.py:83
+#: onedesk/one_project/status.py:86 onedesk/one_project/status.py:118
 msgid "{0} still has open work."
 msgstr "{0} hat noch offene Arbeit."
 
-#: onedesk/one_studio/record_types.py:482
+#: onedesk/one_studio/record_types.py:497
 msgid "{0} still has records. Delete them first."
 msgstr "{0} hat noch Datensätze. Löschen Sie diese zuerst."
 
@@ -29565,7 +29578,7 @@ msgstr "{0} zu bezahlen"
 msgid "{0} to {1}"
 msgstr "{0} bis {1}"
 
-#: onedesk/one/settings.py:1570
+#: onedesk/one/settings.py:1581
 msgid "{0} to {1}%"
 msgstr "{0} auf {1} %"
 
@@ -29667,7 +29680,7 @@ msgstr ""
 msgid "{0} {1} is submitted, and these cannot change now."
 msgstr "{0} {1} ist gebucht, diese können sich jetzt nicht mehr ändern."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:20
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:23
 msgid "{0} {1} not found"
 msgstr "{0} {1} nicht gefunden"
 
@@ -29854,7 +29867,7 @@ msgstr "{0}: Ein Feld wird über ein Verknüpfungsfeld desselben Formulars gefü
 msgid "{0}: a letter head is written as it prints, without template tags."
 msgstr "{0}: Ein Briefkopf wird so geschrieben, wie er gedruckt wird, ohne Vorlagen-Tags."
 
-#: onedesk/one/printing.py:181
+#: onedesk/one/printing.py:184
 msgid "{0}: a picture here is one uploaded to this workspace."
 msgstr "{0}: Ein Bild hier ist eines, das in diesen Arbeitsbereich hochgeladen wurde."
 
@@ -29907,11 +29920,11 @@ msgstr "{0}: Berechnete Felder können nicht hinzugefügt werden."
 msgid "{0}: fields of type {1} can't be added."
 msgstr "{0}: Felder vom Typ {1} können nicht hinzugefügt werden."
 
-#: onedesk/one/printing.py:158
+#: onedesk/one/printing.py:161
 msgid "{0}: only a field that holds formatted text may print as formatted text."
 msgstr "{0}: Nur ein Feld mit formatiertem Text darf als formatierter Text gedruckt werden."
 
-#: onedesk/one/printing.py:179
+#: onedesk/one/printing.py:182
 msgid "{0}: only a standard field template may be used."
 msgstr "{0}: Nur eine Standard-Feldvorlage darf verwendet werden."
 
@@ -29919,8 +29932,8 @@ msgstr "{0}: Nur eine Standard-Feldvorlage darf verwendet werden."
 msgid "{0}: say which new field goes there."
 msgstr "{0}: Sagen Sie, welches neue Feld dorthin kommt."
 
-#: onedesk/one/printing.py:155 onedesk/one/printing.py:172
-#: onedesk/one/printing.py:210
+#: onedesk/one/printing.py:158 onedesk/one/printing.py:175
+#: onedesk/one/printing.py:213
 msgid "{0}: this block is not one the print format builder makes."
 msgstr "{0}: Dieser Block wird nicht vom Druckformat-Editor erstellt."
 
@@ -29945,7 +29958,7 @@ msgstr "{0}: Sie können {1} nicht lesen."
 msgid "{0}: {1}"
 msgstr "{0}: {1}"
 
-#: onedesk/one/printing.py:162
+#: onedesk/one/printing.py:165
 msgid "{0}: {1} blocks can't be added."
 msgstr "{0}: {1}-Blöcke können nicht hinzugefügt werden."
 

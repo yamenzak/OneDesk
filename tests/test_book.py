@@ -187,12 +187,17 @@ def test_the_uae_checks_only_run_in_the_uae_and_the_bill_hook_is_wired():
 def test_locking_is_for_the_closers_and_never_into_the_future():
 	lock = _body(BOOK / "closing.py", "lock")
 	assert "only_for(CLOSERS)" in lock
-	assert "The books can only be locked up to today." in lock
+	# The rule is the Company's own, so a bulk edit or an import keeps it too.
+	assert "The books can only be locked up to today." in _body(BOOK / "closing.py", "kept_to_today")
+	assert '"validate": "onedesk.one_book.closing.kept_to_today"' in HOOKS
 
 
 def test_the_year_is_closed_into_retained_earnings_and_then_locked():
 	close = _body(BOOK / "closing.py", "close_year")
-	assert "retained_earnings(company)" in close and "accounts_frozen_till_date" in close
+	assert "retained_earnings(company)" in close
+	# Locked by the voucher's own submit, however the year was closed.
+	assert "_lock(doc.company, doc.period_end_date)" in _body(BOOK / "closing.py", "year_closed")
+	assert '"Period Closing Voucher": {"on_submit": "onedesk.one_book.closing.year_closed"}' in HOOKS
 	assert "'close'" in _body(READY, "fix")
 
 

@@ -20,7 +20,6 @@ import frappe
 from frappe.utils import add_days, add_months, date_diff, flt, get_first_day, getdate
 
 from onedesk.one_demo.base import COMPANY, account, ago, ahead, as_user, dated, make, on, save, tag, today, wh
-from onedesk.one_demo.setup import BUILDER
 
 PM = "samir@one.test"
 OWNER = "wsadmin@one.test"
@@ -249,7 +248,7 @@ def showroom():
 	_time(name, ("Samir",), "Site Survey", on(5, 4), weeks=3, hours=8)
 	from onedesk.one_project.billing import invoice_time
 
-	with as_user(OWNER):
+	with as_user(ACCOUNTS_USER):
 		draft = invoice_time(name, item="SVC-DES")
 		dated(draft, on(7, 15))
 		save(draft, submit=True)
@@ -487,10 +486,8 @@ def _issue(project, date, lines):
 def _budget(project, lines):
 	from onedesk.one_project.budget import set_budget
 
-	# ERPNext's Budget is the books' to set, so the owner sets it.
-	with as_user(OWNER):
-		for kind, amount in lines.items():
-			set_budget(project, account(COST_TYPES[kind]), amount, "Warn")
+	for kind, amount in lines.items():
+		set_budget(project, account(COST_TYPES[kind]), amount, "Warn")
 
 
 def _tasks(project, rows, starts):
@@ -604,13 +601,11 @@ def _time(project, people, activity, starts, weeks, hours):
 					},
 				)
 			if sheet.time_logs:
-				# Each logs their own time, and whoever set the workspace up logs
-				# it for the workshop's people with no account. hrms keeps
-				# everybody with an employee record to their own, a project
-				# manager too, so that person submits it (docs/PASSOVER.md, Noticed).
-				with as_user(frappe.db.get_value("Employee", employee, "user_id") or BUILDER):
+				# Each logs their own time, and the project manager logs the
+				# workshop's, who have no account, and approves it all.
+				with as_user(frappe.db.get_value("Employee", employee, "user_id") or PM):
 					save(sheet)
-				with as_user(BUILDER):
+				with as_user(PM):
 					sheet.reload()
 					sheet.submit()
 
@@ -664,7 +659,7 @@ def _retainer(project, first_month, months, people, hours, over=()):
 	for i in range(months):
 		month = get_first_day(add_months(on(first_month, 1), i))
 		_time(project, people, "Maintenance", add_days(month, 2), weeks=4, hours=hours[i % len(hours)] + (20 if i + first_month in over else 0))
-		with as_user(OWNER):
+		with as_user(ACCOUNTS_USER):
 			draft = invoice_month(project, month=str(month), item="SVC-MAINT", overage=1)
 			dated(draft, add_days(add_months(month, 1), -1))
 			invoice = save(draft, submit=True)

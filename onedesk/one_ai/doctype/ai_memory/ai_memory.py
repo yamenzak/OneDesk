@@ -6,10 +6,22 @@ if-owner permission, the rule AI Chat already lives by.
 """
 
 import frappe
+from frappe import _
 from frappe.model.document import Document
 
 
 class AIMemory(Document):
+	# A fact is one line of up to 500 characters, and it is about a record its
+	# keeper may open, however it is written (the panel, Settings, the list).
+	def validate(self):
+		self.fact = " ".join((self.fact or "").split())[:500]
+		if not self.fact:
+			frappe.throw(_("Say what OneAI should keep in mind."))
+		if self.about_doctype and self.about_name and not frappe.has_permission(
+			self.about_doctype, "read", doc=self.about_name, user=self.owner or frappe.session.user
+		):
+			frappe.throw(_("You cannot open that record."), frappe.PermissionError)
+
 	# The owner's Settings page and panel redraw when a memory is kept,
 	# changed or forgotten, from wherever that happened.
 	def on_update(self):

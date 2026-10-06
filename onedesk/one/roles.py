@@ -76,7 +76,9 @@ def grant(grants: dict) -> None:
 #: Manager (give): to look, to do the work, to run it.
 USE = ("read", "report", "print")
 WORK = (*USE, "write", "create", "submit")
-MANAGE = (*WORK, "delete", "cancel", "amend", "export")
+#: A manager shares too: assigning somebody a record they cannot open shares
+#: it with them (frappe's assign_to), and refused that, the assignment fails.
+MANAGE = (*WORK, "delete", "cancel", "amend", "export", "share")
 
 #: Rights only a submittable kind has.
 SUBMITTING = ("submit", "cancel", "amend")

@@ -113,6 +113,15 @@ def handing_over(doc) -> None:
 		settle_cover(doc.attached_to_name, without=doc.name)
 
 
+def kept_shown(doc, method=None) -> None:
+	"""File validate: a featured file is a photo or a video and opens for
+	anybody, however it is featured (the page, a bulk edit, an import)."""
+	if not doc.get("one_featured"):
+		return
+	check(doc.file_name)
+	doc.is_private = 0
+
+
 def feature(name: str, on: bool) -> None:
 	"""Put one of a project's files in its Featured Media, or take it out."""
 	doc = frappe.get_doc("File", name)

@@ -122,6 +122,9 @@ def _blocks(data) -> list[dict]:
 
 def validate_format(doc, method=None) -> None:
 	"""Print Format validate: what a format written by the workspace may carry."""
+	if doc.name == DESIGNER:
+		# The letter head designer's own format never prints anything.
+		doc.disabled = 1
 	if not layer.held():
 		return
 	if doc.print_format_for != "DocType" or doc.standard == "Yes":

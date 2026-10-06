@@ -1935,6 +1935,34 @@ OVERRIDES = [
 		"frappe/frappe/app.py",
 		'for before_request_task in frappe.get_hooks("before_request"):',
 	),
+	(
+		"A project with open work is not closed, however its status is set",
+		"ERPNext's Project.validate sets the status from the percent complete, so status.held runs in before_validate, ahead of it, and sees the status the person asked for",
+		"onedesk/one_project/status.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		'self.status = "Completed" if self.percent_complete == 100 else "Open"',
+	),
+	(
+		"A manager is not kept to their own employee's records",
+		"everybody.py unticks the Employee's Create User Permission box, and ERPNext's Employee takes the User Permission away when it is unticked",
+		"onedesk/one_hr/everybody.py",
+		"erpnext/erpnext/setup/doctype/employee/employee.py",
+		"if employee_user_permission_exists and not self.create_user_permission:",
+	),
+	(
+		"Closing a year locks the books up to its end",
+		"closing.year_closed reads the Period Closing Voucher's period end on submit, wherever the voucher is submitted",
+		"onedesk/one_book/closing.py",
+		"erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py",
+		"period_end_date: DF.Date",
+	),
+	(
+		"The demo finishes the stock revaluations its back-dated entries left",
+		"build._reposted runs each waiting Repost Item Valuation as ERPNext's hourly job does, since the books cannot be locked while any wait",
+		"onedesk/one_demo/build.py",
+		"erpnext/erpnext/stock/doctype/repost_item_valuation/repost_item_valuation.py",
+		"def get_repost_item_valuation_entries(limit=None):",
+	),
 ]
 
 

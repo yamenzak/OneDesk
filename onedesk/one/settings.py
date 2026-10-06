@@ -1250,9 +1250,12 @@ def set_enabled(user: Annotated[str, "The person."], on: Annotated[int, "1 to le
 	roles.require()
 	if user in NOT_PEOPLE or user == frappe.session.user:
 		frappe.throw(_("You cannot turn yourself off."))
-	if int(on):
-		_seat_left()
-	frappe.db.set_value("User", user, "enabled", int(on))
+	# Through the User's own save: the seats are counted there (seated), and
+	# somebody turned on gets their mail address.
+	doc = frappe.get_doc("User", user)
+	doc.enabled = int(on)
+	doc.flags.ignore_permissions = True
+	doc.save()
 	if not int(on):
 		# Off means off now, not at their next sign-in.
 		from frappe.sessions import clear_sessions
@@ -1277,7 +1280,6 @@ def invite(
 		frappe.throw(_("That is not an email address."))
 	if frappe.db.exists("User", email):
 		frappe.throw(_("{0} is already on the workspace.").format(email))
-	_seat_left()
 	user = frappe.get_doc(
 		{
 			"doctype": "User",
@@ -1332,10 +1334,19 @@ def seats_used() -> int:
 	return frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]})
 
 
-def _seat_left() -> None:
+def seated(doc, method=None) -> None:
+	"""User validate: a person turned on takes a seat, and there are only as
+	many as the plan has, however they are added or turned on (People, the
+	User form, a bulk edit, an import)."""
+	if doc.user_type != "System User" or not doc.enabled or doc.name in NOT_PEOPLE:
+		return
+	before = None if doc.is_new() else doc.get_doc_before_save()
+	if before and before.enabled and before.user_type == "System User":
+		return
+	if not frappe.db.exists("DocType", "Workspace Account"):
+		return
 	seats = frappe.get_single("Workspace Account").seats or 0
-	used = seats_used()
-	if seats and used >= seats:
+	if seats and seats_used() >= seats:
 		frappe.throw(_("All {0} seats are in use. Disable someone or add seats to the plan.").format(seats))
 
 

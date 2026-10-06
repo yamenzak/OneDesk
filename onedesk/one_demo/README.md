@@ -66,6 +66,10 @@ against ERPNext's own records. It writes nothing.
 - No hour and no retainer month is invoiced twice.
 - Every report of One's runs, and every home figure reads, for its people.
 - Every rail link opens for the people its app is given to.
+- Every rule of One's holds when a record is changed by a bulk edit, a
+  report view cell or a Data Import row, as the person who would change it.
+  A project with open work is not closed, an internal project bills nobody,
+  the books lock up to today at most, and nobody is turned on past the seats.
 
 A failed check names the records behind it. A new feature adds its records
 to the step it belongs to and a check here.

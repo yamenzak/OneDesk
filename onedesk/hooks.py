@@ -260,9 +260,12 @@ doc_events = {
 	# A user without a picture gets their face, or their employee's photo.
 	# See one_mail/faces.py.
 	"User": {
+		# A person turned on takes one of the plan's seats. See one/settings.py.
+		"validate": "onedesk.one.settings.seated",
 		"before_save": "onedesk.one_mail.addresses.for_person",
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": "onedesk.one_mail.faces.dress_later",
+		# A manager is not kept to their own employee's records. See one_hr/everybody.py.
+		"on_update": ["onedesk.one_mail.faces.dress_later", "onedesk.one_hr.everybody.user"],
 	},
 	# Calendar Links off deletes every calendar link. See one_calendar/feed.py.
 	"System Settings": {"on_update": "onedesk.one_calendar.feed.switched"},
@@ -291,6 +294,8 @@ doc_events = {
 	# A letter head's drawn top says what General says now (one/letter_heads.py).
 	# The company without a logo gets its website's. See one_mail/faces.py.
 	"Company": {
+		# The books lock up to today at the latest. See one_book/closing.py.
+		"validate": "onedesk.one_book.closing.kept_to_today",
 		"after_insert": "onedesk.one_mail.faces.dress_later",
 		"on_update": ["onedesk.one.letter_heads.redraw", "onedesk.one_mail.faces.dress_later"],
 	},
@@ -468,8 +473,17 @@ doc_events = {
 			"onedesk.one_intake.filing.forget",
 		],
 	},
+	# A project manager's budgets are projects'. See one_project/budget.py.
+	# ... and a project's Budget follows its cost types.
+	"Budget": {
+		"validate": "onedesk.one_project.budget.kept_to_projects",
+		"on_submit": "onedesk.one_project.budget.synced",
+		"on_cancel": "onedesk.one_project.budget.synced",
+	},
+	# A closed year is a locked one. See one_book/closing.py.
+	"Period Closing Voucher": {"on_submit": "onedesk.one_book.closing.year_closed"},
 	"Employee": {
-		"validate": "onedesk.one_hr.leaving.notice_ends_on",
+		"validate": ["onedesk.one_hr.leaving.notice_ends_on", "onedesk.one_hr.everybody.employee"],
 		# An employee without a photo gets their user's picture, or their face.
 		# See one_mail/faces.py.
 		"after_insert": "onedesk.one_mail.faces.dress_later",
@@ -516,6 +530,10 @@ doc_events = {
 	},
 	# A new grievance is read, and a sensitive one is kept to HR Managers and
 	# its raiser. See one_hr/ai_grievance.py.
+	# A mailbox's OneAI switch holds however it is changed. See one_intake/switches.py.
+	"Email Account": {
+		"validate": ["onedesk.one_intake.switches.mailbox_switched", "onedesk.one_mail.holders.signed"]
+	},
 	"Employee Grievance": {
 		"after_insert": "onedesk.one_hr.ai_grievance.raised",
 		"validate": "onedesk.one_hr.ai_grievance.unmarked",
@@ -523,6 +541,8 @@ doc_events = {
 	# A recording's sound goes by its retention or an HR Manager's hand; a
 	# file's OneCloud links and versions go with it.
 	"File": {
+		# A folder's OneAI switch holds however it is changed. See one_intake/switches.py.
+		"validate": ["onedesk.one_intake.switches.file_switched", "onedesk.one_project.media.kept_shown"],
 		# Every new file is read, once per content. See one_intake/pipeline.py.
 		# A project's Featured Media sets its Cover; see one_project/media.py.
 		"after_insert": ["onedesk.one_intake.pipeline.file_added", "onedesk.one_project.media.changed"],
@@ -604,10 +624,21 @@ doc_events = {
 			"onedesk.one_project.kinds.fill",
 			# How it counts its time, and its site. See one_project/hours.py.
 			"onedesk.one_project.hours.fill",
+			# A project closes with its work. See one_project/status.py.
+			"onedesk.one_project.status.held",
 		],
-		"validate": ["onedesk.one_project.naming.validate", "onedesk.one_project.tree.validate"],
+		# What its kind needs, after a sub-project takes its parent's customer. See one_project/kinds.py.
+		"validate": [
+			"onedesk.one_project.naming.validate",
+			"onedesk.one_project.tree.validate",
+			"onedesk.one_project.kinds.held",
+			# Its Budget is its cost types', and its contacts name somebody. See budget.py, contacts.py.
+			"onedesk.one_project.budget.summed",
+			"onedesk.one_project.contacts.held",
+		],
 		"on_update": [
 			"onedesk.one_project.naming.on_update",
+			"onedesk.one_project.contacts.link_all",
 			"onedesk.one_project.members.forget",
 			"onedesk.one_project.tree.forget",
 			# Who was added, who now runs it, how it is going. See one_project/tell.py.

@@ -336,3 +336,200 @@ def everybody_signs_in_to_what_they_were_given():
 def the_assets_depreciate():
 	booked = frappe.db.count("Journal Entry", {"voucher_type": "Depreciation Entry", "docstatus": 1})
 	assert booked, "no depreciation booked this year"
+
+
+@check
+def a_manager_is_not_kept_to_their_own_records():
+	"""People's managers work with everybody's records (one_hr/everybody.py),
+	and the rest only with their own, as hrms means them to."""
+	from onedesk.one_hr.everybody import manages
+
+	wrong = []
+	for _f, _l, email, *_r in PEOPLE:
+		if not email:
+			continue
+		employee = frappe.db.get_value("Employee", {"user_id": email}, ["name", "create_user_permission"], as_dict=True)
+		kept = frappe.db.exists("User Permission", {"user": email, "allow": "Employee"})
+		if manages(email) == bool(kept) or manages(email) == bool(employee.create_user_permission):
+			wrong.append(email)
+	assert not wrong, wrong
+
+
+@check
+def a_project_manager_logs_and_approves_the_crews_time():
+	timesheet = frappe.get_all("Timesheet", filters={"docstatus": 1}, fields=["name", "employee"], limit=1)[0]
+	with as_user("samir@one.test"):
+		assert frappe.has_permission("Timesheet", "read", doc=timesheet.name), timesheet
+		assert frappe.has_permission("Timesheet", "submit"), "submit"
+
+
+@check
+def the_books_read_every_project():
+	with as_user("huda@one.test"):
+		seen = set(frappe.get_list("Project", pluck="name", limit=0))
+	assert {p.name for p in _projects()} <= seen, {p.name for p in _projects()} - seen
+
+
+@check
+def a_project_manager_sets_a_projects_budget_and_not_a_cost_centres():
+	from onedesk.one_project.budget import set_budget
+
+	project = frappe.db.get_value("Project", {"project_name": "Bayview Tower Curtain Wall"})
+	account = frappe.db.get_value("Account", {"company": COMPANY, "account_name": "Equipment Hire", "is_group": 0})
+	with as_user("samir@one.test"):
+		set_budget(project, account, 12345, "Warn")
+		made = frappe.get_last_doc("Budget", filters={"project": project, "account": account, "docstatus": 1})
+		budget = frappe.copy_doc(made)
+		budget.update({"budget_against": "Cost Center", "project": None, "cost_center": frappe.db.get_value("Company", COMPANY, "cost_center")})
+		try:
+			budget.insert()
+		except frappe.ValidationError as e:
+			assert "Only the books set a budget" in str(e), e
+			return
+	raise AssertionError("a project manager set a cost centre's budget")
+
+
+@check
+def a_manager_shares_what_they_assign():
+	"""Assigning somebody a record they cannot open shares it with them."""
+	with as_user("karim@one.test"):
+		assert frappe.has_permission("Asset Maintenance", "share"), "Stock Manager cannot share upkeep"
+
+
+# What a desk changes without the page: a bulk edit of the list, a cell of
+# the report view and a row of Data Import. Each holds a record's rules, so
+# each is tried as the person who would make it and rolled back after.
+WAYS = ("bulk edit", "report view", "import")
+
+
+def _change(way: str, doctype: str, name: str, values: dict) -> None:
+	if way == "bulk edit":
+		_bulk(doctype, name, "update", values)
+	elif way == "report view":
+		frappe.client.set_value(doctype, name, values)
+	else:
+		_imported(doctype, name, values)
+
+
+def _bulk(doctype: str, name: str, action: str, values: dict | None = None) -> None:
+	"""A bulk action on one record. frappe commits each record it changes,
+	and the suite writes nothing, so its commit stays a savepoint here."""
+	from frappe.desk.doctype.bulk_update.bulk_update import submit_cancel_or_update_docs
+
+	db = frappe.db
+	commit, rollback = db.commit, db.rollback
+	db.savepoint("bulk")
+	db.commit = lambda *a, **k: None
+	db.rollback = lambda *a, **k: rollback(save_point="bulk")
+	frappe.local.message_log = []
+	try:
+		failed = submit_cancel_or_update_docs(doctype, [name], action, values)
+	finally:
+		db.commit, db.rollback = commit, rollback
+	if failed:
+		raise frappe.ValidationError(frappe.get_last_doc("Error Log").error.strip().splitlines()[-1])
+
+
+def _imported(doctype: str, name: str, values: dict) -> None:
+	"""One row of Update Existing Records, as Data Import reads and saves it,
+	short of its commit."""
+	import csv
+	import tempfile
+
+	from frappe.core.doctype.data_import.importer import Importer
+
+	with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False, newline="") as f:
+		out = csv.writer(f)
+		out.writerow(["name", *values])
+		out.writerow([name, *values.values()])
+	plan = frappe.get_doc({"doctype": "Data Import", "reference_doctype": doctype, "import_type": "Update Existing Records"})
+	importer = Importer(doctype, data_import=plan, file_path=f.name, console=True)
+	importer.before_import()
+	for payload in importer.import_file.get_payloads_for_import():
+		importer.process_doc(payload.doc)
+
+
+def _each_way(user: str, doctype: str, name: str, values: dict, read: tuple = ()) -> dict:
+	"""Make the change each way: what the record holds after it, or the
+	refusal."""
+	seen = {}
+	for way in WAYS:
+		frappe.db.savepoint("way")
+		try:
+			with as_user(user):
+				_change(way, doctype, name, values)
+			seen[way] = frappe.db.get_value(doctype, name, [*values, *read], as_dict=True)
+		except Exception as e:
+			seen[way] = e
+		finally:
+			frappe.db.rollback(save_point="way")
+			frappe.clear_document_cache(doctype, name)
+	return seen
+
+
+def _refused(seen: dict, why: str) -> None:
+	"""Each way was turned down, and by the rule, not by something else."""
+	wrong = {way: got for way, got in seen.items() if why not in str(got)}
+	assert not wrong, wrong
+
+
+@check
+def a_project_with_open_work_is_not_closed_by_hand():
+	project = frappe.db.get_value("Project", {"project_name": "Bayview Tower Curtain Wall"})
+	_refused(_each_way("samir@one.test", "Project", project, {"status": "Completed"}), "still has open work")
+
+
+@check
+def an_internal_project_bills_nobody():
+	project = frappe.db.get_value("Project", {"project_name": "Crescent Schools Window Survey"})
+	seen = _each_way("samir@one.test", "Project", project, {"one_kind": "Internal"}, ("customer", "one_markup"))
+	for way, got in seen.items():
+		assert not isinstance(got, Exception), (way, got)
+		assert got.one_kind == "Internal" and not got.customer and not flt(got.one_markup), (way, got)
+
+
+@check
+def a_projects_budget_is_its_cost_types():
+	budgeted = frappe.get_all("Budget", filters={"docstatus": 1, "budget_against": "Project"}, pluck="project", limit=1)
+	assert budgeted, "no project has a budget"
+	project = budgeted[0]
+	was = frappe.db.get_value("Project", project, "estimated_costing")
+	for way, got in _each_way("samir@one.test", "Project", project, {"estimated_costing": 1}).items():
+		assert not isinstance(got, Exception), (way, got)
+		assert _close(got.estimated_costing, was), (way, got.estimated_costing, was)
+
+
+@check
+def a_cancelled_budget_leaves_its_project():
+	from onedesk.one_project.budget import _budgets
+
+	budget = frappe.get_all("Budget", filters={"docstatus": 1, "budget_against": "Project"}, fields=["name", "project"], limit=1)[0]
+	with as_user("samir@one.test"):
+		_bulk("Budget", budget.name, "cancel")
+	left = sum(flt(one.budget_amount) for one in _budgets(budget.project))
+	assert _close(frappe.db.get_value("Project", budget.project, "estimated_costing"), left), budget
+
+
+@check
+def the_books_lock_up_to_today_at_most():
+	from onedesk.one_demo.base import ahead
+
+	_refused(_each_way("huda@one.test", "Company", COMPANY, {"accounts_frozen_till_date": str(ahead(30))}), "up to today")
+
+
+@check
+def nobody_is_turned_on_past_the_seats():
+	from onedesk.one.settings import seats_used
+
+	frappe.db.set_value("User", "yousef@one.test", "enabled", 0)
+	frappe.db.set_single_value("Workspace Account", "seats", seats_used())
+	_refused(_each_way("Administrator", "User", "yousef@one.test", {"enabled": 1}), "seats are in use")
+
+
+@check
+def a_folder_reads_for_whoever_turned_it_on():
+	with as_user("samir@one.test"):
+		folder = frappe.get_doc({"doctype": "File", "file_name": f"Site Photos {frappe.generate_hash(length=6)}", "is_folder": 1, "folder": "Home"}).insert()
+	for way, got in _each_way("samir@one.test", "File", folder.name, {"one_intake": 1, "one_intake_for": "omar@one.test"}).items():
+		assert not isinstance(got, Exception), (way, got)
+		assert got.one_intake_for == "samir@one.test", (way, got)

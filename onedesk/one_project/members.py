@@ -4,7 +4,9 @@ ERPNext lets every Projects User read every project. A workspace running a
 villa for one customer and a website for another does not want the window
 fitter reading the website's budget, so a project's **Users** decide:
 
-- a **Projects Manager** sees every project;
+- a **Projects Manager** sees every project, and so do the books (an
+  **Accounts User** or **Accounts Manager**), who invoice every project's time
+  and progress;
 - anybody else who works in projects sees a project they made, one they run
   (**Project Manager**), one they are listed on, and one with **nobody
   listed** — a project nobody has closed is
@@ -39,6 +41,9 @@ import frappe
 #: Who sees every project.
 MANAGERS = ("Projects Manager",)
 
+#: Who sees every project without running them: the books.
+BOOKS = ("Accounts User", "Accounts Manager")
+
 #: The role whose view of projects this narrows.
 WORKER = "Projects User"
 
@@ -49,7 +54,8 @@ def manages(user: str) -> bool:
 
 def narrowed(user: str) -> bool:
 	"""Whether this person's list of projects is their own rather than all."""
-	return not manages(user) and WORKER in frappe.get_roles(user)
+	held = set(frappe.get_roles(user))
+	return not manages(user) and WORKER in held and not held & set(BOOKS)
 
 
 def visible(user: str) -> set[str]:

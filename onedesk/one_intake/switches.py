@@ -99,6 +99,44 @@ def set_folder(folder: str, on: int) -> dict:
 	return folder_state(folder)
 
 
+def file_switched(doc, method=None) -> None:
+	"""File validate: a folder's switch holds however the folder is changed
+	(a bulk edit, an import, frappe.client.set_value). Only whoever may throw
+	it does, and it reads for that person and nobody else."""
+	if doc.is_new() or not (doc.has_value_changed("one_intake") or doc.has_value_changed("one_intake_for")):
+		return
+	if doc.flags.ignore_permissions:
+		return
+	item = doc.as_dict()
+	if doc.one_intake:
+		if not doc.is_folder or not _may_switch(item):
+			frappe.throw(_("Only someone who can edit {0} can change this.").format(doc.file_name), frappe.PermissionError)
+		doc.one_intake_for = frappe.session.user
+	elif not (_administers() or _may_switch(item)):
+		frappe.throw(_("Only someone who can edit {0} can change this.").format(doc.file_name), frappe.PermissionError)
+	else:
+		doc.one_intake_for = None
+
+
+def mailbox_switched(doc, method=None) -> None:
+	"""Email Account validate: the same for a mailbox. It reads for whoever
+	turned it on, and a holder of the mailbox turns it on."""
+	if doc.is_new() or not (doc.has_value_changed("one_intake") or doc.has_value_changed("one_intake_for")):
+		return
+	if doc.flags.ignore_permissions:
+		return
+	from onedesk.one_mail import actions
+
+	if doc.one_intake:
+		actions.require(doc.name)
+		doc.one_intake_for = frappe.session.user
+		doc.create_contact = 0
+	else:
+		if not _administers():
+			actions.require(doc.name)
+		doc.one_intake_for = None
+
+
 def _may_switch(item: dict) -> bool:
 	"""A folder's switch is its owner's to throw: My Files only by its person,
 	anything else by whoever may change the folder itself. Attachments and

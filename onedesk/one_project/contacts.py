@@ -112,12 +112,10 @@ def save(
 	doc.check_permission("write")
 	if role not in ROLES:
 		frappe.throw(_("Pick the role."))
-	if not (supplier or organisation or contact):
-		frappe.throw(_("Give the supplier, the company or the contact."))
 	values = {
 		"role": role,
 		"supplier": supplier or None,
-		"organisation": None if supplier else (organisation or None),
+		"organisation": organisation or None,
 		"contact": contact or None,
 		"note": note or None,
 	}
@@ -127,9 +125,26 @@ def save(
 	else:
 		doc.append("one_contacts", values)
 	doc.save()
-	if contact:
-		linked(contact, project)
 	return contacts(project)
+
+
+def held(doc, method=None) -> None:
+	"""Project validate: each contact names somebody, and one who is a
+	supplier has no other company, however the rows are written (the page,
+	the form's table, an import)."""
+	for row in doc.get("one_contacts") or []:
+		if not (row.supplier or row.organisation or row.contact):
+			frappe.throw(_("Give the supplier, the company or the contact."))
+		if row.supplier:
+			row.organisation = None
+
+
+def link_all(doc, method=None) -> None:
+	"""Project on_update: every contact on the project names it among its
+	links."""
+	for row in doc.get("one_contacts") or []:
+		if row.contact:
+			linked(row.contact, doc.name)
 
 
 @frappe.whitelist(methods=["POST"])

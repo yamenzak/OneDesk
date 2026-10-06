@@ -16,6 +16,9 @@ def hashed(token: str) -> str:
 
 class CloudFileRequest(Document):
 	def validate(self):
+		# What arrives needs somewhere to land, however the request is made.
+		if not self.folder and not (self.reference_doctype and self.reference_name):
+			frappe.throw(_("Pick the folder or the record the files go to."))
 		if self.reference_doctype and not frappe.db.exists(self.reference_doctype, self.reference_name):
 			frappe.throw(_("{0} {1} not found").format(_(self.reference_doctype), self.reference_name))
 		if self.folder and not frappe.db.get_value("File", self.folder, "is_folder"):

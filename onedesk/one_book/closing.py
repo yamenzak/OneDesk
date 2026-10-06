@@ -39,12 +39,32 @@ def locked(company: str | None = None):
 def lock(until: str | None = None) -> str | None:
 	"""Lock the books up to and including `until`; unlock with none."""
 	frappe.only_for(CLOSERS)
-	company = _company()
-	if until and getdate(until) > getdate(nowdate()):
-		frappe.throw(_("The books can only be locked up to today."))
-	frappe.db.set_value("Company", company, "accounts_frozen_till_date", getdate(until) if until else None)
-	frappe.clear_document_cache("Company", company)
+	_lock(_company(), getdate(until) if until else None)
 	return until
+
+
+def _lock(company: str, until) -> None:
+	"""Through the Company's own save, so ERPNext's check of pending reposts
+	and `kept_to_today` run as on the form."""
+	doc = frappe.get_doc("Company", company)
+	doc.accounts_frozen_till_date = until
+	doc.flags.ignore_permissions = True
+	doc.save()
+
+
+def kept_to_today(doc, method=None) -> None:
+	"""Company validate: the books lock up to today at the latest, however
+	the date is set (the form, a bulk edit, an import)."""
+	if doc.accounts_frozen_till_date and getdate(doc.accounts_frozen_till_date) > getdate(nowdate()):
+		frappe.throw(_("The books can only be locked up to today."))
+
+
+def year_closed(doc, method=None) -> None:
+	"""Period Closing Voucher on_submit: a closed year is a locked one, however
+	the closing was made."""
+	held = locked(doc.company)
+	if not held or getdate(held) < getdate(doc.period_end_date):
+		_lock(doc.company, doc.period_end_date)
 
 
 def retained_earnings(company: str) -> str:
@@ -107,8 +127,6 @@ def close_year(company: str, year: dict) -> str:
 		}
 	)
 	voucher.insert()
+	# Submitting locks the year (year_closed).
 	voucher.submit()
-	if not locked(company) or getdate(locked(company)) < getdate(year.year_end_date):
-		frappe.db.set_value("Company", company, "accounts_frozen_till_date", year.year_end_date)
-		frappe.clear_document_cache("Company", company)
 	return voucher.name

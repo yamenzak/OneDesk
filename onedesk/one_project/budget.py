@@ -199,6 +199,18 @@ def _spent(projects: list[str], accounts: list[str], by_project: bool = False) -
 	return found
 
 
+#: Who keeps every budget, a cost centre's as well as a project's.
+BOOKS = ("Accounts User", "Accounts Manager")
+
+
+def kept_to_projects(doc, method=None) -> None:
+	"""Budget validate: somebody who keeps budgets only as a project's manager
+	sets them against a project, however the budget is made."""
+	held = set(frappe.get_roles())
+	if doc.budget_against != "Project" and "Projects Manager" in held and not held & set(BOOKS):
+		frappe.throw(_("Only the books set a budget for a cost centre. Set this one against a project."))
+
+
 @frappe.whitelist(methods=["POST"])
 def set_budget(
 	project: Annotated[str, "The project."],
@@ -245,8 +257,8 @@ def set_budget(
 	new.action_if_annual_budget_exceeded = action
 	new.action_if_annual_exceeded_on_cumulative_expense = action
 	new.insert()
+	# Submitting adds it to the project's Budget (synced).
 	new.submit()
-	sync(project)
 	return lines(project)
 
 
@@ -260,7 +272,6 @@ def remove_budget(
 	for one in _budgets(project):
 		if one.account == account:
 			frappe.get_doc("Budget", one.name).cancel()
-	sync(project)
 	return lines(project)
 
 
@@ -301,6 +312,24 @@ def sync(project: str) -> None:
 			"Project", project, "estimated_costing", sum(flt(one.budget_amount) for one in budgets)
 		)
 		tree.forget()
+
+
+def synced(doc, method=None) -> None:
+	"""Budget on_submit and on_cancel: a project's Budget follows its cost
+	types, however a budget is made or taken off (the page, ERPNext's form,
+	an import)."""
+	if doc.budget_against == "Project" and doc.project:
+		sync(doc.project)
+
+
+def summed(doc, method=None) -> None:
+	"""Project validate: a project with cost types has their sum as its
+	Budget, so a bulk edit of it does not part the two."""
+	if doc.is_new():
+		return
+	budgets = _budgets(doc.name)
+	if budgets:
+		doc.estimated_costing = sum(flt(one.budget_amount) for one in budgets)
 
 
 def _company(project: str) -> str:

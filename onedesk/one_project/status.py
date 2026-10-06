@@ -65,6 +65,42 @@ def ask(project: Annotated[str, "The project."]) -> dict:
 	return {"tasks": len(_open_tasks([project, *below])), "projects": len(below)}
 
 
+def held(doc, method=None) -> None:
+	"""Project before_validate, ahead of ERPNext's own status from progress:
+	the status holds however it is set (the page, a bulk edit, an import).
+
+	- A project closes with its work. Closed from its page, with its open
+	  tasks and sub-projects closed too, it closes them here. Set to closed any
+	  other way while work is open, it is refused.
+	- Reopened after being completed with no tasks, its progress goes back to
+	  its tasks: ERPNext turned it to by hand only because there were none.
+	"""
+	before = None if doc.is_new() else doc.get_doc_before_save()
+	was = before.status if before else None
+	if doc.status in CLOSED and was not in CLOSED and not doc.is_new():
+		below = _open_below(doc.name)
+		tasks = _open_tasks([doc.name, *below])
+		if not (below or tasks):
+			return
+		if not doc.flags.get("one_close_work"):
+			frappe.throw(_("{0} still has open work.").format(doc.project_name))
+		# As ERPNext's own set_project_status: straight to the status, since a
+		# task's own checks (its dependencies done first) don't apply to work
+		# being closed.
+		for name in tasks:
+			frappe.db.set_value("Task", name, "status", doc.status)
+		for name in below:
+			sub = frappe.get_doc("Project", name)
+			if sub.status in CLOSED:
+				continue
+			sub.status = doc.status
+			sub.flags.one_close_work = True
+			sub.save()
+	elif was == "Completed" and doc.status not in CLOSED:
+		if doc.percent_complete_method == "Manual" and not frappe.db.count("Task", {"project": doc.name}):
+			doc.percent_complete_method = "Task Completion"
+
+
 @frappe.whitelist(methods=["POST"])
 def change(
 	project: Annotated[str, "The project."],
@@ -78,37 +114,24 @@ def change(
 	doc.check_permission("write")
 	if status in CLOSED:
 		below = _open_below(project)
-		tasks = _open_tasks([project, *below])
-		if (below or tasks) and not int(close):
+		if (below or _open_tasks([project, *below])) and not int(close):
 			frappe.throw(_("{0} still has open work.").format(doc.project_name))
 		for name in below:
 			frappe.has_permission("Project", "write", doc=name, throw=True)
-		# As ERPNext's own set_project_status: straight to the status, since a
-		# task's own checks (its dependencies done first) don't apply to work
-		# being closed.
-		for name in tasks:
-			frappe.db.set_value("Task", name, "status", status)
-		for name in below:
-			sub = frappe.get_doc("Project", name)
-			sub.status = status
-			sub.save()
-	elif doc.status == "Completed":
-		own = frappe.db.count("Task", {"project": project})
-		if not own and doc.percent_complete_method == "Manual":
-			# ERPNext turned progress to by hand when it was completed without
-			# tasks; put it back on the tasks.
-			doc.percent_complete_method = "Task Completion"
-		elif (
-			status == "Open"
-			and own
-			and doc.percent_complete_method != "Manual"
-			and not frappe.db.count("Task", {"project": project, "status": OPEN_TASK})
-		):
-			frappe.throw(
-				_("Every task on {0} is done, so it stays Completed. Add a task to open it again.").format(
-					doc.project_name
-				)
+		doc.flags.one_close_work = bool(int(close))
+	elif (
+		doc.status == "Completed"
+		and status == "Open"
+		and doc.percent_complete_method != "Manual"
+		and frappe.db.count("Task", {"project": project})
+		and not frappe.db.count("Task", {"project": project, "status": OPEN_TASK})
+	):
+		# What ERPNext's own save would do anyway, said before it does.
+		frappe.throw(
+			_("Every task on {0} is done, so it stays Completed. Add a task to open it again.").format(
+				doc.project_name
 			)
+		)
 	doc.status = status
 	doc.save()
 	return doc.status

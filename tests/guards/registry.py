@@ -385,12 +385,30 @@ GUARDS = [
 		"an integration suite that writes, or checks next to nothing",
 		"tests/guards/test_demo.py::test_the_suite_checks_and_writes_nothing",
 	),
+	# 2 Rules on the server
+	Guard(
+		"rules-hooked",
+		2,
+		"a rule of One's not on its record's hooks",
+		"tests/guards/test_rules.py::test_every_rule_is_on_its_records_hooks",
+	),
+	Guard(
+		"rules-every-way",
+		2,
+		"a rule with no demo check that changes it by bulk edit, report view and import",
+		"tests/guards/test_rules.py::test_every_rule_is_changed_every_way_on_the_demo",
+	),
+	Guard(
+		"rules-no-way-round",
+		2,
+		"an endpoint writing a field a rule owns with frappe.db.set_value",
+		"tests/guards/test_rules.py::test_no_endpoint_writes_round_a_rule",
+	),
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
 PLANNED = {
 	1: "a module with a feature and no demo record or check on it, held as each module is passed over again",
-	2: "a rule decided in an endpoint or a button rather than the record's own hooks (ARC 7)",
 	3: "a module README without its Connections section (ARC 10)",
 	11: "a record that leaves the company with no shipped print format (ARC 9)",
 	14: "a module with no Intake sample for its records (ARC 10)",

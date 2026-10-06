@@ -93,17 +93,7 @@ def run(password=None):
 	for first, *_rest, boss, _access in PEOPLE:
 		if boss:
 			frappe.db.set_value("Employee", made[first], "reports_to", made[boss])
-	# hrms keeps everybody with an employee record to their own records, and
-	# ERPNext's way out is the employee's Create User Permission box,
-	# unticked for those who work with everybody's: here whoever manages an
-	# app (docs/PASSOVER.md, Noticed).
 	_agree()
-	for first, *_rest, access in PEOPLE:
-		if access and "Manager" in access.values():
-			doc = frappe.get_doc("Employee", made[first])
-			if doc.create_user_permission:
-				doc.create_user_permission = 0
-				doc.save()
 
 
 def _abbr():

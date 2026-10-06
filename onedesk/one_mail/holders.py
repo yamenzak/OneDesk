@@ -237,12 +237,20 @@ def set_signature(account: str, signature: str | None = None) -> None:
 			_("Only a Workspace Administrator can change the signature of {0}.").format(account),
 			frappe.PermissionError,
 		)
+	# Not a save, which would try the mailbox's server again. signed() is
+	# the same rule for the form, a bulk edit or an import.
 	frappe.db.set_value(
 		"Email Account",
 		account,
 		{"signature": signature or None, "add_signature": int(bool((signature or "").strip()))},
 		update_modified=False,
 	)
+
+
+def signed(doc, method=None) -> None:
+	"""Email Account validate: a mailbox with a signature signs its mail, and
+	one without signs nothing, however the signature was changed."""
+	doc.add_signature = int(bool((doc.signature or "").strip()))
 
 
 @frappe.whitelist()

@@ -52,6 +52,24 @@ def fill(doc, method=None) -> None:
 	doc.one_kind = guess(has_order, billable, doc.get("customer"))
 
 
+def held(doc, method=None) -> None:
+	"""Project validate, after a sub-project takes its parent's customer: what
+	the kind needs, and nothing it doesn't, however the kind is set (the New
+	Project dialog, the form, a bulk edit, an import). A project that bills
+	has a customer and an internal one has none; a monthly fee and hours are
+	a retainer's, and a markup is time and materials'."""
+	kind = doc.get("one_kind")
+	if kind == INTERNAL:
+		doc.customer = None
+	elif kind in KINDS and not doc.get("customer"):
+		frappe.throw(_("Pick the customer {0} bills.").format(doc.project_name))
+	if kind != RETAINER:
+		doc.one_monthly_fee = 0
+		doc.one_monthly_hours = 0
+	if kind != TIME:
+		doc.one_markup = 0
+
+
 @frappe.whitelist(methods=["POST"])
 def make(values: Annotated[dict | str, "What the New Project dialog asked for."]) -> str:
 	"""Make a project of a kind, with what that kind needs; for Fixed Price,

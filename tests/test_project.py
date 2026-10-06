@@ -101,9 +101,9 @@ def test_a_project_is_its_members():
 	assert 'MANAGERS = ("Projects Manager",)' in source and 'WORKER = "Projects User"' in source
 	seen = _body(source, "visible")
 	assert "unlisted" in seen and "member" in seen and "owned" in seen and "under(" in seen
-	assert "return not manages(user) and WORKER in frappe.get_roles(user)" in _body(source, "narrowed"), (
-		"select-only roles keep their lists"
-	)
+	# Select-only roles keep their lists, and the books see every project.
+	narrowed = _body(source, "narrowed")
+	assert "WORKER in held" in narrowed and "not held & set(BOOKS)" in narrowed
 	assert (
 		'"Project": "onedesk.one_project.members.allowed"' in HOOKS
 		and '"Project": "onedesk.one_project.members.query"' in HOOKS
@@ -1729,12 +1729,17 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	# Completing or cancelling asks first, and closes the open tasks and
 	# sub-projects with it; a task already closed keeps its status.
 	change = status[status.index("def change(") : status.index("def due(")]
-	assert "if (below or tasks) and not int(close):" in change
+	assert "and not int(close):" in change and 'doc.flags.one_close_work = bool(int(close))' in change
 	assert 'OPEN_TASK = ["not in", ("Completed", "Cancelled", "Template")]' in status
-	assert 'frappe.db.set_value("Task", name, "status", status)' in change
+	# The rule is the Project's own (held, before ERPNext reads progress), so
+	# a bulk edit or an import closes nothing with open work and keeps the rest.
+	held = status[status.index("def held(") : status.index("def change(")]
+	assert 'frappe.db.set_value("Task", name, "status", doc.status)' in held
+	assert 'if not doc.flags.get("one_close_work"):' in held
+	assert '"onedesk.one_project.status.held"' in HOOKS
 	# Opening a project ERPNext turned to progress by hand puts it back on its
 	# tasks; one whose tasks are all done says it can't be opened.
-	assert 'doc.percent_complete_method = "Task Completion"' in change
+	assert 'doc.percent_complete_method = "Task Completion"' in held
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert 'if (fieldname === "status") return changeStatus(value);' in page
 	assert '"onedesk.one_project.status.ask"' in page and '"onedesk.one_project.status.change"' in page
@@ -2186,7 +2191,9 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	assert any(one["fieldname"] == "one_contacts" and one["options"] == "Project Contact" for one in custom)
 	contacts_py = (PROJECT / "contacts.py").read_text()
 	save = contacts_py[contacts_py.index("def save(") : contacts_py.index("def remove(")]
-	assert 'doc.check_permission("write")' in save and "linked(contact, project)" in save
+	assert 'doc.check_permission("write")' in save
+	# Each row names somebody, and its contact names the project, as the Project's own rules.
+	assert "linked(row.contact, doc.name)" in contacts_py and '"onedesk.one_project.contacts.held"' in HOOKS
 	assert '_("Give the supplier, the company or the contact.")' in save
 	assert 'person.has_permission("write")' in contacts_py
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()

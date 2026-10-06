@@ -590,7 +590,13 @@ def test_a_collection_sits_in_the_group_of_its_apps_rail_that_was_chosen():
 	assert "_unplace(doctype)" in place and "rows.insert(end, link)" in place
 	assert "reports._take" not in source, "a group of ours left empty goes with the collection"
 	move = source.split("def move(", 1)[1].split("\ndef ", 1)[0]
-	assert "roles.require()" in move and "check_group(app, group)" in move and "_permissions(app)" in move
+	assert "roles.require()" in move and "ours.save(" in move
+	# Where a collection lives is the Record Type's own rule, so a bulk edit keeps it too.
+	held = source.split("def held(", 1)[1].split("\ndef ", 1)[0]
+	moved = source.split("def moved(", 1)[1].split("\ndef ", 1)[0]
+	assert "check_group(ours.app, ours.rail_group)" in held and "_permissions(ours.app)" in moved
+	controller = (STUDIO / "doctype" / "record_type" / "record_type.py").read_text()
+	assert "record_types.held(self)" in controller and "record_types.moved(self)" in controller
 	assert '@frappe.whitelist(methods=["POST"])\ndef move(' in source
 	spec = json.loads((STUDIO / "doctype" / "record_type" / "record_type.json").read_text())
 	assert "rail_group" in spec["field_order"]

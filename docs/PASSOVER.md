@@ -321,12 +321,42 @@ Foundations done so far:
   - Storage Check did not run for a workspace administrator.
   - Monthly Attendance broke when run without a month picked, as from a
     scheduled mail.
+- **Rules on the server**: a rule of One's lives on its record's hooks, so a
+  bulk edit, a report view cell and a Data Import row meet it as the page
+  does. Each is checked on the demo all three ways, as the person who would
+  make the change (`one_demo/check.py`), and guarded
+  (`tests/guards/test_rules.py`). These were decided in the page's own
+  methods, and a bulk edit went round them:
+  - A project closed with open work, and a project marked Internal kept its
+    customer, monthly fee and markup (`one_project/status.py`, `kinds.py`).
+  - A project's Budget could be typed over its cost types, and a budget
+    submitted or cancelled in the list left the project's figure as it was
+    (`one_project/budget.py`).
+  - A project contact could name nobody (`one_project/contacts.py`).
+  - The books could be locked past today, and closing a year in ERPNext's
+    own form did not lock them (`one_book/closing.py`).
+  - Turning somebody on in the User list took a seat the plan does not have
+    (`one/settings.py`).
+  - A folder or a mailbox could be set to read for somebody else, or by
+    somebody who may not change it (`one_intake/switches.py`).
+  - A featured photo could be made private, a mailbox could have a signature
+    it never added, a OneCloud link could share a file its maker cannot
+    open, and a file request could go nowhere.
+  - A remembered fact could name a record its owner cannot open, and the
+    print designer's own format could be turned on.
+  - Moving a collection to another app in its form left its rights and its
+    place in the rail behind (`one_studio/record_types.py`).
+  - Building the checks found the demo left 69 stock revaluations waiting,
+    which stops anybody locking the books. The build now finishes them as
+    ERPNext's hourly job would.
+  - **Still as ERPNext does it**: closing a project with its open work
+    closes the tasks without their own hooks, as ERPNext closes them.
 
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the
    tier registry, formats from frappe, the record frame and places on the
-   project page, the demo company and its suite (done), rules on the server,
+   project page, the demo company and its suite, rules on the server (done),
    notifications in one place, shipped print formats, hand-offs, Intake
    samples and the code cleanup.
 2. **Project templates**, right after:
@@ -347,22 +377,21 @@ Noticed along the way, for the screen it belongs to:
 
 - **Sign-in**: says "288 sessions" for the administrator. That counts every
   session ever left open, not the devices a person uses.
-- **Access, for ARC 7**: found building the demo, each worked around there
-  the way a workspace would.
-  - hrms keeps everybody with an employee record to their own records, so a
-    project manager cannot log or approve the crew's time and the books
-    cannot see the timesheets they invoice. ERPNext's answer is the
-    employee's Create User Permission box. The demo unticks it for whoever
-    manages an app, and People could do that when it makes somebody a
-    manager.
-  - No app of One's gives ERPNext's manufacturing roles, so bills of
-    materials and work orders are made by whoever set the workspace up.
-  - A project manager cannot set a budget by cost type. ERPNext's Budget is
-    the books'.
-  - Assigning a maintenance task to somebody who cannot open it needs the
-    right to share it, which no level of One's gives.
-  - A project manager cannot make the invoices for a project's time, and the
-    books cannot read the project to make them. The owner makes them.
+- **Access**, found building the demo and settled in ARC 7 as rules on the
+  records themselves, so they hold however a person or a role is changed.
+  - A manager of any app, or an administrator, is no longer kept to their
+    own employee's records (`one_hr/everybody.py`). hrms keeps every
+    employee to their own, which stopped a project manager approving the
+    crew's time and the books seeing the timesheets they invoice.
+  - A project manager sets a project's budget by cost type. A budget against
+    a cost centre stays the books' (`one_project/budget.py`).
+  - The books read every project, since they invoice its time and progress
+    (`one_project/members.py`).
+  - A manager may share, so assigning somebody a record they cannot open
+    works (`one/roles.py`, `MANAGE`).
+  - **Still open**: no app of One's offers manufacturing (bills of materials,
+    work orders), so nobody but whoever set the workspace up can make them.
+    Whether OneInventory takes them on is a product decision.
 
 ## Settings
 

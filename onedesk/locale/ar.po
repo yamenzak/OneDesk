@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 18:43+0000\n"
-"PO-Revision-Date: 2026-10-06 18:43+0000\n"
+"POT-Creation-Date: 2026-10-06 19:48+0000\n"
+"PO-Revision-Date: 2026-10-06 19:48+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -470,7 +470,7 @@ msgstr "مجلد يكون الأشخاص أعضاء فيه، كمكتبة مست
 msgid "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
 msgstr "مجلد يكرر مجلدات أخرى فقط، مثل «كل البريد» في Gmail، أو مجلد لا يحتوي على بريد بنفسه."
 
-#: onedesk/one/printing.py:623
+#: onedesk/one/printing.py:626
 msgid "A font is a Google Font's name, such as Playfair Display."
 msgstr "الخط هو اسم خط من Google Fonts، مثل Playfair Display."
 
@@ -504,8 +504,8 @@ msgstr "تحتاج المهمة إلى مساحة عمل."
 msgid "A late customer is reminded"
 msgstr "يُذكَّر العميل المتأخر"
 
-#: onedesk/one/printing.py:565 onedesk/one/printing.py:655
-#: onedesk/one/printing.py:658
+#: onedesk/one/printing.py:568 onedesk/one/printing.py:658
+#: onedesk/one/printing.py:661
 msgid "A layout has sections, each of columns of blocks."
 msgstr "يتكوّن التخطيط من أقسام، كل منها أعمدة من الكتل."
 
@@ -513,27 +513,27 @@ msgstr "يتكوّن التخطيط من أقسام، كل منها أعمدة �
 msgid "A lead cannot be merged into itself."
 msgstr "لا يمكن دمج العميل المحتمل في نفسه."
 
-#: onedesk/one/printing.py:336
+#: onedesk/one/printing.py:339
 msgid "A letter head may not run a script."
 msgstr "لا يجوز أن تشغّل ترويسة الرسائل نصًا برمجيًا."
 
-#: onedesk/one/printing.py:346
+#: onedesk/one/printing.py:349
 msgid "A letter head needs its image, uploaded here."
 msgstr "تحتاج ترويسة الرسائل إلى صورتها، مرفوعة هنا."
 
-#: onedesk/one/printing.py:351
+#: onedesk/one/printing.py:354
 msgid "A letter head's footer is an image uploaded here."
 msgstr "تذييل ترويسة الرسائل صورة مرفوعة هنا."
 
-#: onedesk/one/printing.py:361
+#: onedesk/one/printing.py:364
 msgid "A letter head's header and footer are each a picture or HTML."
 msgstr "ترويسة الرسالة وتذييلها كلٌّ منهما صورة أو HTML."
 
-#: onedesk/one/printing.py:344
+#: onedesk/one/printing.py:347
 msgid "A letter head's header needs something to print."
 msgstr "ترويسة الرسالة تحتاج إلى شيء لطباعته."
 
-#: onedesk/one/printing.py:340
+#: onedesk/one/printing.py:343
 msgid "A letter head's name may not contain quotes or angle brackets."
 msgstr "لا يجوز أن يحتوي اسم ترويسة الرسائل على علامات اقتباس أو أقواس زاوية."
 
@@ -686,7 +686,7 @@ msgstr "صورة شخص أو شعار جهة، يُبحث عنها مرة واح
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
-#: onedesk/one/printing.py:519
+#: onedesk/one/printing.py:522
 msgid "A print format needs a name."
 msgstr "يحتاج تنسيق الطباعة إلى اسم."
 
@@ -732,7 +732,7 @@ msgstr "ردّ على {0}"
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr "التقرير المحفوظ هنا هو عرض «تقرير» لقائمة، محفوظ باسم."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:56
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:59
 msgid "A request that fills record fields can go to one person only."
 msgstr "الطلب الذي يملأ حقول السجل يُرسَل إلى شخص واحد فقط."
 
@@ -885,7 +885,7 @@ msgstr "عنوان لمساحة العمل مثل sales@. أنت تختار من
 msgid "A workspace customizes with fields and settings, never with code."
 msgstr "تُخصص مساحة العمل بالحقول والإعدادات، لا بالبرمجة أبدًا."
 
-#: onedesk/one/printing.py:334
+#: onedesk/one/printing.py:337
 msgid "A workspace makes its own letter heads."
 msgstr "تنشئ مساحة العمل ترويساتها الخاصة."
 
@@ -1467,7 +1467,7 @@ msgstr "إضافة موظف"
 msgid "Add applicants from CVs"
 msgstr "إضافة متقدمين من السير الذاتية"
 
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.py:36
+#: onedesk/one_storage/doctype/cloud_link/cloud_link.py:42
 msgid "Add at least one email address."
 msgstr "أضف عنوان بريد إلكتروني واحدًا على الأقل."
 
@@ -1904,7 +1904,7 @@ msgstr "تم استخدام جميع الأرصدة الـ {0}."
 msgid "All {0} done"
 msgstr "اكتملت جميعها ({0})"
 
-#: onedesk/one/settings.py:1339
+#: onedesk/one/settings.py:1350
 msgid "All {0} seats are in use. Disable someone or add seats to the plan."
 msgstr "كل المقاعد البالغة {0} مستخدمة. عطّل أحد المستخدمين أو أضف مقاعد إلى الخطة."
 
@@ -2799,7 +2799,7 @@ msgstr ""
 msgid "Assigned to Me"
 msgstr "مسندة إليّ"
 
-#: onedesk/one/automations.py:172 onedesk/one/settings.py:2064
+#: onedesk/one/automations.py:172 onedesk/one/settings.py:2075
 msgid "Assignees"
 msgstr "المُسنَد إليهم"
 
@@ -4373,7 +4373,7 @@ msgstr "اختر مجلدًا."
 msgid "Choose a month and a year."
 msgstr "اختر شهراً وسنة."
 
-#: onedesk/one_project/media.py:163
+#: onedesk/one_project/media.py:172
 msgid "Choose a photo or a video from your computer."
 msgstr "اختر صورة أو فيديو من جهازك."
 
@@ -5054,7 +5054,7 @@ msgstr "رقم العقد"
 msgid "Contract Value"
 msgstr "قيمة العقد"
 
-#: onedesk/one_project/status.py:126
+#: onedesk/one_project/status.py:149
 msgid "Contract not invoiced yet"
 msgstr "العقد لم يُفوتر بعد"
 
@@ -5259,7 +5259,7 @@ msgstr "العدّ"
 
 #. Label of the country (Link) field in DocType 'Account Request'
 #. Label of the country (Link) field in DocType 'Tenant'
-#: onedesk/one/settings.py:1613
+#: onedesk/one/settings.py:1624
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/public/js/settings.js:865
@@ -5719,7 +5719,7 @@ msgstr "قاعدة البيانات المستخدمة"
 #: frontend/src/project/Invoices.vue:25 frontend/src/project/Suppliers.vue:127
 #: frontend/src/project/Time.vue:27 onedesk/one/portal.py:338
 #: onedesk/one/portal.py:339 onedesk/one/portal.py:441
-#: onedesk/one/settings.py:1622
+#: onedesk/one/settings.py:1633
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -5770,7 +5770,7 @@ msgstr "نهاية اليوم"
 msgid "Day Starts"
 msgstr "بداية اليوم"
 
-#: onedesk/one/settings.py:2060
+#: onedesk/one/settings.py:2071
 msgid "Days"
 msgstr "أيام"
 
@@ -5784,7 +5784,7 @@ msgstr "الأيام المتبقية"
 msgid "Days Off"
 msgstr "أيام العطلة"
 
-#: onedesk/one/ai.py:1881 onedesk/one/settings.py:1602
+#: onedesk/one/ai.py:1881 onedesk/one/settings.py:1613
 msgid "Days Off Each Week"
 msgstr "أيام العطلة الأسبوعية"
 
@@ -6992,7 +6992,7 @@ msgid "Email Address"
 msgstr "عنوان البريد الإلكتروني"
 
 #. Label of the one_allow_email (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2115
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2126
 msgid "Email Allowed"
 msgstr "البريد مسموح"
 
@@ -7029,7 +7029,7 @@ msgid "Email addresses, one per line."
 msgstr "عناوين البريد الإلكتروني، واحد في كل سطر."
 
 #. Label of the one_email_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2116
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2127
 msgid "Email for New People"
 msgstr "البريد للأشخاص الجدد"
 
@@ -7335,7 +7335,7 @@ msgstr "أدخل الرقم الضريبي."
 msgid "Enter the amount paid."
 msgstr "أدخل المبلغ المدفوع."
 
-#: onedesk/one_project/kinds.py:155
+#: onedesk/one_project/kinds.py:173
 msgid "Enter the contract value."
 msgstr "أدخل قيمة العقد."
 
@@ -7525,7 +7525,7 @@ msgstr "كل صباح، ما يستحق في ذلك اليوم وما تأخر. 
 msgid "Every morning, what is on your calendar that day. Not sent on a day with nothing on it."
 msgstr "كل صباح، ما في تقويمك لذلك اليوم. لا يُرسل في يوم خالٍ."
 
-#: onedesk/one/settings.py:1607
+#: onedesk/one/settings.py:1618
 msgid "Every one of these days in the list is a day off. Tick two for a weekend of two days."
 msgstr "كل يوم من هذه الأيام في القائمة يوم عطلة. اختر يومين لعطلة نهاية أسبوع من يومين."
 
@@ -7548,7 +7548,7 @@ msgstr "كل صلاحية تتضمن القراءة."
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr "يُرحّل كل استلام وتسليم إلى حسابات المخزون."
 
-#: onedesk/one_project/status.py:108
+#: onedesk/one_project/status.py:131
 msgid "Every task on {0} is done, so it stays Completed. Add a task to open it again."
 msgstr "كل مهام {0} منجزة، لذا يبقى مكتملاً. أضف مهمة لإعادة فتحه."
 
@@ -7703,7 +7703,7 @@ msgstr ""
 msgid "Expected To Close"
 msgstr "الإغلاق المتوقع"
 
-#: onedesk/one/printing.py:260
+#: onedesk/one/printing.py:263
 msgid "Expected an unsaved Print Format document"
 msgstr "كان المتوقع تنسيق طباعة غير محفوظ"
 
@@ -7936,7 +7936,7 @@ msgstr "فشل عند الخطوة {0} من {1}"
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr "فشل في الخطوة {number} من {steps}، {step}.<br>{error}"
 
-#: onedesk/one/printing.py:249
+#: onedesk/one/printing.py:252
 msgid "Failed to render template: {0}"
 msgstr "تعذّر عرض القالب: {0}"
 
@@ -8404,7 +8404,7 @@ msgid "Foot Preset"
 msgstr "نمط التذييل"
 
 #: onedesk/one/ai.py:2709 onedesk/one/ai.py:2717 onedesk/one/ai.py:2720
-#: onedesk/one/ai.py:2721 onedesk/one/printing.py:348
+#: onedesk/one/ai.py:2721 onedesk/one/printing.py:351
 #: onedesk/public/js/settings.js:2293
 msgid "Footer"
 msgstr ""
@@ -8759,7 +8759,7 @@ msgstr "أدخل موضوعًا أو قالب بريد"
 msgid "Give it a name."
 msgstr "أعطه اسمًا."
 
-#: onedesk/one_project/budget.py:215
+#: onedesk/one_project/budget.py:227
 msgid "Give the cost type a budget."
 msgstr "حدّد ميزانية لنوع التكلفة."
 
@@ -8775,11 +8775,11 @@ msgstr "أعطِ المستوى اسمًا."
 msgid "Give the profile a name."
 msgstr "أعطِ الملف الوظيفي اسمًا."
 
-#: onedesk/one/settings.py:2163
+#: onedesk/one/settings.py:2174
 msgid "Give the rule a name."
 msgstr "أعطِ القاعدة اسماً."
 
-#: onedesk/one_project/contacts.py:116
+#: onedesk/one_project/contacts.py:137
 msgid "Give the supplier, the company or the contact."
 msgstr "أدخل المورد أو الشركة أو جهة الاتصال."
 
@@ -9022,7 +9022,7 @@ msgstr ""
 msgid "HR managers"
 msgstr "مديرو الموارد البشرية"
 
-#: onedesk/one/print_html.py:221 onedesk/one/printing.py:243
+#: onedesk/one/print_html.py:221 onedesk/one/printing.py:246
 msgid "HTML"
 msgstr ""
 
@@ -9082,7 +9082,7 @@ msgid "Head Office"
 msgstr "المكتب الرئيسي"
 
 #: onedesk/one/ai.py:2693 onedesk/one/ai.py:2701 onedesk/one/ai.py:2702
-#: onedesk/one/printing.py:342 onedesk/public/js/settings.js:2292
+#: onedesk/one/printing.py:345 onedesk/public/js/settings.js:2292
 msgid "Header"
 msgstr ""
 
@@ -9181,7 +9181,7 @@ msgstr "احتجاز نسبة من الفواتير"
 msgid "Holder"
 msgstr "الحامل"
 
-#: onedesk/one/settings.py:1623 onedesk/one/settings.py:1670
+#: onedesk/one/settings.py:1634 onedesk/one/settings.py:1681
 #: onedesk/one_hr/employee.py:130 onedesk/one_hr/employee.py:287
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/band.js:176
 msgid "Holiday"
@@ -9514,7 +9514,7 @@ msgstr "كم مرة"
 msgid "How often people are told their coming holidays. Whether they are is decided on Notifications."
 msgstr "كم مرة يُبلّغ الناس بعطلاتهم القادمة. أما إن كانوا يُبلّغون فيُحدد في الإشعارات."
 
-#: onedesk/one/settings.py:2098
+#: onedesk/one/settings.py:2109
 msgid "How people will know it when they choose how to get it."
 msgstr "كيف سيعرفها الناس عندما يختارون طريقة تلقيها."
 
@@ -10225,7 +10225,7 @@ msgstr "الفواتير تحمل الضريبة"
 msgid "Invoices carry the company's TRN"
 msgstr "الفواتير تحمل الرقم الضريبي للشركة"
 
-#: onedesk/one_project/status.py:135
+#: onedesk/one_project/status.py:158
 msgid "Invoices not paid yet"
 msgstr "فواتير لم تُدفع بعد"
 
@@ -12229,7 +12229,7 @@ msgstr "عضو"
 
 #. Label of the 'users_section' field in DocType 'Project'
 #. Label of the 'users' field in DocType 'Project'
-#: onedesk/one/settings.py:1765 onedesk/one_project/custom/project.json
+#: onedesk/one/settings.py:1776 onedesk/one_project/custom/project.json
 #: onedesk/public/js/onecloud.js:110 onedesk/public/js/onecloud.js:1519
 #: onedesk/public/js/settings.js:1156 onedesk/public/js/settings.js:1355
 msgid "Members"
@@ -12271,7 +12271,7 @@ msgstr "دمج في {0}"
 #: onedesk/one/automation_steps.py:46 onedesk/one/custom/notification_type.json
 #: onedesk/one/mail_templates.py:131 onedesk/one/mail_templates.py:132
 #: onedesk/one/notify.py:303 onedesk/one/rules.py:75
-#: onedesk/one/settings.py:2063 onedesk/one_crm/custom/lead.json
+#: onedesk/one/settings.py:2074 onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:546
@@ -12609,9 +12609,9 @@ msgstr "مهامي"
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/letter_heads.py:64 onedesk/one/page/masters/masters.js:134
-#: onedesk/one/page/masters/masters.js:199 onedesk/one/settings.py:1744
-#: onedesk/one/settings.py:1764 onedesk/one/settings.py:1797
-#: onedesk/one/settings.py:2095
+#: onedesk/one/page/masters/masters.js:199 onedesk/one/settings.py:1755
+#: onedesk/one/settings.py:1775 onedesk/one/settings.py:1808
+#: onedesk/one/settings.py:2106
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -12653,7 +12653,7 @@ msgstr "الاسم مطلوب."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe Cloud عند أرشفة الموقع."
 
-#: onedesk/one_book/ready.py:285
+#: onedesk/one_book/ready.py:290
 msgid "Name the bank and the account."
 msgstr "اذكر اسم البنك والحساب."
 
@@ -13460,7 +13460,7 @@ msgstr "لا توجد ملفات تعريف"
 msgid "No recent files"
 msgstr "لا توجد ملفات حديثة"
 
-#: onedesk/one/printing.py:774
+#: onedesk/one/printing.py:777
 msgid "No record type to preview the letter head on."
 msgstr "لا يوجد نوع سجل لمعاينة الترويسة عليه."
 
@@ -13580,7 +13580,7 @@ msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 msgid "No {0} bucket is configured."
 msgstr "لم تُضبط حاوية {0}."
 
-#: onedesk/one/printing.py:591
+#: onedesk/one/printing.py:594
 msgid "No."
 msgstr ""
 
@@ -13968,7 +13968,7 @@ msgstr "لا شيء مُشارَك معك"
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
-#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
+#: onedesk/one_book/ready.py:254 onedesk/one_inventory/ready.py:172
 #: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr "لا يوجد ما يُصلح في {0}."
@@ -14515,7 +14515,7 @@ msgstr "مجلد واحد من صندوق بريد، وإلى أي حد قُرئ
 msgid "One line. A name in {{ }} is filled in when it is sent, and shown in bold."
 msgstr "سطر واحد. الاسم بين {{ }} يُملأ عند الإرسال ويظهر بخط عريض."
 
-#: onedesk/one/settings.py:2062
+#: onedesk/one/settings.py:2073
 msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr "سطر واحد. {{ doc.field }} يضع حقلاً من السجل."
 
@@ -14907,7 +14907,7 @@ msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤو�
 msgid "Only a Workspace Administrator or HR Manager can put an event on everyone's calendar."
 msgstr "لا يمكن إضافة حدث إلى تقويم الجميع إلا لمسؤول مساحة العمل أو مدير الموارد البشرية."
 
-#: onedesk/one_hr/expense.py:95
+#: onedesk/one_hr/expense.py:96
 msgid "Only a claim still waiting can be answered."
 msgstr "لا يُبتّ إلا في مطالبة ما زالت قيد الانتظار."
 
@@ -14943,7 +14943,7 @@ msgstr "المكالمات تخص العميل المحتمل أو الصفقة 
 msgid "Only a recurring offering can have a trial."
 msgstr "لا يمكن أن تكون التجربة إلا في عرض متكرر."
 
-#: onedesk/one_hr/shift.py:116
+#: onedesk/one_hr/shift.py:117
 msgid "Only a request still waiting can be answered."
 msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 
@@ -15092,7 +15092,7 @@ msgstr "يُبلَّغ فقط من لديهم وصول إلى السجل."
 msgid "Only photos and videos go in Featured Media. {0} is neither."
 msgstr "لا يُضاف إلى الوسائط المميزة إلا الصور ومقاطع الفيديو. {0} ليس صورة ولا فيديو."
 
-#: onedesk/one/settings.py:2057
+#: onedesk/one/settings.py:2068
 msgid "Only record types you can open."
 msgstr "أنواع السجلات التي يمكنك فتحها فقط."
 
@@ -15100,13 +15100,18 @@ msgstr "أنواع السجلات التي يمكنك فتحها فقط."
 msgid "Only somebody who can approve these may answer this one."
 msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه الطلبات."
 
-#: onedesk/one_intake/switches.py:88
+#: onedesk/one_intake/switches.py:88 onedesk/one_intake/switches.py:113
+#: onedesk/one_intake/switches.py:116
 msgid "Only someone who can edit {0} can change this."
 msgstr "يمكن فقط لمن يستطيع تعديل {0} تغيير هذا."
 
 #: onedesk/public/js/settings.js:1671
 msgid "Only the billing owner sees this."
 msgstr "مالك الفوترة وحده يرى هذا."
+
+#: onedesk/one_project/budget.py:211
+msgid "Only the books set a budget for a cost centre. Set this one against a project."
+msgstr "المحاسبة وحدها تضع ميزانية لمركز التكلفة. ضع هذه الميزانية على مشروع."
 
 #: onedesk/one/ai_setup.py:614
 msgid "Only the five everyone has"
@@ -15541,7 +15546,7 @@ msgstr "المتبقي"
 msgid "Over Budget"
 msgstr "عند تجاوز الميزانية"
 
-#: onedesk/one_project/budget.py:213
+#: onedesk/one_project/budget.py:225
 msgid "Over Budget is Warn or Stop."
 msgstr "عند تجاوز الميزانية: تنبيه أو إيقاف."
 
@@ -16155,7 +16160,7 @@ msgstr "الأشخاص"
 msgid "People Choose the Model"
 msgstr "الأشخاص يختارون النموذج"
 
-#: onedesk/one/settings.py:2103
+#: onedesk/one/settings.py:2114
 msgid "People With the Role"
 msgstr "الأشخاص ذوو الدور"
 
@@ -16308,7 +16313,7 @@ msgstr "الهاتف"
 msgid "Photo"
 msgstr "الصورة"
 
-#: onedesk/one_project/media.py:166
+#: onedesk/one_project/media.py:175
 msgid "Photos and videos are added to a project."
 msgstr "تضاف الصور والفيديوهات إلى مشروع."
 
@@ -16322,6 +16327,10 @@ msgid "Pick a name and a plan. The workspace is built as soon as the card is acc
 msgstr "اختر اسماً وخطة. وتُنشأ مساحة العمل فور قبول البطاقة."
 
 #: onedesk/one_project/kinds.py:65
+msgid "Pick the customer {0} bills."
+msgstr "اختر العميل الذي يُصدر له {0} الفواتير."
+
+#: onedesk/one_project/kinds.py:83
 msgid "Pick the customer."
 msgstr "اختر العميل."
 
@@ -16329,7 +16338,11 @@ msgstr "اختر العميل."
 msgid "Pick the emirate."
 msgstr "اختر الإمارة."
 
-#: onedesk/one_project/kinds.py:70 onedesk/one_project/kinds.py:157
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:21
+msgid "Pick the folder or the record the files go to."
+msgstr "اختر المجلد أو السجل الذي تذهب إليه الملفات."
+
+#: onedesk/one_project/kinds.py:88 onedesk/one_project/kinds.py:175
 msgid "Pick the item to bill the contract as."
 msgstr "اختر الصنف الذي يُفوتر العقد به."
 
@@ -16341,7 +16354,7 @@ msgstr "اختر الصنف الذي يُفوتر به الوقت."
 msgid "Pick the month and the item to invoice it as."
 msgstr "اختر الشهر والصنف الذي ستُفوتر به."
 
-#: onedesk/one_project/kinds.py:153
+#: onedesk/one_project/kinds.py:171
 msgid "Pick the project's customer first."
 msgstr "اختر عميل المشروع أولاً."
 
@@ -16353,11 +16366,11 @@ msgstr "اختر الدور."
 msgid "Pick the site."
 msgstr "اختر الموقع."
 
-#: onedesk/one_project/kinds.py:63
+#: onedesk/one_project/kinds.py:81
 msgid "Pick what kind of project this is."
 msgstr "اختر نوع هذا المشروع."
 
-#: onedesk/one_project/status.py:76
+#: onedesk/one_project/status.py:112
 msgid "Pick {0}."
 msgstr "اختر {0}."
 
@@ -16724,11 +16737,11 @@ msgstr "عناوين الطباعة"
 msgid "Print Settings"
 msgstr ""
 
-#: onedesk/one/printing.py:137
+#: onedesk/one/printing.py:140
 msgid "Print formats are made in the print format builder here, not written by hand."
 msgstr "تُصنع تنسيقات الطباعة هنا في منشئ تنسيقات الطباعة، ولا تُكتب يدويًا."
 
-#: onedesk/one/printing.py:128 onedesk/one/printing.py:204
+#: onedesk/one/printing.py:131 onedesk/one/printing.py:207
 msgid "Print formats can only be made for this workspace's record types."
 msgstr "لا يمكن إنشاء تنسيقات الطباعة إلا لأنواع سجلات مساحة العمل هذه."
 
@@ -17064,7 +17077,7 @@ msgstr "مهمة تجهيز"
 msgid "Provisioning failed"
 msgstr "فشل التجهيز"
 
-#: onedesk/one/settings.py:1620 onedesk/public/js/settings.js:2984
+#: onedesk/one/settings.py:1631 onedesk/public/js/settings.js:2984
 #: onedesk/public/js/settings.js:2997
 msgid "Public Holidays"
 msgstr "العطلات الرسمية"
@@ -17130,7 +17143,7 @@ msgid "Push Address"
 msgstr "عنوان الإشعار الفوري"
 
 #. Label of the one_allow_push (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2117
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2128
 msgid "Push Allowed"
 msgstr "الإشعارات الفورية مسموحة"
 
@@ -17140,7 +17153,7 @@ msgid "Push Device"
 msgstr "جهاز الإشعارات الفورية"
 
 #. Label of the one_push_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2118
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:2129
 msgid "Push for New People"
 msgstr "الإشعارات الفورية للأشخاص الجدد"
 
@@ -17657,7 +17670,7 @@ msgstr "مشاركة السجلات"
 #. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
-#: onedesk/one/settings.py:1785 onedesk/one/settings.py:2057
+#: onedesk/one/settings.py:1796 onedesk/one/settings.py:2068
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
@@ -18428,7 +18441,7 @@ msgstr "المحتجز عند التسليم"
 msgid "Retention on {project} is due today"
 msgstr "المحتجز على {project} يستحق اليوم"
 
-#: onedesk/one_project/status.py:138
+#: onedesk/one_project/status.py:161
 msgid "Retention still held"
 msgstr "المحتجزات لا تزال محتجزة"
 
@@ -18806,7 +18819,7 @@ msgstr "ألقِ التحية في جملة قصيرة واحدة."
 msgid "Say no to this?"
 msgstr "أرفض هذا؟"
 
-#: onedesk/one/settings.py:631
+#: onedesk/one/settings.py:631 onedesk/one_ai/doctype/ai_memory/ai_memory.py:19
 msgid "Say what OneAI should keep in mind."
 msgstr "قل ما يجب أن يتذكره OneAI."
 
@@ -19010,7 +19023,7 @@ msgstr "إرسال عرض السعر"
 msgid "Send Test"
 msgstr "إرسال تجربة"
 
-#: onedesk/one/settings.py:1952 onedesk/one/settings.py:2056
+#: onedesk/one/settings.py:1963 onedesk/one/settings.py:2067
 msgid "Send This"
 msgstr "أرسل هذا"
 
@@ -19332,7 +19345,7 @@ msgstr "حدّد المدة الزمنية."
 msgid "Set to 0 to keep them indefinitely."
 msgstr "اضبطه على 0 للاحتفاظ بها إلى أجل غير مسمى."
 
-#: onedesk/one_project/budget.py:318
+#: onedesk/one_project/budget.py:347
 msgid "Set up a fiscal year in OneBook first."
 msgstr "أنشئ سنة مالية في OneBook أولًا."
 
@@ -19901,7 +19914,7 @@ msgstr "اقتُطعت بعض الأيام"
 msgid "Some Drafts Not Submitted"
 msgstr "لم يتم إرسال بعض المسودات"
 
-#: onedesk/one/settings.py:1615
+#: onedesk/one/settings.py:1626
 msgid "Some countries have holidays only in part of the country."
 msgstr "في بعض البلدان عطلات تخص جزءًا من البلد فقط."
 
@@ -19926,7 +19939,7 @@ msgstr "شخص أو جهة يأتي منها المستند أو إليها أو
 msgid "Somebody changed how {0} looks after you opened this. Refresh to see it; nothing was saved."
 msgstr "غيّر شخص ما شكل {0} بعد أن فتحت هذا. حدّث الصفحة لتراه؛ لم يُحفظ شيء."
 
-#: onedesk/one/printing.py:897
+#: onedesk/one/printing.py:900
 msgid "Someone changed {0} after you opened it."
 msgstr "غيّر شخص ما {0} بعد أن فتحته."
 
@@ -20208,7 +20221,7 @@ msgstr "يبدأ بصلاحيات هذا المستوى."
 msgid "State"
 msgstr "الحالة"
 
-#: onedesk/one/settings.py:115 onedesk/one/settings.py:1615
+#: onedesk/one/settings.py:115 onedesk/one/settings.py:1626
 msgid "State or Region"
 msgstr "الولاية أو المنطقة"
 
@@ -20550,7 +20563,7 @@ msgstr "سر Webhook لـStripe"
 msgid "Strongest"
 msgstr "الأقوى"
 
-#: onedesk/one/printing.py:138 onedesk/one/printing.py:362
+#: onedesk/one/printing.py:141 onedesk/one/printing.py:365
 msgid "Style"
 msgstr ""
 
@@ -20576,7 +20589,7 @@ msgstr "عقود الباطن"
 #: frontend/src/project/TaskPanel.vue:21 onedesk/one/automation_steps.py:45
 #: onedesk/one/custom/notification_type.json onedesk/one/mail_templates.py:130
 #: onedesk/one/notify.py:303 onedesk/one/rules.py:75
-#: onedesk/one/settings.py:2062
+#: onedesk/one/settings.py:2073
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:448
 #: onedesk/public/js/doctype_settings.js:190
 #: onedesk/public/js/doctype_settings.js:536 onedesk/public/js/onemail.js:799
@@ -21231,7 +21244,7 @@ msgstr "لا يوجد في هذه الفاتورة ما يُسجَّل."
 msgid "That is not a recording."
 msgstr "هذا ليس تسجيلًا."
 
-#: onedesk/one/settings.py:1277
+#: onedesk/one/settings.py:1280
 msgid "That is not an email address."
 msgstr "هذا ليس عنوان بريد إلكتروني."
 
@@ -21318,7 +21331,7 @@ msgstr "عنوان الشركة"
 msgid "The Company's TRN"
 msgstr "الرقم الضريبي للشركة"
 
-#: onedesk/one/settings.py:2059
+#: onedesk/one/settings.py:2070
 msgid "The Date"
 msgstr "التاريخ"
 
@@ -21326,7 +21339,7 @@ msgstr "التاريخ"
 msgid "The European Union keeps the workspace's files in the EU. This cannot be changed later."
 msgstr "اختيار الاتحاد الأوروبي يحفظ ملفات مساحة العمل داخل الاتحاد الأوروبي. لا يمكن تغيير ذلك لاحقًا."
 
-#: onedesk/one/settings.py:2061
+#: onedesk/one/settings.py:2072
 msgid "The Field"
 msgstr "الحقل"
 
@@ -21355,7 +21368,7 @@ msgstr "حساب One الذي يضم مساحة العمل هذه ويتلقى �
 msgid "The OneAI model the call ran on."
 msgstr "نموذج OneAI الذي جرى عليه الطلب."
 
-#: onedesk/one/settings.py:2109
+#: onedesk/one/settings.py:2120
 msgid "The Person on the Record"
 msgstr "الشخص المذكور في السجل"
 
@@ -21456,7 +21469,7 @@ msgstr "الجرس يعمل دائماً. هذه هي القنوات التي ي
 msgid "The books are locked up to {0}."
 msgstr "الدفاتر مقفلة حتى {0}."
 
-#: onedesk/one_book/closing.py:44
+#: onedesk/one_book/closing.py:59
 msgid "The books can only be locked up to today."
 msgstr "لا يمكن قفل الدفاتر إلا حتى اليوم."
 
@@ -21480,11 +21493,11 @@ msgstr "لا يحتوي دليل الحسابات على حسابات أصول �
 msgid "The chart of accounts has no Tax account with VAT in its name."
 msgstr "لا يحتوي دليل الحسابات على حساب ضريبة يتضمن اسمه VAT."
 
-#: onedesk/one_book/closing.py:60
+#: onedesk/one_book/closing.py:80
 msgid "The chart of accounts has no equity account to close the year into."
 msgstr "لا يحتوي دليل الحسابات على حساب حقوق ملكية لإقفال السنة فيه."
 
-#: onedesk/one_book/ready.py:323
+#: onedesk/one_book/ready.py:328
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "لا يحتوي دليل الحسابات على مجموعة للحسابات البنكية. أضف واحدة تحت الأصول المتداولة بنوع بنك."
 
@@ -21828,7 +21841,7 @@ msgstr "المدير الجديد، ما لم يعيّن نفسه"
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "الخطوة التالية للتنفيذ. تنفيذ الخطوة أكثر من مرة آمن."
 
-#: onedesk/one/settings.py:2063
+#: onedesk/one/settings.py:2074
 msgid "The notification detail and the email body. Optional."
 msgstr "تفاصيل الإشعار ونص البريد. اختياري."
 
@@ -21888,7 +21901,7 @@ msgstr "المشغّلون الآخرون"
 msgid "The owner is reminded at this time."
 msgstr "يُذكَّر المسؤول في هذا الوقت."
 
-#: onedesk/one/printing.py:626
+#: onedesk/one/printing.py:629
 msgid "The page"
 msgstr "الصفحة"
 
@@ -21901,7 +21914,7 @@ msgstr "الصفحة التي تعمل عليها وما تنتظره هناك،
 msgid "The page lists this model with no current price."
 msgstr "تُدرج الصفحة هذا النموذج دون سعر حالي."
 
-#: onedesk/one/printing.py:620
+#: onedesk/one/printing.py:623
 msgid "The page number position must be one of {0}."
 msgstr "يجب أن يكون موضع رقم الصفحة أحد {0}."
 
@@ -22387,7 +22400,7 @@ msgstr "كان موجوداً قبل تشغيل OneAI، لذا يُحفظ ويص
 msgid "There is already a group called {0}."
 msgstr "توجد مجموعة باسم {0} بالفعل."
 
-#: onedesk/one/settings.py:2165
+#: onedesk/one/settings.py:2176
 msgid "There is already a notification called {0}."
 msgstr "يوجد إشعار باسم {0} بالفعل."
 
@@ -22427,7 +22440,7 @@ msgstr "لا توجد قائمة عطلات للبدء منها."
 msgid "There is no holiday list {0}."
 msgstr "لا توجد قائمة عطلات باسم {0}."
 
-#: onedesk/one/printing.py:617 onedesk/one/printing.py:754
+#: onedesk/one/printing.py:620 onedesk/one/printing.py:757
 msgid "There is no letter head {0}."
 msgstr "لا توجد ترويسة باسم {0}."
 
@@ -22443,12 +22456,12 @@ msgstr "لا يوجد قالب بريد {0}"
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "لا يوجد فريق صيانة، والجدول يحتاج إلى فريق."
 
-#: onedesk/one/notify.py:488 onedesk/one/settings.py:1943
+#: onedesk/one/notify.py:488 onedesk/one/settings.py:1954
 msgid "There is no notification type {0}."
 msgstr "لا يوجد نوع إشعار {0}."
 
-#: onedesk/one/settings.py:2046 onedesk/one/settings.py:2168
-#: onedesk/one/settings.py:2196
+#: onedesk/one/settings.py:2057 onedesk/one/settings.py:2179
+#: onedesk/one/settings.py:2207
 msgid "There is no rule {0}."
 msgstr "لا توجد قاعدة {0}."
 
@@ -22484,8 +22497,8 @@ msgstr "لا يوجد {0} {1}."
 msgid "There is nothing to check in: you are {0} today."
 msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
 
-#: onedesk/one/settings.py:250 onedesk/one/settings.py:1824
-#: onedesk/one/settings.py:1991
+#: onedesk/one/settings.py:250 onedesk/one/settings.py:1835
+#: onedesk/one/settings.py:2002
 msgid "There is nothing to save here."
 msgstr "لا يوجد ما يُحفظ هنا."
 
@@ -22804,7 +22817,7 @@ msgstr "هذا الموقع لا يدير مساحة العمل هذه."
 msgid "This site doesn't manage workspaces."
 msgstr "هذا الموقع لا يدير مساحات العمل."
 
-#: onedesk/one/printing.py:707
+#: onedesk/one/printing.py:710
 msgid "This suggestion does not change how anything prints."
 msgstr "لا يغيّر هذا الاقتراح طريقة طباعة أي شيء."
 
@@ -24886,7 +24899,7 @@ msgstr "ما الذي لم يُفوتر بعد؟"
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: onedesk/one/ai.py:4064 onedesk/one/settings.py:2058
+#: onedesk/one/ai.py:4064 onedesk/one/settings.py:2069
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:278 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -26594,7 +26607,7 @@ msgstr "سعر خاطئ"
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_book/closing.py:106
+#: onedesk/one_book/closing.py:126
 msgid "Year-end close of {0}"
 msgstr "إقفال نهاية السنة {0}"
 
@@ -26678,7 +26691,7 @@ msgstr "لا يمكنك إنشاء {0}، لذلك لا يمكنك استعادت
 msgid "You cannot make a {0}."
 msgstr "لا يمكنك إنشاء {0}."
 
-#: onedesk/one/settings.py:634
+#: onedesk/one/settings.py:634 onedesk/one_ai/doctype/ai_memory/ai_memory.py:23
 msgid "You cannot open that record."
 msgstr "لا يمكنك فتح هذا السجل."
 
@@ -27138,7 +27151,7 @@ msgstr "أضاف صورة"
 msgid "added task"
 msgstr "أضاف المهمة"
 
-#: onedesk/one/settings.py:1689
+#: onedesk/one/settings.py:1700
 msgid "added {0}"
 msgstr "أضاف {0}"
 
@@ -27184,7 +27197,7 @@ msgstr "ساعة واحدة"
 msgid "an operator"
 msgstr "مشغّل"
 
-#: onedesk/one/settings.py:1696 onedesk/one_admin/heads.py:570
+#: onedesk/one/settings.py:1707 onedesk/one_admin/heads.py:570
 #: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2133
 msgid "and {0} more"
 msgstr "و{0} غيرها"
@@ -27558,7 +27571,7 @@ msgstr "لا يوجد عنوان لأي مساحة عمل"
 msgid "nobody yet"
 msgstr "لا أحد بعد"
 
-#: onedesk/one/ai.py:1883 onedesk/one/ai.py:1884 onedesk/one/settings.py:1684
+#: onedesk/one/ai.py:1883 onedesk/one/ai.py:1884 onedesk/one/settings.py:1695
 msgid "none"
 msgstr ""
 
@@ -27734,7 +27747,7 @@ msgstr "رقم السجل التجاري"
 msgid "removed a file"
 msgstr "أزال ملفًا"
 
-#: onedesk/one/settings.py:1690
+#: onedesk/one/settings.py:1701
 msgid "removed {0}"
 msgstr "حذف {0}"
 
@@ -27746,7 +27759,7 @@ msgstr "أزال {0} ملفات"
 msgid "renamed it from {0}"
 msgstr "أعاد تسميته من {0}"
 
-#: onedesk/one/settings.py:1691
+#: onedesk/one/settings.py:1702
 msgid "renamed {0}"
 msgstr "أعاد تسمية {0}"
 
@@ -27879,7 +27892,7 @@ msgstr "يوم الشهر"
 msgid "the day of the year"
 msgstr "يوم السنة"
 
-#: onedesk/one/settings.py:1684
+#: onedesk/one/settings.py:1695
 msgid "the days off each week are now {0}"
 msgstr "أيام العطلة الأسبوعية الآن {0}"
 
@@ -28196,15 +28209,15 @@ msgstr "يظهر {0} في الشريط الجانبي للتطبيق ضمن {1}.
 msgid "{0} are not in this section."
 msgstr "{0} ليست في هذا القسم."
 
-#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1306
+#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1308
 msgid "{0} as a manager"
 msgstr "{0} كمدير"
 
-#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1306
+#: onedesk/one/settings.py:1207 onedesk/one/settings.py:1308
 msgid "{0} as a user"
 msgstr "{0} كمستخدم"
 
-#: onedesk/one/settings.py:1208 onedesk/one/settings.py:1308
+#: onedesk/one/settings.py:1208 onedesk/one/settings.py:1310
 msgid "{0} as {1}"
 msgstr "{0} بصفة {1}"
 
@@ -28264,7 +28277,7 @@ msgstr "لا يمكن تغيير {0} في مساحة العمل."
 msgid "{0} can't be edited."
 msgstr "لا يمكن تعديل {0}."
 
-#: onedesk/one_studio/record_types.py:462
+#: onedesk/one_studio/record_types.py:477
 msgid "{0} can't be restored."
 msgstr "لا يمكن استعادة {0}."
 
@@ -28530,7 +28543,7 @@ msgstr "{0} ملفات من قبل التخزين السحابي لا تزال �
 msgid "{0} files with these names are already here"
 msgstr "يوجد هنا بالفعل {0} ملفات بهذه الأسماء"
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:42
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:45
 msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} يملأ حقلًا في سجل، لذا يجب أن يكون الطلب من سجل."
 
@@ -28592,7 +28605,7 @@ msgstr "{0} ساعة من الوقت والتكاليف"
 msgid "{0} h used of {1} h."
 msgstr "{0} س مستخدمة من {1} س."
 
-#: onedesk/one_project/kinds.py:159
+#: onedesk/one_project/kinds.py:177
 msgid "{0} has a contract already. Change it on its sales order."
 msgstr "لدى {0} عقد بالفعل. غيّره من أمر البيع الخاص به."
 
@@ -28600,7 +28613,7 @@ msgstr "لدى {0} عقد بالفعل. غيّره من أمر البيع الخ
 msgid "{0} has a template error ({1})."
 msgstr "يحتوي {0} على خطأ في القالب ({1})."
 
-#: onedesk/one/settings.py:1322
+#: onedesk/one/settings.py:1324
 msgid "{0} has already joined. Send a password reset instead."
 msgstr "انضم {0} بالفعل. أرسل إعادة تعيين كلمة المرور بدلًا من ذلك."
 
@@ -28613,7 +28626,7 @@ msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح المحتجزة."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:44
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:47
 msgid "{0} has no attachment field called {1}."
 msgstr "لا يحتوي {0} على حقل مرفق باسم {1}."
 
@@ -28637,7 +28650,7 @@ msgstr "لا يحتوي {0} على حقل يرتبط بـ {1}، لذا لا يم
 msgid "{0} has no field {1}"
 msgstr "لا يحتوي {0} على الحقل {1}"
 
-#: onedesk/one/mail_templates.py:116 onedesk/one/printing.py:612
+#: onedesk/one/mail_templates.py:116 onedesk/one/printing.py:615
 msgid "{0} has no field {1}."
 msgstr "لا يحتوي {0} على الحقل {1}."
 
@@ -28754,7 +28767,7 @@ msgstr "{0} حقل قياسي ولا يمكن حذفه. أخفِه بدلًا م
 msgid "{0} is a standard folder and can't be changed."
 msgstr "{0} مجلد قياسي ولا يمكن تغييره."
 
-#: onedesk/one/printing.py:328 onedesk/one/printing.py:758
+#: onedesk/one/printing.py:331 onedesk/one/printing.py:761
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr "{0} تنسيق قياسي. يمكن فقط تعيينه افتراضيًا أو إيقافه."
 
@@ -28790,7 +28803,7 @@ msgstr "{0} متصل بالفعل."
 msgid "{0} is already on another workspace."
 msgstr "{0} موجود أصلاً على مساحة عمل أخرى."
 
-#: onedesk/one/settings.py:1279
+#: onedesk/one/settings.py:1282
 msgid "{0} is already on the workspace."
 msgstr "{0} موجود بالفعل في مساحة العمل."
 
@@ -28862,7 +28875,7 @@ msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمل
 msgid "{0} is listed twice under Servers."
 msgstr "{0} مدرج مرتين تحت الخوادم."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:35
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:38
 msgid "{0} is listed twice."
 msgstr "{0} مدرج مرتين."
 
@@ -28898,7 +28911,7 @@ msgstr "{0} ليس حقلًا للتحرير."
 msgid "{0} is not a field."
 msgstr "{0} ليس حقلًا."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:22
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:25
 msgid "{0} is not a folder."
 msgstr "{0} ليس مجلدًا."
 
@@ -28910,15 +28923,15 @@ msgstr "{0} ليس نموذجًا تخصصه مساحة العمل."
 msgid "{0} is not a form here."
 msgstr "{0} ليس نموذجًا هنا."
 
-#: onedesk/one/printing.py:678
+#: onedesk/one/printing.py:681
 msgid "{0} is not a format of {1} this workspace made."
 msgstr "{0} ليس تنسيقًا لـ {1} أنشأته مساحة العمل هذه."
 
-#: onedesk/one/printing.py:428
+#: onedesk/one/printing.py:431
 msgid "{0} is not a format of {1}."
 msgstr "{0} ليس تنسيقًا لـ {1}."
 
-#: onedesk/one/printing.py:522
+#: onedesk/one/printing.py:525
 msgid "{0} is not a format {1} can start from."
 msgstr "{0} ليس تنسيقًا يمكن أن يبدأ منه {1}."
 
@@ -29011,7 +29024,7 @@ msgid "{0} is not an add-on on sale."
 msgstr "{0} ليست إضافة معروضة للبيع."
 
 #: onedesk/one_studio/record_types.py:110
-#: onedesk/one_studio/record_types.py:426
+#: onedesk/one_studio/record_types.py:434
 msgid "{0} is not an app a collection can belong to."
 msgstr "{0} ليس تطبيقًا يمكن أن تنتمي إليه مجموعة."
 
@@ -29059,7 +29072,7 @@ msgstr "{0} ليس من البيانات الأساسية التي تديرها.
 msgid "{0} is not one of the workspace's levels."
 msgstr "{0} ليس من مستويات مساحة العمل."
 
-#: onedesk/one/printing.py:96 onedesk/one/printing.py:426
+#: onedesk/one/printing.py:96 onedesk/one/printing.py:429
 msgid "{0} is not printed from formats this workspace sets."
 msgstr "لا يُطبع {0} بتنسيقات تحددها مساحة العمل هذه."
 
@@ -29328,7 +29341,7 @@ msgstr "{0} من {1} مستخدم"
 msgid "{0} of {1} workspaces"
 msgstr "{0} من {1} مساحة عمل"
 
-#: onedesk/one/settings.py:1572
+#: onedesk/one/settings.py:1583
 msgid "{0} off"
 msgstr "{0} معطّل"
 
@@ -29336,7 +29349,7 @@ msgstr "{0} معطّل"
 msgid "{0} older entries"
 msgstr "{0} إدخالات أقدم"
 
-#: onedesk/one/settings.py:1572
+#: onedesk/one/settings.py:1583
 msgid "{0} on"
 msgstr "{0} مفعّل"
 
@@ -29504,11 +29517,11 @@ msgstr "{0} مصروف"
 msgid "{0} starts on {1}"
 msgstr "تبدأ {0} في {1}"
 
-#: onedesk/one_project/status.py:83
+#: onedesk/one_project/status.py:86 onedesk/one_project/status.py:118
 msgid "{0} still has open work."
 msgstr "لا يزال في {0} عمل مفتوح."
 
-#: onedesk/one_studio/record_types.py:482
+#: onedesk/one_studio/record_types.py:497
 msgid "{0} still has records. Delete them first."
 msgstr "لا تزال {0} تحتوي على سجلات. احذفها أولًا."
 
@@ -29565,7 +29578,7 @@ msgstr "{0} للدفع"
 msgid "{0} to {1}"
 msgstr "من {0} إلى {1}"
 
-#: onedesk/one/settings.py:1570
+#: onedesk/one/settings.py:1581
 msgid "{0} to {1}%"
 msgstr "{0} إلى {1}%"
 
@@ -29667,7 +29680,7 @@ msgstr ""
 msgid "{0} {1} is submitted, and these cannot change now."
 msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:20
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:23
 msgid "{0} {1} not found"
 msgstr "{0} {1} غير موجود"
 
@@ -29854,7 +29867,7 @@ msgstr "{0}: يُملأ الحقل عبر حقل ربط في النموذج نف
 msgid "{0}: a letter head is written as it prints, without template tags."
 msgstr "{0}: تُكتب الترويسة كما تُطبع، دون وسوم قوالب."
 
-#: onedesk/one/printing.py:181
+#: onedesk/one/printing.py:184
 msgid "{0}: a picture here is one uploaded to this workspace."
 msgstr "{0}: الصورة هنا يجب أن تكون مرفوعة إلى مساحة العمل هذه."
 
@@ -29907,11 +29920,11 @@ msgstr "{0}: لا يمكن إضافة الحقول المحسوبة."
 msgid "{0}: fields of type {1} can't be added."
 msgstr "{0}: لا يمكن إضافة حقول من النوع {1}."
 
-#: onedesk/one/printing.py:158
+#: onedesk/one/printing.py:161
 msgid "{0}: only a field that holds formatted text may print as formatted text."
 msgstr "{0}: لا يُطبع نصًا منسقًا إلا حقل يحمل نصًا منسقًا."
 
-#: onedesk/one/printing.py:179
+#: onedesk/one/printing.py:182
 msgid "{0}: only a standard field template may be used."
 msgstr "{0}: لا يُستخدم إلا قالب حقل قياسي."
 
@@ -29919,8 +29932,8 @@ msgstr "{0}: لا يُستخدم إلا قالب حقل قياسي."
 msgid "{0}: say which new field goes there."
 msgstr "{0}: حدّد أي حقل جديد يذهب إلى هناك."
 
-#: onedesk/one/printing.py:155 onedesk/one/printing.py:172
-#: onedesk/one/printing.py:210
+#: onedesk/one/printing.py:158 onedesk/one/printing.py:175
+#: onedesk/one/printing.py:213
 msgid "{0}: this block is not one the print format builder makes."
 msgstr "{0}: هذه الكتلة ليست مما يصنعه منشئ تنسيقات الطباعة."
 
@@ -29945,7 +29958,7 @@ msgstr "{0}: لا يمكنك قراءة {1}."
 msgid "{0}: {1}"
 msgstr "{0}: {1}"
 
-#: onedesk/one/printing.py:162
+#: onedesk/one/printing.py:165
 msgid "{0}: {1} blocks can't be added."
 msgstr "{0}: لا يمكن إضافة كتل {1}."
 
