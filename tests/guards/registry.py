@@ -38,6 +38,19 @@ POINTS = {
 }
 
 GUARDS = [
+	# 1 Demo coverage
+	Guard(
+		"features-checked",
+		1,
+		"a whitelisted method or OneAI tool no demo check reaches, past the count still left in a module",
+		"tests/guards/test_coverage.py::test_no_module_has_more_left_to_cover_than_it_had",
+	),
+	Guard(
+		"coverage-ratchet",
+		1,
+		"a count still left that a new check lowered and nobody wrote down",
+		"tests/guards/test_coverage.py::test_the_counts_are_lowered_as_checks_are_written",
+	),
 	# 4 Tier declared
 	Guard(
 		"islands-declared",
@@ -513,6 +526,4 @@ GUARDS = [
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
-PLANNED = {
-	1: "a module with a feature and no demo record or check on it, held as each module is passed over again",
-}
+PLANNED: dict[int, str] = {}

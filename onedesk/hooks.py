@@ -13,6 +13,8 @@ after_sync = [
 	"onedesk.one.notify.install",
 	# What One's roles are given on frappe's doctypes. See one/access.py.
 	"onedesk.one.access.settle",
+	# Calendar Links stored as on, so a System Settings save keeps it on. See one_calendar/feed.py.
+	"onedesk.one_calendar.feed.settle",
 	"onedesk.one.print_blocks.settle",
 	"onedesk.one.mail_templates.settle",
 	"onedesk.one.recycle.settle",
@@ -73,6 +75,8 @@ after_migrate = [
 	"onedesk.one.notify.install",
 	# What One's roles are given on frappe's doctypes. See one/access.py.
 	"onedesk.one.access.settle",
+	# Calendar Links stored as on, so a System Settings save keeps it on. See one_calendar/feed.py.
+	"onedesk.one_calendar.feed.settle",
 	"onedesk.one.print_blocks.settle",
 	"onedesk.one.mail_templates.settle",
 	# The Recycle Bin's titles for what was deleted before. See one/recycle.py.

@@ -6,7 +6,7 @@
 import frappe
 from frappe.utils import flt, getdate, today
 
-from onedesk.one_demo.base import COMPANY, as_user, on
+from onedesk.one_demo.base import COMPANY, as_user, on, wh
 from onedesk.one_demo.people import OWNER, PEOPLE
 
 CHECKS = []
@@ -701,3 +701,112 @@ def oneai_drafts_a_template_as_a_card():
 		assert made["days"] == 7 and all(one["is_milestone"] for one in made["tasks"] if one["is_group"])
 	with as_user("rania@one.test"):
 		assert "error" in ai.draft_template("Garden Shed", phases)
+
+
+@check
+def onetask_works_for_whoever_has_tasks():
+	"""Rania's tasks, as My Tasks and OneAI read them, a step added and ticked,
+	the timer started and stopped on one, and a task and its steps suggested
+	as cards."""
+	from onedesk.one_task import ai, mine, task, timer
+
+	with as_user("rania@one.test"):
+		groups = mine.tasks("mine")
+		counts = mine.counts()
+		assert groups and counts.get("mine"), (groups, counts)
+		assert ai.my_tasks("mine")["groups"]
+		one = groups[0]["tasks"][0].name
+		row = task.add_step(one, "Photograph the anchors")
+		task.tick(one, row, 1)
+		assert frappe.db.get_value("Task Step", row, "done") == 1
+		timer.start(one)
+		assert timer.running()["task"] == one
+		timer.stop()
+		assert not timer.running()
+		assert ai.plan_task("Send the snag photos", due=str(on(12, 1))).get("state") == "Proposed"
+		assert ai.plan_steps(one, ["Check the seals", "Clean the frames"]).get("state") == "Proposed"
+
+
+@check
+def onecalendar_shows_each_person_their_week():
+	"""The week's events, days off and layers as the team sees them, an event's
+	card, one moved, a feed link made, renewed, read and stopped, and OneAI's
+	reads and a suggested event."""
+	from frappe.utils import add_days
+
+	from onedesk.one_calendar import ai, events, feed, layers
+
+	start, end = str(add_days(today(), -7)), str(add_days(today(), 7))
+	with as_user("rania@one.test"):
+		seen = layers.entries(start, end)
+		meetings = [one for one in seen if "Weekly site meeting" in (one.get("title") or "")]
+		assert len(meetings) >= 2, seen
+		assert layers.layers() and isinstance(layers.days_off(start, end), list)
+		assert events.card(meetings[0]["name"])
+		assert ai.my_calendar(start, end)
+		assert ai.busy_times(["Tariq"], start, end)
+		assert ai.plan_event("Snag walk", f"{add_days(today(), 4)} 09:00:00").get("state") == "Proposed"
+	with as_user("samir@one.test"):
+		mine = next(one for one in layers.entries(start, end) if "Weekly site meeting" in (one.get("title") or "") and one["editable"])
+		layers.move(mine["layer"], mine["name"], f"{add_days(today(), 1)} 09:00:00")
+		assert feed.allowed(), "Calendar Links stay on when System Settings is saved"
+		link = feed.mine()
+		renewed = feed.renew()
+		assert renewed["https"] != link["https"]
+		feed.ics(renewed["https"].split("token=", 1)[1])
+		assert b"BEGIN:VCALENDAR" in frappe.response["filecontent"] and b"Weekly site meeting" in frappe.response["filecontent"]
+		feed.stop()
+		made = events.make({"subject": "Supplier call", "starts_on": f"{add_days(today(), 2)} 15:00:00", "team": ["karim@one.test"]})
+		assert frappe.db.exists("Event Participants", {"parent": made, "reference_docname": "karim@one.test"})
+
+
+@check
+def onebook_home_and_payments_for_the_accounts_team():
+	"""What Huda's home says, every figure, a payment taken against an invoice
+	in one step, the books locked and unlocked, and a readiness fix."""
+	from onedesk.one_book import closing, home, paid, ready, tell
+
+	with as_user("huda@one.test"):
+		said = {
+			"cash": home.cash(),
+			"owed to us": home.owed_to_us(),
+			"overdue": home.overdue(),
+			"we owe": home.we_owe(),
+			"due this week": home.due_this_week(),
+			"profit this month": home.profit_this_month(),
+		}
+		assert all(one is not None for one in said.values()), said
+		invoice = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "currency": "AED"}, fields=["name", "outstanding_amount"], limit=1)[0]
+		bank = frappe.get_all("Account", filters={"account_type": "Bank", "is_group": 0, "company": COMPANY}, pluck="name", limit=1)[0]
+		paid.settle("Sales Invoice", invoice.name, invoice.outstanding_amount, bank, reference="CHK-001", on=today())
+		assert not frappe.db.get_value("Sales Invoice", invoice.name, "outstanding_amount")
+	with as_user(OWNER):
+		closing.lock(str(on(1, 31)))
+		assert str(frappe.db.get_value("Company", COMPANY, "accounts_frozen_till_date")) == str(on(1, 31))
+		closing.lock(None)
+		ready.fix("bills")
+		assert frappe.db.get_single_value("Accounts Settings", "check_supplier_invoice_uniqueness")
+	with as_user("omar@one.test"):
+		customer = frappe.get_all("Customer", pluck="name", limit=1)[0]
+		tell.credit_limit(customer, 1000, 500, [OWNER])
+
+
+@check
+def oneinventory_assets_items_and_orders_for_the_stores():
+	"""An asset's and an item's page as Karim reads them, an asset given to
+	somebody and taken back, a purchase order from the reorder rows, and a
+	readiness fix."""
+	from onedesk.one_inventory import assets, custody, item, order, ready
+
+	with as_user("karim@one.test"):
+		truck = frappe.get_all("Asset", filters={"asset_name": "Pickup Truck 2", "docstatus": 1}, pluck="name")[0]
+		assert assets.said(truck)
+		assert item.said("ALU-6063")
+		nadia = frappe.db.get_value("Employee", {"employee_name": "Nadia Khoury"})
+		custody.give(truck, nadia)
+		assert frappe.db.get_value("Asset", truck, "custodian") == nadia
+		custody.take_back(truck)
+		made = order.order([{"item_code": "ALU-6063", "qty": 50, "warehouse": wh("Stores"), "supplier": "Al Noor Aluminium"}])
+		assert made and frappe.db.get_value("Purchase Order", made[0], "docstatus") == 0
+	with as_user(OWNER):
+		ready.fix("depreciation")

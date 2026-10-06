@@ -38,6 +38,16 @@ def allowed() -> bool:
 	return said is None or bool(frappe.utils.cint(said))
 
 
+def settle() -> None:
+	"""Calendar Links stored as on where nothing is stored yet. frappe reads a
+	single's field nobody saved as 0, so the first save of System Settings
+	(a date format changed) wrote 0, switched links off and deleted them all."""
+	if not frappe.db.sql(
+		"select 1 from `tabSingles` where doctype = 'System Settings' and field = 'one_calendar_links'"
+	):
+		frappe.db.set_single_value("System Settings", "one_calendar_links", 1)
+
+
 def _allowed() -> None:
 	if not allowed():
 		frappe.throw(_("Calendar links are turned off for this workspace."), frappe.PermissionError)

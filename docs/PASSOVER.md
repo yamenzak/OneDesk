@@ -498,7 +498,23 @@ Up next, in this order:
        starts a project from the library and adds one to a running project,
        and a projects user is refused a change. And in the browser, as the
        project manager.
-3. The finished modules again, against the new points only, one screen at a
+3. **Demo coverage** (point 1), under way:
+   - Every whitelisted method of ours and every tool OneAI is given is a
+     feature. A guard counts, per module, those no demo check reaches, and
+     the count may only fall (`tests/guards/test_coverage.py`, which takes
+     the place of the planned point-1 guard). OneAdmin's are left out, as
+     they run on the admin site.
+   - At the start, 14 of 511 were reached. Now OneTask, OneCalendar,
+     OneBook and OneInventory are reached in full, each read and used as its
+     people use it.
+   - The demo gained a calendar step: the weekly site meeting, a handover walk
+     with the customer, a supplier visit, a safety briefing and a pricing
+     review. Before it the demo had no events at all.
+   - Found on the way: Calendar Links switched itself off. frappe reads a
+     Single's field nobody saved as 0, so the first save of System Settings
+     stored 0 and deleted every link. It is now stored as on at install and
+     after every migrate (`one_calendar/feed.py` `settle`).
+4. The finished modules again, against the new points only, one screen at a
    time.
 
 Noticed along the way, for the screen it belongs to:

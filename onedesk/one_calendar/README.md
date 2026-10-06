@@ -273,6 +273,10 @@ For the people who build OneCalendar. OneAI does not read past this heading.
 - `feed.py` — the subscription: a token per person, kept encrypted and found
   by its SHA-256, read as a guest and rate-limited, answered as that person. `calendar` writes RFC
   5545 by hand: UTC times, all-day dates, escaped and folded lines.
+  `settle` stores Calendar Links as on wherever nothing is stored yet. frappe
+  reads a single's field nobody has saved as 0, so the first save of System
+  Settings for anything else stored 0, switched links off and deleted them.
+  The demo showed it.
 
   Google Calendar (*From URL*), Apple Calendar (*New Calendar Subscription*)
   and Outlook (*Subscribe from web*) all read the same thing: an iCalendar
