@@ -259,6 +259,15 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneProject › Projects | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
+Foundations done so far:
+
+- **The points** above, and the guard registry (`tests/guards/registry.py`,
+  `python3 scripts/guards.py`).
+- **Tiers** (`onedesk/one/tiers.py`): one page of its own (Project), 37
+  records with a Record Head, the collections we set up, and our 11 desk
+  pages, each with what it is. Projects had its Calendar view taken away; it
+  is back, with Image beside it, and no view frappe offers may be taken away.
+
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the

@@ -1451,8 +1451,8 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 	board = (PROJECT / "board.py").read_text()
 	assert 'HEALTH_BOARD = "Projects by Health"' in board
 	assert 'HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}' in board
-	# Calendar is not a view of Projects.
-	assert 'if (this.doctype === "Project") delete found.Calendar;' in listing
+	# Every view frappe offers stays: Calendar too (docs/PASSOVER.md, point 4).
+	assert "delete found." not in listing
 
 
 def test_a_person_in_a_link_reads_as_their_name_to_whoever_may_pick_them():

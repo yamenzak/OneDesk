@@ -50,6 +50,8 @@ The view switch at the top of **Projects** lays them out as:
 - **Gantt View**: each project as a bar from its start to its end, filled as
   far as it's done, with its milestones to come marked under it. Drag a bar
   to change its dates. A project with no dates isn't shown.
+- **Calendar View**: the same bars on a month, week or day.
+- **Image View**: each project's cover, as a grid.
 
 Every view leaves out employee onboarding and exit checklists until you
 clear that filter.

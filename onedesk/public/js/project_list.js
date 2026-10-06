@@ -148,17 +148,4 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			});
 		};
 	}
-
-	// A project is a stretch of weeks, drawn on the Timeline (Gantt); a month
-	// grid of the same bars says less, so Projects has no Calendar view.
-	const Select = frappe.views.ListViewSelect;
-	if (Select && !Select.prototype.one_projects) {
-		Select.prototype.one_projects = true;
-		const views = Select.prototype.get_views;
-		Select.prototype.get_views = function () {
-			const found = views.call(this);
-			if (this.doctype === "Project") delete found.Calendar;
-			return found;
-		};
-	}
 })();

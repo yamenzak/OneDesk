@@ -1,0 +1,75 @@
+"""Point 4: how each doctype is shown is declared (onedesk/one/tiers.py), and
+no view frappe offers is taken away."""
+
+import ast
+import re
+from pathlib import Path
+
+from onedesk.one import tiers
+
+ROOT = Path(__file__).resolve().parents[2]
+APP = ROOT / "onedesk"
+
+
+def _hook(name: str) -> dict:
+	tree = ast.parse((APP / "hooks.py").read_text())
+	for node in tree.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == name:
+			return ast.literal_eval(node.value)
+	return {}
+
+
+#: Heads whose doctype is a name in code, and the line that names it.
+NAMED_IN_CODE = {
+	"Credit Ledger Entry": ("one_admin/heads.py", '"doctype": ledger.ENTRY,'),
+	"Extension": ("one_studio/heads.py", '"doctype": extensions.EXTENSION,'),
+	"Sales Invoice": ("one_book/paid.py", 'SETTLED = ("Sales Invoice", "Purchase Invoice")'),
+	"Purchase Invoice": ("one_book/paid.py", 'SETTLED = ("Sales Invoice", "Purchase Invoice")'),
+}
+
+
+def test_every_record_head_is_declared():
+	found, named = set(), 0
+	for path in APP.glob("*/heads.py"):
+		source = path.read_text()
+		if "HEADS = [" in source:
+			heads = source.split("HEADS = [", 1)[1]
+			found |= set(re.findall(r'\{\n\t\t"doctype": "([^"]+)"', heads))
+			named += len(re.findall(r'\{\n\t\t"doctype": [a-z_.]+,', heads, re.I))
+	for doctype, (file, line) in NAMED_IN_CODE.items():
+		assert line in (APP / file).read_text(), doctype
+	assert named == 3, "a head naming its doctype in code must be added to NAMED_IN_CODE"
+	assert found | set(NAMED_IN_CODE) == set(tiers.HEADS), sorted(
+		(found | set(NAMED_IN_CODE)) ^ set(tiers.HEADS)
+	)
+
+
+def test_every_page_of_its_own_is_declared():
+	islands = {"onedesk.project": "Project"}
+	assert set(_hook("ui_islands")) == set(islands)
+	assert set(islands.values()) == set(tiers.PAGES)
+	assert all(reason for reason in [*tiers.PAGES.values(), *tiers.NEXT_PAGES.values()])
+
+
+def test_every_collection_set_up_is_declared():
+	for hook, view in (
+		("doctype_list_js", "List"),
+		("doctype_calendar_js", "Calendar"),
+		("doctype_tree_js", "Tree"),
+	):
+		for doctype in _hook(hook):
+			assert view in tiers.COLLECTIONS.get(doctype, {}), (hook, doctype)
+	for doctype, views in tiers.COLLECTIONS.items():
+		assert set(views) <= set(tiers.VIEWS), doctype
+
+
+def test_no_view_frappe_offers_is_taken_away():
+	for path in (APP / "public" / "js").rglob("*.js"):
+		source = path.read_text()
+		assert "delete found." not in source, path.name
+		assert not re.search(r"get_views\s*=\s*function[^}]*delete ", source, re.S), path.name
+
+
+def test_every_desk_page_of_ours_is_declared():
+	pages = {path.parent.name.replace("_", "-") for path in APP.glob("*/page/*/*.json")}
+	assert pages == set(tiers.SCREENS), sorted(pages ^ set(tiers.SCREENS))
