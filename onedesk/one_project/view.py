@@ -589,8 +589,9 @@ def _overdue(projects: list[str]) -> float:
 
 
 def _quotes(doc) -> list[dict]:
-	"""The customer's quotations for the project, newest first, drafts too,
-	read as the reader reads quotations."""
+	"""The customer's quotations for the project not yet ordered, newest
+	first, drafts too, read as the reader reads quotations. One that's
+	ordered is its order, which Orders lists."""
 	if not doc.customer or not frappe.has_permission("Quotation", "read"):
 		return []
 	return [
@@ -604,7 +605,7 @@ def _quotes(doc) -> list[dict]:
 		}
 		for one in frappe.get_list(
 			"Quotation",
-			filters={"project": doc.name, "docstatus": ["<", 2]},
+			filters={"project": doc.name, "docstatus": ["<", 2], "status": ["!=", "Ordered"]},
 			fields=[
 				"name",
 				"transaction_date",

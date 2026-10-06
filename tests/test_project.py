@@ -2287,3 +2287,13 @@ def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budge
 	assert 'said["weekly"]' not in view and 'said["statuses"]' not in view
 	overview_py = (PROJECT / "overview.py").read_text()
 	assert 'statuses["Overdue"] = late' in overview_py
+
+
+def test_orders_and_quotations_sit_together_and_an_ordered_quote_is_its_order():
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	left, right = overview.split("<Section boxed :title=\"__('Needs You')\"", 1)
+	billing = left.index("__('Work and Billing')")
+	assert billing < left.index("__('Orders')") < left.index("__('Quotations')") < left.index("__('Budget')")
+	assert "__('Orders')" not in right and "__('Quotations')" not in right
+	quotes = (PROJECT / "view.py").read_text().split("def _quotes(", 1)[1].split("\ndef ", 1)[0]
+	assert '"status": ["!=", "Ordered"]' in quotes

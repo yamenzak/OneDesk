@@ -29,6 +29,15 @@
           <Rows :rows="workAndBilling" />
           <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency, view.billing.billable?.share)" />
         </Section>
+        <!-- What the customer ordered, then what they've been quoted and not
+             ordered: one flow, so side by side. -->
+        <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length" :action="{ icon: 'lucide-arrow-up-right', label: __('Orders'), onClick: () => go(said.orders_route) }">
+          <Rows :rows="orders" />
+          <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
+        </Section>
+        <Section v-if="quotes.length" :title="__('Quotations')">
+          <Rows :rows="quotes" />
+        </Section>
         <Section :title="__('Budget')" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
           <ChartCard v-if="budgetBars.length" :style="{ height: `${5.5 + 2.25 * budgetBars.length}rem` }">
             <BarChart :data="budgetBars" x="type" :y="['spent', 'committed', 'left']" horizontal stacked :series-config="budgetSeries" :y-axis="{ format: (value) => money(value, said.currency) }" />
@@ -67,8 +76,8 @@
         </Section>
       </template>
 
-      <Section v-if="view.quotes?.length" :title="__('Quotations')">
-        <Rows :rows="view.quotes.map((one) => ({ key: one.name, label: one.name, sub: one.extra ? __('Extra Work') : '', dot: QUOTE[one.status] || 'gray', dim: `${__(one.status)} · ${date(one.date)}`, value: money(one.value, one.currency), route: `/desk/quotation/${one.name}` }))" />
+      <Section v-if="kind !== 'Fixed Price' && quotes.length" :title="__('Quotations')">
+        <Rows :rows="quotes" />
       </Section>
       <Section :title="__('Updates')" :aside="said.asking">
         <Updates :said="said" :writing="writing" @changed="$emit('changed')" />
@@ -85,10 +94,6 @@
         <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" :aside="view.subcontracts_count" :action="said.views?.includes('suppliers') ? { icon: 'lucide-arrow-up-right', label: __('Suppliers'), onClick: () => $emit('view', 'suppliers') } : null">
           <Rows :rows="subcontracts" />
           <Button v-if="view.subcontracts_count > view.subcontracts.length && said.views?.includes('suppliers')" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="$emit('view', 'suppliers')" />
-        </Section>
-        <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length" :action="{ icon: 'lucide-arrow-up-right', label: __('Orders'), onClick: () => go(said.orders_route) }">
-          <Rows :rows="orders" />
-          <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
         </Section>
         <Section v-if="view.retention" :title="__('Retention')" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
           <Rows :rows="retention" />
@@ -337,6 +342,18 @@ function when(left) {
 }
 const canAddSub = computed(() => props.said.can_write && can("create", "Project"));
 const addSub = () => newDoc("Project", { one_parent: props.said.name, customer: props.said.customer });
+// The quotations not yet ordered (view._quotes): an ordered one is its order.
+const quotes = computed(() =>
+  (view.value.quotes || []).map((one) => ({
+    key: one.name,
+    label: one.name,
+    sub: one.extra ? __("Extra Work") : "",
+    dot: QUOTE[one.status] || "gray",
+    dim: `${__(one.status)} · ${date(one.date)}`,
+    value: money(one.value, one.currency),
+    route: `/desk/quotation/${one.name}`,
+  }))
+);
 // As many as the other sections show (view.SHOWN).
 const SHOWN = 8;
 // The customer's orders across the tree: where each is and what it's for,

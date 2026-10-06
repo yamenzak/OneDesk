@@ -769,8 +769,8 @@ The customer's contract is their **sales order** on the project, and a
 project can have more than one: a variation ordered later is a second order
 on the same project, and extra work is ordered on its own sub-project.
 **Contract** adds up the orders on the project and those under it. With more
-than one, the project's head says how many, **Orders** on the Overview lists
-each with where it is, what it's for, what's left to bill and how much of it
+than one, the project's head says how many, **Orders** on the Overview (under
+**Work and Billing**, with **Quotations** after it) lists each with where it is, what it's for, what's left to bill and how much of it
 is billed (or its status when it's on hold or closed), and **Bill Progress**
 asks which order to bill, each with where it is and what's left on it. The
 heading's arrow opens the orders. **Bill Progress** (also under **Create** on a
@@ -802,8 +802,8 @@ need until one is ordered. While the customer's quotation is open,
 **Forecast Margin** is worked out against it, and **Make Order** at the top
 of the page turns the quotation into the sales order. A quotation with
 alternative items opens instead, so you can pick which ones were ordered.
-**Quotations** on the Overview lists the project's quotations, drafts too,
-with where each stands. **Work and Billing** shows once something is
+**Quotations** on the Overview lists the project's quotations not ordered
+yet, drafts too, with where each stands. An ordered one is its order. **Work and Billing** shows once something is
 ordered.
 
 A project can have more than one quotation, a revised price or a choice of

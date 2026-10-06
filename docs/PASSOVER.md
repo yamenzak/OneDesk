@@ -8181,6 +8181,10 @@ frappe's Assign does; Pending Review tells whoever made the task.
   (`[&:has(+[data-cards])]:border-b-0` in `Section.vue`), and the group draws
   none. The four figures are two to a row in the main column, beside Needs
   You, not four across the page (`Figures :columns`).
+- Quotations were in the main column and Orders in the right one, though
+  they're one flow, and each ordered quotation showed again as its order.
+  Orders now follows Work and Billing, Quotations after it, and Quotations
+  lists only what isn't ordered yet (`view._quotes`).
 
 ## OneLegal
 
