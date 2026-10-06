@@ -463,6 +463,32 @@ Up next, in this order:
      stages, website, mobile app, marketing campaign, ERP rollout, office
      move, event, new client onboarding, year-end audit.
    - **OneAI** drafts a template from a description, as a card to approve.
+   - Done so far:
+     - **The page.** **Templates** is OneProject's fourth place, beside
+       Projects, Workload and Time (it left the Projects list's menu). A
+       template opens on a page of its own at its own address, the
+       onedesk.template island, declared in the tier registry with its
+       record frame and a place for extensions
+       (`oneproject_template.template`). Its tasks are in the Tasks table in
+       template mode: "Day 30 · 25 days", the milestone flag, Waits On with
+       + and ×, Hours, and a row menu with Add Task Under, Put Under, Move to
+       the Top and Delete. Every change goes through
+       `one_project/template_view.py`, saves the task and then the template,
+       so ERPNext's own check on a template runs, and whoever has it open
+       hears it. A template task can never begin before the project or last
+       fewer than no days, however it is saved (`templates.days_kept`).
+     - **The library.** Twelve presets in `one_project/library/`, one file
+       each. Aluminium & Glazing is the friend's five phases and 25 tasks,
+       each phase a milestone, and the demo now copies its template from
+       that file instead of building it in code. From the Library is offered
+       in New Project, Add from Template and on the Templates list, and the
+       first use copies a preset into the workspace, in its language (every
+       title and task is in the translations).
+     - **Checked** on the demo (`a_template_is_laid_out_and_changed_on_its_page`):
+       the project manager reads and changes the template, copies a preset,
+       starts a project from the library and adds one to a running project,
+       and a projects user is refused a change. And in the browser, as the
+       project manager.
 3. The finished modules again, against the new points only, one screen at a
    time.
 

@@ -1,0 +1,63 @@
+{
+ "title": "ERP Rollout",
+ "order": 8,
+ "about": "A business moved onto a new ERP, from the first workshop to life after go-live.",
+ "tasks": [
+  {
+   "subject": "Plan",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Kick-off and project team named", "day": 0, "days": 2},
+    {"subject": "Current processes mapped", "day": 2, "days": 10},
+    {"subject": "Scope and plan agreed", "day": 12, "days": 3}
+   ]
+  },
+  {
+   "subject": "Set Up",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Company, chart of accounts and taxes", "day": 15, "days": 5},
+    {"subject": "Items, customers and suppliers imported", "day": 18, "days": 10},
+    {"subject": "Selling, buying and stock set up", "day": 20, "days": 10},
+    {"subject": "Payroll and people set up", "day": 25, "days": 8},
+    {"subject": "Reports and print formats", "day": 30, "days": 5}
+   ]
+  },
+  {
+   "subject": "Test",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Test scripts written", "day": 30, "days": 5},
+    {"subject": "Users test their own work", "day": 35, "days": 10},
+    {"subject": "Fixes", "day": 40, "days": 7},
+    {"subject": "Sign-off to go live", "day": 47, "days": 1}
+   ]
+  },
+  {
+   "subject": "Train",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Training for each team", "day": 40, "days": 7},
+    {"subject": "Short guides for each role", "day": 40, "days": 7}
+   ]
+  },
+  {
+   "subject": "Go Live",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Opening balances and stock imported", "day": 48, "days": 2},
+    {"subject": "Old system closed", "day": 50, "days": 1},
+    {"subject": "Go live", "day": 50, "days": 1}
+   ]
+  },
+  {
+   "subject": "Support",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Daily support for the first two weeks", "day": 51, "days": 14},
+    {"subject": "First month-end closed", "day": 51, "days": 30},
+    {"subject": "Review and next steps", "day": 81, "days": 2}
+   ]
+  }
+ ]
+}

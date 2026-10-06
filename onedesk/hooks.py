@@ -563,6 +563,8 @@ doc_events = {
 			"onedesk.one_task.task.before_validate",
 			# What depends on what, per project. See one_project/plan.py.
 			"onedesk.one_project.plan.before_validate",
+			# A template task begins and lasts whole days. See one_project/templates.py.
+			"onedesk.one_project.templates.days_kept",
 		],
 		"on_recurring": "onedesk.one_task.task.recurring",
 		"on_update": [
@@ -918,6 +920,8 @@ doctype_calendar_js = {"Project": "public/js/project_calendar.js"}
 
 doctype_list_js = {
 	"Deleted Document": "public/js/deleted_document_list.js",
+	# From the Library, beside Add. See one_project/library.py.
+	"Project Template": "public/js/project_template_list.js",
 	# The Audit Log's three lists, as One's sidebar names them. See one/audit.py.
 	"Version": "public/js/audit_list.js",
 	"Activity Log": "public/js/audit_list.js",
@@ -1009,7 +1013,7 @@ app_include_css = [
 web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
 # Screens drawn with frappe-ui inside desk pages: frontend/, each built by
 # frontend/build-islands.mjs and mounted by onedesk.island_page. docs/ISLANDS.md.
-ui_islands = {"onedesk.project": "onedesk_project"}
+ui_islands = {"onedesk.project": "onedesk_project", "onedesk.template": "onedesk_template"}
 
 app_include_js = [
 	"/assets/onedesk/js/theme.js",

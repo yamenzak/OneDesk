@@ -1,9 +1,9 @@
 // OneProject keeps no sidebar open (one_project/README.md, Finding your way).
-// Its three places, Projects, Workload and Time, are frappe's TabButtons in
-// the page head, and its pages close the module's panel on arrival with
-// frappe's own `hide_sidebar`, as OneMail's and OneCloud's do. The panel still
-// lists the three, for a phone, whose head has no room for the tabs. Project
-// Templates, Rates and Projects Settings are in the Projects list's ··· menu
+// Its four places, Projects, Workload, Time and Templates, are frappe's
+// TabButtons in the page head, and its pages close the module's panel on
+// arrival with frappe's own `hide_sidebar`, as OneMail's and OneCloud's do.
+// The panel still lists the four, for a phone, whose head has no room for the
+// tabs. Rates and Projects Settings are in the Projects list's ··· menu
 // (project_list.js).
 frappe.provide("onedesk.project");
 
@@ -11,6 +11,7 @@ onedesk.project.places = () => [
 	{ value: "projects", label: __("Projects"), route: "/desk/project", is: (r) => ["List", "Tree"].includes(r[0]) && r[1] === "Project" },
 	{ value: "workload", label: __("Workload"), route: "/desk/query-report/Workload", is: (r) => r[0] === "query-report" && r[1] === "Workload" },
 	{ value: "time", label: __("Time"), route: "/desk/timesheet", is: (r) => r[0] === "List" && r[1] === "Timesheet" },
+	{ value: "templates", label: __("Templates"), route: "/desk/project-template", is: (r) => r[0] === "List" && r[1] === "Project Template" },
 ];
 
 onedesk.project.place = () => {

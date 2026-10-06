@@ -4,11 +4,24 @@ import frappe
 from frappe import _
 from frappe.utils import date_diff, getdate, nowdate
 
+from onedesk.one_project.library import copy
+
 #: The Task fields a template task keeps, beside its dates.
-KEPT = ("subject", "description", "priority", "type", "is_group", "is_milestone", "expected_time", "task_weight", "color")
+KEPT = (
+	"subject",
+	"description",
+	"priority",
+	"type",
+	"is_group",
+	"is_milestone",
+	"expected_time",
+	"task_weight",
+	"color",
+)
 
 #: What ERPNext's copy leaves out and the new task takes from its template task.
 LEFT_OUT = ("is_milestone", "expected_time")
+
 
 def task_made(doc, method=None) -> None:
 	"""Task before_insert: a task made from a template task takes what
@@ -22,6 +35,15 @@ def task_made(doc, method=None) -> None:
 	if not doc.get("one_steps"):
 		for step in source.get("one_steps") or []:
 			doc.append("one_steps", {"step": step.step})
+
+
+def days_kept(doc, method=None) -> None:
+	"""Task before_validate: a template task begins on a day after the
+	project starts, never before it, and lasts no fewer than none."""
+	if not doc.is_template:
+		return
+	if (doc.start or 0) < 0 or (doc.duration or 0) < 0:
+		frappe.throw(_("A template task cannot begin before the project or last fewer than no days."))
 
 
 @frappe.whitelist(methods=["POST"])
@@ -50,12 +72,16 @@ def save_as(project: str, title: str) -> str:
 		copy.update({field: task.get(field) for field in KEPT})
 		copy.update(days(begins, task.exp_start_date, task.exp_end_date))
 		copy.is_template = 1
-		for step in frappe.get_all("Task Step", filters={"parent": task.name, "parenttype": "Task"}, fields=["step"], order_by="idx"):
+		for step in frappe.get_all(
+			"Task Step", filters={"parent": task.name, "parenttype": "Task"}, fields=["step"], order_by="idx"
+		):
 			copy.append("one_steps", {"step": step.step})
 		copy.insert()
 		made[task.name] = copy.name
 	for task in tasks:
-		waits = frappe.get_all("Task Depends On", filters={"parent": task.name, "parenttype": "Task"}, pluck="task")
+		waits = frappe.get_all(
+			"Task Depends On", filters={"parent": task.name, "parenttype": "Task"}, pluck="task"
+		)
 		parent = made.get(task.parent_task)
 		waits = [made[one] for one in waits if one in made]
 		if not (parent or waits):
@@ -74,10 +100,16 @@ def save_as(project: str, title: str) -> str:
 
 
 @frappe.whitelist(methods=["POST"])
-def add(project: str, template: str, starts: str | None = None) -> int:
+def add(
+	project: str, template: str | None = None, starts: str | None = None, library: str | None = None
+) -> int:
 	"""A template's tasks added to a running project, dated from `starts`
-	(today when not given). Returns how many were made."""
+	(today when not given). A preset from the library is copied in first.
+	Returns how many were made."""
 	frappe.has_permission("Project", "read", project, throw=True)
+	template = template or (library and copy(library))
+	if not template:
+		frappe.throw(_("Pick a template."))
 	frappe.has_permission("Project Template", "read", template, throw=True)
 	frappe.has_permission("Task", "create", throw=True)
 	doc = frappe.get_doc("Project", project)
@@ -95,7 +127,12 @@ def add(project: str, template: str, starts: str | None = None) -> int:
 def start_of(project_starts, tasks: list) -> object:
 	"""Day nought of a template: the project's start, or its first task's if
 	that is earlier, so no task begins before the project. Pure."""
-	dates = [getdate(day) for task in tasks for day in (task.get("exp_start_date"), task.get("exp_end_date")) if day]
+	dates = [
+		getdate(day)
+		for task in tasks
+		for day in (task.get("exp_start_date"), task.get("exp_end_date"))
+		if day
+	]
 	if project_starts:
 		dates.append(getdate(project_starts))
 	return min(dates) if dates else None

@@ -15,7 +15,10 @@ RECORD = (APP / "public" / "js" / "record.js").read_text()
 FRAPPE = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe")
 
 #: The island each page is drawn by.
-ISLANDS = {"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue"}
+ISLANDS = {
+	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
+	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
+}
 
 #: frappe's dialogs a page opens on a record, and the form they are written against.
 DIALOGS = (
@@ -106,6 +109,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onecrm.board": (public / "opportunity_list.js").read_text(),
 		"space.home": (public / "places.js").read_text(),
 		"oneproject.project": (ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
+		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
 	}
 	assert set(fired) == set(places.keys())
 	for key, source in fired.items():

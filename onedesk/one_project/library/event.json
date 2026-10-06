@@ -1,0 +1,52 @@
+{
+ "title": "Event",
+ "order": 10,
+ "about": "A conference, launch or company event, from the idea to the thank-you mails.",
+ "tasks": [
+  {
+   "subject": "Plan",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Goals, audience and budget", "day": 0, "days": 5},
+    {"subject": "Date and venue booked", "day": 5, "days": 10},
+    {"subject": "Speakers and programme", "day": 10, "days": 20}
+   ]
+  },
+  {
+   "subject": "Prepare",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Catering, sound and furniture booked", "day": 15, "days": 15},
+    {"subject": "Invitations and registration", "day": 20, "days": 3},
+    {"subject": "Marketing", "day": 23, "days": 30},
+    {"subject": "Printed material and signs", "day": 45, "days": 7},
+    {"subject": "Run sheet written", "day": 50, "days": 5}
+   ]
+  },
+  {
+   "subject": "Final Week",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Final numbers to suppliers", "day": 55, "days": 1},
+    {"subject": "Rehearsal", "day": 58, "days": 1},
+    {"subject": "Set up the venue", "day": 59, "days": 1}
+   ]
+  },
+  {
+   "subject": "Event Day",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Event", "day": 60, "days": 1}
+   ]
+  },
+  {
+   "subject": "After",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Thank-you mails and recordings", "day": 61, "days": 3},
+    {"subject": "Supplier bills paid", "day": 61, "days": 14},
+    {"subject": "Results and lessons", "day": 64, "days": 3}
+   ]
+  }
+ ]
+}

@@ -6,6 +6,7 @@ import { buildIslands } from "@framework/ui/vite/island";
 
 export const ISLANDS = {
 	onedesk_project: "src/islands/project.js",
+	onedesk_template: "src/islands/template.js",
 };
 
 await buildIslands({

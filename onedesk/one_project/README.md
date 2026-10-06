@@ -12,17 +12,18 @@ project task assigned to you shows on your My Tasks and on the project's board.
 
 ## Finding your way
 
-**OneProject** in the dock opens it. It has no sidebar: the tabs at the top
-are its three places.
+**OneProject** in the dock opens it. It has no sidebar. The tabs at the top
+are its four places.
 
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
 - **Workload**: how many hours of open work each person has in a week.
 - **Time**: the time people have logged, across projects.
+- **Templates**: the tasks a kind of job usually has, to start a project
+  from (Starting from a template).
 
-On a phone the three are in the menu instead. **Project Templates** and
-**Rates**, what an hour of each activity costs and is billed at, are in the
-··· menu on **Projects**.
+On a phone the four are in the menu instead. **Rates**, what an hour of each
+activity costs and is billed at, is in the ··· menu on **Projects**.
 
 On a project's page, its name at the top opens a list of other projects: its
 parent and sub-projects first, then your other open projects, and **All
@@ -1030,21 +1031,58 @@ A job you do again and again, like a website, a fit-out or an office move,
 starts from a **template**: its usual tasks, when each starts and how long it
 takes, which depends on which, the milestones and the checklists.
 
+**Templates** at the top of OneProject lists them. A template opens on a page
+of its own, its tasks in the same table a project's are in, each with when it
+starts and how long it lasts, as "Day 12 · 5 days" counted from the day the
+project starts. Everything changes in place:
+
+- Type in **Add Task** under the table to add one, or **Add Task Under** in a
+  task's ··· menu to add one inside it.
+- Click a task's name to rename it.
+- Click **Day 12 · 5 days** to change the day it begins on and how many days
+  it lasts.
+- The flag beside a task makes it a milestone, or takes that away.
+- **Waits On** lists the tasks it can't start before. **+** adds one and **×**
+  takes one away.
+- **Put Under** in the ··· menu moves a task inside another, with the tasks
+  under it. **Move to the Top** takes it out again. **Delete** removes it and
+  the tasks under it.
+
+The line above the table says how many tasks it has, how many days it runs
+and how many projects were started from it. **New Project** at the top starts
+one, and **Edit Details** opens the template's form.
+
+### From the library
+
+OneProject comes with templates ready to use. **From the Library** in
+**New Project**, in **Add from Template** and on the **Templates** list offers
+them, and the first time one is used it is copied into the workspace as a
+template of your own, in your workspace's language, to change as you like.
+Using it again uses your copy.
+
+- **Aluminium & Glazing**: five phases, from contract review and approvals,
+  through ordering, fabrication and installation, to testing, handover and
+  the final account. Twenty-five tasks, and each phase ends in a milestone.
+- **Interior Fit-Out**, **Small Building Works** and **Architectural Design
+  Stages**.
+- **Website**, **Mobile App**, **Marketing Campaign** and **ERP Rollout**.
+- **Office Move**, **Event**, **New Client Onboarding** and **Year-End
+  Audit**.
+
+### Other ways to make one
+
 - **Save as Template** (in **Actions** on a project) creates one from a
   project that went well. Each task keeps when it started and ended, as days
   after the project started, so a task that started on day 5 and took three
   days does the same next time. Cancelled tasks are left out.
-- **New Project** on a template's page, or choosing it as **From Template**
-  on a new project, starts a project from it. Its tasks are created when it's
+- **New Project** on a template's page, or choosing it as **Template** on a
+  new project, starts a project from it. Its tasks are created when it's
   saved, dated from the project's **Expected Start Date** (today if it has
   none), each with its sub-tasks, dependencies, checklist and whether it's a
   milestone, and named with the project's **Task Prefix** if it has one.
 - **Add from Template** (in **Actions** on a project) adds a template's
   tasks to a project that's already running, beside the tasks it has, dated
   from the day you choose.
-- **Project Template** under **Setup** lists them. A template's tasks are
-  ordinary tasks marked **Is Template**. Open one from the template to change
-  its **Begin On (Days)** or **Duration (Days)**.
 
 A template's tasks aren't anyone's work. They aren't on anyone's My Tasks,
 calendar or board, and everyone who works in projects can see them. Projects
@@ -1710,14 +1748,40 @@ one field for it.
     the subject, dates, priority, type and a few more, and not whether a task
     is a milestone, its expected time or its checklist; the new task takes
     them from the template task it was made from.
-  - **Who may keep templates** (`settle`). ERPNext lets only a System Manager
-    open one; a Projects Manager may keep them, and a Projects User read them.
+  - **Who may keep templates** (access.py `_templates`). ERPNext lets only a
+    System Manager open one. A Projects Manager may keep them, and a Projects
+    User read them.
+  - **Days kept whole** (`days_kept`, Task before_validate). A template task
+    never begins before the project or lasts fewer than no days, however it
+    is saved.
   - **A template task is nobody's work.** It is not assigned to its maker
     (one_task/capture.py) and everybody who works in projects sees it
     (one_task/access.py), since a template is for the whole team.
 
   A new project's Task Prefix names the tasks a template makes, because the
   naming rule is written when the project is, not after (naming.py).
+- `template_view.py` — a template's page (page/project_template_view, the
+  onedesk.template island in frontend/src/template). `read` gives its tasks
+  in the template's order with their depth and what each waits on, leaving
+  out the tasks ERPNext lists on a group as what it waits on, which are only
+  its own tasks. `change`, `add`, `nest`, `wait` and `remove` each save the
+  task as its form would and then the template, so ERPNext's own check on it
+  (every task a task waits on is in the template) runs, and the save tells
+  whoever has the page open. A task put under another makes that one a group
+  (ERPNext asks it of a parent), and a group left with no tasks stops being
+  one. A task added under another goes after the last of its tasks, so the
+  template's order reads as its tree.
+- `library.py` — the presets in library/, one JSON file each: a title, what
+  it is for, its place in the list (`order`) and its tasks, each with the day
+  it begins on, the days it lasts and its own tasks. A phase is a milestone
+  when it says so. `rows` turns a preset into the template tasks it makes
+  (pure): a group begins with its first task and ends with its last, and a
+  task waits on the one before it in its group when that one has ended by
+  then, unless it says what it comes after. `copy` makes the workspace's own
+  template the first time a preset is used, in the workspace's language
+  (one/babel.py `project_template` puts every title and task in the
+  translations), and returns that one after. New Project (kinds.py `make`)
+  and Add from Template (templates.py `add`) take a preset as `library`.
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), the money
   (money.py), overdue tasks, the next milestone, and the hours logged a week

@@ -1,0 +1,41 @@
+{
+ "title": "New Client Onboarding",
+ "order": 11,
+ "about": "A new client welcomed and set up, from the signed contract to the first review.",
+ "tasks": [
+  {
+   "subject": "Welcome",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Contract and first invoice", "day": 0, "days": 2},
+    {"subject": "Welcome mail and contacts", "day": 0, "days": 1},
+    {"subject": "Kick-off meeting", "day": 3, "days": 1}
+   ]
+  },
+  {
+   "subject": "Set Up",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Accounts and access given", "day": 4, "days": 3},
+    {"subject": "Their information gathered", "day": 4, "days": 7},
+    {"subject": "Work plan agreed", "day": 8, "days": 3}
+   ]
+  },
+  {
+   "subject": "First Delivery",
+   "milestone": true,
+   "tasks": [
+    {"subject": "First piece of work delivered", "day": 11, "days": 10},
+    {"subject": "Feedback taken", "day": 21, "days": 2}
+   ]
+  },
+  {
+   "subject": "Review",
+   "milestone": true,
+   "tasks": [
+    {"subject": "30-day review", "day": 30, "days": 1},
+    {"subject": "Plan for the next quarter", "day": 31, "days": 3}
+   ]
+  }
+ ]
+}

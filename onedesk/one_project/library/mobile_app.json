@@ -1,0 +1,55 @@
+{
+ "title": "Mobile App",
+ "order": 6,
+ "about": "An app for iPhone and Android, from the idea to the stores.",
+ "tasks": [
+  {
+   "subject": "Discovery",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Kick-off and goals", "day": 0, "days": 2},
+    {"subject": "User stories", "day": 2, "days": 5},
+    {"subject": "Technical plan", "day": 5, "days": 5}
+   ]
+  },
+  {
+   "subject": "Design",
+   "milestone": true,
+   "tasks": [
+    {"subject": "User journeys and wireframes", "day": 10, "days": 7},
+    {"subject": "Visual design", "day": 17, "days": 10},
+    {"subject": "Clickable prototype tested with users", "day": 27, "days": 5}
+   ]
+  },
+  {
+   "subject": "Build",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Backend and data", "day": 20, "days": 30},
+    {"subject": "App screens", "day": 32, "days": 30},
+    {"subject": "Sign-in and accounts", "day": 40, "days": 7},
+    {"subject": "Notifications", "day": 55, "days": 5},
+    {"subject": "Payments", "day": 55, "days": 7}
+   ]
+  },
+  {
+   "subject": "Testing",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Internal testing", "day": 62, "days": 10},
+    {"subject": "Beta with real users", "day": 72, "days": 14},
+    {"subject": "Bugs fixed", "day": 72, "days": 18}
+   ]
+  },
+  {
+   "subject": "Release",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Store listings and screenshots", "day": 86, "days": 4},
+    {"subject": "Submitted to the App Store and Google Play", "day": 90, "days": 1},
+    {"subject": "Approved and live", "day": 91, "days": 7},
+    {"subject": "First month's fixes", "day": 98, "days": 30}
+   ]
+  }
+ ]
+}

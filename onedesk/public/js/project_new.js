@@ -4,7 +4,8 @@
 frappe.provide("onedesk.project");
 
 // A project opens on its page (one_project/page/project_view), at its own
-// address: /desk/project/<name>. The form is the same address with ?edit=1,
+// address: /desk/project/<name>, and a template on its own
+// (page/project_template_view). The form is the same address with ?edit=1,
 // for every field the page doesn't show, and is still where a new one is made.
 {
 	const standard = frappe.router.convert_to_standard_route.bind(frappe.router);
@@ -13,11 +14,26 @@ frappe.provide("onedesk.project");
 		// The address says it; carried on, it would open the next project's form too.
 		if (frappe.route_options) delete frappe.route_options.edit;
 		const [view, doctype, name] = found || [];
-		if (view !== "Form" || doctype !== "Project" || !name || name.startsWith("new-project")) return found;
+		const page = { Project: "project-view", "Project Template": "project-template-view" }[doctype];
+		if (view !== "Form" || !page || !name || name.startsWith("new-")) return found;
 		if (new URLSearchParams(window.location.search).has("edit")) return found;
-		return ["project-view", name];
+		return [page, name];
 	};
 }
+
+// The library's presets as a Select's choices, each with how long it runs
+// (one_project/library.py `presets`).
+onedesk.project.library = async (field) => {
+	const presets = await frappe.xcall("onedesk.one_project.library.presets");
+	field.df.options = [
+		{ value: "", label: "" },
+		...presets.map((one) => ({
+			value: one.key,
+			label: __("{0} · {1} tasks, {2} days", [one.title, one.tasks, one.days]),
+		})),
+	];
+	field.refresh();
+};
 
 onedesk.project.KINDS = () => [
 	{
@@ -122,6 +138,8 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),
 			},
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
+			// A preset shipped with OneProject, copied in when the project is made (one_project/library.py).
+			{ fieldtype: "Select", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
 			// How its time is counted, apart from how it's paid for (one_project/hours.py).
 			{ fieldtype: "Section Break" },
 			{
@@ -185,6 +203,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					onload: (step) => {
 						step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
 						step.form.is_dialog = true;
+						onedesk.project.library(step.get_field("library"));
 						said.then((found) => {
 							if (!step.get_value("manager")) step.form.set_value("manager", found.user);
 							if (!step.get_value("time")) step.form.set_value("time", found.time || "Timesheets");

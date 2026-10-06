@@ -633,3 +633,43 @@ def every_hand_off_left_its_records():
 	costs are on it."""
 	missing = [f"{one} to {other}: {doctype}" for one, other, doctype, filters in HANDOFFS if not frappe.db.count(doctype, filters)]
 	assert not missing, missing
+
+
+@check
+def a_template_is_laid_out_and_changed_on_its_page():
+	"""The project manager opens the Aluminium & Glazing template, changes it
+	in place, copies a preset in from the library and starts a project and a
+	running project's extra tasks from them. A projects user only reads."""
+	from onedesk.one_project import kinds, library, template_view, templates
+	from onedesk.one_demo.projects import TEMPLATE
+
+	with as_user("samir@one.test"):
+		said = template_view.read(TEMPLATE)
+		assert sum(1 for one in said["tasks"] if not one["is_group"]) == 25, said["tasks"]
+		assert all(one["is_milestone"] for one in said["tasks"] if one["is_group"])
+		assert said["used"] >= 1 and said["can_write"]
+		first, phase = said["tasks"][1]["name"], said["tasks"][0]["name"]
+		template_view.change(TEMPLATE, first, "duration", 4)
+		made = template_view.add(TEMPLATE, "Check the anchors", phase)
+		template_view.wait(TEMPLATE, made, first, 1)
+		template_view.nest(TEMPLATE, made, None)
+		after = {one["name"]: one for one in template_view.read(TEMPLATE)["tasks"]}
+		assert after[first]["duration"] == 4 and after[made]["depth"] == 0 and after[made]["waits"] == [first]
+		template_view.remove(TEMPLATE, made)
+		assert made not in {one["name"] for one in template_view.read(TEMPLATE)["tasks"]}
+
+		copied = library.copy("website")
+		assert library.copy("website") == copied, "the second use takes the same copy"
+		name = kinds.make({"kind": "Internal", "title": "Our Summer Event", "starts": today(), "library": "event", "time": "Not Tracked"})
+		assert frappe.db.count("Task", {"project": name}) == 20, "an Event's 15 tasks and its 5 phases"
+		running = frappe.get_all("Project", filters={"project_name": "Mansour Villa Windows and Doors"}, pluck="name")[0]
+		assert templates.add(running, library="client_onboarding", starts=today()) == 14
+
+	with as_user("rania@one.test"):
+		assert not template_view.read(TEMPLATE)["can_write"]
+		try:
+			template_view.change(TEMPLATE, first, "duration", 9)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a projects user changed a template")

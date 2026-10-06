@@ -1,0 +1,62 @@
+{
+ "title": "Aluminium & Glazing",
+ "order": 1,
+ "about": "Windows, doors, curtain walls and glazing, from contract review to the final account.",
+ "tasks": [
+  {
+   "subject": "Initiation, Engineering & Approvals",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Contract review and kick-off", "day": 0, "days": 3},
+    {"subject": "Site survey and measurements", "day": 3, "days": 5},
+    {"subject": "Shop drawings and structural calculations", "day": 8, "days": 15},
+    {"subject": "Drawings and samples approved by the consultant", "day": 23, "days": 7}
+   ]
+  },
+  {
+   "subject": "Procurement & Material Management",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Order aluminium profiles", "day": 30, "days": 3},
+    {"subject": "Order glass", "day": 30, "days": 3},
+    {"subject": "Order hardware and accessories", "day": 33, "days": 3},
+    {"subject": "Receive and inspect materials", "day": 45, "days": 10},
+    {"subject": "Approve the site mock-up", "day": 50, "days": 5}
+   ]
+  },
+  {
+   "subject": "Factory Fabrication & Assembly",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Cut and machine profiles", "day": 55, "days": 12},
+    {"subject": "Assemble frames", "day": 62, "days": 14},
+    {"subject": "Glaze and seal units", "day": 70, "days": 12},
+    {"subject": "Factory quality inspection", "day": 80, "days": 4},
+    {"subject": "Pack and prepare dispatch", "day": 84, "days": 3}
+   ]
+  },
+  {
+   "subject": "Site Installation & Logistics",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Deliver to site", "day": 87, "days": 2},
+    {"subject": "Fix subframes and anchors", "day": 89, "days": 7},
+    {"subject": "Install frames", "day": 94, "days": 14},
+    {"subject": "Install glass", "day": 104, "days": 12},
+    {"subject": "Fit and adjust hardware", "day": 114, "days": 6},
+    {"subject": "Seal and weatherproof", "day": 118, "days": 6}
+   ]
+  },
+  {
+   "subject": "Testing, Handover & Closeout",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Water test", "day": 124, "days": 3},
+    {"subject": "Snag list and rectification", "day": 127, "days": 7},
+    {"subject": "Final clean", "day": 134, "days": 2},
+    {"subject": "Handover with O&M manuals", "day": 136, "days": 2},
+    {"subject": "Final account and retention release", "day": 138, "days": 10}
+   ]
+  }
+ ]
+}

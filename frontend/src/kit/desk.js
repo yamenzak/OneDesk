@@ -70,6 +70,9 @@ export function listen(event, heard) {
 /** A new record, opened in desk's form as frappe.new_doc opens one. */
 export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
+/** Ask for a value or two in desk's own prompt: frappe's fields, its dialog. */
+export const prompt = (fields, done, title, label) => frappe().prompt(fields, done, title, label);
+
 /** Ask before doing something that can't be taken back, as desk asks. */
 export const confirm = (message, yes) => frappe().confirm(message, yes);
 // A list in words, "2 open tasks and 1 open sub-project", as frappe writes it.

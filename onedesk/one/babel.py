@@ -1,5 +1,5 @@
-"""What a standard number card, dashboard chart or print format says, for
-translation.
+"""What a standard number card, dashboard chart, print format or project
+template says, for translation.
 
 Extractors listed in `babel_extractors.csv`, for what frappe's own leave out.
 """
@@ -41,3 +41,19 @@ def _labels(data):
 	elif isinstance(data, list):
 		for value in data:
 			yield from _labels(value)
+
+
+def project_template(fileobj, *args, **kwargs):
+	"""A preset in one_project/library: its title, what it is for and every
+	task, copied into a workspace in its own language."""
+	data = json.load(fileobj)
+	yield None, "_", data["title"], ["Name of a project template"]
+	yield None, "_", data["about"], ["What a project template is for"]
+	for subject in sorted(set(_subjects(data["tasks"]))):
+		yield None, "_", subject, [f"Task in the {data['title']} project template"]
+
+
+def _subjects(tasks):
+	for task in tasks:
+		yield task["subject"]
+		yield from _subjects(task.get("tasks") or [])

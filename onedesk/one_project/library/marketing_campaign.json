@@ -1,0 +1,52 @@
+{
+ "title": "Marketing Campaign",
+ "order": 7,
+ "about": "A campaign planned, made, run and measured.",
+ "tasks": [
+  {
+   "subject": "Plan",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Brief and goals", "day": 0, "days": 3},
+    {"subject": "Audience and message", "day": 3, "days": 4},
+    {"subject": "Budget and channels agreed", "day": 7, "days": 3}
+   ]
+  },
+  {
+   "subject": "Create",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Creative concept", "day": 10, "days": 5},
+    {"subject": "Copy and designs", "day": 15, "days": 10},
+    {"subject": "Video", "day": 15, "days": 15},
+    {"subject": "Landing page", "day": 20, "days": 7},
+    {"subject": "Everything approved", "day": 30, "days": 2}
+   ]
+  },
+  {
+   "subject": "Launch",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Ads set up", "day": 32, "days": 2},
+    {"subject": "Email and social scheduled", "day": 32, "days": 2},
+    {"subject": "Campaign live", "day": 34, "days": 1}
+   ]
+  },
+  {
+   "subject": "Run",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Weekly results and changes", "day": 35, "days": 28},
+    {"subject": "Mid-campaign review", "day": 49, "days": 1}
+   ]
+  },
+  {
+   "subject": "Measure",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Final results", "day": 63, "days": 3},
+    {"subject": "Lessons written up", "day": 66, "days": 2}
+   ]
+  }
+ ]
+}

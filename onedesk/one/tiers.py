@@ -11,6 +11,7 @@ VIEWS = ("List", "Report", "Dashboard", "Kanban", "Calendar", "Gantt", "Tree", "
 #: Records with a page of their own, and why the form was not enough.
 PAGES = {
 	"Project": "a job is run from it all day: its money with both sides, tasks, time, suppliers, people and files, across its sub-projects",
+	"Project Template": "its tasks are laid out, nested, linked and timed as a project's are, which a form's child table cannot show",
 }
 
 #: Records to become pages next, and why.
@@ -67,6 +68,7 @@ HEADS = (
 #: script, a calendar's fields or a tree's parent (doctype_list_js,
 #: doctype_calendar_js, doctype_tree_js in hooks.py) is declared here.
 COLLECTIONS = {
+	"Project Template": {"List": "From the Library beside Add, copying a preset in and opening it"},
 	"Project": {
 		"List": "each project's standing in one pill, and the views and dashboard of OneProject",
 		"Calendar": "each project a bar from its start to its end",
@@ -97,6 +99,7 @@ COLLECTIONS = {
 #: Desk pages of ours, and what each one is.
 SCREENS = {
 	"project-view": "the page a Project opens on (PAGES)",
+	"project-template-view": "the page a Project Template opens on (PAGES)",
 	"my-tasks": "the reader's own tasks, grouped (Task)",
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",

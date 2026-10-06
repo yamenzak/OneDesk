@@ -1187,7 +1187,8 @@ def test_a_project_opens_on_its_own_page():
 		assert follows in script
 	# /desk/project/<name> is the page; ?edit=1 and a new project are the form.
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
-	assert 'return ["project-view", name];' in route and 'has("edit")' in route and '"new-project"' in route
+	assert '{ Project: "project-view", "Project Template": "project-template-view" }' in route
+	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
 	assert "?edit=1" in script
 	# What the page and the form both do is one file, loaded by both.
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
@@ -1340,11 +1341,11 @@ def test_the_project_page_fits_a_phone():
 	assert 'setConfig("systemTimezone", zone.system)' in mount
 
 
-def test_the_rail_is_projects_workload_and_time_and_stays_closed():
+def test_the_rail_is_projects_workload_time_and_templates_and_stays_closed():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
 	# The phone's menu; elsewhere the page head's tabs (project_places.js).
-	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Time", "Timesheet")]
+	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Time", "Timesheet"), ("Templates", "Project Template")]
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "new frappe.ui.TabButtons(" in places and "page.hide_sidebar = !frappe.is_mobile()" in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
@@ -1352,7 +1353,7 @@ def test_the_rail_is_projects_workload_and_time_and_stays_closed():
 	assert 'route[0] === "query-report" && !here' in places
 	# Setup is in the Projects list's menu.
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
-	assert '__("Project Templates")' in menu and '__("Rates")' in menu
+	assert '__("Rates")' in menu and '__("Project Templates")' not in menu
 	# A project's name in its breadcrumb lists the others.
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
 	assert "hide_sidebar: !frappe.is_mobile()" in view_js and "onedesk.project.picker(" in view_js

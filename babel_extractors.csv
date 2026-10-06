@@ -2,3 +2,4 @@ onedesk/notifications/*/*.md,onedesk.notifications.babel.extract
 **/number_card/*/*.json,onedesk.one.babel.number_card
 **/dashboard_chart/*/*.json,onedesk.one.babel.dashboard_chart
 **/print_format/*/*.json,onedesk.one.babel.print_format
+onedesk/one_project/library/*.json,onedesk.one.babel.project_template

@@ -1,0 +1,53 @@
+{
+ "title": "Office Move",
+ "order": 9,
+ "about": "A team moved to new premises without losing a working day.",
+ "tasks": [
+  {
+   "subject": "Plan",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Requirements and budget", "day": 0, "days": 5},
+    {"subject": "New premises chosen", "day": 5, "days": 20},
+    {"subject": "Lease signed", "day": 25, "days": 5},
+    {"subject": "Move date agreed", "day": 30, "days": 1}
+   ]
+  },
+  {
+   "subject": "Prepare the New Office",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Layout and seating plan", "day": 31, "days": 7},
+    {"subject": "Fit-out", "day": 38, "days": 30},
+    {"subject": "Internet, phones and network", "day": 55, "days": 10},
+    {"subject": "Furniture delivered", "day": 65, "days": 3}
+   ]
+  },
+  {
+   "subject": "Prepare the Team",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Movers booked", "day": 40, "days": 3},
+    {"subject": "Everyone told and labels given out", "day": 60, "days": 3},
+    {"subject": "Addresses changed with suppliers, banks and authorities", "day": 60, "days": 10}
+   ]
+  },
+  {
+   "subject": "Move",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Packing", "day": 68, "days": 2},
+    {"subject": "Move weekend", "day": 70, "days": 2},
+    {"subject": "IT set up and tested", "day": 71, "days": 1}
+   ]
+  },
+  {
+   "subject": "Settle In",
+   "milestone": true,
+   "tasks": [
+    {"subject": "Problems fixed", "day": 72, "days": 7},
+    {"subject": "Old office handed back", "day": 72, "days": 14}
+   ]
+  }
+ ]
+}

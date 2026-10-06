@@ -5,6 +5,7 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| A project and a project template open on a page of their own | project_new.js wraps frappe's router so a Project or a Project Template at its own address opens its page (project-view, project-template-view), and the form only with ?edit=1 or when new | `onedesk/public/js/project_new.js` | `frappe/frappe/public/js/frappe/router.js` | `async convert_to_standard_route(route) {` |
 | Numbering changes how a record is named through Selling Settings's own method | numbering.set_naming_by sets the one field and calls the method Selling Settings runs on save to show or hide the series and name fields, rather than saving the whole Single and running every other check it has | `onedesk/one/numbering.py` | `erpnext/erpnext/selling/doctype/selling_settings/selling_settings.py` | `def update_customer_naming_settings(self):` |
 | Numbering changes how a record is named through Buying Settings's own method | numbering.set_naming_by sets the one field and calls the method Buying Settings runs on save to show or hide the series and name fields, rather than saving the whole Single and running every other check it has | `onedesk/one/numbering.py` | `erpnext/erpnext/buying/doctype/buying_settings/buying_settings.py` | `def update_supplier_naming_settings(self):` |
 | Numbering changes how a record is named through Stock Settings's own method | numbering.set_naming_by sets the one field and calls the method Stock Settings runs on save to show or hide the series and name fields, rather than saving the whole Single and running every other check it has | `onedesk/one/numbering.py` | `erpnext/erpnext/stock/doctype/stock_settings/stock_settings.py` | `def update_item_naming_settings(self):` |
@@ -286,4 +287,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | Closing a year locks the books up to its end | closing.year_closed reads the Period Closing Voucher's period end on submit, wherever the voucher is submitted | `onedesk/one_book/closing.py` | `erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py` | `period_end_date: DF.Date` |
 | The demo finishes the stock revaluations its back-dated entries left | build._reposted runs each waiting Repost Item Valuation as ERPNext's hourly job does, since the books cannot be locked while any wait | `onedesk/one_demo/build.py` | `erpnext/erpnext/stock/doctype/repost_item_valuation/repost_item_valuation.py` | `def get_repost_item_valuation_entries(limit=None):` |
 
-280 overrides.
+281 overrides.

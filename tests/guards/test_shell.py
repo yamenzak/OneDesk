@@ -45,7 +45,7 @@ NOT_YET = {}
 #: Pages whose body is a frappe-ui island (docs/ISLANDS.md, tests/guards/test_islands.py):
 #: desk keeps their head through onedesk.island_page, and the island draws the
 #: rest with frappe-ui rather than the shell.
-ISLAND_PAGES = {"project_view"}
+ISLAND_PAGES = {"project_view", "project_template_view"}
 
 #: What the shell has, so a page may not style its own: a row of a list, an
 #: empty state, a quiet line, a boxed card, a body or a section.

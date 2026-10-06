@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 22:05+0000\n"
-"PO-Revision-Date: 2026-10-06 22:05+0000\n"
+"POT-Creation-Date: 2026-10-06 23:42+0000\n"
+"PO-Revision-Date: 2026-10-06 23:42+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -45,11 +45,12 @@ msgstr ""
 msgid "1 cost"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:107
+#: onedesk/public/js/project_actions.js:115
 msgid "1 cost, {0}"
 msgstr ""
 
-#: onedesk/one/settings.py:798
+#: frontend/src/template/Tasks.vue:126
+#: frontend/src/template/TemplatePage.vue:83 onedesk/one/settings.py:798
 msgid "1 day"
 msgstr ""
 
@@ -118,6 +119,7 @@ msgid "1 sub-project"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:111
+#: frontend/src/template/TemplatePage.vue:82
 msgid "1 task"
 msgstr ""
 
@@ -143,6 +145,11 @@ msgstr ""
 
 #: onedesk/one/settings.py:801
 msgid "30 days"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "30-day review"
 msgstr ""
 
 #: onedesk/one/settings.py:793
@@ -315,6 +322,16 @@ msgstr ""
 msgid "A browser"
 msgstr ""
 
+#. What a project template is for
+#: onedesk/one_project/library/architectural_design.json
+msgid "A building designed stage by stage, from the brief to the work on site."
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/erp_rollout.json
+msgid "A business moved onto a new ERP, from the first workshop to life after go-live."
+msgstr ""
+
 #. Description of the 'Kind' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "A cache read is a third thing, not a cheaper input."
@@ -322,6 +339,11 @@ msgstr ""
 
 #: onedesk/one_crm/record.py:164
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "A campaign planned, made, run and measured."
 msgstr ""
 
 #. Description of the 'Held' (Float) field in DocType 'Credit Reservation'
@@ -334,7 +356,7 @@ msgstr ""
 msgid "A chart a module registered by name. It works out its own figures, as the reader."
 msgstr ""
 
-#: onedesk/one/reports.py:64
+#: onedesk/one/reports.py:40
 msgid "A chart or a card here counts records, or reads a report."
 msgstr ""
 
@@ -362,6 +384,16 @@ msgstr ""
 
 #: onedesk/one_studio/record_types.py:88
 msgid "A collection's name is 3 to 60 letters, numbers and spaces."
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/website.json
+msgid "A company website, from the first workshop to launch."
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/event.json
+msgid "A conference, launch or company event, from the idea to the thank-you mails."
 msgstr ""
 
 #: onedesk/one_studio/places.py:30
@@ -494,7 +526,7 @@ msgstr ""
 msgid "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
 msgstr ""
 
-#: onedesk/one/printing.py:607
+#: onedesk/one/printing.py:584
 msgid "A font is a Google Font's name, such as Playfair Display."
 msgstr ""
 
@@ -528,8 +560,8 @@ msgstr ""
 msgid "A late customer is reminded"
 msgstr ""
 
-#: onedesk/one/printing.py:549 onedesk/one/printing.py:639
-#: onedesk/one/printing.py:642
+#: onedesk/one/printing.py:526 onedesk/one/printing.py:616
+#: onedesk/one/printing.py:619
 msgid "A layout has sections, each of columns of blocks."
 msgstr ""
 
@@ -537,27 +569,27 @@ msgstr ""
 msgid "A lead cannot be merged into itself."
 msgstr ""
 
-#: onedesk/one/printing.py:320
+#: onedesk/one/printing.py:297
 msgid "A letter head may not run a script."
 msgstr ""
 
-#: onedesk/one/printing.py:330
+#: onedesk/one/printing.py:307
 msgid "A letter head needs its image, uploaded here."
 msgstr ""
 
-#: onedesk/one/printing.py:335
+#: onedesk/one/printing.py:312
 msgid "A letter head's footer is an image uploaded here."
 msgstr ""
 
-#: onedesk/one/printing.py:345
+#: onedesk/one/printing.py:322
 msgid "A letter head's header and footer are each a picture or HTML."
 msgstr ""
 
-#: onedesk/one/printing.py:328
+#: onedesk/one/printing.py:305
 msgid "A letter head's header needs something to print."
 msgstr ""
 
-#: onedesk/one/printing.py:324
+#: onedesk/one/printing.py:301
 msgid "A letter head's name may not contain quotes or angle brackets."
 msgstr ""
 
@@ -631,7 +663,7 @@ msgstr ""
 msgid "A month, in the price list's currency. The Price Check and the Plan Calculator price from these."
 msgstr ""
 
-#: onedesk/public/js/project_new.js:31
+#: onedesk/public/js/project_new.js:47
 msgid "A monthly fee for a set number of hours."
 msgstr ""
 
@@ -642,6 +674,11 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one_hr/check_in_place_proposed.md
 msgid "A new check-in network or location was proposed"
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/client_onboarding.json
+msgid "A new client welcomed and set up, from the signed contract to the first review."
 msgstr ""
 
 #: onedesk/one/customize.py:391 onedesk/one/customize.py:577
@@ -714,8 +751,12 @@ msgstr ""
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr ""
 
-#: onedesk/one/printing.py:503
+#: onedesk/one/printing.py:480
 msgid "A print format needs a name."
+msgstr ""
+
+#: onedesk/one_studio/places.py:142
+msgid "A project template's page is opened, and each time the template changes."
 msgstr ""
 
 #: onedesk/one_studio/places.py:127
@@ -740,7 +781,7 @@ msgstr ""
 msgid "A record of something that happened to a workspace."
 msgstr ""
 
-#: onedesk/one/numbering.py:194
+#: onedesk/one/numbering.py:191
 msgid "A record type named by series needs at least one series."
 msgstr ""
 
@@ -756,7 +797,7 @@ msgstr ""
 msgid "A reply to {0}"
 msgstr ""
 
-#: onedesk/one/reports.py:54
+#: onedesk/one/reports.py:30
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr ""
 
@@ -770,7 +811,7 @@ msgstr ""
 msgid "A retried webhook meets this index rather than a check somebody remembered to write."
 msgstr ""
 
-#: onedesk/one/numbering.py:661
+#: onedesk/one/numbering.py:654
 msgid "A rule can only look at an ordinary field of the record, not {0}."
 msgstr ""
 
@@ -778,7 +819,7 @@ msgstr ""
 msgid "A rule can only watch records you can open yourself."
 msgstr ""
 
-#: onedesk/one/numbering.py:664
+#: onedesk/one/numbering.py:657
 msgid "A rule compares with one of {0}."
 msgstr ""
 
@@ -802,11 +843,11 @@ msgstr ""
 msgid "A rule's condition is chosen from the record's fields, not written as code."
 msgstr ""
 
-#: onedesk/one/numbering.py:656
+#: onedesk/one/numbering.py:649
 msgid "A rule's number has between 1 and 10 digits."
 msgstr ""
 
-#: onedesk/one/numbering.py:653
+#: onedesk/one/numbering.py:646
 msgid "A rule's prefix is the text before the number, such as RET-.YYYY.-"
 msgstr ""
 
@@ -873,12 +914,29 @@ msgstr ""
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr ""
 
+#: onedesk/one_project/template_view.py:121
+msgid "A task cannot go under itself."
+msgstr ""
+
+#: onedesk/one_project/template_view.py:143
+msgid "A task cannot wait on itself."
+msgstr ""
+
 #: onedesk/one_project/naming.py:19
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr ""
 
-#: onedesk/one/mail_templates.py:94
+#. What a project template is for
+#: onedesk/one_project/library/office_move.json
+msgid "A team moved to new premises without losing a working day."
+msgstr ""
+
+#: onedesk/one/mail_templates.py:91
 msgid "A template can name a field of the record, as {{ customer_name }}, and nothing else."
+msgstr ""
+
+#: onedesk/one_project/templates.py:46
+msgid "A template task cannot begin before the project or last fewer than no days."
 msgstr ""
 
 #: onedesk/one_storage/ready.py:41
@@ -894,15 +952,15 @@ msgstr ""
 msgid "A verb a module registered by name. It says itself when it can be done and what it asks."
 msgstr ""
 
-#: onedesk/one/webhooks.py:76
+#: onedesk/one/webhooks.py:70
 msgid "A webhook can only be on a record type you can open."
 msgstr ""
 
-#: onedesk/one/webhooks.py:81
+#: onedesk/one/webhooks.py:75
 msgid "A webhook here sends every record. To send only some, use an automation with a Call Webhook step."
 msgstr ""
 
-#: onedesk/one/webhooks.py:63
+#: onedesk/one/webhooks.py:57
 msgid "A webhook is sent over https."
 msgstr ""
 
@@ -914,7 +972,7 @@ msgstr ""
 msgid "A workspace customizes with fields and settings, never with code."
 msgstr ""
 
-#: onedesk/one/printing.py:318
+#: onedesk/one/printing.py:295
 msgid "A workspace makes its own letter heads."
 msgstr ""
 
@@ -1211,6 +1269,21 @@ msgstr ""
 msgid "Accounts Settings"
 msgstr ""
 
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Accounts and access given"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Accounts approved and signed"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Accruals and prepayments"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Accrued Earnings"
@@ -1254,16 +1327,16 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/project/Invoices.vue:54 frontend/src/project/Suppliers.vue:64
-#: frontend/src/project/Suppliers.vue:105 onedesk/one/sidebar/one/one.json
-#: onedesk/public/js/project.js:25 onedesk/public/js/project.js:30
-#: onedesk/public/js/project.js:32 onedesk/public/js/project.js:47
-#: onedesk/public/js/project.js:51 onedesk/public/js/project.js:76
-#: onedesk/public/js/settings.js:982 onedesk/public/js/settings.js:992
-#: onedesk/public/js/settings.js:1003 onedesk/public/js/settings.js:1015
-#: onedesk/public/js/settings.js:1024 onedesk/public/js/settings.js:1260
-#: onedesk/public/js/settings.js:1309 onedesk/public/js/settings.js:1341
-#: onedesk/public/js/settings.js:2585 onedesk/public/js/settings.js:3202
-#: onedesk/public/js/settings.js:3259
+#: frontend/src/project/Suppliers.vue:105 frontend/src/template/Tasks.vue:85
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:25
+#: onedesk/public/js/project.js:30 onedesk/public/js/project.js:32
+#: onedesk/public/js/project.js:47 onedesk/public/js/project.js:51
+#: onedesk/public/js/project.js:76 onedesk/public/js/settings.js:982
+#: onedesk/public/js/settings.js:992 onedesk/public/js/settings.js:1003
+#: onedesk/public/js/settings.js:1015 onedesk/public/js/settings.js:1024
+#: onedesk/public/js/settings.js:1260 onedesk/public/js/settings.js:1309
+#: onedesk/public/js/settings.js:1341 onedesk/public/js/settings.js:2585
+#: onedesk/public/js/settings.js:3202 onedesk/public/js/settings.js:3259
 msgid "Actions"
 msgstr ""
 
@@ -1287,7 +1360,7 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:191
 #: frontend/src/project/TaskPanel.vue:104 frontend/src/project/Time.vue:29
 #: frontend/src/project/Time.vue:87 onedesk/one/tabs.py:15
-#: onedesk/public/js/onecloud.js:730 onedesk/public/js/project_actions.js:314
+#: onedesk/public/js/onecloud.js:730 onedesk/public/js/project_actions.js:322
 msgid "Activity"
 msgstr ""
 
@@ -1337,18 +1410,18 @@ msgstr ""
 msgid "Add Collection"
 msgstr ""
 
-#: frontend/src/project/Team.vue:52 onedesk/public/js/project_actions.js:393
-#: onedesk/public/js/project_actions.js:414
+#: frontend/src/project/Team.vue:52 onedesk/public/js/project_actions.js:401
+#: onedesk/public/js/project_actions.js:422
 msgid "Add Contact"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:240
-#: onedesk/public/js/project_actions.js:152
-#: onedesk/public/js/project_actions.js:183
+#: onedesk/public/js/project_actions.js:160
+#: onedesk/public/js/project_actions.js:191
 msgid "Add Contract"
 msgstr ""
 
-#: frontend/src/project/Money.vue:22 onedesk/public/js/project_actions.js:256
+#: frontend/src/project/Money.vue:22 onedesk/public/js/project_actions.js:264
 msgid "Add Cost Type"
 msgstr ""
 
@@ -1372,8 +1445,8 @@ msgstr ""
 msgid "Add Folder"
 msgstr ""
 
-#: frontend/src/project/Team.vue:10 onedesk/public/js/project_actions.js:365
-#: onedesk/public/js/project_actions.js:376
+#: frontend/src/project/Team.vue:10 onedesk/public/js/project_actions.js:373
+#: onedesk/public/js/project_actions.js:384
 msgid "Add Member"
 msgstr ""
 
@@ -1382,8 +1455,8 @@ msgid "Add Memory"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:52 frontend/src/project/Overview.vue:74
-#: onedesk/public/js/project_actions.js:540
-#: onedesk/public/js/project_actions.js:561
+#: onedesk/public/js/project_actions.js:548
+#: onedesk/public/js/project_actions.js:569
 msgid "Add Milestone"
 msgstr ""
 
@@ -1426,12 +1499,18 @@ msgstr ""
 msgid "Add Supplier"
 msgstr ""
 
-#: frontend/src/project/Tasks.vue:77
+#: frontend/src/project/Tasks.vue:77 frontend/src/template/Tasks.vue:97
+#: frontend/src/template/TemplatePage.vue:113
 #: onedesk/one_task/page/my_tasks/my_tasks.js:40
 msgid "Add Task"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:90
+#: frontend/src/template/Tasks.vue:158
+#: frontend/src/template/TemplatePage.vue:112
+msgid "Add Task Under"
+msgstr ""
+
+#: onedesk/public/js/project_actions.js:86
 msgid "Add Tasks"
 msgstr ""
 
@@ -1465,7 +1544,7 @@ msgstr ""
 msgid "Add a lead from each of these business cards."
 msgstr ""
 
-#: onedesk/one/automations.py:127
+#: onedesk/one/automations.py:121
 msgid "Add a number to a field on the target document."
 msgstr ""
 
@@ -1524,7 +1603,7 @@ msgid "Add at least one rate to a model priced by hand."
 msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:334
-#: onedesk/public/js/project_actions.js:89
+#: onedesk/public/js/project_actions.js:80
 msgid "Add from Template"
 msgstr ""
 
@@ -1597,7 +1676,7 @@ msgstr ""
 msgid "Added"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:86
+#: onedesk/public/js/project_actions.js:94
 msgid "Added 1 task"
 msgstr ""
 
@@ -1657,7 +1736,7 @@ msgstr ""
 msgid "Added up from the rows below."
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:86
+#: onedesk/public/js/project_actions.js:94
 msgid "Added {0} tasks"
 msgstr ""
 
@@ -1727,9 +1806,19 @@ msgstr ""
 msgid "Addresses and Contacts"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Addresses changed with suppliers, banks and authorities"
+msgstr ""
+
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Addresses employees may check in from."
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Adjustments posted"
 msgstr ""
 
 #: onedesk/one/settings.py:1070 onedesk/public/js/settings.js:958
@@ -1746,6 +1835,11 @@ msgstr ""
 msgid "Administrators"
 msgstr ""
 
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Ads set up"
+msgstr ""
+
 #: frontend/src/project/Suppliers.vue:180
 msgid "Advance"
 msgstr ""
@@ -1757,7 +1851,9 @@ msgid "Advertising"
 msgstr ""
 
 #. Label of the after (JSON) field in DocType 'Intake Action'
+#. Task in the Event project template
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
+#: onedesk/one_project/library/event.json
 msgid "After"
 msgstr ""
 
@@ -1886,7 +1982,7 @@ msgstr ""
 msgid "All Events"
 msgstr ""
 
-#: onedesk/public/js/project_places.js:53 onedesk/public/js/project_tree.js:8
+#: onedesk/public/js/project_places.js:54 onedesk/public/js/project_tree.js:8
 msgid "All Projects"
 msgstr ""
 
@@ -2022,6 +2118,11 @@ msgstr ""
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr ""
 
+#. Name of a project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Aluminium & Glazing"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:1067
 msgid "Always"
 msgstr ""
@@ -2053,7 +2154,7 @@ msgstr ""
 #. Label of the amount (Float) field in DocType 'Reading Line'
 #. Label in the One Purchase Order print format
 #: frontend/src/project/Suppliers.vue:129 frontend/src/project/Time.vue:32
-#: onedesk/one/automations.py:136
+#: onedesk/one/automations.py:130
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:272
@@ -2098,11 +2199,11 @@ msgstr ""
 msgid "An add-on must be recurring."
 msgstr ""
 
-#: onedesk/one/masters.py:313
+#: onedesk/one/masters.py:286
 msgid "An address has no field {0}."
 msgstr ""
 
-#: onedesk/one/masters.py:311
+#: onedesk/one/masters.py:284
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr ""
 
@@ -2127,12 +2228,17 @@ msgstr ""
 msgid "An administrator reviews the request. Then you're signed out, and your OneAI chats, memory, notifications and devices are deleted."
 msgstr ""
 
-#: onedesk/public/js/project_new.js:28
+#: onedesk/public/js/project_new.js:44
 msgid "An agreed price, billed as the work gets done. Subcontracts and a budget."
 msgstr ""
 
-#: onedesk/public/js/project_new.js:27
+#: onedesk/public/js/project_new.js:43
 msgid "An agreed price, billed as the work gets done. Subcontracts, retention and a budget."
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/mobile_app.json
+msgid "An app for iPhone and Android, from the idea to the stores."
 msgstr ""
 
 #. Description of the 'Approved Request' (Link) field in DocType 'Clock
@@ -2151,7 +2257,7 @@ msgstr ""
 msgid "An authenticator app on their phone, or a code by email."
 msgstr ""
 
-#: onedesk/one/automations.py:95
+#: onedesk/one/automations.py:89
 msgid "An automation here decides by its field rules, not by code."
 msgstr ""
 
@@ -2185,7 +2291,7 @@ msgstr ""
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr ""
 
-#: onedesk/one_studio/places.py:142
+#: onedesk/one_studio/places.py:153
 msgid "An event's card is opened in OneCalendar."
 msgstr ""
 
@@ -2201,6 +2307,11 @@ msgstr ""
 msgid "An extension runs on the screen or on the server."
 msgstr ""
 
+#. What a project template is for
+#: onedesk/one_project/library/small_building_works.json
+msgid "An extension, a villa renovation or a small new building."
+msgstr ""
+
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
 #: onedesk/one_hr/hiring.py:518
 msgid "An interview is only recorded once the candidate has agreed."
@@ -2208,6 +2319,11 @@ msgstr ""
 
 #: onedesk/one_inventory/ready.py:66
 msgid "An item can have serial numbers or batches."
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "An office, shop or restaurant fitted out inside a shell, from survey to handover."
 msgstr ""
 
 #: onedesk/one/signin.py:44
@@ -2233,7 +2349,7 @@ msgstr ""
 msgid "Announcements"
 msgstr ""
 
-#: onedesk/one/privacy.py:258
+#: onedesk/one/privacy.py:243
 msgid "Another administrator approves deleting your own account."
 msgstr ""
 
@@ -2330,6 +2446,11 @@ msgstr ""
 msgid "App"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "App screens"
+msgstr ""
+
 #: onedesk/public/js/setup_wizard.js:24
 msgid "Appearance"
 msgstr ""
@@ -2400,6 +2521,11 @@ msgstr ""
 
 #: onedesk/public/js/employee.js:13
 msgid "Apply for Leave"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Appoint mechanical and electrical subcontractors"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -2483,6 +2609,11 @@ msgstr ""
 msgid "Approve bills by amount"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Approve the site mock-up"
+msgstr ""
+
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
 #: onedesk/public/js/oneai/Record.vue:177
@@ -2494,7 +2625,12 @@ msgstr ""
 msgid "Approved Request"
 msgstr ""
 
-#: onedesk/one/privacy.py:262 onedesk/one/privacy_copy.py:339
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Approved and live"
+msgstr ""
+
+#: onedesk/one/privacy.py:247 onedesk/one/privacy_copy.py:339
 msgid "Approved by {0}"
 msgstr ""
 
@@ -2531,6 +2667,11 @@ msgstr ""
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Architect"
+msgstr ""
+
+#. Name of a project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Architectural Design Stages"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
@@ -2646,7 +2787,7 @@ msgstr ""
 msgid "As the workspace last measured it."
 msgstr ""
 
-#: onedesk/one/numbering.py:427
+#: onedesk/one/numbering.py:424
 msgid "As {0} names it now"
 msgstr ""
 
@@ -2678,7 +2819,7 @@ msgstr ""
 msgid "Ask about this page, look something up, or have a change suggested."
 msgstr ""
 
-#: onedesk/one/privacy.py:195
+#: onedesk/one/privacy.py:180
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
@@ -2688,7 +2829,7 @@ msgid "Ask an administrator for access."
 msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:321
-#: onedesk/public/js/project_actions.js:598
+#: onedesk/public/js/project_actions.js:606
 msgid "Ask for Updates"
 msgstr ""
 
@@ -2804,6 +2945,11 @@ msgstr ""
 msgid "Asks To"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Assemble frames"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Asset Balances"
@@ -2852,7 +2998,7 @@ msgstr ""
 msgid "Assign"
 msgstr ""
 
-#: onedesk/one/automations.py:137
+#: onedesk/one/automations.py:131
 msgid "Assign To"
 msgstr ""
 
@@ -2860,11 +3006,11 @@ msgstr ""
 msgid "Assign a Salary Structure"
 msgstr ""
 
-#: onedesk/one/automations.py:129
+#: onedesk/one/automations.py:123
 msgid "Assign the document to user(s)."
 msgstr ""
 
-#: onedesk/one/automations.py:128
+#: onedesk/one/automations.py:122
 msgid "Assign to User"
 msgstr ""
 
@@ -2876,7 +3022,7 @@ msgstr ""
 msgid "Assigned to Me"
 msgstr ""
 
-#: onedesk/one/automations.py:145 onedesk/one/settings.py:2003
+#: onedesk/one/automations.py:139 onedesk/one/settings.py:2003
 msgid "Assignees"
 msgstr ""
 
@@ -3015,7 +3161,7 @@ msgstr ""
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/public/js/project_new.js:133
+#: onedesk/public/js/project_new.js:151
 msgid "Attendance on Site"
 msgstr ""
 
@@ -3028,6 +3174,11 @@ msgstr ""
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Audience"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Audience and message"
 msgstr ""
 
 #. Label of the reads_audio (Check) field in DocType 'AI Model'
@@ -3066,6 +3217,11 @@ msgstr ""
 msgid "Audit What OneAI Does"
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Audit plan agreed with the auditors"
+msgstr ""
+
 #: onedesk/one_intake/page/intake/intake.js:201
 msgid "Auditor Approved"
 msgstr ""
@@ -3077,6 +3233,11 @@ msgstr ""
 #. Label of the audit_why (Small Text) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Auditor's Reason"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Auditors on site"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:34
@@ -3095,6 +3256,11 @@ msgstr ""
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Authority"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Authority inspection"
 msgstr ""
 
 #. Label of the one_close_the_day (Check) field in DocType 'HR Settings'
@@ -3195,6 +3361,11 @@ msgstr ""
 msgid "Backed Up"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Backend and data"
+msgstr ""
+
 #. Label of the 'profile_tab' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Background"
@@ -3270,6 +3441,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Transactions"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Bank and cash reconciled"
 msgstr ""
 
 #: onedesk/one_book/ready.py:101 onedesk/one_book/ready.py:103
@@ -3382,6 +3558,10 @@ msgstr ""
 msgid "Before some of the workspace's OneAI credits expire, a week ahead."
 msgstr ""
 
+#: frontend/src/template/Tasks.vue:47
+msgid "Begins on Day"
+msgstr ""
+
 #: onedesk/one_admin/accounts.py:124 onedesk/one_admin/accounts.py:125
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:14
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:21
@@ -3441,26 +3621,31 @@ msgstr ""
 msgid "Benefit Claim"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Beta with real users"
+msgstr ""
+
 #: frontend/src/project/Suppliers.vue:76
 msgid "Bill"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:160 onedesk/public/js/project_new.js:80
+#: onedesk/public/js/project_actions.js:168 onedesk/public/js/project_new.js:96
 msgid "Bill As"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:122
+#: onedesk/public/js/project_actions.js:130
 msgid "Bill Costs"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:126
+#: onedesk/public/js/project_actions.js:134
 msgid "Bill Costs As"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:30
 #: frontend/src/project/ProjectPage.vue:345
 #: frontend/src/project/Suppliers.vue:67 onedesk/public/js/progress.js:20
-#: onedesk/public/js/progress.js:33 onedesk/public/js/project_actions.js:512
+#: onedesk/public/js/progress.js:33 onedesk/public/js/project_actions.js:520
 msgid "Bill Progress"
 msgstr ""
 
@@ -3478,21 +3663,21 @@ msgstr ""
 
 #. Label of the one_bill_share (Percent) field in DocType 'Task'
 #: frontend/src/project/TaskPanel.vue:41 onedesk/one_project/custom/task.json
-#: onedesk/public/js/project_actions.js:556
+#: onedesk/public/js/project_actions.js:564
 msgid "Bill on Completion"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:468
+#: onedesk/public/js/project_actions.js:476
 msgid "Bill the hours over"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:492
+#: onedesk/public/js/project_actions.js:500
 msgid "Bill the {0} h over, {1}"
 msgstr ""
 
 #. Label of the 'billing_details' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
-#: onedesk/public/js/project_actions.js:349
+#: onedesk/public/js/project_actions.js:357
 msgid "Billable"
 msgstr ""
 
@@ -3541,7 +3726,7 @@ msgstr ""
 msgid "Billed To"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:30
+#: onedesk/public/js/project_new.js:46
 msgid "Billed by the hour at agreed rates, plus what's bought for it."
 msgstr ""
 
@@ -3621,6 +3806,11 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:355
 msgid "Blocked in this browser"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Blockwork and columns"
 msgstr ""
 
 #: onedesk/public/js/settings.js:3061
@@ -3729,9 +3919,16 @@ msgstr ""
 msgid "Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
 #: frontend/src/project/Overview.vue:14
-#: onedesk/public/js/project_actions.js:664
+#: onedesk/one_project/library/architectural_design.json
+#: onedesk/public/js/project_actions.js:672
 msgid "Brief"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Brief and goals"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
@@ -3750,15 +3947,32 @@ msgstr ""
 #. Label of the 'estimated_costing' field in DocType 'Project'
 #: frontend/src/project/Money.vue:28 frontend/src/project/Money.vue:76
 #: frontend/src/project/Overview.vue:41 onedesk/one_project/custom/project.json
-#: onedesk/public/js/project_actions.js:231
-#: onedesk/public/js/project_actions.js:232
-#: onedesk/public/js/project_actions.js:268
-#: onedesk/public/js/project_new.js:102
+#: onedesk/public/js/project_actions.js:239
+#: onedesk/public/js/project_actions.js:240
+#: onedesk/public/js/project_actions.js:276
+#: onedesk/public/js/project_new.js:118
 msgid "Budget"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:152
 msgid "Budget Used"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Budget and channels agreed"
+msgstr ""
+
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Bugs fixed"
+msgstr ""
+
+#. Task in the Mobile App project template
+#. Task in the Website project template
+#: onedesk/one_project/library/mobile_app.json
+#: onedesk/one_project/library/website.json
+msgid "Build"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:642 onedesk/one_admin/home.py:187
@@ -3775,6 +3989,16 @@ msgstr ""
 #: onedesk/one_admin/number_card/building_now/building_now.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Building"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Building permit"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Building regulations approval"
 msgstr ""
 
 #: onedesk/one_admin/home.py:32
@@ -3934,7 +4158,7 @@ msgstr ""
 msgid "Call"
 msgstr ""
 
-#: onedesk/one/automations.py:130
+#: onedesk/one/automations.py:124
 msgid "Call Webhook"
 msgstr ""
 
@@ -3961,6 +4185,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Campaign Efficiency"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Campaign live"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -4106,8 +4335,18 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Catering, sound and furniture booked"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:558
 msgid "Cc"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Ceilings and wall boards"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2260
@@ -4552,6 +4791,16 @@ msgstr ""
 msgid "Clear selection"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Clickable prototype tested with users"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Client review and fixes"
+msgstr ""
+
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Client's Representative"
@@ -4637,6 +4886,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1739
 msgid "Close request"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Close the Year"
 msgstr ""
 
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
@@ -4893,13 +5147,18 @@ msgstr ""
 #: onedesk/one_storage/history.py:201 onedesk/one_storage/namespace.py:369
 #: onedesk/one_storage/namespace.py:509 onedesk/one_storage/namespace.py:610
 #: onedesk/one_storage/namespace.py:815
-#: onedesk/public/js/project_actions.js:407 onedesk/public/js/settings.js:864
+#: onedesk/public/js/project_actions.js:415 onedesk/public/js/settings.js:864
 #: onedesk/public/js/settings.js:872
 msgid "Company"
 msgstr ""
 
 #: onedesk/one_calendar/events.py:35
 msgid "Company Events"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Company, chart of accounts and taxes"
 msgstr ""
 
 #: onedesk/one_hr/ai.py:199
@@ -4926,8 +5185,15 @@ msgid "Completed"
 msgstr ""
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
+#. Task in the Small Building Works project template
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_project/library/small_building_works.json
 msgid "Completion"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Completion certificate and handover"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:44
@@ -4936,6 +5202,16 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1782
 msgid "Computer"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Concept Design"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Concept presented to the client"
 msgstr ""
 
 #: onedesk/one/ai.py:4069 onedesk/public/js/settings.js:3268
@@ -5020,10 +5296,15 @@ msgstr ""
 msgid "Confirmation Threshold"
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Confirmations sent to banks, customers and suppliers"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one/portal.py:238 onedesk/one/portal.py:239
-#: onedesk/one/privacy.py:203
+#: onedesk/one/privacy.py:188
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Confirmed"
@@ -5093,16 +5374,31 @@ msgstr ""
 msgid "Consent Confirmed On"
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Construction Support"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Construction drawings"
+msgstr ""
+
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Consultant"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Consultants coordinated"
 msgstr ""
 
 #. Label of the 'contact_details' field in DocType 'Employee'
 #. Label of the contact (Link) field in DocType 'Project Contact'
 #: frontend/src/project/Team.vue:57 onedesk/one_hr/custom/employee.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
-#: onedesk/public/js/project_actions.js:411
+#: onedesk/public/js/project_actions.js:419
 msgid "Contact"
 msgstr ""
 
@@ -5127,9 +5423,29 @@ msgstr ""
 msgid "Contacts and addresses with your address"
 msgstr ""
 
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Content"
+msgstr ""
+
 #. Label of the content_hash (Data) field in DocType 'Cloud File Version'
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 msgid "Content Hash"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Content approved"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Content entered"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Content inventory"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1988
@@ -5158,12 +5474,32 @@ msgstr ""
 msgid "Contract Number"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:156 onedesk/public/js/project_new.js:76
+#: onedesk/public/js/project_actions.js:164 onedesk/public/js/project_new.js:92
 msgid "Contract Value"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Contract and first invoice"
 msgstr ""
 
 #: onedesk/one_project/status.py:126
 msgid "Contract not invoiced yet"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Contract review and kick-off"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Contractor and price agreed"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Contractor questions answered"
 msgstr ""
 
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
@@ -5212,6 +5548,15 @@ msgstr ""
 msgid "Copy Of"
 msgstr ""
 
+#: onedesk/public/js/project_template_list.js:11
+msgid "Copy Template"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Copy and designs"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1788
 msgid "Copy it now. It won't be shown again."
 msgstr ""
@@ -5235,6 +5580,11 @@ msgstr ""
 
 #: onedesk/public/js/record.js:154
 msgid "Copy to Clipboard"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Copy written"
 msgstr ""
 
 #. Label of the what (Select) field in DocType 'Intake Lesson'
@@ -5262,12 +5612,17 @@ msgstr ""
 msgid "Cost Centers"
 msgstr ""
 
-#: frontend/src/project/Money.vue:27 onedesk/public/js/project_actions.js:261
+#: frontend/src/project/Money.vue:27 onedesk/public/js/project_actions.js:269
 msgid "Cost Type"
 msgstr ""
 
 #: frontend/src/project/Money.vue:21
 msgid "Cost Types"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Cost plan updated"
 msgstr ""
 
 #. Label of the costs_section (Section Break) field in DocType 'One Admin
@@ -5389,17 +5744,19 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Task in the Marketing Campaign project template
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_project/library/marketing_campaign.json
 #: onedesk/public/js/doctype_settings.js:318
 #: onedesk/public/js/doctype_settings.js:554
 #: onedesk/public/js/doctype_settings.js:889 onedesk/public/js/onecloud.js:1470
 #: onedesk/public/js/onecloud.js:1794 onedesk/public/js/opportunity.js:18
 #: onedesk/public/js/opportunity.js:19 onedesk/public/js/progress.js:20
 #: onedesk/public/js/progress.js:74 onedesk/public/js/project_actions.js:44
-#: onedesk/public/js/project_actions.js:134
-#: onedesk/public/js/project_actions.js:470 onedesk/public/js/settings.js:1113
+#: onedesk/public/js/project_actions.js:142
+#: onedesk/public/js/project_actions.js:478 onedesk/public/js/settings.js:1113
 #: onedesk/public/js/settings.js:1219 onedesk/public/js/settings.js:2217
 msgid "Create"
 msgstr ""
@@ -5408,7 +5765,7 @@ msgstr ""
 msgid "Create Again"
 msgstr ""
 
-#: onedesk/one/automations.py:124
+#: onedesk/one/automations.py:118
 msgid "Create Document"
 msgstr ""
 
@@ -5428,11 +5785,11 @@ msgstr ""
 msgid "Create Next Year's List"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:217
+#: onedesk/public/js/project_new.js:236
 msgid "Create Project"
 msgstr ""
 
-#: onedesk/one/automations.py:125
+#: onedesk/one/automations.py:119
 msgid "Create a new document."
 msgstr ""
 
@@ -5479,6 +5836,11 @@ msgstr ""
 
 #: onedesk/one_admin/steps.py:50
 msgid "Creating the site"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Creative concept"
 msgstr ""
 
 #. Label of the key_section (Section Break) field in DocType 'Clock Device'
@@ -5665,6 +6027,11 @@ msgstr ""
 msgid "Current plan"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Current processes mapped"
+msgstr ""
+
 #. Label of the was (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Currently"
@@ -5721,7 +6088,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_project/tree.py:197 onedesk/public/js/project_new.js:67
+#: onedesk/one_project/tree.py:197 onedesk/public/js/project_new.js:83
 msgid "Customer"
 msgstr ""
 
@@ -5760,6 +6127,11 @@ msgstr ""
 msgid "Cut 1 item"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Cut and machine profiles"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1063
 msgid "Cut {0} items"
 msgstr ""
@@ -5776,6 +6148,11 @@ msgstr ""
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Daily"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Daily support for the first two weeks"
 msgstr ""
 
 #: onedesk/one/ai_setup.py:374
@@ -5846,9 +6223,14 @@ msgstr ""
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/report/deadlines/deadlines.py:34
 #: onedesk/public/js/onemail.js:799 onedesk/public/js/overtime.js:25
-#: onedesk/public/js/project_actions.js:311 onedesk/public/js/settings.js:1618
+#: onedesk/public/js/project_actions.js:319 onedesk/public/js/settings.js:1618
 #: onedesk/public/js/settings.js:1751
 msgid "Date"
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Date and venue booked"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:344
@@ -5888,6 +6270,10 @@ msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:44
 msgid "Day Starts"
+msgstr ""
+
+#: frontend/src/template/Tasks.vue:126
+msgid "Day {0}"
 msgstr ""
 
 #: onedesk/one/settings.py:1999
@@ -6071,6 +6457,11 @@ msgstr ""
 msgid "Deductions"
 msgstr ""
 
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Deep clean"
+msgstr ""
+
 #: onedesk/one/ai.py:2721 onedesk/public/js/ai_model_list.js:17
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:398
@@ -6135,6 +6526,7 @@ msgid "Default: {0}"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#: frontend/src/template/Tasks.vue:161
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:30
@@ -6199,6 +6591,10 @@ msgstr ""
 
 #: onedesk/one_ai/proposals.py:561 onedesk/public/js/oneai/Record.vue:152
 msgid "Delete {0}"
+msgstr ""
+
+#: frontend/src/template/TemplatePage.vue:118
+msgid "Delete {0} and the tasks under it?"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1240
@@ -6291,6 +6687,11 @@ msgstr ""
 msgid "Deliver To"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Deliver to site"
+msgstr ""
+
 #: onedesk/one/portal.py:240 onedesk/one/portal.py:241
 #: onedesk/one/portal.py:242 onedesk/one/portal.py:247
 #: onedesk/one_project/money.py:138
@@ -6378,17 +6779,24 @@ msgstr ""
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
 #. Label of the description (Small Text) field in DocType 'Record Type'
-#: frontend/src/project/TaskPanel.vue:71 onedesk/one/automations.py:138
+#: frontend/src/project/TaskPanel.vue:71 onedesk/one/automations.py:132
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:480
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 #: onedesk/one_studio/ai.py:452
 #: onedesk/one_studio/doctype/record_type/record_type.json
-#: onedesk/public/js/project_actions.js:347
-#: onedesk/public/js/project_actions.js:701 onedesk/public/js/settings.js:1619
+#: onedesk/public/js/project_actions.js:355
+#: onedesk/public/js/project_actions.js:709 onedesk/public/js/settings.js:1619
 #: onedesk/public/js/settings.js:3083 onedesk/public/js/settings.js:3257
 msgid "Description"
+msgstr ""
+
+#. Task in the Mobile App project template
+#. Task in the Website project template
+#: onedesk/one_project/library/mobile_app.json
+#: onedesk/one_project/library/website.json
+msgid "Design"
 msgstr ""
 
 #: onedesk/one/ai.py:143
@@ -6407,6 +6815,16 @@ msgstr ""
 msgid "Design a letter head in HTML from the company's details in Workspace › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr ""
 
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Design and finishes approved by the client"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Design signed off by the client"
+msgstr ""
+
 #: onedesk/one/masters.py:35
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:25
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:169
@@ -6419,6 +6837,11 @@ msgstr ""
 
 #: onedesk/one/ai.py:2699 onedesk/one/ai.py:2718
 msgid "Designed in HTML"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Designs approved"
 msgstr ""
 
 #. Name of a role
@@ -6443,8 +6866,13 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/intake.js:63 onedesk/public/js/onecloud.js:160
-#: onedesk/public/js/onecloud.js:1944 onedesk/public/js/project_new.js:159
+#: onedesk/public/js/onecloud.js:1944 onedesk/public/js/project_new.js:177
 msgid "Details"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Developed Design"
 msgstr ""
 
 #. Label of the label (Data) field in DocType 'Push Device'
@@ -6486,6 +6914,7 @@ msgid "Disable {0}? They're signed out and can't sign in. Their records stay."
 msgstr ""
 
 #. Label of the disabled (Check) field in DocType 'Cloud Link'
+#: frontend/src/template/TemplatePage.vue:91
 #: onedesk/one_admin/doctype/offering/offering_list.js:15
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/public/js/doctype_settings.js:1105 onedesk/public/js/settings.js:936
@@ -6517,6 +6946,13 @@ msgstr ""
 
 #: onedesk/one/portal.py:367 onedesk/one/print_blocks.py:236
 msgid "Discount"
+msgstr ""
+
+#. Task in the Mobile App project template
+#. Task in the Website project template
+#: onedesk/one_project/library/mobile_app.json
+#: onedesk/one_project/library/website.json
+msgid "Discovery"
 msgstr ""
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
@@ -6590,7 +7026,7 @@ msgstr ""
 
 #. Label of the for_doctype (Link) field in DocType 'AI Touch'
 #. Label of the document_type (Link) field in DocType 'Reading'
-#: onedesk/one/automations.py:135 onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/one/automations.py:129 onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/panel.py:144
 #: onedesk/one_intake/report/deadlines/deadlines.py:38
@@ -6602,7 +7038,7 @@ msgstr ""
 msgid "Document not found"
 msgstr ""
 
-#: onedesk/one/automations.py:144
+#: onedesk/one/automations.py:138
 msgid "Document owner"
 msgstr ""
 
@@ -6653,6 +7089,11 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2552
 msgid "Domain added. It works a few minutes after the DNS record is set."
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Domain and go live"
 msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
@@ -6773,6 +7214,11 @@ msgstr ""
 msgid "Draft a short follow-up email to them from this deal's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Draft accounts"
+msgstr ""
+
 #: onedesk/one_hr/ai.py:131
 msgid "Draft my feedback"
 msgstr ""
@@ -6817,6 +7263,11 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/public/js/onemail.js:35
 msgid "Drafts"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Drawings and samples approved by the consultant"
 msgstr ""
 
 #. Label of the against (Link) field in DocType 'Credit Ledger Entry'
@@ -6870,7 +7321,7 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:206 onedesk/one/print_blocks.py:37
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/public/js/onecloud.js:1633 onedesk/public/js/project_actions.js:552
+#: onedesk/public/js/onecloud.js:1633 onedesk/public/js/project_actions.js:560
 msgid "Due Date"
 msgstr ""
 
@@ -6922,6 +7373,11 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:100
 msgid "Duration (Minutes)"
+msgstr ""
+
+#. Name of a project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "ERP Rollout"
 msgstr ""
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
@@ -7069,7 +7525,7 @@ msgid "Edit"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:114
-#: onedesk/public/js/project_actions.js:661
+#: onedesk/public/js/project_actions.js:669
 msgid "Edit About"
 msgstr ""
 
@@ -7083,7 +7539,8 @@ msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:319
 #: frontend/src/project/TaskPanel.vue:72 frontend/src/project/TaskPanel.vue:196
-#: onedesk/public/js/project_actions.js:704
+#: frontend/src/template/TemplatePage.vue:97
+#: onedesk/public/js/project_actions.js:712
 msgid "Edit Details"
 msgstr ""
 
@@ -7201,6 +7658,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1631
 msgid "Email addresses, one per line."
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Email and social scheduled"
 msgstr ""
 
 #. Label of the one_email_default (Check) field in DocType 'Notification Type'
@@ -7468,7 +7930,7 @@ msgstr ""
 
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/public/js/project_new.js:120
+#: onedesk/public/js/project_new.js:136
 msgid "Ends"
 msgstr ""
 
@@ -7511,7 +7973,7 @@ msgstr ""
 msgid "Enter the amount paid."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:160
+#: onedesk/one_project/kinds.py:162
 msgid "Enter the contract value."
 msgstr ""
 
@@ -7521,6 +7983,11 @@ msgstr ""
 
 #: onedesk/one_book/vat.py:64
 msgid "Enter the street address."
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Envelope"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:656
@@ -7550,7 +8017,10 @@ msgid "Errors in the Last 7 Days"
 msgstr ""
 
 #. Label of a Sidebar Item
+#. Name of a project template
+#. Task in the Event project template
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
+#: onedesk/one_project/library/event.json
 #: onedesk/public/js/doctype_settings.js:702
 msgid "Event"
 msgstr ""
@@ -7563,6 +8033,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_calendar/event_changed.md
 msgid "Event Changed"
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Event Day"
 msgstr ""
 
 #. Label of the event_id (Data) field in DocType 'Stripe Webhook Event'
@@ -7687,7 +8162,7 @@ msgstr ""
 msgid "Every month"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:441
+#: onedesk/public/js/project_actions.js:449
 msgid "Every month of {0} is invoiced."
 msgstr ""
 
@@ -7821,6 +8296,11 @@ msgstr ""
 msgid "Everyone on {0}"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Everyone told and labels given out"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1244
 msgid "Everyone who manages {0}"
 msgstr ""
@@ -7846,6 +8326,11 @@ msgstr ""
 msgid "Everything"
 msgstr ""
 
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Everything approved"
+msgstr ""
+
 #. Message of a notification
 #: onedesk/notifications/one/full_download_ready.md
 msgid "Everything in the workspace, {size}, is ready to download from Plan and Credits: the database, every record as a spreadsheet, and every file. {missing}"
@@ -7862,6 +8347,11 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:862
 msgid "Examples: {0}, {1}, {2}"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Excavation"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -7916,7 +8406,7 @@ msgstr ""
 msgid "Expected To Close"
 msgstr ""
 
-#: onedesk/one/printing.py:244
+#: onedesk/one/printing.py:221
 msgid "Expected an unsaved Print Format document"
 msgstr ""
 
@@ -8089,6 +8579,11 @@ msgstr ""
 msgid "External Email"
 msgstr ""
 
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "External plaster"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2707
 msgid "Extra Instructions"
 msgstr ""
@@ -8115,6 +8610,16 @@ msgstr ""
 #. Label of the fact (Small Text) field in DocType 'AI Memory'
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 msgid "Fact"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Factory Fabrication & Assembly"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Factory quality inspection"
 msgstr ""
 
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
@@ -8157,7 +8662,7 @@ msgstr ""
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr ""
 
-#: onedesk/one/printing.py:233
+#: onedesk/one/printing.py:210
 msgid "Failed to render template: {0}"
 msgstr ""
 
@@ -8197,9 +8702,19 @@ msgstr ""
 msgid "Feb"
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Fee and appointment signed"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Feedback"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Feedback taken"
 msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:15
@@ -8210,7 +8725,7 @@ msgstr ""
 #. Label of the field (Data) field in DocType 'Record Head Band'
 #. Label of the fieldname (Data) field in DocType 'AI Touch'
 #. Label of the label (Data) field in DocType 'Workspace Field'
-#: onedesk/one/automations.py:132
+#: onedesk/one/automations.py:126
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
@@ -8219,7 +8734,7 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
-#: onedesk/one/automations.py:134
+#: onedesk/one/automations.py:128
 msgid "Field Values"
 msgstr ""
 
@@ -8248,6 +8763,11 @@ msgstr ""
 #. Description of the 'Redraw On' (Small Text) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
 msgid "Fields whose change redraws the head from the form as it stands, before it is saved. One to a line."
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Fieldwork"
 msgstr ""
 
 #. Label of the file (Link) field in DocType 'File Link'
@@ -8324,6 +8844,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:340
 msgid "File · From"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Filed with the authorities"
 msgstr ""
 
 #: onedesk/one_intake/panel.py:221
@@ -8434,6 +8959,31 @@ msgstr ""
 msgid "Filters on what is counted. A value may name the record's fields as {{ doc.fieldname }}."
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Final Week"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Final account and retention release"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Final clean"
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Final numbers to suppliers"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Final results"
+msgstr ""
+
 #: onedesk/one/masters.py:27
 msgid "Finance Book"
 msgstr ""
@@ -8464,6 +9014,11 @@ msgstr ""
 msgid "Finds or makes everything a workspace needs from Cloudflare with the token above. It changes nothing that is already set up."
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Finish"
+msgstr ""
+
 #. Name of a notification
 #: onedesk/notifications/one_admin/finish_signing_up.md
 msgid "Finish Signing Up"
@@ -8474,9 +9029,19 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Finishes"
+msgstr ""
+
 #. Label of the 'first_email' field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "First Ask"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "First Delivery"
 msgstr ""
 
 #. Label of the source_name (Dynamic Link) field in DocType 'Reading'
@@ -8518,6 +9083,21 @@ msgstr ""
 msgid "First Time Logged"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "First month's fixes"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "First month-end closed"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "First piece of work delivered"
+msgstr ""
+
 #: onedesk/one_hr/ai_grievance.py:78
 msgid "First steps"
 msgstr ""
@@ -8525,6 +9105,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Fiscal Years"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Fit and adjust hardware"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Fit-out"
 msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.py:18
@@ -8540,6 +9130,11 @@ msgstr ""
 msgid "Fix spelling and grammar"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Fix subframes and anchors"
+msgstr ""
+
 #: onedesk/one_studio/doctype/extension/extension.js:132
 #: onedesk/public/js/check.js:31
 msgid "Fixed"
@@ -8550,12 +9145,27 @@ msgstr ""
 msgid "Fixed Price"
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Fixed assets and depreciation"
+msgstr ""
+
 #: onedesk/one_studio/mend.py:108
 msgid "Fixed: {0}"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Fixes"
+msgstr ""
+
 #: onedesk/one_studio/mend.py:174
 msgid "Fixing {0}"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Fixtures and fittings"
 msgstr ""
 
 #. Label of the one_flag_below (Int) field in DocType 'HR Settings'
@@ -8572,6 +9182,11 @@ msgstr ""
 #. Label of a number card
 #: onedesk/one_hr/number_card/flags_waiting/flags_waiting.json
 msgid "Flags Waiting"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Flooring"
 msgstr ""
 
 #. Label of the flow (Data) field in DocType 'Intake Action'
@@ -8631,7 +9246,7 @@ msgid "Foot Preset"
 msgstr ""
 
 #: onedesk/one/ai.py:2706 onedesk/one/ai.py:2714 onedesk/one/ai.py:2717
-#: onedesk/one/ai.py:2718 onedesk/one/printing.py:332
+#: onedesk/one/ai.py:2718 onedesk/one/printing.py:309
 #: onedesk/public/js/settings.js:2293
 msgid "Footer"
 msgstr ""
@@ -8745,6 +9360,11 @@ msgstr ""
 msgid "Form Customized"
 msgstr ""
 
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Forms and integrations"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:117 onedesk/public/js/onemail.js:426
 msgid "Forward"
 msgstr ""
@@ -8761,6 +9381,11 @@ msgstr ""
 #. Description of the 'Logo' (Attach Image) field in DocType 'Bank'
 #: onedesk/one_mail/custom/bank.json
 msgid "Found from the bank's website when it is empty, and kept in Company › Logos."
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Foundations"
 msgstr ""
 
 #. Description of the 'Ours' (Check) field in DocType 'Tenant'
@@ -8864,6 +9489,12 @@ msgstr ""
 msgid "From the Customer"
 msgstr ""
 
+#: onedesk/public/js/project_actions.js:83 onedesk/public/js/project_new.js:142
+#: onedesk/public/js/project_template_list.js:7
+#: onedesk/public/js/project_template_list.js:9
+msgid "From the Library"
+msgstr ""
+
 #: onedesk/one_intake/understand.py:392
 msgid "From the day received"
 msgstr ""
@@ -8910,6 +9541,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one/full_download_ready.md
 msgid "Full Download Ready"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Furniture delivered"
 msgstr ""
 
 #: onedesk/public/js/size.js:11
@@ -8991,7 +9627,7 @@ msgstr ""
 msgid "Give a subject or a mail template"
 msgstr ""
 
-#: onedesk/one/masters.py:220 onedesk/one/masters.py:261
+#: onedesk/one/masters.py:193 onedesk/one/masters.py:234
 msgid "Give it a name."
 msgstr ""
 
@@ -9053,6 +9689,11 @@ msgstr ""
 msgid "Gives"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Glaze and seal units"
+msgstr ""
+
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -9080,6 +9721,16 @@ msgstr ""
 msgid "Go Home"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Go Live"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Go live"
+msgstr ""
+
 #: onedesk/one/ai.py:37
 msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
 msgstr ""
@@ -9091,6 +9742,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Goal"
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Goals, audience and budget"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Goals, audience and pages agreed"
 msgstr ""
 
 #: onedesk/one/ai.py:1202
@@ -9171,6 +9832,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Gross Profit"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Groundworks & Structure"
 msgstr ""
 
 #. Label of the rail_group (Data) field in DocType 'Record Type'
@@ -9266,7 +9932,7 @@ msgstr ""
 msgid "HR managers"
 msgstr ""
 
-#: onedesk/one/print_html.py:199 onedesk/one/printing.py:227
+#: onedesk/one/print_html.py:199 onedesk/one/printing.py:204
 msgid "HTML"
 msgstr ""
 
@@ -9293,6 +9959,21 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2782
 msgid "Handled by OneAI"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Handover"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Handover and as-built drawings"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Handover with O&M manuals"
 msgstr ""
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
@@ -9326,11 +10007,11 @@ msgid "Head Office"
 msgstr ""
 
 #: onedesk/one/ai.py:2690 onedesk/one/ai.py:2698 onedesk/one/ai.py:2699
-#: onedesk/one/printing.py:326 onedesk/public/js/settings.js:2292
+#: onedesk/one/printing.py:303 onedesk/public/js/settings.js:2292
 msgid "Header"
 msgstr ""
 
-#: onedesk/one/automations.py:141
+#: onedesk/one/automations.py:135
 msgid "Headers"
 msgstr ""
 
@@ -9489,9 +10170,10 @@ msgstr ""
 #: frontend/src/project/Overview.vue:23 frontend/src/project/TaskPanel.vue:33
 #: frontend/src/project/TaskPanel.vue:35 frontend/src/project/Tasks.vue:22
 #: frontend/src/project/Tasks.vue:60 frontend/src/project/Time.vue:31
+#: frontend/src/template/Tasks.vue:11 frontend/src/template/Tasks.vue:77
 #: onedesk/one/portal.py:68 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:141
-#: onedesk/public/js/project_actions.js:312
+#: onedesk/public/js/project_actions.js:320
 msgid "Hours"
 msgstr ""
 
@@ -9526,7 +10208,7 @@ msgid "Hours Worked"
 msgstr ""
 
 #. Label of the one_monthly_hours (Float) field in DocType 'Project'
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:109
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:125
 msgid "Hours a Month"
 msgstr ""
 
@@ -9890,6 +10572,11 @@ msgstr ""
 msgid "IN"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "IT set up and tested"
+msgstr ""
+
 #. Label of the key (Data) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Idempotency Key"
@@ -10163,7 +10850,7 @@ msgstr ""
 msgid "Incorrect password."
 msgstr ""
 
-#: onedesk/one/automations.py:126
+#: onedesk/one/automations.py:120
 msgid "Increment Field Value"
 msgstr ""
 
@@ -10199,6 +10886,16 @@ msgstr ""
 msgid "Information"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Initiation, Engineering & Approvals"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Inner page designs"
+msgstr ""
+
 #. Label of the max_input_tokens (Int) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Input Tokens"
@@ -10212,6 +10909,21 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Inquiry"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Inspection before closing ceilings"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Install frames"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Install glass"
 msgstr ""
 
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
@@ -10257,6 +10969,11 @@ msgstr ""
 msgid "Intake Weekly"
 msgstr ""
 
+#. Name of a project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Interior Fit-Out"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Project'
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:18
 #: onedesk/one_project/custom/project.json
@@ -10265,6 +10982,21 @@ msgstr ""
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:176
 msgid "Internal Use"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Internal plaster"
+msgstr ""
+
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Internal testing"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Internet, phones and network"
 msgstr ""
 
 #. Label of the interview (Link) field in DocType 'Interview Recording'
@@ -10368,6 +11100,11 @@ msgstr ""
 msgid "Invitation sent"
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Invitations and registration"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:461
 #: onedesk/public/js/settings.js:1447
 msgid "Invite"
@@ -10437,7 +11174,7 @@ msgstr ""
 
 #: frontend/src/project/Invoices.vue:13 frontend/src/project/Months.vue:19
 #: frontend/src/project/ProjectPage.vue:349 onedesk/public/js/project.js:30
-#: onedesk/public/js/project_actions.js:448
+#: onedesk/public/js/project_actions.js:456
 msgid "Invoice Month"
 msgstr ""
 
@@ -10451,7 +11188,7 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:59
 #: frontend/src/project/ProjectPage.vue:347 frontend/src/project/Time.vue:173
-#: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:110
+#: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:118
 msgid "Invoice Time"
 msgstr ""
 
@@ -10650,7 +11387,7 @@ msgstr ""
 msgid "It was at {was}."
 msgstr ""
 
-#: onedesk/one/recycle.py:186
+#: onedesk/one/recycle.py:174
 msgid "It was cancelled, so it comes back as a draft."
 msgstr ""
 
@@ -10679,8 +11416,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order/one_purchase_order.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/progress.js:67 onedesk/public/js/project_actions.js:116
-#: onedesk/public/js/project_actions.js:462 onedesk/www/order.html:56
+#: onedesk/public/js/progress.js:67 onedesk/public/js/project_actions.js:124
+#: onedesk/public/js/project_actions.js:470 onedesk/www/order.html:56
 #: onedesk/www/rfq.html:50
 msgid "Item"
 msgstr ""
@@ -10711,6 +11448,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Items"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Items, customers and suppliers imported"
 msgstr ""
 
 #: onedesk/one/settings.py:54
@@ -10748,7 +11490,7 @@ msgstr ""
 msgid "Its name on the server, as the server spells it."
 msgstr ""
 
-#: onedesk/one/numbering.py:311
+#: onedesk/one/numbering.py:308
 msgid "Its own way"
 msgstr ""
 
@@ -10815,6 +11557,11 @@ msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:375
 msgid "Join"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Joinery installed"
 msgstr ""
 
 #: onedesk/one/ai_setup.py:654
@@ -10915,6 +11662,26 @@ msgstr ""
 msgid "Key Result Areas"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Kick-off and goals"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Kick-off and project team named"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Kick-off meeting"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Kick-off workshop"
+msgstr ""
+
 #. Label of the kind (Select) field in DocType 'Workspace Customization'
 #. Label of the kind (Select) field in DocType 'AI Model Rate'
 #. Label of the kind (Select) field in DocType 'Credit Ledger Entry'
@@ -10943,7 +11710,7 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/project_new.js:156 onedesk/public/js/project_new.js:237
+#: onedesk/public/js/project_new.js:174 onedesk/public/js/project_new.js:256
 msgid "Kind"
 msgstr ""
 
@@ -10988,6 +11755,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Landed Costs"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Landing page"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Landlord and authority approvals"
 msgstr ""
 
 #. Label of the language (Data) field in DocType 'Reading'
@@ -11197,6 +11974,10 @@ msgstr ""
 msgid "Last {0} days."
 msgstr ""
 
+#: frontend/src/template/Tasks.vue:48
+msgid "Lasts (Days)"
+msgstr ""
+
 #: frontend/src/project/Team.vue:20 frontend/src/project/group.js:41
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:186
 #: onedesk/one_project/report/workload/workload.py:132
@@ -11227,8 +12008,20 @@ msgstr ""
 msgid "Latitude and longitude values are required for checking in."
 msgstr ""
 
+#. Task in the Marketing Campaign project template
+#. Task in the Website project template
+#: onedesk/one_project/library/marketing_campaign.json
+#: onedesk/one_project/library/website.json
+msgid "Launch"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:39
 msgid "Layers"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Layout and seating plan"
 msgstr ""
 
 #. Label of the lead (Link) field in DocType 'Account Request'
@@ -11308,6 +12101,11 @@ msgstr ""
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Learning"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Lease signed"
 msgstr ""
 
 #. Label of the least_margin (Float) field in DocType 'One Admin Settings'
@@ -11472,6 +12270,11 @@ msgstr ""
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 msgid "Length"
+msgstr ""
+
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Lessons written up"
 msgstr ""
 
 #: onedesk/public/js/ai_model_list.js:34
@@ -11801,8 +12604,8 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
-#: frontend/src/project/Time.vue:18 onedesk/public/js/project_actions.js:309
-#: onedesk/public/js/project_actions.js:351
+#: frontend/src/project/Time.vue:18 onedesk/public/js/project_actions.js:317
+#: onedesk/public/js/project_actions.js:359
 msgid "Log Time"
 msgstr ""
 
@@ -12263,12 +13066,17 @@ msgstr ""
 msgid "Managed by HR."
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Management letter answered"
+msgstr ""
+
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: frontend/src/project/Team.vue:30 onedesk/one/settings.py:987
 #: onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/public/js/project_new.js:114 onedesk/public/js/settings.js:1127
+#: onedesk/public/js/project_new.js:130 onedesk/public/js/settings.js:1127
 #: onedesk/public/js/settings.js:1190
 msgid "Manager"
 msgstr ""
@@ -12358,6 +13166,16 @@ msgstr ""
 msgid "Market Segments"
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Marketing"
+msgstr ""
+
+#. Name of a project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Marketing Campaign"
+msgstr ""
+
 #: onedesk/one_admin/steps.py:64
 msgid "Marking it archived"
 msgstr ""
@@ -12389,18 +13207,23 @@ msgid "Markup can't be negative."
 msgstr ""
 
 #. Label of the one_markup (Percent) field in DocType 'Project'
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:105
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:121
 msgid "Markup on Costs"
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Massing and plans"
+msgstr ""
+
 #. Label of a Sidebar Item
-#: onedesk/one/masters.py:120 onedesk/one/page/masters/masters.js:10
+#: onedesk/one/masters.py:93 onedesk/one/page/masters/masters.js:10
 #: onedesk/one/page/masters/masters.js:89
 #: onedesk/one/page/masters/masters.js:128 onedesk/one/sidebar/one/one.json
 msgid "Masters"
 msgstr ""
 
-#: onedesk/one/automations.py:96
+#: onedesk/one/automations.py:90
 msgid "Match Fields"
 msgstr ""
 
@@ -12497,14 +13320,21 @@ msgstr ""
 #. Label of the measure (Data) field in DocType 'Record Head Band'
 #. Label of the measure (Data) field in DocType 'Record Head Indicator'
 #. Label of the measure (Data) field in DocType 'Record Head Sentence'
+#. Task in the Marketing Campaign project template
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+#: onedesk/one_project/library/marketing_campaign.json
 msgid "Measure"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:619
 msgid "Measure Storage"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Mechanical and electrical first fix"
 msgstr ""
 
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:66
@@ -12519,6 +13349,11 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Medical Report"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Meet the client and agree the brief"
 msgstr ""
 
 #. Label of a number card
@@ -12575,8 +13410,8 @@ msgstr ""
 #. Label in the One Request for Quotation print format
 #. Label of the message (Small Text) field in DocType 'Cloud File Request'
 #: onedesk/one/automation_steps.py:42 onedesk/one/custom/notification_type.json
-#: onedesk/one/mail_templates.py:112 onedesk/one/mail_templates.py:113
-#: onedesk/one/notify.py:269 onedesk/one/rules.py:47
+#: onedesk/one/mail_templates.py:109 onedesk/one/mail_templates.py:110
+#: onedesk/one/notify.py:254 onedesk/one/rules.py:47
 #: onedesk/one/settings.py:2002 onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
@@ -12599,13 +13434,19 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: onedesk/one/automations.py:140
+#: onedesk/one/automations.py:134
 msgid "Method"
 msgstr ""
 
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Mid-campaign review"
+msgstr ""
+
 #: frontend/src/project/TaskPanel.vue:38 frontend/src/project/TaskPanel.vue:39
+#: frontend/src/template/Tasks.vue:25
 #: onedesk/one_task/page/my_tasks/my_tasks.js:210
-#: onedesk/public/js/project_actions.js:542
+#: onedesk/public/js/project_actions.js:550
 msgid "Milestone"
 msgstr ""
 
@@ -12629,6 +13470,11 @@ msgstr ""
 
 #: onedesk/one/settings.py:98
 msgid "Mobile"
+msgstr ""
+
+#. Name of a project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Mobile App"
 msgstr ""
 
 #. Label of a field in the get-in-touch Web Form
@@ -12704,7 +13550,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:234
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
-#: onedesk/public/js/project_actions.js:453
+#: onedesk/public/js/project_actions.js:461
 msgid "Month"
 msgstr ""
 
@@ -12727,7 +13573,7 @@ msgstr ""
 
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
 #: frontend/src/project/Money.vue:126 frontend/src/project/Overview.vue:151
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:107
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:123
 msgid "Monthly Fee"
 msgstr ""
 
@@ -12769,9 +13615,11 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Task in the Office Move project template
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_project/library/office_move.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:28
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:80
 msgid "Move"
@@ -12786,8 +13634,22 @@ msgstr ""
 msgid "Move To"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Move date agreed"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:101 onedesk/public/js/onemail.js:414
 msgid "Move to"
+msgstr ""
+
+#: frontend/src/template/Tasks.vue:160
+msgid "Move to the Top"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Move weekend"
 msgstr ""
 
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:67
@@ -12834,6 +13696,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1232
 msgid "Moved {0} items to the Recycle Bin"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Movers booked"
 msgstr ""
 
 #: onedesk/one_storage/ready.py:59
@@ -12933,7 +13800,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:879
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/oneai/Panel.vue:610 onedesk/public/js/onecloud.js:143
-#: onedesk/public/js/onecloud.js:1564 onedesk/public/js/project_new.js:62
+#: onedesk/public/js/onecloud.js:1564 onedesk/public/js/project_new.js:78
 #: onedesk/public/js/settings.js:1112 onedesk/public/js/settings.js:1195
 #: onedesk/public/js/settings.js:2197 onedesk/public/js/settings.js:2211
 #: onedesk/public/js/settings.js:2519
@@ -12970,7 +13837,12 @@ msgstr ""
 msgid "Name the location."
 msgstr ""
 
-#: onedesk/one_project/templates.py:54
+#: onedesk/one_project/template_view.py:83
+#: onedesk/one_project/template_view.py:97
+msgid "Name the task."
+msgstr ""
+
+#: onedesk/one_project/templates.py:56
 msgid "Name the template."
 msgstr ""
 
@@ -13102,6 +13974,11 @@ msgstr ""
 msgid "New Bill"
 msgstr ""
 
+#. Name of a project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "New Client Onboarding"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:82 onedesk/public/js/onemail.js:788
 #: onedesk/public/js/record_mail.js:43 onedesk/www/account_profile.html:36
 msgid "New Email"
@@ -13178,7 +14055,8 @@ msgstr ""
 msgid "New Profile"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:53 onedesk/public/js/project_template.js:7
+#: frontend/src/template/TemplatePage.vue:95
+#: onedesk/public/js/project_new.js:69 onedesk/public/js/project_template.js:7
 msgid "New Project"
 msgstr ""
 
@@ -13205,7 +14083,7 @@ msgstr ""
 msgid "New Signup"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:53
+#: onedesk/public/js/project_new.js:69
 msgid "New Sub-project"
 msgstr ""
 
@@ -13273,6 +14151,11 @@ msgstr ""
 msgid "New mail is not arriving. Reconnect it with its password."
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "New premises chosen"
+msgstr ""
+
 #: onedesk/one_admin/home.py:362
 msgid "New workspaces can't be built until a server is added."
 msgstr ""
@@ -13298,8 +14181,8 @@ msgstr ""
 #: frontend/src/project/Media.vue:11
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400
-#: onedesk/public/js/project_actions.js:526
-#: onedesk/public/js/project_new.js:217 onedesk/public/js/settings.js:2030
+#: onedesk/public/js/project_actions.js:534
+#: onedesk/public/js/project_new.js:236 onedesk/public/js/settings.js:2030
 #: onedesk/www/projects.html:71
 msgid "Next"
 msgstr ""
@@ -13490,7 +14373,7 @@ msgstr ""
 msgid "No automations"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:101
+#: onedesk/public/js/project_actions.js:109
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr ""
 
@@ -13530,7 +14413,7 @@ msgstr ""
 msgid "No credit packs available"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:32
+#: onedesk/public/js/project_new.js:48
 msgid "No customer. A budget and the work."
 msgstr ""
 
@@ -13789,7 +14672,7 @@ msgstr ""
 msgid "No recent files"
 msgstr ""
 
-#: onedesk/one/printing.py:756
+#: onedesk/one/printing.py:733
 msgid "No record type to preview the letter head on."
 msgstr ""
 
@@ -13853,7 +14736,7 @@ msgstr ""
 msgid "No task"
 msgstr ""
 
-#: frontend/src/project/Tasks.vue:81
+#: frontend/src/project/Tasks.vue:81 frontend/src/template/Tasks.vue:101
 msgid "No tasks"
 msgstr ""
 
@@ -13909,7 +14792,7 @@ msgstr ""
 msgid "No {0} bucket is configured."
 msgstr ""
 
-#: onedesk/one/printing.py:575
+#: onedesk/one/printing.py:552
 msgid "No."
 msgstr ""
 
@@ -14021,7 +14904,7 @@ msgstr ""
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/public/js/project_new.js:134
+#: onedesk/public/js/project_new.js:152
 msgid "Not Tracked"
 msgstr ""
 
@@ -14035,6 +14918,10 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:59
 msgid "Not a Duplicate"
+msgstr ""
+
+#: frontend/src/template/Tasks.vue:25
+msgid "Not a Milestone"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1055
@@ -14082,7 +14969,7 @@ msgstr ""
 msgid "Not counted yet"
 msgstr ""
 
-#: onedesk/one/privacy.py:155
+#: onedesk/one/privacy.py:140
 msgid "Not deleted"
 msgstr ""
 
@@ -14194,6 +15081,10 @@ msgstr ""
 msgid "Not used on any record"
 msgstr ""
 
+#: frontend/src/template/TemplatePage.vue:84
+msgid "Not used yet"
+msgstr ""
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:15
 #: onedesk/one_admin/heads.py:51 onedesk/one_admin/home.py:470
 msgid "Not working"
@@ -14227,7 +15118,7 @@ msgstr ""
 #: onedesk/one_hr/heads.py:151 onedesk/one_hr/heads.py:522
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/public/js/project_actions.js:412 onedesk/public/js/settings.js:2277
+#: onedesk/public/js/project_actions.js:420 onedesk/public/js/settings.js:2277
 #: onedesk/public/js/tenant.js:72
 msgid "Note"
 msgstr ""
@@ -14359,10 +15250,11 @@ msgid "Notification"
 msgstr ""
 
 #. Label of a Sidebar Item
+#. Task in the Mobile App project template
 #: onedesk/one/settings.py:18 onedesk/one/settings.py:128
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/doctype_settings.js:295
-#: onedesk/public/js/settings.js:3088 onedesk/public/js/settings.js:3185
-#: onedesk/public/js/settings.js:3249
+#: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
+#: onedesk/public/js/doctype_settings.js:295 onedesk/public/js/settings.js:3088
+#: onedesk/public/js/settings.js:3185 onedesk/public/js/settings.js:3249
 msgid "Notifications"
 msgstr ""
 
@@ -14547,8 +15439,23 @@ msgstr ""
 msgid "Offerings"
 msgstr ""
 
+#. Name of a project template
+#: onedesk/one_project/library/office_move.json
+msgid "Office Move"
+msgstr ""
+
 #: onedesk/www/update-password.html:29
 msgid "Old Password"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Old office handed back"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Old system closed"
 msgstr ""
 
 #: onedesk/one/ai.py:3852 onedesk/one/ai.py:4072 onedesk/one_ai/chat.py:736
@@ -15205,7 +16112,7 @@ msgstr ""
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
-#: onedesk/public/js/project_places.js:36
+#: onedesk/public/js/project_places.js:37
 msgid "OneProject"
 msgstr ""
 
@@ -15305,7 +16212,7 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one/reports.py:229
+#: onedesk/one/reports.py:205
 msgid "Only a saved report can be shown somewhere else."
 msgstr ""
 
@@ -15325,7 +16232,7 @@ msgstr ""
 msgid "Only a workspace administrator can agree to this for the organisation."
 msgstr ""
 
-#: onedesk/one/masters.py:102
+#: onedesk/one/masters.py:75
 msgid "Only administrators and an app's managers see Masters."
 msgstr ""
 
@@ -15337,7 +16244,7 @@ msgstr ""
 msgid "Only an HR Manager can mark a grievance as not sensitive."
 msgstr ""
 
-#: onedesk/one/reports.py:268
+#: onedesk/one/reports.py:244
 msgid "Only an administrator can show it to everyone."
 msgstr ""
 
@@ -15353,7 +16260,7 @@ msgstr ""
 msgid "Only an administrator picks the model here."
 msgstr ""
 
-#: onedesk/one/announcements.py:54
+#: onedesk/one/announcements.py:34
 msgid "Only an administrator posts an announcement. Your notes stay your own."
 msgstr ""
 
@@ -15483,7 +16390,7 @@ msgstr ""
 msgid "Only the person who connected {0} can remove it."
 msgstr ""
 
-#: onedesk/one/reports.py:232
+#: onedesk/one/reports.py:208
 msgid "Only the person who saved a report, or an administrator, can move it."
 msgstr ""
 
@@ -15571,7 +16478,7 @@ msgstr ""
 
 #. Label of a number card
 #: onedesk/one_project/number_card/projects_under_way/projects_under_way.json
-#: onedesk/public/js/project_places.js:52
+#: onedesk/public/js/project_places.js:53
 msgid "Open Projects"
 msgstr ""
 
@@ -15631,6 +16538,11 @@ msgstr ""
 msgid "Opening Status"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Opening balances and stock imported"
+msgstr ""
+
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:226
 msgid "Openings"
 msgstr ""
@@ -15671,6 +16583,11 @@ msgstr ""
 msgid "Options come from Clock Reason."
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Options sketched"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Label of the priority (Int) field in DocType 'Mail Rule'
@@ -15679,7 +16596,7 @@ msgstr ""
 #: onedesk/one_inventory/report/to_order/to_order.js:9
 #: onedesk/one_inventory/report/to_order/to_order.js:30
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/public/js/project_actions.js:517 onedesk/www/projects.html:147
+#: onedesk/public/js/project_actions.js:525 onedesk/www/projects.html:147
 msgid "Order"
 msgstr ""
 
@@ -15696,8 +16613,33 @@ msgstr ""
 msgid "Order Number"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Order aluminium profiles"
+msgstr ""
+
 #: onedesk/www/projects.html:143
 msgid "Order and Invoices"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Order glass"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Order hardware and accessories"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Order joinery and furniture"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Order long-lead items"
 msgstr ""
 
 #. Label of the 'total_sales_amount' field in DocType 'Project'
@@ -15901,7 +16843,7 @@ msgstr ""
 
 #. Name of a notification
 #: onedesk/notifications/one_project/over_budget.md
-#: onedesk/public/js/project_actions.js:272
+#: onedesk/public/js/project_actions.js:280
 msgid "Over Budget"
 msgstr ""
 
@@ -16037,6 +16979,16 @@ msgstr ""
 msgid "Pack"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Pack and prepare dispatch"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Packing"
+msgstr ""
+
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Page"
@@ -16146,12 +17098,19 @@ msgstr ""
 msgid "Paid, not built"
 msgstr ""
 
+#. Task in the Interior Fit-Out project template
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/interior_fit_out.json
+#: onedesk/one_project/library/small_building_works.json
+msgid "Painting"
+msgstr ""
+
 #. Label of the one_parent (Link) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Parent Project"
 msgstr ""
 
-#: onedesk/public/js/project_places.js:51
+#: onedesk/public/js/project_places.js:52
 msgid "Parent and Sub-projects"
 msgstr ""
 
@@ -16173,6 +17132,11 @@ msgstr ""
 #. Label of the parties (Table) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Parties"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Partitions and ceiling frames"
 msgstr ""
 
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
@@ -16382,7 +17346,7 @@ msgid "Paying"
 msgstr ""
 
 #. Label of the payload (Code) field in DocType 'Provisioning Job'
-#: onedesk/one/automations.py:142
+#: onedesk/one/automations.py:136
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Payload"
 msgstr ""
@@ -16482,8 +17446,9 @@ msgid "Payment {0} recorded."
 msgstr ""
 
 #. Label of a Sidebar Item
+#. Task in the Mobile App project template
 #: onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_project/tree.py:209
+#: onedesk/one_project/library/mobile_app.json onedesk/one_project/tree.py:209
 msgid "Payments"
 msgstr ""
 
@@ -16504,6 +17469,11 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Payroll Settings"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Payroll and people set up"
 msgstr ""
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:143
@@ -16729,6 +17699,11 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Photos and media gathered"
+msgstr ""
+
 #: onedesk/one_project/media.py:156
 msgid "Photos and videos are added to a project."
 msgstr ""
@@ -16742,11 +17717,15 @@ msgstr ""
 msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:52
+#: onedesk/one_project/templates.py:112 onedesk/public/js/project_actions.js:89
+msgid "Pick a template."
+msgstr ""
+
+#: onedesk/one_project/kinds.py:53
 msgid "Pick the customer {0} bills."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:70
+#: onedesk/one_project/kinds.py:71
 msgid "Pick the customer."
 msgstr ""
 
@@ -16758,7 +17737,7 @@ msgstr ""
 msgid "Pick the folder or the record the files go to."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:75 onedesk/one_project/kinds.py:162
+#: onedesk/one_project/kinds.py:76 onedesk/one_project/kinds.py:164
 msgid "Pick the item to bill the contract as."
 msgstr ""
 
@@ -16770,7 +17749,7 @@ msgstr ""
 msgid "Pick the month and the item to invoice it as."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:158
+#: onedesk/one_project/kinds.py:160
 msgid "Pick the project's customer first."
 msgstr ""
 
@@ -16782,7 +17761,7 @@ msgstr ""
 msgid "Pick the site."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:68
+#: onedesk/one_project/kinds.py:69
 msgid "Pick what kind of project this is."
 msgstr ""
 
@@ -16840,13 +17819,21 @@ msgstr ""
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #. Label of the offering (Link) field in DocType 'Tenant'
+#. Task in the ERP Rollout project template
+#. Task in the Event project template
+#. Task in the Marketing Campaign project template
+#. Task in the Office Move project template
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:669
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:160
-#: onedesk/public/js/project_new.js:183 onedesk/public/js/settings.js:1538
+#: onedesk/one_project/library/erp_rollout.json
+#: onedesk/one_project/library/event.json
+#: onedesk/one_project/library/marketing_campaign.json
+#: onedesk/one_project/library/office_move.json
+#: onedesk/public/js/project_new.js:201 onedesk/public/js/settings.js:1538
 #: onedesk/public/js/settings.js:1540 onedesk/public/js/settings.js:1829
 #: onedesk/www/start.html:58
 msgid "Plan"
@@ -16885,6 +17872,11 @@ msgstr ""
 msgid "Plan changed"
 msgstr ""
 
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Plan for the next quarter"
+msgstr ""
+
 #: onedesk/one_calendar/ai.py:33
 msgid "Plan my day"
 msgstr ""
@@ -16901,11 +17893,41 @@ msgstr ""
 msgid "Planned (Hours)"
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Planning"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Planning application submitted"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Planning decision"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Planning drawings and statements"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Plans, sections and elevations"
+msgstr ""
+
 #. Label of the platform (Data) field in DocType 'Clock Attempt'
 #. Label of the platform (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Platform"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Plumbing and electrical"
 msgstr ""
 
 #. Label of the weight (Int) field in DocType 'Clock Signal'
@@ -16981,19 +18003,24 @@ msgstr ""
 msgid "Possible duplicate of {0}."
 msgstr ""
 
-#: frontend/src/project/Updates.vue:24 onedesk/public/js/project_actions.js:222
+#: frontend/src/project/Updates.vue:24 onedesk/public/js/project_actions.js:230
 msgid "Post"
 msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:320
 #: frontend/src/project/ProjectPage.vue:350 onedesk/public/js/project.js:74
-#: onedesk/public/js/project.js:76 onedesk/public/js/project_actions.js:221
+#: onedesk/public/js/project.js:76 onedesk/public/js/project_actions.js:229
 msgid "Post Update"
 msgstr ""
 
 #. Message of a notification
 #: onedesk/notifications/one_project/project_update_asked.md
 msgid "Post your update on the project's page, or reply to the email."
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Practical completion inspection"
 msgstr ""
 
 #. Label of the prefer_models_from (Select) field in DocType 'One Admin
@@ -17007,9 +18034,31 @@ msgstr ""
 msgid "Prefix"
 msgstr ""
 
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Preparation"
+msgstr ""
+
+#. Task in the Event project template
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/event.json
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Prepare"
+msgstr ""
+
 #. Label of the one_ai_prepare (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Prepare Interviews"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Prepare the New Office"
+msgstr ""
+
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Prepare the Team"
 msgstr ""
 
 #: onedesk/one_hr/ai.py:142
@@ -17079,7 +18128,7 @@ msgstr ""
 
 #: frontend/src/project/Media.vue:10
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
-#: onedesk/public/js/project_new.js:202 onedesk/www/projects.html:70
+#: onedesk/public/js/project_new.js:221 onedesk/www/projects.html:70
 msgid "Previous"
 msgstr ""
 
@@ -17161,12 +18210,17 @@ msgstr ""
 msgid "Print Settings"
 msgstr ""
 
-#: onedesk/one/printing.py:121
+#: onedesk/one/printing.py:98
 msgid "Print formats are made in the print format builder here, not written by hand."
 msgstr ""
 
-#: onedesk/one/printing.py:112 onedesk/one/printing.py:188
+#: onedesk/one/printing.py:89 onedesk/one/printing.py:165
 msgid "Print formats can only be made for this workspace's record types."
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Printed material and signs"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2214
@@ -17228,6 +18282,21 @@ msgstr ""
 msgid "Problem"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Problems fixed"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Procurement"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Procurement & Material Management"
+msgstr ""
+
 #. Label of the product (Select) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Product"
@@ -17269,7 +18338,7 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:275 frontend/src/project/Tasks.vue:23
 #: onedesk/one/portal.py:67 onedesk/public/js/onecloud.js:340
-#: onedesk/public/js/onecloud.js:642 onedesk/public/js/project_actions.js:635
+#: onedesk/public/js/onecloud.js:642 onedesk/public/js/project_actions.js:643
 #: onedesk/www/projects.html:38
 msgid "Progress"
 msgstr ""
@@ -17295,9 +18364,9 @@ msgstr ""
 #: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/page/project_view/project_view.js:8
 #: onedesk/one_project/report/workload/workload.js:7
-#: onedesk/public/js/project_actions.js:331
-#: onedesk/public/js/project_actions.js:546
-#: onedesk/public/js/project_list.js:118 onedesk/public/js/timesheet.js:49
+#: onedesk/public/js/project_actions.js:339
+#: onedesk/public/js/project_actions.js:554
+#: onedesk/public/js/project_list.js:115 onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr ""
 
@@ -17330,8 +18399,8 @@ msgstr ""
 msgid "Project Summary"
 msgstr ""
 
-#: onedesk/public/js/project_list.js:40
-msgid "Project Templates"
+#: onedesk/one_project/page/project_template_view/project_template_view.js:9
+msgid "Project Template"
 msgstr ""
 
 #: onedesk/one/masters.py:33
@@ -17364,7 +18433,7 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: onedesk/public/js/project_list.js:46
+#: onedesk/public/js/project_list.js:43
 msgid "Projects Settings"
 msgstr ""
 
@@ -17458,6 +18527,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Prospect"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Protect the site and strip out"
 msgstr ""
 
 #. Label of the given (Check) field in DocType 'Workspace Domain'
@@ -17602,6 +18676,10 @@ msgstr ""
 msgid "Push works"
 msgstr ""
 
+#: frontend/src/template/Tasks.vue:159
+msgid "Put Under"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Quality Inspections"
@@ -17632,6 +18710,13 @@ msgstr ""
 
 #: onedesk/one_hr/hiring.py:481
 msgid "Questions"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/architectural_design.json
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Questions answered"
 msgstr ""
 
 #. Option for the 'State' (Select) field in DocType 'Reading'
@@ -17762,7 +18847,7 @@ msgstr ""
 
 #. Label of the rates (Table) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_project/rates.py:18 onedesk/public/js/project_list.js:43
+#: onedesk/one_project/rates.py:18 onedesk/public/js/project_list.js:40
 msgid "Rates"
 msgstr ""
 
@@ -17995,6 +19080,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Receivables"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Receivables and payables reviewed"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Receive and inspect materials"
 msgstr ""
 
 #: onedesk/one_project/money.py:163 onedesk/public/js/settings.js:2781
@@ -18396,6 +19491,11 @@ msgstr ""
 msgid "Registered On"
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Rehearsal"
+msgstr ""
+
 #: onedesk/one_hr/heads.py:173 onedesk/one_hr/heads.py:613
 #: onedesk/public/js/learned.js:17
 msgid "Reject"
@@ -18422,6 +19522,11 @@ msgstr ""
 msgid "Rejected sets Skip Auto Attendance on the check-in, so it stops counting. Nothing is deleted."
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Release"
+msgstr ""
+
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 msgid "Released"
@@ -18432,7 +19537,8 @@ msgstr ""
 #. Label of the one_retention_handover (Percent) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/public/js/project_actions.js:178 onedesk/public/js/project_new.js:97
+#: onedesk/public/js/project_actions.js:186
+#: onedesk/public/js/project_new.js:113
 msgid "Released at Handover"
 msgstr ""
 
@@ -18487,8 +19593,8 @@ msgstr ""
 #: onedesk/one/ai.py:1870 onedesk/one/page/masters/masters.js:240
 #: onedesk/public/js/oneai/Panel.vue:172 onedesk/public/js/onecloud.js:1324
 #: onedesk/public/js/onecloud.js:1370 onedesk/public/js/onecloud.js:1517
-#: onedesk/public/js/onecloud.js:1804 onedesk/public/js/project_actions.js:286
-#: onedesk/public/js/project_actions.js:420 onedesk/public/js/settings.js:391
+#: onedesk/public/js/onecloud.js:1804 onedesk/public/js/project_actions.js:294
+#: onedesk/public/js/project_actions.js:428 onedesk/public/js/settings.js:391
 #: onedesk/public/js/settings.js:1403 onedesk/public/js/settings.js:1585
 #: onedesk/public/js/settings.js:2482
 msgid "Remove"
@@ -18530,12 +19636,12 @@ msgstr ""
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
 
-#: frontend/src/project/Team.vue:126 onedesk/public/js/project_actions.js:423
+#: frontend/src/project/Team.vue:126 onedesk/public/js/project_actions.js:431
 msgid "Remove {0} from the project?"
 msgstr ""
 
 #: onedesk/one/page/masters/masters.js:242
-#: onedesk/public/js/project_actions.js:289
+#: onedesk/public/js/project_actions.js:297
 msgid "Remove {0}?"
 msgstr ""
 
@@ -18671,6 +19777,11 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Reports and print formats"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
 msgid "Reports by Mail"
@@ -18779,6 +19890,11 @@ msgstr ""
 msgid "Required By"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Requirements and budget"
+msgstr ""
+
 #. Description of the 'Allow Employees to Check In Themselves' (Check) field in
 #. DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -18867,6 +19983,11 @@ msgstr ""
 msgid "Result"
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Results and lessons"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:325
 msgid "Results for {0}"
 msgstr ""
@@ -18920,7 +20041,8 @@ msgstr ""
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/one_project/progress.py:165 onedesk/public/js/progress.js:49
-#: onedesk/public/js/project_actions.js:167 onedesk/public/js/project_new.js:86
+#: onedesk/public/js/project_actions.js:175
+#: onedesk/public/js/project_new.js:102
 msgid "Retention"
 msgstr ""
 
@@ -18930,7 +20052,8 @@ msgstr ""
 #: onedesk/notifications/one_project/retention_due.md
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/public/js/project_actions.js:171 onedesk/public/js/project_new.js:90
+#: onedesk/public/js/project_actions.js:179
+#: onedesk/public/js/project_new.js:106
 msgid "Retention Due"
 msgstr ""
 
@@ -18962,8 +20085,10 @@ msgid "Return {0} ({1})"
 msgstr ""
 
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
+#. Task in the New Client Onboarding project template
 #. Label of the review (Select) field in DocType 'Extension'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_project/library/client_onboarding.json
 #: onedesk/one_studio/ai.py:378
 #: onedesk/one_studio/doctype/extension/extension.js:148
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -18977,6 +20102,11 @@ msgstr ""
 
 #: onedesk/public/js/privacy_copy.js:19
 msgid "Review and Send"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Review and next steps"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:609 onedesk/one_hr/heads.py:619
@@ -19058,12 +20188,22 @@ msgstr ""
 #: frontend/src/project/Team.vue:58
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
-#: onedesk/public/js/onecloud.js:1494 onedesk/public/js/project_actions.js:398
+#: onedesk/public/js/onecloud.js:1494 onedesk/public/js/project_actions.js:406
 msgid "Role"
 msgstr ""
 
 #: onedesk/one_storage/library.py:88
 msgid "Role must be Reader, Member or Owner."
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Roof slab"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Roof waterproofing"
 msgstr ""
 
 #. Label of the row (Dynamic Link) field in DocType 'Workspace Customization'
@@ -19109,14 +20249,21 @@ msgstr ""
 
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the reference (Data) field in DocType 'AI Proposal'
+#. Task in the Marketing Campaign project template
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_project/library/marketing_campaign.json
 #: onedesk/public/js/settings.js:2752
 msgid "Run"
 msgstr ""
 
 #: onedesk/one_admin/home.py:160
 msgid "Run Now"
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Run sheet written"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2755
@@ -19254,6 +20401,11 @@ msgstr ""
 msgid "Same format as a series."
 msgstr ""
 
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Samples and shop drawings approved"
+msgstr ""
+
 #: onedesk/one/page/masters/masters.js:167
 #: onedesk/one_book/report/books_check/books_check.js:25
 #: onedesk/one_book/report/books_check/books_check.js:42
@@ -19261,12 +20413,12 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1605 onedesk/public/js/onemail.js:924
 #: onedesk/public/js/onemail.js:948 onedesk/public/js/project_actions.js:72
-#: onedesk/public/js/project_actions.js:233
-#: onedesk/public/js/project_actions.js:280
-#: onedesk/public/js/project_actions.js:414
-#: onedesk/public/js/project_actions.js:602
-#: onedesk/public/js/project_actions.js:643
-#: onedesk/public/js/project_actions.js:707 onedesk/public/js/reports.js:402
+#: onedesk/public/js/project_actions.js:241
+#: onedesk/public/js/project_actions.js:288
+#: onedesk/public/js/project_actions.js:422
+#: onedesk/public/js/project_actions.js:610
+#: onedesk/public/js/project_actions.js:651
+#: onedesk/public/js/project_actions.js:715 onedesk/public/js/reports.js:402
 #: onedesk/public/js/settings.js:490 onedesk/public/js/settings.js:787
 #: onedesk/public/js/settings.js:2712 onedesk/public/js/shell.js:472
 #: onedesk/website/doctype/web_form/templates/web_form.html:19
@@ -19355,7 +20507,7 @@ msgstr ""
 msgid "Say why it is withheld, so they know."
 msgstr ""
 
-#: onedesk/one/privacy.py:245
+#: onedesk/one/privacy.py:230
 msgid "Say why, so they know."
 msgstr ""
 
@@ -19378,6 +20530,16 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/project.js:22
 msgid "Schedule"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Schedules and supporting papers"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Scope and plan agreed"
 msgstr ""
 
 #. Label of the one_score (Int) field in DocType 'Employee Checkin'
@@ -19418,11 +20580,21 @@ msgstr ""
 msgid "Script"
 msgstr ""
 
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Seal and weatherproof"
+msgstr ""
+
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/src/project/ProjectPage.vue:40
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:47
 msgid "Search"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Search engine basics"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:336 onedesk/public/js/onecloud.js:365
@@ -19448,6 +20620,11 @@ msgstr ""
 #. Label of the 'second_email' field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Second Ask"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Second fix and fittings"
 msgstr ""
 
 #. Label of the auth (Data) field in DocType 'Push Device'
@@ -19511,6 +20688,11 @@ msgstr ""
 msgid "Selling"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Selling, buying and stock set up"
+msgstr ""
+
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/project/Invoices.vue:127
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -19543,7 +20725,7 @@ msgstr ""
 msgid "Send This"
 msgstr ""
 
-#: onedesk/one/automations.py:131
+#: onedesk/one/automations.py:125
 msgid "Send an HTTP request to an external URL."
 msgstr ""
 
@@ -19720,7 +20902,7 @@ msgstr ""
 msgid "Series updated"
 msgstr ""
 
-#: onedesk/one/numbering.py:477
+#: onedesk/one/numbering.py:474
 msgid "Series {0} already used in {1}"
 msgstr ""
 
@@ -19761,6 +20943,11 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Services & Finishes"
+msgstr ""
+
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Session Address"
@@ -19774,7 +20961,7 @@ msgstr ""
 msgid "Set Date"
 msgstr ""
 
-#: onedesk/one/automations.py:122
+#: onedesk/one/automations.py:116
 msgid "Set Field Value"
 msgstr ""
 
@@ -19797,6 +20984,13 @@ msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:47
 msgid "Set Standard Working Hours in {0} first. Everything here is measured against it."
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/client_onboarding.json
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Set Up"
 msgstr ""
 
 #. Label of the set_up_cloudflare (Button) field in DocType 'One Admin
@@ -19874,7 +21068,12 @@ msgstr ""
 msgid "Set up an outgoing email account to send invitations."
 msgstr ""
 
-#: onedesk/one/automations.py:123
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Set up the venue"
+msgstr ""
+
+#: onedesk/one/automations.py:117
 msgid "Set value of document fields."
 msgstr ""
 
@@ -19929,6 +21128,11 @@ msgstr ""
 msgid "Settings Changed"
 msgstr ""
 
+#. Task in the Office Move project template
+#: onedesk/one_project/library/office_move.json
+msgid "Settle In"
+msgstr ""
+
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #. Label of the settled (Float) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
@@ -19974,7 +21178,7 @@ msgstr ""
 
 #. Description of the 'Bill on Completion' (Percent) field in DocType 'Task'
 #: onedesk/one_project/custom/task.json
-#: onedesk/public/js/project_actions.js:557
+#: onedesk/public/js/project_actions.js:565
 msgid "Share of the contract"
 msgstr ""
 
@@ -19984,7 +21188,8 @@ msgstr ""
 #. Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/public/js/project_actions.js:179 onedesk/public/js/project_new.js:98
+#: onedesk/public/js/project_actions.js:187
+#: onedesk/public/js/project_new.js:114
 msgid "Share of the retention"
 msgstr ""
 
@@ -20103,6 +21308,16 @@ msgstr ""
 
 #: onedesk/one/portal.py:360 onedesk/one/portal.py:436
 msgid "Ship to"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Shop drawings and structural calculations"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Short guides for each role"
 msgstr ""
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:50
@@ -20309,6 +21524,11 @@ msgstr ""
 msgid "Sign-in Link"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Sign-in and accounts"
+msgstr ""
+
 #. Description of the 'Sender Email' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -20318,6 +21538,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/audit_list.js:30
 msgid "Sign-ins"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Sign-off to go live"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -20396,8 +21621,13 @@ msgstr ""
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #. Label of the one_site (Link) field in DocType 'Project'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:142
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:160
 msgid "Site"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Site Installation & Logistics"
 msgstr ""
 
 #. Label of the press_plan (Data) field in DocType 'One Admin Settings'
@@ -20407,6 +21637,36 @@ msgstr ""
 
 #: onedesk/one_admin/log.py:19
 msgid "Site deleted after a backup. Files kept."
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Site set up"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Site survey and constraints"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Site survey and existing drawings"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Site survey and measurements"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Site visits"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Sitemap and wireframes"
 msgstr ""
 
 #. Label of the file_size (Int) field in DocType 'Cloud File Version'
@@ -20431,6 +21691,20 @@ msgstr ""
 #. Label of the slug (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Slug"
+msgstr ""
+
+#. Name of a project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Small Building Works"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#. Task in the Interior Fit-Out project template
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+#: onedesk/one_project/library/interior_fit_out.json
+#: onedesk/one_project/library/small_building_works.json
+msgid "Snag list and rectification"
 msgstr ""
 
 #: frontend/src/project/Money.vue:6
@@ -20478,7 +21752,7 @@ msgstr ""
 msgid "Somebody changed how {0} looks after you opened this. Refresh to see it; nothing was saved."
 msgstr ""
 
-#: onedesk/one/printing.py:879
+#: onedesk/one/printing.py:856
 msgid "Someone changed {0} after you opened it."
 msgstr ""
 
@@ -20562,6 +21836,11 @@ msgstr ""
 msgid "Space Home"
 msgstr ""
 
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Space plan"
+msgstr ""
+
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Spam"
@@ -20569,6 +21848,16 @@ msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:204
 msgid "Speak"
+msgstr ""
+
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Speakers and programme"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Specifications"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
@@ -20718,7 +22007,7 @@ msgstr ""
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
 #: frontend/src/project/TaskPanel.vue:29
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/public/js/project_actions.js:82 onedesk/public/js/project_new.js:113
+#: onedesk/public/js/project_actions.js:84 onedesk/public/js/project_new.js:129
 msgid "Starts"
 msgstr ""
 
@@ -20835,7 +22124,7 @@ msgstr ""
 msgid "Step"
 msgstr ""
 
-#: onedesk/one/automations.py:98
+#: onedesk/one/automations.py:92
 msgid "Step {0}"
 msgstr ""
 
@@ -20907,6 +22196,11 @@ msgstr ""
 msgid "Stock can be received into {0} warehouses."
 msgstr ""
 
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Stock count"
+msgstr ""
+
 #: onedesk/one_inventory/ready.py:54
 msgid "Stock is valued in the books"
 msgstr ""
@@ -20922,7 +22216,7 @@ msgstr ""
 msgid "Stock on Hand"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:289 onedesk/public/js/project_actions.js:275
+#: onedesk/public/js/hiring.js:289 onedesk/public/js/project_actions.js:283
 msgid "Stop"
 msgstr ""
 
@@ -20954,6 +22248,10 @@ msgstr ""
 
 #: onedesk/public/js/task.js:11
 msgid "Stop Timer (since {0})"
+msgstr ""
+
+#: frontend/src/template/Tasks.vue:58
+msgid "Stop Waiting on {0}"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:204
@@ -21033,6 +22331,11 @@ msgstr ""
 msgid "Storage, Database or Seats"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Store listings and screenshots"
+msgstr ""
+
 #: onedesk/one_storage/ready.py:40
 msgid "Storing and reading back a test file failed: {0}"
 msgstr ""
@@ -21043,6 +22346,11 @@ msgstr ""
 
 #: onedesk/www/update-password.html:38
 msgid "Strength:"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Strip-Out & First Fix"
 msgstr ""
 
 #. Label of the stripe_section (Section Break) field in DocType 'Offering'
@@ -21110,7 +22418,7 @@ msgstr ""
 msgid "Strongest"
 msgstr ""
 
-#: onedesk/one/printing.py:122 onedesk/one/printing.py:346
+#: onedesk/one/printing.py:99 onedesk/one/printing.py:323
 msgid "Style"
 msgstr ""
 
@@ -21134,8 +22442,8 @@ msgstr ""
 
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
 #: frontend/src/project/TaskPanel.vue:21 onedesk/one/automation_steps.py:41
-#: onedesk/one/custom/notification_type.json onedesk/one/mail_templates.py:111
-#: onedesk/one/notify.py:269 onedesk/one/rules.py:47
+#: onedesk/one/custom/notification_type.json onedesk/one/mail_templates.py:108
+#: onedesk/one/notify.py:254 onedesk/one/rules.py:47
 #: onedesk/one/settings.py:2001
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:448
 #: onedesk/public/js/doctype_settings.js:190
@@ -21185,6 +22493,11 @@ msgstr ""
 
 #: onedesk/one/portal.py:256
 msgid "Submitted"
+msgstr ""
+
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Submitted to the App Store and Google Play"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:476
@@ -21295,7 +22608,7 @@ msgstr ""
 #: onedesk/one_inventory/report/to_order/to_order.js:24
 #: onedesk/one_inventory/report/to_order/to_order.py:19
 #: onedesk/one_project/doctype/project_contact/project_contact.json
-#: onedesk/public/js/project_actions.js:403
+#: onedesk/public/js/project_actions.js:411
 msgid "Supplier"
 msgstr ""
 
@@ -21316,6 +22629,11 @@ msgstr ""
 msgid "Supplier Quotations"
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Supplier bills paid"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: frontend/src/project/Overview.vue:96
 #: frontend/src/project/ProjectPage.vue:188
@@ -21323,6 +22641,11 @@ msgstr ""
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/tree.py:199
 msgid "Suppliers"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Support"
 msgstr ""
 
 #: onedesk/public/js/onemail.js:91
@@ -21336,6 +22659,16 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Sureness"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Survey & Design"
+msgstr ""
+
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Survey and design"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
@@ -21494,9 +22827,11 @@ msgstr ""
 
 #: frontend/src/project/Tasks.vue:17 frontend/src/project/Time.vue:30
 #: frontend/src/project/Time.vue:87 frontend/src/project/Timeline.vue:8
+#: frontend/src/template/Tasks.vue:8 frontend/src/template/Tasks.vue:36
+#: frontend/src/template/TemplatePage.vue:110
 #: onedesk/one_task/page/my_tasks/my_tasks.js:148
-#: onedesk/public/js/project_actions.js:318
-#: onedesk/public/js/project_actions.js:694 onedesk/public/js/timesheet.js:50
+#: onedesk/public/js/project_actions.js:326
+#: onedesk/public/js/project_actions.js:702 onedesk/public/js/timesheet.js:50
 msgid "Task"
 msgstr ""
 
@@ -21630,6 +22965,16 @@ msgstr ""
 msgid "Team Library"
 msgstr ""
 
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Technical Design"
+msgstr ""
+
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Technical plan"
+msgstr ""
+
 #: onedesk/one/automation_steps.py:24
 msgid "Tell People"
 msgstr ""
@@ -21641,7 +22986,8 @@ msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:189
-#: onedesk/public/js/project_actions.js:81 onedesk/public/js/project_new.js:124
+#: onedesk/public/js/project_actions.js:82 onedesk/public/js/project_new.js:140
+#: onedesk/public/js/project_template_list.js:10
 #: onedesk/public/js/settings.js:2079
 msgid "Template"
 msgstr ""
@@ -21654,12 +23000,24 @@ msgstr ""
 msgid "Template created"
 msgstr ""
 
-#: onedesk/one/notify.py:342 onedesk/one/rules.py:211
+#: onedesk/one/notify.py:327 onedesk/one/rules.py:211
 msgid "Template error: {0}"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:566
 msgid "Template updated"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_project/page/project_template_view/project_template_view.js:10
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/public/js/project_places.js:14
+msgid "Templates"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Templates built"
 msgstr ""
 
 #. Name of a DocType
@@ -21680,6 +23038,21 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Tenant Event"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Tender"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Tender documents issued"
+msgstr ""
+
+#. Task in the Architectural Design Stages project template
+#: onedesk/one_project/library/architectural_design.json
+msgid "Tenders assessed and contractor appointed"
 msgstr ""
 
 #. Label in the One Appointment Letter print format
@@ -21718,6 +23091,11 @@ msgstr ""
 msgid "Territory"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Test"
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:10 onedesk/public/js/ai_model.js:33
 msgid "Test Call"
 msgstr ""
@@ -21726,8 +23104,33 @@ msgstr ""
 msgid "Test Gateway"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Test scripts written"
+msgstr ""
+
 #: onedesk/public/js/settings.js:422
 msgid "Test sent"
+msgstr ""
+
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Testing"
+msgstr ""
+
+#. Task in the Interior Fit-Out project template
+#: onedesk/one_project/library/interior_fit_out.json
+msgid "Testing and commissioning"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Testing on phones and browsers"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Testing, Handover & Closeout"
 msgstr ""
 
 #. Label of the one_text_section (Section Break) field in DocType 'Notification
@@ -21780,6 +23183,11 @@ msgstr ""
 msgid "Thank you. We will be in touch."
 msgstr ""
 
+#. Task in the Event project template
+#: onedesk/one_project/library/event.json
+msgid "Thank-you mails and recordings"
+msgstr ""
+
 #: onedesk/one_admin/accounts.py:328
 msgid "That address already has an account. Sign in with it instead."
 msgstr ""
@@ -21787,7 +23195,7 @@ msgstr ""
 #: onedesk/one/access.py:419 onedesk/one/access.py:544
 #: onedesk/one/access.py:581 onedesk/one/access.py:606
 #: onedesk/one/access.py:666 onedesk/one/ai_setup.py:816
-#: onedesk/one/reports.py:238 onedesk/one/reports.py:270
+#: onedesk/one/reports.py:214 onedesk/one/reports.py:246
 #: onedesk/one/settings.py:1038 onedesk/one/settings.py:1127
 msgid "That cannot be set."
 msgstr ""
@@ -21830,7 +23238,7 @@ msgstr ""
 msgid "That is not one of your memories."
 msgstr ""
 
-#: onedesk/one/closing.py:287 onedesk/one/privacy.py:155
+#: onedesk/one/closing.py:287 onedesk/one/privacy.py:140
 msgid "That is not your password."
 msgstr ""
 
@@ -21979,7 +23387,7 @@ msgstr ""
 msgid "The account holder"
 msgstr ""
 
-#: onedesk/one/approvals.py:77
+#: onedesk/one/approvals.py:63
 msgid "The action from {0} to {1} doesn't run anything."
 msgstr ""
 
@@ -22508,7 +23916,7 @@ msgstr ""
 msgid "The owner is reminded at this time."
 msgstr ""
 
-#: onedesk/one/printing.py:610
+#: onedesk/one/printing.py:587
 msgid "The page"
 msgstr ""
 
@@ -22521,7 +23929,7 @@ msgstr ""
 msgid "The page lists this model with no current price."
 msgstr ""
 
-#: onedesk/one/printing.py:604
+#: onedesk/one/printing.py:581
 msgid "The page number position must be one of {0}."
 msgstr ""
 
@@ -22939,7 +24347,7 @@ msgstr ""
 msgid "The workspace is being built."
 msgstr ""
 
-#: onedesk/one/privacy.py:135
+#: onedesk/one/privacy.py:120
 msgid "The workspace is billed to this account. Change who pays in Workspace › Plan and Credits first."
 msgstr ""
 
@@ -23003,6 +24411,11 @@ msgstr ""
 msgid "The writer promises to do this, rather than asking somebody else."
 msgstr ""
 
+#. What a project template is for
+#: onedesk/one_project/library/year_end_audit.json
+msgid "The year's books closed and audited, from the last invoice to the signed accounts."
+msgstr ""
+
 #. Description of the 'Zone ID' (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The zone the workspace domain is in. Customers' own domains are added to it as custom hostnames."
@@ -23020,6 +24433,11 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/expense_claim_asked.md
 msgid "Their expense approver"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Their information gathered"
 msgstr ""
 
 #. Who a notification is sent to
@@ -23075,7 +24493,7 @@ msgstr ""
 msgid "There is already a role called {0}."
 msgstr ""
 
-#: onedesk/one_project/templates.py:56
+#: onedesk/one_project/templates.py:58
 msgid "There is already a template called {0}."
 msgstr ""
 
@@ -23103,7 +24521,7 @@ msgstr ""
 msgid "There is no holiday list {0}."
 msgstr ""
 
-#: onedesk/one/printing.py:601 onedesk/one/printing.py:736
+#: onedesk/one/printing.py:578 onedesk/one/printing.py:713
 msgid "There is no letter head {0}."
 msgstr ""
 
@@ -23119,7 +24537,7 @@ msgstr ""
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr ""
 
-#: onedesk/one/notify.py:448 onedesk/one/settings.py:1879
+#: onedesk/one/notify.py:433 onedesk/one/settings.py:1879
 msgid "There is no notification type {0}."
 msgstr ""
 
@@ -23142,6 +24560,10 @@ msgstr ""
 
 #: onedesk/one/settings.py:205
 msgid "There is no such section."
+msgstr ""
+
+#: onedesk/one_project/library.py:42
+msgid "There is no template called {0} in the library."
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:50
@@ -23245,7 +24667,7 @@ msgstr ""
 msgid "This account holds no workspace yet."
 msgstr ""
 
-#: onedesk/one/privacy.py:75
+#: onedesk/one/privacy.py:60
 msgid "This account is not a person's."
 msgstr ""
 
@@ -23375,7 +24797,7 @@ msgstr ""
 msgid "This link isn't valid"
 msgstr ""
 
-#: onedesk/one/privacy.py:194 onedesk/one/privacy_public.py:74
+#: onedesk/one/privacy.py:179 onedesk/one/privacy_public.py:74
 #: onedesk/one/privacy_public.py:141
 msgid "This link no longer works"
 msgstr ""
@@ -23429,9 +24851,9 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one/approvals.py:51 onedesk/one/automations.py:44
-#: onedesk/one/mail_templates.py:122 onedesk/one/numbering.py:55
-#: onedesk/one/printing.py:75
+#: onedesk/one/approvals.py:37 onedesk/one/automations.py:38
+#: onedesk/one/mail_templates.py:119 onedesk/one/numbering.py:52
+#: onedesk/one/printing.py:52
 msgid "This record type doesn't exist."
 msgstr ""
 
@@ -23452,7 +24874,7 @@ msgstr ""
 msgid "This request is closed."
 msgstr ""
 
-#: onedesk/one/privacy.py:225 onedesk/one/privacy_copy.py:323
+#: onedesk/one/privacy.py:210 onedesk/one/privacy_copy.py:323
 msgid "This request is not waiting for a decision."
 msgstr ""
 
@@ -23485,7 +24907,7 @@ msgstr ""
 msgid "This site doesn't manage workspaces."
 msgstr ""
 
-#: onedesk/one/printing.py:691
+#: onedesk/one/printing.py:668
 msgid "This suggestion does not change how anything prints."
 msgstr ""
 
@@ -23614,6 +25036,11 @@ msgstr ""
 msgid "Tiles"
 msgstr ""
 
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Tiling"
+msgstr ""
+
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
 #. Label of the one_time (Select) field in DocType 'Project'
@@ -23629,7 +25056,7 @@ msgstr ""
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:176
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
-#: onedesk/public/js/project_new.js:130 onedesk/public/js/project_places.js:13
+#: onedesk/public/js/project_new.js:148 onedesk/public/js/project_places.js:13
 msgid "Time"
 msgstr ""
 
@@ -23643,7 +25070,7 @@ msgstr ""
 msgid "Time and Materials"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:355
+#: onedesk/public/js/project_actions.js:363
 msgid "Time logged"
 msgstr ""
 
@@ -23651,7 +25078,7 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: onedesk/one/automations.py:143
+#: onedesk/one/automations.py:137
 msgid "Timeout (seconds)"
 msgstr ""
 
@@ -23669,7 +25096,7 @@ msgstr ""
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/public/js/project_new.js:132
+#: onedesk/public/js/project_new.js:150
 msgid "Timesheets"
 msgstr ""
 
@@ -23925,6 +25352,11 @@ msgstr ""
 msgid "Totals Only"
 msgstr ""
 
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Train"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Training Event"
@@ -23948,6 +25380,16 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/training_scheduled.md
 msgid "Training Scheduled"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Training for each team"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Training for editors"
 msgstr ""
 
 #. Label of the one_ai_transcribe (Check) field in DocType 'HR Settings'
@@ -24045,6 +25487,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Trial Balance"
+msgstr ""
+
+#. Task in the Year-End Audit project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Trial balance ready"
 msgstr ""
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.js:35
@@ -24195,7 +25642,7 @@ msgstr ""
 msgid "UIDVALIDITY"
 msgstr ""
 
-#: onedesk/one/automations.py:139
+#: onedesk/one/automations.py:133
 msgid "URL"
 msgstr ""
 
@@ -24535,12 +25982,20 @@ msgstr ""
 msgid "Used This Month"
 msgstr ""
 
+#: frontend/src/template/TemplatePage.vue:84
+msgid "Used by 1 project"
+msgstr ""
+
 #: onedesk/one/account.py:273
 msgid "Used by OneAI, one call"
 msgstr ""
 
 #: onedesk/one/account.py:275
 msgid "Used by OneAI, {0} calls"
+msgstr ""
+
+#: frontend/src/template/TemplatePage.vue:84
+msgid "Used by {0} projects"
 msgstr ""
 
 #: onedesk/one/settings.py:808
@@ -24584,7 +26039,7 @@ msgstr ""
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
-#: onedesk/public/js/project_actions.js:370 onedesk/public/js/settings.js:1127
+#: onedesk/public/js/project_actions.js:378 onedesk/public/js/settings.js:1127
 #: onedesk/public/js/settings.js:1188
 msgid "User"
 msgstr ""
@@ -24611,8 +26066,23 @@ msgstr ""
 msgid "User Verified"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "User journeys and wireframes"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1770
 msgid "User name"
+msgstr ""
+
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "User stories"
+msgstr ""
+
+#. Task in the ERP Rollout project template
+#: onedesk/one_project/library/erp_rollout.json
+msgid "Users test their own work"
 msgstr ""
 
 #: onedesk/public/js/settings.js:589
@@ -24674,7 +26144,7 @@ msgstr ""
 #. Label of the value (Long Text) field in DocType 'AI Touch'
 #. Label in the One Job Offer print format
 #. Label of the value (Data) field in DocType 'Identifier'
-#: onedesk/one/automations.py:133
+#: onedesk/one/automations.py:127
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:62
@@ -24758,7 +26228,9 @@ msgid "Very hard to guess"
 msgstr ""
 
 #. Label of the reads_video (Check) field in DocType 'AI Model'
+#. Task in the Marketing Campaign project template
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_project/library/marketing_campaign.json
 #: onedesk/public/js/onecloud.js:42
 msgid "Video"
 msgstr ""
@@ -24816,12 +26288,26 @@ msgstr ""
 msgid "Vision"
 msgstr ""
 
+#. Task in the Mobile App project template
+#: onedesk/one_project/library/mobile_app.json
+msgid "Visual design"
+msgstr ""
+
+#. Task in the Website project template
+#: onedesk/one_project/library/website.json
+msgid "Visual design of the home page"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1744
 msgid "Void"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:630
 msgid "Wait"
+msgstr ""
+
+#: frontend/src/template/Tasks.vue:63
+msgid "Wait On"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:631
@@ -24910,8 +26396,8 @@ msgstr ""
 msgid "Waiting to run"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:55
-#: onedesk/public/js/project_actions.js:686
+#: frontend/src/project/TaskPanel.vue:55 frontend/src/template/Tasks.vue:10
+#: onedesk/public/js/project_actions.js:694
 msgid "Waits On"
 msgstr ""
 
@@ -24924,7 +26410,7 @@ msgstr ""
 msgid "Warehouses"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:274
+#: onedesk/public/js/project_actions.js:282
 msgid "Warn"
 msgstr ""
 
@@ -24939,6 +26425,11 @@ msgstr ""
 
 #: onedesk/public/js/oneai.js:263
 msgid "Was {0}"
+msgstr ""
+
+#. Task in the Aluminium & Glazing project template
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Water test"
 msgstr ""
 
 #. Label of a number card
@@ -24990,9 +26481,10 @@ msgid "Webhooks could not deliver yesterday"
 msgstr ""
 
 #. Label of the website (Data) field in DocType 'Reading Party'
+#. Name of a project template
 #: onedesk/one/letter_heads.py:54
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/settings.js:2201
+#: onedesk/one_project/library/website.json onedesk/public/js/settings.js:2201
 msgid "Website"
 msgstr ""
 
@@ -25021,6 +26513,11 @@ msgstr ""
 msgid "Weekly off"
 msgstr ""
 
+#. Task in the Marketing Campaign project template
+#: onedesk/one_project/library/marketing_campaign.json
+msgid "Weekly results and changes"
+msgstr ""
+
 #. Label of a number card
 #. Label of a number card in the OneCRM Workspace
 #: onedesk/one_crm/number_card/weighted_pipeline/weighted_pipeline.json
@@ -25030,6 +26527,16 @@ msgstr ""
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:63
 msgid "Weighted Value"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Welcome"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Welcome mail and contacts"
 msgstr ""
 
 #. Label of the kind (Select) field in DocType 'Tenant Event'
@@ -25124,7 +26631,7 @@ msgstr ""
 msgid "What a file in OneCloud held before it was replaced."
 msgstr ""
 
-#: onedesk/one/webhooks.py:99
+#: onedesk/one/webhooks.py:93
 msgid "What a webhook sends names a field of the record, such as {0}, and nothing else."
 msgstr ""
 
@@ -25524,7 +27031,7 @@ msgstr ""
 msgid "What was done and for what, so the same thing is never done twice."
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:214
+#: onedesk/public/js/project_actions.js:222
 msgid "What was done, what comes next, and anything in the way."
 msgstr ""
 
@@ -25594,8 +27101,8 @@ msgstr ""
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: onedesk/one/ai.py:4061 onedesk/one/settings.py:1997
-#: onedesk/one_hr/custom/timesheet_detail.json
+#: frontend/src/template/Tasks.vue:9 onedesk/one/ai.py:4061
+#: onedesk/one/settings.py:1997 onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:267 onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -26187,7 +27694,7 @@ msgstr ""
 msgid "When someone asks to sign in to their One account by email. It can't be turned off."
 msgstr ""
 
-#: onedesk/one/notify.py:374
+#: onedesk/one/notify.py:359
 msgid "When someone assigns you something, or it changes."
 msgstr ""
 
@@ -26206,7 +27713,7 @@ msgstr ""
 msgid "When someone is made a workspace administrator."
 msgstr ""
 
-#: onedesk/one/notify.py:373
+#: onedesk/one/notify.py:358
 msgid "When someone mentions you in a comment."
 msgstr ""
 
@@ -26230,7 +27737,7 @@ msgstr ""
 msgid "When someone shares a file or folder with you."
 msgstr ""
 
-#: onedesk/one/notify.py:375
+#: onedesk/one/notify.py:360
 msgid "When someone shares a record with you."
 msgstr ""
 
@@ -26897,6 +28404,16 @@ msgstr ""
 msgid "Windows"
 msgstr ""
 
+#. Task in the Small Building Works project template
+#: onedesk/one_project/library/small_building_works.json
+msgid "Windows and doors"
+msgstr ""
+
+#. What a project template is for
+#: onedesk/one_project/library/aluminium_and_glazing.json
+msgid "Windows, doors, curtain walls and glazing, from contract review to the final account."
+msgstr ""
+
 #. Message of a notification
 #: onedesk/notifications/one_hr/birthday.md
 msgid "Wish them a happy birthday."
@@ -26983,6 +28500,11 @@ msgstr ""
 
 #: frontend/src/project/Invoices.vue:113 frontend/src/project/Suppliers.vue:194
 msgid "Work done {0}%"
+msgstr ""
+
+#. Task in the New Client Onboarding project template
+#: onedesk/one_project/library/client_onboarding.json
+msgid "Work plan agreed"
 msgstr ""
 
 #. Description of the Onboarding Step 'Start a project'
@@ -27208,7 +28730,7 @@ msgstr ""
 msgid "Workspace Suspended"
 msgstr ""
 
-#: onedesk/one/approvals.py:321
+#: onedesk/one/approvals.py:307
 msgid "Workspace administrators"
 msgstr ""
 
@@ -27468,6 +28990,11 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
+#. Name of a project template
+#: onedesk/one_project/library/year_end_audit.json
+msgid "Year-End Audit"
+msgstr ""
+
 #: onedesk/one_book/closing.py:110
 msgid "Year-end close of {0}"
 msgstr ""
@@ -27546,7 +29073,7 @@ msgstr ""
 msgid "You can't share {0}."
 msgstr ""
 
-#: onedesk/one/recycle.py:175
+#: onedesk/one/recycle.py:163
 msgid "You cannot make a {0}, so you cannot put one back."
 msgstr ""
 
@@ -27558,12 +29085,12 @@ msgstr ""
 msgid "You cannot open that record."
 msgstr ""
 
-#: onedesk/one/approvals.py:56 onedesk/one/automations.py:49
-#: onedesk/one/customize.py:73 onedesk/one/mail_templates.py:126
-#: onedesk/one/numbering.py:60 onedesk/one/printing.py:79
-#: onedesk/one/recycle.py:158 onedesk/one/recycle.py:179
-#: onedesk/one/reports.py:67 onedesk/one/reports.py:70
-#: onedesk/one/reports.py:80
+#: onedesk/one/approvals.py:42 onedesk/one/automations.py:43
+#: onedesk/one/customize.py:73 onedesk/one/mail_templates.py:123
+#: onedesk/one/numbering.py:57 onedesk/one/printing.py:56
+#: onedesk/one/recycle.py:146 onedesk/one/recycle.py:167
+#: onedesk/one/reports.py:43 onedesk/one/reports.py:46
+#: onedesk/one/reports.py:56
 msgid "You cannot open {0}."
 msgstr ""
 
@@ -27609,7 +29136,7 @@ msgstr ""
 msgid "You may not read {0} {1}."
 msgstr ""
 
-#: onedesk/one/webhooks.py:107
+#: onedesk/one/webhooks.py:101
 msgid "You may not read {0}, so a webhook of yours cannot send it."
 msgstr ""
 
@@ -27650,7 +29177,7 @@ msgstr ""
 msgid "You'll get an email with a link to confirm."
 msgstr ""
 
-#: onedesk/one/privacy.py:131
+#: onedesk/one/privacy.py:116
 msgid "You're the only administrator. Make someone else an administrator first."
 msgstr ""
 
@@ -27658,7 +29185,7 @@ msgstr ""
 msgid "You've already asked. An administrator is reviewing it."
 msgstr ""
 
-#: onedesk/one/privacy.py:149
+#: onedesk/one/privacy.py:134
 msgid "You've already asked. An administrator will decide."
 msgstr ""
 
@@ -27735,7 +29262,7 @@ msgstr ""
 msgid "Your Request Is On Hold"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:212
+#: onedesk/public/js/project_actions.js:220
 msgid "Your Update"
 msgstr ""
 
@@ -27875,7 +29402,7 @@ msgstr ""
 msgid "Your request for {shift} from {from_date} was {status}"
 msgstr ""
 
-#: onedesk/one/privacy.py:204
+#: onedesk/one/privacy.py:189
 msgid "Your request is with your workspace's administrators. You will hear when they decide."
 msgstr ""
 
@@ -27919,7 +29446,7 @@ msgstr ""
 msgid "Your update is due today"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:218
+#: onedesk/public/js/project_actions.js:226
 msgid "Your update is on the project."
 msgstr ""
 
@@ -28485,7 +30012,7 @@ msgstr ""
 msgid "not known yet"
 msgstr ""
 
-#: onedesk/one/heads.py:29 onedesk/one/notify.py:345
+#: onedesk/one/heads.py:29 onedesk/one/notify.py:330
 #: onedesk/public/js/desk.js:273
 msgid "nothing"
 msgstr ""
@@ -28673,7 +30200,7 @@ msgstr ""
 msgid "restored version {0}"
 msgstr ""
 
-#: onedesk/one/recycle.py:194
+#: onedesk/one/recycle.py:182
 msgid "restored {0} as {1}"
 msgstr ""
 
@@ -29079,7 +30606,7 @@ msgstr ""
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr ""
 
-#: onedesk/one/notify.py:254
+#: onedesk/one/notify.py:239
 msgid "{0} always sends this. It can't be turned off."
 msgstr ""
 
@@ -29135,7 +30662,7 @@ msgstr ""
 msgid "{0} at the end"
 msgstr ""
 
-#: onedesk/one/approvals.py:325
+#: onedesk/one/approvals.py:311
 msgid "{0} at the level {1}"
 msgstr ""
 
@@ -29179,11 +30706,11 @@ msgstr ""
 msgid "{0} can't be restored."
 msgstr ""
 
-#: onedesk/one/webhooks.py:78
+#: onedesk/one/webhooks.py:72
 msgid "{0} can't be sent by a webhook."
 msgstr ""
 
-#: onedesk/one/notify.py:247
+#: onedesk/one/notify.py:232
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr ""
 
@@ -29195,12 +30722,16 @@ msgstr ""
 msgid "{0} cannot be changed by you."
 msgstr ""
 
+#: onedesk/one_project/template_view.py:79
+msgid "{0} cannot be changed here."
+msgstr ""
+
 #: onedesk/one_storage/api.py:409
 msgid "{0} cannot be deleted."
 msgstr ""
 
-#: onedesk/one/numbering.py:519 onedesk/one/numbering.py:524
-#: onedesk/one/numbering.py:529
+#: onedesk/one/numbering.py:516 onedesk/one/numbering.py:521
+#: onedesk/one/numbering.py:526
 msgid "{0} cannot be named that way."
 msgstr ""
 
@@ -29219,11 +30750,11 @@ msgid ""
 "{4}"
 msgstr ""
 
-#: onedesk/one/approvals.py:107 onedesk/one/approvals.py:111
+#: onedesk/one/approvals.py:93 onedesk/one/approvals.py:97
 msgid "{0} cannot hold an approval's state."
 msgstr ""
 
-#: onedesk/one/numbering.py:564
+#: onedesk/one/numbering.py:561
 msgid "{0} cannot name each {1}: two records already have {2} in it."
 msgstr ""
 
@@ -29271,7 +30802,7 @@ msgstr ""
 msgid "{0} costs"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:107
+#: onedesk/public/js/project_actions.js:115
 msgid "{0} costs, {1}"
 msgstr ""
 
@@ -29287,7 +30818,7 @@ msgstr ""
 msgid "{0} counts nothing."
 msgstr ""
 
-#: onedesk/public/js/project_new.js:274 onedesk/public/js/settings.js:2943
+#: onedesk/public/js/project_new.js:293 onedesk/public/js/settings.js:2943
 msgid "{0} created"
 msgstr ""
 
@@ -29320,8 +30851,9 @@ msgstr ""
 msgid "{0} credits."
 msgstr ""
 
-#: onedesk/one_crm/heads.py:32 onedesk/one_crm/heads.py:40
-#: onedesk/one_intake/understand.py:389
+#: frontend/src/template/Tasks.vue:126
+#: frontend/src/template/TemplatePage.vue:83 onedesk/one_crm/heads.py:32
+#: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:389
 msgid "{0} days"
 msgstr ""
 
@@ -29382,11 +30914,11 @@ msgstr ""
 msgid "{0} doesn't have permission for this."
 msgstr ""
 
-#: onedesk/one/approvals.py:54
+#: onedesk/one/approvals.py:40
 msgid "{0} doesn't support workspace approvals."
 msgstr ""
 
-#: onedesk/one/automations.py:47
+#: onedesk/one/automations.py:41
 msgid "{0} doesn't support workspace automations."
 msgstr ""
 
@@ -29406,7 +30938,7 @@ msgstr ""
 msgid "{0} extra work"
 msgstr ""
 
-#: onedesk/one/numbering.py:305
+#: onedesk/one/numbering.py:302
 msgid "{0} field"
 msgstr ""
 
@@ -29462,7 +30994,7 @@ msgstr ""
 msgid "{0} goes through {1}, which is not a link."
 msgstr ""
 
-#: onedesk/one/numbering.py:224
+#: onedesk/one/numbering.py:221
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr ""
 
@@ -29476,7 +31008,7 @@ msgstr ""
 msgid "{0} h a month"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:486
+#: onedesk/public/js/project_actions.js:494
 msgid "{0} h are on timesheets not submitted yet."
 msgstr ""
 
@@ -29492,11 +31024,11 @@ msgstr ""
 msgid "{0} h of time and costs"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:485
+#: onedesk/public/js/project_actions.js:493
 msgid "{0} h used of {1} h."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:164
+#: onedesk/one_project/kinds.py:166
 msgid "{0} has a contract already. Change it on its sales order."
 msgstr ""
 
@@ -29541,7 +31073,7 @@ msgstr ""
 msgid "{0} has no field {1}"
 msgstr ""
 
-#: onedesk/one/mail_templates.py:97 onedesk/one/printing.py:596
+#: onedesk/one/mail_templates.py:94 onedesk/one/printing.py:573
 msgid "{0} has no field {1}."
 msgstr ""
 
@@ -29553,11 +31085,11 @@ msgstr ""
 msgid "{0} has no section through {1}."
 msgstr ""
 
-#: onedesk/one_project/templates.py:65
+#: onedesk/one_project/templates.py:67
 msgid "{0} has no tasks to make a template from."
 msgstr ""
 
-#: onedesk/one_project/templates.py:109
+#: onedesk/one_project/templates.py:121
 msgid "{0} has no tasks."
 msgstr ""
 
@@ -29565,7 +31097,7 @@ msgstr ""
 msgid "{0} has not failed."
 msgstr ""
 
-#: onedesk/one/numbering.py:228
+#: onedesk/one/numbering.py:225
 msgid "{0} has reached {1}. It can only go up: a lower number would repeat a name already used."
 msgstr ""
 
@@ -29606,7 +31138,7 @@ msgstr ""
 msgid "{0} hours in 12 weeks"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:106
+#: onedesk/public/js/project_actions.js:114
 msgid "{0} hours, {1}"
 msgstr ""
 
@@ -29658,7 +31190,7 @@ msgstr ""
 msgid "{0} is a standard folder and can't be changed."
 msgstr ""
 
-#: onedesk/one/printing.py:312 onedesk/one/printing.py:740
+#: onedesk/one/printing.py:289 onedesk/one/printing.py:717
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr ""
 
@@ -29722,11 +31254,11 @@ msgstr ""
 msgid "{0} is already under {1}, so it cannot be its parent."
 msgstr ""
 
-#: onedesk/one/recycle.py:161
+#: onedesk/one/recycle.py:149
 msgid "{0} is back already."
 msgstr ""
 
-#: onedesk/one/recycle.py:171 onedesk/one/recycle.py:200
+#: onedesk/one/recycle.py:159 onedesk/one/recycle.py:188
 msgid "{0} is back."
 msgstr ""
 
@@ -29798,7 +31330,7 @@ msgstr ""
 msgid "{0} is not a field to edit."
 msgstr ""
 
-#: onedesk/one/mail_templates.py:99
+#: onedesk/one/mail_templates.py:96
 msgid "{0} is not a field."
 msgstr ""
 
@@ -29814,15 +31346,15 @@ msgstr ""
 msgid "{0} is not a form here."
 msgstr ""
 
-#: onedesk/one/printing.py:662
+#: onedesk/one/printing.py:639
 msgid "{0} is not a format of {1} this workspace made."
 msgstr ""
 
-#: onedesk/one/printing.py:412
+#: onedesk/one/printing.py:389
 msgid "{0} is not a format of {1}."
 msgstr ""
 
-#: onedesk/one/printing.py:506
+#: onedesk/one/printing.py:483
 msgid "{0} is not a format {1} can start from."
 msgstr ""
 
@@ -29866,11 +31398,11 @@ msgstr ""
 msgid "{0} is not a retainer."
 msgstr ""
 
-#: onedesk/one/numbering.py:729
+#: onedesk/one/numbering.py:722
 msgid "{0} is not a rule of {1}."
 msgstr ""
 
-#: onedesk/one/numbering.py:217
+#: onedesk/one/numbering.py:214
 msgid "{0} is not a series of {1}."
 msgstr ""
 
@@ -29890,7 +31422,7 @@ msgstr ""
 msgid "{0} is not a task on this project."
 msgstr ""
 
-#: onedesk/one/mail_templates.py:140
+#: onedesk/one/mail_templates.py:137
 msgid "{0} is not a template for {1}."
 msgstr ""
 
@@ -29930,7 +31462,7 @@ msgstr ""
 msgid "{0} is not in the zone {1}."
 msgstr ""
 
-#: onedesk/one/mail_templates.py:124 onedesk/one/mail_templates.py:138
+#: onedesk/one/mail_templates.py:121 onedesk/one/mail_templates.py:135
 msgid "{0} is not mailed from templates this workspace sets."
 msgstr ""
 
@@ -29938,11 +31470,11 @@ msgstr ""
 msgid "{0} is not named by a series."
 msgstr ""
 
-#: onedesk/one/numbering.py:58
+#: onedesk/one/numbering.py:55
 msgid "{0} is not named in a way this workspace sets."
 msgstr ""
 
-#: onedesk/one/numbering.py:68
+#: onedesk/one/numbering.py:65
 msgid "{0} is not numbered by a series."
 msgstr ""
 
@@ -29954,7 +31486,7 @@ msgstr ""
 msgid "{0} is not on this workspace."
 msgstr ""
 
-#: onedesk/one/masters.py:110
+#: onedesk/one/masters.py:83
 msgid "{0} is not one of the masters you manage."
 msgstr ""
 
@@ -29962,7 +31494,11 @@ msgstr ""
 msgid "{0} is not one of the workspace's levels."
 msgstr ""
 
-#: onedesk/one/printing.py:77 onedesk/one/printing.py:410
+#: onedesk/one_project/template_view.py:181
+msgid "{0} is not one of this template's tasks."
+msgstr ""
+
+#: onedesk/one/printing.py:54 onedesk/one/printing.py:387
 msgid "{0} is not printed from formats this workspace sets."
 msgstr ""
 
@@ -29978,7 +31514,7 @@ msgstr ""
 msgid "{0} is not something the clock proposes."
 msgstr ""
 
-#: onedesk/one/notify.py:346
+#: onedesk/one/notify.py:331
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr ""
 
@@ -30084,7 +31620,7 @@ msgid "{0} items selected"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:400 onedesk/one_hr/heads.py:74
-#: onedesk/public/js/project_actions.js:521
+#: onedesk/public/js/project_actions.js:529
 msgid "{0} left"
 msgstr ""
 
@@ -30104,7 +31640,7 @@ msgstr ""
 msgid "{0} logged"
 msgstr ""
 
-#: onedesk/one/approvals.py:328
+#: onedesk/one/approvals.py:314
 msgid "{0} managers"
 msgstr ""
 
@@ -30153,7 +31689,7 @@ msgstr ""
 msgid "{0} not found"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:112
+#: onedesk/public/js/project_actions.js:120
 msgid "{0} not invoiced yet."
 msgstr ""
 
@@ -30448,6 +31984,7 @@ msgid "{0} takes its value from nowhere."
 msgstr ""
 
 #: frontend/src/project/Overview.vue:111
+#: frontend/src/template/TemplatePage.vue:82
 msgid "{0} tasks"
 msgstr ""
 
@@ -30480,7 +32017,7 @@ msgstr ""
 msgid "{0} to {1}, by {2}"
 msgstr ""
 
-#: onedesk/one/approvals.py:71
+#: onedesk/one/approvals.py:57
 msgid "{0} to {1}: a condition only compares the record's fields with plain values, such as doc.grand_total > 5000."
 msgstr ""
 
@@ -30500,7 +32037,7 @@ msgstr ""
 msgid "{0} used, no limit"
 msgstr ""
 
-#: onedesk/one/approvals.py:323
+#: onedesk/one/approvals.py:309
 msgid "{0} users"
 msgstr ""
 
@@ -30618,6 +32155,10 @@ msgstr ""
 msgid "{0} · {1} days late"
 msgstr ""
 
+#: onedesk/public/js/project_new.js:32
+msgid "{0} · {1} tasks, {2} days"
+msgstr ""
+
 #: onedesk/public/js/opportunity_list.js:33
 msgid "{0} · {1} weighted"
 msgstr ""
@@ -30638,7 +32179,7 @@ msgid "{0}% billed"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:420 onedesk/one_project/view.py:733
-#: onedesk/public/js/project_list.js:52 onedesk/public/js/project_tree.js:18
+#: onedesk/public/js/project_list.js:49 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr ""
@@ -30761,23 +32302,23 @@ msgstr ""
 msgid "{0}: a letter head is written as it prints, without template tags."
 msgstr ""
 
-#: onedesk/one/printing.py:165
+#: onedesk/one/printing.py:142
 msgid "{0}: a picture here is one uploaded to this workspace."
 msgstr ""
 
-#: onedesk/one/approvals.py:82
+#: onedesk/one/approvals.py:68
 msgid "{0}: a state can only set a field to a fixed value."
 msgstr ""
 
-#: onedesk/one/approvals.py:99
+#: onedesk/one/approvals.py:85
 msgid "{0}: a state cannot set {1}."
 msgstr ""
 
-#: onedesk/one/printing.py:88
+#: onedesk/one/printing.py:65
 msgid "{0}: a style may not contain markup or load anything."
 msgstr ""
 
-#: onedesk/one/printing.py:91
+#: onedesk/one/printing.py:68
 msgid "{0}: a style may only use this site's files and images."
 msgstr ""
 
@@ -30785,11 +32326,11 @@ msgstr ""
 msgid "{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
 msgstr ""
 
-#: onedesk/one/automations.py:79
+#: onedesk/one/automations.py:73
 msgid "{0}: a value can name a field of a record, as {1}, and nothing else."
 msgstr ""
 
-#: onedesk/one/automations.py:116
+#: onedesk/one/automations.py:110
 msgid "{0}: a webhook is sent over https."
 msgstr ""
 
@@ -30797,11 +32338,11 @@ msgstr ""
 msgid "{0}: an HTML block may use the record's fields and rows, doc.get_formatted, conditions, loops and plain filters; not {1}."
 msgstr ""
 
-#: onedesk/one/automations.py:100
+#: onedesk/one/automations.py:94
 msgid "{0}: an automation here decides by its field rules, not by code."
 msgstr ""
 
-#: onedesk/one/automations.py:106
+#: onedesk/one/automations.py:100
 msgid "{0}: an automation here runs no script."
 msgstr ""
 
@@ -30814,11 +32355,11 @@ msgstr ""
 msgid "{0}: fields of type {1} can't be added."
 msgstr ""
 
-#: onedesk/one/printing.py:142
+#: onedesk/one/printing.py:119
 msgid "{0}: only a field that holds formatted text may print as formatted text."
 msgstr ""
 
-#: onedesk/one/printing.py:163
+#: onedesk/one/printing.py:140
 msgid "{0}: only a standard field template may be used."
 msgstr ""
 
@@ -30826,8 +32367,8 @@ msgstr ""
 msgid "{0}: say which new field goes there."
 msgstr ""
 
-#: onedesk/one/printing.py:139 onedesk/one/printing.py:156
-#: onedesk/one/printing.py:194
+#: onedesk/one/printing.py:116 onedesk/one/printing.py:133
+#: onedesk/one/printing.py:171
 msgid "{0}: this block is not one the print format builder makes."
 msgstr ""
 
@@ -30835,7 +32376,7 @@ msgstr ""
 msgid "{0}: this field is required by the record itself."
 msgstr ""
 
-#: onedesk/one/automations.py:103
+#: onedesk/one/automations.py:97
 msgid "{0}: use a Tell People step to notify people."
 msgstr ""
 
@@ -30847,12 +32388,12 @@ msgstr ""
 msgid "{0}: you cannot read {1}."
 msgstr ""
 
-#: onedesk/one/mail_templates.py:117 onedesk/one/notify.py:272
+#: onedesk/one/mail_templates.py:114 onedesk/one/notify.py:257
 #: onedesk/one/rules.py:50 onedesk/one_studio/extensions.py:392
 msgid "{0}: {1}"
 msgstr ""
 
-#: onedesk/one/printing.py:146
+#: onedesk/one/printing.py:123
 msgid "{0}: {1} blocks can't be added."
 msgstr ""
 
@@ -30860,7 +32401,7 @@ msgstr ""
 msgid "{0}: {1} can't be changed in a workspace."
 msgstr ""
 
-#: onedesk/one/automations.py:112
+#: onedesk/one/automations.py:106
 msgid "{0}: {1} can't be created here."
 msgstr ""
 

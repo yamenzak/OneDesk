@@ -557,6 +557,8 @@ No doctypes yet.
 * `onedesk.one_project.kinds.add_contract`
 * `onedesk.one_project.kinds.defaults`
 * `onedesk.one_project.kinds.make`
+* `onedesk.one_project.library.copy`
+* `onedesk.one_project.library.presets`
 * `onedesk.one_project.media.add`
 * `onedesk.one_project.media.featured`
 * `onedesk.one_project.money.money`
@@ -571,6 +573,12 @@ No doctypes yet.
 * `onedesk.one_project.team.add`
 * `onedesk.one_project.team.remove`
 * `onedesk.one_project.team.team`
+* `onedesk.one_project.template_view.add`
+* `onedesk.one_project.template_view.change`
+* `onedesk.one_project.template_view.nest`
+* `onedesk.one_project.template_view.read`
+* `onedesk.one_project.template_view.remove`
+* `onedesk.one_project.template_view.wait`
 * `onedesk.one_project.templates.add`
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`

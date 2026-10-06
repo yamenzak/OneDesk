@@ -134,6 +134,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneproject_template": {
+		"label": "OneProject",
+		"record": "Project Template",
+		"events": {
+			"template": {
+				"about": _lt("A project template's page is opened, and each time the template changes."),
+				"gives": "template.name, template.project_type, template.tasks (how many), template.days (how long it runs), template.used (how many projects were made from it)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecalendar": {
 		"label": "OneCalendar",
 		"record": "Event",

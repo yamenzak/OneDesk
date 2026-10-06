@@ -9,6 +9,7 @@ from frappe import _
 from frappe.utils import add_days, flt, getdate, nowdate
 
 from onedesk.one_book.currency import bill_in, billed_in
+from onedesk.one_project import library
 
 FIXED = "Fixed Price"
 TIME = "Time and Materials"
@@ -83,7 +84,8 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 			"expected_start_date": values.starts,
 			"expected_end_date": values.ends,
 			"one_manager": values.manager or frappe.session.user,
-			"project_template": values.template,
+			# A preset from the library is copied in first (library.py).
+			"project_template": values.template or (values.library and library.copy(values.library)) or None,
 			"estimated_costing": flt(values.budget) if kind in (TIME, INTERNAL) else 0,
 			"one_monthly_fee": flt(values.monthly_fee) if kind == RETAINER else 0,
 			"one_monthly_hours": flt(values.monthly_hours) if kind == RETAINER else 0,
