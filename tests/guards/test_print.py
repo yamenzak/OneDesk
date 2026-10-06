@@ -87,9 +87,12 @@ def test_every_block_is_a_field_template_with_its_template():
 
 
 def test_the_blocks_reach_jinja_and_settle_after_migrate():
+	"""A new site gets the blocks and the formats as defaults, and every migrate keeps them."""
 	hooks = (APP / "hooks.py").read_text()
 	assert '"onedesk.one.print_blocks.one_print_block"' in hooks
 	assert hooks.count('"onedesk.one.print_blocks.settle"') == 2, "after_install and after_migrate"
+	# frappe's module sync leaves field templates out, so settle brings them in.
+	assert "def _sync_blocks" in BLOCKS.read_text() and "_sync_blocks()" in BLOCKS.read_text()
 
 
 def test_a_template_escapes_what_it_shows():

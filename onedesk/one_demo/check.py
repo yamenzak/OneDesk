@@ -588,5 +588,6 @@ def every_paper_prints_in_the_companys_look():
 		assert record, f"the demo has no {doctype}"
 		with as_user(OWNER):
 			html = frappe.get_print(doctype, record[0], name)
-		title = str(print_blocks.title(frappe.get_doc(doctype, record[0]))["title"])
-		assert title in html and colour in html and record[0] in html, f"{doctype} {record[0]}"
+		# The number's label is printed by One Title alone, never by the letter head.
+		label = print_blocks.title(frappe.get_doc(doctype, record[0]))["label"]
+		assert label in html and colour in html and record[0] in html, f"{doctype} {record[0]} prints no blocks"

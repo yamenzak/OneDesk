@@ -384,6 +384,10 @@ Foundations done so far:
   - A workspace administrator's builder showed every field template as
     "Couldn't render", since only whoever set the workspace up could read
     them. Printing grants them to read now.
+  - A new site printed One's formats with every block empty. frappe syncs a
+    module's print formats but not its field templates, so One now brings
+    its blocks in after every install and migrate. The demo check looks for
+    what only a block prints, so it can't pass on the letter head alone.
   - **Still open**: a report that leaves the company. The Statement of
     Accounts prints from ERPNext's own template.
 

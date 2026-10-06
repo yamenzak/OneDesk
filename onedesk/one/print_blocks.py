@@ -30,6 +30,8 @@ Each record in FORMATS prints with One's format unless the workspace has
 chosen another (`settle`).
 """
 
+from pathlib import Path
+
 import frappe
 from frappe import _, _lt
 from frappe.utils import cint, flt
@@ -118,9 +120,11 @@ INK = "#111827"
 
 
 def settle() -> None:
-	"""One's format as each record's default, where nobody has chosen one or
-	the default is the one ERPNext set when it was installed. A format the
-	workspace chose (Printing, or frappe's own Set as Default) is kept."""
+	"""The blocks, and One's format as each record's default where nobody has
+	chosen one or the default is the one ERPNext set when it was installed. A
+	format the workspace chose (Printing, or frappe's own Set as Default) is
+	kept."""
+	_sync_blocks()
 	for doctype, (name, _module) in FORMATS.items():
 		if not frappe.db.exists("Print Format", name):
 			continue
@@ -143,6 +147,17 @@ def settle() -> None:
 			validate_fields_for_doctype=False,
 		)
 		frappe.clear_cache(doctype=doctype)
+
+
+def _sync_blocks() -> None:
+	"""frappe syncs a module's print formats on install and migrate, but not
+	its field templates, so a new site would print One's formats with every
+	block empty. Each is imported here, and only when its file has changed."""
+	from frappe.modules.import_file import import_file_by_path
+
+	folder = Path(frappe.get_app_path("onedesk", "one", "print_format_field_template"))
+	for path in sorted(folder.glob("*/*.json")):
+		import_file_by_path(str(path))
 
 
 def one_print_block(doc, block: str) -> dict:

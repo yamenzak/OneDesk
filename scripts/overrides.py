@@ -151,6 +151,13 @@ OVERRIDES = [
 		"{{ frappe.render_template(template.template_file if template.standard else template.template, {'doc': doc}) }}",
 	),
 	(
+		"One's print blocks are synced by One, not by frappe's module sync",
+		"frappe imports a module's print formats on install and migrate but not its Print Format Field Templates; print_blocks.settle imports One's from one/print_format_field_template, so a new site's formats print their blocks",
+		"onedesk/one/print_blocks.py",
+		"frappe/frappe/model/sync.py",
+		'("printing", "print_format"),',
+	),
+	(
 		"One's formats replace the default ERPNext sets when it is installed",
 		"ERPNext makes its Modern with Images formats the default as a system-generated property setter; print_blocks.settle reads such a row as nobody's choice and sets One's format, and leaves a format the workspace chose",
 		"onedesk/one/print_blocks.py",
