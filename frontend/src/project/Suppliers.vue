@@ -89,7 +89,7 @@
                 <div class="truncate text-sm text-ink-gray-5">{{ [forText(item) ? item.name : "", item.where].filter(Boolean).join(" · ") }}</div>
               </div>
             </ListCell>
-            <ListCell class="min-w-0 max-md:hidden"><span class="truncate text-ink-gray-7">{{ item.party }}</span></ListCell>
+            <ListCell class="min-w-0 gap-2 max-md:hidden"><Avatar :label="item.party" :image="item.party_image" shape="square" size="sm" /><span class="truncate text-ink-gray-7">{{ item.party }}</span></ListCell>
             <ListCell class="min-w-0 tabular-nums max-md:hidden">
               <div v-if="item.retention_due" class="min-w-0">
                 <div class="text-ink-gray-7">{{ date(item.retention_due) }}</div>
@@ -136,7 +136,7 @@
                 <div class="truncate text-sm" :class="ahead(item) ? 'text-ink-amber-3' : 'text-ink-gray-5'">{{ [item.name, received(item)].filter(Boolean).join(" · ") }}</div>
               </div>
             </ListCell>
-            <ListCell class="min-w-0 max-md:hidden"><span class="truncate text-ink-gray-7">{{ item.party || "–" }}</span></ListCell>
+            <ListCell class="min-w-0 gap-2 max-md:hidden"><Avatar v-if="item.party_image" :label="item.party" :image="item.party_image" shape="square" size="sm" /><span class="truncate text-ink-gray-7">{{ item.party || "–" }}</span></ListCell>
             <ListCell class="tabular-nums text-ink-gray-7 max-md:hidden">{{ item.date ? date(item.date) : "" }}</ListCell>
             <ListCell><Badge :label="__(item.status)" :theme="PAPER[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8 max-md:hidden">{{ item.amount ? money(item.amount, item.currency || cash.currency) : "" }}</ListCell>

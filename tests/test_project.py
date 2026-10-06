@@ -2319,3 +2319,7 @@ def test_a_suppliers_logo_shows_where_the_supplier_does():
 	assert '<Avatar :label="one.supplier" :image="one.image" shape="square"' in (src / "Suppliers.vue").read_text()
 	assert "image: one.image,\n      square: true," in (src / "Overview.vue").read_text()
 	assert "or logos.get(one.supplier)" in (PROJECT / "contacts.py").read_text()
+	# The bills, invoices and buying lists carry each party's logo too.
+	assert '"party_image": logos.get(row.party_id),' in (PROJECT / "billing.py").read_text()
+	assert 'one["party_image"] = logos.get(one.pop("supplier"))' in (PROJECT / "buying.py").read_text()
+	assert (src / "Suppliers.vue").read_text().count(':image="item.party_image" shape="square"') == 2

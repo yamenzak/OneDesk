@@ -8210,6 +8210,11 @@ frappe's Assign does; Pending Review tells whoever made the task.
   Subcontracts rows (square, as an organisation is) and a supplier contact
   on Team with no person. The demo suppliers had no website to look a logo
   up by; they were given real firms' sites to show it.
+- The Bills and Buying lists show each supplier's logo beside its name
+  (`billing._listed` carries `party_image` for bills and invoices alike,
+  `buying.papers` for orders, quotations and receipts). A contact who is
+  not a supplier shows their own picture: their Gravatar face, else their
+  company's logo by the domain of their address.
 
 ## OneLegal
 

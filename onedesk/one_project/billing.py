@@ -186,10 +186,16 @@ def bills(project: str) -> dict:
 LISTED = {
 	"Sales Invoice": {
 		"party": "customer_name",
+		"party_id": ("customer", "Customer"),
 		"extra": ["one_retainer_month", "total_billing_hours"],
 		"lines": ["one_rebills"],
 	},
-	"Purchase Invoice": {"party": "supplier_name", "extra": [], "lines": ["purchase_order"]},
+	"Purchase Invoice": {
+		"party": "supplier_name",
+		"party_id": ("supplier", "Supplier"),
+		"extra": [],
+		"lines": ["purchase_order"],
+	},
 }
 
 
@@ -230,6 +236,7 @@ def _listed(project: str, doctype: str) -> dict:
 			fields=[
 				"name",
 				f"{how['party']} as party",
+				f"{how['party_id'][0]} as party_id",
 				"posting_date",
 				"due_date",
 				"status",
@@ -272,6 +279,15 @@ def _listed(project: str, doctype: str) -> dict:
 			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
 		)
 	)
+	# Each party's logo (one_mail/faces.py dresses a party without one).
+	logos = dict(
+		frappe.get_all(
+			how["party_id"][1],
+			filters={"name": ["in", list({row.party_id for row in rows}) or [""]]},
+			fields=["name", "image"],
+			as_list=True,
+		)
+	)
 	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "retention": 0.0, "drafts": 0}
 	# Late by the dates, not the status: ERPNext marks Overdue overnight.
 	terms = money._terms(doctype, [row.name for row in rows if row.docstatus == 1])
@@ -305,6 +321,7 @@ def _listed(project: str, doctype: str) -> dict:
 			{
 				"name": row.name,
 				"party": row.party,
+				"party_image": logos.get(row.party_id),
 				"date": str(row.posting_date) if row.posting_date else None,
 				# What's held back falls due later; the date is when the rest
 				# is due, or the retention's once only it is left.

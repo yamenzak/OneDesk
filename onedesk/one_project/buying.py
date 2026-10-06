@@ -59,7 +59,7 @@ def papers(project: Annotated[str, "The project."]) -> dict:
 			continue
 		fields = ["name", "status", "docstatus", day]
 		if doctype in ("Supplier Quotation", "Purchase Receipt", "Purchase Order"):
-			fields += ["supplier_name", "currency"]
+			fields += ["supplier", "supplier_name", "currency"]
 		if doctype == "Purchase Order":
 			fields += ["per_received", "per_billed"]
 		for one in frappe.get_list(
@@ -76,6 +76,7 @@ def papers(project: Annotated[str, "The project."]) -> dict:
 					"status": "Draft" if one.docstatus == 0 else one.status,
 					"date": str(one.get(day)) if one.get(day) else None,
 					"party": one.get("supplier_name") or _suppliers(doctype, one.name),
+					"supplier": one.get("supplier"),
 					"amount": names[one.name] if doctype != "Request for Quotation" else None,
 					"currency": one.get("currency"),
 					"what": _items(child, one.name),
@@ -84,6 +85,17 @@ def papers(project: Annotated[str, "The project."]) -> dict:
 				}
 			)
 	found.sort(key=lambda one: one["date"] or "", reverse=True)
+	# Each supplier's logo (one_mail/faces.py dresses a supplier without one).
+	logos = dict(
+		frappe.get_all(
+			"Supplier",
+			filters={"name": ["in", list({one["supplier"] for one in found if one["supplier"]}) or [""]]},
+			fields=["name", "image"],
+			as_list=True,
+		)
+	)
+	for one in found:
+		one["party_image"] = logos.get(one.pop("supplier"))
 	return {
 		"papers": found,
 		"can_request": bool(frappe.has_permission("Material Request", "create")),
