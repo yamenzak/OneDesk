@@ -8,5 +8,9 @@ frappe.pages["project-view"].on_page_load = (wrapper) => {
 		title: __("Project"),
 		parent: { label: __("Projects"), route: "/desk/project" },
 		requires: ["/assets/onedesk/js/project_actions.js", "/assets/onedesk/js/progress.js"],
+		// No sidebar: the project's name in the breadcrumb opens the others
+		// (project_places.js).
+		hide_sidebar: !frappe.is_mobile(),
+		menu: () => onedesk.project.picker(frappe.get_route()[1]),
 	});
 };

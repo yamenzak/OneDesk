@@ -8135,6 +8135,21 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - All, Money, Work and Comments filter it. The comment box moved to the foot,
   as frappe has it.
 
+**The sidebar** (OneProject as a whole).
+
+- Five links in a 220px panel beside every OneProject page, one of them
+  doubled in the list's menu, and on a project's page it narrowed the hero.
+  Removed, as OneMail and OneCloud have none: Projects, Workload and Time are
+  frappe's TabButtons in the page head (`project_places.js`), and the pages
+  set frappe's `hide_sidebar`. On a phone, where the head has no room, the
+  tabs hide and the menu keeps the three.
+- Project Templates and Rates moved to the Projects list's ··· menu.
+- A project's name in its breadcrumb opens the others: parent and
+  sub-projects, then open projects (`view.picker`), through frappe's
+  breadcrumb `menu_items`.
+- Workload failed for a task with an empty assignment (`_assign` of ""),
+  and so did OneTask's daily reminder. Both read it as none.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

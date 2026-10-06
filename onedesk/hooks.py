@@ -1001,6 +1001,8 @@ app_include_js = [
 	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
 	"/assets/onedesk/js/island_page.js",
 	"/assets/onedesk/js/project_new.js",
+	# OneProject's places in the page head, and no sidebar. See public/js/project_places.js.
+	"/assets/onedesk/js/project_places.js",
 	# Frappe's Settings dialog for a doctype, for a workspace administrator.
 	"/assets/onedesk/js/doctype_settings.js",
 	# Extensions on One's own pages: OneMail, OneCalendar, a record's head. See one_studio/places.py.

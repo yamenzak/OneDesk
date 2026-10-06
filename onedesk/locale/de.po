@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-06 07:40+0000\n"
-"PO-Revision-Date: 2026-10-06 07:40+0000\n"
+"POT-Creation-Date: 2026-10-06 09:23+0000\n"
+"PO-Revision-Date: 2026-10-06 09:23+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1825,7 +1825,7 @@ msgstr "Alle Details"
 msgid "All Events"
 msgstr "Alle Termine"
 
-#: onedesk/public/js/project_tree.js:8
+#: onedesk/public/js/project_places.js:53 onedesk/public/js/project_tree.js:8
 msgid "All Projects"
 msgstr "Alle Projekte"
 
@@ -13280,7 +13280,7 @@ msgstr "Es ist kein Aufschlag festgelegt, daher kann dieses Modell nicht aufgeru
 msgid "No masters"
 msgstr "Keine Stammdaten"
 
-#: onedesk/one/page/masters/masters.js:145 onedesk/public/js/shell.js:145
+#: onedesk/one/page/masters/masters.js:145 onedesk/public/js/shell.js:152
 msgid "No matches"
 msgstr "Keine Treffer"
 
@@ -13618,7 +13618,7 @@ msgstr "Nicht erfasst"
 
 #. Label of the one_unsaved (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
-#: onedesk/public/js/settings.js:3250 onedesk/public/js/shell.js:361
+#: onedesk/public/js/settings.js:3250 onedesk/public/js/shell.js:368
 msgid "Not Saved"
 msgstr "Nicht gespeichert"
 
@@ -13924,7 +13924,7 @@ msgstr "Noch nichts auszuzahlen: diese Person hat am {0} kein Gehaltsschema."
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
 msgstr "Noch nichts auszuzahlen: {0} hat keinen Tagessatz für Urlaubsabgeltung, also ist ein Tag nichts wert. Setzen Sie ihn im Gehaltsschema oder in der Zuordnung dieser Person."
 
-#: onedesk/public/js/shell.js:144
+#: onedesk/public/js/shell.js:151
 msgid "Nothing to show"
 msgstr "Nichts anzuzeigen"
 
@@ -14794,6 +14794,7 @@ msgstr "OneMail"
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
+#: onedesk/public/js/project_places.js:36
 msgid "OneProject"
 msgstr "OneProject"
 
@@ -15154,6 +15155,7 @@ msgstr "Plan öffnen"
 
 #. Label of a number card
 #: onedesk/one_project/number_card/projects_under_way/projects_under_way.json
+#: onedesk/public/js/project_places.js:52
 msgid "Open Projects"
 msgstr "Offene Projekte"
 
@@ -15716,6 +15718,10 @@ msgstr "Bezahlt, nicht angelegt"
 #: onedesk/one_project/custom/project.json
 msgid "Parent Project"
 msgstr "Übergeordnetes Projekt"
+
+#: onedesk/public/js/project_places.js:51
+msgid "Parent and Sub-projects"
+msgstr "Übergeordnetes Projekt und Teilprojekte"
 
 #. Label of the part (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -16791,7 +16797,7 @@ msgstr "Fortschritt…"
 #: onedesk/one_project/report/workload/workload.js:7
 #: onedesk/public/js/project_actions.js:331
 #: onedesk/public/js/project_actions.js:546
-#: onedesk/public/js/project_list.js:111 onedesk/public/js/timesheet.js:49
+#: onedesk/public/js/project_list.js:118 onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr "Projekt"
 
@@ -16821,8 +16827,7 @@ msgstr "Projektname"
 msgid "Project Summary"
 msgstr "Projektzusammenfassung"
 
-#. Label of a Sidebar Item
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/public/js/project_list.js:40
 msgid "Project Templates"
 msgstr "Projektvorlagen"
 
@@ -16851,11 +16856,11 @@ msgstr "Geplanter Bestand"
 #: onedesk/one_project/page/project_view/project_view.js:9
 #: onedesk/one_project/rates.py:27
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
-#: onedesk/public/js/project_tree.js:9
+#: onedesk/public/js/project_places.js:11 onedesk/public/js/project_tree.js:9
 msgid "Projects"
 msgstr "Projekte"
 
-#: onedesk/public/js/project_list.js:39
+#: onedesk/public/js/project_list.js:46
 msgid "Projects Settings"
 msgstr "Projekteinstellungen"
 
@@ -17220,10 +17225,8 @@ msgid "Rated {0} of 5"
 msgstr "Bewertet mit {0} von 5"
 
 #. Label of the rates (Table) field in DocType 'AI Model'
-#. Label of a Sidebar Item
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_project/rates.py:26
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_project/rates.py:26 onedesk/public/js/project_list.js:43
 msgid "Rates"
 msgstr "Sätze"
 
@@ -17740,7 +17743,7 @@ msgstr "Referenzen"
 #: onedesk/one_admin/heads.py:624 onedesk/one_admin/heads.py:631
 #: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:1942
 #: onedesk/public/js/onecloud.js:1943 onedesk/public/js/onecloud.js:1963
-#: onedesk/public/js/onemail.js:93 onedesk/public/js/shell.js:297
+#: onedesk/public/js/onemail.js:93 onedesk/public/js/shell.js:304
 msgid "Refresh"
 msgstr "Aktualisieren"
 
@@ -18665,7 +18668,7 @@ msgstr "Gleiches Format wie eine Serie."
 #: onedesk/public/js/project_actions.js:643
 #: onedesk/public/js/project_actions.js:707 onedesk/public/js/reports.js:402
 #: onedesk/public/js/settings.js:490 onedesk/public/js/settings.js:787
-#: onedesk/public/js/settings.js:2712 onedesk/public/js/shell.js:465
+#: onedesk/public/js/settings.js:2712 onedesk/public/js/shell.js:472
 #: onedesk/website/doctype/web_form/templates/web_form.html:19
 #: onedesk/www/account_profile.html:29
 msgid "Save"
@@ -18690,7 +18693,7 @@ msgstr "In Meinen Dateien speichern"
 
 #: onedesk/one/page/masters/masters.js:212
 #: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:411
-#: onedesk/public/js/shell.js:523
+#: onedesk/public/js/shell.js:530
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
 msgstr "Gespeichert"
@@ -19340,7 +19343,6 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/one_task/page/my_tasks/my_tasks.js:86
 #: onedesk/one_task/sidebar/onetask/onetask.json
@@ -22551,7 +22553,7 @@ msgstr "Dieser Ordner ist leer."
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr "Diese Fußzeile ist eigenes HTML. Eine Vorlage zu wählen ersetzt sie."
 
-#: onedesk/public/js/head.js:391 onedesk/public/js/shell.js:347
+#: onedesk/public/js/head.js:391 onedesk/public/js/shell.js:354
 msgid "This form has been modified after you have loaded it"
 msgstr "Dieses Formular wurde geändert, nachdem du es geöffnet hast"
 
@@ -22651,7 +22653,7 @@ msgstr "Von diesem Netzwerk dürfen Sie nicht einchecken."
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr "Für diese Überstundenart ist kein Satz hinterlegt, sie vergütet daher nichts."
 
-#: onedesk/public/js/island_page.js:60
+#: onedesk/public/js/island_page.js:63
 msgid "This page has not been built"
 msgstr "Diese Seite wurde nicht erstellt"
 
@@ -22858,7 +22860,7 @@ msgstr "Kacheln"
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:195
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
-#: onedesk/public/js/project_new.js:130
+#: onedesk/public/js/project_new.js:130 onedesk/public/js/project_places.js:13
 msgid "Time"
 msgstr "Uhrzeit"
 
@@ -26062,6 +26064,7 @@ msgstr "Arbeit an einem freien Tag"
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_project/report/workload/workload.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/public/js/project_places.js:12
 msgid "Workload"
 msgstr "Arbeitslast"
 
@@ -29618,7 +29621,7 @@ msgid "{0}% billed"
 msgstr "{0} % berechnet"
 
 #: frontend/src/project/Overview.vue:342 onedesk/one_project/view.py:723
-#: onedesk/public/js/project_list.js:45 onedesk/public/js/project_tree.js:18
+#: onedesk/public/js/project_list.js:52 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0} % erledigt"

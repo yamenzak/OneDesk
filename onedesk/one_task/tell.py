@@ -208,7 +208,7 @@ def today() -> None:
 		group = when(due(one), day)
 		if group not in ("overdue", "today"):
 			continue
-		for user in frappe.parse_json(one._assign) or []:
+		for user in frappe.parse_json(one._assign or "[]") or []:
 			mine.setdefault(user, []).append((group, one))
 	if not mine:
 		return

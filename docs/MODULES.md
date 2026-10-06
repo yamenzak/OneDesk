@@ -580,6 +580,7 @@ No doctypes yet.
 * `onedesk.one_project.updates.asked`
 * `onedesk.one_project.updates.post`
 * `onedesk.one_project.view.files`
+* `onedesk.one_project.view.picker`
 * `onedesk.one_project.view.said`
 * `onedesk.one_project.view.to_quote`
 * `onedesk.one_project.view.updates`

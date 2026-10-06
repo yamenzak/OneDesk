@@ -11,17 +11,20 @@
 // - `onActions(actions)`: frappe's `{ label, icon?, onClick | href }`, with
 //   `primary` for the page's main button and `button` for one beside it; the
 //   rest go in the ··· menu, as frappe puts them.
+//
+// `menu` makes the page's name in the breadcrumb a menu (shell.trail), and
+// `hide_sidebar` closes the module's panel on arrival, as frappe's pages do.
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [] }) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true });
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null }) => {
+	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true, hide_sidebar });
 	const $body = $('<div class="one-island"></div>').appendTo(page.main);
 	const chrome = { title: null, between: [], status: null, actions: [] };
 	let handle = null;
 
 	const draw_chrome = () => {
 		const name = chrome.title || title;
-		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between);
+		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between, menu);
 		else onedesk.shell.name(name);
 		if (chrome.status) page.set_indicator(chrome.status.label, chrome.status.color);
 		else page.clear_indicator();

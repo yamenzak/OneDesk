@@ -1341,17 +1341,29 @@ def test_the_project_page_fits_a_phone():
 	assert 'setConfig("systemTimezone", zone.system)' in mount
 
 
-def test_the_rail_is_projects_workload_time_and_setup():
+def test_the_rail_is_projects_workload_and_time_and_stays_closed():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
-	assert said == [
-		("Projects", "Project"),
-		("Workload", "Workload"),
-		("Time", "Timesheet"),
-		("Setup", None),
-		("Project Templates", "Project Template"),
-		("Rates", "Activity Type"),
-	]
+	# The phone's menu; elsewhere the page head's tabs (project_places.js).
+	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Time", "Timesheet")]
+	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
+	assert "new frappe.ui.TabButtons(" in places and "page.hide_sidebar = !frappe.is_mobile()" in places
+	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
+	# Every report shares the query-report page: only Workload's closes it.
+	assert 'route[0] === "query-report" && !here' in places
+	# Setup is in the Projects list's menu.
+	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
+	assert '__("Project Templates")' in menu and '__("Rates")' in menu
+	# A project's name in its breadcrumb lists the others.
+	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
+	assert "hide_sidebar: !frappe.is_mobile()" in view_js and "onedesk.project.picker(" in view_js
+	assert "menu_items: menu ? (open) => menu(open) : null" in (tree.APP / "public" / "js" / "shell.js").read_text()
+	view_py = (PROJECT / "view.py").read_text()
+	picker = view_py[view_py.index("def picker(") : view_py.index("PICKED = ")]
+	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in picker
+	assert '"project_type": ["!=", "Employee Boarding"]' in picker and "frappe.get_list(" in picker
+	# A task with an empty assignment is assigned to nobody.
+	assert 'frappe.parse_json(task._assign or "[]")' in (PROJECT / "report" / "workload" / "workload.py").read_text()
 	# Rates: an activity's rates for a person are its connection, and lead back to it.
 	assert '"Activity Type": ["onedesk.one_project.rates.dashboard"]' in HOOKS
 	assert '"onedesk.one_project.rates.homes"' in HOOKS

@@ -92,14 +92,21 @@ $.extend(onedesk.shell, {
 	// form's breadcrumb reads "Customer / Client Example Ltd". Frappe's custom
 	// breadcrumb holds one name; `then` is the last, and `between` any
 	// records it sits under, as a sub-project's parents (patched below).
-	trail(parent, route, label, between = []) {
+	// `menu` makes the last a menu of where to go instead, frappe.ui.Dropdown's
+	// rows: a project's page lists the other projects.
+	trail(parent, route, label, between = [], menu = null) {
 		const esc = frappe.utils.escape_html;
 		frappe.breadcrumbs.add({
 			type: "Custom",
 			label: esc(parent),
 			route,
 			between: between.map((one) => ({ label: esc(one.label), route: one.route })),
-			then: esc(label),
+			then: esc(label) + (menu ? ` ${frappe.utils.icon("chevron-down", "xs")}` : ""),
+			// frappe's breadcrumbs make the last crumb a frappe.ui.Dropdown of
+			// `menu_items`, fetched on every open when it is a function. They
+			// test the items' length first, which a function of no arguments
+			// does not have.
+			menu_items: menu ? (open) => menu(open) : null,
 		});
 		frappe.utils.set_title(label);
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());

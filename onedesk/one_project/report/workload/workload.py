@@ -47,7 +47,7 @@ def execute(filters=None):
 	)
 	people: dict[str, dict] = {}
 	for task in tasks:
-		assigned = frappe.parse_json(task._assign) or []
+		assigned = frappe.parse_json(task._assign or "[]") or []
 		if not assigned:
 			continue
 		due = task.exp_end_date or task.exp_start_date

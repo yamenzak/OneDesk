@@ -12,14 +12,21 @@ project task assigned to you shows on your My Tasks and on the project's board.
 
 ## Finding your way
 
-**OneProject** in the dock opens it. The rail has:
+**OneProject** in the dock opens it. It has no sidebar: the tabs at the top
+are its three places.
 
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
 - **Workload**: how many hours of open work each person has in a week.
 - **Time**: the time people have logged, across projects.
-- **Setup**: **Project Templates**, and **Rates**, what an hour of each
-  activity costs and is billed at.
+
+On a phone the three are in the menu instead. **Project Templates** and
+**Rates**, what an hour of each activity costs and is billed at, are in the
+··· menu on **Projects**.
+
+On a project's page, its name at the top opens a list of other projects: its
+parent and sub-projects first, then your other open projects, and **All
+Projects**.
 
 Tasks are in OneTask, and a project's own tasks are on its page. Project
 types are in One's **Masters**.
@@ -47,7 +54,7 @@ The view switch at the top of **Projects** lays them out as:
 Every view leaves out employee onboarding and exit checklists until you
 clear that filter.
 
-**Projects Settings**, in the ··· menu, is for whoever may change it.
+**Projects Settings**, in the same menu, is for whoever may change it.
 
 ### Rates
 

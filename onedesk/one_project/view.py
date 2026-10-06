@@ -1346,6 +1346,43 @@ def files(project: Annotated[str, "The project."]) -> list[dict]:
 
 @frappe.whitelist()
 @frappe.read_only()
+def picker(project: Annotated[str, "The project whose page is open."]) -> dict:
+	"""Where the project's name in its breadcrumb goes: its parent and
+	sub-projects, then the reader's other open projects, the latest first."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	parent = frappe.db.get_value("Project", project, "one_parent")
+	family = frappe.get_list(
+		"Project",
+		filters={"name": ["!=", project]},
+		or_filters={"name": parent or "", "one_parent": project},
+		fields=["name", "project_name as title", "one_parent"],
+		order_by="project_name asc",
+	)
+	family.sort(key=lambda one: one.name != parent)
+	seen = {project, *(one.name for one in family)}
+	open_ = frappe.get_list(
+		"Project",
+		filters={
+			"status": "Open",
+			"project_type": ["!=", "Employee Boarding"],
+			"name": ["not in", list(seen)],
+		},
+		fields=["name", "project_name as title"],
+		order_by="modified desc",
+		limit_page_length=PICKED,
+	)
+	return {
+		"family": [{"name": one.name, "title": one.title} for one in family],
+		"open": [{"name": one.name, "title": one.title} for one in open_],
+	}
+
+
+#: How many open projects the breadcrumb's menu lists.
+PICKED = 12
+
+
+@frappe.whitelist()
+@frappe.read_only()
 def updates(project: Annotated[str, "The project."]) -> list[dict]:
 	"""The team's updates on the project, newest first: who, when, what."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
