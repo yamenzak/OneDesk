@@ -1059,6 +1059,17 @@ later, the tasks that depend on it and are still **Open** move later by the
 same amount. The handrails wait for the frames, even though each is its own
 sub-project.
 
+## Connections
+
+- **From OneCRM**: A quotation made from a deal or the Quotation list can be put on the customer's open project. Once the customer orders it, its Sales Order is the project's contract.
+- **From OneTask**: A project's tasks are the same tasks people see on My Tasks. The timer on a task logs its time on the project.
+- **From OneHR**: A day of attendance at the project's site becomes a timesheet on the project. Expense claims on the project count in its Cost, and Workload leaves out holidays and approved leave.
+- **From OneInventory**: Purchase orders, goods received and stock issued for the project count in its Cost. A purchase order for a package of work is a subcontract on the Suppliers view.
+- **From OneIntake**: A supplier's bill that names an open project is drafted for that project.
+- **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
+- **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
+- **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project. Bill Progress on a subcontract drafts the supplier's bill.
+
 ## Under the hood
 
 For the people who build OneProject. OneAI does not read past this heading.

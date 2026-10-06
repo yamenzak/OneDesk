@@ -1,0 +1,54 @@
+{
+ "file": "cv.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "Somebody applies for a job.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "CV",
+   "title": "Application from Anil Thomas",
+   "summary": "Anil Thomas, a glazier with eight years in the UAE, applies for the Glazier opening.",
+   "language": "en",
+   "number": null,
+   "issued": null,
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Anil Thomas",
+     "person": true,
+     "email": "anil.thomas@example.com",
+     "phone": "+971 55 214 9087"
+    },
+    {
+     "role": "Holder",
+     "name": "Anil Thomas",
+     "person": true,
+     "email": "anil.thomas@example.com",
+     "phone": "+971 55 214 9087"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Personal",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Job Applicant",
+   "values": {
+    "email_id": "anil.thomas@example.com"
+   }
+  }
+ ]
+}

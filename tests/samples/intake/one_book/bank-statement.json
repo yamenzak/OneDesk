@@ -1,0 +1,20 @@
+{
+ "file": "bank-statement-2026-10-06.xml",
+ "answers": {
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Bank Transaction",
+   "values": {
+    "deposit": 12000.0
+   }
+  },
+  {
+   "doctype": "Bank Transaction",
+   "values": {
+    "withdrawal": 2415.0
+   }
+  }
+ ]
+}

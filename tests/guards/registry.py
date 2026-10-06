@@ -441,12 +441,42 @@ GUARDS = [
 		"a block showing a record's value without escaping it",
 		"tests/guards/test_print.py::test_a_template_escapes_what_it_shows",
 	),
+	# 3 Hand-offs
+	Guard(
+		"handoffs-said",
+		3,
+		"a product README with no Connections section, or one naming no other product",
+		"tests/guards/test_handoffs.py::test_every_product_says_its_connections",
+	),
+	Guard(
+		"handoffs-run",
+		3,
+		"the demo suite not holding the hand-offs to the records they leave",
+		"tests/guards/test_handoffs.py::test_the_suite_holds_every_hand_off",
+	),
+	# 14 Intake
+	Guard(
+		"intake-sampled",
+		14,
+		"a record Intake can make with no sample that makes it",
+		"tests/guards/test_intake_samples.py::test_every_record_intake_makes_has_a_sample",
+	),
+	Guard(
+		"intake-samples-whole",
+		14,
+		"a sample with no document, nothing it makes, or an answer to a call Intake never makes",
+		"tests/guards/test_intake_samples.py::test_every_sample_is_whole",
+	),
+	Guard(
+		"intake-samples-run",
+		14,
+		"the demo suite not running every sample",
+		"tests/guards/test_intake_samples.py::test_the_suite_runs_every_sample",
+	),
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
 PLANNED = {
 	1: "a module with a feature and no demo record or check on it, held as each module is passed over again",
-	3: "a module README without its Connections section (ARC 10)",
-	14: "a module with no Intake sample for its records (ARC 10)",
 	17: "a narrative comment of more than a few lines, or a module out of the one layout (ARC 10)",
 }

@@ -1731,6 +1731,18 @@ guessing.
 
 Each section of Settings above lists the questions OneAI offers there.
 
+## Connections
+
+- **From OneAdmin**: **Plan and Credits** and **Domains** show the plan, seats, storage, credits, invoices and addresses OneAdmin holds for the workspace. The person who paid becomes its first administrator.
+- **From OneHR**: Profile shows your employee record and saves the parts you keep up to date. Home counts the leave applications and expense claims waiting for your approval.
+- **From OneMail**: Settings › **Mail** lists your mailboxes from OneMail. A mailbox that stops connecting shows on Home for administrators.
+- **From OneLegal**: Settings › **Agreements** lists OneLegal's documents and who agreed to which version.
+- **From OneAI**: The OneAI panel opens on every page. Home counts the suggestions waiting for you, and **What OneAI Remembers** lists what it keeps about you.
+- **To OneCRM**: People gives each person None, User or Manager in OneCRM. Quotations and sales orders print under the workspace's letter head, and a customer sees their own on the portal.
+- **To OneBook**: People gives access to OneBook. Invoices and payment receipts print under the letter head, and a customer sees what is left to pay on the portal.
+- **To OneInventory**: People gives access to OneInventory. A supplier answers a request for quotation on the portal, and the quote reaches OneInventory with a notification to whoever asked.
+- **To OneHR**: People gives access to OneHR. **Holidays** sets the days off that leave and attendance use, and HR is told when somebody changes their address or emergency contact.
+
 ## Under the hood
 
 For the people who build One. OneAI does not read past this heading.

@@ -25,6 +25,9 @@ shipped — a workspace that chose its own keeps it.
 `fiscal_year` below is the third of the same kind: erpnext creates the Fiscal
 Year and nothing ever makes it the site's default, so a report whose filter
 reads `frappe.defaults.get_user_default("fiscal_year")` gets nothing.
+
+`component` is the fourth: HRMS asks every earning for an account per company,
+and erpnext's chart already has the Salary account it belongs in.
 """
 
 import frappe
@@ -52,6 +55,36 @@ def ready(*_args) -> None:
 			if has == wanted or has not in replaces:
 				continue
 			frappe.db.set_value("Account", account, "account_type", wanted)
+
+
+def component(doc, method=None) -> None:
+	"""An earning with no account for a company books to its Salary account.
+	HRMS needs one per company on every component a payroll pays, and without
+	it the run makes the slips and never submits them."""
+	if doc.type != "Earning":
+		return
+	held = {row.company for row in doc.accounts}
+	for company in frappe.get_all("Company", pluck="name"):
+		account = company not in held and _salary(company)
+		if account:
+			doc.append("accounts", {"company": company, "account": account})
+
+
+def _salary(company: str) -> str | None:
+	"""The Salary expense account erpnext's chart makes for every company."""
+	return frappe.db.get_value(
+		"Account", {"company": company, "account_name": "Salary", "root_type": "Expense", "is_group": 0}
+	)
+
+
+def components(*_args) -> None:
+	"""The earnings made before this, given their account."""
+	for name in frappe.get_all("Salary Component", filters={"type": "Earning"}, pluck="name"):
+		doc = frappe.get_doc("Salary Component", name)
+		before = len(doc.accounts)
+		component(doc)
+		if len(doc.accounts) > before:
+			doc.save(ignore_permissions=True)
 
 
 def year(*_args) -> None:

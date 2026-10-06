@@ -1,0 +1,52 @@
+{
+ "file": "supplier-einvoice.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A supplier sends an invoice as an attachment.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Letter",
+   "title": "Invoice AN-2026-0418 attached",
+   "summary": "Al Noor Aluminium sends invoice AN-2026-0418 as an attachment.",
+   "language": "en",
+   "number": null,
+   "issued": null,
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [
+    {
+     "kind": "Invoice",
+     "value": "AN-2026-0418"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Al Noor Aluminium",
+     "person": false,
+     "email": "sales@alnoor.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Purchase Invoice",
+   "values": {
+    "supplier": "Al Noor Aluminium",
+    "bill_no": "AN-2026-0418"
+   }
+  }
+ ]
+}

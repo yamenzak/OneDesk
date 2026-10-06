@@ -16,6 +16,9 @@ links to, or add a bank, and keeps the purchase tax templates from accounts:
   carries is the books' decision, so an Accounts Manager keeps them and an
   Accounts User reads them.
 
+- **Suppliers**: a bill often comes from a new supplier, so an Accounts
+  Manager adds one too (`RAISED`).
+
 A role that reads one already, by ERPNext's rules or the workspace's, keeps
 what it has (one/roles.py `give`).
 """
@@ -33,5 +36,10 @@ GIVEN = {
 }
 
 
+#: For a role that reads already: once, so a change in Access stands.
+RAISED = {"Supplier": {MANAGER: ("read", "write", "create")}}
+
+
 def settle() -> None:
 	roles.give(GIVEN)
+	roles.raise_once(RAISED)

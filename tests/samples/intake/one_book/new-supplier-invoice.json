@@ -1,0 +1,91 @@
+{
+ "file": "new-supplier-invoice.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A tax invoice asking to be paid.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Invoice",
+   "title": "Gulf Sealants invoice GS-11873",
+   "summary": "Gulf Sealants Trading bills 120 tubes of structural silicone, AED 4,032.00 due by 3 November 2026.",
+   "language": "en",
+   "number": "GS-11873",
+   "issued": "2026-10-04",
+   "dates": [
+    {
+     "date": "2026-11-03",
+     "what": "Due",
+     "about": "payment",
+     "counted": false
+    }
+   ],
+   "money": {
+    "currency": "AED",
+    "net": 3840.0,
+    "tax": 192.0,
+    "gross": 4032.0,
+    "paid_how": "transfer",
+    "iban": "AE620260001015678901234",
+    "reference": "GS-11873"
+   },
+   "lines": [
+    {
+     "text": "Structural Silicone",
+     "qty": 120,
+     "unit_price": 32.0,
+     "amount": 3840.0,
+     "tax_rate": 5,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Gulf Sealants Trading LLC",
+     "person": false,
+     "email": "accounts@gulfsealants.example",
+     "vat_id": "100398765400003",
+     "iban": "AE620260001015678901234",
+     "address": "Al Quoz Industrial 3, Dubai"
+    },
+    {
+     "role": "Recipient",
+     "name": "Sahara Glass & Aluminium",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Pay",
+     "detail": "AED 4,032.00 to IBAN AE620260001015678901234",
+     "by": "2026-11-03",
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Supplier",
+   "values": {
+    "supplier_name": "Gulf Sealants Trading LLC"
+   }
+  },
+  {
+   "doctype": "Purchase Invoice",
+   "values": {
+    "bill_no": "GS-11873"
+   }
+  }
+ ]
+}

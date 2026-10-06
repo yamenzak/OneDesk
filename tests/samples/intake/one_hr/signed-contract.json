@@ -1,0 +1,50 @@
+{
+ "file": "signed-contract.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A new hire sends back a signed contract.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Contract",
+   "title": "Signed contract from Feras Odeh",
+   "summary": "Feras Odeh signed his employment contract as Site Engineer.",
+   "language": "en",
+   "number": null,
+   "issued": "2026-10-06",
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Feras Odeh",
+     "person": true,
+     "email": "feras.odeh@example.com"
+    },
+    {
+     "role": "Employee",
+     "name": "Feras Odeh",
+     "person": true,
+     "email": "feras.odeh@example.com"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Personal",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Employee",
+   "level": "Proposed"
+  }
+ ]
+}

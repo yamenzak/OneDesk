@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.08"><BkToCstmrStmt><Stmt>
+ <Id>ENBD-2026-10-06</Id>
+ <Acct><Id><IBAN>AE070331234567890123456</IBAN></Id><Ccy>AED</Ccy></Acct>
+ <Bal><Tp><CdOrPrtry><Cd>OPBD</Cd></CdOrPrtry></Tp><Amt Ccy="AED">250000.00</Amt><CdtDbtInd>CRDT</CdtDbtInd></Bal>
+ <Bal><Tp><CdOrPrtry><Cd>CLBD</Cd></CdOrPrtry></Tp><Amt Ccy="AED">259585.00</Amt><CdtDbtInd>CRDT</CdtDbtInd></Bal>
+ <Ntry><Amt Ccy="AED">12000.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><BookgDt><Dt>2026-10-06</Dt></BookgDt>
+  <NtryDtls><TxDtls><Refs><EndToEndId>MHG-PAY-88412</EndToEndId></Refs>
+   <RltdPties><Dbtr><Nm>Marina Hotels Group</Nm></Dbtr><DbtrAcct><Id><IBAN>AE750350000000123456789</IBAN></Id></DbtrAcct></RltdPties>
+   <RmtInf><Ustrd>ACC-SINV-2026-00016</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+ <Ntry><Amt Ccy="AED">2415.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><BookgDt><Dt>2026-10-06</Dt></BookgDt>
+  <NtryDtls><TxDtls><Refs><EndToEndId>SGA-PAY-0931</EndToEndId></Refs>
+   <RltdPties><Cdtr><Nm>Desert Logistics</Nm></Cdtr><CdtrAcct><Id><IBAN>AE180260001012345678901</IBAN></Id></CdtrAcct></RltdPties>
+   <RmtInf><Ustrd>DL-INV-7720 transport September</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+</Stmt></BkToCstmrStmt></Document>

@@ -177,6 +177,17 @@ items, stock, what arrives and what is delivered, what is ordered from
 suppliers, and the company's equipment. See OneBook's README for the whole
 split.
 
+## Connections
+
+- **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell.
+- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project.
+- **From OneBook**: Suppliers are kept in OneBook, and a supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
+- **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation.
+- **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself.
+- **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view.
+- **To OneHR**: An employee's page shows how much equipment they hold. When they leave, their separation gets a Return task for each piece.
+- **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
+
 ## Under the hood
 
 For the people who build OneInventory. OneAI does not read past this heading.

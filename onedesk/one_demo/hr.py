@@ -258,6 +258,7 @@ def _hiring():
 		opening = frappe.db.get_value("Job Opening", {"job_title": title})
 		applicant = make({"doctype": "Job Applicant", "applicant_name": name, "email_id": email, "job_title": opening, "status": status, "source": "Website Listing"})
 		if status == "Accepted":
+			# Accepted and signed, as the appointment letter below says.
 			make(
 				{
 					"doctype": "Job Offer",
@@ -266,10 +267,11 @@ def _hiring():
 					"designation": title,
 					"company": COMPANY,
 					"offer_date": ago(3),
-					"status": "Awaiting Response",
+					"status": "Accepted",
 					"offer_terms": [{"offer_term": _term(term), "value": value} for term, value in OFFER],
 					"terms": "<p>This offer stands for fourteen days. It starts once your visa and labour card are issued, and is subject to references and a medical check.</p>",
-				}
+				},
+				submit=True,
 			)
 			make(
 				{

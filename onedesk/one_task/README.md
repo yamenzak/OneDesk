@@ -169,6 +169,16 @@ after any existing ones when you approve.
 
 You can work on a task someone else assigned to you, but you can't delete it.
 
+## Connections
+
+- **From OneProject**: A project task assigned to you shows on My Tasks with its project. Who else sees a project task follows who can see the project.
+- **From OneHR**: Each activity on an onboarding or separation checklist becomes a task for whoever does it. A separation also adds a Return task for each asset the person holds.
+- **From OneIntake**: Tasks are made from what arrives, such as answering an enquiry or renewing a passport before it runs out. Their steps tick themselves when the record they wait on changes, such as a bill being paid.
+- **To One**: Home shows how many of your tasks are due today or overdue.
+- **To OneCalendar**: Your tasks show under My Tasks on their due date, and dragging one moves its dates. Anything else assigned to you, such as a deal or a leave application, shows under Assigned to Me.
+- **To OneProject**: A task's progress counts toward its project's progress. Time from the timer is logged on the task's project, as billable when the project bills hours. When a milestone billed on completion is done, the project's manager is told to bill it.
+- **To OneHR**: The timer writes your time on your timesheet for the week, and makes the timesheet if you don't have one.
+
 ## Under the hood
 
 For the people who build OneTask. OneAI does not read past this heading.

@@ -27,7 +27,9 @@ PROVIDERS = frozenset(
 		"live.de", "msn.com", "yahoo.com", "yahoo.de", "ymail.com", "icloud.com", "me.com", "mac.com", "aol.com",
 		"gmx.net", "gmx.de", "gmx.com", "gmx.at", "gmx.ch", "web.de", "t-online.de", "freenet.de", "posteo.de",
 		"mailbox.org", "proton.me", "protonmail.com", "pm.me", "mail.ru", "yandex.com", "yandex.ru", "zoho.com",
-		"fastmail.com", "hey.com", "tutanota.com", "tuta.io", "qq.com", "163.com",
+		"fastmail.com", "hey.com", "tutanota.com", "tuta.io", "qq.com", "163.com", "emirates.net.ae",
+		# Reserved for examples (RFC 2606): anybody's address may use them.
+		"example.com", "example.net", "example.org",
 	)
 )  # fmt: skip
 

@@ -632,6 +632,18 @@ nothing.
 
 Resuming, building and checking again are Home's buttons, not OneAI's.
 
+## Connections
+
+- **From One**: A workspace's **Plan and Credits** page asks OneAdmin to change its plan or add-ons, buy credits, change who pays or close it. Its **Domains** page adds and removes its own addresses.
+- **From OneAI**: Every OneAI call from a workspace is a row in **Credits**, with its model and action. **AI Usage** adds them up.
+- **To One**: Each workspace's **Plan and Credits** page shows its plan, seats, storage, credits and invoices from OneAdmin. Whoever paid becomes the new workspace's first administrator.
+- **To OneAI**: A workspace's credits and the models on offer decide what OneAI can run. A call with too few credits is refused, except on our own workspace.
+- **To OneCloud**: A workspace's files are kept in the EU or globally, as chosen at signup. OneAdmin measures them each night against the plan.
+- **To OneMail**: Mail to and from a workspace's addresses on the mail domain passes through OneAdmin. Sending is limited per hour and per day.
+- **To OneCRM**: In our own workspace, each signup is a lead and a deal in OneCRM. Paying wins the deal and makes a customer, and a checkout left unpaid loses it.
+- **To OneBook**: Each paid Stripe invoice is a sales invoice and a payment in our own OneBook, with Stripe's fee and any refund. Each offering on the Price List is an item there.
+- **To OneLegal**: The agreements name Frappe Cloud, Cloudflare and Stripe as the companies that run workspaces and take payments. The Terms state how long a workspace stays overdue, suspended and archived.
+
 ## Under the hood
 
 For the people who build OneAdmin. OneAI does not read past this heading.

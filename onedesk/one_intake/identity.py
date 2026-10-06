@@ -29,6 +29,10 @@ WEIGHT = {
 	ids.DOMAIN: 0.6,
 }
 
+#: Records that are one person. A mail domain is an organisation's, so it
+#: never says which of its people somebody is.
+PEOPLE = ("Contact", "Employee", "Job Applicant")
+
 #: A match this sure, this far ahead of the next, is taken as certain.
 CERTAIN, AHEAD = 0.9, 0.2
 
@@ -215,6 +219,8 @@ def match(pairs: list[tuple[str, str]]) -> list[dict]:
 	scores: dict[tuple, dict] = {}
 	for kind, value in pairs:
 		found = {entity for holder in holders(kind, value) for entity in entities(*holder)}
+		if kind == ids.DOMAIN:
+			found = {entity for entity in found if entity[0] not in PEOPLE}
 		if not found:
 			continue
 		weight = WEIGHT.get(kind, 0.5) / (1 if len(found) == 1 else len(found) + 1)
@@ -254,9 +260,16 @@ def ours(pairs: list[tuple[str, str]]) -> str | None:
 
 def _our_domains() -> set[str]:
 	"""The domains of the workspace's own mailboxes, leaving out mail
-	providers and the shared mail domain every workspace has an address on."""
+	providers and the shared mail domain every workspace has an address on.
+	A mailbox that neither sends nor receives, such as the one HRMS installs
+	for jobs@example.com, is not ours."""
 	shared = frappe.conf.get("one_mail_domain")
-	found = {ids.organisation_domain(one) for one in frappe.get_all("Email Account", pluck="email_id") if one}
+	used = frappe.get_all(
+		"Email Account",
+		or_filters={"enable_incoming": 1, "enable_outgoing": 1, "one_hosted": 1},
+		pluck="email_id",
+	)
+	found = {ids.organisation_domain(one) for one in used if one}
 	return {one for one in found if one and one != shared}
 
 

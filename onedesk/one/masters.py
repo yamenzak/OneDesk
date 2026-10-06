@@ -95,28 +95,13 @@ def _give_managers() -> None:
 	"""An app's managers manage its masters. erpnext keeps several for a role
 	of its own (Customer Group for its Sales Master Manager); One's managers
 	are given them, once for each kind and role."""
-	import json
-
-	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
-
 	from onedesk.one.settings import APPS
 
 	managers = {label: roles_ for label, _code, _users, roles_ in APPS}
-	given = set(json.loads(frappe.db.get_default(GIVEN) or "[]"))
-	for group, doctype, _label, _one in KINDS:
-		if not frappe.db.exists("DocType", doctype):
-			continue
-		for role in managers.get(group, ()):
-			key = f"{doctype}|{role}"
-			if key in given or not frappe.db.exists("Role", role):
-				continue
-			setup_custom_perms(doctype)
-			if not frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": role, "permlevel": 0}):
-				add_permission(doctype, role, 0)
-			for ptype in MANAGE:
-				update_permission_property(doctype, role, 0, ptype, 1, validate=False)
-			given.add(key)
-	frappe.db.set_default(GIVEN, json.dumps(sorted(given)))
+	roles.raise_once(
+		{doctype: dict.fromkeys(managers.get(group, ()), MANAGE) for group, doctype, _label, _one in KINDS},
+		GIVEN,
+	)
 
 
 def _groups() -> set[str]:

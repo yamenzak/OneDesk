@@ -1,0 +1,75 @@
+{
+ "file": "supplier-quote.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A supplier answers a request for quotation.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Offer",
+   "title": "Gulf Glass quotation Q-GG-3310",
+   "summary": "Gulf Glass Industries quotes double glazed units and tempered glass, valid until 5 November 2026.",
+   "language": "en",
+   "number": "Q-GG-3310",
+   "issued": "2026-10-05",
+   "dates": [
+    {
+     "date": "2026-11-05",
+     "what": "Valid Until",
+     "about": "the prices",
+     "counted": false
+    }
+   ],
+   "money": null,
+   "lines": [
+    {
+     "text": "Double Glazed Unit 24mm",
+     "qty": 260,
+     "unit_price": 185.0,
+     "amount": null,
+     "tax_rate": null,
+     "category": "Other"
+    },
+    {
+     "text": "Tempered Glass 10mm",
+     "qty": 60,
+     "unit_price": 120.0,
+     "amount": null,
+     "tax_rate": null,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [
+    {
+     "kind": "Other",
+     "value": "PUR-RFQ-2026-00004"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Gulf Glass Industries",
+     "person": false,
+     "email": "orders@gulfglass.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Supplier Quotation",
+   "values": {
+    "supplier": "Gulf Glass Industries"
+   }
+  }
+ ]
+}

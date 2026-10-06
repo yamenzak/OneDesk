@@ -1,0 +1,46 @@
+{
+ "file": "business-card.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A personal note after meeting at a trade show.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Letter",
+   "title": "Good to meet you at the Big 5",
+   "summary": "Daniel Hughes follows up after the Big 5 show and sends his card.",
+   "language": "en",
+   "number": null,
+   "issued": null,
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Daniel Hughes",
+     "person": true,
+     "email": "daniel@hughesfacades.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Contact",
+   "values": {
+    "first_name": "Daniel"
+   }
+  }
+ ]
+}

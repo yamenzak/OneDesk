@@ -1,0 +1,32 @@
+From: Daniel Hughes <daniel@hughesfacades.example>
+To: Layla Haddad <layla.4dl@m.4dl.app>
+Subject: Good to meet you at the Big 5
+Date: Wed, 07 Oct 2026 08:40:00 +0400
+Message-ID: <business-card@samples.sahara-glass.test>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============5997488639858749100=="
+
+--===============5997488639858749100==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Hi Layla,
+
+Good to meet you at the Big 5 show yesterday. My card is attached. Let's
+speak about the facade reviews we do for developers.
+
+Daniel
+
+--===============5997488639858749100==
+Content-Type: text/vcard
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="daniel-hughes.vcf"
+MIME-Version: 1.0
+
+QkVHSU46VkNBUkQNClZFUlNJT046My4wDQpGTjpEYW5pZWwgSHVnaGVzDQpOOkh1Z2hlcztEYW5p
+ZWw7OzsNCk9SRzpIdWdoZXMgRmFjYWRlIENvbnN1bHRhbnRzDQpUSVRMRTpQcmluY2lwYWwNCkVN
+QUlMO1RZUEU9V09SSzpkYW5pZWxAaHVnaGVzZmFjYWRlcy5leGFtcGxlDQpURUw7VFlQRT1XT1JL
+Ois5NzEgNCA0MTIgNzczMA0KVVJMOmh0dHBzOi8vaHVnaGVzZmFjYWRlcy5leGFtcGxlDQpFTkQ6
+VkNBUkQNCg==
+
+--===============5997488639858749100==--

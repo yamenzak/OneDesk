@@ -1,0 +1,62 @@
+{
+ "file": "drawings-request.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A customer asks for drawings by a date.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Letter",
+   "title": "Shop drawings for the New York lobby",
+   "summary": "Acme Holdings asks for the lobby curtain wall shop drawings by 14 October 2026.",
+   "language": "en",
+   "number": null,
+   "issued": "2026-10-06",
+   "dates": [
+    {
+     "date": "2026-10-14",
+     "what": "Deadline",
+     "about": "send the shop drawings",
+     "counted": false
+    }
+   ],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Jordan Blake",
+     "person": true,
+     "email": "jordan@acme.example"
+    },
+    {
+     "role": "Sender",
+     "name": "Acme Holdings",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Send",
+     "detail": "the shop drawings for the lobby curtain wall",
+     "by": "2026-10-14",
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Task"
+  }
+ ]
+}

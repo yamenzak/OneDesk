@@ -439,6 +439,17 @@ from these are written by a user called **OneAI**. Which model each uses is set
 on OneAI › Actions: **Screen Applicants**, **Interviews**,
 **Grievances** and **Transcribe Interviews**. Transcribe Interviews needs a model that reads audio.
 
+## Connections
+
+- **From One**: The setup wizard makes this year's holiday list, a Day shift, the leave year and the payroll year.
+- **From OneIntake**: A CV becomes a job applicant, and a receipt an employee sends in becomes their expense claim. A sick note becomes a leave application, and a passport or permit is added to the employee's Identity Documents.
+- **From OneInventory**: The employee record shows how much of the company's equipment the person holds. Submitting a separation adds a Return task for each asset they hold.
+- **From OneTask**: Time from a task's timer goes on the person's timesheet for the week.
+- **To OneBook**: Payroll runs, expense claims and advances post to the accounts. OneHR sets up the payroll and advance accounts so the first run works. The VAT Return counts the VAT on expense claims.
+- **To OneProject**: A day of attendance at a project's site is logged as time on the project. Approved expense claims for a project count as its costs, and a Time and Materials project bills them to the customer.
+- **To OneCalendar**: Leave, interviews, holidays and who's off show as layers on the calendar. An employee's own calendar shows their leave.
+- **To OneTask**: Each activity on an onboarding or separation checklist becomes a task for whoever does it.
+
 ## Under the hood
 
 For the people who build OneHR. OneAI does not read past this heading.

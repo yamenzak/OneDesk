@@ -31,6 +31,7 @@ STEPS = (
 	"assets",
 	"books",
 	"hr",
+	"intake",
 )
 
 

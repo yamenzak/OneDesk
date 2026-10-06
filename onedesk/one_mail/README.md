@@ -202,6 +202,17 @@ suggestion and keeps your signature and the quoted message.
 OneAI only reads conversations in mailboxes you have access to, and only when
 you ask. Each question uses OneAI credits.
 
+## Connections
+
+- **From One**: Each person added to the workspace gets their own address. The mail window offers the Mail Templates set in the workspace's settings.
+- **From OneIntake**: Search also finds words inside attachments that have been read. About rules use what a message is found to be about.
+- **To OneAdmin**: Mail from the workspace's addresses is sent through OneAdmin. By default the workspace can send 200 messages an hour and 2,000 a day.
+- **To OneCRM**: Mail from a customer, a lead or one of their contacts is linked to their record. Customers, leads, contacts, deals and quotations have a Mail tab. Contacts, leads and customers without a picture get one from Gravatar or their website.
+- **To OneHR**: Mail from an employee's address is linked to their record. Employees and job applicants have a Mail tab. An employee without a photo gets the one on their user, or their Gravatar photo.
+- **To OneBook**: A message that names an invoice or payment by its number is linked to it. Sales and purchase invoices have a Mail tab.
+- **To OneCloud**: Every attachment is saved in OneCloud under Mail, in a folder for each mailbox. A file too large to send from the workspace's address goes as a link that works for 30 days.
+- **To OneIntake**: With Read with OneAI on, each new message and its attachments go to OneIntake.
+
 ## Under the hood
 
 For the people who build OneMail. OneAI does not read past this heading.

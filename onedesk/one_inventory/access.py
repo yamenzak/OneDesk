@@ -10,6 +10,8 @@ assets and prices are OneInventory's (README), so its own roles have them:
 - **Item Prices**: whoever manages items, stock or buying keeps them; the
   people who use stock and buying read them.
 - **Quality Inspections**: a Stock User records one, a Stock Manager runs them.
+- **Suppliers**: ERPNext lets only a Purchase Master Manager add one. Buying
+  adds its suppliers, and its manager removes them (`RAISED`).
 
 A role that reads one already, by ERPNext's rules or the workspace's, keeps
 what it has (one/roles.py `give`).
@@ -46,5 +48,10 @@ GIVEN = (
 )
 
 
+#: For roles that read already: once, so a change in Access stands.
+RAISED = {"Supplier": {"Purchase User": ("read", "write", "create"), "Purchase Manager": roles.MANAGE}}
+
+
 def settle() -> None:
 	roles.give(GIVEN)
+	roles.raise_once(RAISED)

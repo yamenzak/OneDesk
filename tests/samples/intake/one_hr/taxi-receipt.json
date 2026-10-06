@@ -1,0 +1,65 @@
+{
+ "file": "taxi-receipt.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "An employee sends a receipt for expenses.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Receipt",
+   "title": "Taxi to Dubai Hills",
+   "summary": "Rania Sabbagh paid AED 46.50 for a taxi to the Dubai Hills site on 4 October 2026.",
+   "language": "en",
+   "number": "4471-2290",
+   "issued": "2026-10-04",
+   "dates": [],
+   "money": {
+    "currency": "AED",
+    "net": null,
+    "tax": null,
+    "gross": 46.5,
+    "paid_how": "already paid",
+    "iban": null,
+    "reference": null
+   },
+   "lines": [
+    {
+     "text": "Taxi Al Quoz to Dubai Hills Estate",
+     "qty": 1,
+     "unit_price": 46.5,
+     "amount": 46.5,
+     "tax_rate": null,
+     "category": "Travel"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Rania Sabbagh",
+     "person": true,
+     "email": "rania@one.test"
+    },
+    {
+     "role": "Paid To",
+     "name": "Dubai Taxi",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Expense Claim"
+  }
+ ]
+}

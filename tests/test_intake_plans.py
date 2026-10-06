@@ -76,6 +76,9 @@ def test_an_order_makes_a_customer_through_the_lead_when_there_is_one():
 	assert made[0].values["customer_type"] == "Individual"
 	through = PLANS["parties"](order, {**CTX, "sender_lead": "CRM-LEAD-1"})
 	assert through[0].flow == "onedesk.one_intake.planning.customer_from_lead" and through[0].values == {"lead": "CRM-LEAD-1"}
+	# The sender already matched to their lead is still not a customer.
+	matched = {**order, "parties": [{"role": "Sender", "party_name": "Osei Builders", "matched_doctype": "Lead", "matched_name": "CRM-LEAD-1", "score": 0.96}]}
+	assert PLANS["parties"](matched, {**CTX, "sender_lead": "CRM-LEAD-1"})[0].as_person
 
 
 def test_an_inquiry_makes_a_lead_and_a_cv_an_applicant():
@@ -140,6 +143,9 @@ def test_a_resignation_is_only_proposed_and_a_signed_offer_waits_for_a_person():
 	assert level[0] == "Proposed"
 	offer = PLANS["employee_documents"]({"kind": "Contract", "verdict": "Action"}, {**EMPLOYEE_CTX, "accepted_offer": "HR-OFF-1"})
 	assert offer[0].propose and offer[0].flow.endswith("employee_from_offer")
+	# An applicant who signed is not an employee yet.
+	signed = PLANS["employee_documents"]({"kind": "Contract", "verdict": "Action"}, {**EMPLOYEE_CTX, "employee": None, "accepted_offer": "HR-OFF-1"})
+	assert signed and signed[0].doctype == "Employee"
 
 
 def test_an_employees_receipt_is_their_expense_claim():
@@ -223,9 +229,12 @@ def test_planners_are_pure():
 
 def test_flows_that_check_the_signed_in_user_are_written_as_the_person():
 	source = (ROOT / "plans.py").read_text()
-	assert '"Leave Application"' in source and source.count("as_person=True") == 2
+	# A leave application and an expense claim ask who is signed in; a
+	# customer from a lead saves the lead's contact as them, and so does
+	# HRMS's employee from an offer.
+	assert '"Leave Application"' in source and source.count("as_person=True") == 4
 	act = (ROOT / "act.py").read_text()
-	assert "with as_oneai(person if action.as_person else None):" in act
+	assert "with as_oneai(person if action.as_person else None, person):" in act
 
 
 def test_a_document_teaches_its_parties_what_they_lack():

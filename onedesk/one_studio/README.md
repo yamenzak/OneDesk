@@ -225,6 +225,18 @@ reads what went wrong and on which record (never its code); when it is off,
 one: **Add a field to this one…** On Custom Fields: **Add a field…**, **Which forms
 have we changed?** and **How does customizing work?**
 
+## Connections
+
+- **From OneAI**: Extensions, custom fields and custom collections come from cards OneAI makes. Nothing changes until an administrator approves the card.
+- **To One**: An extension can add a button or a note to a record's head and to every space's home. A custom collection is listed in its app's rail, and a deleted one goes to the Recycle Bin.
+- **To OneMail**: An extension can add a note or a button to a conversation. It can also fill in a new message's subject, cc or bcc.
+- **To OneCRM**: An extension can add a note above the pipeline board.
+- **To OneProject**: An extension can add a note or a button under a project's header.
+- **To OneCalendar**: An extension can add a note or a button to an event's card.
+- **To OneTask**: An extension can add a note or a button under a view's name in My Tasks.
+- **To OneCloud**: An extension can add a note or a button under a file's preview.
+- **To OneIntake**: An extension can add a note or a button under a document's head in the Intake inbox.
+
 ## Under the hood
 
 ### What it is made of

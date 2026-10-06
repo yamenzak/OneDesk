@@ -198,7 +198,7 @@ def apply(action: Action, reading) -> str | None:
 	if row.level == "Done":
 		frappe.db.savepoint("one_intake_act")
 		try:
-			with as_oneai(person if action.as_person else None):
+			with as_oneai(person if action.as_person else None, person):
 				done = _write(action, before, reading.name)
 		except Exception as raised:
 			frappe.db.rollback(save_point="one_intake_act")
@@ -234,21 +234,24 @@ def _floor() -> float:
 
 
 @contextmanager
-def as_oneai(person: str | None = None):
+def as_oneai(person: str | None = None, acting_for: str | None = None):
 	"""Write as the OneAI user, so every record, version and comment says who
 	made it, with the person's permission already checked; or as that person,
-	for a flow that asks who is signed in."""
+	for a flow that asks who is signed in. `acting_for` is who OneAI acts for,
+	as planning.mapped reads it."""
 	from onedesk.one_hr.hiring import ensure
 
 	ensure()
-	was, writing = frappe.session.user, frappe.flags.one_intake_writing
+	was, writing, acting = frappe.session.user, frappe.flags.one_intake_writing, frappe.flags.one_intake_for
 	frappe.flags.one_intake_writing = True
+	frappe.flags.one_intake_for = acting_for or person
 	frappe.set_user(person or AUTHOR)
 	try:
 		yield
 	finally:
 		frappe.set_user(was)
 		frappe.flags.one_intake_writing = writing
+		frappe.flags.one_intake_for = acting
 
 
 def allowed(action: Action, person: str) -> bool:
@@ -539,7 +542,7 @@ def settle_for(row, take: bool, why: str) -> str:
 	before = _before(planned)
 	frappe.db.savepoint("one_intake_audit")
 	try:
-		with as_oneai(row.on_behalf_of if planned.as_person else None):
+		with as_oneai(row.on_behalf_of if planned.as_person else None, row.on_behalf_of):
 			done = _write(planned, before, row.reading)
 	except Exception as raised:
 		frappe.db.rollback(save_point="one_intake_audit")

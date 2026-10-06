@@ -113,6 +113,35 @@ def give(grants: dict) -> None:
 				update_permission_property(doctype, role, 0, ptype, 1, validate=False)
 
 
+def raise_once(grants: dict, kept: str = "onedesk_roles_raised") -> None:
+	"""More for a role that has some already, {doctype: {role: (ptype, ...)}}:
+	where erpnext keeps adding a record for a role of its own nobody in One
+	holds. Each kind and role is given once, and kept in the default `kept`,
+	so a change made later in Access stands."""
+	import json
+
+	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
+
+	given = set(json.loads(frappe.db.get_default(kept) or "[]"))
+	for doctype, by_role in grants.items():
+		if not frappe.db.exists("DocType", doctype):
+			continue
+		submits = frappe.get_meta(doctype).is_submittable
+		for role, ptypes in by_role.items():
+			key = f"{doctype}|{role}"
+			if key in given or not frappe.db.exists("Role", role):
+				continue
+			setup_custom_perms(doctype)
+			if not frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": role, "permlevel": 0}):
+				add_permission(doctype, role, 0)
+			for ptype in ptypes:
+				if ptype in SUBMITTING and not submits:
+					continue
+				update_permission_property(doctype, role, 0, ptype, 1, validate=False)
+			given.add(key)
+	frappe.db.set_default(kept, json.dumps(sorted(given)))
+
+
 def open_page(page: str) -> None:
 	"""A frappe page opened to the role, through frappe's Custom Role. A Custom
 	Role replaces the page's roles, so it keeps the page's own too."""

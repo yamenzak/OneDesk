@@ -1,0 +1,66 @@
+{
+ "file": "sick-note.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "An employee sends a sick note.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Sick Note",
+   "title": "Sick note for Huda Nasser",
+   "summary": "Huda Nasser is unfit for work on 6 and 7 October 2026.",
+   "language": "en",
+   "number": null,
+   "issued": "2026-10-06",
+   "dates": [
+    {
+     "date": "2026-10-06",
+     "what": "Period Start",
+     "about": "unfit for work",
+     "counted": false
+    },
+    {
+     "date": "2026-10-07",
+     "what": "Period End",
+     "about": "unfit for work",
+     "counted": false
+    }
+   ],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Patient",
+     "name": "Huda Nasser",
+     "person": true,
+     "email": "huda@one.test"
+    },
+    {
+     "role": "Sender",
+     "name": "Huda Nasser",
+     "person": true,
+     "email": "huda@one.test"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Medical",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Leave Application",
+   "values": {
+    "leave_type": "Sick Leave",
+    "from_date": "2026-10-06"
+   }
+  }
+ ]
+}

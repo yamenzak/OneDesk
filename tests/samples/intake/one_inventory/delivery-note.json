@@ -1,0 +1,65 @@
+{
+ "file": "delivery-note.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A supplier says an order has been dispatched.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Delivery Note",
+   "title": "Dispatch note DN-EH-5521",
+   "summary": "Euro Hardware Trading dispatched order PUR-ORD-2026-00006: 300 hinges and 60 locks.",
+   "language": "en",
+   "number": "DN-EH-5521",
+   "issued": "2026-10-06",
+   "dates": [],
+   "money": null,
+   "lines": [
+    {
+     "text": "Concealed Hinge",
+     "qty": 300,
+     "unit_price": null,
+     "amount": null,
+     "tax_rate": null,
+     "category": "Other"
+    },
+    {
+     "text": "Multipoint Lock",
+     "qty": 60,
+     "unit_price": null,
+     "amount": null,
+     "tax_rate": null,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [
+    {
+     "kind": "Order",
+     "value": "PUR-ORD-2026-00006"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Euro Hardware Trading",
+     "person": false,
+     "email": "marco@eurohardware.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Purchase Receipt"
+  }
+ ]
+}

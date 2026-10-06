@@ -1,0 +1,57 @@
+{
+ "file": "site-meeting.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "An invitation to a site meeting.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Appointment",
+   "title": "Bayview Tower facade site meeting",
+   "summary": "An invitation to the facade site meeting at Bayview Tower on 12 October 2026 at 10:00.",
+   "language": "en",
+   "number": null,
+   "issued": null,
+   "dates": [
+    {
+     "date": "2026-10-12",
+     "what": "Appointment",
+     "about": "facade site meeting",
+     "counted": false
+    }
+   ],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Bayview Project Office",
+     "person": false,
+     "email": "pm@bayview.example"
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Attend",
+     "detail": "the facade site meeting",
+     "by": "2026-10-12",
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Event"
+  }
+ ]
+}

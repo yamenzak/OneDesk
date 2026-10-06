@@ -591,3 +591,54 @@ def every_paper_prints_in_the_companys_look():
 		# The number's label is printed by One Title alone, never by the letter head.
 		label = print_blocks.title(frappe.get_doc(doctype, record[0]))["label"]
 		assert label in html and colour in html and record[0] in html, f"{doctype} {record[0]} prints no blocks"
+
+
+@check
+def every_intake_sample_makes_what_it_should():
+	"""Each mail and file in tests/samples/intake, arriving as it would, makes
+	the records its sample says, and nothing is kept."""
+	from onedesk.one_demo import samples
+
+	wrong = {}
+	for path in samples.samples():
+		frappe.db.savepoint("sample")
+		try:
+			missing = samples.unmet(path, samples.handle(path))
+		except Exception as e:
+			missing = [repr(e)[:300]]
+		finally:
+			frappe.db.rollback(save_point="sample")
+			frappe.set_user("Administrator")
+		if missing:
+			wrong[f"{path.parent.name}/{path.stem}"] = missing
+	assert samples.samples(), "there are no Intake samples"
+	assert not wrong, wrong
+
+
+#: Each hand-off the READMEs' Connections name, by the records it leaves in
+#: the demo: (from, to, kind of record, what marks it as handed over).
+HANDOFFS = (
+	("OneCRM", "OneBook", "Sales Invoice Item", {"sales_order": ["is", "set"], "docstatus": 1}),
+	("OneCRM", "OneInventory", "Delivery Note Item", {"against_sales_order": ["is", "set"], "docstatus": 1}),
+	("OneCRM", "OneProject", "Sales Order", {"project": ["is", "set"], "docstatus": 1}),
+	("OneCRM", "OneBook", "Customer", {"lead_name": ["is", "set"]}),
+	("OneInventory", "OneBook", "Purchase Receipt Item", {"purchase_order": ["is", "set"], "docstatus": 1}),
+	("OneInventory", "OneBook", "Purchase Invoice Item", {"purchase_order": ["is", "set"], "docstatus": 1}),
+	("OneProject", "OneBook", "Sales Invoice", {"project": ["is", "set"], "docstatus": 1}),
+	("OneProject", "OneBook", "Purchase Invoice", {"project": ["is", "set"], "docstatus": 1}),
+	("OneProject", "OneTask", "Task", {"project": ["is", "set"]}),
+	("OneHR", "OneProject", "Timesheet", {"parent_project": ["is", "set"]}),
+	("OneHR", "OneProject", "Expense Claim", {"project": ["is", "set"]}),
+	("OneHR", "OneBook", "Journal Entry Account", {"reference_type": "Payroll Entry", "docstatus": 1}),
+	("OneHR", "OneInventory", "Asset", {"custodian": ["is", "set"]}),
+	("OneBook", "OneCRM", "Payment Entry Reference", {"reference_doctype": "Sales Invoice", "docstatus": 1}),
+)
+
+
+@check
+def every_hand_off_left_its_records():
+	"""What one app hands another arrives there in the demo: an order is
+	invoiced and delivered, a payroll posts to the books, a project's time and
+	costs are on it."""
+	missing = [f"{one} to {other}: {doctype}" for one, other, doctype, filters in HANDOFFS if not frappe.db.count(doctype, filters)]
+	assert not missing, missing

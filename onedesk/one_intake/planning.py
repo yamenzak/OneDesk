@@ -51,12 +51,13 @@ def run(name: str, which: str) -> None:
 	else:
 		_payable(ctx, reading)
 		wanted = plans.second(said, ctx)
+	made = []
 	for action in wanted:
 		action.key = matters.key(reading, action.key) if action.key.startswith(("task", "event", "leave", "expense", "resignation", "employee", "books")) else f"{reading.key[:90]}|{action.key}"
-		act.apply(action, reading)
+		made.append(act.apply(action, reading))
 	frappe.db.commit()
 	if which == "parties" and wanted:
-		rematch(reading)
+		rematch(reading, _made_for(reading, said, made))
 	if which == "money" and wanted:
 		from onedesk.one_intake import drafts
 
@@ -66,11 +67,27 @@ def run(name: str, which: str) -> None:
 		_hold_iban(reading)
 
 
-def rematch(reading) -> None:
+def _made_for(reading, said: dict, made: list) -> bool:
+	"""The counterpart is the record just made for it, which also learns how
+	the document reached it, so the next one from there is matched to it."""
+	done = [frappe.db.get_value("Intake Action", name, ["kind", "level", "target_doctype", "target_name"], as_dict=True) for name in made if name]
+	record = next((one for one in done if one and one.kind == "Create" and one.level == "Done" and one.target_name), None)
+	party = plans.counterpart(said)
+	row = next((one for one in reading.parties if party and one.idx == party.get("idx")), None)
+	if not record or not row or (row.matched_doctype, row.matched_name) == (record.target_doctype, record.target_name):
+		return False
+	row.matched_doctype, row.matched_name, row.score = record.target_doctype, record.target_name, 1
+	origin = f"{reading.doctype}/{reading.name}"
+	for kind, field in ((ids.EMAIL, "email"), (ids.PHONE, "phone"), (ids.IBAN, "iban")):
+		if row.get(field):
+			identity.learn(kind, row.get(field), record.target_doctype, record.target_name, origin)
+	return True
+
+
+def rematch(reading, changed: bool = False) -> None:
 	"""Match the reading's parties again, now that records were made."""
 	from onedesk.one_intake import understand
 
-	changed = False
 	for row in reading.parties:
 		if row.matched_name or row.ours:
 			continue
@@ -183,7 +200,10 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 	best = (identity.match([(ids.EMAIL, email)]) or [None])[0]
 	if best:
 		ctx["sender_party"] = (best["doctype"], best["name"])
-		if best["doctype"] == "Lead":
+		converted = best["doctype"] == "Lead" and frappe.db.get_value("Customer", {"lead_name": best["name"]}, "name")
+		if converted:
+			ctx["sender_party"] = ("Customer", converted)
+		elif best["doctype"] == "Lead":
 			ctx["sender_lead"] = best["name"]
 	ctx["sender_company"] = None
 
@@ -433,11 +453,11 @@ def make_event(values: dict):
 
 def customer_from_lead(values: dict):
 	"""A customer made the way ERPNext makes one from a lead, so the lead's
-	mail and comments go with it."""
-	from erpnext.crm.doctype.lead.lead import make_customer
+	mail and comments go with it. Made as the person, since ERPNext then
+	saves the lead's contact as whoever is signed in."""
+	from erpnext.crm.doctype.lead.mapper import make_customer
 
-	doc = make_customer(values["lead"])
-	doc.flags.ignore_permissions = True
+	doc = mapped(make_customer, values["lead"])
 	doc.insert()
 	return doc
 
@@ -446,9 +466,22 @@ def employee_from_offer(values: dict):
 	"""An employee made the way HRMS's Create Employee button makes one."""
 	from hrms.hr.doctype.job_offer.job_offer import make_employee
 
-	doc = make_employee(values["job_offer"])
-	doc.flags.ignore_permissions = True
+	doc = mapped(make_employee, values["job_offer"])
 	doc.insert()
+	return doc
+
+
+def mapped(make, *args, **kwargs):
+	"""A record from ERPNext's own door (a mapper), which reads the source as
+	whoever is signed in. OneAI's user holds no roles, so it maps as the
+	person OneAI acts for, and the record is still written as OneAI."""
+	writer = frappe.session.user
+	frappe.set_user(frappe.flags.one_intake_for or writer)
+	try:
+		doc = make(*args, **kwargs)
+	finally:
+		frappe.set_user(writer)
+	doc.flags.ignore_permissions = True
 	return doc
 
 
@@ -457,9 +490,8 @@ def debit_note(values: dict):
 	from erpnext.accounts.doctype.purchase_invoice.mapper import make_debit_note
 
 	values = dict(values)
-	doc = make_debit_note(values.pop("against"))
+	doc = mapped(make_debit_note, values.pop("against"))
 	doc.update(values)
-	doc.flags.ignore_permissions = True
 	doc.insert()
 	return doc
 
@@ -470,9 +502,8 @@ def invoice_from_order(values: dict):
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_invoice
 
 	values = dict(values)
-	doc = make_purchase_invoice(values.pop("order"))
+	doc = mapped(make_purchase_invoice, values.pop("order"))
 	doc.update(values)
-	doc.flags.ignore_permissions = True
 	doc.insert()
 	return doc
 
@@ -482,9 +513,8 @@ def receipt_from_order(values: dict):
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
 
 	values = dict(values)
-	doc = make_purchase_receipt(values.pop("order"))
+	doc = mapped(make_purchase_receipt, values.pop("order"))
 	doc.update({key: value for key, value in values.items() if value})
-	doc.flags.ignore_permissions = True
 	doc.insert()
 	return doc
 
@@ -493,10 +523,9 @@ def payment_for(values: dict):
 	"""A customer's payment advice, as ERPNext's payment against our invoice."""
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
-	doc = get_payment_entry("Sales Invoice", values["invoice"], party_amount=values.get("amount"))
+	doc = mapped(get_payment_entry, "Sales Invoice", values["invoice"], party_amount=values.get("amount"))
 	doc.reference_no = values.get("reference_no")
 	doc.reference_date = values.get("reference_date")
-	doc.flags.ignore_permissions = True
 	doc.insert()
 	return doc
 

@@ -1,0 +1,72 @@
+{
+ "file": "transport-contract.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A supplier sends a signed contract.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Contract",
+   "title": "Transport agreement with Desert Logistics",
+   "summary": "Desert Logistics' transport agreement runs from 1 November 2026 to 31 October 2027 at AED 18,500.00 a month, with three months' notice.",
+   "language": "en",
+   "number": "DL-TSA-2026-14",
+   "issued": "2026-10-05",
+   "dates": [
+    {
+     "date": "2026-11-01",
+     "what": "Valid From",
+     "about": "the agreement starts",
+     "counted": false
+    },
+    {
+     "date": "2027-10-31",
+     "what": "Valid Until",
+     "about": "the agreement ends",
+     "counted": false
+    }
+   ],
+   "money": {
+    "currency": "AED",
+    "net": 18500.0,
+    "tax": null,
+    "gross": 18500.0,
+    "paid_how": "unknown",
+    "iban": null,
+    "reference": null
+   },
+   "lines": [],
+   "promises": [],
+   "notice": "three months",
+   "references": [
+    {
+     "kind": "Contract",
+     "value": "DL-TSA-2026-14"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Desert Logistics",
+     "person": false,
+     "email": "dispatch@desertlog.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Contract",
+   "values": {
+    "party_name": "Desert Logistics"
+   }
+  }
+ ]
+}

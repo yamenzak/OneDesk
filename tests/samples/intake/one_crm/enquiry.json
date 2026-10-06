@@ -1,0 +1,64 @@
+{
+ "file": "enquiry.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A developer asks for a quotation.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Inquiry",
+   "title": "Glazing for a tower at Dubai Creek Harbour",
+   "summary": "Creek View Residences asks for a quotation and lead time for a curtain wall, balustrades and sliding doors.",
+   "language": "en",
+   "number": null,
+   "issued": "2026-10-05",
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Creek View Residences LLC",
+     "person": false,
+     "email": "khalid@creekview.ae",
+     "phone": "+971 4 380 6620",
+     "website": "www.creekview.ae"
+    },
+    {
+     "role": "Sender",
+     "name": "Khalid Rahimi",
+     "person": true,
+     "email": "khalid@creekview.ae"
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Send",
+     "detail": "a quotation and the lead time",
+     "by": null,
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Lead",
+   "values": {
+    "company_name": "Creek View Residences LLC"
+   }
+  },
+  {
+   "doctype": "Task"
+  }
+ ]
+}

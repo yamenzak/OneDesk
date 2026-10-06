@@ -92,7 +92,11 @@ def run(password=None):
 		made[first] = tag(doc).name
 	for first, *_rest, boss, _access in PEOPLE:
 		if boss:
-			frappe.db.set_value("Employee", made[first], "reports_to", made[boss])
+			# The manager approves their leave and expense claims, as HR Settings asks.
+			manager = frappe.db.get_value("Employee", made[boss], "user_id")
+			doc = frappe.get_doc("Employee", made[first])
+			doc.update({"reports_to": made[boss], "leave_approver": manager, "expense_approver": manager})
+			doc.save()
 	_agree()
 	_look()
 

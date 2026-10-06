@@ -25,6 +25,7 @@ from datetime import timedelta
 from frappe.utils import getdate
 
 from onedesk.one_intake.act import Action
+from onedesk.one_intake.identity import CERTAIN
 
 #: Readings that are real enough to make anything from.
 REAL = ("Action", "Information", "", None)
@@ -53,6 +54,15 @@ def counterpart(reading: dict) -> dict | None:
 			if one.get("role") == role and not one.get("ours"):
 				return one
 	return None
+
+
+def known(party: dict) -> bool:
+	"""Whether the counterpart already has a record. A person is known only by
+	something of their own, since a mail domain they share says which
+	organisation they are with and not who they are."""
+	if not party.get("matched_name"):
+		return False
+	return not party.get("is_person") or (party.get("score") or 0) >= CERTAIN
 
 
 def strong(party: dict) -> bool:
@@ -84,10 +94,13 @@ def parties(reading: dict, ctx: dict) -> list[Action]:
 		return []
 	kind = reading.get("kind") or ""
 	party = counterpart(reading)
-	if not party or party.get("matched_name"):
+	why = ctx.get("why_made") or ""
+	# A lead that orders becomes a customer, through ERPNext's own conversion.
+	if kind == "Order" and party and ctx.get("sender_lead") and party.get("matched_doctype") in (None, "Lead"):
+		return [Action("Create", "Customer", values={"lead": ctx["sender_lead"]}, key="party|customer", flow="onedesk.one_intake.planning.customer_from_lead", why=why, as_person=True)]
+	if not party or known(party):
 		return []
 	name = _name(party)
-	why = ctx.get("why_made") or ""
 	# A receipt the company paid is a bill like an invoice, first supplier or
 	# not; one a colleague forwards is their expense claim, not a supplier.
 	billed = kind in ("Invoice", "Credit Note") or (kind == "Receipt" and not ctx.get("sender_is_colleague"))
@@ -103,8 +116,6 @@ def parties(reading: dict, ctx: dict) -> list[Action]:
 			)
 		]
 	if kind == "Order" and name:
-		if ctx.get("sender_lead"):
-			return [Action("Create", "Customer", values={"lead": ctx["sender_lead"]}, key="party|customer", flow="onedesk.one_intake.planning.customer_from_lead", why=why)]
 		person = bool(party.get("is_person"))
 		return [
 			Action(
@@ -170,10 +181,15 @@ def contact(reading: dict, ctx: dict) -> list[Action]:
 def employee_documents(reading: dict, ctx: dict) -> list[Action]:
 	"""A person's own documents, on their Employee: an identity document as
 	a row with a task before it runs out, a certificate as an education row,
-	a sick note as a leave application, a resignation proposed."""
+	a sick note as a leave application, a resignation proposed, and the
+	contract an applicant signed as their Employee, proposed."""
 	employee = ctx.get("employee")
 	kind = reading.get("kind") or ""
-	if not real(reading, ctx) or not employee:
+	if not real(reading, ctx):
+		return []
+	if kind == "Contract" and ctx.get("accepted_offer") and not ctx.get("employee_of_applicant"):
+		return [Action("Create", "Employee", values={"job_offer": ctx["accepted_offer"]}, key="employee", flow="onedesk.one_intake.planning.employee_from_offer", propose=True, as_person=True)]
+	if not employee:
 		return []
 	out: list[Action] = []
 	number = reading.get("number") or next((one.get("document_number") for one in reading.get("parties") or [] if one.get("role") == "Holder" and one.get("document_number")), None)
@@ -231,8 +247,6 @@ def employee_documents(reading: dict, ctx: dict) -> list[Action]:
 		leaving = next((one.get("date") for one in reading.get("dates") or [] if one.get("what") in ("Valid Until", "Deadline", "Period End")), None)
 		values = {"resignation_letter_date": reading.get("issued_on") or ctx.get("today"), "relieving_date": leaving}
 		out.append(Action("Update", "Employee", employee, {k: v for k, v in values.items() if v}, key="resignation", ends_employment=True))
-	elif kind == "Contract" and ctx.get("accepted_offer") and not ctx.get("employee_of_applicant"):
-		out.append(Action("Create", "Employee", values={"job_offer": ctx["accepted_offer"]}, key="employee", flow="onedesk.one_intake.planning.employee_from_offer", propose=True))
 	return out
 
 

@@ -183,6 +183,17 @@ and payment (OneBook); a purchase goes order and receipt (OneInventory), bill
 and payment (OneBook). Each record opens in its own app's rail, wherever it
 was found.
 
+## Connections
+
+- **From OneCRM**: A Sales Order is invoiced here with Create › Sales Invoice. Customers are kept in OneCRM.
+- **From OneProject**: Invoice Time, Invoice Month and Bill Progress on a project make the customer's invoices. Bill Progress on a subcontract drafts the supplier's bill for the project's manager to check.
+- **From OneInventory**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice, and a delivery becomes the customer's invoice the same way. Each asset's depreciation is posted to the books by itself.
+- **From OneHR**: Approved expense claims and payroll runs are posted to the books. The VAT on expense claims counts in the VAT Return.
+- **From OneIntake**: A supplier's bill read from mail or a file becomes a draft bill, matched to its purchase order. A customer's payment advice becomes a draft payment, and a bank statement's lines are ready to match.
+- **To OneProject**: Invoices, bills and payments that name a project count in its Billed, Paid and Cost figures. A payment takes the project its invoices name.
+- **To OneCRM**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
+- **To OneInventory**: Suppliers are kept in OneBook. A supplier billed in another currency gets the purchase orders made from To Order in that currency.
+
 ## Under the hood
 
 For the people who build OneBook. OneAI does not read past this heading.

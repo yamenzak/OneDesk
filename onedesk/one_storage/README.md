@@ -314,6 +314,17 @@ With nothing selected, the preview pane shows the folder: how many folders
 and files it holds and their total size. For your own folders, it also shows
 who can see the folder and whether OneAI reads it.
 
+## Connections
+
+- **From OneMail**: Each mailbox has a folder under Mail with the files its messages sent and received. An attachment in OneMail can be saved to My Files.
+- **From OneIntake**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged.
+- **From OneAdmin**: OneAdmin keeps the workspace's storage limit. A file is refused when there isn't room.
+- **To One**: Every record has a Files tab that opens its folder in OneCloud. Letter heads print their pictures from OneCloud, and the full download includes every file.
+- **To OneMail**: An attachment too large to send goes as a link to the file instead.
+- **To OneIntake**: Every new file can be found by its text. A folder set to **Read with OneAI** has each new file handled in Intake.
+- **To OneProject**: Photos and videos in a project's Featured Media folder are shown on its page and its portal. The newest photo is its cover.
+- **To OneAI**: OneAI answers questions about a file you can open and finds files by what they say. It also lists your largest files and how full the storage is.
+
 ## Under the hood
 
 For the people who build OneCloud. OneAI does not read past this heading.

@@ -434,7 +434,8 @@ def matched(party: dict) -> dict:
 		"phone": party.get("phone"),
 		"website": party.get("website"),
 		"vat_id": ids.vat(party.get("vat_id")),
-		"tax_number": party.get("tax_number"),
+		# A VAT number without its country letters, as a TRN is, is a tax number.
+		"tax_number": party.get("tax_number") or (None if ids.vat(party.get("vat_id")) else ids.tax_number(party.get("vat_id"))),
 		"iban": ids.iban(party.get("iban")),
 		"register": party.get("register"),
 		"document_number": ids.document(party.get("document_number")),

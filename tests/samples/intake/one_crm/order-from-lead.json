@@ -1,0 +1,86 @@
+{
+ "file": "order-from-lead.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A purchase order from a builder.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Order",
+   "title": "Purchase order OB-PO-2231",
+   "summary": "Osei Builders orders 12 sliding doors and 40 metres of balustrade for 15 November 2026.",
+   "language": "en",
+   "number": "OB-PO-2231",
+   "issued": "2026-10-06",
+   "dates": [
+    {
+     "date": "2026-11-15",
+     "what": "Due",
+     "about": "on site",
+     "counted": false
+    }
+   ],
+   "money": {
+    "currency": "AED",
+    "net": 42000.0,
+    "tax": null,
+    "gross": 42000.0,
+    "paid_how": "unknown",
+    "iban": null,
+    "reference": null
+   },
+   "lines": [
+    {
+     "text": "Sliding Door 2400",
+     "qty": 12,
+     "unit_price": 2100.0,
+     "amount": 25200.0,
+     "tax_rate": null,
+     "category": "Other"
+    },
+    {
+     "text": "Glass Balustrade",
+     "qty": 40,
+     "unit_price": 420.0,
+     "amount": 16800.0,
+     "tax_rate": null,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [
+    {
+     "kind": "Order",
+     "value": "OB-PO-2231"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Osei Builders",
+     "person": false,
+     "email": "kevin@osei.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Customer"
+  },
+  {
+   "doctype": "Sales Order",
+   "values": {
+    "po_no": "OB-PO-2231"
+   }
+  }
+ ]
+}

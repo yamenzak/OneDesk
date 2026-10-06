@@ -29,6 +29,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
 | books | The bank account, opening balances, rent and utilities each month |
 | hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter |
+| intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there |
 
 Every record is made the way a click makes it, through frappe's controllers,
 ERPNext's mappers and One's own actions, and by the person whose work it is.

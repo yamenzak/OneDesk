@@ -1,4 +1,4 @@
-# Intake
+# OneIntake
 
 Written by hand. Stages 1 to 9 of 11 are built. The plan for the rest is in
 `docs/INTAKE.md`. The part above **Under the hood** is the manual. Below it
@@ -482,6 +482,19 @@ Set what OneIntake may do under **OneIntake** › **Settings** in the
 sidebar. Each setting, its default and who can change it
 is described in One's documentation under OneIntake Settings, for the
 Workspace.
+
+## Connections
+
+- **From OneMail**: Every message, sent or received, can be found by its text. In a mailbox set to **Read with OneAI**, each new message and its attachments appear in Intake.
+- **From OneCloud**: Every new file can be found by its text. In a folder set to **Read with OneAI**, each new file appears in Intake.
+- **To OneCRM**: An enquiry creates a Lead, and an order creates the Customer and a draft Sales Order. The sender gets a Contact, and a contract becomes a Contract with a Cancel By date.
+- **To OneInventory**: An invoice from a new sender with a tax ID creates the Supplier. A delivery note becomes a draft Purchase Receipt against its order, and a quote becomes a Supplier Quotation.
+- **To OneBook**: Bills, credit notes and paid receipts become draft Purchase Invoices, listed in Ready to Submit. A payment advice becomes a draft Payment Entry, and a bank statement becomes Bank Transactions.
+- **To OneHR**: A CV creates a Job Applicant. An employee's passport, permit or certificate is added to their Employee record, a sick note becomes a Leave Application, and a receipt they paid becomes their Expense Claim.
+- **To OneProject**: A bill that names an open project is drafted for that project.
+- **To OneTask**: Each matter becomes one task with a step for each request. A reply or a payment completes its step.
+- **To OneCalendar**: An appointment becomes an event on that person's calendar. Due dates, contract cancellation dates and expiring employee documents are listed in Deadlines.
+- **To OneCloud**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged with its type and its year.
 
 ## Under the hood
 

@@ -40,6 +40,7 @@ after_sync = [
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
+	"onedesk.one_hr.accounts.components",
 	"onedesk.one_hr.accounts.year",
 	# The OneAI user hiring comments are written by, and the hiring switches.
 	"onedesk.one_hr.hiring.ensure",
@@ -117,6 +118,7 @@ after_migrate = [
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
+	"onedesk.one_hr.accounts.components",
 	"onedesk.one_hr.accounts.year",
 	"onedesk.one_hr.hiring.ensure",
 	"onedesk.one_admin.site.apply",
@@ -506,6 +508,8 @@ doc_events = {
 		"on_submit": "onedesk.one_project.tell.hours_used",
 	},
 	# The third request doctype, answered like the other two. See one_hr/leave.py.
+	# An earning books to the company's Salary account. See one_hr/accounts.py.
+	"Salary Component": {"before_validate": "onedesk.one_hr.accounts.component"},
 	"Leave Application": {
 		"before_validate": "onedesk.one_hr.decision.kept",
 		"before_submit": "onedesk.one_hr.leave.before_submit",
