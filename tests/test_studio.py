@@ -435,6 +435,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"intake.reading": (tree.APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
 		"onecrm.board": (public / "opportunity_list.js").read_text(),
 		"space.home": (public / "places.js").read_text(),
+		"oneproject.project": (tree.APP.parent / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
 	}
 	assert set(fired) == set(places.keys())
 	for key, source in fired.items():

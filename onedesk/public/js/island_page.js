@@ -10,7 +10,8 @@
 // - `onStatus({ label, color })`: the indicator beside it, or null;
 // - `onActions(actions)`: frappe's `{ label, icon?, onClick | href }`, with
 //   `primary` for the page's main button and `button` for one beside it; the
-//   rest go in the ··· menu, as frappe puts them.
+//   rest go in the ··· menu, as frappe puts them, `standard` ones (a record's
+//   Print, Email, Delete…, onedesk.record.menu) in its lower part.
 //
 // `menu` makes the page's name in the breadcrumb a menu (shell.trail), and
 // `hide_sidebar` closes the module's panel on arrival, as frappe's pages do.
@@ -35,7 +36,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			const run = action.href ? () => window.open(action.href, "_blank") : action.onClick;
 			if (action.primary) page.set_primary_action(action.label, run);
 			else if (action.button) page.add_inner_button(action.label, run);
-			else page.add_menu_item(action.label, run);
+			else page.add_menu_item(action.label, run, !!action.standard);
 		}
 	};
 	const where = () => ({

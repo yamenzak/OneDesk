@@ -297,6 +297,38 @@ GUARDS = [
 		"an agreement promising what is not built",
 		"tests/test_legal.py::test_nobody_is_promised_what_is_not_built",
 	),
+	# 6 Nothing lost
+	Guard(
+		"page-keeps-form",
+		6,
+		"a page of its own without its form's menu, sidebar or realtime",
+		"tests/guards/test_frame.py::test_a_page_keeps_its_forms_menu_and_sidebar",
+	),
+	Guard(
+		"record-handle",
+		6,
+		"frappe's Share, Email, Links or Remind Me reading a part of a form the page does not lend",
+		"tests/guards/test_frame.py::test_the_record_handle_covers_what_frappes_dialogs_read",
+	),
+	Guard(
+		"page-island-known",
+		6,
+		"a page of its own with no island the guards know",
+		"tests/guards/test_frame.py::test_every_page_is_drawn_by_a_known_island",
+	),
+	# 7 Extensible
+	Guard(
+		"page-places",
+		7,
+		"a page of its own that declares no places or does not fire them",
+		"tests/guards/test_frame.py::test_a_page_declares_its_places_and_fires_them",
+	),
+	Guard(
+		"places-fired",
+		7,
+		"a place in one_studio/places.py that no page fires",
+		"tests/test_studio.py::test_each_page_fires_its_events_with_only_its_powers",
+	),
 ]
 
 #: Points whose guard is still to come, and what it will fail on.
@@ -304,8 +336,6 @@ PLANNED = {
 	1: "a module with a feature and no demo record or integration test on it (the demo company, ARC 6)",
 	2: "a rule decided in an endpoint or a button rather than the record's own hooks (ARC 7)",
 	3: "a module README without its Connections section (ARC 10)",
-	6: "a page of its own without the record frame (ARC 5)",
-	7: "a page of its own that declares no places (ARC 5)",
 	11: "a record that leaves the company with no shipped print format (ARC 9)",
 	14: "a module with no Intake sample for its records (ARC 10)",
 	17: "a narrative comment of more than a few lines, or a module out of the one layout (ARC 10)",

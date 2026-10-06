@@ -2,7 +2,8 @@
 
 A frappe Client Script reaches a kind of record's form and its list, and
 nothing else: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
-board, every space's home and the head of a record are One's own, drawn by
+board, a project's page, every space's home and the head of a record (on its
+form, and on a project's page) are One's own, drawn by
 One's code. So each of those says here, once, what happens on it
 that an extension may hear (its events), what each event tells the
 extension (`gives`), and the few things the extension may do there (`may`).
@@ -126,6 +127,21 @@ PLACES = {
 			"home": {
 				"about": _lt("A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."),
 				"gives": "space.name (the Workspace, such as OneHR), space.title",
+				"may": ("note", "action"),
+			},
+		},
+	},
+	"oneproject": {
+		"label": "OneProject",
+		"record": "Project",
+		"events": {
+			"project": {
+				"about": _lt("A project's page is opened, and each time the project changes."),
+				"gives": (
+					"project.name, project.title, project.kind (Fixed Price, Time and Materials, Retainer or Internal), "
+					"project.status, project.health, project.customer, project.currency, project.starts, project.ends, "
+					"project.percent_complete, project.only_main (true while only its own work is shown)"
+				),
 				"may": ("note", "action"),
 			},
 		},

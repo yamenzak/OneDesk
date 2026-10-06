@@ -1,6 +1,6 @@
 // Extensions on One's own pages: OneMail, OneCalendar, OneTask, OneCloud,
-// OneIntake, the pipeline board, every space's home and a record's head
-// (one_studio/places.py says what each page has).
+// OneIntake, the pipeline board, a project's page, every space's home and a
+// record's head (one_studio/places.py says what each page has).
 //
 // frappe runs a Client Script on a form or a list; nothing runs one on a page
 // of One's. So the extensions that are on come with the boot, each is run

@@ -475,6 +475,15 @@ What happened on the project and its sub-projects, the newest at the foot:
 activity** loads older rows. A document only shows to whoever may read its
 type.
 
+### Beside the views
+
+Under the views is what a project's form keeps beside its fields: who it is
+**Assigned To**, its **Tags**, who it is **Shared With**, its likes, who else
+has it open, and who made it and changed it last. **+** assigns or shares it
+in frappe's own dialogs; a tag is picked from the workspace's or typed new.
+Whoever can change the project can assign and tag it; whoever may share it
+can share it.
+
 ### Buttons
 
 The main button is the kind's: **Bill Progress** on a Fixed Price contract,
@@ -484,6 +493,11 @@ Work**, **Issue Stock**, **New Expense Claim**, **Group Under New Project**,
 **Save as Template** and **Open Task Board**. On a Fixed Price project with no contract yet, **New Quotation**
 takes the place of **Quote Extra Work**, and while one quotation is open
 **Make Order** is the main button.
+
+Below them are the ones every record has, as on its form: **Print**,
+**Email**, **Show Links**, **Duplicate**, **Rename**, **Reload**, **Delete**,
+**Remind Me**, **Follow**, **Copy to Clipboard**, **New Project** and
+**Customize**, each for whoever may do it.
 
 **Edit Details** opens the project's form, with every field: its name,
 customer, parent project, status, health and manager, its dates and members,

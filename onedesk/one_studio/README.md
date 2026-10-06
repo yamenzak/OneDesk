@@ -48,7 +48,10 @@ with its own few things it may do:
   or bcc.
 - **A record's head**, each time the record is opened or saved: add a button
   beside the head's own, a figure in its band ("Sales Invoices: 12"), or a
-  note under it. Only on the kind of record you name.
+  note under it. Only on the kind of record you name. One written for a
+  Project runs on its page too.
+- **A project's page**, when it is opened and each time the project changes:
+  a note or a button under its header.
 - **OneCalendar**, when an event's card is opened: show a note on it, or add
   a button.
 - **OneTask**, each time a view of your tasks is shown: a note or a button
@@ -230,7 +233,7 @@ have we changed?** and **How does customizing work?**
 |---|---|
 | `extensions.py` | The Extension record's rules, and frappe's Client Script or Server Script made from it as Administrator. |
 | `guard.py` | Pure. Reads an extension's code before it is kept and refuses what reaches past the administrator. |
-| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline board, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
+| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline board, a project's page, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
 | `checks.py` | Pure. Whether an extension's code would work: the field and handler names it uses against the record's own, and its length. |
 | `trial.py` | Tries an extension before it is kept: node parses screen code; server code runs once on a real record, undone after. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |

@@ -134,6 +134,15 @@ export function emailRecord(doctype, name) {
 	frappe().set_route("Form", doctype, name);
 }
 
+/** A whole number as the workspace writes numbers. */
+export const count = (value) => window.format_number(value || 0, null, 0);
+
+/** A user's name and picture, as desk keeps them for everyone. */
+export const userInfo = (user) => {
+	const info = frappe().user_info(user) || {};
+	return { name: info.fullname || user, image: info.image };
+};
+
 /** The signed-in user. */
 export const me = () => frappe().session.user;
 

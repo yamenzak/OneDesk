@@ -274,6 +274,17 @@ Foundations done so far:
   that writes the number through `format_number`, used by OneMail, OneCloud,
   the plan pages and the portal's file picker. OneAI credits go through
   `format_number`. Only the kit may wrap frappe's formatters.
+- **The record frame**: the project page has what its form has. frappe's own
+  menu items (Print, Email, Show Links, Duplicate, Rename, Reload, Delete,
+  Remind Me, Follow, Copy to Clipboard, New Project, Customize) sit under the
+  page's, and beside the views are Assigned To, Tags, Shared With, likes, who
+  else has it open, and who made and changed it. Each opens frappe's own
+  dialog or calls frappe's own method (`public/js/record.js`, kit
+  `useRecord` and `<Record>`), so the next page (Opportunity, Lead, Employee,
+  Job Applicant) takes the same two lines.
+- **Places on the page**: OneStudio extensions reach the project page
+  (`oneproject.project`), and those written for a Project's head run there
+  too. Points 6 and 7 are now guarded (`tests/guards/test_frame.py`).
 
 Up next, in this order:
 

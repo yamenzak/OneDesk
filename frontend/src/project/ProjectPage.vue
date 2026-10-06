@@ -15,10 +15,15 @@
                 </TabTrigger>
               </TabList>
             </Tabs>
+            <!-- What the project's form has beside its fields: who it is
+                 assigned to, tags, sharing, likes, who made it. -->
+            <Record :of="record" class="mt-6 border-t border-outline-gray-1 pt-5" />
           </div>
         </nav>
         <div class="min-w-0">
           <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" @whole="only = false" />
+          <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
+          <div ref="spot" class="empty:hidden [&_.one-place-spot]:mt-4" />
           <!-- The task views' toolbar, and below a desktop's width the views as a
                tab bar that scrolls sideways, as an app's does. It sticks under
                desk's page head, never over it (the head is z-index 6). -->
@@ -74,7 +79,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TabList, Tabs, TabTrigger, TextInput } from "frappe-ui";
 
-import { Loading, Page, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onedesk, setQuery, setValue } from "../kit";
+import { Loading, Page, Record, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onedesk, setQuery, setValue, useRecord } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
@@ -117,6 +122,9 @@ const only = ref(props.query.only === "1");
 provideOnly(only);
 
 const { work, load: loadWork, set, add: addTask, give, take, find, count } = useWork(name, only);
+// The record as its form has it: its sidebar beside the views, frappe's own
+// menu items under the page's, and who else has it open.
+const record = useRecord("Project", name);
 
 async function load() {
   const asked = name.value;
@@ -157,6 +165,8 @@ watch(() => props.query.only, (now) => (only.value = now === "1"));
 // A project with nothing under it has no Main to show on its own.
 watch(said, (now) => now && only.value && !now.only && (only.value = false));
 watch(() => props.query.view, (now) => now && (view.value = now));
+watch(() => said.value?.modified, (now, before) => now && before && now !== before && record.reload());
+watch(record.record, () => said.value && report());
 
 const taskView = computed(() => ["tasks", "board", "timeline"].includes(view.value));
 // The views in the bar. Board and Timeline are the tasks laid out another way,
@@ -246,7 +256,58 @@ function report() {
   const s = said.value;
   props.onTitle?.({ title: s.title, between: (s.above || []).map((one) => ({ label: one.title, route: `/desk/project/${encodeURIComponent(one.name)}` })) });
   props.onStatus?.(null);
-  props.onActions?.(actions(s));
+  extended(s);
+  props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/project") })]);
+}
+
+// The workspace's extensions on the project page (one_studio/places.py):
+// those written for the page are told the project, those written for a
+// Project's head are told the record as its head is. Each is lent a note and
+// a button, or a verb in the page's head, and drawn again with the page.
+const spot = ref(null);
+let verbs = [];
+let drawn = null;
+function extended(s) {
+  const places = onedesk().places;
+  const doc = record.record.value?.doc;
+  if (!places || !spot.value || !doc) return;
+  const key = `${s.name}/${doc.modified}/${s.modified}`;
+  if (drawn === key) return;
+  drawn = key;
+  spot.value.replaceChildren();
+  verbs = [];
+  const lend = () => places.spot(($spot) => $spot.appendTo(spot.value));
+  if (places.listening("oneproject.project")) {
+    const project = {
+      name: s.name,
+      title: s.title,
+      kind: s.kind,
+      status: s.status,
+      health: s.health,
+      customer: s.customer,
+      currency: s.currency,
+      starts: s.starts,
+      ends: s.ends,
+      percent_complete: s.percent_complete,
+      only_main: !!only.value,
+    };
+    places.emit("oneproject.project", { project }, lend());
+  }
+  if (places.listening("record_head.drawn")) {
+    const page = lend();
+    const said = [];
+    places.emit(
+      "record_head.drawn",
+      Object.fromEntries(Object.entries(doc).filter(([field]) => !field.startsWith("__"))),
+      {
+        verb: (label, handler) => said.push({ label: String(label || ""), onClick: () => handler(), button: true }),
+        figure: (label, value) => page.note(`${label} · ${value ?? ""}`, "gray"),
+        note: page.note,
+      },
+      "Project"
+    );
+    verbs = said;
+  }
 }
 
 // What can be done to the project, each only for whoever may do it. The
