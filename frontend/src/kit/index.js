@@ -4,6 +4,7 @@
 // same.
 export * from "./desk";
 export { screen } from "./mount";
+export { default as ActivityComposer } from "./ActivityComposer.vue";
 export { default as Drawer } from "./Drawer.vue";
 export { default as Facts } from "./Facts.vue";
 export { default as Figures } from "./Figures.vue";

@@ -205,8 +205,8 @@ as on any form:
 - **Team**: who's on the project, what's on them and the hours they've put
   in.
 - **Files**: everything attached to the project and its tasks.
-- **Activity**: what happened on the project and its sub-projects, and its
-  comments.
+- **Activity**: what happened on the project and its sub-projects, its
+  comments and emails, and where you write them.
 
 On a phone the row of views scrolls sideways, and the lists keep their main
 columns:
@@ -474,7 +474,15 @@ What happened on the project and its sub-projects, the newest at the foot:
   changes.
 - **Work**: tasks added and completed, the team's updates, the hours each
   person logged in a day, files added or removed, and sub-projects started.
-- **Comments and emails** on the project. **Comment** at the foot adds one.
+- **Comments and emails** on the project.
+
+At the foot, **Comment** writes a comment, and typing @ mentions someone.
+**Email** writes an email from the project: who it's to, copies, a subject
+that starts as the project's name, and attachments, which stay on the
+project. **Reply** on an email answers it, to whoever sent it or, if you sent
+it, to whoever it went to. To use a mail template or attach the printed
+project, use **Email** in the ··· menu. A task's panel has the same
+Activity.
 
 **All**, **Money**, **Work** and **Comments** narrow it. **Show earlier
 activity** loads older rows. A document only shows to whoever may read its

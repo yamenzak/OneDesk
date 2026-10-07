@@ -202,6 +202,22 @@ don't make them fixed". Every record shown on a page of its own
   same row, swiped sideways.
 - A place's crumb keeps its name and chevron whole at any width; the
   record's name after it is the one that shortens.
+- Its Activity is where a comment or an email is written, as a form's
+  timeline is (your word: "the activity tab is usually where we send
+  emails"). At its foot are frappe's own comment and email composers
+  (`frontend/src/kit/ActivityComposer.vue`), switched by Comment and Email as
+  Frappe CRM switches them. A comment @-mentions anyone desk offers. An email
+  has To, CC, BCC, a subject that starts as the record's title, and
+  attachments kept on the record, and it is sent as frappe's email dialog
+  sends it (`communication.email.make`), so it lands on the timeline. Each
+  email on the timeline has **Reply**: to its sender, or to whom it went when
+  you sent it, "Re:" its subject, its words quoted. The classic dialog, for a
+  mail template or the printed record attached, stays in the page's ···
+  menu. A task's panel has the same.
+- Every island sits inside frappe-ui's provider, as a Frappe UI app does, so
+  its messages ("Email sent") and dialogs show. Times on an island are read
+  in the site's timezone. They were not before, so a comment made a minute
+  ago read "in 4 hours" wherever the browser's clock differed.
 
 ## What ERPNext already does
 

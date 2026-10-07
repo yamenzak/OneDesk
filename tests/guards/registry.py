@@ -169,6 +169,18 @@ GUARDS = [
 		"tests/guards/test_islands.py::test_an_island_is_frappe_ui_and_nothing_of_its_own",
 	),
 	Guard(
+		"activity-composer",
+		8,
+		"a comment box or email sending of a page's own on a record's activity, or an email row without Reply",
+		"tests/guards/test_record_page.py::test_a_records_activity_is_written_with_frappes_composers",
+	),
+	Guard(
+		"island-provider",
+		8,
+		"an island outside frappe-ui's provider, or frappe-ui reading frappe's times without the site's timezone",
+		"tests/guards/test_record_page.py::test_an_island_is_inside_frappe_uis_provider",
+	),
+	Guard(
 		"island-tokens",
 		8,
 		"a colour or size in an island that is not a frappe-ui token",

@@ -2,7 +2,9 @@
   <!-- The project's history across it and its sub-projects: the documents
        made for it, its tasks, time, updates and files (one_project/activity.py),
        beside frappe's own timeline of the project, its comments, emails and
-       field changes. A comment is written at the foot, as frappe does. -->
+       field changes. A comment or an email is written at the foot, as a
+       form's timeline has them (kit ActivityComposer), and an email is
+       answered from its own row with Reply. -->
   <div class="flex h-[calc(100dvh-7rem)] min-h-[30rem] flex-col gap-3 pb-6 pt-2">
     <TabButtons v-model="shown" class="self-start" :options="FILTERS" />
     <TimelineContainer>
@@ -13,6 +15,14 @@
 
         <template v-for="(icon, type) in ICONS" #[`icon-${type}`]="{ activity }">
           <span :class="[iconOf(activity, icon), 'size-4 text-ink-gray-6']" />
+        </template>
+
+        <template #item-email="{ activity: one }">
+          <EmailItem :email="one">
+            <template #actions>
+              <Button variant="ghost" size="sm" icon-left="lucide-reply" :label="__('Reply')" @click="composer?.reply(one)" />
+            </template>
+          </EmailItem>
         </template>
 
         <template #item-document="{ activity: one }">
@@ -74,23 +84,20 @@
       </ActivityTimeline>
     </TimelineContainer>
 
-    <div class="flex items-end gap-2">
-      <Textarea v-model="text" class="flex-1" :rows="2" :placeholder="__('Write a comment')" @keydown.meta.enter="send" @keydown.ctrl.enter="send" />
-      <Button variant="solid" :label="__('Comment')" :disabled="!text.trim()" :loading="sending" @click="send" />
-    </div>
+    <ActivityComposer ref="composer" doctype="Project" :name="project" :title="title" @sent="sent" />
   </div>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Badge, Button, TabButtons, Textarea } from "frappe-ui";
-import { ActivityTimeline, TimelineContainer, useActivityTimeline } from "@framework/ui/ActivityTimeline";
+import { Badge, Button, TabButtons } from "frappe-ui";
+import { ActivityTimeline, EmailItem, TimelineContainer, useActivityTimeline } from "@framework/ui/ActivityTimeline";
 
-import { __, andList, call, comment, followList, go, hours, listen, money } from "../kit";
+import { ActivityComposer, __, andList, call, followList, go, hours, listen, money } from "../kit";
 import { onlyArg, useOnly } from "./only";
 import ActivityLine from "./ActivityLine.vue";
 
-const props = defineProps({ project: { type: String, required: true }, modified: String });
+const props = defineProps({ project: { type: String, required: true }, title: String, modified: String });
 // Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 defineEmits(["task"]);
@@ -168,20 +175,10 @@ onBeforeUnmount(() => stops.forEach((stop) => stop()));
 watch(() => props.modified, later);
 load();
 
-const text = ref("");
-const sending = ref(false);
-async function send() {
-  const said = text.value.trim();
-  if (!said || sending.value) return;
-  sending.value = true;
-  try {
-    const escaped = said.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
-    await comment("Project", props.project, `<div>${escaped}</div>`);
-    text.value = "";
-    shown.value === "money" && (shown.value = "all");
-    own.reload?.();
-  } finally {
-    sending.value = false;
-  }
+// What was written at the foot shows at once; a filter that hides it gives way.
+const composer = ref(null);
+function sent() {
+  if (shown.value === "money" || shown.value === "work") shown.value = "all";
+  own.reload?.();
 }
 </script>

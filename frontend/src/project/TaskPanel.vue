@@ -102,7 +102,7 @@
 
       <section>
         <h3 class="mb-2 text-base font-semibold text-ink-gray-9">{{ __("Activity") }}</h3>
-        <Activity :key="task.name" doctype="Task" :name="task.name" />
+        <Activity :key="task.name" doctype="Task" :name="task.name" :title="task.subject" />
       </section>
     </div>
   </Drawer>

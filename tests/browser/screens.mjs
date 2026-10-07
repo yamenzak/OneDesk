@@ -23,6 +23,7 @@ export const SCREENS = [
 	{ who: "samir@one.test", path: "/desk/project/view/kanban/Projects%20by%20Health", sees: ["Mansour Villa Windows and Doors"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/query-report/Workload", sees: ["Workload", "Samir Aoun"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/project/PROJ-0001", page: "project-view", sees: ["Mansour Villa Windows and Doors", "Staircase balustrade", "Assign", "Files"], panel: false, menu: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/project/PROJ-0001?view=activity", page: "project-view", sees: ["Comment", "Email", "Assign"], panel: false },
 	{ who: "samir@one.test", path: "/desk/project-template", sees: ["Aluminium & Glazing", "Tasks", "Days", "Projects", "From the Library"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/project-template/Aluminium%20%26%20Glazing", page: "project-template-view", sees: ["Aluminium & Glazing", "Day 0", "Assign", "Files"], panel: false, menu: PROJECT_PLACES },
 	{ who: "rania@one.test", path: "/desk/my-tasks", page: "my-tasks", sees: ["OneTask"] },

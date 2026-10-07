@@ -72,3 +72,38 @@ def test_the_breadcrumb_is_the_panels_menu_everywhere():
 	# No module puts places of its own beside the breadcrumb.
 	found = [str(path.relative_to(ROOT)) for path in JS if "navbar-breadcrumbs" in path.read_text() and path.name != "panel_menu.js"]
 	assert not found, found
+
+
+def test_a_records_activity_is_written_with_frappes_composers():
+	"""A comment or an email on a record is written at the foot of its
+	activity with frappe's own composers (kit/ActivityComposer.vue), as a
+	form's timeline has its comment box and New Email, and an email row has
+	Reply. No page draws a comment box of its own."""
+	kit = (SRC / "kit" / "ActivityComposer.vue").read_text()
+	assert "CommentComposer" in kit and "EmailComposer" in kit
+	assert "frappe.core.doctype.communication.email.make" in kit, "an email is sent as frappe's email dialog sends it"
+	found = []
+	for path in VUE:
+		if path.parent.name == "kit":
+			continue
+		text = path.read_text()
+		if re.search(r"\bcomment\(", text) or "communication.email.make" in text:
+			found.append(str(path.relative_to(ROOT)))
+		if "useActivityTimeline(" in text and ("<ActivityComposer" not in text or "composer?.reply(" not in text):
+			found.append(str(path.relative_to(ROOT)))
+	assert not found, found
+
+
+def test_an_island_is_inside_frappe_uis_provider():
+	"""Every island mounts inside FrappeUIProvider, as a Frappe UI app's root
+	does, so frappe-ui's toasts and dialogs show; and frappe-ui reads frappe's
+	times in the site's timezone."""
+	mount = (SRC / "kit" / "mount.js").read_text()
+	assert "h(FrappeUIProvider" in mount
+	assert 'setConfig("systemTimezone"' in mount
+	# In the kit `frappe` is a function returning desk's frappe, so a bare
+	# `frappe.boot` there reads nothing (it once left every island's times
+	# hours out).
+	desk = (SRC / "kit" / "desk.js").read_text()
+	code = "\n".join(line for line in desk.splitlines() if not line.lstrip().startswith(("//", "*", "/*")))
+	assert not re.search(r"(?<![\w.\"'`])frappe\.\w", code.replace("window.frappe", "")), "call frappe() in the kit"

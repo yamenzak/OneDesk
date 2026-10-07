@@ -149,6 +149,12 @@ export const userInfo = (user) => {
 /** The signed-in user. */
 export const me = () => frappe().session.user;
 
+/** Everyone desk's comment box offers to @-mention, as `{ label, value }`. */
+export const mentionable = () =>
+	Object.entries(frappe().boot.user_info || {})
+		.filter(([user]) => user.includes("@") && !["Administrator", "Guest"].includes(user))
+		.map(([user, info]) => ({ label: info.fullname || user, value: user }));
+
 /** A date in the past? Compared as desk's dates are, by day. */
 export const isPast = (value) => Boolean(value) && value < frappe().datetime.get_today();
 
@@ -177,12 +183,12 @@ export function deskSession() {
 	return { socket: frappe()?.realtime?.socket };
 }
 
-/** Keep a view's choice in the address, so a link or a reload opens it again. */
 // The site's timezone and the reader's, as frappe's boot has them.
 export function timeZone() {
-  return (window.frappe && frappe.boot && frappe.boot.time_zone) || {};
+  return frappe()?.boot?.time_zone || {};
 }
 
+/** Keep a view's choice in the address, so a link or a reload opens it again. */
 export function setQuery(key, value) {
 	const url = new URL(window.location.href);
 	if (value) url.searchParams.set(key, value);
