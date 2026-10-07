@@ -1,6 +1,10 @@
 """The integration suite: the demo workspace read back as the people in it.
 
     bench --site <site> execute onedesk.one_demo.check.run
+    bench --site <site> execute onedesk.one_demo.check.run --kwargs "{'only': 'oneproject_'}"
+
+`only` names one check, or ends in "_" to run a group: every check whose name
+starts with it, such as a module's.
 """
 
 import traceback
@@ -23,9 +27,8 @@ def run(only: str | None = None) -> int:
 	from onedesk.one_demo.samples import unkept
 
 	failed = []
-	for fn in CHECKS:
-		if only and fn.__name__ != only:
-			continue
+	chosen = [fn for fn in CHECKS if not only or fn.__name__ == only or (only.endswith("_") and fn.__name__.startswith(only))]
+	for fn in chosen:
 		try:
 			# What a check does is never kept, even where the code it runs
 			# commits as it goes (submitting drafts, merging records).
@@ -46,7 +49,7 @@ def run(only: str | None = None) -> int:
 			# Nor what it answered, such as a page's status.
 			frappe.local.response = frappe._dict({"docs": []})
 			frappe.set_user("Administrator")
-	print(f"{len(CHECKS) - len(failed)} of {len(CHECKS)} passed" if not only else "")
+	print(f"{len(chosen) - len(failed)} of {len(chosen)} passed" if len(chosen) != 1 else "")
 	return len(failed)
 
 
@@ -1443,21 +1446,29 @@ def oneproject_a_project_starts_with_its_customers_and_its_templates_terms():
 
 
 @check
-def oneproject_its_signed_contract_is_on_the_page():
-	"""The villa's contract is signed, and About says so with when it ends.
-	The tower's waits for a signature, and Needs You asks for it. Drawn up
-	for Acme from its terms, a contract names the project and runs over its
-	dates, and one ending within a month is to renew. Samir reads whether it
-	is signed, but not its wording, nor draws one up."""
+def oneproject_its_contracts_are_on_the_page():
+	"""A project has as many contracts as it signs. The villa's contract is
+	signed and its staircase addendum waits for the customer, so About shows
+	the signed one, the Overview lists both, and Needs You asks for the
+	addendum. The tower's scaffolding subcontractor signed from the
+	subcontract template. Samir reads them but draws none up. A supplier's
+	contract needs a template and a supplier on the project. One ending in a
+	month is to renew, unless a later one with the same party runs on."""
+	from onedesk.one_demo.projects import SUBCONTRACT
 	from onedesk.one_project import agreement, view
 
 	with as_user("samir@one.test"):
 		villa = view.said(VILLA)
-		assert villa["agreement"]["signed"] and villa["agreement"]["ends"], villa["agreement"]
-		assert not villa["agreement"]["route"] and not villa["can_draw_up"], villa["agreement"]
+		own = [one for one in villa["contracts"] if one["project"] == VILLA]
+		assert sorted(one["signed"] for one in own) == [False, True], own
+		assert villa["agreement"]["signed"] and villa["agreement"]["ends"] and not villa["agreement"]["route"], villa["agreement"]
+		assert not villa["can_draw_up"]
+		asked = agreement.asks(frappe.get_doc("Project", VILLA), own)
+		assert [one["text"] for one in asked] == ["Get the contract signed"], asked
 		tower = view.said(TOWER)
-		assert tower["agreement"] and not tower["agreement"]["signed"], tower["agreement"]
-		assert "Get the contract signed" in {one["text"] for one in view.needs(frappe.get_doc("Project", TOWER), {"tree": [TOWER]}, "Fixed Price")}
+		scaffold = [one for one in tower["contracts"] if one["party_type"] == "Supplier"]
+		assert [(one["party"], one["signed"]) for one in scaffold] == [("Rapid Scaffolding", True)], scaffold
+		assert tower["agreement"]["party"] == "Bayview Developments" and not tower["agreement"]["signed"], tower["agreement"]
 		try:
 			agreement.draw_up(ACME)
 		except frappe.PermissionError:
@@ -1465,18 +1476,33 @@ def oneproject_its_signed_contract_is_on_the_page():
 		else:
 			raise AssertionError("somebody who may not make contracts drew one up")
 	with as_user(OWNER):
-		assert view.said(ACME)["can_draw_up"] and not view.said(ACME)["agreement"]
-		name = agreement.draw_up(ACME)
-		doc = frappe.get_doc("Contract", name)
-		acme = frappe.db.get_value("Project", ACME, ["customer", "expected_start_date", "expected_end_date", "one_terms"], as_dict=True)
+		offered = {(one["party_type"], one["party"]) for one in agreement.parties(TOWER)}
+		assert {("Customer", "Bayview Developments"), ("Supplier", "Rapid Scaffolding")} <= offered, offered
+		for kwargs in ({"party_type": "Supplier", "party": "Rapid Scaffolding"}, {"party_type": "Supplier", "party": "Precision Installers", "template": SUBCONTRACT}):
+			try:
+				agreement.draw_up(TOWER, **kwargs)
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError(f"a supplier's contract was drawn up from {kwargs}")
+		again = frappe.get_doc("Contract", agreement.draw_up(TOWER, template=SUBCONTRACT, party_type="Supplier", party="Rapid Scaffolding"))
+		assert (again.party_type, again.document_name) == ("Supplier", TOWER) and "subcontractor" in again.contract_terms
+		assert view.said(ACME)["can_draw_up"]
+		doc = frappe.get_doc("Contract", agreement.draw_up(ACME))
+		acme = frappe.db.get_value("Project", ACME, ["customer", "expected_start_date", "expected_end_date"], as_dict=True)
 		assert (doc.party_type, doc.party_name, doc.document_type, doc.document_name) == ("Customer", acme.customer, "Project", ACME)
 		assert (doc.start_date, doc.end_date) == (acme.expected_start_date, acme.expected_end_date)
 		assert "Materials stay ours" in doc.contract_terms and doc.status == "Unsigned", doc.contract_terms
 		doc.update({"is_signed": 1, "signee": "Dana Brooks", "signed_on": now_datetime(), "start_date": getdate(add_days(today(), -30)), "end_date": getdate(add_days(today(), 10))})
 		doc.submit()
-		assert agreement.of(ACME)["signed"] and agreement.of(ACME)["route"] == f"/desk/contract/{name}"
-		said = agreement.asks(frappe.get_doc("Project", ACME))
-		assert [(one["text"], one["dim"]) for one in said] == [("Renew the contract", "Ends in 10 days")], said
+		project = frappe.get_doc("Project", ACME)
+		said = agreement.asks(project, agreement.contracts([ACME]))
+		assert [(one["text"], one["dim"]) for one in said] == [("Renew the contract", "Acme Holdings · Ends in 10 days")], said
+		renewal = frappe.get_doc("Contract", agreement.draw_up(ACME))
+		renewal.update({"is_signed": 1, "signee": "Dana Brooks", "signed_on": now_datetime(), "start_date": getdate(add_days(today(), 10)), "end_date": getdate(add_days(today(), 375))})
+		renewal.submit()
+		assert agreement.asks(project, agreement.contracts([ACME])) == [], "a renewed contract is not asked for again"
+		assert agreement.main(ACME)["name"] == renewal.name
 
 
 class _Told:

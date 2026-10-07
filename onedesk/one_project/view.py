@@ -115,9 +115,11 @@ def said(
 		# What's agreed with the customer, carried onto its documents (terms.py).
 		"payment_terms": doc.get("one_payment_terms"),
 		"terms": doc.get("one_terms"),
-		# The contract the customer signs, ERPNext's own (agreement.py).
-		"agreement": agreement.of(doc.name),
-		"can_draw_up": bool(doc.customer and frappe.has_permission("Contract", "create")),
+		# The contracts signed for it, ERPNext's own (agreement.py), and the
+		# customer's About shows.
+		"contracts": (signed := agreement.contracts(view["tree"])),
+		"agreement": agreement.main(doc.name, signed),
+		"can_draw_up": bool(frappe.has_permission("Contract", "create") and (doc.customer or agreement.suppliers(doc.name))),
 		"parent_title": frappe.db.get_value("Project", doc.one_parent, "project_name")
 		if doc.get("one_parent")
 		else None,
@@ -703,7 +705,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 
 		found += [{"tone": "orange", "text": one["text"], "money": one["money"]} for one in due(doc.name)]
 	# Work going on without a signed contract comes before the rest.
-	found += agreement.asks(doc)
+	found += agreement.asks(doc, agreement.contracts(view["tree"]))
 	if kind != kinds.FIXED:
 		for one in budget.across(view["tree"]):
 			if one["left"] < 0:

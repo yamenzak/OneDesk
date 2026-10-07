@@ -152,31 +152,50 @@ onedesk.project.invoice_time = async (frm) => {
 	dialog.show();
 };
 
-// Draw Up Contract: what the customer signs, ERPNext's own Contract naming
-// the project, opened in its form to sign and submit (one_project/agreement.py).
-// Its wording comes from a Contract Template when the workspace has one.
+// Draw Up Contract: what the customer or one of the project's suppliers
+// signs, ERPNext's own Contract naming the project, opened in its form to sign
+// and submit (one_project/agreement.py). Its wording comes from a Contract
+// Template, or for the customer from the project's terms and conditions.
 onedesk.project.draw_up = async (project, terms) => {
-	const make = async (template) => {
-		const name = await frappe.xcall("onedesk.one_project.agreement.draw_up", { project, template });
+	const parties = await frappe.xcall("onedesk.one_project.agreement.parties", { project });
+	const templates = await frappe.db.count("Contract Template");
+	const make = async (party, template) => {
+		const name = await frappe.xcall("onedesk.one_project.agreement.draw_up", {
+			project,
+			template,
+			party_type: party.party_type,
+			party: party.party,
+		});
 		frappe.set_route("Form", "Contract", name);
 	};
-	if (!(await frappe.db.count("Contract Template"))) return make(null);
+	if (parties.length === 1 && parties[0].party_type === "Customer" && !templates) return make(parties[0], null);
+	const label = (one) => (one.party_type === "Supplier" ? __("{0} (supplier)", [one.label]) : one.label);
 	const dialog = new frappe.ui.Dialog({
 		title: __("Draw Up Contract"),
 		fields: [
+			{
+				fieldtype: "Select",
+				fieldname: "with",
+				label: __("With"),
+				options: parties.map(label),
+				default: label(parties[0]),
+				reqd: 1,
+				hidden: parties.length === 1,
+			},
 			{
 				fieldtype: "Link",
 				fieldname: "template",
 				label: __("Contract Template"),
 				options: "Contract Template",
-				reqd: !terms,
-				description: terms ? __("Leave empty to use {0}.", [terms]) : null,
+				hidden: !templates,
+				description: terms ? __("Leave empty to use {0} with the customer.", [terms]) : null,
 			},
 		],
 		primary_action_label: __("Draw Up Contract"),
-		primary_action: async ({ template }) => {
+		primary_action: async (values) => {
+			const party = parties.find((one) => label(one) === values.with) || parties[0];
 			dialog.hide();
-			await make(template);
+			await make(party, values.template);
 		},
 	});
 	dialog.show();

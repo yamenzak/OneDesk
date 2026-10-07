@@ -262,7 +262,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 	its own work apart from them as `main`: where it stands, its dates, what it cost against the estimate, what was billed,
 	its late tasks (who is on each, what waits on each), its milestones to
 	come, its people and its contacts outside the company, the team's last updates, the reader's own week on
-	it, the payment terms and terms and conditions agreed with its customer, and whether its contract is signed. Read before saying how a project is going, what is late, or writing
+	it, the payment terms and terms and conditions agreed with its customer, and its contracts with the customer and suppliers, signed or not. Read before saying how a project is going, what is late, or writing
 	about it."""
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
 		return {"error": f"No project the reader may see is {project}."}
@@ -339,7 +339,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		# Agreed with the customer and carried onto its documents (terms.py, agreement.py).
 		"payment_terms": doc.get("one_payment_terms"),
 		"terms_and_conditions": doc.get("one_terms"),
-		"contract": {key: value for key, value in (agreement.of(project) or {}).items() if key != "route"} or None,
+		"contracts": [{key: value for key, value in one.items() if key != "route"} for one in agreement.contracts(said["tree"])],
 	}
 
 

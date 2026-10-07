@@ -45,6 +45,12 @@
           <Badge v-if="STATUS[one.status]" :label="__(one.status)" :theme="STATUS[one.status]" size="md" />
         </div>
 
+        <!-- The supplier's contract for the project (agreement.py). -->
+        <button v-for="signed in signedWith(one.supplier_id)" :key="signed.name" class="mt-3 flex items-center gap-2 text-start text-sm text-ink-gray-7 enabled:hover:underline" :disabled="!signed.route" @click="go(signed.route)">
+          <span class="h-2 w-2 shrink-0 rounded-full" :class="signed.signed ? 'bg-surface-green-5' : 'bg-surface-amber-5'" />
+          {{ signed.signed ? (signed.ends ? __("Contract signed, ends {0}", [date(signed.ends)]) : __("Contract signed")) : __("Contract not signed yet") }}
+        </button>
+
         <div class="mt-4 flex items-baseline justify-between gap-2">
           <span class="text-xl font-semibold tabular-nums text-ink-gray-9">{{ amount(one.ordered) }}</span>
           <span class="text-sm text-ink-gray-5">{{ billedShare(one) >= 100 ? __("Billed") : __("{0}% billed", [billedShare(one)]) }}</span>
@@ -164,6 +170,8 @@ const cash = computed(() => props.said.money);
 const orders = computed(() => cash.value.suppliers);
 // Goods are on Buying, with what's received; the cards are the packages of work.
 const packages = computed(() => orders.value.filter((one) => one.subcontract));
+// A supplier's contracts on the project, newest first.
+const signedWith = (supplier) => (props.said.contracts || []).filter((one) => one.party_type === "Supplier" && one.party === supplier);
 const amount = (value) => money(value, cash.value.currency);
 const total = (key) => orders.value.reduce((sum, one) => sum + (one[key] || 0), 0);
 const billedShare = (one) => (one.ordered ? Math.min(100, Math.round((100 * one.billed) / one.ordered)) : 0);

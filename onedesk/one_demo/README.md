@@ -57,6 +57,11 @@ Omar sells, and Layla owns the workspace. Every record is tagged **Demo**.
 
     bench --site <site> execute onedesk.one_demo.check.run
 
+The whole run takes a while, so a change runs only the checks that cover it:
+one by its name, or a group by a prefix ending in `_`, such as a module's.
+
+    bench --site <site> execute onedesk.one_demo.check.run --kwargs "{'only': 'oneproject_'}"
+
 Each check opens what a person would open, as that person, and holds it
 against ERPNext's own records. It writes nothing.
 

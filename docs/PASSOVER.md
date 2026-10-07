@@ -9004,6 +9004,13 @@ each closed on ERPNext's own records, each with a demo check:
   Contract keeps ERPNext's roles, since employment contracts are Contracts
   too. Whether it is signed is shown to the project's readers
   (`oneproject_its_signed_contract_is_on_the_page`).
+- **Many contracts**: a project held one contract, and Draw Up Contract went
+  once one existed. A project now has as many as it signs, with its customer
+  or one of its suppliers: **Contracts** on the Overview, a supplier's on its
+  Suppliers card, About the customer's latest signed, and a Needs You row per
+  contract to sign or renew (`oneproject_its_contracts_are_on_the_page`). The
+  villa has an unsigned staircase addendum, and the tower a signed contract
+  with Rapid Scaffolding from the demo's Subcontract Agreement template.
 - **OneCRM › Contract**: the list was there under Sales but read **Draft**
   for an unsigned contract, showed each contract's whole wording and the
   project as its ID. It now reads Unsigned, Active or Inactive, the end date

@@ -836,21 +836,31 @@ its purchase order says, not as the customer agreed.
 **Add Contract** asks for the payment terms and the terms and conditions too.
 Ones changed there become the project's.
 
-### The signed contract
+### Contracts
 
-The contract value is the customer's sales order. What the customer signs is
-an ERPNext **Contract**. **Draw Up Contract** (in **···**) makes one for the
-project's customer, naming the project and running over its dates. Its wording
-comes from a **Contract Template** when the workspace has one, or from the
-project's terms and conditions. It opens in the Contract form, where you
+The contract value is the customer's sales order. What gets signed is an
+ERPNext **Contract**, and a project can have as many as it needs: the main
+contract, an addendum for extra work, a renewal, or a supplier's subcontract
+agreement.
+
+**Draw Up Contract** (in **···**, and under **Contracts** on the Overview)
+asks who it is with: the project's customer, or one of its suppliers (those
+ordered from for the project, and those on its contacts). It names the
+project and runs over its dates. Its wording comes from a **Contract
+Template**, or for the customer from the project's terms and conditions. A
+supplier's contract needs a template. It opens in the Contract form, where you
 record who signed it and when, then submit it.
 
-**About** shows **Signed Contract**: **Signed** with when it ends, or **Not
-signed yet**. While the project is open, Needs You says **Get the contract
-signed**, and **Renew the contract** from a month before a signed one ends.
+**Contracts** on the Overview lists each one with who it is with, whether it
+is signed and when it ends. A supplier's contract also shows on its card on
+the **Suppliers** tab. **About** shows the customer's: **Signed** with when it
+ends, or **Not signed yet**. While the project is open, Needs You says **Get
+the contract signed** for each one not signed, and **Renew the contract** from
+a month before a signed one ends, unless a later one with the same party runs
+on past it.
 
 **Draw Up Contract** shows to whoever may create contracts, a Sales Manager in
-ERPNext. Everyone who reads the project sees whether it is signed. Its wording
+ERPNext. Everyone who reads the project sees the list. A contract's wording
 opens only for those who may read contracts, since an employee's contract is
 a Contract too.
 
@@ -1177,7 +1187,7 @@ sub-project.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
 - **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
 - **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
-- **To OneCRM**: Draw Up Contract makes the customer's Contract for the project.
+- **To OneCRM**: Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.
 
 ## Under the hood
 
@@ -2102,16 +2112,21 @@ one_task/access.py and `_templates` here.
 
 ### agreement.py
 
-The signed contract is ERPNext's **Contract**, with `document_type` Project
-and `document_name` the project, so ERPNext's own form, statuses (Unsigned,
-Active, Inactive) and daily status update all hold. `draw_up` fills the
-party, the dates and `contract_terms`: a Contract Template's wording rendered
-as ERPNext's form renders it (`get_contract_template`), else the project's
-Terms and Conditions rendered for the contract. `of` reads the latest one not
-cancelled for About and OneAI with no permission check, since whether it is
-signed is the project's business, and gives its route only to whoever may
-read contracts. `asks` adds the Needs You rows. No grant is added. Contract
-stays with ERPNext's roles, because employment contracts are Contracts too.
+A project's contracts are ERPNext's **Contract**, with `document_type`
+Project and `document_name` the project, so ERPNext's own form, statuses
+(Unsigned, Active, Inactive) and daily status update all hold. `draw_up`
+fills the party (the customer, or a supplier from `suppliers`: those with a
+submitted purchase order on the project or those under it, and those on its
+contacts), the dates and `contract_terms`: a Contract Template's wording
+rendered as ERPNext's form renders it (`get_contract_template`), else, with
+the customer, the project's Terms and Conditions. `contracts` lists those not
+cancelled on the project and those under it with no permission check, since
+whether they are signed is the project's business, and gives a route only to
+whoever may read contracts. `main` is the customer's for About: the latest
+signed, else the latest. `asks` adds the Needs You rows, and `_renewed` keeps
+a contract quiet once a later signed one with the same party runs past it. No
+grant is added. Contract stays with ERPNext's roles, because employment
+contracts are Contracts too.
 
 ### activity.py
 

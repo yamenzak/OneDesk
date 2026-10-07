@@ -115,6 +115,11 @@
         <Facts :facts="facts" />
         <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
       </Section>
+      <!-- What the customer and the suppliers signed for it (agreement.py). -->
+      <Section v-if="said.contracts?.length" :title="__('Contracts')" :aside="said.contracts.length">
+        <Rows :rows="contracts" />
+        <Button v-if="said.can_draw_up" variant="ghost" class="mt-2 -ms-2" icon-left="lucide-plus" :label="__('Draw Up Contract')" @click="onedesk().project.draw_up(said.name, said.terms)" />
+      </Section>
       <Section v-if="view.sub_projects.count" :title="__('Sub-projects')" :aside="view.sub_projects.count">
         <Rows :rows="[...mainRow, ...subProjects]" />
         <Button v-if="view.sub_projects.all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.sub_projects.all)" />
@@ -389,6 +394,19 @@ const quotes = computed(() =>
     dim: `${__(one.status)} · ${date(one.date)}`,
     value: money(one.value, one.currency),
     route: `/desk/quotation/${one.name}`,
+  }))
+);
+// Each contract: who it is with, whether it is signed, and when it ends. One
+// for a project under this one names it.
+const contracts = computed(() =>
+  props.said.contracts.map((one) => ({
+    key: one.name,
+    label: one.with,
+    sub: [one.name, one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : ""].filter(Boolean).join(" · "),
+    dot: !one.signed ? "orange" : one.status === "Active" ? "green" : "gray",
+    dim: !one.signed ? __("Not signed yet") : one.status === "Inactive" ? __("Ended") : __("Signed"),
+    value: one.ends ? date(one.ends) : "",
+    route: one.route,
   }))
 );
 // As many as the other sections show (view.SHOWN).

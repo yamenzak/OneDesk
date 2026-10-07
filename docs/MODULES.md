@@ -541,6 +541,7 @@ No doctypes yet.
 * `onedesk.one_mail.rules.set_away`
 * `onedesk.one_project.activity.activity`
 * `onedesk.one_project.agreement.draw_up`
+* `onedesk.one_project.agreement.parties`
 * `onedesk.one_project.billing.bills`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.invoices`

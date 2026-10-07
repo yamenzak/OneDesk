@@ -31,7 +31,7 @@ The rail on the left has the whole of OneCRM in it:
 **Contract** under Sales lists what customers sign, ERPNext's own Contract:
 whether each is signed (**Unsigned**, **Active**, or **Inactive** once it has
 ended), when it ends, and the project it is for. Open one to record who signed
-it and when, then submit it. A project's contract is drawn up from the
+it and when, then submit it. A project's contracts are drawn up from the
 project's page with **Draw Up Contract**.
 
 **One workspace is one company.** You are never asked which company a lead or
@@ -311,7 +311,7 @@ Change any of it under Role Permissions; One does not change it back.
 - **From OneIntake**: An enquiry from somebody new that reaches a mailbox OneAI reads becomes a new lead. A customer's order that arrives by mail becomes a draft Sales Order.
 - **From OneMail**: Mail sent to a lead or a deal, and the replies to it, are on its timeline. The first mail sent to a lead counts as its first reply.
 - **From OneBook**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
-- **From OneProject**: Draw Up Contract on a project makes the customer's Contract for it, listed under Sales.
+- **From OneProject**: Draw Up Contract on a project makes a Contract for it with its customer or one of its suppliers, listed under Sales.
 - **To OneProject**: A quotation for a customer with one open Fixed Price project waiting for a price is put on that project. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
 - **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell.
 - **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice.

@@ -86,6 +86,8 @@ def villa():
 	_extra_work(
 		name, "Mansour & Sons", "Staircase balustrade", [("BAL-GL", 14, 1500), ("SVC-INST", 20, 180)], ago(30)
 	)
+	# The addendum for the staircase, with the customer to sign.
+	_signed(name)
 	_update(name, "Frames for the ground floor are in. Glass for the first floor lands on Thursday.", ago(9), "rania@one.test")
 	_update(name, "Balustrade drawings approved by Khalid. Starting the staircase next week.", ago(3), "tariq@one.test")
 	_papers(name)
@@ -142,6 +144,7 @@ def tower():
 			starts,
 		)
 	scaffold = _subcontract(name, "Rapid Scaffolding", 66000, on(4, 1))
+	_signed(name, on(3, 28), "Omar Haddad", supplier="Rapid Scaffolding")
 	_bill_progress(scaffold, on(7, 1), done=50, doctype="Purchase Order")
 	_bill_progress(order, on(5, 31), done=8)
 	late = _bill_progress(order, ago(75), done=15)
@@ -427,13 +430,15 @@ def _contract(project, date, lines, retention=0, retention_due=None, handover=0)
 	return order.name
 
 
-def _signed(project, date=None, signee=None):
-	"""The contract the customer signs, drawn up as Draw Up Contract does it,
-	by whoever keeps sales: signed and submitted on `date`, or not signed yet."""
+def _signed(project, date=None, signee=None, supplier=None):
+	"""A contract drawn up as Draw Up Contract does it, by whoever keeps sales:
+	with the customer, or with `supplier` from the subcontract template, signed
+	and submitted on `date`, or not signed yet."""
 	from onedesk.one_project.agreement import draw_up
 
 	with as_user(OWNER):
-		doc = frappe.get_doc("Contract", draw_up(project))
+		made = draw_up(project, party_type="Supplier", party=supplier, template=SUBCONTRACT) if supplier else draw_up(project)
+		doc = frappe.get_doc("Contract", made)
 		if date:
 			doc.update({"is_signed": 1, "signee": signee, "signed_on": f"{date} 11:00:00"})
 			doc.submit()
@@ -870,6 +875,10 @@ AGREED = {
 }
 
 
+#: The workspace's contract template for a subcontractor.
+SUBCONTRACT = "Subcontract Agreement"
+
+
 def _terms():
 	"""The workspace's payment terms and terms and conditions, as copying the
 	library's presets makes them, and Bayview's own terms: 45 days. A glazing
@@ -879,6 +888,15 @@ def _terms():
 		library._payment_terms(key)
 	for key in ("Construction Works", "Professional Services"):
 		library._conditions(key)
+	if not frappe.db.exists("Contract Template", SUBCONTRACT):
+		frappe.get_doc(
+			{
+				"doctype": "Contract Template",
+				"title": SUBCONTRACT,
+				"contract_terms": "<p>The subcontractor carries out the package of work in its order, to the programme and the drawings issued. "
+				"Work is billed as it is done, less the retention the order holds. Variations are agreed in writing before the work starts.</p>",
+			}
+		).insert(ignore_permissions=True)
 	if not frappe.db.get_value("Customer", "Bayview Developments", "payment_terms"):
 		frappe.db.set_value("Customer", "Bayview Developments", "payment_terms", "Net 45")
 
