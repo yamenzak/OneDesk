@@ -11,7 +11,7 @@
         <Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />
       </div>
 
-      <Section v-if="said.notes" :title="__('Brief')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">
+      <Section v-if="said.notes" :title="__('Brief')" icon="lucide-file-text" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">
         <div class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.notes" />
       </Section>
 
@@ -25,105 +25,102 @@
       </div>
 
       <template v-if="kind === 'Fixed Price'">
-        <Section v-if="view.billing" :title="__('Work and Billing')">
+        <Section v-if="view.billing" :title="__('Work and Billing')" icon="lucide-receipt">
           <Rows :rows="workAndBilling" />
           <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency, view.billing.billable?.share)" />
         </Section>
         <!-- What the customer ordered, then what they've been quoted and not
              ordered: one flow, so side by side. -->
-        <Section v-if="said.orders?.length > 1" :title="__('Orders')" :aside="said.orders.length" :action="{ icon: 'lucide-arrow-up-right', label: __('Orders'), onClick: () => go(said.orders_route) }">
+        <Section v-if="said.orders?.length > 1" :title="__('Orders')" icon="lucide-shopping-cart" :aside="said.orders.length" :action="{ icon: 'lucide-arrow-up-right', label: __('Orders'), onClick: () => go(said.orders_route) }">
           <Rows :rows="orders" />
           <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
         </Section>
-        <Section v-if="quotes.length" :title="__('Quotations')">
+        <Section v-if="quotes.length" :title="__('Quotations')" icon="lucide-file-signature">
           <Rows :rows="quotes" />
         </Section>
-        <Section :title="__('Budget')" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
+        <Section :title="__('Budget')" icon="lucide-wallet" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
           <ChartCard v-if="budgetBars.length" :style="{ height: `${5.5 + 2.25 * budgetBars.length}rem` }">
             <BarChart :data="budgetBars" x="type" :y="['spent', 'committed', 'left']" horizontal stacked :series-config="budgetSeries" :y-axis="{ format: (value) => money(value, said.currency) }" />
           </ChartCard>
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No cost types") }}</div>
           <Rows v-if="over.length" class="mt-2" :rows="over" />
         </Section>
-        <Section :title="__('Milestones')">
+        <Section :title="__('Milestones')" icon="lucide-flag" :action="can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
           <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
           <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
-          <Button v-if="can('create', 'Task')" class="mt-3" icon-left="lucide-plus" :label="__('Add Milestone')" @click="onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed'))" />
         </Section>
       </template>
 
       <template v-else-if="kind === 'Time and Materials'">
-        <Section :title="__('Not Invoiced Yet')" :aside="unbilledTotal">
+        <Section :title="__('Not Invoiced Yet')" icon="lucide-clock" :aside="unbilledTotal">
           <Rows :rows="view.unbilled.map((one) => ({ key: one.name, label: one.name, avatar: one.name, image: one.image, dim: hours(one.hours), value: money(one.amount, said.currency) }))" :empty="__('All time is invoiced')" />
           <Button v-if="view.unbilled.length && said.customer && can('create', 'Sales Invoice')" class="mt-3" :label="__('Invoice Time')" @click="onedesk().project.invoice_time(frm())" />
         </Section>
       </template>
 
       <template v-else-if="kind === 'Retainer'">
-        <Section v-if="view.months" :title="__('Months')" :aside="__('{0} a month', [money(view.months.fee, view.months.currency)])">
+        <Section v-if="view.months" :title="__('Months')" icon="lucide-calendar-days" :aside="__('{0} a month', [money(view.months.fee, view.months.currency)])">
           <Months :months="view.months" @invoice="(month) => onedesk().project.invoice_month(frm(), month)" />
         </Section>
       </template>
 
       <template v-else>
-        <Section :title="__('Milestones')">
+        <Section :title="__('Milestones')" icon="lucide-flag" :action="can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
           <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
           <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
-          <Button v-if="can('create', 'Task')" class="mt-3" icon-left="lucide-plus" :label="__('Add Milestone')" @click="onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed'))" />
         </Section>
-        <Section :title="__('Due Soon')" :aside="__('Next 2 weeks')">
+        <Section :title="__('Due Soon')" icon="lucide-calendar-clock" :aside="__('Next 2 weeks')">
           <Rows :rows="view.due_soon.map((one) => ({ key: one.name, label: one.subject, sub: one.who, value: shortDate(one.due), route: `/desk/task/${one.name}` }))" :empty="__('Nothing due')" />
         </Section>
       </template>
 
-      <Section v-if="kind !== 'Fixed Price' && quotes.length" :title="__('Quotations')">
+      <Section v-if="kind !== 'Fixed Price' && quotes.length" :title="__('Quotations')" icon="lucide-file-signature">
         <Rows :rows="quotes" />
       </Section>
-      <Section :title="__('Updates')" :aside="said.asking">
-        <Updates :said="said" :writing="writing" @changed="$emit('changed')" />
+      <template v-if="kind === 'Fixed Price'">
+        <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" icon="lucide-hard-hat" :aside="view.subcontracts_count" :action="said.views?.includes('suppliers') ? { icon: 'lucide-arrow-up-right', label: __('Suppliers'), onClick: () => $emit('view', 'suppliers') } : null">
+          <Rows :rows="subcontracts" />
+          <Button v-if="view.subcontracts_count > view.subcontracts.length && said.views?.includes('suppliers')" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="$emit('view', 'suppliers')" />
+        </Section>
+        <Section v-if="view.retention" :title="__('Retention')" icon="lucide-lock" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
+          <Rows :rows="retention" />
+        </Section>
+      </template>
+      <!-- What the customer and the suppliers signed for it (agreement.py). -->
+      <Section v-if="said.contracts?.length" :title="__('Contracts')" icon="lucide-pen-line" :action="said.can_draw_up ? { text: true, icon: 'lucide-plus', label: __('Draw Up Contract'), onClick: () => onedesk().project.draw_up(said.name, said.terms) } : null">
+        <Rows :rows="contracts" />
       </Section>
     </div>
 
     <div class="min-w-0">
-      <Section boxed :title="__('Needs You')" :aside="view.needs_count || ''">
+      <Section boxed :title="__('Needs You')" icon="lucide-bell" :aside="view.needs_count || ''">
         <Rows :rows="needs" :empty="__('Nothing needs you')" />
         <Button v-if="view.needs_all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.needs_all)" />
       </Section>
 
-      <template v-if="kind === 'Fixed Price'">
-        <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" :aside="view.subcontracts_count" :action="said.views?.includes('suppliers') ? { icon: 'lucide-arrow-up-right', label: __('Suppliers'), onClick: () => $emit('view', 'suppliers') } : null">
-          <Rows :rows="subcontracts" />
-          <Button v-if="view.subcontracts_count > view.subcontracts.length && said.views?.includes('suppliers')" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="$emit('view', 'suppliers')" />
-        </Section>
-        <Section v-if="view.retention" :title="__('Retention')" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
-          <Rows :rows="retention" />
-        </Section>
-      </template>
-      <Section v-if="view.people?.length" :title="__('By Person')" :aside="__('This month')">
-        <Rows :rows="view.people.map((one) => ({ key: one.user, label: one.name, value: hours(one.hours), avatar: one.name, image: one.image }))" />
-      </Section>
-      <Section v-if="view.activities?.length" :title="__('By Activity')" :aside="__('This month')">
-        <Rows :rows="view.activities.map((one) => ({ key: one.activity, label: one.activity, dim: one.amount ? money(one.amount, said.currency) : '', value: hours(one.hours) }))" />
-      </Section>
-      <Section v-if="view.on_it?.length" :title="__('Who\'s On It')">
-        <Rows :rows="view.on_it.map((one) => ({ key: one.user, label: one.name, avatar: one.name, image: one.image, value: one.tasks === 1 ? __('1 task') : __('{0} tasks', [one.tasks]) }))" />
-      </Section>
-
-      <Section :title="__('About', null, 'Project')" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit About'), onClick: editAbout } : null">
+      <Section :title="__('About', null, 'Project')" icon="lucide-info" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit About'), onClick: editAbout } : null">
         <Facts :facts="facts" />
         <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
       </Section>
-      <!-- What the customer and the suppliers signed for it (agreement.py). -->
-      <Section v-if="said.contracts?.length" :title="__('Contracts')" :aside="said.contracts.length">
-        <Rows :rows="contracts" />
-        <Button v-if="said.can_draw_up" variant="ghost" class="mt-2 -ms-2" icon-left="lucide-plus" :label="__('Draw Up Contract')" @click="onedesk().project.draw_up(said.name, said.terms)" />
+      <Section :title="__('Updates')" icon="lucide-message-square" :aside="said.asking">
+        <Updates :said="said" :writing="writing" @changed="$emit('changed')" />
       </Section>
-      <Section v-if="view.sub_projects.count" :title="__('Sub-projects')" :aside="view.sub_projects.count">
+
+      <Section v-if="view.people?.length" :title="__('By Person')" icon="lucide-users" :aside="__('This month')">
+        <Rows :rows="view.people.map((one) => ({ key: one.user, label: one.name, value: hours(one.hours), avatar: one.name, image: one.image }))" />
+      </Section>
+      <Section v-if="view.activities?.length" :title="__('By Activity')" icon="lucide-activity" :aside="__('This month')">
+        <Rows :rows="view.activities.map((one) => ({ key: one.activity, label: one.activity, dim: one.amount ? money(one.amount, said.currency) : '', value: hours(one.hours) }))" />
+      </Section>
+      <Section v-if="view.on_it?.length" :title="__('Who\'s On It')" icon="lucide-user-check">
+        <Rows :rows="view.on_it.map((one) => ({ key: one.user, label: one.name, avatar: one.name, image: one.image, value: one.tasks === 1 ? __('1 task') : __('{0} tasks', [one.tasks]) }))" />
+      </Section>
+
+      <Section v-if="view.sub_projects.count" :title="__('Sub-projects')" icon="lucide-folder-tree" :aside="view.sub_projects.count" :action="canAddSub ? { text: true, icon: 'lucide-plus', label: __('Add Sub-project'), onClick: addSub } : null">
         <Rows :rows="[...mainRow, ...subProjects]" />
         <Button v-if="view.sub_projects.all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.sub_projects.all)" />
-        <Button v-if="canAddSub" variant="ghost" class="mt-2 -ms-2" icon-left="lucide-plus" :label="__('Add Sub-project')" @click="addSub" />
       </Section>
     </div>
   </div>
@@ -403,8 +400,7 @@ const contracts = computed(() =>
     key: one.name,
     label: one.with,
     sub: [one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : ""].filter(Boolean).join(" · "),
-    dot: !one.signed ? "orange" : one.status === "Active" ? "green" : "gray",
-    dim: !one.signed ? __("Not signed yet") : one.status === "Inactive" ? __("Ended") : __("Signed"),
+    badge: !one.signed ? { label: __("Not Signed"), theme: "orange" } : one.status === "Inactive" ? { label: __("Ended"), theme: "gray" } : { label: __("Signed"), theme: "green" },
     value: one.ends ? date(one.ends) : "",
     route: one.route,
   }))

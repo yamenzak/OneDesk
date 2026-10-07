@@ -1,6 +1,6 @@
 <template>
   <!-- Rows of a list: frappe-ui's List. A row says what it is, a quiet aside,
-       a badge after the name, a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
+       a badge after the name (a label, or `{ label, theme }`), a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
        aside then goes under the name; with
        `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
        value on the right; it may carry a
@@ -20,7 +20,7 @@
               <div class="truncate text-base text-ink-gray-8">
                 {{ item.label }}<span v-if="item.sub" class="text-ink-gray-5"> · {{ item.sub }}</span>
               </div>
-              <Badge v-if="item.badge" :label="item.badge" size="sm" />
+              <Badge v-if="item.badge" :label="item.badge.label || item.badge" :theme="item.badge.theme || 'gray'" size="sm" />
             </div>
             <div v-if="bars && item.dim" class="truncate text-sm tabular-nums text-ink-gray-5">{{ item.dim }}</div>
             <div v-if="item.below" class="truncate text-sm text-ink-gray-5">{{ item.below }}</div>

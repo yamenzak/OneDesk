@@ -2,7 +2,7 @@
   <!-- What a record is, label against value: a value may open a route, run
        `onClick`, show `avatars` (the kit's People, as a record's head shows
        them) or a `tone`. -->
-  <dl class="grid grid-cols-[7rem_minmax(0,1fr)] gap-y-2.5 text-base">
+  <dl class="grid grid-cols-[9rem_minmax(0,1fr)] gap-x-4 gap-y-3.5 text-base">
     <template v-for="one in facts" :key="one.label">
       <dt class="text-ink-gray-5">{{ one.label }}</dt>
       <!-- Avatars aren't truncated: clipping the line would crop their rings. -->
