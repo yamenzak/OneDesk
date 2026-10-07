@@ -5,16 +5,23 @@
        the page's filters New Email, which opens frappe's Email dialog on the
        record (onedesk.record.email).
        `reply(email, all)` opens that dialog on an email of the timeline, as
-       its Reply and Reply All do on a form. -->
+       its Reply and Reply All do on a form.
+       The writer's avatar and the bordered box are frappe-ui's comment
+       thread story's. -->
   <div class="flex flex-col gap-3">
-    <CommentComposer
-      ref="commentRef"
-      :mentions="mentions"
-      :placeholder="__('Write a comment')"
-      :submit-label="__('Comment')"
-      :submitting="sending"
-      @submit="sendComment"
-    />
+    <div class="flex gap-3">
+      <Avatar size="md" :label="writer.name" :image="writer.image" />
+      <div class="min-w-0 flex-1 rounded-5 border border-outline-gray-2">
+        <CommentComposer
+          ref="commentRef"
+          :mentions="mentions"
+          :placeholder="__('Write a comment')"
+          :submit-label="__('Comment')"
+          :submitting="sending"
+          @submit="sendComment"
+        />
+      </div>
+    </div>
     <div class="flex items-center gap-2">
       <slot />
       <Button v-if="canEmail" class="ms-auto" icon-left="lucide-plus" :label="__('New Email')" @click="write" />
@@ -24,10 +31,10 @@
 
 <script setup>
 import { ref } from "vue";
-import { Button } from "frappe-ui";
+import { Avatar, Button } from "frappe-ui";
 import { CommentComposer } from "@framework/ui/Composer";
 
-import { __, can, comment, emailOn, mentionable } from "./desk";
+import { __, can, comment, emailOn, me, mentionable, userInfo } from "./desk";
 
 const props = defineProps({
   doctype: { type: String, required: true },
@@ -36,6 +43,7 @@ const props = defineProps({
 const emit = defineEmits(["sent"]);
 
 const mentions = mentionable();
+const writer = userInfo(me());
 const canEmail = can("email", props.doctype);
 const sending = ref(false);
 const commentRef = ref(null);
