@@ -204,9 +204,11 @@ don't make them fixed". Every record shown on a page of its own
   record's name after it is the one that shortens.
 - Its Activity reads as a form's Activity does (your word: "comment box on
   top and a New Email button which simply opens the email dialog"), drawn
-  with frappe/ui's timeline. At the top is frappe's own comment composer
-  beside your avatar (`frontend/src/kit/ActivityComposer.vue`), with
-  @-mentions. Under it are the page's filters and **New Email**, which opens
+  with frappe/ui's timeline. At the top is frappe's own comment composer,
+  as frappe ships it with no frame of ours (`frontend/src/kit/ActivityComposer.vue`), with
+  @-mentions. Its toolbar's buttons are frappe-ui's smallest: frappe/ui
+  asks for `button-size="sm"`, a prop no frappe-ui has (1.0.0 calls it
+  `size`), upstream too, so it is left as frappe draws it. Under it are the page's filters and **New Email**, which opens
   frappe's own Email dialog on the record (`onedesk.record.email` in
   `record.js`, with the arguments the form timeline's compose_mail gives
   it). The list runs newest first, as a form's does, and **Show earlier

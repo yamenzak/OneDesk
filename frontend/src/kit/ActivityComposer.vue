@@ -1,25 +1,20 @@
 <template>
   <!-- What a record's activity is written with, at its top, as a form's
        Activity has it: frappe's own comment composer, with @-mentions, sent
-       through the form's add_comment, framed beside the reader's avatar as
-       frappe/ui's comment thread frames it, and beside the page's filters New Email,
-       which opens frappe's Email dialog on the record (onedesk.record.email).
+       through the form's add_comment, drawn as frappe ships it, and beside
+       the page's filters New Email, which opens frappe's Email dialog on the
+       record (onedesk.record.email).
        `reply(email, all)` opens that dialog on an email of the timeline, as
        its Reply and Reply All do on a form. -->
   <div class="flex flex-col gap-3">
-    <div class="flex gap-3">
-      <Avatar size="md" :label="mine.name" :image="mine.image" />
-      <div class="min-w-0 flex-1 rounded-5 border border-outline-gray-2">
-        <CommentComposer
-          ref="commentRef"
-          :mentions="mentions"
-          :placeholder="__('Write a comment')"
-          :submit-label="__('Comment')"
-          :submitting="sending"
-          @submit="sendComment"
-        />
-      </div>
-    </div>
+    <CommentComposer
+      ref="commentRef"
+      :mentions="mentions"
+      :placeholder="__('Write a comment')"
+      :submit-label="__('Comment')"
+      :submitting="sending"
+      @submit="sendComment"
+    />
     <div class="flex items-center gap-2">
       <slot />
       <Button v-if="canEmail" class="ms-auto" icon-left="lucide-plus" :label="__('New Email')" @click="write" />
@@ -29,10 +24,10 @@
 
 <script setup>
 import { ref } from "vue";
-import { Avatar, Button } from "frappe-ui";
+import { Button } from "frappe-ui";
 import { CommentComposer } from "@framework/ui/Composer";
 
-import { __, can, comment, emailOn, me, mentionable, userInfo } from "./desk";
+import { __, can, comment, emailOn, mentionable } from "./desk";
 
 const props = defineProps({
   doctype: { type: String, required: true },
@@ -41,7 +36,6 @@ const props = defineProps({
 const emit = defineEmits(["sent"]);
 
 const mentions = mentionable();
-const mine = userInfo(me());
 const canEmail = can("email", props.doctype);
 const sending = ref(false);
 const commentRef = ref(null);
