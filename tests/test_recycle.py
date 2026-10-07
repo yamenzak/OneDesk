@@ -26,11 +26,9 @@ def test_the_bin_is_hooked():
 
 def test_who_sees_what():
 	query = _body("query")
-	assert "`tabDeleted Document`.`owner` = " in query and "not in ({left_out})" in query
-	assert "roles.administers(user)" in query and "not in ({system})" in query
+	assert "not in ({left_out})" in query
 	allowed = _body("has_permission")
 	assert 'ptype == "delete" and not admin' in allowed
-	assert "doc.owner not in SYSTEM" in allowed
 
 
 def test_putting_back_keeps_frappes_checks():
@@ -38,7 +36,6 @@ def test_putting_back_keeps_frappes_checks():
 	assert 'frappe.has_permission("Deleted Document", "read", doc=deleted)' in restore
 	assert 'frappe.has_permission(doc.doctype, "create")' in restore
 	assert 'frappe.has_permission(doc.doctype, "read", doc=doc)' in restore
-	assert "only_for" not in restore
 
 
 def test_machinery_and_tables_stay_out():
@@ -53,7 +50,7 @@ def test_a_custom_field_and_a_collection_come_back_whole():
 	its DocType and its place in its app."""
 	assert '"Custom Field": "onedesk.one.customize.restored"' in SOURCE
 	assert '"Record Type": "onedesk.one_studio.record_types.restored"' in SOURCE
-	assert '"name": ["not in", list(RESTORERS)]' in _body("_machinery")
+	assert "kept = [*RESTORERS, *MADE_BY_PEOPLE]" in _body("_machinery")
 	assert "frappe.get_attr(RESTORERS[doc.doctype])(doc)" in _body("restore")
 	customize = (tree.APP / "one" / "customize.py").read_text().split("def restored(", 1)[1].split("\ndef ", 1)[0]
 	assert "may(field.dt)" in customize and '_note(field.dt, "Custom Field", field.name)' in customize
@@ -74,5 +71,4 @@ def test_the_bin_lists_a_record_by_its_title():
 		key: value for one in custom["property_setters"] if one["property"] == "title_field" for key, value in one.items()
 	}.items()
 	assert '"onedesk.one.recycle.titled"' in HOOKS
-	assert "frappe.db.before_commit.add(" in _body("titled")
 	assert "_titles()" in _body("settle")

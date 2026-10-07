@@ -86,12 +86,18 @@ RESTORERS = {
 }
 
 
+#: What people make themselves in frappe's own modules, kept in the bin like
+#: any record: a meeting, a note, a to-do.
+MADE_BY_PEOPLE = ("Event", "Note", "ToDo")
+
+
 def _machinery() -> list[str]:
 	"""Every kind of record the bin leaves out: tables, frappe's machinery and
 	the platform's own."""
 	modules = [*MACHINERY, *REFUSED_MODULES]
+	kept = [*RESTORERS, *MADE_BY_PEOPLE]
 	return frappe.get_all(
-		"DocType", filters={"module": ["in", modules], "name": ["not in", list(RESTORERS)]}, pluck="name"
+		"DocType", filters={"module": ["in", modules], "name": ["not in", kept]}, pluck="name"
 	) + frappe.get_all("DocType", filters={"istable": 1}, pluck="name")
 
 
@@ -168,6 +174,8 @@ def restore(name: str, alert: bool = True) -> str:
 
 	was = {field: doc.get(field) for field in ("owner", "creation", "modified", "modified_by")}
 	doc.flags.from_restore = True
+	# frappe names it afresh, a random one too, so what linked to it would not find it.
+	doc.flags.name_set = not frappe.db.exists(doc.doctype, doc.name)
 	try:
 		doc.insert()
 	except frappe.DocstatusTransitionError:

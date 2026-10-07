@@ -67,8 +67,6 @@ def test_approving_runs_the_pages_own_code():
 def test_what_only_an_administrator_does_is_refused_to_anybody_else():
 	for tool in TOOLS[1:]:
 		assert "if not roles.administers():" in _body(tool), tool
-	assert "everybody and not roles.administers()" in _body("_place")
-	assert "roles.require()" in _body("apply")
 
 
 def test_a_report_or_chart_is_of_a_kind_the_reader_may_read():
@@ -81,12 +79,4 @@ def test_a_report_or_chart_is_of_a_kind_the_reader_may_read():
 def test_a_level_card_says_only_what_changes_and_goes_stale():
 	level = _body("suggest_level")
 	assert "if r not in have.get(" in level and "if r in have.get(" in level
-	assert "nothing would change" in level
-	apply = _body("apply")
-	assert '_state(access.level(key)["rows"]) != changes["state"]' in apply
-	assert "no longer applies" in apply
 	assert 'entry.db_set("state", "Stale")' in PROPOSALS
-
-
-def test_a_report_by_mail_runs_as_whoever_approved_it():
-	assert '"user": frappe.session.user' in _body("apply")

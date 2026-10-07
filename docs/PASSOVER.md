@@ -678,6 +678,21 @@ Up next, in this order:
      One lets everybody save one, but frappe gives a desk user no right to
      change or delete a report. Now they may, their own only
      (`one/access.py`).
+   - Then the bin (each person's own, the administrator's of the kinds they
+     read, nothing the system deleted) and OneAI's setup cards (nothing made
+     until approved, a level card sent back when nothing would change and
+     refused once the level has changed, a report by mail as its approver,
+     an administrator's card refused to anybody else).
+   - Found on the way: an administrator could not change a plain User level
+     the first time. Its role is then given to the app's plain users, by
+     saving their User record as the administrator, which frappe refuses
+     (`one/access.py`).
+   - Found on the way: a deleted meeting, note or to-do was not in the bin.
+     The bin left out all of frappe's Desk module, where they live. They are
+     in it now (`one/recycle.py`).
+   - Found on the way: a record put back from the bin came back under a new
+     ID when frappe names its kind at random, so what linked to it no longer
+     found it. It now comes back under its own where that is free.
 4. The finished modules again, against the new points only, one screen at a
    time.
 

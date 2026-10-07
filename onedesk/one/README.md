@@ -596,8 +596,9 @@ A deleted custom field or custom collection is in the bin too, for
 administrators. A restored field comes back with its values, and a restored
 collection comes back with its records list and its place in its app.
 
-The bin doesn't include child tables, frappe's internal records such as
-permission rows, or the platform's own records.
+Meetings, notes and to-dos are in the bin like any record. The bin doesn't
+include child tables, frappe's internal records such as permission rows, or
+the platform's own records.
 
 OneAI offers **What was deleted lately?**, using only what you can see in the
 bin.

@@ -3229,6 +3229,81 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 		assert frappe.db.exists("Task", task), said
 
 
+@check
+def the_bin_gives_each_person_back_their_own():
+	"""Rania deletes a to-do of hers and finds it in the bin under its title,
+	puts it back herself and may not empty it for good. Samir does not see it,
+	Layla does, and nobody sees what the system deleted."""
+	from onedesk.one import recycle
+
+	with as_user("rania@one.test"):
+		todo = frappe.get_doc({"doctype": "ToDo", "description": "Call Gulf Glass about the cracked panel", "allocated_to": "rania@one.test"}).insert()
+		frappe.delete_doc("ToDo", todo.name)
+	frappe.db.before_commit.run()
+	deleted = frappe.db.get_value("Deleted Document", {"deleted_doctype": "ToDo", "deleted_name": todo.name})
+	assert "Call Gulf Glass" in (frappe.db.get_value("Deleted Document", deleted, "one_title") or ""), frappe.db.get_value("Deleted Document", deleted, ["one_title", "deleted_name"])
+	frappe.set_user("Administrator")
+	housekeeping = frappe.get_doc({"doctype": "ToDo", "description": "Old reminder", "allocated_to": OWNER}).insert()
+	frappe.delete_doc("ToDo", housekeeping.name)
+	swept = frappe.db.get_value("Deleted Document", {"deleted_doctype": "ToDo", "deleted_name": housekeeping.name})
+	with as_user("samir@one.test"):
+		assert deleted not in frappe.get_list("Deleted Document", pluck="name")
+		try:
+			recycle.restore(deleted)
+			raise AssertionError("Samir put back Rania's to-do")
+		except frappe.PermissionError:
+			pass
+	with as_user(OWNER):
+		seen = frappe.get_list("Deleted Document", pluck="name", limit_page_length=0)
+		assert deleted in seen and swept not in seen
+	with as_user("rania@one.test"):
+		assert deleted in frappe.get_list("Deleted Document", pluck="name", limit_page_length=0)
+		assert not frappe.has_permission("Deleted Document", "delete", doc=frappe.get_doc("Deleted Document", deleted))
+		back = recycle.restore(deleted)
+		assert back == todo.name and frappe.db.get_value("ToDo", back, "owner") == "rania@one.test", (back, todo.name)
+
+
+@check
+def oneai_setup_cards_wait_for_approval_and_stay_within_bounds():
+	"""What OneAI suggests to Layla changes nothing until she approves it. A
+	report of something that is not a record, or a level that would not
+	change, is sent back to be put right, and a level changed since its card
+	was written is not changed again. A report by mail goes as whoever
+	approved it. Omar may suggest no dashboard, show nothing to everybody,
+	and approve no card of an administrator's."""
+	from onedesk.one import ai_setup
+	from onedesk.one_ai import run as runs
+
+	with as_user(OWNER):
+		card = ai_setup.suggest_group("Night Crew", ["rania@one.test", "tariq@one.test"])
+		assert card.get("proposal") and not frappe.db.exists("User Group", "Night Crew"), "made before it was approved"
+		assert ai_setup.suggest_saved_report("Sales Invoice Item", "Lines", ["item_code"]).get("mend")
+		assert ai_setup.suggest_saved_report("Sales Invoice", "Hidden", ["no_such_field"]).get("mend")
+		assert "nothing would change" in ai_setup.suggest_level("OneCRM", "User", give=[{"doctype": "Opportunity", "rights": ["read"]}]).get("error", "")
+		first = ai_setup.suggest_level("OneCRM", "User", give=[{"doctype": "Quotation", "rights": ["export"]}])
+		second = ai_setup.suggest_level("OneCRM", "User", give=[{"doctype": "Quotation", "rights": ["export"]}])
+		assert first.get("proposal") and second.get("proposal"), (first, second)
+		runs.apply(first["proposal"])
+		try:
+			runs.apply(second["proposal"])
+			raise AssertionError("a level was changed by a card written before it last changed")
+		except frappe.ValidationError as stale:
+			assert "no longer applies" in str(stale)
+		mail = ai_setup.suggest_report_mail("Accounts Receivable", ["huda@one.test"], "Weekly", "Monday")
+		runs.apply(mail["proposal"])
+		assert frappe.db.get_value("Auto Email Report", {"report": "Accounts Receivable"}, "user") == OWNER
+		changes = frappe.parse_json(frappe.db.get_value("AI Proposal", card["proposal"], "changes"))
+	with as_user("omar@one.test"):
+		assert ai_setup.suggest_dashboard("Mine", [{"title": "Deals", "doctype": "Opportunity", "measure": "count"}]).get("error")
+		assert ai_setup.suggest_saved_report("Opportunity", "Everyone's deals", ["name"], everybody=True).get("mend")
+		for what in ({**changes, "what": "mail", "doc": {"doctype": "Auto Email Report"}}, {"what": "level"}):
+			try:
+				ai_setup.apply(what)
+				raise AssertionError("Omar approved an administrator's card")
+			except frappe.PermissionError:
+				pass
+
+
 #: What the account on the admin site answers, by what it is asked: the
 #: workspace's plan, its credits, its domains and its bills from One.
 ACCOUNT = {

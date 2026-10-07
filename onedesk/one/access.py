@@ -83,7 +83,10 @@ def _companion(app: str) -> str:
 			{"doctype": "Role", "role_name": name, "desk_access": 1, "is_custom": 1, "one_app": app}
 		).insert(ignore_permissions=True)
 		for user in people_at(app, "User"):
-			frappe.get_doc("User", user).add_roles(name)
+			# The administrator may not save a User record, which add_roles does.
+			doc = frappe.get_doc("User", user)
+			doc.flags.ignore_permissions = True
+			doc.add_roles(name)
 	return name
 
 
