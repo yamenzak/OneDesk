@@ -21,7 +21,8 @@ def quantity(level: float, reorder_qty: float, projected: float) -> float:
 def rows() -> list[dict]:
 	requested = frappe.db.sql(
 		"""select item.item_code, item.item_name, item.warehouse, item.name as material_request_item,
-			item.parent as material_request, item.stock_qty - item.ordered_qty as qty, item.stock_uom as uom
+			item.parent as material_request, item.stock_qty - item.ordered_qty as qty, item.stock_uom as uom,
+			item.project
 		from `tabMaterial Request Item` item join `tabMaterial Request` request on request.name = item.parent
 		where request.docstatus = 1 and request.material_request_type = 'Purchase'
 			and request.status not in ('Stopped', 'Cancelled') and item.stock_qty > item.ordered_qty
@@ -107,6 +108,8 @@ def order(rows: str | list, supplier: str | None = None) -> list[str]:
 					"schedule_date": add_days(nowdate(), max(int(lead), 1)),
 					"material_request": line.get("material_request"),
 					"material_request_item": line.get("material_request_item"),
+					# ERPNext holds the order line to the request's project.
+					"project": line.get("project"),
 				},
 			)
 		doc.set_missing_values()

@@ -699,6 +699,13 @@ Up next, in this order:
      administrator's only, read only, without the system's changes or the
      fields its reader may not read), Intake filling only the record it is
      making, and every sidebar a person is sent being One's own.
+   - Then announcements (an administrator's alone, everybody told once,
+     waiting on sign-in), a letter asked for about somebody else refused, and
+     a row of What to Order off the list once it is on a draft order.
+   - Found on the way: What to Order could not order a request made for a
+     project. The order line did not carry the request's project, and
+     ERPNext refuses an order whose project differs from its request's
+     (`one_inventory/order.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 

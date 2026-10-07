@@ -1,6 +1,6 @@
 """Announcements (one/announcements.py): frappe's Note, posted by an
 administrator, told to everybody, shown when they open One, with who has
-read it. These read the code that says so."""
+read it. The demo checks each; these read the wiring."""
 
 import json
 import sys
@@ -11,7 +11,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one" / "announcements.py").read_text()
-TELL = (tree.APP / "one" / "tell.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
@@ -23,26 +22,16 @@ def test_only_an_administrator_announces():
 	access = (tree.APP / "one" / "access.py").read_text()
 	assert 'NOTE_LEVELS = {1: ("read", "write"), 2: ("read",)}' in access
 	assert "roles.ADMINISTRATOR, level" in _body("_note_levels", access)
-	check = _body("validate")
-	assert "doc.public or doc.notify_on_login" in check and "roles.administers()" in check
-	assert "doc.public = 1" in _body("before_validate")
 	note = HOOKS.split('"Note": {', 1)[1].split("},", 1)[0]
 	for event in ("before_validate", "validate", "on_update"):
 		assert f'"{event}": "onedesk.one.announcements.{event}"' in note, event
 
 
 def test_everybody_is_told_once():
-	told = _body("on_update")
-	assert 'doc.has_value_changed("public") or doc.flags.in_insert' in told
-	assert "tell.announced(doc)" in told
-	announced = _body("announced", TELL)
-	assert '"Announcement"' in announced and "NOT_PEOPLE" in announced
 	assert "Announcement" in tree.notifications()
 
 
 def test_it_pops_up_for_the_person_not_for_guest():
-	shown = _body("boot")
-	assert 'frappe.session.user == "Guest"' in shown and "is None" in shown and "_get_unseen_notes()" in shown
 	assert '"onedesk.one.announcements.boot"' in HOOKS.split("extend_bootinfo = [", 1)[1].split("]", 1)[0]
 
 

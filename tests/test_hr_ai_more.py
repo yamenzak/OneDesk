@@ -79,14 +79,6 @@ def test_only_hr_issues_a_letter():
 	assert employee.get("if_owner") == 1 and not employee.get("submit")
 
 
-def test_an_employee_asks_only_about_themselves():
-	controller = (LETTER / "employee_letter.py").read_text()
-	assert "self.employee != own.employee_of()" in controller
-	tools = (HR / "ai_letters.py").read_text()
-	whose = ast.unparse(next(n for n in ast.parse(tools).body if getattr(n, "name", "") == "_whose"))
-	assert "own.employee_of()" in whose and "frappe.get_roles()" in whose
-
-
 def test_a_letters_kind_is_read_loosely():
 	kind = _pure(HR / "ai_letters.py", "KINDS", "_kind")["_kind"]
 	assert kind("salary certificate") == "Salary Certificate"

@@ -119,11 +119,6 @@ def test_an_order_is_made_per_supplier_and_a_row_with_none_needs_one():
 	assert list(grouped(rows, "Emirates Hardware")) == ["Gulf", "Emirates Hardware"]
 
 
-def test_a_row_on_a_draft_order_is_off_the_list():
-	source = (tree.APP / "one_inventory" / "order.py").read_text(encoding="utf-8")
-	assert "doc.docstatus = 0" in source and "on_draft" in source
-
-
 def test_an_item_that_becomes_a_fixed_asset_makes_its_assets_when_bought():
 	import ast
 

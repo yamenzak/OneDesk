@@ -953,6 +953,12 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 		custody.take_back(truck)
 		made = order.order([{"item_code": "ALU-6063", "qty": 50, "warehouse": wh("Stores"), "supplier": "Al Noor Aluminium"}])
 		assert made and frappe.db.get_value("Purchase Order", made[0], "docstatus") == 0
+		listed = order.rows()
+		assert listed, "nothing to order in the demo"
+		first = listed[0]
+		order.order([{**first, "supplier": first.get("supplier") or "Al Noor Aluminium"}])
+		again = {(one["item_code"], one["warehouse"]) for one in order.rows()}
+		assert (first["item_code"], first["warehouse"]) not in again, "a row already on a draft order is offered again"
 	with as_user(OWNER):
 		ready.fix("depreciation")
 
@@ -2523,6 +2529,11 @@ def onehr_oneai_answers_and_drafts_for_each_person():
 			assert "error" in ai_letters.letter_facts("Salary Certificate", _employee("Omar"))
 		except frappe.PermissionError:
 			pass
+		try:
+			frappe.get_doc({"doctype": "Employee Letter", "employee": _employee("Omar"), "kind": "Salary Certificate", "body": "About Omar."}).insert()
+			raise AssertionError("Rania asked for a letter about Omar")
+		except (frappe.ValidationError, frappe.PermissionError):
+			pass
 	interview = frappe.db.get_value("Interview", {"interview_type": "Site Engineer Technical"})
 	with as_user("samir@one.test"):
 		assert "error" not in ai.interview_facts(interview)
@@ -3389,6 +3400,44 @@ def intake_fills_only_the_record_it_is_making():
 	assert made.supplier_name == "Coastal Sealants" and not made.website, made.as_dict()
 	assert asked and {doctype for doctype, _fields in asked} == {"Supplier"}, asked
 	assert any("supplier_name" in fields or kind.TYPED in fields for _doctype, fields in asked), asked
+
+
+@check
+def an_announcement_is_the_administrators_and_reaches_everybody_once():
+	"""Rania's notes stay her own: she may not post one for everybody. Layla
+	posts one shown on sign-in, everybody but her is told once, and it is
+	waiting for Rania when she next opens One. Nobody signed out sees it."""
+	from frappe.desk.doctype.note.note import UNSEEN_NOTES_KEY
+
+	from onedesk.one import announcements
+
+	with as_user("rania@one.test"):
+		frappe.get_doc({"doctype": "Note", "title": "My site checklist", "content": "Sealant, shims, level."}).insert()
+		for said in ({"notify_on_login": 1}, {"public": 1}):
+			try:
+				mine = frappe.get_doc({"doctype": "Note", "title": "To everybody", "content": "Hello", **said}).insert()
+			except frappe.ValidationError:
+				continue
+			assert not frappe.db.get_value("Note", mine.name, "public") and not frappe.db.get_value("Note", mine.name, "notify_on_login"), "Rania posted an announcement"
+	with as_user(OWNER), _Told() as told:
+		note = frappe.get_doc({
+			"doctype": "Note", "title": "Office closed on Thursday", "content": "The office is closed for the holiday.",
+			"notify_on_login": 1, "expire_notification_on": add_days(today(), 7),
+		}).insert()
+		assert note.public, "shown on sign-in is everybody's"
+		note.content = "The office is closed on Thursday for the holiday."
+		note.save()
+	assert [name for name, _users in told.said].count("Announcement") == 1, told.said
+	assert "rania@one.test" in told.to("Announcement") and OWNER not in told.to("Announcement")
+	with as_user("rania@one.test"):
+		frappe.cache.delete_value(f"{UNSEEN_NOTES_KEY}rania@one.test")
+		booted = frappe._dict()
+		announcements.boot(booted)
+		assert note.name in {one.get("name") for one in booted.notes}, booted.notes
+	frappe.set_user("Guest")
+	booted = frappe._dict()
+	announcements.boot(booted)
+	assert "notes" not in booted
 
 
 #: What the account on the admin site answers, by what it is asked: the
