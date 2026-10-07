@@ -133,6 +133,9 @@ class Arrival(InboundMail):
 		# New mail, rather than history read in the background: only new mail
 		# is sorted by rules and answered while away (rules.py).
 		self.fresh = fresh
+		# Read from a connected server, whose sync counts each folder once it
+		# has read it (sync.py); mail at the mail domain is counted here.
+		self.synced = uid is not None
 		self.key = key
 		self.folder = folder
 		self.flagged = flagged
@@ -150,6 +153,13 @@ class Arrival(InboundMail):
 			from onedesk.one_intake import pipeline
 
 			pipeline.mail_arrived(made, self)
+			if not self.synced:
+				from onedesk.one_mail import actions
+
+				box = self.email_account.name
+				now_in = frappe.db.get_value("Communication", made.name, "one_folder")
+				for path in dict.fromkeys((self.folder, now_in)):
+					actions.recount(box, path)
 		return made
 
 	def save_attachments_in_doc(self, doc):

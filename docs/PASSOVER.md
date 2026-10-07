@@ -593,6 +593,15 @@ Up next, in this order:
    - Key screens are opened in a browser as their people
      (`tests/browser/`, run against the demo). Every desk page of ours is on
      the list. Guarded (`screens-opened`).
+   - The demo gained a mail step. The workspace's own address was made the
+     first time somebody opened OneMail, so a new demo had none, and the
+     first mailbox Layla saw was empty. It is now made with the demo, with a
+     customer's request for a price, a supplier's delivery date and a
+     hotel's maintenance call in it.
+   - Found on the way: mail at One's own addresses never showed how much was
+     unread. Only a connected server's sync counted a folder, so the
+     workspace's Inbox and everybody's own showed no count. A message that
+     arrives now counts its folder (`one_mail/inbound.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 

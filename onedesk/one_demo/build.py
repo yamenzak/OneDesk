@@ -29,6 +29,7 @@ STEPS = (
 	"studio",
 	"storage",
 	"intake",
+	"mail",
 )
 
 

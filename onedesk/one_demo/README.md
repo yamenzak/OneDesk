@@ -11,7 +11,7 @@ On a new site with erpnext, hrms and onedesk installed:
 
     bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
 
-The password is everybody's. The build runs in twelve steps, in order. Each
+The password is everybody's. The build runs in steps, in order. Each
 step that finishes is remembered, so a run that stops starts again from the
 step that stopped it. One step alone runs with `'only': 'crm'`.
 
@@ -33,6 +33,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
 | intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there |
+| mail | The workspace's own address, which Layla holds, with a customer's request for a price, a supplier's delivery date and a hotel's maintenance call |
 
 Every record is made the way a click makes it, through frappe's controllers,
 ERPNext's mappers and One's own actions, and by the person whose work it is.

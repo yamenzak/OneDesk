@@ -1271,13 +1271,18 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 	and back, deleted and put back, filed on the villa and taken off, sorted
 	by a rule OneAI suggests, and answered on a card. Her out of office and
 	her workspace's signature. Omar cannot see into her mailbox."""
-	from onedesk.one_demo import intake
+	from onedesk.one_demo import intake, mail
 	from onedesk.one_mail import actions, ai, api, holders, linking, rules
 
 	account = intake.mailbox()
 	with as_user(OWNER):
 		boxes = {one["name"]: one for one in api.mailboxes()}
 		assert account in boxes and account in {one["name"] for one in holders.mailboxes()}
+		# The workspace's own address comes first, and says what is unread in it.
+		first = holders.mailboxes()[0]
+		assert first["workspace"] and first["unread"] == len(mail.MAILS), first
+		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": "INBOX", "seen": 0})
+		assert boxes[account]["unread"] == unread, (boxes[account]["unread"], unread)
 		inbox = next(one["name"] for one in boxes[account]["folders"] if one["kind"] == "Inbox")
 		listed = api.conversations(account, inbox)["items"]
 		assert len(listed) >= 10, len(listed)

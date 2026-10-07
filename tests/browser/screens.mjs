@@ -5,13 +5,13 @@
 export const SCREENS = [
 	// One
 	{ who: "samir@one.test", path: "/desk/one", sees: ["Today", "Tasks Due or Late", "Meetings Today"] },
-	{ who: "wsadmin@one.test", path: "/desk/settings", page: "settings", sees: ["Settings"] },
+	{ who: "wsadmin@one.test", path: "/desk/settings", page: "settings", sees: ["Profile", "Layla Haddad"] },
 	{ who: "wsadmin@one.test", path: "/desk/workspace-settings", page: "workspace-settings", sees: ["Workspace"] },
 	{ who: "wsadmin@one.test", path: "/desk/masters", page: "masters", sees: ["Masters"] },
 	{ who: "wsadmin@one.test", path: "/desk/legal", page: "legal", sees: ["Terms of Service"] },
 	// OneIntake, OneMail, OneCloud
 	{ who: "wsadmin@one.test", path: "/desk/intake", page: "intake", sees: ["Taxi back from Bayview"] },
-	{ who: "wsadmin@one.test", path: "/desk/onemail", page: "onemail", sees: ["Taxi back from the Bayview site"] },
+	{ who: "wsadmin@one.test", path: "/desk/onemail", page: "onemail", sees: ["Lobby glazing at Bayview Tower"] },
 	{ who: "huda@one.test", path: "/desk/onecloud", page: "onecloud", sees: ["Bank Statements"] },
 	{ who: "huda@one.test", path: "/desk/ready-to-submit", page: "ready-to-submit", sees: ["Ready to Submit"] },
 	// OneProject, OneTask, OneCalendar
