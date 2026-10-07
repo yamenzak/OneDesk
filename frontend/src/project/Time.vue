@@ -37,7 +37,7 @@
         <ListGroup v-for="group in paged" :key="group.key">
           <template v-if="group.title !== null" #label>
             <span class="text-ink-gray-7">{{ group.title }}</span>
-            <span class="ms-2 tabular-nums">{{ hours(group.hours) }}<template v-if="said.money && group.money"> · {{ amount(group.money) }}</template></span>
+            <span class="ms-2 tabular-nums">{{ hours(Math.round(group.hours * 10) / 10) }}<template v-if="said.money && group.money"> · {{ amount(group.money) }}</template></span>
           </template>
           <ListRow v-for="item in group.shown" :key="item.name" @click="go(`/desk/timesheet/${item.timesheet}`)">
             <ListCell class="text-ink-gray-7">{{ date(item.date) }}</ListCell>
@@ -54,20 +54,19 @@
             <ListCell v-if="said.money" class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ value(item) ? amount(value(item)) : "–" }}</ListCell>
             <ListCell v-if="hasStatus" class="max-md:hidden"><Badge v-if="billable || item.state === 'Draft'" :label="__(item.state)" :theme="STATE[item.state]" size="md" /></ListCell>
           </ListRow>
+          <!-- The rest of the group, a page at a time. -->
+          <ListRow v-if="group.rows.length > group.shown.length" @click="more[group.key] = group.shown.length + PAGE">
+            <ListCell class="text-ink-gray-5">{{ __("Show {0} More", [Math.min(PAGE, group.rows.length - group.shown.length)]) }}</ListCell>
+          </ListRow>
         </ListGroup>
       </List>
-      <!-- A few at a time, as a list shows its first page. -->
-      <div v-if="hidden" class="mt-3 flex items-center gap-3">
-        <Button size="sm" variant="subtle" :label="__('Show More')" @click="limit += PAGE" />
-        <span class="text-sm text-ink-gray-5">{{ __("{0} more", [hidden]) }}</span>
-      </div>
-      <p v-else-if="said.more && shown === 'all'" class="mt-3 text-sm text-ink-gray-5">{{ __("{0} older entries", [said.more]) }}</p>
+      <p v-if="said.more && shown === 'all'" class="mt-3 text-sm text-ink-gray-5">{{ __("{0} older entries", [said.more]) }}</p>
     </template>
   </div>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, TabButtons } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
@@ -91,9 +90,11 @@ const FILTERS = [
   { value: "Invoiced", label: __("Invoiced") },
   { value: "Not Billable", label: __("Not Billable") },
 ];
-// How many entries show, across the groups, before Show More.
+// How many entries a group shows at first, and adds with each Show More:
+// a few for each person, more for the list ungrouped.
 const PAGE = 25;
-const limit = ref(PAGE);
+const FIRST = 5;
+const more = reactive({});
 const GROUPS = () => ({ none: __("None"), who: __("Person"), activity: __("Activity"), task: __("Task"), project: __("Project") });
 const shown = ref("all");
 // By person, so a long project reads as who did what.
@@ -123,7 +124,7 @@ watch(() => props.projectName, load, { immediate: true });
 const byOthers = computed(() => groupBy.value !== "who");
 const wide = computed(() => ["6.5rem", byOthers.value && "minmax(9rem,1fr)", "minmax(7rem,0.8fr)", hasTask.value && "minmax(10rem,1.4fr)", "4.5rem", said.value?.money && "7rem", hasStatus.value && "7.5rem"].filter(Boolean));
 const rows = computed(() => (said.value?.entries || []).filter((one) => shown.value === "all" || one.state === shown.value));
-watch([shown, groupBy], () => (limit.value = PAGE));
+watch([shown, groupBy], () => Object.keys(more).forEach((key) => delete more[key]));
 // Where nothing is billed (a Fixed Price project's time), where each entry
 // stands says nothing, but for drafts; and no task, no Task column.
 const entries = computed(() => said.value?.entries || []);
@@ -131,19 +132,10 @@ const billable = computed(() => said.value?.bills_hours || entries.value.some((o
 const hasStatus = computed(() => billable.value || entries.value.some((one) => one.state === "Draft"));
 const hasTask = computed(() => entries.value.some((one) => one.task_subject || one.where));
 const filters = computed(() => FILTERS.filter((one) => one.value === "all" || entries.value.some((entry) => entry.state === one.value && (billable.value || one.value === "Draft"))));
-// The groups with as many of their entries as the page has room for, in
-// order; a group still shows its hours though its entries wait.
-const paged = computed(() => {
-  let left = limit.value;
-  return groups.value
-    .map((group) => {
-      const shown = group.rows.slice(0, Math.max(0, left));
-      left -= shown.length;
-      return { ...group, shown };
-    })
-    .filter((group) => group.shown.length || group.title !== null);
-});
-const hidden = computed(() => rows.value.length - paged.value.reduce((sum, group) => sum + group.shown.length, 0));
+// Each group with as many of its entries as it shows.
+const paged = computed(() =>
+  groups.value.map((group) => ({ ...group, shown: group.rows.slice(0, more[group.key] || (group.title === null ? PAGE : FIRST)) }))
+);
 
 // The rows by what they're grouped by, each group with its hours and money.
 const KEYS = {
