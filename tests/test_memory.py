@@ -49,12 +49,6 @@ def test_remembering_runs_at_once_and_writes_only_the_askers_memory():
 	assert remember.count("frappe.get_doc(") == 1, "it writes nothing but the memory"
 
 
-def test_the_same_fact_twice_is_one_memory():
-	remember = _body(MEMORY, "remember")
-	assert "_same(said, one.fact)" in remember and "replaces" in remember
-	assert "already remembered" in remember and '"updated"' in remember
-
-
 def test_global_search_is_frappes_and_checks_each_record():
 	"""frappe's search checks has_permission on every hit; we call it rather
 	than query the index ourselves."""
@@ -71,23 +65,12 @@ def test_a_records_story_is_read_live_through_the_sidebars_own_function():
 		assert kind in about, kind
 
 
-def test_past_chats_are_only_the_readers_own():
-	assert '"owner": frappe.session.user' in _body(MEMORY, "search_my_chats")
-
-
 def test_the_context_turn_carries_the_workspace_the_reader_and_what_is_remembered():
 	chat = (tree.APP / "one_ai" / "chat.py").read_text()
 	asked = _body(chat, "_asked")
 	for said in ("_today()", "_workspace()", "_reader()", "memory.told("):
 		assert said in asked, said
 	assert 'frappe.get_hooks("one_ai_workspace")' in chat
-
-
-def test_a_memory_is_tied_to_a_record_only_when_the_fact_names_it():
-	remember = _body(MEMORY, "remember")
-	assert "_names(" in remember
-	names = _body(MEMORY, "_names")
-	assert "title_field" in names and ".lower() in said" in names
 
 
 def test_the_same_call_twice_in_one_answer_is_not_run_twice():

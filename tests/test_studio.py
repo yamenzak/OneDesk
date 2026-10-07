@@ -250,10 +250,6 @@ def test_the_other_administrators_hear_of_one_turned_on_off_or_deleted():
 	names = tree.notifications()
 	for name in ("Extension Turned On", "Extension Turned Off", "Extension Deleted"):
 		assert name in names, name
-	source = (STUDIO / "extensions.py").read_text()
-	assert 'notify.notify("Extension Deleted", roles.administrators()' in (STUDIO / "tell.py").read_text()
-	assert "tell.extension_deleted(_told(doc, link=False))" in source
-	assert "before and before.enabled != doc.enabled" in source
 
 
 def test_an_extension_is_nobody_elses_to_share_attach_or_save():

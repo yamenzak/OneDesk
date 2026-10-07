@@ -661,6 +661,11 @@ Up next, in this order:
      own. Their address is set once, as their page says, but the
      administrator's way of giving one did not ask whether they had one
      already (`one_mail/addresses.py`).
+   - OneStudio's and OneAI's memory on the demo: the other administrators
+     told when an extension is turned on, off or deleted, the same fact
+     remembered once and a changed one replacing it, a memory tied to a
+     record only when it names it, and past chats only the reader's own. And
+     access: a level kept to its app's kinds, record access to its own.
 4. The finished modules again, against the new points only, one screen at a
    time.
 

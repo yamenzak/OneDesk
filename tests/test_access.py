@@ -40,9 +40,6 @@ def test_every_door_is_the_administrators():
 
 
 def test_a_level_stays_on_its_apps_kinds():
-	save = _body("save_level")
-	assert "allowed = set(kinds(app))" in save
-	assert "doctype not in allowed" in save and "frappe.throw" in save
 	kinds = _body("kinds")
 	assert "REFUSED_MODULES" in kinds and "meta.istable" in kinds
 
@@ -75,8 +72,6 @@ def test_a_plain_user_holds_the_companion_and_nobody_else_does():
 
 
 def test_record_access_stays_within_its_kinds():
-	assert '"allow": ["in", RECORD_KINDS]' in _body("record_access")
-	assert "doc.allow not in RECORD_KINDS" in _body("let_go")
 	assert "Company" not in SOURCE.split("RECORD_KINDS = (", 1)[1].split(")", 1)[0]
 
 

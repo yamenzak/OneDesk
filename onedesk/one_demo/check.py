@@ -1020,6 +1020,40 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 			assert queued.call_args.args[0] == "onedesk.one_studio.mend.in_background"
 
 
+@check
+def onestudio_tells_the_others_and_oneai_remembers_once():
+	"""An extension turned off or deleted is told to the other
+	administrators. OneAI keeps a fact once, however often it is told, keeps
+	a fact that says more in its place, ties it to a record only when the
+	fact names it, and searches only the reader's own conversations."""
+	from onedesk.one_ai import memory
+	from onedesk.one_studio import extensions
+
+	server = frappe.db.get_value(extensions.EXTENSION, {"title": "A Lead Needs a Mobile Number"})
+	with _Told() as told, as_user(OWNER):
+		doc = frappe.get_doc(extensions.EXTENSION, server)
+		doc.enabled = 0 if doc.enabled else 1
+		doc.save()
+		frappe.delete_doc(extensions.EXTENSION, server)
+	said = {name for name, _users in told.said}
+	assert {"Extension Deleted"} <= said and said & {"Extension Turned Off", "Extension Turned On"}, told.said
+
+	with as_user("rania@one.test"):
+		first = memory.remember("My site van is the white Hilux.")
+		assert first["state"] == "remembered"
+		assert memory.remember("My site van is the white Hilux.")["state"] == "already remembered"
+		assert memory.remember("My site van is the white Hilux, plate D 40721.", replaces="My site van is the white Hilux.")["state"] == "updated"
+		assert frappe.db.count("AI Memory", {"owner": "rania@one.test", "fact": ["like", "%Hilux%"]}) == 1
+		loose = memory.remember("Calls are better than mail before ten.", about_doctype="Customer", about_name="Mansour & Sons")
+		assert not frappe.db.get_value("AI Memory", loose["memory"], "about_name"), "a fact tied to a record it does not name"
+		named = memory.remember("Mansour & Sons pay on the last day of the month.", about_doctype="Customer", about_name="Mansour & Sons")
+		assert frappe.db.get_value("AI Memory", named["memory"], "about_name") == "Mansour & Sons"
+	with as_user(OWNER):
+		chat = frappe.get_doc({"doctype": "AI Chat", "title": "Bonus for the crew", "turns": frappe.as_json([{"role": "user", "text": "Draft the crew bonus letter for December."}])}).insert()
+		assert chat.name in {one["chat"] for one in memory.search_my_chats("crew bonus")}
+	with as_user("rania@one.test"):
+		assert chat.name not in {one["chat"] for one in memory.search_my_chats("crew bonus")}, "another person's conversation was searched"
+
 VILLA, TOWER, ACME, SHOWROOM, MARINA = "PROJ-0001", "PROJ-0003", "PROJ-0006", "PROJ-0009", "PROJ-0011"
 
 
@@ -2559,6 +2593,16 @@ def access_is_shaped_by_the_administrator():
 			pass
 	with as_user(OWNER):
 		level = access.make_level("OneCRM", "Senior Sales")
+		for refused, said in (
+			(lambda: access.save_level(level, "Senior Sales", [{"doctype": "Salary Slip", "read": 1}]), "is not a record type"),
+			(lambda: access.hold("omar@one.test", "Company", COMPANY), ""),
+		):
+			try:
+				refused()
+			except frappe.ValidationError as e:
+				assert said in str(e), e
+			else:
+				raise AssertionError(f"a level or a hold reached past its app: {said}")
 		assert level in {key for app in access.doctype_levels("Opportunity") for row in app["rows"] for key in (row["level"], row["key"])}, access.doctype_levels("Opportunity")
 		access.remove_level(level)
 		profile = access.new_profile("Estimator")
