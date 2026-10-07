@@ -2,6 +2,8 @@
  "title": "Website",
  "order": 5,
  "about": "A company website, from the first workshop to launch.",
+ "payment_terms": "Net 15",
+ "terms": "Software and Websites",
  "tasks": [
   {
    "subject": "Discovery",

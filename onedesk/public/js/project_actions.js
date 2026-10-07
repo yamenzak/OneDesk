@@ -152,6 +152,36 @@ onedesk.project.invoice_time = async (frm) => {
 	dialog.show();
 };
 
+// Draw Up Contract: what the customer signs, ERPNext's own Contract naming
+// the project, opened in its form to sign and submit (one_project/agreement.py).
+// Its wording comes from a Contract Template when the workspace has one.
+onedesk.project.draw_up = async (project, terms) => {
+	const make = async (template) => {
+		const name = await frappe.xcall("onedesk.one_project.agreement.draw_up", { project, template });
+		frappe.set_route("Form", "Contract", name);
+	};
+	if (!(await frappe.db.count("Contract Template"))) return make(null);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Draw Up Contract"),
+		fields: [
+			{
+				fieldtype: "Link",
+				fieldname: "template",
+				label: __("Contract Template"),
+				options: "Contract Template",
+				reqd: !terms,
+				description: terms ? __("Leave empty to use {0}.", [terms]) : null,
+			},
+		],
+		primary_action_label: __("Draw Up Contract"),
+		primary_action: async ({ template }) => {
+			dialog.hide();
+			await make(template);
+		},
+	});
+	dialog.show();
+};
+
 // Add Contract: a Fixed Price project's contract, made after the project,
 // as the New Project dialog makes it (one_project/kinds.py `add_contract`).
 onedesk.project.add_contract = async (frm) => {
@@ -186,6 +216,24 @@ onedesk.project.add_contract = async (frm) => {
 				label: __("Released at Handover"),
 				description: __("Share of the retention"),
 				depends_on: "eval:doc.retention",
+			},
+			// The project's terms, which the contract carries (one_project/terms.py).
+			{ fieldtype: "Section Break" },
+			{
+				fieldtype: "Link",
+				fieldname: "payment_terms",
+				label: __("Payment Terms"),
+				options: "Payment Terms Template",
+				default: frm.doc.one_payment_terms || said.payment_terms,
+			},
+			{ fieldtype: "Column Break" },
+			{
+				fieldtype: "Link",
+				fieldname: "conditions",
+				label: __("Terms and Conditions"),
+				options: "Terms and Conditions",
+				default: frm.doc.one_terms || said.terms,
+				get_query: () => ({ filters: { selling: 1, disabled: 0 } }),
 			},
 		],
 		primary_action_label: __("Add Contract"),
@@ -626,7 +674,7 @@ onedesk.project.ask_updates = async (project, done) => {
 // fields, saved against the project as the page loaded it, so a change made
 // meanwhile is refused as a form's would be. % Complete is typed only when
 // progress is Manual.
-onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site"];
+onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_payment_terms", "one_terms"];
 
 onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
 	await frappe.model.with_doctype("Project");

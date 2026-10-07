@@ -8,6 +8,9 @@ import frappe
 from frappe import _
 
 FOLDER = Path(__file__).parent / "library"
+#: The payment terms and terms and conditions the presets name, made in the
+#: workspace the first time a preset that names them is copied in.
+TERMS = Path(__file__).parent / "library_terms.json"
 
 #: What a task in a preset may say.
 TASK_KEYS = {"subject", "day", "days", "milestone", "hours", "after", "tasks"}
@@ -107,7 +110,68 @@ def copy(key: str) -> str:
 	for one in made:
 		subject = one["subject"]
 		one["subject"] = _(subject)
-	return make(title, made)
+	name = make(title, made)
+	agreed = {
+		"one_payment_terms": _payment_terms(preset.get("payment_terms")),
+		"one_terms": _conditions(preset.get("terms")),
+		"one_retention": preset.get("retention") or 0,
+		"one_retention_handover": preset.get("handover") or 0,
+	}
+	frappe.db.set_value("Project Template", name, agreed)
+	return name
+
+
+def _shared() -> dict:
+	return json.loads(TERMS.read_text(encoding="utf-8"))
+
+
+def _payment_terms(key: str | None) -> str | None:
+	"""The workspace's payment terms a preset names, made the first time:
+	the whole invoice due so many days after it is dated."""
+	if not key:
+		return None
+	days = _shared()["payment_terms"][key]
+	name = _(key)
+	if not frappe.db.exists("Payment Terms Template", name):
+		if not frappe.db.exists("Payment Term", name):
+			frappe.get_doc(
+				{
+					"doctype": "Payment Term",
+					"payment_term_name": name,
+					"invoice_portion": 100,
+					"due_date_based_on": "Day(s) after invoice date",
+					"credit_days": days,
+				}
+			).insert(ignore_permissions=True)
+		frappe.get_doc(
+			{
+				"doctype": "Payment Terms Template",
+				"template_name": name,
+				"terms": [
+					{
+						"payment_term": name,
+						"invoice_portion": 100,
+						"due_date_based_on": "Day(s) after invoice date",
+						"credit_days": days,
+					}
+				],
+			}
+		).insert(ignore_permissions=True)
+	return name
+
+
+def _conditions(key: str | None) -> str | None:
+	"""The workspace's terms and conditions a preset names, made the first
+	time, for selling."""
+	if not key:
+		return None
+	text = _shared()["conditions"][key]
+	name = _(key)
+	if not frappe.db.exists("Terms and Conditions", name):
+		frappe.get_doc(
+			{"doctype": "Terms and Conditions", "title": name, "selling": 1, "buying": 0, "terms": f"<p>{_(text)}</p>"}
+		).insert(ignore_permissions=True)
+	return name
 
 
 def drafted(preset: dict) -> str:

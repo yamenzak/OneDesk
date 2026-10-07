@@ -57,3 +57,14 @@ def _subjects(tasks):
 	for task in tasks:
 		yield task["subject"]
 		yield from _subjects(task.get("tasks") or [])
+
+
+def library_terms(fileobj, *args, **kwargs):
+	"""The payment terms and terms and conditions OneProject's presets name,
+	made in a workspace in its own language (one_project/library.py)."""
+	data = json.load(fileobj)
+	for name in data["payment_terms"]:
+		yield None, "_", name, ["Name of payment terms"]
+	for name, text in data["conditions"].items():
+		yield None, "_", name, ["Name of terms and conditions"]
+		yield None, "_", text, [f"The {name} terms and conditions"]

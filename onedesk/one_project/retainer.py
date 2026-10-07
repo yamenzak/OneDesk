@@ -9,7 +9,7 @@ from frappe import _
 from frappe.utils import add_months, flt, get_first_day, getdate, nowdate
 
 from onedesk.one_book.currency import bill_in, billed_in
-from onedesk.one_project import billing, kinds
+from onedesk.one_project import billing, kinds, terms
 
 #: The field on Sales Invoice naming the month it bills.
 MONTH = "one_retainer_month"
@@ -236,6 +236,7 @@ def invoice_month(source_name: str, month: str | None = None, item: str | None =
 	# The fee is agreed in the customer's currency, and the hours over are
 	# turned into it from each timesheet's own.
 	bill_in(invoice, "Customer", doc.customer)
+	terms.give(invoice, doc.get("one_payment_terms"), doc.get("one_terms"))
 	billable = _priced(billable, invoice.currency)
 	invoice.append(
 		"items", {"item_code": item, "qty": 1, "rate": flt(doc.get("one_monthly_fee")), "description": named}

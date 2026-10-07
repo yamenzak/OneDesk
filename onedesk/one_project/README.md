@@ -102,9 +102,11 @@ decides what **Details** asks for and what the project's page shows.
   Fee** and the **Hours a Month**.
 - **Internal**: no customer. Give a **Budget** if there is one.
 
-Every kind asks for a name. **Plan** asks when it starts and ends, its manager
-(you, unless you pick someone), a template to start its tasks from, and how
-its **Time** is counted. A retainer runs month to month, so it has a start and
+Every kind asks for a name, and a **Template** or a preset **From the
+Library** to start its tasks from. A project for a customer also asks for its
+**Payment Terms** and **Terms and Conditions** (see below). **Plan** asks when
+it starts and ends, its manager (you, unless you pick someone), and how its
+**Time** is counted. A retainer runs month to month, so it has a start and
 no end.
 
 **Time** is separate from the kind, which is how the customer pays:
@@ -809,6 +811,49 @@ the work on its project has got, with how far that is. A supplier's bill with
 a payment past its due date is in **Needs You** as **Pay** the supplier. The
 arrow on the heading opens **Suppliers**.
 
+## What's agreed with the customer
+
+A project for a customer holds two things agreed with them, both ERPNext's
+own:
+
+- **Payment Terms**: when an invoice is due, such as **Net 30**.
+- **Terms and Conditions**: the wording printed at the foot of its
+  quotations, orders and invoices.
+
+**Add Project** fills both in. The payment terms are the customer's own when
+they have some, else the template's, else the company's. The terms and
+conditions are the template's, else the company's. Change either in the
+dialog, or later in **About**. An internal project has neither.
+
+Every quotation, order and invoice made for the project starts with them:
+**New Quotation**, the contract, **Bill Progress**, **Invoice Time** and
+**Invoice Month**. An order made from a quotation keeps the quotation's, and
+an invoice made from an order keeps the order's. Pick others on a document and
+that document keeps yours. **Bill Progress** dates the invoice by the order's
+payment terms, and any retention falls due after. A supplier's bill is due as
+its purchase order says, not as the customer agreed.
+
+**Add Contract** asks for the payment terms and the terms and conditions too.
+Ones changed there become the project's.
+
+### The signed contract
+
+The contract value is the customer's sales order. What the customer signs is
+an ERPNext **Contract**. **Draw Up Contract** (in **···**) makes one for the
+project's customer, naming the project and running over its dates. Its wording
+comes from a **Contract Template** when the workspace has one, or from the
+project's terms and conditions. It opens in the Contract form, where you
+record who signed it and when, then submit it.
+
+**About** shows **Signed Contract**: **Signed** with when it ends, or **Not
+signed yet**. While the project is open, Needs You says **Get the contract
+signed**, and **Renew the contract** from a month before a signed one ends.
+
+**Draw Up Contract** shows to whoever may create contracts, a Sales Manager in
+ERPNext. Everyone who reads the project sees whether it is signed. Its wording
+opens only for those who may read contracts, since an employee's contract is
+a Contract too.
+
 ## Billing the customer as the work gets done
 
 The customer's contract is their **sales order** on the project, and a
@@ -1089,6 +1134,11 @@ Using it again uses your copy.
 - **Office Move**, **Event**, **New Client Onboarding** and **Year-End
   Audit**.
 
+Each preset also brings its payment terms and terms and conditions, such as
+**Net 30** and **Construction Works** for Aluminium & Glazing. The building
+presets hold 5% retention, half released at handover. Any it names that the
+workspace lacks are made the first time it is used, to change as you like.
+
 ### Other ways to make one
 
 - **Save as Template** (in **Actions** on a project) creates one from a
@@ -1126,7 +1176,8 @@ sub-project.
 - **From OneIntake**: A supplier's bill that names an open project is drafted for that project.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
 - **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
-- **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project. Bill Progress on a subcontract drafts the supplier's bill.
+- **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
+- **To OneCRM**: Draw Up Contract makes the customer's Contract for the project.
 
 ## Under the hood
 
@@ -2049,6 +2100,19 @@ A role that reads it already, by ERPNext's rules or the workspace's, keeps
 what it has (one/roles.py `give`). Tasks and project templates are
 one_task/access.py and `_templates` here.
 
+### agreement.py
+
+The signed contract is ERPNext's **Contract**, with `document_type` Project
+and `document_name` the project, so ERPNext's own form, statuses (Unsigned,
+Active, Inactive) and daily status update all hold. `draw_up` fills the
+party, the dates and `contract_terms`: a Contract Template's wording rendered
+as ERPNext's form renders it (`get_contract_template`), else the project's
+Terms and Conditions rendered for the contract. `of` reads the latest one not
+cancelled for About and OneAI with no permission check, since whether it is
+signed is the project's business, and gives its route only to whoever may
+read contracts. `asks` adds the Needs You rows. No grant is added. Contract
+stays with ERPNext's roles, because employment contracts are Contracts too.
+
 ### activity.py
 
 The Activity view puts the project's history beside frappe's own timeline of the project,
@@ -2081,6 +2145,38 @@ them under **Contacts**, and Suppliers lists the suppliers among them
 (`contacts`). Adding one is changing the project (`save`, `remove`); the
 Contact is linked to the project too, as frappe links a contact to any record,
 so the project is among the contact's own links.
+
+### terms.py
+
+A project's `one_payment_terms` (Payment Terms Template) and `one_terms`
+(Terms and Conditions), also on Project Template with `one_retention` and
+`one_retention_handover`. `defaults` gives a new project the customer's own
+payment terms (ERPNext's `get_payment_terms_template`: customer, then group,
+then company) before the template's, then the company's. The wording is the
+template's, else the company's `default_selling_terms`.
+
+`give` puts both on a document not saved yet: the template, which ERPNext
+turns into the payment schedule, a due date from it (ERPNext's
+`set_missing_values` dates an invoice by the party's terms, not the ones on
+it), and the wording rendered as ERPNext's form renders it.
+
+`carried` runs before_insert on Quotation, Sales Order, Sales Invoice and
+Purchase Invoice. A document made from a single order or quotation starts
+with that one's terms, as ERPNext's Fetch Payment Terms from Order does. A
+selling document for a project otherwise starts with the project's. A
+purchase invoice made outside an order keeps ERPNext's. Payment terms someone
+picked, other than the party's own default, are kept, and so is wording other
+than the company default.
+
+Bill Progress gives the invoice the order's terms before ERPNext's
+`set_missing_values` (ERPNext's mapper leaves `payment_terms_template` off),
+then splits the schedule for retention (progress.py `_retain`). Moving an
+order's Retention Due moves the date on its submitted invoices, their
+payment schedules and their Payment Ledger Entry and GL Entry rows
+(progress.py `_due`), which the receivables and payables reports age by.
+
+library.py makes the payment terms and wording a preset names
+(`library_terms.json`) the first time it is copied in.
 
 ### site_time.py
 

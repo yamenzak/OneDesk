@@ -128,6 +128,30 @@ def test_a_preset_is_copied_in_the_workspaces_language():
 	)
 
 
+def test_every_preset_names_terms_the_library_ships():
+	shared = json.loads((APP / "one_project" / "library_terms.json").read_text())
+	for key, preset in _presets().items():
+		assert preset.get("payment_terms") in shared["payment_terms"], key
+		assert preset.get("terms") in shared["conditions"], key
+		if "retention" in preset:
+			assert 0 < preset["retention"] <= 10 and 0 <= preset.get("handover", 0) <= 100, key
+	assert all(isinstance(days, int) and days >= 0 for days in shared["payment_terms"].values())
+	for name, text in shared["conditions"].items():
+		assert not re.search(r"[:;]", name + text), name
+	assert (
+		"onedesk/one_project/library_terms.json,onedesk.one.babel.library_terms"
+		in (ROOT / "babel_extractors.csv").read_text()
+	)
+
+
+def test_a_preset_copied_in_brings_its_terms():
+	source = (APP / "one_project" / "library.py").read_text()
+	for field in ("one_payment_terms", "one_terms", "one_retention", "one_retention_handover"):
+		assert f'"{field}"' in source, field
+	hooks = HOOKS
+	assert hooks.count('"onedesk.one_project.terms.carried"') >= 4, "a quotation, order or invoice starts with the project's terms"
+
+
 def test_the_library_is_offered_where_a_template_is_picked():
 	new = (APP / "public" / "js" / "project_new.js").read_text()
 	actions = (APP / "public" / "js" / "project_actions.js").read_text()

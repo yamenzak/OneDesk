@@ -3,3 +3,4 @@ onedesk/notifications/*/*.md,onedesk.notifications.babel.extract
 **/dashboard_chart/*/*.json,onedesk.one.babel.dashboard_chart
 **/print_format/*/*.json,onedesk.one.babel.print_format
 onedesk/one_project/library/*.json,onedesk.one.babel.project_template
+onedesk/one_project/library_terms.json,onedesk.one.babel.library_terms

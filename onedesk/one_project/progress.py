@@ -6,6 +6,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, strip_html
 
+from onedesk.one_project import terms
 from onedesk.one_project.retention import HANDOVER, HELD, RETENTION, parts
 
 #: How an order is billed: the invoice it makes, ERPNext's own mapper, and the
@@ -129,6 +130,8 @@ def bill_progress(
 	invoice.set("items", kept)
 	invoice.one_progress = done
 	invoice.allocate_advances_automatically = 1
+	# Due as the order says, which ERPNext's mapper leaves off (terms.py).
+	terms.give(invoice, order.get("payment_terms_template"), None if invoice.get("tc_name") else order.get("tc_name"))
 	invoice.run_method("set_missing_values")
 	invoice.run_method("calculate_taxes_and_totals")
 	_retain(invoice, order)
@@ -260,7 +263,22 @@ def release(doc, method=None) -> None:
 				filters={"parent": invoice, "parenttype": side["invoice"]},
 				pluck="due_date",
 			)
-			frappe.db.set_value(side["invoice"], invoice, "due_date", max(dates))
+			_due(side["invoice"], invoice, max(dates))
+
+
+def _due(doctype: str, invoice: str, due) -> None:
+	"""A submitted invoice's due date, moved everywhere ERPNext keeps it: the
+	invoice, and its own lines in the payment and general ledgers, which the
+	receivables and payables reports age by."""
+	frappe.db.set_value(doctype, invoice, "due_date", due)
+	for ledger in ("Payment Ledger Entry", "GL Entry"):
+		frappe.db.set_value(
+			ledger,
+			{"voucher_type": doctype, "voucher_no": invoice, "due_date": ["is", "set"]},
+			"due_date",
+			due,
+			update_modified=False,
+		)
 
 
 def _order(doctype: str, name: str):

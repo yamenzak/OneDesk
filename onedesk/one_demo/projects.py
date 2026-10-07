@@ -23,6 +23,7 @@ PHASES = tuple(
 
 def run(password=None):
 	_accounts()
+	_terms()
 	_template()
 	with as_user(PM):
 		villa()
@@ -61,6 +62,7 @@ def villa():
 		retention_due=ahead(120),
 		handover=50,
 	)
+	_signed(name, on(2, 14), "Khalid Mansour")
 	_budget(name, {"Materials": 140000, "Subcontracts": 60000, "Labour": 40000})
 	_progress(name, done_through=3, half_way=4)
 	_milestone_shares(name, (10, 20, 30, 30, 10))
@@ -110,6 +112,8 @@ def tower():
 		retention_due=ahead(300),
 		handover=50,
 	)
+	# Drawn up, and still with the customer to sign.
+	_signed(name)
 	_advance("Bayview Developments", order, 180000, on(3, 10))
 	_budget(name, {"Materials": 900000, "Subcontracts": 300000, "Labour": 180000, "Equipment": 60000})
 	for part, starts, ends in (("Podium", on(3, 15), ahead(20)), ("Levels 1 to 10", on(6, 1), ahead(110))):
@@ -375,6 +379,7 @@ def _project(
 			"manager": PM,
 			"template": template,
 			"parent": parent,
+			**dict(zip(("payment_terms", "terms"), AGREED.get(title, (None, None)))),
 			**values,
 		}
 	)
@@ -420,6 +425,19 @@ def _contract(project, date, lines, retention=0, retention_due=None, handover=0)
 	save(order, submit=True)
 	doc.db_set("sales_order", order.name)
 	return order.name
+
+
+def _signed(project, date=None, signee=None):
+	"""The contract the customer signs, drawn up as Draw Up Contract does it,
+	by whoever keeps sales: signed and submitted on `date`, or not signed yet."""
+	from onedesk.one_project.agreement import draw_up
+
+	with as_user(OWNER):
+		doc = frappe.get_doc("Contract", draw_up(project))
+		if date:
+			doc.update({"is_signed": 1, "signee": signee, "signed_on": f"{date} 11:00:00"})
+			doc.submit()
+	return tag(doc)
 
 
 def _bill_progress(order, date, done=None, lines=None, doctype="Sales Order"):
@@ -840,6 +858,29 @@ def _accounts():
 					"account_type": "Expense Account",
 				}
 			)
+
+
+#: Each project's payment terms and terms and conditions, as New Project asks.
+#: The villa's come from its template, Bayview's payment terms from the customer.
+AGREED = {
+	"Bayview Tower Curtain Wall": (None, "Construction Works"),
+	"Acme New York Lobby": ("Net 30", "Construction Works"),
+	"Nordlicht Showroom Design": ("Net 15", "Professional Services"),
+	"Marina Hotels Glazing Care": ("Net 15", "Professional Services"),
+}
+
+
+def _terms():
+	"""The workspace's payment terms and terms and conditions, as copying the
+	library's presets makes them, and Bayview's own terms: 45 days. A glazing
+	company holds retention, so the workspace does."""
+	frappe.db.set_single_value("Projects Settings", "one_retention", 1)
+	for key in ("Net 15", "Net 30", "Net 45"):
+		library._payment_terms(key)
+	for key in ("Construction Works", "Professional Services"):
+		library._conditions(key)
+	if not frappe.db.get_value("Customer", "Bayview Developments", "payment_terms"):
+		frappe.db.set_value("Customer", "Bayview Developments", "payment_terms", "Net 45")
 
 
 def _template():

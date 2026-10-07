@@ -1,0 +1,15 @@
+{
+ "payment_terms": {
+  "Due on Receipt": 0,
+  "Net 15": 15,
+  "Net 30": 30,
+  "Net 45": 45
+ },
+ "conditions": {
+  "Construction Works": "Prices cover supply and installation as quoted. Work outside this quotation is charged as a variation once agreed in writing. Retention, where stated, is released as the contract says. Materials stay ours until they are paid for in full. The customer gives clear access to the site and a place to store materials. A delay caused by others extends the programme by the same time.",
+  "Design Services": "Fees cover the stages quoted. Drawings and documents stay ours until they are paid for, and the client may use them for this project only. A change after a stage is approved is charged at our hourly rates.",
+  "Software and Websites": "Prices cover the work quoted. A change after a stage is approved is charged at our day rate. The finished work belongs to the client once it is paid for in full. We may show it in our portfolio.",
+  "Events": "The deposit holds the date and is not refunded if the event is cancelled. Numbers are confirmed seven days before the event. A change after that may be charged.",
+  "Professional Services": "Fees cover the work described. Work outside it is quoted separately. Either side may end the engagement with 30 days' notice in writing."
+ }
+}

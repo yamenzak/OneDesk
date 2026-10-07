@@ -2,6 +2,10 @@
  "title": "Small Building Works",
  "order": 3,
  "about": "An extension, a villa renovation or a small new building.",
+ "payment_terms": "Net 15",
+ "terms": "Construction Works",
+ "retention": 5,
+ "handover": 50,
  "tasks": [
   {
    "subject": "Preparation",

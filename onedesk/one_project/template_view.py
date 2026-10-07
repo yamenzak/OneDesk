@@ -68,6 +68,10 @@ def read(template: str) -> dict:
 		"tasks": tasks,
 		"days": max((one.start + one.duration for one in found.values()), default=0),
 		"used": frappe.db.count("Project", {"project_template": doc.name}),
+		# What a project made from it agrees with its customer (terms.py).
+		"payment_terms": doc.get("one_payment_terms"),
+		"terms": doc.get("one_terms"),
+		"retention": doc.get("one_retention") or 0,
 		"can_write": bool(frappe.has_permission("Project Template", "write", template)),
 	}
 

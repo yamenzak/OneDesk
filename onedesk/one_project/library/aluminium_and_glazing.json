@@ -2,6 +2,10 @@
  "title": "Aluminium & Glazing",
  "order": 1,
  "about": "Windows, doors, curtain walls and glazing, from contract review to the final account.",
+ "payment_terms": "Net 30",
+ "terms": "Construction Works",
+ "retention": 5,
+ "handover": 50,
  "tasks": [
   {
    "subject": "Initiation, Engineering & Approvals",

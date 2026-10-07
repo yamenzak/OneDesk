@@ -9,7 +9,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
 
-from onedesk.one_project import kinds, overview, tree
+from onedesk.one_project import agreement, kinds, overview, tree
 
 #: Not a project here: an employee's onboarding or exit checklist (README).
 HR = "Employee Boarding"
@@ -261,8 +261,8 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 	"""One project as its page shows it, with its sub-projects added up, and
 	its own work apart from them as `main`: where it stands, its dates, what it cost against the estimate, what was billed,
 	its late tasks (who is on each, what waits on each), its milestones to
-	come, its people and its contacts outside the company, the team's last updates, and the reader's own week on
-	it. Read before saying how a project is going, what is late, or writing
+	come, its people and its contacts outside the company, the team's last updates, the reader's own week on
+	it, the payment terms and terms and conditions agreed with its customer, and whether its contract is signed. Read before saying how a project is going, what is late, or writing
 	about it."""
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
 		return {"error": f"No project the reader may see is {project}."}
@@ -336,6 +336,10 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		"team": _team(project),
 		"contacts": _contacts(project),
 		"months": _months(project) if doc.get("one_kind") == kinds.RETAINER else None,
+		# Agreed with the customer and carried onto its documents (terms.py, agreement.py).
+		"payment_terms": doc.get("one_payment_terms"),
+		"terms_and_conditions": doc.get("one_terms"),
+		"contract": {key: value for key, value in (agreement.of(project) or {}).items() if key != "route"} or None,
 	}
 
 

@@ -6,7 +6,8 @@
     <div v-else class="pt-6">
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <div ref="spot" class="empty:hidden [&_.one-place-spot]:mb-4" />
-      <p class="mb-4 text-base text-ink-gray-6">{{ summary }}</p>
+      <p class="text-base text-ink-gray-6" :class="agreed ? 'mb-1' : 'mb-4'">{{ summary }}</p>
+      <p v-if="agreed" class="mb-4 text-base text-ink-gray-6">{{ agreed }}</p>
       <Tasks
         :tasks="said.tasks"
         :can-write="said.can_write"
@@ -76,6 +77,13 @@ const summary = computed(() => {
     s.days === 1 ? __("1 day") : __("{0} days", [s.days]),
     s.used ? (s.used === 1 ? __("Used by 1 project") : __("Used by {0} projects", [s.used])) : __("Not used yet"),
   ].join(" · ");
+});
+
+// What a project made from it starts with: its payment terms, terms and
+// conditions and retention, set under Edit Details.
+const agreed = computed(() => {
+  const s = said.value;
+  return [s.payment_terms, s.terms, s.retention ? __("{0}% retention", [s.retention]) : ""].filter(Boolean).join(" · ");
 });
 
 function report() {

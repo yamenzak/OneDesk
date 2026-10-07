@@ -173,7 +173,8 @@ def every_project_page_opens_for_its_people():
 def a_project_is_closed_to_who_has_no_part_in_it():
 	from onedesk.one_project import view
 
-	project = _projects()[0].name
+	# One he is not on: which project lists first changes with what was last edited.
+	project = next(one.name for one in _projects() if "yousef@one.test" not in _team(one.name))
 	try:
 		with as_user("yousef@one.test"):
 			view.said(project)
@@ -1316,6 +1317,166 @@ def oneproject_the_books_invoice_time_a_month_and_progress():
 		# The windows are counted whole, so they are billed to the end, the rest not yet.
 		draft = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
 		assert [row.item_code for row in draft.items] == ["WIN-CS12"] and draft.is_new()
+
+
+@check
+def oneproject_a_new_retention_date_reaches_the_receivables():
+	"""The villa's retention moved a month on its order: the invoices already
+	made from it, their payment schedules and both ledgers carry the new date,
+	so Accounts Receivable ages the retention by it."""
+	from erpnext.accounts.report.accounts_receivable.accounts_receivable import execute as receivable
+
+	from onedesk.one_project.progress import RETENTION
+
+	name = frappe.db.get_value("Project", VILLA, "sales_order")
+	invoices = sorted({one.parent for one in frappe.get_all("Sales Invoice Item", filters={"sales_order": name, "docstatus": 1}, fields=["parent"])})
+	held = [one for one in invoices if frappe.db.exists("Payment Schedule", {"parent": one, "payment_term": RETENTION})]
+	assert held, "the villa has invoices holding retention"
+	with as_user(OWNER):
+		order = frappe.get_doc("Sales Order", name)
+		moved = add_days(order.one_retention_due, 30)
+		order.one_retention_due = moved
+		order.save()
+	for invoice in held:
+		assert getdate(frappe.db.get_value("Payment Schedule", {"parent": invoice, "payment_term": RETENTION}, "due_date")) == getdate(moved)
+		assert getdate(frappe.db.get_value("Sales Invoice", invoice, "due_date")) == getdate(moved)
+		for ledger in ("Payment Ledger Entry", "GL Entry"):
+			dates = set(frappe.get_all(ledger, filters={"voucher_no": invoice, "due_date": ["is", "set"]}, pluck="due_date"))
+			assert dates == {getdate(moved)}, (ledger, invoice, dates)
+	customer = frappe.db.get_value("Project", VILLA, "customer")
+	rows = receivable(frappe._dict(company=COMPANY, report_date=today(), party_type="Customer", party=[customer], ageing_based_on="Due Date", range="30, 60, 90, 120"))[1]
+	aged = {row.get("voucher_no"): getdate(row.get("due_date")) for row in rows if row.get("voucher_no") in held}
+	assert aged and set(aged.values()) == {getdate(moved)}, aged
+
+
+@check
+def oneproject_its_terms_travel_from_quotation_to_invoice():
+	"""What a project agreed with its customer is on every document made for
+	it: a quotation starts with the villa's 30 days and its construction
+	terms unless somebody picks others, an order keeps what its quotation
+	said, Bill Progress dates the villa's invoice 30 days on with its
+	retention after, and the showroom's time is due in 15 days. A supplier's
+	bill is due as its purchase order says."""
+	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_invoice
+	from erpnext.selling.doctype.quotation.mapper import make_sales_order
+
+	from onedesk.one_project import billing, progress
+	from onedesk.one_project.retention import RETENTION
+
+	villa = frappe.db.get_value("Project", VILLA, ["customer", "one_payment_terms", "one_terms"], as_dict=True)
+	assert (villa.one_payment_terms, villa.one_terms) == ("Net 30", "Construction Works"), villa
+
+	def quote(**values):
+		doc = frappe.new_doc("Quotation")
+		doc.update({"company": COMPANY, "quotation_to": "Customer", "party_name": villa.customer, "project": VILLA, **values})
+		doc.append("items", {"item_code": "WIN-CS12", "qty": 2, "rate": 2400})
+		doc.insert()
+		return doc
+
+	with as_user(OWNER):
+		carried = quote()
+		assert (carried.payment_terms_template, carried.tc_name) == ("Net 30", "Construction Works"), (carried.payment_terms_template, carried.tc_name)
+		assert "Retention" in (carried.terms or ""), carried.terms
+		assert quote(tc_name="Professional Services").tc_name == "Professional Services", "terms picked on a quotation are kept"
+		carried.submit()
+		order = make_sales_order(carried.name)
+		order.delivery_date = add_days(today(), 30)
+		for row in order.items:
+			row.delivery_date = order.delivery_date
+		order.insert()
+		assert (order.payment_terms_template, order.tc_name) == ("Net 30", "Construction Works"), "the order keeps its quotation's terms"
+
+	with as_user("huda@one.test"):
+		name = frappe.db.get_value("Project", VILLA, "sales_order")
+		windows = progress.progress("Sales Order", name)["lines"][0]
+		draft = progress.bill_progress(name, "Sales Order", lines={windows["line"]: 100})
+		assert getdate(draft.due_date) == getdate(add_days(draft.posting_date, 30)), (draft.posting_date, draft.due_date)
+		assert draft.tc_name == "Construction Works", draft.tc_name
+		schedule = {row.payment_term: getdate(row.due_date) for row in draft.payment_schedule}
+		assert schedule.get(None) == getdate(draft.due_date) and schedule.get(RETENTION, schedule[None]) > schedule[None], schedule
+		invoice = billing.invoice_time(SHOWROOM, item="SVC-MAINT")
+		assert (invoice.payment_terms_template, invoice.tc_name) == ("Net 15", "Professional Services"), (invoice.payment_terms_template, invoice.tc_name)
+		assert getdate(invoice.due_date) == getdate(add_days(invoice.posting_date, 15)), (invoice.posting_date, invoice.due_date)
+
+	po = frappe.db.get_value("Purchase Order", {"project": VILLA, "docstatus": 1, "per_billed": ["<", 100]})
+	assert po, "the villa has a purchase order to bill"
+	frappe.db.set_value("Purchase Order", po, "payment_terms_template", "Net 45")
+	with as_user(OWNER):
+		bill = make_purchase_invoice(po)
+		bill.bill_no, bill.bill_date = "TERMS-1", today()
+		bill.insert()
+	assert bill.payment_terms_template == "Net 45" and bill.tc_name != "Construction Works", (bill.payment_terms_template, bill.tc_name)
+
+
+@check
+def oneproject_a_project_starts_with_its_customers_and_its_templates_terms():
+	"""A new project's payment terms are its customer's own before its
+	template's, and its wording the template's. A preset from the library
+	brings both and its retention onto the contract, where the workspace holds
+	retention. Add Contract may agree others, and an internal project has none."""
+	from onedesk.one_demo.projects import TEMPLATE
+	from onedesk.one_project import kinds, library
+
+	with as_user("samir@one.test"):
+		said = kinds.defaults("Bayview Developments", TEMPLATE)
+		assert (said["payment_terms"], said["terms"]) == ("Net 45", "Construction Works"), said
+		said = kinds.defaults("Mansour & Sons", TEMPLATE)
+		assert (said["payment_terms"], said["terms"], said["retention"], said["retention_handover"]) == ("Net 30", "Construction Works", 5, 50), said
+		frappe.db.set_single_value("Projects Settings", "one_retention", 0)
+		assert kinds.defaults("Mansour & Sons", TEMPLATE)["retention"] == 0, "no retention where the workspace holds none"
+		frappe.db.set_single_value("Projects Settings", "one_retention", 1)
+		website = library.copy("website")
+		assert frappe.db.get_value("Project Template", website, ["one_payment_terms", "one_terms"]) == ("Net 15", "Software and Websites")
+		assert "belongs to the client" in frappe.db.get_value("Terms and Conditions", "Software and Websites", "terms")
+		days = frappe.get_doc("Payment Terms Template", "Net 15").terms
+		assert [(row.invoice_portion, row.credit_days) for row in days] == [(100, 15)], days
+		name = kinds.make({"title": "Mansour Pool House", "kind": "Fixed Price", "client": "Mansour & Sons", "library": "interior_fit_out", "starts": today(), "ends": add_days(today(), 365), "contract": 40000, "item": "SVC-INST"})
+		project = frappe.db.get_value("Project", name, ["one_payment_terms", "one_terms", "sales_order"], as_dict=True)
+		assert (project.one_payment_terms, project.one_terms) == ("Net 30", "Construction Works"), project
+		order = frappe.db.get_value("Sales Order", project.sales_order, ["payment_terms_template", "tc_name", "one_retention", "one_retention_handover"], as_dict=True)
+		assert (order.payment_terms_template, order.tc_name, flt(order.one_retention), flt(order.one_retention_handover)) == ("Net 30", "Construction Works", 5, 50), order
+		inside = kinds.make({"title": "Workshop Shelving", "kind": "Internal", "starts": today(), "ends": add_days(today(), 365), "template": TEMPLATE})
+		assert frappe.db.get_value("Project", inside, ["one_payment_terms", "one_terms"]) == (None, None)
+		order = kinds.add_contract(ACME, 85000, "SVC-INST", payment_terms="Net 15", conditions="Professional Services")
+	assert frappe.db.get_value("Project", ACME, ["one_payment_terms", "one_terms"]) == ("Net 15", "Professional Services")
+	assert frappe.db.get_value("Sales Order", order, ["payment_terms_template", "tc_name"]) == ("Net 15", "Professional Services")
+
+
+@check
+def oneproject_its_signed_contract_is_on_the_page():
+	"""The villa's contract is signed, and About says so with when it ends.
+	The tower's waits for a signature, and Needs You asks for it. Drawn up
+	for Acme from its terms, a contract names the project and runs over its
+	dates, and one ending within a month is to renew. Samir reads whether it
+	is signed, but not its wording, nor draws one up."""
+	from onedesk.one_project import agreement, view
+
+	with as_user("samir@one.test"):
+		villa = view.said(VILLA)
+		assert villa["agreement"]["signed"] and villa["agreement"]["ends"], villa["agreement"]
+		assert not villa["agreement"]["route"] and not villa["can_draw_up"], villa["agreement"]
+		tower = view.said(TOWER)
+		assert tower["agreement"] and not tower["agreement"]["signed"], tower["agreement"]
+		assert "Get the contract signed" in {one["text"] for one in view.needs(frappe.get_doc("Project", TOWER), {"tree": [TOWER]}, "Fixed Price")}
+		try:
+			agreement.draw_up(ACME)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody who may not make contracts drew one up")
+	with as_user(OWNER):
+		assert view.said(ACME)["can_draw_up"] and not view.said(ACME)["agreement"]
+		name = agreement.draw_up(ACME)
+		doc = frappe.get_doc("Contract", name)
+		acme = frappe.db.get_value("Project", ACME, ["customer", "expected_start_date", "expected_end_date", "one_terms"], as_dict=True)
+		assert (doc.party_type, doc.party_name, doc.document_type, doc.document_name) == ("Customer", acme.customer, "Project", ACME)
+		assert (doc.start_date, doc.end_date) == (acme.expected_start_date, acme.expected_end_date)
+		assert "Materials stay ours" in doc.contract_terms and doc.status == "Unsigned", doc.contract_terms
+		doc.update({"is_signed": 1, "signee": "Dana Brooks", "signed_on": now_datetime(), "start_date": getdate(add_days(today(), -30)), "end_date": getdate(add_days(today(), 10))})
+		doc.submit()
+		assert agreement.of(ACME)["signed"] and agreement.of(ACME)["route"] == f"/desk/contract/{name}"
+		said = agreement.asks(frappe.get_doc("Project", ACME))
+		assert [(one["text"], one["dim"]) for one in said] == [("Renew the contract", "Ends in 10 days")], said
 
 
 class _Told:

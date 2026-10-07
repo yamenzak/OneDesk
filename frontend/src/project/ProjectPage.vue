@@ -293,13 +293,15 @@ function actions(s) {
   // A Fixed Price project is quoted, and quoted again, until it has its
   // contract; what is quoted after is extra work, ordered as a sub-project.
   if (s.customer && can("create", "Quotation")) {
-    if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer }) });
+    if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer, payment_terms_template: s.payment_terms, tc_name: s.terms }) });
     else list.push({ label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) });
   }
   // What the work uses: stock taken out for it, and what the team paid
   // themselves, each naming the project (one_project/money.py).
   if (can("create", "Stock Entry")) list.push({ label: __("Issue Stock"), onClick: () => newDoc("Stock Entry", { stock_entry_type: "Material Issue", purpose: "Material Issue", project: s.name }) });
   if (can("create", "Expense Claim")) list.push({ label: __("New Expense Claim"), onClick: () => newDoc("Expense Claim", { project: s.name }) });
+  // The contract the customer signs, made in ERPNext's form (agreement.py).
+  if (s.can_draw_up && s.kind !== "Internal" && !s.agreement) list.push({ label: __("Draw Up Contract"), onClick: () => desk().project.draw_up(s.name, s.terms) });
   if (s.can_write && can("create", "Project")) list.push({ label: __("Add Sub-project"), onClick: () => newDoc("Project", { one_parent: s.name, customer: s.customer }) });
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
   if (can("create", "Task") && can("read", "Project Template")) list.push({ label: __("Add from Template"), onClick: () => desk().project.add_template(s.name, loadWork) });

@@ -2,6 +2,8 @@
  "title": "Marketing Campaign",
  "order": 7,
  "about": "A campaign planned, made, run and measured.",
+ "payment_terms": "Net 30",
+ "terms": "Professional Services",
  "tasks": [
   {
    "subject": "Plan",

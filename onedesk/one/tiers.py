@@ -83,6 +83,7 @@ COLLECTIONS = {
 		"List": "an overdue next step in red",
 		"Kanban": "the pipeline, each stage with what it is worth",
 	},
+	"Contract": {"List": "whether each contract is signed, when it ends and the project it is for"},
 	"Attendance": {"List": "Mark Attendance kept, merged into hrms's own settings"},
 	"Employee Checkin": {"List": "whether each log counted"},
 	"AI Model": {"List": "the model catalogue from the operator's side"},

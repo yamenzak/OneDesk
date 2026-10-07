@@ -2,6 +2,8 @@
  "title": "Year-End Audit",
  "order": 12,
  "about": "The year's books closed and audited, from the last invoice to the signed accounts.",
+ "payment_terms": "Net 30",
+ "terms": "Professional Services",
  "tasks": [
   {
    "subject": "Close the Year",

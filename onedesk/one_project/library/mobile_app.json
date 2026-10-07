@@ -2,6 +2,8 @@
  "title": "Mobile App",
  "order": 6,
  "about": "An app for iPhone and Android, from the idea to the stores.",
+ "payment_terms": "Net 15",
+ "terms": "Software and Websites",
  "tasks": [
   {
    "subject": "Discovery",

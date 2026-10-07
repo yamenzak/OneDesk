@@ -8970,6 +8970,52 @@ frappe's Assign does; Pending Review tells whoever made the task.
   rest on hover (frappe-ui Tooltip); on a phone, a row per part. The Main
   view and a project without sub-projects keep the single line.
 
+#### What's agreed with the customer (2026-10-07)
+
+Asked how a project sets its payment terms, whether a contract and terms and
+conditions are the same, and whether the books stay ERPNext's. Five gaps,
+each closed on ERPNext's own records, each with a demo check:
+
+- **Works (1, 2)**: moving an order's Retention Due moved only the invoice's
+  schedule. Accounts Receivable ages by the Payment Ledger Entry and GL Entry
+  due dates, so it kept the old date. `progress._due` moves both
+  (`oneproject_a_new_retention_date_reaches_the_receivables`).
+- **What ERPNext already does**: a project had no payment terms. ERPNext's
+  mapper leaves `payment_terms_template` off a Sales Order's invoice, and
+  `set_missing_values` dates it by the party's terms, so Bill Progress
+  invoices were due on the day. The project now holds its Payment Terms and
+  Terms and Conditions (`one_payment_terms`, `one_terms`), from the customer,
+  the template or the company. Every quotation, order and invoice for it
+  starts with them, and one made from an order keeps the order's
+  (`terms.carried`, before_insert). Bill Progress dates the invoice by the
+  order's terms with the retention after
+  (`oneproject_its_terms_travel_from_quotation_to_invoice`).
+- **Stays desk (5, 6)**: the New Project dialog's Details step asks for the
+  template (moved from Plan, since it now sets the terms), Payment Terms and
+  Terms and Conditions. About shows both. Add Contract asks for both.
+- **Presets (13)**: each library preset names its payment terms and terms
+  and conditions (`library_terms.json`, translated through `babel.py`), and
+  the building presets their retention. Copying one in makes any the
+  workspace lacks (`oneproject_a_project_starts_with_its_customers_and_its_templates_terms`).
+- **Signed contract**: the sales order is the contract value. What the
+  customer signs is ERPNext's Contract, naming the project. **Draw Up
+  Contract** makes one, About says **Signed** or **Not signed yet**, and
+  Needs You asks for the signature, or to renew one ending within a month.
+  Contract keeps ERPNext's roles, since employment contracts are Contracts
+  too. Whether it is signed is shown to the project's readers
+  (`oneproject_its_signed_contract_is_on_the_page`).
+- **OneCRM › Contract**: the list was there under Sales but read **Draft**
+  for an unsigned contract, showed each contract's whole wording and the
+  project as its ID. It now reads Unsigned, Active or Inactive, the end date
+  and the project by name (`contract_list.js`, `one_crm/custom/contract.json`).
+- **Knows (13)**: OneAI's project facts carry the payment terms, the terms
+  and conditions and the contract. README: What's agreed with the customer,
+  The signed contract, and terms.py and agreement.py under the hood.
+- **Demo (1)**: the villa takes Net 30 and Construction Works from its
+  template and has a signed contract. Bayview takes Net 45 from the customer
+  and has a contract waiting for a signature. Acme, the showroom and Marina
+  have theirs.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

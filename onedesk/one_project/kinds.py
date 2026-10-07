@@ -9,7 +9,7 @@ from frappe import _
 from frappe.utils import add_days, flt, getdate, nowdate
 
 from onedesk.one_book.currency import bill_in, billed_in
-from onedesk.one_project import library
+from onedesk.one_project import library, terms
 
 FIXED = "Fixed Price"
 TIME = "Time and Materials"
@@ -49,6 +49,9 @@ def held(doc, method=None) -> None:
 	kind = doc.get("one_kind")
 	if kind == INTERNAL:
 		doc.customer = None
+		# Nobody is billed, so nothing is due and nothing is printed.
+		doc.one_payment_terms = None
+		doc.one_terms = None
 	elif kind in KINDS and not doc.get("customer"):
 		frappe.throw(_("Pick the customer {0} bills.").format(doc.project_name))
 	if kind != RETAINER:
@@ -75,6 +78,14 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 		if not values.item:
 			frappe.throw(_("Pick the item to bill the contract as."))
 
+	# A preset from the library is copied in first (library.py).
+	template = values.template or (values.library and library.copy(values.library)) or None
+	# What isn't asked for comes from the customer, the template or the company (terms.py).
+	agreed = terms.defaults(values.client if kind != INTERNAL else None, template)
+	for key in ("payment_terms", "terms"):
+		values[key] = values.get(key) or agreed[key]
+	if values.retention is None and kind == FIXED:
+		values.retention, values.retention_handover = agreed["retention"], agreed["retention_handover"]
 	project = frappe.new_doc("Project")
 	project.update(
 		{
@@ -84,8 +95,9 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 			"expected_start_date": values.starts,
 			"expected_end_date": values.ends,
 			"one_manager": values.manager or frappe.session.user,
-			# A preset from the library is copied in first (library.py).
-			"project_template": values.template or (values.library and library.copy(values.library)) or None,
+			"project_template": template,
+			"one_payment_terms": values.payment_terms if kind != INTERNAL else None,
+			"one_terms": values.terms if kind != INTERNAL else None,
 			"estimated_costing": flt(values.budget) if kind in (TIME, INTERNAL) else 0,
 			"one_monthly_fee": flt(values.monthly_fee) if kind == RETAINER else 0,
 			"one_monthly_hours": flt(values.monthly_hours) if kind == RETAINER else 0,
@@ -135,6 +147,7 @@ def _contract(project, values, contract: float) -> str:
 			"description": project.project_name,
 		},
 	)
+	terms.give(order, project.get("one_payment_terms"), project.get("one_terms"))
 	order.insert()
 	order.submit()
 	return order.name
@@ -148,9 +161,13 @@ def add_contract(
 	retention: Annotated[float | None, "Retention, in percent."] = None,
 	retention_due: Annotated[str | None, "When the retention is due."] = None,
 	retention_handover: Annotated[float | None, "The share of the retention released at handover."] = None,
+	payment_terms: Annotated[str | None, "When its invoices are due, a Payment Terms Template."] = None,
+	conditions: Annotated[str | None, "The Terms and Conditions printed on it."] = None,
 ) -> str:
 	"""A Fixed Price project's contract, made after the project: the same
-	submitted Sales Order the New Project dialog makes. Returns its name."""
+	submitted Sales Order the New Project dialog makes, with the project's
+	terms, which `payment_terms` and `conditions` change for both. Returns
+	its name."""
 	from onedesk.one_project.view import contract as ordered
 
 	doc = frappe.get_doc("Project", project)
@@ -172,6 +189,15 @@ def add_contract(
 		starts=doc.expected_start_date,
 		ends=doc.expected_end_date,
 	)
+	# Agreed with the contract, so the project's own from now on.
+	changed = {
+		field: value
+		for field, value in (("one_payment_terms", payment_terms), ("one_terms", conditions))
+		if value and value != doc.get(field)
+	}
+	if changed:
+		doc.update(changed)
+		doc.save()
 	order = _contract(doc, values, flt(contract))
 	doc.db_set("sales_order", order)
 	return order
@@ -184,10 +210,14 @@ CONTRACT_ITEM = "Contract Work"
 
 @frappe.whitelist()
 @frappe.read_only()
-def defaults(customer: Annotated[str | None, "The customer, for their currency."] = None) -> dict:
+def defaults(
+	customer: Annotated[str | None, "The customer, for their currency and terms."] = None,
+	template: Annotated[str | None, "The Project Template it starts from, for its terms."] = None,
+) -> dict:
 	"""What the New Project and Add Contract dialogs start with: the item the
 	last project's contract was billed as, or Contract Work, the currency the
-	customer is billed in, and how the workspace counts time."""
+	customer is billed in, how the workspace counts time, and the payment terms,
+	terms and conditions and retention to agree (terms.py)."""
 	found = frappe.get_all(
 		"Sales Order Item",
 		filters={"docstatus": 1, "project": ["is", "set"]},
@@ -203,7 +233,11 @@ def defaults(customer: Annotated[str | None, "The customer, for their currency."
 		currency = billed_in("Customer", customer)
 	from onedesk.one_project.hours import default
 
-	return {"item": item, "user": frappe.session.user, "currency": currency, "time": default()}
+	agreed = terms.defaults(
+		customer if customer and frappe.has_permission("Customer", "read", doc=customer) else None,
+		template if template and frappe.has_permission("Project Template", "read", doc=template) else None,
+	)
+	return {"item": item, "user": frappe.session.user, "currency": currency, "time": default(), **agreed}
 
 
 def settle() -> None:

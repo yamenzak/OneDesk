@@ -32,6 +32,57 @@
    "no_copy": 1,
    "in_list_view": 1,
    "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_terms_section",
+   "label": "Terms",
+   "fieldtype": "Section Break",
+   "insert_after": "one_projects",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_payment_terms",
+   "label": "Payment Terms",
+   "fieldtype": "Link",
+   "options": "Payment Terms Template",
+   "insert_after": "one_terms_section",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_terms",
+   "label": "Terms and Conditions",
+   "fieldtype": "Link",
+   "options": "Terms and Conditions",
+   "insert_after": "one_payment_terms",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_terms_break",
+   "fieldtype": "Column Break",
+   "insert_after": "one_terms",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_retention",
+   "label": "Retention",
+   "fieldtype": "Percent",
+   "insert_after": "one_terms_break",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_retention_handover",
+   "label": "Released at Handover",
+   "fieldtype": "Percent",
+   "insert_after": "one_retention",
+   "module": "One Project",
+   "depends_on": "eval:doc.one_retention",
+   "description": "Share of the retention"
   }
  ],
  "doctype": "Project Template",

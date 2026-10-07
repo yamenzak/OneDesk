@@ -2,6 +2,8 @@
  "title": "New Client Onboarding",
  "order": 11,
  "about": "A new client welcomed and set up, from the signed contract to the first review.",
+ "payment_terms": "Net 30",
+ "terms": "Professional Services",
  "tasks": [
   {
    "subject": "Welcome",

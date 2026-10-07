@@ -350,6 +350,8 @@ doc_events = {
 	# supplier's number. See one_book/repeat.py.
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
+		# Starts with its order's or its project's terms. See one_project/terms.py.
+		"before_insert": "onedesk.one_project.terms.carried",
 		"after_insert": "onedesk.one_project.progress.drafted",
 		# The emirate a sale is reported under. See one_book/vat.py.
 		"validate": [
@@ -370,6 +372,8 @@ doc_events = {
 	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
+		# Starts with its order's payment terms. See one_project/terms.py.
+		"before_insert": "onedesk.one_project.terms.carried",
 		# A bill for a share of the work, for the project's manager to check. See one_project/progress.py.
 		"after_insert": "onedesk.one_project.progress.drafted",
 		"validate": [
@@ -709,11 +713,15 @@ doc_events = {
 		"after_delete": "onedesk.one_crm.board.sync",
 	},
 	"Quotation": {
+		# Starts with its project's terms. See one_project/terms.py.
+		"before_insert": "onedesk.one_project.terms.carried",
 		"on_submit": "onedesk.one_crm.stages.follow",
 		"on_cancel": "onedesk.one_crm.stages.follow",
 		"on_update_after_submit": "onedesk.one_crm.stages.follow",
 	},
 	"Sales Order": {
+		# Starts with its quotation's or its project's terms. See one_project/terms.py.
+		"before_insert": "onedesk.one_project.terms.carried",
 		"validate": "onedesk.one_project.chain.agree",
 		"on_submit": [
 			"onedesk.one_crm.stages.follow",
@@ -958,6 +966,8 @@ doctype_list_js = {
 	"Task": "public/js/task_list.js",
 	# A project's status is its status, and its manager a name.
 	"Project": "public/js/project_list.js",
+	# Whether a contract is signed, and the project it is for by name.
+	"Contract": "public/js/contract_list.js",
 }
 
 override_doctype_dashboards = {
@@ -1104,6 +1114,7 @@ one_makes_records = {
 	"Budget": ["one_project"],
 	"Call Log": ["one_crm"],
 	"Contact": ["one_admin", "one_calendar"],
+	"Contract": ["one_project"],
 	"Customer": ["one_admin", "one_book", "one_crm"],
 	"Employee": ["one_hr"],
 	"Employee Checkin": ["one_hr"],
@@ -1133,6 +1144,7 @@ one_makes_records = {
 	"Opportunity Lost Reason": ["one_admin", "one_crm"],
 	"Overtime Slip": ["one_hr"],
 	"Payment Term": ["one_project"],
+	"Payment Terms Template": ["one_project"],
 	"Payroll Entry": ["one_hr"],
 	"Payroll Period": ["one"],
 	"Period Closing Voucher": ["one_book"],
@@ -1151,6 +1163,7 @@ one_makes_records = {
 	"Supplier": ["one", "one_book"],
 	"Supplier Quotation": ["one"],
 	"Task": ["one_project", "one_task"],
+	"Terms and Conditions": ["one_project"],
 	"Timesheet": ["one_project", "one_task"],
 	"UAE VAT Settings": ["one_book"],
 	"UOM": ["one_project"],

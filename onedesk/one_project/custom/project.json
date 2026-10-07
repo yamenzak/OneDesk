@@ -142,6 +142,26 @@
    "options": "Project Contact",
    "insert_after": "one_contacts_section",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_payment_terms",
+   "label": "Payment Terms",
+   "fieldtype": "Link",
+   "options": "Payment Terms Template",
+   "insert_after": "one_site",
+   "module": "One Project",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_terms",
+   "label": "Terms and Conditions",
+   "fieldtype": "Link",
+   "options": "Terms and Conditions",
+   "insert_after": "one_payment_terms",
+   "module": "One Project",
+   "description": ""
   }
  ],
  "doctype": "Project",

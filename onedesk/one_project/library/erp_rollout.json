@@ -2,6 +2,8 @@
  "title": "ERP Rollout",
  "order": 8,
  "about": "A business moved onto a new ERP, from the first workshop to life after go-live.",
+ "payment_terms": "Net 30",
+ "terms": "Professional Services",
  "tasks": [
   {
    "subject": "Plan",

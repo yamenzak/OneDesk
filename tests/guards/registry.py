@@ -596,6 +596,12 @@ GUARDS = [
 		"tests/guards/test_layout.py::test_roles_are_given_in_access",
 	),
 	Guard(
+		"field-group-values",
+		8,
+		"a dialog's form handed a dict by set_value, which sets nothing",
+		"tests/guards/test_frappe_calls.py::test_a_field_group_is_given_one_value_at_a_time",
+	),
+	Guard(
 		"upstream-imports",
 		17,
 		"an import of a name frappe, erpnext or hrms no longer has",

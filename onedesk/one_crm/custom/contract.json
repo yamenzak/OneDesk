@@ -1,0 +1,40 @@
+{
+ "custom_fields": [],
+ "doctype": "Contract",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Contract",
+   "doctype_or_field": "DocField",
+   "field_name": "contract_terms",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Contract",
+   "doctype_or_field": "DocField",
+   "field_name": "fulfilment_status",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Contract",
+   "doctype_or_field": "DocField",
+   "field_name": "signed_on",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Contract",
+   "doctype_or_field": "DocField",
+   "field_name": "end_date",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

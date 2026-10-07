@@ -19,6 +19,7 @@ from frappe.utils import (
 )
 
 from onedesk.one_project import (
+	agreement,
 	billing,
 	budget,
 	hours,
@@ -111,6 +112,12 @@ def said(
 		# How its time is counted, and its site (hours.py).
 		"time": hours.method(doc.name),
 		"site": doc.get("one_site"),
+		# What's agreed with the customer, carried onto its documents (terms.py).
+		"payment_terms": doc.get("one_payment_terms"),
+		"terms": doc.get("one_terms"),
+		# The contract the customer signs, ERPNext's own (agreement.py).
+		"agreement": agreement.of(doc.name),
+		"can_draw_up": bool(doc.customer and frappe.has_permission("Contract", "create")),
 		"parent_title": frappe.db.get_value("Project", doc.one_parent, "project_name")
 		if doc.get("one_parent")
 		else None,
@@ -686,7 +693,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	"""What wants somebody now, the reader's own first, then worst first:
 	cost types over budget over the project and those under it (where the
 	page has no budget section of its own), bills to check, supplier bills
-	past due, late tasks and tasks due today. A retainer's months and the time not invoiced have
+	past due, late tasks and tasks due today, after the contract to sign or renew. A retainer's months and the time not invoiced have
 	sections of their own. A completed project still owed money says so
 	first. Every row there is, for the Overview to show some and count all."""
 	user = frappe.session.user
@@ -695,6 +702,8 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 		from onedesk.one_project.status import due
 
 		found += [{"tone": "orange", "text": one["text"], "money": one["money"]} for one in due(doc.name)]
+	# Work going on without a signed contract comes before the rest.
+	found += agreement.asks(doc)
 	if kind != kinds.FIXED:
 		for one in budget.across(view["tree"]):
 			if one["left"] < 0:

@@ -75,6 +75,9 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Data", fieldname: "kind", hidden: 1 },
 			{ fieldtype: "Link", fieldname: "parent", options: "Project", hidden: 1, default: doc.one_parent },
 			{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: doc.project_name },
+			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template", default: doc.project_template },
+			// A preset shipped with OneProject, copied in when it's picked (one_project/library.py).
+			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
 			{ fieldtype: "Column Break" },
 			{
 				fieldtype: "Link",
@@ -84,6 +87,22 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				default: doc.customer,
 				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 				mandatory_depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
+			},
+			// What's agreed with the customer, carried onto its quotations,
+			// orders and invoices (one_project/terms.py).
+			{
+				fieldtype: "Link",
+				fieldname: "payment_terms",
+				label: __("Payment Terms"),
+				options: "Payment Terms Template",
+				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
+			},
+			{
+				fieldtype: "Link",
+				fieldname: "terms",
+				label: __("Terms and Conditions"),
+				options: "Terms and Conditions",
+				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 			},
 			// The contract and the fee are agreed in the customer's own currency.
 			{ fieldtype: "Link", fieldname: "currency", options: "Currency", hidden: 1 },
@@ -136,9 +155,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				default: doc.expected_end_date,
 				depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),
 			},
-			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
-			// A preset shipped with OneProject, copied in when the project is made (one_project/library.py).
-			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
 			// How its time is counted, apart from how it's paid for (one_project/hours.py).
 			{ fieldtype: "Section Break" },
 			{
@@ -186,13 +202,35 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 						said.then((found) => {
 							if (!step.get_value("item") && found.item) step.form.set_value("item", found.item);
 						});
-						// The contract and the fee are in the currency the customer is billed in.
-						const billed = (customer) =>
-							frappe
-								.xcall("onedesk.one_project.kinds.defaults", { customer })
-								.then((found) => step.form.set_value("currency", found.currency || frappe.defaults.get_default("currency")));
-						step.get_field("client").df.onchange = () => billed(step.get_value("client"));
-						billed(step.get_value("client"));
+						step.get_field("terms").get_query = () => ({ filters: { selling: 1, disabled: 0 } });
+						onedesk.project.library(step.get_field("library"));
+						// The contract and the fee are in the currency the customer is billed
+						// in, and the terms are the customer's, the template's or the company's.
+						// Only the latest answer counts: a customer and a template picked
+						// together ask twice, and the first answer can come back last.
+						let asked = 0;
+						const agreed = () => {
+							const mine = ++asked;
+							return frappe
+								.xcall("onedesk.one_project.kinds.defaults", { customer: step.get_value("client"), template: step.get_value("template") })
+								.then(async (found) => {
+									if (mine !== asked) return;
+									await step.form.set_value("currency", found.currency || frappe.defaults.get_default("currency"));
+									await step.form.set_values({ payment_terms: found.payment_terms || "", terms: found.terms || "" });
+									if (found.retention && !step.get_value("retention"))
+										await step.form.set_values({ retention: found.retention, retention_handover: found.retention_handover || 0 });
+								});
+						};
+						step.get_field("client").df.onchange = agreed;
+						step.get_field("template").df.onchange = agreed;
+						// Picking a preset copies it into the workspace's templates, terms and all.
+						step.get_field("library").df.onchange = async () => {
+							const key = step.get_value("library");
+							if (!key) return;
+							const name = await frappe.xcall("onedesk.one_project.library.copy", { key });
+							await step.form.set_values({ template: name, library: "" });
+						};
+						agreed();
 					},
 				},
 				{
@@ -202,7 +240,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					onload: (step) => {
 						step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
 						step.form.is_dialog = true;
-						onedesk.project.library(step.get_field("library"));
 						said.then((found) => {
 							if (!step.get_value("manager")) step.form.set_value("manager", found.user);
 							if (!step.get_value("time")) step.form.set_value("time", found.time || "Timesheets");
