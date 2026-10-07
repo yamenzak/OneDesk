@@ -1,0 +1,50 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Project Template",
+   "fieldname": "one_tasks",
+   "fieldtype": "Int",
+   "label": "Tasks",
+   "insert_after": "project_type",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_days",
+   "fieldtype": "Int",
+   "label": "Days",
+   "insert_after": "one_tasks",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "module": "One Project"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_projects",
+   "fieldtype": "Int",
+   "label": "Projects",
+   "insert_after": "one_days",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "module": "One Project"
+  }
+ ],
+ "doctype": "Project Template",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Project Template",
+   "doctype_or_field": "DocField",
+   "field_name": "project_type",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

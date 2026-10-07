@@ -80,7 +80,7 @@ onedesk.project.add_template = (project, done) => {
 		title: __("Add from Template"),
 		fields: [
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
-			{ fieldtype: "Select", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
+			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
 			{ fieldtype: "Date", fieldname: "starts", label: __("Starts"), default: frappe.datetime.get_today(), reqd: 1 },
 		],
 		primary_action_label: __("Add Tasks"),

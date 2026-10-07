@@ -21,18 +21,17 @@ frappe.provide("onedesk.project");
 	};
 }
 
-// The library's presets as a Select's choices, each with how long it runs
-// (one_project/library.py `presets`).
+// The library's presets as an Autocomplete's choices, each with how long it
+// runs and what it is for (one_project/library.py `presets`).
 onedesk.project.library = async (field) => {
 	const presets = await frappe.xcall("onedesk.one_project.library.presets");
-	field.df.options = [
-		{ value: "", label: "" },
-		...presets.map((one) => ({
+	field.set_data(
+		presets.map((one) => ({
 			value: one.key,
-			label: __("{0} · {1} tasks, {2} days", [one.title, one.tasks, one.days]),
+			label: one.title,
+			description: [__("{0} tasks, {1} days", [one.tasks, one.days]), one.copied ? __("In your templates") : one.about].join(" · "),
 		})),
-	];
-	field.refresh();
+	);
 };
 
 onedesk.project.KINDS = () => [
@@ -139,7 +138,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			},
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
 			// A preset shipped with OneProject, copied in when the project is made (one_project/library.py).
-			{ fieldtype: "Select", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
+			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
 			// How its time is counted, apart from how it's paid for (one_project/hours.py).
 			{ fieldtype: "Section Break" },
 			{

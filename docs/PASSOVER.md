@@ -257,6 +257,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneStudio › Custom Collections | done, second pass |
 | Outside the desk | The portal, and the public Your Data page | done (Portals 1 to 8) |
 | Products | OneProject › Projects | done |
+| Products | OneProject › Templates | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -7545,6 +7546,55 @@ Noticed, not this screen's: syncing every customization on the dev site
 stops at OneHR's Employee Advance ("Currency cannot be hidden and mandatory
 without default"). Nothing in the repo hides it, so it is this site's own
 data; it would stop `bench migrate` here.
+
+### OneProject › Templates
+
+Your word: "pass Templates with those fixes". Templates is OneProject's
+fourth tab: frappe's list of ERPNext's Project Template, a template's own
+page with its tasks in the Tasks table, and From the Library on the list, in
+New Project and in Add from Template. Looked at as Samir, the project
+manager, against the seventeen points.
+
+1. **Demo coverage**: held. Aluminium & Glazing is in the demo, copied from
+   its library file, and `a_template_is_laid_out_and_changed_on_its_page`
+   reads and changes it, copies a preset, starts a project from one and adds
+   one to a running project. Now it also checks the list's numbers.
+2. **Rules on the server**: held. A template task never begins before the
+   project or lasts fewer than no days (`templates.days_kept`, Task
+   before_validate). **Fixed**: the list's counts are kept by the records'
+   own hooks, so a bulk edit of a template task, or a project's template
+   changed on import, still counts (`templates.measured`, `task_measured`,
+   `used`).
+3. **Hand-offs**: held. The OneProject README says where a template goes (a
+   new project's tasks, a running project's) and where one comes from (Save
+   as Template, the library, OneAI).
+4. **Tier declared**: held (`tiers.py`: the page, and the list with From the
+   Library).
+5. **Our look**: **fixed**. The list showed a name, Enabled and an empty
+   Project Type. It now shows **Tasks**, **Days** and **Projects**, how many
+   were started from it, and Project Type is off the list.
+6. **Nothing lost**: held. **Edit Details** opens frappe's form.
+7. **Extensible**: held (`oneproject_template.template`).
+8. **Built from frappe**: **fixed**. From the Library was a bare Select
+   showing only names, empty until opened. It is now frappe's Autocomplete
+   in all three places: a list to pick from or search, each preset with its
+   tasks, its days and what it is for, or **In your templates** once there
+   is a copy. The page's line keeps its own count. Opening Add from
+   Template still drops the Template list open, as every frappe dialog does
+   with a Link first.
+9. **Overrides recorded**: nothing of ERPNext's is changed. The three
+   fields and the hidden column are a customization of Project Template.
+10. **Notifications**: none, and none needed. A template is nobody's work.
+11. **Printed**: nothing leaves the company.
+12. **Plain words**: held. The new words are Tasks, Days, Projects, "{0}
+    tasks, {1} days" and "In your templates", in Arabic and German.
+13. **Documented, and OneAI**: README updated. OneAI drafts a template as a
+    card and reads the library first (`oneai_drafts_a_template_as_a_card`).
+14. **Intake**: nothing Intake reads makes a template.
+15. **Permissions**: held. A Projects Manager makes and changes templates,
+    a Projects User reads and uses them.
+16. **Legal**: nothing personal is kept on a template.
+17. **Clean code**: held.
 
 ### OneProject: the project, built in stages
 

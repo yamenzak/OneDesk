@@ -586,9 +586,13 @@ doc_events = {
 			"onedesk.one_project.overview.task_changed",
 			# Its logged hours passing its plan is told. See one_project/tell.py.
 			"onedesk.one_project.tell.over_plan",
+			# A template task counts again in its templates. See one_project/templates.py.
+			"onedesk.one_project.templates.task_measured",
 		],
 		"after_delete": "onedesk.one_project.overview.task_changed",
 	},
+	# A template's list says its tasks, days and projects. See one_project/templates.py.
+	"Project Template": {"validate": "onedesk.one_project.templates.measured"},
 	# A money document and its lines name the same project. See one_project/chain.py.
 	"Request for Quotation": {"validate": "onedesk.one_project.chain.agree"},
 	"Supplier Quotation": {"validate": "onedesk.one_project.chain.agree"},
@@ -631,8 +635,14 @@ doc_events = {
 			"onedesk.one_project.retention.handed_over",
 			# One progress figure for the tree. See one_project/overview.py.
 			"onedesk.one_project.overview.project_changed",
+			# How many projects its template has. See one_project/templates.py.
+			"onedesk.one_project.templates.used",
 		],
-		"on_trash": ["onedesk.one_project.members.forget", "onedesk.one_project.tree.forget"],
+		"on_trash": [
+			"onedesk.one_project.members.forget",
+			"onedesk.one_project.tree.forget",
+			"onedesk.one_project.templates.used",
+		],
 	},
 	# A project's board, as ERPNext makes it, shaped. See one_project/board.py.
 	"Kanban Board": {"before_insert": "onedesk.one_project.board.shape"},

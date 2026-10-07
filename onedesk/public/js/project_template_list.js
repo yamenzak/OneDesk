@@ -7,7 +7,7 @@ frappe.listview_settings["Project Template"] = {
 		listview.page.add_inner_button(__("From the Library"), () => {
 			const dialog = new frappe.ui.Dialog({
 				title: __("From the Library"),
-				fields: [{ fieldtype: "Select", fieldname: "library", label: __("Template"), reqd: 1 }],
+				fields: [{ fieldtype: "Autocomplete", fieldname: "library", label: __("Template"), reqd: 1 }],
 				primary_action_label: __("Copy Template"),
 				primary_action: async ({ library }) => {
 					dialog.hide();

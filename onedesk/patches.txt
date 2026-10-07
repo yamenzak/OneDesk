@@ -47,4 +47,5 @@ onedesk.one_project.patches.nobody_runs_it
 onedesk.one_project.patches.retention_switch
 onedesk.one_project.patches.tree_progress
 onedesk.one_project.patches.time_counted
+onedesk.one_project.patches.templates_measured
 onedesk.one_mail.patches.dress_people_and_company

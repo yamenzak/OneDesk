@@ -17,6 +17,7 @@ export const SCREENS = [
 	// OneProject, OneTask, OneCalendar
 	{ who: "samir@one.test", path: "/desk/project", sees: ["Mansour Villa Windows and Doors", "Bayview Tower Curtain Wall"] },
 	{ who: "samir@one.test", path: "/desk/project/PROJ-0001", page: "project-view", sees: ["Mansour Villa Windows and Doors", "Staircase balustrade"] },
+	{ who: "samir@one.test", path: "/desk/project-template", sees: ["Aluminium & Glazing", "Tasks", "Days", "Projects", "From the Library"] },
 	{ who: "samir@one.test", path: "/desk/project-template/Aluminium%20%26%20Glazing", page: "project-template-view", sees: ["Aluminium & Glazing", "Day 0"] },
 	{ who: "rania@one.test", path: "/desk/my-tasks", page: "my-tasks", sees: ["OneTask"] },
 	{ who: "samir@one.test", path: "/desk/onecalendar", page: "onecalendar", sees: ["Weekly site meeting"] },

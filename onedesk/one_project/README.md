@@ -1038,7 +1038,9 @@ A job you do again and again, like a website, a fit-out or an office move,
 starts from a **template**: its usual tasks, when each starts and how long it
 takes, which depends on which, the milestones and the checklists.
 
-**Templates** at the top of OneProject lists them. A template opens on a page
+**Templates** at the top of OneProject lists them, each with how many tasks
+it has, how many days it runs and how many projects were started from it. A
+template opens on a page
 of its own, its tasks in the same table a project's are in, each with when it
 starts and how long it lasts, as "Day 12 · 5 days" counted from the day the
 project starts. Everything changes in place:
@@ -1063,7 +1065,9 @@ one, and **Edit Details** opens the template's form.
 
 OneProject comes with templates ready to use. **From the Library** in
 **New Project**, in **Add from Template** and on the **Templates** list offers
-them, and the first time one is used it is copied into the workspace as a
+them as a list to pick from or search, each with its tasks, its days and what
+it is for, or **In your templates** once you have a copy. The first time one
+is used it is copied into the workspace as a
 template of your own, in your workspace's language, to change as you like.
 Using it again uses your copy.
 

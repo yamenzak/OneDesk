@@ -148,3 +148,44 @@ def days(begins, starts, ends) -> dict:
 		return {"start": 0, "duration": 0}
 	ends = ends or starts
 	return {"start": max(date_diff(starts, begins), 0), "duration": max(date_diff(ends, starts), 0)}
+
+
+def measured(doc, method=None) -> None:
+	"""Project Template validate: how many tasks it holds, beside the phases
+	they sit in, and how many days it runs, for its list."""
+	names = [row.task for row in doc.tasks if row.task]
+	found = frappe.get_all(
+		"Task", filters={"name": ["in", names or [""]]}, fields=["is_group", "start", "duration"]
+	)
+	doc.one_tasks = sum(1 for one in found if not one.is_group)
+	doc.one_days = max(((one.start or 0) + (one.duration or 0) for one in found), default=0)
+
+
+def task_measured(doc, method=None) -> None:
+	"""Task on_update: a template task changed on its own form, or in a bulk
+	edit, counts again in the templates that hold it."""
+	if not doc.is_template:
+		return
+	for name in frappe.get_all("Project Template Task", filters={"task": doc.name}, pluck="parent", distinct=True):
+		template = frappe.get_doc("Project Template", name)
+		measured(template)
+		template.db_set({"one_tasks": template.one_tasks, "one_days": template.one_days}, update_modified=False)
+
+
+def used(doc, method=None) -> None:
+	"""Project on_update and on_trash: how many projects each template it was
+	or is started from now has."""
+	before = doc.get_doc_before_save()
+	for name in {doc.project_template, before.project_template if before else None} - {None, ""}:
+		counted(name, leaving=doc.name if method == "on_trash" else None)
+
+
+def counted(template: str, leaving: str | None = None) -> None:
+	if not frappe.db.exists("Project Template", template):
+		return
+	filters = {"project_template": template}
+	if leaving:
+		filters["name"] = ["!=", leaving]
+	frappe.db.set_value(
+		"Project Template", template, "one_projects", frappe.db.count("Project", filters), update_modified=False
+	)

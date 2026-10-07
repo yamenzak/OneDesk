@@ -657,6 +657,8 @@ def a_template_is_laid_out_and_changed_on_its_page():
 		assert sum(1 for one in said["tasks"] if not one["is_group"]) == 25, said["tasks"]
 		assert all(one["is_milestone"] for one in said["tasks"] if one["is_group"])
 		assert said["used"] >= 1 and said["can_write"]
+		listed = lambda name: tuple(frappe.db.get_value("Project Template", name, ["one_tasks", "one_days", "one_projects"]))
+		assert listed(TEMPLATE) == (25, said["days"], said["used"]), "the list says what the page says"
 		first, phase = said["tasks"][1]["name"], said["tasks"][0]["name"]
 		template_view.change(TEMPLATE, first, "duration", 4)
 		made = template_view.add(TEMPLATE, "Check the anchors", phase)
@@ -664,13 +666,24 @@ def a_template_is_laid_out_and_changed_on_its_page():
 		template_view.nest(TEMPLATE, made, None)
 		after = {one["name"]: one for one in template_view.read(TEMPLATE)["tasks"]}
 		assert after[first]["duration"] == 4 and after[made]["depth"] == 0 and after[made]["waits"] == [first]
+		assert listed(TEMPLATE)[0] == 26
 		template_view.remove(TEMPLATE, made)
 		assert made not in {one["name"] for one in template_view.read(TEMPLATE)["tasks"]}
+		assert listed(TEMPLATE)[0] == 25
+		# A template task changed on its own form, as a bulk edit would, is counted too.
+		last = max(template_view.read(TEMPLATE)["tasks"], key=lambda one: one["start"] + one["duration"])
+		task = frappe.get_doc("Task", last["name"])
+		task.duration += 10
+		task.save()
+		assert listed(TEMPLATE)[1] == said["days"] + 10, listed(TEMPLATE)
 
 		copied = library.copy("website")
 		assert library.copy("website") == copied, "the second use takes the same copy"
 		name = kinds.make({"kind": "Internal", "title": "Our Summer Event", "starts": today(), "library": "event", "time": "Not Tracked"})
 		assert frappe.db.count("Task", {"project": name}) == 20, "an Event's 15 tasks and its 5 phases"
+		event = frappe.db.get_value("Project", name, "project_template")
+		assert listed(event) == (15, 75, 1), listed(event)
+		assert listed(copied)[2] == 0, "a copy nobody has started from"
 		running = frappe.get_all("Project", filters={"project_name": "Mansour Villa Windows and Doors"}, pluck="name")[0]
 		assert templates.add(running, library="client_onboarding", starts=today()) == 14
 
