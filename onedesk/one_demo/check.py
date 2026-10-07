@@ -1693,10 +1693,11 @@ def _asked(path: str = "/", method: str = "POST", data=None, headers: dict | Non
 
 
 def _unasked() -> None:
-	"""No request again, as a check starts."""
-	for name in ("request", "request_ip", "cookie_manager"):
+	"""No request again, as a check starts: as frappe.init leaves it."""
+	for name in ("request", "cookie_manager"):
 		if hasattr(frappe.local, name):
 			delattr(frappe.local, name)
+	frappe.local.request_ip = None
 
 
 def _cookies() -> dict:

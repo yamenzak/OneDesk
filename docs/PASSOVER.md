@@ -498,7 +498,7 @@ Up next, in this order:
        starts a project from the library and adds one to a running project,
        and a projects user is refused a change. And in the browser, as the
        project manager.
-3. **Demo coverage** (point 1), under way:
+3. **Demo coverage** (point 1), done:
    - Every whitelisted method of ours and every tool OneAI is given is a
      feature. A guard counts, per module, those no demo check reaches, and
      the count may only fall (`tests/guards/test_coverage.py`, which takes
@@ -710,6 +710,12 @@ Up next, in this order:
      (Python's words, a table named before its columns, widths in per cent,
      a sentence after), printing in the font, page number and look asked
      for, and a restyle keeping its layout.
+   - Where it stands: 88 checks on the demo, all passing, and 21 screens
+     opened in a browser as their people, all as they should be. The tests
+     that still read the code read wiring (hooks, fixtures, sidebars), the
+     screens' own JavaScript, OneAdmin's side, which runs on the admin site,
+     or what a model is told. Each claim about what One does is now made on
+     the demo.
 4. The finished modules again, against the new points only, one screen at a
    time.
 
