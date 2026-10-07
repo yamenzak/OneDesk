@@ -22,6 +22,8 @@
 		const listview = window.cur_list;
 		const board = listview?._kanban;
 		if (listview?.view_name !== "Kanban" || listview.doctype !== "Opportunity" || !board) return;
+		// Worth is added up by stage, so only a board of stages has it.
+		if (board.field_name !== "sales_stage") return;
 		const { currency, stages } = await frappe.xcall("onedesk.one_crm.board.worth", {
 			filters: board.get_effective_filters(),
 		});
