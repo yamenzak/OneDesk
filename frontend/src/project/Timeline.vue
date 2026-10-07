@@ -1,6 +1,6 @@
 <template>
   <!-- When each task runs, week by week, with today marked: the plan at a glance. -->
-  <div class="pb-12 pt-4">
+  <div class="pb-12 pt-2">
     <div v-if="!rows.length" class="py-16 text-center text-base text-ink-gray-5">{{ __("No tasks with dates") }}</div>
     <div v-else class="overflow-x-auto rounded-5 border border-outline-gray-2">
       <div class="relative min-w-[56rem]">

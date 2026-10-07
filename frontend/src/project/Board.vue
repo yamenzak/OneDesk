@@ -1,6 +1,6 @@
 <template>
   <!-- Tasks on a board by status: drag a card to another column to move it on. -->
-  <div class="flex gap-3 overflow-x-auto pb-12 pt-4">
+  <div class="flex gap-3 overflow-x-auto pb-12 pt-2">
     <section
       v-for="status in columns"
       :key="status"

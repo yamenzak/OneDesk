@@ -2,7 +2,7 @@
   <!-- Where the project's money stands and where it's heading: the forecast,
        the customer's side and the cost side, and the budget by cost type.
        Every figure opens the documents behind it (one_project/money.py). -->
-  <div class="pb-12 pt-2">
+  <div class="pb-12">
     <Section :title="soFarOnly ? __('So Far') : __('Forecast')">
       <Figures :figures="forecast" />
     </Section>

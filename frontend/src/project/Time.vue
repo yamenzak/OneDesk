@@ -3,45 +3,47 @@
        with where it stands (one_project/hours.py). Its figures follow the
        kind: hours against the plan always, what's to invoice where hours are
        billed, and money only for whoever may see rates. -->
-  <div class="pb-12 pt-2">
+  <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
-      <Section :title="__('Time')">
-        <Figures :figures="figures" />
-      </Section>
-
-      <div class="mb-3 mt-5 flex flex-wrap items-center gap-2">
-        <TabButtons v-model="shown" :options="FILTERS" />
+      <!-- The title and what can be done, on one line as on Tasks. -->
+      <div class="flex flex-wrap items-center gap-2 pb-2">
+        <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
+          <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Time") }}
+          <span v-if="rows.length" class="text-base font-normal text-ink-gray-5">{{ rows.length }}</span>
+        </h2>
+        <TabButtons v-if="filters.length > 1" v-model="shown" :options="filters" />
         <Dropdown :options="groupChoices">
-          <template #trigger><Button size="sm" icon-left="lucide-rows-3" :label="groupBy === 'none' ? __('Group By') : __('Group by {0}', [GROUPS()[groupBy]])" /></template>
+          <template #trigger><Button size="sm" icon-left="lucide-rows-3" :label="__('Group by {0}', [GROUPS()[groupBy]])" /></template>
         </Dropdown>
-        <Button v-if="said.can_log" class="ms-auto" size="sm" variant="solid" icon-left="lucide-plus" :label="__('Log Time')" @click="logTime" />
+        <Button v-if="said.can_log" size="sm" variant="solid" icon-left="lucide-plus" :label="__('Log Time')" @click="logTime" />
       </div>
+      <Figures class="mb-5 mt-3" :figures="figures" />
 
       <div v-if="!rows.length" class="flex flex-col items-center gap-3 py-16 text-center">
         <span class="flex size-12 items-center justify-center rounded-full bg-surface-gray-2 text-ink-gray-5"><span class="lucide-clock size-5" /></span>
         <p class="text-base text-ink-gray-7">{{ said.time === "Attendance on Site" ? __("No days on site") : __("No time logged") }}</p>
       </div>
-      <List v-else :columns="{ base: ['6.5rem', 'minmax(0,1fr)', '3.5rem'], md: wide }" :row-height="said.has_sub_projects ? 52 : 44" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+      <List v-else :columns="{ base: byOthers ? ['6.5rem', 'minmax(0,1fr)', '3.5rem'] : ['6.5rem', '3.5rem'], md: wide }" :row-height="said.has_sub_projects ? 52 : 44" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Date") }}</ListHeaderCell>
-          <ListHeaderCell>{{ __("Person") }}</ListHeaderCell>
+          <ListHeaderCell v-if="byOthers">{{ __("Person") }}</ListHeaderCell>
           <ListHeaderCell class="max-md:hidden">{{ __("Activity") }}</ListHeaderCell>
-          <ListHeaderCell class="max-md:hidden">{{ __("Task") }}</ListHeaderCell>
+          <ListHeaderCell v-if="hasTask" class="max-md:hidden">{{ __("Task") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Hours") }}</ListHeaderCell>
           <ListHeaderCell v-if="said.money" class="justify-end max-md:hidden">{{ said.bills_hours ? __("Amount") : __("Cost") }}</ListHeaderCell>
-          <ListHeaderCell class="max-md:hidden">{{ __("Status") }}</ListHeaderCell>
+          <ListHeaderCell v-if="hasStatus" class="max-md:hidden">{{ __("Status") }}</ListHeaderCell>
         </ListHeader>
-        <ListGroup v-for="group in groups" :key="group.key">
+        <ListGroup v-for="group in paged" :key="group.key">
           <template v-if="group.title !== null" #label>
             <span class="text-ink-gray-7">{{ group.title }}</span>
             <span class="ms-2 tabular-nums">{{ hours(group.hours) }}<template v-if="said.money && group.money"> · {{ amount(group.money) }}</template></span>
           </template>
-          <ListRow v-for="item in group.rows" :key="item.name" @click="go(`/desk/timesheet/${item.timesheet}`)">
-            <ListCell class="tabular-nums text-ink-gray-7">{{ date(item.date) }}</ListCell>
-            <ListCell class="min-w-0 gap-2"><Avatar :label="item.who || item.user" :image="item.image" size="sm" /><span class="truncate text-ink-gray-8">{{ item.who || item.user }}</span></ListCell>
+          <ListRow v-for="item in group.shown" :key="item.name" @click="go(`/desk/timesheet/${item.timesheet}`)">
+            <ListCell class="text-ink-gray-7">{{ date(item.date) }}</ListCell>
+            <ListCell v-if="byOthers" class="min-w-0 gap-2"><Avatar :label="item.who || item.user" :image="item.image" size="sm" /><span class="truncate text-ink-gray-8">{{ item.who || item.user }}</span></ListCell>
             <ListCell class="min-w-0 max-md:hidden"><span class="truncate text-ink-gray-7">{{ item.activity || "–" }}</span></ListCell>
-            <ListCell class="min-w-0 max-md:hidden">
+            <ListCell v-if="hasTask" class="min-w-0 max-md:hidden">
               <!-- The task, and under it where it is below this project. -->
               <span class="flex min-w-0 flex-col">
                 <span v-if="item.task_subject || !item.where" class="truncate text-ink-gray-7">{{ item.task_subject || "–" }}</span>
@@ -50,11 +52,16 @@
             </ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8">{{ hours(item.hours) }}</ListCell>
             <ListCell v-if="said.money" class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ value(item) ? amount(value(item)) : "–" }}</ListCell>
-            <ListCell class="max-md:hidden"><Badge :label="__(item.state)" :theme="STATE[item.state]" size="md" /></ListCell>
+            <ListCell v-if="hasStatus" class="max-md:hidden"><Badge v-if="billable || item.state === 'Draft'" :label="__(item.state)" :theme="STATE[item.state]" size="md" /></ListCell>
           </ListRow>
         </ListGroup>
       </List>
-      <p v-if="said.more && shown === 'all'" class="mt-3 text-sm text-ink-gray-5">{{ __("{0} older entries", [said.more]) }}</p>
+      <!-- A few at a time, as a list shows its first page. -->
+      <div v-if="hidden" class="mt-3 flex items-center gap-3">
+        <Button size="sm" variant="subtle" :label="__('Show More')" @click="limit += PAGE" />
+        <span class="text-sm text-ink-gray-5">{{ __("{0} more", [hidden]) }}</span>
+      </div>
+      <p v-else-if="said.more && shown === 'all'" class="mt-3 text-sm text-ink-gray-5">{{ __("{0} older entries", [said.more]) }}</p>
     </template>
   </div>
 </template>
@@ -64,7 +71,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, TabButtons } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
-import { Figures, Loading, Section, __, call, date, followList, go, hours, money, onedesk } from "../kit";
+import { Figures, Loading, __, call, date, followList, go, hours, money, onedesk } from "../kit";
 import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({
@@ -84,9 +91,13 @@ const FILTERS = [
   { value: "Invoiced", label: __("Invoiced") },
   { value: "Not Billable", label: __("Not Billable") },
 ];
+// How many entries show, across the groups, before Show More.
+const PAGE = 25;
+const limit = ref(PAGE);
 const GROUPS = () => ({ none: __("None"), who: __("Person"), activity: __("Activity"), task: __("Task"), project: __("Project") });
 const shown = ref("all");
-const groupBy = ref("none");
+// By person, so a long project reads as who did what.
+const groupBy = ref("who");
 const said = ref(null);
 // Money is in the company's currency, as ERPNext's base amounts are.
 const amount = (value) => money(value, said.value?.currency);
@@ -108,8 +119,31 @@ onBeforeUnmount(() => {
 watch(() => props.projectName, load, { immediate: true });
 
 // The Amount or Cost column only for whoever sees money.
-const wide = computed(() => ["6.5rem", "minmax(9rem,1fr)", "minmax(7rem,0.8fr)", "minmax(10rem,1.4fr)", "4.5rem", said.value?.money && "7rem", "7.5rem"].filter(Boolean));
+// Grouped by person, the group names them, so the row need not.
+const byOthers = computed(() => groupBy.value !== "who");
+const wide = computed(() => ["6.5rem", byOthers.value && "minmax(9rem,1fr)", "minmax(7rem,0.8fr)", hasTask.value && "minmax(10rem,1.4fr)", "4.5rem", said.value?.money && "7rem", hasStatus.value && "7.5rem"].filter(Boolean));
 const rows = computed(() => (said.value?.entries || []).filter((one) => shown.value === "all" || one.state === shown.value));
+watch([shown, groupBy], () => (limit.value = PAGE));
+// Where nothing is billed (a Fixed Price project's time), where each entry
+// stands says nothing, but for drafts; and no task, no Task column.
+const entries = computed(() => said.value?.entries || []);
+const billable = computed(() => said.value?.bills_hours || entries.value.some((one) => ["To Invoice", "Invoiced"].includes(one.state)));
+const hasStatus = computed(() => billable.value || entries.value.some((one) => one.state === "Draft"));
+const hasTask = computed(() => entries.value.some((one) => one.task_subject || one.where));
+const filters = computed(() => FILTERS.filter((one) => one.value === "all" || entries.value.some((entry) => entry.state === one.value && (billable.value || one.value === "Draft"))));
+// The groups with as many of their entries as the page has room for, in
+// order; a group still shows its hours though its entries wait.
+const paged = computed(() => {
+  let left = limit.value;
+  return groups.value
+    .map((group) => {
+      const shown = group.rows.slice(0, Math.max(0, left));
+      left -= shown.length;
+      return { ...group, shown };
+    })
+    .filter((group) => group.shown.length || group.title !== null);
+});
+const hidden = computed(() => rows.value.length - paged.value.reduce((sum, group) => sum + group.shown.length, 0));
 
 // The rows by what they're grouped by, each group with its hours and money.
 const KEYS = {

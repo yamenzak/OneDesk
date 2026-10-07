@@ -5,7 +5,7 @@
        (one_project/money.py `_suppliers`, progress.py). Then the suppliers'
        bills (billing.py `bills`), and Buying: requests, quotations, orders
        for goods and receipts (buying.py). -->
-  <div class="pb-12 pt-4">
+  <div class="pb-12">
     <div class="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2">
       <div v-if="orders.length" class="flex flex-wrap gap-x-6 gap-y-1 text-base text-ink-gray-6">
         <span>{{ __("Ordered") }} <span class="tabular-nums text-ink-gray-9">{{ amount(total("ordered")) }}</span></span>

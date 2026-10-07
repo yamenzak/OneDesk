@@ -2,7 +2,7 @@
   <!-- The customer's invoices for the project and those under it, newest
        first, each with what it's for, and Record Payment and Send on it
        (one_project/billing.py `invoices`). -->
-  <div class="pb-12 pt-2">
+  <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
       <Section v-if="said.invoices.length || said.totals.advance" :title="__('Invoices')">

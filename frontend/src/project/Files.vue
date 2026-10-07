@@ -1,6 +1,6 @@
 <template>
   <!-- Everything attached to the project, its sub-projects and their tasks, in one place. -->
-  <div class="pb-12 pt-4">
+  <div class="pb-12">
     <div class="mb-3 flex items-center gap-2">
       <span class="text-base text-ink-gray-5">{{ files?.length ? (files.length === 1 ? __("1 file") : __("{0} files", [files.length])) : "" }}</span>
       <Button class="ms-auto" icon-left="lucide-upload" :label="__('Upload')" @click="pick" />

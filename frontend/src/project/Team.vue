@@ -2,7 +2,7 @@
   <!-- Who is on the project: its members, its manager, and whoever its tasks
        are assigned to or logged time on it, with what's on them and what
        they've put in (one_project/team.py). -->
-  <div class="pb-12 pt-4">
+  <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
       <div class="mb-3 flex items-center gap-2">

@@ -6,7 +6,7 @@
        written at the top and New Email opens frappe's Email dialog (kit
        ActivityComposer); an email is answered from its own row with Reply or
        Reply All. -->
-  <div class="flex flex-col gap-4 pb-10 pt-2">
+  <div class="flex flex-col gap-4 pb-10">
     <ActivityComposer ref="composer" doctype="Project" :name="project" @sent="sent">
       <TabButtons v-model="shown" :options="FILTERS" />
     </ActivityComposer>
