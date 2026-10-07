@@ -6,7 +6,7 @@
 import traceback
 
 import frappe
-from frappe.utils import add_days, add_months, flt, get_first_day, getdate, today
+from frappe.utils import add_days, add_months, add_to_date, flt, get_first_day, getdate, now_datetime, today
 
 from onedesk.one_demo.base import COMPANY, as_user, on, wh
 from onedesk.one_demo.people import OWNER, PEOPLE
@@ -1072,6 +1072,108 @@ def oneproject_the_books_invoice_time_a_month_and_progress():
 		draft = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
 		assert [row.item_code for row in draft.items] == ["WIN-CS12"] and draft.is_new()
 
+
+class _Told:
+	"""Who One told what, through the hub (one/notify.py), while it is open."""
+
+	def __enter__(self):
+		from unittest import mock
+
+		self.said = []
+		self.patch = mock.patch("onedesk.one.notify.notify", side_effect=lambda name, users, *a, **k: self.said.append((name, [users] if isinstance(users, str) else list(users or []))))
+		self.patch.start()
+		return self
+
+	def __exit__(self, *args):
+		self.patch.stop()
+
+	def to(self, name: str) -> set[str]:
+		return {user for said, users in self.said if said == name for user in users}
+
+
+@check
+def oneproject_a_project_is_seen_by_its_people_and_its_plan_follows():
+	"""Rania sees the projects she is on, what is under them and those nobody
+	is on, and no other. Somebody made a project's manager sees it. A member
+	added is told in One and shared the project, never sent ERPNext's mail,
+	and loses the share when taken off. A dependency names its project, and a
+	slip moves what waits on it in a sub-project."""
+	from onedesk.one_project import members, team, tree
+
+	assert members.narrowed("rania@one.test") and not members.narrowed("huda@one.test")
+	of = tree.parents()
+	teams = {one.name: _team(one.name) for one in frappe.get_all("Project", fields=["name"])}
+	hers = tree.below({name for name, people in teams.items() if "rania@one.test" in people or not people}, of)
+	with as_user("rania@one.test"):
+		seen = set(frappe.get_list("Project", pluck="name", limit=0))
+	assert seen == hers and "PROJ-0002" in seen and "PROJ-0011" not in seen, (seen ^ hers)
+
+	frappe.db.set_value("Project", "PROJ-0011", "one_manager", "rania@one.test")
+	members.forget()
+	with as_user("rania@one.test"):
+		assert frappe.has_permission("Project", "read", doc="PROJ-0011"), "the manager sees what they run"
+
+	queued = frappe.db.count("Email Queue")
+	with _Told() as told, as_user("samir@one.test"):
+		team.add("PROJ-0013", "rania@one.test")
+	assert "rania@one.test" in told.to("Added to Project"), told.said
+	assert frappe.db.get_value("Project User", {"parent": "PROJ-0013", "user": "rania@one.test"}, "welcome_email_sent") == 1
+	assert frappe.db.count("Email Queue") == queued, "ERPNext's invitation went out"
+	assert frappe.db.exists("DocShare", {"share_doctype": "Project", "share_name": "PROJ-0013", "user": "rania@one.test"})
+	with as_user("samir@one.test"):
+		team.remove("PROJ-0013", "rania@one.test")
+	assert not frappe.db.exists("DocShare", {"share_doctype": "Project", "share_name": "PROJ-0013", "user": "rania@one.test"})
+	members.forget()
+	with as_user("rania@one.test"):
+		assert not frappe.has_permission("Project", "read", doc="PROJ-0013")
+
+	with as_user("samir@one.test"):
+		first = frappe.get_doc({"doctype": "Task", "subject": "Fix the stair posts", "project": VILLA, "exp_start_date": today(), "exp_end_date": add_days(today(), 2)}).insert()
+		then = frappe.get_doc({"doctype": "Task", "subject": "Fit the balustrade glass", "project": "PROJ-0002", "exp_start_date": add_days(today(), 3), "exp_end_date": add_days(today(), 5), "depends_on": [{"task": first.name}]}).insert()
+		assert then.depends_on[0].project == "PROJ-0002", "a dependency names its project"
+		first.exp_end_date = add_days(today(), 6)
+		first.save()
+	moved = frappe.db.get_value("Task", then.name, ["exp_start_date", "exp_end_date"], as_dict=True)
+	assert (getdate(moved.exp_start_date), getdate(moved.exp_end_date)) == (getdate(add_days(today(), 7)), getdate(add_days(today(), 9))), moved
+
+@check
+def oneproject_a_template_hands_on_what_erpnext_leaves_out():
+	"""A template task is nobody's work, and everybody in projects reads it.
+	Added to the villa, once the villa has a prefix, the tasks take its
+	prefix, and the one Samir gave steps to brings them, with whether it is a
+	milestone and the hours it is planned at."""
+	from onedesk.one_demo.projects import TEMPLATE
+	from onedesk.one_project import template_view, templates
+	from onedesk.one_task import task
+
+	with as_user("samir@one.test"):
+		source = next(one for one in template_view.read(TEMPLATE)["tasks"] if not one["is_group"])["name"]
+		task.add_step(source, "Check the anchor spacing")
+		frappe.db.set_value("Task", source, {"is_milestone": 1, "expected_time": 6})
+		made = template_view.add(TEMPLATE, "Seal the joints")
+		assert not frappe.parse_json(frappe.db.get_value("Task", made, "_assign") or "[]"), "a template task is given to nobody"
+		villa = frappe.get_doc("Project", VILLA)
+		villa.one_key = "vil"
+		# The whole job's template runs longer than what is left of the villa.
+		villa.expected_end_date = add_days(today(), 365)
+		villa.save()
+		assert villa.one_key == "VIL"
+		count = templates.add(VILLA, template=TEMPLATE, starts=today())
+	added = frappe.get_all("Task", filters={"project": VILLA, "template_task": ["is", "set"], "creation": [">=", add_to_date(now_datetime(), minutes=-1)]}, fields=["name", "template_task", "is_milestone", "expected_time"])
+	assert len(added) == count and all(one.name.startswith("VIL-") for one in added), [one.name for one in added]
+	copy = next(one for one in added if one.template_task == source)
+	assert copy.is_milestone and flt(copy.expected_time) == 6, copy
+	assert frappe.get_all("Task Step", filters={"parent": copy.name}, pluck="step") == ["Check the anchor spacing"]
+	with as_user("rania@one.test"):
+		assert frappe.has_permission("Task", "read", doc=source), "a projects user reads the template's tasks"
+		assert source in frappe.get_list("Task", filters={"is_template": 1}, pluck="name", limit=0)
+	with as_user("samir@one.test"):
+		try:
+			frappe.get_doc("Project", TOWER).update({"one_key": "VIL"}).save()
+		except frappe.ValidationError as e:
+			assert "already names the tasks of" in str(e), e
+		else:
+			raise AssertionError("two projects took the same prefix")
 
 def _png() -> bytes:
 	from onedesk.one_demo.projects import _photo

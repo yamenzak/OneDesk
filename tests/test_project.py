@@ -91,19 +91,9 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 	)
 
 
-def test_erpnexts_dependants_can_find_their_project():
-	body = _body((PROJECT / "plan.py").read_text(), "before_validate")
-	assert 'for row in doc.get("depends_on") or []' in body and "row.project = doc.project" in body
-
-
 def test_a_project_is_its_members():
 	source = (PROJECT / "members.py").read_text()
 	assert 'MANAGERS = ("Projects Manager",)' in source and 'WORKER = "Projects User"' in source
-	seen = _body(source, "visible")
-	assert "unlisted" in seen and "member" in seen and "owned" in seen and "under(" in seen
-	# Select-only roles keep their lists, and the books see every project.
-	narrowed = _body(source, "narrowed")
-	assert "WORKER in held" in narrowed and "not held & set(BOOKS)" in narrowed
 	assert (
 		'"Project": "onedesk.one_project.members.allowed"' in HOOKS
 		and '"Project": "onedesk.one_project.members.query"' in HOOKS
@@ -114,13 +104,7 @@ def test_a_project_is_its_members():
 def test_a_member_is_told_in_ours_not_erpnexts_mail():
 	# ERPNext's English invitation is never sent, with mail or without; the
 	# member hears Added to Project through the hub (tell.py).
-	source = (PROJECT / "members.py").read_text()
-	invite = _body(source, "invite")
-	assert "row.welcome_email_sent = 1" in invite and "Email Account" not in invite
 	assert '"onedesk.one_project.members.invite",\n\t\t\t"onedesk.one_project.members.unlist",' in HOOKS
-	# A member taken off loses the share before ERPNext's System-Manager-only removal.
-	unlist = _body(source, "unlist")
-	assert '"DocShare"' in unlist and "ignore_permissions=True" in unlist
 	tell = (PROJECT / "tell.py").read_text()
 	assert 'notify.notify("Added to Project"' in tell and 'notify.notify("Made Project Manager"' in tell
 	assert 'notify.notify("Project Health"' in tell and 'WORSE = ("At Risk", "Off Track")' in tell
@@ -198,7 +182,6 @@ def test_sub_projects_are_wired_and_members_see_below():
 		'"onedesk.one_project.tree.validate"' in HOOKS
 		and '"Project": ["onedesk.one_project.tree.dashboard"]' in HOOKS
 	)
-	assert "tree.below(projects, tree.parents())" in _body((PROJECT / "members.py").read_text(), "under")
 	assert "path(project)" in (TASK / "mine.py").read_text(), "My Tasks names the path"
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	assert any(f["fieldname"] == "one_parent" and f["options"] == "Project" for f in custom["custom_fields"])
@@ -263,10 +246,6 @@ def test_a_dependant_moves_after_what_it_waits_on():
 def test_a_slip_crosses_sub_projects_and_the_plan_is_the_tree():
 	task = HOOKS.split('"Task": {', 1)[1].split("\n\t},", 1)[0]
 	assert '"onedesk.one_project.plan.reschedule"' in task.split('"on_update"', 1)[1]
-	body = _body((PROJECT / "plan.py").read_text(), "reschedule")
-	assert 'has_value_changed("exp_end_date")' in body and "- {doc.project}" in body, (
-		"ERPNext's own pass does its project"
-	)
 	page = "".join(
 		(tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js")
 	)
@@ -303,18 +282,9 @@ def test_a_template_counts_days_from_the_projects_start():
 
 
 def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
-	source = (PROJECT / "templates.py").read_text()
-	assert '"is_milestone", "expected_time"' in source and '"one_steps"' in _body(source, "task_made")
+	# What a template hands on, and who reads it, is checked on the demo
+	# (oneproject_a_template_hands_on_what_erpnext_leaves_out).
 	assert '"onedesk.one_project.templates.task_made"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
-	assert '"Project Template", MANAGER' in _body((PROJECT / "access.py").read_text(), "_templates")
-	assert "doc.is_template" in _body((TASK / "capture.py").read_text(), "task_made"), "nobody's work"
-	access = (TASK / "access.py").read_text()
-	assert (
-		'doc.get("is_template") and sees_projects(user)' in access and "`tabTask`.`is_template` = 1" in access
-	)
-	assert "_write(doc)" in _body((PROJECT / "naming.py").read_text(), "validate"), (
-		"the prefix names a template's tasks"
-	)
 	assert "after_rollback.add(_forget)" in (PROJECT / "naming.py").read_text()
 	page = "".join(
 		(tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js")

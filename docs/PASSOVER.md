@@ -602,6 +602,15 @@ Up next, in this order:
      unread. Only a connected server's sync counted a folder, so the
      workspace's Inbox and everybody's own showed no count. A message that
      arrives now counts its folder (`one_mail/inbound.py`).
+   - Tests that read the code to claim what it does are becoming checks on the
+     demo, module by module. OneProject first: who sees a project, what a
+     member added or taken off gets, a slip moving what waits on it in a
+     sub-project, and what a template hands on.
+   - Found on the way: a project manager could not give a project a task
+     prefix. The prefix is a naming rule, and Numbering's check on every
+     naming rule asked for an administrator. Who may save a rule is now asked
+     where it is saved: Numbering asks for an administrator, the project for
+     whoever may change it (`one/numbering.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 

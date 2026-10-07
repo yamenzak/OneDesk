@@ -46,8 +46,14 @@ FIELD_KINDS = ("Data", "Link", "Select", "Int")
 
 
 def _meta(doctype: str):
-	"""The doctype, if how it is named is this workspace's to change."""
+	"""The doctype, if how it is named is this workspace's to change, by an
+	administrator of it."""
 	roles.require()
+	return _namable(doctype)
+
+
+def _namable(doctype: str):
+	"""The doctype, if how it is named is this workspace's to set at all."""
 	if not doctype or not frappe.db.exists("DocType", doctype):
 		frappe.throw(_("This record type doesn't exist."))
 	meta = frappe.get_meta(doctype)
@@ -640,7 +646,10 @@ def check_rule(doc) -> None:
 	prefix, and decides by the record's ordinary fields."""
 	from onedesk.one import rules
 
-	_meta(doc.document_type)
+	# Who may save the rule is asked where it is saved: Numbering asks for an
+	# administrator, and a project's task prefix (one_project/naming.py) for
+	# whoever may change the project.
+	_namable(doc.document_type)
 	prefix = (doc.prefix or "").strip()
 	if not prefix or "#" in prefix:
 		frappe.throw(_("A rule's prefix is the text before the number, such as RET-.YYYY.-"))
