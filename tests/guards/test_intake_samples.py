@@ -1,6 +1,6 @@
 """Point 14: every record Intake can make has a real sample that makes it,
 and every sample is whole. The demo suite runs them
-(`every_intake_sample_makes_what_it_should`). These read the files."""
+(`every_intake_sample_left_what_it_should`). These read the files."""
 
 import json
 import re
@@ -49,4 +49,4 @@ def test_every_sample_is_whole():
 
 def test_the_suite_runs_every_sample():
 	source = (APP / "one_demo" / "check.py").read_text()
-	assert "def every_intake_sample_makes_what_it_should" in source and "samples.samples()" in source
+	assert "def every_intake_sample_left_what_it_should" in source and "samples.samples()" in source

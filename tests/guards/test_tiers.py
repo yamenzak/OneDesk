@@ -96,3 +96,18 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 	):
 		assert f'onedesk.record_tabs.register("{name}"' in (js / script).read_text(encoding="utf-8"), name
 	assert HOOKS.index("record_tabs.js") < HOOKS.index("record_files.js")
+
+
+def test_every_number_card_names_the_record_type_it_counts():
+	"""frappe shows a Custom number card only to somebody who may read its
+	record type, so one that names none is shown to nobody but the system
+	manager: One's own home was empty for everybody."""
+	import json
+
+	blind = [
+		path.parent.name
+		for path in APP.glob("*/number_card/*/*.json")
+		if json.loads(path.read_text()).get("type") in ("Custom", "Document Type")
+		and not json.loads(path.read_text()).get("document_type")
+	]
+	assert not blind, blind

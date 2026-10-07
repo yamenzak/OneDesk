@@ -27,10 +27,11 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | projects | Ten projects of every kind, with the 25-task template, contracts, progress billing, retention, advances, subcontracts, budgets, time, retainers, extra work |
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
-| books | The bank account, opening balances, rent and utilities each month |
+| books | The bank account, opening balances, rent and utilities each month. A tax template brings its taxes (the Books Check) |
 | hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter |
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
+| storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
 | intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there |
 
 Every record is made the way a click makes it, through frappe's controllers,

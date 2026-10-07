@@ -74,6 +74,23 @@ def lines(reading: dict, items: dict, account: str | None = None) -> list[dict]:
 	return out
 
 
+#: How far a document's tax may be from a rate's, rounded line by line.
+TAX_ROUNDING = 0.05
+
+
+def taxed_by(reading: dict, templates: dict[float, str] | None) -> str | None:
+	"""Which of the company's tax templates, by rate, charges what the
+	document charges on its net: 19% on 70.76 is 13.44. None when it charges
+	no tax or none match. Pure."""
+	net, tax = reading.get("net"), reading.get("tax")
+	if not net or not tax:
+		return None
+	return next(
+		(name for rate, name in (templates or {}).items() if abs(float(net) * rate / 100 - float(tax)) <= TAX_ROUNDING),
+		None,
+	)
+
+
 def purchase(reading: dict, ctx: dict) -> list[Action]:
 	"""An invoice, a receipt the company paid or a credit note, from a known
 	supplier, as a draft."""
@@ -102,6 +119,9 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 		# The project the bill names, on the bill and each line, which is where
 		# a project's cost counts it from.
 		"project": ctx.get("project"),
+		# The company's purchase taxes at the rate the document charges, so
+		# the bill comes to what the document says.
+		"taxes_and_charges": taxed_by(reading, ctx.get("purchase_taxes")),
 	}
 	head = {key: value for key, value in head.items() if value}
 	if kind == "Credit Note":

@@ -20,12 +20,12 @@ ELSEWHERE = {"one_admin": "the operator's console runs on the admin site"}
 #: check reaches one; it may never rise.
 STILL = {
 	"one": 168,
-	"one_ai": 25,
+	"one_ai": 0,
 	"one_book": 0,
 	"one_calendar": 0,
 	"one_crm": 0,
 	"one_hr": 62,
-	"one_intake": 24,
+	"one_intake": 0,
 	"one_inventory": 0,
 	"one_legal": 0,
 	"one_mail": 38,

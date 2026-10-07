@@ -1,0 +1,67 @@
+{
+ "file": "taxi-receipt-doubted.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "An employee sends a receipt for expenses.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Receipt",
+   "title": "Taxi back from Bayview",
+   "summary": "Tariq Haidar paid AED 85.00 for a taxi back from the Bayview site on 5 October 2026.",
+   "language": "en",
+   "number": "88-5521-07",
+   "issued": "2026-10-05",
+   "dates": [],
+   "money": {
+    "currency": "AED",
+    "net": null,
+    "tax": null,
+    "gross": 85.0,
+    "paid_how": "already paid",
+    "iban": null,
+    "reference": null
+   },
+   "lines": [
+    {
+     "text": "Taxi Business Bay to Al Quoz",
+     "qty": 1,
+     "unit_price": 85.0,
+     "amount": 85.0,
+     "tax_rate": null,
+     "category": "Travel"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Tariq Haidar",
+     "person": true,
+     "email": "tariq@one.test"
+    },
+    {
+     "role": "Paid To",
+     "name": "Careem",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": {
+   "wrong": "The receipt's fare is AED 58.00. The AED 27.00 tip is not claimed."
+  }
+ },
+ "makes": [
+  {
+   "doctype": "Expense Claim"
+  }
+ ]
+}

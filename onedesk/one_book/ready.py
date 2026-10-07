@@ -39,6 +39,7 @@ def checks() -> list[dict]:
 		_bank_modes(one),
 		_tax(one, "Sales Taxes and Charges Template", "sales_tax", _("Invoices carry tax")),
 		_tax(one, "Purchase Taxes and Charges Template", "purchase_tax", _("Bills carry tax")),
+		_template_taxes(),
 		_bill_numbers(),
 		_reminder(),
 		*_uae(one),
@@ -111,6 +112,13 @@ def _tax(one, doctype: str, key: str, check: str) -> dict:
 	if default:
 		return _row(key, check, READY, _("{0} is added unless somebody picks another.").format(default))
 	return _row(key, check, SUGGESTED, _("No template is the default, so nothing is charged unless somebody picks one."), key)
+
+
+def _template_taxes() -> dict:
+	check = _("A tax template brings its taxes")
+	if frappe.db.get_single_value("Accounts Settings", "add_taxes_from_taxes_and_charges_template"):
+		return _row("template_taxes", check, READY, _("An invoice or bill that names a tax template gets its taxes, however it was made."))
+	return _row("template_taxes", check, SUGGESTED, _("An invoice or bill made by an import or by OneAI names its tax template and charges no tax."), "template_taxes")
 
 
 def _bill_numbers() -> dict:
@@ -187,6 +195,8 @@ def fix(key: str, **values) -> None:
 		template.save()
 	elif key == "bills":
 		frappe.db.set_single_value("Accounts Settings", "check_supplier_invoice_uniqueness", 1)
+	elif key == "template_taxes":
+		frappe.db.set_single_value("Accounts Settings", "add_taxes_from_taxes_and_charges_template", 1)
 	elif key == "uae_vat":
 		from onedesk.one_book import vat
 

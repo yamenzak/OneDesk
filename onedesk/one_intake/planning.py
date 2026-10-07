@@ -296,6 +296,7 @@ def _money(ctx: dict, reading) -> None:
 			ctx["supplier"],
 		)
 		ctx["expense_account"] = ctx["expense_account"][0][0] if ctx["expense_account"] else frappe.db.get_value("Company", company, "default_expense_account")
+		ctx["purchase_taxes"] = _taxes_by_rate(company)
 	if ctx["customer"]:
 		ctx["customer_items"] = _items(reading, ctx["customer"], "Item Customer Detail", "customer_name", "ref_code")
 		ctx["sales_invoice"] = next((one for one in named if frappe.db.exists("Sales Invoice", {"name": one, "customer": ctx["customer"], "docstatus": 1})), None)
@@ -570,6 +571,24 @@ def applicant_arrived(doc, method=None) -> None:
 		elif doc.meta.has_field("one_duplicate_of"):
 			doc.db_set({"one_duplicate_type": "Job Applicant", "one_duplicate_of": other.name, "one_duplicate_on": "email"}, update_modified=False)
 		break
+
+
+def _taxes_by_rate(company: str) -> dict[float, str]:
+	"""The company's purchase tax templates by the rate they charge on the
+	net, the default first where two charge the same."""
+	rows = frappe.db.sql(
+		"""select t.name, sum(c.rate) as rate from `tabPurchase Taxes and Charges Template` t
+		join `tabPurchase Taxes and Charges` c on c.parent = t.name and c.parenttype = 'Purchase Taxes and Charges Template'
+		where t.company = %s and t.disabled = 0 and c.charge_type = 'On Net Total' and c.add_deduct_tax = 'Add'
+		group by t.name, t.is_default order by t.is_default desc, t.name""",
+		company,
+		as_dict=True,
+	)
+	found = {}
+	for row in rows:
+		if row.rate:
+			found.setdefault(round(float(row.rate), 2), row.name)
+	return found
 
 
 def _project_named(reading) -> str | None:

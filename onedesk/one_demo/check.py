@@ -20,12 +20,17 @@ def check(fn):
 
 
 def run(only: str | None = None) -> int:
+	from onedesk.one_demo.samples import unkept
+
 	failed = []
 	for fn in CHECKS:
 		if only and fn.__name__ != only:
 			continue
 		try:
-			fn()
+			# What a check does is never kept, even where the code it runs
+			# commits as it goes (submitting drafts, merging records).
+			with unkept():
+				fn()
 			print(f"ok    {fn.__name__}")
 		except Exception as e:
 			failed.append(fn.__name__)
@@ -589,21 +594,15 @@ def every_paper_prints_in_the_companys_look():
 
 
 @check
-def every_intake_sample_makes_what_it_should():
-	"""Each mail and file in tests/samples/intake, arriving as it would, makes
-	the records its sample says, and nothing is kept."""
+def every_intake_sample_left_what_it_should():
+	"""Each mail and file in tests/samples/intake arrived when the demo was
+	built, and the records its sample says are there."""
 	from onedesk.one_demo import samples
 
 	wrong = {}
 	for path in samples.samples():
-		frappe.db.savepoint("sample")
-		try:
-			missing = samples.unmet(path, samples.handle(path))
-		except Exception as e:
-			missing = [repr(e)[:300]]
-		finally:
-			frappe.db.rollback(save_point="sample")
-			frappe.set_user("Administrator")
+		handled = samples.found(path)
+		missing = ["it never arrived"] if handled is None else samples.unmet(path, handled)
 		if missing:
 			wrong[f"{path.parent.name}/{path.stem}"] = missing
 	assert samples.samples(), "there are no Intake samples"
@@ -1072,3 +1071,160 @@ def _png() -> bytes:
 	from onedesk.one_demo.projects import _photo
 
 	return _photo()
+
+
+def _sample(stem: str) -> str:
+	"""The reading a kept Intake sample made in the demo."""
+	from onedesk.one_demo import samples
+
+	return samples.readings_of(next(path for path in samples.samples() if path.stem == stem))[0]
+
+
+@check
+def oneintake_layla_works_through_what_oneai_read():
+	"""Layla's Intake inbox as she works it: what waits and what is done, a
+	document opened and explained, the expense claim the auditor doubted kept,
+	the new employee OneAI proposed turned down and a contact taken back, a task undone, a
+	mark cleared, the drafts submitted, a duplicate supplier cleared and
+	another merged, her mailbox switched off and on, and the year's documents
+	as a zip. OneAI finds a document by its words."""
+	from unittest import mock
+
+	from onedesk.one_demo import intake
+	from onedesk.one_intake import act, ai, bundle, drafts, explain, identity, inbox, mark, panel, switches
+
+	doubted = _sample("taxi-receipt-doubted")
+	with as_user(OWNER):
+		before = inbox.counts()
+		waiting = {one["name"] for one in inbox.listing("waiting")["items"]}
+		assert doubted in waiting and before["waiting"] >= 2, (before, waiting)
+		assert len(inbox.listing("done")["items"]) >= 15
+		opened = inbox.item(doubted)
+		wrong = next(one for one in opened["actions"] if one.get("audit") == "Wrong")
+		assert inbox.keep(wrong["name"]) == {"audit": "Kept"}
+		assert doubted not in {one["name"] for one in inbox.listing("waiting")["items"]}
+		assert inbox.seen_all("done") >= 15 and inbox.counts()["unread"] < before["unread"]
+		said = {"explanation": "Tariq paid for a taxi and asks for the fare back.", "todo": [{"what": "Approve the fare", "by": None}], "reply": "", "reply_language": "en"}
+		with mock.patch("onedesk.one_ai.run.once", return_value=frappe.as_json(said)) as asked:
+			assert explain.explain(doubted)["explanation"] == said["explanation"]
+			explain.explain(doubted)
+			assert asked.call_count == 1, "explained once, then read back"
+
+		# The new employee waits for what the contract does not say: her
+		# birthday and the day she joins. Layla turns it down for now.
+		contract = _sample("signed-contract")
+		proposed = frappe.get_all("Intake Action", filters={"reading": contract, "level": "Proposed"}, pluck="name")[0]
+		act.settle(proposed, 0)
+		assert frappe.db.get_value("Intake Action", proposed, "level") != "Proposed"
+		contact = frappe.db.get_value("Intake Action", {"reading": contract, "target_doctype": "Contact", "level": "Done"}, "name")
+		assert act.undo_one(contact)["undone"] == 1
+		drawings = _sample("drawings-request")
+		task = frappe.db.get_value("Intake Action", {"reading": drawings, "target_doctype": "Task", "level": "Done"}, "target_name")
+		assert act.undo(drawings)["undone"] >= 1 and not frappe.db.exists("Task", task)
+
+		marked = mark.unchecked("Task")
+		assert marked["total"]
+		mark.looks_right("Task", marked["all"][0])
+		assert mark.unchecked("Task")["total"] == marked["total"] - 1
+
+		listed = drafts.listed()
+		ready = listed["ready"]
+		assert not listed["red"], listed["red"]
+		bill = next(one for one in ready if one["doctype"] == "Purchase Invoice")
+		assert frappe.db.get_value("Purchase Invoice", bill["name"], "taxes_and_charges"), "a bill carries the VAT its document charges"
+		receipt = next(one for one in ready if one["doctype"] == "Purchase Receipt")
+		done = drafts.submit_all([[receipt["doctype"], receipt["name"]]])
+		assert frappe.db.get_value("Purchase Receipt", receipt["name"], "docstatus") == 1, done
+
+		known = frappe.get_all("Supplier", filters={"email_id": ["is", "set"]}, fields=["name", "email_id"], limit=1)[0]
+		twice = frappe.get_doc({"doctype": "Supplier", "supplier_name": f"{known.name} Trading", "supplier_group": frappe.db.get_value("Supplier", known.name, "supplier_group"), "email_id": known.email_id}).insert()
+		assert frappe.db.get_value("Supplier", twice.name, "one_duplicate_of") == known.name
+		identity.not_duplicate("Supplier", twice.name)
+		assert not frappe.db.get_value("Supplier", twice.name, "one_duplicate_of")
+		assert identity.merge("Supplier", twice.name, known.name) == known.name and not frappe.db.exists("Supplier", twice.name)
+
+		mailbox = intake.mailbox()
+		assert switches.mailbox_state(mailbox)["on"]
+		assert not switches.set_mailbox(mailbox, 0)["on"] and switches.set_mailbox(mailbox, 1)["on"]
+		mail = frappe.db.get_value("Reading", doubted, "source_name")
+		assert panel.for_message(mail)["name"] == doubted
+		bundle.year(getdate(today()).year)
+		assert frappe.response["filecontent"][:2] == b"PK", "a zip"
+		assert ai.find_documents("taxi")["documents"]
+
+	with as_user(intake.ACCOUNTS):
+		folder = intake.folder()
+		assert switches.folder_state(folder)["on"]
+		assert not switches.set_folder(folder, 0)["on"] and switches.set_folder(folder, 1)["on"]
+		statement = frappe.get_all("File", filters={"folder": folder}, pluck="name")[0]
+		assert panel.for_file(statement)["kind"] == "Bank Statement"
+	with as_user("samir@one.test"):
+		schedule = frappe.db.get_value("File", {"attached_to_name": VILLA, "file_name": "Window schedule.csv"})
+		with mock.patch("onedesk.one_intake.pipeline.later") as later:
+			switches.read_now(schedule)
+		assert later.call_args.args[0] == "read_file"
+
+
+@check
+def oneai_a_conversation_its_cards_and_its_settings():
+	"""Omar's conversation with OneAI from start to forgotten, the cards it
+	suggests waiting, refused, applied and taken into a form, and Layla's
+	settings for an action: the models offered, one picked, tried and put
+	back. A model is not called: what the account and the model would say
+	is said here."""
+	from unittest import mock
+
+	from onedesk.one_ai import chat, files, logos, proposals, run
+	from onedesk.one_crm import ai as crm
+
+	offered = [{"name": "gemini-flash", "label": "Gemini Flash", "maker": "Google", "logo_domain": "google.com"}]
+	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
+	with as_user("omar@one.test"):
+		started = chat.start()
+		assert chat.rename(started["name"], "Webb hotel follow-up")["title"] == "Webb hotel follow-up"
+		with mock.patch("frappe.enqueue") as queued:
+			said = chat.say("What is next on the Webb hotel deal?", started["name"], {"doctype": "Opportunity", "name": deal})
+		assert said["run"] and queued.call_args.kwargs["chat"] == started["name"]
+		assert chat.opened(started["name"])["said"] and started["name"] in {one.name for one in chat.chats()}
+		assert chat.progress(said["run"])["chat"] == started["name"]
+		assert files.attached(started["name"]) == []
+		assert chat.suggestions({"doctype": "Opportunity", "name": deal})
+
+		card = crm.plan_next_step("Opportunity", deal, "Call to agree the price", str(add_days(today(), 2)))["proposal"]
+		other = crm.add_lead("Joanna Pike", "joanna@pike.example", "Pike Hotels")["proposal"]
+		assert {card, other} <= {one["name"] for one in run.waiting()}
+		assert {one["name"] for one in chat.cards([card, other])} == {card, other}
+		run.refuse(other)
+		assert frappe.db.get_value("AI Proposal", other, "state") == "Refused"
+		assert run.took(card)["changes"]["one_next_step"] == "Call to agree the price"
+		call = crm.write_up_call("Opportunity", deal, "They want the price by Thursday.")["proposal"]
+		run.apply(call)
+		assert frappe.db.get_value("AI Proposal", call, "state") == "Applied"
+		# A field written on a new lead's form, before the lead has a name.
+		field = frappe.get_doc("AI Proposal", proposals.propose("Edit", "Lead", {"company_name": "Pike Hotels"}))
+		run.took(field.name)
+		lead = frappe.get_doc({"doctype": "Lead", "first_name": "Joanna", "last_name": "Pike", "company_name": "Pike Hotels", "email_id": "jp@pikehotels.example"}).insert()
+		assert run.landed(field.name, lead.name) == {"company_name": "Pike Hotels"}
+		assert len(run.tools()) > 50
+		assert run.use("deal_facts", {"deal": deal}).get("title") or run.use("deal_facts", {"deal": deal})
+		chat.forget(started["name"])
+		assert not frappe.db.exists("AI Chat", started["name"])
+	with as_user(OWNER):
+		with mock.patch("onedesk.one.account.ask", side_effect=lambda method, **kw: {"Text Generation": offered} if method.endswith("ai_models_for") else offered):
+			frappe.cache.delete_value("one_ai_chat_models")
+			assert [one["name"] for one in chat.models()["models"]] == ["gemini-flash"]
+			assert chat.choose_model("gemini-flash")["chosen_model"] == "gemini-flash"
+			assert run.models("Text Generation") == offered
+			assert run.models_for(["Text Generation"]) == {"Text Generation": offered}
+		run.set_action(chat.CHAT, model="gemini-flash", extra="Answer in the person's language.")
+		assert frappe.db.get_value("AI Action Setting", {"action": chat.CHAT}, "model") == "gemini-flash"
+		with mock.patch("onedesk.one_ai.run.ask", return_value={"text": "Hello."}) as asked:
+			assert run.try_it(chat.CHAT, "Say hello")["text"] == "Hello."
+		assert asked.call_args.kwargs["chose"]["model"] is None
+		run.reset_action(chat.CHAT)
+		assert not frappe.db.exists("AI Action Setting", {"action": chat.CHAT})
+		domain = sorted(logos.known())[0]
+		with mock.patch("onedesk.one_ai.logos.requests.get", return_value=mock.Mock(content=b"\x89PNG", raise_for_status=lambda: None)):
+			frappe.cache.delete_value(f"one_ai_logo:{domain}")
+			logos.logo(domain)
+		assert frappe.local.response["filecontent"] == b"\x89PNG"

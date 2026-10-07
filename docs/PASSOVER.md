@@ -411,7 +411,7 @@ Foundations done so far:
   folder per app, each with what a model answered about it and what Intake
   must make. The demo reads the owner's mailbox and the accounts team's Bank
   Statements folder, and the suite has each one arrive as it would and checks
-  what Intake made (`every_intake_sample_makes_what_it_should`). Guarded
+  what Intake made (`every_intake_sample_left_what_it_should`). Guarded
   (`tests/guards/test_intake_samples.py`). Running them found:
   - Nobody in One could add a supplier, since ERPNext keeps that for a role
     One never gives. Buying adds suppliers, and so does an accounts manager.
@@ -504,9 +504,10 @@ Up next, in this order:
      the count may only fall (`tests/guards/test_coverage.py`, which takes
      the place of the planned point-1 guard). OneAdmin's are left out, as
      they run on the admin site.
-   - At the start, 14 of 511 were reached. Now OneTask, OneCalendar,
-     OneBook, OneInventory, OneCRM, OneLegal, OneStudio and OneProject are
-     reached in full, each read and used as its people use it. 371 are left.
+   - At the start, 14 of 511 were reached. Then OneTask, OneCalendar,
+     OneBook, OneInventory, OneCRM, OneLegal, OneStudio and OneProject were
+     reached in full, each read and used as its people use it, with 371
+     left.
    - The demo gained two leads from the Get in Touch form with nobody owning
      them, one maybe a lead we have, and a studio step: Company Van, a record
      type of the company's own, with two vans, and two extensions, one on and
@@ -528,6 +529,36 @@ Up next, in this order:
      Single's field nobody saved as 0, so the first save of System Settings
      stored 0 and deleted every link. It is now stored as on at install and
      after every migrate (`one_calendar/feed.py` `settle`).
+   - OneIntake and OneAI are now reached in full. 322 are left: One 168,
+     OneHR 62, OneStorage 54, OneMail 38.
+   - Intake's samples are kept in the demo. Each mail and file is read once
+     when the demo is built and what it left stays, so the suite reads the
+     demo back instead of reading every sample again. A new sample is a
+     taxi receipt the check doubts: the read claims the tip as well, and the
+     claim waits with the reason.
+   - Layla works through what OneAI read (`oneintake_layla_works_through_what_oneai_read`):
+     the inbox, keep, undo, mark, drafts, merging a supplier entered twice,
+     the switches, the side panel and the year's bundle. A conversation with
+     OneAI, its cards and its settings is checked the same way.
+   - Found on the way: bills OneAI drafted had no VAT. ERPNext adds a tax
+     template's rows only when Accounts Settings asks it to, and Intake
+     named no template. A bill now names the template whose rate matches
+     the tax on the document (`one_intake/money.py` `taxed_by`), and
+     OneBook › Check has a row that switches ERPNext's setting on.
+   - Found on the way: the One home was empty for everybody but the
+     administrator. frappe shows a number card only to someone who can read
+     its record type, and One's cards named none. Each now names what it
+     counts. Guarded (`cards-shown`).
+   - Found on the way: the checks were saving to the demo. Keeping a reading,
+     submitting drafts and merging save as they go, so a check run changed
+     the demo for the next one. Every check now runs inside a rollback.
+   - The demo gained a storage step (the Projects library for the crew, a
+     shared link, a second version of a drawing, a file request to a
+     supplier) and in HR an interview, shift requests, an attendance
+     request, an overtime type and an appraisal.
+   - Key screens are opened in a browser as their people
+     (`tests/browser/`, run against the demo). Every desk page of ours is on
+     the list. Guarded (`screens-opened`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 
@@ -535,6 +566,9 @@ Noticed along the way, for the screen it belongs to:
 
 - **OneAI**: a card says Approve and Refuse, and the same proposal's own
   page says Apply and Refuse.
+- **OneIntake**: once, while the demo was built, attaching a file to a
+  record was refused with "You do not have permission to access this file".
+  It did not happen again.
 - **The demo company** sends no mail. It has no outgoing mailbox, so every
   notification a person chose to have by mail lands in the Error Log as
   "Failed to send notification email".

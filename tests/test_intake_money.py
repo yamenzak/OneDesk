@@ -55,6 +55,16 @@ def test_an_invoice_from_a_known_supplier_is_a_draft_with_its_lines():
 	assert with_item[0].values["items"][0]["item_code"] == "ELECTRICITY" and "item_name" not in with_item[0].values["items"][0]
 
 
+def test_a_bill_charges_the_tax_its_document_charges():
+	rates = {5.0: "VAT 5%", 19.0: "VAT 19%"}
+	assert MONEY["taxed_by"]({"net": 11100, "tax": 555}, rates) == "VAT 5%"
+	assert MONEY["taxed_by"]({"net": 70.76, "tax": None}, rates) is None
+	assert MONEY["taxed_by"]({"net": 100, "tax": 7}, rates) is None, "no template charges 7%"
+	taxed = MONEY["purchase"]({**INVOICE, "tax": 13.44}, {**CTX, "purchase_taxes": rates})
+	assert taxed[0].values["taxes_and_charges"] == "VAT 19%"
+	assert "taxes_and_charges" not in MONEY["purchase"](INVOICE, {**CTX, "purchase_taxes": {5.0: "VAT 5%"}})[0].values
+
+
 def test_nothing_is_booked_twice_or_by_a_household():
 	assert MONEY["purchase"](INVOICE, {**CTX, "existing_invoice": "ACC-PINV-1", "file": "f1"})[0].kind == "Link", "somebody booked it first"
 	assert MONEY["purchase"](INVOICE, {**CTX, "books": False}) == []

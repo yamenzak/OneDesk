@@ -51,7 +51,19 @@ GUARDS = [
 		"a count still left that a new check lowered and nobody wrote down",
 		"tests/guards/test_coverage.py::test_the_counts_are_lowered_as_checks_are_written",
 	),
+	Guard(
+		"screens-opened",
+		1,
+		"a desk page of ours no browser check opens on the demo",
+		"tests/guards/test_browser.py::test_every_page_of_ours_is_opened_in_the_browser",
+	),
 	# 4 Tier declared
+	Guard(
+		"cards-shown",
+		4,
+		"a number card that names no record type, which frappe shows to nobody",
+		"tests/guards/test_tiers.py::test_every_number_card_names_the_record_type_it_counts",
+	),
 	Guard(
 		"islands-declared",
 		4,

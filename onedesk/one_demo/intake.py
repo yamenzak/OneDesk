@@ -1,6 +1,7 @@
 """What OneAI reads for the company: the owner's own address, and the folder
 the accounts team drops bank statements into. The samples in
-tests/samples/intake arrive at these (samples.py)."""
+tests/samples/intake arrive at these and stay, as Intake left them
+(samples.py)."""
 
 import frappe
 
@@ -28,6 +29,24 @@ def run(password=None):
 		if not found:
 			found = api.make_folder(ns.home(ACCOUNTS), FOLDER)["id"]
 		switches.set_folder(found, 1)
+	frappe.db.commit()
+	_samples()
+
+
+def _samples():
+	"""Every sample arrives, in turn, and what Intake did with it is kept. One
+	that does not make what it says stops the demo."""
+	from onedesk.one_demo import samples
+
+	for path in samples.samples():
+		if samples.found(path):
+			continue
+		handled = samples.handle(path, kept=True)
+		frappe.set_user("Administrator")
+		missing = samples.unmet(path, handled)
+		if missing:
+			raise AssertionError(f"{path.parent.name}/{path.stem}: {missing}")
+		frappe.db.commit()
 
 
 def mailbox() -> str | None:

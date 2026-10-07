@@ -20,6 +20,12 @@ def run(password=None):
 		_hiring()
 		_payroll()
 	_claims()
+	with as_user(HR):
+		_interview()
+		_shifts()
+		_requests()
+		_overtime()
+		_appraisal()
 
 
 def _employee(first):
@@ -324,3 +330,128 @@ def _term(name):
 	if not frappe.db.exists("Offer Term", name):
 		make({"doctype": "Offer Term", "offer_term": name})
 	return name
+
+
+def _interview():
+	"""Mira Costa's technical interview for Site Engineer, with Samir, done
+	two days ago and waiting for his feedback."""
+	kind = "Site Engineer Technical"
+	if not frappe.db.exists("Interview Type", kind):
+		for skill in ("Site Management", "Reading Drawings"):
+			if not frappe.db.exists("Skill", skill):
+				make({"doctype": "Skill", "skill_name": skill})
+		make(
+			{
+				"doctype": "Interview Type",
+				"interview_type_name": kind,
+				"designation": "Site Engineer",
+				"expected_skill_set": [{"skill": "Site Management"}, {"skill": "Reading Drawings"}],
+				"description": "An hour with the projects manager on a real site's drawings.",
+			}
+		)
+	applicant = frappe.db.get_value("Job Applicant", {"email_id": "mira.costa@example.com"})
+	if applicant and not frappe.db.exists("Interview", {"job_applicant": applicant}):
+		make(
+			{
+				"doctype": "Interview",
+				"job_applicant": applicant,
+				"interview_type": kind,
+				"scheduled_on": ago(2),
+				"from_time": "10:00:00",
+				"to_time": "11:00:00",
+				"status": "Pending",
+				"interview_details": [{"interviewer": "samir@one.test"}],
+			}
+		)
+
+
+#: The workshop's shift, and who asked to work it.
+SHIFT = ("Workshop Day", "07:00:00", "16:00:00")
+
+
+def _shifts():
+	"""The workshop's day shift, and two of the crew asking for it: one waiting
+	for Mariam, one she already turned down."""
+	name, starts, ends = SHIFT
+	if not frappe.db.exists("Shift Type", name):
+		make({"doctype": "Shift Type", "name": name, "__newname": name, "start_time": starts, "end_time": ends})
+	for first, days, state in (("Ravi", 3, None), ("Bilal", 10, "Rejected")):
+		employee = _employee(first)
+		if frappe.db.exists("Shift Request", {"employee": employee, "shift_type": name}):
+			continue
+		# Mariam answers the workshop's shift requests.
+		frappe.db.set_value("Employee", employee, "shift_request_approver", HR)
+		request = make(
+			{
+				"doctype": "Shift Request",
+				"shift_type": name,
+				"employee": employee,
+				"company": COMPANY,
+				"from_date": ahead(days),
+				"to_date": ahead(days + 13),
+				"approver": HR,
+				"status": "Draft",
+			}
+		)
+		if state:
+			from onedesk.one_hr import shift
+
+			shift.reject(request.name, "The workshop has enough people on days that fortnight.")
+
+
+def _requests():
+	"""Nadia at the customer's showroom all day yesterday, asking for the day
+	to count."""
+	employee = _employee("Nadia")
+	if not frappe.db.exists("Attendance Request", {"employee": employee}):
+		make(
+			{
+				"doctype": "Attendance Request",
+				"employee": employee,
+				"company": COMPANY,
+				"from_date": ago(1),
+				"to_date": ago(1),
+				"reason": "On Duty",
+				"one_reason": "Customer Site",
+				"explanation": "At the Nordlicht showroom all day for the design workshop.",
+			}
+		)
+
+
+def _overtime():
+	"""Overtime in the workshop, AED 45 an hour, one and a quarter times on
+	ordinary days."""
+	name = "Workshop Overtime"
+	if frappe.db.exists("Overtime Type", name):
+		return
+	component = "Overtime"
+	if not frappe.db.exists("Salary Component", component):
+		make({"doctype": "Salary Component", "salary_component": component, "salary_component_abbr": "OT", "type": "Earning"})
+	make(
+		{
+			"doctype": "Overtime Type",
+			"name": name,
+			"__newname": name,
+			"overtime_salary_component": component,
+			"overtime_calculation_method": "Fixed Hourly Rate",
+			"hourly_rate": 45,
+			"standard_multiplier": 1.25,
+			"applicable_for_weekend": 0,
+			"maximum_overtime_hours_allowed": 4,
+		}
+	)
+
+
+def _appraisal():
+	"""This year's mid-year review: Rania's appraisal, which Samir writes."""
+	cycle = f"Mid-Year {today().year}"
+	if frappe.db.exists("Appraisal Cycle", {"cycle_name": cycle}):
+		return
+	for title in ("Delivery on Time", "Site Safety"):
+		if not frappe.db.exists("KRA", title):
+			make({"doctype": "KRA", "title": title})
+	template = "Project Coordinator"
+	if not frappe.db.exists("Appraisal Template", template):
+		make({"doctype": "Appraisal Template", "template_title": template, "goals": [{"key_result_area": "Delivery on Time", "per_weightage": 60}, {"key_result_area": "Site Safety", "per_weightage": 40}]})
+	made = make({"doctype": "Appraisal Cycle", "cycle_name": cycle, "company": COMPANY, "start_date": on(1, 1), "end_date": on(6, 30)})
+	make({"doctype": "Appraisal", "employee": _employee("Rania"), "company": COMPANY, "appraisal_cycle": made.name, "appraisal_template": template})

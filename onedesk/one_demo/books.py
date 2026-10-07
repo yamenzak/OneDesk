@@ -9,7 +9,11 @@ ACCOUNTS = "huda@one.test"
 
 
 def run(password=None):
+	from onedesk.one_book import ready
+
 	with as_user(ACCOUNTS):
+		# From the Books Check: a bill OneAI drafts with the VAT template gets the VAT.
+		ready.fix("template_taxes")
 		bank = _bank()
 		if frappe.db.exists("Journal Entry", {"voucher_type": "Opening Entry", "docstatus": 1}):
 			return

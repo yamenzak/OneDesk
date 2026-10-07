@@ -1,9 +1,12 @@
 # Intake samples
 
 Real mail and files that arrive at the demo company, Sahara Glass &
-Aluminium, one folder per app whose records they make. The demo suite
-(`onedesk/one_demo/check.py`, `every_intake_sample_makes_what_it_should`) has
-Intake handle each one and checks what it made. Nothing is kept.
+Aluminium, one folder per app whose records they make. The demo's intake step
+has Intake handle each one as it arrives and keeps what it made, so the Intake
+inbox, its drafts and its marks have real documents in them. The build stops
+at a sample that does not make what it says, and the demo suite
+(`onedesk/one_demo/check.py`, `every_intake_sample_left_what_it_should`) reads
+it all back.
 
 A sample is two files with the same name:
 
@@ -29,7 +32,8 @@ A sample is two files with the same name:
 
 - `answers` holds each model call Intake makes about the document, by its
   action, in the shape the action asks for. `"right"` for the auditor
-  approves every action it is shown, and `"first"` for placing puts the
+  approves every action it is shown, and `{"wrong": "why"}` doubts every
+  one, so it waits for a person, and `"first"` for placing puts the
   document with the first open matter it is shown (an attachment with its
   mail). A call with no answer fails the sample, even where Intake carries on
   without it, so a sample always says everything Intake asked.
