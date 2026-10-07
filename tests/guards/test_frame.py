@@ -64,6 +64,8 @@ def test_a_page_keeps_its_forms_menu_and_sidebar(doctype):
 	(docs/PASSOVER.md, A record's page)."""
 	source = ISLANDS[doctype].read_text()
 	assert f'record: "{doctype}"' in DESK_PAGES[doctype].read_text(), "the desk page names its record, for frappe's sidebar"
+	# Its Attachments are one Files row, as on a form, opening its files.
+	assert "onedesk.record_files.side(frm, open_files)" in RECORD
 	assert f'useRecord("{doctype}"' in source
 	assert "record.menu(" in source
 	assert "follow(" in source, "the page hears the record saved, as a form does"

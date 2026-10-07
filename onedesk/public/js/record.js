@@ -164,8 +164,16 @@ onedesk.record.menu = (doctype, record, { changed = () => {}, gone = () => {} } 
 // parts (Assign, Attachments, Tags, Share, likes, who made and last changed
 // it) read a form; `handle` is the part of one they read, and the docinfo
 // they change is frappe's own (frappe.model.docinfo), kept current by the
-// record's realtime room. Returns the way to stop.
-onedesk.record.sidebar = (page, doctype, name) => {
+// record's realtime room. Its Attachments are the record's Files, one row
+// that opens them (`files`), as on a form (record_files.js). Returns the way
+// to stop.
+onedesk.record.sidebar = (page, doctype, name, { files = null } = {}) => {
+	// The page's own Files view, or else OneCloud on the record's room.
+	const open_files = files || (() => frappe.set_route("onecloud", { node: `@records/${doctype}/${name}` }));
+	const files_row = () => {
+		const $side = onedesk.record_files.side(frm, open_files);
+		onedesk.record_files.badge($side, (frm.get_docinfo().attachments || []).length);
+	};
 	let frm = null;
 	let gone = false;
 	const draw = async () => {
@@ -175,6 +183,7 @@ onedesk.record.sidebar = (page, doctype, name) => {
 		if (frm) {
 			frm.doc = record.doc;
 			frm.sidebar.refresh();
+			files_row();
 			return;
 		}
 		frm = {
@@ -198,6 +207,7 @@ onedesk.record.sidebar = (page, doctype, name) => {
 		delete frm.shared;
 		frm.sidebar = new frappe.ui.form.Sidebar({ frm, page, toolbar: { setup_editable_title: () => {} } });
 		frm.sidebar.make();
+		files_row();
 		// What the parts reload after a change, read again with the record.
 		frm.sidebar.reload_docinfo = (done) => draw().then(() => done && done(frm.get_docinfo()));
 		frm.viewers = new frappe.ui.form.FormViewers({

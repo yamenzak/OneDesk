@@ -18,10 +18,11 @@
 // `record` names the doctype of a page that shows one record, the first part
 // of the route after the page: frappe's own form sidebar is then on its
 // right, as on a form (onedesk.record.sidebar, docs/PASSOVER.md, A record's
-// page).
+// page). `files` names the island's own Files view, which the sidebar's Files
+// row opens; without one it opens OneCloud on the record's room.
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null }) => {
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
 	// The record the sidebar is for, and the way to stop it.
 	let framed = null;
@@ -31,7 +32,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 		if (!record || !name || name === framed) return;
 		unframe();
 		framed = name;
-		unframe = onedesk.record.sidebar(page, record, name);
+		unframe = onedesk.record.sidebar(page, record, name, { files: files ? () => view(files) : null });
 	};
 	const $body = $('<div class="one-island"></div>').appendTo(page.main);
 	const chrome = { title: null, between: [], status: null, actions: [] };
@@ -52,6 +53,14 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			else if (action.button) page.add_inner_button(action.label, run);
 			else page.add_menu_item(action.label, run, !!action.standard);
 		}
+	};
+	// A view of the island, by its `?view=`, as its own tabs set it.
+	const view = (key) => {
+		const url = new URL(window.location.href);
+		url.searchParams.set("view", key);
+		window.history.replaceState(window.history.state, "", url);
+		if (handle) handle.update(where());
+		page.main[0].scrollIntoView({ block: "start", behavior: "smooth" });
 	};
 	const where = () => ({
 		route: frappe.get_route().slice(1),

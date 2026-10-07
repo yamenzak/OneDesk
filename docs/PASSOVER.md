@@ -188,6 +188,10 @@ don't make them fixed". Every record shown on a page of its own
   head. The desk page names its record (`onedesk.island_page`'s `record`),
   and `onedesk.record.sidebar` lends frappe's sidebar the part of a form it
   reads. A page draws none of this itself.
+- Its Attachments are one **Files** row with the count, as on a form
+  (`record_files.js`), never a list of files. It opens the page's own Files
+  view (`island_page`'s `files`, a project's Files tab), or OneCloud on the
+  record's folder where the page has none (a template).
 - Its views are one row of tabs across the top under its head, as a form's
   tabs are (`frontend/src/kit/ViewTabs.vue`). When they do not fit, the row
   scrolls sideways, as a form's tabs do (your word: "switch it to

@@ -16,16 +16,22 @@ onedesk.record_files.tab = (frm) => onedesk.record_tabs.tab(frm, "files");
 // from the explorer each time it lists the room.
 onedesk.record_files.count = (frm, count) => {
 	onedesk.record_tabs.count(frm, "files", count);
-	const badge = count ? `<span class="one-files-count">${cint(count)}</span>` : "";
-	const $side = onedesk.record_files.side(frm);
-	$side && $side.find(".one-files-count").remove();
-	$side && $side.find(".explore-link").append(badge);
+	onedesk.record_files.badge(onedesk.record_files.side(frm), count);
+};
+
+// The count beside the sidebar's Files row.
+onedesk.record_files.badge = ($side, count) => {
+	if (!$side) return;
+	$side.find(".one-files-count").remove();
+	if (count) $side.find(".explore-link").append(`<span class="one-files-count">${cint(count)}</span>`);
 };
 
 // The sidebar's Attachments list was the same files again, without preview,
 // rename, sharing or versions, and with an uploader of its own. It becomes
-// one row, "Files" and the count, which opens the tab.
-onedesk.record_files.side = (frm) => {
+// one row, "Files" and the count, which opens the record's files: the form's
+// Files tab, or on a record's own page (onedesk.record.sidebar) the page's
+// Files view or OneCloud on the record's room (`open`).
+onedesk.record_files.side = (frm, open = () => onedesk.record_files.show(frm)) => {
 	const $side = frm.attachments && frm.attachments.parent;
 	if (!$side || !$side.length) return null;
 	if (!$side.hasClass("one-files-side")) {
@@ -35,14 +41,19 @@ onedesk.record_files.side = (frm) => {
 		$link.append(`<span class="one-files-label">${__("Files")}</span>`);
 		$link.off("click").on("click", (e) => {
 			e.preventDefault();
-			const tab = onedesk.record_files.tab(frm);
-			if (!tab) return;
-			tab.set_active();
-			onedesk.record_files.open(frm);
-			frm.layout.wrapper[0].scrollIntoView({ block: "start", behavior: "smooth" });
+			open();
 		});
 	}
 	return $side;
+};
+
+// The form's Files tab, opened and scrolled to.
+onedesk.record_files.show = (frm) => {
+	const tab = onedesk.record_files.tab(frm);
+	if (!tab) return;
+	tab.set_active();
+	onedesk.record_files.open(frm);
+	frm.layout.wrapper[0].scrollIntoView({ block: "start", behavior: "smooth" });
 };
 
 // The explorer listed the room: the tab's count, and — when a file came or
