@@ -1263,16 +1263,18 @@ def test_the_project_page_fits_a_phone():
 	assert 'setConfig("systemTimezone", zone.system)' in mount
 
 
-def test_the_rail_is_projects_workload_time_and_templates_and_stays_closed():
+def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
-	# The phone's menu; elsewhere the page head's tabs (project_places.js).
 	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Time", "Timesheet"), ("Templates", "Project Template")]
+	# The panel is open on the four and shut on a record; a phone's breadcrumb
+	# is the menu of the four (tests/browser/screens.mjs, `panel` and `phone`).
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
-	assert "new frappe.ui.TabButtons(" in places and "page.hide_sidebar = !frappe.is_mobile()" in places
+	assert "TabButtons" not in places and "hide_sidebar" not in places
+	assert "frappe.is_mobile()" in places and "new frappe.ui.Dropdown(" in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
-	# Every report shares the query-report page: only Workload's closes it.
-	assert 'route[0] === "query-report" && !here' in places
+	template_js = (PROJECT / "page" / "project_template_view" / "project_template_view.js").read_text()
+	assert "hide_sidebar: !frappe.is_mobile()" in template_js
 	# Setup is in the Projects list's menu.
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Rates")' in menu and '__("Project Templates")' not in menu

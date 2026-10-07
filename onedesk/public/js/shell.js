@@ -541,6 +541,8 @@ onedesk.shell.Editor = class Editor {
 // other says what its row in the rail says, "Items" over an item, on its
 // list, its tree and every record under them (one/titles.py). Set here, at
 // load, so a record opened by its address is named as one reached by a click.
+// Every page already opened keeps a head of its own, and frappe writes the
+// crumb into each, so each is renamed.
 {
 	const named = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
 	const theirs = frappe.breadcrumbs.set_list_breadcrumb.bind(frappe.breadcrumbs);
@@ -553,13 +555,13 @@ onedesk.shell.Editor = class Editor {
 		}
 		theirs(breadcrumbs);
 		const label = named(breadcrumbs.doctype);
-		if (label) this.$breadcrumbs.find("li a.title-text").last().text(__(label));
+		if (label) this.$breadcrumbs.each((i, crumbs) => $(crumbs).find("li a.title-text").last().text(__(label)));
 	};
 	const tree = frappe.breadcrumbs.set_tree_breadcrumb.bind(frappe.breadcrumbs);
 	frappe.breadcrumbs.set_tree_breadcrumb = function (breadcrumbs) {
 		tree(breadcrumbs);
 		const label = named(breadcrumbs.doctype);
-		if (label) this.$breadcrumbs.find("li a.title-text").last().text(__(label));
+		if (label) this.$breadcrumbs.each((i, crumbs) => $(crumbs).find("li a.title-text").last().text(__(label)));
 	};
 
 	// And the rail lights its home, where frappe finds no item for the route.
@@ -567,8 +569,22 @@ onedesk.shell.Editor = class Editor {
 	if (Sidebar && !Sidebar.prototype.__one_homes) {
 		Sidebar.prototype.__one_homes = true;
 		const matched = Sidebar.prototype.is_route_in_sidebar;
+		// A list's row leads to one of its views (Projects to /project/view/list),
+		// and every view of the list is that row's: its address, less the view,
+		// is the row's, less the view.
+		const list = (path) => decodeURIComponent(path.split("?")[0]).replace(/\/view\/[^/]+(\/.*)?$/, "").replace(/\/$/, "");
 		Sidebar.prototype.is_route_in_sidebar = function () {
 			if (matched.call(this)) return true;
+			const here = list(window.location.pathname);
+			const $row = $(".item-anchor")
+				.filter((i, a) => !!a.getAttribute("href") && list(a.getAttribute("href")) === here)
+				.first()
+				.parent();
+			if ($row.length) {
+				if (this.active_item) this.active_item.removeClass("active-sidebar");
+				this.active_item = $row;
+				return true;
+			}
 			const route = frappe.get_route();
 			const home = route[0] === "Form" && (frappe.boot.one_homes || {})[route[1]];
 			const $item = home && $(`.item-anchor[href="${home[0].route}"]`).first().parent();

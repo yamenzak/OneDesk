@@ -12,8 +12,8 @@ project task assigned to you shows on your My Tasks and on the project's board.
 
 ## Finding your way
 
-**OneProject** in the dock opens it. It has no sidebar. The tabs at the top
-are its four places.
+**OneProject** in the dock opens it. The panel on the left lists its four
+places.
 
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
@@ -22,7 +22,8 @@ are its four places.
 - **Templates**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
 
-On a phone the four are in the menu instead. **Rates**, what an hour of each
+On a phone, tap the place's name at the top, **Projects**, to go to another.
+A project's page and a template's page have no panel. **Rates**, what an hour of each
 activity costs and is billed at, is in the ··· menu on **Projects**.
 
 On a project's page, its name at the top opens a list of other projects: its

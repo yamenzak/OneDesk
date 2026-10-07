@@ -32,8 +32,8 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 	// employee's onboarding or exit checklist until somebody clears the
 	// filter, as the rail's Projects row does.
 	filters: [["project_type", "!=", "Employee Boarding"]],
-	// OneProject has no sidebar (project_places.js): the rest of its setup is
-	// in this menu. Projects Settings has four ticks about time; it is opened from here
+	// OneProject's panel lists its four places (project_places.js): the rest
+	// of its setup is in this menu. Projects Settings has four ticks about time; it is opened from here
 	// by whoever may change it.
 	onload(listview) {
 		if (frappe.model.can_read("Activity Type")) {

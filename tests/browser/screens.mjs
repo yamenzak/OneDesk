@@ -2,6 +2,9 @@
 // that person must see there. run.mjs opens them against the demo workspace
 // (onedesk/one_demo). Every page of ours is here (tests/guards/test_browser.py).
 
+// OneProject's places, its panel's rows and its breadcrumb menu on a phone.
+const PROJECT_PLACES = ["Projects", "Workload", "Time", "Templates"];
+
 export const SCREENS = [
 	// One
 	{ who: "samir@one.test", path: "/desk/one", sees: ["Today", "Tasks Due or Late", "Meetings Today"] },
@@ -15,10 +18,12 @@ export const SCREENS = [
 	{ who: "huda@one.test", path: "/desk/onecloud", page: "onecloud", sees: ["Bank Statements"] },
 	{ who: "huda@one.test", path: "/desk/ready-to-submit", page: "ready-to-submit", sees: ["Ready to Submit"] },
 	// OneProject, OneTask, OneCalendar
-	{ who: "samir@one.test", path: "/desk/project", sees: ["Mansour Villa Windows and Doors", "Bayview Tower Curtain Wall"] },
-	{ who: "samir@one.test", path: "/desk/project/PROJ-0001", page: "project-view", sees: ["Mansour Villa Windows and Doors", "Staircase balustrade"] },
-	{ who: "samir@one.test", path: "/desk/project-template", sees: ["Aluminium & Glazing", "Tasks", "Days", "Projects", "From the Library"] },
-	{ who: "samir@one.test", path: "/desk/project-template/Aluminium%20%26%20Glazing", page: "project-template-view", sees: ["Aluminium & Glazing", "Day 0"] },
+	{ who: "samir@one.test", path: "/desk/project", sees: ["Mansour Villa Windows and Doors", "Bayview Tower Curtain Wall"], panel: true, phone: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/project/view/kanban/Projects%20by%20Health", sees: ["Mansour Villa Windows and Doors"], panel: true, phone: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/query-report/Workload", sees: ["Workload", "Samir Aoun"], panel: true, phone: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/project/PROJ-0001", page: "project-view", sees: ["Mansour Villa Windows and Doors", "Staircase balustrade"], panel: false },
+	{ who: "samir@one.test", path: "/desk/project-template", sees: ["Aluminium & Glazing", "Tasks", "Days", "Projects", "From the Library"], panel: true, phone: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/project-template/Aluminium%20%26%20Glazing", page: "project-template-view", sees: ["Aluminium & Glazing", "Day 0"], panel: false },
 	{ who: "rania@one.test", path: "/desk/my-tasks", page: "my-tasks", sees: ["OneTask"] },
 	{ who: "samir@one.test", path: "/desk/onecalendar", page: "onecalendar", sees: ["Weekly site meeting"] },
 	// OneCRM

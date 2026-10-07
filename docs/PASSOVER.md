@@ -154,6 +154,21 @@ be ours; how it behaves is frappe's.
   one row, and espresso put the button on a line of its own. The desk part
   stays; only its look is brought in line. Behaviour is still frappe's.
 
+## The panel
+
+Your word: "it should be open on all collection views. On smaller devices it
+becomes changeable from the breadcrumbs, like Projects ▾". Every module
+follows this in its pass.
+
+- On a desktop the module's panel is open on every collection view (a list
+  and its Report, Kanban, Tree and other views, a report, a page that lists).
+  It is frappe's own sidebar, and a page leaves `hide_sidebar` unset.
+- A record's page closes it (`hide_sidebar: !frappe.is_mobile()`): a
+  project, a template. Its breadcrumb leads back.
+- On a phone the panel stays shut, so the place's name in the breadcrumb is a
+  menu of the module's places, frappe's breadcrumb `menu_items`.
+- No tabs in the page head stand in for the panel.
+
 ## What ERPNext already does
 
 ERPNext handles more than a screen shows, and anything we build on top has to
@@ -8743,10 +8758,26 @@ frappe's Assign does; Pending Review tells whoever made the task.
 
 - Five links in a 220px panel beside every OneProject page, one of them
   doubled in the list's menu, and on a project's page it narrowed the hero.
-  Removed, as OneMail and OneCloud have none: Projects, Workload and Time are
-  frappe's TabButtons in the page head (`project_places.js`), and the pages
-  set frappe's `hide_sidebar`. On a phone, where the head has no room, the
-  tabs hide and the menu keeps the three.
+  Removed then, as OneMail and OneCloud have none: Projects, Workload and
+  Time were frappe's TabButtons in the page head, and the pages set
+  frappe's `hide_sidebar`.
+- **Changed back on your word** (The panel, above). The panel lists the four
+  places and is open on each of them. A project's page and a template's page
+  close it. On a phone the place's name in the breadcrumb, **Projects ▾**,
+  is a menu of the four (`project_places.js`). The head tabs are gone. Before,
+  the template page kept the panel while the project page closed it, which
+  is why it came and went.
+- Found on the way, and fixed for every module:
+  - The panel marked no row on Projects. The row leads to
+    `/project/view/list` and the list opens at `/project`, so frappe never
+    matched them. Now every view of a list marks its row (`shell.js`).
+  - Back on a list after a record, its name read "Project", not "Projects".
+    The rename reached only the last page's head (`shell.js`).
+  - The board had no name at the top. It now has its place's name.
+  - The browser checks now say whether the panel is open (`panel`) and what
+    a phone's breadcrumb lists (`phone`), in `tests/browser/screens.mjs`.
+- Left for the Time screen: Time's list is called "Timesheet", and opened by
+  its address it shows OneHR's panel, since OneHR lists timesheets too.
 - Project Templates and Rates moved to the Projects list's ··· menu.
 - A project's name in its breadcrumb opens the others: parent and
   sub-projects, then open projects (`view.picker`), through frappe's

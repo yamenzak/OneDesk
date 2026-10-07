@@ -8,5 +8,8 @@ frappe.pages["project-template-view"].on_page_load = (wrapper) => {
 		island: "onedesk.template",
 		title: __("Project Template"),
 		parent: { label: __("Templates"), route: "/desk/project-template" },
+		// A record, as a project's page is: the panel is for the four places
+		// (project_places.js).
+		hide_sidebar: !frappe.is_mobile(),
 	});
 };

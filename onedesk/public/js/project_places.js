@@ -1,46 +1,50 @@
-// OneProject keeps no sidebar open (one_project/README.md, Finding your way).
-// Its four places, Projects, Workload, Time and Templates, are frappe's
-// TabButtons in the page head, and its pages close the module's panel on
-// arrival with frappe's own `hide_sidebar`, as OneMail's and OneCloud's do.
-// The panel still lists the four, for a phone, whose head has no room for the
-// tabs. Rates and Projects Settings are in the Projects list's ··· menu
-// (project_list.js).
+// OneProject's four places, Projects, Workload, Time and Templates, are its
+// panel's rows, and the panel stays open on each (one_project/README.md,
+// Finding your way). A phone keeps the panel shut, so there the place's name
+// in the breadcrumb, "Projects ▾", is a menu of the four, frappe's own
+// `menu_items` crumb. A project's page and a template's page are records and
+// close the panel themselves. Rates and Projects Settings are in the Projects
+// list's ··· menu (project_list.js).
 frappe.provide("onedesk.project");
 
 onedesk.project.places = () => [
-	{ value: "projects", label: __("Projects"), route: "/desk/project", is: (r) => ["List", "Tree"].includes(r[0]) && r[1] === "Project" },
-	{ value: "workload", label: __("Workload"), route: "/desk/query-report/Workload", is: (r) => r[0] === "query-report" && r[1] === "Workload" },
-	{ value: "time", label: __("Time"), route: "/desk/timesheet", is: (r) => r[0] === "List" && r[1] === "Timesheet" },
-	{ value: "templates", label: __("Templates"), route: "/desk/project-template", is: (r) => r[0] === "List" && r[1] === "Project Template" },
+	{ label: __("Projects"), route: "/desk/project", is: (r) => ["List", "Tree"].includes(r[0]) && r[1] === "Project" },
+	{ label: __("Workload"), route: "/desk/query-report/Workload", is: (r) => r[0] === "query-report" && r[1] === "Workload" },
+	{ label: __("Time"), route: "/desk/timesheet", is: (r) => r[0] === "List" && r[1] === "Timesheet" },
+	{ label: __("Templates"), route: "/desk/project-template", is: (r) => r[0] === "List" && r[1] === "Project Template" },
 ];
 
-onedesk.project.place = () => {
-	const page = frappe.container && frappe.container.page && frappe.container.page.page;
-	if (!page || !page.wrapper) return;
-	const route = frappe.get_route();
-	const places = onedesk.project.places();
-	const here = places.find((one) => one.is(route));
-	const $area = $(page.wrapper).find(".page-head .title-area").first();
-	// Every report shares the one query-report page: the tabs and the closed
-	// panel are Workload's alone.
-	if (route[0] === "query-report" && !here) {
-		page.hide_sidebar = false;
-		$area.find(".one-project-places").remove();
-	}
-	if (!here) return;
-	// Not on a phone: its head has no room for the tabs, and its menu is how
-	// one gets around.
-	page.hide_sidebar = !frappe.is_mobile();
-	frappe.app.sidebar && frappe.app.sidebar.apply_page_visibility();
-	$area.find(".one-project-places").remove();
-	const tabs = new frappe.ui.TabButtons({
-		label: __("OneProject"),
-		options: places.map((one) => ({ value: one.value, label: one.label })),
-		value: here.value,
-		on_change: (value) => frappe.set_route(places.find((one) => one.value === value).route),
-	});
-	tabs.$el.addClass("one-project-places").insertAfter($area.find(".navbar-breadcrumbs").first());
-};
+// A place's crumb is whatever its page sets, a list's name or a report's; a
+// board sets none, so it is given the place's. On a phone the crumb is also
+// the menu of the four. Frappe redraws the crumb on every `breadcrumbs.update`,
+// so this follows each one rather than racing the page, and leaves the name
+// to the page, which writes it again (`page.set_title`).
+{
+	const theirs = frappe.breadcrumbs.update.bind(frappe.breadcrumbs);
+	frappe.breadcrumbs.update = function () {
+		const places = onedesk.project.places();
+		const here = places.find((one) => one.is(frappe.get_route()));
+		const key = this.current_page();
+		if (here && !this.all[key]) this.all[key] = { type: "Custom", label: frappe.utils.escape_html(here.label), route: here.route };
+		theirs();
+		if (!here || !frappe.is_mobile()) return;
+		$(".navbar-breadcrumbs").each((i, crumbs) => {
+			const $last = $(crumbs).find("li").last();
+			if (!$last.length) return;
+			$last.removeClass("disabled").addClass("one-places");
+			$last.find("a").removeAttr("href");
+			$last.append(` ${frappe.utils.icon("chevron-down", "xs")}`);
+			new frappe.ui.Dropdown({
+				trigger: $last,
+				options: places.map((one) => ({
+					label: one.label,
+					icon: one === here ? "check" : null,
+					onclick: () => frappe.set_route(one.route),
+				})),
+			});
+		});
+	};
+}
 
 // The project's name in its page's breadcrumb opens this: its parent and
 // sub-projects, then the reader's other open projects (view.picker), as
@@ -55,4 +59,3 @@ onedesk.project.picker = async (current) => {
 	].filter(Boolean);
 };
 
-$(document).on("page-change", () => setTimeout(onedesk.project.place, 0));
