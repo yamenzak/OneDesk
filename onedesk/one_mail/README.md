@@ -77,8 +77,10 @@ Deleting from Trash is permanent.
 the message. For example, `from:ana subject:"price list" is:unread` finds
 unread mail from Ana with "price list" in the subject.
 
-**Writing** uses frappe's email window, so you can schedule a message, undo
-it for a few seconds after sending, and link it to a record.
+**Writing** uses frappe's email window. It opens in the bottom-right corner,
+and you can minimise it and keep reading. You can schedule a message with the
+arrow beside **Send**, undo it for a few seconds after sending, ask for a read
+receipt or a copy to yourself from **⋯**, and link it to a record.
 
 **Signatures** belong to the address, not the person. Set one under
 **Signature** in the mailbox's **⋯** menu. It's added to every email sent

@@ -575,7 +575,11 @@ onedesk.OneMail = class OneMail {
 		const name = $(frame).closest(".om-message").attr("data-message");
 		const message = this.messages.find((one) => one.name === name);
 		if (!message) return;
-		const doc = new DOMParser().parseFromString(message.content || "", "text/html");
+		// A plain-text mail is stored as text, so its line breaks are kept.
+		let raw = message.content || "";
+		if (!frappe.utils.is_html(raw))
+			raw = `<div style="white-space: pre-wrap">${frappe.utils.escape_html(raw.replace(/\n{3,}/g, "\n\n").trim())}</div>`;
+		const doc = new DOMParser().parseFromString(raw, "text/html");
 		doc.querySelectorAll("script, iframe, object, embed, form, meta[http-equiv], link[rel=import]").forEach((el) => el.remove());
 		doc.querySelectorAll("*").forEach((el) => {
 			for (const attr of [...el.attributes]) if (/^on/i.test(attr.name)) el.removeAttribute(attr.name);
