@@ -51,10 +51,10 @@ onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "ema
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
 	onedesk.doctype_settings.adapted = true;
-	// General is held back: frappe's tab sets each control's value as it draws, and its
-	// onchange compares with ===, so a value that comes back as another type is saved on
-	// opening, twice, and the second meets the first as a conflict (tabs/settings_map.js).
-	// It is added outside the groups, so it is taken out by its builder.
+	// General is held back. It was saved on opening, which frappe has fixed
+	// (tabs/settings_map.js, same_value). What each of its settings does to a
+	// workspace is not yet looked at (docs/upstream/2026-10-07.md). It is added
+	// outside the groups, so it is taken out by its builder.
 	delete frappe.doctype_settings.builders.general;
 	// Automations is not one of frappe's tabs; it goes beside Approvals (one/automations.py).
 	const beside = frappe.doctype_settings.groups.find((group) => group.items.some((item) => item.id === "workflow"));

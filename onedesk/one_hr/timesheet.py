@@ -1,11 +1,24 @@
-"""Hours, written the way somebody reads them back."""
+"""Hours, written the way somebody reads them back, and one override on
+ERPNext's `Timesheet`."""
 
+import frappe
+from erpnext.projects.doctype.timesheet.timesheet import Timesheet
 from frappe import _
 from frappe.utils import format_datetime, get_datetime
 
 #: Same day: the date once, then two clock times. Across days: both in full.
 SAME_DAY = "d MMM HH:mm"
 CLOCK = "HH:mm"
+
+
+class OneTimesheet(Timesheet):
+	def set_user(self):
+		# The owner stands in only when there is no employee, or whoever logs
+		# the workshop's days could not log two of them at the same hour.
+		if self.employee:
+			self.user = frappe.db.get_value("Employee", self.employee, "user_id")
+		else:
+			self.user = self.owner
 
 
 def before_validate(doc, method=None) -> None:

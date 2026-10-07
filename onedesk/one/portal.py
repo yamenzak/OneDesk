@@ -79,7 +79,7 @@ COUNTED = 100
 #: The states of a kind that wait on the reader, and how the home says so.
 WAITING = {
 	"Sales Invoice": (("Unpaid", "Overdue", "Partly Paid"), lambda n: _("{0} to pay").format(n)),
-	"Purchase Order": (("To Receive and Bill", "To Receive"), lambda n: _("{0} to deliver").format(n)),
+	"Purchase Order": (("To Pay", "To Receive and Bill", "To Receive"), lambda n: _("{0} to deliver").format(n)),
 }
 
 
@@ -242,6 +242,8 @@ SAID_TO_READER = {
 	("Delivery Note", "Completed"): ("green", _lt("Delivered")),
 	# A supplier's purchase order, as the supplier sees it: what they still
 	# have to deliver.
+	# An advance is due before they deliver (erpnext's To Pay).
+	("Purchase Order", "To Pay"): ("amber", _lt("Awaiting payment")),
 	("Purchase Order", "To Receive and Bill"): ("amber", _lt("To deliver")),
 	("Purchase Order", "To Receive"): ("amber", _lt("To deliver")),
 	("Purchase Order", "To Bill"): ("green", _lt("Delivered")),
@@ -470,6 +472,7 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 	read from the request itself, never from the page."""
 	from erpnext.buying.doctype.request_for_quotation.mapper import (
 		add_items,
+		get_quotable_rfq,
 		validate_existing_supplier_quotation,
 	)
 	from erpnext.templates.pages.rfq import check_supplier_has_docname_access, get_supplier
@@ -485,22 +488,22 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 		or not frappe.db.exists("Portal User", {"parent": supplier, "user": user})
 	):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
-	doc = frappe.get_doc("Request for Quotation", rfq)
-	if doc.docstatus != 1:
+	if frappe.db.get_value("Request for Quotation", rfq, "docstatus") != 1:
 		frappe.throw(_("This request is closed."))
+	# erpnext's own check that the supplier was asked, and its row lookup,
+	# which takes the item from the request and only the rate and quantity
+	# from the supplier.
+	doc = get_quotable_rfq(rfq, supplier)
 	answered = frappe.parse_json(rows) or {}
 	items = []
 	for row in doc.items:
 		given = answered.get(row.name) or {}
 		rate, qty = flt(given.get("rate")), flt(given.get("qty"))
-		if rate <= 0 or qty <= 0:
-			continue
-		item = row.as_dict()
-		item.update({"rate": rate, "qty": qty, "stock_qty": qty * flt(row.conversion_factor or 1)})
-		items.append(item)
+		if rate > 0 and qty > 0:
+			items.append({"name": row.name, "idx": row.idx, "rate": rate, "qty": qty})
 	if not items:
 		frappe.throw(_("Add a rate for at least one item."))
-	validate_existing_supplier_quotation(supplier, items)
+	validate_existing_supplier_quotation(supplier, doc.name)
 
 	supplier_doc = frappe.get_cached_doc("Supplier", supplier)
 	quote = frappe.get_doc(
@@ -515,7 +518,7 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 			"terms": notes or "",
 		}
 	)
-	add_items(quote, supplier, items)
+	add_items(quote, supplier, doc, items)
 	quote.flags.ignore_permissions = True
 	frappe.session.user = "Administrator"
 	try:

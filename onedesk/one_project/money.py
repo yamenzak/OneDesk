@@ -126,11 +126,12 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		quoted = (
 			frappe.qb.from_(q)
 			.select(Sum(q.base_net_total))
-			.where(q.project.isin(projects) & (q.docstatus == 1) & q.status.isin(QUOTED))
+			# A quote revised is no longer offered (erpnext's Is Active).
+			.where(q.project.isin(projects) & (q.docstatus == 1) & (q.is_active == 1) & q.status.isin(QUOTED))
 			.run()
 		)
 		customer.append(
-			_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)])
+			_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)], is_active=1)
 		)
 	ordered = _lines("Sales Order", projects)
 	for doctype, label, value in (

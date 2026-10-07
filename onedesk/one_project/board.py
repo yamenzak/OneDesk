@@ -4,6 +4,8 @@ import json
 
 import frappe
 
+from onedesk.one import boards
+
 #: ERPNext's nightly job that turns open tasks past their date to Overdue.
 OVERDUE_JOB = "erpnext.projects.doctype.task.task.set_tasks_as_overdue"
 
@@ -17,8 +19,8 @@ COLUMNS = {
 	"Template": ("Gray", "Archived"),
 }
 
-#: What a card shows under the task's subject.
-CARD = ["priority", "exp_end_date"]
+#: What a card shows under the task's subject, and the icon it shows it by.
+CARD = {"priority": "flag", "exp_end_date": "calendar"}
 
 
 #: The Projects list's own board: open projects by how they are going, ready
@@ -30,7 +32,7 @@ HEALTH_FILTERS = [
 	["Project", "status", "=", "Open", False],
 	["Project", "project_type", "!=", "Employee Boarding", False],
 ]
-HEALTH_CARD = ["customer", "expected_end_date"]
+HEALTH_CARD = {"customer": "building-2", "expected_end_date": "calendar"}
 
 
 def settle(*_args) -> None:
@@ -45,32 +47,35 @@ def settle(*_args) -> None:
 		if shape(board):
 			board.flags.ignore_permissions = True
 			board.save()
-	if not frappe.db.exists("Kanban Board", HEALTH_BOARD):
-		board = frappe.new_doc("Kanban Board")
-		board.update(
-			{
-				"kanban_board_name": HEALTH_BOARD,
-				"reference_doctype": "Project",
-				"field_name": "one_health",
-				"filters": json.dumps(HEALTH_FILTERS),
-				"fields": json.dumps(HEALTH_CARD),
-				"show_labels": 0,
-				"private": 0,
-			}
-		)
-		for column, colour in HEALTH.items():
-			board.append("columns", {"column_name": column, "indicator": colour, "status": "Active"})
-		board.insert(ignore_permissions=True)
+	if frappe.db.exists("Kanban Board", HEALTH_BOARD):
+		board = frappe.get_doc("Kanban Board", HEALTH_BOARD)
+		if boards.cards(board, HEALTH_CARD):
+			board.flags.ignore_permissions = True
+			board.save()
+		return
+	board = frappe.new_doc("Kanban Board")
+	board.update(
+		{
+			"kanban_board_name": HEALTH_BOARD,
+			"reference_doctype": "Project",
+			"field_name": "one_health",
+			"filters": json.dumps(HEALTH_FILTERS),
+			"private": 0,
+		}
+	)
+	for column, colour in HEALTH.items():
+		board.append("columns", {"column_name": column, "indicator": colour, "status": "Active"})
+	boards.cards(board, HEALTH_CARD)
+	board.insert(ignore_permissions=True)
 
 
 def shape(doc, method=None) -> bool:
 	"""A board of tasks by status, shaped. Whether anything changed."""
 	if doc.reference_doctype != "Task" or doc.field_name != "status":
 		return False
-	before = [(one.column_name, one.indicator, one.status) for one in doc.columns] + [doc.fields, doc.show_labels]
+	before = [(one.column_name, one.indicator, one.status) for one in doc.columns]
 	doc.set("columns", [one for one in doc.columns if one.column_name in COLUMNS])
 	for one in doc.columns:
 		one.indicator, one.status = COLUMNS[one.column_name]
-	doc.fields = json.dumps(CARD)
-	doc.show_labels = 0
-	return before != [(one.column_name, one.indicator, one.status) for one in doc.columns] + [doc.fields, doc.show_labels]
+	carded = boards.cards(doc, CARD)
+	return carded or before != [(one.column_name, one.indicator, one.status) for one in doc.columns]

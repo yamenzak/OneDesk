@@ -26,6 +26,7 @@ def test_the_framework_reference_is_current():
 
 
 def test_upstream_was_read_recently():
+	"""The bench is a reviewed checkpoint (docs/UPSTREAM.md), and a recent one."""
 	out = _run("upstream.py", "--check")
 	assert out.returncode == 0, out.stdout + out.stderr
 

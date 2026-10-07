@@ -532,13 +532,13 @@ def _papers(project):
 		save(request, submit=True)
 
 
-def _photo() -> bytes:
+def _photo(sky=(176, 208, 232)) -> bytes:
 	"""A picture of a glazed frame against the sky, drawn rather than shipped."""
 	from io import BytesIO
 
 	from PIL import Image, ImageDraw
 
-	picture = Image.new("RGB", (960, 600), (176, 208, 232))
+	picture = Image.new("RGB", (960, 600), sky)
 	draw = ImageDraw.Draw(picture)
 	draw.rectangle((0, 460, 960, 600), fill=(214, 200, 176))
 	for left in (140, 500):

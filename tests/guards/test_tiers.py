@@ -47,7 +47,8 @@ def test_every_record_head_is_declared():
 
 def test_every_page_of_its_own_is_declared():
 	islands = {"onedesk.project": "Project", "onedesk.template": "Project Template"}
-	assert set(_hook("ui_islands")) == set(islands)
+	build = (APP.parent / "frontend" / "build-islands.mjs").read_text()
+	assert set(re.findall(r'"(onedesk\.\w+)":', build)) == set(islands)
 	assert set(islands.values()) == set(tiers.PAGES)
 	assert all(reason for reason in [*tiers.PAGES.values(), *tiers.NEXT_PAGES.values()])
 

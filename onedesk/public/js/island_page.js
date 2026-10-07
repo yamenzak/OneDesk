@@ -40,8 +40,8 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 
 	const draw_chrome = () => {
 		const name = chrome.title || title;
-		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between, menu);
-		else onedesk.shell.name(name);
+		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between, menu, page);
+		else onedesk.shell.name(name, { page });
 		if (chrome.status) page.set_indicator(chrome.status.label, chrome.status.color);
 		else page.clear_indicator();
 		page.clear_primary_action();

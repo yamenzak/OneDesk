@@ -511,6 +511,37 @@ Foundations done so far:
     moved into one list in `one/access.py`, and Project Template's into
     `one_project/access.py`. Guarded (`test_roles_are_given_in_access`).
 
+**Upstream checkpoints** (docs/UPSTREAM.md). From 2026-10-07 One runs on
+recorded frappe, erpnext and hrms commits (`upstream.json`), and moving to newer
+ones is a checkpoint: a note of what One leans on that moved and what upstream
+shipped, each item closed as Kept, Corrected, Adopted, Not for us or Later with
+a task, and a guard that fails while the bench is off the ledger, an item is
+open or the checkpoint is over 14 days old. The first, docs/upstream/2026-10-07.md,
+moved frappe 1119 commits, erpnext 557 and hrms 88. What it corrected:
+
+- **The rail and the panel**: frappe rewrote its rail (icon-only, pinned) and
+  decides the panel on the server. One's sidebar rules moved to
+  `shell_for_route`, the map is built again over One's sidebars
+  (`outside.placed`), and Check In and Intake are rows of frappe's own make.
+  The panel header's mark follows frappe now (the active rail tile shows it).
+- **The breadcrumb**: each page draws its own trail. A record on a page
+  ("Projects / Mansour Villa ▾"), a list named as its row, a record's crumb to
+  its home, the panel menu in the crumb, and the lit row all moved onto it, and
+  the browser checks read the trail.
+- **Islands** are named by their build entry (assets.json is frappe's registry).
+- **A slip** moves Working and Overdue tasks too, as erpnext's does now.
+- **Quotes**: Quoted counts the active version of a revised quote.
+- **A supplier's quote** goes through erpnext's hardened mapper.
+- **The new Kanban**: frappe opens every new board on it, so a fresh Pipeline
+  threw. The Pipeline, Projects by Health and a project's task board are on
+  it now, each card showing One's fields by icon, and each stage still says
+  what it is worth.
+- **Time for somebody without an account**: erpnext now checks overlap by the
+  sheet's user, and took the one logging it as that user. The workshop's days,
+  logged by one person, are checked by employee again (OneTimesheet).
+- **A purchase order To Pay** (an advance first) reads "Awaiting payment" on
+  the portal.
+
 Up next, in this order:
 
 1. **The foundations** (this arc): the points above, the guard registry, the

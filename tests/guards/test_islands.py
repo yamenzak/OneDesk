@@ -2,7 +2,6 @@
 (docs/ISLANDS.md). These guards keep every island, in every app, built the
 same way, so the screens read as one product and stay desk's."""
 
-import ast
 import json
 import re
 import sys
@@ -17,17 +16,12 @@ SRC = FRONTEND / "src"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
 
-def _ui_islands() -> dict:
-	node = next(
-		n for n in ast.parse(HOOKS).body if isinstance(n, ast.Assign) and n.targets[0].id == "ui_islands"
-	)
-	return ast.literal_eval(node.value)
-
-
 def _entries() -> dict:
+	"""The build's entries, by island name: frappe names an island by its entry
+	(ui/island/decisions/0014), so the entry is the declaration."""
 	build = (FRONTEND / "build-islands.mjs").read_text(encoding="utf-8")
 	block = re.search(r"ISLANDS = \{(.*?)\};", build, re.S).group(1)
-	return dict(re.findall(r'(\w+):\s*"([^"]+)"', block))
+	return dict(re.findall(r'"([\w.]+)":\s*"([^"]+)"', block))
 
 
 def _vue() -> list[Path]:
@@ -35,18 +29,16 @@ def _vue() -> list[Path]:
 
 
 def test_every_island_is_declared_built_and_mounted():
-	islands = _ui_islands()
 	entries = _entries()
-	assert islands, "no islands declared"
-	# Every declared island has an entry in the one build, and nothing is built
-	# that no hook declares.
-	assert set(islands.values()) == set(entries), (islands, entries)
-	for name, bundle in islands.items():
+	assert entries, "no islands built"
+	# frappe's hook for naming them is gone; a line in it would name nothing.
+	assert "ui_islands" not in HOOKS
+	for name, source in entries.items():
 		assert name.startswith("onedesk."), name
-		entry = (FRONTEND / entries[bundle]).read_text(encoding="utf-8")
+		entry = (FRONTEND / source).read_text(encoding="utf-8")
 		# Every island mounts through the kit, so `__` and the mount contract are
 		# the same everywhere.
-		assert 'from "../kit"' in entry and "screen(" in entry, bundle
+		assert 'from "../kit"' in entry and "screen(" in entry, name
 		# And a desk page mounts it through onedesk.island_page, which keeps the head.
 		pages = [
 			path

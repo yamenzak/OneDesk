@@ -231,6 +231,18 @@ GUARDS = [
 		"tests/guards/test_generated.py::test_nothing_upstream_moved_under_us",
 	),
 	Guard(
+		"upstream-checkpoint",
+		9,
+		"the bench moved without a reviewed checkpoint, a checkpoint note with an open item, or a checkpoint over 14 days old",
+		"tests/guards/test_generated.py::test_upstream_was_read_recently",
+	),
+	Guard(
+		"fields-land",
+		9,
+		"a shipped custom field placed after a field upstream dropped, or a property setter on a field that is gone",
+		"tests/guards/test_install.py::test_every_shipped_field_lands_where_it_was_put",
+	),
+	Guard(
 		"made-declared",
 		9,
 		"a kind of record we make that is not declared",

@@ -106,13 +106,54 @@ def modules_page() -> str:
 
 def upstream_page() -> str:
 	record = json.loads((tree.ROOT / "upstream.json").read_text())
-	out = [HEADER, "# Upstream\n", "\nWhat this app was last read against.\n"]
-	out.append(f"\nRecorded {record['recorded_on']}.\n\n")
-	out.append("| App | Commit | Dated |\n|---|---|---|\n")
+	out = [HEADER, "# Upstream\n"]
+	out.append(
+		"\nOne runs on frappe, erpnext and hrms as they are on their develop branches,"
+		" and keeps up with them one checkpoint at a time. A checkpoint is the three"
+		" apps at known commits, with a note in `docs/upstream/` that went through"
+		" everything that changed since the last one.\n"
+	)
+	out.append(f"\n## Now\n\nCheckpoint of {record['recorded_on']}")
+	out.append(f", reviewed in `{record['note']}`.\n" if record.get("note") else ".\n")
+	out.append("\n| App | Version | Commit | Dated |\n|---|---|---|---|\n")
 	for app in ("frappe", "erpnext", "hrms"):
 		if app in record:
-			out.append(f"| {app} | `{record[app]['sha'][:10]}` | {record[app]['date']} |\n")
-	out.append("\n`python scripts/upstream.py` says what has landed since.\n")
+			one = record[app]
+			out.append(f"| {app} | {one.get('version', '?')} | `{one['sha'][:10]}` | {one['date']} |\n")
+	out.append(
+		"\n## Taking the next checkpoint\n\n"
+		"1. `python scripts/upstream.py --fetch` brings in each app's upstream branch,"
+		" and `python scripts/upstream.py` says what landed.\n"
+		"2. `--draft` writes `docs/upstream/<today>.md`. It lists every place One leans"
+		" on upstream that moved (a line `scripts/overrides.py` names, a doctype we"
+		" customize or hook, a method we override, a desk method our scripts patch,"
+		" the frappe/ui parts the islands use) and everything upstream shipped (each"
+		" `feat` commit, new doctypes, new hooks, new frappe/ui parts). Every item"
+		" starts open.\n"
+		"3. `--update` backs up the site, moves each app to the note's commits, installs"
+		" what they need, migrates and builds, as the bench's user. `ONE_BENCH_ENV`"
+		" names a file it sources before each step, with the Node, certificate bundle and"
+		" proxy the machine needs and the bench does not carry."
+		" Restart the bench after it.\n"
+		"4. Run `scripts/overrides.py --check`, the gates, the browser screens and the"
+		" demo checks (a fresh install and demo build is the surest), and fix what"
+		" broke.\n"
+		"5. Close every item in the note: tick it and say, after a dash, what was done:"
+		" **Kept** (still right as it is), **Corrected** (we changed ours to follow),"
+		" **Adopted** (we now use what upstream added), **Not for us**, or **Later**"
+		" with the task it went to.\n"
+		"6. `--checkpoint` records it in `upstream.json`. It refuses while the bench is"
+		" not at the note's commits or any item is open.\n"
+		"\nThe gates fail when the bench moved without a checkpoint, when the"
+		" checkpoint's note has an open item, or when the checkpoint is more than"
+		" 14 days old. So the bench cannot drift, and falling behind stops the gates.\n"
+	)
+	history = record.get("history") or []
+	if history:
+		out.append("\n## Before\n\n| Checkpoint | frappe | erpnext | hrms | Note |\n|---|---|---|---|---|\n")
+		for one in reversed(history):
+			cells = [f"`{one[app]['sha'][:10]}` {one[app]['date']}" if app in one else "" for app in ("frappe", "erpnext", "hrms")]
+			out.append(f"| {one.get('recorded_on', '?')} | {' | '.join(cells)} | {one.get('note') or 'none'} |\n")
 	return "".join(out)
 
 

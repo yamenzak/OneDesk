@@ -204,9 +204,25 @@ it serves in `tests/guards/registry.py` and lives in `tests/guards/`.
 checkout. It is pinned to the sha in `upstream.json`, so it describes the
 framework we have rather than the one somebody remembered.
 
-`python scripts/upstream.py` says what landed in frappe, erpnext and hrms since
-we last looked; `--record` marks today. Run it before starting anything — twice
-now we have rebuilt something that had already shipped.
+**Upstream checkpoints** (docs/UPSTREAM.md). `upstream.json` records the
+frappe, erpnext and hrms commits One runs on, and each move to newer ones is a
+checkpoint with a note in `docs/upstream/<date>.md`:
+
+1. `python scripts/upstream.py --fetch --draft` writes the note: what One leans
+   on that moved, and what upstream shipped, every item open.
+2. `--update` moves the bench to the note's commits (`ONE_BENCH_ENV` names a
+   file sourced before each step, for Node, certificates and a proxy), then
+   restart the bench.
+3. Run `scripts/overrides.py --check`, the gates, the browser screens and the
+   demo checks, and fix what broke.
+4. Close every item: **Kept**, **Corrected**, **Adopted**, **Not for us**, or
+   **Later** with a task.
+5. `--checkpoint` records it. The guard fails while the bench is off the
+   ledger, an item is open, or the last checkpoint is over 14 days old.
+
+Run `python scripts/upstream.py` before starting anything. It says what landed
+since the checkpoint. Twice now we have rebuilt something that had already
+shipped.
 
 **`docs/OVERRIDES.md` is every place we lean on somebody else's code** — a CSS
 rule we outweigh, a class we subclass, a seam we hook, a field we write. Each

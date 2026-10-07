@@ -159,7 +159,7 @@ def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
 	after its page, "People / Rania Sabbagh", and drawn by the shell's record
 	part, never with a head or a back button of its own. docs/SHELL.md, Record."""
 	shell = SHELL_JS.read_text(encoding="utf-8")
-	for part in ("trail(", "record($into", "side(", "as_record(", "then: esc(label)"):
+	for part in ("trail(", "record($into", "side(", "as_record(", "page.set_breadcrumbs(["):
 		assert part in shell, part
 	for path in _page_scripts():
 		js = path.read_text(encoding="utf-8")

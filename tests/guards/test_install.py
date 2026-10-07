@@ -5,6 +5,7 @@ import ast
 import glob
 import json
 import os
+import re
 from pathlib import Path
 
 import pytest
@@ -75,3 +76,36 @@ def test_a_new_workspace_is_settled_once_its_company_exists():
 	stages = source[source.index("def get_setup_stages") : source.index("def settle")]
 	assert '"fn": settle' in stages
 	assert 'frappe.get_hooks("after_sync", app_name="onedesk")' in source
+
+
+def test_every_shipped_field_lands_where_it_was_put():
+	"""A custom field is placed after a field, and a property setter changes
+	one. Upstream renames and drops fields, and frappe then puts ours at the
+	end of the form, or sets a property on nothing, without a word. Read on
+	every upstream checkpoint (docs/UPSTREAM.md)."""
+	doctypes = _doctypes()
+	if not doctypes:
+		pytest.skip("no bench beside the app")
+	ours, setters = {}, []
+	for path in APP.glob("*/custom/*.json"):
+		said = json.loads(path.read_text())
+		for field in said.get("custom_fields") or []:
+			ours.setdefault(field["dt"], {})[field["fieldname"]] = (path, field.get("insert_after"))
+		setters += [(path, one) for one in said.get("property_setters") or []]
+	standard = {name: {f.get("fieldname") for f in doc.get("fields", [])} for name, doc in doctypes.items()}
+	# What hrms adds to erpnext's doctypes as custom fields when it installs.
+	hrms = set(re.findall(r'"fieldname": "(\w+)"', (APPS / "hrms" / "hrms" / "setup.py").read_text()))
+	standard = {name: fields | hrms for name, fields in standard.items()}
+	lost = []
+	for doctype, fields in ours.items():
+		if doctype not in standard:
+			continue
+		known = standard[doctype] | set(fields)
+		lost += [f"{path.name}: {doctype}.{name} after {after}" for name, (path, after) in fields.items() if after and after not in known]
+	for path, one in setters:
+		doctype, field = one.get("doc_type"), one.get("field_name")
+		if one.get("doctype_or_field") != "DocField" or doctype not in standard:
+			continue
+		if field not in standard[doctype] | set(ours.get(doctype, {})):
+			lost.append(f"{path.name}: {doctype}.{field} {one.get('property')}")
+	assert not lost, lost

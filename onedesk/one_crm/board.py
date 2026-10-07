@@ -4,12 +4,12 @@ The board is made here, on `sales_stage` as it is, with one column per Sales
 Stage in position order.
 """
 
-import json
 from typing import Annotated
 
 import frappe
 from frappe.utils import flt
 
+from onedesk.one import boards
 from onedesk.one_crm import stages
 
 BOARD = "Pipeline"
@@ -17,8 +17,8 @@ BOARD = "Pipeline"
 #: What each column's dot says: Won green, On Hold orange, the rest still open.
 INDICATOR = {"Won": "Green", "On Hold": "Orange"}
 
-#: What a card shows under the deal's name.
-CARD = ["opportunity_amount", "one_next_step", "one_next_on"]
+#: What a card shows under the deal's name, and the icon it shows it by.
+CARD = {"opportunity_amount": "banknote", "one_next_step": "footprints", "one_next_on": "calendar-clock"}
 
 
 def sync(doc=None, method=None, *args) -> None:
@@ -35,10 +35,9 @@ def sync(doc=None, method=None, *args) -> None:
 			"reference_doctype": "Opportunity",
 			"field_name": "sales_stage",
 			"private": 0,
-			"show_labels": 0,
-			"fields": json.dumps(CARD),
 		}
 	)
+	boards.cards(board, CARD)
 	board.set("columns", [])
 	for stage in stages.stages():
 		board.append(

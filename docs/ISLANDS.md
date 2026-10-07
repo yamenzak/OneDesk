@@ -35,8 +35,9 @@ Frappe already has the way, in our bench's frappe: **desk islands**
 - **Desk keeps the page head**: the breadcrumb, the status, the buttons and
   the ··· menu. The sidebar, the routes, the forms behind Edit Details,
   permissions and realtime stay frappe's.
-- An app builds all its islands in one Vite build and declares them in
-  `hooks.py` as `ui_islands`.
+- An app builds all its islands in one Vite build. An entry's name is the
+  island's name: the build writes it into `assets.json`, which is frappe's
+  registry of islands.
 - `@framework/ui` (frappe's own Vue parts, taken from CRM) is there too: Link,
   FormLayout, Grid, ListView, Filter, ActivityTimeline and FileUpload.
 
@@ -159,10 +160,10 @@ In the order they'd pay off:
   1. a component in `frontend/src/<screen>/`;
   2. an entry in `frontend/src/islands/` (`export const mount =
      screen(Component)`);
-  3. a line in `ISLANDS` and in `hooks.py` `ui_islands`;
+  3. a line in `ISLANDS`, named `onedesk.<screen>`;
   4. a desk Page whose script calls `onedesk.island_page`.
 - **Guards** (`tests/guards/test_islands.py`):
-  - every island is declared, built and mounted by a desk page;
+  - every island is built and mounted by a desk page;
   - `bench build` builds them, with frappe-ui pinned;
   - a `.vue` file has no style, colour or import of its own;
   - only `kit/desk.js` reaches into desk;

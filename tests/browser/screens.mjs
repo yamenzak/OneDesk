@@ -22,7 +22,7 @@ export const SCREENS = [
 	{ who: "samir@one.test", path: "/desk/project", sees: ["Mansour Villa Windows and Doors", "Bayview Tower Curtain Wall"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/project/view/kanban/Projects%20by%20Health", sees: ["Mansour Villa Windows and Doors"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/query-report/Workload", sees: ["Workload", "Samir Aoun"], panel: true, phone: PROJECT_PLACES },
-	{ who: "samir@one.test", path: "/desk/project/PROJ-0001", page: "project-view", sees: ["Mansour Villa Windows and Doors", "Staircase balustrade", "Assign", "Files"], panel: false, menu: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/project/PROJ-0001", page: "project-view", sees: ["Mansour Villa Windows and Doors", "Staircase balustrade", "Assign", "Files"], panel: false, menu: PROJECT_PLACES, trail: ["Projects", "Mansour Villa Windows and Doors"] },
 	{ who: "samir@one.test", path: "/desk/project/PROJ-0001?view=activity", page: "project-view", sees: ["Comment", "New Email", "Assign"], panel: false },
 	{ who: "samir@one.test", path: "/desk/project-template", sees: ["Aluminium & Glazing", "Tasks", "Days", "Projects", "From the Library"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/project-template/Aluminium%20%26%20Glazing", page: "project-template-view", sees: ["Aluminium & Glazing", "Day 0", "Assign", "Files"], panel: false, menu: PROJECT_PLACES },
@@ -33,7 +33,7 @@ export const SCREENS = [
 	{ who: "omar@one.test", path: "/desk/opportunity/view/kanban/Pipeline", sees: ["Webb Hotel lobby curtain wall"] },
 	// OneBook, OneInventory
 	{ who: "huda@one.test", path: "/desk/onebook", sees: ["OneBook"] },
-	{ who: "karim@one.test", path: "/desk/item/ALU-6063", sees: ["ALU-6063"] },
+	{ who: "karim@one.test", path: "/desk/item/ALU-6063", sees: ["ALU-6063"], trail: ["Items", "Aluminium Profile 6063"] },
 	// OneHR
 	{ who: "mariam@one.test", path: "/desk/onehr", sees: ["OneHR"] },
 	// OneStudio

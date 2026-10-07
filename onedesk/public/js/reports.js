@@ -58,20 +58,15 @@ onedesk.reports.called_what_the_rail_called_it = () => {
 	if (!QueryReport || QueryReport.prototype.__one_titles) return;
 	QueryReport.prototype.__one_titles = true;
 
-	// The heading is the last breadcrumb, not `page_title` — `load_report` sets
-	// that and nothing reads it. `set_breadcrumbs` runs late enough in the
-	// serial chain to have the last word.
-	const theirs = QueryReport.prototype.set_breadcrumbs;
-	QueryReport.prototype.set_breadcrumbs = function () {
-		theirs.call(this);
+	// The heading is the last crumb, drawn from `page_title`, which also names
+	// the browser tab. `load_report` sets it before its serial chain draws the
+	// page head, so it is renamed as soon as it is set.
+	const theirs = QueryReport.prototype.load_report;
+	QueryReport.prototype.load_report = function (...args) {
+		const result = theirs.apply(this, args);
 		const ours = ((frappe.boot.one_titles || {}).Report || {})[this.report_name];
-		if (!ours) return;
-		this.page_title = __(ours);
-		frappe.breadcrumbs.add({
-			type: "Custom",
-			label: __(ours),
-			route: `/app/query-report/${encodeURIComponent(this.report_name)}`,
-		});
+		if (ours) this.page_title = __(ours);
+		return result;
 	};
 };
 
@@ -157,29 +152,27 @@ onedesk.reports.a_payroll_month = () => {
 
 // The same for a dashboard, at a different seam.
 //
-// A dashboard's heading is the last crumb too, but `Dashboard.set_breadcrumbs`
-// passes only `{module, doctype, docname}` — and `set_dashboard_breadcrumb`
-// reads a `label` its own caller never sends. So the crumb is labelled on its
-// way through, and the browser tab with it. The Dashboard class is local to
-// frappe's dashboard page and `frappe.dashboard` only exists once one has been
-// drawn, so there is nothing else to wrap.
+// A dashboard's heading is the last crumb too, which its page sets to the
+// document's name (`Dashboard.set_breadcrumbs`). The Dashboard class is local to
+// frappe's dashboard page, so the crumb is renamed on its way into the page,
+// and only there: on the dashboard page, the last crumb, the document's name.
 //
 // The browser tab is left as it is. `Dashboard.show` calls `set_title` after
 // the crumb, so anything written here is overwritten a line later, and a tab
 // reading "Payroll Dashboard" beside a page reading "Payroll Overview" is not
 // worth a second patch.
 onedesk.reports.dashboards_too = () => {
-	if (!frappe.breadcrumbs || frappe.breadcrumbs.__one_titles) return;
-	frappe.breadcrumbs.__one_titles = true;
+	const Page = frappe.ui.Page;
+	if (!Page || Page.prototype.__one_titles) return;
+	Page.prototype.__one_titles = true;
 
-	const theirs = frappe.breadcrumbs.add;
-	frappe.breadcrumbs.add = function (module, doctype, type) {
-		const crumb = typeof module === "object" ? module : null;
-		if (crumb && crumb.doctype === "Dashboard" && !crumb.label) {
-			const ours = ((frappe.boot.one_titles || {}).Dashboard || {})[crumb.docname];
-			if (ours) crumb.label = ours;
-		}
-		return theirs.call(this, module, doctype, type);
+	const theirs = Page.prototype.set_breadcrumbs;
+	Page.prototype.set_breadcrumbs = function (items) {
+		const route = frappe.get_route();
+		const last = (items || [])[items?.length - 1];
+		const ours = route[0] === "dashboard-view" && ((frappe.boot.one_titles || {}).Dashboard || {})[last?.label];
+		if (ours) items = [...items.slice(0, -1), { ...last, label: __(ours) }];
+		return theirs.call(this, items);
 	};
 };
 
@@ -335,9 +328,10 @@ onedesk.reports.lists_too = () => {
 	const crumb = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
 	if (BaseList && !BaseList.prototype.__one_titles) {
 		BaseList.prototype.__one_titles = true;
-		const theirs = BaseList.prototype.set_title;
-		BaseList.prototype.set_title = function () {
-			// Its heading is its crumb, so it says what the rail's row says (shell.js).
+		// Its heading is the last crumb, drawn from `page_title` before the
+		// browser tab is named from it, so it is renamed before either.
+		const theirs = BaseList.prototype.get_breadcrumbs;
+		BaseList.prototype.get_breadcrumbs = function () {
 			const label = ours(this.doctype) || crumb(this.doctype);
 			if (label && !frappe.router.doctype_layout) this.page_title = __(label);
 			return theirs.call(this);

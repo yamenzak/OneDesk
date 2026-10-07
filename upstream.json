@@ -1,15 +1,36 @@
 {
-  "recorded_on": "2026-10-05",
+  "recorded_on": "2026-10-07",
+  "note": "docs/upstream/2026-10-07.md",
   "frappe": {
-    "sha": "11fb93570cc0ab860fbd8890af25ad47c199f462",
-    "date": "2026-09-19"
+    "sha": "19e5f0fa2b88263f8ace99f07c375ccdb6f40d78",
+    "date": "2026-10-07",
+    "version": "17.0.0-dev"
   },
   "erpnext": {
-    "sha": "db6e0891099ab27f571b7b9697ba90f6573430f5",
-    "date": "2026-09-19"
+    "sha": "e0d68c0185309d2be35911546856fb395d09c6dd",
+    "date": "2026-10-07",
+    "version": "17.0.0-dev"
   },
   "hrms": {
-    "sha": "d222ced551c2d9de2ac67edb89fde121eb39a9af",
-    "date": "2026-09-18"
-  }
+    "sha": "912515388d2a1e9b6db2c3b1ff27833ec4f4df64",
+    "date": "2026-10-07",
+    "version": "17.0.0-dev"
+  },
+  "history": [
+    {
+      "recorded_on": "2026-10-05",
+      "frappe": {
+        "sha": "11fb93570cc0ab860fbd8890af25ad47c199f462",
+        "date": "2026-09-19"
+      },
+      "erpnext": {
+        "sha": "db6e0891099ab27f571b7b9697ba90f6573430f5",
+        "date": "2026-09-19"
+      },
+      "hrms": {
+        "sha": "d222ced551c2d9de2ac67edb89fde121eb39a9af",
+        "date": "2026-09-18"
+      }
+    }
+  ]
 }

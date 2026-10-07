@@ -32,12 +32,14 @@ def test_a_rail_row_filters_only_its_own_list():
 
 def test_a_crumb_says_what_the_rail_says_and_leads_home():
 	# Set at load in shell.js, so a record opened by its address is named too.
-	assert "frappe.breadcrumbs.set_list_breadcrumb = function" in SHELL
-	assert "frappe.breadcrumbs.set_tree_breadcrumb = function" in SHELL
+	# frappe draws each page's own trail (page.set_breadcrumbs): a list's is its
+	# title, and a record's starts with its list (frappe.ui.form.get_breadcrumbs).
+	assert "List.prototype.get_breadcrumbs = function" in SHELL
+	assert "frappe.ui.form.get_breadcrumbs = function (frm)" in SHELL
 	assert "frappe.boot.one_homes" in SHELL and ".Crumb" in SHELL
-	assert "Sidebar.prototype.is_route_in_sidebar" in SHELL
-	# reports.js no longer names a crumb; it names a list's and a tree's heading.
-	assert "set_list_breadcrumb" not in REPORTS
+	assert "Sidebar.prototype.find_active_item = function" in SHELL
+	# reports.js names a list's and a tree's heading, which is its crumb.
+	assert "frappe.breadcrumbs" not in REPORTS and "BaseList.prototype.get_breadcrumbs" in REPORTS
 	assert "TreeView.prototype.set_title" in REPORTS and "crumb(this.doctype)" in REPORTS
 	assert 'one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]' in HOOKS
 	titles = (tree.APP / "one" / "titles.py").read_text()
@@ -47,7 +49,7 @@ def test_a_crumb_says_what_the_rail_says_and_leads_home():
 
 
 def test_a_folded_group_opens_around_the_page_it_holds():
-	# Frappe looks for the active row's group before the sidebar opens on a cold
-	# load; shell.js looks again once it has.
-	assert "Sidebar.prototype.expand_sidebar = function" in SHELL
-	assert "if (this.sidebar_expanded) this.expand_parent_section();" in SHELL
+	# frappe opens the active row's group whenever it lights a row
+	# (highlight_active_item), so the row shell.js lights is opened too.
+	assert "Sidebar.prototype.find_active_item = function" in SHELL
+	assert "sidebar.active_item = $row" in SHELL

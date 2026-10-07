@@ -51,6 +51,22 @@ def kept(said: dict) -> None:
 	owned = said.get("entity_module")
 	if isinstance(owned, dict):
 		said["entity_module"] = {entity: shell for entity, shell in owned.items() if shell in ours}
+	placed(said)
+
+
+def placed(said: dict) -> None:
+	"""Where each record opens, worked out again over One's sidebars alone.
+	frappe maps every route to a sidebar on the server (`build_canonical_shells`)
+	before this runs, so its map still names erpnext's and hrms's; the same
+	ladder over what is left puts a Project Template in OneProject rather than in
+	a sidebar the reader is not given."""
+	from frappe.desk.desk_views import DeskViews
+	from frappe.desk.doctype.sidebar.sidebar import build_canonical_shells
+
+	default = ((said.get("user") or {}).get("default_workspace") or {}).get("name")
+	said["canonical_shell"], said["home_shell"] = build_canonical_shells(
+		said["module_sidebars"], said.get("entity_module") or {}, DeskViews(), default_workspace=default
+	)
 
 
 @frappe.whitelist()

@@ -3,54 +3,21 @@ frappe.provide("onedesk");
 // the rest of this file has run.
 frappe.provide("onedesk.dock");
 
-// The rail is five marks and never needs to be words: every entry is a product,
-// and the panel beside it is where the reading happens. Frappe keeps the choice
-// in localStorage and offers a toggle; One takes the choice away and gives the
-// width to the panel.
-frappe.ui.Dock = class OneDock extends frappe.ui.Dock {
-	constructor(...args) {
-		super(...args);
-		this.collapsed = true;
-		this.apply_collapsed();
-	}
-
-	toggle_collapsed() {}
-};
-
-// The panel is a column, not a flyout. `panel_can_close` is the single hinge:
-// frappe asks it both for where the panel starts and for whether it may close,
-// and answers yes whenever there is a rail, on the reasoning that a rail is the
-// way back to a panel you dismissed. One is a product people work inside all
-// day rather than a desk they dip into, so the panel stays out and the rail is
-// for moving between products.
-//
 // A record being printed is still that record: frappe reads the print route as
 // its own page, which only the Printing sidebar links, and so left the record's
 // app for frappe's Print Format and Letter Head lists. It reads it as the
 // record's doctype instead, so an invoice prints inside OneBook.
 frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
-	panel_can_close() {
-		return false;
-	}
-
 	// The workflow builder and the automation list and form are where Workspace ›
-	// Approvals and Automations open, so they stay in One's rail rather than
+	// Approvals and Automations open, so they stay in One's sidebar rather than
 	// frappe's Workflow and Automation ones: read as the page they open from.
 	// They are workspace settings wherever they are opened from, a record's
 	// Settings dialog in OneCRM included, so One's sidebar is taken even over
-	// the one on screen, which frappe would otherwise keep (its step 1). The
-	// sidebar they were opened from is remembered, so going back to the
-	// customer puts OneCRM's back rather than keeping One's.
-	resolve_sidebar_for(route, sticky, on_screen) {
-		if (OneSidebar.workspace(route) && frappe.boot.module_sidebars?.One) {
-			if (sticky && sticky !== "One") this.one_left = sticky;
-			return { sidebar: "One", reason: "a workspace setting", provisional: false };
-		}
-		const left = this.one_left;
-		this.one_left = null;
-		if (left && sticky === "One" && !this.get_modules_linking(this.entity_from_route(route)).includes("One"))
-			return super.resolve_sidebar_for(route, left, on_screen);
-		return super.resolve_sidebar_for(route, sticky, on_screen);
+	// the one on screen or in the address, which frappe would otherwise keep.
+	// Going back puts the address, and with it OneCRM's sidebar, back.
+	shell_for_route(route) {
+		if (OneSidebar.workspace(route) && frappe.boot.module_sidebars?.One) return "One";
+		return super.shell_for_route(route);
 	}
 
 	entity_from_route(route) {
@@ -98,6 +65,8 @@ $(document).on("app_ready", () =>
 		const payload = await frappe.xcall("onedesk.one.reports.sidebars");
 		frappe.boot.module_sidebars = payload.module_sidebars;
 		frappe.boot.entity_module = payload.entity_module;
+		frappe.boot.canonical_shell = payload.canonical_shell;
+		frappe.boot.home_shell = payload.home_shell;
 		const sidebar = frappe.app.sidebar;
 		if (!sidebar) return;
 		sidebar.all_sidebar_items = frappe.boot.module_sidebars;
@@ -125,44 +94,48 @@ if (frappe.boot.one_elsewhere) {
 // destination — rail, Time, Check-ins, New — puts four decisions in front of a
 // thing that should be one.
 //
-// `get_shortcuts()` is frappe's own list, with a documented item shape, and One
-// already extends Dock to keep the rail collapsed. The dot shows the state
-// rather than offering a verb: green while clocked in, grey while not, and the
-// click sends no direction because the server reads that from where the person
-// already is.
-frappe.ui.Dock = class OneClockDock extends frappe.ui.Dock {
-	get_shortcuts() {
-		return [
-			...super.get_shortcuts(),
-			{
-				name: "clock",
-				icon: "clock",
-				label: __("Check In"),
-				css_class: "one-clock hide",
-				badge: `<span class="one-clock-dot"></span>`,
-				on_click: () => onedesk.dock.punch(),
-				setup: ($item) => {
-					onedesk.dock.$clock = $item;
-					onedesk.dock.refresh();
-				},
-			},
-			// Intake: what OneAI did with what arrived, and what waits for you.
-			// A number when something waits, a dot when something is unread.
-			{
-				name: "intake",
-				icon: "inbox",
-				label: __("OneIntake"),
-				css_class: "one-intake-rail",
-				badge: `<span class="one-intake-count hide"></span>`,
-				on_click: () => frappe.set_route("intake"),
-				setup: ($item) => {
-					onedesk.dock.$intake = $item;
-					onedesk.dock.intake();
-					frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
-				},
-			},
-		];
+// frappe's rail lists an app's modules and nothing else, so the two rows are
+// added under them, drawn as frappe draws a rail row (`make_dock_item`), each
+// with its tooltip. The dot shows the state rather than offering a verb:
+// green while clocked in, grey while not, and the click sends no direction
+// because the server reads that from where the person already is.
+frappe.ui.Dock = class OneDock extends frappe.ui.Dock {
+	make() {
+		super.make();
+		const $own = $(`<div class="dock-items one-dock-own"></div>`).insertBefore(this.$dock.find(".dock-user"));
+		onedesk.dock.$clock = this.own_item($own, "clock", __("Check In"), "one-clock hide", `<span class="one-clock-dot"></span>`, () =>
+			onedesk.dock.punch()
+		);
+		onedesk.dock.$intake = this.own_item($own, "inbox", __("OneIntake"), "one-intake-rail", `<span class="one-intake-count hide"></span>`, () =>
+			frappe.set_route("intake")
+		);
+		onedesk.dock.refresh();
+		// Intake: what OneAI did with what arrived, and what waits for you. A
+		// number when something waits, a dot when something is unread.
+		onedesk.dock.intake();
+		// frappe's realtime drops a handler added before its socket exists.
+		const listen = () => frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
+		frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 	}
+
+	own_item($own, icon, label, css_class, badge, on_click) {
+		const $item = $(`<button class="dock-item ${css_class}" aria-label="${frappe.utils.escape_html(label)}">
+			<span class="dock-item-icon">${frappe.utils.icon(icon, "md")}${badge}</span>
+			<span class="dock-item-label">${frappe.utils.escape_html(label)}</span>
+		</button>`).appendTo($own);
+		$item.data("tooltip", new frappe.ui.Tooltip($item[0], { text: label, side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" }));
+		$item.on("click", () => {
+			this.close();
+			on_click();
+		});
+		return $item;
+	}
+};
+
+// A rail row's name, read aloud and shown beside it.
+onedesk.dock.name = ($item, label) => {
+	$item.attr("aria-label", label);
+	$item.data("tooltip")?.set_text(label);
 };
 
 // How many documents wait for the reader in Intake, and whether anything is
@@ -174,8 +147,7 @@ onedesk.dock.intake = () =>
 		$badge.toggleClass("hide", !said.waiting && !said.unread);
 		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
 		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
-		const label = said.waiting ? __("{0} waiting in OneIntake", [said.waiting]) : __("OneIntake");
-		onedesk.dock.$intake.attr({ "aria-label": label, title: label });
+		onedesk.dock.name(onedesk.dock.$intake, said.waiting ? __("{0} waiting in OneIntake", [said.waiting]) : __("OneIntake"));
 		return said;
 	});
 
@@ -198,8 +170,7 @@ onedesk.dock.refresh = () =>
 			: ready.direction
 				? __("Check In")
 				: __("Not checking in today");
-		$item.attr("aria-label", label);
-		$item.attr("title", label);
+		onedesk.dock.name($item, label);
 		$item.find(".dock-item-label").text(on ? __("Checked In") : __("Check In"));
 		return ready;
 	});

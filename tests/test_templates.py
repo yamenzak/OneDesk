@@ -149,7 +149,7 @@ def test_a_template_opens_on_its_page_and_every_change_saves_it():
 		assert f"def {method}(" in view, method
 	assert view.count("_saved(doc)") >= 5, "every change saves the template, so its checks run"
 	assert 'frappe.has_permission("Project Template", "write", template, throw=True)' in view
-	assert '"onedesk.template": "onedesk_template"' in HOOKS
+	assert '"onedesk.template": "src/islands/template.js"' in (ROOT / "frontend" / "build-islands.mjs").read_text()
 	assert '"onedesk.one_project.templates.days_kept"' in HOOKS
 	page = (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text()
 	assert 'follow("Project Template"' in page

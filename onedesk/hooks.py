@@ -567,8 +567,6 @@ doc_events = {
 		"after_insert": "onedesk.one_task.capture.task_made",
 		"before_validate": [
 			"onedesk.one_task.task.before_validate",
-			# What depends on what, per project. See one_project/plan.py.
-			"onedesk.one_project.plan.before_validate",
 			# A template task begins and lasts whole days. See one_project/templates.py.
 			"onedesk.one_project.templates.days_kept",
 		],
@@ -973,6 +971,8 @@ override_doctype_dashboards = {
 # Every shift location counts, not the first. See one_hr/checkin.py.
 override_doctype_class = {
 	"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin",
+	# Time logged for somebody without an account. See one_hr/timesheet.py.
+	"Timesheet": "onedesk.one_hr.timesheet.OneTimesheet",
 	# A stored file's content is read back from R2. See one_storage/file.py.
 	"File": "onedesk.one_storage.file.CloudFile",
 	# A rule a workspace builds is held to what it may do. See one/rules.py.
@@ -1027,9 +1027,8 @@ app_include_css = [
 ]
 # /start and /welcome, which are not desk screens and load none of the above.
 web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
-# Screens drawn with frappe-ui inside desk pages: frontend/, each built by
-# frontend/build-islands.mjs and mounted by onedesk.island_page. docs/ISLANDS.md.
-ui_islands = {"onedesk.project": "onedesk_project", "onedesk.template": "onedesk_template"}
+# Screens drawn with frappe-ui inside desk pages are named by their entry in
+# frontend/build-islands.mjs, and mounted by onedesk.island_page. docs/ISLANDS.md.
 
 app_include_js = [
 	"/assets/onedesk/js/theme.js",

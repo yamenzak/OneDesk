@@ -203,7 +203,7 @@ async function pay(item) {
 // Buying: ERPNext's statuses, coloured as its lists colour them.
 const PAPER = {
   Draft: "red", Pending: "orange", "Partially Ordered": "orange", Ordered: "green", Received: "green", "Partially Received": "orange",
-  Submitted: "blue", "To Bill": "orange", "To Receive": "orange", "To Receive and Bill": "orange", Completed: "green", Closed: "gray",
+  Submitted: "blue", "To Pay": "orange", "To Bill": "orange", "To Receive": "orange", "To Receive and Bill": "orange", Completed: "green", Closed: "gray",
   Stopped: "red", Expired: "gray", Cancelled: "red",
 };
 const slug = (doctype) => doctype.toLowerCase().replaceAll(" ", "-");

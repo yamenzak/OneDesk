@@ -31,31 +31,39 @@ def test_the_project_half_is_its_own_place():
 		for item in json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())["items"]
 	]
 	assert dock.index("OneProject") == dock.index("OneTask") + 1
-	assert (
-		'"onedesk.one_project.calendar.LAYERS"' in HOOKS
-		and '"onedesk.one_project.plan.before_validate"' in HOOKS
-	)
+	assert '"onedesk.one_project.calendar.LAYERS"' in HOOKS
 
 
 def test_a_project_board_is_shaped_as_it_is_made():
-	space = _load(PROJECT / "board.py", ("COLUMNS", "CARD", "shape"), json=json)
-	board = _Board(
+	from types import SimpleNamespace
+
+	class Board(_Board):
+		def append(self, table, row):
+			self[table].append(_Row(row))
+
+	meta = SimpleNamespace(get_field=lambda fieldname: None)
+	cards = _load(tree.APP / "one" / "boards.py", ("cards",), frappe=SimpleNamespace(get_meta=lambda doctype: meta))
+	space = _load(
+		PROJECT / "board.py", ("COLUMNS", "CARD", "shape"), json=json, boards=SimpleNamespace(**cards)
+	)
+	board = Board(
 		reference_doctype="Task",
 		field_name="status",
 		columns=[
 			_Row(column_name=name)
 			for name in ("Open", "Working", "Overdue", "Completed", "Cancelled", "Template")
 		],
-		fields=None,
-		show_labels=1,
+		card_fields=[],
+		use_kanban_v2=0,
 	)
 	assert space["shape"](board) is True
 	shown = {one.column_name: one.status for one in board.columns}
 	assert "Overdue" not in shown and shown["Cancelled"] == shown["Template"] == "Archived"
-	assert shown["Working"] == "Active" and json.loads(board.fields) == ["priority", "exp_end_date"]
+	assert shown["Working"] == "Active" and board.use_kanban_v2 == 1, "on frappe's new Kanban"
+	assert [(row.fieldname, row.icon) for row in board.card_fields] == [("priority", "flag"), ("exp_end_date", "calendar")]
 	assert space["shape"](board) is False, "shaping twice changes nothing"
 	assert (
-		space["shape"](_Board(reference_doctype="Opportunity", field_name="sales_stage", columns=[])) is False
+		space["shape"](Board(reference_doctype="Opportunity", field_name="sales_stage", columns=[])) is False
 	)
 
 
@@ -229,7 +237,7 @@ def test_a_dependant_moves_after_what_it_waits_on():
 
 	space = _load(
 		PROJECT / "plan.py",
-		("moved_after",),
+		("MOVES", "moved_after"),
 		date_diff=lambda a, b: (a - b).days,
 		add_days=lambda day, n: day + timedelta(days=n),
 	)
@@ -239,7 +247,10 @@ def test_a_dependant_moves_after_what_it_waits_on():
 		"keeps its length"
 	)
 	assert moved(starts, ends, date(2026, 9, 20), "Open") is None, "already after it"
-	assert moved(starts, ends, date(2026, 10, 5), "Working") is None, "started work stays"
+	assert moved(starts, ends, date(2026, 10, 5), "Working") == (date(2026, 10, 6), date(2026, 10, 8)), (
+		"started work moves too, as ERPNext's does"
+	)
+	assert moved(starts, ends, date(2026, 10, 5), "Completed") is None, "done work stays"
 	assert moved(None, ends, date(2026, 10, 5), "Open") is None
 
 
@@ -1281,7 +1292,8 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	# A project's name in its breadcrumb lists the others.
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
 	assert "hide_sidebar: !frappe.is_mobile()" in view_js and "onedesk.project.picker(" in view_js
-	assert "menu_items: menu ? (open) => menu(open) : null" in (tree.APP / "public" / "js" / "shell.js").read_text()
+	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
+	assert "page.one_crumb_menu = menu" in shell and "new frappe.ui.Dropdown({ trigger: $last, options: () => menu() })" in shell
 	view_py = (PROJECT / "view.py").read_text()
 	picker = view_py[view_py.index("def picker(") : view_py.index("PICKED = ")]
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in picker
@@ -1806,7 +1818,7 @@ def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
 	view = (PROJECT / "view.py").read_text()
 	assert '"above": _above(doc.name),' in view
 	assert (
-		"for (const one of breadcrumbs.between || [])"
+		"...between.map((one) => ({ label: one.label, href: one.route }))"
 		in (tree.APP / "public" / "js" / "shell.js").read_text()
 	)
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()

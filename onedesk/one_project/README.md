@@ -1548,30 +1548,24 @@ one field for it.
   with + to add one for somebody (`dashboard`). A timesheet prices an hour
   from the person's rate if there is one, else the activity's (ERPNext's own
   rule).
-- `plan.py` — each dependency row names its project, the field ERPNext's own
-  rescheduling looks dependants up by and never writes; and a slip moves the
-  dependants in the rest of the tree, which theirs never looks at
-  (`reschedule`, `moved_after` is pure). The schedule is frappe's Gantt over
-  Task, filtered to the tree (`public/js/project.js`); `public/js/task_list.js`
-  draws a task with only a due date and lights the view mode the chart is in,
-  and `public/css/desk.css` lets it scroll.
-
-  **A dependency says which project it is in.** ERPNext moves a task's
-  dependants later when its date slips (`reschedule_dependent_tasks`), and
-  finds them by the project on each Task Depends On row — a read-only field
-  nothing in ERPNext ever writes, so the slip never found anything. The row
-  takes the task's project.
+- `plan.py` — a slip moves the dependants in the rest of the tree, which
+  ERPNext's own pass never looks at (`reschedule`, `moved_after` is pure). The
+  schedule is frappe's Gantt over Task, filtered to the tree
+  (`public/js/project.js`); `public/js/task_list.js` draws a task with only a
+  due date and lights the view mode the chart is in, and `public/css/desk.css`
+  lets it scroll.
 
   **A slip crosses sub-projects** (`reschedule`). ERPNext moves only
   dependants in the same project as the task that slipped. "Install the
   handrails" in Handrails waits on "Fit the frames" in Windows, both under one
   villa, and should move when the frames do. So after ERPNext's own pass
   plan.py moves the dependants in the rest of the same tree, the way theirs
-  moves the others: a task still Open that would start before the new end
-  starts the day after it, keeping its length. It saves the dependant whether
-  or not the person who moved the date may edit it: the date moved because of
-  theirs, and a plan that holds only where the mover is a member is not a
-  plan.
+  moves the others: a task not yet done (Open, Working or Overdue) that would
+  start before the new end starts the day after it, keeping its length, and a
+  date past its project's end warns rather than refuses. It saves the
+  dependant whether or not the person who moved the date may edit it: the date
+  moved because of theirs, and a plan that holds only where the mover is a
+  member is not a plan.
 
   **The plan is frappe's Gantt** over the tree's tasks (public/js/project.js,
   Schedule): bars, milestones, the dependency arrows, and dragging a bar moves

@@ -255,7 +255,8 @@ def quotation(doc) -> dict | None:
 	still open, extra work aside: the newest, and how many there are."""
 	from onedesk.one_project.money import OPEN_QUOTE, _route
 
-	filters = {"project": doc.name, "docstatus": 1, "status": ["in", list(OPEN_QUOTE)], "one_extra_work": 0}
+	# A quote revised is no longer offered (erpnext's Is Active).
+	filters = {"project": doc.name, "docstatus": 1, "is_active": 1, "status": ["in", list(OPEN_QUOTE)], "one_extra_work": 0}
 	found = frappe.get_all(
 		"Quotation",
 		filters=filters,

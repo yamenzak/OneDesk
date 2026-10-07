@@ -63,13 +63,7 @@ frappe.ui.form.on("Employee Attendance Tool", {
 // Single is never saved either, so the dirty badge it keeps is about nothing.
 function quiet(frm) {
 	frm.page.clear_indicator();
-	frappe.after_ajax(() =>
-		frappe.breadcrumbs.add({
-			type: "Custom",
-			label: __("Mark Attendance"),
-			route: "/desk/employee-attendance-tool",
-		}),
-	);
+	frappe.after_ajax(() => frm.page.set_breadcrumbs([{ label: __("Mark Attendance") }]));
 }
 
 // A department of sixty is three columns of checkboxes with no way through it.

@@ -49,50 +49,6 @@
 	overflow: hidden;
 }
 
-/* The panel's own mark, which the desk hides while there is a rail (dock.scss
- * puts `.header-logo` to `display: none` and pulls the title left). One product
- * per row means the rail's mark says which app and the panel's says which
- * product, so it earns the 28px back. */
-@media (min-width: 768px) {
-	body.dock-active .body-sidebar .sidebar-header .header-logo {
-		display: flex;
-	}
-
-	body.dock-active .body-sidebar .sidebar-header .header-title {
-		margin-left: 0;
-	}
-}
-
-/* Nothing to toggle: the rail does not expand here. */
-.dock-collapse-toggle {
-	display: none;
-}
-
-/* Sidebar rows keep their glyphs. `dock.scss` hides them whenever a rail exists,
- * because the rail carries the marks; but the rail's marks name products and
- * these name screens, so hiding one for the other loses the row's glyph without
- * replacing it. The selector matches theirs so it outweighs it. */
-@media (min-width: 768px) {
-	body.dock-active .body-sidebar .standard-sidebar-item .item-anchor .sidebar-item-icon {
-		display: flex;
-	}
-
-	body.dock-active .body-sidebar .standard-sidebar-item .sidebar-item-label {
-		margin-left: 8px;
-	}
-}
-
-/* ...and a permanent panel belongs in flow. `dock.scss` takes it out of flow
- * whenever there is a rail, so the page runs full width underneath and the panel
- * covers it; that is right for something you summon and wrong for a column. Its
- * container is `fit-content`, so in flow it measures the panel and the page
- * starts after it. */
-@media (min-width: 768px) {
-	body.dock-active .body-sidebar {
-		position: relative;
-	}
-}
-
 /* The Employee band: one row of chips under the title, on every tab. The
  * message band it sits in is frappe's, and it paints itself blue for a notice;
  * this is a permanent summary rather than a notice, so it takes the page's own
@@ -443,9 +399,9 @@ a.one-stat:hover .one-stat-value {
 }
 
 /* What a pipeline column is worth, under its header; see public/js/opportunity_list.js.
-   The header keeps its own bottom margin, so this line tucks up under it. */
+   Indented as the header's title is (ps-4 on .kn-column-header). */
 .one-stage-worth {
-	margin: calc(-1 * var(--margin-sm)) 0 var(--margin-md);
+	padding-inline: 1rem 0.25rem;
 	font-size: var(--text-xs);
 	color: var(--ink-gray-5);
 }
@@ -916,8 +872,13 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	color: var(--text-muted);
 }
 
-/* A crumb that is the menu of the module's places, the chevron beside the
- * name (public/js/panel_menu.js). */
+/* A crumb that is a menu: the module's places (public/js/panel_menu.js), or
+ * where to go from a record (shell.trail), the chevron beside the name. */
+.navbar-breadcrumbs li.one-crumb-menu {
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
 .navbar-breadcrumbs li.one-places {
 	display: inline-flex;
 	align-items: center;

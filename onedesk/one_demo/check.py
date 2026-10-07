@@ -363,6 +363,16 @@ def a_manager_is_not_kept_to_their_own_records():
 
 @check
 def a_project_manager_logs_and_approves_the_crews_time():
+	"""The workshop has no accounts, so Samir logs their days, two of them
+	at the same hour (one_hr/timesheet.py)."""
+	same_hour = frappe.db.sql(
+		"""select log.from_time from `tabTimesheet Detail` log
+		join `tabTimesheet` sheet on sheet.name = log.parent
+		join `tabEmployee` person on person.name = sheet.employee
+		where sheet.docstatus = 1 and ifnull(person.user_id, '') = ''
+		group by log.from_time having count(distinct sheet.employee) > 1 limit 1"""
+	)
+	assert same_hour, "nobody without an account was logged at the same hour as another"
 	timesheet = frappe.get_all("Timesheet", filters={"docstatus": 1}, fields=["name", "employee"], limit=1)[0]
 	with as_user("samir@one.test"):
 		assert frappe.has_permission("Timesheet", "read", doc=timesheet.name), timesheet
@@ -977,6 +987,24 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 
 
 @check
+def one_boards_open_on_frappes_new_kanban():
+	"""The pipeline, the projects board and a project's own board open on
+	frappe's new Kanban, each card showing One's fields by their icons
+	(one/boards.py)."""
+	from erpnext.projects.doctype.project.project import create_kanban_board_if_not_exists
+
+	from onedesk.one_crm import board as pipeline
+	from onedesk.one_project import board as projects
+
+	create_kanban_board_if_not_exists(VILLA)
+	villa = frappe.db.get_value("Project", VILLA, "project_name")
+	for name, card in ((pipeline.BOARD, pipeline.CARD), (projects.HEALTH_BOARD, projects.HEALTH_CARD), (villa, projects.CARD)):
+		board = frappe.get_doc("Kanban Board", name)
+		assert board.use_kanban_v2, f"{name} is on the old board"
+		assert [(row.fieldname, row.icon) for row in board.card_fields] == list(card.items()), (name, board.card_fields)
+
+
+@check
 def onecrm_leads_and_deals_as_omar_works_them():
 	"""Omar's pipeline figures and board, a deal's and a lead's overview, a
 	call logged and a step done, a lead from the web form taken, a lead that
@@ -1297,8 +1325,8 @@ def oneproject_a_project_is_seen_by_its_people_and_its_plan_follows():
 	"""Rania sees the projects she is on, what is under them and those nobody
 	is on, and no other. Somebody made a project's manager sees it. A member
 	added is told in One and shared the project, never sent ERPNext's mail,
-	and loses the share when taken off. A dependency names its project, and a
-	slip moves what waits on it in a sub-project."""
+	and loses the share when taken off. A slip moves what waits on it in a
+	sub-project, work already started included."""
 	from onedesk.one_project import members, team, tree
 
 	assert members.narrowed("rania@one.test") and not members.narrowed("huda@one.test")
@@ -1330,8 +1358,7 @@ def oneproject_a_project_is_seen_by_its_people_and_its_plan_follows():
 
 	with as_user("samir@one.test"):
 		first = frappe.get_doc({"doctype": "Task", "subject": "Fix the stair posts", "project": VILLA, "exp_start_date": today(), "exp_end_date": add_days(today(), 2)}).insert()
-		then = frappe.get_doc({"doctype": "Task", "subject": "Fit the balustrade glass", "project": "PROJ-0002", "exp_start_date": add_days(today(), 3), "exp_end_date": add_days(today(), 5), "depends_on": [{"task": first.name}]}).insert()
-		assert then.depends_on[0].project == "PROJ-0002", "a dependency names its project"
+		then = frappe.get_doc({"doctype": "Task", "subject": "Fit the balustrade glass", "project": "PROJ-0002", "status": "Working", "exp_start_date": add_days(today(), 3), "exp_end_date": add_days(today(), 5), "depends_on": [{"task": first.name}]}).insert()
 		first.exp_end_date = add_days(today(), 6)
 		first.save()
 	moved = frappe.db.get_value("Task", then.name, ["exp_start_date", "exp_end_date"], as_dict=True)
@@ -1520,16 +1547,23 @@ def oneproject_a_day_on_site_and_the_projects_pictures():
 		attendance.cancel()
 	assert frappe.db.get_value("Timesheet", sheet, "docstatus") == 2, "the day went with its attendance"
 
-	cover = frappe.db.get_value("Project", VILLA, "one_cover")
+	# A photo of its own, since frappe takes a file off disk at once and the
+	# rollback after this check would leave the demo's Cover pointing at nothing.
+	from onedesk.one_storage import upload
+
+	with as_user("samir@one.test"):
+		upload._place(media.node(VILLA), None, {"file_name": "Dusk on site.png", "content": _png(sky=(250, 196, 140))})
+	cover = frappe.db.get_value("File", {"file_name": "Dusk on site.png", "attached_to_name": VILLA}, "file_url")
+	frappe.db.set_value("Project", VILLA, "one_cover", cover)
 	assert cover and media.shown(VILLA)[0]["url"] == cover
 	with as_user("samir@one.test"):
 		frappe.delete_doc("File", frappe.db.get_value("File", {"file_url": cover, "attached_to_name": VILLA}))
-	assert frappe.db.get_value("Project", VILLA, "one_cover") != cover, "the Cover still pointed at a deleted photo"
+	assert frappe.db.get_value("Project", VILLA, "one_cover") not in (cover, None), "the Cover still pointed at a deleted photo"
 
-def _png() -> bytes:
+def _png(**drawn) -> bytes:
 	from onedesk.one_demo.projects import _photo
 
-	return _photo()
+	return _photo(**drawn)
 
 
 def _sample(stem: str) -> str:

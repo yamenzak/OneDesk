@@ -97,6 +97,12 @@ for (const screen of SCREENS.filter((one) => !ONLY || one.path.includes(ONLY))) 
 		wrong.push(...thrown.map((message) => `threw: ${message.slice(0, 200)}`));
 		if (screen.panel !== undefined && (await panel_open(page)) !== screen.panel)
 			wrong.push(screen.panel ? "has its panel shut" : "has its panel out");
+		// The trail in the page head, crumb by crumb, as frappe draws it.
+		if (screen.trail) {
+			const trail = await page.locator(".page-head .navbar-breadcrumbs li").filter({ visible: true }).allInnerTexts();
+			const said = trail.map((one) => one.trim()).filter(Boolean);
+			if (JSON.stringify(said) !== JSON.stringify(screen.trail)) wrong.push(`reads ${JSON.stringify(said)} in its breadcrumb`);
+		}
 		if (screen.phone) wrong.push(...(await crumb_menu(screen, screen.phone, true)));
 		if (screen.menu) wrong.push(...(await crumb_menu(screen, screen.menu, false)));
 		if (SHOTS) await page.screenshot({ path: join(SHOTS, `${screen.path.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}.png`) });

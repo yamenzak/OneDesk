@@ -79,9 +79,10 @@ $.extend(onedesk.shell, {
 
 	// The page head is a breadcrumb in v17, so a page's name goes there, and
 	// to the browser tab. `route` is where the name leads, when that is not
-	// this page: a record's calendar leads back to the record.
-	name(label, { route = null } = {}) {
-		frappe.breadcrumbs.add({ type: "Custom", label: frappe.utils.escape_html(label), route: route || frappe.get_route_str() });
+	// this page: a record's calendar leads back to the record. Each page draws
+	// its own trail (`page.set_breadcrumbs`).
+	name(label, { route = null, page = frappe.get_current_page() } = {}) {
+		page && page.set_breadcrumbs([{ label, ...(route ? { href: route } : {}) }]);
 		frappe.utils.set_title(label);
 		// OneAI's panel names where the reader is by the page's title, which the
 		// router's change came before; tell it again now that it is right.
@@ -89,25 +90,19 @@ $.extend(onedesk.shell, {
 	},
 
 	// A record inside a page: its section's name and then its own, as a
-	// form's breadcrumb reads "Customer / Client Example Ltd". Frappe's custom
-	// breadcrumb holds one name; `then` is the last, and `between` any
-	// records it sits under, as a sub-project's parents (patched below).
-	// `menu` makes the last a menu of where to go instead, frappe.ui.Dropdown's
-	// rows: a project's page lists the other projects.
-	trail(parent, route, label, between = [], menu = null) {
-		const esc = frappe.utils.escape_html;
-		frappe.breadcrumbs.add({
-			type: "Custom",
-			label: esc(parent),
-			route,
-			between: between.map((one) => ({ label: esc(one.label), route: one.route })),
-			then: esc(label) + (menu ? ` ${frappe.utils.icon("chevron-down", "xs")}` : ""),
-			// frappe's breadcrumbs make the last crumb a frappe.ui.Dropdown of
-			// `menu_items`, fetched on every open when it is a function. They
-			// test the items' length first, which a function of no arguments
-			// does not have.
-			menu_items: menu ? (open) => menu(open) : null,
-		});
+	// form's breadcrumb reads "Customer / Client Example Ltd", with `between`
+	// any records it sits under, as a sub-project's parents. `menu` makes the
+	// last a menu of where to go instead, frappe.ui.Dropdown's options: a
+	// project's page lists the other projects.
+	trail(parent, route, label, between = [], menu = null, page = frappe.get_current_page()) {
+		if (page) {
+			page.one_crumb_menu = menu;
+			page.set_breadcrumbs([
+				{ label: parent, href: route },
+				...between.map((one) => ({ label: one.label, href: one.route })),
+				{ label, ...(menu ? { suffix: "chevron-down" } : {}) },
+			]);
+		}
 		frappe.utils.set_title(label);
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	},
@@ -120,7 +115,7 @@ $.extend(onedesk.shell, {
 	// shell's body. A record that is edited uses Editor.as_record instead.
 	record($into, { page, parent, route, title, status = null, side = "", actions = [] }) {
 		// A page that is itself the record (Plan and Credits) keeps its own name.
-		if (parent) onedesk.shell.trail(parent, route, title);
+		if (parent) onedesk.shell.trail(parent, route, title, [], null, page);
 		if (status) page.set_indicator(status.label, status.colour);
 		const $view = $(`<div class="one-record-view"><div class="one-record-main"></div><div class="one-record-side form-sidebar">${side}</div></div>`);
 		$into.closest(".one-shell-body").addBack(".one-shell-body").addClass("one-shell-record");
@@ -545,74 +540,88 @@ onedesk.shell.Editor = class Editor {
 // crumb into each, so each is renamed.
 {
 	const named = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
-	const theirs = frappe.breadcrumbs.set_list_breadcrumb.bind(frappe.breadcrumbs);
-	frappe.breadcrumbs.set_list_breadcrumb = function (breadcrumbs) {
-		const home = (frappe.boot.one_homes || {})[breadcrumbs.doctype];
-		const esc = frappe.utils.escape_html;
-		if (home) {
-			for (const one of home) this.append_breadcrumb_element(encodeURI(one.route), esc(__(one.label)));
-			return;
-		}
-		theirs(breadcrumbs);
-		const label = named(breadcrumbs.doctype);
-		if (label) this.$breadcrumbs.each((i, crumbs) => $(crumbs).find("li a.title-text").last().text(__(label)));
-	};
-	const tree = frappe.breadcrumbs.set_tree_breadcrumb.bind(frappe.breadcrumbs);
-	frappe.breadcrumbs.set_tree_breadcrumb = function (breadcrumbs) {
-		tree(breadcrumbs);
-		const label = named(breadcrumbs.doctype);
-		if (label) this.$breadcrumbs.each((i, crumbs) => $(crumbs).find("li a.title-text").last().text(__(label)));
-	};
+	const homes = (doctype) => (frappe.boot.one_homes || {})[doctype];
+	const home_crumbs = (home) => home.map((one) => ({ label: __(one.label), href: encodeURI(one.route) }));
 
-	// And the rail lights its home, where frappe finds no item for the route.
+	// A list no rail links leads back to its home. Its title, the last crumb,
+	// is named as its row is (reports.js lists_too).
+	const List = frappe.views.BaseList;
+	if (List && !List.prototype.__one_crumbs) {
+		List.prototype.__one_crumbs = true;
+		const listed = List.prototype.get_breadcrumbs;
+		List.prototype.get_breadcrumbs = function () {
+			const items = listed.call(this);
+			const home = homes(this.doctype);
+			return home ? [...home_crumbs(home), ...items] : items;
+		};
+	}
+
+	// A record's crumb leads back to where it lives: its home, or its list
+	// named as the rail names it (frappe.ui.form.get_breadcrumbs).
+	const formed = frappe.ui.form.get_breadcrumbs;
+	if (formed && !formed.__one) {
+		frappe.ui.form.get_breadcrumbs = function (frm) {
+			const items = formed(frm);
+			const list = `/desk/${frappe.router.slug(frm.doctype)}`;
+			const at = items.findIndex((one) => (one.href || "").split("?")[0] === list);
+			const home = homes(frm.doctype);
+			if (at >= 0 && home) items.splice(at, 1, ...home_crumbs(home));
+			else if (at >= 0 && named(frm.doctype)) items[at] = { ...items[at], label: __(named(frm.doctype)) };
+			return items;
+		};
+		frappe.ui.form.get_breadcrumbs.__one = true;
+	}
+
+	// And the rail lights its home, where frappe finds no row for the route.
 	const Sidebar = frappe.ui.Sidebar;
 	if (Sidebar && !Sidebar.prototype.__one_homes) {
 		Sidebar.prototype.__one_homes = true;
-		const matched = Sidebar.prototype.is_route_in_sidebar;
+		const found = Sidebar.prototype.find_active_item;
 		// A list's row leads to one of its views (Projects to /project/view/list),
 		// and every view of the list is that row's (onedesk.panel.path,
 		// panel_menu.js).
 		const list = (path) => onedesk.panel.path(path);
-		Sidebar.prototype.is_route_in_sidebar = function () {
-			if (matched.call(this)) return true;
-			const here = list(window.location.pathname);
-			const $row = $(".item-anchor")
-				.filter((i, a) => !!a.getAttribute("href") && list(a.getAttribute("href")) === here)
-				.first()
-				.parent();
-			if ($row.length) {
-				if (this.active_item) this.active_item.removeClass("active-sidebar");
-				this.active_item = $row;
-				return true;
-			}
-			const route = frappe.get_route();
-			const home = route[0] === "Form" && (frappe.boot.one_homes || {})[route[1]];
-			const $item = home && $(`.item-anchor[href="${home[0].route}"]`).first().parent();
-			if (!$item || !$item.length) return false;
-			if (this.active_item) this.active_item.removeClass("active-sidebar");
-			this.active_item = $item;
+		const light = (sidebar, $row) => {
+			if (!$row || !$row.length) return false;
+			sidebar.active_item = $row;
 			return true;
 		};
-		// Frappe opens the active row's group only while the sidebar is open, and
-		// on a cold load it looks before the sidebar has opened. Lists look again
-		// and pages do not, so a page in a folded group stayed folded around it.
-		const expand = Sidebar.prototype.expand_sidebar;
-		Sidebar.prototype.expand_sidebar = function () {
-			expand.call(this);
-			if (this.sidebar_expanded) this.expand_parent_section();
+		Sidebar.prototype.find_active_item = function () {
+			if (found.call(this)) return true;
+			// Of two rows on one list (Inbox and Tasks), the one that narrows it least.
+			const narrows = (a) => new URLSearchParams(a.getAttribute("href").split("?")[1] || "").size;
+			const row = (path) =>
+				$(".item-anchor[href]")
+					.toArray()
+					.filter((a) => list(a.getAttribute("href")) === list(path))
+					.sort((a, b) => narrows(a) - narrows(b))[0];
+			const route = frappe.get_route();
+			// A record lights its list's row, or its home's.
+			const home = route[0] === "Form" && homes(route[1]);
+			const path = route[0] === "Form" ? (home ? home[0].route : `/desk/${frappe.router.slug(route[1])}`) : window.location.pathname;
+			const found_row = row(path) || (route[0] === "Form" ? null : row(window.location.pathname));
+			return light(this, found_row && $(found_row).parent());
 		};
 	}
 }
 
-// Frappe's custom breadcrumb is one name; a record in a page adds its own
-// after it (`trail`), linking back to the page as a form's links to its list.
+// A crumb made a menu (shell.trail): the last, with a chevron, opens the
+// page's `one_crumb_menu`. A page draws its trail afresh each time, so the
+// menu follows each drawing.
 {
-	const theirs = frappe.breadcrumbs.set_custom_breadcrumbs.bind(frappe.breadcrumbs);
-	frappe.breadcrumbs.set_custom_breadcrumbs = function (breadcrumbs) {
-		theirs(breadcrumbs);
-		for (const one of breadcrumbs.between || []) this.append_breadcrumb_element(one.route, one.label);
-		if (breadcrumbs.then) this.append_breadcrumb_element("", breadcrumbs.then, "title-text-form");
-	};
+	const Page = frappe.ui.Page;
+	if (Page && !Page.prototype.__one_crumb_menu) {
+		Page.prototype.__one_crumb_menu = true;
+		const drawn = Page.prototype.render_breadcrumbs;
+		Page.prototype.render_breadcrumbs = function () {
+			drawn.call(this);
+			const menu = this.one_crumb_menu;
+			const $last = this.$breadcrumbs && this.$breadcrumbs.children("li").last();
+			if (!menu || !$last || !$last.length) return;
+			$last.addClass("one-crumb-menu");
+			new frappe.ui.Dropdown({ trigger: $last, options: () => menu() });
+		};
+	}
 }
 
 // An amount reads the way it is written. Frappe writes a dirham's symbol
