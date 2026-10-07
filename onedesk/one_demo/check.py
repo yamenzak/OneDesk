@@ -3157,6 +3157,8 @@ def a_saved_report_is_its_makers_and_runs_no_code():
 			assert refused(lambda: frappe.get_doc({"doctype": "Report", "report_name": f"Omar {kind}", "ref_doctype": "Opportunity", "report_type": kind, "is_standard": "No", "reference_report": saved.name}).insert(), (frappe.ValidationError, frappe.PermissionError)), kind
 		places = {one["label"]: one["module"] for one in reports.places()}
 		assert "OneCRM" in places and "OneHR" not in places, places
+		bars = reports.sidebars().get("module_sidebars") or {}
+		assert bars and all((one or {}).get("app") == "onedesk" for one in bars.values()), {name: (one or {}).get("app") for name, one in bars.items()}
 		assert refused(lambda: reports.place("Report", saved.name, places["OneCRM"], 1), frappe.PermissionError)
 		hr = frappe.db.get_value("Sidebar", "OneHR", "module")
 		assert refused(lambda: reports.place("Report", saved.name, hr))
@@ -3302,6 +3304,91 @@ def oneai_setup_cards_wait_for_approval_and_stay_within_bounds():
 				raise AssertionError("Omar approved an administrator's card")
 			except frappe.PermissionError:
 				pass
+
+
+@check
+def webhooks_and_the_audit_log_are_the_administrators():
+	"""Layla sends customers to another system by a webhook: over https to a
+	public address only, every record, naming fields alone and none she may
+	not read, quickly and a few times at most. When its calls give up she is
+	told. She reads who changed a customer, without the fields she may not
+	read and without what the system did, and changes none of it. Omar sees
+	no webhook and no change."""
+	from onedesk.one import audit, webhooks
+
+	def hook(**said):
+		return frappe.get_doc({
+			"doctype": "Webhook", "__newname": frappe.generate_hash(length=8), "webhook_doctype": "Customer", "webhook_docevent": "on_update",
+			"request_url": "https://example.com/hook", "request_structure": "JSON",
+			"webhook_json": '{"name": "{{ doc.name }}"}', **said,
+		})
+
+	def refused(doc):
+		try:
+			doc.insert()
+		except (frappe.ValidationError, frappe.PermissionError):
+			return True
+		return False
+
+	with as_user(OWNER):
+		made = hook(is_dynamic_url=1, timeout=300, max_retries=50).insert()
+		assert (made.is_dynamic_url, made.timeout, made.max_retries) == (0, webhooks.LONGEST, webhooks.TRIES)
+		assert refused(hook(request_url="http://example.com/hook")), "sent in the clear"
+		assert refused(hook(request_url="https://127.0.0.1/hook")), "sent inside"
+		assert refused(hook(condition="doc.customer_group == 'Commercial'"))
+		assert refused(hook(webhook_json='{"who": "{{ frappe.session.user }}"}'))
+		assert "allowed_companies" in audit._unseen("Customer")
+		assert refused(hook(webhook_json='{"where": "{{ doc.allowed_companies }}"}')), "a field she may not read"
+		assert refused(hook(webhook_doctype="DocType"))
+		frappe.get_doc({"doctype": "Webhook Request Log", "webhook": made.name, "url": made.request_url, "status": "Exhausted"}).insert(ignore_permissions=True)
+		with _Told() as told:
+			webhooks.failing()
+		assert OWNER in told.to("Webhooks Failing")
+
+		customer = frappe.get_all("Customer", pluck="name", limit=1)[0]
+		doc = frappe.get_doc("Customer", customer)
+		doc.customer_details = "Pays on the 25th."
+		doc.save()
+		changes = frappe.get_list("Version", filters={"ref_doctype": "Customer", "docname": customer}, pluck="name")
+		assert changes, "her own change"
+		assert not frappe.get_list("Version", filters={"owner": ["in", audit.SYSTEM]}, pluck="name", limit=1)
+		assert not frappe.has_permission("Version", "write", doc=frappe.get_doc("Version", changes[0]))
+		said = audit.seen({"changed": [["allowed_companies", "", "x"], ["customer_details", "", "Pays on the 25th."]]}, "Customer")
+		assert [one[0] for one in said["changed"]] == ["customer_details"]
+	with as_user("omar@one.test"):
+		for doctype in ("Webhook", "Webhook Request Log", "Version"):
+			try:
+				assert not frappe.get_list(doctype, pluck="name", limit=1), doctype
+			except frappe.PermissionError:
+				pass
+
+
+@check
+def intake_fills_only_the_record_it_is_making():
+	"""A supplier Intake makes from a document is given its name and what else
+	it needs from that document. A supplier made by hand, or another kind made
+	on the way, is never asked about."""
+	from unittest import mock
+
+	from onedesk.one_ai import kind
+	from onedesk.one_intake import fill
+
+	reading = frappe.get_all("Reading", pluck="name", limit=1)[0]
+	group = frappe.get_all("Supplier Group", filters={"is_group": 0}, pluck="name", limit=1)[0]
+	asked = []
+
+	def answer(doc, needs, reading):
+		asked.append((doc.doctype, sorted(one["fieldname"] for one in needs)))
+		return {"supplier_name": "Coastal Sealants", "supplier_group": group, kind.TYPED: "Coastal Sealants", "website": "never asked"}
+
+	with as_user(OWNER), mock.patch.object(fill, "_ask", side_effect=answer):
+		with fill.filling(reading, "Supplier"):
+			made = frappe.get_doc({"doctype": "Supplier"}).insert()
+			frappe.get_doc({"doctype": "Customer", "customer_name": "Made on the way"}).insert()
+		frappe.get_doc({"doctype": "Supplier", "supplier_name": "Typed by hand", "supplier_group": group}).insert()
+	assert made.supplier_name == "Coastal Sealants" and not made.website, made.as_dict()
+	assert asked and {doctype for doctype, _fields in asked} == {"Supplier"}, asked
+	assert any("supplier_name" in fields or kind.TYPED in fields for _doctype, fields in asked), asked
 
 
 #: What the account on the admin site answers, by what it is asked: the

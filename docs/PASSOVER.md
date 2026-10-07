@@ -693,6 +693,12 @@ Up next, in this order:
    - Found on the way: a record put back from the bin came back under a new
      ID when frappe names its kind at random, so what linked to it no longer
      found it. It now comes back under its own where that is free.
+   - Then webhooks (over https to a public address, every record, fields
+     alone and none the administrator may not read, a short wait and a few
+     tries, the administrators told when calls give up), the audit log (the
+     administrator's only, read only, without the system's changes or the
+     fields its reader may not read), Intake filling only the record it is
+     making, and every sidebar a person is sent being One's own.
 4. The finished modules again, against the new points only, one screen at a
    time.
 

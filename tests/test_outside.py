@@ -17,7 +17,6 @@ SOURCE = (tree.APP / "one" / "outside.py").read_text()
 def test_the_boot_carries_ones_sidebars_and_workspaces_only():
 	assert 'APP = "onedesk"' in SOURCE and 'FIRST = "One"' in SOURCE
 	assert SOURCE.count("if platform():") == 2
-	assert '(sidebar or {}).get("app") == APP' in SOURCE
 	assert 'page.get("app") == APP' in SOURCE and '["has_create_access"] = False' in SOURCE
 	assert "outside.keep(bootinfo)" in (tree.APP / "one" / "boot.py").read_text()
 	# A sidebar swapped in after a change is held to the same.

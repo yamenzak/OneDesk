@@ -29,10 +29,6 @@ def test_every_log_is_guarded_both_ways():
 
 
 def test_only_an_administrator_reads_and_nobody_writes():
-	for query in ("version_query", "activity_query", "access_query"):
-		assert 'return "1=0"' in _body(query), query
-	allowed = _body("has_permission")
-	assert 'ptype not in ("read", "report", None)' in allowed and "roles.administers(user)" in allowed
 	granted = tree.granted()
 	for log in LOGS:
 		assert not {"write", "delete", "create"} & set(granted[log]), log
@@ -40,16 +36,12 @@ def test_only_an_administrator_reads_and_nobody_writes():
 
 def test_the_system_and_the_machinery_are_left_out():
 	assert '"Administrator"' in SOURCE.split("SYSTEM = ", 1)[1].split("\n", 1)[0]
-	for query in ("version_query", "activity_query", "access_query"):
-		assert "_not_system(" in _body(query), query
 	kinds = _body("kinds")
 	assert "get_doctypes_with_read()" in SOURCE and "REFUSED_MODULES" in kinds and '"istable": 1' in kinds
 
 
 def test_a_change_shows_only_the_fields_its_reader_may_read():
-	assert 'get_permlevel_access("read"' in _body("_unseen")
-	seen = _body("seen")
-	assert "not in unseen" in seen and "row_hidden(table)" in seen
+	assert "row_hidden(table)" in _body("seen")
 	assert "seen(doc.data, doc.ref_doctype)" in _body("onload")
 	assert "audit.seen(one.data, one.ref_doctype)" in (tree.APP / "one" / "ai.py").read_text()
 

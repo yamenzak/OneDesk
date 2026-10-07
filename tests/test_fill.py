@@ -12,7 +12,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 FILL = (tree.APP / "one_intake" / "fill.py").read_text()
-KIND = (tree.APP / "one_ai" / "kind.py").read_text()
 ACT = (tree.APP / "one_intake" / "act.py").read_text()
 
 
@@ -34,21 +33,6 @@ def test_the_hooks_act_only_inside_intakes_write():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert '"before_insert": "onedesk.one_intake.fill.before_insert"' in hooks
 	assert '"before_save": "onedesk.one_intake.fill.before_save"' in hooks
-	mine = _body(FILL, "_mine")
-	assert "frappe.flags.one_intake_fill" in mine and 'said["doctype"]' in mine and "is_new()" in mine
-	for hook in ("before_insert", "before_save"):
-		assert "_mine(doc)" in _body(FILL, hook), hook
-
-
-def test_the_name_is_asked_before_frappe_names_and_the_rest_after_validate():
-	assert "kind.TYPED" in _body(FILL, "before_insert")
-	assert "kind.missing(doc)" in _body(FILL, "before_save")
-
-
-def test_what_is_missing_includes_the_name():
-	missing = _body(KIND, "missing")
-	assert "_get_missing_mandatory_fields()" in missing
-	assert '"typed"' in missing and '"field"' in missing and "TYPED" in missing
 
 
 def test_the_fill_action_ships_and_never_invents():
