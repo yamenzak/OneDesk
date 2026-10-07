@@ -363,7 +363,7 @@ Ready to Submit, and the supplier's IBAN is never changed from a document.
 
 ## The Intake inbox
 
-**Intake** is in the side rail below Notifications and the clock, with a count
+**Intake** is at the top of every app's panel, under Notification and Check In, with a count
 when something is waiting for you. It has two boxes that work like a
 mailbox, one line per document, bold until you open it.
 
@@ -882,7 +882,7 @@ Workspace.
   (`Intake Action.flow`), so a bill from an order is made by ERPNext's
   mapper whoever applies it; before, Apply inserted the values bare.
 
-  **Intake** in the rail, under the bell and the clock, opens two boxes that
+  **Intake** at the top of every app's panel, under Notification and Check In, opens two boxes that
   work like a mailbox, one line per document:
 
   - **Done**: documents OneAI acted on and nothing waits for. Open one to

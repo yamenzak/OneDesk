@@ -760,11 +760,11 @@ OVERRIDES = [
 		"CheckinRadiusExceededError",
 	),
 	(
-		"The rail carries Check In and Intake",
-		"frappe's rail lists an app's modules and nothing else; desk.js extends Dock.make to add the two rows under them, drawn as make_dock_item draws a row",
+		"Check In and Intake sit beside Search and Notification",
+		"frappe's panel opens with a band of rows a person checks on. desk.js extends add_standard_items to put the two rows in it",
 		"onedesk/public/js/desk.js",
-		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
-		"make_dock_item(entry) {",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"add_standard_items(items) {",
 	),
 	(
 		"The reason on an Attendance Request is a record",

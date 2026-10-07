@@ -62,9 +62,9 @@ date plus the notice period.
 Employees clock in and out themselves from any phone or computer. There is no
 machine to buy.
 
-**The control in the rail.** A dot beside the rail's other icons: green while
-you are clocked in, grey while you are not. Hover to see today's hours; click
-to clock in or out. It picks the right direction itself, and it does not
+**Check In, at the top of every app's panel.** It sits under Search and
+Notification, with a dot: green while you are clocked in, grey while you are
+not. Click it to clock in or out. It picks the right direction itself, and it does not
 appear for somebody on leave or on a holiday, for anybody without an employee
 record, or when the workspace has not turned self check-in on.
 

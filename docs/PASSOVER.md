@@ -522,7 +522,8 @@ moved frappe 1119 commits, erpnext 557 and hrms 88. What it corrected:
 - **The rail and the panel**: frappe rewrote its rail (icon-only, pinned) and
   decides the panel on the server. One's sidebar rules moved to
   `shell_for_route`, the map is built again over One's sidebars
-  (`outside.placed`), and Check In and Intake are rows of frappe's own make.
+  (`outside.placed`). Check In and Intake are rows in the panel's band, under
+  Search and Notification, where frappe moved those from the rail.
   The panel header keeps its app's mark beside the name, as well as on the rail.
 - **The breadcrumb**: each page draws its own trail. A record on a page
   ("Projects / Mansour Villa ▾"), a list named as its row, a record's crumb to

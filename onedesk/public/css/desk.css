@@ -343,53 +343,28 @@ a.one-stat:hover .one-stat-value {
 	color: var(--ink-red-8);
 }
 
-/* The clock in the rail. The dot is the state and the icon is the verb, which
-   is why the dot sits on the icon rather than replacing it. */
+/* Check In's row in the panel's band. The dot is the state and the label the
+   verb: grey while out, green while in. */
 .one-clock .one-clock-dot {
-	position: absolute;
-	right: 2px;
-	bottom: 2px;
-	width: 7px;
-	height: 7px;
+	display: inline-block;
+	width: 8px;
+	height: 8px;
 	border-radius: var(--radius-full);
 	background: var(--surface-gray-4);
-	border: 1px solid var(--surface-base);
 }
 
 .one-clock .one-clock-dot.one-clock-on {
 	background: var(--surface-green-5);
 }
 
-.one-clock .dock-item-icon,
-.one-intake-rail .dock-item-icon {
-	position: relative;
-}
-
-/* Intake's count of what waits, or a dot when only something is unread. */
-.one-intake-rail .one-intake-count {
-	position: absolute;
-	top: -5px;
-	right: -7px;
-	min-width: 15px;
-	height: 15px;
-	padding: 0 3px;
-	border-radius: var(--radius-full);
-	border: 1px solid var(--desk-sidebar-bg);
-	background: var(--ink-gray-9);
-	color: var(--surface-base);
-	font-size: 9px;
-	font-weight: var(--font-weight-semibold);
-	line-height: 13px;
-	text-align: center;
-}
-
-.one-intake-rail .one-intake-count.one-intake-dot {
-	top: -2px;
-	right: -2px;
+/* Intake's row: frappe's ghost badge with the count of what waits, or a dot
+   when only something is unread. */
+.one-intake-row .one-intake-count.one-intake-dot {
 	min-width: 8px;
 	width: 8px;
 	height: 8px;
 	padding: 0;
+	border-radius: var(--radius-full);
 	background: var(--ink-gray-9);
 }
 

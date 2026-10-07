@@ -20,6 +20,12 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		return super.shell_for_route(route);
 	}
 
+	add_standard_items(items) {
+		const first = !this.standard_items_setup;
+		super.add_standard_items(items);
+		if (first) onedesk.dock.rows(this);
+	}
+
 	entity_from_route(route) {
 		if (OneSidebar.workspace(route)) return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
@@ -89,54 +95,43 @@ if (frappe.boot.one_elsewhere) {
 	frappe.re_route[""] = "one";
 }
 
-// Clocking in belongs in the rail rather than at the end of a route. It is the
-// one HR act that happens twice a day for everybody, and making it a
-// destination — rail, Time, Check-ins, New — puts four decisions in front of a
-// thing that should be one.
-//
-// frappe's rail lists an app's modules and nothing else, so the two rows are
-// added under them, drawn as frappe draws a rail row (`make_dock_item`), each
-// with its tooltip. The dot shows the state rather than offering a verb:
-// green while clocked in, grey while not, and the click sends no direction
-// because the server reads that from where the person already is.
-frappe.ui.Dock = class OneDock extends frappe.ui.Dock {
-	make() {
-		super.make();
-		const $own = $(`<div class="dock-items one-dock-own"></div>`).insertBefore(this.$dock.find(".dock-user"));
-		onedesk.dock.$clock = this.own_item($own, "clock", __("Check In"), "one-clock hide", `<span class="one-clock-dot"></span>`, () =>
-			onedesk.dock.punch()
-		);
-		onedesk.dock.$intake = this.own_item($own, "inbox", __("OneIntake"), "one-intake-rail", `<span class="one-intake-count hide"></span>`, () =>
-			frappe.set_route("intake")
-		);
-		onedesk.dock.refresh();
-		// Intake: what OneAI did with what arrived, and what waits for you. A
-		// number when something waits, a dot when something is unread.
-		onedesk.dock.intake();
-		// frappe's realtime drops a handler added before its socket exists.
-		const listen = () => frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
-		frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
-	}
-
-	own_item($own, icon, label, css_class, badge, on_click) {
-		const $item = $(`<button class="dock-item ${css_class}" aria-label="${frappe.utils.escape_html(label)}">
-			<span class="dock-item-icon">${frappe.utils.icon(icon, "md")}${badge}</span>
-			<span class="dock-item-label">${frappe.utils.escape_html(label)}</span>
-		</button>`).appendTo($own);
-		$item.data("tooltip", new frappe.ui.Tooltip($item[0], { text: label, side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" }));
-		$item.on("click", () => {
-			this.close();
-			on_click();
-		});
-		return $item;
-	}
+// Check In and Intake are rows in frappe's band under the panel's header,
+// beside Search and Notification, which frappe moved there from the rail: the
+// rail holds apps and the avatar, the band what a person checks on. Clocking
+// in is one row rather than a route because it happens twice a day for
+// everybody. The dot shows the state rather than offering a verb: green while
+// clocked in, grey while not, and the click sends no direction because the
+// server reads that from where the person already is.
+onedesk.dock.rows = (sidebar) => {
+	const $band = sidebar.$standard_items_band;
+	const add = (item) => sidebar.add_item($band, { standard: true, type: "Button", ...item });
+	add({
+		label: __("Check In"),
+		icon: "clock",
+		class: "one-clock hide",
+		suffix: `<span class="one-clock-dot"></span>`,
+		onClick: () => onedesk.dock.punch(),
+	});
+	add({
+		label: __("OneIntake"),
+		icon: "inbox",
+		class: "one-intake-row",
+		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
+		onClick: () => frappe.set_route("intake"),
+	});
+	onedesk.dock.$clock = $band.find(".one-clock");
+	onedesk.dock.$intake = $band.find(".one-intake-row");
+	onedesk.dock.refresh();
+	// Intake: what OneAI did with what arrived, and what waits for you. A
+	// number when something waits, a dot when something is unread.
+	onedesk.dock.intake();
+	// frappe's realtime drops a handler added before its socket exists.
+	const listen = () => frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
+	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 };
 
-// A rail row's name, read aloud and shown beside it.
-onedesk.dock.name = ($item, label) => {
-	$item.attr("aria-label", label);
-	$item.data("tooltip")?.set_text(label);
-};
+// A row's name as read aloud.
+onedesk.dock.name = ($item, label) => $item.attr("aria-label", label);
 
 // How many documents wait for the reader in Intake, and whether anything is
 // unread. See one_intake/inbox.py.
@@ -171,7 +166,7 @@ onedesk.dock.refresh = () =>
 				? __("Check In")
 				: __("Not checking in today");
 		onedesk.dock.name($item, label);
-		$item.find(".dock-item-label").text(on ? __("Checked In") : __("Check In"));
+		$item.find(".sidebar-item-label").text(on ? __("Checked In") : __("Check In"));
 		return ready;
 	});
 
