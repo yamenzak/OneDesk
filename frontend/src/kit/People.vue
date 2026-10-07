@@ -1,16 +1,21 @@
 <template>
-  <!-- People on something, as overlapping avatars; with `options`, clicking
-       picks who, each one ticked on or off. With `groups` (frappe's User
-       Groups), picking one adds each of its members. -->
+  <!-- People on something, as overlapping avatars, with their names after
+       them when `named`; with `options`, clicking picks who, each one ticked
+       on or off. With `groups` (frappe's User Groups), picking one adds each
+       of its members. -->
   <Dropdown v-if="options" :options="choices">
     <template #trigger>
       <button class="flex items-center rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="__('Assign')">
         <Stack :users="users" :people="people" :size="size" />
         <span v-if="!users.length" class="lucide-user-plus size-4 text-ink-gray-4" />
+        <span v-else-if="named" class="ms-2 truncate text-base text-ink-gray-8">{{ names }}</span>
       </button>
     </template>
   </Dropdown>
-  <Stack v-else :users="users" :people="people" :size="size" />
+  <span v-else class="flex min-w-0 items-center">
+    <Stack :users="users" :people="people" :size="size" />
+    <span v-if="named && users.length" class="ms-2 truncate text-base text-ink-gray-8">{{ names }}</span>
+  </span>
 </template>
 
 <script setup>
@@ -26,8 +31,10 @@ const props = defineProps({
   size: { type: String, default: "sm" },
   max: { type: Number, default: 3 },
   groups: { type: Array, default: () => [] },
+  named: Boolean,
 });
 const emit = defineEmits(["add", "remove", "group"]);
+const names = computed(() => props.users.map((user) => props.people[user]?.name || user).join(", "));
 
 const Stack = defineComponent({
   props: ["users", "people", "size"],

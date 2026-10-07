@@ -10,7 +10,13 @@ DONE = ("Completed", "Cancelled", "Template")
 
 
 def todo_made(doc, method=None) -> None:
-	"""ToDo before_insert: a to-do about nothing is made a task first."""
+	"""ToDo before_insert: a to-do about nothing is made a task first, and an
+	assignment frappe would describe by the record's ID is described by its
+	title, as its history then reads."""
+	if doc.reference_type and doc.reference_name:
+		if plain(doc.description) == _default(doc.reference_type, doc.reference_name):
+			doc.description = titled(doc.reference_type, doc.reference_name) or doc.description
+		return
 	if doc.reference_type or doc.reference_name or not plain(doc.description):
 		return
 	task = frappe.new_doc("Task")
@@ -25,6 +31,18 @@ def todo_made(doc, method=None) -> None:
 	task.flags.one_assigned = True
 	task.insert()
 	doc.reference_type, doc.reference_name = "Task", task.name
+
+
+def _default(doctype: str, name: str) -> str:
+	"""What frappe says an assignment is for when nobody says (assign_to.add)."""
+	return frappe._("Assignment for {0} {1}").format(doctype, name)
+
+
+def titled(doctype: str, name: str) -> str | None:
+	"""A record's title, when it has one other than its ID."""
+	field = frappe.get_meta(doctype).get_title_field()
+	title = field != "name" and frappe.db.get_value(doctype, name, field)
+	return title if title and title != name else None
 
 
 def task_made(doc, method=None) -> None:

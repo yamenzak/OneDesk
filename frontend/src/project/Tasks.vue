@@ -29,7 +29,7 @@
                 <span v-if="item.is_milestone" class="lucide-flag size-4 shrink-0 text-ink-gray-5" />
                 <div class="min-w-0">
                   <div class="flex min-w-0 items-center gap-2">
-                    <button data-task-open class="truncate text-start text-base text-ink-gray-8 hover:underline" :class="item.status === 'Completed' && 'text-ink-gray-5 line-through'" @click="$emit('open', item.name)">{{ item.subject }}</button>
+                    <button data-task-open class="truncate text-start text-base text-ink-gray-8 hover:underline" :class="[item.status === 'Completed' && 'text-ink-gray-5 line-through', item.name === current && 'font-semibold underline']" @click="$emit('open', item.name)">{{ item.subject }}</button>
                     <span v-if="item.sub" class="shrink-0 text-sm tabular-nums text-ink-gray-5">{{ __("{0} of {1}", [item.subDone, item.sub]) }}</span>
                   </div>
                   <div v-if="item.waiting?.length" class="truncate text-sm text-ink-amber-5">{{ __("Waiting on {0}", [item.waiting.join(", ")]) }}</div>
@@ -99,6 +99,8 @@ const props = defineProps({
   groups: { type: Array, required: true },
   team: { type: Array, default: () => [] },
   canWrite: Boolean,
+  // The task open in the panel, marked in its row.
+  current: String,
 });
 const emit = defineEmits(["open", "set", "give", "take", "add"]);
 

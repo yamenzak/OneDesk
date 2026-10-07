@@ -9,8 +9,9 @@
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <div ref="spot" class="empty:hidden [&_.one-place-spot]:mt-4" />
       <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" />
-      <!-- Every view starts a little below the tabs. -->
-      <div class="pt-4">
+      <!-- Every view starts a little below the tabs, and makes room for an
+           open task so the row stays in sight. -->
+      <div ref="views" class="pt-4 transition-[padding] duration-200" :style="{ paddingInlineEnd: `${room}px` }">
       <!-- The task views' toolbar, under the view's title. -->
       <div v-if="taskView" class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
@@ -31,7 +32,7 @@
       <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" @main="only = true" />
       <template v-else-if="taskView">
         <Loading v-if="!work" />
-        <Tasks v-else-if="view === 'tasks'" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
+        <Tasks v-else-if="view === 'tasks'" :current="opened?.name" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
         <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
         <Timeline v-else :work="work" :groups="groups" @open="open" />
       </template>
@@ -190,6 +191,18 @@ const team = computed(() => [...new Set([...(said.value?.team || []).map((one) =
 function open(task) {
   opened.value = find(task) || null;
 }
+// The task panel is fixed on the right (kit Drawer, 36rem); the views give
+// it as much room as it covers of them, on a screen wide enough to share.
+const views = ref(null);
+const room = ref(0);
+function makeRoom() {
+  const box = views.value?.getBoundingClientRect();
+  const panel = 36 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+  room.value = opened.value && box && window.innerWidth >= 1280 ? Math.max(0, box.right + room.value - (window.innerWidth - panel) + 16) : 0;
+}
+watch(() => Boolean(opened.value), makeRoom);
+window.addEventListener("resize", makeRoom);
+onBeforeUnmount(() => window.removeEventListener("resize", makeRoom));
 watch(work, () => opened.value && (opened.value = find(opened.value.name) || null));
 
 async function add(project, subject, extra) {

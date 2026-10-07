@@ -23,18 +23,22 @@
       />
       <dl class="grid grid-cols-[7rem_minmax(0,1fr)] items-center gap-y-3 text-base">
         <dt class="text-ink-gray-5">{{ __("Owner") }}</dt>
-        <dd><People :users="task.assigned" :people="work.people" :options="canWrite ? team : null" :groups="canWrite ? work.user_groups || [] : []" @add="(u) => $emit('give', task.name, u)" @group="(users) => $emit('give', task.name, users)" @remove="(u) => $emit('take', task.name, u)" /></dd>
+        <dd class="min-w-0"><People named :users="task.assigned" :people="work.people" :options="canWrite ? team : null" :groups="canWrite ? work.user_groups || [] : []" @add="(u) => $emit('give', task.name, u)" @group="(users) => $emit('give', task.name, users)" @remove="(u) => $emit('take', task.name, u)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Priority") }}</dt>
         <dd><Pill :value="task.priority" :options="work.priorities" :colors="PRIORITY" :label="__('Priority')" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'priority', v)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Starts") }}</dt>
-        <dd><Due :value="task.exp_start_date" done :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_start_date', v)" /></dd>
+        <dd class="w-44"><Due :value="task.exp_start_date" done :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_start_date', v)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Due") }}</dt>
-        <dd><Due :value="task.exp_end_date" :done="task.status === 'Completed'" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_end_date', v)" /></dd>
-        <dt class="text-ink-gray-5">{{ __("Hours") }}</dt>
-        <dd class="flex items-center gap-2">
-          <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-20 tabular-nums" :model-value="task.expected_time || ''" :disabled="!canWrite" :aria-label="__('Hours')" placeholder="–" @change="(e) => $emit('set', task.name, 'expected_time', Number(e.target.value) || 0)" />
-          <span v-if="task.actual_time" class="text-ink-gray-5">{{ __("{0} logged", [hours(task.actual_time)]) }}</span>
+        <dd class="w-44"><Due :value="task.exp_end_date" :done="task.status === 'Completed'" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_end_date', v)" /></dd>
+        <dt class="text-ink-gray-5">{{ __("Planned") }}</dt>
+        <dd class="flex items-center gap-1">
+          <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-28 tabular-nums" :model-value="task.expected_time || ''" :disabled="!canWrite" :aria-label="__('Planned Hours')" :placeholder="__('Set Hours')" @change="(e) => $emit('set', task.name, 'expected_time', Number(e.target.value) || 0)" />
+          <span v-if="task.expected_time" class="text-ink-gray-5">{{ __("h") }}</span>
         </dd>
+        <template v-if="task.actual_time">
+          <dt class="text-ink-gray-5">{{ __("Logged") }}</dt>
+          <dd class="text-ink-gray-8 tabular-nums">{{ hours(task.actual_time) }}</dd>
+        </template>
         <dt class="text-ink-gray-5">{{ __("Milestone") }}</dt>
         <dd><Switch :model-value="Boolean(task.is_milestone)" :disabled="!canWrite" :aria-label="__('Milestone')" @update:model-value="(v) => $emit('set', task.name, 'is_milestone', v ? 1 : 0)" /></dd>
         <template v-if="task.is_milestone && task.one_bill_share">
@@ -42,14 +46,14 @@
           <dd class="text-ink-gray-8">{{ __("{0}% of the contract", [task.one_bill_share]) }}</dd>
         </template>
         <dt class="text-ink-gray-5">{{ __("Project") }}</dt>
-        <dd class="truncate text-ink-gray-8">{{ work.groups.find((g) => g.key === task.project)?.title }}</dd>
+        <dd class="truncate"><button :class="LINK" @click="go(`/desk/project/${encodeURIComponent(task.project)}`)">{{ work.groups.find((g) => g.key === task.project)?.title }}</button></dd>
         <template v-if="doc?.type">
           <dt class="text-ink-gray-5">{{ __("Type") }}</dt>
           <dd class="truncate text-ink-gray-8">{{ doc.type }}</dd>
         </template>
         <template v-if="task.parent_task">
           <dt class="text-ink-gray-5">{{ __("Part Of") }}</dt>
-          <dd class="truncate"><button class="text-ink-gray-8 hover:underline" @click="$emit('open', task.parent_task)">{{ subject(task.parent_task) }}</button></dd>
+          <dd class="truncate"><button :class="LINK" @click="$emit('open', task.parent_task)">{{ subject(task.parent_task) }}</button></dd>
         </template>
         <template v-if="waits.length">
           <dt class="self-start text-ink-gray-5">{{ __("Waits On") }}</dt>
@@ -62,7 +66,7 @@
         </template>
         <template v-if="doc?.auto_repeat">
           <dt class="text-ink-gray-5">{{ __("Repeats") }}</dt>
-          <dd class="truncate"><button class="text-ink-gray-8 hover:underline" @click="go(`/desk/auto-repeat/${doc.auto_repeat}`)">{{ repeat?.disabled ? __("Stopped") : __(repeat?.frequency || "Repeats") }}</button></dd>
+          <dd class="truncate"><button :class="LINK" @click="go(`/desk/auto-repeat/${doc.auto_repeat}`)">{{ repeat?.disabled ? __("Stopped") : __(repeat?.frequency || "Repeats") }}</button></dd>
         </template>
       </dl>
 
@@ -121,6 +125,8 @@ const Activity = defineAsyncComponent(() => import("./Activity.vue"));
 
 const props = defineProps({ task: Object, work: { type: Object, required: true }, team: Array, canWrite: Boolean });
 const emit = defineEmits(["close", "set", "give", "take", "open", "add", "changed"]);
+// A field that opens another record reads as a link.
+const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
 
 // The whole task as frappe reads it: its description, type, checklist, what
 // it waits on and whether it repeats. Read again whenever the task changes.
