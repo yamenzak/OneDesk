@@ -9,8 +9,14 @@
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <div ref="spot" class="empty:hidden [&_.one-place-spot]:mt-4" />
       <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" />
-      <!-- The task views' toolbar. -->
-      <div v-if="taskView" class="flex flex-wrap items-center justify-end gap-2 py-2">
+      <!-- Every view starts a little below the tabs. -->
+      <div class="pt-4">
+      <!-- The task views' toolbar, under the view's title. -->
+      <div v-if="taskView" class="flex flex-wrap items-center gap-2 pb-2">
+        <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
+          <span class="lucide-list-checks size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Tasks") }}
+          <span v-if="count" class="text-base font-normal text-ink-gray-5">{{ count }}</span>
+        </h2>
         <TabButtons v-model="view" :options="LAYOUTS" />
         <TextInput v-model="search" size="sm" class="w-44 max-md:order-last max-md:w-full" :placeholder="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" /></template>
@@ -36,6 +42,7 @@
       <Suppliers v-else-if="view === 'suppliers'" :said="said" />
       <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
       <ProjectActivity v-else-if="view === 'activity'" :key="said.name" :project="said.name" :modified="said.modified" @task="open" />
+      </div>
 
       <TaskPanel :task="opened" :work="work || EMPTY" :team="team" :can-write="work?.can_write" @close="opened = null" @set="set" @give="give" @take="take" @open="open" @add="add" @changed="loadWork" />
     </template>
