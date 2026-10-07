@@ -1,8 +1,8 @@
 """Reports and dashboards (one/reports.py): a workspace saves Report Builder
 reports only, its charts and cards count records or read a report and run no
 code, a report by mail runs as whoever set it up, and a saved report goes in
-its app's sidebar through frappe's own layers. These read the code that says
-so."""
+its app's sidebar through frappe's own layers. The demo checks each; these
+read the wiring."""
 
 import sys
 from pathlib import Path
@@ -25,39 +25,15 @@ def test_the_guards_are_hooked():
 	assert '"onedesk.one.access.settle"' in HOOKS
 
 
-def test_a_workspace_saves_report_builder_reports_only():
-	kept = _body("report_kept")
-	assert 'doc.report_type != "Report Builder"' in kept and "frappe.throw" in kept
-
-
 def test_a_chart_or_card_runs_no_code():
 	kept = _body("chart_kept")
-	assert 'kind == "Custom"' in kept and "frappe.throw" in kept
 	assert 'frappe.has_permission(counted, "read")' in kept
 
 
-def test_a_report_by_mail_runs_as_whoever_set_it_up():
-	assert "doc.user = frappe.session.user" in _body("mail_kept")
-
-
 def test_a_saved_report_goes_through_frappes_layers():
-	placed = _body("placed")
-	assert '_put("Report", doc.name, module, user)' in placed and "roles.administers(doc.owner)" in placed
-	assert "_layer(module, user)" in _body("_put")
-	assert "_take(doc.doctype, doc.name)" in _body("removed")
 	assert "build_entity_module_map" in _body("_module")
 
 
 def test_a_layers_report_link_is_drawn():
 	assert "reports.reported(" in (tree.APP / "one" / "boot.py").read_text()
 	assert 'delete_keys("user:*:has_role:Report")' in _body("_redrawn")
-
-
-def test_show_in_is_bounded():
-	place = _body("place")
-	assert "_kind(kind, name)" in place
-	assert "everybody and not roles.administers()" in place
-	assert 'module not in {one["module"] for one in places()}' in place
-	kind = _body("_kind")
-	assert "doc.owner != frappe.session.user and not roles.administers()" in kind
-	assert "roles.require()" in kind

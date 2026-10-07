@@ -1,7 +1,8 @@
 """Closing a workspace (one/closing.py, one_admin/closing.py): only its payer
 takes everything or closes it, closing waits out a notice and then walks the
 ladder's own Archive, and nothing without a closing day is ever touched.
-These read the code that says so."""
+The workspace's side is checked on the demo; the account's side is read
+here, as it runs on the admin site."""
 
 import sys
 from pathlib import Path
@@ -22,24 +23,12 @@ def _body(name: str, source: str) -> str:
 	return source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
 
 
-def test_only_the_payer_takes_everything_or_closes_it():
-	for name in ("prepare", "download", "close", "keep"):
-		assert "_payer()" in _body(name, HERE), name
-	assert "roles.require()" in _body("_payer", HERE) and "_is_payer()" in _body("_payer", HERE)
-	assert "check_password(frappe.session.user" in _body("close", HERE)
-	assert "roles.require()" in _body("state", HERE)
-
-
 def test_the_download_is_whole_and_never_half_made():
 	build = _body("build", HERE)
-	assert "_database(zipped)" in build and "_records(zipped)" in build and "_files(zipped)" in build
 	assert ".part" in build and "os.replace(part, path)" in build
-	assert 'if old != name and not old.endswith(".part")' in build
 	assert "new_backup(ignore_files=True, force=True)" in _body("_database", HERE)
-	assert 'send_private_file(f"closing/{held.export_file}")' in _body("download", HERE)
 	for secret in ("OAuth Bearer Token", "OAuth Authorization Code", "Token Cache"):
 		assert f'"{secret}"' in HERE.split("LEFT_OUT = (", 1)[1].split(")", 1)[0], secret
-	assert "limit %s offset %s" in _body("_records", HERE), "a large table is read in batches"
 
 
 def test_nothing_without_a_closing_day_is_ever_closed():
@@ -78,11 +67,8 @@ def test_everybody_concerned_is_told():
 	for name in ("Workspace Asked to Close", "Workspace Closed"):
 		assert types[name]["module"] == "one_admin", name
 	assert 'if tenant.get("closing_on"):\n\t\t\t# Closed because they asked' in TELL
-	assert "tell.workspace_closing(held)" in _body("close", HERE)
-	assert "tell.workspace_staying_open()" in _body("keep", HERE)
 	for name in ("workspace_closing", "workspace_staying_open"):
-		told = _body(name, TOLD)
-		assert 'sender="Administrator"' in told and "_everybody()" in told, "the payer is told too"
+		assert 'sender="Administrator"' in _body(name, TOLD), "One tells them, not the payer"
 
 
 def test_a_closed_workspace_is_not_asked_to_pay():

@@ -871,6 +871,72 @@ def onebook_home_and_payments_for_the_accounts_team():
 
 
 @check
+def onebook_keeps_the_books_rules():
+	"""A bank mode of payment added later is wired by saving the company's
+	bank account. Only an invoice or a bill is paid in one step. A bill made
+	again drops last month's supplier number and its schedule. The books lock
+	only up to today, by the closers alone, however the date is set. A year
+	ended with entries is closed into Retained Earnings and locked, and the
+	check turns the payment reminder on."""
+	from onedesk.one_book import closing, paid, ready
+
+	company = frappe.get_doc("Company", COMPANY)
+	with as_user(OWNER):
+		frappe.get_doc({"doctype": "Mode of Payment", "mode_of_payment": "Demo Transfer", "type": "Bank", "enabled": 1}).insert()
+		frappe.get_doc("Bank Account", {"is_company_account": 1, "is_default": 1}).save()
+		assert [one.default_account for one in frappe.get_doc("Mode of Payment", "Demo Transfer").accounts] == [company.default_bank_account or frappe.db.get_value("Bank Account", {"is_default": 1}, "account")]
+	with as_user("huda@one.test"):
+		order = frappe.get_all("Sales Order", filters={"docstatus": 1}, pluck="name", limit=1)[0]
+		try:
+			paid.settle("Sales Order", order, 10, frappe.db.get_value("Bank Account", {"is_default": 1}, "account"))
+			raise AssertionError("an order was paid as if it were an invoice")
+		except frappe.ValidationError:
+			pass
+		bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "bill_no": ["is", "set"]}, fields=["name", "bill_no"], limit=1)[0]
+		repeat = frappe.get_doc({"doctype": "Auto Repeat", "reference_doctype": "Purchase Invoice", "reference_document": bill.name, "frequency": "Monthly", "start_date": today()}).insert()
+		copy = repeat.make_new_document()
+		assert not copy.bill_no and copy.name != bill.name, "last month's supplier number would be refused"
+		assert getdate(copy.due_date) >= getdate(today()) and all(getdate(row.due_date) >= getdate(today()) for row in copy.payment_schedule), "last month's schedule"
+	with as_user("rania@one.test"):
+		for step in (lambda: closing.lock(today()), lambda: ready.fix("bills")):
+			try:
+				step()
+				raise AssertionError("somebody outside the books closed or fixed them")
+			except frappe.PermissionError:
+				pass
+	with as_user(OWNER):
+		try:
+			closing.lock(str(add_days(today(), 1)))
+			raise AssertionError("the books were locked into the future")
+		except frappe.ValidationError:
+			pass
+		company.reload()
+		company.accounts_frozen_till_date = add_days(today(), 1)
+		try:
+			company.save()
+			raise AssertionError("the Company form locked the books into the future")
+		except frappe.ValidationError:
+			pass
+		income = company.default_income_account
+		cash = frappe.db.get_value("Account", {"account_type": "Cash", "is_group": 0, "company": COMPANY})
+		earned = frappe.get_doc({
+			"doctype": "Journal Entry", "company": COMPANY, "posting_date": "2025-06-30", "user_remark": "Last year's sale",
+			"accounts": [
+				{"account": cash, "debit_in_account_currency": 500, "cost_center": company.cost_center},
+				{"account": income, "credit_in_account_currency": 500, "cost_center": company.cost_center},
+			],
+		}).insert()
+		earned.submit()
+		assert [one.name for one in closing.unclosed(COMPANY)] == ["2025"]
+		ready.fix("close")
+		voucher = frappe.get_doc("Period Closing Voucher", {"fiscal_year": "2025", "company": COMPANY, "docstatus": 1})
+		assert voucher.closing_account_head == closing.retained_earnings(COMPANY)
+		assert str(closing.locked(COMPANY)) == "2025-12-31" and not closing.unclosed(COMPANY)
+		ready.fix("reminder")
+		assert frappe.db.get_value("Notification", "Payment Reminder", "enabled")
+
+
+@check
 def oneinventory_assets_items_and_orders_for_the_stores():
 	"""An asset's and an item's page as Karim reads them, an asset given to
 	somebody and taken back, a purchase order from the reorder rows, and a
@@ -2908,35 +2974,70 @@ def privacy_holds_each_person_to_their_own():
 @check
 def the_payer_downloads_everything_and_closes_the_workspace():
 	"""Layla, who pays, prepares the full download and fetches it, closes the
-	workspace with her password and keeps it open after all. Mariam, an
-	administrator who does not pay, may do neither. The account is not
-	asked: what it would answer is said here."""
+	workspace with her password and keeps it open after all, and everybody,
+	she too, is told each. Once somebody else pays she may do none of it, and
+	Mariam, who does not administer the workspace, may not even read where
+	closing stands. The account is not asked: what it would answer is said
+	here."""
 	import os
+	import zipfile
 	from unittest import mock
 
 	from onedesk.one import closing
 
 	frappe.db.set_single_value("Workspace Account", "billed_to", OWNER)
+	folder = frappe.get_site_path("private", "closing")
+	os.makedirs(folder, exist_ok=True)
 	with as_user(OWNER), mock.patch("frappe.enqueue") as queued, mock.patch("onedesk.one.account.ask") as asked, mock.patch("onedesk.one.account.refresh"), mock.patch("frappe.utils.password.check_password"):
 		assert closing.state()["is_payer"]
+		frappe.db.set_single_value("Workspace Account", {"export_status": "", "export_file": ""})
+		try:
+			closing.download()
+			raise AssertionError("a download was sent before one was made")
+		except frappe.ValidationError:
+			pass
 		closing.prepare()
 		assert queued.call_args.args[0] == closing.build
-		folder = frappe.get_site_path("private", "closing")
-		os.makedirs(folder, exist_ok=True)
-		with open(os.path.join(folder, "demo-check.zip"), "wb") as out:
+		with open(os.path.join(folder, "an-old-one.zip"), "wb") as out:
 			out.write(b"PK\x05\x06" + bytes(18))
-		frappe.db.set_single_value("Workspace Account", {"export_status": "Ready", "export_file": "demo-check.zip"})
+		with _Told() as told, mock.patch.object(closing, "_database") as database, mock.patch.object(closing, "_files", return_value=[]) as files, mock.patch.object(closing, "_doctypes", return_value=["ToDo", "Project"]), mock.patch.object(closing, "BATCH", 3):
+			closing.build(OWNER)
+		assert database.called and files.called, "the database and the files go in too"
+		held = frappe.get_single("Workspace Account")
+		assert held.export_status == "Ready" and os.listdir(folder) == [held.export_file], os.listdir(folder)
+		with zipfile.ZipFile(os.path.join(folder, held.export_file)) as zipped:
+			rows = zipped.read("records/ToDo.csv").decode("utf-8-sig").strip().splitlines()
+			assert len(rows) == frappe.db.count("ToDo") + 1, "a table read three rows at a time came out whole"
+		assert told.to("Full Download Ready") == {OWNER}
 		_asked(method="GET")
 		assert closing.download().status_code == 200
-		closing.close("her password")
-		assert asked.call_args.args[0] == "onedesk.one_admin.proxy.close"
-		closing.keep()
-		assert asked.call_args.args[0] == "onedesk.one_admin.proxy.withdraw_closing"
-		os.remove(os.path.join(folder, "demo-check.zip"))
+		with _Told() as told:
+			closing.close("her password")
+			assert asked.call_args.args[0] == "onedesk.one_admin.proxy.close"
+			closing.keep()
+			assert asked.call_args.args[0] == "onedesk.one_admin.proxy.withdraw_closing"
+		for name in ("Workspace Closing", "Workspace Staying Open"):
+			assert {OWNER, "mariam@one.test", "rania@one.test"} <= told.to(name), name
+		os.remove(os.path.join(folder, held.export_file))
+	with as_user(OWNER), mock.patch("onedesk.one.account.ask") as asked:
+		try:
+			closing.close("not her password")
+			raise AssertionError("closed with a wrong password")
+		except frappe.ValidationError:
+			assert not asked.called
+	frappe.db.set_single_value("Workspace Account", "billed_to", "accounts@sahara-parent.example")
+	with as_user(OWNER), mock.patch("onedesk.one.account.ask") as asked, mock.patch("frappe.utils.password.check_password"):
+		for step in (closing.prepare, closing.download, lambda: closing.close("x"), closing.keep):
+			try:
+				step()
+				raise AssertionError("somebody who does not pay did it")
+			except frappe.PermissionError:
+				pass
+		assert not asked.called and not closing.state()["is_payer"]
 	with as_user("mariam@one.test"):
 		try:
-			closing.prepare()
-			raise AssertionError("somebody who does not pay prepared the download")
+			closing.state()
+			raise AssertionError("Mariam read where closing stands")
 		except frappe.PermissionError:
 			pass
 
@@ -2953,9 +3054,12 @@ def _party_contact(doctype: str) -> str:
 def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 	"""Karim invites a supplier's contact to the portal, sends the invitation
 	again, and the contact opens the link and is taken to set a password.
-	Karim asks the supplier for a quote and the supplier prices it on the
+	The login is a portal one with the supplier's role. Somebody in the
+	workspace is not invited, and Rania, who does not manage suppliers, may
+	not invite anybody. Karim asks the supplier for a quote and the supplier prices it on the
 	portal, which makes the supplier quotation. Karim takes the login away
-	and gives it back. Somebody outside the supplier cannot answer it."""
+	and gives it back, and the taken login's link no longer works. Somebody
+	outside the supplier cannot answer it."""
 	from unittest import mock
 
 	from onedesk.one import invite, outside, portal, portal_invite
@@ -2969,6 +3073,20 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 		assert portal_invite.invite_contact(contact)["status"] == "invited"
 		portal_invite.invite_again(contact)
 	user = frappe.db.get_value("Contact", contact, "user")
+	assert frappe.db.get_value("User", user, "user_type") == "Website User" and "Supplier" in frappe.get_roles(user)
+	with as_user(OWNER):
+		ours = frappe.get_doc({"doctype": "Contact", "first_name": "Rania", "email_ids": [{"email_id": "rania@one.test", "is_primary": 1}], "links": [{"link_doctype": "Supplier", "link_name": supplier}]}).insert()
+		try:
+			portal_invite.invite_contact(ours.name)
+			raise AssertionError("somebody in the workspace was invited to the portal")
+		except frappe.ValidationError as refused:
+			assert "is someone in the workspace" in str(refused)
+	with as_user("rania@one.test"):
+		try:
+			portal_invite.invite_contact(contact)
+			raise AssertionError("Rania, who does not manage the supplier, invited its contact")
+		except frappe.PermissionError:
+			pass
 	frappe.set_user("Guest")
 	invite.accept(links[0].split("key=")[1])
 	assert frappe.local.response["type"] != "redirect" or "update-password" not in frappe.local.response.get("location", ""), "an old link still worked"
@@ -3002,9 +3120,64 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 	with as_user("karim@one.test"):
 		assert portal_invite.revoke(contact)["status"] == "revoked"
 		assert frappe.db.get_value("User", user, "enabled") == 0
+	frappe.set_user("Guest")
+	frappe.local.response.pop("location", None)
+	invite.accept(links[-1].split("key=")[1])
+	assert "update-password" not in (frappe.local.response.get("location") or ""), "a revoked login's link still worked"
+	with as_user("karim@one.test"):
 		with mock.patch("onedesk.one.tell.invited_to_portal"):
 			portal_invite.restore(contact)
 		assert frappe.db.get_value("User", user, "enabled") == 1
+
+
+@check
+def a_saved_report_is_its_makers_and_runs_no_code():
+	"""Omar saves his list of open deals as a report, and it goes under Saved
+	Reports in his own OneCRM sidebar. A report, a chart or a card made here
+	runs no code, even Layla's, and a report by mail goes as whoever set it
+	up. Omar may not show his report to everybody,
+	nor put it in an app he does not work in, Rania may not move it, and only
+	an administrator moves a dashboard. He deletes his own, and it leaves the
+	sidebar, but not Layla's."""
+	from onedesk.one import reports
+
+	def refused(step, error=frappe.ValidationError):
+		try:
+			step()
+		except error:
+			return True
+		return False
+
+	with as_user("omar@one.test"):
+		saved = frappe.get_doc({"doctype": "Report", "report_name": "Omar Open Deals", "ref_doctype": "Opportunity", "report_type": "Report Builder", "is_standard": "No", "json": "{}"}).insert()
+		layers = frappe.get_all("Sidebar Item", filters={"parenttype": "Custom Sidebar", "link_type": "Report", "link_to": saved.name}, pluck="parent")
+		assert [frappe.db.get_value("Custom Sidebar", one, "user") for one in layers] == ["omar@one.test"], layers
+		assert reports.where("Report", saved.name)["module"]
+		for kind in ("Script Report", "Custom Report"):
+			assert refused(lambda: frappe.get_doc({"doctype": "Report", "report_name": f"Omar {kind}", "ref_doctype": "Opportunity", "report_type": kind, "is_standard": "No", "reference_report": saved.name}).insert(), (frappe.ValidationError, frappe.PermissionError)), kind
+		places = {one["label"]: one["module"] for one in reports.places()}
+		assert "OneCRM" in places and "OneHR" not in places, places
+		assert refused(lambda: reports.place("Report", saved.name, places["OneCRM"], 1), frappe.PermissionError)
+		hr = frappe.db.get_value("Sidebar", "OneHR", "module")
+		assert refused(lambda: reports.place("Report", saved.name, hr))
+	with as_user(OWNER):
+		assert refused(lambda: frappe.get_doc({"doctype": "Dashboard Chart", "chart_name": "Layla Custom", "chart_type": "Custom", "document_type": "Opportunity", "source": "", "timeseries": 0}).insert())
+		assert refused(lambda: frappe.get_doc({"doctype": "Number Card", "label": "Layla Custom", "type": "Custom", "document_type": "Opportunity", "method": "frappe.ping"}).insert())
+		mailed = frappe.get_doc({"doctype": "Auto Email Report", "report": saved.name, "user": "omar@one.test", "email_to": "omar@one.test", "format": "HTML", "frequency": "Weekly", "day_of_week": "Monday"}).insert()
+		assert mailed.user == OWNER, "it would go as Omar sees it, set up by Layla"
+		hers = frappe.get_doc({"doctype": "Report", "report_name": "Layla Deals", "ref_doctype": "Opportunity", "report_type": "Report Builder", "is_standard": "No", "json": "{}"}).insert()
+		counted = frappe.get_doc({"doctype": "Dashboard Chart", "chart_name": "Layla Deals", "chart_type": "Count", "document_type": "Opportunity", "based_on": "creation", "timeseries": 0, "filters_json": "[]"}).insert()
+		assert counted.name
+	with as_user("rania@one.test"):
+		assert refused(lambda: reports.place("Report", saved.name, None), frappe.PermissionError)
+		dashboard = frappe.get_all("Dashboard", pluck="name", limit=1)
+		assert not dashboard or refused(lambda: reports.where("Dashboard", dashboard[0]), frappe.PermissionError)
+	with as_user(OWNER):
+		frappe.delete_doc("Auto Email Report", mailed.name)
+	with as_user("omar@one.test"):
+		assert refused(lambda: frappe.delete_doc("Report", hers.name), frappe.PermissionError), "Omar deleted Layla's report"
+		frappe.delete_doc("Report", saved.name)
+	assert not frappe.db.exists("Sidebar Item", {"parenttype": "Custom Sidebar", "link_type": "Report", "link_to": saved.name})
 
 
 @check

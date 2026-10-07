@@ -844,6 +844,7 @@ def settle() -> None:
 	_note_levels()
 	_masters()
 	_everybody("Report", "create")
+	_own_reports()
 	_everybody("Deleted Document", "read")
 	_no_copies_in_the_sidebar()
 
@@ -888,6 +889,18 @@ def _everybody(doctype: str, ptype: str) -> None:
 	if not frappe.db.exists("Custom DocPerm", where):
 		add_permission(doctype, DESK, 0)
 	update_permission_property(doctype, DESK, 0, ptype, 1, validate=False)
+
+
+def _own_reports() -> None:
+	"""A desk user saves a report and may change and delete it again, their
+	own only, since frappe gives a Desk User none of that. Written once."""
+	where = {"parent": "Report", "role": DESK, "permlevel": 0, "if_owner": 1}
+	if frappe.db.exists("Custom DocPerm", where):
+		return
+	setup_custom_perms("Report")
+	rights = dict.fromkeys(("read", "write", "delete"), 1)
+	frappe.get_doc({"doctype": "Custom DocPerm", **where, **rights}).insert(ignore_permissions=True)
+	frappe.clear_cache(doctype="Report")
 
 
 def _no_copies_in_the_sidebar() -> None:

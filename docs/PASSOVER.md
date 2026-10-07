@@ -666,6 +666,18 @@ Up next, in this order:
      remembered once and a changed one replacing it, a memory tied to a
      record only when it names it, and past chats only the reader's own. And
      access: a level kept to its app's kinds, record access to its own.
+   - Then closing the workspace (the payer alone, everybody told, the
+     download built whole), OneBook's rules (a bank mode wired when added,
+     only invoices and bills paid in one step, a repeated bill without last
+     month's number, the books locked only up to today and by the closers,
+     a year closed into Retained Earnings and locked), the portal invitation
+     (never to somebody in the workspace, only by the party's manager, a
+     taken login's link dead) and saved reports (no code, a report by mail as
+     whoever set it up, Show In kept to the reader's apps).
+   - Found on the way: whoever saved a report could not change or delete it.
+     One lets everybody save one, but frappe gives a desk user no right to
+     change or delete a report. Now they may, their own only
+     (`one/access.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 

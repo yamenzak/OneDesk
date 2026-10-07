@@ -520,7 +520,8 @@ such as OneBook for invoices or OneCRM for customers.
 - **Show In…** on the report's menu, also offered when you save, moves it to
   another app or takes it out of the sidebar. An administrator can also choose
   between only themselves and everyone who uses the app.
-- Deleting it from the report's menu removes it from the sidebar.
+- Whoever saved it can change it and delete it, and nobody else can but an
+  administrator. Deleting it from the report's menu removes it from the sidebar.
 - A saved report shows each person only the records they can read.
 
 **Dashboards**

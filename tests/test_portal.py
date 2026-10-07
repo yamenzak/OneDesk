@@ -179,10 +179,7 @@ def test_a_contact_is_invited_to_the_portal_by_one():
 	Portal Invitation with a week's link, and can be revoked and restored."""
 	invite = (tree.APP / "one" / "portal_invite.py").read_text()
 	assert 'MANAGERS = {"Customer": "Sales Manager", "Supplier": "Purchase Manager"}' in invite
-	assert "roles.administers()" in invite and '"user_type": "Website User"' in invite
-	assert "invite.send(user, what=_what(doc))" in invite and "clear_sessions(user=user, force=True)" in invite
-	assert "is someone in the workspace" in invite
-	assert "tell.invited_to_portal(email, what, **said)" in (tree.APP / "one" / "invite.py").read_text()
+	assert "clear_sessions(user=user, force=True)" in invite
 	assert 'notify.mail("Portal Invitation", email, what=what, **said)' in (tree.APP / "one" / "tell.py").read_text()
 	assert tree.notifications()["Portal Invitation"]["outside"]
 	assert "row.db_insert()" in SOURCE and "user.add_roles(*sorted(missing))" in SOURCE and "party.save()" not in SOURCE

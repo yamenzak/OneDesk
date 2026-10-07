@@ -80,8 +80,6 @@ def test_a_missing_fiscal_year_follows_the_last_and_covers_today():
 
 def test_a_company_bank_account_wires_the_bank_modes_of_payment():
 	assert '"Bank Account": {"on_update": "onedesk.one_book.ready.wired"}' in HOOKS
-	assert "wire(" in _body(READY, "wired")
-	assert "only_for(FIXERS)" in _body(READY, "fix")
 
 
 def test_the_books_check_opens_the_setup_group():
@@ -129,7 +127,6 @@ def test_a_payment_is_allocated_first_to_last_and_never_beyond_what_is_owed():
 def test_record_payment_is_on_invoices_and_bills_only():
 	heads = (BOOK / "heads.py").read_text(encoding="utf-8")
 	assert '"doctypes": list(paid.SETTLED)' in heads and "for doctype in paid.SETTLED" in heads
-	assert "doctype not in SETTLED" in _body(BOOK / "paid.py", "settle")
 
 
 def test_the_payment_reminder_ships_off_and_the_books_check_turns_it_on():
@@ -137,7 +134,6 @@ def test_the_payment_reminder_ships_off_and_the_books_check_turns_it_on():
 	assert reminder["enabled"] == 0, "it writes to customers, so nobody gets it until somebody says so"
 	assert reminder["document_type"] == "Sales Invoice" and reminder["event"] == "Days After"
 	assert "outstanding_amount > 0" in reminder["condition"]
-	assert "'reminder'" in _body(READY, "fix")
 
 
 def test_a_repeated_invoice_keeps_its_days_to_pay():
@@ -153,9 +149,6 @@ def test_invoices_and_bills_can_repeat_and_the_copy_is_corrected():
 		custom = json.loads((BOOK / "custom" / f"{name}.json").read_text())
 		assert {"property": "allow_auto_repeat", "value": "1"}.items() <= custom["property_setters"][0].items()
 	assert HOOKS.count('"on_recurring": "onedesk.one_book.repeat.repeated"') == 2
-	repeated = _body(BOOK / "repeat.py", "repeated")
-	assert "bill_no = None" in repeated, "last month's supplier number would be refused as a duplicate"
-	assert "payment_schedule" in repeated
 
 
 def test_a_bills_reclaimable_vat_follows_the_bill_until_somebody_types_their_own():
@@ -185,20 +178,12 @@ def test_the_uae_checks_only_run_in_the_uae_and_the_bill_hook_is_wired():
 
 
 def test_locking_is_for_the_closers_and_never_into_the_future():
-	lock = _body(BOOK / "closing.py", "lock")
-	assert "only_for(CLOSERS)" in lock
 	# The rule is the Company's own, so a bulk edit or an import keeps it too.
-	assert "The books can only be locked up to today." in _body(BOOK / "closing.py", "kept_to_today")
 	assert '"validate": "onedesk.one_book.closing.kept_to_today"' in HOOKS
 
 
 def test_the_year_is_closed_into_retained_earnings_and_then_locked():
-	close = _body(BOOK / "closing.py", "close_year")
-	assert "retained_earnings(company)" in close
-	# Locked by the voucher's own submit, however the year was closed.
-	assert "_lock(doc.company, doc.period_end_date)" in _body(BOOK / "closing.py", "year_closed")
 	assert '"Period Closing Voucher": {"on_submit": "onedesk.one_book.closing.year_closed"}' in HOOKS
-	assert "'close'" in _body(READY, "fix")
 
 
 def test_an_accounts_manager_can_add_a_bank():
