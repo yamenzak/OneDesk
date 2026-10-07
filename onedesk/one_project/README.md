@@ -463,7 +463,7 @@ and whoever can change it can change them.
 
 ### Activity
 
-What happened on the project and its sub-projects, the newest at the foot:
+What happened on the project and its sub-projects, the newest first:
 
 - **Documents**: each quotation, order, delivery, invoice, payment, request,
   receipt, expense claim, stock entry and journal entry made for it, when it
@@ -476,17 +476,14 @@ What happened on the project and its sub-projects, the newest at the foot:
   person logged in a day, files added or removed, and sub-projects started.
 - **Comments and emails** on the project.
 
-At the foot, **Comment** writes a comment, and typing @ mentions someone.
-**Email** writes an email from the project: who it's to, copies, a subject
-that starts as the project's name, and attachments, which stay on the
-project. **Reply** on an email answers it, to whoever sent it or, if you sent
-it, to whoever it went to. To use a mail template or attach the printed
-project, use **Email** in the ··· menu. A task's panel has the same
-Activity.
+At the top, you write a comment, and typing @ mentions someone. **New
+Email** opens the email window on the project, with its mail templates and
+its files to attach. **Reply** and **Reply All** on an email answer it. The
+newest is first, and **Show earlier activity** at the foot loads older rows.
+A task's panel has the same Activity.
 
-**All**, **Money**, **Work** and **Comments** narrow it. **Show earlier
-activity** loads older rows. A document only shows to whoever may read its
-type.
+**All**, **Money**, **Work** and **Comments** narrow it. A document only
+shows to whoever may read its type.
 
 ### Beside the views
 

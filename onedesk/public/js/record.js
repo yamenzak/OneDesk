@@ -118,6 +118,44 @@ onedesk.record.changes = (doctype, name, heard) => {
 	return () => frappe.realtime.off("docinfo_update", seen);
 };
 
+// frappe's Email dialog on a record shown on a page: New Email, or Reply and
+// Reply All on one of its emails, with the arguments the form timeline's
+// compose_mail gives it (frappe/form/footer/form_timeline.js), so the
+// recipients, copies, subject and quoted mail are what a form would give.
+// `email` is the email as `getdoc` and the timeline keep it: name, sender,
+// recipients, cc, bcc, subject, content, communication_date.
+onedesk.record.email = async (doctype, name, { email = null, all = false, sent = () => {} } = {}) => {
+	const record = await onedesk.record.read(doctype, name);
+	const frm = onedesk.record.handle(doctype, record, sent);
+	const { doc } = record;
+	const me = frappe.session.user_email;
+	const args = {
+		doc,
+		frm,
+		recipients: email && email.sender != me ? email.sender : doc.email_id || doc.email || "",
+		is_a_reply: Boolean(email),
+		title: email ? __("Reply") : null,
+		last_email: email,
+		subject: email && email.subject,
+		reply_all: all,
+		sender: email && email.sender,
+		message: "",
+	};
+	if (email) {
+		const outgoing = (frappe.boot.email_accounts || [])
+			.filter((one) => !["All Accounts", "Sent", "Spam", "Trash"].includes(one.email_account) && one.enable_outgoing)
+			.map((one) => one.email_id);
+		args.cc = "";
+		if (outgoing.includes(me) && email.sender != me)
+			args.cc = `${(email.recipients || "").split(",").map((one) => one.trim()).filter((one) => one && one != me).join(", ")}, `;
+		if (all) {
+			args.cc += cstr(email.cc);
+			args.bcc = cstr(email.bcc);
+		}
+	}
+	return new frappe.views.CommunicationComposer(args);
+};
+
 // frappe's own menu items for a record, in frappe's words and order, each
 // only where the form would offer it (frappe/form/toolbar.js). `standard`
 // puts them below the page's own, as the form's are.

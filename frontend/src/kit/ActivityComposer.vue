@@ -1,67 +1,50 @@
 <template>
-  <!-- What a record's activity is written with, at its foot, as a form's
-       timeline has a comment box and New Email: frappe's own comment composer,
-       with @-mentions, and its email composer, the two switched as Frappe CRM
-       switches them. Each sends as frappe does (the form's add_comment and
-       communication.email.make), so what is written lands on the record's
-       timeline. `reply(email)` opens the email composer on an email of the
-       timeline. -->
-  <div class="space-y-2">
-    <TabButtons v-model="mode" :options="MODES" />
-    <CommentComposer
-      v-if="mode === 'comment'"
-      ref="commentRef"
-      :mentions="mentions"
-      :placeholder="__('Write a comment')"
-      :submit-label="__('Comment')"
-      :submitting="sending"
-      @submit="sendComment"
-    />
-    <EmailComposer
-      v-else
-      ref="emailRef"
-      v-model:to="to"
-      v-model:cc="cc"
-      v-model:bcc="bcc"
-      v-model:subject="subject"
-      v-model:quoted="quoted"
-      show-subject
-      :search-recipients="searchRecipients"
-      :upload-function="uploadFile"
-      :placeholder="__('Write an email')"
-      :submit-label="__('Send')"
-      :submitting="sending"
-      @submit="sendEmail"
-    />
+  <!-- What a record's activity is written with, at its top, as a form's
+       Activity has it: frappe's own comment composer, with @-mentions, sent
+       through the form's add_comment, framed beside the reader's avatar as
+       frappe/ui's comment thread frames it, and beside the page's filters New Email,
+       which opens frappe's Email dialog on the record (onedesk.record.email).
+       `reply(email, all)` opens that dialog on an email of the timeline, as
+       its Reply and Reply All do on a form. -->
+  <div class="flex flex-col gap-3">
+    <div class="flex gap-3">
+      <Avatar size="md" :label="mine.name" :image="mine.image" />
+      <div class="min-w-0 flex-1 rounded-5 border border-outline-gray-2">
+        <CommentComposer
+          ref="commentRef"
+          :mentions="mentions"
+          :placeholder="__('Write a comment')"
+          :submit-label="__('Comment')"
+          :submitting="sending"
+          @submit="sendComment"
+        />
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <slot />
+      <Button v-if="canEmail" class="ms-auto" icon-left="lucide-plus" :label="__('New Email')" @click="write" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { nextTick, ref, watch } from "vue";
-import { FileUploadHandler, TabButtons, toast } from "frappe-ui";
-import { CommentComposer, EmailComposer } from "@framework/ui/Composer";
+import { ref } from "vue";
+import { Avatar, Button } from "frappe-ui";
+import { CommentComposer } from "@framework/ui/Composer";
 
-import { __, call, comment, me, mentionable } from "./desk";
+import { __, can, comment, emailOn, me, mentionable, userInfo } from "./desk";
 
 const props = defineProps({
   doctype: { type: String, required: true },
   name: { type: String, required: true },
-  // The subject a new email starts with: the record's title, or its name,
-  // as frappe's own email dialog starts one.
-  title: { type: String, default: "" },
 });
 const emit = defineEmits(["sent"]);
 
-const MODES = [
-  { label: __("Comment"), value: "comment", iconLeft: "lucide-message-square" },
-  { label: __("Email"), value: "email", iconLeft: "lucide-mail" },
-];
-const mode = ref("comment");
+const mentions = mentionable();
+const mine = userInfo(me());
+const canEmail = can("email", props.doctype);
 const sending = ref(false);
 const commentRef = ref(null);
-const emailRef = ref(null);
-
-const mentions = mentionable();
 
 async function sendComment({ body }) {
   sending.value = true;
@@ -74,88 +57,27 @@ async function sendComment({ body }) {
   }
 }
 
-const to = ref([]);
-const cc = ref([]);
-const bcc = ref([]);
-const subject = ref("");
-const quoted = ref("");
-let inReplyTo = null;
-// A new email starts with the record's title as its subject.
-watch(mode, (now) => now === "email" && !subject.value && (subject.value = props.title || props.name));
+const sent = () => emit("sent");
 
-// The workspace's contacts, as frappe's email dialog suggests them.
-async function searchRecipients(query) {
-  const found = await call("frappe.email.get_contact_list", { txt: query || "" });
-  return (found || []).map((one) => ({ email: one.value, label: one.description || one.value }));
-}
+/** frappe's Email dialog for a new email on the record. */
+const write = () => emailOn(props.doctype, props.name, { sent });
 
-// An attachment, attached to the record as frappe's email dialog attaches it.
-function uploadFile(file) {
-  return new FileUploadHandler().upload(file, { doctype: props.doctype, docname: props.name, private: true });
-}
-
-async function sendEmail({ body, attachments }) {
-  if (!to.value.length) return toast.error(__("Add who it is to"));
-  sending.value = true;
-  try {
-    const list = (people) => people.map((one) => one.email).join(", ");
-    await call("frappe.core.doctype.communication.email.make", {
-      doctype: props.doctype,
-      name: props.name,
-      recipients: list(to.value),
-      cc: list(cc.value),
-      bcc: list(bcc.value),
-      subject: subject.value || props.title || props.name,
-      content: quoted.value ? `${body}<br><blockquote>${quoted.value}</blockquote>` : body,
-      send_email: 1,
-      attachments: attachments.map((one) => one.name),
-      in_reply_to: inReplyTo,
-    });
-    emailRef.value?.reset();
-    to.value = [];
-    cc.value = [];
-    bcc.value = [];
-    subject.value = props.title || props.name;
-    quoted.value = "";
-    inReplyTo = null;
-    toast.success(__("Email sent"));
-    emit("sent");
-  } finally {
-    sending.value = false;
-  }
-}
-
-// The addresses in a list as frappe stores one ("a@x.com, Bo <b@y.com>").
-const addresses = (list) =>
-  String(list || "")
-    .split(/[,;\n]/)
-    .map((one) => (one.match(/<([^>]+)>/)?.[1] || one).trim())
-    .filter(Boolean)
-    .map((email) => ({ email, label: email }));
-
-/** Opens the email composer on `email`, a timeline email, as desk's Reply
- * does: to its sender, or to whom it went when the reader sent it, its copies
- * kept, "Re:" its subject, its words quoted. */
-async function reply(email) {
+/** frappe's Email dialog answering `email`, a timeline email; `all` copies
+ * everyone it went to, as Reply All does. */
+const reply = (email, all = false) => {
   const data = email.data || {};
-  const own = addresses(data.sender)[0]?.email?.toLowerCase() === me()?.toLowerCase();
-  mode.value = "email";
-  to.value = own ? addresses(data.to) : addresses(data.sender).map((one) => ({ ...one, label: email.author?.fullname || one.email }));
-  cc.value = addresses(data.cc);
-  const said = data.subject || props.title || props.name;
-  subject.value = /^re:/i.test(said.trim()) ? said : __("Re: {0}", [said]);
-  quoted.value = data.content || "";
-  inReplyTo = data.name || null;
-  await nextTick();
-  emailRef.value?.focus();
-}
-
-/** Opens the email composer for a new email. */
-function write() {
-  mode.value = "email";
-  if (!subject.value) subject.value = props.title || props.name;
-  nextTick(() => emailRef.value?.focus());
-}
+  const last = {
+    name: data.name,
+    sender: data.sender,
+    recipients: data.to || "",
+    cc: data.cc || "",
+    bcc: data.bcc || "",
+    subject: data.subject,
+    content: data.content,
+    communication_date: email.timestamp,
+  };
+  return emailOn(props.doctype, props.name, { email: last, all, sent });
+};
 
 defineExpose({ reply, write });
 </script>

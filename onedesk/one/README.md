@@ -36,7 +36,8 @@ A record's own page, such as a project's, reads like a form. Its views are
 tabs across the top, which slide sideways when they don't all fit, and who it's
 assigned to, its attachments, tags, sharing and likes are on the right. Its
 **Activity** is where you write a comment or send an email, as on a form:
-pick **Comment** or **Email** at the foot. **Reply** on an email answers it.
+the comment box is at the top, **New Email** opens the email window, and
+**Reply** or **Reply All** on an email answers it. The newest is first.
 
 The round OneAI button in the corner opens OneAI on any page. It offers
 suggestions for that page, and you can ask it how anything in One works.

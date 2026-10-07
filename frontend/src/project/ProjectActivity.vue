@@ -2,102 +2,102 @@
   <!-- The project's history across it and its sub-projects: the documents
        made for it, its tasks, time, updates and files (one_project/activity.py),
        beside frappe's own timeline of the project, its comments, emails and
-       field changes. A comment or an email is written at the foot, as a
-       form's timeline has them (kit ActivityComposer), and an email is
-       answered from its own row with Reply. -->
-  <div class="flex h-[calc(100dvh-7rem)] min-h-[30rem] flex-col gap-3 pb-6 pt-2">
-    <TabButtons v-model="shown" class="self-start" :options="FILTERS" />
-    <TimelineContainer>
-      <ActivityTimeline :activities="rows" :loading="!ready" :paginate="paginate">
-        <template #empty>
-          <div class="py-12 text-center text-base text-ink-gray-5">{{ __("No activity") }}</div>
-        </template>
+       field changes, newest first as a form's Activity is. A comment is
+       written at the top and New Email opens frappe's Email dialog (kit
+       ActivityComposer); an email is answered from its own row with Reply or
+       Reply All. -->
+  <div class="flex flex-col gap-4 pb-10 pt-2">
+    <ActivityComposer ref="composer" doctype="Project" :name="project" @sent="sent">
+      <TabButtons v-model="shown" :options="FILTERS" />
+    </ActivityComposer>
+    <ActivityTimeline :activities="rows" :loading="!ready" :paginate="paginate">
+      <template #empty>
+        <div class="py-12 text-center text-base text-ink-gray-5">{{ __("No activity") }}</div>
+      </template>
 
-        <template v-for="(icon, type) in ICONS" #[`icon-${type}`]="{ activity }">
-          <span :class="[iconOf(activity, icon), 'size-4 text-ink-gray-6']" />
-        </template>
+      <template v-for="(icon, type) in ICONS" #[`icon-${type}`]="{ activity }">
+        <span :class="[iconOf(activity, icon), 'size-4 text-ink-gray-6']" />
+      </template>
 
-        <template #item-email="{ activity: one }">
-          <EmailItem :email="one">
-            <template #actions>
-              <Button variant="ghost" size="sm" icon-left="lucide-reply" :label="__('Reply')" @click="composer?.reply(one)" />
-            </template>
-          </EmailItem>
-        </template>
+      <template #item-email="{ activity: one }">
+        <EmailItem :email="one">
+          <template #actions>
+            <Button variant="ghost" size="sm" icon="lucide-reply" :tooltip="__('Reply')" :aria-label="__('Reply')" @click="composer?.reply(one)" />
+            <Button variant="ghost" size="sm" icon="lucide-reply-all" :tooltip="__('Reply All')" :aria-label="__('Reply All')" @click="composer?.reply(one, true)" />
+          </template>
+        </EmailItem>
+      </template>
 
-        <template #item-document="{ activity: one }">
-          <ActivityLine :activity="one" :aside="[one.data.party, one.data.amount ? money(one.data.amount, one.data.currency) : '', one.data.sub_project].filter(Boolean).join(' · ')">
-            {{ VERBS()[one.data.verb] }} {{ __(one.data.doctype) }}
-            <a class="text-ink-gray-8 hover:text-ink-blue-5" :href="one.data.route" @click.prevent="go(one.data.route)">{{ one.data.name }}</a>
-          </ActivityLine>
-        </template>
+      <template #item-document="{ activity: one }">
+        <ActivityLine :activity="one" :aside="[one.data.party, one.data.amount ? money(one.data.amount, one.data.currency) : '', one.data.sub_project].filter(Boolean).join(' · ')">
+          {{ VERBS()[one.data.verb] }} {{ __(one.data.doctype) }}
+          <a class="text-ink-gray-8 hover:text-ink-blue-5" :href="one.data.route" @click.prevent="go(one.data.route)">{{ one.data.name }}</a>
+        </ActivityLine>
+      </template>
 
-        <template #item-tasks="{ activity: one }">
-          <ActivityLine :activity="one" :aside="one.data.sub_project">
-            <template v-if="one.data.count === 1">
-              {{ __("added task") }}
-              <button class="text-ink-gray-8 hover:text-ink-blue-5" @click="$emit('task', one.data.tasks[0].name)">{{ one.data.tasks[0].subject }}</button>
-            </template>
-            <template v-else>
-              {{ __("added {0} tasks", [one.data.count]) }}
-              <span class="text-ink-gray-5">({{ andList([...one.data.tasks.map((task) => task.subject), ...(one.data.count > 3 ? [__("{0} more", [one.data.count - 3])] : [])]) }})</span>
-            </template>
-          </ActivityLine>
-        </template>
+      <template #item-tasks="{ activity: one }">
+        <ActivityLine :activity="one" :aside="one.data.sub_project">
+          <template v-if="one.data.count === 1">
+            {{ __("added task") }}
+            <button class="text-ink-gray-8 hover:text-ink-blue-5" @click="$emit('task', one.data.tasks[0].name)">{{ one.data.tasks[0].subject }}</button>
+          </template>
+          <template v-else>
+            {{ __("added {0} tasks", [one.data.count]) }}
+            <span class="text-ink-gray-5">({{ andList([...one.data.tasks.map((task) => task.subject), ...(one.data.count > 3 ? [__("{0} more", [one.data.count - 3])] : [])]) }})</span>
+          </template>
+        </ActivityLine>
+      </template>
 
-        <template #item-task="{ activity: one }">
-          <ActivityLine :activity="one" :aside="one.data.sub_project">
-            {{ __("completed") }}
-            <button class="text-ink-gray-8 hover:text-ink-blue-5" @click="$emit('task', one.data.name)">{{ one.data.subject }}</button>
-          </ActivityLine>
-        </template>
+      <template #item-task="{ activity: one }">
+        <ActivityLine :activity="one" :aside="one.data.sub_project">
+          {{ __("completed") }}
+          <button class="text-ink-gray-8 hover:text-ink-blue-5" @click="$emit('task', one.data.name)">{{ one.data.subject }}</button>
+        </ActivityLine>
+      </template>
 
-        <template #item-time="{ activity: one }">
-          <ActivityLine :activity="one" :aside="one.data.sub_project">{{ __("logged {0}", [hours(one.data.hours)]) }}</ActivityLine>
-        </template>
+      <template #item-time="{ activity: one }">
+        <ActivityLine :activity="one" :aside="one.data.sub_project">{{ __("logged {0}", [hours(one.data.hours)]) }}</ActivityLine>
+      </template>
 
-        <template #item-update="{ activity: one }">
-          <ActivityLine :activity="one" :aside="one.data.sub_project">
-            {{ __("posted an update") }}
-            <template #below>
-              <div class="rounded-2 bg-surface-gray-2 px-3 py-2 text-base font-normal text-ink-gray-8">
-                <Badge v-if="one.data.health" class="mb-1" :label="__(one.data.health)" :theme="HEALTH[one.data.health] || 'gray'" size="sm" />
-                <p class="whitespace-pre-line">{{ one.data.text }}</p>
-              </div>
-            </template>
-          </ActivityLine>
-        </template>
+      <template #item-update="{ activity: one }">
+        <ActivityLine :activity="one" :aside="one.data.sub_project">
+          {{ __("posted an update") }}
+          <template #below>
+            <div class="rounded-2 bg-surface-gray-2 px-3 py-2 text-base font-normal text-ink-gray-8">
+              <Badge v-if="one.data.health" class="mb-1" :label="__(one.data.health)" :theme="HEALTH[one.data.health] || 'gray'" size="sm" />
+              <p class="whitespace-pre-line">{{ one.data.text }}</p>
+            </div>
+          </template>
+        </ActivityLine>
+      </template>
 
-        <template #item-files="{ activity: one }">
-          <ActivityLine :activity="one" :aside="[andList(one.data.names), one.data.sub_project].filter(Boolean).join(' · ')">{{ filesSaid(one.data) }}</ActivityLine>
-        </template>
+      <template #item-files="{ activity: one }">
+        <ActivityLine :activity="one" :aside="[andList(one.data.names), one.data.sub_project].filter(Boolean).join(' · ')">{{ filesSaid(one.data) }}</ActivityLine>
+      </template>
 
-        <template #item-started="{ activity: one }">
-          <ActivityLine :activity="one">
-            <template v-if="one.data.sub">
-              {{ __("started sub-project") }}
-              <a class="text-ink-gray-8 hover:text-ink-blue-5" :href="`/desk/project/${one.data.name}`" @click.prevent="go(`/desk/project/${one.data.name}`)">{{ one.data.title }}</a>
-            </template>
-            <template v-else>{{ __("created the project") }}</template>
-          </ActivityLine>
-        </template>
-      </ActivityTimeline>
-    </TimelineContainer>
-
-    <ActivityComposer ref="composer" doctype="Project" :name="project" :title="title" @sent="sent" />
+      <template #item-started="{ activity: one }">
+        <ActivityLine :activity="one">
+          <template v-if="one.data.sub">
+            {{ __("started sub-project") }}
+            <a class="text-ink-gray-8 hover:text-ink-blue-5" :href="`/desk/project/${one.data.name}`" @click.prevent="go(`/desk/project/${one.data.name}`)">{{ one.data.title }}</a>
+          </template>
+          <template v-else>{{ __("created the project") }}</template>
+        </ActivityLine>
+      </template>
+    </ActivityTimeline>
   </div>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Button, TabButtons } from "frappe-ui";
-import { ActivityTimeline, EmailItem, TimelineContainer, useActivityTimeline } from "@framework/ui/ActivityTimeline";
+import { ActivityTimeline, EmailItem, useActivityTimeline } from "@framework/ui/ActivityTimeline";
 
 import { ActivityComposer, __, andList, call, followList, go, hours, listen, money } from "../kit";
 import { onlyArg, useOnly } from "./only";
 import ActivityLine from "./ActivityLine.vue";
 
-const props = defineProps({ project: { type: String, required: true }, title: String, modified: String });
+const props = defineProps({ project: { type: String, required: true }, modified: String });
 // Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 defineEmits(["task"]);
@@ -148,14 +148,14 @@ const paginate = reactive({
   isFetchingNextPage: computed(() => fetching.value),
   fetchNextPage: () => load(true),
   isPagedRow: (one) => Boolean(one.kind),
-  loadMore: { position: "inline", label: __("Show earlier activity"), icon: "lucide-chevrons-up" },
+  loadMore: { position: "bottom", label: __("Show earlier activity"), icon: "lucide-chevrons-down" },
 });
 
 const kindOf = (one) => one.kind || (one.type === "version" ? "work" : "comments");
 const rows = computed(() =>
   [...(own.activities.value || []), ...history.value]
     .filter((one) => shown.value === "all" || kindOf(one) === shown.value)
-    .sort((a, b) => (a.timestamp || "").localeCompare(b.timestamp || ""))
+    .sort((a, b) => (b.timestamp || "").localeCompare(a.timestamp || ""))
 );
 
 // Anything that adds to the history reloads its newest page: money moving

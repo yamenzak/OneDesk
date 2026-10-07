@@ -74,23 +74,35 @@ def test_the_breadcrumb_is_the_panels_menu_everywhere():
 	assert not found, found
 
 
-def test_a_records_activity_is_written_with_frappes_composers():
-	"""A comment or an email on a record is written at the foot of its
-	activity with frappe's own composers (kit/ActivityComposer.vue), as a
-	form's timeline has its comment box and New Email, and an email row has
-	Reply. No page draws a comment box of its own."""
+def test_a_records_activity_is_written_as_a_forms_is():
+	"""A record's activity reads as a form's Activity does: the comment box at
+	its top (frappe's CommentComposer, kit/ActivityComposer.vue), New Email
+	opening frappe's own Email dialog (record.js `onedesk.record.email`, the
+	arguments of the form timeline's compose_mail), newest first, and Reply
+	and Reply All on each email. No page draws a comment box or sends mail
+	of its own."""
 	kit = (SRC / "kit" / "ActivityComposer.vue").read_text()
-	assert "CommentComposer" in kit and "EmailComposer" in kit
-	assert "frappe.core.doctype.communication.email.make" in kit, "an email is sent as frappe's email dialog sends it"
+	assert "CommentComposer" in kit and "EmailComposer" not in kit
+	assert "emailOn(" in kit and "New Email" in kit
+	record = (APP / "public" / "js" / "record.js").read_text()
+	assert "onedesk.record.email = " in record and "new frappe.views.CommunicationComposer(args)" in record
+	assert "is_a_reply" in record and "reply_all" in record
 	found = []
 	for path in VUE:
 		if path.parent.name == "kit":
 			continue
 		text = path.read_text()
 		if re.search(r"\bcomment\(", text) or "communication.email.make" in text:
-			found.append(str(path.relative_to(ROOT)))
-		if "useActivityTimeline(" in text and ("<ActivityComposer" not in text or "composer?.reply(" not in text):
-			found.append(str(path.relative_to(ROOT)))
+			found.append(f"{path.relative_to(ROOT)} sends on its own")
+		if "useActivityTimeline(" not in text:
+			continue
+		if "<ActivityComposer" not in text or "composer?.reply(one)" not in text or "composer?.reply(one, true)" not in text:
+			found.append(f"{path.relative_to(ROOT)} lacks the composer or Reply and Reply All")
+		if text.index("<ActivityComposer") > text.index("<ActivityTimeline"):
+			found.append(f"{path.relative_to(ROOT)} has its comment box under the timeline")
+		# A bounded TimelineContainer is frappe/ui's chat layout, oldest first.
+		if "<TimelineContainer" in text:
+			found.append(f"{path.relative_to(ROOT)} lists oldest first")
 	assert not found, found
 
 

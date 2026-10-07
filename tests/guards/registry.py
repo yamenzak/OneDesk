@@ -171,8 +171,8 @@ GUARDS = [
 	Guard(
 		"activity-composer",
 		8,
-		"a comment box or email sending of a page's own on a record's activity, or an email row without Reply",
-		"tests/guards/test_record_page.py::test_a_records_activity_is_written_with_frappes_composers",
+		"a record's activity not read as a form's: comment box under it, mail sent or drawn by the page, oldest first, or an email without Reply and Reply All",
+		"tests/guards/test_record_page.py::test_a_records_activity_is_written_as_a_forms_is",
 	),
 	Guard(
 		"island-provider",

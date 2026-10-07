@@ -137,6 +137,10 @@ export function emailRecord(doctype, name) {
 	frappe().set_route("Form", doctype, name);
 }
 
+/** frappe's Email dialog on a record shown on a page (record.js
+ * `onedesk.record.email`): a new email, or with `email` a reply to it. */
+export const emailOn = (doctype, name, options) => onedesk().record.email(doctype, name, options);
+
 /** A whole number as the workspace writes numbers. */
 export const count = (value) => window.format_number(value || 0, null, 0);
 

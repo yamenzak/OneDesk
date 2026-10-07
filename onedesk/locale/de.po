@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-07 11:07+0000\n"
-"PO-Revision-Date: 2026-10-07 11:07+0000\n"
+"POT-Creation-Date: 2026-10-07 11:37+0000\n"
+"PO-Revision-Date: 2026-10-07 11:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1640,10 +1640,6 @@ msgstr "Zum Tarif hinzufügen"
 #: onedesk/one_intake/panel.py:217
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
-
-#: frontend/src/kit/ActivityComposer.vue:101
-msgid "Add who it is to"
-msgstr "Empfänger hinzufügen"
 
 #: onedesk/one/page/masters/masters.js:130 onedesk/public/js/project_tree.js:32
 msgid "Add {0}"
@@ -5119,8 +5115,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: frontend/src/kit/ActivityComposer.vue:16
-#: frontend/src/kit/ActivityComposer.vue:56 frontend/src/project/Activity.vue:6
+#: frontend/src/kit/ActivityComposer.vue:17
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Comment"
@@ -5587,7 +5582,7 @@ msgstr "Kopie meiner Daten"
 msgid "Copy of Your Data"
 msgstr "Kopie Ihrer Daten"
 
-#: onedesk/public/js/record.js:154
+#: onedesk/public/js/record.js:192
 msgid "Copy to Clipboard"
 msgstr ""
 
@@ -6108,7 +6103,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/record.js:157
+#: onedesk/public/js/record.js:195
 msgid "Customize"
 msgstr ""
 
@@ -6538,7 +6533,7 @@ msgstr "Standard: {0}"
 #: onedesk/public/js/doctype_settings.js:572
 #: onedesk/public/js/doctype_settings.js:1145 onedesk/public/js/onecloud.js:105
 #: onedesk/public/js/onecloud.js:1928 onedesk/public/js/onemail.js:103
-#: onedesk/public/js/onemail.js:416 onedesk/public/js/record.js:146
+#: onedesk/public/js/onemail.js:416 onedesk/public/js/record.js:184
 #: onedesk/public/js/settings.js:1259 onedesk/public/js/settings.js:1308
 #: onedesk/public/js/settings.js:1340 onedesk/public/js/settings.js:2393
 #: onedesk/public/js/settings.js:3259
@@ -7378,7 +7373,7 @@ msgstr "Fällig am {0}"
 msgid "Due {0}."
 msgstr "Fällig am {0}."
 
-#: onedesk/public/js/crm_record.js:46 onedesk/public/js/record.js:139
+#: onedesk/public/js/crm_record.js:46 onedesk/public/js/record.js:177
 msgid "Duplicate"
 msgstr ""
 
@@ -7611,9 +7606,8 @@ msgstr "„Eines von beiden“ akzeptiert ein Einchecken, das eine der beiden Pr
 #. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the email (Data) field in DocType 'Cloud Link Invitee'
-#: frontend/src/kit/ActivityComposer.vue:57 frontend/src/project/Team.vue:59
-#: onedesk/one/letter_heads.py:53 onedesk/one/settings.py:426
-#: onedesk/one/settings.py:853
+#: frontend/src/project/Team.vue:59 onedesk/one/letter_heads.py:53
+#: onedesk/one/settings.py:426 onedesk/one/settings.py:853
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -7622,7 +7616,7 @@ msgstr "„Eines von beiden“ akzeptiert ein Einchecken, das eine der beiden Pr
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
-#: onedesk/public/js/record.js:136 onedesk/public/js/settings.js:323
+#: onedesk/public/js/record.js:174 onedesk/public/js/settings.js:323
 #: onedesk/public/js/settings.js:1440 onedesk/public/js/settings.js:1795
 #: onedesk/public/js/settings.js:2200 onedesk/public/js/settings.js:3057
 #: onedesk/www/account_profile.html:33 onedesk/www/start.html:37
@@ -7689,10 +7683,6 @@ msgstr "Die E-Mail wird immer gesendet, damit man antworten kann."
 #: onedesk/public/js/onecloud.js:1695
 msgid "Email isn't set up, so these links weren't sent."
 msgstr "E-Mail ist nicht eingerichtet, daher wurden diese Links nicht gesendet."
-
-#: frontend/src/kit/ActivityComposer.vue:124
-msgid "Email sent"
-msgstr "E-Mail gesendet"
 
 #: onedesk/one/settings.py:133
 msgid "Emails you the notifications turned on for email below."
@@ -9247,7 +9237,7 @@ msgstr "Ordner"
 msgid "Folders can't be copied to or from a server. Copy the files in {0} instead."
 msgstr "Ordner können nicht auf einen oder von einem Server kopiert werden. Kopieren Sie stattdessen die Dateien in {0}."
 
-#: onedesk/public/js/record.js:152
+#: onedesk/public/js/record.js:190
 msgid "Follow"
 msgstr ""
 
@@ -13984,10 +13974,11 @@ msgstr "Neue Eingangsrechnung"
 msgid "New Client Onboarding"
 msgstr "Neukunden-Onboarding"
 
-#: onedesk/public/js/onemail.js:82 onedesk/public/js/onemail.js:788
-#: onedesk/public/js/record_mail.js:43 onedesk/www/account_profile.html:36
+#: frontend/src/kit/ActivityComposer.vue:25 onedesk/public/js/onemail.js:82
+#: onedesk/public/js/onemail.js:788 onedesk/public/js/record_mail.js:43
+#: onedesk/www/account_profile.html:36
 msgid "New Email"
-msgstr ""
+msgstr "Neue E-Mail"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:444
@@ -14166,7 +14157,7 @@ msgid "New workspaces can't be built until a server is added."
 msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzugefügt ist."
 
 #: onedesk/one/page/masters/masters.js:165 onedesk/one_ai/proposals.py:549
-#: onedesk/public/js/oneai/Record.vue:147 onedesk/public/js/record.js:155
+#: onedesk/public/js/oneai/Record.vue:147 onedesk/public/js/record.js:193
 msgid "New {0}"
 msgstr "Neu: {0}"
 
@@ -14349,7 +14340,7 @@ msgstr "Keine Aktionen"
 msgid "No active sessions"
 msgstr "Keine aktiven Sitzungen"
 
-#: frontend/src/project/ProjectActivity.vue:13
+#: frontend/src/project/ProjectActivity.vue:15
 #: frontend/src/project/Time.vue:117
 msgid "No activity"
 msgstr "Keine Tätigkeit"
@@ -18194,7 +18185,7 @@ msgstr "Primär"
 msgid "Primary Domain"
 msgstr "Hauptdomain"
 
-#: onedesk/public/js/record.js:134
+#: onedesk/public/js/record.js:172
 msgid "Print"
 msgstr ""
 
@@ -18864,10 +18855,6 @@ msgstr "Sätze für eine Person"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:187
 msgid "Rating"
 msgstr ""
-
-#: frontend/src/kit/ActivityComposer.vue:149
-msgid "Re: {0}"
-msgstr "AW: {0}"
 
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -19552,7 +19539,7 @@ msgstr "Freigegeben"
 msgid "Released at Handover"
 msgstr "Bei Übergabe freigegeben"
 
-#: onedesk/public/js/record.js:145
+#: onedesk/public/js/record.js:183
 msgid "Reload"
 msgstr ""
 
@@ -19564,7 +19551,7 @@ msgstr "Gemerkt: {0}"
 msgid "Remind"
 msgstr "Erinnern"
 
-#: onedesk/public/js/record.js:149
+#: onedesk/public/js/record.js:187
 msgid "Remind Me"
 msgstr ""
 
@@ -19673,7 +19660,7 @@ msgstr "Adresse wird entfernt"
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/public/js/oneai/Panel.vue:23 onedesk/public/js/oneai/Panel.vue:616
 #: onedesk/public/js/onecloud.js:102 onedesk/public/js/onecloud.js:1927
-#: onedesk/public/js/record.js:144
+#: onedesk/public/js/record.js:182
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -19756,12 +19743,18 @@ msgstr "Beantwortet (%)"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
-#: frontend/src/project/ProjectActivity.vue:23 onedesk/one_ai/chat.py:339
+#: frontend/src/project/Activity.vue:12
+#: frontend/src/project/ProjectActivity.vue:25 onedesk/one_ai/chat.py:339
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
-#: onedesk/public/js/onemail.js:424
+#: onedesk/public/js/onemail.js:424 onedesk/public/js/record.js:137
 msgid "Reply"
 msgstr "Antworten"
+
+#: frontend/src/project/Activity.vue:13
+#: frontend/src/project/ProjectActivity.vue:26
+msgid "Reply All"
+msgstr "Allen antworten"
 
 #: onedesk/public/js/onemail.js:425
 msgid "Reply all"
@@ -20703,7 +20696,6 @@ msgid "Selling, buying and stock set up"
 msgstr "Verkauf, Einkauf und Lager eingerichtet"
 
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
-#: frontend/src/kit/ActivityComposer.vue:32
 #: frontend/src/project/Invoices.vue:127
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/oneai/Panel.vue:214 onedesk/public/js/privacy_copy.js:52
@@ -21374,7 +21366,7 @@ msgstr "Zeigen in…"
 msgid "Show Less"
 msgstr "Weniger anzeigen"
 
-#: onedesk/public/js/record.js:137
+#: onedesk/public/js/record.js:175
 msgid "Show Links"
 msgstr ""
 
@@ -25728,7 +25720,7 @@ msgstr "Rückgängig gemacht von"
 msgid "Undone {0} times before for this party."
 msgstr "Bei diesem Partner bereits {0}-mal rückgängig gemacht."
 
-#: onedesk/public/js/record.js:152
+#: onedesk/public/js/record.js:190
 msgid "Unfollow"
 msgstr ""
 
@@ -28792,7 +28784,7 @@ msgstr "Kündigung schreiben"
 msgid "Write With OneAI"
 msgstr "Mit OneAI schreiben"
 
-#: frontend/src/kit/ActivityComposer.vue:15 frontend/src/project/Activity.vue:5
+#: frontend/src/kit/ActivityComposer.vue:16
 msgid "Write a comment"
 msgstr "Kommentar schreiben"
 
@@ -28843,10 +28835,6 @@ msgstr "Schreibe eine kurze, freundliche Nachricht, dass diese Bewerbung nicht a
 #: onedesk/one/ai.py:434
 msgid "Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep it short, and suggest it as a card I can approve."
 msgstr "Schreibe eine Signatur für das Postfach, von dem ich sende, aus meinem Namen, meiner Stelle und wie man mich erreicht. Halte sie kurz und schlage sie als Karte vor, die ich bestätigen kann."
-
-#: frontend/src/kit/ActivityComposer.vue:31
-msgid "Write an email"
-msgstr "E-Mail schreiben"
 
 #: onedesk/one_studio/ai.py:58
 msgid "Write an extension that "
@@ -29573,7 +29561,7 @@ msgstr "hat eine Datei hinzugefügt"
 msgid "added a photo"
 msgstr "hat ein Foto hinzugefügt"
 
-#: frontend/src/project/ProjectActivity.vue:38
+#: frontend/src/project/ProjectActivity.vue:41
 msgid "added task"
 msgstr "hat die Aufgabe hinzugefügt"
 
@@ -29589,7 +29577,7 @@ msgstr "hat {0} Dateien hinzugefügt"
 msgid "added {0} photos"
 msgstr "hat {0} Fotos hinzugefügt"
 
-#: frontend/src/project/ProjectActivity.vue:42
+#: frontend/src/project/ProjectActivity.vue:45
 msgid "added {0} tasks"
 msgstr "hat {0} Aufgaben hinzugefügt"
 
@@ -29688,7 +29676,7 @@ msgstr "kann ansehen"
 msgid "cancelled"
 msgstr "hat abgesagt"
 
-#: frontend/src/project/ProjectActivity.vue:50
+#: frontend/src/project/ProjectActivity.vue:53
 msgid "completed"
 msgstr "hat erledigt"
 
@@ -29713,7 +29701,7 @@ msgstr "hat einen öffentlichen Link erstellt"
 msgid "created it"
 msgstr "hat es erstellt"
 
-#: frontend/src/project/ProjectActivity.vue:81
+#: frontend/src/project/ProjectActivity.vue:84
 msgid "created the project"
 msgstr "hat das Projekt erstellt"
 
@@ -29908,7 +29896,7 @@ msgstr "später"
 msgid "left early"
 msgstr "früher gegangen"
 
-#: frontend/src/project/ProjectActivity.vue:56
+#: frontend/src/project/ProjectActivity.vue:59
 msgid "logged {0}"
 msgstr "hat {0} erfasst"
 
@@ -30144,7 +30132,7 @@ msgstr "Telefonnummer"
 msgid "placed {0} of {1}"
 msgstr "Platz {0} von {1}"
 
-#: frontend/src/project/ProjectActivity.vue:61
+#: frontend/src/project/ProjectActivity.vue:64
 msgid "posted an update"
 msgstr "hat ein Update gepostet"
 
@@ -30258,7 +30246,7 @@ msgstr "jemand hat es inzwischen verschoben"
 msgid "someone has renamed it since"
 msgstr "jemand hat es inzwischen umbenannt"
 
-#: frontend/src/project/ProjectActivity.vue:78
+#: frontend/src/project/ProjectActivity.vue:81
 msgid "started sub-project"
 msgstr "hat das Teilprojekt gestartet"
 
@@ -31665,7 +31653,7 @@ msgstr "{0} Modelle, {1} bepreist, {2} brauchen Prüfung."
 msgid "{0} months"
 msgstr "{0} Monate"
 
-#: frontend/src/project/ProjectActivity.vue:43
+#: frontend/src/project/ProjectActivity.vue:46
 msgid "{0} more"
 msgstr "{0} mehr"
 
