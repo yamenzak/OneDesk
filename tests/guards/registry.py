@@ -131,6 +131,36 @@ GUARDS = [
 		"a page outside the desk without the portal",
 		"tests/guards/test_shell.py::test_every_page_outside_the_desk_wears_the_portal",
 	),
+	Guard(
+		"tabs-across",
+		5,
+		"a record's views run down the side of the page",
+		"tests/guards/test_record_page.py::test_no_tabs_run_down_the_side",
+	),
+	Guard(
+		"tabs-scroll",
+		5,
+		"a row of tabs that sticks to the top of the page",
+		"tests/guards/test_record_page.py::test_no_tab_row_sticks_to_the_top",
+	),
+	Guard(
+		"tabs-one-row",
+		5,
+		"a record's views drawn as tabs of their own, with no More for those that do not fit",
+		"tests/guards/test_record_page.py::test_a_records_views_are_the_one_tab_row",
+	),
+	Guard(
+		"frappe-sidebar",
+		5,
+		"a page drawing its own record sidebar where frappe's form sidebar belongs",
+		"tests/guards/test_record_page.py::test_no_page_draws_its_own_record_sidebar",
+	),
+	Guard(
+		"crumb-menu",
+		5,
+		"a module putting places of its own in the page head instead of the panel's menu in the breadcrumb",
+		"tests/guards/test_record_page.py::test_the_breadcrumb_is_the_panels_menu_everywhere",
+	),
 	# 8 Built from frappe
 	Guard(
 		"island-frappe-ui",
@@ -338,7 +368,7 @@ GUARDS = [
 	Guard(
 		"page-keeps-form",
 		6,
-		"a page of its own without its form's menu, sidebar or realtime",
+		"a page of its own without its form's menu, frappe's form sidebar or realtime",
 		"tests/guards/test_frame.py::test_a_page_keeps_its_forms_menu_and_sidebar",
 	),
 	Guard(
@@ -346,6 +376,12 @@ GUARDS = [
 		6,
 		"frappe's Share, Email, Links or Remind Me reading a part of a form the page does not lend",
 		"tests/guards/test_frame.py::test_the_record_handle_covers_what_frappes_dialogs_read",
+	),
+	Guard(
+		"sidebar-stand-in",
+		6,
+		"frappe's form sidebar reading a part of a form the page's stand-in does not lend",
+		"tests/guards/test_frame.py::test_the_sidebar_stand_in_covers_what_frappes_sidebar_reads",
 	),
 	Guard(
 		"page-island-known",

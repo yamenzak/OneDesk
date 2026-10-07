@@ -1,29 +1,22 @@
 <template>
   <Page wide>
     <Loading v-if="!said" />
-    <div v-else class="lg:grid lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-8">
-      <!-- What the template's form has beside its fields: who it is assigned
-           to, tags, sharing, likes, who made it. -->
-      <nav class="max-lg:hidden">
-        <div class="sticky top-[calc(var(--page-head-height,48px)+1.5rem)] pt-6">
-          <Record :of="record" />
-        </div>
-      </nav>
-      <div class="min-w-0 pt-6">
-        <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
-        <div ref="spot" class="empty:hidden [&_.one-place-spot]:mb-4" />
-        <p class="mb-4 text-base text-ink-gray-6">{{ summary }}</p>
-        <Tasks
-          :tasks="said.tasks"
-          :can-write="said.can_write"
-          @change="change"
-          @add="add"
-          @under="under"
-          @nest="nest"
-          @wait="wait"
-          @remove="remove"
-        />
-      </div>
+    <!-- The template's tasks. Frappe's own form sidebar is on the page's
+         right (onedesk.island_page). -->
+    <div v-else class="pt-6">
+      <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
+      <div ref="spot" class="empty:hidden [&_.one-place-spot]:mb-4" />
+      <p class="mb-4 text-base text-ink-gray-6">{{ summary }}</p>
+      <Tasks
+        :tasks="said.tasks"
+        :can-write="said.can_write"
+        @change="change"
+        @add="add"
+        @under="under"
+        @nest="nest"
+        @wait="wait"
+        @remove="remove"
+      />
     </div>
   </Page>
 </template>
@@ -34,7 +27,7 @@
 // it carries New Project, Edit Details and the form's own menu.
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 
-import { Loading, Page, Record, __, call, can, confirm, follow, go, newDoc, onedesk, prompt, useRecord } from "../kit";
+import { Loading, Page, __, call, can, confirm, follow, go, newDoc, onedesk, prompt, useRecord } from "../kit";
 import Tasks from "./Tasks.vue";
 
 const props = defineProps({

@@ -570,9 +570,9 @@ onedesk.shell.Editor = class Editor {
 		Sidebar.prototype.__one_homes = true;
 		const matched = Sidebar.prototype.is_route_in_sidebar;
 		// A list's row leads to one of its views (Projects to /project/view/list),
-		// and every view of the list is that row's: its address, less the view,
-		// is the row's, less the view.
-		const list = (path) => decodeURIComponent(path.split("?")[0]).replace(/\/view\/[^/]+(\/.*)?$/, "").replace(/\/$/, "");
+		// and every view of the list is that row's (onedesk.panel.path,
+		// panel_menu.js).
+		const list = (path) => onedesk.panel.path(path);
 		Sidebar.prototype.is_route_in_sidebar = function () {
 			if (matched.call(this)) return true;
 			const here = list(window.location.pathname);

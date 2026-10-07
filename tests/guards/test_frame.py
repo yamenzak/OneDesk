@@ -14,11 +14,27 @@ APP = ROOT / "onedesk"
 RECORD = (APP / "public" / "js" / "record.js").read_text()
 FRAPPE = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe")
 
-#: The island each page is drawn by.
+#: The island each page is drawn by, and the desk page that holds it.
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
 }
+DESK_PAGES = {
+	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
+	"Project Template": APP / "one_project" / "page" / "project_template_view" / "project_template_view.js",
+}
+
+#: frappe's form sidebar and the parts it draws, all written against a form.
+SIDEBAR = (
+	"form/sidebar/form_sidebar.js",
+	"form/sidebar/assign_to.js",
+	"form/sidebar/attachments.js",
+	"form/sidebar/share.js",
+	"form/sidebar/user_image.js",
+	"form/sidebar/form_sidebar_users.js",
+	"form/form_viewers.js",
+	"ui/tag_editor.js",
+)
 
 #: frappe's dialogs a page opens on a record, and the form they are written against.
 DIALOGS = (
@@ -42,13 +58,17 @@ def test_every_page_is_drawn_by_a_known_island():
 
 @pytest.mark.parametrize("doctype", sorted(tiers.PAGES))
 def test_a_page_keeps_its_forms_menu_and_sidebar(doctype):
-	"""The sidebar (assigned, tags, shared, likes, viewers, made and changed
-	by) and frappe's own menu items, under the page's own."""
+	"""frappe's own form sidebar on the page's right (assigned, attachments,
+	tags, shared, likes, viewers, made and changed by), drawn by desk and not
+	by the page, and frappe's own menu items under the page's own
+	(docs/PASSOVER.md, A record's page)."""
 	source = ISLANDS[doctype].read_text()
+	assert f'record: "{doctype}"' in DESK_PAGES[doctype].read_text(), "the desk page names its record, for frappe's sidebar"
 	assert f'useRecord("{doctype}"' in source
-	assert "<Record " in source
 	assert "record.menu(" in source
 	assert "follow(" in source, "the page hears the record saved, as a form does"
+	for drawn in ("Assigned To", "Shared With", "Currently Viewing", "Last Edited By"):
+		assert drawn not in source, f"the page draws its own {drawn}; frappe's sidebar has it"
 	for word in (
 		"Print",
 		"Email",
@@ -74,9 +94,27 @@ def test_the_record_handle_covers_what_frappes_dialogs_read():
 	for path in DIALOGS:
 		read |= set(re.findall(r"\b(?:this|me)\.frm\??\.(\w+)", (FRAPPE / path).read_text()))
 		read |= set(re.findall(r"\bfrm\??\.(\w+)", (FRAPPE / path).read_text()))
-	# Read only by the sidebar part Share draws, which the page draws itself.
+	# Read only by the sidebar's Share part, which the sidebar's stand-in lends.
 	unused = {"share_doc"}
 	assert read - given - unused == set(), sorted(read - given - unused)
+
+
+def test_the_sidebar_stand_in_covers_what_frappes_sidebar_reads():
+	"""frappe's form sidebar and its parts read a form; the stand-in
+	onedesk.record.sidebar lends them must have every part of one they touch,
+	or they make themselves (assign_to, attachments, shared, tags, sidebar,
+	viewers)."""
+	if not FRAPPE.exists():
+		pytest.skip("frappe's source is not beside this checkout")
+	handle = RECORD[RECORD.index("onedesk.record.handle =") : RECORD.index("onedesk.record.said =")]
+	stand_in = RECORD[RECORD.index("onedesk.record.sidebar =") :]
+	given = set(re.findall(r"^\t\t(\w+)[,:]", handle, re.M)) | set(re.findall(r"^\t\t\t(\w+)[,:]", stand_in, re.M))
+	made = {"assign_to", "attachments", "shared", "tags", "sidebar", "viewers"}
+	read = set()
+	for path in SIDEBAR:
+		read |= set(re.findall(r"\bfrm\??\.(\w+)", (FRAPPE / path).read_text()))
+	assert read - given - made == set(), sorted(read - given - made)
+	assert "new frappe.ui.form.Sidebar(" in stand_in and "new frappe.ui.form.FormViewers(" in stand_in
 
 
 @pytest.mark.parametrize("doctype", sorted(tiers.PAGES))

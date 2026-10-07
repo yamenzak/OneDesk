@@ -157,20 +157,43 @@ be ours; how it behaves is frappe's.
 ## The panel
 
 Your word: "it should be open on all collection views. On smaller devices it
-becomes changeable from the breadcrumbs, like Projects ▾". Every module
-follows this in its pass.
+becomes changeable from the breadcrumbs, like Projects ▾", and "make sure
+it's universal over the app". Every module has this without asking
+(`public/js/panel_menu.js`, guarded by `tests/guards/test_record_page.py`).
 
 - On a desktop the module's panel is open on every collection view (a list
   and its Report, Kanban, Tree and other views, a report, a page that lists).
   It is frappe's own sidebar, and a page leaves `hide_sidebar` unset.
 - A record's page closes it (`hide_sidebar: !frappe.is_mobile()`), as a
-  project's and a template's do. Its place's name before the record's,
-  **Projects ▾**, is the same menu of the module's places, on a desktop
-  too (your word: "the projects can now follow the mobile counterpart").
+  project's and a template's do.
+- Wherever the panel is not out, the breadcrumb is the menu of the module's
+  places, read from the panel itself, in its order and under its sections,
+  the place you are on ticked:
+  - on a phone, the place's own name at the top, **Projects ▾**;
+  - on a record's page, the place's name before the record's, at any width.
   The record's own name keeps its own menu, as a project's lists the others.
-- On a phone the panel stays shut, so the place's name in the breadcrumb is a
-  menu of the module's places, frappe's breadcrumb `menu_items`.
-- No tabs in the page head stand in for the panel.
+- No module puts places of its own in the page head.
+- Every view of a list marks the list's row in the panel.
+
+## A record's page
+
+Your word: "use frappe desk's sidebar, it's nicer and neater and cleaner on
+the right side", and "move the vertical tabs to become horizontal tabs …
+don't make them fixed". Every record shown on a page of its own
+(`one/tiers.py` PAGES) is laid out as a frappe form is.
+
+- Its details are frappe's own form sidebar on the page's right: the image,
+  the name, print and like, Assign, Attachments, Tags, Share, and who last
+  changed and made it. "Currently Viewing" is frappe's avatars in the page
+  head. The desk page names its record (`onedesk.island_page`'s `record`),
+  and `onedesk.record.sidebar` lends frappe's sidebar the part of a form it
+  reads. A page draws none of this itself.
+- Its views are one row of tabs across the top under its head, as a form's
+  tabs are (`frontend/src/kit/ViewTabs.vue`). Those that do not fit go under
+  **More ▾** at the end of the row, which reads as the chosen view when it is
+  one of them. The row scrolls with the page, on a desktop and on a phone.
+- On a phone frappe's sidebar is hidden, as on a form, and the tabs are the
+  same row, with more of them under **More**.
 
 ## What ERPNext already does
 
@@ -303,7 +326,7 @@ Foundations done so far:
   page's, and beside the views are Assigned To, Tags, Shared With, likes, who
   else has it open, and who made and changed it. Each opens frappe's own
   dialog or calls frappe's own method (`public/js/record.js`, kit
-  `useRecord` and `<Record>`), so the next page (Opportunity, Lead, Employee,
+  `useRecord`, and since then frappe's own form sidebar), so the next page (Opportunity, Lead, Employee,
   Job Applicant) takes the same two lines.
 - **Places on the page**: OneStudio extensions reach the project page
   (`oneproject.project`), and those written for a Project's head run there

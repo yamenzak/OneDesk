@@ -12,5 +12,6 @@ frappe.pages["project-view"].on_page_load = (wrapper) => {
 		// opens the others (project_places.js).
 		hide_sidebar: !frappe.is_mobile(),
 		menu: () => onedesk.project.picker(frappe.get_route()[1]),
+		record: "Project",
 	});
 };

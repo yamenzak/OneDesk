@@ -1258,7 +1258,7 @@ def test_the_project_page_fits_a_phone():
 		vue = (src / f"{name}.vue").read_text()
 		assert ':columns="{ base: [' in vue and "max-md:hidden" in vue, name
 	page = (src / "ProjectPage.vue").read_text()
-	assert '<Tabs v-model="tab" class="max-w-full overflow-x-auto' in page
+	assert '<ViewTabs v-model="tab" :views="VIEWS"' in page, "the views fit a phone, the rest under More"
 	mount = (tree.ROOT / "frontend" / "src" / "kit" / "mount.js").read_text()
 	assert 'setConfig("systemTimezone", zone.system)' in mount
 
@@ -1267,16 +1267,14 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
 	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Time", "Timesheet"), ("Templates", "Project Template")]
-	# The panel is open on the four and shut on a record; a phone's breadcrumb
-	# is the menu of the four (tests/browser/screens.mjs, `panel` and `phone`).
+	# The panel is open on the four and shut on a record; where it is not out,
+	# the breadcrumb is the menu of its rows, as in every module
+	# (public/js/panel_menu.js, tests/guards/test_record_page.py).
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "TabButtons" not in places and "hide_sidebar" not in places
-	assert "frappe.is_mobile()" in places and "new frappe.ui.Dropdown(" in places
-	# Over a project or a template, the place's name is that menu too.
-	assert 'holds: (r) => r[0] === "project-view"' in places and 'holds: (r) => r[0] === "project-template-view"' in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
 	template_js = (PROJECT / "page" / "project_template_view" / "project_template_view.js").read_text()
-	assert "hide_sidebar: !frappe.is_mobile()" in template_js
+	assert "hide_sidebar: !frappe.is_mobile()" in template_js and 'record: "Project Template"' in template_js
 	# Setup is in the Projects list's menu.
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Rates")' in menu and '__("Project Templates")' not in menu
@@ -2177,14 +2175,13 @@ def test_activity_is_the_projects_history_not_only_its_record():
 	assert '<ProjectActivity v-else-if="view === \'activity\'"' in (src / "ProjectPage.vue").read_text()
 
 
-def test_a_projects_views_are_a_column_on_a_desktop_and_never_over_the_page_head():
+def test_a_projects_views_are_one_row_of_tabs_under_its_head():
+	"""As a form's tabs: across the top under the head, scrolling with the
+	page, frappe's form sidebar on the right (tests/guards/test_record_page.py)."""
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert "<Page wide>" in page and "lg:grid-cols-[11rem_minmax(0,1fr)]" in page
-	assert '<Tabs v-model="tab" vertical>' in page, "frappe-ui's own vertical tabs"
-	assert 'class="max-w-full overflow-x-auto [scrollbar-width:none] lg:hidden"' in page, "a row on a phone"
-	# Desk's page head is sticky at z-index 6: what sticks under it stays below.
-	assert "z-10" not in page and page.count("z-[5]") == 2
-	assert page.count("top-[var(--page-head-height,48px)]") == 1
+	assert "<Page wide>" in page and "grid-cols" not in page
+	assert page.index("<Header ") < page.index("<ViewTabs ")
+	assert "sticky" not in page and "vertical" not in page
 	assert "lg:max-w-[85rem]': wide" in (tree.ROOT / "frontend" / "src" / "kit" / "Page.vue").read_text()
 
 

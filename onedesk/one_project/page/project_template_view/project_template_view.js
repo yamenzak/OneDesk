@@ -11,5 +11,6 @@ frappe.pages["project-template-view"].on_page_load = (wrapper) => {
 		// A record, as a project's page is: the panel is for the four places
 		// (project_places.js).
 		hide_sidebar: !frappe.is_mobile(),
+		record: "Project Template",
 	});
 };

@@ -27,6 +27,15 @@ Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
 except **Masters**, which an app's managers see too. Click a group's name to
 fold it away; the quieter ones start folded.
 
+In every app the panel on the left lists the app's places, and stays open on
+its lists and reports. On a phone, or on a record's own page where the
+panel is closed, tap the place's name at the top, **Projects** for example,
+to go to another place in the app.
+
+A record's own page, such as a project's, reads like a form. Its views are
+tabs across the top, with **More** for those that don't fit, and who it's
+assigned to, its attachments, tags, sharing and likes are on the right.
+
 The round OneAI button in the corner opens OneAI on any page. It offers
 suggestions for that page, and you can ask it how anything in One works.
 

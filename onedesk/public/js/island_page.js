@@ -15,10 +15,24 @@
 //
 // `menu` makes the page's name in the breadcrumb a menu (shell.trail), and
 // `hide_sidebar` closes the module's panel on arrival, as frappe's pages do.
+// `record` names the doctype of a page that shows one record, the first part
+// of the route after the page: frappe's own form sidebar is then on its
+// right, as on a form (onedesk.record.sidebar, docs/PASSOVER.md, A record's
+// page).
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null }) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true, hide_sidebar });
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null }) => {
+	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
+	// The record the sidebar is for, and the way to stop it.
+	let framed = null;
+	let unframe = () => {};
+	const frame = () => {
+		const name = frappe.get_route()[1];
+		if (!record || !name || name === framed) return;
+		unframe();
+		framed = name;
+		unframe = onedesk.record.sidebar(page, record, name);
+	};
 	const $body = $('<div class="one-island"></div>').appendTo(page.main);
 	const chrome = { title: null, between: [], status: null, actions: [] };
 	let handle = null;
@@ -47,6 +61,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 
 	const show = () =>
 		loaded.then(() => {
+			frame();
 			if (handle) handle.update(where());
 			else {
 				handle = frappe.ui.mount_island(island, $body[0], {

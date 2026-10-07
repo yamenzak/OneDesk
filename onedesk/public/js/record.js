@@ -2,8 +2,8 @@
 // PAGES) keeps what the form gives it: frappe's ··· menu (Print, Email,
 // Duplicate, Rename, Delete, Remind Me, Follow…) and its sidebar (assigned,
 // tags, shared, likes, who is viewing, who made and last changed it). Each is
-// frappe's own dialog or frappe's own call. Nothing here draws a record; the
-// page draws the sidebar in its own look (frontend/src/kit/Record.vue).
+// frappe's own dialog or frappe's own call. The sidebar is frappe's own form
+// sidebar, on the page's right as on a form (`onedesk.record.sidebar`).
 //
 // frappe's dialogs are written against a form. `handle` is the part of one
 // they read, built from the record as `getdoc` sends it, and
@@ -156,4 +156,70 @@ onedesk.record.menu = (doctype, record, { changed = () => {}, gone = () => {} } 
 	if (frappe.model.can_create("Custom Field") && frappe.model.can_create("Property Setter") && !frappe.model.core_doctypes_list.includes(doctype))
 		add(__("Customize"), () => frappe.set_route("Form", "Customize Form", { doc_type: doctype }));
 	return items;
+};
+
+// frappe's own form sidebar, on the right of a page that shows one record
+// (onedesk.island_page's `record`), and frappe's "Currently Viewing" avatars
+// in the page head, both as a form draws them. frappe.ui.form.Sidebar and its
+// parts (Assign, Attachments, Tags, Share, likes, who made and last changed
+// it) read a form; `handle` is the part of one they read, and the docinfo
+// they change is frappe's own (frappe.model.docinfo), kept current by the
+// record's realtime room. Returns the way to stop.
+onedesk.record.sidebar = (page, doctype, name) => {
+	let frm = null;
+	let gone = false;
+	const draw = async () => {
+		const record = await onedesk.record.read(doctype, name);
+		if (gone || !record.doc.name) return;
+		(frappe.model.docinfo[doctype] ||= {})[name] = record.docinfo;
+		if (frm) {
+			frm.doc = record.doc;
+			frm.sidebar.refresh();
+			return;
+		}
+		frm = {
+			...onedesk.record.handle(doctype, record, draw),
+			page,
+			wrapper: page.wrapper,
+			// Each field as the parts look it up, read-only: the page is not
+			// the form, so its image is changed on the form.
+			fields_dict: Object.fromEntries(frappe.get_meta(doctype).fields.map((df) => [df.fieldname, { df: { ...df, read_only: 1 } }])),
+			get_docinfo: () => frappe.model.get_docinfo(doctype, name) || {},
+			get_title: () => frappe.model.get_doc_title(frm.doc),
+			get_field: () => null,
+			get_docfield: () => null,
+			has_perm: (ptype) => frappe.perm.has_perm(doctype, 0, ptype, frm.doc),
+			set_value: (field, value) => frappe.db.set_value(doctype, name, field, value).then(draw),
+			refresh_field: () => {},
+			share_doc: () => frm.shared.show(),
+			print_doc: () => frappe.set_route("print", doctype, name),
+		};
+		delete frm.attachments;
+		delete frm.shared;
+		frm.sidebar = new frappe.ui.form.Sidebar({ frm, page, toolbar: { setup_editable_title: () => {} } });
+		frm.sidebar.make();
+		// What the parts reload after a change, read again with the record.
+		frm.sidebar.reload_docinfo = (done) => draw().then(() => done && done(frm.get_docinfo()));
+		frm.viewers = new frappe.ui.form.FormViewers({
+			frm,
+			parent: $('<div class="form-viewers d-flex"></div>').prependTo(page.page_actions),
+		});
+	};
+	// Who else has it open, and any change to it or its sidebar, as a form
+	// hears them.
+	const stop = [onedesk.record.changes(doctype, name, draw)];
+	frappe.realtime.doc_subscribe(doctype, name);
+	frappe.realtime.doc_open(doctype, name);
+	const saved = (data) => data.doctype === doctype && data.name === name && draw();
+	frappe.realtime.on("doc_update", saved);
+	draw();
+	return () => {
+		gone = true;
+		stop.forEach((one) => one());
+		frappe.realtime.off("doc_update", saved);
+		frappe.realtime.doc_close(doctype, name);
+		frappe.realtime.doc_unsubscribe(doctype, name);
+		page.page_actions.find(".form-viewers").remove();
+		page.sidebar.empty();
+	};
 };

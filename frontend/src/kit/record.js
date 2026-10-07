@@ -1,6 +1,7 @@
-// A record's frame on a page of its own: what its form's menu and sidebar
-// give it, read and changed through desk (onedesk.record, public/js/record.js).
-// The page draws the sidebar with <Record> and puts `menu()` in its ··· menu.
+// A record on a page of its own, read and changed through desk
+// (onedesk.record, public/js/record.js): the page puts `menu()`, frappe's own
+// menu items, in its ··· menu. Its sidebar is frappe's own form sidebar, on
+// the page's right, which desk draws (onedesk.island_page's `record`).
 import { onBeforeUnmount, ref, unref, watch } from "vue";
 
 import { onedesk } from "./desk";
@@ -11,7 +12,6 @@ export function useRecord(doctype, name) {
 	const record = ref(null);
 	const said = ref(null);
 	const can = ref({});
-	const viewers = ref([]);
 	let stop = [];
 
 	async function reload() {
@@ -29,9 +29,8 @@ export function useRecord(doctype, name) {
 		(now) => {
 			stop.forEach((one) => one());
 			record.value = said.value = null;
-			viewers.value = [];
 			if (!now) return;
-			stop = [desk().viewers(doctype, now, (users) => (viewers.value = users)), desk().changes(doctype, now, reload)];
+			stop = [desk().changes(doctype, now, reload)];
 			reload();
 		},
 		{ immediate: true }
@@ -47,7 +46,6 @@ export function useRecord(doctype, name) {
 		record,
 		said,
 		can,
-		viewers,
 		reload,
 		assign: () => desk().assign(doctype, unref(name), reload),
 		unassign: after((user) => desk().unassign(doctype, unref(name), user)),

@@ -187,8 +187,10 @@ A project is **Open**, **On hold**, **Completed** or **Cancelled**.
 
 **Health** is separate: how an open project is going, set by its people.
 
-Its views are a column on the left, and the page remembers which one is
-open. On a phone they are a row of tabs under the head:
+Its views are a row of tabs under its head, as a form's are, and the page
+remembers which one is open. Those that don't fit are under **More**. Who
+it's assigned to, its attachments, tags, sharing and likes are on the right,
+as on any form:
 
 - **Overview**: the project's figures and what its kind is run by, with
   updates and Needs You.

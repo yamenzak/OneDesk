@@ -1063,7 +1063,9 @@ app_include_js = [
 	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
 	"/assets/onedesk/js/island_page.js",
 	"/assets/onedesk/js/project_new.js",
-	# OneProject's places as a menu in the breadcrumb on a phone. See public/js/project_places.js.
+	# Where the panel is not out, the breadcrumb is the menu of the module's places. See public/js/panel_menu.js.
+	"/assets/onedesk/js/panel_menu.js",
+	# A project's name in its breadcrumb lists the other projects. See public/js/project_places.js.
 	"/assets/onedesk/js/project_places.js",
 	# Frappe's Settings dialog for a doctype, for a workspace administrator.
 	"/assets/onedesk/js/doctype_settings.js",
