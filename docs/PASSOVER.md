@@ -706,6 +706,10 @@ Up next, in this order:
      project. The order line did not carry the request's project, and
      ERPNext refuses an order whose project differs from its request's
      (`one_inventory/order.py`).
+   - Then a print format OneAI lays out from sections a model wrote loosely
+     (Python's words, a table named before its columns, widths in per cent,
+     a sentence after), printing in the font, page number and look asked
+     for, and a restyle keeping its layout.
 4. The finished modules again, against the new points only, one screen at a
    time.
 

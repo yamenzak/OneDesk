@@ -3440,6 +3440,35 @@ def an_announcement_is_the_administrators_and_reaches_everybody_once():
 	assert "notes" not in booted
 
 
+@check
+def oneai_lays_out_a_print_format_as_meant():
+	"""Layla's print format is laid out from sections a model wrote loosely:
+	Python's words for true and none, a table named just before its columns,
+	widths in per cent and a sentence after. It prints in the font, page
+	number and look asked for, a later restyle keeps its layout, and
+	print_layout reads all of it back. Omar may not design one."""
+	from onedesk.one import ai
+
+	with as_user(OWNER):
+		said = ai.print_layout("Sales Invoice")
+		assert said.get("starting_layout") and said.get("fields"), said
+		loose = frappe.as_json(said["starting_layout"], indent=None).replace("true", "True").replace("null", "None") + " That is the layout."
+		assert "True" in loose or "None" in loose, "the starting layout has no true or none to write loosely"
+		_applied(ai.design_print_format("Sales Invoice", "Loose Invoice", sections=loose, css=".print-format-doc { color: #333; }", font="Lora", page_number="Bottom Center"))
+		held = frappe.db.get_value("Print Format", "Loose Invoice", ["font", "page_number", "css", "format_data"], as_dict=True)
+		assert (held.font, held.page_number, held.css) == ("Lora", "Bottom Center", ".print-format-doc { color: #333; }"), held
+		read = ai.print_layout("Sales Invoice", "Loose Invoice")
+		assert (read["house_style"], read["css"], read["font"], read["page_number"]) == (False, ".print-format-doc { color: #333; }", "Lora", "Bottom Center"), read
+		_applied(ai.design_print_format("Sales Invoice", "Loose Invoice", css=".section-label { color: #0a5; }", house_style=True))
+		read = ai.print_layout("Sales Invoice", "Loose Invoice")
+		assert read["house_style"] and read["css"] == ".section-label { color: #0a5; }", read
+		assert frappe.db.get_value("Print Format", "Loose Invoice", "format_data") == held.format_data, "a restyle moved the layout"
+		assert ai._paired(["items", {"columns": ["item_code"]}]) == [{"columns": ["item_code"], "table": "items"}]
+		assert ai._column({"field": "qty", "width": "15%", "label": "Qty"}) == "qty:15:Qty"
+	with as_user("omar@one.test"):
+		assert ai.print_layout("Sales Invoice").get("error")
+
+
 #: What the account on the admin site answers, by what it is asked: the
 #: workspace's plan, its credits, its domains and its bills from One.
 ACCOUNT = {

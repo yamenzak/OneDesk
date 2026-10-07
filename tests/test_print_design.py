@@ -38,13 +38,6 @@ def test_the_house_style_unless_they_ask_for_their_own():
 	)
 	assert not re.search(r"\drem", house), "em, never rem, as frappe's print css"
 	assert all(line.startswith(".print-format-doc") for line in house.strip("\\\n").splitlines())
-	styled = _body(AI, "_styled")
-	assert "return css" in styled and "HOUSE_CSS" in styled
-	assert "before if before is not None" in styled
-	assert '_styled(css, house_style, (existing.css or "") if existing else None)' in _body(
-		AI, "design_print_format"
-	)
-	assert "_style_of(held.css)" in _body(AI, "print_layout")
 
 
 def test_the_jinja_it_is_told_is_the_jinja_it_may_use():
@@ -89,23 +82,9 @@ def test_a_layout_that_would_print_badly_goes_back():
 def test_the_page_number_is_a_format_setting():
 	assert "PAGE_NUMBER = (" in PRINTING
 	assert "page_number not in PAGE_NUMBER" in _body(PRINTING, "format_doc")
-	assert 'values.get("page_number")' in _body(PRINTING, "save_format")
 
 
 RUN = (tree.APP / "one_ai" / "run.py").read_text()
-
-
-def test_a_weak_model_is_read_as_it_meant():
-	"""What the live runs showed a small model writing, read as the one thing
-	it can mean: a table's name before its columns, columns spelled out as
-	objects, widths as percentages, and Python's True inside the JSON."""
-	assert "_paired(c)" in _body(AI, "_built") and "_parsed(sections)" in _body(AI, "_built")
-	assert '"table": before.strip()' in _body(AI, "_paired")
-	assert 'column.get("field") or column.get("fieldname")' in _body(AI, "_column")
-	assert 'rstrip("%")' in _body(AI, "_share")
-	assert '"true"' in _body(AI, "_parsed") and '"null"' in _body(AI, "_parsed")
-	# The sections and then something after them: the sections.
-	assert "raw_decode" in _body(AI, "_parsed")
 
 
 def test_a_document_of_trade_prints_who_and_how_much():
@@ -128,17 +107,6 @@ def test_a_typeface_is_frappes_own_font():
 	"""frappe's Print Format has a Google Font field it imports itself, so a
 	look with a typeface never needs an import of ours."""
 	assert "FONT = re.compile(" in PRINTING
-	assert '"font": font' in _body(PRINTING, "format_doc")
-	assert 'font=values.get("font")' in _body(PRINTING, "save_format")
-	assert "font," in _body(AI, "design_print_format")
-
-
-def test_leaving_the_sections_out():
-	"""A plain request prints the starting layout; a restyle keeps the
-	format's own layout."""
-	laid = _body(AI, "_laid_out")
-	assert "json.loads(existing.format_data)" in laid
-	assert "print_recipes.starting_layout(doctype)" in laid
 
 
 def test_it_reads_a_kind_as_oneai_and_intake_do():
