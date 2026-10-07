@@ -178,7 +178,13 @@ def entries(
 		)
 	)
 	totals = count(rows, getdate(get_first_day(nowdate())), money)
-	totals["planned"] = planned(projects)
+	# What the tasks plan, else what the projects were planned at as a whole,
+	# and the time budget its cost is measured against.
+	whole = frappe.get_all(
+		"Project", filters={"name": ["in", projects]}, fields=["one_hours_planned", "one_time_budget"]
+	)
+	totals["planned"] = planned(projects) or round(sum(flt(one.one_hours_planned) for one in whole), 2)
+	totals["time_budget"] = round(sum(flt(one.one_time_budget) for one in whole), 2) if money else None
 	# Billable time on a sub-project shows where it is, on a parent that
 	# doesn't bill hours itself (the villa's windows).
 	billing_on = sorted(
@@ -229,6 +235,8 @@ def entries(
 		"allowance": flt(head.one_monthly_hours) if head.one_kind == kinds.RETAINER else None,
 		# Time on a project counted by attendance comes from attendance (site_time.py).
 		"can_log": method(project) != ATTENDANCE and bool(frappe.has_permission("Timesheet", "create")),
+		# Setting the time budget and planned hours, as Money's Change Budget does.
+		"can_budget": bool(frappe.has_permission("Project", "write", doc=project)),
 		# A retainer's hours are billed with its month (retainer.py), not here.
 		"can_invoice": head.one_kind != kinds.RETAINER
 		and bool(head.customer)

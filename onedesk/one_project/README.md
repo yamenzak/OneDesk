@@ -353,12 +353,15 @@ the activity, the task (with the sub-project under it), the hours, and where
 they stand. **Draft** is on a timesheet not yet submitted, **To Invoice** is
 billable and not invoiced, **Invoiced** is on an invoice, and **Not Billable**
 is cost only. **Group By** puts them under each person, activity, task or
-sub-project, with their total. Click an entry to open its timesheet.
+sub-project, with their total. They come grouped by person, a few each, with
+**Show More** under each group. Where nothing is billed, as on a Fixed Price
+job, only drafts say where they stand. Click an entry to open its timesheet.
 
 The figures:
 
 - **Logged**: all the hours, against what the tasks plan (their Expected
-  Time), with what's not submitted yet.
+  Time), or else the project's **Planned Hours**, with what's not submitted
+  yet.
 - **This Month**: this month's hours.
 - **To Invoice** and **Invoiced**: on a project that bills hours, or one with
   a sub-project that does (it says which). **Invoice Time** is the button on
@@ -372,7 +375,10 @@ The figures:
   Costs As**. A cost billed once isn't offered again, unless its invoice is
   cancelled. A Fixed Price job's costs are covered by its price and are never
   billed this way.
-- **Labour Cost**: what the hours cost at each person's cost rate.
+- **Time Cost**: what the hours cost at each person's cost rate, against the
+  project's **Time Budget** if it has one, red once it's over. On a Fixed
+  Price job this is how you see whether the team is burning more time than
+  the price allowed.
 
 A retainer shows this month's hours against its allowance instead.
 
@@ -701,7 +707,12 @@ cost type past its budget shows the day it's placed, even while another cost
 type is under. With no budget there's no forecast.
 
 Set the **Budget** to what you expect the whole project to cost: the pencil
-on **Budget** under **Money**, or **Edit Details**.
+on **Budget** under **Money**, or **Edit Details**. The same dialog takes the
+**Time Budget**, what the team's own hours may cost, and the **Planned
+Hours** when the tasks don't plan any; the **+** on **Logged** and **Time
+Cost** under **Time** opens it too. A cost type can't hold the time, as
+ERPNext books timesheets to no account, so the time has its own budget.
+Each can be changed whenever the plan changes.
 
 **Time is priced for you.** Every hour on a timesheet (the timer on a task
 writes one) is costed and billed at the rate set for that person and activity

@@ -162,6 +162,25 @@
    "insert_after": "one_payment_terms",
    "module": "One Project",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_time_budget",
+   "label": "Time Budget",
+   "fieldtype": "Currency",
+   "options": "Company:company:default_currency",
+   "insert_after": "estimated_costing",
+   "module": "One Project",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_hours_planned",
+   "label": "Planned Hours",
+   "fieldtype": "Float",
+   "insert_after": "one_time_budget",
+   "module": "One Project",
+   "description": ""
   }
  ],
  "doctype": "Project",

@@ -64,6 +64,8 @@ def villa():
 	)
 	_signed(name, on(2, 14), "Khalid Mansour")
 	_budget(name, {"Materials": 140000, "Subcontracts": 60000, "Labour": 40000})
+	# The team's own time, budgeted apart as no cost type holds it (hours.py).
+	frappe.db.set_value("Project", name, {"one_time_budget": 90000, "one_hours_planned": 1500})
 	_progress(name, done_through=3, half_way=4)
 	_milestone_shares(name, (10, 20, 30, 30, 10))
 	first = _bill_progress(order, on(4, 30), done=20)

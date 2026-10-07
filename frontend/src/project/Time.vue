@@ -184,6 +184,7 @@ const figures = computed(() => {
       title: __("Logged"),
       value: hours(t.hours),
       note: [t.planned ? __("of {0} planned", [hours(t.planned)]) : "", drafts].filter(Boolean).join("\n"),
+      action: !t.planned && s.can_budget ? { icon: "lucide-plus", label: __("Set Planned Hours"), onClick: setBudget } : null,
       bar: t.planned ? Math.min(100, Math.round((100 * t.hours) / t.planned)) : undefined,
       alarm: t.planned > 0 && t.hours > t.planned,
     },
@@ -200,10 +201,19 @@ const figures = computed(() => {
     });
     list.push({ title: __("Invoiced"), value: amount(t.invoiced) });
   }
-  list.push({ title: __("Labour Cost"), value: amount(t.cost) });
+  // Time's cost against its budget, where the project has one (Money, Change Budget).
+  list.push({
+    title: __("Time Cost"),
+    value: amount(t.cost),
+    note: t.time_budget ? __("of {0} budget", [amount(t.time_budget)]) : "",
+    bar: t.time_budget ? Math.min(100, Math.round((100 * t.cost) / t.time_budget)) : undefined,
+    alarm: t.time_budget > 0 && t.cost > t.time_budget,
+    action: !t.time_budget && s.can_budget ? { icon: "lucide-plus", label: __("Set Time Budget"), onClick: setBudget } : null,
+  });
   return list;
 });
 
+const setBudget = () => onedesk().project.budget(frm(), load);
 const logTime = () => onedesk().project.log_time(frm(), load);
 const invoiceTime = () => onedesk().project.invoice_time(frm());
 </script>

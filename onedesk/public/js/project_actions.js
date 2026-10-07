@@ -301,17 +301,23 @@ onedesk.project.post = (frm) => {
 // The budget: what the whole project is expected to cost, ERPNext's
 // estimated_costing. Once it has cost types, it is their total and not set here.
 onedesk.project.budget = async (frm, done) => {
-	const own = (await frappe.db.get_value("Project", frm.doc.name, "estimated_costing")).message?.estimated_costing;
+	// The budget for the whole project, and how much of it is for time: the
+	// time's cost, which no cost type holds as ERPNext books no account for
+	// it, and the hours the work was planned at when its tasks plan none.
+	const now = (await frappe.db.get_value("Project", frm.doc.name, ["estimated_costing", "one_time_budget", "one_hours_planned"])).message || {};
 	const dialog = new frappe.ui.Dialog({
 		title: __("Budget"),
-		fields: [{ fieldtype: "Currency", fieldname: "amount", label: __("Budget"), reqd: 1, default: own }],
+		fields: [
+			{ fieldtype: "Currency", fieldname: "estimated_costing", label: __("Budget"), reqd: 1, default: now.estimated_costing },
+			{ fieldtype: "Currency", fieldname: "one_time_budget", label: __("Time Budget"), default: now.one_time_budget },
+			{ fieldtype: "Float", fieldname: "one_hours_planned", label: __("Planned Hours"), precision: 1, default: now.one_hours_planned },
+		],
 		primary_action_label: __("Save"),
-		primary_action: async ({ amount }) => {
+		primary_action: async (values) => {
 			await frappe.xcall("frappe.client.set_value", {
 				doctype: "Project",
 				name: frm.doc.name,
-				fieldname: "estimated_costing",
-				value: amount,
+				fieldname: { estimated_costing: values.estimated_costing, one_time_budget: values.one_time_budget || 0, one_hours_planned: values.one_hours_planned || 0 },
 			});
 			dialog.hide();
 			done && done();
