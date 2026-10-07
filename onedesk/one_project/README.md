@@ -23,7 +23,8 @@ places.
   from (Starting from a template).
 
 On a phone, tap the place's name at the top, **Projects**, to go to another.
-A project's page and a template's page have no panel. **Rates**, what an hour of each
+A project's page and a template's page have no panel. There, **Projects** or
+**Templates** at the top goes to another of the four places. **Rates**, what an hour of each
 activity costs and is billed at, is in the ··· menu on **Projects**.
 
 On a project's page, its name at the top opens a list of other projects: its

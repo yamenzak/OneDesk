@@ -9,8 +9,8 @@
 // screenshot of each screen.
 //
 // A screen's `panel` says whether the module's panel is open on a desktop
-// (docs/PASSOVER.md, The panel), and `phone` the places its breadcrumb lists
-// as a menu on a phone.
+// (docs/PASSOVER.md, The panel), `phone` the places its breadcrumb lists as a
+// menu on a phone, and `menu` the places it lists on a desktop.
 import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -50,25 +50,26 @@ const panel_open = (page) =>
 		return !!panel && panel.offsetParent !== null && panel.classList.contains("expanded");
 	});
 
-// The places a phone's breadcrumb menu lists, or what is wrong with it.
-async function phone_menu(screen) {
-	const page = await (await as(screen.who, true)).newPage();
+// What is wrong with the breadcrumb's menu of places, on a phone or not.
+async function crumb_menu(screen, labels, phone) {
+	const where = phone ? " on a phone" : "";
+	const page = await (await as(screen.who, phone)).newPage();
 	try {
 		await page.goto(BASE + screen.path, { waitUntil: "networkidle", timeout: 60000 });
-		if (await panel_open(page)) return ["has its panel out on a phone"];
+		if (phone && (await panel_open(page))) return ["has its panel out on a phone"];
 		const crumb = page.locator(".navbar-breadcrumbs li.one-places").filter({ visible: true }).first();
 		try {
 			await crumb.waitFor({ state: "visible", timeout: 15000 });
 		} catch {
-			return ["has no menu in its breadcrumb on a phone"];
+			return [`has no menu in its breadcrumb${where}`];
 		}
 		await crumb.click();
 		const missing = [];
-		for (const label of screen.phone) {
+		for (const label of labels) {
 			try {
 				await page.getByRole("menuitem", { name: label, exact: true }).waitFor({ state: "visible", timeout: 5000 });
 			} catch {
-				missing.push(`breadcrumb menu on a phone does not list "${label}"`);
+				missing.push(`breadcrumb menu${where} does not list "${label}"`);
 			}
 		}
 		return missing;
@@ -96,7 +97,8 @@ for (const screen of SCREENS.filter((one) => !ONLY || one.path.includes(ONLY))) 
 		wrong.push(...thrown.map((message) => `threw: ${message.slice(0, 200)}`));
 		if (screen.panel !== undefined && (await panel_open(page)) !== screen.panel)
 			wrong.push(screen.panel ? "has its panel shut" : "has its panel out");
-		if (screen.phone) wrong.push(...(await phone_menu(screen)));
+		if (screen.phone) wrong.push(...(await crumb_menu(screen, screen.phone, true)));
+		if (screen.menu) wrong.push(...(await crumb_menu(screen, screen.menu, false)));
 		if (SHOTS) await page.screenshot({ path: join(SHOTS, `${screen.path.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}.png`) });
 	} catch (error) {
 		wrong.push(`did not open: ${error.message.split("\n")[0]}`);

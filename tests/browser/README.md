@@ -16,5 +16,6 @@ node tests/browser/run.mjs project    # those whose address has "project"
 `ONE_SHOTS=folder` keeps a screenshot of each screen.
 
 A screen may also say `panel`, whether its module's panel is open on a
-desktop, and `phone`, the places its breadcrumb lists as a menu on a phone
+desktop, `phone`, the places its breadcrumb lists as a menu on a phone, and
+`menu`, the places it lists on a desktop
 (docs/PASSOVER.md, The panel).

@@ -163,8 +163,11 @@ follows this in its pass.
 - On a desktop the module's panel is open on every collection view (a list
   and its Report, Kanban, Tree and other views, a report, a page that lists).
   It is frappe's own sidebar, and a page leaves `hide_sidebar` unset.
-- A record's page closes it (`hide_sidebar: !frappe.is_mobile()`): a
-  project, a template. Its breadcrumb leads back.
+- A record's page closes it (`hide_sidebar: !frappe.is_mobile()`), as a
+  project's and a template's do. Its place's name before the record's,
+  **Projects ▾**, is the same menu of the module's places, on a desktop
+  too (your word: "the projects can now follow the mobile counterpart").
+  The record's own name keeps its own menu, as a project's lists the others.
 - On a phone the panel stays shut, so the place's name in the breadcrumb is a
   menu of the module's places, frappe's breadcrumb `menu_items`.
 - No tabs in the page head stand in for the panel.
@@ -8764,7 +8767,9 @@ frappe's Assign does; Pending Review tells whoever made the task.
 - **Changed back on your word** (The panel, above). The panel lists the four
   places and is open on each of them. A project's page and a template's page
   close it. On a phone the place's name in the breadcrumb, **Projects ▾**,
-  is a menu of the four (`project_places.js`). The head tabs are gone. Before,
+  is a menu of the four (`project_places.js`). On a project's or a
+  template's page, **Projects ▾** or **Templates ▾** before its name is that
+  menu at any width. The head tabs are gone. Before,
   the template page kept the panel while the project page closed it, which
   is why it came and went.
 - Found on the way, and fixed for every module:

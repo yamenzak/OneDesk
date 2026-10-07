@@ -1272,6 +1272,8 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "TabButtons" not in places and "hide_sidebar" not in places
 	assert "frappe.is_mobile()" in places and "new frappe.ui.Dropdown(" in places
+	# Over a project or a template, the place's name is that menu too.
+	assert 'holds: (r) => r[0] === "project-view"' in places and 'holds: (r) => r[0] === "project-template-view"' in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
 	template_js = (PROJECT / "page" / "project_template_view" / "project_template_view.js").read_text()
 	assert "hide_sidebar: !frappe.is_mobile()" in template_js
