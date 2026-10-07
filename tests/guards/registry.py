@@ -146,7 +146,7 @@ GUARDS = [
 	Guard(
 		"tabs-one-row",
 		5,
-		"a record's views drawn as tabs of their own, with no More for those that do not fit",
+		"a record's views drawn as tabs of their own, or a row that does not scroll when they do not fit",
 		"tests/guards/test_record_page.py::test_a_records_views_are_the_one_tab_row",
 	),
 	Guard(

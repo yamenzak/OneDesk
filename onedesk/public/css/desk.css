@@ -923,4 +923,7 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	align-items: center;
 	gap: 4px;
 	cursor: pointer;
+	/* frappe lets every crumb shrink; this one keeps its name and chevron,
+	   and the record's name after it is the one that shortens. */
+	flex-shrink: 0;
 }

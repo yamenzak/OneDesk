@@ -1,9 +1,10 @@
 """Point 5: every record's page and every module's places look and move the
 same way (docs/PASSOVER.md, The panel and A record's page).
 
-- A record's views are one row of tabs across the top, as a form's are, with
-  those that do not fit under More (frontend/src/kit/ViewTabs.vue). None run
-  down the side, and none stick to the top of the page.
+- A record's views are one row of tabs across the top, as a form's are, that
+  scrolls sideways when they do not fit, as a form's does
+  (frontend/src/kit/ViewTabs.vue). None run down the side, and none stick to
+  the top of the page.
 - A record's details are frappe's own form sidebar on the page's right
   (onedesk.record.sidebar), not one drawn by the page.
 - Where the panel is not out, the breadcrumb is the menu of the module's
@@ -38,8 +39,9 @@ def test_no_tab_row_sticks_to_the_top():
 
 
 def test_a_records_views_are_the_one_tab_row():
-	"""A page's tabs are ViewTabs, so every page has More for what does not
-	fit; only the kit draws frappe-ui's tab parts for a record's views."""
+	"""A page's tabs are ViewTabs, so every page's row scrolls when its tabs
+	do not fit, with the chosen one in view; only the kit draws frappe-ui's
+	tab parts for a record's views."""
 	found = []
 	for path in VUE:
 		if path.parent.name == "kit":
@@ -49,6 +51,10 @@ def test_a_records_views_are_the_one_tab_row():
 			found.append(str(path.relative_to(ROOT)))
 	assert not found, found
 	assert "<ViewTabs" in (SRC / "project" / "ProjectPage.vue").read_text()
+	row = (SRC / "kit" / "ViewTabs.vue").read_text()
+	assert "overflow-x-auto" in row and "flex-nowrap" in row, "the row scrolls, as a form's tabs do"
+	assert "Dropdown" not in row, "no tab is hidden in a menu"
+	assert "function reveal()" in row, "the chosen tab is kept in view"
 
 
 def test_no_page_draws_its_own_record_sidebar():

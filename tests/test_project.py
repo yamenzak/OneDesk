@@ -1258,7 +1258,7 @@ def test_the_project_page_fits_a_phone():
 		vue = (src / f"{name}.vue").read_text()
 		assert ':columns="{ base: [' in vue and "max-md:hidden" in vue, name
 	page = (src / "ProjectPage.vue").read_text()
-	assert '<ViewTabs v-model="tab" :views="VIEWS"' in page, "the views fit a phone, the rest under More"
+	assert '<ViewTabs v-model="tab" :views="VIEWS"' in page, "the views fit a phone, the row scrolling"
 	mount = (tree.ROOT / "frontend" / "src" / "kit" / "mount.js").read_text()
 	assert 'setConfig("systemTimezone", zone.system)' in mount
 

@@ -189,11 +189,15 @@ don't make them fixed". Every record shown on a page of its own
   and `onedesk.record.sidebar` lends frappe's sidebar the part of a form it
   reads. A page draws none of this itself.
 - Its views are one row of tabs across the top under its head, as a form's
-  tabs are (`frontend/src/kit/ViewTabs.vue`). Those that do not fit go under
-  **More ▾** at the end of the row, which reads as the chosen view when it is
-  one of them. The row scrolls with the page, on a desktop and on a phone.
+  tabs are (`frontend/src/kit/ViewTabs.vue`). When they do not fit, the row
+  scrolls sideways, as a form's tabs do (your word: "switch it to
+  scrolling"). A fade at the edge shows where more continue, and the chosen
+  tab is scrolled into view, after a reload too. The row moves with the page,
+  on a desktop and on a phone; it is never fixed to the top.
 - On a phone frappe's sidebar is hidden, as on a form, and the tabs are the
-  same row, with more of them under **More**.
+  same row, swiped sideways.
+- A place's crumb keeps its name and chevron whole at any width; the
+  record's name after it is the one that shortens.
 
 ## What ERPNext already does
 

@@ -33,7 +33,7 @@ panel is closed, tap the place's name at the top, **Projects** for example,
 to go to another place in the app.
 
 A record's own page, such as a project's, reads like a form. Its views are
-tabs across the top, with **More** for those that don't fit, and who it's
+tabs across the top, which slide sideways when they don't all fit, and who it's
 assigned to, its attachments, tags, sharing and likes are on the right.
 
 The round OneAI button in the corner opens OneAI on any page. It offers
