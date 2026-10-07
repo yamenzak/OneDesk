@@ -2580,6 +2580,45 @@ def numbering_printing_and_mail_templates_are_the_administrators():
 		assert order in said["subject"], said
 
 
+@check
+def printing_holds_what_a_page_may_say():
+	"""A top drawn from the company follows it: a new address line is
+	printed on it, written as text and never as markup. A top Layla changes
+	by hand stays as she wrote it. A letter head is kept cleaned of scripts
+	and of pictures from elsewhere, and template tags are refused in it. An
+	HTML block reads the record and nothing else."""
+	from onedesk.one import printing
+
+	head = frappe.db.get_value("Letter Head", {"one_top": ["is", "set"]})
+	assert head, "the demo's letter head is drawn from the company"
+	address = frappe.db.get_value("Address", {"is_your_company_address": 1})
+	with as_user(OWNER):
+		place = frappe.get_doc("Address", address)
+		place.address_line2 = "Unit 4 <b>Al Quoz</b>"
+		place.save()
+	content = frappe.db.get_value("Letter Head", head, "content")
+	assert "Unit 4" in content and "&lt;b&gt;" in content and "<b>Al Quoz" not in content, content
+
+	with as_user(OWNER):
+		mine = printing.save_letter_head({"name": head, "source": "HTML", "content": content.replace("Unit 4", "Unit 5")})
+		assert not frappe.db.get_value("Letter Head", head, "one_top"), "a top changed by hand is the person's own"
+		cleaned = printing.save_letter_head({"letter_head_name": "Sahara Clean", "source": "HTML", "content": '<p>Sahara</p><script>alert(1)</script><img src="https://tracker.example.com/p.png">'})
+		assert "<script" not in cleaned["content"] and "tracker.example.com" not in cleaned["content"], cleaned["content"]
+		try:
+			printing.save_letter_head({"letter_head_name": "Sahara Tags", "source": "HTML", "content": "<p>{{ frappe.session.user }}</p>"})
+		except frappe.ValidationError as e:
+			assert "without template tags" in str(e), e
+		else:
+			raise AssertionError("a letter head kept a template")
+		invoice = frappe.db.get_value("Sales Invoice", {"docstatus": 1})
+		try:
+			printing.render_jinja_template("<p>{{ frappe.db.sql('select name from tabUser') }}</p>", "Sales Invoice", invoice)
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("an HTML block reached past the record")
+	assert mine["name"] == head
+
 def _opened_link(url: str) -> None:
 	"""A link someone was mailed, opened in their browser."""
 	from urllib.parse import urlsplit
