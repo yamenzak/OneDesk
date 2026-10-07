@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-07 00:20+0000\n"
-"PO-Revision-Date: 2026-10-07 00:20+0000\n"
+"POT-Creation-Date: 2026-10-07 01:16+0000\n"
+"PO-Revision-Date: 2026-10-07 01:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1921,11 +1921,11 @@ msgstr "بعد اعتماد {0}"
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
 msgstr "بعد ذلك يُحسب كل يوم يوم عمل في الإجازات والحضور، حتى تبدأ قائمة أخرى."
 
-#: onedesk/one_hr/hiring.py:730
+#: onedesk/one_hr/hiring.py:747
 msgid "After the interview: {0}"
 msgstr "بعد المقابلة: {0}"
 
-#: onedesk/one_hr/hiring.py:728
+#: onedesk/one_hr/hiring.py:745
 msgid "After the {0} interview: {1}"
 msgstr "بعد مقابلة {0}: {1}"
 
@@ -2319,7 +2319,7 @@ msgid "An extension, a villa renovation or a small new building."
 msgstr "توسعة أو تجديد فيلا أو مبنى جديد صغير."
 
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
-#: onedesk/one_hr/hiring.py:518
+#: onedesk/one_hr/hiring.py:535
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "لا تُسجَّل المقابلة إلا بعد موافقة المرشح."
 
@@ -2865,7 +2865,7 @@ msgstr "اطلب المحتجز من {0}"
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr "اسألني عمّا يحتاجونه، أو عن مساحة العمل المقصودة، إن لم أذكر ذلك. ثم قل ما أرخص خطة وإضافات تلبّي ذلك، وكم تكلّف شهريًا، وما الخيار الذي يليها."
 
-#: onedesk/one_hr/hiring.py:782
+#: onedesk/one_hr/hiring.py:799
 msgid "Ask next round"
 msgstr "اسأل في الجولة التالية"
 
@@ -4095,7 +4095,7 @@ msgstr "حسب الشخص"
 msgid "By continuing you agree to the {0} and the {1}."
 msgstr "بالمتابعة فإنك توافق على {0} و{1}."
 
-#: onedesk/one_hr/hiring.py:778
+#: onedesk/one_hr/hiring.py:795
 msgid "By skill"
 msgstr "حسب المهارة"
 
@@ -5279,7 +5279,7 @@ msgstr "تأكيد طلبك"
 msgid "Confirm deleting your account"
 msgstr "أكّد حذف حسابك"
 
-#: onedesk/one_hr/hiring.py:471
+#: onedesk/one_hr/hiring.py:488
 msgid "Confirm first"
 msgstr "تأكّد أولًا"
 
@@ -8238,7 +8238,7 @@ msgstr "كل يوم من هذه الأيام في القائمة يوم عطلة
 msgid "Every other administrator"
 msgstr "كل مسؤول آخر"
 
-#: onedesk/one_hr/hiring.py:607
+#: onedesk/one_hr/hiring.py:624
 msgid "Every part is already transcribed."
 msgstr "جميع الأجزاء مفرّغة بالفعل."
 
@@ -13697,7 +13697,7 @@ msgstr "تم نقل عنصر واحد إلى سلة المحذوفات"
 msgid "Moved Back"
 msgstr "أُعيد نقله"
 
-#: onedesk/one_hr/hiring.py:871
+#: onedesk/one_hr/hiring.py:888
 msgid "Moved down from {0}% to {1}%."
 msgstr "انخفض من {0}% إلى {1}%."
 
@@ -13710,7 +13710,7 @@ msgstr "نُقل إلى المهملات"
 msgid "Moved to {0}"
 msgstr "نُقل إلى {0}"
 
-#: onedesk/one_hr/hiring.py:871
+#: onedesk/one_hr/hiring.py:888
 msgid "Moved up from {0}% to {1}%."
 msgstr "ارتفع من {0}% إلى {1}%."
 
@@ -15047,7 +15047,7 @@ msgstr "لم يُدفع خلال {0} أيام، فأصبح اسمه متاحًا
 msgid "Not pushed in this workspace."
 msgstr "لا يُرسل كإشعار فوري في مساحة العمل هذه."
 
-#: onedesk/one_hr/hiring.py:780
+#: onedesk/one_hr/hiring.py:797
 msgid "Not reached"
 msgstr "لم يُتطرّق إليه"
 
@@ -16180,7 +16180,7 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير هذه؛ أما تشغيلها أو إيقافها فهو قرارك."
 
-#: onedesk/one_mail/holders.py:221
+#: onedesk/one_mail/holders.py:229
 msgid "Only a Workspace Administrator can change the signature of {0}."
 msgstr "لا يمكن تغيير توقيع {0} إلا لمسؤول مساحة العمل."
 
@@ -16260,7 +16260,7 @@ msgstr "لا يوافق على هذا نيابةً عن المؤسسة إلا م
 msgid "Only administrators and an app's managers see Masters."
 msgstr "لا يرى البيانات الأساسية إلا المسؤولون ومديرو التطبيقات."
 
-#: onedesk/one_hr/hiring.py:829
+#: onedesk/one_hr/hiring.py:846
 msgid "Only an HR Manager can delete the sound of a recorded interview."
 msgstr "لا يمكن حذف صوت مقابلة مسجّلة إلا لمدير الموارد البشرية."
 
@@ -18732,7 +18732,7 @@ msgstr ""
 msgid "Quantity"
 msgstr "الكمية"
 
-#: onedesk/one_hr/hiring.py:481
+#: onedesk/one_hr/hiring.py:498
 msgid "Questions"
 msgstr "الأسئلة"
 
@@ -23247,7 +23247,7 @@ msgstr "هذا المجلد ليس في صندوق البريد هذا."
 msgid "That invoice has nothing to book."
 msgstr "لا يوجد في هذه الفاتورة ما يُسجَّل."
 
-#: onedesk/one_hr/hiring.py:553
+#: onedesk/one_hr/hiring.py:570
 msgid "That is not a recording."
 msgstr "هذا ليس تسجيلًا."
 
@@ -23275,7 +23275,7 @@ msgstr "هذا غير معروض."
 msgid "That model is not offered."
 msgstr "هذا النموذج غير متاح."
 
-#: onedesk/one_hr/hiring.py:556
+#: onedesk/one_hr/hiring.py:573
 msgid "That part of the recording is empty or too large."
 msgstr "هذا الجزء من التسجيل فارغ أو كبير جدًا."
 
@@ -24882,11 +24882,11 @@ msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف
 msgid "This record type doesn't exist."
 msgstr "نوع السجل هذا غير موجود."
 
-#: onedesk/one_hr/hiring.py:604
+#: onedesk/one_hr/hiring.py:621
 msgid "This recording cannot be transcribed again."
 msgstr "لا يمكن تفريغ هذا التسجيل مرة أخرى."
 
-#: onedesk/one_hr/hiring.py:551
+#: onedesk/one_hr/hiring.py:568
 msgid "This recording has already ended."
 msgstr "انتهى هذا التسجيل بالفعل."
 
@@ -24968,7 +24968,7 @@ msgstr ""
 msgid "This workspace cannot be moved."
 msgstr "لا يمكن نقل مساحة العمل هذه."
 
-#: onedesk/one_hr/hiring.py:520
+#: onedesk/one_hr/hiring.py:537
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr "مساحة العمل هذه لا تسجّل المقابلات. تحدد إعدادات الموارد البشرية ذلك."
 
@@ -28807,7 +28807,7 @@ msgstr "القيمة على مدى عمره"
 msgid "Worth knowing before you call"
 msgstr "ما يجدر معرفته قبل الاتصال"
 
-#: onedesk/one_hr/hiring.py:781
+#: onedesk/one_hr/hiring.py:798
 msgid "Worth weighing"
 msgstr "يستحق النظر"
 
@@ -30402,7 +30402,7 @@ msgstr "السنة، 2026"
 msgid "there is no field {0} for the barcode"
 msgstr "لا يوجد حقل {0} للرمز الشريطي"
 
-#: onedesk/one_hr/hiring.py:688
+#: onedesk/one_hr/hiring.py:705
 msgid "this part could not be transcribed"
 msgstr "تعذّر تفريغ هذا الجزء"
 
@@ -30939,7 +30939,7 @@ msgstr "وصلك {0} مستند هذا الأسبوع. عالج OneAI منها {
 msgid "{0} does not have {1} credits to spend."
 msgstr "لا يملك {0} رصيداً بمقدار {1} لإنفاقه."
 
-#: onedesk/one_storage/share.py:126
+#: onedesk/one_storage/share.py:127
 msgid "{0} doesn't have access to {1}."
 msgstr "ليس لدى {0} وصول إلى {1}."
 
@@ -31833,6 +31833,10 @@ msgstr "{0} على {1}"
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
 msgid "{0} once"
 msgstr "{0} مرة واحدة"
+
+#: onedesk/one_mail/holders.py:226
+msgid "{0} only receives mail, so it has no signature."
+msgstr "{0} يستقبل البريد فقط، لذا ليس له توقيع."
 
 #: onedesk/one_crm/heads.py:121
 msgid "{0} open of {1}"

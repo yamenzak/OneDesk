@@ -308,6 +308,9 @@ Anybody whose standing moves by 15 or more gets a comment saying why.
 In the panel on an applicant: **Screen again**, **What should I ask first?**
 and **Write a kind decline**. On an opening: **Rank the applicants again**.
 
+**Interviewers.** Everybody named on an interview can open it and give
+feedback on it, whatever else they use One for.
+
 **Interview.** When an interview is made, OneAI writes **Interview
 Preparation** onto it: what to confirm first, then up to eight questions, each
 saying which skill it tests and why.

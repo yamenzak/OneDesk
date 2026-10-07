@@ -506,6 +506,8 @@ doc_events = {
 	"Job Applicant": {"after_insert": ["onedesk.one_hr.hiring.arrived", "onedesk.one_intake.planning.applicant_arrived"]},
 	"Interview": {
 		"after_insert": "onedesk.one_hr.hiring.scheduled",
+		# Whoever holds an interview may open it. See one_hr/hiring.py.
+		"on_update": "onedesk.one_hr.hiring.interviewers",
 		"onload": "onedesk.one_hr.hiring.interview_onload",
 	},
 	# A new grievance is read, and a sensitive one is kept to HR Managers and

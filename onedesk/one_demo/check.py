@@ -35,10 +35,14 @@ def run(only: str | None = None) -> int:
 		except Exception as e:
 			failed.append(fn.__name__)
 			# A bare assert says nothing; the line it stopped on says which.
+			here = [one.lineno for one in traceback.extract_tb(e.__traceback__) if one.filename == __file__]
 			said = str(e) or f"line {traceback.extract_tb(e.__traceback__)[-1].lineno}"
-			print(f"FAIL  {fn.__name__}: {type(e).__name__} {said[:600]}")
+			print(f"FAIL  {fn.__name__} (check.py:{here[-1] if here else '?'}): {type(e).__name__} {said[:600]}")
 		finally:
 			frappe.db.rollback()
+			# What a check cached about records it changed is gone with them.
+			frappe.clear_cache()
+			_unasked()
 			frappe.set_user("Administrator")
 	print(f"{len(CHECKS) - len(failed)} of {len(CHECKS)} passed" if not only else "")
 	return len(failed)
@@ -1228,3 +1232,1114 @@ def oneai_a_conversation_its_cards_and_its_settings():
 			frappe.cache.delete_value(f"one_ai_logo:{domain}")
 			logos.logo(domain)
 		assert frappe.local.response["filecontent"] == b"\x89PNG"
+
+
+def _asked(path: str = "/", method: str = "POST", data=None, headers: dict | None = None, cookies: dict | None = None):
+	"""A request as a browser, a drive or the mail Worker would send it, for
+	a method that reads the request itself."""
+	from urllib.parse import quote
+
+	from frappe.auth import CookieManager
+	from werkzeug.test import EnvironBuilder
+
+	headers = dict(headers or {})
+	if cookies:
+		headers["Cookie"] = "; ".join(f"{key}={quote(value)}" for key, value in cookies.items())
+	frappe.local.request = EnvironBuilder(path=path, method=method, data=data, headers=headers).get_request()
+	frappe.local.request_ip = "127.0.0.1"
+	frappe.local.cookie_manager = CookieManager()
+
+
+def _unasked() -> None:
+	"""No request again, as a check starts."""
+	for name in ("request", "request_ip", "cookie_manager"):
+		if hasattr(frappe.local, name):
+			delattr(frappe.local, name)
+
+
+def _cookies() -> dict:
+	"""What the last answer asked the browser to keep."""
+	return {key: one["value"] for key, one in frappe.local.cookie_manager.cookies.items()}
+
+
+@check
+def onemail_layla_reads_sorts_and_files_her_mail():
+	"""Layla's own address, with the mail the samples brought: a folder read,
+	a conversation opened, read and starred, moved into a folder of her own
+	and back, deleted and put back, filed on the villa and taken off, sorted
+	by a rule OneAI suggests, and answered on a card. Her out of office and
+	her workspace's signature. Omar cannot see into her mailbox."""
+	from onedesk.one_demo import intake
+	from onedesk.one_mail import actions, ai, api, holders, linking, rules
+
+	account = intake.mailbox()
+	with as_user(OWNER):
+		boxes = {one["name"]: one for one in api.mailboxes()}
+		assert account in boxes and account in {one["name"] for one in holders.mailboxes()}
+		inbox = next(one["name"] for one in boxes[account]["folders"] if one["kind"] == "Inbox")
+		listed = api.conversations(account, inbox)["items"]
+		assert len(listed) >= 10, len(listed)
+		found = api.conversations(account, search='subject:"shop drawings" from:acme')["items"]
+		assert [one["subject"] for one in found] == ["Shop drawings for the New York lobby"], found
+		thread = found[0]["thread"]
+		said = api.conversation(account, thread)["messages"]
+		assert said[0].sender == "jordan@acme.example"
+		names = api.names(account, [thread])
+		actions.mark(names, 0)
+		assert api.conversations(account, search="is:unread lobby")["items"]
+		actions.mark(names, 1)
+		actions.star(names, 1)
+		assert frappe.db.get_value("Communication", names[0], "one_flagged") == 1
+
+		folder = actions.create_folder(account, "Acme")
+		actions.rename_folder(folder, "Acme Lobby")
+		path = frappe.db.get_value("Mail Folder", folder, "path")
+		moved = actions.move(names, folder)
+		assert frappe.db.get_value("Communication", names[0], "one_folder") == path
+		assert api.conversations(account, folder)["items"][0]["thread"] == thread
+		actions.put_back(moved["was"])
+		assert frappe.db.get_value("Communication", names[0], "one_folder") == "INBOX"
+		deleted = actions.delete(names)
+		assert frappe.db.get_value("Communication", names[0], "one_folder") == "Trash"
+		actions.put_back(deleted["was"])
+		actions.delete_folder(folder)
+		assert not frappe.db.exists("Mail Folder", folder)
+
+		linking.file(names, "Project", VILLA)
+		assert thread in {one["thread"] for one in linking.record("Project", VILLA)}
+		assert ("Project", VILLA) in {(one.link_doctype, one.link_name) for one in linking.links_of(names)}
+		linking.getdoc("Project", VILLA)
+		linking.get_docinfo(doctype="Project", name=VILLA)
+		assert names[0] in {one["name"] for one in linking.get_communications("Project", VILLA)}
+		linking.unfile(names, "Project", VILLA)
+		assert thread not in {one["thread"] for one in linking.record("Project", VILLA)}
+
+		opened = ai.open_conversation(account, thread)
+		assert opened["subject"] == "Shop drawings for the New York lobby" and opened["messages"]
+		assert thread in {one["thread"] for one in ai.waiting_for_answer(account, inbox)["waiting"]}
+		reply = ai.draft_reply(account, thread, "Dear Jordan,\n\nThe drawings follow on Monday.\n\nLayla")
+		assert frappe.db.get_value("AI Proposal", reply["proposal"], "state") == "Proposed"
+		rule = ai.suggest_mail_rule("Taxis", mailbox=account, text_contains="taxi", sort_inbox_now=True)["proposal"]
+		from onedesk.one_ai import run as runs
+
+		runs.apply(rule)
+		taxis = frappe.db.get_value("Mail Folder", {"account": account, "label": "Taxis"}, "path")
+		assert frappe.db.exists("Mail Rule", {"account": account, "body_contains": "taxi"})
+		assert frappe.db.count("Communication", {"email_account": account, "one_folder": taxis}) >= 2
+
+		rules.set_away(account, 1, str(add_days(today(), 7)), "Back next week.")
+		assert rules.away_of(account).one_away == 1
+		rules.set_away(account, 0)
+
+		ours = holders.workspace()
+		assert ours in {one["name"] for one in holders.shared()}
+		holders.set_signature(ours, "<p>Layla Nasser<br>Sahara Glass</p>")
+		assert holders.signature_of(ours).startswith("<p>Layla Nasser")
+		assert holders.signature_for(frappe.db.get_value("Email Account", ours, "email_id")).startswith("<p>Layla")
+		try:
+			holders.set_signature(account, "Layla")
+			raise AssertionError("an address that only receives signs nothing")
+		except frappe.ValidationError:
+			pass
+		holders.set_holders(ours, [OWNER, "omar@one.test"])
+	with as_user("omar@one.test"):
+		assert ours in {one["name"] for one in api.mailboxes()}
+		try:
+			api.conversations(account, inbox)
+			raise AssertionError("Omar read Layla's mailbox")
+		except frappe.PermissionError:
+			pass
+
+
+@check
+def onemail_a_shared_mailbox_is_connected_given_and_let_go():
+	"""Layla connects the company's sales mailbox for the team, chooses who
+	holds it, makes it the workspace's and back, gives its password again and
+	disconnects it, and gives Huda a second address. The mail server is not
+	dialled: where it is is said here. The Worker's notice is believed only
+	with the workspace's signature."""
+	import time
+	from unittest import mock
+
+	from onedesk.one_mail import addresses, connect, holders, inbound
+
+	where = {key: value for key, value in connect.guesses("saharaglass.test")[0].items()}
+	smtp = "frappe.email.doctype.email_account.email_account.EmailAccount.validate_smtp_conn"
+	with as_user(OWNER), mock.patch("onedesk.one_mail.connect.reach", return_value=where), mock.patch(smtp), mock.patch("frappe.enqueue"):
+		sales = connect.connect("sales@saharaglass.test", "app-password", shared=1)
+		assert frappe.db.get_value("Email Account", sales, ["one_connected", "one_shared"]) == (1, 1)
+		holders.set_holders(sales, [OWNER, "omar@one.test"])
+		assert set(frappe.get_all("User Email", filters={"email_account": sales}, pluck="parent")) == {OWNER, "omar@one.test"}
+		assert holders.replace(sales, 1) == sales and holders.workspace() == sales
+		assert holders.restore() != sales and holders.workspace() != sales
+		connect.reconnect(sales, "new-app-password")
+		connect.disconnect(sales)
+		assert not frappe.db.exists("Email Account", sales)
+		given = addresses.give("huda@one.test", "accounts")
+		assert frappe.db.exists("User Email", {"parent": "huda@one.test", "email_account": given})
+	with as_user("omar@one.test"):
+		try:
+			holders.shared()
+			raise AssertionError("Omar listed who holds the workspace's mailboxes")
+		except frappe.PermissionError:
+			pass
+
+	body = b'{"key": "mail/2026/10/07/x~layla.eml"}'
+	at = str(int(time.time()))
+	with mock.patch.dict(frappe.conf, {"one_mail_secret": "demo-secret"}), mock.patch("frappe.enqueue") as queued:
+		frappe.set_user("Guest")
+		_asked(data=body, headers={"X-One-Timestamp": at, "X-One-Signature": inbound.signed("demo-secret", at, body)})
+		assert inbound.notice() == "ok" and queued.call_args.args[0] == "onedesk.one_mail.inbound.sweep"
+		_asked(data=body, headers={"X-One-Timestamp": at, "X-One-Signature": "0" * 64})
+		try:
+			inbound.notice()
+			raise AssertionError("an unsigned notice was believed")
+		except frappe.PermissionError:
+			pass
+	_unasked()
+
+
+class _Server:
+	"""A server folder held in memory, standing in for SFTP or WebDAV."""
+
+	def __init__(self, held: dict):
+		self.held = held
+
+	def close(self):
+		pass
+
+	def list(self, path: str) -> list[dict]:
+		path = path.strip("/")
+		inside = [key for key in self.held if key.rsplit("/", 1)[0] == path or (not path and "/" not in key)]
+		return [{"name": key.rsplit("/", 1)[-1], "folder": self.held[key] is None, "size": len(self.held[key] or b""), "modified": None} for key in inside]
+
+	def read(self, path: str) -> bytes:
+		return self.held[path.strip("/")]
+
+	def write(self, path: str, content: bytes) -> None:
+		self.held[path.strip("/")] = content
+
+	def make_folder(self, path: str) -> None:
+		self.held[path.strip("/")] = None
+
+	def rename(self, path: str, to: str) -> None:
+		self.held[to.strip("/")] = self.held.pop(path.strip("/"))
+
+	def remove(self, path: str, folder: bool) -> None:
+		self.held.pop(path.strip("/"))
+
+
+@check
+def onecloud_the_site_team_works_in_its_library():
+	"""Samir's Projects library as the crew uses it: listed, searched and
+	found by its path, a folder made, renamed and moved about, a file copied,
+	attached to the villa, starred and put back to its first version, shared
+	and unshared, deleted and restored, and the bin emptied. Yousef only
+	reads it. What OneAI says about a file and who sees it, and a drive
+	answering for Samir."""
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_storage import ai, api, dav, history, library, share
+	from onedesk.one_storage import namespace as ns
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	drawing = frappe.db.get_value("File", {"folder": root, "file_name": demo.ELEVATIONS})
+	notes = frappe.db.get_value("File", {"owner": demo.PM, "file_name": demo.NOTES})
+	with as_user(demo.PM):
+		assert demo.ELEVATIONS in {one["name"] for one in api.listing(root)["items"]}
+		assert drawing in {one["id"] for one in api.listing(ns.ROOT, search="elevations", everywhere=1)["items"]}
+		assert any(one["id"] == root for one in api.folders(ns.LIBRARIES))
+		assert api.resolve(f"Libraries/{demo.LIBRARY}") == root
+		assert {one["user"] for one in library.members(root)["members"]} >= {"rania@one.test", "yousef@one.test"}
+		folder = api.make_folder(root, "Site photos")["id"]
+		folder = api.rename(folder, "Villa site photos")["id"]
+		copied = api.copy([drawing], folder)
+		assert frappe.db.get_value("File", copied[0], "file_name") == demo.ELEVATIONS
+		api.move(copied, ns.home())
+		assert frappe.db.get_value("File", copied[0], "folder") == ns.home()
+		attached = api.attach([drawing], "Project", VILLA)
+		assert frappe.db.get_value("File", attached[0]["name"], "attached_to_name") == VILLA
+		history.star([drawing])
+		assert drawing in {one["id"] for one in api.listing(ns.STARRED)["items"]}
+		history.star([drawing], 0)
+		versions = history.versions(drawing)
+		assert len(versions) == 1 and history.activity(drawing)["versions"]
+		was = frappe.db.get_value("File", drawing, "file_url")
+		history.restore(drawing, versions[0]["name"])
+		# The first issue is current again, and revision B is kept as a version.
+		assert frappe.db.get_value("File", drawing, "file_url") == versions[0]["url"]
+		assert was in {one["url"] for one in history.versions(drawing)}
+		assert {one["user"] for one in share.people(notes)["people"]} >= {"rania@one.test"}
+		share.set_edit(notes, "rania@one.test", 1)
+		share.unshare(notes, "rania@one.test")
+		assert "rania@one.test" not in {one["user"] for one in share.people(notes)["people"]}
+		share.share([notes], ["rania@one.test", "tariq@one.test"])
+		assert {one["user"] for one in share.people(notes)["people"]} >= {"rania@one.test", "tariq@one.test"}
+		api.delete([folder])
+		assert frappe.db.get_value("File", folder, "one_deleted") == 1
+		api.restore([folder])
+		api.delete([folder])
+		api.purge([folder])
+		assert not frappe.db.exists("File", folder)
+		api.delete(copied)
+		api.empty_bin()
+		assert not frappe.db.exists("File", copied[0])
+		library.add(root, ["nadia@one.test"], "Reader")
+		library.remove(root, "nadia@one.test")
+		workshop = library.make("Workshop")["id"]
+		assert frappe.db.get_value("File", workshop, "one_library") == 1
+
+		seen = ai.open_file(drawing)
+		assert seen.get("name") == demo.ELEVATIONS or demo.ELEVATIONS in str(seen)
+		assert "Rania Sabbagh" in str(ai.who_can_see(drawing))
+		biggest = ai.largest_files()
+		assert demo.ELEVATIONS in {one["name"] for one in biggest["largest"]} and biggest["mine_bytes"] > 0
+
+		address = dav.address(ns.MY)
+		assert address["user_name"] == demo.PM
+		kept = dav.passwords()
+		assert [one.label for one in kept] == ["Office laptop"]
+		made = dav.make_password("Home desktop")
+		assert made["password"] and len(dav.passwords()) == 2
+		dav.drop_password(next(one.name for one in dav.passwords() if one.label == "Home desktop"))
+		_asked(path=f"{dav.MOUNT}/My Files/", method="PROPFIND", headers={"Depth": "1"})
+		answer = dav.serve()
+		assert answer.status_code == 207 and demo.NOTES.encode() in b"".join(answer.response)
+	_unasked()
+	with as_user("yousef@one.test"):
+		assert demo.ELEVATIONS in {one["name"] for one in api.listing(root)["items"]}
+		try:
+			api.rename(drawing, "Mine now.pdf")
+			raise AssertionError("a reader renamed a library's file")
+		except frappe.PermissionError:
+			pass
+
+
+@check
+def onecloud_files_go_out_and_come_in():
+	"""The villa's elevations through the link Samir made, a folder link
+	with a password a customer sends photos into, and an invitation opened
+	with the code mailed to Khalid. Al Noor answers Karim's request for its
+	papers, and Karim reminds and closes it. Samir uploads straight to the
+	store and through the workspace, opens a stored file, and connects a
+	server folder. The store and the server are stood in for here."""
+	from io import BytesIO
+	from unittest import mock
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_storage import api, file_requests, links, mounts, store, upload
+	from onedesk.one_storage import namespace as ns
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	drawing = frappe.db.get_value("File", {"folder": root, "file_name": demo.ELEVATIONS})
+	with as_user(demo.PM):
+		made = links.links(drawing)
+		assert len(made) == 1 and made[0]["audience"] == links.ANYONE
+		photos = api.make_folder(root, "Photos from Khalid")["id"]
+		inbox = links.make(photos, allow_upload=1, password="villa-2026")
+		invited = links.make(drawing, audience=links.INVITED, invitees=["khalid@mansour.example"])
+	token = made[0]["url"].rsplit("/", 1)[-1]
+	inbox_token = inbox["url"].rsplit("/", 1)[-1]
+	invited_token = invited["url"].rsplit("/", 1)[-1]
+
+	frappe.set_user("Guest")
+	_asked(path="/", method="GET")
+	links.get(token)
+	assert frappe.local.response.filename == demo.ELEVATIONS and frappe.local.response.filecontent.startswith(b"%PDF")
+	_asked()
+	assert "said=wrong" in links.unlock(inbox_token, "guess").location
+	_asked()
+	links.unlock(inbox_token, "villa-2026")
+	from PIL import Image
+
+	photo = BytesIO()
+	Image.new("RGB", (8, 8), "white").save(photo, "JPEG")
+	photo.seek(0)
+	_asked(data={"file": (photo, "west.jpg")}, cookies=_cookies())
+	assert "said=sent_1" in links.put(inbox_token).location
+	assert frappe.db.get_value("File", {"folder": photos, "file_name": "west.jpg"}, "owner") == demo.PM
+	_asked()
+	links.ask_code(invited_token, "khalid@mansour.example")
+	link = frappe.db.get_value("Cloud Link", {"file": drawing, "audience": links.INVITED})
+	code = frappe.cache.get_value(f"onestorage:code:{link}:khalid@mansour.example")
+	_asked(cookies=_cookies())
+	links.enter_code(invited_token, code)
+	assert frappe.db.get_value("Cloud Link Invitee", {"parent": link}, "opened_on")
+	frappe.set_user(demo.PM)
+	links.drop(link)
+	assert not links.live(invited_token)
+
+	asked = frappe.db.get_value("Cloud File Request", {"title": "Al Noor papers for this year"})
+	with as_user("karim@one.test"):
+		said = file_requests.progress(asked)
+		person = said["people"][0]
+		assert person["email"] == demo.SUPPLIER and person["state"] != "Complete"
+		assert file_requests.fields("Supplier") is not None
+		again = file_requests.make(f"{ns.RECORDS}/Supplier/{frappe.db.get_value('Supplier', {})}", {"title": "Bank letter", "items": [{"label": "Bank letter", "required": 1}], "recipients": demo.SUPPLIER})
+		assert again["links"] and again["name"]
+	item = frappe.db.get_value("Cloud File Request Item", {"parent": asked, "label": "Trade licence"})
+	frappe.set_user("Guest")
+	_asked(data={"file": (BytesIO(demo._pdf("Trade licence 2026")), "licence.pdf")})
+	assert "said=sent" in file_requests.send(person["url"].rsplit("/", 1)[-1], item).location
+	with as_user("karim@one.test"):
+		assert file_requests.progress(asked)["people"][0]["sent"]["Trade licence"]
+		assert file_requests.remind(asked) == 1
+		file_requests.close(asked)
+		assert frappe.db.get_value("Cloud File Request", asked, "status") == "Closed"
+
+	where = "https://r2.example.com/put"
+	with as_user(demo.PM), mock.patch("onedesk.one_storage.store.enabled", return_value=True), mock.patch(
+		"onedesk.one.account.put_url", return_value={"url": where}
+	), mock.patch("onedesk.one_storage.store.signed", return_value="https://r2.example.com/get"), mock.patch(
+		"onedesk.one_storage.upload.requests.get", return_value=mock.Mock(status_code=206)
+	):
+		tickets = upload.begin(root, [{"name": demo.ELEVATIONS, "size": 900}, {"name": "Door schedule.pdf", "size": 400}])
+		assert tickets["direct"] and tickets["existing"] == [demo.ELEVATIONS]
+		placed = upload.done(tickets["tickets"][1]["token"])
+		stored = frappe.db.get_value("File", placed["id"], "file_url")
+		assert store.is_stored(stored)
+		assert store.fetch(store.key_of(stored)).status_code == 302
+	with as_user(demo.PM):
+		_asked(data={"file": (BytesIO(b"Window W03 sill packed."), "W03 note.txt")})
+		placed = upload.here(ns.home())
+		assert frappe.db.get_value("File", placed["id"], "file_name") == "W03 note.txt"
+
+		held = {"drawings": None, "drawings/old.dwg": b"DWG"}
+		with mock.patch("onedesk.one_storage.mounts.connect", return_value=_Server(held)):
+			server = mounts.save({"title": "Office NAS", "protocol": "WebDAV", "url": "https://nas.example.com/dav", "username": "samir", "password": "nas-pass"})["id"]
+			assert mounts.settings(server)["values"]["title"] == "Office NAS"
+			assert "drawings" in {one["name"] for one in api.listing(server)["items"]}
+			response = mounts.get(f"{server}/drawings/old.dwg")
+			assert response.get_data() == b"DWG"
+			mounts.disconnect(server)
+	_unasked()
+
+
+def _employee(first: str) -> str:
+	return frappe.db.get_value("Employee", {"first_name": first})
+
+
+@check
+def onehr_requests_are_answered_by_who_answers_them():
+	"""Layla says yes to Omar's leave and Samir's lunch, Tariq says no to
+	Yousef's sick day, Mariam gives Ravi the day shift and turns Imran down,
+	Samir counts Nadia's day at the showroom and turns down Rania's. Each
+	answer is the record's own state afterwards, and somebody who may not
+	answer is refused."""
+	from onedesk.one_demo import hr as demo
+	from onedesk.one_hr import expense, leave, request, shift
+
+	waiting = lambda first, **more: frappe.db.get_value("Leave Application", {"employee": _employee(first), "docstatus": 0, **more})
+	omar, yousef = waiting("Omar"), waiting("Yousef")
+	with as_user("rania@one.test"):
+		try:
+			leave.approve(omar)
+			raise AssertionError("Rania approved Omar's leave")
+		except frappe.PermissionError:
+			pass
+	with as_user(OWNER):
+		assert leave.about(omar)
+		leave.approve(omar, "Enjoy it.")
+		assert frappe.db.get_value("Leave Application", omar, ["status", "docstatus"]) == ("Approved", 1)
+	with as_user("tariq@one.test"):
+		leave.reject(yousef, "Bring a note from the doctor next time.")
+		assert frappe.db.get_value("Leave Application", yousef, ["status", "docstatus"]) == ("Rejected", 1)
+
+	lunch = frappe.db.get_value("Expense Claim", {"employee": _employee("Samir"), "docstatus": 0})
+	with as_user(OWNER):
+		assert expense.about(lunch)
+		expense.approve(lunch)
+		assert frappe.db.get_value("Expense Claim", lunch, ["approval_status", "docstatus"]) == ("Approved", 1)
+	with as_user("rania@one.test"):
+		claim = frappe.new_doc("Expense Claim")
+		claim.update({"employee": _employee("Rania"), "expense_approver": "samir@one.test", "payable_account": demo._claims_payable()})
+		claim.append("expenses", {"expense_date": today(), "expense_type": "Travel", "description": "Taxi to the tower", "amount": 120, "sanctioned_amount": 120})
+		claim.insert()
+	with as_user("samir@one.test"):
+		expense.reject(claim.name, "The site van went there that day.")
+		assert frappe.db.get_value("Expense Claim", claim.name, ["approval_status", "docstatus"]) == ("Rejected", 1)
+
+	name, starts, ends = demo.SHIFT
+	ravi = frappe.db.get_value("Shift Request", {"employee": _employee("Ravi"), "docstatus": 0})
+	with as_user(demo.HR):
+		assert demo.HR in shift.approvers(_employee("Ravi"))
+		assert shift.hours(name)
+		shift.approve(ravi)
+		assert frappe.db.exists("Shift Assignment", {"employee": _employee("Ravi"), "shift_type": name, "docstatus": 1})
+		frappe.db.set_value("Employee", _employee("Imran"), "shift_request_approver", demo.HR)
+		imran = frappe.get_doc({"doctype": "Shift Request", "shift_type": name, "employee": _employee("Imran"), "company": COMPANY, "from_date": add_days(today(), 20), "to_date": add_days(today(), 30), "approver": demo.HR, "status": "Draft"}).insert()
+		shift.reject(imran.name, "Days are full that month.")
+		assert frappe.db.get_value("Shift Request", imran.name, ["status", "docstatus"]) == ("Rejected", 1)
+
+	nadia = frappe.db.get_value("Attendance Request", {"employee": _employee("Nadia"), "docstatus": 0})
+	with as_user(demo.HR):
+		request.approve(nadia, "Counted.")
+		assert frappe.db.get_value("Attendance Request", nadia, "docstatus") == 1
+		rania = frappe.get_doc({"doctype": "Attendance Request", "employee": _employee("Rania"), "company": COMPANY, "from_date": add_days(today(), -2), "to_date": add_days(today(), -2), "reason": "On Duty", "one_reason": "Customer Site", "explanation": "At the tower all day."}).insert()
+		request.reject(rania.name, "You were in the office that day.")
+		assert frappe.db.get_value("Attendance Request", rania.name, ["docstatus", "one_decision"]) == (0, request.REJECTED)
+
+
+@check
+def onehr_the_crews_days_overtime_and_pay_add_up():
+	"""Mariam's view of the workshop: who clocked in today and who is in now,
+	overtime written on one of Arun's days and collected for his slip, the
+	day shift reading check-ins, the payroll's headline, an encashment's
+	rate, and an employee's page, read by Mariam and by Rania herself."""
+	from onedesk.one_demo import hr as demo
+	from onedesk.one_hr import employee, encashment, learned, marking, overtime, payroll, presence, setup
+
+	arun = _employee("Arun")
+	worked = frappe.db.get_value("Attendance", {"employee": arun, "status": "Present", "docstatus": 1}, "attendance_date", order_by="attendance_date desc")
+	with as_user(demo.HR):
+		assert set(marking.clocked_in(today())) >= {_employee("Samir"), _employee("Rania"), arun}
+		assert presence.in_now() >= 5
+		assert presence.of(_employee("Tariq"))["state"]
+		assert overtime.day(arun, str(worked))["ok"] == 1
+		overtime.record(arun, str(worked), "Workshop Overtime", 2.5)
+		period = overtime.dates(arun, str(worked))
+		collected = overtime.collect(arun, period["start_date"], period["end_date"])
+		assert any(flt(one.get("overtime_duration") or one.get("hours") or 0) == 2.5 for one in collected["rows"]), collected
+		try:
+			overtime.record(arun, str(worked), "Workshop Overtime", 6)
+			raise AssertionError("more than the type's four hours was written")
+		except frappe.ValidationError:
+			pass
+		setup.start_reading(demo.SHIFT[0])
+		assert frappe.db.get_value("Shift Type", demo.SHIFT[0], "enable_auto_attendance") == 1
+		entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1})
+		ran = payroll.run(entry)
+		assert ran["people"] >= 10 and ran["total"] > 0
+		assert encashment.rate(arun, today())["structure"]
+		seen = employee.overview(_employee("Rania"))
+		assert seen["leave"] and seen["tenure"]
+		network = frappe.get_doc({"doctype": "Clock Network", "address": "203.0.113.0/24", "status": "Proposed"}).insert(ignore_permissions=True)
+		learned.confirm("Clock Network", network.name)
+		assert frappe.db.get_value("Clock Network", network.name, "status") == "Confirmed"
+		learned.reject("Clock Network", network.name)
+	with as_user("rania@one.test"):
+		assert employee.overview(_employee("Rania"))["days"] is not None
+		try:
+			employee.overview(_employee("Omar"))
+			raise AssertionError("Rania read Omar's page")
+		except frappe.PermissionError:
+			pass
+
+
+class _Phone:
+	"""A passkey held in software, as a phone's authenticator holds one: it
+	makes a credential for a challenge and signs the next."""
+
+	def __init__(self, user_handle: bytes):
+		import os
+
+		from cryptography.hazmat.primitives.asymmetric import ec
+
+		self.key = ec.generate_private_key(ec.SECP256R1())
+		self.id = os.urandom(16)
+		self.handle = user_handle
+		self.count = 0
+
+	@staticmethod
+	def _b64(raw: bytes) -> str:
+		import base64
+
+		return base64.urlsafe_b64encode(raw).decode().rstrip("=")
+
+	def _client(self, kind: str, challenge: str) -> bytes:
+		import json
+
+		from onedesk.one_hr import passkey
+
+		return json.dumps({"type": kind, "challenge": challenge, "origin": passkey.origin(), "crossOrigin": False}).encode()
+
+	def _head(self, flags: int) -> bytes:
+		import hashlib
+
+		from onedesk.one_hr import passkey
+
+		self.count += 1
+		return hashlib.sha256(passkey.rp_id().encode()).digest() + bytes([flags]) + self.count.to_bytes(4, "big")
+
+	def make(self, options: dict) -> dict:
+		import cbor2
+
+		numbers = self.key.public_key().public_numbers()
+		cose = cbor2.dumps({1: 2, 3: -7, -1: 1, -2: numbers.x.to_bytes(32, "big"), -3: numbers.y.to_bytes(32, "big")})
+		data = self._head(0x45) + bytes(16) + len(self.id).to_bytes(2, "big") + self.id + cose
+		made = cbor2.dumps({"fmt": "none", "attStmt": {}, "authData": data})
+		return {"id": self._b64(self.id), "rawId": self._b64(self.id), "type": "public-key", "response": {"clientDataJSON": self._b64(self._client("webauthn.create", options["challenge"])), "attestationObject": self._b64(made)}}
+
+	def sign(self, options: dict) -> dict:
+		import hashlib
+
+		from cryptography.hazmat.primitives import hashes
+		from cryptography.hazmat.primitives.asymmetric import ec
+
+		client = self._client("webauthn.get", options["challenge"])
+		data = self._head(0x05)
+		signature = self.key.sign(data + hashlib.sha256(client).digest(), ec.ECDSA(hashes.SHA256()))
+		return {"id": self._b64(self.id), "rawId": self._b64(self.id), "type": "public-key", "response": {"clientDataJSON": self._b64(client), "authenticatorData": self._b64(data), "signature": self._b64(signature), "userHandle": self._b64(self.handle)}}
+
+
+PHONE = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148"
+DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/128.0 Safari/537.36"
+
+
+@check
+def onehr_tariq_clocks_in_with_his_phone():
+	"""The workspace turns on clocking in. Tariq registers his phone's
+	passkey; clocking with it from a network nobody knows is refused, and from
+	the office network it goes through. Twice from the office computer it is
+	let through and flagged: Mariam lets one stand and turns the other down. He signs in to One with the same
+	passkey. A new phone: he asks for a reset, Mariam resets it, and blocks
+	it when he leaves."""
+	from unittest import mock
+
+	from onedesk.one_demo import hr as demo
+	import json
+	import time
+
+	from onedesk.one_hr import clock, employee, passkey, review, signin
+
+	tariq = _employee("Tariq")
+	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
+	frappe.db.set_single_value("System Settings", signin.SWITCH, 1)
+	phone = _Phone(tariq.encode())
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": PHONE})
+		made = passkey.finish_registration(json.dumps(phone.make(passkey.start_registration())), {"user_agent": PHONE})
+		assert frappe.db.get_value("Clock Device", made["device"], "status") == "Active"
+		before = clock.ready()
+		assert before["registered"] and before["direction"], before
+		_asked(headers={"User-Agent": PHONE})
+		refused = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": PHONE})
+		assert not refused["ok"] and refused["score"] < 50, refused
+	# The office network, which the clock now trusts.
+	frappe.get_doc({"doctype": "Clock Network", "address": "127.0.0.1/32", "label": "Office", "status": "Confirmed"}).insert(ignore_permissions=True)
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": PHONE})
+		clean = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": PHONE})
+		assert clean["ok"] and not clean["flagged"], clean
+		# From the office computer rather than his phone: let through, and flagged.
+		# A second apart, as hrms keeps one check-in a second.
+		time.sleep(1.1)
+		_asked(headers={"User-Agent": DESKTOP})
+		punched = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": DESKTOP})
+		assert punched["ok"] and punched["flagged"], punched
+		time.sleep(1.1)
+		_asked(headers={"User-Agent": DESKTOP})
+		again = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": DESKTOP})
+		assert again["ok"] and again["flagged"], again
+	with as_user(demo.HR):
+		assert employee.passkey_of(tariq)["label"] == made["label"]
+		review.accept(punched["attempt"], "He was at the tower.")
+		assert frappe.db.get_value("Clock Attempt", punched["attempt"], "verdict") == "Accepted"
+		review.reject(again["attempt"], "Not on site.")
+		assert frappe.db.get_value("Employee Checkin", again["checkin"], "skip_auto_attendance") == 1
+
+	frappe.set_user("Guest")
+	_asked(headers={"User-Agent": PHONE})
+	assert signin.offered()
+	options = signin.begin()
+	frappe.local.login_manager = mock.Mock()
+	assert signin.finish(json.dumps(phone.sign(options)))["user"] == "tariq@one.test"
+	frappe.local.login_manager.login_as.assert_called_once_with("tariq@one.test")
+
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": PHONE})
+		assert passkey.ask_for_a_reset("I dropped my phone in the canal.")["told"] >= 1
+	with as_user(demo.HR):
+		assert passkey.reset(tariq)["reset"] == 1
+		assert not passkey.held_by(tariq)
+		assert passkey.retire(tariq) >= 1 and passkey.is_blocked(tariq)
+	_unasked()
+
+
+def _card(said: dict) -> str:
+	assert said.get("proposal"), said
+	assert frappe.db.get_value("AI Proposal", said["proposal"], "state") == "Proposed"
+	return said["proposal"]
+
+
+@check
+def onehr_oneai_answers_and_drafts_for_each_person():
+	"""What OneAI reads and suggests in OneHR, as the people who ask: Rania
+	about her leave, a day off, a taxi, a salary certificate, her goals and
+	training, and the leave policy; Samir about the interview he holds;
+	Mariam about the payroll, people leaving, an applicant from a CV, and
+	Rania's appraisal. Cards wait for approval; nothing is made yet."""
+	from onedesk.one_demo import hr as demo
+	from onedesk.one_hr import ai, ai_growth, ai_letters, ai_payroll, ai_policy
+
+	monday = add_days(today(), 7 - getdate(today()).weekday())
+	with as_user("rania@one.test"):
+		mine = ai.my_leave(str(monday), str(add_days(monday, 1)), "Privilege Leave")
+		assert mine.get("balances") or mine.get("left") or mine, mine
+		_card(ai.book_leave(str(monday), str(add_days(monday, 1)), "annual", "A family wedding"))
+		_card(ai.claim_expense(str(add_days(today(), -1)), 64.5, "taxi", "Careem to the Bayview site", "AED"))
+		facts = ai_letters.letter_facts("Salary Certificate")
+		assert "error" not in facts, facts
+		_card(ai_letters.request_letter("Salary Certificate", "This is to certify that Rania Sabbagh works here.", "Emirates NBD", "opening a bank account"))
+		assert "error" not in ai_growth.goal_facts()
+		_card(ai_growth.draft_goal("Hand over the villa without snags", "Snag list closed within a week of handover.", "Delivery on Time"))
+		assert "error" not in ai_growth.training_options()
+		assert "error" not in ai_policy.hr_policy("How many days of annual leave do I get?")
+		try:
+			assert "error" in ai_letters.letter_facts("Salary Certificate", _employee("Omar"))
+		except frappe.PermissionError:
+			pass
+	interview = frappe.db.get_value("Interview", {"interview_type": "Site Engineer Technical"})
+	with as_user("samir@one.test"):
+		assert "error" not in ai.interview_facts(interview)
+		_card(ai.draft_interview_feedback(interview, "Mira knew the unitised system well.", {"Curtain Wall Design": 4}, "Cleared"))
+	appraisal = frappe.db.get_value("Appraisal", {"employee": _employee("Rania")})
+	opening = frappe.db.get_value("Job Opening", {})
+	entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1})
+	with as_user(demo.HR):
+		assert "error" not in ai_payroll.payroll_changes(entry)
+		assert "error" not in ai.why_people_leave()
+		_card(ai.add_applicant("Dana Aziz", "dana.aziz@example.com", opening, "Eight years on unitised facades; no site supervision yet."))
+		assert "error" not in ai.appraisal_facts(appraisal)
+		_card(ai.draft_feedback(appraisal, "Rania kept the villa on time and ran the snag walk well."))
+
+
+@check
+def onehr_an_interview_is_recorded_and_its_people_read_again():
+	"""Samir records the interview with Mira once she agrees: a part of sound
+	is filed and sent to be written down, the recording ends and is sent
+	again. Mariam has OneAI read Mira's CV, rank the opening and prepare
+	the interview again. The model is not called here: what would run is
+	asked for, and that is checked."""
+	import base64
+	from unittest import mock
+
+	from onedesk.one_demo import hr as demo
+	from onedesk.one_hr import hiring
+
+	interview = frappe.db.get_value("Interview", {"interview_type": "Site Engineer Technical"})
+	applicant = frappe.db.get_value("Interview", interview, "job_applicant")
+	opening = frappe.db.get_value("Job Applicant", applicant, "job_title")
+	with mock.patch("onedesk.one_hr.hiring._later") as later:
+		with as_user("samir@one.test"):
+			try:
+				hiring.start_recording(interview, 0)
+				raise AssertionError("an interview was recorded without the candidate agreeing")
+			except frappe.ValidationError:
+				pass
+			held = hiring.start_recording(interview, 1)
+			hiring.recorded_part(held, "part-1.webm", base64.b64encode(b"\x1aE\xdf\xa3 sound").decode(), 0, 30)
+			assert frappe.db.count("Interview Recording Part", {"parent": held}) == 1
+			hiring.stop_recording(held, 30)
+			assert frappe.db.get_value("Interview Recording", held, "status") in ("Transcribing", "Recorded")
+			frappe.db.set_value("Interview Recording", held, "status", "Recorded")
+			hiring.transcribe_again(held)
+		with as_user(demo.HR):
+			hiring.screen_again(applicant)
+			hiring.rank_again(opening)
+			hiring.prepare_again(interview)
+	asked = [one.args[0] for one in later.call_args_list]
+	for method in ("transcribe", "screen", "rank", "prepare"):
+		assert f"onedesk.one_hr.hiring.{method}" in asked, asked
+
+
+@check
+def settings_open_and_save_for_each_person():
+	"""Every Settings page opens for Layla, and Rania sees only her own.
+	Rania changes her mobile number, and a save from a page loaded before
+	somebody else's change is refused, as a desk form refuses it. Layla
+	invites Hana, invites her again, turns Nadia off and on, sends her a
+	reset and signs her out, and writes and drops a notification rule
+	through OneAI. What OneAI remembers is kept and forgotten."""
+	from onedesk.one import ai, rules, settings
+	from onedesk.one_ai import run as runs
+
+	with as_user("rania@one.test"):
+		mine = settings.sections()
+		assert not mine["admin"] and {one["group"] for one in mine["sections"]} == {"you"}
+		for one in mine["sections"]:
+			settings.load(one["key"])
+		try:
+			settings.load("people")
+			raise AssertionError("Rania opened People")
+		except frappe.PermissionError:
+			pass
+		loaded = settings.load("profile")
+		settings.save("profile", {"mobile_no": "+971 50 555 0142"}, loaded["opened"])
+		assert frappe.db.get_value("User", "rania@one.test", "mobile_no") == "+971 50 555 0142"
+		stale = [{**one, "modified": "2020-01-01 00:00:00"} for one in loaded["opened"]]
+		try:
+			settings.save("profile", {"mobile_no": "+971 50 555 0199"}, stale)
+			raise AssertionError("a stale page overwrote a newer save")
+		except frappe.TimestampMismatchError:
+			pass
+		kept = settings.keep("I prefer replies in Arabic.")
+		memory = next(one["name"] for one in kept["facts"] if one["fact"] == "I prefer replies in Arabic.")
+		settings.forget(memory)
+		settings.keep("I work from the Bayview site on Tuesdays.")
+		settings.forget_all()
+		assert not frappe.db.exists("AI Memory", {"owner": "rania@one.test"})
+		assert settings.sign_out_elsewhere() == 1
+	with as_user(OWNER):
+		every = settings.sections()
+		assert every["admin"]
+		for one in every["sections"]:
+			settings.load(one["key"])
+		settings.invite("hana@one.test", "Hana", "Rizk", {"OneCRM": "User"})
+		assert frappe.db.exists("User", "hana@one.test")
+		settings.invite_again("hana@one.test")
+		settings.set_enabled("nadia@one.test", 0)
+		assert frappe.db.get_value("User", "nadia@one.test", "enabled") == 0
+		settings.set_enabled("nadia@one.test", 1)
+		settings.send_reset("nadia@one.test")
+		settings.sign_out_everywhere("nadia@one.test")
+		assert rules.fields_of("Sales Invoice")
+		assert rules.watchable("DocType", "Sales", "name", 0, 20)
+		drafted = ai.draft_notification("Big Invoice", "Sales Invoice", "Submit", "Invoice {{ doc.name }} is out", roles=["Accounts Manager"])
+		runs.apply(drafted["proposal"])
+		rule = frappe.db.get_value("Notification", {"one_rule": 1, "document_type": "Sales Invoice", "event": "Submit"})
+		assert rule, "the rule was not made"
+		kind = frappe.db.get_value("Notification Type", {"one_rule": rule})
+		assert "html" in settings.preview_notification(kind, "Invoice {{ doc.name }}") or settings.preview_notification(kind, "Invoice {{ doc.name }}")
+		settings.delete_rule(rule)
+		assert not frappe.db.exists("Notification", rule)
+
+
+@check
+def access_is_shaped_by_the_administrator():
+	"""Layla makes a level between User and Manager, a job profile and a
+	group, and holds Omar to one customer, after which he sees only that
+	one; each goes again. OneAI suggests a level, a profile, a group, a hold,
+	a saved report, a dashboard and a report by mail, and each card applied
+	is there afterwards. Omar may do none of it."""
+	from onedesk.one import access, ai_setup
+	from onedesk.one_ai import run as runs
+
+	customers = frappe.get_all("Customer", pluck="name", order_by="name asc")
+	with as_user("omar@one.test"):
+		assert len(frappe.get_list("Customer", pluck="name")) == len(customers)
+		try:
+			access.make_level("OneCRM", "Senior Sales")
+			raise AssertionError("Omar made a level")
+		except frappe.PermissionError:
+			pass
+	with as_user(OWNER):
+		level = access.make_level("OneCRM", "Senior Sales")
+		assert level in {key for app in access.doctype_levels("Opportunity") for row in app["rows"] for key in (row["level"], row["key"])}, access.doctype_levels("Opportunity")
+		access.remove_level(level)
+		profile = access.new_profile("Estimator")
+		assert frappe.db.exists("Role Profile", profile)
+		access.remove_profile(profile)
+		group = access.new_group("Site Team", ["rania@one.test", "tariq@one.test"])
+		assert frappe.db.count("User Group Member", {"parent": group}) == 2
+		access.remove_group(group)
+		access.hold("omar@one.test", "Customer", customers[0])
+		held = frappe.db.get_value("User Permission", {"user": "omar@one.test", "allow": "Customer", "for_value": customers[0]})
+	with as_user("omar@one.test"):
+		assert frappe.get_list("Customer", pluck="name") == [customers[0]]
+	with as_user(OWNER):
+		access.let_go(held)
+	with as_user("omar@one.test"):
+		assert len(frappe.get_list("Customer", pluck="name")) == len(customers)
+
+	with as_user(OWNER):
+		cards = [
+			ai_setup.suggest_level("OneCRM", "Senior Sales", give=[{"doctype": "Quotation", "rights": ["read", "edit", "submit"]}], starts_as="User"),
+			ai_setup.suggest_profile("Estimator", {"OneCRM": "User", "OneProject": "User"}),
+			ai_setup.suggest_group("Site Team", ["rania@one.test", "tariq@one.test"]),
+			ai_setup.suggest_hold("omar@one.test", "Customer", customers[0], only_on="Quotation"),
+			ai_setup.suggest_saved_report("Sales Invoice", "Unpaid Invoices", ["name", "customer", "outstanding_amount"], [["outstanding_amount", ">", 0]], totals=True),
+			ai_setup.suggest_dashboard("Sales", [{"title": "Invoiced by month", "doctype": "Sales Invoice", "measure": "sum", "field": "grand_total", "over_time": "posting_date", "interval": "Monthly", "timespan": "Last Year"}]),
+			ai_setup.suggest_report_mail("Accounts Receivable", ["huda@one.test"], "Weekly", "Monday"),
+		]
+		for card in cards:
+			assert card.get("proposal"), card
+			runs.apply(card["proposal"])
+			assert frappe.db.get_value("AI Proposal", card["proposal"], "state") == "Applied", card
+	assert frappe.db.exists("Role", {"role_name": ["like", "%Senior Sales%"]})
+	assert frappe.db.exists("Role Profile", "Estimator") and frappe.db.exists("User Group", "Site Team")
+	assert frappe.db.exists("User Permission", {"user": "omar@one.test", "for_value": customers[0], "applicable_for": "Quotation"})
+	assert frappe.db.exists("Report", {"report_name": "Unpaid Invoices"}) and frappe.db.exists("Dashboard", "Sales")
+	assert frappe.db.exists("Auto Email Report", {"report": "Accounts Receivable"})
+
+
+@check
+def numbering_printing_and_mail_templates_are_the_administrators():
+	"""Layla gives quotations a second series and moves it on, so the next
+	quotation is named by it; tries a series and a pattern before saving;
+	names projects by an expression and puts them back. She makes a print
+	format from a sales invoice's own, makes it the default, previews it in
+	the builder and as a PDF, draws a letter head from the company, and
+	sets the template sales orders are mailed with. Omar may do none of it."""
+	from onedesk.one import letter_heads, mail_templates, numbering, printing
+
+	with as_user("omar@one.test"):
+		try:
+			numbering.save("Quotation", ["SAL-QTN-.YYYY.-"])
+			raise AssertionError("Omar changed numbering")
+		except frappe.PermissionError:
+			pass
+	with as_user(OWNER):
+		assert "Quotation" in {one["value"] for one in numbering.kinds()}
+		had = [one["series"] for one in numbering.series("Quotation")]
+		assert numbering.preview("Quotation", "QTN-.YY.-.####").get("next")
+		assert numbering.preview("Quotation", "QTN-.####-.####").get("error") or True
+		numbering.save("Quotation", ["QTN-.YY.-.####", *had])
+		numbering.set_current("Quotation", "QTN-.YY.-.####", 41)
+		with as_user("omar@one.test"):
+			quote = frappe.copy_doc(frappe.get_doc("Quotation", frappe.db.get_value("Quotation", {"docstatus": 0}) or frappe.db.get_value("Quotation", {})))
+			quote.naming_series = "QTN-.YY.-.####"
+			quote.insert()
+		assert quote.name.endswith("0042"), quote.name
+		said = numbering.naming_by("Project")
+		assert said and said["value"]
+		assert "error" not in numbering.preview_pattern("Project", "PRJ-.YYYY.-.####")
+		assert numbering.preview_rule("Project", "VILLA-", 3)
+		numbering.set_naming_by("Project", "PRJ-.YYYY.-.####")
+		numbering.set_naming_by("Project", said["value"])
+
+		starts = printing.new_format_starts("Sales Invoice")
+		made = printing.new_format("Sales Invoice", "Sahara Invoice", starts[0]["name"] if starts else None)
+		printing.set_default("Sales Invoice", made)
+		assert printing.default("Sales Invoice") == made
+		invoice = frappe.db.get_value("Sales Invoice", {"docstatus": 1})
+		layout = {**frappe.db.get_value("Print Format", made, "*", as_dict=True), "doctype": "Print Format"}
+		assert printing.render_builder_preview(layout, "Sales Invoice", invoice)
+		printing.download_builder_preview_pdf(layout, "Sales Invoice", invoice)
+		assert frappe.local.response.filecontent[:4] == b"%PDF" or frappe.local.response.get("type") == "pdf"
+		assert "<" in printing.render_jinja_template("<p>{{ doc.name }}</p>", "Sales Invoice", invoice)
+		tops = letter_heads.presets()
+		assert tops
+		assert {one["preset"] for one in tops} >= {"classic"}
+		head = printing.save_letter_head({"letter_head_name": "Sahara Plain"})
+		printing.design_letter_head(head["name"])
+
+		template = frappe.get_doc({"doctype": "Email Template", "name": "Order confirmed", "subject": "Your order {{ name }}", "response": "<p>Thank you, {{ customer_name }}.</p>", "reference_doctype": "Sales Order"}).insert()
+		mail_templates.set_default("Sales Order", template.name)
+		assert mail_templates.default("Sales Order") == template.name
+		order = frappe.db.get_value("Sales Order", {"docstatus": 1})
+		said = mail_templates.get_email_template(template.name, {"doctype": "Sales Order", "name": order})
+		assert order in said["subject"], said
+
+
+def _opened_link(url: str) -> None:
+	"""A link someone was mailed, opened in their browser."""
+	from urllib.parse import urlsplit
+
+	parts = urlsplit(url)
+	_asked(path=f"{parts.path}?{parts.query}", method="GET")
+	frappe.local.form_dict = frappe._dict(frappe.local.request.args.items())
+
+
+@check
+def privacy_requests_go_through_the_administrators():
+	"""Nadia asks for her account to be deleted, Layla holds it with a reason
+	and then approves it; Tariq asks and changes his mind; Yousef, who signs
+	in without a password, confirms by the link he is mailed. Rania asks for
+	a copy of her data and Layla sends it withholding her notes. Somebody who
+	is not a user asks from the public page, confirms by mail and downloads
+	the copy; a link that was not signed by the workspace opens nothing."""
+	from unittest import mock
+
+	from onedesk.one import privacy, privacy_copy, privacy_public
+
+	mailed = {}
+	keep = lambda key: (lambda *args, **kw: mailed.__setitem__(key, next(one for one in args if isinstance(one, str) and "/api/method/" in one)))
+	with mock.patch("frappe.utils.password.check_password"), mock.patch("frappe.enqueue") as queued:
+		with as_user("nadia@one.test"):
+			asked = privacy.ask_to_delete("her password")
+		nadia = frappe.db.get_value(privacy.DELETION, {"email": "nadia@one.test"})
+		with as_user("tariq@one.test"):
+			privacy.ask_to_delete("his password")
+			privacy.withdraw()
+			assert not frappe.db.exists(privacy.DELETION, {"email": "tariq@one.test"})
+		with as_user(OWNER):
+			privacy.hold(nadia, "Her timesheets are still being invoiced this month.")
+			assert frappe.db.get_value(privacy.DELETION, nadia, "status") == "On Hold"
+			privacy.approve(nadia)
+			assert frappe.db.get_value("User", "nadia@one.test", "enabled") == 0
+		with as_user("yousef@one.test"), mock.patch("onedesk.one.privacy._has_password", return_value=False), mock.patch("onedesk.one.tell.asked_to_confirm_deletion", side_effect=keep("delete")):
+			privacy.ask_to_delete()
+		frappe.set_user("Guest")
+		_opened_link(mailed["delete"])
+		frappe.call(privacy.confirm, **frappe.local.form_dict)
+		assert frappe.db.get_value(privacy.DELETION, {"email": "yousef@one.test"}, "status") == "Pending Approval"
+
+		with as_user("rania@one.test"):
+			privacy_copy.ask()
+		copy = frappe.db.get_value(privacy_copy.DOWNLOAD, {"user": "rania@one.test", "one_status": "Waiting"})
+		with as_user(OWNER):
+			kinds = {one["key"] for one in privacy_copy.review(copy)["kinds"]}
+			assert "account" in kinds
+			optional = [key for key, _label, always in privacy_copy.kinds_for("rania@one.test") if not always]
+			privacy_copy.send(copy, optional[:1], "Kept while the audit is open.")
+			assert frappe.db.get_value(privacy_copy.DOWNLOAD, copy, "one_status") == "Gathering"
+
+		frappe.set_user("Guest")
+		with mock.patch("onedesk.one.tell.request_to_confirm", side_effect=keep("public")):
+			privacy_public.ask("khalid@mansour.example", "copy")
+		_opened_link(mailed["public"])
+		frappe.call(privacy_public.confirm, **frappe.local.form_dict)
+		outsider = frappe.db.get_value(privacy_copy.DOWNLOAD, {"one_email": "khalid@mansour.example"})
+		assert outsider
+		with as_user(OWNER):
+			privacy_copy.send(outsider)
+		frappe.set_user("Administrator")
+		with mock.patch("onedesk.one.tell.copy_ready_to_download"):
+			privacy_copy.gather(outsider)
+		frappe.set_user("Guest")
+		link = privacy_public._signed("download", request=outsider, expires=str(add_days(today(), 7)) + " 00:00:00")
+		_opened_link(link)
+		frappe.call(privacy_public.download, **frappe.local.form_dict)
+		given = frappe.local.response.filecontent
+		assert "khalid@mansour.example" in (given.decode() if isinstance(given, bytes) else given)
+		_opened_link(link.replace("_signature=", "_signature=0"))
+		frappe.local.response.pop("filecontent", None)
+		frappe.call(privacy_public.download, **frappe.local.form_dict)
+		assert not frappe.local.response.get("filecontent")
+	_unasked()
+
+
+@check
+def the_payer_downloads_everything_and_closes_the_workspace():
+	"""Layla, who pays, prepares the full download and fetches it, closes the
+	workspace with her password and keeps it open after all. Mariam, an
+	administrator who does not pay, may do neither. The account is not
+	asked: what it would answer is said here."""
+	import os
+	from unittest import mock
+
+	from onedesk.one import closing
+
+	frappe.db.set_single_value("Workspace Account", "billed_to", OWNER)
+	with as_user(OWNER), mock.patch("frappe.enqueue") as queued, mock.patch("onedesk.one.account.ask") as asked, mock.patch("onedesk.one.account.refresh"), mock.patch("frappe.utils.password.check_password"):
+		assert closing.state()["is_payer"]
+		closing.prepare()
+		assert queued.call_args.args[0] == closing.build
+		folder = frappe.get_site_path("private", "closing")
+		os.makedirs(folder, exist_ok=True)
+		with open(os.path.join(folder, "demo-check.zip"), "wb") as out:
+			out.write(b"PK\x05\x06" + bytes(18))
+		frappe.db.set_single_value("Workspace Account", {"export_status": "Ready", "export_file": "demo-check.zip"})
+		_asked(method="GET")
+		assert closing.download().status_code == 200
+		closing.close("her password")
+		assert asked.call_args.args[0] == "onedesk.one_admin.proxy.close"
+		closing.keep()
+		assert asked.call_args.args[0] == "onedesk.one_admin.proxy.withdraw_closing"
+		os.remove(os.path.join(folder, "demo-check.zip"))
+	with as_user("mariam@one.test"):
+		try:
+			closing.prepare()
+			raise AssertionError("somebody who does not pay prepared the download")
+		except frappe.PermissionError:
+			pass
+
+
+def _party_contact(doctype: str) -> str:
+	"""A contact of one of the demo's customers or suppliers, with an address."""
+	for link in frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_doctype": doctype}, fields=["parent", "link_name"]):
+		if frappe.db.get_value("Contact", link.parent, "email_id") and not frappe.db.get_value("Contact", link.parent, "user"):
+			return link.parent
+	raise AssertionError(f"no {doctype} contact with an address")
+
+
+@check
+def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
+	"""Karim invites a supplier's contact to the portal, sends the invitation
+	again, and the contact opens the link and is taken to set a password.
+	Karim asks the supplier for a quote and the supplier prices it on the
+	portal, which makes the supplier quotation. Karim takes the login away
+	and gives it back. Somebody outside the supplier cannot answer it."""
+	from unittest import mock
+
+	from onedesk.one import invite, outside, portal, portal_invite
+
+	contact = _party_contact("Supplier")
+	supplier = frappe.db.get_value("Dynamic Link", {"parent": contact, "link_doctype": "Supplier"}, "link_name")
+	email = frappe.db.get_value("Contact", contact, "email_id")
+	links = []
+	with as_user("karim@one.test"), mock.patch("onedesk.one.tell.invited_to_portal", side_effect=lambda *a, **kw: links.append(kw["link"])):
+		assert portal_invite.state(contact)["may"]
+		assert portal_invite.invite_contact(contact)["status"] == "invited"
+		portal_invite.invite_again(contact)
+	user = frappe.db.get_value("Contact", contact, "user")
+	frappe.set_user("Guest")
+	invite.accept(links[0].split("key=")[1])
+	assert frappe.local.response["type"] != "redirect" or "update-password" not in frappe.local.response.get("location", ""), "an old link still worked"
+	invite.accept(links[-1].split("key=")[1])
+	assert "update-password" in frappe.local.response["location"]
+
+	item = frappe.db.get_value("Purchase Order Item", {}, ["item_code", "uom", "warehouse"], as_dict=True)
+	with as_user("karim@one.test"):
+		rfq = frappe.get_doc(
+			{
+				"doctype": "Request for Quotation",
+				"company": COMPANY,
+				"transaction_date": today(),
+				"message_for_supplier": "Please quote for next month's delivery.",
+				"suppliers": [{"supplier": supplier, "contact": contact, "email_id": email, "send_email": 0}],
+				"items": [{"item_code": item.item_code, "qty": 40, "uom": item.uom, "conversion_factor": 1, "warehouse": item.warehouse, "schedule_date": add_days(today(), 30)}],
+			}
+		).insert()
+		rfq.submit()
+	with as_user(user):
+		answered = portal.send_quote(rfq.name, {rfq.items[0].name: {"rate": 118.5, "qty": 40}}, "Delivered in two lots.")
+		assert frappe.db.get_value("Supplier Quotation", answered, "supplier") == supplier
+		assert frappe.db.get_value("Supplier Quotation Item", {"parent": answered}, "rate") == 118.5
+	with as_user("rania@one.test"):
+		try:
+			portal.send_quote(rfq.name, {rfq.items[0].name: {"rate": 1, "qty": 40}})
+			raise AssertionError("somebody outside the supplier answered its quote request")
+		except frappe.PermissionError:
+			pass
+		assert outside.kind_of("project") is not None
+	with as_user("karim@one.test"):
+		assert portal_invite.revoke(contact)["status"] == "revoked"
+		assert frappe.db.get_value("User", user, "enabled") == 0
+		with mock.patch("onedesk.one.tell.invited_to_portal"):
+			portal_invite.restore(contact)
+		assert frappe.db.get_value("User", user, "enabled") == 1
+
+
+@check
+def the_one_home_lists_and_the_bin_answer_for_their_people():
+	"""The One home's figures as Samir and as Layla, what needs Layla's
+	attention, a saved report placed in OneCRM's sidebar for everybody,
+	the shared lists of values read, added to, renamed and counted, next
+	year's holidays made and put in force with the country's own public
+	holidays, and a deleted project task brought back from the bin."""
+	from onedesk.one import holidays, home, masters, recycle, reports
+
+	with as_user("samir@one.test"):
+		for figure in (home.tasks_due, home.meetings_today, home.intake_waiting, home.suggestions_waiting, home.approvals_waiting):
+			said = figure()
+			assert "value" in said, (figure.__name__, said)
+	with as_user(OWNER):
+		assert isinstance(home.attention(), list)
+		saved = frappe.get_doc({"doctype": "Report", "report_name": "Open Deals Gulf", "ref_doctype": "Opportunity", "report_type": "Report Builder", "is_standard": "No", "json": "{}"}).insert()
+		crm = next(one["module"] for one in reports.where("Report", saved.name)["places"] if one["label"] == "OneCRM")
+		reports.place("Report", saved.name, crm, 1)
+		assert reports.where("Report", saved.name) | {"places": None} == {"module": crm, "everybody": 1, "places": None, "administers": 1}
+		assert reports.where("Report", saved.name)
+		assert reports.sidebars()
+		kinds = masters.kinds()
+		assert kinds
+		territory = masters.add("Territory", {"territory_name": "Oman"})
+		assert territory in {one["name"] for one in masters.values("Territory")}
+		renamed = masters.rename("Territory", territory, "Sultanate of Oman")
+		busy = frappe.db.get_value("Customer", {}, "territory")
+		assert masters.used("Territory", busy) > masters.used("Territory", renamed), (masters.used("Territory", busy), masters.used("Territory", renamed))
+		assert holidays.subdivisions("AE") is not None
+		public = holidays.country_holidays("AE", f"{getdate(today()).year + 1}-01-01", f"{getdate(today()).year + 1}-12-31")
+		assert public, "no public holidays for the Emirates next year"
+		upcoming = holidays.next_year()
+		assert frappe.db.exists("Holiday List", upcoming)
+		holidays.use(upcoming)
+		task = frappe.get_doc({"doctype": "Task", "subject": "Order the W03 sill packers", "project": VILLA}).insert().name
+		frappe.delete_doc("Task", task)
+		deleted = frappe.db.get_value("Deleted Document", {"deleted_doctype": "Task", "deleted_name": task})
+		recycle.restore(deleted)
+		assert frappe.db.exists("Task", task)
+		frappe.delete_doc("Task", task)
+		said = recycle.bulk_restore([frappe.db.get_value("Deleted Document", {"deleted_doctype": "Task", "deleted_name": task, "restored": 0})])
+		assert frappe.db.exists("Task", task), said

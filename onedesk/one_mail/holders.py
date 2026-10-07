@@ -178,9 +178,7 @@ def replace(account: str, sends: int = 1) -> str:
 					doc.email_id
 				)
 			)
-		doc.default_outgoing = 1
-		doc.flags.ignore_permissions = True
-		doc.save()
+		_sends_for_everybody(doc)
 	frappe.db.set_default(WORKSPACE, account)
 	return account
 
@@ -193,11 +191,19 @@ def restore() -> str | None:
 	frappe.db.set_default(WORKSPACE, None)
 	own = addresses.ensure_workspace()
 	if own:
-		doc = frappe.get_doc("Email Account", own)
-		doc.default_outgoing = 1
-		doc.flags.ignore_permissions = True
-		doc.save()
+		_sends_for_everybody(frappe.get_doc("Email Account", own))
 	return own
+
+
+def _sends_for_everybody(doc) -> None:
+	"""The mailbox the workspace sends from. frappe's own save takes the default
+	off the one before by saving it as the reader, who may not write mailboxes,
+	so it is taken off here first."""
+	for other in frappe.get_all("Email Account", filters={"default_outgoing": 1, "name": ["!=", doc.name]}, pluck="name"):
+		frappe.db.set_value("Email Account", other, "default_outgoing", 0, update_modified=False)
+	doc.default_outgoing = 1
+	doc.flags.ignore_permissions = True
+	doc.save()
 
 
 @frappe.whitelist()
@@ -216,6 +222,8 @@ def set_signature(account: str, signature: str | None = None) -> None:
 	from onedesk.one_mail import actions
 
 	actions.require(account)
+	if not frappe.db.get_value("Email Account", account, "enable_outgoing"):
+		frappe.throw(_("{0} only receives mail, so it has no signature.").format(account))
 	if not may_sign(account):
 		frappe.throw(
 			_("Only a Workspace Administrator can change the signature of {0}.").format(account),

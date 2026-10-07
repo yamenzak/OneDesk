@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-07 00:20+0000\n"
-"PO-Revision-Date: 2026-10-07 00:20+0000\n"
+"POT-Creation-Date: 2026-10-07 01:16+0000\n"
+"PO-Revision-Date: 2026-10-07 01:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1919,11 +1919,11 @@ msgstr ""
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:730
+#: onedesk/one_hr/hiring.py:747
 msgid "After the interview: {0}"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:728
+#: onedesk/one_hr/hiring.py:745
 msgid "After the {0} interview: {1}"
 msgstr ""
 
@@ -2317,7 +2317,7 @@ msgid "An extension, a villa renovation or a small new building."
 msgstr ""
 
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
-#: onedesk/one_hr/hiring.py:518
+#: onedesk/one_hr/hiring.py:535
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr ""
 
@@ -2863,7 +2863,7 @@ msgstr ""
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:782
+#: onedesk/one_hr/hiring.py:799
 msgid "Ask next round"
 msgstr ""
 
@@ -4093,7 +4093,7 @@ msgstr ""
 msgid "By continuing you agree to the {0} and the {1}."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:778
+#: onedesk/one_hr/hiring.py:795
 msgid "By skill"
 msgstr ""
 
@@ -5277,7 +5277,7 @@ msgstr ""
 msgid "Confirm deleting your account"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:471
+#: onedesk/one_hr/hiring.py:488
 msgid "Confirm first"
 msgstr ""
 
@@ -8236,7 +8236,7 @@ msgstr ""
 msgid "Every other administrator"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:607
+#: onedesk/one_hr/hiring.py:624
 msgid "Every part is already transcribed."
 msgstr ""
 
@@ -13697,7 +13697,7 @@ msgstr ""
 msgid "Moved Back"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:871
+#: onedesk/one_hr/hiring.py:888
 msgid "Moved down from {0}% to {1}%."
 msgstr ""
 
@@ -13710,7 +13710,7 @@ msgstr ""
 msgid "Moved to {0}"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:871
+#: onedesk/one_hr/hiring.py:888
 msgid "Moved up from {0}% to {1}%."
 msgstr ""
 
@@ -15047,7 +15047,7 @@ msgstr ""
 msgid "Not pushed in this workspace."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:780
+#: onedesk/one_hr/hiring.py:797
 msgid "Not reached"
 msgstr ""
 
@@ -16180,7 +16180,7 @@ msgstr ""
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr ""
 
-#: onedesk/one_mail/holders.py:221
+#: onedesk/one_mail/holders.py:229
 msgid "Only a Workspace Administrator can change the signature of {0}."
 msgstr ""
 
@@ -16260,7 +16260,7 @@ msgstr ""
 msgid "Only administrators and an app's managers see Masters."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:829
+#: onedesk/one_hr/hiring.py:846
 msgid "Only an HR Manager can delete the sound of a recorded interview."
 msgstr ""
 
@@ -18732,7 +18732,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:481
+#: onedesk/one_hr/hiring.py:498
 msgid "Questions"
 msgstr ""
 
@@ -23247,7 +23247,7 @@ msgstr ""
 msgid "That invoice has nothing to book."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:553
+#: onedesk/one_hr/hiring.py:570
 msgid "That is not a recording."
 msgstr ""
 
@@ -23275,7 +23275,7 @@ msgstr ""
 msgid "That model is not offered."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:556
+#: onedesk/one_hr/hiring.py:573
 msgid "That part of the recording is empty or too large."
 msgstr ""
 
@@ -24882,11 +24882,11 @@ msgstr ""
 msgid "This record type doesn't exist."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:604
+#: onedesk/one_hr/hiring.py:621
 msgid "This recording cannot be transcribed again."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:551
+#: onedesk/one_hr/hiring.py:568
 msgid "This recording has already ended."
 msgstr ""
 
@@ -24968,7 +24968,7 @@ msgstr ""
 msgid "This workspace cannot be moved."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:520
+#: onedesk/one_hr/hiring.py:537
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr ""
 
@@ -28807,7 +28807,7 @@ msgstr ""
 msgid "Worth knowing before you call"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:781
+#: onedesk/one_hr/hiring.py:798
 msgid "Worth weighing"
 msgstr ""
 
@@ -30402,7 +30402,7 @@ msgstr ""
 msgid "there is no field {0} for the barcode"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:688
+#: onedesk/one_hr/hiring.py:705
 msgid "this part could not be transcribed"
 msgstr ""
 
@@ -30932,7 +30932,7 @@ msgstr ""
 msgid "{0} does not have {1} credits to spend."
 msgstr ""
 
-#: onedesk/one_storage/share.py:126
+#: onedesk/one_storage/share.py:127
 msgid "{0} doesn't have access to {1}."
 msgstr ""
 
@@ -31825,6 +31825,10 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
 msgid "{0} once"
+msgstr ""
+
+#: onedesk/one_mail/holders.py:226
+msgid "{0} only receives mail, so it has no signature."
 msgstr ""
 
 #: onedesk/one_crm/heads.py:121

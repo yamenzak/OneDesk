@@ -347,6 +347,23 @@ def scheduled(doc, method=None) -> None:
 		_later("onedesk.one_hr.hiring.prepare", f"prepare::{doc.name}", interview=doc.name)
 
 
+#: hrms's own role for whoever holds an interview: it opens the interview and
+#: gives feedback on it.
+INTERVIEWER = "Interviewer"
+
+
+def interviewers(doc, method=None) -> None:
+	"""Interview on_update: everybody named to hold it may open it, by hrms's
+	own Interviewer role. One gives roles by app, and no app gives this one,
+	so a manager named on an interview could not open it."""
+	for user in {row.interviewer for row in doc.get("interview_details") or [] if row.interviewer}:
+		if INTERVIEWER in frappe.get_roles(user) or not frappe.db.get_value("User", user, "enabled"):
+			continue
+		person = frappe.get_doc("User", user)
+		person.flags.ignore_permissions = True
+		person.add_roles(INTERVIEWER)
+
+
 @frappe.whitelist()
 def prepare_again(interview: str) -> None:
 	frappe.get_doc("Interview", interview).check_permission("write")

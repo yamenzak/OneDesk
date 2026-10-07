@@ -114,7 +114,8 @@ def unshare(node: str, user: str) -> None:
 	item = api._item(node)
 	if user != frappe.session.user:
 		_shareable(node)
-	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True})
+	# Checked above as OneCloud reads it; frappe would ask for its own Share right.
+	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True, "ignore_share_permission": True})
 	live.announce(item)
 	ns.forget()
 

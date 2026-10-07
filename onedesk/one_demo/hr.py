@@ -171,6 +171,10 @@ def _attendance():
 			employee = _employee(first)
 			if frappe.db.exists("Attendance", {"employee": employee, "attendance_date": day}):
 				continue
+			# A day somebody asked off is not marked here: hrms refuses any
+			# answer to a leave application over a day marked present.
+			if frappe.db.exists("Leave Application", {"employee": employee, "from_date": ["<=", day], "to_date": [">=", day], "docstatus": ["<", 2]}):
+				continue
 			status = "Absent" if (back + i) % 17 == 0 else "Half Day" if (back + i) % 11 == 0 else "Present"
 			try:
 				make({"doctype": "Attendance", "employee": employee, "attendance_date": day, "status": status, "company": COMPANY}, submit=True)

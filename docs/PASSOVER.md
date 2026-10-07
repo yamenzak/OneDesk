@@ -556,6 +556,30 @@ Up next, in this order:
      shared link, a second version of a drawing, a file request to a
      supplier) and in HR an interview, shift requests, an attendance
      request, an overtime type and an appraisal.
+   - OneMail, OneCloud and OneHR are now reached in full, and the One
+     module is down from 168 to 77, so 77 are left in all. Checks for
+     Settings, access, numbering, printing, privacy, closing, the portal and
+     the home were added.
+   - Found on the way: a workspace administrator could not make a connected
+     mailbox the one the workspace sends from, nor put the workspace's own
+     address back. frappe takes the default off the old mailbox by saving it
+     as the person, who may not write mailboxes. One now does that step
+     itself (`one_mail/holders.py`).
+   - Found on the way: Samir could share his own file and not take Rania off
+     it again. The removal passed frappe the wrong switch and frappe asked for
+     its own Share right (`one_storage/share.py`).
+   - Found on the way: somebody named to hold an interview could not open it
+     unless they were in HR. hrms opens interviews to its Interviewer role,
+     and no app of One's gives it. Everybody named on an interview now gets
+     that role when it is saved (`one_hr/hiring.py`).
+   - Found on the way: setting the signature of an address that only receives
+     said "Only a Workspace Administrator can change the signature", to a
+     Workspace Administrator. It now says the address only receives.
+   - Found on the way: the demo marked Yousef present on the day he asked off
+     sick, and hrms then refuses any answer to that leave, Yes or No. The demo
+     no longer marks a day somebody asked off.
+   - The checks now clear frappe's cache after each one, since a rolled-back
+     change could stay cached and reach the next check.
    - Key screens are opened in a browser as their people
      (`tests/browser/`, run against the demo). Every desk page of ours is on
      the list. Guarded (`screens-opened`).
@@ -569,6 +593,9 @@ Noticed along the way, for the screen it belongs to:
 - **OneIntake**: once, while the demo was built, attaching a file to a
   record was refused with "You do not have permission to access this file".
   It did not happen again.
+- **OneHR**: hrms refuses any answer to a leave application over a day
+  already marked present, so HR cannot say No to it either. The person sees
+  hrms's message about attendance.
 - **The demo company** sends no mail. It has no outgoing mailbox, so every
   notification a person chose to have by mail lands in the Error Log as
   "Failed to send notification email".

@@ -19,18 +19,18 @@ ELSEWHERE = {"one_admin": "the operator's console runs on the admin site"}
 #: What each module still has that no demo check reaches. Lower it when a
 #: check reaches one; it may never rise.
 STILL = {
-	"one": 168,
+	"one": 77,
 	"one_ai": 0,
 	"one_book": 0,
 	"one_calendar": 0,
 	"one_crm": 0,
-	"one_hr": 62,
+	"one_hr": 0,
 	"one_intake": 0,
 	"one_inventory": 0,
 	"one_legal": 0,
-	"one_mail": 38,
+	"one_mail": 0,
 	"one_project": 0,
-	"one_storage": 54,
+	"one_storage": 0,
 	"one_studio": 0,
 	"one_task": 0,
 }
