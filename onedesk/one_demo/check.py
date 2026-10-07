@@ -1008,6 +1008,18 @@ def one_boards_open_on_frappes_new_kanban():
 
 
 @check
+def oneai_is_not_offered_as_a_recipient():
+	"""The Email dialog suggests contacts. OneAI's account has none, so it is
+	never offered as somebody to write to."""
+	from frappe.email import get_contact_list
+
+	from onedesk.one_hr import hiring
+
+	assert not frappe.db.exists("Contact", {"user": hiring.AUTHOR}), "OneAI has a contact"
+	assert hiring.AUTHOR not in [one.value for one in get_contact_list("oneai")], "OneAI is offered as a recipient"
+
+
+@check
 def onecrm_leads_and_deals_as_omar_works_them():
 	"""Omar's pipeline figures and board, a deal's and a lead's overview, a
 	call logged and a step done, a lead from the web form taken, a lead that

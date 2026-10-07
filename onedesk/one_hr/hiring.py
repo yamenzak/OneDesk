@@ -48,8 +48,15 @@ READABLE = 300
 def ensure() -> None:
 	"""The OneAI user every OneAI comment is written by. The hiring switches
 	are seeded with the rest of HR Settings' in `one_hr/policy.py`."""
-	if frappe.db.exists("User", AUTHOR):
-		return
+	if not frappe.db.exists("User", AUTHOR):
+		_author()
+	# frappe gives every new user a Contact, which the Email dialog offers as
+	# a recipient. OneAI is nobody to write to.
+	for contact in frappe.get_all("Contact", filters={"user": AUTHOR}, pluck="name"):
+		frappe.delete_doc("Contact", contact, ignore_permissions=True, force=True)
+
+
+def _author() -> None:
 	user = frappe.get_doc(
 		{
 			"doctype": "User",
