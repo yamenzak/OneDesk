@@ -402,7 +402,7 @@ const contracts = computed(() =>
   props.said.contracts.map((one) => ({
     key: one.name,
     label: one.with,
-    sub: [one.name, one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : ""].filter(Boolean).join(" · "),
+    sub: [one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : ""].filter(Boolean).join(" · "),
     dot: !one.signed ? "orange" : one.status === "Active" ? "green" : "gray",
     dim: !one.signed ? __("Not signed yet") : one.status === "Inactive" ? __("Ended") : __("Signed"),
     value: one.ends ? date(one.ends) : "",

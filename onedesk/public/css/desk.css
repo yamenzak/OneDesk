@@ -875,3 +875,22 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	   and the record's name after it is the one that shortens. */
 	flex-shrink: 0;
 }
+
+/* A record's own page (the project's, the template's) keeps its side panel in
+   place while the page scrolls, as frappe does on routes starting "Form". */
+body[data-route^="project-view"] .layout-side-section,
+body[data-route^="project-template-view"] .layout-side-section {
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: calc(100vh - var(--page-head-height));
+	position: sticky;
+	top: var(--page-head-height);
+	align-self: flex-start;
+}
+@media (max-width: 991px) {
+	body[data-route^="project-view"] .layout-side-section,
+	body[data-route^="project-template-view"] .layout-side-section {
+		position: relative;
+		height: auto;
+	}
+}
