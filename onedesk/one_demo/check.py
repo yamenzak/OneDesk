@@ -1206,7 +1206,7 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 		assert tree.milestones([VILLA, TOWER])
 		assert "Window schedule.csv" in {one["file_name"] for one in view.files(VILLA)}
 		assert media.featured(VILLA)[0]["kind"] == "photo"
-		assert view.picker("PROJ-0002")["family"]
+		assert VILLA not in {one["name"] for one in view.picker("PROJ-0002")["open"]}, "the parent is in the breadcrumb already"
 		assert frappe.db.get_value("Project", "PROJ-0002", "project_name") == "Staircase balustrade", "extra work is called what it was quoted as"
 		assert view.to_quote("Acme Holdings") == ACME and chain.customer_project("Acme Holdings") == ACME
 		assert view.to_quote("Mansour & Sons") is None, "two open projects, so neither is guessed"

@@ -1441,34 +1441,24 @@ def files(
 @frappe.whitelist()
 @frappe.read_only()
 def picker(project: Annotated[str, "The project whose page is open."]) -> dict:
-	"""Where the project's name in its breadcrumb goes: its parent and
-	sub-projects, then the reader's other open projects, the latest first."""
+	"""Where the project's name in its breadcrumb goes: the reader's other
+	open projects, the latest first. Its parent is already in the breadcrumb
+	and its sub-projects are in the step after its name, so neither is here."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
 	parent = frappe.db.get_value("Project", project, "one_parent")
-	family = frappe.get_list(
-		"Project",
-		filters={"name": ["!=", project]},
-		or_filters={"name": parent or "", "one_parent": project},
-		fields=["name", "project_name as title", "one_parent"],
-		order_by="project_name asc",
-	)
-	family.sort(key=lambda one: one.name != parent)
-	seen = {project, *(one.name for one in family)}
+	skip = {project, *(tree.children(tree.parents()).get(project) or []), *([parent] if parent else [])}
 	open_ = frappe.get_list(
 		"Project",
 		filters={
 			"status": "Open",
 			"project_type": ["!=", "Employee Boarding"],
-			"name": ["not in", list(seen)],
+			"name": ["not in", list(skip)],
 		},
 		fields=["name", "project_name as title"],
 		order_by="modified desc",
 		limit_page_length=PICKED,
 	)
-	return {
-		"family": [{"name": one.name, "title": one.title} for one in family],
-		"open": [{"name": one.name, "title": one.title} for one in open_],
-	}
+	return {"open": [{"name": one.name, "title": one.title} for one in open_]}
 
 
 #: How many open projects the breadcrumb's menu lists.

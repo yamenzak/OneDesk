@@ -27,9 +27,8 @@ A project's page and a template's page have no panel. There, **Projects** or
 **Templates** at the top goes to another of the four places. **Rates**, what an hour of each
 activity costs and is billed at, is in the ··· menu on **Projects**.
 
-On a project's page, its name at the top opens a list of other projects: its
-parent and sub-projects first, then your other open projects, and **All
-Projects**.
+On a project's page, its name at the top opens your other open projects and
+**All Projects**. Its sub-projects are in the step after its name.
 
 Tasks are in OneTask, and a project's own tasks are on its page. Project
 types are in One's **Masters**.
