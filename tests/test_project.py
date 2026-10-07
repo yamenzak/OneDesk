@@ -387,11 +387,6 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 		'"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
 	)
 	assert '"Project": ["onedesk.one_project.updates.timeline"]' in HOOKS
-	asked = _body((PROJECT / "tell.py").read_text(), "update_asked")
-	assert "tell.update_asked(" in _body(source, "_ask")
-	assert 'notify.notify(\n\t\t"Project Update Asked"' in asked and "if _mail()" in asked, (
-		"asked in One, mailed where mail goes"
-	)
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
 	assert "Hourly" not in frequency["value"]
@@ -419,16 +414,12 @@ def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
 		'{"doctype": "Portal User", **where, "user": doc.user}'
 		in (tree.APP / "one" / "portal.py").read_text()
 	), "the only thing ERPNext's portal reads"
-	source = (PROJECT / "portal.py").read_text()
-	assert "has_website_permission(doc" in _body(source, "may_see")
 	page = (tree.APP / "www" / "projects.py").read_text()
 	assert "portal.view(project)" in page, "One's page at ERPNext's address"
 	html = (tree.APP / "www" / "projects.html").read_text()
 	assert "_assign" not in html and "timesheet" not in html.lower() and "/tasks/new" not in html, (
 		"nothing of the team's"
 	)
-	fields = source.split('"Task",', 1)[1].split("order_by", 1)[0]
-	assert "_assign" not in fields and "owner" not in fields
 
 
 def test_a_tasks_hours_fall_in_the_days_of_the_week_they_cover():
@@ -474,9 +465,6 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	}
 	assert custom["one_health"]["options"].split("\n") == ["On Track", "At Risk", "Off Track"]
 	assert custom["one_manager"]["options"] == "User" and custom["one_manager"]["default"] == "__user"
-	assert '"one_manager": user' in _body((PROJECT / "members.py").read_text(), "visible"), (
-		"who runs it sees it"
-	)
 	assert "doc.one_health" in (PROJECT / "heads.py").read_text(), "health leads the band"
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
@@ -611,11 +599,6 @@ def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
 
 
 def test_oneai_reads_a_project_as_its_page_does():
-	ai = (PROJECT / "ai.py").read_text()
-	assert (
-		"overview.overview(project)" in ai and 'frappe.has_permission("Project", "read", doc=project)' in ai
-	)
-	assert "frappe.get_list(" in ai, "tasks are read as the reader"
 	for tool in ("project_facts", "projects_needing_attention"):
 		assert f'"onedesk.one_project.ai.{tool}"' in HOOKS
 	assert '"onedesk.one_project.ai.SUGGESTIONS"' in HOOKS
@@ -1264,8 +1247,6 @@ def test_a_retainer_tells_whoever_runs_it():
 	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= set(tree.notifications())
 	assert '"onedesk.one_project.tell.retainer_months"' in HOOKS
 	assert '"on_submit": "onedesk.one_project.tell.hours_used"' in HOOKS
-	tell = (PROJECT / "tell.py").read_text()
-	assert "retainer.invoiced(one.name, last)" in tell and "one.one_manager or one.owner" in tell
 	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
 	assert "**Retainer Month to Invoice**" in readme and "**Retainer Hours Used**" in readme
 
@@ -1438,7 +1419,6 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	# The cover follows the folder, and hands over before a delete frappe would refuse.
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert hooks.count('"onedesk.one_project.media.changed"') == 3
-	assert "media.handing_over(self)" in (tree.APP / "one_storage" / "file.py").read_text()
 	# The portal shows it; the agreements say who can open it.
 	assert '"media": media.shown(project)' in (PROJECT / "portal.py").read_text()
 	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
@@ -1985,9 +1965,6 @@ def test_a_day_on_site_is_a_day_on_the_project():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert '"on_submit": "onedesk.one_project.site_time.attended"' in hooks
 	assert '"on_cancel": "onedesk.one_project.site_time.cancelled"' in hooks
-	site = (PROJECT / "site_time.py").read_text()
-	# Only the site's own circles count, not every clock place in the workspace.
-	assert 'filters={"shift_location": site' in site and "gates._zones" not in site
 	timesheet = json.loads((PROJECT / "custom" / "timesheet.json").read_text())
 	assert timesheet["custom_fields"][0]["fieldname"] == "one_attendance"
 

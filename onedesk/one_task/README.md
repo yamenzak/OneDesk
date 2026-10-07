@@ -109,9 +109,10 @@ monthly and so on. Each time, a new task is created:
 
 - due on the day it repeats
 - open, with its checklist unticked
-- assigned to the same people
+- assigned to the same people, or to whoever did it if it was done
 
-Stop repeating from the same menu.
+Stop repeating from the same menu. Anyone who may change a task may set it to
+repeat or stop it.
 
 ## Who is on a task
 

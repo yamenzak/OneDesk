@@ -26,36 +26,19 @@ def test_both_permission_hooks_are_wired_and_the_grant_comes_first():
 
 
 def test_a_task_with_no_project_is_seen_by_its_own_people_only():
-	source = (TASK / "access.py").read_text()
-	query = _body(source, "query")
-	assert "`tabTask`.`owner`" in query and "`tabTask`.`_assign` like" in query
-	assert "ifnull(`tabTask`.`project`, '') != ''" in query, "only project tasks widen"
-	allowed = _body(source, "allowed")
-	assert "return in_view(doc.project, user)" in allowed
-	assert "bool(project) and sees_projects(user) and members.sees(project, user)" in _body(source, "in_view")
-	assert "members.visible(user)" in query, "a project task is seen through its project's members"
+	# Who reads which task is checked on the demo
+	# (onetask_a_task_is_its_peoples_and_ends_as_they_say).
+	allowed = _body((TASK / "access.py").read_text(), "allowed")
 	assert 'ptype != "delete"' in allowed, "given to me is not mine to delete"
-	assert "SYSTEM_USER_ROLE" in _body(source, "sees_projects"), "Desk User is not a projects role"
 
 
 def test_every_to_do_about_nothing_becomes_a_task():
-	source = (TASK / "capture.py").read_text()
-	made = _body(source, "todo_made")
-	assert "if doc.reference_type or doc.reference_name" in made
-	assert 'doc.reference_type, doc.reference_name = "Task", task.name' in made
-	assert "task.flags.one_assigned = True" in made, "the to-do is already the assignment"
-	assert "doc.flags.one_assigned" in _body(source, "task_made")
 	for event, path in (
 		("before_insert", "onedesk.one_task.capture.todo_made"),
 		("on_update", "onedesk.one_task.capture.todo_changed"),
 		("after_insert", "onedesk.one_task.capture.task_made"),
 	):
 		assert f'"{event}": "{path}"' in HOOKS
-
-
-def test_only_a_task_in_no_project_is_completed_by_its_last_assignment():
-	changed = _body((TASK / "capture.py").read_text(), "todo_changed")
-	assert "task.project" in changed and '"status": "Open"' in changed
 
 
 def test_the_calendar_does_not_show_a_task_twice():
@@ -165,10 +148,6 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 
 
 def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
-	source = (TASK / "task.py").read_text()
-	body = _body(source, "recurring")
-	assert "auto_repeat_doc.next_schedule_date" in body and '"status": "Open"' in body and "step.done = 0" in body
-	assert "doc.flags.one_assign_to" in _body((TASK / "capture.py").read_text(), "task_made")
 	assert '"on_recurring": "onedesk.one_task.task.recurring"' in HOOKS
 	custom = json.loads((TASK / "custom" / "task.json").read_text())
 	assert any(p["property"] == "allow_auto_repeat" and p["value"] == "1" for p in custom["property_setters"])
@@ -188,8 +167,6 @@ def test_a_task_given_is_said_in_ours_and_a_task_done_is_told():
 	assert '"onedesk.one_task.tell.done"' in HOOKS and '"onedesk.one_task.tell.today"' in HOOKS
 	given = _body((TASK / "tell.py").read_text(), "given")
 	assert 'doc.type != "Assignment"' in given and '"status": "Open"' in given, "a removal stays frappe's"
-	done = _body((TASK / "tell.py").read_text(), "done")
-	assert "people.discard(frappe.session.user)" in done, "nobody is told of what they did"
 
 
 def test_oneai_only_suggests_a_task_and_its_steps():

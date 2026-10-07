@@ -44,10 +44,17 @@ def recurring(doc, method=None, reference_doc=None, auto_repeat_doc=None, **kwar
 	doc.update({"act_start_date": None, "act_end_date": None, "actual_time": 0})
 	for step in doc.get("one_steps") or []:
 		step.done = 0
-	# The copy carries the list of people but not their assignments, which are
-	# ToDos; capture.task_made gives it to them properly once it is saved.
-	people = frappe.db.get_value("Task", reference_doc.name, "_assign") if reference_doc else None
-	doc.flags.one_assign_to = frappe.parse_json(people) if people else None
+	# capture.task_made gives the copy to these people once it is saved. A task
+	# done has emptied its list, so then it is whoever closed its ToDos.
+	people = None
+	if reference_doc:
+		people = frappe.parse_json(frappe.db.get_value("Task", reference_doc.name, "_assign") or "[]") or frappe.get_all(
+			"ToDo",
+			filters={"reference_type": "Task", "reference_name": reference_doc.name, "status": "Closed"},
+			pluck="allocated_to",
+			distinct=True,
+		)
+	doc.flags.one_assign_to = people or None
 	doc._assign = None
 
 
@@ -76,3 +83,27 @@ def add_step(task: str, step: str) -> str:
 	row = doc.append("one_steps", {"step": step})
 	doc.save()
 	return row.name
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def repeat_of(task: str) -> dict | None:
+	"""How a task repeats, for whoever may read the task: its Auto Repeat is
+	only its maker's to open."""
+	frappe.has_permission("Task", "read", doc=task, throw=True)
+	repeat = frappe.db.get_value("Task", task, "auto_repeat")
+	return frappe.db.get_value("Auto Repeat", repeat, ["frequency", "disabled"], as_dict=True) if repeat else None
+
+
+@frappe.whitelist(methods=["POST"])
+def stop_repeat(task: str) -> None:
+	"""Stop a task repeating: whoever may change the task may stop it, not
+	only whoever set it to repeat."""
+	frappe.has_permission("Task", "write", doc=task, throw=True)
+	repeat = frappe.db.get_value("Task", task, "auto_repeat")
+	if not repeat:
+		return
+	doc = frappe.get_doc("Auto Repeat", repeat)
+	doc.disabled = 1
+	doc.flags.ignore_permissions = True
+	doc.save()

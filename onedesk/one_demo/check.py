@@ -737,6 +737,78 @@ def onetask_works_for_whoever_has_tasks():
 
 
 @check
+def onetask_a_task_is_its_peoples_and_ends_as_they_say():
+	"""A task of nobody's project is its maker's and given to them, and nobody
+	else reads it, not even a manager; a project's task is read by the
+	project's people and nobody outside it. A to-do about nothing becomes a
+	task, and ticking off its last to-do completes it, where a project's task
+	waits for its project. Who gave a task hears it done, the one who did it
+	does not. A repeat is due again, its steps undone, and given to the same
+	people."""
+	from frappe.desk.form.assign_to import add as assign
+
+	from onedesk.one_task import task
+
+	with as_user("rania@one.test"):
+		own = frappe.get_doc({"doctype": "Task", "subject": "Book the scaffold inspection"}).insert()
+	assert frappe.parse_json(frappe.db.get_value("Task", own.name, "_assign")) == ["rania@one.test"]
+	for user, may in (("rania@one.test", True), ("samir@one.test", False), ("tariq@one.test", False)):
+		assert bool(frappe.has_permission("Task", "read", doc=own.name, user=user)) == may, user
+	villa_task = frappe.get_all("Task", filters={"project": VILLA, "is_group": 0}, pluck="name", limit=1)[0]
+	for user, may in (("tariq@one.test", True), ("karim@one.test", False), ("omar@one.test", False)):
+		assert bool(frappe.has_permission("Task", "read", doc=villa_task, user=user)) == may, user
+
+	with as_user("rania@one.test"):
+		todo = frappe.get_doc({"doctype": "ToDo", "description": "Order more sealant", "allocated_to": "rania@one.test"}).insert()
+	made = todo.reference_name
+	assert todo.reference_type == "Task" and frappe.db.get_value("Task", made, "subject") == "Order more sealant"
+	assert frappe.db.count("ToDo", {"reference_type": "Task", "reference_name": made}) == 1, "the to-do is the assignment"
+	with as_user("rania@one.test"):
+		todo.reload()
+		todo.status = "Closed"
+		todo.save()
+	assert frappe.db.get_value("Task", made, "status") == "Completed"
+
+	with as_user("samir@one.test"):
+		assign({"doctype": "Task", "name": villa_task, "assign_to": ["tariq@one.test"]})
+	was = frappe.db.get_value("Task", villa_task, "status")
+	with as_user("tariq@one.test"):
+		given = frappe.get_doc("ToDo", {"reference_name": villa_task, "allocated_to": "tariq@one.test", "status": "Open"})
+		given.status = "Closed"
+		given.save()
+	assert frappe.db.get_value("Task", villa_task, "status") == was, "a project's task waits for its project"
+
+	with as_user("samir@one.test"):
+		job = frappe.get_doc({"doctype": "Task", "subject": "Measure the stair void", "project": VILLA, "exp_end_date": add_days(today(), 3)}).insert()
+		assign({"doctype": "Task", "name": job.name, "assign_to": ["rania@one.test"]})
+		task.add_step(job.name, "Take the laser")
+	with _Told() as told, as_user("rania@one.test"):
+		done = frappe.get_doc("Task", job.name)
+		done.status = "Completed"
+		done.save()
+	assert told.to("Task Done") == {"samir@one.test"}, told.said
+
+	from frappe.automation.doctype.auto_repeat.auto_repeat import make_auto_repeat
+
+	with as_user("samir@one.test"):
+		repeat = make_auto_repeat("Task", job.name, "Weekly")
+		again = repeat.make_new_document()
+	assert again.status == "Open" and not any(step.done for step in again.one_steps), again.as_dict()
+	assert frappe.parse_json(frappe.db.get_value("Task", again.name, "_assign")) == ["rania@one.test"], "the repeat of a task done goes to who did it"
+	frappe.db.set_value("Task", job.name, "auto_repeat", repeat.name)
+	with as_user("rania@one.test"):
+		assert task.repeat_of(job.name)["frequency"] == "Weekly", "whoever reads the task reads how it repeats"
+		task.stop_repeat(job.name)
+	assert frappe.db.get_value("Auto Repeat", repeat.name, "disabled") == 1
+	with as_user("omar@one.test"):
+		try:
+			make_auto_repeat("Task", own.name, "Daily")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody repeated a task they may not change")
+
+@check
 def onecalendar_shows_each_person_their_week():
 	"""The week's events, days off and layers as the team sees them, an event's
 	card, one moved, a feed link made, renewed, read and stopped, and OneAI's
@@ -1260,6 +1332,80 @@ def oneproject_money_reads_as_its_documents_and_its_people_are_told():
 			assert not billing.invoices(VILLA)["invoices"]
 		except frappe.PermissionError:
 			pass
+
+@check
+def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
+	"""A project's team is asked for an update in One. A retainer whose last
+	month is not invoiced is told to whoever runs it. OneAI reads a project
+	only for somebody who may open it. The villa's customer, invited to the
+	portal, reads the villa and not another customer's project, and sees
+	nothing of who in the team does what."""
+	from unittest import mock
+
+	from onedesk.one import portal_invite
+	from onedesk.one_project import ai, portal, tell, updates
+
+	with _Told() as told:
+		updates._ask(VILLA)
+	assert _team(VILLA) - {"yousef@one.test"} <= told.to("Project Update Asked"), told.said
+	assert frappe.db.exists("Project Update", {"project": VILLA, "date": today()})
+
+	frappe.db.set_value("Sales Invoice", {"project": "PROJ-0012", "one_retainer_month": str(add_months(get_first_day(today()), -1))}, "one_retainer_month", None)
+	with _Told() as told:
+		tell.retainer_months()
+	assert "samir@one.test" in told.to("Retainer Month to Invoice"), told.said
+
+	with as_user("rania@one.test"):
+		assert ai.project_facts(VILLA)["title"] == "Mansour Villa Windows and Doors"
+		assert "error" in ai.project_facts(MARINA), "a project she is not on"
+
+	contact = next(one.parent for one in frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_doctype": "Customer", "link_name": "Mansour & Sons"}, fields=["parent"]))
+	with as_user("omar@one.test"), mock.patch("onedesk.one.tell.invited_to_portal"):
+		assert portal_invite.invite_contact(contact)["status"] == "invited"
+	khalid = frappe.db.get_value("Contact", contact, "user")
+	with as_user(khalid):
+		said = portal.view(VILLA)
+		assert said["tasks"] and not {"_assign", "owner"} & set(said["tasks"][0]), said["tasks"][0]
+		try:
+			portal.view(TOWER)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a customer read another customer's project")
+
+@check
+def oneproject_a_day_on_site_and_the_projects_pictures():
+	"""Where the tower counts its time by attendance on its site, a day Tariq
+	clocked in there is a day on the tower, and cancelling the attendance
+	takes it off again. The villa's Cover is shown first, and deleting it
+	hands the Cover on rather than leaving the project pointing at nothing."""
+	from onedesk.one_project import hours, media
+
+	site = frappe.get_doc({"doctype": "Shift Location", "location_name": "Bayview Tower site", "latitude": 25.0805, "longitude": 55.1403, "checkin_radius": 200}).insert(ignore_permissions=True)
+	frappe.db.set_value("Project", TOWER, {"one_time": hours.ATTENDANCE, "one_site": site.name})
+	tariq = _employee("Tariq")
+	day = next(
+		one
+		for one in (add_days(today(), -n) for n in range(1, 90))
+		if not frappe.db.exists("Attendance", {"employee": tariq, "attendance_date": one, "docstatus": ["<", 2]})
+		and not frappe.db.exists("Leave Application", {"employee": tariq, "from_date": ["<=", one], "to_date": [">=", one], "docstatus": ["<", 2]})
+	)
+	frappe.get_doc({"doctype": "Employee Checkin", "employee": tariq, "log_type": "IN", "time": f"{day} 07:40:00", "latitude": 25.0806, "longitude": 55.1402}).insert(ignore_permissions=True)
+	with as_user("mariam@one.test"):
+		attendance = frappe.get_doc({"doctype": "Attendance", "employee": tariq, "attendance_date": day, "status": "Present", "company": COMPANY}).insert()
+		attendance.submit()
+	sheet = frappe.db.get_value("Timesheet", {"one_attendance": attendance.name, "docstatus": 1})
+	assert sheet and frappe.db.get_value("Timesheet Detail", {"parent": sheet}, "project") == TOWER, sheet
+	with as_user("mariam@one.test"):
+		attendance.reload()
+		attendance.cancel()
+	assert frappe.db.get_value("Timesheet", sheet, "docstatus") == 2, "the day went with its attendance"
+
+	cover = frappe.db.get_value("Project", VILLA, "one_cover")
+	assert cover and media.shown(VILLA)[0]["url"] == cover
+	with as_user("samir@one.test"):
+		frappe.delete_doc("File", frappe.db.get_value("File", {"file_url": cover, "attached_to_name": VILLA}))
+	assert frappe.db.get_value("Project", VILLA, "one_cover") != cover, "the Cover still pointed at a deleted photo"
 
 def _png() -> bytes:
 	from onedesk.one_demo.projects import _photo

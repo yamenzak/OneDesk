@@ -734,8 +734,8 @@ onedesk.project.task_details = async (task, modified, done) => {
 onedesk.project.repeat_task = (task, done) =>
 	frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }, reload_doc: () => done?.() });
 
-onedesk.project.stop_repeat = async (repeat, done) => {
-	await frappe.xcall("frappe.client.set_value", { doctype: "Auto Repeat", name: repeat, fieldname: "disabled", value: 1 });
+onedesk.project.stop_repeat = async (task, done) => {
+	await frappe.xcall("onedesk.one_task.task.stop_repeat", { task });
 	done?.();
 };
 

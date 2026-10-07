@@ -40,7 +40,7 @@ def task_made(doc, method=None) -> None:
 		return
 	if doc.project or doc.is_template or doc.flags.one_assigned or frappe.flags.in_install or frappe.flags.in_migrate:
 		return
-	if frappe.parse_json(doc.get("_assign")) or doc.owner in ("Administrator", "Guest"):
+	if frappe.parse_json(doc.get("_assign") or "[]") or doc.owner in ("Administrator", "Guest"):
 		return
 	assign({"doctype": "Task", "name": doc.name, "assign_to": [doc.owner]})
 

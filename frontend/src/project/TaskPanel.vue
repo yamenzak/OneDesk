@@ -132,7 +132,7 @@ async function load() {
   const got = await call("frappe.client.get", { doctype: "Task", name });
   if (props.task?.name !== name) return;
   doc.value = got;
-  repeat.value = got.auto_repeat ? await call("frappe.client.get_value", { doctype: "Auto Repeat", filters: got.auto_repeat, fieldname: ["frequency", "disabled"] }) : null;
+  repeat.value = got.auto_repeat ? await call("onedesk.one_task.task.repeat_of", { task: name }) : null;
 }
 watch(() => [props.task?.name, props.task?.modified], load, { immediate: true });
 
@@ -195,7 +195,7 @@ const menu = computed(() =>
   [
     props.canWrite && { label: __("Edit Details"), icon: "lucide-pencil", onClick: details },
     props.canWrite && !doc.value?.auto_repeat && { label: __("Repeat"), icon: "lucide-repeat", onClick: () => onedesk().project.repeat_task(props.task.name, () => (load(), emit("changed"))) },
-    props.canWrite && doc.value?.auto_repeat && !repeat.value?.disabled && { label: __("Stop Repeating"), icon: "lucide-repeat", onClick: () => onedesk().project.stop_repeat(doc.value.auto_repeat, load) },
+    props.canWrite && doc.value?.auto_repeat && !repeat.value?.disabled && { label: __("Stop Repeating"), icon: "lucide-repeat", onClick: () => onedesk().project.stop_repeat(props.task.name, load) },
     { label: __("Open Full Form"), icon: "lucide-external-link", onClick: () => go(`/desk/task/${props.task.name}`) },
   ].filter(Boolean)
 );

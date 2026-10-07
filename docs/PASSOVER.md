@@ -622,6 +622,25 @@ Up next, in this order:
      at the week's draft, so time logged on a day after its timesheet was
      sent started at nine again and ERPNext refused it. It now starts after
      the last entry on any of the person's timesheets (`one_project/hours.py`).
+   - Then the rest of OneProject and OneTask: a team asked for its update, a
+     retainer's month to invoice, OneAI reading only a project its reader may
+     open, the villa's customer on the portal reading the villa and nothing
+     of the team's, a day on the tower's site becoming a day on the tower,
+     the Cover handed on when its photo goes, who reads which task, a to-do
+     about nothing becoming a task, and who hears a task done.
+   - Found on the way: only the books could make a task repeat. Repeat on a
+     task is frappe's Auto Repeat, which frappe gives only to the accounts
+     roles, so a project manager pressing it was refused, and the task panel
+     could not say how a task repeats to anybody else. Every desk user may
+     now keep repeats of their own (frappe still asks that they may change
+     what repeats), the panel reads it through the task, and whoever may
+     change the task may stop it (`one_task/access.py`, `one_task/task.py`).
+   - Found on the way: a repeat of a task already done was given to nobody.
+     Doing a task closes its to-dos and empties its list of people, and the
+     repeat copied the empty list. It now goes to whoever did it.
+   - Found on the way: a task done could not be opened by its project's
+     people. Its list of people was then empty text, which the check on who
+     may read a task could not read (`one_task/access.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 
