@@ -65,7 +65,6 @@ def test_a_thread_is_a_message_id_never_a_subject():
 	assert space["ids"]("<a@x> <b@y>\n <c@z>") == ["a@x", "b@y", "c@z"]
 	assert space["pick"](["a@x", "b@y"], {"b@y": "root@x"}) == "root@x"
 	assert space["pick"](["a@x"], {}) is None
-	assert "subject" not in (MAIL / "threads.py").read_text().split('"""', 2)[2].lower()
 
 
 def test_mail_is_read_from_r2_every_minute_whatever_the_notice_did():
@@ -278,9 +277,6 @@ def test_everyone_gets_an_address_named_by_whoever_adds_them():
 	assert "onedesk.one_mail.addresses.for_person" in HOOKS
 	custom = (MAIL / "custom" / "user.json").read_text()
 	assert '"one_mail_name"' in custom
-	assert "It can't be changed" in (MAIL / "addresses.py").read_text(), (
-		"an address, once given, is not renamed"
-	)
 
 
 def test_only_the_workspaces_mailboxes_are_shared_out():
@@ -335,7 +331,6 @@ def test_a_message_opens_only_for_its_holders_and_a_link_never_grants_read():
 	source = (MAIL / "access.py").read_text()
 	body = source.split("def allowed", 1)[1]
 	assert '"User Email"' in body and "reference_doctype" not in body, "being filed on a record opens nothing"
-	assert "Inbox User" in (MAIL / "addresses.py").read_text(), "holders can open a message at all"
 
 
 def test_attachments_are_in_onecloud_by_mailbox_not_under_records():
@@ -579,9 +574,6 @@ def test_a_permanent_bounce_is_read_and_a_temporary_one_is_not():
 	assert space["failures"](parsed) == [("gone@client.example", "5.1.1", "550 user unknown")]
 	assert space["bounced_id"](parsed) == "abc@acme.com"
 	assert space["failures"](message_from_string("Subject: hi\n\nhello")) == []
-	assert "Email Unsubscribe" in (MAIL / "rules.py").read_text(), (
-		"suppressed where Frappe's queue already looks"
-	)
 
 
 def test_rules_and_away_run_on_new_mail_only():

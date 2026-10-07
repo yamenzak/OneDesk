@@ -653,6 +653,14 @@ Up next, in this order:
      it, approving signing the person out, frappe's erasure run for a user
      and its redaction for somebody who is not one, and the public page
      answering the same whatever the address.
+   - OneMail's on the demo: a mailbox read only by those who hold it, two
+     mails with one subject kept apart and a reply joining the one it
+     answers, and a delivery report stopping mail to an address gone for
+     good but not to one only late.
+   - Found on the way: a person could be given a second address of their
+     own. Their address is set once, as their page says, but the
+     administrator's way of giving one did not ask whether they had one
+     already (`one_mail/addresses.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 

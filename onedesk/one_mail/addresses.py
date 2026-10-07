@@ -102,6 +102,12 @@ def give(user: str, name: str) -> str:
 	from onedesk.one import roles
 
 	frappe.only_for(roles.ADMINISTRATOR)
+	# Set once, as on the person's own page (for_person).
+	held = frappe.db.get_value(
+		"User Email", {"parent": user, "email_account": ["like", f"%.{slug()}@{domain()}"]}, "email_account"
+	)
+	if held:
+		frappe.throw(_("{0} already has the address {1}. It can't be changed.").format(user, held))
 	return _give(user, name)
 
 

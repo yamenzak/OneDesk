@@ -1692,6 +1692,84 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 			pass
 
 
+def _report(address: str, action: str, status: str) -> bytes:
+	"""A mail server's delivery report about one address."""
+	from email.message import Message
+	from email.mime.multipart import MIMEMultipart
+	from email.mime.text import MIMEText
+
+	report = MIMEMultipart("report", report_type="delivery-status")
+	report["From"] = "Mail Delivery System <mailer-daemon@mx.example.com>"
+	report["Subject"] = "Delivery Status Notification"
+	report.attach(MIMEText("Your message could not be delivered."))
+	about = Message()
+	about.set_type("message/delivery-status")
+	server, person = Message(), Message()
+	server["Reporting-MTA"] = "dns; mx.example.com"
+	person["Final-Recipient"] = f"rfc822; {address}"
+	person["Action"] = action
+	person["Status"] = status
+	person["Diagnostic-Code"] = f"smtp; {status} mailbox"
+	about.set_payload([server, person])
+	report.attach(about)
+	return report.as_bytes()
+
+
+@check
+def onemail_a_mailbox_is_its_holders_and_threads_by_what_was_answered():
+	"""Layla's own mailbox is hers: Rania neither lists it nor opens a message
+	in it. Two mails with one subject are two conversations, and a reply
+	joins the one it answers. An address given is kept. A delivery report
+	that an address is gone for good stops mail to it, and one that only
+	says it is late does not."""
+	from email.message import EmailMessage
+	from email.utils import make_msgid
+
+	from onedesk.one_demo import intake
+	from onedesk.one_mail import addresses, api
+	from onedesk.one_mail.inbound import Arrival
+
+	account = intake.mailbox()
+	message = frappe.db.get_value("Communication", {"email_account": account})
+	with as_user("rania@one.test"):
+		assert not frappe.has_permission("Communication", "read", doc=message), "a message opened for somebody who does not hold its mailbox"
+		try:
+			api.conversations(account)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("Rania listed Layla's mailbox")
+
+	box = frappe.get_doc("Email Account", frappe.db.get_value("Email Account", {"email_id": addresses.workspace_address()}))
+	said = []
+	for body, answers in (("First enquiry", None), ("Second enquiry", None), ("Reply to the first", 0)):
+		one = EmailMessage()
+		one["From"] = "Grace Lim <grace@palminteriors.example>"
+		one["To"] = box.email_id
+		one["Subject"] = "Office partitions"
+		one["Message-ID"] = make_msgid(domain="palminteriors.example")
+		if answers is not None:
+			one["In-Reply-To"] = said[answers]["Message-ID"]
+		one.set_content(body)
+		said.append(one)
+		Arrival(one.as_bytes(), box).process()
+	thread = {one["Message-ID"]: frappe.db.get_value("Communication", {"message_id": one["Message-ID"].strip("<>")}, "one_thread") for one in said}
+	first, second, reply = (thread[one["Message-ID"]] for one in said)
+	assert first and first != second and reply == first, thread
+
+	with as_user(OWNER):
+		try:
+			addresses.give("rania@one.test", "rania2")
+		except frappe.ValidationError as e:
+			assert "can't be changed" in str(e), e
+		else:
+			raise AssertionError("an address people already write to was changed")
+
+	Arrival(_report("grace@palminteriors.example", "failed", "5.1.1"), box).process()
+	Arrival(_report("hessa@bayview.example", "delayed", "4.4.1"), box).process()
+	assert frappe.db.exists("Email Unsubscribe", {"email": "grace@palminteriors.example", "global_unsubscribe": 1}), "a lost address is mailed again"
+	assert not frappe.db.exists("Email Unsubscribe", {"email": "hessa@bayview.example"}), "a late delivery stopped mail to Hessa"
+
 @check
 def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	"""Layla connects the company's sales mailbox for the team, chooses who
@@ -1702,7 +1780,7 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	import time
 	from unittest import mock
 
-	from onedesk.one_mail import addresses, connect, holders, inbound
+	from onedesk.one_mail import connect, holders, inbound
 
 	where = {key: value for key, value in connect.guesses("saharaglass.test")[0].items()}
 	smtp = "frappe.email.doctype.email_account.email_account.EmailAccount.validate_smtp_conn"
@@ -1716,8 +1794,6 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 		connect.reconnect(sales, "new-app-password")
 		connect.disconnect(sales)
 		assert not frappe.db.exists("Email Account", sales)
-		given = addresses.give("huda@one.test", "accounts")
-		assert frappe.db.exists("User Email", {"parent": "huda@one.test", "email_account": given})
 	with as_user("omar@one.test"):
 		try:
 			holders.shared()
