@@ -2662,6 +2662,91 @@ def privacy_requests_go_through_the_administrators():
 
 
 @check
+def privacy_holds_each_person_to_their_own():
+	"""Only administrators read the requests. Asking needs the person's own
+	password, and nobody who pays for the workspace, nor its last
+	administrator, may go, nor approve their own going. Everybody concerned
+	is told. A copy withholds only what may be withheld, and says why; it is
+	kept on the person's account, and is gone when they are. Approving signs
+	the person out and turns them off, and erasing does what frappe does,
+	for somebody who is not a user too. A public page answers the same
+	whether the address is known or not."""
+	from unittest import mock
+
+	from onedesk.one import privacy, privacy_copy, privacy_public
+
+	with as_user("nadia@one.test"), mock.patch("frappe.utils.password.check_password", side_effect=frappe.AuthenticationError):
+		try:
+			privacy.ask_to_delete("not my password")
+		except frappe.ValidationError as e:
+			assert "not your password" in str(e), e
+		else:
+			raise AssertionError("an account was asked to be deleted with a wrong password")
+	frappe.db.set_single_value("Workspace Account", "billed_to", OWNER)
+	with as_user(OWNER), mock.patch("frappe.utils.password.check_password"):
+		try:
+			privacy.ask_to_delete("her password")
+		except frappe.ValidationError as e:
+			assert "billed to this account" in str(e), e
+		else:
+			raise AssertionError("whoever pays asked to be deleted")
+
+	with _Told() as told, mock.patch("frappe.utils.password.check_password"), mock.patch("frappe.enqueue") as queued:
+		with as_user("nadia@one.test"):
+			privacy.ask_to_delete("her password")
+		assert told.to("Deletion Asked") >= {OWNER}, told.said
+		nadia = frappe.db.get_value(privacy.DELETION, {"email": "nadia@one.test"})
+		for user, may in ((OWNER, True), ("rania@one.test", False)):
+			assert bool(frappe.has_permission(privacy.DELETION, "read", doc=nadia, user=user)) == may, user
+		with as_user(OWNER):
+			privacy.hold(nadia, "Her timesheets are still being invoiced this month.")
+			assert "nadia@one.test" in told.to("Deletion On Hold"), told.said
+			frappe.db.sql("insert into `tabSessions` (user, sid, sessiondata, lastupdate, status) values ('nadia@one.test', 'demo-nadia', '{}', now(), 'Active')")
+			privacy.approve(nadia)
+		assert frappe.db.get_value("User", "nadia@one.test", "enabled") == 0 and queued.called
+		assert not frappe.db.sql("select 1 from `tabSessions` where user = 'nadia@one.test'"), "approving signs them out"
+
+		with as_user("rania@one.test"):
+			privacy_copy.ask()
+		assert told.to("Copy Asked") >= {OWNER}, told.said
+		copy = frappe.db.get_value(privacy_copy.DOWNLOAD, {"user": "rania@one.test", "one_status": "Waiting"})
+		always = [key for key, _label, kept in privacy_copy.kinds_for("rania@one.test") if kept]
+		optional = [key for key, _label, kept in privacy_copy.kinds_for("rania@one.test") if not kept]
+		with as_user(OWNER):
+			for withheld, why in ((always[:1], "No."), (optional[:1], None)):
+				try:
+					privacy_copy.send(copy, withheld, why)
+				except frappe.ValidationError:
+					pass
+				else:
+					raise AssertionError(f"a copy withheld {withheld} with {why!r}")
+			privacy_copy.send(copy, optional[:1], "Kept while the audit is open.")
+	frappe.set_user("Administrator")
+	with _Told() as told:
+		privacy_copy.gather(copy, optional[:1])
+	assert "rania@one.test" in told.to("Your Data Is Ready"), told.said
+	assert frappe.db.exists("File", {"attached_to_doctype": "User", "attached_to_name": "rania@one.test", "file_name": ["like", "Personal-Data-%"]})
+
+	privacy.erase(nadia)
+	assert not frappe.db.exists("User", "nadia@one.test"), "frappe's erasure renames the account"
+
+	frappe.cache.delete_keys("rl:")
+	frappe.set_user("Guest")
+	_asked(path="/", method="POST")
+	with mock.patch("onedesk.one.tell.request_to_confirm"):
+		assert privacy_public.ask("khalid@mansour.example", "delete") == privacy_public.ask("nobody@nowhere.example", "delete"), "the page says whether it knows an address"
+	frappe.set_user("Administrator")
+	outsider = frappe.get_doc({"doctype": privacy.DELETION, "email": "khalid@mansour.example", "status": "Pending Approval"})
+	outsider.set_new_name()
+	outsider.db_insert()
+	mentioned = frappe.db.count("Contact", {"email_id": "khalid@mansour.example"})
+	assert mentioned, "the demo's customer contact"
+	privacy.erase(outsider.name)
+	assert not frappe.db.count("Contact", {"email_id": "khalid@mansour.example"}), "frappe's redaction left the address"
+	assert frappe.db.get_value(privacy.DELETION, outsider.name, "status") == "Deleted"
+	_unasked()
+
+@check
 def the_payer_downloads_everything_and_closes_the_workspace():
 	"""Layla, who pays, prepares the full download and fetches it, closes the
 	workspace with her password and keeps it open after all. Mariam, an

@@ -647,6 +647,12 @@ Up next, in this order:
      a server its maker's until an administrator shares it and its password
      never sent, searching finding only what may be opened, a closed request
      refusing more, and an upload ticket used once and only by its asker.
+   - Privacy's rules on the demo: only administrators read the requests, a
+     wrong password refused, the payer kept, everybody concerned told, what
+     a copy may withhold and why, the copy kept on the account and gone with
+     it, approving signing the person out, frappe's erasure run for a user
+     and its redaction for somebody who is not one, and the public page
+     answering the same whatever the address.
 4. The finished modules again, against the new points only, one screen at a
    time.
 

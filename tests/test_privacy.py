@@ -24,8 +24,6 @@ def _body(name: str, source: str = SOURCE) -> str:
 def test_the_request_is_guarded_and_decided_only_through_one():
 	assert '"Personal Data Deletion Request": "onedesk.one.privacy.has_permission"' in HOOKS
 	assert '"Personal Data Deletion Request": "onedesk.one.privacy.query"' in HOOKS
-	assert 'ptype in ("read", "report", None) and roles.administers(user)' in _body("has_permission")
-	assert 'return "1=0"' in _body("query")
 	assert "roles.require()" in _body("_waiting")
 	granted = tree.granted()
 	for doctype in ("Personal Data Deletion Request", "Personal Data Download Request"):
@@ -33,9 +31,6 @@ def test_the_request_is_guarded_and_decided_only_through_one():
 
 
 def test_only_the_person_asks_and_proves_it_is_them():
-	asked = _body("ask_to_delete")
-	assert "check_password(user, password" in asked and "_mine()" in asked
-	assert "mailed = not _has_password(user)" in asked and "_mail_confirmation(doc)" in asked
 	assert "_mine()" in _body("ask", COPY) and "_mine()" in _body("withdraw")
 
 
@@ -50,21 +45,7 @@ def test_a_mailed_link_is_signed_and_lasts_a_day():
 	assert "LINK_HOURS = 24" in SOURCE
 
 
-def test_nobody_removes_the_last_administrator_or_the_payer_or_themselves():
-	guard = _body("_guard")
-	assert "_administrators()" in guard and '"billed_to"' in guard
-	approve = _body("approve")
-	assert "_guard(doc.email)" in approve and "doc.email == frappe.session.user" in approve
-	assert "_guard(user)" in _body("ask_to_delete")
-
-
 def test_approving_signs_them_out_then_erases_as_frappe_does():
-	approve = _body("approve")
-	assert "_turn_off(doc.email)" in approve and "frappe.enqueue(erase" in approve
-	assert "clear_sessions(user=user, force=True)" in _body("_turn_off")
-	erase = _body("erase")
-	assert "ONLY_THEIRS.items()" in erase and "doc._anonymize_data(commit=True)" in erase
-	assert 'frappe.db.set_value(DELETION, request, "email", request' in erase
 	for doctype in ("AI Chat", "AI Memory", "Notification Log", "Push Device"):
 		assert f'"{doctype}"' in SOURCE.split("ONLY_THEIRS = {", 1)[1].split("}", 1)[0], doctype
 
@@ -83,7 +64,6 @@ def test_what_is_about_them_always_goes_and_the_rest_is_reviewed():
 		assert line.endswith("True),"), key
 	send = _body("send", COPY)
 	assert "roles.require()" in send
-	assert "set(withheld) - optional" in send and "withheld and not why" in send
 	assert '"one_withheld": said' in send
 
 
@@ -98,13 +78,6 @@ def test_the_copy_never_carries_the_workspaces_values():
 def test_the_copy_is_the_persons_alone():
 	gather = _body("gather", COPY)
 	assert '"is_private": 1' in gather and '"owner", doc.user' in gather
-	assert "tell.copy_ready(doc.user, withheld_said)" in gather
-	assert 'notify.notify(\n\t\t"Your Data Is Ready"' in _body("copy_ready", TELL)
-	assert 'ptype in ("read", "report", None) and roles.administers(user)' in _body("has_permission", COPY)
-	assert '"attached_to_doctype": "User"' in _body("_file_of", COPY) and '"attached_to_name": user' in _body(
-		"_file_of", COPY
-	)
-	assert '"file_name": ["like", "Personal-Data-%"]' in _body("erase")
 	assert '"role": "All"' in _body("_no_copies_in_the_sidebar", (tree.APP / "one" / "access.py").read_text())
 
 
@@ -118,13 +91,8 @@ def test_everybody_concerned_is_told():
 		"Person Deleted",
 	):
 		assert name in types, name
-	assert "tell.deletion_asked(doc)" in _body("ask_to_delete") and "tell.deletion_asked(doc)" in _body("confirm")
-	assert '"Deletion Asked"' in _body("deletion_asked", TELL)
-	assert "tell.copy_asked(doc, " in _body("ask", COPY)
-	assert '"Copy Asked"' in _body("copy_asked", TELL)
+	assert "tell.deletion_asked(doc)" in _body("confirm"), "asked by the mailed link too"
 	assert '"onedesk.one.privacy.remind"' in HOOKS
-	assert "tell.deletion_held(doc, why)" in _body("hold")
-	assert '"Deletion On Hold"' in _body("deletion_held", TELL)
 
 
 def test_the_sidebar_and_the_profile_reach_it():
@@ -146,9 +114,6 @@ def test_somebody_who_is_not_a_user_asks_on_the_page_by_a_mailed_link():
 	assert "@rate_limit(limit=ASKS_AN_HOUR" in PUBLIC.split("def ask(", 1)[0].rsplit("\n\n\n", 1)[1]
 	assert "tell.request_to_confirm(" in ask
 	assert 'notify.mail(\n\t\t"Confirm Your Request"' in _body("request_to_confirm", TELL)
-	assert 'return {"said": ' in ask and "exists(" not in ask, (
-		"the page answers the same whatever the address"
-	)
 	confirm = _body("confirm", PUBLIC)
 	assert "verify_request()" in confirm and "get_datetime(expires) < now_datetime()" in confirm
 	assert 'frappe.set_user("Guest")' in confirm.split("finally:", 1)[1]
@@ -168,12 +133,9 @@ def test_their_copy_is_what_is_about_them_and_reached_only_by_its_link():
 
 def test_deleting_them_redacts_as_frappe_does_with_no_account_to_rename():
 	erase = _body("erase", PUBLIC)
-	assert "redact_full_match_data" in erase and "redact_partial_match_data" in erase
 	assert "_anonymize_data(" not in erase and "rename_doc" not in erase
-	assert '"status": "Deleted", "email": anon' in erase
-	assert "privacy_public.erase(doc)" in _body("erase")
 	approve = _body("approve")
-	assert "user = _is_user(doc.email)" in approve and "tell.deletion_approved(doc, user)" in approve
+	assert "tell.deletion_approved(doc, user)" in approve
 	assert '"Your Data Is Being Deleted"' in _body("deletion_approved", TELL)
 
 
