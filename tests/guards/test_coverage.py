@@ -29,7 +29,7 @@ STILL = {
 	"one_inventory": 0,
 	"one_legal": 0,
 	"one_mail": 38,
-	"one_project": 45,
+	"one_project": 0,
 	"one_storage": 54,
 	"one_studio": 0,
 	"one_task": 0,

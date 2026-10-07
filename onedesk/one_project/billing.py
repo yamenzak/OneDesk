@@ -515,8 +515,20 @@ def ordered(doc, method=None) -> None:
 
 
 def title(doc) -> str:
-	"""What an order's sub-project is called: its one item, or its first item
-	and how many more. Pure over the order's rows."""
+	"""What an order's sub-project is called: what its quotation was called,
+	or else what it orders."""
+	quotes = {row.get("prevdoc_docname") for row in doc.get("items") or []} - {None, ""}
+	for quote in sorted(quotes):
+		said = frappe.db.get_value("Quotation", quote, ["title", "customer_name", "party_name"], as_dict=True)
+		# ERPNext titles a quotation with the party's name unless somebody wrote one.
+		if said and said.title and said.title not in (said.customer_name, said.party_name):
+			return said.title
+	return ordered_title(doc)
+
+
+def ordered_title(doc) -> str:
+	"""Its one item, or its first item and how many more. Pure over the
+	order's rows."""
 	names = [row.item_name or row.item_code for row in doc.get("items") or []]
 	if not names:
 		return doc.name

@@ -6,7 +6,7 @@
 import traceback
 
 import frappe
-from frappe.utils import add_days, flt, getdate, today
+from frappe.utils import add_days, add_months, flt, get_first_day, getdate, today
 
 from onedesk.one_demo.base import COMPANY, as_user, on, wh
 from onedesk.one_demo.people import OWNER, PEOPLE
@@ -941,3 +941,134 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 			assert "error" in ai.mend_extension(screen)
 			assert ai.mend_extension(screen, "It says nothing on a new customer").get("started")
 			assert queued.call_args.args[0] == "onedesk.one_studio.mend.in_background"
+
+
+VILLA, TOWER, ACME, SHOWROOM, MARINA = "PROJ-0001", "PROJ-0003", "PROJ-0006", "PROJ-0009", "PROJ-0011"
+
+
+@check
+def oneproject_every_tab_of_a_project_page_reads_for_samir():
+	"""The villa's page as Samir reads it, tab by tab, the tower's tree added
+	up, the Projects list's tree and timeline, the retainer's months and what
+	OneAI reads of them."""
+	from onedesk.one_project import activity, ai, billing, budget, buying, chain, contacts, hours, kinds, library, media, overview, progress, retainer, status, team, tree, updates, view
+
+	with as_user("samir@one.test"):
+		said = overview.overview(VILLA)
+		assert said["projects"] == 2 and said["tasks"] and 0 < said["share"] < 100, said
+		added = tree.totals(TOWER)
+		assert added["projects"] == 3 and len(added["under"]) == 2
+		assert {one["value"] for one in tree.nodes(is_root=1)} >= {VILLA, TOWER, ACME}
+		assert tree.milestones([VILLA, TOWER])
+		assert "Window schedule.csv" in {one["file_name"] for one in view.files(VILLA)}
+		assert media.featured(VILLA)[0]["kind"] == "photo"
+		assert view.picker("PROJ-0002")["family"]
+		assert frappe.db.get_value("Project", "PROJ-0002", "project_name") == "Staircase balustrade", "extra work is called what it was quoted as"
+		assert view.to_quote("Acme Holdings") == ACME and chain.customer_project("Acme Holdings") == ACME
+		assert view.to_quote("Mansour & Sons") is None, "two open projects, so neither is guessed"
+		assert len(view.updates(VILLA)) >= 2 and activity.activity(VILLA)["activities"]
+		assert billing.bills(VILLA)["bills"]
+		assert billing.unbilled(SHOWROOM)["hours"] > 0 and billing.unbilled(SHOWROOM)["currency"] == "EUR"
+		assert len(budget.lines(VILLA)["lines"]) == 3
+		assert buying.papers(VILLA)["papers"], "the request for the next run of profile"
+		assert contacts.contacts(VILLA)["can_change"]
+		time = hours.entries(VILLA)
+		assert time["entries"] and time["kind"] == "Fixed Price" and not time["bills_hours"]
+		assert len(team.team(VILLA)["people"]) >= 4
+		months = retainer.months(MARINA)
+		assert months["fee"] and months["months"]
+		assert retainer.asked(MARINA, str(get_first_day(add_months(today(), -1))))["fee"] == months["fee"]
+		assert status.ask(VILLA)["tasks"]
+		assert updates.asked(VILLA) is False
+		assert kinds.defaults("Acme Holdings")["currency"] == "USD"
+		assert len(library.presets()) == 12
+		assert progress.progress("Sales Order", frappe.db.get_value("Project", VILLA, "sales_order"))["retention"] == 10
+		facts = ai.project_facts(VILLA)
+		assert facts["title"] == "Mansour Villa Windows and Doors" and facts["sub_projects"] == 1
+		assert VILLA in {one["project"] for one in ai.projects_needing_attention()["projects"]}
+	with as_user("huda@one.test"):
+		assert billing.invoices(VILLA)["invoices"], "the books see the villa's invoices"
+
+
+@check
+def oneproject_samir_runs_a_project():
+	"""What Samir changes on a project's page: the team, a contact, time,
+	a cost type's budget, the update he is asked for, a template from the
+	villa's tasks, a contract on Acme's lobby, a project grouped above
+	another, a photo added, and the villa closed with its open work."""
+	from onedesk.one_project import ai, budget, contacts, hours, kinds, media, status, team, templates, tree, updates
+
+	with as_user("samir@one.test"):
+		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
+		assert "huda@one.test" not in {one["user"] for one in team.remove(VILLA, "huda@one.test")["people"]}
+		row = contacts.save(VILLA, "Consultant", organisation="Gulf Façade Consultants", note="Signs off the façade drawings")["contacts"][0]
+		assert row["company"] == "Gulf Façade Consultants"
+		assert contacts.remove(VILLA, row["row"])["contacts"] == []
+		sheet = hours.log(VILLA, today(), 3, "Project Management", description="Site walk with Khalid")
+		assert frappe.db.exists("Timesheet Detail", {"parent": sheet, "project": VILLA, "hours": 3})
+		account = budget.lines(VILLA)["lines"][0]["account"]
+		budget.set_budget(VILLA, account, 155000)
+		assert flt(frappe.db.get_value("Budget", {"project": VILLA, "account": account, "docstatus": 1}, "budget_amount")) == 155000
+		assert all(one["account"] != account for one in budget.remove_budget(VILLA, account)["lines"] if one.get("budget"))
+		posted = updates.post(VILLA, "Glass for the first floor is in.")
+		assert frappe.db.exists("Project User", {"parenttype": "Project Update", "parent": posted, "user": "samir@one.test"})
+		assert ai.draft_update(VILLA, "I walked the site with Khalid. The first floor glass is in.").get("state") == "Proposed"
+		made = templates.save_as(VILLA, "Villa Glazing")
+		assert frappe.db.count("Project Template Task", {"parent": made}) == frappe.db.count("Task", {"project": VILLA, "status": ["!=", "Cancelled"]})
+		order = kinds.add_contract(ACME, 85000, "SVC-INST", retention=5)
+		assert frappe.db.get_value("Sales Order", order, ["docstatus", "currency"]) == (1, "USD")
+		above = tree.group_under(ACME, "Acme Americas")
+		assert frappe.db.get_value("Project", ACME, "one_parent") == above
+		frappe.local.uploaded_file, frappe.local.uploaded_filename = _png(), "Lobby mock-up.png"
+		frappe.form_dict.update({"doctype": "Project", "docname": ACME})
+		try:
+			assert media.add() == {"project": ACME}
+		finally:
+			frappe.local.uploaded_file = frappe.local.uploaded_filename = None
+		assert media.featured(ACME)[0]["title"] == "Lobby mock-up.png"
+		try:
+			status.change(VILLA, "Completed")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a project with open work closed without saying so")
+		assert status.change(VILLA, "Completed", close=1) == "Completed"
+		assert not frappe.db.count("Task", {"project": VILLA, "status": ["not in", ("Completed", "Cancelled", "Template")]})
+	with as_user("yousef@one.test"):
+		try:
+			team.add(TOWER, "huda@one.test")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody who may only read a project changed its team")
+
+
+@check
+def oneproject_the_books_invoice_time_a_month_and_progress():
+	"""What Huda bills from a project's page: the showroom's time in euros, the
+	retainer's last month, and the villa's order as far as the work has got.
+	Each a draft, as the page opens it."""
+	from onedesk.one_project import billing, progress, retainer
+
+	with as_user("huda@one.test"):
+		invoice = billing.invoice_time(SHOWROOM, item="SVC-MAINT")
+		assert invoice.currency == "EUR" and invoice.items and invoice.is_new()
+		try:
+			retainer.invoice_month(MARINA, month=str(get_first_day(add_months(today(), -1))), item="SVC-MAINT")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("last month was billed twice")
+		fee = retainer.invoice_month(MARINA, month=str(get_first_day(today())), item="SVC-MAINT")
+		assert fee.items[0].rate == flt(frappe.db.get_value("Project", MARINA, "one_monthly_fee"))
+		order = frappe.db.get_value("Project", VILLA, "sales_order")
+		windows = progress.progress("Sales Order", order)["lines"][0]
+		# The windows are counted whole, so they are billed to the end, the rest not yet.
+		draft = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
+		assert [row.item_code for row in draft.items] == ["WIN-CS12"] and draft.is_new()
+
+
+def _png() -> bytes:
+	from onedesk.one_demo.projects import _photo
+
+	return _photo()

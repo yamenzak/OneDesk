@@ -505,12 +505,19 @@ Up next, in this order:
      the place of the planned point-1 guard). OneAdmin's are left out, as
      they run on the admin site.
    - At the start, 14 of 511 were reached. Now OneTask, OneCalendar,
-     OneBook, OneInventory, OneCRM, OneLegal and OneStudio are reached in
-     full, each read and used as its people use it. 416 are left.
+     OneBook, OneInventory, OneCRM, OneLegal, OneStudio and OneProject are
+     reached in full, each read and used as its people use it. 371 are left.
    - The demo gained two leads from the Get in Touch form with nobody owning
      them, one maybe a lead we have, and a studio step: Company Van, a record
      type of the company's own, with two vans, and two extensions, one on and
      with an error from somebody's browser.
+   - The villa gained its window schedule on the Files tab, a photo from site
+     in its Featured Media and a request for the next run of profile. Its two
+     updates are Rania's and Tariq's, each on its own day; before, both were
+     posted today by Samir and one hid the other.
+   - Found on the way: extra work lost its name. A sub-project made from a
+     quotation called "Staircase balustrade" was called "Glass Balustrade and
+     1 more". It now takes the quotation's title (`one_project/billing.py`).
    - Found on the way: the demo's won deal was never won. Its quotation was
      sent and never ordered, so the win rate read 0. It is now ordered
      through Make Sales Order, which wins the deal.

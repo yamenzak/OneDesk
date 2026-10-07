@@ -878,8 +878,9 @@ villa whose windows you're fitting, quote it as its own piece of work.
 customer, on the project, with **Extra Work** ticked. You can also tick
 **Extra Work** on any quotation for the project. When the customer orders it
 and the **Sales Order** is submitted, a new project is created for the order
-under this one, named after what was ordered, with the order's total as its
-estimate. The order then belongs to the sub-project. It has its own time,
+under this one, with the order's total as its estimate. It takes the
+quotation's title when you gave it one, and otherwise is named after what was
+ordered. The order then belongs to the sub-project. It has its own time,
 costs and invoices, and they add up into the parent's.
 
 To add an order to the project as it is, leave **Extra Work** unticked.

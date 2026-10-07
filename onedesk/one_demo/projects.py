@@ -84,8 +84,9 @@ def villa():
 	_extra_work(
 		name, "Mansour & Sons", "Staircase balustrade", [("BAL-GL", 14, 1500), ("SVC-INST", 20, 180)], ago(30)
 	)
-	_update(name, "Frames for the ground floor are in. Glass for the first floor lands on Thursday.", ago(9))
-	_update(name, "Balustrade drawings approved by Khalid. Starting the staircase next week.", ago(3))
+	_update(name, "Frames for the ground floor are in. Glass for the first floor lands on Thursday.", ago(9), "rania@one.test")
+	_update(name, "Balustrade drawings approved by Khalid. Starting the staircase next week.", ago(3), "tariq@one.test")
+	_papers(name)
 	frappe.db.set_value("Project", name, "one_health", "At Risk")
 
 
@@ -501,6 +502,55 @@ def _subcontract(project, supplier, amount, date, retention=0):
 	return save(order, submit=True).name
 
 
+#: The villa's window schedule: mark, type, width and height in mm, how many.
+SCHEDULE = (
+	("W01", "Casement", 1200, 1500, 12),
+	("W02", "Casement", 900, 1500, 18),
+	("W03", "Fixed", 600, 2100, 30),
+	("D01", "Sliding door", 2400, 2400, 14),
+	("D02", "Sliding door", 3600, 2400, 6),
+)
+
+
+def _papers(project):
+	"""What the villa keeps beside its money: the window schedule on its
+	Files tab, a photo from site in its Featured Media, and a request for
+	the next run of profile, each added as Samir adds them."""
+	from onedesk.one_storage import namespace, upload
+	from onedesk.one_project import media
+
+	if not frappe.db.exists("File", {"attached_to_name": project, "file_name": "Window schedule.csv"}):
+		rows = ["Mark,Type,Width,Height,Count", *(",".join(map(str, one)) for one in SCHEDULE)]
+		upload._place(namespace.record_node("Project", project), None, {"file_name": "Window schedule.csv", "content": "\n".join(rows).encode()})
+	if not media.featured(project):
+		upload._place(media.node(project), None, {"file_name": "Ground floor frames.png", "content": _photo()})
+	if not frappe.db.exists("Material Request Item", {"project": project}):
+		request = frappe.new_doc("Material Request")
+		request.update({"material_request_type": "Purchase", "company": COMPANY, "schedule_date": ahead(10)})
+		for code, qty in (("ALU-6063", 300), ("GLS-DGU", 60)):
+			request.append("items", {"item_code": code, "qty": qty, "schedule_date": ahead(10), "warehouse": wh("Stores"), "project": project})
+		save(request, submit=True)
+
+
+def _photo() -> bytes:
+	"""A picture of a glazed frame against the sky, drawn rather than shipped."""
+	from io import BytesIO
+
+	from PIL import Image, ImageDraw
+
+	picture = Image.new("RGB", (960, 600), (176, 208, 232))
+	draw = ImageDraw.Draw(picture)
+	draw.rectangle((0, 460, 960, 600), fill=(214, 200, 176))
+	for left in (140, 500):
+		draw.rectangle((left, 120, left + 320, 460), outline=(70, 74, 80), width=18)
+		draw.line((left + 160, 120, left + 160, 460), fill=(70, 74, 80), width=12)
+		draw.rectangle((left + 18, 138, left + 150, 442), fill=(150, 190, 220))
+		draw.rectangle((left + 170, 138, left + 302, 442), fill=(160, 198, 226))
+	held = BytesIO()
+	picture.save(held, "PNG")
+	return held.getvalue()
+
+
 def _buy_for(project, supplier, lines, date, currency=None):
 	order = frappe.new_doc("Purchase Order")
 	order.update(
@@ -757,10 +807,13 @@ def _retainer(project, first_month, months, people, hours, over=()):
 			_pay(invoice, add_days(invoice.posting_date, 21))
 
 
-def _update(project, note, date):
+def _update(project, note, date, by):
+	"""A team member's update, given on the day it was asked for."""
 	from onedesk.one_project.updates import post
 
-	post(project, note)
+	with as_user(by):
+		made = post(project, note)
+	frappe.db.set_value("Project Update", made, "date", date)
 
 
 #: The expense accounts a project's cost types are, by what they are called.

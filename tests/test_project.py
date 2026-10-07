@@ -345,7 +345,7 @@ def test_time_is_invoiced_by_activity():
 def test_an_order_for_extra_work_is_named_by_what_it_orders():
 	from types import SimpleNamespace as Row
 
-	space = _load(PROJECT / "billing.py", ("title",), _=lambda text: text)
+	space = _load(PROJECT / "billing.py", ("ordered_title",), _=lambda text: text)
 
 	class Order(dict):
 		name = "SAL-ORD-1"
@@ -353,9 +353,9 @@ def test_an_order_for_extra_work_is_named_by_what_it_orders():
 	def order(*names):
 		return Order(items=[Row(item_name=one, item_code=one) for one in names])
 
-	assert space["title"](order("Handrail Installation")) == "Handrail Installation"
-	assert space["title"](order("Handrails", "Glass", "Fixings")) == "Handrails and 2 more"
-	assert space["title"](order()) == "SAL-ORD-1"
+	assert space["ordered_title"](order("Handrail Installation")) == "Handrail Installation"
+	assert space["ordered_title"](order("Handrails", "Glass", "Fixings")) == "Handrails and 2 more"
+	assert space["ordered_title"](order()) == "SAL-ORD-1"
 
 
 def test_an_order_under_a_project_becomes_its_sub_project():
