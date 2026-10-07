@@ -611,6 +611,17 @@ Up next, in this order:
      naming rule asked for an administrator. Who may save a rule is now asked
      where it is saved: Numbering asks for an administrator, the project for
      whoever may change it (`one/numbering.py`).
+   - Then the money: no margin to come without a price, the margin so far as
+     earned less spent, extra work as the sub-project's own order, a
+     progress bill at the order's prices with advances set off, a retainer's
+     month billing its time, and who is told when a budget, an allowance, a
+     task's plan or the project itself runs out. A budget changed is a
+     revision of the old one, and a projects user may not set one.
+   - Found on the way: time logged after a submitted timesheet overlapped
+     it. A new entry starts after the last one that day, but One only looked
+     at the week's draft, so time logged on a day after its timesheet was
+     sent started at nine again and ERPNext refused it. It now starts after
+     the last entry on any of the person's timesheets (`one_project/hours.py`).
 4. The finished modules again, against the new points only, one screen at a
    time.
 

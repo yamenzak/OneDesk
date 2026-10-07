@@ -1012,8 +1012,10 @@ def oneproject_samir_runs_a_project():
 		sheet = hours.log(VILLA, today(), 3, "Project Management", description="Site walk with Khalid")
 		assert frappe.db.exists("Timesheet Detail", {"parent": sheet, "project": VILLA, "hours": 3})
 		account = budget.lines(VILLA)["lines"][0]["account"]
+		was = frappe.db.get_value("Budget", {"project": VILLA, "account": account, "docstatus": 1})
 		budget.set_budget(VILLA, account, 155000)
-		assert flt(frappe.db.get_value("Budget", {"project": VILLA, "account": account, "docstatus": 1}, "budget_amount")) == 155000
+		now = frappe.db.get_value("Budget", {"project": VILLA, "account": account, "docstatus": 1}, ["name", "budget_amount", "revision_of"], as_dict=True)
+		assert flt(now.budget_amount) == 155000 and (not was or (now.revision_of == was and frappe.db.get_value("Budget", was, "docstatus") == 2)), (was, now)
 		assert all(one["account"] != account for one in budget.remove_budget(VILLA, account)["lines"] if one.get("budget"))
 		posted = updates.post(VILLA, "Glass for the first floor is in.")
 		assert frappe.db.exists("Project User", {"parenttype": "Project Update", "parent": posted, "user": "samir@one.test"})
@@ -1022,6 +1024,7 @@ def oneproject_samir_runs_a_project():
 		assert frappe.db.count("Project Template Task", {"parent": made}) == frappe.db.count("Task", {"project": VILLA, "status": ["!=", "Cancelled"]})
 		order = kinds.add_contract(ACME, 85000, "SVC-INST", retention=5)
 		assert frappe.db.get_value("Sales Order", order, ["docstatus", "currency"]) == (1, "USD")
+		assert frappe.db.get_value("Project", ACME, "sales_order") == order, "the contract is the project's order"
 		above = tree.group_under(ACME, "Acme Americas")
 		assert frappe.db.get_value("Project", ACME, "one_parent") == above
 		frappe.local.uploaded_file, frappe.local.uploaded_filename = _png(), "Lobby mock-up.png"
@@ -1039,6 +1042,13 @@ def oneproject_samir_runs_a_project():
 			raise AssertionError("a project with open work closed without saying so")
 		assert status.change(VILLA, "Completed", close=1) == "Completed"
 		assert not frappe.db.count("Task", {"project": VILLA, "status": ["not in", ("Completed", "Cancelled", "Template")]})
+	with as_user("rania@one.test"):
+		try:
+			budget.set_budget(VILLA, account, 1000)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a projects user set a budget")
 	with as_user("yousef@one.test"):
 		try:
 			team.add(TOWER, "huda@one.test")
@@ -1174,6 +1184,82 @@ def oneproject_a_template_hands_on_what_erpnext_leaves_out():
 			assert "already names the tasks of" in str(e), e
 		else:
 			raise AssertionError("two projects took the same prefix")
+
+@check
+def oneproject_money_reads_as_its_documents_and_its_people_are_told():
+	"""A margin to come needs a price, so a retainer, an internal project and
+	time with no order have none, and the margin so far is what was earned
+	less what was spent. Extra work ordered is the sub-project's order. A
+	progress bill keeps the order's prices and sets advances off, and its
+	draft is the manager's to check. A retainer's month bills its time. Who
+	runs a project hears when a cost type passes its budget, a retainer its
+	hours, a task its plan and the project its end. Whoever may not read
+	invoices is not shown them."""
+	from onedesk.one_project import billing, budget, hours, money, progress, retainer, status, view
+
+	with as_user("samir@one.test"):
+		for project in ("PROJ-0010", MARINA, "PROJ-0013"):
+			assert money.money(project)["forecast_margin"] is None, project
+		for project in (VILLA, SHOWROOM, MARINA, "PROJ-0013"):
+			said = money.money(project)
+			assert _close(said["margin"], said["earned"] - said["spent"], 1) and _close(said["earned"], said["invoiced"] + said["to_invoice"], 1), (project, said)
+		villa = money.money(VILLA)
+		assert _close(villa["forecast_margin"], villa["contract"] - villa["forecast_cost"], 1), villa
+
+	extra = frappe.db.get_value("Project", "PROJ-0002", ["sales_order", "one_parent"], as_dict=True)
+	assert extra.one_parent == VILLA and frappe.db.get_value("Sales Order", extra.sales_order, "project") == "PROJ-0002"
+	assert set(frappe.get_all("Sales Order Item", filters={"parent": extra.sales_order}, pluck="project")) == {"PROJ-0002"}
+
+	order = frappe.db.get_value("Project", VILLA, "sales_order")
+	with as_user("huda@one.test"):
+		windows = progress.progress("Sales Order", order)["lines"][0]
+		draft = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
+		ordered = frappe.db.get_value("Sales Order Item", windows["line"], "rate")
+		assert _close(draft.items[0].rate, ordered, 0.01) and draft.allocate_advances_automatically and flt(draft.one_progress), draft.as_dict()
+		with _Told() as told:
+			draft.insert()
+		assert "samir@one.test" in told.to("Progress Bill Drafted"), told.said
+		month = retainer.invoice_month(MARINA, month=str(get_first_day(today())), item="SVC-MAINT")
+		logged = frappe.get_all("Timesheet Detail", filters={"project": MARINA, "docstatus": 1, "from_time": [">=", get_first_day(today())], "is_billable": 1, "sales_invoice": ["is", "not set"]}, pluck="name")
+		assert {row.timesheet_detail for row in month.timesheets} == set(logged), (month.timesheets, logged)
+
+	with as_user("samir@one.test"):
+		# Just over what is spent, so what is on order takes it past.
+		line = next(one for one in budget.lines(VILLA)["lines"] if flt(one.get("committed")))
+		budget.set_budget(VILLA, line["account"], flt(line["spent"]) + 1)
+		# What every submit on the project asks (money.moved).
+		with _Told() as told:
+			budget.over(VILLA)
+		assert "samir@one.test" in told.to("Over Budget"), told.said
+
+		# An allowance with two hours left, and a three-hour inspection.
+		used = retainer.logged(MARINA, get_first_day(today()))
+		frappe.db.set_value("Project", MARINA, {"one_monthly_hours": used + 2, "one_manager": "huda@one.test"})
+		sheet = hours.log(MARINA, today(), 3, "Project Management", description="Inspection round")
+		with _Told() as told:
+			frappe.get_doc("Timesheet", sheet).submit()
+		assert "huda@one.test" in told.to("Retainer Hours Used"), (used, told.said)
+
+		task = frappe.get_doc({"doctype": "Task", "subject": "Seal the frames", "project": VILLA, "expected_time": 1}).insert()
+		frappe.desk.form.assign_to.add({"doctype": "Task", "name": task.name, "assign_to": ["rania@one.test"]})
+		sheet = hours.log(VILLA, today(), 2, "Installation", task=task.name)
+		with _Told() as told:
+			frappe.get_doc("Timesheet", sheet).submit()
+		assert "rania@one.test" in told.to("Hours Over Plan"), told.said
+		assert frappe.db.get_value("Task", task.name, "status") != "Completed", "timing a task does not finish it"
+
+	with _Told() as told, as_user(OWNER):
+		status.change("PROJ-0010", "Completed", close=1)
+	assert "samir@one.test" in told.to("Project Completed"), told.said
+
+	with as_user("rania@one.test"):
+		shown = view.said(VILLA)["views"]
+		# She buys for the site, so orders are hers to read; invoices are not.
+		assert "invoices" not in shown and "suppliers" in shown, shown
+		try:
+			assert not billing.invoices(VILLA)["invoices"]
+		except frappe.PermissionError:
+			pass
 
 def _png() -> bytes:
 	from onedesk.one_demo.projects import _photo

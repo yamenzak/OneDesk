@@ -300,7 +300,7 @@ def log(
 	if billable is None:
 		billable = 1 if bills_hours(project) else 0
 	sheet = timer._this_week(frappe.session.user)
-	starts = after(sheet, getdate(date))
+	starts = after(sheet, getdate(date), _elsewhere(sheet, getdate(date)))
 	sheet.append(
 		"time_logs",
 		{
@@ -320,13 +320,39 @@ def log(
 	return sheet.name
 
 
-def after(sheet, day) -> datetime:
-	"""Where a new entry on a day starts: after the last one the timesheet has
-	that day, so two never overlap, or at the start of the working day."""
+def after(sheet, day, elsewhere=()) -> datetime:
+	"""Where a new entry on a day starts: after the last one the person has
+	that day, on this timesheet or `elsewhere` (when another ended), so two
+	never overlap, or at the start of the working day. Pure."""
 	ends = [
 		get_datetime(row.to_time) for row in sheet.time_logs if row.to_time and getdate(row.to_time) == day
 	]
+	ends += [get_datetime(one) for one in elsewhere]
 	return max(ends) if ends else datetime.combine(day, DAY_STARTS)
+
+
+def _elsewhere(sheet, day) -> list:
+	"""When the person's entries that day on their other timesheets end:
+	ERPNext refuses an entry that overlaps any of them, submitted ones too."""
+	if not sheet.employee:
+		return []
+	others = frappe.get_all(
+		"Timesheet",
+		filters={"employee": sheet.employee, "docstatus": ["<", 2], "name": ["!=", sheet.name or ""]},
+		pluck="name",
+	)
+	if not others:
+		return []
+	return frappe.get_all(
+		"Timesheet Detail",
+		filters={
+			"parenttype": "Timesheet",
+			"parent": ["in", others],
+			"from_time": ["<=", datetime.combine(day, datetime.max.time())],
+			"to_time": [">=", datetime.combine(day, datetime.min.time())],
+		},
+		pluck="to_time",
+	)
 
 
 def _faces(people) -> dict:
