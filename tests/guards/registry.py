@@ -390,6 +390,12 @@ GUARDS = [
 	),
 	# 6 Nothing lost
 	Guard(
+		"app-on-rail",
+		6,
+		"an app's sidebar with no tile on the rail",
+		"tests/guards/test_rail.py::test_every_sidebar_of_ours_has_a_tile_on_the_rail",
+	),
+	Guard(
 		"page-keeps-form",
 		6,
 		"a page of its own without its form's menu, frappe's form sidebar or realtime",

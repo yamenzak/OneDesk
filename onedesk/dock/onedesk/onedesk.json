@@ -24,6 +24,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "onemail",
+   "link_to": "OneMail",
+   "link_type": "Sidebar",
+   "title": "OneMail"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "onebook",
    "link_to": "OneBook",
    "link_type": "Sidebar",
@@ -94,7 +102,7 @@
    "title": "OneAdmin"
   }
  ],
- "modified": "2026-10-01 12:00:00.000000",
+ "modified": "2026-10-07 12:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

@@ -8,6 +8,15 @@
 	min-width: 0;
 }
 
+/* The app's mark before a page's name, where the page has no panel header to
+   carry it (shell.page `mark`). */
+.one-shell-mark {
+	display: flex;
+	align-items: center;
+	flex: none;
+	margin-inline-end: calc(var(--spacing) * 1.5);
+}
+
 /* Panes run to the bottom of the window, so nothing goes under them. */
 .one-shell:has(> .one-shell-panes) {
 	padding-bottom: 0;

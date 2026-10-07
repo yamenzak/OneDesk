@@ -12,7 +12,7 @@
 frappe.pages["onecalendar"].on_page_load = (wrapper) => {
 	// The layers are their own navigation, as OneMail's mailboxes are: no rail
 	// panel beside them. What the rail held is at the foot of the layers.
-	const page = onedesk.shell.page(wrapper, __("OneCalendar"), { hide_sidebar: true });
+	const page = onedesk.shell.page(wrapper, __("OneCalendar"), { hide_sidebar: true, mark: "onecalendar" });
 	wrapper.onecalendar = new onedesk.OneCalendar(page);
 };
 

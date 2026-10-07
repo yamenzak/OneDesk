@@ -22,9 +22,11 @@ frappe.provide("onedesk.shell");
 $.extend(onedesk.shell, {
 	// A page of ours: frappe's app page, with the shell's frame in its main area.
 	// `hide_sidebar` is for a page whose panes are its own sidebar: OneMail's
-	// mailboxes, OneCloud's tree.
-	page(wrapper, title, { hide_sidebar = false } = {}) {
+	// mailboxes, OneCloud's tree. Such a page has no panel header, so `mark`
+	// puts the app's mark before its name, as that header would.
+	page(wrapper, title, { hide_sidebar = false, mark = null } = {}) {
 		const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true, hide_sidebar });
+		if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 		page.$shell = $(`<section class="one-shell"></section>`).appendTo(page.main);
 		return page;
 	},

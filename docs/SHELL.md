@@ -414,7 +414,8 @@ product by product.
   the window is fitted by the shell's `fit()`; in a record's tab and in the
   upload picker its height stays its stylesheet's. An empty folder and an
   empty preview are frappe's empty state.
-- **The shell grew:** `page` takes `hide_sidebar`; panes are flex, with
+- **The shell grew:** `page` takes `hide_sidebar`, and `mark`, the app's mark
+  before the page's name, since such a page has no panel header to carry it; panes are flex, with
   `fit: false` for panes inside something that sizes itself; `fit()` runs to
   the bottom of the window, and the shell drops its bottom padding under
   panes, so a click no longer scrolls the page; a pane list's rows sit their

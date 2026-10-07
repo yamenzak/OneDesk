@@ -11,7 +11,7 @@
 // does on the task's own page.
 
 frappe.pages["my-tasks"].on_page_load = (wrapper) => {
-	const page = onedesk.shell.page(wrapper, __("OneTask"), { hide_sidebar: true });
+	const page = onedesk.shell.page(wrapper, __("OneTask"), { hide_sidebar: true, mark: "onetask" });
 	wrapper.my_tasks = new onedesk.MyTasks(page);
 };
 
