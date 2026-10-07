@@ -990,7 +990,8 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 def one_boards_open_on_frappes_new_kanban():
 	"""The pipeline, the projects board and a project's own board open on
 	frappe's new Kanban, each card showing One's fields by their icons
-	(one/boards.py)."""
+	(one/boards.py). erpnext's board of deals by status is gone, so the
+	Pipeline is the one deal board."""
 	from erpnext.projects.doctype.project.project import create_kanban_board_if_not_exists
 
 	from onedesk.one_crm import board as pipeline
@@ -1002,6 +1003,8 @@ def one_boards_open_on_frappes_new_kanban():
 		board = frappe.get_doc("Kanban Board", name)
 		assert board.use_kanban_v2, f"{name} is on the old board"
 		assert [(row.fieldname, row.icon) for row in board.card_fields] == list(card.items()), (name, board.card_fields)
+	assert not frappe.db.exists("Kanban Board", pipeline.STATUS_BOARD), "erpnext's board of deals by status is back"
+	assert frappe.db.get_value("Kanban Board", "Task Status", "is_standard") == "Yes", "erpnext's own task board"
 
 
 @check
@@ -1035,7 +1038,8 @@ def onecrm_leads_and_deals_as_omar_works_them():
 		assert frappe.db.get_value("Opportunity", deal, "one_next_step") == "Review the drawings"
 		assert frappe.db.exists("Comment", {"reference_name": deal, "content": ["like", "%Ask for the drawings%"]})
 
-		assert not frappe.db.get_value("Lead", priya, "lead_owner"), "the web form gives a lead no owner"
+		next.settle()  # as every update runs it
+		assert not frappe.db.get_value("Lead", priya, "lead_owner"), "the web form gives a lead no owner, and an update leaves it so"
 		capture.take("Lead", priya)
 		assert frappe.db.get_value("Lead", priya, "lead_owner") == "omar@one.test"
 		assert frappe.db.get_value("Lead", khalid, "one_duplicate_of") == lead

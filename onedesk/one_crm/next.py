@@ -22,18 +22,17 @@ OWNER = {"Lead": "lead_owner", "Opportunity": "opportunity_owner"}
 
 
 def settle() -> None:
-	"""Give every unowned lead and deal its maker as owner. Home counts what is
-	the reader's, so a record nobody owns is due on nobody's day."""
-	for doctype, field in OWNER.items():
-		table = frappe.qb.DocType(doctype)
-		(
-			frappe.qb.update(table)
-			.set(table[field], table.owner)
-			.where(IfNull(table[field], "") == "")
-			# A web form's lead was made by Guest; it waits on Home as unclaimed.
-			.where(table.owner != "Guest")
-			.run()
-		)
+	"""Give every unowned deal its maker as owner. Home counts what is the
+	reader's, so a deal nobody owns is due on nobody's day. A lead without an
+	owner is left alone, since it waits on Home as unclaimed (capture.py)."""
+	table = frappe.qb.DocType("Opportunity")
+	(
+		frappe.qb.update(table)
+		.set(table.opportunity_owner, table.owner)
+		.where(IfNull(table.opportunity_owner, "") == "")
+		.where(table.owner != "Guest")
+		.run()
+	)
 
 
 def on_update(doc, method=None) -> None:

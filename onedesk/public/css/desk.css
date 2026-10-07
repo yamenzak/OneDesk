@@ -49,6 +49,18 @@
 	overflow: hidden;
 }
 
+/* The panel header keeps its app's mark beside the name. frappe hides it while
+ * the rail is pinned (dock.scss), since the lit tile shows it; One keeps both. */
+@media (min-width: 768px) {
+	body.dock-pinned.dock-active .body-sidebar-container.expanded .sidebar-header {
+		padding-left: 6px;
+	}
+
+	body.dock-pinned.dock-active .body-sidebar-container.expanded .sidebar-header .header-logo {
+		display: flex;
+	}
+}
+
 /* The Employee band: one row of chips under the title, on every tab. The
  * message band it sits in is frappe's, and it paints itself blue for a notice;
  * this is a permanent summary rather than a notice, so it takes the page's own

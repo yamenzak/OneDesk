@@ -1005,6 +1005,13 @@ OVERRIDES = [
 		"def notify_approval_status(self):",
 	),
 	(
+		"The panel header keeps its mark",
+		"frappe hides the app's mark in the panel while the rail is pinned. One shows it beside the name as well as on the rail",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/scss/desk/dock.scss",
+		"// The dock's active tile already shows the module's icon.",
+	),
+	(
 		"Time logged for somebody without an account",
 		"ERPNext took the owner as the sheet's user when the employee has no account, so one person could not log two of the workshop's days at the same hour. OneTimesheet leaves the user empty then and the employee check still runs",
 		"onedesk/one_hr/timesheet.py",

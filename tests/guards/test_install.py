@@ -109,3 +109,28 @@ def test_every_shipped_field_lands_where_it_was_put():
 		if field not in standard[doctype] | set(ours.get(doctype, {})):
 			lost.append(f"{path.name}: {doctype}.{field} {one.get('property')}")
 	assert not lost, lost
+
+
+def _overrides(hooks: str) -> dict:
+	"""A hooks.py's override_doctype_class, read without importing it."""
+	tree = ast.parse(hooks)
+	for node in tree.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "override_doctype_class":
+			return ast.literal_eval(node.value)
+	return {}
+
+
+def test_an_overridden_controller_builds_on_the_apps_before_it():
+	"""frappe keeps only the last app's class for a doctype, so a class One
+	puts on a doctype erpnext or hrms already overrides must extend theirs,
+	or theirs stops running."""
+	ours = _overrides((APP / "hooks.py").read_text())
+	for app in ("erpnext", "hrms"):
+		theirs = _overrides((APPS / app / app / "hooks.py").read_text())
+		for doctype in set(ours) & set(theirs):
+			module, cls = theirs[doctype].rsplit(".", 1)
+			path = APP.parent / Path(*ours[doctype].split(".")[:-1]).with_suffix(".py")
+			source = path.read_text()
+			assert f"from {module} import" in source and f"({cls})" in source, (
+				f"{doctype}: {ours[doctype]} must extend {app}'s {theirs[doctype]}"
+			)

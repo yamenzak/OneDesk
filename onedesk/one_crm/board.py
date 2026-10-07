@@ -21,6 +21,21 @@ INDICATOR = {"Won": "Green", "On Hold": "Orange"}
 CARD = {"opportunity_amount": "banknote", "one_next_step": "footprints", "one_next_on": "calendar-clock"}
 
 
+#: erpnext's board of deals by status. OneCRM works the Pipeline by stage, so
+#: this one is taken out after every install and update (`one_pipeline`).
+STATUS_BOARD = "Opportunity Pipeline"
+
+
+def one_pipeline(*_args) -> None:
+	"""after_install and after_migrate: erpnext's status board goes, as rows.
+	Deleting a standard board in developer mode would delete erpnext's file."""
+	if frappe.db.get_value("Kanban Board", STATUS_BOARD, "is_standard") != "Yes":
+		return
+	for table in {df.options for df in frappe.get_meta("Kanban Board").get_table_fields()}:
+		frappe.db.delete(table, {"parent": STATUS_BOARD, "parenttype": "Kanban Board"})
+	frappe.db.delete("Kanban Board", {"name": STATUS_BOARD})
+
+
 def sync(doc=None, method=None, *args) -> None:
 	"""One column per stage, in position order, keeping each column's cards."""
 	board = (

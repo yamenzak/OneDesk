@@ -230,6 +230,10 @@ in the company's currency and follow the board's filters.
 **On Hold** has its own column, with an orange dot, and counts no weighted
 value: its deals are not expected to close while they wait.
 
+The Pipeline is the one board of deals. erpnext ships another, of deals by
+status, and One takes it out after every install and update, since most of
+its columns are set by quotations and orders rather than moved.
+
 **Lost is not a column.** Losing a deal asks why, which a drag cannot, so a
 deal is lost from its own page with **Declare Lost**, and lost deals leave the
 board.

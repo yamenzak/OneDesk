@@ -523,7 +523,7 @@ moved frappe 1119 commits, erpnext 557 and hrms 88. What it corrected:
   decides the panel on the server. One's sidebar rules moved to
   `shell_for_route`, the map is built again over One's sidebars
   (`outside.placed`), and Check In and Intake are rows of frappe's own make.
-  The panel header's mark follows frappe now (the active rail tile shows it).
+  The panel header keeps its app's mark beside the name, as well as on the rail.
 - **The breadcrumb**: each page draws its own trail. A record on a page
   ("Projects / Mansour Villa ▾"), a list named as its row, a record's crumb to
   its home, the panel menu in the crumb, and the lit row all moved onto it, and
@@ -536,6 +536,14 @@ moved frappe 1119 commits, erpnext 557 and hrms 88. What it corrected:
   threw. The Pipeline, Projects by Health and a project's task board are on
   it now, each card showing One's fields by icon, and each stage still says
   what it is worth.
+- **erpnext's new boards**: erpnext now ships boards for leads, deals by
+  status, tasks, issues and more. Its deals-by-status board is taken out
+  after every install and update, so the Pipeline by stage is the one deal
+  board. Its task board is erpnext's own and One leaves it as shipped.
+- **hrms's timesheet**: One's timesheet class now builds on hrms's, and a
+  guard fails when a class One puts on a record type drops another app's.
+- **Unclaimed leads stay unclaimed**: an update gave a lead without an owner
+  to whoever made it. Only deals get their maker as owner now.
 - **Time for somebody without an account**: erpnext now checks overlap by the
   sheet's user, and took the one logging it as that user. The workshop's days,
   logged by one person, are checked by employee again (OneTimesheet).

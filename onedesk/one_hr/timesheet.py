@@ -2,16 +2,16 @@
 ERPNext's `Timesheet`."""
 
 import frappe
-from erpnext.projects.doctype.timesheet.timesheet import Timesheet
 from frappe import _
 from frappe.utils import format_datetime, get_datetime
+from hrms.overrides.employee_timesheet import EmployeeTimesheet
 
 #: Same day: the date once, then two clock times. Across days: both in full.
 SAME_DAY = "d MMM HH:mm"
 CLOCK = "HH:mm"
 
 
-class OneTimesheet(Timesheet):
+class OneTimesheet(EmployeeTimesheet):
 	def set_user(self):
 		# The owner stands in only when there is no employee, or whoever logs
 		# the workshop's days could not log two of them at the same hour.

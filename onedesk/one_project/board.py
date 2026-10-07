@@ -42,7 +42,11 @@ def settle(*_args) -> None:
 	if job and not frappe.db.get_value("Scheduled Job Type", job, "stopped"):
 		frappe.db.set_value("Scheduled Job Type", job, "stopped", 1)
 	frappe.db.sql("update `tabTask` set status = 'Open' where status = 'Overdue'")
-	for name in frappe.get_all("Kanban Board", filters={"reference_doctype": "Task", "field_name": "status"}, pluck="name"):
+	for name in frappe.get_all(
+		"Kanban Board",
+		filters={"reference_doctype": "Task", "field_name": "status", "is_standard": ["!=", "Yes"]},
+		pluck="name",
+	):
 		board = frappe.get_doc("Kanban Board", name)
 		if shape(board):
 			board.flags.ignore_permissions = True
@@ -70,8 +74,9 @@ def settle(*_args) -> None:
 
 
 def shape(doc, method=None) -> bool:
-	"""A board of tasks by status, shaped. Whether anything changed."""
-	if doc.reference_doctype != "Task" or doc.field_name != "status":
+	"""A board of tasks by status, shaped. Whether anything changed. An app's
+	own board is the app's (saving it in developer mode writes its file)."""
+	if doc.reference_doctype != "Task" or doc.field_name != "status" or doc.is_standard == "Yes":
 		return False
 	before = [(one.column_name, one.indicator, one.status) for one in doc.columns]
 	doc.set("columns", [one for one in doc.columns if one.column_name in COLUMNS])
