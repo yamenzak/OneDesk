@@ -50,8 +50,11 @@ it has no end date.
 
 ## Adding a task
 
-**Add Task** asks for the subject, the project if there is one, and the
-**Expected End Date** (the due date). Everything else is on the task's page.
+**New Task** on a project's Tasks asks for the task, its project (this one
+or one under it), what it is part of, who owns it, its priority, when it
+starts and is due, the hours planned and a description. **Edit Full Form**
+opens the whole form with what is filled in. Elsewhere, **Add Task** asks
+for the subject, the project if there is one, and the due date.
 
 A task you create with no project and no one assigned is **assigned to you**,
 so it shows on your calendar and in your lists.

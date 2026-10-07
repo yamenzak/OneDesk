@@ -208,8 +208,9 @@ watch(work, () => opened.value && (opened.value = find(opened.value.name) || nul
 async function add(project, subject, extra) {
   await addTask(project || name.value, subject, extra);
 }
+// OneTask's New Task, on this project, picking among the projects shown.
 function newTask() {
-  newDoc("Task", { project: name.value });
+  desk().task.new({ values: { project: name.value }, projects: tree.value.length ? tree.value : null, done: loadWork });
 }
 async function changeProject(fieldname, value) {
   if (fieldname === "status") return changeStatus(value);

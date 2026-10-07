@@ -1059,6 +1059,8 @@ app_include_js = [
 	"/assets/onedesk/js/overtime.js",
 	"/assets/onedesk/js/next_step.js",
 	"/assets/onedesk/js/task_timer.js",
+	# New Task, OneTask's own dialog. See task_new.js.
+	"/assets/onedesk/js/task_new.js",
 	"/assets/onedesk/js/record_calendar.js",
 	# The calendar link, drawn once for Settings and OneCalendar's Subscribe.
 	"/assets/onedesk/js/calendar_link.js",

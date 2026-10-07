@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-07 19:27+0000\n"
-"PO-Revision-Date: 2026-10-07 19:27+0000\n"
+"POT-Creation-Date: 2026-10-07 19:32+0000\n"
+"PO-Revision-Date: 2026-10-07 19:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -104,11 +104,11 @@ msgstr "1 Monat"
 msgid "1 not checked"
 msgstr "1 nicht geprüft"
 
-#: frontend/src/project/ProjectPage.vue:233
+#: frontend/src/project/ProjectPage.vue:234
 msgid "1 open sub-project"
 msgstr "1 offenes Teilprojekt"
 
-#: frontend/src/project/ProjectPage.vue:232
+#: frontend/src/project/ProjectPage.vue:233
 msgid "1 open task"
 msgstr "1 offene Aufgabe"
 
@@ -1493,7 +1493,7 @@ msgid "Add Step"
 msgstr "Schritt hinzufügen"
 
 #: frontend/src/project/Overview.vue:121
-#: frontend/src/project/ProjectPage.vue:344
+#: frontend/src/project/ProjectPage.vue:345
 msgid "Add Sub-project"
 msgstr "Teilprojekt hinzufügen"
 
@@ -1508,6 +1508,7 @@ msgstr "Lieferant hinzufügen"
 #: frontend/src/project/Tasks.vue:77 frontend/src/template/Tasks.vue:97
 #: frontend/src/template/TemplatePage.vue:114
 #: onedesk/one_task/page/my_tasks/my_tasks.js:40
+#: onedesk/public/js/task_new.js:44
 msgid "Add Task"
 msgstr "Aufgabe hinzufügen"
 
@@ -1604,7 +1605,7 @@ msgstr "Fügen Sie der Gruppe mindestens eine Person hinzu."
 msgid "Add at least one rate to a model priced by hand."
 msgstr "Fügen Sie einem manuell bepreisten Modell mindestens einen Tarif hinzu."
 
-#: frontend/src/project/ProjectPage.vue:346
+#: frontend/src/project/ProjectPage.vue:347
 #: onedesk/public/js/project_actions.js:80
 msgid "Add from Template"
 msgstr "Aus Vorlage hinzufügen"
@@ -2000,8 +2001,8 @@ msgstr "Alle Aufgaben"
 msgid "All Time"
 msgstr "Insgesamt"
 
-#: frontend/src/project/ProjectPage.vue:264
-#: frontend/src/project/ProjectPage.vue:270
+#: frontend/src/project/ProjectPage.vue:265
+#: frontend/src/project/ProjectPage.vue:271
 msgid "All Work"
 msgstr "Alle Arbeiten"
 
@@ -2842,7 +2843,7 @@ msgstr "Fragen Sie unter Ihre Daten erneut, wenn Sie Ihr Konto weiterhin lösche
 msgid "Ask an administrator for access."
 msgstr "Bitten Sie einen Administrator um Zugriff."
 
-#: frontend/src/project/ProjectPage.vue:331
+#: frontend/src/project/ProjectPage.vue:332
 #: onedesk/public/js/project_actions.js:673
 msgid "Ask for Updates"
 msgstr "Updates anfordern"
@@ -3662,7 +3663,7 @@ msgid "Bill Costs As"
 msgstr "Kosten abrechnen als"
 
 #: frontend/src/project/Overview.vue:30
-#: frontend/src/project/ProjectPage.vue:357
+#: frontend/src/project/ProjectPage.vue:358
 #: frontend/src/project/Suppliers.vue:73 onedesk/public/js/progress.js:20
 #: onedesk/public/js/progress.js:33 onedesk/public/js/project_actions.js:587
 msgid "Bill Progress"
@@ -6828,6 +6829,7 @@ msgstr "Abschreibungen buchen sich selbst"
 #: onedesk/public/js/project_actions.js:422
 #: onedesk/public/js/project_actions.js:776 onedesk/public/js/settings.js:1619
 #: onedesk/public/js/settings.js:3083 onedesk/public/js/settings.js:3257
+#: onedesk/public/js/task_new.js:42
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -7318,7 +7320,7 @@ msgid "Drafts"
 msgstr "Entwürfe"
 
 #: frontend/src/project/Overview.vue:92
-#: frontend/src/project/ProjectPage.vue:343
+#: frontend/src/project/ProjectPage.vue:344
 #: onedesk/public/js/project_actions.js:174
 #: onedesk/public/js/project_actions.js:194
 msgid "Draw Up Contract"
@@ -7371,7 +7373,7 @@ msgstr "Verworfen"
 #: onedesk/one_project/heads.py:180
 #: onedesk/one_task/page/my_tasks/my_tasks.js:62
 #: onedesk/one_task/page/my_tasks/my_tasks.js:151
-#: onedesk/public/js/settings.js:1744
+#: onedesk/public/js/settings.js:1744 onedesk/public/js/task_new.js:38
 msgid "Due"
 msgstr "Fällig"
 
@@ -7601,14 +7603,14 @@ msgstr "Kurzbeschreibung bearbeiten"
 msgid "Edit Costs"
 msgstr "Kosten bearbeiten"
 
-#: frontend/src/project/ProjectPage.vue:329
+#: frontend/src/project/ProjectPage.vue:330
 #: frontend/src/project/TaskPanel.vue:76 frontend/src/project/TaskPanel.vue:202
 #: frontend/src/template/TemplatePage.vue:98
 #: onedesk/public/js/project_actions.js:779
 msgid "Edit Details"
 msgstr "Details bearbeiten"
 
-#: onedesk/one/page/masters/masters.js:172
+#: onedesk/one/page/masters/masters.js:172 onedesk/public/js/task_new.js:59
 msgid "Edit Full Form"
 msgstr ""
 
@@ -9952,7 +9954,7 @@ msgstr "Gruppe"
 msgid "Group By"
 msgstr "Gruppieren nach"
 
-#: frontend/src/project/ProjectPage.vue:345 onedesk/public/js/project.js:25
+#: frontend/src/project/ProjectPage.vue:346 onedesk/public/js/project.js:25
 #: onedesk/public/js/project_actions.js:33
 msgid "Group Under New Project"
 msgstr "Unter neuem Projekt gruppieren"
@@ -11275,7 +11277,7 @@ msgid "Invoice"
 msgstr "Rechnung"
 
 #: frontend/src/project/Invoices.vue:13 frontend/src/project/Months.vue:19
-#: frontend/src/project/ProjectPage.vue:361 onedesk/public/js/project.js:30
+#: frontend/src/project/ProjectPage.vue:362 onedesk/public/js/project.js:30
 #: onedesk/public/js/project_actions.js:523
 msgid "Invoice Month"
 msgstr "Monat fakturieren"
@@ -11289,7 +11291,7 @@ msgid "Invoice Number"
 msgstr "Rechnungsnummer"
 
 #: frontend/src/project/Overview.vue:58
-#: frontend/src/project/ProjectPage.vue:359 frontend/src/project/Time.vue:173
+#: frontend/src/project/ProjectPage.vue:360 frontend/src/project/Time.vue:173
 #: onedesk/public/js/project.js:32 onedesk/public/js/project_actions.js:118
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
@@ -11399,7 +11401,7 @@ msgstr "Lohnt es sich, dieses Modell anzubieten?"
 msgid "Is this model worth offering? Compare what it costs a workspace with the offered models that can do the same, say what it can read, which actions would run on it, and whether anyone used it."
 msgstr "Lohnt es sich, dieses Modell anzubieten? Vergleichen Sie, was es einen Arbeitsbereich kostet, mit den angebotenen Modellen, die dasselbe können, und nennen Sie, was es lesen kann, welche Aktionen darauf laufen würden und ob es jemand genutzt hat."
 
-#: frontend/src/project/ProjectPage.vue:340
+#: frontend/src/project/ProjectPage.vue:341
 msgid "Issue Stock"
 msgstr "Lager ausgeben"
 
@@ -13050,8 +13052,8 @@ msgstr ""
 
 #: frontend/src/project/MilestoneLanes.vue:86
 #: frontend/src/project/Overview.vue:344
-#: frontend/src/project/ProjectPage.vue:265
-#: frontend/src/project/ProjectPage.vue:270
+#: frontend/src/project/ProjectPage.vue:266
+#: frontend/src/project/ProjectPage.vue:271
 msgctxt "Project"
 msgid "Main"
 msgstr "Hauptteil"
@@ -13100,7 +13102,7 @@ msgstr "Zur Hauptadresse machen"
 msgid "Make Member"
 msgstr "Zum Mitglied machen"
 
-#: frontend/src/project/ProjectPage.vue:355
+#: frontend/src/project/ProjectPage.vue:356
 msgid "Make Order"
 msgstr "Auftrag erstellen"
 
@@ -14100,7 +14102,7 @@ msgstr "Neue E-Mail"
 msgid "New Event"
 msgstr "Neuer Termin"
 
-#: frontend/src/project/ProjectPage.vue:341
+#: frontend/src/project/ProjectPage.vue:342
 msgid "New Expense Claim"
 msgstr "Neue Spesenabrechnung"
 
@@ -14175,7 +14177,7 @@ msgstr "Neues Projekt"
 msgid "New Purchase Order"
 msgstr "Neue Bestellung"
 
-#: frontend/src/project/ProjectPage.vue:335
+#: frontend/src/project/ProjectPage.vue:336
 msgid "New Quotation"
 msgstr "Neues Angebot"
 
@@ -14198,7 +14200,7 @@ msgstr "Neue Anmeldung"
 msgid "New Sub-project"
 msgstr "Neues Teilprojekt"
 
-#: frontend/src/project/ProjectPage.vue:29
+#: frontend/src/project/ProjectPage.vue:29 onedesk/public/js/task_new.js:11
 msgid "New Task"
 msgstr "Neue Aufgabe"
 
@@ -16608,7 +16610,7 @@ msgstr "Offene Projekte"
 msgid "Open Source and Third-Party Notices"
 msgstr "Open-Source- und Drittanbieterhinweise"
 
-#: frontend/src/project/ProjectPage.vue:348
+#: frontend/src/project/ProjectPage.vue:349
 msgid "Open Task Board"
 msgstr "Aufgabenboard öffnen"
 
@@ -17086,6 +17088,7 @@ msgstr "Offen"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/public/js/onecloud.js:643 onedesk/public/js/onecloud.js:711
 #: onedesk/public/js/onecloud.js:1327 onedesk/public/js/onecloud.js:1479
+#: onedesk/public/js/task_new.js:33
 msgid "Owner"
 msgstr "Eigentümer"
 
@@ -17240,6 +17243,7 @@ msgstr "Teil"
 #. Label of the part_of (Link) field in DocType 'Reading'
 #: frontend/src/project/TaskPanel.vue:55
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/public/js/task_new.js:28
 msgid "Part Of"
 msgstr "Teil von"
 
@@ -18037,7 +18041,7 @@ msgstr "Geplant"
 msgid "Planned (Hours)"
 msgstr "Geplant (Stunden)"
 
-#: frontend/src/project/TaskPanel.vue:35
+#: frontend/src/project/TaskPanel.vue:35 onedesk/public/js/task_new.js:40
 msgid "Planned Hours"
 msgstr "Geplante Stunden"
 
@@ -18155,8 +18159,8 @@ msgstr "Mögliches Duplikat von {0}."
 msgid "Post"
 msgstr "Posten"
 
-#: frontend/src/project/ProjectPage.vue:330
-#: frontend/src/project/ProjectPage.vue:362 onedesk/public/js/project.js:74
+#: frontend/src/project/ProjectPage.vue:331
+#: frontend/src/project/ProjectPage.vue:363 onedesk/public/js/project.js:74
 #: onedesk/public/js/project.js:76 onedesk/public/js/project_actions.js:296
 msgid "Post Update"
 msgstr "Update posten"
@@ -18404,6 +18408,7 @@ msgstr "Druckt mit"
 #: frontend/src/project/Overview.vue:284 frontend/src/project/TaskPanel.vue:27
 #: frontend/src/project/TaskPanel.vue:28 frontend/src/project/Tasks.vue:21
 #: frontend/src/project/Tasks.vue:48 onedesk/public/js/doctype_settings.js:1104
+#: onedesk/public/js/task_new.js:34
 msgid "Priority"
 msgstr "Priorität"
 
@@ -18530,7 +18535,7 @@ msgstr "Fortschritt…"
 #: onedesk/public/js/project_actions.js:406
 #: onedesk/public/js/project_actions.js:621
 #: onedesk/public/js/project_list.js:115 onedesk/public/js/project_tree.js:32
-#: onedesk/public/js/timesheet.js:49
+#: onedesk/public/js/task_new.js:19 onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr "Projekt"
 
@@ -18914,7 +18919,7 @@ msgstr "Angebots-Nr."
 msgid "Quotations"
 msgstr "Angebote"
 
-#: frontend/src/project/ProjectPage.vue:336 onedesk/public/js/project.js:39
+#: frontend/src/project/ProjectPage.vue:337 onedesk/public/js/project.js:39
 msgid "Quote Extra Work"
 msgstr "Zusatzarbeiten anbieten"
 
@@ -20610,7 +20615,7 @@ msgstr "Speichern"
 msgid "Save Address"
 msgstr "Adresse speichern"
 
-#: frontend/src/project/ProjectPage.vue:347 onedesk/public/js/project.js:51
+#: frontend/src/project/ProjectPage.vue:348 onedesk/public/js/project.js:51
 #: onedesk/public/js/project_actions.js:71
 msgid "Save as Template"
 msgstr "Als Vorlage speichern"
@@ -21520,7 +21525,7 @@ msgstr "Kurz vor einem Interview, an dem du teilnimmst, so lange vorher, wie die
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr "Kurz vor einem Interview, so lange vorher, wie die HR-Einstellungen sagen."
 
-#: frontend/src/project/ProjectPage.vue:261 onedesk/public/js/settings.js:2251
+#: frontend/src/project/ProjectPage.vue:262 onedesk/public/js/settings.js:2251
 #: onedesk/public/js/settings.js:2271
 msgid "Show"
 msgstr ""
@@ -22204,6 +22209,7 @@ msgstr "Beginnt bald"
 #: frontend/src/project/TaskPanel.vue:29
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/public/js/project_actions.js:84 onedesk/public/js/project_new.js:147
+#: onedesk/public/js/task_new.js:36
 msgid "Starts"
 msgstr "Beginnt"
 
@@ -22619,7 +22625,7 @@ msgid "Style"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:121
-#: frontend/src/project/ProjectPage.vue:268 onedesk/one_project/heads.py:178
+#: frontend/src/project/ProjectPage.vue:269 onedesk/one_project/heads.py:178
 #: onedesk/one_project/tree.py:195 onedesk/www/projects.html:105
 msgid "Sub-projects"
 msgstr "Unterprojekte"
@@ -23024,7 +23030,8 @@ msgstr "Zielmarge"
 #: frontend/src/template/TemplatePage.vue:111
 #: onedesk/one_task/page/my_tasks/my_tasks.js:148
 #: onedesk/public/js/project_actions.js:393
-#: onedesk/public/js/project_actions.js:769 onedesk/public/js/timesheet.js:50
+#: onedesk/public/js/project_actions.js:769 onedesk/public/js/task_new.js:14
+#: onedesk/public/js/timesheet.js:50
 msgid "Task"
 msgstr "Aufgabe"
 
@@ -30796,6 +30803,10 @@ msgstr "{0} pro Monat weniger. Der Rest dieses Monats wird mit der nächsten Rec
 msgid "{0} a month more. The difference for the rest of this month is charged now."
 msgstr "{0} pro Monat mehr. Die Differenz für den Rest dieses Monats wird jetzt berechnet."
 
+#: onedesk/public/js/task_new.js:51
+msgid "{0} added"
+msgstr "{0} hinzugefügt"
+
 #: onedesk/public/js/task_timer.js:9
 msgid "{0} added to your timesheet."
 msgstr "{0} zu Ihrem Stundenzettel hinzugefügt."
@@ -32043,11 +32054,11 @@ msgstr "{0} von {1} offen"
 msgid "{0} open quotes"
 msgstr "{0} offene Angebote"
 
-#: frontend/src/project/ProjectPage.vue:233
+#: frontend/src/project/ProjectPage.vue:234
 msgid "{0} open sub-projects"
 msgstr "{0} offene Teilprojekte"
 
-#: frontend/src/project/ProjectPage.vue:232
+#: frontend/src/project/ProjectPage.vue:233
 msgid "{0} open tasks"
 msgstr "{0} offene Aufgaben"
 
@@ -32189,11 +32200,11 @@ msgstr "{0} hat noch offene Arbeit."
 msgid "{0} still has records. Delete them first."
 msgstr "{0} hat noch Datensätze. Löschen Sie diese zuerst."
 
-#: frontend/src/project/ProjectPage.vue:237
+#: frontend/src/project/ProjectPage.vue:238
 msgid "{0} still has {1}. Cancel them too?"
 msgstr "{0} hat noch {1}. Auch diese stornieren?"
 
-#: frontend/src/project/ProjectPage.vue:237
+#: frontend/src/project/ProjectPage.vue:238
 msgid "{0} still has {1}. Complete them too?"
 msgstr "{0} hat noch {1}. Auch diese abschließen?"
 
