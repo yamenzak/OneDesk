@@ -1936,6 +1936,15 @@ def onecloud_files_go_out_and_come_in():
 		tickets = upload.begin(root, [{"name": demo.ELEVATIONS, "size": 900}, {"name": "Door schedule.pdf", "size": 400}])
 		assert tickets["direct"] and tickets["existing"] == [demo.ELEVATIONS]
 		placed = upload.done(tickets["tickets"][1]["token"])
+		# A ticket is used once, and only by whoever asked for it.
+		for token, who in ((tickets["tickets"][1]["token"], demo.PM), (tickets["tickets"][0]["token"], "rania@one.test")):
+			with as_user(who):
+				try:
+					upload.done(token)
+				except frappe.ValidationError as e:
+					assert "expired" in str(e), e
+				else:
+					raise AssertionError(f"{who} filed an upload with a ticket that was not theirs to use")
 		stored = frappe.db.get_value("File", placed["id"], "file_url")
 		assert store.is_stored(stored)
 		assert store.fetch(store.key_of(stored)).status_code == 302
@@ -1958,6 +1967,115 @@ def onecloud_files_go_out_and_come_in():
 def _employee(first: str) -> str:
 	return frappe.db.get_value("Employee", {"first_name": first})
 
+
+@check
+def onecloud_each_file_answers_to_its_people():
+	"""What OneCloud lets each person do with what is not theirs. A stored
+	file opens for whoever may read it and for anybody else is not there at
+	all. What Samir shared with Rania she may copy out but not take, nor
+	share on; a file of a record is shared with the record, and only with the
+	team. A library keeps an owner, and only its owners say who is in it. A
+	server is its maker's until an administrator shares it, and its password
+	never leaves the workspace. Nobody finds by searching what they may not
+	open, and nobody fills in a request after it is closed."""
+	from unittest import mock
+
+	from werkzeug.exceptions import NotFound
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_storage import api, file_requests, library, mounts, share, store
+	from onedesk.one_storage import namespace as ns
+
+	notes = frappe.db.get_value("File", {"owner": demo.PM, "file_name": demo.NOTES})
+	key = "demo/kept/site-visit.pdf"
+	kept = frappe.get_doc({"doctype": "File", "file_name": "Site visit.pdf", "file_url": store.url_for(key), "is_private": 1, "folder": ns.home(demo.PM)})
+	kept.owner = demo.PM
+	kept.db_insert()
+	with mock.patch("onedesk.one_storage.store.signed", return_value="https://r2.example.com/get"):
+		with as_user(demo.PM):
+			assert store.fetch(key).status_code == 302
+		with as_user("omar@one.test"):
+			try:
+				store.fetch(key)
+			except NotFound:
+				pass
+			else:
+				raise AssertionError("a stranger opened a private file, or was told it was there")
+
+	with as_user("rania@one.test"):
+		try:
+			share.share([notes], ["tariq@one.test"])
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("Rania shared on what she may only read")
+	with as_user(demo.PM):
+		share.set_edit(notes, "rania@one.test", 1)
+	with as_user("rania@one.test"):
+		try:
+			api.move([notes], ns.home())
+		except frappe.ValidationError as e:
+			assert "Copy it instead" in str(e), e
+		else:
+			raise AssertionError("Rania took Samir's notes into her own files")
+		copied = api.copy([notes], ns.home())
+		assert frappe.db.get_value("File", copied[0], "file_url") == frappe.db.get_value("File", notes, "file_url"), "a copy names the same bytes"
+	cover = frappe.db.get_value("File", {"attached_to_doctype": "Project", "attached_to_name": VILLA, "is_folder": 0})
+	with as_user(demo.PM):
+		for nodes, users, said in (([notes], ["probe@example.com"], "Only people on the team"), ([cover], ["rania@one.test"], "Share the record instead")):
+			try:
+				share.share(nodes, users)
+			except frappe.ValidationError as e:
+				assert said in str(e), e
+			else:
+				raise AssertionError(said)
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	with as_user("yousef@one.test"):
+		try:
+			library.add(root, ["nadia@one.test"])
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a reader added somebody to a library")
+	with as_user(demo.PM):
+		try:
+			library.remove(root, demo.PM)
+		except frappe.ValidationError as e:
+			assert "last owner" in str(e), e
+		else:
+			raise AssertionError("a library was left without an owner")
+
+	with as_user(demo.PM), mock.patch("onedesk.one_storage.mounts.connect", return_value=_Server({})):
+		server = mounts.save({"title": "Office NAS", "protocol": "WebDAV", "url": "https://nas.example.com/dav", "username": "samir", "password": "nas-pass"})["id"]
+		assert "password" not in mounts.settings(server)["values"]
+		try:
+			mounts.save({"shared": 1}, name=mounts.split(server)[0])
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a server was shared with everyone by somebody who is not an administrator")
+	with as_user("rania@one.test"):
+		assert server not in {one["id"] for one in mounts.visible()}
+	with as_user(OWNER), mock.patch("onedesk.one_storage.mounts.connect", return_value=_Server({})):
+		mounts.save({"shared": 1}, name=mounts.split(server)[0])
+	with as_user("rania@one.test"):
+		assert server in {one["id"] for one in mounts.visible()}
+
+	with as_user("yousef@one.test"):
+		found = {one["id"] for one in api.listing(ns.ROOT, search="visit", everywhere=1)["items"]}
+		assert notes not in found and kept.name not in found, found
+
+	asked = frappe.db.get_value("Cloud File Request", {"title": "Al Noor papers for this year"})
+	with as_user("karim@one.test"):
+		person = file_requests.progress(asked)["people"][0]
+		file_requests.close(asked)
+	item = frappe.db.get_value("Cloud File Request Item", {"parent": asked, "label": "Trade licence"})
+	frappe.set_user("Guest")
+	from io import BytesIO
+
+	_asked(data={"file": (BytesIO(demo._pdf("Trade licence 2026")), "licence.pdf")})
+	assert "said=closed" in file_requests.send(person["url"].rsplit("/", 1)[-1], item).location
 
 @check
 def onehr_requests_are_answered_by_who_answers_them():

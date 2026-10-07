@@ -641,6 +641,12 @@ Up next, in this order:
    - Found on the way: a task done could not be opened by its project's
      people. Its list of people was then empty text, which the check on who
      may read a task could not read (`one_task/access.py`).
+   - OneCloud's rules on the demo: a private stored file not there at all for
+     a stranger, what was shared copied out but not taken, sharing only with
+     the team and never a record's own file, a library kept with an owner,
+     a server its maker's until an administrator shares it and its password
+     never sent, searching finding only what may be opened, a closed request
+     refusing more, and an upload ticket used once and only by its asker.
 4. The finished modules again, against the new points only, one screen at a
    time.
 
