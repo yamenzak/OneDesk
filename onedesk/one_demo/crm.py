@@ -6,7 +6,7 @@ and turned down."""
 import frappe
 from frappe.utils import add_to_date, now_datetime
 
-from onedesk.one_demo.base import ago, ahead, as_user, make, save, tag
+from onedesk.one_demo.base import ago, ahead, as_user, make, save, tag, wh
 
 SALES = "omar@one.test"
 ESTIMATOR = "samir@one.test"
@@ -107,10 +107,51 @@ def run(password=None):
 				quote.append("items", {"item_code": "WIN-CS12", "qty": max(1, int(amount / 2400 / 3)), "rate": 2400})
 				quote.valid_till = ahead(20)
 				quote = save(quote, submit=True)
+				if stage == "Won":
+					_ordered(quote.name)
 				if stage == "Lost":
 					# Turned down: the quotation is lost, and ERPNext loses the deal with it.
 					quote.declare_enquiry_lost([{"lost_reason": _lost_reason()}], [], "Went with a cheaper local supplier.")
 		_convert("Lucy")
+	_from_the_form()
+
+
+#: first, last, company, email, message: two who wrote through the Get in
+#: Touch form, so nobody owns them yet, the second the same business as Hamad.
+FORM = (
+	("Priya", "Nair", "Nair Interiors", "priya@nairinteriors.example", "We need a quote for frameless shower screens in six flats."),
+	("Khalid", "Al Suwaidi", "Suwaidi Villas", "khalid@suwaidi.example", "Following up on the villa windows my brother asked about."),
+)
+
+
+def _from_the_form():
+	"""Leads as the web form makes them: no owner, the Website source, and the
+	second flagged as maybe the same as a lead we have."""
+	for first, last, company, email, said in FORM:
+		if frappe.db.exists("Lead", {"email_id": email}):
+			continue
+		frappe.flags.in_web_form = True
+		try:
+			lead = frappe.get_doc(
+				{"doctype": "Lead", "first_name": first, "last_name": last, "company_name": company, "email_id": email}
+			).insert(ignore_permissions=True)
+		finally:
+			frappe.flags.in_web_form = False
+		tag(lead)
+		lead.add_comment("Comment", said)
+
+
+def _ordered(quotation):
+	"""Won: the quotation ordered through ERPNext's Make Sales Order, which
+	converts the deal, and One moves it to Won (one_crm/stages.py)."""
+	from erpnext.selling.doctype.quotation.mapper import make_sales_order
+
+	order = make_sales_order(quotation)
+	order.delivery_date = ahead(30)
+	order.set_warehouse = wh("Finished Goods")
+	for row in order.items:
+		row.delivery_date, row.warehouse = order.delivery_date, wh("Finished Goods")
+	save(order, submit=True)
 
 
 def _convert(first):

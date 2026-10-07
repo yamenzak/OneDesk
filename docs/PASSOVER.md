@@ -505,8 +505,15 @@ Up next, in this order:
      the place of the planned point-1 guard). OneAdmin's are left out, as
      they run on the admin site.
    - At the start, 14 of 511 were reached. Now OneTask, OneCalendar,
-     OneBook and OneInventory are reached in full, each read and used as its
-     people use it.
+     OneBook, OneInventory, OneCRM, OneLegal and OneStudio are reached in
+     full, each read and used as its people use it. 416 are left.
+   - The demo gained two leads from the Get in Touch form with nobody owning
+     them, one maybe a lead we have, and a studio step: Company Van, a record
+     type of the company's own, with two vans, and two extensions, one on and
+     with an error from somebody's browser.
+   - Found on the way: the demo's won deal was never won. Its quotation was
+     sent and never ordered, so the win rate read 0. It is now ordered
+     through Make Sales Order, which wins the deal.
    - The demo gained a calendar step: the weekly site meeting, a handover walk
      with the customer, a supplier visit, a safety briefing and a pricing
      review. Before it the demo had no events at all.

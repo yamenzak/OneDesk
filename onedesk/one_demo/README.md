@@ -23,13 +23,14 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | stock | The stock the year opened with |
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, euro orders |
 | making | Bills of materials and work orders, finished, half done, started and not yet started |
-| crm | Leads from every source in every status, deals at every stage in three currencies, calls, quotations won and lost, a lead turned customer |
+| crm | Leads from every source in every status, deals at every stage in three currencies, calls, quotations won and lost, a lead turned customer, two leads from the Get in Touch form with nobody owning them, one maybe a lead we have |
 | projects | Ten projects of every kind, with the 25-task template, contracts, progress billing, retention, advances, subcontracts, budgets, time, retainers, extra work |
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
 | books | The bank account, opening balances, rent and utilities each month |
 | hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter |
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
+| studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there |
 
 Every record is made the way a click makes it, through frappe's controllers,

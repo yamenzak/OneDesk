@@ -23,15 +23,15 @@ STILL = {
 	"one_ai": 25,
 	"one_book": 0,
 	"one_calendar": 0,
-	"one_crm": 18,
+	"one_crm": 0,
 	"one_hr": 62,
 	"one_intake": 24,
 	"one_inventory": 0,
-	"one_legal": 6,
+	"one_legal": 0,
 	"one_mail": 38,
 	"one_project": 45,
 	"one_storage": 54,
-	"one_studio": 17,
+	"one_studio": 0,
 	"one_task": 0,
 }
 

@@ -3,8 +3,10 @@
     bench --site <site> execute onedesk.one_demo.check.run
 """
 
+import traceback
+
 import frappe
-from frappe.utils import flt, getdate, today
+from frappe.utils import add_days, flt, getdate, today
 
 from onedesk.one_demo.base import COMPANY, as_user, on, wh
 from onedesk.one_demo.people import OWNER, PEOPLE
@@ -27,7 +29,9 @@ def run(only: str | None = None) -> int:
 			print(f"ok    {fn.__name__}")
 		except Exception as e:
 			failed.append(fn.__name__)
-			print(f"FAIL  {fn.__name__}: {str(e)[:600]}")
+			# A bare assert says nothing; the line it stopped on says which.
+			said = str(e) or f"line {traceback.extract_tb(e.__traceback__)[-1].lineno}"
+			print(f"FAIL  {fn.__name__}: {type(e).__name__} {said[:600]}")
 		finally:
 			frappe.db.rollback()
 			frappe.set_user("Administrator")
@@ -732,8 +736,6 @@ def onecalendar_shows_each_person_their_week():
 	"""The week's events, days off and layers as the team sees them, an event's
 	card, one moved, a feed link made, renewed, read and stopped, and OneAI's
 	reads and a suggested event."""
-	from frappe.utils import add_days
-
 	from onedesk.one_calendar import ai, events, feed, layers
 
 	start, end = str(add_days(today(), -7)), str(add_days(today(), 7))
@@ -810,3 +812,132 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 		assert made and frappe.db.get_value("Purchase Order", made[0], "docstatus") == 0
 	with as_user(OWNER):
 		ready.fix("depreciation")
+
+
+@check
+def onecrm_leads_and_deals_as_omar_works_them():
+	"""Omar's pipeline figures and board, a deal's and a lead's overview, a
+	call logged and a step done, a lead from the web form taken, a lead that
+	is not the same person cleared and one that is merged, and what OneAI
+	reads and suggests on the way."""
+	from onedesk.one_crm import ai, board, capture, measure, next, record
+
+	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
+	lead = frappe.db.get_value("Lead", {"email_id": "hamad@suwaidi.example"})
+	priya = frappe.db.get_value("Lead", {"email_id": "priya@nairinteriors.example"})
+	khalid = frappe.db.get_value("Lead", {"email_id": "khalid@suwaidi.example"})
+	with as_user("omar@one.test"):
+		figures = {
+			"pipeline": measure.pipeline(),
+			"weighted": measure.weighted(),
+			"won this month": measure.won_this_month(),
+			"win rate": measure.win_rate(),
+		}
+		assert figures["pipeline"]["value"] > figures["weighted"]["value"] > 0, figures
+		assert figures["win rate"]["value"] == 50.0, "one won and one lost in the last months"
+		stages = board.worth()["stages"]
+		assert sum(one["value"] for one in stages.values()) >= figures["pipeline"]["value"], stages
+		assert record.overview("Opportunity", deal)["next"]
+		assert record.overview("Lead", lead)
+		called = record.log_call("Opportunity", deal, "Outgoing", "Answered", 6, "Agreed to send the drawings by Thursday.")
+		assert frappe.db.exists("Dynamic Link", {"parenttype": "Call Log", "parent": called, "link_name": deal})
+		next.done("Opportunity", deal, "Review the drawings", str(add_days(today(), 3)) + " 10:00:00")
+		assert frappe.db.get_value("Opportunity", deal, "one_next_step") == "Review the drawings"
+		assert frappe.db.exists("Comment", {"reference_name": deal, "content": ["like", "%Ask for the drawings%"]})
+
+		assert not frappe.db.get_value("Lead", priya, "lead_owner"), "the web form gives a lead no owner"
+		capture.take("Lead", priya)
+		assert frappe.db.get_value("Lead", priya, "lead_owner") == "omar@one.test"
+		assert frappe.db.get_value("Lead", khalid, "one_duplicate_of") == lead
+		capture.not_duplicate(khalid)
+		assert not frappe.db.get_value("Lead", khalid, "one_duplicate_of")
+		again = frappe.get_doc({"doctype": "Lead", "first_name": "Priya", "last_name": "Nair", "company_name": "Nair Interiors", "email_id": "p.nair@gmail.example"}).insert()
+		assert again.one_duplicate_of == priya
+		assert capture.merge(again.name, priya) == priya and not frappe.db.exists("Lead", again.name)
+
+		assert ai.deal_facts(deal)["history"]
+		assert ai.lead_facts(lead)["history"]
+		assert "quiet" in ai.gone_quiet("Opportunity") and "quiet" in ai.gone_quiet("Lead")
+		lost = ai.why_we_lose()
+		assert lost["won"] == 1 and lost["lost"] == 1 and lost["deals"][0]["reasons"] == ["Price"], lost
+		assert ai.add_lead("Hamad Al Suwaidi", "hamad@suwaidi.example").get("error"), "a lead we have is not suggested twice"
+		assert ai.add_lead("Joanna Pike", "joanna@pike.example", "Pike Hotels").get("state") == "Proposed"
+		assert ai.plan_next_step("Opportunity", deal, "Call to agree the price", str(add_days(today(), 2))).get("state") == "Proposed"
+		assert ai.write_up_call("Lead", lead, "Wants the villa windows quoted by the end of the month.").get("state") == "Proposed"
+
+
+@check
+def onelegal_every_person_has_agreed_and_reads_what_to():
+	"""Everybody accepted what they must on their first sign-in, so nothing is
+	outstanding; the documents, an old version and what was agreed read back,
+	and OneAI reads an agreement."""
+	from onedesk.one_legal import ai, gate, reading
+
+	for user in (OWNER, "rania@one.test"):
+		with as_user(user):
+			assert not gate.outstanding()["blocking"], user
+	with as_user(OWNER):
+		listed = reading.catalogue()["documents"]
+		assert {"terms", "privacy"} <= {one["key"] for one in listed}, listed
+		said = reading.document("terms")
+		assert said["html"] and said["version"]
+		agreed = reading.history("terms")
+		assert agreed and agreed[0]["document"] == "terms"
+		assert reading.document("terms", agreed[0]["version"])["version"] == agreed[0]["version"]
+		assert gate.accept(["terms"])["accepted"] == [], "accepted at this version already"
+		assert ai.agreement("privacy").get("text")
+
+
+@check
+def onestudio_record_types_extensions_and_forms_for_the_owner():
+	"""Layla's collections, extensions and changed forms, the Company Van moved
+	to a group of its own, an extension's error read on its Errors tab and
+	fixed, and what OneAI reads, writes and suggests in OneStudio. A sales
+	manager sees none of it."""
+	from unittest import mock
+
+	from onedesk.one_studio import ai, extensions, forms, mend, record_types, review
+
+	screen = frappe.db.get_value(extensions.EXTENSION, {"title": "Say When a Customer Has No Mobile"})
+	server = frappe.db.get_value(extensions.EXTENSION, {"title": "A Lead Needs a Mobile Number"})
+	with as_user("omar@one.test"):
+		extensions.tripped(screen, "frm.dashboard is undefined", "at refresh", frappe.get_all("Customer", pluck="name", limit=1)[0])
+		assert "error" in ai.extensions_here() and "error" in ai.record_types_here()
+	with as_user(OWNER):
+		assert len(mend.listed(screen)) >= 2
+		changed = {one["doctype"]: one for one in forms.forms()}
+		assert changed["Customer"]["extensions"] == 1, changed.get("Customer")
+		assert [one["title"] for one in forms.extensions("Lead")] == ["A Lead Needs a Mobile Number"]
+		assert "Your Records" in record_types.groups_of("OneInventory")
+		assert record_types.move("Company Van", "OneInventory", "Vehicles").endswith("Vehicles")
+		assert frappe.db.get_value("Record Type", "Company Van", "rail_group") == "Vehicles"
+
+		assert {one["title"] for one in ai.extensions_here()["extensions"]} >= {"Say When a Customer Has No Mobile", "A Lead Needs a Mobile Number"}
+		assert ai.extension_mistakes("Say When a Customer Has No Mobile")["errors"]
+		assert ai.extension_code(server)["code"].startswith("if not doc.mobile_no")
+		assert ai.extension_places()
+		assert ai.record_types_here()["record_types"][0]["records"] == 2
+		assert ai.forms_here()["changed_forms"] and ai.forms_here("Customer")["extensions"]
+		assert ai.form_relations("Item")
+		assert ai.design_record_type("Tool Loan", "OneInventory", "A tool lent to somebody.", [{"label": "Tool", "fieldtype": "Data"}], "Keep track of lent tools.").get("state") == "Proposed"
+		passed = {"verdict": "Pass", "why": "Does what it says."}
+		with mock.patch.object(review, "ask", return_value=passed):
+			written = ai.write_extension(
+				"A Customer Needs a Mobile Number",
+				"On Screen",
+				"Customer",
+				"Says on the form when a customer has no mobile.",
+				"frappe.ui.form.on('Customer', { refresh(frm) { if (!frm.doc.mobile_no) frm.set_intro(__('No mobile number yet.')); } });",
+				"Tell us when a customer has no mobile",
+				view="Form",
+			)
+			assert written.get("state") == "Proposed", written
+			fixed = {"diagnosis": "frm.dashboard is not there on a new form.", "code": "frappe.ui.form.on('Customer', { refresh(frm) { if (!frm.doc.mobile_no) frm.set_intro(__('No mobile number yet.')); } });", "explanation": "Says on the form when a customer has no mobile."}
+			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=fixed):
+				said = mend.mend(screen)
+			assert said["review"] == "Passed" and not frappe.db.get_value(extensions.EXTENSION, screen, "enabled"), "a fixed extension stays off"
+		with mock.patch("frappe.enqueue") as queued:
+			# Mended a moment ago, so it has no errors since: the person says what is wrong.
+			assert "error" in ai.mend_extension(screen)
+			assert ai.mend_extension(screen, "It says nothing on a new customer").get("started")
+			assert queued.call_args.args[0] == "onedesk.one_studio.mend.in_background"

@@ -26,6 +26,7 @@ STEPS = (
 	"books",
 	"hr",
 	"calendar",
+	"studio",
 	"intake",
 )
 
