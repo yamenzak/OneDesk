@@ -556,10 +556,20 @@ Up next, in this order:
      shared link, a second version of a drawing, a file request to a
      supplier) and in HR an interview, shift requests, an attendance
      request, an overtime type and an appraisal.
-   - OneMail, OneCloud and OneHR are now reached in full, and the One
-     module is down from 168 to 77, so 77 are left in all. Checks for
-     Settings, access, numbering, printing, privacy, closing, the portal and
-     the home were added.
+   - Every feature is now reached: all 511, in every module, each read and
+     used by a check as its people use it, 69 checks in all. The coverage
+     guard holds every module at none left.
+   - Found on the way: OneAI's tool for who is on the workspace failed every
+     time, since People's rows changed shape (`one/ai.py`
+     `workspace_people`), and its tool for the plan failed on the sizes the
+     account keeps (`workspace_plan`).
+   - Found on the way: a OneAI card that changes a mailbox's signature could
+     not be approved by the administrator it was for. Approving it saved the
+     mailbox as them; it now goes through the signature's own step
+     (`one_ai/proposals.py`).
+   - A card that adds a column to a table (a new field, an approval) is read
+     by its check, not approved, since a check may not keep a change to a
+     table.
    - Found on the way: a workspace administrator could not make a connected
      mailbox the one the workspace sends from, nor put the workspace's own
      address back. frappe takes the default off the old mailbox by saving it

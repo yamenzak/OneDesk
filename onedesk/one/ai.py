@@ -1274,12 +1274,12 @@ def workspace_people() -> dict:
 		"used": said["used"],
 		"people": [
 			{
-				"name": one.full_name or one.name,
-				"address": one.name,
-				"on": bool(one.enabled),
-				"administrator": one.admin,
-				"apps": {app: level for app, level in one.access.items() if level != "None"},
-				"last_active": str(one.last_active) if one.last_active else "never",
+				"name": one["full_name"] or one["name"],
+				"address": one["name"],
+				"on": bool(one["enabled"]),
+				"administrator": one["admin"],
+				"apps": {app: level for app, level in one["access"].items() if level != "None"},
+				"last_active": str(one["last_active"]) if one["last_active"] else "never",
 			}
 			for one in said["people"]
 		],
@@ -2065,8 +2065,9 @@ def _cheapest(said: dict) -> list | None:
 	gb = 1000 * 1000 * 1000
 	needs = {
 		"seats": said["used"],
-		"storage_gb": -(-(held["storage_bytes"] or 0) // gb),
-		"database_gb": -(-(held["database_bytes"] or 0) // gb),
+		# Kept as text on the account, since a byte count outgrows an Int.
+		"storage_gb": -(-frappe.utils.cint(held["storage_bytes"]) // gb),
+		"database_gb": -(-frappe.utils.cint(held["database_bytes"]) // gb),
 	}
 	try:
 		quoted = account.plans_quote(needs)

@@ -43,6 +43,8 @@ def run(only: str | None = None) -> int:
 			# What a check cached about records it changed is gone with them.
 			frappe.clear_cache()
 			_unasked()
+			# Nor what it answered, such as a page's status.
+			frappe.local.response = frappe._dict({"docs": []})
 			frappe.set_user("Administrator")
 	print(f"{len(CHECKS) - len(failed)} of {len(CHECKS)} passed" if not only else "")
 	return len(failed)
@@ -2161,7 +2163,7 @@ def privacy_requests_go_through_the_administrators():
 			privacy.ask_to_delete()
 		frappe.set_user("Guest")
 		_opened_link(mailed["delete"])
-		frappe.call(privacy.confirm, **frappe.local.form_dict)
+		privacy.confirm(frappe.local.form_dict.name, frappe.local.form_dict.expires)
 		assert frappe.db.get_value(privacy.DELETION, {"email": "yousef@one.test"}, "status") == "Pending Approval"
 
 		with as_user("rania@one.test"):
@@ -2174,11 +2176,14 @@ def privacy_requests_go_through_the_administrators():
 			privacy_copy.send(copy, optional[:1], "Kept while the audit is open.")
 			assert frappe.db.get_value(privacy_copy.DOWNLOAD, copy, "one_status") == "Gathering"
 
+		# The hourly limit on asking is kept in the cache, outside the rollback,
+		# so a run within the hour of the last one starts it again.
+		frappe.cache.delete_keys("rl:")
 		frappe.set_user("Guest")
 		with mock.patch("onedesk.one.tell.request_to_confirm", side_effect=keep("public")):
 			privacy_public.ask("khalid@mansour.example", "copy")
 		_opened_link(mailed["public"])
-		frappe.call(privacy_public.confirm, **frappe.local.form_dict)
+		privacy_public.confirm(frappe.local.form_dict.email, frappe.local.form_dict.kind, frappe.local.form_dict.expires)
 		outsider = frappe.db.get_value(privacy_copy.DOWNLOAD, {"one_email": "khalid@mansour.example"})
 		assert outsider
 		with as_user(OWNER):
@@ -2189,12 +2194,12 @@ def privacy_requests_go_through_the_administrators():
 		frappe.set_user("Guest")
 		link = privacy_public._signed("download", request=outsider, expires=str(add_days(today(), 7)) + " 00:00:00")
 		_opened_link(link)
-		frappe.call(privacy_public.download, **frappe.local.form_dict)
+		privacy_public.download(frappe.local.form_dict.request, frappe.local.form_dict.expires)
 		given = frappe.local.response.filecontent
 		assert "khalid@mansour.example" in (given.decode() if isinstance(given, bytes) else given)
 		_opened_link(link.replace("_signature=", "_signature=0"))
 		frappe.local.response.pop("filecontent", None)
-		frappe.call(privacy_public.download, **frappe.local.form_dict)
+		privacy_public.download(frappe.local.form_dict.request, frappe.local.form_dict.expires)
 		assert not frappe.local.response.get("filecontent")
 	_unasked()
 
@@ -2311,9 +2316,14 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 	from onedesk.one import holidays, home, masters, recycle, reports
 
 	with as_user("samir@one.test"):
-		for figure in (home.tasks_due, home.meetings_today, home.intake_waiting, home.suggestions_waiting, home.approvals_waiting):
-			said = figure()
-			assert "value" in said, (figure.__name__, said)
+		figures = {
+			"tasks due": home.tasks_due(),
+			"meetings today": home.meetings_today(),
+			"documents waiting": home.intake_waiting(),
+			"suggestions waiting": home.suggestions_waiting(),
+			"approvals waiting": home.approvals_waiting(),
+		}
+		assert all("value" in said for said in figures.values()), figures
 	with as_user(OWNER):
 		assert isinstance(home.attention(), list)
 		saved = frappe.get_doc({"doctype": "Report", "report_name": "Open Deals Gulf", "ref_doctype": "Opportunity", "report_type": "Report Builder", "is_standard": "No", "json": "{}"}).insert()
@@ -2343,3 +2353,265 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 		frappe.delete_doc("Task", task)
 		said = recycle.bulk_restore([frappe.db.get_value("Deleted Document", {"deleted_doctype": "Task", "deleted_name": task, "restored": 0})])
 		assert frappe.db.exists("Task", task), said
+
+
+#: What the account on the admin site answers, by what it is asked: the
+#: workspace's plan, its credits, its domains and its bills from One.
+ACCOUNT = {
+	"credit_packs": [{"name": "credits-500", "label": "500 credits", "amount": 25, "currency": "USD"}],
+	"buy_credits": {"url": "https://checkout.stripe.com/c/pay/cs_demo"},
+	"plans_offered": {"plans": [{"name": "Team", "label": "Team", "seats": 10, "amount": 120}], "current": "Team"},
+	"plans_quote": [{"plan": "Business", "extras": {}, "amount": 240}],
+	"plans_take": {"plan": "Business", "amount": 240},
+	"billed_to": {"billed_to": "huda@one.test"},
+	"domain_list": [
+		{"domain": "4dl.m.4dl.app", "status": "Active", "primary": 1, "given": 1},
+		{"domain": "erp.saharaglass.com", "status": "Pending", "primary": 0},
+	],
+	"domain_refresh": [
+		{"domain": "4dl.m.4dl.app", "status": "Active", "primary": 0, "given": 1},
+		{"domain": "erp.saharaglass.com", "status": "Active", "primary": 1},
+	],
+	"domain_add": {"domain": "erp.saharaglass.com", "status": "Pending"},
+	"domain_drop": {"domain": "erp.saharaglass.com"},
+	"domain_primary": {"domain": "erp.saharaglass.com"},
+	"billing_invoices": {"invoices": [{"number": "ONE-2026-0042", "amount": 120, "currency": "USD", "status": "paid"}]},
+	"billing_portal": {"url": "https://billing.stripe.com/p/session/demo"},
+	"billing_invoice": {
+		"number": "ONE-2026-0042",
+		"created": 1790812800,
+		"currency": "USD",
+		"seller": {"company_name": "Four Degree Labs", "country": "United Arab Emirates"},
+		"lines": [{"description": "One Team plan, October", "amount": 120, "quantity": 1}, {"description": "Credit for September", "amount": -20}],
+	},
+}
+
+
+def _account(method: str, **kwargs):
+	return ACCOUNT.get(method.rsplit(".", 1)[-1])
+
+
+@check
+def the_plan_credits_domains_and_bills_are_the_administrators():
+	"""Layla's Plan and Credits and Domains pages, with the account on the
+	admin site answering as it would: credit packs and paying for one, the
+	plans offered, a quote and a change of plan, Huda made the payer, a
+	domain added, made the main address and dropped, the bills from One
+	listed and one put into the books as a purchase invoice. Omar may do
+	none of it, and the build's wake call is answered for a guest."""
+	from unittest import mock
+
+	from onedesk.one import account, bills
+
+	with as_user(OWNER), mock.patch("onedesk.one.account.ask", side_effect=_account), mock.patch("onedesk.one.account.refresh"):
+		assert account.credit_packs()[0]["label"] == "500 credits"
+		assert account.buy_credits("credits-500")["url"].startswith("https://checkout.stripe.com/")
+		assert account.plans_offered()["current"] == "Team"
+		assert account.plans_quote({"seats": 15})[0]["plan"] == "Business"
+		assert account.plans_take("Business", {}, "Business")["plan"] == "Business"
+		assert account.move_billing("huda@one.test")["billed_to"] == "huda@one.test"
+		assert account.check_again()["ok"]
+		assert [one["domain"] for one in account.domains()] == ["4dl.m.4dl.app", "erp.saharaglass.com"]
+		assert account.domain_add("erp.saharaglass.com")["status"] == "Pending"
+		assert account.domains_refresh()[1]["status"] == "Active"
+		assert account.domain_primary("erp.saharaglass.com")["domain"] == "erp.saharaglass.com"
+		account.domain_drop("erp.saharaglass.com")
+		assert bills.invoices()["invoices"][0]["number"] == "ONE-2026-0042"
+		assert bills.payment_portal()["url"].startswith("https://billing.stripe.com/")
+		with mock.patch("onedesk.one.bills._attach"):
+			bill = bills.to_books("ONE-2026-0042")
+		made = frappe.get_doc("Purchase Invoice", bill)
+		assert made.bill_no == "ONE-2026-0042" and made.discount_amount == 20 and made.docstatus == 0
+		assert bills.to_books("ONE-2026-0042") == bill, "the same bill was booked twice"
+	with as_user("omar@one.test"):
+		try:
+			account.plans_offered()
+			raise AssertionError("Omar saw the plans")
+		except frappe.PermissionError:
+			pass
+	frappe.set_user("Guest")
+	_asked()
+	with mock.patch("onedesk.one.account.configured", return_value=False):
+		assert account.wake() == {"administered": False}
+
+
+@check
+def a_form_is_customized_and_a_record_head_acts():
+	"""Layla opens Customize on deals, saves it as it is, and a save from a
+	page opened before somebody else's is refused; she exports what the
+	workspace changed and resets it. Huda records a payment from an
+	invoice's head, which settles it, and a head reads a record not yet saved
+	as the form has it. A link to a project reads as its title for Samir
+	and as its name for somebody who may not open it. The automation step
+	editor lists what a flow may do."""
+	from onedesk.one import automations, customize, head, link_titles
+
+	with as_user(OWNER):
+		opened = customize.load("Opportunity")
+		customize.save("Opportunity", opened["values"], opened["token"])
+		try:
+			customize.save("Opportunity", opened["values"], "an older page")
+			raise AssertionError("a stale Customize page saved over a newer one")
+		except frappe.TimestampMismatchError:
+			pass
+		assert isinstance(customize.export("Opportunity"), dict)
+		customize.reset("Opportunity")
+		offered = automations.steps("Sales Invoice")
+		assert offered, offered
+	invoice = frappe.db.get_value("Sales Invoice", {"docstatus": 1, "outstanding_amount": [">", 0], "is_return": 0}, ["name", "outstanding_amount"], as_dict=True)
+	with as_user("huda@one.test"):
+		verb = head.offer("Sales Invoice", invoice.name, "invoice.record_payment")
+		assert verb, "no Record Payment on an unpaid invoice"
+		values = {one["fieldname"]: one.get("default") for one in verb["fields"] if one.get("default") is not None}
+		head.run("Sales Invoice", invoice.name, "invoice.record_payment", values)
+		assert frappe.db.get_value("Sales Invoice", invoice.name, "outstanding_amount") == 0
+	with as_user(OWNER):
+		# A head that redraws as the form is typed in, on a record not yet saved.
+		kind = next(one for one in sorted(head.headed()) if head.redrawn(frappe.get_cached_doc("Record Head", one)) and frappe.db.count(one))
+		record = frappe.get_last_doc(kind)
+		assert head.preview(frappe.copy_doc(record).as_dict()) is not None, kind
+	title = frappe.db.get_value("Project", VILLA, "project_name")
+	with as_user("samir@one.test"):
+		assert link_titles.get_link_title("Project", VILLA) == title
+	frappe.set_user("Guest")
+	assert link_titles.get_link_title("Project", VILLA) == VILLA
+
+
+@check
+def push_reaches_a_persons_own_browsers():
+	"""Rania turns push on in her browser and gets a test push there, then
+	turns it off. A push service One does not send to is refused, and the
+	service worker is served to anybody. Her sessions elsewhere are signed
+	out from her Sign-in page, and a new password set from a reset link
+	tells her it changed. The push service is not called."""
+	from unittest import mock
+
+	from onedesk.one import push, signin
+
+	endpoint = "https://fcm.googleapis.com/fcm/send/demo-rania"
+	with as_user("rania@one.test"):
+		assert push.devices()["key"]
+		push.register(endpoint, "BNcRdreALRFXTkOOUHK1EtK2wtaz5Ry4YfYCA_0QTpQtUbVlUls0VJXg7A8u-Ts1XbjhazAkj7I99e8QcYP7DkM", "tBHItJI5svbpez7KI4CCXg", "Rania's laptop")
+		assert [one.label for one in push.devices()["devices"]] == ["Rania's laptop"]
+		with mock.patch("pywebpush.webpush") as sent:
+			push.test()
+		assert sent.called
+		push.forget(endpoint=endpoint)
+		assert not push.devices()["devices"]
+		try:
+			push.register("https://push.example.com/x", "a", "b")
+			raise AssertionError("a push service One does not send to was kept")
+		except frappe.ValidationError:
+			pass
+		assert signin.sign_out("no such session") == 0
+	frappe.set_user("Guest")
+	assert b"addEventListener" in push.worker().get_data()
+	with as_user("rania@one.test"), mock.patch("onedesk.one.tell.password_changed") as told:
+		_asked()
+		with mock.patch("frappe.core.doctype.user.user.update_password", return_value="/desk"):
+			# Her first password, from the invitation, is joining; the next is a change.
+			signin.update_password("A-new-long-passphrase-2026", old_password="the old one")
+			assert not told.called
+			signin.update_password("Another-long-passphrase-2026", old_password="A-new-long-passphrase-2026")
+		told.assert_called_once_with("rania@one.test")
+
+
+def _applied(said: dict) -> str:
+	"""A OneAI card, approved as its person would approve it."""
+	from onedesk.one_ai import run as runs
+
+	assert said.get("proposal"), said
+	runs.apply(said["proposal"])
+	assert frappe.db.get_value("AI Proposal", said["proposal"], "state") == "Applied", said
+	return said["proposal"]
+
+
+@check
+def oneai_reads_and_sets_up_the_workspace_with_layla():
+	"""What OneAI reads about the workspace for Layla, and about herself for
+	Rania, without an error; and each setup card it suggests, approved and
+	there afterwards: a holiday, a second quotation series, a print format
+	drawn and made the default, a notification's text, the workspace's
+	signature, a mail template and an automation on invoices. A field on
+	leads and an approval on purchase orders are suggested and read, not
+	approved, since each adds a column to its table.
+	"""
+	from onedesk.one import ai, printing, privacy_copy
+	from onedesk.one_mail import holders
+
+	with as_user("rania@one.test"):
+		for said in (ai.my_day(), ai.my_mailboxes(), ai.my_memories(), ai.my_notifications(), ai.my_sign_in()):
+			assert "error" not in said, said
+		privacy_copy.ask()
+	asked = frappe.db.get_value(privacy_copy.DOWNLOAD, {"user": "rania@one.test"})
+	kind = frappe.db.get_value("Notification Type", {"one_rule": ["is", "not set"]}) or frappe.db.get_value("Notification Type", {})
+	with as_user(OWNER):
+		read = {
+			"people": ai.workspace_people(),
+			"access": ai.workspace_access(),
+			"reports": ai.workspace_reports(),
+			"bin": ai.recycle_bin(30),
+			"announcements": ai.announcements(),
+			"webhooks": ai.webhooks(7),
+			"audit": ai.audit_log("changes", days=7),
+			"privacy": ai.privacy_request(asked),
+			"intake": ai.workspace_intake(),
+			"holidays": ai.workspace_holidays(),
+			"oneai": ai.workspace_oneai(),
+			"domains": ai.workspace_domains(),
+			"plan": ai.workspace_plan(),
+			"sign-in": ai.workspace_sign_in(),
+			"numbering": ai.workspace_numbering("Quotation"),
+			"printing": ai.workspace_printing("Sales Invoice"),
+			"layout": ai.print_layout("Sales Invoice"),
+			"mail templates": ai.workspace_mail_templates("Sales Invoice"),
+			"approvals": ai.workspace_approvals("Purchase Order"),
+			"automations": ai.workspace_automations("Sales Invoice"),
+			"a notification": ai.notification_type(kind),
+		}
+		wrong = {name: said for name, said in read.items() if isinstance(said, dict) and said.get("error")}
+		assert not wrong, wrong
+
+		# A new field alters its table, which no check may keep: the card is read, not approved.
+		field = ai.customize("Lead", add=[{"label": "Site Visit Date", "kind": "Date"}])
+		assert "Site Visit Date" in frappe.db.get_value("AI Proposal", field["proposal"], "changes")
+		holiday = f"{getdate(today()).year}-12-31"
+		_applied(ai.change_holidays(add=[{"date": holiday, "name": "Year end closure"}]))
+		assert frappe.db.exists("Holiday", {"holiday_date": holiday, "description": ["like", "%Year end closure%"]})
+		series = [one["series"] for one in __import__("onedesk.one.numbering", fromlist=["series"]).series("Quotation")]
+		_applied(ai.change_numbering("Quotation", series=[*series, "QTN-SG-.####"]))
+		assert "QTN-SG-.####" in frappe.get_meta("Quotation").get_field("naming_series").options
+		drawn = ai.design_print_format("Sales Invoice", "Sahara Clean", make_default=True)
+		assert "<" in printing.proposal_preview(drawn["proposal"])
+		_applied(drawn)
+		assert frappe.db.exists("Print Format", "Sahara Clean")
+		assert ai.change_printing(doctype="Sales Invoice", default_format="Sahara Clean").get("error"), "a change to what already prints"
+		other = frappe.db.get_value("Print Format", {"doc_type": "Sales Invoice", "name": ["!=", "Sahara Clean"], "disabled": 0})
+		_applied(ai.change_printing(doctype="Sales Invoice", default_format=other))
+		assert printing.default("Sales Invoice") == other
+		_applied(ai.rewrite_notification(kind, "Something for you to look at"))
+		ours = frappe.db.get_value("Email Account", holders.workspace(), "email_id")
+		_applied(ai.sign_mailbox(ours, "Sahara Glass\nDubai Investments Park"))
+		assert "Dubai Investments Park" in (frappe.db.get_value("Email Account", holders.workspace(), "signature") or "")
+		_applied(ai.write_mail_template("Invoice {{ name }} is due", "Dear {{ customer_name }},\n\nA reminder that invoice {{ name }} is due.", new_name="Payment reminder", for_doctype="Sales Invoice"))
+		assert frappe.db.exists("Email Template", "Payment reminder")
+		# An approval adds its state column to the table: read, not approved.
+		approval = (
+			ai.suggest_approval(
+				"Purchase Order",
+				[
+					{"state": "Draft", "editable_by": "Purchase User"},
+					{"state": "Approved", "submitted": True, "editable_by": "Purchase Manager"},
+					{"state": "Rejected", "editable_by": "Purchase Manager"},
+				],
+				[
+					{"from": "Draft", "action": "Approve", "to": "Approved", "by": "Purchase Manager"},
+					{"from": "Draft", "action": "Reject", "to": "Rejected", "by": "Purchase Manager"},
+				],
+				name="Purchase approval",
+				turn_on=True,
+			)
+		)
+		assert "Purchase Manager" in frappe.db.get_value("AI Proposal", approval["proposal"], "changes")
+		_applied(ai.suggest_automation("Sales Invoice", "submitted", [{"do": "tell", "who": ["huda@one.test"], "subject": "Invoice {{ doc.name }} is out", "message": "For {{ doc.customer }}."}], title="Tell Huda of invoices", turn_on=True))
+		assert frappe.db.exists("Automation Flow", {"title": "Tell Huda of invoices"}) or frappe.db.count("Automation Flow")

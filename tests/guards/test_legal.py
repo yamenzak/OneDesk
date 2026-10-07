@@ -37,8 +37,14 @@ HOSTS = {
 	"api.cloudflare.com": "Cloudflare, Inc.",
 	"gateway.ai.cloudflare.com": "Cloudflare, Inc.",
 	"api.stripe.com": "Stripe, Inc.",
+	# Stripe's own pages, which a payer is sent to.
+	"checkout.stripe.com": "Stripe, Inc.",
+	"billing.stripe.com": "Stripe, Inc.",
 	"www.gravatar.com": "Automattic Inc.",
 	"t1.gstatic.com": "Google LLC",
+	# Chrome's push service: it carries pushes encrypted for one browser and
+	# cannot read them, as the privacy notice's push section says.
+	"fcm.googleapis.com": None,
 	# Pricing pages, read by the operator's price check; nothing is sent.
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,

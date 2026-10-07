@@ -154,6 +154,14 @@ def apply(proposal: str) -> dict:
 		settings._save_holidays(entry.record, changes.get("values") or {})
 		return _done(entry, entry.record)
 
+	if entry.kind == "Signature":
+		# The mailbox's own signature step, which writes it without saving the
+		# mailbox: the person may sign it, and may not write mailboxes.
+		from onedesk.one_mail import holders
+
+		holders.set_signature(entry.record, changes.get("signature"))
+		return _done(entry, entry.record)
+
 	if entry.kind == "Numbering":
 		# Numbering's own doors (one/numbering.py), as the administrator who
 		# pressed Approve, and refused if the series moved since.
