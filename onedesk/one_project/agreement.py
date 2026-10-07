@@ -121,12 +121,19 @@ def contracts(projects: list[str]) -> list[dict]:
 	)
 	reads = frappe.has_permission("Contract", "read")
 	titles = dict(frappe.get_all("Project", filters={"name": ["in", list(projects)]}, fields=["name", "project_name"], as_list=True))
+	# Each party's logo, as the page shows the customer's and suppliers' elsewhere.
+	logos = {}
+	for kind in PARTIES:
+		named = [one.party_name for one in found if one.party_type == kind]
+		if named:
+			logos.update({(kind, name): image for name, image in frappe.get_all(kind, filters={"name": ["in", named]}, fields=["name", "image"], as_list=True)})
 	return [
 		{
 			"name": one.name,
 			"party_type": one.party_type,
 			"party": one.party_name,
 			"with": one.party_full_name or one.party_name,
+			"image": logos.get((one.party_type, one.party_name)),
 			"project": one.document_name,
 			"project_title": titles.get(one.document_name),
 			"signed": bool(one.is_signed),

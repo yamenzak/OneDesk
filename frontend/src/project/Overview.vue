@@ -399,6 +399,9 @@ const contracts = computed(() =>
   props.said.contracts.map((one) => ({
     key: one.name,
     label: one.with,
+    avatar: one.with,
+    image: one.image,
+    square: true,
     sub: [one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : ""].filter(Boolean).join(" · "),
     badge: !one.signed ? { label: __("Not Signed"), theme: "orange" } : one.status === "Inactive" ? { label: __("Ended"), theme: "gray" } : { label: __("Signed"), theme: "green" },
     value: one.ends ? date(one.ends) : "",
