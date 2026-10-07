@@ -107,6 +107,7 @@ def said(
 		else None,
 		"parent": doc.get("one_parent"),
 		"above": _above(doc.name),
+		"below": _below(doc.name),
 		"priority": doc.priority,
 		"progress_method": doc.percent_complete_method,
 		# How its time is counted, and its site (hours.py).
@@ -160,6 +161,18 @@ def said(
 		"update_due": asking.asked(doc.name),
 		"asking": asking.asking(doc.as_dict()),
 	}
+
+
+def _below(project: str) -> list[dict]:
+	"""The sub-projects directly under the project the reader may see, for the
+	breadcrumb's switch between them."""
+	names = tree.children(tree.parents()).get(project)
+	if not names:
+		return []
+	found = frappe.get_list(
+		"Project", filters={"name": ["in", names]}, fields=["name", "project_name"], order_by="project_name asc"
+	)
+	return [{"name": one.name, "title": one.project_name or one.name} for one in found]
 
 
 def _above(project: str) -> list[dict]:

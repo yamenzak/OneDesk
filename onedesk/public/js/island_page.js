@@ -6,7 +6,8 @@
 // The island gets the route below the page and the query, as frappe's page
 // islands do, and reports:
 // - `onTitle(title)`: the page's name, after `parent` in the breadcrumb, or
-//   `{ title, between }` with `{ label, route }`s between the two;
+//   `{ title, between, after }` with `{ label, route }`s between the two and
+//   `{ label, menu }`s after it (shell.trail);
 // - `onStatus({ label, color })`: the indicator beside it, or null;
 // - `onActions(actions)`: frappe's `{ label, icon?, onClick | href }`, with
 //   `primary` for the page's main button and `button` for one beside it; the
@@ -35,12 +36,12 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 		unframe = onedesk.record.sidebar(page, record, name, { files: files ? () => view(files) : null });
 	};
 	const $body = $('<div class="one-island"></div>').appendTo(page.main);
-	const chrome = { title: null, between: [], status: null, actions: [] };
+	const chrome = { title: null, between: [], after: [], status: null, actions: [] };
 	let handle = null;
 
 	const draw_chrome = () => {
 		const name = chrome.title || title;
-		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between, menu, page);
+		if (parent) onedesk.shell.trail(parent.label, parent.route, name, chrome.between, menu, page, chrome.after);
 		else onedesk.shell.name(name, { page });
 		if (chrome.status) page.set_indicator(chrome.status.label, chrome.status.color);
 		else page.clear_indicator();
@@ -78,6 +79,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 					onTitle: (said) => {
 						chrome.title = typeof said === "string" ? said : said?.title;
 						chrome.between = (typeof said === "object" && said?.between) || [];
+						chrome.after = (typeof said === "object" && said?.after) || [];
 						draw_chrome();
 					},
 					onStatus: (said) => ((chrome.status = said), draw_chrome()),

@@ -559,8 +559,9 @@ counts towards the parent. Sub-projects can have sub-projects.
   says how much of it was ordered as extra work.
 - **Main**, first in **Sub-projects**, shows the page for the parent's own
   work alone: its own orders, tasks, time, invoices, bills, team and
-  activity, and its figures without what's under it. **Main** in the page's
-  head shows it's on, and its **×** goes back to the whole project. The
+  activity, and its figures without what's under it. A project with
+  sub-projects has one more step in its breadcrumb, **All Work** or
+  **Main**, which switches between the two and opens each sub-project. The
   address keeps it, so the link opens the same view.
 - A parent's **Calendar** includes its sub-projects' tasks, each titled with
   its sub-project.

@@ -1293,7 +1293,7 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
 	assert "hide_sidebar: !frappe.is_mobile()" in view_js and "onedesk.project.picker(" in view_js
 	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
-	assert "page.one_crumb_menu = menu" in shell and "new frappe.ui.Dropdown({ trigger: $last, options: () => menu() })" in shell
+	assert "one_menu: menu" in shell and "new frappe.ui.Dropdown({ trigger: $crumb, options: () => menu() })" in shell
 	view_py = (PROJECT / "view.py").read_text()
 	picker = view_py[view_py.index("def picker(") : view_py.index("PICKED = ")]
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in picker
@@ -2306,15 +2306,15 @@ def test_a_parent_can_be_read_without_what_is_under_it():
 		assert "tree.scope(project)" in (PROJECT / module).read_text(), module
 	assert '"own" if tree.narrowed(project) else "tree"' in (PROJECT / "money.py").read_text()
 
-	# The page: Main first in Sub-projects, the chip back, the address keeps it.
+	# The page: Main first in Sub-projects, the crumb switches, the address keeps it.
 	src = tree.ROOT / "frontend" / "src" / "project"
 	view = (PROJECT / "view.py").read_text()
 	assert '"main": {' in view and "overview.own_progress(" in view
 	assert '_("{0} extra work")' in view
 	overview_vue = (src / "Overview.vue").read_text()
 	assert ':rows="[...mainRow, ...subProjects]"' in overview_vue and 'onClick: () => emit("main")' in overview_vue
-	assert ':aria-label="__(\'Show Whole Project\')" @click="$emit(\'whole\')"' in (src / "Facts.vue").read_text()
 	page = (src / "ProjectPage.vue").read_text()
+	assert "after: scopeCrumb(s)" in page and '"below": _below(doc.name)' in view
 	assert 'const only = ref(props.query.only === "1");' in page and 'setQuery("only", now ? "1" : null);' in page
 	for one in ("Files.vue", "Invoices.vue", "ProjectActivity.vue", "Team.vue", "Time.vue", "Suppliers.vue"):
 		assert "...onlyArg(only)" in (src / one).read_text(), one

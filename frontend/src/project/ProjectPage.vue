@@ -5,7 +5,7 @@
       <!-- The views, as monday's and Asana's: each opens in place, as a
            form's tabs do, across the top under the project's head. Frappe's
            own form sidebar is on the page's right (onedesk.island_page). -->
-      <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" @whole="only = false" />
+      <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <div ref="spot" class="empty:hidden [&_.one-place-spot]:mt-4" />
       <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" />
@@ -232,10 +232,29 @@ const desk = onedesk;
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: s.title, between: (s.above || []).map((one) => ({ label: one.title, route: `/desk/project/${encodeURIComponent(one.name)}` })) });
+  props.onTitle?.({ title: s.title, between: (s.above || []).map((one) => ({ label: one.title, route: projectRoute(one.name) })), after: scopeCrumb(s) });
   props.onStatus?.(null);
   extended(s);
   props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/project") })]);
+}
+
+const projectRoute = (project) => `/desk/project/${encodeURIComponent(project)}`;
+// A project with sub-projects gets a crumb after its name that switches
+// between all its work, its own work only (its Main), and each sub-project.
+function scopeCrumb(s) {
+  if (!s.below?.length) return [];
+  const menu = () => [
+    {
+      group: __("Show"),
+      hide_label: true,
+      options: [
+        { label: __("All Work"), icon: "layers", selected: !only.value, onclick: () => (only.value = false) },
+        { label: __("Main", null, "Project"), icon: "folder", selected: only.value, onclick: () => (only.value = true) },
+      ],
+    },
+    { group: __("Sub-projects"), options: s.below.map((one) => ({ label: one.title, icon: "folder-tree", onclick: () => go(projectRoute(one.name)) })) },
+  ];
+  return [{ label: only.value ? __("Main", null, "Project") : __("All Work"), menu }];
 }
 
 // The workspace's extensions on the project page (one_studio/places.py):

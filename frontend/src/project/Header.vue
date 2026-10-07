@@ -10,7 +10,7 @@
       <div class="flex items-end justify-between gap-6">
         <div class="min-w-0">
           <Title :said="said" size="text-6xl lg:text-8xl" @change="relay" />
-          <Facts class="mt-4" :said="said" @change="relay" @whole="$emit('whole')" />
+          <Facts class="mt-4" :said="said" @change="relay" />
         </div>
         <button class="shrink-0 rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3 max-sm:hidden" :aria-label="__('Team')" @click="$emit('view', 'team')">
           <People :users="users" :people="teamPeople" :max="5" size="md" />
@@ -23,7 +23,7 @@
         <template #over>
           <div class="mb-2 text-sm font-medium uppercase tracking-widest text-white-overlay-800">{{ __(said.kind) }}</div>
           <Title :said="said" on-image size="text-6xl lg:text-8xl" @change="relay" />
-          <Facts class="mt-4 max-sm:hidden" :said="said" on-image @change="relay" @whole="$emit('whole')" />
+          <Facts class="mt-4 max-sm:hidden" :said="said" on-image @change="relay" />
         </template>
         <template #corner>
           <button class="rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="__('Team')" @click="$emit('view', 'team')">
@@ -32,7 +32,7 @@
         </template>
       </Hero>
       <!-- On a phone the photo is too small to carry the facts. -->
-      <Facts class="mt-4 sm:hidden" :said="said" @change="relay" @whole="$emit('whole')" />
+      <Facts class="mt-4 sm:hidden" :said="said" @change="relay" />
     </template>
 
     <Media v-model:open="viewing" v-model:at="at" :media="said.media" :project="said.name" :can-add="said.can_write" @add="add" />
@@ -52,7 +52,7 @@ import Title from "./Title.vue";
 const props = defineProps({
   said: { type: Object, required: true },
 });
-const emit = defineEmits(["change", "media", "view", "whole"]);
+const emit = defineEmits(["change", "media", "view"]);
 const relay = (fieldname, value) => emit("change", fieldname, value);
 // Everyone Team lists, manager first (view.py "people").
 const users = computed(() => props.said.people.map((one) => one.user));
