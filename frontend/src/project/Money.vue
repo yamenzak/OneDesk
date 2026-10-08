@@ -9,6 +9,10 @@
         <span class="lucide-wallet size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Money") }}
       </h2>
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
+      <!-- What the work uses: stock taken out for it, and what the team paid
+           themselves, each naming the project (money.py). -->
+      <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="newDoc('Stock Entry', { stock_entry_type: 'Material Issue', purpose: 'Material Issue', project: said.name })" />
+      <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name })" />
     </div>
     <Section :title="soFarOnly ? __('So Far') : __('Forecast')" icon="lucide-trending-up">
       <Figures :figures="forecast" />
@@ -77,7 +81,7 @@ import { computed, ref } from "vue";
 import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Rows, Section, __, call, date, money, onedesk } from "../kit";
+import { Figures, Loading, Rows, Section, __, call, can, date, money, newDoc, onedesk } from "../kit";
 
 const props = defineProps({ said: { type: Object, required: true } });
 const emit = defineEmits(["changed", "view"]);

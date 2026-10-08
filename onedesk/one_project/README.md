@@ -297,8 +297,8 @@ money for everything under it: what's ordered and how much is billed, or
 what's spent against its budget. A red dot marks one that's late, Off Track
 or over budget, and an amber one At Risk. Extra work has the **Extra Work**
 badge, and one with projects of its own says how many. **Show All** lists
-them all when there are more than it shows. **Add Sub-project**, here or in
-the menu, starts a new project under this one for the same customer.
+them all when there are more than it shows. **Add Sub-project** here
+starts a new project under this one for the same customer.
 
 **Updates** shows the latest update. Write the next one on the line under
 it and **Post** (see Asking the team how it's going).
@@ -535,11 +535,14 @@ can share it.
 
 The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **Invoice Time** for Time and Materials, and **Post Update** otherwise.
-**···** has the rest: **Edit Details**, **Post Update**, **Quote Extra
-Work**, **Issue Stock**, **New Expense Claim**, **Group Under New Project**,
-**Save as Template** and **Open Task Board**. On a Fixed Price project with no contract yet, **New Quotation**
-takes the place of **Quote Extra Work**, and while one quotation is open
-**Make Order** is the main button.
+**···** has **Edit Details**, **Ask for Updates** and **Group Under New
+Project**. The other steps are where they belong. **Quote Extra Work** is
+under **Quotations** and **Draw Up Contract** under **Contracts** on the
+Overview, **Add Sub-project** under **Sub-projects**, **Issue Stock** and
+**New Expense Claim** on **Money**, and **Templates** on **Tasks**. On a
+Fixed Price project with no contract yet, **New Quotation** takes the place
+of **Quote Extra Work**, and while one quotation is open **Make Order** is
+the main button.
 
 Below them are the ones every record has, as on its form: **Print**,
 **Email**, **Show Links**, **Duplicate**, **Rename**, **Reload**, **Delete**,
@@ -907,7 +910,7 @@ ERPNext **Contract**, and a project can have as many as it needs: the main
 contract, an addendum for extra work, a renewal, or a supplier's subcontract
 agreement.
 
-**Draw Up Contract** (in **···**, and under **Contracts** on the Overview)
+**Draw Up Contract** (under **Contracts** on the Overview)
 asks who it is with: the project's customer, or one of its suppliers (those
 ordered from for the project, and those on its contacts). It names the
 project and runs over its dates. Its wording comes from a **Contract
@@ -1009,7 +1012,7 @@ rate. The project's own figures are all in your company's currency.
 
 When a customer asks for more in the middle of a job, such as handrails on a
 villa whose windows you're fitting, quote it as its own piece of work.
-**Quote Extra Work** (in **Actions**) starts a quotation for the project's
+**Quote Extra Work** (under **Quotations** on the Overview) starts a quotation for the project's
 customer, on the project, with **Extra Work** ticked. You can also tick
 **Extra Work** on any quotation for the project. When the customer orders it
 and the **Sales Order** is submitted, a new project is created for the order
@@ -1222,7 +1225,7 @@ workspace lacks are made the first time it is used, to change as you like.
 
 ### Other ways to make one
 
-- **Save as Template** (in **Actions** on a project) creates one from a
+- **Save as Template** (in **Templates** on a project's **Tasks**) creates one from a
   project that went well. Each task keeps when it started and ended, as days
   after the project started, so a task that started on day 5 and took three
   days does the same next time. Cancelled tasks are left out.
@@ -1231,7 +1234,7 @@ workspace lacks are made the first time it is used, to change as you like.
   saved, dated from the project's **Expected Start Date** (today if it has
   none), each with its sub-tasks, dependencies, checklist and whether it's a
   milestone, and named with the project's **Task Prefix** if it has one.
-- **Add from Template** (in **Actions** on a project) adds a template's
+- **Add from Template** (in **Templates** on a project's **Tasks**) adds a template's
   tasks to a project that's already running, beside the tasks it has, dated
   from the day you choose.
 

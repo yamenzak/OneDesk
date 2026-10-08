@@ -26,6 +26,9 @@
           <template #trigger><Button size="sm" icon-left="lucide-rows-3" :label="__('Group by {0}', [groupLabel])" /></template>
         </Dropdown>
         <Button size="sm" :variant="showDone ? 'subtle' : 'ghost'" icon-left="lucide-circle-check" :label="__('Done')" @click="showDone = !showDone" />
+        <Dropdown v-if="templates.length" :options="templates">
+          <template #trigger><Button size="sm" icon-left="lucide-layout-template" :label="__('Templates')" /></template>
+        </Dropdown>
         <Button v-if="work?.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Task')" @click="newTask" />
       </div>
 
@@ -241,6 +244,15 @@ async function changeStatus(value) {
 }
 
 // The project as desk's shared actions take it (project_actions.js).
+// A template's tasks added here, or these tasks kept as a template.
+const templates = computed(() => {
+  const s = said.value;
+  if (!s) return [];
+  return [
+    can("create", "Task") && can("read", "Project Template") && { label: __("Add from Template"), icon: "lucide-copy-plus", onClick: () => desk().project.add_template(s.name, loadWork) },
+    can("create", "Project Template") && { label: __("Save as Template"), icon: "lucide-save", onClick: () => desk().project.save_as(frm()) },
+  ].filter(Boolean);
+});
 const frm = () => ({ doctype: "Project", doc: { name: said.value.name, project_name: said.value.title, customer: said.value.customer }, reload_doc: load });
 const desk = onedesk;
 
@@ -328,25 +340,10 @@ function actions(s) {
   const main = mainAction(s);
   if (main) list.push({ ...main, primary: true });
   list.push({ label: __("Edit Details"), onClick: () => go(`/desk/project/${encodeURIComponent(s.name)}?edit=1`) });
-  if (main?.key !== "post") list.push({ label: __("Post Update"), onClick: writeUpdate });
   if (s.can_write) list.push({ label: __("Ask for Updates"), onClick: () => desk().project.ask_updates(s.name, load) });
-  // A Fixed Price project is quoted, and quoted again, until it has its
-  // contract; what is quoted after is extra work, ordered as a sub-project.
-  if (s.customer && can("create", "Quotation")) {
-    if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer, payment_terms_template: s.payment_terms, tc_name: s.terms }) });
-    else list.push({ label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) });
-  }
-  // What the work uses: stock taken out for it, and what the team paid
-  // themselves, each naming the project (one_project/money.py).
-  if (can("create", "Stock Entry")) list.push({ label: __("Issue Stock"), onClick: () => newDoc("Stock Entry", { stock_entry_type: "Material Issue", purpose: "Material Issue", project: s.name }) });
-  if (can("create", "Expense Claim")) list.push({ label: __("New Expense Claim"), onClick: () => newDoc("Expense Claim", { project: s.name }) });
-  // The contract the customer signs, made in ERPNext's form (agreement.py).
-  if (s.can_draw_up) list.push({ label: __("Draw Up Contract"), onClick: () => desk().project.draw_up(s.name, s.terms) });
-  if (s.can_write && can("create", "Project")) list.push({ label: __("Add Sub-project"), onClick: () => newDoc("Project", { one_parent: s.name, customer: s.customer }) });
+  // Every other step has its own place on the page: quotations, contracts and
+  // sub-projects on the Overview, stock and expenses on Money, templates on Tasks.
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
-  if (can("create", "Task") && can("read", "Project Template")) list.push({ label: __("Add from Template"), onClick: () => desk().project.add_template(s.name, loadWork) });
-  if (can("create", "Project Template")) list.push({ label: __("Save as Template"), onClick: () => desk().project.save_as(frm()) });
-  if (can("read", "Task")) list.push({ label: __("Open Task Board"), onClick: () => desk().project.board(frm()) });
   return list;
 }
 

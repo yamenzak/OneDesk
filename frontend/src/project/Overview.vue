@@ -35,8 +35,8 @@
           <Rows :rows="orders" />
           <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
         </Section>
-        <Section v-if="quotes.length" :title="__('Quotations')" icon="lucide-file-signature">
-          <Rows :rows="quotes" />
+        <Section v-if="quotes.length || quoting" :title="__('Quotations')" icon="lucide-file-signature" :action="quoting">
+          <Rows :rows="quotes" :empty="__('No quotations')" />
         </Section>
         <Section :title="__('Budget')" icon="lucide-wallet" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
           <ChartCard v-if="budgetBars.length" :style="{ height: `${5.5 + 2.25 * budgetBars.length}rem` }">
@@ -76,8 +76,8 @@
         </Section>
       </template>
 
-      <Section v-if="kind !== 'Fixed Price' && quotes.length" :title="__('Quotations')" icon="lucide-file-signature">
-        <Rows :rows="quotes" />
+      <Section v-if="kind !== 'Fixed Price' && (quotes.length || quoting)" :title="__('Quotations')" icon="lucide-file-signature" :action="quoting">
+        <Rows :rows="quotes" :empty="__('No quotations')" />
       </Section>
       <template v-if="kind === 'Fixed Price'">
         <Section v-if="view.subcontracts?.length" :title="__('Subcontracts')" icon="lucide-hard-hat" :aside="view.subcontracts_count" :action="said.views?.includes('suppliers') ? { icon: 'lucide-arrow-up-right', label: __('Suppliers'), onClick: () => $emit('view', 'suppliers') } : null">
@@ -89,8 +89,8 @@
         </Section>
       </template>
       <!-- What the customer and the suppliers signed for it (agreement.py). -->
-      <Section v-if="said.contracts?.length" :title="__('Contracts')" icon="lucide-pen-line" :action="said.can_draw_up ? { text: true, icon: 'lucide-plus', label: __('Draw Up Contract'), onClick: () => onedesk().project.draw_up(said.name, said.terms) } : null">
-        <Rows :rows="contracts" />
+      <Section v-if="said.contracts?.length || said.can_draw_up" :title="__('Contracts')" icon="lucide-pen-line" :action="said.can_draw_up ? { text: true, icon: 'lucide-plus', label: __('Draw Up Contract'), onClick: () => onedesk().project.draw_up(said.name, said.terms) } : null">
+        <Rows :rows="contracts" :empty="__('No contracts')" />
       </Section>
     </div>
 
@@ -118,8 +118,8 @@
         <Rows :rows="view.on_it.map((one) => ({ key: one.user, label: one.name, avatar: one.name, image: one.image, value: one.tasks === 1 ? __('1 task') : __('{0} tasks', [one.tasks]) }))" />
       </Section>
 
-      <Section v-if="view.sub_projects.count" :title="__('Sub-projects')" icon="lucide-folder-tree" :aside="view.sub_projects.count" :action="canAddSub ? { text: true, icon: 'lucide-plus', label: __('Add Sub-project'), onClick: addSub } : null">
-        <Rows :rows="[...mainRow, ...subProjects]" />
+      <Section v-if="view.sub_projects.count || canAddSub" :title="__('Sub-projects')" icon="lucide-folder-tree" :aside="view.sub_projects.count" :action="canAddSub ? { text: true, icon: 'lucide-plus', label: __('Add Sub-project'), onClick: addSub } : null">
+        <Rows :rows="[...mainRow, ...subProjects]" :empty="__('No sub-projects')" />
         <Button v-if="view.sub_projects.all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.sub_projects.all)" />
       </Section>
     </div>
@@ -396,6 +396,15 @@ function when(left) {
 }
 const canAddSub = computed(() => props.said.can_write && can("create", "Project"));
 const addSub = () => newDoc("Project", { one_parent: props.said.name, customer: props.said.customer });
+// A Fixed Price project is quoted until it has its contract; what is quoted
+// after is extra work, ordered as a sub-project (billing.py `ordered`).
+const quoting = computed(() => {
+  const s = props.said;
+  if (!s.customer || !can("create", "Quotation")) return null;
+  if (s.kind === "Fixed Price" && !s.contract)
+    return { text: true, icon: "lucide-plus", label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer, payment_terms_template: s.payment_terms, tc_name: s.terms }) };
+  return { text: true, icon: "lucide-plus", label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) };
+});
 // The quotations not yet ordered (view._quotes): an ordered one is its order.
 const quotes = computed(() =>
   (view.value.quotes || []).map((one) => ({
