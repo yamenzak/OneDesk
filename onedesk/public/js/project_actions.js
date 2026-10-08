@@ -301,23 +301,26 @@ onedesk.project.post = (frm) => {
 // The budget: what the whole project is expected to cost, ERPNext's
 // estimated_costing. Once it has cost types, it is their total and not set here.
 onedesk.project.budget = async (frm, done) => {
-	// The budget for the whole project, and how much of it is for time: the
-	// time's cost, which no cost type holds as ERPNext books no account for
-	// it, and the hours the work was planned at when its tasks plan none.
+	// The budget for the whole project, and the time's own: the team's hours,
+	// which no cost type holds as ERPNext books no account for them, and the
+	// hours the work was planned at when its tasks plan none. With cost types
+	// the Budget is theirs and the time's added up (one_project/budget.py).
 	const now = (await frappe.db.get_value("Project", frm.doc.name, ["estimated_costing", "one_time_budget", "one_hours_planned"])).message || {};
+	const typed = await frappe.db.count("Budget", { filters: { budget_against: "Project", project: frm.doc.name, docstatus: 1 } });
 	const dialog = new frappe.ui.Dialog({
 		title: __("Budget"),
 		fields: [
-			{ fieldtype: "Currency", fieldname: "estimated_costing", label: __("Budget"), reqd: 1, default: now.estimated_costing },
-			{ fieldtype: "Currency", fieldname: "one_time_budget", label: __("Time Budget"), default: now.one_time_budget },
-			{ fieldtype: "Float", fieldname: "one_hours_planned", label: __("Planned Hours"), precision: 1, default: now.one_hours_planned },
-		],
+			typed ? null : { fieldtype: "Currency", fieldname: "budget", label: __("Budget"), reqd: 1, default: now.estimated_costing },
+			{ fieldtype: "Currency", fieldname: "time_budget", label: __("Time Budget"), default: now.one_time_budget },
+			{ fieldtype: "Float", fieldname: "hours", label: __("Planned Hours"), precision: 1, default: now.one_hours_planned },
+		].filter(Boolean),
 		primary_action_label: __("Save"),
 		primary_action: async (values) => {
-			await frappe.xcall("frappe.client.set_value", {
-				doctype: "Project",
-				name: frm.doc.name,
-				fieldname: { estimated_costing: values.estimated_costing, one_time_budget: values.one_time_budget || 0, one_hours_planned: values.one_hours_planned || 0 },
+			await frappe.xcall("onedesk.one_project.budget.set_time", {
+				project: frm.doc.name,
+				time_budget: values.time_budget || 0,
+				hours: values.hours || 0,
+				budget: typed ? null : values.budget,
 			});
 			dialog.hide();
 			done && done();

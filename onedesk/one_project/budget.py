@@ -261,11 +261,13 @@ def over(project: str) -> None:
 
 
 def sync(project: str) -> None:
-	"""The project's Budget is its cost types added up, when it has any."""
+	"""The project's Budget is its cost types added up, and its Time Budget,
+	which no cost type can hold, when it has any."""
 	budgets = _budgets(project)
 	if budgets:
+		time = flt(frappe.db.get_value("Project", project, "one_time_budget"))
 		frappe.db.set_value(
-			"Project", project, "estimated_costing", sum(flt(one.budget_amount) for one in budgets)
+			"Project", project, "estimated_costing", sum(flt(one.budget_amount) for one in budgets) + time
 		)
 		tree.forget()
 
@@ -285,7 +287,7 @@ def summed(doc, method=None) -> None:
 		return
 	budgets = _budgets(doc.name)
 	if budgets:
-		doc.estimated_costing = sum(flt(one.budget_amount) for one in budgets)
+		doc.estimated_costing = sum(flt(one.budget_amount) for one in budgets) + flt(doc.get("one_time_budget"))
 
 
 def _company(project: str) -> str:
@@ -313,3 +315,54 @@ def _years(project: str) -> dict:
 	):
 		last = years[-1].name
 	return {"from_fiscal_year": first, "to_fiscal_year": last}
+
+
+@frappe.whitelist(methods=["POST"])
+def set_time(
+	project: Annotated[str, "The project."],
+	time_budget: Annotated[float, "What the team's own hours may cost."] = 0,
+	hours: Annotated[float, "The hours planned, when its tasks plan none."] = 0,
+	budget: Annotated[float | None, "The whole budget, for a project without cost types."] = None,
+) -> None:
+	"""The Budget dialog: the Time Budget and Planned Hours, and the Budget
+	itself where no cost types add it up."""
+	doc = frappe.get_doc("Project", project)
+	doc.check_permission("write")
+	doc.one_time_budget = flt(time_budget)
+	doc.one_hours_planned = flt(hours)
+	if budget is not None and not _budgets(project):
+		doc.estimated_costing = flt(budget)
+	# Project validate adds the cost types and the time up (summed).
+	doc.save()
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def booked(
+	project: Annotated[str, "The project."], account: Annotated[str, "The cost type's account."]
+) -> list[dict]:
+	"""What was booked to a cost type on the project and those under it, the
+	latest first: each bill, claim, stock issue or journal, and what it came to."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	projects = list(tree.scope(project))
+	gl = frappe.qb.DocType("GL Entry")
+	rows = (
+		frappe.qb.from_(gl)
+		.select(gl.voucher_type, gl.voucher_no, gl.posting_date, (Sum(gl.debit) - Sum(gl.credit)).as_("amount"))
+		.where(gl.project.isin(projects) & (gl.account == account) & (gl.is_cancelled == 0))
+		.groupby(gl.voucher_type, gl.voucher_no, gl.posting_date)
+		.orderby(gl.posting_date, order=frappe.qb.desc)
+		.limit(100)
+		.run(as_dict=True)
+	)
+	return [
+		{
+			"doctype": one.voucher_type,
+			"name": one.voucher_no,
+			"date": str(one.posting_date),
+			"amount": flt(one.amount),
+			"open": bool(frappe.has_permission(one.voucher_type, "read", doc=one.voucher_no)),
+		}
+		for one in rows
+		if flt(one.amount)
+	]

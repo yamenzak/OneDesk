@@ -229,6 +229,9 @@ scheduler_events = {
 override_email_send = "onedesk.one_mail.outbound.send"
 
 doc_events = {
+	# Stock issued to a project is a cost of the job, under a cost type. See
+	# one_project/money.py.
+	"Stock Entry": {"before_validate": "onedesk.one_project.money.issued"},
 	# A change opened in the Audit Log shows only the fields its reader may read.
 	# See one/audit.py.
 	"Version": {"onload": "onedesk.one.audit.onload"},

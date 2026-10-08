@@ -3,22 +3,29 @@
        the customer's side and the cost side, and the budget by cost type.
        Every figure opens the documents behind it (one_project/money.py). -->
   <div class="pb-12">
-    <Section :title="soFarOnly ? __('So Far') : __('Forecast')">
+    <!-- The title, as on Tasks and Time, and the currency every amount is in. -->
+    <div class="flex flex-wrap items-center gap-2 pb-2">
+      <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
+        <span class="lucide-wallet size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Money") }}
+      </h2>
+      <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
+    </div>
+    <Section :title="soFarOnly ? __('So Far') : __('Forecast')" icon="lucide-trending-up">
       <Figures :figures="forecast" />
     </Section>
 
     <div class="grid gap-x-10 border-b border-outline-gray-1 lg:grid-cols-2 [&>section]:border-0">
-      <Section v-if="selling" :title="__('Customer')">
+      <Section v-if="selling" :title="__('Customer')" icon="lucide-user-round">
         <Rows :rows="customer" :empty="__('No sales yet')" />
       </Section>
-      <Section :title="__('Cost')">
+      <Section :title="__('Cost')" icon="lucide-receipt">
         <Rows :rows="cost" :empty="__('No costs yet')" />
       </Section>
     </div>
 
     <section class="py-5">
       <div class="mb-3 flex items-center justify-between gap-2">
-        <h2 class="text-lg font-semibold text-ink-gray-9">{{ __("Cost Types") }}</h2>
+        <h2 class="flex items-center gap-2 text-lg font-semibold text-ink-gray-9"><span class="lucide-layers size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Cost Types") }}</h2>
         <Button v-if="types.can_set" size="sm" icon-left="lucide-plus" :label="__('Add Cost Type')" @click="costType()" />
       </div>
       <div v-if="!types.lines.length" class="py-3 text-base text-ink-gray-5">{{ __("No cost types") }}</div>
@@ -32,32 +39,54 @@
           <ListHeaderCell>{{ __("Used") }}</ListHeaderCell>
         </ListHeader>
         <ListRows :items="typeRows" row-key="key" v-slot="{ item }">
-          <ListRow v-bind="types.can_set && item.account ? { onClick: () => costType(item) } : {}">
-            <ListCell class="min-w-0"><span class="truncate text-base" :class="item.account ? 'text-ink-gray-8' : 'text-ink-gray-6'">{{ item.cost_type }}</span></ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.budget) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.committed) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.spent) }}</ListCell>
-            <ListCell class="justify-end tabular-nums" :class="item.left < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ amount(item.left) }}</ListCell>
-            <ListCell><Progress :value="used(item)" size="md" class="w-full" /></ListCell>
+          <ListRow v-bind="item.key !== 'other' ? { onClick: () => openType(item) } : {}">
+            <ListCell class="min-w-0">
+              <span class="flex min-w-0 flex-col">
+                <span class="truncate text-base" :class="item.key === 'other' ? 'text-ink-gray-6' : 'text-ink-gray-8'">{{ item.cost_type }}</span>
+                <span v-if="item.key === 'other'" class="truncate text-sm text-ink-gray-5">{{ __("Not in a cost type") }}</span>
+              </span>
+            </ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ plain(item.budget) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ plain(item.committed) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ plain(item.spent) }}</ListCell>
+            <ListCell class="justify-end tabular-nums" :class="item.left < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ plain(item.left) }}</ListCell>
+            <ListCell class="gap-2">
+              <Progress :value="Math.min(100, used(item))" size="md" class="w-full" />
+              <span class="w-10 shrink-0 text-end text-sm tabular-nums" :class="used(item) > 100 ? 'text-ink-red-5' : 'text-ink-gray-5'">{{ used(item) }}%</span>
+            </ListCell>
           </ListRow>
         </ListRows>
       </List>
     </section>
+
+    <!-- What was booked to a cost type, each opening its document. -->
+    <Dialog v-model:open="showing" :title="opened?.cost_type" size="xl">
+      <Loading v-if="!booked" />
+      <Rows v-else :rows="booked" :empty="__('Nothing booked yet')" />
+      <template #actions>
+        <div class="flex justify-end">
+          <Button v-if="types.can_set && opened?.account" icon-left="lucide-pencil" :label="__('Change Budget')" @click="(showing = false), costType(opened)" />
+        </div>
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { Button, Progress } from "frappe-ui";
+import { computed, ref } from "vue";
+import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Rows, Section, __, money, onedesk } from "../kit";
+import { Figures, Loading, Rows, Section, __, call, date, money, onedesk } from "../kit";
 
 const props = defineProps({ said: { type: Object, required: true } });
-const emit = defineEmits(["changed"]);
+const emit = defineEmits(["changed", "view"]);
 
 const cash = computed(() => props.said.money);
 const amount = (value) => money(value, cash.value.currency);
+// Amounts in a table, the currency said once at the top (frappe's own
+// number format).
+const plain = (value) => window.format_number(value || 0, null, 2);
 const maybe = (value) => (value === null || value === undefined ? "–" : amount(value));
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : null);
 const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : null);
@@ -79,9 +108,10 @@ const budgetFigure = () => {
     bar: selling.value ? share(c.spent, c.budget) ?? undefined : undefined,
     alarm: c.budget && c.spent > c.budget,
     // The figure is the whole tree's; it's changed here only where it's the
-    // project's own, with no cost types adding it up and no sub-projects.
+    // project's own, with no sub-projects. With cost types adding it up, the
+    // dialog changes the time budget and planned hours only.
     action:
-      props.said.can_budget && !types.value.lines.length && !props.said.overview.sub_projects?.count
+      props.said.can_budget && !props.said.overview.sub_projects?.count
         ? { icon: "lucide-pencil", label: __("Change Budget"), onClick: changeBudget }
         : null,
   };
@@ -157,13 +187,17 @@ const ORDERS = ["Sales Order", "Purchase Order"];
 const side = (figures, whole) =>
   figures
     .filter((one) => one.value)
-    .map((one) => ({
-      key: one.label,
-      label: one.label,
-      value: amount(one.value),
-      progress: whole && one.doctype && one.doctype !== "Quotation" && !ORDERS.includes(one.doctype) ? share(one.value, whole) : undefined,
-      route: one.route,
-    }));
+    .map((one) => {
+      const progress = whole && one.doctype && one.doctype !== "Quotation" && !ORDERS.includes(one.doctype) ? share(one.value, whole) : undefined;
+      return {
+        key: one.label,
+        label: one.label,
+        value: plain(one.value),
+        progress,
+        dim: progress !== undefined && progress !== null ? __("{0}% of ordered", [progress]) : "",
+        route: one.route,
+      };
+    });
 const ordered = (figures) => figures.find((one) => ORDERS.includes(one.doctype))?.value;
 const customer = computed(() => side(cash.value.customer, ordered(cash.value.customer)));
 const cost = computed(() => [...side(cash.value.cost, ordered(cash.value.cost)), ...side(cash.value.own, 0)]);
@@ -172,10 +206,31 @@ const cost = computed(() => [...side(cash.value.cost, ordered(cash.value.cost)),
 // for what they leave out (one_project/budget.py).
 const types = computed(() => cash.value.cost_types);
 const typeRows = computed(() => [
-  ...types.value.lines.map((one) => ({ ...one, key: one.account })),
+  ...types.value.lines.map((one) => ({ ...one, key: one.key || one.account })),
   ...(types.value.other ? [{ ...types.value.other, key: "other", cost_type: __("Other") }] : []),
 ]);
-const used = (row) => share(row.committed + row.spent, row.budget) ?? 0;
+// How much of a cost type's budget is spent or on order, past 100 when over.
+const used = (row) => (row.budget ? Math.round((100 * (row.committed + row.spent)) / row.budget) : row.committed + row.spent ? 100 : 0);
+
+// A cost type opens what was booked to it; the time opens Time.
+const opened = ref(null);
+const showing = ref(false);
+const booked = ref(null);
+async function openType(row) {
+  if (row.key === "time") return emit("view", "time");
+  opened.value = row;
+  booked.value = null;
+  showing.value = true;
+  const found = await call("onedesk.one_project.budget.booked", { project: props.said.name, account: row.account });
+  booked.value = found.map((one) => ({
+    key: `${one.doctype}/${one.name}`,
+    label: __(one.doctype),
+    sub: one.name,
+    dim: date(one.date),
+    value: amount(one.amount),
+    route: one.open ? `/desk/${one.doctype.toLowerCase().replace(/ /g, "-")}/${encodeURIComponent(one.name)}` : null,
+  }));
+}
 
 // A cost type the project budgets for itself is changed; one only its
 // sub-projects budget for adds the project's own.

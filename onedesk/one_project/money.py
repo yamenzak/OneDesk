@@ -65,6 +65,8 @@ def unbilled(rows: list) -> float:
 #: A quotation that still stands: open, or ordered. A lost or expired one
 #: doesn't, and an amended one is cancelled, so a revision counts once.
 QUOTED = ("Open", "Replied", "Partially Ordered", "Ordered")
+#: A quotation not yet ordered in full.
+OPEN = ("Open", "Replied", "Partially Ordered")
 #: A quotation the customer hasn't answered yet.
 OPEN_QUOTE = ("Open", "Replied")
 
@@ -134,6 +136,17 @@ def money(project: Annotated[str, "The project."]) -> dict:
 			_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)], is_active=1)
 		)
 	ordered = _lines("Sales Order", projects)
+	# Once there's an order, what's quoted is the quotes still open, the
+	# extra work not yet ordered.
+	if ordered and customer:
+		q = frappe.qb.DocType("Quotation")
+		open_ = (
+			frappe.qb.from_(q)
+			.select(Sum(q.base_net_total))
+			.where(q.project.isin(projects) & (q.docstatus == 1) & (q.is_active == 1) & q.status.isin(OPEN))
+			.run()
+		)
+		customer[-1] = _figure(_("Open Quotes"), flt(open_[0][0]), "Quotation", projects, status=["in", list(OPEN)], is_active=1)
 	for doctype, label, value in (
 		("Sales Order", _("Ordered"), ordered),
 		("Delivery Note", _("Delivered"), None),
@@ -203,6 +216,24 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		customer.append(_figure(_("Not Invoiced Yet"), to_invoice, None, projects))
 
 	types = budget.types(project, projects)
+	# The team's own time, which ERPNext books to no account, as a line of its
+	# own against the Time Budget, where there are cost types to stand beside.
+	time_budget = sum(
+		flt(one) for one in frappe.get_all("Project", filters={"name": ["in", projects]}, pluck="one_time_budget")
+	)
+	if types and (time_budget or time):
+		types.append(
+			{
+				"account": None,
+				"key": "time",
+				"cost_type": _("Time"),
+				"budget": time_budget,
+				"committed": 0.0,
+				"spent": time,
+				"left": budget.left(time_budget, 0, time),
+				"own": None,
+			}
+		)
 	rest = budget.other(types, flt(kept["estimated_costing"]), spent, open_orders) if types else None
 	ahead = forecast(contract, spent, open_orders, flt(kept["estimated_costing"]), types, rest)
 	# A margin to forecast needs a price to forecast it against: a contract,
@@ -694,3 +725,18 @@ def _open_orders(projects: list[str]) -> float:
 		.run(as_dict=True)
 	)
 	return unbilled(rows)
+
+
+def issued(doc, method=None) -> None:
+	"""Stock Entry before_validate: stock issued to a project is a cost of
+	the job, so a line ERPNext would book to the company's Stock Adjustment,
+	as it does for an item with no expense account of its own, is booked to
+	the company's cost of goods instead, where a cost type can hold it."""
+	if doc.purpose != "Material Issue" or not doc.company:
+		return
+	adjust, goods = frappe.get_cached_value("Company", doc.company, ["stock_adjustment_account", "default_expense_account"])
+	if not goods:
+		return
+	for row in doc.items:
+		if (row.get("project") or doc.get("project")) and row.expense_account in (None, "", adjust):
+			row.expense_account = goods

@@ -742,7 +742,20 @@ for each kind of cost you track, such as labour, materials, subcontracts or
 equipment (each is an expense account in OneBook). Each shows its
 **Budget**, what's **Committed** on supplier orders not yet billed, what's
 been **Spent**, and what's **Left**, over the project and its sub-projects.
-**Other** is the rest of the budget and cost.
+**Time** is the team's own hours against the **Time Budget**: ERPNext books
+timesheets to no account, so the time has a line of its own, and the
+project's **Budget** is the cost types and the Time Budget added up.
+**Other** is the rest of the budget and cost, *not in a cost type*: a
+sub-project's budget without cost types, and cost booked to accounts none
+of them use.
+
+**How a cost lands in a cost type**: by the account it's booked to, with
+the project on it. A supplier's bill (**Record Bill** on **Suppliers**, or
+an order's bill) books to each item's expense account; an expense claim to
+its claim type's account; **Issue Stock** to the item's expense account, or
+else the company's cost of goods, never to Stock Adjustment. Click a cost
+type to see what was booked to it, each opening its document, and
+**Change Budget** there; click **Time** to open **Time**.
 
 **Add Cost Type** asks for the cost type, its budget, and what happens
 **Over Budget**: **Warn** shows a warning on an order or expense that takes
@@ -773,7 +786,9 @@ supplier, what it was ordered for and which sub-project, how much of it is
 billed, what's left to bill, what's been paid, what's **To Pay** now (in red,
 with how late, once it's past due), the retention held and the advance not
 yet set off. **Open Order** opens it, **···** offers **Pay Advance**, and
-**New Purchase Order** starts one on the project. **Add Supplier** adds a
+**New Purchase Order** starts one on the project. **Record Bill** records a
+supplier's bill with no order before it, a shop receipt, on the project.
+**Add Supplier** adds a
 supplier to the project's contacts before anything is ordered from them,
 and they're listed under **No Order Yet** until there's an order. The line above adds up
 what's ordered, billed, left to bill, to pay, overdue and held. A Fixed

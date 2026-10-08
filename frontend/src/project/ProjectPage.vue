@@ -37,7 +37,7 @@
         <Timeline v-else :work="work" :groups="groups" @open="open" />
       </template>
       <Time v-else-if="view === 'time'" :project-name="said.name" :customer="said.customer" :title="said.title" :tree="tree" />
-      <Money v-else-if="view === 'money'" :said="said" @changed="load" />
+      <Money v-else-if="view === 'money'" :said="said" @changed="load" @view="(now) => (view = now)" />
       <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :project-title="said.title" :kind="said.kind" :customer="said.customer" :currency="said.currency" />
       <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />
       <Suppliers v-else-if="view === 'suppliers'" :said="said" />

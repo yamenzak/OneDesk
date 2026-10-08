@@ -17,6 +17,8 @@
       </div>
       <div class="ms-auto flex gap-2">
         <Button v-if="contacts?.can_change" size="sm" icon-left="lucide-plus" :label="__('Add Supplier')" @click="addSupplier" />
+        <!-- A bill with no order before it, a shop receipt: the project filled in. -->
+        <Button v-if="cash.can_bill" size="sm" icon-left="lucide-receipt" :label="__('Record Bill')" @click="newDoc('Purchase Invoice', { project: said.name })" />
         <Button v-if="cash.can_order" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
       </div>
     </div>
