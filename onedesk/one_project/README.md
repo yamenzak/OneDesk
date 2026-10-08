@@ -427,14 +427,24 @@ the attendance. It's in the Error Log.
 The customer's invoices for the project and those under it, newest first.
 Each says what it's for (**Work done 40%**, **9 h of time and costs**, a
 retainer's month, **Credit note**, or its first item) and which sub-project
-it's on, with the customer and their logo, its date, when it's due, its
-status, total and what's still owed. An invoice whose only debt is retention shows the retention's date
-under **Due**.
+it's on, its date, when the part owed now is due (in red once it's past), its
+status, total, what's **Outstanding** now, and the **Retention** still held
+with the date it's due. Outstanding and Retention together are what the
+invoice still owes. The customer and their logo show when there's more than
+one customer. Amounts in one currency are said once, above the figures.
 
 The figures above are what's been **Invoiced**, **Paid** (with anything paid
 in advance on the order), **Outstanding** now, **Overdue**, and
 **Retention Held** when there is some. They count with tax, as the customer
 pays, and only the project's part of an invoice that's partly another's.
+Overdue says how many invoices are late.
+
+**Release Retention** above the figures records the customer paying the
+retention: it opens ERPNext's payment, not saved yet, for the parts due by
+today (or all of it when none is due yet), each matched to its invoice's
+retention, so those parts show as paid. Check the amount, the account and
+the bank reference, and submit it. **···** on an invoice offers Release
+Retention for that invoice alone.
 
 **···** on an invoice offers **Record Payment** (how much, when, into which
 account) and **Send**, which opens the invoice with its email ready and the
@@ -805,6 +815,7 @@ are paid. It's off until **Hold Retention** is ticked in **Projects
 Settings**, since most businesses never hold it. Then set **Retention** (the
 share held back, often 5 or 10%) and **Retention Due** on the order's
 **Terms** tab. Each bill holds that share of the work back, due on that date.
+A subcontract keeps its own retention, whatever the project's.
 To release part of it at handover, as is usual on building work, set
 **Released at Handover** to that part of the retention (often 50%): it falls
 due on the order's delivery date, or the day the project is marked
@@ -818,7 +829,8 @@ the order, to check and submit. Each bill sets it off.
 newest first: what each is for (**Work done 70%**, or its first item), from
 whom, when it's due (in red once it's past), its status, total and what's
 still owed. A draft from Bill Progress is there to check. **···** on a bill
-offers **Record Payment**.
+offers **Record Payment**, and **Pay Retention** once retention is held from
+it: ERPNext's payment to the supplier for that retention, to check and submit.
 
 Extra work from a supplier gets an order of its own, so the original stays
 readable.
@@ -906,9 +918,14 @@ share, less what's been invoiced already. On an order of several lines, such
 as a bill of quantities, tick **By Line** to give each line its own share
 done: 50% of the lights and 30% of the cabling bills 20 of 40 lights and 180
 of 600 m. Each line shows what's ordered and what's billed so far, and the
-invoice's **Work Done** is the share of the whole by value. Set **Retention** and **Retention
-Due** on the order's **Terms** tab to hold the customer's retention the same
-way. **Customer** under **Money** shows the **Retention Held** still to be
+invoice's **Work Done** is the share of the whole by value.
+
+The customer's **Retention** is set three ways. The project holds the usual
+one (**Retention**, **Retention Due** and **Released at Handover**, from its
+template or the New Project dialog, changed under **Edit About**). Each new
+customer order on the project starts with it, and the order may change it,
+say to 0 on extra work. Each invoice starts with its order's, and may change
+it or set it to 0 before it's submitted. **Customer** under **Money** shows the **Retention Held** still to be
 paid. **Retention** on the Overview sets what the customer holds (**From the
 Customer**) beside what's held from suppliers (**To Suppliers**), across the
 project and those under it, each with the rate when the orders agree and when
@@ -918,7 +935,9 @@ project's manager is told on the day any of it falls due (**Retention Due**).
 The invoice is for the whole amount and the retention is a later part of its
 payment schedule, so the accounts are ERPNext's own: it stays in Debtors and
 Creditors until paid, and Accounts Receivable by payment terms shows it not
-yet due.
+yet due. **Release Retention** (and **Pay Retention** for a supplier) is
+ERPNext's Payment Entry with each line naming its retention term, so ERPNext
+marks those terms paid and Debtors or Creditors goes down by what was held.
 
 ### Before the customer orders
 
@@ -1526,10 +1545,14 @@ one field for it.
   **Retention** and **Retention at Handover** payment terms. Retention is the
   order's `one_retention`, `one_retention_due` and `one_retention_handover`
   (custom/purchase_order.json and sales_order.json, all editable after
-  submit); the invoice's payment schedule holds it under those terms
-  (`retention.parts`), set again after ERPNext's own split so it's the share
-  of the work billed, not of what's left after advances (`retained`,
-  `split`). A new Retention Due moves it on the order's invoices (`release`).
+  submit). Each invoice holds its own `one_retention`, which ERPNext's mapper
+  copies from the order and which may be changed before submit; an invoice
+  made before had its order's (patches/retention_by_invoice.py). The
+  payment schedule holds it under those terms after the invoice's own
+  (`_hold`, dated from the order or else the project, `source`), set again
+  after ERPNext's own split so it's the share of the work billed, not of
+  what's left after advances (`retained`, `split`, `spread`). Set to 0, the
+  terms go. A new Retention Due moves it on the order's invoices (`release`).
   `public/js/progress.js` is the dialog; `money._suppliers` is the Suppliers
   table.
 
@@ -1564,7 +1587,16 @@ one field for it.
   `one_retention`, in the boot for the desk), what's still held on an
   invoice part by part (`still_held`, `held_on`), the Overview's two sides
   (`sides`), Needs You's asks (`asks`), handover falling due when a project
-  is completed (`handed_over`), and the daily Retention Due (`due`).
+  is completed (`handed_over`), and the daily Retention Due (`due`). A
+  customer order on a project starts with the project's retention
+  (`ordered`, Sales Order before_insert, and `public/js/progress.js` on the
+  form); the project's own is `one_retention`, `one_retention_due` and
+  `one_retention_handover` (custom/project.json). Release Retention and Pay
+  Retention are `release`: ERPNext's `get_payment_entry` for the party, its
+  lines replaced by one per retention term still held (`picked`), so
+  ERPNext's own `update_payment_schedule` marks the terms paid. What's held
+  is each term's own outstanding, so a released term no longer counts, and
+  no more than the invoice owes (`held_on`, `_base`).
 
   - **Hold Retention** in Projects Settings turns it on (`on`). Off, the
     retention fields leave the orders, the project dialogs and the Overview. A

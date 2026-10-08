@@ -243,7 +243,18 @@ const next = (card) => {
   return null;
 };
 
-const frm = () => ({ doctype: "Project", doc: { name: props.said.name, project_name: props.said.title, customer: props.said.customer }, reload_doc: () => emit("changed") });
+const frm = () => ({
+  doctype: "Project",
+  doc: {
+    name: props.said.name,
+    project_name: props.said.title,
+    customer: props.said.customer,
+    one_retention: props.said.retention_terms?.percent,
+    one_retention_due: props.said.retention_terms?.due,
+    one_retention_handover: props.said.retention_terms?.handover,
+  },
+  reload_doc: () => emit("changed"),
+});
 const needs = computed(() =>
   view.value.needs.map((one, i) => ({
     key: i,
@@ -285,6 +296,10 @@ const facts = computed(() => {
     s.time && { label: __("Time"), value: [__(s.time), s.site].filter(Boolean).join(" · ") },
     s.kind !== "Internal" && { label: __("Payment Terms"), value: s.payment_terms || __("Not set"), tone: s.payment_terms ? undefined : "gray" },
     s.terms && { label: __("Terms and Conditions"), value: s.terms },
+    s.retention_terms && {
+      label: __("Retention"),
+      value: [`${s.retention_terms.percent}%`, s.retention_terms.handover && __("{0}% at handover", [s.retention_terms.handover]), s.retention_terms.due && __("Due {0}", [date(s.retention_terms.due)])].filter(Boolean).join(" · "),
+    },
     // What the customer signs, ERPNext's own Contract (agreement.py).
     s.agreement && {
       label: __("Signed Contract"),

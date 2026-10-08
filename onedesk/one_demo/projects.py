@@ -402,6 +402,13 @@ def _contract(project, date, lines, retention=0, retention_due=None, handover=0)
 	from onedesk.one_book.currency import bill_in
 
 	doc = frappe.get_doc("Project", project)
+	if retention:
+		# The project's retention, which its later orders start with (retention.py).
+		frappe.db.set_value(
+			"Project",
+			project,
+			{"one_retention": retention, "one_retention_due": retention_due, "one_retention_handover": handover},
+		)
 	order = frappe.new_doc("Sales Order")
 	order.company = COMPANY
 	bill_in(order, "Customer", doc.customer)

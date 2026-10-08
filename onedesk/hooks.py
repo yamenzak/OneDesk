@@ -723,8 +723,9 @@ doc_events = {
 		"on_update_after_submit": "onedesk.one_crm.stages.follow",
 	},
 	"Sales Order": {
-		# Starts with its quotation's or its project's terms. See one_project/terms.py.
-		"before_insert": "onedesk.one_project.terms.carried",
+		# Starts with its quotation's or its project's terms, and its project's
+		# retention. See one_project/terms.py and retention.py.
+		"before_insert": ["onedesk.one_project.terms.carried", "onedesk.one_project.retention.ordered"],
 		"validate": "onedesk.one_project.chain.agree",
 		"on_submit": [
 			"onedesk.one_crm.stages.follow",

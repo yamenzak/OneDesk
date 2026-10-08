@@ -139,36 +139,81 @@ def bill_progress(
 
 
 def _retain(invoice, order) -> None:
-	"""Split the invoice's payment when the order holds retention: the rest
-	now, any part released at handover, and the rest at Retention Due."""
-	share = flt(order.get("one_retention"))
-	if not share:
+	"""The invoice holds its order's retention: the rest now, any part
+	released at handover, and the rest at Retention Due (`retained`)."""
+	invoice.one_retention = flt(order.get("one_retention"))
+	if not invoice.one_retention:
 		return
-	posting = getdate(invoice.get("posting_date") or invoice.get("bill_date"))
-	due = getdate(invoice.get("due_date") or posting)
-	# Two terms can't fall on one day, and each comes after the one before.
-	handover = add_days(due, 1)
-	if order.get("delivery_date") or order.get("schedule_date"):
-		handover = max(getdate(order.get("delivery_date") or order.get("schedule_date")), handover)
-	split_at = parts(share, order.get("one_retention_handover"))
-	after = (
-		add_days(handover, 1) if any(term == HANDOVER for term, _portion in split_at) else add_days(due, 1)
-	)
-	release = max(getdate(order.get("one_retention_due") or due), after)
-	dates = {None: due, HANDOVER: handover, RETENTION: release}
-	total = flt(invoice.get("rounded_total") or invoice.grand_total)
 	invoice.payment_terms_template = None
 	invoice.ignore_default_payment_terms_template = 1
+	total = flt(invoice.get("rounded_total") or invoice.grand_total)
+	due = getdate(invoice.get("due_date") or invoice.get("posting_date") or invoice.get("bill_date"))
 	invoice.set("payment_schedule", [])
-	for term, portion in split_at:
-		invoice.append(
+	invoice.append("payment_schedule", {"due_date": due, "invoice_portion": 100, "payment_amount": total})
+	_hold(invoice, _terms_of(order), invoice.one_retention)
+
+
+def _terms_of(source) -> frappe._dict:
+	"""An order's or a project's retention terms, named alike: the handover
+	share, Retention Due and when the work ends."""
+	return frappe._dict(
+		retention=flt(source.get("one_retention")),
+		handover=flt(source.get("one_retention_handover")),
+		due=source.get("one_retention_due"),
+		ends=source.get("delivery_date") or source.get("schedule_date") or source.get("expected_end_date"),
+	)
+
+
+def source(doc) -> frappe._dict | None:
+	"""Where an invoice's retention terms come from: the one order it's
+	made from, or else the customer's project."""
+	link = "purchase_order" if doc.doctype == "Purchase Invoice" else "sales_order"
+	orders = {row.get(link) for row in doc.get("items") or [] if row.get(link)}
+	if len(orders) == 1:
+		order_type = "Purchase Order" if doc.doctype == "Purchase Invoice" else "Sales Order"
+		ends = "schedule_date" if order_type == "Purchase Order" else "delivery_date"
+		order = frappe.db.get_value(
+			order_type,
+			orders.pop(),
+			["one_retention", "one_retention_handover", "one_retention_due", ends],
+			as_dict=True,
+		)
+		return _terms_of(order) if order else None
+	if doc.doctype != "Sales Invoice":
+		return None
+	project = doc.get("project") or next((row.project for row in doc.get("items") or [] if row.get("project")), None)
+	if not project:
+		return None
+	found = frappe.db.get_value(
+		"Project",
+		project,
+		["one_retention", "one_retention_handover", "one_retention_due", "expected_end_date"],
+		as_dict=True,
+	)
+	return _terms_of(found) if found else None
+
+
+def _hold(doc, said, share: float) -> None:
+	"""Add the retention's payment terms after the invoice's own: released
+	at handover when the work ends, and the rest at Retention Due. Two terms
+	can't fall on one day, so each comes after the one before."""
+	said = said or frappe._dict()
+	due = max(getdate(row.due_date) for row in doc.payment_schedule)
+	split_at = [term for term, _portion in parts(share, said.handover) if term]
+	handover = max(getdate(said.ends), add_days(due, 1)) if said.ends else add_days(due, 1)
+	after = add_days(handover, 1) if HANDOVER in split_at else add_days(due, 1)
+	release = max(getdate(said.due), after) if said.due else after
+	dates = {HANDOVER: handover, RETENTION: release}
+	for term in split_at:
+		doc.append(
 			"payment_schedule",
 			{
 				"payment_term": term,
-				"description": {HANDOVER: _("Retention at Handover"), RETENTION: _("Retention")}.get(term),
+				"description": {HANDOVER: _("Retention at Handover"), RETENTION: _("Retention")}[term],
 				"due_date": dates[term],
-				"invoice_portion": portion,
-				"payment_amount": flt(total * portion / 100, 2),
+				# Set by `retained`, once ERPNext has made its own.
+				"invoice_portion": 0,
+				"payment_amount": 0,
 			},
 		)
 
@@ -180,44 +225,73 @@ def split(payable: float, net: float, share: float) -> tuple[float, float]:
 	return flt(payable) - retained, retained
 
 
+def spread(amount: float, weights: list[float]) -> list[float]:
+	"""An amount over parts in the proportions given, to the cent, the last
+	part taking what rounding leaves. Pure."""
+	whole = sum(weights)
+	if not weights:
+		return []
+	found = [flt(amount * (weight / whole if whole else 1 / len(weights)), 2) for weight in weights[:-1]]
+	return [*found, flt(amount - sum(found), 2)]
+
+
 def retained(doc, method=None) -> None:
-	"""Purchase/Sales Invoice validate, after ERPNext's own: ERPNext splits
-	the payment by share of what's left after advances, so the retention is
-	set again as the share of the work billed (`split`), and divided between
-	handover and the rest as the order says."""
+	"""Purchase/Sales Invoice validate, after ERPNext's own: the invoice
+	holds its own Retention, which starts as its order's (or its project's)
+	and may be changed, or set to 0, before it's submitted. The retention is
+	the share of the work billed (`split`), held as payment terms after the
+	invoice's own, and divided between handover and the rest as the order
+	says. ERPNext keeps the invoice in Debtors or Creditors whole, so what's
+	held stays owed, and a payment for it is matched to its terms."""
+	if doc.get("is_return") or doc.get("is_pos") or doc.get("is_opening") == "Yes":
+		return
 	rows = doc.get("payment_schedule") or []
+	if not rows:
+		return
+	said = source(doc)
+	if doc.get("one_retention") is None:
+		doc.one_retention = said.retention if said else 0
+	share = flt(doc.one_retention)
 	held_rows = [row for row in rows if row.payment_term in HELD]
-	if not held_rows or len(held_rows) > 2 or len(rows) != len(held_rows) + 1:
+	if not share and not held_rows:
 		return
-	link = "purchase_order" if doc.doctype == "Purchase Invoice" else "sales_order"
-	orders = {row.get(link) for row in doc.items if row.get(link)}
-	if len(orders) != 1:
-		return
-	order_type = "Purchase Order" if doc.doctype == "Purchase Invoice" else "Sales Order"
-	order = frappe.db.get_value(
-		order_type, orders.pop(), ["one_retention", "one_retention_handover"], as_dict=True
-	)
-	share = flt(order.one_retention) if order else 0
-	if not share:
-		return
+	if share and not held_rows:
+		_hold(doc, said, share)
+	elif not share:
+		for row in held_rows:
+			doc.remove(row)
 	payable = (
 		flt(doc.get("rounded_total") or doc.grand_total)
 		- flt(doc.get("write_off_amount"))
 		- flt(doc.get("total_advance"))
 	)
 	now, kept = split(payable, doc.net_total, share)
-	first = flt(kept * min(100.0, flt(order.one_retention_handover)) / 100, 2) if len(held_rows) == 2 else 0
-	amounts = {HANDOVER: first, RETENTION: kept - first} if len(held_rows) == 2 else {}
+	rows = doc.payment_schedule
+	own = [row for row in rows if row.payment_term not in HELD]
+	held_rows = [row for row in rows if row.payment_term in HELD]
+	first = (
+		flt(kept * min(100.0, flt(said.handover if said else 0)) / 100, 2)
+		if len(held_rows) == 2
+		else 0
+	)
+	if not own:
+		own = [doc.append("payment_schedule", {"due_date": doc.get("posting_date") or doc.get("bill_date"), "payment_amount": 0})]
+		rows = doc.payment_schedule
+	amounts = {id(row): amount for row, amount in zip(own, spread(now, [flt(row.payment_amount) for row in own]), strict=True)}
+	for row in held_rows:
+		amounts[id(row)] = {HANDOVER: first, RETENTION: kept - first}[row.payment_term] if len(held_rows) == 2 else kept
 	for row in rows:
-		if row.payment_term in HELD:
-			amount = amounts.get(row.payment_term, kept)
-		else:
-			amount = now
+		amount = amounts[id(row)]
 		row.payment_amount = amount
 		row.invoice_portion = 100 * amount / payable if payable else 0
 		row.base_payment_amount = flt(amount * flt(doc.conversion_rate or 1), 2)
 		row.outstanding = amount
 		row.base_outstanding = row.base_payment_amount
+	rows.sort(key=lambda row: getdate(row.due_date))
+	for idx, row in enumerate(rows, start=1):
+		row.idx = idx
+	# ERPNext dates the invoice by its last payment term.
+	doc.due_date = max(getdate(row.due_date) for row in rows)
 
 
 def drafted(doc, method=None) -> None:

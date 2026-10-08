@@ -181,6 +181,36 @@
    "insert_after": "one_time_budget",
    "module": "One Project",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_retention",
+   "label": "Retention",
+   "fieldtype": "Percent",
+   "insert_after": "one_terms",
+   "module": "One Project",
+   "depends_on": "eval:frappe.boot.one_retention || doc.one_retention",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_retention_due",
+   "label": "Retention Due",
+   "fieldtype": "Date",
+   "insert_after": "one_retention",
+   "module": "One Project",
+   "depends_on": "one_retention",
+   "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_retention_handover",
+   "label": "Released at Handover",
+   "fieldtype": "Percent",
+   "insert_after": "one_retention_due",
+   "module": "One Project",
+   "depends_on": "one_retention",
+   "description": ""
   }
  ],
  "doctype": "Project",

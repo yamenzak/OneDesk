@@ -221,13 +221,21 @@ onedesk.project.add_contract = async (frm) => {
 				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0, is_stock_item: 0 } }),
 			},
 			{ fieldtype: "Column Break" },
-			{ fieldtype: "Percent", fieldname: "retention", label: __("Retention"), hidden: !frappe.boot.one_retention },
+			// The project's retention, which the contract may change.
+			{
+				fieldtype: "Percent",
+				fieldname: "retention",
+				label: __("Retention"),
+				hidden: !frappe.boot.one_retention,
+				default: frm.doc.one_retention,
+			},
 			{
 				fieldtype: "Date",
 				fieldname: "retention_due",
 				label: __("Retention Due"),
 				depends_on: "eval:doc.retention",
 				mandatory_depends_on: "eval:doc.retention",
+				default: frm.doc.one_retention_due,
 			},
 			{
 				fieldtype: "Percent",
@@ -235,6 +243,7 @@ onedesk.project.add_contract = async (frm) => {
 				label: __("Released at Handover"),
 				description: __("Share of the retention"),
 				depends_on: "eval:doc.retention",
+				default: frm.doc.one_retention_handover,
 			},
 			// The project's terms, which the contract carries (one_project/terms.py).
 			{ fieldtype: "Section Break" },
@@ -702,7 +711,7 @@ onedesk.project.ask_updates = async (project, done) => {
 // fields, saved against the project as the page loaded it, so a change made
 // meanwhile is refused as a form's would be. % Complete is typed only when
 // progress is Manual.
-onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_payment_terms", "one_terms"];
+onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_payment_terms", "one_terms", "one_retention", "one_retention_due", "one_retention_handover"];
 
 onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
 	await frappe.model.with_doctype("Project");
@@ -826,3 +835,12 @@ onedesk.project.pay_advance = (order) =>
 			frappe.set_route("Form", doc.doctype, doc.name);
 		},
 	});
+
+// Release Retention, or Pay Retention for a supplier: the payment for the
+// retention held, ERPNext's own Payment Entry matched to each invoice's
+// retention terms, opened unsaved (one_project/retention.py `release`).
+onedesk.project.release_retention = async (args) => {
+	const doc = await frappe.xcall("onedesk.one_project.retention.release", args);
+	const [made] = frappe.model.sync(doc);
+	frappe.set_route("Form", made.doctype, made.name);
+};

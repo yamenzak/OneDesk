@@ -4,6 +4,8 @@ invoice is for the whole amount, and its payment schedule holds the retention
 as later payment terms (progress.py makes and keeps them).
 """
 
+from typing import Annotated
+
 import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, nowdate
@@ -53,26 +55,37 @@ def still_held(held: list[tuple], outstanding: float) -> list[tuple[str, float]]
 
 
 def held_on(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]]]:
-	"""Each invoice's retention still held, in the company's currency."""
+	"""Each invoice's retention still held, in the company's currency: each
+	retention term less what was paid against it (Release Retention), and
+	no more than the invoice still owes (`still_held`)."""
 	if not names:
 		return {}
 	found = {}
 	for row in frappe.get_all(
 		"Payment Schedule",
 		filters={"parent": ["in", names], "parenttype": doctype, "payment_term": ["in", HELD]},
-		fields=["parent", "due_date", "base_payment_amount"],
+		fields=["parent", "due_date", "base_payment_amount", "base_outstanding"],
 	):
-		found.setdefault(row.parent, []).append((row.due_date, flt(row.base_payment_amount)))
+		left = row.base_outstanding if row.base_outstanding is not None else row.base_payment_amount
+		found.setdefault(row.parent, []).append((row.due_date, flt(left)))
 	if not found:
 		return {}
 	return {
-		one.name: still_held(found[one.name], flt(one.outstanding_amount) * flt(one.conversion_rate or 1))
+		one.name: still_held(found[one.name], _base(one))
 		for one in frappe.get_all(
 			doctype,
 			filters={"name": ["in", list(found)], "docstatus": 1},
-			fields=["name", "outstanding_amount", "conversion_rate"],
+			fields=["name", "company", "outstanding_amount", "conversion_rate", "party_account_currency"],
 		)
 	}
+
+
+def _base(invoice) -> float:
+	"""What an invoice still owes, in the company's currency. ERPNext keeps
+	it in the party account's currency."""
+	company = frappe.get_cached_value("Company", invoice.company, "default_currency")
+	rate = 1 if invoice.party_account_currency in (None, "", company) else flt(invoice.conversion_rate or 1)
+	return flt(invoice.outstanding_amount) * rate
 
 
 def invoices(doctype: str, projects: list[str]) -> list[str]:
@@ -161,6 +174,113 @@ def asks(projects: list[str], user: str) -> list[dict]:
 	for one in found:
 		del one["days"]
 	return found
+
+
+def ordered(doc, method=None) -> None:
+	"""Sales Order before_insert: a customer's order on a project starts
+	with the project's retention, which the order may change (0 on extra
+	work, say). A subcontract's purchase order keeps its own."""
+	project = doc.get("project")
+	if not project or doc.get("one_retention") is not None or not on():
+		return
+	found = frappe.db.get_value(
+		"Project", project, ["one_retention", "one_retention_due", "one_retention_handover"], as_dict=True
+	)
+	if not found or not flt(found.one_retention):
+		return
+	doc.update(
+		{
+			"one_retention": found.one_retention,
+			"one_retention_due": doc.get("one_retention_due") or found.one_retention_due,
+			"one_retention_handover": found.one_retention_handover,
+		}
+	)
+
+
+def picked(parts: list[tuple], today: str) -> list[tuple]:
+	"""Which held parts, as (invoice, term, due, amount), a payment is for:
+	those due by today, or all of them when none is due yet. Pure."""
+	due = [one for one in parts if str(one[2]) <= str(today)]
+	return due or parts
+
+
+@frappe.whitelist()
+def release(
+	project: Annotated[str, "The project."],
+	doctype: Annotated[str, "Sales Invoice to release a customer's, Purchase Invoice to pay a supplier's."] = "Sales Invoice",
+	invoice: Annotated[str | None, "Only this invoice."] = None,
+	party: Annotated[str | None, "Only this customer's or supplier's."] = None,
+):
+	"""Release Retention (Pay Retention for a supplier): a draft Payment
+	Entry for the retention still held on the project's invoices, matched to
+	each invoice's retention terms, so ERPNext marks those parts paid. It's
+	for the parts due by today, or all of it when none is due yet. Nothing
+	is saved."""
+	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+
+	from onedesk.one_project import tree
+
+	if doctype not in ("Sales Invoice", "Purchase Invoice"):
+		frappe.throw(_("Retention is held on sales and purchase invoices."))
+	frappe.has_permission("Project", "read", project, throw=True)
+	frappe.has_permission("Payment Entry", "create", throw=True)
+	key = "customer" if doctype == "Sales Invoice" else "supplier"
+	names = [invoice] if invoice else invoices(doctype, sorted(tree.scope(project)))
+	filters = {"name": ["in", names or [""]], "docstatus": 1, "outstanding_amount": [">", 0]}
+	if party:
+		filters[key] = party
+	heads = frappe.get_list(
+		doctype,
+		filters=filters,
+		fields=["name", f"{key} as party", "currency", "party_account_currency", "company", "conversion_rate", "outstanding_amount"],
+		order_by="posting_date asc, creation asc",
+	)
+	today = str(getdate(nowdate()))
+	found = {}
+	for head in heads:
+		own = head.party_account_currency == head.currency
+		rows = frappe.get_all(
+			"Payment Schedule",
+			filters={"parent": head.name, "parenttype": doctype, "payment_term": ["in", HELD]},
+			fields=["payment_term", "due_date", "outstanding", "base_outstanding"],
+			order_by="due_date asc",
+		)
+		# In the party account's currency, as ERPNext matches a payment.
+		amount = {str(row.due_date): flt(row.outstanding if own else row.base_outstanding) for row in rows}
+		term = {str(row.due_date): row.payment_term for row in rows}
+		left = [(term[due], due, held) for due, held in still_held(list(amount.items()), head.outstanding_amount)]
+		if left:
+			found[head.name] = (head, left)
+	if not found:
+		frappe.throw(_("No retention is held here."))
+	if len({head.party for head, _left in found.values()}) > 1:
+		frappe.throw(
+			_("More than one customer holds retention here. Release it from each invoice.")
+			if doctype == "Sales Invoice"
+			else _("More than one supplier has retention held here. Pay it from each bill.")
+		)
+	chosen = picked([(name, *one) for name, (_head, left) in found.items() for one in left], today)
+	total = flt(sum(amount for *_rest, amount in chosen), 2)
+	payment = get_payment_entry(doctype, chosen[0][0], party_amount=total)
+	payment.set("references", [])
+	for name, term, due, amount in chosen:
+		head = found[name][0]
+		payment.append(
+			"references",
+			{
+				"reference_doctype": doctype,
+				"reference_name": name,
+				"payment_term": term,
+				"due_date": due,
+				"outstanding_amount": head.outstanding_amount,
+				"payment_term_outstanding": flt(amount, 2),
+				"allocated_amount": flt(amount, 2),
+			},
+		)
+	payment.project = project
+	payment.set_missing_ref_details()
+	payment.set_amounts()
+	return payment
 
 
 def handed_over(doc, method=None) -> None:

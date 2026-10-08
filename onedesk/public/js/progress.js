@@ -9,6 +9,21 @@ for (const doctype of ["Purchase Order", "Sales Order"]) {
 	});
 }
 
+// A customer's new order on a project starts with the project's retention,
+// which it may change (one_project/retention.py `ordered`).
+frappe.ui.form.on("Sales Order", {
+	async project(frm) {
+		if (!frm.is_new() || !frm.doc.project || !frappe.boot.one_retention) return;
+		const { message } = await frappe.db.get_value("Project", frm.doc.project, ["one_retention", "one_retention_due", "one_retention_handover"]);
+		if (!flt(message?.one_retention)) return;
+		frm.set_value({
+			one_retention: message.one_retention,
+			one_retention_due: frm.doc.one_retention_due || message.one_retention_due,
+			one_retention_handover: message.one_retention_handover,
+		});
+	},
+});
+
 frappe.provide("onedesk.progress");
 
 onedesk.progress.INVOICE = { "Purchase Order": "Purchase Invoice", "Sales Order": "Sales Invoice" };

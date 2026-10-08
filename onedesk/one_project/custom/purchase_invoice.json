@@ -12,6 +12,17 @@
    "depends_on": "one_progress",
    "print_hide": 1,
    "description": ""
+  },
+  {
+   "dt": "Purchase Invoice",
+   "fieldname": "one_retention",
+   "label": "Retention",
+   "fieldtype": "Percent",
+   "insert_after": "payment_terms_template",
+   "module": "One Project",
+   "depends_on": "eval:frappe.boot.one_retention || doc.one_retention",
+   "print_hide": 1,
+   "description": ""
   }
  ],
  "doctype": "Purchase Invoice",

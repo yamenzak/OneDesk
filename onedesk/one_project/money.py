@@ -630,7 +630,8 @@ def past_due(terms: list, outstanding: float, today) -> dict | None:
 	first, with what's been paid taken off the earliest, as payments are;
 	what's left of those already due, since when, and whether it's only
 	retention. ERPNext's own per-term outstanding moves only when a payment
-	names the term, so it's worked out here. None when nothing's due. Pure."""
+	names the term, so the rest is worked out here. None when nothing's due.
+	Pure.""" 
 	terms = sorted(terms, key=lambda one: str(one["due_date"]))
 	paid = max(0.0, sum(flt(one["amount"]) for one in terms) - flt(outstanding))
 	due, since, held = 0.0, None, True
@@ -653,12 +654,13 @@ def _terms(doctype: str, names: list[str]) -> dict[str, list[dict]]:
 	for one in frappe.get_all(
 		"Payment Schedule",
 		filters={"parenttype": doctype, "parent": ["in", names or [""]]},
-		fields=["parent", "due_date", "payment_amount", "payment_term"],
+		fields=["parent", "due_date", "payment_amount", "outstanding", "payment_term"],
 	):
 		found.setdefault(one.parent, []).append(
 			{
 				"due_date": one.due_date,
-				"amount": one.payment_amount,
+				# Less what a payment naming the term paid (Release Retention).
+				"amount": one.payment_amount if one.outstanding is None else one.outstanding,
 				"held": one.payment_term in retention.HELD,
 			}
 		)

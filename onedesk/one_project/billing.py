@@ -256,7 +256,7 @@ def _listed(project: str, doctype: str) -> dict:
 			as_list=True,
 		)
 	)
-	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "retention": 0.0, "drafts": 0}
+	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "retention": 0.0, "drafts": 0, "late": 0}
 	# Late by the dates, not the status: ERPNext marks Overdue overnight.
 	terms = money._terms(doctype, [row.name for row in rows if row.docstatus == 1])
 	today = getdate(nowdate())
@@ -269,6 +269,7 @@ def _listed(project: str, doctype: str) -> dict:
 		kept = held.get(row.name) or []
 		holding = sum(amount for _due, amount in kept)
 		now = max(0.0, owed - holding)
+		held_own = flt(holding / flt(row.conversion_rate or 1), 2)
 		late = (
 			money.past_due(terms.get(row.name, []), row.outstanding_amount, today)
 			if row.docstatus == 1 and not row.is_return
@@ -283,6 +284,7 @@ def _listed(project: str, doctype: str) -> dict:
 			totals["retention"] += holding * share
 			if late:
 				totals["overdue"] += late["due"] * flt(row.conversion_rate or 1) * share
+				totals["late"] += 1
 		on = sorted({one.project for one in own if one.project in titles} | ({row.project} & set(titles)))
 		elsewhere = [titles[one] for one in on if one != project]
 		found.append(
@@ -291,9 +293,12 @@ def _listed(project: str, doctype: str) -> dict:
 				"party": row.party,
 				"party_image": logos.get(row.party_id),
 				"date": str(row.posting_date) if row.posting_date else None,
-				# What's held back falls due later; the date is when the rest
-				# is due, or the retention's once only it is left.
+				# What's held back falls due later: the date is when the rest is
+				# due, and the retention held says its own.
 				"due": str(due.get(row.name) or row.due_date or "") or None,
+				"owed": max(0.0, flt(row.outstanding_amount) - held_own),
+				"held": held_own,
+				"held_due": str(kept[0][0]) if kept else None,
 				"retention_due": str(kept[0][0]) if kept and now < 0.005 else None,
 				"status": "Draft"
 				if row.docstatus == 0
@@ -313,6 +318,8 @@ def _listed(project: str, doctype: str) -> dict:
 	return {
 		"rows": found,
 		"totals": totals,
+		# One party needs no column of its own.
+		"parties": len({row.party_id for row in rows}),
 		"can_create": bool(frappe.has_permission(doctype, "create")),
 		"can_pay": bool(frappe.has_permission("Payment Entry", "create")),
 	}

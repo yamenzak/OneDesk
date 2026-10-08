@@ -105,6 +105,10 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 			# How its time is counted, and where (hours.py).
 			"one_time": values.time,
 			"one_site": values.site,
+			# The project's retention, which each customer order starts with (retention.py).
+			"one_retention": flt(values.retention) if kind == FIXED else 0,
+			"one_retention_due": values.retention_due if kind == FIXED and flt(values.retention) else None,
+			"one_retention_handover": flt(values.retention_handover) if kind == FIXED and flt(values.retention) else 0,
 		}
 	)
 	if values.parent:

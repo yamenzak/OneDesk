@@ -109,7 +109,7 @@
             <ListCell class="justify-end tabular-nums text-ink-gray-8">{{ money(item.total, item.currency) }}</ListCell>
             <ListCell class="justify-end tabular-nums max-md:hidden" :class="item.outstanding ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ money(item.outstanding, item.currency) }}</ListCell>
             <ListCell class="justify-end" @click.stop>
-              <Dropdown v-if="item.can_pay && bills.can_pay" :options="[{ label: __('Record Payment'), icon: 'lucide-banknote', onClick: () => pay(item) }]" placement="right">
+              <Dropdown v-if="billActions(item).length" :options="billActions(item)" placement="right">
                 <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('Actions')" /></template>
               </Dropdown>
             </ListCell>
@@ -208,6 +208,19 @@ function forText(item) {
 async function pay(item) {
   const verb = await call("onedesk.one.head.offer", { doctype: "Purchase Invoice", name: item.name, verb: "invoice.record_payment" });
   if (verb) onedesk().head.act({ doctype: "Purchase Invoice", doc: { name: item.name }, reload_doc: load }, verb);
+}
+// Record Payment, and Pay Retention for what's held from the bill, matched to
+// its retention terms (one_project/retention.py `release`).
+function billActions(item) {
+  if (!bills.value.can_pay) return [];
+  return [
+    item.can_pay && { label: __("Record Payment"), icon: "lucide-banknote", onClick: () => pay(item) },
+    item.held && {
+      label: __("Pay Retention"),
+      icon: "lucide-hand-coins",
+      onClick: () => onedesk().project.release_retention({ project: props.said.name, doctype: "Purchase Invoice", invoice: item.name }),
+    },
+  ].filter(Boolean);
 }
 
 // Buying: ERPNext's statuses, coloured as its lists colour them.

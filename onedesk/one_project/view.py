@@ -116,6 +116,14 @@ def said(
 		# What's agreed with the customer, carried onto its documents (terms.py).
 		"payment_terms": doc.get("one_payment_terms"),
 		"terms": doc.get("one_terms"),
+		# The retention each customer order starts with (retention.py).
+		"retention_terms": {
+			"percent": flt(doc.get("one_retention")),
+			"due": str(doc.one_retention_due) if doc.get("one_retention_due") else None,
+			"handover": flt(doc.get("one_retention_handover")),
+		}
+		if flt(doc.get("one_retention"))
+		else None,
 		# The contracts signed for it, ERPNext's own (agreement.py), and the
 		# customer's About shows.
 		"contracts": (signed := agreement.contracts(view["tree"])),
@@ -859,7 +867,7 @@ def _past_due(doctype: str, projects: list[str]) -> list[dict]:
 	rows = frappe.db.sql(
 		f"""select inv.name, inv.owner, inv.conversion_rate, inv.outstanding_amount,
 			{"inv.supplier_name" if doctype == "Purchase Invoice" else "inv.customer_name"} as party,
-			ps.due_date, ps.payment_amount as amount, ps.payment_term in %(held)s as held
+			ps.due_date, ifnull(ps.outstanding, ps.payment_amount) as amount, ps.payment_term in %(held)s as held
 		from `tab{doctype}` inv
 		join `tabPayment Schedule` ps on ps.parent = inv.name and ps.parenttype = %(doctype)s
 		where inv.docstatus = 1 and inv.is_return = 0 and inv.outstanding_amount > 0
