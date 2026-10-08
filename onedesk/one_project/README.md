@@ -1127,9 +1127,13 @@ template and opens it to change.
 
 ## Who has room this week
 
-**Workload** in the rail shows each person with open tasks in a week. It
-shows this week unless you pick another, and every project unless you pick
-one:
+**Workload** in the rail shows everyone on an open project's team, and
+anyone else with open tasks, in a week. Someone with nothing planned shows
+with all their hours free. It shows this week unless you pick a day in
+another, and every project unless you pick one. The week it covers is named
+above the table, and the cards above it give the team's **Capacity**,
+**Planned** and **Free** hours and how many people are **Over Capacity**.
+Each person shows:
 
 - **Capacity (Hours)**: their working days that week, minus holidays and
   approved leave, times the working day set in HR Settings (**Standard
@@ -1139,13 +1143,15 @@ one:
   it, spread over the days from its start to its due date. Overdue work counts
   in full this week. A task assigned to two people counts half for each.
 - **Free (Hours)** and **Load (%)**: red once they're over.
-- **Tasks** (click it for the list) and **Late**, how many are past their
-  due date.
+- **Tasks** and **Late**, how many are past their due date. Click either for
+  the list.
 - **Not Estimated**: how many of their tasks that week have no Expected Time.
+  Click it for those tasks, to fill them in.
   The hours are only as good as the estimates, so a light week with five
   unestimated tasks isn't really light.
 
-Give tasks an **Expected Time** and a date and the figures follow. You only
+The busiest come first, then whoever has the most late tasks. Give tasks an
+**Expected Time** and a date and the figures follow. You only
 see the tasks you can see.
 
 ## What the customer sees

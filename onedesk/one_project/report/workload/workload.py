@@ -43,6 +43,9 @@ def execute(filters=None):
 			one["tasks"] += 1
 			one["late"] += getdate(due) < getdate(nowdate())
 			one["unestimated"] += not flt(task.expected_time)
+	# Everyone on an open project's team, so whoever has room shows with it.
+	for user in team(filters.get("project")):
+		people.setdefault(user, {"hours": 0.0, "tasks": 0, "late": 0, "unestimated": 0})
 	per_day = flt(frappe.db.get_single_value("HR Settings", "standard_working_hours")) or DAY
 	rows = []
 	for user, one in people.items():
@@ -60,8 +63,38 @@ def execute(filters=None):
 				"unestimated": one["unestimated"],
 			}
 		)
-	rows.sort(key=lambda row: -(row["load"] or 0))
-	return columns(), rows
+	rows.sort(key=lambda row: (-(row["load"] or 0), -row["late"], row["full_name"] or row["user"]))
+	week = _("Week of {0} to {1}").format(frappe.format(starts, "Date"), frappe.format(ends, "Date"))
+	return columns(), rows, week, None, summary(rows)
+
+
+def team(project: str | None = None) -> list[str]:
+	"""The people on the team of each open project, or of `project` and the
+	projects under it, who can still sign in."""
+	where = {"status": "Open"}
+	if project:
+		where = {"name": ["in", list(tree.below({project}, tree.parents()))]}
+	projects = frappe.get_all("Project", filters=where, pluck="name")
+	if not projects:
+		return []
+	users = frappe.get_all(
+		"Project User", filters={"parenttype": "Project", "parent": ["in", projects]}, pluck="user", distinct=True
+	)
+	return frappe.get_all("User", filters={"name": ["in", users or [""]], "enabled": 1}, pluck="name")
+
+
+def summary(rows: list[dict]) -> list[dict]:
+	"""The team's week at a glance: its hours, what's planned, what's free,
+	and who is over."""
+	capacity = sum(row["capacity"] for row in rows)
+	planned = sum(row["planned"] for row in rows)
+	over = sum(1 for row in rows if (row["load"] or 0) > 100)
+	return [
+		{"label": _("Capacity"), "value": round(capacity, 1), "datatype": "Float", "indicator": "Blue"},
+		{"label": _("Planned"), "value": round(planned, 1), "datatype": "Float", "indicator": "Blue"},
+		{"label": _("Free"), "value": round(capacity - planned, 1), "datatype": "Float", "indicator": "Green" if capacity >= planned else "Red"},
+		{"label": _("Over Capacity"), "value": over, "datatype": "Int", "indicator": "Red" if over else "Green"},
+	]
 
 
 def in_week(starts, due, week_starts, week_ends, hours: float) -> float | None:

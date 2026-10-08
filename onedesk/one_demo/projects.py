@@ -36,6 +36,7 @@ def run(password=None):
 		marina()
 		facade_care()
 		workshop()
+	_estimates()
 
 
 # The projects
@@ -687,6 +688,25 @@ def _milestone_shares(project, shares):
 			doc.is_milestone = 1
 			doc.one_bill_share = share
 			doc.save()
+
+
+def _estimates():
+	"""Each task's hours, so Workload has load to show: a few hours a day for
+	the days it runs, more on some than others, and on open work more than
+	what's logged on it so far."""
+	tasks = frappe.get_all(
+		"Task",
+		filters={"is_template": 0, "is_group": 0, "is_milestone": 0, "expected_time": 0},
+		fields=["name", "status", "exp_start_date", "exp_end_date", "actual_time"],
+		order_by="name",
+	)
+	for i, task in enumerate(tasks):
+		days = date_diff(task.exp_end_date, task.exp_start_date) + 1 if task.exp_start_date and task.exp_end_date else 2
+		hours = min(max(days, 1), 5) * (2, 3, 4, 6)[i % 4]
+		# Work still open has hours left beyond the time already logged on it.
+		if task.status not in ("Completed", "Cancelled"):
+			hours += flt(task.actual_time)
+		frappe.db.set_value("Task", task.name, "expected_time", hours, update_modified=False)
 
 
 def _assign(task, user):

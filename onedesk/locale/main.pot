@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-08 10:26+0000\n"
-"PO-Revision-Date: 2026-10-08 10:26+0000\n"
+"POT-Creation-Date: 2026-10-08 10:34+0000\n"
+"PO-Revision-Date: 2026-10-08 10:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4326,7 +4326,11 @@ msgstr ""
 msgid "Capability"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:127
+#: onedesk/one_project/report/workload/workload.py:93
+msgid "Capacity"
+msgstr ""
+
+#: onedesk/one_project/report/workload/workload.py:160
 msgid "Capacity (Hours)"
 msgstr ""
 
@@ -9525,7 +9529,11 @@ msgstr ""
 msgid "Frappe Cloud stopped serving the site"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:129
+#: onedesk/one_project/report/workload/workload.py:95
+msgid "Free"
+msgstr ""
+
+#: onedesk/one_project/report/workload/workload.py:162
 msgid "Free (Hours)"
 msgstr ""
 
@@ -12091,7 +12099,7 @@ msgstr ""
 
 #: frontend/src/project/group.js:41
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:186
-#: onedesk/one_project/report/workload/workload.py:132
+#: onedesk/one_project/report/workload/workload.py:165
 #: onedesk/public/js/band.js:172
 msgid "Late"
 msgstr ""
@@ -12658,7 +12666,7 @@ msgstr ""
 msgid "Live On"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:130
+#: onedesk/one_project/report/workload/workload.py:163
 msgid "Load (%)"
 msgstr ""
 
@@ -13912,7 +13920,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/report/workload/workload.py:126
+#: onedesk/one_project/report/workload/workload.py:159
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/doctype_settings.js:535
@@ -15018,7 +15026,7 @@ msgstr ""
 msgid "Not Checked In"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:133
+#: onedesk/one_project/report/workload/workload.py:166
 msgid "Not Estimated"
 msgstr ""
 
@@ -17021,6 +17029,10 @@ msgstr ""
 msgid "Over Budget is Warn or Stop."
 msgstr ""
 
+#: onedesk/one_project/report/workload/workload.py:96
+msgid "Over Capacity"
+msgstr ""
+
 #: onedesk/one_admin/home.py:270
 msgid "Over Database"
 msgstr ""
@@ -17823,7 +17835,7 @@ msgstr ""
 #: onedesk/one/doctype/push_device/push_device.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
 #: onedesk/one_mail/doctype/face/face.json
-#: onedesk/one_project/report/workload/workload.py:125
+#: onedesk/one_project/report/workload/workload.py:158
 #: onedesk/public/js/settings.js:934
 msgid "Person"
 msgstr ""
@@ -18084,10 +18096,11 @@ msgid "Plan the tasks"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:33
+#: onedesk/one_project/report/workload/workload.py:94
 msgid "Planned"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:128
+#: onedesk/one_project/report/workload/workload.py:161
 msgid "Planned (Hours)"
 msgstr ""
 
@@ -18583,7 +18596,7 @@ msgstr ""
 #: onedesk/one_project/custom/quotation.json
 #: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/page/project_view/project_view.js:8
-#: onedesk/one_project/report/workload/workload.js:7
+#: onedesk/one_project/report/workload/workload.js:8
 #: onedesk/public/js/project_actions.js:424
 #: onedesk/public/js/project_actions.js:639
 #: onedesk/public/js/project_list.js:115 onedesk/public/js/project_tree.js:32
@@ -23160,7 +23173,7 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:165 onedesk/one_project/ai.py:476
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json
-#: onedesk/one_project/report/workload/workload.py:131
+#: onedesk/one_project/report/workload/workload.py:164
 #: onedesk/one_storage/namespace.py:736 onedesk/one_storage/namespace.py:836
 #: onedesk/one_task/sidebar/onetask/onetask.json onedesk/www/projects.html:124
 msgid "Tasks"
@@ -26800,8 +26813,12 @@ msgstr ""
 msgid "Week"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.js:6
+#: onedesk/one_project/report/workload/workload.js:7
 msgid "Week Of"
+msgstr ""
+
+#: onedesk/one_project/report/workload/workload.py:67
+msgid "Week of {0} to {1}"
 msgstr ""
 
 #. Option for the 'frequency' (Select) field in DocType 'Project'
