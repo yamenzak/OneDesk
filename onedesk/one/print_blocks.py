@@ -22,6 +22,7 @@ TITLES = {
 	"Salary Slip": (_lt("Payslip"), _lt("Payslip No")),
 	"Job Offer": (_lt("Job Offer"), _lt("Offer No")),
 	"Appointment Letter": (_lt("Appointment Letter"), _lt("Letter No")),
+	"Timesheet": (_lt("Timesheet"), _lt("Timesheet No")),
 }
 
 #: Each record's dates and references, in the order they are printed.
@@ -50,6 +51,7 @@ DETAILS = {
 	"Salary Slip": ((_lt("Working Days"), "total_working_days"), (_lt("Paid Days"), "payment_days")),
 	"Job Offer": ((_lt("Date"), "offer_date"), (_lt("Position"), "designation")),
 	"Appointment Letter": ((_lt("Starts On"), "appointment_date"),),
+	"Timesheet": ((_lt("Hours"), "total_hours"), (_lt("Billable Hours"), "total_billable_hours")),
 }
 
 #: Who a record is for: its heading, and the field with their name.
@@ -63,6 +65,7 @@ PARTIES = {
 	"Salary Slip": (_lt("Employee"), "employee_name"),
 	"Job Offer": (_lt("Offered To"), "applicant_name"),
 	"Appointment Letter": (_lt("Addressed To"), "applicant_name"),
+	"Timesheet": (_lt("Employee"), "employee_name"),
 }
 
 #: The format each record that leaves the company prints with, and the module
@@ -78,6 +81,7 @@ FORMATS = {
 	"Salary Slip": ("One Payslip", "one_hr"),
 	"Job Offer": ("One Job Offer", "one_hr"),
 	"Appointment Letter": ("One Appointment Letter", "one_hr"),
+	"Timesheet": ("One Timesheet", "one_project"),
 }
 
 #: Who signs a paper that is signed and handed back: the company's side, then
@@ -87,6 +91,8 @@ SIGNED = {
 	"Delivery Note": ((_lt("Delivered By"), None), (_lt("Received By"), "customer_name")),
 	"Job Offer": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
+	# The customer billed for the time signs that the hours are theirs.
+	"Timesheet": ((_lt("For {0}"), "company"), (_lt("Approved By"), None)),
 }
 
 #: The colour a page has when the company has no Brand Colour.
@@ -181,7 +187,7 @@ def party(doc) -> dict:
 		heading = _("Paid To")
 	name = doc.get(field) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
 	lines = []
-	if doc.doctype == "Salary Slip":
+	if doc.doctype in ("Salary Slip", "Timesheet"):
 		lines = [doc.get("employee"), doc.get("designation"), doc.get("department")]
 	address = doc.get("address_display")
 	if doc.doctype == "Delivery Note":
@@ -209,13 +215,13 @@ def party(doc) -> dict:
 
 def details(doc) -> dict:
 	rows = []
-	if doc.doctype == "Salary Slip" and doc.get("start_date"):
+	if doc.doctype in ("Salary Slip", "Timesheet") and doc.get("start_date"):
 		period = "{} – {}".format(doc.get_formatted("start_date"), doc.get_formatted("end_date"))
 		rows.append((_("Period"), period))
 	for label, field in DETAILS.get(doc.doctype, ()):
 		if doc.get(field) and doc.meta.has_field(field):
 			rows.append((str(label), doc.get_formatted(field)))
-	project = doc.get("project")
+	project = doc.get("project") or doc.get("parent_project")
 	if project:
 		rows.append((_("Project"), frappe.get_cached_value("Project", project, "project_name") or project))
 	return {"rows": rows} if rows else {}

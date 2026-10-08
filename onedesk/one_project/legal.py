@@ -15,8 +15,21 @@ clause(
 		In OneProject, when you ask OneAI about a project, it reads the project as you see it on its page:
 		its figures, its money with the customer and with suppliers (orders, invoices, payments, retention
 		and budgets), its tasks, its people, the outside contacts named on it with their role, email and
-		phone, and the team's updates, with those of its sub-projects you may see. A task, a reminder to a
-		customer, a member or a contact it suggests is added or sent only when you approve it.
+		phone, and the team's updates, with those of its sub-projects you may see. Asked who has too much on,
+		it reads the week as Workload shows it to you. A task, a reminder to a customer, a member or a
+		contact it suggests is added or sent only when you approve it.
+	""",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneproject-workload",
+	module=M,
+	body="""
+		Workload shows, to whoever works in OneProject, each person on a project's team with their hours
+		for a week, the open work planned for them and their hours free. A holiday or a day of approved
+		leave takes the day out of their hours. It shows the hours, never why they are fewer.
 	""",
 )
 

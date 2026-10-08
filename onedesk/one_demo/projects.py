@@ -3,7 +3,7 @@ retainer and internal.
 """
 
 import frappe
-from frappe.utils import add_days, add_months, date_diff, flt, get_first_day, getdate
+from frappe.utils import add_days, add_months, date_diff, flt, get_first_day, get_first_day_of_week, getdate
 
 from onedesk.one_demo.base import COMPANY, account, ago, ahead, as_user, dated, make, on, save, tag, today, wh
 from onedesk.one_project import library
@@ -24,8 +24,8 @@ PHASES = tuple(
 def run(password=None):
 	_accounts()
 	_terms()
-	_template()
 	with as_user(PM):
+		_template()
 		villa()
 		tower()
 		acme()
@@ -40,6 +40,7 @@ def run(password=None):
 		_current(project)
 	_estimates()
 	_contacts()
+	_behind()
 
 
 # The projects
@@ -707,6 +708,52 @@ def _current(project):
 		if task.status == "Working" and not flt(task.progress):
 			values["progress"] = (40, 65, 25, 80, 50)[i % 5]
 		frappe.db.set_value("Task", task.name, values, update_modified=False)
+
+
+def _behind():
+	"""Not everything is on time: a villa task is late, and Rania has more to
+	do this week than she has hours, so Workload, the Overview and OneAI's
+	"What is late?" have something true to say."""
+	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	open_ = ("Open", "Working")
+	late = frappe.get_all(
+		"Task",
+		filters={"project": villa, "status": ["in", open_], "is_group": 0},
+		fields=["name", "exp_start_date"],
+		order_by="exp_end_date asc",
+		limit=1,
+	)
+	if late:
+		frappe.db.set_value(
+			"Task",
+			late[0].name,
+			{"exp_start_date": ago(12), "exp_end_date": ago(4), "status": "Working"},
+			update_modified=False,
+		)
+	busy = frappe.get_all(
+		"Task",
+		filters={
+			"_assign": ["like", '%"rania@one.test"%'],
+			"status": ["in", open_],
+			"is_group": 0,
+			"name": ["not in", [one.name for one in late] or [""]],
+		},
+		fields=["name", "actual_time"],
+		order_by="exp_end_date asc",
+		limit=1,
+	)
+	if busy:
+		starts = get_first_day_of_week(getdate(today()))
+		frappe.db.set_value(
+			"Task",
+			busy[0].name,
+			{
+				"exp_start_date": starts,
+				"exp_end_date": add_days(starts, 5),
+				"expected_time": flt(busy[0].actual_time) + 60,
+			},
+			update_modified=False,
+		)
 
 
 def _progress(project, done_through, half_way):

@@ -167,6 +167,20 @@ PLACES = {
 			},
 		},
 	},
+	"oneproject_workload": {
+		"label": "OneProject",
+		"record": None,
+		"events": {
+			"week": {
+				"about": _lt("Workload is opened, and each time it is drawn again."),
+				"gives": (
+					"week.week (the day picked), week.project, week.said (the week it covers), week.people: "
+					"each user, name, capacity, planned, free, load (%), tasks, late, not_estimated"
+				),
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneproject_template": {
 		"label": "OneProject",
 		"record": "Project Template",

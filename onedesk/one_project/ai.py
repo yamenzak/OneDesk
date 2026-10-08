@@ -159,7 +159,18 @@ DRAFT_TEMPLATE = {
 	"expects": "draft_template",
 }
 
+WEEK = {
+	"label": _lt("Who has too much on this week?"),
+	"ask": _lt(
+		"Who has too much on this week? Say who is over their hours or close to it, who has late tasks or "
+		"tasks with no estimate, and who has room to take some on."
+	),
+	"can": "read",
+	"expects": "team_week",
+}
+
 SUGGESTIONS = {
+	"report:Workload": [WEEK],
 	"Project Template": [{**DRAFT_TEMPLATE, "view": "List"}],
 	f"page:{TEMPLATE_PAGE}": [DRAFT_TEMPLATE],
 	"Project": [
@@ -826,6 +837,39 @@ def _money(project: str) -> dict:
 		"margin_so_far": said["margin"],
 		"earned": said["earned"],
 		"kind": said["kind"],
+	}
+
+
+def team_week(
+	week: Annotated[str, "A day in the week, as YYYY-MM-DD. This week when left out."] | None = None,
+	project: Annotated[str, "Only this project and those under it, such as PROJ-0005."] | None = None,
+) -> dict:
+	"""The team's week as Workload shows it: each person's hours, what is
+	planned for them, what is free, their open, late and unestimated tasks.
+	Read before saying who has too much on or who has room."""
+	from onedesk.one_project.report.workload import workload
+
+	if not frappe.get_doc("Report", "Workload").is_permitted():
+		return {"error": "The reader may not open Workload."}
+	if project and not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	_columns, rows, week_of, _chart, cards = workload.execute({"week": week or nowdate(), "project": project})
+	return {
+		"week": week_of,
+		"totals": {str(one["label"]): one["value"] for one in cards},
+		"people": [
+			{
+				"name": one["full_name"] or one["user"],
+				"hours": one["capacity"],
+				"planned": one["planned"],
+				"free": one["free"],
+				"load": f"{one['load']}%" if one["load"] is not None else None,
+				"open_tasks": one["tasks"],
+				"late_tasks": one["late"],
+				"not_estimated": one["unestimated"],
+			}
+			for one in rows
+		],
 	}
 
 

@@ -74,7 +74,8 @@ def team(project: str | None = None) -> list[str]:
 	where = {"status": "Open"}
 	if project:
 		where = {"name": ["in", list(tree.below({project}, tree.parents()))]}
-	projects = frappe.get_all("Project", filters=where, pluck="name")
+	# Only the projects the reader may open: a team is who is on a project.
+	projects = frappe.get_list("Project", filters=where, pluck="name", limit_page_length=0)
 	if not projects:
 		return []
 	users = frappe.get_all(
@@ -85,16 +86,27 @@ def team(project: str | None = None) -> list[str]:
 
 def summary(rows: list[dict]) -> list[dict]:
 	"""The team's week at a glance: its hours, what's planned, what's free,
-	and who is over."""
+	and who is over. Hours are written as the table writes them, to a tenth
+	(a summary's Float has no precision, so frappe would write three places)."""
 	capacity = sum(row["capacity"] for row in rows)
 	planned = sum(row["planned"] for row in rows)
 	over = sum(1 for row in rows if (row["load"] or 0) > 100)
 	return [
-		{"label": _("Capacity"), "value": round(capacity, 1), "datatype": "Float", "indicator": "Blue"},
-		{"label": _("Planned"), "value": round(planned, 1), "datatype": "Float", "indicator": "Blue"},
-		{"label": _("Free"), "value": round(capacity - planned, 1), "datatype": "Float", "indicator": "Green" if capacity >= planned else "Red"},
+		{"label": _("Capacity (Hours)"), "value": hours(capacity), "datatype": "Data", "indicator": "Blue"},
+		{"label": _("Planned (Hours)"), "value": hours(planned), "datatype": "Data", "indicator": "Blue"},
+		{
+			"label": _("Free (Hours)"),
+			"value": hours(capacity - planned),
+			"datatype": "Data",
+			"indicator": "Green" if capacity >= planned else "Red",
+		},
 		{"label": _("Over Capacity"), "value": over, "datatype": "Int", "indicator": "Red" if over else "Green"},
 	]
+
+
+def hours(value: float) -> str:
+	"""Hours as the table writes them, through frappe's own format."""
+	return frappe.format(round(value, 1), {"fieldtype": "Float", "precision": 1})
 
 
 def in_week(starts, due, week_starts, week_ends, hours: float) -> float | None:

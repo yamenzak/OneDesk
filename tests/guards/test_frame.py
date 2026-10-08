@@ -163,6 +163,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 			)
 		},
 		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
+		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 	}
 	assert set(fired) == set(places.keys())
 	for key, source in fired.items():

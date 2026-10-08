@@ -114,9 +114,9 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 20: the outside people named on a project.
+		# 21: Workload's hours, lowered by approved leave without saying why.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 20,
+		"revision": 21,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 13: OneAI reads a project's outside contacts, and drafts a reminder, a member or a contact.
+		# 14: OneAI reads the team's week as Workload shows it.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 13,
+		"revision": 14,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

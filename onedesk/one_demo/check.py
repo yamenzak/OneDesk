@@ -1682,6 +1682,27 @@ def oneproject_oneai_reminds_adds_and_the_rules_stand():
 
 
 @check
+def oneproject_workload_time_and_templates_read_true():
+	"""Workload says who is over this week and who is late, its cards to a
+	tenth of an hour; OneAI reads the same week; a timesheet prints as One
+	Timesheet; and the template is Samir's."""
+	from onedesk.one_project import ai
+	from onedesk.one_project.report.workload import workload
+
+	with as_user("samir@one.test"):
+		_columns, rows, _week, _chart, cards = workload.execute({"week": today()})
+		assert any((one["load"] or 0) > 100 for one in rows), [(one["full_name"], one["load"]) for one in rows]
+		assert any(one["late"] for one in rows)
+		assert all("." not in str(one["value"]) or len(str(one["value"]).split(".")[-1]) == 1 for one in cards), cards
+		said = ai.team_week()
+		assert said["people"] and {one["name"] for one in said["people"]} == {one["full_name"] or one["user"] for one in rows}
+		sheet = frappe.get_all("Timesheet", filters={"docstatus": 1}, pluck="name", limit=1)[0]
+		printed = frappe.get_print("Timesheet", sheet, "One Timesheet")
+		assert frappe.db.get_value("Timesheet", sheet, "employee_name") in printed
+	assert frappe.db.get_value("Project Template", "Aluminium & Glazing", "owner") == "samir@one.test"
+
+
+@check
 def oneproject_its_contracts_are_on_the_page():
 	"""A project has as many contracts as it signs. The villa's contract is
 	signed and its staircase addendum, on the staircase's sub-project, waits

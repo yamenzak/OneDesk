@@ -24,6 +24,7 @@ LEAVES = (
 	"Salary Slip",
 	"Job Offer",
 	"Appointment Letter",
+	"Timesheet",
 )
 
 

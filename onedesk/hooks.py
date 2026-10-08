@@ -1278,6 +1278,8 @@ one_ai_reads = [
 	# A project as its page shows it, and which projects need attention. See one_project/ai.py.
 	"onedesk.one_project.ai.project_facts",
 	"onedesk.one_project.ai.projects_needing_attention",
+	# The team's week across projects, as Workload shows it.
+	"onedesk.one_project.ai.team_week",
 	"onedesk.one_project.ai.project_templates",
 	"onedesk.one_crm.ai.deal_facts",
 	"onedesk.one_crm.ai.lead_facts",

@@ -1,5 +1,15 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Timesheet",
+   "fieldname": "one_connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1,
+   "insert_after": "amended_from",
+   "module": "One HR"
+  }
+ ],
  "doctype": "Timesheet",
  "links": [],
  "property_setters": [

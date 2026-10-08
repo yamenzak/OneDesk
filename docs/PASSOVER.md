@@ -9044,7 +9044,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | 2 | A project's head and Overview | done |
 | 3 | Tasks, Time, Money | done |
 | 4 | Invoices, Suppliers, Team, Files, Activity | done |
-| 5 | Workload, Time, Templates | |
+| 5 | Workload, Timesheet, Templates | done |
 | 6 | Across modules on the demo | |
 | 7 | `docs/STANDARD.md`, and OneProject closed | |
 
@@ -9274,6 +9274,66 @@ Every point:
 | 17 Clean code | ruff on the module and the demo | fixed above |
 | Everything follows frappe | realtime on each tab | fixed above |
 | What ERPNext already does | drafts, cancelled, amended, credit notes, statuses, due dates, retention | fixed above |
+
+
+#### 5. Workload, Timesheet and Templates
+
+Looked at as Samir, on a desktop and a phone: Workload this week and by
+project, the Time list and a timesheet opened from it, Templates and the
+Aluminium & Glazing template. Opened from OneProject's rail, Time and a
+timesheet keep OneProject's rail and address.
+
+Fixed:
+
+- **Demo (1)**: a villa task is late and Rania has more this week than her
+  hours, so Workload shows her at 134% and a late task, and "What is late?"
+  has an answer (`projects._behind`). Timesheets move back to their own dates
+  with the rest, and Samir makes the template.
+- **Our look and Built from frappe (5, 8)**: Workload's cards read to a tenth
+  of an hour, written by frappe's own format, and say Hours as the columns do.
+- **Our look (5)**: the Payroll box on a timesheet is frappe's Connections,
+  where hrms lists a salary slip. It moves to a Connections tab, as frappe
+  gives a form, so a timesheet opens on its hours.
+- **Permissions (15)**: Workload lists the teams of the projects you may open.
+- **Extensible (7)**: Workload has a place, `oneproject_workload.week`, told
+  each person's week, its notes under the cards.
+- **Everything follows frappe**: Workload draws itself again when a task, a
+  timesheet or a leave changes.
+- **Documented, OneAI (13)**: Workload offers **Who has too much on this
+  week?**, and OneAI reads the week as Workload shows it (`team_week`).
+- **Printed (11)**: a timesheet prints as One Timesheet: who, the period, the
+  project, each day's hours, and a line for the customer to approve. The print
+  guard holds Timesheet with the others.
+- **Plain words (12)**: the rail says Timesheet, as the list does and as
+  OneHR's rail does.
+- **Legal (16)**: the Privacy Policy says Workload shows each person's hours,
+  lowered by holidays and approved leave without saying why. The AI Addendum
+  says OneAI reads the week as Workload shows it.
+
+On a phone, a timesheet row scrolls sideways inside frappe's list, as every
+list does there (Projects too). That is frappe's, and stays.
+
+| Point | Looked at | Found |
+|---|---|---|
+| 1 Demo | late tasks, this week's load, timesheet and template history | fixed above |
+| 2 Rules on the server | template page endpoints, timesheet hooks | a task under itself or waiting on itself is refused by ERPNext's own Task validation too. A retainer's hours are billed with their month (screen 4) |
+| 3 Hand-offs | README Connections | Workload's holidays and leave from OneHR are there |
+| 4 Tier declared | `one/tiers.py` | Timesheet and Project Template lists, and the template page |
+| 5 Our look | the three screens, desktop and phone | fixed above |
+| 6 Nothing lost | the record frame on a timesheet and a template | Assign, Files, Tags, Share, Print and Like are there, and Connections in its own tab |
+| 7 Extensible | `one_studio/places.py` | fixed above |
+| 8 Built from frappe | the report, list and page | fixed above |
+| 9 Overrides recorded | the gate | passes |
+| 10 Notifications | `notifications/one_project/` | Hours Over Plan covers a task going over. Nothing else here needs telling |
+| 11 Printed | Timesheet | fixed above |
+| 12 Plain words | headings, cards, columns | fixed above |
+| 13 Documented, OneAI | README, `ai.py` | fixed above |
+| 14 Intake | `tests/samples/intake` | nothing arrives as a timesheet or a template |
+| 15 Permissions | Workload as Samir | fixed above |
+| 16 Legal | `one_project/legal.py` | fixed above |
+| 17 Clean code | ruff on the module | clean |
+| Everything follows frappe | realtime | fixed above |
+| What ERPNext already does | timesheet statuses, Create Sales Invoice, billable hours, currency | ERPNext's own, kept |
 
 ## OneLegal
 

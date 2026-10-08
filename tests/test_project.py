@@ -630,6 +630,19 @@ def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
 	assert 'if what in ("member", "contact"):' in setup
 
 
+def test_workload_reads_true_follows_and_is_asked_about():
+	report = (PROJECT / "report" / "workload")
+	source = (report / "workload.py").read_text()
+	# Hours to a tenth through frappe's format, and only the projects the reader may open.
+	assert '"precision": 1' in source.split("def hours", 1)[1] and "frappe.format(" in source
+	assert 'frappe.get_list("Project"' in source.split("def team", 1)[1].split("def ", 1)[0]
+	script = (report / "workload.js").read_text()
+	assert 'frappe.realtime.on("list_update"' in script and '"oneproject_workload.week"' in script
+	ai = (PROJECT / "ai.py").read_text()
+	assert '"report:Workload": [WEEK]' in ai and '"expects": "team_week"' in ai
+	assert '"onedesk.one_project.ai.team_week",' in HOOKS
+
+
 def test_oneai_reads_a_project_as_its_page_does():
 	for tool in ("project_facts", "projects_needing_attention"):
 		assert f'"onedesk.one_project.ai.{tool}"' in HOOKS
@@ -1299,7 +1312,7 @@ def test_the_project_page_fits_a_phone():
 def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
-	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Time", "Timesheet"), ("Templates", "Project Template")]
+	assert said == [("Projects", "Project"), ("Workload", "Workload"), ("Timesheet", "Timesheet"), ("Templates", "Project Template")]
 	# The panel is open on the four and shut on a record; where it is not out,
 	# the breadcrumb is the menu of its rows, as in every module
 	# (public/js/panel_menu.js, tests/guards/test_record_page.py).

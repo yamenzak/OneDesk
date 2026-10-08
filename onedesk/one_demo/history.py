@@ -25,6 +25,7 @@ DATES = {
 	"Project": "expected_start_date",
 	"Project Update": "date",
 	"Task": "exp_start_date",
+	"Timesheet": "start_date",
 }
 
 

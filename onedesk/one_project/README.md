@@ -18,10 +18,11 @@ places.
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
 - **Workload**: how many hours of open work each person has in a week.
-- **Time**: the time people have logged, across projects, newest first. Each
+- **Timesheet**: the time people have logged, across projects, newest first. Each
   timesheet shows who, the project, the days it covers, its hours and how
   many of them are billable. Filter it by project, status, start date or
-  person.
+  person. A timesheet prints as **One Timesheet**, for a customer billed
+  for time to sign.
 - **Templates**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
 
@@ -1128,6 +1129,9 @@ Each is on the bell, and by email or push if you chose. Change them under
 
 ## Asking OneAI
 
+On **Workload**, OneAI offers **Who has too much on this week?** It reads the
+week as Workload shows it to you.
+
 On a project's page, OneAI offers what fits the view you're on:
 
 - **Overview**: **How is this project going?**, **What is late?**, **Write
@@ -1195,7 +1199,9 @@ Each person shows:
 
 The busiest come first, then whoever has the most late tasks. Give tasks an
 **Expected Time** and a date and the figures follow. You only
-see the tasks you can see.
+see the tasks you can see, and the teams of the projects you can open. It
+draws itself again when a task, a timesheet or a leave changes. OneAI offers
+**Who has too much on this week?** here.
 
 ## What the customer sees
 
