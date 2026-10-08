@@ -43,7 +43,7 @@ def test_the_mail_finds_its_lead_by_the_error_frappe_catches():
 
 def test_every_way_in_is_hooked():
 	assert '"before_insert": "onedesk.one_crm.capture.before_insert"' in HOOKS
-	assert '"after_insert": "onedesk.one_crm.capture.assigned"' in HOOKS.split('"ToDo": {', 1)[1].split('}', 1)[0]
+	assert '"onedesk.one_crm.capture.assigned"' in HOOKS.split('"ToDo": {', 1)[1].split('}', 1)[0].split('"after_insert"', 1)[1]
 	for doctype in ("Communication", "Call Log"):
 		assert '"onedesk.one_crm.capture.replied"' in HOOKS.split(f'"{doctype}": {{', 1)[1].split("}", 1)[0], doctype
 	assert '"onedesk.one_crm.capture.defaults"' in HOOKS.split("after_migrate = [")[0], "on install only"

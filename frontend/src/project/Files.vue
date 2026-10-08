@@ -18,7 +18,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-import { __, call, follow } from "../kit";
+import { __, call, follow, jq, onedesk, requires } from "../kit";
 import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ project: { type: String, required: true } });
@@ -35,7 +35,7 @@ let cloud = null;
 // shown here through a slot, styled as on every other record.
 let outside = null;
 onMounted(async () => {
-  await window.frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]);
+  await requires(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]);
   if (!box.value) return;
   const slot = document.createElement("slot");
   slot.name = `one-files-${props.project}`;
@@ -43,7 +43,7 @@ onMounted(async () => {
   outside = document.createElement("div");
   outside.slot = slot.name;
   box.value.getRootNode().host.appendChild(outside);
-  cloud = new window.onedesk.OneCloud(null, { room: room.value, parent: window.$(outside), listed: () => load() });
+  cloud = new (onedesk().OneCloud)(null, { room: room.value, parent: jq(outside), listed: () => load() });
 });
 watch(room, (now) => cloud?.enter(now));
 onBeforeUnmount(() => outside?.remove());

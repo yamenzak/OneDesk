@@ -69,6 +69,7 @@ HEADS = (
 #: doctype_calendar_js, doctype_tree_js in hooks.py) is declared here.
 COLLECTIONS = {
 	"Project Template": {"List": "From the Library beside Add, copying a preset in and opening it"},
+	"Timesheet": {"List": "OneProject's Time: the project, the days and the billable hours as columns, the ID on hover"},
 	"Project": {
 		"List": "each project's standing in one pill, and the views and dashboard of OneProject",
 		"Calendar": "each project a bar from its start to its end",

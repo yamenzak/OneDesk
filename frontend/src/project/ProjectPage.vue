@@ -62,7 +62,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
-import { Loading, Page, ViewTabs, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onedesk, setQuery, setValue, useRecord } from "../kit";
+import { Loading, Page, ViewTabs, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
@@ -201,11 +201,10 @@ const room = ref(0);
 function makeRoom() {
   const box = views.value?.getBoundingClientRect();
   const panel = 36 * parseFloat(getComputedStyle(document.documentElement).fontSize);
-  room.value = opened.value && box && window.innerWidth >= 1280 ? Math.max(0, box.right + room.value - (window.innerWidth - panel) + 16) : 0;
+  room.value = opened.value && box && viewWidth() >= 1280 ? Math.max(0, box.right + room.value - (viewWidth() - panel) + 16) : 0;
 }
 watch(() => Boolean(opened.value), makeRoom);
-window.addEventListener("resize", makeRoom);
-onBeforeUnmount(() => window.removeEventListener("resize", makeRoom));
+onBeforeUnmount(onResize(makeRoom));
 watch(work, () => opened.value && (opened.value = find(opened.value.name) || null));
 
 async function add(project, subject, extra) {

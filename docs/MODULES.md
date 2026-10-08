@@ -546,9 +546,11 @@ No doctypes yet.
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.invoices`
 * `onedesk.one_project.billing.unbilled`
+* `onedesk.one_project.budget.booked`
 * `onedesk.one_project.budget.lines`
 * `onedesk.one_project.budget.remove_budget`
 * `onedesk.one_project.budget.set_budget`
+* `onedesk.one_project.budget.set_time`
 * `onedesk.one_project.buying.papers`
 * `onedesk.one_project.chain.customer_project`
 * `onedesk.one_project.contacts.contacts`
@@ -559,10 +561,14 @@ No doctypes yet.
 * `onedesk.one_project.kinds.add_contract`
 * `onedesk.one_project.kinds.defaults`
 * `onedesk.one_project.kinds.make`
+* `onedesk.one_project.kinds.settled_fields`
 * `onedesk.one_project.library.copy`
 * `onedesk.one_project.library.presets`
 * `onedesk.one_project.media.add`
 * `onedesk.one_project.media.featured`
+* `onedesk.one_project.members.joins`
+* `onedesk.one_project.members.let_in`
+* `onedesk.one_project.members.unseen`
 * `onedesk.one_project.money.money`
 * `onedesk.one_project.overview.overview`
 * `onedesk.one_project.progress.bill_progress`
@@ -570,6 +576,7 @@ No doctypes yet.
 * `onedesk.one_project.retainer.asked`
 * `onedesk.one_project.retainer.invoice_month`
 * `onedesk.one_project.retainer.months`
+* `onedesk.one_project.retention.release`
 * `onedesk.one_project.status.ask`
 * `onedesk.one_project.status.change`
 * `onedesk.one_project.team.add`

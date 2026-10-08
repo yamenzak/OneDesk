@@ -73,7 +73,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk } from "../kit";
+import { Figures, Loading, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk, plain } from "../kit";
 import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ projectName: { type: String, required: true }, projectTitle: String, kind: String, customer: String, currency: String });
@@ -85,7 +85,7 @@ const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue
 const said = ref(null);
 // The figures are in the company's currency, said once at the top when the
 // invoices are in it too.
-const amount = (value) => (oneCurrency.value === props.currency ? window.format_number(value || 0, null, 2) : money(value, props.currency));
+const amount = (value) => (oneCurrency.value === props.currency ? plain(value) : money(value, props.currency));
 
 async function load() {
   said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName, ...onlyArg(only) });
@@ -127,7 +127,7 @@ const oneCurrency = computed(() => {
   const found = new Set(said.value.invoices.map((one) => one.currency));
   return found.size === 1 ? [...found][0] : null;
 });
-const sum = (value, currency) => (oneCurrency.value ? window.format_number(value || 0, null, 2) : money(value, currency));
+const sum = (value, currency) => (oneCurrency.value ? plain(value) : money(value, currency));
 const columns = computed(() => {
   const party = byParty.value;
   const held = holds.value;

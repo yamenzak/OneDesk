@@ -148,6 +148,25 @@ export const emailOn = (doctype, name, options) => onedesk().record.email(doctyp
 /** A whole number as the workspace writes numbers. */
 export const count = (value) => window.format_number(value || 0, null, 0);
 
+/** An amount without its currency, as the workspace writes numbers: for a
+ * table whose currency is said once above it. */
+export const plain = (value) => window.format_number(value || 0, null, 2);
+
+/** Desk's own scripts and styles, loaded once (`frappe.require`). */
+export const requires = (paths) => frappe().require(paths);
+
+/** Desk's jQuery around an element, for desk's widgets that take one. */
+export const jq = (el) => window.$(el);
+
+/** How wide the window is. */
+export const viewWidth = () => window.innerWidth;
+
+/** Call `changed` when the window is resized; returns how to stop. */
+export function onResize(changed) {
+	window.addEventListener("resize", changed);
+	return () => window.removeEventListener("resize", changed);
+}
+
 /** A user's name and picture, as desk keeps them for everyone. */
 export const userInfo = (user) => {
 	const info = frappe().user_info(user) || {};

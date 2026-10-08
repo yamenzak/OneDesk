@@ -1132,7 +1132,8 @@ def test_a_project_opens_on_its_own_page():
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
 	assert '{ Project: "project-view", "Project Template": "project-template-view" }' in route
 	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
-	assert "?edit=1" in script
+	# The page edits every field itself; the form stays only at ?edit=1.
+	assert "?edit=1" not in script
 	# What the page and the form both do is one file, loaded by both.
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
 	loader = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
@@ -1267,7 +1268,7 @@ def test_the_project_page_fits_a_phone():
 	# frappe-ui's own way: a list's columns by breakpoint, minor cells hidden.
 	for name in ("Time", "Team", "Invoices", "Money", "Months"):
 		vue = (src / f"{name}.vue").read_text()
-		assert ':columns="{ base: [' in vue and "max-md:hidden" in vue, name
+		assert ":columns=" in vue and "base:" in vue and "max-md:hidden" in vue, name
 	page = (src / "ProjectPage.vue").read_text()
 	assert '<ViewTabs v-model="tab" :views="VIEWS"' in page, "the views fit a phone, the row scrolling"
 	mount = (tree.ROOT / "frontend" / "src" / "kit" / "mount.js").read_text()
@@ -1557,7 +1558,9 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 		'if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))'
 		in page
 	)
-	assert 'if (s.kind === "Fixed Price" && !s.contract) list.push({ label: __("New Quotation")' in page
+	# Quoting is the + on the Overview's Quotations: New Quotation until the contract.
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert 'if (s.kind === "Fixed Price" && !s.contract)\n    return { text: true, icon: "lucide-plus", label: __("New Quotation")' in overview
 	# Its quotations are listed, and work against billing waits for an order.
 	view_py = (PROJECT / "view.py").read_text()
 	assert (
@@ -1567,7 +1570,7 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 		and "if contract(doc)" in view_py
 	)
 	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	assert '<Section v-if="view.billing" :title="__(\'Work and Billing\')">' in overview_vue
+	assert '<Section v-if="view.billing" :title="__(\'Work and Billing\')" icon="lucide-receipt">' in overview_vue
 	assert ":title=\"__('Quotations')\"" in overview_vue
 	view = (PROJECT / "view.py").read_text()
 	assert '"quotation": None if contract(doc) else quotation(doc)' in view
@@ -1593,7 +1596,9 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert "erpnext.selling.doctype.quotation.mapper.make_sales_order" in actions
 	assert "onedesk.one_project.kinds.add_contract" in actions
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert '__("New Quotation")' in page and '__("Quote Extra Work")' in page and '__("Make Order")' in page
+	assert '__("Make Order")' in page
+	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
+	assert '__("New Quotation")' in overview and '__("Quote Extra Work")' in overview
 
 
 def test_a_quote_counts_while_it_stands_and_names_its_project():
@@ -1733,7 +1738,7 @@ def test_orders_cover_the_tree_and_say_where_what_for_and_what_is_left():
 	assert 'one.billable ? __("{0}% billed", [one.billed]) : __(one.status)' in overview
 	assert "onClick: () => go(said.orders_route) }" in overview
 	rows = (tree.ROOT / "frontend" / "src" / "kit" / "Rows.vue").read_text()
-	assert '<Badge v-if="item.badge" :label="item.badge" size="sm" />' in rows
+	assert '<Badge v-if="item.badge" :label="item.badge.label || item.badge"' in rows
 	# Bill Progress offers each order under the project too, saying where, and
 	# the milestones' share starts only the page's own.
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
@@ -1840,8 +1845,8 @@ def test_sub_projects_say_how_each_is_going_and_what_it_is_worth():
 	assert ':aside="view.sub_projects.count"' in overview
 	assert 'dot: one.health === "Off Track" || late || one.over ? "red"' in overview
 	assert 'newDoc("Project", { one_parent: props.said.name, customer: props.said.customer })' in overview
+	assert "label: __('Add Sub-project'), onClick: addSub" in overview
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert '__("Add Sub-project")' in page
 	assert (
 		'doc.one_parent ? __("New Sub-project") : __("New Project")'
 		in (tree.APP / "public" / "js" / "project_new.js").read_text()
@@ -1960,7 +1965,7 @@ def test_time_is_counted_apart_from_how_the_customer_pays():
 	billing = (PROJECT / "billing.py").read_text()
 	assert "for one in sorted(tree.scope(project))" in billing
 	view = (tree.ROOT / "frontend" / "src" / "project" / "Time.vue").read_text()
-	assert "ListGroup" in view and '__("Labour Cost")' in view and "said.money" in view
+	assert "ListGroup" in view and '__("Time Cost")' in view and "said.money" in view
 
 
 def test_a_day_on_site_is_a_day_on_the_project():

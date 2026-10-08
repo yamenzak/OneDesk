@@ -81,7 +81,7 @@ import { computed, ref } from "vue";
 import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Rows, Section, __, call, can, date, money, newDoc, onedesk } from "../kit";
+import { Figures, Loading, Rows, Section, __, call, can, date, money, newDoc, onedesk, plain } from "../kit";
 
 const props = defineProps({ said: { type: Object, required: true } });
 const emit = defineEmits(["changed", "view"]);
@@ -90,7 +90,6 @@ const cash = computed(() => props.said.money);
 const amount = (value) => money(value, cash.value.currency);
 // Amounts in a table, the currency said once at the top (frappe's own
 // number format).
-const plain = (value) => window.format_number(value || 0, null, 2);
 const maybe = (value) => (value === null || value === undefined ? "–" : amount(value));
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : null);
 const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : null);

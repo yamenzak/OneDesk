@@ -1213,7 +1213,8 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 		assert len(view.updates(VILLA)) >= 2 and activity.activity(VILLA)["activities"]
 		assert billing.bills(VILLA)["bills"]
 		assert billing.unbilled(SHOWROOM)["hours"] > 0 and billing.unbilled(SHOWROOM)["currency"] == "EUR"
-		assert len(budget.lines(VILLA)["lines"]) == 3
+		# Its three cost types, and the team's own time (its Time Budget).
+		assert len(budget.lines(VILLA)["lines"]) == 4
 		assert buying.papers(VILLA)["papers"], "the request for the next run of profile"
 		assert contacts.contacts(VILLA)["can_change"]
 		time = hours.entries(VILLA)
@@ -1350,6 +1351,52 @@ def oneproject_a_new_retention_date_reaches_the_receivables():
 	rows = receivable(frappe._dict(company=COMPANY, report_date=today(), party_type="Customer", party=[customer], ageing_based_on="Due Date", range="30, 60, 90, 120"))[1]
 	aged = {row.get("voucher_no"): getdate(row.get("due_date")) for row in rows if row.get("voucher_no") in held}
 	assert aged and set(aged.values()) == {getdate(moved)}, aged
+
+
+@check
+def oneproject_retention_is_released_and_its_people_follow_the_work():
+	"""The villa's retention released in one payment against its invoices'
+	retention terms, after which none is held; somebody given a task or
+	mentioned joins the project; its customer and kind stay once it has
+	orders; and Samir sets its time budget and reads what a cost type booked."""
+	from onedesk.one_project import budget, kinds, members, retention, tree
+	from onedesk.one_project.progress import HANDOVER, RETENTION
+
+	with as_user(OWNER):
+		payment = retention.release(VILLA)
+		assert payment.payment_type == "Receive" and payment.references, "a draft receipt against the invoices"
+		assert {row.payment_term for row in payment.references} <= {HANDOVER, RETENTION}
+		assert _close(payment.paid_amount, sum(flt(row.allocated_amount) for row in payment.references), 0.01)
+		payment.reference_no, payment.reference_date = "RET-1", today()
+		payment.insert()
+		payment.submit()
+		try:
+			retention.release(VILLA)
+		except frappe.ValidationError as e:
+			assert "No retention is held here" in str(e), e
+		else:
+			raise AssertionError("released twice")
+
+	outsider = "mariam@one.test"
+	with as_user("samir@one.test"):
+		assert members.joins(VILLA, outsider) == frappe.utils.get_fullname(outsider)
+		said = members.unseen(VILLA, f'<p><span class="mention" data-id="{outsider}" data-value="Mariam">@Mariam</span> please look</p>')
+		assert [one["user"] for one in said["people"]] == [outsider] and said["can_add"]
+		members.let_in(VILLA, [outsider])
+		assert members.joins(VILLA, outsider) is None, "she is in now"
+	assert frappe.has_permission("Project", "read", doc=VILLA, user=outsider)
+
+	assert set(kinds.settled_fields(VILLA)) == {"customer", "one_kind"}
+	free = [one for one in frappe.get_all("Project", pluck="name") if not kinds.in_use(one)]
+	assert free and kinds.settled_fields(free[0]) == []
+
+	with as_user("samir@one.test"):
+		budget.set_time(VILLA, time_budget=12000, hours=400)
+		assert (flt(frappe.db.get_value("Project", VILLA, "one_time_budget")), flt(frappe.db.get_value("Project", VILLA, "one_hours_planned"))) == (12000, 400)
+		account = budget._budgets(VILLA)[0].account
+		rows = budget.booked(VILLA, account)
+	gl = sum(flt(one.debit) - flt(one.credit) for one in frappe.get_all("GL Entry", filters={"project": ["in", list(tree.scope(VILLA))], "account": account, "is_cancelled": 0}, fields=["debit", "credit"]))
+	assert _close(sum(flt(one["amount"]) for one in rows), flt(gl), 0.01), (rows, gl)
 
 
 @check

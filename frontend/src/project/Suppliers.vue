@@ -173,7 +173,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, __, call, date, followList, go, money, newDoc, onedesk } from "../kit";
+import { Figures, Loading, __, call, date, followList, go, money, newDoc, onedesk, plain } from "../kit";
 import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({ said: { type: Object, required: true } });
@@ -189,7 +189,6 @@ const packages = computed(() => orders.value.filter((one) => one.subcontract));
 const signedWith = (supplier) => (props.said.contracts || []).filter((one) => one.party_type === "Supplier" && one.party === supplier);
 // Amounts in the company's currency are said once, at the top (frappe's own
 // number format); another currency keeps its symbol.
-const plain = (value) => window.format_number(value || 0, null, 2);
 const amount = (value) => plain(value);
 const sum = (value, currency) => (!currency || currency === cash.value.currency ? plain(value) : money(value, currency));
 const suppliers = computed(() => new Set(orders.value.map((one) => one.supplier_id)).size);
