@@ -36,6 +36,8 @@ def run(password=None):
 		marina()
 		facade_care()
 		workshop()
+	for project in frappe.get_all("Project", filters={"status": "Open"}, pluck="name"):
+		_current(project)
 	_estimates()
 
 
@@ -68,6 +70,7 @@ def villa():
 	# The team's own time, budgeted apart as no cost type holds it (hours.py).
 	frappe.db.set_value("Project", name, {"one_time_budget": 90000, "one_hours_planned": 1500})
 	_progress(name, done_through=3, half_way=4)
+	_current(name)
 	_milestone_shares(name, (10, 20, 30, 30, 10))
 	first = _bill_progress(order, on(4, 30), done=20)
 	_pay(first, on(5, 20))
@@ -84,8 +87,8 @@ def villa():
 	)
 	_issue(name, on(8, 4), (("ALU-6063", 380), ("GLS-DGU", 88), ("HW-LOCK", 18), ("SIL-CLR", 40)))
 	_time(name, ("Arun", "Ravi", "Joseph"), "Fabrication", on(5, 20), weeks=10, hours=28)
-	_time(name, ("Yousef", "Bilal"), "Installation", on(8, 10), weeks=7, hours=32)
-	_time(name, ("Rania",), "Project Management", on(2, 20), weeks=30, hours=6)
+	_time(name, ("Yousef", "Bilal"), "Installation", on(8, 10), weeks=None, hours=32)
+	_time(name, ("Rania",), "Project Management", on(2, 20), weeks=None, hours=6)
 	_extra_work(
 		name, "Mansour & Sons", "Staircase balustrade", [("BAL-GL", 14, 1500), ("SVC-INST", 20, 180)], ago(30)
 	)
@@ -271,7 +274,7 @@ def showroom():
 		dated(draft, on(7, 15))
 		save(draft, submit=True)
 	_pay(frappe.get_doc("Sales Invoice", draft.name), on(8, 2))
-	_time(name, ("Nadia",), "Design", on(7, 20), weeks=10, hours=18)
+	_time(name, ("Nadia",), "Design", on(7, 20), weeks=None, hours=18)
 	_buy_for(
 		name, "Euro Hardware Trading", (("HW-HANDLE", 40, 21), ("HW-LOCK", 12, 88)), on(6, 10), currency="EUR"
 	)
@@ -655,7 +658,37 @@ def _tasks(project, rows, starts):
 		_assign(task.name, who)
 		_finish(task.name, status, add_days(begins, lasts))
 		made.append(task.name)
+	_current(project)
 	return made
+
+
+def _current(project):
+	"""An open project's work as it stands today: what's still to do is due
+	from next week on, in the order it was planned, what's under way partly
+	done, and not all of it the same priority. Done work keeps its dates."""
+	if frappe.db.get_value("Project", project, "status") != "Open":
+		return
+	tasks = frappe.get_all(
+		"Task",
+		filters={"project": project, "status": ["in", ("Open", "Working", "Pending Review", "Overdue")]},
+		fields=["name", "status", "exp_start_date", "exp_end_date", "progress"],
+		order_by="exp_end_date asc, name asc",
+	)
+	ends = [getdate(one.exp_end_date) for one in tasks if one.exp_end_date]
+	shift = max(0, date_diff(ahead(7), min(ends))) if ends else 0
+	# Never past the project's own end, as ERPNext checks on the task.
+	last = getdate(frappe.db.get_value("Project", project, "expected_end_date") or add_days(today(), 365))
+	for i, task in enumerate(tasks):
+		values = {"priority": ("Medium", "Low", "High", "Medium", "Low")[i % 5]}
+		if shift and task.exp_end_date:
+			end = min(getdate(add_days(task.exp_end_date, shift)), last)
+			values["exp_end_date"] = end
+			# Work under way started when it did; work to come moves whole.
+			if task.status == "Open" and task.exp_start_date:
+				values["exp_start_date"] = min(getdate(add_days(task.exp_start_date, shift)), end)
+		if task.status == "Working" and not flt(task.progress):
+			values["progress"] = (40, 65, 25, 80, 50)[i % 5]
+		frappe.db.set_value("Task", task.name, values, update_modified=False)
 
 
 def _progress(project, done_through, half_way):
@@ -704,9 +737,12 @@ def _estimates():
 	for i, task in enumerate(tasks):
 		days = date_diff(task.exp_end_date, task.exp_start_date) + 1 if task.exp_start_date and task.exp_end_date else 2
 		hours = min(max(days, 1), 5) * (2, 3, 4, 6)[i % 4]
-		# Work still open has hours left beyond the time already logged on it.
+		# Work still open has hours left beyond the time already logged on it;
+		# work done was planned at about what it took, some a little over.
 		if task.status not in ("Completed", "Cancelled"):
 			hours += flt(task.actual_time)
+		elif flt(task.actual_time):
+			hours = round(flt(task.actual_time) * (1.1, 0.9, 1.05, 1.0)[i % 4], 1)
 		frappe.db.set_value("Task", task.name, "expected_time", hours, update_modified=False)
 
 
@@ -736,7 +772,8 @@ def _finish(task, status, on_day):
 
 
 def _time(project, people, activity, starts, weeks, hours):
-	"""A timesheet a week for each person, on the project's open tasks."""
+	"""A timesheet a week for each person, on the project's open tasks, for
+	so many weeks, or up to this week where work still goes on (None)."""
 	from onedesk.one_project.hours import bills_hours
 
 	tasks = frappe.get_all(
@@ -746,6 +783,8 @@ def _time(project, people, activity, starts, weeks, hours):
 		order_by="exp_start_date asc",
 	)
 	billable = 1 if bills_hours(project) else 0
+	if weeks is None:
+		weeks = date_diff(today(), starts) // 7 + 1
 	for first in people:
 		employee = frappe.db.get_value("Employee", {"first_name": first})
 		for week in range(weeks):
@@ -782,17 +821,16 @@ def _time(project, people, activity, starts, weeks, hours):
 
 
 def _on(tasks, day):
-	"""The task a day's time goes on: the one scheduled that day. A log on a
-	task already done is marked completed, since ERPNext sets a task with
-	time logged on it back to Working otherwise."""
+	"""The task a day's time goes on: the one scheduled that day, or the last
+	one begun. A log on a task already done is marked completed, since
+	ERPNext sets a task with time logged on it back to Working otherwise."""
 	day = getdate(day)
+	started = [t for t in tasks if t.exp_start_date and getdate(t.exp_start_date) <= day]
+	# The task scheduled that day, else the last one begun: work runs on
+	# past its plan.
 	found = next(
-		(
-			t
-			for t in tasks
-			if t.exp_start_date and getdate(t.exp_start_date) <= day <= getdate(t.exp_end_date or day)
-		),
-		None,
+		(t for t in started if day <= getdate(t.exp_end_date or day)),
+		started[-1] if started else None,
 	)
 	if not found:
 		return {}
@@ -861,6 +899,9 @@ def _retainer(project, first_month, months, people, hours):
 			invoice = save(draft, submit=True)
 		if date_diff(today(), invoice.posting_date) > 40:
 			_pay(invoice, add_days(invoice.posting_date, 21))
+	# This month's visits so far, to be invoiced with it.
+	month = get_first_day(add_months(on(first_month, 1), months))
+	_time(project, people, "Maintenance", add_days(month, 2), weeks=None, hours=hours[months % len(hours)])
 
 
 def _update(project, note, date, by):

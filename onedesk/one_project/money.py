@@ -106,9 +106,11 @@ def _lines(doctype: str, projects: list[str]) -> float:
 
 
 def _figure(label: str, value: float, doctype: str | None, projects: list[str], **filters) -> dict:
-	"""One figure, opening the submitted documents behind it."""
+	"""One figure, opening the submitted documents behind it for whoever may
+	read them. The total itself is the project's, shown to whoever reads it,
+	as ERPNext's project form shows what's billed."""
 	said = {"label": label, "value": value, "doctype": doctype}
-	if doctype:
+	if doctype and _sees(doctype):
 		where = {WHERE.get(doctype, "project"): ["in", projects]}
 		said["route"] = _route(doctype, {**where, "docstatus": 1, **filters})
 	return said
@@ -123,22 +125,21 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	kept = tree.totals(project)["own" if tree.narrowed(project) else "tree"]
 
 	customer, cost = [], []
-	if _sees("Quotation"):
-		q = frappe.qb.DocType("Quotation")
-		quoted = (
-			frappe.qb.from_(q)
-			.select(Sum(q.base_net_total))
-			# A quote revised is no longer offered (erpnext's Is Active).
-			.where(q.project.isin(projects) & (q.docstatus == 1) & (q.is_active == 1) & q.status.isin(QUOTED))
-			.run()
-		)
-		customer.append(
-			_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)], is_active=1)
-		)
+	q = frappe.qb.DocType("Quotation")
+	quoted = (
+		frappe.qb.from_(q)
+		.select(Sum(q.base_net_total))
+		# A quote revised is no longer offered (erpnext's Is Active).
+		.where(q.project.isin(projects) & (q.docstatus == 1) & (q.is_active == 1) & q.status.isin(QUOTED))
+		.run()
+	)
+	customer.append(
+		_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)], is_active=1)
+	)
 	ordered = _lines("Sales Order", projects)
 	# Once there's an order, what's quoted is the quotes still open, the
 	# extra work not yet ordered.
-	if ordered and customer:
+	if ordered:
 		q = frappe.qb.DocType("Quotation")
 		open_ = (
 			frappe.qb.from_(q)
@@ -152,47 +153,33 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		("Delivery Note", _("Delivered"), None),
 		("Sales Invoice", _("Invoiced"), None),
 	):
-		if _sees(doctype):
-			customer.append(
-				_figure(label, value if value is not None else _lines(doctype, projects), doctype, projects)
-			)
-	received = _paid_on(projects, "Sales Invoice")
-	owed = received["owed"] if received else 0.0
-	advance = received["advance"] if received else 0.0
-	if received is not None:
 		customer.append(
-			_figure(_("Paid"), received["paid"], "Payment Entry", projects) | {"route": received["route"]}
+			_figure(label, value if value is not None else _lines(doctype, projects), doctype, projects)
 		)
-	if _sees("Sales Invoice"):
-		retention = _retained(projects)
-		if retention:
-			customer.append(_figure(_("Retention Held"), retention, None, projects))
+	received = _paid_on(projects, "Sales Invoice")
+	owed = received["owed"]
+	advance = received["advance"]
+	customer.append(_figure(_("Paid"), received["paid"], "Payment Entry", projects) | _opens(received))
+	retention = _retained(projects)
+	if retention:
+		customer.append(_figure(_("Retention Held"), retention, None, projects))
 
-	open_orders = 0.0
-	if _sees("Purchase Order"):
-		cost.append(_figure(_("Ordered"), _lines("Purchase Order", projects), "Purchase Order", projects))
-		open_orders = _open_orders(projects)
-	if _sees("Purchase Receipt"):
-		cost.append(
-			_figure(_("Received"), _lines("Purchase Receipt", projects), "Purchase Receipt", projects)
-		)
+	cost.append(_figure(_("Ordered"), _lines("Purchase Order", projects), "Purchase Order", projects))
+	open_orders = _open_orders(projects)
+	cost.append(_figure(_("Received"), _lines("Purchase Receipt", projects), "Purchase Receipt", projects))
 	billed = _lines("Purchase Invoice", projects)
-	if _sees("Purchase Invoice"):
-		cost.append(_figure(_("Billed"), billed, "Purchase Invoice", projects))
+	cost.append(_figure(_("Billed"), billed, "Purchase Invoice", projects))
 	paid = _paid_on(projects, "Purchase Invoice")
-	if paid is not None:
-		cost.append(_figure(_("Paid"), paid["paid"], "Payment Entry", projects) | {"route": paid["route"]})
+	cost.append(_figure(_("Paid"), paid["paid"], "Payment Entry", projects) | _opens(paid))
 	time = flt(kept["total_costing_amount"])
 	stock = flt(kept["total_consumed_material_cost"])
 	claims = flt(kept["total_expense_claim"])
 	journals = _journals(projects)
 	own = [
-		_figure(_("Time"), time, "Timesheet" if _sees("Timesheet") else None, projects),
-		_figure(_("Stock Used"), stock, "Stock Entry" if _sees("Stock Entry") else None, projects),
-		_figure(_("Expense Claims"), claims, "Expense Claim" if _sees("Expense Claim") else None, projects),
-		_figure(
-			_("Journal Entries"), journals, "Journal Entry" if _sees("Journal Entry") else None, projects
-		),
+		_figure(_("Time"), time, "Timesheet", projects),
+		_figure(_("Stock Used"), stock, "Stock Entry", projects),
+		_figure(_("Expense Claims"), claims, "Expense Claim", projects),
+		_figure(_("Journal Entries"), journals, "Journal Entry", projects),
 	]
 
 	from onedesk.one_project import budget, kinds
@@ -212,7 +199,7 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	else:
 		contract = ordered or flt(kept["total_billable_amount"])
 
-	if to_invoice and _sees("Sales Invoice"):
+	if to_invoice:
 		customer.append(_figure(_("Not Invoiced Yet"), to_invoice, None, projects))
 
 	types = budget.types(project, projects)
@@ -243,7 +230,8 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		ahead["margin"] = None
 	return {
 		"project": project,
-		"currency": frappe.db.get_default("currency"),
+		# The company's currency, which every base amount here is in.
+		"currency": _currency(project),
 		"customer": customer,
 		"cost": cost,
 		"own": own,
@@ -329,13 +317,22 @@ def owed_share(invoices: list, mine: dict) -> float:
 	return owed
 
 
-def _paid_on(projects: list[str], doctype: str) -> dict | None:
+def _currency(project: str) -> str | None:
+	"""The project's company's currency, as ERPNext's base amounts are in."""
+	company = frappe.db.get_value("Project", project, "company")
+	return frappe.get_cached_value("Company", company, "default_currency") if company else None
+
+
+def _opens(paid: dict) -> dict:
+	"""The payments behind a Paid figure, for whoever may read them."""
+	return {"route": paid["route"]} if _sees("Payment Entry") else {}
+
+
+def _paid_on(projects: list[str], doctype: str) -> dict:
 	"""What's been paid on the tree's invoices, whichever payment paid them,
 	with the advances on its orders not yet set against an invoice and the
 	payments naming the project that aren't allocated yet; what's still owed
 	on them; the advance alone; and the payments behind it, as a list."""
-	if not _sees(doctype) or not _sees("Payment Entry"):
-		return None
 	on_order, order_type, kind = PAID[doctype]
 	child = frappe.qb.DocType(LINES[doctype])
 	rows = (

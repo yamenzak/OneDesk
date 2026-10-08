@@ -264,7 +264,7 @@ Week** is the hours logged in the last twelve weeks. Clicking the ring opens
 - **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
   **Invoiced** and **Budget Used** (or **Done** with no budget). Every figure
   is in the company's currency, the customer's only on the invoice itself.
-  **Paid** under Invoiced is for those who may see payments. Under them,
+  **Paid** is under Invoiced. Under them,
   **Not Invoiced Yet** by person with **Invoice
   Time**. On the right, **By Activity**.
 - **Retainer**: **This Month** against the hours a month, **Monthly Fee**
@@ -356,9 +356,10 @@ today and counts the tasks without dates.
 
 In the table, change a task's owner, status, due date, priority or hours
 right in its row. Giving a task to a **group** (under **Settings ›
-Access**) gives it to each person in the group. **Hours** is
-the time planned for it (ERPNext's Expected Time), and each group's heading
-adds them up. A task that depends on others not yet done says what it's
+Access**) gives it to each person in the group. **Planned** is
+the hours planned for it (ERPNext's Expected Time), and each group's heading
+adds them up. **Progress** is ERPNext's own progress on the task. A
+project with no tasks of its own shows only **Add Task**. A task that depends on others not yet done says what it's
 **waiting on**. A sub-task sits under its parent, and a parent says how many
 of its own are done. **Add Task** at the foot of a group adds one there;
 **New Task** adds one to the project. Click a task's name to open it beside the page.
@@ -379,8 +380,9 @@ the activity, the task (with the sub-project under it), the hours, and where
 they stand. **Draft** is on a timesheet not yet submitted, **To Invoice** is
 billable and not invoiced, **Invoiced** is on an invoice, and **Not Billable**
 is cost only. **Group By** puts them under each person, activity, task or
-sub-project, with their total. They come grouped by person, a few each, with
-**Show More** under each group. Where nothing is billed, as on a Fixed Price
+sub-project, with their total over all its entries. They come grouped by
+person, a few each, with **Show More** under each group. The newest 200 are
+listed, and **Open Older Entries** opens the rest in the Timesheet list. Where nothing is billed, as on a Fixed Price
 job, only drafts say where they stand. Click an entry to open its timesheet.
 
 The figures:
@@ -747,7 +749,10 @@ sub-projects together. Click a row to see the documents behind it.
   **Stock Used**, **Expense Claims** and **Journal Entries** (such as payroll
   or depreciation charged to the project).
 
-A row still at nothing isn't shown. Amounts are before tax, except payments.
+A row still at nothing isn't shown. Amounts are before tax, except payments,
+and in the company's currency. Everyone who reads the project sees its
+totals, as ERPNext's project form shows what's billed. A row opens its
+documents only for someone who may read them.
 **Paid** is what's been paid on the project's invoices or bills, however it
 was paid, with advances on its orders not yet set against a bill. The page
 updates as documents are submitted.

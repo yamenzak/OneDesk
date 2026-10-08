@@ -9042,8 +9042,8 @@ modules on the demo, then `docs/STANDARD.md`.
 | 0 | Gates: 1874 fast tests, 95 demo checks | done |
 | 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done |
 | 2 | A project's head and Overview | done |
-| 3 | Tasks, Time, Money | next |
-| 4 | Invoices, Suppliers, Team, Files, Activity | |
+| 3 | Tasks, Time, Money | done |
+| 4 | Invoices, Suppliers, Team, Files, Activity | next |
 | 5 | Workload, Time, Templates | |
 | 6 | Across modules on the demo | |
 | 7 | `docs/STANDARD.md`, and OneProject closed | |
@@ -9134,6 +9134,48 @@ villa on a phone, as Samir, who runs projects and reads no invoices.
 - **Works (1)**: `oneproject_its_page_says_only_what_is_so` checks the
   months, Paid, the showroom's two figures, Margin and the podium on the
   demo, and the contracts check reads the addendum by its sub-project.
+
+#### 3. Tasks, Time and Money
+
+Looked at on the villa, Bayview and its two parts, the Nordlicht showroom
+and the Marina retainer, and the villa on a phone, as Samir, who runs
+projects and reads no invoices.
+
+- **Demo (1)**: every open task was overdue, even on work running into next
+  year. The demo dated tasks by the calendar, so work built in October was
+  months late and Bayview still said On Track. An open project's work to do
+  now runs from next week, in its planned order, inside the project's dates
+  (`one_demo.projects._current`). Moved on this site too.
+- **Demo (1)**: every task read 0%, Working ones with 100 hours logged
+  included, and every priority was Low. Work under way has ERPNext's own
+  Progress and the priorities vary.
+- **Demo (1)**: This Month was 0 h on every project, as the demo's time
+  stopped in September. Ongoing work is logged up to this week, and a
+  retainer's month so far is logged, to invoice with the month. Time logged
+  after a task's planned end sits on the task last begun, not on none. Done
+  tasks were planned at about what they took, so the villa reads 1,430 h of
+  1,658.9 h planned in place of a red 1,324 h of 915.4 h.
+- **Stays desk (5)**: **Hours** cut off "100.2" and "128.8". The column is
+  **Planned**, as Time says "of … planned", and wide enough. A project with
+  no tasks of its own showed a table header over nothing. It shows only
+  **Add Task** now. On a phone the group's hours broke before "h".
+- **Works (1)**: a person's total under Time added up only the 200 entries
+  sent, while **Logged** counted all of them, and **Time** counted 200 of
+  269. The server adds up every entry by person, activity, task, place and
+  state (`hours.sums`), and the count is all of them.
+- **Stays desk (5)**: "50 older entries" led nowhere. **Open Older Entries**
+  opens the rest in the Timesheet list, filtered to the project and those
+  under it.
+- **Permissions (15)**: Samir saw **Invoiced** and **Margin So Far** in the
+  figures and "No sales yet" under **Customer**, on Marina and the showroom.
+  Every reader of the project sees its totals, as ERPNext's project form
+  shows what's billed. A row opens its documents only for someone who may
+  read them (`money._figure`). The Overview's **Paid** follows.
+- **What ERPNext already does (company)**: Money's currency was the site's
+  default. It is the project's company's now, as Time's already was.
+- **Works (1)**: `oneproject_its_tabs_add_up` checks progress on work under
+  way, Time's sums and count against its totals, and Money's customer side
+  and currency for Samir.
 
 ## OneLegal
 

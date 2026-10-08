@@ -9,17 +9,18 @@
         <button v-if="group.route" class="text-lg font-semibold text-ink-gray-9 hover:underline" @click="go(group.route)">{{ group.title }}</button>
         <span v-else class="text-lg font-semibold text-ink-gray-9">{{ group.title }}</span>
         <span class="text-base text-ink-gray-5">{{ group.tasks.length }}</span>
-        <span v-if="planned(group)" class="text-base text-ink-gray-5">· {{ hours(planned(group)) }}</span>
+        <span v-if="planned(group)" class="whitespace-nowrap text-base text-ink-gray-5">· {{ hours(planned(group)) }}</span>
       </div>
       <div v-if="!closed[group.key]" class="overflow-x-auto rounded-5 border border-outline-gray-2">
-        <List :columns="COLUMNS" :row-height="group.tasks.some((one) => one.waiting?.length) ? 58 : 44" divider="full" class="min-w-[58rem] list-gap-3 list-row-px-3">
+        <!-- A group with no tasks shows only where to add one. -->
+        <List v-if="group.tasks.length" :columns="COLUMNS" :row-height="group.tasks.some((one) => one.waiting?.length) ? 58 : 44" divider="full" class="min-w-[58rem] list-gap-3 list-row-px-3">
           <ListHeader class="bg-surface-gray-1">
             <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Owner") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Due") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Priority") }}</ListHeaderCell>
-            <ListHeaderCell>{{ __("Hours") }}</ListHeaderCell>
+            <ListHeaderCell>{{ __("Planned") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Progress") }}</ListHeaderCell>
           </ListHeader>
           <ListRows :items="nest(group.tasks)" row-key="name" v-slot="{ item }">
@@ -54,10 +55,10 @@
                   variant="ghost"
                   min="0"
                   step="0.5"
-                  class="w-16 tabular-nums"
+                  class="w-full tabular-nums"
                   :model-value="item.expected_time || ''"
                   :disabled="!canWrite"
-                  :aria-label="__('Hours')"
+                  :aria-label="__('Planned Hours')"
                   placeholder="–"
                   @change="(e) => $emit('set', item.name, 'expected_time', Number(e.target.value) || 0)"
                 />
@@ -69,7 +70,7 @@
             </ListRow>
           </ListRows>
         </List>
-        <div v-if="work.can_create && group.project !== undefined" class="flex items-center gap-2 border-t border-outline-gray-1 px-3 py-1.5">
+        <div v-if="work.can_create && group.project !== undefined" class="flex items-center gap-2 px-3 py-1.5" :class="group.tasks.length && 'border-t border-outline-gray-1'">
           <span class="lucide-plus size-4 text-ink-gray-4" />
           <input
             v-model="drafts[group.key]"
@@ -78,7 +79,7 @@
             @keydown.enter="add(group)"
           />
         </div>
-        <div v-else-if="!group.tasks.length" class="border-t border-outline-gray-1 px-3 py-3 text-base text-ink-gray-5">{{ __("No tasks") }}</div>
+        <div v-else-if="!group.tasks.length" class="px-3 py-3 text-base text-ink-gray-5">{{ __("No tasks") }}</div>
       </div>
     </div>
   </div>
@@ -104,7 +105,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["open", "set", "give", "take", "add"]);
 
-const COLUMNS = ["minmax(14rem,1fr)", "6rem", "9rem", "8rem", "7rem", "5rem", "8rem"];
+const COLUMNS = ["minmax(14rem,1fr)", "6rem", "9rem", "8rem", "7rem", "5.5rem", "8rem"];
 // The hours planned for a group's tasks (ERPNext's Expected Time).
 const planned = (group) => group.tasks.reduce((sum, one) => sum + (Number(one.expected_time) || 0), 0);
 const closed = reactive({});

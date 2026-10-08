@@ -1496,7 +1496,7 @@ def oneproject_a_project_starts_with_its_customers_and_its_templates_terms():
 def oneproject_its_page_says_only_what_is_so():
 	"""Samir runs projects but reads no invoices. The retainer still says
 	which months are invoiced and how they stand, without the invoice, and
-	Invoiced leaves out what's paid rather than say 0. The showroom's
+	Invoiced says what's paid, the project's own total. The showroom's
 	unbilled time reads the same in its card and its list, in the company's
 	currency. A finished job's fourth card is its Margin, and a sub-project
 	whose work is on its parent's order says so and bills on its terms."""
@@ -1509,7 +1509,7 @@ def oneproject_its_page_says_only_what_is_so():
 		assert done and all(months[m]["status"] and months[m]["name"] is None and months[m]["total"] is None for m in done), months
 		assert not set(done) & set(retainer.waiting(MARINA)), "an invoiced month waits"
 		invoiced = next(card for card in view.said(MARINA)["cards"] if card["key"] == "invoiced")
-		assert invoiced["note_money"] is None, invoiced
+		assert invoiced["note_money"], invoiced
 		showroom = view.said(SHOWROOM)
 		card = next(one for one in showroom["cards"] if one["key"] == "unbilled")
 		assert abs(card["money"] - sum(one["amount"] for one in showroom["overview"]["unbilled"])) < 1, (card, showroom["overview"]["unbilled"])
@@ -1520,6 +1520,30 @@ def oneproject_its_page_says_only_what_is_so():
 		assert first["value"] == "–" and "Bayview Tower Curtain Wall" in first["note"], first
 		assert podium["terms_from"] == "Bayview Tower Curtain Wall"
 		assert terms.of("PROJ-0004")[0] == frappe.db.get_value("Project", TOWER, "one_payment_terms") == podium["payment_terms"]
+
+
+@check
+def oneproject_its_tabs_add_up():
+	"""Tasks, Time and Money read true to Samir, who reads no invoices. Work
+	under way says how far along it is. Time's groups add up every entry,
+	the older ones not sent included, and its count is all of them. Money
+	shows the customer's totals that its figures are made of, opening the
+	invoices only for those who may, in the company's currency."""
+	from onedesk.one_project import hours, money
+
+	with as_user("samir@one.test"):
+		working = frappe.get_all("Task", filters={"project": VILLA, "status": "Working"}, pluck="progress")
+		assert working and all(working), working
+		said = hours.entries(VILLA)
+		assert said["more"] and said["all_route"].startswith("/desk/timesheet?"), said["more"]
+		assert sum(one["entries"] for one in said["sums"]) == len(said["entries"]) + said["more"]
+		assert abs(sum(one["hours"] for one in said["sums"]) - said["totals"]["hours"]) < 0.1
+		for project in (MARINA, SHOWROOM):
+			cash = money.money(project)
+			invoiced = next(one for one in cash["customer"] if one["label"] == "Invoiced")
+			assert abs(invoiced["value"] - cash["invoiced"]) < 1 and "route" not in invoiced, invoiced
+			company = frappe.db.get_value("Project", project, "company")
+			assert cash["currency"] == frappe.db.get_value("Company", company, "default_currency")
 
 
 @check

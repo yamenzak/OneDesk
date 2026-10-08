@@ -10,7 +10,7 @@
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
           <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Time") }}
-          <span v-if="rows.length" class="text-base font-normal text-ink-gray-5">{{ rows.length }}</span>
+          <span v-if="counted" class="text-base font-normal text-ink-gray-5">{{ counted }}</span>
         </h2>
         <TabButtons v-if="filters.length > 1" v-model="shown" :options="filters" />
         <Dropdown :options="groupChoices">
@@ -60,7 +60,7 @@
           </ListRow>
         </ListGroup>
       </List>
-      <p v-if="said.more && shown === 'all'" class="mt-3 text-sm text-ink-gray-5">{{ __("{0} older entries", [said.more]) }}</p>
+      <Button v-if="said.more && shown === 'all'" class="mt-3" variant="ghost" size="sm" icon-right="lucide-arrow-up-right" :label="__('Open {0} Older Entries', [said.more])" @click="go(said.all_route)" />
     </template>
   </div>
 </template>
@@ -124,6 +124,8 @@ watch(() => props.projectName, load, { immediate: true });
 const byOthers = computed(() => groupBy.value !== "who");
 const wide = computed(() => ["6.5rem", byOthers.value && "minmax(9rem,1fr)", "minmax(7rem,0.8fr)", hasTask.value && "minmax(10rem,1.4fr)", "4.5rem", said.value?.money && "7rem", hasStatus.value && "7.5rem"].filter(Boolean));
 const rows = computed(() => (said.value?.entries || []).filter((one) => shown.value === "all" || one.state === shown.value));
+// How many entries the filter shows, the older ones not sent included.
+const counted = computed(() => (said.value?.sums || []).reduce((sum, one) => sum + (shown.value === "all" || one.state === shown.value ? one.entries : 0), 0));
 watch([shown, groupBy], () => Object.keys(more).forEach((key) => delete more[key]));
 // Where nothing is billed (a Fixed Price project's time), where each entry
 // stands says nothing, but for drafts; and no task, no Task column.
@@ -144,18 +146,23 @@ const KEYS = {
   task: (one) => one.task_subject || __("No task"),
   project: (one) => one.where || props.title,
 };
+// A group's hours and money are the server's sums over every entry, the
+// older ones not sent included (hours.py).
 const groups = computed(() => {
   if (groupBy.value === "none") return [{ key: "all", title: null, rows: rows.value }];
   const found = new Map();
-  for (const one of rows.value) {
-    const title = KEYS[groupBy.value](one);
+  const group = (title) => {
     if (!found.has(title)) found.set(title, { key: title, title, rows: [], hours: 0, money: 0 });
-    const group = found.get(title);
-    group.rows.push(one);
-    group.hours += one.hours;
-    group.money += value(one) || 0;
+    return found.get(title);
+  };
+  for (const one of said.value.sums || []) {
+    if (shown.value !== "all" && one.state !== shown.value) continue;
+    const into = group(KEYS[groupBy.value](one));
+    into.hours += one.hours;
+    into.money += value(one) || 0;
   }
-  return [...found.values()].sort((a, b) => b.hours - a.hours);
+  for (const one of rows.value) group(KEYS[groupBy.value](one)).rows.push(one);
+  return [...found.values()].filter((one) => one.rows.length).sort((a, b) => b.hours - a.hours);
 });
 const groupChoices = computed(() =>
   Object.entries(GROUPS())

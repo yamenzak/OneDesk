@@ -8,6 +8,7 @@ from frappe import _
 from frappe.utils import flt, get_datetime, get_first_day, get_fullname, getdate, nowdate
 
 from onedesk.one_project import kinds, tree
+from onedesk.one_project.money import _route as money_route
 from onedesk.one_task import timer
 
 #: How a project counts its time.
@@ -123,6 +124,32 @@ def planned(projects: list[str]) -> float:
 	return round(sum(flt(one) for one in found), 2)
 
 
+def sums(rows: list, people: dict, tasks: dict, where) -> list[dict]:
+	"""The entries counted, with their hours, amount and cost, by person,
+	activity, task, place under the project and where each stands."""
+	found: dict[tuple, dict] = {}
+	for row in rows:
+		who = people.get(row.parent, {})
+		key = (
+			who.get("user"),
+			who.get("name"),
+			row.activity_type,
+			tasks.get(row.task),
+			where(row),
+			state(row.docstatus, bool(row.is_billable), row.sales_invoice),
+		)
+		one = found.setdefault(
+			key,
+			dict(zip(("user", "who", "activity", "task_subject", "where", "state"), key, strict=True))
+			| {"entries": 0, "hours": 0.0, "amount": 0.0, "cost": 0.0},
+		)
+		one["entries"] += 1
+		one["hours"] += flt(row.hours)
+		one["amount"] += flt(row.get("base_billing_amount")) if row.is_billable else 0.0
+		one["cost"] += flt(row.get("base_costing_amount"))
+	return list(found.values())
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def entries(
@@ -230,6 +257,11 @@ def entries(
 			for row in rows[:SHOWN]
 		],
 		"more": max(0, len(rows) - SHOWN),
+		# Every entry's hours and money by what the tab groups them by, so a
+		# group's total is the whole of it, not only the entries sent.
+		"sums": sums(rows, people, tasks, lambda row: milestones.where(row.project, project, of, titles)),
+		# The entries older than those sent, in the Timesheet list.
+		"all_route": money_route("Timesheet", {"Timesheet Detail.project": ["in", projects], "docstatus": ["<", 2]}),
 		"has_sub_projects": len(projects) > 1,
 		# A retainer's hours are counted against its month, not priced here.
 		"allowance": flt(head.one_monthly_hours) if head.one_kind == kinds.RETAINER else None,

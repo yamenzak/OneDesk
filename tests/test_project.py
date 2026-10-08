@@ -1883,7 +1883,7 @@ def test_the_tasks_table_says_what_waits_and_how_long_and_nests_sub_tasks():
 	assert '__("Waiting on {0}", [item.waiting.join(", ")])' in tasks
 	assert (
 		"$emit('set', item.name, 'expected_time'" in tasks
-		and '<ListHeaderCell>{{ __("Hours") }}</ListHeaderCell>' in tasks
+		and '<ListHeaderCell>{{ __("Planned") }}</ListHeaderCell>' in tasks
 	)
 	assert ':items="nest(group.tasks)"' in tasks and "<TextInput" in tasks
 	group = (tree.ROOT / "frontend" / "src" / "project" / "group.js").read_text()
@@ -2386,3 +2386,32 @@ def test_hours_on_an_invoice_respect_a_whole_unit():
 	assert "must_be_whole_number" in maker
 	assert "hours_line(item, line[\"hours\"]" in billing
 	assert "billing.hours_line(" in retainer and '"qty": round(extra' not in retainer
+
+
+def test_time_groups_add_up_every_entry_not_only_those_sent():
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	space = _load(PROJECT / "hours.py", ("state", "sums"), flt=flt)
+	rows = [
+		_Row(parent="TS-1", activity_type="Fitting", task="T1", project="P", hours=4, is_billable=1, sales_invoice=None, docstatus=1, base_billing_amount=400, base_costing_amount=200),
+		_Row(parent="TS-1", activity_type="Fitting", task="T1", project="P", hours=2, is_billable=1, sales_invoice=None, docstatus=1, base_billing_amount=200, base_costing_amount=100),
+		_Row(parent="TS-2", activity_type="Fitting", task=None, project="P", hours=3, is_billable=0, sales_invoice=None, docstatus=0, base_billing_amount=0, base_costing_amount=90),
+	]
+	people = {"TS-1": {"user": "a@x", "name": "Arun"}, "TS-2": {"user": "b@x", "name": "Bilal"}}
+	found = space["sums"](rows, people, {"T1": "Install glass"}, lambda row: None)
+	arun = next(one for one in found if one["who"] == "Arun")
+	assert (arun["entries"], arun["hours"], arun["amount"], arun["task_subject"]) == (2, 6.0, 600.0, "Install glass")
+	assert next(one for one in found if one["who"] == "Bilal")["state"] == "Draft"
+	hours = (PROJECT / "hours.py").read_text()
+	assert '"sums": sums(rows, people, tasks' in hours and '"all_route": money_route("Timesheet"' in hours
+	vue = (tree.ROOT / "frontend" / "src" / "project" / "Time.vue").read_text()
+	assert "said.value.sums" in vue and "__('Open {0} Older Entries', [said.more])" in vue
+
+
+def test_money_shows_its_totals_to_every_reader_and_links_only_for_those_who_may_open():
+	money = (PROJECT / "money.py").read_text()
+	# The figure is the project's, its route only for whoever reads the doctype.
+	assert "if doctype and _sees(doctype):" in money
+	assert "if _sees(doctype):\n\t\t\tcustomer.append" not in money
+	assert '_opens(received)' in money and '_opens(paid)' in money
+	# Amounts are in the project's company's currency, as its base amounts are.
+	assert '"currency": _currency(project)' in money and 'frappe.db.get_default("currency")' not in money
