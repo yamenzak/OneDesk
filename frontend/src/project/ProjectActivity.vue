@@ -56,7 +56,7 @@
       </template>
 
       <template #item-time="{ activity: one }">
-        <ActivityLine :activity="one" :aside="one.data.sub_project">{{ __("logged {0}", [hours(one.data.hours)]) }}</ActivityLine>
+        <ActivityLine :activity="one" :aside="one.data.sub_project">{{ one.data.days > 1 ? __("logged {0} over {1} days", [hours(one.data.hours), one.data.days]) : __("logged {0}", [hours(one.data.hours)]) }}</ActivityLine>
       </template>
 
       <template #item-update="{ activity: one }">

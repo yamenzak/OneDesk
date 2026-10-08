@@ -510,7 +510,7 @@ What happened on the project and its sub-projects, the newest first:
   dates, budget, priority, kind and members, from frappe's record of its
   changes.
 - **Work**: tasks added and completed, the team's updates, the hours each
-  person logged in a day, files added or removed, and sub-projects started.
+  person logged in a week (one line a week, saying over how many days), files added or removed, and sub-projects started.
 - **Comments and emails** on the project.
 
 At the top, you write a comment, and typing @ mentions someone. **New

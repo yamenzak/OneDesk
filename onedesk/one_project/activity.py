@@ -8,7 +8,7 @@ from collections import defaultdict
 from typing import Annotated
 
 import frappe
-from frappe.utils import get_datetime, get_fullname, getdate
+from frappe.utils import add_days, get_datetime, get_fullname, getdate
 
 from onedesk.one_project import hours, money, tree
 
@@ -280,22 +280,34 @@ def _time(projects: list[str], people: _People) -> list[dict]:
 	)
 	sheets = hours.whose({one.parent for one in rows})
 	found = []
+	# A person's time is one line a week on each project: a day's entries
+	# one by one buried everything else.
 	for group in grouped(
 		[one for one in rows if one.from_time and sheets.get(one.parent)],
-		lambda one: (sheets[one.parent]["key"], getdate(one.from_time), one.project),
+		lambda one: (sheets[one.parent]["key"], week_of(one.from_time), one.project),
 	):
 		sheet = sheets[group[0].parent]
 		found.append(
 			_row(
 				"time",
-				f"{sheet['key']}:{getdate(group[0].from_time)}:{group[0].project}",
+				f"{sheet['key']}:{week_of(group[0].from_time)}:{group[0].project}",
 				max(one.to_time or one.from_time for one in group),
 				people(sheet["user"], sheet["name"]),
 				"work",
-				{"hours": round(sum(one.hours or 0 for one in group), 2), "project": group[0].project},
+				{
+					"hours": round(sum(one.hours or 0 for one in group), 2),
+					"days": len({getdate(one.from_time) for one in group}),
+					"project": group[0].project,
+				},
 			)
 		)
 	return found
+
+
+def week_of(when) -> str:
+	"""The Monday of the week a time falls in. Pure."""
+	day = getdate(when)
+	return str(add_days(day, -day.weekday()))
 
 
 def _updates(projects: list[str], people: _People) -> list[dict]:
