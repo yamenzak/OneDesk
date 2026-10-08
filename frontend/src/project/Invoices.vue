@@ -12,7 +12,7 @@
           <span class="lucide-receipt size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Invoices") }}
           <span v-if="said.invoices.length" class="text-base font-normal text-ink-gray-5">{{ said.invoices.length }}</span>
         </h2>
-        <span v-if="oneCurrency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [oneCurrency]) }}</span>
+        <span v-if="currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [currency]) }}</span>
         <Button v-if="said.totals.retention && said.can_pay" size="sm" icon-left="lucide-hand-coins" :label="__('Release Retention')" @click="release()" />
         <Button v-if="said.can_create && kind === 'Retainer'" size="sm" variant="solid" icon-left="lucide-receipt" :label="__('Invoice Month')" @click="invoiceMonth" />
         <Button v-else-if="said.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Invoice')" @click="newInvoice" />
@@ -83,9 +83,10 @@ const only = useOnly();
 // ERPNext's own colours for an invoice's status.
 const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
 const said = ref(null);
-// The figures are in the company's currency, said once at the top when the
-// invoices are in it too.
-const amount = (value) => (oneCurrency.value === props.currency ? plain(value) : money(value, props.currency));
+// Amounts in the company's currency are said once, at the top, as on
+// Suppliers (frappe's own number format); another currency keeps its symbol.
+const amount = (value) => plain(value);
+const sum = (value, currency) => (!currency || currency === props.currency ? plain(value) : money(value, currency));
 
 async function load() {
   said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName, ...onlyArg(only) });
@@ -119,15 +120,9 @@ const figures = computed(() => {
   ];
 });
 
-// One customer needs no column; amounts in one currency are said once, at
-// the top, as on Money (frappe's own number format).
+// One customer needs no column.
 const byParty = computed(() => said.value.parties > 1);
 const holds = computed(() => said.value.invoices.some((one) => one.held));
-const oneCurrency = computed(() => {
-  const found = new Set(said.value.invoices.map((one) => one.currency));
-  return found.size === 1 ? [...found][0] : null;
-});
-const sum = (value, currency) => (oneCurrency.value ? plain(value) : money(value, currency));
 const columns = computed(() => {
   const party = byParty.value;
   const held = holds.value;

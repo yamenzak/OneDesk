@@ -459,7 +459,9 @@ it's on, its date, when the part owed now is due (in red once it's past), its
 status, total, what's **Outstanding** now, and the **Retention** still held
 with the date it's due. Outstanding and Retention together are what the
 invoice still owes. The customer and their logo show when there's more than
-one customer. Amounts in one currency are said once, above the figures.
+one customer. The figures and amounts are in the company's currency, said
+once above them, as on **Suppliers**. An invoice in the customer's own
+currency keeps its symbol.
 
 The figures above are what's been **Invoiced**, **Paid** (with anything paid
 in advance on the order), **Outstanding** now, **Overdue**, and
@@ -532,8 +534,10 @@ What happened on the project and its sub-projects, the newest first:
 - **Changes to the project**: its name, status, health, manager, customer,
   dates, budget, priority, kind and members, from frappe's record of its
   changes.
-- **Work**: tasks added and completed, the team's updates, the hours each
-  person logged in a week (one line a week, saying over how many days), files added or removed, and sub-projects started.
+- **Work**: tasks added and completed, the team's updates, the team's
+  hours in a week (one line a week on each project, naming who logged them,
+  most hours first, and over how many days), files added or removed, and
+  sub-projects started. Every entry is on the **Time** tab.
 - **Comments and emails** on the project.
 
 At the top, you write a comment, and typing @ mentions someone. **New

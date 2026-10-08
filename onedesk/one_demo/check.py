@@ -10,7 +10,7 @@ starts with it, such as a module's.
 import traceback
 
 import frappe
-from frappe.utils import add_days, add_months, add_to_date, flt, get_first_day, getdate, now_datetime, today
+from frappe.utils import add_days, add_months, add_to_date, date_diff, flt, get_first_day, getdate, now_datetime, today
 
 from onedesk.one_demo.base import COMPANY, as_user, on, wh
 from onedesk.one_demo.people import OWNER, PEOPLE
@@ -1246,9 +1246,13 @@ def oneproject_samir_runs_a_project():
 	with as_user("samir@one.test"):
 		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
 		assert "huda@one.test" not in {one["user"] for one in team.remove(VILLA, "huda@one.test")["people"]}
-		row = contacts.save(VILLA, "Consultant", organisation="Gulf Façade Consultants", note="Signs off the façade drawings")["contacts"][0]
+		row = next(
+			one
+			for one in contacts.save(VILLA, "Consultant", organisation="Gulf Façade Consultants", note="Signs off the façade drawings")["contacts"]
+			if one["company"] == "Gulf Façade Consultants"
+		)
 		assert row["company"] == "Gulf Façade Consultants"
-		assert contacts.remove(VILLA, row["row"])["contacts"] == []
+		assert row["row"] not in {one["row"] for one in contacts.remove(VILLA, row["row"])["contacts"]}
 		sheet = hours.log(VILLA, today(), 3, "Project Management", description="Site walk with Khalid")
 		assert frappe.db.exists("Timesheet Detail", {"parent": sheet, "project": VILLA, "hours": 3})
 		account = budget.lines(VILLA)["lines"][0]["account"]
@@ -1544,6 +1548,36 @@ def oneproject_its_tabs_add_up():
 			assert abs(invoiced["value"] - cash["invoiced"]) < 1 and "route" not in invoiced, invoiced
 			company = frappe.db.get_value("Project", project, "company")
 			assert cash["currency"] == frappe.db.get_value("Company", company, "default_currency")
+
+
+@check
+def oneproject_its_invoices_suppliers_team_and_activity_read_true():
+	"""An invoice is due as its terms say from its own date, not the day the
+	demo was built; retention stays held until it's released, on both sides;
+	each customer's project names who speaks for them; and the team's time is
+	one line a week in Activity, naming everyone who logged it."""
+	from onedesk.one_project import activity, contacts
+	from onedesk.one_project.retention import HELD
+
+	for doctype in ("Sales Invoice", "Purchase Invoice"):
+		for one in frappe.get_all(doctype, filters={"docstatus": 1, "project": ["in", [VILLA, TOWER]]}, fields=["name", "posting_date"]):
+			own = frappe.get_all(
+				"Payment Schedule",
+				filters={"parent": one.name, "parenttype": doctype, "payment_term": ["not in", HELD]},
+				pluck="due_date",
+			)
+			assert all(date_diff(due, one.posting_date) >= 30 for due in own), (one.name, own)
+	held = frappe.get_all(
+		"Payment Schedule",
+		filters={"parent": ["in", ["ACC-SINV-2026-00001", "ACC-PINV-2026-00016"]], "payment_term": ["in", HELD]},
+		fields=["parent", "outstanding"],
+	)
+	assert held and all(one.outstanding for one in held), held
+	with as_user("samir@one.test"):
+		assert "Client's Representative" in {one["role"] for one in contacts.contacts(VILLA)["contacts"]}
+		weeks = [one for one in activity.activity(VILLA)["activities"] if one["type"] == "time"]
+		keys = [one["key"] for one in weeks]
+		assert len(keys) == len(set(keys)) and any(one["data"]["people"] > 1 for one in weeks), keys[:5]
 
 
 @check

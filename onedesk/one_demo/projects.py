@@ -39,6 +39,7 @@ def run(password=None):
 	for project in frappe.get_all("Project", filters={"status": "Open"}, pluck="name"):
 		_current(project)
 	_estimates()
+	_contacts()
 
 
 # The projects
@@ -271,7 +272,7 @@ def showroom():
 
 	with as_user(ACCOUNTS_USER):
 		draft = invoice_time(name, item="SVC-DES")
-		dated(draft, on(7, 15))
+		_redate(draft, on(7, 15))
 		save(draft, submit=True)
 	_pay(frappe.get_doc("Sales Invoice", draft.name), on(8, 2))
 	_time(name, ("Nadia",), "Design", on(7, 20), weeks=None, hours=18)
@@ -473,26 +474,43 @@ def _billed(order, date, done, lines, doctype):
 		rows = frappe.get_all(f"{doctype} Item", filters={"parent": order}, fields=["name"], order_by="idx")
 		lines = {rows[i].name: share for i, share in lines.items()}
 	invoice = bill_progress(order, doctype=doctype, done=done, lines=lines)
-	dated(invoice, date)
+	_redate(invoice, date)
 	if invoice.doctype == "Purchase Invoice":
 		invoice.bill_no = f"INV-{order[-5:]}-{date.month}"
 		invoice.bill_date = date
-	for row in invoice.get("payment_schedule") or []:
-		row.due_date = max(getdate(row.due_date), getdate(date))
-	invoice.due_date = add_days(date, 30)
 	return save(invoice, submit=True)
+
+
+def _redate(invoice, date):
+	"""An invoice dated in the past, due as its terms say from that day: its
+	schedule was made today, so each of its own terms moves back with it.
+	The retention keeps its dates, which follow the work, not the invoice."""
+	from onedesk.one_project.retention import HELD
+
+	dated(invoice, date)
+	rows = invoice.get("payment_schedule") or []
+	for row in rows:
+		if row.payment_term not in HELD:
+			row.due_date = add_days(date, max(0, date_diff(row.due_date, today())))
+	# With no schedule yet, ERPNext makes it on saving, from the new date.
+	invoice.due_date = max(getdate(row.due_date) for row in rows) if rows else None
+	return invoice
 
 
 def _pay(invoice, date, part=1.0):
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
+	from onedesk.one_project.retention import HELD
+
+	# What's held back as retention isn't paid until it's released.
+	held = sum(flt(row.payment_amount) for row in invoice.get("payment_schedule") or [] if row.payment_term in HELD)
 	with as_user(ACCOUNTS_USER):
 		payment = get_payment_entry(invoice.doctype, invoice.name)
 		dated(payment, date)
 		payment.reference_no = f"TRF-{invoice.name[-6:]}"
 		payment.reference_date = date
-		if part < 1:
-			amount = flt(payment.paid_amount * part, 2)
+		if part < 1 or held:
+			amount = flt((payment.paid_amount - held) * part, 2)
 			payment.paid_amount = amount
 			payment.received_amount = flt(
 				amount * flt(payment.source_exchange_rate or 1) / flt(payment.target_exchange_rate or 1), 2
@@ -614,7 +632,7 @@ def _buy_for(project, supplier, lines, date, currency=None):
 	# The supplier's bill is the books' to enter.
 	with as_user(ACCOUNTS_USER):
 		bill = make_purchase_invoice(order.name)
-		dated(bill, add_days(date, 12))
+		_redate(bill, add_days(date, 12))
 		bill.bill_no = f"EH-{order.name[-5:]}"
 		bill.update_stock = 1
 		return save(bill, submit=True)
@@ -744,6 +762,26 @@ def _estimates():
 		elif flt(task.actual_time):
 			hours = round(flt(task.actual_time) * (1.1, 0.9, 1.05, 1.0)[i % 4], 1)
 		frappe.db.set_value("Task", task.name, "expected_time", hours, update_modified=False)
+
+
+def _contacts():
+	"""Each customer's project names who speaks for the customer, and the
+	villa its installers too (Team › Contacts)."""
+	for project in frappe.get_all(
+		"Project", filters={"customer": ["is", "set"], "one_parent": ["is", "not set"]}, fields=["name", "customer"]
+	):
+		doc = frappe.get_doc("Project", project.name)
+		if doc.get("one_contacts"):
+			continue
+		person = frappe.db.get_value(
+			"Dynamic Link", {"link_doctype": "Customer", "link_name": project.customer, "parenttype": "Contact"}, "parent"
+		)
+		if person:
+			doc.append("one_contacts", {"role": "Client's Representative", "contact": person})
+		if doc.project_name == "Mansour Villa Windows and Doors":
+			doc.append("one_contacts", {"role": "Subcontractor", "supplier": "Precision Installers", "note": "Fits the windows and doors"})
+		if doc.get("one_contacts"):
+			doc.save()
 
 
 def _assign(task, user):
@@ -892,10 +930,8 @@ def _retainer(project, first_month, months, people, hours):
 		)
 		with as_user(ACCOUNTS_USER):
 			draft = invoice_month(project, month=str(month), item="SVC-MAINT", overage=1)
-			dated(draft, add_days(add_months(month, 1), -1))
 			# Its terms date it from the month's end, not from today.
-			draft.due_date = None
-			draft.payment_schedule = []
+			_redate(draft, add_days(add_months(month, 1), -1))
 			invoice = save(draft, submit=True)
 		if date_diff(today(), invoice.posting_date) > 40:
 			_pay(invoice, add_days(invoice.posting_date, 21))

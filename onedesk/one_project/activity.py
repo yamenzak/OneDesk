@@ -8,6 +8,7 @@ from collections import defaultdict
 from typing import Annotated
 
 import frappe
+from babel.lists import format_list
 from frappe.utils import add_days, get_datetime, get_fullname, getdate
 
 from onedesk.one_project import hours, money, tree
@@ -280,28 +281,45 @@ def _time(projects: list[str], people: _People) -> list[dict]:
 	)
 	sheets = hours.whose({one.parent for one in rows})
 	found = []
-	# A person's time is one line a week on each project: a day's entries
-	# one by one buried everything else.
+	# The team's time is one line a week on each project, naming who logged
+	# it, most hours first: a line for each person and week buried
+	# everything else (the Time tab has every entry).
 	for group in grouped(
 		[one for one in rows if one.from_time and sheets.get(one.parent)],
-		lambda one: (sheets[one.parent]["key"], week_of(one.from_time), one.project),
+		lambda one: (week_of(one.from_time), one.project),
 	):
-		sheet = sheets[group[0].parent]
+		logged = defaultdict(float)
+		for one in group:
+			logged[sheets[one.parent]["key"]] += one.hours or 0
+		order = sorted(logged, key=lambda key: -logged[key])
+		named = {sheets[one.parent]["key"]: sheets[one.parent] for one in group}
+		first = named[order[0]]
 		found.append(
 			_row(
 				"time",
-				f"{sheet['key']}:{week_of(group[0].from_time)}:{group[0].project}",
+				f"{week_of(group[0].from_time)}:{group[0].project}",
 				max(one.to_time or one.from_time for one in group),
-				people(sheet["user"], sheet["name"]),
+				people(first["user"], first["name"])
+				if len(order) == 1
+				else {"fullname": _listed([named[key]["name"] for key in order])},
 				"work",
 				{
 					"hours": round(sum(one.hours or 0 for one in group), 2),
 					"days": len({getdate(one.from_time) for one in group}),
+					"people": len(order),
 					"project": group[0].project,
 				},
 			)
 		)
 	return found
+
+
+def _listed(names: list[str]) -> str:
+	"""Names as the reader's language lists them: "A and B", "A, B and C"."""
+	try:
+		return format_list(names, locale=(frappe.local.lang or "en").replace("-", "_"))
+	except Exception:
+		return format_list(names, locale="en")
 
 
 def week_of(when) -> str:

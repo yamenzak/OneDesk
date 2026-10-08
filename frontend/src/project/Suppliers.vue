@@ -32,10 +32,8 @@
         <span class="lucide-hard-hat size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Subcontracts") }}
         <span v-if="packages.length" class="text-base font-normal text-ink-gray-5">{{ packages.length }}</span>
       </h2>
-    <div v-if="!packages.length" class="flex flex-col items-center gap-3 py-8 text-center">
-      <span class="flex size-12 items-center justify-center rounded-full bg-surface-gray-2 text-ink-gray-5"><span class="lucide-hard-hat size-5" /></span>
-      <p class="text-base text-ink-gray-7">{{ __("No subcontracts") }}</p>
-    </div>
+    <!-- A section with nothing in it says so in a line, as Buying does. -->
+    <div v-if="!packages.length" class="py-3 text-base text-ink-gray-5">{{ __("No subcontracts") }}</div>
 
     <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       <article v-for="one in packages" :key="one.order" class="flex flex-col rounded-5 border border-outline-gray-2 bg-surface-base p-4">

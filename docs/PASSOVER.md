@@ -9043,7 +9043,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done |
 | 2 | A project's head and Overview | done |
 | 3 | Tasks, Time, Money | done |
-| 4 | Invoices, Suppliers, Team, Files, Activity | next |
+| 4 | Invoices, Suppliers, Team, Files, Activity | open items |
 | 5 | Workload, Time, Templates | |
 | 6 | Across modules on the demo | |
 | 7 | `docs/STANDARD.md`, and OneProject closed | |
@@ -9176,6 +9176,64 @@ projects and reads no invoices.
 - **Works (1)**: `oneproject_its_tabs_add_up` checks progress on work under
   way, Time's sums and count against its totals, and Money's customer side
   and currency for Samir.
+
+#### 4. Invoices, Suppliers, Team, Files and Activity
+
+Looked at on the villa, Bayview, the Nordlicht showroom, Marina and the
+workshop, and on a phone, as Samir and as Huda, who keeps the books. From
+this screen on, every point is walked and written down, with what was
+looked at even where nothing was found.
+
+Fixed:
+
+- **Demo (1)**: every unpaid invoice and bill was due 07-10-2026, the day
+  the demo was built, so a bill dated 1 July on Net 45 read "1 day late".
+  The product dates them right (a progress bill on Bayview today is due
+  22-11-2026). The demo dated each invoice after its schedule was made. Each
+  of its own terms now moves back with it (`one_demo.projects._redate`),
+  the retention keeping its dates. Repaired on this site, in the schedules,
+  the ledgers' due dates and the statuses.
+- **Demo (1)**: the villa's first invoice and its subcontractor's bill were
+  paid in full, retention included, so the subcontract read "Retention 5%"
+  with nothing held. The demo pays what's due now and leaves the retention
+  held. The two payments were cancelled and made again on this site.
+- **What ERPNext already does (currency)**: the showroom's Invoices said
+  "Amounts in EUR" over figures in dirhams and euro rows without a symbol.
+  It says the company's currency, as Suppliers does, and a row in another
+  currency keeps its symbol.
+- **Plain words (12)**: "No subcontracts" was a large icon and line, where
+  every other empty section on the page is one line. A whole empty tab keeps
+  the large one.
+- **Demo (1)**: no project had contacts. Each customer's project names who
+  speaks for the customer, and the villa its installers.
+- **Stays desk (5)**: time filled Activity, a line for each person and week,
+  seven months of nothing else on Marina. A week's time on a project is one
+  line naming who logged it, most hours first, in the reader's language's
+  list form (babel's, as frappe's own `comma_and` writes "A, and B").
+
+Every point:
+
+| Point | Looked at | Found |
+|---|---|---|
+| 1 Demo | invoices, bills, payments, retention, contacts, time | fixed above. Open: every demo document is dated the build day in Activity, so April's invoices sit above last week's time |
+| 2 Rules on the server | team, contacts, billing, retention, buying endpoints | open: a disabled user can join a project through the desk form or an import, and a retainer's hours can be billed through ERPNext's own Fetch Timesheet as well as Invoice Month |
+| 3 Hand-offs | README Connections | open: no Team or Contacts lines |
+| 4 Tier declared | `one/tiers.py` | Project is declared |
+| 5 Our look | the five tabs, desktop and phone | fixed above |
+| 6 Nothing lost | the record frame | Assign, Files, Tags, Members, Print and Like are there |
+| 7 Extensible | `one_studio/places.py` | open: one place, on the head. No tab has a place of its own |
+| 8 Built from frappe | the tabs' parts | frappe-ui List, Badge, Button, TabButtons, Dialog |
+| 9 Overrides recorded | the gate | passes |
+| 10 Notifications | `notifications/one_project/` | open: Retention Due isn't in the README's list, and nobody is told when a supplier's bill on the project falls due or goes late, only Needs You |
+| 11 Printed | Sales Invoice, Purchase Order | One Sales Invoice and One Purchase Order are shipped and the default. Send attaches it |
+| 12 Plain words | headings, notes, buttons, empty states | fixed above |
+| 13 Documented, OneAI | README, `ai.py` | open: OneAI's facts drop what's to pay and late on a subcontract and list no overdue invoices, and it can't chase an invoice, add a member or add a contact |
+| 14 Intake | `tests/samples/intake`, `one_project/intake.py` | open: no OneProject samples, and a customer's remittance is never tied to its project |
+| 15 Permissions | as Samir and as Huda | Invoices only for those who read invoices, totals for every reader (screen 3) |
+| 16 Legal | `one_project/legal.py` | open: OneAI reads outside contacts' emails and phones, which no clause says |
+| 17 Clean code | ruff on the module and the demo | open: 3 lint errors in the module, 16 in the demo, and no guard keeps them out |
+| Everything follows frappe | realtime on each tab | open: a draft request, quotation or order on Suppliers shows only after it's submitted, and Team's task and hour counts don't follow tasks and time |
+| What ERPNext already does | drafts, cancelled, amended, credit notes, statuses, due dates, retention | open: a supplier's debit note can read as late on its subcontract |
 
 ## OneLegal
 
