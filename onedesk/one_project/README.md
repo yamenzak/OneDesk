@@ -825,10 +825,16 @@ Due and every bill from the order moves with it.
 **Advances**: **Pay Advance** on the card opens ERPNext's payment against
 the order, to check and submit. Each bill sets it off.
 
+Above the cards, the figures say what's **Ordered** (and what's left to
+bill), **Billed**, **Paid**, **To Pay** (and what's overdue) and any
+**Retention Held**, in the currency said once at the top. Each subcontract's
+card shows its own **Retention** and what's held from it so far.
+
 **Bills** lists the suppliers' bills for the project and its sub-projects,
-newest first: what each is for (**Work done 70%**, or its first item), from
-whom, when it's due (in red once it's past), its status, total and what's
-still owed. A draft from Bill Progress is there to check. **···** on a bill
+newest first: what each is for (**Work done 70%**, or its first item), its
+date, when the part owed now is due (in red once it's past), its status,
+total, what's **Outstanding** now and the **Retention** still held with its
+date. The supplier and their logo show when there's more than one supplier. A draft from Bill Progress is there to check. **···** on a bill
 offers **Record Payment**, and **Pay Retention** once retention is held from
 it: ERPNext's payment to the supplier for that retention, to check and submit.
 
