@@ -41,7 +41,7 @@
       <Invoices v-else-if="view === 'invoices'" :project-name="said.name" :project-title="said.title" :kind="said.kind" :customer="said.customer" :currency="said.currency" />
       <Team v-else-if="view === 'team'" :project-name="said.name" :modified="said.modified" @changed="load" />
       <Suppliers v-else-if="view === 'suppliers'" :said="said" />
-      <Files v-else-if="view === 'files'" :project="said.name" :work="work" @count="(n) => (fileCount = n)" />
+      <Files v-else-if="view === 'files'" :project="said.name" @count="(n) => (fileCount = n)" />
       <ProjectActivity v-else-if="view === 'activity'" :key="said.name" :project="said.name" :modified="said.modified" @task="open" />
       </div>
 

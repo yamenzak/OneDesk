@@ -11,6 +11,9 @@ from onedesk.one import roles
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
 #: A project's Featured Media (one_project/media.py), inside its own folder.
 FEATURED = "@featured/"
+#: A project's tasks that hold files, as a folder of the project's, and the
+#: project's own files without what is under it (its page's Main).
+TASKS, OWN = "@tasks/", "@own/"
 
 #: Every record's Files tab: OneCloud on the record's own room, drawn by
 #: record_files.js. File itself has no room, and an extension (one_studio)
@@ -61,6 +64,10 @@ def parse(node: str) -> tuple:
 		return ("mount", node)
 	if node.startswith(FEATURED):
 		return ("featured", node[len(FEATURED) :])
+	if node.startswith(TASKS):
+		return ("tasks", node[len(TASKS) :])
+	if node.startswith(OWN):
+		return ("own", node[len(OWN) :])
 	if node.startswith(RECORDS + "/"):
 		rest = node[len(RECORDS) + 1 :]
 		doctype, _sep, name = rest.partition("/")
@@ -416,6 +423,10 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 		return cloud.mailboxes() if len(kind) == 1 else cloud.files(kind[1], search)
 	if kind[0] == "featured":
 		return featured(kind[1])
+	if kind[0] == "tasks":
+		return project_tasks(kind[1])
+	if kind[0] == "own":
+		return attachments("Project", kind[1], below=False)
 	if kind[0] == RECORDS:
 		if len(kind) == 1:
 			return record_doctypes()
@@ -696,7 +707,9 @@ def records(doctype: str, search: str | None = None, most: int = 500) -> list[di
 	return out
 
 
-def attachments(doctype: str, name: str) -> list[dict]:
+def attachments(doctype: str, name: str, below: bool = True) -> list[dict]:
+	"""A record's room. A project's also holds its Featured Media, its tasks'
+	files and, `below`, a folder for each sub-project, each that one's room."""
 	if not frappe.has_permission(doctype, "read", name):
 		return []
 	found = frappe.get_all(
@@ -711,6 +724,17 @@ def attachments(doctype: str, name: str) -> list[dict]:
 		from onedesk.one_project import media
 
 		out.insert(0, virtual(media.node(name), _("Featured Media"), icon="image"))
+		folders = []
+		if below:
+			folders += [
+				virtual(record_node("Project", one.name), one.project_name or one.name, icon="folder-kanban")
+				for one in frappe.get_list(
+					"Project", filters={"one_parent": name}, fields=["name", "project_name"], order_by="project_name asc"
+				)
+			]
+		if _tasks_with_files(name):
+			folders.append(virtual(TASKS + name, _("Tasks"), icon="list-checks"))
+		out[1:1] = folders
 	# Files that belong here as well as where they are kept (one_intake's File
 	# Link). A link never grants read: only those the reader may open.
 	linked = frappe.get_all("File Link", filters={"for_doctype": doctype, "for_name": name}, pluck="file")
@@ -720,6 +744,39 @@ def attachments(doctype: str, name: str) -> list[dict]:
 			if one.name not in held and may(one):
 				out.append({**node(one), "linked": True})
 	return out
+
+
+def _tasks_with_files(project: str) -> list[str]:
+	"""The project's own tasks the reader may open that hold files."""
+	tasks = frappe.get_list("Task", filters={"project": project}, pluck="name", limit_page_length=0)
+	if not tasks:
+		return []
+	return list(
+		set(
+			frappe.get_all(
+				"File",
+				filters={"attached_to_doctype": "Task", "attached_to_name": ["in", tasks], "is_folder": 0},
+				pluck="attached_to_name",
+			)
+		)
+	)
+
+
+def project_tasks(project: str) -> list[dict]:
+	"""A project's Tasks folder: each of its tasks with files, as that task's room."""
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", project):
+		return []
+	held = _tasks_with_files(project)
+	return [
+		virtual(record_node("Task", one.name), one.subject or one.name, icon="square-check")
+		for one in frappe.get_all("Task", filters={"name": ["in", held or [""]]}, fields=["name", "subject"], order_by="subject asc")
+	]
+
+
+def _titled(doctype: str, name: str) -> str:
+	"""A record as its trail names it: a project or task by its title."""
+	field = {"Project": "project_name", "Task": "subject"}.get(doctype)
+	return (frappe.db.get_value(doctype, name, field) if field else None) or name
 
 
 def featured(project: str) -> list[dict]:
@@ -774,15 +831,28 @@ def trail(node_id: str) -> list[dict]:
 	if kind[0] in (MY, SHARED, COMPANY, BIN, LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS):
 		return top + [{"id": node_id, "name": next(r["name"] for r in roots() if r["id"] == node_id)}]
 	if kind[0] == "featured":
-		from onedesk.one_project import media
-
 		return [*trail(record_node("Project", kind[1])), {"id": node_id, "name": _("Featured Media")}]
+	if kind[0] == "tasks":
+		return [*trail(record_node("Project", kind[1])), {"id": node_id, "name": _("Tasks")}]
+	if kind[0] == "own":
+		return [*trail(record_node("Project", kind[1]))[:-1], {"id": node_id, "name": _titled("Project", kind[1])}]
 	if kind[0] == RECORDS:
 		out = top + [{"id": RECORDS, "name": _("Records")}]
 		if len(kind) > 1:
 			out.append({"id": record_node(kind[1]), "name": _(kind[1])})
 		if len(kind) > 2:
-			out.append({"id": node_id, "name": kind[2]})
+			# A sub-project under the projects above it, a task under its
+			# project's Tasks, as their folders hold them.
+			if kind[1] == "Project":
+				parents, at = [], frappe.db.get_value("Project", kind[2], "one_parent")
+				while at and at not in parents and len(parents) < DEEPEST:
+					parents.insert(0, at)
+					at = frappe.db.get_value("Project", at, "one_parent")
+				out += [{"id": record_node("Project", one), "name": _titled("Project", one)} for one in parents]
+			project = frappe.db.get_value("Task", kind[2], "project") if kind[1] == "Task" else None
+			if project:
+				out = [*trail(TASKS + project)]
+			out.append({"id": node_id, "name": _titled(kind[1], kind[2])})
 		return out
 	item = row(node_id)
 	if not item:

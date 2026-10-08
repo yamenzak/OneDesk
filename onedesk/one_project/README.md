@@ -205,7 +205,12 @@ as on any form:
 - **Suppliers**: each subcontract as a card, with **Bill Progress**.
 - **Team**: who's on the project, what's on them and the hours they've put
   in.
-- **Files**: everything attached to the project and its tasks.
+- **Files**: OneCloud on the project's folder, as every record's Files tab is:
+  its own files, **Featured Media**, **Tasks** (each of its tasks with files,
+  as a folder) and a folder for each sub-project, which holds the same again.
+  Folders open in place, with back and up to return. On **Main** the
+  sub-project folders are left out. The same folder is the project's under
+  **Records** in OneCloud.
 - **Activity**: what happened on the project and its sub-projects, its
   comments and emails, and where you write them.
 

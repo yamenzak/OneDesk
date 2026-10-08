@@ -825,9 +825,9 @@
 	margin-top: 0;
 }
 
-.oc-room [data-act="back"],
-.oc-room [data-act="forward"],
-.oc-room [data-act="up"] {
+.oc-room:not(.oc-deep) [data-act="back"],
+.oc-room:not(.oc-deep) [data-act="forward"],
+.oc-room:not(.oc-deep) [data-act="up"] {
 	display: none;
 }
 

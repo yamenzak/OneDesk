@@ -37,6 +37,8 @@ def _target(node_id: str) -> tuple:
 		if not frappe.has_permission("Project", "write", kind[1]):
 			frappe.throw(_("You can't add files to {0}.").format(kind[1]), frappe.PermissionError)
 		return ("record", "Project", kind[1], "featured")
+	if kind[0] == "own":
+		kind = (ns.RECORDS, "Project", kind[1])
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		if not frappe.has_permission(kind[1], "write", kind[2]):
 			frappe.throw(_("You can't add files to {0}.").format(kind[2]), frappe.PermissionError)
@@ -86,6 +88,8 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 		can_add = ns.may(_item(ns.folder_of(node)), "add")
 	elif kind[0] == ns.RECORDS and len(kind) == 3:
 		can_add = bool(frappe.has_permission(kind[1], "write", kind[2]))
+	elif kind[0] == "own":
+		can_add = bool(frappe.has_permission("Project", "write", kind[1]))
 	elif kind[0] == "featured":
 		can_add = bool(frappe.has_permission("Project", "write", kind[1]))
 	elif kind[0] == "mount":
@@ -97,7 +101,7 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 		"watch": live.watch(node, bool(search)),
 		"items": _searched(node, search, int(everywhere or 0)) if search else ns.children(node),
 		"can_add": can_add,
-		"can_make_folder": can_add and kind[0] not in (ns.RECORDS, "featured"),
+		"can_make_folder": can_add and kind[0] not in (ns.RECORDS, "featured", "own"),
 		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),
 		"can_make_mount": kind[0] == ns.MOUNTS and ns._staff(frappe.session.user),
 	}

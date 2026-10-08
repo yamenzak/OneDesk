@@ -49,7 +49,11 @@ OneCloud. The tab appears once the record is saved. **Files** in the side
 panel opens the same tab.
 
 A project's folder also has a **Featured Media** folder: the photos and
-videos the project is shown with. See OneProject's README.
+videos the project is shown with. See OneProject's README. It has a **Tasks**
+folder too, each of its tasks that holds files as a folder of its own, and a
+folder for each sub-project, which is that sub-project's folder. The files
+stay attached to their own task or sub-project. Inside a record's Files tab,
+those folders open in place; anything else opens OneCloud.
 
 ### Attaching from OneCloud
 
@@ -403,6 +407,11 @@ not a second R2 integration.
   - `@featured/<project>`, derived, inside a project's own folder: its
     Featured Media, the files of the project marked `one_featured`
     (one_project/media.py). Only projects have one.
+  - `@tasks/<project>`, derived, inside a project's own folder: each of its
+    tasks with files, as `@records/Task/<task>` (`project_tasks`). A
+    project's folder lists its sub-projects as `@records/Project/<sub>`.
+  - `@own/<project>`, derived: a project's folder without its sub-projects,
+    the project page's Main. Things put in it go to the project.
   - `@bin`, what the reader deleted, for thirty days.
   - anything else, a File by its name.
   Sharing (stage 4) and libraries (stage 6) add to `may` and to nowhere

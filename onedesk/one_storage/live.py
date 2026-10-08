@@ -85,7 +85,7 @@ def watch(node: str, searching: bool = False):
 		return []  # a server is read live, and tells us nothing
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		return [record_key(kind[1], kind[2])]
-	if kind[0] == "featured":
+	if kind[0] in ("featured", "own"):
 		return [record_key("Project", kind[1])]
 	if kind[0] in (ns.MY, ns.COMPANY, "file"):
 		return [key(ns.folder_of(node))]

@@ -1,63 +1,70 @@
 <template>
-  <!-- Everything attached to the project, its sub-projects and their tasks, in one place. -->
+  <!-- The project's files: OneCloud on the project's room, as every record's
+       Files tab is (record_files.js). The room holds the project's own files,
+       its Featured Media, its tasks' files and a folder per sub-project; on
+       the page's Main, the project's own without the sub-projects
+       (one_storage/namespace.py `attachments`, `OWN`). -->
   <div class="pb-12">
-    <div class="mb-3 flex items-center gap-2">
-      <span class="text-base text-ink-gray-5">{{ files?.length ? (files.length === 1 ? __("1 file") : __("{0} files", [files.length])) : "" }}</span>
-      <Button class="ms-auto" icon-left="lucide-upload" :label="__('Upload')" @click="pick" />
+    <div class="flex flex-wrap items-center gap-2 pb-3">
+      <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
+        <span class="lucide-paperclip size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Files") }}
+        <span v-if="count" class="text-base font-normal text-ink-gray-5">{{ count }}</span>
+      </h2>
     </div>
-    <Loading v-if="!files" />
-    <div v-else-if="!files.length" class="flex flex-col items-center gap-3 py-16 text-center">
-      <span class="rounded-full bg-surface-gray-2 p-3 text-ink-gray-5"><span class="lucide-paperclip block size-6" /></span>
-      <p class="text-base text-ink-gray-7">{{ __("No files") }}</p>
-      <Button variant="solid" icon-left="lucide-upload" :label="__('Upload')" @click="pick" />
-    </div>
-    <div v-else class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <a v-for="file in files" :key="file.name" :href="file.file_url" target="_blank" rel="noopener" class="flex items-center gap-3 rounded-5 border border-outline-gray-2 p-3 hover:border-outline-gray-3 hover:bg-surface-gray-1">
-        <span class="flex size-10 shrink-0 items-center justify-center rounded-4 bg-surface-gray-2 text-ink-gray-6"><span :class="icon(file)" class="size-5" /></span>
-        <span class="min-w-0">
-          <span class="block truncate text-base text-ink-gray-8">{{ file.file_name }}</span>
-          <span class="block truncate text-sm text-ink-gray-5">{{ where(file) }} · {{ ago(file.creation) }}</span>
-        </span>
-      </a>
-    </div>
+    <div ref="box" class="one-project-files" />
   </div>
 </template>
 
 <script setup>
-import { onBeforeUnmount, ref, watch } from "vue";
-import { Button } from "frappe-ui";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-import { Loading, __, ago, call, follow, upload } from "../kit";
+import { __, call, follow } from "../kit";
 import { onlyArg, useOnly } from "./only";
 
-const props = defineProps({ project: { type: String, required: true }, work: Object });
+const props = defineProps({ project: { type: String, required: true } });
 // Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 const emit = defineEmits(["count"]);
-const files = ref(null);
 
+const room = computed(() => (only.value ? `@own/${props.project}` : `@records/Project/${props.project}`));
+const box = ref(null);
+let cloud = null;
+
+// The page is an island in a shadow root, which desk's styles and icons
+// don't reach. The explorer is desk's, so it lives in the page itself and is
+// shown here through a slot, styled as on every other record.
+let outside = null;
+onMounted(async () => {
+  await window.frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]);
+  if (!box.value) return;
+  const slot = document.createElement("slot");
+  slot.name = `one-files-${props.project}`;
+  box.value.appendChild(slot);
+  outside = document.createElement("div");
+  outside.slot = slot.name;
+  box.value.getRootNode().host.appendChild(outside);
+  cloud = new window.onedesk.OneCloud(null, { room: room.value, parent: window.$(outside), listed: () => load() });
+});
+watch(room, (now) => cloud?.enter(now));
+onBeforeUnmount(() => outside?.remove());
+
+// How many files the project has, the tab's count: its own, its sub-projects'
+// and their tasks'.
+const count = ref(0);
 async function load() {
-  files.value = await call("onedesk.one_project.view.files", { project: props.project, ...onlyArg(only) });
-  emit("count", files.value.length);
+  count.value = (await call("onedesk.one_project.view.files", { project: props.project, ...onlyArg(only) })).length;
+  emit("count", count.value);
 }
 let stop = () => {};
 watch(
   () => props.project,
   (now) => {
     stop();
-    files.value = null;
     stop = follow("Project", now, load);
     load();
   },
   { immediate: true }
 );
+watch(only, load);
 onBeforeUnmount(() => stop());
-
-const pick = () => upload("Project", props.project, load);
-const KINDS = { pdf: "lucide-file-text", png: "lucide-image", jpg: "lucide-image", jpeg: "lucide-image", webp: "lucide-image", xlsx: "lucide-sheet", csv: "lucide-sheet", docx: "lucide-file-text", zip: "lucide-file-archive" };
-const icon = (file) => KINDS[(file.file_name.split(".").pop() || "").toLowerCase()] || "lucide-file";
-const where = (file) => {
-  if (file.attached_to_doctype === "Task") return props.work?.tasks.find((t) => t.name === file.attached_to_name)?.subject || file.attached_to_name;
-  return props.work?.groups.find((g) => g.key === file.attached_to_name)?.title || file.attached_to_name;
-};
 </script>

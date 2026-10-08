@@ -218,6 +218,20 @@ onedesk.OneCloud = class OneCloud {
 		return this.room || frappe.utils.get_query_params().node || "@my";
 	}
 
+	// The room, or the whole project a project's Main is the own part of.
+	same(node) {
+		return node === this.room || (this.room.startsWith("@own/") && node === `@records/Project/${this.room.slice(5)}`);
+	}
+
+	// Whether a room shows `node` in place: the room, a folder it lists while
+	// inside it, or a step of the trail from the room down.
+	holds(node) {
+		if (this.same(node)) return true;
+		const from = this.trail.findIndex((one) => this.same(one.id));
+		if (from < 0) return false;
+		return this.trail.slice(from).some((one) => one.id === node) || this.items.some((one) => one.id === node && one.folder);
+	}
+
 	// The Files tab moving to another record (the form is reused).
 	enter(room) {
 		if (room === this.room) return this.ready && this.refresh();
@@ -256,10 +270,18 @@ onedesk.OneCloud = class OneCloud {
 			this.set_search("");
 			return this.open(node);
 		}
-		// A room is one record's files; anywhere else is the OneCloud page.
-		if (this.room && node !== this.room) return frappe.set_route("onecloud", { node });
+		// A room is one record's files, and the folders it holds (a project's
+		// sub-projects and tasks) open in place; anywhere else is the OneCloud page.
+		if (this.room) {
+			if (!this.holds(node)) return frappe.set_route("onecloud", { node });
+			if (this.same(node)) node = this.room;
+			this.set_search("");
+			if (node === this.node) return this.refresh();
+			this.node && this.past.push(this.node);
+			this.ahead = [];
+			return this.open(node);
+		}
 		this.set_search("");
-		if (this.room) return this.refresh();
 		frappe.set_route("onecloud", { node });
 	}
 
@@ -301,6 +323,8 @@ onedesk.OneCloud = class OneCloud {
 		const live = new Set(this.items.map((one) => one.id));
 		this.selected = new Set([...this.selected].filter((id) => live.has(id)));
 		this.draw();
+		// Inside a room's folder, back and up lead home again.
+		if (this.room) this.$root.toggleClass("oc-deep", this.node !== this.room);
 		if (!this.room) this.draw_tree();
 		if (this.listed) this.listed(this.items.length);
 		if (this.reveal && live.has(this.reveal)) {
@@ -1003,11 +1027,11 @@ onedesk.OneCloud = class OneCloud {
 		const ids = chosen.filter((one) => this.stored(one)).map((one) => one.id);
 		switch (act) {
 			case "back":
-				if (this.picker && this.past.length) return this.ahead.push(this.node), this.open(this.past.pop());
+				if ((this.picker || this.room) && this.past.length) return this.ahead.push(this.node), this.open(this.past.pop());
 				if (this.past.length) window.history.back();
 				return;
 			case "forward":
-				if (this.picker && this.ahead.length) return this.past.push(this.node), this.open(this.ahead.pop());
+				if ((this.picker || this.room) && this.ahead.length) return this.past.push(this.node), this.open(this.ahead.pop());
 				if (this.ahead.length) window.history.forward();
 				return;
 			case "up":

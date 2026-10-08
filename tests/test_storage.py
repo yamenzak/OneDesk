@@ -94,7 +94,7 @@ def test_a_node_id_says_what_it_names():
 	constants = dict(
 		ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin",
 		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred", MOUNTS="@mounts", REQUESTS="@requests",
-		MAIL="@mail", FEATURED="@featured/",
+		MAIL="@mail", FEATURED="@featured/", TASKS="@tasks/", OWN="@own/",
 	)  # fmt: skip
 	space = _load(NAMESPACE, ("parse",), **constants)
 	parse = space["parse"]
@@ -555,7 +555,7 @@ def test_the_explorer_is_loaded_when_first_opened_and_shared_by_both_hosts():
 		assert '"/assets/onedesk/js/onecloud.js"' in host and "frappe.require" in host
 	assert "/assets/onedesk/js/onecloud.js" not in HOOKS, "not on every desk load"
 	explorer = (PAGE / "onecloud.js").read_text()
-	assert "if (this.room && node !== this.room)" in explorer, "a room never walks out of itself"
+	assert "if (!this.holds(node)) return frappe.set_route" in explorer, "a room walks out only past what it holds"
 
 
 def test_the_sidebar_attachments_are_one_row_into_the_files_tab():
