@@ -456,11 +456,13 @@ Payment to whoever may make payments.
 ### Team
 
 Everyone on the project: its **Members**, its manager, whoever a task is
-assigned to and whoever logged time on it. Each shows their open tasks, how
-many are late, and their hours this month and in all.
+assigned to and whoever logged time on it. Each shows their job (from their
+employee record, and **No sign-in** for somebody whose time is logged but
+who can't sign in), their open tasks with how many are late, and their hours
+this month and in all.
 
-**Add Member** adds somebody to the project's members. The button at the
-end of a row makes that person a member, or removes a member. Their tasks
+**Add Member** adds somebody to the project's members. **···** on a row makes
+that person a member, or removes a member. Their tasks
 and time stay, so somebody removed is still listed while the work names
 them. Only somebody who signs in can be a member. An employee who only has
 their time logged can't be. Whoever may change the project may change its
@@ -468,6 +470,19 @@ members.
 
 The avatars in the project's head are the same people, the manager first,
 and open **Team**. **About** on the Overview counts them too.
+
+Members are who can open the project. Three things let somebody in, so
+nobody is given work on a project they can't see:
+
+- **A task given to somebody** who can't open its project makes them a
+  member, as frappe shares a record with whoever is assigned it. New Task
+  says so under **Owner** before it's made.
+- **Mentioning somebody** in a comment who can't open the project asks
+  whether to add them first (**Add to Project** or **Just Comment**).
+  Without it they'd be told of the mention and find the project closed.
+- **Members** in the sidebar is the project's sharing: it shows the members
+  and its **+** is Add Member. Sharing a project any other way makes the
+  person a member too.
 
 **Contacts** lists the people outside the company on the project: the
 subcontractors and suppliers, consultants, the architect, the engineer, the
@@ -1332,6 +1347,12 @@ one field for it.
   nobody (`visible`, kept for the request). A project's tasks follow it
   through one_task/access.py. Being listed is also ERPNext's own share.
   ERPNext's invitation mail is never sent (`invite`); tell.py says it in ours.
+  Somebody who can't open a project joins it (`join`) when given one of its
+  tasks (`assigned`, ToDo after_insert; New Task asks `joins` first), when
+  it's shared with them (`shared`, DocShare after_insert, the sidebar's
+  Members on the page and the form, `public/js/project_actions.js`), and
+  when a comment mentions them and the writer agrees (`unseen`, `let_in`,
+  through the composer's `vet`).
 
   ERPNext lets every Projects User read every project. A workspace running a
   villa for one customer and a website for another does not want the window

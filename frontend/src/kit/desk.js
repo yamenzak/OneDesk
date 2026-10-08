@@ -75,6 +75,10 @@ export const prompt = (fields, done, title, label) => frappe().prompt(fields, do
 
 /** Ask before doing something that can't be taken back, as desk asks. */
 export const confirm = (message, yes) => frappe().confirm(message, yes);
+/** frappe's confirm as a promise: true for its first button, false for the
+ * other or closing it. `yes` and `no` name the two buttons. */
+export const ask = (message, yes, no) =>
+	new Promise((resolve) => frappe().confirm(message, () => resolve(true), () => resolve(false), yes, no));
 // A list in words, "2 open tasks and 1 open sub-project", as frappe writes it.
 export const andList = (items) => frappe().utils.comma_and(items);
 export const escape = (text) => frappe().utils.escape_html(text);

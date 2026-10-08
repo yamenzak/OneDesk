@@ -1,6 +1,7 @@
 """Who sees a project: its members."""
 
 import frappe
+from frappe import _
 
 #: Who sees every project.
 MANAGERS = ("Projects Manager",)
@@ -108,3 +109,86 @@ def nobody(doc, method=None) -> None:
 	even see (frappe hides Administrator from everyone else)."""
 	if doc.get("one_manager") in ("Administrator", "Guest"):
 		doc.one_manager = None
+
+
+def join(project: str, user: str) -> bool:
+	"""Make somebody a member of the project, whoever is saving. ERPNext then
+	shares it with them, and Added to Project tells them (tell.py). False
+	when they're a member already or aren't a user who can sign in."""
+	if not user or user in ("Administrator", "Guest"):
+		return False
+	if not frappe.db.exists("User", {"name": user, "enabled": 1}):
+		return False
+	if frappe.db.exists("Project User", {"parenttype": "Project", "parent": project, "user": user}):
+		return False
+	doc = frappe.get_doc("Project", project)
+	doc.append("users", {"user": user})
+	doc.flags.ignore_permissions = True
+	doc.save()
+	forget()
+	return True
+
+
+def _stays_out(project: str | None, user: str | None) -> bool:
+	"""Whether somebody given work on the project can't open the project."""
+	return bool(project and user) and not sees(project, user)
+
+
+def assigned(doc, method=None) -> None:
+	"""ToDo after_insert: a task given to somebody who can't open its project
+	makes them a member, as frappe shares a record with whoever is assigned
+	it. They're told in Added to Project; whoever assigned it, here."""
+	if doc.reference_type != "Task" or doc.status == "Cancelled":
+		return
+	project = frappe.db.get_value("Task", doc.reference_name, "project")
+	if not _stays_out(project, doc.allocated_to) or not join(project, doc.allocated_to):
+		return
+	frappe.msgprint(
+		_("{0} was added to {1}.").format(
+			frappe.utils.get_fullname(doc.allocated_to), frappe.db.get_value("Project", project, "project_name")
+		),
+		alert=True,
+	)
+
+
+def shared(doc, method=None) -> None:
+	"""DocShare after_insert: on a project, sharing is membership, so whoever
+	it's shared with joins it (the sidebar's Share is Add Member there)."""
+	if doc.share_doctype == "Project" and doc.user and not doc.everyone:
+		join(doc.share_name, doc.user)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def joins(project: str, user: str) -> str | None:
+	"""Who joins the project if given a task on it, by name: nobody when
+	they can open it already."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	if not _stays_out(project, user) or not frappe.db.exists("User", {"name": user, "enabled": 1}):
+		return None
+	return frappe.utils.get_fullname(user)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def unseen(project: str, content: str) -> dict:
+	"""Who a comment mentions that can't open the project, for the page to
+	ask whether to add them before it's posted (frappe tells them of the
+	mention, but gives them no way in)."""
+	from frappe.desk.notifications import extract_mentions
+
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	people = [user for user in dict.fromkeys(extract_mentions(content) or []) if _stays_out(project, user)]
+	people = [user for user in people if frappe.db.exists("User", {"name": user, "enabled": 1})]
+	return {
+		"people": [{"user": user, "name": frappe.utils.get_fullname(user)} for user in people],
+		"can_add": bool(frappe.has_permission("Project", "write", doc=project)),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def let_in(project: str, users: list | str) -> None:
+	"""Add the people a comment mentions to the project."""
+	frappe.has_permission("Project", "write", doc=project, throw=True)
+	for user in frappe.parse_json(users) or []:
+		join(project, user)

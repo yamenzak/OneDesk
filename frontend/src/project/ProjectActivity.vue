@@ -7,7 +7,7 @@
        ActivityComposer); an email is answered from its own row with Reply or
        Reply All. -->
   <div class="flex flex-col gap-4 pb-10">
-    <ActivityComposer ref="composer" doctype="Project" :name="project" @sent="sent">
+    <ActivityComposer ref="composer" doctype="Project" :name="project" :vet="letIn" @sent="sent">
       <TabButtons v-model="shown" :options="FILTERS" />
     </ActivityComposer>
     <ActivityTimeline :activities="rows" :loading="!ready" :paginate="paginate">
@@ -93,7 +93,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Button, TabButtons } from "frappe-ui";
 import { ActivityTimeline, EmailItem, useActivityTimeline } from "@framework/ui/ActivityTimeline";
 
-import { ActivityComposer, __, andList, call, followList, go, hours, listen, money } from "../kit";
+import { ActivityComposer, __, andList, ask, call, followList, go, hours, listen, money } from "../kit";
 import { onlyArg, useOnly } from "./only";
 import ActivityLine from "./ActivityLine.vue";
 
@@ -174,6 +174,17 @@ const stops = [
 onBeforeUnmount(() => stops.forEach((stop) => stop()));
 watch(() => props.modified, later);
 load();
+
+// Somebody mentioned who can't open the project hears of it but can't come
+// in, so whoever may change the project is asked to add them first
+// (one_project/members.py `unseen`, `let_in`). The comment is posted either way.
+async function letIn(body) {
+  const said = await call("onedesk.one_project.members.unseen", { project: props.project, content: body });
+  if (!said.people.length || !said.can_add) return;
+  const names = andList(said.people.map((one) => one.name));
+  if (await ask(__("{0} can't see this project. Add them to it?", [names]), __("Add to Project"), __("Just Comment")))
+    await call("onedesk.one_project.members.let_in", { project: props.project, users: said.people.map((one) => one.user) });
+}
 
 // What was written at the foot shows at once; a filter that hides it gives way.
 const composer = ref(null);

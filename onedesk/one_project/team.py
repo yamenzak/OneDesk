@@ -85,8 +85,24 @@ def team(
 			fields=["name", "full_name", "user_image", "enabled"],
 		)
 	}
+	# Each person's job, from their Employee record: by their user, or the
+	# employee a timesheet was for when they have no sign-in.
+	jobs = {}
+	for employee in frappe.get_all(
+		"Employee",
+		filters=[["user_id", "in", list(people) or [""]]],
+		fields=["user_id", "designation"],
+	) + frappe.get_all(
+		"Employee",
+		filters=[["name", "in", list(people) or [""]]],
+		fields=["name as user_id", "designation"],
+	):
+		if employee.designation:
+			jobs[employee.user_id] = employee.designation
 	for user, one in people.items():
 		known = found.get(user)
+		one["job"] = jobs.get(user)
+		one["signs_in"] = bool(known)
 		one["name"] = (known.full_name if known else None) or one.pop("shown", None) or user
 		one.pop("shown", None)
 		one["image"] = known.user_image if known else None

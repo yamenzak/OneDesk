@@ -12,6 +12,7 @@
 frappe.ui.form.on("Project", {
 	refresh(frm) {
 		if (frm.is_new()) return;
+		onedesk.project.members_in_sidebar(frm);
 		if (frappe.model.can_read("Task")) {
 			frm.remove_custom_button(__("Kanban Board"), __("View"));
 			frm.add_custom_button(__("Board"), () => onedesk.project.board(frm));
@@ -76,3 +77,4 @@ onedesk.project.asked = async (frm) => {
 		frm.add_custom_button(__("Post Update"), () => onedesk.project.post(frm), __("Actions"));
 	}
 };
+

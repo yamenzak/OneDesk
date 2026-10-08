@@ -610,6 +610,8 @@ doc_events = {
 	},
 	"Delivery Note": {"validate": "onedesk.one_project.chain.agree"},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
+	# On a project, sharing is membership. See one_project/members.py.
+	"DocShare": {"after_insert": "onedesk.one_project.members.shared"},
 	"Project": {
 		"before_validate": [
 			"onedesk.one_project.members.nobody",
@@ -689,7 +691,11 @@ doc_events = {
 	# last one ticked off on a task of one's own completes it (one_task/capture.py).
 	"ToDo": {
 		"before_insert": "onedesk.one_task.capture.todo_made",
-		"after_insert": "onedesk.one_crm.capture.assigned",
+		"after_insert": [
+			"onedesk.one_crm.capture.assigned",
+			# A task given to somebody outside its project lets them in. See one_project/members.py.
+			"onedesk.one_project.members.assigned",
+		],
 		"on_update": "onedesk.one_task.capture.todo_changed",
 	},
 	"Communication": {

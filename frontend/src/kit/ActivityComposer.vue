@@ -39,6 +39,9 @@ import { __, can, comment, emailOn, me, mentionable, userInfo } from "./desk";
 const props = defineProps({
   doctype: { type: String, required: true },
   name: { type: String, required: true },
+  // Called with the comment before it's posted, as a project asks to add
+  // whoever it mentions that can't open it. It may not stop the comment.
+  vet: Function,
 });
 const emit = defineEmits(["sent"]);
 
@@ -51,6 +54,7 @@ const commentRef = ref(null);
 async function sendComment({ body }) {
   sending.value = true;
   try {
+    await props.vet?.(body);
     await comment(props.doctype, props.name, body);
     commentRef.value?.reset();
     emit("sent");

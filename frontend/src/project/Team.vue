@@ -5,19 +5,22 @@
   <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
-      <div class="mb-3 flex items-center gap-2">
-        <span class="text-base text-ink-gray-6">{{ said.people.length === 1 ? __("1 person") : __("{0} people", [said.people.length]) }}</span>
-        <Button v-if="said.can_change" class="ms-auto" size="sm" variant="solid" icon-left="lucide-user-plus" :label="__('Add Member')" @click="addMember" />
+      <!-- The title and what can be done, on one line as on the other views. -->
+      <div class="mb-3 flex flex-wrap items-center gap-2">
+        <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
+          <span class="lucide-users size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Team") }}
+          <span v-if="said.people.length" class="text-base font-normal text-ink-gray-5">{{ said.people.length }}</span>
+        </h2>
+        <Button v-if="said.can_change" size="sm" variant="solid" icon-left="lucide-user-plus" :label="__('Add Member')" @click="addMember" />
       </div>
       <div v-if="!said.people.length" class="flex flex-col items-center gap-3 py-16 text-center">
         <span class="flex size-12 items-center justify-center rounded-full bg-surface-gray-2 text-ink-gray-5"><span class="lucide-users size-5" /></span>
         <p class="text-base text-ink-gray-7">{{ __("No one yet") }}</p>
       </div>
-      <List v-else :columns="{ base: ['minmax(0,1fr)', '5.5rem', '2.5rem'], md: ['minmax(12rem,1.6fr)', '6rem', '5rem', '6.5rem', '6.5rem', '2.5rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+      <List v-else :columns="{ base: ['minmax(0,1fr)', '7rem', '2rem'], md: ['minmax(12rem,1.6fr)', '8rem', '6.5rem', '6.5rem', '2rem'] }" :row-height="52" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Person") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Open Tasks") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end max-md:hidden">{{ __("Late") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-md:hidden">{{ __("This Month") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-md:hidden">{{ __("All Time") }}</ListHeaderCell>
           <ListHeaderCell />
@@ -26,21 +29,26 @@
           <ListRow>
             <ListCell class="min-w-0 gap-2.5">
               <Avatar :label="item.name" :image="item.image" size="md" />
-              <span class="truncate text-base text-ink-gray-8">{{ item.name }}</span>
-              <Badge v-if="item.manager" :label="__('Manager')" theme="blue" size="md" />
-              <Badge v-else-if="item.member" :label="__('Member')" theme="gray" size="md" />
+              <div class="min-w-0">
+                <div class="flex min-w-0 items-center gap-2">
+                  <span class="truncate text-base text-ink-gray-8">{{ item.name }}</span>
+                  <Badge v-if="item.manager" :label="__('Manager')" theme="blue" size="md" />
+                  <Badge v-else-if="item.member" :label="__('Member')" theme="gray" size="md" />
+                </div>
+                <div v-if="item.job || !item.signs_in" class="truncate text-sm text-ink-gray-5">{{ [item.job, !item.signs_in && __("No sign-in")].filter(Boolean).join(" · ") }}</div>
+              </div>
             </ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7">{{ item.open || "–" }}</ListCell>
-            <ListCell class="justify-end tabular-nums max-md:hidden" :class="item.late ? 'text-ink-red-5' : 'text-ink-gray-5'">{{ item.late || "–" }}</ListCell>
+            <!-- Open tasks, and how many of them are late. -->
+            <ListCell class="justify-end gap-1 tabular-nums text-ink-gray-7">
+              <template v-if="item.open">{{ item.open }}<span v-if="item.late" class="text-ink-red-5"> · {{ __("{0} late", [item.late]) }}</span></template>
+              <template v-else>–</template>
+            </ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ item.month ? hours(item.month) : "–" }}</ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ item.hours ? hours(item.hours) : "–" }}</ListCell>
             <ListCell class="justify-end">
-              <Tooltip v-if="said.can_change && item.member" :text="__('Remove Member')">
-                <Button variant="ghost" size="sm" icon="lucide-user-minus" :aria-label="__('Remove {0}', [item.name])" @click="removeMember(item)" />
-              </Tooltip>
-              <Tooltip v-else-if="said.can_change && item.can_join" :text="__('Make Member')">
-                <Button variant="ghost" size="sm" icon="lucide-user-plus" :aria-label="__('Make {0} a member', [item.name])" @click="makeMember(item)" />
-              </Tooltip>
+              <Dropdown v-if="actions(item).length" :options="actions(item)" placement="right">
+                <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('Actions')" /></template>
+              </Dropdown>
             </ListCell>
           </ListRow>
         </ListRows>
@@ -48,7 +56,10 @@
 
       <section class="mt-8">
         <div class="mb-3 flex items-center gap-2">
-          <h2 class="text-lg font-semibold text-ink-gray-9">{{ __("Contacts") }}</h2>
+          <h2 class="flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
+            <span class="lucide-contact size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Contacts") }}
+            <span v-if="outside?.contacts.length" class="text-base font-normal text-ink-gray-5">{{ outside.contacts.length }}</span>
+          </h2>
           <Button v-if="outside?.can_change" class="ms-auto" size="sm" icon-left="lucide-plus" :label="__('Add Contact')" @click="contact()" />
         </div>
         <div v-if="!outside?.contacts.length" class="py-3 text-base text-ink-gray-5">{{ __("No contacts") }}</div>
@@ -85,7 +96,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { Avatar, Badge, Button, Tooltip } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Loading, __, call, confirm, hours, onedesk } from "../kit";
@@ -121,6 +132,13 @@ const addMember = () =>
 async function makeMember(person) {
   said.value = await call("onedesk.one_project.team.add", { project: props.projectName, user: person.user });
   emit("changed");
+}
+// Make Member, or Remove Member: their tasks and time stay either way.
+function actions(person) {
+  if (!said.value.can_change) return [];
+  if (person.member) return [{ label: __("Remove Member"), icon: "lucide-user-minus", onClick: () => removeMember(person) }];
+  if (person.can_join) return [{ label: __("Make Member"), icon: "lucide-user-plus", onClick: () => makeMember(person) }];
+  return [];
 }
 function removeMember(person) {
   confirm(__("Remove {0} from the project?", [person.name]), async () => {

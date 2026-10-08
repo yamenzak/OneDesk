@@ -844,3 +844,16 @@ onedesk.project.release_retention = async (args) => {
 	const [made] = frappe.model.sync(doc);
 	frappe.set_route("Form", made.doctype, made.name);
 };
+
+// On a project, sharing is membership (one_project/members.py `shared`): the
+// sidebar's Share says Members, shows them, and opens Add Member. On the
+// project's page and its form alike.
+onedesk.project.members_in_sidebar = (frm) => {
+	frm.share_doc = () => onedesk.project.add_member(frm, () => (frm.reload_doc ? frm.reload_doc() : frm.sidebar.reload_docinfo()));
+	const $shared = frm.sidebar?.sidebar?.find(".form-shared");
+	if (!$shared?.length) return;
+	$shared.find(".share-label .ellipsis").text(__("Members"));
+	$shared.find(".share-doc-btn").attr("title", __("Add Member"));
+};
+frappe.provide("onedesk.record.sidebar_parts");
+(onedesk.record.sidebar_parts.Project ||= []).push(onedesk.project.members_in_sidebar);

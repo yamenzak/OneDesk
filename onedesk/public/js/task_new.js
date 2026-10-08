@@ -19,7 +19,10 @@ onedesk.task.new = async ({ values = {}, projects = null, done = null } = {}) =>
 				label: __("Project"),
 				default: values.project,
 				get_query: () => ({ filters: projects ? { name: ["in", projects] } : { status: "Open" } }),
-				onchange: () => dialog.set_value("parent_task", null),
+				onchange: () => {
+					dialog.set_value("parent_task", null);
+					joins();
+				},
 			},
 			{
 				fieldtype: "Link",
@@ -30,7 +33,7 @@ onedesk.task.new = async ({ values = {}, projects = null, done = null } = {}) =>
 				get_query: () => ({ filters: { project: dialog.get_value("project") || undefined, status: ["!=", "Template"] } }),
 			},
 			{ fieldtype: "Column Break" },
-			{ fieldtype: "Link", fieldname: "owner_user", options: "User", label: __("Owner"), default: values.owner_user, only_select: 1 },
+			{ fieldtype: "Link", fieldname: "owner_user", options: "User", label: __("Owner"), default: values.owner_user, only_select: 1, onchange: () => joins() },
 			{ fieldtype: "Select", fieldname: "priority", label: __("Priority"), options: meta("priority").options, default: values.priority || meta("priority").default || "Medium" },
 			{ fieldtype: "Section Break" },
 			{ fieldtype: "Date", fieldname: "exp_start_date", label: __("Starts"), default: values.exp_start_date },
@@ -63,6 +66,13 @@ onedesk.task.new = async ({ values = {}, projects = null, done = null } = {}) =>
 			frappe.new_doc("Task", picked);
 		},
 	});
+	// Somebody given a task on a project they can't open joins it
+	// (one_project/members.py `assigned`); the dialog says so beforehand.
+	const joins = async () => {
+		const { project, owner_user } = dialog.get_values(true) || {};
+		const said = project && owner_user ? await frappe.xcall("onedesk.one_project.members.joins", { project, user: owner_user }) : false;
+		dialog.set_df_property("owner_user", "description", said ? __("{0} will be added to the project.", [said]) : "");
+	};
 	dialog.show();
 	return dialog;
 };

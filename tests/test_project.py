@@ -2143,7 +2143,7 @@ def test_the_head_shows_everyone_team_lists_and_any_user_can_be_made_a_member():
 	assert "props.said.people.map" in header and ':max="5"' in header and "$emit('view', 'team')" in header
 	assert "s.people?.length" in (src / "project" / "Overview.vue").read_text()
 	team = (src / "project" / "Team.vue").read_text()
-	assert "item.can_join" in team and "onedesk.one_project.team.add" in team
+	assert "person.can_join" in team and "onedesk.one_project.team.add" in team
 	assert '__("Remove {0} from the project?"' in team
 	assert "stack.users.length > props.max" in (src / "kit" / "People.vue").read_text()
 
