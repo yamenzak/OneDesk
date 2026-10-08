@@ -9,46 +9,46 @@
    "subject": "Plan",
    "milestone": true,
    "tasks": [
-    {"subject": "Requirements and budget", "day": 0, "days": 5},
-    {"subject": "New premises chosen", "day": 5, "days": 20},
-    {"subject": "Lease signed", "day": 25, "days": 5},
-    {"subject": "Move date agreed", "day": 30, "days": 1}
+    {"subject": "Requirements and budget", "day": 0, "days": 5, "hours": 8},
+    {"subject": "New premises chosen", "day": 5, "days": 20, "hours": 16},
+    {"subject": "Lease signed", "day": 25, "days": 5, "hours": 4},
+    {"subject": "Move date agreed", "day": 30, "days": 1, "hours": 1}
    ]
   },
   {
    "subject": "Prepare the New Office",
    "milestone": true,
    "tasks": [
-    {"subject": "Layout and seating plan", "day": 31, "days": 7},
-    {"subject": "Fit-out", "day": 38, "days": 30},
-    {"subject": "Internet, phones and network", "day": 55, "days": 10},
-    {"subject": "Furniture delivered", "day": 65, "days": 3}
+    {"subject": "Layout and seating plan", "day": 31, "days": 7, "hours": 12},
+    {"subject": "Fit-out", "day": 38, "days": 30, "hours": 24},
+    {"subject": "Internet, phones and network", "day": 55, "days": 10, "hours": 16},
+    {"subject": "Furniture delivered", "day": 65, "days": 3, "hours": 8}
    ]
   },
   {
    "subject": "Prepare the Team",
    "milestone": true,
    "tasks": [
-    {"subject": "Movers booked", "day": 40, "days": 3},
-    {"subject": "Everyone told and labels given out", "day": 60, "days": 3},
-    {"subject": "Addresses changed with suppliers, banks and authorities", "day": 60, "days": 10}
+    {"subject": "Movers booked", "day": 40, "days": 3, "hours": 2},
+    {"subject": "Everyone told and labels given out", "day": 60, "days": 3, "hours": 4},
+    {"subject": "Addresses changed with suppliers, banks and authorities", "day": 60, "days": 10, "hours": 8}
    ]
   },
   {
    "subject": "Move",
    "milestone": true,
    "tasks": [
-    {"subject": "Packing", "day": 68, "days": 2},
-    {"subject": "Move weekend", "day": 70, "days": 2},
-    {"subject": "IT set up and tested", "day": 71, "days": 1}
+    {"subject": "Packing", "day": 68, "days": 2, "hours": 24},
+    {"subject": "Move weekend", "day": 70, "days": 2, "hours": 32},
+    {"subject": "IT set up and tested", "day": 71, "days": 1, "hours": 12}
    ]
   },
   {
    "subject": "Settle In",
    "milestone": true,
    "tasks": [
-    {"subject": "Problems fixed", "day": 72, "days": 7},
-    {"subject": "Old office handed back", "day": 72, "days": 14}
+    {"subject": "Problems fixed", "day": 72, "days": 7, "hours": 8},
+    {"subject": "Old office handed back", "day": 72, "days": 14, "hours": 6}
    ]
   }
  ]

@@ -723,23 +723,24 @@ onedesk.project.ABOUT_GROUPS = [
 // is set when the project is made or kept by ERPNext.
 onedesk.project.ELSEWHERE = ["naming_series", "project_name", "status", "one_health", "project_template", "one_cover", "users", "one_contacts", "estimated_costing", "one_time_budget", "one_hours_planned", "company", "sales_order", "collect_progress", "holiday_list", "frequency", "from_time", "to_time", "first_email", "second_email", "daily_time_to_send", "day_to_send", "weekly_time_to_send", "subject", "message", "notes", "is_active"];
 
-// About's fields in its groups, then any other field the project has that
-// can be typed in (one a workspace added) under More.
-onedesk.project.about_fields = () => {
-	const known = new Set([...onedesk.project.ABOUT_GROUPS.flatMap(([, names]) => names), ...onedesk.project.ELSEWHERE]);
-	const more = frappe.get_meta("Project").fields
-		.filter((df) => !known.has(df.fieldname) && !frappe.model.no_value_type.includes(df.fieldtype) && !df.hidden && !df.read_only)
+// A record's fields in its groups, then any other field it has that can be
+// typed in (one a workspace added) under More. The project's About and the
+// template's details are both this.
+onedesk.project.about_fields = (doctype = "Project", groups = onedesk.project.ABOUT_GROUPS, elsewhere = onedesk.project.ELSEWHERE) => {
+	const known = new Set([...groups.flatMap(([, names]) => names), ...elsewhere]);
+	const more = frappe.get_meta(doctype).fields
+		.filter((df) => !known.has(df.fieldname) && !frappe.model.no_value_type.includes(df.fieldtype) && !["Table", "Table MultiSelect"].includes(df.fieldtype) && !df.hidden && !df.read_only)
 		.map((df) => df.fieldname);
-	return [...onedesk.project.ABOUT_GROUPS, [__("More"), more]].filter(([, names]) => names.length);
+	return [...groups, [__("More"), more]].filter(([, names]) => names.length);
 };
 
-onedesk.project.edit = async (project, modified, fieldnames, title, done, fixed = []) => {
-	await frappe.model.with_doctype("Project");
-	const doc = await frappe.db.get_doc("Project", project);
+onedesk.project.edit = async (project, modified, fieldnames, title, done, fixed = [], doctype = "Project") => {
+	await frappe.model.with_doctype(doctype);
+	const doc = await frappe.db.get_doc(doctype, project);
 	// A section is ["Label", [fieldnames]], set among the fieldnames.
 	const fields = fieldnames
 		.flatMap((one) => (Array.isArray(one) ? [{ fieldtype: "Section Break", label: one[0] }, ...one[1]] : [one]))
-		.map((fieldname) => (typeof fieldname === "string" ? frappe.meta.get_docfield("Project", fieldname) : fieldname))
+		.map((fieldname) => (typeof fieldname === "string" ? frappe.meta.get_docfield(doctype, fieldname) : fieldname))
 		.filter(Boolean)
 		.map((df) => {
 			if (df.fieldtype === "Section Break") return df;
@@ -780,6 +781,18 @@ onedesk.project.edit_about = async (project, modified, done) => {
 	await frappe.model.with_doctype("Project");
 	const fixed = await frappe.xcall("onedesk.one_project.kinds.settled_fields", { project });
 	onedesk.project.edit(project, modified, onedesk.project.about_fields(), __("Edit About"), done, fixed);
+};
+
+// A template's details, changed from its page: what a project made from it
+// starts with, and whether it can still be used.
+onedesk.project.TEMPLATE_GROUPS = [
+	[__("Details"), ["project_type", "disabled"]],
+	[__("Customer"), ["one_payment_terms", "one_terms", "one_retention", "one_retention_handover"]],
+];
+onedesk.project.edit_template = async (template, modified, done) => {
+	await frappe.model.with_doctype("Project Template");
+	const fields = onedesk.project.about_fields("Project Template", onedesk.project.TEMPLATE_GROUPS, ["tasks"]);
+	onedesk.project.edit(template, modified, fields, __("Edit Details"), done, [], "Project Template");
 };
 
 onedesk.project.edit_brief = (project, modified, done) =>

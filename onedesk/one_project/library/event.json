@@ -9,45 +9,45 @@
    "subject": "Plan",
    "milestone": true,
    "tasks": [
-    {"subject": "Goals, audience and budget", "day": 0, "days": 5},
-    {"subject": "Date and venue booked", "day": 5, "days": 10},
-    {"subject": "Speakers and programme", "day": 10, "days": 20}
+    {"subject": "Goals, audience and budget", "day": 0, "days": 5, "hours": 6},
+    {"subject": "Date and venue booked", "day": 5, "days": 10, "hours": 8},
+    {"subject": "Speakers and programme", "day": 10, "days": 20, "hours": 20}
    ]
   },
   {
    "subject": "Prepare",
    "milestone": true,
    "tasks": [
-    {"subject": "Catering, sound and furniture booked", "day": 15, "days": 15},
-    {"subject": "Invitations and registration", "day": 20, "days": 3},
-    {"subject": "Marketing", "day": 23, "days": 30},
-    {"subject": "Printed material and signs", "day": 45, "days": 7},
-    {"subject": "Run sheet written", "day": 50, "days": 5}
+    {"subject": "Catering, sound and furniture booked", "day": 15, "days": 15, "hours": 10},
+    {"subject": "Invitations and registration", "day": 20, "days": 3, "hours": 8},
+    {"subject": "Marketing", "day": 23, "days": 30, "hours": 30},
+    {"subject": "Printed material and signs", "day": 45, "days": 7, "hours": 10},
+    {"subject": "Run sheet written", "day": 50, "days": 5, "hours": 6}
    ]
   },
   {
    "subject": "Final Week",
    "milestone": true,
    "tasks": [
-    {"subject": "Final numbers to suppliers", "day": 55, "days": 1},
-    {"subject": "Rehearsal", "day": 58, "days": 1},
-    {"subject": "Set up the venue", "day": 59, "days": 1}
+    {"subject": "Final numbers to suppliers", "day": 55, "days": 1, "hours": 2},
+    {"subject": "Rehearsal", "day": 58, "days": 1, "hours": 4},
+    {"subject": "Set up the venue", "day": 59, "days": 1, "hours": 12}
    ]
   },
   {
    "subject": "Event Day",
    "milestone": true,
    "tasks": [
-    {"subject": "Event", "day": 60, "days": 1}
+    {"subject": "Event", "day": 60, "days": 1, "hours": 16}
    ]
   },
   {
    "subject": "After",
    "milestone": true,
    "tasks": [
-    {"subject": "Thank-you mails and recordings", "day": 61, "days": 3},
-    {"subject": "Supplier bills paid", "day": 61, "days": 14},
-    {"subject": "Results and lessons", "day": 64, "days": 3}
+    {"subject": "Thank-you mails and recordings", "day": 61, "days": 3, "hours": 6},
+    {"subject": "Supplier bills paid", "day": 61, "days": 14, "hours": 3},
+    {"subject": "Results and lessons", "day": 64, "days": 3, "hours": 4}
    ]
   }
  ]

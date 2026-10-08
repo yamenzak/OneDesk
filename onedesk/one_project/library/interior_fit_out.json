@@ -11,51 +11,51 @@
    "subject": "Survey & Design",
    "milestone": true,
    "tasks": [
-    {"subject": "Site survey and existing drawings", "day": 0, "days": 3},
-    {"subject": "Space plan", "day": 3, "days": 5},
-    {"subject": "Design and finishes approved by the client", "day": 8, "days": 7},
-    {"subject": "Landlord and authority approvals", "day": 10, "days": 15}
+    {"subject": "Site survey and existing drawings", "day": 0, "days": 3, "hours": 12},
+    {"subject": "Space plan", "day": 3, "days": 5, "hours": 24},
+    {"subject": "Design and finishes approved by the client", "day": 8, "days": 7, "hours": 16},
+    {"subject": "Landlord and authority approvals", "day": 10, "days": 15, "hours": 10}
    ]
   },
   {
    "subject": "Procurement",
    "milestone": true,
    "tasks": [
-    {"subject": "Order long-lead items", "day": 15, "days": 3},
-    {"subject": "Order joinery and furniture", "day": 18, "days": 5},
-    {"subject": "Appoint mechanical and electrical subcontractors", "day": 18, "days": 4},
-    {"subject": "Samples and shop drawings approved", "day": 22, "days": 6}
+    {"subject": "Order long-lead items", "day": 15, "days": 3, "hours": 4},
+    {"subject": "Order joinery and furniture", "day": 18, "days": 5, "hours": 6},
+    {"subject": "Appoint mechanical and electrical subcontractors", "day": 18, "days": 4, "hours": 6},
+    {"subject": "Samples and shop drawings approved", "day": 22, "days": 6, "hours": 8}
    ]
   },
   {
    "subject": "Strip-Out & First Fix",
    "milestone": true,
    "tasks": [
-    {"subject": "Protect the site and strip out", "day": 28, "days": 4},
-    {"subject": "Partitions and ceiling frames", "day": 32, "days": 8},
-    {"subject": "Mechanical and electrical first fix", "day": 34, "days": 8},
-    {"subject": "Inspection before closing ceilings", "day": 42, "days": 2}
+    {"subject": "Protect the site and strip out", "day": 28, "days": 4, "hours": 48},
+    {"subject": "Partitions and ceiling frames", "day": 32, "days": 8, "hours": 96},
+    {"subject": "Mechanical and electrical first fix", "day": 34, "days": 8, "hours": 96},
+    {"subject": "Inspection before closing ceilings", "day": 42, "days": 2, "hours": 4}
    ]
   },
   {
    "subject": "Finishes",
    "milestone": true,
    "tasks": [
-    {"subject": "Ceilings and wall boards", "day": 44, "days": 6},
-    {"subject": "Flooring", "day": 50, "days": 5},
-    {"subject": "Painting", "day": 52, "days": 6},
-    {"subject": "Joinery installed", "day": 55, "days": 5},
-    {"subject": "Second fix and fittings", "day": 58, "days": 5}
+    {"subject": "Ceilings and wall boards", "day": 44, "days": 6, "hours": 72},
+    {"subject": "Flooring", "day": 50, "days": 5, "hours": 60},
+    {"subject": "Painting", "day": 52, "days": 6, "hours": 72},
+    {"subject": "Joinery installed", "day": 55, "days": 5, "hours": 48},
+    {"subject": "Second fix and fittings", "day": 58, "days": 5, "hours": 48}
    ]
   },
   {
    "subject": "Handover",
    "milestone": true,
    "tasks": [
-    {"subject": "Testing and commissioning", "day": 63, "days": 3},
-    {"subject": "Snag list and rectification", "day": 66, "days": 4},
-    {"subject": "Deep clean", "day": 70, "days": 1},
-    {"subject": "Handover and as-built drawings", "day": 71, "days": 1}
+    {"subject": "Testing and commissioning", "day": 63, "days": 3, "hours": 24},
+    {"subject": "Snag list and rectification", "day": 66, "days": 4, "hours": 24},
+    {"subject": "Deep clean", "day": 70, "days": 1, "hours": 16},
+    {"subject": "Handover and as-built drawings", "day": 71, "days": 1, "hours": 6}
    ]
   }
  ]

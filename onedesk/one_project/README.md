@@ -1212,8 +1212,11 @@ project starts. Everything changes in place:
   the tasks under it.
 
 The line above the table says how many tasks it has, how many days it runs
-and how many projects were started from it. **New Project** at the top starts
-one, and **Edit Details** opens the template's form.
+and how many projects were started from it (click that for the list). The
+line under it says what a project made from it starts with: its type,
+payment terms, terms and conditions and retention. The pencil beside them
+changes those and whether the template can still be used, and any field
+your workspace adds to templates. **New Project** at the top starts one.
 
 ### From the library
 
@@ -1223,7 +1226,9 @@ them as a list to pick from or search, each with its tasks, its days and what
 it is for, or **In your templates** once you have a copy. The first time one
 is used it is copied into the workspace as a
 template of your own, in your workspace's language, to change as you like.
-Using it again uses your copy.
+Using it again uses your copy. Every task in it has its hours, the work it
+usually takes, so a project started from it shows its load on **Workload**
+from the first day.
 
 - **Aluminium & Glazing**: five phases, from contract review and approvals,
   through ordering, fabrication and installation, to testing, handover and

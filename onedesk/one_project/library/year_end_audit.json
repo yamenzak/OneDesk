@@ -9,40 +9,40 @@
    "subject": "Close the Year",
    "milestone": true,
    "tasks": [
-    {"subject": "Bank and cash reconciled", "day": 0, "days": 5},
-    {"subject": "Stock count", "day": 0, "days": 2},
-    {"subject": "Receivables and payables reviewed", "day": 2, "days": 5},
-    {"subject": "Accruals and prepayments", "day": 5, "days": 3},
-    {"subject": "Fixed assets and depreciation", "day": 5, "days": 3},
-    {"subject": "Trial balance ready", "day": 8, "days": 2}
+    {"subject": "Bank and cash reconciled", "day": 0, "days": 5, "hours": 16},
+    {"subject": "Stock count", "day": 0, "days": 2, "hours": 16},
+    {"subject": "Receivables and payables reviewed", "day": 2, "days": 5, "hours": 16},
+    {"subject": "Accruals and prepayments", "day": 5, "days": 3, "hours": 8},
+    {"subject": "Fixed assets and depreciation", "day": 5, "days": 3, "hours": 8},
+    {"subject": "Trial balance ready", "day": 8, "days": 2, "hours": 6}
    ]
   },
   {
    "subject": "Prepare",
    "milestone": true,
    "tasks": [
-    {"subject": "Audit plan agreed with the auditors", "day": 10, "days": 2},
-    {"subject": "Schedules and supporting papers", "day": 10, "days": 10},
-    {"subject": "Confirmations sent to banks, customers and suppliers", "day": 10, "days": 3}
+    {"subject": "Audit plan agreed with the auditors", "day": 10, "days": 2, "hours": 3},
+    {"subject": "Schedules and supporting papers", "day": 10, "days": 10, "hours": 32},
+    {"subject": "Confirmations sent to banks, customers and suppliers", "day": 10, "days": 3, "hours": 6}
    ]
   },
   {
    "subject": "Fieldwork",
    "milestone": true,
    "tasks": [
-    {"subject": "Auditors on site", "day": 20, "days": 10},
-    {"subject": "Questions answered", "day": 20, "days": 15},
-    {"subject": "Adjustments posted", "day": 30, "days": 5}
+    {"subject": "Auditors on site", "day": 20, "days": 10, "hours": 24},
+    {"subject": "Questions answered", "day": 20, "days": 15, "hours": 16},
+    {"subject": "Adjustments posted", "day": 30, "days": 5, "hours": 8}
    ]
   },
   {
    "subject": "Finish",
    "milestone": true,
    "tasks": [
-    {"subject": "Draft accounts", "day": 35, "days": 5},
-    {"subject": "Management letter answered", "day": 40, "days": 5},
-    {"subject": "Accounts approved and signed", "day": 45, "days": 2},
-    {"subject": "Filed with the authorities", "day": 47, "days": 3}
+    {"subject": "Draft accounts", "day": 35, "days": 5, "hours": 16},
+    {"subject": "Management letter answered", "day": 40, "days": 5, "hours": 8},
+    {"subject": "Accounts approved and signed", "day": 45, "days": 2, "hours": 3},
+    {"subject": "Filed with the authorities", "day": 47, "days": 3, "hours": 3}
    ]
   }
  ]

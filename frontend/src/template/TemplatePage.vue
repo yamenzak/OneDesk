@@ -6,8 +6,17 @@
     <div v-else class="pt-6">
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <div ref="spot" class="empty:hidden [&_.one-place-spot]:mb-4" />
-      <p class="text-base text-ink-gray-6" :class="agreed ? 'mb-1' : 'mb-4'">{{ summary }}</p>
-      <p v-if="agreed" class="mb-4 text-base text-ink-gray-6">{{ agreed }}</p>
+      <div class="mb-4 flex items-start gap-2">
+        <div class="me-auto space-y-1 text-base text-ink-gray-6">
+          <p>
+            {{ summary }} ·
+            <button v-if="said.used" class="hover:underline" @click="go(`/desk/project?project_template=${encodeURIComponent(said.name)}`)">{{ used }}</button>
+            <template v-else>{{ __("Not used yet") }}</template>
+          </p>
+          <p v-if="agreed">{{ agreed }}</p>
+        </div>
+        <Button v-if="said.can_write" variant="ghost" icon="lucide-pencil" :aria-label="__('Edit Details')" @click="edit" />
+      </div>
       <Tasks
         :tasks="said.tasks"
         :can-write="said.can_write"
@@ -25,8 +34,10 @@
 <script setup>
 // A project template's page (one_project/page/project_template_view): the
 // template's tasks in the Tasks table in template mode. Desk's page head above
-// it carries New Project, Edit Details and the form's own menu.
+// it carries New Project and the form's own menu; the pencil by the summary
+// changes the rest.
 import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { Button } from "frappe-ui";
 
 import { Loading, Page, __, call, can, confirm, follow, go, newDoc, onedesk, prompt, useRecord } from "../kit";
 import Tasks from "./Tasks.vue";
@@ -75,15 +86,16 @@ const summary = computed(() => {
   return [
     tasks === 1 ? __("1 task") : __("{0} tasks", [tasks]),
     s.days === 1 ? __("1 day") : __("{0} days", [s.days]),
-    s.used ? (s.used === 1 ? __("Used by 1 project") : __("Used by {0} projects", [s.used])) : __("Not used yet"),
   ].join(" · ");
 });
+const used = computed(() => (said.value.used === 1 ? __("Used by 1 project") : __("Used by {0} projects", [said.value.used])));
+const edit = () => onedesk().project.edit_template(said.value.name, said.value.modified, load);
 
-// What a project made from it starts with: its payment terms, terms and
-// conditions and retention, set under Edit Details.
+// What a project made from it starts with: its type, payment terms, terms
+// and conditions and retention, changed with the pencil beside them.
 const agreed = computed(() => {
   const s = said.value;
-  return [s.payment_terms, s.terms, s.retention ? __("{0}% retention", [s.retention]) : ""].filter(Boolean).join(" · ");
+  return [s.project_type, s.payment_terms, s.terms, s.retention ? __("{0}% retention", [s.retention]) : ""].filter(Boolean).join(" · ");
 });
 
 function report() {
@@ -95,7 +107,6 @@ function report() {
   if (!s.disabled && can("create", "Project")) {
     actions.push({ label: __("New Project"), primary: true, onClick: () => newDoc("Project", { project_template: s.name, project_type: s.project_type }) });
   }
-  actions.push({ label: __("Edit Details"), onClick: () => go(`/desk/project-template/${encodeURIComponent(s.name)}?edit=1`) });
   props.onActions?.([...actions, ...verbs, ...record.menu({ gone: () => go("/desk/project-template") })]);
 }
 

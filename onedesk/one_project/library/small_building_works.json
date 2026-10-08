@@ -11,49 +11,49 @@
    "subject": "Preparation",
    "milestone": true,
    "tasks": [
-    {"subject": "Survey and design", "day": 0, "days": 10},
-    {"subject": "Building permit", "day": 10, "days": 20},
-    {"subject": "Contractor and price agreed", "day": 20, "days": 7},
-    {"subject": "Site set up", "day": 30, "days": 3}
+    {"subject": "Survey and design", "day": 0, "days": 10, "hours": 40},
+    {"subject": "Building permit", "day": 10, "days": 20, "hours": 8},
+    {"subject": "Contractor and price agreed", "day": 20, "days": 7, "hours": 8},
+    {"subject": "Site set up", "day": 30, "days": 3, "hours": 16}
    ]
   },
   {
    "subject": "Groundworks & Structure",
    "milestone": true,
    "tasks": [
-    {"subject": "Excavation", "day": 33, "days": 4},
-    {"subject": "Foundations", "day": 37, "days": 7},
-    {"subject": "Blockwork and columns", "day": 44, "days": 14},
-    {"subject": "Roof slab", "day": 58, "days": 7}
+    {"subject": "Excavation", "day": 33, "days": 4, "hours": 32},
+    {"subject": "Foundations", "day": 37, "days": 7, "hours": 80},
+    {"subject": "Blockwork and columns", "day": 44, "days": 14, "hours": 160},
+    {"subject": "Roof slab", "day": 58, "days": 7, "hours": 96}
    ]
   },
   {
    "subject": "Envelope",
    "milestone": true,
    "tasks": [
-    {"subject": "Roof waterproofing", "day": 65, "days": 4},
-    {"subject": "Windows and doors", "day": 67, "days": 5},
-    {"subject": "External plaster", "day": 69, "days": 7}
+    {"subject": "Roof waterproofing", "day": 65, "days": 4, "hours": 32},
+    {"subject": "Windows and doors", "day": 67, "days": 5, "hours": 40},
+    {"subject": "External plaster", "day": 69, "days": 7, "hours": 80}
    ]
   },
   {
    "subject": "Services & Finishes",
    "milestone": true,
    "tasks": [
-    {"subject": "Plumbing and electrical", "day": 72, "days": 10},
-    {"subject": "Internal plaster", "day": 80, "days": 7},
-    {"subject": "Tiling", "day": 87, "days": 7},
-    {"subject": "Painting", "day": 92, "days": 6},
-    {"subject": "Fixtures and fittings", "day": 96, "days": 4}
+    {"subject": "Plumbing and electrical", "day": 72, "days": 10, "hours": 96},
+    {"subject": "Internal plaster", "day": 80, "days": 7, "hours": 80},
+    {"subject": "Tiling", "day": 87, "days": 7, "hours": 72},
+    {"subject": "Painting", "day": 92, "days": 6, "hours": 60},
+    {"subject": "Fixtures and fittings", "day": 96, "days": 4, "hours": 32}
    ]
   },
   {
    "subject": "Completion",
    "milestone": true,
    "tasks": [
-    {"subject": "Authority inspection", "day": 100, "days": 3},
-    {"subject": "Snag list and rectification", "day": 103, "days": 5},
-    {"subject": "Completion certificate and handover", "day": 108, "days": 2}
+    {"subject": "Authority inspection", "day": 100, "days": 3, "hours": 4},
+    {"subject": "Snag list and rectification", "day": 103, "days": 5, "hours": 24},
+    {"subject": "Completion certificate and handover", "day": 108, "days": 2, "hours": 4}
    ]
   }
  ]

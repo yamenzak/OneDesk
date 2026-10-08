@@ -9,64 +9,64 @@
    "subject": "Brief",
    "milestone": true,
    "tasks": [
-    {"subject": "Meet the client and agree the brief", "day": 0, "days": 5},
-    {"subject": "Site survey and constraints", "day": 3, "days": 7},
-    {"subject": "Fee and appointment signed", "day": 8, "days": 3}
+    {"subject": "Meet the client and agree the brief", "day": 0, "days": 5, "hours": 8},
+    {"subject": "Site survey and constraints", "day": 3, "days": 7, "hours": 16},
+    {"subject": "Fee and appointment signed", "day": 8, "days": 3, "hours": 3}
    ]
   },
   {
    "subject": "Concept Design",
    "milestone": true,
    "tasks": [
-    {"subject": "Options sketched", "day": 11, "days": 10},
-    {"subject": "Massing and plans", "day": 21, "days": 10},
-    {"subject": "Concept presented to the client", "day": 31, "days": 3}
+    {"subject": "Options sketched", "day": 11, "days": 10, "hours": 40},
+    {"subject": "Massing and plans", "day": 21, "days": 10, "hours": 40},
+    {"subject": "Concept presented to the client", "day": 31, "days": 3, "hours": 6}
    ]
   },
   {
    "subject": "Developed Design",
    "milestone": true,
    "tasks": [
-    {"subject": "Plans, sections and elevations", "day": 34, "days": 15},
-    {"subject": "Consultants coordinated", "day": 40, "days": 15},
-    {"subject": "Cost plan updated", "day": 55, "days": 5},
-    {"subject": "Design signed off by the client", "day": 60, "days": 2}
+    {"subject": "Plans, sections and elevations", "day": 34, "days": 15, "hours": 80},
+    {"subject": "Consultants coordinated", "day": 40, "days": 15, "hours": 30},
+    {"subject": "Cost plan updated", "day": 55, "days": 5, "hours": 8},
+    {"subject": "Design signed off by the client", "day": 60, "days": 2, "hours": 3}
    ]
   },
   {
    "subject": "Planning",
    "milestone": true,
    "tasks": [
-    {"subject": "Planning drawings and statements", "day": 62, "days": 7},
-    {"subject": "Planning application submitted", "day": 69, "days": 1},
-    {"subject": "Planning decision", "day": 70, "days": 40}
+    {"subject": "Planning drawings and statements", "day": 62, "days": 7, "hours": 32},
+    {"subject": "Planning application submitted", "day": 69, "days": 1, "hours": 2},
+    {"subject": "Planning decision", "day": 70, "days": 40, "hours": 4}
    ]
   },
   {
    "subject": "Technical Design",
    "milestone": true,
    "tasks": [
-    {"subject": "Construction drawings", "day": 70, "days": 25},
-    {"subject": "Specifications", "day": 85, "days": 10},
-    {"subject": "Building regulations approval", "day": 95, "days": 15}
+    {"subject": "Construction drawings", "day": 70, "days": 25, "hours": 140},
+    {"subject": "Specifications", "day": 85, "days": 10, "hours": 40},
+    {"subject": "Building regulations approval", "day": 95, "days": 15, "hours": 12}
    ]
   },
   {
    "subject": "Tender",
    "milestone": true,
    "tasks": [
-    {"subject": "Tender documents issued", "day": 110, "days": 2},
-    {"subject": "Questions answered", "day": 112, "days": 14},
-    {"subject": "Tenders assessed and contractor appointed", "day": 126, "days": 7}
+    {"subject": "Tender documents issued", "day": 110, "days": 2, "hours": 6},
+    {"subject": "Questions answered", "day": 112, "days": 14, "hours": 12},
+    {"subject": "Tenders assessed and contractor appointed", "day": 126, "days": 7, "hours": 16}
    ]
   },
   {
    "subject": "Construction Support",
    "milestone": true,
    "tasks": [
-    {"subject": "Site visits", "day": 133, "days": 120},
-    {"subject": "Contractor questions answered", "day": 133, "days": 120},
-    {"subject": "Practical completion inspection", "day": 253, "days": 3}
+    {"subject": "Site visits", "day": 133, "days": 120, "hours": 48},
+    {"subject": "Contractor questions answered", "day": 133, "days": 120, "hours": 40},
+    {"subject": "Practical completion inspection", "day": 253, "days": 3, "hours": 8}
    ]
   }
  ]

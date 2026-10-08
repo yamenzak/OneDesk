@@ -9,48 +9,48 @@
    "subject": "Discovery",
    "milestone": true,
    "tasks": [
-    {"subject": "Kick-off workshop", "day": 0, "days": 1},
-    {"subject": "Goals, audience and pages agreed", "day": 1, "days": 4},
-    {"subject": "Content inventory", "day": 3, "days": 5}
+    {"subject": "Kick-off workshop", "day": 0, "days": 1, "hours": 4},
+    {"subject": "Goals, audience and pages agreed", "day": 1, "days": 4, "hours": 8},
+    {"subject": "Content inventory", "day": 3, "days": 5, "hours": 8}
    ]
   },
   {
    "subject": "Design",
    "milestone": true,
    "tasks": [
-    {"subject": "Sitemap and wireframes", "day": 8, "days": 5},
-    {"subject": "Visual design of the home page", "day": 13, "days": 5},
-    {"subject": "Inner page designs", "day": 18, "days": 5},
-    {"subject": "Designs approved", "day": 23, "days": 2}
+    {"subject": "Sitemap and wireframes", "day": 8, "days": 5, "hours": 16},
+    {"subject": "Visual design of the home page", "day": 13, "days": 5, "hours": 24},
+    {"subject": "Inner page designs", "day": 18, "days": 5, "hours": 24},
+    {"subject": "Designs approved", "day": 23, "days": 2, "hours": 2}
    ]
   },
   {
    "subject": "Content",
    "milestone": true,
    "tasks": [
-    {"subject": "Copy written", "day": 13, "days": 15},
-    {"subject": "Photos and media gathered", "day": 13, "days": 15},
-    {"subject": "Content approved", "day": 28, "days": 3}
+    {"subject": "Copy written", "day": 13, "days": 15, "hours": 32},
+    {"subject": "Photos and media gathered", "day": 13, "days": 15, "hours": 12},
+    {"subject": "Content approved", "day": 28, "days": 3, "hours": 3}
    ]
   },
   {
    "subject": "Build",
    "milestone": true,
    "tasks": [
-    {"subject": "Templates built", "day": 25, "days": 10},
-    {"subject": "Content entered", "day": 35, "days": 5},
-    {"subject": "Forms and integrations", "day": 35, "days": 4},
-    {"subject": "Search engine basics", "day": 40, "days": 2}
+    {"subject": "Templates built", "day": 25, "days": 10, "hours": 60},
+    {"subject": "Content entered", "day": 35, "days": 5, "hours": 16},
+    {"subject": "Forms and integrations", "day": 35, "days": 4, "hours": 16},
+    {"subject": "Search engine basics", "day": 40, "days": 2, "hours": 6}
    ]
   },
   {
    "subject": "Launch",
    "milestone": true,
    "tasks": [
-    {"subject": "Testing on phones and browsers", "day": 42, "days": 3},
-    {"subject": "Client review and fixes", "day": 45, "days": 4},
-    {"subject": "Domain and go live", "day": 49, "days": 1},
-    {"subject": "Training for editors", "day": 50, "days": 1}
+    {"subject": "Testing on phones and browsers", "day": 42, "days": 3, "hours": 12},
+    {"subject": "Client review and fixes", "day": 45, "days": 4, "hours": 12},
+    {"subject": "Domain and go live", "day": 49, "days": 1, "hours": 3},
+    {"subject": "Training for editors", "day": 50, "days": 1, "hours": 3}
    ]
   }
  ]
