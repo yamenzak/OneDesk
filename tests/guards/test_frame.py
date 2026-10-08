@@ -125,7 +125,8 @@ def test_a_page_declares_its_places_and_fires_them(doctype):
 	"""A Client Script reaches a form and a list, not a page of One's: the
 	page says what an extension may hear on it, and fires it."""
 	places = _places()
-	source = ISLANDS[doctype].read_text()
+	# The page and its views, each of which may fire its own place.
+	source = "".join(one.read_text() for one in sorted(ISLANDS[doctype].parent.glob("*.vue")))
 	own = [place for place, one in places.PLACES.items() if one["record"] == doctype]
 	assert own, f"no place for {doctype}'s page in one_studio/places.py"
 	for place in own:
@@ -150,6 +151,17 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onecrm.board": (public / "opportunity_list.js").read_text(),
 		"space.home": (public / "places.js").read_text(),
 		"oneproject.project": (ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
+		# Each of the project page's views, by its own place (project/place.js).
+		**{
+			f"oneproject.{view}": (ROOT / "frontend" / "src" / "project" / f"{name}.vue").read_text()
+			for view, name in (
+				("invoices", "Invoices"),
+				("suppliers", "Suppliers"),
+				("team", "Team"),
+				("files", "Files"),
+				("activity", "ProjectActivity"),
+			)
+		},
 		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
 	}
 	assert set(fired) == set(places.keys())

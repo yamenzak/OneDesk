@@ -210,14 +210,16 @@ person acknowledges it.
   copied or deleted. 15, webhooks. 16, who read an announcement. 17, a project's
   Featured Media opens for anybody with its link. 18, attendance on a project's
   site becomes time on the project. 19, users' and employees' pictures from
-  Gravatar, the company's logo.
+  Gravatar, the company's logo. 20, the outside people named on a project.
 - AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
   calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
   tasks and their steps. 8, OneAI writes extensions, read a second time, and
   designs record types. 9, OneAI mends an extension from its errors, which can
   carry record data. 10, an extension tried once on a record, and what happened
   told to OneAI. 11, OneAI reads a project when asked, and suggests its tasks.
-  12, OneAI reads a project's money with its customer and suppliers.
+  12, OneAI reads a project's money with its customer and suppliers. 13, OneAI
+  reads a project's outside contacts, and drafts a reminder, a member or a
+  contact for you to approve.
 
 ### gate.py
 

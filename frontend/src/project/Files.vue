@@ -11,6 +11,8 @@
         <span v-if="count" class="text-base font-normal text-ink-gray-5">{{ count }}</span>
       </h2>
     </div>
+    <!-- What the workspace's extensions add here (one_studio/places.py). -->
+    <PlaceSpot :said="spot" class="mb-4" />
     <div ref="box" class="one-project-files" />
   </div>
 </template>
@@ -18,8 +20,9 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-import { __, call, follow, jq, onedesk, requires } from "../kit";
+import { PlaceSpot, __, call, follow, jq, onedesk, requires } from "../kit";
 import { onlyArg, useOnly } from "./only";
+import { usePlace } from "./place";
 
 const props = defineProps({ project: { type: String, required: true } });
 // Only the project's own work when the page shows its Main (only.js).
@@ -51,6 +54,7 @@ onBeforeUnmount(() => outside?.remove());
 // How many files the project has, the tab's count: its own, its sub-projects'
 // and their tasks'.
 const count = ref(0);
+const spot = usePlace("oneproject.files", () => ({ project: { name: props.project }, files: { count: count.value } }));
 async function load() {
   count.value = (await call("onedesk.one_project.view.files", { project: props.project, ...onlyArg(only) })).length;
   emit("count", count.value);

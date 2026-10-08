@@ -26,9 +26,8 @@ MOST_ROWS = 20
 
 
 #: Kinds whose changes are the tool's own, checked by it, rather than a
-#: record's values: how a form looks, how a mailbox signs, the workspace's
-#: holidays, a reply to a conversation, and an update on a project.
-OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval", "Setup", "Update")
+#: record's values: a form's look, a signature, holidays, a reply, an update, a mail.
+OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval", "Setup", "Update", "Mail")
 
 
 def propose(
@@ -125,6 +124,13 @@ def apply(proposal: str) -> dict:
 		actions.require(changes.get("account"))
 		_done(entry, entry.record)
 		return {"proposal": entry.name, "state": "Applied", "reply": changes}
+
+	if entry.kind == "Mail":
+		# Nothing is sent from here: frappe's email window opens with the mail
+		# written in, to be sent by the person (Record.vue, record.js).
+		frappe.has_permission(entry.for_doctype, "email", doc=entry.record, throw=True)
+		_done(entry, entry.record)
+		return {"proposal": entry.name, "state": "Applied", "mail": changes}
 
 	if entry.kind == "Update":
 		# Nothing is posted from here. Approving puts the draft in the line under
@@ -434,6 +440,10 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		actions.require(frappe.db.get_value("Communication", record, "email_account"))
 		return None
+	if kind == "Mail":
+		# Whoever may email the record, as its form's Email asks.
+		frappe.has_permission(doctype, "email", doc=record, throw=True)
+		return None
 	if kind == "Update":
 		# Whoever may read the project may post on it (one_project/updates.py).
 		frappe.has_permission("Project", "read", doc=record, throw=True)
@@ -563,6 +573,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return changes.get("title") or doctype
 	if kind == "Reply":
 		return frappe._("A reply to {0}").format(changes.get("subject") or record)
+	if kind == "Mail":
+		return frappe._("A mail about {0}").format(record)
 	if kind == "Update":
 		return frappe._("An update on {0}").format(frappe.db.get_value("Project", record, "project_name") or record)
 	if kind == "Delete":

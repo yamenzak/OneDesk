@@ -5,7 +5,7 @@ check-ins, expense claims at every stage, and two openings being hired for."""
 import frappe
 from frappe.utils import add_days, add_months, get_first_day, get_last_day, getdate
 
-from onedesk.one_demo.base import COMPANY, ahead, ago, as_user, dated, make, on, save, today
+from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, make, on, save, today
 from onedesk.one_demo.people import PEOPLE
 
 HR = "mariam@one.test"

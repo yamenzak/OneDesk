@@ -5,7 +5,7 @@
          right (onedesk.island_page). -->
     <div v-else class="pt-6">
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
-      <div ref="spot" class="empty:hidden [&_.one-place-spot]:mb-4" />
+      <PlaceSpot :said="placed" class="mb-4" />
       <div class="mb-4 flex items-start gap-2">
         <div class="me-auto space-y-1 text-base text-ink-gray-6">
           <p>
@@ -36,10 +36,10 @@
 // template's tasks in the Tasks table in template mode. Desk's page head above
 // it carries New Project and the form's own menu; the pencil by the summary
 // changes the rest.
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 
-import { Loading, Page, __, call, can, confirm, follow, go, newDoc, onedesk, prompt, useRecord } from "../kit";
+import { Loading, Page, PlaceSpot, __, call, can, confirm, follow, go, newDoc, onedesk, prompt, useRecord } from "../kit";
 import Tasks from "./Tasks.vue";
 
 const props = defineProps({
@@ -133,19 +133,23 @@ function remove(task) {
 // The workspace's extensions on the template's page (one_studio/places.py):
 // those written for it are told the template, those written for a Project
 // Template's head are told the record as its head is.
-const spot = ref(null);
+const placed = reactive({ notes: [], actions: [] });
 let verbs = [];
 let drawn = null;
 function extended(s) {
   const places = onedesk().places;
   const doc = record.record.value?.doc;
-  if (!places || !spot.value || !doc) return;
+  if (!places || !doc) return;
   const key = `${s.name}/${doc.modified}/${s.modified}`;
   if (drawn === key) return;
   drawn = key;
-  spot.value.replaceChildren();
+  placed.notes = [];
+  placed.actions = [];
   verbs = [];
-  const lend = () => places.spot(($spot) => $spot.appendTo(spot.value));
+  const lend = () => ({
+    note: (text, tone) => placed.notes.push({ text: String(text || ""), tone }),
+    action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
+  });
   if (places.listening("oneproject_template.template")) {
     const template = { name: s.name, project_type: s.project_type, tasks: s.tasks.length, days: s.days, used: s.used };
     places.emit("oneproject_template.template", { template }, lend());

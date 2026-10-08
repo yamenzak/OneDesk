@@ -113,3 +113,21 @@ def test_the_essay_scan_would_catch_one(tmp_path):
 	lecture = tmp_path / "lecture.py"
 	lecture.write_text('"""' + "\n".join(f"line {i}" for i in range(LONGEST_DOCSTRING + 1)) + '"""\n')
 	assert _long_docstrings(lecture) == ["module"] and _long_docstrings(fine) == []
+
+
+#: Modules the closing passover has finished, and the demo that shows them:
+#: they stay free of what ruff catches (pyproject's [tool.ruff]).
+LINTED = ("onedesk/one_project", "onedesk/one_demo")
+
+
+def test_a_closed_module_lints_clean():
+	import shutil
+	import subprocess
+
+	import pytest
+
+	ruff = shutil.which("ruff")
+	if not ruff:
+		pytest.skip("ruff isn't installed here")
+	found = subprocess.run([ruff, "check", "--quiet", *LINTED], cwd=tree.ROOT, capture_output=True, text=True)
+	assert found.returncode == 0, found.stdout[-3000:]

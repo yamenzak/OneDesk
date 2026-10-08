@@ -121,7 +121,7 @@ def said(
 		"site": doc.get("one_site"),
 		# What's agreed with the customer, carried onto its documents (terms.py).
 		# A sub-project with none of its own is billed on its parent's.
-		**dict(zip(("payment_terms", "terms", "terms_from"), _terms(doc.name))),
+		**dict(zip(("payment_terms", "terms", "terms_from"), _terms(doc.name), strict=True)),
 		# The retention each customer order starts with (retention.py).
 		"retention_terms": {
 			"percent": flt(doc.get("one_retention")),

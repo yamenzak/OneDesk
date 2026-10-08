@@ -281,3 +281,20 @@ def _last_item() -> str | None:
 		where invoice.`{MONTH}` is not null order by item.creation desc limit 1"""
 	)
 	return found[0][0] if found else billing._last_item()
+
+
+def billed_by_month(doc, method=None) -> None:
+	"""Sales Invoice validate: a retainer's hours are billed with its month
+	(Invoice Month), never on their own, as ERPNext's Fetch Timesheet would,
+	or they'd be billed twice."""
+	if doc.get(MONTH):
+		return
+	details = [row.timesheet_detail for row in doc.get("timesheets") or [] if row.get("timesheet_detail")]
+	if not details:
+		return
+	projects = set(frappe.get_all("Timesheet Detail", filters={"name": ["in", details]}, pluck="project"))
+	found = frappe.get_all(
+		"Project", filters={"name": ["in", list(projects - {None})], "one_kind": kinds.RETAINER}, pluck="project_name"
+	)
+	if found:
+		frappe.throw(_("{0} is a retainer. Its hours are billed with its month.").format(found[0]))

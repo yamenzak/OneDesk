@@ -157,13 +157,14 @@ const title = computed(() => {
 	if (kind.value === "Printing") return __("Printing of {0}", [__(doctype.value)]);
 	if (kind.value === "Approval") return __("Approval of {0}", [__(doctype.value)]);
 	if (kind.value === "Reply") return __("A reply to {0}", [name]);
+	if (kind.value === "Mail") return __("A mail about {0}", [name]);
 	// A Setup card says itself, already translated (one/ai_setup.py).
 	if (kind.value === "Setup") return props.record.title || __(doctype.value);
 	return name || __(doctype.value);
 });
 
 // What a Setup card sets up, said instead of the doctype under it.
-const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See", extension: "Extension", record_type: "Record Type" };
+const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See", extension: "Extension", record_type: "Record Type", member: "Member", contact: "Contact" };
 
 const sub = computed(() => {
 	const type = kind.value === "Setup" && SETUP_SAID[props.record.what] ? __(SETUP_SAID[props.record.what]) : __(doctype.value);
@@ -252,6 +253,16 @@ async function answer(what) {
 			const said = out.reply || {};
 			await frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]);
 			await onedesk.OneMail.reply_to(said.account, said.thread, { text: said.text });
+		} else if (what === "apply" && kind.value === "Mail") {
+			// Nothing is sent: frappe's email window opens on the record with the
+			// mail written in, to be read, changed and sent (record.js).
+			const out = await frappe.xcall("onedesk.one_ai.run.apply", { proposal: props.suggested.name });
+			const said = out.mail || {};
+			await onedesk.record.email(props.suggested.for_doctype, props.suggested.record, {
+				recipients: said.recipients,
+				subject: said.subject,
+				message: (said.text || "").split(/\n\s*\n/).map((one) => `<p>${frappe.utils.escape_html(one).replace(/\n/g, "<br>")}</p>`).join(""),
+			});
 		} else if (what === "apply" && writes()) {
 			// Into the open email window, its signature and quoted message kept.
 			const out = await frappe.xcall("onedesk.one_ai.run.took", { proposal: props.suggested.name });

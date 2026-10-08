@@ -164,6 +164,8 @@ scheduler_events = {
 		"onedesk.one.privacy.remind",
 		# Retention falling due today is told. See one_project/retention.py.
 		"onedesk.one_project.retention.due",
+		# A supplier's bill on a project falling due today is told. See one_project/billing.py.
+		"onedesk.one_project.billing.bills_due",
 		# Task steps that waited for a day. See one_intake/steps.py.
 		"onedesk.one_intake.steps.daily",
 		# The company field follows the holiday list in force; a list about to end is told.
@@ -362,6 +364,8 @@ doc_events = {
 			"onedesk.one_project.chain.agree",
 			# Retention is the share of the work billed. See one_project/progress.py.
 			"onedesk.one_project.progress.retained",
+			# A retainer's hours are billed with its month. See one_project/retainer.py.
+			"onedesk.one_project.retainer.billed_by_month",
 		],
 	},
 	# A payment lowers an invoice's outstanding with db_set, so the task step
@@ -634,6 +638,8 @@ doc_events = {
 			# Its Budget is its cost types', and its contacts name somebody. See budget.py, contacts.py.
 			"onedesk.one_project.budget.summed",
 			"onedesk.one_project.contacts.held",
+			# A new member can sign in. See one_project/members.py.
+			"onedesk.one_project.members.enabled",
 		],
 		"on_update": [
 			"onedesk.one_project.naming.on_update",
@@ -1308,6 +1314,11 @@ one_ai_suggests = [
 	"onedesk.one_project.ai.draft_update",
 	# A project template, made when the reader approves. See one_project/library.py.
 	"onedesk.one_project.ai.draft_template",
+	# A reminder about an invoice still owed, opened in the email window to send.
+	"onedesk.one_project.ai.remind_customer",
+	# Somebody on a project's team or among its contacts, added when the reader approves.
+	"onedesk.one_project.ai.add_member",
+	"onedesk.one_project.ai.add_contact",
 	"onedesk.one_crm.ai.plan_next_step",
 	"onedesk.one_crm.ai.write_up_call",
 	"onedesk.one.ai.rewrite_notification",

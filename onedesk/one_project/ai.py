@@ -96,6 +96,15 @@ UNBILLED = {
 	"can": "read",
 	"expects": "project_facts",
 }
+CHASE = {
+	"label": _lt("Remind a customer of an overdue invoice"),
+	"ask": _lt(
+		"Which of this project's invoices are past their date? Draft a short, polite reminder for the one "
+		"most overdue, as a card I can approve."
+	),
+	"can": "read",
+	"expects": "remind_customer",
+}
 ALLOWANCE = {
 	"label": _lt("How much of this month's hours are used?"),
 	"ask": _lt(
@@ -179,7 +188,7 @@ SUGGESTIONS = {
 	f"page:{PAGE}/tasks": _here(LATE, PLAN, LOAD),
 	f"page:{PAGE}/time": _here(ALLOWANCE, kinds=(kinds.RETAINER,)) + _here(TIME, UNBILLED, LOAD),
 	f"page:{PAGE}/money": _here(MONEY) + _here(UNBILLED, kinds=BILLED) + _here(SUPPLIERS),
-	f"page:{PAGE}/invoices": _here(UNBILLED) + _here(ALLOWANCE, kinds=(kinds.RETAINER,)),
+	f"page:{PAGE}/invoices": _here(UNBILLED, CHASE, kinds=BILLED) + _here(ALLOWANCE, kinds=(kinds.RETAINER,)),
 	f"page:{PAGE}/suppliers": _here(SUPPLIERS, MONEY),
 	f"page:{PAGE}/team": _here(LOAD, LATE),
 	f"page:{PAGE}/files": _here(GOING) + _here(UPDATE, kinds=BILLED),
@@ -229,8 +238,10 @@ def page(said: dict) -> str | None:
 		+ (f", a project of kind {kind}" if kind else "")
 		+ f"), on {VIEWS.get(view, VIEWS['overview'])}. project_facts reads it as its page shows it: its "
 		"dates, tasks, money, time, team, contacts and, for a retainer, its months, and the reader's own week on it; "
-		"plan_task suggests a task on it as a card that adds it when the reader approves, and draft_update "
-		"drafts the reader's update as a card that puts it under Updates to post. Nothing is changed until "
+		"plan_task suggests a task on it as a card that adds it when the reader approves, draft_update "
+		"drafts the reader's update as a card that puts it under Updates to post, remind_customer drafts "
+		"a reminder about an overdue invoice that opens in the email window to send, and add_member and "
+		"add_contact add somebody to its team or its contacts. Nothing is changed or sent until "
 		"the reader approves. How "
 		"OneProject works is in its documentation (how_to)."
 	)
@@ -331,6 +342,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		"updates": _updates(project),
 		"you": _yours(said["tree"]),
 		"money": _money(project),
+		"invoices": _invoices(project),
 		"kind": doc.get("one_kind"),
 		"time": _time(project, doc.get("one_kind")),
 		"team": _team(project),
@@ -410,6 +422,172 @@ def draft_update(
 		"next": "Tell them Approve puts the update under Updates on the project's page, to change and post; "
 		"it is not posted until they post it.",
 	}
+
+
+def remind_customer(
+	invoice: Annotated[str, "The customer's invoice, such as ACC-SINV-2026-00016."],
+	mail: Annotated[
+		str,
+		"The whole mail, as it should be sent: greeting, what is owed and since when, how to pay, and "
+		"closing, in the customer's language. Polite and short. Plain text; paragraphs apart by a blank "
+		"line. No signature: the mailbox adds its own.",
+	],
+	why: Annotated[str, "In a sentence, why remind them now."] | None = None,
+) -> dict:
+	"""Suggest a reminder to the customer about an invoice still owed, as a
+	card the reader approves. Read project_facts first: its `invoices` lists
+	those past their date. Approving opens the email window on the invoice
+	with the mail written in and its print attached, to be read, changed and
+	sent by the reader: nothing is sent from here."""
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Sales Invoice", invoice) or not frappe.has_permission(
+		"Sales Invoice", "read", doc=invoice
+	):
+		return {"error": f"No invoice the reader may see is {invoice}."}
+	held = frappe.get_doc("Sales Invoice", invoice)
+	if held.docstatus != 1 or held.is_return or flt(held.outstanding_amount) <= 0:
+		return {"error": f"{invoice} owes nothing, so there is nothing to remind them of."}
+	if not frappe.has_permission("Sales Invoice", "email", doc=held):
+		return {"error": "The reader may not email invoices."}
+	text = (mail or "").strip()
+	if not text:
+		return {"error": "Write the mail itself."}
+	to = held.contact_email or frappe.db.get_value("Customer", held.customer, "email_id") or ""
+	return {
+		"proposal": proposals.propose(
+			"Mail",
+			"Sales Invoice",
+			changes={"recipients": to, "subject": _("Invoice {0}").format(invoice), "text": text},
+			record=invoice,
+			why=why,
+		),
+		"state": "Proposed",
+		"next": "Tell them Approve opens the mail on the invoice to read, change and send; it is not sent "
+		"until they send it."
+		+ ("" if to else " The customer has no email address, so they add who it goes to."),
+	}
+
+
+def add_member(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	user: Annotated[str, "Who joins it: their email, or their full name."],
+	why: Annotated[str, "In a sentence, why they join."] | None = None,
+) -> dict:
+	"""Suggest somebody in the workspace joins a project's team, as a card
+	the reader approves. Approving adds them as the Team view's Add Member
+	does: the project is shared with them and they are told."""
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	if not frappe.has_permission("Project", "write", doc=project):
+		return {"error": "The reader may not change who is on this project."}
+	said = (user or "").strip()
+	found = (
+		[said]
+		if frappe.db.exists("User", {"name": said, "enabled": 1, "user_type": "System User"})
+		else frappe.get_all(
+			"User",
+			filters={"full_name": ["like", f"%{said}%"], "enabled": 1, "user_type": "System User"},
+			pluck="name",
+			limit=3,
+		)
+	)
+	found = [one for one in found if one not in ("Administrator", "Guest")]
+	if len(found) != 1:
+		return {
+			"mend": "add_member",
+			"error": f"{len(found) or 'Nobody'} in the workspace matches {said}. Ask who they mean, by email.",
+		}
+	who = found[0]
+	if frappe.db.exists("Project User", {"parenttype": "Project", "parent": project, "user": who}):
+		return {"error": f"{get_fullname(who)} is on the project already."}
+	title = frappe.db.get_value("Project", project, "project_name") or project
+	changes = {
+		"what": "member",
+		"title": _("Add {0} to {1}").format(get_fullname(who), title),
+		"project": project,
+		"user": who,
+		"summary": [{"label": _("Member"), "value": f"{get_fullname(who)} ({who})"}],
+		"route": [PAGE, project, {"view": "team"}],
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence that approving adds them and tells them. Nothing changes until they approve it.",
+	}
+
+
+def add_contact(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	role: Annotated[
+		str,
+		"What they are on it: Subcontractor, Supplier, Consultant, Architect, Engineer, Client's "
+		"Representative, Authority or Other.",
+	],
+	contact: Annotated[str, "The person, a Contact's id, when there is one."] | None = None,
+	supplier: Annotated[str, "Their company when it is a supplier, the Supplier's id."] | None = None,
+	organisation: Annotated[str, "Their company when it is not a supplier."] | None = None,
+	note: Annotated[str, "A few words on them."] | None = None,
+	why: Annotated[str, "In a sentence, why add them."] | None = None,
+) -> dict:
+	"""Suggest somebody outside the company is listed on a project's Team ›
+	Contacts, as a card the reader approves. Approving adds them as the Team
+	view's Add Contact does."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import contacts
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	if not frappe.has_permission("Project", "write", doc=project):
+		return {"error": "The reader may not change this project's contacts."}
+	if role not in contacts.ROLES:
+		return {"mend": "add_contact", "error": f"Pick the role from {', '.join(contacts.ROLES)}."}
+	if not (contact or supplier or organisation):
+		return {"mend": "add_contact", "error": "Give the contact, the supplier or the company."}
+	for doctype, name in (("Contact", contact), ("Supplier", supplier)):
+		if name and not frappe.db.exists(doctype, name):
+			return {"mend": "add_contact", "error": f"There is no {doctype} called {name}."}
+	person = frappe.db.get_value("Contact", contact, "full_name") if contact else None
+	company = (frappe.db.get_value("Supplier", supplier, "supplier_name") if supplier else None) or organisation
+	title = frappe.db.get_value("Project", project, "project_name") or project
+	changes = {
+		"what": "contact",
+		"title": _("Add {0} to {1}").format(person or company, title),
+		"project": project,
+		"values": {
+			"role": role,
+			"contact": contact or None,
+			"supplier": supplier or None,
+			"organisation": None if supplier else organisation or None,
+			"note": (note or "").strip() or None,
+		},
+		"summary": [
+			{"label": _("Role"), "value": _(role)},
+			*([{"label": _("Contact"), "value": person}] if person else []),
+			*([{"label": _("Company"), "value": company}] if company else []),
+			*([{"label": _("Note"), "value": note.strip()}] if (note or "").strip() else []),
+		],
+		"route": [PAGE, project, {"view": "team"}],
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it adds. Nothing changes until they approve it.",
+	}
+
+
+def approved(changes: dict) -> str:
+	"""A member or contact card approved, added by the Team view's own code
+	as whoever pressed Approve (one/ai_setup.py)."""
+	from onedesk.one_project import contacts, team
+
+	if changes["what"] == "member":
+		team.add(changes["project"], changes["user"])
+	else:
+		contacts.save(changes["project"], **changes["values"])
+	return changes["project"]
 
 
 def project_templates() -> dict:
@@ -561,6 +739,30 @@ def _contacts(project: str) -> list[dict]:
 	]
 
 
+def _invoices(project: str) -> dict:
+	"""The customer's invoices as the Invoices view adds them up, and those
+	past their date, latest first (billing.py). Nothing when the reader may
+	not read invoices."""
+	from onedesk.one_project import billing
+
+	said = billing._listed(project, "Sales Invoice")
+	return {
+		"totals": said["totals"],
+		"overdue": [
+			{
+				"invoice": one["name"],
+				"customer": one["party"],
+				"due": one["due"],
+				"days_late": one["late"],
+				"owed": one["owed"],
+				"currency": one["currency"],
+			}
+			for one in sorted(said["rows"], key=lambda one: -(one["late"] or 0))
+			if one["late"]
+		][:MOST],
+	}
+
+
 def _months(project: str) -> dict:
 	"""A retainer's months as the page shows them (retainer.py)."""
 	from onedesk.one_project import retainer
@@ -596,7 +798,20 @@ def _money(project: str) -> dict:
 		"subcontracts": [
 			{
 				key: one[key]
-				for key in ("supplier", "order", "ordered", "billed", "left", "retention", "advance", "paid")
+				for key in (
+					"supplier",
+					"order",
+					"ordered",
+					"billed",
+					"left",
+					"retention",
+					"advance",
+					"paid",
+					"to_pay",
+					"overdue",
+					"late",
+					"due",
+				)
 			}
 			for one in said["suppliers"][:MOST]
 		],

@@ -572,6 +572,12 @@ GUARDS = [
 	),
 	# 17 Clean code
 	Guard(
+		"lints-clean",
+		17,
+		"what ruff catches, in a module the closing passover finished",
+		"tests/guards/test_source_style.py::test_a_closed_module_lints_clean",
+	),
+	Guard(
 		"comments-short",
 		17,
 		"a comment block over 3 lines; the long form goes in the module's README",

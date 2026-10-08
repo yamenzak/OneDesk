@@ -111,6 +111,17 @@ def nobody(doc, method=None) -> None:
 		doc.one_manager = None
 
 
+def enabled(doc, method=None) -> None:
+	"""Project validate: somebody new among its members is a user who can sign
+	in, however they were added (Team, the desk form, an import). Somebody
+	disabled later stays listed."""
+	before = doc.get_doc_before_save()
+	had = {row.user for row in before.get("users") or []} if before else set()
+	for row in doc.get("users") or []:
+		if row.user and row.user not in had and not frappe.db.exists("User", {"name": row.user, "enabled": 1}):
+			frappe.throw(_("{0} can't sign in, so can't join the project.").format(row.user))
+
+
 def join(project: str, user: str) -> bool:
 	"""Make somebody a member of the project, whoever is saving. ERPNext then
 	shares it with them, and Added to Project tells them (tell.py). False

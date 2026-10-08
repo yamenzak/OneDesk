@@ -1,0 +1,88 @@
+{
+ "file": "scaffolding-bill.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A tax invoice asking to be paid.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Invoice",
+   "title": "Rapid Scaffolding invoice RS-5512",
+   "summary": "Rapid Scaffolding bills two weeks of scaffolding hire on Mansour Villa Windows and Doors, AED 3,780.00 due by 4 November 2026.",
+   "language": "en",
+   "number": "RS-5512",
+   "issued": "2026-10-05",
+   "dates": [
+    {
+     "date": "2026-11-04",
+     "what": "Due",
+     "about": "payment",
+     "counted": false
+    }
+   ],
+   "money": {
+    "currency": "AED",
+    "net": 3600.0,
+    "tax": 180.0,
+    "gross": 3780.0,
+    "paid_how": "transfer",
+    "iban": null,
+    "reference": "RS-5512"
+   },
+   "lines": [
+    {
+     "text": "Scaffolding hire for the villa facade",
+     "qty": 2,
+     "unit_price": 1800.0,
+     "amount": 3600.0,
+     "tax_rate": 5,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Rapid Scaffolding",
+     "person": false,
+     "email": "hire@rapidscaffold.example",
+     "address": "Al Qusais Industrial 2, Dubai"
+    },
+    {
+     "role": "Recipient",
+     "name": "Sahara Glass & Aluminium",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Pay",
+     "detail": "AED 3,780.00 quoting RS-5512",
+     "by": "2026-11-04",
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Purchase Invoice",
+   "values": {
+    "supplier": "Rapid Scaffolding",
+    "bill_no": "RS-5512",
+    "project": "PROJ-0001"
+   }
+  },
+  {
+   "doctype": "Task"
+  }
+ ]
+}

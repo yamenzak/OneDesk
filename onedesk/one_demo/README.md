@@ -131,6 +131,14 @@ written: each check is rolled back.
   with hours over its allowance.
 - **Internal**, with a budget and no customer: the CNC upgrade.
 
+### history.py
+
+A record made today for a date in spring would say it was made today, so the
+Activity view and every timeline would put a year of work in one afternoon.
+Once the steps are built, `history.settle` moves each document, its rows and
+its versions back to its own date, keeping the time of day. Run again, it
+moves nothing.
+
 ### samples.py
 
 Each sample is a real mail or file, the answers a model gave about it, and

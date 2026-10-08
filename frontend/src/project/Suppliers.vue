@@ -18,6 +18,8 @@
       <Button v-if="cash.can_bill" size="sm" icon-left="lucide-receipt" :label="__('Record Bill')" @click="newDoc('Purchase Invoice', { project: said.name })" />
       <Button v-if="cash.can_order" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
     </div>
+    <!-- What the workspace's extensions add here (one_studio/places.py). -->
+    <PlaceSpot :said="spot" class="mt-3" />
     <Figures v-if="orders.length || bills?.bills.length" class="mb-2 mt-3" :figures="figures" />
 
     <div v-if="waiting.length" class="mb-6">
@@ -171,8 +173,9 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, __, call, date, followList, go, money, newDoc, onedesk, plain } from "../kit";
+import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDoc, onedesk, plain } from "../kit";
 import { onlyArg, useOnly } from "./only";
+import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
 // Only the project's own work when the page shows its Main (only.js).
@@ -205,6 +208,17 @@ const figures = computed(() => {
   ];
 });
 const total = (key) => orders.value.reduce((sum, one) => sum + (one[key] || 0), 0);
+const spot = usePlace("oneproject.suppliers", () => ({
+  project: { name: props.said.name, title: props.said.title, kind: props.said.kind, currency: cash.value.currency },
+  suppliers: {
+    count: suppliers.value,
+    subcontracts: packages.value.length,
+    ordered: total("ordered"),
+    to_pay: total("to_pay"),
+    overdue: total("overdue"),
+    retention: total("retention"),
+  },
+}));
 const billedShare = (one) => (one.ordered ? Math.min(100, Math.round((100 * one.billed) / one.ordered)) : 0);
 const late = (days) => (days === 1 ? __("1 day late") : __("{0} days late", [days]));
 
@@ -294,13 +308,16 @@ async function load() {
   ]);
 }
 watch(() => [props.said.name, props.said.modified, cash.value.open_orders, cash.value.spent], load, { immediate: true });
-// A payment changes what's owed on a bill.
+// A payment changes what's owed on a bill, and a request, quotation or order
+// shows as soon as it's saved, a draft too.
 let timer = null;
 const later = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 400);
 };
-const stops = [followList("Purchase Invoice", later), followList("Payment Entry", later)];
+const stops = ["Purchase Invoice", "Payment Entry", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt"].map((doctype) =>
+  followList(doctype, later)
+);
 onBeforeUnmount(() => {
   stops.forEach((stop) => stop());
   clearTimeout(timer);

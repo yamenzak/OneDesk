@@ -13,6 +13,8 @@
         </h2>
         <Button v-if="said.can_change" size="sm" variant="solid" icon-left="lucide-user-plus" :label="__('Add Member')" @click="addMember" />
       </div>
+      <!-- What the workspace's extensions add here (one_studio/places.py). -->
+      <PlaceSpot :said="spot" class="mb-4" />
       <div v-if="!said.people.length" class="flex flex-col items-center gap-3 py-16 text-center">
         <span class="flex size-12 items-center justify-center rounded-full bg-surface-gray-2 text-ink-gray-5"><span class="lucide-users size-5" /></span>
         <p class="text-base text-ink-gray-7">{{ __("No one yet") }}</p>
@@ -95,12 +97,13 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Loading, __, call, confirm, hours, onedesk } from "../kit";
+import { Loading, PlaceSpot, __, call, confirm, followList, hours, onedesk } from "../kit";
 import { onlyArg, useOnly } from "./only";
+import { usePlace } from "./place";
 
 const props = defineProps({ projectName: { type: String, required: true }, modified: String });
 // Only the project's own work when the page shows its Main (only.js).
@@ -110,6 +113,12 @@ const said = ref(null);
 
 // Who outside the company is on it (one_project/contacts.py).
 const outside = ref(null);
+const spot = usePlace("oneproject.team", () =>
+  said.value && {
+    project: { name: props.projectName },
+    team: { people: said.value.people.length, contacts: outside.value?.contacts?.length || 0 },
+  }
+);
 async function load() {
   [said.value, outside.value] = await Promise.all([
     call("onedesk.one_project.team.team", { project: props.projectName, ...onlyArg(only) }),
@@ -121,8 +130,19 @@ const contact = (row) =>
     outside.value = now;
     emit("changed");
   });
-// A member added or taken off changes the project, which the page follows.
+// A member added or taken off changes the project, which the page follows;
+// a task or time changes a person's counts.
 watch(() => [props.projectName, props.modified], load, { immediate: true });
+let timer = null;
+const later = () => {
+  clearTimeout(timer);
+  timer = setTimeout(load, 400);
+};
+const stops = ["Task", "Timesheet", "Contact"].map((doctype) => followList(doctype, later));
+onBeforeUnmount(() => {
+  stops.forEach((stop) => stop());
+  clearTimeout(timer);
+});
 
 const addMember = () =>
   onedesk().project.add_member({ doctype: "Project", doc: { name: props.projectName } }, (now) => {

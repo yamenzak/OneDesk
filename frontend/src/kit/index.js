@@ -12,6 +12,7 @@ export { default as Loading } from "./Loading.vue";
 export { default as Page } from "./Page.vue";
 export { default as People } from "./People.vue";
 export { default as Pill } from "./Pill.vue";
+export { default as PlaceSpot } from "./PlaceSpot.vue";
 export { useRecord } from "./record";
 export { default as Rows } from "./Rows.vue";
 export { default as Section } from "./Section.vue";

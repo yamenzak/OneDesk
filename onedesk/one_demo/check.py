@@ -10,7 +10,17 @@ starts with it, such as a module's.
 import traceback
 
 import frappe
-from frappe.utils import add_days, add_months, add_to_date, date_diff, flt, get_first_day, getdate, now_datetime, today
+from frappe.utils import (
+	add_days,
+	add_months,
+	add_to_date,
+	date_diff,
+	flt,
+	get_first_day,
+	getdate,
+	now_datetime,
+	today,
+)
 
 from onedesk.one_demo.base import COMPANY, as_user, on, wh
 from onedesk.one_demo.people import OWNER, PEOPLE
@@ -201,7 +211,7 @@ def a_projects_figures_are_its_documents():
 		said = money.money(project.name)
 		scope = sorted(tree.scope(project.name))
 		customer, cost = _figures(said.get("customer", [])), _figures(said.get("cost", []))
-		for label, figures, doctype, child in (
+		for label, figures, _doctype, child in (
 			("Ordered", customer, "Sales Order", "Sales Order Item"),
 			("Invoiced", customer, "Sales Invoice", "Sales Invoice Item"),
 			("Billed", cost, "Purchase Invoice", "Purchase Invoice Item"),
@@ -663,15 +673,17 @@ def a_template_is_laid_out_and_changed_on_its_page():
 	"""The project manager opens the Aluminium & Glazing template, changes it
 	in place, copies a preset in from the library and starts a project and a
 	running project's extra tasks from them. A projects user only reads."""
-	from onedesk.one_project import kinds, library, template_view, templates
 	from onedesk.one_demo.projects import TEMPLATE
+	from onedesk.one_project import kinds, library, template_view, templates
 
 	with as_user("samir@one.test"):
 		said = template_view.read(TEMPLATE)
 		assert sum(1 for one in said["tasks"] if not one["is_group"]) == 25, said["tasks"]
 		assert all(one["is_milestone"] for one in said["tasks"] if one["is_group"])
 		assert said["used"] >= 1 and said["can_write"]
-		listed = lambda name: tuple(frappe.db.get_value("Project Template", name, ["one_tasks", "one_days", "one_projects"]))
+		def listed(name):
+			return tuple(frappe.db.get_value("Project Template", name, ["one_tasks", "one_days", "one_projects"]))
+
 		assert listed(TEMPLATE) == (25, said["days"], said["used"]), "the list says what the page says"
 		first, phase = said["tasks"][1]["name"], said["tasks"][0]["name"]
 		template_view.change(TEMPLATE, first, "duration", 4)
@@ -1195,7 +1207,27 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 	"""The villa's page as Samir reads it, tab by tab, the tower's tree added
 	up, the Projects list's tree and timeline, the retainer's months and what
 	OneAI reads of them."""
-	from onedesk.one_project import activity, ai, billing, budget, buying, chain, contacts, hours, kinds, library, media, overview, progress, retainer, status, team, tree, updates, view
+	from onedesk.one_project import (
+		activity,
+		ai,
+		billing,
+		budget,
+		buying,
+		chain,
+		contacts,
+		hours,
+		kinds,
+		library,
+		media,
+		overview,
+		progress,
+		retainer,
+		status,
+		team,
+		tree,
+		updates,
+		view,
+	)
 
 	with as_user("samir@one.test"):
 		said = overview.overview(VILLA)
@@ -1241,7 +1273,19 @@ def oneproject_samir_runs_a_project():
 	a cost type's budget, the update he is asked for, a template from the
 	villa's tasks, a contract on Acme's lobby, a project grouped above
 	another, a photo added, and the villa closed with its open work."""
-	from onedesk.one_project import ai, budget, contacts, hours, kinds, media, status, team, templates, tree, updates
+	from onedesk.one_project import (
+		ai,
+		budget,
+		contacts,
+		hours,
+		kinds,
+		media,
+		status,
+		team,
+		templates,
+		tree,
+		updates,
+	)
 
 	with as_user("samir@one.test"):
 		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
@@ -1578,6 +1622,63 @@ def oneproject_its_invoices_suppliers_team_and_activity_read_true():
 		weeks = [one for one in activity.activity(VILLA)["activities"] if one["type"] == "time"]
 		keys = [one["key"] for one in weeks]
 		assert len(keys) == len(set(keys)) and any(one["data"]["people"] > 1 for one in weeks), keys[:5]
+
+
+@check
+def oneproject_oneai_reminds_adds_and_the_rules_stand():
+	"""OneAI reads the late invoices and what is due to each subcontractor,
+	and its cards remind a customer, add a member and add a contact only when
+	approved, the reminder opening to send rather than sent. A bill due today
+	is told to the manager. A member who can't sign in can't join, however
+	they're added. Each document says it was made on its own date."""
+	from unittest.mock import patch
+
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import ai, billing, contacts
+	from onedesk.one_project.retention import HELD
+
+	with as_user(OWNER):
+		facts = ai.project_facts(TOWER)
+		late = facts["invoices"]["overdue"]
+		assert late and all(one["days_late"] > 0 for one in late), facts["invoices"]
+		assert all("to_pay" in one and "due" in one for one in facts["money"]["subcontracts"])
+		mails = frappe.db.count("Communication")
+		card = ai.remind_customer(late[0]["invoice"], "Dear Bayview,\n\nA reminder that this invoice is past its date.")
+		said = proposals.apply(card["proposal"])
+		assert said["mail"]["text"].startswith("Dear Bayview") and said["mail"]["subject"], said
+		assert frappe.db.count("Communication") == mails, "a reminder is opened to send, never sent"
+	with as_user("samir@one.test"):
+		# Samir reads no invoices, so OneAI finds none to chase for him.
+		assert not ai.project_facts(TOWER)["invoices"]["overdue"]
+		on = set(frappe.get_all("Project User", filters={"parent": VILLA, "parenttype": "Project"}, pluck="user"))
+		joins = next(one for one in ("rania@one.test", "nadia@one.test", "tariq@one.test", "omar@one.test", "karim@one.test") if one not in on)
+		card = ai.add_member(VILLA, joins)
+		assert card.get("state") == "Proposed", card
+		assert not frappe.db.exists("Project User", {"parent": VILLA, "user": joins})
+		proposals.apply(card["proposal"])
+		assert frappe.db.exists("Project User", {"parent": VILLA, "user": joins})
+		card = ai.add_contact(VILLA, "Engineer", organisation="Gulf Structural Engineers", note="Checks the brackets")
+		proposals.apply(card["proposal"])
+		assert "Gulf Structural Engineers" in {one["company"] for one in contacts.contacts(VILLA)["contacts"]}
+	bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "project": VILLA}, pluck="name")[0]
+	for row in frappe.get_all("Payment Schedule", filters={"parent": bill, "parenttype": "Purchase Invoice"}, fields=["name", "payment_term"]):
+		if row.payment_term not in HELD:
+			frappe.db.set_value("Payment Schedule", row.name, {"due_date": today(), "outstanding": 1000})
+	told = []
+	with patch("onedesk.one_project.tell.bill_due", side_effect=lambda *args: told.append(args)):
+		billing.bills_due()
+	assert bill in {one[0] for one in told}, told
+	gone = frappe.get_doc({"doctype": "User", "email": "gone@one.test", "first_name": "Gone", "enabled": 0, "send_welcome_email": 0}).insert(ignore_permissions=True)
+	project = frappe.get_doc("Project", VILLA)
+	project.append("users", {"user": gone.name})
+	try:
+		project.save(ignore_permissions=True)
+	except frappe.ValidationError:
+		pass
+	else:
+		raise AssertionError("somebody who can't sign in joined the project")
+	first = frappe.get_all("Sales Invoice", filters={"docstatus": 1}, fields=["name", "posting_date", "creation"], order_by="posting_date asc", limit=1)[0]
+	assert getdate(first.creation) == getdate(first.posting_date), first
 
 
 @check
@@ -2658,7 +2759,9 @@ def onehr_requests_are_answered_by_who_answers_them():
 	from onedesk.one_demo import hr as demo
 	from onedesk.one_hr import expense, leave, request, shift
 
-	waiting = lambda first, **more: frappe.db.get_value("Leave Application", {"employee": _employee(first), "docstatus": 0, **more})
+	def waiting(first, **more):
+		return frappe.db.get_value("Leave Application", {"employee": _employee(first), "docstatus": 0, **more})
+
 	omar, yousef = waiting("Omar"), waiting("Yousef")
 	with as_user("rania@one.test"):
 		try:
@@ -2688,7 +2791,7 @@ def onehr_requests_are_answered_by_who_answers_them():
 		expense.reject(claim.name, "The site van went there that day.")
 		assert frappe.db.get_value("Expense Claim", claim.name, ["approval_status", "docstatus"]) == ("Rejected", 1)
 
-	name, starts, ends = demo.SHIFT
+	name, _starts, _ends = demo.SHIFT
 	ravi = frappe.db.get_value("Shift Request", {"employee": _employee("Ravi"), "docstatus": 0})
 	with as_user(demo.HR):
 		assert demo.HR in shift.approvers(_employee("Ravi"))
@@ -2826,12 +2929,11 @@ def onehr_tariq_clocks_in_with_his_phone():
 	let through and flagged: Mariam lets one stand and turns the other down. He signs in to One with the same
 	passkey. A new phone: he asks for a reset, Mariam resets it, and blocks
 	it when he leaves."""
+	import json
+	import time
 	from unittest import mock
 
 	from onedesk.one_demo import hr as demo
-	import json
-	import time
-
 	from onedesk.one_hr import clock, employee, passkey, review, signin
 
 	tariq = _employee("Tariq")
@@ -3230,10 +3332,12 @@ def privacy_requests_go_through_the_administrators():
 	from onedesk.one import privacy, privacy_copy, privacy_public
 
 	mailed = {}
-	keep = lambda key: (lambda *args, **kw: mailed.__setitem__(key, next(one for one in args if isinstance(one, str) and "/api/method/" in one)))
-	with mock.patch("frappe.utils.password.check_password"), mock.patch("frappe.enqueue") as queued:
+	def keep(key):
+		return lambda *args, **kw: mailed.__setitem__(key, next(one for one in args if isinstance(one, str) and "/api/method/" in one))
+
+	with mock.patch("frappe.utils.password.check_password"), mock.patch("frappe.enqueue"):
 		with as_user("nadia@one.test"):
-			asked = privacy.ask_to_delete("her password")
+			privacy.ask_to_delete("her password")
 		nadia = frappe.db.get_value(privacy.DELETION, {"email": "nadia@one.test"})
 		with as_user("tariq@one.test"):
 			privacy.ask_to_delete("his password")

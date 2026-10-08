@@ -14,8 +14,22 @@ clause(
 	body="""
 		In OneProject, when you ask OneAI about a project, it reads the project as you see it on its page:
 		its figures, its money with the customer and with suppliers (orders, invoices, payments, retention
-		and budgets), its tasks, its people and the team's updates, with those of its sub-projects you may
-		see. A task it suggests for a project is added only when you approve it.
+		and budgets), its tasks, its people, the outside contacts named on it with their role, email and
+		phone, and the team's updates, with those of its sub-projects you may see. A task, a reminder to a
+		customer, a member or a contact it suggests is added or sent only when you approve it.
+	""",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneproject-contacts",
+	module=M,
+	body="""
+		A project can name people outside the company who work on it, such as the customer's
+		representative, a consultant or a subcontractor. It keeps their role and a note, and shows their
+		email and phone from the Address Book to whoever may read the project. Taking them off the project
+		removes them from it. Their contact stays in the Address Book.
 	""",
 )
 

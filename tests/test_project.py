@@ -611,15 +611,34 @@ def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
 	assert '"one_project_draft"' in update and "insert" not in update and "save" not in update
 
 
+def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
+	ai = (PROJECT / "ai.py").read_text()
+	for tool in ("remind_customer", "add_member", "add_contact"):
+		assert f'"onedesk.one_project.ai.{tool}",' in HOOKS
+	assert 'proposals.propose(\n\t\t\t"Mail",' in ai
+	# Its facts carry the invoices past their date and what is due to each subcontractor.
+	assert '"invoices": _invoices(project),' in ai
+	for key in ('"to_pay"', '"overdue"', '"late"', '"due"'):
+		assert key in ai.split("def _money", 1)[1].split("def ", 1)[0]
+	# A mail is opened to send, never sent; a member or contact is added by the Team view's own code.
+	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
+	mail = proposals.split('if entry.kind == "Mail":', 1)[1].split("\n\n", 1)[0]
+	assert '"email"' in mail and "sendmail" not in mail and "make(" not in mail
+	approved = ai.split("def approved", 1)[1].split("\ndef ", 1)[0]
+	assert "team.add(" in approved and "contacts.save(" in approved
+	setup = (tree.APP / "one" / "ai_setup.py").read_text()
+	assert 'if what in ("member", "contact"):' in setup
+
+
 def test_oneai_reads_a_project_as_its_page_does():
 	for tool in ("project_facts", "projects_needing_attention"):
 		assert f'"onedesk.one_project.ai.{tool}"' in HOOKS
 	assert '"onedesk.one_project.ai.SUGGESTIONS"' in HOOKS
 	groups = (tree.APP / "one_ai" / "groups.py").read_text()
-	assert (
-		'"tools": ("project_facts", "projects_needing_attention", "draft_update", "project_templates", "draft_template")' in groups
-		and '"One Project": "projects"' in groups
-	)
+	tools = groups.split('"projects": {', 1)[1].split("},", 1)[0]
+	for tool in ("project_facts", "projects_needing_attention", "draft_update", "remind_customer", "add_member", "add_contact", "project_templates", "draft_template"):
+		assert f'"{tool}"' in tools
+	assert '"One Project": "projects"' in groups
 	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
 	for heading in ("## Being told", "## Asking OneAI", "## Who sees a project"):
 		assert heading in readme
@@ -1451,6 +1470,7 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	# The portal shows it; the agreements say who can open it.
 	assert '"media": media.shown(project)' in (PROJECT / "portal.py").read_text()
 	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
+	assert 'key="oneproject-contacts"' in (PROJECT / "legal.py").read_text()
 
 
 def test_a_projects_page_is_laid_out_for_its_kind():
@@ -2415,3 +2435,16 @@ def test_money_shows_its_totals_to_every_reader_and_links_only_for_those_who_may
 	assert '_opens(received)' in money and '_opens(paid)' in money
 	# Amounts are in the project's company's currency, as its base amounts are.
 	assert '"currency": _currency(project)' in money and 'frappe.db.get_default("currency")' not in money
+
+
+def test_a_debit_note_is_never_late_and_the_rules_stand_in_hooks():
+	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
+	past_due = _load(PROJECT / "money.py", ("past_due",), flt=flt)["past_due"]
+	note = [{"due_date": "2026-07-01", "amount": -1200, "held": False}]
+	assert past_due(note, -1200, "2026-10-08") is None
+	bill = [{"due_date": "2026-07-01", "amount": 1200, "held": False}]
+	assert past_due(bill, 1200, "2026-10-08")["due"] == 1200
+	# A disabled user can't join through the desk form, nor a retainer's
+	# hours be billed outside their month.
+	assert '"onedesk.one_project.members.enabled"' in HOOKS
+	assert '"onedesk.one_project.retainer.billed_by_month"' in HOOKS

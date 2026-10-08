@@ -10,6 +10,8 @@
     <ActivityComposer ref="composer" doctype="Project" :name="project" :vet="letIn" @sent="sent">
       <TabButtons v-model="shown" :options="FILTERS" />
     </ActivityComposer>
+    <!-- What the workspace's extensions add here (one_studio/places.py). -->
+    <PlaceSpot :said="spot" />
     <ActivityTimeline :activities="rows" :loading="!ready" :paginate="paginate">
       <template #empty>
         <div class="py-12 text-center text-base text-ink-gray-5">{{ __("No activity") }}</div>
@@ -93,9 +95,10 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Button, TabButtons } from "frappe-ui";
 import { ActivityTimeline, EmailItem, useActivityTimeline } from "@framework/ui/ActivityTimeline";
 
-import { ActivityComposer, __, andList, ask, call, followList, go, hours, listen, money } from "../kit";
+import { ActivityComposer, PlaceSpot, __, andList, ask, call, followList, go, hours, listen, money } from "../kit";
 import { onlyArg, useOnly } from "./only";
 import ActivityLine from "./ActivityLine.vue";
+import { usePlace } from "./place";
 
 const props = defineProps({ project: { type: String, required: true }, modified: String });
 // Only the project's own work when the page shows its Main (only.js).
@@ -157,6 +160,7 @@ const rows = computed(() =>
     .filter((one) => shown.value === "all" || kindOf(one) === shown.value)
     .sort((a, b) => (b.timestamp || "").localeCompare(a.timestamp || ""))
 );
+const spot = usePlace("oneproject.activity", () => ready.value && { project: { name: props.project }, activity: { shown: shown.value, count: rows.value.length } });
 
 // Anything that adds to the history reloads its newest page: money moving
 // (money.py tells the page), a task, time or an update, the project saved.

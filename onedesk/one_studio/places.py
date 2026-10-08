@@ -132,6 +132,39 @@ PLACES = {
 				),
 				"may": ("note", "action"),
 			},
+			# Each of the page's views, when it is open, with what it shows.
+			"invoices": {
+				"about": _lt("A project's Invoices view is opened, and each time its invoices change."),
+				"gives": (
+					"project.name, project.title, project.kind, project.customer, project.currency, invoices.count, "
+					"invoices.invoiced, invoices.paid, invoices.outstanding, invoices.overdue, invoices.late (how many "
+					"are late), invoices.retention, invoices.drafts, invoices.advance"
+				),
+				"may": ("note", "action"),
+			},
+			"suppliers": {
+				"about": _lt("A project's Suppliers view is opened, and each time what it buys changes."),
+				"gives": (
+					"project.name, project.title, project.kind, project.currency, suppliers.count, "
+					"suppliers.subcontracts, suppliers.ordered, suppliers.to_pay, suppliers.overdue, suppliers.retention"
+				),
+				"may": ("note", "action"),
+			},
+			"team": {
+				"about": _lt("A project's Team view is opened, and each time its team changes."),
+				"gives": "project.name, team.people (how many), team.contacts (how many outside the company)",
+				"may": ("note", "action"),
+			},
+			"files": {
+				"about": _lt("A project's Files view is opened, and each time its files change."),
+				"gives": "project.name, files.count",
+				"may": ("note", "action"),
+			},
+			"activity": {
+				"about": _lt("A project's Activity view is opened, and each time it shows more."),
+				"gives": "project.name, activity.shown (all, or the kind picked), activity.count (how many lines)",
+				"may": ("note", "action"),
+			},
 		},
 	},
 	"oneproject_template": {

@@ -59,6 +59,10 @@ def load(password: str | None = None, only: str | None = None) -> None:
 		if step not in done():
 			_mark(step)
 	_reposted()
+	from onedesk.one_demo import history
+
+	history.settle()
+	frappe.db.commit()
 	print("demo: built")
 
 

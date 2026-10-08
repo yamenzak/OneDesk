@@ -560,3 +560,33 @@ def ordered_title(doc) -> str:
 	if len(names) == 1:
 		return names[0]
 	return _("{0} and {1} more").format(names[0], len(names) - 1)
+
+
+def bills_due() -> None:
+	"""Daily: a supplier's bill on a project with a part falling due today,
+	still unpaid, is told to the project's manager (Bill Due). The retention
+	it holds is told when it falls due (Retention Due)."""
+	from onedesk.one_project import tell
+	from onedesk.one_project.retention import HELD
+
+	today = str(getdate(nowdate()))
+	rows = frappe.get_all(
+		"Payment Schedule",
+		filters={"parenttype": "Purchase Invoice", "due_date": today, "outstanding": [">", 0]},
+		fields=["parent", "payment_term", "outstanding"],
+	)
+	owed: dict[str, float] = {}
+	for row in rows:
+		if row.payment_term not in HELD:
+			owed[row.parent] = owed.get(row.parent, 0.0) + flt(row.outstanding)
+	for name, amount in owed.items():
+		bill = frappe.db.get_value(
+			"Purchase Invoice", name, ["docstatus", "project", "supplier_name", "currency", "outstanding_amount"], as_dict=True
+		)
+		if not bill or bill.docstatus != 1 or flt(bill.outstanding_amount) <= 0:
+			continue
+		project = bill.project or frappe.db.get_value(
+			"Purchase Invoice Item", {"parent": name, "project": ["is", "set"]}, "project"
+		)
+		if project:
+			tell.bill_due(name, project, min(amount, flt(bill.outstanding_amount)), bill.currency, bill.supplier_name)

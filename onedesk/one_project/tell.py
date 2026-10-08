@@ -245,6 +245,20 @@ def retention_due(doctype: str, name: str, project: str, amount: float, company:
 	)
 
 
+def bill_due(name: str, project: str, amount: float, currency: str, supplier: str) -> None:
+	"""A supplier's bill on the project falls due today, told to its manager."""
+	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
+	if not head or not head.one_manager:
+		return
+	notify.notify(
+		"Bill Due",
+		head.one_manager,
+		record=("Purchase Invoice", name),
+		project=head.project_name,
+		owed=_("{0} to {1}").format(fmt_money(amount, currency=currency), supplier),
+	)
+
+
 def update_asked(doc, people: list[str], update) -> None:
 	"""The team is asked for a status update, in One, and mailed where mail goes."""
 	# The project's own question, where it has one, over the type's text.

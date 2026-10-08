@@ -36,7 +36,6 @@ PEOPLE = (
 
 def run(password=None):
 	from onedesk.one import settings
-
 	from onedesk.one_demo.setup import BUILDER
 
 	frappe.db.set_single_value("System Settings", "enable_password_policy", 0)
@@ -66,7 +65,7 @@ def run(password=None):
 			make({"doctype": "Designation", "designation_name": name})
 
 	made = {}
-	for first, last, email, department, designation, gender, joined, _pay, boss, _access in PEOPLE:
+	for first, last, email, department, designation, gender, joined, _pay, _boss, _access in PEOPLE:
 		found = frappe.db.get_value("Employee", {"first_name": first, "last_name": last})
 		if found:
 			made[first] = found

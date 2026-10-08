@@ -628,7 +628,10 @@ def past_due(terms: list, outstanding: float, today) -> dict | None:
 	what's left of those already due, since when, and whether it's only
 	retention. ERPNext's own per-term outstanding moves only when a payment
 	names the term, so the rest is worked out here. None when nothing's due.
-	Pure.""" 
+	Pure."""
+	# A credit or debit note owes nothing back to its date.
+	if flt(outstanding) <= 0:
+		return None
 	terms = sorted(terms, key=lambda one: str(one["due_date"]))
 	paid = max(0.0, sum(flt(one["amount"]) for one in terms) - flt(outstanding))
 	due, since, held = 0.0, None, True

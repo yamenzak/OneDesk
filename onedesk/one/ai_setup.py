@@ -746,6 +746,11 @@ def apply(changes: dict) -> str:
 		from onedesk.one_project import library
 
 		return library.drafted(changes["preset"])
+	if what in ("member", "contact"):
+		# Somebody on a project's team or among its contacts, added by the Team view's own code.
+		from onedesk.one_project import ai as project_ai
+
+		return project_ai.approved(changes)
 	if what == "report":
 		from frappe.desk.reportview import save_report
 

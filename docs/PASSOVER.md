@@ -9043,7 +9043,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done |
 | 2 | A project's head and Overview | done |
 | 3 | Tasks, Time, Money | done |
-| 4 | Invoices, Suppliers, Team, Files, Activity | open items |
+| 4 | Invoices, Suppliers, Team, Files, Activity | done |
 | 5 | Workload, Time, Templates | |
 | 6 | Across modules on the demo | |
 | 7 | `docs/STANDARD.md`, and OneProject closed | |
@@ -9211,29 +9211,69 @@ Fixed:
   line naming who logged it, most hours first, in the reader's language's
   list form (babel's, as frappe's own `comma_and` writes "A, and B").
 
+Fixed after the walk, the eleven it left open:
+
+- **Demo (1)**: every document said it was made the day the demo was built,
+  so April's invoices sat above last week's time in Activity. Once built,
+  each document, its rows and its versions move back to their own date
+  (`one_demo/history.py`). Run on this site, it moved 270, and a second run
+  moved none.
+- **Rules on the server (2)**: somebody who can't sign in joins no project,
+  however they're added, and a retainer's hours are billed only with their
+  month, ERPNext's Fetch Timesheet included. Both are the record's own
+  hooks now (`members.enabled`, `retainer.billed_by_month`).
+- **Hand-offs (3)**: the README's Connections say where the Team's members
+  and Contacts come from.
+- **Extensible (7)**: each tab has a place of its own, told what the tab
+  shows (`oneproject.invoices`, `.suppliers`, `.team`, `.files`,
+  `.activity`). A place's notes and buttons are drawn in the page as
+  frappe-ui's Alert and Button. Before, desk's styles never reached inside
+  the page, so the head's place drew its notes unstyled too.
+- **Notifications (10)**: Bill Due tells the project's manager on the day a
+  supplier's bill on the project falls due unpaid. The README lists it and
+  Retention Due.
+- **Documented, OneAI (13)**: OneAI reads what's to pay and late on each
+  subcontract and the invoices past their date. It drafts a reminder about
+  an overdue invoice, and approving it opens frappe's email window on the
+  invoice with the mail written in, to send yourself. It adds a member or a
+  contact as a card too. The email window now loads the invoice's kind
+  first, which a page on a project never had.
+- **Intake (14)**: a scaffolding bill naming the villa becomes the villa's
+  bill (`tests/samples/intake/one_project`). A customer's remittance already
+  takes its project from the invoice it pays (the OneBook sample).
+- **Legal (16)**: the Privacy Policy says OneAI reads the project's outside
+  contacts, and the AI Addendum that a reminder, a member or a contact it
+  suggests waits for you. The owner is asked to agree again.
+- **Clean code (17)**: the module and the demo lint clean, and a guard keeps
+  them so.
+- **Everything follows frappe**: Suppliers follows drafts of every buying
+  document, and Team follows tasks, time and contacts.
+- **What ERPNext already does**: a credit or debit note owes nothing back,
+  so it is never late.
+
 Every point:
 
 | Point | Looked at | Found |
 |---|---|---|
-| 1 Demo | invoices, bills, payments, retention, contacts, time | fixed above. Open: every demo document is dated the build day in Activity, so April's invoices sit above last week's time |
-| 2 Rules on the server | team, contacts, billing, retention, buying endpoints | open: a disabled user can join a project through the desk form or an import, and a retainer's hours can be billed through ERPNext's own Fetch Timesheet as well as Invoice Month |
-| 3 Hand-offs | README Connections | open: no Team or Contacts lines |
+| 1 Demo | invoices, bills, payments, retention, contacts, time, dates | fixed above |
+| 2 Rules on the server | team, contacts, billing, retention, buying endpoints | fixed above |
+| 3 Hand-offs | README Connections | fixed above |
 | 4 Tier declared | `one/tiers.py` | Project is declared |
 | 5 Our look | the five tabs, desktop and phone | fixed above |
 | 6 Nothing lost | the record frame | Assign, Files, Tags, Members, Print and Like are there |
-| 7 Extensible | `one_studio/places.py` | open: one place, on the head. No tab has a place of its own |
-| 8 Built from frappe | the tabs' parts | frappe-ui List, Badge, Button, TabButtons, Dialog |
+| 7 Extensible | `one_studio/places.py` | fixed above |
+| 8 Built from frappe | the tabs' parts | frappe-ui List, Badge, Button, TabButtons, Dialog, Alert |
 | 9 Overrides recorded | the gate | passes |
-| 10 Notifications | `notifications/one_project/` | open: Retention Due isn't in the README's list, and nobody is told when a supplier's bill on the project falls due or goes late, only Needs You |
+| 10 Notifications | `notifications/one_project/` | fixed above |
 | 11 Printed | Sales Invoice, Purchase Order | One Sales Invoice and One Purchase Order are shipped and the default. Send attaches it |
 | 12 Plain words | headings, notes, buttons, empty states | fixed above |
-| 13 Documented, OneAI | README, `ai.py` | open: OneAI's facts drop what's to pay and late on a subcontract and list no overdue invoices, and it can't chase an invoice, add a member or add a contact |
-| 14 Intake | `tests/samples/intake`, `one_project/intake.py` | open: no OneProject samples, and a customer's remittance is never tied to its project |
-| 15 Permissions | as Samir and as Huda | Invoices only for those who read invoices, totals for every reader (screen 3) |
-| 16 Legal | `one_project/legal.py` | open: OneAI reads outside contacts' emails and phones, which no clause says |
-| 17 Clean code | ruff on the module and the demo | open: 3 lint errors in the module, 16 in the demo, and no guard keeps them out |
-| Everything follows frappe | realtime on each tab | open: a draft request, quotation or order on Suppliers shows only after it's submitted, and Team's task and hour counts don't follow tasks and time |
-| What ERPNext already does | drafts, cancelled, amended, credit notes, statuses, due dates, retention | open: a supplier's debit note can read as late on its subcontract |
+| 13 Documented, OneAI | README, `ai.py` | fixed above |
+| 14 Intake | `tests/samples/intake`, `one_project/intake.py` | fixed above |
+| 15 Permissions | as Samir and as Huda | Invoices only for those who read invoices, totals for every reader (screen 3). OneAI finds no invoice to chase for Samir |
+| 16 Legal | `one_project/legal.py` | fixed above |
+| 17 Clean code | ruff on the module and the demo | fixed above |
+| Everything follows frappe | realtime on each tab | fixed above |
+| What ERPNext already does | drafts, cancelled, amended, credit notes, statuses, due dates, retention | fixed above |
 
 ## OneLegal
 

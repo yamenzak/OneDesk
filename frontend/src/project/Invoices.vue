@@ -17,6 +17,8 @@
         <Button v-if="said.can_create && kind === 'Retainer'" size="sm" variant="solid" icon-left="lucide-receipt" :label="__('Invoice Month')" @click="invoiceMonth" />
         <Button v-else-if="said.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Invoice')" @click="newInvoice" />
       </div>
+      <!-- What the workspace's extensions add here (one_studio/places.py). -->
+      <PlaceSpot :said="spot" class="mb-4" />
       <Figures v-if="said.invoices.length || said.totals.advance" class="mb-5 mt-3" :figures="figures" />
 
       <div v-if="!said.invoices.length" class="flex flex-col items-center gap-3 py-16 text-center">
@@ -73,8 +75,9 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk, plain } from "../kit";
+import { Figures, Loading, PlaceSpot, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk, plain } from "../kit";
 import { onlyArg, useOnly } from "./only";
+import { usePlace } from "./place";
 
 const props = defineProps({ projectName: { type: String, required: true }, projectTitle: String, kind: String, customer: String, currency: String });
 // Only the project's own work when the page shows its Main (only.js).
@@ -83,6 +86,12 @@ const only = useOnly();
 // ERPNext's own colours for an invoice's status.
 const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
 const said = ref(null);
+const spot = usePlace("oneproject.invoices", () =>
+  said.value && {
+    project: { name: props.projectName, title: props.projectTitle, kind: props.kind, customer: props.customer, currency: props.currency },
+    invoices: { count: said.value.invoices.length, ...said.value.totals },
+  }
+);
 // Amounts in the company's currency are said once, at the top, as on
 // Suppliers (frappe's own number format); another currency keeps its symbol.
 const amount = (value) => plain(value);

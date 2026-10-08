@@ -114,9 +114,9 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 19: users' and employees' pictures from Gravatar, the company's logo.
+		# 20: the outside people named on a project.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 19,
+		"revision": 20,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 12: OneAI reads a project's money with its customer and suppliers.
+		# 13: OneAI reads a project's outside contacts, and drafts a reminder, a member or a contact.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 12,
+		"revision": 13,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

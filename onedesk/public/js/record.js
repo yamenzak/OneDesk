@@ -13,6 +13,8 @@ frappe.provide("onedesk.record");
 // The record and its docinfo, read fresh, without leaving a copy in locals
 // that a form opened next would take for the saved record.
 onedesk.record.read = async (doctype, name) => {
+	// frappe's dialogs read the kind's meta, which a page on another record never loaded.
+	await frappe.model.with_doctype(doctype);
 	const r = await frappe.call({ method: "frappe.desk.form.load.getdoc", type: "GET", args: { doctype, name } });
 	const doc = (r.docs || [])[0] || {};
 	const docinfo = r.docinfo || {};
@@ -123,8 +125,14 @@ onedesk.record.changes = (doctype, name, heard) => {
 // compose_mail gives it (frappe/form/footer/form_timeline.js), so the
 // recipients, copies, subject and quoted mail are what a form would give.
 // `email` is the email as `getdoc` and the timeline keep it: name, sender,
-// recipients, cc, bcc, subject, content, communication_date.
-onedesk.record.email = async (doctype, name, { email = null, all = false, sent = () => {} } = {}) => {
+// recipients, cc, bcc, subject, content, communication_date. A new email may
+// come written: `recipients`, `subject` and `message` (HTML), as a OneAI card
+// hands it over.
+onedesk.record.email = async (
+	doctype,
+	name,
+	{ email = null, all = false, sent = () => {}, recipients = null, subject = null, message = "" } = {}
+) => {
 	const record = await onedesk.record.read(doctype, name);
 	const frm = onedesk.record.handle(doctype, record, sent);
 	const { doc } = record;
@@ -132,14 +140,14 @@ onedesk.record.email = async (doctype, name, { email = null, all = false, sent =
 	const args = {
 		doc,
 		frm,
-		recipients: email && email.sender != me ? email.sender : doc.email_id || doc.email || "",
+		recipients: recipients || (email && email.sender != me ? email.sender : doc.email_id || doc.email || doc.contact_email || ""),
 		is_a_reply: Boolean(email),
 		title: email ? __("Reply") : null,
 		last_email: email,
-		subject: email && email.subject,
+		subject: subject || (email && email.subject),
 		reply_all: all,
 		sender: email && email.sender,
-		message: "",
+		message: message || "",
 	};
 	if (email) {
 		const outgoing = (frappe.boot.email_accounts || [])

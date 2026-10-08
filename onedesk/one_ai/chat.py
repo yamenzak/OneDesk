@@ -339,6 +339,19 @@ def _suggests(row: dict) -> dict:
 			"fields": [{"label": frappe._("Reply"), "value": str(changes.get("text") or "")}],
 		}
 
+	if row.get("kind") == "Mail":
+		# The mail as it will open to send, about the record it is on.
+		return {
+			"doctype": doctype,
+			"name": row.get("record") or "",
+			"title": "",
+			"fields": [
+				{"label": frappe._("To"), "value": str(changes.get("recipients") or "")},
+				{"label": frappe._("Subject"), "value": str(changes.get("subject") or "")},
+				{"label": frappe._("Mail"), "value": str(changes.get("text") or "")},
+			],
+		}
+
 	if row.get("kind") == "Update":
 		# The update as it will be posted, under the project it is on.
 		return {

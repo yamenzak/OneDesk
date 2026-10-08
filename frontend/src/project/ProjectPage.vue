@@ -7,7 +7,7 @@
            own form sidebar is on the page's right (onedesk.island_page). -->
       <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
-      <div ref="spot" class="empty:hidden [&_.one-place-spot]:mt-4" />
+      <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" />
       <!-- Every view starts a little below the tabs, and makes room for an
            open task so the row stays in sight. -->
@@ -59,10 +59,10 @@
 // is one_project/view.py's `said` and `work`; what it changes it changes as
 // desk does. Desk's own page head above it carries the main action and the
 // rest (onedesk.island_page), from what `report` says.
-import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
-import { Loading, Page, ViewTabs, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth } from "../kit";
+import { Loading, Page, PlaceSpot, ViewTabs, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
@@ -286,19 +286,23 @@ function scopeCrumb(s) {
 // those written for the page are told the project, those written for a
 // Project's head are told the record as its head is. Each is lent a note and
 // a button, or a verb in the page's head, and drawn again with the page.
-const spot = ref(null);
+const placed = reactive({ notes: [], actions: [] });
 let verbs = [];
 let drawn = null;
 function extended(s) {
   const places = onedesk().places;
   const doc = record.record.value?.doc;
-  if (!places || !spot.value || !doc) return;
+  if (!places || !doc) return;
   const key = `${s.name}/${doc.modified}/${s.modified}`;
   if (drawn === key) return;
   drawn = key;
-  spot.value.replaceChildren();
+  placed.notes = [];
+  placed.actions = [];
   verbs = [];
-  const lend = () => places.spot(($spot) => $spot.appendTo(spot.value));
+  const lend = () => ({
+    note: (text, tone) => placed.notes.push({ text: String(text || ""), tone }),
+    action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
+  });
   if (places.listening("oneproject.project")) {
     const project = {
       name: s.name,

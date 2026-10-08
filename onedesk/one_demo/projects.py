@@ -390,7 +390,7 @@ def _project(
 			"manager": PM,
 			"template": template,
 			"parent": parent,
-			**dict(zip(("payment_terms", "terms"), AGREED.get(title, (None, None)))),
+			**dict(zip(("payment_terms", "terms"), AGREED.get(title, (None, None)), strict=True)),
 			**values,
 		}
 	)
@@ -571,8 +571,8 @@ def _papers(project):
 	"""What the villa keeps beside its money: the window schedule on its
 	Files tab, a photo from site in its Featured Media, and a request for
 	the next run of profile, each added as Samir adds them."""
-	from onedesk.one_storage import namespace, upload
 	from onedesk.one_project import media
+	from onedesk.one_storage import namespace, upload
 
 	if not frappe.db.exists("File", {"attached_to_name": project, "file_name": "Window schedule.csv"}):
 		rows = ["Mark,Type,Width,Height,Count", *(",".join(map(str, one)) for one in SCHEDULE)]
@@ -721,7 +721,7 @@ def _progress(project, done_through, half_way):
 			if not task:
 				continue
 			_assign(task.name, people[(i + j) % len(people)])
-			if i < done_through or (i == done_through and j < len(tasks)) and i <= done_through:
+			if i < done_through or ((i == done_through and j < len(tasks)) and i <= done_through):
 				_finish(task.name, "Completed", task.exp_end_date)
 			elif i == half_way and j < len(tasks) // 2:
 				_finish(task.name, "Completed", task.exp_end_date)

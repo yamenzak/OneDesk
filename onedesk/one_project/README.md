@@ -1113,6 +1113,11 @@ updates by email the next morning.
 - **Hours Over Plan**: the hours logged on a task pass its planned hours
   (Expected Time). To whoever has the task and the project's manager, once,
   as they pass.
+- **Retention Due**: retention held by a customer, or from a supplier, falls
+  due today. To the project's manager.
+- **Bill Due**: a supplier's bill on a project you manage falls due today
+  and isn't paid yet. A bill past its date stays in **Needs You** until it's
+  paid.
 
 A task's own notifications (**Task Given**, **Task Done**, **Task Ready**,
 **Pending Review** and **Due Date Changed**) are OneTask's, and listed with
@@ -1134,7 +1139,8 @@ On a project's page, OneAI offers what fits the view you're on:
   **Who has too much on?**
 - **Money**: **Where is the money going?**, **What's still to invoice?** and
   **What's left to pay the subcontractors?**
-- **Invoices**: **What's still to invoice?**
+- **Invoices**: **What's still to invoice?** and **Remind a customer of an
+  overdue invoice**
 - **Suppliers**: **What's left to pay the subcontractors?**
 - **Team**: **Who has too much on?** and **What is late?**
 
@@ -1146,8 +1152,15 @@ OneAI reads a project as you see it on its page: its figures, its money with
 the customer and suppliers, its cost types, its tasks, its time, its people
 and their load, a retainer's months, and the team's updates, including the
 sub-projects you can see, and the project's own work apart from them, so it
-can say what the job is worth without its extra work. Tasks it suggests come as cards, and nothing is
-added until you approve one.
+can say what the job is worth without its extra work. It knows which
+invoices are past their date and what's to pay each subcontractor, and when.
+Tasks it suggests come as cards, and nothing is added until you approve one.
+
+Ask it to remind a customer of an invoice and it writes the mail as a card.
+Approving it opens the email window on the invoice with the mail written in
+and the invoice attached, and you send it. Ask it to add somebody to the
+team or a contact, and approving the card adds them as **Add Member** and
+**Add Contact** do.
 
 On **Templates** and on a template's page, OneAI offers **Draft a template**.
 Say what kind of job it is for. It offers a template you already have, or
@@ -1303,6 +1316,7 @@ sub-project.
 - **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
 - **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
 - **To OneCRM**: Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.
+- **From One**: the Team view's members are the workspace's people, and adding one shares the project with them, as frappe shares a record. Team › Contacts names the customer's and suppliers' people from One's Address Book, with their email and phone.
 
 ## Under the hood
 
@@ -2131,6 +2145,11 @@ one field for it.
   page; the form is the same address with `?edit=1`, and a new project's form
   stays. The page follows the record through the kit (`follow`, desk's
   `doc_subscribe` and `doc_update`) and its money through `one_project_money`.
+  OneStudio's extensions are told the project on the head
+  (`oneproject.project`) and what each of Invoices, Suppliers, Team, Files and
+  Activity shows (`project/place.js`). The page is a shadow root desk's styles
+  don't reach, so their notes and buttons are drawn by the kit's `PlaceSpot`
+  as frappe-ui's Alert and Button.
 
   The page is `page/project_view` (public/js/project_page.js), opened at the
   project's own address. `said` gives it the head (the kind, status, health,
