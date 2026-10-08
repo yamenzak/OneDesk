@@ -479,7 +479,9 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	assert "doc.one_health" in (PROJECT / "heads.py").read_text(), "health leads the band"
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
-	assert "Employee Boarding" in items["Projects"]["filters"], "somebody's first week is not client work"
+	# Somebody's first week is not client work: left out quietly in every view.
+	assert "filters" not in items["Projects"]
+	assert '"project_type", "!=", "Employee Boarding"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
 	lifecycle = (tree.APP / "one_hr" / "lifecycle.py").read_text()
 	assert 'BOARDING = "Employee Boarding"' in lifecycle
 	assert HOOKS.count('"on_submit": "onedesk.one_hr.lifecycle.typed"') == 2
@@ -1317,8 +1319,10 @@ def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 	# One pill: an open project's health, a finished one's status.
 	assert 'doc.status === "Open" && doc.one_health' in listing
 	assert '"On Track": "green", "At Risk": "orange", "Off Track": "red"' in listing
-	# A sub-project reads after its parent, the parent's part quieter.
-	assert "project_name(value, df, doc)" in listing and "`${up} › ${value}`" in listing
+	# A sub-project reads by its own name, its parent after it and quieter.
+	assert "project_name(value, df, doc)" in listing and "`${value} · ${up}`" in listing
+	# How far along is a figure beside frappe's bar, through frappe.format.
+	assert "percent_complete(value)" in listing and 'fieldtype: "Percent"' in listing
 	assert '"one_health",' in listing and '"one_parent"' in listing
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	setters = {(one.get("field_name"), one["property"]): one["value"] for one in custom["property_setters"]}
@@ -1337,10 +1341,20 @@ def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 
 def test_the_other_views_of_projects_are_oneprojects_own():
 	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
-	# Every view leaves out the HR checklists until the filter is cleared.
-	assert 'filters: [["project_type", "!=", "Employee Boarding"]]' in listing
-	# Report: the ID column is the Project column, and Project Name is not repeated.
-	assert 'name !== "project_name"' in listing and 'built.name = built.content = __("Project")' in listing
+	# Every view leaves out the HR checklists without a filter anybody set,
+	# and the address carries only what somebody chose.
+	assert "List.prototype.get_filters_for_args = function" in listing
+	assert 'params.delete("project_type")' in listing
+	kanban = (tree.APP / "public" / "js" / "project_kanban.js").read_text()
+	assert "Page.prototype.get_effective_filters = function" in kanban
+	assert '"Project": "public/js/project_kanban.js"' in HOOKS
+	# An internal project's card does not ask for a customer.
+	assert 'card.one_kind === "Internal"' in kanban
+	# Report: the ID column is the Project column reading the name, Project
+	# Name is not repeated and Cover is not a column.
+	assert '["project_name", "one_cover"].includes(name)' in listing
+	assert 'built.name = built.content = __("Project")' in listing
+	assert 'frappe.utils.add_link_title("Project", row.name, row.project_name)' in listing
 	# Dashboard: OneProject's cards and charts, not ERPNext's two.
 	assert 'module: "One Project"' in listing
 	cards = {

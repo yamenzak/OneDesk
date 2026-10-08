@@ -55,6 +55,7 @@
    "options": "\nFixed Price\nTime and Materials\nRetainer\nInternal",
    "insert_after": "one_manager",
    "module": "One Project",
+   "width": "125",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "description": ""
@@ -694,6 +695,14 @@
    "property_type": "Data",
    "value": "260",
    "field_name": "project_name"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "115",
+   "field_name": "percent_complete"
   },
   {
    "doc_type": "Project",

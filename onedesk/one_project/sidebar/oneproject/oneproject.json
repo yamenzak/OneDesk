@@ -24,8 +24,7 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Project",
-   "icon": "folder-kanban",
-   "filters": "[[\"Project\", \"project_type\", \"!=\", \"Employee Boarding\"]]"
+   "icon": "folder-kanban"
   },
   {
    "child": 0,

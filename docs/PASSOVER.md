@@ -9028,6 +9028,58 @@ each closed on ERPNext's own records, each with a demo check:
   and has a contract waiting for a signature. Acme, the showroom and Marina
   have theirs.
 
+### OneProject: the closing pass
+
+Your word: "one last Passover on it before we officially close it ...
+OneProject will be the standard". Every screen is looked at again against
+all seventeen points, in seven steps: the gates, Projects and its views, a
+project's head and Overview, Tasks, Time and Money, Invoices, Suppliers,
+Team, Files and Activity, Workload, Time and Templates, a walk across
+modules on the demo, then `docs/STANDARD.md`.
+
+| Step | Screen | State |
+|---|---|---|
+| 0 | Gates: 1874 fast tests, 95 demo checks | done |
+| 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done |
+| 2 | A project's head and Overview | next |
+| 3 | Tasks, Time, Money | |
+| 4 | Invoices, Suppliers, Team, Files, Activity | |
+| 5 | Workload, Time, Templates | |
+| 6 | Across modules on the demo | |
+| 7 | `docs/STANDARD.md`, and OneProject closed | |
+
+#### 1. Projects and its views
+
+- **Stays desk (5)**: a sub-project's name was cut off behind its parent's
+  ("Bayview Tower Curtain Wall › Bayv…"). It now reads by its own name, the
+  parent after it and quieter ("Bayview Tower Podium · Bayview Tower
+  Curtain Wall").
+- **Everything follows frappe**: the HR checklist filter showed as
+  **Filters 1** on a list nobody had narrowed, and in the address. It is now
+  asked for quietly in every view (`ListView.get_filters_for_args`, so the
+  rows, the count and the sidebar's groups agree, and the board's
+  `get_effective_filters`), and left out of the address. Filtering on the
+  type yourself takes its place. A patch takes the old saved filter out of
+  each person's views (`views_settled`).
+- **What ERPNext already does**: dropping that filter brought back ERPNext's
+  own default, Open projects only, and with it ERPNext's **Open** layout
+  (List Filter `Project-Open`), whose columns replaced ours. The list keeps
+  every project, as the rail says. ERPNext's two layouts stay in the menu.
+- **Stays desk (5)**: **Time and Ma…** and **% Completed…** were cut off,
+  and the bar alone said how far a project had got. Kind is wider, and the
+  figure is beside frappe's bar, through `frappe.format`. All of it fits at
+  1440 wide.
+- **Stays desk (5)**: the Report view showed IDs (PROJ-0011) in the Project
+  column for any project whose title it had not met yet, and a **Cover**
+  column of file paths. It asks for the names with the rows, and Cover is no
+  longer a default column.
+- **Stays desk (5)**: on the board an internal project's card said
+  **Set Customer…**. It leaves the line out (`project_kanban.js`, frappe's
+  `doctype_kanban_js`).
+- **Stays desk (5)**: the Timeline opened by the week with most bars off
+  the page. It opens by the month, two months back.
+- **Overrides (9)**: six new rows in `scripts/overrides.py`.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

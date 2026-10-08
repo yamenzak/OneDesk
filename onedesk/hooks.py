@@ -953,6 +953,7 @@ doctype_js = {
 # See one_project/tree.py.
 doctype_tree_js = {"Project": "public/js/project_tree.js"}
 doctype_calendar_js = {"Project": "public/js/project_calendar.js"}
+doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
 
 doctype_list_js = {
 	"Deleted Document": "public/js/deleted_document_list.js",

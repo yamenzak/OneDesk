@@ -5,33 +5,60 @@
 // its own column. The manager reads as a name because every link to a person
 // does (`show_title_field_in_link` on User).
 //
-// A sub-project reads after the project it is under, "Villa Al Barsha ›
-// Handrails", the way My Tasks names where a task is (one_project/tree.py
-// `path`): a parent on the page is read off the page, one that isn't is
-// asked for once, and the parent's part is drawn quieter than the name.
+// A sub-project reads by its own name, then the project it is under, quieter:
+// "Handrails · Villa Al Barsha". The column is narrow and its own name is
+// what tells two sub-projects apart. A parent on the page is read off the
+// page, one that isn't is asked for once.
 const ONE_PARENTS = {};
 const HEALTH = { "On Track": "green", "At Risk": "orange", "Off Track": "red" };
 
-// The parent's part of the name, quieter: frappe writes the name as text.
+// The parent's part of the name, quieter. frappe writes the name as text.
 function quiet(listview) {
 	listview.$result.find(".list-row a.ellipsis[data-name]").each((_, link) => {
 		const doc = listview.data.find((one) => one.name === link.dataset.name);
 		const up = doc && doc.one_parent && ONE_PARENTS[doc.one_parent];
-		if (!up || link.querySelector(".text-muted") || !link.textContent.startsWith(`${up} › `)) return;
+		if (!up || link.querySelector(".text-muted") || !link.textContent.endsWith(` · ${up}`)) return;
 		link.replaceChildren(
-			Object.assign(document.createElement("span"), { className: "text-muted", textContent: `${up} › ` }),
-			document.createTextNode(link.textContent.slice(up.length + 3))
+			document.createTextNode(link.textContent.slice(0, -(up.length + 3))),
+			Object.assign(document.createElement("span"), { className: "text-muted", textContent: ` · ${up}` })
 		);
 	});
 }
 
+// Every view of Projects (List, Report, Kanban, Timeline, the counts and the
+// sidebar's groups) leaves out an employee's onboarding or exit checklist
+// (one_hr/lifecycle.py). It is asked for with every load but never shown as
+// a filter, so the list does not read "Filters 1" on a page nobody narrowed.
+// Filtering on the type yourself takes its place.
+const BOARDING = ["Project", "project_type", "!=", "Employee Boarding"];
+(() => {
+	const List = frappe.views.ListView;
+	if (!List || List.prototype.one_boarding) return;
+	List.prototype.one_boarding = true;
+	const args = List.prototype.get_filters_for_args;
+	List.prototype.get_filters_for_args = function () {
+		const filters = args.call(this);
+		if (this.doctype !== "Project" || filters.some((one) => one[1] === "project_type")) return filters;
+		return [...filters, BOARDING];
+	};
+	// The address carries only what somebody chose.
+	const search = List.prototype.get_search_params;
+	List.prototype.get_search_params = function () {
+		const params = search.call(this);
+		if (this.doctype === "Project" && !this.filter_area?.get().some((one) => one[1] === "project_type")) {
+			params.delete("project_type");
+		}
+		return params;
+	};
+})();
+
 frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Project"] || {}, {
 	hide_name_column: true,
 	hide_name_filter: true,
-	// Every view of Projects (Report, Kanban, Dashboard) leaves out an
-	// employee's onboarding or exit checklist until somebody clears the
-	// filter, as the rail's Projects row does.
-	filters: [["project_type", "!=", "Employee Boarding"]],
+	// Every project, finished ones too, as the rail's Projects says. ERPNext
+	// opens on Open alone, which also brings its own "Open" layout and its
+	// columns (List Filter, Project-Open) in place of these.
+	filters: [],
 	// OneProject's panel lists its four places (project_places.js): the rest
 	// of its setup is in this menu. Projects Settings has four ticks about time; it is opened from here
 	// by whoever may change it.
@@ -58,9 +85,20 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 		return [__(doc.status), colour, `status,=,${doc.status}`];
 	},
 	formatters: {
+		// frappe draws the bar alone; the figure is beside it.
+		percent_complete(value) {
+			const done = Math.round(value || 0);
+			return `<div class="flex align-center" style="gap: var(--padding-sm); width: 100%;">
+				<div class="progress" style="margin: 0; flex: 1;">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${done}"
+						aria-valuemin="0" aria-valuemax="100" style="width: ${done}%;"></div>
+				</div>
+				<span class="text-muted">${frappe.format(done, { fieldtype: "Percent", precision: 0 }, { inline: true })}</span>
+			</div>`;
+		},
 		project_name(value, df, doc) {
 			const up = doc.one_parent && ONE_PARENTS[doc.one_parent];
-			return up ? `${up} › ${value}` : value;
+			return up ? `${value} · ${up}` : value;
 		},
 	},
 	// The parents on the page are known before its rows are drawn.
@@ -106,7 +144,25 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 		const fields = Report.prototype.set_default_fields;
 		Report.prototype.set_default_fields = function () {
 			fields.call(this);
-			if (this.doctype === "Project") this.fields = this.fields.filter(([name]) => name !== "project_name");
+			if (this.doctype === "Project") {
+				this.fields = this.fields.filter(([name]) => !["project_name", "one_cover"].includes(name));
+			}
+		};
+		// The name is asked for with the rows, so the Project column reads it
+		// rather than the ID frappe draws until it learns the title.
+		const asked = Report.prototype.get_fields;
+		Report.prototype.get_fields = function () {
+			const fields = asked.call(this);
+			const name = frappe.model.get_full_column_name("project_name", "Project");
+			return this.doctype === "Project" && !fields.includes(name) ? [...fields, name] : fields;
+		};
+		const prepare = Report.prototype.prepare_data;
+		Report.prototype.prepare_data = function (r) {
+			prepare.call(this, r);
+			if (this.doctype !== "Project") return;
+			for (const row of this.data || []) {
+				if (row.project_name) frappe.utils.add_link_title("Project", row.name, row.project_name);
+			}
 		};
 		const column = Report.prototype.build_column;
 		Report.prototype.build_column = function (c) {

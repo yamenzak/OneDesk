@@ -28,10 +28,9 @@ CARD = {"priority": "flag", "exp_end_date": "calendar"}
 #: the project's health, which tells its people as a change on the page does.
 HEALTH_BOARD = "Projects by Health"
 HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}
-HEALTH_FILTERS = [
-	["Project", "status", "=", "Open", False],
-	["Project", "project_type", "!=", "Employee Boarding", False],
-]
+#: The HR checklists are left out quietly (project_kanban.js), not here.
+BOARDING = ["project_type", "!=", "Employee Boarding"]
+HEALTH_FILTERS = [["Project", "status", "=", "Open", False]]
 HEALTH_CARD = {"customer": "building-2", "expected_end_date": "calendar"}
 
 
@@ -53,7 +52,10 @@ def settle(*_args) -> None:
 			board.save()
 	if frappe.db.exists("Kanban Board", HEALTH_BOARD):
 		board = frappe.get_doc("Kanban Board", HEALTH_BOARD)
-		if boards.cards(board, HEALTH_CARD):
+		kept = [one for one in json.loads(board.filters or "[]") if one[1:4] != BOARDING]
+		changed = len(kept) != len(json.loads(board.filters or "[]"))
+		board.filters = json.dumps(kept)
+		if boards.cards(board, HEALTH_CARD) or changed:
 			board.flags.ignore_permissions = True
 			board.save()
 		return

@@ -1991,6 +1991,48 @@ OVERRIDES = [
 		"erpnext/erpnext/stock/doctype/repost_item_valuation/repost_item_valuation.py",
 		"def get_repost_item_valuation_entries(limit=None):",
 	),
+	(
+		"Every view of Projects leaves out the HR checklists without a filter anybody set",
+		"project_list.js adds the Employee Boarding exclusion in ListView.get_filters_for_args, which feeds the rows, the count and the sidebar's groups, and takes it back out of get_search_params so the address carries only what somebody chose",
+		"onedesk/public/js/project_list.js",
+		"frappe/frappe/public/js/frappe/list/base_list.js",
+		"get_filters_for_args() {",
+	),
+	(
+		"The address of a Projects view carries only the filters somebody chose",
+		"project_list.js takes project_type back out of ListView.get_search_params unless the filter area has it",
+		"onedesk/public/js/project_list.js",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		"get_search_params() {",
+	),
+	(
+		"The Projects board leaves out the HR checklists the same way",
+		"project_kanban.js wraps KanbanV2Page.get_effective_filters; the board's code arrives after the doctype's, so the class is changed as frappe.views.KanbanV2Page is assigned",
+		"onedesk/public/js/project_kanban.js",
+		"frappe/frappe/public/js/frappe/views/kanban_v2/kanban_page.js",
+		"get_effective_filters(extra) {",
+	),
+	(
+		"The Projects Report view reads each project's name in the Project column",
+		"project_list.js adds project_name to ReportView.get_fields and records each row's title in prepare_data, so the name column (a Link to Project) draws the name and not the ID",
+		"onedesk/public/js/project_list.js",
+		"frappe/frappe/public/js/frappe/views/reports/report_view.js",
+		"prepare_data(r) {",
+	),
+	(
+		"The Projects list opens on every project, not ERPNext's Open alone",
+		"project_list.js sets filters to an empty list; ERPNext's status = Open default also matched its own Open layout (List Filter Project-Open) and put that layout's columns in place of OneProject's",
+		"onedesk/public/js/project_list.js",
+		"erpnext/erpnext/projects/doctype/project/project_list.js",
+		'filters: [["status", "=", "Open"]],',
+	),
+	(
+		"The Projects timeline opens by the month, two months back",
+		"project_calendar.js calls frappe-gantt's set_scroll_position after change_view_mode when nobody has picked a mode",
+		"onedesk/public/js/project_calendar.js",
+		"frappe/node_modules/frappe-gantt/dist/frappe-gantt.es.js",
+		"set_scroll_position(t) {",
+	),
 ]
 
 

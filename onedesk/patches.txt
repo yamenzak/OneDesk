@@ -51,3 +51,4 @@ onedesk.one_project.patches.templates_measured
 onedesk.one_project.patches.retention_by_invoice
 onedesk.one_mail.patches.dress_people_and_company
 onedesk.one_task.patches.assignments_titled
+onedesk.one_project.patches.views_settled

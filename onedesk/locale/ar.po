@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-08 15:04+0000\n"
-"PO-Revision-Date: 2026-10-08 15:04+0000\n"
+"POT-Creation-Date: 2026-10-08 15:51+0000\n"
+"PO-Revision-Date: 2026-10-08 15:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -18615,7 +18615,7 @@ msgstr "التقدم…"
 #: onedesk/one_project/report/workload/workload.js:8
 #: onedesk/public/js/project_actions.js:424
 #: onedesk/public/js/project_actions.js:639
-#: onedesk/public/js/project_list.js:115 onedesk/public/js/project_tree.js:32
+#: onedesk/public/js/project_list.js:171 onedesk/public/js/project_tree.js:32
 #: onedesk/public/js/task_new.js:19 onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr "المشروع"
@@ -18685,7 +18685,7 @@ msgstr "المخزون المتوقع"
 msgid "Projects"
 msgstr "المشاريع"
 
-#: onedesk/public/js/project_list.js:43
+#: onedesk/public/js/project_list.js:70
 msgid "Projects Settings"
 msgstr "إعدادات المشاريع"
 
@@ -19099,7 +19099,7 @@ msgstr "التقييم {0} من 5"
 
 #. Label of the rates (Table) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_project/rates.py:18 onedesk/public/js/project_list.js:40
+#: onedesk/one_project/rates.py:18 onedesk/public/js/project_list.js:67
 msgid "Rates"
 msgstr "الأسعار"
 
@@ -32583,7 +32583,7 @@ msgid "{0}% billed"
 msgstr "{0}% مفوتر"
 
 #: frontend/src/project/Overview.vue:473 onedesk/one_project/view.py:771
-#: onedesk/public/js/project_list.js:49 onedesk/public/js/project_tree.js:18
+#: onedesk/public/js/project_list.js:76 onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0}% منجز"

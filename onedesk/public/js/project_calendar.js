@@ -58,9 +58,13 @@ frappe.views.calendar["Project"] = {
 		const gantt = this.gantt;
 		if (this.doctype === "Project") {
 			gantt.view_is = (name) => gantt.config.view_mode.name === name;
-			// A project runs for weeks; a day per column reads as nothing. Until
-			// somebody picks a mode, the timeline opens by the week.
-			if (!(this.view_user_settings || {}).gantt_view_mode) gantt.change_view_mode("Week");
+			// A project runs for months; by the day or the week most bars run off
+			// the page. Until somebody picks a mode, the timeline opens by the month.
+			// It starts two months back, so what is under way shows from its start.
+			if (!(this.view_user_settings || {}).gantt_view_mode) {
+				gantt.change_view_mode("Month");
+				gantt.set_scroll_position(frappe.datetime.add_months(frappe.datetime.get_today(), -2));
+			}
 		}
 		buttons.call(this);
 	};
