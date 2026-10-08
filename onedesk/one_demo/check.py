@@ -2627,6 +2627,9 @@ def onehr_the_crews_days_overtime_and_pay_add_up():
 	from onedesk.one_demo import hr as demo
 	from onedesk.one_hr import employee, encashment, learned, marking, overtime, payroll, presence, setup
 
+	# The crew's last two weeks and this morning's check-ins, as of today
+	# however old the demo is (kept only for the check).
+	demo._attendance()
 	arun = _employee("Arun")
 	worked = frappe.db.get_value("Attendance", {"employee": arun, "status": "Present", "docstatus": 1}, "attendance_date", order_by="attendance_date desc")
 	with as_user(demo.HR):
