@@ -61,6 +61,41 @@ def held(doc, method=None) -> None:
 		doc.one_markup = 0
 
 
+#: What can't change once the project has orders or invoices: who they bill,
+#: and how the project is paid for.
+SETTLED = ("customer", "one_kind")
+
+
+def in_use(name: str | None) -> bool:
+	"""Whether the project has a sales order or invoice that isn't cancelled."""
+	return bool(
+		name
+		and any(
+			frappe.db.exists(doctype, {"project": name, "docstatus": ["<", 2]})
+			for doctype in ("Sales Order", "Sales Invoice")
+		)
+	)
+
+
+def settled(doc, method=None) -> None:
+	"""Project validate: its customer and kind stay as they are once it has
+	orders or invoices, which already bill that customer that way."""
+	before = doc.get_doc_before_save()
+	if not before:
+		return
+	moved = [field for field in SETTLED if (before.get(field) or None) != (doc.get(field) or None)]
+	if moved and in_use(doc.name):
+		frappe.throw(_("{0} has orders or invoices, so its customer and kind stay as they are.").format(doc.project_name))
+
+
+@frappe.whitelist()
+def settled_fields(project: Annotated[str, "The project."]) -> list[str]:
+	"""The fields the Edit About dialog shows as fixed: the customer and kind
+	once the project has orders or invoices."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	return list(SETTLED) if in_use(project) else []
+
+
 @frappe.whitelist(methods=["POST"])
 def make(values: Annotated[dict | str, "What the New Project dialog asked for."]) -> str:
 	"""Make a project of a kind, with what that kind needs; for Fixed Price,

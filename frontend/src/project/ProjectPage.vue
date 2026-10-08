@@ -339,7 +339,6 @@ function actions(s) {
   const list = [];
   const main = mainAction(s);
   if (main) list.push({ ...main, primary: true });
-  list.push({ label: __("Edit Details"), onClick: () => go(`/desk/project/${encodeURIComponent(s.name)}?edit=1`) });
   if (s.can_write) list.push({ label: __("Ask for Updates"), onClick: () => desk().project.ask_updates(s.name, load) });
   // Every other step has its own place on the page: quotations, contracts and
   // sub-projects on the Overview, stock and expenses on Money, templates on Tasks.

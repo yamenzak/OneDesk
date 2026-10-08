@@ -629,6 +629,8 @@ doc_events = {
 			"onedesk.one_project.naming.validate",
 			"onedesk.one_project.tree.validate",
 			"onedesk.one_project.kinds.held",
+			# Its customer and kind stay once it has orders or invoices. See one_project/kinds.py.
+			"onedesk.one_project.kinds.settled",
 			# Its Budget is its cost types', and its contacts name somebody. See budget.py, contacts.py.
 			"onedesk.one_project.budget.summed",
 			"onedesk.one_project.contacts.held",

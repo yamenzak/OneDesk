@@ -110,6 +110,11 @@ def said(
 		"below": _below(doc.name),
 		"priority": doc.priority,
 		"progress_method": doc.percent_complete_method,
+		# The rest of About, shown when set (Overview.vue `facts`).
+		"project_type": doc.project_type,
+		"department": doc.department,
+		"task_prefix": doc.get("one_key"),
+		"cost_center": doc.cost_center,
 		# How its time is counted, and its site (hours.py).
 		"time": hours.method(doc.name),
 		"site": doc.get("one_site"),

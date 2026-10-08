@@ -281,8 +281,17 @@ when there are more than it shows.
 **About** has what the head doesn't: **Progress** (how Work Done is
 measured, ERPNext's % Complete Method: Manual, Task Completion, Task Progress
 or Task Weight), when it's **Due** and how far off or late that is, the
-**Team**, and its **Priority**. The pencil on the heading changes them in
-place, and a % Complete to type when Progress is Manual. **Add Brief** writes
+**Team**, and its **Priority**, then its **Project Type**, **Department**,
+**Task Prefix** and **Cost Center** when they're set. The pencil on the
+heading opens **Edit About**, which holds every field of the project not
+changed elsewhere on the page, in three groups. **Work** has the manager,
+dates, progress, priority, time, task prefix, type, department and parent
+project. **Customer** has the customer, the kind and what it needs, payment
+terms, terms and conditions and retention. **Accounts** has the cost center.
+A field your workspace adds to projects shows under **More**. The customer
+and the kind are fixed once the project has orders or invoices, since those
+already bill that customer that way, and an import or bulk edit is held to
+the same. % Complete is typed when Progress is Manual. **Add Brief** writes
 the project's brief, which then sits at the top with its own pencil. Both
 save against the project as the page loaded it, so a change someone made
 meanwhile is never overwritten. A sub-project's breadcrumb names the
@@ -535,8 +544,7 @@ can share it.
 
 The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **Invoice Time** for Time and Materials, and **Post Update** otherwise.
-**···** has **Edit Details**, **Ask for Updates** and **Group Under New
-Project**. The other steps are where they belong. **Quote Extra Work** is
+**···** has **Ask for Updates** and **Group Under New Project**. The other steps are where they belong. **Quote Extra Work** is
 under **Quotations** and **Draw Up Contract** under **Contracts** on the
 Overview, **Add Sub-project** under **Sub-projects**, **Issue Stock** and
 **New Expense Claim** on **Money**, and **Templates** on **Tasks**. On a
@@ -549,11 +557,10 @@ Below them are the ones every record has, as on its form: **Print**,
 **Remind Me**, **Follow**, **Copy to Clipboard**, **New Project** and
 **Customize**, each for whoever may do it.
 
-**Edit Details** opens the project's form, with every field: its name,
-customer, parent project, status, health and manager, its dates and members,
-**Costing** (the budget), **Progress** (how often the team is asked for an update) and
-**More Info** (priority, type, department, task prefix, how the % done is
-worked out, and notes, which are the brief).
+The page is where a project is changed: its name, status and health in the
+head, **Edit About** for the rest, members and contacts on **Team**, the
+budget on **Money**, and **Ask for Updates** in **···**. ERPNext's form is
+still at the project's address with `?edit=1`, with every field.
 
 Whoever can open a project sees its page. Whoever can change it can rename
 it and change its status and health. Whoever can change tasks can change
@@ -740,7 +747,7 @@ cost type past its budget shows the day it's placed, even while another cost
 type is under. With no budget there's no forecast.
 
 Set the **Budget** to what you expect the whole project to cost: the pencil
-on **Budget** under **Money**, or **Edit Details**. The same dialog takes the
+on **Budget** under **Money**. The same dialog takes the
 **Time Budget**, what the team's own hours may cost, and the **Planned
 Hours** when the tasks don't plan any; the **+** on **Logged** and **Time
 Cost** under **Time** opens it too. A cost type can't hold the time, as

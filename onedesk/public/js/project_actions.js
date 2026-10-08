@@ -710,17 +710,43 @@ onedesk.project.ask_updates = async (project, done) => {
 // About on a project's Overview, changed in place: ERPNext's own Project
 // fields, saved against the project as the page loaded it, so a change made
 // meanwhile is refused as a form's would be. % Complete is typed only when
-// progress is Manual.
-onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_payment_terms", "one_terms", "one_retention", "one_retention_due", "one_retention_handover"];
+// progress is Manual. The page is where a project is edited, so About holds
+// every field not edited elsewhere on it, and any field a workspace adds.
+onedesk.project.ABOUT_GROUPS = [
+	[__("Work"), ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_key", "project_type", "department", "one_parent"]],
+	[__("Customer"), ["customer", "one_kind", "one_monthly_fee", "one_monthly_hours", "one_markup", "one_payment_terms", "one_terms", "one_retention", "one_retention_due", "one_retention_handover"]],
+	[__("Accounts"), ["cost_center"]],
+];
+// Edited elsewhere on the page: the name, status and health in the head,
+// members and contacts on Team, the budget on Money, Ask for Updates, the
+// Brief, the cover from Featured Media and the contract's order. The rest
+// is set when the project is made or kept by ERPNext.
+onedesk.project.ELSEWHERE = ["naming_series", "project_name", "status", "one_health", "project_template", "one_cover", "users", "one_contacts", "estimated_costing", "one_time_budget", "one_hours_planned", "company", "sales_order", "collect_progress", "holiday_list", "frequency", "from_time", "to_time", "first_email", "second_email", "daily_time_to_send", "day_to_send", "weekly_time_to_send", "subject", "message", "notes", "is_active"];
 
-onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
+// About's fields in its groups, then any other field the project has that
+// can be typed in (one a workspace added) under More.
+onedesk.project.about_fields = () => {
+	const known = new Set([...onedesk.project.ABOUT_GROUPS.flatMap(([, names]) => names), ...onedesk.project.ELSEWHERE]);
+	const more = frappe.get_meta("Project").fields
+		.filter((df) => !known.has(df.fieldname) && !frappe.model.no_value_type.includes(df.fieldtype) && !df.hidden && !df.read_only)
+		.map((df) => df.fieldname);
+	return [...onedesk.project.ABOUT_GROUPS, [__("More"), more]].filter(([, names]) => names.length);
+};
+
+onedesk.project.edit = async (project, modified, fieldnames, title, done, fixed = []) => {
 	await frappe.model.with_doctype("Project");
 	const doc = await frappe.db.get_doc("Project", project);
+	// A section is ["Label", [fieldnames]], set among the fieldnames.
 	const fields = fieldnames
-		.map((fieldname) => frappe.meta.get_docfield("Project", fieldname))
+		.flatMap((one) => (Array.isArray(one) ? [{ fieldtype: "Section Break", label: one[0] }, ...one[1]] : [one]))
+		.map((fieldname) => (typeof fieldname === "string" ? frappe.meta.get_docfield("Project", fieldname) : fieldname))
 		.filter(Boolean)
 		.map((df) => {
+			if (df.fieldtype === "Section Break") return df;
 			const field = { ...df, default: doc[df.fieldname] };
+			// Who it bills and how stay once it has orders or invoices (kinds.py `settled`).
+			if (fixed.includes(df.fieldname)) Object.assign(field, { read_only: 1, description: __("Fixed once the project has orders or invoices.") });
+			if (df.fieldname === "one_parent") field.get_query = () => ({ filters: { name: ["!=", project] } });
 			if (df.fieldname === "percent_complete") {
 				Object.assign(field, { read_only: 0, depends_on: "eval:doc.percent_complete_method == 'Manual'" });
 			}
@@ -731,7 +757,7 @@ onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
 		});
 	const dialog = new frappe.ui.Dialog({
 		title,
-		size: fieldnames.includes("notes") ? "large" : undefined,
+		size: fieldnames.includes("notes") || fieldnames.some(Array.isArray) ? "large" : undefined,
 		fields,
 		primary_action_label: __("Save"),
 		primary_action: async (values) => {
@@ -750,8 +776,11 @@ onedesk.project.edit = async (project, modified, fieldnames, title, done) => {
 	dialog.show();
 };
 
-onedesk.project.edit_about = (project, modified, done) =>
-	onedesk.project.edit(project, modified, onedesk.project.ABOUT, __("Edit About"), done);
+onedesk.project.edit_about = async (project, modified, done) => {
+	await frappe.model.with_doctype("Project");
+	const fixed = await frappe.xcall("onedesk.one_project.kinds.settled_fields", { project });
+	onedesk.project.edit(project, modified, onedesk.project.about_fields(), __("Edit About"), done, fixed);
+};
 
 onedesk.project.edit_brief = (project, modified, done) =>
 	onedesk.project.edit(project, modified, ["notes"], __("Brief"), done);

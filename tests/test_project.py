@@ -1809,7 +1809,7 @@ def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
 	assert "__('About', null, 'Project')" in overview
 	# Changed in place, with frappe's controls, against the loaded record.
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
-	assert 'onedesk.project.ABOUT = ["one_manager", "expected_start_date", "expected_end_date"' in actions
+	assert '[__("Work"), ["one_manager", "expected_start_date", "expected_end_date"' in actions
 	assert 'frappe.meta.get_docfield("Project", fieldname)' in actions
 	assert "{ doc: { ...doc, ...values, modified } }" in actions
 	assert "onedesk().project.edit_brief(props.said.name, props.said.modified" in overview

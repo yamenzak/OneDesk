@@ -296,6 +296,10 @@ const facts = computed(() => {
     s.time && { label: __("Time"), value: [__(s.time), s.site].filter(Boolean).join(" · ") },
     s.kind !== "Internal" && { label: __("Payment Terms"), value: s.payment_terms || __("Not set"), tone: s.payment_terms ? undefined : "gray" },
     s.terms && { label: __("Terms and Conditions"), value: s.terms },
+    s.project_type && { label: __("Project Type"), value: s.project_type },
+    s.department && { label: __("Department"), value: s.department },
+    s.task_prefix && { label: __("Task Prefix"), value: s.task_prefix },
+    s.cost_center && { label: __("Cost Center"), value: s.cost_center },
     s.retention_terms && {
       label: __("Retention"),
       value: [`${s.retention_terms.percent}%`, s.retention_terms.handover && __("{0}% at handover", [s.retention_terms.handover]), s.retention_terms.due && __("Due {0}", [date(s.retention_terms.due)])].filter(Boolean).join(" · "),
