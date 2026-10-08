@@ -789,9 +789,11 @@ onedesk.project.TEMPLATE_GROUPS = [
 	[__("Details"), ["project_type", "disabled"]],
 	[__("Customer"), ["one_payment_terms", "one_terms", "one_retention", "one_retention_handover"]],
 ];
+// Edited elsewhere on the template's page: its tasks, in the table.
+onedesk.project.TEMPLATE_ELSEWHERE = ["tasks"];
 onedesk.project.edit_template = async (template, modified, done) => {
 	await frappe.model.with_doctype("Project Template");
-	const fields = onedesk.project.about_fields("Project Template", onedesk.project.TEMPLATE_GROUPS, ["tasks"]);
+	const fields = onedesk.project.about_fields("Project Template", onedesk.project.TEMPLATE_GROUPS, onedesk.project.TEMPLATE_ELSEWHERE);
 	onedesk.project.edit(template, modified, fields, __("Edit Details"), done, [], "Project Template");
 };
 

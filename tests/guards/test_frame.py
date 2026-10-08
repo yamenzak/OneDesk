@@ -2,6 +2,7 @@
 loses nothing its form has, and the workspace's extensions reach it."""
 
 import importlib.util
+import json
 import re
 from pathlib import Path
 
@@ -158,3 +159,56 @@ def test_each_page_fires_its_events_with_only_its_powers():
 	assert "JSON.parse(JSON.stringify(data" in runtime, "an extension sees a copy, never the page's own"
 	assert "onedesk.places.tripped" in runtime
 	assert "/assets/onedesk/js/places.js" in (APP / "hooks.py").read_text()
+
+
+#: Where each page edits its record's fields (public/js/project_actions.js):
+#: the groups of its Edit dialog, and the fields it edits elsewhere on the
+#: page or ERPNext keeps. Anything else would only be reached on the form.
+EDITS = {
+	"Project": ("ABOUT_GROUPS", "ELSEWHERE"),
+	"Project Template": ("TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
+}
+ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext")
+#: Field types that hold no value to type in.
+NO_VALUE = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Image", "Fold", "Heading"}
+
+
+def _named(source, constant):
+	"""The fieldnames in a constant of project_actions.js."""
+	found = re.search(rf"onedesk\.project\.{constant} = (\[.*?\]);\n", source, re.S)
+	assert found, constant
+	return set(re.findall(r'"([a-z_]+)"', found.group(1)))
+
+
+def _typed(doctype):
+	"""The fields of a doctype that can be typed in, as frappe draws its form:
+	ERPNext's own and ours (every custom/*.json), less those our property
+	setters hide or make read-only."""
+	snake = doctype.lower().replace(" ", "_")
+	fields = {df["fieldname"]: df for df in json.loads(next(ERPNEXT.glob(f"*/doctype/{snake}/{snake}.json")).read_text())["fields"]}
+	for path in APP.glob("*/custom/*.json"):
+		custom = json.loads(path.read_text())
+		for df in custom.get("custom_fields", []):
+			if df.get("dt") == doctype:
+				fields[df["fieldname"]] = df
+		for setter in custom.get("property_setters", []):
+			if setter.get("doc_type") == doctype and setter.get("field_name") in fields and setter["property"] in ("hidden", "read_only"):
+				fields[setter["field_name"]][setter["property"]] = int(setter["value"])
+	return {
+		name
+		for name, df in fields.items()
+		if df.get("fieldtype") not in NO_VALUE and not df.get("hidden") and not df.get("read_only")
+	}
+
+
+@pytest.mark.parametrize("doctype", sorted(tiers.PAGES))
+def test_a_page_edits_every_field_of_its_record(doctype):
+	"""Point 6: a record on a page of its own is edited there, every field of
+	it, so its form is a fallback and never the only way in. A field a
+	workspace adds shows under More in the same dialog (`about_fields`)."""
+	source = (APP / "public" / "js" / "project_actions.js").read_text()
+	groups, elsewhere = EDITS[doctype]
+	placed = _named(source, groups) | _named(source, elsewhere)
+	missing = sorted(_typed(doctype) - placed)
+	assert not missing, f"{doctype}: {missing} can only be changed on the form; give each a place on the page"
+	assert "onedesk.project.about_fields" in source and '[__("More"), more]' in source
