@@ -153,6 +153,100 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "parent_project"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "parent_project"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "start_date"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "end_date"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "total_billable_hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2",
+   "field_name": "total_hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2",
+   "field_name": "total_billable_hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocType",
+   "property": "sort_field",
+   "property_type": "Data",
+   "value": "start_date"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocType",
+   "property": "sort_order",
+   "property_type": "Data",
+   "value": "DESC"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "employee",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_hours",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billable_hours",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Billable Hours"
   }
  ],
  "sync_on_migrate": 1

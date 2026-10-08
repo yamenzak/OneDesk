@@ -18,7 +18,10 @@ places.
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
 - **Workload**: how many hours of open work each person has in a week.
-- **Time**: the time people have logged, across projects.
+- **Time**: the time people have logged, across projects, newest first. Each
+  timesheet shows who, the project, the days it covers, its hours and how
+  many of them are billable. Filter it by project, status, start date or
+  person.
 - **Templates**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
 

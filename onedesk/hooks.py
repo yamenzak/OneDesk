@@ -958,6 +958,8 @@ doctype_list_js = {
 	"Deleted Document": "public/js/deleted_document_list.js",
 	# From the Library, beside Add. See one_project/library.py.
 	"Project Template": "public/js/project_template_list.js",
+	# Its columns say who, which project and how long; the ID is on hover.
+	"Timesheet": "public/js/timesheet_list.js",
 	# The Audit Log's three lists, as One's sidebar names them. See one/audit.py.
 	"Version": "public/js/audit_list.js",
 	"Activity Log": "public/js/audit_list.js",

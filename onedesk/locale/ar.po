@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-08 11:14+0000\n"
-"PO-Revision-Date: 2026-10-08 11:14+0000\n"
+"POT-Creation-Date: 2026-10-08 12:26+0000\n"
+"PO-Revision-Date: 2026-10-08 12:26+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -3715,6 +3715,11 @@ msgstr "فوترة {0} س الزائدة، {1}"
 #: onedesk/public/js/project_actions.js:442
 msgid "Billable"
 msgstr "قابل للفوترة"
+
+#. Label of the 'total_billable_hours' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "Billable Hours"
+msgstr "الساعات القابلة للفوترة"
 
 #. Label of the 'total_billable_amount' field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -10297,10 +10302,12 @@ msgid "Home"
 msgstr "الرئيسية"
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
+#. Label of the 'total_hours' field in DocType 'Timesheet'
 #: frontend/src/project/Overview.vue:23 frontend/src/project/Tasks.vue:22
 #: frontend/src/project/Tasks.vue:60 frontend/src/project/Time.vue:33
 #: frontend/src/template/Tasks.vue:11 frontend/src/template/Tasks.vue:77
 #: onedesk/one/portal.py:68 onedesk/one_hr/custom/shift_request.json
+#: onedesk/one_hr/custom/timesheet.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:141
 #: onedesk/public/js/project_actions.js:405
 msgid "Hours"
