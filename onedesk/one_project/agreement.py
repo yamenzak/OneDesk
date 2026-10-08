@@ -116,7 +116,7 @@ def contracts(projects: list[str]) -> list[dict]:
 	found = frappe.get_all(
 		"Contract",
 		filters={"document_type": "Project", "document_name": ["in", projects], "docstatus": ["<", 2]},
-		fields=["name", "party_type", "party_name", "party_full_name", "is_signed", "status", "end_date", "signed_on", "document_name"],
+		fields=["name", "party_type", "party_name", "party_full_name", "is_signed", "status", "end_date", "signed_on", "document_name", "contract_template"],
 		order_by="creation desc",
 	)
 	reads = frappe.has_permission("Contract", "read")
@@ -136,6 +136,7 @@ def contracts(projects: list[str]) -> list[dict]:
 			"image": logos.get((one.party_type, one.party_name)),
 			"project": one.document_name,
 			"project_title": titles.get(one.document_name),
+			"template": one.contract_template,
 			"signed": bool(one.is_signed),
 			"status": one.status,
 			"ends": str(one.end_date) if one.end_date else None,
@@ -161,7 +162,7 @@ def asks(doc, listed: list[dict]) -> list[dict]:
 	found = []
 	for one in listed:
 		if not one["signed"]:
-			found.append({"tone": "orange", "text": _("Get the contract signed"), "dim": " · ".join([one["with"], one["name"]]), "route": one["route"]})
+			found.append({"tone": "orange", "text": _("Get the contract signed"), "dim": " · ".join(filter(None, [one["with"], covers(one, doc.name)])), "route": one["route"]})
 			continue
 		if not one["ends"] or _renewed(one, listed):
 			continue
@@ -176,6 +177,14 @@ def asks(doc, listed: list[dict]) -> list[dict]:
 			when = _("Ends tomorrow") if days == 1 else _("Ends in {0} days").format(days)
 		found.append({"tone": "red" if days < 0 else "orange", "text": _("Renew the contract"), "dim": " · ".join([one["with"], when]), "route": one["route"]})
 	return found
+
+
+def covers(one: dict, project: str) -> str | None:
+	"""What a contract is for, beside who it is with: the project under this
+	one it names, else the template it was drawn up from. Pure."""
+	if one.get("project") and one["project"] != project:
+		return one.get("project_title") or one["project"]
+	return one.get("template") or None
 
 
 def _renewed(one: dict, listed: list[dict]) -> bool:

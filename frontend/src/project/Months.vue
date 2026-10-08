@@ -4,7 +4,7 @@
        (one_project/retainer.py). -->
   <List :columns="{ base: ['minmax(0,1fr)', 'auto', 'auto'], md: ['8.5rem', 'minmax(6rem,1fr)', '7rem', '5.5rem', '9rem'] }" :row-height="48" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
     <ListRows :items="months.months" row-key="month" v-slot="{ item }">
-      <ListRow v-bind="item.invoice ? { onClick: () => go(`/desk/sales-invoice/${item.invoice.name}`) } : {}">
+      <ListRow v-bind="item.invoice?.name ? { onClick: () => go(`/desk/sales-invoice/${item.invoice.name}`) } : {}">
         <ListCell class="text-base text-ink-gray-8">{{ named(item.month) }}</ListCell>
         <ListCell class="max-md:hidden"><Progress v-if="months.allowance" :value="Math.min(100, Math.round((100 * item.hours) / months.allowance))" size="md" class="w-full" /></ListCell>
         <ListCell class="justify-end text-sm tabular-nums" :class="item.over ? 'text-ink-red-5' : 'text-ink-gray-7'">

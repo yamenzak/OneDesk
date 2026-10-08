@@ -1493,11 +1493,41 @@ def oneproject_a_project_starts_with_its_customers_and_its_templates_terms():
 
 
 @check
+def oneproject_its_page_says_only_what_is_so():
+	"""Samir runs projects but reads no invoices. The retainer still says
+	which months are invoiced and how they stand, without the invoice, and
+	Invoiced leaves out what's paid rather than say 0. The showroom's
+	unbilled time reads the same in its card and its list, in the company's
+	currency. A finished job's fourth card is its Margin, and a sub-project
+	whose work is on its parent's order says so and bills on its terms."""
+	from onedesk.one_project import retainer, terms, view
+
+	with as_user("samir@one.test"):
+		assert not frappe.has_permission("Sales Invoice", "read")
+		months = {one["month"]: one["invoice"] for one in retainer.months(MARINA)["months"]}
+		done = [month for month, invoice in months.items() if invoice]
+		assert done and all(months[m]["status"] and months[m]["name"] is None and months[m]["total"] is None for m in done), months
+		assert not set(done) & set(retainer.waiting(MARINA)), "an invoiced month waits"
+		invoiced = next(card for card in view.said(MARINA)["cards"] if card["key"] == "invoiced")
+		assert invoiced["note_money"] is None, invoiced
+		showroom = view.said(SHOWROOM)
+		card = next(one for one in showroom["cards"] if one["key"] == "unbilled")
+		assert abs(card["money"] - sum(one["amount"] for one in showroom["overview"]["unbilled"])) < 1, (card, showroom["overview"]["unbilled"])
+		finished = view.said("PROJ-0007")
+		assert [one["key"] for one in finished["cards"]][-1] == "margin", finished["cards"]
+		podium = view.said("PROJ-0004")
+		first = podium["cards"][0]
+		assert first["value"] == "–" and "Bayview Tower Curtain Wall" in first["note"], first
+		assert podium["terms_from"] == "Bayview Tower Curtain Wall"
+		assert terms.of("PROJ-0004")[0] == frappe.db.get_value("Project", TOWER, "one_payment_terms") == podium["payment_terms"]
+
+
+@check
 def oneproject_its_contracts_are_on_the_page():
 	"""A project has as many contracts as it signs. The villa's contract is
-	signed and its staircase addendum waits for the customer, so About shows
-	the signed one, the Overview lists both, and Needs You asks for the
-	addendum. The tower's scaffolding subcontractor signed from the
+	signed and its staircase addendum, on the staircase's sub-project, waits
+	for the customer, so About shows the signed one, the Overview lists both
+	with what each covers, and Needs You asks for the addendum by name. The tower's scaffolding subcontractor signed from the
 	subcontract template. Samir reads them but draws none up. A supplier's
 	contract needs a template and a supplier on the project. One ending in a
 	month is to renew, unless a later one with the same party runs on."""
@@ -1507,11 +1537,14 @@ def oneproject_its_contracts_are_on_the_page():
 	with as_user("samir@one.test"):
 		villa = view.said(VILLA)
 		own = [one for one in villa["contracts"] if one["project"] == VILLA]
-		assert sorted(one["signed"] for one in own) == [False, True], own
+		assert [one["signed"] for one in own] == [True], own
+		# The addendum is the staircase's, and says so wherever it is listed.
+		addendum = [one for one in villa["contracts"] if one["project_title"] == "Staircase balustrade"]
+		assert [one["signed"] for one in addendum] == [False], villa["contracts"]
 		assert villa["agreement"]["signed"] and villa["agreement"]["ends"] and not villa["agreement"]["route"], villa["agreement"]
 		assert not villa["can_draw_up"]
-		asked = agreement.asks(frappe.get_doc("Project", VILLA), own)
-		assert [one["text"] for one in asked] == ["Get the contract signed"], asked
+		asked = agreement.asks(frappe.get_doc("Project", VILLA), villa["contracts"])
+		assert [(one["text"], one["dim"]) for one in asked] == [("Get the contract signed", "Mansour & Sons · Staircase balustrade")], asked
 		tower = view.said(TOWER)
 		scaffold = [one for one in tower["contracts"] if one["party_type"] == "Supplier"]
 		assert [(one["party"], one["signed"]) for one in scaffold] == [("Rapid Scaffolding", True)], scaffold

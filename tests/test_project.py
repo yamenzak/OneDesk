@@ -1542,8 +1542,10 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	# and Add Contract with neither.
 	def first(order, quote):
 		space = _load(PROJECT / "view.py", ("_first",), _=lambda text: text)
-		space.update(contract=lambda doc: order, quotation=lambda doc: quote)
+		space.update(contract=lambda doc: order, quotation=lambda doc: quote, ordered_above=lambda doc: above)
 		return space["_first"](None, {"contract": 500})
+
+	above = None
 
 	assert first("SO-1", None) == {"key": "contract", "money": 500, "route": "/desk/sales-order/SO-1"}
 	quoted = first(
@@ -1551,6 +1553,12 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	)
 	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["route"] == "/desk/quotation/QTN-1"
 	assert first(None, None) == {"key": "contract", "money": 0, "action": "add_contract"}
+	# A sub-project whose work is on its parent's order says so, not 0.00.
+	above = ("Bayview Tower Curtain Wall", "SO-9")
+	on_parent = first(None, None)
+	assert on_parent["value"] == "–" and on_parent["route"] == "/desk/sales-order/SO-9" and on_parent["above"]
+	assert on_parent["note"] == "On {0}'s order".format("Bayview Tower Curtain Wall")
+	above = None
 	# With several open, which one is ordered is picked on their list.
 	several = first(
 		None, {"name": "QTN-2", "value": 195, "count": 2, "list": "/desk/quotation?x", "valid_till": None}
@@ -2054,9 +2062,11 @@ def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	under = {"budget": 200000, "forecast_cost": 141210, "open_orders": 0}
 	assert note(under) == [["of {0} budget", [200000]]]
 	assert note({"budget": 0, "forecast_cost": 0, "open_orders": 5000}) == [["{0} on order", [5000]]]
-	# Billed opens Invoices; Cost and Forecast Margin open Money.
+	# Billed opens Invoices; Cost and Forecast Margin open Money, and so does
+	# a finished project's Margin.
 	view = (PROJECT / "view.py").read_text()
-	assert '"view": "invoices",' in view and view.count('"view": "money",') == 2
+	assert '"view": "invoices",' in view and view.count('"view": "money",') == 3
+	assert 'def _made(cash: dict)' in view and '"key": "margin"' in view
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert "card.view && !card.route && props.said.views?.includes(card.view)" in overview
 

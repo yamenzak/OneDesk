@@ -96,20 +96,21 @@ def _priced(rows: list, currency: str) -> list:
 
 
 def _invoices(project: str) -> dict:
-	"""Each month's invoice, the latest that isn't cancelled."""
-	if not frappe.has_permission("Sales Invoice", "read"):
-		return {}
+	"""Each month's invoice, the latest that isn't cancelled. Whoever reads
+	the project is told a month is invoiced and how it stands; the invoice
+	itself, its name and its total, only whoever may read invoices."""
+	reads = frappe.has_permission("Sales Invoice", "read")
 	found = {}
-	for one in frappe.get_list(
+	for one in frappe.get_all(
 		"Sales Invoice",
 		filters={"project": project, MONTH: ["is", "set"], "docstatus": ["<", 2]},
 		fields=["name", MONTH, "status", "docstatus", "grand_total"],
 		order_by="creation asc",
 	):
 		found[str(getdate(one.get(MONTH)))] = {
-			"name": one.name,
+			"name": one.name if reads else None,
 			"status": "Draft" if one.docstatus == 0 else one.status,
-			"total": flt(one.grand_total),
+			"total": flt(one.grand_total) if reads else None,
 		}
 	return found
 
@@ -236,7 +237,7 @@ def invoice_month(source_name: str, month: str | None = None, item: str | None =
 	# The fee is agreed in the customer's currency, and the hours over are
 	# turned into it from each timesheet's own.
 	bill_in(invoice, "Customer", doc.customer)
-	terms.give(invoice, doc.get("one_payment_terms"), doc.get("one_terms"))
+	terms.give(invoice, *terms.of(project)[:2])
 	billable = _priced(billable, invoice.currency)
 	invoice.append(
 		"items", {"item_code": item, "qty": 1, "rate": flt(doc.get("one_monthly_fee")), "description": named}

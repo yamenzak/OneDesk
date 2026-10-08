@@ -44,6 +44,22 @@ def unbilled(project: str) -> dict:
 	}
 
 
+def unbilled_here(project: str) -> dict:
+	"""What `unbilled` comes to in the company's currency, as every other
+	figure on the project's page is: the hours, their amount and the costs
+	not billed yet. The page reads it; Invoice Time bills in the customer's."""
+	currency = _company_currency(project)
+	rows = _rows(project)
+	if rows and currency:
+		rows = in_currency(rows, currency)
+	found = costs(project) if frappe.has_permission("Sales Invoice", "create") else []
+	return {
+		"hours": sum(flt(row.billing_hours) for row in rows),
+		"amount": sum(flt(row.billing_amount) for row in rows),
+		"costs": {"count": len(found), "amount": round(sum(one["charge"] for one in found), 2)},
+	}
+
+
 @frappe.whitelist(methods=["POST"])
 def invoice_time(source_name: str, item: str | None = None, cost_item: str | None = None):
 	"""A draft Sales Invoice for the project's billable time not yet invoiced,
@@ -75,7 +91,7 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 	# The customer is billed in their currency, and each timesheet's amount is
 	# turned into it, as ERPNext's own Fetch Timesheet does.
 	bill_in(invoice, "Customer", source.customer)
-	terms.give(invoice, *frappe.db.get_value("Project", project, ["one_payment_terms", "one_terms"]))
+	terms.give(invoice, *terms.of(project)[:2])
 	rows = in_currency(rows, invoice.currency)
 	for line in lines(rows):
 		invoice.append("items", hours_line(item, line["hours"], line["rate"], line["activity"] or _("Time")))

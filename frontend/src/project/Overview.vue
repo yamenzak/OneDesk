@@ -40,12 +40,12 @@
         </Section>
         <Section :title="__('Budget')" icon="lucide-wallet" :aside="view.budget.count > view.budget.lines.length ? __('{0} cost types', [view.budget.count]) : ''" :action="said.views?.includes('money') ? { icon: 'lucide-arrow-up-right', label: __('Money'), onClick: () => $emit('view', 'money') } : null">
           <ChartCard v-if="budgetBars.length" :style="{ height: `${5.5 + 2.25 * budgetBars.length}rem` }">
-            <BarChart :data="budgetBars" x="type" :y="['spent', 'committed', 'left']" horizontal stacked :series-config="budgetSeries" :y-axis="{ format: (value) => money(value, said.currency) }" />
+            <BarChart :data="budgetBars" x="type" :y="['spent', 'committed', 'left']" horizontal stacked :series-config="budgetSeries" :y-axis="{ format: (value) => money(value, said.currency, 0) }" />
           </ChartCard>
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No cost types") }}</div>
           <Rows v-if="over.length" class="mt-2" :rows="over" />
         </Section>
-        <Section :title="__('Milestones')" icon="lucide-flag" :action="can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
+        <Section :title="__('Milestones')" icon="lucide-flag" :action="!finished && can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
           <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
           <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
@@ -66,7 +66,7 @@
       </template>
 
       <template v-else>
-        <Section :title="__('Milestones')" icon="lucide-flag" :action="can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
+        <Section :title="__('Milestones')" icon="lucide-flag" :action="!finished && can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
           <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
           <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
@@ -149,7 +149,7 @@ const kind = computed(() => props.said.kind);
 const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "orange", Draft: "gray" };
 
 const NAMES = () => ({
-  contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), done: __("Done"),
+  contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), margin: __("Margin"), done: __("Done"),
   hours: __("Hours This Month"), month: __("This Month"), unbilled: __("Not Invoiced Yet"), fee: __("Monthly Fee"),
   months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Budget Used"), due: __("Due"), overdue: __("Overdue Tasks"),
 });
@@ -294,7 +294,7 @@ const facts = computed(() => {
     s.people?.length && { label: __("Team"), value: s.people.length === 1 ? __("1 person") : __("{0} people", [s.people.length]), avatars: s.people.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
     s.priority && { label: __("Priority"), value: __(s.priority) },
     s.time && { label: __("Time"), value: [__(s.time), s.site].filter(Boolean).join(" · ") },
-    s.kind !== "Internal" && { label: __("Payment Terms"), value: s.payment_terms || __("Not set"), tone: s.payment_terms ? undefined : "gray" },
+    s.kind !== "Internal" && { label: __("Payment Terms"), value: s.payment_terms ? [__(s.payment_terms), s.terms_from && __("from {0}", [s.terms_from])].filter(Boolean).join(" · ") : __("Not set"), tone: s.payment_terms ? undefined : "gray" },
     s.terms && { label: __("Terms and Conditions"), value: s.terms },
     s.project_type && { label: __("Project Type"), value: s.project_type },
     s.department && { label: __("Department"), value: s.department },
@@ -362,7 +362,8 @@ const mainRow = computed(() => {
       key: "main",
       label: __("Main", null, "Project"),
       lines: [worth.filter(Boolean).join(" · ")].filter(Boolean),
-      value: one.share === null || one.share === undefined ? "" : `${one.share}%`,
+      // Every row has how far along it is; with no tasks of its own, a dash.
+      value: share(one.share),
       dot: one.over ? "red" : undefined,
       onClick: () => emit("main"),
     },
@@ -385,12 +386,13 @@ const subProjects = computed(() =>
         [one.kind && __(one.kind), when(one.days_left), one.manager].filter(Boolean).join(" · "),
         [...worth, one.below && (one.below === 1 ? __("1 sub-project") : __("{0} sub-projects", [one.below]))].filter(Boolean).join(" · "),
       ].filter(Boolean),
-      value: one.status === "Completed" ? __("Completed") : `${one.share}%`,
+      value: one.status === "Completed" ? __("Completed") : share(one.share),
       dot: one.health === "Off Track" || late || one.over ? "red" : one.health === "At Risk" ? "orange" : undefined,
       route: `/desk/project/${encodeURIComponent(one.name)}`,
     };
   })
 );
+const share = (value) => (value === null || value === undefined ? "–" : `${value}%`);
 function when(left) {
   if (left === null || left === undefined) return "";
   if (left === -1) return __("1 day late");
@@ -398,7 +400,10 @@ function when(left) {
   if (left === 0) return __("Due today");
   return left === 1 ? __("Due tomorrow") : __("Due in {0} days", [left]);
 }
-const canAddSub = computed(() => props.said.can_write && can("create", "Project"));
+// A finished project is not planned any further: no milestones or
+// sub-projects are added to it.
+const finished = computed(() => ["Completed", "Cancelled"].includes(props.said.status));
+const canAddSub = computed(() => !finished.value && props.said.can_write && can("create", "Project"));
 const addSub = () => newDoc("Project", { one_parent: props.said.name, customer: props.said.customer });
 // A Fixed Price project is quoted until it has its contract; what is quoted
 // after is extra work, ordered as a sub-project (billing.py `ordered`).
@@ -421,8 +426,8 @@ const quotes = computed(() =>
     route: `/desk/quotation/${one.name}`,
   }))
 );
-// Each contract: who it is with, whether it is signed, and when it ends. One
-// for a project under this one names it.
+// Each contract: who it is with, what it covers, whether it is signed, and
+// when it ends. One for a project under this one names it, else its template.
 const contracts = computed(() =>
   props.said.contracts.map((one) => ({
     key: one.name,
@@ -430,7 +435,7 @@ const contracts = computed(() =>
     avatar: one.with,
     image: one.image,
     square: true,
-    sub: [one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : ""].filter(Boolean).join(" · "),
+    sub: [one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : one.template || ""].filter(Boolean).join(" · "),
     badge: !one.signed ? { label: __("Not Signed"), theme: "orange" } : one.status === "Inactive" ? { label: __("Ended"), theme: "gray" } : { label: __("Signed"), theme: "green" },
     value: one.ends ? date(one.ends) : "",
     route: one.route,

@@ -14,9 +14,10 @@ export function __(text, args, context) {
 /** A whitelisted method, through desk's own `frappe.xcall`. */
 export const call = (method, args = {}) => frappe().xcall(method, args);
 
-/** Money as desk formats it, to the workspace's currency precision, kept left-to-right in Arabic. */
-export function money(value, currency) {
-	const said = window.format_currency(value || 0, currency);
+/** Money as desk formats it, to the workspace's currency precision (or
+ * `decimals`, as a chart's axis takes whole amounts), kept left-to-right in Arabic. */
+export function money(value, currency, decimals) {
+	const said = window.format_currency(value || 0, currency, decimals);
 	return window.onedesk?.shell?.ltr ? window.onedesk.shell.ltr(said) : said;
 }
 

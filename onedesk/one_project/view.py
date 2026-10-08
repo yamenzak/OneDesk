@@ -31,6 +31,7 @@ from onedesk.one_project import (
 	retainer,
 	retention,
 	team,
+	terms,
 	tree,
 )
 from onedesk.one_project import updates as asking
@@ -119,8 +120,8 @@ def said(
 		"time": hours.method(doc.name),
 		"site": doc.get("one_site"),
 		# What's agreed with the customer, carried onto its documents (terms.py).
-		"payment_terms": doc.get("one_payment_terms"),
-		"terms": doc.get("one_terms"),
+		# A sub-project with none of its own is billed on its parent's.
+		**dict(zip(("payment_terms", "terms", "terms_from"), _terms(doc.name))),
 		# The retention each customer order starts with (retention.py).
 		"retention_terms": {
 			"percent": flt(doc.get("one_retention")),
@@ -357,7 +358,28 @@ def _first(doc, cash: dict) -> dict:
 			"route": f"/desk/quotation/{quote['name']}",
 			"valid_till": quote["valid_till"],
 		}
+	# A sub-project's work is often on the order of the job it is part of.
+	above = ordered_above(doc)
+	if above:
+		return {
+			"key": "contract",
+			"value": "–",
+			"note": _("On {0}'s order").format(above[0]),
+			"route": f"/desk/sales-order/{above[1]}",
+			"above": True,
+		}
 	return {"key": "contract", "money": 0, "action": "add_contract"}
+
+
+def ordered_above(doc) -> tuple[str, str] | None:
+	"""The nearest project above this one with a customer order: its title
+	and the order."""
+	for one in tree.above(doc.name, tree.parents())[1:]:
+		above = frappe.get_cached_doc("Project", one)
+		order = contract(above)
+		if order:
+			return above.project_name, order
+	return None
 
 
 def _valid(until) -> dict:
@@ -377,15 +399,32 @@ def _valid(until) -> dict:
 	}
 
 
+#: A project done with, whose figures are what happened, not a forecast.
+FINISHED = ("Completed", "Cancelled")
+
+
+def _made(cash: dict) -> dict:
+	"""A finished project's margin: what was billed less what was spent."""
+	made = flt(cash["invoiced"]) - flt(cash["spent"])
+	return {
+		"view": "money",
+		"key": "margin",
+		"money": made,
+		"note": _("{0}% of what was billed").format(share(made, cash["invoiced"])) if cash["invoiced"] and made > 0 else None,
+		"tone": "alarm" if made < 0 else None,
+	}
+
+
 def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 	"""The kind's figures, each with what it's of and a bar where there's
 	something to fill (docs/PROJECT-PAGE.md)."""
 	customer = {one["label"]: one["value"] for one in cash["customer"]}
-	paid = customer.get(_("Paid"), 0)
+	# What's paid only for whoever may see payments, never a 0 that isn't so.
+	paid = customer.get(_("Paid"))
 	invoiced = {
 		"key": "invoiced",
 		"money": cash["invoiced"],
-		"note_money": [[_("Paid {0}"), [paid]]],
+		"note_money": [[_("Paid {0}"), [paid]]] if paid is not None else None,
 	}
 	if kind == kinds.FIXED:
 		first = _first(doc, cash)
@@ -401,11 +440,11 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		valid = first.pop("valid_till", None)
 		# How much of the contract came as extra work since, on the whole job.
 		extra = sum(one["value"] for one in orders(doc, view["tree"]) if one["extra"])
-		if first["key"] == "contract" and extra and not first.get("action"):
+		if first["key"] == "contract" and extra and not first.get("action") and not first.get("above"):
 			first["note_money"] = [[_("{0} extra work"), [extra]]]
 		if first["key"] == "quoted":
 			second = [_valid(valid)]
-		elif first.get("action") == "add_contract":
+		elif first.get("action") == "add_contract" or first.pop("above", False):
 			second = []
 		else:
 			second = [
@@ -428,7 +467,9 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 				"tone": "alarm" if cash["budget"] and cash["forecast_cost"] > cash["budget"] else None,
 				"view": "money",
 			},
-			{
+			_made(cash)
+			if doc.status in FINISHED
+			else {
 				"view": "money",
 				"key": "forecast",
 				"money": margin,
@@ -443,7 +484,7 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 			},
 		]
 	if kind == kinds.TIME:
-		waiting = billing.unbilled(doc.name)
+		waiting = billing.unbilled_here(doc.name)
 		costs = waiting.get("costs") or {}
 		return [
 			{
@@ -1027,6 +1068,9 @@ def _on_it(projects: list[str]) -> list[dict]:
 def _unbilled_people(project: str) -> list[dict]:
 	"""The billable time not invoiced yet, by who logged it."""
 	rows = billing._rows(project)
+	currency = billing._company_currency(project)
+	if rows and currency:
+		rows = billing.in_currency(rows, currency)
 	sheets = {
 		one.name: one
 		for one in frappe.get_all(
@@ -1052,6 +1096,12 @@ def _unbilled_people(project: str) -> list[dict]:
 		),
 		key=lambda one: (-one["amount"], -one["hours"]),
 	)[:SHOWN]
+
+
+def _terms(project: str) -> tuple:
+	"""Its terms, and the title of the project above they come from."""
+	payment_terms, conditions, source = terms.of(project)
+	return payment_terms, conditions, frappe.db.get_value("Project", source, "project_name") if source else None
 
 
 def _latest_update(project: str) -> dict | None:

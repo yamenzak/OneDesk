@@ -4,7 +4,9 @@
        ChartCard draws one.
        A figure may open its documents (`route`), carry an `action`, or ask
        for the next step with a `button` under it. -->
-  <div class="grid grid-cols-2" :class="[COLUMNS[columns || figures.length] || 'lg:grid-cols-4', boxed ? 'gap-3' : 'gap-x-8 gap-y-6 pb-3']">
+  <!-- In cards, one to a row on a phone: two cards side by side leave a
+       figure too little room and it loses its last digits. -->
+  <div class="grid" :class="[COLUMNS[columns || figures.length] || 'lg:grid-cols-4', boxed ? 'grid-cols-1 gap-3 sm:grid-cols-2' : 'grid-cols-2 gap-x-8 gap-y-6 pb-3']">
     <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: boxed }">
       <NumberCard :title="one.title" :value="one.value" :card="false" :color="one.alarm ? 'var(--ink-red-5)' : undefined">
         <template v-if="one.action" #actions>

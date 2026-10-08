@@ -186,7 +186,7 @@ def _contract(project, values, contract: float) -> str:
 			"description": project.project_name,
 		},
 	)
-	terms.give(order, project.get("one_payment_terms"), project.get("one_terms"))
+	terms.give(order, *terms.of(project.name)[:2])
 	order.insert()
 	order.submit()
 	return order.name

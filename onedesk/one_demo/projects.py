@@ -89,8 +89,9 @@ def villa():
 	_extra_work(
 		name, "Mansour & Sons", "Staircase balustrade", [("BAL-GL", 14, 1500), ("SVC-INST", 20, 180)], ago(30)
 	)
-	# The addendum for the staircase, with the customer to sign.
-	_signed(name)
+	# The addendum for the staircase, on its own sub-project, with the
+	# customer to sign.
+	_signed(frappe.db.get_value("Project", {"one_parent": name, "project_name": "Staircase balustrade"}) or name)
 	_update(name, "Frames for the ground floor are in. Glass for the first floor lands on Thursday.", ago(9), "rania@one.test")
 	_update(name, "Balustrade drawings approved by Khalid. Starting the staircase next week.", ago(3), "tariq@one.test")
 	_papers(name)
@@ -318,8 +319,8 @@ def marina():
 		1,
 		months=today().month - 1,
 		people=("Yousef", "Bilal"),
-		hours=(9, 10, 11, 9, 12, 10, 14, 13, 9),
-		over=(7,),
+		# July's visits run a little past the 40 hours, as a summer does.
+		hours=(9, 10, 11, 9, 12, 10, 15, 13, 9),
 	)
 
 
@@ -838,7 +839,7 @@ def _extra_work(parent, customer, title, lines, date):
 	save(order, submit=True)
 
 
-def _retainer(project, first_month, months, people, hours, over=()):
+def _retainer(project, first_month, months, people, hours):
 	from onedesk.one_project.retainer import invoice_month
 
 	for i in range(months):
@@ -849,11 +850,14 @@ def _retainer(project, first_month, months, people, hours, over=()):
 			"Maintenance",
 			add_days(month, 2),
 			weeks=4,
-			hours=hours[i % len(hours)] + (20 if i + first_month in over else 0),
+			hours=hours[i % len(hours)],
 		)
 		with as_user(ACCOUNTS_USER):
 			draft = invoice_month(project, month=str(month), item="SVC-MAINT", overage=1)
 			dated(draft, add_days(add_months(month, 1), -1))
+			# Its terms date it from the month's end, not from today.
+			draft.due_date = None
+			draft.payment_schedule = []
 			invoice = save(draft, submit=True)
 		if date_diff(today(), invoice.posting_date) > 40:
 			_pay(invoice, add_days(invoice.posting_date, 21))

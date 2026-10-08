@@ -12,6 +12,27 @@ from erpnext.accounts.party import get_due_date_from_template, get_payment_terms
 SELLING = ("Quotation", "Sales Order", "Sales Invoice")
 
 
+def of(project: str) -> tuple[str | None, str | None, str | None]:
+	"""A project's payment terms and terms and conditions, each its own or,
+	left empty, the nearest project above it's: a sub-project is billed as
+	the job it is part of. With the project they come from when that is not
+	this one."""
+	from onedesk.one_project import tree
+
+	found = [None, None]
+	source = None
+	for one in tree.above(project, tree.parents()):
+		payment_terms, terms = frappe.db.get_value("Project", one, ["one_payment_terms", "one_terms"]) or (None, None)
+		if not found[0] and payment_terms:
+			found[0] = payment_terms
+			source = source or (one if one != project else None)
+		if not found[1] and terms:
+			found[1] = terms
+		if all(found):
+			break
+	return found[0], found[1], source
+
+
 def defaults(customer: str | None = None, template: str | None = None, company: str | None = None) -> dict:
 	"""What a new project for `customer` starts with: the customer's own payment
 	terms before a template's, a template's before the company's, and the
@@ -73,7 +94,7 @@ def carried(doc, method=None) -> None:
 		) or frappe._dict()
 		payment_terms, terms = want.payment_terms_template, want.tc_name
 	elif doc.doctype in SELLING:
-		payment_terms, terms = frappe.db.get_value("Project", project, ["one_payment_terms", "one_terms"])
+		payment_terms, terms, _from = of(project)
 	else:
 		# The project's terms are agreed with its customer, not its suppliers.
 		return

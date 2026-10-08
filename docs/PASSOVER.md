@@ -9041,8 +9041,8 @@ modules on the demo, then `docs/STANDARD.md`.
 |---|---|---|
 | 0 | Gates: 1874 fast tests, 95 demo checks | done |
 | 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done |
-| 2 | A project's head and Overview | next |
-| 3 | Tasks, Time, Money | |
+| 2 | A project's head and Overview | done |
+| 3 | Tasks, Time, Money | next |
 | 4 | Invoices, Suppliers, Team, Files, Activity | |
 | 5 | Workload, Time, Templates | |
 | 6 | Across modules on the demo | |
@@ -9079,6 +9079,61 @@ modules on the demo, then `docs/STANDARD.md`.
 - **Stays desk (5)**: the Timeline opened by the week with most bars off
   the page. It opens by the month, two months back.
 - **Overrides (9)**: six new rows in `scripts/overrides.py`.
+
+#### 2. A project's head and Overview
+
+Looked at on the villa (Fixed Price), the Marina retainer, the Nordlicht
+showroom (Time and Materials), the workshop (Internal), Bayview and its
+podium (a parent and a sub-project), the finished Rahman balcony, and the
+villa on a phone, as Samir, who runs projects and reads no invoices.
+
+- **Permissions (15)**: to Samir the retainer said every month was **Not
+  invoiced**, with a red **Months Not Invoiced 60,000 · 5 months**, and
+  **Invoiced** said **Paid 0.00**, though January to August were invoiced and
+  seven paid. A month now says it is invoiced and how that stands to
+  whoever reads the project, and opens the invoice only for those who may
+  read invoices (`retainer._invoices`). **Paid** is left out for whoever
+  may not see payments, never shown as 0.
+- **What ERPNext already does (currency)**: the showroom's **Not Invoiced
+  Yet** card showed the euros it will bill under the dirham sign (8,389.44)
+  while its list said 34,560.00 dirhams. Both are in the company's currency
+  now, as every figure on the page is (`billing.unbilled_here`). Invoice
+  Time still bills in the customer's.
+- **Demo (1)**: two fitters logged full days on the retainer every day in
+  July, 272 h of a 40 h month. The demo's busy month ran 20 h a week over;
+  July is now 48 h, 8 over, as its brief (a visit a week) allows. July was
+  rebuilt on this site, its invoice and payment with it.
+- **Stays desk (5)**: the villa's two contracts both read "Mansour & Sons ·
+  01-12-2026". The unsigned one is the staircase addendum, now on the
+  staircase's sub-project, and a contract says what it covers, the
+  sub-project or its template, in Contracts and in Needs You's **Get the
+  contract signed** (in place of its ID).
+- **Stays desk (5)**: a finished project offered **Add Milestone**, **Add
+  Sub-project** and the health beside Updates, and its fourth card was
+  **Forecast Margin – No budget**. Once Completed or Cancelled those go,
+  and the card is **Margin**, what was billed less what was spent.
+- **What ERPNext already does (terms)**: a sub-project read **Contract
+  0.00** with Add Contract and **Payment Terms Not set**, while its work is
+  on its parent's order at Net 45. **Contract** says "On Bayview Tower
+  Curtain Wall's order" and opens it, and a sub-project with no terms of
+  its own is billed on the nearest above it (`terms.of`), which About names.
+- **Stays desk (5)**: the Sub-projects **Main** row had a percentage on the
+  villa and none on Bayview, and a row with no tasks could read "null%".
+  Every row now has one, a dash where there is nothing to measure.
+- **Stays desk (5)**: on a phone the title was cut to "Mansour Villa Windo…"
+  and figures lost their last digit. The title wraps to two lines and
+  cards go one to a row below `sm`.
+- **Built from frappe (8)**: the Budget axis read "د.إ 30,000.00" on every
+  tick. Whole amounts now, through frappe's `format_currency`.
+- **Stays desk (5)**: an internal project said its due date three times.
+  The head's "Due in" went, the Due card keeps it.
+- **Left as frappe-ui draws it**: the Tasks ring's legend changes order
+  between projects and its shares can add up to 101%. frappe-ui's
+  DonutChart orders slices largest first and rounds each share itself
+  (`donutChartOptions.ts`), so it stays.
+- **Works (1)**: `oneproject_its_page_says_only_what_is_so` checks the
+  months, Paid, the showroom's two figures, Margin and the podium on the
+  demo, and the contracts check reads the addendum by its sub-project.
 
 ## OneLegal
 

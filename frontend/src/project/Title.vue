@@ -1,5 +1,6 @@
 <template>
-  <!-- The project's name, renamed in place. On a photo it is drawn in white. -->
+  <!-- The project's name, renamed in place. On a photo it is drawn in white.
+       A long one wraps to a second line, as on a phone, before it is cut. -->
   <div class="flex min-w-0 flex-wrap items-center gap-3">
     <input
       v-if="editing"
@@ -12,7 +13,7 @@
       @keydown.esc="editing = false"
       @blur="save"
     />
-    <h1 v-else class="min-w-0 truncate !font-semibold tracking-tight" :class="[size, onImage ? 'text-white' : 'text-ink-gray-9', said.can_write && (onImage ? 'cursor-text' : 'cursor-text rounded-3 hover:bg-surface-gray-3')]" @click="start">
+    <h1 v-else class="min-w-0 line-clamp-2 break-words !font-semibold tracking-tight" :class="[size, onImage ? 'text-white' : 'text-ink-gray-9', said.can_write && (onImage ? 'cursor-text' : 'cursor-text rounded-3 hover:bg-surface-gray-3')]" @click="start">
       {{ said.title }}
     </h1>
   </div>

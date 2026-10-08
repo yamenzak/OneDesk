@@ -19,7 +19,8 @@
       {{ __("Your update is due today") }}
     </div>
     <div ref="line" class="flex items-center gap-2">
-      <Pill v-if="said.health" :value="said.health" :colors="HEALTH" :label="__('Health')" readonly />
+      <!-- How it's going means nothing once it's finished. -->
+      <Pill v-if="said.health && !['Completed', 'Cancelled'].includes(said.status)" :value="said.health" :colors="HEALTH" :label="__('Health')" readonly />
       <TextInput v-model="note" class="min-w-0 flex-1" :placeholder="__('Write an update')" @keydown.enter="post" />
       <Button v-if="note.trim()" variant="solid" :label="__('Post')" :loading="posting" @click="post" />
     </div>

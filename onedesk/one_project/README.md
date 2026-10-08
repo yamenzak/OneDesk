@@ -249,7 +249,12 @@ Week** is the hours logged in the last twelve weeks. Clicking the ring opens
   (which is when Cost turns red), and what suppliers still have to bill on
   their orders. **Forecast Margin** is the contract less the forecast cost:
   the budget, or what's spent and still on order when that's more. Billed
-  opens **Invoices**, and Cost and Forecast Margin open **Money**. Under
+  opens **Invoices**, and Cost and Forecast Margin open **Money**. Once the
+  project is **Completed** or **Cancelled**, Forecast Margin gives way to
+  **Margin**, what was billed less what was spent, and no milestones,
+  sub-projects or health are added to it. A sub-project whose work is on the
+  order of the project above it says so in **Contract**, and has no Billed
+  of its own. Under
   them, **Work and Billing** puts the work done beside what's billed and
   paid, and when the customer was last billed. **Budget** charts each cost
   type, what's spent, on order and left of it, and **Other** for the rest,
@@ -257,12 +262,16 @@ Week** is the hours logged in the last twelve weeks. Clicking the ring opens
   under the chart, with how far over. Then **Milestones** (see below). On the
   right, **Subcontracts** and **Retention**.
 - **Time and Materials**: **Not Invoiced Yet**, **Hours This Month**,
-  **Invoiced** and **Budget Used** (or **Done** with no budget). Under them,
+  **Invoiced** and **Budget Used** (or **Done** with no budget). Every figure
+  is in the company's currency, the customer's only on the invoice itself.
+  **Paid** under Invoiced is for those who may see payments. Under them,
   **Not Invoiced Yet** by person with **Invoice
   Time**. On the right, **By Activity**.
 - **Retainer**: **This Month** against the hours a month, **Monthly Fee**
   and when it renews, **Months Not Invoiced**, and **Invoiced**. Under them,
-  **Months**. On the right, **By Person** and **By
+  **Months**: each month says whether it is invoiced and how that invoice
+  stands to anybody who reads the project, and opens the invoice for those
+  who may read invoices. On the right, **By Person** and **By
   Activity**.
 - **Internal**: **Done**, **Due**, **Overdue Tasks**, and **Budget Used**
   when it has a budget. Under them, **Milestones** and **Due Soon** (the next two weeks). On the right, **Who's On It**.
@@ -900,7 +909,9 @@ own:
 **Add Project** fills both in. The payment terms are the customer's own when
 they have some, else the template's, else the company's. The terms and
 conditions are the template's, else the company's. Change either in the
-dialog, or later in **About**. An internal project has neither.
+dialog, or later in **About**. An internal project has neither. A sub-project
+with none of its own is billed on the nearest project above it that has some,
+and **About** says which.
 
 Every quotation, order and invoice made for the project starts with them:
 **New Quotation**, the contract, **Bill Progress**, **Invoice Time** and
@@ -2283,6 +2294,10 @@ A project's `one_payment_terms` (Payment Terms Template) and `one_terms`
 payment terms (ERPNext's `get_payment_terms_template`: customer, then group,
 then company) before the template's, then the company's. The wording is the
 template's, else the company's `default_selling_terms`.
+
+`of` is what a project is billed on: its own, else the nearest project
+above it with some, with the one they come from. `carried`, Invoice Time,
+Invoice Month and the New Project contract all read it.
 
 `give` puts both on a document not saved yet: the template, which ERPNext
 turns into the payment schedule, a due date from it (ERPNext's
