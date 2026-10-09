@@ -30,7 +30,31 @@ def run(password=None):
 			found = api.make_folder(ns.home(ACCOUNTS), FOLDER)["id"]
 		switches.set_folder(found, 1)
 	frappe.db.commit()
+	rules()
 	_samples()
+
+
+#: The workspace shares tasks out by frappe's own Assignment Rules: what
+#: Intake makes about a supplier is the books' work, whoever's mail it came in.
+RULE = "Supplier Tasks to the Books"
+DAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+
+def rules():
+	if frappe.db.exists("Assignment Rule", RULE):
+		return
+	frappe.get_doc(
+		{
+			"doctype": "Assignment Rule",
+			"name": RULE,
+			"document_type": "Task",
+			"description": "A task about a supplier goes to whoever keeps the books.",
+			"assign_condition": 'one_about_doctype == "Supplier" and status == "Open"',
+			"rule": "Round Robin",
+			"users": [{"user": ACCOUNTS}],
+			"assignment_days": [{"day": day} for day in DAYS],
+		}
+	).insert(ignore_permissions=True)
 
 
 def _samples():

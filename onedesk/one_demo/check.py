@@ -1290,7 +1290,8 @@ def oneproject_samir_runs_a_project():
 
 	with as_user("samir@one.test"):
 		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
-		assert "huda@one.test" not in {one["user"] for one in team.remove(VILLA, "huda@one.test")["people"]}
+		# She stays on the team for the villa's task she is given, though no longer a member.
+		assert "huda@one.test" not in {one["user"] for one in team.remove(VILLA, "huda@one.test")["people"] if one["member"]}
 		row = next(
 			one
 			for one in contacts.save(VILLA, "Consultant", organisation="Gulf Façade Consultants", note="Signs off the façade drawings")["contacts"]
@@ -4418,6 +4419,46 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 		VILLA,
 	)
 	assert not early, early
+
+
+@check
+def onetask_takes_work_from_intake_and_onehr():
+	"""A task another module makes lands with the right person and in the
+	right place. Intake's task about a supplier goes to the books by the
+	workspace's Assignment Rule, one about anything else to whoever's mail it
+	came in, and one about a bill for the villa is the villa's. An
+	onboarding's steps are each their person's, and open the onboarding, not
+	HRMS's project behind it."""
+	from onedesk.one_demo import intake
+	from onedesk.one_intake import planning
+	from onedesk.one_task import mine, view
+
+	scaffolding = frappe.db.get_value("Task", {"subject": "Rapid Scaffolding invoice RS-5512"}, ["name", "project", "_assign", "expected_time"], as_dict=True)
+	assert scaffolding.project == VILLA, "a bill for the villa is the villa's work"
+	assert frappe.parse_json(scaffolding._assign) == [intake.ACCOUNTS] and not flt(scaffolding.expected_time)
+	assert frappe.db.exists("Assignment Rule", intake.RULE)
+	made = []
+	try:
+		made.append(planning.make_task({"subject": "Check the delivery from Gulf Sealants", "one_about_doctype": "Supplier", "one_about": "Gulf Sealants Trading LLC", "assign_to": OWNER}))
+		made.append(planning.make_task({"subject": "Answer the lobby question", "assign_to": OWNER}))
+		assigned = [frappe.parse_json(frappe.db.get_value("Task", one.name, "_assign")) for one in made]
+		assert assigned == [[intake.ACCOUNTS], [OWNER]], assigned
+	finally:
+		for one in made:
+			frappe.delete_doc("Task", one.name, force=1, ignore_permissions=True)
+	onboarding = frappe.db.get_value("Employee Onboarding", {"employee_name": "Feras Odeh"}, ["name", "project"], as_dict=True)
+	assert onboarding and onboarding.project
+	steps = frappe.get_all("Task", filters={"project": onboarding.project}, fields=["name", "_assign"])
+	assert {frappe.parse_json(one._assign)[0] for one in steps} == {"mariam@one.test", "karim@one.test", "samir@one.test"}
+	with as_user("mariam@one.test"):
+		mine_ = [one for group in mine.tasks("mine") for one in group["tasks"] if one.project == onboarding.project]
+		assert mine_ and mine_[0].place["kind"] == "Employee Onboarding" and mine_[0].place["label"] == "Feras Odeh"
+		said = view.read(mine_[0].name)
+		assert said["place"]["route"].endswith(onboarding.name), said["place"]
+	with as_user("karim@one.test"):
+		# Karim is given one step, and may not open the whole onboarding.
+		mine_ = [one for group in mine.tasks("mine") for one in group["tasks"] if one.project == onboarding.project]
+		assert mine_ and mine_[0].place["label"] == "Feras Odeh" and not mine_[0].place["route"], mine_[0].place
 
 
 @check

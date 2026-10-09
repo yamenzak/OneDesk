@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 11:58+0000\n"
-"PO-Revision-Date: 2026-10-09 11:58+0000\n"
+"POT-Creation-Date: 2026-10-09 12:44+0000\n"
+"PO-Revision-Date: 2026-10-09 12:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -18818,7 +18818,6 @@ msgstr "التقدم…"
 #. Label of the project (Link) field in DocType 'Request for Quotation'
 #: frontend/src/project/ProjectPage.vue:205
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
-#: frontend/src/task/MyTasks.vue:156 frontend/src/task/TaskPage.vue:267
 #: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:27
 #: onedesk/one/print_blocks.py:255 onedesk/one_book/heads.py:322
 #: onedesk/one_crm/heads.py:201 onedesk/one_crm/heads.py:209

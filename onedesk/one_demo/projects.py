@@ -6,6 +6,7 @@ import frappe
 from frappe.utils import add_days, add_months, date_diff, flt, get_first_day, get_first_day_of_week, getdate
 
 from onedesk.one_demo.base import COMPANY, account, ago, ahead, as_user, dated, make, on, save, tag, today, wh
+from onedesk.one_hr.hiring import AUTHOR
 from onedesk.one_project import library
 
 PM = "samir@one.test"
@@ -877,12 +878,12 @@ def _milestone_shares(project, shares):
 
 
 def _estimates():
-	"""Each task's hours, so Workload has load to show: a few hours a day for
-	the days it runs, more on some than others, and on open work more than
-	what's logged on it so far."""
+	"""Each project task's hours, so Workload has load to show: a few hours a
+	day for the days it runs, more on some than others, and on open work more
+	than what's logged on it so far. A to-do about a bill plans no hours."""
 	tasks = frappe.get_all(
 		"Task",
-		filters={"is_template": 0, "is_group": 0, "is_milestone": 0, "expected_time": 0},
+		filters={"is_template": 0, "is_group": 0, "is_milestone": 0, "expected_time": 0, "project": ["is", "set"], "owner": ["!=", AUTHOR]},
 		fields=["name", "status", "exp_start_date", "exp_end_date", "actual_time"],
 		order_by="name",
 	)

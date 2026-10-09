@@ -10,6 +10,7 @@ from frappe.utils import getdate
 
 from onedesk.one_intake.act import Action
 from onedesk.one_intake.identity import CERTAIN
+from onedesk.one_project.intake import task_in
 
 #: Readings that are real enough to make anything from.
 REAL = ("Action", "Information", "", None)
@@ -294,6 +295,8 @@ def tasks(reading: dict, ctx: dict) -> list[Action]:
 		"one_about": about[1] if about else None,
 		"one_steps": [{k: v for k, v in one.items() if v} for one in steps],
 		"assign_to": ctx.get("person"),
+		# A bill or a delivery for a project is the project's work too.
+		"project": task_in(ctx.get("project"), by[0] if by else None),
 	}
 	return [Action("Create", "Task", values={k: v for k, v in values.items() if v}, key="task", flow="onedesk.one_intake.planning.make_task", sure=True)]
 

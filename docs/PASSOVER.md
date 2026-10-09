@@ -332,6 +332,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask › A task's page | done |
 | Products | OneTask › My Tasks and the Inbox | done |
 | Products | OneTask › All Tasks and its views | done |
+| Products | OneTask › Across modules | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -9669,7 +9670,7 @@ every point.
 | 1 | A task's page, the cornerstone | done |
 | 2 | My Tasks and the Inbox | done |
 | 3 | All Tasks and its views: List, Report, Kanban, Calendar, Gantt | done |
-| 4 | Across modules: OneProject, OneHR, Intake, OneCalendar, One | |
+| 4 | Across modules: OneProject, OneHR, Intake, OneCalendar, One | done |
 | 5 | Closed against the standard | |
 
 #### 1. A task's page
@@ -9908,6 +9909,78 @@ Left:
 | 17 Clean code | ruff | clean, one file for the views |
 | Everything follows frappe | each view | frappe's own, with its settings changed in place |
 | What ERPNext already does | datetimes, Overdue, templates | fixed above |
+
+#### 4. Across modules
+
+Looked at on the demo as Huda, Mariam, Karim and Samir: what OneProject,
+OneHR, Intake, OneCalendar and One hand OneTask, and where each task leads
+back to. Read `one_intake/planning.py`, `plans.py`, `money.py`, HRMS's
+boarding controller, `one_task/calendar.py` and `one/home.py`.
+
+Found:
+
+- **Hand-offs (3)**: every task Intake made went to whoever's mail it came
+  in. The workspace's Assignment Rules were never asked first, and where a
+  rule matched nobody the task was left with no one.
+- **Hand-offs (3)**: a task about a supplier's bill or a delivery for a
+  project was outside that project, so it was missing from the project's
+  Tasks tab.
+- **Hand-offs (3)**: a task from an onboarding named the checklist project
+  HRMS keeps behind it ("Employee Onboarding : Feras Odeh") and opened that
+  project, which nobody is meant to see.
+- **Demo (1)**: the demo had no onboarding, so the OneHR hand-off was never
+  tried. It also gave planned hours to tasks outside any project, which
+  Intake's tasks then showed.
+
+Fixed:
+
+- **Intake**: a task goes to the person a workspace Assignment Rule gives it,
+  and to the person it is for only when no rule takes it
+  (`one_intake/planning.py`). A bill or delivery task is put in the project
+  it names when its dates fit the project's (`one_project/intake.py`
+  `task_in`), since ERPNext refuses a task due after its project ends.
+- **OneHR**: a boarding task names the person joining or leaving and opens
+  their onboarding or separation, on My Tasks and on the task's page
+  (`one_task/mine.py` `place`). Somebody given one step who may not open the
+  onboarding sees the name without a link. A row in `scripts/overrides.py` says what
+  of HRMS's it leans on.
+- **Demo (1)**: Feras Odeh's onboarding is submitted, with three steps for
+  Mariam, Karim and Samir (`one_demo/hr.py`). A rule, Supplier Tasks to the
+  Books, gives supplier tasks to Huda (`one_demo/intake.py`). Planned hours
+  stay on project tasks. `onetask_takes_work_from_intake_and_onehr` checks
+  all of it.
+- **Documented (13)**: the Connections in OneTask's and OneIntake's READMEs
+  say where each task goes and what it opens.
+
+Left:
+
+- The tower's facade site meeting stays outside a project. Its mail names a
+  project three projects could be, and says nothing else about it.
+- OneCalendar and Home read My Tasks as before. Both were right and open a
+  task on its page.
+- The Gantt and board items from screen 3.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | an onboarding, a rule, Intake's tasks | added, one check |
+| 2 Rules on the server | assignment, the project a task goes in | in the planner and frappe's rules, not the screen |
+| 3 Hand-offs | OneProject, OneHR, Intake, OneCalendar, One | three fixed, the rest right |
+| 4 Tier declared | nothing new | as before |
+| 5 Our look | My Tasks, a task's page | the person's name, not the checklist |
+| 6 Nothing lost | the boarding project | still there, opened from the onboarding |
+| 7 Extensible | Assignment Rules | the workspace's own rules now decide first |
+| 8 Built from frappe | assignment | frappe's Assignment Rule, then `assign_to` |
+| 9 Overrides recorded | the gate | one new row, passes |
+| 10 Notifications | assignment | frappe's own, as before |
+| 11 Printed | nothing new | as before |
+| 12 Plain words | place labels | the doctype's own name, translated |
+| 13 Documented, OneAI | READMEs | Connections updated; OneAI reads the place on My Tasks |
+| 14 Intake | bills, deliveries, supplier mail | the rule and the project used |
+| 15 Permissions | the place | a link only for a reader who may open the onboarding |
+| 16 Legal | nothing new leaves | no revision |
+| 17 Clean code | ruff | clean |
+| Everything follows frappe | assignment | the rule first, as on any record |
+| What ERPNext already does | a task's dates against its project | kept, the task stays out when they don't fit |
 
 ## OneLegal
 

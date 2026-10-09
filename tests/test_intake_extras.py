@@ -28,7 +28,7 @@ EXPLAIN = _load(ROOT / "explain.py", {"json": json}, {"MOST_TEXT", "shaped", "pr
 KEEP = _load(ROOT / "keep.py", {"date": date}, {"PERIODS", "period", "until"})
 BUNDLE = _load(ROOT / "bundle.py", {"re": re}, {"KINDS", "safe", "unique"})
 ACT = _load(ROOT / "act.py", {"dataclass": dataclass, "field": field, "hashlib": hashlib, "json": json, "cint": lambda v: int(v or 0), "flt": lambda v, p=None: float(v or 0)}, {"KINDS", "FLOOR", "CHANGES", "Action"})
-MONEY = _load(ROOT / "money.py", {"_Action": ACT["Action"]})
+MONEY = _load(ROOT / "money.py", {"_Action": ACT["Action"], "task_in": lambda project, day: project})
 
 
 def test_a_girocode_is_the_epc_text_and_nothing_else():

@@ -403,8 +403,8 @@ def _hold_iban(reading) -> None:
 
 
 def make_task(values: dict):
-	"""A task, assigned to the person it is for unless an Assignment Rule
-	shares tasks out. Its steps say what ticks them."""
+	"""A task, given by the workspace's Assignment Rules where one takes it,
+	and otherwise to the person it is for. Its steps say what ticks them."""
 	values = dict(values)
 	who = values.pop("assign_to", None)
 	doc = frappe.get_doc({"doctype": "Task", **values})
@@ -412,7 +412,8 @@ def make_task(values: dict):
 	# OneTask gives a task nobody holds to its maker, who is OneAI here.
 	doc.flags.one_assigned = True
 	doc.insert()
-	if who and not frappe.db.exists("Assignment Rule", {"document_type": "Task", "disabled": 0}):
+	held = frappe.db.exists("ToDo", {"reference_type": "Task", "reference_name": doc.name, "status": "Open"})
+	if who and not held:
 		from frappe.desk.form import assign_to
 
 		assign_to._add({"doctype": "Task", "name": doc.name, "assign_to": [who], "description": doc.subject}, ignore_permissions=True)

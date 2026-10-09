@@ -232,8 +232,8 @@ You can work on a task someone else assigned to you, but you can't delete it.
 ## Connections
 
 - **From OneProject**: A project task assigned to you shows on My Tasks with its project. Who else sees a project task follows who can see the project. **Open Task** in a project's task panel opens the task on its own page.
-- **From OneHR**: Each activity on an onboarding or separation checklist becomes a task for whoever does it. A separation also adds a Return task for each asset the person holds.
-- **From OneIntake**: Tasks are made from what arrives, such as answering an enquiry or renewing a passport before it runs out. Their steps tick themselves when the record they wait on changes, such as a bill being paid.
+- **From OneHR**: Each activity on an onboarding or separation checklist becomes a task for whoever does it. A separation also adds a Return task for each asset the person holds. Such a task names the person joining or leaving and opens their onboarding or separation, not the checklist project HRMS keeps behind it.
+- **From OneIntake**: Tasks are made from what arrives, such as answering an enquiry or renewing a passport before it runs out. Your Assignment Rules decide who gets one first, and otherwise it goes to whoever's mail it came in. A task about a bill or a delivery for a project is in that project. Their steps tick themselves when the record they wait on changes, such as a bill being paid.
 - **To One**: Home shows how many of your tasks are due today or overdue.
 - **To OneCalendar**: Your tasks show under My Tasks on their due date, and dragging one moves its dates. Anything else assigned to you, such as a deal or a leave application, shows under Assigned to Me.
 - **To OneProject**: A task's progress counts toward its project's progress. Time from the timer is logged on the task's project, as billable when the project bills hours. When a milestone billed on completion is done, the project's manager is told to bill it.
@@ -447,6 +447,11 @@ is:
   ticking are frappe's own insert and set_value from the page, so every rule
   a task has on its own page holds here, and ERPNext closes a completed
   task's assignments.
+
+  Where a task opens is `place`: its project's page, or for a step of an
+  onboarding or a separation (HRMS's checklist project, one_hr/lifecycle.py)
+  that onboarding or separation, named by the person. The task's page uses
+  the same, in its breadcrumb and its details.
 
 ### The plan
 

@@ -58,11 +58,11 @@
                   <Badge v-if="running?.task === task.name" :label="__('Since {0}', [clock(running.since)])" theme="blue" size="sm" />
                 </div>
                 <!-- On a phone the project goes under the name. -->
-                <button v-if="where(task)" class="truncate text-start text-sm text-ink-gray-5 md:hidden" @click="go(where(task).route)">{{ where(task).label }}</button>
+                <button v-if="where(task)" class="truncate text-start text-sm text-ink-gray-5 md:hidden" :disabled="!where(task).route" @click="go(where(task).route)">{{ where(task).label }}</button>
               </div>
             </ListCell>
             <ListCell class="min-w-0 max-md:hidden">
-              <button v-if="where(task)" class="truncate text-start text-base text-ink-gray-7 hover:underline" :title="where(task).kind" @click="go(where(task).route)">{{ where(task).label }}</button>
+              <button v-if="where(task)" class="truncate text-start text-base text-ink-gray-7 enabled:hover:underline" :title="where(task).kind" :disabled="!where(task).route" @click="go(where(task).route)">{{ where(task).label }}</button>
             </ListCell>
             <ListCell class="text-base tabular-nums max-md:text-sm" :class="group.key === 'overdue' ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ day(task.due, group.key) }}</ListCell>
             <ListCell v-if="times" class="justify-end">
@@ -150,10 +150,11 @@ function open(key) {
 }
 watch(() => props.query.section, (now) => open(VIEWS.some((one) => one.key === now) ? now : "mine"));
 
-// The project a task is in, as a path through sub-projects, or, for one in
-// no project, the record it is about (a task OneIntake made about a supplier).
+// The project a task is in, as a path through sub-projects, or the
+// onboarding it is a step of (one_task/mine.py `place`), or, for one in no
+// project, the record it is about (a task OneIntake made about a supplier).
 function where(task) {
-  if (task.project) return { label: task.project_title, route: `/desk/project/${encodeURIComponent(task.project)}`, kind: __("Project") };
+  if (task.place) return { ...task.place, kind: __(task.place.kind) };
   if (task.about_title)
     return {
       label: task.about_title,

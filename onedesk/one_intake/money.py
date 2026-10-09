@@ -11,6 +11,7 @@ from frappe.utils import getdate
 
 from onedesk.one_intake import deadlines
 from onedesk.one_intake.act import Action as _Action
+from onedesk.one_project.intake import task_in
 
 REAL = ("Action", "Information", "", None)
 
@@ -193,6 +194,7 @@ def unordered(reading: dict, ctx: dict) -> list[Action]:
 		"one_about_doctype": "Supplier",
 		"one_about": ctx["supplier"],
 		"assign_to": ctx.get("person"),
+		"project": task_in(ctx.get("project"), ctx["today"]),
 	}
 	return [_Action("Create", "Task", values=values, key="task|unordered", flow="onedesk.one_intake.planning.make_task", sure=True)]
 

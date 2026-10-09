@@ -92,11 +92,13 @@ def tasks(view: str = "mine") -> list[dict]:
 	from onedesk.one_project.tree import path
 
 	titles = {project: path(project) for project in {one.project for one in rows if one.project}}
+	places = {project: place(project, title) for project, title in titles.items()}
 	today = getdate(nowdate())
 	grouped = {}
 	for one in rows:
 		one.due = due(one)
 		one.project_title = titles.get(one.project) or one.project
+		one.place = places.get(one.project)
 		one.waiting = waiting.get(one.name, 0)
 		# What a task OneIntake made is about, where it is in no project.
 		if not one.project and one.one_about_doctype and one.one_about:
@@ -144,6 +146,29 @@ def _waiting(names: list[str]) -> dict[str, int]:
 		if one.task in open_ and open_[one.task] != one.parent:
 			waiting[one.parent] = waiting.get(one.parent, 0) + 1
 	return waiting
+
+
+def place(project: str | None, title: str | None = None) -> dict | None:
+	"""Where a task in a project opens: the project's page, or, for an
+	onboarding's or an exit's checklist, that onboarding or exit, with no route
+	for a reader who may not open it. Its project is HRMS's, and not a project
+	of OneProject's (one_hr/lifecycle.py)."""
+	if not project:
+		return None
+	from onedesk.one_hr.lifecycle import BOARDINGS
+
+	for doctype in BOARDINGS:
+		found = frappe.db.get_value(doctype, {"project": project}, ["name", "employee_name"], as_dict=True)
+		if found:
+			return {
+				"label": found.employee_name or found.name,
+				# Somebody given one step may not open the whole onboarding.
+				"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/{found.name}"
+				if frappe.has_permission(doctype, "read", doc=found.name)
+				else None,
+				"kind": doctype,
+			}
+	return {"label": title or project, "route": f"/desk/project/{project}", "kind": "Project"}
 
 
 def about(doctype: str, name: str) -> str:

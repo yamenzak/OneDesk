@@ -19,6 +19,7 @@ def run(password=None):
 		_leave()
 		_attendance()
 		_hiring()
+		_onboarding()
 		_payroll()
 	_claims()
 	with as_user(HR):
@@ -329,6 +330,41 @@ def _hiring():
 					"appointment_letter_template": _appointment(),
 				}
 			)
+
+
+#: Feras's first weeks, each step somebody's task on My Tasks: (what, who,
+#: days after boarding begins, days it takes).
+JOINING = (
+	("Prepare the employment contract and visa", HR, 0, 5),
+	("Issue the laptop and site PPE", "karim@one.test", 20, 3),
+	("Plan the first week on site", "samir@one.test", 22, 5),
+)
+
+
+def _onboarding():
+	"""Feras accepted the Site Engineer offer, so his onboarding is under way:
+	HRMS makes a checklist project and gives each step to its person."""
+	offer = frappe.db.get_value("Job Offer", {"applicant_name": "Feras Odeh", "docstatus": 1}, ["name", "job_applicant", "designation"], as_dict=True)
+	if not offer or frappe.db.exists("Employee Onboarding", {"job_offer": offer.name}):
+		return
+	make(
+		{
+			"doctype": "Employee Onboarding",
+			"job_applicant": offer.job_applicant,
+			"job_offer": offer.name,
+			"employee_name": "Feras Odeh",
+			"designation": offer.designation,
+			"company": COMPANY,
+			"department": frappe.db.get_value("Department", {"department_name": "Projects"}),
+			"date_of_joining": ahead(30),
+			"boarding_begins_on": ahead(2),
+			"activities": [
+				{"activity_name": what, "user": who, "begin_on": begins, "duration": takes}
+				for what, who, begins, takes in JOINING
+			],
+		},
+		submit=True,
+	)
 
 
 #: What the demo's offer sets out, as a hiring manager writes it.

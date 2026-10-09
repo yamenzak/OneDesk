@@ -1467,6 +1467,13 @@ OVERRIDES = [
 		'allDay: "allDay",',
 	),
 	(
+		"A boarding task names the person and opens their onboarding or separation",
+		"their boarding keeps a plain project behind each checklist, so a task from it read as that project and opened it",
+		"onedesk/one_task/mine.py",
+		"hrms/hrms/controllers/employee_boarding_controller.py",
+		'self.db_set("project", project.name)',
+	),
+	(
 		"The Task tree leaves templates out and names a task once",
 		"their tree reads every task, a template's steps too, and frappe's label put the task's number after its subject",
 		"onedesk/public/js/task_tree.js",

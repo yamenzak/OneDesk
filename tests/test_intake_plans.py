@@ -26,7 +26,8 @@ def _load(path, space, names=None):
 
 ACT = _load(ROOT / "act.py", {"dataclass": dataclass, "field": field, "hashlib": hashlib, "json": json, "cint": lambda v: int(v or 0), "flt": lambda v, p=None: float(v or 0)}, {"KINDS", "FLOOR", "CHANGES", "Action", "level", "_filled", "_same"})
 Action = ACT["Action"]
-PLANS = _load(ROOT / "plans.py", {"Action": Action, "getdate": _getdate, "timedelta": timedelta})
+# one_project/intake.py `task_in`, here keeping the project the document names.
+PLANS = _load(ROOT / "plans.py", {"Action": Action, "getdate": _getdate, "timedelta": timedelta, "task_in": lambda project, day: project})
 STEPS = _load(ROOT / "steps.py", {"getdate": _getdate, "flt": lambda v, p=None: float(v or 0), "json": json}, {"holds", "passed"})
 
 SAID = {

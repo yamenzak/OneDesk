@@ -1,8 +1,10 @@
-"""Which project a document Intake reads is for (one_intake/money.py)."""
+"""Which project a document Intake reads is for (one_intake/money.py), and
+whether a task about it fits in it (one_intake/plans.py)."""
 
 import re
 
 import frappe
+from frappe.utils import getdate
 
 #: Shorter names say too little to go by ("Web", "HQ").
 SHORTEST = 5
@@ -41,3 +43,13 @@ def pick(text: str, projects: list[tuple[str, str]]) -> str | None:
 	]
 	names = {name for name, _title in found}
 	return names.pop() if len(names) == 1 else None
+
+
+def task_in(project: str | None, day) -> str | None:
+	"""The project a task Intake makes about a document goes in: the one the
+	document names, where the task's day is inside it, as ERPNext asks of any
+	task in a project."""
+	if not project or not day:
+		return project
+	ends = frappe.db.get_value("Project", project, "expected_end_date")
+	return project if not ends or getdate(day) <= getdate(ends) else None

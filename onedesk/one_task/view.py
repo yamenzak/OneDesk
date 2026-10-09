@@ -11,7 +11,7 @@ from frappe.utils import cint, date_diff, flt, format_date, getdate, nowdate
 
 from onedesk.one_project.hours import bills_hours
 from onedesk.one_task.capture import DONE
-from onedesk.one_task.mine import about
+from onedesk.one_task.mine import about, place
 
 #: What the page reads of the task itself.
 FIELDS = (
@@ -110,6 +110,7 @@ def read(task: Annotated[str, "The task."]) -> dict:
 			"late_by": date_diff(today, due) if due and due < today and doc.status not in DONE else 0,
 			"headline": headline(doc.status, due, waiting, today),
 			"project_title": frappe.db.get_value("Project", doc.project, "project_name") if doc.project else None,
+			"place": place(doc.project, frappe.db.get_value("Project", doc.project, "project_name") if doc.project else None),
 			"above": _above(doc),
 			"about_title": about(doc.one_about_doctype, doc.one_about) if doc.one_about_doctype and doc.one_about else None,
 			"steps": [{"name": row.name, "step": row.step, "done": cint(row.done)} for row in doc.get("one_steps") or []],

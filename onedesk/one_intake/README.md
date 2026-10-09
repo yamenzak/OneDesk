@@ -157,9 +157,12 @@ about.
   - A receipt they paid becomes their expense claim.
   - A resignation, or creating an employee from a signed offer, is only
     proposed.
-- **Requests** become one task per matter, with a step for each request,
-  assigned to the person OneAI reads for unless an Assignment Rule assigns
-  it.
+- **Requests** become one task per matter, with a step for each request.
+  The workspace's Assignment Rules give it to somebody first, such as a rule
+  sending every task about a supplier to whoever keeps the books. When no
+  rule takes it, it goes to the person OneAI reads for. A task about a bill
+  or a delivery for a project is in that project, when its due date is
+  inside the project's dates.
   - A reply sent in the same thread completes its step. An appointment's
     step completes the day after. The task completes when every step is
     done.

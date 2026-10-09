@@ -264,7 +264,7 @@ const figures = computed(() => {
 const facts = computed(() => {
   const s = said.value;
   return [
-    s.project && { label: __("Project"), value: s.project_title || s.project },
+    s.place && { label: __(s.place.kind), value: s.place.label },
     s.parent_task && { label: __("Parent Task"), value: s.above.at(-1)?.subject || s.parent_task },
     s.type && { label: __("Type"), value: s.type },
     s.is_milestone && s.one_bill_share && { label: __("Bill on Completion"), value: __("{0}% of the contract", [s.one_bill_share]) },
@@ -328,7 +328,7 @@ function report() {
   props.onTitle?.({
     title: s.subject,
     between: [
-      s.project && { label: s.project_title || s.project, route: `/desk/project/${encodeURIComponent(s.project)}` },
+      s.place && { label: s.place.label, route: s.place.route },
       ...s.above.map((one) => ({ label: one.subject, route: `/desk/task/${encodeURIComponent(one.name)}` })),
     ].filter(Boolean),
   });
