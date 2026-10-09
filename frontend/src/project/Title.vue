@@ -1,5 +1,5 @@
 <template>
-  <!-- The project's name, renamed in place. On a photo it is drawn in white.
+  <!-- The project's name, or a task's subject, renamed in place. On a photo it is drawn in white.
        A long one wraps to a second line, as on a phone, before it is cut. -->
   <div class="flex min-w-0 flex-wrap items-center gap-3">
     <input
@@ -8,7 +8,7 @@
       v-model="name"
       class="min-w-0 flex-1 rounded-3 border-0 bg-surface-gray-2 px-2 py-0.5 font-semibold text-ink-gray-9 focus:ring-2 focus:ring-outline-gray-3"
       :class="size"
-      :aria-label="__('Project Name')"
+      :aria-label="label || __('Project Name')"
       @keydown.enter="save"
       @keydown.esc="editing = false"
       @blur="save"
@@ -24,7 +24,7 @@ import { nextTick, ref } from "vue";
 
 import { __ } from "../kit";
 
-const props = defineProps({ said: { type: Object, required: true }, onImage: Boolean, size: { type: String, default: "text-2xl" } });
+const props = defineProps({ said: { type: Object, required: true }, onImage: Boolean, size: { type: String, default: "text-2xl" }, label: String, field: { type: String, default: "project_name" } });
 const emit = defineEmits(["change"]);
 
 
@@ -41,6 +41,6 @@ function save() {
   if (!editing.value) return;
   editing.value = false;
   const now = name.value.trim();
-  if (now && now !== props.said.title) emit("change", "project_name", now);
+  if (now && now !== props.said.title) emit("change", props.field, now);
 }
 </script>

@@ -12,8 +12,9 @@ clause(
 	key="onetask-asks",
 	module=M,
 	body="""
-		In OneTask, when you ask OneAI about your work, it reads your tasks as you see them on My Tasks. A
-		task it suggests, or the steps it suggests for one, are added only when you approve them, and a
-		colleague it names is given the task then.
+		In OneTask, when you ask OneAI about your work, it reads your tasks as you see them on My Tasks, and
+		a task as you see it on its page: what it waits on, its checklist and sub-tasks, and the hours each
+		person logged on it that you may see. A task it suggests, or the steps it suggests for one, are added
+		only when you approve them, and a colleague it names is given the task then.
 	""",
 )

@@ -374,7 +374,7 @@ and whether it's a milestone in place; see its **Parent Task** and what it
 **Depends On**; tick and add its **Checklist**; add **Sub-tasks**; and read
 and write its comments. ▷ times it onto your timesheet. **⋯** has **Edit
 Details** (its type, hours, parent task, what it depends on, Bill on
-Completion and description), **Repeat** and **Open Full Form**.
+Completion and description), **Repeat** and **Open Task**, which opens the task on its own page.
 
 Late due dates are red. Whatever someone else changes shows up without
 reloading. Planned hours and a milestone's bill share are never below 0,

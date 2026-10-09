@@ -27,7 +27,37 @@ _ADD = {
 	"expects": "plan_task",
 }
 
+#: A task's page (page/task_view), by its open view, from `?view=`.
+PAGE = "task-view"
+
+_STEPS = {
+	"label": _lt("Break this into steps"),
+	"ask": _lt("Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."),
+	"can": "write",
+	"doctype": "Task",
+	"expects": "plan_steps",
+}
+_LEFT = {
+	"label": _lt("What is left on this task?"),
+	"ask": _lt(
+		"What is left to do on this task: the steps and sub-tasks still open, what it waits on, how its "
+		"hours compare with the plan, and whether it is late."
+	),
+	"can": "read",
+	"doctype": "Task",
+	"expects": "task_facts",
+}
+_WHO = {
+	"label": _lt("Who worked on this?"),
+	"ask": _lt("Who has logged time on this task, how much each, and how that compares with the hours planned."),
+	"can": "read",
+	"doctype": "Task",
+	"expects": "task_facts",
+}
+
 SUGGESTIONS = {
+	f"page:{PAGE}": [_LEFT, _STEPS],
+	f"page:{PAGE}/time": [_WHO, _LEFT],
 	"page:my-tasks": [_FIRST, _ADD],
 	"page:my-tasks/inbox": [_FIRST, _ADD],
 	"Task": [
@@ -45,7 +75,18 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on OneTask's page."""
+	"""The sentence the model is told on OneTask's pages."""
+	if said.get("page") == PAGE:
+		name = (said.get("record") or "").strip()
+		if not name or not frappe.db.exists("Task", name) or not frappe.has_permission("Task", "read", doc=name):
+			return "The reader is on a task's page."
+		subject = frappe.db.get_value("Task", name, "subject")
+		return (
+			f"The reader is on the page of task {name} (“{subject}”). task_facts reads it as its page shows "
+			"it: its dates, what it waits on and what waits on it, its checklist, its sub-tasks and the time "
+			"logged on it; plan_steps suggests the steps of its checklist as a card. Nothing is changed until "
+			"the reader approves. How a task's page works is in OneTask's documentation (how_to)."
+		)
 	if said.get("page") != "my-tasks":
 		return None
 	where = (
@@ -94,6 +135,44 @@ def my_tasks(
 			}
 			for group in groups
 		],
+	}
+
+
+def task_facts(task: Annotated[str, "The task's id, such as TASK-2026-00052."]) -> dict:
+	"""A task as its page shows it to the reader: its status, priority, dates
+	and how late it is, its project, what it waits on and what waits on it,
+	its checklist and sub-tasks, its description, and the hours logged on it
+	by whom against the hours planned. Read before saying what is left on a
+	task or who worked on it."""
+	from onedesk.one_task import view
+
+	if not frappe.db.exists("Task", task) or not frappe.has_permission("Task", "read", doc=task):
+		return {"error": f"No task the reader may see is {task}."}
+	said = view.read(task)
+	people = said["people"]
+	who = {}
+	for one in said["time"]["entries"]:
+		key = one["who"] or one["user"] or "?"
+		who[key] = round(who.get(key, 0) + one["hours"], 2)
+	return {
+		"name": said["name"],
+		"subject": said["subject"],
+		"status": said["status"],
+		"priority": said["priority"],
+		"project": said["project_title"],
+		"starts": str(said["exp_start_date"] or "")[:10] or None,
+		"due": said["due"],
+		"late_by_days": said["late_by"],
+		"assigned": [people.get(one, {}).get("name", one) for one in said["assigned"]],
+		"waits_on": [{"subject": one["subject"], "done": one["done"]} for one in said["waits"]],
+		"waiting_on_this": [one["subject"] for one in said["blocking"]],
+		"checklist": [{"step": one["step"], "done": bool(one["done"])} for one in said["steps"]],
+		"sub_tasks": [{"subject": one.subject, "status": one.status} for one in said["sub_tasks"]],
+		"description": frappe.utils.strip_html_tags(said["description"] or "")[:2000],
+		"planned_hours": said["expected_time"],
+		"logged_hours": said["time"]["logged"],
+		"draft_hours": said["time"]["drafts"],
+		"hours_by_person": who,
 	}
 
 

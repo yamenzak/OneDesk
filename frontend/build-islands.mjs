@@ -16,6 +16,7 @@ const COMPOSER = fileURLToPath(import.meta.resolve("@framework/ui/ActivityTimeli
 export const ISLANDS = {
 	"onedesk.project": "src/islands/project.js",
 	"onedesk.template": "src/islands/template.js",
+	"onedesk.task": "src/islands/task.js",
 };
 
 await buildIslands({

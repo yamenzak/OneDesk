@@ -202,7 +202,7 @@ const menu = computed(() =>
     props.canWrite && { label: __("Edit Details"), icon: "lucide-pencil", onClick: details },
     props.canWrite && !doc.value?.auto_repeat && { label: __("Repeat"), icon: "lucide-repeat", onClick: () => onedesk().project.repeat_task(props.task.name, () => (load(), emit("changed"))) },
     props.canWrite && doc.value?.auto_repeat && !repeat.value?.disabled && { label: __("Stop Repeating"), icon: "lucide-repeat", onClick: () => onedesk().project.stop_repeat(props.task.name, load) },
-    { label: __("Open Full Form"), icon: "lucide-external-link", onClick: () => go(`/desk/task/${props.task.name}`) },
+    { label: __("Open Task"), icon: "lucide-external-link", onClick: () => go(`/desk/task/${props.task.name}`) },
   ].filter(Boolean)
 );
 </script>

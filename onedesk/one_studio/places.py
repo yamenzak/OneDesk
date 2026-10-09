@@ -68,6 +68,36 @@ PLACES = {
 			},
 		},
 	},
+	"onetask_task": {
+		"label": "OneTask",
+		"record": "Task",
+		"events": {
+			"task": {
+				"about": _lt("A task's page is opened, and each time the task changes."),
+				"gives": (
+					"task.name, task.subject, task.status, task.priority, task.project, task.parent_task, task.due, "
+					"task.late_by (days), task.assigned (users), task.expected_time, task.logged, "
+					"task.steps (how many, and done), task.sub_tasks (how many, and done), task.waiting (subjects)"
+				),
+				"may": ("note", "action"),
+			},
+			"time": {
+				"about": _lt("A task's Time view is opened, and each time its hours change."),
+				"gives": "task.name, task.subject, time.logged, time.drafts, time.planned, time.entries (how many)",
+				"may": ("note", "action"),
+			},
+			"files": {
+				"about": _lt("A task's Files view is opened."),
+				"gives": "task.name, task.subject, files.count",
+				"may": ("note", "action"),
+			},
+			"activity": {
+				"about": _lt("A task's Activity view is opened."),
+				"gives": "task.name, task.subject",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecloud": {
 		"label": "OneCloud",
 		"record": "File",

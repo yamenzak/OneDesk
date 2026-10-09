@@ -329,6 +329,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneProject › Projects | done |
 | Products | OneProject › Templates | done |
 | Products | OneProject, the closing pass | closed, the standard (`docs/STANDARD.md`) |
+| Products | OneTask › A task's page | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -9651,6 +9652,106 @@ Still open, and written down in the standard:
   no cost.
 - **Manufacturing**: no module offers bills of materials or work orders. A
   product decision.
+
+### OneTask
+
+Your word: "now onetask gets its own focus … each module has its own
+cornerstone doctype … the doctype that a user is most likely expected to
+spend the most time on, like a project page in OneProject". OneTask is walked
+the way OneProject was closed (`docs/STANDARD.md`), screen by screen against
+every point.
+
+| Step | Screen | State |
+|---|---|---|
+| 0 | Gates: 1891 fast tests, 103 demo checks | done |
+| 1 | A task's page, the cornerstone | done |
+| 2 | My Tasks and the Inbox | |
+| 3 | All Tasks and its views: List, Report, Kanban, Calendar, Gantt | |
+| 4 | Across modules: OneProject, OneHR, Intake, OneCalendar, One | |
+| 5 | Closed against the standard | |
+
+#### 1. A task's page
+
+Looked at on the villa's Install glass, its phase and Water test, as Samir
+and Rania, on a desktop and a phone, and the code behind the task's form and
+the project page's task panel.
+
+Found:
+
+- **Tier and our look (4, 5)**: a task, where a person spends their day,
+  opened on frappe's form. Weight, Color, Issue and Is Template sat above the
+  description, the dates read "10-08-2026 00:00:00 Asia/Dubai", the checklist
+  was a grid with Add Row, and nothing said the task was late or waiting.
+  The project page's task panel had the better task, and its Open Full Form
+  led back to the form.
+- **What ERPNext already does**: ERPNext lists a sub-task in its parent's
+  Depends On, so on the form a phase waited on its own tasks, and a task
+  looked as if it held up its phase.
+
+Fixed:
+
+- **Tier declared (4)**: Task is a page of its own (`one/tiers.py` PAGES,
+  `task-view`). `/desk/task/<name>` opens it wherever a task is opened from,
+  and the form is the same address with `?edit=1`.
+- **Our look (5)**: the head has the status and priority as pills, the name
+  changed in place, the one thing worth saying (waiting on, late, due today,
+  Pending Review), when it starts, when it is due and the hours planned,
+  each changed in place, and cards for the hours against the plan, the
+  checklist and the sub-tasks. Then Details, Time, Files and Activity. The
+  breadcrumb names its project and the tasks it sits under. Complete Task or
+  Reopen Task is the main button, Start Timer beside it.
+- **Nothing lost (6)**: frappe's own sidebar and menu, the record followed
+  live, and every field of the task in Edit Details, grouped, with a
+  workspace's own under More (`task_actions.js`,
+  `test_a_page_edits_every_field_of_its_record` now covers Task).
+- **Extensible (7)**: `onetask_task.task`, `.time`, `.files` and `.activity`,
+  and what is written for a Task's head runs on the page too.
+- **What ERPNext already does**: what a task waits on leaves out its own
+  sub-tasks, and what waits on it leaves out its parent (`view.py`).
+- **Time (5)**: the hours logged on the task, by person and a page at a time,
+  with drafts said as such. Log Time adds an entry on the task and its
+  project, billable as the project bills hours.
+- **Plain words (12)**: Complete Task, Reopen Task, Waiting on This, Add
+  Step, Add Sub-task, Open Task in the project's panel.
+- **Documented, OneAI (13)**: the README's A task's page is rewritten. OneAI
+  reads a task as its page shows it (`task_facts`) and offers What is left on
+  this task?, Break this into steps and, on Time, Who worked on this?
+- **Legal (16)**: the AI Addendum (revision 18) says OneAI reads a task as
+  its page shows it, with the hours each person logged that the reader may
+  see. Everybody on the demo agreed again.
+- **Clean code (17)**: OneTask lints clean.
+- **Demo (1)**: `onetask_a_task_opens_on_its_own_page` reads the villa's
+  glass as late, its phase without its own tasks as what it waits on, Snag
+  list as waiting, OneAI's facts, and Rania refused a showroom task.
+
+Left for the next screens:
+
+- **The panel**: a task's form showed OneTask's rail (Search, Notification,
+  OneIntake, My Tasks, Inbox, Tasks, Setup), and My Tasks draws a column of
+  its own (Add Task, My Tasks, Inbox, All Tasks, Setup). Two rails for one
+  module. Screen 2.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | the villa's tasks as Samir and Rania | a check for the page, OneAI and access |
+| 2 Rules on the server | what the page changes | through set_value, frappe's save against `modified` and task.py, as the form does |
+| 3 Hand-offs | README Connections | Open Task from OneProject's panel |
+| 4 Tier declared | `one/tiers.py` | Task is a page |
+| 5 Our look | the page, desktop and phone | head, cards, four views |
+| 6 Nothing lost | sidebar, menu, Edit Details | every typed field, guarded |
+| 7 Extensible | `one_studio/places.py` | four places and the head's |
+| 8 Built from frappe | the page's parts | frappe-ui Badge, Button, Checkbox, TextInput, DatePicker, List, NumberCard, frappe's formats |
+| 9 Overrides recorded | the gate | passes |
+| 10 Notifications | Task Given, Done, Ready, Pending Review, Due Date Changed | on the task's own hooks, so the page's changes tell people as the form's did |
+| 11 Printed | a task | stays inside the company, no print |
+| 12 Plain words | head, views, buttons | fixed above |
+| 13 Documented, OneAI | README, `ai.py` | fixed above |
+| 14 Intake | tasks Intake makes | open on the page, About names the record |
+| 15 Permissions | as Rania and Samir | read as the reader, time as they read timesheets |
+| 16 Legal | AI Addendum | revision 18 |
+| 17 Clean code | ruff on one_task | clean |
+| Everything follows frappe | realtime, saving | follows the task, its sub-tasks and the time, saves against `modified` |
+| What ERPNext already does | Depends On, statuses, datetime dates | fixed above |
 
 ## OneLegal
 

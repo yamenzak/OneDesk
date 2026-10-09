@@ -5,7 +5,12 @@ may see, a template task, and a task shared with them.
 import json
 
 import frappe
-from frappe.permissions import SYSTEM_USER_ROLE, add_permission, setup_custom_perms, update_permission_property
+from frappe.permissions import (
+	SYSTEM_USER_ROLE,
+	add_permission,
+	setup_custom_perms,
+	update_permission_property,
+)
 
 from onedesk.one_project import members
 

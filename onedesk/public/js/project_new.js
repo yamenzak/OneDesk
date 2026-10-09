@@ -4,9 +4,10 @@
 frappe.provide("onedesk.project");
 
 // A project opens on its page (one_project/page/project_view), at its own
-// address: /desk/project/<name>, and a template on its own
-// (page/project_template_view). The form is the same address with ?edit=1,
-// for every field the page doesn't show, and is still where a new one is made.
+// address: /desk/project/<name>, a template on its own
+// (page/project_template_view) and a task on OneTask's (one_task/page/task_view).
+// The form is the same address with ?edit=1, and is still where a new one is
+// made.
 {
 	const standard = frappe.router.convert_to_standard_route.bind(frappe.router);
 	frappe.router.convert_to_standard_route = async (route) => {
@@ -14,7 +15,7 @@ frappe.provide("onedesk.project");
 		// The address says it; carried on, it would open the next project's form too.
 		if (frappe.route_options) delete frappe.route_options.edit;
 		const [view, doctype, name] = found || [];
-		const page = { Project: "project-view", "Project Template": "project-template-view" }[doctype];
+		const page = { Project: "project-view", "Project Template": "project-template-view", Task: "task-view" }[doctype];
 		if (view !== "Form" || !page || !name || name.startsWith("new-")) return found;
 		if (new URLSearchParams(window.location.search).has("edit")) return found;
 		return [page, name];

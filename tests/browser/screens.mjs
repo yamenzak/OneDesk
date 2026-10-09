@@ -26,6 +26,7 @@ export const SCREENS = [
 	{ who: "samir@one.test", path: "/desk/project/PROJ-0001?view=activity", page: "project-view", sees: ["Comment", "New Email", "Assign"], panel: false },
 	{ who: "samir@one.test", path: "/desk/project-template", sees: ["Aluminium & Glazing", "Tasks", "Days", "Projects", "From the Library"], panel: true, phone: PROJECT_PLACES },
 	{ who: "samir@one.test", path: "/desk/project-template/Aluminium%20%26%20Glazing", page: "project-template-view", sees: ["Aluminium & Glazing", "Day 0", "Assign", "Files"], panel: false, menu: PROJECT_PLACES },
+	{ who: "samir@one.test", path: "/desk/task/TASK-2026-00052", page: "task-view", sees: ["Install glass", "Assign", "Files"], panel: false },
 	{ who: "rania@one.test", path: "/desk/my-tasks", page: "my-tasks", sees: ["OneTask"] },
 	{ who: "samir@one.test", path: "/desk/onecalendar", page: "onecalendar", sees: ["Weekly site meeting"] },
 	// OneCRM

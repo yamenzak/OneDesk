@@ -27,7 +27,7 @@ VERSIONS = {
 	"cookies": "1.32b1addc",
 	"dpa": "4.042bc9fa",
 	"subprocessors": "4.609e7a2d",
-	"ai": "17.9cfb6acb",
+	"ai": "18.000b2d09",
 	"licences": "1.c71daf62",
 }
 

@@ -41,6 +41,7 @@ GROUPS = {
 		"tools": (
 			"my_day",
 			"my_tasks",
+			"task_facts",
 			"plan_task",
 			"plan_steps",
 			"my_calendar",

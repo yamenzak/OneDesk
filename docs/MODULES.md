@@ -671,3 +671,5 @@ No doctypes yet.
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`
 * `onedesk.one_task.timer.stop`
+* `onedesk.one_task.view.files`
+* `onedesk.one_task.view.read`

@@ -4418,3 +4418,39 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 		VILLA,
 	)
 	assert not early, early
+
+
+@check
+def onetask_a_task_opens_on_its_own_page():
+	"""A task opens on its page as its reader may see it: the villa's glass
+	says it is late, a phase lists its tasks as sub-tasks and not as what it
+	waits on, and a step waiting on another says so. OneAI reads the task as
+	the page does, and somebody who may not see the project's tasks is
+	refused."""
+	from onedesk.one_task import ai, view
+
+	glass = frappe.db.get_value("Task", {"project": VILLA, "subject": "Install glass"})
+	phase = frappe.db.get_value("Task", glass, "parent_task")
+	snag = frappe.db.get_value("Task", {"project": VILLA, "subject": "Snag list and rectification"})
+	with as_user("samir@one.test"):
+		said = view.read(glass)
+		assert said["headline"]["key"] == "late" and said["late_by"] > 0, said["headline"]
+		assert phase not in {one["name"] for one in said["blocking"]}, "a sub-task does not hold up its parent"
+		assert said["above"] and said["above"][-1]["name"] == phase and said["project_title"]
+		assert said["time"]["logged"] > 0 and said["can_write"]
+		group = view.read(phase)
+		assert group["sub_tasks"] and not {one.name for one in group["sub_tasks"]} & {one["name"] for one in group["waits"]}
+		assert view.read(snag)["headline"]["key"] == "waiting"
+		assert view.files(glass) == 0
+		facts = ai.task_facts(glass)
+		assert facts["late_by_days"] > 0 and facts["hours_by_person"], facts
+		assert "task_facts" in (ai.page({"page": "task-view", "record": glass}) or "")
+	elsewhere = frappe.db.get_value("Task", {"project": SHOWROOM, "is_group": 0})
+	with as_user("rania@one.test"):
+		try:
+			view.read(elsewhere)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("Rania read a task on a project she may not see")
+		assert ai.task_facts(elsewhere).get("error")

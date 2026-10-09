@@ -1266,8 +1266,10 @@ one_ai_reads = [
 	"onedesk.one_mail.ai.waiting_for_answer",
 	# The reader's calendar, and when colleagues are busy. See one_calendar/ai.py.
 	"onedesk.one_calendar.ai.my_calendar",
-	# The reader's tasks, as My Tasks shows them. See one_task/ai.py.
+	# The reader's tasks, as My Tasks shows them, and one task as its page
+	# shows it. See one_task/ai.py.
 	"onedesk.one_task.ai.my_tasks",
+	"onedesk.one_task.ai.task_facts",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",

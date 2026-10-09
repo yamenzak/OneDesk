@@ -19,11 +19,16 @@ FRAPPE = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe")
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
+	"Task": ROOT / "frontend" / "src" / "task" / "TaskPage.vue",
 }
 DESK_PAGES = {
 	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
 	"Project Template": APP / "one_project" / "page" / "project_template_view" / "project_template_view.js",
+	"Task": APP / "one_task" / "page" / "task_view" / "task_view.js",
 }
+
+#: The place each page fires (one_studio/places.py), told its record.
+PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Task": "onetask_task"}
 
 #: frappe's form sidebar and the parts it draws, all written against a form.
 SIDEBAR = (
@@ -129,9 +134,9 @@ def test_a_page_declares_its_places_and_fires_them(doctype):
 	places = _places()
 	# The page and its views, each of which may fire its own place.
 	source = "".join(one.read_text() for one in sorted(ISLANDS[doctype].parent.glob("*.vue")))
-	own = [place for place, one in places.PLACES.items() if one["record"] == doctype]
-	assert own, f"no place for {doctype}'s page in one_studio/places.py"
-	for place in own:
+	place = PAGE_PLACES[doctype]
+	assert places.PLACES.get(place, {}).get("record") == doctype, f"no place for {doctype}'s page in one_studio/places.py"
+	for place in [place]:
 		for event in places.PLACES[place]["events"]:
 			assert f'"{place}.{event}"' in source
 	# What is written for the record's head runs on its page as well.
@@ -169,6 +174,11 @@ def test_each_page_fires_its_events_with_only_its_powers():
 			)
 		},
 		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
+		# A task's page and its views (frontend/src/task).
+		"onetask_task.task": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
+		"onetask_task.time": (ROOT / "frontend" / "src" / "task" / "TaskTime.vue").read_text(),
+		"onetask_task.files": (ROOT / "frontend" / "src" / "task" / "TaskFiles.vue").read_text(),
+		"onetask_task.activity": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),
 	}
@@ -181,12 +191,14 @@ def test_each_page_fires_its_events_with_only_its_powers():
 	assert "/assets/onedesk/js/places.js" in (APP / "hooks.py").read_text()
 
 
-#: Where each page edits its record's fields (public/js/project_actions.js):
-#: the groups of its Edit dialog, and the fields it edits elsewhere on the
-#: page or ERPNext keeps. Anything else would only be reached on the form.
+#: Where each page edits its record's fields (public/js/project_actions.js,
+#: task_actions.js): the groups of its Edit dialog, and the fields it edits
+#: elsewhere on the page or ERPNext keeps. Anything else would only be reached
+#: on the form.
 EDITS = {
-	"Project": ("ABOUT_GROUPS", "ELSEWHERE"),
-	"Project Template": ("TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
+	"Project": ("project_actions.js", "ABOUT_GROUPS", "ELSEWHERE"),
+	"Project Template": ("project_actions.js", "TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
+	"Task": ("task_actions.js", "GROUPS", "ELSEWHERE"),
 }
 ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext")
 #: Field types that hold no value to type in.
@@ -194,8 +206,8 @@ NO_VALUE = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Ima
 
 
 def _named(source, constant):
-	"""The fieldnames in a constant of project_actions.js."""
-	found = re.search(rf"onedesk\.project\.{constant} = (\[.*?\]);\n", source, re.S)
+	"""The fieldnames in a constant of an actions file."""
+	found = re.search(rf"onedesk\.\w+\.{constant} = (\[.*?\]);\n", source, re.S)
 	assert found, constant
 	return set(re.findall(r'"([a-z_]+)"', found.group(1)))
 
@@ -226,9 +238,11 @@ def test_a_page_edits_every_field_of_its_record(doctype):
 	"""Point 6: a record on a page of its own is edited there, every field of
 	it, so its form is a fallback and never the only way in. A field a
 	workspace adds shows under More in the same dialog (`about_fields`)."""
-	source = (APP / "public" / "js" / "project_actions.js").read_text()
-	groups, elsewhere = EDITS[doctype]
+	file, groups, elsewhere = EDITS[doctype]
+	source = (APP / "public" / "js" / file).read_text()
 	placed = _named(source, groups) | _named(source, elsewhere)
 	missing = sorted(_typed(doctype) - placed)
 	assert not missing, f"{doctype}: {missing} can only be changed on the form; give each a place on the page"
-	assert "onedesk.project.about_fields" in source and '[__("More"), more]' in source
+	# A field a workspace adds shows under More, through the one helper.
+	assert "onedesk.project.about_fields(" in source
+	assert '[__("More"), more]' in (APP / "public" / "js" / "project_actions.js").read_text()

@@ -12,6 +12,7 @@ VIEWS = ("List", "Report", "Dashboard", "Kanban", "Calendar", "Gantt", "Tree", "
 PAGES = {
 	"Project": "a job is run from it all day: its money with both sides, tasks, time, suppliers, people and files, across its sub-projects",
 	"Project Template": "its tasks are laid out, nested, linked and timed as a project's are, which a form's child table cannot show",
+	"Task": "a person's work is done from it all day: what it waits on, its checklist and sub-tasks, its time and its conversation",
 }
 
 #: Records to become pages next, and why.
@@ -111,6 +112,7 @@ COLLECTIONS = {
 SCREENS = {
 	"project-view": "the page a Project opens on (PAGES)",
 	"project-template-view": "the page a Project Template opens on (PAGES)",
+	"task-view": "the page a Task opens on (PAGES)",
 	"my-tasks": "the reader's own tasks, grouped (Task)",
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",

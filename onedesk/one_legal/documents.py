@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 17: OneAI reads a project's time by person, and suggests time and budgets.
+		# 18: OneAI reads a task as its page shows it, with its time by person.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 17,
+		"revision": 18,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

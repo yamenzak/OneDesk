@@ -65,10 +65,38 @@ person instead.
 
 ## A task's page
 
-**Details** has the task and its project, followed by **Timeline**, open,
-with the start and due dates, expected time, progress and weight. Then come
-**Is Template**, the issue it came from, and its color. The description and
-checklist are under **Details**.
+A task opens on a page of its own, wherever you open it from: My Tasks, the
+list, a project's Tasks, the calendar or a notification.
+
+At the top are its **status** and **priority**, which you change by clicking
+them, and its name, which you change by clicking it. Under the name is the
+one thing worth knowing, if there is one: what it is **waiting on**, that it
+is **late** or **due today**, or that it is **Pending Review**. Then come when
+it **starts**, when it is **due** and the hours **planned**, each changed in
+place, and how far along it is: the hours logged against the plan, the
+checklist and the sub-tasks.
+
+The breadcrumb names its project and the task it is part of, each opening
+its page. On the right is what every record has: who it is assigned to, its
+files, tags, who it is shared with and who changed it last.
+
+- **Details** has the description, the **Checklist**, the **Sub-tasks**, what
+  it **Depends On**, what is **Waiting on This**, and the rest of the task.
+  Tick a step or add one, and add a sub-task, right there.
+- **Time** lists the hours logged on it: the day, who, the activity and the
+  hours, with drafts said as such. **Log Time** adds an entry to your
+  timesheet for the week, on the task and its project.
+- **Files** is the task's folder in OneCloud.
+- **Activity** is its comments, emails and changes, with a comment box on
+  top.
+
+**Complete Task** at the top completes it, and **Reopen Task** opens it
+again. **Start Timer** times it. **⋯** has **Edit Details**, where every
+other field of the task is, **Repeat** and frappe's own Print, Email,
+Duplicate, Delete and the rest.
+
+Everything on the page updates on its own when someone else changes the
+task, a sub-task or the time on it.
 
 ## On the calendar
 
@@ -155,8 +183,10 @@ due date, project, checklist and, if you asked, a colleague to assign it to.
 Nothing is added until you approve the card, and the colleague is notified
 then.
 
-On a task's page, **Break this into steps** suggests checklist steps, added
-after any existing ones when you approve.
+On a task's page, OneAI offers **What is left on this task?** and **Break
+this into steps**, and on its Time, **Who worked on this?** It reads the task
+as you see it on its page. Steps it suggests come on a card, added after any
+existing ones when you approve.
 
 ## Who sees a task
 
@@ -175,7 +205,7 @@ You can work on a task someone else assigned to you, but you can't delete it.
 
 ## Connections
 
-- **From OneProject**: A project task assigned to you shows on My Tasks with its project. Who else sees a project task follows who can see the project.
+- **From OneProject**: A project task assigned to you shows on My Tasks with its project. Who else sees a project task follows who can see the project. **Open Task** in a project's task panel opens the task on its own page.
 - **From OneHR**: Each activity on an onboarding or separation checklist becomes a task for whoever does it. A separation also adds a Return task for each asset the person holds.
 - **From OneIntake**: Tasks are made from what arrives, such as answering an enquiry or renewing a passport before it runs out. Their steps tick themselves when the record they wait on changes, such as a bill being paid.
 - **To One**: Home shows how many of your tasks are due today or overdue.
@@ -349,10 +379,24 @@ is:
 
   **The morning.** `today` tells each person what is due that day and what is
   late, from the tasks given to them, as My Tasks groups them (mine.py).
+- `view.py`, `page/task_view` and `frontend/src/task` — a task's page. Task
+  is a page of its own (one/tiers.py PAGES): a person works their tasks all
+  day, and a form showed Weight, Color and Issue ahead of what the task waits
+  on. `read` is the task as the reader may see it: what it waits on (its own
+  sub-tasks left out, as they are its sub-tasks), what waits on it (its
+  parent left out, as ERPNext lists a sub-task in its parent's Depends On),
+  its checklist, its sub-tasks, the time on it as the reader may read
+  timesheets, and the one thing worth saying (`headline`, pure). The page
+  changes the task as desk does (set_value, insert, task.py), saves Edit
+  Details against `modified` (public/js/task_actions.js, every field the form
+  has), and follows the task, Task and Timesheet. It fires
+  `onetask_task.task`, `.time`, `.files` and `.activity` for OneStudio's
+  extensions (one_studio/places.py). The form is the same address with
+  `?edit=1`.
 - `ai.py` — the page sentence, `my_tasks`, `plan_task` (a Create card; the
   colleagues it names ride on the hidden `one_for` and are given the task by
-  `capture.task_made`), `plan_steps` (an Edit card on the checklist), and the
-  suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
+  `capture.task_made`), `plan_steps` (an Edit card on the checklist), `task_facts`
+  (a task as its page shows it), and the suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
   as the reader, through the page's own read (`mine.tasks`), so OneAI sees
   exactly the list they do. A task is only ever suggested; approving the card
   makes it, and gives it to whoever the card names then (capture.py), which
