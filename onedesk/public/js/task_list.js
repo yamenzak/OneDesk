@@ -6,17 +6,23 @@
 //
 // On the docfield rather than the list's formatters, because the board draws
 // its cards through frappe.format, which reads `df.formatter` and nothing else.
+// Its Expected Start Date reads the same way, never red.
 (() => {
 	const DONE = ["Completed", "Cancelled", "Template"];
-	const due = frappe.meta.get_docfield("Task", "exp_end_date");
-	if (!due) return;
-	due.formatter = (value, df, options, doc) => {
-		if (!value) return "";
+	const day_of = (value) => {
 		const [day, time] = frappe.datetime.convert_to_user_tz(value).split(" ");
-		const shown = frappe.datetime.str_to_user(day) + (time && !time.startsWith("00:00") ? ` ${time.slice(0, 5)}` : "");
-		const late = doc && !DONE.includes(doc.status) && day < frappe.datetime.get_today();
-		return late ? `<span class="text-danger">${shown}</span>` : shown;
+		return [day, frappe.datetime.str_to_user(day) + (time && !time.startsWith("00:00") ? ` ${time.slice(0, 5)}` : "")];
 	};
+	const due = frappe.meta.get_docfield("Task", "exp_end_date");
+	if (due)
+		due.formatter = (value, df, options, doc) => {
+			if (!value) return "";
+			const [day, shown] = day_of(value);
+			const late = doc && !DONE.includes(doc.status) && day < frappe.datetime.get_today();
+			return late ? `<span class="text-danger">${shown}</span>` : shown;
+		};
+	const starts = frappe.meta.get_docfield("Task", "exp_start_date");
+	if (starts) starts.formatter = (value) => (value ? day_of(value)[1] : "");
 })();
 
 // The list's subject is the task, so frappe's ID column beside it is its

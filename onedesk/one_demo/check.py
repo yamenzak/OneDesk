@@ -4421,6 +4421,35 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 
 
 @check
+def onetask_all_tasks_and_its_views_leave_templates_out():
+	"""Every view of All Tasks is the work, not a template's steps. The
+	calendar draws a task planned by the day as a day, the tree names each
+	task once, the list has room for a task's name, and ERPNext's own board
+	keeps no Overdue column."""
+	import json
+
+	from frappe.utils import add_days, nowdate
+
+	from onedesk.one_task import views
+
+	templates = set(frappe.get_all("Task", filters={"is_template": 1}, pluck="name"))
+	assert templates, "the demo's template has its steps"
+	field_map = json.dumps({"start": "exp_start_date", "end": "exp_end_date", "id": "name", "title": "subject", "allDay": "allDay"})
+	with as_user("samir@one.test"):
+		shown = views.events("Task", add_days(nowdate(), -30), add_days(nowdate(), 60), field_map)
+		assert shown and not {one.name for one in shown} & templates
+		call = next(one for one in shown if one.subject == "Call Acme about the lobby drawings")
+		assert call.allDay == 1, "a task planned by the day is a day"
+		roots = views.children("Task", is_root=True)
+		assert roots and not {one.value for one in roots} & templates
+		phase = next(one for one in roots if one.expandable)
+		assert views.children("Task", parent=phase.value) and "status" in phase
+	assert frappe.get_meta("Task").get_field("subject").width
+	overdue = frappe.db.get_value("Kanban Board Column", {"parent": "Task Status", "column_name": "Overdue"}, "status")
+	assert overdue == "Archived", "ERPNext's board puts Overdue away"
+
+
+@check
 def onetask_my_tasks_and_the_inbox_are_the_readers_own():
 	"""My Tasks is what is given to the reader, the Inbox their work in no
 	project, made by them or given to them (a task Intake made about a

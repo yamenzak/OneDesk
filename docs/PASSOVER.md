@@ -331,6 +331,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneProject, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Products | OneTask › A task's page | done |
 | Products | OneTask › My Tasks and the Inbox | done |
+| Products | OneTask › All Tasks and its views | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -9667,7 +9668,7 @@ every point.
 | 0 | Gates: 1891 fast tests, 103 demo checks | done |
 | 1 | A task's page, the cornerstone | done |
 | 2 | My Tasks and the Inbox | done |
-| 3 | All Tasks and its views: List, Report, Kanban, Calendar, Gantt | |
+| 3 | All Tasks and its views: List, Report, Kanban, Calendar, Gantt | done |
 | 4 | Across modules: OneProject, OneHR, Intake, OneCalendar, One | |
 | 5 | Closed against the standard | |
 
@@ -9806,7 +9807,7 @@ Fixed:
 
 Left for the next screens:
 
-- **All Tasks** still cuts a task's name to a few words. Screen 3.
+- **All Tasks** still cuts a task's name to a few words. Screen 3, done there.
 - **Intake** gives every task it makes to the workspace owner, and leaves
   the tower's facade site meeting in no project. Screen 4.
 
@@ -9831,6 +9832,82 @@ Left for the next screens:
 | 17 Clean code | ruff, the old page's CSS | lint clean, my_tasks.css gone |
 | Everything follows frappe | realtime, saving | follows Task and ToDo, saves through frappe |
 | What ERPNext already does | statuses, Depends On | fixed above |
+
+#### 3. All Tasks and its views
+
+Looked at as Samir on every view frappe has for Task (List, Report, Kanban,
+Calendar, Gantt, Tree, Dashboard), on a desktop and a phone, and at what
+ERPNext sets up for each (`task_calendar.js`, `task_tree.js`, its Task Status
+board) and what OneTask adds (`task_list.js`).
+
+Found:
+
+- **Our look (5)**: the list gave its five columns the same width, so a
+  task's name was cut at twenty letters ("Check the crane boo") while
+  Priority had room to spare. The Report read every start date as midnight.
+- **What ERPNext already does**: ERPNext keeps a task's dates as datetimes
+  at midnight and gives its calendar an all-day field Task doesn't have, so
+  every task on the Calendar read "12:00 AM". Its Task Status board keeps an
+  Overdue column, though OneTask stopped the job that sets that status.
+- **Works (1)**: the Calendar and the Tree read every task, a template's 30
+  steps among them, so Initiation, Engineering & Approvals appeared twice at
+  the top of the tree, once for the villa and once for the template.
+- **Plain words (12)**: the Tree put each task's number after its name,
+  "Shop drawings (TASK-2026-00061)", and nothing said whether it was done.
+
+Fixed:
+
+- **Our look (5)**: the list's columns have widths of their own, the
+  subject widest (`custom/task.json`), and a start date reads as a day in the
+  Report (`task_list.js`).
+- **Calendar**: read through `one_task/views.py` `events`, frappe's own
+  read without a template's tasks, and a task planned by the day drawn as a
+  day (`task_calendar.js`).
+- **Tree**: read through `views.children`, ERPNext's tree without a
+  template's tasks, each task its subject and where it stands
+  (`task_tree.js`).
+- **Kanban**: Overdue is put away on ERPNext's own board, on the column's row
+  (`one_project/board.py` `settle`), since saving a standard board would
+  write ERPNext's file.
+- **Tier (4) and overrides (9)**: Report, Calendar and Tree are declared for
+  Task in `one/tiers.py`, and four rows in `scripts/overrides.py` say what
+  of ERPNext's each one leans on.
+- **Demo (1)**: `onetask_all_tasks_and_its_views_leave_templates_out` reads
+  the calendar and the tree as Samir, and checks the list's widths and the
+  board.
+- **Documented (13)**: the README has **All Tasks**, each view in a line.
+
+Left:
+
+- The Gantt draws a long bar's name at its middle, which can be off the
+  screen. That is frappe-gantt's own drawing.
+- A card on the board doesn't turn its date red when late. frappe's board
+  formats the date without the task, so the formatter can't tell a late
+  task from a done one.
+- The Dashboard's two cards are ERPNext's, with ERPNext's names (Tasks Due
+  or Late, Non Completed Tasks).
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | every view as Samir | a check for the calendar, tree, widths and board |
+| 2 Rules on the server | dragging on the calendar, the board, report edits | frappe's own save, as before |
+| 3 Hand-offs | a task opened from any view | opens its page |
+| 4 Tier declared | `one/tiers.py` COLLECTIONS | List, Report, Kanban, Calendar, Gantt, Tree declared, the rest frappe's own |
+| 5 Our look | desktop and phone | widths, dates as days, all-day tasks |
+| 6 Nothing lost | every view frappe offers | all kept |
+| 7 Extensible | frappe's views | Client Scripts reach them as on any list |
+| 8 Built from frappe | the views | frappe's own, read through `get_events` and `get_list` |
+| 9 Overrides recorded | the gate | four new rows, passes |
+| 10 Notifications | the views | none of their own |
+| 11 Printed | the list | frappe's own print of a list, nothing of ours |
+| 12 Plain words | tree labels, the one new message | fixed, translated |
+| 13 Documented, OneAI | README | All Tasks added; OneAI reads tasks through My Tasks and a task's page |
+| 14 Intake | tasks Intake makes | on every view like any task |
+| 15 Permissions | the readers in `views.py` | `get_list`, as the reader |
+| 16 Legal | nothing new leaves | no revision |
+| 17 Clean code | ruff | clean, one file for the views |
+| Everything follows frappe | each view | frappe's own, with its settings changed in place |
+| What ERPNext already does | datetimes, Overdue, templates | fixed above |
 
 ## OneLegal
 

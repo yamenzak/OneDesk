@@ -673,3 +673,5 @@ No doctypes yet.
 * `onedesk.one_task.timer.stop`
 * `onedesk.one_task.view.files`
 * `onedesk.one_task.view.read`
+* `onedesk.one_task.views.children`
+* `onedesk.one_task.views.events`

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 11:34+0000\n"
-"PO-Revision-Date: 2026-10-09 11:34+0000\n"
+"POT-Creation-Date: 2026-10-09 11:58+0000\n"
+"PO-Revision-Date: 2026-10-09 11:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -16759,6 +16759,10 @@ msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه ال�
 #: onedesk/one_intake/switches.py:109
 msgid "Only someone who can edit {0} can change this."
 msgstr "يمكن فقط لمن يستطيع تعديل {0} تغيير هذا."
+
+#: onedesk/one_task/views.py:36
+msgid "Only tasks are read here."
+msgstr "تُقرأ المهام فقط هنا."
 
 #: onedesk/public/js/settings.js:1671
 msgid "Only the billing owner sees this."

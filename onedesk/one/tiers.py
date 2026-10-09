@@ -87,7 +87,10 @@ COLLECTIONS = {
 	"Task": {
 		"List": "a task's due date as a day, red once it has passed",
 		"Gantt": "a task with only a due date is a bar on its day, and the pills light the mode it is in",
-		"Kanban": "a project's board, a column per status as it is made, with Template and Cancelled put away",
+		"Kanban": "a project's board, a column per status as it is made, with Template and Cancelled put away, and Overdue put away on ERPNext's own board",
+		"Report": "the start date read as a day, as the due date is",
+		"Calendar": "a template's tasks left out, and a task planned by the day drawn as a day",
+		"Tree": "a template's tasks left out, each task its subject and where it stands",
 	},
 	"Lead": {"List": "an overdue next step in red"},
 	"Opportunity": {

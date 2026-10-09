@@ -57,7 +57,24 @@ its name.
 A task is due on its **Expected End Date**, or its **Expected Start Date** if
 it has no end date.
 
-## Adding a task
+## All Tasks
+
+**All Tasks**, at the foot of the column, is every task you can see, as
+frappe's list, with its other views under **List View**:
+
+- **Report**: the same tasks as a table you can change in place.
+- **Kanban**: the tasks by status. A project's own board is under Board on
+  its page.
+- **Calendar**: each task on its days, from when it starts to when it is due.
+  Drag one to move it.
+- **Gantt**: each task as a bar, with the tasks it waits on joined to it.
+- **Tree**: each task under its parent.
+- **Dashboard**: how many tasks are due or late, and how many are open.
+
+A template's tasks are steps for a new project, not work, so none of these
+show them. They are in OneProject › Templates.
+
+
 
 **New Task** on a project's Tasks asks for the task, its project (this one
 or one under it), what it is part of, who owns it, its priority, when it
@@ -311,7 +328,7 @@ is:
   (one_project/board.py says why). The page's order puts Timeline, open,
   ahead of Is Template, Issue and Color; Company is hidden; the list shows
   Subject, Status, Project, Priority and the due date (`task_list.js` drops
-  frappe's ID column).
+  frappe's ID column), each as wide as it needs, the subject widest.
 - `task.py` — a sub-task's parent becomes a group and lends its project; the
   checklist is the progress; sub-tasks are a connection on the task's page.
 
@@ -329,7 +346,14 @@ is:
   The sub-tasks are on the task's page as a connection (`dashboard`), so its
   + makes one with the parent filled in, which is frappe's own way of doing
   it.
-- `public/js/task_list.js` — a due date read as a day, red once passed.
+- `public/js/task_list.js` — a due date read as a day, red once passed, and
+  a start date read as a day.
+- `views.py`, `public/js/task_calendar.js` and `public/js/task_tree.js` —
+  All Tasks on frappe's Calendar and Tree, ERPNext's own settings read
+  through `events` and `children`, which leave a template's tasks out. A task
+  planned by the day is a day on the calendar, since ERPNext keeps a task's
+  dates as datetimes at midnight. The tree names a task by its subject and
+  says where it stands. Both read as the reader (`get_list`).
 - `timer.py` — the timer, as a row on the person's draft timesheet for the
   week; a row with a start and no end is the running one, the same rule as the
   Timesheet form's own timer, so either stops what the other started.

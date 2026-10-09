@@ -19,6 +19,9 @@ COLUMNS = {
 	"Template": ("Gray", "Archived"),
 }
 
+#: ERPNext's own board of every task by status (task/kanban_board/task_status.json).
+STANDARD_BOARD = "Task Status"
+
 #: What a card shows under the task's subject, and the icon it shows it by.
 CARD = {"priority": "flag", "exp_end_date": "calendar"}
 
@@ -41,6 +44,15 @@ def settle(*_args) -> None:
 	if job and not frappe.db.get_value("Scheduled Job Type", job, "stopped"):
 		frappe.db.set_value("Scheduled Job Type", job, "stopped", 1)
 	frappe.db.sql("update `tabTask` set status = 'Open' where status = 'Overdue'")
+	# ERPNext's own board of tasks keeps an Overdue column nothing reaches now.
+	# It is put away on the row itself: saving a standard board in developer
+	# mode would write ERPNext's file.
+	for row in frappe.get_all(
+		"Kanban Board Column",
+		filters={"parent": STANDARD_BOARD, "parenttype": "Kanban Board", "column_name": "Overdue", "status": "Active"},
+		pluck="name",
+	):
+		frappe.db.set_value("Kanban Board Column", row, "status", "Archived", update_modified=False)
 	for name in frappe.get_all(
 		"Kanban Board",
 		filters={"reference_doctype": "Task", "field_name": "status", "is_standard": ["!=", "Yes"]},

@@ -978,8 +978,8 @@ doctype_js = {
 # Loaded after the doctype's own list script, so ours has the last word.
 # The Projects list as a tree and on a timeline: frappe's Tree and Gantt views.
 # See one_project/tree.py.
-doctype_tree_js = {"Project": "public/js/project_tree.js"}
-doctype_calendar_js = {"Project": "public/js/project_calendar.js"}
+doctype_tree_js = {"Project": "public/js/project_tree.js", "Task": "public/js/task_tree.js"}
+doctype_calendar_js = {"Project": "public/js/project_calendar.js", "Task": "public/js/task_calendar.js"}
 doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
 
 doctype_list_js = {
