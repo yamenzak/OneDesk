@@ -330,6 +330,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneProject › Templates | done |
 | Products | OneProject, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Products | OneTask › A task's page | done |
+| Products | OneTask › My Tasks and the Inbox | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -9665,7 +9666,7 @@ every point.
 |---|---|---|
 | 0 | Gates: 1891 fast tests, 103 demo checks | done |
 | 1 | A task's page, the cornerstone | done |
-| 2 | My Tasks and the Inbox | |
+| 2 | My Tasks and the Inbox | done |
 | 3 | All Tasks and its views: List, Report, Kanban, Calendar, Gantt | |
 | 4 | Across modules: OneProject, OneHR, Intake, OneCalendar, One | |
 | 5 | Closed against the standard | |
@@ -9729,7 +9730,7 @@ Left for the next screens:
 - **The panel**: a task's form showed OneTask's rail (Search, Notification,
   OneIntake, My Tasks, Inbox, Tasks, Setup), and My Tasks draws a column of
   its own (Add Task, My Tasks, Inbox, All Tasks, Setup). Two rails for one
-  module. Screen 2.
+  module. Screen 2, done there.
 
 | Point | Looked at | State |
 |---|---|---|
@@ -9752,6 +9753,84 @@ Left for the next screens:
 | 17 Clean code | ruff on one_task | clean |
 | Everything follows frappe | realtime, saving | follows the task, its sub-tasks and the time, saves against `modified` |
 | What ERPNext already does | Depends On, statuses, datetime dates | fixed above |
+
+#### 2. My Tasks and the Inbox
+
+Looked at as Samir, Rania, Tariq and the workspace owner, on a desktop and a
+phone, and the code behind the page (`page/my_tasks`, `mine.py`) and
+OneTask's rail.
+
+Found:
+
+- **Our look (5)**: My Tasks was the shell's tables, one per group, each
+  sized to itself. The columns didn't line up from one group to the next, a
+  long name pushed its tick onto a line of its own, and dates broke over two
+  lines. On a phone the timer was cut off and the dates wrapped.
+- **Nothing lost (6)**: two ways round one module. The page's column said
+  My Tasks, Inbox and All Tasks. The rail beside All Tasks said My Tasks,
+  Inbox and Tasks, and its Inbox was another list, every task in no project
+  the reader may see, where the page's was only the ones they made.
+- **Demo and Intake (1, 14)**: a task given to somebody in no project, such
+  as the seven Intake made for the workspace owner, was on My Tasks and
+  never in the Inbox. Samir, who runs the projects, had one task and an
+  empty Inbox, and nobody in the demo had to-dos of their own.
+- **What ERPNext already does**: a task Working or Pending Review looked
+  Open, and nothing said a task waited on other work.
+- **Plain words (12)**: the late count sat beside the total and read as one
+  number, "1 4".
+
+Fixed:
+
+- **Our look (5)**: My Tasks is a frappe-ui page (`onedesk.my_tasks`,
+  `frontend/src/task/MyTasks.vue`). Its column is frappe-ui's Sidebar, kept in
+  sight while the list scrolls. The tasks are one frappe-ui List grouped by
+  when each is due, so every group shares its columns. A name runs to two
+  lines on a phone, where the project goes under it and the column shrinks
+  to its icons.
+- **One way round (6)**: the rail has the column's words and places. Its
+  Inbox opens the page's Inbox, and Tasks is All Tasks.
+- **The Inbox (1, 14)**: the reader's work in no project, made by them or
+  given to them (`mine._filters`), so a task Intake gives is there with the
+  record it is about.
+- **What ERPNext already does**: a task not Open says where it stands, and
+  one waiting on open work says **Waiting**, leaving out a parent's own
+  sub-tasks (`mine._waiting`). OneAI is told the same (`my_tasks`).
+- **Ticking (5)**: a ticked task stays on the list, struck through, until
+  the view is left, though the list is drawn again when the task saves.
+  Before, a list drawn again took it away at once.
+- **Plain words (12)**: the late count is a red badge before the total.
+- **Demo (1)**: Samir and Rania keep to-dos of their own, one of Samir's
+  late, one due today and one with a checklist (`one_demo/projects.py`
+  OWN). `onetask_my_tasks_and_the_inbox_are_the_readers_own` checks both
+  views as Samir, Rania and the workspace owner.
+
+Left for the next screens:
+
+- **All Tasks** still cuts a task's name to a few words. Screen 3.
+- **Intake** gives every task it makes to the workspace owner, and leaves
+  the tower's facade site meeting in no project. Screen 4.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | My Tasks and the Inbox as four people | own to-dos, a check for both views |
+| 2 Rules on the server | adding and ticking | frappe's own insert and set_value, as before |
+| 3 Hand-offs | a project's task given to you | on My Tasks, its project opens OneProject |
+| 4 Tier declared | `one/tiers.py` SCREENS | my-tasks drawn with frappe-ui |
+| 5 Our look | desktop and phone | one List, aligned groups, a phone layout |
+| 6 Nothing lost | the column and the rail | the same entries, one Inbox |
+| 7 Extensible | `onetask.listed` | told the view and its groups, notes and buttons as PlaceSpot |
+| 8 Built from frappe | the page's parts | frappe-ui Sidebar, List, Checkbox, Badge, TextInput, DatePicker, frappe's dates |
+| 9 Overrides recorded | the gate | passes, nothing of frappe's changed |
+| 10 Notifications | Task Given, Task Done, Today's Tasks | unchanged, still sent from the task's own hooks |
+| 11 Printed | the list | stays inside the company, no print |
+| 12 Plain words | column, groups, badges, empty lines | fixed above |
+| 13 Documented, OneAI | README, `ai.py` | the Inbox and Waiting said in both |
+| 14 Intake | tasks Intake gives | on the Inbox with what they are about |
+| 15 Permissions | as each person | read as the reader, Samir's to-dos are his |
+| 16 Legal | AI Addendum | nothing new leaves, no revision |
+| 17 Clean code | ruff, the old page's CSS | lint clean, my_tasks.css gone |
+| Everything follows frappe | realtime, saving | follows Task and ToDo, saves through frappe |
+| What ERPNext already does | statuses, Depends On | fixed above |
 
 ## OneLegal
 

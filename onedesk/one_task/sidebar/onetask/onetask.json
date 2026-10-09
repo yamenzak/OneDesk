@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onetask",
  "idx": 0,
- "modified": "2026-09-26 10:00:00.000000",
+ "modified": "2026-10-09 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Task",
  "name": "OneTask",
@@ -33,12 +33,11 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Inbox",
-   "link_type": "DocType",
+   "link_type": "URL",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Task",
    "icon": "inbox",
-   "filters": "[[\"Task\", \"project\", \"is\", \"not set\"], [\"Task\", \"status\", \"not in\", [\"Completed\", \"Cancelled\", \"Template\"]]]"
+   "url": "/desk/my-tasks?section=inbox"
   },
   {
    "child": 0,
@@ -46,7 +45,7 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Tasks",
+   "label": "All Tasks",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",

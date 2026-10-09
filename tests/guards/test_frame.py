@@ -152,7 +152,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onemail.compose": (public / "mail_compose.js").read_text(),
 		"record_head.drawn": (public / "head.js").read_text(),
 		"onecalendar.event": (APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
-		"onetask.listed": (APP / "one_task" / "page" / "my_tasks" / "my_tasks.js").read_text(),
+		"onetask.listed": (ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text(),
 		"onecloud.file": (public / "onecloud.js").read_text(),
 		"intake.reading": (APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
 		"onecrm.board": (public / "opportunity_list.js").read_text(),

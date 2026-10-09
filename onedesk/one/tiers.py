@@ -113,7 +113,7 @@ SCREENS = {
 	"project-view": "the page a Project opens on (PAGES)",
 	"project-template-view": "the page a Project Template opens on (PAGES)",
 	"task-view": "the page a Task opens on (PAGES)",
-	"my-tasks": "the reader's own tasks, grouped (Task)",
+	"my-tasks": "the reader's own tasks, grouped, drawn with frappe-ui (Task)",
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",

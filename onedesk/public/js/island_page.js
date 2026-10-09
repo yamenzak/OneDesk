@@ -20,11 +20,15 @@
 // of the route after the page: frappe's own form sidebar is then on its
 // right, as on a form (onedesk.record.sidebar, docs/PASSOVER.md, A record's
 // page). `files` names the island's own Files view, which the sidebar's Files
-// row opens; without one it opens OneCloud on the record's room.
+// row opens; without one it opens OneCloud on the record's room. `mark` puts
+// an app's mark before the page's name, for an app's own page.
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null }) => {
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
+	// An app's own page, with no panel header, puts the app's mark before its
+	// name, as onedesk.shell.page does.
+	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 	// The record the sidebar is for, and the way to stop it.
 	let framed = null;
 	let unframe = () => {};

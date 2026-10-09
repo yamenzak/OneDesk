@@ -47,9 +47,13 @@ def test_the_calendar_does_not_show_a_task_twice():
 
 
 def test_the_inbox_is_the_tasks_in_no_project():
+	# The rail's Inbox is the page's: one list, the reader's work in no project.
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
 	inbox = next(item for item in rail["items"] if item["label"] == "Inbox")
-	assert ["Task", "project", "is", "not set"] in json.loads(inbox["filters"])
+	assert inbox["url"] == "/desk/my-tasks?section=inbox"
+	assert [item["label"] for item in rail["items"] if item["type"] == "Link"] == ["My Tasks", "Inbox", "All Tasks", "Task Type"]
+	inbox = _body((TASK / "mine.py").read_text(), "_filters")
+	assert '["project", "is", "not set"]' in inbox and '["owner", "=", user], ["_assign", "like"' in inbox
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert any(item["link_to"] == "OneTask" for item in dock["items"])
 
@@ -73,8 +77,8 @@ def test_my_tasks_are_grouped_by_when_they_are_due():
 
 
 def test_my_tasks_writes_through_frappe_and_reads_as_the_reader():
-	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
-	assert 'frappe.db.set_value("Task"' in page and 'frappe.db.insert({ doctype: "Task"' in page
+	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
+	assert 'setValue("Task", task.name, "status"' in page and 'insert({ doctype: "Task"' in page
 	source = (TASK / "mine.py").read_text()
 	assert 'frappe.get_list(\n\t\t"Task"' in source and "ignore_permissions" not in source
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
@@ -143,8 +147,8 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	assert '"to_time": ["is", "not set"]' in source, "running is a start with no end, as on the Timesheet form"
 	assert "now_datetime()" in source and "stop()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
 	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
-	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
-	assert 'frappe.model.can_create("Timesheet")' in page
+	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
+	assert 'can("create", "Timesheet")' in page
 
 
 def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
@@ -155,10 +159,10 @@ def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
 
 
 def test_onetask_is_one_column_that_listens():
-	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
-	assert "hide_sidebar: true" in page, "the column is the page's only sidebar"
-	assert "frappe.realtime.doctype_subscribe" in page and '"list_update"' in page
-	assert "section=${view}" in page, "the open view is in the address, where OneAI reads it"
+	assert "hide_sidebar: true" in (TASK / "page" / "my_tasks" / "my_tasks.js").read_text(), "the column is the page's only sidebar"
+	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
+	assert 'followList("Task"' in page and 'followList("ToDo"' in page
+	assert 'setQuery("section"' in page, "the open view is in the address, where OneAI reads it"
 	assert '"one_about_doctype"' in (TASK / "mine.py").read_text(), "what OneIntake's task is about is shown"
 
 

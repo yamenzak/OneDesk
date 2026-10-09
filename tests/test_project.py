@@ -304,7 +304,7 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	assert '"Project Template": "public/js/project_template.js"' in HOOKS
 	# Tasks are OneTask's rail's, which leaves a template's tasks out.
 	rail = TASK / "sidebar" / "onetask" / "onetask.json"
-	tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Tasks")
+	tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "All Tasks")
 	assert "is_template" in tasks["filters"], rail.name
 
 

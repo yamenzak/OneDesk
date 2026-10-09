@@ -46,10 +46,17 @@ def test_every_record_head_is_declared():
 
 
 def test_every_page_of_its_own_is_declared():
-	islands = {"onedesk.project": "Project", "onedesk.template": "Project Template", "onedesk.task": "Task"}
+	# Each island and the record it is the page of; None for a screen of many
+	# records (SCREENS).
+	islands = {
+		"onedesk.project": "Project",
+		"onedesk.template": "Project Template",
+		"onedesk.task": "Task",
+		"onedesk.my_tasks": None,
+	}
 	build = (APP.parent / "frontend" / "build-islands.mjs").read_text()
 	assert set(re.findall(r'"(onedesk\.\w+)":', build)) == set(islands)
-	assert set(islands.values()) == set(tiers.PAGES)
+	assert {one for one in islands.values() if one} == set(tiers.PAGES)
 	assert all(reason for reason in [*tiers.PAGES.values(), *tiers.NEXT_PAGES.values()])
 
 

@@ -191,6 +191,14 @@ export const isPast = (value) => Boolean(value) && value < frappe().datetime.get
 export const monthName = (value) =>
 	value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "long", year: "numeric" }) : "";
 
+/** A day's name, "Thursday", in the reader's language. */
+export const weekday = (value) =>
+	value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { weekday: "long" }) : "";
+
+/** A time of day, "14:05", as the reader's language writes it. */
+export const clock = (value) =>
+	value ? frappe().datetime.str_to_obj(value).toLocaleTimeString(frappe().boot.lang || undefined, { hour: "2-digit", minute: "2-digit" }) : "";
+
 /** A month's short name, "Oct", for a dated line's ticks. */
 export const shortMonth = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "short" }) : "");
 /** Today as desk has it, "2026-10-06". */

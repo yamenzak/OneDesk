@@ -17,6 +17,7 @@ export const ISLANDS = {
 	"onedesk.project": "src/islands/project.js",
 	"onedesk.template": "src/islands/template.js",
 	"onedesk.task": "src/islands/task.js",
+	"onedesk.my_tasks": "src/islands/my_tasks.js",
 };
 
 await buildIslands({

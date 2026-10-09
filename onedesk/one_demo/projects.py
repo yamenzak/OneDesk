@@ -41,6 +41,7 @@ def run(password=None):
 	_estimates()
 	_contacts()
 	_behind()
+	_own()
 	_portal(password)
 
 
@@ -915,6 +916,38 @@ def _contacts():
 			doc.append("one_contacts", {"role": "Subcontractor", "supplier": "Precision Installers", "note": "Fits the windows and doors"})
 		if doc.get("one_contacts"):
 			doc.save()
+
+
+#: Work of one's own, in no project: what each person keeps on their Inbox.
+OWN = {
+	PM: [
+		("Call Acme about the lobby drawings", -2, "High", []),
+		("Check the crane booking for the tower podium", 0, "Medium", []),
+		("Prepare the site visit for the marina", 5, "Medium", ["Print the drawings", "Book the car", "Send the agenda"]),
+	],
+	"rania@one.test": [
+		("Renew the site safety card", 3, "Medium", []),
+	],
+}
+
+
+def _own():
+	"""Each person's own to-dos, made by them, as My Tasks' quick add makes
+	them: in no project, given to whoever made them (one_task/capture.py)."""
+	for user, tasks in OWN.items():
+		with as_user(user):
+			for subject, days, priority, steps in tasks:
+				if frappe.db.exists("Task", {"subject": subject, "owner": user}):
+					continue
+				frappe.get_doc(
+					{
+						"doctype": "Task",
+						"subject": subject,
+						"priority": priority,
+						"exp_end_date": ahead(days) if days >= 0 else ago(-days),
+						"one_steps": [{"step": step} for step in steps],
+					}
+				).insert()
 
 
 def _assign(task, user):

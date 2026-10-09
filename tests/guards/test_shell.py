@@ -25,7 +25,6 @@ HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 ON_THE_SHELL = {
 	"settings": ("public/js/settings.js", "public/css/settings.css"),
 	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
-	"my_tasks": ("one_task/page/my_tasks/my_tasks.js", "one_task/page/my_tasks/my_tasks.css"),
 	"legal": ("one_legal/page/legal/legal.js", "public/css/legal.css"),
 	"intake": ("one_intake/page/intake/intake.js", "public/css/intake.css"),
 	"ready_to_submit": ("one_intake/page/ready_to_submit/ready_to_submit.js", "public/css/intake.css"),
@@ -45,7 +44,7 @@ NOT_YET = {}
 #: Pages whose body is a frappe-ui island (docs/ISLANDS.md, tests/guards/test_islands.py):
 #: desk keeps their head through onedesk.island_page, and the island draws the
 #: rest with frappe-ui rather than the shell.
-ISLAND_PAGES = {"project_view", "project_template_view", "task_view"}
+ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "my_tasks"}
 
 #: What the shell has, so a page may not style its own: a row of a list, an
 #: empty state, a quiet line, a boxed card, a body or a section.

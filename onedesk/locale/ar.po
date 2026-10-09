@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 10:58+0000\n"
-"PO-Revision-Date: 2026-10-09 10:58+0000\n"
+"POT-Creation-Date: 2026-10-09 11:34+0000\n"
+"PO-Revision-Date: 2026-10-09 11:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1596,10 +1596,9 @@ msgstr "إضافة مهمة فرعية"
 msgid "Add Supplier"
 msgstr "إضافة مورد"
 
-#: frontend/src/project/Tasks.vue:78 frontend/src/template/Tasks.vue:97
-#: frontend/src/template/TemplatePage.vue:125
-#: onedesk/one_task/page/my_tasks/my_tasks.js:40
-#: onedesk/public/js/task_new.js:47
+#: frontend/src/project/Tasks.vue:78 frontend/src/task/MyTasks.vue:9
+#: frontend/src/template/Tasks.vue:97
+#: frontend/src/template/TemplatePage.vue:125 onedesk/public/js/task_new.js:47
 msgid "Add Task"
 msgstr "إضافة مهمة"
 
@@ -1650,7 +1649,7 @@ msgstr "أضف سعرًا لعنصر واحد على الأقل."
 msgid "Add a reason."
 msgstr "أضف سببًا."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:59
+#: frontend/src/task/MyTasks.vue:29
 msgid "Add a task"
 msgstr "أضف مهمة"
 
@@ -2093,7 +2092,9 @@ msgstr "كل المشاريع"
 msgid "All Read"
 msgstr "قُرئ الكل"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:83
+#. Label of a Sidebar Item
+#: frontend/src/task/MyTasks.vue:17
+#: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "All Tasks"
 msgstr "كل المهام"
 
@@ -5315,7 +5316,6 @@ msgstr "يُقارن كنص مع ما يحويه الحقل الآن. تعديل
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:207
 #: onedesk/public/js/onecloud.js:1736 onedesk/public/js/timesheet.js:87
 msgid "Complete"
 msgstr "إكمال"
@@ -5323,6 +5323,10 @@ msgstr "إكمال"
 #: frontend/src/task/TaskPage.vue:347
 msgid "Complete Task"
 msgstr "إكمال المهمة"
+
+#: frontend/src/task/MyTasks.vue:50
+msgid "Complete {0}"
+msgstr "إكمال {0}"
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: frontend/src/project/Overview.vue:401 onedesk/one_project/status.py:18
@@ -7526,13 +7530,12 @@ msgstr "أُسقط"
 #: frontend/src/project/Invoices.vue:33 frontend/src/project/Overview.vue:156
 #: frontend/src/project/Overview.vue:302 frontend/src/project/Suppliers.vue:93
 #: frontend/src/project/TaskPanel.vue:31 frontend/src/project/Tasks.vue:21
+#: frontend/src/task/MyTasks.vue:30 frontend/src/task/MyTasks.vue:40
 #: frontend/src/task/TaskPage.vue:23 onedesk/one/portal.py:335
 #: onedesk/one_admin/accounts.py:217 onedesk/one_book/heads.py:324
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_project/heads.py:216
-#: onedesk/one_task/page/my_tasks/my_tasks.js:62
-#: onedesk/one_task/page/my_tasks/my_tasks.js:151
-#: onedesk/public/js/settings.js:1744 onedesk/public/js/task_new.js:41
+#: onedesk/one_project/heads.py:216 onedesk/public/js/settings.js:1744
+#: onedesk/public/js/task_new.js:41
 msgid "Due"
 msgstr "الاستحقاق"
 
@@ -11079,9 +11082,9 @@ msgstr "الإشعارات داخل التطبيق مفعّلة دائمًا."
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
-#: onedesk/one/sidebar/one/one.json onedesk/one_mail/ai.py:278
+#: frontend/src/task/MyTasks.vue:96 onedesk/one/sidebar/one/one.json
+#: onedesk/one_mail/ai.py:278
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:29
 #: onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/onemail.js:34
 msgid "Inbox"
@@ -12914,7 +12917,7 @@ msgid "Log {0} h on {1}"
 msgstr "تسجيل {0} س في {1}"
 
 #: frontend/src/project/TaskPanel.vue:39 frontend/src/project/Time.vue:207
-#: frontend/src/task/TaskPage.vue:249 frontend/src/task/TaskTime.vue:55
+#: frontend/src/task/TaskPage.vue:249
 msgid "Logged"
 msgstr "المسجَّل"
 
@@ -13743,8 +13746,8 @@ msgid "Mid-campaign review"
 msgstr "مراجعة منتصف الحملة"
 
 #: frontend/src/project/TaskPanel.vue:42 frontend/src/project/TaskPanel.vue:43
-#: frontend/src/task/TaskPage.vue:12 frontend/src/template/Tasks.vue:25
-#: onedesk/one_project/ai.py:634 onedesk/one_task/page/my_tasks/my_tasks.js:210
+#: frontend/src/task/MyTasks.vue:57 frontend/src/task/TaskPage.vue:12
+#: frontend/src/template/Tasks.vue:25 onedesk/one_project/ai.py:634
 #: onedesk/public/js/project_actions.js:635
 msgid "Milestone"
 msgstr "مرحلة رئيسية"
@@ -14080,8 +14083,7 @@ msgid "My Maintenance"
 msgstr "صيانتي"
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/calendar.py:15
-#: onedesk/one_task/page/my_tasks/my_tasks.js:28
+#: frontend/src/task/MyTasks.vue:95 onedesk/one_task/calendar.py:15
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "My Tasks"
 msgstr "مهامي"
@@ -15089,7 +15091,7 @@ msgstr "بلا مهمة"
 msgid "No tasks"
 msgstr "لا توجد مهام"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:28
+#: frontend/src/task/MyTasks.vue:95
 msgid "No tasks assigned to you"
 msgstr "لا توجد مهام مسندة إليك"
 
@@ -15097,7 +15099,7 @@ msgstr "لا توجد مهام مسندة إليك"
 msgid "No tasks due"
 msgstr "لا مهام مستحقة"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:29
+#: frontend/src/task/MyTasks.vue:96
 msgid "No tasks in Inbox"
 msgstr "لا توجد مهام في الوارد"
 
@@ -15261,7 +15263,7 @@ msgstr "غير معروض"
 msgid "Not Signed"
 msgstr "غير موقّع"
 
-#: frontend/src/task/TaskTime.vue:56
+#: frontend/src/task/TaskTime.vue:68
 msgid "Not Submitted"
 msgstr "غير مُرسل"
 
@@ -16510,7 +16512,7 @@ msgid "OneStudio"
 msgstr "OneStudio"
 
 #. Title of a Sidebar
-#: onedesk/one_task/page/my_tasks/my_tasks.js:14
+#: onedesk/one_task/page/my_tasks/my_tasks.js:6
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "OneTask"
 msgstr "OneTask"
@@ -16848,7 +16850,7 @@ msgstr "فتح المجلد"
 msgid "Open List"
 msgstr "فتح القائمة"
 
-#: frontend/src/task/TaskTime.vue:36
+#: frontend/src/task/TaskTime.vue:40
 msgid "Open Older Entries"
 msgstr "فتح الإدخالات الأقدم"
 
@@ -17266,15 +17268,14 @@ msgstr "تجاوز التخزين"
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
 #. Label of a number card
 #. Label of a number card in the OneBook Workspace
-#: frontend/src/project/Invoices.vue:123
+#: frontend/src/project/Invoices.vue:123 frontend/src/task/MyTasks.vue:12
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:360 onedesk/one_book/heads.py:382
 #: onedesk/one_book/number_card/overdue/overdue.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:39
-#: onedesk/one_task/mine.py:16 onedesk/one_task/page/my_tasks/my_tasks.js:192
-#: onedesk/one_task/tell.py:199
+#: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:199
 msgid "Overdue"
 msgstr "متأخر"
 
@@ -18813,10 +18814,11 @@ msgstr "التقدم…"
 #. Label of the project (Link) field in DocType 'Request for Quotation'
 #: frontend/src/project/ProjectPage.vue:205
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
-#: frontend/src/task/TaskPage.vue:267 onedesk/one/portal.py:67
-#: onedesk/one/print_blocks.py:27 onedesk/one/print_blocks.py:255
-#: onedesk/one_book/heads.py:322 onedesk/one_crm/heads.py:201
-#: onedesk/one_crm/heads.py:209 onedesk/one_hr/heads.py:679
+#: frontend/src/task/MyTasks.vue:156 frontend/src/task/TaskPage.vue:267
+#: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:27
+#: onedesk/one/print_blocks.py:255 onedesk/one_book/heads.py:322
+#: onedesk/one_crm/heads.py:201 onedesk/one_crm/heads.py:209
+#: onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_inventory/heads.py:370 onedesk/one_inventory/heads.py:388
 #: onedesk/one_project/custom/material_request.json
@@ -18891,7 +18893,7 @@ msgstr "أنواع المشاريع"
 msgid "Project Update Asked"
 msgstr "طُلب تحديث المشروع"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:149
+#: frontend/src/task/MyTasks.vue:39
 msgid "Project or About"
 msgstr "المشروع أو الموضوع"
 
@@ -21694,7 +21696,7 @@ msgstr "يسدّد"
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one/sidebar/one/one.json
+#: frontend/src/task/MyTasks.vue:18 onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
@@ -21703,7 +21705,6 @@ msgstr "يسدّد"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:86
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr "الإعداد"
@@ -21948,7 +21949,7 @@ msgstr "عرض الصور"
 msgid "Show {0} Earlier"
 msgstr "عرض {0} أقدم"
 
-#: frontend/src/project/Time.vue:60
+#: frontend/src/project/Time.vue:60 frontend/src/task/TaskTime.vue:37
 msgid "Show {0} More"
 msgstr "عرض {0} أخرى"
 
@@ -22173,8 +22174,7 @@ msgstr "اشتراك لم يُنشأ"
 msgid "Signups"
 msgstr "التسجيلات"
 
-#: frontend/src/project/Facts.vue:22
-#: onedesk/one_task/page/my_tasks/my_tasks.js:211
+#: frontend/src/project/Facts.vue:22 frontend/src/task/MyTasks.vue:58
 msgid "Since {0}"
 msgstr "منذ {0}"
 
@@ -22529,8 +22529,8 @@ msgstr "تاريخ البدء"
 msgid "Start From"
 msgstr "البدء من"
 
-#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/TaskPage.vue:349
-#: onedesk/one_task/page/my_tasks/my_tasks.js:232 onedesk/public/js/task.js:11
+#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:69
+#: frontend/src/task/TaskPage.vue:349 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:51
 msgid "Start Timer"
@@ -22815,8 +22815,8 @@ msgstr "هل توقف قراءة OneAI للبريد الجديد في {0}؟"
 msgid "Stop Repeating"
 msgstr "إيقاف التكرار"
 
-#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/TaskPage.vue:349
-#: onedesk/one_task/page/my_tasks/my_tasks.js:232
+#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:69
+#: frontend/src/task/TaskPage.vue:349
 msgid "Stop Timer"
 msgstr "إيقاف المؤقت"
 
@@ -23402,9 +23402,9 @@ msgstr "الهامش المستهدف"
 
 #: frontend/src/project/Tasks.vue:18 frontend/src/project/Time.vue:33
 #: frontend/src/project/Time.vue:100 frontend/src/project/Timeline.vue:8
-#: frontend/src/template/Tasks.vue:8 frontend/src/template/Tasks.vue:36
+#: frontend/src/task/MyTasks.vue:38 frontend/src/template/Tasks.vue:8
+#: frontend/src/template/Tasks.vue:36
 #: frontend/src/template/TemplatePage.vue:122 onedesk/one_project/ai.py:683
-#: onedesk/one_task/page/my_tasks/my_tasks.js:148
 #: onedesk/one_task/page/task_view/task_view.js:8
 #: onedesk/public/js/project_actions.js:411
 #: onedesk/public/js/project_actions.js:831
@@ -23440,21 +23440,19 @@ msgid "Task Step"
 msgstr "خطوة المهمة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/page/my_tasks/my_tasks.js:91
+#: frontend/src/task/MyTasks.vue:19
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Task Type"
 msgstr ""
 
 #. Label of the one_tasks (Int) field in DocType 'Project Template'
-#. Label of a Sidebar Item
 #: frontend/src/project/Overview.vue:21 frontend/src/project/ProjectPage.vue:18
 #: frontend/src/project/ProjectPage.vue:182 onedesk/one_project/ai.py:894
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/one_project/report/workload/workload.py:176
 #: onedesk/one_storage/namespace.py:736 onedesk/one_storage/namespace.py:836
-#: onedesk/one_task/page/task_view/task_view.js:9
-#: onedesk/one_task/sidebar/onetask/onetask.json onedesk/www/projects.html:124
+#: onedesk/one_task/page/task_view/task_view.js:9 onedesk/www/projects.html:124
 msgid "Tasks"
 msgstr "المهام"
 
@@ -25468,7 +25466,7 @@ msgstr "هذه الشبكة ليست من الشبكات التي يجوز لك 
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr "لا يوجد سعر محدد لهذا النوع من العمل الإضافي، فلا يدفع شيئاً."
 
-#: onedesk/public/js/island_page.js:90
+#: onedesk/public/js/island_page.js:94
 msgid "This page has not been built"
 msgstr "لم يتم بناء هذه الصفحة"
 
@@ -26926,7 +26924,7 @@ msgstr "عرض صفحة التسجيل"
 msgid "View Workspaces"
 msgstr "عرض مساحات العمل"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:37
+#: frontend/src/task/MyTasks.vue:8
 msgid "Views"
 msgstr "طرق العرض"
 
@@ -26974,6 +26972,7 @@ msgstr "انتظار حدث"
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
+#: frontend/src/task/MyTasks.vue:56
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
@@ -27043,6 +27042,10 @@ msgstr "بانتظار هذه"
 #: frontend/src/project/Tasks.vue:36 frontend/src/task/TaskPage.vue:235
 msgid "Waiting on {0}"
 msgstr "بانتظار {0}"
+
+#: frontend/src/task/MyTasks.vue:56
+msgid "Waiting on {0} other tasks"
+msgstr "بانتظار {0} مهام أخرى"
 
 #: onedesk/one_admin/heads.py:446
 msgid "Waiting since {0}."
@@ -30081,10 +30084,6 @@ msgstr "نُقلت مقابلتك إلى {when}"
 msgid "Your interview is at {when}"
 msgstr "مقابلتك في {when}"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:29
-msgid "Your own tasks with no project"
-msgstr "مهامك الخاصة بدون مشروع"
-
 #: onedesk/one_hr/rules.py:31
 msgid "Your passkey has been reset twice within a month."
 msgstr "أُعيد تعيين مفتاح المرور الخاص بك مرتين خلال شهر."
@@ -30760,7 +30759,6 @@ msgid "of {0} open"
 msgstr "من {0} مفتوحة"
 
 #: frontend/src/project/Time.vue:209 frontend/src/task/TaskPage.vue:251
-#: frontend/src/task/TaskTime.vue:55
 msgid "of {0} planned"
 msgstr "من {0} مخطط لها"
 

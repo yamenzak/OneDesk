@@ -4421,6 +4421,37 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 
 
 @check
+def onetask_my_tasks_and_the_inbox_are_the_readers_own():
+	"""My Tasks is what is given to the reader, the Inbox their work in no
+	project, made by them or given to them (a task Intake made about a
+	supplier's bill), each read as the reader. A task waiting on open work
+	says so, a phase is not waiting on its own sub-tasks, and the late count
+	is the Overdue group."""
+	from onedesk.one_task import ai, mine
+
+	def names(groups):
+		return {one.name for group in groups for one in group["tasks"]}
+
+	with as_user("samir@one.test"):
+		inbox, groups, counts = mine.tasks("inbox"), mine.tasks("mine"), mine.counts()
+		own = set(frappe.get_all("Task", filters={"owner": "samir@one.test", "project": ["is", "not set"], "status": "Open"}, pluck="name"))
+		assert own and own <= names(inbox) <= names(groups), "his own to-dos are on both"
+		late = next((group for group in groups if group["key"] == "overdue"), {"tasks": []})
+		assert counts["late"] == len(late["tasks"]) > 0 and counts["inbox"] == len(names(inbox))
+		assert "made by them or given to them" in ai.page({"page": "my-tasks", "section": "inbox"})
+	with as_user("rania@one.test"):
+		assert not own & names(mine.tasks("inbox")), "Samir's to-dos are his"
+	with as_user(OWNER):
+		given = [one for group in mine.tasks("inbox") for one in group["tasks"] if one.get("about_title")]
+		assert given and all(not one.project for one in given), "a task Intake gave is on the Inbox"
+	snag = frappe.db.get_value("Task", {"project": VILLA, "subject": "Snag list and rectification"})
+	glass = frappe.db.get_value("Task", {"project": VILLA, "subject": "Install glass"})
+	phase = frappe.db.get_value("Task", glass, "parent_task")
+	assert mine._waiting([snag]).get(snag), "the snag list waits on the water test"
+	assert not mine._waiting([phase]), "a phase does not wait on its own sub-tasks"
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

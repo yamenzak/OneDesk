@@ -14,10 +14,13 @@ else you have to do is here.
 - **Add Task** at the top, to create a task.
 - **My Tasks**: everything assigned to you that's still open, by due date.
   The red number is how many are overdue, the other how many there are.
-- **Inbox**: your own open tasks with no project. Quick notes to yourself
-  go here.
+- **Inbox**: your open tasks with no project, the ones you made and the
+  ones given to you, such as a task Intake made about a supplier's bill.
+  Quick notes to yourself go here.
 - **All Tasks** at the bottom: every task you can see, as a list.
 - **Setup** (Task Type), for those with access.
+
+The rail beside All Tasks has the same entries, and its Inbox opens this one.
 
 The page updates on its own. A task assigned to you, or completed elsewhere,
 appears without reloading.
@@ -36,14 +39,20 @@ with Urgent and High marked.
 - A task with no project that's about a record, such as one Intake made for
   a supplier, shows that record and opens it.
 - An overdue task shows how long ago it was due.
+- A task that isn't Open says where it stands, such as Working or Pending
+  Review, and a task that waits on other work still to do says **Waiting**.
 
 **To complete a task**, tick it. It stays on the list, struck through, until
-you reload, so you can untick it if it was a mistake. Completing a task
+you open the other view or leave the page, so you can untick it if it was a
+mistake. Completing a task
 removes it from everyone's list.
 
 **To add a task**, type it at the top and press Enter. Add a **Due** date if
 it has one. It's assigned to you, has no project, and appears in its group
 right away.
+
+On a phone the column shrinks to its icons, and a task's project goes under
+its name.
 
 A task is due on its **Expected End Date**, or its **Expected Start Date** if
 it has no end date.
@@ -402,16 +411,18 @@ is:
   makes it, and gives it to whoever the card names then (capture.py), which
   tells them (tell.py). Steps are suggested the same way, as a change to the
   task's checklist the reader approves.
-- `mine.py` and `page/my_tasks` — OneTask's page: the column, the two views
-  (`?section=inbox`), their counts, and `frappe.realtime` on Task and ToDo.
-  The server only reads, as the reader, and groups (`when` is pure); adding
-  and ticking are `frappe.db.insert` and `frappe.db.set_value` from the page,
-  so every rule a task has on its own page holds here. Two views: **My
-  Tasks**, everything assigned to the reader, and the **Inbox**, the reader's
-  own tasks in no project. Read as the reader, so it is exactly the tasks they
-  may see. Ticking one off is the page writing the task's status through
-  frappe's own save (my_tasks.js), which ERPNext answers by closing its
-  assignments — so mine.py only reads.
+- `mine.py`, `page/my_tasks` and `frontend/src/task/MyTasks.vue` — OneTask's
+  page, the `onedesk.my_tasks` island: frappe-ui's Sidebar for the column,
+  the two views (`?section=inbox`) and their counts, then one frappe-ui List
+  grouped by when each task is due, and `frappe.realtime` on Task and ToDo.
+  The server only reads, as the reader, and groups (`when` is pure). Two
+  views: **My Tasks**, everything assigned to the reader, and the **Inbox**,
+  their work in no project, made by them or given to them (`_filters`). Each
+  task says how many open tasks it waits on (`_waiting`), leaving out a
+  parent's own sub-tasks, which ERPNext lists in its Depends On. Adding and
+  ticking are frappe's own insert and set_value from the page, so every rule
+  a task has on its own page holds here, and ERPNext closes a completed
+  task's assignments.
 
 ### The plan
 

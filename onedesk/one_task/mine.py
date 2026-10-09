@@ -44,15 +44,16 @@ def when(due: date | None, today: date) -> str:
 VIEWS = ("mine", "inbox")
 
 
-def _filters(view: str, user: str) -> list:
+def _filters(view: str, user: str) -> tuple[list, list | None]:
+	"""What a view lists, as `filters` and `or_filters`. The Inbox is the work
+	outside any project that is the reader's: made by them, or given to them
+	(a task OneIntake made about a supplier, say)."""
 	if view == "inbox":
-		return [
-			["owner", "=", user],
-			["project", "is", "not set"],
-			["is_template", "=", 0],
-			["status", "not in", DONE],
-		]
-	return [["_assign", "like", f'%"{user}"%'], ["status", "not in", DONE]]
+		return (
+			[["project", "is", "not set"], ["is_template", "=", 0], ["status", "not in", DONE]],
+			[["owner", "=", user], ["_assign", "like", f'%"{user}"%']],
+		)
+	return [["_assign", "like", f'%"{user}"%'], ["status", "not in", DONE]], None
 
 
 def due(task) -> date | None:
@@ -65,10 +66,11 @@ def due(task) -> date | None:
 @frappe.read_only()
 def tasks(view: str = "mine") -> list[dict]:
 	"""The reader's tasks in a view, in their groups, each group only if it has any."""
-	user = frappe.session.user
+	filters, or_filters = _filters(view if view in VIEWS else "mine", frappe.session.user)
 	rows = frappe.get_list(
 		"Task",
-		filters=_filters(view if view in VIEWS else "mine", user),
+		filters=filters,
+		or_filters=or_filters,
 		fields=[
 			"name",
 			"subject",
@@ -83,6 +85,7 @@ def tasks(view: str = "mine") -> list[dict]:
 		],
 		limit=MOST,
 	)
+	waiting = _waiting([one.name for one in rows])
 	# Where each task is, as a path through sub-projects, Villa and then Handrails.
 	# The reader may be on a task in a project they cannot open; its name is
 	# already on the task, so its path is no more than that.
@@ -94,6 +97,7 @@ def tasks(view: str = "mine") -> list[dict]:
 	for one in rows:
 		one.due = due(one)
 		one.project_title = titles.get(one.project) or one.project
+		one.waiting = waiting.get(one.name, 0)
 		# What a task OneIntake made is about, where it is in no project.
 		if not one.project and one.one_about_doctype and one.one_about:
 			one.about_title = about(one.one_about_doctype, one.one_about)
@@ -116,6 +120,32 @@ def tasks(view: str = "mine") -> list[dict]:
 	]
 
 
+def _waiting(names: list[str]) -> dict[str, int]:
+	"""How many tasks each of these waits on that are still to do. A parent's
+	own sub-tasks are in its Depends On too (ERPNext lists them there), and
+	are its work, not work it waits on."""
+	if not names:
+		return {}
+	rows = frappe.get_all(
+		"Task Depends On", filters={"parenttype": "Task", "parent": ["in", names]}, fields=["parent", "task"]
+	)
+	if not rows:
+		return {}
+	open_ = {
+		one.name: one.parent_task
+		for one in frappe.get_all(
+			"Task",
+			filters={"name": ["in", list({one.task for one in rows})], "status": ["not in", DONE]},
+			fields=["name", "parent_task"],
+		)
+	}
+	waiting = {}
+	for one in rows:
+		if one.task in open_ and open_[one.task] != one.parent:
+			waiting[one.parent] = waiting.get(one.parent, 0) + 1
+	return waiting
+
+
 def about(doctype: str, name: str) -> str:
 	"""A record a task is about, by its title where the reader may read it."""
 	if not frappe.db.exists("DocType", doctype) or not frappe.has_permission(doctype, "read", doc=name):
@@ -131,9 +161,10 @@ def counts() -> dict:
 	which is the Overdue group's own rule (`when`). Counted as the reader,
 	through `get_list`: `frappe.db.count` is not."""
 	user = frappe.session.user
-	inbox = frappe.get_list("Task", filters=_filters("inbox", user), pluck="name", limit=MOST)
+	filters, or_filters = _filters("inbox", user)
+	inbox = frappe.get_list("Task", filters=filters, or_filters=or_filters, pluck="name", limit=MOST)
 	mine = frappe.get_list(
-		"Task", filters=_filters("mine", user), fields=["exp_start_date", "exp_end_date"], limit=MOST
+		"Task", filters=_filters("mine", user)[0], fields=["exp_start_date", "exp_end_date"], limit=MOST
 	)
 	today = getdate(nowdate())
 	late = sum(1 for one in mine if when(due(one), today) == "overdue")

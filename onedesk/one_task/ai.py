@@ -90,7 +90,7 @@ def page(said: dict) -> str | None:
 	if said.get("page") != "my-tasks":
 		return None
 	where = (
-		"The reader is in OneTask, on the Inbox: their own tasks in no project"
+		"The reader is in OneTask, on the Inbox: their tasks in no project, made by them or given to them"
 		if said.get("section") == "inbox"
 		else "The reader is in OneTask, on My Tasks: everything assigned to them and still to do"
 	)
@@ -104,13 +104,14 @@ def page(said: dict) -> str | None:
 
 def my_tasks(
 	view: Annotated[
-		str, "mine for everything assigned to the reader, inbox for their own tasks in no project."
+		str, "mine for everything assigned to the reader, inbox for their tasks in no project, made by them or given to them."
 	] = "mine",
 ) -> dict:
 	"""The reader's tasks still to do, in the groups My Tasks shows (Overdue,
 	Today, Tomorrow, Next 7 Days, Later, No Due Date), each with its priority,
-	when it is due, its project and what it is about. Read before saying what
-	to do first or answering about the reader's work."""
+	when it is due, its project, what it is about, and how many open tasks it
+	waits on. Read before saying what to do first or answering about the
+	reader's work."""
 	from onedesk.one_task import mine
 
 	groups = mine.tasks(view if view in mine.VIEWS else "mine")
@@ -129,6 +130,7 @@ def my_tasks(
 						"project": one.project_title,
 						"about": one.get("about_title"),
 						"milestone": bool(one.is_milestone),
+						"waiting_on": one.waiting,
 					}
 					for one in group["tasks"]
 				],
