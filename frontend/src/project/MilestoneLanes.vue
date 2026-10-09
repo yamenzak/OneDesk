@@ -100,7 +100,7 @@ const phone = computed(() =>
   rows.value.map((lane) => ({
     key: lane.key,
     label: lane.title,
-    lines: [lane.next ? [lane.next.subject, lane.next.due ? shortDate(lane.next.due) : __("No date")].join(" · ") : __("All done")],
+    lines: [lane.next ? [lane.next.subject, lane.next.due ? shortDate(lane.next.due) : __("No date")].join(" · ") : __("Done")],
     value: __("{0} of {1}", [lane.done, lane.milestones.length]),
     dot: lane.next && late(lane.next) ? "red" : undefined,
     onClick: () => openLane(lane),

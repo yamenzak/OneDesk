@@ -4284,3 +4284,54 @@ def oneproject_its_views_read_as_their_people_and_oneai_starts_one():
 		assert project and (project.one_payment_terms, project.one_terms, flt(project.one_retention)) == ("Net 30", "Construction Works", 5), (name, project)
 		bare = frappe.get_doc({"doctype": "Project", "project_name": "Mansour Gate", "customer": "Mansour & Sons", "project_template": TEMPLATE, "one_kind": "Fixed Price"}).insert()
 		assert (bare.one_payment_terms, bare.one_terms, flt(bare.one_retention)) == ("Net 30", "Construction Works", 5), bare.as_dict()
+
+
+@check
+def oneproject_its_overview_keeps_its_rules_and_tells_its_people():
+	"""A project's milestones bill at most its whole contract, however they're
+	added, and OneAI's card adds one only when approved. A cancelled project
+	takes no new work. Putting a project on hold or moving its end tells its
+	people, and OneAI's status card closes open work only when asked. What's
+	overdue on the Overview is what Needs You chases, and the villa prints its
+	sub-projects and its contract."""
+	from unittest.mock import patch
+
+	from onedesk.one.print_blocks import progress
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import ai, tree, view
+
+	told = []
+	with as_user("samir@one.test"), patch("onedesk.one.notify.notify", side_effect=lambda name, *args, **kwargs: told.append(name)):
+		assert ai.add_milestone(VILLA, "Glass signed off", str(add_days(today(), 20)), bill_share=5).get("error"), "the villa's milestones bill all of it already"
+		card = ai.add_milestone(VILLA, "Glass signed off", str(add_days(today(), 20)))
+		assert card.get("state") == "Proposed" and not frappe.db.exists("Task", {"project": VILLA, "subject": "Glass signed off"})
+		proposals.apply(card["proposal"])
+		assert frappe.db.get_value("Task", {"project": VILLA, "subject": "Glass signed off"}, "is_milestone") == 1
+		try:
+			frappe.get_doc({"doctype": "Task", "project": VILLA, "subject": "Over the contract", "is_milestone": 1, "one_bill_share": 5}).insert()
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("the milestones bill more than the contract")
+		assert ai.set_status(VILLA, "Completed").get("mend") == "set_status", "open work is closed only when asked"
+		card = ai.set_status(ACME, "On hold")
+		assert frappe.db.get_value("Project", ACME, "status") == "Open"
+		proposals.apply(card["proposal"])
+		assert frappe.db.get_value("Project", ACME, "status") == "On hold" and "Project Stopped" in told, told
+		doc = frappe.get_doc("Project", VILLA)
+		doc.expected_end_date = add_days(doc.expected_end_date, 7)
+		doc.save()
+		assert "Project End Moved" in told, told
+	frappe.db.set_value("Project", SHOWROOM, "status", "Cancelled")
+	try:
+		frappe.get_doc({"doctype": "Task", "project": SHOWROOM, "subject": "More work"}).insert(ignore_permissions=True)
+	except frappe.ValidationError:
+		pass
+	else:
+		raise AssertionError("work was added to a cancelled project")
+	with as_user(OWNER):
+		scope = sorted(tree.scope(VILLA))
+		chased = sum(one["money"] for one in view._overdue_invoices(scope, OWNER) if one["text"].startswith("Chase"))
+		assert _close(view._overdue(scope), chased), (view._overdue(scope), chased)
+		printed = progress(frappe.get_doc("Project", VILLA))
+		assert "Staircase balustrade" in {one[0] for one in printed["projects"]} and printed["contract"], printed

@@ -22,7 +22,7 @@
       <!-- How it's going means nothing once it's finished. -->
       <Pill v-if="said.health && !['Completed', 'Cancelled'].includes(said.status)" :value="said.health" :colors="HEALTH" :label="__('Health')" readonly />
       <TextInput v-model="note" class="min-w-0 flex-1" :placeholder="__('Write an update')" @keydown.enter="post" />
-      <Button v-if="note.trim()" variant="solid" :label="__('Post')" :loading="posting" @click="post" />
+      <Button v-if="note.trim()" variant="solid" :label="__('Post Update')" :loading="posting" @click="post" />
     </div>
     <Button v-if="updates.length > 1" variant="ghost" class="mt-2 -ms-2" :label="all ? __('Show Less') : __('Show {0} Earlier', [updates.length - 1])" @click="all = !all" />
   </div>

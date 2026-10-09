@@ -164,7 +164,7 @@ const title = computed(() => {
 });
 
 // What a Setup card sets up, said instead of the doctype under it.
-const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See", extension: "Extension", record_type: "Record Type", member: "Member", contact: "Contact", project: "Project" };
+const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See", extension: "Extension", record_type: "Record Type", member: "Member", contact: "Contact", project: "Project", status: "Status", milestone: "Milestone" };
 
 const sub = computed(() => {
 	const type = kind.value === "Setup" && SETUP_SAID[props.record.what] ? __(SETUP_SAID[props.record.what]) : __(doctype.value);

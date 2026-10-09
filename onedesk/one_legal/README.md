@@ -221,7 +221,8 @@ person acknowledges it.
   12, OneAI reads a project's money with its customer and suppliers. 13, OneAI
   reads a project's outside contacts, and drafts a reminder, a member or a
   contact for you to approve. 14, OneAI reads the team's week as Workload
-  shows it. 15, OneAI suggests a new project, made only when you approve it.
+  shows it. 15, OneAI suggests a new project, made only when you approve it. 16, OneAI
+  suggests a project's status and its milestones.
 
 ### gate.py
 

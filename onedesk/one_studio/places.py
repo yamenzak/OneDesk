@@ -133,6 +133,15 @@ PLACES = {
 				"may": ("note", "action"),
 			},
 			# Each of the page's views, when it is open, with what it shows.
+			"overview": {
+				"about": _lt("A project's Overview is opened, and each time its figures change."),
+				"gives": (
+					"project.name, project.title, project.kind, project.currency, overview.figures (each card's "
+					"figure by its key, such as contract, billed, cost, margin, due), overview.needs (what needs "
+					"someone, as it reads), overview.needs_count"
+				),
+				"may": ("note", "action"),
+			},
 			"invoices": {
 				"about": _lt("A project's Invoices view is opened, and each time its invoices change."),
 				"gives": (

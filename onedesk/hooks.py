@@ -584,6 +584,9 @@ doc_events = {
 			# A template task begins and lasts whole days. See one_project/templates.py.
 			"onedesk.one_project.templates.days_kept",
 		],
+		# A milestone's bill share kept to 100%, and no work added to a
+		# cancelled project. See one_project/milestones.py.
+		"validate": "onedesk.one_project.milestones.kept",
 		"on_recurring": "onedesk.one_task.task.recurring",
 		"on_update": [
 			# A slip moves what waits on it, across sub-projects. See one_project/plan.py.
@@ -1332,6 +1335,9 @@ one_ai_suggests = [
 	"onedesk.one_project.ai.draft_template",
 	# A new project, made as the New Project dialog makes one when the reader approves.
 	"onedesk.one_project.ai.draft_project",
+	# A project's status, and a milestone on it, changed when the reader approves.
+	"onedesk.one_project.ai.set_status",
+	"onedesk.one_project.ai.add_milestone",
 	# A reminder about an invoice still owed, opened in the email window to send.
 	"onedesk.one_project.ai.remind_customer",
 	# Somebody on a project's team or among its contacts, added when the reader approves.

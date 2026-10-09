@@ -7,6 +7,7 @@
        in one place. -->
   <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
+      <PlaceSpot :said="spot" class="mt-5" />
       <div data-cards class="py-5">
         <Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />
       </div>
@@ -54,7 +55,7 @@
 
       <template v-else-if="kind === 'Time and Materials'">
         <Section :title="__('Not Invoiced Yet')" icon="lucide-clock" :aside="unbilledTotal">
-          <Rows :rows="view.unbilled.map((one) => ({ key: one.name, label: one.name, avatar: one.name, image: one.image, dim: hours(one.hours), value: money(one.amount, said.currency) }))" :empty="__('All time is invoiced')" />
+          <Rows :rows="view.unbilled.map((one) => ({ key: one.name, label: one.name, avatar: one.name, image: one.image, dim: hours(one.hours), value: money(one.amount, said.currency) }))" :empty="__('No time to invoice')" />
           <Button v-if="view.unbilled.length && said.customer && can('create', 'Sales Invoice')" class="mt-3" :label="__('Invoice Time')" @click="onedesk().project.invoice_time(frm())" />
         </Section>
       </template>
@@ -72,7 +73,7 @@
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
         </Section>
         <Section :title="__('Due Soon')" icon="lucide-calendar-clock" :aside="__('Next 2 weeks')">
-          <Rows :rows="view.due_soon.map((one) => ({ key: one.name, label: one.subject, sub: one.who, value: shortDate(one.due), route: `/desk/task/${one.name}` }))" :empty="__('Nothing due')" />
+          <Rows :rows="view.due_soon.map((one) => ({ key: one.name, label: one.subject, sub: one.who, value: shortDate(one.due), route: `/desk/task/${one.name}` }))" :empty="__('No tasks due')" />
         </Section>
       </template>
 
@@ -96,7 +97,7 @@
 
     <div class="min-w-0">
       <Section boxed :title="__('Needs You')" icon="lucide-bell" :aside="view.needs_count || ''">
-        <Rows :rows="needs" :empty="__('Nothing needs you')" />
+        <Rows :rows="needs" :empty="__('Nothing to do')" />
         <Button v-if="view.needs_all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.needs_all)" />
       </Section>
 
@@ -131,11 +132,12 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Facts, Figures, Rows, Section, __, can, colors, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
+import { Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
 import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
 import Updates from "./Updates.vue";
+import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view", "main"]);
@@ -159,6 +161,16 @@ const figure = (card) => {
   if (card.date) return card.value ? date(card.value) : "–";
   return card.value ?? "–";
 };
+// The Overview is a place (one_studio/places.py): its extensions are told
+// the figures and what needs someone, and may add a note or a button.
+const spot = usePlace("oneproject.overview", () => ({
+  project: { name: props.said.name, title: props.said.title, kind: props.said.kind, currency: props.said.currency },
+  overview: {
+    figures: Object.fromEntries(props.said.cards.map((card) => [card.key, card.money ?? card.hours ?? card.value ?? null])),
+    needs: view.value.needs.map((one) => one.text),
+    needs_count: view.value.needs_count ?? view.value.needs.length,
+  },
+}));
 const figures = computed(() =>
   props.said.cards.map((card) => ({
     title: NAMES()[card.key] || card.key,
@@ -180,7 +192,7 @@ const workAndBilling = computed(() => {
     { key: "done", label: __("Work Done"), progress: b.done, value: `${b.done}%` },
     b.billable && { key: "billable", label: __("Billable on Milestones"), dim: b.billable.names.join(", "), progress: b.billable.share, value: `${b.billable.share}%` },
     b.unbilled && { key: "unbilled", label: __("Not Invoiced Yet"), value: sum(b.unbilled) },
-    b.ahead && { key: "ahead", label: b.billable ? __("Billed Ahead of the Milestones") : __("Billed Ahead of the Work"), value: sum(b.ahead) },
+    b.ahead && { key: "ahead", label: __("Billed Ahead"), value: sum(b.ahead) },
     b.owed && { key: "owed", label: __("Owed"), dim: owed.join(" · "), value: sum(b.owed), dot: b.overdue ? "red" : undefined },
     b.advance && { key: "advance", label: __("Paid in Advance"), value: sum(b.advance) },
     b.last && { key: "last", label: __("Last Billed"), dim: b.last.share !== null ? __("{0}% billed", [b.last.share]) : "", value: date(b.last.date) },

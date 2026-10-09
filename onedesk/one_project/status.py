@@ -105,7 +105,7 @@ def change(
 	):
 		# What ERPNext's own save would do anyway, said before it does.
 		frappe.throw(
-			_("Every task on {0} is done, so it stays Completed. Add a task to open it again.").format(
+			_("Every task on {0} is done. Add a task to open it again.").format(
 				doc.project_name
 			)
 		)

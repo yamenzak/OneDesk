@@ -224,7 +224,7 @@ def invoice_month(source_name: str, month: str | None = None, item: str | None =
 		frappe.throw(_("Give {0} a customer to invoice.").format(doc.project_name))
 	month = get_first_day(getdate(month))
 	if _invoices(project).get(str(month)):
-		frappe.throw(_("{0} is invoiced already.").format(month.strftime("%B %Y")))
+		frappe.throw(_("{0} is invoiced already.").format(_(month.strftime("%B")) + month.strftime(" %Y")))
 	rows = _time(project, month)
 	hours = sum(flt(row.hours) for row in rows)
 	billable = [row for row in rows if row.is_billable and row.docstatus == 1 and not row.sales_invoice]

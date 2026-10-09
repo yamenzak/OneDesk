@@ -155,6 +155,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		**{
 			f"oneproject.{view}": (ROOT / "frontend" / "src" / "project" / f"{name}.vue").read_text()
 			for view, name in (
+				("overview", "Overview"),
 				("invoices", "Invoices"),
 				("suppliers", "Suppliers"),
 				("team", "Team"),

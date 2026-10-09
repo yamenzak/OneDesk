@@ -16,8 +16,9 @@ clause(
 		its figures, its money with the customer and with suppliers (orders, invoices, payments, retention
 		and budgets), its tasks, its people, the outside contacts named on it with their role, email and
 		phone, and the team's updates, with those of its sub-projects you may see. Asked who has too much on,
-		it reads the week as Workload shows it to you. A task, a reminder to a customer, a member, a
-		contact or a new project it suggests is added or sent only when you approve it.
+		it reads the week as Workload shows it to you. A task, a milestone, a reminder to a customer, a
+		member, a contact, a new project or a change to a project's status it suggests is added, sent or
+		made only when you approve it.
 	""",
 )
 

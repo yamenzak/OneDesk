@@ -88,8 +88,8 @@ Filter by name, kind, status, health or manager at the top, or by customer
 and anything else under **Filters**. **Add Project** starts one.
 
 A project prints as **One Project Status**, to send the customer: how much
-is done, its milestones, the next tasks due and its invoices with what's
-still owed.
+is done, its milestones, the next tasks due, its sub-projects, the contract
+and its invoices with what's still owed.
 
 ## Starting a project
 
@@ -705,10 +705,12 @@ and the project is billed by its milestones: **Work and Billing** shows
 Invoiced Yet** is measured against that instead of the work done. When such
 a milestone is done, the project's manager is told, and **Bill Progress**
 starts from that share. A project whose milestones have no share is billed
-by the work done, as before.
+by the work done, as before. A share is between 0 and 100%, and a project's
+milestones together bill at most all of its contract, however they're added.
 
 Anyone who can add tasks can add a milestone. Its share is on the task, so
-whoever can change the task can change it.
+whoever can change the task can change it. A cancelled project takes no new
+tasks or sub-projects until it's opened again.
 
 ## Documents on a project
 
@@ -1102,10 +1104,14 @@ updates by email the next morning.
 - **Added to Project**: someone adds you to a project's members. Shows the
   project, its customer and its end date.
 - **Made Project Manager**: someone makes you a project's manager.
-- **Project Health**: someone marks a project you manage or are a member of
-  **At Risk** or **Off Track**.
+- **Project Health**: someone marks an open project you manage or are a
+  member of **At Risk** or **Off Track**.
 - **Project Completed**: a project you manage is completed, by someone or by
   its last task. Says what's still owed on it.
+- **Project Stopped**: someone puts a project you manage or are a member of
+  **On hold**, or cancels it.
+- **Project End Moved**: someone moves an open project's end date. Says the
+  date it had before.
 - **Milestone Done**: a milestone billed on completion is done, on a project
   you manage or one under it. Says what share of the contract to bill.
 - **Project Update Asked**: the project asks for your update.
@@ -1144,9 +1150,9 @@ week as Workload shows it to you.
 
 On a project's page, OneAI offers what fits the view you're on:
 
-- **Overview**: **How is this project going?**, **What is late?**, **Write
-  the customer an update** and **Plan the tasks**. On a retainer, first
-  **How much of this month's hours are used?**
+- **Overview**: **Draft my update**, **How is this project going?**, **What
+  is late?**, **Write the customer an update** and **Plan the tasks**. On a
+  retainer, first **How much of this month's hours are used?**
 - **Tasks**: **What is late?**, **Plan the tasks** and **Who has too much
   on?**
 - **Time**: **Where did the time go?**, **What's still to invoice?** and
@@ -1172,6 +1178,11 @@ sub-projects you can see, and the project's own work apart from them, so it
 can say what the job is worth without its extra work. It knows which
 invoices are past their date and what's to pay each subcontractor, and when.
 Tasks it suggests come as cards, and nothing is added until you approve one.
+
+Ask it to put a project on hold, complete or cancel it, or add a milestone,
+and it comes as a card. Completing or cancelling a project with open work
+closes that work too, so OneAI asks first. Approving the card does what the
+page's status and **Add Milestone** do, and the project's people are told.
 
 Ask it to remind a customer of an invoice and it writes the mail as a card.
 Approving it opens the email window on the invoice with the mail written in
@@ -1334,7 +1345,7 @@ sub-project.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
 - **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
 - **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
-- **To OneCRM**: Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.
+- **To OneCRM**: New Quotation and Quote Extra Work start the customer's quotation on the project, and Make Order turns the one open quotation into its Sales Order. Add Contract makes the Sales Order for a contract agreed without a quotation. Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.
 - **From One**: the Team view's members are the workspace's people, and adding one shares the project with them, as frappe shares a record. Team › Contacts names the customer's and suppliers' people from One's Address Book, with their email and phone.
 
 ## Under the hood
@@ -1379,11 +1390,11 @@ one field for it.
   Report view, Health is blank on a completed or cancelled project, as the
   list's pill is.
 - **One Project Status** (print_format/one_project_status) is the project's
-  print: its title, the customer and its dates from one/print_blocks.py, and
+  print: its name, the customer and its dates from one/print_blocks.py, and
   One's `progress` block (templates/one_print/progress.html). The block reads
   the project as the customer's portal does (portal.py `view`): how much is
-  done, the milestones, the next tasks due and the invoices with what is
-  outstanding.
+  done, the milestones, the next tasks due, the sub-projects, the contract and
+  the invoices with what is outstanding.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
 - Currency: every order and invoice made here goes through one_book/currency.py
@@ -1483,8 +1494,8 @@ one field for it.
   have Select on Project so a sales order or an invoice can name one; they
   pick from a list and never open the project, and narrowing their list would
   break their forms, not protect the project.
-- `tell.py` — Added to Project, Made Project Manager, Project Health and
-  Project Completed, through the hub.
+- `tell.py` — Added to Project, Made Project Manager, Project Health,
+  Project Completed, Project Stopped and Project End Moved, through the hub.
 
   **Added to a project.** ERPNext mails each new member its own "Project
   Collaboration Invitation", in English, outside the hub. `members.invite`
@@ -1498,8 +1509,13 @@ one field for it.
   job done isn't taken for a job paid.
 
   **At risk.** Health is somebody's judgement that a project is in trouble
-  before any figure says so. `health` tells its manager and members when it is
-  marked At Risk or Off Track; whoever marked it already knows.
+  before any figure says so. `health` tells its manager and members when an
+  open project is marked At Risk or Off Track. Whoever marked it already
+  knows. A closed project's health is shown nowhere, so it isn't told.
+
+  **On hold, cancelled or later.** `stopped` tells the project's people when
+  it is put On hold or cancelled, and `moved` when an open project's end date
+  moves, with the date it had.
 
   **A retainer's month.** On the first of the month, `retainer_months` tells
   whoever runs each open retainer that last month isn't invoiced, with its
@@ -1515,6 +1531,9 @@ one field for it.
   done and the ones to come (`pick`), where each is (`where`), and billing on
   them when one has a **Bill on Completion** share (`one_bill_share` on Task,
   `billable`). `reached` tells the manager of the project with the order.
+  `kept`, on Task validate, holds a share between 0 and 100% and a project's
+  milestones to 100% together, and refuses new work on a cancelled project
+  (tree.py `validate` refuses a sub-project under one), however it's made.
 
   - The Overview shows the last two done and the ones to come, soonest first,
     with those without a date last (`pick`). One on a sub-project says which
@@ -2188,8 +2207,8 @@ one field for it.
   stays. The page follows the record through the kit (`follow`, desk's
   `doc_subscribe` and `doc_update`) and its money through `one_project_money`.
   OneStudio's extensions are told the project on the head
-  (`oneproject.project`) and what each of Invoices, Suppliers, Team, Files and
-  Activity shows (`project/place.js`). The page is a shadow root desk's styles
+  (`oneproject.project`) and what each of Overview, Invoices, Suppliers,
+  Team, Files and Activity shows (`project/place.js`). The page is a shadow root desk's styles
   don't reach, so their notes and buttons are drawn by the kit's `PlaceSpot`
   as frappe-ui's Alert and Button.
 

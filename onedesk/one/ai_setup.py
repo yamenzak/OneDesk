@@ -746,7 +746,7 @@ def apply(changes: dict) -> str:
 		from onedesk.one_project import library
 
 		return library.drafted(changes["preset"])
-	if what in ("project", "member", "contact"):
+	if what in ("project", "status", "milestone", "member", "contact"):
 		# A new project, made as the New Project dialog makes one, or somebody on a
 		# project's team or among its contacts, added by the Team view's own code.
 		from onedesk.one_project import ai as project_ai

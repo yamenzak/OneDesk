@@ -12,7 +12,7 @@
 		<td style="text-align:right;color:#6b7280">{{ b.done|e }}{% if b.done and b.when %} · {% endif %}{{ b.when|e }}</td>
 	</tr>
 </table>
-{%- for heading, rows in ((b.milestones_heading, b.milestones), (b.next_heading, b.next)) %}
+{%- for heading, rows in ((b.milestones_heading, b.milestones), (b.next_heading, b.next), (b.projects_heading, b.projects)) %}
 {%- if rows %}
 <div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ heading|e }}</div>
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:18px">
@@ -26,6 +26,14 @@
 </table>
 {%- endif %}
 {%- endfor %}
+{%- if b.contract %}
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:18px">
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ b.contract_label|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827;font-weight:600">{{ b.contract|e }}</td>
+	</tr>
+</table>
+{%- endif %}
 {%- if b.invoices %}
 <div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.invoices_heading|e }}</div>
 <table style="width:100%;border-collapse:collapse;font-size:12px">

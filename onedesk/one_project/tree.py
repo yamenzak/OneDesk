@@ -103,6 +103,9 @@ def validate(doc, method=None) -> None:
 	if loops(doc.name, parent, {k: v for k, v in parents().items() if k != doc.name}):
 		title = frappe.db.get_value("Project", parent, "project_name") or parent
 		frappe.throw(_("{0} is already under {1}, so it cannot be its parent.").format(title, doc.project_name or doc.name))
+	if doc.is_new() and frappe.db.get_value("Project", parent, "status") == "Cancelled":
+		title = frappe.db.get_value("Project", parent, "project_name") or parent
+		frappe.throw(_("{0} is cancelled. Open it again to add work to it.").format(title))
 	if not doc.customer:
 		doc.customer = frappe.db.get_value("Project", parent, "customer")
 

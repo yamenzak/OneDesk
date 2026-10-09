@@ -9041,7 +9041,7 @@ modules on the demo, then `docs/STANDARD.md`.
 |---|---|---|
 | 0 | Gates: 1874 fast tests, 95 demo checks | done |
 | 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done, revisited |
-| 2 | A project's head and Overview | done |
+| 2 | A project's head and Overview | done, revisited |
 | 3 | Tasks, Time, Money | done |
 | 4 | Invoices, Suppliers, Team, Files, Activity | done |
 | 5 | Workload, Timesheet, Templates | done |
@@ -9194,6 +9194,74 @@ villa on a phone, as Samir, who runs projects and reads no invoices.
 - **Works (1)**: `oneproject_its_page_says_only_what_is_so` checks the
   months, Paid, the showroom's two figures, Margin and the podium on the
   demo, and the contracts check reads the addendum by its sub-project.
+
+Revisited against the points skipped the first time. Looked at on the villa
+as Samir and Layla, and the code behind the head and the Overview.
+
+Fixed:
+
+- **Rules on the server (2)**: a milestone bills between 0 and 100% of the
+  contract, and a project's milestones together bill at most all of it, on
+  Task validate (`milestones.kept`). A cancelled project takes no new task or
+  sub-project. Both hold for the page, a bulk edit and Data Import.
+- **Hand-offs (3)**: README Connections, in OneProject and OneCRM, names New
+  Quotation, Quote Extra Work, Make Order and Add Contract.
+- **Extensible (7)**: the Overview is a place, `oneproject.overview`, told
+  the figures and what needs someone, with a spot above the cards.
+- **Notifications (10)**: Project Stopped tells the project's people when
+  it is put On hold or cancelled, and Project End Moved when an open
+  project's end date moves. Project Health is told only for an open
+  project. Project Completed says what's owed in the company's currency,
+  not the site's.
+- **Printed (11)**: One Project Status adds the sub-projects and the
+  contract, as the customer's portal shows them.
+- **Plain words (12)**: empty states read No time to invoice, No tasks due
+  and Nothing to do. Billed Ahead is one label. The hero says View Media and
+  Updates says Post Update. A status message lost its "so" clause.
+- **Documented, OneAI (13)**: OneAI suggests a project's status (on hold,
+  completed or cancelled, closing open work only when asked) and a milestone
+  with its bill share, each as a card. The README lists Draft my update on
+  the Overview, and both cards.
+- **Legal (16)**: the AI Addendum (revision 16) names both cards.
+- **Clean code (17)**: the page's response lost five keys nothing read and
+  a dead helper. The contract and orders are worked out once a page, not
+  three times.
+- **What ERPNext already does (currency, statuses)**: a draft from Bill
+  Progress in Needs You shows its company-currency total. Work and Billing's
+  overdue reads each invoice's payment schedule, as Needs You does, so
+  retention not yet due isn't counted as late. A retainer's "already
+  invoiced" message says the month in the reader's language.
+- **Demo (1)**: a check adds a milestone through OneAI's card and fails one
+  past the contract, refuses work on a cancelled project, puts a project on
+  hold and moves the villa's end with their people told, matches Overdue to
+  Needs You, and prints the villa's sub-project and contract.
+
+Left as they are:
+
+- **Nothing lost (6)**: the page has no link to ERPNext's form, as decided
+  for screen 2. Company, naming series and template are set when the
+  project is made.
+- **Intake (14)**: an update from site or a customer's request for extra
+  work, sent by mail, isn't read into the project. Replies to Ask for
+  Updates are. Noted for the Intake arc.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | checks on the head and Overview | rules, cards, notifications, overdue and print checked |
+| 2 Rules on the server | status, milestones, sub-projects | milestone shares and cancelled projects held on the server |
+| 3 Hand-offs | README Connections | quotation, order and contract named |
+| 4 Tier declared | `one/tiers.py` | the page and head declared |
+| 6 Nothing lost | About, the record menu | every field in reach. Company, series and template set at creation |
+| 7 Extensible | `one_studio/places.py` | `oneproject.overview` |
+| 9 Overrides recorded | `scripts/overrides.py` | recorded |
+| 10 Notifications | `notifications/one_project/` | Project Stopped, Project End Moved |
+| 11 Printed | One Project Status | sub-projects and contract added |
+| 12 Plain words | Overview, Hero, Updates | four labels and a message |
+| 13 Documented, OneAI | `ai.py`, README | status and milestone cards |
+| 14 Intake | `tests/samples/intake` | open, noted for the Intake arc |
+| 16 Legal | AI Addendum | revision 16 |
+| 17 Clean code | `view.py` | dead keys and helper gone, lookups once |
+| What ERPNext already does | currency, payment schedule | base totals, overdue by schedule |
 
 #### 3. Tasks, Time and Money
 

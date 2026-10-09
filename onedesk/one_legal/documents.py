@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 15: OneAI suggests a new project, made when approved.
+		# 16: OneAI suggests a project's status and its milestones.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 15,
+		"revision": 16,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

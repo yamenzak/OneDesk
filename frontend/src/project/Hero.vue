@@ -41,7 +41,7 @@
         </button>
       </div>
       <button class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white backdrop-blur-md hover:bg-black-overlay-600" @click="$emit('open', at)">
-        <span class="lucide-images size-4" />{{ media.length > 1 ? __("View All {0}", [media.length]) : __("View") }}
+        <span class="lucide-images size-4" />{{ media.length > 1 ? __("View All {0}", [media.length]) : __("View Media") }}
       </button>
     </div>
 

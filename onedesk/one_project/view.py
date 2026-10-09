@@ -101,12 +101,10 @@ def said(
 		"customer_image": frappe.db.get_value("Customer", doc.customer, "image") if doc.customer else None,
 		"starts": str(doc.expected_start_date) if doc.expected_start_date else None,
 		"ends": str(doc.expected_end_date) if doc.expected_end_date else None,
-		"manager": doc.get("one_manager"),
 		"manager_name": get_fullname(doc.one_manager) if doc.get("one_manager") else None,
 		"manager_image": frappe.db.get_value("User", doc.one_manager, "user_image")
 		if doc.get("one_manager")
 		else None,
-		"parent": doc.get("one_parent"),
 		"above": _above(doc.name),
 		"below": _below(doc.name),
 		"priority": doc.priority,
@@ -135,9 +133,6 @@ def said(
 		"contracts": (signed := agreement.contracts(view["tree"])),
 		"agreement": agreement.main(doc.name, signed),
 		"can_draw_up": bool(frappe.has_permission("Contract", "create") and (doc.customer or agreement.suppliers(doc.name))),
-		"parent_title": frappe.db.get_value("Project", doc.one_parent, "project_name")
-		if doc.get("one_parent")
-		else None,
 		"team": [
 			{
 				"user": row.user,
@@ -162,12 +157,8 @@ def said(
 		"money": cash,
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),
-		"progress": view["share"]
-		if view["tasks"] or (doc.percent_complete and not tree.narrowed(doc.name))
-		else None,
 		"days_left": view["days_left"],
 		"monthly_hours": flt(doc.get("one_monthly_hours")),
-		"cover": doc.get("one_cover"),
 		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
 		# The page shows only the project's own work, its Main (tree.narrow).
@@ -204,7 +195,17 @@ def _above(project: str) -> list[dict]:
 
 def contract(doc) -> str | None:
 	"""The customer's contract: the project's Sales Order, or the first one
-	submitted against it, still open to bill."""
+	submitted against it, still open to bill. Asked once for the page."""
+	# A list row has no flags to keep it on.
+	flags = getattr(doc, "flags", None)
+	if flags is None:
+		return _contract(doc)
+	if "one_contract" not in flags:
+		flags.one_contract = _contract(doc)
+	return flags.one_contract
+
+
+def _contract(doc) -> str | None:
 	if doc.sales_order:
 		return doc.sales_order
 	found = frappe.get_all(
@@ -224,7 +225,18 @@ UNBILLABLE = ("Closed", "On Hold", "Completed")
 def orders(doc, projects: list[str] | None = None) -> list[dict]:
 	"""The customer's submitted orders on the project and those under it,
 	oldest first: where each is, what it's for, whether it's extra work, and
-	what's left to bill. `own` is one on the page's project itself."""
+	what's left to bill. `own` is one on the page's project itself. Asked
+	once for the page."""
+	if getattr(doc, "flags", None) is None:
+		return _orders(doc, projects)
+	key = ("one_orders", tuple(projects or ()))
+	cached = doc.flags.setdefault("one_orders", {})
+	if key not in cached:
+		cached[key] = _orders(doc, projects)
+	return cached[key]
+
+
+def _orders(doc, projects: list[str] | None = None) -> list[dict]:
 	if not frappe.has_permission("Sales Order", "read"):
 		return []
 	of = tree.parents()
@@ -661,15 +673,13 @@ def _last_billed(projects: list[str]) -> dict | None:
 
 def _overdue(projects: list[str]) -> float:
 	"""What the customer owes on invoices past their due date, in the
-	company's currency, for whoever reads invoices."""
+	company's currency, for whoever reads invoices: each invoice's payments
+	past due by its schedule, retention not yet due left out, as Needs You
+	says it (`_past_due`)."""
 	if not frappe.has_permission("Sales Invoice", "read"):
 		return 0.0
-	return flt(
-		frappe.db.sql(
-			"""select sum(outstanding_amount * conversion_rate) from `tabSales Invoice`
-			where docstatus = 1 and status = 'Overdue' and project in %s""",
-			(projects,),
-		)[0][0]
+	return sum(
+		flt(one["due"]) * flt(one["head"].conversion_rate or 1) for one in _past_due("Sales Invoice", projects)
 	)
 
 
@@ -793,7 +803,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 				"name",
 				"owner",
 				"one_progress",
-				"grand_total",
+				"base_grand_total",
 				"supplier_name" if doctype == "Purchase Invoice" else "customer_name",
 			],
 		):
@@ -814,7 +824,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 							],
 						)
 					),
-					"money": bill.grand_total,
+					"money": bill.base_grand_total,
 					"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/{bill.name}",
 					"mine": mine,
 				}
@@ -1102,13 +1112,6 @@ def _terms(project: str) -> tuple:
 	"""Its terms, and the title of the project above they come from."""
 	payment_terms, conditions, source = terms.of(project)
 	return payment_terms, conditions, frappe.db.get_value("Project", source, "project_name") if source else None
-
-
-def _latest_update(project: str) -> dict | None:
-	from onedesk.one_project.ai import _updates
-
-	found = _updates(project)
-	return found[0] if found else None
 
 
 def _sub_projects(project: str) -> dict:

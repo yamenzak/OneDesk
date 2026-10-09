@@ -3,6 +3,7 @@ project or any project under it.
 """
 
 import frappe
+from frappe import _
 from frappe.utils import date_diff, flt, getdate, nowdate
 
 from onedesk.one_project import tree
@@ -130,6 +131,40 @@ def read(project: str, projects: list[str]) -> dict:
 			),
 		],
 	}
+
+
+def kept(doc, method=None) -> None:
+	"""Task validate: a milestone bills a share between 0 and 100% of its
+	project's contract, and its project's milestones together bill at most
+	all of it. Work isn't added to a cancelled project. However the task is
+	made or changed: the page, a bulk edit or Data Import."""
+	share = flt(doc.get("one_bill_share"))
+	if share < 0 or share > 100:
+		frappe.throw(_("A milestone bills between 0 and 100% of the contract."))
+	if not doc.project or doc.get("is_template"):
+		return
+	if doc.is_new() and frappe.db.get_value("Project", doc.project, "status") == "Cancelled":
+		frappe.throw(
+			_("{0} is cancelled. Open it again to add work to it.").format(
+				frappe.db.get_value("Project", doc.project, "project_name") or doc.project
+			)
+		)
+	if not doc.is_milestone or not share:
+		return
+	others = sum(
+		flt(one)
+		for one in frappe.get_all(
+			"Task",
+			filters={"project": doc.project, "is_milestone": 1, "name": ["!=", doc.name or ""], "status": ["!=", "Cancelled"]},
+			pluck="one_bill_share",
+		)
+	)
+	if others + share > 100.005:
+		frappe.throw(
+			_("The milestones on this project would bill {0}% of the contract. Together they bill at most 100%.").format(
+				f"{others + share:g}"
+			)
+		)
 
 
 def reached(doc, method=None) -> None:

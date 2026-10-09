@@ -434,6 +434,18 @@ def progress(doc) -> dict:
 		"milestones": [row(one) for one in said["milestones"]],
 		"next_heading": _("Next"),
 		"next": [row(one) for one in waiting[:NEXT]],
+		# Its sub-projects for the same customer, as its portal page lists them.
+		"projects_heading": _("Sub-projects"),
+		"projects": [
+			(
+				one.project_name,
+				_("{0}% done").format(round(flt(one.percent_complete))),
+				frappe.format_value(one.expected_end_date, {"fieldtype": "Date"}) if one.expected_end_date else "",
+			)
+			for one in said["projects"]
+		],
+		"contract": money(doc, said["order"].grand_total, said["order"].currency) if said.get("order") else "",
+		"contract_label": _("Contract"),
 		"invoices_heading": _("Invoices"),
 		"invoices": [
 			(

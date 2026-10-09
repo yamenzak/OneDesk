@@ -627,7 +627,7 @@ def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
 	approved = ai.split("def approved", 1)[1].split("\ndef ", 1)[0]
 	assert "team.add(" in approved and "contacts.save(" in approved
 	setup = (tree.APP / "one" / "ai_setup.py").read_text()
-	assert 'if what in ("project", "member", "contact"):' in setup
+	assert 'if what in ("project", "status", "milestone", "member", "contact"):' in setup
 
 
 def test_workload_reads_true_follows_and_is_asked_about():

@@ -1,7 +1,8 @@
 """Telling people about a project (notifications/one_project/)."""
 
 import frappe
-from frappe import _
+from erpnext import get_company_currency
+from frappe import _, _lt
 from frappe.utils import add_months, flt, fmt_money, formatdate, get_first_day, get_fullname, getdate, nowdate
 
 from onedesk.one import notify
@@ -9,6 +10,9 @@ from onedesk.one_project import kinds, retainer
 
 #: The health worth telling people about.
 WORSE = ("At Risk", "Off Track")
+
+#: A status a project's people are told of, as it reads after "is".
+STOPPED = {"On hold": _lt("on hold"), "Cancelled": _lt("cancelled")}
 
 
 def changed(doc, method=None) -> None:
@@ -19,6 +23,8 @@ def changed(doc, method=None) -> None:
 	added(doc, before)
 	health(doc, before)
 	completed(doc, before)
+	stopped(doc, before)
+	moved(doc, before)
 
 
 def added(doc, before) -> None:
@@ -37,13 +43,46 @@ def added(doc, before) -> None:
 
 
 def health(doc, before) -> None:
+	"""Only an open project's health is shown, so only its health is told."""
 	said = doc.get("one_health")
-	if said not in WORSE or not before or before.get("one_health") == said:
+	if doc.status != "Open" or said not in WORSE or not before or before.get("one_health") == said:
 		return
-	people = {row.user for row in doc.get("users") or []} | {doc.get("one_manager")}
-	people = sorted(one for one in people if one and one not in ("Administrator", "Guest"))
+	people = _people(doc)
 	if people:
 		notify.notify("Project Health", people, record=("Project", doc.name), health=said, **_facts(doc))
+
+
+def stopped(doc, before) -> None:
+	"""The project's people are told when it is put on hold or cancelled."""
+	state = STOPPED.get(doc.status)
+	if not state or not before or before.get("status") == doc.status:
+		return
+	people = _people(doc)
+	if people:
+		notify.notify("Project Stopped", people, record=("Project", doc.name), state=state, **_facts(doc))
+
+
+def moved(doc, before) -> None:
+	"""The project's people are told when an open project's end moves."""
+	was, now = (before.get("expected_end_date") if before else None), doc.get("expected_end_date")
+	if doc.status != "Open" or not was or not now or getdate(was) == getdate(now):
+		return
+	people = _people(doc)
+	if people:
+		notify.notify(
+			"Project End Moved",
+			people,
+			record=("Project", doc.name),
+			ends=formatdate(now),
+			was=formatdate(was),
+			**_facts(doc),
+		)
+
+
+def _people(doc) -> list[str]:
+	"""The project's manager and members."""
+	people = {row.user for row in doc.get("users") or []} | {doc.get("one_manager")}
+	return sorted(one for one in people if one and one not in ("Administrator", "Guest"))
 
 
 def completed(doc, before) -> None:
@@ -61,7 +100,7 @@ def completed(doc, before) -> None:
 		"Project Completed",
 		manager,
 		record=("Project", doc.name),
-		owed=" · " + _("{0} still owed").format(fmt_money(owed, currency=frappe.db.get_default("currency")))
+		owed=" · " + _("{0} still owed").format(fmt_money(owed, currency=get_company_currency(doc.company)))
 		if owed
 		else "",
 		**_facts(doc),

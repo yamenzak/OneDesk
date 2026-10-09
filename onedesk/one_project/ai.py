@@ -543,6 +543,113 @@ def add_member(
 	}
 
 
+def set_status(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	status: Annotated[str, "Open, On hold, Completed or Cancelled."],
+	close_work: Annotated[bool, "Completing or cancelling it closes its open tasks and sub-projects too. Only when the reader agreed."] = False,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest a project's status, as a card the reader approves. A project
+	with open work is completed or cancelled only with that work, so ask
+	first and pass close_work. Approving sets it as the page's status does
+	(status.change), and its people are told."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import status as states
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	if not frappe.has_permission("Project", "write", doc=project):
+		return {"error": "The reader may not change this project."}
+	if status not in states.STATUSES:
+		return {"mend": "set_status", "error": f"The status is one of {', '.join(states.STATUSES)}."}
+	doc = frappe.db.get_value("Project", project, ["project_name", "status"], as_dict=True)
+	if doc.status == status:
+		return {"error": f"{doc.project_name} is {status} already."}
+	open_work = states.ask(project) if status in states.CLOSED else {"tasks": 0, "projects": 0}
+	if (open_work["tasks"] or open_work["projects"]) and not close_work:
+		return {
+			"mend": "set_status",
+			"error": f"{doc.project_name} has {open_work['tasks']} open tasks and {open_work['projects']} open "
+			"sub-projects. Ask whether to close them with it, then pass close_work.",
+		}
+	summary = [{"label": _("Status"), "value": str(states.LABELS[status])}]
+	if open_work["tasks"] or open_work["projects"]:
+		summary.append(
+			{
+				"label": _("Closes"),
+				"value": _("{0} open tasks and {1} sub-projects").format(open_work["tasks"], open_work["projects"]),
+			}
+		)
+	changes = {
+		"what": "status",
+		"title": _("Mark {0} {1}").format(doc.project_name, states.LABELS[status]),
+		"project": project,
+		"status": status,
+		"close": int(bool(close_work)),
+		"summary": summary,
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it does. Nothing changes until they approve it.",
+	}
+
+
+def add_milestone(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	subject: Annotated[str, "What the milestone is, as the team will say it: Frames installed."],
+	due: Annotated[str, "When it is due, YYYY-MM-DD, inside the project's dates."],
+	bill_share: Annotated[float, "On a contract billed on milestones, the share of it billed when this is done, 0 to 100."] | None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest a milestone on a project, as a card the reader approves.
+	Approving adds it as Add Milestone does. Together a project's milestones
+	bill at most all of its contract (milestones.kept)."""
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	if not frappe.has_permission("Task", "create"):
+		return {"error": "The reader may not add tasks."}
+	subject = (subject or "").strip()
+	if not subject:
+		return {"mend": "add_milestone", "error": "Give the milestone a name."}
+	try:
+		day = getdate(due)
+	except Exception:
+		return {"mend": "add_milestone", "error": "The due date is YYYY-MM-DD."}
+	share = flt(bill_share)
+	if share < 0 or share > 100:
+		return {"mend": "add_milestone", "error": "A milestone bills between 0 and 100% of the contract."}
+	billed = sum(
+		flt(one)
+		for one in frappe.get_all(
+			"Task", filters={"project": project, "is_milestone": 1, "status": ["!=", "Cancelled"]}, pluck="one_bill_share"
+		)
+	)
+	if share and billed + share > 100.005:
+		return {"mend": "add_milestone", "error": f"The project's milestones bill {billed:g}% already. At most {100 - billed:g}% is left."}
+	title = frappe.db.get_value("Project", project, "project_name") or project
+	summary = [
+		{"label": _("Milestone"), "value": subject},
+		{"label": _("Due Date"), "value": frappe.format_value(day, {"fieldtype": "Date"})},
+	]
+	if share:
+		summary.append({"label": _("Bill on Completion"), "value": f"{share:g}%"})
+	changes = {
+		"what": "milestone",
+		"title": _("Add {0} to {1}").format(subject, title),
+		"project": project,
+		"values": {"subject": subject, "exp_end_date": str(day), "one_bill_share": share},
+		"summary": summary,
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it adds. Nothing is added until they approve it.",
+	}
+
+
 def add_contact(
 	project: Annotated[str, "The project's id, such as PROJ-0005."],
 	role: Annotated[
@@ -605,14 +712,21 @@ def add_contact(
 
 
 def approved(changes: dict) -> str:
-	"""A project, member or contact card approved, made by the page's own
-	code as whoever pressed Approve (one/ai_setup.py)."""
+	"""A project, status, milestone, member or contact card approved, made by
+	the page's own code as whoever pressed Approve (one/ai_setup.py)."""
 	from onedesk.one_project import contacts, team
 
 	if changes["what"] == "project":
 		# Made as the New Project dialog makes one, as whoever approved it.
 		return kinds.make(changes["values"])
-	if changes["what"] == "member":
+	if changes["what"] == "status":
+		# As the page's status sets it, closing its open work only when agreed.
+		from onedesk.one_project import status
+
+		status.change(changes["project"], changes["status"], changes.get("close") or 0)
+	elif changes["what"] == "milestone":
+		frappe.get_doc({"doctype": "Task", "project": changes["project"], "is_milestone": 1, **changes["values"]}).insert()
+	elif changes["what"] == "member":
 		team.add(changes["project"], changes["user"])
 	else:
 		contacts.save(changes["project"], **changes["values"])
