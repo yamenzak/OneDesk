@@ -360,7 +360,7 @@ Glass for handrails). The switch beside **Search** lays them out as a
 too. On the board, drag a card to change its status; the timeline marks
 today and counts the tasks without dates.
 
-In the table, change a task's owner, status, due date, priority or hours
+In the table, change who a task is assigned to, its status, due date, priority or hours
 right in its row. Giving a task to a **group** (under **Settings ›
 Access**) gives it to each person in the group. **Planned** is
 the hours planned for it (ERPNext's Expected Time), and each group's heading
@@ -370,14 +370,15 @@ project with no tasks of its own shows only **Add Task**. A task that depends on
 of its own are done. **Add Task** at the foot of a group adds one there;
 **New Task** adds one to the project. Click a task's name to open it beside the page.
 It's the same task OneTask opens: change its owner, priority, dates, hours
-and whether it's a milestone in place; see what it's part of and what it
-**Waits On**; tick and add its **Checklist**; add **Sub-tasks**; and read
+and whether it's a milestone in place; see its **Parent Task** and what it
+**Depends On**; tick and add its **Checklist**; add **Sub-tasks**; and read
 and write its comments. ▷ times it onto your timesheet. **⋯** has **Edit
-Details** (its type, hours, parent task, what it waits on, Bill on
+Details** (its type, hours, parent task, what it depends on, Bill on
 Completion and description), **Repeat** and **Open Full Form**.
 
 Late due dates are red. Whatever someone else changes shows up without
-reloading.
+reloading. Planned hours and a milestone's bill share are never below 0,
+however they're written. **Planned** leaves out cancelled tasks.
 
 ### Time
 
@@ -428,6 +429,13 @@ Logging time on a task doesn't complete it; complete it when it's done.
 Hours from before this week still in draft show in **Needs You** as **Submit
 your timesheet**. On a project counted by attendance, the days come from
 attendance and there's no Log Time.
+
+Time on a project billed by the hour is billable, however it's written: Log
+Time, the timer, OneHR or Data Import. Desk's timesheet form ticks
+**Is Billable** as you pick such a project, and you can untick it. A row's
+task must be on the row's project or one under it. A Time and Materials
+invoice prints the hours it bills, under **Time Billed**: the day, the
+activity, who, the hours and what they come to.
 
 Whoever may read timesheets sees Time, and sees the entries they may read. A
 project whose time isn't tracked has no Time view, unless someone logged time
@@ -1119,7 +1127,8 @@ updates by email the next morning.
   before.
 - **Over Budget**: what's ordered and spent on one of a project's cost types
   passes its budget. To the project's manager and whoever set the budget,
-  once for each budget.
+  once for each budget. Also when the cost of a project's time passes its
+  **Time Budget**, to its manager.
 - **Progress Bill Drafted**: someone saves a bill or invoice made with **Bill
   Progress** on a project you manage, for you to check.
 - **Retainer Month to Invoice**: on the first of the month, a retainer you
@@ -1129,7 +1138,8 @@ updates by email the next morning.
   past its hours for this month.
 - **Hours Over Plan**: the hours logged on a task pass its planned hours
   (Expected Time). To whoever has the task and the project's manager, once,
-  as they pass.
+  as they pass. Also when a whole project's hours pass what its tasks plan,
+  or its **Planned Hours**, to its manager.
 - **Retention Due**: retention held by a customer, or from a supplier, falls
   due today. To the project's manager.
 - **Bill Due**: a supplier's bill on a project you manage falls due today
@@ -1179,10 +1189,11 @@ can say what the job is worth without its extra work. It knows which
 invoices are past their date and what's to pay each subcontractor, and when.
 Tasks it suggests come as cards, and nothing is added until you approve one.
 
-Ask it to put a project on hold, complete or cancel it, or add a milestone,
-and it comes as a card. Completing or cancelling a project with open work
+Ask it to put a project on hold, complete or cancel it, add a milestone, log
+time on your timesheet or set a cost type's budget, and it comes as a card. Completing or cancelling a project with open work
 closes that work too, so OneAI asks first. Approving the card does what the
-page's status and **Add Milestone** do, and the project's people are told.
+page's status, **Add Milestone**, **Log Time** and **Add Cost Type** do, and
+the project's people are told.
 
 Ask it to remind a customer of an invoice and it writes the mail as a card.
 Approving it opens the email window on the invoice with the mail written in
@@ -1344,6 +1355,7 @@ sub-project.
 - **From OneIntake**: A supplier's bill that names an open project is drafted for that project.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
 - **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
+- **To OneHR**: New Expense Claim on Money starts an expense claim on the project, which counts in its Cost once approved.
 - **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
 - **To OneCRM**: New Quotation and Quote Extra Work start the customer's quotation on the project, and Make Order turns the one open quotation into its Sales Order. Add Contract makes the Sales Order for a contract agreed without a quotation. Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.
 - **From One**: the Team view's members are the workspace's people, and adding one shares the project with them, as frappe shares a record. Team › Contacts names the customer's and suppliers' people from One's Address Book, with their email and phone.
@@ -1395,6 +1407,10 @@ one field for it.
   the project as the customer's portal does (portal.py `view`): how much is
   done, the milestones, the next tasks due, the sub-projects, the contract and
   the invoices with what is outstanding.
+- **One Sales Invoice** shows the hours a time and materials invoice bills,
+  from ERPNext's Time Sheets table on it, through the field template **One
+  Time Billed** (one/print_blocks.py `time_billed`,
+  templates/one_print/time.html). An invoice that bills no time shows nothing.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
 - Currency: every order and invoice made here goes through one_book/currency.py
@@ -1496,6 +1512,9 @@ one field for it.
   break their forms, not protect the project.
 - `tell.py` — Added to Project, Made Project Manager, Project Health,
   Project Completed, Project Stopped and Project End Moved, through the hub.
+  `time_over` (Timesheet on_submit) tells a project's manager once its hours
+  pass its plan (Hours Over Plan) or its time's cost passes its Time Budget
+  (Over Budget, cost type Time), counted over the project and those under it.
 
   **Added to a project.** ERPNext mails each new member its own "Project
   Collaboration Invitation", in English, outside the hub. `members.invite`
@@ -2137,7 +2156,11 @@ one field for it.
   workspace's default, **Count Time By** in Projects Settings (`fill`).
   Whether an hour is billable follows the kind (`bills_hours`): Time and
   Materials and Retainer hours are, and a Fixed Price or Internal project's
-  are cost only.
+  are cost only. `billable` (Timesheet before_insert) ticks it however the
+  timesheet is made, except from desk's form, where timesheet.js ticks it as
+  the project is picked (`billed_hourly`) so an untick stays. `on_its_project`
+  (Timesheet validate) keeps a row's task on the row's project or one under
+  it. A draft counts its hours but no cost or amount (`sums`), as `count` does.
 
   Every hour is ERPNext's Timesheet Detail on the project or a project under
   it, read as the reader reads timesheets, so somebody who may see only their
@@ -2207,8 +2230,8 @@ one field for it.
   stays. The page follows the record through the kit (`follow`, desk's
   `doc_subscribe` and `doc_update`) and its money through `one_project_money`.
   OneStudio's extensions are told the project on the head
-  (`oneproject.project`) and what each of Overview, Invoices, Suppliers,
-  Team, Files and Activity shows (`project/place.js`). The page is a shadow root desk's styles
+  (`oneproject.project`) and what each of Overview, Tasks, Time, Money,
+  Invoices, Suppliers, Team, Files and Activity shows (`project/place.js`). The page is a shadow root desk's styles
   don't reach, so their notes and buttons are drawn by the kit's `PlaceSpot`
   as frappe-ui's Alert and Button.
 

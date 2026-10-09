@@ -142,6 +142,28 @@ PLACES = {
 				),
 				"may": ("note", "action"),
 			},
+			"tasks": {
+				"about": _lt("A project's Tasks are opened as a table, a board or a timeline, and each time they change."),
+				"gives": "project.name, project.title, tasks.view (tasks, board or timeline), tasks.count, tasks.open, tasks.late",
+				"may": ("note", "action"),
+			},
+			"time": {
+				"about": _lt("A project's Time view is opened, and each time its hours change."),
+				"gives": (
+					"project.name, project.title, project.customer, time.entries, time.hours, time.planned, "
+					"time.month, time.drafts (hours not submitted), time.allowance (a retainer's hours a month)"
+				),
+				"may": ("note", "action"),
+			},
+			"money": {
+				"about": _lt("A project's Money view is opened, and each time its figures change."),
+				"gives": (
+					"project.name, project.title, project.kind, project.currency, money.contract, money.invoiced, "
+					"money.spent, money.budget, money.forecast_cost, money.forecast_margin, money.cost_types "
+					"(each with cost_type, budget, committed, spent and left)"
+				),
+				"may": ("note", "action"),
+			},
 			"invoices": {
 				"about": _lt("A project's Invoices view is opened, and each time its invoices change."),
 				"gives": (

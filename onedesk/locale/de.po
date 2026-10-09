@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 09:01+0000\n"
-"PO-Revision-Date: 2026-10-09 09:01+0000\n"
+"POT-Creation-Date: 2026-10-09 09:35+0000\n"
+"PO-Revision-Date: 2026-10-09 09:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -43,7 +43,7 @@ msgstr "* erforderlich"
 msgid "+{0} more"
 msgstr "+{0} weitere"
 
-#: onedesk/one_project/view.py:507
+#: onedesk/one_project/view.py:515
 msgid "1 cost"
 msgstr "1 Kostenposten"
 
@@ -59,7 +59,7 @@ msgstr "1 Tag"
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:329 frontend/src/project/Overview.vue:410
 #: frontend/src/project/Suppliers.vue:222 onedesk/one_project/retention.py:132
-#: onedesk/one_project/view.py:911
+#: onedesk/one_project/view.py:919
 msgid "1 day late"
 msgstr "1 Tag verspätet"
 
@@ -100,7 +100,7 @@ msgstr "1 Element ausgewählt"
 msgid "1 minute"
 msgstr "1 Minute"
 
-#: onedesk/one_project/view.py:544
+#: onedesk/one_project/view.py:552
 msgid "1 month"
 msgstr "1 Monat"
 
@@ -108,11 +108,11 @@ msgstr "1 Monat"
 msgid "1 not checked"
 msgstr "1 nicht geprüft"
 
-#: frontend/src/project/ProjectPage.vue:236
+#: frontend/src/project/ProjectPage.vue:253
 msgid "1 open sub-project"
 msgstr "1 offenes Teilprojekt"
 
-#: frontend/src/project/ProjectPage.vue:235
+#: frontend/src/project/ProjectPage.vue:252
 msgid "1 open task"
 msgstr "1 offene Aufgabe"
 
@@ -137,7 +137,7 @@ msgstr "1 Aufgabe ohne Termine"
 msgid "1 week"
 msgstr "1 Woche"
 
-#: onedesk/one/print_blocks.py:293
+#: onedesk/one/print_blocks.py:294
 msgid "1 {0} = {1} {2}"
 msgstr "1 {0} = {1} {2}"
 
@@ -785,33 +785,45 @@ msgstr "Ein Ort gehört zu einem Standort der Schicht oder zu einem einzelnen Mi
 msgid "A print format needs a name."
 msgstr "Ein Druckformat braucht einen Namen."
 
-#: onedesk/one_studio/places.py:212
+#: onedesk/one_studio/places.py:234
 msgid "A project template's page is opened, and each time the template changes."
 msgstr "Die Seite einer Projektvorlage wird geöffnet, und jedes Mal, wenn sich die Vorlage ändert."
 
-#: onedesk/one_studio/places.py:173
+#: onedesk/one_studio/places.py:195
 msgid "A project's Activity view is opened, and each time it shows more."
 msgstr "Die Aktivitätsansicht eines Projekts wird geöffnet, und jedes Mal, wenn sie mehr zeigt."
 
-#: onedesk/one_studio/places.py:168
+#: onedesk/one_studio/places.py:190
 msgid "A project's Files view is opened, and each time its files change."
 msgstr "Die Dateiansicht eines Projekts wird geöffnet, und jedes Mal, wenn sich seine Dateien ändern."
 
-#: onedesk/one_studio/places.py:146
+#: onedesk/one_studio/places.py:168
 msgid "A project's Invoices view is opened, and each time its invoices change."
 msgstr "Die Rechnungsansicht eines Projekts wird geöffnet, und jedes Mal, wenn sich seine Rechnungen ändern."
+
+#: onedesk/one_studio/places.py:159
+msgid "A project's Money view is opened, and each time its figures change."
+msgstr "Die Geldansicht eines Projekts wird geöffnet, und jedes Mal, wenn sich ihre Zahlen ändern."
 
 #: onedesk/one_studio/places.py:137
 msgid "A project's Overview is opened, and each time its figures change."
 msgstr "Die Übersicht eines Projekts wird geöffnet, und jedes Mal, wenn sich ihre Zahlen ändern."
 
-#: onedesk/one_studio/places.py:155
+#: onedesk/one_studio/places.py:177
 msgid "A project's Suppliers view is opened, and each time what it buys changes."
 msgstr "Die Lieferantenansicht eines Projekts wird geöffnet, und jedes Mal, wenn sich seine Einkäufe ändern."
 
-#: onedesk/one_studio/places.py:163
+#: onedesk/one_studio/places.py:146
+msgid "A project's Tasks are opened as a table, a board or a timeline, and each time they change."
+msgstr "Die Aufgaben eines Projekts werden als Tabelle, Board oder Zeitleiste geöffnet, und jedes Mal, wenn sie sich ändern."
+
+#: onedesk/one_studio/places.py:185
 msgid "A project's Team view is opened, and each time its team changes."
 msgstr "Die Teamansicht eines Projekts wird geöffnet, und jedes Mal, wenn sich sein Team ändert."
+
+#: onedesk/one_studio/places.py:151
+msgid "A project's Time view is opened, and each time its hours change."
+msgstr "Die Zeitansicht eines Projekts wird geöffnet, und jedes Mal, wenn sich ihre Stunden ändern."
 
 #: onedesk/one_studio/places.py:127
 msgid "A project's page is opened, and each time the project changes."
@@ -994,8 +1006,8 @@ msgid "A template can name a field of the record, as {{ customer_name }}, and no
 msgstr "Eine Vorlage kann ein Feld des Datensatzes nennen, etwa {{ customer_name }}, und sonst nichts."
 
 #: onedesk/one_project/templates.py:46
-msgid "A template task cannot begin before the project or last fewer than no days."
-msgstr "Eine Vorlagenaufgabe kann nicht vor dem Projekt beginnen oder weniger als null Tage dauern."
+msgid "A template task begins on or after the project's first day, and lasts 0 days or more."
+msgstr "Eine Vorlagenaufgabe beginnt am ersten Tag des Projekts oder danach und dauert 0 Tage oder länger."
 
 #: onedesk/one_storage/ready.py:41
 msgid "A test file was stored and read back."
@@ -1286,12 +1298,12 @@ msgstr "Konto-ID"
 msgid "Account Moved"
 msgstr "Konto gewechselt"
 
-#: onedesk/one/print_blocks.py:342
+#: onedesk/one/print_blocks.py:343
 #: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Account Name"
 msgstr "Kontoname"
 
-#: onedesk/one/print_blocks.py:343
+#: onedesk/one/print_blocks.py:344
 msgid "Account No"
 msgstr ""
 
@@ -1418,9 +1430,10 @@ msgid "Active Sessions"
 msgstr ""
 
 #. Label in the One Timesheet print format
-#: frontend/src/project/ProjectPage.vue:173
-#: frontend/src/project/TaskPanel.vue:108 frontend/src/project/Time.vue:31
-#: frontend/src/project/Time.vue:98 onedesk/one/tabs.py:15
+#: frontend/src/project/ProjectPage.vue:190
+#: frontend/src/project/TaskPanel.vue:108 frontend/src/project/Time.vue:32
+#: frontend/src/project/Time.vue:100 onedesk/one/print_blocks.py:491
+#: onedesk/one/tabs.py:15 onedesk/one_project/ai.py:681
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/onecloud.js:754 onedesk/public/js/project_actions.js:407
 msgid "Activity"
@@ -1432,7 +1445,7 @@ msgstr "Aktivitätskosten je Mitarbeiter"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/public/js/timesheet.js:45
+#: onedesk/public/js/timesheet.js:56
 msgid "Activity Type"
 msgstr ""
 
@@ -1483,13 +1496,17 @@ msgstr "Kontakt hinzufügen"
 msgid "Add Contract"
 msgstr "Vertrag hinzufügen"
 
-#: frontend/src/project/Money.vue:33 onedesk/public/js/project_actions.js:349
+#: frontend/src/project/Money.vue:34 onedesk/public/js/project_actions.js:349
 msgid "Add Cost Type"
 msgstr "Kostenart hinzufügen"
 
 #: frontend/src/project/Header.vue:8
 msgid "Add Cover"
 msgstr "Titelbild hinzufügen"
+
+#: frontend/src/project/TaskPanel.vue:79
+msgid "Add Description"
+msgstr "Beschreibung hinzufügen"
 
 #: onedesk/public/js/settings.js:2420 onedesk/public/js/settings.js:2536
 msgid "Add Domain"
@@ -1591,10 +1608,6 @@ msgstr "Standort hinzufügen"
 msgid "Add a customer"
 msgstr "Kunden anlegen"
 
-#: frontend/src/project/TaskPanel.vue:79
-msgid "Add a description"
-msgstr "Beschreibung hinzufügen"
-
 #: onedesk/one_studio/ai.py:34
 msgid "Add a field…"
 msgstr "Feld hinzufügen…"
@@ -1661,7 +1674,7 @@ msgstr "Fügen Sie der Gruppe mindestens eine Person hinzu."
 msgid "Add at least one rate to a model priced by hand."
 msgstr "Fügen Sie einem manuell bepreisten Modell mindestens einen Tarif hinzu."
 
-#: frontend/src/project/ProjectPage.vue:251
+#: frontend/src/project/ProjectPage.vue:268
 #: onedesk/public/js/project_actions.js:80
 msgid "Add from Template"
 msgstr "Aus Vorlage hinzufügen"
@@ -1707,7 +1720,7 @@ msgid "Add {0}"
 msgstr "{0} hinzufügen"
 
 #: onedesk/one_project/ai.py:533 onedesk/one_project/ai.py:641
-#: onedesk/one_project/ai.py:690
+#: onedesk/one_project/ai.py:778
 msgid "Add {0} to {1}"
 msgstr "{0} zu {1} hinzufügen"
 
@@ -2024,7 +2037,7 @@ msgstr "Vereinbarungen"
 
 #. Name of a role
 #: frontend/src/project/ProjectActivity.vue:113
-#: frontend/src/project/Time.vue:87 onedesk/one_ai/doctype/ai_chat/ai_chat.json
+#: frontend/src/project/Time.vue:89 onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -2066,12 +2079,12 @@ msgstr "Alles gelesen"
 msgid "All Tasks"
 msgstr "Alle Aufgaben"
 
-#: frontend/src/project/Team.vue:27 frontend/src/project/Time.vue:187
+#: frontend/src/project/Team.vue:27 frontend/src/project/Time.vue:203
 msgid "All Time"
 msgstr "Insgesamt"
 
-#: frontend/src/project/ProjectPage.vue:276
-#: frontend/src/project/ProjectPage.vue:282
+#: frontend/src/project/ProjectPage.vue:293
+#: frontend/src/project/ProjectPage.vue:299
 msgid "All Work"
 msgstr "Alle Arbeiten"
 
@@ -2221,8 +2234,8 @@ msgstr ""
 #. Label in the One Sales Order print format
 #. Label of the amount (Float) field in DocType 'Reading Line'
 #. Label in the One Purchase Order print format
-#: frontend/src/project/Suppliers.vue:149 frontend/src/project/Time.vue:34
-#: onedesk/one/automations.py:130
+#: frontend/src/project/Suppliers.vue:149 frontend/src/project/Time.vue:35
+#: onedesk/one/automations.py:130 onedesk/one/print_blocks.py:491
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:281
@@ -2237,11 +2250,11 @@ msgstr ""
 msgid "Amount"
 msgstr "Betrag"
 
-#: onedesk/one/print_blocks.py:381
+#: onedesk/one/print_blocks.py:382
 msgid "Amount Paid"
 msgstr "Gezahlter Betrag"
 
-#: onedesk/one/print_blocks.py:381
+#: onedesk/one/print_blocks.py:382
 msgid "Amount Received"
 msgstr "Erhaltener Betrag"
 
@@ -2364,7 +2377,7 @@ msgstr "Ein Mitarbeiter ist die Person hinter dem Konto: Rolle, Abteilung und Ve
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein AUS geschrieben und als automatisch geschlossen markiert."
 
-#: onedesk/one_studio/places.py:223
+#: onedesk/one_studio/places.py:245
 msgid "An event's card is opened in OneCalendar."
 msgstr "Die Karte eines Termins wird in OneCalendar geöffnet."
 
@@ -2913,7 +2926,7 @@ msgstr "Fragen Sie unter Ihre Daten erneut, wenn Sie Ihr Konto weiterhin lösche
 msgid "Ask an administrator for access."
 msgstr "Bitten Sie einen Administrator um Zugriff."
 
-#: frontend/src/project/ProjectPage.vue:345
+#: frontend/src/project/ProjectPage.vue:362
 #: onedesk/public/js/project_actions.js:691
 msgid "Ask for Updates"
 msgstr "Updates anfordern"
@@ -3098,6 +3111,11 @@ msgstr "Weist den Datensatz einem oder mehreren Benutzern zu."
 #: onedesk/one/automations.py:122
 msgid "Assign to User"
 msgstr "Einem Benutzer zuweisen"
+
+#: frontend/src/project/ProjectPage.vue:205
+#: frontend/src/project/TaskPanel.vue:25 frontend/src/project/Tasks.vue:19
+msgid "Assigned To"
+msgstr ""
 
 #: onedesk/one_task/calendar.py:24
 msgid "Assigned to Me"
@@ -3476,7 +3494,7 @@ msgstr "Aufbewahrte Sicherungen"
 msgid "Balance"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:282
+#: onedesk/one/print_blocks.py:283
 msgid "Balance Due"
 msgstr "Offener Betrag"
 
@@ -3497,7 +3515,7 @@ msgid "Band row {0}"
 msgstr "Leistenzeile {0}"
 
 #. Label of a Sidebar Item
-#: onedesk/one/print_blocks.py:341
+#: onedesk/one/print_blocks.py:342
 #: onedesk/one_book/report/books_check/books_check.js:11
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank"
@@ -3738,7 +3756,7 @@ msgid "Bill Due"
 msgstr "Rechnung fällig"
 
 #: frontend/src/project/Overview.vue:31
-#: frontend/src/project/ProjectPage.vue:357
+#: frontend/src/project/ProjectPage.vue:374
 #: frontend/src/project/Suppliers.vue:77 onedesk/public/js/progress.js:35
 #: onedesk/public/js/progress.js:48 onedesk/public/js/project_actions.js:605
 msgid "Bill Progress"
@@ -3914,7 +3932,7 @@ msgstr "Mauerwerk und Stützen"
 msgid "Blue means on by default."
 msgstr "Blau bedeutet standardmäßig an."
 
-#: frontend/src/project/ProjectPage.vue:158 onedesk/public/js/project.js:18
+#: frontend/src/project/ProjectPage.vue:175 onedesk/public/js/project.js:18
 msgid "Board"
 msgstr "Board"
 
@@ -3983,7 +4001,7 @@ msgstr ""
 msgid "Branch"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:346
+#: onedesk/one/print_blocks.py:347
 msgid "Branch Code"
 msgstr ""
 
@@ -4042,8 +4060,9 @@ msgid "Browser"
 msgstr "Browser"
 
 #. Label of the 'estimated_costing' field in DocType 'Project'
-#: frontend/src/project/Money.vue:39 frontend/src/project/Money.vue:108
-#: frontend/src/project/Overview.vue:42 onedesk/one_project/custom/project.json
+#: frontend/src/project/Money.vue:40 frontend/src/project/Money.vue:110
+#: frontend/src/project/Overview.vue:42 onedesk/one_project/ai.py:731
+#: onedesk/one_project/custom/project.json
 #: onedesk/public/js/project_actions.js:320
 #: onedesk/public/js/project_actions.js:322
 #: onedesk/public/js/project_actions.js:361
@@ -4059,6 +4078,10 @@ msgstr "Budget verbraucht"
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Budget and channels agreed"
 msgstr "Budget und Kanäle abgestimmt"
+
+#: onedesk/one_project/ai.py:726
+msgid "Budget {0} on {1}"
+msgstr "Budget für {0} in {1}"
 
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
@@ -4468,7 +4491,7 @@ msgstr "Zeugnis"
 msgid "Change"
 msgstr "Änderung"
 
-#: frontend/src/project/Money.vue:72 frontend/src/project/Money.vue:118
+#: frontend/src/project/Money.vue:73 frontend/src/project/Money.vue:120
 msgid "Change Budget"
 msgstr "Budget ändern"
 
@@ -4582,11 +4605,11 @@ msgstr ""
 msgid "Charts a module registered, drawn beside the numbers under the title."
 msgstr "Diagramme, die ein Modul registriert hat, neben den Zahlen unter dem Titel."
 
-#: onedesk/one_project/view.py:979
+#: onedesk/one_project/view.py:987
 msgid "Chase retention from {0}"
 msgstr "Einbehalt bei {0} mahnen"
 
-#: onedesk/one_project/view.py:979
+#: onedesk/one_project/view.py:987
 msgid "Chase {0}"
 msgstr "{0} mahnen"
 
@@ -4621,7 +4644,7 @@ msgstr "Mein Profil prüfen"
 msgid "Check Out"
 msgstr ""
 
-#: onedesk/one_project/view.py:809
+#: onedesk/one_project/view.py:817
 msgid "Check bill from {0}"
 msgstr "Rechnung von {0} prüfen"
 
@@ -4630,7 +4653,7 @@ msgstr "Rechnung von {0} prüfen"
 msgid "Check in"
 msgstr "Einchecken"
 
-#: onedesk/one_project/view.py:811
+#: onedesk/one_project/view.py:819
 msgid "Check invoice to {0}"
 msgstr "Rechnung an {0} prüfen"
 
@@ -5227,7 +5250,7 @@ msgstr "Kommentare"
 msgid "Comments you wrote"
 msgstr "Ihre Kommentare"
 
-#: frontend/src/project/Money.vue:40
+#: frontend/src/project/Money.vue:41
 msgid "Committed"
 msgstr "Gebunden"
 
@@ -5241,7 +5264,7 @@ msgstr "Kompakt"
 #. Label of the organisation (Data) field in DocType 'Project Contact'
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_project/ai.py:702
+#: onedesk/one_project/ai.py:790
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/one_storage/history.py:201 onedesk/one_storage/namespace.py:376
 #: onedesk/one_storage/namespace.py:520 onedesk/one_storage/namespace.py:621
@@ -5273,7 +5296,7 @@ msgstr "Wird als Text mit dem aktuellen Feldinhalt verglichen. Eine Bearbeitung 
 #. Recipient'
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_task/page/my_tasks/my_tasks.js:207
-#: onedesk/public/js/onecloud.js:1736 onedesk/public/js/timesheet.js:76
+#: onedesk/public/js/onecloud.js:1736 onedesk/public/js/timesheet.js:87
 msgid "Complete"
 msgstr "Erledigen"
 
@@ -5503,7 +5526,7 @@ msgstr "Fachplaner koordiniert"
 #. Label of the 'contact_details' field in DocType 'Employee'
 #. Label of the contact (Link) field in DocType 'Project Contact'
 #: frontend/src/project/Team.vue:70 onedesk/one_hr/custom/employee.json
-#: onedesk/one_project/ai.py:701
+#: onedesk/one_project/ai.py:789
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/project_actions.js:504
 msgid "Contact"
@@ -5570,12 +5593,12 @@ msgstr "Geht nach {0} weiter (war {1})"
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/src/project/Money.vue:168 frontend/src/project/Overview.vue:154
-#: onedesk/one/print_blocks.py:26 onedesk/one/print_blocks.py:448
+#: frontend/src/project/Money.vue:184 frontend/src/project/Overview.vue:154
+#: onedesk/one/print_blocks.py:26 onedesk/one/print_blocks.py:449
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_project/ai.py:893
+#: onedesk/one_project/ai.py:990
 msgid "Contract"
 msgstr "Vertrag"
 
@@ -5726,8 +5749,8 @@ msgstr "Texte geschrieben"
 msgid "Correction"
 msgstr "Korrektur"
 
-#: frontend/src/project/Money.vue:25 frontend/src/project/Money.vue:124
-#: frontend/src/project/Overview.vue:154 frontend/src/project/Time.vue:34
+#: frontend/src/project/Money.vue:26 frontend/src/project/Money.vue:126
+#: frontend/src/project/Overview.vue:154 frontend/src/project/Time.vue:35
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:148
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:168
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
@@ -5747,11 +5770,12 @@ msgstr "Kostenstelle"
 msgid "Cost Centers"
 msgstr ""
 
-#: frontend/src/project/Money.vue:38 onedesk/public/js/project_actions.js:354
+#: frontend/src/project/Money.vue:39 onedesk/one_project/ai.py:730
+#: onedesk/public/js/project_actions.js:354
 msgid "Cost Type"
 msgstr "Kostenart"
 
-#: frontend/src/project/Money.vue:32
+#: frontend/src/project/Money.vue:33
 msgid "Cost Types"
 msgstr "Kostenarten"
 
@@ -6001,7 +6025,7 @@ msgid "Credit Limit Crossed"
 msgstr "Kreditlimit überschritten"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:191
+#: onedesk/one/print_blocks.py:192
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Credit Note"
 msgstr "Gutschrift"
@@ -6205,13 +6229,13 @@ msgstr "Eigene Stufen liegen zwischen Benutzer und Manager."
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/src/project/Invoices.vue:31 frontend/src/project/Money.vue:22
+#: frontend/src/project/Invoices.vue:31 frontend/src/project/Money.vue:23
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_project/ai.py:886 onedesk/one_project/tree.py:200
+#: onedesk/one_project/ai.py:983 onedesk/one_project/tree.py:200
 #: onedesk/public/js/project_actions.js:717
 #: onedesk/public/js/project_actions.js:790 onedesk/public/js/project_new.js:85
 msgid "Customer"
@@ -6335,22 +6359,23 @@ msgstr "Belegte Datenbank"
 
 #. Label of the date (Date) field in DocType 'Reading Date'
 #: frontend/src/project/Invoices.vue:32 frontend/src/project/Suppliers.vue:92
-#: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:29
+#: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:30
 #: onedesk/one/portal.py:330 onedesk/one/portal.py:331
 #: onedesk/one/portal.py:433 onedesk/one/print_blocks.py:32
 #: onedesk/one/print_blocks.py:34 onedesk/one/print_blocks.py:39
 #: onedesk/one/print_blocks.py:45 onedesk/one/print_blocks.py:49
 #: onedesk/one/print_blocks.py:50 onedesk/one/print_blocks.py:52
-#: onedesk/one/print_blocks.py:58 onedesk/one/print_blocks.py:405
-#: onedesk/one/print_blocks.py:459 onedesk/one/settings.py:1558
+#: onedesk/one/print_blocks.py:58 onedesk/one/print_blocks.py:406
+#: onedesk/one/print_blocks.py:460 onedesk/one/print_blocks.py:491
+#: onedesk/one/settings.py:1558
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:129
 #: onedesk/one_intake/bundle.py:76
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/report/deadlines/deadlines.py:34
-#: onedesk/public/js/onemail.js:803 onedesk/public/js/overtime.js:25
-#: onedesk/public/js/project_actions.js:404 onedesk/public/js/settings.js:1618
-#: onedesk/public/js/settings.js:1751
+#: onedesk/one_project/ai.py:682 onedesk/public/js/onemail.js:803
+#: onedesk/public/js/overtime.js:25 onedesk/public/js/project_actions.js:404
+#: onedesk/public/js/settings.js:1618 onedesk/public/js/settings.js:1751
 msgid "Date"
 msgstr "Datum"
 
@@ -6402,7 +6427,7 @@ msgstr "Arbeitsbeginn"
 msgid "Day {0}"
 msgstr "Tag {0}"
 
-#: onedesk/one_project/ai.py:803
+#: onedesk/one_project/ai.py:900
 msgid "Day {0} · {1} days"
 msgstr "Tag {0} · {1} Tage"
 
@@ -6506,7 +6531,7 @@ msgstr "Hallo {applicant}, wir erinnern Sie an Ihr Vorstellungsgespräch am {whe
 msgid "Dear {applicant}, your interview has moved from {was} to {when}."
 msgstr "Hallo {applicant}, Ihr Vorstellungsgespräch wurde von {was} auf {when} verschoben."
 
-#: onedesk/one/print_blocks.py:193
+#: onedesk/one/print_blocks.py:194
 msgid "Debit Note"
 msgstr ""
 
@@ -6878,6 +6903,11 @@ msgstr ""
 msgid "Departments"
 msgstr "Abteilungen"
 
+#: frontend/src/project/TaskPanel.vue:59
+#: onedesk/public/js/project_actions.js:823
+msgid "Depends On"
+msgstr ""
+
 #. Label of the cloudflare_deployed (Small Text) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -7083,7 +7113,7 @@ msgstr "{0} trennen? Die Dateien auf dem Server bleiben unverändert."
 msgid "Disconnected"
 msgstr "Getrennt"
 
-#: onedesk/one/portal.py:369 onedesk/one/print_blocks.py:270
+#: onedesk/one/portal.py:369 onedesk/one/print_blocks.py:271
 msgid "Discount"
 msgstr ""
 
@@ -7320,7 +7350,7 @@ msgstr "Download-Größe"
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "Zuerst herunterladen. Nach dem Schließen des Arbeitsbereichs kann nichts mehr exportiert werden."
 
-#: frontend/src/project/Time.vue:88
+#: frontend/src/project/Time.vue:90
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 msgid "Draft"
 msgstr "Entwurf"
@@ -7472,7 +7502,7 @@ msgstr "Fällig"
 
 #. Label of the 'expected_end_date' field in DocType 'Project'
 #. Label of the due_date (Date) field in DocType 'Cloud File Request'
-#: frontend/src/project/ProjectPage.vue:188 onedesk/one/print_blocks.py:40
+#: frontend/src/project/ProjectPage.vue:205 onedesk/one/print_blocks.py:40
 #: onedesk/one_project/ai.py:635 onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/onecloud.js:1657 onedesk/public/js/project_actions.js:645
@@ -7665,7 +7695,7 @@ msgstr "Jede verbraucht OneAI-Credits."
 msgid "Each workspace is billed on its own, so each has its own card."
 msgstr "Jeder Arbeitsbereich wird einzeln abgerechnet, daher hat jeder seine eigene Karte."
 
-#: frontend/src/project/Money.vue:148
+#: frontend/src/project/Money.vue:164
 msgid "Earned"
 msgstr "Verdient"
 
@@ -7868,7 +7898,7 @@ msgstr "Emirat"
 #. Label of a Sidebar Item
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one/print_blocks.py:77 onedesk/one/print_blocks.py:80
-#: onedesk/one_hr/custom/expense_claim.json
+#: onedesk/one/print_blocks.py:491 onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -8099,7 +8129,7 @@ msgstr "Vor {0} Tagen beendet"
 
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/one_crm/heads.py:211 onedesk/one_project/ai.py:888
+#: onedesk/one_crm/heads.py:211 onedesk/one_project/ai.py:985
 #: onedesk/public/js/project_new.js:154
 msgid "Ends"
 msgstr "Endet"
@@ -8583,7 +8613,7 @@ msgstr "Ausklappen"
 msgid "Expected End"
 msgstr "Voraussichtliches Ende"
 
-#: onedesk/public/js/timesheet.js:54
+#: onedesk/public/js/timesheet.js:65
 msgid "Expected Hrs"
 msgstr ""
 
@@ -8634,7 +8664,7 @@ msgstr "Auslagenübersicht"
 msgid "Expenses"
 msgstr ""
 
-#: onedesk/one_project/billing.py:503
+#: onedesk/one_project/billing.py:498
 msgid "Expenses · {0}"
 msgstr "Auslagen · {0}"
 
@@ -9053,7 +9083,7 @@ msgstr "Abgelegt bei {0}"
 #. Label of the files (Code) field in DocType 'AI Proposal'
 #. Label of the items (Table) field in DocType 'Cloud File Request'
 #. Label of a Sidebar Item
-#: frontend/src/project/Files.vue:10 frontend/src/project/ProjectPage.vue:172
+#: frontend/src/project/Files.vue:10 frontend/src/project/ProjectPage.vue:189
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/namespace.py:21
@@ -9514,20 +9544,20 @@ msgstr "Für deine Organisation"
 msgid "For {0}"
 msgstr ""
 
-#: frontend/src/project/Money.vue:17
+#: frontend/src/project/Money.vue:18
 msgid "Forecast"
 msgstr "Prognose"
 
-#: frontend/src/project/Money.vue:138 frontend/src/project/Money.vue:171
+#: frontend/src/project/Money.vue:154 frontend/src/project/Money.vue:187
 msgid "Forecast Cost"
 msgstr "Prognostizierte Kosten"
 
-#: frontend/src/project/Money.vue:152 frontend/src/project/Money.vue:177
+#: frontend/src/project/Money.vue:168 frontend/src/project/Money.vue:193
 #: frontend/src/project/Overview.vue:154 onedesk/one_project/heads.py:220
 msgid "Forecast Margin"
 msgstr "Prognostizierte Marge"
 
-#: onedesk/one_project/view.py:574
+#: onedesk/one_project/view.py:582
 msgid "Forecast over by {0}"
 msgstr "Prognose um {0} darüber"
 
@@ -9833,6 +9863,10 @@ msgstr "Aufgeben nach"
 msgid "Give a subject or a mail template"
 msgstr "Gib einen Betreff oder eine Mailvorlage an"
 
+#: onedesk/one_project/progress.py:97 onedesk/one_project/progress.py:102
+msgid "Give each line a share done between 0 and 100, and at least one above 0."
+msgstr "Gib jeder Zeile einen erledigten Anteil zwischen 0 und 100, und mindestens einer über 0."
+
 #: onedesk/one/masters.py:193 onedesk/one/masters.py:234
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
@@ -9861,7 +9895,7 @@ msgstr "Geben Sie der Regel einen Namen."
 msgid "Give the supplier, the company or the contact."
 msgstr "Geben Sie den Lieferanten, das Unternehmen oder den Kontakt an."
 
-#: onedesk/one_project/hours.py:331
+#: onedesk/one_project/hours.py:365
 msgid "Give the time a number of hours."
 msgstr "Geben Sie die Stundenzahl an."
 
@@ -10031,7 +10065,7 @@ msgstr ""
 msgid "Grievance Types"
 msgstr "Beschwerdearten"
 
-#: onedesk/one/print_blocks.py:364
+#: onedesk/one/print_blocks.py:365
 msgid "Gross Pay"
 msgstr ""
 
@@ -10058,12 +10092,12 @@ msgstr "Gruppe"
 msgid "Group By"
 msgstr "Gruppieren nach"
 
-#: frontend/src/project/ProjectPage.vue:348 onedesk/public/js/project.js:26
+#: frontend/src/project/ProjectPage.vue:365 onedesk/public/js/project.js:26
 #: onedesk/public/js/project_actions.js:33
 msgid "Group Under New Project"
 msgstr "Unter neuem Projekt gruppieren"
 
-#: frontend/src/project/ProjectPage.vue:26 frontend/src/project/Time.vue:17
+#: frontend/src/project/ProjectPage.vue:26 frontend/src/project/Time.vue:18
 msgid "Group by {0}"
 msgstr "Gruppieren nach {0}"
 
@@ -10374,12 +10408,13 @@ msgstr "Start"
 #. Label of the one_when (Data) field in DocType 'Shift Request'
 #. Label of the 'total_hours' field in DocType 'Timesheet'
 #. Label in the One Timesheet print format
-#: frontend/src/project/Overview.vue:24 frontend/src/project/Time.vue:33
+#: frontend/src/project/Overview.vue:24 frontend/src/project/Time.vue:34
 #: frontend/src/template/Tasks.vue:11 frontend/src/template/Tasks.vue:77
 #: onedesk/one/portal.py:68 onedesk/one/print_blocks.py:60
-#: onedesk/one_hr/custom/shift_request.json
+#: onedesk/one/print_blocks.py:491 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/custom/timesheet.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:141
+#: onedesk/one_project/ai.py:680
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/project_actions.js:405
 msgid "Hours"
@@ -10521,10 +10556,6 @@ msgstr "Wie funktioniert Mail hier?"
 #: onedesk/public/js/outside.js:95
 msgid "How does this page work?"
 msgstr "Wie funktioniert diese Seite?"
-
-#: onedesk/one_project/progress.py:97 onedesk/one_project/progress.py:102
-msgid "How far the work has got is a share between 1 and 100."
-msgstr "Der Fortschritt ist ein Anteil zwischen 1 und 100."
 
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
@@ -10746,7 +10777,7 @@ msgstr "Ich bin abwesend und antworte, wenn ich zurück bin."
 
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the iban (Data) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:344
+#: onedesk/one/print_blocks.py:345
 #: onedesk/one_book/report/books_check/books_check.js:13
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -10986,8 +11017,8 @@ msgstr "In Ihren Vorlagen"
 
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:332
 #: onedesk/one_admin/heads.py:197 onedesk/one_project/heads.py:78
-#: onedesk/one_project/portal.py:146 onedesk/one_project/view.py:402
-#: onedesk/one_project/view.py:617
+#: onedesk/one_project/portal.py:146 onedesk/one_project/view.py:410
+#: onedesk/one_project/view.py:625
 msgid "In {0} days"
 msgstr "In {0} Tagen"
 
@@ -11379,14 +11410,14 @@ msgstr "Den Inhaber einladen"
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Invoices.vue:30 onedesk/one/print_blocks.py:17
-#: onedesk/one/print_blocks.py:459
+#: onedesk/one/print_blocks.py:460
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "Invoice"
 msgstr "Rechnung"
 
 #: frontend/src/project/Invoices.vue:17 frontend/src/project/Months.vue:19
-#: frontend/src/project/ProjectPage.vue:361 onedesk/public/js/project.js:31
+#: frontend/src/project/ProjectPage.vue:378 onedesk/public/js/project.js:31
 #: onedesk/public/js/project_actions.js:541
 msgid "Invoice Month"
 msgstr "Monat fakturieren"
@@ -11400,7 +11431,7 @@ msgid "Invoice Number"
 msgstr "Rechnungsnummer"
 
 #: frontend/src/project/Overview.vue:59
-#: frontend/src/project/ProjectPage.vue:359 frontend/src/project/Time.vue:207
+#: frontend/src/project/ProjectPage.vue:376 frontend/src/project/Time.vue:223
 #: onedesk/public/js/project.js:33 onedesk/public/js/project_actions.js:118
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
@@ -11414,23 +11445,23 @@ msgstr "Rechnung {0}"
 msgid "Invoice {project} for last month"
 msgstr "{project} für den letzten Monat abrechnen"
 
-#: frontend/src/project/Invoices.vue:119 frontend/src/project/Money.vue:160
-#: frontend/src/project/Overview.vue:156 frontend/src/project/Time.vue:90
-#: frontend/src/project/Time.vue:209 onedesk/one_project/money.py:154
+#: frontend/src/project/Invoices.vue:119 frontend/src/project/Money.vue:176
+#: frontend/src/project/Overview.vue:156 frontend/src/project/Time.vue:92
+#: frontend/src/project/Time.vue:225 onedesk/one_project/money.py:154
 msgid "Invoiced"
 msgstr "In Rechnung gestellt"
 
-#: frontend/src/project/Money.vue:182
+#: frontend/src/project/Money.vue:198
 msgid "Invoiced less spent"
 msgstr "Fakturiert abzüglich Ausgaben"
 
-#: frontend/src/project/Money.vue:148 frontend/src/project/Money.vue:168
+#: frontend/src/project/Money.vue:164 frontend/src/project/Money.vue:184
 msgid "Invoiced {0}"
 msgstr "Berechnet {0}"
 
 #. Label of a Sidebar Item
 #: frontend/src/project/Invoices.vue:12
-#: frontend/src/project/ProjectPage.vue:169 onedesk/one/print_blocks.py:449
+#: frontend/src/project/ProjectPage.vue:186 onedesk/one/print_blocks.py:450
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/public/js/settings.js:1550 onedesk/public/js/tenant.js:21
 #: onedesk/templates/includes/one_account_tabs.html:4
@@ -11930,7 +11961,7 @@ msgstr "Auftakt-Workshop"
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/ai.py:885 onedesk/one_project/custom/project.json
+#: onedesk/one_project/ai.py:982 onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/project_new.js:189 onedesk/public/js/project_new.js:292
 msgid "Kind"
@@ -12438,7 +12469,7 @@ msgstr "Austritt"
 msgid "Ledger"
 msgstr ""
 
-#: frontend/src/project/Money.vue:42 frontend/src/project/Money.vue:139
+#: frontend/src/project/Money.vue:43 frontend/src/project/Money.vue:155
 #: frontend/src/project/Overview.vue:216 onedesk/public/js/settings.js:2260
 msgid "Left"
 msgstr "Übrig"
@@ -12813,7 +12844,7 @@ msgstr "Gesperrt bis {0}"
 msgid "Log"
 msgstr ""
 
-#: frontend/src/project/Time.vue:19 onedesk/public/js/project_actions.js:402
+#: frontend/src/project/Time.vue:20 onedesk/public/js/project_actions.js:402
 #: onedesk/public/js/project_actions.js:444
 msgid "Log Time"
 msgstr "Zeit erfassen"
@@ -12831,7 +12862,11 @@ msgstr "Anruf erfassen"
 msgid "Log in to create a calendar link."
 msgstr "Melden Sie sich an, um einen Kalenderlink zu erstellen."
 
-#: frontend/src/project/TaskPanel.vue:39 frontend/src/project/Time.vue:191
+#: onedesk/one_project/ai.py:687
+msgid "Log {0} h on {1}"
+msgstr "{0} h in {1} erfassen"
+
+#: frontend/src/project/TaskPanel.vue:39 frontend/src/project/Time.vue:207
 msgid "Logged"
 msgstr "Erfasst"
 
@@ -13169,8 +13204,8 @@ msgstr ""
 
 #: frontend/src/project/MilestoneLanes.vue:86
 #: frontend/src/project/Overview.vue:375
-#: frontend/src/project/ProjectPage.vue:277
-#: frontend/src/project/ProjectPage.vue:282
+#: frontend/src/project/ProjectPage.vue:294
+#: frontend/src/project/ProjectPage.vue:299
 msgctxt "Project"
 msgid "Main"
 msgstr "Hauptteil"
@@ -13219,7 +13254,7 @@ msgstr "Zur Hauptadresse machen"
 msgid "Make Member"
 msgstr "Zum Mitglied machen"
 
-#: frontend/src/project/ProjectPage.vue:355
+#: frontend/src/project/ProjectPage.vue:372
 msgid "Make Order"
 msgstr "Auftrag erstellen"
 
@@ -13314,7 +13349,7 @@ msgstr "Marge"
 msgid "Margin %"
 msgstr "Marge %"
 
-#: frontend/src/project/Money.vue:126 frontend/src/project/Money.vue:182
+#: frontend/src/project/Money.vue:128 frontend/src/project/Money.vue:198
 #: onedesk/one_project/heads.py:219
 msgid "Margin So Far"
 msgstr "Bisherige Marge"
@@ -13672,7 +13707,7 @@ msgid "Milestone Done"
 msgstr "Meilenstein erreicht"
 
 #: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:70
-#: onedesk/one/print_blocks.py:433 onedesk/www/projects.html:90
+#: onedesk/one/print_blocks.py:434 onedesk/www/projects.html:90
 msgid "Milestones"
 msgstr "Meilensteine"
 
@@ -13758,7 +13793,7 @@ msgstr "Geändert"
 #: frontend/src/project/Money.vue:9 frontend/src/project/Overview.vue:42
 #: frontend/src/project/Overview.vue:88
 #: frontend/src/project/ProjectActivity.vue:114
-#: frontend/src/project/ProjectPage.vue:168
+#: frontend/src/project/ProjectPage.vue:185
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Money"
@@ -13789,8 +13824,8 @@ msgid "Monthly Credits"
 msgstr "Monatliches Guthaben"
 
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
-#: frontend/src/project/Money.vue:159 frontend/src/project/Overview.vue:155
-#: onedesk/one_project/ai.py:903 onedesk/one_project/custom/project.json
+#: frontend/src/project/Money.vue:175 frontend/src/project/Overview.vue:155
+#: onedesk/one_project/ai.py:1000 onedesk/one_project/custom/project.json
 #: onedesk/public/js/project_new.js:141
 msgid "Monthly Fee"
 msgstr "Monatliche Gebühr"
@@ -14167,7 +14202,7 @@ msgstr "Netto 30 Tage"
 msgid "Net 45"
 msgstr "Netto 45 Tage"
 
-#: onedesk/one/print_blocks.py:366
+#: onedesk/one/print_blocks.py:367
 msgid "Net Pay"
 msgstr ""
 
@@ -14422,7 +14457,7 @@ msgstr "Newsletter"
 msgid "Newsletters"
 msgstr "Newsletter"
 
-#: frontend/src/project/Media.vue:11 onedesk/one/print_blocks.py:435
+#: frontend/src/project/Media.vue:11 onedesk/one/print_blocks.py:436
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400
 #: onedesk/public/js/project_actions.js:619
@@ -14519,7 +14554,7 @@ msgstr "Als Nächstes: {0}"
 #. Label in the One Request for Quotation print format
 #. Label in the One Timesheet print format
 #: onedesk/one/ai.py:2722 onedesk/one/ai.py:2725 onedesk/one/ai.py:3853
-#: onedesk/one/ai.py:4073 onedesk/one/print_blocks.py:189
+#: onedesk/one/ai.py:4073 onedesk/one/print_blocks.py:190
 #: onedesk/one_ai/chat.py:750
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -14591,7 +14626,7 @@ msgid "No active sessions"
 msgstr "Keine aktiven Sitzungen"
 
 #: frontend/src/project/ProjectActivity.vue:17
-#: frontend/src/project/Time.vue:145
+#: frontend/src/project/Time.vue:147
 msgid "No activity"
 msgstr "Keine Tätigkeit"
 
@@ -14623,7 +14658,7 @@ msgstr "Keine Automatisierungen"
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr "In {0} wartet keine abrechenbare Zeit auf eine Rechnung."
 
-#: frontend/src/project/Money.vue:173 onedesk/one_project/view.py:482
+#: frontend/src/project/Money.vue:189 onedesk/one_project/view.py:490
 msgid "No budget"
 msgstr "Kein Budget"
 
@@ -14651,11 +14686,11 @@ msgstr "Keine Unterhaltung ausgewählt"
 msgid "No conversations"
 msgstr "Keine Unterhaltungen"
 
-#: frontend/src/project/Money.vue:35 frontend/src/project/Overview.vue:46
+#: frontend/src/project/Money.vue:36 frontend/src/project/Overview.vue:46
 msgid "No cost types"
 msgstr "Keine Kostenarten"
 
-#: frontend/src/project/Money.vue:26
+#: frontend/src/project/Money.vue:27
 msgid "No costs yet"
 msgstr "Noch keine Kosten"
 
@@ -14673,7 +14708,7 @@ msgstr "Kein Kunde. Ein Budget und die Arbeit."
 msgid "No date"
 msgstr "Kein Datum"
 
-#: frontend/src/project/Time.vue:25
+#: frontend/src/project/Time.vue:26
 msgid "No days on site"
 msgstr "Keine Tage vor Ort"
 
@@ -14954,7 +14989,7 @@ msgstr "Keine Regeln."
 msgid "No salary slips yet for {0} to {1}."
 msgstr "Noch keine Gehaltsabrechnungen für {0} bis {1}."
 
-#: frontend/src/project/Money.vue:23
+#: frontend/src/project/Money.vue:24
 msgid "No sales yet"
 msgstr "Noch keine Verkäufe"
 
@@ -14994,7 +15029,7 @@ msgstr "Keine Unteraufträge"
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
 
-#: frontend/src/project/Time.vue:146
+#: frontend/src/project/Time.vue:148
 msgid "No task"
 msgstr "Keine Aufgabe"
 
@@ -15030,7 +15065,7 @@ msgstr "Keine Steuervorlagen, daher wird nichts berechnet. Legen Sie eine an, we
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr "Keine Vorlage ist Standard, daher wird nichts berechnet, solange niemand eine wählt."
 
-#: frontend/src/project/Time.vue:25
+#: frontend/src/project/Time.vue:26
 msgid "No time logged"
 msgstr "Keine Zeit erfasst"
 
@@ -15066,7 +15101,7 @@ msgstr "Es ist kein {0}-Bucket eingerichtet."
 msgid "No."
 msgstr ""
 
-#: frontend/src/project/Time.vue:144 onedesk/one_inventory/heads.py:152
+#: frontend/src/project/Time.vue:146 onedesk/one_inventory/heads.py:152
 msgid "Nobody"
 msgstr "Niemand"
 
@@ -15090,7 +15125,7 @@ msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt
 msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
 
-#: frontend/src/project/Time.vue:98 onedesk/one/ai.py:2707
+#: frontend/src/project/Time.vue:100 onedesk/one/ai.py:2707
 #: onedesk/one/ai_setup.py:132 onedesk/public/js/settings.js:2350
 msgid "None"
 msgstr "Keine"
@@ -15124,7 +15159,7 @@ msgstr "Normal"
 msgid "Not Agreed"
 msgstr "Nicht zugestimmt"
 
-#: frontend/src/project/Time.vue:91
+#: frontend/src/project/Time.vue:93
 msgid "Not Billable"
 msgstr "Nicht abrechenbar"
 
@@ -15251,7 +15286,7 @@ msgstr "Nicht gelöscht"
 msgid "Not found"
 msgstr "Nicht gefunden"
 
-#: frontend/src/project/Money.vue:50
+#: frontend/src/project/Money.vue:51
 msgid "Not in a cost type"
 msgstr "In keiner Kostenart"
 
@@ -15284,7 +15319,7 @@ msgstr "Nicht erfasst"
 msgid "Not offered"
 msgstr "Nicht angeboten"
 
-#: onedesk/one_project/view.py:363
+#: onedesk/one_project/view.py:371
 msgid "Not ordered yet"
 msgstr "Noch nicht beauftragt"
 
@@ -15399,7 +15434,7 @@ msgstr "Noch nicht"
 #: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/heads.py:151 onedesk/one_hr/heads.py:522
-#: onedesk/one_project/ai.py:703
+#: onedesk/one_project/ai.py:791
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
@@ -15427,7 +15462,7 @@ msgstr "Nichts Neues"
 msgid "Nothing asked yet. Ask something about what is on screen, or anything else."
 msgstr "Noch nichts gefragt. Fragen Sie zu dem, was auf dem Bildschirm steht, oder zu etwas anderem."
 
-#: frontend/src/project/Money.vue:69
+#: frontend/src/project/Money.vue:70
 msgid "Nothing booked yet"
 msgstr "Noch nichts gebucht"
 
@@ -15925,11 +15960,11 @@ msgstr "In der Liste {0}"
 msgid "On trial"
 msgstr "In der Testphase"
 
-#: frontend/src/project/Time.vue:206
+#: frontend/src/project/Time.vue:222
 msgid "On {0}"
 msgstr "Zu {0}"
 
-#: onedesk/one_project/view.py:373
+#: onedesk/one_project/view.py:381
 msgid "On {0}'s order"
 msgstr "Im Auftrag von {0}"
 
@@ -16541,6 +16576,10 @@ msgstr "Nur HR-Manager können den Ton eines aufgezeichneten Gesprächs löschen
 msgid "Only an HR Manager can mark a grievance as not sensitive."
 msgstr "Nur HR-Manager können eine Beschwerde als nicht sensibel markieren."
 
+#: onedesk/one_project/budget.py:184
+msgid "Only an accounts user sets a budget for a cost centre. Set this one against a project."
+msgstr "Nur ein Buchhaltungsbenutzer legt ein Budget für eine Kostenstelle fest. Lege dieses für ein Projekt fest."
+
 #: onedesk/one/reports.py:244
 msgid "Only an administrator can show it to everyone."
 msgstr "Nur ein Administrator kann ihn für alle anzeigen."
@@ -16666,10 +16705,6 @@ msgstr "Nur wer {0} bearbeiten darf, kann das ändern."
 #: onedesk/public/js/settings.js:1671
 msgid "Only the billing owner sees this."
 msgstr "Nur der Rechnungsinhaber sieht dies."
-
-#: onedesk/one_project/budget.py:184
-msgid "Only the books set a budget for a cost centre. Set this one against a project."
-msgstr "Nur die Buchhaltung legt ein Budget für eine Kostenstelle fest. Legen Sie dieses für ein Projekt fest."
 
 #: onedesk/one/ai_setup.py:607
 msgid "Only the five everyone has"
@@ -16817,7 +16852,7 @@ msgstr "Datensatz öffnen"
 msgid "Open {0}"
 msgstr "{0} öffnen"
 
-#: frontend/src/project/Time.vue:63
+#: frontend/src/project/Time.vue:64
 msgid "Open {0} Older Entries"
 msgstr "{0} ältere Einträge öffnen"
 
@@ -16874,7 +16909,7 @@ msgstr ""
 msgid "Optional. The person who asked will see it."
 msgstr "Optional. Die antragstellende Person sieht es."
 
-#: onedesk/public/js/timesheet.js:55
+#: onedesk/public/js/timesheet.js:66
 msgid "Optional. The timer says so when it runs past this."
 msgstr "Optional. Der Timer meldet sich, wenn er darüber läuft."
 
@@ -16944,7 +16979,7 @@ msgid "Order long-lead items"
 msgstr "Artikel mit langer Lieferzeit bestellen"
 
 #. Label of the 'total_sales_amount' field in DocType 'Project'
-#: frontend/src/project/Money.vue:147 frontend/src/project/Suppliers.vue:202
+#: frontend/src/project/Money.vue:163 frontend/src/project/Suppliers.vue:202
 #: onedesk/one_project/custom/project.json onedesk/one_project/money.py:152
 #: onedesk/one_project/money.py:167 onedesk/public/js/progress.js:83
 msgid "Ordered"
@@ -16999,7 +17034,7 @@ msgstr "Original"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
-#: frontend/src/project/Money.vue:213 frontend/src/project/Overview.vue:208
+#: frontend/src/project/Money.vue:229 frontend/src/project/Overview.vue:208
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:69
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:97
@@ -17012,7 +17047,7 @@ msgstr "Original"
 #: onedesk/one_intake/report/spending/spending.py:22
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
-#: onedesk/one_project/view.py:1091 onedesk/one_project/view.py:1271
+#: onedesk/one_project/view.py:1099 onedesk/one_project/view.py:1279
 #: onedesk/public/js/oneai/Panel.vue:583
 msgid "Other"
 msgstr "Sonstige"
@@ -17138,7 +17173,7 @@ msgid "Output Tokens"
 msgstr "Ausgabe-Token"
 
 #: frontend/src/project/Invoices.vue:36 frontend/src/project/Invoices.vue:122
-#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:459
+#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:460
 #: onedesk/one_book/heads.py:323
 msgid "Outstanding"
 msgstr "Offen"
@@ -17234,7 +17269,7 @@ msgid "Overtime recorded by hand: {0} hours, {1}."
 msgstr "Überstunden von Hand erfasst: {0} Stunden, {1}."
 
 #. Label of a Sidebar Item
-#: frontend/src/project/ProjectPage.vue:164
+#: frontend/src/project/ProjectPage.vue:181
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Overview"
 msgstr "Übersicht"
@@ -17265,8 +17300,6 @@ msgid "Owing"
 msgstr "Offen"
 
 #. Label of the owner_email (Data) field in DocType 'Tenant'
-#: frontend/src/project/ProjectPage.vue:188
-#: frontend/src/project/TaskPanel.vue:25 frontend/src/project/Tasks.vue:19
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/public/js/onecloud.js:667 onedesk/public/js/onecloud.js:735
 #: onedesk/public/js/onecloud.js:1351 onedesk/public/js/onecloud.js:1503
@@ -17314,11 +17347,11 @@ msgstr "Seiten"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: frontend/src/project/Invoices.vue:120 frontend/src/project/Suppliers.vue:204
 #: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:386
-#: onedesk/one/print_blocks.py:281 onedesk/one_admin/accounts.py:216
+#: onedesk/one/print_blocks.py:282 onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:325
 #: onedesk/one_project/money.py:162 onedesk/one_project/money.py:173
-#: onedesk/one_project/view.py:429 onedesk/public/js/settings.js:1744
+#: onedesk/one_project/view.py:437 onedesk/public/js/settings.js:1744
 #: onedesk/www/projects.html:155
 msgid "Paid"
 msgstr "Bezahlt"
@@ -17349,7 +17382,7 @@ msgid "Paid On"
 msgstr "Bezahlt am"
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:213
+#: onedesk/one/print_blocks.py:214
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Paid To"
 msgstr "Gezahlt an"
@@ -17371,7 +17404,7 @@ msgstr "Im Voraus bezahlt"
 msgid "Paid under"
 msgstr "Vergütet nach"
 
-#: onedesk/one_project/view.py:433
+#: onedesk/one_project/view.py:441
 msgid "Paid {0}"
 msgstr "Bezahlt {0}"
 
@@ -17417,13 +17450,16 @@ msgstr "Malerarbeiten"
 msgid "Parent Project"
 msgstr "Übergeordnetes Projekt"
 
+#: frontend/src/project/TaskPanel.vue:55
+msgid "Parent Task"
+msgstr ""
+
 #. Label of the part (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Part"
 msgstr "Teil"
 
 #. Label of the part_of (Link) field in DocType 'Reading'
-#: frontend/src/project/TaskPanel.vue:55
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/task_new.js:31
 msgid "Part Of"
@@ -17556,7 +17592,7 @@ msgstr "Passwörter laufen ab nach (Tagen)"
 msgid "Past Due"
 msgstr "Überfällig"
 
-#: onedesk/public/js/timesheet.js:107
+#: onedesk/public/js/timesheet.js:118
 msgid "Past the expected hours."
 msgstr "Über den veranschlagten Stunden."
 
@@ -17601,7 +17637,7 @@ msgstr "Anzahlung leisten"
 msgid "Pay Retention"
 msgstr "Einbehalt zahlen"
 
-#: onedesk/one/print_blocks.py:348
+#: onedesk/one/print_blocks.py:349
 msgid "Pay To"
 msgstr "Zahlung an"
 
@@ -17609,7 +17645,7 @@ msgstr "Zahlung an"
 msgid "Pay it from Payment Method so the workspace stays open."
 msgstr "Bezahlen Sie sie unter Zahlungsmethode, damit der Arbeitsbereich offen bleibt."
 
-#: onedesk/one_project/view.py:951
+#: onedesk/one_project/view.py:959
 msgid "Pay retention to {0}"
 msgstr "Einbehalt an {0} zahlen"
 
@@ -17629,7 +17665,7 @@ msgstr "Zahlen Sie innerhalb von {0} Tagen, um die Löschung zu vermeiden."
 msgid "Pay within {0} days to avoid suspension."
 msgstr "Zahlen Sie innerhalb von {0} Tagen, um die Sperrung zu vermeiden."
 
-#: onedesk/one_project/view.py:951 onedesk/www/order.html:37
+#: onedesk/one_project/view.py:959 onedesk/www/order.html:37
 msgid "Pay {0}"
 msgstr "{0} bezahlen"
 
@@ -17659,7 +17695,7 @@ msgstr "Zahlung läuft"
 msgid "Payload"
 msgstr "Nutzdaten"
 
-#: onedesk/one/print_blocks.py:197 onedesk/public/js/intake.js:154
+#: onedesk/one/print_blocks.py:198 onedesk/public/js/intake.js:154
 #: onedesk/public/js/intake.js:165
 msgid "Payment"
 msgstr "Zahlung"
@@ -17673,7 +17709,7 @@ msgstr "Zahlungsavis"
 msgid "Payment Method"
 msgstr "Zahlungsart"
 
-#: onedesk/one/print_blocks.py:197
+#: onedesk/one/print_blocks.py:198
 msgid "Payment No"
 msgstr "Zahlungs-Nr."
 
@@ -17693,7 +17729,7 @@ msgstr "Verwendungszweck"
 msgid "Payment Reminder"
 msgstr "Zahlungserinnerung"
 
-#: onedesk/one/print_blocks.py:313
+#: onedesk/one/print_blocks.py:314
 msgid "Payment Schedule"
 msgstr ""
 
@@ -17925,7 +17961,7 @@ msgstr "Pro Platz"
 msgid "Per Workspace"
 msgstr "Pro Arbeitsbereich"
 
-#: onedesk/one/print_blocks.py:246
+#: onedesk/one/print_blocks.py:247
 msgid "Period"
 msgstr ""
 
@@ -17954,8 +17990,8 @@ msgstr "Berechtigungen"
 
 #. Label of the user (Link) field in DocType 'Push Device'
 #. Option for the 'Kind' (Select) field in DocType 'Face'
-#: frontend/src/project/Team.vue:24 frontend/src/project/Time.vue:30
-#: frontend/src/project/Time.vue:98
+#: frontend/src/project/Team.vue:24 frontend/src/project/Time.vue:31
+#: frontend/src/project/Time.vue:100
 #: onedesk/one/doctype/push_device/push_device.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
 #: onedesk/one_mail/doctype/face/face.json
@@ -18087,7 +18123,7 @@ msgstr "Wählen Sie zuerst den Kunden des Projekts."
 msgid "Pick the role."
 msgstr "Wählen Sie die Rolle."
 
-#: onedesk/one_project/hours.py:63
+#: onedesk/one_project/hours.py:96
 msgid "Pick the site."
 msgstr "Wählen Sie den Standort."
 
@@ -18349,7 +18385,7 @@ msgstr "Mögliches Duplikat von {0}."
 msgid "Post"
 msgstr "Posten"
 
-#: frontend/src/project/ProjectPage.vue:362 frontend/src/project/Updates.vue:25
+#: frontend/src/project/ProjectPage.vue:379 frontend/src/project/Updates.vue:25
 #: onedesk/public/js/project.js:75 onedesk/public/js/project.js:77
 #: onedesk/public/js/project_actions.js:305
 msgid "Post Update"
@@ -18695,7 +18731,7 @@ msgid "Profit and Loss"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
-#: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:429
+#: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:430
 #: onedesk/public/js/onecloud.js:364 onedesk/public/js/onecloud.js:666
 #: onedesk/public/js/project_actions.js:755 onedesk/www/projects.html:38
 msgid "Progress"
@@ -18713,10 +18749,10 @@ msgstr "Fortschritt…"
 #. Label of the project (Link) field in DocType 'Material Request'
 #. Label of the project (Link) field in DocType 'Quotation'
 #. Label of the project (Link) field in DocType 'Request for Quotation'
-#: frontend/src/project/ProjectPage.vue:188
-#: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:98
+#: frontend/src/project/ProjectPage.vue:205
+#: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
 #: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:27
-#: onedesk/one/print_blocks.py:254 onedesk/one_book/heads.py:322
+#: onedesk/one/print_blocks.py:255 onedesk/one_book/heads.py:322
 #: onedesk/one_crm/heads.py:201 onedesk/one_crm/heads.py:209
 #: onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
@@ -18729,7 +18765,7 @@ msgstr "Fortschritt…"
 #: onedesk/public/js/project_actions.js:424
 #: onedesk/public/js/project_actions.js:639
 #: onedesk/public/js/project_list.js:204 onedesk/public/js/project_tree.js:32
-#: onedesk/public/js/task_new.js:19 onedesk/public/js/timesheet.js:49
+#: onedesk/public/js/task_new.js:19 onedesk/public/js/timesheet.js:60
 msgid "Project"
 msgstr "Projekt"
 
@@ -20084,7 +20120,7 @@ msgstr "Vertrag verlängern"
 msgid "Renew the {0} of {1}"
 msgstr "{0} von {1} erneuern"
 
-#: onedesk/one_project/view.py:536
+#: onedesk/one_project/view.py:544
 msgid "Renews {0}"
 msgstr "Verlängert sich am {0}"
 
@@ -20407,12 +20443,12 @@ msgid "Results in {0}"
 msgstr "Ergebnisse in {0}"
 
 #: onedesk/one_admin/heads.py:633 onedesk/one_admin/home.py:125
-#: onedesk/public/js/timesheet.js:75
+#: onedesk/public/js/timesheet.js:86
 msgid "Resume"
 msgstr "Fortsetzen"
 
 #: onedesk/public/js/timesheet.js:23 onedesk/public/js/timesheet.js:27
-#: onedesk/public/js/timesheet.js:40
+#: onedesk/public/js/timesheet.js:51
 msgid "Resume Timer"
 msgstr ""
 
@@ -20474,7 +20510,7 @@ msgid "Retention Due"
 msgstr "Einbehalt fällig am"
 
 #: frontend/src/project/Suppliers.vue:206 onedesk/one_project/money.py:165
-#: onedesk/one_project/view.py:642
+#: onedesk/one_project/view.py:650
 msgid "Retention Held"
 msgstr "Einbehalten"
 
@@ -20495,7 +20531,7 @@ msgstr "Der Einbehalt für {project} ist heute fällig"
 msgid "Retention still held"
 msgstr "Einbehalt noch einbehalten"
 
-#: onedesk/one/print_blocks.py:195
+#: onedesk/one/print_blocks.py:196
 msgid "Return"
 msgstr "Rückgabe"
 
@@ -20606,7 +20642,7 @@ msgstr "Richtig"
 #. Label of the role (Select) field in DocType 'Project Contact'
 #: frontend/src/project/Team.vue:71
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_project/ai.py:700
+#: onedesk/one_project/ai.py:788
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/onecloud.js:1518 onedesk/public/js/project_actions.js:491
 msgid "Role"
@@ -20634,6 +20670,10 @@ msgstr ""
 #: onedesk/one_hr/doctype/employee_document/employee_document.py:20
 msgid "Row {0}: {1} expires before it was issued."
 msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
+
+#: onedesk/one_project/hours.py:83
+msgid "Row {0}: {1} is not a task on {2}."
+msgstr "Zeile {0}: {1} ist keine Aufgabe in {2}."
 
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label of the rule (Data) field in DocType 'Reading Date'
@@ -20691,7 +20731,7 @@ msgid "Running…"
 msgstr "Wird ausgeführt…"
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_project/ai.py:799 onedesk/one_studio/ai.py:375
+#: onedesk/one_project/ai.py:896 onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
 msgstr "Läuft"
@@ -20727,7 +20767,7 @@ msgstr "SMTP-Port"
 msgid "SMTP Server"
 msgstr "SMTP-Server"
 
-#: onedesk/one/print_blocks.py:345
+#: onedesk/one/print_blocks.py:346
 msgid "SWIFT"
 msgstr "SWIFT"
 
@@ -20850,7 +20890,7 @@ msgstr "Speichern"
 msgid "Save Address"
 msgstr "Adresse speichern"
 
-#: frontend/src/project/ProjectPage.vue:252 onedesk/public/js/project.js:52
+#: frontend/src/project/ProjectPage.vue:269 onedesk/public/js/project.js:52
 #: onedesk/public/js/project_actions.js:71
 msgid "Save as Template"
 msgstr "Als Vorlage speichern"
@@ -21406,7 +21446,7 @@ msgstr "Nächsten Schritt festlegen"
 msgid "Set One up"
 msgstr "One einrichten"
 
-#: frontend/src/project/Time.vue:194
+#: frontend/src/project/Time.vue:210
 msgid "Set Planned Hours"
 msgstr "Geplante Stunden festlegen"
 
@@ -21418,7 +21458,7 @@ msgstr "Hinterlegen Sie die Standardarbeitszeit in den Anwesenheitseinstellungen
 msgid "Set Standard Working Hours in {0} first. Everything here is measured against it."
 msgstr "Hinterlegen Sie zuerst die Standardarbeitszeit in {0}. Alles hier wird daran gemessen."
 
-#: frontend/src/project/Time.vue:218
+#: frontend/src/project/Time.vue:234
 msgid "Set Time Budget"
 msgstr "Zeitbudget festlegen"
 
@@ -21575,7 +21615,7 @@ msgstr "Eingewöhnung"
 msgid "Settled"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:383
+#: onedesk/one/print_blocks.py:384
 msgid "Settles"
 msgstr "Begleicht"
 
@@ -21736,7 +21776,7 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:237
+#: onedesk/one/print_blocks.py:238
 msgid "Ship To"
 msgstr "Versand an"
 
@@ -21768,7 +21808,7 @@ msgstr "Kurz vor einem Interview, an dem du teilnimmst, so lange vorher, wie die
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr "Kurz vor einem Interview, so lange vorher, wie die HR-Einstellungen sagen."
 
-#: frontend/src/project/ProjectPage.vue:273 onedesk/public/js/settings.js:2251
+#: frontend/src/project/ProjectPage.vue:290 onedesk/public/js/settings.js:2251
 #: onedesk/public/js/settings.js:2271
 msgid "Show"
 msgstr ""
@@ -21835,7 +21875,7 @@ msgstr "Bilder anzeigen"
 msgid "Show {0} Earlier"
 msgstr "{0} frühere anzeigen"
 
-#: frontend/src/project/Time.vue:59
+#: frontend/src/project/Time.vue:60
 msgid "Show {0} More"
 msgstr "{0} weitere anzeigen"
 
@@ -21981,7 +22021,7 @@ msgid "Sign-off to go live"
 msgstr "Freigabe für den Livegang"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one/print_blocks.py:405 onedesk/one_ai/chat.py:373
+#: onedesk/one/print_blocks.py:406 onedesk/one_ai/chat.py:373
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/onemail.js:947 onedesk/public/js/onemail.js:1045
 #: onedesk/public/js/settings.js:456 onedesk/public/js/settings.js:485
@@ -22154,7 +22194,7 @@ msgstr "Kleine Bauarbeiten"
 msgid "Snag list and rectification"
 msgstr "Mängelliste und Nachbesserung"
 
-#: frontend/src/project/Money.vue:17
+#: frontend/src/project/Money.vue:18
 msgid "So Far"
 msgstr "Bisher"
 
@@ -22326,7 +22366,7 @@ msgstr "Verbrauch"
 msgid "Spending"
 msgstr "Ausgaben"
 
-#: frontend/src/project/Money.vue:41 frontend/src/project/Money.vue:137
+#: frontend/src/project/Money.vue:42 frontend/src/project/Money.vue:153
 #: frontend/src/project/Overview.vue:216
 #: onedesk/one_intake/report/spending/spending.py:32
 #: onedesk/public/js/credit_ledger_entry_list.js:24
@@ -22402,7 +22442,7 @@ msgstr "Stern"
 msgid "Starred"
 msgstr "Mit Stern"
 
-#: onedesk/public/js/timesheet.js:75
+#: onedesk/public/js/timesheet.js:86
 msgid "Start"
 msgstr ""
 
@@ -22419,7 +22459,7 @@ msgstr "Ausgehend von"
 #: frontend/src/project/TaskPanel.vue:11
 #: onedesk/one_task/page/my_tasks/my_tasks.js:232 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
-#: onedesk/public/js/timesheet.js:40
+#: onedesk/public/js/timesheet.js:51
 msgid "Start Timer"
 msgstr "Timer starten"
 
@@ -22464,7 +22504,7 @@ msgstr "Beginnt bald"
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
 #: frontend/src/project/TaskPanel.vue:29
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/one_project/ai.py:887 onedesk/public/js/project_actions.js:84
+#: onedesk/one_project/ai.py:984 onedesk/public/js/project_actions.js:84
 #: onedesk/public/js/project_new.js:147 onedesk/public/js/task_new.js:39
 msgid "Starts"
 msgstr "Beginnt"
@@ -22542,10 +22582,10 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: frontend/src/project/Facts.vue:8 frontend/src/project/Invoices.vue:34
-#: frontend/src/project/ProjectPage.vue:188
+#: frontend/src/project/ProjectPage.vue:205
 #: frontend/src/project/Suppliers.vue:94 frontend/src/project/Suppliers.vue:148
 #: frontend/src/project/TaskPanel.vue:8 frontend/src/project/Tasks.vue:20
-#: frontend/src/project/Tasks.vue:43 frontend/src/project/Time.vue:35
+#: frontend/src/project/Tasks.vue:43 frontend/src/project/Time.vue:36
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one/portal.py:66 onedesk/one/portal.py:67 onedesk/one/portal.py:68
@@ -22883,7 +22923,7 @@ msgid "Style"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:122
-#: frontend/src/project/ProjectPage.vue:280 onedesk/one/print_blocks.py:438
+#: frontend/src/project/ProjectPage.vue:297 onedesk/one/print_blocks.py:439
 #: onedesk/one_project/heads.py:214 onedesk/one_project/tree.py:198
 #: onedesk/www/projects.html:105
 msgid "Sub-projects"
@@ -22945,7 +22985,7 @@ msgstr "Alle buchen"
 msgid "Submit Matching E-Invoices"
 msgstr "Passende E-Rechnungen buchen"
 
-#: onedesk/one_project/hours.py:306
+#: onedesk/one_project/hours.py:340
 msgid "Submit your timesheet"
 msgstr "Zeiterfassung einreichen"
 
@@ -22979,7 +23019,7 @@ msgstr "Unterauftragsverarbeiter"
 msgid "Subscribe"
 msgstr "Abonnieren"
 
-#: onedesk/one/portal.py:366 onedesk/one/print_blocks.py:268
+#: onedesk/one/portal.py:366 onedesk/one/print_blocks.py:269
 msgid "Subtotal"
 msgstr "Zwischensumme"
 
@@ -23098,7 +23138,7 @@ msgstr "Lieferantenrechnungen bezahlt"
 
 #. Label of a Sidebar Item
 #: frontend/src/project/Overview.vue:84
-#: frontend/src/project/ProjectPage.vue:170
+#: frontend/src/project/ProjectPage.vue:187
 #: frontend/src/project/Suppliers.vue:12
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -23222,7 +23262,7 @@ msgstr "TB"
 msgid "TRN"
 msgstr "Steuernummer (TRN)"
 
-#: frontend/src/project/ProjectPage.vue:157
+#: frontend/src/project/ProjectPage.vue:174
 msgid "Table"
 msgstr "Tabelle"
 
@@ -23284,14 +23324,14 @@ msgstr "Sie werden zu Stripe weitergeleitet…"
 msgid "Target Margin"
 msgstr "Zielmarge"
 
-#: frontend/src/project/Tasks.vue:18 frontend/src/project/Time.vue:32
-#: frontend/src/project/Time.vue:98 frontend/src/project/Timeline.vue:8
+#: frontend/src/project/Tasks.vue:18 frontend/src/project/Time.vue:33
+#: frontend/src/project/Time.vue:100 frontend/src/project/Timeline.vue:8
 #: frontend/src/template/Tasks.vue:8 frontend/src/template/Tasks.vue:36
-#: frontend/src/template/TemplatePage.vue:122
+#: frontend/src/template/TemplatePage.vue:122 onedesk/one_project/ai.py:683
 #: onedesk/one_task/page/my_tasks/my_tasks.js:148
 #: onedesk/public/js/project_actions.js:411
 #: onedesk/public/js/project_actions.js:831 onedesk/public/js/task_new.js:14
-#: onedesk/public/js/timesheet.js:50
+#: onedesk/public/js/timesheet.js:61
 msgid "Task"
 msgstr "Aufgabe"
 
@@ -23330,7 +23370,7 @@ msgstr ""
 #. Label of the one_tasks (Int) field in DocType 'Project Template'
 #. Label of a Sidebar Item
 #: frontend/src/project/Overview.vue:21 frontend/src/project/ProjectPage.vue:18
-#: frontend/src/project/ProjectPage.vue:165 onedesk/one_project/ai.py:797
+#: frontend/src/project/ProjectPage.vue:182 onedesk/one_project/ai.py:894
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/one_project/report/workload/workload.py:176
@@ -23379,7 +23419,7 @@ msgstr ""
 msgid "Tax ID"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:236
+#: onedesk/one/print_blocks.py:237
 msgid "Tax ID {0}"
 msgstr "Steuernummer {0}"
 
@@ -23420,7 +23460,7 @@ msgstr "Steuerpflichtiger Betrag"
 #. Label of the press_team (Data) field in DocType 'One Admin Settings'
 #: frontend/src/project/Header.vue:15 frontend/src/project/Header.vue:29
 #: frontend/src/project/Overview.vue:306
-#: frontend/src/project/ProjectPage.vue:171 frontend/src/project/Team.vue:11
+#: frontend/src/project/ProjectPage.vue:188 frontend/src/project/Team.vue:11
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Team"
 msgstr "Team"
@@ -23450,7 +23490,7 @@ msgid "Tell us who you are and what you need, and we will get back to you."
 msgstr "Sagen Sie uns, wer Sie sind und was Sie brauchen, und wir melden uns."
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: onedesk/one_project/ai.py:889 onedesk/one_task/custom/task.json
+#: onedesk/one_project/ai.py:986 onedesk/one_task/custom/task.json
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/project_actions.js:82 onedesk/public/js/project_new.js:78
 #: onedesk/public/js/project_template_list.js:10
@@ -23835,7 +23875,7 @@ msgstr "Das OneAI-Modell, auf dem der Aufruf lief."
 msgid "The Person on the Record"
 msgstr "Die Person im Datensatz"
 
-#: onedesk/one_studio/places.py:184
+#: onedesk/one_studio/places.py:206
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr "Die Projektliste wird geöffnet, und jedes Mal, wenn sie neu gezeichnet wird."
 
@@ -25160,7 +25200,7 @@ msgid "This IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "Diese IBAN ist für {0} nicht hinterlegt. Bestätigen Sie sie vor der Zahlung telefonisch."
 
 #: frontend/src/project/Overview.vue:155 frontend/src/project/Team.vue:26
-#: frontend/src/project/Time.vue:181 frontend/src/project/Time.vue:198
+#: frontend/src/project/Time.vue:197 frontend/src/project/Time.vue:214
 #: onedesk/public/js/settings.js:2787
 msgid "This Month"
 msgstr "Diesen Monat"
@@ -25555,15 +25595,19 @@ msgstr "Fliesenarbeiten"
 #. Label of the one_time_section (Section Break) field in DocType 'Projects
 #. Settings'
 #: frontend/src/project/Overview.vue:308
-#: frontend/src/project/ProjectPage.vue:167 frontend/src/project/Time.vue:12
+#: frontend/src/project/ProjectPage.vue:184 frontend/src/project/Time.vue:13
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/billing.py:97 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:179 onedesk/one_project/money.py:216
-#: onedesk/public/js/project_new.js:163
+#: onedesk/one_project/tell.py:266 onedesk/public/js/project_new.js:163
 msgid "Time"
 msgstr "Uhrzeit"
+
+#: onedesk/one/print_blocks.py:490
+msgid "Time Billed"
+msgstr "Abgerechnete Zeit"
 
 #. Label of the one_time_budget (Currency) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -25572,9 +25616,13 @@ msgid "Time Budget"
 msgstr "Zeitbudget"
 
 #. Label of the 'total_costing_amount' field in DocType 'Project'
-#: frontend/src/project/Time.vue:213 onedesk/one_project/custom/project.json
+#: frontend/src/project/Time.vue:229 onedesk/one_project/custom/project.json
 msgid "Time Cost"
 msgstr "Zeitkosten"
+
+#: onedesk/one/print_blocks.py:490
+msgid "Time Spent"
+msgstr "Aufgewendete Zeit"
 
 #. Option for the 'Kind' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -25585,7 +25633,7 @@ msgstr "Zeit und Material"
 msgid "Time logged"
 msgstr "Zeit erfasst"
 
-#: frontend/src/project/ProjectPage.vue:159
+#: frontend/src/project/ProjectPage.vue:176
 msgid "Timeline"
 msgstr "Zeitplan"
 
@@ -25667,7 +25715,7 @@ msgstr "Bis Datum"
 msgid "To Do"
 msgstr "Zu erledigen"
 
-#: frontend/src/project/Time.vue:89 frontend/src/project/Time.vue:204
+#: frontend/src/project/Time.vue:91 frontend/src/project/Time.vue:220
 msgid "To Invoice"
 msgstr "Zu fakturieren"
 
@@ -25739,8 +25787,8 @@ msgstr "Ihnen zugewiesene Aufgaben"
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:331 onedesk/one_book/heads.py:56
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
-#: onedesk/one_project/heads.py:78 onedesk/one_project/view.py:400
-#: onedesk/one_project/view.py:615 onedesk/one_task/mine.py:17
+#: onedesk/one_project/heads.py:78 onedesk/one_project/view.py:408
+#: onedesk/one_project/view.py:623 onedesk/one_task/mine.py:17
 #: onedesk/one_task/tell.py:199
 msgid "Today"
 msgstr "Heute"
@@ -25840,7 +25888,8 @@ msgstr "Kopfvorlage"
 #. Label of the gross (Float) field in DocType 'Reading'
 #: frontend/src/project/Invoices.vue:35 frontend/src/project/Suppliers.vue:95
 #: onedesk/one/portal.py:66 onedesk/one/portal.py:381
-#: onedesk/one/print_blocks.py:301 onedesk/one/print_blocks.py:459
+#: onedesk/one/print_blocks.py:302 onedesk/one/print_blocks.py:460
+#: onedesk/one/print_blocks.py:494
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
 #: onedesk/one_book/heads.py:326
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -25849,7 +25898,7 @@ msgstr "Kopfvorlage"
 msgid "Total"
 msgstr "Gesamt"
 
-#: onedesk/one/print_blocks.py:365
+#: onedesk/one/print_blocks.py:366
 msgid "Total Deductions"
 msgstr "Abzüge gesamt"
 
@@ -25857,7 +25906,7 @@ msgstr "Abzüge gesamt"
 msgid "Total charged"
 msgstr "Summe berechnet"
 
-#: onedesk/one/print_blocks.py:291
+#: onedesk/one/print_blocks.py:292
 msgid "Total in {0}"
 msgstr "Gesamt in {0}"
 
@@ -25959,12 +26008,12 @@ msgid "Transcripts are kept. Set to 0 to keep audio indefinitely."
 msgstr "Transkripte bleiben erhalten. 0 bewahrt das Audio unbegrenzt auf."
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:199
+#: onedesk/one/print_blocks.py:200
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Transfer"
 msgstr "Überweisung"
 
-#: onedesk/one/print_blocks.py:199
+#: onedesk/one/print_blocks.py:200
 msgid "Transfer No"
 msgstr "Umbuchungs-Nr."
 
@@ -26484,7 +26533,7 @@ msgid "Use {0} to insert a field of the record."
 msgstr "Mit {0} ein Feld des Datensatzes einfügen."
 
 #. Label of the storage_bytes (Long Int) field in DocType 'Workspace Account'
-#: frontend/src/project/Money.vue:43
+#: frontend/src/project/Money.vue:44
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:137
 msgid "Used"
@@ -26919,8 +26968,7 @@ msgstr "Wartet auf den Aufbau"
 msgid "Waiting to run"
 msgstr "Wartet auf den Start"
 
-#: frontend/src/project/TaskPanel.vue:59 frontend/src/template/Tasks.vue:10
-#: onedesk/public/js/project_actions.js:823
+#: frontend/src/template/Tasks.vue:10
 msgid "Waits On"
 msgstr "Wartet auf"
 
@@ -28332,8 +28380,8 @@ msgstr "Wenn die Feiertagsliste in 60, 30 oder 7 Tagen endet, ohne dass eine fol
 
 #. When a notification is sent
 #: onedesk/notifications/one_project/hours_over_plan.md
-msgid "When the hours logged on a task pass the hours it planned."
-msgstr "Wenn die auf einer Aufgabe erfassten Stunden die geplanten überschreiten."
+msgid "When the hours logged on a task, or on a whole project, pass the hours it planned."
+msgstr "Wenn die auf einer Aufgabe oder einem ganzen Projekt erfassten Stunden die geplanten überschreiten."
 
 #. When a notification is sent
 #: onedesk/notifications/one_task/task_ready.md
@@ -28398,8 +28446,8 @@ msgstr "Wenn eingeht, was deine Materialanfrage angefordert hat."
 
 #. When a notification is sent
 #: onedesk/notifications/one_project/over_budget.md
-msgid "When what's ordered and spent on a project's cost type passes its budget."
-msgstr "Wenn Bestelltes und Ausgegebenes für eine Kostenart eines Projekts ihr Budget übersteigt."
+msgid "When what's ordered and spent on a project's cost type passes its budget, or its time's cost passes its Time Budget."
+msgstr "Wenn Bestelltes und Ausgegebenes für eine Kostenart eines Projekts das Budget überschreitet oder die Kosten seiner Zeit das Zeitbudget."
 
 #. When a notification is sent
 #: onedesk/notifications/one/confirm_deletion.md
@@ -28837,8 +28885,8 @@ msgstr "Wer die Anfrage gestellt hat"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_project/hours_over_plan.md
-msgid "Whoever the task is given to, and the project's manager"
-msgstr "Wem die Aufgabe zugewiesen ist, und die Projektleitung"
+msgid "Whoever the task is given to and the project's manager, or a project's manager"
+msgstr "Wem die Aufgabe zugewiesen ist und die Projektleitung, oder die Projektleitung"
 
 #. Description of the 'Account' (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -29103,7 +29151,7 @@ msgstr "Arbeit an einem freien Tag"
 msgid "Workload"
 msgstr "Arbeitslast"
 
-#: onedesk/one_studio/places.py:198
+#: onedesk/one_studio/places.py:220
 msgid "Workload is opened, and each time it is drawn again."
 msgstr "Die Auslastung wird geöffnet, und jedes Mal, wenn sie neu gezeichnet wird."
 
@@ -29567,8 +29615,8 @@ msgstr "Ja, in ihren Benachrichtigungen"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:166
-#: onedesk/one_project/view.py:817 onedesk/one_project/view.py:866
-#: onedesk/one_project/view.py:957 onedesk/one_project/view.py:988
+#: onedesk/one_project/view.py:825 onedesk/one_project/view.py:874
+#: onedesk/one_project/view.py:965 onedesk/one_project/view.py:996
 #: onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
 msgstr "Sie"
@@ -30589,23 +30637,23 @@ msgstr "nichts"
 msgid "nothing can do {0} now"
 msgstr "nichts kann jetzt {0}"
 
-#: frontend/src/project/Time.vue:183
+#: frontend/src/project/Time.vue:199
 msgid "of {0} a month"
 msgstr "von {0} im Monat"
 
-#: frontend/src/project/Time.vue:215 onedesk/one_project/view.py:574
+#: frontend/src/project/Time.vue:231 onedesk/one_project/view.py:582
 msgid "of {0} budget"
 msgstr "von {0} Budget"
 
-#: onedesk/one_project/view.py:528
+#: onedesk/one_project/view.py:536
 msgid "of {0} h"
 msgstr "von {0} Std."
 
-#: onedesk/one_project/view.py:557
+#: onedesk/one_project/view.py:565
 msgid "of {0} open"
 msgstr "von {0} offenen"
 
-#: frontend/src/project/Time.vue:193
+#: frontend/src/project/Time.vue:209
 msgid "of {0} planned"
 msgstr "von {0} geplant"
 
@@ -31102,7 +31150,7 @@ msgstr "{0} + 1 Zusatzpaket"
 msgid "{0} + {1} add-ons"
 msgstr "{0} + {1} Zusatzpakete"
 
-#: onedesk/one_project/buying.py:124 onedesk/one_project/money.py:713
+#: onedesk/one_project/buying.py:124 onedesk/one_project/money.py:716
 msgid "{0} +{1}"
 msgstr "{0} +{1}"
 
@@ -31206,7 +31254,7 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr "{0} und {1} sind nicht in derselben Zone."
 
-#: onedesk/one_project/billing.py:574
+#: onedesk/one_project/billing.py:569
 msgid "{0} and {1} more"
 msgstr "{0} und {1} weitere"
 
@@ -31397,7 +31445,7 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} cost types"
 msgstr "{0} Kostenarten"
 
-#: onedesk/one_project/view.py:507
+#: onedesk/one_project/view.py:515
 msgid "{0} costs"
 msgstr "{0} Kostenposten"
 
@@ -31453,7 +31501,7 @@ msgstr "{0} Guthaben."
 #: frontend/src/template/Tasks.vue:126
 #: frontend/src/template/TemplatePage.vue:88 onedesk/one_crm/heads.py:32
 #: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:389
-#: onedesk/one_project/ai.py:800
+#: onedesk/one_project/ai.py:897
 msgid "{0} days"
 msgstr "{0} Tage"
 
@@ -31477,7 +31525,7 @@ msgstr "{0} Tage vor {1}"
 #: frontend/src/project/Overview.vue:330 frontend/src/project/Overview.vue:411
 #: frontend/src/project/Suppliers.vue:222 onedesk/one_project/heads.py:77
 #: onedesk/one_project/portal.py:143 onedesk/one_project/retention.py:132
-#: onedesk/one_project/view.py:613 onedesk/one_project/view.py:911
+#: onedesk/one_project/view.py:621 onedesk/one_project/view.py:919
 msgid "{0} days late"
 msgstr "{0} Tage überfällig"
 
@@ -31533,7 +31581,7 @@ msgstr "{0} Entwürfe"
 msgid "{0} exported {1}"
 msgstr "{0} hat {1} exportiert"
 
-#: onedesk/one_project/view.py:450
+#: onedesk/one_project/view.py:458
 msgid "{0} extra work"
 msgstr "{0} Zusatzarbeiten"
 
@@ -31594,7 +31642,7 @@ msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "{0} reicht bereits bis {1}, daher kann sie nur auf {1} oder mehr gesetzt werden."
 
 #: frontend/src/kit/desk.js:32 onedesk/one_project/billing.py:431
-#: onedesk/one_project/view.py:504
+#: onedesk/one_project/view.py:512
 #: onedesk/templates/includes/timesheet/timesheet_row.html:12
 msgid "{0} h"
 msgstr "{0} Std."
@@ -31607,7 +31655,7 @@ msgstr "{0} Std. im Monat"
 msgid "{0} h are on timesheets not submitted yet."
 msgstr "{0} h stehen auf noch nicht eingereichten Zeiterfassungen."
 
-#: onedesk/one_project/hours.py:307
+#: onedesk/one_project/hours.py:341
 msgid "{0} h not submitted"
 msgstr "{0} Std. nicht eingereicht"
 
@@ -31717,11 +31765,11 @@ msgstr "{0} wurde nicht bezahlt."
 msgid "{0} held"
 msgstr "{0} in Besitz"
 
-#: onedesk/one_project/tell.py:281
+#: onedesk/one_project/tell.py:337
 msgid "{0} held by {1}"
 msgstr "{0} von {1} einbehalten"
 
-#: onedesk/one_project/tell.py:281
+#: onedesk/one_project/tell.py:337
 msgid "{0} held from {1}"
 msgstr "{0} bei {1} einbehalten"
 
@@ -31758,7 +31806,7 @@ msgstr "{0} in {1} Aufrufen"
 msgid "{0} in {1} days."
 msgstr "{0} in {1} Tagen."
 
-#: onedesk/one_project/view.py:460
+#: onedesk/one_project/view.py:468
 msgid "{0} invoiced"
 msgstr "{0} abgerechnet"
 
@@ -31802,7 +31850,7 @@ msgstr "{0} ist ein Standardordner und kann nicht geändert werden."
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr "{0} ist ein Standardformat. Es kann nur als Standard festgelegt oder ausgeschaltet werden."
 
-#: onedesk/one_project/billing.py:547
+#: onedesk/one_project/billing.py:542
 msgid "{0} is a sub-project of {1}."
 msgstr "{0} ist jetzt ein Unterprojekt von {1}."
 
@@ -31854,7 +31902,7 @@ msgstr "{0} ist bereits vergeben. Wählen Sie einen anderen Namen."
 msgid "{0} is already the default for {1}."
 msgstr "{0} ist bereits der Standard für {1}."
 
-#: onedesk/one_project/hours.py:72
+#: onedesk/one_project/hours.py:105
 msgid "{0} is already the site of {1}."
 msgstr "{0} ist bereits der Standort von {1}."
 
@@ -32030,7 +32078,7 @@ msgstr "{0} ist keine Tabelle eines Formulars, das Sie anpassen dürfen."
 msgid "{0} is not a table to repeat"
 msgstr "{0} ist keine Tabelle zum Wiederholen"
 
-#: onedesk/one_project/hours.py:336
+#: onedesk/one_project/hours.py:370
 msgid "{0} is not a task on this project."
 msgstr "{0} ist keine Aufgabe dieses Projekts."
 
@@ -32130,7 +32178,7 @@ msgstr "{0} wird von der Zeiterfassung nicht vorgeschlagen."
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr "{0} kennt diese Benachrichtigung nicht. Verwendbar ist {1}."
 
-#: onedesk/one_project/hours.py:338
+#: onedesk/one_project/hours.py:372
 msgid "{0} is not under this project."
 msgstr "{0} gehört nicht zu diesem Projekt."
 
@@ -32154,7 +32202,7 @@ msgstr "{0} funktioniert nicht."
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} befindet sich in einem privaten Netzwerk. OneCloud kann sich nicht damit verbinden."
 
-#: onedesk/one_project/view.py:786
+#: onedesk/one_project/view.py:794
 msgid "{0} is over budget"
 msgstr "{0} liegt über dem Budget"
 
@@ -32268,7 +32316,7 @@ msgstr "{0} darf nur die Felder des Datensatzes mit einfachen Werten vergleichen
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} Modelle, {1} bepreist, {2} brauchen Prüfung."
 
-#: onedesk/one_intake/understand.py:389 onedesk/one_project/view.py:542
+#: onedesk/one_intake/understand.py:389 onedesk/one_project/view.py:550
 msgid "{0} months"
 msgstr "{0} Monate"
 
@@ -32276,7 +32324,7 @@ msgstr "{0} Monate"
 msgid "{0} more"
 msgstr "{0} mehr"
 
-#: frontend/src/project/Money.vue:123
+#: frontend/src/project/Money.vue:125
 msgid "{0} more on order"
 msgstr "{0} weitere bestellt"
 
@@ -32309,7 +32357,7 @@ msgstr "{0} nicht gefunden"
 msgid "{0} not invoiced yet."
 msgstr "{0} noch nicht abgerechnet."
 
-#: frontend/src/project/Time.vue:176
+#: frontend/src/project/Time.vue:192
 msgid "{0} not submitted"
 msgstr "{0} nicht eingereicht"
 
@@ -32331,7 +32379,7 @@ msgstr "{0} davon aktiv."
 #: frontend/src/project/TaskPanel.vue:96 frontend/src/project/Tasks.vue:34
 #: onedesk/one/heads.py:71 onedesk/one_admin/doctype/tenant/tenant_list.js:43
 #: onedesk/one_admin/heads.py:156 onedesk/one_project/heads.py:36
-#: onedesk/one_project/view.py:599 onedesk/public/js/settings.js:1516
+#: onedesk/one_project/view.py:607 onedesk/public/js/settings.js:1516
 msgid "{0} of {1}"
 msgstr "{0} von {1}"
 
@@ -32367,11 +32415,11 @@ msgstr "{0} von {1} Monaten"
 msgid "{0} of {1} seats used."
 msgstr "{0} von {1} Plätzen belegt."
 
-#: onedesk/one_project/view.py:590
+#: onedesk/one_project/view.py:598
 msgid "{0} of {1} tasks"
 msgstr "{0} von {1} Aufgaben"
 
-#: onedesk/one/print_blocks.py:431 onedesk/www/projects.html:39
+#: onedesk/one/print_blocks.py:432 onedesk/www/projects.html:39
 msgid "{0} of {1} tasks done"
 msgstr "{0} von {1} Aufgaben erledigt"
 
@@ -32391,7 +32439,7 @@ msgstr "{0} aus"
 msgid "{0} on"
 msgstr "{0} an"
 
-#: onedesk/one_project/view.py:577
+#: onedesk/one_project/view.py:585
 msgid "{0} on order"
 msgstr "{0} bestellt"
 
@@ -32421,15 +32469,15 @@ msgstr "{0} empfängt nur E-Mails und hat daher keine Signatur."
 msgid "{0} open of {1}"
 msgstr "{0} von {1} offen"
 
-#: onedesk/one_project/view.py:355
+#: onedesk/one_project/view.py:363
 msgid "{0} open quotes"
 msgstr "{0} offene Angebote"
 
-#: frontend/src/project/ProjectPage.vue:236
+#: frontend/src/project/ProjectPage.vue:253
 msgid "{0} open sub-projects"
 msgstr "{0} offene Teilprojekte"
 
-#: frontend/src/project/ProjectPage.vue:235
+#: frontend/src/project/ProjectPage.vue:252
 msgid "{0} open tasks"
 msgstr "{0} offene Aufgaben"
 
@@ -32449,7 +32497,7 @@ msgstr "{0} von 5"
 msgid "{0} over"
 msgstr "{0} darüber"
 
-#: frontend/src/project/Money.vue:122
+#: frontend/src/project/Money.vue:124
 msgid "{0} over budget"
 msgstr "{0} über Budget"
 
@@ -32558,7 +32606,7 @@ msgstr "{0} hat dies mit Ihnen geteilt."
 msgid "{0} shows nothing."
 msgstr "{0} zeigt nichts."
 
-#: frontend/src/project/Money.vue:110 frontend/src/project/Overview.vue:371
+#: frontend/src/project/Money.vue:112 frontend/src/project/Overview.vue:371
 #: frontend/src/project/Overview.vue:392
 msgid "{0} spent"
 msgstr "{0} ausgegeben"
@@ -32575,11 +32623,11 @@ msgstr "{0} hat noch offene Arbeit."
 msgid "{0} still has records. Delete them first."
 msgstr "{0} hat noch Datensätze. Löschen Sie diese zuerst."
 
-#: frontend/src/project/ProjectPage.vue:240
+#: frontend/src/project/ProjectPage.vue:257
 msgid "{0} still has {1}. Cancel them too?"
 msgstr "{0} hat noch {1}. Auch diese stornieren?"
 
-#: frontend/src/project/ProjectPage.vue:240
+#: frontend/src/project/ProjectPage.vue:257
 msgid "{0} still has {1}. Complete them too?"
 msgstr "{0} hat noch {1}. Auch diese abschließen?"
 
@@ -32629,7 +32677,7 @@ msgid "{0} to pay"
 msgstr "{0} zu bezahlen"
 
 #: onedesk/one_hr/heads.py:210 onedesk/one_hr/heads.py:338
-#: onedesk/one_project/tell.py:297 onedesk/public/js/settings.js:2991
+#: onedesk/one_project/tell.py:353 onedesk/public/js/settings.js:2991
 msgid "{0} to {1}"
 msgstr "{0} an {1}"
 
@@ -32810,34 +32858,34 @@ msgstr "{0}% bei Übergabe"
 msgid "{0}% billed"
 msgstr "{0} % berechnet"
 
-#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:442
-#: onedesk/one_project/view.py:816 onedesk/public/js/project_list.js:103
+#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:443
+#: onedesk/one_project/view.py:824 onedesk/public/js/project_list.js:103
 #: onedesk/public/js/project_tree.js:18
 #, python-format
 msgid "{0}% done"
 msgstr "{0} % erledigt"
 
-#: frontend/src/project/Money.vue:128
+#: frontend/src/project/Money.vue:130
 msgid "{0}% margin"
 msgstr "{0} % Marge"
 
-#: frontend/src/project/Money.vue:200
+#: frontend/src/project/Money.vue:216
 #, python-format
 msgid "{0}% of ordered"
 msgstr "{0}% des Bestellten"
 
-#: frontend/src/project/Money.vue:179 frontend/src/project/TaskPanel.vue:46
-#: onedesk/one_project/tell.py:248 onedesk/one_project/view.py:485
+#: frontend/src/project/Money.vue:195 frontend/src/project/TaskPanel.vue:46
+#: onedesk/one_project/tell.py:304 onedesk/one_project/view.py:493
 #, python-format
 msgid "{0}% of the contract"
 msgstr "{0} % des Vertrags"
 
-#: onedesk/one_project/view.py:485
+#: onedesk/one_project/view.py:493
 #, python-format
 msgid "{0}% of the quote"
 msgstr "{0} % des Angebots"
 
-#: onedesk/one_project/view.py:419
+#: onedesk/one_project/view.py:427
 #, python-format
 msgid "{0}% of what was billed"
 msgstr "{0} % des Abgerechneten"

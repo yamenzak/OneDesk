@@ -181,7 +181,7 @@ def kept_to_projects(doc, method=None) -> None:
 	sets them against a project, however the budget is made."""
 	held = set(frappe.get_roles())
 	if doc.budget_against != "Project" and "Projects Manager" in held and not held & set(BOOKS):
-		frappe.throw(_("Only the books set a budget for a cost centre. Set this one against a project."))
+		frappe.throw(_("Only an accounts user sets a budget for a cost centre. Set this one against a project."))
 
 
 @frappe.whitelist(methods=["POST"])

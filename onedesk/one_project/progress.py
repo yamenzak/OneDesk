@@ -94,12 +94,12 @@ def bill_progress(
 	if shares:
 		shares = {key: flt(value) for key, value in shares.items()}
 		if any(not 0 <= value <= 100 for value in shares.values()) or not any(shares.values()):
-			frappe.throw(_("How far the work has got is a share between 1 and 100."))
+			frappe.throw(_("Give each line a share done between 0 and 100, and at least one above 0."))
 		done = overall(order.items, shares)
 	else:
 		done = flt(done if done is not None else args.get("done"))
 		if not 0 < done <= 100:
-			frappe.throw(_("How far the work has got is a share between 1 and 100."))
+			frappe.throw(_("Give each line a share done between 0 and 100, and at least one above 0."))
 	side = SIDES[doctype]
 	frappe.has_permission(side["invoice"], "create", throw=True)
 

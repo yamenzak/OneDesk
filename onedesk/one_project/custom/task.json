@@ -10,11 +10,21 @@
    "depends_on": "is_milestone",
    "no_copy": 1,
    "print_hide": 1,
-   "description": "Share of the contract"
+   "description": "Share of the contract",
+   "non_negative": 1
   }
  ],
  "doctype": "Task",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "field_name": "expected_time",
+   "property": "non_negative",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
  "sync_on_migrate": 1
 }

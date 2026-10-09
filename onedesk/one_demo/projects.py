@@ -74,6 +74,7 @@ def villa():
 	frappe.db.set_value("Project", name, {"one_time_budget": 90000, "one_hours_planned": 1500})
 	_progress(name, done_through=3, half_way=4)
 	_current(name)
+	_glass_late(name)
 	_milestone_shares(name, (10, 20, 30, 30, 10))
 	first = _bill_progress(order, on(4, 30), done=20)
 	_pay(first, on(5, 20))
@@ -89,9 +90,12 @@ def villa():
 		(("ALU-6063", 420), ("GLS-DGU", 95), ("HW-HINGE", 120), ("HW-HANDLE", 60), ("SEAL-EPDM", 600)),
 	)
 	_issue(name, on(8, 4), (("ALU-6063", 380), ("GLS-DGU", 88), ("HW-LOCK", 18), ("SIL-CLR", 40)))
-	_time(name, ("Arun", "Ravi", "Joseph"), "Fabrication", on(5, 20), weeks=10, hours=28)
-	_time(name, ("Yousef", "Bilal"), "Installation", on(8, 10), weeks=None, hours=32)
-	_time(name, ("Rania",), "Project Management", on(2, 20), weeks=None, hours=6)
+	# The workshop's time on the factory's work, the installers' on the
+	# site's, and Rania's running the job on no one task.
+	_time(name, ("Arun", "Ravi", "Joseph"), "Fabrication", _begins(name, FACTORY), weeks=5, hours=28, phase=FACTORY)
+	_time(name, ("Yousef", "Bilal"), "Installation", _begins(name, SITE), weeks=3, hours=32, phase=SITE)
+	_time(name, ("Yousef", "Bilal"), "Installation", GLASS_IN, weeks=None, hours=32, phase=SITE)
+	_time(name, ("Rania",), "Project Management", on(2, 20), weeks=None, hours=6, task=False)
 	_extra_work(
 		name, "Mansour & Sons", "Staircase balustrade", [("BAL-GL", 14, 1500), ("SVC-INST", 20, 180)], ago(30)
 	)
@@ -714,6 +718,65 @@ def _current(project):
 		frappe.db.set_value("Task", task.name, values, update_modified=False)
 
 
+#: The villa's phases its workshop and its installers work in.
+FACTORY, SITE = "Factory Fabrication & Assembly", "Site Installation & Logistics"
+
+#: When the villa's glass reached site, weeks behind the frames.
+GLASS_IN = on(8, 10)
+
+
+def _begins(project, phase):
+	"""The day a phase of the project begins, as its first task does."""
+	group = frappe.db.get_value("Task", {"project": project, "subject": phase, "is_group": 1})
+	return min(getdate(day) for day in frappe.get_all("Task", filters={"parent_task": group}, pluck="exp_start_date") if day)
+
+
+def _glass_late(project):
+	"""The villa's glass came late. Install glass has been under way since
+	it reached site, and what comes after it is still to do, one after the
+	other from next week on, each phase holding its own tasks and all of it
+	inside the project's end, as ERPNext checks when a task is saved."""
+	glass = frappe.db.get_value("Task", {"project": project, "subject": "Install glass"})
+	if not glass:
+		return
+	frappe.db.set_value(
+		"Task", glass, {"exp_start_date": GLASS_IN, "exp_end_date": ago(4), "status": "Working"}, update_modified=False
+	)
+	after = frappe.get_all(
+		"Task",
+		filters={"project": project, "is_group": 0, "status": ["not in", ("Completed", "Cancelled")], "name": ["!=", glass]},
+		fields=["name", "parent_task", "exp_start_date", "exp_end_date"],
+		order_by="lft asc",
+	)
+	if not after:
+		return
+	day = getdate(ahead(7))
+	last = getdate(frappe.db.get_value("Project", project, "expected_end_date"))
+	# Each as long as it was planned, but short enough that all of it fits.
+	room = max(1, date_diff(last, day) // len(after))
+	for one in after:
+		planned = date_diff(one.exp_end_date, one.exp_start_date) if one.exp_start_date and one.exp_end_date else 2
+		ends = min(add_days(day, max(0, min(planned, room - 1))), last)
+		frappe.db.set_value(
+			"Task", one.name, {"exp_start_date": day, "exp_end_date": ends, "status": "Open", "progress": 0}, update_modified=False
+		)
+		day = min(add_days(ends, 1), last)
+	# Each phase from its first task's start to its last task's end.
+	for phase in frappe.get_all("Task", filters={"project": project, "is_group": 1}, pluck="name"):
+		dates = frappe.get_all("Task", filters={"parent_task": phase}, fields=["exp_start_date", "exp_end_date"])
+		if not dates:
+			continue
+		frappe.db.set_value(
+			"Task",
+			phase,
+			{
+				"exp_start_date": min(getdate(one.exp_start_date) for one in dates if one.exp_start_date),
+				"exp_end_date": max(getdate(one.exp_end_date) for one in dates if one.exp_end_date),
+			},
+			update_modified=False,
+		)
+
+
 def _portal(password=None):
 	"""Khalid Mansour invited to the portal by Omar, so the villa can be seen
 	as its customer sees it."""
@@ -748,7 +811,8 @@ def _behind():
 		frappe.db.set_value(
 			"Task",
 			late[0].name,
-			{"exp_start_date": ago(12), "exp_end_date": ago(4), "status": "Working"},
+			# Begun when it was, or twelve days ago.
+			{"exp_start_date": min(getdate(late[0].exp_start_date or ago(12)), getdate(ago(12))), "exp_end_date": ago(4), "status": "Working"},
 			update_modified=False,
 		)
 	busy = frappe.get_all(
@@ -779,7 +843,8 @@ def _behind():
 
 def _progress(project, done_through, half_way):
 	"""The template's phases: those before `done_through` done, the one at
-	`half_way` half done, the rest still to come."""
+	`half_way` half done with its next task under way, the rest still to
+	come."""
 	people = ("rania@one.test", "nadia@one.test", "karim@one.test", "tariq@one.test", "yousef@one.test")
 	for i, (phase, tasks) in enumerate(PHASES, 1):
 		for j, (subject, *_rest) in enumerate(tasks):
@@ -793,7 +858,7 @@ def _progress(project, done_through, half_way):
 				_finish(task.name, "Completed", task.exp_end_date)
 			elif i == half_way and j < len(tasks) // 2:
 				_finish(task.name, "Completed", task.exp_end_date)
-			elif i == half_way:
+			elif i == half_way and j == len(tasks) // 2:
 				_finish(task.name, "Working", None)
 		milestone = frappe.db.get_value("Task", {"project": project, "subject": phase})
 		if milestone and i <= done_through:
@@ -877,16 +942,25 @@ def _finish(task, status, on_day):
 	doc.save()
 
 
-def _time(project, people, activity, starts, weeks, hours):
-	"""A timesheet a week for each person, on the project's open tasks, for
-	so many weeks, or up to this week where work still goes on (None)."""
+def _time(project, people, activity, starts, weeks, hours, phase=None, task=True):
+	"""A timesheet a week for each person, for so many weeks, or up to this
+	week where work still goes on (None). Each day is on the project's task
+	under way then, in `phase` where it is given, or on none (`task` False),
+	as running a job is."""
 	from onedesk.one_project.hours import bills_hours
 
-	tasks = frappe.get_all(
-		"Task",
-		filters={"project": project, "is_group": 0},
-		fields=["name", "status", "exp_start_date", "exp_end_date"],
-		order_by="exp_start_date asc",
+	filters = {"project": project, "is_group": 0}
+	if phase:
+		filters["parent_task"] = frappe.db.get_value("Task", {"project": project, "subject": phase, "is_group": 1})
+	tasks = (
+		frappe.get_all(
+			"Task",
+			filters=filters,
+			fields=["name", "status", "exp_start_date", "exp_end_date"],
+			order_by="exp_start_date asc",
+		)
+		if task
+		else []
 	)
 	billable = 1 if bills_hours(project) else 0
 	if weeks is None:
@@ -1041,6 +1115,15 @@ def _accounts():
 					"account_type": "Expense Account",
 				}
 			)
+	# A subcontract is booked to its cost type, as an item's own expense
+	# account books it in ERPNext.
+	item = frappe.get_doc("Item", "SVC-SUB")
+	row = next((one for one in item.item_defaults if one.company == COMPANY), None) or item.append(
+		"item_defaults", {"company": COMPANY}
+	)
+	if row.expense_account != account("Subcontract Costs"):
+		row.expense_account = account("Subcontract Costs")
+		item.save()
 
 
 #: Each project's payment terms and terms and conditions, as New Project asks.

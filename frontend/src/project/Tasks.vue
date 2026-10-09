@@ -16,7 +16,7 @@
         <List v-if="group.tasks.length" :columns="COLUMNS" :row-height="group.tasks.some((one) => one.waiting?.length) ? 58 : 44" divider="full" class="min-w-[58rem] list-gap-3 list-row-px-3">
           <ListHeader class="bg-surface-gray-1">
             <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
-            <ListHeaderCell>{{ __("Owner") }}</ListHeaderCell>
+            <ListHeaderCell>{{ __("Assigned To") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Due") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Priority") }}</ListHeaderCell>
@@ -106,8 +106,9 @@ const props = defineProps({
 const emit = defineEmits(["open", "set", "give", "take", "add"]);
 
 const COLUMNS = ["minmax(14rem,1fr)", "6rem", "9rem", "8rem", "7rem", "5.5rem", "8rem"];
-// The hours planned for a group's tasks (ERPNext's Expected Time).
-const planned = (group) => group.tasks.reduce((sum, one) => sum + (Number(one.expected_time) || 0), 0);
+// The hours planned for a group's tasks (ERPNext's Expected Time), a
+// cancelled one's left out, as Time counts them (hours.py `planned`).
+const planned = (group) => group.tasks.reduce((sum, one) => sum + (one.status === "Cancelled" ? 0 : Number(one.expected_time) || 0), 0);
 const closed = reactive({});
 const drafts = reactive({});
 

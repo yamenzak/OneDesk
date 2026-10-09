@@ -213,10 +213,66 @@ def over_plan(doc, method=None) -> None:
 		)
 
 
+def time_over(doc, method=None) -> None:
+	"""Timesheet on_submit: a project's logged hours passing its planned
+	hours, or its time's cost passing its Time Budget, told to its manager
+	once, as they pass. Counted over the project and those under it, as its
+	Time view counts them."""
+	from onedesk.one_project import hours, tree
+
+	if frappe.flags.in_install or frappe.flags.in_migrate or frappe.flags.in_import or frappe.flags.in_patch:
+		return
+	named = {row.project for row in doc.get("time_logs") or [] if row.project}
+	if not named:
+		return
+	of = tree.parents()
+	for project in sorted({one for name in named for one in tree.above(name, of)}):
+		scope = sorted(tree.below({project}, of))
+		rows = [row for row in doc.time_logs if row.project in scope]
+		if not rows:
+			continue
+		head = frappe.db.get_value("Project", project, ["project_name", "one_manager", "company"], as_dict=True)
+		if not head or not head.one_manager or head.one_manager in ("Administrator", "Guest", frappe.session.user):
+			continue
+		whole = frappe.get_all("Project", filters={"name": ["in", scope]}, fields=["one_hours_planned", "one_time_budget"])
+		plan = hours.planned(scope) or sum(flt(one.one_hours_planned) for one in whole)
+		budget = sum(flt(one.one_time_budget) for one in whole)
+		logged, cost = frappe.db.sql(
+			"""select sum(log.hours), sum(log.base_costing_amount) from `tabTimesheet Detail` log
+			join `tabTimesheet` sheet on sheet.name = log.parent
+			where sheet.docstatus = 1 and log.project in %s""",
+			(scope,),
+		)[0]
+		logged, cost = flt(logged), flt(cost)
+		here = sum(flt(row.hours) for row in rows)
+		if plan and logged - here <= plan < logged:
+			notify.notify(
+				"Hours Over Plan",
+				head.one_manager,
+				record=("Project", project),
+				task=head.project_name,
+				project="",
+				logged=f"{flt(logged, 1):g}",
+				planned=f"{plan:g}",
+			)
+		spent = sum(flt(row.base_costing_amount) for row in rows)
+		if budget and cost - spent <= budget < cost:
+			currency = get_company_currency(head.company)
+			notify.notify(
+				"Over Budget",
+				head.one_manager,
+				record=("Project", project),
+				project=head.project_name,
+				cost_type=_("Time"),
+				total=fmt_money(cost, precision=0, currency=currency),
+				budget=fmt_money(budget, precision=0, currency=currency),
+			)
+
+
 def over_budget(project: str, gone: list[dict]) -> None:
 	"""Cost types past their budget, told to the project's manager and whoever set each."""
-	head = frappe.db.get_value("Project", project, ["project_name", "one_manager"], as_dict=True)
-	currency = frappe.db.get_default("currency")
+	head = frappe.db.get_value("Project", project, ["project_name", "one_manager", "company"], as_dict=True)
+	currency = get_company_currency(head.company)
 	for one in gone:
 		people = sorted({head.one_manager, one["set_by"]} - {None, "Administrator", "Guest"})
 		if people:

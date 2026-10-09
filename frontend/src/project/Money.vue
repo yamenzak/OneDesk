@@ -11,9 +11,10 @@
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
       <!-- What the work uses: stock taken out for it, and what the team paid
            themselves, each naming the project (money.py). -->
-      <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="newDoc('Stock Entry', { stock_entry_type: 'Material Issue', purpose: 'Material Issue', project: said.name })" />
-      <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name })" />
+      <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="newDoc('Stock Entry', { stock_entry_type: 'Material Issue', purpose: 'Material Issue', project: said.name, company: said.company })" />
+      <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name, company: said.company })" />
     </div>
+    <PlaceSpot :said="spot" class="mb-3" />
     <Section :title="soFarOnly ? __('So Far') : __('Forecast')" icon="lucide-trending-up">
       <Figures :figures="forecast" />
     </Section>
@@ -81,7 +82,8 @@ import { computed, ref } from "vue";
 import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Rows, Section, __, call, can, date, money, newDoc, onedesk, plain } from "../kit";
+import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDoc, onedesk, plain } from "../kit";
+import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
 const emit = defineEmits(["changed", "view"]);
@@ -128,6 +130,20 @@ const soFar = (c, whole) => ({
   note: whole && c.margin > 0 ? __("{0}% margin", [percent(c.margin, whole)]) : "",
   alarm: c.margin < 0,
 });
+// Money is a place (one_studio/places.py): told the project's figures and
+// each cost type against its budget.
+const spot = usePlace("oneproject.money", () => ({
+  project: { name: props.said.name, title: props.said.title, kind: kind.value, currency: cash.value.currency },
+  money: {
+    contract: cash.value.contract ?? null,
+    invoiced: cash.value.invoiced ?? null,
+    spent: cash.value.spent ?? null,
+    budget: cash.value.budget ?? null,
+    forecast_cost: cash.value.forecast_cost ?? null,
+    forecast_margin: cash.value.forecast_margin ?? null,
+    cost_types: (cash.value.cost_types?.lines || []).map((one) => ({ cost_type: one.cost_type, budget: one.budget, committed: one.committed, spent: one.spent, left: one.left })),
+  },
+}));
 const forecast = computed(() => {
   const c = cash.value;
   if (!selling.value) {

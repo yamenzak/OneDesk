@@ -9,6 +9,7 @@ from frappe.utils import flt, get_datetime, get_first_day, get_fullname, getdate
 
 from onedesk.one_project import kinds, tree
 from onedesk.one_project.money import _route as money_route
+from onedesk.one_project.money import currency as money_currency
 from onedesk.one_task import timer
 
 #: How a project counts its time.
@@ -48,6 +49,38 @@ def bills_hours(project: str | None) -> bool:
 		return False
 	found = frappe.db.get_value("Project", project, ["one_kind", "customer"], as_dict=True)
 	return bool(found and found.customer and billed_by_the_hour(found.one_kind))
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def billed_hourly(project: Annotated[str, "The project."]) -> bool:
+	"""Whether an hour on the project is billable unless somebody says not,
+	for desk's timesheet form."""
+	frappe.has_permission("Project", "read", doc=project, throw=True)
+	return bills_hours(project)
+
+
+def billable(doc, method=None) -> None:
+	"""Timesheet before_insert: a row on a project billed by the hour is
+	billable, as Log Time and the timer make it, however the timesheet is
+	made: OneHR, the API or Data Import. Desk's form ticks it as the project
+	is picked (timesheet.js), so a row somebody unticked there stays so."""
+	if (frappe.form_dict or {}).get("cmd") == "frappe.desk.form.save.savedocs":
+		return
+	for row in doc.get("time_logs") or []:
+		if row.project and not row.is_billable and bills_hours(row.project):
+			row.is_billable = 1
+
+
+def on_its_project(doc, method=None) -> None:
+	"""Timesheet validate: a row's task is on the row's project or one under
+	it, however the row is written."""
+	for row in doc.get("time_logs") or []:
+		if not (row.task and row.project):
+			continue
+		on = frappe.db.get_value("Task", row.task, "project")
+		if on and on not in tree.below({row.project}, tree.parents()):
+			frappe.throw(_("Row {0}: {1} is not a task on {2}.").format(row.idx, row.task, row.project))
 
 
 def fill(doc, method=None) -> None:
@@ -145,6 +178,9 @@ def sums(rows: list, people: dict, tasks: dict, where) -> list[dict]:
 		)
 		one["entries"] += 1
 		one["hours"] += flt(row.hours)
+		# A draft is no cost yet, as `count` says it.
+		if row.docstatus == 0:
+			continue
 		one["amount"] += flt(row.get("base_billing_amount")) if row.is_billable else 0.0
 		one["cost"] += flt(row.get("base_costing_amount"))
 	return list(found.values())
@@ -226,9 +262,7 @@ def entries(
 		"time": method(project),
 		"bills_hours": billed_by_the_hour(head.one_kind),
 		"money": money,
-		"currency": frappe.get_cached_value("Company", head.company, "default_currency")
-		if head.company
-		else None,
+		"currency": money_currency(project),
 		"totals": totals,
 		"billing_on": billing_on,
 		"entries": [

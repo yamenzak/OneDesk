@@ -449,6 +449,7 @@ on OneAI › Actions: **Screen Applicants**, **Interviews**,
 - **From OneInventory**: The employee record shows how much of the company's equipment the person holds. Submitting a separation adds a Return task for each asset they hold.
 - **From OneTask**: Time from a task's timer goes on the person's timesheet for the week.
 - **To OneBook**: Payroll runs, expense claims and advances post to the accounts. OneHR sets up the payroll and advance accounts so the first run works. The VAT Return counts the VAT on expense claims.
+- **From OneProject**: New Expense Claim on a project's Money starts an expense claim on that project.
 - **To OneProject**: A day of attendance at a project's site is logged as time on the project. An expense claim says its project at the top. Approved expense claims for a project count as its costs, and a Time and Materials project bills them to the customer.
 - **To OneCalendar**: Leave, interviews, holidays and who's off show as layers on the calendar. An employee's own calendar shows their leave.
 - **To OneTask**: Each activity on an onboarding or separation checklist becomes a task for whoever does it.

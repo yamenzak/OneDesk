@@ -231,7 +231,7 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	return {
 		"project": project,
 		# The company's currency, which every base amount here is in.
-		"currency": _currency(project),
+		"currency": currency(project),
 		"customer": customer,
 		"cost": cost,
 		"own": own,
@@ -317,10 +317,13 @@ def owed_share(invoices: list, mine: dict) -> float:
 	return owed
 
 
-def _currency(project: str) -> str | None:
-	"""The project's company's currency, as ERPNext's base amounts are in."""
+def currency(project: str) -> str | None:
+	"""The project's company's currency, as ERPNext's base amounts are in.
+	The one place OneProject asks it."""
+	from erpnext import get_company_currency
+
 	company = frappe.db.get_value("Project", project, "company")
-	return frappe.get_cached_value("Company", company, "default_currency") if company else None
+	return get_company_currency(company) if company else None
 
 
 def _opens(paid: dict) -> dict:

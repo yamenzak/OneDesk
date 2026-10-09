@@ -8,7 +8,7 @@ from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_book.currency import bill_in, billed_in
 from onedesk.one_book.currency import rate as currency_rate
-from onedesk.one_project import terms
+from onedesk.one_project import money, terms
 
 #: The tick on Quotation and Sales Order saying the order is extra work, to
 #: become a sub-project of the project it names.
@@ -28,7 +28,7 @@ def unbilled(project: str) -> dict:
 	if rows and currency:
 		rows = in_currency(rows, currency)
 	found = costs(project) if frappe.has_permission("Sales Invoice", "create") else []
-	rate = currency_rate(_company_currency(project), currency) if found and currency else 1
+	rate = currency_rate(money.currency(project), currency) if found and currency else 1
 	return {
 		"hours": sum(flt(row.billing_hours) for row in rows),
 		"amount": sum(flt(row.billing_amount) for row in rows),
@@ -48,7 +48,7 @@ def unbilled_here(project: str) -> dict:
 	"""What `unbilled` comes to in the company's currency, as every other
 	figure on the project's page is: the hours, their amount and the costs
 	not billed yet. The page reads it; Invoice Time bills in the customer's."""
-	currency = _company_currency(project)
+	currency = money.currency(project)
 	rows = _rows(project)
 	if rows and currency:
 		rows = in_currency(rows, currency)
@@ -97,7 +97,7 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 		invoice.append("items", hours_line(item, line["hours"], line["rate"], line["activity"] or _("Time")))
 	# What was bought for it, at cost plus the project's markup, in the
 	# currency the customer is billed in.
-	rate = currency_rate(_company_currency(project), invoice.currency) if found else 1
+	rate = currency_rate(money.currency(project), invoice.currency) if found else 1
 	for one in found:
 		invoice.append(
 			"items",
@@ -445,11 +445,6 @@ def _last_item(costs: bool = False) -> str | None:
 		order by item.creation desc limit 1"""
 	)
 	return found[0][0] if found else None
-
-
-def _company_currency(project: str) -> str | None:
-	company = frappe.db.get_value("Project", project, "company")
-	return frappe.get_cached_value("Company", company, "default_currency") if company else None
 
 
 def charge(cost: float, markup: float) -> float:

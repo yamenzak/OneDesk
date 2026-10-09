@@ -9,7 +9,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdate, strip_html_tags
 
-from onedesk.one_project import agreement, kinds, overview, tree
+from onedesk.one_project import agreement, kinds, money, overview, tree
 
 #: Not a project here: an employee's onboarding or exit checklist (README).
 HR = "Employee Boarding"
@@ -650,6 +650,94 @@ def add_milestone(
 	}
 
 
+def log_time(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	hours: Annotated[float, "How long, in hours."],
+	activity: Annotated[str, "The activity, which prices the hours: Installation, Design, Project Management."],
+	date: Annotated[str, "The day the work was done, YYYY-MM-DD."] | None = None,
+	task: Annotated[str, "The task it was on, by its id, if any."] | None = None,
+	description: Annotated[str, "What was done, in a sentence."] | None = None,
+) -> dict:
+	"""Suggest an entry on the reader's own timesheet for the week, as a card
+	the reader approves. Approving logs it as Time's Log Time does
+	(hours.log), billable as the project bills hours."""
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	if not frappe.has_permission("Timesheet", "create"):
+		return {"error": "The reader may not log time."}
+	if flt(hours) <= 0 or flt(hours) > 24:
+		return {"mend": "log_time", "error": "Give the hours, more than 0 and at most 24."}
+	if not frappe.db.exists("Activity Type", activity):
+		names = frappe.get_all("Activity Type", filters={"disabled": 0}, pluck="name")
+		return {"mend": "log_time", "error": f"The activity is one of {', '.join(names)}."}
+	if task and frappe.db.get_value("Task", task, "project") not in tree.below({project}, tree.parents()):
+		return {"mend": "log_time", "error": f"{task} is not a task on this project."}
+	day = getdate(date or nowdate())
+	title = frappe.db.get_value("Project", project, "project_name") or project
+	summary = [
+		{"label": _("Hours"), "value": f"{flt(hours):g}"},
+		{"label": _("Activity"), "value": activity},
+		{"label": _("Date"), "value": frappe.format_value(day, {"fieldtype": "Date"})},
+		*([{"label": _("Task"), "value": frappe.db.get_value("Task", task, "subject")}] if task else []),
+	]
+	changes = {
+		"what": "time",
+		"title": _("Log {0} h on {1}").format(f"{flt(hours):g}", title),
+		"project": project,
+		"values": {"date": str(day), "hours": flt(hours), "activity_type": activity, "task": task, "description": description},
+		"summary": summary,
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=description),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it logs. Nothing is logged until they approve it.",
+	}
+
+
+def set_cost_budget(
+	project: Annotated[str, "The project's id, such as PROJ-0005."],
+	cost_type: Annotated[str, "The cost type, by its name as Money lists it: Site Labour, Subcontract Costs."],
+	amount: Annotated[float, "Its budget, in the company's currency."],
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest a cost type's budget on a project, new or changed, as a card
+	the reader approves. Approving sets it as Money's Add Cost Type does
+	(budget.set_budget), and it warns when an order or expense goes over."""
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	if not frappe.has_permission("Budget", "create"):
+		return {"error": "The reader may not set budgets."}
+	if flt(amount) <= 0:
+		return {"mend": "set_cost_budget", "error": "Give the budget, more than 0."}
+	company = frappe.db.get_value("Project", project, "company")
+	account = frappe.db.get_value(
+		"Account", {"company": company, "account_name": cost_type, "is_group": 0, "root_type": "Expense"}
+	) or (cost_type if frappe.db.exists("Account", {"name": cost_type, "company": company, "is_group": 0}) else None)
+	if not account:
+		return {"mend": "set_cost_budget", "error": f"There is no expense account called {cost_type}."}
+	title = frappe.db.get_value("Project", project, "project_name") or project
+	currency = money.currency(project)
+	changes = {
+		"what": "budget",
+		"title": _("Budget {0} on {1}").format(cost_type, title),
+		"project": project,
+		"values": {"account": account, "amount": flt(amount)},
+		"summary": [
+			{"label": _("Cost Type"), "value": cost_type},
+			{"label": _("Budget"), "value": frappe.format_value(flt(amount), {"fieldtype": "Currency"}, currency=currency)},
+		],
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it sets. Nothing changes until they approve it.",
+	}
+
+
 def add_contact(
 	project: Annotated[str, "The project's id, such as PROJ-0005."],
 	role: Annotated[
@@ -712,8 +800,9 @@ def add_contact(
 
 
 def approved(changes: dict) -> str:
-	"""A project, status, milestone, member or contact card approved, made by
-	the page's own code as whoever pressed Approve (one/ai_setup.py)."""
+	"""A project, status, milestone, time, budget, member or contact card
+	approved, made by the page's own code as whoever pressed Approve
+	(one/ai_setup.py)."""
 	from onedesk.one_project import contacts, team
 
 	if changes["what"] == "project":
@@ -726,6 +815,14 @@ def approved(changes: dict) -> str:
 		status.change(changes["project"], changes["status"], changes.get("close") or 0)
 	elif changes["what"] == "milestone":
 		frappe.get_doc({"doctype": "Task", "project": changes["project"], "is_milestone": 1, **changes["values"]}).insert()
+	elif changes["what"] == "time":
+		from onedesk.one_project import hours
+
+		hours.log(changes["project"], **changes["values"])
+	elif changes["what"] == "budget":
+		from onedesk.one_project import budget
+
+		budget.set_budget(changes["project"], changes["values"]["account"], changes["values"]["amount"])
 	elif changes["what"] == "member":
 		team.add(changes["project"], changes["user"])
 	else:

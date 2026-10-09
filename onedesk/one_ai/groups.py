@@ -88,7 +88,7 @@ GROUPS = {
 		),
 	},
 	"projects": {
-		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, who has too much on this week, drafting your update, reminding a customer of an overdue invoice, adding a member or a contact, project templates and drafting one, starting a new project, putting a project on hold, completing or cancelling it, adding a milestone",
+		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, who has too much on this week, drafting your update, reminding a customer of an overdue invoice, adding a member or a contact, project templates and drafting one, starting a new project, putting a project on hold, completing or cancelling it, adding a milestone, logging your time, a cost type's budget",
 		"tools": (
 			"project_facts",
 			"projects_needing_attention",
@@ -102,6 +102,8 @@ GROUPS = {
 			"draft_project",
 			"set_status",
 			"add_milestone",
+			"log_time",
+			"set_cost_budget",
 		),
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},

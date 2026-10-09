@@ -86,6 +86,7 @@ COLLECTIONS = {
 	"Task": {
 		"List": "a task's due date as a day, red once it has passed",
 		"Gantt": "a task with only a due date is a bar on its day, and the pills light the mode it is in",
+		"Kanban": "a project's board, a column per status as it is made, with Template and Cancelled put away",
 	},
 	"Lead": {"List": "an overdue next step in red"},
 	"Opportunity": {

@@ -22,7 +22,7 @@
         @change="(e) => e.target.value.trim() && $emit('set', task.name, 'subject', e.target.value.trim())"
       />
       <dl class="grid grid-cols-[7rem_minmax(0,1fr)] items-center gap-y-3 text-base">
-        <dt class="text-ink-gray-5">{{ __("Owner") }}</dt>
+        <dt class="text-ink-gray-5">{{ __("Assigned To") }}</dt>
         <dd class="min-w-0"><People named :users="task.assigned" :people="work.people" :options="canWrite ? team : null" :groups="canWrite ? work.user_groups || [] : []" @add="(u) => $emit('give', task.name, u)" @group="(users) => $emit('give', task.name, users)" @remove="(u) => $emit('take', task.name, u)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Priority") }}</dt>
         <dd><Pill :value="task.priority" :options="work.priorities" :colors="PRIORITY" :label="__('Priority')" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'priority', v)" /></dd>
@@ -52,11 +52,11 @@
           <dd class="truncate text-ink-gray-8">{{ doc.type }}</dd>
         </template>
         <template v-if="task.parent_task">
-          <dt class="text-ink-gray-5">{{ __("Part Of") }}</dt>
+          <dt class="text-ink-gray-5">{{ __("Parent Task") }}</dt>
           <dd class="truncate"><button :class="LINK" @click="$emit('open', task.parent_task)">{{ subject(task.parent_task) }}</button></dd>
         </template>
         <template v-if="waits.length">
-          <dt class="self-start text-ink-gray-5">{{ __("Waits On") }}</dt>
+          <dt class="self-start text-ink-gray-5">{{ __("Depends On") }}</dt>
           <dd class="flex min-w-0 flex-col gap-1">
             <button v-for="one in waits" :key="one.name" class="flex min-w-0 items-center gap-2 text-start hover:underline" @click="$emit('open', one.name)">
               <span class="lucide-circle-check size-4 shrink-0" :class="one.done ? 'text-ink-green-3' : 'text-ink-gray-4'" />
@@ -76,7 +76,7 @@
           <Button v-if="canWrite" variant="ghost" size="sm" icon="lucide-pencil" :aria-label="__('Edit Details')" @click="details" />
         </div>
         <div v-if="doc?.description" class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="doc.description" />
-        <button v-else-if="canWrite" class="text-base text-ink-gray-5 hover:text-ink-gray-8" @click="details">{{ __("Add a description") }}</button>
+        <button v-else-if="canWrite" class="text-base text-ink-gray-5 hover:text-ink-gray-8" @click="details">{{ __("Add Description") }}</button>
       </section>
 
       <section v-if="steps.length || canWrite">

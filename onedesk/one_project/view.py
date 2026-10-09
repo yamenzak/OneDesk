@@ -95,6 +95,8 @@ def said(
 		"status": doc.status,
 		"health": doc.get("one_health"),
 		"customer": doc.customer,
+		# What a stock issue or an expense claim started here is booked to.
+		"company": doc.company,
 		"customer_name": frappe.db.get_value("Customer", doc.customer, "customer_name")
 		if doc.customer
 		else None,
@@ -1078,7 +1080,7 @@ def _on_it(projects: list[str]) -> list[dict]:
 def _unbilled_people(project: str) -> list[dict]:
 	"""The billable time not invoiced yet, by who logged it."""
 	rows = billing._rows(project)
-	currency = billing._company_currency(project)
+	currency = money.currency(project)
 	if rows and currency:
 		rows = billing.in_currency(rows, currency)
 	sheets = {

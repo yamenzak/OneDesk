@@ -820,7 +820,7 @@ onedesk.project.task_details = async (task, modified, done) => {
 		{
 			fieldtype: "Table",
 			fieldname: "depends_on",
-			label: __("Waits On"),
+			label: __("Depends On"),
 			in_place_edit: true,
 			data: (doc.depends_on || []).map((row) => ({ task: row.task })),
 			fields: [

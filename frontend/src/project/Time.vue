@@ -6,6 +6,7 @@
   <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
+      <PlaceSpot :said="spot" class="mb-3" />
       <!-- The title and what can be done, on one line as on Tasks. -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
@@ -70,7 +71,8 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, TabButtons } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
-import { Figures, Loading, __, call, date, followList, go, hours, money, onedesk } from "../kit";
+import { Figures, Loading, PlaceSpot, __, call, date, followList, go, hours, money, onedesk } from "../kit";
+import { usePlace } from "./place";
 import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({
@@ -170,6 +172,20 @@ const groupChoices = computed(() =>
     .map(([key, label]) => ({ label, selected: key === groupBy.value, onClick: () => (groupBy.value = key) }))
 );
 
+// Time is a place (one_studio/places.py): told the hours as its figures say them.
+const spot = usePlace("oneproject.time", () =>
+  said.value && {
+    project: { name: props.projectName, title: props.title, customer: props.customer || null },
+    time: {
+      entries: counted.value,
+      hours: said.value.totals.hours,
+      planned: said.value.totals.planned || null,
+      month: said.value.totals.month,
+      drafts: said.value.totals.drafts || 0,
+      allowance: said.value.allowance ?? null,
+    },
+  }
+);
 const figures = computed(() => {
   const s = said.value;
   const t = s.totals;

@@ -1,0 +1,29 @@
+{%- set b = one_print_block(doc, "time") -%}
+{%- if b %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+	<tr>
+		{%- for one in b.columns %}
+		<td style="padding:5px 0;border-bottom:1px solid #111827;color:#6b7280;{{ 'text-align:right' if loop.index > 3 else '' }}">{{ one|e }}</td>
+		{%- endfor %}
+	</tr>
+	{%- for day, activity, who, hours, amount in b.rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ day|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ activity|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ who|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ hours|e }}</td>
+		{%- if b.priced %}
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ amount|e }}</td>
+		{%- endif %}
+	</tr>
+	{%- endfor %}
+	<tr>
+		<td colspan="3" style="padding:5px 0;color:#6b7280">{{ b.total_label|e }}</td>
+		<td style="padding:5px 0;text-align:right;font-weight:600;color:#111827">{{ b.hours|e }}</td>
+		{%- if b.priced %}
+		<td style="padding:5px 0;text-align:right;font-weight:600;color:#111827">{{ b.amount|e }}</td>
+		{%- endif %}
+	</tr>
+</table>
+{%- endif %}

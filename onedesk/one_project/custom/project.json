@@ -172,7 +172,8 @@
    "options": "Company:company:default_currency",
    "insert_after": "estimated_costing",
    "module": "One Project",
-   "description": ""
+   "description": "",
+   "non_negative": 1
   },
   {
    "dt": "Project",
@@ -181,7 +182,8 @@
    "fieldtype": "Float",
    "insert_after": "one_time_budget",
    "module": "One Project",
-   "description": ""
+   "description": "",
+   "non_negative": 1
   },
   {
    "dt": "Project",

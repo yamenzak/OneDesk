@@ -9042,7 +9042,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | 0 | Gates: 1874 fast tests, 95 demo checks | done |
 | 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done, revisited |
 | 2 | A project's head and Overview | done, revisited |
-| 3 | Tasks, Time, Money | done |
+| 3 | Tasks, Time, Money | done, revisited |
 | 4 | Invoices, Suppliers, Team, Files, Activity | done |
 | 5 | Workload, Timesheet, Templates | done |
 | 6 | Across modules on the demo | done |
@@ -9304,6 +9304,91 @@ projects and reads no invoices.
 - **Works (1)**: `oneproject_its_tabs_add_up` checks progress on work under
   way, Time's sums and count against its totals, and Money's customer side
   and currency for Samir.
+
+Revisited against the points skipped the first time. Looked at on the villa
+and the showroom as Samir, a time and materials invoice and a retainer's as
+the workspace's administrator, and the code behind the three tabs.
+
+Fixed:
+
+- **Rules on the server (2)**: time on a project billed by the hour is
+  billable however the timesheet is made: OneHR, the API or Data Import
+  (`hours.billable`). Desk's timesheet form ticks it as the project is
+  picked, so an untick there stays. A row's task is on the row's project or
+  one under it (`hours.on_its_project`). Planned Hours, Time Budget, a
+  task's hours and a milestone's bill share are never below 0. A template
+  task, a progress line and a cost centre's budget say their rule in plain
+  words.
+- **Hand-offs (3)**: README Connections names New Expense Claim to OneHR,
+  and OneHR's names it back. The hand-off is checked on the demo.
+- **Tier declared (4)**: Task's Kanban is declared.
+- **Extensible (7)**: Tasks, Time and Money are places,
+  `oneproject.tasks`, `oneproject.time` and `oneproject.money`, each told
+  what it shows.
+- **Notifications (10)**: Hours Over Plan now also tells a project's
+  manager when the whole project passes its planned hours, and Over Budget
+  when its time's cost passes its Time Budget. Over Budget says the amounts
+  in the company's currency, not the site's.
+- **Printed (11)**: One Sales Invoice prints the hours a time and materials
+  invoice bills under Time Billed: day, activity, who, hours and amount. A
+  retainer's invoice lists them under Time Spent, without amounts, as its fee
+  bills the month.
+- **Plain words (12)**: Owner is Assigned To, Part Of is Parent Task, Waits
+  On is Depends On, as frappe calls them. Add a description is Add
+  Description.
+- **Documented, OneAI (13)**: OneAI logs time on your timesheet and sets a
+  cost type's budget, each as a card. The README lists both, the rules, the
+  print and the places.
+- **Legal (16)**: the AI Addendum (revision 17) names the time and budget
+  cards and that OneAI reads the time each person logged. The Privacy Policy
+  (revision 22) says who sees each person's hours and who sees what they
+  cost.
+- **Clean code (17)**: one way to read a project's company currency
+  (`money.currency`), used by Money, Time and billing.
+- **What ERPNext already does (currency, statuses)**: a draft timesheet
+  counts its hours but no cost or amount, as ERPNext counts it. Time's
+  currency is the company's. Planned leaves out cancelled tasks. Issue Stock
+  and New Expense Claim carry the project's company.
+- **Demo (1)**: the villa's workshop logged fabrication on the installation
+  and handover tasks, its project manager's hours sat on tasks, and the
+  handover phase was Working with time on it. The workshop's time is now on
+  the factory's tasks, the installers' on the site's, Rania's on no task,
+  and the glass came late: Install glass has been under way since August
+  and what comes after it is to do from next week, each phase holding its
+  own tasks inside the project's end. The subcontract cost went to Cost of
+  Goods Sold. It is now under Subcontract Costs, reposted. A Berlin and a
+  New York customer's addresses read "Business Bay" and printed "None
+  BERLIN". Each city has its own street and postcode. Repaired on this site.
+- **Demo (1)**: a check covers the billable default, the task's project,
+  the non-negative fields, both cards, Hours Over Plan on the villa, the
+  invoice's Time Billed, the subcontract's cost type and no time on work
+  still to do.
+
+Left as they are:
+
+- **Intake (14)**: a supplier's timesheet or a site's daily log sent by mail
+  isn't read into Time. Noted for the Intake arc.
+- **Precision**: Time Billed's total can differ from the invoice's lines by
+  a few cents, as ERPNext rounds each timesheet row and each invoice line
+  apart.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | the villa's tasks and time, the showroom | time on its own tasks, a check for the rules, cards, notification and print |
+| 2 Rules on the server | Timesheet, Task, Project | billable, task on its project, never below 0 |
+| 3 Hand-offs | README Connections | expense claim to OneHR |
+| 4 Tier declared | `one/tiers.py` | Task's Kanban added |
+| 6 Nothing lost | the task panel, Time and Money | every field in reach through Edit Details and the timesheet |
+| 7 Extensible | `one_studio/places.py` | three places |
+| 9 Overrides recorded | `scripts/overrides.py` | recorded |
+| 10 Notifications | `notifications/one_project/` | Hours Over Plan and Over Budget on the whole project |
+| 11 Printed | One Sales Invoice | Time Billed, Time Spent |
+| 12 Plain words | Tasks, the task panel | frappe's labels |
+| 13 Documented, OneAI | `ai.py`, README | time and budget cards |
+| 14 Intake | `tests/samples/intake` | open, noted for the Intake arc |
+| 16 Legal | AI Addendum, Privacy Policy | revisions 17 and 22 |
+| 17 Clean code | `money.py`, `billing.py`, `hours.py` | one currency helper |
+| What ERPNext already does | currency, drafts, cancelled tasks | company currency, drafts cost nothing |
 
 #### 4. Invoices, Suppliers, Team, Files and Activity
 

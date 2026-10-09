@@ -43,7 +43,7 @@ def days_kept(doc, method=None) -> None:
 	if not doc.is_template:
 		return
 	if (doc.start or 0) < 0 or (doc.duration or 0) < 0:
-		frappe.throw(_("A template task cannot begin before the project or last fewer than no days."))
+		frappe.throw(_("A template task begins on or after the project's first day, and lasts 0 days or more."))
 
 
 @frappe.whitelist(methods=["POST"])

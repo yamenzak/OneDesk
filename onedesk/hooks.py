@@ -489,9 +489,14 @@ doc_events = {
 	},
 	# A block reads as a block. See one_hr/timesheet.py.
 	"Timesheet": {
+		# A row on a project billed by the hour is billable, and its task is
+		# on its project, however it's made. See one_project/hours.py.
+		"before_insert": "onedesk.one_project.hours.billable",
+		"validate": "onedesk.one_project.hours.on_its_project",
 		"before_validate": "onedesk.one_hr.timesheet.before_validate",
-		# A retainer's hours for the month, used. See one_project/tell.py.
-		"on_submit": "onedesk.one_project.tell.hours_used",
+		# A retainer's hours for the month used, and a project's planned hours
+		# or Time Budget passed. See one_project/tell.py.
+		"on_submit": ["onedesk.one_project.tell.hours_used", "onedesk.one_project.tell.time_over"],
 	},
 	# The third request doctype, answered like the other two. See one_hr/leave.py.
 	# An earning books to the company's Salary account. See one_hr/accounts.py.
@@ -1338,6 +1343,9 @@ one_ai_suggests = [
 	# A project's status, and a milestone on it, changed when the reader approves.
 	"onedesk.one_project.ai.set_status",
 	"onedesk.one_project.ai.add_milestone",
+	# Time on the reader's timesheet, and a cost type's budget, when approved.
+	"onedesk.one_project.ai.log_time",
+	"onedesk.one_project.ai.set_cost_budget",
 	# A reminder about an invoice still owed, opened in the email window to send.
 	"onedesk.one_project.ai.remind_customer",
 	# Somebody on a project's team or among its contacts, added when the reader approves.

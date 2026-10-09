@@ -170,6 +170,7 @@ def one_print_block(doc, block: str) -> dict:
 		"payment": payment,
 		"signatures": signatures,
 		"progress": progress,
+		"time": time_billed,
 	}[block](doc)
 	return {**shown, "colour": colour(doc)} if shown else {}
 
@@ -457,4 +458,40 @@ def progress(doc) -> dict:
 			for one in said["invoices"]
 		],
 		"columns": (_("Invoice"), _("Date"), _("Total"), _("Outstanding")),
+	}
+
+
+def time_billed(doc) -> dict:
+	"""The hours an invoice bills, from ERPNext's own Time Sheets table on
+	it: the day, the activity, who did it, the hours and what they come to.
+	A retainer's month is billed as its fee, so its hours show without what
+	they would come to. Nothing for an invoice that bills no time."""
+	if doc.doctype != "Sales Invoice" or not doc.get("timesheets"):
+		return {}
+	sheets = {one.time_sheet for one in doc.timesheets if one.time_sheet}
+	who = dict(
+		frappe.get_all("Timesheet", filters={"name": ["in", list(sheets)]}, fields=["name", "employee_name"], as_list=True)
+	)
+	details = [one.timesheet_detail for one in doc.timesheets if one.timesheet_detail]
+	projects = set(frappe.get_all("Timesheet Detail", filters={"name": ["in", details]}, pluck="project")) | {doc.get("project")}
+	kinds = set(frappe.get_all("Project", filters={"name": ["in", list(projects - {None})]}, pluck="one_kind"))
+	priced = "Retainer" not in kinds
+	rows = [
+		(
+			frappe.format_value(one.from_time, {"fieldtype": "Date"}) if one.from_time else "",
+			one.activity_type or "",
+			who.get(one.time_sheet) or "",
+			f"{flt(one.billing_hours):g}",
+			money(doc, one.billing_amount) if priced else "",
+		)
+		for one in sorted(doc.timesheets, key=lambda one: str(one.from_time or ""))
+	]
+	return {
+		"heading": _("Time Billed") if priced else _("Time Spent"),
+		"columns": (_("Date"), _("Activity"), _("Employee"), _("Hours"), *((_("Amount"),) if priced else ())),
+		"rows": rows,
+		"priced": priced,
+		"total_label": _("Total"),
+		"hours": f"{sum(flt(one.billing_hours) for one in doc.timesheets):g}",
+		"amount": money(doc, sum(flt(one.billing_amount) for one in doc.timesheets)) if priced else "",
 	}

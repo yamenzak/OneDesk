@@ -14,11 +14,12 @@ clause(
 	body="""
 		In OneProject, when you ask OneAI about a project, it reads the project as you see it on its page:
 		its figures, its money with the customer and with suppliers (orders, invoices, payments, retention
-		and budgets), its tasks, its people, the outside contacts named on it with their role, email and
-		phone, and the team's updates, with those of its sub-projects you may see. Asked who has too much on,
-		it reads the week as Workload shows it to you. A task, a milestone, a reminder to a customer, a
-		member, a contact, a new project or a change to a project's status it suggests is added, sent or
-		made only when you approve it.
+		and budgets), its tasks, the time each person logged on it, its people, the outside contacts named
+		on it with their role, email and phone, and the team's updates, with those of its sub-projects you
+		may see. Asked who has too much on, it reads the week as Workload shows it to you. A task, a
+		milestone, time on your own timesheet, a cost type's budget, a reminder to a customer, a member, a
+		contact, a new project or a change to a project's status it suggests is added, sent or made only
+		when you approve it.
 	""",
 )
 
@@ -70,5 +71,17 @@ clause(
 		the project's site, or your shift that day named it, is written as a timesheet on that project: the
 		day and the hours, nothing about where else you were. It is seen by whoever may read the project's
 		time, and costs or bills the day as any timesheet does.
+	""",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneproject-time",
+	module=M,
+	body="""
+		A project's Time view shows, to whoever may read the project, the hours each person logged on it:
+		the day, the activity, the task and whether it is billed. What those hours cost and bill, and so
+		what each person's time comes to, is shown only to those who may see timesheet rates.
 	""",
 )

@@ -114,9 +114,9 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 21: Workload's hours, lowered by approved leave without saying why.
+		# 22: a project's Time view shows each person's hours, their cost only to those who see rates.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 21,
+		"revision": 22,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 16: OneAI suggests a project's status and its milestones.
+		# 17: OneAI reads a project's time by person, and suggests time and budgets.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 16,
+		"revision": 17,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

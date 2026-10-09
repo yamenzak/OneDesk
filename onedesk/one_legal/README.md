@@ -211,7 +211,9 @@ person acknowledges it.
   Featured Media opens for anybody with its link. 18, attendance on a project's
   site becomes time on the project. 19, users' and employees' pictures from
   Gravatar, the company's logo. 20, the outside people named on a project.
-  21, Workload's hours, lowered by approved leave without saying why.
+  21, Workload's hours, lowered by approved leave without saying why. 22, a
+  project's Time view shows each person's hours, and their cost only to those
+  who see timesheet rates.
 - AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
   calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
   tasks and their steps. 8, OneAI writes extensions, read a second time, and
@@ -222,7 +224,9 @@ person acknowledges it.
   reads a project's outside contacts, and drafts a reminder, a member or a
   contact for you to approve. 14, OneAI reads the team's week as Workload
   shows it. 15, OneAI suggests a new project, made only when you approve it. 16, OneAI
-  suggests a project's status and its milestones.
+  suggests a project's status and its milestones. 17, OneAI reads a project's
+  time by person, and suggests time on your timesheet and a cost type's
+  budget.
 
 ### gate.py
 

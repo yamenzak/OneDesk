@@ -70,8 +70,10 @@ def test_a_page_keeps_its_forms_menu_and_sidebar(doctype):
 	assert f'useRecord("{doctype}"' in source
 	assert "record.menu(" in source
 	assert "follow(" in source, "the page hears the record saved, as a form does"
-	for drawn in ("Assigned To", "Shared With", "Currently Viewing", "Last Edited By"):
-		assert drawn not in source, f"the page draws its own {drawn}; frappe's sidebar has it"
+	# A page drawing its own sidebar draws these together. One alone, such
+	# as a task table's Assigned To column, is a column.
+	drawn = [one for one in ("Assigned To", "Shared With", "Currently Viewing", "Last Edited By") if one in source]
+	assert len(drawn) < 2, f"the page draws its own {', '.join(drawn)}; frappe's sidebar has them"
 	for word in (
 		"Print",
 		"Email",
@@ -156,6 +158,9 @@ def test_each_page_fires_its_events_with_only_its_powers():
 			f"oneproject.{view}": (ROOT / "frontend" / "src" / "project" / f"{name}.vue").read_text()
 			for view, name in (
 				("overview", "Overview"),
+				("tasks", "ProjectPage"),
+				("time", "Time"),
+				("money", "Money"),
 				("invoices", "Invoices"),
 				("suppliers", "Suppliers"),
 				("team", "Team"),

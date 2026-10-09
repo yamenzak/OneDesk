@@ -414,7 +414,7 @@ def a_project_manager_sets_a_projects_budget_and_not_a_cost_centres():
 		try:
 			budget.insert()
 		except frappe.ValidationError as e:
-			assert "Only the books set a budget" in str(e), e
+			assert "Only an accounts user sets a budget" in str(e), e
 			return
 	raise AssertionError("a project manager set a cost centre's budget")
 
@@ -653,6 +653,7 @@ HANDOFFS = (
 	("OneProject", "OneTask", "Task", {"project": ["is", "set"]}),
 	("OneHR", "OneProject", "Timesheet", {"parent_project": ["is", "set"]}),
 	("OneHR", "OneProject", "Expense Claim", {"project": ["is", "set"]}),
+	("OneProject", "OneHR", "Expense Claim", {"project": ["is", "set"], "docstatus": 1}),
 	("OneHR", "OneBook", "Journal Entry Account", {"reference_type": "Payroll Entry", "docstatus": 1}),
 	("OneHR", "OneInventory", "Asset", {"custodian": ["is", "set"]}),
 	("OneBook", "OneCRM", "Payment Entry Reference", {"reference_doctype": "Sales Invoice", "docstatus": 1}),
@@ -4335,3 +4336,85 @@ def oneproject_its_overview_keeps_its_rules_and_tells_its_people():
 		assert _close(view._overdue(scope), chased), (view._overdue(scope), chased)
 		printed = progress(frappe.get_doc("Project", VILLA))
 		assert "Staircase balustrade" in {one[0] for one in printed["projects"]} and printed["contract"], printed
+
+
+@check
+def oneproject_its_tasks_time_and_money_keep_their_rules():
+	"""Time on a project billed by the hour is billable however it's written,
+	desk's form asks before ticking it, and a row's task is on its project.
+	Hours, shares and budgets are never below 0. OneAI's time and budget
+	cards change nothing until approved. Passing the villa's planned hours
+	tells its manager. A time and materials invoice prints the hours it bills,
+	the villa's subcontract costs as a subcontract, and no task still to do
+	has time on it."""
+	from unittest.mock import patch
+
+	from onedesk.one.print_blocks import time_billed
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import ai, hours
+
+	rania = frappe.db.get_value("Employee", {"user_id": "rania@one.test"})
+	with as_user("samir@one.test"):
+		assert hours.billed_hourly(SHOWROOM) and not hours.billed_hourly(VILLA)
+	sheet = frappe.get_doc(
+		{
+			"doctype": "Timesheet",
+			"employee": rania,
+			"company": COMPANY,
+			"time_logs": [{"activity_type": "Design", "from_time": now_datetime(), "hours": 2, "project": SHOWROOM}],
+		}
+	).insert(ignore_permissions=True)
+	assert sheet.time_logs[0].is_billable == 1, "time on a project billed by the hour is billable"
+	elsewhere = frappe.db.get_value("Task", {"project": SHOWROOM, "is_group": 0})
+	sheet.append("time_logs", {"activity_type": "Installation", "from_time": add_days(now_datetime(), 1), "hours": 1, "project": VILLA, "task": elsewhere})
+	try:
+		sheet.save(ignore_permissions=True)
+	except frappe.ValidationError:
+		pass
+	else:
+		raise AssertionError("a row's task was on another project")
+	for doctype, name, field in (("Project", VILLA, "one_time_budget"), ("Project", VILLA, "one_hours_planned"), ("Task", elsewhere, "expected_time"), ("Task", elsewhere, "one_bill_share")):
+		doc = frappe.get_doc(doctype, name)
+		doc.set(field, -1)
+		try:
+			doc.save(ignore_permissions=True)
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError(f"{doctype} {field} took -1")
+	with as_user("samir@one.test"):
+		card = ai.log_time(SHOWROOM, 3, "Design", task=elsewhere)
+		assert card.get("state") == "Proposed" and ai.log_time(SHOWROOM, 0, "Design").get("mend") == "log_time"
+		before = frappe.db.count("Timesheet Detail", {"project": SHOWROOM})
+		proposals.apply(card["proposal"])
+		assert frappe.db.count("Timesheet Detail", {"project": SHOWROOM}) == before + 1
+		card = ai.set_cost_budget(ACME, "Subcontract Costs", 12000)
+		assert card.get("state") == "Proposed" and not frappe.db.exists("Budget", {"project": ACME, "docstatus": 1})
+		proposals.apply(card["proposal"])
+		assert frappe.db.exists("Budget", {"project": ACME, "docstatus": 1})
+	told = []
+	planned = sum(frappe.get_all("Timesheet Detail", filters={"project": VILLA, "docstatus": 1}, pluck="hours"))
+	frappe.db.set_value("Project", VILLA, "one_hours_planned", planned + 1)
+	frappe.db.set_value("Task", {"project": VILLA}, "expected_time", 0)
+	over = frappe.get_doc(
+		{
+			"doctype": "Timesheet",
+			"employee": rania,
+			"company": COMPANY,
+			"time_logs": [{"activity_type": "Project Management", "from_time": add_days(now_datetime(), 2), "hours": 2, "project": VILLA}],
+		}
+	).insert(ignore_permissions=True)
+	with patch("onedesk.one.notify.notify", side_effect=lambda name, *args, **kwargs: told.append(name)):
+		over.submit()
+	assert "Hours Over Plan" in told, told
+	invoice = frappe.db.get_value("Sales Invoice Timesheet", {"parenttype": "Sales Invoice"}, "parent")
+	printed = time_billed(frappe.get_doc("Sales Invoice", invoice))
+	assert printed["rows"] and printed["heading"], printed
+	subcontract = frappe.db.get_value("Purchase Invoice Item", {"item_code": "SVC-SUB", "docstatus": 1, "project": VILLA}, "expense_account")
+	assert subcontract and frappe.db.get_value("Account", subcontract, "account_name") == "Subcontract Costs", subcontract
+	early = frappe.db.sql(
+		"""select log.task from `tabTimesheet Detail` log join `tabTask` task on task.name = log.task
+		where log.docstatus = 1 and task.project = %s and task.status = 'Open'""",
+		VILLA,
+	)
+	assert not early, early

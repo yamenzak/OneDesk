@@ -556,6 +556,7 @@ No doctypes yet.
 * `onedesk.one_project.contacts.contacts`
 * `onedesk.one_project.contacts.remove`
 * `onedesk.one_project.contacts.save`
+* `onedesk.one_project.hours.billed_hourly`
 * `onedesk.one_project.hours.entries`
 * `onedesk.one_project.hours.log`
 * `onedesk.one_project.kinds.add_contract`

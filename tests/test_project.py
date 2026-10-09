@@ -627,7 +627,7 @@ def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
 	approved = ai.split("def approved", 1)[1].split("\ndef ", 1)[0]
 	assert "team.add(" in approved and "contacts.save(" in approved
 	setup = (tree.APP / "one" / "ai_setup.py").read_text()
-	assert 'if what in ("project", "status", "milestone", "member", "contact"):' in setup
+	assert 'if what in ("project", "status", "milestone", "time", "budget", "member", "contact"):' in setup
 
 
 def test_workload_reads_true_follows_and_is_asked_about():
@@ -1292,7 +1292,7 @@ def test_the_project_page_tells_oneai_where_it_is():
 def test_a_retainer_tells_whoever_runs_it():
 	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= set(tree.notifications())
 	assert '"onedesk.one_project.tell.retainer_months"' in HOOKS
-	assert '"on_submit": "onedesk.one_project.tell.hours_used"' in HOOKS
+	assert '"on_submit": ["onedesk.one_project.tell.hours_used", "onedesk.one_project.tell.time_over"]' in HOOKS
 	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
 	assert "**Retainer Month to Invoice**" in readme and "**Retainer Hours Used**" in readme
 
@@ -1933,7 +1933,7 @@ def test_the_task_panel_is_the_same_task_onetask_opens():
 	):
 		assert said in panel
 	assert 'emit("add", props.task.project, text, { parent_task: props.task.name })' in panel
-	assert '__("Waits On")' in panel and '__("Repeat")' in panel and '__("Stop Repeating")' in panel
+	assert '__("Depends On")' in panel and '__("Repeat")' in panel and '__("Stop Repeating")' in panel
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.task_details = async (task, modified, done) =>" in actions
 	assert 'frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }' in actions
@@ -2447,7 +2447,7 @@ def test_money_shows_its_totals_to_every_reader_and_links_only_for_those_who_may
 	assert "if _sees(doctype):\n\t\t\tcustomer.append" not in money
 	assert '_opens(received)' in money and '_opens(paid)' in money
 	# Amounts are in the project's company's currency, as its base amounts are.
-	assert '"currency": _currency(project)' in money and 'frappe.db.get_default("currency")' not in money
+	assert '"currency": currency(project)' in money and 'frappe.db.get_default("currency")' not in money
 
 
 def test_a_debit_note_is_never_late_and_the_rules_stand_in_hooks():

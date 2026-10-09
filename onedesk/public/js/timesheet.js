@@ -30,6 +30,17 @@ frappe.ui.form.on("Timesheet", {
 	},
 });
 
+// A row on a project billed by the hour starts billable, as Log Time and the
+// timer make it (one_project/hours.py `bills_hours`). It can be unticked.
+frappe.ui.form.on("Timesheet Detail", {
+	async project(frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
+		if (!row.project || row.is_billable) return;
+		const { message } = await frappe.call("onedesk.one_project.hours.billed_hourly", { project: row.project });
+		if (message) frappe.model.set_value(cdt, cdn, "is_billable", 1);
+	},
+});
+
 // A row with an end time is finished, whatever its Completed box says.
 function running(frm) {
 	return (frm.doc.time_logs || []).find((row) => row.from_time && !row.to_time);

@@ -59,7 +59,13 @@ def test_a_records_views_are_the_one_tab_row():
 
 def test_no_page_draws_its_own_record_sidebar():
 	assert not (SRC / "kit" / "Record.vue").exists()
-	found = [str(path.relative_to(ROOT)) for path in VUE if re.search(r"__\(['\"](Assigned To|Shared With|Currently Viewing)['\"]", path.read_text())]
+	# A sidebar draws these together. One alone, such as a task table's
+	# Assigned To column, is a column.
+	found = [
+		str(path.relative_to(ROOT))
+		for path in VUE
+		if len(set(re.findall(r"__\(['\"](Assigned To|Shared With|Currently Viewing)['\"]", path.read_text()))) > 1
+	]
 	assert not found, found
 
 

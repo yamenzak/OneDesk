@@ -34,6 +34,7 @@
 
       <Overview v-if="view === 'overview'" :said="said" :writing="writing" @changed="load" @view="(now) => (view = now)" @main="only = true" />
       <template v-else-if="taskView">
+        <PlaceSpot :said="taskSpot" class="mb-3" />
         <Loading v-if="!work" />
         <Tasks v-else-if="view === 'tasks'" :current="opened?.name" :work="work" :groups="groups" :team="team" :can-write="work.can_write" @open="open" @set="set" @give="give" @take="take" @add="add" />
         <Board v-else-if="view === 'board'" :work="work" :tasks="shown" :show-done="showDone" :can-write="work.can_write" @open="open" @set="set" />
@@ -77,6 +78,7 @@ import Time from "./Time.vue";
 import Timeline from "./Timeline.vue";
 import { groupTasks, visible } from "./group";
 import { onlyArg, provideOnly } from "./only";
+import { usePlace } from "./place";
 import { useWork } from "./useWork";
 
 // The timeline brings frappe-ui's editor, so it loads when first shown.
@@ -151,6 +153,21 @@ watch(() => said.value?.modified, (now, before) => now && before && now !== befo
 watch(record.record, () => said.value && report());
 
 const taskView = computed(() => ["tasks", "board", "timeline"].includes(view.value));
+// Tasks, as a table, board or timeline, is a place (one_studio/places.py).
+const taskSpot = usePlace("oneproject.tasks", () => {
+  if (!taskView.value || !work.value || !said.value) return null;
+  const today = new Date().toISOString().slice(0, 10);
+  const open = work.value.tasks.filter((one) => !["Completed", "Cancelled", "Template"].includes(one.status));
+  return {
+    project: { name: said.value.name, title: said.value.title },
+    tasks: {
+      view: view.value,
+      count: work.value.tasks.length,
+      open: open.length,
+      late: open.filter((one) => one.exp_end_date && one.exp_end_date < today).length,
+    },
+  };
+});
 // The views in the bar. Board and Timeline are the tasks laid out another way,
 // as monday's views of a board are, so they sit under Tasks and its switch.
 const LAYOUTS = [
@@ -185,7 +202,7 @@ const tree = computed(() => (work.value?.groups || []).map((one) => one.key));
 // A view the reader may not see (Money, Suppliers) opens Overview instead.
 watch(VIEWS, (now) => said.value && !now.some((one) => one.key === tab.value) && (view.value = "overview"));
 
-const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Owner"), due: __("Due Date") });
+const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Assigned To"), due: __("Due Date") });
 const groupLabel = computed(() => GROUPS()[groupBy.value]);
 const groupChoices = computed(() => Object.entries(GROUPS()).map(([key, label]) => ({ label, selected: key === groupBy.value, onClick: () => (groupBy.value = key) })));
 const shown = computed(() => (work.value ? visible(work.value, { search: search.value, showDone: showDone.value }) : []));

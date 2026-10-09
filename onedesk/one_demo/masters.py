@@ -177,14 +177,28 @@ def _contact(person, doctype, name):
 	frappe.db.set_value(doctype, name, f"{doctype.lower()}_primary_contact", contact.name)
 
 
+#: A street and a postcode in each customer's city, so an address prints as
+#: its country writes one. The Emirates have no postcodes.
+STREETS = {
+	"Dubai": ("Business Bay", None),
+	"Abu Dhabi": ("Al Reem Island", None),
+	"Sharjah": ("Al Majaz", None),
+	"Berlin": ("Friedrichstraße", "10117"),
+	"New York": ("Park Avenue", "10022"),
+	"London": ("Old Street", "EC1V 9HL"),
+}
+
+
 def _address(name, doctype, city):
+	street, postcode = STREETS[city]
 	make(
 		{
 			"doctype": "Address",
 			"address_title": name,
 			"address_type": "Billing",
-			"address_line1": f"{len(name) * 7} {city} Business Bay",
+			"address_line1": f"{street} {len(name) * 7}" if city == "Berlin" else f"{len(name) * 7} {street}",
 			"city": city,
+			"pincode": postcode,
 			"country": "United Arab Emirates" if city in ("Dubai", "Abu Dhabi", "Sharjah") else "United States" if city == "New York" else "Germany" if city == "Berlin" else "United Kingdom",
 			"is_primary_address": 1,
 			"links": [{"link_doctype": doctype, "link_name": name}],
