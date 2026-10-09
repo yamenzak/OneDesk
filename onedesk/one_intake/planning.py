@@ -327,7 +327,8 @@ def _money(ctx: dict, reading) -> None:
 
 def _items(reading, party: str, table: str, field: str, code: str) -> dict:
 	"""Which item each line is: the party's own code for it (Item Supplier,
-	Item Customer Detail), our item code, or an item of exactly that name.
+	Item Customer Detail), our item code, an item of exactly that name, or
+	the one item whose name the line's words say.
 	A line that is none of these stays words, and a new stock item is never
 	made from a document."""
 	out = {}
@@ -337,6 +338,8 @@ def _items(reading, party: str, table: str, field: str, code: str) -> dict:
 			found = frappe.db.get_value(table, {field: party, code: line.code, "parenttype": "Item"}, "parent") or (line.code if frappe.db.exists("Item", line.code) else None)
 		if not found and line.text:
 			found = frappe.db.get_value("Item", {"item_name": line.text.strip(), "disabled": 0}, "name")
+		if not found and line.text:
+			found = _named_in(line.text)
 		if found:
 			out[index] = found
 	if not out and len(reading.lines) == 1 and table == "Item Supplier":
@@ -352,6 +355,20 @@ def _items(reading, party: str, table: str, field: str, code: str) -> dict:
 		if last:
 			out[0] = last[0][0]
 	return out
+
+
+def _named_in(text: str) -> str | None:
+	"""The one item whose whole name, of two words or more, the line's words
+	say ("Scaffolding hire for the villa facade" is Scaffolding Hire). None
+	when no item or several do."""
+	words = " {} ".format(" ".join("".join(c if c.isalnum() else " " for c in text).split()))
+	found = frappe.db.sql(
+		"""select name from `tabItem` where disabled = 0 and item_name like '%% %%'
+		and %s like concat('%% ', item_name, ' %%') limit 2""",
+		words,
+		pluck=True,
+	)
+	return found[0] if len(found) == 1 else None
 
 
 def _payable(ctx: dict, reading) -> None:

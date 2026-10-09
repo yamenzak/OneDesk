@@ -88,8 +88,10 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 2. **Save** keeps a draft you can still change. **Submit** issues it: it is in
    the books from then on and can no longer be edited, only cancelled or
    credited.
-3. The band under the title says what is **Outstanding**, when it is
-   **Due** (in red, with how many days late, once it has passed), what is
+3. The band under the title says the **Project** it is for, what is
+   **Outstanding**, when it is **Due** (the first part still unpaid, as
+   ERPNext's status reads it, so a retention held for a year doesn't hide a
+   late payment; in red, with how many days late, once it has passed), what is
    **Paid** (with a line showing how much of the total) and the **Total**.
    Beside them, **Billed to** the customer is a bar a month for a year of
    what they were invoiced, with this invoice's month in blue and the rest in

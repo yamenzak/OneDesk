@@ -676,6 +676,7 @@ HEADS = [
 	},
 	{
 		"doctype": "Expense Claim",
+		"band": [{"label": _lt("Project"), "source": "Measure", "measure": "project.of"}],
 		"sentences": [{"measure": "expense.about"}],
 		"verbs": [{"verb": "expense.approve"}, {"verb": "expense.reject"}],
 	},

@@ -94,7 +94,6 @@
           <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-md:hidden">{{ __("Total") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Outstanding") }}</ListHeaderCell>
-          <ListHeaderCell v-if="holds" class="justify-end max-md:hidden">{{ __("Retention") }}</ListHeaderCell>
           <ListHeaderCell />
         </ListHeader>
         <ListRows :items="bills.bills" row-key="name" v-slot="{ item }">
@@ -111,11 +110,11 @@
             <ListCell class="tabular-nums max-md:hidden" :class="item.late ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ item.owed || item.status === "Draft" ? date(item.due) : "" }}</ListCell>
             <ListCell><Badge :label="__(item.status)" :theme="BILL[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8 max-md:hidden">{{ sum(item.total, item.currency) }}</ListCell>
-            <ListCell class="justify-end tabular-nums" :class="item.owed ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ sum(item.status === "Draft" ? item.outstanding : item.owed, item.currency) }}</ListCell>
-            <ListCell v-if="holds" class="justify-end max-md:hidden">
-              <div v-if="item.held" class="min-w-0 text-end">
-                <div class="tabular-nums text-ink-gray-8">{{ sum(item.held, item.currency) }}</div>
-                <div class="truncate text-sm text-ink-gray-5">{{ __("Due {0}", [date(item.held_due)]) }}</div>
+            <!-- ERPNext's outstanding, as the invoice says it; what's held in it under. -->
+            <ListCell class="justify-end">
+              <div class="min-w-0 text-end">
+                <div class="tabular-nums" :class="item.outstanding ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ sum(item.outstanding, item.currency) }}</div>
+                <div v-if="item.held" class="truncate text-sm text-ink-gray-5" :title="__('Due {0}', [date(item.held_due)])">{{ __("{0} held", [sum(item.held, item.currency)]) }}</div>
               </div>
             </ListCell>
             <ListCell class="justify-end" @click.stop>
@@ -203,7 +202,7 @@ const figures = computed(() => {
     { title: __("Ordered"), value: amount(ordered), note: total("left") ? __("{0} left to bill", [amount(total("left"))]) : "" },
     { title: __("Billed"), value: amount(t.invoiced || total("billed")), bar: share(t.invoiced || total("billed"), ordered) },
     { title: __("Paid"), value: amount(t.paid), note: t.advance ? __("{0} paid in advance", [amount(t.advance)]) : "" },
-    { title: __("To Pay"), value: amount(t.outstanding), alarm: t.overdue > 0, note: t.overdue ? __("{0} overdue", [amount(t.overdue)]) : "" },
+    { title: __("To Pay"), value: amount(t.owed_now), alarm: t.overdue > 0, note: t.overdue ? __("{0} overdue", [amount(t.overdue)]) : "" },
     ...(t.retention ? [{ title: __("Retention Held"), value: amount(t.retention) }] : []),
   ];
 });
@@ -244,11 +243,10 @@ const BILL = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: 
 const bills = ref(null);
 // One supplier needs no column of its own.
 const byParty = computed(() => (bills.value?.parties || 0) > 1);
-const holds = computed(() => (bills.value?.bills || []).some((one) => one.held));
 const billColumns = computed(() => ({
   base: ["minmax(0,1fr)", "auto", "6.5rem", "2rem"],
-  md: ["minmax(9rem,1.3fr)", byParty.value && "minmax(6rem,1fr)", "7.5rem", "7rem", "7rem", "7rem", holds.value && "7rem", "2rem"].filter(Boolean),
-  lg: ["minmax(12rem,1.3fr)", byParty.value && "minmax(8rem,1fr)", "6.5rem", "6.5rem", "7.5rem", "7.5rem", "7.5rem", holds.value && "7.5rem", "2rem"].filter(Boolean),
+  md: ["minmax(9rem,1.3fr)", byParty.value && "minmax(6rem,1fr)", "7.5rem", "7rem", "7rem", "7rem", "2rem"].filter(Boolean),
+  lg: ["minmax(12rem,1.3fr)", byParty.value && "minmax(8rem,1fr)", "6.5rem", "6.5rem", "7.5rem", "7.5rem", "7.5rem", "2rem"].filter(Boolean),
 }));
 function forText(item) {
   const one = item.for || {};

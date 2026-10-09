@@ -311,8 +311,8 @@ Change any of it under Role Permissions; One does not change it back.
 - **From OneIntake**: An enquiry from somebody new that reaches a mailbox OneAI reads becomes a new lead. A customer's order that arrives by mail becomes a draft Sales Order.
 - **From OneMail**: Mail sent to a lead or a deal, and the replies to it, are on its timeline. The first mail sent to a lead counts as its first reply.
 - **From OneBook**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
-- **From OneProject**: Draw Up Contract on a project makes a Contract for it with its customer or one of its suppliers, listed under Sales.
-- **To OneProject**: A quotation for a customer with one open Fixed Price project waiting for a price is put on that project. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
+- **From OneProject**: Draw Up Contract on a project makes a Contract for it with its customer or one of its suppliers, listed under Sales. The contract says its project, when it was signed and when it ends at the top, and prints as One Contract, with both sides to sign. A deal says the project its quote went to, or the customer's one open project.
+- **To OneProject**: A quotation for a customer with one open project is put on that project, however it is made. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
 - **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell.
 - **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice.
 - **To OneCalendar**: Your next steps on leads and deals are on your calendar at the time they are due.

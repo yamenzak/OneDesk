@@ -50,6 +50,18 @@ def paid_for(doc, method=None) -> None:
 		doc.project = named.pop()
 
 
+def customers_one(doc, method=None) -> None:
+	"""before_insert: a new quotation, order, delivery or invoice with no
+	project takes the customer's one open project, however it is made (the
+	form, a mapper, a bulk edit, Data Import). A return keeps what it returns."""
+	if doc.get("project") or doc.get("is_return"):
+		return
+	customer = doc.get("customer") or (doc.get("party_name") if doc.get("quotation_to") == "Customer" else None)
+	project = customer_project(customer) if customer else None
+	if project:
+		doc.project = project
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def customer_project(customer: str) -> str | None:

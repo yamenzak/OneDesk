@@ -180,7 +180,7 @@ split.
 ## Connections
 
 - **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell.
-- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project.
+- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and a supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation.
 - **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself.

@@ -28,6 +28,12 @@ DATES = {
 	"Timesheet": "start_date",
 }
 
+#: Moments One stamps on a record as it is saved, which move with it: none
+#: can be later than the record's last change.
+STAMPS = {
+	"Expense Claim": ("one_decided_on",),
+}
+
 
 def settle() -> int:
 	"""Move every document saved after its own date back to that date. Run
@@ -54,6 +60,9 @@ def settle() -> int:
 				{"s": row.shift, "p": row.name, "t": doctype},
 			)
 		moved += len(rows)
+	for doctype, fields in STAMPS.items():
+		for field in fields:
+			frappe.db.sql(f"update `tab{doctype}` set {field} = modified where {field} > modified")
 	return moved
 
 

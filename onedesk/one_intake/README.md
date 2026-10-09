@@ -491,7 +491,7 @@ Workspace.
 - **To OneInventory**: An invoice from a new sender with a tax ID creates the Supplier. A delivery note becomes a draft Purchase Receipt against its order, and a quote becomes a Supplier Quotation.
 - **To OneBook**: Bills, credit notes and paid receipts become draft Purchase Invoices, listed in Ready to Submit. A payment advice becomes a draft Payment Entry, and a bank statement becomes Bank Transactions.
 - **To OneHR**: A CV creates a Job Applicant. An employee's passport, permit or certificate is added to their Employee record, a sick note becomes a Leave Application, and a receipt they paid becomes their Expense Claim.
-- **To OneProject**: A bill that names an open project is drafted for that project.
+- **To OneProject**: A bill that names an open project is drafted for that project. Each line is booked to the item it names: the supplier's code for it, its exact name, or the one item whose whole name the line says.
 - **To OneTask**: Each matter becomes one task with a step for each request. A reply or a payment completes its step.
 - **To OneCalendar**: An appointment becomes an event on that person's calendar. Due dates, contract cancellation dates and expiring employee documents are listed in Deadlines.
 - **To OneCloud**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged with its type and its year.

@@ -34,7 +34,6 @@
           <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-md:hidden">{{ __("Total") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Outstanding") }}</ListHeaderCell>
-          <ListHeaderCell v-if="holds" class="justify-end max-md:hidden">{{ __("Retention") }}</ListHeaderCell>
           <ListHeaderCell />
         </ListHeader>
         <ListRows :items="said.invoices" row-key="name" v-slot="{ item }">
@@ -51,11 +50,11 @@
             <ListCell class="tabular-nums max-md:hidden" :class="item.late ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ item.owed || item.status === "Draft" ? date(item.due) : "" }}</ListCell>
             <ListCell><Badge :label="__(item.status)" :theme="STATUS[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8 max-md:hidden">{{ sum(item.total, item.currency) }}</ListCell>
-            <ListCell class="justify-end tabular-nums" :class="item.owed ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ sum(item.status === "Draft" ? item.outstanding : item.owed, item.currency) }}</ListCell>
-            <ListCell v-if="holds" class="justify-end max-md:hidden">
-              <div v-if="item.held" class="min-w-0 text-end">
-                <div class="tabular-nums text-ink-gray-8">{{ sum(item.held, item.currency) }}</div>
-                <div class="truncate text-sm text-ink-gray-5">{{ __("Due {0}", [date(item.held_due)]) }}</div>
+            <!-- ERPNext's outstanding, as the invoice says it; what's held in it under. -->
+            <ListCell class="justify-end">
+              <div class="min-w-0 text-end">
+                <div class="tabular-nums" :class="item.outstanding ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ sum(item.outstanding, item.currency) }}</div>
+                <div v-if="item.held" class="truncate text-sm text-ink-gray-5" :title="__('Due {0}', [date(item.held_due)])">{{ __("{0} held", [sum(item.held, item.currency)]) }}</div>
               </div>
             </ListCell>
             <ListCell class="justify-end" @click.stop>
@@ -119,26 +118,20 @@ const figures = computed(() => {
   return [
     { title: __("Invoiced"), value: amount(t.invoiced), note: t.drafts ? (t.drafts === 1 ? __("1 draft") : __("{0} drafts", [t.drafts])) : "" },
     { title: __("Paid"), value: amount(t.paid), bar: share(t.paid, t.invoiced), note: t.advance ? __("{0} paid in advance", [amount(t.advance)]) : "" },
-    { title: __("Outstanding"), value: amount(t.outstanding) },
+    // ERPNext's outstanding, as the invoice says it; what's held in it under.
+    { title: __("Outstanding"), value: amount(t.outstanding), note: t.retention ? __("{0} held", [amount(t.retention)]) : "" },
     { title: __("Overdue"), value: amount(t.overdue), alarm: t.overdue > 0, note: t.late ? (t.late === 1 ? __("1 invoice") : __("{0} invoices", [t.late])) : "" },
-    ...(t.retention
-      ? [
-          { title: __("Retention Held"), value: amount(t.retention) },
-        ]
-      : []),
   ];
 });
 
 // One customer needs no column.
 const byParty = computed(() => said.value.parties > 1);
-const holds = computed(() => said.value.invoices.some((one) => one.held));
 const columns = computed(() => {
   const party = byParty.value;
-  const held = holds.value;
   return {
     base: ["minmax(0,1fr)", "auto", "6.5rem", "2rem"],
-    md: ["minmax(9rem,1.3fr)", party && "minmax(6rem,1fr)", "7rem", "7.5rem", "7rem", "7rem", held && "7rem", "2rem"].filter(Boolean),
-    lg: ["minmax(12rem,1.3fr)", party && "minmax(8rem,1fr)", "6.5rem", "6.5rem", "7.5rem", "7.5rem", "7.5rem", held && "7.5rem", "2rem"].filter(Boolean),
+    md: ["minmax(9rem,1.3fr)", party && "minmax(6rem,1fr)", "7rem", "7.5rem", "7rem", "7rem", "2rem"].filter(Boolean),
+    lg: ["minmax(12rem,1.3fr)", party && "minmax(8rem,1fr)", "6.5rem", "6.5rem", "7.5rem", "7.5rem", "7.5rem", "2rem"].filter(Boolean),
   };
 });
 

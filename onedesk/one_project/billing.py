@@ -272,7 +272,18 @@ def _listed(project: str, doctype: str) -> dict:
 			as_list=True,
 		)
 	)
-	totals = {"invoiced": 0.0, "paid": 0.0, "outstanding": 0.0, "overdue": 0.0, "retention": 0.0, "drafts": 0, "late": 0}
+	# Outstanding is ERPNext's figure, retention held in it; owed_now leaves
+	# the retention out.
+	totals = {
+		"invoiced": 0.0,
+		"paid": 0.0,
+		"outstanding": 0.0,
+		"owed_now": 0.0,
+		"overdue": 0.0,
+		"retention": 0.0,
+		"drafts": 0,
+		"late": 0,
+	}
 	# Late by the dates, not the status: ERPNext marks Overdue overnight.
 	terms = money._terms(doctype, [row.name for row in rows if row.docstatus == 1])
 	today = getdate(nowdate())
@@ -296,7 +307,8 @@ def _listed(project: str, doctype: str) -> dict:
 		else:
 			totals["invoiced"] += flt(row.base_grand_total) * share
 			totals["paid"] += (flt(row.base_grand_total) - owed) * share
-			totals["outstanding"] += now * share
+			totals["outstanding"] += owed * share
+			totals["owed_now"] += now * share
 			totals["retention"] += holding * share
 			if late:
 				totals["overdue"] += late["due"] * flt(row.conversion_rate or 1) * share

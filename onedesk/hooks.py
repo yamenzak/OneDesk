@@ -355,8 +355,9 @@ doc_events = {
 	# supplier's number. See one_book/repeat.py.
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
-		# Starts with its order's or its project's terms. See one_project/terms.py.
-		"before_insert": "onedesk.one_project.terms.carried",
+		# Takes the customer's one open project, then starts with its order's
+		# or its project's terms. See one_project/chain.py and terms.py.
+		"before_insert": ["onedesk.one_project.chain.customers_one", "onedesk.one_project.terms.carried"],
 		"after_insert": "onedesk.one_project.progress.drafted",
 		# The emirate a sale is reported under. See one_book/vat.py.
 		"validate": [
@@ -612,7 +613,11 @@ doc_events = {
 		# A new Retention Due moves the retention on its invoices. See one_project/progress.py.
 		"on_update_after_submit": "onedesk.one_project.progress.release",
 	},
-	"Delivery Note": {"validate": "onedesk.one_project.chain.agree"},
+	# Takes the customer's one open project. See one_project/chain.py.
+	"Delivery Note": {
+		"before_insert": "onedesk.one_project.chain.customers_one",
+		"validate": "onedesk.one_project.chain.agree",
+	},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	# On a project, sharing is membership. See one_project/members.py.
 	"DocShare": {"after_insert": "onedesk.one_project.members.shared"},
@@ -730,16 +735,22 @@ doc_events = {
 		"after_delete": "onedesk.one_crm.board.sync",
 	},
 	"Quotation": {
-		# Starts with its project's terms. See one_project/terms.py.
-		"before_insert": "onedesk.one_project.terms.carried",
+		# Takes the customer's one open project, then starts with its terms.
+		# See one_project/chain.py and terms.py.
+		"before_insert": ["onedesk.one_project.chain.customers_one", "onedesk.one_project.terms.carried"],
 		"on_submit": "onedesk.one_crm.stages.follow",
 		"on_cancel": "onedesk.one_crm.stages.follow",
 		"on_update_after_submit": "onedesk.one_crm.stages.follow",
 	},
 	"Sales Order": {
-		# Starts with its quotation's or its project's terms, and its project's
-		# retention. See one_project/terms.py and retention.py.
-		"before_insert": ["onedesk.one_project.terms.carried", "onedesk.one_project.retention.ordered"],
+		# Takes the customer's one open project, starts with its quotation's or
+		# its project's terms, and its project's retention. See
+		# one_project/chain.py, terms.py and retention.py.
+		"before_insert": [
+			"onedesk.one_project.chain.customers_one",
+			"onedesk.one_project.terms.carried",
+			"onedesk.one_project.retention.ordered",
+		],
 		"validate": "onedesk.one_project.chain.agree",
 		"on_submit": [
 			"onedesk.one_crm.stages.follow",
@@ -1137,7 +1148,7 @@ one_makes_records = {
 	"Budget": ["one_project"],
 	"Call Log": ["one_crm"],
 	"Contact": ["one_admin", "one_calendar"],
-	"Contract": ["one_project"],
+	"Contract": ["one_crm", "one_project"],
 	"Customer": ["one_admin", "one_book", "one_crm"],
 	"Employee": ["one_hr"],
 	"Employee Checkin": ["one_hr"],
@@ -1183,6 +1194,7 @@ one_makes_records = {
 	"Sales Stage": ["one_admin", "one_crm"],
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],
+	"Stock Entry": ["one_inventory"],
 	"Supplier": ["one", "one_book"],
 	"Supplier Quotation": ["one"],
 	"Task": ["one_project", "one_task"],

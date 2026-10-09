@@ -9045,7 +9045,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | 3 | Tasks, Time, Money | done |
 | 4 | Invoices, Suppliers, Team, Files, Activity | done |
 | 5 | Workload, Timesheet, Templates | done |
-| 6 | Across modules on the demo | |
+| 6 | Across modules on the demo | done |
 | 7 | `docs/STANDARD.md`, and OneProject closed | |
 
 #### 1. Projects and its views
@@ -9334,6 +9334,84 @@ list does there (Projects too). That is frappe's, and stays.
 | 17 Clean code | ruff on the module | clean |
 | Everything follows frappe | realtime | fixed above |
 | What ERPNext already does | timesheet statuses, Create Sales Invoice, billable hours, currency | ERPNext's own, kept |
+
+#### 6. Across modules on the demo
+
+Walked from the other side of each hand-off, as the person who works there:
+Omar on Acme's deal and the villa's contract, Rania on My Tasks, Mariam on an
+expense claim, Karim on a purchase order and a stock issue, Huda on an
+invoice, a bill from Intake, OneBook's home, Receivables and the Intake inbox,
+Samir on the handover event, OneCalendar and the villa's OneCloud folder.
+
+Good as they are:
+
+- My Tasks names each task's project and parent.
+- The villa's OneCloud folder holds its files, Featured Media and the
+  staircase sub-project's folder, with Open record.
+- The handover walk is on Samir's week, linked to the villa, with Khalid and
+  the site team as participants.
+- Receivables lists the project on each line, and filters by it.
+
+Fixed:
+
+- **Hand-offs, our look (3, 5)**: each document a project hands on says the
+  project at the top, by name, opening its page (`project.of`). The invoice,
+  the bill and the expense claim have it in their heads. The purchase order
+  (Received, Billed), the stock entry (Type, Value Out, Value In) and the
+  contract (Signed On, Ends) get heads of their own for it. A deal says the
+  project its quote went to, else the customer's one open project.
+- **What ERPNext already does, plain words (12)**: OneBook's Due reads the
+  first part still unpaid, as ERPNext's status does. Bayview's invoice says
+  "07-09-2026 · 32 days late", not the retention's date a year out.
+- **Plain words (12)**: Outstanding is ERPNext's figure on the project's
+  Invoices and Bills too, with what of it is held said under it. Bayview's
+  invoice reads 63,600 everywhere, 5,684 held. Suppliers' To Pay still leaves
+  the retention out, as its own word says.
+- **Rules on the server (2)**: a new quotation, order, delivery or invoice
+  takes the customer's one open project on insert, however it is made
+  (`chain.customers_one`). The form still fills it as the customer is picked.
+  Acme's sample order and its overdue invoice are on the lobby project now.
+- **Hand-offs (3)**: Acme's revised quote is on Omar's deal and the lobby
+  project both, so each says the other.
+- **Printed (11)**: One Contract: the parties, the period, when it was signed,
+  the project, the terms, and a place for each side to sign. The print guard
+  holds Contract with the others.
+- **Demo (1)**:
+  - The tower counts its time by attendance on its site. Bilal and Imran
+    clock in there on days they log nothing else, and each day is on the
+    tower's Time (`hr._site`).
+  - Khalid Mansour is invited to the portal by Omar and reads the villa as
+    its customer.
+  - A moment One stamps as a record is saved is never later than the
+    record's last change, so the paid claim says it was decided in August.
+- **Intake (14)**: a bill's line is booked to the one item whose whole name it
+  says, before the supplier's habit. The scaffolding bill is Scaffolding
+  Hire.
+
+On the tower's Time, a day on site has no cost, since the demo gives Site Work
+no costing rate. That is the demo's, and stays for the next pass on Time.
+
+| Point | Looked at | Found |
+|---|---|---|
+| 1 Demo | each hand-off as the person on the other side | fixed above |
+| 2 Rules on the server | the customer's one project on new documents | fixed above |
+| 3 Hand-offs | CRM, HR, Inventory, Books, Calendar, Cloud, Intake | fixed above |
+| 4 Tier declared | `one/tiers.py` | the three new heads are declared |
+| 5 Our look | each form and page walked | fixed above |
+| 6 Nothing lost | the record frame on each form | Assign, Files, Tags, Share, Print and Like on each |
+| 7 Extensible | places on the heads | a new head gets its place with the others |
+| 8 Built from frappe | heads, OneBook home, Receivables | the empty-bucket chart warnings in Receivables are ERPNext's |
+| 9 Overrides recorded | the gate | passes |
+| 10 Notifications | Bill Due, Chase, Task Ready reach their people | nothing missing |
+| 11 Printed | invoice, order, contract | fixed above |
+| 12 Plain words | heads, cards, columns | fixed above |
+| 13 Documented, OneAI | module READMEs, Connections sections | they say what the walk showed |
+| 14 Intake | the scaffolding bill | fixed above |
+| 15 Permissions | each persona sees only their side | as it should be |
+| 16 Legal | nothing new handed on | nothing to add |
+| 17 Clean code | the files behind the heads | clean |
+| Everything follows frappe | forms, realtime | frappe's forms throughout |
+| What ERPNext already does | statuses, due dates, outstanding, amended stock issues | fixed above |
 
 ## OneLegal
 

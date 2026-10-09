@@ -52,6 +52,7 @@ Omar sells, and Layla owns the workspace. Every record is tagged **Demo**.
 | Mariam Saleh | mariam@one.test | OneHR |
 | Rania, Nadia, Tariq | rania@, nadia@, tariq@one.test | OneProject |
 | Yousef Bakr | yousef@one.test | OneInventory |
+| Khalid Mansour | khalid@mansour.example | The portal, as the villa's customer, invited by Omar |
 
 ## Check it
 
@@ -121,8 +122,12 @@ written: each check is rolled back.
   a subcontract billed the same way, cost types, stock issued, time, extra
   work ordered as a sub-project, and milestones billed on completion.
 - **Fixed Price**, large and in parts: the Bayview tower, with sub-projects
-  of its own, an advance from the customer and a late invoice.
-- **Fixed Price**, quoted and not ordered, in US dollars: Acme's lobby.
+  of its own, an advance from the customer and a late invoice. It counts its
+  time by attendance on its site: Bilal and Imran clock in there, and each of
+  their days is a day on the tower (hr.py).
+- **Fixed Price**, quoted and not ordered, in US dollars: Acme's lobby. Its
+  quote is the revised one Omar's deal is waiting to send, on the deal and
+  the project both.
 - **Fixed Price**, finished and paid: Aisha Rahman's balcony. And one
   cancelled before work started: Palm Interiors.
 - **Time and Materials** in euros, billed with Invoice Time and a markup on
@@ -136,8 +141,9 @@ written: each check is rolled back.
 A record made today for a date in spring would say it was made today, so the
 Activity view and every timeline would put a year of work in one afternoon.
 Once the steps are built, `history.settle` moves each document, its rows and
-its versions back to its own date, keeping the time of day. Run again, it
-moves nothing.
+its versions back to its own date, keeping the time of day. A moment One
+stamps as a record is saved (an expense claim's Decided On) is never later
+than the record's last change. Run again, it moves nothing.
 
 ### samples.py
 

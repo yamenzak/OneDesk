@@ -41,6 +41,7 @@ def run(password=None):
 	_estimates()
 	_contacts()
 	_behind()
+	_portal(password)
 
 
 # The projects
@@ -172,11 +173,14 @@ def acme():
 		ends=ahead(140),
 		notes="Glass entrance and lobby screens for Acme's Manhattan office. Quoted, waiting on their board.",
 	)
+	# The revised quote Omar's deal is waiting to send: on the deal and the
+	# project both, so each says the other.
 	quote = frappe.new_doc("Quotation")
 	quote.update(
 		{
 			"quotation_to": "Customer",
 			"party_name": "Acme Holdings",
+			"opportunity": frappe.db.get_value("Opportunity", {"party_name": "Acme Holdings"}),
 			"currency": "USD",
 			"project": name,
 			"valid_till": ahead(25),
@@ -708,6 +712,23 @@ def _current(project):
 		if task.status == "Working" and not flt(task.progress):
 			values["progress"] = (40, 65, 25, 80, 50)[i % 5]
 		frappe.db.set_value("Task", task.name, values, update_modified=False)
+
+
+def _portal(password=None):
+	"""Khalid Mansour invited to the portal by Omar, so the villa can be seen
+	as its customer sees it."""
+	from frappe.utils.password import update_password
+
+	from onedesk.one import portal_invite
+
+	contact = frappe.db.get_value("Contact", {"email_id": "khalid@mansour.example"})
+	if not contact:
+		return
+	with as_user("omar@one.test"):
+		portal_invite.invite_contact(contact)
+	user = frappe.db.get_value("Contact", contact, "user")
+	if user and password:
+		update_password(user, password)
 
 
 def _behind():

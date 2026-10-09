@@ -198,9 +198,18 @@ HEADS = [
 			{"label": _lt("Last Contact"), "source": "Measure", "measure": "crm.contact"},
 			{"label": _lt("Closes"), "source": "Measure", "measure": "crm.closes"},
 			{"label": _lt("Quotation"), "source": "Measure", "measure": "crm.quotation"},
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Source"), "source": "Measure", "measure": "crm.source"},
 		],
 		"verbs": [{"verb": "crm.take"}],
+	},
+	{
+		"doctype": "Contract",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Signed On"), "source": "Field", "field": "signed_on"},
+			{"label": _lt("Ends"), "source": "Field", "field": "end_date"},
+		],
 	},
 	{
 		"doctype": "Lead",

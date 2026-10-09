@@ -20,12 +20,21 @@ def _money(doc, value) -> str:
 	return fmt_money(flt(value), currency=doc.currency)
 
 
+def _due_on(doc):
+	"""When the next part still owed falls due, as ERPNext's status reads it:
+	the earliest unpaid row of the schedule, not the last (a retention held
+	for a year). The invoice's own due date when it has no schedule. Pure over
+	the record."""
+	unpaid = [row.due_date for row in doc.get("payment_schedule") or [] if flt(row.outstanding) > 0]
+	return min(unpaid) if unpaid else doc.due_date
+
+
 def _late(doc) -> int | None:
 	"""Days past due while something is owed; nought on the day. Pure over the
 	record."""
-	if flt(doc.outstanding_amount) <= 0 or not doc.due_date:
+	if flt(doc.outstanding_amount) <= 0 or not _due_on(doc):
 		return None
-	return date_diff(today(), doc.due_date)
+	return date_diff(today(), _due_on(doc))
 
 
 def outstanding(doc):
@@ -35,10 +44,10 @@ def outstanding(doc):
 
 
 def due(doc):
-	if not doc.due_date:
+	if not _due_on(doc):
 		return None
-	when = formatdate(doc.due_date)
 	late = _late(doc)
+	when = formatdate(_due_on(doc) if late is not None else doc.due_date)
 	if late is None:
 		return {"label": _("Was Due"), "value": when, "tone": "quiet"}
 	if late > 0:
@@ -310,6 +319,7 @@ VERBS = {
 }
 
 _BAND = [
+	{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 	{"label": _lt("Outstanding"), "source": "Measure", "measure": "invoice.outstanding", "shown_when": OWED},
 	{"label": _lt("Due"), "source": "Measure", "measure": "invoice.due", "shown_when": OWED},
 	{"label": _lt("Paid"), "source": "Measure", "measure": "invoice.paid", "shown_when": OWED},

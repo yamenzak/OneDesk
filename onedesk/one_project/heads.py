@@ -9,6 +9,7 @@ by week. The figures are overview.py's, worked out once per request.
 import json
 from urllib.parse import quote
 
+import frappe
 from frappe import _, _lt
 from frappe.utils import fmt_money, formatdate, today
 from frappe.utils.caching import request_cache
@@ -153,6 +154,40 @@ def hours(doc):
 	}
 
 
+def _named(doc) -> str | None:
+	"""The project a record is for: its own field, a contract's reference, or
+	for a deal the project its quote went to, else the customer's one open
+	project."""
+	if doc.doctype == "Contract":
+		return doc.document_name if doc.get("document_type") == "Project" else None
+	if doc.doctype == "Opportunity":
+		quoted = frappe.get_all(
+			"Quotation",
+			filters={"opportunity": doc.name, "docstatus": ["<", 2], "project": ["is", "set"]},
+			pluck="project",
+			order_by="creation desc",
+			limit=1,
+		)
+		if quoted:
+			return quoted[0]
+		if doc.get("opportunity_from") != "Customer" or not doc.get("party_name"):
+			return None
+		from onedesk.one_project.chain import customer_project
+
+		return customer_project(doc.party_name)
+	return doc.get("project")
+
+
+def of(doc):
+	"""The project a document is for, by name, opening its page. Nothing when
+	it names none or the reader may not open it."""
+	name = _named(doc)
+	if not name or not frappe.has_permission("Project", "read", doc=name):
+		return None
+	title = frappe.db.get_value("Project", name, "project_name") or name
+	return {"value": title, "route": f"/desk/project/{quote(name, safe='')}"}
+
+
 MEASURES = {
 	"project.health": health,
 	"project.sub_projects": sub_projects,
@@ -164,6 +199,7 @@ MEASURES = {
 	"project.forecast": forecast,
 	"project.late": late,
 	"project.milestone": milestone,
+	"project.of": of,
 }
 
 CHARTS = {

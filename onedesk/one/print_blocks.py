@@ -23,6 +23,7 @@ TITLES = {
 	"Job Offer": (_lt("Job Offer"), _lt("Offer No")),
 	"Appointment Letter": (_lt("Appointment Letter"), _lt("Letter No")),
 	"Timesheet": (_lt("Timesheet"), _lt("Timesheet No")),
+	"Contract": (_lt("Contract"), _lt("Contract No")),
 }
 
 #: Each record's dates and references, in the order they are printed.
@@ -39,7 +40,11 @@ DETAILS = {
 		(_lt("Against Invoice"), "return_against"),
 		(_lt("Your Reference"), "po_no"),
 	),
-	"Delivery Note": ((_lt("Date"), "posting_date"), (_lt("Your Reference"), "po_no"), (_lt("Vehicle"), "vehicle_no")),
+	"Delivery Note": (
+		(_lt("Date"), "posting_date"),
+		(_lt("Your Reference"), "po_no"),
+		(_lt("Vehicle"), "vehicle_no"),
+	),
 	"Purchase Order": ((_lt("Date"), "transaction_date"), (_lt("Required By"), "schedule_date")),
 	"Request for Quotation": ((_lt("Date"), "transaction_date"),),
 	"Payment Entry": (
@@ -52,6 +57,11 @@ DETAILS = {
 	"Job Offer": ((_lt("Date"), "offer_date"), (_lt("Position"), "designation")),
 	"Appointment Letter": ((_lt("Starts On"), "appointment_date"),),
 	"Timesheet": ((_lt("Hours"), "total_hours"), (_lt("Billable Hours"), "total_billable_hours")),
+	"Contract": (
+		(_lt("Starts On"), "start_date"),
+		(_lt("Ends On"), "end_date"),
+		(_lt("Signed On"), "signed_on"),
+	),
 }
 
 #: Who a record is for: its heading, and the field with their name.
@@ -66,6 +76,7 @@ PARTIES = {
 	"Job Offer": (_lt("Offered To"), "applicant_name"),
 	"Appointment Letter": (_lt("Addressed To"), "applicant_name"),
 	"Timesheet": (_lt("Employee"), "employee_name"),
+	"Contract": (_lt("Agreed With"), "party_full_name"),
 }
 
 #: The format each record that leaves the company prints with, and the module
@@ -82,6 +93,7 @@ FORMATS = {
 	"Job Offer": ("One Job Offer", "one_hr"),
 	"Appointment Letter": ("One Appointment Letter", "one_hr"),
 	"Timesheet": ("One Timesheet", "one_project"),
+	"Contract": ("One Contract", "one_crm"),
 }
 
 #: Who signs a paper that is signed and handed back: the company's side, then
@@ -93,6 +105,7 @@ SIGNED = {
 	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	# The customer billed for the time signs that the hours are theirs.
 	"Timesheet": ((_lt("For {0}"), "company"), (_lt("Approved By"), None)),
+	"Contract": ((_lt("For {0}"), "company"), (_lt("For {0}"), "party_full_name")),
 }
 
 #: The colour a page has when the company has no Brand Colour.
@@ -156,8 +169,14 @@ def one_print_block(doc, block: str) -> dict:
 	return {**shown, "colour": colour(doc)} if shown else {}
 
 
+def _company(doc) -> str | None:
+	"""The company a record is for. A contract names none, and is the
+	company's own."""
+	return doc.get("company") or frappe.defaults.get_global_default("company")
+
+
 def colour(doc) -> str:
-	company = doc.get("company")
+	company = _company(doc)
 	return (company and frappe.get_cached_value("Company", company, "one_brand_colour")) or INK
 
 
@@ -222,6 +241,8 @@ def details(doc) -> dict:
 		if doc.get(field) and doc.meta.has_field(field):
 			rows.append((str(label), doc.get_formatted(field)))
 	project = doc.get("project") or doc.get("parent_project")
+	if doc.doctype == "Contract" and doc.get("document_type") == "Project":
+		project = doc.get("document_name")
 	if project:
 		rows.append((_("Project"), frappe.get_cached_value("Project", project, "project_name") or project))
 	return {"rows": rows} if rows else {}
@@ -263,7 +284,9 @@ def totals(doc) -> dict:
 			"label": _("Total in {0}").format(company_currency),
 			"value": money(doc, base_total, company_currency),
 			"rate": _("1 {0} = {1} {2}").format(
-				doc.currency, frappe.format_value(doc.get("conversion_rate"), {"fieldtype": "Float"}), company_currency
+				doc.currency,
+				frappe.format_value(doc.get("conversion_rate"), {"fieldtype": "Float"}),
+				company_currency,
 			),
 		}
 	return {
@@ -323,7 +346,9 @@ def payslip(doc) -> dict:
 		return {}
 
 	def lines(table):
-		return [(row.salary_component, money(doc, row.amount)) for row in doc.get(table) or [] if flt(row.amount)]
+		return [
+			(row.salary_component, money(doc, row.amount)) for row in doc.get(table) or [] if flt(row.amount)
+		]
 
 	net = doc.get("rounded_total") or doc.get("net_pay")
 	return {
@@ -363,7 +388,11 @@ def signatures(doc) -> dict:
 	sides = []
 	for heading, field in SIGNED[doc.doctype]:
 		if field == "company":
-			sides.append({"heading": str(heading).format(doc.get("company")), "name": None})
+			sides.append({"heading": str(heading).format(_company(doc)), "name": None})
+		elif "{0}" in str(heading):
+			sides.append(
+				{"heading": str(heading).format(doc.get(field) or doc.get("party_name")), "name": None}
+			)
 		else:
 			sides.append({"heading": str(heading), "name": doc.get(field) if field else None})
 	return {"sides": sides, "signature": _("Signature"), "date": _("Date")}

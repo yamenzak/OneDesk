@@ -457,16 +457,16 @@ The customer's invoices for the project and those under it, newest first.
 Each says what it's for (**Work done 40%**, **9 h of time and costs**, a
 retainer's month, **Credit note**, or its first item) and which sub-project
 it's on, its date, when the part owed now is due (in red once it's past), its
-status, total, what's **Outstanding** now, and the **Retention** still held
-with the date it's due. Outstanding and Retention together are what the
-invoice still owes. The customer and their logo show when there's more than
+status, total, and what's **Outstanding**, ERPNext's figure, the one the
+invoice itself says. What of it is retention still held is said under it,
+with the date it's due on hover. The customer and their logo show when there's more than
 one customer. The figures and amounts are in the company's currency, said
 once above them, as on **Suppliers**. An invoice in the customer's own
 currency keeps its symbol.
 
 The figures above are what's been **Invoiced**, **Paid** (with anything paid
-in advance on the order), **Outstanding** now, **Overdue**, and
-**Retention Held** when there is some. They count with tax, as the customer
+in advance on the order), **Outstanding** (with what of it is held), and
+**Overdue**. They count with tax, as the customer
 pays, and only the project's part of an invoice that's partly another's.
 Overdue says how many invoices are late.
 
@@ -721,9 +721,13 @@ project takes the document's, and a document with no project takes its
 lines' if they all name the same one.
 
 A payment made on its own, or for several invoices at once, takes the
-project its invoices and orders all name. A new sales order, delivery note
-or sales invoice for a customer with one open project names that project.
-With more than one, pick it.
+project its invoices and orders all name. A new quotation, sales order,
+delivery note or sales invoice for a customer with one open project names
+that project, however it is made. With more than one, pick it.
+
+Each document a project hands on says the project at the top, by name, and
+opens it: the quotation's deal, the order, the invoice, the bill, the
+purchase order, the stock entry, the expense claim and the contract.
 
 **Connections** on the project's page lists them in those four groups, and
 **+** next to one starts it on the project.
@@ -885,8 +889,7 @@ card shows its own **Retention** and what's held from it so far.
 **Bills** lists the suppliers' bills for the project and its sub-projects,
 newest first: what each is for (**Work done 70%**, or its first item), its
 date, when the part owed now is due (in red once it's past), its status,
-total, what's **Outstanding** now and the **Retention** still held with its
-date. The supplier and their logo show when there's more than one supplier. A draft from Bill Progress is there to check. **···** on a bill
+total, and what's **Outstanding**, with what of it is held under it. The supplier and their logo show when there's more than one supplier. A draft from Bill Progress is there to check. **···** on a bill
 offers **Record Payment**, and **Pay Retention** once retention is held from
 it: ERPNext's payment to the supplier for that retention, to check and submit.
 
@@ -1576,9 +1579,14 @@ one field for it.
 
   A payment made from an invoice or an order takes its project from it, as
   ERPNext does. One made on its own and matched to invoices later, or paying
-  several at once, takes the project they all name (`paid_for`). A new order,
-  delivery or invoice for a customer with one open project names it
-  (`customer_project`, public/js/customer_project.js).
+  several at once, takes the project they all name (`paid_for`). A new
+  quotation, order, delivery or invoice for a customer with one open project
+  names it on insert (`customers_one`), and the form fills it as the customer
+  is picked (`customer_project`, public/js/customer_project.js).
+- `heads.py` — `project.of`: the project a document is for, by name, opening
+  its page, in the head of every document a project hands on. A contract's is
+  its reference, and a deal's is the project its quote went to, else the
+  customer's one open project.
 - `budget.py` — cost types: ERPNext's own Budget against the project, one per
   expense account, checked on orders and expenses alone and together
   (`applicable_on_cumulative_expense`). Changing one revises it as ERPNext's

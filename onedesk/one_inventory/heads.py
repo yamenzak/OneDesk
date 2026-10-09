@@ -364,4 +364,31 @@ HEADS = [
 		"verbs": [{"verb": "asset.give"}, {"verb": "asset.take_back"}],
 		"charts": [{"chart": "asset.life", "shown_when": SUBMITTED}],
 	},
+	{
+		"doctype": "Purchase Order",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{
+				"label": _lt("Received"),
+				"source": "Field",
+				"field": "per_received",
+				"shown_when": [["docstatus", "=", 1]],
+			},
+			{
+				"label": _lt("Billed"),
+				"source": "Field",
+				"field": "per_billed",
+				"shown_when": [["docstatus", "=", 1]],
+			},
+		],
+	},
+	{
+		"doctype": "Stock Entry",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Type"), "source": "Field", "field": "stock_entry_type"},
+			{"label": _lt("Value Out"), "source": "Field", "field": "total_outgoing_value", "hide_empty": 1},
+			{"label": _lt("Value In"), "source": "Field", "field": "total_incoming_value", "hide_empty": 1},
+		],
+	},
 ]

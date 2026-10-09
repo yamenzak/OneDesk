@@ -1947,7 +1947,7 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 	"""A project's team is asked for an update in One. A retainer whose last
 	month is not invoiced is told to whoever runs it. OneAI reads a project
 	only for somebody who may open it. The villa's customer, invited to the
-	portal, reads the villa and not another customer's project, and sees
+	portal by Omar, reads the villa and not another customer's project, and sees
 	nothing of who in the team does what."""
 	from unittest import mock
 
@@ -1970,7 +1970,8 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 
 	contact = next(one.parent for one in frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_doctype": "Customer", "link_name": "Mansour & Sons"}, fields=["parent"]))
 	with as_user("omar@one.test"), mock.patch("onedesk.one.tell.invited_to_portal"):
-		assert portal_invite.invite_contact(contact)["status"] == "invited"
+		# The demo invited him already; asked again, he stays let in.
+		assert portal_invite.invite_contact(contact)["status"] in ("invited", "active")
 	khalid = frappe.db.get_value("Contact", contact, "user")
 	with as_user(khalid):
 		said = portal.view(VILLA)
@@ -1984,14 +1985,14 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 
 @check
 def oneproject_a_day_on_site_and_the_projects_pictures():
-	"""Where the tower counts its time by attendance on its site, a day Tariq
-	clocked in there is a day on the tower, and cancelling the attendance
+	"""The tower counts its time by attendance on its site: the installers'
+	days there are on it, a day Tariq clocked in there is a day on the tower, and cancelling the attendance
 	takes it off again. The villa's Cover is shown first, and deleting it
 	hands the Cover on rather than leaving the project pointing at nothing."""
 	from onedesk.one_project import hours, media
 
-	site = frappe.get_doc({"doctype": "Shift Location", "location_name": "Bayview Tower site", "latitude": 25.0805, "longitude": 55.1403, "checkin_radius": 200}).insert(ignore_permissions=True)
-	frappe.db.set_value("Project", TOWER, {"one_time": hours.ATTENDANCE, "one_site": site.name})
+	assert frappe.db.get_value("Project", TOWER, "one_time") == hours.ATTENDANCE, "the tower counts its time by attendance"
+	assert frappe.get_all("Timesheet", filters={"one_attendance": ["is", "set"], "parent_project": TOWER, "docstatus": 1}), "no installer's day on site is on the tower"
 	tariq = _employee("Tariq")
 	day = next(
 		one
@@ -3390,11 +3391,12 @@ def privacy_requests_go_through_the_administrators():
 		# so a run within the hour of the last one starts it again.
 		frappe.cache.delete_keys("rl:")
 		frappe.set_user("Guest")
+		# Somebody who isn't a user: Khalid is the villa's portal user now.
 		with mock.patch("onedesk.one.tell.request_to_confirm", side_effect=keep("public")):
-			privacy_public.ask("khalid@mansour.example", "copy")
+			privacy_public.ask("jordan@acme.example", "copy")
 		_opened_link(mailed["public"])
 		privacy_public.confirm(frappe.local.form_dict.email, frappe.local.form_dict.kind, frappe.local.form_dict.expires)
-		outsider = frappe.db.get_value(privacy_copy.DOWNLOAD, {"one_email": "khalid@mansour.example"})
+		outsider = frappe.db.get_value(privacy_copy.DOWNLOAD, {"one_email": "jordan@acme.example"})
 		assert outsider
 		with as_user(OWNER):
 			privacy_copy.send(outsider)
@@ -3406,7 +3408,7 @@ def privacy_requests_go_through_the_administrators():
 		_opened_link(link)
 		privacy_public.download(frappe.local.form_dict.request, frappe.local.form_dict.expires)
 		given = frappe.local.response.filecontent
-		assert "khalid@mansour.example" in (given.decode() if isinstance(given, bytes) else given)
+		assert "jordan@acme.example" in (given.decode() if isinstance(given, bytes) else given)
 		_opened_link(link.replace("_signature=", "_signature=0"))
 		frappe.local.response.pop("filecontent", None)
 		privacy_public.download(frappe.local.form_dict.request, frappe.local.form_dict.expires)

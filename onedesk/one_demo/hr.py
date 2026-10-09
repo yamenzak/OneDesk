@@ -13,6 +13,7 @@ ACCOUNTS = "huda@one.test"
 
 
 def run(password=None):
+	_site()
 	with as_user(HR):
 		_pay()
 		_leave()
@@ -160,8 +161,39 @@ def _leave():
 			application.submit()
 
 
+#: The tower's site, where it counts its time by attendance, and who works
+#: there: each day they clock in there is a day on the tower (site_time.py).
+SITE = ("Bayview Tower site", 25.0805, 55.1403, 200)
+ON_SITE = ("Bilal", "Imran")
+
+
+def _site():
+	"""The tower counts its time by attendance on its site."""
+	from onedesk.one_project import hours
+
+	name, latitude, longitude, radius = SITE
+	if not frappe.db.exists("Shift Location", name):
+		make({"doctype": "Shift Location", "location_name": name, "latitude": latitude, "longitude": longitude, "checkin_radius": radius})
+	tower = frappe.get_doc("Project", {"project_name": "Bayview Tower Curtain Wall"})
+	if tower.one_time != hours.ATTENDANCE:
+		tower.update({"one_time": hours.ATTENDANCE, "one_site": name})
+		tower.save(ignore_permissions=True)
+
+
+def _logged(employee: str, day) -> bool:
+	return bool(
+		frappe.db.sql(
+			"""select 1 from `tabTimesheet Detail` log join `tabTimesheet` sheet on sheet.name = log.parent
+			where sheet.employee = %s and sheet.docstatus < 2 and date(log.from_time) = %s limit 1""",
+			(employee, day),
+		)
+	)
+
+
 def _attendance():
-	"""The last two weeks for the workshop, and this morning's check-ins."""
+	"""The last two weeks for the workshop, and this morning's check-ins. The
+	installers on the tower clock in at its site, so their days are the
+	tower's time."""
 	workshop = [one[0] for one in PEOPLE if one[3] == "Workshop"]
 	for back in range(14, 0, -1):
 		day = ago(back)
@@ -176,6 +208,10 @@ def _attendance():
 			if frappe.db.exists("Leave Application", {"employee": employee, "from_date": ["<=", day], "to_date": [">=", day], "docstatus": ["<", 2]}):
 				continue
 			status = "Absent" if (back + i) % 17 == 0 else "Half Day" if (back + i) % 11 == 0 else "Present"
+			# On site only on a day they logged no other time: ERPNext refuses
+			# two timesheets over the same hours.
+			if first in ON_SITE and status != "Absent" and not _logged(employee, day):
+				make({"doctype": "Employee Checkin", "employee": employee, "log_type": "IN", "time": f"{day} 07:30:00", "latitude": SITE[1], "longitude": SITE[2]})
 			try:
 				make({"doctype": "Attendance", "employee": employee, "attendance_date": day, "status": status, "company": COMPANY}, submit=True)
 			except frappe.ValidationError:
