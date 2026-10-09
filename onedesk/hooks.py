@@ -586,8 +586,10 @@ doc_events = {
 		"after_insert": "onedesk.one_task.capture.task_made",
 		"before_validate": [
 			"onedesk.one_task.task.before_validate",
-			# A template task begins and lasts whole days. See one_project/templates.py.
+			# A template task begins and lasts whole days, and a task made from one
+			# fits in its phase. See one_project/templates.py.
 			"onedesk.one_project.templates.days_kept",
+			"onedesk.one_project.templates.held_in_phase",
 		],
 		# A milestone's bill share kept to 100%, and no work added to a
 		# cancelled project. See one_project/milestones.py.

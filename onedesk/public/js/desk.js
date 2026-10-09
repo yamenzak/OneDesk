@@ -26,6 +26,11 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		if (first) onedesk.dock.rows(this);
 	}
 
+	refresh_dock() {
+		super.refresh_dock();
+		if (this.dock) onedesk.dock.rail(this.dock);
+	}
+
 	entity_from_route(route) {
 		if (OneSidebar.workspace(route)) return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
@@ -95,13 +100,20 @@ if (frappe.boot.one_elsewhere) {
 	frappe.re_route[""] = "one";
 }
 
-// Check In and Intake are rows in frappe's band under the panel's header,
-// beside Search and Notification, which frappe moved there from the rail: the
-// rail holds apps and the avatar, the band what a person checks on. Clocking
-// in is one row rather than a route because it happens twice a day for
-// everybody. The dot shows the state rather than offering a verb: green while
-// clocked in, grey while not, and the click sends no direction because the
-// server reads that from where the person already is.
+// What a person checks on: Search, Check In, OneIntake and Notifications. They
+// sit at the foot of the rail, above the avatar, because the rail is on every
+// page and the panel is not: a page with a sidebar of its own, such as My
+// Tasks, OneMail or OneCloud, hides frappe's panel and the band under its
+// header with it. frappe kept Search and the bell in the rail until its "make
+// module sidebar primary"; these are its buttons, with its classes, so its
+// search, its bell's count and its Notifications panel work from here
+// (`rail`). On a phone there is no rail, and the band keeps them; with the rail
+// pinned the band is hidden (desk.css), so nothing shows twice.
+//
+// Clocking in is one row rather than a route because it happens twice a day
+// for everybody. The dot shows the state rather than offering a verb: green
+// while clocked in, grey while not, and the click sends no direction because
+// the server reads that from where the person already is.
 onedesk.dock.rows = (sidebar) => {
 	const $band = sidebar.$standard_items_band;
 	const add = (item) => sidebar.add_item($band, { standard: true, type: "Button", ...item });
@@ -119,8 +131,6 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
 		onClick: () => frappe.set_route("intake"),
 	});
-	onedesk.dock.$clock = $band.find(".one-clock");
-	onedesk.dock.$intake = $band.find(".one-intake-row");
 	onedesk.dock.refresh();
 	// Intake: what OneAI did with what arrived, and what waits for you. A
 	// number when something waits, a dot when something is unread.
@@ -130,27 +140,80 @@ onedesk.dock.rows = (sidebar) => {
 	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 };
 
-// A row's name as read aloud.
-onedesk.dock.name = ($item, label) => $item.attr("aria-label", label);
+// The rail's own tiles, at its foot above the avatar, each frappe's button for
+// the same thing. Made once per rail.
+onedesk.dock.rail = (dock) => {
+	if (frappe.session.user === "Guest" || dock.$dock.find(".one-rail-tools").length) return;
+	const $tools = $(`<div class="one-rail-tools"></div>`).insertBefore(dock.$dock.find(".dock-user"));
+	const add = ({ label, icon, css, badge = "", click }) => {
+		const $tile = $(
+			`<button class="dock-item one-rail-tool ${css}" aria-label="${frappe.utils.escape_html(label)}">${frappe.utils.icon(icon, "md")}${badge}</button>`
+		).appendTo($tools);
+		if (click) $tile.on("click", click);
+		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: label, side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" }));
+		return $tile;
+	};
+	// page.js opens frappe's search from this class, wherever it is clicked.
+	if (frappe.boot.desk_settings.search_bar) add({ label: __("Search"), icon: "search", css: "navbar-modal-search-mobile" });
+	add({
+		label: __("Check In"),
+		icon: "clock",
+		css: "one-clock hide",
+		badge: `<span class="one-clock-dot"></span>`,
+		click: () => onedesk.dock.punch(),
+	});
+	add({
+		label: __("OneIntake"),
+		icon: "inbox",
+		css: "one-intake-row",
+		badge: `<span class="one-intake-count one-rail-badge hide"></span>`,
+		click: () => frappe.set_route("intake"),
+	});
+	if (frappe.boot.desk_settings.notifications) {
+		// frappe's Notifications counts every `.notification-count`, and its panel
+		// takes every `.sidebar-notification` as its button.
+		const $bell = add({
+			label: __("Notifications"),
+			icon: "bell",
+			css: "sidebar-notification",
+			badge: `<span class="notification-count one-rail-badge hidden" aria-live="polite"></span>`,
+			click: () => frappe.ui.sidebar_panels.toggle("notifications"),
+		});
+		const unread = frappe.boot.notification_unread_count || 0;
+		$bell.find(".notification-count").text(unread > 99 ? "99+" : unread || "").toggleClass("hidden", !unread);
+	}
+	// Shown and hidden by frappe's BackgroundTasks, from its class.
+	add({
+		label: __("Background Tasks"),
+		icon: "server",
+		css: "sidebar-background-tasks hidden",
+		click: () => frappe.ui.sidebar_panels.toggle("background-tasks"),
+	}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
+	onedesk.dock.refresh();
+	onedesk.dock.intake();
+};
+
+// A row's or a tile's name, as read aloud and as the rail's tooltip says it.
+onedesk.dock.name = ($item, label) =>
+	$item.attr("aria-label", label).each((_, el) => $(el).data("one-tip")?.set_text(label));
 
 // How many documents wait for the reader in Intake, and whether anything is
 // unread. See one_intake/inbox.py.
 onedesk.dock.intake = () =>
 	frappe.xcall("onedesk.one_intake.inbox.counts").then((said) => {
-		const $badge = onedesk.dock.$intake && onedesk.dock.$intake.find(".one-intake-count");
-		if (!$badge) return said;
+		const $rows = $(".one-intake-row");
+		const $badge = $rows.find(".one-intake-count");
 		$badge.toggleClass("hide", !said.waiting && !said.unread);
 		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
 		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
-		onedesk.dock.name(onedesk.dock.$intake, said.waiting ? __("{0} waiting in OneIntake", [said.waiting]) : __("OneIntake"));
+		onedesk.dock.name($rows, said.waiting ? __("{0} waiting in OneIntake", [said.waiting]) : __("OneIntake"));
 		return said;
 	});
 
 
 onedesk.dock.refresh = () =>
 	onedesk.clock.ready().then((ready) => {
-		const $item = onedesk.dock.$clock;
-		if (!$item) return ready;
+		const $item = $(".one-clock");
 		onedesk.dock.ready = ready;
 
 		// No employee, or a workspace that has not switched clocking in on. The

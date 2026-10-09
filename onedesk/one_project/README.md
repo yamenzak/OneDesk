@@ -2057,6 +2057,10 @@ one field for it.
   - **Days kept whole** (`days_kept`, Task before_validate). A template task
     never begins before the project or lasts fewer than no days, however it
     is saved.
+  - **A task fits in its phase** (`held_in_phase`, Task before_validate).
+    ERPNext's copy moves each task off a holiday on its own, so on some start
+    days a task ends after the phase it is then put in, and ERPNext refused
+    it. The phase stretches to hold it instead.
   - **A template task is nobody's work.** It is not assigned to its maker
     (one_task/capture.py) and everybody who works in projects sees it
     (one_task/access.py), since a template is for the whole team.

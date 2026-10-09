@@ -366,8 +366,8 @@ Ready to Submit, and the supplier's IBAN is never changed from a document.
 
 ## The Intake inbox
 
-**Intake** is at the top of every app's panel, under Notification and Check In, with a count
-when something is waiting for you. It has two boxes that work like a
+**OneIntake** is at the foot of the rail, above your picture, with a count
+when something is waiting for you. On a phone it is at the top of the panel. It has two boxes that work like a
 mailbox, one line per document, bold until you open it.
 
 - **Waiting**: what needs a decision. This includes proposals the auditor was

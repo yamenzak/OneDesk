@@ -37,6 +37,23 @@ def task_made(doc, method=None) -> None:
 			doc.append("one_steps", {"step": step.step})
 
 
+def held_in_phase(doc, method=None) -> None:
+	"""Task before_validate: a task made from a template that a holiday pushed
+	past its phase's end stretches the phase, and the phase's own phase, to
+	hold it. ERPNext's copy moves each task off a holiday on its own, so on
+	some start days a task ends after the phase it is then put in, and
+	ERPNext refuses it there."""
+	if doc.is_template or not doc.get("template_task") or not doc.parent_task or not doc.exp_end_date:
+		return
+	ends, parent = getdate(doc.exp_end_date), doc.parent_task
+	while parent:
+		held = frappe.db.get_value("Task", parent, ["exp_end_date", "parent_task", "template_task"], as_dict=True)
+		if not held or not held.template_task or not held.exp_end_date or getdate(held.exp_end_date) >= ends:
+			return
+		frappe.db.set_value("Task", parent, "exp_end_date", ends)
+		parent = held.parent_task
+
+
 def days_kept(doc, method=None) -> None:
 	"""Task before_validate: a template task begins on a day after the
 	project starts, never before it, and lasts no fewer than none."""

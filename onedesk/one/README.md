@@ -27,6 +27,10 @@ Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
 except **Masters**, which an app's managers see too. Click a group's name to
 fold it away; the quieter ones start folded.
 
+At the foot of the rail, above your picture, are **Search**, **Check In**,
+**OneIntake** and **Notifications**, on every page. A number on one says how
+much waits there. On a phone they are at the top of the panel instead.
+
 In every app the panel on the left lists the app's places, and stays open on
 its lists and reports. On a phone, or on a record's own page where the
 panel is closed, tap the place's name at the top, **Projects** for example,
@@ -1776,7 +1780,7 @@ For the people who build One. OneAI does not read past this heading.
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
 | `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
 | `customize.py`, `layer.py`, `doctype/workspace_customization`, `../one_studio/doctype/workspace_field` | What a workspace changes on a form (written by OneAI's card), the holds on it, and the Custom Fields list |
-| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search offers One's pages and reports. A page not found or not permitted keeps the rail |
+| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search offers One's pages and reports. A page not found or not permitted keeps the rail. Search, Check In, OneIntake and Notifications are frappe's own buttons at the rail's foot (`desk.js` `rail`), since a page with a sidebar of its own hides the panel's band they were in; beside a pinned rail the band is hidden, and on a phone it keeps them |
 | `portal.py`, `../www/portal.html`, `../templates/includes/one_portal_head.html` | The portal a workspace's customers and suppliers sign in to: its tabs (Portal Settings by role), its home, and every list in One's look, through frappe's own `portal` page and erpnext's list contexts. The row templates under `../templates/includes/` replace erpnext's. A contact invited as a user becomes a portal user of their customer or supplier |
 | `../www/404.py`, `../www/message.py`, `../www/error.py`, `../www/me.py` | Frappe's web pages for not found, a message, an error and `/me`, in One's portal look. `/me` sends someone with a desk to Profile and an account holder to `/account` |
 

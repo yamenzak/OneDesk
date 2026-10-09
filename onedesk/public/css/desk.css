@@ -368,6 +368,69 @@ a.one-stat:hover .one-stat-value {
 	background: var(--ink-gray-9);
 }
 
+/* The rail's foot, above the avatar: Search, Check In, OneIntake and
+   Notifications (desk.js `rail`). A count sits on its tile's corner. */
+.dock .one-rail-tools {
+	display: flex;
+	flex: 0 0 auto;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	padding: 6px 0;
+}
+
+.dock .one-rail-tool .one-rail-badge {
+	position: absolute;
+	top: 3px;
+	right: 1px;
+	min-width: 16px;
+	height: 16px;
+	padding: 0 4px;
+	border-radius: var(--radius-full);
+	background: var(--ink-gray-9);
+	color: var(--ink-gray-1);
+	font-size: 10px;
+	font-weight: 600;
+	line-height: 16px;
+	text-align: center;
+}
+
+.dock .one-rail-tool .one-rail-badge.one-intake-dot {
+	min-width: 8px;
+	width: 8px;
+	height: 8px;
+	top: 8px;
+	right: 8px;
+	padding: 0;
+}
+
+.dock .one-rail-tool .one-clock-dot {
+	position: absolute;
+	right: 9px;
+	bottom: 9px;
+}
+
+/* With the rail pinned beside it, the panel's band would only say the same
+   again. On a phone there is no rail, and the band keeps them. */
+@media (min-width: 768px) {
+	body.dock-pinned .body-sidebar .standard-items-band {
+		display: none;
+	}
+
+	/* frappe's Notifications and Background Tasks open in the sidebar's
+	   container, which a page with a sidebar of its own hides. A panel the rail
+	   opened there shows on its own, beside the rail, without the sidebar. */
+	.body-sidebar-container[style*="display: none"]:has(.sidebar-panel:not(.hidden)) {
+		display: block !important;
+		width: 0 !important;
+	}
+
+	.body-sidebar-container[style*="display: none"]:has(.sidebar-panel:not(.hidden)) > .body-sidebar {
+		display: none;
+	}
+}
+
 /* A grid nobody may type in. `editable_grid: 0` removes the inline editing and
    leaves the row checkbox and the open-row pencil behind, which on a read-only
    record offer an edit that cannot happen. See one_hr/doctype/clock_attempt. */

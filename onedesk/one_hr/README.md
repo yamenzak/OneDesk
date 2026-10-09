@@ -62,9 +62,9 @@ date plus the notice period.
 Employees clock in and out themselves from any phone or computer. There is no
 machine to buy.
 
-**Check In, at the top of every app's panel.** It sits under Search and
-Notification, with a dot: green while you are clocked in, grey while you are
-not. Click it to clock in or out. It picks the right direction itself, and it does not
+**Check In, at the foot of the rail.** It sits above your picture, with
+Search, OneIntake and Notifications, and has a dot: green while you are
+clocked in, grey while you are not. On a phone it is at the top of the panel. Click it to clock in or out. It picks the right direction itself, and it does not
 appear for somebody on leave or on a holiday, for anybody without an employee
 record, or when the workspace has not turned self check-in on.
 

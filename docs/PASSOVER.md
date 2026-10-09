@@ -334,6 +334,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask › All Tasks and its views | done |
 | Products | OneTask › Across modules | done |
 | Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
+| Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -10054,6 +10055,39 @@ overrides, the generated docs and the lint.
 | 17 Clean code | ruff | clean |
 | Everything follows frappe | the change card | the task's own save |
 | What ERPNext already does | statuses | Overdue and Template stay ERPNext's to set |
+
+### The rail's foot
+
+Your word: "most custom views have their own sidebars, but the sidebar has
+important stuff like notifications and Intake, so move those to the rail at
+the user's avatar".
+
+Found:
+
+- **Nothing lost (6)**: Search, Notifications, Check In and OneIntake were
+  rows in the band under the panel's header. A page with a sidebar of its own
+  (My Tasks, OneMail, OneCloud, a task's page) hides frappe's panel, and the
+  four went with it. frappe had Search and the bell in the rail until its
+  "make module sidebar primary".
+- On such a page, frappe's Notifications panel couldn't open even when asked,
+  since it mounts in the hidden sidebar's container.
+
+Fixed:
+
+- The four sit at the foot of the rail, above the avatar, on every page
+  (`desk.js` `rail`). They are frappe's own buttons, with frappe's classes, so
+  frappe's search, its bell's count and its panels work from there. A count
+  or a dot sits on a tile's corner.
+- Beside a pinned rail the band is hidden, so nothing shows twice. On a phone
+  there is no rail, and the band keeps them (`desk.css`).
+- A panel the rail opens shows on a page without frappe's sidebar, beside
+  the page's own sidebar.
+- Two rows in `scripts/overrides.py`, and the READMEs of One, OneHR and
+  OneIntake say where the four are.
+- Found on the way: a task made from a template could end after its phase
+  when a holiday moved it, and ERPNext then refused it. That depends on the
+  start day, and it showed in the demo suite today. The phase now stretches
+  to hold it (`one_project/templates.py` `held_in_phase`).
 
 ## OneLegal
 

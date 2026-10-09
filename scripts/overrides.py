@@ -1467,6 +1467,27 @@ OVERRIDES = [
 		'allDay: "allDay",',
 	),
 	(
+		"A task made from a template fits in its phase",
+		"their template copy moves each task off a holiday on its own, so on some start days a task ends after its phase and their own check refuses it",
+		"onedesk/one_project/templates.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"return self.update_if_holiday(self.end_date)",
+	),
+	(
+		"Search, Check In, OneIntake and Notifications sit at the foot of the rail",
+		"their rail lost Search and the bell to the sidebar's band, which a page with a sidebar of its own hides, and with it every way to them",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		'<div class="dock-user">',
+	),
+	(
+		"A panel the rail opens shows on a page without frappe's sidebar",
+		"their Notifications and Background Tasks panels mount in the sidebar's container, hidden on such a page",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar_panel.js",
+		'const MOUNT_SELECTOR = ".body-sidebar-container";',
+	),
+	(
 		"A repeating record says how often in its sidebar",
 		"their sidebar writes Repeats {0} into a span its template never has, so only the dot showed",
 		"onedesk/public/js/record.js",
