@@ -630,6 +630,8 @@ doc_events = {
 			"onedesk.one_project.kinds.fill",
 			# How it counts its time, and its site. See one_project/hours.py.
 			"onedesk.one_project.hours.fill",
+			# What a new one starts with, however it is made. See one_project/terms.py.
+			"onedesk.one_project.terms.started",
 			# A project closes with its work. See one_project/status.py.
 			"onedesk.one_project.status.held",
 		],
@@ -1328,6 +1330,8 @@ one_ai_suggests = [
 	"onedesk.one_project.ai.draft_update",
 	# A project template, made when the reader approves. See one_project/library.py.
 	"onedesk.one_project.ai.draft_template",
+	# A new project, made as the New Project dialog makes one when the reader approves.
+	"onedesk.one_project.ai.draft_project",
 	# A reminder about an invoice still owed, opened in the email window to send.
 	"onedesk.one_project.ai.remind_customer",
 	# Somebody on a project's team or among its contacts, added when the reader approves.

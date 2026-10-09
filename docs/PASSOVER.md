@@ -9040,7 +9040,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | Step | Screen | State |
 |---|---|---|
 | 0 | Gates: 1874 fast tests, 95 demo checks | done |
-| 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done |
+| 1 | Projects: List, Report, Board, Tree, Timeline, Image, Dashboard, New Project | done, revisited |
 | 2 | A project's head and Overview | done |
 | 3 | Tasks, Time, Money | done |
 | 4 | Invoices, Suppliers, Team, Files, Activity | done |
@@ -9079,6 +9079,66 @@ modules on the demo, then `docs/STANDARD.md`.
 - **Stays desk (5)**: the Timeline opened by the week with most bars off
   the page. It opens by the month, two months back.
 - **Overrides (9)**: six new rows in `scripts/overrides.py`.
+
+Revisited against the points skipped the first time. Looked at as Samir and
+Rania: the list, the Report, the Board, the Tree, the Timeline, the Dashboard
+and the New Project dialog, and the code behind them.
+
+Fixed:
+
+- **Rules on the server (2)**: a new project for a customer takes the
+  customer's payment terms, the template's terms and conditions and its
+  retention on insert (`terms.started`), however it is made: ERPNext's Sales
+  Order › Create › Project, a plain form or Data Import. What it was given
+  stays. The New Project dialog says so itself and is left alone.
+- **Hand-offs (3)**: README Connections says a Sales Order starts a project
+  through Create › Project, with the customer's terms.
+- **Tier declared (4)**: `one/tiers.py` declares the Projects Report (its
+  Project column) and Dashboard (OneProject's cards and charts, in order),
+  and the Task Gantt. A new guard (`views-declared`) fails on a view changed
+  for a doctype in `public/js` that isn't declared.
+- **Overrides recorded (9)**: the eleven frappe methods we replace are rows
+  in `scripts/overrides.py`. A new guard (`overrides-named`) fails on a
+  frappe method replaced in `public/js` without its row.
+- **Extensible (7)**: the Projects list is a place,
+  `oneproject_list.projects`. Each time it is drawn it tells extensions the
+  projects in view (status, health, kind, customer, end, share done), with a
+  spot above the rows for a note.
+- **Printed (11)**: a project prints as One Project Status. The customer,
+  its dates, a bar of how much is done, the milestones, the next tasks due
+  and the invoices with what is outstanding, read as the portal reads them.
+- **Plain words (12)**: Health is blank in the Report once a project is
+  completed or cancelled, as the list's pill already was.
+- **Documented, OneAI (13)**: OneAI offers **Start a project** on the
+  Projects list. It asks what the job is, who it's for and when it runs,
+  offers a template first, and proposes a card. Approving it makes the
+  project through the dialog's own `kinds.make`, with the customer's terms
+  and the contract in the customer's currency. "Which projects need
+  attention?" was already offered on the Board, Dashboard and Report, since
+  OneAI treats every view of a list as the list. The finding was wrong.
+- **Legal (16)**: the AI Addendum (revision 15) says OneAI suggests a new
+  project, made only when approved.
+- **Demo (1)**: a check reads Rania's list, the Open Projects count and two
+  charts as hers (7 of 11 open projects), finds the villa among those needing
+  attention, has OneAI's card make a project with Mansour's terms only once
+  approved, and inserts a bare project that starts with them too.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | checks on the views | Rania's list, count and charts are hers |
+| 2 Rules on the server | New Project, bulk edit, import, Create › Project | the starting terms on insert |
+| 3 Hand-offs | README Connections | Sales Order › Create › Project said |
+| 4 Tier declared | `one/tiers.py` | Report, Dashboard and Task Gantt declared, guarded |
+| 7 Extensible | `one_studio/places.py` | `oneproject_list.projects` |
+| 9 Overrides recorded | `scripts/overrides.py` | eleven rows added, guarded |
+| 10 Notifications | `notifications/one_project/` | a new manager, a status, completion are each told. Nothing missing |
+| 11 Printed | print formats | One Project Status |
+| 12 Plain words | Report columns | Health blank on closed projects |
+| 13 Documented, OneAI | `ai.py`, README | OneAI starts a project as a card |
+| 14 Intake | `tests/samples/intake` | nothing arrives as a new project. A customer's order goes to its project (screen 6) |
+| 16 Legal | `one_project/legal.py` | the AI Addendum names the new card |
+| 17 Clean code | `project_list.js`, `project_new.js`, `project_kanban.js` | clean |
+| What ERPNext already does | statuses, record access, company, the Board's filter, currency | Rania sees her projects only. The Board shows open ones. ERPNext's statuses kept. A card's contract is in the customer's currency |
 
 #### 2. A project's head and Overview
 

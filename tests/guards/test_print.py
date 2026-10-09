@@ -26,6 +26,7 @@ LEAVES = (
 	"Appointment Letter",
 	"Timesheet",
 	"Contract",
+	"Project",
 )
 
 

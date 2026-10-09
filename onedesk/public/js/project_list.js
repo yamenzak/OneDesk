@@ -52,6 +52,33 @@ const BOARDING = ["Project", "project_type", "!=", "Employee Boarding"];
 	};
 })();
 
+// The list is a place for the workspace's extensions (one_studio/places.py):
+// told the projects on the page, it lends a spot above them.
+function told(listview) {
+	const places = onedesk.places;
+	listview.$one_spot && listview.$one_spot.remove();
+	listview.$one_spot = null;
+	if (!places || !places.listening("oneproject_list.projects")) return;
+	const rows = (listview.data || []).map((doc) => ({
+		name: doc.name,
+		title: doc.project_name || doc.name,
+		status: doc.status,
+		health: doc.status === "Open" ? doc.one_health || null : null,
+		kind: doc.one_kind || null,
+		customer: doc.customer || null,
+		ends: doc.expected_end_date || null,
+		percent_complete: Math.round(doc.percent_complete || 0),
+	}));
+	places.emit(
+		"oneproject_list.projects",
+		{ projects: { count: rows.length, rows } },
+		places.spot(($spot) => {
+			listview.$one_spot = $spot;
+			$spot.addClass("px-3 pt-3").insertBefore(listview.$result);
+		})
+	);
+}
+
 frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Project"] || {}, {
 	hide_name_column: true,
 	hide_name_filter: true,
@@ -109,6 +136,7 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 		}
 	},
 	refresh(listview) {
+		told(listview);
 		const missing = [...new Set(listview.data.map((doc) => doc.one_parent))].filter(
 			(name) => name && !(name in ONE_PARENTS)
 		);
@@ -128,6 +156,11 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 // rail's Projects and the Tree do (one_hr/lifecycle.py); it reads the type.
 // The pill reads the health, and the name the project it is under.
 (frappe.listview_settings["Project"].add_fields = frappe.listview_settings["Project"].add_fields || []).push(
+	"status",
+	"one_kind",
+	"customer",
+	"expected_end_date",
+	"percent_complete",
 	"project_type",
 	"one_health",
 	"one_parent"
@@ -169,6 +202,15 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			const built = column.call(this, c);
 			if (built && this.doctype === "Project" && c[0] === "name" && (c[1] || "Project") === "Project") {
 				built.name = built.content = __("Project");
+			}
+			// Health is how an open project is going: a finished or cancelled
+			// one says nothing there, as its pill and its head say nothing.
+			if (built && this.doctype === "Project" && c[0] === "one_health") {
+				const format = built.format;
+				built.format = (value, row, column, data) => {
+					const status = data?.status ?? (Array.isArray(row) ? row.find((one) => one.column?.docfield?.fieldname === "status")?.content : row?.status);
+					return ["Completed", "Cancelled"].includes(status) ? "" : format(value, row, column, data);
+				};
 			}
 			return built;
 		};

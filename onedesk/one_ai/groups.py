@@ -88,7 +88,7 @@ GROUPS = {
 		),
 	},
 	"projects": {
-		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, who has too much on this week, drafting your update, reminding a customer of an overdue invoice, adding a member or a contact, project templates and drafting one",
+		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, who has too much on this week, drafting your update, reminding a customer of an overdue invoice, adding a member or a contact, project templates and drafting one, starting a new project",
 		"tools": (
 			"project_facts",
 			"projects_needing_attention",
@@ -99,6 +99,7 @@ GROUPS = {
 			"add_contact",
 			"project_templates",
 			"draft_template",
+			"draft_project",
 		),
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},

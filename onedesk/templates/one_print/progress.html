@@ -1,0 +1,47 @@
+{%- set b = one_print_block(doc, "progress") -%}
+{%- if b %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:6px">{{ b.heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;color:#111827;margin-bottom:18px">
+	<tr>
+		<td style="width:60%;vertical-align:middle">
+			<div style="height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden">
+				<div style="height:8px;width:{{ b.share|e }}%;background:{{ b.colour|e }}"></div>
+			</div>
+		</td>
+		<td style="padding-left:12px;font-weight:600">{{ b.share|e }}%</td>
+		<td style="text-align:right;color:#6b7280">{{ b.done|e }}{% if b.done and b.when %} · {% endif %}{{ b.when|e }}</td>
+	</tr>
+</table>
+{%- for heading, rows in ((b.milestones_heading, b.milestones), (b.next_heading, b.next)) %}
+{%- if rows %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:18px">
+	{%- for subject, state, due in rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ subject|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280;width:20%">{{ state|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827;width:20%">{{ due|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}
+{%- endfor %}
+{%- if b.invoices %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.invoices_heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+	<tr>
+		{%- for one in b.columns %}
+		<td style="padding:5px 0;border-bottom:1px solid #111827;color:#6b7280;{{ 'text-align:right' if loop.index > 2 else '' }}">{{ one|e }}</td>
+		{%- endfor %}
+	</tr>
+	{%- for name, day, total, owed in b.invoices %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ name|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ day|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ total|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ owed|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}
+{%- endif %}

@@ -148,6 +148,8 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 	)
 	if values.parent:
 		project.one_parent = values.parent
+	# What the dialog was answered stands, a blank included (terms.started).
+	project.flags.one_terms_given = True
 	project.insert()
 
 	if kind == FIXED and contract:

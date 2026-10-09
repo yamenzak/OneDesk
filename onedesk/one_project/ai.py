@@ -190,6 +190,16 @@ SUGGESTIONS = {
 			"view": "List",
 			"expects": "projects_needing_attention",
 		},
+		{
+			"label": _lt("Start a project"),
+			"ask": _lt(
+				"Start a new project. Ask me what it is, who it is for and when it runs, then offer a template "
+				"we have or one from the library."
+			),
+			"can": "create",
+			"view": "List",
+			"expects": "draft_project",
+		},
 	],
 	# A retainer's first question is its hours, wherever it is asked.
 	f"page:{PAGE}": _here(ALLOWANCE, kinds=(kinds.RETAINER,))
@@ -362,7 +372,10 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		# Agreed with the customer and carried onto its documents (terms.py, agreement.py).
 		"payment_terms": doc.get("one_payment_terms"),
 		"terms_and_conditions": doc.get("one_terms"),
-		"contracts": [{key: value for key, value in one.items() if key != "route"} for one in agreement.contracts(said["tree"])],
+		"contracts": [
+			{key: value for key, value in one.items() if key != "route"}
+			for one in agreement.contracts(said["tree"])
+		],
 	}
 
 
@@ -561,7 +574,9 @@ def add_contact(
 		if name and not frappe.db.exists(doctype, name):
 			return {"mend": "add_contact", "error": f"There is no {doctype} called {name}."}
 	person = frappe.db.get_value("Contact", contact, "full_name") if contact else None
-	company = (frappe.db.get_value("Supplier", supplier, "supplier_name") if supplier else None) or organisation
+	company = (
+		frappe.db.get_value("Supplier", supplier, "supplier_name") if supplier else None
+	) or organisation
 	title = frappe.db.get_value("Project", project, "project_name") or project
 	changes = {
 		"what": "contact",
@@ -590,10 +605,13 @@ def add_contact(
 
 
 def approved(changes: dict) -> str:
-	"""A member or contact card approved, added by the Team view's own code
-	as whoever pressed Approve (one/ai_setup.py)."""
+	"""A project, member or contact card approved, made by the page's own
+	code as whoever pressed Approve (one/ai_setup.py)."""
 	from onedesk.one_project import contacts, team
 
+	if changes["what"] == "project":
+		# Made as the New Project dialog makes one, as whoever approved it.
+		return kinds.make(changes["values"])
 	if changes["what"] == "member":
 		team.add(changes["project"], changes["user"])
 	else:
@@ -682,6 +700,103 @@ def draft_template(
 	}
 	return {
 		"proposal": proposals.propose("Setup", "Project Template", changes=changes, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it does. Nothing is made until they approve it.",
+	}
+
+
+def draft_project(
+	title: Annotated[str, "What the job is called, as the team will say it: Mansour Pool House."],
+	kind: Annotated[str, "Fixed Price, Time and Materials, Retainer or Internal."],
+	customer: Annotated[str, "Who it is for, by the customer's name. None for an Internal project."]
+	| None = None,
+	starts: Annotated[str, "When it starts, YYYY-MM-DD."] | None = None,
+	ends: Annotated[str, "When it should end, YYYY-MM-DD."] | None = None,
+	template: Annotated[str, "A template the workspace has, by name (project_templates)."] | None = None,
+	library: Annotated[str, "Or a preset from the library, by its key (project_templates)."] | None = None,
+	contract: Annotated[float, "Fixed Price: what the customer pays, in their currency."] | None = None,
+	item: Annotated[str, "Fixed Price with a contract: the item to bill it as."] | None = None,
+	monthly_fee: Annotated[float, "Retainer: the fee each month."] | None = None,
+	monthly_hours: Annotated[float, "Retainer: the hours each month covers."] | None = None,
+	why: Annotated[str, "In a sentence, why this project."] | None = None,
+) -> dict:
+	"""Suggest a new project, as a card the reader approves. Read
+	project_templates first and offer a template. Approving makes it as the
+	New Project dialog does (kinds.make), with the customer's terms, and
+	opens it."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import library as presets
+
+	if not frappe.has_permission("Project", "create"):
+		return {"error": "The reader may not start projects. A Projects User or Manager may."}
+	title = (title or "").strip()
+	if not title:
+		return {"mend": "draft_project", "error": "Give the project a name."}
+	if kind not in kinds.KINDS:
+		return {"mend": "draft_project", "error": f"The kind is one of {', '.join(kinds.KINDS)}."}
+	client = None
+	if kind != kinds.INTERNAL:
+		client = frappe.db.get_value("Customer", customer) or frappe.db.get_value(
+			"Customer", {"customer_name": customer}
+		)
+		if not client:
+			return {
+				"mend": "draft_project",
+				"error": f"There is no customer called {customer}. Ask who it is for.",
+			}
+	if template and not frappe.db.exists("Project Template", template):
+		return {"mend": "draft_project", "error": f"There is no template called {template}."}
+	if library and library not in {one["key"] for one in presets.presets()}:
+		return {"mend": "draft_project", "error": f"The library has no preset {library}."}
+	if starts and ends and getdate(ends) < getdate(starts):
+		return {"mend": "draft_project", "error": "It ends before it starts."}
+	if kind == kinds.FIXED and flt(contract) and not (item and frappe.db.exists("Item", item)):
+		return {"mend": "draft_project", "error": "A contract is billed as an item. Ask which, by its code."}
+	values = {
+		"title": title,
+		"kind": kind,
+		"client": client,
+		"starts": starts or nowdate(),
+		"ends": ends,
+		"template": template,
+		"library": library if not template else None,
+		"contract": flt(contract) if kind == kinds.FIXED else 0,
+		"item": item if kind == kinds.FIXED else None,
+		"monthly_fee": flt(monthly_fee) if kind == kinds.RETAINER else 0,
+		"monthly_hours": flt(monthly_hours) if kind == kinds.RETAINER else 0,
+	}
+	# A contract and a fee are in the customer's currency.
+	currency = kinds.defaults(client)["currency"] if client else None
+	summary = [
+		{"label": _("Kind"), "value": _(kind)},
+		*([{"label": _("Customer"), "value": client}] if client else []),
+		{"label": _("Starts"), "value": frappe.format_value(values["starts"], {"fieldtype": "Date"})},
+		*([{"label": _("Ends"), "value": frappe.format_value(ends, {"fieldtype": "Date"})}] if ends else []),
+		*([{"label": _("Template"), "value": template or library}] if template or library else []),
+		*(
+			[
+				{
+					"label": _("Contract"),
+					"value": frappe.format_value(values["contract"], {"fieldtype": "Currency"}, currency=currency),
+				}
+			]
+			if values["contract"]
+			else []
+		),
+		*(
+			[
+				{
+					"label": _("Monthly Fee"),
+					"value": frappe.format_value(values["monthly_fee"], {"fieldtype": "Currency"}, currency=currency),
+				}
+			]
+			if values["monthly_fee"]
+			else []
+		),
+	]
+	changes = {"what": "project", "title": title, "values": values, "summary": summary}
+	return {
+		"proposal": proposals.propose("Setup", "Project", changes=changes, why=why),
 		"state": "Proposed",
 		"next": "Say in one sentence what approving it does. Nothing is made until they approve it.",
 	}

@@ -4248,3 +4248,39 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 		assert "Purchase Manager" in frappe.db.get_value("AI Proposal", approval["proposal"], "changes")
 		_applied(ai.suggest_automation("Sales Invoice", "submitted", [{"do": "tell", "who": ["huda@one.test"], "subject": "Invoice {{ doc.name }} is out", "message": "For {{ doc.customer }}."}], title="Tell Huda of invoices", turn_on=True))
 		assert frappe.db.exists("Automation Flow", {"title": "Tell Huda of invoices"}) or frappe.db.count("Automation Flow")
+
+
+@check
+def oneproject_its_views_read_as_their_people_and_oneai_starts_one():
+	"""Rania's Projects list, its counts and its charts are her own projects,
+	and the villa is among those needing attention. OneAI's card makes a
+	project only when approved, with the customer's terms, and a project made
+	any other way starts with them too."""
+	from frappe.desk.doctype.dashboard_chart.dashboard_chart import get as chart
+	from frappe.desk.doctype.number_card.number_card import get_result
+
+	from onedesk.one_ai import proposals
+	from onedesk.one_demo.projects import TEMPLATE
+	from onedesk.one_project import ai
+
+	open_ = {"status": "Open", "project_type": ["!=", "Employee Boarding"]}
+	every = frappe.get_all("Project", filters=open_, pluck="name")
+	with as_user("rania@one.test"):
+		mine = frappe.get_list("Project", filters=open_, pluck="name")
+		assert mine and len(mine) < len(every), "Rania reads only her projects"
+		card = frappe.get_doc("Number Card", "Projects Under Way")
+		assert get_result(card.as_dict(), card.filters_json) == len(mine)
+		for name in ("Projects by Kind", "Projects by Health"):
+			drawn = chart(chart_name=name, refresh=1)
+			assert sum(drawn["datasets"][0]["values"]) == len(mine), (name, drawn)
+		assert VILLA in {one["project"] for one in ai.projects_needing_attention()["projects"]}
+	with as_user("samir@one.test"):
+		assert ai.draft_project("Mansour Garden Room", "Fixed Price", "Mansour & Sons", contract=30000).get("error"), "a contract is billed as an item"
+		card = ai.draft_project("Mansour Garden Room", "Fixed Price", "Mansour & Sons", template=TEMPLATE, contract=30000, item="SVC-INST", ends=add_days(today(), 365))
+		assert card.get("state") == "Proposed", card
+		assert not frappe.db.exists("Project", {"project_name": "Mansour Garden Room"}), "nothing is made until approved"
+		name = proposals.apply(card["proposal"])
+		project = frappe.db.get_value("Project", {"project_name": "Mansour Garden Room"}, ["name", "one_payment_terms", "one_terms", "one_retention"], as_dict=True)
+		assert project and (project.one_payment_terms, project.one_terms, flt(project.one_retention)) == ("Net 30", "Construction Works", 5), (name, project)
+		bare = frappe.get_doc({"doctype": "Project", "project_name": "Mansour Gate", "customer": "Mansour & Sons", "project_template": TEMPLATE, "one_kind": "Fixed Price"}).insert()
+		assert (bare.one_payment_terms, bare.one_terms, flt(bare.one_retention)) == ("Net 30", "Construction Works", 5), bare.as_dict()

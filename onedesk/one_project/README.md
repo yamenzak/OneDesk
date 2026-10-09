@@ -43,7 +43,8 @@ The view switch at the top of **Projects** lays them out as:
 
 - **List View**: the list, with its filters.
 - **Report View**: a table you can sort, group and add columns to, and save
-  as a report of your own.
+  as a report of your own. **Health** is blank once a project is completed
+  or cancelled.
 - **Dashboard View**: open projects, those at risk or off track, and those
   past due, then charts of open projects by health, kind, manager and
   customer, and how many started each month. Click a number to see its
@@ -85,6 +86,10 @@ it.
 
 Filter by name, kind, status, health or manager at the top, or by customer
 and anything else under **Filters**. **Add Project** starts one.
+
+A project prints as **One Project Status**, to send the customer: how much
+is done, its milestones, the next tasks due and its invoices with what's
+still owed.
 
 ## Starting a project
 
@@ -922,7 +927,9 @@ own:
 **Add Project** fills both in. The payment terms are the customer's own when
 they have some, else the template's, else the company's. The terms and
 conditions are the template's, else the company's. Change either in the
-dialog, or later in **About**. An internal project has neither. A sub-project
+dialog, or later in **About**. A project made another way (a Sales Order's
+**Create › Project**, the form, Data Import) starts with the same, and a
+Fixed Price one with its template's retention. An internal project has neither. A sub-project
 with none of its own is billed on the nearest project above it that has some,
 and **About** says which.
 
@@ -1153,7 +1160,10 @@ On a project's page, OneAI offers what fits the view you're on:
 
 An internal project has no customer, so it isn't offered the customer
 update or what's still to invoice. On the Projects list, OneAI offers
-**Which projects need attention?**
+**Which projects need attention?** and **Start a project**. Say what the job
+is, who it's for and when it runs. It offers a template you have, or one
+from the library, first. The project comes as a card, and approving it
+makes it as **Add Project** does, with the customer's terms, and opens it.
 
 OneAI reads a project as you see it on its page: its figures, its money with
 the customer and suppliers, its cost types, its tasks, its time, its people
@@ -1316,7 +1326,7 @@ sub-project.
 
 ## Connections
 
-- **From OneCRM**: A quotation made from a deal or the Quotation list can be put on the customer's open project. Once the customer orders it, its Sales Order is the project's contract.
+- **From OneCRM**: A quotation made from a deal or the Quotation list can be put on the customer's open project. Once the customer orders it, its Sales Order is the project's contract. A Sales Order with no project starts one with ERPNext's Create › Project: its customer, the order as its contract, and the customer's terms.
 - **From OneTask**: A project's tasks are the same tasks people see on My Tasks. The timer on a task logs its time on the project.
 - **From OneHR**: A day of attendance at the project's site becomes a timesheet on the project. Expense claims on the project count in its Cost, and Workload leaves out holidays and approved leave.
 - **From OneInventory**: Purchase orders, goods received and stock issued for the project count in its Cost. A purchase order for a package of work is a subcontract on the Suppliers view.
@@ -1362,6 +1372,18 @@ one field for it.
   **The Projects list has a board too**: Projects by Health, open projects in
   On Track, At Risk and Off Track, made once by `settle` so the Kanban view
   opens on it rather than on a dialog asking which field to group by.
+
+  The list is public/js/project_list.js. Each time it is drawn it tells
+  OneStudio's extensions the projects it shows (`oneproject_list.projects`,
+  one_studio/places.py), with a spot above the rows for what they add. In
+  Report view, Health is blank on a completed or cancelled project, as the
+  list's pill is.
+- **One Project Status** (print_format/one_project_status) is the project's
+  print: its title, the customer and its dates from one/print_blocks.py, and
+  One's `progress` block (templates/one_print/progress.html). The block reads
+  the project as the customer's portal does (portal.py `view`): how much is
+  done, the milestones, the next tasks due and the invoices with what is
+  outstanding.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
 - Currency: every order and invoice made here goes through one_book/currency.py
@@ -1556,6 +1578,12 @@ one field for it.
   Both read as the person asking: a project they may not open is not read, and
   neither are its tasks. Tasks are only suggested (one_task/ai.py
   `plan_task`), as cards the reader approves.
+
+  `draft_project` checks what it is given (a kind, a customer that exists, a
+  template or preset, a contract's item) and proposes a Setup card with the
+  values **Add Project** would send. Approving it runs `kinds.make` as
+  whoever approved it (`approved`, through one/ai_setup.py), so the project
+  has the customer's terms and its contract's sales order.
 - `chain.py` — every money document and its lines name the same project.
   Quotation, Request for Quotation and Material Request get a `project` field
   (custom/), named as on every other document so ERPNext's mapping carries
@@ -2335,7 +2363,10 @@ A project's `one_payment_terms` (Payment Terms Template) and `one_terms`
 `one_retention_handover`. `defaults` gives a new project the customer's own
 payment terms (ERPNext's `get_payment_terms_template`: customer, then group,
 then company) before the template's, then the company's. The wording is the
-template's, else the company's `default_selling_terms`.
+template's, else the company's `default_selling_terms`. `started` gives them
+to a new project however it is made, before validate; the New Project dialog
+sets `flags.one_terms_given`, so what it was answered stands, a blank
+included.
 
 `of` is what a project is billed on: its own, else the nearest project
 above it with some, with the one they come from. `carried`, Invoice Time,

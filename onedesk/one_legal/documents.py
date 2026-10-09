@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 14: OneAI reads the team's week as Workload shows it.
+		# 15: OneAI suggests a new project, made when approved.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 14,
+		"revision": 15,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

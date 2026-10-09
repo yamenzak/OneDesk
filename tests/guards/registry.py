@@ -95,6 +95,12 @@ GUARDS = [
 		"tests/guards/test_tiers.py::test_every_collection_set_up_is_declared",
 	),
 	Guard(
+		"views-declared",
+		4,
+		"one of frappe's views changed for a doctype in the desk's code and not declared in one/tiers.py",
+		"tests/guards/test_tiers.py::test_every_view_we_change_for_a_doctype_is_declared",
+	),
+	Guard(
 		"views-kept",
 		4,
 		"a view frappe offers taken away",
@@ -223,6 +229,12 @@ GUARDS = [
 		9,
 		"an upstream line we lean on that has gone",
 		"cmd: python3 scripts/overrides.py --check",
+	),
+	Guard(
+		"overrides-named",
+		9,
+		"a frappe method replaced in the desk's code with no row in scripts/overrides.py",
+		"tests/guards/test_overrides_recorded.py::test_every_frappe_method_we_replace_is_recorded",
 	),
 	Guard(
 		"upstream-unmoved",

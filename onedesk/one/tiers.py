@@ -80,8 +80,13 @@ COLLECTIONS = {
 		"Tree": "each project under its parent",
 		"Kanban": "Projects by Health",
 		"Image": "each project's cover",
+		"Report": "the Project column reads each project's name, without a second name column or the cover's file path",
+		"Dashboard": "OneProject's cards and charts, where things stand first, then who and what for, then over time",
 	},
-	"Task": {"List": "a task's due date as a day, red once it has passed"},
+	"Task": {
+		"List": "a task's due date as a day, red once it has passed",
+		"Gantt": "a task with only a due date is a bar on its day, and the pills light the mode it is in",
+	},
 	"Lead": {"List": "an overdue next step in red"},
 	"Opportunity": {
 		"List": "an overdue next step in red",

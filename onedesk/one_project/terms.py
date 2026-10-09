@@ -62,6 +62,24 @@ def defaults(customer: str | None = None, template: str | None = None, company: 
 	}
 
 
+def started(doc, method=None) -> None:
+	"""Project before_validate, once its kind is known: a new project starts
+	with what `defaults` gives, however it is made (the form, a Sales Order's
+	Create › Project, Data Import). What the New Project dialog asked for is
+	kept as it was answered (`flags.one_terms_given`). An internal project
+	bills nobody, so it starts with none."""
+	from onedesk.one_project import kinds
+
+	if not doc.is_new() or doc.flags.get("one_terms_given") or doc.get("one_kind") == kinds.INTERNAL:
+		return
+	agreed = defaults(doc.get("customer"), doc.get("project_template"), doc.get("company"))
+	doc.one_payment_terms = doc.get("one_payment_terms") or agreed["payment_terms"]
+	doc.one_terms = doc.get("one_terms") or agreed["terms"]
+	if doc.get("one_kind") == kinds.FIXED and not doc.get("one_retention") and agreed["retention"]:
+		doc.one_retention = agreed["retention"]
+		doc.one_retention_handover = agreed["retention_handover"]
+
+
 def give(doc, payment_terms: str | None, terms: str | None) -> None:
 	"""Put the terms on a document not saved yet: the template, which ERPNext
 	turns into the payment schedule, and the wording, written out for the

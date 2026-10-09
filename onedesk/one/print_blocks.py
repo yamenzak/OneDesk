@@ -24,6 +24,7 @@ TITLES = {
 	"Appointment Letter": (_lt("Appointment Letter"), _lt("Letter No")),
 	"Timesheet": (_lt("Timesheet"), _lt("Timesheet No")),
 	"Contract": (_lt("Contract"), _lt("Contract No")),
+	"Project": (_lt("Project Status"), _lt("Project")),
 }
 
 #: Each record's dates and references, in the order they are printed.
@@ -62,6 +63,7 @@ DETAILS = {
 		(_lt("Ends On"), "end_date"),
 		(_lt("Signed On"), "signed_on"),
 	),
+	"Project": ((_lt("Starts On"), "expected_start_date"), (_lt("Ends On"), "expected_end_date")),
 }
 
 #: Who a record is for: its heading, and the field with their name.
@@ -77,6 +79,7 @@ PARTIES = {
 	"Appointment Letter": (_lt("Addressed To"), "applicant_name"),
 	"Timesheet": (_lt("Employee"), "employee_name"),
 	"Contract": (_lt("Agreed With"), "party_full_name"),
+	"Project": (_lt("Prepared For"), "customer"),
 }
 
 #: The format each record that leaves the company prints with, and the module
@@ -94,6 +97,7 @@ FORMATS = {
 	"Appointment Letter": ("One Appointment Letter", "one_hr"),
 	"Timesheet": ("One Timesheet", "one_project"),
 	"Contract": ("One Contract", "one_crm"),
+	"Project": ("One Project Status", "one_project"),
 }
 
 #: Who signs a paper that is signed and handed back: the company's side, then
@@ -165,6 +169,7 @@ def one_print_block(doc, block: str) -> dict:
 		"payslip": payslip,
 		"payment": payment,
 		"signatures": signatures,
+		"progress": progress,
 	}[block](doc)
 	return {**shown, "colour": colour(doc)} if shown else {}
 
@@ -195,7 +200,9 @@ def title(doc) -> dict:
 	# A Print Heading frappe lets the record choose, such as Tax Invoice. A
 	# draft or cancelled record is marked by frappe itself, above the page.
 	heading = doc.get("select_print_heading")
-	return {"title": _(heading) if heading else str(said), "label": str(number), "name": doc.name}
+	# A customer knows a project by what it is called, not its number.
+	name = doc.get("project_name") if doc.doctype == "Project" else None
+	return {"title": _(heading) if heading else str(said), "label": str(number), "name": name or doc.name}
 
 
 def party(doc) -> dict:
@@ -396,3 +403,46 @@ def signatures(doc) -> dict:
 		else:
 			sides.append({"heading": str(heading), "name": doc.get(field) if field else None})
 	return {"sides": sides, "signature": _("Signature"), "date": _("Date")}
+
+
+#: How many of a project's open tasks a status lists, soonest first.
+NEXT = 8
+
+
+def progress(doc) -> dict:
+	"""A project's status on paper, as its customer's page says it: how far it
+	has got, when it ends, its milestones, what comes next and its invoices."""
+	if doc.doctype != "Project":
+		return {}
+	from onedesk.one_project import portal
+
+	said = portal.view(doc.name)
+
+	def row(task) -> tuple:
+		due = frappe.format_value(task.due, {"fieldtype": "Date"}) if task.due else ""
+		return (task.subject, task.shown, due)
+
+	waiting = sorted(
+		(one for one in said["tasks"] if one.status != "Completed"), key=lambda one: str(one.due or "9999")
+	)
+	return {
+		"heading": _("Progress"),
+		"share": int(said["share"] or 0),
+		"done": _("{0} of {1} tasks done").format(said["done"], said["total"]) if said["total"] else "",
+		"when": portal.when(said["days_left"]) or "",
+		"milestones_heading": _("Milestones"),
+		"milestones": [row(one) for one in said["milestones"]],
+		"next_heading": _("Next"),
+		"next": [row(one) for one in waiting[:NEXT]],
+		"invoices_heading": _("Invoices"),
+		"invoices": [
+			(
+				one.name,
+				frappe.format_value(one.posting_date, {"fieldtype": "Date"}),
+				money(doc, one.grand_total, one.currency),
+				money(doc, one.outstanding_amount, one.currency),
+			)
+			for one in said["invoices"]
+		],
+		"columns": (_("Invoice"), _("Date"), _("Total"), _("Outstanding")),
+	}

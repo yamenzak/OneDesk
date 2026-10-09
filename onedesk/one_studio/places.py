@@ -167,6 +167,20 @@ PLACES = {
 			},
 		},
 	},
+	"oneproject_list": {
+		"label": "OneProject",
+		"record": None,
+		"events": {
+			"projects": {
+				"about": _lt("The Projects list is opened, and each time it is drawn again."),
+				"gives": (
+					"projects.count, projects.rows: each project's name, title, status, health (open ones only), "
+					"kind, customer, ends and percent_complete, as the list shows them to the reader"
+				),
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneproject_workload": {
 		"label": "OneProject",
 		"record": None,

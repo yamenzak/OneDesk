@@ -65,6 +65,33 @@ def test_every_collection_set_up_is_declared():
 		assert set(views) <= set(tiers.VIEWS), doctype
 
 
+#: frappe's view classes, and the view each draws.
+VIEW_CLASSES = {
+	"ReportView": "Report",
+	"DashboardView": "Dashboard",
+	"GanttView": "Gantt",
+	"KanbanV2Page": "Kanban",
+	"TreeView": "Tree",
+	"CalendarView": "Calendar",
+	"ImageView": "Image",
+	"MapView": "Map",
+	"InboxView": "Inbox",
+}
+
+
+def test_every_view_we_change_for_a_doctype_is_declared():
+	"""A file that changes one of frappe's views for a doctype (`this.doctype
+	=== "Project"`) declares that view for it, as the hooks' views are."""
+	for path in (APP / "public" / "js").rglob("*.js"):
+		source = path.read_text()
+		doctypes = set(re.findall(r'this\.doctype\s*[!=]==\s*"([^"]+)"', source))
+		for cls, view in VIEW_CLASSES.items():
+			if f"frappe.views.{cls}" not in source:
+				continue
+			for doctype in doctypes:
+				assert view in tiers.COLLECTIONS.get(doctype, {}), (path.name, doctype, view)
+
+
 def test_no_view_frappe_offers_is_taken_away():
 	for path in (APP / "public" / "js").rglob("*.js"):
 		source = path.read_text()
