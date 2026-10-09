@@ -328,6 +328,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Outside the desk | The portal, and the public Your Data page | done (Portals 1 to 8) |
 | Products | OneProject › Projects | done |
 | Products | OneProject › Templates | done |
+| Products | OneProject, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -828,7 +829,8 @@ Up next, in this order:
      or what a model is told. Each claim about what One does is now made on
      the demo.
 4. The finished modules again, against the new points only, one screen at a
-   time.
+   time. OneProject is done and closed (2026-10-09). What it took is
+   `docs/STANDARD.md`, and every module after it is finished the same way.
 
 Noticed along the way, for the screen it belongs to:
 
@@ -9046,7 +9048,7 @@ modules on the demo, then `docs/STANDARD.md`.
 | 4 | Invoices, Suppliers, Team, Files, Activity | done |
 | 5 | Workload, Timesheet, Templates | done |
 | 6 | Across modules on the demo | done |
-| 7 | `docs/STANDARD.md`, and OneProject closed | |
+| 7 | `docs/STANDARD.md`, and OneProject closed | done |
 
 #### 1. Projects and its views
 
@@ -9625,6 +9627,30 @@ no costing rate. That is the demo's, and stays for the next pass on Time.
 | 17 Clean code | the files behind the heads | clean |
 | Everything follows frappe | forms, realtime | frappe's forms throughout |
 | What ERPNext already does | statuses, due dates, outstanding, amended stock issues | fixed above |
+
+#### 7. The standard, and OneProject closed
+
+OneProject is closed. Every screen was walked against all seventeen points,
+plus Everything follows frappe and What ERPNext already does, the first
+three screens twice, and the hand-offs from the other side.
+`docs/STANDARD.md` says what finished means, taken from it: how a module is
+walked, what each point looks like when it is met, where OneProject keeps it,
+what checks it, what went wrong on the way, and the gates.
+
+When it closed, 1891 fast tests and 103 of 103 demo checks passed, with the
+overrides, the generated docs and the lint.
+
+Still open, and written down in the standard:
+
+- **Intake (14)**: a site's daily log, a supplier's timesheet, an update from
+  site or a customer's request for extra work, sent by mail, isn't read into
+  the project. Noted for the Intake arc.
+- **Precision**: Time Billed's total can differ from the invoice's lines by a
+  few cents, as ERPNext rounds each apart.
+- **Demo**: Site Work has no costing rate, so the tower's days on site have
+  no cost.
+- **Manufacturing**: no module offers bills of materials or work orders. A
+  product decision.
 
 ## OneLegal
 
