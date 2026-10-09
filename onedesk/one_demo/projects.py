@@ -929,7 +929,13 @@ OWN = {
 	"rania@one.test": [
 		("Renew the site safety card", 3, "Medium", []),
 	],
+	ACCOUNTS_USER: [
+		("Send Samir the week's cash position", 4, "Medium", ["Match the bank", "List what is due this week"]),
+	],
 }
+
+#: Own to-dos that repeat, as the page's Repeat sets them: (who, subject): how often.
+REPEATS = {(ACCOUNTS_USER, "Send Samir the week's cash position"): "Weekly"}
 
 
 def _own():
@@ -938,17 +944,23 @@ def _own():
 	for user, tasks in OWN.items():
 		with as_user(user):
 			for subject, days, priority, steps in tasks:
-				if frappe.db.exists("Task", {"subject": subject, "owner": user}):
-					continue
-				frappe.get_doc(
-					{
-						"doctype": "Task",
-						"subject": subject,
-						"priority": priority,
-						"exp_end_date": ahead(days) if days >= 0 else ago(-days),
-						"one_steps": [{"step": step} for step in steps],
-					}
-				).insert()
+				name = frappe.db.get_value("Task", {"subject": subject, "owner": user})
+				if not name:
+					name = frappe.get_doc(
+						{
+							"doctype": "Task",
+							"subject": subject,
+							"priority": priority,
+							"exp_end_date": ahead(days) if days >= 0 else ago(-days),
+							"one_steps": [{"step": step} for step in steps],
+						}
+					).insert().name
+				often = REPEATS.get((user, subject))
+				if often and not frappe.db.get_value("Task", name, "auto_repeat"):
+					from frappe.automation.doctype.auto_repeat.auto_repeat import make_auto_repeat
+
+					repeat = make_auto_repeat("Task", name, often)
+					frappe.db.set_value("Task", name, "auto_repeat", repeat.name, update_modified=False)
 
 
 def _assign(task, user):

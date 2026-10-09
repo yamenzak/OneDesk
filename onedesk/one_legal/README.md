@@ -227,7 +227,8 @@ person acknowledges it.
   suggests a project's status and its milestones. 17, OneAI reads a project's
   time by person, and suggests time on your timesheet and a cost type's
   budget. 18, OneAI reads a task as its page shows it, with the hours each
-  person logged on it.
+  person logged on it. 19, OneAI suggests a change to a task, made only when
+  you approve it.
 
 ### gate.py
 

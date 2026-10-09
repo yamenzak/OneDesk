@@ -27,6 +27,7 @@ RULES = (
 	("Employee", "onedesk.one_hr.everybody.employee", {"create_user_permission"}, "a_manager_is_not_kept_to_their_own_records"),
 	("File", "onedesk.one_intake.switches.file_switched", {"one_intake", "one_intake_for"}, "a_folder_reads_for_whoever_turned_it_on"),
 	("File", "onedesk.one_project.media.kept_shown", {"one_featured", "is_private"}, None),
+	("Task", "onedesk.one_task.task.before_validate", {"progress"}, "a_tasks_progress_is_its_checklist"),
 	("Email Account", "onedesk.one_intake.switches.mailbox_switched", {"one_intake", "one_intake_for"}, None),
 	("Email Account", "onedesk.one_mail.holders.signed", {"add_signature"}, None),
 )

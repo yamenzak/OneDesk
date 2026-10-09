@@ -44,6 +44,7 @@ GROUPS = {
 			"task_facts",
 			"plan_task",
 			"plan_steps",
+			"plan_change",
 			"my_calendar",
 			"busy_times",
 			"plan_event",

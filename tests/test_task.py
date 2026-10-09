@@ -175,12 +175,12 @@ def test_a_task_given_is_said_in_ours_and_a_task_done_is_told():
 
 def test_oneai_only_suggests_a_task_and_its_steps():
 	source = (TASK / "ai.py").read_text()
-	for name in ("plan_task", "plan_steps"):
+	for name in ("plan_task", "plan_steps", "plan_change"):
 		body = _body(source, name)
 		assert "proposals.propose(" in body
 		assert ".insert(" not in body and ".save(" not in body
 	assert "one_for" in _body((TASK / "capture.py").read_text(), "task_made"), "the card's colleagues get it"
-	for name in ("my_tasks", "plan_task", "plan_steps", "SUGGESTIONS", "page"):
+	for name in ("my_tasks", "plan_task", "plan_steps", "plan_change", "SUGGESTIONS", "page"):
 		assert f'"onedesk.one_task.ai.{name}"' in HOOKS
 	assert '"one_task"' in (tree.APP / "one_legal" / "assemble.py").read_text(), "its AI Addendum line is read"
 

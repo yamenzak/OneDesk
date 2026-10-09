@@ -1467,6 +1467,13 @@ OVERRIDES = [
 		'allDay: "allDay",',
 	),
 	(
+		"A repeating record says how often in its sidebar",
+		"their sidebar writes Repeats {0} into a span its template never has, so only the dot showed",
+		"onedesk/public/js/record.js",
+		"frappe/frappe/public/js/frappe/form/sidebar/form_sidebar.js",
+		"show_auto_repeat_status() {",
+	),
+	(
 		"A boarding task names the person and opens their onboarding or separation",
 		"their boarding keeps a plain project behind each checklist, so a task from it read as that project and opened it",
 		"onedesk/one_task/mine.py",

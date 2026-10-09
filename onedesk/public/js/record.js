@@ -204,6 +204,21 @@ onedesk.record.menu = (doctype, record, { changed = () => {}, gone = () => {} } 
 	return items;
 };
 
+// frappe's "Repeats Weekly" line writes into a span its sidebar template
+// doesn't have, so a repeating record showed a dot with no words, on a form
+// and on a page. The span it writes into is given before it writes.
+{
+	const Sidebar = frappe.ui.form?.Sidebar;
+	if (Sidebar && !Sidebar.prototype.__one_repeats) {
+		Sidebar.prototype.__one_repeats = true;
+		const shown = Sidebar.prototype.show_auto_repeat_status;
+		Sidebar.prototype.show_auto_repeat_status = function (...args) {
+			this.sidebar?.find(".auto-repeat-status:not(:has(span))").append("<span></span>");
+			return shown.apply(this, args);
+		};
+	}
+}
+
 // frappe's own form sidebar, on the right of a page that shows one record
 // (onedesk.island_page's `record`), and frappe's "Currently Viewing" avatars
 // in the page head, both as a form draws them. frappe.ui.form.Sidebar and its

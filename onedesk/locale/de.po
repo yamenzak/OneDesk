@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 12:44+0000\n"
-"PO-Revision-Date: 2026-10-09 12:44+0000\n"
+"POT-Creation-Date: 2026-10-09 15:56+0000\n"
+"PO-Revision-Date: 2026-10-09 15:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1653,11 +1653,11 @@ msgstr "Geben Sie einen Grund an."
 msgid "Add a task"
 msgstr "Aufgabe hinzufügen"
 
-#: onedesk/one_task/ai.py:25
+#: onedesk/one_task/ai.py:31
 msgid "Add a task to "
 msgstr "Aufgabe hinzufügen: "
 
-#: onedesk/one_task/ai.py:24
+#: onedesk/one_task/ai.py:30
 msgid "Add a task…"
 msgstr "Aufgabe hinzufügen…"
 
@@ -4046,11 +4046,11 @@ msgstr "Markenlinie"
 msgid "Brands"
 msgstr "Marken"
 
-#: onedesk/one_task/ai.py:34 onedesk/one_task/ai.py:65
+#: onedesk/one_task/ai.py:40 onedesk/one_task/ai.py:81
 msgid "Break this into steps"
 msgstr "In Schritte zerlegen"
 
-#: onedesk/one_task/ai.py:35 onedesk/one_task/ai.py:66
+#: onedesk/one_task/ai.py:41 onedesk/one_task/ai.py:82
 msgid "Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."
 msgstr "Zerlegen Sie diese Aufgabe in die Schritte bis zu ihrem Abschluss, als ihre Checkliste. Behalten Sie die Schritte, die sie schon hat."
 
@@ -4544,6 +4544,14 @@ msgstr "Ändere diese Erweiterung so, dass "
 #: onedesk/one_studio/ai.py:72
 msgid "Change this one…"
 msgstr "Diese ändern…"
+
+#: onedesk/one_task/ai.py:67
+msgid "Change this task: "
+msgstr "Diese Aufgabe ändern: "
+
+#: onedesk/one_task/ai.py:66
+msgid "Change this task…"
+msgstr "Diese Aufgabe ändern…"
 
 #: onedesk/one_intake/panel.py:214 onedesk/public/js/oneai/Record.vue:151
 msgid "Change {0}"
@@ -13000,7 +13008,7 @@ msgstr "Sieh dir meinen Kalender für heute an und schlage vor, wie ich den Tag 
 msgid "Look at my profile and my employee record, if I have one. What is empty or looks out of date, and what is each of those used for?"
 msgstr "Sieh dir mein Profil und, falls vorhanden, meinen Mitarbeiterdatensatz an. Was ist leer oder wirkt veraltet, und wofür wird jedes davon gebraucht?"
 
-#: onedesk/one_task/ai.py:16
+#: onedesk/one_task/ai.py:22
 msgid "Look at my tasks and say which I should do first and why: what is late, what is due soonest, and what is most pressing."
 msgstr "Sehen Sie sich meine Aufgaben an und sagen Sie, welche ich zuerst erledigen soll und warum: was überfällig ist, was am ehesten fällig ist und was am dringendsten ist."
 
@@ -27402,11 +27410,11 @@ msgstr "Was gerade läuft"
 msgid "What is late?"
 msgstr "Was ist verspätet?"
 
-#: onedesk/one_task/ai.py:41
+#: onedesk/one_task/ai.py:47
 msgid "What is left on this task?"
 msgstr "Was ist bei dieser Aufgabe noch offen?"
 
-#: onedesk/one_task/ai.py:42
+#: onedesk/one_task/ai.py:48
 msgid "What is left to do on this task: the steps and sub-tasks still open, what it waits on, how its hours compare with the plan, and whether it is late."
 msgstr "Was ist bei dieser Aufgabe noch zu tun: offene Schritte und Unteraufgaben, worauf sie wartet, wie ihre Stunden zum Plan stehen und ob sie überfällig ist."
 
@@ -27483,7 +27491,7 @@ msgstr "Was läuft von selbst?"
 msgid "What should I ask first?"
 msgstr "Was sollte ich zuerst fragen?"
 
-#: onedesk/one_task/ai.py:15
+#: onedesk/one_task/ai.py:21
 msgid "What should I do first?"
 msgstr "Was soll ich zuerst tun?"
 
@@ -28871,7 +28879,7 @@ msgstr "Wer sieht meine Daten noch?"
 msgid "Who has access to what?"
 msgstr "Wer hat worauf Zugriff?"
 
-#: onedesk/one_task/ai.py:52
+#: onedesk/one_task/ai.py:58
 msgid "Who has logged time on this task, how much each, and how that compares with the hours planned."
 msgstr "Wer hat Zeit auf diese Aufgabe erfasst, wie viel jeweils, und wie verhält sich das zu den geplanten Stunden."
 
@@ -28950,7 +28958,7 @@ msgstr "Für wen die Kopie ist. Wer kein Benutzer ist, hat nur diese Angabe."
 msgid "Who this workspace is in the admin site's own books. Made when it first paid."
 msgstr "Wer dieser Arbeitsbereich in den eigenen Büchern der Admin-Site ist. Angelegt bei der ersten Zahlung."
 
-#: onedesk/one_task/ai.py:51
+#: onedesk/one_task/ai.py:57
 msgid "Who worked on this?"
 msgstr "Wer hat daran gearbeitet?"
 

@@ -1382,9 +1382,10 @@ one_ai_suggests = [
 	"onedesk.one_mail.ai.suggest_mail_rule",
 	# An event, with the people on it, made when the reader approves.
 	"onedesk.one_calendar.ai.plan_event",
-	# A task, and the steps of a task's checklist. See one_task/ai.py.
+	# A task, the steps of a task's checklist, and a change to a task. See one_task/ai.py.
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
+	"onedesk.one_task.ai.plan_change",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

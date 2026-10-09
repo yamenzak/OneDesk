@@ -115,12 +115,13 @@
                 <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Details") }}</h3>
                 <Button v-if="said.can_write" variant="ghost" size="sm" icon="lucide-pencil" :aria-label="__('Edit Details')" @click="details" />
               </div>
-              <dl class="grid grid-cols-[7rem_minmax(0,1fr)] gap-y-2 text-base">
+              <dl v-if="facts.length" class="grid grid-cols-[7rem_minmax(0,1fr)] gap-y-2 text-base">
                 <template v-for="one in facts" :key="one.label">
                   <dt class="text-ink-gray-5">{{ one.label }}</dt>
                   <dd class="truncate text-ink-gray-8">{{ one.value }}</dd>
                 </template>
               </dl>
+              <p v-else class="text-base text-ink-gray-5">{{ __("Nothing") }}</p>
             </section>
           </aside>
         </div>

@@ -157,7 +157,9 @@ card, in the same project as its parent.
 
 **Checklist** is for steps toward finishing a task that don't need to be
 assigned to anyone. Tick **Done** as you go. The task's **Progress** updates,
-and so does the project's if it tracks progress.
+and so does the project's if it tracks progress. A task with a checklist is
+as far along as its steps, however its progress is changed, even in a bulk
+edit or an import.
 
 ## Repeating tasks
 
@@ -209,10 +211,12 @@ due date, project, checklist and, if you asked, a colleague to assign it to.
 Nothing is added until you approve the card, and the colleague is notified
 then.
 
-On a task's page, OneAI offers **What is left on this task?** and **Break
-this into steps**, and on its Time, **Who worked on this?** It reads the task
-as you see it on its page. Steps it suggests come on a card, added after any
-existing ones when you approve.
+On a task's page, OneAI offers **What is left on this task?**, **Break
+this into steps** and **Change this task…**, and on its Time, **Who worked on
+this?** It reads the task as you see it on its page. Steps it suggests come on
+a card, added after any existing ones when you approve. A change, such as
+marking the task done, moving the day it is due or raising its priority,
+comes on a card too, and is made when you approve it, as the page makes it.
 
 ## Who sees a task
 
@@ -428,7 +432,9 @@ is:
   `?edit=1`.
 - `ai.py` — the page sentence, `my_tasks`, `plan_task` (a Create card; the
   colleagues it names ride on the hidden `one_for` and are given the task by
-  `capture.task_made`), `plan_steps` (an Edit card on the checklist), `task_facts`
+  `capture.task_made`), `plan_steps` (an Edit card on the checklist),
+  `plan_change` (an Edit card on the status, due date or priority, saved as
+  the page saves them, so ERPNext's checks hold), `task_facts`
   (a task as its page shows it), and the suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
   as the reader, through the page's own read (`mine.tasks`), so OneAI sees
   exactly the list they do. A task is only ever suggested; approving the card

@@ -333,6 +333,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask › My Tasks and the Inbox | done |
 | Products | OneTask › All Tasks and its views | done |
 | Products | OneTask › Across modules | done |
+| Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -9671,7 +9672,7 @@ every point.
 | 2 | My Tasks and the Inbox | done |
 | 3 | All Tasks and its views: List, Report, Kanban, Calendar, Gantt | done |
 | 4 | Across modules: OneProject, OneHR, Intake, OneCalendar, One | done |
-| 5 | Closed against the standard | |
+| 5 | Closed against the standard | done |
 
 #### 1. A task's page
 
@@ -9981,6 +9982,78 @@ Left:
 | 17 Clean code | ruff | clean |
 | Everything follows frappe | assignment | the rule first, as on any record |
 | What ERPNext already does | a task's dates against its project | kept, the task stays out when they don't fit |
+
+#### 5. Closed against the standard
+
+OneTask is closed. Each point of `docs/STANDARD.md` was read against the
+module as a whole, after the four screens, as Huda, Rania and Samir.
+
+Found:
+
+- **Rules on the server (2)**: a task with a checklist is as far along as its
+  steps (`one_task/task.py` `before_validate`). The rule was on the task's
+  hooks, but not registered with the rules guard, and nothing changed it in
+  a bulk edit, a report cell or an import.
+- **OneAI does (13)**: OneAI read a task and suggested a new one or its
+  steps, but could not do what the page does most: mark a task done, move
+  the day it is due or change its priority.
+- **Demo (1)**: no task in the demo repeated. The check made one and took it
+  away again, so a repeating task was never on a screen.
+- **Nothing lost (6)**: a repeating task's sidebar showed a blue dot with no
+  words, on the page and on frappe's own form. frappe writes "Repeats
+  Weekly" into a span its template doesn't have.
+- **Our look (5)**: a task with nothing under Details showed the heading
+  over an empty space.
+
+Fixed:
+
+- **Rules (2)**: the checklist rule is in `tests/guards/test_rules.py`, and
+  `a_tasks_progress_is_its_checklist` types a progress each way and finds
+  the checklist's share kept.
+- **OneAI (13)**: `plan_change` suggests a task's status, due date or
+  priority as a card, saved as the page saves it, so ERPNext's checks hold.
+  **Change this task…** is on a task's page. The AI Addendum says so, at
+  revision 19, and everybody on the demo agreed again.
+- **Demo (1)**: Huda sends Samir the week's cash position every week, a
+  task of her own with a checklist (`one_demo/projects.py` REPEATS).
+- **Nothing lost (6)**: the sidebar's line reads "Repeats Weekly"
+  (`record.js`), with a row in `scripts/overrides.py`.
+- **Our look (5)**: an empty Details says Nothing, as Depends On does.
+
+Left:
+
+- **Printed (11)**: a task doesn't leave the company, so OneTask ships no
+  print format. frappe's own print of a task stays.
+- **OneAI**: a card gives a new task to a colleague, but giving an existing
+  task to somebody is still the page's **Assign**.
+- The Gantt draws a long bar's name at its middle, a board card's date isn't
+  red when late, and the Dashboard's cards keep ERPNext's names (screen 3).
+- The tower's facade site meeting stays outside a project (screen 4).
+
+When it closed, 1894 fast tests and 108 of 108 demo checks passed, with the
+overrides, the generated docs and the lint.
+
+| Point | Looked at | State |
+|---|---|---|
+| 1 Demo | every kind of task | own, project, sub-task, milestone, waiting, checklist, repeating, from Intake, from OneHR |
+| 2 Rules on the server | the task's hooks | the checklist rule registered and changed every way |
+| 3 Hand-offs | Connections | each runs on the demo (screen 4) |
+| 4 Tier declared | `one/tiers.py` | a page, My Tasks, every view (screens 1 to 3) |
+| 5 Our look | desktop and phone | an empty Details fixed |
+| 6 Nothing lost | the sidebar | Repeats Weekly reads |
+| 7 Extensible | places | My Tasks, the page and each view |
+| 8 Built from frappe | the page and My Tasks | frappe-ui, values through `frappe.format` |
+| 9 Overrides recorded | the gate | one new row, passes |
+| 10 Notifications | `notifications/one_task/` | six, each under Notifications in the README |
+| 11 Printed | a task | doesn't leave the company, none shipped |
+| 12 Plain words | the new suggestion | translated |
+| 13 Documented, OneAI | README, `ai.py` | reads, adds, plans steps and changes a task |
+| 14 Intake | `tests/samples/intake/one_task/` | the drawings request |
+| 15 Permissions | the change card | only a task the reader may change |
+| 16 Legal | AI Addendum | revision 19 |
+| 17 Clean code | ruff | clean |
+| Everything follows frappe | the change card | the task's own save |
+| What ERPNext already does | statuses | Overdue and Template stay ERPNext's to set |
 
 ## OneLegal
 

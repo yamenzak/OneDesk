@@ -217,6 +217,7 @@ ruff check onedesk/<module> onedesk/one_demo
 ```
 
 When OneProject closed these were 1891 fast tests and 103 of 103 demo checks.
+When OneTask closed they were 1894 and 108 of 108.
 
 ## What stays open on OneProject
 
@@ -230,6 +231,25 @@ When OneProject closed these were 1891 fast tests and 103 of 103 demo checks.
   the tower's site has no cost.
 - **Manufacturing.** No module offers bills of materials or work orders.
   Whether OneInventory takes them on is a product decision.
+
+## OneTask, closed against it
+
+OneTask was the second module closed against the standard, on 2026-10-09,
+in five steps: a task's page, My Tasks and the Inbox, All Tasks and its
+views, across modules, and the closing pass. It added these to watch for:
+
+- **A rule on the hooks that the guard doesn't know.** A task's progress was
+  its checklist on `before_validate`, but nothing changed it every way until
+  it was registered in `tests/guards/test_rules.py`.
+- **OneAI that reads but doesn't do.** The page completes a task and moves
+  its due date. OneAI does the same as a card (`plan_change`).
+- **A kind the demo only makes in a check.** A repeating task was made and
+  taken away in a check, so no screen showed one. The demo keeps one.
+- **frappe's own bugs in the record frame.** A record's page carries
+  frappe's sidebar, bugs included, such as "Repeats Weekly" without its
+  words. Fix them for the form too, and record the override.
+
+What stays open on OneTask is under its step 5 in `docs/PASSOVER.md`.
 
 ## The next module
 

@@ -510,6 +510,24 @@ def a_project_with_open_work_is_not_closed_by_hand():
 
 
 @check
+def a_tasks_progress_is_its_checklist():
+	"""A task with a checklist is as far along as its steps, however its
+	progress is typed in."""
+	task = frappe.db.get_value("Task", {"subject": "Prepare the site visit for the marina"})
+	frappe.db.savepoint("ticked")
+	try:
+		doc = frappe.get_doc("Task", task)
+		doc.one_steps[0].done = 1
+		doc.save(ignore_permissions=True)
+		seen = _each_way("samir@one.test", "Task", task, {"progress": 90})
+	finally:
+		frappe.db.rollback(save_point="ticked")
+		frappe.clear_document_cache("Task", task)
+	for way, got in seen.items():
+		assert not isinstance(got, Exception) and flt(got.progress) == 33.3, (way, got)
+
+
+@check
 def an_internal_project_bills_nobody():
 	project = frappe.db.get_value("Project", {"project_name": "Crescent Schools Window Survey"})
 	seen = _each_way("samir@one.test", "Project", project, {"one_kind": "Internal"}, ("customer", "one_markup"))
@@ -756,7 +774,8 @@ def oneai_drafts_a_template_as_a_card():
 def onetask_works_for_whoever_has_tasks():
 	"""Rania's tasks, as My Tasks and OneAI read them, a step added and ticked,
 	the timer started and stopped on one, and a task and its steps suggested
-	as cards."""
+	as cards, and a change to one approved."""
+	from onedesk.one_ai import proposals
 	from onedesk.one_task import ai, mine, task, timer
 
 	with as_user("rania@one.test"):
@@ -774,6 +793,15 @@ def onetask_works_for_whoever_has_tasks():
 		assert not timer.running()
 		assert ai.plan_task("Send the snag photos", due=str(on(12, 1))).get("state") == "Proposed"
 		assert ai.plan_steps(one, ["Check the seals", "Clean the frames"]).get("state") == "Proposed"
+		# A change as the page makes it, saved only when approved.
+		said = ai.plan_change(one, priority="Urgent", why="The client asked for it this week.")
+		assert said.get("state") == "Proposed" and frappe.db.get_value("Task", one, "priority") != "Urgent", said
+		proposals.apply(said["proposal"])
+		assert frappe.db.get_value("Task", one, "priority") == "Urgent"
+		assert ai.plan_change(one, priority="Urgent").get("error"), "nothing to change is said"
+		assert ai.plan_change(one, status="Overdue").get("error"), "Overdue is ERPNext's to set"
+		samirs = frappe.db.get_value("Task", {"subject": "Call Acme about the lobby drawings"})
+		assert ai.plan_change(samirs, status="Completed").get("error"), "only a task she may change"
 
 
 @check

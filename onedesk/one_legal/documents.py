@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 18: OneAI reads a task as its page shows it, with its time by person.
+		# 19: OneAI suggests a change to a task, made only when you approve it.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 18,
+		"revision": 19,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {
