@@ -1,6 +1,7 @@
 # Deliverables
 
-A study and a plan, written 2026-10-09. Nothing here is built yet.
+A study and a plan, written 2026-10-09. Postponed the same day, as more
+than OneTask needs now. Nothing here is built.
 
 ## What a deliverable is
 
