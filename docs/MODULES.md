@@ -668,9 +668,11 @@ No doctypes yet.
 * `onedesk.one_task.task.repeat_of`
 * `onedesk.one_task.task.stop_repeat`
 * `onedesk.one_task.task.tick`
+* `onedesk.one_task.timer.pause`
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`
 * `onedesk.one_task.timer.stop`
+* `onedesk.one_task.timer.timers`
 * `onedesk.one_task.view.files`
 * `onedesk.one_task.view.read`
 * `onedesk.one_task.views.children`

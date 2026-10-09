@@ -145,7 +145,9 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	source = (TASK / "timer.py").read_text()
 	assert "doc.check_permission(\"read\")" in source and "ignore_permissions" not in source
 	assert '"to_time": ["is", "not set"]' in source, "running is a start with no end, as on the Timesheet form"
-	assert "now_datetime()" in source and "stop()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
+	# Starting one pauses whichever ran, and a pause is a line ended, kept to resume.
+	assert "now_datetime()" in source and "pause()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
+	assert '"one_timers"' in source and "set_user_default" in source, "the paused are the person's own, and every screen hears"
 	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
 	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
 	assert 'can("create", "Timesheet")' in page

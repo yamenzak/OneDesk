@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 20:15+0000\n"
-"PO-Revision-Date: 2026-10-09 20:15+0000\n"
+"POT-Creation-Date: 2026-10-09 21:22+0000\n"
+"PO-Revision-Date: 2026-10-09 21:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1019,7 +1019,7 @@ msgstr ""
 msgid "A template can name a field of the record, as {{ customer_name }}, and nothing else."
 msgstr ""
 
-#: onedesk/one_project/templates.py:46
+#: onedesk/one_project/templates.py:63
 msgid "A template task begins on or after the project's first day, and lasts 0 days or more."
 msgstr ""
 
@@ -2938,7 +2938,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:356 onedesk/public/js/outside.js:262
+#: onedesk/public/js/desk.js:415 onedesk/public/js/outside.js:262
 #: onedesk/www/message.html:27
 msgid "Ask an administrator for access."
 msgstr ""
@@ -3495,7 +3495,7 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
-#: onedesk/public/js/desk.js:187
+#: onedesk/public/js/desk.js:209
 msgid "Background Tasks"
 msgstr ""
 
@@ -4661,8 +4661,8 @@ msgstr ""
 msgid "Check Again"
 msgstr ""
 
-#: onedesk/public/js/desk.js:121 onedesk/public/js/desk.js:159
-#: onedesk/public/js/desk.js:229 onedesk/public/js/desk.js:232
+#: onedesk/public/js/desk.js:121 onedesk/public/js/desk.js:172
+#: onedesk/public/js/desk.js:288 onedesk/public/js/desk.js:291
 msgid "Check In"
 msgstr ""
 
@@ -4787,11 +4787,11 @@ msgstr ""
 msgid "Checked By"
 msgstr ""
 
-#: onedesk/public/js/desk.js:232 onedesk/public/js/desk.js:282
+#: onedesk/public/js/desk.js:291 onedesk/public/js/desk.js:341
 msgid "Checked In"
 msgstr ""
 
-#: onedesk/public/js/desk.js:282
+#: onedesk/public/js/desk.js:341
 msgid "Checked Out"
 msgstr ""
 
@@ -4803,7 +4803,7 @@ msgstr ""
 msgid "Checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:227
+#: onedesk/public/js/desk.js:286
 msgid "Checked in {0}"
 msgstr ""
 
@@ -4815,11 +4815,11 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: onedesk/public/js/desk.js:246
+#: onedesk/public/js/desk.js:305
 msgid "Checking in…"
 msgstr ""
 
-#: onedesk/public/js/desk.js:246
+#: onedesk/public/js/desk.js:305
 msgid "Checking out…"
 msgstr ""
 
@@ -5330,7 +5330,7 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:348
+#: frontend/src/task/TaskPage.vue:352
 msgid "Complete Task"
 msgstr ""
 
@@ -5878,7 +5878,7 @@ msgstr ""
 msgid "Couldn't reach the server."
 msgstr ""
 
-#: onedesk/public/js/desk.js:251
+#: onedesk/public/js/desk.js:310
 msgid "Couldn't record the check-in."
 msgstr ""
 
@@ -7780,9 +7780,9 @@ msgstr ""
 msgid "Edit Description"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:76 frontend/src/project/TaskPanel.vue:202
+#: frontend/src/project/TaskPanel.vue:76 frontend/src/project/TaskPanel.vue:201
 #: frontend/src/task/TaskPage.vue:94 frontend/src/task/TaskPage.vue:116
-#: frontend/src/task/TaskPage.vue:351 frontend/src/template/TemplatePage.vue:18
+#: frontend/src/task/TaskPage.vue:355 frontend/src/template/TemplatePage.vue:18
 #: onedesk/public/js/project_actions.js:797
 #: onedesk/public/js/project_actions.js:841
 #: onedesk/public/js/task_actions.js:30
@@ -14167,7 +14167,7 @@ msgstr ""
 msgid "Name the task."
 msgstr ""
 
-#: onedesk/one_project/templates.py:56
+#: onedesk/one_project/templates.py:73
 msgid "Name the template."
 msgstr ""
 
@@ -15139,6 +15139,10 @@ msgstr ""
 msgid "No time to invoice"
 msgstr ""
 
+#: frontend/src/task/Timers.vue:34
+msgid "No timers"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1616
 msgid "No transactions"
 msgstr ""
@@ -15234,7 +15238,7 @@ msgstr ""
 msgid "Not Billed"
 msgstr ""
 
-#: onedesk/public/js/desk.js:274
+#: onedesk/public/js/desk.js:333
 msgid "Not Checked In"
 msgstr ""
 
@@ -15336,7 +15340,7 @@ msgstr ""
 msgid "Not checked until the workspace is linked to an account."
 msgstr ""
 
-#: onedesk/public/js/desk.js:230
+#: onedesk/public/js/desk.js:289
 msgid "Not checking in today"
 msgstr ""
 
@@ -15550,7 +15554,7 @@ msgstr ""
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:355
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:414
 #: onedesk/www/portal.html:36 onedesk/www/portal.html:72
 msgid "Nothing here yet"
 msgstr ""
@@ -15571,7 +15575,7 @@ msgstr ""
 msgid "Nothing shared with you"
 msgstr ""
 
-#: onedesk/public/js/desk.js:239
+#: onedesk/public/js/desk.js:298
 msgid "Nothing to check in. You're {0} today."
 msgstr ""
 
@@ -15644,7 +15648,7 @@ msgstr ""
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:18 onedesk/one/settings.py:128
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:176 onedesk/public/js/doctype_settings.js:295
+#: onedesk/public/js/desk.js:198 onedesk/public/js/doctype_settings.js:295
 #: onedesk/public/js/settings.js:3088 onedesk/public/js/settings.js:3185
 #: onedesk/public/js/settings.js:3249
 msgid "Notifications"
@@ -16482,7 +16486,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:128
-#: onedesk/public/js/desk.js:166 onedesk/public/js/desk.js:209
+#: onedesk/public/js/desk.js:179 onedesk/public/js/desk.js:268
 msgid "OneIntake"
 msgstr ""
 
@@ -16898,7 +16902,7 @@ msgstr ""
 msgid "Open Source and Third-Party Notices"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:205
+#: frontend/src/project/TaskPanel.vue:204
 msgid "Open Task"
 msgstr ""
 
@@ -17693,6 +17697,14 @@ msgstr ""
 msgid "Patient"
 msgstr ""
 
+#: frontend/src/task/Timers.vue:19
+msgid "Pause Timer"
+msgstr ""
+
+#: frontend/src/task/Timers.vue:24
+msgid "Paused"
+msgstr ""
+
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -18154,7 +18166,7 @@ msgstr ""
 msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
 msgstr ""
 
-#: onedesk/one_project/templates.py:112 onedesk/public/js/project_actions.js:89
+#: onedesk/one_project/templates.py:129 onedesk/public/js/project_actions.js:89
 msgid "Pick a template."
 msgstr ""
 
@@ -19975,7 +19987,7 @@ msgstr ""
 msgid "Register a passkey before checking in."
 msgstr ""
 
-#: onedesk/public/js/desk.js:262
+#: onedesk/public/js/desk.js:321
 msgid "Register a passkey on this phone first?"
 msgstr ""
 
@@ -20209,7 +20221,7 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:349
+#: frontend/src/task/TaskPage.vue:353
 msgid "Reopen Task"
 msgstr ""
 
@@ -20232,7 +20244,7 @@ msgstr ""
 msgid "Repairs"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:203 frontend/src/task/TaskPage.vue:352
+#: frontend/src/project/TaskPanel.vue:202 frontend/src/task/TaskPage.vue:356
 msgid "Repeat"
 msgstr ""
 
@@ -20533,8 +20545,8 @@ msgstr ""
 msgid "Resume"
 msgstr ""
 
-#: onedesk/public/js/timesheet.js:23 onedesk/public/js/timesheet.js:27
-#: onedesk/public/js/timesheet.js:51
+#: frontend/src/task/Timers.vue:30 onedesk/public/js/timesheet.js:23
+#: onedesk/public/js/timesheet.js:27 onedesk/public/js/timesheet.js:51
 msgid "Resume Timer"
 msgstr ""
 
@@ -20815,6 +20827,10 @@ msgstr ""
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
 msgid "Run sheet written"
+msgstr ""
+
+#: frontend/src/task/Timers.vue:11
+msgid "Running"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2755
@@ -21144,7 +21160,7 @@ msgstr ""
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/src/project/ProjectPage.vue:22
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/desk.js:157 onedesk/public/js/onemail.js:91
+#: onedesk/public/js/desk.js:170 onedesk/public/js/onemail.js:91
 #: onedesk/www/portal.html:47
 msgid "Search"
 msgstr ""
@@ -22549,7 +22565,7 @@ msgid "Start From"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:69
-#: frontend/src/task/TaskPage.vue:350 onedesk/public/js/task.js:11
+#: frontend/src/task/TaskPage.vue:354 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:51
 msgid "Start Timer"
@@ -22830,12 +22846,13 @@ msgstr ""
 msgid "Stop OneAI reading new mail in {0}?"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:204 frontend/src/task/TaskPage.vue:353
+#: frontend/src/project/TaskPanel.vue:203 frontend/src/task/TaskPage.vue:357
 msgid "Stop Repeating"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:69
-#: frontend/src/task/TaskPage.vue:350
+#: frontend/src/task/TaskPage.vue:354 frontend/src/task/Timers.vue:20
+#: frontend/src/task/Timers.vue:31
 msgid "Stop Timer"
 msgstr ""
 
@@ -25135,7 +25152,7 @@ msgstr ""
 msgid "There is already a role called {0}."
 msgstr ""
 
-#: onedesk/one_project/library.py:182 onedesk/one_project/templates.py:58
+#: onedesk/one_project/library.py:182 onedesk/one_project/templates.py:75
 msgid "There is already a template called {0}."
 msgstr ""
 
@@ -25739,6 +25756,12 @@ msgstr ""
 msgid "Timeout (seconds)"
 msgstr ""
 
+#: onedesk/one_task/page/timers/timers.js:4 onedesk/public/js/desk.js:137
+#: onedesk/public/js/desk.js:187 onedesk/public/js/desk.js:231
+#: onedesk/public/js/desk.js:243
+msgid "Timers"
+msgstr ""
+
 #. Label of the opened (Int) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Times opened"
@@ -25761,6 +25784,10 @@ msgstr ""
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/public/js/project_new.js:166
 msgid "Timesheets"
+msgstr ""
+
+#: onedesk/public/js/desk.js:231
+msgid "Timing {0}"
 msgstr ""
 
 #. Label of the one_title (Data) field in DocType 'Deleted Document'
@@ -25893,6 +25920,10 @@ msgstr ""
 
 #: onedesk/one_book/ready.py:60 onedesk/one_book/ready.py:61
 msgid "Today is in a fiscal year"
+msgstr ""
+
+#: frontend/src/task/Timers.vue:17
+msgid "Today on this task"
 msgstr ""
 
 #. Name of a notification
@@ -30753,7 +30784,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:330
-#: onedesk/public/js/desk.js:302
+#: onedesk/public/js/desk.js:361
 msgid "nothing"
 msgstr ""
 
@@ -31846,11 +31877,11 @@ msgstr ""
 msgid "{0} has no section through {1}."
 msgstr ""
 
-#: onedesk/one_project/templates.py:67
+#: onedesk/one_project/templates.py:84
 msgid "{0} has no tasks to make a template from."
 msgstr ""
 
-#: onedesk/one_project/templates.py:121
+#: onedesk/one_project/templates.py:138
 msgid "{0} has no tasks."
 msgstr ""
 
@@ -32633,6 +32664,10 @@ msgstr ""
 msgid "{0} paid in advance"
 msgstr ""
 
+#: onedesk/public/js/desk.js:231
+msgid "{0} paused timers"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:117
 msgid "{0} pending"
 msgstr ""
@@ -32813,6 +32848,10 @@ msgstr ""
 msgid "{0} to {1}: a condition only compares the record's fields with plain values, such as doc.grand_total > 5000."
 msgstr ""
 
+#: frontend/src/task/Timers.vue:67
+msgid "{0} today"
+msgstr ""
+
 #: onedesk/one_admin/heads.py:115
 msgid "{0} tonight."
 msgstr ""
@@ -32833,7 +32872,7 @@ msgstr ""
 msgid "{0} users"
 msgstr ""
 
-#: onedesk/public/js/desk.js:209
+#: onedesk/public/js/desk.js:268
 msgid "{0} waiting in OneIntake"
 msgstr ""
 

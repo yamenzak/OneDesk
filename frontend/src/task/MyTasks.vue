@@ -80,7 +80,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue"
 import { Badge, Button, Checkbox, DatePicker, Sidebar, SidebarItem, SidebarSection, TextInput } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
-import { Loading, PlaceSpot, __, ago, call, can, clock, date, dateFormat, followList, go, insert, newDoc, onedesk, setQuery, setValue, weekday } from "../kit";
+import { Loading, PlaceSpot, __, ago, call, can, clock, date, dateFormat, followList, go, insert, listen, newDoc, onedesk, setQuery, setValue, weekday } from "../kit";
 import { TASK_STATUS } from "../project/colors";
 import { usePlace } from "../project/place";
 
@@ -209,7 +209,7 @@ async function add() {
   }
 }
 
-// One timer runs at a time; starting this one stops whichever was running.
+// One timer runs at a time; starting this one pauses whichever was running.
 async function time(task) {
   if (running.value?.task === task.name) {
     onedesk().task_timer?.stopped?.(await call("onedesk.one_task.timer.stop"));
@@ -255,7 +255,9 @@ const again = () => {
 let stop = [];
 onMounted(() => {
   load();
-  stop = [followList("Task", again), followList("ToDo", again)];
+  // A timer paused, resumed or stopped anywhere, the rail's Timers included.
+  const timed = async () => (running.value = times ? await call("onedesk.one_task.timer.running") : null);
+  stop = [followList("Task", again), followList("ToDo", again), listen("one_timers", timed)];
 });
 onBeforeUnmount(() => {
   clearTimeout(soon);

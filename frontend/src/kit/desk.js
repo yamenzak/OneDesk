@@ -206,6 +206,14 @@ export const today = () => frappe().datetime.get_today();
 
 export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");
 
+/** A length of time, "1h 5m 20s", as desk writes a Duration. */
+export const duration = (seconds, { seconds: withSeconds = true } = {}) =>
+	frappe().utils.get_formatted_duration(Math.max(Math.round(seconds || 0), 0), { hide_days: 1, hide_seconds: withSeconds ? 0 : 1 }) || "0m";
+
+/** Seconds from a moment the server wrote, in the site's time, until now. */
+export const secondsSince = (value) =>
+	value ? (frappe().datetime.system_datetime(true) - frappe().datetime.str_to_obj(value)) / 1000 : 0;
+
 /** When, said as desk says it: "2 hours ago". */
 export const ago = (value) => (value ? frappe().datetime.prettyDate(value) : "");
 

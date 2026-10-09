@@ -131,12 +131,25 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
 		onClick: () => frappe.set_route("intake"),
 	});
+	// On a phone, which has no rail, the timers are a page of their own.
+	if (onedesk.dock.times()) {
+		add({
+			label: __("Timers"),
+			icon: "timer",
+			class: "one-timers-row",
+			suffix: `<span class="one-timers-count es-badge hide" data-variant="ghost"></span>`,
+			onClick: () => frappe.set_route("timers"),
+		});
+	}
 	onedesk.dock.refresh();
 	// Intake: what OneAI did with what arrived, and what waits for you. A
 	// number when something waits, a dot when something is unread.
 	onedesk.dock.intake();
 	// frappe's realtime drops a handler added before its socket exists.
-	const listen = () => frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
+	const listen = () => {
+		frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
+		frappe.realtime.on("one_timers", () => onedesk.dock.timers());
+	};
 	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 };
 
@@ -169,6 +182,15 @@ onedesk.dock.rail = (dock) => {
 		badge: `<span class="one-intake-count one-rail-badge hide"></span>`,
 		click: () => frappe.set_route("intake"),
 	});
+	if (onedesk.dock.times()) {
+		add({
+			label: __("Timers"),
+			icon: "timer",
+			css: "one-timers-row",
+			badge: `<span class="one-timers-count one-rail-badge hide"></span>`,
+			click: () => onedesk.dock.timers_panel() && frappe.ui.sidebar_panels.toggle("timers"),
+		});
+	}
 	if (frappe.boot.desk_settings.notifications) {
 		// frappe's Notifications counts every `.notification-count`, and its panel
 		// takes every `.sidebar-notification` as its button.
@@ -191,6 +213,43 @@ onedesk.dock.rail = (dock) => {
 	}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
 	onedesk.dock.refresh();
 	onedesk.dock.intake();
+	onedesk.dock.timers();
+};
+
+// Whoever may keep a timesheet may time a task (one_task/timer.py).
+onedesk.dock.times = () => frappe.session.user !== "Guest" && frappe.model.can_create("Timesheet");
+
+// The reader's timers: how many, green while one runs. See one_task/timer.py.
+onedesk.dock.timers = () => {
+	if (!onedesk.dock.times()) return Promise.resolve(null);
+	return frappe.xcall("onedesk.one_task.timer.timers").then((said) => {
+		const $rows = $(".one-timers-row");
+		const many = (said.running ? 1 : 0) + said.paused.length;
+		$rows.find(".one-timers-count").toggleClass("hide", !many).toggleClass("one-timers-on", !!said.running).text(many || "");
+		onedesk.dock.name(
+			$rows,
+			said.running ? __("Timing {0}", [said.running.subject]) : many ? __("{0} paused timers", [many]) : __("Timers")
+		);
+		return said;
+	});
+};
+
+// The Timers panel: frappe's own side panel, as Notifications opens in, with
+// the onedesk.timers island in it, mounted the first time it opens.
+onedesk.dock.timers_panel = () => {
+	if (onedesk.dock._timers) return onedesk.dock._timers;
+	const panel = new frappe.ui.SidebarPanel({
+		name: "timers",
+		title: __("Timers"),
+		trigger_selector: ".one-timers-row",
+		on_open: () => {
+			if (panel.island) return;
+			const $mount = $(`<div class="one-timers-panel"></div>`).appendTo(panel.$body);
+			panel.island = frappe.ui.mount_island("onedesk.timers", $mount[0], { panel: true });
+		},
+	});
+	onedesk.dock._timers = panel;
+	return panel;
 };
 
 // A row's or a tile's name, as read aloud and as the rail's tooltip says it.

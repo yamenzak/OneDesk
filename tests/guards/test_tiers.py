@@ -53,6 +53,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.template": "Project Template",
 		"onedesk.task": "Task",
 		"onedesk.my_tasks": None,
+		"onedesk.timers": None,
 	}
 	build = (APP.parent / "frontend" / "build-islands.mjs").read_text()
 	assert set(re.findall(r'"(onedesk\.\w+)":', build)) == set(islands)

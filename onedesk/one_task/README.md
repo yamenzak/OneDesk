@@ -138,9 +138,18 @@ A project's calendar is in OneProject.
 it. **Stop Timer** stops it and shows how much time was added to your
 timesheet.
 
-- Only one timer runs at a time. Starting another stops the first.
+- Only one timer runs at a time. Starting another pauses the first.
 - My Tasks shows when the running timer started.
 - A timer stopped within a minute adds nothing.
+
+**Timers**, at the foot of the rail above your picture, lists your timers on
+every page. The one running shows its time today, counting, with **Pause
+Timer** and **Stop Timer**. Paused ones show their time today, with **Resume
+Timer** and **Stop Timer**. Pausing adds the time so far to your timesheet and
+keeps the task in the list. Resuming starts a new line on the timesheet.
+Stopping takes it off the list. The number on the tile is how many timers you
+have, green while one runs. On a phone, **Timers** is at the top of the panel
+and opens a page.
 
 The time goes on **your timesheet for the week**, created if you don't have
 one, with the task, its project and your last activity type. Change the
@@ -362,6 +371,12 @@ is:
   week; a row with a start and no end is the running one, the same rule as the
   Timesheet form's own timer, so either stops what the other started.
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
+  A pause ends the line and keeps the task in a user default (`PAUSED`), so
+  `timers` lists the one running and the ones paused; every change tells the
+  person's screens (`one_timers`). The rail's Timers tile and panel are in
+  `public/js/desk.js` (`timers`, `timers_panel`), the panel's body the
+  onedesk.timers island (`frontend/src/task/Timers.vue`), also the `timers`
+  page for a phone.
 
   Time is ERPNext's Timesheet, which payroll, costing and billing already
   read; the timer only saves somebody opening one. **Start** adds a row to the

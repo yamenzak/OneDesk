@@ -335,6 +335,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask › Across modules | done |
 | Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done |
+| Shell | Timers: the tile, the panel, pause | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -10088,6 +10089,43 @@ Fixed:
   when a holiday moved it, and ERPNext then refused it. That depends on the
   start day, and it showed in the demo suite today. The phase now stretches
   to hold it (`one_project/templates.py` `held_in_phase`).
+
+### Timers
+
+Your word: "a panel of tasks with timers, with pause, so any task timer
+running shows there for the user".
+
+Found:
+
+- A person could run one timer, and starting another stopped the first. There
+  was no pause, and no one place that showed what was running. Each screen
+  (My Tasks, a task's page, a project's task panel) only knew its own task.
+
+Built:
+
+- **Pause.** Pausing ends the running line on the person's timesheet, so the
+  time so far is kept, and remembers the task as paused (a user default).
+  Starting another task pauses the running one rather than stopping it. Stop
+  ends a paused task without a new line (`one_task/timer.py` `pause`, `stop`,
+  `timers`).
+- **The Timers tile** sits at the rail's foot, beside the bell. Its count is
+  running plus paused, green while one runs. On a phone it is a row in the
+  band. It shows only to people who may log time.
+- **The panel** is frappe's own side panel, like Notifications. It shows the
+  running task with its place, a clock for today's time on it, **Pause
+  Timer** and **Stop Timer**, and the paused tasks with **Resume Timer** and
+  **Stop Timer**. On a phone it is a page, `/desk/timers`.
+- **Realtime.** Every change says `one_timers` to the person, so the panel,
+  the tile, My Tasks, a task's page and a project's task panel follow at
+  once, in every tab.
+- **Rules (2)**: tasks are read through `get_list`, so a task the person may
+  no longer read drops out, and a finished task never shows.
+- **Demo (1)**: the OneTask check starts, switches, pauses, resumes and stops
+  as Rania.
+- **Desk (4)**: a tier in `one/tiers.py`, the island and its page in the
+  guards. **Words (12)**: verb + noun buttons, "No timers" when empty, in
+  Arabic and German.
+- **Our look (5)**: the badge is frappe-ui's solid green Badge.
 
 ## OneLegal
 

@@ -405,6 +405,17 @@ a.one-stat:hover .one-stat-value {
 	padding: 0;
 }
 
+/* A timer running: its count in green, as frappe-ui's solid green Badge. */
+.one-timers-count.one-timers-on,
+.dock .one-rail-tool .one-rail-badge.one-timers-on {
+	background: var(--surface-green-7);
+	color: var(--white);
+}
+
+.one-timers-panel {
+	padding: 0 12px 12px;
+}
+
 .dock .one-rail-tool .one-clock-dot {
 	position: absolute;
 	right: 9px;

@@ -791,6 +791,21 @@ def onetask_works_for_whoever_has_tasks():
 		assert timer.running()["task"] == one
 		timer.stop()
 		assert not timer.running()
+		# Timers: starting another pauses the one running, a pause keeps it to
+		# resume, and stopping takes it off.
+		other = next(task.name for group in groups for task in group["tasks"] if task.name != one)
+		timer.start(one)
+		timer.start(other)
+		said = timer.timers()
+		assert said["running"]["task"] == other and [p["task"] for p in said["paused"]] == [one], said
+		timer.pause()
+		said = timer.timers()
+		assert not said["running"] and {p["task"] for p in said["paused"]} == {one, other}, said
+		timer.start(one)
+		assert timer.timers()["running"]["task"] == one
+		timer.stop()
+		timer.stop(other)
+		assert timer.timers() == {"running": None, "paused": []}
 		assert ai.plan_task("Send the snag photos", due=str(on(12, 1))).get("state") == "Proposed"
 		assert ai.plan_steps(one, ["Check the seals", "Clean the frames"]).get("state") == "Proposed"
 		# A change as the page makes it, saved only when approved.

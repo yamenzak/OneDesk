@@ -113,10 +113,10 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
 import { Button, Checkbox, Dropdown, Switch, TextInput } from "frappe-ui";
 
-import { Drawer, People, Pill, __, call, can, go, hours, onedesk } from "../kit";
+import { Drawer, People, Pill, __, call, can, go, hours, listen, onedesk } from "../kit";
 import { PRIORITY, TASK_STATUS } from "./colors";
 import Due from "./Due.vue";
 
@@ -179,13 +179,12 @@ function addSub() {
 const canTime = computed(() => can("create", "Timesheet"));
 const running = ref(null);
 const timing = computed(() => running.value?.task === props.task?.name);
-watch(
-  () => props.task?.name,
-  async (name) => {
-    if (name && canTime.value) running.value = await call("onedesk.one_task.timer.running");
-  },
-  { immediate: true }
-);
+const timed = async () => {
+  if (props.task?.name && canTime.value) running.value = await call("onedesk.one_task.timer.running");
+};
+watch(() => props.task?.name, timed, { immediate: true });
+// A timer paused, resumed or stopped anywhere, the rail's Timers included.
+onBeforeUnmount(listen("one_timers", timed));
 async function time() {
   if (timing.value) {
     const added = await call("onedesk.one_task.timer.stop");

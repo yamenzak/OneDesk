@@ -145,7 +145,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Button, Checkbox, TextInput } from "frappe-ui";
 
-import { Figures, Loading, Page, People, Pill, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, hours, insert, isPast, onedesk, setQuery, setValue, useRecord } from "../kit";
+import { Figures, Loading, Page, People, Pill, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, hours, insert, isPast, listen, onedesk, setQuery, setValue, useRecord } from "../kit";
 import { DONE, PRIORITY, TASK_STATUS } from "../project/colors";
 import Due from "../project/Due.vue";
 import Title from "../project/Title.vue";
@@ -337,9 +337,13 @@ function report() {
   extended(s);
   props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/my-tasks") })]);
 }
-watch(name, async (now) => {
-  running.value = now && said.value?.can_time !== false ? await call("onedesk.one_task.timer.running") : null;
-}, { immediate: true });
+const timed = async () => {
+  running.value = name.value && said.value?.can_time !== false ? await call("onedesk.one_task.timer.running") : null;
+};
+watch(name, timed, { immediate: true });
+// A timer paused, resumed or stopped anywhere, the rail's Timers included.
+const unheard = listen("one_timers", timed);
+onBeforeUnmount(unheard);
 watch(running, () => said.value && report());
 
 // What can be done to the task, each only for whoever may do it.
