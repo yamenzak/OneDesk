@@ -412,10 +412,6 @@ a.one-stat:hover .one-stat-value {
 	color: var(--white);
 }
 
-.one-timers-panel {
-	padding: 0 12px 12px;
-}
-
 .dock .one-rail-tool .one-clock-dot {
 	position: absolute;
 	right: 9px;

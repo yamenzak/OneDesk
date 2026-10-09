@@ -335,7 +335,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask › Across modules | done |
 | Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done |
-| Shell | Timers: the tile, the panel, pause | done |
+| Shell | Timers: the tile, the popover, pause | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -10111,7 +10111,9 @@ Built:
 - **The Timers tile** sits at the rail's foot, beside the bell. Its count is
   running plus paused, green while one runs. On a phone it is a row in the
   band. It shows only to people who may log time.
-- **The panel** is frappe's own side panel, like Notifications. It shows the
+- **The popover** is frappe-ui's Popover, beside the tile (your word: "i
+  wanted it like a popover"). The first try used frappe's side panel, as
+  Notifications does, and it took the sidebar's whole height. It shows the
   running task with its place, a clock for today's time on it, **Pause
   Timer** and **Stop Timer**, and the paused tasks with **Resume Timer** and
   **Stop Timer**. On a phone it is a page, `/desk/timers`.

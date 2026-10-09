@@ -131,14 +131,15 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
 		onClick: () => frappe.set_route("intake"),
 	});
-	// On a phone, which has no rail, the timers are a page of their own.
+	// Without the rail, the timers open from here: beside the row, or as a
+	// page on a phone.
 	if (onedesk.dock.times()) {
 		add({
 			label: __("Timers"),
 			icon: "timer",
 			class: "one-timers-row",
 			suffix: `<span class="one-timers-count es-badge hide" data-variant="ghost"></span>`,
-			onClick: () => frappe.set_route("timers"),
+			onClick: () => onedesk.dock.timers_open($(".one-timers-row:visible").not(".one-rail-tool")[0]),
 		});
 	}
 	onedesk.dock.refresh();
@@ -188,7 +189,7 @@ onedesk.dock.rail = (dock) => {
 			icon: "timer",
 			css: "one-timers-row",
 			badge: `<span class="one-timers-count one-rail-badge hide"></span>`,
-			click: () => onedesk.dock.timers_panel() && frappe.ui.sidebar_panels.toggle("timers"),
+			click: (event) => onedesk.dock.timers_open(event.currentTarget),
 		});
 	}
 	if (frappe.boot.desk_settings.notifications) {
@@ -234,22 +235,23 @@ onedesk.dock.timers = () => {
 	});
 };
 
-// The Timers panel: frappe's own side panel, as Notifications opens in, with
-// the onedesk.timers island in it, mounted the first time it opens.
-onedesk.dock.timers_panel = () => {
-	if (onedesk.dock._timers) return onedesk.dock._timers;
-	const panel = new frappe.ui.SidebarPanel({
-		name: "timers",
-		title: __("Timers"),
-		trigger_selector: ".one-timers-row",
-		on_open: () => {
-			if (panel.island) return;
-			const $mount = $(`<div class="one-timers-panel"></div>`).appendTo(panel.$body);
-			panel.island = frappe.ui.mount_island("onedesk.timers", $mount[0], { panel: true });
-		},
-	});
-	onedesk.dock._timers = panel;
-	return panel;
+// The Timers popover: frappe-ui's Popover beside the tile or row clicked, with
+// the onedesk.timers island in it, mounted the first time. The island tells
+// it closed (onClose) when the reader clicks away or opens a task. A phone,
+// with no room beside the band, opens the page instead.
+onedesk.dock.timers_open = (el) => {
+	if (!el || window.matchMedia("(max-width: 767px)").matches) return frappe.set_route("timers");
+	const pop = (onedesk.dock._timers ||= { open: false });
+	pop.open = !(pop.open && pop.reference === el);
+	pop.reference = el;
+	const props = { reference: el, open: pop.open };
+	if (pop.island) return pop.island.update(props);
+	const close = () => {
+		pop.open = false;
+		pop.island.update({ open: false });
+	};
+	const $host = $(`<div class="one-timers-host"></div>`).appendTo(document.body);
+	pop.island = frappe.ui.mount_island("onedesk.timers", $host[0], { ...props, onClose: close });
 };
 
 // A row's or a tile's name, as read aloud and as the rail's tooltip says it.

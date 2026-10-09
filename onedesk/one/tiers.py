@@ -117,7 +117,7 @@ SCREENS = {
 	"project-template-view": "the page a Project Template opens on (PAGES)",
 	"task-view": "the page a Task opens on (PAGES)",
 	"my-tasks": "the reader's own tasks, grouped, drawn with frappe-ui (Task)",
-	"timers": "the reader's task timers, the rail's Timers panel on a page for a phone (Timesheet)",
+	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",

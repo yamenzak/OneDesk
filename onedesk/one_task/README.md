@@ -142,14 +142,14 @@ timesheet.
 - My Tasks shows when the running timer started.
 - A timer stopped within a minute adds nothing.
 
-**Timers**, at the foot of the rail above your picture, lists your timers on
-every page. The one running shows its time today, counting, with **Pause
+**Timers**, at the foot of the rail above your picture, opens a small window
+beside it with your timers, on every page. The one running shows its time today, counting, with **Pause
 Timer** and **Stop Timer**. Paused ones show their time today, with **Resume
 Timer** and **Stop Timer**. Pausing adds the time so far to your timesheet and
 keeps the task in the list. Resuming starts a new line on the timesheet.
 Stopping takes it off the list. The number on the tile is how many timers you
-have, green while one runs. On a phone, **Timers** is at the top of the panel
-and opens a page.
+have, green while one runs. Click anywhere else to close it. On a phone,
+**Timers** is at the top of the panel and opens a page.
 
 The time goes on **your timesheet for the week**, created if you don't have
 one, with the task, its project and your last activity type. Change the
@@ -373,10 +373,11 @@ is:
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
   A pause ends the line and keeps the task in a user default (`PAUSED`), so
   `timers` lists the one running and the ones paused; every change tells the
-  person's screens (`one_timers`). The rail's Timers tile and panel are in
-  `public/js/desk.js` (`timers`, `timers_panel`), the panel's body the
-  onedesk.timers island (`frontend/src/task/Timers.vue`), also the `timers`
-  page for a phone.
+  person's screens (`one_timers`). The rail's Timers tile is in
+  `public/js/desk.js` (`timers`, `timers_open`). It opens the onedesk.timers
+  island (`frontend/src/task/Timers.vue`), frappe-ui's Popover anchored to the
+  tile, also the `timers` page for a phone. The list in both is
+  `TimerList.vue`.
 
   Time is ERPNext's Timesheet, which payroll, costing and billing already
   read; the timer only saves somebody opening one. **Start** adds a row to the
