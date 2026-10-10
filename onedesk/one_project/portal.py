@@ -47,6 +47,10 @@ def view(project: str) -> dict:
 	under = tree.children(of).get(project, [])
 	from onedesk.one_project import media
 
+	# A member of the project sees its time unless Hide Timesheets is on, and
+	# its files when View Attachments is, as on ERPNext's own page.
+	member = next((row for row in doc.users if row.user == frappe.session.user), None)
+
 	return {
 		"doc": doc,
 		# The photos and videos the project is shown with, its cover first.
@@ -85,7 +89,38 @@ def view(project: str) -> dict:
 			fields=["name", "posting_date", "grand_total", "outstanding_amount", "currency", "status"],
 			order_by="posting_date desc",
 		),
+		"time": time(project) if member and not member.hide_timesheets else None,
+		"files": frappe.get_all(
+			"File",
+			filters={"attached_to_doctype": "Project", "attached_to_name": project, "is_private": 0, "is_folder": 0},
+			fields=["file_name", "file_url"],
+			order_by="creation desc",
+		)
+		if member and member.view_attachments
+		else None,
 	}
+
+
+#: How many of a project's latest days of time its portal page shows.
+SHOWN_DAYS = 15
+
+
+def time(project: str) -> dict:
+	"""The project's submitted time for its portal page: the hours of each
+	activity on its latest days, and the hours in all."""
+	rows = frappe.db.sql(
+		"""select date(from_time) as day, activity_type, sum(hours) as hours
+		from `tabTimesheet Detail` where project = %s and docstatus = 1
+		group by date(from_time), activity_type order by day desc, activity_type""",
+		project,
+		as_dict=True,
+	)
+	days = sorted({row.day for row in rows}, reverse=True)[:SHOWN_DAYS]
+	rows = [row for row in rows if row.day in days]
+	total = frappe.get_all(
+		"Timesheet Detail", filters={"project": project, "docstatus": 1}, fields=[{"SUM": "hours", "as": "hours"}]
+	)
+	return {"rows": rows, "hours": flt(total[0].hours if total else 0)}
 
 
 def progress(doc, of: dict | None = None) -> tuple[int, int, int]:

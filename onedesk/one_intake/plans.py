@@ -366,6 +366,24 @@ def promises(reading: dict, ctx: dict) -> list[Action]:
 	return out
 
 
+def site_log(reading: dict, ctx: dict) -> list[Action]:
+	"""A day's report from a site, on the project it names: a colleague's is
+	their part of the day's Project Update, as if they had written it there;
+	anybody else's a comment on the project."""
+	if not real(reading, ctx) or reading.get("kind") != "Site Log" or not ctx.get("project") or ctx.get("direction") == "Sent":
+		return []
+	note = (reading.get("text") or reading.get("summary") or "").strip()
+	# A mail's text opens with its subject, which the update does not need.
+	if ctx.get("subject") and note.startswith(ctx["subject"]):
+		note = note[len(ctx["subject"]) :].strip()
+	if not note:
+		return []
+	if ctx.get("sender_colleague"):
+		values = {"project": ctx["project"], "user": ctx["sender_colleague"], "note": note}
+		return [Action("Create", "Project Update", values=values, key="project|log", flow="onedesk.one_project.updates.logged", sure=True)]
+	return [Action("Comment", "Project", ctx["project"], {"comment_type": "Comment", "content": note}, key="project|log", sure=True)]
+
+
 def second(reading: dict, ctx: dict) -> list[Action]:
 	"""Everything after the parties, in the order the door should take it."""
 	return (
@@ -373,6 +391,7 @@ def second(reading: dict, ctx: dict) -> list[Action]:
 		+ enrich(reading, ctx)
 		+ employee_documents(reading, ctx)
 		+ receipt(reading, ctx)
+		+ site_log(reading, ctx)
 		+ tasks(reading, ctx)
 		+ event(reading, ctx)
 		+ promises(reading, ctx)

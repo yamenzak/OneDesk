@@ -1,0 +1,79 @@
+{
+ "file": "extra-work-request.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A customer asks for work beyond their order and for a price.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Change Request",
+   "title": "Roof terrace balustrade for Mansour Villa Windows and Doors",
+   "summary": "Khalid Mansour asks for about 6 metres of glass balustrade around the villa's roof terrace, on top of the order, and for a price by 20 October.",
+   "language": "en",
+   "number": null,
+   "issued": "2026-10-09",
+   "dates": [
+    {
+     "date": "2026-10-20",
+     "what": "Deadline",
+     "about": "the price",
+     "counted": false
+    }
+   ],
+   "money": null,
+   "lines": [
+    {
+     "text": "Glass balustrade around the roof terrace",
+     "qty": 6,
+     "unit_price": null,
+     "amount": null,
+     "tax_rate": null,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Mansour & Sons",
+     "person": false,
+     "email": "khalid@mansour.example"
+    },
+    {
+     "role": "Recipient",
+     "name": "Sahara Glass & Aluminium",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Send",
+     "detail": "a price for the roof terrace balustrade",
+     "by": "2026-10-20",
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Quotation",
+   "values": {
+    "party_name": "Mansour & Sons",
+    "project": "PROJ-0001",
+    "one_extra_work": 1
+   }
+  },
+  {
+   "doctype": "Task"
+  }
+ ]
+}

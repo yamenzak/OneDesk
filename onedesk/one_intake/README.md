@@ -171,6 +171,10 @@ about.
   - A task someone closed stays closed, and they're notified that the matter
     changed.
 - **An appointment** becomes an event on that person's calendar.
+- **A site log**, a day's report from a site that names an open project, is
+  the sender's update on that project for the day when a colleague sends it,
+  as if they had posted it there. From anybody else it's a comment on the
+  project.
 - **Outgoing mail** is read too. A promise such as "the offer by Friday"
   becomes a task for whoever wrote it.
 
@@ -210,6 +214,11 @@ submit.
 - **Supplier quote**: a Supplier Quotation.
 - **Customer order**: a draft Sales Order, or a proposal if a line matches no
   item.
+- **Supplier timesheet**: a draft bill for the hours at the rate it gives, on
+  the project it names, saying it was made from their timesheet.
+- **Customer request for extra work** on their own project, named by its
+  name: a draft Quotation for Extra Work on it, which becomes a sub-project
+  once ordered. A line that matches no item makes it a proposal.
 - **Customer payment advice**: a draft Payment Entry against the invoice it
   names.
 - **Bank statement**: Bank Transactions on your account, ready for
@@ -235,7 +244,8 @@ Paying and dates:
 permission to submit, where:
 
 - the facts checked out and the party is known
-- the total matches the document
+- the total matches the document (a timesheet's total before tax, since its
+  hours carry no tax and the bill takes the workspace's)
 - for a bill from an order, quantities and prices match the order
 
 **Submit All** submits them as you. Drafts that fail a check, including a bill
@@ -494,7 +504,7 @@ Workspace.
 - **To OneInventory**: An invoice from a new sender with a tax ID creates the Supplier. A delivery note becomes a draft Purchase Receipt against its order, and a quote becomes a Supplier Quotation.
 - **To OneBook**: Bills, credit notes and paid receipts become draft Purchase Invoices, listed in Ready to Submit. A payment advice becomes a draft Payment Entry, and a bank statement becomes Bank Transactions.
 - **To OneHR**: A CV creates a Job Applicant. An employee's passport, permit or certificate is added to their Employee record, a sick note becomes a Leave Application, and a receipt they paid becomes their Expense Claim.
-- **To OneProject**: A bill that names an open project is drafted for that project. Each line is booked to the item it names: the supplier's code for it, its exact name, or the one item whose whole name the line says.
+- **To OneProject**: A bill or a supplier's timesheet that names an open project is drafted for that project. A colleague's site log is their update on the project for the day, and a customer's request for extra work is a draft quotation for Extra Work on their project. Each line is booked to the item it names: the supplier's code for it, its exact name, or the one item whose whole name the line says.
 - **To OneTask**: Each matter becomes one task with a step for each request. A reply or a payment completes its step.
 - **To OneCalendar**: An appointment becomes an event on that person's calendar. Due dates, contract cancellation dates and expiring employee documents are listed in Deadlines.
 - **To OneCloud**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged with its type and its year.

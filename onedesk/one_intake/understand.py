@@ -28,7 +28,8 @@ KINDS = (
 	"Invoice", "Credit Note", "Receipt", "Reminder", "Tax Assessment", "Contract", "Offer", "Order",
 	"Order Confirmation", "Delivery Note", "Payment Advice", "Bank Statement", "Payslip", "Sick Note",
 	"Medical Report", "Identity Document", "Certificate", "CV", "Appointment", "Letter From an Authority",
-	"Notice of Change", "Contact Card", "Inquiry", "Resignation", "Letter", "Other",
+	"Notice of Change", "Contact Card", "Inquiry", "Resignation", "Site Log", "Timesheet", "Change Request",
+	"Letter", "Other",
 )  # fmt: skip
 ROLES = ("Sender", "Recipient", "Holder", "Patient", "Employee", "Paid To", "Mentioned")
 DATES = ("Due", "Deadline", "Appointment", "Valid From", "Valid Until", "Period Start", "Period End", "Service", "Other")

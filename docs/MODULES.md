@@ -582,6 +582,7 @@ No doctypes yet.
 * `onedesk.one_project.status.change`
 * `onedesk.one_project.team.add`
 * `onedesk.one_project.team.remove`
+* `onedesk.one_project.team.show`
 * `onedesk.one_project.team.team`
 * `onedesk.one_project.template_view.add`
 * `onedesk.one_project.template_view.change`

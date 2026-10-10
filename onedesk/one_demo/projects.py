@@ -795,10 +795,12 @@ def _glass_late(project):
 
 def _portal(password=None):
 	"""Khalid Mansour invited to the portal by Omar, so the villa can be seen
-	as its customer sees it."""
+	as its customer sees it, and put on its team by Samir: he sees its files
+	there, not its timesheets, since the villa is a fixed price."""
 	from frappe.utils.password import update_password
 
 	from onedesk.one import portal_invite
+	from onedesk.one_project import team
 
 	contact = frappe.db.get_value("Contact", {"email_id": "khalid@mansour.example"})
 	if not contact:
@@ -808,6 +810,11 @@ def _portal(password=None):
 	user = frappe.db.get_value("Contact", contact, "user")
 	if user and password:
 		update_password(user, password)
+	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	if user and villa:
+		with as_user(PM):
+			team.add(villa, user)
+			team.show(villa, user, timesheets=0, files=1)
 
 
 def _behind():

@@ -221,14 +221,10 @@ When OneTask closed they were 1894 and 108 of 108.
 
 ## What stays open on OneProject
 
-- **Intake.** A site's daily log, a supplier's timesheet, an update from
-  site or a customer's request for extra work, sent by mail, isn't read into
-  the project. Replies to Ask for Updates are. Noted for the Intake arc.
-- **Precision.** Time Billed's total on a time and materials invoice can
-  differ from the invoice's lines by a few cents, as ERPNext rounds each
-  timesheet row and each invoice line apart.
-- **Site Work cost.** The demo gives Site Work no costing rate, so a day on
-  the tower's site has no cost.
+Intake into a project, the cents on a time and materials invoice and the
+cost of a day on site were open here and are done (PASSOVER, "OneProject's
+gaps").
+
 - **Manufacturing.** No module offers bills of materials or work orders.
   Whether OneInventory takes them on is a product decision.
 

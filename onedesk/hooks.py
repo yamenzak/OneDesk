@@ -20,6 +20,7 @@ after_sync = [
 	"onedesk.one.recycle.settle",
 	"onedesk.one_calendar.tell.install",
 	"onedesk.one.head.install",
+	"onedesk.one_project.hours.settle",
 	"onedesk.one_intake.search.index",
 	# Storage is what a tenant pays for, not file size.
 	"onedesk.one_storage.store.unlimit",
@@ -86,6 +87,8 @@ after_migrate = [
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
 	"onedesk.one.head.install",
+	# How a new project counts its time, stored so Projects Settings shows it.
+	"onedesk.one_project.hours.settle",
 	# The index that makes document text searchable. See one_intake/search.py.
 	"onedesk.one_intake.search.index",
 	"onedesk.one_storage.store.unlimit",
@@ -1141,6 +1144,11 @@ app_include_js = [
 
 # Modules with no place of their own, and where their navigation went.
 code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
+
+# erpnext's and hrms's modules whose sidebar is not One's, and the sidebar of One's where a
+# kind of theirs no sidebar lists opens (one/outside.py `placed`): Projects Settings and
+# Rates beside OneProject's rail rather than the reader's home.
+one_module_heirs = {"Projects": ["OneProject"]}
 
 # Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them
 # nameable by it. Intake is not here: it asks OneAI for what is missing (one_intake/fill.py).

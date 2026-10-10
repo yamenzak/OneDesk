@@ -93,10 +93,10 @@ def taxed_by(reading: dict, templates: dict[float, str] | None) -> str | None:
 
 
 def purchase(reading: dict, ctx: dict) -> list[Action]:
-	"""An invoice, a receipt the company paid or a credit note, from a known
-	supplier, as a draft."""
+	"""An invoice, a receipt the company paid, a credit note or a timesheet of
+	hours worked, from a known supplier, as a draft."""
 	kind = reading.get("kind")
-	if not _real(reading, ctx) or kind not in ("Invoice", "Receipt", "Credit Note") or not ctx.get("supplier") or ctx.get("sender_is_colleague"):
+	if not _real(reading, ctx) or kind not in ("Invoice", "Receipt", "Credit Note", "Timesheet") or not ctx.get("supplier") or ctx.get("sender_is_colleague"):
 		return []
 	if ctx.get("existing_invoice"):
 		# Somebody booked it first: the document goes there, and nothing is made.
@@ -107,6 +107,8 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 		remarks.append(ctx["said"]["direct_debit"])
 	elif reading.get("paid_how") == "Already Paid" or kind == "Receipt":
 		remarks.append(ctx["said"]["paid"])
+	if kind == "Timesheet":
+		remarks.append(ctx["said"]["timesheet"])
 	due = next((str(one["date"]) for one in reading.get("dates") or [] if one.get("what") == "Due" and one.get("date")), None)
 	head = {
 		"supplier": ctx["supplier"],
@@ -129,7 +131,7 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 		if ctx.get("original_invoice"):
 			return [Action("Create", "Purchase Invoice", values={"against": ctx["original_invoice"], **head}, key="books|credit", flow="onedesk.one_intake.planning.debit_note")]
 		return [Action("Create", "Purchase Invoice", values={**head, "is_return": 1, "items": [{**row, "qty": -abs(row["qty"])} for row in lines(reading, ctx.get("items") or {}, ctx.get("expense_account"))]}, key="books|credit", propose=True, why=ctx["said"]["no_original"])]
-	if ctx.get("purchase_order"):
+	if ctx.get("purchase_order") and kind != "Timesheet":
 		return [Action("Create", "Purchase Invoice", values={"order": ctx["purchase_order"], **head}, key="books|invoice", flow="onedesk.one_intake.planning.invoice_from_order", propose_on_error=True)]
 	rows = lines(reading, ctx.get("items") or {}, ctx.get("expense_account"))
 	if not rows:
@@ -167,6 +169,42 @@ def sales_order(reading: dict, ctx: dict) -> list[Action]:
 			"Sales Order",
 			values={key: value for key, value in values.items() if value},
 			key="books|order",
+			propose=missing,
+			why=ctx["said"]["unmatched"] if missing else "",
+			propose_on_error=True,
+		)
+	]
+
+
+def extra_work(reading: dict, ctx: dict) -> list[Action]:
+	"""A customer asking for work beyond what they ordered, as a draft
+	Quotation for Extra Work on their project it names, which becomes a
+	sub-project once ordered (one_project/billing.py `ordered`). Lines that
+	match no item make it a proposal, as for an order."""
+	if not _real(reading, ctx) or reading.get("kind") != "Change Request" or not ctx.get("customer") or not ctx.get("project"):
+		return []
+	items = ctx.get("customer_items") or {}
+	source = reading.get("lines") or []
+	rows = [
+		{"item_code": items[index], "qty": float(one.get("qty") or 1), **({"rate": float(one["unit_price"])} if one.get("unit_price") is not None else {})}
+		for index, one in enumerate(source)
+		if items.get(index)
+	]
+	values = {
+		"quotation_to": "Customer",
+		"party_name": ctx["customer"],
+		"transaction_date": ctx["today"],
+		"project": ctx["project"],
+		"one_extra_work": 1,
+		"items": rows,
+	}
+	missing = len(rows) < len(source) or not rows
+	return [
+		Action(
+			"Create",
+			"Quotation",
+			values={key: value for key, value in values.items() if value},
+			key="books|extra",
 			propose=missing,
 			why=ctx["said"]["unmatched"] if missing else "",
 			propose_on_error=True,
@@ -299,4 +337,4 @@ def never_received(reading: dict, ctx: dict) -> list[Action]:
 
 
 def plan(reading: dict, ctx: dict) -> list[Action]:
-	return purchase(reading, ctx) + sales_order(reading, ctx) + goods(reading, ctx) + unordered(reading, ctx) + quotation(reading, ctx) + payment(reading, ctx) + bank(reading, ctx) + contract(reading, ctx) + never_received(reading, ctx)
+	return purchase(reading, ctx) + sales_order(reading, ctx) + extra_work(reading, ctx) + goods(reading, ctx) + unordered(reading, ctx) + quotation(reading, ctx) + payment(reading, ctx) + bank(reading, ctx) + contract(reading, ctx) + never_received(reading, ctx)

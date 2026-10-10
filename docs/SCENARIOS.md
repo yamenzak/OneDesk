@@ -71,7 +71,11 @@ numbers come out right.
 | ✓ | A day on site is a day on the project | `oneproject_a_day_on_site_and_the_projects_pictures` |
 | ✓ | A cost type passing its budget is told | `oneproject_money_reads_as_its_documents_and_its_people_are_told` |
 | ✓ | A project's invoices carry VAT like any other sale, retention included | `onebook_vat_is_charged_and_returned` |
-| · | Somebody paid from their timesheets, so Profit on Billed Hours has rows | |
+| ✓ | Somebody paid from their timesheets, so Profit on Billed Hours has rows, each the invoice less his share of the month's pay | `oneproject_profit_on_billed_hours` |
+| ✓ | A day on site costs what Site Work costs an hour | `oneproject_a_day_on_site_and_the_projects_pictures` |
+| ✓ | Time Billed on an invoice in euros is its time lines to the cent | `oneproject_the_books_invoice_time_a_month_and_progress` |
+| ✓ | The client sees the project's files on the portal, and its hours only when the team shows them | `oneproject_what_a_member_sees_on_the_portal` |
+| ✓ | A site log, a subcontractor's timesheet and a request for extra work, mailed in, land on the project | `every_intake_sample_left_what_it_should` |
 
 ## OneTask
 
@@ -135,6 +139,11 @@ and are left as the checks say them.
 - A backdated invoice in another currency took today's rate. The demo now
   prices it at its own day's rate, as ERPNext's form does when the date
   changes.
+- ERPNext's Profit on Billed Hours names nobody, since only a timesheet's
+  form fills its title. One fills it on every save now.
+- A time and materials invoice in euros billed 10,240.00 for 10,239.84 of
+  time, as each row and each line round apart. Its rows now add up to its
+  lines.
 - Draw Up Contract on an extra-work sub-project stopped, since it read only
   the sub-project's own terms. It takes them from the job it is part of now.
 - A customer's contact listed on a project stood for the project too, so

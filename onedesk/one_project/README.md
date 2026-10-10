@@ -77,7 +77,20 @@ The view switch at the top of **Projects** lays them out as:
 Every view leaves out employee onboarding and exit checklists until you
 clear that filter.
 
-**Projects Settings**, in the same menu, is for whoever may change it.
+**Projects Settings**, in the same menu, is for whoever may change it. It
+opens beside OneProject's rail, as Rates and Project Types do. It holds:
+
+- **Allow Overlapping Time per User** and **Allow Overlapping Time per
+  Employee**: on, one person may log two timesheet rows for the same hours,
+  such as a supervisor on two sites at once. Off, ERPNext refuses the second.
+- **Bring Timesheets into Sales Invoices**: on, choosing a project on a sales
+  invoice adds its billable timesheets. Invoice Time on a project's page does
+  this either way.
+- **Hold Retention**, **Count Time By** for new projects, and **Activity for
+  Days on Site**.
+
+A day on site costs what its activity costs an hour, so give **Site Work** a
+rate under **Rates**. With none, a day on site costs nothing.
 
 ### Rates
 
@@ -520,7 +533,11 @@ who can't sign in), their open tasks with how many are late, and their hours
 this month and in all.
 
 **Add Member** adds somebody to the project's members. **···** on a row makes
-that person a member, or removes a member. Their tasks
+that person a member, or removes a member. A member who signs in on the
+portal, such as the client's representative, says **Portal** under their
+name, and **···** also has **Show Timesheets** or **Hide Timesheets**, and
+**Show Files** or **Hide Files**: what they see of the project on its
+portal page (ERPNext's **Hide Timesheets** and **View Attachments**). Their tasks
 and time stay, so somebody removed is still listed while the work names
 them. Only somebody who signs in can be a member. An employee who only has
 their time logged can't be. Whoever may change the project may change its
@@ -1107,6 +1124,8 @@ and One asks in its own words.
   post it.
 - Posting again the same day replaces your earlier update.
 - Replying to the email works too, whenever the reply comes.
+- A site log mailed in by a member, which names the project, is their update
+  for the day too (OneIntake reads it).
 - An update posted by someone else shows without reloading the page.
 - Every update is in the project's **Activity**, under who wrote it.
 - No one is asked on a day off in the project's **Holiday List**, and a
@@ -1270,8 +1289,15 @@ quotations, orders and invoices.
   whether each is to do, in progress, in review or done;
 - the order it's for and its invoices, paid or not.
 
-They don't see who in the team does what, the hours, the costs or the team's
-updates, and they can't change anything. A customer only sees their own
+A customer who is also a member of the project (Team › Add Member) sees what
+their row on Team says:
+
+- **Time**: the hours logged on it in all, and each activity's hours on its
+  latest fifteen days, unless **Hide Timesheets** is on.
+- **Files**: the project's public files, when **Show Files** is on.
+
+Otherwise they don't see who in the team does what, the hours, the costs or
+the team's updates, and they can't change anything. A customer only sees their own
 projects. To hide a project from them, leave its **Customer** empty.
 
 ## Starting from a template
@@ -1366,7 +1392,7 @@ sub-project.
 - **From OneTask**: A project's tasks are the same tasks people see on My Tasks. The timer on a task logs its time on the project.
 - **From OneHR**: A day of attendance at the project's site becomes a timesheet on the project. Expense claims on the project count in its Cost, and Workload leaves out holidays and approved leave.
 - **From OneInventory**: Purchase orders, goods received and stock issued for the project count in its Cost. A purchase order for a package of work is a subcontract on the Suppliers view.
-- **From OneIntake**: A supplier's bill that names an open project is drafted for that project.
+- **From OneIntake**: A supplier's bill that names an open project is drafted for that project. So is a supplier's timesheet, at the hours and rate it gives. A site log a colleague mails in is their part of the day's update on the project it names. A customer asking for extra work on their project gets a draft quotation for Extra Work on it, which becomes a sub-project once ordered.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
 - **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
 - **To OneHR**: New Expense Claim on Money starts an expense claim on the project, which counts in its Cost once approved.
@@ -1881,8 +1907,12 @@ one field for it.
   **Invoice Time** (`invoice_time`, opened through
   `frappe.model.open_mapped_doc`) is their Sales Invoice with its Time Sheets
   filled from their own list of billable unbilled hours
-  (`get_projectwise_timesheet_data`), lines by activity (`lines`, pure);
-  submitting it is theirs too. **Extra Work** (`one_extra_work`, the same
+  (`get_projectwise_timesheet_data`), lines by activity and hourly rate
+  (`lines`, pure); submitting it is theirs too. ERPNext rounds each Time
+  Sheets row and each line to the cent apart, so the rows under a line are
+  set to add up to the amount ERPNext makes of the line, the last row taking
+  the cent left over, and **Time Billed** is the time lines to the cent, in
+  the customer's currency as much as in ours. **Extra Work** (`one_extra_work`, the same
   field on Quotation and Sales Order so their mapping carries it) makes the
   submitted order a sub-project of its project through their own
   `make_project` (`ordered`, named by `title`, pure), and moves the order and
@@ -1933,7 +1963,9 @@ one field for it.
   them again each time, and only on the day asked. Their three askers and the
   collector are stopped (`settle`); `ask` (hourly, `due` pure) makes the
   Project Update, notifies members in One and mails where mail goes; `post` is
-  Post Update; `answered` takes an email reply once as it arrives; `timeline`
+  Post Update; `answered` takes an email reply once as it arrives; `logged` is
+  a site log OneIntake read, written as its sender's answer for the day;
+  `timeline`
   (additional_timeline_content) shows the answers in the project's activity.
   Their morning summary still runs, where mail goes (`sum_up`). Hourly is off
   the Frequency choices.
@@ -2002,7 +2034,10 @@ one field for it.
 
   Only tasks the reader may see are counted. A project filter counts the tasks
   of that project and everything under it.
-- `portal.py` and `www/projects.py` — ERPNext's portal, reachable. Its list
+- `portal.py` and `www/projects.py` — ERPNext's portal, reachable. A member
+  of the project sees its time (`time`, each activity's hours by day) unless
+  their row hides timesheets, and its public files when it lets them, as
+  ERPNext's own page did. Its list
   (/project) reads the Customer's Portal Users, which Invite as User never
   filled (`invited`, Contact on_update, fills it); a customer signing in was
   sent to One's desk (`onedesk.check_app_permission` now refuses website
@@ -2153,7 +2188,8 @@ one field for it.
   still have to bill on their orders, or its budget while that's more; then
   the same for the rest of the budget. A cost type over its budget shows, even
   while another is under. With no budget there's no forecast (`forecast`).
-- `hours.py` — the Time view: `entries` reads the tree's Timesheet Detail
+- `hours.py` — `settle` stores **Count Time By** on a new site, since a
+  Single shows its default only before it's first saved. The Time view: `entries` reads the tree's Timesheet Detail
   as the reader reads timesheets, with where each stands (`state`, pure);
   `log` writes into the reader's draft timesheet for the week through
   one_task/timer.py, after the day's last entry (`after`, pure); `whose`
@@ -2193,7 +2229,8 @@ one field for it.
   submitted together.
 - `team.py` — the Team view: members, manager, assignees and whoever logged
   time, with open and late tasks and hours; `add` and `remove` change the
-  project's Members as the form does.
+  project's Members as the form does, and `show` a member's ERPNext **Hide
+  Timesheets** and **View Attachments**, what they see on the portal.
 
   The team is ERPNext's **Members** on the project (Project User), and with
   them everyone the work names: the manager, whoever a task on the project or
@@ -2352,8 +2389,13 @@ stage below that touches tasks keeps them:
 ### access.py
 
 ERPNext lets only a **System Manager** open **Projects Settings**, which the
-rail links to: whether a timesheet may overlap another and whether a task's
-dates are checked against its project's. A Projects Manager keeps them.
+Projects list's menu opens: whether a timesheet may overlap another and
+whether a sales invoice brings in its project's timesheets. A Projects
+Manager keeps them. Their labels and notes are One's words
+(`custom/projects_settings.json`). erpnext's Projects module has no sidebar
+in One, so a kind of it no rail lists, such as Projects Settings, Activity
+Type or Project Type, opens beside OneProject's rail (`one_module_heirs`,
+one/outside.py) rather than the reader's first.
 
 ERPNext keeps **Budget** to the books, so a project manager could not set a
 project's budget by cost type. A Projects Manager now keeps the budgets of

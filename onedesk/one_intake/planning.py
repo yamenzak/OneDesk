@@ -36,8 +36,9 @@ def run(name: str, which: str) -> None:
 		wanted = money.plan(said, ctx)
 	else:
 		_payable(ctx, reading)
-		# A task about a bill or a delivery goes in the project it names.
-		ctx["project"] = _project_named(reading) if _supplier(reading) else None
+		# A task about a bill or a delivery goes in the project it names, and
+		# so does a site's log (plans.py `site_log`).
+		ctx["project"] = _project_named(reading) if _supplier(reading) or reading.kind in PROJECT_KINDS else None
 		wanted = plans.second(said, ctx)
 	made = []
 	for action in wanted:
@@ -118,6 +119,7 @@ def context(reading, said: dict) -> dict:
 		"territory": _leaf("Territory", "Selling Settings", "territory"),
 		"applicant_source": "Email" if frappe.db.exists("Job Applicant Source", "Email") else None,
 		"done_when": {},
+		"subject": (mail.get("subject") or "").strip(),
 	}
 	_sender(ctx, mail, structured)
 	_about(ctx, reading)
@@ -147,6 +149,7 @@ def _words(language: str) -> dict:
 		"maybe_fraud": _("Reminder for an unknown invoice. Ask for the invoice before paying.", lang=language),
 		"decide_cancel": _("Decide whether to cancel the contract with {0} (last day {1})", lang=language),
 		"unordered": _("Check the unordered delivery from {0}", lang=language),
+		"timesheet": _("From their timesheet.", lang=language),
 	}
 
 
@@ -164,6 +167,7 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 		return
 	user = frappe.db.get_value("User", {"name": email, "user_type": "System User", "enabled": 1}, "name")
 	ctx["sender_is_colleague"] = bool(user)
+	ctx["sender_colleague"] = user
 	if ctx.get("direction") == "Sent":
 		ctx["sender_user"] = user or frappe.db.get_value("User", {"email": email}, "name")
 	if user:
@@ -276,8 +280,12 @@ def _money(ctx: dict, reading) -> None:
 	ctx["supplier"] = _supplier(reading)
 	ctx["customer"] = parties.get("Customer") or (reading.party_name if reading.party_doctype == "Customer" else None)
 	ctx["contract_party"] = ("Supplier", ctx["supplier"]) if ctx["supplier"] else (("Customer", ctx["customer"]) if ctx["customer"] else None)
-	# The project a bill is for, when it names one (one_project/intake.py).
+	# The project a bill is for, when it names one (one_project/intake.py),
+	# and the customer's own project their request for extra work names.
 	ctx["project"] = _project_named(reading) if ctx["supplier"] else None
+	if ctx["customer"] and reading.kind == "Change Request":
+		named = _project_named(reading)
+		ctx["project"] = named if named and frappe.db.get_value("Project", named, "customer") == ctx["customer"] else None
 	ctx["file"] = frappe.db.get_value("File", {"one_reading": reading.name}, "name") or (reading.source_name if reading.source_doctype == "File" else None)
 	refs = {row.kind: row.value for row in reading.refs}
 	named = [row.value for row in reading.refs]
@@ -618,6 +626,10 @@ def _parties(reading) -> dict:
 
 def _supplier(reading) -> str | None:
 	return _parties(reading).get("Supplier") or (reading.party_name if reading.party_doctype == "Supplier" else None)
+
+
+#: What a document about a project's work is, whoever sends it.
+PROJECT_KINDS = ("Site Log", "Timesheet", "Change Request")
 
 
 def _project_named(reading) -> str | None:

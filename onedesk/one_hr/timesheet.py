@@ -24,6 +24,16 @@ class OneTimesheet(EmployeeTimesheet):
 def before_validate(doc, method=None) -> None:
 	for row in doc.time_logs:
 		row.one_when = when(row.from_time, row.to_time)
+	if not doc.title:
+		doc.title = title(doc)
+
+
+def title(doc) -> str | None:
+	"""Whose time it is: ERPNext's Profit on Billed Hours names the person by
+	a timesheet's title, which only its form ever filled."""
+	if doc.employee:
+		return doc.employee_name or frappe.db.get_value("Employee", doc.employee, "employee_name")
+	return frappe.db.get_value("User", doc.owner, "full_name") if doc.owner else None
 
 
 def when(from_time, to_time) -> str:

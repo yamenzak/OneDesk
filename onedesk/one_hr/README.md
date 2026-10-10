@@ -1662,7 +1662,11 @@ The fix is in `public/js/timesheet.js` and it is small: a row with a To Time is
 finished, so the only row the timer may resume is one that has a start and no
 end. What is here is the reading half — `one_when` on each row, so the grid says
 "21 Sep 09:00 – 13:00" instead of a truncated datetime and a number of hours
-with no end beside it.
+with no end beside it — and its title. ERPNext's Profit on Billed Hours names
+the person by a timesheet's title, which only its form ever filled, so a
+timesheet made by a timer, an attendance or OneAI named nobody. `title` fills
+it with the employee's name, or its maker's, on every save
+(one_project/patches/timesheets_titled.py did the ones made before).
 
 ### report/attendance_by_shift/attendance_by_shift.py
 

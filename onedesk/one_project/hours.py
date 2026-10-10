@@ -31,6 +31,13 @@ def default() -> str:
 	return found if found in METHODS else TIMESHEETS
 
 
+def settle() -> None:
+	"""`after_sync` and `after_migrate`: the default stored, since a Single
+	shows a default only before it is first saved."""
+	if frappe.db.get_single_value("Projects Settings", "one_time_default") not in METHODS:
+		frappe.db.set_single_value("Projects Settings", "one_time_default", TIMESHEETS)
+
+
 def method(project: str | None) -> str:
 	"""How a project counts its time."""
 	found = frappe.db.get_value("Project", project, "one_time") if project else None

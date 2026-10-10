@@ -37,7 +37,7 @@
                   <Badge v-if="item.manager" :label="__('Manager')" theme="blue" size="md" />
                   <Badge v-else-if="item.member" :label="__('Member')" theme="gray" size="md" />
                 </div>
-                <div v-if="item.job || !item.signs_in" class="truncate text-sm text-ink-gray-5">{{ [item.job, !item.signs_in && __("No sign-in")].filter(Boolean).join(" · ") }}</div>
+                <div v-if="item.job || !item.signs_in || item.portal" class="truncate text-sm text-ink-gray-5">{{ [item.job, !item.signs_in && __("No sign-in"), item.portal && __("Portal")].filter(Boolean).join(" · ") }}</div>
               </div>
             </ListCell>
             <!-- Open tasks, and how many of them are late. -->
@@ -153,10 +153,28 @@ async function makeMember(person) {
   said.value = await call("onedesk.one_project.team.add", { project: props.projectName, user: person.user });
   emit("changed");
 }
+// What a member who signs in on the portal sees of the project there.
+async function show(person, what) {
+  said.value = await call("onedesk.one_project.team.show", { project: props.projectName, user: person.user, ...what });
+  emit("changed");
+}
 // Make Member, or Remove Member: their tasks and time stay either way.
 function actions(person) {
   if (!said.value.can_change) return [];
-  if (person.member) return [{ label: __("Remove Member"), icon: "lucide-user-minus", onClick: () => removeMember(person) }];
+  if (person.member)
+    return [
+      ...(person.portal
+        ? [
+            person.timesheets
+              ? { label: __("Hide Timesheets"), icon: "lucide-eye-off", onClick: () => show(person, { timesheets: 0 }) }
+              : { label: __("Show Timesheets"), icon: "lucide-eye", onClick: () => show(person, { timesheets: 1 }) },
+            person.files
+              ? { label: __("Hide Files"), icon: "lucide-eye-off", onClick: () => show(person, { files: 0 }) }
+              : { label: __("Show Files"), icon: "lucide-eye", onClick: () => show(person, { files: 1 }) },
+          ]
+        : []),
+      { label: __("Remove Member"), icon: "lucide-user-minus", onClick: () => removeMember(person) },
+    ];
   if (person.can_join) return [{ label: __("Make Member"), icon: "lucide-user-plus", onClick: () => makeMember(person) }];
   return [];
 }

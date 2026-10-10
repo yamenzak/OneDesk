@@ -338,6 +338,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Shell | Timers: the tile, the popover, pause | done |
 | OneProject, OneTask | Reports in the rail: ERPNext's and HRMS's project and task reports | done |
 | Demo | The business, figure by figure (`docs/SCENARIOS.md`): VAT, a late euro payment, a debit note, stock against the books, prices carried, payslips, leave, a leaver's end of service | done |
+| Demo | OneProject's gaps: Projects Settings, a member's portal, Profit on Billed Hours, the cents, Site Work's cost, Intake into a project | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -10276,3 +10277,66 @@ reaches it (point 8). `one_legal/README.md` is the reference.
     agreed to, and when;
   - asking at sign-up, before the workspace exists;
   - `gate.require()` on turning an application on.
+
+### OneProject's gaps
+
+Your word: "Do them all except manufacturing", of what OneProject did not yet
+take from ERPNext.
+
+Found:
+
+- **Our look (5), plain words (12)**: Projects Settings showed ERPNext's
+  "Ignore User Time Overlap" and "Ignore Employee Time Overlap" with no word
+  of what they do, and opened beside OneHR's rail for anybody who also has
+  OneHR. Rates and Project Types did too.
+- **Nothing lost (6)**: ERPNext's **Hide Timesheets** and **View
+  Attachments** on a project member had no place in One, and One's portal
+  page showed a member neither the hours nor the files.
+- **Works (1)**: nobody in the demo was paid from timesheets, so Profit on
+  Billed Hours had no rows, and Site Work had no cost, so a day on site cost
+  nothing.
+- **Works (1)**: a time and materials invoice in euros billed 10,240.00 of
+  lines for 10,239.84 of Time Billed.
+- **Works (1)**: no timesheet made outside its form had a title, so Profit
+  on Billed Hours named nobody.
+- **Intake (14)**: a site log, a supplier's timesheet and a customer's
+  request for extra work, mailed in, went nowhere near the project.
+- **Works (1)**: Count Time By showed empty on a new site.
+
+Fixed:
+
+- Projects Settings says **Allow Overlapping Time per User**, **Allow
+  Overlapping Time per Employee** and **Bring Timesheets into Sales
+  Invoices**, each with a line on what it does, and opens beside OneProject's
+  rail. erpnext's Projects module names OneProject as where its kinds go
+  (`one_module_heirs`, one/outside.py `inherited`). **Count Time By** is
+  stored on a new site.
+- Team: a member who signs in on the portal says **Portal**, and **···** has
+  **Show Timesheets** or **Hide Timesheets** and **Show Files** or **Hide
+  Files**. The portal page shows them **Time**, each activity's hours by day
+  with the total, and **Files**, as their row says. Khalid is on the villa's
+  team in the demo, seeing its files and not its hours.
+- Imran, an installer, is paid by the hour from his timesheets by a payroll
+  of his own, so Profit on Billed Hours has his retainer rows. Site Work
+  costs 55 an hour.
+- Invoice Time makes a line per activity and rate, and the rows under it add
+  up to what ERPNext makes of the line, the last taking the cent left over.
+- A timesheet's title is its person's name on every save, and a patch named
+  the ones before.
+- OneIntake reads three new kinds. A **Site Log** from a colleague is their
+  part of the day's update on the project it names, from anybody else a
+  comment. A supplier's **Timesheet** is a draft bill for its hours on the
+  project. A customer's **Change Request** on their own project is a draft
+  quotation for Extra Work on it. Three samples in tests/samples/intake
+  carry them.
+- Ready to Submit weighs a timesheet's draft against the timesheet's total
+  before tax, since the bill takes the workspace's VAT and the hours carry
+  none.
+- Two checks assumed too much. Opening the project page as each member now
+  leaves out a customer on the team, who follows it on the portal. Tariq's
+  clock check makes today a working day, so it no longer fails when the
+  suite runs on a weekend.
+- Four new checks: Profit on Billed Hours worked out from the slip and the
+  invoice, what a member sees on the portal, a day on site at Site Work's
+  rate, and Time Billed against the lines.
+

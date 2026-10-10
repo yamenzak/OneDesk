@@ -48,6 +48,55 @@
  ],
  "doctype": "Projects Settings",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Projects Settings",
+   "field_name": "ignore_user_time_overlap",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Allow Overlapping Time per User"
+  },
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Projects Settings",
+   "field_name": "ignore_user_time_overlap",
+   "property": "description",
+   "property_type": "Text",
+   "value": "If enabled, a user may log two timesheet rows for the same hours."
+  },
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Projects Settings",
+   "field_name": "ignore_employee_time_overlap",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Allow Overlapping Time per Employee"
+  },
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Projects Settings",
+   "field_name": "ignore_employee_time_overlap",
+   "property": "description",
+   "property_type": "Text",
+   "value": "If enabled, an employee may log two timesheet rows for the same hours, such as a supervisor on two sites at once."
+  },
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Projects Settings",
+   "field_name": "fetch_timesheet_in_sales_invoice",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Bring Timesheets into Sales Invoices"
+  },
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Projects Settings",
+   "field_name": "fetch_timesheet_in_sales_invoice",
+   "property": "description",
+   "property_type": "Text",
+   "value": "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
+  }
+ ],
  "sync_on_migrate": 1
 }

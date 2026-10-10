@@ -123,6 +123,23 @@ def post(project: str, note: str) -> str:
 	return update.name
 
 
+def logged(values: dict):
+	"""A site's daily log Intake read (one_intake/plans.py `site_log`): the
+	sender's part of the project's update for the day, as if they had
+	written it there."""
+	project = values["project"]
+	found = frappe.get_all(
+		"Project Update", filters={"project": project, "date": nowdate()}, pluck="name", order_by="creation desc", limit=1
+	)
+	update = (
+		frappe.get_doc("Project Update", found[0])
+		if found
+		else frappe.get_doc({"doctype": "Project Update", "project": project, "sent": 0, "date": nowdate(), "time": nowtime()})
+	)
+	_answer(update, values["user"], escape_html(values["note"]).replace("\n", "<br>"))
+	return update
+
+
 def answered(doc, method=None) -> None:
 	"""Communication after_insert: an emailed reply to an ask, taken once."""
 	if doc.reference_doctype != "Project Update" or doc.sent_or_received != "Received":

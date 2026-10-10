@@ -3,7 +3,8 @@
     one_project/portal.py), in the portal's shell: PageHeader with Breadcrumbs
     and the status Badge; how far along it is, when it ends and what it is
     part of; frappe-ui's Progress; then the milestones, the sub-projects, the
-    tasks, and the order and invoices as ListViews. Nothing of the team's. -#}
+    tasks, the time and files a member is shown, and the order and invoices
+    as ListViews. Nothing else of the team's. -#}
 {%- set show_sidebar = False -%}
 {%- set full_width = True -%}
 {% block title %}{{ doc.project_name | e }}{% endblock %}
@@ -135,6 +136,39 @@
 			{% else %}
 			<p class="one-empty">{{ _("No tasks yet") }}</p>
 			{% endif %}
+		</section>
+		{% endif %}
+
+		{#- Shown to a member of the project as their row on its Team says. -#}
+		{% if time %}
+		<section class="one-section">
+			<h2>{{ _("Time") }}{% if time.hours %} <small class="one-facts__aside">{{ _("{0} hours").format(frappe.format(time.hours, {"fieldtype": "Float"})) }}</small>{% endif %}</h2>
+			{% if time.rows %}
+			<div class="one-list-view">
+				{% for one in time.rows %}
+				<div class="one-list__row">
+					<span class="one-list__what"><span>{{ _(one.activity_type) if one.activity_type else _("Time") }}</span><small>{{ frappe.format_date(one.day) }}</small></span>
+					<span></span>
+					<span class="one-list__amount">{{ frappe.format(one.hours, {"fieldtype": "Float"}) }}</span>
+				</div>
+				{% endfor %}
+			</div>
+			{% else %}
+			<p class="one-empty">{{ _("No time yet") }}</p>
+			{% endif %}
+		</section>
+		{% endif %}
+
+		{% if files %}
+		<section class="one-section">
+			<h2>{{ _("Files") }}</h2>
+			<div class="one-list-view">
+				{% for one in files %}
+				<a class="one-list__row" href="{{ one.file_url }}" target="_blank" rel="noopener">
+					<span class="one-list__what"><span>{{ one.file_name | e }}</span></span>
+				</a>
+				{% endfor %}
+			</div>
 		</section>
 		{% endif %}
 

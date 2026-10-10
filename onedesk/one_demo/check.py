@@ -14,6 +14,7 @@ from frappe.utils import (
 	add_days,
 	add_months,
 	add_to_date,
+	cint,
 	date_diff,
 	flt,
 	get_first_day,
@@ -174,6 +175,9 @@ def every_project_page_opens_for_its_people():
 	for project in _projects():
 		for user in {OWNER, "samir@one.test", "huda@one.test", *_team(project.name)}:
 			if not frappe.has_permission("Project", "read", doc=project.name, user=user):
+				continue
+			# A customer on the team follows it on the portal (oneproject_what_a_member_sees_on_the_portal).
+			if frappe.db.get_value("User", user, "user_type") != "System User":
 				continue
 			try:
 				with as_user(user):
@@ -1406,14 +1410,19 @@ def oneproject_samir_runs_a_project():
 
 @check
 def oneproject_the_books_invoice_time_a_month_and_progress():
-	"""What Huda bills from a project's page: the showroom's time in euros, the
-	retainer's last month, and the villa's order as far as the work has got.
-	Each a draft, as the page opens it."""
+	"""What Huda bills from a project's page: the showroom's time in euros,
+	its Time Billed the same as its lines to the cent, the retainer's last
+	month, and the villa's order as far as the work has got. Each a draft, as
+	the page opens it."""
 	from onedesk.one_project import billing, progress, retainer
 
 	with as_user("huda@one.test"):
 		invoice = billing.invoice_time(SHOWROOM, item="SVC-MAINT")
 		assert invoice.currency == "EUR" and invoice.items and invoice.is_new()
+		# Time Billed is the time lines to the cent, in euros as much as in dirhams.
+		billed = flt(sum(flt(row.billing_amount, 2) for row in invoice.timesheets), 2)
+		lines = flt(sum(flt(row.amount) for row in invoice.items if not row.get("one_rebills")), 2)
+		assert billed == lines, (billed, lines)
 		try:
 			retainer.invoice_month(MARINA, month=str(get_first_day(add_months(today(), -1))), item="SVC-MAINT")
 		except frappe.ValidationError:
@@ -2082,6 +2091,63 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 			raise AssertionError("a customer read another customer's project")
 
 @check
+def oneproject_profit_on_billed_hours():
+	"""Imran is paid by the hour from his timesheets, and his retainer hours
+	are invoiced, so ERPNext's Profit on Billed Hours has his rows. His slip
+	pays his hours at his rate; each row costs his month's gross pay times
+	the share of the month he billed, and its profit is the invoice less
+	that. The rows name him, from the timesheet's title."""
+	from hrms.hr.report.project_profitability.project_profitability import execute
+
+	from onedesk.one_demo.hr import HOUR_RATE, HOURS
+
+	imran = _employee("Imran")
+	slips = frappe.get_all("Salary Slip", filters={"employee": imran, "docstatus": 1, "salary_slip_based_on_timesheet": 1}, pluck="name")
+	assert slips, "Imran has no slip worked out from his timesheets"
+	for name in slips:
+		slip = frappe.get_doc("Salary Slip", name)
+		paid = sum(flt(row.amount) for row in slip.earnings if row.salary_component == HOURS)
+		assert flt(paid, 2) == flt(slip.total_working_hours * HOUR_RATE, 2), (name, paid, slip.total_working_hours)
+	rows = execute(frappe._dict(company=COMPANY, employee=imran))[1]
+	assert rows, "Profit on Billed Hours has no rows"
+	standard = flt(frappe.db.get_single_value("HR Settings", "standard_working_hours"))
+	places = cint(frappe.db.get_default("float_precision")) or 2
+	for row in rows:
+		share = flt(flt(row.total_billed_hours) / (flt(row.total_working_days) * standard), places)
+		assert row.utilization == share, row
+		assert row.profit == flt(flt(row.base_grand_total) - flt(row.base_gross_pay) * share, places), row
+		assert row.employee_name == "Imran Khan", row.employee_name
+
+
+@check
+def oneproject_what_a_member_sees_on_the_portal():
+	"""Khalid is on the villa's team. His row on Team says he sees its files on
+	the portal and not its timesheets, and the portal does as it says; shown,
+	the time is the villa's submitted hours."""
+	from onedesk.one_project import portal, team
+
+	khalid = frappe.db.get_value("User", {"email": "khalid@mansour.example"})
+	with as_user("samir@one.test"):
+		row = next(one for one in team.team(VILLA)["people"] if one["user"] == khalid)
+	assert row["member"] and row["portal"] and row["files"] and not row["timesheets"], row
+	with as_user(khalid):
+		said = portal.view(VILLA)
+	assert said["time"] is None and said["files"] is not None, said["time"]
+	with as_user("samir@one.test"):
+		team.show(VILLA, khalid, timesheets=1)
+	try:
+		with as_user(khalid):
+			said = portal.view(VILLA)
+		logged = frappe.db.sql(
+			"select sum(hours) from `tabTimesheet Detail` where project=%s and docstatus=1", VILLA
+		)[0][0]
+		assert said["time"] and flt(said["time"]["hours"]) == flt(logged), (said["time"], logged)
+	finally:
+		with as_user("samir@one.test"):
+			team.show(VILLA, khalid, timesheets=0)
+
+
+@check
 def oneproject_a_day_on_site_and_the_projects_pictures():
 	"""The tower counts its time by attendance on its site: the installers'
 	days there are on it, a day Tariq clocked in there is a day on the tower, and cancelling the attendance
@@ -2104,6 +2170,10 @@ def oneproject_a_day_on_site_and_the_projects_pictures():
 		attendance.submit()
 	sheet = frappe.db.get_value("Timesheet", {"one_attendance": attendance.name, "docstatus": 1})
 	assert sheet and frappe.db.get_value("Timesheet Detail", {"parent": sheet}, "project") == TOWER, sheet
+	# A day on site costs what Site Work costs an hour.
+	spent = frappe.db.get_value("Timesheet Detail", {"parent": sheet}, ["hours", "costing_amount", "activity_type"], as_dict=True)
+	rate = frappe.db.get_value("Activity Cost", {"employee": tariq, "activity_type": spent.activity_type}, "costing_rate") or frappe.db.get_value("Activity Type", spent.activity_type, "costing_rate")
+	assert flt(rate) > 0 and flt(spent.costing_amount, 2) == flt(spent.hours * rate, 2), (spent, rate)
 	with as_user("mariam@one.test"):
 		attendance.reload()
 		attendance.cancel()
@@ -2962,7 +3032,7 @@ def onehr_the_crews_days_overtime_and_pay_add_up():
 			pass
 		setup.start_reading(demo.SHIFT[0])
 		assert frappe.db.get_value("Shift Type", demo.SHIFT[0], "enable_auto_attendance") == 1
-		entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1})
+		entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1, "salary_slip_based_on_timesheet": 0})
 		ran = payroll.run(entry)
 		assert ran["people"] >= 10 and ran["total"] > 0
 		assert encashment.rate(arun, today())["structure"]
@@ -3057,6 +3127,9 @@ def onehr_tariq_clocks_in_with_his_phone():
 	from onedesk.one_hr import clock, employee, passkey, review, signin
 
 	tariq = _employee("Tariq")
+	# The clock is offered on a working day only, so on a weekend today is made one.
+	off = frappe.db.get_value("Employee", tariq, "holiday_list") or frappe.db.get_value("Company", COMPANY, "default_holiday_list")
+	frappe.db.delete("Holiday", {"parent": off, "holiday_date": today()})
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
 	frappe.db.set_single_value("System Settings", signin.SWITCH, 1)
 	phone = _Phone(tariq.encode())
@@ -3154,7 +3227,7 @@ def onehr_oneai_answers_and_drafts_for_each_person():
 		_card(ai.draft_interview_feedback(interview, "Mira knew the unitised system well.", {"Curtain Wall Design": 4}, "Cleared"))
 	appraisal = frappe.db.get_value("Appraisal", {"employee": _employee("Rania")})
 	opening = frappe.db.get_value("Job Opening", {})
-	entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1})
+	entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1, "salary_slip_based_on_timesheet": 0})
 	with as_user(demo.HR):
 		assert "error" not in ai_payroll.payroll_changes(entry)
 		assert "error" not in ai.why_people_leave()

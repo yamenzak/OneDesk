@@ -1,0 +1,88 @@
+{
+ "file": "subcontractor-timesheet.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A subcontractor's hours on a project, to be paid.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Timesheet",
+   "title": "Precision Installers timesheet PI-TS-0412",
+   "summary": "Precision Installers send their fitters' 24 hours on Mansour Villa Windows and Doors, 6 to 8 October, at AED 95.00 an hour.",
+   "language": "en",
+   "number": "PI-TS-0412",
+   "issued": "2026-10-09",
+   "dates": [
+    {
+     "date": "2026-10-06",
+     "what": "Period Start",
+     "about": "the hours",
+     "counted": false
+    },
+    {
+     "date": "2026-10-08",
+     "what": "Period End",
+     "about": "the hours",
+     "counted": false
+    }
+   ],
+   "money": {
+    "currency": "AED",
+    "net": 2280.0,
+    "tax": null,
+    "gross": 2280.0,
+    "paid_how": "unknown",
+    "iban": null,
+    "reference": "PI-TS-0412"
+   },
+   "lines": [
+    {
+     "text": "Subcontract installation, villa windows and doors",
+     "qty": 24,
+     "unit_price": 95.0,
+     "amount": 2280.0,
+     "tax_rate": null,
+     "category": "Other"
+    }
+   ],
+   "promises": [
+    {
+     "what": "Send the invoice for the week with VAT",
+     "by": null
+    }
+   ],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Precision Installers",
+     "person": false,
+     "email": "hamza@precision.example"
+    },
+    {
+     "role": "Recipient",
+     "name": "Sahara Glass & Aluminium",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Purchase Invoice",
+   "values": {
+    "supplier": "Precision Installers",
+    "bill_no": "PI-TS-0412",
+    "project": "PROJ-0001"
+   }
+  }
+ ]
+}

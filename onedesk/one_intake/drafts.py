@@ -28,8 +28,10 @@ def red(doc, reading) -> list[str]:
 		why.append(_("Some values aren't in the document."))
 	if not doc.get(PARTY[doc.doctype]):
 		why.append(_("Unknown party."))
-	if reading and reading.gross and doc.doctype in ("Purchase Invoice", "Sales Order") and abs(flt(doc.get(TOTAL[doc.doctype])) - flt(reading.gross)) > TOLERANCE:
-		why.append(_("The total is {0}, but the document says {1}.").format(frappe.format_value(doc.get(TOTAL[doc.doctype]), {"fieldtype": "Currency"}, doc), frappe.format_value(reading.gross, {"fieldtype": "Currency"}, doc)))
+	# A timesheet gives its hours before tax, and the bill's tax is the workspace's.
+	total, said = ("net_total", reading.net) if reading and reading.kind == "Timesheet" else (TOTAL.get(doc.doctype), reading.gross if reading else None)
+	if said and doc.doctype in ("Purchase Invoice", "Sales Order") and abs(flt(doc.get(total)) - flt(said)) > TOLERANCE:
+		why.append(_("The total is {0}, but the document says {1}.").format(frappe.format_value(doc.get(total), {"fieldtype": "Currency"}, doc), frappe.format_value(said, {"fieldtype": "Currency"}, doc)))
 	if doc.doctype == "Purchase Invoice":
 		why += _three_way(doc)
 		why += _iban(doc, reading)

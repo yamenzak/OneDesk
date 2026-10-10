@@ -67,6 +67,27 @@ def placed(said: dict) -> None:
 	said["canonical_shell"], said["home_shell"] = build_canonical_shells(
 		said["module_sidebars"], said.get("entity_module") or {}, DeskViews(), default_workspace=default
 	)
+	inherited(said)
+
+
+def inherited(said: dict) -> None:
+	"""A kind no sidebar of One's lists, of a module whose own sidebar is
+	erpnext's, opens in the sidebar One keeps that module's work in
+	(`one_module_heirs`), where the ladder would put it in the reader's home."""
+	from frappe.desk.doctype.sidebar.sidebar import linked_entities
+
+	heirs = frappe.get_hooks("one_module_heirs") or {}
+	doctypes = (said.get("canonical_shell") or {}).get("DocType")
+	if not heirs or not isinstance(doctypes, dict):
+		return
+	sidebars = said["module_sidebars"]
+	listed = {entity for sidebar in sidebars.values() for item in sidebar.get("items") or [] for entity in linked_entities(item)}
+	for name, module in frappe.get_all(
+		"DocType", filters={"module": ["in", list(heirs)], "istable": 0}, fields=["name", "module"], as_list=True
+	):
+		shell = next((one for one in heirs[module] if one in sidebars), None)
+		if shell and name in doctypes and name not in listed:
+			doctypes[name] = shell
 
 
 @frappe.whitelist()

@@ -4,7 +4,7 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import flt, get_first_day, getdate, nowdate
+from frappe.utils import flt, get_first_day, getdate, nowdate, sbool
 
 from onedesk.one_project import hours, tree
 
@@ -41,7 +41,11 @@ def team(
 
 	for row in doc.users:
 		if row.user:
-			person(row.user)["member"] = True
+			one = person(row.user)
+			one["member"] = True
+			# What a member who signs in on the portal sees there (portal.py `view`).
+			one["timesheets"] = not row.hide_timesheets
+			one["files"] = bool(row.view_attachments)
 	if doc.get("one_manager"):
 		person(doc.one_manager)["manager"] = True
 
@@ -82,7 +86,7 @@ def team(
 		for one in frappe.get_all(
 			"User",
 			filters={"name": ["in", list(people)]},
-			fields=["name", "full_name", "user_image", "enabled"],
+			fields=["name", "full_name", "user_image", "enabled", "user_type"],
 		)
 	}
 	# Each person's job, from their Employee record: by their user, or the
@@ -106,6 +110,7 @@ def team(
 		one["name"] = (known.full_name if known else None) or one.pop("shown", None) or user
 		one.pop("shown", None)
 		one["image"] = known.user_image if known else None
+		one["portal"] = bool(known and known.user_type == "Website User")
 		# Only a user who can sign in can be made a member.
 		one["can_join"] = bool(known and known.enabled) and not one["member"]
 		one["hours"] = round(one["hours"], 1)
@@ -129,6 +134,28 @@ def add(project: Annotated[str, "The project."], user: Annotated[str, "Who joins
 	if not any(row.user == user for row in doc.users):
 		doc.append("users", {"user": user})
 		doc.save()
+	return team(project)
+
+
+@frappe.whitelist(methods=["POST"])
+def show(
+	project: Annotated[str, "The project."],
+	user: Annotated[str, "The member."],
+	timesheets: Annotated[bool | None, "Whether they see its timesheets on the portal."] = None,
+	files: Annotated[bool | None, "Whether they see its files on the portal."] = None,
+) -> dict:
+	"""What a member sees of the project on the portal: ERPNext's Hide
+	Timesheets and View Attachments on their row."""
+	doc = frappe.get_doc("Project", project)
+	doc.check_permission("write")
+	row = next((row for row in doc.users if row.user == user), None)
+	if not row:
+		frappe.throw(_("{0} is not on this project.").format(user))
+	if timesheets is not None:
+		row.hide_timesheets = 0 if sbool(timesheets) else 1
+	if files is not None:
+		row.view_attachments = 1 if sbool(files) else 0
+	doc.save()
 	return team(project)
 
 

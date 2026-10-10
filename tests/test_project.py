@@ -308,8 +308,12 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	assert "is_template" in tasks["filters"], rail.name
 
 
+def _flt(value, precision=None):
+	return round(float(value or 0), precision) if precision is not None else float(value or 0)
+
+
 def test_time_is_invoiced_by_activity():
-	space = _load(PROJECT / "billing.py", ("lines",), flt=lambda value: float(value or 0))
+	space = _load(PROJECT / "billing.py", ("lines",), flt=_flt)
 	rows = [
 		{"activity_type": "Execution", "billing_hours": 3, "billing_amount": 840},
 		{"activity_type": "Planning", "billing_hours": 2, "billing_amount": 600},
@@ -321,6 +325,24 @@ def test_time_is_invoiced_by_activity():
 		("Execution", 7, 280),
 		("Planning", 2, 300),
 	]
+
+
+def test_time_billed_is_its_lines_to_the_cent():
+	# Hours at a rate turned into another currency: each row rounds apart,
+	# and the last row of a line takes what is left, so they add up to it.
+	space = _load(PROJECT / "billing.py", ("lines",), flt=_flt)
+	rate = 180 * 0.2723
+	rows = [
+		{"activity_type": "Design", "billing_hours": hours, "billing_amount": hours * rate}
+		for hours in (1.33, 2.17, 0.75, 3.1)
+	]
+	lines = space["lines"](rows)
+	assert len(lines) == 1
+	assert round(sum(row["billing_amount"] for row in rows), 2) == lines[0]["amount"]
+	assert lines[0]["amount"] == round(round(1.33 + 2.17 + 0.75 + 3.1, 2) * lines[0]["rate"], 2)
+	# A different rate for the same activity is a line of its own.
+	rows.append({"activity_type": "Design", "billing_hours": 1, "billing_amount": 200})
+	assert [one["rate"] for one in space["lines"](rows)] == [lines[0]["rate"], 200]
 
 
 def test_an_order_for_extra_work_is_named_by_what_it_orders():

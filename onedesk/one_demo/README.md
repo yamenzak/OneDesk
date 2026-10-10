@@ -19,7 +19,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 |---|---|
 | setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
 | people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
-| masters | 10 customers and 9 suppliers in four currencies, 23 items, prices, activity types, asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
+| masters | 10 customers and 9 suppliers in four currencies, 23 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
 | stock | The stock the year opened with |
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, broken glass sent back with a debit note on its bill, euro orders, an order received and not billed |
 | making | Bills of materials and work orders, finished, half done, started and not yet started |
@@ -28,7 +28,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee, an order delivered and not invoiced |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
 | books | The bank account, opening balances, rent and utilities each month. A tax template brings its taxes (the Books Check) |
-| hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |
+| hr | Pay, three payroll runs, and three more for Imran, an installer paid by the hour from his timesheets, so Profit on Billed Hours has rows. Leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
@@ -52,7 +52,7 @@ Omar sells, and Layla owns the workspace. Every record is tagged **Demo**.
 | Mariam Saleh | mariam@one.test | OneHR |
 | Rania, Nadia, Tariq | rania@, nadia@, tariq@one.test | OneProject |
 | Yousef Bakr | yousef@one.test | OneInventory |
-| Khalid Mansour | khalid@mansour.example | The portal, as the villa's customer, invited by Omar |
+| Khalid Mansour | khalid@mansour.example | The portal, as the villa's customer, invited by Omar. On the villa's team, he sees its files there and not its timesheets |
 
 ## Check it
 

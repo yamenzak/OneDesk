@@ -2552,6 +2552,13 @@ opened from, or One's when opened cold (frappe's own steps 5 and 6). The
 workspaces taken out are named in `one_elsewhere`, and desk.js sends their
 addresses, and frappe's apps screen, to One's Home.
 
+A module of erpnext's or hrms's whose sidebar is left out can name where its
+kinds go instead (`one_module_heirs` in hooks.py, `inherited`): a kind no
+sidebar of One's lists then opens in that one, where frappe would put it in
+the reader's first sidebar. erpnext's Projects goes to OneProject, so
+Projects Settings, Rates and Project Types open beside OneProject's rail even
+for somebody who also has OneHR.
+
 The platform's own people (`boot.platform`) keep frappe's whole desk.
 
 ### owner.py

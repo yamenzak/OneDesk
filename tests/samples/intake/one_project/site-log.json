@@ -1,0 +1,51 @@
+{
+ "file": "site-log.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Information",
+   "why": "A site engineer's report of the day's work on a project.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Site Log",
+   "title": "Site log, Mansour Villa Windows and Doors, 8 October",
+   "summary": "Rania reports the day on the villa's site: the ground floor glazed and the east windows sealed, the balustrade posts waiting for the client's tiler.",
+   "language": "en",
+   "number": null,
+   "issued": "2026-10-08",
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Rania Sabbagh",
+     "person": true,
+     "email": "rania@one.test"
+    },
+    {
+     "role": "Recipient",
+     "name": "Sahara Glass & Aluminium",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Project Update",
+   "values": {
+    "project": "PROJ-0001"
+   }
+  }
+ ]
+}

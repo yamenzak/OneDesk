@@ -376,20 +376,32 @@ def for_what(row, lines: list) -> dict:
 
 
 def lines(rows: list) -> list[dict]:
-	"""Time by activity, in the order each activity first appears: its hours
-	and the rate that gives its amount. Pure."""
+	"""Time by activity and hourly rate, in the order each first appears: its
+	hours, its rate and the amount ERPNext makes of them. The rows under a
+	line are made to add up to that amount, the last taking the cent left
+	over, so the invoice's Time Billed is its time lines to the cent. Pure."""
 	found: dict = {}
 	for row in rows:
+		hours = flt(row.get("billing_hours"))
+		if not hours:
+			continue
+		rate = flt(flt(row.get("billing_amount")) / hours, 2)
 		one = found.setdefault(
-			row.get("activity_type"), {"activity": row.get("activity_type"), "hours": 0.0, "amount": 0.0}
+			(row.get("activity_type"), rate),
+			{"activity": row.get("activity_type"), "hours": 0.0, "rate": rate, "rows": []},
 		)
-		one["hours"] += flt(row.get("billing_hours"))
-		one["amount"] += flt(row.get("billing_amount"))
-	return [
-		{**one, "rate": one["amount"] / one["hours"] if one["hours"] else 0.0}
-		for one in found.values()
-		if one["hours"] or one["amount"]
-	]
+		one["hours"] += hours
+		one["rows"].append(row)
+	for one in found.values():
+		one["hours"] = flt(one["hours"], 2)
+		one["amount"] = flt(one["hours"] * one["rate"], 2)
+		for row in one["rows"]:
+			row["billing_amount"] = flt(flt(row.get("billing_hours")) * one["rate"], 2)
+		one["rows"][-1]["billing_amount"] = flt(
+			one["rows"][-1]["billing_amount"] + one["amount"] - sum(row["billing_amount"] for row in one["rows"]), 2
+		)
+		del one["rows"]
+	return list(found.values())
 
 
 def in_currency(rows: list, currency: str) -> list:

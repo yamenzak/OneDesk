@@ -170,3 +170,24 @@ def test_no_hook_table_names_a_doctype_twice():
 				if isinstance(value, ast.Dict):
 					inner = [key.value for key in value.keys if isinstance(key, ast.Constant)]
 					assert len(inner) == len(set(inner)), f"{node.targets[0].id} repeats {sorted({k for k in inner if inner.count(k) > 1})}"
+
+
+def test_a_suppliers_timesheet_is_a_draft_bill_on_its_project_not_its_order():
+	timesheet = {**INVOICE, "kind": "Timesheet", "lines": [{"text": "Fitters", "qty": 24, "unit_price": 95, "amount": 2280}]}
+	made = MONEY["purchase"](timesheet, {**CTX, "said": {**SAID, "timesheet": "From their timesheet."}, "project": "PROJ-1", "purchase_order": "PO-1"})
+	assert [(one.kind, one.doctype) for one in made] == [("Create", "Purchase Invoice")]
+	values = made[0].values
+	assert values["project"] == "PROJ-1" and values["remarks"] == "From their timesheet." and "order" not in values
+	assert values["items"][0]["qty"] == 24 and values["items"][0]["rate"] == 95 and values["items"][0]["project"] == "PROJ-1"
+
+
+def test_a_customers_request_for_extra_work_is_a_quotation_on_their_project():
+	request = {"kind": "Change Request", "verdict": "Action", "lines": [{"text": "Glass balustrade", "qty": 6}, {"text": "Painting"}]}
+	ctx = {**CTX, "customer": "Mansour & Sons", "project": "PROJ-1", "customer_items": {0: "BAL-GL"}}
+	made = MONEY["extra_work"](request, ctx)
+	assert [(one.kind, one.doctype) for one in made] == [("Create", "Quotation")]
+	values = made[0].values
+	assert values["party_name"] == "Mansour & Sons" and values["project"] == "PROJ-1" and values["one_extra_work"] == 1
+	assert values["items"] == [{"item_code": "BAL-GL", "qty": 6.0}]
+	assert made[0].propose, "a line that is no item waits for a person"
+	assert MONEY["extra_work"](request, {**ctx, "project": None}) == [], "not their project, or none named"

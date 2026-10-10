@@ -69,6 +69,8 @@ ACTIVITIES = (
 	("Installation", 55, 180),
 	("Project Management", 140, 350),
 	("Maintenance", 55, 200),
+	# A day on site (one_project/site_time.py), so it costs what an installer's day costs.
+	("Site Work", 55, 180),
 )
 
 

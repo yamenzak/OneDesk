@@ -249,3 +249,19 @@ def test_a_document_teaches_its_parties_what_they_lack():
 	assert made[0].values == {"tax_id": "DE123456789", "website": "stadtwerke.example"}
 	assert not made[0].over, "a value the supplier already has is proposed, never overwritten"
 	assert PLANS["enrich"](reading, {**CTX, "direction": "Sent"}) == []
+
+
+# ------------------------------------------------------------------ a project's work
+
+
+SITE_LOG = {"name": "r9", "kind": "Site Log", "verdict": "Information", "title": "Site log", "text": "Site log, villa\n\nGlazed the ground floor.", "parties": [], "confidence": 90}
+
+
+def test_a_colleagues_site_log_is_their_part_of_the_days_update():
+	ctx = {**CTX, "project": "PROJ-1", "sender_colleague": "rania@acme.test", "subject": "Site log, villa"}
+	made = PLANS["site_log"](SITE_LOG, ctx)
+	assert kinds(made) == [("Create", "Project Update")]
+	assert made[0].values == {"project": "PROJ-1", "user": "rania@acme.test", "note": "Glazed the ground floor."}, "the mail's subject is left off"
+	# Anybody else's is a comment on the project, and no project named is nothing.
+	assert kinds(PLANS["site_log"](SITE_LOG, {**ctx, "sender_colleague": None})) == [("Comment", "Project")]
+	assert PLANS["site_log"](SITE_LOG, {**ctx, "project": None}) == []

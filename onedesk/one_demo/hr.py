@@ -21,6 +21,7 @@ def run(password=None):
 		_hiring()
 		_onboarding()
 		_payroll()
+		_by_the_hour()
 		_leaving()
 	_claims()
 	with as_user(HR):
@@ -58,6 +59,25 @@ def _pay():
 			},
 			submit=True,
 		)
+	if not frappe.db.exists("Salary Component", HOURS):
+		make({"doctype": "Salary Component", "salary_component": HOURS, "salary_component_abbr": "HW", "type": "Earning"})
+	if not frappe.db.exists("Salary Structure", HOURLY):
+		make(
+			{
+				"doctype": "Salary Structure",
+				"name": HOURLY,
+				"__newname": HOURLY,
+				"company": COMPANY,
+				"currency": "AED",
+				"payroll_frequency": "Monthly",
+				"is_active": "Yes",
+				"salary_slip_based_on_timesheet": 1,
+				"salary_component": HOURS,
+				"hour_rate": HOUR_RATE,
+				"earnings": [{"salary_component": "Transport Allowance", "abbr": "TA", "amount": 300}],
+			},
+			submit=True,
+		)
 	for first, _last, _email, _dept, _desig, _gender, joined, pay, *_rest in PEOPLE:
 		employee = _employee(first)
 		if frappe.db.exists("Salary Structure Assignment", {"employee": employee, "docstatus": 1}):
@@ -67,7 +87,7 @@ def _pay():
 			{
 				"doctype": "Salary Structure Assignment",
 				"employee": employee,
-				"salary_structure": structure,
+				"salary_structure": HOURLY if first == PAID_BY_THE_HOUR else structure,
 				"company": COMPANY,
 				"currency": "AED",
 				"from_date": starts,
@@ -90,7 +110,7 @@ def _payroll():
 	for back in (3, 2, 1):
 		starts = get_first_day(add_months(today(), -back))
 		ends = get_last_day(starts)
-		if frappe.db.exists("Payroll Entry", {"start_date": starts, "docstatus": 1}):
+		if frappe.db.exists("Payroll Entry", {"start_date": starts, "docstatus": 1, "salary_slip_based_on_timesheet": 0}):
 			continue
 		entry = frappe.new_doc("Payroll Entry")
 		entry.update(
@@ -100,6 +120,45 @@ def _payroll():
 				"start_date": starts,
 				"end_date": ends,
 				"posting_date": ends,
+				"currency": "AED",
+				"exchange_rate": 1,
+				"payroll_payable_account": _payable(),
+				"cost_center": cost_center,
+				"payment_account": bank,
+			}
+		)
+		entry.fill_employee_details()
+		entry = save(entry, submit=True)
+		entry.reload()
+		entry.submit_salary_slips()
+
+
+#: Who is paid by the hour from his timesheets, at what rate, and as what,
+#: so ERPNext's Profit on Billed Hours has his retainer time to weigh.
+PAID_BY_THE_HOUR = "Imran"
+HOURLY = "Sahara Hourly"
+HOURS = "Hours Worked"
+HOUR_RATE = 30
+
+
+def _by_the_hour():
+	"""Imran's pay each month, worked out from his submitted timesheets by a
+	payroll of its own, as ERPNext pays anybody on a timesheet structure."""
+	bank = frappe.db.get_value("Account", {"company": COMPANY, "account_type": "Bank", "is_group": 0})
+	cost_center = frappe.db.get_value("Company", COMPANY, "cost_center")
+	for back in (3, 2, 1):
+		starts = get_first_day(add_months(today(), -back))
+		if frappe.db.exists("Payroll Entry", {"start_date": starts, "docstatus": 1, "salary_slip_based_on_timesheet": 1}):
+			continue
+		entry = frappe.new_doc("Payroll Entry")
+		entry.update(
+			{
+				"company": COMPANY,
+				"salary_slip_based_on_timesheet": 1,
+				"payroll_frequency": "Monthly",
+				"start_date": starts,
+				"end_date": get_last_day(starts),
+				"posting_date": get_last_day(starts),
 				"currency": "AED",
 				"exchange_rate": 1,
 				"payroll_payable_account": _payable(),

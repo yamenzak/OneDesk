@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-10 14:21+0000\n"
-"PO-Revision-Date: 2026-10-10 14:21+0000\n"
+"POT-Creation-Date: 2026-10-10 19:53+0000\n"
+"PO-Revision-Date: 2026-10-10 19:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -464,11 +464,11 @@ msgstr ""
 msgid "A deal moved to this stage takes this probability, unless one was typed."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:133
+#: onedesk/one_intake/planning.py:137
 msgid "A document arrived"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:134
+#: onedesk/one_intake/planning.py:138
 msgid "A document arrived for {0}"
 msgstr ""
 
@@ -836,7 +836,7 @@ msgstr ""
 msgid "A queued unit of work against a workspace. Created by the system."
 msgstr ""
 
-#: onedesk/one_intake/identity.py:313
+#: onedesk/one_intake/identity.py:318
 msgid "A record can't be merged into itself."
 msgstr ""
 
@@ -2164,6 +2164,17 @@ msgstr ""
 msgid "Allow Interview Recording"
 msgstr ""
 
+#. Label of the 'ignore_employee_time_overlap' field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "Allow Overlapping Time per Employee"
+msgstr ""
+
+#. Label of the 'ignore_user_time_overlap' field in DocType 'Projects Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "Allow Overlapping Time per User"
+msgstr ""
+
 #: onedesk/public/js/settings.js:369
 msgid "Allow notifications for this site in your browser settings."
 msgstr ""
@@ -2188,7 +2199,7 @@ msgstr ""
 msgid "Already Paid"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:140
+#: onedesk/one_intake/planning.py:144
 msgid "Already paid."
 msgstr ""
 
@@ -2645,7 +2656,7 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/planning.py:136
+#: onedesk/one_intake/planning.py:140
 msgid "Appointment"
 msgstr ""
 
@@ -2995,7 +3006,7 @@ msgstr ""
 msgid "Ask {0} for a copy of your data, or to delete it."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:144
+#: onedesk/one_intake/planning.py:148
 msgid "Ask {1} for invoice {0}"
 msgstr ""
 
@@ -3028,11 +3039,11 @@ msgstr ""
 msgid "Asked and Reviewed"
 msgstr ""
 
-#: onedesk/one_project/updates.py:168
+#: onedesk/one_project/updates.py:185
 msgid "Asked daily"
 msgstr ""
 
-#: onedesk/one_project/updates.py:173
+#: onedesk/one_project/updates.py:190
 msgid "Asked every {0}"
 msgstr ""
 
@@ -3041,7 +3052,7 @@ msgstr ""
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr ""
 
-#: onedesk/one_project/updates.py:170
+#: onedesk/one_project/updates.py:187
 msgid "Asked twice a day"
 msgstr ""
 
@@ -3281,7 +3292,7 @@ msgstr ""
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/public/js/project_new.js:167
+#: onedesk/public/js/project_new.js:168
 msgid "Attendance on Site"
 msgstr ""
 
@@ -3759,7 +3770,7 @@ msgid "Bill"
 msgstr ""
 
 #: onedesk/public/js/project_actions.js:217
-#: onedesk/public/js/project_new.js:115
+#: onedesk/public/js/project_new.js:116
 msgid "Bill As"
 msgstr ""
 
@@ -4070,6 +4081,12 @@ msgstr ""
 msgid "Brief and goals"
 msgstr ""
 
+#. Label of the 'fetch_timesheet_in_sales_invoice' field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "Bring Timesheets into Sales Invoices"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Broken"
@@ -4090,7 +4107,7 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:320
 #: onedesk/public/js/project_actions.js:322
 #: onedesk/public/js/project_actions.js:361
-#: onedesk/public/js/project_new.js:137
+#: onedesk/public/js/project_new.js:138
 msgid "Budget"
 msgstr ""
 
@@ -4533,6 +4550,11 @@ msgstr ""
 msgid "Change Plan"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Change Request"
+msgstr ""
+
 #: onedesk/one_studio/ai.py:23
 msgid "Change a collection…"
 msgstr ""
@@ -4703,7 +4725,7 @@ msgstr ""
 msgid "Check the site in Frappe Cloud."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:147
+#: onedesk/one_intake/planning.py:151
 msgid "Check the unordered delivery from {0}"
 msgstr ""
 
@@ -5663,7 +5685,7 @@ msgid "Contract Template"
 msgstr ""
 
 #: onedesk/public/js/project_actions.js:213
-#: onedesk/public/js/project_new.js:111
+#: onedesk/public/js/project_new.js:112
 msgid "Contract Value"
 msgstr ""
 
@@ -5992,7 +6014,7 @@ msgstr ""
 msgid "Create Next Year's List"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:273
+#: onedesk/public/js/project_new.js:275
 msgid "Create Project"
 msgstr ""
 
@@ -6446,7 +6468,7 @@ msgstr ""
 msgid "Date of Birth"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:138
+#: onedesk/one_intake/planning.py:142
 msgid "Dated after the books closed on {0}."
 msgstr ""
 
@@ -6602,7 +6624,7 @@ msgstr ""
 msgid "Decide"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:146
+#: onedesk/one_intake/planning.py:150
 msgid "Decide whether to cancel the contract with {0} (last day {1})"
 msgstr ""
 
@@ -7087,7 +7109,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/intake.js:63 onedesk/public/js/onecloud.js:160
 #: onedesk/public/js/onecloud.js:1968 onedesk/public/js/project_actions.js:789
-#: onedesk/public/js/project_new.js:193 onedesk/public/js/task_actions.js:9
+#: onedesk/public/js/project_new.js:194 onedesk/public/js/task_actions.js:9
 msgid "Details"
 msgstr ""
 
@@ -7590,7 +7612,7 @@ msgid "Due on Receipt"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:412 frontend/src/task/TaskPage.vue:239
-#: onedesk/one_project/portal.py:145 onedesk/one_project/retention.py:134
+#: onedesk/one_project/portal.py:180 onedesk/one_project/retention.py:134
 msgid "Due today"
 msgstr ""
 
@@ -8192,7 +8214,7 @@ msgstr ""
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_crm/heads.py:211 onedesk/one_project/ai.py:985
-#: onedesk/public/js/project_new.js:155
+#: onedesk/public/js/project_new.js:156
 msgid "Ends"
 msgstr ""
 
@@ -8220,7 +8242,7 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:322
 #: onedesk/templates/includes/projects/project_row.html:6
-#: onedesk/www/projects.html:111
+#: onedesk/www/projects.html:112
 msgid "Ends {0}"
 msgstr ""
 
@@ -8249,7 +8271,7 @@ msgstr ""
 msgid "Enter the amount paid."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:220
+#: onedesk/one_project/kinds.py:221
 msgid "Enter the contract value."
 msgstr ""
 
@@ -8671,7 +8693,7 @@ msgstr ""
 msgid "Expand"
 msgstr ""
 
-#: onedesk/www/projects.html:43
+#: onedesk/www/projects.html:44
 msgid "Expected End"
 msgstr ""
 
@@ -8726,7 +8748,7 @@ msgstr ""
 msgid "Expenses"
 msgstr ""
 
-#: onedesk/one_project/billing.py:498
+#: onedesk/one_project/billing.py:510
 msgid "Expenses · {0}"
 msgstr ""
 
@@ -9154,6 +9176,7 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:360 onedesk/public/js/onecloud.js:387
 #: onedesk/public/js/onecloud.js:717 onedesk/public/js/onecloud.js:1112
 #: onedesk/public/js/onecloud.js:1663 onedesk/public/js/record_files.js:41
+#: onedesk/www/projects.html:164
 msgid "Files"
 msgstr ""
 
@@ -9764,7 +9787,7 @@ msgstr ""
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:132
+#: onedesk/one_intake/planning.py:136
 msgid "From a sick note that arrived by mail."
 msgstr ""
 
@@ -9791,8 +9814,12 @@ msgstr ""
 msgid "From the Library"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:392
+#: onedesk/one_intake/understand.py:393
 msgid "From the day received"
+msgstr ""
+
+#: onedesk/one_intake/planning.py:152
+msgid "From their timesheet."
 msgstr ""
 
 #: onedesk/one_hr/ai.py:99
@@ -9959,7 +9986,7 @@ msgstr ""
 msgid "Give the supplier, the company or the contact."
 msgstr ""
 
-#: onedesk/one_project/hours.py:365
+#: onedesk/one_project/hours.py:372
 msgid "Give the time a number of hours."
 msgstr ""
 
@@ -10357,6 +10384,14 @@ msgstr ""
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr ""
 
+#: frontend/src/project/Team.vue:172
+msgid "Hide Files"
+msgstr ""
+
+#: frontend/src/project/Team.vue:169
+msgid "Hide Timesheets"
+msgstr ""
+
 #. Label of the hide_empty (Check) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "Hide When Empty"
@@ -10517,7 +10552,7 @@ msgid "Hours Worked"
 msgstr ""
 
 #. Label of the one_monthly_hours (Float) field in DocType 'Project'
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:144
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:145
 msgid "Hours a Month"
 msgstr ""
 
@@ -10941,6 +10976,24 @@ msgstr ""
 msgid "If disabled, no check-in records where it came from and the location gate cannot run."
 msgstr ""
 
+#. Description of the 'ignore_user_time_overlap' field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "If enabled, a user may log two timesheet rows for the same hours."
+msgstr ""
+
+#. Description of the 'ignore_employee_time_overlap' field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "If enabled, an employee may log two timesheet rows for the same hours, such as a supervisor on two sites at once."
+msgstr ""
+
+#. Description of the 'fetch_timesheet_in_sales_invoice' field in DocType
+#. 'Projects Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
+msgstr ""
+
 #: onedesk/www/s.py:21
 msgid "If this address was invited, a code has been sent to it."
 msgstr ""
@@ -11088,7 +11141,7 @@ msgstr ""
 
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:332
 #: onedesk/one_admin/heads.py:197 onedesk/one_project/heads.py:78
-#: onedesk/one_project/portal.py:146 onedesk/one_project/view.py:410
+#: onedesk/one_project/portal.py:181 onedesk/one_project/view.py:410
 #: onedesk/one_project/view.py:625
 msgid "In {0} days"
 msgstr ""
@@ -12034,7 +12087,7 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/ai.py:982 onedesk/one_project/custom/project.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/project_new.js:190 onedesk/public/js/project_new.js:293
+#: onedesk/public/js/project_new.js:191 onedesk/public/js/project_new.js:295
 msgid "Kind"
 msgstr ""
 
@@ -13161,7 +13214,7 @@ msgstr ""
 msgid "Made by the workspace, so held to what a workspace rule may do."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:112
+#: onedesk/one_intake/planning.py:115
 msgid "Made from {0}."
 msgstr ""
 
@@ -13325,7 +13378,7 @@ msgstr ""
 msgid "Make Main Address"
 msgstr ""
 
-#: frontend/src/project/Team.vue:160
+#: frontend/src/project/Team.vue:178
 msgid "Make Member"
 msgstr ""
 
@@ -13395,7 +13448,7 @@ msgstr ""
 #: frontend/src/project/Team.vue:37 onedesk/one/settings.py:987
 #: onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/public/js/project_new.js:149 onedesk/public/js/settings.js:1127
+#: onedesk/public/js/project_new.js:150 onedesk/public/js/settings.js:1127
 #: onedesk/public/js/settings.js:1190
 msgid "Manager"
 msgstr ""
@@ -13531,7 +13584,7 @@ msgid "Markup can't be negative."
 msgstr ""
 
 #. Label of the one_markup (Percent) field in DocType 'Project'
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:140
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:141
 msgid "Markup on Costs"
 msgstr ""
 
@@ -13782,7 +13835,7 @@ msgid "Milestone Done"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:70
-#: onedesk/one/print_blocks.py:434 onedesk/www/projects.html:90
+#: onedesk/one/print_blocks.py:434 onedesk/www/projects.html:91
 msgid "Milestones"
 msgstr ""
 
@@ -13901,7 +13954,7 @@ msgstr ""
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
 #: frontend/src/project/Money.vue:175 frontend/src/project/Overview.vue:155
 #: onedesk/one_project/ai.py:1000 onedesk/one_project/custom/project.json
-#: onedesk/public/js/project_new.js:142
+#: onedesk/public/js/project_new.js:143
 msgid "Monthly Fee"
 msgstr ""
 
@@ -14535,8 +14588,8 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400
 #: onedesk/public/js/project_actions.js:619
-#: onedesk/public/js/project_new.js:273 onedesk/public/js/settings.js:2030
-#: onedesk/www/projects.html:71
+#: onedesk/public/js/project_new.js:275 onedesk/public/js/settings.js:2030
+#: onedesk/www/projects.html:72
 msgid "Next"
 msgstr ""
 
@@ -15131,7 +15184,7 @@ msgstr ""
 msgid "No tasks with dates"
 msgstr ""
 
-#: onedesk/www/projects.html:136
+#: onedesk/www/projects.html:137
 msgid "No tasks yet"
 msgstr ""
 
@@ -15149,6 +15202,10 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:58
 msgid "No time to invoice"
+msgstr ""
+
+#: onedesk/www/projects.html:157
+msgid "No time yet"
 msgstr ""
 
 #: frontend/src/task/TimerList.vue:34
@@ -15299,7 +15356,7 @@ msgstr ""
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/public/js/project_new.js:168
+#: onedesk/public/js/project_new.js:169
 msgid "Not Tracked"
 msgstr ""
 
@@ -16713,11 +16770,11 @@ msgstr ""
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr ""
 
-#: onedesk/one_intake/identity.py:323
+#: onedesk/one_intake/identity.py:328
 msgid "Only contacts, customers and suppliers can be marked."
 msgstr ""
 
-#: onedesk/one_intake/identity.py:311
+#: onedesk/one_intake/identity.py:316
 msgid "Only contacts, customers and suppliers can be merged."
 msgstr ""
 
@@ -17028,7 +17085,7 @@ msgstr ""
 #: onedesk/one_inventory/report/to_order/to_order.js:9
 #: onedesk/one_inventory/report/to_order/to_order.js:30
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/public/js/project_actions.js:610 onedesk/www/projects.html:147
+#: onedesk/public/js/project_actions.js:610 onedesk/www/projects.html:181
 msgid "Order"
 msgstr ""
 
@@ -17050,7 +17107,7 @@ msgstr ""
 msgid "Order aluminium profiles"
 msgstr ""
 
-#: onedesk/www/projects.html:143
+#: onedesk/www/projects.html:177
 msgid "Order and Invoices"
 msgstr ""
 
@@ -17447,7 +17504,7 @@ msgstr ""
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:325
 #: onedesk/one_project/money.py:162 onedesk/one_project/money.py:173
 #: onedesk/one_project/view.py:437 onedesk/public/js/settings.js:1744
-#: onedesk/www/projects.html:155
+#: onedesk/www/projects.html:189
 msgid "Paid"
 msgstr ""
 
@@ -17487,7 +17544,7 @@ msgstr ""
 msgid "Paid While Archived"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:139
+#: onedesk/one_intake/planning.py:143
 msgid "Paid by direct debit."
 msgstr ""
 
@@ -17560,7 +17617,7 @@ msgstr ""
 msgid "Part Of"
 msgstr ""
 
-#: onedesk/www/projects.html:49
+#: onedesk/www/projects.html:50
 msgid "Part of"
 msgstr ""
 
@@ -17843,7 +17900,7 @@ msgstr ""
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
-#: onedesk/public/js/project_actions.js:253 onedesk/public/js/project_new.js:97
+#: onedesk/public/js/project_actions.js:253 onedesk/public/js/project_new.js:98
 msgid "Payment Terms"
 msgstr ""
 
@@ -18206,7 +18263,7 @@ msgstr ""
 msgid "Pick the folder or the record the files go to."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:114 onedesk/one_project/kinds.py:222
+#: onedesk/one_project/kinds.py:114 onedesk/one_project/kinds.py:223
 msgid "Pick the item to bill the contract as."
 msgstr ""
 
@@ -18218,7 +18275,7 @@ msgstr ""
 msgid "Pick the month and the item to invoice it as."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:218
+#: onedesk/one_project/kinds.py:219
 msgid "Pick the project's customer first."
 msgstr ""
 
@@ -18226,7 +18283,7 @@ msgstr ""
 msgid "Pick the role."
 msgstr ""
 
-#: onedesk/one_project/hours.py:96
+#: onedesk/one_project/hours.py:103
 msgid "Pick the site."
 msgstr ""
 
@@ -18302,7 +18359,7 @@ msgstr ""
 #: onedesk/one_project/library/event.json
 #: onedesk/one_project/library/marketing_campaign.json
 #: onedesk/one_project/library/office_move.json
-#: onedesk/public/js/project_new.js:239 onedesk/public/js/settings.js:1538
+#: onedesk/public/js/project_new.js:241 onedesk/public/js/settings.js:1538
 #: onedesk/public/js/settings.js:1540 onedesk/public/js/settings.js:1829
 #: onedesk/www/start.html:58
 msgid "Plan"
@@ -18432,7 +18489,7 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
-#: onedesk/public/js/contact.js:24
+#: frontend/src/project/Team.vue:40 onedesk/public/js/contact.js:24
 #: onedesk/templates/includes/one_portal_head.html:31
 #: onedesk/templates/includes/one_portal_sidebar.html:28
 msgid "Portal"
@@ -18610,7 +18667,7 @@ msgstr ""
 
 #: frontend/src/project/Media.vue:10
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
-#: onedesk/public/js/project_new.js:258 onedesk/www/projects.html:70
+#: onedesk/public/js/project_new.js:260 onedesk/www/projects.html:71
 msgid "Previous"
 msgstr ""
 
@@ -18843,7 +18900,7 @@ msgstr ""
 #: frontend/src/task/TaskPage.vue:259 onedesk/one/portal.py:67
 #: onedesk/one/print_blocks.py:430 onedesk/public/js/onecloud.js:364
 #: onedesk/public/js/onecloud.js:666 onedesk/public/js/project_actions.js:755
-#: onedesk/www/projects.html:38
+#: onedesk/www/projects.html:39
 msgid "Progress"
 msgstr ""
 
@@ -19624,7 +19681,7 @@ msgstr ""
 msgid "Received"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:392
+#: onedesk/one_intake/understand.py:393
 msgid "Received 4 days after posting (§ 122 AO)"
 msgstr ""
 
@@ -20079,7 +20136,7 @@ msgstr ""
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/public/js/project_actions.js:243
-#: onedesk/public/js/project_new.js:132
+#: onedesk/public/js/project_new.js:133
 msgid "Released at Handover"
 msgstr ""
 
@@ -20113,7 +20170,7 @@ msgstr ""
 msgid "Reminder"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:145
+#: onedesk/one_intake/planning.py:149
 msgid "Reminder for an unknown invoice. Ask for the invoice before paying."
 msgstr ""
 
@@ -20121,7 +20178,7 @@ msgstr ""
 msgid "Reminder sent to {0} people"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:135
+#: onedesk/one_intake/planning.py:139
 msgid "Reminder: {0}"
 msgstr ""
 
@@ -20144,7 +20201,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: frontend/src/project/Team.vue:159
+#: frontend/src/project/Team.vue:176
 msgid "Remove Member"
 msgstr ""
 
@@ -20180,7 +20237,7 @@ msgstr ""
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
 
-#: frontend/src/project/Team.vue:164 onedesk/public/js/project_actions.js:516
+#: frontend/src/project/Team.vue:182 onedesk/public/js/project_actions.js:516
 msgid "Remove {0} from the project?"
 msgstr ""
 
@@ -20228,7 +20285,7 @@ msgstr ""
 msgid "Renew the contract"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:130
+#: onedesk/one_intake/planning.py:134
 msgid "Renew the {0} of {1}"
 msgstr ""
 
@@ -20612,7 +20669,7 @@ msgstr ""
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/one_project/progress.py:212 onedesk/public/js/progress.js:64
 #: onedesk/public/js/project_actions.js:228
-#: onedesk/public/js/project_new.js:121
+#: onedesk/public/js/project_new.js:122
 msgid "Retention"
 msgstr ""
 
@@ -20625,7 +20682,7 @@ msgstr ""
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/public/js/project_actions.js:235
-#: onedesk/public/js/project_new.js:125
+#: onedesk/public/js/project_new.js:126
 msgid "Retention Due"
 msgstr ""
 
@@ -20796,7 +20853,7 @@ msgstr ""
 msgid "Row {0}: {1} expires before it was issued."
 msgstr ""
 
-#: onedesk/one_project/hours.py:83
+#: onedesk/one_project/hours.py:90
 msgid "Row {0}: {1} is not a task on {2}."
 msgstr ""
 
@@ -21241,7 +21298,7 @@ msgstr ""
 msgid "See the Page"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:143
+#: onedesk/one_intake/planning.py:147
 msgid "See the attached document."
 msgstr ""
 
@@ -21798,7 +21855,7 @@ msgstr ""
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/public/js/project_actions.js:244
-#: onedesk/public/js/project_new.js:133
+#: onedesk/public/js/project_new.js:134
 msgid "Share of the retention"
 msgstr ""
 
@@ -21961,6 +22018,10 @@ msgstr ""
 msgid "Show Error"
 msgstr ""
 
+#: frontend/src/project/Team.vue:173
+msgid "Show Files"
+msgstr ""
+
 #: onedesk/public/js/reports.js:373
 msgid "Show In"
 msgstr ""
@@ -21980,6 +22041,10 @@ msgstr ""
 
 #: frontend/src/project/Updates.vue:14 onedesk/www/portal.html:67
 msgid "Show More"
+msgstr ""
+
+#: frontend/src/project/Team.vue:170
+msgid "Show Timesheets"
 msgstr ""
 
 #: onedesk/public/js/note.js:15
@@ -22238,13 +22303,18 @@ msgstr ""
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #. Label of the one_site (Link) field in DocType 'Project'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:176
+#: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:177
 msgid "Site"
 msgstr ""
 
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Site Installation & Logistics"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Site Log"
 msgstr ""
 
 #. Label of the press_plan (Data) field in DocType 'One Admin Settings'
@@ -22357,7 +22427,7 @@ msgstr ""
 msgid "Some documents need your agreement."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:142
+#: onedesk/one_intake/planning.py:146
 msgid "Some lines match no item."
 msgstr ""
 
@@ -22635,7 +22705,7 @@ msgstr ""
 #: frontend/src/project/TaskPanel.vue:29 frontend/src/task/TaskPage.vue:19
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_project/ai.py:984 onedesk/public/js/project_actions.js:84
-#: onedesk/public/js/project_new.js:148 onedesk/public/js/task_new.js:39
+#: onedesk/public/js/project_new.js:149 onedesk/public/js/task_new.js:39
 msgid "Starts"
 msgstr ""
 
@@ -23062,7 +23132,7 @@ msgstr ""
 #: frontend/src/project/Overview.vue:122
 #: frontend/src/project/ProjectPage.vue:297 onedesk/one/print_blocks.py:439
 #: onedesk/one_project/heads.py:214 onedesk/one_project/tree.py:198
-#: onedesk/www/projects.html:105
+#: onedesk/www/projects.html:106
 msgid "Sub-projects"
 msgstr ""
 
@@ -23124,7 +23194,7 @@ msgstr ""
 msgid "Submit Matching E-Invoices"
 msgstr ""
 
-#: onedesk/one_project/hours.py:340
+#: onedesk/one_project/hours.py:347
 msgid "Submit your timesheet"
 msgstr ""
 
@@ -23521,7 +23591,7 @@ msgstr ""
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/one_project/report/workload/workload.py:176
 #: onedesk/one_storage/namespace.py:736 onedesk/one_storage/namespace.py:836
-#: onedesk/one_task/page/task_view/task_view.js:9 onedesk/www/projects.html:124
+#: onedesk/one_task/page/task_view/task_view.js:9 onedesk/www/projects.html:125
 msgid "Tasks"
 msgstr ""
 
@@ -23742,7 +23812,7 @@ msgstr ""
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/public/js/project_actions.js:261
-#: onedesk/public/js/project_new.js:104
+#: onedesk/public/js/project_new.js:105
 msgid "Terms and Conditions"
 msgstr ""
 
@@ -23998,7 +24068,7 @@ msgstr ""
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:398
+#: onedesk/one_intake/planning.py:408
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr ""
 
@@ -24401,7 +24471,7 @@ msgstr ""
 msgid "The invoice is attached. If you have already paid it, please ignore this reminder."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:141
+#: onedesk/one_intake/planning.py:145
 msgid "The invoice this credits was not found."
 msgstr ""
 
@@ -25748,7 +25818,8 @@ msgstr ""
 #: onedesk/one_project/billing.py:97 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:179 onedesk/one_project/money.py:216
-#: onedesk/one_project/tell.py:266 onedesk/public/js/project_new.js:164
+#: onedesk/one_project/tell.py:266 onedesk/public/js/project_new.js:165
+#: onedesk/www/projects.html:145 onedesk/www/projects.html:150
 msgid "Time"
 msgstr ""
 
@@ -25801,8 +25872,10 @@ msgid "Times opened"
 msgstr ""
 
 #. Label of a Sidebar Item
+#. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one/portal.py:68 onedesk/one/print_blocks.py:25
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
@@ -25815,7 +25888,7 @@ msgstr ""
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/public/js/project_new.js:166
+#: onedesk/public/js/project_new.js:167
 msgid "Timesheets"
 msgstr ""
 
@@ -26514,7 +26587,7 @@ msgid "Unlock"
 msgstr ""
 
 #: onedesk/one_admin/accounts.py:218 onedesk/public/js/settings.js:1744
-#: onedesk/www/projects.html:155
+#: onedesk/www/projects.html:189
 msgid "Unpaid"
 msgstr ""
 
@@ -30534,7 +30607,7 @@ msgstr ""
 msgid "deployed"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:131
+#: onedesk/one_intake/planning.py:135
 msgid "document"
 msgstr ""
 
@@ -30857,11 +30930,11 @@ msgstr ""
 msgid "on {0}"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:390
+#: onedesk/one_intake/understand.py:391
 msgid "one day"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:390
+#: onedesk/one_intake/understand.py:391
 msgid "one month"
 msgstr ""
 
@@ -30869,11 +30942,11 @@ msgstr ""
 msgid "one of {0}"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:390
+#: onedesk/one_intake/understand.py:391
 msgid "one week"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:390
+#: onedesk/one_intake/understand.py:391
 msgid "one year"
 msgstr ""
 
@@ -31442,7 +31515,7 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
-#: onedesk/one_project/billing.py:569
+#: onedesk/one_project/billing.py:581
 msgid "{0} and {1} more"
 msgstr ""
 
@@ -31542,7 +31615,7 @@ msgstr ""
 msgid "{0} can't see this project. Add them to it?"
 msgstr ""
 
-#: onedesk/one_project/members.py:122
+#: onedesk/one_project/members.py:124
 msgid "{0} can't sign in, so can't join the project."
 msgstr ""
 
@@ -31646,7 +31719,7 @@ msgstr ""
 msgid "{0} counts nothing."
 msgstr ""
 
-#: onedesk/public/js/project_new.js:330 onedesk/public/js/settings.js:2943
+#: onedesk/public/js/project_new.js:332 onedesk/public/js/settings.js:2943
 msgid "{0} created"
 msgstr ""
 
@@ -31681,7 +31754,7 @@ msgstr ""
 
 #: frontend/src/template/Tasks.vue:126
 #: frontend/src/template/TemplatePage.vue:88 onedesk/one_crm/heads.py:32
-#: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:389
+#: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:390
 #: onedesk/one_project/ai.py:897
 msgid "{0} days"
 msgstr ""
@@ -31705,7 +31778,7 @@ msgstr ""
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:330 frontend/src/project/Overview.vue:411
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:238
-#: onedesk/one_project/heads.py:77 onedesk/one_project/portal.py:143
+#: onedesk/one_project/heads.py:77 onedesk/one_project/portal.py:178
 #: onedesk/one_project/retention.py:132 onedesk/one_project/view.py:621
 #: onedesk/one_project/view.py:919
 msgid "{0} days late"
@@ -31823,7 +31896,7 @@ msgstr ""
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr ""
 
-#: frontend/src/kit/desk.js:32 onedesk/one_project/billing.py:431
+#: frontend/src/kit/desk.js:32 onedesk/one_project/billing.py:443
 #: onedesk/one_project/view.py:512
 #: onedesk/templates/includes/timesheet/timesheet_row.html:12
 msgid "{0} h"
@@ -31837,7 +31910,7 @@ msgstr ""
 msgid "{0} h are on timesheets not submitted yet."
 msgstr ""
 
-#: onedesk/one_project/hours.py:341
+#: onedesk/one_project/hours.py:348
 msgid "{0} h not submitted"
 msgstr ""
 
@@ -31853,7 +31926,7 @@ msgstr ""
 msgid "{0} h used of {1} h."
 msgstr ""
 
-#: onedesk/one_project/kinds.py:224
+#: onedesk/one_project/kinds.py:225
 msgid "{0} has a contract already. Change it on its sales order."
 msgstr ""
 
@@ -31960,7 +32033,7 @@ msgid "{0} holidays added. Save to keep them."
 msgstr ""
 
 #: onedesk/one/settings.py:847 onedesk/one_crm/heads.py:30
-#: onedesk/public/js/band.js:237
+#: onedesk/public/js/band.js:237 onedesk/www/projects.html:145
 msgid "{0} hours"
 msgstr ""
 
@@ -32032,7 +32105,7 @@ msgstr ""
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr ""
 
-#: onedesk/one_project/billing.py:542
+#: onedesk/one_project/billing.py:554
 msgid "{0} is a sub-project of {1}."
 msgstr ""
 
@@ -32088,7 +32161,7 @@ msgstr ""
 msgid "{0} is already the default for {1}."
 msgstr ""
 
-#: onedesk/one_project/hours.py:105
+#: onedesk/one_project/hours.py:112
 msgid "{0} is already the site of {1}."
 msgstr ""
 
@@ -32264,7 +32337,7 @@ msgstr ""
 msgid "{0} is not a table to repeat"
 msgstr ""
 
-#: onedesk/one_project/hours.py:370
+#: onedesk/one_project/hours.py:377
 msgid "{0} is not a task on this project."
 msgstr ""
 
@@ -32276,7 +32349,7 @@ msgstr ""
 msgid "{0} is not a tool."
 msgstr ""
 
-#: onedesk/one_project/team.py:128
+#: onedesk/one_project/team.py:133
 msgid "{0} is not a user here."
 msgstr ""
 
@@ -32328,6 +32401,10 @@ msgstr ""
 msgid "{0} is not offered here."
 msgstr ""
 
+#: onedesk/one_project/team.py:153
+msgid "{0} is not on this project."
+msgstr ""
+
 #: onedesk/one_admin/domains.py:194
 msgid "{0} is not on this workspace."
 msgstr ""
@@ -32364,7 +32441,7 @@ msgstr ""
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr ""
 
-#: onedesk/one_project/hours.py:372
+#: onedesk/one_project/hours.py:379
 msgid "{0} is not under this project."
 msgstr ""
 
@@ -32502,7 +32579,7 @@ msgstr ""
 msgid "{0} models, {1} priced, {2} need review."
 msgstr ""
 
-#: onedesk/one_intake/understand.py:389 onedesk/one_project/view.py:550
+#: onedesk/one_intake/understand.py:390 onedesk/one_project/view.py:550
 msgid "{0} months"
 msgstr ""
 
@@ -32607,7 +32684,7 @@ msgstr ""
 msgid "{0} of {1} tasks"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:432 onedesk/www/projects.html:39
+#: onedesk/one/print_blocks.py:432 onedesk/www/projects.html:40
 msgid "{0} of {1} tasks done"
 msgstr ""
 
@@ -32734,7 +32811,7 @@ msgstr ""
 msgid "{0} plan"
 msgstr ""
 
-#: onedesk/one_project/updates.py:195
+#: onedesk/one_project/updates.py:212
 msgid "{0} posted an update"
 msgstr ""
 
@@ -32913,7 +32990,7 @@ msgstr ""
 msgid "{0} waiting in OneIntake"
 msgstr ""
 
-#: onedesk/one_project/members.py:158
+#: onedesk/one_project/members.py:183
 msgid "{0} was added to {1}."
 msgstr ""
 
@@ -32930,7 +33007,7 @@ msgstr ""
 msgid "{0} was taken by someone else after this signup was abandoned."
 msgstr ""
 
-#: onedesk/one_intake/understand.py:389
+#: onedesk/one_intake/understand.py:390
 msgid "{0} weeks"
 msgstr ""
 
@@ -32975,7 +33052,7 @@ msgstr ""
 msgid "{0} workspaces have this"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:389
+#: onedesk/one_intake/understand.py:390
 msgid "{0} years"
 msgstr ""
 
@@ -33039,7 +33116,7 @@ msgstr ""
 msgid "{0} × {1}"
 msgstr ""
 
-#: onedesk/one_hr/timesheet.py:38
+#: onedesk/one_hr/timesheet.py:48
 msgid "{0} – running"
 msgstr ""
 
@@ -33134,7 +33211,7 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
-#: onedesk/one_intake/understand.py:394
+#: onedesk/one_intake/understand.py:395
 msgid "{0}, moved to the next working day"
 msgstr ""
 
@@ -33142,7 +33219,7 @@ msgstr ""
 msgid "{0}, on the mail domain"
 msgstr ""
 
-#: onedesk/one_intake/understand.py:393
+#: onedesk/one_intake/understand.py:394
 msgid "{0}, plus {1}"
 msgstr ""
 
