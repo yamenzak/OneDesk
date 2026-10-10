@@ -5,7 +5,21 @@ retainer and internal.
 import frappe
 from frappe.utils import add_days, add_months, date_diff, flt, get_first_day, get_first_day_of_week, getdate
 
-from onedesk.one_demo.base import COMPANY, account, ago, ahead, as_user, dated, make, on, save, tag, today, wh
+from onedesk.one_demo.base import (
+	COMPANY,
+	account,
+	ago,
+	ahead,
+	as_user,
+	dated,
+	make,
+	on,
+	rated,
+	save,
+	tag,
+	today,
+	wh,
+)
 from onedesk.one_hr.hiring import AUTHOR
 from onedesk.one_project import library
 
@@ -528,7 +542,7 @@ def _pay(invoice, date, part=1.0):
 			)
 			for ref in payment.references:
 				ref.allocated_amount = min(ref.allocated_amount, amount)
-		save(payment, submit=True)
+		save(rated(payment), submit=True)
 
 
 def _advance(customer, order, amount, date):

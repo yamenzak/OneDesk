@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-10 12:17+0000\n"
-"PO-Revision-Date: 2026-10-10 12:17+0000\n"
+"POT-Creation-Date: 2026-10-10 14:21+0000\n"
+"PO-Revision-Date: 2026-10-10 14:21+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr ""
 msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
 msgstr ""
 
-#: onedesk/one_book/ready.py:153
+#: onedesk/one_book/ready.py:184
 msgid "A UAE tax invoice must show the supplier's TRN."
 msgstr ""
 
@@ -440,7 +440,7 @@ msgstr ""
 msgid "A custom domain on a workspace. Created when the workspace requests one."
 msgstr ""
 
-#: onedesk/one_book/ready.py:135
+#: onedesk/one_book/ready.py:166
 msgid "A customer is mailed the invoice a week after it falls due."
 msgstr ""
 
@@ -575,7 +575,7 @@ msgstr ""
 msgid "A job needs a workspace."
 msgstr ""
 
-#: onedesk/one_book/ready.py:133
+#: onedesk/one_book/ready.py:164
 msgid "A late customer is reminded"
 msgstr ""
 
@@ -970,7 +970,7 @@ msgstr ""
 msgid "A standard letter head can only be set as default or disabled."
 msgstr ""
 
-#: onedesk/one_book/ready.py:126 onedesk/one_book/ready.py:127
+#: onedesk/one_book/ready.py:157 onedesk/one_book/ready.py:158
 msgid "A supplier's bill cannot be entered twice"
 msgstr ""
 
@@ -1006,7 +1006,7 @@ msgstr ""
 msgid "A task's page is opened, and each time the task changes."
 msgstr ""
 
-#: onedesk/one_book/ready.py:118
+#: onedesk/one_book/ready.py:149
 msgid "A tax template brings its taxes"
 msgstr ""
 
@@ -2420,11 +2420,11 @@ msgstr ""
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr ""
 
-#: onedesk/one_book/ready.py:121
+#: onedesk/one_book/ready.py:152
 msgid "An invoice or bill made by an import or by OneAI names its tax template and charges no tax."
 msgstr ""
 
-#: onedesk/one_book/ready.py:120
+#: onedesk/one_book/ready.py:151
 msgid "An invoice or bill that names a tax template gets its taxes, however it was made."
 msgstr ""
 
@@ -8167,11 +8167,16 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "End of Service"
+msgstr ""
+
 #: frontend/src/project/Overview.vue:451 onedesk/public/js/settings.js:2987
 msgid "Ended"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:173
+#: onedesk/one_project/agreement.py:177
 msgid "Ended 1 day ago"
 msgstr ""
 
@@ -8180,7 +8185,7 @@ msgstr ""
 msgid "Ended On"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:173
+#: onedesk/one_project/agreement.py:177
 msgid "Ended {0} days ago"
 msgstr ""
 
@@ -8196,7 +8201,7 @@ msgstr ""
 msgid "Ends On"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:177
+#: onedesk/one_project/agreement.py:181
 msgid "Ends in {0} days"
 msgstr ""
 
@@ -8205,11 +8210,11 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:175
+#: onedesk/one_project/agreement.py:179
 msgid "Ends today"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:177
+#: onedesk/one_project/agreement.py:181
 msgid "Ends tomorrow"
 msgstr ""
 
@@ -8236,7 +8241,7 @@ msgstr ""
 msgid "Enter the Cloudflare API token first."
 msgstr ""
 
-#: onedesk/one_book/ready.py:207
+#: onedesk/one_book/ready.py:236
 msgid "Enter the TRN."
 msgstr ""
 
@@ -8513,7 +8518,7 @@ msgstr ""
 msgid "Every week or month, as HR Settings says, when you have holidays coming up."
 msgstr ""
 
-#: onedesk/one_book/ready.py:168
+#: onedesk/one_book/ready.py:199
 msgid "Every year that has ended is closed"
 msgstr ""
 
@@ -9892,7 +9897,7 @@ msgstr ""
 msgid "Get in Touch Form"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:165
+#: onedesk/one_project/agreement.py:169
 msgid "Get the contract signed"
 msgstr ""
 
@@ -11539,7 +11544,7 @@ msgstr ""
 msgid "Invoices carry tax"
 msgstr ""
 
-#: onedesk/one_book/ready.py:151
+#: onedesk/one_book/ready.py:182
 msgid "Invoices carry the company's TRN"
 msgstr ""
 
@@ -14161,7 +14166,7 @@ msgstr ""
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr ""
 
-#: onedesk/one_book/ready.py:274
+#: onedesk/one_book/ready.py:303
 msgid "Name the bank and the account."
 msgstr ""
 
@@ -15134,7 +15139,7 @@ msgstr ""
 msgid "No tax templates, so nothing is charged. Add one if you are registered for VAT."
 msgstr ""
 
-#: onedesk/one_book/ready.py:114
+#: onedesk/one_book/ready.py:116
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr ""
 
@@ -15166,7 +15171,7 @@ msgstr ""
 msgid "No workspace has this yet."
 msgstr ""
 
-#: onedesk/one_book/ready.py:175
+#: onedesk/one_book/ready.py:206
 msgid "No year has ended with entries left open."
 msgstr ""
 
@@ -15194,7 +15199,7 @@ msgstr ""
 msgid "Nobody has it."
 msgstr ""
 
-#: onedesk/one_book/ready.py:136
+#: onedesk/one_book/ready.py:167
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr ""
 
@@ -15590,7 +15595,7 @@ msgstr ""
 msgid "Nothing to do"
 msgstr ""
 
-#: onedesk/one_book/ready.py:238 onedesk/one_inventory/ready.py:145
+#: onedesk/one_book/ready.py:267 onedesk/one_inventory/ready.py:145
 #: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr ""
@@ -18161,11 +18166,11 @@ msgstr ""
 msgid "Pick Lists"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:105
+#: onedesk/one_project/agreement.py:109
 msgid "Pick a contract template for a supplier's contract."
 msgstr ""
 
-#: onedesk/one_project/agreement.py:106
+#: onedesk/one_project/agreement.py:110
 msgid "Pick a contract template, or give {0} its terms and conditions."
 msgstr ""
 
@@ -18177,11 +18182,11 @@ msgstr ""
 msgid "Pick a template."
 msgstr ""
 
-#: onedesk/one_project/agreement.py:39
+#: onedesk/one_project/agreement.py:41
 msgid "Pick one of the suppliers on {0}."
 msgstr ""
 
-#: onedesk/one_project/agreement.py:37
+#: onedesk/one_project/agreement.py:39
 msgid "Pick the customer {0} bills first."
 msgstr ""
 
@@ -20219,7 +20224,7 @@ msgstr ""
 msgid "Renamed to {0}"
 msgstr ""
 
-#: onedesk/one_project/agreement.py:178
+#: onedesk/one_project/agreement.py:182
 msgid "Renew the contract"
 msgstr ""
 
@@ -20968,7 +20973,7 @@ msgstr ""
 msgid "Sales Tax Templates"
 msgstr ""
 
-#: onedesk/one_book/ready.py:159
+#: onedesk/one_book/ready.py:190
 msgid "Sales are reported under the company's emirate."
 msgstr ""
 
@@ -24030,7 +24035,7 @@ msgstr ""
 msgid "The Stripe payment, run or person that caused this entry."
 msgstr ""
 
-#: onedesk/one_book/ready.py:146
+#: onedesk/one_book/ready.py:177
 msgid "The VAT return knows the VAT accounts"
 msgstr ""
 
@@ -24117,7 +24122,7 @@ msgstr ""
 msgid "The bell is always on. These are the channels people may add to it."
 msgstr ""
 
-#: onedesk/one_book/ready.py:174
+#: onedesk/one_book/ready.py:205
 msgid "The books are locked up to {0}."
 msgstr ""
 
@@ -24150,7 +24155,7 @@ msgstr ""
 msgid "The chart of accounts has no equity account to close the year into."
 msgstr ""
 
-#: onedesk/one_book/ready.py:312
+#: onedesk/one_book/ready.py:341
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr ""
 
@@ -24167,11 +24172,11 @@ msgstr ""
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr ""
 
-#: onedesk/one_book/ready.py:155
+#: onedesk/one_book/ready.py:186
 msgid "The company has no TRN, and a UAE tax invoice must show it."
 msgstr ""
 
-#: onedesk/one_book/ready.py:161
+#: onedesk/one_book/ready.py:192
 msgid "The company has no address with an emirate, so the return cannot say where sales were made."
 msgstr ""
 
@@ -24187,7 +24192,7 @@ msgstr ""
 msgid "The company's default bank and every bank mode of payment point at a bank account."
 msgstr ""
 
-#: onedesk/one_book/ready.py:156
+#: onedesk/one_book/ready.py:187
 msgid "The company's emirate is known"
 msgstr ""
 
@@ -24878,11 +24883,11 @@ msgstr ""
 msgid "The role Accounts Settings names"
 msgstr ""
 
-#: onedesk/one_book/ready.py:127
+#: onedesk/one_book/ready.py:158
 msgid "The same supplier invoice number can be entered twice and paid twice."
 msgstr ""
 
-#: onedesk/one_book/ready.py:126
+#: onedesk/one_book/ready.py:157
 msgid "The same supplier invoice number is refused a second time."
 msgstr ""
 
@@ -26352,11 +26357,11 @@ msgstr ""
 msgid "UAE VAT Settings"
 msgstr ""
 
-#: onedesk/one_book/ready.py:150
+#: onedesk/one_book/ready.py:181
 msgid "UAE VAT Settings are empty, so the return's reverse-charge boxes read nought."
 msgstr ""
 
-#: onedesk/one_book/ready.py:148
+#: onedesk/one_book/ready.py:179
 msgid "UAE VAT Settings name the accounts VAT is charged and paid to."
 msgstr ""
 
@@ -31865,7 +31870,7 @@ msgstr ""
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
 
-#: onedesk/one_book/ready.py:171
+#: onedesk/one_book/ready.py:202
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr ""
 
@@ -32037,6 +32042,10 @@ msgstr ""
 
 #: onedesk/public/js/project_actions.js:66
 msgid "{0} is a template."
+msgstr ""
+
+#: onedesk/one_book/ready.py:115
+msgid "{0} is added in a form, but not to one made by One, OneAI or an import."
 msgstr ""
 
 #: onedesk/one_book/ready.py:113

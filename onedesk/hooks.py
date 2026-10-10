@@ -1210,6 +1210,7 @@ one_makes_records = {
 	"Supplier": ["one", "one_book"],
 	"Supplier Quotation": ["one"],
 	"Task": ["one_project", "one_task"],
+	"Tax Rule": ["one_book"],
 	"Terms and Conditions": ["one_project"],
 	"Timesheet": ["one_project", "one_task"],
 	"UAE VAT Settings": ["one_book"],

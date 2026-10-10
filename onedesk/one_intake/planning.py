@@ -36,6 +36,8 @@ def run(name: str, which: str) -> None:
 		wanted = money.plan(said, ctx)
 	else:
 		_payable(ctx, reading)
+		# A task about a bill or a delivery goes in the project it names.
+		ctx["project"] = _project_named(reading) if _supplier(reading) else None
 		wanted = plans.second(said, ctx)
 	made = []
 	for action in wanted:
@@ -270,8 +272,8 @@ def _money(ctx: dict, reading) -> None:
 		return
 	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
 	ctx["locked"] = str(frappe.db.get_value("Company", company, "accounts_frozen_till_date") or "") or None
-	parties = {row.matched_doctype: row.matched_name for row in reading.parties if row.matched_name and (row.score or 0) >= identity.CERTAIN and row.role in ("Sender", "Paid To", "Recipient")}
-	ctx["supplier"] = parties.get("Supplier") or (reading.party_name if reading.party_doctype == "Supplier" else None)
+	parties = _parties(reading)
+	ctx["supplier"] = _supplier(reading)
 	ctx["customer"] = parties.get("Customer") or (reading.party_name if reading.party_doctype == "Customer" else None)
 	ctx["contract_party"] = ("Supplier", ctx["supplier"]) if ctx["supplier"] else (("Customer", ctx["customer"]) if ctx["customer"] else None)
 	# The project a bill is for, when it names one (one_project/intake.py).
@@ -607,6 +609,15 @@ def _taxes_by_rate(company: str) -> dict[float, str]:
 		if row.rate:
 			found.setdefault(round(float(row.rate), 2), row.name)
 	return found
+
+
+def _parties(reading) -> dict:
+	"""The records the document's sender, payee or recipient surely are."""
+	return {row.matched_doctype: row.matched_name for row in reading.parties if row.matched_name and (row.score or 0) >= identity.CERTAIN and row.role in ("Sender", "Paid To", "Recipient")}
+
+
+def _supplier(reading) -> str | None:
+	return _parties(reading).get("Supplier") or (reading.party_name if reading.party_doctype == "Supplier" else None)
 
 
 def _project_named(reading) -> str | None:

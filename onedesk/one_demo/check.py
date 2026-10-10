@@ -111,14 +111,17 @@ def erpnext_statuses_are_all_there():
 	"""The demo reaches every status a person meets, not only the happy path."""
 	wanted = {
 		"Sales Invoice": {"Paid", "Unpaid", "Overdue", "Partly Paid", "Return", "Credit Note Issued"},
-		"Purchase Invoice": {"Paid", "Unpaid"},
-		"Sales Order": {"To Deliver and Bill", "Completed"},
+		"Purchase Invoice": {"Paid", "Unpaid", "Overdue", "Partly Paid", "Return"},
+		"Sales Order": {"To Deliver and Bill", "To Deliver", "To Bill", "Completed"},
+		"Purchase Order": {"To Receive and Bill", "To Receive", "To Bill", "Completed"},
 		"Quotation": {"Open", "Ordered", "Lost"},
 		"Opportunity": {"Open", "Quotation", "Lost"},
 		"Lead": {"Lead", "Replied", "Interested", "Do Not Contact", "Converted", "Opportunity", "Quotation", "Lost Quotation"},
 		"Project": {"Open", "Completed"},
 		"Work Order": {"Completed", "In Process", "Not Started"},
 		"Expense Claim": {"Paid", "Unpaid", "Rejected", "Draft"},
+		"Employee": {"Active", "Left"},
+		"Gratuity": {"Paid"},
 	}
 	missing = {}
 	for doctype, statuses in wanted.items():
@@ -529,7 +532,17 @@ def a_tasks_progress_is_its_checklist():
 
 @check
 def an_internal_project_bills_nobody():
-	project = frappe.db.get_value("Project", {"project_name": "Crescent Schools Window Survey"})
+	"""A customer's project with nothing billed yet, made internal, bills
+	nobody. One with orders or invoices keeps its customer (kinds.settled)."""
+	from onedesk.one_project.kinds import in_use
+
+	project = next(
+		name
+		for name in frappe.get_all(
+			"Project", filters={"customer": ["is", "set"], "status": "Open", "one_kind": ["!=", "Internal"]}, pluck="name", order_by="name"
+		)
+		if not in_use(name)
+	)
 	seen = _each_way("samir@one.test", "Project", project, {"one_kind": "Internal"}, ("customer", "one_markup"))
 	for way, got in seen.items():
 		assert not isinstance(got, Exception), (way, got)
@@ -838,7 +851,7 @@ def onetask_a_task_is_its_peoples_and_ends_as_they_say():
 	for user, may in (("rania@one.test", True), ("samir@one.test", False), ("tariq@one.test", False)):
 		assert bool(frappe.has_permission("Task", "read", doc=own.name, user=user)) == may, user
 	villa_task = frappe.get_all("Task", filters={"project": VILLA, "is_group": 0}, pluck="name", limit=1)[0]
-	for user, may in (("tariq@one.test", True), ("karim@one.test", False), ("omar@one.test", False)):
+	for user, may in (("tariq@one.test", True), ("mariam@one.test", False), ("omar@one.test", False)):
 		assert bool(frappe.has_permission("Task", "read", doc=villa_task, user=user)) == may, user
 
 	with as_user("rania@one.test"):
@@ -1653,9 +1666,12 @@ def oneproject_its_invoices_suppliers_team_and_activity_read_true():
 			own = frappe.get_all(
 				"Payment Schedule",
 				filters={"parent": one.name, "parenttype": doctype, "payment_term": ["not in", HELD]},
-				pluck="due_date",
+				fields=["due_date", "payment_term"],
 			)
-			assert all(date_diff(due, one.posting_date) >= 30 for due in own), (one.name, own)
+			for row in own:
+				# A bill from a supplier with no terms is due on its own date.
+				days = frappe.db.get_value("Payment Term", row.payment_term, "credit_days") if row.payment_term else 0
+				assert date_diff(row.due_date, one.posting_date) >= (days or 0), (one.name, row)
 	held = frappe.get_all(
 		"Payment Schedule",
 		filters={"parent": ["in", ["ACC-SINV-2026-00001", "ACC-PINV-2026-00016"]], "payment_term": ["in", HELD]},
@@ -4635,3 +4651,290 @@ def onetask_a_task_opens_on_its_own_page():
 		else:
 			raise AssertionError("Rania read a task on a project she may not see")
 		assert ai.task_facts(elsewhere).get("error")
+
+
+# ---------------------------------------------------------------- the business, figure by figure (docs/SCENARIOS.md)
+
+#: Cents a figure may be off by, after ERPNext rounds each row.
+CENTS = 0.05
+
+
+def _abroad(party_type: str, party: str) -> bool:
+	"""Whether a customer is billed abroad, or a supplier sells from abroad."""
+	from onedesk.one_demo.masters import ABROAD, EXPORTS
+
+	if party_type == "Supplier":
+		return party in ABROAD
+	from erpnext.accounts.party import get_default_address
+
+	address = get_default_address(party_type, party)
+	return bool(address) and frappe.db.get_value("Address", address, "country") in EXPORTS
+
+
+@check
+def onebook_vat_is_charged_and_returned():
+	"""A sale in the UAE carries 5% VAT and one abroad none, a bill the VAT
+	its supplier charged, and the VAT Return is what they carry, as Huda reads
+	it for the year."""
+	from onedesk.one_book.report.vat_return import vat_return
+
+	wrong, output, input_ = [], 0.0, 0.0
+	for doctype, party_type, party in (("Sales Invoice", "Customer", "customer"), ("Purchase Invoice", "Supplier", "supplier")):
+		for doc in frappe.get_all(doctype, filters={"docstatus": 1, "company": COMPANY}, fields=["name", party, "base_net_total", "base_total_taxes_and_charges", "taxes_and_charges"]):
+			rate = 0 if _abroad(party_type, doc[party]) else 5
+			if not doc.taxes_and_charges or abs(flt(doc.base_total_taxes_and_charges) - flt(doc.base_net_total) * rate / 100) > CENTS:
+				wrong.append((doc.name, doc[party], doc.taxes_and_charges, doc.base_net_total, doc.base_total_taxes_and_charges))
+			if doctype == "Sales Invoice":
+				output += flt(doc.base_total_taxes_and_charges)
+			else:
+				input_ += flt(doc.base_total_taxes_and_charges)
+	assert not wrong, wrong[:5]
+	assert output > 0 and input_ > 0, (output, input_)
+	claims = frappe.db.sql("select ifnull(sum(tax.base_tax_amount), 0) from `tabExpense Taxes and Charges` tax join `tabExpense Claim` claim on claim.name = tax.parent where claim.docstatus = 1")[0][0]
+	with as_user("huda@one.test"):
+		_columns, lines = vat_return.execute({"from_date": f"{getdate(today()).year - 1}-01-01", "to_date": today()})
+	said = {line["line"]: flt(line.get("tax")) for line in lines if line.get("bold")}
+	assert abs(said["Total charged"] - output) <= 1, (said, output)
+	assert abs(said["Total paid"] - (input_ + flt(claims))) <= 1, (said, input_, claims)
+
+
+@check
+def onebook_a_foreign_payment_gains_or_loses_at_its_rate():
+	"""The euro rose in July, so what Nordlicht paid after it brought in more
+	dirhams than its invoice was booked at. Every payment in another currency
+	settles its invoice in full, and the difference from the invoice's rate
+	is a gain or a loss in the books, to the dirham."""
+	# ERPNext books a gain and a loss apart when the company names both.
+	gain_loss = tuple(filter(None, frappe.db.get_value("Company", COMPANY, ["exchange_gain_loss_account", "exchange_gain_account", "exchange_loss_account"])))
+	seen, wrong = 0, []
+	for ref in frappe.db.sql(
+		"""select ref.parent as payment, ref.reference_doctype as doctype, ref.reference_name as invoice,
+			ref.allocated_amount, ref.exchange_rate as booked, pe.payment_type,
+			pe.source_exchange_rate, pe.target_exchange_rate, pe.paid_amount, pe.received_amount
+		from `tabPayment Entry Reference` ref join `tabPayment Entry` pe on pe.name = ref.parent
+		where pe.docstatus = 1 and ref.reference_doctype in ('Sales Invoice', 'Purchase Invoice')
+			and (pe.paid_from_account_currency != pe.paid_to_account_currency)""",
+		as_dict=True,
+	):
+		booked = flt(frappe.db.get_value(ref.doctype, ref.invoice, "conversion_rate"))
+		if ref.payment_type == "Receive":
+			paid_at = flt(ref.received_amount) / flt(ref.paid_amount)
+			difference = flt(ref.allocated_amount) * (paid_at - booked)
+		else:
+			paid_at = flt(ref.paid_amount) / flt(ref.received_amount)
+			difference = flt(ref.allocated_amount) * (booked - paid_at)
+		if abs(difference) < 1:
+			continue
+		seen += 1
+		# ERPNext's Exchange Gain Or Loss entry names the invoice on its party
+		# row and the payment on its gain or loss row.
+		posted = frappe.db.sql(
+			"""select ifnull(sum(gl.credit - gl.debit), 0) from `tabGL Entry` gl
+			where gl.voucher_type = 'Journal Entry' and gl.account in %s and gl.is_cancelled = 0
+				and gl.voucher_no in (select parent from `tabJournal Entry Account` where reference_name = %s)""",
+			(gain_loss, ref.invoice),
+		)[0][0]
+		if abs(flt(posted) - difference) > 1:
+			wrong.append((ref.payment, ref.invoice, round(difference, 2), flt(posted)))
+	assert seen, "no payment was made at a rate other than its invoice's"
+	assert not wrong, wrong
+	nordlicht = frappe.get_all("Sales Invoice", filters={"customer": "Nordlicht GmbH", "docstatus": 1, "status": "Paid"}, pluck="name")
+	assert nordlicht, "Nordlicht's invoice is not paid"
+
+
+@check
+def onebook_what_is_outstanding_is_what_is_left():
+	"""What every invoice and bill still has outstanding is its total less
+	what was paid, credited or debited against it, as its ledger says."""
+	wrong = []
+	for doctype in ("Sales Invoice", "Purchase Invoice"):
+		for doc in frappe.get_all(doctype, filters={"docstatus": 1, "is_return": 0}, fields=["name", "outstanding_amount"]):
+			left = frappe.db.sql(
+				"""select ifnull(sum(amount_in_account_currency), 0) from `tabPayment Ledger Entry`
+				where against_voucher_type = %s and against_voucher_no = %s and delinked = 0""",
+				(doctype, doc.name),
+			)[0][0]
+			if abs(abs(flt(left)) - flt(doc.outstanding_amount)) > CENTS:
+				wrong.append((doc.name, doc.outstanding_amount, left))
+	assert not wrong, wrong[:5]
+
+
+@check
+def oneinventory_broken_glass_goes_back_and_the_bill_is_debited():
+	"""Broken glass found after Gulf Glass's August bill goes back on the
+	receipt, and a debit note takes it off the bill, at the bill's price and
+	its VAT, so what Sahara owes falls by exactly that."""
+	note = frappe.get_all("Purchase Invoice", filters={"is_return": 1, "docstatus": 1, "supplier": "Gulf Glass Industries"}, fields=["name", "return_against", "grand_total"], limit=1)
+	assert note, "no debit note against a bill"
+	note = note[0]
+	bill = frappe.get_doc("Purchase Invoice", note.return_against)
+	returned = frappe.get_doc("Purchase Invoice", note.name)
+	for row in returned.items:
+		billed = next(one for one in bill.items if one.item_code == row.item_code)
+		assert flt(row.rate) == flt(billed.rate), (row.rate, billed.rate)
+	assert abs(flt(returned.grand_total) + flt(sum(-r.amount for r in returned.items)) * 1.05) <= CENTS, returned.grand_total
+	paid = frappe.db.sql(
+		"""select ifnull(sum(allocated_amount), 0) from `tabPayment Entry Reference`
+		where reference_doctype = 'Purchase Invoice' and reference_name = %s and docstatus = 1""",
+		bill.name,
+	)[0][0]
+	# ERPNext keeps a debit note's own outstanding until it is matched to the
+	# bill, so what is owed on the two is read together.
+	owed = flt(bill.outstanding_amount) + flt(frappe.db.get_value("Purchase Invoice", note.name, "outstanding_amount"))
+	assert abs(owed - (flt(bill.grand_total) + flt(note.grand_total) - flt(paid))) <= CENTS, (owed, bill.grand_total, note.grand_total, paid)
+	assert frappe.db.exists("Purchase Receipt", {"is_return": 1, "supplier": "Gulf Glass Industries", "docstatus": 1, "posting_date": [">=", bill.posting_date]})
+
+
+@check
+def oneinventory_the_stock_in_the_books_is_what_the_warehouses_hold():
+	"""What the stock is worth in the books is what the warehouses hold, each
+	warehouse's account against its stock ledger."""
+	from erpnext.stock import get_warehouse_account_map
+
+	held = {}
+	for warehouse, account in get_warehouse_account_map(COMPANY).items():
+		if account.get("account"):
+			held.setdefault(account["account"], 0.0)
+			held[account["account"]] += flt(
+				frappe.db.sql(
+					"select ifnull(sum(stock_value_difference), 0) from `tabStock Ledger Entry` where warehouse = %s and is_cancelled = 0",
+					warehouse,
+				)[0][0]
+			)
+	off = {}
+	for account, value in held.items():
+		booked = flt(frappe.db.sql("select ifnull(sum(debit - credit), 0) from `tabGL Entry` where account = %s and is_cancelled = 0", account)[0][0])
+		if abs(value - booked) > 1:
+			off[account] = (round(value, 2), round(booked, 2))
+	assert held and not off, off
+
+
+@check
+def onecrm_what_was_quoted_is_ordered_delivered_and_invoiced_price_for_price():
+	"""What a customer was quoted is what they ordered, were sent and were
+	invoiced, price for price, and a window sent back is credited at what it
+	sold for."""
+	wrong = []
+	for child, link, source in (
+		("Sales Order Item", "quotation_item", "Quotation Item"),
+		("Delivery Note Item", "so_detail", "Sales Order Item"),
+		("Sales Invoice Item", "so_detail", "Sales Order Item"),
+		("Sales Invoice Item", "dn_detail", "Delivery Note Item"),
+	):
+		for row in frappe.db.sql(
+			f"""select row.parent, row.item_code, row.rate, src.rate as was from `tab{child}` row
+			join `tab{source}` src on src.name = row.{link} where row.docstatus = 1 and row.{link} is not null""",
+			as_dict=True,
+		):
+			if abs(flt(row.rate) - flt(row.was)) > CENTS:
+				wrong.append((child, row.parent, row.item_code, row.rate, row.was))
+	for credit in frappe.get_all("Sales Invoice", filters={"is_return": 1, "docstatus": 1}, fields=["name", "return_against"]):
+		for row in frappe.get_doc("Sales Invoice", credit.name).items:
+			sold = frappe.db.get_value("Sales Invoice Item", {"parent": credit.return_against, "item_code": row.item_code}, "rate")
+			if abs(flt(row.rate) - flt(sold)) > CENTS:
+				wrong.append(("credit", credit.name, row.item_code, row.rate, sold))
+	assert not wrong, wrong[:5]
+
+
+@check
+def oneinventory_what_was_ordered_is_received_and_billed_price_for_price():
+	"""What Karim ordered is what was received and billed, price for price."""
+	wrong = []
+	for child, link in (("Purchase Receipt Item", "purchase_order_item"), ("Purchase Invoice Item", "po_detail")):
+		for row in frappe.db.sql(
+			f"""select row.parent, row.item_code, row.rate, src.rate as was from `tab{child}` row
+			join `tabPurchase Order Item` src on src.name = row.{link} where row.docstatus = 1 and row.{link} is not null""",
+			as_dict=True,
+		):
+			if abs(flt(row.rate) - flt(row.was)) > CENTS:
+				wrong.append((child, row.parent, row.item_code, row.rate, row.was))
+	assert not wrong, wrong[:5]
+
+
+@check
+def onehr_each_payslip_adds_up_and_the_payroll_posts_it():
+	"""Each payslip's net pay is its earnings less its deductions, and each
+	payroll posts what its slips owe the people on them."""
+	wrong = []
+	for slip in frappe.get_all("Salary Slip", filters={"docstatus": 1}, fields=["name", "gross_pay", "total_deduction", "net_pay", "payroll_entry"]):
+		doc = frappe.get_doc("Salary Slip", slip.name)
+		earned = sum(flt(row.amount) for row in doc.earnings if not row.do_not_include_in_total)
+		taken = sum(flt(row.amount) for row in doc.deductions if not row.do_not_include_in_total)
+		if abs(earned - flt(slip.gross_pay)) > CENTS or abs(taken - flt(slip.total_deduction)) > CENTS or abs(flt(slip.gross_pay) - flt(slip.total_deduction) - flt(slip.net_pay)) > CENTS:
+			wrong.append((slip.name, earned, slip.gross_pay, taken, slip.total_deduction, slip.net_pay))
+	assert not wrong, wrong[:5]
+	payable = frappe.db.get_value("Company", COMPANY, "default_payroll_payable_account")
+	for entry in frappe.get_all("Payroll Entry", filters={"docstatus": 1}, pluck="name"):
+		owed = frappe.db.sql("select ifnull(sum(net_pay), 0) from `tabSalary Slip` where payroll_entry = %s and docstatus = 1", entry)[0][0]
+		posted = frappe.db.sql(
+			"""select ifnull(sum(row.credit_in_account_currency - row.debit_in_account_currency), 0)
+			from `tabJournal Entry Account` row join `tabJournal Entry` je on je.name = row.parent
+			where je.docstatus = 1 and row.reference_type = 'Payroll Entry' and row.reference_name = %s
+				and row.account = %s and je.voucher_type != 'Bank Entry'""",
+			(entry, payable),
+		)[0][0]
+		assert abs(flt(owed) - flt(posted)) <= 1, (entry, owed, posted)
+
+
+@check
+def onehr_leave_taken_comes_off_what_is_left():
+	"""What each person has left of a kind of leave is what they were given
+	less the days approved, as the leave form reads it."""
+	from hrms.hr.doctype.leave_application.leave_application import get_leave_balance_on
+
+	year_end = getdate(f"{getdate(today()).year}-12-31")
+	checked = 0
+	for allocation in frappe.get_all("Leave Allocation", filters={"docstatus": 1}, fields=["employee", "leave_type", "total_leaves_allocated", "from_date", "to_date"]):
+		taken = frappe.db.sql(
+			"""select ifnull(sum(total_leave_days), 0) from `tabLeave Application`
+			where employee = %s and leave_type = %s and status = 'Approved' and docstatus = 1
+				and from_date between %s and %s""",
+			(allocation.employee, allocation.leave_type, allocation.from_date, allocation.to_date),
+		)[0][0]
+		left = get_leave_balance_on(allocation.employee, allocation.leave_type, min(year_end, getdate(allocation.to_date)))
+		assert abs(flt(left) - (flt(allocation.total_leaves_allocated) - flt(taken))) <= 0.01, (allocation, taken, left)
+		checked += bool(taken)
+	assert checked >= 2, "nobody has taken leave"
+
+
+@check
+def onehr_a_leaver_is_paid_their_end_of_service():
+	"""Joseph resigned after four years and worked to the end of last month.
+	He is no longer on the payroll, and his end of service is the UAE rule on
+	resigning between three and five years, 14 days of basic pay a year,
+	worked out from his last payslip and paid by the books."""
+	from onedesk.one_demo.hr import LEAVER, RESIGNED
+
+	employee = frappe.get_doc("Employee", _employee(LEAVER))
+	assert employee.status == "Left" and employee.relieving_date, (employee.status, employee.relieving_date)
+	assert not frappe.db.exists("Salary Slip", {"employee": employee.name, "start_date": [">", employee.relieving_date], "docstatus": 1})
+	gratuity = frappe.get_doc("Gratuity", {"employee": employee.name, "docstatus": 1})
+	assert gratuity.gratuity_rule == RESIGNED
+	years = round(date_diff(employee.relieving_date, employee.date_of_joining) / 365)
+	slip = frappe.db.get_value("Salary Slip", {"employee": employee.name, "docstatus": 1}, "name", order_by="start_date desc")
+	basic = sum(flt(row.default_amount) for row in frappe.get_doc("Salary Slip", slip).earnings if row.salary_component == "Basic Salary")
+	assert 3 <= years < 5 and flt(gratuity.current_work_experience) == years, (years, gratuity.current_work_experience)
+	assert abs(flt(gratuity.amount) - basic * years * 14 / 30) <= 1, (gratuity.amount, basic, years)
+	assert gratuity.status == "Paid" and flt(gratuity.paid_amount) == flt(gratuity.amount), (gratuity.status, gratuity.paid_amount)
+	booked = frappe.db.sql(
+		"select ifnull(sum(debit - credit), 0) from `tabGL Entry` where voucher_no = %s and account = %s and is_cancelled = 0",
+		(gratuity.name, gratuity.expense_account),
+	)[0][0]
+	assert abs(flt(booked) - flt(gratuity.amount)) <= CENTS, booked
+
+
+@check
+def onehr_an_expense_claim_paid_is_what_the_books_and_project_carry():
+	"""A claim paid back is paid what was approved, and a project carries the
+	claims approved on it."""
+	wrong = []
+	for claim in frappe.get_all("Expense Claim", filters={"docstatus": 1, "status": "Paid"}, fields=["name", "grand_total", "total_amount_reimbursed"]):
+		if abs(flt(claim.grand_total) - flt(claim.total_amount_reimbursed)) > CENTS:
+			wrong.append(claim)
+	assert not wrong, wrong
+	for project in frappe.get_all("Expense Claim", filters={"docstatus": 1, "approval_status": "Approved", "project": ["is", "set"]}, pluck="project", distinct=True):
+		approved = frappe.db.sql(
+			"select ifnull(sum(total_sanctioned_amount), 0) from `tabExpense Claim` where project = %s and docstatus = 1 and approval_status = 'Approved'",
+			project,
+		)[0][0]
+		assert abs(flt(frappe.db.get_value("Project", project, "total_expense_claim")) - flt(approved)) <= CENTS, (project, approved)

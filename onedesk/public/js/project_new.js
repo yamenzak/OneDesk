@@ -90,20 +90,21 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				mandatory_depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 			},
 			// What's agreed with the customer, carried onto its quotations,
-			// orders and invoices (one_project/terms.py).
+			// orders and invoices (one_project/terms.py). A sub-project bills on
+			// the job it is part of, so it asks for neither.
 			{
 				fieldtype: "Link",
 				fieldname: "payment_terms",
 				label: __("Payment Terms"),
 				options: "Payment Terms Template",
-				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
+				depends_on: `eval:!doc.parent && ${JSON.stringify(["Fixed Price", "Time and Materials", "Retainer"])}.includes(doc.kind)`,
 			},
 			{
 				fieldtype: "Link",
 				fieldname: "terms",
 				label: __("Terms and Conditions"),
 				options: "Terms and Conditions",
-				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
+				depends_on: `eval:!doc.parent && ${JSON.stringify(["Fixed Price", "Time and Materials", "Retainer"])}.includes(doc.kind)`,
 			},
 			// The contract and the fee are agreed in the customer's own currency.
 			{ fieldtype: "Link", fieldname: "currency", options: "Currency", hidden: 1 },
@@ -217,7 +218,8 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 								.then(async (found) => {
 									if (mine !== asked) return;
 									await step.form.set_value("currency", found.currency || frappe.defaults.get_default("currency"));
-									await step.form.set_values({ payment_terms: found.payment_terms || "", terms: found.terms || "" });
+									if (!step.get_value("parent"))
+										await step.form.set_values({ payment_terms: found.payment_terms || "", terms: found.terms || "" });
 									if (found.retention && !step.get_value("retention"))
 										await step.form.set_values({ retention: found.retention, retention_handover: found.retention_handover || 0 });
 								});

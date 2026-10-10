@@ -109,9 +109,40 @@ def _tax(one, doctype: str, key: str, check: str) -> dict:
 	if not templates:
 		return _row(key, check, READY, _("No tax templates, so nothing is charged. Add one if you are registered for VAT."))
 	default = next((template.name for template in templates if template.is_default), None)
-	if default:
+	if default and ruled(one.name, doctype, default):
 		return _row(key, check, READY, _("{0} is added unless somebody picks another.").format(default))
+	if default:
+		return _row(key, check, SUGGESTED, _("{0} is added in a form, but not to one made by One, OneAI or an import.").format(default), key)
 	return _row(key, check, SUGGESTED, _("No template is the default, so nothing is charged unless somebody picks one."), key)
+
+
+#: The side of a Tax Rule each kind of template is, and the rule's field for it.
+SIDES = {
+	"Sales Taxes and Charges Template": ("Sales", "sales_tax_template"),
+	"Purchase Taxes and Charges Template": ("Purchase", "purchase_tax_template"),
+}
+
+
+def ruled(company: str, doctype: str, template: str) -> bool:
+	"""Whether a Tax Rule names the template."""
+	side, field = SIDES[doctype]
+	return bool(frappe.db.exists("Tax Rule", {"company": company, "tax_type": side, field: template}))
+
+
+def charge(company: str, doctype: str, template: str) -> None:
+	"""The template on every new invoice or bill, however it is made. A form
+	takes the default template, but one made on the server, by Invoice Time,
+	OneAI, Intake or an import, takes only what a Tax Rule names
+	(erpnext/accounts/party.py `set_taxes`). So the default gets a rule with
+	no conditions too, which any rule for a country or a group outranks."""
+	doc = frappe.get_doc(doctype, template)
+	if not doc.is_default:
+		doc.is_default = 1
+		doc.save()
+	if ruled(company, doctype, template):
+		return
+	side, field = SIDES[doctype]
+	frappe.get_doc({"doctype": "Tax Rule", "company": company, "tax_type": side, field: template, "priority": 1}).insert()
 
 
 def _template_taxes() -> dict:
@@ -190,9 +221,7 @@ def fix(key: str, **values) -> None:
 			wire(one.name, found[0].account)
 	elif key in ("sales_tax", "purchase_tax"):
 		doctype = "Sales Taxes and Charges Template" if key == "sales_tax" else "Purchase Taxes and Charges Template"
-		template = frappe.get_doc(doctype, values.get("template"))
-		template.is_default = 1
-		template.save()
+		charge(one.name, doctype, values.get("template"))
 	elif key == "bills":
 		frappe.db.set_single_value("Accounts Settings", "check_supplier_invoice_uniqueness", 1)
 	elif key == "template_taxes":

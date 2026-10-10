@@ -21,6 +21,7 @@ def run(password=None):
 		_hiring()
 		_onboarding()
 		_payroll()
+		_leaving()
 	_claims()
 	with as_user(HR):
 		_interview()
@@ -112,6 +113,62 @@ def _payroll():
 		entry.submit_salary_slips()
 
 
+#: Who resigns, and the UAE rule his end of service is worked out by.
+LEAVER = "Joseph"
+RESIGNED = "Rule Under Unlimited Contract on resignation (UAE)"
+
+
+def _leaving():
+	"""Joseph resigns after four years in the workshop and works to the end
+	of last month, paid for it in its payroll. His end of service is the UAE
+	rule on resignation: 14 days of basic pay for each year between three and
+	five. HRMS ships the rule counting no pay at all, so the people officer
+	first says basic pay counts. The books keep the account it is spent from,
+	and pay him."""
+	from hrms.overrides.employee_payment_entry import get_payment_entry_for_employee
+
+	employee = _employee(LEAVER)
+	if frappe.db.exists("Gratuity", {"employee": employee, "docstatus": 1}):
+		return
+	for rule in frappe.get_all("Gratuity Rule", filters={"name": ["like", "%(UAE)"]}, pluck="name"):
+		doc = frappe.get_doc("Gratuity Rule", rule)
+		if not doc.applicable_earnings_component:
+			doc.append("applicable_earnings_component", {"salary_component": "Basic Salary"})
+			doc.save()
+	last = get_last_day(add_months(today(), -1))
+	worker = frappe.get_doc("Employee", employee)
+	worker.resignation_letter_date = add_days(last, -30)
+	worker.relieving_date = last
+	worker.reason_for_leaving = "Moving back home"
+	worker.save()
+	with as_user(ACCOUNTS):
+		parent = frappe.db.get_value("Account", {"company": COMPANY, "account_name": "Indirect Expenses", "is_group": 1})
+		expense = frappe.db.get_value("Account", {"company": COMPANY, "account_name": "End of Service Benefits"}) or make(
+			{"doctype": "Account", "account_name": "End of Service Benefits", "parent_account": parent, "company": COMPANY, "account_type": "Expense Account"}
+		).name
+	gratuity = frappe.new_doc("Gratuity")
+	gratuity.update(
+		{
+			"employee": employee,
+			"company": COMPANY,
+			"gratuity_rule": RESIGNED,
+			"expense_account": expense,
+			"payable_account": _payable(),
+			"cost_center": frappe.db.get_value("Company", COMPANY, "cost_center"),
+			"pay_via_salary_slip": 0,
+		}
+	)
+	dated(gratuity, last)
+	gratuity = save(gratuity, submit=True)
+	with as_user(ACCOUNTS):
+		paid = get_payment_entry_for_employee("Gratuity", gratuity.name)
+		on_day = min(add_days(last, 5), today())
+		paid.reference_no = f"EOSB-{gratuity.name[-5:]}"
+		paid.reference_date = on_day
+		dated(paid, on_day)
+		save(paid, submit=True)
+
+
 def _leave():
 	year_starts, year_ends = on(1, 1), getdate(f"{today().year}-12-31")
 	for first, *_rest in PEOPLE:
@@ -135,7 +192,7 @@ def _leave():
 		("Rania", "Privilege Leave", on(4, 13), 5, True),
 		("Arun", "Sick Leave", on(6, 8), 2, True),
 		("Nadia", "Privilege Leave", on(8, 3), 10, True),
-		("Joseph", "Privilege Leave", ago(4), 3, True),
+		("Sanjay", "Privilege Leave", ago(4), 3, True),
 		("Omar", "Privilege Leave", ahead(12), 6, None),
 		("Yousef", "Sick Leave", ago(1), 1, None),
 		("Karim", "Privilege Leave", ahead(30), 4, False),
@@ -203,6 +260,9 @@ def _attendance():
 		for i, first in enumerate(workshop):
 			employee = _employee(first)
 			if frappe.db.exists("Attendance", {"employee": employee, "attendance_date": day}):
+				continue
+			# Nobody comes in after their last day.
+			if first == LEAVER and getdate(day) > get_last_day(add_months(today(), -1)):
 				continue
 			# A day somebody asked off is not marked here: hrms refuses any
 			# answer to a leave application over a day marked present.

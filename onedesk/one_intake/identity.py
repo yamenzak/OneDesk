@@ -192,6 +192,11 @@ def who(raw: str) -> list[dict]:
 	return out
 
 
+#: What a contact speaks for without being it: a project it is a contact
+#: on (one_project/contacts.py) is its customer's.
+SPOKEN_FOR = ("Project",)
+
+
 def entities(doctype: str, name: str) -> list[tuple[str, str]]:
 	"""What a holder stands for: a Contact stands for the parties it is linked
 	to, and for itself when it is linked to none."""
@@ -199,7 +204,7 @@ def entities(doctype: str, name: str) -> list[tuple[str, str]]:
 		return [(doctype, name)]
 	links = frappe.get_all(
 		"Dynamic Link",
-		filters={"parenttype": "Contact", "parent": name},
+		filters={"parenttype": "Contact", "parent": name, "link_doctype": ["not in", SPOKEN_FOR]},
 		fields=["link_doctype", "link_name"],
 	)
 	return [(one.link_doctype, one.link_name) for one in links] or [(doctype, name)]

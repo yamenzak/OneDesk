@@ -1,13 +1,13 @@
 """Selling products, apart from the projects: orders delivered and invoiced
 and paid, one in pounds, one still to deliver, a window sent back and credited,
-two sample windows sent to New York in dollars, and a survey fee nobody has
-paid."""
+two sample windows sent to New York in dollars, balustrades delivered and not
+yet invoiced, and a survey fee nobody has paid."""
 
 import frappe
 from frappe.utils import add_days
 
 from onedesk.one_book.currency import bill_in
-from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, save, today, wh
+from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, rated, save, today, wh
 
 SALES = "omar@one.test"
 ACCOUNTS = "huda@one.test"
@@ -31,6 +31,9 @@ def run(password=None):
 		_invoice(_deliver(samples, on(8, 20)), on(8, 20))
 
 		_order("Marina Hotels Group", ago(18), (("BAL-GL", 30, 1420), ("SVC-INST", 40, 180)), delivery=ahead(12))
+
+		railings = _order("Gulf Properties REIT", ago(25), (("BAL-GL", 12, 1420),))
+		_deliver(railings, ago(6))
 
 		fee = frappe.new_doc("Sales Invoice")
 		fee.customer = "Palm Interiors"
@@ -100,4 +103,4 @@ def _pay(invoice, date):
 		dated(payment, date)
 		payment.reference_no = f"RCPT-{invoice.name[-6:]}"
 		payment.reference_date = date
-		save(payment, submit=True)
+		save(rated(payment), submit=True)

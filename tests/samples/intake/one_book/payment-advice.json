@@ -9,7 +9,7 @@
   "intake_read": {
    "kind": "Payment Advice",
    "title": "Payment for ACC-SINV-2026-00016",
-   "summary": "Marina Hotels Group paid invoice ACC-SINV-2026-00016, AED 12,000.00, on 6 October 2026.",
+   "summary": "Marina Hotels Group paid invoice ACC-SINV-2026-00016, AED 12,600.00, on 6 October 2026.",
    "language": "en",
    "number": "MHG-PAY-88412",
    "issued": "2026-10-06",
@@ -18,7 +18,7 @@
     "currency": "AED",
     "net": null,
     "tax": null,
-    "gross": 12000.0,
+    "gross": 12600.0,
     "paid_how": "transfer",
     "iban": null,
     "reference": "MHG-PAY-88412"

@@ -67,10 +67,16 @@ def started(doc, method=None) -> None:
 	with what `defaults` gives, however it is made (the form, a Sales Order's
 	Create › Project, Data Import). What the New Project dialog asked for is
 	kept as it was answered (`flags.one_terms_given`). An internal project
-	bills nobody, so it starts with none."""
+	bills nobody, so it starts with none, and a sub-project is billed as the
+	job it is part of (`of`), so it starts with none of its own."""
 	from onedesk.one_project import kinds
 
-	if not doc.is_new() or doc.flags.get("one_terms_given") or doc.get("one_kind") == kinds.INTERNAL:
+	if (
+		not doc.is_new()
+		or doc.flags.get("one_terms_given")
+		or doc.get("one_kind") == kinds.INTERNAL
+		or doc.get("one_parent")
+	):
 		return
 	agreed = defaults(doc.get("customer"), doc.get("project_template"), doc.get("company"))
 	doc.one_payment_terms = doc.get("one_payment_terms") or agreed["payment_terms"]

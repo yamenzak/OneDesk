@@ -1,13 +1,14 @@
 """Buying, the whole way round: a material request when stock runs low, a
 request for quotation to two suppliers, their quotes, the order to the
 cheaper one, the delivery received, the bill and its payment; glass
-returned broken; hardware bought in euros; and the office's monthly supplies,
-one bill still unpaid."""
+returned broken; more broken glass found after the bill, sent back and
+debited; hardware bought in euros; seals received and not yet billed; and the
+office's monthly supplies, one bill still unpaid."""
 
 import frappe
 from frappe.utils import add_days, flt
 
-from onedesk.one_demo.base import COMPANY, as_user, dated, on, save, today, wh
+from onedesk.one_demo.base import COMPANY, ago, as_user, dated, on, rated, save, today, wh
 
 BUYER = "karim@one.test"
 ACCOUNTS = "huda@one.test"
@@ -20,15 +21,16 @@ def run(password=None):
 		_round(on(3, 2), (("ALU-6063", 1500), ("SEAL-EPDM", 2000)), ("Al Noor Aluminium", "Gulf Glass Industries"), "Al Noor Aluminium", paid=True)
 		_round(on(4, 6), (("GLS-DGU", 300), ("GLS-TMP10", 120)), ("Gulf Glass Industries", "Al Noor Aluminium"), "Gulf Glass Industries", paid=True, broken=("GLS-DGU", 6))
 		_round(on(6, 3), (("ALU-6063", 1800), ("FIX-ANCH", 800), ("SIL-CLR", 150)), ("Al Noor Aluminium",), "Al Noor Aluminium", paid=True)
-		_round(on(8, 18), (("GLS-DGU", 260), ("GLS-TMP10", 60)), ("Gulf Glass Industries",), "Gulf Glass Industries", paid=False)
+		_round(on(8, 18), (("GLS-DGU", 260), ("GLS-TMP10", 60)), ("Gulf Glass Industries",), "Gulf Glass Industries", paid=False, debited=("GLS-DGU", 4))
 		_order("Euro Hardware Trading", on(5, 11), (("HW-HINGE", 400, 8.6), ("HW-HANDLE", 300, 5.2), ("HW-LOCK", 90, 21)), currency="EUR", paid=True)
 		_order("Euro Hardware Trading", on(9, 2), (("HW-HINGE", 300, 8.6), ("HW-LOCK", 60, 21)), currency="EUR", paid=False, receive=False)
+		_order("Al Noor Aluminium", ago(30), (("SEAL-EPDM", 600, 4.5),), paid=False, bill=False)
 	with as_user(ACCOUNTS):
 		for month in range(1, today().month + 1):
 			_supplies(on(month, 5), paid=month < today().month)
 
 
-def _round(date, lines, asked, chosen, paid, broken=None):
+def _round(date, lines, asked, chosen, paid, broken=None, debited=None):
 	from erpnext.buying.doctype.request_for_quotation.mapper import make_supplier_quotation_from_rfq
 	from erpnext.buying.doctype.supplier_quotation.mapper import make_purchase_order
 	from erpnext.stock.doctype.material_request.mapper import make_request_for_quotation
@@ -64,10 +66,10 @@ def _round(date, lines, asked, chosen, paid, broken=None):
 		row.schedule_date = order.schedule_date
 		row.warehouse = wh("Stores")
 	save(order, submit=True)
-	_receive_and_bill(order, add_days(date, 15), paid, broken)
+	_receive_and_bill(order, add_days(date, 15), paid, broken, debited=debited)
 
 
-def _order(supplier, date, lines, currency=None, paid=True, receive=True):
+def _order(supplier, date, lines, currency=None, paid=True, receive=True, bill=True):
 	order = frappe.new_doc("Purchase Order")
 	order.supplier = supplier
 	order.company = COMPANY
@@ -79,10 +81,10 @@ def _order(supplier, date, lines, currency=None, paid=True, receive=True):
 		order.append("items", {"item_code": code, "qty": qty, "rate": rate, "schedule_date": order.schedule_date, "warehouse": wh("Stores")})
 	save(order, submit=True)
 	if receive:
-		_receive_and_bill(order, add_days(date, 21), paid)
+		_receive_and_bill(order, add_days(date, 21), paid, bill=bill)
 
 
-def _receive_and_bill(order, date, paid, broken=None):
+def _receive_and_bill(order, date, paid, broken=None, debited=None, bill=True):
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
 	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_invoice, make_purchase_return
 
@@ -100,6 +102,8 @@ def _receive_and_bill(order, date, paid, broken=None):
 			row.qty = -qty
 			row.received_qty = -qty
 		save(back, submit=True)
+	if not bill:
+		return
 	bill = make_purchase_invoice(receipt.name)
 	dated(bill, add_days(date, 2))
 	bill.bill_no = f"{order.supplier[:3].upper()}-{order.name[-5:]}"
@@ -108,8 +112,31 @@ def _receive_and_bill(order, date, paid, broken=None):
 	for row in bill.get("payment_schedule") or []:
 		row.due_date = bill.due_date
 	bill = save(bill, submit=True)
+	if debited:
+		_debit(receipt, bill, *debited, add_days(bill.posting_date, 3))
 	if paid:
 		_pay(bill, add_days(bill.posting_date, 25))
+
+
+def _debit(receipt, bill, code, qty, date):
+	"""Broken units found after the bill: they go back on the receipt, and the
+	supplier's bill is debited for them."""
+	from erpnext.accounts.doctype.purchase_invoice.mapper import make_debit_note
+	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_return
+
+	if date > today():
+		return
+	for back in (make_purchase_return(receipt.name), make_debit_note(bill.name)):
+		dated(back, date)
+		back.items = [row for row in back.items if row.item_code == code]
+		for row in back.items:
+			row.qty = -qty
+			if back.doctype == "Purchase Receipt":
+				row.received_qty = -qty
+		if back.doctype == "Purchase Invoice":
+			back.bill_no = f"{bill.bill_no}-DN"
+			back.payment_schedule = []
+		save(back, submit=True)
 
 
 def _supplies(date, paid):
@@ -138,4 +165,4 @@ def _pay(invoice, date):
 		dated(payment, date)
 		payment.reference_no = f"PAY-{invoice.name[-6:]}"
 		payment.reference_date = date
-		save(payment, submit=True)
+		save(rated(payment), submit=True)

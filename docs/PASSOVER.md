@@ -337,6 +337,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done |
 | Shell | Timers: the tile, the popover, pause | done |
 | OneProject, OneTask | Reports in the rail: ERPNext's and HRMS's project and task reports | done |
+| Demo | The business, figure by figure (`docs/SCENARIOS.md`): VAT, a late euro payment, a debit note, stock against the books, prices carried, payslips, leave, a leaver's end of service | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -10162,6 +10163,84 @@ Fixed:
 - Employee Hours Utilization stays off. Workload replaced it.
 - **Demo (1)**: `oneproject_and_onetask_reports_open_for_their_people` runs
   every one as Samir and checks Mariam is not offered Task Delays.
+
+### The business, figure by figure
+
+Your word: "does our demo data with its tests cover the business aspects
+scenarios", then "Maybe write and do".
+
+`docs/SCENARIOS.md` lists what a business does with One, as stories, each with
+the check that reads its figures back. This first batch checks OneBook,
+OneInventory, selling and OneHR.
+
+Found:
+
+- **Works (1, 2)**: no invoice or bill in the demo carried VAT, so the VAT
+  return read nothing. Behind it a product gap. ERPNext's default tax
+  template only reaches an invoice made in its form. Invoice Time, Invoice
+  Month, Bill Progress, OneAI, Intake and imports made invoices with no VAT
+  at all.
+- **Works (1)**: every euro payment was at its invoice's rate, so no gain or
+  loss ever reached the books. A backdated invoice also took today's rate.
+- **Works (1)**: nobody had left the company, broken glass went back on the
+  receipt but the bill was never debited, and no order sat at To Bill.
+- **Permissions (15)**: HRMS lets nobody submit a Gratuity, the accounts team
+  could not open one to pay it, and End of Service had no place in OneHR.
+- **Works (1)**: HRMS's UAE gratuity rules count no pay, so every gratuity
+  stopped with an error until a pay component is added.
+- **Works (3)**: Draw Up Contract on an extra-work sub-project stopped, since
+  it read only the sub-project's own terms.
+- **Works (3)**: a sub-project started with terms of its own since starting
+  terms came in, so it no longer billed on the job it is part of.
+- **Works (14)**: a customer's contact listed on a project stood for the
+  project too, so Intake could not tell whose payment advice it read and
+  made no payment.
+- **Works (14)**: Intake's task about a bill never went in the project the
+  bill named. Only the pass that drafts the bill looked the project up.
+- **Works (1)**: the demo had not been built from nothing since 7 October.
+  A fresh build stopped on the demo's own tag (frappe now asks for write on
+  the record), and five checks assumed things that later work changed.
+
+Fixed:
+
+- **Invoices carry tax** in the Books Check now makes a Tax Rule for the
+  template it sets, so every invoice and bill gets its VAT however it is made.
+  The row asks again while no rule names the template.
+- The demo charges 5% VAT in the UAE and none abroad, has a euro rate from
+  July, prices a backdated document at its own day's rate, pays at the day's
+  rate, debits Gulf Glass's bill, keeps an order at To Bill and one at To
+  Deliver, and has Joseph resign and be paid his end of service.
+- **End of Service** sits under Joining & Leaving in OneHR. HR Users and HR
+  Managers may submit one, once, so a change in Access stands. Accounts read
+  it to pay it.
+- Draw Up Contract takes a sub-project's terms from the job it is part of
+  (`terms.of`).
+- A sub-project starts with no terms of its own, so it bills on its parent's,
+  and the New Sub-project dialog no longer asks for them.
+- Intake's task pass looks up the project the document names, as the bill's
+  pass does.
+- Somebody given a project's task by OneAI or Intake joins the project even
+  though OneAI may not share it. ERPNext shares a project with a new member
+  as whoever saves it (`members.join`).
+- A contact stands for its parties in Intake's matching, not for a project
+  it is a contact on (`identity.SPOKEN_FOR`).
+- The checks that assumed too much read what is so: the internal-project
+  check takes a project with nothing billed, a task's outsider is Mariam, a
+  bill with no terms is due on its own date, a debit note and its bill are
+  read together, and a gain is found on ERPNext's own gain and loss
+  accounts.
+- The demo's tag is added as Administrator, since frappe now asks for write
+  on the record and the tag is the demo's bookkeeping, not the person's.
+- Twelve checks read the figures back. VAT charged and returned, a gain or
+  loss at the payment's rate, outstanding against the ledger, the debit
+  note, stock against the books, prices quote to invoice and order to bill,
+  payslips and the payroll, leave balances, the leaver's gratuity, an
+  expense claim, and every ERPNext status for bills, orders, employees and
+  gratuities.
+
+Later, in `docs/SCENARIOS.md`: reverse charge on bills from abroad, OneHR
+asking which pay counts towards gratuity, bank matching, aging and monthly
+profit and loss.
 
 ## OneLegal
 

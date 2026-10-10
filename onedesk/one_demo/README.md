@@ -17,18 +17,18 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 
 | Step | What it makes |
 |---|---|
-| setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds |
+| setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
 | people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
-| masters | 10 customers and 9 suppliers in four currencies, 23 items, prices, activity types, asset categories |
+| masters | 10 customers and 9 suppliers in four currencies, 23 items, prices, activity types, asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
 | stock | The stock the year opened with |
-| buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, euro orders |
+| buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, broken glass sent back with a debit note on its bill, euro orders, an order received and not billed |
 | making | Bills of materials and work orders, finished, half done, started and not yet started |
 | crm | Leads from every source in every status, deals at every stage in three currencies, calls, quotations won and lost, a lead turned customer, two leads from the Get in Touch form with nobody owning them, one maybe a lead we have |
 | projects | Ten projects of every kind, with the 25-task template, contracts, progress billing, retention, advances, subcontracts, budgets, time, retainers, extra work |
-| selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee |
+| selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee, an order delivered and not invoiced |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
 | books | The bank account, opening balances, rent and utilities each month. A tax template brings its taxes (the Books Check) |
-| hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter |
+| hr | Pay, three payroll runs, leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
@@ -81,6 +81,11 @@ against ERPNext's own records. It writes nothing.
   report view cell or a Data Import row, as the person who would change it.
   A project with open work is not closed, an internal project bills nobody,
   the books lock up to today at most, and nobody is turned on past the seats.
+- The figures add up, as docs/SCENARIOS.md tells them. The VAT return is the
+  invoices' and bills' tax, a late euro payment gains or loses, what is
+  outstanding is what is left, the stock is what the books hold, prices carry
+  from quote to invoice, payslips add up, leave comes off what is left, and a
+  leaver's gratuity follows the UAE rule.
 - Every notification file is on Settings › Notifications.
 - Every paper that leaves the company prints with One's format, as the owner
   prints it, under the company's letter head and in its colour.

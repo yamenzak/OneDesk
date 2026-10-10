@@ -2,6 +2,7 @@
 questions answered, then the settings a contractor's books and stock want."""
 
 import frappe
+from frappe.utils import getdate
 
 from onedesk.one_demo.base import ABBR, COMPANY, CURRENCY, today
 
@@ -58,6 +59,21 @@ def settle():
 					"for_selling": 1,
 				}
 			).insert()
+	# The euro rose in the summer, so a euro invoice paid after it brings in
+	# more dirhams than it was booked at, and a euro bill costs more.
+	rose = getdate(f"{today().year}-07-20")
+	if rose <= today() and not frappe.db.exists("Currency Exchange", {"from_currency": "EUR", "date": rose}):
+		frappe.get_doc(
+			{
+				"doctype": "Currency Exchange",
+				"date": rose,
+				"from_currency": "EUR",
+				"to_currency": CURRENCY,
+				"exchange_rate": 4.05,
+				"for_buying": 1,
+				"for_selling": 1,
+			}
+		).insert()
 	last_years()
 	frappe.db.set_single_value("Stock Settings", "allow_negative_stock", 0)
 	frappe.db.set_single_value("Selling Settings", "so_required", "No")

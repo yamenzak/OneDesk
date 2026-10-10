@@ -543,7 +543,9 @@ Workspace.
   an Address's email as its parties'. Rows are Dynamic Links, so Frappe's
   rename and merge carry them; there is no unique index because a merge would
   trip it half way, and `renamed` folds the doubles after. `match` says which
-  records a document's identifiers point at and how surely, `ours` recognises
+  records a document's identifiers point at and how surely (a contact stands
+  for the parties it is linked to, not a project it is a contact on, which is
+  its customer's), `ours` recognises
   the workspace itself and its people, and `fold` is the merge OneCRM's lead
   merge uses too.
 

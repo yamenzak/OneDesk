@@ -12,6 +12,8 @@ import frappe
 from frappe import _
 from frappe.utils import getdate, nowdate
 
+from onedesk.one_project import terms
+
 #: How many days before a signed contract ends that Needs You says so.
 ENDING = 30
 
@@ -90,17 +92,19 @@ def suppliers(project: str) -> list[str]:
 
 def _wording(contract, project, template: str | None) -> str:
 	"""The template's wording as ERPNext's form fills it in, or else, with the
-	customer, the project's terms and conditions."""
+	customer, the project's terms and conditions, a sub-project's from the job
+	it is part of (terms.of)."""
 	if template:
 		from erpnext.crm.doctype.contract_template.contract_template import get_contract_template
 
 		said = get_contract_template(template, contract.as_dict()).get("contract_terms")
 		if said:
 			return said
-	if contract.party_type == "Customer" and project.get("one_terms"):
+	conditions = terms.of(project.name)[1] if contract.party_type == "Customer" else None
+	if conditions:
 		from erpnext.setup.doctype.terms_and_conditions.terms_and_conditions import get_terms_and_conditions
 
-		return get_terms_and_conditions(project.one_terms, contract.as_dict())
+		return get_terms_and_conditions(conditions, contract.as_dict())
 	if contract.party_type == "Supplier":
 		frappe.throw(_("Pick a contract template for a supplier's contract."))
 	frappe.throw(_("Pick a contract template, or give {0} its terms and conditions.").format(project.project_name))

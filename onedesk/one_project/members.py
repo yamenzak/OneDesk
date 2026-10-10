@@ -1,5 +1,7 @@
 """Who sees a project: its members."""
 
+from contextlib import contextmanager
+
 import frappe
 from frappe import _
 
@@ -135,9 +137,32 @@ def join(project: str, user: str) -> bool:
 	doc = frappe.get_doc("Project", project)
 	doc.append("users", {"user": user})
 	doc.flags.ignore_permissions = True
-	doc.save()
+	if frappe.has_permission("Project", "share", doc=project):
+		doc.save()
+	else:
+		# ERPNext shares the project with a new member as whoever saves it, and
+		# frappe asks them for the right to share. OneAI and Intake give work
+		# without it, so the joining is One's own.
+		with _as_administrator():
+			doc.save()
 	forget()
 	return True
+
+
+@contextmanager
+def _as_administrator():
+	"""Save as Administrator, then give the request its own session back."""
+	session = frappe.local.session
+	held, asked = dict(session), frappe.local.form_dict
+	frappe.set_user("Administrator")
+	try:
+		yield
+	finally:
+		session.clear()
+		session.update(held)
+		frappe.local.form_dict = asked
+		frappe.local.role_permissions = {}
+		frappe.local.user_perms = None
 
 
 def _stays_out(project: str | None, user: str | None) -> bool:

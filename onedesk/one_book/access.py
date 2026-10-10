@@ -14,6 +14,8 @@ GIVEN = {
 	"Bank Statement Import": {USER: roles.WORK, MANAGER: roles.MANAGE},
 	"Opening Invoice Creation Tool": {MANAGER: ("read", "write")},
 	"Purchase Taxes and Charges Template": {USER: roles.USE, MANAGER: roles.MANAGE},
+	# The books pay a leaver's End of Service, which HRMS shows HR alone.
+	"Gratuity": {USER: roles.USE, MANAGER: roles.USE},
 }
 
 

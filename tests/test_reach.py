@@ -21,6 +21,7 @@ GIVEN = {
 		"Bank Statement Import",
 		"Opening Invoice Creation Tool",
 		"Purchase Taxes and Charges Template",
+		"Gratuity",
 	),
 	"one_inventory": ("Asset", "Asset Category", "Asset Repair", "Item Price", "Quality Inspection"),
 	"one_project": ("Projects Settings",),

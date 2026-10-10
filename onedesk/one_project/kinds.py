@@ -115,10 +115,11 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 
 	# A preset from the library is copied in first (library.py).
 	template = values.template or (values.library and library.copy(values.library)) or None
-	# What isn't asked for comes from the customer, the template or the company (terms.py).
+	# What isn't asked for comes from the customer, the template or the company
+	# (terms.py). A sub-project's comes from the job it is part of (terms.of).
 	agreed = terms.defaults(values.client if kind != INTERNAL else None, template)
 	for key in ("payment_terms", "terms"):
-		values[key] = values.get(key) or agreed[key]
+		values[key] = values.get(key) or (None if values.parent else agreed[key])
 	if values.retention is None and kind == FIXED:
 		values.retention, values.retention_handover = agreed["retention"], agreed["retention_handover"]
 	project = frappe.new_doc("Project")

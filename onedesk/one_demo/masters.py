@@ -5,7 +5,7 @@ of each kind of work costs and bills at."""
 
 import frappe
 
-from onedesk.one_demo.base import COMPANY, make, tag, wh
+from onedesk.one_demo.base import ABBR, COMPANY, make, tag, wh
 
 #: name, group, type, currency, territory, contact (first, last, email, phone), city
 CUSTOMERS = (
@@ -117,7 +117,7 @@ def run(password=None):
 				_party_account("Supplier", frappe.get_doc("Supplier", name), currency)
 			continue
 		supplier = make(
-			{"doctype": "Supplier", "supplier_name": name, "supplier_group": group, "default_currency": currency, "country": "United Arab Emirates"}
+			{"doctype": "Supplier", "supplier_name": name, "supplier_group": group, "default_currency": currency, "country": ABROAD.get(name, "United Arab Emirates")}
 		)
 		_contact((*person, None), "Supplier", supplier.name)
 		if currency != "AED":
@@ -158,6 +158,34 @@ def run(password=None):
 	for name, cost, bills in ACTIVITIES:
 		if not frappe.db.exists("Activity Type", name):
 			make({"doctype": "Activity Type", "activity_type": name, "costing_rate": cost, "billing_rate": bills})
+
+	_vat()
+
+
+#: The suppliers who sell from abroad, and where from.
+ABROAD = {"Euro Hardware Trading": "Italy", "CNC Machines Europe": "Poland"}
+
+#: Where a customer abroad is billed: what leaves the Emirates is zero-rated.
+EXPORTS = ("United States", "Germany", "United Kingdom")
+
+
+def _vat():
+	"""VAT as the accounts team sets it up before the first sale. The Books
+	Check charges 5% on every invoice and bill however it is made
+	(one_book/ready.py), and a Tax Rule for each country abroad, and for each
+	supplier abroad, outranks it with nothing charged."""
+	from onedesk.one_book import ready
+
+	if frappe.db.exists("Tax Rule", {"company": COMPANY}):
+		return
+	ready.fix("template_taxes")
+	ready.fix("sales_tax", template=f"UAE VAT 5% - {ABBR}")
+	ready.fix("purchase_tax", template=f"UAE VAT 5% - {ABBR}")
+	zero = f"UAE VAT Zero - {ABBR}"
+	for country in EXPORTS:
+		make({"doctype": "Tax Rule", "company": COMPANY, "tax_type": "Sales", "billing_country": country, "sales_tax_template": zero, "priority": 2})
+	for supplier in ABROAD:
+		make({"doctype": "Tax Rule", "company": COMPANY, "tax_type": "Purchase", "supplier": supplier, "purchase_tax_template": zero, "priority": 2})
 
 
 def _contact(person, doctype, name):

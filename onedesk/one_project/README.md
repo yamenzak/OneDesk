@@ -1487,7 +1487,9 @@ one field for it.
   it's shared with them (`shared`, DocShare after_insert, the sidebar's
   Members on the page and the form, `public/js/project_actions.js`), and
   when a comment mentions them and the writer agrees (`unseen`, `let_in`,
-  through the composer's `vet`).
+  through the composer's `vet`). ERPNext shares the project with a new member
+  as whoever saves it, so when OneAI or Intake gives the task without the
+  right to share, the joining is saved as Administrator.
 
   ERPNext lets every Projects User read every project. A workspace running a
   villa for one customer and a website for another does not want the window
@@ -2426,7 +2428,8 @@ then company) before the template's, then the company's. The wording is the
 template's, else the company's `default_selling_terms`. `started` gives them
 to a new project however it is made, before validate; the New Project dialog
 sets `flags.one_terms_given`, so what it was answered stands, a blank
-included.
+included. A sub-project starts with none of its own, so it bills on the job
+it is part of (`of`).
 
 `of` is what a project is billed on: its own, else the nearest project
 above it with some, with the one they come from. `carried`, Invoice Time,

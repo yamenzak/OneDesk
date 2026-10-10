@@ -69,7 +69,8 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
   and connects every bank mode of payment — Wire Transfer, Cheque, Credit Card
   — to it. A bank account added any other way is connected the same way.
 - **Invoices carry tax** and **Bills carry tax.** **Fix** asks which VAT
-  template is added to a new invoice or bill when nobody picks one.
+  template is added to a new invoice or bill when nobody picks one, in a
+  form and on every invoice or bill One, OneAI or an import makes.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
 - **Every year that has ended is closed.** **Fix** closes the year (below).
 - In the UAE: **the VAT return knows the VAT accounts**, **invoices carry
@@ -373,7 +374,12 @@ fails a small business on first use or leaves a question unanswered.
     mode of payment that has none (`wired`).
   - **Tax.** Five UAE templates ship and none is the default, so an invoice
     carries no VAT unless somebody picks it. Which is the default is the
-    business's decision, so the fix asks.
+    business's decision, so the fix asks. ERPNext's default template only
+    reaches an invoice made in its form. One made on the server (Invoice
+    Time, Bill Progress, OneAI, Intake, an import) takes its taxes from a
+    Tax Rule, so the fix also makes a Tax Rule for that template with the
+    lowest priority, and the row asks again while none names it (`charge`).
+    A business that zero-rates exports adds its own rules above it.
   - **The same bill twice.** ERPNext does not stop a supplier's invoice
     number being entered twice unless told to.
   - **The year.** A date outside every fiscal year stops every document on
@@ -446,3 +452,5 @@ links to, or add a bank, and keeps the purchase tax templates from accounts:
   Accounts User reads them.
 - **Suppliers**: a bill often comes from a new supplier, so an Accounts
   Manager adds one too (`RAISED`).
+- **End of Service** (Gratuity): HRMS shows it to HR alone, but the books pay
+  it, so accounts read it.

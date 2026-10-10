@@ -372,6 +372,11 @@ through: the holiday list and the project dates are taken care of.
 task for each asset the person holds (a laptop, a phone), for whoever looks
 after the company's equipment; see OneInventory.
 
+**End of Service** is HRMS's Gratuity. It works out what a leaver is owed by a
+rule (in the UAE, days of basic pay for each year served) from their last
+payslip, and the books pay it. HRMS's UAE rules count no pay at all until a
+pay component is added to them. The demo adds Basic Salary.
+
 **Grievance.** Each new grievance is read by OneAI: a neutral summary, a
 category and an urgency. One about harassment, discrimination or safety is
 marked **Sensitive**, and from then on only HR Managers and the person who
@@ -554,7 +559,9 @@ One: a **Travel Request** and its **Purpose of Travel** to the System Manager,
 an **Employee Advance** to the employee and an Expense Approver, and a
 **Vehicle Log** to a Fleet Manager. So the people officer the rail is for
 could open none of them. An HR User now handles them, and an HR Manager runs
-them; the purposes of travel are the HR Manager's list.
+them. The purposes of travel are the HR Manager's list. HRMS lets nobody
+submit a **Gratuity**, so HR Users and HR Managers are given that once, and a
+change in Access afterwards stands.
 
 The employee's own requests are unchanged: HRMS's Employee and Employee Self
 Service rules still decide what they see of their own. A role that reads one
