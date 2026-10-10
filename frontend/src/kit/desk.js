@@ -47,6 +47,9 @@ export const go = (route) => frappe().set_route(route);
 /** What the reader may do to a doctype: `can("create", "Sales Invoice")`. */
 export const can = (action, doctype) => Boolean(frappe().model[`can_${action}`]?.(doctype));
 
+/** Whether the reader may open a report, from the reports frappe boots them. */
+export const canReport = (name) => Boolean(frappe().boot.allowed_reports?.[name]);
+
 /**
  * Follow a record as a desk form does: listen on its room and hear when it is
  * saved. Returns the way to stop.

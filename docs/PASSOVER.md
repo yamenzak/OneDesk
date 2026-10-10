@@ -336,6 +336,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done |
 | Shell | Timers: the tile, the popover, pause | done |
+| OneProject, OneTask | Reports in the rail: ERPNext's and HRMS's project and task reports | done |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
@@ -10128,6 +10129,39 @@ Built:
   guards. **Words (12)**: verb + noun buttons, "No timers" when empty, in
   Arabic and German.
 - **Our look (5)**: the badge is frappe-ui's solid green Badge.
+
+### Project and task reports
+
+Your word: "do all reports related to projects coming from erpnext exist in
+oneproject? How about tasks in onetask?"
+
+Found:
+
+- **Nothing lost (6)**: ERPNext has five Projects reports and HRMS two on
+  timesheets. Neither rail linked any of them. They opened only by Search or
+  by link.
+
+Fixed:
+
+- **Reports** in OneProject's rail: Project Summary, Profit on Billed Hours
+  (HRMS's Project Profitability), Billable Hours (Timesheet Billing Summary),
+  Hours by Day (Daily Timesheet Summary) and Stock by Project (Project wise
+  Stock Tracking).
+- **Reports** in OneTask's rail and on My Tasks' own column: Task Delays
+  (Delayed Tasks Summary). It lists every task as on time or late, so it is
+  not called Late Tasks.
+- Each page is called what its rail row says, and no Company filter shows
+  (`reports.js`, already there for OneHR's reports).
+- **Permissions (15)**: a report shows only to roles that may open it. Mariam
+  works on no project and sees no Reports at all. My Tasks reads
+  `allowed_reports` from frappe's boot (`canReport` in the kit).
+- **Plain words (12)**: Profit by Project was renamed Profit on Billed Hours.
+  It counts only billed timesheets of people paid from their timesheets, and
+  nobody in the demo is, so it shows nothing there. Hours by Day opens on
+  today, as ERPNext ships it.
+- Employee Hours Utilization stays off. Workload replaced it.
+- **Demo (1)**: `oneproject_and_onetask_reports_open_for_their_people` runs
+  every one as Samir and checks Mariam is not offered Task Delays.
 
 ## OneLegal
 

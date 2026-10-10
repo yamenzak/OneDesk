@@ -18,6 +18,8 @@ else you have to do is here.
   ones given to you, such as a task Intake made about a supplier's bill.
   Quick notes to yourself go here.
 - **All Tasks** at the bottom: every task you can see, as a list.
+- **Reports**, **Task Delays**: ERPNext's report of every task you can see,
+  on time or late, with how late. It shows to those who work on projects.
 - **Setup** (Task Type), for those with access.
 
 The rail beside All Tasks has the same entries, and its Inbox opens this one.

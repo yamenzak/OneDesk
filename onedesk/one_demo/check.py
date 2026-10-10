@@ -1748,6 +1748,43 @@ def oneproject_workload_time_and_templates_read_true():
 
 
 @check
+def oneproject_and_onetask_reports_open_for_their_people():
+	"""ERPNext's and HRMS's project reports in the two rails run for Samir,
+	the busy ones with rows, under the rail's names; Mariam, who works on no
+	project, is not offered Task Delays."""
+	from frappe.desk.desk_views import DeskViews
+	from frappe.desk.query_report import run
+
+	rails = {
+		"OneProject": {
+			"Project Summary": "Project Summary",
+			"Project Profitability": "Profit on Billed Hours",
+			"Timesheet Billing Summary": "Billable Hours",
+			"Daily Timesheet Summary": "Hours by Day",
+			"Project wise Stock Tracking": "Stock by Project",
+		},
+		"OneTask": {"Delayed Tasks Summary": "Task Delays"},
+	}
+	company = frappe.defaults.get_global_default("company")
+	month = {"from_date": add_days(today(), -60), "to_date": today()}
+	wanted = {
+		"Project Profitability": {"start_date": month["from_date"], "end_date": month["to_date"]},
+		"Timesheet Billing Summary": {**month, "group_by": "Group by Employee"},
+		"Daily Timesheet Summary": month,
+	}
+	busy = {"Project Summary", "Timesheet Billing Summary", "Daily Timesheet Summary", "Project wise Stock Tracking", "Delayed Tasks Summary"}
+	with as_user("samir@one.test"):
+		for sidebar, reports in rails.items():
+			for report, label in reports.items():
+				row = frappe.db.get_value("Sidebar Item", {"parent": sidebar, "link_to": report}, "label")
+				assert row == label, (sidebar, report, row)
+				said = run(report, filters={"company": company, **wanted.get(report, {})})
+				assert report not in busy or said["result"], report
+	with as_user("mariam@one.test"):
+		assert "Delayed Tasks Summary" not in DeskViews.get_allowed_reports()
+
+
+@check
 def oneproject_its_contracts_are_on_the_page():
 	"""A project has as many contracts as it signs. The villa's contract is
 	signed and its staircase addendum, on the staircase's sub-project, waits

@@ -51,7 +51,7 @@ def test_the_inbox_is_the_tasks_in_no_project():
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
 	inbox = next(item for item in rail["items"] if item["label"] == "Inbox")
 	assert inbox["url"] == "/desk/my-tasks?section=inbox"
-	assert [item["label"] for item in rail["items"] if item["type"] == "Link"] == ["My Tasks", "Inbox", "All Tasks", "Task Type"]
+	assert [item["label"] for item in rail["items"] if item["type"] == "Link"] == ["My Tasks", "Inbox", "All Tasks", "Task Delays", "Task Type"]
 	inbox = _body((TASK / "mine.py").read_text(), "_filters")
 	assert '["project", "is", "not set"]' in inbox and '["owner", "=", user], ["_assign", "like"' in inbox
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())

@@ -15,6 +15,10 @@
         </SidebarItem>
         <div class="mt-auto border-t border-outline-gray-1 pt-2">
           <SidebarItem :label="__('All Tasks')" icon="lucide-circle-check" @click="go('/desk/task?is_template=0')" />
+          <!-- As the rail has it (sidebar/onetask), for whoever may open it. -->
+          <SidebarSection v-if="delays" :label="__('Reports')" collapsible>
+            <SidebarItem :label="__('Task Delays')" icon="lucide-chart-line" @click="go(DELAYS)" />
+          </SidebarSection>
           <SidebarSection v-if="can('read', 'Task Type')" v-model:collapsed="setupClosed" :label="__('Setup')" collapsible>
             <SidebarItem :label="__('Task Type')" icon="lucide-tag" @click="go('/desk/task-type')" />
           </SidebarSection>
@@ -80,7 +84,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue"
 import { Badge, Button, Checkbox, DatePicker, Sidebar, SidebarItem, SidebarSection, TextInput } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
-import { Loading, PlaceSpot, __, ago, call, can, clock, date, dateFormat, followList, go, insert, listen, newDoc, onedesk, setQuery, setValue, weekday } from "../kit";
+import { Loading, PlaceSpot, __, ago, call, can, canReport, clock, date, dateFormat, followList, go, insert, listen, newDoc, onedesk, setQuery, setValue, weekday } from "../kit";
 import { TASK_STATUS } from "../project/colors";
 import { usePlace } from "../project/place";
 
@@ -105,6 +109,9 @@ const groups = ref(null);
 const counts = ref({});
 const running = ref(null);
 const setupClosed = ref(true);
+// ERPNext's Delayed Tasks Summary, under the rail's name for it.
+const DELAYS = "/desk/query-report/Delayed Tasks Summary";
+const delays = canReport("Delayed Tasks Summary");
 // Whoever may keep a timesheet may time a task (one_task/timer.py).
 const times = can("create", "Timesheet");
 const columns = computed(() => ({

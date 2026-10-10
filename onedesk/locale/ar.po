@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-09 21:22+0000\n"
-"PO-Revision-Date: 2026-10-09 21:22+0000\n"
+"POT-Creation-Date: 2026-10-10 12:17+0000\n"
+"PO-Revision-Date: 2026-10-10 12:17+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1649,7 +1649,7 @@ msgstr "أضف سعرًا لعنصر واحد على الأقل."
 msgid "Add a reason."
 msgstr "أضف سببًا."
 
-#: frontend/src/task/MyTasks.vue:29
+#: frontend/src/task/MyTasks.vue:33
 msgid "Add a task"
 msgstr "أضف مهمة"
 
@@ -2940,7 +2940,7 @@ msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أ
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr "اطلب مرة أخرى من صفحة بياناتك إذا كنت لا تزال تريد حذف حسابك."
 
-#: onedesk/public/js/desk.js:415 onedesk/public/js/outside.js:262
+#: onedesk/public/js/desk.js:417 onedesk/public/js/outside.js:262
 #: onedesk/www/message.html:27
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
@@ -3497,7 +3497,7 @@ msgstr "الخادم والبيانات"
 msgid "Background"
 msgstr "الخلفية"
 
-#: onedesk/public/js/desk.js:209
+#: onedesk/public/js/desk.js:210
 msgid "Background Tasks"
 msgstr "المهام في الخلفية"
 
@@ -3820,7 +3820,9 @@ msgid "Billable"
 msgstr "قابل للفوترة"
 
 #. Label of the 'total_billable_hours' field in DocType 'Timesheet'
+#. Label of a Sidebar Item
 #: onedesk/one/print_blocks.py:60 onedesk/one_hr/custom/timesheet.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Billable Hours"
 msgstr "الساعات القابلة للفوترة"
 
@@ -4663,8 +4665,8 @@ msgstr "الفحص"
 msgid "Check Again"
 msgstr "تحقق مرة أخرى"
 
-#: onedesk/public/js/desk.js:121 onedesk/public/js/desk.js:172
-#: onedesk/public/js/desk.js:288 onedesk/public/js/desk.js:291
+#: onedesk/public/js/desk.js:121 onedesk/public/js/desk.js:173
+#: onedesk/public/js/desk.js:290 onedesk/public/js/desk.js:293
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
@@ -4789,11 +4791,11 @@ msgstr "تُكتب تسجيلات الحضور التي تقع درجتها بي
 msgid "Checked By"
 msgstr "راجعه"
 
-#: onedesk/public/js/desk.js:291 onedesk/public/js/desk.js:341
+#: onedesk/public/js/desk.js:293 onedesk/public/js/desk.js:343
 msgid "Checked In"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:341
+#: onedesk/public/js/desk.js:343
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
@@ -4805,7 +4807,7 @@ msgstr "تمت مطابقتها مع المستند والطلب"
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:286
+#: onedesk/public/js/desk.js:288
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
 
@@ -4817,11 +4819,11 @@ msgstr "سجّل الانصراف"
 msgid "Checked when someone sets or changes their password."
 msgstr "يُفحص عندما يعيّن شخص كلمة مروره أو يغيّرها."
 
-#: onedesk/public/js/desk.js:305
+#: onedesk/public/js/desk.js:307
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
 
-#: onedesk/public/js/desk.js:305
+#: onedesk/public/js/desk.js:307
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
@@ -5336,7 +5338,7 @@ msgstr "إكمال"
 msgid "Complete Task"
 msgstr "إكمال المهمة"
 
-#: frontend/src/task/MyTasks.vue:50
+#: frontend/src/task/MyTasks.vue:54
 msgid "Complete {0}"
 msgstr "إكمال {0}"
 
@@ -5880,7 +5882,7 @@ msgstr "تعذّر تحميل السجل."
 msgid "Couldn't reach the server."
 msgstr "تعذّر الوصول إلى الخادم."
 
-#: onedesk/public/js/desk.js:310
+#: onedesk/public/js/desk.js:312
 msgid "Couldn't record the check-in."
 msgstr "تعذر تسجيل الحضور."
 
@@ -7542,7 +7544,7 @@ msgstr "أُسقط"
 #: frontend/src/project/Invoices.vue:33 frontend/src/project/Overview.vue:156
 #: frontend/src/project/Overview.vue:302 frontend/src/project/Suppliers.vue:93
 #: frontend/src/project/TaskPanel.vue:31 frontend/src/project/Tasks.vue:21
-#: frontend/src/task/MyTasks.vue:30 frontend/src/task/MyTasks.vue:40
+#: frontend/src/task/MyTasks.vue:34 frontend/src/task/MyTasks.vue:44
 #: frontend/src/task/TaskPage.vue:23 onedesk/one/portal.py:335
 #: onedesk/one_admin/accounts.py:217 onedesk/one_book/heads.py:324
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -10515,6 +10517,11 @@ msgstr "الساعات المعمولة"
 msgid "Hours a Month"
 msgstr "الساعات شهريًا"
 
+#. Label of a Sidebar Item
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Hours by Day"
+msgstr "الساعات حسب اليوم"
+
 #: frontend/src/project/Overview.vue:24
 msgid "Hours by Week"
 msgstr "الساعات حسب الأسبوع"
@@ -11094,7 +11101,7 @@ msgstr "الإشعارات داخل التطبيق مفعّلة دائمًا."
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
-#: frontend/src/task/MyTasks.vue:96 onedesk/one/sidebar/one/one.json
+#: frontend/src/task/MyTasks.vue:100 onedesk/one/sidebar/one/one.json
 #: onedesk/one_mail/ai.py:278
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
@@ -13758,7 +13765,7 @@ msgid "Mid-campaign review"
 msgstr "مراجعة منتصف الحملة"
 
 #: frontend/src/project/TaskPanel.vue:42 frontend/src/project/TaskPanel.vue:43
-#: frontend/src/task/MyTasks.vue:57 frontend/src/task/TaskPage.vue:12
+#: frontend/src/task/MyTasks.vue:61 frontend/src/task/TaskPage.vue:12
 #: frontend/src/template/Tasks.vue:25 onedesk/one_project/ai.py:634
 #: onedesk/public/js/project_actions.js:635
 msgid "Milestone"
@@ -14095,7 +14102,7 @@ msgid "My Maintenance"
 msgstr "صيانتي"
 
 #. Label of a Sidebar Item
-#: frontend/src/task/MyTasks.vue:95 onedesk/one_task/calendar.py:15
+#: frontend/src/task/MyTasks.vue:99 onedesk/one_task/calendar.py:15
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "My Tasks"
 msgstr "مهامي"
@@ -15103,7 +15110,7 @@ msgstr "بلا مهمة"
 msgid "No tasks"
 msgstr "لا توجد مهام"
 
-#: frontend/src/task/MyTasks.vue:95
+#: frontend/src/task/MyTasks.vue:99
 msgid "No tasks assigned to you"
 msgstr "لا توجد مهام مسندة إليك"
 
@@ -15111,7 +15118,7 @@ msgstr "لا توجد مهام مسندة إليك"
 msgid "No tasks due"
 msgstr "لا مهام مستحقة"
 
-#: frontend/src/task/MyTasks.vue:96
+#: frontend/src/task/MyTasks.vue:100
 msgid "No tasks in Inbox"
 msgstr "لا توجد مهام في الوارد"
 
@@ -15139,7 +15146,7 @@ msgstr "لا يوجد وقت مسجل"
 msgid "No time to invoice"
 msgstr "لا وقت للفوترة"
 
-#: frontend/src/task/Timers.vue:34
+#: frontend/src/task/TimerList.vue:34
 msgid "No timers"
 msgstr "لا توجد مؤقتات"
 
@@ -15238,7 +15245,7 @@ msgstr "غير قابل للفوترة"
 msgid "Not Billed"
 msgstr "غير مفوتر"
 
-#: onedesk/public/js/desk.js:333
+#: onedesk/public/js/desk.js:335
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -15340,7 +15347,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not checked until the workspace is linked to an account."
 msgstr "لا يُفحص حتى تُربط مساحة العمل بحساب."
 
-#: onedesk/public/js/desk.js:289
+#: onedesk/public/js/desk.js:291
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
@@ -15554,7 +15561,7 @@ msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغ
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
-#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:414
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:416
 #: onedesk/www/portal.html:36 onedesk/www/portal.html:72
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
@@ -15575,7 +15582,7 @@ msgstr "لم يُطلب أو يُستلم شيء"
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
 
-#: onedesk/public/js/desk.js:298
+#: onedesk/public/js/desk.js:300
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
@@ -15648,7 +15655,7 @@ msgstr "إشعار"
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:18 onedesk/one/settings.py:128
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:198 onedesk/public/js/doctype_settings.js:295
+#: onedesk/public/js/desk.js:199 onedesk/public/js/doctype_settings.js:295
 #: onedesk/public/js/settings.js:3088 onedesk/public/js/settings.js:3185
 #: onedesk/public/js/settings.js:3249
 msgid "Notifications"
@@ -16486,7 +16493,7 @@ msgstr "إعداد OneHR"
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:128
-#: onedesk/public/js/desk.js:179 onedesk/public/js/desk.js:268
+#: onedesk/public/js/desk.js:180 onedesk/public/js/desk.js:270
 msgid "OneIntake"
 msgstr "OneIntake"
 
@@ -17697,11 +17704,11 @@ msgstr "المسار"
 msgid "Patient"
 msgstr "المريض"
 
-#: frontend/src/task/Timers.vue:19
+#: frontend/src/task/TimerList.vue:19
 msgid "Pause Timer"
 msgstr "إيقاف المؤقت مؤقتًا"
 
-#: frontend/src/task/Timers.vue:24
+#: frontend/src/task/TimerList.vue:24
 msgid "Paused"
 msgstr ""
 
@@ -18822,6 +18829,11 @@ msgstr "ربح هذا الشهر"
 msgid "Profit and Loss"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Profit on Billed Hours"
+msgstr "الربح من الساعات المفوترة"
+
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:259 onedesk/one/portal.py:67
 #: onedesk/one/print_blocks.py:430 onedesk/public/js/onecloud.js:364
@@ -18901,7 +18913,9 @@ msgid "Project Stopped"
 msgstr "إيقاف المشروع"
 
 #. Name of a notification
+#. Label of a Sidebar Item
 #: onedesk/notifications/one_project/project_summary.md
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Project Summary"
 msgstr "ملخص المشروع"
 
@@ -18922,7 +18936,7 @@ msgstr "أنواع المشاريع"
 msgid "Project Update Asked"
 msgstr "طُلب تحديث المشروع"
 
-#: frontend/src/task/MyTasks.vue:39
+#: frontend/src/task/MyTasks.vue:43
 msgid "Project or About"
 msgstr "المشروع أو الموضوع"
 
@@ -19987,7 +20001,7 @@ msgstr "سجّل هذا الجهاز"
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
-#: onedesk/public/js/desk.js:321
+#: onedesk/public/js/desk.js:323
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
@@ -20312,8 +20326,11 @@ msgid "Report by Mail"
 msgstr "تقرير بالبريد"
 
 #. Label of a Sidebar Item
+#: frontend/src/task/MyTasks.vue:19
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Reports"
 msgstr ""
 
@@ -20545,7 +20562,7 @@ msgstr "النتائج في {0}"
 msgid "Resume"
 msgstr "استئناف"
 
-#: frontend/src/task/Timers.vue:30 onedesk/public/js/timesheet.js:23
+#: frontend/src/task/TimerList.vue:30 onedesk/public/js/timesheet.js:23
 #: onedesk/public/js/timesheet.js:27 onedesk/public/js/timesheet.js:51
 msgid "Resume Timer"
 msgstr ""
@@ -20829,7 +20846,7 @@ msgstr "شغّل الآن"
 msgid "Run sheet written"
 msgstr "كتابة جدول سير الفعالية"
 
-#: frontend/src/task/Timers.vue:11
+#: frontend/src/task/TimerList.vue:11
 msgid "Running"
 msgstr ""
 
@@ -21160,7 +21177,7 @@ msgstr "الإحكام والعزل ضد الطقس"
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/src/project/ProjectPage.vue:22
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/desk.js:170 onedesk/public/js/onemail.js:91
+#: onedesk/public/js/desk.js:171 onedesk/public/js/onemail.js:91
 #: onedesk/www/portal.html:47
 msgid "Search"
 msgstr "بحث"
@@ -21730,7 +21747,7 @@ msgstr "يسدّد"
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/task/MyTasks.vue:18 onedesk/one/sidebar/one/one.json
+#: frontend/src/task/MyTasks.vue:22 onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
@@ -22208,7 +22225,7 @@ msgstr "اشتراك لم يُنشأ"
 msgid "Signups"
 msgstr "التسجيلات"
 
-#: frontend/src/project/Facts.vue:22 frontend/src/task/MyTasks.vue:58
+#: frontend/src/project/Facts.vue:22 frontend/src/task/MyTasks.vue:62
 msgid "Since {0}"
 msgstr "منذ {0}"
 
@@ -22563,7 +22580,7 @@ msgstr "تاريخ البدء"
 msgid "Start From"
 msgstr "البدء من"
 
-#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:69
+#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:73
 #: frontend/src/task/TaskPage.vue:354 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:51
@@ -22800,6 +22817,11 @@ msgstr "المخزون المستخدم"
 msgid "Stock against the Books"
 msgstr "المخزون مقابل الدفاتر"
 
+#. Label of a Sidebar Item
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Stock by Project"
+msgstr "المخزون حسب المشروع"
+
 #: onedesk/one_inventory/ready.py:49
 msgid "Stock can be received into {0} warehouses."
 msgstr "يمكن استلام المخزون في {0} مستودعات."
@@ -22849,9 +22871,9 @@ msgstr "هل توقف قراءة OneAI للبريد الجديد في {0}؟"
 msgid "Stop Repeating"
 msgstr "إيقاف التكرار"
 
-#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:69
-#: frontend/src/task/TaskPage.vue:354 frontend/src/task/Timers.vue:20
-#: frontend/src/task/Timers.vue:31
+#: frontend/src/project/TaskPanel.vue:11 frontend/src/task/MyTasks.vue:73
+#: frontend/src/task/TaskPage.vue:354 frontend/src/task/TimerList.vue:20
+#: frontend/src/task/TimerList.vue:31
 msgid "Stop Timer"
 msgstr "إيقاف المؤقت"
 
@@ -23437,7 +23459,7 @@ msgstr "الهامش المستهدف"
 
 #: frontend/src/project/Tasks.vue:18 frontend/src/project/Time.vue:33
 #: frontend/src/project/Time.vue:100 frontend/src/project/Timeline.vue:8
-#: frontend/src/task/MyTasks.vue:38 frontend/src/template/Tasks.vue:8
+#: frontend/src/task/MyTasks.vue:42 frontend/src/template/Tasks.vue:8
 #: frontend/src/template/Tasks.vue:36
 #: frontend/src/template/TemplatePage.vue:122 onedesk/one_project/ai.py:683
 #: onedesk/one_task/page/task_view/task_view.js:8
@@ -23447,6 +23469,12 @@ msgstr "الهامش المستهدف"
 #: onedesk/public/js/timesheet.js:61
 msgid "Task"
 msgstr "المهمة"
+
+#. Label of a Sidebar Item
+#: frontend/src/task/MyTasks.vue:20
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Task Delays"
+msgstr "تأخر المهام"
 
 #. Name of a notification
 #: onedesk/notifications/one_task/task_done.md
@@ -23475,7 +23503,7 @@ msgid "Task Step"
 msgstr "خطوة المهمة"
 
 #. Label of a Sidebar Item
-#: frontend/src/task/MyTasks.vue:19
+#: frontend/src/task/MyTasks.vue:23
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Task Type"
 msgstr ""
@@ -25755,9 +25783,9 @@ msgstr "الجدول الزمني"
 msgid "Timeout (seconds)"
 msgstr "المهلة (بالثواني)"
 
-#: onedesk/one_task/page/timers/timers.js:4 onedesk/public/js/desk.js:137
-#: onedesk/public/js/desk.js:187 onedesk/public/js/desk.js:231
-#: onedesk/public/js/desk.js:243
+#: frontend/src/task/Timers.vue:17 onedesk/one_task/page/timers/timers.js:4
+#: onedesk/public/js/desk.js:138 onedesk/public/js/desk.js:188
+#: onedesk/public/js/desk.js:232
 msgid "Timers"
 msgstr "المؤقتات"
 
@@ -25785,7 +25813,7 @@ msgstr "رقم سجل الدوام"
 msgid "Timesheets"
 msgstr "سجلات الدوام"
 
-#: onedesk/public/js/desk.js:231
+#: onedesk/public/js/desk.js:232
 msgid "Timing {0}"
 msgstr "يتم توقيت {0}"
 
@@ -25921,7 +25949,7 @@ msgstr "اليوم"
 msgid "Today is in a fiscal year"
 msgstr "اليوم ضمن سنة مالية"
 
-#: frontend/src/task/Timers.vue:17
+#: frontend/src/task/TimerList.vue:17
 msgid "Today on this task"
 msgstr "اليوم على هذه المهمة"
 
@@ -27021,7 +27049,7 @@ msgstr "انتظار حدث"
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: frontend/src/task/MyTasks.vue:56
+#: frontend/src/task/MyTasks.vue:60
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
@@ -27092,7 +27120,7 @@ msgstr "بانتظار هذه"
 msgid "Waiting on {0}"
 msgstr "بانتظار {0}"
 
-#: frontend/src/task/MyTasks.vue:56
+#: frontend/src/task/MyTasks.vue:60
 msgid "Waiting on {0} other tasks"
 msgstr "بانتظار {0} مهام أخرى"
 
@@ -30783,7 +30811,7 @@ msgid "not known yet"
 msgstr "غير معروف بعد"
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:330
-#: onedesk/public/js/desk.js:361
+#: onedesk/public/js/desk.js:363
 msgid "nothing"
 msgstr "لا شيء"
 
@@ -32670,7 +32698,7 @@ msgstr "دفع {0} وليس لديه مساحة عمل"
 msgid "{0} paid in advance"
 msgstr "{0} مدفوعة مقدمًا"
 
-#: onedesk/public/js/desk.js:231
+#: onedesk/public/js/desk.js:232
 msgid "{0} paused timers"
 msgstr "{0} مؤقتات متوقفة مؤقتًا"
 
@@ -32854,7 +32882,7 @@ msgstr "من {0} إلى {1}، بواسطة {2}"
 msgid "{0} to {1}: a condition only compares the record's fields with plain values, such as doc.grand_total > 5000."
 msgstr "من {0} إلى {1}: الشرط يقارن حقول السجل بقيم بسيطة فقط، مثل doc.grand_total > 5000."
 
-#: frontend/src/task/Timers.vue:67
+#: frontend/src/task/TimerList.vue:62
 msgid "{0} today"
 msgstr "{0} اليوم"
 
@@ -32878,7 +32906,7 @@ msgstr "{0} مستخدم، بلا حد"
 msgid "{0} users"
 msgstr "مستخدمو {0}"
 
-#: onedesk/public/js/desk.js:268
+#: onedesk/public/js/desk.js:270
 msgid "{0} waiting in OneIntake"
 msgstr "{0} بانتظارك في OneIntake"
 

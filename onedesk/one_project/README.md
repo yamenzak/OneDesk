@@ -13,7 +13,7 @@ project task assigned to you shows on your My Tasks and on the project's board.
 ## Finding your way
 
 **OneProject** in the dock opens it. The panel on the left lists its four
-places.
+places, and its reports below them.
 
 - **Projects**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
@@ -25,6 +25,20 @@ places.
   for time to sign.
 - **Templates**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
+- **Reports**, ERPNext's own reports across all projects:
+  - **Project Summary**: each project's tasks, how many are done and how
+    many are late, and how far along it is.
+  - **Profit on Billed Hours**: what billed timesheets earned against what
+    the people who logged them cost. It counts only people paid from their
+    timesheets.
+  - **Billable Hours**: hours worked and hours billed, by person or by
+    project.
+  - **Hours by Day**: each timesheet line in a range of days, opening on
+    today.
+  - **Stock by Project**: what each project's items cost, bought, issued
+    from stock and delivered, beside the project's value.
+
+  A report shows only to people whose role may open it.
 
 On a phone, tap the place's name at the top, **Projects**, to go to another.
 A project's page and a template's page have no panel. There, **Projects** or
