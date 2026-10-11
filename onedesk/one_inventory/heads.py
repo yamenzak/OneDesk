@@ -1,5 +1,6 @@
-"""What an item's and an asset's page say above their fields: the heads, the
-measures they place and the verbs they offer. See one/head.py.
+"""What an item's, an asset's, a warehouse's and a receipt's form say above
+their fields: the heads, the measures they place and the verbs they offer. See
+one/head.py.
 """
 
 from urllib.parse import quote
@@ -236,6 +237,53 @@ def warehouse_last(doc):
 	return formatdate(last) if last else {"value": _("Never"), "tone": "quiet"}
 
 
+# ------------------------------------------------------------------ a receipt
+
+
+def receipt_order(doc):
+	"""The purchase orders the goods were ordered on."""
+	orders = list(dict.fromkeys(row.purchase_order for row in doc.items if row.get("purchase_order")))
+	if not orders:
+		return {"value": _("Not ordered"), "tone": "quiet"}
+	if len(orders) == 1:
+		return {"value": orders[0], "route": f"/desk/purchase-order/{quote(orders[0])}"}
+	return _("{0} orders").format(len(orders))
+
+
+def receipt_worth(doc):
+	"""What the goods put into stock, in the company's money: once received,
+	at what each was valued (landed costs included); before, at its price. A
+	supplier in another currency is said beside it."""
+	if doc.docstatus == 1:
+		value = sum(flt(row.valuation_rate) * flt(row.stock_qty) for row in doc.items)
+	else:
+		value = flt(doc.base_net_total)
+	company = frappe.get_cached_value("Company", doc.company, "default_currency")
+	if doc.currency and doc.currency != company:
+		return {
+			"label": _("Worth · {0}").format(fmt_money(doc.net_total, currency=doc.currency)),
+			"value": fmt_money(value, currency=company),
+		}
+	return fmt_money(value, currency=company)
+
+
+def receipt_landed(doc):
+	"""Freight, duty and the rest added to what the goods cost."""
+	added = sum(flt(row.get("landed_cost_voucher_amount")) for row in doc.items)
+	if not added:
+		return None
+	return fmt_money(added, currency=frappe.get_cached_value("Company", doc.company, "default_currency"))
+
+
+def receipt_rejected(doc):
+	rejected = sum(flt(row.rejected_qty) for row in doc.items)
+	if not rejected:
+		return None
+	units = {row.uom for row in doc.items if flt(row.rejected_qty)}
+	unit = _(units.pop()) if len(units) == 1 else ""
+	return {"value": f"{fmt_money(rejected, precision=0)} {unit}".strip(), "tone": "alarm"}
+
+
 # ------------------------------------------------------------------ the charts
 
 
@@ -321,6 +369,10 @@ MEASURES = {
 	"warehouse.worth": warehouse_worth,
 	"warehouse.low": warehouse_low,
 	"warehouse.last": warehouse_last,
+	"receipt.order": receipt_order,
+	"receipt.worth": receipt_worth,
+	"receipt.landed": receipt_landed,
+	"receipt.rejected": receipt_rejected,
 }
 
 
@@ -490,6 +542,22 @@ HEADS = [
 				"source": "Field",
 				"field": "per_billed",
 				"shown_when": [["docstatus", "=", 1]],
+			},
+		],
+	},
+	{
+		"doctype": "Purchase Receipt",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Order"), "source": "Measure", "measure": "receipt.order"},
+			{"label": _lt("Worth"), "source": "Measure", "measure": "receipt.worth"},
+			{"label": _lt("Landed Costs"), "source": "Measure", "measure": "receipt.landed"},
+			{"label": _lt("Rejected"), "source": "Measure", "measure": "receipt.rejected"},
+			{
+				"label": _lt("Billed"),
+				"source": "Field",
+				"field": "per_billed",
+				"shown_when": [["docstatus", "=", 1], ["is_return", "=", 0]],
 			},
 		],
 	},

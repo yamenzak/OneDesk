@@ -2,21 +2,27 @@
 request for quotation to two suppliers, their quotes, the order to the
 cheaper one, the delivery received, the bill and its payment; glass
 returned broken; more broken glass found after the bill, sent back and
-debited; hardware bought in euros; seals received and not yet billed; and the
-office's monthly supplies, one bill still unpaid."""
+debited; hardware bought in euros, with its freight and duty added to what it
+cost; tempered glass turned away on arrival; seals received and not yet
+billed; and the office's monthly supplies, one bill still unpaid."""
 
 import frappe
 from frappe.utils import add_days, flt
 
-from onedesk.one_demo.base import COMPANY, ago, as_user, dated, on, rated, save, today, wh
+from onedesk.one_demo.base import COMPANY, account, ago, as_user, dated, on, once, rated, save, today, wh
 
 BUYER = "karim@one.test"
 ACCOUNTS = "huda@one.test"
 
 
 def run(password=None):
-	if frappe.db.exists("Material Request", {"docstatus": 1}):
-		return
+	if not frappe.db.exists("Material Request", {"docstatus": 1}):
+		_rounds()
+	_landed()
+	_inspected()
+
+
+def _rounds():
 	with as_user(BUYER):
 		_round(on(3, 2), (("ALU-6063", 1500), ("SEAL-EPDM", 2000)), ("Al Noor Aluminium", "Gulf Glass Industries"), "Al Noor Aluminium", paid=True)
 		_round(on(4, 6), (("GLS-DGU", 300), ("GLS-TMP10", 120)), ("Gulf Glass Industries", "Al Noor Aluminium"), "Gulf Glass Industries", paid=True, broken=("GLS-DGU", 6))
@@ -28,6 +34,115 @@ def run(password=None):
 	with as_user(ACCOUNTS):
 		for month in range(1, today().month + 1):
 			_supplies(on(month, 5), paid=month < today().month)
+
+
+def _landed():
+	"""Desert Logistics' freight and the customs duty on the first euro
+	hardware, added to what each hinge, handle and lock cost, by the accountant
+	who keeps the forwarder's bill."""
+	receipt = frappe.db.get_value(
+		"Purchase Receipt",
+		{"supplier": "Euro Hardware Trading", "docstatus": 1, "is_return": 0},
+		["name", "posting_date", "base_grand_total"],
+		as_dict=True,
+		order_by="posting_date asc",
+	)
+	if not receipt or frappe.db.exists("Landed Cost Purchase Receipt", {"receipt_document": receipt.name, "docstatus": 1}):
+		return
+	duty = once(
+		"Account",
+		{"account_name": "Customs Duty", "company": COMPANY},
+		{
+			"account_name": "Customs Duty",
+			"company": COMPANY,
+			"parent_account": account("Indirect Expenses"),
+			"account_type": "Chargeable",
+		},
+	).name
+	with as_user(ACCOUNTS):
+		landed = frappe.new_doc("Landed Cost Voucher")
+		landed.company = COMPANY
+		dated(landed, add_days(receipt.posting_date, 4))
+		landed.append(
+			"purchase_receipts",
+			{
+				"receipt_document_type": "Purchase Receipt",
+				"receipt_document": receipt.name,
+				"supplier": "Euro Hardware Trading",
+				"posting_date": receipt.posting_date,
+				"grand_total": receipt.base_grand_total,
+			},
+		)
+		landed.get_items_from_purchase_receipts()
+		landed.distribute_charges_based_on = "Amount"
+		landed.append("taxes", {"description": "Freight from Genoa, Desert Logistics", "expense_account": account("Freight and Forwarding Charges"), "amount": 1150})
+		landed.append("taxes", {"description": "Customs duty, 5%", "expense_account": duty, "amount": flt(receipt.base_grand_total * 0.05, 2)})
+		save(landed, submit=True)
+
+
+def _inspected():
+	"""Forty square metres of tempered glass from Gulf Glass, six of them
+	chipped on the edge. Tempered glass is inspected on arrival from now on:
+	the inspection passes the delivery and finds the chips, the receipt rejects
+	those six into Rejected for Gulf Glass to collect, and the stores take the
+	rest. An inspection marked Rejected would stop the whole receipt, as
+	ERPNext's Stock Settings say."""
+	if frappe.db.exists("Quality Inspection", {"reference_type": "Purchase Receipt", "item_code": "GLS-TMP10"}):
+		return
+	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
+
+	rejected = once(
+		"Warehouse",
+		{"warehouse_name": "Rejected", "company": COMPANY},
+		{
+			"warehouse_name": "Rejected",
+			"company": COMPANY,
+			"parent_warehouse": wh("All Warehouses"),
+			"is_rejected_warehouse": 1,
+		},
+	).name
+	frappe.db.set_value("Item", "GLS-TMP10", "inspection_required_before_purchase", 1)
+	for name in ("Chips or cracks", "Thickness within 0.2 mm"):
+		once("Quality Inspection Parameter", {"parameter": name}, {"parameter": name})
+	with as_user(BUYER):
+		order = frappe.new_doc("Purchase Order")
+		order.supplier = "Gulf Glass Industries"
+		order.company = COMPANY
+		dated(order, ago(12), "transaction_date")
+		order.schedule_date = ago(4)
+		rate = flt(frappe.db.get_value("Item Price", {"item_code": "GLS-TMP10", "price_list": "Standard Buying"}, "price_list_rate"))
+		order.append("items", {"item_code": "GLS-TMP10", "qty": 40, "rate": rate, "schedule_date": order.schedule_date, "warehouse": wh("Stores")})
+		save(order, submit=True)
+		receipt = make_purchase_receipt(order.name)
+		dated(receipt, ago(4))
+		receipt.supplier_delivery_note = "GG-DN-8812"
+		receipt.lr_no = "D 41207"
+		row = receipt.items[0]
+		row.received_qty, row.qty, row.rejected_qty = 40, 34, 6
+		row.rejected_warehouse = rejected
+		receipt = save(receipt)
+		inspection = frappe.new_doc("Quality Inspection")
+		inspection.update(
+			{
+				"company": COMPANY,
+				"inspection_type": "Incoming",
+				"reference_type": "Purchase Receipt",
+				"reference_name": receipt.name,
+				"child_row_reference": receipt.items[0].name,
+				"item_code": "GLS-TMP10",
+				"sample_size": 40,
+				"inspected_by": BUYER,
+				"manual_inspection": 1,
+				"status": "Accepted",
+				"remarks": "Thirty-four square metres accepted. Six chipped on the edge, rejected and set aside for Gulf Glass to collect.",
+			}
+		)
+		dated(inspection, ago(4), "report_date")
+		inspection.append("readings", {"specification": "Chips or cracks", "numeric": 0, "manual_inspection": 1, "status": "Rejected", "reading_value": "3 panes chipped"})
+		inspection.append("readings", {"specification": "Thickness within 0.2 mm", "numeric": 0, "manual_inspection": 1, "status": "Accepted", "reading_value": "10.1 mm"})
+		save(inspection, submit=True)
+		receipt.reload()
+		receipt.submit()
 
 
 def _round(date, lines, asked, chosen, paid, broken=None, debited=None):

@@ -45,6 +45,7 @@ def checks() -> list[dict]:
 		_valued(one),
 		_below_zero(),
 		_reorder(),
+		_rejected(),
 		_serials(),
 		_location(),
 		_categories(one),
@@ -93,6 +94,13 @@ def _reorder() -> dict:
 	if not levels:
 		return _row("reorder", check, READY, _("No item has a reorder level yet. Set one on an item's Stock view."))
 	return _row("reorder", check, SUGGESTED, _("{0} items have a reorder level, but nothing is asked for when they reach it. To Order still lists them.").format(levels), "reorder")
+
+
+def _rejected() -> dict:
+	check = _("Rejected goods are not billed")
+	if frappe.db.get_single_value("Buying Settings", "bill_for_rejected_quantity_in_purchase_invoice"):
+		return _row("rejected", check, SUGGESTED, _("A bill made from a receipt charges for what was rejected on arrival too."), "rejected")
+	return _row("rejected", check, READY, _("A bill made from a receipt charges only for what was accepted."))
 
 
 def _valued(one) -> dict:
@@ -180,6 +188,8 @@ def fix(key: str, **values) -> None:
 		_settle(allow_negative_stock=0)
 	elif key == "reorder":
 		_settle(auto_indent=1)
+	elif key == "rejected":
+		_settle(bill_for_rejected_quantity_in_purchase_invoice=0, settings="Buying Settings")
 	elif key == "location":
 		add_location((values.get("location_name") or "").strip())
 	elif key == "categories":
@@ -202,10 +212,10 @@ def fix(key: str, **values) -> None:
 		frappe.throw(_("Nothing to fix for {0}.").format(key))
 
 
-def _settle(**values) -> None:
-	"""Stock Settings changed through its own save, so ERPNext's checks hold.
-	Whoever may fix was checked by `fix`."""
-	settings = frappe.get_single("Stock Settings")
+def _settle(settings: str = "Stock Settings", **values) -> None:
+	"""Stock or Buying Settings changed through its own save, so ERPNext's
+	checks hold. Whoever may fix was checked by `fix`."""
+	settings = frappe.get_single(settings)
 	settings.update(values)
 	settings.flags.ignore_permissions = True
 	settings.save()

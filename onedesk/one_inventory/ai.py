@@ -1,5 +1,6 @@
 """What OneAI does in OneInventory: reads an item as its page shows it, says
-what the stores hold and what is running low, and suggests a change to an item as its page makes it,
+what the stores hold, what is running low, what came in on a receipt and what
+is still to arrive, drafts a receipt for an order, and suggests a change to an item as its page makes it,
 as a card the reader approves.
 """
 
@@ -66,6 +67,29 @@ _WORTH = {
 	"expects": "stock_on_hand",
 }
 
+_RECEIVED = {
+	"label": _lt("What came in on this receipt?"),
+	"ask": _lt(
+		"What came in on this receipt? Say what was accepted and rejected and why, what it cost with freight and "
+		"duty, which order it was for, and whether it is billed."
+	),
+	"can": "read",
+	"doctype": "Purchase Receipt",
+	"expects": "receipt_facts",
+}
+_ARRIVING = {
+	"label": _lt("What is still to arrive?"),
+	"ask": _lt("What is still to arrive from suppliers, what is late, and from whom?"),
+	"expects": "still_to_arrive",
+}
+_RECEIVE = {
+	"label": _lt("Receive this order"),
+	"ask": _lt("Draft a receipt for what is still to come on this order."),
+	"can": "read",
+	"doctype": "Purchase Order",
+	"expects": "plan_receipt",
+}
+
 SUGGESTIONS = {
 	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
 	f"page:{PAGE}/stock": [_HOW, _ORDER],
@@ -73,6 +97,8 @@ SUGGESTIONS = {
 	"Item": [_LOW, _HOW],
 	f"page:{STOCK}": [_LOW, _HELD],
 	"Warehouse": [_WORTH, _LOW],
+	"Purchase Receipt": [_RECEIVED, _ARRIVING],
+	"Purchase Order": [_RECEIVE, _ARRIVING],
 }
 
 
@@ -205,6 +231,200 @@ def stock_on_hand(
 			}
 			for one in said["items"][:100]
 		],
+	}
+
+
+def receipt_facts(receipt: Annotated[str, "The receipt's number, such as MAT-PRE-2026-00010."]) -> dict:
+	"""What came in on a receipt, as its form shows it to the reader: from
+	whom and on what order, each line received, accepted and rejected, what it
+	was valued at with freight and duty, the inspections on arrival, and what
+	of it is billed. Read before answering about a delivery."""
+	if not frappe.db.exists("Purchase Receipt", receipt) or not frappe.has_permission(
+		"Purchase Receipt", "read", doc=receipt
+	):
+		return {"error": f"No receipt the reader may see is {receipt}."}
+	doc = frappe.get_doc("Purchase Receipt", receipt)
+	company = frappe.get_cached_value("Company", doc.company, "default_currency")
+	landed = frappe.get_all(
+		"Landed Cost Purchase Receipt",
+		filters={"receipt_document": doc.name, "docstatus": 1},
+		pluck="parent",
+	)
+	charges = (
+		frappe.get_all(
+			"Landed Cost Taxes and Charges",
+			filters={"parent": ["in", landed]},
+			fields=["description", "base_amount"],
+		)
+		if landed
+		else []
+	)
+	inspections = frappe.get_all(
+		"Quality Inspection",
+		filters={"reference_type": "Purchase Receipt", "reference_name": doc.name, "docstatus": 1},
+		fields=["name", "item_code", "status", "remarks", "sample_size"],
+	)
+	bills = frappe.get_all(
+		"Purchase Invoice Item",
+		filters={"purchase_receipt": doc.name, "docstatus": 1},
+		pluck="parent",
+		distinct=True,
+	)
+	out = {
+		"receipt": doc.name,
+		"supplier": doc.supplier_name or doc.supplier,
+		"on": str(doc.posting_date),
+		"status": doc.status,
+		"returned": bool(doc.is_return),
+		"their_delivery_note": doc.supplier_delivery_note,
+		"project": doc.project,
+		"currency": doc.currency,
+		"company_currency": company,
+		"exchange_rate": flt(doc.conversion_rate) if doc.currency != company else None,
+		"orders": list(dict.fromkeys(row.purchase_order for row in doc.items if row.purchase_order)),
+		"lines": [
+			{
+				"item": row.item_code,
+				"name": row.item_name,
+				"unit": row.uom,
+				"received": flt(row.received_qty),
+				"accepted": flt(row.qty),
+				"rejected": flt(row.rejected_qty),
+				"into": row.warehouse,
+				"rejected_into": row.rejected_warehouse if flt(row.rejected_qty) else None,
+				"price": flt(row.rate),
+				"valued_each_in_company_currency": flt(row.valuation_rate) if doc.docstatus == 1 else None,
+				"freight_and_duty": flt(row.landed_cost_voucher_amount),
+			}
+			for row in doc.items
+		],
+		"total": flt(doc.grand_total),
+		"total_in_company_currency": flt(doc.base_grand_total),
+		"freight_and_duty": [{"what": one.description, "amount": flt(one.base_amount)} for one in charges],
+		"inspections": [
+			{"item": one.item_code, "result": one.status, "said": one.remarks, "sample": flt(one.sample_size)}
+			for one in inspections
+		],
+		"billed_percent": flt(doc.per_billed),
+		"bills": bills,
+	}
+	return {key: value for key, value in out.items() if value not in (None, [], "")}
+
+
+def still_to_arrive(
+	supplier: Annotated[str, "Only from this supplier."] | None = None,
+	item: Annotated[str, "Only this item, by its code."] | None = None,
+) -> dict:
+	"""What is ordered from suppliers and not yet received, as the reader's
+	purchase orders say it: each order's lines still to come, when they were
+	due, and which are late, the latest first."""
+	if not frappe.has_permission("Purchase Order", "read"):
+		return {"error": "The reader may not see purchase orders."}
+	filters = {"docstatus": 1, "per_received": ["<", 100], "status": ["not in", ("Closed", "On Hold", "Completed")]}
+	if supplier:
+		filters["supplier"] = supplier
+	orders = {
+		one.name: one
+		for one in frappe.get_list(
+			"Purchase Order",
+			filters=filters,
+			fields=["name", "supplier", "supplier_name", "currency", "project"],
+			limit_page_length=0,
+		)
+	}
+	if not orders:
+		return {"lines": [], "count": 0}
+	rows = frappe.get_all(
+		"Purchase Order Item",
+		filters={"parent": ["in", list(orders)], **({"item_code": item} if item else {})},
+		fields=["parent", "item_code", "item_name", "qty", "received_qty", "uom", "schedule_date", "rate"],
+	)
+	day = frappe.utils.getdate(frappe.utils.today())
+	lines = []
+	for row in rows:
+		left = flt(row.qty) - flt(row.received_qty)
+		if left <= 0:
+			continue
+		order = orders[row.parent]
+		due = frappe.utils.getdate(row.schedule_date) if row.schedule_date else None
+		lines.append(
+			{
+				"order": row.parent,
+				"supplier": order.supplier_name or order.supplier,
+				"item": row.item_code,
+				"name": row.item_name,
+				"still_to_come": left,
+				"unit": row.uom,
+				"due": str(due) if due else None,
+				"late_by_days": (day - due).days if due and due < day else 0,
+				"project": order.project,
+			}
+		)
+	lines.sort(key=lambda one: (-one["late_by_days"], one["due"] or ""))
+	return {"lines": lines[:60], "count": len(lines), "late": sum(1 for one in lines if one["late_by_days"])}
+
+
+def plan_receipt(
+	order: Annotated[str, "The purchase order the goods came on, such as PUR-ORD-2026-00012."],
+	lines: Annotated[
+		list[dict],
+		"Only what arrived, if not everything still to come: each {item: code, qty: how many}.",
+	]
+	| None = None,
+	why: Annotated[str, "In a sentence, why this receipt."] | None = None,
+) -> dict:
+	"""Suggest a draft receipt for what has arrived on a purchase order, as a
+	card the reader approves. ERPNext's own mapping fills it, with what is still
+	to come on each line unless told less. Nothing is received until the draft
+	is submitted on its form."""
+	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
+
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Purchase Order", order) or not frappe.has_permission("Purchase Order", "read", doc=order):
+		return {"error": f"No purchase order the reader may see is {order}."}
+	if not frappe.has_permission("Purchase Receipt", "create"):
+		return {"error": "The reader may not make receipts."}
+	mapped = make_purchase_receipt(order)
+	if not mapped.items:
+		return {"error": "Everything on this order has been received. Say so."}
+	wanted = {str(one.get("item")): flt(one.get("qty")) for one in lines or [] if one.get("item")}
+	rows = []
+	for row in mapped.items:
+		qty = min(wanted[row.item_code], flt(row.qty)) if wanted and row.item_code in wanted else flt(row.qty)
+		if (wanted and row.item_code not in wanted) or qty <= 0:
+			continue
+		rows.append(
+			{
+				"item_code": row.item_code,
+				"item_name": row.item_name,
+				"qty": qty,
+				"received_qty": qty,
+				"stock_uom": row.stock_uom,
+				"rate": row.rate,
+				"uom": row.uom,
+				"conversion_factor": row.conversion_factor,
+				"warehouse": row.warehouse,
+				"purchase_order": row.purchase_order,
+				"purchase_order_item": row.purchase_order_item,
+				"schedule_date": str(row.schedule_date) if row.schedule_date else None,
+			}
+		)
+	if not rows:
+		return {"error": "None of those items is still to come on this order. Ask which they meant."}
+	changes = {
+		"supplier": mapped.supplier,
+		"currency": mapped.currency,
+		"conversion_rate": mapped.conversion_rate,
+		"buying_price_list": mapped.buying_price_list,
+		"project": mapped.project,
+		"items": rows,
+	}
+	return {
+		"proposal": proposals.propose(
+			"Create", "Purchase Receipt", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
+		),
+		"state": "Proposed",
 	}
 
 

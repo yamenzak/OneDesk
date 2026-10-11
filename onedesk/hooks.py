@@ -1020,6 +1020,7 @@ doctype_list_js = {
 	"Project": "public/js/project_list.js",
 	# Whether a contract is signed, and the project it is for by name.
 	"Contract": "public/js/contract_list.js",
+	"Purchase Receipt": "public/js/purchase_receipt_list.js",
 }
 
 override_doctype_dashboards = {
@@ -1125,6 +1126,8 @@ app_include_js = [
 	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
+	# The exchange rate said with the rate in it, not "[?]". See rate_note.js.
+	"/assets/onedesk/js/rate_note.js",
 	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
 	"/assets/onedesk/js/island_page.js",
 	"/assets/onedesk/js/project_new.js",
@@ -1221,6 +1224,7 @@ one_makes_records = {
 	"Project Update": ["one_project"],
 	"Purchase Invoice": ["one"],
 	"Purchase Order": ["one_inventory"],
+	"Purchase Receipt": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
 	"Sales Invoice": ["one_admin", "one_project"],
 	"Sales Order": ["one_project"],
@@ -1294,11 +1298,13 @@ one_ai_reads = [
 	# shows it. See one_task/ai.py.
 	"onedesk.one_task.ai.my_tasks",
 	"onedesk.one_task.ai.task_facts",
-	# An item as its page shows it, what the stores hold and what is running low.
-	# See one_inventory/ai.py.
+	# An item as its page shows it, what the stores hold, what is running low, a
+	# receipt and what is still to arrive. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.item_facts",
 	"onedesk.one_inventory.ai.stock_on_hand",
 	"onedesk.one_inventory.ai.running_low",
+	"onedesk.one_inventory.ai.receipt_facts",
+	"onedesk.one_inventory.ai.still_to_arrive",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1417,6 +1423,8 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_change",
 	# A change to an item, as its page makes it. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.plan_item_change",
+	# A draft receipt for what arrived on an order. See one_inventory/ai.py.
+	"onedesk.one_inventory.ai.plan_receipt",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

@@ -30,7 +30,10 @@ GIVEN = (
 			STOCK_MANAGER: roles.MANAGE,
 			"Purchase Manager": roles.MANAGE,
 			"Item Manager": roles.MANAGE,
-		}
+		},
+		# Freight and duty come in on a forwarder's bill, which the accountant
+		# keeps. ERPNext gives landed costs to the stock manager alone.
+		"Landed Cost Voucher": {STOCK_USER: roles.USE, "Accounts Manager": roles.WORK},
 	}
 )
 

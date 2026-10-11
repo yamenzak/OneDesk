@@ -10354,8 +10354,8 @@ page of its own, and Quality Management stays out.
 | 0 | Gates: 1900 fast tests, 122 of 122 demo checks, and the clean-up | done |
 | 1 | Items and an item's page | done |
 | 2 | Stock on Hand and warehouses | done |
-| 3 | Receiving | next |
-| 4 | Delivering | |
+| 3 | Receiving | done |
+| 4 | Delivering | next |
 | 5 | Moving and counting | |
 | 6 | Buying | |
 | 7 | Making | |
@@ -10537,4 +10537,84 @@ Fixed:
 | 17 Clean code | `stock.py` one concern, `rows` pure, lint clean |
 | Everything follows frappe | the page follows the stock ledger and the Bins live, the warehouse in the address |
 | What ERPNext already does | the company's currency, ERPNext's low test, reserved stock taken off Free to Sell, the group tree by lft and rgt |
+
+#### 3. Receiving
+
+Looked at as Karim on the receipts list, a receipt in euros, the draft OneAI
+made from a delivery note and a receipt still to bill, as Huda on freight and
+duty, and as Nadia, who has no OneInventory. On a desktop and a phone, and the
+code behind the receipt, its print and ERPNext's inspection and landed cost
+rules.
+
+Found:
+
+- **Our look (5)**: a receipt had no head. Which order it came on, what it was
+  worth in dirhams, what was rejected and how much was billed were all down
+  the form.
+- **Plain words (12)**: under every exchange rate ERPNext writes "1 EUR = [?]
+  AED", on every quotation, order, receipt and invoice in another currency.
+- **Our look (5)**: the receipts list cut the supplier's name short for a
+  number column and a Returned column that was nearly always empty.
+- **Printed (11)**: a receipt had no print of its own.
+- **Permissions (15)**: only the stock manager could add freight and duty.
+  Huda, who keeps the forwarder's bill, could not.
+- **Works (1)**: a bill made from a receipt charged for what was rejected on
+  arrival, as ERPNext's Buying Settings start.
+- **Demo coverage (1)**: no landed cost, no inspection and no rejected
+  goods anywhere in the demo.
+- **What ERPNext already does**: an inspection marked Rejected stops the
+  whole receipt, and ERPNext refuses an inspection for an item that does not
+  require one. So a delivery that is partly bad passes its inspection and has
+  the bad part rejected on the receipt.
+- **Kept**: ERPNext's Create menu already has Landed Cost Voucher, Purchase
+  Invoice and Return. Material Request Received already tells whoever asked
+  that their goods came.
+
+Fixed:
+
+- **Our look (5)**: Purchase Receipt has a head with Project, Order, Worth
+  (the euro total beside it), Landed Costs, Rejected and Billed.
+- **Plain words (12)**: `rate_note.js` writes "1 EUR = 3.98 AED" on every
+  money document.
+- **Our look (5)**: the receipts list keeps the supplier, status, date, total
+  and billed, with the number on hover.
+- **Printed (11)**: One Purchase Receipt prints as a Goods Received Note, with
+  each line's received, accepted and rejected, signed by whoever delivered and
+  whoever received.
+- **Permissions (15)**: an Accounts Manager may add landed costs, and a Stock
+  User reads them.
+- **Works (1)**: the Inventory Check has a row, Rejected goods
+  are not billed, with a Fix.
+- **Demo coverage (1)**: freight from Genoa and 5% duty on the first euro
+  hardware, added by Huda, and forty square metres of tempered glass with six
+  rejected after inspection, waiting in a new Rejected warehouse.
+- **Knows (13)**: `receipt_facts`, `still_to_arrive` and `plan_receipt`,
+  with What came in on this receipt?, What is still to arrive? and Receive
+  this order.
+- **Works (1)**: `oneinventory_goods_arrive_as_the_receipt_says` checks the
+  euro receipt's dirhams and landed costs against its value in the stores,
+  the glass's 40, 34 and 6, the head, the goods received note, the bill
+  leaving out the rejected, OneAI's three tools, and refuses Nadia.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the landed cost, the inspection and the rejected glass in the demo, and the new check |
+| 2 Rules on the server | ERPNext's own inspection and landed cost rules, and the fixes save Buying Settings through its own save |
+| 3 Hand-offs | receipt to bill (rejected left off), order to receipt, the requester told |
+| 4 Tier declared | Purchase Receipt in HEADS and its List in COLLECTIONS |
+| 5 Our look | the head, the list, at 1440 wide and on a phone |
+| 6 Nothing lost | ERPNext's Create menu, its Return and every field kept |
+| 7 Extensible | the head's band takes what is written for it, as every head does |
+| 8 Built from frappe | the print in frappe's builder, the rate through frappe's number format, ERPNext's own mapper for the drafted receipt |
+| 9 Overrides recorded | the landed cost grant, the rejected billing setting and the rate note (319 rows) |
+| 10 Notifications | Material Request Received, checked to be on |
+| 11 Printed | One Purchase Receipt, the Goods Received Note |
+| 12 Plain words | the rate note, every label and row, in Arabic and German |
+| 13 Documented, OneAI | the README's Receiving section, three tools |
+| 14 Intake | a supplier's delivery note becomes a draft receipt, as before |
+| 15 Permissions | landed costs for the accountant, receipts read as the reader may, Nadia refused |
+| 16 Legal | nothing new |
+| 17 Clean code | lint clean |
+| Everything follows frappe | the form, the list and the print are frappe's own |
+| What ERPNext already does | base amounts at the receipt's rate, valuation with landed costs, the inspection rules, rejected goods kept in their own warehouse |
 

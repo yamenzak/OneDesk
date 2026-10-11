@@ -131,6 +131,8 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 - **Running low asks for more.** An item at its reorder level gets a
   material request each night. **Fix** turns this on. **To Order** lists
   what is low either way.
+- **Rejected goods are not billed.** ERPNext's own setting bills what was
+  rejected on arrival too. **Fix** bills only what was accepted.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
   can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.
@@ -148,10 +150,42 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
    and at what price, and when you need them. **Submit** sends nothing by
    itself — it records what you ordered; email it from the order's menu.
 2. When the goods arrive, **Create › Purchase Receipt** on the order fills in
-   what was ordered; change the quantities to what actually came, pick the
+   what was ordered. Change the quantities to what actually came, pick the
    warehouse, and submit. The stock is on the shelf from then.
 3. The supplier's bill is **Create › Purchase Invoice** on the receipt, and it
    is OneBook's from there.
+
+## Receiving
+
+**Receipts** lists every delivery with its supplier, where it stands, its date,
+its total and how much of it is billed. A supplier's delivery note read from
+mail is already there as a draft, marked as made by OneAI.
+
+A receipt says above its fields which **Order** it came on, what it is
+**Worth** in the company's money (with the supplier's own currency beside it
+when that is another), the **Landed Costs** added to it, how much was
+**Rejected**, and how much is **Billed**. Under the exchange rate it says what
+one of the supplier's currency is in the company's.
+
+- **Something broken or wrong on arrival.** Put what came under Received, what
+  you keep under Accepted, and the rest under Rejected with the warehouse it
+  waits in. Only what was accepted goes on the shelf. An item marked
+  **Inspection Required before Purchase** needs a quality inspection on its
+  line before the receipt can be submitted. An inspection marked Rejected
+  stops the whole receipt, so a delivery that is partly bad passes its
+  inspection and has the bad part rejected on the receipt.
+- **Freight and duty.** **Create › Landed Cost Voucher** on the receipt, add
+  each charge, and submit. What each item cost goes up by its share, and the
+  receipt says so. The accountant may add them too.
+- **The bill.** **Create › Purchase Invoice** charges for what was accepted,
+  once **Rejected goods are not billed** is Ready in the Inventory Check.
+- **Paper.** A receipt prints as a **Goods Received Note**, with what was
+  received, accepted and rejected on each line, signed by whoever delivered and
+  whoever received.
+
+Whoever asked for the goods on a material request is told when they arrive.
+OneAI says what came in on a receipt, what is still to arrive and what is
+late, and drafts a receipt for what arrived on an order as a card you approve.
 
 Selling works the other way: the customer's order is OneCRM's, **Create ›
 Delivery Note** on it sends the goods from a warehouse, and the invoice is
@@ -298,8 +332,18 @@ a register and a movement form in it would be a rail with five rows.
   head is in `heads.py`, and a group's figures cover the warehouses under it.
 - `public/js/warehouse_tree.js` — the warehouse tree without ERPNext's Company
   filter, opened all the way down once.
-- `ai.py` — OneAI on an item and the stores: `item_facts` reads an item as
-  its page does, `stock_on_hand` the stores as Stock on Hand does,
+- `heads.py` (Purchase Receipt), `print_format/one_purchase_receipt`,
+  `public/js/purchase_receipt_list.js` and `public/js/rate_note.js` —
+  receiving. The receipt's head reads its lines: their orders, what they were
+  valued at once received (landed costs included), and what was rejected. The
+  goods received note is laid out in frappe's builder from One's print blocks
+  (`one/print_blocks.py`). `rate_note.js` writes the rate under every money
+  document's exchange rate, where ERPNext writes "[?]". `access.py` lets the
+  accountant add landed costs.
+- `ai.py` — OneAI on an item, the stores and receiving: `item_facts` reads
+  an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
+  `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
+  come, `plan_receipt` drafts a receipt through ERPNext's own mapping,
   `running_low` lists what is at or below its reorder level as ERPNext's
   reordering reads it, and `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps

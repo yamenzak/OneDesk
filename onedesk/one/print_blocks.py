@@ -16,6 +16,7 @@ TITLES = {
 	"Sales Order": (_lt("Sales Order"), _lt("Order No")),
 	"Sales Invoice": (_lt("Invoice"), _lt("Invoice No")),
 	"Delivery Note": (_lt("Delivery Note"), _lt("Delivery No")),
+	"Purchase Receipt": (_lt("Goods Received Note"), _lt("Receipt No")),
 	"Purchase Order": (_lt("Purchase Order"), _lt("Order No")),
 	"Request for Quotation": (_lt("Request for Quotation"), _lt("Request No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
@@ -46,6 +47,11 @@ DETAILS = {
 		(_lt("Your Reference"), "po_no"),
 		(_lt("Vehicle"), "vehicle_no"),
 	),
+	"Purchase Receipt": (
+		(_lt("Date"), "posting_date"),
+		(_lt("Their Delivery Note"), "supplier_delivery_note"),
+		(_lt("Vehicle"), "lr_no"),
+	),
 	"Purchase Order": ((_lt("Date"), "transaction_date"), (_lt("Required By"), "schedule_date")),
 	"Request for Quotation": ((_lt("Date"), "transaction_date"),),
 	"Payment Entry": (
@@ -73,6 +79,7 @@ PARTIES = {
 	"Sales Invoice": (_lt("Bill To"), "customer_name"),
 	"Delivery Note": (_lt("Deliver To"), "customer_name"),
 	"Purchase Order": (_lt("Supplier"), "supplier_name"),
+	"Purchase Receipt": (_lt("Received From"), "supplier_name"),
 	"Payment Entry": (_lt("Received From"), "party_name"),
 	"Salary Slip": (_lt("Employee"), "employee_name"),
 	"Job Offer": (_lt("Offered To"), "applicant_name"),
@@ -90,6 +97,7 @@ FORMATS = {
 	"Sales Invoice": ("One Sales Invoice", "one_book"),
 	"Payment Entry": ("One Payment Receipt", "one_book"),
 	"Delivery Note": ("One Delivery Note", "one_inventory"),
+	"Purchase Receipt": ("One Purchase Receipt", "one_inventory"),
 	"Purchase Order": ("One Purchase Order", "one_inventory"),
 	"Request for Quotation": ("One Request for Quotation", "one_inventory"),
 	"Salary Slip": ("One Payslip", "one_hr"),
@@ -105,6 +113,8 @@ FORMATS = {
 SIGNED = {
 	"Quotation": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "customer_name")),
 	"Delivery Note": ((_lt("Delivered By"), None), (_lt("Received By"), "customer_name")),
+	# The supplier's driver hands the goods over, and the stores sign for them.
+	"Purchase Receipt": ((_lt("Delivered By"), "supplier_name"), (_lt("Received By"), None)),
 	"Job Offer": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	# The customer billed for the time signs that the hours are theirs.
@@ -194,6 +204,8 @@ def title(doc) -> dict:
 		said = _("Debit Note")
 	elif doc.doctype == "Delivery Note" and doc.get("is_return"):
 		said = _("Return")
+	elif doc.doctype == "Purchase Receipt" and doc.get("is_return"):
+		said = _("Goods Returned")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Pay":
 		said, number = _("Payment"), _("Payment No")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Internal Transfer":

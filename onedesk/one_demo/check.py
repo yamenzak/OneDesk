@@ -4783,6 +4783,60 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 
 
 @check
+def oneinventory_goods_arrive_as_the_receipt_says():
+	"""Receiving, as Karim and Huda do it. The euro hardware's freight and duty
+	are added to what each piece cost, in dirhams, and its value in the stores
+	is its euro price at the rate plus those. Six of forty square metres of
+	tempered glass are rejected on arrival after their inspection, kept apart
+	and left off the bill. A receipt prints as a goods received note, and OneAI
+	reads a receipt, says what is still to come and drafts the next one."""
+	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_invoice
+
+	from onedesk.one import print_blocks
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai, heads, ready
+
+	euro = frappe.db.get_value("Landed Cost Purchase Receipt", {"docstatus": 1}, "receipt_document")
+	assert euro, "no landed cost in the demo"
+	assert frappe.has_permission("Landed Cost Voucher", "create", user="huda@one.test"), "the accountant cannot add freight and duty"
+	glass = frappe.db.get_value("Quality Inspection", {"reference_type": "Purchase Receipt", "docstatus": 1}, "reference_name")
+	with as_user("karim@one.test"):
+		doc = frappe.get_doc("Purchase Receipt", euro)
+		assert doc.currency == "EUR" and abs(flt(doc.base_net_total) - flt(doc.net_total) * flt(doc.conversion_rate)) <= CENTS
+		added = sum(flt(row.landed_cost_voucher_amount) for row in doc.items)
+		charges = sum(flt(one) for one in frappe.get_all("Landed Cost Taxes and Charges", filters={"parent": ["in", frappe.get_all("Landed Cost Purchase Receipt", filters={"receipt_document": euro, "docstatus": 1}, pluck="parent")]}, pluck="base_amount"))
+		assert added and abs(added - charges) <= CENTS, (added, charges)
+		valued = sum(flt(row.valuation_rate) * flt(row.stock_qty) for row in doc.items)
+		assert abs(valued - flt(doc.base_net_total) - added) <= 1, (valued, doc.base_net_total, added)
+		assert heads.receipt_landed(doc) and "€" in heads.receipt_worth(doc)["label"], heads.receipt_worth(doc)
+		assert heads.receipt_order(doc)["route"].startswith("/desk/purchase-order/")
+		arrived = frappe.get_doc("Purchase Receipt", glass)
+		row = arrived.items[0]
+		assert (row.received_qty, row.qty, row.rejected_qty) == (40, 34, 6) and frappe.db.get_value("Warehouse", row.rejected_warehouse, "is_rejected_warehouse")
+		assert heads.receipt_rejected(arrived)["tone"] == "alarm" and heads.receipt_rejected(doc) is None
+		assert print_blocks.title(arrived)["title"] == "Goods Received Note" and print_blocks.party(arrived)["name"]
+		facts = ai.receipt_facts(glass)
+		assert facts["lines"][0]["rejected"] == 6 and facts["inspections"][0]["item"] == "GLS-TMP10", facts
+		assert ai.receipt_facts(euro)["freight_and_duty"], "freight and duty on the euro hardware"
+		coming = ai.still_to_arrive(supplier="Euro Hardware Trading")
+		assert coming["lines"] and all(one["supplier"] == "Euro Hardware Trading" for one in coming["lines"]), coming
+		order = coming["lines"][0]["order"]
+		card = ai.plan_receipt(order, lines=[{"item": coming["lines"][0]["item"], "qty": 1}])
+		made = proposals.apply(card["proposal"])["record"]
+		drafted = frappe.get_doc("Purchase Receipt", made)
+		assert drafted.docstatus == 0 and [(one.purchase_order, one.qty) for one in drafted.items] == [(order, 1)], drafted.items
+		drafted.delete()
+	with as_user(OWNER):
+		ready.fix("rejected")
+		assert {one["key"]: one for one in ready.checks()}["rejected"]["state"] == ready.READY
+		bill = make_purchase_invoice(glass)
+		assert [flt(one.qty) for one in bill.items] == [34], "the six rejected are not billed"
+	assert frappe.db.get_value("Notification", "Material Request Receipt Notification", "enabled"), "nobody is told their goods came"
+	with as_user("nadia@one.test"):
+		assert ai.receipt_facts(glass).get("error")
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

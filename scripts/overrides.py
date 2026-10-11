@@ -1908,6 +1908,27 @@ OVERRIDES = [
 		'"fieldname": "auto_indent",',
 	),
 	(
+		"The accountant may add landed costs",
+		"theirs gives a Landed Cost Voucher to the Stock Manager alone, and freight and duty come in on a forwarder's bill the accountant keeps; Stock User reads them",
+		"onedesk/one_inventory/access.py",
+		"erpnext/erpnext/stock/doctype/landed_cost_voucher/landed_cost_voucher.json",
+		'"role": "Stock Manager",',
+	),
+	(
+		"The Inventory Check reads whether rejected goods are billed",
+		"one_inventory/ready.py says when a bill made from a receipt charges for what was rejected, and its Fix saves Buying Settings through its own save",
+		"onedesk/one_inventory/ready.py",
+		"erpnext/erpnext/buying/doctype/buying_settings/buying_settings.json",
+		'"fieldname": "bill_for_rejected_quantity_in_purchase_invoice",',
+	),
+	(
+		"The exchange rate is said with the rate in it",
+		"theirs writes 1 EUR = [?] AED under the rate of every money document; rate_note.js wraps change_form_labels, conversion_rate and plc_conversion_rate on erpnext.TransactionController and writes the rate",
+		"onedesk/public/js/rate_note.js",
+		"erpnext/erpnext/public/js/controllers/transaction.js",
+		'" = [?] " + company_currency',
+	),
+	(
 		"Stock Settings' reorder mail switch is hidden",
 		"Material Request Raised tells Purchasing through the hub instead, so the switch ERPNext's reorder reads is hidden by a property setter and starts the notification",
 		"onedesk/one_inventory/custom/stock_settings.json",
