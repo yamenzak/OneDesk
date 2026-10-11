@@ -110,7 +110,7 @@ GROUPS = {
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},
 	"inventory": {
-		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, what came in on a receipt, what is still to arrive or to deliver, a delivery and its trip, a stock movement or a count and what it did to the books, drafting a receipt or a delivery for an order or a transfer to a site, whether to order more, and changing an item or its reorder level",
+		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, what came in on a receipt, what is still to arrive or to deliver, a delivery and its trip, a stock movement or a count and what it did to the books, comparing suppliers' quotes, which orders are late, drafting a receipt or a delivery for an order, a transfer to a site or a request for quotation, whether to order more, and changing an item or its reorder level",
 		"tools": (
 			"item_facts",
 			"stock_on_hand",
@@ -121,14 +121,17 @@ GROUPS = {
 			"still_to_deliver",
 			"movement_facts",
 			"count_facts",
+			"quote_comparison",
+			"late_orders",
 			"plan_item_change",
 			"plan_receipt",
 			"plan_delivery",
 			"plan_transfer",
+			"plan_quote_request",
 		),
 		"words": (
 			"item", "stock", "inventory", "warehouse", "reorder", "on hand", "running low", "receipt", "received",
-			"arrive", "delivery note", "deliver", "dispatch", "trip", "transfer", "move", "count", "site", "artikel", "lager", "bestand", "wareneingang",
+			"arrive", "delivery note", "deliver", "dispatch", "trip", "transfer", "move", "count", "site", "quote", "quotation", "supplier", "purchase order", "late order", "artikel", "angebot", "lager", "bestand", "wareneingang",
 			"صنف", "مخزون", "مستودع",
 		),
 	},

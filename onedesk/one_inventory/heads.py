@@ -324,6 +324,217 @@ def delivery_trip(doc):
 	}
 
 
+# ------------------------------------------------------------------ buying
+
+
+def _company_money(doc) -> str:
+	return frappe.get_cached_value("Company", doc.company, "default_currency")
+
+
+def _total(doc):
+	"""In the supplier's money, with the company's beside it when they differ."""
+	company = _company_money(doc)
+	shown = fmt_money(doc.grand_total, currency=doc.currency)
+	if doc.currency and doc.currency != company:
+		return {"label": _("Total · {0}").format(fmt_money(doc.base_grand_total, currency=company)), "value": shown}
+	return shown
+
+
+def _wanted(day, done: bool):
+	"""The day goods are wanted, said as late once it has passed and they are
+	not all here."""
+	if not day:
+		return None
+	if not done and getdate(day) < getdate(today()):
+		return {"value": _("Late since {0}").format(formatdate(day)), "tone": "alarm"}
+	return formatdate(day)
+
+
+def request_asked_by(doc):
+	return frappe.utils.get_fullname(doc.owner)
+
+
+def request_wanted(doc):
+	return _wanted(doc.schedule_date, doc.docstatus != 1 or flt(doc.per_received) >= 100 or doc.status in ("Stopped", "Cancelled"))
+
+
+def request_quotes(doc):
+	"""The quotes suppliers sent for it, opening the request that asked them."""
+	asked = frappe.get_all(
+		"Request for Quotation Item",
+		filters={"material_request": doc.name, "docstatus": ["<", 2]},
+		pluck="parent",
+		distinct=True,
+	)
+	if not asked:
+		return None
+	quotes = frappe.get_all(
+		"Supplier Quotation Item",
+		filters={"request_for_quotation": ["in", asked], "docstatus": ["<", 2]},
+		pluck="parent",
+		distinct=True,
+	)
+	value = _("{0} of {1}").format(len(quotes), len(_asked(asked[0]))) if len(asked) == 1 else str(len(quotes))
+	return {"value": value, "route": f"/desk/request-for-quotation/{quote(asked[0])}"}
+
+
+@request_cache
+def _asked(rfq: str) -> list:
+	return frappe.get_all("Request for Quotation Supplier", filters={"parent": rfq}, pluck="supplier")
+
+
+@request_cache
+def _quoted(rfq: str) -> dict:
+	"""Each item's quoted rates on a request, in the company's money so a
+	supplier in euros compares, {item_code: [(base_rate, supplier, quote)]},
+	cheapest first."""
+	rows = frappe.db.sql(
+		"""select item.item_code, item.base_rate, quote.supplier, quote.name
+		from `tabSupplier Quotation Item` item join `tabSupplier Quotation` quote on quote.name = item.parent
+		where item.request_for_quotation = %s and quote.docstatus < 2 and quote.status != 'Expired'""",
+		rfq,
+	)
+	out: dict = {}
+	for code, rate, supplier, name in rows:
+		out.setdefault(code, []).append((flt(rate), supplier, name))
+	return {code: sorted(one) for code, one in out.items()}
+
+
+def rfq_request(doc):
+	requests = list(dict.fromkeys(row.material_request for row in doc.items if row.get("material_request")))
+	if not requests:
+		return None
+	if len(requests) == 1:
+		return {"value": requests[0], "route": f"/desk/material-request/{quote(requests[0])}"}
+	return _("{0} requests").format(len(requests))
+
+
+def rfq_answered(doc):
+	if doc.docstatus != 1:
+		return None
+	answered = {supplier for lines in _quoted(doc.name).values() for _rate, supplier, _name in lines}
+	asked = _asked(doc.name)
+	return {"value": _("{0} of {1}").format(len(answered), len(asked)), "tone": None if answered else "waiting"}
+
+
+def rfq_cheapest(doc):
+	"""Who is cheapest, line by line: one supplier, or how many share the
+	lines. Opens the comparison."""
+	quoted = _quoted(doc.name)
+	if not quoted:
+		return None
+	best = {lines[0][1] for lines in quoted.values()}
+	value = best.pop() if len(best) == 1 else _("Split between {0}").format(len(best))
+	return {
+		"value": value,
+		"route": "/desk/query-report/Supplier Quotation Comparison?"
+		+ f"request_for_quotation={quote(doc.name)}&from_date={doc.transaction_date}",
+	}
+
+
+def quote_request(doc):
+	asked = list(dict.fromkeys(row.request_for_quotation for row in doc.items if row.get("request_for_quotation")))
+	if not asked:
+		return None
+	return {"value": asked[0], "route": f"/desk/request-for-quotation/{quote(asked[0])}"}
+
+
+def quote_valid(doc):
+	if not doc.valid_till:
+		return None
+	if doc.status == "Expired" or getdate(doc.valid_till) < getdate(today()):
+		return {"value": _("Expired {0}").format(formatdate(doc.valid_till)), "tone": "quiet"}
+	return formatdate(doc.valid_till)
+
+
+def quote_cheapest(doc):
+	"""On how many of its lines the quote is the cheapest of those sent for
+	the same request."""
+	asked = next((row.request_for_quotation for row in doc.items if row.get("request_for_quotation")), None)
+	if not asked:
+		return None
+	quoted = _quoted(asked)
+	codes = list(dict.fromkeys(row.item_code for row in doc.items))
+	if sum(len(quoted.get(code) or ()) for code in codes) <= len(codes):
+		return None
+	best = sum(1 for code in codes if quoted.get(code) and quoted[code][0][2] == doc.name)
+	return {"value": _("{0} of {1} lines").format(best, len(codes)), "tone": None if best else "quiet"}
+
+
+def quote_ordered(doc):
+	orders = frappe.get_all(
+		"Purchase Order Item",
+		filters={"supplier_quotation": doc.name, "docstatus": ["<", 2]},
+		pluck="parent",
+		distinct=True,
+	)
+	if not orders:
+		return None
+	if len(orders) == 1:
+		return {"value": orders[0], "route": f"/desk/purchase-order/{quote(orders[0])}"}
+	return _("{0} orders").format(len(orders))
+
+
+def order_total(doc):
+	return _total(doc)
+
+
+def order_wanted(doc):
+	"""The earliest day goods still to come are wanted."""
+	waiting = [row.schedule_date for row in doc.items if flt(row.received_qty) < flt(row.qty)]
+	if doc.docstatus != 1 or doc.status in ("Closed", "On Hold", "Completed"):
+		return formatdate(doc.schedule_date) if doc.schedule_date else None
+	if not waiting:
+		return None
+	return _wanted(min(waiting), False)
+
+
+def order_blanket(doc):
+	agreed = list(dict.fromkeys(row.blanket_order for row in doc.items if row.get("blanket_order")))
+	if not agreed:
+		return None
+	return {"value": agreed[0], "route": f"/desk/blanket-order/{quote(agreed[0])}"}
+
+
+def blanket_party(doc):
+	if doc.blanket_order_type == "Purchasing":
+		name = doc.supplier_name or doc.supplier
+		return {"value": name, "route": f"/desk/supplier/{quote(doc.supplier)}"} if doc.supplier else None
+	name = doc.customer_name or doc.customer
+	return {"value": name, "route": f"/desk/customer/{quote(doc.customer)}"} if doc.customer else None
+
+
+def blanket_runs(doc):
+	if not doc.from_date or not doc.to_date:
+		return None
+	said = _("{0} to {1}").format(formatdate(doc.from_date), formatdate(doc.to_date))
+	if getdate(doc.to_date) < getdate(today()):
+		return {"value": said, "tone": "quiet", "label": _("Ended")}
+	return said
+
+
+def blanket_ordered(doc):
+	"""How much of what was agreed has been ordered on it."""
+	agreed = sum(flt(row.qty) for row in doc.items)
+	ordered = sum(flt(row.ordered_qty) for row in doc.items)
+	if not agreed:
+		return None
+	units = {row.get("stock_uom") or frappe.get_cached_value("Item", row.item_code, "stock_uom") for row in doc.items}
+	unit = _(units.pop()) if len(units) == 1 else ""
+	return {
+		"value": f"{fmt_money(ordered, precision=0)} {unit}".strip(),
+		"meter": {"value": ordered, "of": agreed},
+	}
+
+
+def blanket_orders(doc):
+	kind = "Purchase Order" if doc.blanket_order_type == "Purchasing" else "Sales Order"
+	made = frappe.get_all(
+		f"{kind} Item", filters={"blanket_order": doc.name, "docstatus": 1}, pluck="parent", distinct=True
+	)
+	return {"value": str(len(made)), "tone": None if made else "quiet"}
+
+
 # ------------------------------------------------------------------ a movement
 
 
@@ -477,6 +688,23 @@ MEASURES = {
 	"move.used": move_used,
 	"count.items": count_items,
 	"count.where": count_where,
+	"request.asked_by": request_asked_by,
+	"request.wanted": request_wanted,
+	"request.quotes": request_quotes,
+	"rfq.request": rfq_request,
+	"rfq.answered": rfq_answered,
+	"rfq.cheapest": rfq_cheapest,
+	"quote.request": quote_request,
+	"quote.valid": quote_valid,
+	"quote.cheapest": quote_cheapest,
+	"quote.ordered": quote_ordered,
+	"order.total": order_total,
+	"order.wanted": order_wanted,
+	"order.blanket": order_blanket,
+	"blanket.party": blanket_party,
+	"blanket.runs": blanket_runs,
+	"blanket.ordered": blanket_ordered,
+	"blanket.orders": blanket_orders,
 }
 
 
@@ -635,6 +863,9 @@ HEADS = [
 		"doctype": "Purchase Order",
 		"band": [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Total"), "source": "Measure", "measure": "order.total"},
+			{"label": _lt("Wanted By"), "source": "Measure", "measure": "order.wanted"},
+			{"label": _lt("Agreed On"), "source": "Measure", "measure": "order.blanket"},
 			{
 				"label": _lt("Received"),
 				"source": "Field",
@@ -647,6 +878,56 @@ HEADS = [
 				"field": "per_billed",
 				"shown_when": [["docstatus", "=", 1]],
 			},
+		],
+	},
+	{
+		"doctype": "Material Request",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Asked By"), "source": "Measure", "measure": "request.asked_by"},
+			{"label": _lt("Wanted By"), "source": "Measure", "measure": "request.wanted"},
+			{"label": _lt("Quotes"), "source": "Measure", "measure": "request.quotes"},
+			{
+				"label": _lt("Ordered"),
+				"source": "Field",
+				"field": "per_ordered",
+				"shown_when": [["docstatus", "=", 1], ["material_request_type", "=", "Purchase"]],
+			},
+			{
+				"label": _lt("Received"),
+				"source": "Field",
+				"field": "per_received",
+				"shown_when": [["docstatus", "=", 1], ["material_request_type", "=", "Purchase"]],
+			},
+		],
+	},
+	{
+		"doctype": "Request for Quotation",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Request"), "source": "Measure", "measure": "rfq.request"},
+			{"label": _lt("Answered"), "source": "Measure", "measure": "rfq.answered"},
+			{"label": _lt("Cheapest"), "source": "Measure", "measure": "rfq.cheapest"},
+		],
+	},
+	{
+		"doctype": "Supplier Quotation",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Asked On"), "source": "Measure", "measure": "quote.request"},
+			{"label": _lt("Total"), "source": "Measure", "measure": "order.total"},
+			{"label": _lt("Valid Till"), "source": "Measure", "measure": "quote.valid"},
+			{"label": _lt("Cheapest On"), "source": "Measure", "measure": "quote.cheapest"},
+			{"label": _lt("Ordered On"), "source": "Measure", "measure": "quote.ordered"},
+		],
+	},
+	{
+		"doctype": "Blanket Order",
+		"band": [
+			{"label": _lt("With"), "source": "Measure", "measure": "blanket.party"},
+			{"label": _lt("Runs"), "source": "Measure", "measure": "blanket.runs"},
+			{"label": _lt("Ordered"), "source": "Measure", "measure": "blanket.ordered"},
+			{"label": _lt("Orders"), "source": "Measure", "measure": "blanket.orders", "shown_when": SUBMITTED},
 		],
 	},
 	{

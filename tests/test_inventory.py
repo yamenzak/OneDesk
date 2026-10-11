@@ -107,6 +107,20 @@ def test_how_many_to_order_is_erpnexts_rule():
 	assert quantity(40, 5, 10) == 30, "or back up to the level, if that is more"
 
 
+def test_a_request_line_is_left_to_order_less_what_orders_and_drafts_hold():
+	left = _pure(tree.APP / "one_inventory" / "order.py", "left", flt=lambda v: float(v or 0))
+	assert left(600, 0, 0) == 600
+	assert left(600, 200, 300) == 100, "what submitted orders took and drafts hold"
+	assert left(600, 400, 300) == 0, "never less than nothing"
+	assert left(600, None, None) == 600
+
+
+def test_a_draft_order_cannot_order_a_request_twice_over():
+	assert '"onedesk.one_inventory.order.within_requests"' in HOOKS
+	order = (tree.APP / "one_inventory" / "order.py").read_text()
+	assert "held = drafted(" in order.split("def rows()")[1], "To Order reads the same sums as the order's rule"
+
+
 def test_an_order_is_made_per_supplier_and_a_row_with_none_needs_one():
 	grouped = _pure(tree.APP / "one_inventory" / "order.py", "grouped", flt=lambda v: float(v or 0))
 	rows = [

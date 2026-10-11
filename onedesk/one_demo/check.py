@@ -4907,8 +4907,13 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 	with as_user("tariq@one.test"):
 		assert frappe.has_permission("Stock Settings", "read")
 	assert sent.project == used.project == frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
-	# What the site holds is what was sent less what was used.
-	assert flt(get_stock_balance("ALU-6063", site)) == 40 and flt(get_stock_balance("SIL-CLR", site)) == 6
+	# What the movements left at the site is what was sent less what was used.
+	moved = {
+		code: sum(flt(one) for one in frappe.get_all("Stock Ledger Entry", filters={"warehouse": site, "item_code": code, "voucher_type": "Stock Entry", "is_cancelled": 0}, pluck="actual_qty"))
+		for code in ("ALU-6063", "SIL-CLR")
+	}
+	assert moved == {"ALU-6063": 40, "SIL-CLR": 6}, moved
+	assert flt(get_stock_balance("ALU-6063", site)) == 40
 
 	# The movement's head and its transfer note, with the site's address.
 	assert heads.move_from(sent)["value"] == "Stores" and heads.move_to(sent)["value"] == "Mansour Villa Site"
@@ -4970,6 +4975,102 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 		assert not frappe.has_permission("Stock Entry", "read", doc=sent.name)
 		assert ai.movement_facts(sent.name).get("error") and ai.count_facts(count.name).get("error")
 
+
+
+@check
+def oneinventory_buying_from_request_to_order():
+	"""Buying, as Rania, Karim, a supplier on the portal and Huda do it. Rania
+	asked for sealant, anchors and gaskets for the villa, Al Noor and Gulf
+	Sealants priced them, Emirates Sealants on the portal, and each line went to
+	whoever was cheaper on it. Al Noor is late and Karim is told. Al Noor's
+	aluminium is agreed for the year, the losing quotes expired, the glass
+	orders never made good are closed, and Gulf Glass and Al Noor are scored.
+	A request line cannot be ordered twice over on drafts."""
+	from onedesk.one import print_blocks
+	from onedesk.one_inventory import ai, heads, order, ready, tell
+
+	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	asked = frappe.get_doc("Material Request", {"owner": "rania@one.test", "project": villa, "docstatus": 1})
+	assert flt(asked.per_ordered) == 100
+	rfq = frappe.get_doc("Request for Quotation", frappe.db.get_value("Request for Quotation Item", {"material_request": asked.name}, "parent"))
+	assert {one.supplier for one in rfq.suppliers} == {"Al Noor Aluminium", "Emirates Sealants & Fixings"}
+	quotes = {one.supplier: frappe.get_doc("Supplier Quotation", one.name) for one in frappe.get_all("Supplier Quotation", filters={"name": ["in", frappe.get_all("Supplier Quotation Item", filters={"request_for_quotation": rfq.name}, pluck="parent")]}, fields=["name", "supplier"])}
+	portal = quotes["Emirates Sealants & Fixings"]
+	# The supplier priced it on the portal, and its lines name the villa as the request's do.
+	assert frappe.db.exists("Portal User", {"parent": portal.supplier, "user": portal.owner})
+	assert {one.project for one in portal.items} == {villa}
+
+	# Each line went to whoever was cheaper on it.
+	with as_user("karim@one.test"):
+		compared = ai.quote_comparison(asked.name)
+	cheapest = {one["item"]: one["cheapest"] for one in compared["lines"]}
+	assert cheapest == {"SIL-CLR": "Emirates Sealants & Fixings", "FIX-ANCH": "Al Noor Aluminium", "SEAL-EPDM": "Al Noor Aluminium"}, cheapest
+	ordered = {row.item_code: frappe.db.get_value("Purchase Order", row.parent, "supplier") for row in frappe.get_all("Purchase Order Item", filters={"material_request": asked.name, "docstatus": 1}, fields=["item_code", "parent"])}
+	assert ordered == {code: frappe.db.get_value("Supplier", {"supplier_name": name}) for code, name in cheapest.items()}
+	assert heads.rfq_cheapest(rfq)["value"] == "Split between 2" and heads.rfq_answered(rfq)["value"] == "2 of 2"
+	assert heads.quote_cheapest(portal)["value"] == "1 of 3 lines" and heads.request_quotes(asked)["value"] == "2 of 2"
+
+	# Al Noor is late, Karim is told once, and closed orders and services are not late.
+	late = frappe.get_doc("Purchase Order", frappe.db.get_value("Purchase Order Item", {"material_request": asked.name, "item_code": "FIX-ANCH", "docstatus": 1}, "parent"))
+	assert heads.order_wanted(late)["tone"] == "alarm"
+	named = {one.name for one in tell.late()}
+	assert late.name in named
+	closed = frappe.get_all("Purchase Order", filters={"status": "Closed"}, pluck="name")
+	services = frappe.get_all("Purchase Order Item", filters={"item_code": ["like", "SVC-%"], "docstatus": 1}, pluck="parent")
+	assert closed and not named & set(closed) and not named & set(services)
+	said = frappe.db.get_value("Notification Log", {"for_user": "karim@one.test", "document_type": "Purchase Order", "document_name": late.name}, "email_content")
+	assert said and "Wall Anchor Set" in said, said
+	with _Told() as told:
+		tell.orders_late()
+	assert "karim@one.test" in told.to("Order Late")
+	with as_user("karim@one.test"):
+		said = ai.late_orders()
+	assert late.name in {one["order"] for one in said["orders"]}
+
+	# The quotes that lost expired, and say so.
+	expired = frappe.get_all("Supplier Quotation", filters={"status": "Expired"}, pluck="name")
+	assert expired and heads.quote_valid(frappe.get_doc("Supplier Quotation", expired[0]))["tone"] == "quiet"
+
+	# Al Noor's aluminium for the year, and the villa's profile ordered against it.
+	agreed = frappe.get_doc("Blanket Order", {"supplier": "Al Noor Aluminium", "docstatus": 1})
+	on_it = frappe.get_all("Purchase Order Item", filters={"blanket_order": agreed.name, "docstatus": 1}, fields=["parent", "rate", "qty"])
+	assert on_it and all(flt(one.rate) == flt(agreed.items[0].rate) for one in on_it)
+	assert flt(agreed.items[0].ordered_qty) == sum(flt(one.qty) for one in on_it)
+	assert heads.blanket_ordered(agreed)["meter"]["value"] == flt(agreed.items[0].ordered_qty)
+	assert print_blocks.title(agreed)["title"] == "Blanket Order" and print_blocks.party(agreed)["name"] == "Al Noor Aluminium"
+
+	# A request line is not ordered twice over on drafts, and To Order agrees.
+	glass = frappe.get_doc("Material Request Item", {"item_code": "GLS-DGU", "project": villa, "docstatus": 1, "ordered_qty": 0})
+	with as_user("karim@one.test"):
+		first = order.order([{"item_code": glass.item_code, "qty": glass.stock_qty, "warehouse": glass.warehouse, "supplier": "Gulf Glass Industries", "material_request": glass.parent, "material_request_item": glass.name, "uom": glass.stock_uom}])
+		assert glass.name not in {one.get("material_request_item") for one in order.rows()}
+		try:
+			order.order([{"item_code": glass.item_code, "qty": 1, "warehouse": glass.warehouse, "supplier": "Al Noor Aluminium", "material_request": glass.parent, "material_request_item": glass.name, "uom": glass.stock_uom}])
+			raise AssertionError("a request line was ordered twice over on drafts")
+		except frappe.ValidationError as refused:
+			assert "left to order" in str(refused)
+		frappe.delete_doc("Purchase Order", first[0])
+
+	# Scored each month, on what the Inventory Check offers.
+	card = frappe.get_doc("Supplier Scorecard", "Gulf Glass Industries")
+	assert frappe.db.count("Supplier Scorecard Period", {"scorecard": card.name, "docstatus": 1}) >= 6
+	assert {one.criteria_name for one in card.criteria} == {name for name, _formula in ready.CRITERIA}
+	with as_user("karim@one.test"):
+		assert {one["key"]: one for one in ready.checks()}["scoring"]["state"] == ready.READY
+
+	# Who may do what: Karim agrees and scores, Rania asks and reads, Nadia nothing.
+	with as_user("karim@one.test"):
+		assert frappe.has_permission("Blanket Order", "create") and frappe.has_permission("Supplier Scorecard", "write")
+		assert ai.plan_quote_request(asked.name, ["Al Noor Aluminium"]).get("error"), "a request ordered already"
+		card_ = ai.plan_quote_request(glass.parent, ["Gulf Glass Industries", "Al Noor Aluminium"], message="Prices for the villa's glass, please.")
+		changes = frappe.parse_json(frappe.db.get_value("AI Proposal", card_["proposal"], "changes"))
+		assert {one["supplier"] for one in changes["suppliers"]} == {"Gulf Glass Industries", "Al Noor Aluminium"}
+		assert {(one["item_code"], one["material_request"]) for one in changes["items"]} == {("GLS-DGU", glass.parent)}
+	with as_user("rania@one.test"):
+		assert frappe.has_permission("Material Request", "create") and frappe.has_permission("Supplier Scorecard", "read")
+		assert not frappe.has_permission("Supplier Scorecard", "write") and not frappe.has_permission("Blanket Order", "cancel")
+	with as_user("nadia@one.test"):
+		assert not frappe.has_permission("Blanket Order", "read") and ai.quote_comparison(asked.name).get("error")
 
 
 @check

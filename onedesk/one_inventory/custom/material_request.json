@@ -1,0 +1,48 @@
+{
+ "custom_fields": [],
+ "doctype": "Material Request",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "transaction_date"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "per_ordered"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "company"
+  }
+ ],
+ "sync_on_migrate": 1
+}

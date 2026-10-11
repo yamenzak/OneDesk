@@ -18,10 +18,66 @@ def quantity(level: float, reorder_qty: float, projected: float) -> float:
 	return max(flt(reorder_qty), flt(level) - flt(projected))
 
 
+def left(asked: float, ordered: float, held: float) -> float:
+	"""What a request line still needs ordering: what it asks for, less what
+	submitted orders took and what draft orders hold. Pure."""
+	return max(flt(asked) - flt(ordered) - flt(held), 0)
+
+
+def drafted(lines: list[str], but: str | None = None) -> dict:
+	"""How much of each request line draft orders hold, in stock units,
+	{material_request_item: qty}, leaving out the order `but`."""
+	if not lines:
+		return {}
+	rows = frappe.db.sql(
+		"""select item.material_request_item, sum(item.stock_qty) as qty
+		from `tabPurchase Order Item` item join `tabPurchase Order` doc on doc.name = item.parent
+		where doc.docstatus = 0 and doc.name != %(but)s and item.material_request_item in %(lines)s
+		group by item.material_request_item""",
+		{"lines": tuple(lines), "but": but or ""},
+	)
+	return {line: flt(qty) for line, qty in rows}
+
+
+def within_requests(doc, method=None) -> None:
+	"""Purchase Order validate: a request line is not ordered beyond what it
+	asks for, counting other draft orders too. ERPNext checks it only on
+	submit, so two drafts could each order the whole of it. Safe under bulk
+	edit and Data Import, and To Order reads the same sums."""
+	ours: dict = {}
+	for row in doc.items:
+		if row.material_request_item:
+			ours[row.material_request_item] = ours.get(row.material_request_item, 0) + flt(row.stock_qty or row.qty)
+	if not ours:
+		return
+	asked = {
+		row.name: row
+		for row in frappe.get_all(
+			"Material Request Item",
+			filters={"name": ["in", list(ours)]},
+			fields=["name", "parent", "item_code", "stock_qty", "ordered_qty"],
+		)
+	}
+	held = drafted(list(ours), but=doc.name)
+	allowance = flt(frappe.db.get_single_value("Buying Settings", "over_order_allowance"))
+	for line, qty in ours.items():
+		one = asked.get(line)
+		if not one:
+			continue
+		room = left(one.stock_qty, one.ordered_qty, held.get(line)) * (1 + allowance / 100)
+		if qty > room + 0.0001:
+			frappe.throw(
+				_("Only {0} of {1} on {2} is left to order. Other orders hold the rest.").format(
+					frappe.format(room, {"fieldtype": "Float"}), one.item_code, one.parent
+				),
+				title=_("Ordered Already"),
+			)
+
+
 def rows() -> list[dict]:
 	requested = frappe.db.sql(
 		"""select item.item_code, item.item_name, item.warehouse, item.name as material_request_item,
-			item.parent as material_request, item.stock_qty - item.ordered_qty as qty, item.stock_uom as uom,
+			item.parent as material_request, item.stock_qty, item.ordered_qty, item.stock_uom as uom,
 			item.project
 		from `tabMaterial Request Item` item join `tabMaterial Request` request on request.name = item.parent
 		where request.docstatus = 1 and request.material_request_type = 'Purchase'
@@ -29,17 +85,19 @@ def rows() -> list[dict]:
 		order by request.transaction_date, item.idx""",
 		as_dict=True,
 	)
-	# Rows already on a draft order are being ordered: showing them again
-	# invites ordering twice.
-	drafted = frappe.db.sql(
-		"""select item.item_code, item.warehouse, item.material_request_item
+	# What draft orders hold is being ordered: the order's own rule
+	# (within_requests) keeps a line from being ordered twice over.
+	held = drafted([row.material_request_item for row in requested])
+	for row in requested:
+		row["qty"] = left(row.pop("stock_qty"), row.pop("ordered_qty"), held.get(row.material_request_item))
+	requested = [row for row in requested if row["qty"] > 0]
+	drafted_lows = frappe.db.sql(
+		"""select item.item_code, item.warehouse
 		from `tabPurchase Order Item` item join `tabPurchase Order` doc on doc.name = item.parent
 		where doc.docstatus = 0""",
 		as_dict=True,
 	)
-	on_draft = {row.material_request_item for row in drafted if row.material_request_item}
-	requested = [row for row in requested if row.material_request_item not in on_draft]
-	asked = {(row.item_code, row.warehouse) for row in requested} | {(row.item_code, row.warehouse) for row in drafted}
+	asked = {(row.item_code, row.warehouse) for row in requested} | {(row.item_code, row.warehouse) for row in drafted_lows}
 	low = frappe.db.sql(
 		"""select level.parent as item_code, item.item_name, level.warehouse, item.stock_uom as uom,
 			level.warehouse_reorder_level as level, level.warehouse_reorder_qty as reorder_qty,
@@ -103,13 +161,22 @@ def order(rows: str | list, supplier: str | None = None) -> list[str]:
 				"items",
 				{
 					"item_code": line["item_code"],
+					# How many is counted in the stock unit, so it is ordered
+					# in it, not in the item's buying unit.
 					"qty": flt(line["qty"]),
+					"uom": line.get("uom") or frappe.get_cached_value("Item", line["item_code"], "stock_uom"),
+					"conversion_factor": 1,
 					"warehouse": line["warehouse"],
 					"schedule_date": add_days(nowdate(), max(int(lead), 1)),
 					"material_request": line.get("material_request"),
 					"material_request_item": line.get("material_request_item"),
-					# ERPNext holds the order line to the request's project.
-					"project": line.get("project"),
+					# ERPNext holds the order line to the request's project,
+					# read from the request, not from what the page sent.
+					"project": (
+						frappe.db.get_value("Material Request Item", line["material_request_item"], "project")
+						if line.get("material_request_item")
+						else line.get("project")
+					),
 				},
 			)
 		doc.set_missing_values()

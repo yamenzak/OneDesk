@@ -267,24 +267,67 @@ def anchored(rows: list, shipped: list, named: set, key) -> list:
 	return out
 
 
+def untouched(rows: list, before: list | None, key, added) -> bool:
+	"""Whether a layer keeps the app's rows in the order the app shipped them
+	last time, so nobody rearranged them. A layer saved before that order was
+	first kept is taken as nobody's arrangement. Pure."""
+	if before is None:
+		return True
+	ours = [key(row) for row in rows if not added(row) and key(row) in before]
+	return ours == [one for one in before if one in ours]
+
+
+def rebased(rows: list, shipped: list, key, added) -> list:
+	"""A layer nobody rearranged, in the order the app ships now: the app's
+	rows in that order, the layer's own rows at the end (Your Records) still
+	at the end, and any other of its own after the row it followed. Pure over
+	the arrangement, the shipped order, a key and what the layer added."""
+	place = {one: i for i, one in enumerate(shipped)}
+	theirs = [i for i, row in enumerate(rows) if not added(row) and key(row) in place]
+	tail = rows[theirs[-1] + 1 :] if theirs else list(rows)
+	out = sorted((rows[i] for i in theirs), key=lambda row: place[key(row)])
+	before = None
+	for row in rows[: len(rows) - len(tail)]:
+		if added(row) or key(row) not in place:
+			at = next((i for i, one in enumerate(out) if key(one) == before), -1) if before else -1
+			out.insert(at + 1, row)
+		before = key(row)
+	return out + tail
+
+
+#: The order each of One's sidebars shipped in at the last migrate.
+SHIPPED = "one_sidebar_shipped"
+
+
 def settle() -> None:
 	"""after_migrate: every layer over One's sidebars with the rows an update
-	shipped in the places the app ships them (`anchored`)."""
+	shipped in the places the app ships them. A layer nobody rearranged follows
+	the app's new order (`rebased`), and one somebody did keeps theirs, with
+	new rows after the row the app ships before them (`anchored`). frappe's
+	layer names every row once saved, so without this an app's new order never
+	reached a workspace that had placed a report in its rail."""
+	import json
+
 	from frappe.desk.doctype.custom_sidebar.custom_sidebar import _save_customization, layer_arrangement
 	from frappe.desk.doctype.sidebar.sidebar import get_module_base, item_key
 
+	kept = json.loads(frappe.db.get_default(SHIPPED) or "{}")
 	modules = set(frappe.get_all("Sidebar", filters={"app": "onedesk"}, pluck="module"))
+	shipped = {module: [item_key(row) for row in get_module_base(module).rows] for module in modules}
 	for one in frappe.get_all("Custom Sidebar", fields=["name", "module", "user"]):
 		if one.module not in modules:
 			continue
 		user = one.user or None
-		named = {item_key(row) for row in frappe.get_doc("Custom Sidebar", one.name).sidebar_items}
-		shipped = [item_key(row) for row in get_module_base(one.module).rows]
 		rows = layer_arrangement(one.module, user)
-		moved = anchored(rows, shipped, named, item_key)
+		if untouched(rows, kept.get(one.module), item_key, lambda row: row.get("added")):
+			moved = rebased(rows, shipped[one.module], item_key, lambda row: row.get("added"))
+		else:
+			named = {item_key(row) for row in frappe.get_doc("Custom Sidebar", one.name).sidebar_items}
+			moved = anchored(rows, shipped[one.module], named, item_key)
 		if [item_key(row) for row in moved] != [item_key(row) for row in rows]:
 			_save_customization(one.module, moved, user=user)
 			_redrawn(user)
+	frappe.db.set_default(SHIPPED, json.dumps(shipped, sort_keys=True))
 
 
 def _redrawn(user: str | None) -> None:

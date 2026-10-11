@@ -10357,8 +10357,8 @@ page of its own, and Quality Management stays out.
 | 3 | Receiving | done |
 | 4 | Delivering | done |
 | 5 | Moving and counting | done |
-| 6 | Buying | next |
-| 7 | Making | |
+| 6 | Buying | done |
+| 7 | Making | next |
 | 8 | Equipment | |
 | 9 | Reports and Setup | |
 | 10 | Across modules | |
@@ -10814,3 +10814,118 @@ Fixed:
 | 17 Clean code | lint clean, and the guard on records made noted for its own step |
 | Everything follows frappe | the forms, the lists and the print are frappe's own |
 | What ERPNext already does | valuation through each warehouse's account, the count's difference account by purpose, back-dated recalculation, transit transfers |
+
+#### 6. Buying
+
+Looked at as Karim on To Order, the buying lists, a request, a request for
+quotation, a quote, an order, Buying Settings, a blanket order and a
+supplier's scorecard. And as Rania raising a request on a phone, as a supplier
+pricing on the portal, and as Huda and Nadia. And the code behind To Order's
+rule, how ERPNext expires a quote, makes a quote from the portal, holds an
+order to its blanket order and scores a supplier.
+
+Found:
+
+- **Works (1)**: Karim, the buying manager, was refused Blanket Orders and
+  Supplier Scorecards. ERPNext gives both to the System Manager alone.
+- **Works (1)**: a quote priced on the portal left out each line's project,
+  so ordering from it was refused against the villa's request. ERPNext's
+  own portal rows do the same.
+- **Works (1)**: no scorecard could be saved. ERPNext ships the variables
+  and standings but no criteria.
+- **Rules on the server (2)**: To Order left a request line on a draft order
+  off its list, but nothing stopped a second draft ordering the same line.
+  ERPNext checks only on submit.
+- **Rules on the server (2)**: To Order put the project on an order line
+  from what the page sent, not from the request.
+- **Notifications (10)**: nobody was told an order was late.
+- **Our look (5)**: no head on a request, a request for quotation, a quote
+  or a blanket order. A purchase order said its project and percentages only.
+  A request for quotation was titled with the company's name, and its list
+  had a Company and an empty Supplier column.
+- **Our look (5)**: the rail kept Requests for Quotation and Supplier
+  Quotations under More, and Blanket Orders, the comparison and scorecards
+  nowhere.
+- **Clean code (17)**: a workspace whose rail held a placed report kept the
+  rail's old order for good. frappe's layer names every row once saved, and
+  settle only placed new rows.
+- **Printed (11)**: nothing printed a blanket order for the supplier.
+- **Demo coverage (1)**: no request from the site, no portal quote, no
+  comparison, no blanket order, no scorecard. Quotes that lost never expired
+  (they had no Valid Till), and the glass order Gulf Glass credited for its
+  broken panes stayed To Receive.
+- **Kept**: the supplier opened from here is OneBook's, with its head, and
+  the rail turns to OneBook, as the crumbs say where a supplier lives.
+
+Fixed:
+
+- **Works (1)**: `access.py` gives Blanket Order to the stock, purchase and
+  sales roles, and the scorecard kinds to the buyers, to read, and the buying
+  manager, to set up.
+- **Works (1)**: `portal.send_quote` takes each line's project from the
+  request.
+- **Works (1)**: the Inventory Check's **Suppliers can be scored** adds
+  Delivered On Time and Accepted on Arrival from ERPNext's own variables.
+- **Rules on the server (2)**: `order.within_requests` on the purchase
+  order's validate. A request line is not ordered beyond what it asks for,
+  drafts counted and Buying Settings' allowance kept. To Order reads the
+  same sums (`left`), and the project comes from the request line.
+- **Notifications (10)**: **Order Late**, daily, to whoever made the order,
+  or the buying managers when that person no longer buys. Once per order,
+  goods only, closed orders left out.
+- **Our look (5)**: heads on a request (Project, Asked By, Wanted By,
+  Quotes, Ordered, Received), a request for quotation (Request, Answered,
+  Cheapest), a quote (Asked On, Total, Valid Till, Cheapest On, Ordered On)
+  and a blanket order (With, Runs, Ordered, Orders). A purchase order adds
+  Total in both currencies, Wanted By (red once late) and Agreed On.
+  Cheapest is read line by line in the company's money.
+- **Our look (5)**: Buying in the rail is To Order, Material Requests,
+  Requests for Quotation, Supplier Quotations, Quote Comparison, Purchase
+  Orders, Blanket Orders and Suppliers, with Supplier Scorecards under More.
+  A request for quotation is titled by its number. The lists show the
+  project, the share ordered and a blanket order's supplier and dates.
+- **Clean code (17)**: `reports.settle` keeps the order each rail shipped
+  in, and a layer nobody rearranged follows the app's new order
+  (`rebased`). One somebody did keeps theirs (`anchored`).
+- **Printed (11)**: One Blanket Order, signed off with the terms.
+- **Demo coverage (1)**: the new **ordering** step. Rania asks for sealant,
+  anchors and gaskets for the villa's site. Al Noor quotes by mail and Emirates
+  Sealants on the portal. The silicone goes to Emirates Sealants and arrives,
+  the anchors and gaskets go to Al Noor and are late, and Karim is told.
+  Al Noor's profile is agreed for a year at 26.50 and the villa's 300 metres
+  ordered against it. The losing quotes expired, the glass order Gulf Glass
+  credited is closed while April's six panes are still owed, and Gulf Glass
+  and Al Noor are scored each month since January.
+- **Demo coverage (1)**: the moving step works out back-dated stock values
+  before Karim's count, so the count reads the settled value and stays a
+  loss of three hinges.
+- **Knows (13)**: `quote_comparison`, `late_orders` and
+  `plan_quote_request`, with Ask suppliers for prices, Compare the quotes
+  and Which orders are late?
+- **Works (1)**: `oneinventory_buying_from_request_to_order` checks the
+  request, the portal quote's project, the split by line, the heads, the
+  late order and who is told, the expired quotes, the blanket order and its
+  print, the draft rule, the scorecard, OneAI's three tools, and who may do
+  what, Nadia refused.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the ordering step, from Rania's request to a late order, a blanket order and two scorecards, and the new check |
+| 2 Rules on the server | a request line not ordered twice over, on the order's validate, and the project read from the request |
+| 3 Hand-offs | a request's project carried through its quotes, the portal's included, to the order and the project's cost, and the supplier is OneBook's |
+| 4 Tier declared | Material Request, Request for Quotation, Supplier Quotation and Blanket Order in HEADS |
+| 5 Our look | four new heads, the purchase order's grown, the rail and the lists, at 1440 wide and on a phone |
+| 6 Nothing lost | every field and ERPNext's Create menus kept, More keeps the rest |
+| 7 Extensible | the heads' bands take what is written for them |
+| 8 Built from frappe | ERPNext's mappers for every step, its expiry, blanket order and scorecard, and the print in frappe's builder |
+| 9 Overrides recorded | blanket orders, scorecards and their criteria, the request for quotation's title, the draft rule, the portal's project and the list (337 rows) |
+| 10 Notifications | Order Late |
+| 11 Printed | One Blanket Order |
+| 12 Plain words | every label, row and note, in Arabic and German |
+| 13 Documented, OneAI | the README's Buying section, three tools |
+| 14 Intake | a quote read from mail is a draft Supplier Quotation, as before |
+| 15 Permissions | Karim agrees and scores, Rania asks and reads scores, Nadia nothing |
+| 16 Legal | the supplier portal as before, under the DPA's portal clause |
+| 17 Clean code | lint clean, a rail's new order reaches every workspace, the guard on records made still noted |
+| Everything follows frappe | the forms, the lists, the comparison and the print are frappe's and ERPNext's own |
+| What ERPNext already does | supplier currencies compared in the company's money, quote expiry, blanket order rates and allowances, partial ordering, closing an order |

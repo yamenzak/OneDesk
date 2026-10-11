@@ -27,6 +27,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | projects | Ten projects of every kind, with the 25-task template, contracts, progress billing, retention, advances, subcontracts, budgets, time, retainers, extra work |
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee, an order delivered and not invoiced |
 | moving | The villa's materials sent to its site on a transfer note and used there by Tariq, and a count of the stores that finds three hinges short, posted as a loss |
+| ordering | Rania's request for the villa's site priced by Al Noor and by Emirates Sealants on the portal, each line ordered from whoever is cheaper, Al Noor late with theirs, Al Noor's aluminium agreed for the year on a blanket order and the villa's profile ordered against it, the quotes that lost expired, the glass order Gulf Glass credited closed, and Gulf Glass and Al Noor scored each month |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
 | books | The bank account, opening balances, rent and utilities each month. A tax template brings its taxes (the Books Check) |
 | hr | Pay, three payroll runs, and three more for Imran, an installer paid by the hour from his timesheets, so Profit on Billed Hours has rows. Leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |

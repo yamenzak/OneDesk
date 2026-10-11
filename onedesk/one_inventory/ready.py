@@ -49,6 +49,7 @@ def checks() -> list[dict]:
 		_held(),
 		_stock_accounts(one),
 		_reposted(),
+		_scored(),
 		_serials(),
 		_location(),
 		_categories(one),
@@ -155,6 +156,41 @@ def _reposted() -> dict:
 	return _row("reposts", check, READY, _("Every back-dated entry has been worked through."))
 
 
+#: What a supplier is scored by, out of 100 each month: ERPNext's own
+#: variables, and a month with nothing delivered counted as full marks.
+CRITERIA = (
+	(
+		"Delivered On Time",
+		"({cost_of_on_time_shipments} / {tot_cost_shipments} if {tot_cost_shipments} > 0 else 1) * 100",
+	),
+	(
+		"Accepted on Arrival",
+		"({total_accepted_items} / {total_received_items} if {total_received_items} > 0 else 1) * 100",
+	),
+)
+
+
+def _scored() -> dict:
+	check = _("Suppliers can be scored")
+	found = frappe.get_all("Supplier Scorecard Criteria", pluck="name")
+	if found:
+		return _row("scoring", check, READY, _("A supplier's scorecard scores them by {0}.").format(", ".join(_(one) for one in found)))
+	return _row("scoring", check, SUGGESTED, _("Nothing to score suppliers by yet. Fix adds Delivered On Time and Accepted on Arrival."), "scoring")
+
+
+def add_criteria() -> list[str]:
+	made = []
+	for name, formula in CRITERIA:
+		if frappe.db.exists("Supplier Scorecard Criteria", name):
+			continue
+		criteria = frappe.get_doc(
+			{"doctype": "Supplier Scorecard Criteria", "criteria_name": name, "max_score": 100, "weight": 50, "formula": formula}
+		)
+		criteria.flags.ignore_permissions = True
+		made.append(criteria.insert().name)
+	return made
+
+
 def _valued(one) -> dict:
 	check = _("Stock is valued in the books")
 	if not one.enable_perpetual_inventory:
@@ -248,6 +284,8 @@ def fix(key: str, **values) -> None:
 		failed = failed_reposts()
 		if failed:
 			bulk_restart_reposting(failed)
+	elif key == "scoring":
+		add_criteria()
 	elif key == "rejected":
 		_settle(bill_for_rejected_quantity_in_purchase_invoice=0, settings="Buying Settings")
 	elif key == "location":

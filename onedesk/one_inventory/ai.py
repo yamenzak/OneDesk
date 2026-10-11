@@ -1,7 +1,9 @@
 """What OneAI does in OneInventory: reads an item as its page shows it, says
 what the stores hold, what is running low, what came in on a receipt and what
-is still to arrive, drafts a receipt for an order, and suggests a change to an item as its page makes it,
-as a card the reader approves.
+is still to arrive, compares suppliers' quotes and says which orders are late,
+drafts a receipt for an order or a request for quotation for a material
+request, and suggests a change to an item as its page makes it, as a card
+the reader approves.
 """
 
 from typing import Annotated
@@ -137,6 +139,29 @@ _COUNTED = {
 	"expects": "count_facts",
 }
 
+_ASK = {
+	"label": _lt("Ask suppliers for prices"),
+	"ask": _lt("Draft a request for quotation for this material request, to the suppliers who sold us these items before."),
+	"can": "create",
+	"doctype": "Request for Quotation",
+	"expects": "plan_quote_request",
+}
+_COMPARE = {
+	"label": _lt("Compare the quotes"),
+	"ask": _lt("Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."),
+	"can": "read",
+	"doctype": "Supplier Quotation",
+	"expects": "quote_comparison",
+}
+#: On a quote's own form, where the reader's right to read it is the form's.
+_COMPARE_HERE = {key: value for key, value in _COMPARE.items() if key != "doctype"}
+_LATE = {
+	"label": _lt("Which orders are late?"),
+	"ask": _lt("Which purchase orders are late, from whom, since when, and what is still to come on each?"),
+	"can": "read",
+	"expects": "late_orders",
+}
+
 SUGGESTIONS = {
 	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
 	f"page:{PAGE}/stock": [_HOW, _ORDER],
@@ -145,7 +170,10 @@ SUGGESTIONS = {
 	f"page:{STOCK}": [_LOW, _HELD],
 	"Warehouse": [_WORTH, _LOW],
 	"Purchase Receipt": [_RECEIVED, _ARRIVING],
-	"Purchase Order": [_RECEIVE, _ARRIVING],
+	"Purchase Order": [_RECEIVE, _LATE, _ARRIVING],
+	"Material Request": [_ASK, _COMPARE],
+	"Request for Quotation": [_COMPARE],
+	"Supplier Quotation": [_COMPARE_HERE],
 	"Delivery Note": [_SENT, _TO_DELIVER],
 	"Sales Order": [_DELIVER, _TO_DELIVER],
 	"Stock Entry": [_MOVED, _SEND],
@@ -810,6 +838,151 @@ def plan_transfer(
 	return {
 		"proposal": proposals.propose(
 			"Create", "Stock Entry", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
+		),
+		"state": "Proposed",
+	}
+
+
+def quote_comparison(
+	request: Annotated[str, "The request for quotation, or the material request it was made from, such as PUR-RFQ-2026-00005."],
+) -> dict:
+	"""The quotes suppliers sent for a request, line by line: each supplier's
+	rate in the company's money so a quote in euros compares, how long it
+	holds, and who is cheapest on each line. An expired quote is said as
+	expired and never counted cheapest."""
+	if not frappe.has_permission("Supplier Quotation", "read"):
+		return {"error": "The reader may not see supplier quotations."}
+	asked = [request] if frappe.db.exists("Request for Quotation", request) else frappe.get_all(
+		"Request for Quotation Item", filters={"material_request": request, "docstatus": 1}, pluck="parent", distinct=True
+	)
+	if not asked:
+		return {"error": f"No request for quotation is {request}, and none was made from it."}
+	quotes = {
+		one.name: one
+		for one in frappe.get_list(
+			"Supplier Quotation",
+			filters={"name": ["in", frappe.get_all(
+				"Supplier Quotation Item", filters={"request_for_quotation": ["in", asked]}, pluck="parent", distinct=True
+			) or [""]], "docstatus": ["<", 2]},
+			fields=["name", "supplier", "supplier_name", "currency", "status", "valid_till", "docstatus", "grand_total"],
+		)
+	}
+	rows = frappe.get_all(
+		"Supplier Quotation Item",
+		filters={"parent": ["in", list(quotes) or [""]]},
+		fields=["parent", "item_code", "item_name", "qty", "uom", "rate", "base_rate", "lead_time_days"],
+		order_by="idx",
+	)
+	lines: dict = {}
+	for row in rows:
+		quote = quotes[row.parent]
+		lines.setdefault(row.item_code, {"item": row.item_code, "name": row.item_name, "offers": []})["offers"].append(
+			{
+				"supplier": quote.supplier_name or quote.supplier,
+				"quote": quote.name,
+				"rate": flt(row.rate),
+				"currency": quote.currency,
+				"rate_in_company_money": flt(row.base_rate),
+				"qty": flt(row.qty),
+				"unit": row.uom,
+				"days_to_deliver": row.lead_time_days or None,
+				"expired": quote.status == "Expired",
+				"draft": quote.docstatus == 0,
+			}
+		)
+	for line in lines.values():
+		live = [one for one in line["offers"] if not one["expired"]]
+		if live:
+			line["cheapest"] = min(live, key=lambda one: one["rate_in_company_money"])["supplier"]
+	asked_of = frappe.get_all("Request for Quotation Supplier", filters={"parent": ["in", asked]}, pluck="supplier_name")
+	return {
+		"requests": asked,
+		"asked": sorted(set(one for one in asked_of if one)),
+		"quotes": [
+			{
+				"quote": one.name,
+				"supplier": one.supplier_name or one.supplier,
+				"total": flt(one.grand_total),
+				"currency": one.currency,
+				"valid_till": str(one.valid_till) if one.valid_till else None,
+				"status": one.status,
+			}
+			for one in quotes.values()
+		],
+		"lines": list(lines.values()),
+	}
+
+
+def late_orders() -> dict:
+	"""The reader's purchase orders with goods past the date they were wanted
+	and not all here, the oldest first: from whom, what, since when and who
+	ordered it. Services and closed orders are left out."""
+	from onedesk.one_inventory import tell
+
+	if not frappe.has_permission("Purchase Order", "read"):
+		return {"error": "The reader may not see purchase orders."}
+	day = frappe.utils.getdate(frappe.utils.today())
+	out = []
+	for one in tell.late():
+		if not frappe.has_permission("Purchase Order", "read", doc=one.name):
+			continue
+		out.append(
+			{
+				"order": one.name,
+				"supplier": one.supplier_name or one.supplier,
+				"items": one["items"],
+				"wanted_by": str(one.due),
+				"late_by_days": (day - frappe.utils.getdate(one.due)).days,
+				"ordered_by": get_fullname(one.owner),
+			}
+		)
+	return {"orders": out, "count": len(out)}
+
+
+def plan_quote_request(
+	request: Annotated[str, "The material request to ask prices for, such as MAT-MR-2026-00006."],
+	suppliers: Annotated[list[str], "The suppliers to ask, by name, such as Al Noor Aluminium."],
+	message: Annotated[str, "What the suppliers are told, in a sentence or two."] | None = None,
+	why: Annotated[str, "In a sentence, why this request."] | None = None,
+) -> dict:
+	"""Suggest a draft request for quotation for what a material request still
+	needs, asking each supplier named, as a card the reader approves. ERPNext
+	makes its lines from the request, so each quote can be ordered against
+	it. Nothing is sent until the draft is submitted and mailed from its form."""
+	from erpnext.stock.doctype.material_request.mapper import make_request_for_quotation
+
+	from onedesk.one_ai import proposals
+
+	if not frappe.has_permission("Request for Quotation", "create"):
+		return {"error": "The reader may not ask suppliers for prices."}
+	if not frappe.db.exists("Material Request", request) or not frappe.has_permission("Material Request", "read", doc=request):
+		return {"error": f"No material request the reader may see is {request}."}
+	if frappe.db.get_value("Material Request", request, "docstatus") != 1:
+		return {"error": f"{request} is not submitted, so prices cannot be asked for it yet."}
+	named = []
+	for one in suppliers or []:
+		found = frappe.db.get_value("Supplier", {"name": one}) or frappe.db.get_value("Supplier", {"supplier_name": one})
+		if not found:
+			return {"error": f"No supplier is called {one}."}
+		named.append(found)
+	if not named:
+		return {"error": "Say which suppliers to ask."}
+	drafted = make_request_for_quotation(request)
+	if not drafted.items:
+		return {"error": f"Everything on {request} is ordered already."}
+	keep = ("item_code", "item_name", "description", "qty", "uom", "stock_uom", "conversion_factor", "warehouse", "schedule_date", "material_request", "material_request_item", "project_name")
+	changes = {
+		"transaction_date": frappe.utils.today(),
+		"message_for_supplier": message or drafted.get("message_for_supplier"),
+		"suppliers": [{"supplier": one, "send_email": 1} for one in dict.fromkeys(named)],
+		"items": [
+			{key: str(row.get(key)) if key == "schedule_date" and row.get(key) else row.get(key) for key in keep if row.get(key) not in (None, "")}
+			for row in drafted.items
+		],
+	}
+	return {
+		"proposal": proposals.propose(
+			"Create", "Request for Quotation", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
 		),
 		"state": "Proposed",
 	}

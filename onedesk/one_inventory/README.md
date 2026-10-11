@@ -137,6 +137,8 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
   to one order can go out on another first. **Fix** turns it on.
 - **Every warehouse posts to a stock account** and **Stock values are up to
   date** — stock and the books agree. See When stock and the books disagree.
+- **Suppliers can be scored.** Nothing to score them by to begin with.
+  **Fix** adds Delivered On Time and Accepted on Arrival, each out of 100.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
   can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.
@@ -148,16 +150,54 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
   years under **Setup › Asset Categories**.
 - **Depreciation posts itself** — ERPNext's own, checked.
 
-## Buying goods, from order to shelf
+## Buying
 
-1. **Buying › Purchase Orders › + Add.** Pick the supplier, the items, how many
-   and at what price, and when you need them. **Submit** sends nothing by
-   itself — it records what you ordered; email it from the order's menu.
-2. When the goods arrive, **Create › Purchase Receipt** on the order fills in
-   what was ordered. Change the quantities to what actually came, pick the
-   warehouse, and submit. The stock is on the shelf from then.
-3. The supplier's bill is **Create › Purchase Invoice** on the receipt, and it
-   is OneBook's from there.
+**Buying** in the rail goes the way buying does. It holds **To Order**, **Material
+Requests**, **Requests for Quotation**, **Supplier Quotations**, **Quote
+Comparison**, **Purchase Orders**, **Blanket Orders** and **Suppliers**.
+Suppliers are kept in OneBook, and the link here opens the same supplier.
+
+1. **Ask for it.** Somebody who needs goods makes a **Material Request**,
+   saying what, how many, for which warehouse and project, and when it is
+   wanted.
+   Its page says the **Project**, who **Asked By**, when it is **Wanted
+   By** (in red once late), how many **Quotes** came in, and how much is
+   **Ordered** and **Received**.
+2. **Ask for prices.** **Create › Request for Quotation** on the request
+   names the suppliers to ask. Submit it and **Send Email** mails each one a
+   link. A supplier with a portal login prices it there, and their quote
+   arrives as a draft with whoever asked told. A quote by mail is
+   **Create › Supplier Quotation** on the request. A quote holds until its
+   **Valid Till**, and expires by itself after.
+3. **Compare.** A request for quotation says how many suppliers
+   **Answered** and who is **Cheapest**, line by line. **Quote Comparison**
+   sets every quote side by side, in the company's money too. A quote says
+   on how many of its lines it is the cheapest.
+4. **Order.** **Create › Purchase Order** on the quote you take. Lines can
+   go to different suppliers, each from whoever is cheapest on it.
+   An order's page says its **Total** in the supplier's money (with the
+   company's beside it), when it is **Wanted By**, the blanket order it is
+   **Agreed On**, and how much is **Received** and **Billed**. **Submit**
+   sends nothing by itself. Print it or mail it from its menu.
+5. **Receive and pay.** See Receiving. The supplier's bill is
+   **Create › Purchase Invoice**, and it is OneBook's from there.
+
+- **Late orders.** Once a day, an order whose goods are past the date they
+  were wanted and not all here is told to whoever made it (**Order Late**),
+  once. Services are never late, and a closed order is done with. Close an
+  order with **Status › Close** when nothing more is coming.
+- **A price for the year.** A **Blanket Order** agrees a price and a
+  quantity with a supplier from one date to another. An order line that
+  names it is held to its price, and the blanket order says how much of it
+  is **Ordered** so far. It prints as a **Blanket Order** for the supplier
+  to sign.
+- **Scoring suppliers.** A **Supplier Scorecard** scores a supplier each
+  month on what was delivered on time and what was accepted on arrival, and
+  can warn or stop a new order to a supplier who scores poorly. Its criteria
+  come from the Inventory Check.
+- **Buying Settings** (Setup) hold the buying price list, whether an order
+  or a receipt must come before a bill, and how much over a request may be
+  ordered.
 
 ## Receiving
 
@@ -241,8 +281,9 @@ last bought from) and what it last cost. Tick the rows and press **Order**:
 one draft purchase order is made for each supplier, and rows with no
 supplier go to the one you pick. A supplier billed in another currency gets
 their order in it. Read the drafts, correct prices and quantities, and submit
-them. A row on a draft order leaves the list, and a
-request is marked ordered when its order is submitted.
+them. A request line held by draft orders leaves the list, and no order,
+however it is made, can order more of a request line than is left on it.
+A request is marked ordered when its order is submitted.
 
 ## Buying equipment
 
@@ -354,8 +395,8 @@ split.
 - **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell, and stock held for an order is counted once.
 - **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries.
 - **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
-- **From OneBook**: Suppliers are kept in OneBook, and a supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
-- **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation.
+- **From OneBook**: Suppliers are kept in OneBook, and Buying › Suppliers opens the same supplier there. A supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
+- **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal.
 - **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant.
 - **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way.
 - **To OneHR**: An employee's page shows how much equipment they hold. When they leave, their separation gets a Return task for each piece.
@@ -449,7 +490,24 @@ a register and a movement form in it would be a rail with five rows.
   stock, purchase, accounts, projects and manufacturing users read Stock
   Settings, which every order, receipt, delivery, movement and invoice form
   reads on opening.
-- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving and counting: `item_facts` reads
+- `heads.py`, `tell.py`, `access.py` and `ready.py` on buying. A material
+  request, a request for quotation, a supplier quotation and a blanket order
+  each have a head, and a purchase order's says its total and when it is
+  wanted. Who is cheapest is read line by line in the company's money
+  (`_quoted`, `base_rate`), so a quote in euros compares, and an expired
+  quote never counts. `tell.orders_late`, daily, tells whoever made an order
+  whose stock or asset lines are past their date and not all received, once
+  per order (`tell.late`). ERPNext tells nobody. ERPNext gives Blanket Order
+  and the Supplier Scorecard kinds to the System Manager alone, the
+  operator's role, and `access.py` gives them to the purchase and sales
+  roles. ERPNext ships no scorecard criteria, so a scorecard cannot be made
+  until `ready.add_criteria` adds two from its own variables. A quote priced
+  on the portal (`one/portal.send_quote`) takes each line's project from the
+  request, which ERPNext's own rows leave out and an order from the quote is
+  then refused for. A request for quotation's title is its number, where
+  ERPNext titles it with the company's name. One Blanket Order prints the
+  agreement for the supplier.
+- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving, counting and buying: `item_facts` reads
   an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
   `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
   come, `plan_receipt` drafts a receipt through ERPNext's own mapping,
@@ -457,7 +515,10 @@ a register and a movement form in it would be a rail with five rows.
   what is ordered and not yet sent, and how much of it is held,
   `plan_delivery` drafts a delivery through ERPNext's own mapping,
   `movement_facts` a stock movement, `count_facts` a count, `plan_transfer`
-  drafts a transfer to a site,
+  drafts a transfer to a site, `quote_comparison` sets the quotes for a
+  request side by side in the company's money, `late_orders` says which
+  orders are late, `plan_quote_request` drafts a request for quotation from a
+  material request through ERPNext's own mapping,
   `running_low` lists what is at or below its reorder level as ERPNext's
   reordering reads it, and `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps
@@ -474,8 +535,12 @@ a register and a movement form in it would be a rail with five rows.
   no request, and **Order** makes one draft Purchase Order per supplier
   (`grouped`, pure), each line keeping `material_request` and
   `material_request_item` so ERPNext's own status update marks the request
-  ordered on submit. How many is ERPNext's rule (`quantity`, pure). Rows on a
-  draft order are left off so nothing is ordered twice.
+  ordered on submit. How many is ERPNext's rule (`quantity`, pure). What is
+  left on a request line is what it asks less what orders took and drafts
+  hold (`left`, pure), and the order itself holds to it on validate
+  (`within_requests`), as ERPNext does only on submit. So two drafts cannot
+  each order the whole line, under To Order, a form, a bulk edit or Data
+  Import alike. The project on each line is read from the request.
 
   ERPNext reorders by itself: once a day (`reorder_item`, with Stock
   Settings' *Raise Material Request When Stock Reaches Re-order Level*, on by
@@ -490,7 +555,7 @@ a register and a movement form in it would be a rail with five rows.
   for which warehouse, from whom, at what it last cost. **Order** makes one
   draft purchase order per supplier from the rows ticked, each row still
   pointing at its request, so ERPNext marks the request ordered when the
-  order is submitted; until then a row on a draft order is off the list.
+  order is submitted. Until then what a draft holds is off the list.
   Drafts, because what is ordered and at what price is somebody's decision
   to read before it is sent.
 

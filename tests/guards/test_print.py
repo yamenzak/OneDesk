@@ -24,6 +24,7 @@ LEAVES = (
 	"Stock Entry",
 	"Purchase Order",
 	"Request for Quotation",
+	"Blanket Order",
 	"Salary Slip",
 	"Job Offer",
 	"Appointment Letter",

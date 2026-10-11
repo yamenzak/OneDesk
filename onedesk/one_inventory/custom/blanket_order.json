@@ -1,0 +1,56 @@
+{
+ "custom_fields": [],
+ "doctype": "Blanket Order",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Blanket Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "supplier"
+  },
+  {
+   "doc_type": "Blanket Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "customer"
+  },
+  {
+   "doc_type": "Blanket Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "from_date"
+  },
+  {
+   "doc_type": "Blanket Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "to_date"
+  },
+  {
+   "doc_type": "Blanket Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "supplier"
+  },
+  {
+   "doc_type": "Blanket Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "blanket_order_type"
+  }
+ ],
+ "sync_on_migrate": 1
+}

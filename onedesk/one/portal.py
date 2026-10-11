@@ -519,6 +519,12 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 		}
 	)
 	add_items(quote, supplier, doc, items)
+	# erpnext's rows leave out the project each request line is for, and an
+	# order made from the quote is then refused against the material request
+	# it came from. The quote names it as the request does.
+	projects = {row.name: row.get("project_name") for row in doc.items}
+	for row in quote.items:
+		row.project = row.get("project") or projects.get(row.request_for_quotation_item)
 	quote.flags.ignore_permissions = True
 	frappe.session.user = "Administrator"
 	try:

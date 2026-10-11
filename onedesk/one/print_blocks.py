@@ -22,6 +22,7 @@ TITLES = {
 	"Stock Entry": (_lt("Stock Movement"), _lt("Movement No")),
 	"Purchase Order": (_lt("Purchase Order"), _lt("Order No")),
 	"Request for Quotation": (_lt("Request for Quotation"), _lt("Request No")),
+	"Blanket Order": (_lt("Blanket Order"), _lt("Agreement No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
 	"Salary Slip": (_lt("Payslip"), _lt("Payslip No")),
 	"Job Offer": (_lt("Job Offer"), _lt("Offer No")),
@@ -69,6 +70,7 @@ DETAILS = {
 	),
 	"Purchase Order": ((_lt("Date"), "transaction_date"), (_lt("Required By"), "schedule_date")),
 	"Request for Quotation": ((_lt("Date"), "transaction_date"),),
+	"Blanket Order": ((_lt("Date"), "order_date"), (_lt("From"), "from_date"), (_lt("To"), "to_date")),
 	"Payment Entry": (
 		(_lt("Date"), "posting_date"),
 		(_lt("Paid By"), "mode_of_payment"),
@@ -98,6 +100,8 @@ PARTIES = {
 	"Sales Invoice": (_lt("Bill To"), "customer_name"),
 	"Delivery Note": (_lt("Deliver To"), "customer_name"),
 	"Purchase Order": (_lt("Supplier"), "supplier_name"),
+	# A blanket order is agreed with a supplier or a customer.
+	"Blanket Order": (_lt("Agreed With"), None),
 	"Purchase Receipt": (_lt("Received From"), "supplier_name"),
 	"Pick List": (_lt("For"), "customer_name"),
 	# A packing slip names its customer through its delivery note.
@@ -127,6 +131,7 @@ FORMATS = {
 	"Stock Entry": ("One Stock Entry", "one_inventory"),
 	"Purchase Order": ("One Purchase Order", "one_inventory"),
 	"Request for Quotation": ("One Request for Quotation", "one_inventory"),
+	"Blanket Order": ("One Blanket Order", "one_inventory"),
 	"Salary Slip": ("One Payslip", "one_hr"),
 	"Job Offer": ("One Job Offer", "one_hr"),
 	"Appointment Letter": ("One Appointment Letter", "one_hr"),
@@ -272,7 +277,9 @@ def party(doc) -> dict:
 		return _moved_to(doc, heading)
 	if doc.doctype == "Payment Entry" and doc.get("payment_type") == "Pay":
 		heading = _("Paid To")
-	name = doc.get(field) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
+	if doc.doctype == "Blanket Order":
+		field = "supplier_name" if doc.get("blanket_order_type") == "Purchasing" else "customer_name"
+	name = (doc.get(field) if field else None) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
 	lines = []
 	if doc.doctype in ("Salary Slip", "Timesheet"):
 		lines = [doc.get("employee"), doc.get("designation"), doc.get("department")]

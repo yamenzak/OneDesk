@@ -16,6 +16,7 @@ DATES = {
 	"Request for Quotation": "transaction_date",
 	"Supplier Quotation": "transaction_date",
 	"Purchase Order": "transaction_date",
+	"Blanket Order": "order_date",
 	"Purchase Receipt": "posting_date",
 	"Purchase Invoice": "posting_date",
 	"Payment Entry": "posting_date",

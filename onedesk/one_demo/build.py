@@ -23,6 +23,7 @@ STEPS = (
 	"projects",
 	"selling",
 	"moving",
+	"ordering",
 	"assets",
 	"books",
 	"hr",

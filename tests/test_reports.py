@@ -58,5 +58,28 @@ def test_a_shipped_row_goes_where_the_app_ships_it():
 	assert anchored(got[::-1], shipped, set(got), lambda one: one) == got[::-1]
 
 
+def _pure(name):
+	space = {}
+	exec(f"def {name}(" + _body(name), space)
+	return space[name]
+
+
+def test_a_layer_nobody_rearranged_follows_the_apps_new_order():
+	rebased, untouched = _pure("rebased"), _pure("untouched")
+	added = lambda one: one in ("yours", "van")  # noqa: E731
+	before = ["items", "buying", "to-order", "orders", "requests", "suppliers", "more", "quotes"]
+	rows = ["items", "buying", "to-order", "orders", "blanket", "requests", "suppliers", "more", "quotes", "yours", "van"]
+	assert untouched(rows, before, lambda one: one, added)
+	assert untouched(rows, None, lambda one: one, added), "a layer older than the kept order"
+	now = ["items", "buying", "to-order", "requests", "quotes", "orders", "blanket", "suppliers", "more"]
+	assert rebased(rows, now, lambda one: one, added) == [*now, "yours", "van"]
+	# Somebody moved Suppliers up: theirs stands.
+	moved = ["items", "buying", "suppliers", "to-order", "orders", "requests", "more", "quotes", "yours", "van"]
+	assert not untouched(moved, before, lambda one: one, added)
+	# A row of the layer's own stays after the row it followed.
+	mid = ["items", "mine", "buying", "to-order"]
+	assert rebased(mid, ["buying", "to-order", "items"], lambda one: one, lambda one: one == "mine") == ["buying", "to-order", "items", "mine"]
+
+
 def test_layers_are_settled_on_migrate():
 	assert '"onedesk.one.reports.settle"' in HOOKS

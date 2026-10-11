@@ -32,6 +32,7 @@ SUPPLIERS = (
 	("Gulf Office Supplies", "Local", "AED", ("Sara", "Ali", "sara@gulfoffice.example")),
 	("Emirates Fleet Motors", "Local", "AED", ("Ahmed", "Yousuf", "fleet@efm.example")),
 	("CNC Machines Europe", "Hardware", "EUR", ("Jan", "Kowalski", "jan@cnceurope.example")),
+	("Emirates Sealants & Fixings", "Hardware", "AED", ("Rami", "Haddad", "sales@emiratessealants.example")),
 )
 
 #: code, name, group, uom, kind (stock, made, service, asset), buy, sell, reorder at

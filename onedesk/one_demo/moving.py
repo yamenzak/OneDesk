@@ -26,10 +26,12 @@ def run(password=None):
 	if not frappe.db.exists("Stock Entry", {"docstatus": 1, "purpose": "Material Transfer", "to_warehouse": site}):
 		_sent(project, site)
 		_used(project, site)
-	if not frappe.db.exists("Stock Reconciliation", {"docstatus": 1, "purpose": "Stock Reconciliation"}):
-		_counted()
 	from onedesk.one_demo.build import _reposted
 
+	# The count reads each item's value, so the back-dated entries are worked out first.
+	_reposted()
+	if not frappe.db.exists("Stock Reconciliation", {"docstatus": 1, "purpose": "Stock Reconciliation"}):
+		_counted()
 	_reposted()
 
 

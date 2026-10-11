@@ -20,6 +20,15 @@ UPKEEP = (
 	"Quality Inspection",
 )
 
+#: How a supplier is scored, and each month's score.
+SCORING = (
+	"Supplier Scorecard",
+	"Supplier Scorecard Period",
+	"Supplier Scorecard Criteria",
+	"Supplier Scorecard Standing",
+	"Supplier Scorecard Variable",
+)
+
 GIVEN = (
 	{doctype: {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE} for doctype in REGISTER}
 	| {doctype: {STOCK_USER: roles.WORK, STOCK_MANAGER: roles.MANAGE} for doctype in UPKEEP}
@@ -41,7 +50,20 @@ GIVEN = (
 			role: ("read",)
 			for role in (STOCK_USER, "Purchase User", "Accounts User", "Projects User", "Manufacturing User")
 		},
+		# A price agreed with a supplier or a customer for a year. ERPNext
+		# gives it to the System Manager alone, the operator's role.
+		"Blanket Order": {
+			STOCK_USER: roles.USE,
+			"Purchase User": roles.WORK,
+			"Purchase Manager": roles.MANAGE,
+			"Sales User": roles.WORK,
+			"Sales Manager": roles.MANAGE,
+		},
 	}
+	# Scoring suppliers by delivery and quality, System Manager's alone in
+	# ERPNext too. The buyer reads the scores and the buying manager sets
+	# them up.
+	| {doctype: {"Purchase User": roles.USE, "Purchase Manager": roles.MANAGE} for doctype in SCORING}
 )
 
 

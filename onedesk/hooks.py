@@ -166,6 +166,8 @@ scheduler_events = {
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
 	},
 	"daily": [
+		# Goods past their date on an order, told to whoever ordered them. See one_inventory/tell.py.
+		"onedesk.one_inventory.tell.orders_late",
 		# Privacy requests nobody decided in a week. See one/privacy.py.
 		"onedesk.one.privacy.remind",
 		# Retention falling due today is told. See one_project/retention.py.
@@ -630,7 +632,11 @@ doc_events = {
 	"Request for Quotation": {"validate": "onedesk.one_project.chain.agree"},
 	"Supplier Quotation": {"validate": "onedesk.one_project.chain.agree"},
 	"Purchase Order": {
-		"validate": "onedesk.one_project.chain.agree",
+		"validate": [
+			"onedesk.one_project.chain.agree",
+			# A request line is not ordered twice over, drafts counted. See one_inventory/order.py.
+			"onedesk.one_inventory.order.within_requests",
+		],
 		# A new Retention Due moves the retention on its invoices. See one_project/progress.py.
 		"on_update_after_submit": "onedesk.one_project.progress.release",
 	},
@@ -1193,6 +1199,7 @@ one_makes_records = {
 	"Attendance Request": ["one_hr"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
+	"Blanket Order": ["one_inventory"],
 	"Budget": ["one_project"],
 	"Call Log": ["one_crm"],
 	"Contact": ["one_admin", "one_calendar"],
@@ -1222,6 +1229,7 @@ one_makes_records = {
 	"Leave Encashment": ["one_hr"],
 	"Leave Period": ["one"],
 	"Location": ["one_inventory"],
+	"Material Request": ["one_inventory"],
 	"Mode of Payment": ["one_admin"],
 	"Opportunity": ["one_admin", "one_crm"],
 	"Opportunity Lost Reason": ["one_admin", "one_crm"],
@@ -1238,6 +1246,7 @@ one_makes_records = {
 	"Purchase Invoice": ["one"],
 	"Purchase Order": ["one_inventory"],
 	"Purchase Receipt": ["one_inventory"],
+	"Request for Quotation": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
 	"Sales Invoice": ["one_admin", "one_project"],
 	"Sales Order": ["one_project"],
@@ -1247,7 +1256,8 @@ one_makes_records = {
 	"Stock Entry": ["one_inventory"],
 	"Stock Reconciliation": ["one_inventory"],
 	"Supplier": ["one", "one_book"],
-	"Supplier Quotation": ["one"],
+	"Supplier Quotation": ["one", "one_inventory"],
+	"Supplier Scorecard Criteria": ["one_inventory"],
 	"Task": ["one_project", "one_task"],
 	"Tax Rule": ["one_book"],
 	"Terms and Conditions": ["one_project"],
@@ -1323,6 +1333,8 @@ one_ai_reads = [
 	"onedesk.one_inventory.ai.still_to_deliver",
 	"onedesk.one_inventory.ai.movement_facts",
 	"onedesk.one_inventory.ai.count_facts",
+	"onedesk.one_inventory.ai.quote_comparison",
+	"onedesk.one_inventory.ai.late_orders",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1445,6 +1457,8 @@ one_ai_suggests = [
 	"onedesk.one_inventory.ai.plan_receipt",
 	"onedesk.one_inventory.ai.plan_delivery",
 	"onedesk.one_inventory.ai.plan_transfer",
+	# A request for quotation for a material request. See one_inventory/ai.py.
+	"onedesk.one_inventory.ai.plan_quote_request",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

@@ -113,6 +113,54 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Material Requests",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Material Request"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Requests for Quotation",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Request for Quotation"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Supplier Quotations",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Supplier Quotation"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quote Comparison",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Supplier Quotation Comparison"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Purchase Orders",
    "link_type": "DocType",
    "show_arrow": 0,
@@ -125,11 +173,11 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Material Requests",
+   "label": "Blanket Orders",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Material Request"
+   "link_to": "Blanket Order"
   },
   {
    "child": 1,
@@ -410,35 +458,23 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Supplier Quotations",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Supplier Quotation"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Requests for Quotation",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Request for Quotation"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
    "label": "Quality Inspections",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Quality Inspection"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Supplier Scorecards",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Supplier Scorecard"
   },
   {
    "child": 1,
@@ -584,7 +620,7 @@
    "link_to": "Buying Settings"
   }
  ],
- "modified": "2026-10-23 12:00:00.000000",
+ "modified": "2026-10-24 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

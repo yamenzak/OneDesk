@@ -1,0 +1,39 @@
+{
+ "custom_fields": [],
+ "doctype": "Request for Quotation",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Request for Quotation",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": ""
+  },
+  {
+   "doc_type": "Request for Quotation",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "company"
+  },
+  {
+   "doc_type": "Request for Quotation",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  },
+  {
+   "doc_type": "Request for Quotation",
+   "doctype_or_field": "DocField",
+   "field_name": "vendor",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}
