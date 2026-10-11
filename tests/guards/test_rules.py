@@ -30,6 +30,8 @@ RULES = (
 	("Task", "onedesk.one_task.task.before_validate", {"progress"}, "a_tasks_progress_is_its_checklist"),
 	("Email Account", "onedesk.one_intake.switches.mailbox_switched", {"one_intake", "one_intake_for"}, None),
 	("Email Account", "onedesk.one_mail.holders.signed", {"add_signature"}, None),
+	("Purchase Order", "onedesk.one_inventory.order.within_requests", set(), "oneinventory_buying_from_request_to_order"),
+	("Work Order", "onedesk.one_inventory.making.steps", {"operations"}, "oneinventory_making_from_bill_to_finished_goods"),
 )
 
 #: Direct writes to a field a rule owns, each with why it is not a way round.

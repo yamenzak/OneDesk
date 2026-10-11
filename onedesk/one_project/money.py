@@ -745,3 +745,25 @@ def issued(doc, method=None) -> None:
 	for row in doc.items:
 		if (row.get("project") or doc.get("project")) and row.expense_account in (None, "", adjust):
 			row.expense_account = goods
+
+
+def restocked(doc, method=None) -> None:
+	"""Repost Item Valuation on_change: once ERPNext has worked out stock
+	values again after a back-dated entry, the stock used on each project
+	moved since then is summed again. ERPNext sums it only when a movement
+	is submitted or cancelled, so a project kept the value from before."""
+	if doc.status != "Completed" or not doc.posting_date:
+		return
+	projects = frappe.db.sql_list(
+		"""select distinct row.project from `tabStock Entry Detail` row
+		join `tabStock Entry` entry on entry.name = row.parent
+		where entry.docstatus = 1 and entry.posting_date >= %s and ifnull(row.project, '') != ''""",
+		doc.posting_date,
+	)
+	for name in projects:
+		project = frappe.get_doc("Project", name)
+		before = flt(project.total_consumed_material_cost)
+		project.set_consumed_material_cost()
+		if flt(project.total_consumed_material_cost) != before:
+			project.db_set("total_consumed_material_cost", project.total_consumed_material_cost, update_modified=False)
+

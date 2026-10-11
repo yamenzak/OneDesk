@@ -23,6 +23,7 @@ TITLES = {
 	"Purchase Order": (_lt("Purchase Order"), _lt("Order No")),
 	"Request for Quotation": (_lt("Request for Quotation"), _lt("Request No")),
 	"Blanket Order": (_lt("Blanket Order"), _lt("Agreement No")),
+	"Work Order": (_lt("Work Order"), _lt("Order No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
 	"Salary Slip": (_lt("Payslip"), _lt("Payslip No")),
 	"Job Offer": (_lt("Job Offer"), _lt("Offer No")),
@@ -71,6 +72,7 @@ DETAILS = {
 	"Purchase Order": ((_lt("Date"), "transaction_date"), (_lt("Required By"), "schedule_date")),
 	"Request for Quotation": ((_lt("Date"), "transaction_date"),),
 	"Blanket Order": ((_lt("Date"), "order_date"), (_lt("From"), "from_date"), (_lt("To"), "to_date")),
+	"Work Order": ((_lt("Starts On"), "planned_start_date"), (_lt("Wanted By"), "expected_delivery_date")),
 	"Payment Entry": (
 		(_lt("Date"), "posting_date"),
 		(_lt("Paid By"), "mode_of_payment"),
@@ -102,6 +104,8 @@ PARTIES = {
 	"Purchase Order": (_lt("Supplier"), "supplier_name"),
 	# A blanket order is agreed with a supplier or a customer.
 	"Blanket Order": (_lt("Agreed With"), None),
+	# A work order is made for a project or a customer's order, when it is.
+	"Work Order": (_lt("Made For"), None),
 	"Purchase Receipt": (_lt("Received From"), "supplier_name"),
 	"Pick List": (_lt("For"), "customer_name"),
 	# A packing slip names its customer through its delivery note.
@@ -132,6 +136,7 @@ FORMATS = {
 	"Purchase Order": ("One Purchase Order", "one_inventory"),
 	"Request for Quotation": ("One Request for Quotation", "one_inventory"),
 	"Blanket Order": ("One Blanket Order", "one_inventory"),
+	"Work Order": ("One Work Order", "one_inventory"),
 	"Salary Slip": ("One Payslip", "one_hr"),
 	"Job Offer": ("One Job Offer", "one_hr"),
 	"Appointment Letter": ("One Appointment Letter", "one_hr"),
@@ -257,6 +262,23 @@ def title(doc) -> dict:
 	return {"title": _(heading) if heading else str(said), "label": str(number), "name": name or doc.name}
 
 
+def _made_for(doc, heading) -> dict:
+	"""Whom a work order is made for: the project's customer or the customer
+	whose order it is. The project itself is among the details, and goods made
+	for stock are made for nobody."""
+	customer = None
+	lines = []
+	if doc.get("project"):
+		customer = frappe.db.get_value("Project", doc.project, "customer")
+	elif doc.get("sales_order"):
+		customer = frappe.db.get_value("Sales Order", doc.sales_order, "customer")
+		lines = [doc.sales_order]
+	if not customer:
+		return {}
+	name = frappe.db.get_value("Customer", customer, "customer_name") or customer
+	return {"heading": str(heading), "name": name, "lines": lines, "address": None}
+
+
 def party(doc) -> dict:
 	heading, field = PARTIES.get(doc.doctype, (None, None))
 	if not heading:
@@ -279,6 +301,8 @@ def party(doc) -> dict:
 		heading = _("Paid To")
 	if doc.doctype == "Blanket Order":
 		field = "supplier_name" if doc.get("blanket_order_type") == "Purchasing" else "customer_name"
+	if doc.doctype == "Work Order":
+		return _made_for(doc, heading)
 	name = (doc.get(field) if field else None) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
 	lines = []
 	if doc.doctype in ("Salary Slip", "Timesheet"):

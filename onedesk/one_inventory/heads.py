@@ -590,6 +590,112 @@ def count_where(doc):
 	return _places(row.warehouse for row in doc.items)
 
 
+# ------------------------------------------------------------------ making
+
+
+def _of(made, wanted, unit) -> dict:
+	"""So many of so many, with a meter."""
+	said = _("{0} of {1}").format(fmt_money(flt(made), precision=0), fmt_money(flt(wanted), precision=0))
+	return {"value": f"{said} {_(unit or '')}".strip(), "meter": {"value": flt(made), "of": flt(wanted)}}
+
+
+def work_made(doc):
+	return _of(doc.produced_qty, doc.qty, doc.stock_uom)
+
+
+def work_materials(doc):
+	"""Whether the materials are on the floor for it."""
+	if doc.skip_transfer or doc.docstatus != 1:
+		return None
+	sent = flt(doc.material_transferred_for_manufacturing)
+	if not sent:
+		return {"value": _("Not sent yet"), "tone": "quiet"}
+	if sent >= flt(doc.qty):
+		return _("All on the floor")
+	return _("For {0} of {1}").format(fmt_money(sent, precision=0), fmt_money(flt(doc.qty), precision=0))
+
+
+def work_wanted(doc):
+	return _wanted(doc.expected_delivery_date, doc.docstatus != 1 or doc.status in ("Completed", "Closed", "Stopped"))
+
+
+def work_for(doc):
+	"""Who it is made for: the customer's order, or whoever asked for it."""
+	if doc.sales_order:
+		customer = frappe.db.get_value("Sales Order", doc.sales_order, "customer_name")
+		return {"value": customer or doc.sales_order, "route": f"/desk/sales-order/{quote(doc.sales_order)}"}
+	if doc.material_request:
+		owner = frappe.db.get_value("Material Request", doc.material_request, "owner")
+		return {"value": frappe.utils.get_fullname(owner), "route": f"/desk/material-request/{quote(doc.material_request)}"}
+	return None
+
+
+def bom_cost(doc):
+	"""What one costs to make, by the materials and the work it takes."""
+	if not flt(doc.quantity):
+		return None
+	return _money(flt(doc.total_cost) / flt(doc.quantity))
+
+
+def bom_orders(doc):
+	made = frappe.db.count("Work Order", {"bom_no": doc.name, "docstatus": 1})
+	return {
+		"value": str(made),
+		"tone": None if made else "quiet",
+		"route": f"/desk/work-order?bom_no={quote(doc.name)}" if made else None,
+	}
+
+
+def bom_steps(doc):
+	if not doc.with_operations or not doc.operations:
+		return None
+	return " · ".join(dict.fromkeys(_(row.operation) for row in doc.operations))
+
+
+def card_order(doc):
+	if not doc.work_order:
+		return None
+	made = frappe.db.get_value("Work Order", doc.work_order, "item_name")
+	return {"value": made or doc.work_order, "route": f"/desk/work-order/{quote(doc.work_order)}"}
+
+
+def card_done(doc):
+	return _of(doc.total_completed_qty, doc.for_quantity, frappe.db.get_value("Work Order", doc.work_order, "stock_uom"))
+
+
+def card_time(doc):
+	minutes = flt(doc.total_time_in_mins)
+	if not minutes:
+		return {"value": _("None yet"), "tone": "quiet"}
+	return _("{0} h").format(frappe.format(minutes / 60, {"fieldtype": "Float", "precision": 1}))
+
+
+def card_by(doc):
+	names = list(dict.fromkeys(row.employee for row in doc.time_logs if row.employee))
+	if not names:
+		return None
+	if len(names) > 1:
+		return _("{0} people").format(len(names))
+	return frappe.db.get_value("Employee", names[0], "employee_name") or names[0]
+
+
+def sent_out(doc):
+	"""How much of the materials the subcontractor needs has gone to them."""
+	wanted = sum(flt(row.required_qty) for row in doc.supplied_items)
+	if not wanted:
+		return None
+	sent = sum(flt(row.supplied_qty) for row in doc.supplied_items)
+	units = {row.stock_uom for row in doc.supplied_items}
+	return _of(sent, wanted, units.pop() if len(units) == 1 else "")
+
+
+def sub_order(doc):
+	orders = list(dict.fromkeys(row.subcontracting_order for row in doc.items if row.subcontracting_order))
+	if len(orders) != 1:
+		return None
+	return {"value": orders[0], "route": f"/desk/subcontracting-order/{quote(orders[0])}"}
+
+
 # ------------------------------------------------------------------ the charts
 
 
@@ -705,6 +811,19 @@ MEASURES = {
 	"blanket.runs": blanket_runs,
 	"blanket.ordered": blanket_ordered,
 	"blanket.orders": blanket_orders,
+	"work.made": work_made,
+	"work.materials": work_materials,
+	"work.wanted": work_wanted,
+	"work.for": work_for,
+	"bom.cost": bom_cost,
+	"bom.orders": bom_orders,
+	"bom.steps": bom_steps,
+	"card.order": card_order,
+	"card.done": card_done,
+	"card.time": card_time,
+	"card.by": card_by,
+	"sub.sent": sent_out,
+	"sub.order": sub_order,
 }
 
 
@@ -982,6 +1101,54 @@ HEADS = [
 				"field": "per_transferred",
 				"shown_when": [["add_to_transit", "=", 1], ["docstatus", "=", 1]],
 			},
+		],
+	},
+	{
+		"doctype": "Work Order",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("For"), "source": "Measure", "measure": "work.for"},
+			{"label": _lt("Made"), "source": "Measure", "measure": "work.made", "shown_when": SUBMITTED},
+			{"label": _lt("Materials"), "source": "Measure", "measure": "work.materials"},
+			{"label": _lt("Wanted By"), "source": "Measure", "measure": "work.wanted"},
+		],
+	},
+	{
+		"doctype": "BOM",
+		"band": [
+			{"label": _lt("Makes"), "source": "Field", "field": "item_name"},
+			{"label": _lt("Cost Each"), "source": "Measure", "measure": "bom.cost"},
+			{"label": _lt("Steps"), "source": "Measure", "measure": "bom.steps"},
+			{"label": _lt("Work Orders"), "source": "Measure", "measure": "bom.orders", "shown_when": SUBMITTED},
+		],
+	},
+	{
+		"doctype": "Job Card",
+		"band": [
+			{"label": _lt("Work Order"), "source": "Measure", "measure": "card.order"},
+			{"label": _lt("Where"), "source": "Field", "field": "workstation"},
+			{"label": _lt("Done"), "source": "Measure", "measure": "card.done"},
+			{"label": _lt("Time"), "source": "Measure", "measure": "card.time"},
+			{"label": _lt("By"), "source": "Measure", "measure": "card.by"},
+		],
+	},
+	{
+		"doctype": "Subcontracting Order",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("With"), "source": "Field", "field": "supplier_name"},
+			{"label": _lt("Total"), "source": "Field", "field": "total"},
+			{"label": _lt("Materials Sent"), "source": "Measure", "measure": "sub.sent", "shown_when": SUBMITTED},
+			{"label": _lt("Received"), "source": "Field", "field": "per_received", "shown_when": SUBMITTED},
+		],
+	},
+	{
+		"doctype": "Subcontracting Receipt",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("With"), "source": "Field", "field": "supplier_name"},
+			{"label": _lt("Order"), "source": "Measure", "measure": "sub.order"},
+			{"label": _lt("Total"), "source": "Field", "field": "total"},
 		],
 	},
 	{

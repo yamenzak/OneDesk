@@ -1,0 +1,32 @@
+{
+ "custom_fields": [],
+ "doctype": "Subcontracting Order",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Subcontracting Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "company"
+  },
+  {
+   "doc_type": "Subcontracting Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  },
+  {
+   "doc_type": "Subcontracting Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  }
+ ],
+ "sync_on_migrate": 1
+}

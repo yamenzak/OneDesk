@@ -19,12 +19,12 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 |---|---|
 | setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
 | people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
-| masters | 10 customers and 9 suppliers in four currencies, 23 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
+| masters | 10 customers and 11 suppliers in four currencies, 25 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
 | stock | The stock the year opened with |
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, broken glass sent back with a debit note on its bill, euro orders, an order received and not billed |
-| making | Bills of materials and work orders, finished, half done, started and not yet started |
 | crm | Leads from every source in every status, deals at every stage in three currencies, calls, quotations won and lost, a lead turned customer, two leads from the Get in Touch form with nobody owning them, one maybe a lead we have |
 | projects | Ten projects of every kind, with the 25-task template, contracts, progress billing, retention, advances, subcontracts, budgets, time, retainers, extra work |
+| making | Tariq's three workstations and the steps on them, bills of materials, and work orders for stock, the villa and the tower, finished, half done and not started. Each step is a job card worked by Arun, Ravi or Joseph, and the villa's manager is told when its order is made. Rania asks the workshop for the villa's last doors, and the villa's profile goes to Gulf Powder Coating and comes back. The Inventory Check's two workshop fixes |
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee, an order delivered and not invoiced |
 | moving | The villa's materials sent to its site on a transfer note and used there by Tariq, and a count of the stores that finds three hinges short, posted as a loss |
 | ordering | Rania's request for the villa's site priced by Al Noor and by Emirates Sealants on the portal, each line ordered from whoever is cheaper, Al Noor late with theirs, Al Noor's aluminium agreed for the year on a blanket order and the villa's profile ordered against it, the quotes that lost expired, the glass order Gulf Glass credited closed, and Gulf Glass and Al Noor scored each month |

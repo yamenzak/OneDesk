@@ -4980,7 +4980,7 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 @check
 def oneinventory_buying_from_request_to_order():
 	"""Buying, as Rania, Karim, a supplier on the portal and Huda do it. Rania
-	asked for sealant, anchors and gaskets for the villa, Al Noor and Gulf
+	asked for sealant, anchors and gaskets for the villa, Al Noor and Emirates
 	Sealants priced them, Emirates Sealants on the portal, and each line went to
 	whoever was cheaper on it. Al Noor is late and Karim is told. Al Noor's
 	aluminium is agreed for the year, the losing quotes expired, the glass
@@ -4990,7 +4990,7 @@ def oneinventory_buying_from_request_to_order():
 	from onedesk.one_inventory import ai, heads, order, ready, tell
 
 	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
-	asked = frappe.get_doc("Material Request", {"owner": "rania@one.test", "project": villa, "docstatus": 1})
+	asked = frappe.get_doc("Material Request", {"owner": "rania@one.test", "project": villa, "docstatus": 1, "material_request_type": "Purchase"})
 	assert flt(asked.per_ordered) == 100
 	rfq = frappe.get_doc("Request for Quotation", frappe.db.get_value("Request for Quotation Item", {"material_request": asked.name}, "parent"))
 	assert {one.supplier for one in rfq.suppliers} == {"Al Noor Aluminium", "Emirates Sealants & Fixings"}
@@ -5071,6 +5071,129 @@ def oneinventory_buying_from_request_to_order():
 		assert not frappe.has_permission("Supplier Scorecard", "write") and not frappe.has_permission("Blanket Order", "cancel")
 	with as_user("nadia@one.test"):
 		assert not frappe.has_permission("Blanket Order", "read") and ai.quote_comparison(asked.name).get("error")
+
+
+@check
+def oneinventory_making_from_bill_to_finished_goods():
+	"""Making, as Tariq, Samir, Rania and Huda meet it. Tariq keeps the bills of
+	materials and makes the work orders, the villa's and the tower's among
+	them. Each step is a job card worked by whoever works its workstation, the
+	materials used count in the project's cost, and the villa's manager is
+	told when its order is made. Rania asked the workshop for the villa's last
+	doors. The villa's profile went out to be powder coated and came back."""
+	from erpnext.stock.utils import get_stock_balance
+
+	from onedesk.one import print_blocks
+	from onedesk.one_demo import making
+	from onedesk.one_inventory import heads, ready, tell
+
+	villa = frappe.db.get_value("Project", {"project_name": making.VILLA})
+	tower = frappe.db.get_value("Project", {"project_name": making.TOWER})
+	window = frappe.get_doc("BOM", {"item": "WIN-CS12", "is_default": 1, "docstatus": 1})
+	assert window.owner == making.SUPERVISOR and [one.operation for one in window.operations] == ["Cutting", "Assembly", "Glazing"]
+	assert heads.bom_steps(window) == "Cutting · Assembly · Glazing" and flt(window.operating_cost) > 0
+	assert heads.bom_orders(window)["value"] == "3"
+	orders = frappe.get_all("Work Order", filters={"docstatus": 1}, fields=["name", "owner", "project", "status", "production_item", "produced_qty", "qty"])
+	assert {one.owner for one in orders} == {making.SUPERVISOR}, "Tariq makes the work orders"
+	assert {one.project for one in orders} == {None, villa, tower}
+
+	# Each step was worked in order by whoever works its workstation, and the
+	# time is in what the windows cost.
+	done = frappe.get_doc("Work Order", {"project": villa, "production_item": "DR-SL24", "status": "Completed"})
+	cards = frappe.get_all("Job Card", filters={"work_order": done.name, "docstatus": 1}, fields=["name", "operation", "total_completed_qty", "total_time_in_mins", "process_loss_qty"])
+	assert {one.operation for one in cards} == {"Cutting", "Assembly", "Glazing"} and all(one.total_completed_qty == done.qty for one in cards)
+	glazed = frappe.get_doc("Job Card", next(one.name for one in cards if one.operation == "Glazing"))
+	assert heads.card_by(glazed) == "Joseph Mathew" and heads.card_done(glazed)["meter"] == {"value": done.qty, "of": done.qty}
+	made = frappe.get_doc("Stock Entry", {"work_order": done.name, "purpose": "Manufacture", "docstatus": 1})
+	assert made.project == villa and flt(made.total_additional_costs) > 0, "the workshop's time is in the doors' value"
+	assert all(row.project == villa for row in made.items)
+
+	# The tower's windows are cut, and twelve of thirty assembled and made. The
+	# rest is still to do, not lost.
+	going = frappe.get_doc("Work Order", {"project": tower, "docstatus": 1})
+	assert going.status == "In Process" and heads.work_made(going)["value"] == "12 of 30 Nos"
+	assert heads.work_materials(going) == "All on the floor"
+	steps = {one.operation: one for one in frappe.get_all("Job Card", filters={"work_order": going.name, "docstatus": 1}, fields=["operation", "total_completed_qty", "process_loss_qty"])}
+	assert steps["Cutting"].total_completed_qty == 30 and steps["Assembly"].total_completed_qty == 12 and not steps["Assembly"].process_loss_qty
+
+	# What the villa's work orders used counts in its cost, as ERPNext counts it.
+	used = frappe.db.sql(
+		"""select sum(row.amount) from `tabStock Entry Detail` row join `tabStock Entry` entry on entry.name = row.parent
+		where entry.purpose = 'Manufacture' and entry.docstatus = 1 and row.project = %s and ifnull(row.t_warehouse, '') = ''""",
+		villa,
+	)[0][0]
+	project = frappe.get_doc("Project", villa)
+	kept = flt(project.total_consumed_material_cost)
+	project.set_consumed_material_cost()
+	assert flt(used) > 0 and flt(kept, 2) == flt(project.total_consumed_material_cost, 2) and kept >= flt(used)
+
+	# Rania asked for the villa's last doors, and the work order says so.
+	asked = frappe.get_doc("Work Order", {"material_request": ["is", "set"], "docstatus": 1})
+	assert frappe.db.get_value("Material Request", asked.material_request, "owner") == "rania@one.test"
+	assert heads.work_for(asked)["value"] == "Rania Sabbagh" and asked.project == villa and asked.status == "Not Started"
+
+	# Whoever asked and the villa's manager are told when its order is made.
+	# Tariq asked for this one himself, and the hub tells nobody of their own work.
+	manager = frappe.db.get_value("Project", villa, "one_manager")
+	with as_user(making.SUPERVISOR), _Told() as told:
+		tell.work_done(made)
+	assert told.to("Work Order Done") == {manager, making.SUPERVISOR}
+	assert frappe.db.exists("Notification Log", {"document_name": done.name, "for_user": manager})
+	assert not frappe.db.exists("Notification Log", {"document_name": done.name, "for_user": making.SUPERVISOR})
+
+	# The floor's sheet: what is made, from what, step by step, for the villa.
+	printed = frappe.get_print("Work Order", done.name, "One Work Order")
+	assert making.VILLA in printed and "Cutting" in printed and "Aluminium Profile 6063" in printed
+	for_stock = next(one.name for one in orders if not one.project)
+	assert print_blocks.party(done)["name"] == "Mansour & Sons" and print_blocks.party(frappe.get_doc("Work Order", for_stock)) == {}
+
+	# The villa's profile went out to be coated and came back.
+	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1})
+	assert sent.project == villa and sent.status == "Completed" and heads.sent_out(sent)["meter"]["value"] == 300
+	back = frappe.get_doc("Subcontracting Receipt", {"supplier": making.COATER, "docstatus": 1})
+	assert heads.sub_order(back)["value"] == sent.name
+	assert frappe.db.get_value("Purchase Order", sent.purchase_order, "status") == "To Bill"
+	assert flt(get_stock_balance("ALU-6063-PC", wh("Stores"))) == 300 and not flt(get_stock_balance("ALU-6063", wh(making.COATER)))
+
+	rows = {row["key"]: row for row in ready.checks()}
+	assert rows["workshop"]["state"] == ready.READY and rows["floor"]["state"] == ready.READY
+
+	# A work order saved as Data Import or OneAI would, without the form's
+	# fetch, still takes its bill's steps, so its job cards are made.
+	with as_user(making.SUPERVISOR):
+		imported = frappe.get_doc(
+			{"doctype": "Work Order", "production_item": "WIN-CS12", "bom_no": window.name, "qty": 2, "company": COMPANY}
+		).insert()
+		assert [one.operation for one in imported.operations] == ["Cutting", "Assembly", "Glazing"]
+		assert imported.wip_warehouse == wh("Work In Progress") and imported.fg_warehouse == wh("Finished Goods")
+		imported.delete()
+
+	# OneAI reads the workshop as the floor sees it and drafts a work order.
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai
+
+	with as_user(making.SUPERVISOR):
+		hand = ai.work_in_hand(project=making.TOWER)
+		assert [one["order"] for one in hand["orders"]] == [going.name] and hand["orders"][0]["made"] == 12
+		facts = ai.work_order_facts(going.name)
+		assert {one["step"]: one["done"] for one in facts["steps"]} == {"Cutting": 30, "Assembly": 12, "Glazing": 12}
+		assert facts["cost_so_far"]["workshop_time"] > 0 and facts["materials"]
+		card = ai.plan_work_order("Casement Window 1200", 10, project=making.VILLA, why="The villa's last windows")
+		drafted = proposals.apply(card["proposal"])
+	order_ = frappe.get_doc("Work Order", drafted["record"])
+	assert order_.docstatus == 0 and order_.project == villa and len(order_.operations) == 3
+	order_.delete()
+	with as_user("nadia@one.test"):
+		assert ai.work_in_hand().get("error") and ai.plan_work_order("WIN-CS12", 1).get("error")
+
+	# Who may do what: OneInventory's people make, Nadia does not.
+	for person in (making.SUPERVISOR, "rania@one.test"):
+		with as_user(person):
+			assert frappe.has_permission("Work Order", "create") and frappe.has_permission("Job Card", "submit")
+	with as_user("karim@one.test"):
+		assert frappe.has_permission("Subcontracting BOM", "write") and frappe.has_permission("Manufacturing Settings", "write")
+	with as_user("nadia@one.test"):
+		assert not frappe.has_permission("Work Order", "read") and not frappe.has_permission("BOM", "read")
 
 
 @check

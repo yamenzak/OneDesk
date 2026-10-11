@@ -10358,8 +10358,8 @@ page of its own, and Quality Management stays out.
 | 4 | Delivering | done |
 | 5 | Moving and counting | done |
 | 6 | Buying | done |
-| 7 | Making | next |
-| 8 | Equipment | |
+| 7 | Making | done |
+| 8 | Equipment | next |
 | 9 | Reports and Setup | |
 | 10 | Across modules | |
 | 11 | Closed against the standard | |
@@ -10929,3 +10929,105 @@ Fixed:
 | 17 Clean code | lint clean, a rail's new order reaches every workspace, the guard on records made still noted |
 | Everything follows frappe | the forms, the lists, the comparison and the print are frappe's and ERPNext's own |
 | What ERPNext already does | supplier currencies compared in the company's money, quote expiry, blanket order rates and allowances, partial ordering, closing an order |
+
+#### 7. Making
+
+Looked at as Tariq, the workshop's supervisor, on the work orders, a bill of
+materials and a work order, and as the owner. And at the code ERPNext runs
+when a work order is made, its steps are worked and it is finished, and when
+work is sent out to be made by a supplier.
+
+Found:
+
+- **Works (1)**: Tariq could read work orders but make nothing. Nobody held
+  ERPNext's manufacturing roles, so the demo's bills and work orders were
+  made by whoever set the workspace up. The Subcontracting BOM, which says
+  what a supplier makes, was the System Manager's alone.
+- **Works (1)**: making goods that take workstation time failed on a GL
+  entry with no account. ERPNext costs the time against the company's
+  Default Operating Cost Account, which nothing sets. A new work order asked
+  for its warehouses each time, the company having no defaults.
+- **Rules on the server (2)**: the work order form fetches its bill's steps
+  when the bill is chosen, so a work order saved any other way (Data Import,
+  OneAI, a script) had no steps and so no job cards.
+- **What ERPNext already does**: a job card submitted with part of its
+  quantity done counts the rest as lost, unless it is marked still to do. So
+  a work order half made would have finished fewer than it made.
+- **Notifications (10)**: nobody was told a work order was made.
+- **Our look (5)**: no Making in the rail. Work orders, bills of materials
+  and job cards were reachable only by their address. A work order was
+  titled by its item code, its list showed its bill and not its project, a
+  bill of materials' list its ticks, and subcontracting filtered by company.
+  No head on any of them.
+- **Printed (11)**: nothing for the floor.
+- **Demo coverage (1)**: no steps, no workstations, no job cards, no
+  project on any work order, no request from a site to the workshop, nothing
+  sent out to be made.
+- **Hand-offs (3)**: what a project's work orders used counts in its Stock
+  Used, as ERPNext counts it. But ERPNext sums it only when a movement is
+  submitted, so after a back-dated entry revalued stock the project kept the
+  old figure.
+- **Demo coverage (1)**: the buying step looked for Rania's request by
+  project alone, so her request to the workshop stopped it.
+
+Fixed:
+
+- **Works (1)**, **Permissions (15)**: OneInventory's User level holds
+  Manufacturing User and its Manager level Manufacturing Manager
+  (`one/settings.py`), patched in for whoever held OneInventory. `access.py`
+  gives the Subcontracting BOM to the buyers and the workshop.
+- **Works (1)**: the Inventory Check has **Workshop time is costed** (Fix
+  uses the account for costs included in stock value) and **Work orders
+  know their warehouses** (Fix sets Work In Progress and Finished Goods).
+- **Rules on the server (2)**: `making.steps`, on the work order's
+  before_validate, fills its steps from its bill however it is saved.
+- **Notifications (10)**: **Work Order Done**, to whoever asked for it (the
+  request's or the customer order's maker, else the work order's) and the
+  project's manager, once all of it is made.
+- **Our look (5)**: **Making** in the rail: Work Orders, Job Cards, Bills of
+  Materials, Subcontracting Orders and Subcontracting Receipts, with
+  Production Plans under More and workstations, operations, routings,
+  subcontracted items and Manufacturing Settings under Setup. Heads on a
+  work order (Project, For, Made, Materials, Wanted By), a bill of materials
+  (Makes, Cost Each, Steps, Work Orders), a job card (Work Order, Where,
+  Done, Time, By) and a subcontracting order and receipt. The lists title by
+  the item's name and show the project.
+- **Printed (11)**: One Work Order, the floor's sheet: what to make, for
+  whom, the materials and where they come from, and each step.
+- **Demo coverage (1)**: the making step comes after the projects now.
+  Tariq keeps three workstations (saw, assembly bench, glazing table) and
+  the bills with their steps. His work orders are for stock, the villa and
+  the tower. Arun, Ravi and Joseph work the job cards, and the tower's
+  windows are cut with twelve of thirty made. Rania asks the workshop for the
+  villa's last doors. The villa's profile goes to Gulf Powder Coating and
+  comes back, with its purchase receipt. The Inventory Check's two fixes are
+  run, and the new check covers it all.
+- **Hand-offs (3)**: `money.restocked`, on Repost Item Valuation, sums
+  each project's Stock Used again once stock values are worked out again.
+- **Demo coverage (1)**: the buying step and its check look for Rania's
+  purchase request only.
+- **Knows (13)**: `work_in_hand`, `work_order_facts` and `plan_work_order`,
+  with What is the workshop making, How far along is it and Make a work
+  order on the pages. The README's Making section.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the making step, from Tariq's bills and steps to the villa's and the tower's work orders, the job cards, Rania's request and the powder coating, and the new check |
+| 2 Rules on the server | a work order's steps from its bill, on its before_validate |
+| 3 Hand-offs | a project's work orders count in its Stock Used, kept right after a revaluation, and tell its manager, job cards name employees, the coater is a supplier billed from the purchase receipt |
+| 4 Tier declared | Work Order, BOM, Job Card, Subcontracting Order and Subcontracting Receipt in HEADS |
+| 5 Our look | the rail's Making, five heads and their lists, at 1440 wide and on a phone |
+| 6 Nothing lost | every field, ERPNext's Start and Finish and its Create menus kept |
+| 7 Extensible | the heads' bands take what is written for them |
+| 8 Built from frappe | ERPNext's work order, job card, stock entry and subcontracting mappers, its operating cost, and the print in frappe's builder |
+| 9 Overrides recorded | the making roles, the Subcontracting BOM, the steps rule, the workshop account, the lists and the project's stock used (343 rows) |
+| 10 Notifications | Work Order Done |
+| 11 Printed | One Work Order |
+| 12 Plain words | every label, row and note, in Arabic and German |
+| 13 Documented, OneAI | the README's Making section, three tools |
+| 14 Intake | a coater's delivery note is still to come, with step 10 |
+| 15 Permissions | Tariq and Rania make, Karim also runs the settings and what suppliers make, Nadia nothing |
+| 16 Legal | nothing new leaves the company: job cards name employees, as timesheets do |
+| 17 Clean code | lint clean, making's rule in its own file, the guard on records made still noted |
+| Everything follows frappe | the forms, the lists and the print are frappe's and ERPNext's own |
+| What ERPNext already does | operating cost from job cards' time, a part-done job card's rest still to do, the project carried to every movement, subcontracting's materials and receipt |

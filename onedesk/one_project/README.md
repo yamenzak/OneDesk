@@ -2180,7 +2180,8 @@ one field for it.
   up a project's Billed and Purchases: a document's lines that name the
   project, on submitted documents. Payments are what was paid, tax included.
   Time, stock used and expense claims are the totals ERPNext keeps on the
-  project.
+  project. Stock used is summed again when ERPNext revalues stock after a
+  back-dated entry (`restocked`).
 
   **The forecast** answers before the money's gone. The contract is what the
   customer ordered, or the billable time when nothing was ordered. The

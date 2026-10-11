@@ -1,0 +1,55 @@
+{
+ "custom_fields": [],
+ "doctype": "BOM",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "item_name"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "is_active"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "has_variants"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "is_default"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "with_operations"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "item"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -59,6 +59,14 @@ GIVEN = (
 			"Sales User": roles.WORK,
 			"Sales Manager": roles.MANAGE,
 		},
+		# Which service a coater charges for making which goods. ERPNext gives
+		# it to the System Manager alone, the operator's role.
+		"Subcontracting BOM": {
+			"Purchase User": roles.USE,
+			"Manufacturing User": roles.USE,
+			"Purchase Manager": roles.MANAGE,
+			"Manufacturing Manager": roles.MANAGE,
+		},
 	}
 	# Scoring suppliers by delivery and quality, System Manager's alone in
 	# ERPNext too. The buyer reads the scores and the buying manager sets

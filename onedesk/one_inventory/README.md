@@ -7,7 +7,8 @@ answer "how do I…" questions. Under the hood is for the people who build it.
 OneInventory is what the company holds: the goods it buys and sells or uses up
 (stock), and the equipment it keeps — laptops, vehicles, tools (assets). It is
 where things arrive from suppliers, leave for customers and move between
-places, and where you order more. It is ERPNext's Stock, Buying and Assets, so
+places, where the workshop makes them, and where you order more. It is
+ERPNext's Stock, Buying, Manufacturing and Assets, so
 a delivery here is the same record an invoice in OneBook is made from, and an
 asset's depreciation lands in OneBook's books by itself.
 
@@ -24,17 +25,18 @@ asset's depreciation lands in OneBook's books by itself.
   another, used up, written off, or found.
 - **Stock Counts** — counting what is on the shelf and correcting the books to
   match.
-- **Buying** — **To Order** (what is running low, below), **Purchase
-  Orders** (what you ordered and are waiting for),
-  **Material Requests** (what somebody asked to be bought or moved) and
-  **Suppliers**.
+- **Buying** — from **To Order** (what is running low) to **Purchase
+  Orders** and **Suppliers**. See Buying.
+- **Making** — **Work Orders**, **Job Cards**, **Bills of Materials**,
+  **Subcontracting Orders** and **Subcontracting Receipts**. See Making.
 - **Assets** — **Assets** (the register), **Asset Movements** (who has what,
   and where), **Maintenance**, **Repairs** and the **Asset Register** report.
 - **Reports**, **More** and **Setup** — the stock ledger, projected stock,
   ageing, what is still to arrive, stock against the books, asset balances and
-  depreciation; pick lists, landed costs, prices, serial numbers and batches;
-  warehouses, price lists, asset categories and locations. Item groups, brands
-  and units are in One's **Masters**.
+  depreciation; pick lists, landed costs, prices, serial numbers, batches and
+  production plans; warehouses, price lists, asset categories, locations,
+  workstations, operations, routings, subcontracted items and Manufacturing
+  Settings. Item groups, brands and units are in One's **Masters**.
 
 ## An item's page
 
@@ -139,6 +141,12 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
   date** — stock and the books agree. See When stock and the books disagree.
 - **Suppliers can be scored.** Nothing to score them by to begin with.
   **Fix** adds Delivered On Time and Accepted on Arrival, each out of 100.
+- **Workshop time is costed.** Making goods that take time at a workstation
+  fails until the company names an account for that time. **Fix** uses the
+  account ERPNext keeps for costs included in stock value.
+- **Work orders know their warehouses.** Without them, each new work order
+  asks where its materials go and where what it makes is kept. **Fix** sets
+  the company's Work In Progress and Finished Goods.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
   can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.
@@ -198,6 +206,50 @@ Suppliers are kept in OneBook, and the link here opens the same supplier.
 - **Buying Settings** (Setup) hold the buying price list, whether an order
   or a receipt must come before a bill, and how much over a request may be
   ordered.
+
+## Making
+
+**Making** in the rail is the workshop: **Work Orders**, **Job Cards**,
+**Bills of Materials**, **Subcontracting Orders** and **Subcontracting
+Receipts**. Workstations, operations and Manufacturing Settings are under
+Setup, and production plans under More.
+
+1. **Say how it is made.** A **Bill of Materials** names what one of a
+   product takes, and with **With Operations** the steps (cutting,
+   assembling, glazing) and the workstation each is done at, with its
+   minutes. Its page says what it **Makes**, its **Cost Each** in materials
+   and time, its **Steps**, and how many **Work Orders** use it.
+2. **Make it.** A **Work Order** makes so many of a product, for stock,
+   for a project or for a customer's order. Somebody who needs goods made
+   asks with a **Material Request** of type Manufacture, and **Create ›
+   Work Order** on it keeps who asked. Its page says the **Project**, who it
+   is **For**, how many are **Made** of how many, whether the **Materials**
+   are on the floor, and when it is **Wanted By** (in red once late).
+   **Print** gives the floor its sheet: what to make, the materials and
+   where they come from, and each step.
+3. **Send the materials.** **Start** moves the materials from the stores to
+   Work In Progress.
+4. **Work each step.** Submitting the work order makes a **Job Card** for
+   each step. Whoever works it logs their time and how many they did, in
+   order. A job card done in part keeps the rest as still to do. Its page
+   says the **Work Order**, **Where**, how many are **Done**, the **Time**
+   and **By** whom.
+5. **Finish.** **Finish** on the work order puts what was made into
+   Finished Goods, valued at its materials and its workshop time. Whoever
+   asked for it and the project's manager are told (**Work Order Done**)
+   once all of it is made.
+
+- **What making costs a project.** The materials a project's work order uses
+  count in the project's Stock Used on OneProject, as ERPNext counts them.
+- **Sending work out.** A product a supplier makes from your materials,
+  powder coating say, is a **Subcontracted Item** (Setup) naming the
+  supplier's service. A purchase order for the service with **Is
+  Subcontracted** becomes a **Subcontracting Order** with **Create**. Its
+  page says how much of the materials went out (**Materials Sent**) and how
+  much came back (**Received**). **Material to Supplier** sends them, and
+  a **Subcontracting Receipt** takes the goods back into the stores. The
+  supplier's bill is made from the purchase receipt it creates. This is not
+  OneProject's subcontract, which is a package of work on a project.
 
 ## Receiving
 
@@ -382,23 +434,27 @@ stock or buying reads them. ERPNext gives these to accounts, quality and
 manufacturing roles nobody in a small business is given, so One gives them
 to the roles People hands out (`access.py`).
 
+Using OneInventory includes making: its users make bills of materials, work
+orders and job cards, and its managers also run Manufacturing Settings and
+which supplier makes what for the company.
+
 ## What is kept where
 
 OneCRM keeps customers, quotations and the sales order a won deal becomes;
 OneBook keeps invoices, bills, payments and suppliers; OneInventory keeps
 items, stock, what arrives and what is delivered, what is ordered from
-suppliers, and the company's equipment. See OneBook's README for the whole
+suppliers, what the workshop makes, and the company's equipment. See OneBook's README for the whole
 split.
 
 ## Connections
 
 - **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell, and stock held for an order is counted once.
-- **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries.
-- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
+- **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries. Whoever works a step logs their time on its job card as an employee.
+- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A work order for a project names it, and so do the movements it makes. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and Buying › Suppliers opens the same supplier there. A supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal.
 - **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant.
-- **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way.
+- **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way, and so do the materials a project's work orders use. Its manager is told when one is made.
 - **To OneHR**: An employee's page shows how much equipment they hold. When they leave, their separation gets a Return task for each piece.
 - **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
 
@@ -507,7 +563,24 @@ a register and a movement form in it would be a rail with five rows.
   then refused for. A request for quotation's title is its number, where
   ERPNext titles it with the company's name. One Blanket Order prints the
   agreement for the supplier.
-- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving, counting and buying: `item_facts` reads
+- `making.py`, `heads.py` (Work Order, BOM, Job Card, Subcontracting Order
+  and Receipt), `tell.work_done`, `print_format/one_work_order`, `ready.py`
+  and the five `custom/` lists — making. The work order form fetches its
+  bill's steps when the bill is chosen, so one saved any other way had no
+  steps and so no job cards. `making.steps` (before_validate) fills them
+  however it is saved. ERPNext reads a job card submitted in part as the rest
+  lost unless it is marked still to do, and the demo marks it. Making with
+  workstation time fails on a GL entry with no account until the company
+  has a Default Operating Cost Account (`ready._workshop`), and a new work
+  order asks for its warehouses until the company has defaults
+  (`ready._floor`). `tell.work_done`, on a Manufacture entry's submit, tells
+  whoever asked (the request's or the customer order's maker, else the work
+  order's) and the project's manager once the work order is Completed.
+  People's OneInventory levels hold Manufacturing User and Manager
+  (`one/settings.py`, patched in by `patches/making_roles.py`), and
+  `access.py` gives the Subcontracting BOM, the System Manager's alone in
+  ERPNext, to the buyers and the workshop.
+- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving, counting, buying and making: `item_facts` reads
   an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
   `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
   come, `plan_receipt` drafts a receipt through ERPNext's own mapping,
@@ -520,7 +593,10 @@ a register and a movement form in it would be a rail with five rows.
   orders are late, `plan_quote_request` drafts a request for quotation from a
   material request through ERPNext's own mapping,
   `running_low` lists what is at or below its reorder level as ERPNext's
-  reordering reads it, and `plan_item_change` suggests a change as a card.
+  reordering reads it, `work_in_hand` the open work orders and their steps,
+  `work_order_facts` one work order's materials, steps and cost so far,
+  `plan_work_order` drafts a work order from an item's bill, and
+  `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps
   at `?edit=1`. ERPNext has every figure in a different place, the Bins
   behind the Stock Levels panel at the foot of the form, the reorder table on

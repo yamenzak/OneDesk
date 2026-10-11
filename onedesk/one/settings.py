@@ -42,7 +42,12 @@ SECTIONS = [
 APPS = [
 	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
 	("OneBook", "onebook", ("Accounts User",), ("Accounts Manager",)),
-	("OneInventory", "oneinventory", ("Stock User", "Purchase User"), ("Stock Manager", "Purchase Manager", "Item Manager")),
+	(
+		"OneInventory",
+		"oneinventory",
+		("Stock User", "Purchase User", "Manufacturing User"),
+		("Stock Manager", "Purchase Manager", "Item Manager", "Manufacturing Manager"),
+	),
 	("OneProject", "oneproject", ("Projects User",), ("Projects Manager",)),
 	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
 ]
@@ -51,7 +56,7 @@ APPS = [
 APP_SAID = {
 	"OneCRM": _lt("Leads, deals, customers and quotes."),
 	"OneBook": _lt("Invoices, bills, payments and the books."),
-	"OneInventory": _lt("Items, stock, buying and assets."),
+	"OneInventory": _lt("Items, stock, buying, making and assets."),
 	"OneProject": _lt("Projects, tasks and timesheets."),
 	"OneHR": _lt("Employees, leave, attendance and pay."),
 }

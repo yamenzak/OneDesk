@@ -32,7 +32,7 @@ def run(password=None):
 	project = frappe.db.get_value("Project", {"project_name": VILLA})
 	_expired()
 	_closed()
-	if not frappe.db.exists("Material Request", {"owner": SITE, "project": project}):
+	if not frappe.db.exists("Material Request", {"owner": SITE, "project": project, "material_request_type": "Purchase"}):
 		_villa(project, password)
 	if not frappe.db.exists("Blanket Order", {"supplier": ALUMINIUM, "docstatus": 1}):
 		_agreed(project)

@@ -33,9 +33,11 @@ SUPPLIERS = (
 	("Emirates Fleet Motors", "Local", "AED", ("Ahmed", "Yousuf", "fleet@efm.example")),
 	("CNC Machines Europe", "Hardware", "EUR", ("Jan", "Kowalski", "jan@cnceurope.example")),
 	("Emirates Sealants & Fixings", "Hardware", "AED", ("Rami", "Haddad", "sales@emiratessealants.example")),
+	("Gulf Powder Coating", "Services", "AED", ("Kareem", "Saeed", "jobs@gulfpowder.example")),
 )
 
-#: code, name, group, uom, kind (stock, made, service, asset), buy, sell, reorder at
+#: code, name, group, uom, kind (stock, made, coated, service, asset), buy, sell,
+#: reorder at. Coated goods are made from stock by a subcontractor.
 ITEMS = (
 	("ALU-6063", "Aluminium Profile 6063", "Raw Material", "Meter", "stock", 28, None, 400),
 	("GLS-DGU", "Double Glazed Unit 24mm", "Raw Material", "Square Meter", "stock", 165, None, 60),
@@ -49,6 +51,8 @@ ITEMS = (
 	("WIN-CS12", "Casement Window 1200", "Products", "Nos", "made", None, 2400, 0),
 	("DR-SL24", "Sliding Door 2400", "Products", "Nos", "made", None, 6800, 0),
 	("BAL-GL", "Glass Balustrade", "Products", "Meter", "made", None, 1450, 0),
+	("ALU-6063-PC", "Aluminium Profile 6063, Powder Coated", "Raw Material", "Meter", "coated", None, None, 0),
+	("SVC-PCOAT", "Powder Coating", "Services", "Meter", "service", 4.5, None, 0),
 	("SVC-INST", "Installation", "Services", "Hour", "service", None, 180, 0),
 	("SVC-DES", "Design", "Services", "Hour", "service", None, 320, 0),
 	("SVC-SURV", "Site Survey", "Services", "Nos", "service", None, 900, 0),
@@ -136,10 +140,11 @@ def run(password=None):
 			"item_name": name,
 			"item_group": group,
 			"stock_uom": uom,
-			"is_stock_item": int(kind in ("stock", "made")),
-			"include_item_in_manufacturing": int(kind == "stock"),
+			"is_stock_item": int(kind in ("stock", "made", "coated")),
+			"include_item_in_manufacturing": int(kind in ("stock", "coated")),
+			"is_sub_contracted_item": int(kind == "coated"),
 			"is_sales_item": int(bool(sell)),
-			"is_purchase_item": int(kind != "made"),
+			"is_purchase_item": int(kind not in ("made", "coated")),
 			"is_fixed_asset": int(kind == "asset"),
 			"valuation_rate": buy or (sell or 0) * 0.45,
 			"standard_rate": sell or 0,

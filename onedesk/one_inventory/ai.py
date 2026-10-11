@@ -2,8 +2,9 @@
 what the stores hold, what is running low, what came in on a receipt and what
 is still to arrive, compares suppliers' quotes and says which orders are late,
 drafts a receipt for an order or a request for quotation for a material
-request, and suggests a change to an item as its page makes it, as a card
-the reader approves.
+request, says what the workshop has in hand and how far a work order is,
+drafts a work order, and suggests a change to an item as its page makes it,
+as a card the reader approves.
 """
 
 from typing import Annotated
@@ -162,6 +163,26 @@ _LATE = {
 	"expects": "late_orders",
 }
 
+_IN_HAND = {
+	"label": _lt("What is the workshop making?"),
+	"ask": _lt("Which work orders are open, for what, how far along, and which are late?"),
+	"can": "read",
+	"expects": "work_in_hand",
+}
+_HOW_FAR = {
+	"label": _lt("How far along is it?"),
+	"ask": _lt("How far along is this work order, step by step, and is everything it needs in the stores?"),
+	"can": "read",
+	"expects": "work_order_facts",
+}
+_MAKE = {
+	"label": _lt("Make a work order"),
+	"ask": _lt("Draft a work order to make ten of this, with its own bill of materials."),
+	"can": "create",
+	"doctype": "Work Order",
+	"expects": "plan_work_order",
+}
+
 SUGGESTIONS = {
 	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
 	f"page:{PAGE}/stock": [_HOW, _ORDER],
@@ -178,6 +199,9 @@ SUGGESTIONS = {
 	"Sales Order": [_DELIVER, _TO_DELIVER],
 	"Stock Entry": [_MOVED, _SEND],
 	"Stock Reconciliation": [_COUNTED],
+	"Work Order": [_HOW_FAR, _IN_HAND],
+	"BOM": [_MAKE, _IN_HAND],
+	"Job Card": [_IN_HAND],
 }
 
 
@@ -1121,3 +1145,146 @@ def _order(one) -> dict:
 		"still_to_come": one.left,
 		"late": one.late,
 	}
+
+
+# ------------------------------------------------------------------ making
+
+
+def _steps(order) -> list[dict]:
+	return [
+		{
+			"step": row.operation,
+			"workstation": row.workstation,
+			"done": flt(row.completed_qty),
+			"of": flt(order.qty),
+			"minutes_planned": flt(row.time_in_mins),
+			"minutes_taken": flt(row.actual_operation_time),
+		}
+		for row in order.operations
+	]
+
+
+def work_in_hand(
+	project: Annotated[str, "Only the work orders for this project, by name or title."] | None = None,
+) -> dict:
+	"""The work orders not finished yet that the reader may see: what each
+	makes, for which project, how many are made, each step's progress, when it
+	is wanted and whether that has passed."""
+	if not frappe.has_permission("Work Order", "read"):
+		return {"error": "The reader may not see work orders."}
+	filters = {"docstatus": 1, "status": ["in", ("Not Started", "In Process")]}
+	if project:
+		filters["project"] = frappe.db.get_value("Project", {"name": project}) or frappe.db.get_value("Project", {"project_name": project})
+		if not filters["project"]:
+			return {"error": f"No project is called {project}."}
+	day = frappe.utils.getdate(frappe.utils.today())
+	out = []
+	for name in frappe.get_all("Work Order", filters=filters, order_by="expected_delivery_date asc", pluck="name"):
+		if not frappe.has_permission("Work Order", "read", doc=name):
+			continue
+		order = frappe.get_doc("Work Order", name)
+		wanted = frappe.utils.getdate(order.expected_delivery_date) if order.expected_delivery_date else None
+		out.append(
+			{
+				"order": order.name,
+				"makes": order.item_name,
+				"qty": flt(order.qty),
+				"made": flt(order.produced_qty),
+				"unit": order.stock_uom,
+				"status": order.status,
+				"project": frappe.db.get_value("Project", order.project, "project_name") if order.project else None,
+				"wanted_by": str(wanted) if wanted else None,
+				"late": bool(wanted and wanted < day),
+				"steps": _steps(order),
+			}
+		)
+	return {"orders": out, "count": len(out)}
+
+
+def work_order_facts(work_order: Annotated[str, "The work order's number, such as MFG-WO-2026-00006."]) -> dict:
+	"""One work order as the floor sees it: what it makes and for whom, each
+	material needed against what went to the floor and what the stores still
+	hold, each step's job cards, and what making it has cost so far."""
+	if not frappe.db.exists("Work Order", work_order) or not frappe.has_permission("Work Order", "read", doc=work_order):
+		return {"error": f"No work order the reader may see is {work_order}."}
+	order = frappe.get_doc("Work Order", work_order)
+	materials = []
+	for row in order.required_items:
+		needed = flt(row.required_qty)
+		sent = flt(row.transferred_qty)
+		held = flt(frappe.db.get_value("Bin", {"item_code": row.item_code, "warehouse": row.source_warehouse}, "actual_qty")) if row.source_warehouse else 0
+		materials.append(
+			{
+				"item": row.item_name or row.item_code,
+				"needed": needed,
+				"sent_to_the_floor": sent,
+				"used": flt(row.consumed_qty),
+				"in_the_stores": held,
+				"short": max(needed - sent - held, 0),
+				"unit": row.stock_uom,
+			}
+		)
+	cards = frappe.get_all(
+		"Job Card",
+		filters={"work_order": order.name, "docstatus": ["<", 2]},
+		fields=["name", "operation", "status", "total_completed_qty", "for_quantity"],
+	)
+	made = frappe.get_all(
+		"Stock Entry",
+		filters={"work_order": order.name, "purpose": "Manufacture", "docstatus": 1},
+		fields=[{"SUM": "total_outgoing_value", "as": "used"}, {"SUM": "total_additional_costs", "as": "time"}],
+	)[0]
+	return {
+		"order": order.name,
+		"makes": order.item_name,
+		"qty": flt(order.qty),
+		"made": flt(order.produced_qty),
+		"status": order.status,
+		"project": frappe.db.get_value("Project", order.project, "project_name") if order.project else None,
+		"asked_by": get_fullname(frappe.db.get_value("Material Request", order.material_request, "owner")) if order.material_request else None,
+		"wanted_by": str(order.expected_delivery_date) if order.expected_delivery_date else None,
+		"materials": materials,
+		"steps": _steps(order),
+		"job_cards": [dict(one) for one in cards],
+		"cost_so_far": {"materials": flt(made.used), "workshop_time": flt(made.time)},
+	}
+
+
+def plan_work_order(
+	item: Annotated[str, "The item to make, by code or name, such as WIN-CS12."],
+	qty: Annotated[float, "How many to make, in the item's own unit."],
+	project: Annotated[str, "The project it is made for, by name or title."] | None = None,
+	wanted_by: Annotated[str, "When it is wanted, as YYYY-MM-DD."] | None = None,
+	why: Annotated[str, "In a sentence, why it is made."] | None = None,
+) -> dict:
+	"""Suggest a draft work order to make an item with its default bill of
+	materials, as a card the reader approves. Its materials and steps come from
+	the bill, and it takes them from the company's stores to its work in
+	progress. Nothing is made until it is submitted."""
+	from erpnext import get_default_company
+
+	from onedesk.one_ai import proposals
+
+	if not frappe.has_permission("Work Order", "create"):
+		return {"error": "The reader may not make work orders."}
+	code = frappe.db.get_value("Item", {"name": item}) or frappe.db.get_value("Item", {"item_name": item})
+	if not code:
+		return {"error": f"No item is called {item}."}
+	bom = frappe.db.get_value("BOM", {"item": code, "is_default": 1, "is_active": 1, "docstatus": 1})
+	if not bom:
+		return {"error": f"{code} has no bill of materials to make it from."}
+	if flt(qty) <= 0:
+		return {"error": "Say how many to make."}
+	changes = {"production_item": code, "bom_no": bom, "qty": flt(qty), "company": get_default_company()}
+	if project:
+		found = frappe.db.get_value("Project", {"name": project}) or frappe.db.get_value("Project", {"project_name": project})
+		if not found:
+			return {"error": f"No project is called {project}."}
+		changes["project"] = found
+	if wanted_by:
+		changes["expected_delivery_date"] = str(frappe.utils.getdate(wanted_by))
+	return {
+		"proposal": proposals.propose("Create", "Work Order", changes={k: v for k, v in changes.items() if v}, why=why),
+		"state": "Proposed",
+	}
+

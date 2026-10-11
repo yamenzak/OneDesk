@@ -244,7 +244,15 @@ override_email_send = "onedesk.one_mail.outbound.send"
 doc_events = {
 	# Stock issued to a project is a cost of the job, under a cost type. See
 	# one_project/money.py.
-	"Stock Entry": {"before_validate": "onedesk.one_project.money.issued"},
+	# A project's stock used is summed again once stock values are. See one_project/money.py.
+	"Repost Item Valuation": {"on_change": "onedesk.one_project.money.restocked"},
+	# A work order takes its bill's steps however it is saved. See one_inventory/making.py.
+	"Work Order": {"before_validate": "onedesk.one_inventory.making.steps"},
+	"Stock Entry": {
+		"before_validate": "onedesk.one_project.money.issued",
+		# A work order made in full, told to whoever asked. See one_inventory/tell.py.
+		"on_submit": "onedesk.one_inventory.tell.work_done",
+	},
 	# A change opened in the Audit Log shows only the fields its reader may read.
 	# See one/audit.py.
 	"Version": {"onload": "onedesk.one.audit.onload"},
@@ -1197,6 +1205,7 @@ one_makes_records = {
 	"Asset Maintenance Team": ["one_inventory"],
 	"Asset Movement": ["one_inventory"],
 	"Attendance Request": ["one_hr"],
+	"BOM": ["one_inventory"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
 	"Blanket Order": ["one_inventory"],
@@ -1222,6 +1231,7 @@ one_makes_records = {
 	"Item": ["one", "one_admin", "one_inventory", "one_project"],
 	"Item Group": ["one_admin"],
 	"Job Applicant": ["one_hr"],
+	"Job Card": ["one_inventory"],
 	"Job Opening": ["one_hr"],
 	"Journal Entry": ["one_admin"],
 	"Lead": ["one_admin", "one_crm"],
@@ -1255,6 +1265,8 @@ one_makes_records = {
 	"Shift Type": ["one", "one_hr"],
 	"Stock Entry": ["one_inventory"],
 	"Stock Reconciliation": ["one_inventory"],
+	"Subcontracting Order": ["one_inventory"],
+	"Subcontracting Receipt": ["one_inventory"],
 	"Supplier": ["one", "one_book"],
 	"Supplier Quotation": ["one", "one_inventory"],
 	"Supplier Scorecard Criteria": ["one_inventory"],
@@ -1266,6 +1278,7 @@ one_makes_records = {
 	"UOM": ["one_project"],
 	"Vehicle Log": ["one_hr"],
 	"Warehouse": ["one_inventory"],
+	"Work Order": ["one_inventory"],
 }
 
 # What OneAI can do in each module, owned by the module, from its ai.py.
@@ -1335,6 +1348,9 @@ one_ai_reads = [
 	"onedesk.one_inventory.ai.count_facts",
 	"onedesk.one_inventory.ai.quote_comparison",
 	"onedesk.one_inventory.ai.late_orders",
+	# What the workshop has in hand, and how far one work order is.
+	"onedesk.one_inventory.ai.work_in_hand",
+	"onedesk.one_inventory.ai.work_order_facts",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1459,6 +1475,8 @@ one_ai_suggests = [
 	"onedesk.one_inventory.ai.plan_transfer",
 	# A request for quotation for a material request. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.plan_quote_request",
+	# A draft work order from an item's bill of materials. See one_inventory/ai.py.
+	"onedesk.one_inventory.ai.plan_work_order",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

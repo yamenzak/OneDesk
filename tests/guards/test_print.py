@@ -25,6 +25,7 @@ LEAVES = (
 	"Purchase Order",
 	"Request for Quotation",
 	"Blanket Order",
+	"Work Order",
 	"Salary Slip",
 	"Job Offer",
 	"Appointment Letter",

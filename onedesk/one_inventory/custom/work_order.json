@@ -1,0 +1,71 @@
+{
+ "custom_fields": [],
+ "doctype": "Work Order",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "item_name"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "bom_no"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "produced_qty"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "expected_delivery_date"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "project"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "status"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "production_item"
+  }
+ ],
+ "sync_on_migrate": 1
+}
