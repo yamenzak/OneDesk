@@ -1285,6 +1285,20 @@ OVERRIDES = [
 		"{ label: docname },",
 	),
 	(
+		"Stock against the Books says when stock and the books agree",
+		"an empty report reads \"Nothing to show\", and on this one empty is the good answer; reports.js names it for this report only",
+		"onedesk/public/js/reports.js",
+		"frappe/frappe/public/js/frappe/views/reports/query_report.js",
+		"get_no_result_message() {",
+	),
+	(
+		"Delivery Dates opens on deliveries",
+		"Delayed Order Report starts on Sales Invoice, which counts only invoices that moved stock; OneInventory's row starts it on Delivery Note",
+		"onedesk/public/js/reports.js",
+		"erpnext/erpnext/stock/report/delayed_order_report/delayed_order_report.js",
+		'default: "Sales Invoice",',
+	),
+	(
 		"A payroll run says how many people and how much",
 		"the Overview tab carries the account and two checkboxes; the count is parked in the employee filter and the total is only in the slips",
 		"onedesk/public/js/payroll_entry.js",

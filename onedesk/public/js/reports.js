@@ -11,9 +11,9 @@
 // since it can only ever mean the same thing.
 frappe.provide("onedesk.reports");
 
-//: The checkbox has no other meaning on a single-company site, so it is named
-//: rather than detected: nothing else is hidden by fieldname.
-const ALSO = ["include_company_descendants"];
+//: The checkboxes have no other meaning on a single-company site, so they are
+//: named rather than detected: nothing else is hidden by fieldname.
+const ALSO = ["include_company_descendants", "show_aggregate_value_from_subsidiary_companies"];
 
 //: A Currency filter is swept only on a payroll or HR report, where the answer
 //: is always what the company pays in. OneBook's are left alone: a single
@@ -255,6 +255,11 @@ const CHOSEN = { "Employee Analytics": { parameter: "Department" } };
 // can read, customers first, so the rule above answers it.
 const KINDS = { "Address And Contacts": { party_type: ["Customer", "Lead", "Supplier", "Sales Partner"] } };
 
+// A choice that starts somewhere else than erpnext starts it. Delivery Dates
+// sits in OneInventory, so it opens on what left the warehouse against each
+// order's date, not on invoices, which erpnext opens on and which are empty here.
+const STARTS = { "Delayed Order Report": { based_on: "Delivery Note" } };
+
 onedesk.reports.a_choice_is_made = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_choice) return;
@@ -263,7 +268,9 @@ onedesk.reports.a_choice_is_made = () => {
 	const theirs = QueryReport.prototype.setup_filters;
 	QueryReport.prototype.setup_filters = function () {
 		const kinds = KINDS[this.report_name] || {};
+		const starts = STARTS[this.report_name] || {};
 		for (const df of this.report_settings?.filters || []) {
+			if (starts[df.fieldname]) df.default = starts[df.fieldname];
 			if (!kinds[df.fieldname]) continue;
 			Object.assign(df, {
 				fieldtype: "Select",
@@ -315,6 +322,23 @@ onedesk.reports.who_is_leaving = () => {
 				fieldname === "from_date" ? frappe.datetime.year_start() : frappe.datetime.year_end()
 			);
 		});
+	};
+};
+
+// A report whose empty answer is good news says so, rather than frappe's
+// "Nothing to show": no rows on the comparison means stock and books agree.
+const EMPTY = { "Stock and Account Value Comparison": () => __("Stock and the books agree") };
+
+onedesk.reports.good_news = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_empty) return;
+	QueryReport.prototype.__one_empty = true;
+
+	const theirs = QueryReport.prototype.get_no_result_message;
+	QueryReport.prototype.get_no_result_message = function () {
+		const title = EMPTY[this.report_name];
+		if (!title) return theirs.call(this);
+		return frappe.ui.empty_state({ icon: "check", title: title() })[0].outerHTML;
 	};
 };
 
@@ -464,8 +488,11 @@ frappe.ui.form.on("Dashboard", {
 	},
 });
 
-frappe.after_ajax(() => {
-	onedesk.reports.shown_in();
+// Each wraps a frappe class once (its prototype keeps a flag), so it can be
+// tried twice. Now, because frappe's report bundle loads before this file and
+// a report opened by its address is drawn before the first requests settle;
+// and once they do, for a class loaded later.
+onedesk.reports.wrap = () => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
 	onedesk.reports.a_payroll_month();
@@ -475,4 +502,11 @@ frappe.after_ajax(() => {
 	onedesk.reports.lists_too();
 	onedesk.reports.a_choice_is_made();
 	onedesk.reports.who_is_leaving();
+	onedesk.reports.good_news();
+};
+onedesk.reports.wrap();
+
+frappe.after_ajax(() => {
+	onedesk.reports.shown_in();
+	onedesk.reports.wrap();
 });

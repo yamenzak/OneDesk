@@ -31,12 +31,26 @@ asset's depreciation lands in OneBook's books by itself.
   **Subcontracting Orders** and **Subcontracting Receipts**. See Making.
 - **Assets** — **Assets** (the register), **Asset Movements** (who has what,
   and where), **Maintenance**, **Repairs** and the **Asset Register** report.
-- **Reports**, **More** and **Setup** — the stock ledger, projected stock,
-  ageing, what is still to arrive, stock against the books, asset balances and
-  depreciation; pick lists, landed costs, prices, serial numbers, batches and
-  production plans; warehouses, price lists, asset categories, locations,
-  workstations, operations, routings, subcontracted items and Manufacturing
-  Settings. Item groups, brands and units are in One's **Masters**.
+- **Reports** — **Stock Ledger** (every movement of stock), **Projected
+  Stock** (what there will be once orders arrive and leave), **Stock Ageing**
+  (how long stock has sat), **Order Progress** (each purchase order, how much
+  has arrived and been billed), **Request to Bill** (a purchase from its
+  request to its bill), **Buying by Month** (what each supplier billed, month
+  by month), **Delivery Dates** (each delivery against the date the customer
+  was given), **Stock against the Books** (where stock's value and the
+  accounts differ, and "Stock and the books agree" when they do), **Making
+  Progress** (each work order and how much is made), **Sent Out to Be Made**
+  (what suppliers make for you and what came back), **Asset Balances** and
+  **Depreciation**.
+- **More** — pick lists, packing slips, delivery trips, landed costs, item
+  prices, serial numbers, batches, quality inspections, supplier scorecards,
+  production plans, the maintenance log, value adjustments and asset
+  capitalization.
+- **Setup** — the **Inventory Check** (what is missing before stock can be
+  kept right), warehouses, price lists, asset categories, locations,
+  maintenance teams, **Stock Settings**, **Buying Settings**, workstations,
+  operations, routings, subcontracted items and **Manufacturing Settings**.
+  Item groups, brands and units are in One's **Masters**.
 
 ## An item's page
 

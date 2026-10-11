@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-11 17:18+0000\n"
-"PO-Revision-Date: 2026-10-11 17:18+0000\n"
+"POT-Creation-Date: 2026-10-11 17:43+0000\n"
+"PO-Revision-Date: 2026-10-11 17:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -2667,7 +2667,7 @@ msgstr "كل ما يحتاج من يبتّ في الطلب إلى معرفته."
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:72
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/doctype_settings.js:335 onedesk/public/js/reports.js:378
+#: onedesk/public/js/doctype_settings.js:335 onedesk/public/js/reports.js:402
 #: onedesk/public/js/settings.js:1178 onedesk/public/js/settings.js:1199
 #: onedesk/public/js/settings.js:3103
 msgid "App"
@@ -4377,6 +4377,11 @@ msgstr "أسعار الشراء"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Buying Settings"
 msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Buying by Month"
+msgstr "المشتريات حسب الشهر"
 
 #. Label of the by (Select) field in DocType 'Tenant Event'
 #. Label of the by (Link) field in DocType 'Intake Lesson'
@@ -6583,7 +6588,7 @@ msgid "Dashboard {0}"
 msgstr "لوحة المعلومات {0}"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/reports.js:381
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/reports.js:405
 msgid "Dashboards"
 msgstr "اللوحات"
 
@@ -7160,6 +7165,11 @@ msgstr ""
 #: onedesk/one/print_blocks.py:42
 msgid "Delivery Date"
 msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Delivery Dates"
+msgstr "مواعيد التسليم"
 
 #: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:64
 msgid "Delivery No"
@@ -8899,7 +8909,7 @@ msgstr "إبلاغ الجميع وتوزيع الملصقات"
 msgid "Everyone who manages {0}"
 msgstr "كل من يدير {0}"
 
-#: onedesk/public/js/reports.js:389
+#: onedesk/public/js/reports.js:413
 msgid "Everyone who uses the app"
 msgstr "كل من يستخدم التطبيق"
 
@@ -13974,6 +13984,11 @@ msgstr "يصنع"
 msgid "Making"
 msgstr "التصنيع"
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Making Progress"
+msgstr "تقدّم التصنيع"
+
 #: onedesk/one_inventory/ready.py:198
 msgid "Making goods that take workshop time fails until the company names an account for it. Fix uses {0}."
 msgstr "يفشل صنع البضائع التي تأخذ وقتاً في الورشة حتى تحدد الشركة حساباً له. الإصلاح يستخدم {0}."
@@ -16472,7 +16487,7 @@ msgstr ""
 msgid "Now Worth"
 msgstr "قيمته الآن"
 
-#: onedesk/public/js/reports.js:379
+#: onedesk/public/js/reports.js:403
 msgid "Nowhere"
 msgstr "لا مكان"
 
@@ -17519,7 +17534,7 @@ msgstr "المدعوون فقط"
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
 msgstr "يُسمح فقط بالحروف والأرقام والمسافات و - / _ . # { }."
 
-#: onedesk/public/js/reports.js:388
+#: onedesk/public/js/reports.js:412
 msgid "Only me"
 msgstr "أنا فقط"
 
@@ -17846,6 +17861,11 @@ msgstr ""
 msgid "Order Number"
 msgstr "رقم الطلب"
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Order Progress"
+msgstr "تقدّم الطلبات"
+
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Order aluminium profiles"
@@ -17894,11 +17914,6 @@ msgstr "طُلب في"
 #: frontend/src/project/Overview.vue:35 onedesk/one_inventory/heads.py:1185
 msgid "Orders"
 msgstr "الطلبات"
-
-#. Label of a Sidebar Item
-#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-msgid "Orders to Receive"
-msgstr "طلبات بانتظار الاستلام"
 
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -21331,6 +21346,11 @@ msgstr "روابط الطلب"
 msgid "Request sent"
 msgstr "أُرسل الطلب"
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Request to Bill"
+msgstr "من الطلب إلى الفاتورة"
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: frontend/src/item/ItemBuying.vue:12
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -21947,7 +21967,7 @@ msgstr "اعتماد العينات ومخططات الورشة"
 #: onedesk/public/js/project_actions.js:507
 #: onedesk/public/js/project_actions.js:695
 #: onedesk/public/js/project_actions.js:763
-#: onedesk/public/js/project_actions.js:844 onedesk/public/js/reports.js:396
+#: onedesk/public/js/project_actions.js:844 onedesk/public/js/reports.js:420
 #: onedesk/public/js/settings.js:490 onedesk/public/js/settings.js:787
 #: onedesk/public/js/settings.js:2712 onedesk/public/js/shell.js:471
 #: onedesk/public/js/task_actions.js:33
@@ -21974,13 +21994,13 @@ msgid "Save to My Files"
 msgstr "حفظ في ملفاتي"
 
 #: onedesk/one/page/masters/masters.js:212
-#: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:405
+#: onedesk/one/page/masters/masters.js:229 onedesk/public/js/reports.js:429
 #: onedesk/public/js/shell.js:529
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
 msgstr "تم الحفظ"
 
-#: onedesk/public/js/reports.js:381
+#: onedesk/public/js/reports.js:405
 msgid "Saved Reports"
 msgstr "التقارير المحفوظة"
 
@@ -21992,7 +22012,7 @@ msgstr "التقرير المحفوظ {0}"
 msgid "Saved to My Files"
 msgstr "تم الحفظ في ملفاتي"
 
-#: onedesk/public/js/reports.js:449
+#: onedesk/public/js/reports.js:473
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr "حُفظ تحت «التقارير المحفوظة» في الشريط الجانبي لهذا التطبيق."
 
@@ -22357,6 +22377,11 @@ msgstr "أرسله"
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 msgid "Sent On"
 msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Sent Out to Be Made"
+msgstr "مُرسَل للتصنيع"
 
 #. Description of the 'System Instruction' (Small Text) field in DocType 'AI
 #. Action'
@@ -22969,12 +22994,12 @@ msgstr ""
 msgid "Show Files"
 msgstr "إظهار الملفات"
 
-#: onedesk/public/js/reports.js:373
+#: onedesk/public/js/reports.js:397
 msgid "Show In"
 msgstr "عرض في"
 
-#: onedesk/public/js/reports.js:418 onedesk/public/js/reports.js:434
-#: onedesk/public/js/reports.js:450 onedesk/public/js/reports.js:463
+#: onedesk/public/js/reports.js:442 onedesk/public/js/reports.js:458
+#: onedesk/public/js/reports.js:474 onedesk/public/js/reports.js:487
 msgid "Show In…"
 msgstr "عرض في…"
 
@@ -23892,6 +23917,10 @@ msgstr "المخزون مقابل الدفاتر"
 #: onedesk/notifications/one_inventory/stock_account_wrong.md
 msgid "Stock and accounts managers"
 msgstr "مديرو المخزون والحسابات"
+
+#: onedesk/public/js/reports.js:330
+msgid "Stock and the books agree"
+msgstr "المخزون والدفاتر متطابقان"
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -28218,7 +28247,7 @@ msgstr "عرض مساحات العمل"
 msgid "Views"
 msgstr "طرق العرض"
 
-#: onedesk/public/js/reports.js:386
+#: onedesk/public/js/reports.js:410
 msgid "Visible To"
 msgstr "مرئي لـ"
 
@@ -32865,7 +32894,7 @@ msgstr "{0} و{1} ليسا في المنطقة نفسها."
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
-#: onedesk/public/js/reports.js:381
+#: onedesk/public/js/reports.js:405
 msgid "{0} appears in the app's sidebar under {1}."
 msgstr "يظهر {0} في الشريط الجانبي للتطبيق ضمن {1}."
 

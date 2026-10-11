@@ -386,11 +386,47 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Orders to Receive",
+   "label": "Order Progress",
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Purchase Order Analysis"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Request to Bill",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Procurement Tracker"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Buying by Month",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Purchase Analytics"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Delivery Dates",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Delayed Order Report"
   },
   {
    "child": 1,
@@ -403,6 +439,30 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Stock and Account Value Comparison"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Making Progress",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Work Order Summary"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Sent Out to Be Made",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Subcontract Order Summary"
   },
   {
    "child": 1,
@@ -763,7 +823,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-25 12:00:00.000000",
+ "modified": "2026-10-26 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

@@ -10360,8 +10360,8 @@ page of its own, and Quality Management stays out.
 | 6 | Buying | done |
 | 7 | Making | done |
 | 8 | Equipment | done |
-| 9 | Reports and Setup | next |
-| 10 | Across modules | |
+| 9 | Reports and Setup | done |
+| 10 | Across modules | next |
 | 11 | Closed against the standard | |
 
 #### 0. The baseline
@@ -11123,3 +11123,75 @@ Fixed:
 | 17 Clean code | lint clean, the rules in maintenance.py, the tools in ai.py |
 | Everything follows frappe | the forms, the lists and the print are frappe's and ERPNext's own |
 | What ERPNext already does | depreciation from the schedule, a repair's downtime, Out of Order while it waits, the value change in the books, the custodian from the latest movement |
+
+#### 9. Reports and Setup
+
+Looked at as Karim and Huda on every row of Reports, More and Setup, the
+Inventory Check and the three settings pages, and on a phone. And at the
+reports ERPNext has for stock, buying, making and assets that the rail did
+not link, each run on the demo as both.
+
+Found:
+
+- **Our look (5)**: Asset Balances, opened by its address, was headed with
+  ERPNext's name for it once in a while. The renaming waited for the first
+  requests to settle, and a report opened that way could be drawn first.
+- **Plain words (12)**: Orders to Receive listed every purchase order in the
+  period, billed or not, so the name promised less than it showed. Stock
+  against the Books said "Nothing to show" when stock and the books agree,
+  which is the answer the reader hopes for.
+- **Hand-offs (3)**: nothing in the rail followed a purchase from its request
+  to its bill, showed buying month by month, made work orders' progress or
+  subcontracting's readable, or said whether deliveries kept the date the
+  customer was given. ERPNext has a report for each.
+- **Rules (17)**: Buying by Month asked whether to add subsidiary companies,
+  which can only mean the same thing on a workspace with one company.
+- **What ERPNext already does**: its delivery report opens on invoices that
+  moved stock, which nobody here makes, so it opened empty.
+
+Weighed and left out: Job Card Summary and Item Shortage Report, which say
+what To Order and the job cards' list already say. BOM Stock Report is not
+in this ERPNext. Stock Settings' Default Item Group and Buying Settings'
+Default Supplier Group are empty, as ERPNext's own setup leaves them, so a
+new item asks for its group.
+
+Fixed:
+
+- **Our look (5)**: reports.js wraps frappe's report classes as soon as it
+  loads, and again once the first requests settle. Every heading in the
+  group matches its row, checked on a fresh load of each.
+- **Plain words (12)**: **Order Progress** for the purchase order report.
+  Stock against the Books says **Stock and the books agree** with a tick
+  when it is empty.
+- **Hand-offs (3)**: five rows in Reports. **Request to Bill** (Procurement
+  Tracker), **Buying by Month** (Purchase Analytics), **Delivery Dates**
+  (Delayed Order Report, each delivery against its promised date, early
+  ones too), **Making Progress** (Work Order Summary) and **Sent Out to Be
+  Made** (Subcontract Order Summary).
+- **What ERPNext already does**: Delivery Dates opens on deliveries.
+- **Rules (17)**: the subsidiary checkbox is hidden with Include Company
+  Descendants.
+- **Documented (13)**: the README's Finding your way lists every report
+  with what it answers, then More and Setup each on their own line.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | every report has rows on the demo, Stock against the Books empty because they agree |
+| 2 Rules on the server | nothing new, the reports only read |
+| 3 Hand-offs | a request to its bill, buying by month, deliveries against promised dates, work orders and subcontracting |
+| 4 Tier declared | reports are frappe's report view, as before |
+| 5 Our look | headings from the rail on every load, the agree message, at 1440 wide and on a phone |
+| 6 Nothing lost | every filter kept but the company ones |
+| 7 Extensible | reports take Client Scripts as frappe's do |
+| 8 Built from frappe | ERPNext's own reports, wrapped in reports.js |
+| 9 Overrides recorded | the agree message and Delivery Dates' start (348 rows) |
+| 10 Notifications | none needed |
+| 11 Printed | frappe's report print, as before |
+| 12 Plain words | the six new labels and the message, in Arabic and German |
+| 13 Documented, OneAI | the README's list of reports, which OneAI's guide reads to answer where a report is |
+| 14 Intake | not concerned |
+| 15 Permissions | Karim and Huda open every report, checked on each |
+| 16 Legal | nothing new is kept or sent |
+| 17 Clean code | lint clean, each report change a named wrap in reports.js |
+| Everything follows frappe | ERPNext's reports and settings forms, frappe's empty state |
+| What ERPNext already does | its filters, columns and totals as shipped |
