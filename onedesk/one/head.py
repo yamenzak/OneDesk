@@ -322,6 +322,10 @@ def _stats(doc, row) -> list[dict]:
 
 def _stat(doc, row, measured=None) -> dict | None:
 	stat = {"label": _(row.label), "route": fill(row.route, doc, url=True) or None, "tone": row.tone or None}
+	# A field kept back when empty is empty at nought too: a currency or a
+	# number is formatted before it is shown, so its formatted text never is.
+	if row.source == "Field" and row.hide_empty and not doc.get(row.field):
+		return None
 	value = measured if row.source == "Measure" else _value(doc, row)
 	# A measure with nothing to say of this record is not shown.
 	if row.source == "Measure" and value is None:

@@ -222,6 +222,9 @@ scheduler_events = {
 		# Attachments that arrived while storage was full, saved once it is not.
 		# See one_mail/room.py.
 		"onedesk.one_mail.room.again",
+		# A failed recalculation of stock values, or a warehouse posting to the
+		# wrong account, told to the stock and accounts managers. See one_inventory/tell.py.
+		"onedesk.one_inventory.tell.stock_values",
 	],
 	# What OneAI read for each person this week. See one_intake/digest.py.
 	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
@@ -1029,6 +1032,7 @@ doctype_list_js = {
 	"Contract": "public/js/contract_list.js",
 	"Purchase Receipt": "public/js/purchase_receipt_list.js",
 	"Delivery Note": "public/js/delivery_note_list.js",
+	"Stock Entry": "public/js/stock_entry_list.js",
 }
 
 override_doctype_dashboards = {
@@ -1241,6 +1245,7 @@ one_makes_records = {
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],
 	"Stock Entry": ["one_inventory"],
+	"Stock Reconciliation": ["one_inventory"],
 	"Supplier": ["one", "one_book"],
 	"Supplier Quotation": ["one"],
 	"Task": ["one_project", "one_task"],
@@ -1316,6 +1321,8 @@ one_ai_reads = [
 	"onedesk.one_inventory.ai.still_to_arrive",
 	"onedesk.one_inventory.ai.delivery_facts",
 	"onedesk.one_inventory.ai.still_to_deliver",
+	"onedesk.one_inventory.ai.movement_facts",
+	"onedesk.one_inventory.ai.count_facts",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1437,6 +1444,7 @@ one_ai_suggests = [
 	# A draft receipt or delivery for an order. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.plan_receipt",
 	"onedesk.one_inventory.ai.plan_delivery",
+	"onedesk.one_inventory.ai.plan_transfer",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

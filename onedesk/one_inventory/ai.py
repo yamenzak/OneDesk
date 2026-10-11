@@ -8,7 +8,7 @@ from typing import Annotated
 
 import frappe
 from frappe import _lt
-from frappe.utils import flt
+from frappe.utils import flt, get_fullname
 
 #: An item's page (page/item_view), by its open view, from `?view=`.
 PAGE = "item-view"
@@ -115,6 +115,28 @@ _DELIVER = {
 	"expects": "plan_delivery",
 }
 
+_MOVED = {
+	"label": _lt("What did this movement do?"),
+	"ask": _lt("What did this stock movement do? Say from where to where, for which project, what it was worth and who made it."),
+	"can": "read",
+	"doctype": "Stock Entry",
+	"expects": "movement_facts",
+}
+_SEND = {
+	"label": _lt("Send stock to a site"),
+	"ask": _lt("Draft a transfer of stock from the stores to a site or another warehouse."),
+	"can": "create",
+	"doctype": "Stock Entry",
+	"expects": "plan_transfer",
+}
+_COUNTED = {
+	"label": _lt("What did this count find?"),
+	"ask": _lt("What did this stock count find? Say what the books held and what was counted, and what it did to the books."),
+	# On the count's own form, so the reader's right to read it is the count's.
+	"can": "read",
+	"expects": "count_facts",
+}
+
 SUGGESTIONS = {
 	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
 	f"page:{PAGE}/stock": [_HOW, _ORDER],
@@ -126,6 +148,8 @@ SUGGESTIONS = {
 	"Purchase Order": [_RECEIVE, _ARRIVING],
 	"Delivery Note": [_SENT, _TO_DELIVER],
 	"Sales Order": [_DELIVER, _TO_DELIVER],
+	"Stock Entry": [_MOVED, _SEND],
+	"Stock Reconciliation": [_COUNTED],
 }
 
 
@@ -651,6 +675,141 @@ def plan_delivery(
 	return {
 		"proposal": proposals.propose(
 			"Create", "Delivery Note", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
+		),
+		"state": "Proposed",
+	}
+
+
+def movement_facts(entry: Annotated[str, "The movement's number, such as MAT-STE-2026-00016."]) -> dict:
+	"""What a stock movement did, as its form shows it to the reader: what
+	kind it was, from where to where, for which project, each line and what
+	it was worth, who made it, and how much of goods sent through transit has
+	arrived. Read before answering about a transfer, an issue or a receipt of
+	stock."""
+	if not frappe.db.exists("Stock Entry", entry) or not frappe.has_permission("Stock Entry", "read", doc=entry):
+		return {"error": f"No stock movement the reader may see is {entry}."}
+	doc = frappe.get_doc("Stock Entry", entry)
+	return {
+		"movement": doc.name,
+		"type": doc.stock_entry_type,
+		"purpose": doc.purpose,
+		"on": str(doc.posting_date),
+		"by": get_fullname(doc.owner),
+		"state": {0: "Draft", 1: "Submitted", 2: "Cancelled"}[doc.docstatus],
+		"project": doc.project,
+		"work_order": doc.work_order,
+		"value_out": flt(doc.total_outgoing_value),
+		"value_in": flt(doc.total_incoming_value),
+		"currency": frappe.get_cached_value("Company", doc.company, "default_currency"),
+		"in_transit": bool(doc.add_to_transit),
+		"arrived_percent": flt(doc.per_transferred) if doc.add_to_transit else None,
+		"lines": [
+			{
+				"item": row.item_code,
+				"name": row.item_name,
+				"qty": flt(row.qty),
+				"unit": row.uom,
+				"from": row.s_warehouse,
+				"to": row.t_warehouse,
+				"value": flt(row.amount),
+			}
+			for row in doc.items
+		],
+		"printed_as": "One Stock Entry",
+	}
+
+
+def count_facts(count: Annotated[str, "The count's number, such as MAT-RECO-2026-00002."]) -> dict:
+	"""What a stock count found, as its form shows it to the reader: what it
+	was for, where and when, each line with what the books held and what was
+	counted, and the difference it made in the books and to which account.
+	ERPNext keeps only the lines a count changed."""
+	if not frappe.db.exists("Stock Reconciliation", count) or not frappe.has_permission(
+		"Stock Reconciliation", "read", doc=count
+	):
+		return {"error": f"No stock count the reader may see is {count}."}
+	doc = frappe.get_doc("Stock Reconciliation", count)
+	return {
+		"count": doc.name,
+		"purpose": doc.purpose,
+		"on": str(doc.posting_date),
+		"by": get_fullname(doc.owner),
+		"state": {0: "Draft", 1: "Submitted", 2: "Cancelled"}[doc.docstatus],
+		"difference": flt(doc.difference_amount),
+		"currency": frappe.get_cached_value("Company", doc.company, "default_currency"),
+		"posted_to": doc.expense_account,
+		"lines": [
+			{
+				"item": row.item_code,
+				"name": row.item_name,
+				"warehouse": row.warehouse,
+				"books_held": flt(row.current_qty),
+				"counted": flt(row.qty),
+				"rate": flt(row.valuation_rate),
+				"difference": flt(row.amount_difference),
+			}
+			for row in doc.items
+		],
+	}
+
+
+def plan_transfer(
+	to: Annotated[str, "The warehouse the goods go to, such as Mansour Villa Site - SGA."],
+	lines: Annotated[list[dict], "What goes: each {item: code, qty: how many}."],
+	source: Annotated[str, "The warehouse they come from. The company's default one when not said."] | None = None,
+	project: Annotated[str, "The project they are for, when they are for one."] | None = None,
+	why: Annotated[str, "In a sentence, why this transfer."] | None = None,
+) -> dict:
+	"""Suggest a draft transfer of stock from one warehouse to another, a
+	site's among them, as a card the reader approves. It prints as a transfer
+	note that travels with the goods. Nothing moves until the draft is
+	submitted on its form."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ready
+
+	if not frappe.has_permission("Stock Entry", "create"):
+		return {"error": "The reader may not move stock."}
+	source = source or ready.company().default_warehouse
+	for warehouse in (source, to):
+		if not warehouse or not frappe.db.exists("Warehouse", {"name": warehouse, "is_group": 0}):
+			return {"error": f"{warehouse or 'Where from'} is not a warehouse stock can be kept in."}
+	if source == to:
+		return {"error": "The goods would go nowhere: both warehouses are the same."}
+	if project and not frappe.has_permission("Project", "read", doc=project):
+		return {"error": f"No project the reader may see is {project}."}
+	rows = []
+	for one in lines or []:
+		code, qty = str(one.get("item") or ""), flt(one.get("qty"))
+		item = frappe.db.get_value("Item", code, ["item_name", "stock_uom", "is_stock_item"], as_dict=True)
+		if not item or not item.is_stock_item or qty <= 0:
+			return {"error": f"{code} is not a stock item with a quantity to move."}
+		rows.append(
+			{
+				"item_code": code,
+				"item_name": item.item_name,
+				"qty": qty,
+				"transfer_qty": qty,
+				"uom": item.stock_uom,
+				"stock_uom": item.stock_uom,
+				"conversion_factor": 1,
+				"s_warehouse": source,
+				"t_warehouse": to,
+				"project": project,
+			}
+		)
+	if not rows:
+		return {"error": "Say what goes, item by item."}
+	changes = {
+		"stock_entry_type": "Material Transfer",
+		"purpose": "Material Transfer",
+		"from_warehouse": source,
+		"to_warehouse": to,
+		"project": project,
+		"items": [{k: v for k, v in row.items() if v not in (None, "")} for row in rows],
+	}
+	return {
+		"proposal": proposals.propose(
+			"Create", "Stock Entry", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
 		),
 		"state": "Proposed",
 	}

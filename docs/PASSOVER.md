@@ -10356,8 +10356,8 @@ page of its own, and Quality Management stays out.
 | 2 | Stock on Hand and warehouses | done |
 | 3 | Receiving | done |
 | 4 | Delivering | done |
-| 5 | Moving and counting | next |
-| 6 | Buying | |
+| 5 | Moving and counting | done |
+| 6 | Buying | next |
 | 7 | Making | |
 | 8 | Equipment | |
 | 9 | Reports and Setup | |
@@ -10715,3 +10715,102 @@ Fixed:
 | 17 Clean code | lint clean |
 | Everything follows frappe | the form, the list, the prints and the rail's layers are frappe's own |
 | What ERPNext already does | the customer's currency and base amounts, the order's lines mapped, held stock in ERPNext's own reservation, the trip's stops and its status |
+
+#### 5. Moving and counting
+
+Looked at as Karim on the stock movements and stock counts, a new count and a
+new movement, as Tariq on a phone at the villa's site, as Huda on the books'
+side of stock, and as Nadia, who has no OneInventory. And the code behind a
+count's difference account, ERPNext's recalculation after a back-dated entry,
+and who it tells when stock and the books disagree.
+
+Found:
+
+- **Works (1)**: a new count started with no purpose, and the form then
+  fetched Temporary Opening, a balance sheet account, as its difference
+  account.
+- **Works (1)**: Tariq opening a movement, and anybody but the stock manager
+  and the sales user opening an order, receipt or invoice, was told "No
+  permission for Stock Settings". Every such form reads it on opening.
+- **Notifications (10)**: Stock Account Wrong, a warehouse posting to an
+  account that is not a stock account, was mailed only to System Managers,
+  the operator's role and nobody's in a workspace. Reposting Failed went only
+  to stock managers, and only when an outgoing mail account was set. Huda,
+  who keeps the books, was told of neither.
+- **Our look (5)**: the movements list showed the purpose beside the type, an
+  empty Transferred bar and Is Return box, no project and no value. A
+  Manufacture row showed 0.00, as ERPNext leaves Total Amount empty for goods
+  made.
+- **Our look (5)**: a movement's head said Value In 0.00 on an issue, and not
+  where the goods came from or went. A count had no head, and its list showed
+  only its number, date and time.
+- **Our look (5)**: a band row marked to hide when empty showed a zero amount,
+  as `one/head.py` tested the formatted text, never the value.
+- **Printed (11)**: a movement had no print to travel with the goods.
+- **Demo coverage (1)**: no site warehouse, no transfer to a site, nothing
+  used on site and no count with a difference.
+- **What ERPNext already does**: a count keeps only the lines it changed. A
+  back-dated entry queues a recalculation of what follows it.
+- **Clean code (17)**: the guard on records One makes counts each head in a
+  `heads.py` as a record made, so every headed doctype is declared in
+  `one_makes_records` and Numbering keeps it from being named by hand. Left
+  for its own step, since taking them off changes Numbering for a dozen kinds.
+- **Kept out**: Stock Closing Entry, which only speeds reports up, stays off
+  the rail, as ERPNext keeps it.
+
+Fixed:
+
+- **Works (1)**: a new count starts as Stock Reconciliation, so its difference
+  goes to the company's stock adjustment account.
+- **Works (1)**: OneInventory's grants let the stock, purchase, accounts,
+  projects and manufacturing users read Stock Settings.
+- **Notifications (10)**: Reposting Failed and Stock Account Wrong are One's
+  own, told hourly by `tell.stock_values` to the stock and accounts managers,
+  once per recalculation and once per warehouse.
+- **Works (1)**: the Inventory Check has two rows, Every warehouse posts to a
+  stock account and Stock values are up to date, the second with a Fix that
+  tries a failed recalculation again.
+- **Our look (5)**: the movements list keeps the type, from, to, project and
+  what it moved, a made row showing what was made. The counts list shows what
+  it was for, where and its difference.
+- **Our look (5)**: a movement's head says From, To, Value (what came in for
+  goods received or made, what went out otherwise), Used for goods made, and
+  Arrived for goods sent through transit. A count's head says its purpose,
+  Where, Items and Difference.
+- **Our look (5)**: a band row hidden when empty is hidden at nought too.
+- **Printed (11)**: One Stock Entry prints as a Transfer Note, with the site's
+  address and every line from and to, signed by whoever sent and whoever
+  received. An issue prints as an Issue Note.
+- **Demo coverage (1)**: the Mansour Villa Site warehouse with its address.
+  Karim sends aluminium, locks and silicone there for the villa, Tariq uses
+  some on site, and Karim's count of the stores finds three hinges short,
+  posted as 110.66 to Stock Adjustment.
+- **Knows (13)**: `movement_facts`, `count_facts` and `plan_transfer`, with
+  What did this movement do?, What did this count find? and Send stock to a
+  site.
+- **Works (1)**: `oneinventory_stock_moves_and_counts_reach_the_books` checks
+  what the site holds, both heads, the transfer note and its address, the
+  count's difference in the ledger, the new count's purpose, Huda's rows and
+  both notifications, OneAI's three tools, and refuses Nadia.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the site warehouse, the transfer, the use on site and the count, and the new check |
+| 2 Rules on the server | ERPNext's own count, recalculation and account rules, the count's purpose a property setter |
+| 3 Hand-offs | a transfer and an issue to the project's cost, a count's difference to the books, both told to the accountant |
+| 4 Tier declared | Stock Reconciliation in HEADS, and both lists in COLLECTIONS |
+| 5 Our look | the heads and the lists, at 1440 wide and on a phone |
+| 6 Nothing lost | every field, ERPNext's Create menu and its In Transit status kept |
+| 7 Extensible | the heads' bands take what is written for them, as every head does |
+| 8 Built from frappe | the print in frappe's builder, the list's value through frappe's format, ERPNext's own account map and restart |
+| 9 Overrides recorded | the count's purpose, the made rows' value, Stock Settings read, and the two notifications (330 rows) |
+| 10 Notifications | Reposting Failed and Stock Account Wrong, One's own, to the stock and accounts managers |
+| 11 Printed | One Stock Entry, the Transfer Note |
+| 12 Plain words | every label, row and note, in Arabic and German |
+| 13 Documented, OneAI | the README's Moving stock, Counting stock and When stock and the books disagree, three tools |
+| 14 Intake | nothing new |
+| 15 Permissions | Stock Settings read where its forms need it, movements and counts read as the reader may, Nadia refused |
+| 16 Legal | nothing new |
+| 17 Clean code | lint clean, and the guard on records made noted for its own step |
+| Everything follows frappe | the forms, the lists and the print are frappe's own |
+| What ERPNext already does | valuation through each warehouse's account, the count's difference account by purpose, back-dated recalculation, transit transfers |

@@ -135,6 +135,8 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
   rejected on arrival too. **Fix** bills only what was accepted.
 - **Stock can be held for an order.** Off to begin with, so stock promised
   to one order can go out on another first. **Fix** turns it on.
+- **Every warehouse posts to a stock account** and **Stock values are up to
+  date** — stock and the books agree. See When stock and the books disagree.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
   can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.
@@ -282,13 +284,52 @@ in red once it is late.
 
 The first schedule needs a maintenance team; the Inventory Check makes one.
 
+## Moving stock
+
+**Stock Movements** lists every movement with its type, where it came from,
+where it went, its project and what it moved. **Move Stock** on Stock on Hand
+starts a transfer from the warehouse you are looking at.
+
+A movement says above its fields which **Project** it is for, its **Type**,
+**From** and **To** which warehouse, what it is **Worth**, and for goods made,
+what making them **Used**. A transfer sent through Goods In Transit says how
+much has **Arrived**.
+
+- **To a site.** A site is a warehouse of its own, with its address on it.
+  A transfer to it prints as a **Transfer Note** with the site's address,
+  every line from and to, and spaces for whoever sent and whoever received
+  it. Put the project on it, and what it moved counts on the project.
+- **Used on the job.** A **Material Issue** from the site warehouse, for the
+  project, takes what was used off the shelf and puts its cost on the
+  project. It prints as an **Issue Note**.
+
+OneAI says what a movement did, and drafts a transfer to a site as a card you
+approve.
+
 ## Counting stock
 
 **Stock Counts › + Add**, choose the warehouse, and **Fetch Items from
 Warehouse** lists everything the books say is there. Type what you actually
-counted over the quantities and submit: the difference is written off or found,
-and the books match the shelf. The first count of a new warehouse is how you
-enter opening stock — set **Purpose** to **Opening Stock**.
+counted over the quantities and submit. A new count starts as a count, so the
+difference is written off or found in the stock adjustment account and the
+books match the shelf. ERPNext keeps only the lines whose quantity changed.
+The first count of a new warehouse is how you enter opening stock. Set
+**Purpose** to **Opening Stock**, and its value goes to Temporary Opening.
+
+A count says above its fields what it was for, **Where** it was counted, how
+many **Items** it changed, and the **Difference** it made in the books.
+
+OneAI says what a count found and what it did to the books.
+
+## When stock and the books disagree
+
+A back-dated entry, such as a count dated last week, makes ERPNext
+recalculate the stock values after it. **Stock values are up to date** in the
+Inventory Check says when a recalculation stopped with an error, and **Fix**
+tries it again. **Every warehouse posts to a stock account** says when a
+warehouse's stock is posted to an account that is not a stock account, so
+stock and the books can never agree. Both are told to the stock and accounts
+managers as **Reposting Failed** and **Stock Account Wrong**.
 
 ## Who may do what
 
@@ -315,8 +356,8 @@ split.
 - **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and a supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation.
-- **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself.
-- **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view.
+- **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant.
+- **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way.
 - **To OneHR**: An employee's page shows how much equipment they hold. When they leave, their separation gets a Return task for each piece.
 - **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
 
@@ -390,13 +431,33 @@ a register and a movement form in it would be a rail with five rows.
   (`reserved_stock`), so it is taken off once (`item.summary`, `stock.rows`).
   OneCRM's `access.py` lets the selling, stores, accounts and projects people
   read Selling Settings, which ERPNext's sales order form reads on opening.
-- `ai.py` — OneAI on an item, the stores, receiving and delivering: `item_facts` reads
+- `heads.py` (Stock Entry, Stock Reconciliation), `print_format/one_stock_entry`,
+  `public/js/stock_entry_list.js`, `custom/stock_entry.json` and
+  `custom/stock_reconciliation.json` — moving and counting. A movement's head
+  reads its lines' warehouses, and what it is worth by what it did. The
+  transfer note is laid out in frappe's builder from One's print blocks, its
+  party the one warehouse the lines go to, with that warehouse's address.
+  ERPNext leaves Total Amount empty for goods made, so the list shows what
+  was made there. A new count starts as Stock Reconciliation, where ERPNext
+  starts it with no purpose and the form fetches Temporary Opening as the
+  difference account. `tell.stock_values`, hourly, tells the stock and
+  accounts managers of a failed recalculation (`ready.failed_reposts`) and a
+  warehouse posting to an account that is not a stock account
+  (`ready.wrong_accounts`, as ERPNext's `get_warehouse_account_map` resolves
+  it). ERPNext mails the second only to System Managers, and marks the first
+  failed without a hook when no outgoing mail is set. `access.py` lets the
+  stock, purchase, accounts, projects and manufacturing users read Stock
+  Settings, which every order, receipt, delivery, movement and invoice form
+  reads on opening.
+- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving and counting: `item_facts` reads
   an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
   `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
   come, `plan_receipt` drafts a receipt through ERPNext's own mapping,
   `delivery_facts` a delivery, its slips and its trip, `still_to_deliver`
   what is ordered and not yet sent, and how much of it is held,
   `plan_delivery` drafts a delivery through ERPNext's own mapping,
+  `movement_facts` a stock movement, `count_facts` a count, `plan_transfer`
+  drafts a transfer to a site,
   `running_low` lists what is at or below its reorder level as ERPNext's
   reordering reads it, and `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps
@@ -563,6 +624,9 @@ a register and a movement form in it would be a rail with five rows.
     makes one of the person fixing it.
   - **Depreciation posts itself.** ERPNext books it daily when Accounts
     Settings says to; the check catches a site where it does not.
+  - **Every warehouse posts to a stock account** (`wrong_accounts`) and
+    **Stock values are up to date** (`failed_reposts`, fixed by ERPNext's
+    `bulk_restart_reposting`).
   - **Stock can be held for an order.** ERPNext's
     `enable_stock_reservation`, off by default. Without it a sales order's
     Reserve Stock is hidden and stock promised to one order can go out on

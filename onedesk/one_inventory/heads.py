@@ -324,6 +324,61 @@ def delivery_trip(doc):
 	}
 
 
+# ------------------------------------------------------------------ a movement
+
+
+#: What makes goods, whose value is what was made, with what it used beside it.
+MADE = ("Manufacture", "Repack", "Disassemble")
+
+
+def _places(names) -> dict | None:
+	"""Warehouses by their own names, one opening its stock."""
+	names = list(dict.fromkeys(one for one in names if one))
+	if not names:
+		return None
+	if len(names) > 1:
+		return {"value": _("{0} warehouses").format(len(names))}
+	called = frappe.get_cached_value("Warehouse", names[0], "warehouse_name") or names[0]
+	return {"value": called, "route": f"/desk/stock-on-hand?warehouse={quote(names[0])}"}
+
+
+def move_from(doc):
+	return _places(row.s_warehouse for row in doc.items)
+
+
+def move_to(doc):
+	return _places(row.t_warehouse for row in doc.items)
+
+
+def move_value(doc):
+	"""What the movement is worth: what went in for goods received or made,
+	what went out for the rest. A transfer's two are the same."""
+	if doc.purpose in MADE or doc.purpose == "Material Receipt":
+		value = doc.total_incoming_value
+	else:
+		value = doc.total_outgoing_value
+	return _money(value) if flt(value) else None
+
+
+def move_used(doc):
+	"""What making the goods used up."""
+	if doc.purpose not in MADE or not flt(doc.total_outgoing_value):
+		return None
+	return _money(doc.total_outgoing_value)
+
+
+# ------------------------------------------------------------------ a count
+
+
+def count_items(doc):
+	"""ERPNext keeps only the lines a count changed, so each one is a difference."""
+	return str(len(doc.items))
+
+
+def count_where(doc):
+	return _places(row.warehouse for row in doc.items)
+
+
 # ------------------------------------------------------------------ the charts
 
 
@@ -416,6 +471,12 @@ MEASURES = {
 	"delivery.order": delivery_order,
 	"delivery.total": delivery_total,
 	"delivery.trip": delivery_trip,
+	"move.from": move_from,
+	"move.to": move_to,
+	"move.value": move_value,
+	"move.used": move_used,
+	"count.items": count_items,
+	"count.where": count_where,
 }
 
 
@@ -630,8 +691,25 @@ HEADS = [
 		"band": [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Type"), "source": "Field", "field": "stock_entry_type"},
-			{"label": _lt("Value Out"), "source": "Field", "field": "total_outgoing_value", "hide_empty": 1},
-			{"label": _lt("Value In"), "source": "Field", "field": "total_incoming_value", "hide_empty": 1},
+			{"label": _lt("From"), "source": "Measure", "measure": "move.from"},
+			{"label": _lt("To"), "source": "Measure", "measure": "move.to"},
+			{"label": _lt("Value"), "source": "Measure", "measure": "move.value"},
+			{"label": _lt("Used"), "source": "Measure", "measure": "move.used"},
+			{
+				"label": _lt("Arrived"),
+				"source": "Field",
+				"field": "per_transferred",
+				"shown_when": [["add_to_transit", "=", 1], ["docstatus", "=", 1]],
+			},
+		],
+	},
+	{
+		"doctype": "Stock Reconciliation",
+		"band": [
+			{"label": _lt("Purpose"), "source": "Field", "field": "purpose"},
+			{"label": _lt("Where"), "source": "Measure", "measure": "count.where"},
+			{"label": _lt("Items"), "source": "Measure", "measure": "count.items"},
+			{"label": _lt("Difference"), "source": "Field", "field": "difference_amount", "shown_when": [["docstatus", "=", 1]]},
 		],
 	},
 ]

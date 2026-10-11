@@ -47,6 +47,8 @@ def checks() -> list[dict]:
 		_reorder(),
 		_rejected(),
 		_held(),
+		_stock_accounts(one),
+		_reposted(),
 		_serials(),
 		_location(),
 		_categories(one),
@@ -109,6 +111,48 @@ def _held() -> dict:
 	if frappe.db.get_single_value("Stock Settings", "enable_stock_reservation"):
 		return _row("held", check, READY, _("An order can have its stock set aside, so no other order takes it."))
 	return _row("held", check, SUGGESTED, _("Stock promised to an order can still go out on another one first."), "held")
+
+
+def wrong_accounts(company_name: str) -> list[tuple[str, str]]:
+	"""Warehouses whose stock is posted to an account that is not a stock
+	account, as ERPNext resolves each one's account, so stock and the books
+	can never agree however often they are recalculated."""
+	from erpnext.stock import get_warehouse_account_map
+
+	found = []
+	for name, row in sorted(get_warehouse_account_map(company_name).items()):
+		kind = row.get("account") and frappe.get_cached_value("Account", row.account, "account_type")
+		if not row.get("is_group") and kind and kind != "Stock":
+			found.append((name, row.account))
+	return found
+
+
+def _stock_accounts(one) -> dict:
+	check = _("Every warehouse posts to a stock account")
+	if not one.enable_perpetual_inventory:
+		return _row("stock_accounts", check, READY, _("Stock is not valued in the books, so no account is used."))
+	wrong = wrong_accounts(one.name)
+	if wrong:
+		said = ", ".join(_("{0} to {1}").format(warehouse, account) for warehouse, account in wrong)
+		return _row("stock_accounts", check, TO_DO, _("These post to an account that is not a stock account, so stock and the books disagree: {0}. Set a stock account on each warehouse.").format(said))
+	return _row("stock_accounts", check, READY, _("What each warehouse holds is posted to a stock account."))
+
+
+def failed_reposts() -> list[str]:
+	"""Recalculations of stock values that stopped with an error, so what a
+	back-dated entry changed is not in the books yet."""
+	return frappe.get_all("Repost Item Valuation", filters={"docstatus": 1, "status": "Failed"}, pluck="name", order_by="creation asc")
+
+
+def _reposted() -> dict:
+	check = _("Stock values are up to date")
+	failed = failed_reposts()
+	if failed:
+		return _row("reposts", check, TO_DO, _("{0} recalculations after back-dated entries stopped with an error, so what they change is not in the books yet. Fix tries them again.").format(len(failed)), "reposts")
+	waiting = frappe.db.count("Repost Item Valuation", {"docstatus": 1, "status": ["in", ["Queued", "In Progress"]]})
+	if waiting:
+		return _row("reposts", check, READY, _("{0} recalculations after back-dated entries are on their way.").format(waiting))
+	return _row("reposts", check, READY, _("Every back-dated entry has been worked through."))
 
 
 def _valued(one) -> dict:
@@ -198,6 +242,12 @@ def fix(key: str, **values) -> None:
 		_settle(auto_indent=1)
 	elif key == "held":
 		_settle(enable_stock_reservation=1)
+	elif key == "reposts":
+		from erpnext.stock.doctype.repost_item_valuation.repost_item_valuation import bulk_restart_reposting
+
+		failed = failed_reposts()
+		if failed:
+			bulk_restart_reposting(failed)
 	elif key == "rejected":
 		_settle(bill_for_rejected_quantity_in_purchase_invoice=0, settings="Buying Settings")
 	elif key == "location":

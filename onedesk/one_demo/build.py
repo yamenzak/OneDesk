@@ -22,6 +22,7 @@ STEPS = (
 	"crm",
 	"projects",
 	"selling",
+	"moving",
 	"assets",
 	"books",
 	"hr",

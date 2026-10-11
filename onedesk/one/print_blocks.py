@@ -19,6 +19,7 @@ TITLES = {
 	"Purchase Receipt": (_lt("Goods Received Note"), _lt("Receipt No")),
 	"Pick List": (_lt("Pick List"), _lt("Pick List No")),
 	"Packing Slip": (_lt("Packing Slip"), _lt("Slip No")),
+	"Stock Entry": (_lt("Stock Movement"), _lt("Movement No")),
 	"Purchase Order": (_lt("Purchase Order"), _lt("Order No")),
 	"Request for Quotation": (_lt("Request for Quotation"), _lt("Request No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
@@ -50,6 +51,12 @@ DETAILS = {
 		(_lt("Vehicle"), "vehicle_no"),
 	),
 	"Pick List": ((_lt("Purpose"), "purpose"), (_lt("From"), "parent_warehouse")),
+	"Stock Entry": (
+		(_lt("Date"), "posting_date"),
+		(_lt("Type"), "stock_entry_type"),
+		(_lt("From"), "from_warehouse"),
+		(_lt("To"), "to_warehouse"),
+	),
 	"Packing Slip": (
 		(_lt("Delivery No"), "delivery_note"),
 		(_lt("Net Weight"), "net_weight_pkg"),
@@ -80,6 +87,10 @@ DETAILS = {
 	"Project": ((_lt("Starts On"), "expected_start_date"), (_lt("Ends On"), "expected_end_date")),
 }
 
+#: The purposes that move goods from one warehouse to another, printed as a
+#: transfer note that travels with them.
+MOVED = ("Material Transfer", "Material Transfer for Manufacture", "Send to Subcontractor")
+
 #: Who a record is for: its heading, and the field with their name.
 PARTIES = {
 	"Quotation": (_lt("Prepared For"), "customer_name"),
@@ -91,6 +102,8 @@ PARTIES = {
 	"Pick List": (_lt("For"), "customer_name"),
 	# A packing slip names its customer through its delivery note.
 	"Packing Slip": (_lt("Deliver To"), None),
+	# Goods moved to a warehouse go to its address, a site's among them.
+	"Stock Entry": (_lt("Deliver To"), None),
 	"Payment Entry": (_lt("Received From"), "party_name"),
 	"Salary Slip": (_lt("Employee"), "employee_name"),
 	"Job Offer": (_lt("Offered To"), "applicant_name"),
@@ -111,6 +124,7 @@ FORMATS = {
 	"Purchase Receipt": ("One Purchase Receipt", "one_inventory"),
 	"Pick List": ("One Pick List", "one_inventory"),
 	"Packing Slip": ("One Packing Slip", "one_inventory"),
+	"Stock Entry": ("One Stock Entry", "one_inventory"),
 	"Purchase Order": ("One Purchase Order", "one_inventory"),
 	"Request for Quotation": ("One Request for Quotation", "one_inventory"),
 	"Salary Slip": ("One Payslip", "one_hr"),
@@ -130,6 +144,7 @@ SIGNED = {
 	"Purchase Receipt": ((_lt("Delivered By"), "supplier_name"), (_lt("Received By"), None)),
 	"Pick List": ((_lt("Picked By"), None), (_lt("Checked By"), None)),
 	"Packing Slip": ((_lt("Packed By"), None), (_lt("Received By"), None)),
+	"Stock Entry": ((_lt("Sent By"), None), (_lt("Received By"), None)),
 	"Job Offer": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	# The customer billed for the time signs that the hours are theirs.
@@ -223,6 +238,10 @@ def title(doc) -> dict:
 		said = _("Goods Returned")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Pay":
 		said, number = _("Payment"), _("Payment No")
+	elif doc.doctype == "Stock Entry" and doc.get("purpose") in MOVED:
+		said = _("Transfer Note")
+	elif doc.doctype == "Stock Entry" and doc.get("purpose") == "Material Issue":
+		said = _("Issue Note")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Internal Transfer":
 		said, number = _("Transfer"), _("Transfer No")
 	# A Print Heading frappe lets the record choose, such as Tax Invoice. A
@@ -249,6 +268,8 @@ def party(doc) -> dict:
 			"lines": [],
 			"address": delivery.shipping_address or delivery.address_display,
 		}
+	if doc.doctype == "Stock Entry":
+		return _moved_to(doc, heading)
 	if doc.doctype == "Payment Entry" and doc.get("payment_type") == "Pay":
 		heading = _("Paid To")
 	name = doc.get(field) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
@@ -276,6 +297,25 @@ def party(doc) -> dict:
 		"tax": _("Tax ID {0}").format(tax) if tax else None,
 		"ship_heading": _("Ship To") if ship else None,
 		"ship": ship,
+	}
+
+
+def _moved_to(doc, heading) -> dict:
+	"""Where moved goods are going: the one warehouse its lines go to, with
+	its address when it has one. Goods used up or going several ways have no
+	one place to go."""
+	to = {row.t_warehouse for row in doc.items if row.t_warehouse} or {doc.get("to_warehouse")} - {None}
+	if len(to) != 1:
+		return {}
+	place = frappe.db.get_value(
+		"Warehouse", to.pop(), ["warehouse_name", "address_line_1", "address_line_2", "city", "phone_no"], as_dict=True
+	)
+	if not place:
+		return {}
+	return {
+		"heading": str(heading),
+		"name": place.warehouse_name,
+		"lines": [one for one in (place.address_line_1, place.address_line_2, place.city, place.phone_no) if one],
 	}
 
 

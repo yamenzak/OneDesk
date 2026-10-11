@@ -1,0 +1,64 @@
+{
+ "custom_fields": [],
+ "doctype": "Stock Reconciliation",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "purpose",
+   "property": "default",
+   "property_type": "Text",
+   "value": "Stock Reconciliation"
+  },
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "purpose",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "purpose",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "set_warehouse",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "difference_amount",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "posting_time",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Stock Reconciliation",
+   "doctype_or_field": "DocField",
+   "field_name": "cost_center",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -4888,6 +4888,91 @@ def oneinventory_goods_go_out_as_the_order_says():
 
 
 @check
+def oneinventory_stock_moves_and_counts_reach_the_books():
+	"""Moving and counting, as Karim, Tariq and Huda do it. The villa's
+	materials went from the stores to its site on a transfer note, Tariq used
+	some there, and a count of the stores found three hinges short, posted to
+	the books as a loss. A recalculation that fails and a warehouse posting to
+	the wrong account reach the stock and accounts managers."""
+	from erpnext.stock.utils import get_stock_balance
+
+	from onedesk.one import print_blocks
+	from onedesk.one_inventory import heads, ready, tell
+
+	site = frappe.db.get_value("Warehouse", {"warehouse_name": "Mansour Villa Site"})
+	sent = frappe.get_doc("Stock Entry", frappe.db.get_value("Stock Entry", {"docstatus": 1, "purpose": "Material Transfer", "to_warehouse": site}))
+	used = frappe.get_doc("Stock Entry", frappe.db.get_value("Stock Entry", {"docstatus": 1, "purpose": "Material Issue", "from_warehouse": site}))
+	assert sent.owner == "karim@one.test" and used.owner == "tariq@one.test"
+	# Every movement's form reads Stock Settings on opening, the site foreman's too.
+	with as_user("tariq@one.test"):
+		assert frappe.has_permission("Stock Settings", "read")
+	assert sent.project == used.project == frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	# What the site holds is what was sent less what was used.
+	assert flt(get_stock_balance("ALU-6063", site)) == 40 and flt(get_stock_balance("SIL-CLR", site)) == 6
+
+	# The movement's head and its transfer note, with the site's address.
+	assert heads.move_from(sent)["value"] == "Stores" and heads.move_to(sent)["value"] == "Mansour Villa Site"
+	assert heads.move_value(sent) and heads.move_used(sent) is None and heads.move_to(used) is None
+	assert print_blocks.title(sent)["title"] == "Transfer Note" and print_blocks.title(used)["title"] == "Issue Note"
+	going = print_blocks.party(sent)
+	assert going["name"] == "Mansour Villa Site" and "Villa 14, Al Wasl Road" in going["lines"]
+	assert frappe.db.get_value("Print Format", "One Stock Entry", "doc_type") == "Stock Entry"
+
+	# The count: its difference is in the stock adjustment account, as a loss.
+	count = frappe.get_doc("Stock Reconciliation", {"purpose": "Stock Reconciliation", "docstatus": 1})
+	adjustment = frappe.get_cached_value("Company", count.company, "stock_adjustment_account")
+	assert count.owner == "karim@one.test" and count.expense_account == adjustment and flt(count.difference_amount) < 0
+	posted = frappe.get_all("GL Entry", filters={"voucher_no": count.name, "account": adjustment, "is_cancelled": 0}, fields=["debit", "credit"])
+	assert flt(sum(flt(one.debit) - flt(one.credit) for one in posted), 2) == flt(-count.difference_amount, 2)
+	assert heads.count_where(count)["value"] == "Stores" and heads.count_items(count) == "1"
+	# A new count starts as a count, so its difference goes to stock adjustment.
+	assert frappe.get_meta("Stock Reconciliation").get_field("purpose").default == "Stock Reconciliation"
+
+	# Huda sees the stock in the books is whole, and is told when it is not.
+	with as_user("huda@one.test"):
+		rows = {one["key"]: one for one in ready.checks()}
+	assert rows["stock_accounts"]["state"] == ready.READY and rows["reposts"]["state"] == ready.READY
+	entry = frappe.get_all("Repost Item Valuation", filters={"docstatus": 1, "status": "Completed"}, pluck="name", limit=1)[0]
+	rejected = frappe.db.get_value("Warehouse", {"warehouse_name": "Rejected"})
+	cash = frappe.db.get_value("Account", {"company": count.company, "account_type": "Cash", "is_group": 0})
+	frappe.db.set_value("Repost Item Valuation", entry, "status", "Failed", update_modified=False)
+	frappe.db.set_value("Warehouse", rejected, "account", cash, update_modified=False)
+	frappe.flags.pop("warehouse_account_map", None)
+	try:
+		with as_user("huda@one.test"):
+			rows = {one["key"]: one for one in ready.checks()}
+		assert rows["reposts"]["state"] == ready.TO_DO and rows["reposts"]["fix"] == "reposts"
+		assert rows["stock_accounts"]["state"] == ready.TO_DO and rejected in rows["stock_accounts"]["says"]
+		with _Told() as told:
+			tell.stock_values()
+		assert {"huda@one.test", "karim@one.test"} <= told.to("Reposting Failed")
+		assert {"huda@one.test", "karim@one.test"} <= told.to("Stock Account Wrong")
+	finally:
+		frappe.db.set_value("Repost Item Valuation", entry, "status", "Completed", update_modified=False)
+		frappe.db.set_value("Warehouse", rejected, "account", None, update_modified=False)
+		frappe.flags.pop("warehouse_account_map", None)
+
+	# OneAI reads a movement and a count, and drafts a transfer to the site.
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai
+
+	with as_user("karim@one.test"):
+		facts = ai.movement_facts(sent.name)
+		assert facts["project"] == sent.project and {(one["item"], one["to"]) for one in facts["lines"]} == {(code, site) for code in ("ALU-6063", "HW-LOCK", "SIL-CLR")}
+		found = ai.count_facts(count.name)
+		assert found["difference"] == flt(count.difference_amount) and found["lines"][0]["books_held"] - found["lines"][0]["counted"] == 3
+		card = ai.plan_transfer(site, [{"item": "SEAL-EPDM", "qty": 50}], project=sent.project)
+		made = frappe.get_doc("Stock Entry", proposals.apply(card["proposal"])["record"])
+		assert made.docstatus == 0 and made.purpose == "Material Transfer" and made.project == sent.project
+		assert [(one.item_code, one.qty, one.s_warehouse, one.t_warehouse) for one in made.items] == [("SEAL-EPDM", 50, frappe.get_cached_value("Company", count.company, "default_warehouse"), site)]
+		made.delete()
+	with as_user("nadia@one.test"):
+		assert not frappe.has_permission("Stock Entry", "read", doc=sent.name)
+		assert ai.movement_facts(sent.name).get("error") and ai.count_facts(count.name).get("error")
+
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

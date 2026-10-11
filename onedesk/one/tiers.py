@@ -64,6 +64,7 @@ HEADS = (
 	"Shift Request",
 	"Shift Type",
 	"Stock Entry",
+	"Stock Reconciliation",
 	"Supplier",
 	"Tenant",
 	"Tenant Domain",
@@ -99,6 +100,8 @@ COLLECTIONS = {
 	"Warehouse": {"Tree": "opened all the way down, without ERPNext's Company filter"},
 	"Purchase Receipt": {"List": "the supplier with room for its name, without the number or the returned column"},
 	"Delivery Note": {"List": "the customer with room for its name, without the number, the returned column or the target warehouse filter"},
+	"Stock Entry": {"List": "the type, where from, where to, the project and what it moved, without the purpose, the transferred bar or the return box"},
+	"Stock Reconciliation": {"List": "what the count was for, where, and the difference it made, without the time or the cost centre filter"},
 	"Lead": {"List": "an overdue next step in red"},
 	"Opportunity": {
 		"List": "an overdue next step in red",
