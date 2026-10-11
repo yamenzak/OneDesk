@@ -1866,6 +1866,27 @@ OVERRIDES = [
 		'"reference_type": args["doctype"],',
 	),
 	(
+		"Stock Settings' reorder mail switch is hidden",
+		"Material Request Raised tells Purchasing through the hub instead, so the switch ERPNext's reorder reads is hidden by a property setter and starts the notification",
+		"onedesk/one_inventory/custom/stock_settings.json",
+		"erpnext/erpnext/stock/doctype/stock_settings/stock_settings.json",
+		'"fieldname": "reorder_email_notify",',
+	),
+	(
+		"Stock issued to a project is booked to the cost of goods",
+		"ERPNext books a Material Issue line with no expense account to the company's Stock Adjustment, where no cost type holds it; one_project/money.issued puts the company's cost of goods there first",
+		"onedesk/one_project/money.py",
+		"erpnext/erpnext/stock/doctype/stock_entry/stock_entry.py",
+		'"Company", self.company, "stock_adjustment_account"',
+	),
+	(
+		"A request for quotation's lines name the project as project_name",
+		"one_project/chain.agree keeps a document and its lines on one project, and reads a request for quotation's lines by that field",
+		"onedesk/one_project/chain.py",
+		"erpnext/erpnext/buying/doctype/request_for_quotation_item/request_for_quotation_item.json",
+		'"fieldname": "project_name",',
+	),
+	(
 		"New file content goes to R2",
 		"Frappe's own seam for where content is written; ours asks admin for a signed URL and puts it there",
 		"onedesk/one_storage/store.py",

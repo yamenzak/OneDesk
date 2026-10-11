@@ -237,6 +237,13 @@ def unordered(reading: dict, ctx: dict) -> list[Action]:
 	return [_Action("Create", "Task", values=values, key="task|unordered", flow="onedesk.one_intake.planning.make_task", sure=True)]
 
 
+def _each(line: dict) -> float:
+	"""A line's price for one: its unit price, or its amount over how many."""
+	if line.get("unit_price") is not None:
+		return float(line["unit_price"])
+	return float(line.get("amount") or 0) / (float(line.get("qty") or 1) or 1)
+
+
 def quotation(reading: dict, ctx: dict) -> list[Action]:
 	"""A supplier's offer, as a Supplier Quotation when every line is an item."""
 	if not _real(reading, ctx) or reading.get("kind") != "Offer" or not ctx.get("supplier"):
@@ -245,7 +252,7 @@ def quotation(reading: dict, ctx: dict) -> list[Action]:
 	source = reading.get("lines") or []
 	if not source or len(items) < len(source):
 		return []
-	rows = [{"item_code": items[index], "qty": float(one.get("qty") or 1), "rate": float(one.get("unit_price") or one.get("amount") or 0)} for index, one in enumerate(source)]
+	rows = [{"item_code": items[index], "qty": float(one.get("qty") or 1), "rate": _each(one)} for index, one in enumerate(source)]
 	valid = next((str(one["date"]) for one in reading.get("dates") or [] if one.get("what") == "Valid Until" and one.get("date")), None)
 	values = {"supplier": ctx["supplier"], "transaction_date": ctx["today"], "valid_till": valid, "items": rows}
 	return [Action("Create", "Supplier Quotation", values={k: v for k, v in values.items() if v}, key="books|quotation", propose_on_error=True)]

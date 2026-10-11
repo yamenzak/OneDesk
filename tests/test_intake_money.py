@@ -191,3 +191,47 @@ def test_a_customers_request_for_extra_work_is_a_quotation_on_their_project():
 	assert values["items"] == [{"item_code": "BAL-GL", "qty": 6.0}]
 	assert made[0].propose, "a line that is no item waits for a person"
 	assert MONEY["extra_work"](request, {**ctx, "project": None}) == [], "not their project, or none named"
+
+
+DELIVERY = {"kind": "Delivery Note", "verdict": "Information", "number": "DN-778", "lines": [{"text": "Aluminium profile 6063", "qty": 50}]}
+
+
+def test_a_suppliers_delivery_note_is_a_draft_receipt_against_its_order():
+	made = MONEY["goods"](DELIVERY, {**CTX, "purchase_order": "PO-1"})
+	assert [(one.kind, one.doctype) for one in made] == [("Create", "Purchase Receipt")]
+	assert made[0].values == {"order": "PO-1", "supplier_delivery_note": "DN-778"}
+	assert made[0].flow == "onedesk.one_intake.planning.receipt_from_order" and made[0].propose_on_error
+	assert MONEY["goods"](DELIVERY, CTX) == [], "no order, no receipt"
+	assert MONEY["goods"]({**DELIVERY, "kind": "Invoice"}, {**CTX, "purchase_order": "PO-1"}) == []
+	assert MONEY["goods"](DELIVERY, {**CTX, "purchase_order": "PO-1", "books": False}) == []
+
+
+def test_a_delivery_nobody_ordered_is_a_task_to_check_it():
+	MONEY["task_in"] = lambda project, day: project
+	said = {**SAID, "unordered": "Check a delivery from {0} nobody ordered"}
+	made = MONEY["unordered"](DELIVERY, {**CTX, "said": said, "project": "PROJ-1"})
+	assert [(one.kind, one.doctype) for one in made] == [("Create", "Task")]
+	values = made[0].values
+	assert values["subject"] == "Check a delivery from Stadtwerke Köln GmbH nobody ordered"
+	assert values["one_about_doctype"] == "Supplier" and values["one_about"] == "Stadtwerke Köln GmbH"
+	assert values["assign_to"] == "boss@acme.test" and values["project"] == "PROJ-1" and values["exp_end_date"] == "2026-09-24"
+	assert MONEY["unordered"](DELIVERY, {**CTX, "said": said, "purchase_order": "PO-1"}) == [], "an ordered delivery is a receipt"
+	assert MONEY["unordered"](DELIVERY, {**CTX, "said": said, "supplier": None}) == [], "an unknown sender is not a supplier"
+	assert MONEY["unordered"]({**DELIVERY, "change": "Reminder"}, {**CTX, "said": said}) == [], "only the first word about it"
+
+
+def test_a_suppliers_offer_is_a_supplier_quotation_when_every_line_is_an_item():
+	offer = {
+		"kind": "Offer", "verdict": "Action",
+		"dates": [{"what": "Valid Until", "date": "2026-10-31"}],
+		"lines": [{"text": "Profile 6063", "qty": 100, "unit_price": 42.5}, {"text": "EPDM seal", "qty": 20, "amount": 60}],
+	}
+	made = MONEY["quotation"](offer, {**CTX, "items": {0: "ALU-6063", 1: "SEAL-EPDM"}})
+	assert [(one.kind, one.doctype) for one in made] == [("Create", "Supplier Quotation")]
+	values = made[0].values
+	assert values["supplier"] == "Stadtwerke Köln GmbH" and values["valid_till"] == "2026-10-31" and values["transaction_date"] == "2026-09-24"
+	assert values["items"] == [{"item_code": "ALU-6063", "qty": 100.0, "rate": 42.5}, {"item_code": "SEAL-EPDM", "qty": 20.0, "rate": 3.0}], "a line with only its total is priced for one"
+	assert made[0].as_person, "written as the person OneAI acts for"
+	assert MONEY["quotation"](offer, {**CTX, "items": {0: "ALU-6063"}}) == [], "a line that is no item leaves it to a person"
+	assert MONEY["quotation"]({**offer, "lines": []}, {**CTX, "items": {}}) == []
+	assert MONEY["quotation"](offer, {**CTX, "supplier": None, "items": {0: "ALU-6063", 1: "SEAL-EPDM"}}) == []

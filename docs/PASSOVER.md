@@ -10341,3 +10341,50 @@ Fixed:
   invoice, what a member sees on the portal, a day on site at Site Work's
   rate, and Time Billed against the lines.
 
+
+### OneInventory
+
+Your word on the plan (`docs/INVENTORY.md`): "Go ahead". OneInventory is
+walked the way OneProject was closed (`docs/STANDARD.md`), screen by screen
+against every point. Manufacturing comes into it as Making, an item gets a
+page of its own, and Quality Management stays out.
+
+| Step | Screen | State |
+|---|---|---|
+| 0 | Gates: 1900 fast tests, 122 of 122 demo checks, and the clean-up | done |
+| 1 | Items and an item's page | next |
+| 2 | Stock on Hand and warehouses | |
+| 3 | Receiving | |
+| 4 | Delivering | |
+| 5 | Moving and counting | |
+| 6 | Buying | |
+| 7 | Making | |
+| 8 | Equipment | |
+| 9 | Reports and Setup | |
+| 10 | Across modules | |
+| 11 | Closed against the standard | |
+
+#### 0. The baseline
+
+The gates before anything changed: 1900 fast tests, 122 of 122 demo checks
+(one failed to start Chromium in time and passed when run again),
+`overrides.py --check` and `docs.py --check` clean.
+
+Found:
+
+- **Overrides recorded (9)**: three things leaned on ERPNext with no row.
+  Stock Settings' reorder mail switch is hidden for Material Request Raised,
+  stock issued to a project is moved off Stock Adjustment
+  (`one_project/money.issued`), and a request for quotation's lines are read
+  by `project_name` (`one_project/chain.agree`).
+- **Intake (14)**: a supplier's delivery note, a delivery nobody ordered and
+  a supplier's offer had no unit test.
+- **Works (1)**: writing that test found a supplier's offer priced wrong. A
+  line that gave only its total, 20 seals for 60, was quoted at 60 each.
+
+Fixed:
+
+- The three rows are in `scripts/overrides.py` (310 now).
+- `tests/test_intake_money.py` covers the delivery note, the delivery nobody
+  ordered and the offer. A line with only its total is priced for one
+  (`one_intake/money.py` `_each`).
