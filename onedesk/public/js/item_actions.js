@@ -158,3 +158,10 @@ onedesk.item.variant = async (item) => {
 	});
 	dialog.show();
 };
+
+// What Stock on Hand starts, for a warehouse when one is chosen.
+frappe.provide("onedesk.stock");
+onedesk.stock.move = (warehouse) =>
+	frappe.new_doc("Stock Entry", { stock_entry_type: "Material Transfer", purpose: "Material Transfer", from_warehouse: warehouse });
+onedesk.stock.count = (warehouse) => frappe.new_doc("Stock Reconciliation", { set_warehouse: warehouse });
+onedesk.stock.warehouse = () => frappe.new_doc("Warehouse");

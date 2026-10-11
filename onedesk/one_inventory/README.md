@@ -88,6 +88,33 @@ OneAI reads an item as its page shows it, says what is running low, and
 suggests a change to an item (its name, group, lead time, whether it is
 disabled, or a warehouse's reorder level) as a card you approve.
 
+## Stock on hand and warehouses
+
+**Stock on Hand** says what the stores hold now. At the top are what it is all
+**Worth**, how many **Items** are held, how many are **Low** (at or below
+their reorder level) and how many are **Short** (more promised to customers
+than there is). **Show Low Items** on the Low figure narrows the list to them.
+
+Under the figures is a tab for **All Warehouses** and one for each warehouse,
+with how many items it holds. Each line is an item, with what is **On Hand**,
+**Free to Sell** (on hand, less what is promised), **On Order** and what it is
+**Worth**. **Low in** a warehouse and how many are **short** show beside its
+name. Search finds an item by its name or code, and **Low or Short Only**
+leaves the rest out. An item opens on its own page. The page changes as stock
+moves.
+
+The main button is **Move Stock**. The menu has **Count Stock**, **Add
+Warehouse**, and ERPNext's **Stock Balance** and **Stock Projected Qty**
+reports, each for the warehouse that is open.
+
+**Setup › Warehouses** shows every warehouse in its tree, opened all the way
+down. A warehouse's form says how many items it holds, what they are worth,
+how many are low (which opens Stock on Hand for it) and when stock last moved
+in or out. A group warehouse counts everything under it.
+
+OneAI reads the stores as Stock on Hand shows them, for every warehouse or
+one, and says what is short or running low.
+
 ## Getting ready
 
 **Setup › Inventory Check** lists what would stop the first receipt, stock
@@ -96,8 +123,16 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 
 - **Somewhere to keep stock** and **stock is valued in the books** — a
   warehouse, and the company's stock accounts. ERPNext makes both.
+- **Stock has a warehouse to go to.** Without one, every receipt and count
+  asks for a warehouse on each line. **Fix** makes the Stores the company's
+  default.
+- **Stock cannot go below zero.** If it could, what it is worth would go
+  wrong with it. **Fix** stops it.
+- **Running low asks for more.** An item at its reorder level gets a
+  material request each night. **Fix** turns this on. **To Order** lists
+  what is low either way.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
-  can have serial numbers or batches. **Fix** turns them on; an item then
+  can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.
 - **Somewhere for an asset to be.** An asset needs a location. **Fix** asks
   what to call the first — Head Office, say.
@@ -252,7 +287,19 @@ a register and a movement form in it would be a rail with five rows.
   the line. The page keeps frappe's sidebar and menu and hears the item and
   its stock change. Each view is a place for OneStudio
   (`oneinventory_item.*`).
-- `ai.py` — OneAI on an item: `item_facts` reads it as its page does,
+- `stock.py`, `page/stock_on_hand` and `frontend/src/stock` — Stock on
+  Hand. ERPNext's Stock Balance answers it over a period and is a prepared
+  report, so the rail's first look at the stores was an empty page with a
+  Generate button. `on_hand` reads the Bins, which ERPNext keeps current with
+  every move, as the reader may see them, and `rows` (pure) adds them up per
+  item, low by ERPNext's own test (projected quantity at or below the
+  warehouse's reorder level). The page follows the stock ledger and the Bins,
+  and is a place for OneStudio (`oneinventory_stock.on_hand`). A warehouse's
+  head is in `heads.py`, and a group's figures cover the warehouses under it.
+- `public/js/warehouse_tree.js` — the warehouse tree without ERPNext's Company
+  filter, opened all the way down once.
+- `ai.py` — OneAI on an item and the stores: `item_facts` reads an item as
+  its page does, `stock_on_hand` the stores as Stock on Hand does,
   `running_low` lists what is at or below its reorder level as ERPNext's
   reordering reads it, and `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps

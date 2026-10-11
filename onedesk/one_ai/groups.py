@@ -110,8 +110,8 @@ GROUPS = {
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},
 	"inventory": {
-		"about": "stock and buying: how an item is doing, how much is on hand, free to sell and on order, what is running low, whether to order more, and changing an item or its reorder level",
-		"tools": ("item_facts", "running_low", "plan_item_change"),
+		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, whether to order more, and changing an item or its reorder level",
+		"tools": ("item_facts", "stock_on_hand", "running_low", "plan_item_change"),
 		"words": (
 			"item", "stock", "inventory", "warehouse", "reorder", "on hand", "running low", "artikel", "lager", "bestand",
 			"صنف", "مخزون", "مستودع",
@@ -273,6 +273,7 @@ PAGES = {
 	"masters": "workspace",
 	"one-admin": "console",
 	"item-view": "inventory",
+	"stock-on-hand": "inventory",
 }
 
 

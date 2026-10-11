@@ -10353,8 +10353,8 @@ page of its own, and Quality Management stays out.
 |---|---|---|
 | 0 | Gates: 1900 fast tests, 122 of 122 demo checks, and the clean-up | done |
 | 1 | Items and an item's page | done |
-| 2 | Stock on Hand and warehouses | next |
-| 3 | Receiving | |
+| 2 | Stock on Hand and warehouses | done |
+| 3 | Receiving | next |
 | 4 | Delivering | |
 | 5 | Moving and counting | |
 | 6 | Buying | |
@@ -10461,4 +10461,80 @@ Fixed:
 | 17 Clean code | `view.py` one concern, lint clean |
 | Everything follows frappe | desk's form save against `modified`, frappe's controls in Edit Details, realtime on the item and its stock |
 | What ERPNext already does | the company's currency, ERPNext's low test, its valuation method, its hidden serial and batch fields, its 2099 end of life left out |
+
+#### 2. Stock on Hand and warehouses
+
+Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the
+group above it, Stock Settings and the stock reports, and as Nadia, who has
+no OneInventory. On a desktop and a phone.
+
+Found:
+
+- **Works (1)**: Stock on Hand in the rail opened ERPNext's Stock Balance,
+  a report prepared in the background. The first look at the stores was an
+  empty page with a Generate button.
+- **Our look (5)**: nothing said what the stores held now, what it was all
+  worth, or what was low or promised beyond what was there.
+- **Tier declared (4)**: the warehouse tree opened closed, with ERPNext's
+  Company filter on top. A warehouse's form said nothing about what was in
+  it.
+- **Hand-offs (3)**: Warehouse Wise Stock Balance and the other stock,
+  buying and asset reports with no row in a rail opened beside OneHR.
+- **Works (1)**: Stock Settings had no default warehouse to read.
+  ERPNext moved it to the Company, and the demo company had none, so every
+  receipt and count asked for a warehouse on each line.
+- **Knows (13)**: OneAI could read one item but not the stores.
+- **Moved**: a site warehouse per running project goes to step 5, where
+  stock is moved to site. Stock held for an order goes to step 4. Freezing
+  stock before a date needs nothing of its own, since OneBook's lock stops
+  any move before it (each move posts to the ledger).
+
+Fixed:
+
+- **Our look (5)**: Stock on Hand is a page of its own
+  (`one_inventory/stock.py`, `frontend/src/stock`). Worth, Items, Low and
+  Short at the top, a tab per warehouse, search, Low or Short Only, and a
+  line per item with On Hand, Free to Sell, On Order and Worth. Low and
+  short show beside the name, or on the second line on a phone. Move Stock,
+  Count Stock, Add Warehouse and the two ERPNext reports in the menu.
+- **Tier declared (4)**: `stock-on-hand` in SCREENS, a head on Warehouse in
+  HEADS, and the warehouse tree in COLLECTIONS (`warehouse_tree.js`).
+- **Our look (5)**: a warehouse's head has Items Held, Worth, Low (which
+  opens Stock on Hand for it) and Last Move. A group counts what is under
+  it.
+- **Hand-offs (3)**: the reports of Stock, Buying, Assets, Manufacturing and
+  Subcontracting with no row of their own open in OneInventory's rail
+  (`one/outside.py`, `one_module_heirs`).
+- **Works (1)**: the Inventory Check has three more rows. Stock has a
+  warehouse to go to (Fix sets the Stores on the company), stock cannot go
+  below zero, and running low asks for more.
+- **Knows (13)**: `stock_on_hand` reads the stores as the page does, with
+  What is short? on the page and What is this warehouse worth? on a
+  warehouse.
+- **Works (1)**: `oneinventory_stock_on_hand_says_what_the_stores_hold`
+  checks the worth against the Bins, the silicone low in the Stores, the
+  windows short, one warehouse, a search, the head on a warehouse and a
+  group, OneAI, the check's fix, and refuses Nadia.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the new check, two pure tests, and the coverage guard reaches `on_hand` and `stock_on_hand` |
+| 2 Rules on the server | the fixes save Stock Settings and the Company through their own save |
+| 3 Hand-offs | the stock reports open in OneInventory's rail, and each line opens its item |
+| 4 Tier declared | `stock-on-hand` in SCREENS, Warehouse in HEADS, the tree in COLLECTIONS |
+| 5 Our look | the page at 1440 wide and on a phone, the warehouse head, the open tree |
+| 6 Nothing lost | ERPNext's Stock Balance and Stock Projected Qty are in the menu, the tree keeps its own buttons |
+| 7 Extensible | `oneinventory_stock.on_hand` |
+| 8 Built from frappe | frappe-ui's List, tabs, inputs and badges, values through desk's formats |
+| 9 Overrides recorded | the tree, the Bins, the company's default warehouse and the two switches (316 rows) |
+| 10 Notifications | nothing new. A request raised by reordering is already told to Purchasing |
+| 11 Printed | nothing here leaves the company |
+| 12 Plain words | every label, figure and row, in Arabic and German |
+| 13 Documented, OneAI | the README's new section, `stock_on_hand` |
+| 14 Intake | nothing reads into stock on hand. Steps 3 and 5 carry Intake |
+| 15 Permissions | the Bins, items and warehouses read as the reader may, and Nadia is refused |
+| 16 Legal | nothing new |
+| 17 Clean code | `stock.py` one concern, `rows` pure, lint clean |
+| Everything follows frappe | the page follows the stock ledger and the Bins live, the warehouse in the address |
+| What ERPNext already does | the company's currency, ERPNext's low test, reserved stock taken off Free to Sell, the group tree by lft and rgt |
 

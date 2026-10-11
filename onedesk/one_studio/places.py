@@ -143,6 +143,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_stock": {
+		"label": "OneInventory",
+		"record": "Bin",
+		"events": {
+			"on_hand": {
+				"about": _lt("Stock on Hand is opened, and each time stock moves or another warehouse is chosen."),
+				"gives": "stock.warehouse (or null for every one), stock.worth, stock.items (how many), stock.low (item codes), stock.short (item codes)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecloud": {
 		"label": "OneCloud",
 		"record": "File",

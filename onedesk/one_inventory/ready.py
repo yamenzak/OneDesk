@@ -39,7 +39,19 @@ def _row(key, check, state, says, fix=None) -> dict:
 
 def checks() -> list[dict]:
 	one = company()
-	return [_warehouse(one), _valued(one), _serials(), _location(), _categories(one), _depreciation(), _registered(), _serviced(one)]
+	return [
+		_warehouse(one),
+		_home(one),
+		_valued(one),
+		_below_zero(),
+		_reorder(),
+		_serials(),
+		_location(),
+		_categories(one),
+		_depreciation(),
+		_registered(),
+		_serviced(one),
+	]
 
 
 def _warehouse(one) -> dict:
@@ -48,6 +60,39 @@ def _warehouse(one) -> dict:
 	if found:
 		return _row("warehouse", check, READY, _("Stock can be received into {0} warehouses.").format(found))
 	return _row("warehouse", check, TO_DO, _("There is no warehouse, so nothing can be received."), "warehouse")
+
+
+def _home(one) -> dict:
+	check = _("Stock has a warehouse to go to")
+	home = one.default_warehouse
+	if home:
+		return _row("home", check, READY, _("A new item is kept in {0} unless it says otherwise.").format(home))
+	if not frappe.db.exists("Warehouse", {"company": one.name, "is_group": 0, "disabled": 0}):
+		return _row("home", check, TO_DO, _("Add a warehouse first."))
+	return _row("home", check, SUGGESTED, _("A new item has no warehouse, so every receipt and count asks for one on each line."), "home")
+
+
+def home(names: list[str]) -> str | None:
+	"""The warehouse stock goes to when nothing says otherwise: the one called
+	Stores if there is one, or else the first. Pure over warehouse names."""
+	return next((name for name in names if name.split(" - ")[0].strip().lower() == "stores"), names[0] if names else None)
+
+
+def _below_zero() -> dict:
+	check = _("Stock cannot go below zero")
+	if frappe.db.get_single_value("Stock Settings", "allow_negative_stock"):
+		return _row("below_zero", check, TO_DO, _("Stock can go below zero, and what it is worth goes wrong with it."), "below_zero")
+	return _row("below_zero", check, READY, _("Nothing leaves a warehouse that does not have it."))
+
+
+def _reorder() -> dict:
+	check = _("Running low asks for more")
+	levels = frappe.db.count("Item Reorder", {"parenttype": "Item", "warehouse_reorder_level": [">", 0]})
+	if frappe.db.get_single_value("Stock Settings", "auto_indent"):
+		return _row("reorder", check, READY, _("An item at its reorder level gets a material request each night."))
+	if not levels:
+		return _row("reorder", check, READY, _("No item has a reorder level yet. Set one on an item's Stock view."))
+	return _row("reorder", check, SUGGESTED, _("{0} items have a reorder level, but nothing is asked for when they reach it. To Order still lists them.").format(levels), "reorder")
 
 
 def _valued(one) -> dict:
@@ -123,6 +168,18 @@ def fix(key: str, **values) -> None:
 	one = company()
 	if key == "serials":
 		frappe.db.set_single_value("Stock Settings", "enable_serial_and_batch_no_for_item", 1)
+	elif key == "home":
+		names = frappe.get_all("Warehouse", filters={"company": one.name, "is_group": 0, "disabled": 0}, order_by="lft asc", pluck="name")
+		if not names:
+			frappe.throw(_("Add a warehouse first."))
+		company_ = frappe.get_doc("Company", one.name)
+		company_.default_warehouse = home(names)
+		company_.flags.ignore_permissions = True
+		company_.save()
+	elif key == "below_zero":
+		_settle(allow_negative_stock=0)
+	elif key == "reorder":
+		_settle(auto_indent=1)
 	elif key == "location":
 		add_location((values.get("location_name") or "").strip())
 	elif key == "categories":
@@ -143,6 +200,15 @@ def fix(key: str, **values) -> None:
 		frappe.get_doc({"doctype": "Warehouse", "warehouse_name": "Stores", "company": one.name}).insert()
 	else:
 		frappe.throw(_("Nothing to fix for {0}.").format(key))
+
+
+def _settle(**values) -> None:
+	"""Stock Settings changed through its own save, so ERPNext's checks hold.
+	Whoever may fix was checked by `fix`."""
+	settings = frappe.get_single("Stock Settings")
+	settings.update(values)
+	settings.flags.ignore_permissions = True
+	settings.save()
 
 
 def add_location(name: str) -> str:

@@ -194,6 +194,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 				("activity", "ItemPage"),
 			)
 		},
+		"oneinventory_stock.on_hand": (ROOT / "frontend" / "src" / "stock" / "StockOnHand.vue").read_text(),
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),
 	}

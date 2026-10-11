@@ -53,6 +53,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.template": "Project Template",
 		"onedesk.task": "Task",
 		"onedesk.item": "Item",
+		"onedesk.stock": None,
 		"onedesk.my_tasks": None,
 		"onedesk.timers": None,
 	}

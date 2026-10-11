@@ -983,7 +983,12 @@ doctype_js = {
 # Loaded after the doctype's own list script, so ours has the last word.
 # The Projects list as a tree and on a timeline: frappe's Tree and Gantt views.
 # See one_project/tree.py.
-doctype_tree_js = {"Project": "public/js/project_tree.js", "Task": "public/js/task_tree.js"}
+doctype_tree_js = {
+	"Project": "public/js/project_tree.js",
+	"Task": "public/js/task_tree.js",
+	# Opened all the way down, with no Company filter.
+	"Warehouse": "public/js/warehouse_tree.js",
+}
 doctype_calendar_js = {"Project": "public/js/project_calendar.js", "Task": "public/js/task_calendar.js"}
 doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
 
@@ -1148,7 +1153,15 @@ code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 # erpnext's and hrms's modules whose sidebar is not One's, and the sidebar of One's where a
 # kind of theirs no sidebar lists opens (one/outside.py `placed`): Projects Settings and
 # Rates beside OneProject's rail rather than the reader's home.
-one_module_heirs = {"Projects": ["OneProject"]}
+one_module_heirs = {
+	"Projects": ["OneProject"],
+	# ERPNext's stock, buying, assets and making, and their reports, beside OneInventory's rail.
+	"Stock": ["OneInventory"],
+	"Buying": ["OneInventory"],
+	"Assets": ["OneInventory"],
+	"Manufacturing": ["OneInventory"],
+	"Subcontracting": ["OneInventory"],
+}
 
 # Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them
 # nameable by it. Intake is not here: it asks OneAI for what is missing (one_intake/fill.py).
@@ -1281,8 +1294,10 @@ one_ai_reads = [
 	# shows it. See one_task/ai.py.
 	"onedesk.one_task.ai.my_tasks",
 	"onedesk.one_task.ai.task_facts",
-	# An item as its page shows it, and what is running low. See one_inventory/ai.py.
+	# An item as its page shows it, what the stores hold and what is running low.
+	# See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.item_facts",
+	"onedesk.one_inventory.ai.stock_on_hand",
 	"onedesk.one_inventory.ai.running_low",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",

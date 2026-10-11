@@ -153,6 +153,89 @@ def who_has_it(doc):
 	return _asset(doc.name)["custodian_name"] or doc.custodian
 
 
+# ------------------------------------------------------------------ a warehouse
+
+
+@request_cache
+def _held(name: str) -> dict:
+	"""What a warehouse holds, with the warehouses under it when it is a group,
+	as the reader's Stock on Hand reads it (one_inventory/stock.py)."""
+	from onedesk.one_inventory import stock
+
+	lft, rgt = frappe.db.get_value("Warehouse", name, ["lft", "rgt"])
+	under = frappe.get_all(
+		"Warehouse", filters={"lft": [">=", lft], "rgt": ["<=", rgt], "is_group": 0}, pluck="name"
+	)
+	bins = frappe.get_list(
+		"Bin",
+		filters={"warehouse": ["in", under or [""]]},
+		fields=[
+			"item_code",
+			"warehouse",
+			"actual_qty",
+			"reserved_qty",
+			"reserved_stock",
+			"ordered_qty",
+			"projected_qty",
+			"stock_value",
+		],
+		limit=0,
+	)
+	items = {
+		one.name: dict(one)
+		for one in frappe.get_all(
+			"Item",
+			filters={"name": ["in", list({one.item_code for one in bins}) or [""]]},
+			fields=["name", "item_name", "item_group", "stock_uom"],
+		)
+	}
+	levels = frappe.get_all(
+		"Item Reorder",
+		filters={
+			"parenttype": "Item",
+			"warehouse": ["in", under or [""]],
+			"warehouse_reorder_level": [">", 0],
+		},
+		fields=["parent", "warehouse", "warehouse_reorder_level"],
+	)
+	listed = stock.rows([dict(one) for one in bins], levels, items)
+	last = (
+		frappe.get_list(
+			"Stock Ledger Entry",
+			filters={"warehouse": ["in", under or [""]], "is_cancelled": 0},
+			fields=["posting_date"],
+			order_by="posting_datetime desc",
+			limit=1,
+		)
+		if frappe.has_permission("Stock Ledger Entry", "read")
+		else []
+	)
+	return {
+		"items": sum(1 for one in listed if one["on_hand"] > 0),
+		"worth": sum(one["worth"] for one in listed),
+		"low": sum(1 for one in listed if one["low_in"]),
+		"last": last[0].posting_date if last else None,
+	}
+
+
+def warehouse_items(doc):
+	return _held(doc.name)["items"]
+
+
+def warehouse_worth(doc):
+	return _money(_held(doc.name)["worth"])
+
+
+def warehouse_low(doc):
+	low = _held(doc.name)["low"]
+	return {"value": low, "tone": "alarm" if low else "quiet"}
+
+
+def warehouse_last(doc):
+	last = _held(doc.name)["last"]
+	return formatdate(last) if last else {"value": _("Never"), "tone": "quiet"}
+
+
 # ------------------------------------------------------------------ the charts
 
 
@@ -234,6 +317,10 @@ MEASURES = {
 	"asset.where": where,
 	"asset.next_service": next_service,
 	"asset.who_has_it": who_has_it,
+	"warehouse.items": warehouse_items,
+	"warehouse.worth": warehouse_worth,
+	"warehouse.low": warehouse_low,
+	"warehouse.last": warehouse_last,
 }
 
 
@@ -363,6 +450,30 @@ HEADS = [
 		],
 		"verbs": [{"verb": "asset.give"}, {"verb": "asset.take_back"}],
 		"charts": [{"chart": "asset.life", "shown_when": SUBMITTED}],
+	},
+	{
+		"doctype": "Warehouse",
+		"band": [
+			{
+				"label": _lt("Items Held"),
+				"source": "Measure",
+				"measure": "warehouse.items",
+				"route": "/desk/stock-on-hand?warehouse={{ doc.name }}",
+			},
+			{"label": _lt("Worth"), "source": "Measure", "measure": "warehouse.worth"},
+			{
+				"label": _lt("Low"),
+				"source": "Measure",
+				"measure": "warehouse.low",
+				"route": "/desk/stock-on-hand?warehouse={{ doc.name }}",
+			},
+			{
+				"label": _lt("Last Move"),
+				"source": "Measure",
+				"measure": "warehouse.last",
+				"route": "/desk/query-report/Stock Ledger?warehouse={{ doc.name }}",
+			},
+		],
 	},
 	{
 		"doctype": "Purchase Order",

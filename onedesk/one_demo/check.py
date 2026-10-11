@@ -4735,6 +4735,54 @@ def oneinventory_an_item_opens_on_its_own_page():
 
 
 @check
+def oneinventory_stock_on_hand_says_what_the_stores_hold():
+	"""Stock on Hand lists what is held now, its worth what the warehouses
+	hold in the books' own figures. The silicone is low in Stores, more
+	windows are promised than there are, one warehouse or a search narrows it,
+	and a warehouse's head says what it holds, under a group too. OneAI reads
+	the stores as the page does, and the Inventory Check sends new stock to
+	the Stores. Somebody without OneInventory is refused."""
+	from frappe.utils import flt
+
+	from onedesk.one_inventory import ai, heads, ready, stock
+
+	held = sum(flt(one) for one in frappe.get_all("Bin", pluck="stock_value"))
+	with as_user("karim@one.test"):
+		every = stock.on_hand()
+		assert every["count"] and abs(every["worth"] - held) < 0.01, (every["worth"], held)
+		low = {one["item"]: one for one in every["items"] if one["low_in"]}
+		assert "SIL-CLR" in low and wh("Stores") in low["SIL-CLR"]["low_in"], list(low)
+		assert any(one["item"] == "WIN-CS12" and one["free"] < 0 for one in every["items"]), "the windows are promised beyond what there is"
+		stores = stock.on_hand(warehouse=wh("Stores"))
+		in_stores = sum(flt(one) for one in frappe.get_all("Bin", filters={"warehouse": wh("Stores")}, pluck="stock_value"))
+		assert abs(stores["worth"] - in_stores) < 0.01 and stores["worth"] < every["worth"]
+		assert [one["item"] for one in stock.on_hand(search="silicone")["items"]] == ["SIL-CLR"]
+		place = frappe.get_doc("Warehouse", wh("Stores"))
+		assert heads.warehouse_items(place) == sum(1 for one in stores["items"] if one["on_hand"] > 0)
+		assert heads.warehouse_low(place)["value"] >= 1 and heads.warehouse_last(place)
+		assert heads.warehouse_worth(place)
+		group = frappe.db.get_value("Warehouse", {"is_group": 1, "parent_warehouse": ["in", ("", None)]}) or frappe.db.get_value("Warehouse", {"is_group": 1})
+		assert heads.warehouse_items(frappe.get_doc("Warehouse", group)) >= heads.warehouse_items(place), "a group holds what is under it"
+		facts = ai.stock_on_hand(warehouse=wh("Stores"))
+		assert abs(facts["worth"] - in_stores) < 0.01 and any(one["item"] == "SIL-CLR" and one["low_in"] for one in facts["lines"]), facts["worth"]
+		assert ai.stock_on_hand(warehouse="Nowhere").get("error")
+		assert "stock_on_hand" in (ai.page({"page": "stock-on-hand"}) or "")
+	with as_user(OWNER):
+		ready.fix("home")
+		said = {one["key"]: one for one in ready.checks()}
+		assert frappe.db.get_value("Company", ready.company().name, "default_warehouse") == wh("Stores")
+		assert said["home"]["state"] == said["below_zero"]["state"] == said["reorder"]["state"] == ready.READY, said
+	with as_user("nadia@one.test"):
+		assert ai.stock_on_hand().get("error")
+		try:
+			stock.on_hand()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody without OneInventory reads the stores")
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

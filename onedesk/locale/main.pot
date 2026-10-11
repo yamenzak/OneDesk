@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-11 12:24+0000\n"
-"PO-Revision-Date: 2026-10-11 12:24+0000\n"
+"POT-Creation-Date: 2026-10-11 13:05+0000\n"
+"PO-Revision-Date: 2026-10-11 13:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr ""
 msgid "1 invoice"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:625
+#: frontend/src/stock/StockOnHand.vue:123 onedesk/public/js/onecloud.js:625
 msgid "1 item"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr ""
 msgid "A document arrived for {0}"
 msgstr ""
 
-#: onedesk/one_studio/places.py:165
+#: onedesk/one_studio/places.py:176
 msgid "A document is opened in OneIntake's inbox."
 msgstr ""
 
@@ -514,7 +514,7 @@ msgstr ""
 msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
 msgstr ""
 
-#: onedesk/one_studio/places.py:151
+#: onedesk/one_studio/places.py:162
 msgid "A file is chosen in OneCloud and its preview is shown."
 msgstr ""
 
@@ -713,6 +713,14 @@ msgstr ""
 msgid "A new field needs a label."
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:72
+msgid "A new item has no warehouse, so every receipt and count asks for one on each line."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:69
+msgid "A new item is kept in {0} unless it says otherwise."
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:422
 #: onedesk/public/js/doctype_settings.js:478
 msgid "A new record starts with this series."
@@ -783,47 +791,47 @@ msgstr ""
 msgid "A print format needs a name."
 msgstr ""
 
-#: onedesk/one_studio/places.py:309
+#: onedesk/one_studio/places.py:320
 msgid "A project template's page is opened, and each time the template changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:270
+#: onedesk/one_studio/places.py:281
 msgid "A project's Activity view is opened, and each time it shows more."
 msgstr ""
 
-#: onedesk/one_studio/places.py:265
+#: onedesk/one_studio/places.py:276
 msgid "A project's Files view is opened, and each time its files change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:243
+#: onedesk/one_studio/places.py:254
 msgid "A project's Invoices view is opened, and each time its invoices change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:234
+#: onedesk/one_studio/places.py:245
 msgid "A project's Money view is opened, and each time its figures change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:212
+#: onedesk/one_studio/places.py:223
 msgid "A project's Overview is opened, and each time its figures change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:252
+#: onedesk/one_studio/places.py:263
 msgid "A project's Suppliers view is opened, and each time what it buys changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:221
+#: onedesk/one_studio/places.py:232
 msgid "A project's Tasks are opened as a table, a board or a timeline, and each time they change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:260
+#: onedesk/one_studio/places.py:271
 msgid "A project's Team view is opened, and each time its team changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:226
+#: onedesk/one_studio/places.py:237
 msgid "A project's Time view is opened, and each time its hours change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:202
+#: onedesk/one_studio/places.py:213
 msgid "A project's page is opened, and each time the project changes."
 msgstr ""
 
@@ -958,7 +966,7 @@ msgstr ""
 msgid "A signup from the public sign-up page."
 msgstr ""
 
-#: onedesk/one_studio/places.py:191
+#: onedesk/one_studio/places.py:202
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr ""
 
@@ -1620,6 +1628,10 @@ msgstr ""
 msgid "Add Variant"
 msgstr ""
 
+#: frontend/src/stock/StockOnHand.vue:144
+msgid "Add Warehouse"
+msgstr ""
+
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:19
 msgid "Add a Location"
 msgstr ""
@@ -1664,6 +1676,10 @@ msgstr ""
 
 #: onedesk/one_task/ai.py:30
 msgid "Add a task…"
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:71 onedesk/one_inventory/ready.py:174
+msgid "Add a warehouse first."
 msgstr ""
 
 #: onedesk/one_hr/ai.py:74 onedesk/one_hr/ai.py:106
@@ -2107,6 +2123,10 @@ msgstr ""
 msgid "All Time"
 msgstr ""
 
+#: frontend/src/stock/StockOnHand.vue:111
+msgid "All Warehouses"
+msgstr ""
+
 #: frontend/src/project/ProjectPage.vue:293
 #: frontend/src/project/ProjectPage.vue:299
 msgid "All Work"
@@ -2412,7 +2432,7 @@ msgstr ""
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr ""
 
-#: onedesk/one_studio/places.py:320
+#: onedesk/one_studio/places.py:331
 msgid "An event's card is opened in OneCalendar."
 msgstr ""
 
@@ -2446,7 +2466,11 @@ msgstr ""
 msgid "An invoice or bill that names a tax template gets its taxes, however it was made."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:66
+#: onedesk/one_inventory/ready.py:92
+msgid "An item at its reorder level gets a material request each night."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:111
 msgid "An item can have serial numbers or batches."
 msgstr ""
 
@@ -3147,16 +3171,16 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/item/ItemOverview.vue:23 frontend/src/item/ItemPage.vue:201
-#: onedesk/one_inventory/heads.py:298
+#: onedesk/one_inventory/heads.py:385
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Assets"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:103
+#: onedesk/one_inventory/ready.py:148
 msgid "Assets bought are registered and depreciating by themselves."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:82
+#: onedesk/one_inventory/ready.py:127
 msgid "Assets have categories"
 msgstr ""
 
@@ -3212,6 +3236,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/heads.py:39
 msgid "At checkout"
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:130
+msgid "At or below their reorder level"
 msgstr ""
 
 #: frontend/src/item/ItemPage.vue:163
@@ -3904,7 +3932,7 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:226 onedesk/one_book/heads.py:333
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:182
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
-#: onedesk/one_inventory/heads.py:378 onedesk/one_project/custom/project.json
+#: onedesk/one_inventory/heads.py:489 onedesk/one_project/custom/project.json
 #: onedesk/one_project/heads.py:218 onedesk/one_project/money.py:171
 msgid "Billed"
 msgstr ""
@@ -4629,11 +4657,11 @@ msgstr ""
 msgid "Change this extension so that "
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:38
+#: onedesk/one_inventory/ai.py:40
 msgid "Change this item: "
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:37
+#: onedesk/one_inventory/ai.py:39
 msgid "Change this item…"
 msgstr ""
 
@@ -5895,7 +5923,7 @@ msgstr ""
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:168
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
 #: onedesk/one_admin/report/price_check/price_check.py:113
-#: onedesk/one_inventory/heads.py:345 onedesk/one_project/heads.py:217
+#: onedesk/one_inventory/heads.py:432 onedesk/one_project/heads.py:217
 msgid "Cost"
 msgstr ""
 
@@ -5997,7 +6025,7 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:246
+#: frontend/src/item/ItemPage.vue:246 frontend/src/stock/StockOnHand.vue:143
 msgid "Count Stock"
 msgstr ""
 
@@ -7070,7 +7098,7 @@ msgid "Deploying it in Frappe Cloud updates every workspace on it."
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/heads.py:346
+#: onedesk/one_inventory/heads.py:433
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Depreciation"
 msgstr ""
@@ -7080,11 +7108,11 @@ msgstr ""
 msgid "Depreciation Not Posted"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:93
+#: onedesk/one_inventory/ready.py:138
 msgid "Depreciation is worked out but never posted unless somebody does it."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:90
+#: onedesk/one_inventory/ready.py:135
 msgid "Depreciation posts itself"
 msgstr ""
 
@@ -7754,11 +7782,11 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:117
+#: onedesk/one_inventory/ready.py:162
 msgid "Each asset that needs servicing has a schedule, on its people's calendars."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:92
+#: onedesk/one_inventory/ready.py:137
 msgid "Each asset's depreciation is posted to the books when it falls due."
 msgstr ""
 
@@ -8088,7 +8116,7 @@ msgstr ""
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:144
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_inventory/heads.py:263
+#: onedesk/one_inventory/heads.py:350
 #: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr ""
@@ -8395,7 +8423,7 @@ msgstr ""
 msgid "Equipment"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:109
+#: onedesk/one_inventory/ready.py:154
 msgid "Equipment that needs servicing has a schedule"
 msgstr ""
 
@@ -8503,11 +8531,11 @@ msgstr ""
 msgid "Every administrator, and everybody who holds the mailbox"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:73
+#: onedesk/one_inventory/ready.py:118
 msgid "Every asset is kept at a location."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:99
+#: onedesk/one_inventory/ready.py:144
 msgid "Every asset is registered"
 msgstr ""
 
@@ -8622,7 +8650,7 @@ msgstr ""
 msgid "Every permission includes Read."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:60
+#: onedesk/one_inventory/ready.py:105
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr ""
 
@@ -9855,7 +9883,8 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:194 onedesk/one_inventory/heads.py:322
+#: frontend/src/item/ItemPage.vue:194 frontend/src/stock/StockOnHand.vue:25
+#: onedesk/one_inventory/heads.py:409
 msgid "Free to Sell"
 msgstr ""
 
@@ -10048,7 +10077,7 @@ msgstr ""
 msgid "Get the contract signed"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:257
+#: onedesk/one_inventory/heads.py:344
 msgid "Give"
 msgstr ""
 
@@ -10058,11 +10087,11 @@ msgid "Give Credits"
 msgstr ""
 
 #. Label of the one_for (Small Text) field in DocType 'Task'
-#: onedesk/one_inventory/heads.py:256 onedesk/one_task/custom/task.json
+#: onedesk/one_inventory/heads.py:343 onedesk/one_task/custom/task.json
 msgid "Give To"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:255
+#: onedesk/one_inventory/heads.py:342
 msgid "Give To…"
 msgstr ""
 
@@ -10131,7 +10160,7 @@ msgstr ""
 msgid "Given by {0}."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:269
+#: onedesk/one_inventory/heads.py:356
 msgid "Given."
 msgstr ""
 
@@ -10398,11 +10427,11 @@ msgstr ""
 msgid "Half day"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:256
+#: onedesk/one_inventory/heads.py:343
 msgid "Hand To Somebody Else"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:255
+#: onedesk/one_inventory/heads.py:342
 msgid "Hand To…"
 msgstr ""
 
@@ -10793,11 +10822,11 @@ msgstr ""
 msgid "How good the browser said the position was."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:16
+#: onedesk/one_inventory/ai.py:18
 msgid "How is this item doing?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:17
+#: onedesk/one_inventory/ai.py:19
 msgid "How is this item doing? Say how much is on hand and free to sell, whether it is low anywhere, what is on order or being made, and what it last cost."
 msgstr ""
 
@@ -11225,6 +11254,10 @@ msgstr ""
 #. Description of the 'Limit' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "In bytes. Zero means unlimited."
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:128
+msgid "In every warehouse"
 msgstr ""
 
 #: onedesk/one/ai_setup.py:652
@@ -11922,6 +11955,7 @@ msgstr ""
 #. Label in the One Delivery Note print format
 #. Label in the One Purchase Order print format
 #. Label in the One Request for Quotation print format
+#: frontend/src/stock/StockOnHand.vue:23
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -11965,9 +11999,14 @@ msgid "Item Tax Templates"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: frontend/src/stock/StockOnHand.vue:129
 #: onedesk/one_inventory/page/item_view/item_view.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Items"
+msgstr ""
+
+#: onedesk/one_inventory/heads.py:458
+msgid "Items Held"
 msgstr ""
 
 #. Task in the ERP Rollout project template
@@ -12153,7 +12192,7 @@ msgstr ""
 msgid "Kept"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:280
+#: onedesk/one_inventory/heads.py:367
 msgid "Kept At"
 msgstr ""
 
@@ -12334,7 +12373,7 @@ msgstr ""
 msgid "Last Billed"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:204 onedesk/one_inventory/heads.py:333
+#: frontend/src/item/ItemPage.vue:204 onedesk/one_inventory/heads.py:420
 msgid "Last Bought"
 msgstr ""
 
@@ -12399,6 +12438,10 @@ msgstr ""
 
 #: frontend/src/item/ItemPage.vue:203
 msgid "Last Made"
+msgstr ""
+
+#: onedesk/one_inventory/heads.py:471
+msgid "Last Move"
 msgstr ""
 
 #: frontend/src/item/ItemStock.vue:13
@@ -13300,13 +13343,19 @@ msgid "Lost Value"
 msgstr ""
 
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
+#: frontend/src/stock/StockOnHand.vue:130
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/one_inventory/order.py:57
+#: onedesk/one_inventory/heads.py:465 onedesk/one_inventory/order.py:57
 msgid "Low"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:168 onedesk/one_inventory/heads.py:65
+#: frontend/src/item/ItemPage.vue:168 frontend/src/stock/StockOnHand.vue:108
+#: onedesk/one_inventory/heads.py:65
 msgid "Low in {0}"
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:16
+msgid "Low or Short Only"
 msgstr ""
 
 #: frontend/src/item/ItemStock.vue:35
@@ -13711,7 +13760,7 @@ msgstr ""
 msgid "Mark {0} {1}"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:116
+#: onedesk/one_inventory/ready.py:161
 msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
 msgstr ""
 
@@ -14180,6 +14229,10 @@ msgstr ""
 msgid "More"
 msgstr ""
 
+#: frontend/src/stock/StockOnHand.vue:131
+msgid "More promised than on hand"
+msgstr ""
+
 #: onedesk/one_project/retention.py:258
 msgid "More than one customer holds retention here. Release it from each invoice."
 msgstr ""
@@ -14211,7 +14264,7 @@ msgstr ""
 msgid "Move"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:245
+#: frontend/src/item/ItemPage.vue:245 frontend/src/stock/StockOnHand.vue:142
 msgid "Move Stock"
 msgstr ""
 
@@ -14423,7 +14476,7 @@ msgstr ""
 msgid "Name the bank and the account."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:150
+#: onedesk/one_inventory/ready.py:216
 msgid "Name the location."
 msgstr ""
 
@@ -14545,8 +14598,8 @@ msgstr ""
 msgid "Network and Location"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:78 onedesk/public/js/settings.js:385
-#: onedesk/public/js/settings.js:961
+#: onedesk/one_inventory/heads.py:78 onedesk/one_inventory/heads.py:236
+#: onedesk/public/js/settings.js:385 onedesk/public/js/settings.js:961
 msgid "Never"
 msgstr ""
 
@@ -14809,7 +14862,7 @@ msgstr ""
 msgid "Next 7 Days"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:348
+#: onedesk/one_inventory/heads.py:435
 msgid "Next Depreciation"
 msgstr ""
 
@@ -14826,7 +14879,7 @@ msgstr ""
 msgid "Next Run"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:351
+#: onedesk/one_inventory/heads.py:438
 msgid "Next Service"
 msgstr ""
 
@@ -14981,7 +15034,7 @@ msgstr ""
 msgid "No apps"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:111
+#: onedesk/one_inventory/ready.py:156
 msgid "No asset is marked Maintenance Required."
 msgstr ""
 
@@ -15147,8 +15200,16 @@ msgstr ""
 msgid "No invoices yet. A plan with a trial sends its first when the trial ends."
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:94
+msgid "No item has a reorder level yet. Set one on an item's Stock view."
+msgstr ""
+
 #: onedesk/public/js/offering.js:27
 msgid "No item yet"
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:20
+msgid "No items match"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2112
@@ -15608,7 +15669,7 @@ msgstr ""
 msgid "Not Working"
 msgstr ""
 
-#: frontend/src/item/ItemOverview.vue:64 onedesk/one_inventory/heads.py:306
+#: frontend/src/item/ItemOverview.vue:64 onedesk/one_inventory/heads.py:393
 msgid "Not Yet Registered"
 msgstr ""
 
@@ -15888,8 +15949,16 @@ msgstr ""
 msgid "Nothing is spent and no attendance is marked."
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:85
+msgid "Nothing leaves a warehouse that does not have it."
+msgstr ""
+
 #: onedesk/www/portal.html:70
 msgid "Nothing matches"
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:20
+msgid "Nothing on hand here"
 msgstr ""
 
 #: frontend/src/item/ItemBuying.vue:10
@@ -15916,7 +15985,7 @@ msgstr ""
 msgid "Nothing to do"
 msgstr ""
 
-#: onedesk/one_book/ready.py:267 onedesk/one_inventory/ready.py:145
+#: onedesk/one_book/ready.py:267 onedesk/one_inventory/ready.py:202
 #: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr ""
@@ -16215,7 +16284,8 @@ msgstr ""
 msgid "On Everyone's Calendar"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:193 onedesk/one_inventory/heads.py:316
+#: frontend/src/item/ItemPage.vue:193 frontend/src/stock/StockOnHand.vue:24
+#: onedesk/one_inventory/heads.py:403
 msgid "On Hand"
 msgstr ""
 
@@ -16235,7 +16305,8 @@ msgid "On My Tasks"
 msgstr ""
 
 #: frontend/src/item/ItemBuying.vue:9 frontend/src/item/ItemPage.vue:195
-#: frontend/src/project/Overview.vue:216 onedesk/one_inventory/heads.py:324
+#: frontend/src/project/Overview.vue:216 frontend/src/stock/StockOnHand.vue:26
+#: onedesk/one_inventory/heads.py:411
 msgid "On Order"
 msgstr ""
 
@@ -17546,7 +17617,7 @@ msgstr ""
 msgid "Out of Stock"
 msgstr ""
 
-#: frontend/src/item/ItemOverview.vue:9 onedesk/one_inventory/heads.py:217
+#: frontend/src/item/ItemOverview.vue:9 onedesk/one_inventory/heads.py:300
 msgid "Out of Stock, Month by Month"
 msgstr ""
 
@@ -19200,7 +19271,7 @@ msgstr ""
 #: onedesk/one_crm/heads.py:201 onedesk/one_crm/heads.py:209
 #: onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
-#: onedesk/one_inventory/heads.py:370 onedesk/one_inventory/heads.py:388
+#: onedesk/one_inventory/heads.py:481 onedesk/one_inventory/heads.py:499
 #: onedesk/one_project/custom/material_request.json
 #: onedesk/one_project/custom/quotation.json
 #: onedesk/one_project/custom/request_for_quotation.json
@@ -19280,6 +19351,7 @@ msgid "Project or About"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: frontend/src/stock/StockOnHand.vue:146
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Projected Stock"
 msgstr ""
@@ -19934,7 +20006,7 @@ msgstr ""
 msgid "Receipts"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:56
+#: onedesk/one_inventory/ready.py:101
 msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
 msgstr ""
 
@@ -19957,7 +20029,7 @@ msgstr ""
 msgid "Receive and inspect materials"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:372 onedesk/one_project/money.py:169
+#: onedesk/one_inventory/heads.py:483 onedesk/one_project/money.py:169
 #: onedesk/public/js/settings.js:2781
 msgid "Received"
 msgstr ""
@@ -20582,7 +20654,7 @@ msgstr ""
 msgid "Reopen Task"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:331
+#: onedesk/one_inventory/heads.py:418
 msgid "Reorder"
 msgstr ""
 
@@ -21206,6 +21278,10 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:89
+msgid "Running low asks for more"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2755
 msgid "Running…"
 msgstr ""
@@ -21543,6 +21619,10 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+#: frontend/src/stock/StockOnHand.vue:13
+msgid "Search Items"
+msgstr ""
+
 #. Task in the Website project template
 #: onedesk/one_project/library/website.json
 msgid "Search engine basics"
@@ -21845,7 +21925,7 @@ msgstr ""
 msgid "Serial Numbers and Batches"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:64
+#: onedesk/one_inventory/ready.py:109
 msgid "Serial and batch numbers can be used"
 msgstr ""
 
@@ -22027,7 +22107,7 @@ msgstr ""
 msgid "Set by your workspace."
 msgstr ""
 
-#: onedesk/one_book/ready.py:67 onedesk/one_inventory/ready.py:59
+#: onedesk/one_book/ready.py:67 onedesk/one_inventory/ready.py:104
 msgid "Set on the company: {0}."
 msgstr ""
 
@@ -22303,6 +22383,10 @@ msgstr ""
 msgid "Shop drawings and structural calculations"
 msgstr ""
 
+#: frontend/src/stock/StockOnHand.vue:131
+msgid "Short"
+msgstr ""
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Short guides for each role"
@@ -22322,11 +22406,11 @@ msgstr ""
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:27
+#: onedesk/one_inventory/ai.py:29
 msgid "Should I order more of this item? Say what is on hand and promised, its reorder level, what is already on order, and who it was last bought from and at what price."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:26
+#: onedesk/one_inventory/ai.py:28
 msgid "Should I order more?"
 msgstr ""
 
@@ -22373,6 +22457,10 @@ msgstr ""
 msgid "Show Links"
 msgstr ""
 
+#: frontend/src/stock/StockOnHand.vue:130
+msgid "Show Low Items"
+msgstr ""
+
 #: frontend/src/project/Updates.vue:14 onedesk/www/portal.html:67
 msgid "Show More"
 msgstr ""
@@ -22415,6 +22503,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2581
 msgid "Showing {0} actions only."
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:49
+msgid "Showing {0} of {1}. Search to find the rest."
 msgstr ""
 
 #. Label of the shown_when (Code) field in DocType 'Record Head Band'
@@ -22813,11 +22905,11 @@ msgstr ""
 msgid "Something went wrong. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:71
+#: onedesk/one_inventory/ready.py:116
 msgid "Somewhere for an asset to be"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:46
+#: onedesk/one_inventory/ready.py:58
 msgid "Somewhere to keep stock"
 msgstr ""
 
@@ -22866,7 +22958,7 @@ msgstr ""
 msgid "Sources"
 msgstr ""
 
-#: onedesk/one_studio/places.py:186
+#: onedesk/one_studio/places.py:197
 msgid "Space Home"
 msgstr ""
 
@@ -23210,7 +23302,7 @@ msgstr ""
 msgid "Stock Ageing"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:251
+#: frontend/src/item/ItemPage.vue:251 frontend/src/stock/StockOnHand.vue:145
 msgid "Stock Balance"
 msgstr ""
 
@@ -23253,8 +23345,16 @@ msgstr ""
 msgid "Stock by Project"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:49
+#: onedesk/one_inventory/ready.py:61
 msgid "Stock can be received into {0} warehouses."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:84
+msgid "Stock can go below zero, and what it is worth goes wrong with it."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:82
+msgid "Stock cannot go below zero"
 msgstr ""
 
 #. Task in the Year-End Audit project template
@@ -23262,7 +23362,11 @@ msgstr ""
 msgid "Stock count"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:54
+#: onedesk/one_inventory/ready.py:66
+msgid "Stock has a warehouse to go to"
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:99
 msgid "Stock is valued in the books"
 msgstr ""
 
@@ -23273,8 +23377,14 @@ msgid "Stock managers"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: frontend/src/stock/StockOnHand.vue:137
+#: onedesk/one_inventory/page/stock_on_hand/stock_on_hand.js:8
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock on Hand"
+msgstr ""
+
+#: onedesk/one_studio/places.py:151
+msgid "Stock on Hand is opened, and each time stock moves or another warehouse is chosen."
 msgstr ""
 
 #: onedesk/public/js/hiring.js:289 onedesk/public/js/project_actions.js:368
@@ -23782,7 +23892,7 @@ msgstr ""
 msgid "Switch to {0}"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:67
+#: onedesk/one_inventory/ready.py:112
 msgid "Switched off, so no item can have serial numbers or batches."
 msgstr ""
 
@@ -23841,7 +23951,7 @@ msgstr ""
 msgid "Tagged {0}"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:273 onedesk/one_inventory/heads.py:274
+#: onedesk/one_inventory/heads.py:360 onedesk/one_inventory/heads.py:361
 msgid "Take Back"
 msgstr ""
 
@@ -23857,7 +23967,7 @@ msgstr ""
 msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:286
+#: onedesk/one_inventory/heads.py:373
 msgid "Taken back."
 msgstr ""
 
@@ -24446,7 +24556,7 @@ msgstr ""
 msgid "The Person on the Record"
 msgstr ""
 
-#: onedesk/one_studio/places.py:281
+#: onedesk/one_studio/places.py:292
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr ""
 
@@ -24568,7 +24678,7 @@ msgstr ""
 msgid "The campaign's leads and contacts"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:192
+#: onedesk/one_inventory/ready.py:258
 msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
 msgstr ""
 
@@ -25149,7 +25259,7 @@ msgstr ""
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
 msgstr ""
 
-#: onedesk/one_studio/places.py:179
+#: onedesk/one_studio/places.py:190
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr ""
 
@@ -25614,7 +25724,7 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:86
+#: onedesk/one_inventory/ready.py:131
 msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
 msgstr ""
 
@@ -25642,7 +25752,7 @@ msgstr ""
 msgid "There is no letter head {0}."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:74
+#: onedesk/one_inventory/ready.py:119
 msgid "There is no location, and an asset will not save without one."
 msgstr ""
 
@@ -25650,7 +25760,7 @@ msgstr ""
 msgid "There is no mail template {0}"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:113
+#: onedesk/one_inventory/ready.py:158
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr ""
 
@@ -25683,7 +25793,7 @@ msgstr ""
 msgid "There is no template called {0} in the library."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:50
+#: onedesk/one_inventory/ready.py:62
 msgid "There is no warehouse, so nothing can be received."
 msgstr ""
 
@@ -26775,7 +26885,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/one_intake/bundle.py:76 onedesk/one_inventory/heads.py:389
+#: onedesk/one_intake/bundle.py:76 onedesk/one_inventory/heads.py:500
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/onecloud.js:146 onedesk/public/js/onecloud.js:364
 #: onedesk/public/js/onecloud.js:662 onedesk/public/js/onecloud.js:1591
@@ -27323,11 +27433,11 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:391
+#: onedesk/one_inventory/heads.py:502
 msgid "Value In"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:390
+#: onedesk/one_inventory/heads.py:501
 msgid "Value Out"
 msgstr ""
 
@@ -27920,6 +28030,10 @@ msgstr ""
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
 msgstr ""
 
+#: onedesk/one_inventory/ai.py:63
+msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
+msgstr ""
+
 #. Description of the 'Per GB of Database' (Currency) field in DocType 'One
 #. Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -27978,8 +28092,12 @@ msgstr ""
 msgid "What is our leave policy?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:45
+#: onedesk/one_inventory/ai.py:47
 msgid "What is running low?"
+msgstr ""
+
+#: onedesk/one_inventory/ai.py:55
+msgid "What is short?"
 msgstr ""
 
 #: onedesk/one_storage/ai.py:29
@@ -27996,6 +28114,10 @@ msgstr ""
 
 #: onedesk/one/ai.py:94
 msgid "What is this list for?"
+msgstr ""
+
+#: onedesk/one_inventory/ai.py:62
+msgid "What is this warehouse worth?"
 msgstr ""
 
 #. Description of the 'Gives' (Data) field in DocType 'Offering'
@@ -29149,7 +29271,7 @@ msgstr ""
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/one_hr/heads.py:650 onedesk/one_inventory/heads.py:349
+#: onedesk/one_hr/heads.py:650 onedesk/one_inventory/heads.py:436
 #: onedesk/one_studio/ai.py:451
 msgid "Where"
 msgstr ""
@@ -29297,8 +29419,12 @@ msgstr ""
 msgid "Which forms have we changed?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:46
+#: onedesk/one_inventory/ai.py:48
 msgid "Which items are at or below their reorder level, where, and what is already on order for them."
+msgstr ""
+
+#: onedesk/one_inventory/ai.py:56
+msgid "Which items have more promised to customers than is on hand, by how much, and what is on order for them."
 msgstr ""
 
 #: onedesk/one_crm/ai.py:100
@@ -29399,7 +29525,7 @@ msgstr ""
 msgid "Who"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:357
+#: onedesk/one_inventory/heads.py:444
 msgid "Who Has It"
 msgstr ""
 
@@ -29831,7 +29957,7 @@ msgstr ""
 msgid "Workload"
 msgstr ""
 
-#: onedesk/one_studio/places.py:295
+#: onedesk/one_studio/places.py:306
 msgid "Workload is opened, and each time it is drawn again."
 msgstr ""
 
@@ -30051,15 +30177,17 @@ msgstr ""
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:196 onedesk/one_inventory/heads.py:330
+#: frontend/src/item/ItemPage.vue:196 frontend/src/stock/StockOnHand.vue:27
+#: frontend/src/stock/StockOnHand.vue:128 onedesk/one_inventory/heads.py:417
+#: onedesk/one_inventory/heads.py:463
 msgid "Worth"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:344
+#: onedesk/one_inventory/heads.py:431
 msgid "Worth Now"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:218
+#: onedesk/one_inventory/heads.py:301
 msgid "Worth Over Its Life"
 msgstr ""
 
@@ -30212,7 +30340,7 @@ msgstr ""
 msgid "Writing…"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:347
+#: onedesk/one_inventory/heads.py:434
 msgid "Written Off"
 msgstr ""
 
@@ -31962,11 +32090,11 @@ msgstr ""
 msgid "{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:102
+#: onedesk/one_inventory/ready.py:147
 msgid "{0} assets are drafts, so they are not depreciated or counted. Each says why on its page."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:212
+#: onedesk/one_inventory/heads.py:295
 msgid "{0} at the end"
 msgstr ""
 
@@ -32082,7 +32210,7 @@ msgstr ""
 msgid "{0} cannot read {1}."
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:85
+#: onedesk/one_inventory/ready.py:130
 msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr ""
 
@@ -32126,7 +32254,7 @@ msgstr ""
 msgid "{0} costs, {1}"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:137
+#: onedesk/one_inventory/ready.py:194
 msgid "{0} could not be registered; each says why on its page."
 msgstr ""
 
@@ -32464,7 +32592,7 @@ msgstr ""
 msgid "{0} hours, {1}"
 msgstr ""
 
-#: onedesk/one_book/heads.py:234 onedesk/one_inventory/heads.py:181
+#: onedesk/one_book/heads.py:234 onedesk/one_inventory/heads.py:264
 msgid "{0} in 12 months"
 msgstr ""
 
@@ -32961,8 +33089,12 @@ msgstr ""
 msgid "{0} isn't set, so {1}."
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:625
+#: frontend/src/stock/StockOnHand.vue:123 onedesk/public/js/onecloud.js:625
 msgid "{0} items"
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:95
+msgid "{0} items have a reorder level, but nothing is asked for when they reach it. To Order still lists them."
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:628 onedesk/public/js/onecloud.js:643
@@ -33324,6 +33456,10 @@ msgstr ""
 
 #: onedesk/www/s.html:40 onedesk/www/s.html:113
 msgid "{0} shared this with you."
+msgstr ""
+
+#: frontend/src/stock/StockOnHand.vue:36 frontend/src/stock/StockOnHand.vue:109
+msgid "{0} short"
 msgstr ""
 
 #: onedesk/one/linked.py:140

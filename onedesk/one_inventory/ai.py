@@ -1,5 +1,5 @@
 """What OneAI does in OneInventory: reads an item as its page shows it, says
-what is running low, and suggests a change to an item as its page makes it,
+what the stores hold and what is running low, and suggests a change to an item as its page makes it,
 as a card the reader approves.
 """
 
@@ -11,6 +11,8 @@ from frappe.utils import flt
 
 #: An item's page (page/item_view), by its open view, from `?view=`.
 PAGE = "item-view"
+#: Stock on Hand (page/stock_on_hand).
+STOCK = "stock-on-hand"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -49,16 +51,39 @@ _LOW = {
 	"expects": "running_low",
 }
 
+_HELD = {
+	"label": _lt("What is short?"),
+	"ask": _lt(
+		"Which items have more promised to customers than is on hand, by how much, and what is on order for them."
+	),
+	"expects": "stock_on_hand",
+}
+_WORTH = {
+	"label": _lt("What is this warehouse worth?"),
+	"ask": _lt("What does this warehouse hold, what is it worth, and what in it is low or short?"),
+	"can": "read",
+	"doctype": "Warehouse",
+	"expects": "stock_on_hand",
+}
+
 SUGGESTIONS = {
 	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
 	f"page:{PAGE}/stock": [_HOW, _ORDER],
 	f"page:{PAGE}/buying": [_ORDER, _HOW],
 	"Item": [_LOW, _HOW],
+	f"page:{STOCK}": [_LOW, _HELD],
+	"Warehouse": [_WORTH, _LOW],
 }
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on an item's page."""
+	"""The sentence the model is told on an item's page or Stock on Hand."""
+	if said.get("page") == STOCK:
+		return (
+			"The reader is on Stock on Hand, which lists what each item has on hand, free to sell, on order and "
+			"its worth, in every warehouse or one. stock_on_hand reads it as the page shows it. How the page works "
+			"is in OneInventory's documentation (how_to)."
+		)
 	if said.get("page") != PAGE:
 		return None
 	name = (said.get("record") or "").strip()
@@ -139,6 +164,48 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 		],
 	}
 	return {key: value for key, value in out.items() if value not in (None, [], {})}
+
+
+def stock_on_hand(
+	warehouse: Annotated[str, "Only this warehouse, as named, such as Stores - SGA."] | None = None,
+	search: Annotated[str, "Only items whose name or code has this in it."] | None = None,
+) -> dict:
+	"""What the stores hold now, as Stock on Hand shows it: each item's
+	quantity on hand, free to sell (on hand less what is promised), on order
+	and worth, where it is low and whether more is promised than is there,
+	with what each warehouse holds and is worth. Read before answering what is
+	in stock, short or worth what."""
+	from onedesk.one_inventory import stock
+
+	if warehouse and not frappe.db.exists("Warehouse", warehouse):
+		return {"error": f"There is no warehouse called {warehouse}. Ask which one they meant."}
+	if not frappe.has_permission("Bin", "read"):
+		return {"error": "The reader may not see stock levels."}
+	said = stock.on_hand(warehouse=warehouse, search=search)
+	return {
+		"currency": said["currency"],
+		"warehouse": said["warehouse"],
+		"worth": said["worth"],
+		"items": said["count"],
+		"low": said["low"],
+		"short": said["short"],
+		"warehouses": [
+			{"warehouse": one["name"], "items": one["items"], "worth": one["worth"]} for one in said["warehouses"]
+		],
+		"lines": [
+			{
+				"item": one["item"],
+				"name": one["item_name"],
+				"unit": one["uom"],
+				"on_hand": one["on_hand"],
+				"free_to_sell": one["free"],
+				"on_order": one["on_order"],
+				"worth": one["worth"],
+				"low_in": one["low_in"],
+			}
+			for one in said["items"][:100]
+		],
+	}
 
 
 def running_low() -> dict:

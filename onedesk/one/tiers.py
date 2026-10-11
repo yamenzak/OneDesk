@@ -66,6 +66,7 @@ HEADS = (
 	"Tenant",
 	"Tenant Domain",
 	"Vehicle Log",
+	"Warehouse",
 	"Workspace Account",
 )
 
@@ -93,6 +94,7 @@ COLLECTIONS = {
 		"Calendar": "a template's tasks left out, and a task planned by the day drawn as a day",
 		"Tree": "a template's tasks left out, each task its subject and where it stands",
 	},
+	"Warehouse": {"Tree": "opened all the way down, without ERPNext's Company filter"},
 	"Lead": {"List": "an overdue next step in red"},
 	"Opportunity": {
 		"List": "an overdue next step in red",
@@ -118,6 +120,7 @@ SCREENS = {
 	"project-template-view": "the page a Project Template opens on (PAGES)",
 	"task-view": "the page a Task opens on (PAGES)",
 	"item-view": "the page an Item opens on (PAGES)",
+	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"my-tasks": "the reader's own tasks, grouped, drawn with frappe-ui (Task)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"onemail": "mail, read and written (Communication)",

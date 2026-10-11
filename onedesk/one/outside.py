@@ -71,23 +71,27 @@ def placed(said: dict) -> None:
 
 
 def inherited(said: dict) -> None:
-	"""A kind no sidebar of One's lists, of a module whose own sidebar is
-	erpnext's, opens in the sidebar One keeps that module's work in
-	(`one_module_heirs`), where the ladder would put it in the reader's home."""
+	"""A record type or a report no sidebar of One's lists, of a module whose
+	own sidebar is erpnext's, opens in the sidebar One keeps that module's work
+	in (`one_module_heirs`), where the ladder would put it in the reader's home."""
 	from frappe.desk.doctype.sidebar.sidebar import linked_entities
 
 	heirs = frappe.get_hooks("one_module_heirs") or {}
-	doctypes = (said.get("canonical_shell") or {}).get("DocType")
-	if not heirs or not isinstance(doctypes, dict):
+	shells = said.get("canonical_shell") or {}
+	if not heirs:
 		return
 	sidebars = said["module_sidebars"]
 	listed = {entity for sidebar in sidebars.values() for item in sidebar.get("items") or [] for entity in linked_entities(item)}
-	for name, module in frappe.get_all(
-		"DocType", filters={"module": ["in", list(heirs)], "istable": 0}, fields=["name", "module"], as_list=True
-	):
-		shell = next((one for one in heirs[module] if one in sidebars), None)
-		if shell and name in doctypes and name not in listed:
-			doctypes[name] = shell
+	for kind, filters in (("DocType", {"istable": 0}), ("Report", {})):
+		placed = shells.get(kind)
+		if not isinstance(placed, dict):
+			continue
+		for name, module in frappe.get_all(
+			kind, filters={"module": ["in", list(heirs)], **filters}, fields=["name", "module"], as_list=True
+		):
+			shell = next((one for one in heirs[module] if one in sidebars), None)
+			if shell and name in placed and name not in listed:
+				placed[name] = shell
 
 
 @frappe.whitelist()

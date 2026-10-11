@@ -26,10 +26,10 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Stock on Hand",
-   "link_type": "Report",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Stock Balance",
+   "link_to": "stock-on-hand",
    "icon": "boxes"
   },
   {

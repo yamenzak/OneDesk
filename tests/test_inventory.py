@@ -180,9 +180,8 @@ def test_custody_is_wired_to_the_asset_the_employee_and_leaving():
 
 
 def test_a_schedule_with_an_end_date_is_due_until_the_end():
-	from datetime import date, timedelta
-
 	import ast
+	from datetime import date, timedelta
 
 	source = (tree.APP / "one_inventory" / "maintenance.py").read_text(encoding="utf-8")
 	space = {
@@ -209,3 +208,34 @@ def test_maintenance_is_on_the_calendar_once():
 	assert '"Asset Maintenance": {"validate": "onedesk.one_inventory.maintenance.due"}' in hooks
 	todos = (tree.APP / "one_task" / "calendar.py").read_text()
 	assert '["reference_type", "not in", ["Task", "Asset Maintenance"]]' in todos
+
+
+def test_stock_goes_to_the_stores_unless_there_are_none():
+	home = _pure(INVENTORY / "ready.py", "home")
+
+	assert home(["Finished Goods - SGA", "Stores - SGA"]) == "Stores - SGA"
+	assert home(["Finished Goods - SGA", "Work In Progress - SGA"]) == "Finished Goods - SGA"
+	assert home([]) is None
+
+
+def test_stock_on_hand_adds_each_item_up_and_puts_what_is_low_or_short_first():
+	rows = _pure(INVENTORY / "stock.py", "rows", flt=lambda v: float(v or 0))
+	items = {
+		"A": {"item_name": "Anchor", "item_group": "Fixings", "stock_uom": "Nos"},
+		"B": {"item_name": "Bolt", "item_group": "Fixings", "stock_uom": "Nos"},
+		"C": {"item_name": "Clip", "item_group": "Fixings", "stock_uom": "Nos"},
+		"D": {"item_name": "Door", "item_group": "Products", "stock_uom": "Nos"},
+	}
+	bins = [
+		{"item_code": "A", "warehouse": "Stores", "actual_qty": 50, "projected_qty": 50, "stock_value": 100},
+		{"item_code": "A", "warehouse": "Van", "actual_qty": 5, "projected_qty": 5, "stock_value": 10},
+		{"item_code": "B", "warehouse": "Stores", "actual_qty": 4, "projected_qty": 4, "stock_value": 8},
+		{"item_code": "C", "warehouse": "Stores", "actual_qty": 0, "projected_qty": 0},
+		{"item_code": "D", "warehouse": "Stores", "actual_qty": 2, "reserved_qty": 5, "projected_qty": -3, "stock_value": 900},
+		{"item_code": "Z", "warehouse": "Stores", "actual_qty": 9},
+	]
+	said = rows(bins, [{"parent": "B", "warehouse": "Stores", "warehouse_reorder_level": 10}], items)
+	assert [one["item"] for one in said] == ["B", "D", "A"], "low first, then short, an empty item and one the reader may not see left out"
+	anchor = said[-1]
+	assert (anchor["on_hand"], anchor["worth"], anchor["places"]) == (55, 110, 2)
+	assert said[0]["low_in"] == ["Stores"] and said[1]["free"] == -3
