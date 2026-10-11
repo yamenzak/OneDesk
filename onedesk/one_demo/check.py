@@ -4837,6 +4837,57 @@ def oneinventory_goods_arrive_as_the_receipt_says():
 
 
 @check
+def oneinventory_goods_go_out_as_the_order_says():
+	"""Delivering, as Karim does it. The villa's windows were picked, packed in
+	three crates and put on Yousef's trip, and its twenty sliding doors are
+	held for it: held stock is counted once, not twice, in what is free to
+	sell. A delivery says its order, total and trip, a packing slip and a pick
+	list print, anybody who reads an order can open it, and OneAI reads a
+	delivery, says what is still to go and drafts the next one."""
+	from onedesk.one import print_blocks
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai, heads, item, ready, stock, trips
+
+	villa = frappe.db.get_value("Sales Order", {"project": VILLA, "docstatus": 1})
+	note = frappe.db.get_value("Delivery Note Item", {"against_sales_order": villa, "docstatus": 1}, "parent")
+	assert note, "nothing of the villa's has gone out"
+	assert frappe.db.get_value("Stock Reservation Entry", {"voucher_no": villa, "item_code": "DR-SL24", "docstatus": 1}, "reserved_qty") == 20
+	with as_user("karim@one.test"):
+		assert frappe.has_permission("Selling Settings", "read"), "an order opens with a permission error"
+		doc = frappe.get_doc("Delivery Note", note)
+		assert heads.delivery_order(doc)["value"] == villa
+		assert "Yousef Bakr" in heads.delivery_trip(doc)["value"], heads.delivery_trip(doc)
+		assert heads.delivery_total(doc)
+		trip = frappe.get_doc("Delivery Trip", frappe.db.get_value("Delivery Stop", {"delivery_note": note}, "parent"))
+		trips.onload(trip)
+		assert trip.get_onload().maps is False, "the route buttons show with no maps key"
+		slip = frappe.get_doc("Packing Slip", {"delivery_note": note, "docstatus": 1})
+		assert print_blocks.title(slip)["title"] == "Packing Slip" and print_blocks.party(slip)["name"] == doc.customer_name
+		assert ("Cases", "1–3") in print_blocks.details(slip)["rows"], print_blocks.details(slip)
+		pick = frappe.get_doc("Pick List", frappe.db.get_value("Pick List Item", {"sales_order": villa}, "parent"))
+		assert print_blocks.title(pick)["title"] == "Pick List"
+		bins = frappe.get_all("Bin", filters={"item_code": "DR-SL24"}, fields=["warehouse", "actual_qty", "reserved_qty", "reserved_stock", "ordered_qty", "projected_qty", "stock_value"])
+		said = item.summary(bins, [])
+		ordered = sum(flt(one.reserved_qty) for one in bins)
+		assert said["held"] == 20 and said["free"] == said["on_hand"] - ordered, said
+		row = next(one for one in stock.on_hand(search="DR-SL24")["items"] if one["item"] == "DR-SL24")
+		assert row["free"] == said["free"] and row["held"] == 20, row
+		facts = ai.delivery_facts(note)
+		assert facts["trip"]["driver"] == "Yousef Bakr" and facts["packed"] and facts["orders"] == [villa], facts
+		going = ai.still_to_deliver(project=VILLA)
+		doors = next(one for one in going["lines"] if one["item"] == "DR-SL24")
+		assert doors["held_for_it"] == 20, doors
+		card = ai.plan_delivery(villa, lines=[{"item": "WIN-CS12", "qty": 1}])
+		made = proposals.apply(card["proposal"])["record"]
+		drafted = frappe.get_doc("Delivery Note", made)
+		assert drafted.docstatus == 0 and [(one.against_sales_order, one.qty) for one in drafted.items] == [(villa, 1)], drafted.items
+		drafted.delete()
+	assert {one["key"]: one for one in ready.checks()}["held"]["state"] == ready.READY
+	with as_user("nadia@one.test"):
+		assert ai.delivery_facts(note).get("error")
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

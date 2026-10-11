@@ -214,7 +214,8 @@ def _place(row, level) -> dict:
 	return {
 		"warehouse": row.warehouse,
 		"on_hand": flt(row.get("actual_qty")),
-		"reserved": flt(row.get("reserved_qty")) + flt(row.get("reserved_stock")),
+		"reserved": flt(row.get("reserved_qty")),
+		"held": flt(row.get("reserved_stock")),
 		"ordered": flt(row.get("ordered_qty")),
 		"projected": flt(row.get("projected_qty")),
 		"value": flt(row.get("stock_value")),

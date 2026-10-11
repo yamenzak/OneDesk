@@ -38,6 +38,7 @@ HEADS = (
 	"Contract",
 	"Credit Ledger Entry",
 	"Customer",
+	"Delivery Note",
 	"Employee",
 	"Employee Promotion",
 	"Employee Tax Exemption Declaration",
@@ -97,6 +98,7 @@ COLLECTIONS = {
 	},
 	"Warehouse": {"Tree": "opened all the way down, without ERPNext's Company filter"},
 	"Purchase Receipt": {"List": "the supplier with room for its name, without the number or the returned column"},
+	"Delivery Note": {"List": "the customer with room for its name, without the number, the returned column or the target warehouse filter"},
 	"Lead": {"List": "an overdue next step in red"},
 	"Opportunity": {
 		"List": "an overdue next step in red",

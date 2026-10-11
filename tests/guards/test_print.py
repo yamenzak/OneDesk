@@ -20,6 +20,7 @@ LEAVES = (
 	"Payment Entry",
 	"Delivery Note",
 	"Purchase Receipt",
+	"Packing Slip",
 	"Purchase Order",
 	"Request for Quotation",
 	"Salary Slip",

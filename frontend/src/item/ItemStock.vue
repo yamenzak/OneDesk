@@ -31,7 +31,7 @@ const places = computed(() =>
     key: one.warehouse,
     label: one.warehouse,
     dot: one.low ? "orange" : undefined,
-    dim: [one.reserved && __("{0} promised", [quantity(one.reserved)]), one.ordered && __("{0} on order", [quantity(one.ordered)])].filter(Boolean).join(" · "),
+    dim: [one.reserved && __("{0} promised", [quantity(one.reserved)]), one.held && __("{0} held for orders", [quantity(one.held)]), one.ordered && __("{0} on order", [quantity(one.ordered)])].filter(Boolean).join(" · "),
     below: one.level ? (one.low ? __("Low, reorders at {0}, {1} at a time", [quantity(one.level), quantity(one.order_qty)]) : __("Reorders at {0}, {1} at a time", [quantity(one.level), quantity(one.order_qty)])) : "",
     value: quantity(one.on_hand, uom.value),
     route: `/desk/query-report/Stock Balance?item_code=${encodeURIComponent(props.said.name)}&warehouse=${encodeURIComponent(one.warehouse)}`,

@@ -20,6 +20,7 @@ after_sync = [
 	"onedesk.one.recycle.settle",
 	"onedesk.one_calendar.tell.install",
 	"onedesk.one.head.install",
+	"onedesk.one.reports.settle",
 	"onedesk.one_project.hours.settle",
 	"onedesk.one_intake.search.index",
 	# Storage is what a tenant pays for, not file size.
@@ -87,6 +88,8 @@ after_migrate = [
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
 	"onedesk.one.head.install",
+	# Rails a workspace arranged take the rows an update ships where they belong. See one/reports.py.
+	"onedesk.one.reports.settle",
 	# How a new project counts its time, stored so Projects Settings shows it.
 	"onedesk.one_project.hours.settle",
 	# The index that makes document text searchable. See one_intake/search.py.
@@ -240,6 +243,8 @@ doc_events = {
 	# A change opened in the Audit Log shows only the fields its reader may read.
 	# See one/audit.py.
 	"Version": {"onload": "onedesk.one.audit.onload"},
+	# Whether a trip's route can be worked out. See one_inventory/trips.py.
+	"Delivery Trip": {"onload": "onedesk.one_inventory.trips.onload"},
 	# Our own books sell each offering as an Item. See one_admin/books.py.
 	"Offering": {"on_update": ["onedesk.one_admin.books.synced", "onedesk.one_admin.offerings.warn"]},
 	"One Admin Settings": {"on_update": "onedesk.one_admin.offerings.warn"},
@@ -919,6 +924,8 @@ fixtures = [
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {
+	# A trip's route buttons only where Google Maps can answer. See one_inventory/trips.py.
+	"Delivery Trip": "public/js/delivery_trip.js",
 	# What a workspace's webhook may not do is not offered. See one/webhooks.py.
 	"Webhook": "public/js/webhook.js",
 	# An announcement, as the administrator writes it. See one/announcements.py.
@@ -1021,6 +1028,7 @@ doctype_list_js = {
 	# Whether a contract is signed, and the project it is for by name.
 	"Contract": "public/js/contract_list.js",
 	"Purchase Receipt": "public/js/purchase_receipt_list.js",
+	"Delivery Note": "public/js/delivery_note_list.js",
 }
 
 override_doctype_dashboards = {
@@ -1186,6 +1194,7 @@ one_makes_records = {
 	"Contact": ["one_admin", "one_calendar"],
 	"Contract": ["one_crm", "one_project"],
 	"Customer": ["one_admin", "one_book", "one_crm"],
+	"Delivery Note": ["one_inventory"],
 	"Employee": ["one_hr"],
 	"Employee Checkin": ["one_hr"],
 	"Employee Performance Feedback": ["one_hr"],
@@ -1299,12 +1308,14 @@ one_ai_reads = [
 	"onedesk.one_task.ai.my_tasks",
 	"onedesk.one_task.ai.task_facts",
 	# An item as its page shows it, what the stores hold, what is running low, a
-	# receipt and what is still to arrive. See one_inventory/ai.py.
+	# receipt or delivery and what is still to come or go. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.item_facts",
 	"onedesk.one_inventory.ai.stock_on_hand",
 	"onedesk.one_inventory.ai.running_low",
 	"onedesk.one_inventory.ai.receipt_facts",
 	"onedesk.one_inventory.ai.still_to_arrive",
+	"onedesk.one_inventory.ai.delivery_facts",
+	"onedesk.one_inventory.ai.still_to_deliver",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1423,8 +1434,9 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_change",
 	# A change to an item, as its page makes it. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.plan_item_change",
-	# A draft receipt for what arrived on an order. See one_inventory/ai.py.
+	# A draft receipt or delivery for an order. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.plan_receipt",
+	"onedesk.one_inventory.ai.plan_delivery",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

@@ -14,10 +14,13 @@ def summary(bins: list, levels: list) -> dict:
 	of Bin and Item Reorder."""
 	projected = {row.get("warehouse"): flt(row.get("projected_qty")) for row in bins}
 	on_hand = sum(flt(row.get("actual_qty")) for row in bins)
-	reserved = sum(flt(row.get("reserved_qty")) + flt(row.get("reserved_stock")) for row in bins)
+	# What open sales orders still want. Stock held for an order is part of it
+	# already (ERPNext's reserved_stock), so it is said apart, not taken twice.
+	reserved = sum(flt(row.get("reserved_qty")) for row in bins)
 	return {
 		"on_hand": on_hand,
 		"free": on_hand - reserved,
+		"held": sum(flt(row.get("reserved_stock")) for row in bins),
 		"ordered": sum(flt(row.get("ordered_qty")) for row in bins),
 		"value": sum(flt(row.get("stock_value")) for row in bins),
 		"levels": len(levels),

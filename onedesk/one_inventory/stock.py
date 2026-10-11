@@ -35,6 +35,7 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 				"on_hand": 0.0,
 				"free": 0.0,
 				"on_order": 0.0,
+				"held": 0.0,
 				"worth": 0.0,
 				"low_in": [],
 				"places": 0,
@@ -42,7 +43,9 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 		)
 		actual = flt(one.get("actual_qty"))
 		row["on_hand"] += actual
-		row["free"] += actual - flt(one.get("reserved_qty")) - flt(one.get("reserved_stock"))
+		# Stock held for an order is part of what orders want already.
+		row["free"] += actual - flt(one.get("reserved_qty"))
+		row["held"] += flt(one.get("reserved_stock"))
 		row["on_order"] += flt(one.get("ordered_qty"))
 		row["worth"] += flt(one.get("stock_value"))
 		row["places"] += 1 if actual else 0

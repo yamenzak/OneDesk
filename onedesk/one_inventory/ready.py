@@ -46,6 +46,7 @@ def checks() -> list[dict]:
 		_below_zero(),
 		_reorder(),
 		_rejected(),
+		_held(),
 		_serials(),
 		_location(),
 		_categories(one),
@@ -101,6 +102,13 @@ def _rejected() -> dict:
 	if frappe.db.get_single_value("Buying Settings", "bill_for_rejected_quantity_in_purchase_invoice"):
 		return _row("rejected", check, SUGGESTED, _("A bill made from a receipt charges for what was rejected on arrival too."), "rejected")
 	return _row("rejected", check, READY, _("A bill made from a receipt charges only for what was accepted."))
+
+
+def _held() -> dict:
+	check = _("Stock can be held for an order")
+	if frappe.db.get_single_value("Stock Settings", "enable_stock_reservation"):
+		return _row("held", check, READY, _("An order can have its stock set aside, so no other order takes it."))
+	return _row("held", check, SUGGESTED, _("Stock promised to an order can still go out on another one first."), "held")
 
 
 def _valued(one) -> dict:
@@ -188,6 +196,8 @@ def fix(key: str, **values) -> None:
 		_settle(allow_negative_stock=0)
 	elif key == "reorder":
 		_settle(auto_indent=1)
+	elif key == "held":
+		_settle(enable_stock_reservation=1)
 	elif key == "rejected":
 		_settle(bill_for_rejected_quantity_in_purchase_invoice=0, settings="Buying Settings")
 	elif key == "location":

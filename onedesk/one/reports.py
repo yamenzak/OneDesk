@@ -250,6 +250,43 @@ def place(kind: str, name: str, module: str | None = None, everybody: int = 0) -
 		_put(kind, name, module, None if everybody else frappe.session.user)
 
 
+def anchored(rows: list, shipped: list, named: set, key) -> list:
+	"""A layer's arrangement with each row the app ships, and the layer never
+	named, moved to just after the row the app ships before it. frappe keeps a
+	row a layer does not name after the ones it does, so a row shipped after a
+	layer was saved, or one that replaced a row it names, sank to the end of
+	the rail. Pure over the arrangement, the shipped order and the named keys."""
+	loose = {key(row): row for row in rows if key(row) in shipped and key(row) not in named}
+	out = [row for row in rows if key(row) not in loose]
+	for i, one in enumerate(shipped):
+		if one not in loose:
+			continue
+		have = [key(row) for row in out]
+		before = next((shipped[j] for j in range(i - 1, -1, -1) if shipped[j] in have), None)
+		out.insert(have.index(before) + 1 if before else 0, loose[one])
+	return out
+
+
+def settle() -> None:
+	"""after_migrate: every layer over One's sidebars with the rows an update
+	shipped in the places the app ships them (`anchored`)."""
+	from frappe.desk.doctype.custom_sidebar.custom_sidebar import _save_customization, layer_arrangement
+	from frappe.desk.doctype.sidebar.sidebar import get_module_base, item_key
+
+	modules = set(frappe.get_all("Sidebar", filters={"app": "onedesk"}, pluck="module"))
+	for one in frappe.get_all("Custom Sidebar", fields=["name", "module", "user"]):
+		if one.module not in modules:
+			continue
+		user = one.user or None
+		named = {item_key(row) for row in frappe.get_doc("Custom Sidebar", one.name).sidebar_items}
+		shipped = [item_key(row) for row in get_module_base(one.module).rows]
+		rows = layer_arrangement(one.module, user)
+		moved = anchored(rows, shipped, named, item_key)
+		if [item_key(row) for row in moved] != [item_key(row) for row in rows]:
+			_save_customization(one.module, moved, user=user)
+			_redrawn(user)
+
+
 def _redrawn(user: str | None) -> None:
 	"""Whoever sees the changed sidebar is told to fetch it again. frappe keeps
 	each person's reports and dashboards for an hour (`DeskViews`) and draws a

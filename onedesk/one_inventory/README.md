@@ -133,6 +133,8 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
   what is low either way.
 - **Rejected goods are not billed.** ERPNext's own setting bills what was
   rejected on arrival too. **Fix** bills only what was accepted.
+- **Stock can be held for an order.** Off to begin with, so stock promised
+  to one order can go out on another first. **Fix** turns it on.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
   can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.
@@ -187,9 +189,42 @@ Whoever asked for the goods on a material request is told when they arrive.
 OneAI says what came in on a receipt, what is still to arrive and what is
 late, and drafts a receipt for what arrived on an order as a card you approve.
 
-Selling works the other way: the customer's order is OneCRM's, **Create ›
-Delivery Note** on it sends the goods from a warehouse, and the invoice is
-OneBook's.
+## Delivering
+
+The customer's order is OneCRM's and the invoice is OneBook's. What happens
+between them is here.
+
+**Deliveries** lists every delivery with its customer, where it stands, its
+date, its total and how much of it is billed.
+
+A delivery says above its fields which **Project** and **Order** it is for,
+its **Total** in the customer's money (with the company's beside it when that
+is another), the **Trip** taking it out with its date and driver, how much is
+**Billed**, and how much came back as **Returned**.
+
+- **Hold stock for an order.** On a submitted sales order, **Stock
+  Reservation › Reserve** sets stock aside for its lines, once **Stock can be
+  held for an order** is Ready in the Inventory Check. No other order can
+  deliver it. An item's page says how much of what is promised is held, and
+  Free to Sell counts it once.
+- **Pick it.** **Create › Pick List** on the order says what to take from
+  which warehouse. It prints as a **Pick List**, signed by whoever picked and
+  whoever checked. **Create › Delivery Note** on the pick list makes the
+  delivery from what was picked. An order with stock held for it is
+  delivered straight from the order instead.
+- **Pack it.** **Create › Packing Slip** on a draft delivery says what went
+  in which cases and what they weigh. It prints as a **Packing Slip** with the
+  customer's address, signed by whoever packed and whoever received.
+- **Take it to site.** **Create › Delivery Trip** on the submitted delivery
+  names the driver, the vehicle and when it leaves, with a stop at the
+  customer's address. **Notify Customers via Email** tells each customer on
+  the trip it is coming. The route buttons appear once a Google Maps key is
+  set in Google Settings.
+- **Paper.** A delivery prints as a **Delivery Note**.
+
+OneAI says what went out on a delivery, what is still to deliver for a
+customer or project and how much of it is held, and drafts a delivery for what
+an order still needs as a card you approve.
 
 ## Ordering what runs low
 
@@ -275,7 +310,8 @@ split.
 
 ## Connections
 
-- **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell.
+- **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell, and stock held for an order is counted once.
+- **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries.
 - **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and a supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation.
@@ -340,10 +376,27 @@ a register and a movement form in it would be a rail with five rows.
   (`one/print_blocks.py`). `rate_note.js` writes the rate under every money
   document's exchange rate, where ERPNext writes "[?]". `access.py` lets the
   accountant add landed costs.
-- `ai.py` — OneAI on an item, the stores and receiving: `item_facts` reads
+- `heads.py` (Delivery Note), `print_format/one_pick_list`,
+  `print_format/one_packing_slip`, `public/js/delivery_note_list.js`,
+  `custom/delivery_note.json`, `custom/driver.json`, `trips.py` and
+  `public/js/delivery_trip.js` — delivering. The delivery's head reads its
+  lines' orders and the trip stop that names it. The two prints are laid out
+  in frappe's builder from One's print blocks, the packing slip's party read
+  from its delivery. A driver shows by name in a trip, through frappe's
+  `show_title_field_in_link`. `trips.py` tells the trip form whether Google
+  Settings has a key, and `delivery_trip.js` hides the two route buttons and
+  the distance when it has none. Free to Sell is on hand less what orders
+  want: ERPNext's `reserved_qty` already counts what is held
+  (`reserved_stock`), so it is taken off once (`item.summary`, `stock.rows`).
+  OneCRM's `access.py` lets the selling, stores, accounts and projects people
+  read Selling Settings, which ERPNext's sales order form reads on opening.
+- `ai.py` — OneAI on an item, the stores, receiving and delivering: `item_facts` reads
   an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
   `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
   come, `plan_receipt` drafts a receipt through ERPNext's own mapping,
+  `delivery_facts` a delivery, its slips and its trip, `still_to_deliver`
+  what is ordered and not yet sent, and how much of it is held,
+  `plan_delivery` drafts a delivery through ERPNext's own mapping,
   `running_low` lists what is at or below its reorder level as ERPNext's
   reordering reads it, and `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps
@@ -510,10 +563,16 @@ a register and a movement form in it would be a rail with five rows.
     makes one of the person fixing it.
   - **Depreciation posts itself.** ERPNext books it daily when Accounts
     Settings says to; the check catches a site where it does not.
+  - **Stock can be held for an order.** ERPNext's
+    `enable_stock_reservation`, off by default. Without it a sales order's
+    Reserve Stock is hidden and stock promised to one order can go out on
+    another.
 - `sidebar/oneinventory` — the rail. Items, Receipts, Deliveries, Stock
-  Movements, Stock Counts, Purchase Orders, Material Requests and the asset
-  doctypes are owned here (`is_default_module`); Supplier is OneBook's and
-  Sales Order OneCRM's.
+  Movements, Stock Counts, Purchase Orders, Material Requests, Pick Lists,
+  Packing Slips, Delivery Trips and the asset doctypes are owned here
+  (`is_default_module`); Supplier is OneBook's and Sales Order OneCRM's. A
+  row shipped after a workspace arranged its rail goes where it is shipped
+  (`one/reports.py` `settle`).
 
 ### The plan
 

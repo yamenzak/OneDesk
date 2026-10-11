@@ -37,3 +37,26 @@ def test_a_saved_report_goes_through_frappes_layers():
 def test_a_layers_report_link_is_drawn():
 	assert "reports.reported(" in (tree.APP / "one" / "boot.py").read_text()
 	assert 'delete_keys("user:*:has_role:Report")' in _body("_redrawn")
+
+
+def _anchored():
+	space = {}
+	exec("def anchored(" + _body("anchored"), space)
+	return space["anchored"]
+
+
+def test_a_shipped_row_goes_where_the_app_ships_it():
+	anchored = _anchored()
+	shipped = ["items", "stock-on-hand", "receipts", "more", "pick", "packing", "trips", "landed"]
+	# A layer saved before Stock on Hand, Packing Slips and Delivery Trips were
+	# shipped, with a group of the workspace's own at the end.
+	rows = ["items", "receipts", "more", "pick", "landed", "yours", "van", "stock-on-hand", "packing", "trips"]
+	named = {"items", "receipts", "more", "pick", "landed", "yours", "van"}
+	got = anchored(rows, shipped, named, lambda one: one)
+	assert got == ["items", "stock-on-hand", "receipts", "more", "pick", "packing", "trips", "landed", "yours", "van"]
+	# A layer that names every row is left as it was arranged.
+	assert anchored(got[::-1], shipped, set(got), lambda one: one) == got[::-1]
+
+
+def test_layers_are_settled_on_migrate():
+	assert '"onedesk.one.reports.settle"' in HOOKS

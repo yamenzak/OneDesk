@@ -1,6 +1,6 @@
-"""What an item's, an asset's, a warehouse's and a receipt's form say above
-their fields: the heads, the measures they place and the verbs they offer. See
-one/head.py.
+"""What an item's, an asset's, a warehouse's, a receipt's and a delivery's
+form say above their fields: the heads, the measures they place and the verbs
+they offer. See one/head.py.
 """
 
 from urllib.parse import quote
@@ -284,6 +284,46 @@ def receipt_rejected(doc):
 	return {"value": f"{fmt_money(rejected, precision=0)} {unit}".strip(), "tone": "alarm"}
 
 
+# ------------------------------------------------------------------ a delivery
+
+
+def delivery_order(doc):
+	"""The sales orders the goods were sold on."""
+	orders = list(dict.fromkeys(row.against_sales_order for row in doc.items if row.get("against_sales_order")))
+	if not orders:
+		return {"value": _("Not ordered"), "tone": "quiet"}
+	if len(orders) == 1:
+		return {"value": orders[0], "route": f"/desk/sales-order/{quote(orders[0])}"}
+	return _("{0} orders").format(len(orders))
+
+
+def delivery_total(doc):
+	"""In the customer's money, with the company's beside it when they differ."""
+	company = frappe.get_cached_value("Company", doc.company, "default_currency")
+	shown = fmt_money(doc.grand_total, currency=doc.currency)
+	if doc.currency and doc.currency != company:
+		return {"label": _("Total · {0}").format(fmt_money(doc.base_grand_total, currency=company)), "value": shown}
+	return shown
+
+
+def delivery_trip(doc):
+	"""The trip that takes the goods, when there is one: when it leaves and
+	who drives."""
+	stop = frappe.db.get_value(
+		"Delivery Stop",
+		{"delivery_note": doc.name, "docstatus": ["<", 2], "parenttype": "Delivery Trip"},
+		"parent",
+	)
+	if not stop:
+		return None
+	trip = frappe.db.get_value("Delivery Trip", stop, ["name", "departure_time", "driver_name", "status"], as_dict=True)
+	when = formatdate(trip.departure_time) if trip.departure_time else _(trip.status)
+	return {
+		"value": " · ".join(one for one in (when, trip.driver_name) if one),
+		"route": f"/desk/delivery-trip/{quote(trip.name)}",
+	}
+
+
 # ------------------------------------------------------------------ the charts
 
 
@@ -373,6 +413,9 @@ MEASURES = {
 	"receipt.worth": receipt_worth,
 	"receipt.landed": receipt_landed,
 	"receipt.rejected": receipt_rejected,
+	"delivery.order": delivery_order,
+	"delivery.total": delivery_total,
+	"delivery.trip": delivery_trip,
 }
 
 
@@ -558,6 +601,27 @@ HEADS = [
 				"source": "Field",
 				"field": "per_billed",
 				"shown_when": [["docstatus", "=", 1], ["is_return", "=", 0]],
+			},
+		],
+	},
+	{
+		"doctype": "Delivery Note",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Order"), "source": "Measure", "measure": "delivery.order"},
+			{"label": _lt("Total"), "source": "Measure", "measure": "delivery.total"},
+			{"label": _lt("Trip"), "source": "Measure", "measure": "delivery.trip"},
+			{
+				"label": _lt("Billed"),
+				"source": "Field",
+				"field": "per_billed",
+				"shown_when": [["docstatus", "=", 1], ["is_return", "=", 0]],
+			},
+			{
+				"label": _lt("Returned"),
+				"source": "Field",
+				"field": "per_returned",
+				"shown_when": [["per_returned", ">", 0]],
 			},
 		],
 	},

@@ -10355,8 +10355,8 @@ page of its own, and Quality Management stays out.
 | 1 | Items and an item's page | done |
 | 2 | Stock on Hand and warehouses | done |
 | 3 | Receiving | done |
-| 4 | Delivering | next |
-| 5 | Moving and counting | |
+| 4 | Delivering | done |
+| 5 | Moving and counting | next |
 | 6 | Buying | |
 | 7 | Making | |
 | 8 | Equipment | |
@@ -10618,3 +10618,100 @@ Fixed:
 | Everything follows frappe | the form, the list and the print are frappe's own |
 | What ERPNext already does | base amounts at the receipt's rate, valuation with landed costs, the inspection rules, rejected goods kept in their own warehouse |
 
+#### 4. Delivering
+
+Looked at as Karim on the deliveries list, the villa's delivery, its pick
+list, packing slip and trip, as Omar on the villa's sales order and its held
+stock, and as Nadia, who has no OneInventory. On a desktop and a phone, and
+the code behind the delivery, ERPNext's stock reservation and its trip.
+
+Found:
+
+- **Our look (5)**: a delivery had no head. Its project, order, total, trip
+  and billing were all down the form.
+- **Our look (5)**: the deliveries list cut the customer's name short for a
+  number column, a Returned column that was nearly always empty and a target
+  warehouse filter nobody uses.
+- **Works (1)**: everybody but the sales manager opening a sales order was
+  told "No permission for Selling Settings". ERPNext's sales order form reads
+  it on opening.
+- **Works (1)**: Free to Sell took held stock off twice. ERPNext's reserved
+  quantity on a bin already counts what is held for an order.
+- **Works (1)**: stock could not be held for an order. ERPNext's stock
+  reservation starts off, which hides Reserve Stock on the order.
+- **Our look (5)**: Packing Slips and Delivery Trips were not in the rail,
+  and a trip's list was headed "Delivery Trip".
+- **Our look (5)**: on a workspace whose rail was arranged, here by the
+  demo's Company Van collection in OneStudio, every row shipped later sank to
+  the end of the rail, Stock on Hand among them. frappe keeps a row a layer
+  never named after the ones it did.
+- **Our look (5)**: a trip showed its driver as HR-DRI-2026-00001, and its
+  route buttons and distance only said they need Google Maps.
+- **Printed (11)**: a pick list and a packing slip had no print of their own.
+- **Demo coverage (1)**: no held stock, pick list, packing slip, trip, driver
+  or vehicle anywhere in the demo.
+- **What ERPNext already does**: a pick list is refused for an order with
+  stock held for it, so a held order is delivered straight from the order. A
+  packing slip needs a draft delivery.
+- **Kept**: ERPNext's Create menu (Pick List, Packing Slip, Delivery Trip,
+  Installation Note, Return), Notify Customers via Email on a trip, and the
+  delivery's billed status from the villa's progress billing.
+- **Kept out**: Shipments, which book parcel carriers, stay out of the rail.
+
+Fixed:
+
+- **Our look (5)**: Delivery Note has a head with Project, Order, Total (the
+  company's money beside it when the customer pays in another), Trip (date and
+  driver), Billed and Returned.
+- **Our look (5)**: the deliveries list keeps the customer, status, date,
+  total and billed, with the number on hover.
+- **Works (1)**: OneCRM's grants let the selling, stores, accounts and
+  projects people read Selling Settings.
+- **Works (1)**: Free to Sell is on hand less what orders want, held stock
+  counted once. An item's page says "24 promised to customers, 20 of it
+  held", and a warehouse "20 held for orders".
+- **Works (1)**: the Inventory Check has a row, Stock can be held for an
+  order, with a Fix.
+- **Our look (5)**: Pick Lists, Packing Slips and Delivery Trips under More,
+  each list headed as the rail calls it.
+- **Our look (5)**: `reports.settle` on migrate moves each row a layer never
+  named to just after the row the app ships before it.
+- **Our look (5)**: a driver shows by name. The route buttons and distance
+  show once Google Settings has a key.
+- **Printed (11)**: One Pick List (item, from where, quantity, picked, order,
+  signed by whoever picked and checked) and One Packing Slip (the delivery,
+  weights in their unit, cases, the customer's address, signed by whoever
+  packed and received).
+- **Demo coverage (1)**: Karim picks 24 casement windows for the villa,
+  delivers and packs them in three cases, and Yousef drives them to site
+  tomorrow at 7:30 in the company van. Omar holds 20 sliding doors for the
+  villa's order.
+- **Knows (13)**: `delivery_facts`, `still_to_deliver` and `plan_delivery`,
+  with What went out on this delivery?, What is still to deliver? and
+  Deliver this order.
+- **Works (1)**: `oneinventory_goods_go_out_as_the_order_says` checks the
+  held 20, Selling Settings read, the head, both prints, Free to Sell against
+  on hand less orders, OneAI's three tools, the Inventory Check row, and
+  refuses Nadia.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the pick list, packing slip, trip, driver, van and held stock in the demo, and the new check |
+| 2 Rules on the server | ERPNext's own reservation, pick list and packing slip rules, and the fix saves Stock Settings through its own save |
+| 3 Hand-offs | order to pick list to delivery, delivery to packing slip and trip, delivery to invoice, and the driver from OneHR |
+| 4 Tier declared | Delivery Note in HEADS and its List in COLLECTIONS |
+| 5 Our look | the head, the list, the rail and the trip, at 1440 wide and on a phone |
+| 6 Nothing lost | ERPNext's Create menu, its Return and every field kept, the route buttons back once maps are set |
+| 7 Extensible | the head's band takes what is written for it, as every head does |
+| 8 Built from frappe | both prints in frappe's builder, the driver through frappe's title link, ERPNext's own mapper for the drafted delivery |
+| 9 Overrides recorded | Selling Settings read, held stock counted once, the reservation setting, the trip's maps, the driver's name and the rail's shipped rows (325 rows) |
+| 10 Notifications | ERPNext's trip mail to customers, kept |
+| 11 Printed | One Pick List and One Packing Slip |
+| 12 Plain words | every label, row and note, in Arabic and German |
+| 13 Documented, OneAI | the README's Delivering section, three tools |
+| 14 Intake | nothing new |
+| 15 Permissions | Selling Settings read by who sells and delivers, deliveries read as the reader may, Nadia refused |
+| 16 Legal | nothing new |
+| 17 Clean code | lint clean |
+| Everything follows frappe | the form, the list, the prints and the rail's layers are frappe's own |
+| What ERPNext already does | the customer's currency and base amounts, the order's lines mapped, held stock in ERPNext's own reservation, the trip's stops and its status |

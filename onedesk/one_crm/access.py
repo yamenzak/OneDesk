@@ -27,7 +27,13 @@ CHANGES = {
 GIVEN = {
 	doctype: {"Sales User": roles.USE, "Sales Manager": roles.MANAGE}
 	for doctype in ("Email Campaign", "Email Group", "Email Group Member", "UTM Source")
-} | {"Assignment Rule": {"Sales Manager": roles.MANAGE}}
+} | {
+	"Assignment Rule": {"Sales Manager": roles.MANAGE},
+	# ERPNext's sales order reads two of these as it opens (its
+	# sales_order_proforma.js), and gives them to the Sales Manager alone, so
+	# everybody else who opens an order was told they had no permission.
+	"Selling Settings": {role: ("read",) for role in ("Sales User", "Stock User", "Accounts User", "Projects User")},
+}
 
 #: The kinds of record a Sales Manager's Assignment Rule shares out.
 SHARED_OUT = ("Lead", "Opportunity")

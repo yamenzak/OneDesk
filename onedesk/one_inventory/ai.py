@@ -85,9 +85,34 @@ _ARRIVING = {
 _RECEIVE = {
 	"label": _lt("Receive this order"),
 	"ask": _lt("Draft a receipt for what is still to come on this order."),
-	"can": "read",
-	"doctype": "Purchase Order",
+	# Offered to whoever may make the receipt, not whoever may read the order.
+	"can": "create",
+	"doctype": "Purchase Receipt",
 	"expects": "plan_receipt",
+}
+
+_SENT = {
+	"label": _lt("What went out on this delivery?"),
+	"ask": _lt(
+		"What went out on this delivery? Say which order it was for, what it was worth, how it was packed, which "
+		"trip takes it and who drives, and whether it is billed."
+	),
+	"can": "read",
+	"doctype": "Delivery Note",
+	"expects": "delivery_facts",
+}
+_TO_DELIVER = {
+	"label": _lt("What is still to deliver?"),
+	"ask": _lt("What is still to deliver to customers, what is late, and is the stock there for it?"),
+	"expects": "still_to_deliver",
+}
+_DELIVER = {
+	"label": _lt("Deliver this order"),
+	"ask": _lt("Draft a delivery for what is still to go out on this order."),
+	# Offered to whoever may make the delivery, not whoever may read the order.
+	"can": "create",
+	"doctype": "Delivery Note",
+	"expects": "plan_delivery",
 }
 
 SUGGESTIONS = {
@@ -99,6 +124,8 @@ SUGGESTIONS = {
 	"Warehouse": [_WORTH, _LOW],
 	"Purchase Receipt": [_RECEIVED, _ARRIVING],
 	"Purchase Order": [_RECEIVE, _ARRIVING],
+	"Delivery Note": [_SENT, _TO_DELIVER],
+	"Sales Order": [_DELIVER, _TO_DELIVER],
 }
 
 
@@ -151,6 +178,7 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 		"currency": said["currency"],
 		"on_hand": summary.get("on_hand"),
 		"free_to_sell": summary.get("free"),
+		"held_for_orders": summary.get("held") or None,
 		"on_order": summary.get("ordered"),
 		"worth": summary.get("value"),
 		"low_in": summary.get("below") or [],
@@ -417,12 +445,212 @@ def plan_receipt(
 		"currency": mapped.currency,
 		"conversion_rate": mapped.conversion_rate,
 		"buying_price_list": mapped.buying_price_list,
+		"price_list_currency": mapped.price_list_currency,
+		"plc_conversion_rate": mapped.plc_conversion_rate,
 		"project": mapped.project,
 		"items": rows,
 	}
 	return {
 		"proposal": proposals.propose(
 			"Create", "Purchase Receipt", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
+		),
+		"state": "Proposed",
+	}
+
+
+def delivery_facts(delivery: Annotated[str, "The delivery's number, such as MAT-DN-2026-00006."]) -> dict:
+	"""What went out on a delivery, as its form shows it to the reader: to
+	whom and on what order, each line and the warehouse it left, what it was
+	worth, how it was packed, the trip that takes it and who drives, and what
+	of it is billed. Read before answering about a delivery."""
+	if not frappe.db.exists("Delivery Note", delivery) or not frappe.has_permission(
+		"Delivery Note", "read", doc=delivery
+	):
+		return {"error": f"No delivery the reader may see is {delivery}."}
+	doc = frappe.get_doc("Delivery Note", delivery)
+	slips = frappe.get_all(
+		"Packing Slip",
+		filters={"delivery_note": doc.name, "docstatus": 1},
+		fields=["name", "from_case_no", "to_case_no", "gross_weight_pkg", "gross_weight_uom"],
+	)
+	stop = frappe.db.get_value(
+		"Delivery Stop", {"delivery_note": doc.name, "parenttype": "Delivery Trip", "docstatus": ["<", 2]}, "parent"
+	)
+	trip = (
+		frappe.db.get_value("Delivery Trip", stop, ["name", "status", "departure_time", "driver_name", "vehicle"], as_dict=True)
+		if stop
+		else None
+	)
+	out = {
+		"delivery": doc.name,
+		"customer": doc.customer_name or doc.customer,
+		"on": str(doc.posting_date),
+		"status": doc.status,
+		"returned": bool(doc.is_return),
+		"project": doc.project,
+		"currency": doc.currency,
+		"orders": list(dict.fromkeys(row.against_sales_order for row in doc.items if row.against_sales_order)),
+		"lines": [
+			{
+				"item": row.item_code,
+				"name": row.item_name,
+				"qty": flt(row.qty),
+				"unit": row.uom,
+				"from": row.warehouse,
+				"price": flt(row.rate),
+			}
+			for row in doc.items
+		],
+		"total": flt(doc.grand_total),
+		"total_in_company_currency": flt(doc.base_grand_total),
+		"packed": [
+			{
+				"slip": one.name,
+				"cases": f"{one.from_case_no}–{one.to_case_no}",
+				"gross_weight": f"{flt(one.gross_weight_pkg)} {one.gross_weight_uom or ''}".strip(),
+			}
+			for one in slips
+		],
+		"trip": {
+			"trip": trip.name,
+			"status": trip.status,
+			"leaves": str(trip.departure_time) if trip.departure_time else None,
+			"driver": trip.driver_name,
+			"vehicle": trip.vehicle,
+		}
+		if trip
+		else None,
+		"billed_percent": flt(doc.per_billed),
+	}
+	return {key: value for key, value in out.items() if value not in (None, [], "")}
+
+
+def still_to_deliver(
+	customer: Annotated[str, "Only to this customer."] | None = None,
+	project: Annotated[str, "Only for this project, by its ID such as PROJ-0001."] | None = None,
+) -> dict:
+	"""What customers have ordered and not yet had, as the reader's sales
+	orders say it: each line still to go out, when it was promised, which are
+	late, how much of it is on hand and free, and how much is held for it."""
+	from onedesk.one_inventory import item as stock
+
+	if not frappe.has_permission("Sales Order", "read"):
+		return {"error": "The reader may not see sales orders."}
+	filters = {"docstatus": 1, "per_delivered": ["<", 100], "status": ["not in", ("Closed", "On Hold", "Completed")]}
+	if customer:
+		filters["customer"] = customer
+	if project:
+		filters["project"] = project
+	orders = {
+		one.name: one
+		for one in frappe.get_list(
+			"Sales Order",
+			filters=filters,
+			fields=["name", "customer", "customer_name", "project"],
+			limit_page_length=0,
+		)
+	}
+	if not orders:
+		return {"lines": [], "count": 0}
+	rows = frappe.get_all(
+		"Sales Order Item",
+		filters={"parent": ["in", list(orders)]},
+		fields=["parent", "item_code", "item_name", "qty", "delivered_qty", "uom", "delivery_date", "stock_reserved_qty"],
+	)
+	day = frappe.utils.getdate(frappe.utils.today())
+	free = {}
+	lines = []
+	for row in rows:
+		left = flt(row.qty) - flt(row.delivered_qty)
+		if left <= 0 or not frappe.get_cached_value("Item", row.item_code, "is_stock_item"):
+			continue
+		if row.item_code not in free:
+			bins = frappe.get_all(
+				"Bin", filters={"item_code": row.item_code}, fields=["actual_qty", "reserved_qty", "reserved_stock", "projected_qty", "warehouse"]
+			)
+			said = stock.summary(bins, [])
+			free[row.item_code] = (said["on_hand"], said["free"])
+		order = orders[row.parent]
+		due = frappe.utils.getdate(row.delivery_date) if row.delivery_date else None
+		lines.append(
+			{
+				"order": row.parent,
+				"customer": order.customer_name or order.customer,
+				"project": order.project,
+				"item": row.item_code,
+				"name": row.item_name,
+				"still_to_go": left,
+				"unit": row.uom,
+				"held_for_it": flt(row.stock_reserved_qty),
+				"on_hand": free[row.item_code][0],
+				"free_to_sell": free[row.item_code][1],
+				"due": str(due) if due else None,
+				"late_by_days": (day - due).days if due and due < day else 0,
+			}
+		)
+	lines.sort(key=lambda one: (-one["late_by_days"], one["due"] or ""))
+	return {"lines": lines[:60], "count": len(lines), "late": sum(1 for one in lines if one["late_by_days"])}
+
+
+def plan_delivery(
+	order: Annotated[str, "The sales order the goods go out on, such as SAL-ORD-2026-00002."],
+	lines: Annotated[
+		list[dict],
+		"Only what goes out now, if not everything still to go: each {item: code, qty: how many}.",
+	]
+	| None = None,
+	why: Annotated[str, "In a sentence, why this delivery."] | None = None,
+) -> dict:
+	"""Suggest a draft delivery for what goes out on a sales order, as a card
+	the reader approves. ERPNext's own mapping fills it, with what is still to
+	go on each line unless told less. Nothing leaves the stores until the
+	draft is submitted on its form."""
+	from erpnext.selling.doctype.sales_order.mapper import make_delivery_note
+
+	from onedesk.one_ai import proposals
+
+	if not frappe.db.exists("Sales Order", order) or not frappe.has_permission("Sales Order", "read", doc=order):
+		return {"error": f"No sales order the reader may see is {order}."}
+	if not frappe.has_permission("Delivery Note", "create"):
+		return {"error": "The reader may not make deliveries."}
+	mapped = make_delivery_note(order)
+	wanted = {str(one.get("item")): flt(one.get("qty")) for one in lines or [] if one.get("item")}
+	rows = []
+	for row in mapped.items:
+		if wanted and row.item_code not in wanted:
+			continue
+		qty = min(wanted[row.item_code], flt(row.qty)) if wanted else flt(row.qty)
+		if qty <= 0 or not frappe.get_cached_value("Item", row.item_code, "is_stock_item"):
+			continue
+		rows.append(
+			{
+				"item_code": row.item_code,
+				"item_name": row.item_name,
+				"qty": qty,
+				"stock_uom": row.stock_uom,
+				"rate": row.rate,
+				"uom": row.uom,
+				"conversion_factor": row.conversion_factor,
+				"warehouse": row.warehouse,
+				"against_sales_order": row.against_sales_order,
+				"so_detail": row.so_detail,
+			}
+		)
+	if not rows:
+		return {"error": "Nothing of those is still to go out on this order. Say so."}
+	changes = {
+		"customer": mapped.customer,
+		"currency": mapped.currency,
+		"conversion_rate": mapped.conversion_rate,
+		"selling_price_list": mapped.selling_price_list,
+		"price_list_currency": mapped.price_list_currency,
+		"plc_conversion_rate": mapped.plc_conversion_rate,
+		"project": mapped.project,
+		"items": rows,
+	}
+	return {
+		"proposal": proposals.propose(
+			"Create", "Delivery Note", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
 		),
 		"state": "Proposed",
 	}

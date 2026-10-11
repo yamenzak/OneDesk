@@ -1,21 +1,30 @@
 """Selling products, apart from the projects: orders delivered and invoiced
 and paid, one in pounds, one still to deliver, a window sent back and credited,
 two sample windows sent to New York in dollars, balustrades delivered and not
-yet invoiced, and a survey fee nobody has paid."""
+yet invoiced, a survey fee nobody has paid, and the villa's sliding doors held
+for it while its first windows are picked, packed and sent to site."""
 
 import frappe
 from frappe.utils import add_days
 
 from onedesk.one_book.currency import bill_in
-from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, rated, save, today, wh
+from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, once, rated, save, today, wh
 
 SALES = "omar@one.test"
 ACCOUNTS = "huda@one.test"
 
 
+STORES = "karim@one.test"
+DRIVER = "yousef@one.test"
+
+
 def run(password=None):
-	if frappe.db.exists("Delivery Note", {"docstatus": 1}):
-		return
+	if not frappe.db.exists("Delivery Note", {"docstatus": 1}):
+		_sell()
+	_to_site()
+
+
+def _sell():
 	with as_user(SALES):
 		classrooms = _order("Crescent Schools", on(6, 2), (("WIN-CS12", 24, 2350),))
 		note = _deliver(classrooms, on(6, 24))
@@ -43,6 +52,99 @@ def run(password=None):
 		fee.due_date = add_days(fee.posting_date, 14)
 		fee.append("items", {"item_code": "SVC-SURV", "qty": 1, "rate": 900})
 		save(fee, submit=True)
+
+
+def _to_site():
+	"""Goods sent to site and stock held for an order, as the stores do it: the
+	villa's first twenty-four windows are picked from Finished Goods, packed in
+	three crates and put on tomorrow's trip to Al Barsha with Yousef driving,
+	and its twenty sliding doors are set aside for it."""
+	if frappe.db.exists("Delivery Trip", {"docstatus": 1}):
+		return
+	from erpnext.selling.doctype.sales_order.mapper import create_pick_list
+	from erpnext.stock.doctype.pick_list.mapper import create_delivery_note
+
+	project = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	villa = frappe.db.get_value("Sales Order", {"project": project, "docstatus": 1})
+	if not villa:
+		return
+	# The van and its driver are the fleet's, kept by whoever set the workspace up.
+	van = once(
+		"Vehicle",
+		{"license_plate": "DXB K 41207"},
+		{
+			"license_plate": "DXB K 41207",
+			"make": "Isuzu",
+			"model": "NPR 75",
+			"last_odometer": 48210,
+			"fuel_type": "Diesel",
+			"uom": "Litre",
+		},
+	).name
+	employee = frappe.db.get_value("Employee", {"user_id": DRIVER})
+	driver = once(
+		"Driver",
+		{"employee": employee},
+		{"full_name": "Yousef Bakr", "employee": employee, "status": "Active"},
+	).name
+	customer = frappe.db.get_value("Sales Order", villa, "customer")
+	with as_user(STORES):
+		pick = create_pick_list(villa)
+		pick.pick_manually = 1
+		pick.locations = [row for row in pick.locations if row.item_code == "WIN-CS12"][:1]
+		for row in pick.locations:
+			row.warehouse = wh("Finished Goods")
+			row.qty = row.stock_qty = row.picked_qty = 24
+		save(pick, submit=True)
+		# ERPNext's mapper saves the draft itself.
+		note = create_delivery_note(pick.name)
+		if note.is_new():
+			note = save(note)
+		slip = frappe.new_doc("Packing Slip")
+		slip.delivery_note = note.name
+		slip.from_case_no, slip.to_case_no = 1, 3
+		slip.append("items", {"item_code": "WIN-CS12", "qty": 24, "net_weight": 28, "weight_uom": "Kg", "dn_detail": note.items[0].name})
+		slip.gross_weight_pkg, slip.gross_weight_uom = 735, "Kg"
+		save(slip, submit=True)
+		note.reload()
+		note.submit()
+		trip = frappe.new_doc("Delivery Trip")
+		trip.company = COMPANY
+		trip.driver = driver
+		trip.vehicle = van
+		trip.departure_time = f"{ahead(1)} 07:30:00"
+		trip.append(
+			"delivery_stops",
+			{
+				"customer": customer,
+				"address": frappe.db.get_value("Dynamic Link", {"link_doctype": "Customer", "link_name": customer, "parenttype": "Address"}, "parent"),
+				"delivery_note": note.name,
+				"details": "Villa site, Al Barsha. Ground floor windows, three crates.",
+			},
+		)
+		save(trip, submit=True)
+	# ERPNext makes no pick list for an order that has stock held, so the
+	# doors are held once the windows are on their way.
+	settings = frappe.get_single("Stock Settings")
+	if not settings.enable_stock_reservation:
+		settings.enable_stock_reservation = 1
+		settings.save()
+	with as_user(SALES):
+		order = frappe.get_doc("Sales Order", villa)
+		doors = next(row for row in order.items if row.item_code == "DR-SL24")
+		doors.reserve_stock = 1
+		order.save()
+		order.create_stock_reservation_entries(
+			items_details=[
+				{
+					"sales_order_item": doors.name,
+					"item_code": "DR-SL24",
+					"warehouse": wh("Finished Goods"),
+					"qty_to_reserve": 20,
+				}
+			],
+			notify=False,
+		)
 
 
 def _order(customer, date, lines, delivery=None):

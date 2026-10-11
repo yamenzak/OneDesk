@@ -191,7 +191,7 @@ const figures = computed(() => {
     const places = s.stock.places.filter((one) => one.on_hand).length;
     list.push(
       { title: __("On Hand"), value: quantity(sum.on_hand, uom.value), note: places > 1 ? __("In {0} warehouses", [places]) : places === 1 ? __("In {0}", [s.stock.places.find((one) => one.on_hand).warehouse]) : "", route: `/desk/query-report/Stock Balance?item_code=${encodeURIComponent(s.name)}` },
-      { title: __("Free to Sell"), value: quantity(sum.free, uom.value), note: sum.on_hand - sum.free > 0 ? __("{0} promised to customers", [quantity(sum.on_hand - sum.free)]) : "", alarm: sum.free < 0, bar: sum.on_hand > 0 ? Math.max(0, Math.min(100, (100 * sum.free) / sum.on_hand)) : null },
+      { title: __("Free to Sell"), value: quantity(sum.free, uom.value), note: sum.on_hand - sum.free > 0 ? (sum.held ? __("{0} promised to customers, {1} of it held", [quantity(sum.on_hand - sum.free), quantity(sum.held)]) : __("{0} promised to customers", [quantity(sum.on_hand - sum.free)])) : "", alarm: sum.free < 0, bar: sum.on_hand > 0 ? Math.max(0, Math.min(100, (100 * sum.free) / sum.on_hand)) : null },
       { title: __("On Order"), value: quantity(sum.ordered, uom.value), note: making.value ? __("{0} being made", [quantity(making.value)]) : "" },
       { title: __("Worth"), value: money(sum.value, s.currency), note: __("Valued by {0}", [__(s.valuation)]) },
     );

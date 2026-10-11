@@ -17,6 +17,8 @@ TITLES = {
 	"Sales Invoice": (_lt("Invoice"), _lt("Invoice No")),
 	"Delivery Note": (_lt("Delivery Note"), _lt("Delivery No")),
 	"Purchase Receipt": (_lt("Goods Received Note"), _lt("Receipt No")),
+	"Pick List": (_lt("Pick List"), _lt("Pick List No")),
+	"Packing Slip": (_lt("Packing Slip"), _lt("Slip No")),
 	"Purchase Order": (_lt("Purchase Order"), _lt("Order No")),
 	"Request for Quotation": (_lt("Request for Quotation"), _lt("Request No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
@@ -46,6 +48,12 @@ DETAILS = {
 		(_lt("Date"), "posting_date"),
 		(_lt("Your Reference"), "po_no"),
 		(_lt("Vehicle"), "vehicle_no"),
+	),
+	"Pick List": ((_lt("Purpose"), "purpose"), (_lt("From"), "parent_warehouse")),
+	"Packing Slip": (
+		(_lt("Delivery No"), "delivery_note"),
+		(_lt("Net Weight"), "net_weight_pkg"),
+		(_lt("Gross Weight"), "gross_weight_pkg"),
 	),
 	"Purchase Receipt": (
 		(_lt("Date"), "posting_date"),
@@ -80,6 +88,9 @@ PARTIES = {
 	"Delivery Note": (_lt("Deliver To"), "customer_name"),
 	"Purchase Order": (_lt("Supplier"), "supplier_name"),
 	"Purchase Receipt": (_lt("Received From"), "supplier_name"),
+	"Pick List": (_lt("For"), "customer_name"),
+	# A packing slip names its customer through its delivery note.
+	"Packing Slip": (_lt("Deliver To"), None),
 	"Payment Entry": (_lt("Received From"), "party_name"),
 	"Salary Slip": (_lt("Employee"), "employee_name"),
 	"Job Offer": (_lt("Offered To"), "applicant_name"),
@@ -98,6 +109,8 @@ FORMATS = {
 	"Payment Entry": ("One Payment Receipt", "one_book"),
 	"Delivery Note": ("One Delivery Note", "one_inventory"),
 	"Purchase Receipt": ("One Purchase Receipt", "one_inventory"),
+	"Pick List": ("One Pick List", "one_inventory"),
+	"Packing Slip": ("One Packing Slip", "one_inventory"),
 	"Purchase Order": ("One Purchase Order", "one_inventory"),
 	"Request for Quotation": ("One Request for Quotation", "one_inventory"),
 	"Salary Slip": ("One Payslip", "one_hr"),
@@ -115,6 +128,8 @@ SIGNED = {
 	"Delivery Note": ((_lt("Delivered By"), None), (_lt("Received By"), "customer_name")),
 	# The supplier's driver hands the goods over, and the stores sign for them.
 	"Purchase Receipt": ((_lt("Delivered By"), "supplier_name"), (_lt("Received By"), None)),
+	"Pick List": ((_lt("Picked By"), None), (_lt("Checked By"), None)),
+	"Packing Slip": ((_lt("Packed By"), None), (_lt("Received By"), None)),
 	"Job Offer": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	# The customer billed for the time signs that the hours are theirs.
@@ -222,6 +237,18 @@ def party(doc) -> dict:
 	heading, field = PARTIES.get(doc.doctype, (None, None))
 	if not heading:
 		return {}
+	if doc.doctype == "Packing Slip":
+		delivery = frappe.db.get_value(
+			"Delivery Note", doc.delivery_note, ["customer_name", "shipping_address", "address_display"], as_dict=True
+		)
+		if not delivery:
+			return {}
+		return {
+			"heading": str(heading),
+			"name": delivery.customer_name,
+			"lines": [],
+			"address": delivery.shipping_address or delivery.address_display,
+		}
 	if doc.doctype == "Payment Entry" and doc.get("payment_type") == "Pay":
 		heading = _("Paid To")
 	name = doc.get(field) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
@@ -259,7 +286,13 @@ def details(doc) -> dict:
 		rows.append((_("Period"), period))
 	for label, field in DETAILS.get(doc.doctype, ()):
 		if doc.get(field) and doc.meta.has_field(field):
-			rows.append((str(label), doc.get_formatted(field)))
+			value = doc.get_formatted(field)
+			# A packing slip's weights are in its own unit, kept beside them.
+			unit = doc.get(field.replace("_pkg", "_uom")) if field.endswith("_pkg") else None
+			rows.append((str(label), f"{value} {unit}" if unit else value))
+	if doc.doctype == "Packing Slip" and doc.get("from_case_no"):
+		cases = doc.from_case_no if doc.from_case_no == doc.to_case_no else f"{doc.from_case_no}–{doc.to_case_no}"
+		rows.append((_("Cases"), str(cases)))
 	project = doc.get("project") or doc.get("parent_project")
 	if doc.doctype == "Contract" and doc.get("document_type") == "Project":
 		project = doc.get("document_name")
