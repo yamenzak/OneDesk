@@ -339,6 +339,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | OneProject, OneTask | Reports in the rail: ERPNext's and HRMS's project and task reports | done |
 | Demo | The business, figure by figure (`docs/SCENARIOS.md`): VAT, a late euro payment, a debit note, stock against the books, prices carried, payslips, leave, a leaver's end of service | done |
 | Demo | OneProject's gaps: Projects Settings, a member's portal, Profit on Billed Hours, the cents, Site Work's cost, Intake into a project | done |
+| Products | OneInventory, the plan (`docs/INVENTORY.md`): ERPNext's Stock, Buying, Subcontracting, Manufacturing and Assets audited, the screens to walk, manufacturing as Making | written, waiting for your word |
 | Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
