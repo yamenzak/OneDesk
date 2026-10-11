@@ -5317,6 +5317,50 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 
 
 @check
+def oneinventory_hand_offs_from_the_other_side():
+	"""OneInventory's hand-offs, as the person on the other side meets them.
+	Mariam starts Sanjay's leaving checklist herself, and it asks the stores
+	for his truck back. Omar's order says how much has gone out and since when
+	it is late. Huda's receipt for the coating says what it cost, and the
+	coater's bill arrives by mail as a draft against the order. Yousef's
+	services name the pickup they are for."""
+	from onedesk.one_crm import heads as crm_heads
+	from onedesk.one_demo import assets as demo
+	from onedesk.one_inventory import heads
+
+	# Leaving asks for the equipment back, from a checklist HR submits.
+	driver = demo._employee(demo.DRIVER)
+	truck = frappe.db.get_value("Asset", {"asset_name": "Pickup Truck 1"})
+	separation = frappe.get_doc("Employee Separation", {"employee": driver})
+	assert separation.docstatus == 1 and separation.owner == demo.PEOPLE, (separation.docstatus, separation.owner)
+	with as_user(demo.PEOPLE):
+		assert frappe.has_permission("Employee Separation", "submit") and frappe.has_permission("Employee Onboarding", "submit")
+	back = next(row for row in separation.activities if truck in (row.activity_name or ""))
+	assert back.task and demo.STORES in frappe.parse_json(frappe.db.get_value("Task", back.task, "_assign") or "[]"), back.task
+
+	# The sales order says what has gone out, and since when it is late.
+	order = frappe.get_doc("Sales Order", "SAL-ORD-2026-00006")
+	assert 0 < order.per_delivered < 100, order.per_delivered
+	late = crm_heads.deliver_by(order)
+	assert isinstance(late, dict) and late["tone"] == "alarm", late
+
+	# The coater's receipt is worth what the coating cost, and its bill came
+	# in by mail as a draft against the order.
+	receipt = frappe.get_doc("Purchase Receipt", {"supplier": "Gulf Powder Coating", "docstatus": 1, "is_subcontracted": 1})
+	assert heads.receipt_worth(receipt) not in (None, frappe.utils.fmt_money(0, currency=receipt.currency)), heads.receipt_worth(receipt)
+	bill = frappe.get_doc("Purchase Invoice", {"bill_no": "GPC-2207"})
+	assert bill.docstatus == 0 and flt(bill.grand_total) == 1417.5 and bill.project, (bill.docstatus, bill.grand_total, bill.project)
+	assert all(row.purchase_order == receipt.items[0].purchase_order for row in bill.items), [row.purchase_order for row in bill.items]
+	# The coater's own due date, which the order's payment row would replace.
+	asked = getdate("2026-11-07")
+	assert getdate(bill.due_date) == asked or asked < getdate(bill.posting_date), (bill.due_date, bill.posting_date)
+
+	# Each service names its asset, so the two pickups are told apart.
+	titles = frappe.get_all("Asset Maintenance Log", filters={"item_code": "VEH-PICKUP"}, pluck="one_asset_title")
+	assert set(titles) == {"Pickup Truck 1", "Pickup Truck 2"}, titles
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

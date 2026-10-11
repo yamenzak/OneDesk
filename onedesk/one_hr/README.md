@@ -57,6 +57,11 @@ off, their passkey stops working, and their shift assignments end. A date set
 in advance takes effect on the day. **Notice Ends On** shows the resignation
 date plus the notice period.
 
+Their **Separation** is the leaving checklist. HR submits it, and each step
+becomes a task for its person: an exit interview, the final pay, and, for each
+piece of the company's equipment they hold, a Return step for the stores.
+Joining works the same way with an **Onboarding**.
+
 ## Clocking in
 
 Employees clock in and out themselves from any phone or computer. There is no
@@ -451,7 +456,7 @@ on OneAI › Actions: **Screen Applicants**, **Interviews**,
 
 - **From One**: The setup wizard makes this year's holiday list, a Day shift, the leave year and the payroll year.
 - **From OneIntake**: A CV becomes a job applicant, and a receipt an employee sends in becomes their expense claim. A sick note becomes a leave application, and a passport or permit is added to the employee's Identity Documents.
-- **From OneInventory**: The employee record shows how much of the company's equipment the person holds. Submitting a separation adds a Return task for each asset they hold.
+- **From OneInventory**: The employee record shows how much of the company's equipment the person holds. HR submits a separation, and it adds a Return task for each asset they hold, given to the stores.
 - **From OneTask**: Time from a task's timer goes on the person's timesheet for the week.
 - **To OneBook**: Payroll runs, expense claims and advances post to the accounts. OneHR sets up the payroll and advance accounts so the first run works. The VAT Return counts the VAT on expense claims.
 - **From OneProject**: New Expense Claim on a project's Money starts an expense claim on that project.

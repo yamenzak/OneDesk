@@ -55,7 +55,7 @@ def _due(start, end, which: list) -> list[dict]:
 	return [
 		{
 			"name": one.name,
-			"title": f"{one.task_name or frappe._('Maintenance')} · {one.item_name or one.asset_name}",
+			"title": f"{one.task_name or frappe._('Maintenance')} · {one.one_asset_title or one.item_name or one.asset_name}",
 			"start": one.due_date,
 			"all_day": 1,
 		}
@@ -67,7 +67,7 @@ def _due(start, end, which: list) -> list[dict]:
 				["docstatus", "=", 0],
 				*layers.within("due_date", start, end),
 			],
-			fields=["name", "task_name", "item_name", "asset_name", "due_date"],
+			fields=["name", "task_name", "one_asset_title", "item_name", "asset_name", "due_date"],
 			limit=layers.MOST,
 		)
 	]

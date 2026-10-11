@@ -423,8 +423,11 @@ doc_events = {
 	"Asset Movement": {"on_submit": "onedesk.one_inventory.tell.handed_over"},
 	# Every task on a schedule has its next date. See one_inventory/maintenance.py.
 	"Asset Maintenance": {"before_validate": "onedesk.one_inventory.maintenance.due"},
-	# A service moved past today is no longer late. See one_inventory/maintenance.py.
-	"Asset Maintenance Log": {"before_validate": "onedesk.one_inventory.maintenance.on_time"},
+	# A service moved past today is no longer late, and a service names its
+	# asset. See one_inventory/maintenance.py.
+	"Asset Maintenance Log": {
+		"before_validate": ["onedesk.one_inventory.maintenance.on_time", "onedesk.one_inventory.maintenance.named"]
+	},
 	"Purchase Receipt": {
 		"validate": ["onedesk.one_inventory.assets.located", "onedesk.one_project.chain.agree"],
 		"on_submit": "onedesk.one_inventory.assets.registered",
@@ -1268,7 +1271,7 @@ one_makes_records = {
 	"Request for Quotation": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
 	"Sales Invoice": ["one_admin", "one_project"],
-	"Sales Order": ["one_project"],
+	"Sales Order": ["one_crm", "one_project"],
 	"Sales Stage": ["one_admin", "one_crm"],
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],

@@ -253,9 +253,16 @@ def receipt_order(doc):
 def receipt_worth(doc):
 	"""What the goods put into stock, in the company's money: once received,
 	at what each was valued (landed costs included); before, at its price. A
-	supplier in another currency is said beside it."""
+	service on it, such as a coater's work received for a subcontract, puts
+	nothing into stock and counts at what it cost. A supplier in another
+	currency is said beside it."""
 	if doc.docstatus == 1:
-		value = sum(flt(row.valuation_rate) * flt(row.stock_qty) for row in doc.items)
+		value = sum(
+			flt(row.valuation_rate) * flt(row.stock_qty)
+			if frappe.get_cached_value("Item", row.item_code, "is_stock_item")
+			else flt(row.base_net_amount)
+			for row in doc.items
+		)
 	else:
 		value = flt(doc.base_net_total)
 	company = frappe.get_cached_value("Company", doc.company, "default_currency")

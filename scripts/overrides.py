@@ -1299,6 +1299,27 @@ OVERRIDES = [
 		'default: "Sales Invoice",',
 	),
 	(
+		"HR submits a joining or a leaving checklist",
+		"HRMS gives HR create and write on Employee Onboarding and Employee Separation and only the platform submit, and only submitting gives each step to its person, a Return step for equipment included",
+		"onedesk/one_hr/access.py",
+		"hrms/hrms/hr/doctype/employee_separation/employee_separation.json",
+		'"role": "HR Manager",',
+	),
+	(
+		"A service names the asset it is for, and a link to an asset reads its name",
+		"the log keeps the asset's number in a read-only field and its item's name, so two pickups read alike in the list and on the calendar; one_asset_title holds the name, and Asset shows its title in links",
+		"onedesk/one_inventory/maintenance.py",
+		"erpnext/erpnext/assets/doctype/asset_maintenance_log/asset_maintenance_log.json",
+		'"fieldname": "asset_name",',
+	),
+	(
+		"A bill read for an order keeps the due date it asks for",
+		"the mapper copies the order's payment row, dated from the order, and ERPNext keeps it over the bill's due date; where the order agreed no terms the row is left for ERPNext to make again",
+		"onedesk/one_intake/planning.py",
+		"erpnext/erpnext/buying/doctype/purchase_order/mapper.py",
+		"PaymentScheduleService(target).set_payment_schedule()",
+	),
+	(
 		"A payroll run says how many people and how much",
 		"the Overview tab carries the account and two checkboxes; the count is parked in the employee filter and the total is only in the slips",
 		"onedesk/public/js/payroll_entry.js",

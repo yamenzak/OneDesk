@@ -1,5 +1,16 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Asset Maintenance Log",
+   "fieldname": "one_asset_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "insert_after": "asset_name",
+   "label": "Asset",
+   "module": "One Inventory",
+   "read_only": 1
+  }
+ ],
  "doctype": "Asset Maintenance Log",
  "links": [],
  "property_setters": [
@@ -23,7 +34,7 @@
    "doctype_or_field": "DocField",
    "property": "in_list_view",
    "property_type": "Check",
-   "value": "1",
+   "value": "0",
    "field_name": "item_name"
   },
   {

@@ -10361,8 +10361,8 @@ page of its own, and Quality Management stays out.
 | 7 | Making | done |
 | 8 | Equipment | done |
 | 9 | Reports and Setup | done |
-| 10 | Across modules | next |
-| 11 | Closed against the standard | |
+| 10 | Across modules | done |
+| 11 | Closed against the standard | next |
 
 #### 0. The baseline
 
@@ -11195,3 +11195,72 @@ Fixed:
 | 17 Clean code | lint clean, each report change a named wrap in reports.js |
 | Everything follows frappe | ERPNext's reports and settings forms, frappe's empty state |
 | What ERPNext already does | its filters, columns and totals as shipped |
+
+#### 10. Across modules
+
+Looked at from the other side of each hand-off, as the person who works
+there. Omar on a sales order OneInventory delivers, Huda on a receipt to be
+billed and the books' side of stock, Samir on a project's Money and
+Suppliers, Mariam on a leaver, Yousef on his calendar, Karim on what Intake
+brings in, and what OneAI answers from a sales page.
+
+Found:
+
+- **Permissions (15)**, **Hand-offs (3)**: HRMS lets HR make a joining or a
+  leaving checklist and only the platform submit it, and only submitting
+  gives each step to its person. So the Return step for a leaver's
+  equipment was never made unless an administrator stepped in.
+- **Demo coverage (1)**: nobody was leaving while holding equipment, so the
+  hand-off was untried.
+- **Our look (5)**: a sales order said nothing at its top. Omar could not see
+  how much had gone out, or that it was late, without opening the lines.
+- **Our look (5)**: the coater's receipt said it was worth 0.00. A service on
+  a receipt puts nothing into stock, and the band counted only stock.
+- **Plain words (12)**: the service list and the calendar named the item, so
+  both pickups read "Pickup Truck".
+- **Intake (14)**: no sample brought a supplier's bill for an order. Tried
+  with the coater's, the bill lost its due date to the order's payment row.
+- Samir's Money and Suppliers counted the coating, the receipts and the
+  issues as they should. OneAI answers a delivery question from a sales page
+  with OneInventory's tools, found by the word.
+
+Fixed:
+
+- **Permissions (15)**: HR submits onboardings and separations
+  (`one_hr/access.py`), once, so a change in Access stands.
+- **Demo coverage (1)**: Sanjay, who drives Pickup Truck 1, resigns, and
+  Mariam submits his leaving checklist. Its Return step is Karim's. A new
+  check walks every fix here from the other side.
+- **Our look (5)**: a sales order says its **Project**, **Total**, **Deliver
+  By** (red once late), **Delivered** and **Billed** (`one_crm/heads.py`).
+- **Our look (5)**: a service on a receipt counts at what it cost.
+- **Plain words (12)**: a service log keeps its asset's name
+  (`maintenance.named`, before_validate, and a patch for the old ones). The
+  list and the calendar show it, and a link to an asset reads its name.
+- **Intake (14)**: the coater's bill arrives by mail and becomes a draft bill
+  against the order, on the villa project, with a task to pay it. Where the
+  order agreed no terms, the bill keeps the due date it asks for
+  (`one_intake/planning.py`).
+- **Documented (13)**: the three READMEs say what the other side sees.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | Sanjay's leaving, the coater's bill by mail, and the new check |
+| 2 Rules on the server | a service names its asset on before_validate, safe under import |
+| 3 Hand-offs | a leaver's equipment asked back, an order's delivery read from OneCRM, a bill for an order read from mail |
+| 4 Tier declared | Sales Order in HEADS |
+| 5 Our look | the sales order's head, the receipt's worth, the service list, at 1440 wide |
+| 6 Nothing lost | every field kept, the asset's number still on the log |
+| 7 Extensible | the sales order's band takes what is written for it |
+| 8 Built from frappe | HRMS's checklist and ERPNext's mapper, a custom field and a property setter |
+| 9 Overrides recorded | HR submits checklists, a service names its asset, a bill keeps its due date (351 rows) |
+| 10 Notifications | HRMS's own, a task for each step |
+| 11 Printed | nothing new |
+| 12 Plain words | Deliver By in Arabic and German |
+| 13 Documented, OneAI | OneCRM, OneHR and OneInventory READMEs. OneAI reaches deliveries from OneCRM by the word |
+| 14 Intake | the coater's bill, a new sample |
+| 15 Permissions | Mariam submits, Karim takes back, Omar reads delivery, Huda bills |
+| 16 Legal | nothing new is kept or sent |
+| 17 Clean code | lint clean, each fix in the module that owns it |
+| Everything follows frappe | frappe's forms, HRMS's checklist, ERPNext's mapper and payment schedule |
+| What ERPNext already does | the order's agreed payment terms kept where there are any, and the bill left a draft for the books to submit |

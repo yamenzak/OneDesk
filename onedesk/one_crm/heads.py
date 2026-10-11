@@ -5,7 +5,7 @@ The figures are record.py's `overview`, worked out once per request.
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import fmt_money, formatdate, get_datetime, getdate, now_datetime, today
+from frappe.utils import flt, fmt_money, formatdate, get_datetime, getdate, now_datetime, today
 from frappe.utils.caching import request_cache
 
 from onedesk.one_crm import capture, record
@@ -162,6 +162,20 @@ def source(doc):
 	return _said(doc.doctype, doc.name).get("source") or None
 
 
+def deliver_by(doc):
+	"""A sales order's earliest promised day for what has still to go out, in
+	red once it has passed. Once all is delivered, or the order is closed,
+	the day it was promised."""
+	open_ = doc.docstatus == 1 and doc.status not in ("Closed", "On Hold", "Completed")
+	waiting = [row.delivery_date for row in doc.items if row.delivery_date and flt(row.delivered_qty) < flt(row.qty)]
+	if not open_ or not waiting:
+		return formatdate(doc.delivery_date) if doc.delivery_date else None
+	day = min(getdate(one) for one in waiting)
+	if day < getdate(today()):
+		return {"value": _("Late since {0}").format(formatdate(day)), "tone": "alarm"}
+	return formatdate(day)
+
+
 MEASURES = {
 	"crm.value": value,
 	"crm.stage": stage,
@@ -173,6 +187,7 @@ MEASURES = {
 	"crm.next_step": next_step,
 	"crm.contact": contact,
 	"crm.source": source,
+	"crm.deliver_by": deliver_by,
 }
 
 
@@ -202,6 +217,28 @@ HEADS = [
 			{"label": _lt("Source"), "source": "Measure", "measure": "crm.source"},
 		],
 		"verbs": [{"verb": "crm.take"}],
+	},
+	# What OneInventory has delivered of an order, and OneBook billed, as the
+	# purchase order says what has arrived and been billed.
+	{
+		"doctype": "Sales Order",
+		"band": [
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Total"), "source": "Measure", "measure": "order.total"},
+			{"label": _lt("Deliver By"), "source": "Measure", "measure": "crm.deliver_by"},
+			{
+				"label": _lt("Delivered"),
+				"source": "Field",
+				"field": "per_delivered",
+				"shown_when": [["docstatus", "=", 1]],
+			},
+			{
+				"label": _lt("Billed"),
+				"source": "Field",
+				"field": "per_billed",
+				"shown_when": [["docstatus", "=", 1]],
+			},
+		],
 	},
 	{
 		"doctype": "Contract",

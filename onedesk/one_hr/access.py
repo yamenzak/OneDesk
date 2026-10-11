@@ -10,8 +10,12 @@ GIVEN = {
 } | {"Purpose of Travel": {USER: roles.USE, MANAGER: roles.MANAGE}}
 
 #: For a role that reads already: once, so a change in Access stands. HRMS
-#: lets HR make an End of Service (Gratuity) and nobody submit it.
-RAISED = {"Gratuity": {USER: roles.WORK, MANAGER: roles.MANAGE}}
+#: lets HR make an End of Service (Gratuity), a joining or a leaving checklist
+#: and nobody submit it, and only submitting gives each step to its person.
+RAISED = {
+	doctype: {USER: roles.WORK, MANAGER: roles.MANAGE}
+	for doctype in ("Gratuity", "Employee Onboarding", "Employee Separation")
+}
 
 
 def settle() -> None:

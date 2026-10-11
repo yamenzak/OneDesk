@@ -71,6 +71,7 @@ HEADS = (
 	"Request for Quotation",
 	"Salary Slip",
 	"Sales Invoice",
+	"Sales Order",
 	"Shift Request",
 	"Shift Type",
 	"Stock Entry",

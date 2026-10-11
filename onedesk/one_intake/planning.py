@@ -492,11 +492,15 @@ def debit_note(values: dict):
 
 def invoice_from_order(values: dict):
 	"""An invoice, as ERPNext bills a Purchase Order, so it is matched to the
-	order and its receipt."""
+	order and its receipt. The order's payment row comes with it, dated from
+	the order, so where the order agreed no terms the bill's own due date is
+	the one kept."""
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_invoice
 
 	values = dict(values)
 	doc = mapped(make_purchase_invoice, values.pop("order"))
+	if values.get("due_date") and not doc.payment_terms_template:
+		doc.set("payment_schedule", [])
 	doc.update(values)
 	doc.insert()
 	return doc

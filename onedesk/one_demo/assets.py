@@ -2,9 +2,9 @@
 each with who has it, what it is worth after depreciation, and when it is
 next due a service. Services are kept up, one truck's late. Mariam's laptop
 is bought on a receipt and handed to her, a truck's gearbox is mended on the
-garage's bill, Huda's laptop is waiting for a new screen, and the CNC
-centre is written down after a crash. The demo README's assets row tells it
-in full."""
+garage's bill, Huda's laptop is waiting for a new screen, the CNC centre is
+written down after a crash, and Sanjay's leaving asks for his truck back.
+The demo README's assets row tells it in full."""
 
 import frappe
 from frappe.utils import add_days, get_last_day, getdate
@@ -13,6 +13,9 @@ from onedesk.one_demo.base import COMPANY, account, ago, as_user, dated, make, o
 
 STORES = "karim@one.test"
 BOOKS = "huda@one.test"
+PEOPLE = "mariam@one.test"
+#: Who resigns while holding a pickup, so leaving asks for it back.
+DRIVER = "Sanjay"
 GARAGE = "Emirates Fleet Motors"
 
 #: name, item, location, bought (years back, month, day), cost, custodian
@@ -81,6 +84,8 @@ def run(password=None):
 		_mended()
 	if not frappe.db.exists("Asset Value Adjustment", {"docstatus": 1}):
 		_written_down()
+	if not frappe.db.exists("Employee Separation", {"employee": _employee(DRIVER)}):
+		_driver_leaving()
 
 
 def _maintenance():
@@ -244,3 +249,36 @@ def _written_down():
 		cut.set_current_asset_value()
 		cut.new_asset_value = round(cut.current_asset_value * 0.9, -3)
 		save(cut, submit=True)
+
+
+def _employee(first_name):
+	return frappe.db.get_value("Employee", {"first_name": first_name})
+
+
+def _driver_leaving():
+	"""Sanjay, who drives Pickup Truck 1, resigns and works to the end of next
+	month. Mariam starts his leaving checklist: his exit interview with her,
+	his final pay with the books, and, because he holds the truck, a step for
+	the stores to take it back (one_inventory/custody.py `leaving`)."""
+	from frappe.utils import add_months
+
+	employee = _employee(DRIVER)
+	with as_user(PEOPLE):
+		worker = frappe.get_doc("Employee", employee)
+		worker.resignation_letter_date = ago(3)
+		worker.relieving_date = get_last_day(add_months(today(), 1))
+		worker.reason_for_leaving = "Driving for a family business"
+		worker.save()
+		make(
+			{
+				"doctype": "Employee Separation",
+				"employee": employee,
+				"company": COMPANY,
+				"boarding_begins_on": today(),
+				"activities": [
+					{"activity_name": "Exit interview", "user": PEOPLE, "begin_on": 0, "duration": 1},
+					{"activity_name": "Final pay and end of service", "user": BOOKS, "begin_on": 20, "duration": 5},
+				],
+			},
+			submit=True,
+		)

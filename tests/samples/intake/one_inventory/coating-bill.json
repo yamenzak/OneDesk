@@ -1,0 +1,92 @@
+{
+ "file": "coating-bill.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Action",
+   "why": "A tax invoice asking to be paid.",
+   "about": []
+  },
+  "intake_read": {
+   "kind": "Invoice",
+   "title": "Gulf Powder Coating invoice GPC-2207",
+   "summary": "Gulf Powder Coating bills the coating of 300 lengths of profile on order PUR-ORD-2026-00012, AED 1,417.50 due by 7 November 2026.",
+   "language": "en",
+   "number": "GPC-2207",
+   "issued": "2026-10-08",
+   "dates": [
+    {
+     "date": "2026-11-07",
+     "what": "Due",
+     "about": "payment",
+     "counted": false
+    }
+   ],
+   "money": {
+    "currency": "AED",
+    "net": 1350.0,
+    "tax": 67.5,
+    "gross": 1417.5,
+    "paid_how": "transfer",
+    "iban": null,
+    "reference": "GPC-2207"
+   },
+   "lines": [
+    {
+     "text": "Powder coating of aluminium profile, RAL 7016 matt",
+     "qty": 300,
+     "unit_price": 4.5,
+     "amount": 1350.0,
+     "tax_rate": 5,
+     "category": "Other"
+    }
+   ],
+   "promises": [],
+   "notice": null,
+   "references": [
+    {
+     "kind": "Order",
+     "value": "PUR-ORD-2026-00012"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Gulf Powder Coating",
+     "person": false,
+     "email": "jobs@gulfpowder.example",
+     "address": "Al Sajaa Industrial, Sharjah"
+    },
+    {
+     "role": "Recipient",
+     "name": "Sahara Glass & Aluminium",
+     "person": false
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Pay",
+     "detail": "AED 1,417.50 quoting GPC-2207",
+     "by": "2026-11-07",
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Purchase Invoice",
+   "values": {
+    "supplier": "Gulf Powder Coating",
+    "bill_no": "GPC-2207"
+   }
+  },
+  {
+   "doctype": "Task"
+  }
+ ]
+}

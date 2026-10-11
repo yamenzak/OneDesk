@@ -273,7 +273,8 @@ mail is already there as a draft, marked as made by OneAI.
 
 A receipt says above its fields which **Order** it came on, what it is
 **Worth** in the company's money (with the supplier's own currency beside it
-when that is another), the **Landed Costs** added to it, how much was
+when that is another; a service on it, such as coating sent out, at what it
+cost), the **Landed Costs** added to it, how much was
 **Rejected**, and how much is **Billed**. Under the exchange rate it says what
 one of the supplier's currency is in the company's.
 
@@ -380,9 +381,9 @@ they were given, who gave it, and that they will look after it and give it
 back when asked.
 
 The band says **Who Has It**, and the person's own page says how much
-equipment they hold, to whoever runs HR as well. When somebody leaves,
-their separation gets a **Return** task for each thing they hold, and their
-final settlement cannot be submitted until everything is back.
+equipment they hold, to whoever runs HR as well. When somebody leaves, HR
+submits their separation, and it gets a **Return** task for each thing they
+hold, given to the stores.
 
 ## Servicing equipment
 
@@ -391,8 +392,9 @@ Tick **Maintenance Required** on an asset that needs looking after, then
 per job — what it is, how often (monthly, quarterly, yearly…), from when,
 until when if it stops, and who does it. Each due date is on that person's
 calendar as **My Maintenance**, and on everybody's as **Maintenance Due**
-when they turn it on; clicking one opens it to record it done, and the next
-one is worked out from that day. The asset's page says its **Next Service**,
+when they turn it on, each named after the asset it is for; clicking one
+opens it to record it done, and the next one is worked out from that day.
+**More › Maintenance Log** lists every service with its asset. The asset's page says its **Next Service**,
 in red once it is late.
 
 The first schedule needs a maintenance team. The Inventory Check makes one.
@@ -490,14 +492,14 @@ split.
 
 ## Connections
 
-- **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell, and stock held for an order is counted once.
+- **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell, and stock held for an order is counted once. The order says at the top how much has gone out, and since when it is late.
 - **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries. Whoever works a step logs their time on its job card as an employee.
 - **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A work order for a project names it, and so do the movements it makes. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and Buying › Suppliers opens the same supplier there. A supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
-- **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal.
+- **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal. A supplier's bill for an order, such as the coater's, becomes a draft bill against the order, due when the bill says.
 - **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant. A repair takes its cost from the garage's bill, and an asset's value adjustment posts a journal entry.
 - **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way, and so do the materials a project's work orders use. Its manager is told when one is made.
-- **To OneHR**: An employee's page shows how much equipment they hold, to HR as well, who may read the register. A person given equipment is told and signs the handover. When they leave, their separation gets a Return task for each piece.
+- **To OneHR**: An employee's page shows how much equipment they hold, to HR as well, who may read the register. A person given equipment is told and signs the handover. When they leave, HR submits their separation, and it gets a Return task for each piece, given to the stores.
 - **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
 
 ## Under the hood

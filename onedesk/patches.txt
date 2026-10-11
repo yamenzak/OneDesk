@@ -55,3 +55,4 @@ onedesk.one_project.patches.views_settled
 onedesk.one_project.patches.timesheets_titled
 onedesk.one_inventory.patches.making_roles
 onedesk.one_inventory.patches.maintenance_due
+onedesk.one_inventory.patches.maintenance_named

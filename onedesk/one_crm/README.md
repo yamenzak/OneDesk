@@ -26,7 +26,9 @@ The rail on the left has the whole of OneCRM in it:
 - **Sales**, **Campaigns**, **Setup** — one group each, opened with the arrow.
   Quotations, sales orders, appointments, contracts and the four sales reports
   are under Sales. A sales order is what a won deal becomes: OneInventory
-  delivers it and OneBook invoices it.
+  delivers it and OneBook invoices it. At its top it says its project and
+  total, the day what is still to go out was promised (in red once that day
+  has passed), and how much has been delivered and billed.
 
 **Contract** under Sales lists what customers sign, ERPNext's own Contract:
 whether each is signed (**Unsigned**, **Active**, or **Inactive** once it has
@@ -313,7 +315,7 @@ Change any of it under Role Permissions; One does not change it back.
 - **From OneBook**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
 - **From OneProject**: New Quotation and Quote Extra Work on a project start the customer's quotation on it, and Make Order orders the one open quotation. Add Contract makes the Sales Order for a contract agreed without one. Draw Up Contract on a project makes a Contract for it with its customer or one of its suppliers, listed under Sales. The contract says its project, when it was signed and when it ends at the top, and prints as One Contract, with both sides to sign. A deal says the project its quote went to, or the customer's one open project.
 - **To OneProject**: A quotation for a customer with one open project is put on that project, however it is made. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
-- **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell.
+- **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell, and the order says at the top how much has gone out.
 - **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice.
 - **To OneCalendar**: Your next steps on leads and deals are on your calendar at the time they are due.
 

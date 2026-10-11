@@ -96,3 +96,11 @@ def add_team(company: str) -> str:
 		.insert()
 		.name
 	)
+
+
+def named(doc, method=None) -> None:
+	"""Asset Maintenance Log before_validate: the asset's own name, for its
+	list and the calendar. ERPNext's log keeps only the asset's number and its
+	item, and both pickups are a Pickup Truck."""
+	if doc.asset_name:
+		doc.one_asset_title = frappe.db.get_value("Asset", doc.asset_name, "asset_name") or doc.asset_name
