@@ -10352,8 +10352,8 @@ page of its own, and Quality Management stays out.
 | Step | Screen | State |
 |---|---|---|
 | 0 | Gates: 1900 fast tests, 122 of 122 demo checks, and the clean-up | done |
-| 1 | Items and an item's page | next |
-| 2 | Stock on Hand and warehouses | |
+| 1 | Items and an item's page | done |
+| 2 | Stock on Hand and warehouses | next |
 | 3 | Receiving | |
 | 4 | Delivering | |
 | 5 | Moving and counting | |
@@ -10388,3 +10388,77 @@ Fixed:
 - `tests/test_intake_money.py` covers the delivery note, the delivery nobody
   ordered and the offer. A line with only its total is priced for one
   (`one_intake/money.py` `_each`).
+
+#### 1. Items and an item's page
+
+Looked at as Karim on the profile, the casement window, a service and the
+laptops, as Tariq on the window, as Huda on installation, and as Nadia, who
+has no OneInventory. On a desktop and a phone, and the code behind the
+item's form, its head and the Items list.
+
+Found:
+
+- **Tier and our look (4, 5)**: an item, which the stores run on all day,
+  opened on frappe's form with eleven tabs. Its head had the figures, but
+  where it was kept, who it was bought from, what customers were waiting for
+  and what it was made of were in four reports and two other lists.
+- **Works (1)**: the window said Free to Sell -280 with nothing saying why,
+  and nothing said 18 were being made. A made item said Last Bought Never.
+  An asset said who had it by employee number.
+- **Nothing lost (6)**: ERPNext's form has Stock Balance, Stock Ledger and
+  Stock Projected Qty, Set Opening Stock, and Single Variant for a template.
+  A page would have to keep them all.
+- **Knows (13)**: OneAI could not read an item or change one.
+- **Plain words (12)**: ERPNext's end of life of 31-12-2099 read as a date.
+- **The Items list** is ERPNext's own, with its Item Type and Purpose
+  columns and a status on every row. Kept as it is.
+
+Fixed:
+
+- **Tier declared (4)**: Item is a page of its own (`one/tiers.py` PAGES,
+  `item-view`). `/desk/item/<code>` opens it, and the form is the same
+  address with `?edit=1`.
+- **Our look (5)**: the head says what kind of thing it is, Made Here, the
+  one thing worth saying (disabled, low, or more promised than there is and
+  how many are being made), its code, group, unit and valuation, and the
+  figures for its kind. Then Overview, Stock, Buying, Selling, Making, Files
+  and Activity, each only where the item has it. On a phone the figures sit
+  two to a row.
+- **Nothing lost (6)**: frappe's own sidebar and menu, the record followed
+  live, ERPNext's reports and buttons in the menu, Set Opening Stock for an
+  item with no stock, Add Variant as ERPNext's Single Variant, and every
+  field in Edit Details, its tables in frappe's grid
+  (`test_a_page_edits_every_field_of_its_record` now covers Item).
+- **Extensible (7)**: `oneinventory_item.item`, `.stock`, `.buying`,
+  `.selling`, `.making`, `.files` and `.activity`, and what is written for an
+  Item's head runs on the page too.
+- **Knows (13)**: `one_inventory/ai.py` and an `inventory` group. OneAI reads
+  an item as its page does, says what is running low, and suggests a change
+  to an item or a reorder level as a card. The README's item section is
+  rewritten for the page.
+- **Works (1)**: `oneinventory_an_item_opens_on_its_own_page` reads the
+  profile, the window and installation as their people, approves a reorder
+  level OneAI suggested, and refuses Nadia.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the new check, and the coverage guard reaches the page and every OneAI tool |
+| 2 Rules on the server | nothing new. The page changes the item through its own save, so ERPNext's checks hold |
+| 3 Hand-offs | the page links to the orders, receipts and work orders it lists. Walked from the other side in step 10 |
+| 4 Tier declared | Item in PAGES, `item-view` in SCREENS, the Items list ERPNext's own |
+| 5 Our look | the page, at 1440 wide and on a phone |
+| 6 Nothing lost | frappe's sidebar and menu, ERPNext's buttons, every field |
+| 7 Extensible | seven places, and the head's extensions on the page |
+| 8 Built from frappe | frappe-ui's parts and the kit's, values through desk's formats, a new `quantity` in the kit |
+| 9 Overrides recorded | Make More's trigger and Add Variant's methods (312 rows) |
+| 10 Notifications | nothing new on this screen. Low stock and late orders are steps 2 and 6 |
+| 11 Printed | an item does not leave the company |
+| 12 Plain words | every label and button, in Arabic and German |
+| 13 Documented, OneAI | the README, `item_facts`, `running_low`, `plan_item_change` |
+| 14 Intake | nothing reads into an item. Steps 3 and 6 carry Intake |
+| 15 Permissions | each list on the page is read as the reader may, and Nadia is refused |
+| 16 Legal | nothing new for the agreements. OneAI reads items as it reads any record |
+| 17 Clean code | `view.py` one concern, lint clean |
+| Everything follows frappe | desk's form save against `modified`, frappe's controls in Edit Details, realtime on the item and its stock |
+| What ERPNext already does | the company's currency, ERPNext's low test, its valuation method, its hidden serial and batch fields, its 2099 end of life left out |
+

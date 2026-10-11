@@ -38,28 +38,55 @@ asset's depreciation lands in OneBook's books by itself.
 
 ## An item's page
 
-The band under an item's name answers first:
+An item opens on a page of its own. Above its name it says what kind of
+thing it is (a stock item, a service, equipment or a template for variants),
+and **Made Here** when it has a bill of materials. Under its name is the one
+thing worth saying, if anything: **Disabled**, **Low in** a warehouse, or how
+many more are promised to customers than there are, and how many are being
+made. Then its code, group, unit and how its stock is valued.
 
-- **On Hand** — how many there are, across every warehouse. Click it for
-  the Stock Balance, warehouse by warehouse.
-- **Free to Sell** — on hand, less what is promised to customers, with a
-  line under it showing how much of what is on hand that is.
-- **On Order** — ordered from suppliers and not yet received. Click it for
-  the open purchase orders.
-- **Worth** — what the stock on hand is valued at in the books.
-- **Reorder** — **Low in** a warehouse, in red, when what is there and on
-  its way is at or below the reorder level set on the item's **Inventory**
-  tab; **Above its level**; or **No level set**.
-- **Last Bought** — the price it last came at and from whom; the day is in
-  the label.
+The figures under that depend on what it is:
 
-Beside the numbers, **Out of Stock, Month by Month** is a bar a month for a
-year of what left stock (sold, used or sent on), with the year's total over
-it. Point at a bar for the month's figure; the title opens the Stock Ledger.
-It shows only what your own stock ledger list would.
+- **A stock item**: **On Hand** across every warehouse, **Free to Sell**
+  (on hand, less what is promised to customers), **On Order** (and how many
+  are being made), what it is **Worth** in the books, and when it was **Last
+  Bought** and from whom, or **Last Made**.
+- **A service**: its **Selling Price** and what it **Sold in 12 Months**.
+- **Equipment**: how many **Assets** it has become, and how many are not yet
+  registered.
 
-An item marked **Is Fixed Asset** says how many assets it has become
-instead, and how many of them are not yet registered.
+Then its views, each only where the item has it:
+
+- **Overview**: what left stock, month by month for a year, its description
+  and the rest of its details. A template lists its variants, and equipment
+  its assets and who has each.
+- **Stock**: each warehouse, with what it holds, what is promised and on
+  order, and its reorder level; its batches; and its last moves in and out.
+  **Set Reorder Levels** changes the levels.
+- **Buying**: who it is bought from and at what, what is on order and when it
+  is due (in red once late), what has been requested, and its buying prices.
+- **Selling**: what customers have ordered and not yet had, who bought it in
+  the last twelve months, and its selling prices.
+- **Making**: what it is made from, the work orders making it, its bills of
+  materials, and what it goes into.
+- **Files** and **Activity**, as on every record.
+
+The main button is **Order More**, or **Make More** for something made
+here, or **Add Variant** for a template. The menu has **Request Material**,
+**Move Stock**, **Count Stock** (or **Set Opening Stock** for an item with no
+stock yet), **Edit Details**, **Disable Item**, ERPNext's **Stock Balance**,
+**Stock Ledger** and **Stock Projected Qty**, and frappe's own Print, Email,
+Duplicate, Rename and Delete. Each starts the document in its own form with
+the item on its first line.
+
+**Edit Details** changes everything else about the item, grouped as Details,
+Stock, Reordering, Units, Serial Numbers and Batches, Variants, Buying,
+Selling, Making, Quality, Equipment and Accounts, with any field the
+workspace has added under More. Its name is changed by clicking it.
+
+OneAI reads an item as its page shows it, says what is running low, and
+suggests a change to an item (its name, group, lead time, whether it is
+disabled, or a warehouse's reorder level) as a card you approve.
 
 ## Getting ready
 
@@ -209,23 +236,32 @@ the books by itself every day, and the asset reports are OneBook's to read as
 well. The product line has no mark for a separate assets app, and an app with
 a register and a movement form in it would be a rail with five rows.
 
-- `item.py` and `heads.py` — the item's band, a Record Head (one/head.py). ERPNext has every
-  figure in a different place — the Bins behind the Stock Levels panel at the
-  foot of the form, the reorder table on the Inventory tab, a Last Purchase
-  Rate with no supplier or date — and `said` reads them into one answer.
-  Low is ERPNext's own test, projected quantity at or below the level
-  (`summary`, pure), so the band and the reorder list agree.
-
-  An item answers how many there are, how many are free to sell, how many
-  are on order, what they are worth, whether it is time to order more, and
-  what it last cost (`item.py`). An item marked Is Fixed Asset says how many
-  assets it has become instead.
-
-  ERPNext has all of it, in four places: the Bins behind the Stock Levels
-  panel at the foot of the form, the reorder table on the Inventory tab, the
-  item's *Last Purchase Rate* (with no supplier or date beside it), and the
-  Stock Balance report. `said` reads them into one answer for the band
-  (`heads.py`).
+- `view.py`, `page/item_view` and `frontend/src/item` — an item's page. An
+  item is the hub of the stores, as a project is of a job, so it opens on a
+  page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the
+  form. `read` gathers what ERPNext keeps in a dozen places, each as the
+  reader may see it: the Bins per warehouse with their reorder levels, the
+  stock ledger's last moves (each Stock Entry by its type), suppliers from
+  the item's own table and its submitted orders, open purchase and sales
+  orders with what is still to come, material requests, prices, its bills of
+  materials, what they go into and the work orders making it. `headline` is
+  pure. What the page changes it changes as desk does, and
+  `public/js/item_actions.js` has Edit Details (every field, its tables in
+  frappe's grid, a row's company the workspace's own) and the documents an
+  item starts, each opened in its form with ERPNext's own triggers filling
+  the line. The page keeps frappe's sidebar and menu and hears the item and
+  its stock change. Each view is a place for OneStudio
+  (`oneinventory_item.*`).
+- `ai.py` — OneAI on an item: `item_facts` reads it as its page does,
+  `running_low` lists what is at or below its reorder level as ERPNext's
+  reordering reads it, and `plan_item_change` suggests a change as a card.
+- `item.py` and `heads.py` — the item's figures and the head its form keeps
+  at `?edit=1`. ERPNext has every figure in a different place, the Bins
+  behind the Stock Levels panel at the foot of the form, the reorder table on
+  the Inventory tab, and a Last Purchase Rate with no supplier or date.
+  `said` reads them into one answer. Low is ERPNext's own test, projected
+  quantity at or below the level (`summary`, pure), so the page, the band and
+  the reorder list agree.
 - `order.py` and `report/to_order` — what to order. ERPNext's daily
   `reorder_item` raises a Material Request for everything low, and stops:
   nothing lists the requests, groups them by supplier or makes the orders.

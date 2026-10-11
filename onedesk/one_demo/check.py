@@ -4691,6 +4691,50 @@ def onetask_my_tasks_and_the_inbox_are_the_readers_own():
 
 
 @check
+def oneinventory_an_item_opens_on_its_own_page():
+	"""An item opens on its page as its reader may see it. The profile says
+	where it is kept and who it was last bought from; the window says more is
+	promised than there is and how many are being made, and lists what it is
+	made from. OneAI reads an item as the page does, says what is running
+	low, and a change it suggests to a reorder level is saved when approved.
+	Somebody without OneInventory is refused the page."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai, view
+
+	with as_user("karim@one.test"):
+		profile = view.read("ALU-6063")
+		assert profile["kind"] == "Stock" and profile["stock"]["places"] and profile["stock"]["moves"], profile["stock"]
+		assert profile["last_bought"] and profile["last_bought"].supplier, profile["last_bought"]
+		assert profile["buying"]["suppliers"] and profile["making"]["used_in"], "the profile goes into the windows"
+		assert view.files("ALU-6063") == 0
+		facts = ai.item_facts("ALU-6063")
+		assert facts["on_hand"] == profile["summary"]["on_hand"] and facts["suppliers"], facts
+		assert "item_facts" in (ai.page({"page": "item-view", "record": "ALU-6063"}) or "")
+		low = ai.running_low()
+		assert {"low", "count"} <= set(low), low
+		card = ai.plan_item_change("ALU-6063", warehouse=wh("Stores"), reorder_level=500, reorder_qty=1000, why="Bigger jobs coming")
+		assert "proposal" in card, card
+		proposals.apply(card["proposal"])
+	level = frappe.get_all("Item Reorder", filters={"parent": "ALU-6063", "warehouse": wh("Stores")}, fields=["warehouse_reorder_level", "warehouse_reorder_qty"])
+	assert level and level[0].warehouse_reorder_level == 500 and level[0].warehouse_reorder_qty == 1000, level
+	with as_user("tariq@one.test"):
+		window = view.read("WIN-CS12")
+		assert window["made"] and window["making"]["materials"] and window["making"]["orders"], window["making"]
+		if window["headline"]:
+			assert window["headline"]["key"] in ("short", "low"), window["headline"]
+	with as_user("huda@one.test"):
+		service = view.read("SVC-INST")
+		assert service["kind"] == "Service" and service["stock"] is None and service["selling"]["customers"]
+	with as_user("nadia@one.test"):
+		try:
+			view.read("ALU-6063")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody without OneInventory reads an item's page")
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

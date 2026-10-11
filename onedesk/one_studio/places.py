@@ -98,6 +98,51 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_item": {
+		"label": "OneInventory",
+		"record": "Item",
+		"events": {
+			"item": {
+				"about": _lt("An item's page is opened, and each time the item or its stock changes."),
+				"gives": (
+					"item.name, item.item_name, item.item_group, item.kind (Stock, Service, Fixed Asset or Template), "
+					"item.uom, item.disabled, item.on_hand, item.free, item.on_order, item.worth, item.low_in (warehouses), "
+					"item.made (whether it has a bill of materials)"
+				),
+				"may": ("note", "action"),
+			},
+			"stock": {
+				"about": _lt("An item's Stock view is opened, and each time its stock changes."),
+				"gives": "item.name, item.item_name, stock.places (how many warehouses), stock.low_in (warehouses), stock.moves (how many shown)",
+				"may": ("note", "action"),
+			},
+			"buying": {
+				"about": _lt("An item's Buying view is opened."),
+				"gives": "item.name, item.item_name, buying.suppliers (names), buying.orders (how many open), buying.late (how many late)",
+				"may": ("note", "action"),
+			},
+			"selling": {
+				"about": _lt("An item's Selling view is opened."),
+				"gives": "item.name, item.item_name, selling.orders (how many open), selling.late (how many late), selling.customers (names)",
+				"may": ("note", "action"),
+			},
+			"making": {
+				"about": _lt("An item's Making view is opened."),
+				"gives": "item.name, item.item_name, making.bom (the default bill of materials), making.orders (how many open)",
+				"may": ("note", "action"),
+			},
+			"files": {
+				"about": _lt("An item's Files view is opened."),
+				"gives": "item.name, item.item_name, files.count",
+				"may": ("note", "action"),
+			},
+			"activity": {
+				"about": _lt("An item's Activity view is opened."),
+				"gives": "item.name, item.item_name",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecloud": {
 		"label": "OneCloud",
 		"record": "File",

@@ -1866,6 +1866,20 @@ OVERRIDES = [
 		'"reference_type": args["doctype"],',
 	),
 	(
+		"An item's Make More fills its work order through ERPNext's own trigger",
+		"item_actions.js makes the work order with the item set, then fires the form's production_item trigger so ERPNext fills its bill of materials, warehouses and quantities as the form would",
+		"onedesk/public/js/item_actions.js",
+		"erpnext/erpnext/manufacturing/doctype/work_order/work_order.js",
+		"production_item: function (frm) {",
+	),
+	(
+		"An item's Add Variant makes it as ERPNext's Single Variant does",
+		"item_actions.js asks a value per attribute, then calls get_variant and create_variant by name, and opens the new item in its form",
+		"onedesk/public/js/item_actions.js",
+		"erpnext/erpnext/controllers/item_variant.py",
+		"def create_variant(item: str, args: dict | str, use_template_image: bool = False):",
+	),
+	(
 		"Stock Settings' reorder mail switch is hidden",
 		"Material Request Raised tells Purchasing through the hub instead, so the switch ERPNext's reorder reads is hidden by a property setter and starts the notification",
 		"onedesk/one_inventory/custom/stock_settings.json",

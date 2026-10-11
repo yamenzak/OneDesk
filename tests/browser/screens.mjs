@@ -30,6 +30,9 @@ export const SCREENS = [
 	{ who: "rania@one.test", path: "/desk/my-tasks", page: "my-tasks", sees: ["OneTask"] },
 	{ who: "rania@one.test", path: "/desk/timers", page: "timers", sees: ["Timers"] },
 	{ who: "samir@one.test", path: "/desk/onecalendar", page: "onecalendar", sees: ["Weekly site meeting"] },
+	// OneInventory
+	{ who: "karim@one.test", path: "/desk/item/ALU-6063", page: "item-view", sees: ["Aluminium Profile 6063", "On Hand", "Al Noor Aluminium", "Assign", "Files"], panel: false },
+	{ who: "tariq@one.test", path: "/desk/item/WIN-CS12?view=making", page: "item-view", sees: ["Casement Window 1200", "Made From", "Being Made"], panel: false },
 	// OneCRM
 	{ who: "omar@one.test", path: "/desk/onecrm", sees: ["OneCRM"] },
 	{ who: "omar@one.test", path: "/desk/opportunity/view/kanban/Pipeline", sees: ["Webb Hotel lobby curtain wall"] },

@@ -13,6 +13,7 @@ PAGES = {
 	"Project": "a job is run from it all day: its money with both sides, tasks, time, suppliers, people and files, across its sub-projects",
 	"Project Template": "its tasks are laid out, nested, linked and timed as a project's are, which a form's child table cannot show",
 	"Task": "a person's work is done from it all day: what it waits on, its checklist and sub-tasks, its time and its conversation",
+	"Item": "the stores run on it: where it is kept and how much, who it is bought from and sold to, what it is made of and goes into",
 }
 
 #: Records to become pages next, and why.
@@ -116,6 +117,7 @@ SCREENS = {
 	"project-view": "the page a Project opens on (PAGES)",
 	"project-template-view": "the page a Project Template opens on (PAGES)",
 	"task-view": "the page a Task opens on (PAGES)",
+	"item-view": "the page an Item opens on (PAGES)",
 	"my-tasks": "the reader's own tasks, grouped, drawn with frappe-ui (Task)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"onemail": "mail, read and written (Communication)",

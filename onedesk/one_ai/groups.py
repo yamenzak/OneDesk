@@ -109,6 +109,14 @@ GROUPS = {
 		),
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},
+	"inventory": {
+		"about": "stock and buying: how an item is doing, how much is on hand, free to sell and on order, what is running low, whether to order more, and changing an item or its reorder level",
+		"tools": ("item_facts", "running_low", "plan_item_change"),
+		"words": (
+			"item", "stock", "inventory", "warehouse", "reorder", "on hand", "running low", "artikel", "lager", "bestand",
+			"صنف", "مخزون", "مستودع",
+		),
+	},
 	"hr": {
 		"about": "people: appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",
 		"tools": (
@@ -236,6 +244,11 @@ MODULES = {
 	"One CRM": "crm",
 	"Projects": "projects",
 	"One Project": "projects",
+	"Stock": "inventory",
+	"Buying": "inventory",
+	"Manufacturing": "inventory",
+	"Assets": "inventory",
+	"One Inventory": "inventory",
 	"HR": "hr",
 	"Payroll": "hr",
 	"One HR": "hr",
@@ -259,6 +272,7 @@ PAGES = {
 	"workspace-settings": "workspace",
 	"masters": "workspace",
 	"one-admin": "console",
+	"item-view": "inventory",
 }
 
 

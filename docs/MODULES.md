@@ -500,6 +500,8 @@ No doctypes yet.
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`
+* `onedesk.one_inventory.view.files`
+* `onedesk.one_inventory.view.read`
 * `onedesk.one_legal.gate.accept`
 * `onedesk.one_legal.gate.outstanding`
 * `onedesk.one_legal.reading.catalogue`

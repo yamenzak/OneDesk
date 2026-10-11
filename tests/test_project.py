@@ -1186,7 +1186,7 @@ def test_a_project_opens_on_its_own_page():
 		assert follows in script
 	# /desk/project/<name> is the page; ?edit=1 and a new project are the form.
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
-	assert '{ Project: "project-view", "Project Template": "project-template-view", Task: "task-view" }' in route
+	assert '{ Project: "project-view", "Project Template": "project-template-view", Task: "task-view", Item: "item-view" }' in route
 	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
 	# The page edits every field itself; the form stays only at ?edit=1.
 	assert "?edit=1" not in script

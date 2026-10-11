@@ -20,15 +20,17 @@ ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
 	"Task": ROOT / "frontend" / "src" / "task" / "TaskPage.vue",
+	"Item": ROOT / "frontend" / "src" / "item" / "ItemPage.vue",
 }
 DESK_PAGES = {
 	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
 	"Project Template": APP / "one_project" / "page" / "project_template_view" / "project_template_view.js",
 	"Task": APP / "one_task" / "page" / "task_view" / "task_view.js",
+	"Item": APP / "one_inventory" / "page" / "item_view" / "item_view.js",
 }
 
 #: The place each page fires (one_studio/places.py), told its record.
-PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Task": "onetask_task"}
+PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Task": "onetask_task", "Item": "oneinventory_item"}
 
 #: frappe's form sidebar and the parts it draws, all written against a form.
 SIDEBAR = (
@@ -179,6 +181,19 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onetask_task.time": (ROOT / "frontend" / "src" / "task" / "TaskTime.vue").read_text(),
 		"onetask_task.files": (ROOT / "frontend" / "src" / "task" / "TaskFiles.vue").read_text(),
 		"onetask_task.activity": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
+		# An item's page and its views (frontend/src/item).
+		**{
+			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "item" / f"{name}.vue").read_text()
+			for view, name in (
+				("item", "ItemPage"),
+				("stock", "ItemStock"),
+				("buying", "ItemBuying"),
+				("selling", "ItemSelling"),
+				("making", "ItemMaking"),
+				("files", "ItemFiles"),
+				("activity", "ItemPage"),
+			)
+		},
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),
 	}
@@ -199,6 +214,7 @@ EDITS = {
 	"Project": ("project_actions.js", "ABOUT_GROUPS", "ELSEWHERE"),
 	"Project Template": ("project_actions.js", "TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
 	"Task": ("task_actions.js", "GROUPS", "ELSEWHERE"),
+	"Item": ("item_actions.js", "GROUPS", "ELSEWHERE"),
 }
 ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext")
 #: Field types that hold no value to type in.

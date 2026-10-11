@@ -1281,6 +1281,9 @@ one_ai_reads = [
 	# shows it. See one_task/ai.py.
 	"onedesk.one_task.ai.my_tasks",
 	"onedesk.one_task.ai.task_facts",
+	# An item as its page shows it, and what is running low. See one_inventory/ai.py.
+	"onedesk.one_inventory.ai.item_facts",
+	"onedesk.one_inventory.ai.running_low",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1397,6 +1400,8 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
 	"onedesk.one_task.ai.plan_change",
+	# A change to an item, as its page makes it. See one_inventory/ai.py.
+	"onedesk.one_inventory.ai.plan_item_change",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",
@@ -1412,6 +1417,7 @@ one_ai_suggestions = [
 	"onedesk.one_storage.ai.SUGGESTIONS",
 	"onedesk.one_calendar.ai.SUGGESTIONS",
 	"onedesk.one_task.ai.SUGGESTIONS",
+	"onedesk.one_inventory.ai.SUGGESTIONS",
 	"onedesk.one_project.ai.SUGGESTIONS",
 	"onedesk.one_admin.ai.SUGGESTIONS",
 	"onedesk.one_studio.ai.SUGGESTIONS",
@@ -1423,6 +1429,7 @@ one_ai_page = [
 	"onedesk.one_storage.ai.page",
 	"onedesk.one_calendar.ai.page",
 	"onedesk.one_task.ai.page",
+	"onedesk.one_inventory.ai.page",
 	"onedesk.one_admin.ai.page",
 	"onedesk.one_project.ai.page",
 ]

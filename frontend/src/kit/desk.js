@@ -152,6 +152,13 @@ export const emailOn = (doctype, name, options) => onedesk().record.email(doctyp
 /** A whole number as the workspace writes numbers. */
 export const count = (value) => window.format_number(value || 0, null, 0);
 
+/** How many, with its unit if given, to two places only when it has a
+ * fraction: "3,308 Meter", "1.30 Square Meter". */
+export const quantity = (value, uom) => {
+	const said = window.format_number(value || 0, null, Number(value) % 1 ? 2 : 0);
+	return uom ? __("{0} {1}", [said, __(uom)]) : said;
+};
+
 /** An amount without its currency, as the workspace writes numbers: for a
  * table whose currency is said once above it. */
 export const plain = (value) => window.format_number(value || 0, null, 2);
