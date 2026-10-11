@@ -5197,6 +5197,126 @@ def oneinventory_making_from_bill_to_finished_goods():
 
 
 @check
+def oneinventory_equipment_bought_given_serviced_and_mended():
+	"""Equipment, as Karim, Yousef, Mariam and Huda meet it. Mariam's laptop is
+	bought on a receipt that registers it, handed to her and signed for, and
+	she is told. Mariam sees what each person holds. The services are kept up
+	by whoever does them, one truck's late and told. A truck mended on the
+	garage's bill, a laptop waiting for its screen, the CNC centre written
+	down after a crash."""
+	from onedesk.one import print_blocks
+	from onedesk.one_demo import assets as demo
+	from onedesk.one_hr import heads as hr_heads
+	from onedesk.one_inventory import heads, tell
+
+	# Bought on a receipt that registers it, and handed to Mariam.
+	laptop = frappe.get_doc("Asset", {"asset_name": "Laptop Mariam"})
+	mariam = frappe.db.get_value("Employee", {"user_id": "mariam@one.test"})
+	assert laptop.docstatus == 1 and laptop.purchase_receipt and laptop.custodian == mariam
+	assert frappe.db.get_value("Purchase Receipt", laptop.purchase_receipt, "owner") == demo.STORES
+	given = frappe.get_doc(
+		"Asset Movement",
+		frappe.db.get_value("Asset Movement Item", {"asset": laptop.name, "to_employee": mariam}, "parent"),
+	)
+	assert given.purpose == "Issue" and given.owner == demo.STORES and given.docstatus == 1
+	assert heads.handed_what(given)["value"] == "Laptop Mariam" and heads.handed_to(given)["value"] == "Mariam Saleh"
+	assert frappe.db.exists("Notification Log", {"type": "Equipment Handed Over", "for_user": "mariam@one.test", "document_name": laptop.name})
+
+	# The sheet she signs: what she was given, and what she agrees to.
+	printed = frappe.get_print("Asset Movement", given.name, "One Equipment Handover")
+	assert "Laptop Mariam" in printed and "Mariam Saleh" in printed and "I have received the equipment above" in printed
+	assert print_blocks.party(given)["name"] == "Mariam Saleh"
+	assert print_blocks.signatures(given)["sides"][1]["name"] == "Mariam Saleh"
+
+	# Mariam sees what a person holds, and changes none of it.
+	yousef = frappe.get_doc("Employee", {"user_id": "yousef@one.test"})
+	with as_user("mariam@one.test"):
+		assert frappe.has_permission("Asset", "read") and not frappe.has_permission("Asset", "write")
+		assert hr_heads.equipment(yousef)["value"] == "1 held"
+
+	# Every service is dated, kept up by whoever does it, and one truck is late.
+	trucks = {name: frappe.db.get_value("Asset", {"asset_name": name}) for name, _late in demo.SERVICED}
+	day = getdate(today())
+	open_ = {
+		one.asset_maintenance: one
+		for one in frappe.get_all(
+			"Asset Maintenance Log",
+			filters={"docstatus": 0, "maintenance_status": ["in", ["Planned", "Overdue"]]},
+			fields=["name", "asset_maintenance", "due_date", "maintenance_status", "task_assignee_email"],
+		)
+	}
+	for name, late in demo.SERVICED:
+		log = open_[trucks[name]]
+		assert log.due_date and (getdate(log.due_date) < day) == late, (name, log)
+		assert log.maintenance_status == ("Overdue" if late else "Planned"), (name, log)
+		done = frappe.get_all("Asset Maintenance Log", filters={"asset_maintenance": trucks[name], "docstatus": 1}, fields=["owner"])
+		assert done and {one.owner for one in done} == {log.task_assignee_email}
+	late = frappe.get_doc("Asset Maintenance Log", open_[trucks["Pickup Truck 2"]].name)
+	assert heads.service_due(late)["tone"] == "alarm" and heads.service_asset(late)["value"] == "Pickup Truck 2"
+	with _Told() as told:
+		tell.services()
+	assert told.to("Service Late") == {"yousef@one.test", "tariq@one.test"}
+	assert told.to("Service Due") <= {"yousef@one.test", "tariq@one.test"}
+
+	# A schedule saved as Data Import would, without the form's sum, has its
+	# dates. A service whose date moved past today is no longer late.
+	plan = frappe.get_doc("Asset Maintenance", trucks["Pickup Truck 1"])
+	was = plan.asset_maintenance_tasks[0].next_due_date
+	plan.asset_maintenance_tasks[0].next_due_date = None
+	with as_user(demo.STORES):
+		plan.save()
+	assert str(plan.asset_maintenance_tasks[0].next_due_date) == str(was)
+	coming = frappe.get_doc("Asset Maintenance Log", open_[trucks["Pickup Truck 1"]].name)
+	coming.maintenance_status = "Overdue"
+	with as_user("yousef@one.test"):
+		coming.save()
+	assert coming.maintenance_status == "Planned"
+
+	# The truck mended on the garage's bill, and Huda's laptop waiting.
+	mended = frappe.get_doc("Asset Repair", {"asset": trucks["Pickup Truck 1"], "docstatus": 1})
+	bill = frappe.get_doc("Purchase Invoice", mended.invoices[0].purchase_invoice)
+	assert mended.repair_status == "Completed" and flt(mended.total_repair_cost) == 3850 and bill.supplier == demo.GARAGE
+	assert heads.repair_out(mended)["value"] == "5 days" and heads.repair_cost(mended)
+	waiting = frappe.get_doc("Asset Repair", {"repair_status": "Pending"})
+	assert frappe.db.get_value("Asset", waiting.asset, "status") == "Out of Order" and heads.repair_out(waiting)["tone"] == "alarm"
+
+	# The CNC centre written down by a tenth, into the books.
+	cut = frappe.get_doc("Asset Value Adjustment", {"docstatus": 1})
+	assert flt(cut.new_asset_value) < flt(cut.current_asset_value) and cut.owner == demo.BOOKS
+	assert heads.worth_change(cut)["tone"] == "alarm"
+	assert frappe.db.exists("Journal Entry", {"name": cut.journal_entry, "docstatus": 1})
+
+	# OneAI says how a piece of equipment is doing and who holds what, which
+	# services are due, and drafts a handover.
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai
+
+	with as_user(demo.STORES):
+		facts = ai.asset_facts("Pickup Truck 1")
+		assert facts["held_by"] == "Sanjay Patel" and facts["repairs"][0]["cost"] == 3850 and facts["next_service"]
+		assert [one["asset_name"] for one in ai.equipment_held("Yousef Bakr")["held"]] == ["Pickup Truck 2"]
+		due = ai.services_due()
+		assert due["late"] >= 1 and any(one["asset"] == "Pickup Truck 2" and one["late"] for one in due["services"])
+		card = ai.plan_handover("Laptop Mariam", "Yousef Bakr", why="Mariam is away for a month")
+		drafted = proposals.apply(card["proposal"])
+	handover = frappe.get_doc("Asset Movement", drafted["record"])
+	assert handover.docstatus == 0 and handover.assets[0].from_employee == mariam and handover.assets[0].to_employee == yousef.name
+	handover.delete()
+	with as_user("nadia@one.test"):
+		assert ai.asset_facts("Pickup Truck 1").get("error") and ai.equipment_held().get("error")
+		assert ai.services_due().get("error") and ai.plan_handover("Laptop Nadia", "Yousef Bakr").get("error")
+
+	# Who may do what: Yousef records services, Karim hands equipment over,
+	# Nadia sees none of it.
+	with as_user("yousef@one.test"):
+		assert frappe.has_permission("Asset Maintenance Log", "submit")
+	with as_user(demo.STORES):
+		assert frappe.has_permission("Asset Movement", "submit") and frappe.has_permission("Asset Repair", "submit")
+	with as_user("nadia@one.test"):
+		assert not frappe.has_permission("Asset", "read") and not frappe.has_permission("Asset Repair", "read")
+
+
+@check
 def onetask_a_task_opens_on_its_own_page():
 	"""A task opens on its page as its reader may see it: the villa's glass
 	says it is late, a phase lists its tasks as sub-tasks and not as what it

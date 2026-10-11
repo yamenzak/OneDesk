@@ -74,6 +74,11 @@ GIVEN = (
 	| {doctype: {"Purchase User": roles.USE, "Purchase Manager": roles.MANAGE} for doctype in SCORING}
 )
 
+# The people's officers see what a person holds and where it went, to ask
+# for it back when they leave. ERPNext gives assets to stock and accounts only.
+for doctype in ("Asset", "Asset Movement"):
+	GIVEN.setdefault(doctype, {}).update({"HR User": ("read",), "HR Manager": ("read",)})
+
 
 #: For roles that read already: once, so a change in Access stands.
 RAISED = {"Supplier": {"Purchase User": ("read", "write", "create"), "Purchase Manager": roles.MANAGE}}

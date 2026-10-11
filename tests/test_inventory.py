@@ -219,7 +219,7 @@ def test_a_schedule_with_an_end_date_is_due_until_the_end():
 def test_maintenance_is_on_the_calendar_once():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert '"onedesk.one_inventory.calendar.LAYERS"' in hooks
-	assert '"Asset Maintenance": {"validate": "onedesk.one_inventory.maintenance.due"}' in hooks
+	assert '"Asset Maintenance": {"before_validate": "onedesk.one_inventory.maintenance.due"}' in hooks
 	todos = (tree.APP / "one_task" / "calendar.py").read_text()
 	assert '["reference_type", "not in", ["Task", "Asset Maintenance"]]' in todos
 

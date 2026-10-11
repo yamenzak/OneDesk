@@ -1,10 +1,7 @@
-"""What OneAI does in OneInventory: reads an item as its page shows it, says
-what the stores hold, what is running low, what came in on a receipt and what
-is still to arrive, compares suppliers' quotes and says which orders are late,
-drafts a receipt for an order or a request for quotation for a material
-request, says what the workshop has in hand and how far a work order is,
-drafts a work order, and suggests a change to an item as its page makes it,
-as a card the reader approves.
+"""What OneAI does in OneInventory: reads items, the stores, receipts,
+deliveries, movements, counts, buying, the workshop and equipment as the
+reader sees them, and drafts what it suggests there as a card the reader
+approves. The README's Under the hood lists each tool.
 """
 
 from typing import Annotated
@@ -183,6 +180,31 @@ _MAKE = {
 	"expects": "plan_work_order",
 }
 
+_ASSET = {
+	"label": _lt("How is this asset doing?"),
+	"ask": _lt(
+		"How is this asset doing? Say who has it and where, what it is worth, its next service and whether it "
+		"is late, and its repairs."
+	),
+	"can": "read",
+	"doctype": "Asset",
+	"expects": "asset_facts",
+}
+_DUE = {
+	"label": _lt("Which services are due?"),
+	"ask": _lt("Which services on our equipment are late or due in the next month, and who does each?"),
+	"expects": "services_due",
+}
+_HAND = {
+	# The reader says to whom; the model suggests the card.
+	"label": _lt("Hand this to somebody…"),
+	"ask": _lt("Hand this asset to "),
+	"fill": True,
+	"can": "write",
+	"doctype": "Asset",
+	"expects": "plan_handover",
+}
+
 SUGGESTIONS = {
 	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
 	f"page:{PAGE}/stock": [_HOW, _ORDER],
@@ -202,6 +224,9 @@ SUGGESTIONS = {
 	"Work Order": [_HOW_FAR, _IN_HAND],
 	"BOM": [_MAKE, _IN_HAND],
 	"Job Card": [_IN_HAND],
+	"Asset": [_ASSET, _HAND, _DUE],
+	"Asset Maintenance Log": [_DUE],
+	"Asset Maintenance": [_DUE],
 }
 
 
@@ -1288,3 +1313,155 @@ def plan_work_order(
 		"state": "Proposed",
 	}
 
+
+
+def _asset_named(asset: str) -> str | None:
+	return frappe.db.get_value("Asset", {"name": asset}) or frappe.db.get_value("Asset", {"asset_name": asset})
+
+
+def asset_facts(asset: Annotated[str, "The asset, by its number or its name, such as Pickup Truck 1."]) -> dict:
+	"""One piece of equipment as its page says it: who has it and where it is
+	kept, what it cost and is worth now, its next service and whether it is
+	late, its repairs and what they cost, and changes to its value."""
+	from onedesk.one_inventory import assets
+	from onedesk.one_inventory.maintenance import next_service
+
+	name = _asset_named(asset)
+	if not name or not frappe.has_permission("Asset", "read", doc=name):
+		return {"error": f"No asset the reader may see is {asset}."}
+	doc = frappe.get_doc("Asset", name)
+	said = assets.said(name)
+	service = next_service(name) if doc.maintenance_required else None
+	repairs = frappe.get_all(
+		"Asset Repair",
+		filters={"asset": name, "docstatus": ["<", 2]},
+		fields=["name", "repair_status", "failure_date", "completion_date", "total_repair_cost", "description"],
+		order_by="failure_date desc",
+	)
+	return {
+		"asset": doc.name,
+		"name": doc.asset_name,
+		"item": doc.item_name or doc.item_code,
+		"status": doc.status,
+		"held_by": said["custodian_name"],
+		"kept_at": doc.location,
+		"cost": flt(said["cost"]),
+		"worth_now": flt(said["worth"]),
+		"next_service": {
+			"task": service.task_name,
+			"due": str(service.due_date),
+			"late": frappe.utils.getdate(service.due_date) < frappe.utils.getdate(frappe.utils.today()),
+		}
+		if service
+		else None,
+		"repairs": [
+			{
+				"status": one.repair_status,
+				"failed_on": str(one.failure_date),
+				"mended_on": str(one.completion_date) if one.completion_date else None,
+				"cost": flt(one.total_repair_cost),
+				"what": one.description,
+			}
+			for one in repairs
+		],
+		"value_changes": [
+			dict(one)
+			for one in frappe.get_all(
+				"Asset Value Adjustment",
+				filters={"asset": name, "docstatus": 1},
+				fields=["date", "current_asset_value as was", "new_asset_value as now"],
+			)
+		],
+	}
+
+
+def equipment_held(
+	employee: Annotated[str, "Whose equipment, by employee number or name. The reader's own when left out."] | None = None,
+) -> dict:
+	"""The company's equipment a person holds: what each is and where it is
+	kept. Read as the reader may see assets."""
+	if not frappe.has_permission("Asset", "read"):
+		return {"error": "The reader may not see the company's equipment."}
+	if employee:
+		found = frappe.db.get_value("Employee", {"name": employee}) or frappe.db.get_value("Employee", {"employee_name": employee})
+	else:
+		found = frappe.db.get_value("Employee", {"user_id": frappe.session.user})
+	if not found:
+		return {"error": f"No employee is called {employee}." if employee else "The reader has no employee record."}
+	held = frappe.get_list(
+		"Asset",
+		filters={"custodian": found, "docstatus": 1},
+		fields=["name", "asset_name", "item_name", "location", "status"],
+		order_by="asset_name",
+	)
+	return {
+		"employee": frappe.db.get_value("Employee", found, "employee_name"),
+		"held": [dict(one) for one in held],
+		"count": len(held),
+	}
+
+
+def services_due() -> dict:
+	"""Services on the company's equipment that are late or due within a
+	month, soonest first, with who does each. Read as the reader may see the
+	services."""
+	from frappe.utils import add_days, getdate, today
+
+	if not frappe.has_permission("Asset Maintenance Log", "read"):
+		return {"error": "The reader may not see services."}
+	day = getdate(today())
+	out = []
+	for one in frappe.get_list(
+		"Asset Maintenance Log",
+		filters={"docstatus": 0, "maintenance_status": ["in", ["Planned", "Overdue"]], "due_date": ["<=", add_days(day, 30)]},
+		fields=["name", "asset_maintenance", "task_name", "due_date", "assign_to_name"],
+		order_by="due_date asc",
+	):
+		out.append(
+			{
+				"service": one.name,
+				"asset": frappe.db.get_value("Asset", one.asset_maintenance, "asset_name") or one.asset_maintenance,
+				"task": one.task_name,
+				"due": str(one.due_date),
+				"late": getdate(one.due_date) < day,
+				"done_by": one.assign_to_name,
+			}
+		)
+	return {"services": out, "late": sum(1 for one in out if one["late"])}
+
+
+def plan_handover(
+	asset: Annotated[str, "The asset, by its number or its name, such as Laptop Mariam."],
+	employee: Annotated[str, "Who is given it, by employee number or name."],
+	why: Annotated[str, "In a sentence, why it is handed over."] | None = None,
+) -> dict:
+	"""Suggest handing a piece of equipment to a person, from whoever has it
+	now, as a card the reader approves. It is a draft handover until it is
+	submitted, which tells the person and makes the sheet they sign."""
+	from erpnext import get_default_company
+
+	from onedesk.one_ai import proposals
+
+	if not frappe.has_permission("Asset Movement", "create"):
+		return {"error": "The reader may not hand equipment over."}
+	name = _asset_named(asset)
+	if not name:
+		return {"error": f"No asset is called {asset}."}
+	to = frappe.db.get_value("Employee", {"name": employee, "status": "Active"}) or frappe.db.get_value(
+		"Employee", {"employee_name": employee, "status": "Active"}
+	)
+	if not to:
+		return {"error": f"Nobody working here is called {employee}."}
+	holder = frappe.db.get_value("Asset", name, "custodian")
+	if holder == to:
+		return {"error": f"{employee} already has it."}
+	row = {"asset": name, "to_employee": to}
+	if holder:
+		row["from_employee"] = holder
+	changes = {
+		"purpose": "Issue",
+		"company": get_default_company(),
+		"transaction_date": str(frappe.utils.now_datetime()),
+		"assets": [row],
+	}
+	return {"proposal": proposals.propose("Create", "Asset Movement", changes=changes, why=why), "state": "Proposed"}

@@ -1,0 +1,15 @@
+{
+ "custom_fields": [],
+ "doctype": "Asset Value Adjustment",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Asset Value Adjustment",
+   "doctype_or_field": "DocType",
+   "property": "autoname",
+   "property_type": "Data",
+   "value": "format:ACC-AVA-{YYYY}-{#####}"
+  }
+ ],
+ "sync_on_migrate": 1
+}

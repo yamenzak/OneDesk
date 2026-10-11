@@ -168,6 +168,8 @@ scheduler_events = {
 	"daily": [
 		# Goods past their date on an order, told to whoever ordered them. See one_inventory/tell.py.
 		"onedesk.one_inventory.tell.orders_late",
+		# A service due within a week, or late, told to whoever does it. See one_inventory/tell.py.
+		"onedesk.one_inventory.tell.services",
 		# Privacy requests nobody decided in a week. See one/privacy.py.
 		"onedesk.one.privacy.remind",
 		# Retention falling due today is told. See one_project/retention.py.
@@ -417,8 +419,12 @@ doc_events = {
 	},
 	# The assets register finishes itself. See one_inventory/assets.py.
 	"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"},
-	# A schedule with an end date is due too. See one_inventory/maintenance.py.
-	"Asset Maintenance": {"validate": "onedesk.one_inventory.maintenance.due"},
+	# Whoever is given equipment is told. See one_inventory/tell.py.
+	"Asset Movement": {"on_submit": "onedesk.one_inventory.tell.handed_over"},
+	# Every task on a schedule has its next date. See one_inventory/maintenance.py.
+	"Asset Maintenance": {"before_validate": "onedesk.one_inventory.maintenance.due"},
+	# A service moved past today is no longer late. See one_inventory/maintenance.py.
+	"Asset Maintenance Log": {"before_validate": "onedesk.one_inventory.maintenance.on_time"},
 	"Purchase Receipt": {
 		"validate": ["onedesk.one_inventory.assets.located", "onedesk.one_project.chain.agree"],
 		"on_submit": "onedesk.one_inventory.assets.registered",
@@ -1201,9 +1207,12 @@ one_makes_records = {
 	"Appraisal": ["one_hr"],
 	"Asset": ["one_inventory"],
 	"Asset Category": ["one_inventory"],
+	"Asset Maintenance": ["one_inventory"],
 	"Asset Maintenance Log": ["one_inventory"],
 	"Asset Maintenance Team": ["one_inventory"],
 	"Asset Movement": ["one_inventory"],
+	"Asset Repair": ["one_inventory"],
+	"Asset Value Adjustment": ["one_inventory"],
 	"Attendance Request": ["one_hr"],
 	"BOM": ["one_inventory"],
 	"Bank": ["one_book"],
@@ -1351,6 +1360,10 @@ one_ai_reads = [
 	# What the workshop has in hand, and how far one work order is.
 	"onedesk.one_inventory.ai.work_in_hand",
 	"onedesk.one_inventory.ai.work_order_facts",
+	# How a piece of equipment is doing, who holds what and which services are due.
+	"onedesk.one_inventory.ai.asset_facts",
+	"onedesk.one_inventory.ai.equipment_held",
+	"onedesk.one_inventory.ai.services_due",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1477,6 +1490,8 @@ one_ai_suggests = [
 	"onedesk.one_inventory.ai.plan_quote_request",
 	# A draft work order from an item's bill of materials. See one_inventory/ai.py.
 	"onedesk.one_inventory.ai.plan_work_order",
+	# A draft handover of a piece of equipment. See one_inventory/ai.py.
+	"onedesk.one_inventory.ai.plan_handover",
 	"onedesk.one_studio.ai.write_extension",
 	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",

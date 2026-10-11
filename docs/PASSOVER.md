@@ -10359,8 +10359,8 @@ page of its own, and Quality Management stays out.
 | 5 | Moving and counting | done |
 | 6 | Buying | done |
 | 7 | Making | done |
-| 8 | Equipment | next |
-| 9 | Reports and Setup | |
+| 8 | Equipment | done |
+| 9 | Reports and Setup | next |
 | 10 | Across modules | |
 | 11 | Closed against the standard | |
 
@@ -11031,3 +11031,95 @@ Fixed:
 | 17 Clean code | lint clean, making's rule in its own file, the guard on records made still noted |
 | Everything follows frappe | the forms, the lists and the print are frappe's and ERPNext's own |
 | What ERPNext already does | operating cost from job cards' time, a part-done job card's rest still to do, the project carried to every movement, subcontracting's materials and receipt |
+
+#### 8. Equipment
+
+Looked at as Karim on the assets, an asset, the movements, the maintenance
+log, a schedule, the repairs and the Asset Register. As Yousef on his truck
+and its service, as Mariam on Yousef's page and the assets, as Huda on the
+CNC centre, a new value adjustment and a new repair, and on a phone. And at
+the code ERPNext runs when a schedule is saved, a service is done, an asset
+is handed over, mended or written down.
+
+Found:
+
+- **Works (1)**, **Rules on the server (2)**: no service was due. ERPNext's
+  form works out a schedule's next date as it is typed, so the demo's
+  schedules, saved without the form, had none, and nothing was on anybody's
+  calendar or the asset's band. Data Import and OneAI would have done the
+  same.
+- **What ERPNext already does**: a service marked Overdue keeps the mark
+  when its date moves past today, so the one after a late service was
+  shown late too.
+- **Hand-offs (3)**, **Permissions (15)**: Mariam, who runs HR, could not
+  open the assets, so Yousef's page did not say he holds a truck, and the
+  list a leaver's return tasks point at was closed to her.
+- **Notifications (10)**: nobody was told they were given equipment, or
+  that a service was due or late.
+- **Printed (11)**: nothing to sign when equipment is handed over.
+- **Our look (5)**: no head on a movement, a schedule, a service, a repair
+  or a value adjustment. The service log showed its task's hash, named the
+  asset by its number, and listed nothing but numbers and dates. The assets
+  list did not say who has each. A value adjustment was named at random.
+  The life chart's labels read as days ("Feb 30").
+- **Demo coverage (1)**: no asset bought on a receipt, no handover after
+  the first, no service done, no repair and no value adjustment.
+- **Knows (13)**: OneAI read nothing of equipment.
+- **Legal (16)**: OneInventory said nothing in the agreements, while it
+  keeps who holds what and has them sign for it.
+
+Fixed:
+
+- **Rules on the server (2)**: `maintenance.due`, now on before_validate,
+  works out every task's next date that is missing or whose dates changed.
+  `maintenance.on_time` puts a log moved past today back to Planned. A
+  patch saves the schedules saved without dates.
+- **Hand-offs (3)**, **Permissions (15)**: the HR roles read assets and
+  their movements (`access.py`), and change none of it.
+- **Notifications (10)**: **Equipment Handed Over** to the person given it.
+  **Service Due** a week ahead to whoever does it, and **Service Late** to
+  them and the team's manager, each told once (`tell.services`, daily).
+- **Printed (11)**: One Equipment Handover, what was given, to whom with
+  their job and department, by whom, and the line they sign to look after it.
+- **Our look (5)**: heads on Asset Movement (Equipment, From, To, On), Asset
+  Maintenance (Asset, Next Service, Services Done, Team), Asset Maintenance
+  Log (Asset, Due, Done By, Last Done), Asset Repair (Asset, Out of Use,
+  Cost) and Asset Value Adjustment (Asset, Was Worth, Now Worth, Change). An
+  asset's band counts its Repairs. The service log is titled by its task,
+  lists the item and who does it, and hides the hash. The assets list shows
+  who has each. Value adjustments are numbered ACC-AVA-. The life chart
+  says the month and year.
+- **Demo coverage (1)**: Yousef and Tariq keep up the services, Pickup Truck
+  2's last one late. Karim buys Mariam a laptop on a receipt that registers
+  it and hands it to her. Pickup Truck 1's gearbox is mended on Emirates
+  Fleet Motors' bill, Huda's laptop waits for a screen, and Huda writes the
+  CNC centre down by a tenth. The new check covers it all.
+- **Knows (13)**: `asset_facts`, `equipment_held`, `services_due` and
+  `plan_handover`, with How is this asset doing, Hand this to somebody and
+  Which services are due on the pages. The README's Mending equipment and
+  its value, and the rest of the equipment sections brought up to date.
+- **Legal (16)**: `one_inventory/legal.py`, a privacy clause on who holds
+  what and the handover, and an AI clause on what OneAI reads and drafts in
+  OneInventory. Privacy Policy 23, AI Addendum 20.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | services kept up and one late, a laptop bought and handed over, a repair on a garage's bill and one waiting, a value adjustment, and the new check |
+| 2 Rules on the server | a schedule's dates and a service's Overdue mark, on before_validate |
+| 3 Hand-offs | HR sees what a person holds, a repair takes its cost from a supplier's bill, a value adjustment posts a journal entry |
+| 4 Tier declared | Asset Movement, Asset Maintenance, Asset Maintenance Log, Asset Repair and Asset Value Adjustment in HEADS |
+| 5 Our look | five new heads, the asset's Repairs, the lists, at 1440 wide and on a phone |
+| 6 Nothing lost | every field kept, the hidden task link a hash ERPNext reads for itself |
+| 7 Extensible | the heads' bands take what is written for them |
+| 8 Built from frappe | ERPNext's movements, schedules, logs, repairs and value adjustments, and the print in frappe's builder |
+| 9 Overrides recorded | the due dates, the Overdue mark, HR reading assets and the lists (346 rows) |
+| 10 Notifications | Equipment Handed Over, Service Due, Service Late |
+| 11 Printed | One Equipment Handover |
+| 12 Plain words | every label, row and note, in Arabic and German |
+| 13 Documented, OneAI | the README's equipment sections, four tools |
+| 14 Intake | a garage's bill is still to come, with step 10 |
+| 15 Permissions | Karim hands over and mends, Yousef records services, Mariam reads, Nadia sees none of it |
+| 16 Legal | OneInventory's first clauses, Privacy Policy 23 and AI Addendum 20 |
+| 17 Clean code | lint clean, the rules in maintenance.py, the tools in ai.py |
+| Everything follows frappe | the forms, the lists and the print are frappe's and ERPNext's own |
+| What ERPNext already does | depreciation from the schedule, a repair's downtime, Out of Order while it waits, the value change in the books, the custodian from the latest movement |

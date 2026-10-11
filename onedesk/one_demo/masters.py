@@ -60,6 +60,7 @@ ITEMS = (
 	("SVC-SUB", "Subcontract Installation", "Services", "Lump Sum", "service", 0, None, 0),
 	("SVC-SCAF", "Scaffolding Hire", "Services", "Nos", "service", 2200, None, 0),
 	("SVC-TRANS", "Transport", "Services", "Nos", "service", 650, None, 0),
+	("SVC-VREP", "Vehicle Repair", "Services", "Nos", "service", None, None, 0),
 	("OFF-SUP", "Office Supplies", "Consumable", "Nos", "service", 150, None, 0),
 	("VEH-PICKUP", "Pickup Truck", "Fixed Assets", "Nos", "asset", 145000, None, 0),
 	("MCH-CNC", "CNC Profile Machining Centre", "Fixed Assets", "Nos", "asset", 520000, None, 0),

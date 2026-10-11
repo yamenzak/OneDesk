@@ -1,0 +1,63 @@
+{
+ "custom_fields": [],
+ "doctype": "Asset Maintenance Log",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "task_name"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "task_name"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "item_name"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "assign_to_name"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "completion_date"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "task"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "task_assignee_email"
+  }
+ ],
+ "sync_on_migrate": 1
+}

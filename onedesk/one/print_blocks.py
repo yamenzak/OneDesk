@@ -24,6 +24,7 @@ TITLES = {
 	"Request for Quotation": (_lt("Request for Quotation"), _lt("Request No")),
 	"Blanket Order": (_lt("Blanket Order"), _lt("Agreement No")),
 	"Work Order": (_lt("Work Order"), _lt("Order No")),
+	"Asset Movement": (_lt("Equipment Handover"), _lt("Handover No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
 	"Salary Slip": (_lt("Payslip"), _lt("Payslip No")),
 	"Job Offer": (_lt("Job Offer"), _lt("Offer No")),
@@ -73,6 +74,7 @@ DETAILS = {
 	"Request for Quotation": ((_lt("Date"), "transaction_date"),),
 	"Blanket Order": ((_lt("Date"), "order_date"), (_lt("From"), "from_date"), (_lt("To"), "to_date")),
 	"Work Order": ((_lt("Starts On"), "planned_start_date"), (_lt("Wanted By"), "expected_delivery_date")),
+	"Asset Movement": ((_lt("Date"), "transaction_date"),),
 	"Payment Entry": (
 		(_lt("Date"), "posting_date"),
 		(_lt("Paid By"), "mode_of_payment"),
@@ -106,6 +108,8 @@ PARTIES = {
 	"Blanket Order": (_lt("Agreed With"), None),
 	# A work order is made for a project or a customer's order, when it is.
 	"Work Order": (_lt("Made For"), None),
+	# Equipment is handed to a person, or put back at a location.
+	"Asset Movement": (_lt("Handed To"), None),
 	"Purchase Receipt": (_lt("Received From"), "supplier_name"),
 	"Pick List": (_lt("For"), "customer_name"),
 	# A packing slip names its customer through its delivery note.
@@ -137,6 +141,7 @@ FORMATS = {
 	"Request for Quotation": ("One Request for Quotation", "one_inventory"),
 	"Blanket Order": ("One Blanket Order", "one_inventory"),
 	"Work Order": ("One Work Order", "one_inventory"),
+	"Asset Movement": ("One Equipment Handover", "one_inventory"),
 	"Salary Slip": ("One Payslip", "one_hr"),
 	"Job Offer": ("One Job Offer", "one_hr"),
 	"Appointment Letter": ("One Appointment Letter", "one_hr"),
@@ -155,6 +160,8 @@ SIGNED = {
 	"Pick List": ((_lt("Picked By"), None), (_lt("Checked By"), None)),
 	"Packing Slip": ((_lt("Packed By"), None), (_lt("Received By"), None)),
 	"Stock Entry": ((_lt("Sent By"), None), (_lt("Received By"), None)),
+	# Whoever hands the equipment over, and whoever takes it, by name.
+	"Asset Movement": ((_lt("Handed Over By"), None), (_lt("Received By"), None)),
 	"Job Offer": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
 	# The customer billed for the time signs that the hours are theirs.
@@ -303,6 +310,8 @@ def party(doc) -> dict:
 		field = "supplier_name" if doc.get("blanket_order_type") == "Purchasing" else "customer_name"
 	if doc.doctype == "Work Order":
 		return _made_for(doc, heading)
+	if doc.doctype == "Asset Movement":
+		return _handed_to(doc, heading)
 	name = (doc.get(field) if field else None) or doc.get("party_name") or doc.get("customer") or doc.get("supplier")
 	lines = []
 	if doc.doctype in ("Salary Slip", "Timesheet"):
@@ -348,6 +357,28 @@ def _moved_to(doc, heading) -> dict:
 		"name": place.warehouse_name,
 		"lines": [one for one in (place.address_line_1, place.address_line_2, place.city, place.phone_no) if one],
 	}
+
+
+def _holders(doc, field: str) -> list[str]:
+	"""The employees on a handover's lines, by name."""
+	names = dict.fromkeys(row.get(field) for row in doc.assets if row.get(field))
+	return [frappe.db.get_value("Employee", one, "employee_name") or one for one in names]
+
+
+def _handed_to(doc, heading) -> dict:
+	"""Whoever the equipment goes to, with their job and department, or the
+	location it is put back at."""
+	people = {row.to_employee for row in doc.assets if row.to_employee}
+	if len(people) == 1:
+		person = frappe.db.get_value(
+			"Employee", people.pop(), ["employee_name", "designation", "department"], as_dict=True
+		)
+		lines = [person.designation, person.department]
+		return {"heading": str(heading), "name": person.employee_name, "lines": [one for one in lines if one]}
+	places = {row.target_location for row in doc.assets if row.target_location}
+	if not people and len(places) == 1:
+		return {"heading": _("Kept At"), "name": places.pop(), "lines": []}
+	return {}
 
 
 def details(doc) -> dict:
@@ -509,6 +540,8 @@ def payment(doc) -> dict:
 def signatures(doc) -> dict:
 	if doc.doctype not in SIGNED:
 		return {}
+	if doc.doctype == "Asset Movement":
+		return _handover_signatures(doc)
 	sides = []
 	for heading, field in SIGNED[doc.doctype]:
 		if field == "company":
@@ -520,6 +553,25 @@ def signatures(doc) -> dict:
 		else:
 			sides.append({"heading": str(heading), "name": doc.get(field) if field else None})
 	return {"sides": sides, "signature": _("Signature"), "date": _("Date")}
+
+
+def _handover_signatures(doc) -> dict:
+	"""Who gave the equipment and who took it, each by name when one person
+	did, and what the person taking it agrees to."""
+	(given, _given), (taken, _taken) = SIGNED["Asset Movement"]
+	gave, took = _holders(doc, "from_employee"), _holders(doc, "to_employee")
+	return {
+		"sides": [
+			# From the stores rather than a person, the company hands it over.
+			{"heading": str(given), "name": gave[0] if len(gave) == 1 else None if gave else _company(doc)},
+			{"heading": str(taken), "name": took[0] if len(took) == 1 else None},
+		],
+		"pledge": _("I have received the equipment above in good order. I will look after it, and give it back when I am asked.")
+		if took
+		else None,
+		"signature": _("Signature"),
+		"date": _("Date"),
+	}
 
 
 #: How many of a project's open tasks a status lists, soonest first.

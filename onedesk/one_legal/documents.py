@@ -114,9 +114,9 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 22: a project's Time view shows each person's hours, their cost only to those who see rates.
+		# 23: OneInventory keeps who holds which equipment, and the handover they sign.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 22,
+		"revision": 23,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -145,9 +145,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 19: OneAI suggests a change to a task, made only when you approve it.
+		# 20: what OneAI reads and drafts in OneInventory, equipment included.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 19,
+		"revision": 20,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

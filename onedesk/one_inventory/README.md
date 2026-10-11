@@ -354,13 +354,19 @@ The Inventory Check's **Every asset is registered** turns **To Do** if one
 could not register itself, and each says why on its page.
 
 Equipment you already had is **Assets › + Add** with **Existing Asset**.
+The list says who has each piece.
 
 ## Who has what
 
-On an asset's page, **Give To…** asks for the employee and hands it over;
-once somebody has it, **Hand To…** passes it to somebody else and **Take
-Back** returns it to a location. The band says **Who Has It**, and the
-person's own page says how much equipment they hold. When somebody leaves,
+On an asset's page, **Give To…** asks for the employee and hands it over.
+Once somebody has it, **Hand To…** passes it to somebody else and **Take
+Back** returns it to a location. The person is told it is in their care.
+Each handover prints as an **Equipment Handover** for them to sign: what
+they were given, who gave it, and that they will look after it and give it
+back when asked.
+
+The band says **Who Has It**, and the person's own page says how much
+equipment they hold, to whoever runs HR as well. When somebody leaves,
 their separation gets a **Return** task for each thing they hold, and their
 final settlement cannot be submitted until everything is back.
 
@@ -375,7 +381,25 @@ when they turn it on; clicking one opens it to record it done, and the next
 one is worked out from that day. The asset's page says its **Next Service**,
 in red once it is late.
 
-The first schedule needs a maintenance team; the Inventory Check makes one.
+The first schedule needs a maintenance team. The Inventory Check makes one.
+
+Whoever does a service is told a week before it is due. Once it is late,
+they and the team's manager are told. A schedule brought in from a
+spreadsheet or by OneAI has its dates worked out the same as one typed in.
+
+## Mending equipment and its value
+
+When something breaks, **Assets › Repairs › + Add**: the asset, when it
+failed, and what is wrong. It shows **Out of Order** until the repair is
+**Completed**. The garage's bill is entered as a supplier bill first, booked
+to repairs, and the repair takes its cost from it. Its band says how long
+the asset was **Out of Use** and what it **Cost**. The asset's band counts
+its **Repairs**.
+
+When something is worth less than its books say, after damage for
+instance, **More › Asset Value Adjustments** sets its new value. The
+difference is posted to the account you choose, and its band says what it
+**Was Worth**, is **Now Worth** and the **Change**.
 
 ## Moving stock
 
@@ -438,6 +462,10 @@ Using OneInventory includes making: its users make bills of materials, work
 orders and job cards, and its managers also run Manufacturing Settings and
 which supplier makes what for the company.
 
+Whoever works in HR reads the equipment register and its handovers, to see
+what a person holds and ask for it back when they leave. They change none
+of it.
+
 ## What is kept where
 
 OneCRM keeps customers, quotations and the sales order a won deal becomes;
@@ -453,9 +481,9 @@ split.
 - **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A work order for a project names it, and so do the movements it makes. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and Buying › Suppliers opens the same supplier there. A supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal.
-- **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant.
+- **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant. A repair takes its cost from the garage's bill, and an asset's value adjustment posts a journal entry.
 - **To OneProject**: What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way, and so do the materials a project's work orders use. Its manager is told when one is made.
-- **To OneHR**: An employee's page shows how much equipment they hold. When they leave, their separation gets a Return task for each piece.
+- **To OneHR**: An employee's page shows how much equipment they hold, to HR as well, who may read the register. A person given equipment is told and signs the handover. When they leave, their separation gets a Return task for each piece.
 - **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
 
 ## Under the hood
@@ -595,7 +623,10 @@ a register and a movement form in it would be a rail with five rows.
   `running_low` lists what is at or below its reorder level as ERPNext's
   reordering reads it, `work_in_hand` the open work orders and their steps,
   `work_order_facts` one work order's materials, steps and cost so far,
-  `plan_work_order` drafts a work order from an item's bill, and
+  `plan_work_order` drafts a work order from an item's bill,
+  `asset_facts` reads a piece of equipment as its page does, with its
+  repairs, `equipment_held` what a person holds, `services_due` the services
+  late or due within a month, `plan_handover` drafts a handover, and
   `plan_item_change` suggests a change as a card.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps
   at `?edit=1`. ERPNext has every figure in a different place, the Bins
@@ -684,6 +715,14 @@ a register and a movement form in it would be a rail with five rows.
   Return activity per asset for the Stock Manager role (`returns`, pure);
   HRMS turns activities into tasks on submit, and its Full and Final
   Statement already refuses to submit while an asset is out.
+  `tell.handed_over` (Asset Movement on_submit) tells whoever is given
+  something, and `print_format/one_equipment_handover` is the sheet they
+  sign (print_blocks `_handed_to`, `_handover_signatures`). `access.py`
+  lets HR read assets and their movements, so a person's page shows what
+  they hold. `tell.services` (daily) tells a service due within a week to
+  whoever does it, and a late one to them and the team's manager, each once.
+  Repairs, value adjustments, movements, schedules and logs each have a head
+  (`heads.py`), and the lists name the asset, the person and the date.
 
   ERPNext keeps it on the asset (`custodian`) and changes it only through an
   **Asset Movement**: a form with a purpose, a date and time, and a table of
@@ -702,8 +741,12 @@ a register and a movement form in it would be a rail with five rows.
 - `maintenance.py` and `calendar.py` — maintenance due. ERPNext's
   `calculate_next_due_date` blanks the next due date whenever a task has an
   end date (`or next_due_date` is true as soon as there is one), so a task
-  that runs until the warranty ends is never due and gets no log; `due`
-  (Asset Maintenance validate) works it out again (`next_due`, pure). Three
+  that runs until the warranty ends is never due and gets no log, and only
+  the form works it out at all, so a schedule saved any other way has none.
+  `due` (Asset Maintenance before_validate) works it out for every task that
+  has none or whose dates changed (`next_due`, pure). `on_time` (Asset
+  Maintenance Log before_validate) puts a log moved past today back to
+  Planned, as ERPNext marks one Overdue and never takes it back. Three
   calendar layers read the Asset Maintenance Logs: the reader's own, the
   workspace's, and an asset's own calendar. ERPNext also assigns one to-do per
   schedule and person, dated for its first task only; the Assigned to Me
@@ -720,9 +763,10 @@ a register and a movement form in it would be a rail with five rows.
     `calculate_next_due_date` blanks the next due date whenever an end date
     is set (`or next_due_date` is true as soon as there is one), so a task
     that runs until the warranty ends has no due date, no log and no
-    reminder. `due` (Asset Maintenance validate) works the date out again
-    for those, from ERPNext's own periodicities (`next_due`, pure), and
-    leaves it empty only when the next one falls after the end.
+    reminder. `due` (Asset Maintenance before_validate) works the date out
+    again for those, and for a schedule saved without the form, from
+    ERPNext's own periodicities (`next_due`, pure), and leaves it empty only
+    when the next one falls after the end.
   - **Due maintenance was on no calendar.** One's calendar has three layers
     for it (`calendar.py`): the reader's own, everybody's, and an asset's
     own, each opening the log to record it done. An asset's page says when

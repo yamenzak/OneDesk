@@ -19,7 +19,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 |---|---|
 | setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
 | people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
-| masters | 10 customers and 11 suppliers in four currencies, 25 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
+| masters | 10 customers and 11 suppliers in four currencies, 26 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
 | stock | The stock the year opened with |
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, broken glass sent back with a debit note on its bill, euro orders, an order received and not billed |
 | crm | Leads from every source in every status, deals at every stage in three currencies, calls, quotations won and lost, a lead turned customer, two leads from the Get in Touch form with nobody owning them, one maybe a lead we have |
@@ -28,7 +28,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee, an order delivered and not invoiced |
 | moving | The villa's materials sent to its site on a transfer note and used there by Tariq, and a count of the stores that finds three hinges short, posted as a loss |
 | ordering | Rania's request for the villa's site priced by Al Noor and by Emirates Sealants on the portal, each line ordered from whoever is cheaper, Al Noor late with theirs, Al Noor's aluminium agreed for the year on a blanket order and the villa's profile ordered against it, the quotes that lost expired, the glass order Gulf Glass credited closed, and Gulf Glass and Al Noor scored each month |
-| assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance |
+| assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance. Yousef and Tariq keep up the services the day after each falls due, and leave Pickup Truck 2's last one late. Karim buys Mariam a laptop on a receipt that registers it, and hands it to her. Pickup Truck 1's gearbox is mended on Emirates Fleet Motors' bill, Huda's laptop waits for a new screen, and Huda writes the CNC centre down by a tenth after a spindle crash |
 | books | The bank account, opening balances, rent and utilities each month. A tax template brings its taxes (the Books Check) |
 | hr | Pay, three payroll runs, and three more for Imran, an installer paid by the hour from his timesheets, so Profit on Billed Hours has rows. Leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |

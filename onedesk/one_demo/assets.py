@@ -1,13 +1,19 @@
 """What Sahara owns: two pickups, the CNC centre and the office laptops,
 each with who has it, what it is worth after depreciation, and when it is
-next due a service."""
+next due a service. Services are kept up, one truck's late. Mariam's laptop
+is bought on a receipt and handed to her, a truck's gearbox is mended on the
+garage's bill, Huda's laptop is waiting for a new screen, and the CNC
+centre is written down after a crash. The demo README's assets row tells it
+in full."""
 
 import frappe
-from frappe.utils import get_last_day
+from frappe.utils import add_days, get_last_day, getdate
 
-from onedesk.one_demo.base import COMPANY, as_user, make, on, today
+from onedesk.one_demo.base import COMPANY, account, ago, as_user, dated, make, on, save, today
 
 STORES = "karim@one.test"
+BOOKS = "huda@one.test"
+GARAGE = "Emirates Fleet Motors"
 
 #: name, item, location, bought (years back, month, day), cost, custodian
 ASSETS = (
@@ -67,6 +73,14 @@ def run(password=None):
 	from erpnext.assets.doctype.asset.depreciation import post_depreciation_entries
 
 	post_depreciation_entries()
+	for name, late in SERVICED:
+		_serviced(name, late)
+	if not frappe.db.exists("Purchase Order Item", {"item_code": "IT-LAPTOP", "docstatus": 1}):
+		_laptop()
+	if not frappe.db.exists("Asset Repair", {"docstatus": ["<", 2]}):
+		_mended()
+	if not frappe.db.exists("Asset Value Adjustment", {"docstatus": 1}):
+		_written_down()
 
 
 def _maintenance():
@@ -106,3 +120,127 @@ def _maintenance():
 				],
 			}
 		)
+
+
+#: Equipment whose services are kept up, and whether its last one is late.
+SERVICED = (("Pickup Truck 1", False), ("Pickup Truck 2", True), ("CNC Profile Machining Centre", False))
+
+
+def _serviced(name, late):
+	"""Each service done the day after it fell due, by whoever does it, up to
+	the one still to come. A late truck's last one is left undone."""
+	from onedesk.one_inventory.maintenance import next_due
+
+	asset = frappe.db.get_value("Asset", {"asset_name": name})
+	day = getdate(today())
+	while True:
+		log = frappe.db.get_value(
+			"Asset Maintenance Log",
+			{"asset_maintenance": asset, "docstatus": 0, "maintenance_status": ["in", ["Planned", "Overdue"]]},
+			["name", "due_date", "periodicity", "task_assignee_email"],
+			as_dict=True,
+		)
+		if not log or not log.due_date or getdate(log.due_date) > day:
+			return
+		if late and getdate(next_due(log.periodicity, log.due_date)) > day:
+			return
+		with as_user(log.task_assignee_email):
+			done = frappe.get_doc("Asset Maintenance Log", log.name)
+			done.maintenance_status = "Completed"
+			done.completion_date = min(add_days(log.due_date, 1), day)
+			done.actions_performed = "Checked and serviced as the schedule says."
+			save(done, submit=True)
+
+
+def _laptop():
+	"""Mariam's laptop, bought from Gulf Office Supplies on a receipt that
+	registers it, and handed to her."""
+	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
+
+	from onedesk.one_inventory import custody
+
+	with as_user(STORES):
+		order = frappe.new_doc("Purchase Order")
+		order.update({"supplier": "Gulf Office Supplies", "company": COMPANY, "schedule_date": ago(15)})
+		dated(order, ago(20), "transaction_date")
+		order.append("items", {"item_code": "IT-LAPTOP", "qty": 1, "rate": 5900, "schedule_date": ago(15)})
+		order = save(order, submit=True)
+		receipt = frappe.get_doc(make_purchase_receipt(order.name))
+		dated(receipt, ago(14))
+		for row in receipt.items:
+			row.asset_location = "Head Office"
+		receipt.supplier_delivery_note = "GOS-DN-1180"
+		receipt = save(receipt, submit=True)
+		asset = frappe.get_doc("Asset", {"purchase_receipt": receipt.name})
+		asset.asset_name = "Laptop Mariam"
+		asset.save()
+		custody.give(asset.name, frappe.db.get_value("Employee", {"user_id": "mariam@one.test"}))
+
+
+def _mended():
+	"""Pickup Truck 1's gearbox slipped, and Emirates Fleet Motors mended it
+	on a bill booked to repairs. Huda's laptop screen cracked two days ago
+	and waits for its repair."""
+	repairs = account("Repairs and Maintenance")
+	if not frappe.db.exists("Account", repairs):
+		with as_user(BOOKS):
+			make(
+				{
+					"doctype": "Account",
+					"account_name": "Repairs and Maintenance",
+					"parent_account": frappe.db.get_value(
+						"Account", {"company": COMPANY, "account_name": "Indirect Expenses", "is_group": 1}
+					),
+					"company": COMPANY,
+					"account_type": "Expense Account",
+				}
+			)
+	with as_user(BOOKS):
+		bill = frappe.new_doc("Purchase Invoice")
+		bill.update({"supplier": GARAGE, "company": COMPANY, "bill_no": "EFM-INV-2231", "bill_date": ago(34)})
+		dated(bill, ago(34))
+		bill.append("items", {"item_code": "SVC-VREP", "qty": 1, "rate": 3850, "expense_account": repairs})
+		bill = save(bill, submit=True)
+	with as_user(STORES):
+		truck = frappe.db.get_value("Asset", {"asset_name": "Pickup Truck 1"})
+		make(
+			{
+				"doctype": "Asset Repair",
+				"asset": truck,
+				"company": COMPANY,
+				"failure_date": f"{ago(40)} 08:30:00",
+				"completion_date": f"{ago(35)} 17:00:00",
+				"repair_status": "Completed",
+				"description": "The gearbox slips in third gear.",
+				"actions_performed": "Emirates Fleet Motors replaced the clutch pack.",
+				"invoices": [{"purchase_invoice": bill.name, "expense_account": repairs, "repair_cost": 3850}],
+			},
+			submit=True,
+		)
+		make(
+			{
+				"doctype": "Asset Repair",
+				"asset": frappe.db.get_value("Asset", {"asset_name": "Laptop Huda"}),
+				"company": COMPANY,
+				"failure_date": f"{ago(2)} 10:00:00",
+				"repair_status": "Pending",
+				"description": "The screen is cracked and stays dark.",
+			}
+		)
+
+
+def _written_down():
+	"""The CNC centre's spindle crashed, and Huda writes it down by a tenth."""
+	with as_user(BOOKS):
+		cut = frappe.new_doc("Asset Value Adjustment")
+		cut.update(
+			{
+				"asset": frappe.db.get_value("Asset", {"asset_name": "CNC Profile Machining Centre"}),
+				"company": COMPANY,
+				"date": ago(25),
+				"difference_account": account("Impairment"),
+			}
+		)
+		cut.set_current_asset_value()
+		cut.new_asset_value = round(cut.current_asset_value * 0.9, -3)
+		save(cut, submit=True)

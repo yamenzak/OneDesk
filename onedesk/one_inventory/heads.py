@@ -696,6 +696,121 @@ def sub_order(doc):
 	return {"value": orders[0], "route": f"/desk/subcontracting-order/{quote(orders[0])}"}
 
 
+# ------------------------------------------------------------------ equipment
+
+
+def _equipment(name: str) -> dict | None:
+	"""An asset by its own name, opening it."""
+	if not name:
+		return None
+	called = frappe.db.get_value("Asset", name, "asset_name") or name
+	return {"value": called, "route": f"/desk/asset/{quote(name)}"}
+
+
+def _people(names) -> dict | None:
+	"""Employees by their names, one opening their page."""
+	names = list(dict.fromkeys(one for one in names if one))
+	if not names:
+		return None
+	if len(names) > 1:
+		return {"value": _("{0} people").format(len(names))}
+	called = frappe.db.get_value("Employee", names[0], "employee_name") or names[0]
+	return {"value": called, "route": f"/desk/employee/{quote(names[0])}"}
+
+
+def _locations(names) -> dict | None:
+	names = list(dict.fromkeys(one for one in names if one))
+	if not names:
+		return None
+	return {"value": names[0] if len(names) == 1 else _("{0} places").format(len(names))}
+
+
+def handed_what(doc):
+	"""What moved: one asset by its name, or how many."""
+	names = list(dict.fromkeys(row.asset for row in doc.assets if row.asset))
+	if len(names) > 1:
+		return {"value": _("{0} assets").format(len(names))}
+	return _equipment(names[0]) if names else None
+
+
+def handed_to(doc):
+	"""Whoever has it now, or where it is kept."""
+	return _people(row.to_employee for row in doc.assets) or _locations(row.target_location for row in doc.assets)
+
+
+def handed_from(doc):
+	return _people(row.from_employee for row in doc.assets) or _locations(row.source_location for row in doc.assets)
+
+
+def service_asset(doc):
+	"""The asset a service or schedule is for. A log names it by its schedule,
+	and a schedule is named after its asset."""
+	return _equipment(doc.get("asset_name") or doc.get("asset_maintenance"))
+
+
+def service_due(doc):
+	"""When it is due, in red once it is late and not done."""
+	if not doc.due_date:
+		return None
+	late = doc.maintenance_status in ("Planned", "Overdue") and getdate(doc.due_date) < getdate(today())
+	return {"value": formatdate(doc.due_date), "tone": "alarm" if late else None}
+
+
+def service_last(doc):
+	"""When the task was last done."""
+	last = frappe.db.get_value("Asset Maintenance Task", doc.task, "last_completion_date") if doc.task else None
+	return formatdate(last) if last else {"value": _("Never"), "tone": "quiet"}
+
+
+def schedule_next(doc):
+	"""The earliest service still to do on the schedule's asset."""
+	from onedesk.one_inventory.maintenance import next_service as earliest
+
+	found = earliest(doc.asset_name)
+	if not found:
+		return {"value": _("Nothing due"), "tone": "quiet"}
+	late = getdate(found.due_date) < getdate(today())
+	return {
+		"label": _("Next Service · {0}").format(formatdate(found.due_date)),
+		"value": found.task_name,
+		"tone": "alarm" if late else None,
+		"route": f"/desk/asset-maintenance-log/{quote(found.name)}",
+	}
+
+
+def schedule_done(doc):
+	done = frappe.db.count("Asset Maintenance Log", {"asset_maintenance": doc.name, "maintenance_status": "Completed"})
+	return {"value": str(done), "route": f"/desk/asset-maintenance-log?asset_maintenance={quote(doc.name)}&maintenance_status=Completed"}
+
+
+def repair_asset(doc):
+	return _equipment(doc.asset)
+
+
+def repair_out(doc):
+	"""How long the asset was out of use: from when it failed to when it was
+	mended, or to today while it is not."""
+	if not doc.failure_date:
+		return None
+	end = doc.completion_date if doc.repair_status == "Completed" and doc.completion_date else today()
+	days = max((getdate(end) - getdate(doc.failure_date)).days, 0)
+	value = _("1 day") if days == 1 else _("{0} days").format(days)
+	return {"value": value, "tone": "alarm" if doc.repair_status == "Pending" else None}
+
+
+def repair_cost(doc):
+	value = flt(doc.total_repair_cost) or flt(doc.repair_cost)
+	return _money(value) if value else {"value": _("Nothing yet"), "tone": "quiet"}
+
+
+def worth_change(doc):
+	"""What the asset was worth, what it is worth now, and the change."""
+	change = flt(doc.new_asset_value) - flt(doc.current_asset_value)
+	if not flt(doc.current_asset_value):
+		return None
+	return {"value": _money(change), "tone": "alarm" if change < 0 else None}
+
+
 # ------------------------------------------------------------------ the charts
 
 
@@ -749,7 +864,7 @@ def life(doc):
 	]
 	return {
 		"kind": "line",
-		"labels": [formatdate(day, "MMM yy") for day, _value in points],
+		"labels": [formatdate(day, "MMM yyyy") for day, _value in points],
 		"values": [value for _day, value in points],
 		"currency": frappe.db.get_default("currency"),
 		"said": _("{0} at the end").format(_money(points[-1][1])),
@@ -824,6 +939,18 @@ MEASURES = {
 	"card.by": card_by,
 	"sub.sent": sent_out,
 	"sub.order": sub_order,
+	"handover.what": handed_what,
+	"handover.to": handed_to,
+	"handover.from": handed_from,
+	"service.asset": service_asset,
+	"service.due": service_due,
+	"service.last": service_last,
+	"schedule.next": schedule_next,
+	"schedule.done": schedule_done,
+	"repair.asset": repair_asset,
+	"repair.out": repair_out,
+	"repair.cost": repair_cost,
+	"adjustment.change": worth_change,
 }
 
 
@@ -949,6 +1076,15 @@ HEADS = [
 				"measure": "asset.who_has_it",
 				"shown_when": SUBMITTED,
 				"route": "/desk/employee/{{ doc.custodian }}",
+			},
+			{
+				"label": _lt("Repairs"),
+				"source": "Count",
+				"of_doctype": "Asset Repair",
+				"filters": [["asset", "=", "{{ doc.name }}"], ["docstatus", "<", 2]],
+				"shown_when": SUBMITTED,
+				"route": "/desk/asset-repair?asset={{ doc.name }}",
+				"hide_empty": 1,
 			},
 		],
 		"verbs": [{"verb": "asset.give"}, {"verb": "asset.take_back"}],
@@ -1149,6 +1285,50 @@ HEADS = [
 			{"label": _lt("With"), "source": "Field", "field": "supplier_name"},
 			{"label": _lt("Order"), "source": "Measure", "measure": "sub.order"},
 			{"label": _lt("Total"), "source": "Field", "field": "total"},
+		],
+	},
+	{
+		"doctype": "Asset Movement",
+		"band": [
+			{"label": _lt("Equipment"), "source": "Measure", "measure": "handover.what"},
+			{"label": _lt("From"), "source": "Measure", "measure": "handover.from"},
+			{"label": _lt("To"), "source": "Measure", "measure": "handover.to"},
+			{"label": _lt("On"), "source": "Field", "field": "transaction_date"},
+		],
+	},
+	{
+		"doctype": "Asset Maintenance",
+		"band": [
+			{"label": _lt("Asset"), "source": "Measure", "measure": "service.asset"},
+			{"label": _lt("Next Service"), "source": "Measure", "measure": "schedule.next"},
+			{"label": _lt("Services Done"), "source": "Measure", "measure": "schedule.done"},
+			{"label": _lt("Team"), "source": "Field", "field": "maintenance_team"},
+		],
+	},
+	{
+		"doctype": "Asset Maintenance Log",
+		"band": [
+			{"label": _lt("Asset"), "source": "Measure", "measure": "service.asset"},
+			{"label": _lt("Due"), "source": "Measure", "measure": "service.due"},
+			{"label": _lt("Done By"), "source": "Field", "field": "assign_to_name"},
+			{"label": _lt("Last Done"), "source": "Measure", "measure": "service.last"},
+		],
+	},
+	{
+		"doctype": "Asset Repair",
+		"band": [
+			{"label": _lt("Asset"), "source": "Measure", "measure": "repair.asset"},
+			{"label": _lt("Out of Use"), "source": "Measure", "measure": "repair.out"},
+			{"label": _lt("Cost"), "source": "Measure", "measure": "repair.cost"},
+		],
+	},
+	{
+		"doctype": "Asset Value Adjustment",
+		"band": [
+			{"label": _lt("Asset"), "source": "Measure", "measure": "repair.asset"},
+			{"label": _lt("Was Worth"), "source": "Field", "field": "current_asset_value"},
+			{"label": _lt("Now Worth"), "source": "Field", "field": "new_asset_value"},
+			{"label": _lt("Change"), "source": "Measure", "measure": "adjustment.change"},
 		],
 	},
 	{

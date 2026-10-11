@@ -149,3 +149,59 @@ def work_done(doc, method=None) -> None:
 		warehouse=frappe.get_cached_value("Warehouse", order.fg_warehouse, "warehouse_name") or order.fg_warehouse,
 	)
 
+
+
+def handed_over(doc, method=None) -> None:
+	"""Asset Movement on_submit: whoever is given a piece of equipment is told,
+	by the account on their employee record. ERPNext tells nobody."""
+	date = frappe.utils.formatdate(doc.transaction_date)
+	by = frappe.utils.get_fullname(doc.owner)
+	for row in doc.assets:
+		user = frappe.db.get_value("Employee", row.to_employee, "user_id") if row.to_employee else None
+		if not user:
+			continue
+		notify.notify(
+			"Equipment Handed Over",
+			[user],
+			record=("Asset", row.asset),
+			asset=row.asset_name or frappe.db.get_value("Asset", row.asset, "asset_name"),
+			by=by,
+			date=date,
+		)
+
+
+#: How far ahead a service is told.
+SOON = 7
+
+
+def services() -> None:
+	"""Daily: a service due within a week is told once to whoever does it, and
+	one past its date and not done is told once to them and the maintenance
+	team's manager. ERPNext only marks it Overdue."""
+	from frappe.utils import add_days, formatdate, getdate, today
+
+	day = getdate(today())
+	for log in frappe.get_all(
+		"Asset Maintenance Log",
+		filters={
+			"docstatus": 0,
+			"maintenance_status": ["in", ["Planned", "Overdue"]],
+			"due_date": ["<=", add_days(day, SOON)],
+		},
+		fields=["name", "asset_maintenance", "task_name", "due_date", "task_assignee_email"],
+	):
+		asset = frappe.db.get_value("Asset", log.asset_maintenance, "asset_name") or log.asset_maintenance
+		late = getdate(log.due_date) < day
+		people = [log.task_assignee_email]
+		if late:
+			people.append(frappe.db.get_value("Asset Maintenance", log.asset_maintenance, "maintenance_manager"))
+		notify.notify(
+			"Service Late" if late else "Service Due",
+			sorted(set(filter(None, people))),
+			record=("Asset Maintenance Log", log.name),
+			# Due and then late are two things to tell, each once.
+			dedupe_on=["type", "document_type", "document_name"],
+			task=log.task_name,
+			asset=asset,
+			due=formatdate(log.due_date),
+		)

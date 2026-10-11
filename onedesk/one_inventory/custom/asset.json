@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Asset",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Asset",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "custodian"
+  },
+  {
+   "doc_type": "Asset",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "custodian"
+  }
+ ],
+ "sync_on_migrate": 1
+}

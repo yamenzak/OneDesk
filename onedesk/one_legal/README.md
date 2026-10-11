@@ -213,7 +213,8 @@ person acknowledges it.
   Gravatar, the company's logo. 20, the outside people named on a project.
   21, Workload's hours, lowered by approved leave without saying why. 22, a
   project's Time view shows each person's hours, and their cost only to those
-  who see timesheet rates.
+  who see timesheet rates. 23, OneInventory keeps who holds which equipment,
+  shows it to the stores and HR, and prints a handover for them to sign.
 - AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
   calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
   tasks and their steps. 8, OneAI writes extensions, read a second time, and
@@ -228,7 +229,8 @@ person acknowledges it.
   time by person, and suggests time on your timesheet and a cost type's
   budget. 18, OneAI reads a task as its page shows it, with the hours each
   person logged on it. 19, OneAI suggests a change to a task, made only when
-  you approve it.
+  you approve it. 20, OneAI reads OneInventory as you see it, equipment and
+  who holds it included, and drafts what it suggests there for you to approve.
 
 ### gate.py
 

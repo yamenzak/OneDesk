@@ -21,6 +21,7 @@ MODULES = (
 	"one_calendar",
 	"one_task",
 	"one_project",
+	"one_inventory",
 	"one_studio",
 )
 

@@ -1,5 +1,6 @@
 {%- set b = one_print_block(doc, "signatures") -%}
 {%- if b %}
+{%- if b.pledge %}<p style="font-size:12px;color:#374151;margin:0 0 20px">{{ b.pledge|e }}</p>{% endif %}
 <table style="width:100%;border-collapse:collapse;font-size:12px;color:#111827;margin-bottom:24px">
 	<tr>
 		{%- for side in b.sides %}

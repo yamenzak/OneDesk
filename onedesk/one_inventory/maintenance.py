@@ -31,11 +31,31 @@ def next_due(periodicity: str, start, last=None, end=None):
 	return due
 
 
+#: What a task's next date is worked out from.
+FROM = ("periodicity", "start_date", "last_completion_date", "end_date")
+
+
 def due(doc, method=None) -> None:
-	"""Asset Maintenance validate: a task with an end date is due too."""
+	"""Asset Maintenance before_validate: every task has its next date, however
+	the schedule is saved. ERPNext's form works it out as the dates are typed,
+	so a schedule saved by Data Import, OneAI or a script had none, and none of
+	its services were on anybody's calendar. ERPNext's own sum leaves it empty
+	for a task with an end date."""
+	before = {row.name: row for row in (doc.get_doc_before_save() or frappe._dict()).get("asset_maintenance_tasks") or []}
 	for task in doc.get("asset_maintenance_tasks"):
-		if task.end_date and not task.next_due_date:
-			task.next_due_date = next_due(task.periodicity, task.start_date, task.last_completion_date, task.end_date)
+		was = before.get(task.name)
+		moved = was and any(str(task.get(field) or "") != str(was.get(field) or "") for field in FROM)
+		if task.next_due_date and not moved:
+			continue
+		task.next_due_date = next_due(task.periodicity, task.start_date, task.last_completion_date, task.end_date)
+
+
+def on_time(doc, method=None) -> None:
+	"""Asset Maintenance Log before_validate: a service marked Overdue whose
+	date has moved past today, when the one before it was done, is Planned
+	again. ERPNext marks it Overdue and never takes it back."""
+	if doc.maintenance_status == "Overdue" and doc.due_date and getdate(doc.due_date) >= getdate(nowdate()):
+		doc.maintenance_status = "Planned"
 
 
 def next_service(asset: str) -> dict | None:

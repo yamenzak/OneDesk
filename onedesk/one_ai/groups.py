@@ -110,7 +110,7 @@ GROUPS = {
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},
 	"inventory": {
-		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, what came in on a receipt, what is still to arrive or to deliver, a delivery and its trip, a stock movement or a count and what it did to the books, comparing suppliers' quotes, which orders are late, what the workshop is making and how far a work order is, drafting a receipt or a delivery for an order, a transfer to a site, a request for quotation or a work order, whether to order more, and changing an item or its reorder level",
+		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, what came in on a receipt, what is still to arrive or to deliver, a delivery and its trip, a stock movement or a count and what it did to the books, comparing suppliers' quotes, which orders are late, what the workshop is making and how far a work order is, how a piece of equipment is doing, who holds what and which services are due, drafting a receipt or a delivery for an order, a transfer to a site, a request for quotation, a work order or a handover of equipment, whether to order more, and changing an item or its reorder level",
 		"tools": (
 			"item_facts",
 			"stock_on_hand",
@@ -131,11 +131,15 @@ GROUPS = {
 			"work_in_hand",
 			"work_order_facts",
 			"plan_work_order",
+			"asset_facts",
+			"equipment_held",
+			"services_due",
+			"plan_handover",
 		),
 		"words": (
 			"item", "stock", "inventory", "warehouse", "reorder", "on hand", "running low", "receipt", "received",
-			"arrive", "delivery note", "deliver", "dispatch", "trip", "transfer", "move", "count", "site", "quote", "quotation", "supplier", "purchase order", "late order", "work order", "workshop", "job card", "bill of materials", "artikel", "arbeitsauftrag", "fertigung", "angebot", "lager", "bestand", "wareneingang",
-			"صنف", "مخزون", "مستودع", "أمر عمل", "تصنيع",
+			"arrive", "delivery note", "deliver", "dispatch", "trip", "transfer", "move", "count", "site", "quote", "quotation", "supplier", "purchase order", "late order", "work order", "workshop", "job card", "bill of materials", "asset", "equipment", "laptop", "truck", "service", "maintenance", "repair", "handover", "artikel", "anlage", "wartung", "arbeitsauftrag", "fertigung", "angebot", "lager", "bestand", "wareneingang",
+			"صنف", "مخزون", "مستودع", "أمر عمل", "تصنيع", "أصل", "معدات", "صيانة",
 		),
 	},
 	"hr": {
