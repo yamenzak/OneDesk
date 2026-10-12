@@ -203,7 +203,7 @@ const parts = computed(() => {
         value: one.late ? __("Was due {0}", [date(one.due)]) : __("Due {0}", [date(one.due)]),
         route: `/desk/asset-maintenance-log/${encodeURIComponent(one.service)}`,
       })),
-      more: more(n.services, __("Maintenance Log"), "/desk/asset-maintenance-log"),
+      more: more(n.services, __("Upkeep"), "/desk/upkeep"),
     });
   if (n.work.count)
     out.push({

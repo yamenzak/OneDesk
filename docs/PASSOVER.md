@@ -11629,7 +11629,10 @@ points.
 6. **Upkeep** (done, 7h) — services, repairs and the log of an asset's upkeep as one
    page.
 
-Each is written up below as it is done.
+Each is written up below as it is done. All six were done overnight, each
+pushed on its own (Home, the rail and Lots together, as the rail carries
+Lots), and the full demo suite passed after the last, 145 of 145. Home's
+Services Due now leads to Upkeep.
 
 
 #### 7d. Home, and a rail of what people use
