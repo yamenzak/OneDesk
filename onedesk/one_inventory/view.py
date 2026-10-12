@@ -602,47 +602,173 @@ def _quotes(item: str) -> list:
 
 
 def _selling(doc) -> dict | None:
-	"""What it sells for, what customers have ordered and not yet had, and who buys it."""
+	"""What it sells for, what customers have ordered and not yet had and
+	what of it can go now, the quotes still open, and who buys it, returns
+	taken off."""
 	if not doc.is_sales_item:
 		return None
 	customers = {}
+	sales = []
 	if _readable("Sales Invoice"):
-		start = frappe.utils.add_months(nowdate(), -12)
 		for row in frappe.get_list(
 			"Sales Invoice",
 			filters=[
 				["Sales Invoice Item", "item_code", "=", doc.name],
 				["docstatus", "=", 1],
-				["posting_date", ">=", start],
-				["is_return", "=", 0],
+				["posting_date", ">=", frappe.utils.add_months(nowdate(), -12)],
 			],
 			fields=[
 				"customer",
+				"currency",
+				"posting_date",
+				"is_return",
 				"`tabSales Invoice Item`.stock_qty as qty",
+				"`tabSales Invoice Item`.net_amount as their_amount",
 				"`tabSales Invoice Item`.base_net_amount as amount",
+				"`tabSales Invoice Item`.rate as rate",
+				"`tabSales Invoice Item`.uom as uom",
 			],
+			order_by="posting_date desc, creation desc",
 			limit=0,
 		):
-			one = customers.setdefault(row.customer, {"customer": row.customer, "qty": 0, "amount": 0})
+			one = customers.setdefault(row.customer, _customer(row.customer))
+			# A return's quantity and amount are less than nothing, so it comes off.
 			one["qty"] += flt(row.qty)
 			one["amount"] += flt(row.amount)
+			one["theirs"][row.currency] = one["theirs"].get(row.currency, 0) + flt(row.their_amount)
+			if row.is_return:
+				one["returned"] -= flt(row.qty)
+				continue
+			if one["last"] is None:
+				one.update(last=row.posting_date, rate=row.rate, currency=row.currency)
+			sales.append(
+				{
+					"rate": row.rate,
+					"currency": row.currency,
+					"uom": row.uom,
+					"customer": row.customer,
+					"on": row.posting_date,
+				}
+			)
+	# Each customer's own code for it, the item's own customer row.
+	for row in doc.get("customer_items") or []:
+		if row.customer_name:
+			customers.setdefault(row.customer_name, _customer(row.customer_name)).update(
+				code=row.ref_code, row=row.name
+			)
+	images = _images("Customer", customers)
+	for one in customers.values():
+		one["image"] = images.get(one["customer"])
+		# What they paid in their own currency, when they paid in one only.
+		theirs = one.pop("theirs")
+		one["their_amount"] = (
+			theirs[one["currency"]] if len(theirs) == 1 and one["currency"] in theirs else None
+		)
+	orders = _open(
+		"Sales Order",
+		"Sales Order Item",
+		[
+			"customer as party",
+			"delivery_date as due",
+			"status",
+			"project",
+			"`tabSales Order Item`.qty as qty",
+			"`tabSales Order Item`.delivered_qty as done",
+			"`tabSales Order Item`.amount as amount",
+			"`tabSales Order Item`.billed_amt as billed",
+		],
+		doc.name,
+	)
+	party_images = _images("Customer", {row.party for row in orders})
+	for row in orders:
+		row["image"] = party_images.get(row.party)
+		row["project_name"] = _project_name(row.project)
+		row["to_bill"] = flt(row.billed) < flt(row.amount)
+	if doc.is_stock_item:
+		ready(
+			orders,
+			sum(
+				flt(one) for one in frappe.get_all("Bin", filters={"item_code": doc.name}, pluck="actual_qty")
+			),
+		)
 	return {
-		"orders": _open(
-			"Sales Order",
-			"Sales Order Item",
-			[
-				"customer as party",
-				"delivery_date as due",
-				"status",
-				"project",
-				"`tabSales Order Item`.qty as qty",
-				"`tabSales Order Item`.delivered_qty as done",
-			],
-			doc.name,
-		),
+		"orders": orders,
+		"quotes": _quotations(doc.name),
 		"customers": sorted(customers.values(), key=lambda one: -one["amount"])[:MOST],
 		"prices": _prices(doc.name, "selling"),
+		# Its sales in the last year, newest first, which a selling price is held against.
+		"sales": sales[:MOST],
+		"can": {
+			one: bool(frappe.has_permission(one, "create"))
+			for one in ("Delivery Note", "Sales Invoice", "Quotation", "Sales Order")
+		},
 	}
+
+
+def ready(orders: list, on_hand: float) -> list:
+	"""What is on hand goes to the orders soonest due first: each says how
+	much of what is left can go now and how much is short. Pure."""
+	free = max(flt(on_hand), 0)
+	for row in sorted(orders, key=lambda one: str(one.get("due") or "9999")):
+		goes = min(flt(row["left"]), free)
+		free -= goes
+		row["can_go"] = goes
+		row["short"] = flt(row["left"]) - goes
+	return orders
+
+
+def _customer(name: str) -> dict:
+	return {
+		"customer": name,
+		"qty": 0.0,
+		"amount": 0.0,
+		"theirs": {},
+		"returned": 0.0,
+		"last": None,
+		"rate": None,
+		"currency": None,
+		"code": None,
+		"row": None,
+	}
+
+
+def _quotations(item: str) -> list:
+	"""Quotes for it still open, soonest to run out first, each with the
+	customer or lead it is for."""
+	if not _readable("Quotation"):
+		return []
+	rows = frappe.get_list(
+		"Quotation",
+		filters=[
+			["Quotation Item", "item_code", "=", item],
+			["docstatus", "=", 1],
+			["status", "not in", ("Ordered", "Lost", "Expired", "Cancelled")],
+		],
+		fields=[
+			"name",
+			"quotation_to",
+			"party_name",
+			"customer_name",
+			"currency",
+			"valid_till",
+			"`tabQuotation Item`.rate as rate",
+			"`tabQuotation Item`.base_rate as base_rate",
+			"`tabQuotation Item`.qty as qty",
+			"`tabQuotation Item`.uom as uom",
+		],
+		order_by="`tabQuotation`.valid_till asc, `tabQuotation`.name asc",
+		limit=MOST,
+	)
+	today = getdate(nowdate())
+	rows = [row for row in rows if not row.valid_till or getdate(row.valid_till) >= today]
+	images = {
+		**_images("Customer", {row.party_name for row in rows if row.quotation_to == "Customer"}),
+		**_images("Lead", {row.party_name for row in rows if row.quotation_to == "Lead"}),
+	}
+	for row in rows:
+		row["image"] = images.get(row.party_name)
+		row["soon"] = bool(row.valid_till and (getdate(row.valid_till) - today).days <= 7)
+	return rows
 
 
 def _open(doctype: str, child: str, fields: list, item: str, status=OPEN_ORDER) -> list:

@@ -107,6 +107,10 @@ onedesk.item.start = (doctype, item, values = {}, line = {}, table = "items", fi
 
 // What the item page's head starts, each a document of ERPNext's own.
 onedesk.item.order = (item, supplier) => onedesk.item.start("Purchase Order", item, supplier ? { supplier } : {});
+// A quotation or an order for a customer, when there is one.
+onedesk.item.quote = (item, customer) =>
+	onedesk.item.start("Quotation", item, customer ? { quotation_to: "Customer", party_name: customer } : {});
+onedesk.item.sell = (item, customer) => onedesk.item.start("Sales Order", item, customer ? { customer } : {});
 // A request for a quote, to the supplier when there is one.
 onedesk.item.ask = (item, supplier) =>
 	onedesk.item.start("Request for Quotation", item, supplier ? { suppliers: [{ supplier }] } : {});

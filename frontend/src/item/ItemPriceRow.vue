@@ -1,13 +1,15 @@
 <template>
   <!-- One price of the item: the Item Price's own rate field, changed in
        place on its own form, out of sight. When the last price paid is in
-       the same currency and unit and differs, it says so and can take it. -->
-  <li class="flex gap-3 px-3 py-2.5">
+       the same currency and unit and differs, it says so and can take it.
+       A selling price says when it was last sold below it. -->
+  <li class="flex gap-3 py-2.5">
     <div class="min-w-0 flex-1">
       <button type="button" class="truncate rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/item-price/${encodeURIComponent(price.name)}`)">
         {{ price.price_list }}<span v-if="price.supplier || price.customer" class="text-ink-gray-5"> · {{ price.supplier || price.customer }}</span>
       </button>
       <div v-if="lines.length" class="truncate text-sm text-ink-gray-5">{{ lines.join(" · ") }}</div>
+      <div v-if="below" class="truncate text-sm text-ink-gray-5">{{ __("Sold at {0} to {1} on {2}", [money(below.rate, below.currency), below.customer, date(below.on)]) }}</div>
       <div v-if="differs" class="mt-1 flex flex-wrap items-center gap-2 text-sm text-ink-gray-5">
         {{ __("Last paid {0} on {1}", [money(last.rate, last.currency), date(last.on)]) }}
         <Button v-if="writable" size="sm" :label="__('Use Last Price')" :loading="using" @click="useLast" />
@@ -33,6 +35,8 @@ const props = defineProps({
   last: Object,
   // The item's own unit, which a price without one is in.
   uom: String,
+  // Its sales, newest first, which a selling price is held against.
+  sales: Array,
 });
 const emit = defineEmits(["changed"]);
 
@@ -46,6 +50,13 @@ const differs = computed(() => {
   if (!last || last.currency !== props.price.currency) return false;
   if ((last.uom || props.uom) !== (props.price.uom || props.uom)) return false;
   return Number(last.rate) !== Number(form.value("price_list_rate") ?? props.price.price_list_rate);
+});
+
+// The newest sale below this price, in its currency and unit.
+const below = computed(() => {
+  const price = Number(form.value("price_list_rate") ?? props.price.price_list_rate);
+  const unit = props.price.uom || props.uom;
+  return (props.sales || []).find((one) => one.currency === props.price.currency && (one.uom || props.uom) === unit && Number(one.rate) < price) || null;
 });
 
 // The last price paid becomes the list's price, set and saved through the

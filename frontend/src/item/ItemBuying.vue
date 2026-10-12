@@ -19,7 +19,7 @@
     </Section>
     <Section :title="__('Buying Prices')" icon="lucide-tag" :action="said.can['Item Price'] ? { text: true, icon: 'lucide-plus', label: __('Set Price'), onClick: () => onedesk().item.price(said.name, true) } : null">
       <div v-if="!buying.prices.length" class="py-3 text-base text-ink-gray-5">{{ __("No buying price") }}</div>
-      <ul v-else class="-mx-3 divide-y divide-outline-gray-1">
+      <ul v-else class="divide-y divide-outline-gray-1">
         <ItemPriceRow v-for="one in buying.prices" :key="one.name" :price="one" :last="buying.last_paid" :uom="said.stock_uom" @changed="emit('changed')" />
       </ul>
     </Section>

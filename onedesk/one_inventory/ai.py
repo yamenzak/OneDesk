@@ -325,7 +325,33 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 			for one in buying.get("quotes") or []
 		],
 		"purchase_orders": [_order(one) for one in buying.get("orders") or []],
-		"sales_orders": [_order(one) for one in selling.get("orders") or []],
+		"sales_orders": [
+			{**_order(one), "can_go_now": one.get("can_go"), "short": one.get("short")}
+			for one in selling.get("orders") or []
+		],
+		"customers_last_year": [
+			{
+				"customer": one["customer"],
+				"qty": one["qty"],
+				"returned": one["returned"] or None,
+				"amount": one["amount"],
+				"last_rate": one["rate"],
+				"currency": one["currency"],
+				"code": one["code"],
+			}
+			for one in selling.get("customers") or []
+		],
+		"open_quotations": [
+			{
+				"quotation": one.name,
+				"for": one.customer_name or one.party_name,
+				"rate": one.rate,
+				"currency": one.currency,
+				"qty": one.qty,
+				"valid_till": str(one.valid_till) if one.valid_till else None,
+			}
+			for one in selling.get("quotes") or []
+		],
 		"made_from": [
 			{"item": one.item_name, "qty": one.qty, "unit": one.uom} for one in making.get("materials") or []
 		],

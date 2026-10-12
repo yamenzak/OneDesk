@@ -50,6 +50,9 @@ const props = defineProps({
   // A field of this table row of the form, not of the form itself.
   table: String,
   row: String,
+  // A 0 shows as the placeholder, for a field where 0 means none (a
+  // maximum discount of 0 is no limit).
+  blankZero: Boolean,
   // Lent from the start, and saved by the page, not by a change to it (a
   // new row whose fields go in together). Escape asks the page to cancel.
   hold: Boolean,
@@ -72,7 +75,11 @@ const fieldtype = computed(() => source.value.df(props.field)?.fieldtype);
 const long = computed(() => LONG.includes(fieldtype.value));
 const check = computed(() => fieldtype.value === "Check");
 const writable = computed(() => status.value === "Write");
-const shown = computed(() => (props.form.version.value, source.value.shown(props.field)));
+const shown = computed(() => {
+  props.form.version.value;
+  if (props.blankZero && !Number(source.value.value(props.field) || 0)) return "";
+  return source.value.shown(props.field);
+});
 const checked = computed(() => (props.form.version.value, Boolean(Number(source.value.value(props.field) || 0))));
 
 async function start() {

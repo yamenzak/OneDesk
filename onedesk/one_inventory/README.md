@@ -170,8 +170,19 @@ Then its views, each only where the item has it:
   Each makes the next document as its own form's button does. The buying
   prices are changed on the row, and one that differs from the last price
   paid says so and offers **Use Last Price**.
-- **Selling**: what customers have ordered and not yet had, who bought it in
-  the last twelve months, and its selling prices.
+- **Selling**: what customers have ordered and not yet had, each with how
+  much has gone and whether what is on hand covers it. Stock goes to the
+  orders soonest due first, so a row says **Can Go Now** or how many it is
+  short. Each order's menu has **Deliver**, and **Invoice** while some of it
+  is not billed yet. Then the quotes still open, in the customer's own
+  currency with the dirhams under it, and until when (red within a week),
+  with **Make Order** for a customer's quote. Then who bought it in the last
+  twelve months with returns taken off, each with their picture, what they
+  paid in their own currency, their last price and their own code for the
+  item, changed on the row. Each customer's menu has **New Quotation**,
+  **New Order** and **Set Customer's Code**. The selling prices are changed
+  on the row, and one says when it was last sold below it. Each makes the
+  next document as its own form's button does.
 - **Making**: what it is made from, the work orders making it, its bills of
   materials, and what it goes into.
 - **Files** and **Activity**, as on every record.

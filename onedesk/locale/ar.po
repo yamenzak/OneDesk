@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-12 16:27+0000\n"
-"PO-Revision-Date: 2026-10-12 16:27+0000\n"
+"POT-Creation-Date: 2026-10-12 18:32+0000\n"
+"PO-Revision-Date: 2026-10-12 18:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1441,19 +1441,20 @@ msgid "Action"
 msgstr "إجراء"
 
 #. Label of a Sidebar Item
-#: frontend/src/item/ItemPlaces.vue:32 frontend/src/item/ItemSuppliers.vue:35
-#: frontend/src/kit/Rows.vue:48 frontend/src/project/Invoices.vue:62
-#: frontend/src/project/Suppliers.vue:74 frontend/src/project/Suppliers.vue:122
-#: frontend/src/project/Team.vue:52 frontend/src/template/Tasks.vue:85
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:26
-#: onedesk/public/js/project.js:31 onedesk/public/js/project.js:33
-#: onedesk/public/js/project.js:48 onedesk/public/js/project.js:52
-#: onedesk/public/js/project.js:77 onedesk/public/js/settings.js:983
-#: onedesk/public/js/settings.js:993 onedesk/public/js/settings.js:1004
-#: onedesk/public/js/settings.js:1016 onedesk/public/js/settings.js:1025
-#: onedesk/public/js/settings.js:1261 onedesk/public/js/settings.js:1310
-#: onedesk/public/js/settings.js:1342 onedesk/public/js/settings.js:2586
-#: onedesk/public/js/settings.js:3203 onedesk/public/js/settings.js:3260
+#: frontend/src/item/ItemCustomers.vue:32 frontend/src/item/ItemPlaces.vue:32
+#: frontend/src/item/ItemSuppliers.vue:35 frontend/src/kit/Rows.vue:48
+#: frontend/src/project/Invoices.vue:62 frontend/src/project/Suppliers.vue:74
+#: frontend/src/project/Suppliers.vue:122 frontend/src/project/Team.vue:52
+#: frontend/src/template/Tasks.vue:85 onedesk/one/sidebar/one/one.json
+#: onedesk/public/js/project.js:26 onedesk/public/js/project.js:31
+#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:48
+#: onedesk/public/js/project.js:52 onedesk/public/js/project.js:77
+#: onedesk/public/js/settings.js:983 onedesk/public/js/settings.js:993
+#: onedesk/public/js/settings.js:1004 onedesk/public/js/settings.js:1016
+#: onedesk/public/js/settings.js:1025 onedesk/public/js/settings.js:1261
+#: onedesk/public/js/settings.js:1310 onedesk/public/js/settings.js:1342
+#: onedesk/public/js/settings.js:2586 onedesk/public/js/settings.js:3203
+#: onedesk/public/js/settings.js:3260
 msgid "Actions"
 msgstr "الإجراءات"
 
@@ -1655,7 +1656,7 @@ msgid "Add User Permission"
 msgstr "إضافة صلاحية مستخدم"
 
 #: frontend/src/item/ItemOverview.vue:23 frontend/src/item/ItemPage.vue:303
-#: onedesk/public/js/item_actions.js:170 onedesk/public/js/item_actions.js:172
+#: onedesk/public/js/item_actions.js:174 onedesk/public/js/item_actions.js:176
 msgid "Add Variant"
 msgstr "إضافة متغير"
 
@@ -4640,6 +4641,10 @@ msgstr "الحملة قيد التشغيل"
 msgid "Campaigns"
 msgstr "الحملات"
 
+#: frontend/src/item/ItemSelling.vue:68
+msgid "Can Go Now"
+msgstr "جاهز للتسليم"
+
 #. Label of the allow_download (Check) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/public/js/onecloud.js:1442
@@ -4679,7 +4684,8 @@ msgid "Can view"
 msgstr "يمكنه العرض"
 
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
-#: frontend/src/item/ItemPlaces.vue:25 frontend/src/item/ItemSuppliers.vue:25
+#: frontend/src/item/ItemCustomers.vue:22 frontend/src/item/ItemPlaces.vue:25
+#: frontend/src/item/ItemSuppliers.vue:25
 #: frontend/src/item/ItemSuppliers.vue:44 frontend/src/kit/FieldEdit.vue:26
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:318
@@ -6672,12 +6678,16 @@ msgstr ""
 msgid "Customer Number"
 msgstr "رقم العميل"
 
+#: frontend/src/item/ItemCustomers.vue:18
+msgid "Customer's Code"
+msgstr "رمز العميل"
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Customers"
 msgstr ""
 
-#: frontend/src/item/ItemSelling.vue:10
+#: frontend/src/item/ItemSelling.vue:15
 msgid "Customers, Last 12 Months"
 msgstr "العملاء، آخر 12 شهرًا"
 
@@ -7276,6 +7286,10 @@ msgstr "الحذف معلّق"
 msgid "Deletion cancelled"
 msgstr "تم إلغاء الحذف"
 
+#: frontend/src/item/ItemSelling.vue:72
+msgid "Deliver"
+msgstr "تسليم"
+
 #: onedesk/one_crm/heads.py:228
 msgid "Deliver By"
 msgstr "التسليم بحلول"
@@ -7493,7 +7507,7 @@ msgstr "التفصيل"
 #. Label of the said (Small Text) field in DocType 'Intake Lesson'
 #. Label of the section_details (Section Break) field in DocType 'Reading'
 #: frontend/src/item/ItemBuying.vue:29 frontend/src/item/ItemMaking.vue:23
-#: frontend/src/item/ItemOverview.vue:33 frontend/src/item/ItemSelling.vue:19
+#: frontend/src/item/ItemOverview.vue:33 frontend/src/item/ItemSelling.vue:27
 #: frontend/src/item/ItemStock.vue:20 frontend/src/task/TaskPage.vue:115
 #: frontend/src/task/TaskPage.vue:219
 #: onedesk/one_hr/print_format/one_appointment_letter/one_appointment_letter.json
@@ -8053,7 +8067,7 @@ msgstr "يستحق غدًا"
 
 #: frontend/src/item/ItemBuying.vue:60 frontend/src/item/ItemOverview.vue:108
 #: frontend/src/item/ItemOverview.vue:112
-#: frontend/src/item/ItemOverview.vue:115 frontend/src/item/ItemSelling.vue:43
+#: frontend/src/item/ItemOverview.vue:115 frontend/src/item/ItemSelling.vue:66
 #: frontend/src/project/Invoices.vue:57 frontend/src/project/Overview.vue:317
 #: frontend/src/project/Overview.vue:353 frontend/src/project/Suppliers.vue:70
 #: frontend/src/project/Suppliers.vue:117
@@ -8223,7 +8237,7 @@ msgstr "لم تُخصص الإجازة المكتسبة"
 msgid "Earnings"
 msgstr ""
 
-#: frontend/src/item/ItemSelling.vue:82
+#: frontend/src/item/ItemSelling.vue:114
 msgid "Earns Commission"
 msgstr "يستحق عمولة"
 
@@ -10365,7 +10379,7 @@ msgstr "بناءً على مسمى هذا الشخص وقسمه، ماذا يج�
 msgid "From {0} every day counts as a working day. Make next year's list."
 msgstr "من {0} يُحسب كل يوم يوم عمل. أنشئ قائمة العام القادم."
 
-#: onedesk/public/js/item_actions.js:165
+#: onedesk/public/js/item_actions.js:169
 msgid "From {0} to {1}, in steps of {2}"
 msgstr "من {0} إلى {1}، بخطوات قدرها {2}"
 
@@ -12142,8 +12156,8 @@ msgstr "دعوة المالك"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/src/project/Invoices.vue:30 onedesk/one/print_blocks.py:17
-#: onedesk/one/print_blocks.py:628
+#: frontend/src/item/ItemSelling.vue:73 frontend/src/project/Invoices.vue:30
+#: onedesk/one/print_blocks.py:17 onedesk/one/print_blocks.py:628
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "Invoice"
@@ -13031,9 +13045,13 @@ msgstr "آخر طلب في {0}"
 msgid "Last ordered {0}, before that {1}"
 msgstr "آخر طلب في {0}، وقبله بسعر {1}"
 
-#: frontend/src/item/ItemPriceRow.vue:12
+#: frontend/src/item/ItemPriceRow.vue:14
 msgid "Last paid {0} on {1}"
 msgstr "آخر سعر مدفوع {0} في {1}"
+
+#: frontend/src/item/ItemCustomers.vue:70
+msgid "Last sold at {0} on {1}"
+msgstr "آخر بيع بسعر {0} في {1}"
 
 #: onedesk/public/js/calendar_link.js:20
 msgid "Last synced {0}."
@@ -14208,7 +14226,7 @@ msgstr "جعله عضوًا"
 msgid "Make More"
 msgstr "تصنيع المزيد"
 
-#: frontend/src/item/ItemBuying.vue:110
+#: frontend/src/item/ItemBuying.vue:110 frontend/src/item/ItemSelling.vue:93
 #: frontend/src/project/ProjectPage.vue:372
 msgid "Make Order"
 msgstr "إنشاء أمر بيع"
@@ -14563,7 +14581,7 @@ msgstr "الموضوع"
 msgid "Matter State"
 msgstr "حالة الموضوع"
 
-#: frontend/src/item/ItemSelling.vue:80
+#: frontend/src/item/ItemSelling.vue:112
 msgid "Maximum Discount (%)"
 msgstr "أقصى خصم (%)"
 
@@ -15395,6 +15413,10 @@ msgstr "قالب بريد جديد"
 msgid "New Material Request"
 msgstr "طلب مواد جديد"
 
+#: frontend/src/item/ItemCustomers.vue:82
+msgid "New Order"
+msgstr "طلب جديد"
+
 #: onedesk/public/js/settings.js:639 onedesk/www/update-password.html:37
 msgid "New Password"
 msgstr "كلمة المرور الجديدة"
@@ -15420,7 +15442,7 @@ msgstr "مشروع جديد"
 msgid "New Purchase Order"
 msgstr "أمر شراء جديد"
 
-#: frontend/src/project/Overview.vue:426
+#: frontend/src/item/ItemCustomers.vue:80 frontend/src/project/Overview.vue:426
 msgid "New Quotation"
 msgstr "عرض سعر جديد"
 
@@ -15929,6 +15951,10 @@ msgstr "لا يوجد مستوى محدد"
 msgid "No libraries"
 msgstr "لا توجد مكتبات"
 
+#: frontend/src/item/ItemSelling.vue:112
+msgid "No limit"
+msgstr "بلا حد"
+
 #: onedesk/public/js/settings.js:2653
 msgid "No longer offered"
 msgstr "لم يعد متاحًا"
@@ -16130,7 +16156,7 @@ msgstr "لا توجد مبيعات بعد"
 msgid "No schedule"
 msgstr "لا يوجد جدول"
 
-#: frontend/src/item/ItemSelling.vue:14
+#: frontend/src/item/ItemSelling.vue:19
 msgid "No selling price"
 msgstr "لا سعر بيع"
 
@@ -16548,7 +16574,7 @@ msgstr "لا يظهر حين لا تكون له قيمة. وإلا تظهر ال
 msgid "Not signed yet"
 msgstr "لم يُوقَّع بعد"
 
-#: frontend/src/item/ItemSelling.vue:11
+#: frontend/src/item/ItemCustomers.vue:7
 msgid "Not sold in 12 months"
 msgstr "لم يُبع خلال 12 شهرًا"
 
@@ -16701,7 +16727,7 @@ msgstr "لا شيء مُشارَك معك"
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
-#: frontend/src/item/ItemSelling.vue:8
+#: frontend/src/item/ItemSelling.vue:10
 msgid "Nothing to deliver"
 msgstr "لا شيء للتسليم"
 
@@ -18478,7 +18504,7 @@ msgstr "رموز المخرجات"
 msgid "Outstanding"
 msgstr "المتبقي"
 
-#: frontend/src/item/ItemSelling.vue:81
+#: frontend/src/item/ItemSelling.vue:113
 msgid "Over Billing Allowance (%)"
 msgstr "سماح الفوترة الزائدة (%)"
 
@@ -19950,7 +19976,7 @@ msgid "Previous"
 msgstr ""
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
-#: frontend/src/item/ItemPriceRow.vue:17
+#: frontend/src/item/ItemPriceRow.vue:19
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/report/price_check/price_check.py:106
 msgid "Price"
@@ -20675,8 +20701,8 @@ msgstr "طلبات عروض الأسعار"
 msgid "Quoted"
 msgstr "تم التسعير"
 
-#: frontend/src/item/ItemBuying.vue:11 onedesk/one/portal.py:30
-#: onedesk/one_inventory/heads.py:1231
+#: frontend/src/item/ItemBuying.vue:11 frontend/src/item/ItemSelling.vue:12
+#: onedesk/one/portal.py:30 onedesk/one_inventory/heads.py:1231
 msgid "Quotes"
 msgstr "عروض الأسعار"
 
@@ -22460,7 +22486,7 @@ msgstr ""
 msgid "Salutations"
 msgstr "الألقاب"
 
-#: frontend/src/item/ItemBuying.vue:127
+#: frontend/src/item/ItemBuying.vue:127 frontend/src/item/ItemSelling.vue:111
 msgid "Same as stock"
 msgstr "نفس وحدة المخزون"
 
@@ -22474,8 +22500,8 @@ msgstr "بنفس صيغة السلسلة."
 msgid "Samples and shop drawings approved"
 msgstr "اعتماد العينات ومخططات الورشة"
 
-#: frontend/src/item/ItemBarcodes.vue:80 frontend/src/item/ItemPlaces.vue:26
-#: frontend/src/item/ItemSuppliers.vue:26
+#: frontend/src/item/ItemBarcodes.vue:80 frontend/src/item/ItemCustomers.vue:23
+#: frontend/src/item/ItemPlaces.vue:26 frontend/src/item/ItemSuppliers.vue:26
 #: frontend/src/item/ItemSuppliers.vue:45 frontend/src/kit/FieldEdit.vue:27
 #: onedesk/one/page/masters/masters.js:167
 #: onedesk/one_book/report/books_check/books_check.js:25
@@ -22777,11 +22803,11 @@ msgstr "البيع"
 msgid "Selling Price"
 msgstr "سعر البيع"
 
-#: frontend/src/item/ItemSelling.vue:13
+#: frontend/src/item/ItemSelling.vue:18
 msgid "Selling Prices"
 msgstr "أسعار البيع"
 
-#: frontend/src/item/ItemSelling.vue:79
+#: frontend/src/item/ItemSelling.vue:111
 msgid "Selling Unit"
 msgstr "وحدة البيع"
 
@@ -23103,6 +23129,10 @@ msgstr "عنوان الجلسة"
 msgid "Set"
 msgstr ""
 
+#: frontend/src/item/ItemCustomers.vue:83
+msgid "Set Customer's Code"
+msgstr "تعيين رمز العميل"
+
 #: frontend/src/project/Due.vue:9
 msgid "Set Date"
 msgstr "تحديد التاريخ"
@@ -23140,7 +23170,7 @@ msgstr "تعيين رقم القطعة"
 msgid "Set Planned Hours"
 msgstr "تحديد الساعات المخططة"
 
-#: frontend/src/item/ItemBuying.vue:20 frontend/src/item/ItemSelling.vue:13
+#: frontend/src/item/ItemBuying.vue:20 frontend/src/item/ItemSelling.vue:18
 msgid "Set Price"
 msgstr "تحديد السعر"
 
@@ -24035,6 +24065,10 @@ msgstr "البرمجيات والمواقع الإلكترونية"
 #: frontend/src/item/ItemOverview.vue:126
 msgid "Sold"
 msgstr "يُباع"
+
+#: frontend/src/item/ItemPriceRow.vue:12
+msgid "Sold at {0} to {1} on {2}"
+msgstr "بيع بسعر {0} إلى {1} في {2}"
 
 #. Label of the one_measured_by (Data) field in DocType 'Asset Capitalization
 #. Service Item'
@@ -27799,7 +27833,7 @@ msgstr "إلى"
 msgid "To Date"
 msgstr "إلى تاريخ"
 
-#: frontend/src/item/ItemSelling.vue:7
+#: frontend/src/item/ItemSelling.vue:9
 msgid "To Deliver"
 msgstr "للتسليم"
 
@@ -28535,8 +28569,8 @@ msgstr "حتى ذلك الحين، يعمل كل شيء كالمعتاد."
 msgid "Until then, {0} applies."
 msgstr "حتى ذلك الحين، تسري {0}."
 
-#: frontend/src/item/ItemBuying.vue:73 frontend/src/item/ItemPriceRow.vue:43
-#: frontend/src/item/ItemSelling.vue:65
+#: frontend/src/item/ItemBuying.vue:73 frontend/src/item/ItemPriceRow.vue:47
+#: frontend/src/item/ItemSelling.vue:89
 msgid "Until {0}"
 msgstr "حتى {0}"
 
@@ -28646,7 +28680,7 @@ msgstr "استخدام قائمة أخرى"
 msgid "Use Declare Lost to say why it was lost."
 msgstr "استخدم \"إعلان الخسارة\" لذكر سبب خسارتها."
 
-#: frontend/src/item/ItemPriceRow.vue:13
+#: frontend/src/item/ItemPriceRow.vue:15
 msgid "Use Last Price"
 msgstr "استخدم آخر سعر"
 
@@ -29205,7 +29239,7 @@ msgstr "كان مستحقًا"
 msgid "Was Worth"
 msgstr "كانت قيمته"
 
-#: frontend/src/item/ItemBuying.vue:60 frontend/src/item/ItemSelling.vue:43
+#: frontend/src/item/ItemBuying.vue:60 frontend/src/item/ItemSelling.vue:66
 msgid "Was due {0}"
 msgstr "كان مستحقًا في {0}"
 
@@ -34325,9 +34359,10 @@ msgstr "{0} ساعة في 12 أسبوعًا"
 msgid "{0} hours, {1}"
 msgstr "{0} ساعة، {1}"
 
-#: onedesk/one_book/heads.py:234 onedesk/one_inventory/heads.py:902
+#: frontend/src/item/ItemCustomers.vue:68 onedesk/one_book/heads.py:234
+#: onedesk/one_inventory/heads.py:902
 msgid "{0} in 12 months"
-msgstr "{0} في 12 شهرًا"
+msgstr "{0} خلال 12 شهرًا"
 
 #: frontend/src/project/Overview.vue:24
 msgid "{0} in 12 weeks"
@@ -34453,7 +34488,7 @@ msgstr "{0} هو الافتراضي بالفعل لـ{1}."
 msgid "{0} is already the site of {1}."
 msgstr "{0} هو موقع {1} بالفعل."
 
-#: onedesk/public/js/item_actions.js:177
+#: onedesk/public/js/item_actions.js:181
 msgid "{0} is already this variant."
 msgstr "{0} هو هذا المتغير بالفعل."
 
@@ -34982,6 +35017,10 @@ msgstr "متبقٍ {0} من {1} رصيد، ينتهي في {2}."
 msgid "{0} of {1} credits left. No expiry."
 msgstr "متبقٍ {0} من {1} رصيد. بلا انتهاء."
 
+#: frontend/src/item/ItemSelling.vue:69
+msgid "{0} of {1} delivered"
+msgstr "سُلّم {0} من {1}"
+
 #: frontend/src/project/Overview.vue:242
 msgid "{0} of {1} done"
 msgstr "{0} من {1} منجزة"
@@ -35203,6 +35242,10 @@ msgstr "تمت استعادة {0}."
 msgid "{0} retention"
 msgstr "{0} محتجزات"
 
+#: frontend/src/item/ItemCustomers.vue:68
+msgid "{0} returned"
+msgstr "{0} مُرتجع"
+
 #: onedesk/one_ai/heads.py:59
 msgid "{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."
 msgstr "يعمل {0} على نموذج يستطيع {1}. وكل ما يُضاف أدناه يُضاف إلى التعليمة التي يحملها أصلاً، ولا يحلّ محلها أبداً."
@@ -35239,9 +35282,10 @@ msgstr "شارك {0} هذا المجلد معك."
 msgid "{0} shared this with you."
 msgstr "شارك {0} هذا معك."
 
-#: frontend/src/stock/StockOnHand.vue:36 frontend/src/stock/StockOnHand.vue:109
+#: frontend/src/item/ItemSelling.vue:68 frontend/src/stock/StockOnHand.vue:36
+#: frontend/src/stock/StockOnHand.vue:109
 msgid "{0} short"
-msgstr "ناقص {0}"
+msgstr "ينقص {0}"
 
 #: onedesk/one/linked.py:140
 msgid "{0} shows nothing."
@@ -35317,7 +35361,7 @@ msgstr "{0} مهام، {1} أيام"
 msgid "{0} to decide"
 msgstr "{0} للبتّ"
 
-#: frontend/src/item/ItemSelling.vue:45 onedesk/one/portal.py:82
+#: onedesk/one/portal.py:82
 msgid "{0} to deliver"
 msgstr "{0} للتسليم"
 

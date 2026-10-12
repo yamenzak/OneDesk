@@ -4787,6 +4787,40 @@ def oneinventory_an_items_buying_says_who_at_what_and_what_next():
 
 
 @check
+def oneinventory_an_items_selling_says_what_can_go_and_who_buys():
+	"""The Selling view: what is on hand goes to the orders soonest due first,
+	so the late order and the next two can go now and the big one is short;
+	an order not fully billed can be invoiced; the quotes still open, one in
+	dollars with what it comes to in dirhams; each customer's last twelve
+	months with returns taken off and their last price; and the sales a
+	selling price is held against."""
+	from onedesk.one_inventory import view
+
+	assert [(one["can_go"], one["short"]) for one in view.ready(
+		[{"left": 5, "due": "2026-02-01"}, {"left": 4, "due": "2026-01-01"}, {"left": 3, "due": None}], 6
+	)] == [(2, 3), (4, 0), (0, 3)]
+	with as_user("wsadmin@one.test"):
+		said = view.read("WIN-CS12")
+	selling = said["selling"]
+	orders = {one["party"]: one for one in selling["orders"]}
+	assert orders["Crescent Schools"]["late"] and not orders["Crescent Schools"]["short"], orders["Crescent Schools"]
+	assert not orders["Marina Hotels Group"]["short"] and not orders["Mansour & Sons"]["short"], orders
+	assert orders["Bayview Developments"]["short"] == 280, orders["Bayview Developments"]
+	assert orders["Mansour & Sons"]["to_bill"] and orders["Mansour & Sons"]["project_name"], orders["Mansour & Sons"]
+	quotes = selling["quotes"]
+	assert any(one["quotation_to"] == "Lead" for one in quotes), quotes
+	assert any(one["currency"] == "USD" and one["base_rate"] != one["rate"] for one in quotes), quotes
+	customers = {one["customer"]: one for one in selling["customers"]}
+	crescent = customers["Crescent Schools"]
+	assert (crescent["qty"], crescent["returned"], crescent["amount"]) == (23, 1, 54050), crescent
+	assert crescent["rate"] == 2350 and crescent["last"], crescent
+	acme = customers["Acme Holdings"]
+	assert acme["currency"] == "USD" and acme["their_amount"] and acme["their_amount"] != acme["amount"], acme
+	assert selling["sales"] and all(one["rate"] for one in selling["sales"]), selling["sales"]
+	assert any(one["price_list_rate"] > 2350 for one in selling["prices"]), selling["prices"]
+
+
+@check
 def oneinventory_an_items_head_has_its_barcodes_and_trends():
 	"""A new item is given its code as its first barcode. Manage Barcodes puts
 	them in the order it is given, so the first two are the head's, and

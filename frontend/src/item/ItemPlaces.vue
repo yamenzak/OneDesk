@@ -4,8 +4,8 @@
        level, and the level itself, the item's own reorder row changed in
        place. Its menu moves or counts the item there. -->
   <div v-if="!rows.length" class="py-3 text-base text-ink-gray-5">{{ __("Not kept anywhere yet") }}</div>
-  <ul v-else class="-mx-3 divide-y divide-outline-gray-1">
-    <li v-for="one in rows" :key="one.warehouse" class="flex gap-3 px-3 py-2.5">
+  <ul v-else class="divide-y divide-outline-gray-1">
+    <li v-for="one in rows" :key="one.warehouse" class="flex gap-3 py-2.5">
       <span class="mt-2 h-2 w-2 shrink-0 rounded-full" :class="one.low ? 'bg-surface-amber-5' : 'bg-surface-gray-4'" aria-hidden="true" />
       <div class="min-w-0 flex-1">
         <div class="flex min-w-0 items-center gap-2">

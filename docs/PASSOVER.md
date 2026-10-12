@@ -10743,6 +10743,72 @@ Fixed:
 | 16 Legal | nothing new |
 | 17 Clean code | `ItemSuppliers.vue` and `ItemPriceRow.vue` one concern each, ruff clean |
 
+#### 1h. The Selling view
+
+Your word: all six on the item's Selling view.
+
+Found:
+
+- **What ERPNext already does**: returns were left out, so Crescent Schools
+  read 24 bought for AED 56,400 when one came back (23, AED 54,050). A
+  customer paying in dollars read in dirhams only.
+- **Nothing lost (6)**: three quotes still open were nowhere on the page,
+  nor each customer's own code for the item, nor the last price they paid.
+- **Plain words (12)**: an order said "300 Nos to deliver" with no word on
+  whether the 63 on hand would cover it. Maximum Discount read 0, which
+  ERPNext takes as no limit. Selling Unit read "–".
+- **Hand-offs (3)**: an order couldn't be delivered or invoiced from here,
+  nor a quote made an order, nor a customer quoted.
+- **Built from frappe (8)**: the selling prices and the customers were read
+  only.
+- **Permissions (15)**: a salesperson can't read Item Price at all. ERPNext
+  gives prices to the master managers alone, so Omar sees no selling price
+  on an item he sells. Left for your word, since it gives the sales roles a
+  new right.
+
+Fixed:
+
+- **Our look (5)**: each order and customer with their picture, the order
+  number and project under the name, and "23 of 24 delivered".
+- **Plain words (12)**: stock goes to the orders soonest due first, so the
+  late Crescent order, Marina and Mansour say **Can Go Now** and Bayview
+  says 280 short. Maximum Discount says "No limit" at 0 and Selling Unit
+  "Same as stock" when empty.
+- **What ERPNext already does**: returns come off each customer, and a
+  customer's amount is in their own currency with the dirhams under it.
+- **Nothing lost (6)**: a Quotes section, each in its own currency, until
+  when, red within a week. Each customer's last price and date.
+- **Built from frappe (8)**: the customer's code is the item's own customer
+  row, changed on the row, and **Set Customer's Code** adds one as the grid
+  does. Each selling price is changed through the Item Price's own form,
+  and says "Sold at AED 2,350.00 to Crescent Schools on 25-06-2026" when a
+  recent sale went below it.
+- **Hand-offs (3)**: **Deliver**, **Invoice**, **Make Order**, **New
+  Quotation** and **New Order** each open the next document as its own
+  form's button does, with ERPNext's mapper.
+- **Our look (5)**: the hand-drawn lists on the item page (warehouses,
+  suppliers, customers, prices) now line up with the others.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_an_items_selling_says_what_can_go_and_who_buys`, and each action and change tried in the browser |
+| 2 Rules on the server | ERPNext's own, nothing of ours |
+| 3 Hand-offs | Deliver, Invoice, Make Order, New Quotation, New Order |
+| 4 Tier declared | unchanged, Item in PAGES |
+| 5 Our look | pictures, what can go now, delivered of ordered |
+| 6 Nothing lost | quotes, customers' codes and last prices now shown |
+| 7 Extensible | the place `oneinventory_item.selling` gives how many are short and the open quotes |
+| 8 Built from frappe | the item's and the price's own fields in place, ERPNext's mappers |
+| 9 Overrides recorded | none, all public calls |
+| 10 Notifications | nothing new |
+| 11 Printed | nothing new to print |
+| 12 Plain words | Can Go Now, No limit, every new string in Arabic and German |
+| 13 Documented | README An item's page, OneAI reads what can go now, last year's customers and open quotes |
+| 14 Intake | nothing new to read |
+| 15 Permissions | each action only for who may make the document, quotes only for who reads them. Item Price for the sales roles waits on your word |
+| 16 Legal | nothing new |
+| 17 Clean code | `ItemCustomers.vue` one concern, `ready()` pure, ruff clean |
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the

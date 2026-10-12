@@ -123,7 +123,7 @@ PLACES = {
 			},
 			"selling": {
 				"about": _lt("An item's Selling view is opened."),
-				"gives": "item.name, item.item_name, selling.orders (how many open), selling.late (how many late), selling.customers (names)",
+				"gives": "item.name, item.item_name, selling.orders (how many open), selling.late (how many late), selling.short (how many short of stock), selling.quotes (how many open), selling.customers (names)",
 				"may": ("note", "action"),
 			},
 			"making": {

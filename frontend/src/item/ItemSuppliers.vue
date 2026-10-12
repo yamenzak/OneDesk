@@ -5,8 +5,8 @@
        supplier row changed in place. Its menu orders from them, asks them
        for a quote or makes them the default. -->
   <div v-if="!rows.length && !adding" class="py-3 text-base text-ink-gray-5">{{ __("Never bought") }}</div>
-  <ul v-else class="-mx-3 divide-y divide-outline-gray-1">
-    <li v-for="one in rows" :key="one.supplier" class="flex gap-3 px-3 py-2.5">
+  <ul v-else class="divide-y divide-outline-gray-1">
+    <li v-for="one in rows" :key="one.supplier" class="flex gap-3 py-2.5">
       <Avatar :label="one.supplier" :image="one.image" shape="square" size="md" class="mt-0.5 shrink-0" />
       <div class="min-w-0 flex-1">
         <div class="flex min-w-0 items-center gap-2">
@@ -37,7 +37,7 @@
       </div>
     </li>
     <!-- A supplier added to the item's list and not saved yet. -->
-    <li v-if="adding && !rows.some((one) => one.row === adding)" class="flex flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2.5 text-sm text-ink-gray-5">
+    <li v-if="adding && !rows.some((one) => one.row === adding)" class="flex flex-wrap items-center gap-x-4 gap-y-2 py-2.5 text-sm text-ink-gray-5">
       <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Supplier") }}<FieldEdit :form="form" table="supplier_items" :row="adding" field="supplier" :label="__('Supplier')" hold start class="text-ink-gray-8" @cancel="cancel" /></span>
       <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Part Number") }}<FieldEdit :form="form" table="supplier_items" :row="adding" field="supplier_part_no" :label="__('Part Number')" hold start class="text-ink-gray-8" @cancel="cancel" /></span>
       <div class="flex basis-full gap-2">
