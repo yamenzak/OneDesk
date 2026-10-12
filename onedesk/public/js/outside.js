@@ -238,8 +238,8 @@ if (frappe.boot.one_elsewhere) {
 			<h1>${frappe.utils.escape_html(title)}</h1>
 			<p class="one-lost__line">${frappe.utils.escape_html(line)}</p>
 			<div class="one-lost__actions">
-				<button class="btn btn-default btn-md" data-go="back">${__("Go Back")}</button>
-				<button class="btn btn-primary btn-md" data-go="home">${__("Go Home")}</button>
+				${frappe.ui.button.html({ label: __("Go Back"), size: "md", attrs: { "data-go": "back" } })}
+				${frappe.ui.button.html({ label: __("Go Home"), size: "md", variant: "solid", attrs: { "data-go": "home" } })}
 			</div>
 		</div>`);
 		$scene.find("[data-go=back]").on("click", () => window.history.back());

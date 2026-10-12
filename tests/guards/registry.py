@@ -206,6 +206,12 @@ GUARDS = [
 	),
 	Guard("dialog-is-frappes", 8, "a dialog not frappe's", "tests/guards/test_shell.py::test_a_dialog_is_frappes"),
 	Guard(
+		"button-is-frappes",
+		8,
+		"a desk button drawn or recoloured with Bootstrap's classes instead of frappe.ui.button",
+		"tests/guards/test_frappe_calls.py::test_a_button_is_frappes",
+	),
+	Guard(
 		"record-as-docview",
 		8,
 		"a record opened by a page not drawn as a docview",

@@ -232,6 +232,13 @@ its variants, prices, units, alternatives and reorder levels, and New Item.
   conversion is seen.
 - Variants for glass thickness, and an item alternative.
 
+### 1b. Items rethought
+
+New Item by kind, Made From and Add from a List, the Items list as a
+catalogue, Attributes on Masters, and selling by size on every table that
+lines up items. Not yet: sizes in inches, a minimum charge per piece, a
+perimeter, volume, and offcuts kept as stock.
+
 ### 2. Stock on Hand and warehouses
 
 Karim, Huda, Tariq. Stock on Hand, the warehouse tree, a warehouse's head,

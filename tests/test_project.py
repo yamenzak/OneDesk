@@ -1150,7 +1150,9 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 	assert "new frappe.ui.Slides(" in page and "extends frappe.ui.Slide" in page
 	for step in ('name: "kind"', 'name: "details"', 'name: "plan"'):
 		assert step in page
-	assert "step.form.is_dialog = true;" in page
+	# Each step is a dialog's form from the start, so a field marks itself
+	# missing only once the primary button is pressed.
+	assert "is_dialog: true," in page and "fulfil()" in page
 	# A retainer runs month to month: Plan asks when it starts, not when it ends.
 	assert 'depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),' in page
 	assert 'if (this.kind === "Retainer") delete values.ends;' in page

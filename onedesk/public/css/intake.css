@@ -286,7 +286,7 @@
 	margin: calc(var(--spacing) * 3) 0 0;
 }
 
-.oi-folds .btn.active {
+.oi-folds .es-button.active {
 	background: var(--surface-gray-3);
 }
 

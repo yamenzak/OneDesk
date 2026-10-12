@@ -489,7 +489,9 @@ def _making(doc) -> dict | None:
 			order_by="planned_start_date asc",
 			limit=MOST,
 		)
-	if not (boms or used_in or orders):
+	# Something made here has its Making tab before its first bill of materials.
+	made_here = doc.default_material_request_type == "Manufacture" and not doc.is_fixed_asset
+	if not (boms or used_in or orders or made_here):
 		return None
 	return {"boms": boms, "materials": materials, "used_in": used_in, "orders": orders}
 

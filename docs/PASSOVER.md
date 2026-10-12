@@ -10353,6 +10353,7 @@ page of its own, and Quality Management stays out.
 |---|---|---|
 | 0 | Gates: 1900 fast tests, 122 of 122 demo checks, and the clean-up | done |
 | 1 | Items and an item's page | done |
+| 1b | Items rethought: New Item, parts lists, selling by size, Attributes | done |
 | 2 | Stock on Hand and warehouses | done |
 | 3 | Receiving | done |
 | 4 | Delivering | done |
@@ -10461,6 +10462,35 @@ Fixed:
 | 17 Clean code | `view.py` one concern, lint clean |
 | Everything follows frappe | desk's form save against `modified`, frappe's controls in Edit Details, realtime on the item and its stock |
 | What ERPNext already does | the company's currency, ERPNext's low test, its valuation method, its hidden serial and batch fields, its 2099 end of life left out |
+
+#### 1b. Items rethought
+
+The rail item by item, starting with Items, to give everything ERPNext has in
+a cleaner and more connected way.
+
+- **Works (1, 2)**: New Item makes the item as ERPNext's form would, with its
+  defaults, reorder level, opening stock, versions, prices and bill of
+  materials (`one_inventory/kinds.py`). Add from a List reads a parts list
+  and adds the missing parts (`parts.py`). Selling by size sets a line's
+  quantity before_validate on every record, so bulk edit, Data Import and
+  the mappers keep it (`measure.py`). One demo check covers all three,
+  including a linear metre (6 × 2400 mm = 14.4 m).
+- **Our look (5)**: New Item asks the kind first, then Details, then Buying,
+  Selling and Stock as switches that open their fields, then Made From. The
+  step bar sits between Back and Next. The Items list has tabs by kind and
+  what is on hand. A desk button drawn with Bootstrap's classes is now a
+  guard (`button-is-frappes`), and every one found was moved to
+  `frappe.ui.button`.
+- **Built from frappe (8)**: each step is a dialog's FieldGroup from the
+  start, so a filled field never stays red. The size columns and the unit
+  beside the quantity use the grid's own column override and docfields.
+- **Overrides (9)**: eight rows, from ItemQuickEntryForm to the merged size
+  line in the print formats.
+- **Printed (11)**: the size prints under the item's name on the eleven
+  shipped formats with item lines.
+- **Plain words (12)**: every new string in Arabic and German.
+- **Masters**: Attributes (Colour, Size) with their values edited in the
+  Masters dialog, and a field shows only when its section's condition holds.
 
 #### 2. Stock on Hand and warehouses
 

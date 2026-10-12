@@ -29,6 +29,7 @@ KINDS = (
 	("OneInventory", "Brand", _lt("Brands"), _lt("Brand")),
 	("OneInventory", "UOM", _lt("Units"), _lt("Unit")),
 	("OneInventory", "UOM Category", _lt("Unit Categories"), _lt("Unit Category")),
+	("OneInventory", "Item Attribute", _lt("Attributes"), _lt("Attribute")),
 	("OneInventory", "Supplier Group", _lt("Supplier Groups"), _lt("Supplier Group")),
 	("OneProject", "Project Type", _lt("Project Types"), _lt("Project Type")),
 	("OneHR", "Department", _lt("Departments"), _lt("Department")),
@@ -44,6 +45,11 @@ KINDS = (
 #: Fields a value's dialog leaves out: a tree's bookkeeping, and the company,
 #: which One has one of.
 KEPT = {"lft", "rgt", "old_parent", "company"}
+
+#: Tables a value's dialog holds, for a kind that is little more than its
+#: table (an attribute's values), with the heading the dialog gives it.
+#: Other tables stay in frappe's form.
+HELD = {"Item Attribute": {"item_attribute_values": _lt("Values")}}
 
 #: Kinds named by more than their name: a department is "Sales - ONE", for
 #: the company, and says "Sales".
@@ -127,6 +133,7 @@ def kinds() -> list[dict]:
 				"name_field": _name_field(meta),
 				"columns": _columns(meta),
 				"tables": _has_tables(meta),
+				"held": {field: str(label) for field, label in HELD.get(doctype, {}).items()},
 			}
 		)
 	return out
@@ -170,7 +177,8 @@ def _columns(meta) -> list[dict]:
 def _has_tables(meta) -> bool:
 	"""Whether a kind holds tables (a department's approvers, a customer
 	group's accounts), which a dialog leaves to frappe's form."""
-	return any(df.fieldtype in frappe.model.table_fields and not df.hidden for df in meta.fields)
+	held = HELD.get(meta.name, {})
+	return any(df.fieldtype in frappe.model.table_fields and not df.hidden and df.fieldname not in held for df in meta.fields)
 
 
 def _below_root(doctype: str) -> dict:
@@ -197,6 +205,7 @@ def add(doctype: str, values: str | dict) -> str:
 		for df in meta.fields
 		if df.fieldtype not in frappe.model.no_value_fields and df.fieldname not in KEPT
 	}
+	editable.update(HELD.get(doctype, {}))
 	doc.update({key: one for key, one in values.items() if key in editable})
 	if field == "__newname":
 		doc.set("__newname", value)

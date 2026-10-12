@@ -35,6 +35,11 @@ def boot_session(bootinfo) -> None:
 
 	reach.unopened(bootinfo.get("module_sidebars"))
 
+	# Which records' lines carry a size; see one_inventory/measure.py.
+	from onedesk.one_inventory import measure
+
+	bootinfo["one_measure"] = measure.for_boot()
+
 	# The modules no workspace changes, for the Customize and Settings menu items.
 	from onedesk.one import customize
 

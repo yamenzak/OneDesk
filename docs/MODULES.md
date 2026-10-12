@@ -498,7 +498,13 @@ No doctypes yet.
 * `onedesk.one_inventory.custody.give`
 * `onedesk.one_inventory.custody.take_back`
 * `onedesk.one_inventory.item.said`
+* `onedesk.one_inventory.kinds.defaults`
+* `onedesk.one_inventory.kinds.make`
+* `onedesk.one_inventory.kinds.stocked`
+* `onedesk.one_inventory.measure.line_quantity`
 * `onedesk.one_inventory.order.order`
+* `onedesk.one_inventory.parts.add`
+* `onedesk.one_inventory.parts.read`
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.stock.on_hand`
 * `onedesk.one_inventory.view.files`

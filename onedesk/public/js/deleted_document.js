@@ -10,6 +10,7 @@ frappe.ui.form.on("Deleted Document", {
 			if (frm.doc.deleted_doctype === "Custom Field") {
 				frappe.set_route("List", "Workspace Field", { form: name.slice(0, name.lastIndexOf("-")) });
 			} else frappe.set_route("Form", frm.doc.deleted_doctype, name);
-		}).addClass("btn-primary");
+		});
+		frm.change_custom_button_type(__("Restore"), null, "primary");
 	},
 });

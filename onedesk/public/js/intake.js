@@ -49,7 +49,7 @@ onedesk.intake.slim = (said) => {
 		said.kind ? `${frappe.ui.badge.html({ label: __(said.kind), theme: "blue", size: "sm" })}` : "",
 		said.unsure ? `${frappe.ui.badge.html({ label: __("Unsure"), theme: "orange", size: "sm" })}` : "",
 	].join("");
-	const toggle = (key, label) => `<button class="btn btn-xs btn-default" data-fold="${key}">${label}</button>`;
+	const toggle = (key, label) => frappe.ui.button.html({ label, size: "xs", attrs: { "data-fold": key } });
 	const pay = said.pay ? toggle("pay", said.pay.warn ? __("Do Not Pay Yet") : __("Pay")) : "";
 	return `<div class="oi-panel oi-slim">
 		<div class="oi-head"><img src="${onedesk.intake.MARK}" alt=""><span>${__("Read by OneAI")}</span>${chips}</div>
@@ -58,8 +58,8 @@ onedesk.intake.slim = (said) => {
 		${quick ? `<dl class="oi-quick">${quick}</dl>` : ""}
 		${status}
 		<div class="oi-buttons oi-folds">${pay}
-			<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>
-			${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write Cancellation")}</button>` : ""}
+			${frappe.ui.button.html({ label: said.explained ? __("Explain Again") : __("Explain"), size: "xs", attrs: { "data-explain": "0", "data-again": said.explained ? "1" : "0" } })}
+			${said.may_cancel ? frappe.ui.button.html({ label: __("Write Cancellation"), size: "xs", attrs: { "data-explain": "1" } }) : ""}
 			${toggle("details", __("Details"))}
 		</div>
 		<div class="oi-fold hide" data-fold-body="pay">${onedesk.intake.pay(said.pay)}</div>
@@ -169,8 +169,8 @@ onedesk.intake.pay = (pay) => {
 
 onedesk.intake.explained = (said) => {
 	const buttons = `<span class="oi-buttons">
-		<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>
-		${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write Cancellation")}</button>` : ""}</span>`;
+		${frappe.ui.button.html({ label: said.explained ? __("Explain Again") : __("Explain"), size: "xs", attrs: { "data-explain": "0", "data-again": said.explained ? "1" : "0" } })}
+		${said.may_cancel ? frappe.ui.button.html({ label: __("Write Cancellation"), size: "xs", attrs: { "data-explain": "1" } }) : ""}</span>`;
 	return `<div class="oi-explain">${buttons}<div class="oi-explained">${said.explained ? onedesk.intake.explanation(said.explained) : ""}</div></div>`;
 };
 
@@ -188,7 +188,7 @@ onedesk.intake.explanation = (said) => {
 				.join("")}</ul>`
 		: "";
 	const reply = said.reply
-		? `<div class="oi-title oi-did">${__("Letter")}<button class="btn btn-xs btn-default" data-copy="${esc(said.reply)}">${__("Copy")}</button></div><pre class="oi-letter">${esc(said.reply)}</pre>`
+		? `<div class="oi-title oi-did">${__("Letter")}${frappe.ui.button.html({ label: __("Copy"), size: "xs", attrs: { "data-copy": said.reply } })}</div><pre class="oi-letter">${esc(said.reply)}</pre>`
 		: "";
 	return `${paragraphs}${todo}${reply}`;
 };
@@ -217,8 +217,8 @@ onedesk.intake.actions = (said) => {
 		const waits = one.level === "Proposed";
 		const buttons =
 			waits && said.may_decide
-				? ` <span class="oi-buttons"><button class="btn btn-xs btn-primary" data-settle="${esc(one.name)}" data-take="1">${__("Apply")}</button>
-				<button class="btn btn-xs btn-default" data-settle="${esc(one.name)}" data-take="0">${__("Dismiss")}</button></span>`
+				? ` <span class="oi-buttons">${frappe.ui.button.html({ label: __("Apply"), size: "xs", variant: "solid", attrs: { "data-settle": one.name, "data-take": "1" } })}
+				${frappe.ui.button.html({ label: __("Dismiss"), size: "xs", attrs: { "data-settle": one.name, "data-take": "0" } })}</span>`
 				: "";
 		const chip = waits
 			? `${frappe.ui.badge.html({ label: __("Needs Review"), theme: "orange", size: "sm" })} `
@@ -232,7 +232,7 @@ onedesk.intake.actions = (said) => {
 		return `<li>${chip}${esc(one.said)}${link(one)}${change}${buttons}${why}</li>`;
 	};
 	const done = rows.some((one) => one.level === "Done");
-	const undo = done && said.may_decide ? `<button class="btn btn-xs btn-default oi-undo" data-undo="1">${__("Undo")}</button>` : "";
+	const undo = done && said.may_decide ? frappe.ui.button.html({ label: __("Undo"), size: "xs", css_class: "oi-undo", attrs: { "data-undo": "1" } }) : "";
 	return `<div class="oi-title oi-did">${__("What OneAI did")}${undo}</div><ul>${rows.map(row).join("")}</ul>`;
 };
 
@@ -359,8 +359,8 @@ $(document).on("form-refresh", (event, frm) => {
 	frm.set_intro(
 		`<div class="oi-banner"><img src="${onedesk.intake.MARK}" alt="">
 		<span>${from ? __("Made by OneAI from {0}. Not checked yet.", [from]) : __("Made by OneAI. Not checked yet.")}</span>
-		<span class="oi-buttons"><button class="btn btn-xs btn-default" data-looks-right>${__("Mark as Checked")}</button>
-		${held.action ? `<button class="btn btn-xs btn-default" data-undo-one>${__("Undo")}</button>` : ""}</span></div>`,
+		<span class="oi-buttons">${frappe.ui.button.html({ label: __("Mark as Checked"), size: "xs", attrs: { "data-looks-right": true } })}
+		${held.action ? frappe.ui.button.html({ label: __("Undo"), size: "xs", attrs: { "data-undo-one": true } }) : ""}</span></div>`,
 		"blue"
 	);
 	const $banner = frm.$intro_message || $();

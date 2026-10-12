@@ -1,0 +1,44 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Item",
+   "fieldname": "one_measured_by",
+   "fieldtype": "Select",
+   "label": "Measured By",
+   "options": "Piece\nLength\nArea",
+   "default": "Piece",
+   "insert_after": "stock_uom",
+   "module": "One Inventory",
+   "description": "Orders give each piece's size, and the quantity follows."
+  }
+ ],
+ "doctype": "Item",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Item",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "is_fixed_asset"
+  },
+  {
+   "doc_type": "Item",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "has_variants"
+  },
+  {
+   "doc_type": "Item",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "variant_of"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -442,6 +442,9 @@ doc_events = {
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
+		# A line's quantity from its size, on every record that lines up
+		# items. See one_inventory/measure.py.
+		"before_validate": "onedesk.one_inventory.measure.sized",
 		# What a record Intake makes still needs, from the document. See one_intake/fill.py.
 		"before_insert": "onedesk.one_intake.fill.before_insert",
 		"before_save": "onedesk.one_intake.fill.before_save",
@@ -1051,6 +1054,8 @@ doctype_list_js = {
 	"Task": "public/js/task_list.js",
 	# A project's status is its status, and its manager a name.
 	"Project": "public/js/project_list.js",
+	# A tab for each kind of item, and how many of each are on hand.
+	"Item": "public/js/item_list.js",
 	# Whether a contract is signed, and the project it is for by name.
 	"Contract": "public/js/contract_list.js",
 	"Purchase Receipt": "public/js/purchase_receipt_list.js",
@@ -1139,6 +1144,8 @@ app_include_js = [
 	"/assets/onedesk/js/desk.js",
 	# A record on a page of its own keeps its form's menu and sidebar. See record.js.
 	"/assets/onedesk/js/record.js",
+	# A line's size on every record that lines up items. See one_inventory/measure.py.
+	"/assets/onedesk/js/measure.js",
 	# What of frappe's own desk a workspace is not offered; see one/outside.py.
 	"/assets/onedesk/js/outside.js",
 	"/assets/onedesk/js/shell.js",
@@ -1166,6 +1173,8 @@ app_include_js = [
 	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
 	"/assets/onedesk/js/island_page.js",
 	"/assets/onedesk/js/project_new.js",
+	# New Item, by kind, in the same steps. See one_inventory/kinds.py.
+	"/assets/onedesk/js/item_new.js",
 	# Where the panel is not out, the breadcrumb is the menu of the module's places. See public/js/panel_menu.js.
 	"/assets/onedesk/js/panel_menu.js",
 	# A project's name in its breadcrumb lists the other projects. See public/js/project_places.js.
@@ -1242,6 +1251,7 @@ one_makes_records = {
 	"Interview Feedback": ["one_hr"],
 	"Item": ["one", "one_admin", "one_inventory", "one_project"],
 	"Item Group": ["one_admin"],
+	"Item Price": ["one_inventory"],
 	"Job Applicant": ["one_hr"],
 	"Job Card": ["one_inventory"],
 	"Job Opening": ["one_hr"],

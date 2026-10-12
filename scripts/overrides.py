@@ -2481,6 +2481,62 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/views/workspace/workspace.js",
 		"async show_page(page) {",
 	),
+	(
+		"New Item asks by kind",
+		"ERPNext's quick entry for an item asks for its code, group, unit and variants with no idea of what kind of thing it is; public/js/item_new.js replaces frappe.ui.form.ItemQuickEntryForm with steps by kind (stock, service, equipment, versions), buying, selling and stock, and Made From, saved through one_inventory/kinds.py",
+		"onedesk/public/js/item_new.js",
+		"erpnext/erpnext/public/js/utils/item_quick_entry.js",
+		"frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.form.QuickEntryForm {",
+	),
+	(
+		"The Items list reads as a catalogue",
+		"ERPNext's Items list shows the asset flag, a status column and a stock unit for services; public/js/item_list.js (doctype_list_js, after erpnext's item_list.js) adds tabs by kind, says what is on hand, and leaves the unit off what is never stocked, and custom/item.json takes is_fixed_asset off the list and the variant filters off the sidebar",
+		"onedesk/public/js/item_list.js",
+		"erpnext/erpnext/stock/doctype/item/item_list.js",
+		'frappe.listview_settings["Item"] = {',
+	),
+	(
+		"A step of a new record is a dialog's form from the start",
+		"frappe.ui.Slide makes its FieldGroup and only then can be told it sits in a dialog, so a required field filled in stayed red; onedesk.project.Step overrides setup_form to make it with is_dialog, and steps_in_footer moves the Slides progress bar between Back and Next in the dialog's footer",
+		"onedesk/public/js/project_new.js",
+		"frappe/frappe/public/js/frappe/ui/slides.js",
+		"setup_form() {",
+	),
+	(
+		"The steps' progress bar sits in the dialog's footer",
+		"onedesk.project.steps_in_footer moves frappe.ui.Slides' $slide_progress into the dialog footer; it leans on Slides making it as its own element",
+		"onedesk/public/js/project_new.js",
+		"frappe/frappe/public/js/frappe/ui/slides.js",
+		"this.$slide_progress = $(`<div>`)",
+	),
+	(
+		"A line's size sets its quantity",
+		"ERPNext has no size on a line; one_inventory/measure.py adds pieces, length and width before the quantity on every table that lines up items, and before_validate on every record sets the quantity from them in the line's unit, or in the unit get_item_details would give a new line",
+		"onedesk/one_inventory/measure.py",
+		"erpnext/erpnext/stock/get_item_details.py",
+		"ctx.uom = item.purchase_uom if item.purchase_uom else item.stock_uom",
+	),
+	(
+		"The size columns show only where a line is measured",
+		"public/js/measure.js hides and shows the size columns per table with the grid's own column override, and puts the unit beside the quantity through the grid's docfields",
+		"onedesk/public/js/measure.js",
+		"frappe/frappe/public/js/frappe/form/grid.js",
+		"set_column_disp_in_list_view(fieldname, show) {",
+	),
+	(
+		"The quantity's unit beside it on a measured line",
+		"public/js/measure.js sets a formatter on the quantity of each drawn row through update_docfield_property, since each row keeps its own copy of the field",
+		"onedesk/public/js/measure.js",
+		"frappe/frappe/public/js/frappe/form/grid.js",
+		"update_docfield_property(fieldname, property, value) {",
+	),
+	(
+		"A line's size prints under its item",
+		"the shipped builder print formats with item lines merge one_size under item_name; frappe's Table macro draws merged fields as lines under the cell",
+		"onedesk/one_crm/print_format/one_quotation/one_quotation.json",
+		"frappe/frappe/templates/print_format/macros/Table.html",
+		"column.merged_fields",
+	),
 ]
 
 

@@ -280,14 +280,11 @@ onedesk.hiring.recorder = {
 				<span class="one-rec__label"></span>
 				<canvas class="one-rec__wave" aria-hidden="true"></canvas>
 				<span class="one-rec__time">00:00</span>
-				<button type="button" class="btn btn-xs btn-default one-rec__stop"></button>
+				${frappe.ui.button.html({ label: __("Stop"), size: "xs", css_class: "one-rec__stop" })}
 			</div>
 		`).appendTo(document.body);
 		this.$bar.find(".one-rec__label").text(__("Recording"));
-		this.$bar
-			.find(".one-rec__stop")
-			.text(__("Stop"))
-			.on("click", () => this.stop());
+		this.$bar.find(".one-rec__stop").on("click", () => this.stop());
 		const pad = (n) => String(n).padStart(2, "0");
 		this.ticking = setInterval(() => {
 			const s = this.seconds();

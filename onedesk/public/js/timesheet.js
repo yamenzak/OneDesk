@@ -24,9 +24,9 @@ frappe.ui.form.on("Timesheet", {
 		if (frm.doc.docstatus !== 0) return;
 
 		const open = running(frm);
-		frm.add_custom_button(open ? __("Resume Timer") : __("Start Timer"), () =>
-			onedesk.timesheet.timer(frm, open),
-		).addClass("btn-primary");
+		const label = open ? __("Resume Timer") : __("Start Timer");
+		frm.add_custom_button(label, () => onedesk.timesheet.timer(frm, open));
+		frm.change_custom_button_type(label, null, "primary");
 	},
 });
 
@@ -83,8 +83,8 @@ onedesk.timesheet.timer = (frm, row) => {
 	dialog.get_field("clock").$wrapper.append(`
 		<div class="stopwatch" style="text-align:center; font-size: 2rem; font-variant-numeric: tabular-nums;">00:00:00</div>
 		<div class="text-center" style="margin-top: var(--margin-md)">
-			<button class="btn btn-primary btn-go">${row ? __("Resume") : __("Start")}</button>
-			<button class="btn btn-primary btn-stop" style="display:none">${__("Complete")}</button>
+			${frappe.ui.button.html({ label: row ? __("Resume") : __("Start"), variant: "solid", css_class: "btn-go" })}
+			${frappe.ui.button.html({ label: __("Complete"), variant: "solid", css_class: "btn-stop", attrs: { style: "display:none" } })}
 		</div>
 	`);
 

@@ -17,7 +17,7 @@ frappe.provide("onedesk.project");
 		if (frappe.route_options) delete frappe.route_options.edit;
 		const [view, doctype, name] = found || [];
 		const page = { Project: "project-view", "Project Template": "project-template-view", Task: "task-view", Item: "item-view" }[doctype];
-		if (view !== "Form" || !page || !name || name.startsWith("new-")) return found;
+		if (view !== "Form" || !page || !name || name === "new" || name.startsWith("new-")) return found;
 		if (new URLSearchParams(window.location.search).has("edit")) return found;
 		return [page, name];
 	};
@@ -36,6 +36,11 @@ onedesk.project.library = async (field) => {
 	);
 };
 
+// The steps sit in the dialog's footer, between Previous and Next.
+onedesk.project.steps_in_footer = (dialog) => {
+	dialog.$wrapper.find(".modal-footer").addClass("one-steps-footer").append(dialog.slides.$slide_progress.removeClass("mb-6"));
+};
+
 onedesk.project.KINDS = () => [
 	{
 		value: "Fixed Price",
@@ -50,9 +55,31 @@ onedesk.project.KINDS = () => [
 ];
 
 // A step of the New Project dialog: frappe's Slide, inside a dialog rather than
-// the setup wizard's page, so without the wizard's theme button.
+// the setup wizard's page, so without the wizard's theme button. Its form is a
+// dialog's from the start, so an empty required field turns red only once Next
+// is pressed, as in any frappe dialog (`fulfil`).
 onedesk.project.Step = class Step extends frappe.ui.Slide {
 	attach_toggle_theme_btn() {}
+
+	setup_form() {
+		this.form = new frappe.ui.FieldGroup({
+			fields: this.get_atomic_fields(),
+			body: this.$form[0],
+			no_submit_on_enter: true,
+			is_dialog: true,
+		});
+		this.form.make();
+		if (this.add_more) this.bind_more_button();
+		this.set_reqd_fields();
+		if (this.onload) this.onload(this);
+		this.set_reqd_fields();
+	}
+
+	// The step's values, as a dialog's primary button takes them.
+	fulfil() {
+		if (this.form) this.form.primary_action_fulfilled = true;
+		return this.set_values();
+	}
 };
 
 // New Project in three steps, on frappe's Slides: the kind, what that kind
@@ -196,7 +223,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					fields: details,
 					onload: (step) => {
 						// frappe applies mandatory_depends_on in a dialog's fields only.
-						step.form.is_dialog = true;
 						// Slide copies its fields as JSON, which drops a function.
 						step.get_field("item").get_query = () => ({
 							filters: { is_sales_item: 1, disabled: 0, is_stock_item: 0 },
@@ -243,7 +269,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					fields: plan,
 					onload: (step) => {
 						step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
-						step.form.is_dialog = true;
 						said.then((found) => {
 							if (!step.get_value("manager")) step.form.set_value("manager", found.user);
 							if (!step.get_value("time")) step.form.set_value("time", found.time || "Timesheets");
@@ -253,6 +278,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			],
 		});
 		this.slides.$footer.hide();
+		onedesk.project.steps_in_footer(this);
 		this.slides.refresh = ((refresh) => (id) => {
 			refresh.call(this.slides, id);
 			this.set_buttons();
@@ -271,8 +297,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 		const at = this.slides.current_id || 0;
 		const last = at === this.slides.slides.length - 1;
 		this.get_secondary_btn().toggle(at > 0);
-		// The first step has nothing to press but a card.
-		this.$wrapper.find(".modal-footer").toggle(at > 0 || Boolean(this.kind));
 		this.set_primary_action(last ? __("Create Project") : __("Next"), () => (last ? this.create() : this.go(1)));
 		// The kind is picked by its card, which moves on.
 		this.get_primary_btn().toggle(at > 0 || Boolean(this.kind));
@@ -282,7 +306,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 	go(by) {
 		const slides = this.slides;
 		const step = slides.current_slide;
-		if (by > 0 && step.form && step.name !== "kind" && !step.set_values()) return;
+		if (by > 0 && step.form && step.name !== "kind" && !step.fulfil()) return;
 		if (by > 0) step.done = true;
 		slides.show_slide(slides.current_id + by);
 	}
@@ -321,7 +345,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 
 	async create() {
 		const [, details, plan] = Object.values(this.slides.slide_dict);
-		if (!plan.set_values() || this.working) return;
+		if (!plan.fulfil() || this.working) return;
 		// Hidden fields are not among the values frappe's form returns.
 		const values = { ...details.values, ...plan.values, kind: this.kind, parent: details.get_value("parent") };
 		// An end typed before the kind became Retainer is not one it has.

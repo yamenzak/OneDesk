@@ -187,18 +187,41 @@ onedesk.Masters = class Masters {
 	}
 
 	// The kind's fields from frappe's meta: every one with a value, but a
-	// tree's bookkeeping, the company, and tables. The name comes first; a
-	// kind named as it is asked to be (Lead Sources) gets a Name field.
+	// tree's bookkeeping, the company, and tables, unless the kind is little
+	// more than its table (an attribute's values). A field keeps its section's
+	// condition. The name comes first; a kind named as it is asked to be
+	// (Lead Sources) gets a Name field.
 	fields(kind, doc) {
 		const kept = new Set(["lft", "rgt", "old_parent", "company"]);
-		const shown = frappe.meta
-			.get_docfields(kind.doctype)
-			.filter((df) => !df.hidden && !kept.has(df.fieldname) && !frappe.model.no_value_type.includes(df.fieldtype))
-			.map((df) => ({ ...df, default: doc ? doc[df.fieldname] : df.default }));
+		const held = kind.held || {};
+		const shown = [];
+		let section = null;
+		for (const df of frappe.meta.get_docfields(kind.doctype)) {
+			if (df.fieldtype === "Section Break") section = df.depends_on || null;
+			if (df.hidden || kept.has(df.fieldname)) continue;
+			if (held[df.fieldname]) {
+				const columns = frappe.meta.get_docfields(df.options).filter((one) => one.in_list_view && !one.hidden);
+				shown.push({ ...df, label: held[df.fieldname], fields: columns, data: doc ? (doc[df.fieldname] || []).map((row) => ({ ...row })) : [], depends_on: df.depends_on || section });
+			} else if (!frappe.model.no_value_type.includes(df.fieldtype)) {
+				shown.push({ ...df, default: doc ? doc[df.fieldname] : df.default, depends_on: df.depends_on || section });
+			}
+		}
 		const at = shown.findIndex((df) => df.fieldname === kind.name_field);
 		const name = at >= 0 ? shown.splice(at, 1)[0] : { fieldname: "__newname", fieldtype: "Data", label: __("Name"), default: doc ? doc.name : "" };
 		Object.assign(name, { reqd: 1, read_only: doc && !kind.rename ? 1 : 0 });
 		return [name, ...shown];
+	}
+
+	// A held table's rows as frappe saves them: the columns, and the name of
+	// a row that was already there.
+	rows(df, value, doc) {
+		const had = new Set(((doc && doc[df.fieldname]) || []).map((row) => row.name));
+		return (value || [])
+			.filter((row) => df.fields.some((one) => row[one.fieldname]))
+			.map((row) => ({
+				...(had.has(row.name) ? { name: row.name } : {}),
+				...Object.fromEntries(df.fields.map((one) => [one.fieldname, row[one.fieldname] ?? null])),
+			}));
 	}
 
 	// Save: a new value through masters.add; a changed name through frappe's
@@ -206,6 +229,9 @@ onedesk.Masters = class Masters {
 	async save(dialog, kind, doc, fields) {
 		const values = dialog.get_values();
 		if (!values) return;
+		for (const df of fields) {
+			if (df.fieldtype === "Table") values[df.fieldname] = this.rows(df, values[df.fieldname], doc);
+		}
 		const name_field = fields[0].fieldname;
 		if (!doc) {
 			await frappe.xcall(`${Masters.API}add`, { doctype: kind.doctype, values });
@@ -221,7 +247,9 @@ onedesk.Masters = class Masters {
 			for (const df of fields.slice(1)) {
 				if (df.read_only) continue;
 				const value = values[df.fieldname] ?? null;
-				if (String(value ?? "") !== String(doc[df.fieldname] ?? "")) changed[df.fieldname] = value;
+				const was = df.fieldtype === "Table" ? this.rows(df, doc[df.fieldname], doc) : doc[df.fieldname];
+				const same = df.fieldtype === "Table" ? JSON.stringify(value) === JSON.stringify(was) : String(value ?? "") === String(was ?? "");
+				if (!same) changed[df.fieldname] = value;
 			}
 			if (Object.keys(changed).length) {
 				const fresh = name === doc.name ? doc : await frappe.xcall("frappe.client.get", { doctype: kind.doctype, name });

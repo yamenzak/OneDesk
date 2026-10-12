@@ -92,6 +92,7 @@ HEADS = (
 #: script, a calendar's fields or a tree's parent (doctype_list_js,
 #: doctype_calendar_js, doctype_tree_js in hooks.py) is declared here.
 COLLECTIONS = {
+	"Item": {"List": "a tab for each kind of item, and how many of each are on hand, with Low once a warehouse is at its reorder level"},
 	"Project Template": {"List": "From the Library beside Add, copying a preset in and opening it"},
 	"Timesheet": {"List": "OneProject's Time: the project, the days and the billable hours as columns, the ID on hover"},
 	"Project": {

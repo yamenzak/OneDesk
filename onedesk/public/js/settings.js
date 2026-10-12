@@ -251,7 +251,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const asking = copy && ["Waiting", "Gathering"].includes(copy.status);
 		const buttons = [
 			copy && copy.ready
-				? `<a class="btn btn-default btn-sm" href="${encodeURI(copy.url)}" download>${frappe.utils.icon("download", "sm")} ${__("Download My Data")}</a>`
+				? onedesk.shell.button(__("Download My Data"), { "data-download": copy.url }, "subtle", "download")
 				: "",
 			asking ? "" : onedesk.shell.button(copy && copy.ready ? __("Request New Copy") : __("Request My Data"), { "data-copy": "1" }, "subtle", "file-down"),
 			state.deletion
@@ -262,6 +262,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	}
 
 	your_data_actions($card, state) {
+		$card.find("[data-download]").on("click", (event) => window.open(encodeURI($(event.currentTarget).attr("data-download")), "_blank"));
 		$card.find("[data-copy]").on("click", async () => {
 			await frappe.xcall("onedesk.one.privacy_copy.ask");
 			frappe.show_alert({ message: __("Requested. You'll be notified when it's ready."), indicator: "green" });
@@ -1725,7 +1726,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.refresh();
 			},
 		});
-		dialog.get_primary_btn().removeClass("btn-primary").addClass("btn-danger");
+		frappe.ui.button.dress(dialog.get_primary_btn(), { label: __("Close Workspace"), variant: "solid", theme: "red" });
 		dialog.show();
 	}
 

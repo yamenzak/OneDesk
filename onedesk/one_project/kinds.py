@@ -260,9 +260,11 @@ def defaults(
 	last project's contract was billed as, or Contract Work, the currency the
 	customer is billed in, how the workspace counts time, and the payment terms,
 	terms and conditions and retention to agree (terms.py)."""
+	# Only an item Bill As takes: sold, enabled and not kept in stock.
+	billable = frappe.get_all("Item", filters={"is_sales_item": 1, "disabled": 0, "is_stock_item": 0}, pluck="name")
 	found = frappe.get_all(
 		"Sales Order Item",
-		filters={"docstatus": 1, "project": ["is", "set"]},
+		filters={"docstatus": 1, "project": ["is", "set"], "item_code": ["in", billable or [""]]},
 		fields=["item_code"],
 		order_by="creation desc",
 		limit=1,

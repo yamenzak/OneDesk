@@ -16,7 +16,9 @@ asset's depreciation lands in OneBook's books by itself.
 
 **OneInventory** in the dock opens it. The rail has:
 
-- **Items** — everything you buy, sell or keep, each with its stock.
+- **Items** — everything you buy, sell or keep, each with its stock. Tabs
+  across the top split it into stock, services, equipment and products in
+  several versions, and each stock item says how many are on hand.
 - **Stock on Hand** — how much of each item is in each warehouse, and what it
   is worth.
 - **Receipts** — goods that arrived from a supplier.
@@ -50,7 +52,61 @@ asset's depreciation lands in OneBook's books by itself.
   kept right), warehouses, price lists, asset categories, locations,
   maintenance teams, **Stock Settings**, **Buying Settings**, workstations,
   operations, routings, subcontracted items and **Manufacturing Settings**.
-  Item groups, brands and units are in One's **Masters**.
+  Item groups, brands, units and attributes (Colour, Size and their values)
+  are in One's **Masters**.
+
+## A new item
+
+**Add Item** on the Items list asks what kind of thing it is first:
+
+- **Stock** — counted in a warehouse.
+- **Service** — work or a charge, never stocked.
+- **Equipment** — owned and used, like a van or a laptop. It becomes an asset
+  when it is bought.
+- **Sizes or Colours** — one product in several versions. Pick the sizes and
+  colours it comes in, and each combination becomes its own item.
+
+**Details** asks for its name, group, unit and a picture. **Measured By** says
+whether it is sold by the piece, by length or by area (see Selling by size).
+
+**Buying, Selling and Stock** has a switch for each side. **Sold to
+Customers** opens its selling price. **Bought from Suppliers** opens its
+buying price and usual supplier. **Made in Our Workshop** adds a step for what
+it is made from. **Order More When Low** opens the level to reorder at and how
+many to order. **Kept In** and **On Hand Now** put its first stock in a
+warehouse.
+
+**Made From** lists the parts that go into one, with their quantities. It
+becomes the item's bill of materials. **Add from a List** reads a parts list,
+uploaded as a spreadsheet or CSV file or pasted in, with a code, name,
+quantity and unit on each row. It matches each part to an item by its code, a
+supplier's part number or its name, shows which are new, and adds the new ones
+as stock items when you press **Add Parts**.
+
+## Selling by size
+
+Glass, sheets, profiles and the like are sold by size. An item measured by
+**Length** or **Area** gets **Pieces**, **Length (mm)** and **Width (mm)** on
+every line it is on: quotations, orders, deliveries, invoices, purchase
+orders, receipts, stock movements, bills of materials and the rest. The
+quantity is worked out from the size, in the line's unit, and the price,
+tax, stock and cost follow from the quantity as on any other line.
+
+- 4 glass panels of 1200 × 800 mm, sold by the square metre, come to
+  3.84 m².
+- 6 profiles cut at 2400 mm, sold by the metre, come to 14.4 m.
+- An item kept by the piece says how big one piece is when it is made, such
+  as a sheet of 3.125 m². Two sheets of 1250 × 2500 mm then come to 2 sheets.
+- A unit ERPNext can convert to also works, such as square feet.
+
+The size columns show only once a line's item is measured, and the quantity
+shows its unit, such as 3.840 m². The size prints under the item's name on
+quotes, orders, invoices and the other printed records, such as
+"4 × 1200 × 800 mm". A quotation's sizes carry to the order made from it, and
+on from there.
+
+A unit that must be whole, such as Nos, stays whole. Selling 3 m² from a sheet
+kept by the piece is refused, because that is not a whole sheet.
 
 ## An item's page
 
@@ -523,6 +579,30 @@ the books by itself every day, and the asset reports are OneBook's to read as
 well. The product line has no mark for a separate assets app, and an app with
 a register and a movement form in it would be a rail with five rows.
 
+- `kinds.py` and `public/js/item_new.js` — New Item. `KINDS` sets the
+  ERPNext fields each kind needs (is_stock_item, is_fixed_asset,
+  has_variants), and `make` saves the item as ERPNext's form would: its item
+  defaults, reorder level, opening stock, attributes and versions, prices on
+  the workspace's buying and selling price lists, and its bill of materials
+  from Made From (`_recipe`, submitted when the reader may). Made here is
+  ERPNext's own default material request type, Manufacture, which production
+  planning reads too. The dialog is frappe's Slides in a dialog, each step a
+  dialog's form from the start (`onedesk.project.Step`). `stocked` is the
+  Items list's on-hand figure, summed as the page sums it.
+- `parts.py` — Add from a List. `parse` is pure and reads a heading row when
+  there is one; `read` matches each part by code, a supplier's part number
+  (Item Supplier) or name; `add` makes the missing parts stock items in Raw
+  Material, bought and not sold.
+- `measure.py` and `public/js/measure.js` — selling by size. Item's
+  `one_measured_by`, and on every table in `LINES` the custom fields
+  one_measured_by (fetched from the item), one_pieces, one_length, one_width
+  and one_size. `sized` runs before_validate on every record (`doc_events`
+  "*"), so the quantity holds under bulk edit, Data Import and ERPNext's
+  mappers. `factor` converts a metre or square metre to the line's unit by
+  the item's own conversion first, then ERPNext's UOM Conversion Factor. The
+  form script sets the quantity as the size is typed, shows the size columns
+  only where a line is measured, and the unit's symbol beside the quantity.
+  The shipped print formats merge one_size under the item's name.
 - `view.py`, `page/item_view` and `frontend/src/item` — an item's page. An
   item is the hub of the stores, as a project is of a job, so it opens on a
   page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the

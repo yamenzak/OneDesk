@@ -4,7 +4,8 @@ frappe.ui.form.on("Intake Action", {
 		const settle = (take) =>
 			frappe.xcall("onedesk.one_intake.act.settle", { action: frm.doc.name, take }).then(() => frm.reload_doc());
 		if (frm.doc.level === "Proposed") {
-			frm.add_custom_button(__("Apply"), () => settle(1)).addClass("btn-primary");
+			frm.add_custom_button(__("Apply"), () => settle(1));
+			frm.change_custom_button_type(__("Apply"), null, "primary");
 			frm.add_custom_button(__("Dismiss"), () => settle(0));
 		}
 		if (frm.doc.level === "Done") {

@@ -4735,6 +4735,47 @@ def oneinventory_an_item_opens_on_its_own_page():
 
 
 @check
+def oneinventory_new_item_parts_list_and_sizes():
+	"""New Item makes an item by its kind, measured by area or length or by the
+	piece; a sheet kept by the piece says how many square metres it is. A
+	parts list pasted in is matched to the items there are, and its new parts
+	are added as stock items. A line of a measured item takes its quantity
+	from its size, in the line's unit, on a quotation and on the order made
+	from it, and the size is kept for print. A linear metre is pieces times
+	their length."""
+	from erpnext.selling.doctype.quotation.mapper import make_sales_order
+
+	from onedesk.one_inventory import kinds, measure, parts
+
+	with as_user("karim@one.test"):
+		glass = kinds.make({"kind": "Stock", "title": "Clear Glass 8 mm", "code": "DEMO-GLASS-8", "group": "Products", "unit": "Square Meter", "measured_by": "Area", "sold": 1, "selling_price": 60, "bought": 1})
+		sheet = kinds.make({"kind": "Stock", "title": "Aluminium Sheet 3 mm", "code": "DEMO-SHEET-3", "group": "Products", "unit": "Nos", "measured_by": "Area", "per_unit_area": 3.125, "sold": 1, "selling_price": 180, "bought": 1})
+		profile = kinds.make({"kind": "Stock", "title": "Edge Trim", "code": "DEMO-TRIM", "group": "Products", "unit": "Meter", "measured_by": "Length", "sold": 1, "selling_price": 12, "bought": 1})
+		assert frappe.db.get_value("Item", glass, "one_measured_by") == "Area"
+		assert {(r.uom, round(r.conversion_factor, 2)) for r in frappe.get_doc("Item", sheet).uoms} >= {("Square Meter", 0.32)}
+		assert set(kinds.stocked(["ALU-6063"])) == {"ALU-6063"}, "the Items list reads what the stores hold"
+		found = parts.read(text="code,name,qty\nALU-6063,,2\nDEMO-GASKET,Door gasket,4\nALU-6063,,1")
+		assert [(one["code"], one["qty"], one["new"]) for one in found["parts"]] == [("ALU-6063", 3.0, False), ("DEMO-GASKET", 4.0, True)], found
+		rows = parts.add(found["parts"])
+		assert [row["item_code"] for row in rows] == ["ALU-6063", "DEMO-GASKET"] and frappe.db.exists("Item", "DEMO-GASKET")
+		assert round(measure.line_quantity(glass, "Area", "Square Meter", 4, 1200, 800), 3) == 3.84
+		assert round(measure.line_quantity(sheet, "Area", "Nos", 2, 1250, 2500), 3) == 2.0
+		assert round(measure.line_quantity(profile, "Length", "Meter", 6, 2400), 3) == 14.4
+	with as_user("omar@one.test"):
+		customer = frappe.get_all("Customer", limit=1, pluck="name")[0]
+		quote = frappe.get_doc({"doctype": "Quotation", "quotation_to": "Customer", "party_name": customer, "items": [
+			{"item_code": glass, "one_pieces": 4, "one_length": 1200, "one_width": 800, "qty": 1},
+			{"item_code": sheet, "one_pieces": 2, "one_length": 1250, "one_width": 2500, "qty": 1},
+			{"item_code": profile, "one_pieces": 6, "one_length": 2400, "qty": 1},
+		]}).insert()
+		said = [(row.qty, row.uom, row.one_size) for row in quote.items]
+		assert said == [(3.84, "Square Meter", "4 × 1200 × 800 mm"), (2.0, "Nos", "2 × 1250 × 2500 mm"), (14.4, "Meter", "6 × 2400 mm")], said
+		quote.submit()
+		order = make_sales_order(quote.name)
+		assert [(row.one_pieces, row.one_length, row.qty) for row in order.items][:1] == [(4, 1200, 3.84)], "the order keeps the size"
+
+
+@check
 def oneinventory_stock_on_hand_says_what_the_stores_hold():
 	"""Stock on Hand lists what is held now, its worth what the warehouses
 	hold in the books' own figures. The silicone is low in Stores, more
