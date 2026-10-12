@@ -81,9 +81,9 @@ export function useForm(doctype, name) {
 				doctype,
 				now,
 				() => version.value++,
-				(fieldname) => {
+				(fieldname, row) => {
 					version.value++;
-					listeners.forEach((one) => one(fieldname));
+					listeners.forEach((one) => one(fieldname, row));
 				}
 			);
 			if (!got) return;
@@ -98,7 +98,8 @@ export function useForm(doctype, name) {
 	return {
 		frm,
 		version,
-		/** Runs `heard(fieldname)` on each change to a value; returns the way to stop. */
+		/** Runs `heard(fieldname, row)` on each change to a value, `row` the
+		 * name of the table row it is in; returns the way to stop. */
 		edited(heard) {
 			listeners.add(heard);
 			return () => listeners.delete(heard);
@@ -113,6 +114,15 @@ export function useForm(doctype, name) {
 			const control = this.control(fieldname);
 			return control ? control.get_status() : null;
 		},
+		/** The field's value on the form. */
+		value(fieldname) {
+			version.value;
+			return frm.value?.doc?.[fieldname];
+		},
+		/** The field's definition on the form. */
+		df(fieldname) {
+			return this.control(fieldname)?.df || null;
+		},
 		/** The value as the form shows it read-only. */
 		shown(fieldname) {
 			const control = this.control(fieldname);
@@ -125,6 +135,42 @@ export function useForm(doctype, name) {
 		/** Lend the field's control to the page, floated over `spot` (onedesk.record.lend). */
 		lend(fieldname, spot, hooks) {
 			return frm.value ? desk().lend(frm.value, fieldname, spot, hooks) : null;
+		},
+		/** A field of one of the form's table rows, as desk's grid has it:
+		 * its status, its value shown read-only, and its control lent. */
+		row(table, row) {
+			const doc = () => (version.value, frm.value ? desk().row(frm.value, table, row) : null);
+			return {
+				status: (fieldname) => (doc() ? desk().row_status(frm.value, table, row, fieldname) : null),
+				shown(fieldname) {
+					const one = doc();
+					const value = one?.[fieldname];
+					if (!one || value === null || value === undefined || value === "") return "";
+					return formatted(value, desk().row_df(frm.value, table, row, fieldname), one);
+				},
+				value: (fieldname) => doc()?.[fieldname],
+				df: (fieldname) => (doc() ? desk().row_df(frm.value, table, row, fieldname) : null),
+				set: (fieldname, value) => (frm.value ? desk().set_row(frm.value, table, row, fieldname, value) : null),
+				lend: (fieldname, spot, hooks) => (frm.value ? desk().lend_row(frm.value, table, row, fieldname, spot, hooks) : null),
+			};
+		},
+		/** Add a row to one of the form's tables, as desk's grid does; returns its name. */
+		addRow(table, values) {
+			if (!frm.value) return null;
+			const name = desk().add_row(frm.value, table, values);
+			version.value++;
+			return name;
+		},
+		/** Save the form as desk saves it, if it was changed. */
+		async save() {
+			const f = frm.value;
+			if (f?.is_dirty()) await f.save();
+			return !f?.is_dirty();
+		},
+		/** Put the form back as it was saved. */
+		discard() {
+			const f = frm.value;
+			if (f?.is_dirty()) f.reload_doc();
 		},
 		/** Set a value through the form, so its own scripts hear it. */
 		set(fieldname, value) {

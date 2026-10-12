@@ -130,7 +130,12 @@ user on 2026-10-12, first on the item page).
   loaded. Enter or leaving the field saves, Escape reloads it unchanged.
   Long text gets Save and Cancel. A Check is frappe-ui's Switch, which sets
   the form's value and saves.
-- A field the form hides is not shown, and one it locks has no pencil.
+- A field the form hides is not shown, and one it locks has no pencil. A
+  script that locks or hides a field after the refresh is heard too.
+- A field of a table row is changed the same way, as the form's grid makes
+  its control (`onedesk.record.lend_row`, `FieldEdit` with `table` and
+  `row`). A new row is added as the grid adds one, and its fields go in
+  together with Save and Cancel (an item's reorder levels).
 - Each label sits on the left and its value on the right (`Facts`).
 - Something on or off is a Switch, never a checkbox, on a page as in a
   filter (set by the user on 2026-10-12). A checkbox is only a step ticked

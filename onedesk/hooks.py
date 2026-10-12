@@ -996,6 +996,8 @@ doctype_js = {
 	"AI Model": "public/js/ai_model.js",
 	# The model list comes from the account, filtered to what the action needs.
 	"AI Action Setting": "public/js/ai_action_setting.js",
+	# An item with stock keeps Batches and Serial Numbers locked. See public/js/item_form.js.
+	"Item": "public/js/item_form.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

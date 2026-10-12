@@ -315,7 +315,11 @@ onedesk.record.sidebar = (page, doctype, name, { files = null } = {}) => {
 // values. Returns { frm, stop }.
 onedesk.record.form = (doctype, name, changed = () => {}, edited = () => {}) =>
 	new Promise((done) => {
-		frappe.model.with_doctype(doctype, () =>
+		frappe.model.with_doctype(doctype, () => {
+			// A copy the page read without its onload (stock_exists and the like)
+			// would run the form's scripts without it, so desk's own load fetches it.
+			const cached = locals[doctype] && locals[doctype][name];
+			if (cached && !cached.__onload) frappe.model.remove_from_locals(doctype, name);
 			frappe.model.with_doc(doctype, name, (got, r) => {
 				if (r && r["403"]) return done(null);
 				const key = `${doctype}/${name}`;
@@ -333,9 +337,27 @@ onedesk.record.form = (doctype, name, changed = () => {}, edited = () => {}) =>
 					if (window.location.href !== was) history.replaceState(history.state, "", was);
 				};
 				const heard = (refreshed) => refreshed === frm && changed(frm);
+				// A script that changes a field after the refresh (set_df_property,
+				// toggle_enable) redraws it, and the page hears that too.
+				const refresh_field = frm.refresh_field.bind(frm);
+				let soon = null;
+				frm.refresh_field = (...args) => {
+					const out = refresh_field(...args);
+					clearTimeout(soon);
+					soon = setTimeout(() => changed(frm), 0);
+					return out;
+				};
 				frappe.ui.form.on(doctype, "refresh", heard);
 				const typed = (fieldname, value, doc) => doc && doc.name === frm.docname && edited(fieldname);
 				frappe.model.on(doctype, "*", typed);
+				// A change to one of its table rows is heard too, with the row's name.
+				const rows = frappe.meta
+					.get_table_fields(doctype)
+					.map((df) => df.options)
+					.filter((one, i, all) => all.indexOf(one) === i);
+				const row_typed = (fieldname, value, doc) =>
+					doc && doc.parent === frm.docname && doc.parenttype === doctype && edited(fieldname, doc.name);
+				rows.forEach((child) => frappe.model.on(child, "*", row_typed));
 				frm.refresh(name);
 				changed(frm);
 				done({
@@ -344,16 +366,20 @@ onedesk.record.form = (doctype, name, changed = () => {}, edited = () => {}) =>
 						const handlers = (frappe.ui.form.handlers[doctype] || {}).refresh || [];
 						const at = handlers.indexOf(heard);
 						if (at >= 0) handlers.splice(at, 1);
-						const any = frappe.model.events[doctype]["*"];
-						if (any.includes(typed)) any.splice(any.indexOf(typed), 1);
+						const off = (dt, heard) => {
+							const any = frappe.model.events[dt]?.["*"] || [];
+							if (any.includes(heard)) any.splice(any.indexOf(heard), 1);
+						};
+						off(doctype, typed);
+						rows.forEach((child) => off(child, row_typed));
 						removeEventListener("beforeunload", frm.beforeUnloadListener, { capture: true });
 						if (window.cur_frm === frm) window.cur_frm = null;
 						onedesk.record.held.delete(key);
 						$host.remove();
 					},
 				});
-			})
-		);
+			});
+		});
 	});
 
 // A field of a held form lent to a page: the form's own control, floated over
@@ -361,9 +387,76 @@ onedesk.record.form = (doctype, name, changed = () => {}, edited = () => {}) =>
 // in the document, where desk's styles reach it, as they don't inside a page's
 // island. `keys(e)` hears its keys; `left()` runs once focus leaves it for
 // anywhere but its own popups (a date picker, a link's results).
-onedesk.record.lend = (frm, fieldname, spot, { keys = () => {}, left = () => {} } = {}) => {
+onedesk.record.lend = (frm, fieldname, spot, hooks = {}) => {
 	const control = frm.fields_dict[fieldname];
 	const $home = $('<span hidden class="one-field-home"></span>').insertBefore(control.$wrapper);
+	return onedesk.record.float(control, spot, hooks, () => {
+		control.$wrapper.insertAfter($home);
+		$home.remove();
+	});
+};
+
+// A field of one of a held form's table rows lent to a page: a control made
+// for the row as desk's grid makes one, so a value typed goes through
+// frappe.model.set_value, the form's scripts hear it and the form is dirty.
+// Given back, the control goes.
+onedesk.record.lend_row = (frm, table, row, fieldname, spot, hooks = {}) => {
+	const doc = onedesk.record.row(frm, table, row);
+	const control = frappe.ui.form.make_control({
+		df: onedesk.record.row_df(frm, table, row, fieldname),
+		parent: $("<div></div>"),
+		doc,
+		doctype: doc.doctype,
+		docname: doc.name,
+		frm,
+		value: doc[fieldname],
+		render_input: true,
+	});
+	// The grid's own query for the field (frm.set_query on the table).
+	control.get_query = frm.fields_dict[table].grid.get_field(fieldname).get_query;
+	return onedesk.record.float(control, spot, hooks, () => control.$wrapper.remove());
+};
+
+// A table row of a held form, by its name.
+onedesk.record.row = (frm, table, row) => (frm.doc[table] || []).find((one) => one.name === row) || null;
+
+// A field of a table row of a held form, as its grid has it.
+onedesk.record.row_df = (frm, table, row, fieldname) => {
+	const doc = onedesk.record.row(frm, table, row);
+	return doc ? frappe.meta.get_docfield(doc.doctype, fieldname, frm.docname) : null;
+};
+
+// "Write", "Read" or "None" for a field of a table row, as desk's grid
+// decides it: the table's own status, then the field's for the row.
+onedesk.record.row_status = (frm, table, row, fieldname) => {
+	const doc = onedesk.record.row(frm, table, row);
+	const status = frm.fields_dict[table]?.get_status();
+	if (!doc || !status || status === "None") return doc ? "None" : null;
+	const df = onedesk.record.row_df(frm, table, row, fieldname);
+	if (!df) return "None";
+	const own = frappe.perm.get_field_display_status(df, doc, frm.perm);
+	return status === "Read" && own === "Write" ? "Read" : own;
+};
+
+// A value of a table row set through the model, so the form's scripts hear it.
+onedesk.record.set_row = (frm, table, row, fieldname, value) => {
+	const doc = onedesk.record.row(frm, table, row);
+	return doc ? frappe.model.set_value(doc.doctype, doc.name, fieldname, value) : null;
+};
+
+// A new row added to one of a held form's tables, with `values`, as desk's
+// grid adds one. The form is then dirty until it is saved.
+onedesk.record.add_row = (frm, table, values = {}) => {
+	const doc = frappe.model.add_child(frm.doc, frm.fields_dict[table].df.options, table);
+	Object.assign(doc, values);
+	frm.dirty();
+	frm.refresh_field(table);
+	return doc.name;
+};
+
+// A control floated over `spot` until it is given back, when `back()` puts
+// it where it was.
+onedesk.record.float = (control, spot, { keys = () => {}, left = () => {} } = {}, back = () => {}) => {
 	const $float = $('<div class="one-field-float"></div>').appendTo(document.body).append(control.$wrapper);
 	const place = () => {
 		const r = spot.getBoundingClientRect();
@@ -389,8 +482,7 @@ onedesk.record.lend = (frm, fieldname, spot, { keys = () => {}, left = () => {} 
 		give_back() {
 			window.removeEventListener("scroll", place, true);
 			window.removeEventListener("resize", place);
-			control.$wrapper.insertAfter($home);
-			$home.remove();
+			back();
 			$float.remove();
 			spot.style.height = "";
 		},

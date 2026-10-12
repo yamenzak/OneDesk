@@ -5,8 +5,8 @@
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
-    <Section :title="__('Where It Is')" icon="lucide-warehouse" :aside="said.stock.places.length || ''" :action="said.can_write ? { text: true, icon: 'lucide-pencil', label: __('Set Reorder Levels'), onClick: levels } : null">
-      <Rows :rows="places" :empty="__('Not kept anywhere yet')" />
+    <Section :title="__('Where It Is')" icon="lucide-warehouse" :aside="said.stock.places.length || ''">
+      <ItemPlaces :said="said" :form="form" @changed="emit('changed')" />
     </Section>
     <Section v-if="said.has_batch_no" :title="__('Batches')" icon="lucide-boxes" :aside="said.stock.batches.length || ''">
       <Rows :rows="batches" :empty="__('No batches in stock')" />
@@ -27,25 +27,14 @@
 <script setup>
 import { computed } from "vue";
 
-import { Facts, PlaceSpot, Rows, Section, __, date, go, onedesk, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, date, go, quantity } from "../kit";
+import ItemPlaces from "./ItemPlaces.vue";
 import { usePlace } from "../project/place";
 
 const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
 const emit = defineEmits(["changed"]);
 const uom = computed(() => props.said.stock_uom);
 const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");
-
-const places = computed(() =>
-  props.said.stock.places.map((one) => ({
-    key: one.warehouse,
-    label: one.warehouse,
-    dot: one.low ? "orange" : undefined,
-    dim: [one.reserved && __("{0} promised", [quantity(one.reserved)]), one.held && __("{0} held for orders", [quantity(one.held)]), one.ordered && __("{0} on order", [quantity(one.ordered)])].filter(Boolean).join(" · "),
-    below: one.level ? (one.low ? __("Low, reorders at {0}, {1} at a time", [quantity(one.level), quantity(one.order_qty)]) : __("Reorders at {0}, {1} at a time", [quantity(one.level), quantity(one.order_qty)])) : "",
-    value: quantity(one.on_hand, uom.value),
-    route: `/desk/query-report/Stock Balance?item_code=${encodeURIComponent(props.said.name)}&warehouse=${encodeURIComponent(one.warehouse)}`,
-  }))
-);
 
 const batches = computed(() =>
   props.said.stock.batches.map((one) => ({
@@ -58,25 +47,67 @@ const batches = computed(() =>
   }))
 );
 
+// A move in plain words: what happened, to how much, and where.
+function told(one) {
+  const qty = quantity(Math.abs(one.actual_qty));
+  if (one.from) return __("Moved {0} from {1} to {2}", [qty, one.from, one.to]);
+  const into = one.actual_qty > 0;
+  switch (one.purpose || one.voucher_type) {
+    case "Material Issue":
+      return one.project_name ? __("Used {0} on {1}", [qty, one.project_name]) : __("Used {0}", [qty]);
+    case "Material Receipt":
+      return __("Added {0}", [qty]);
+    case "Material Transfer":
+      return into ? __("Moved {0} in", [qty]) : __("Moved {0} out", [qty]);
+    case "Manufacture":
+      return into ? __("Made {0}", [qty]) : __("Used {0} in Making", [qty]);
+    case "Material Transfer for Manufacture":
+      return __("Sent {0} for Making", [qty]);
+    case "Material Consumption for Manufacture":
+      return __("Used {0} in Making", [qty]);
+    case "Repack":
+      return __("Repacked {0}", [qty]);
+    case "Send to Subcontractor":
+      return __("Sent {0} to Subcontractor", [qty]);
+    case "Purchase Receipt":
+    case "Purchase Invoice":
+      return into ? __("Received {0}", [qty]) : __("Returned {0} to Supplier", [qty]);
+    case "Delivery Note":
+      return into ? __("Returned {0} by Customer", [qty]) : __("Delivered {0}", [qty]);
+    case "Sales Invoice":
+      return into ? __("Returned {0} by Customer", [qty]) : __("Sold {0}", [qty]);
+    case "Subcontracting Receipt":
+      return __("Received {0} from Subcontractor", [qty]);
+    case "Stock Reconciliation":
+      return __("Counted {0}", [quantity(one.qty_after_transaction)]);
+    default:
+      return `${__(one.kind)} ${into ? "+" : "−"}${qty}`;
+  }
+}
+
 const moves = computed(() =>
   props.said.stock.moves.map((one, i) => ({
     key: `${one.voucher_no}-${i}`,
-    label: __(one.kind),
+    label: told(one),
     sub: one.voucher_no,
-    dim: date(one.posting_date),
-    below: [__("{0} left in {1}", [quantity(one.qty_after_transaction), one.warehouse]), one.project].filter(Boolean).join(" · "),
-    value: `${one.actual_qty > 0 ? "+" : ""}${quantity(one.actual_qty)}`,
-    dot: one.actual_qty > 0 ? "green" : "gray",
+    below: [
+      date(one.posting_date),
+      one.left
+        ? __("{0} left in {1}, {2} in {3}", [quantity(one.left[0].qty), one.left[0].called, quantity(one.left[1].qty), one.left[1].called])
+        : __("{0} left in {1}", [quantity(one.qty_after_transaction), one.called]),
+      one.by && __("By {0}", [one.by]),
+    ]
+      .filter(Boolean)
+      .join(" · "),
+    dot: one.from ? "blue" : one.actual_qty > 0 ? "green" : "gray",
     route: `/desk/${slug(one.voucher_type)}/${encodeURIComponent(one.voucher_no)}`,
   }))
 );
 
-const levels = () => onedesk().item.edit(props.said.name, props.said.modified, null, ["reorder_levels"]);
-
 // The Stock view is a place (one_studio/places.py).
 const spot = usePlace("oneinventory_item.stock", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
-  stock: { places: props.said.stock.places.length, low_in: props.said.stock.places.filter((one) => one.low).map((one) => one.warehouse), moves: props.said.stock.moves.length },
+  stock: { places: props.said.stock.places.length, low_in: props.said.stock.places.filter((one) => one.low).map((one) => one.called), moves: props.said.stock.moves.length },
 }));
 
 // The item's own form fields that belong here, shown or locked as its form has them.

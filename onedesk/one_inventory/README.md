@@ -149,9 +149,15 @@ Then its views, each only where the item has it:
   out, a request not yet ordered), then what was used and sent out, month by
   month for a year, its description and its details. A template lists its variants, and equipment
   its assets and who has each.
-- **Stock**: each warehouse, with what it holds, what is promised and on
-  order, and its reorder level; its batches; and its last moves in and out.
-  **Set Reorder Levels** changes the levels.
+- **Stock**: each warehouse by its own name, with what it holds, what is
+  promised, what is free to use and what it is worth, and a bar against its
+  reorder level. The level and how much is ordered at a time are changed on
+  the row, and **Set Reorder Level** gives a warehouse one. Each row's menu
+  has **Move Stock** and **Count Stock**, which start the document with the
+  item and that warehouse filled in. Then its batches, and its last moves in
+  plain words ("Moved 120 from Stores to Mansour Villa Site", "Used 80 on
+  Mansour Villa Windows and Doors"), each with who made it. A move from one
+  warehouse to another is one row.
 - **Buying**: who it is bought from and at what, what is on order and when it
   is due (in red once late), what has been requested, and its buying prices.
 - **Selling**: what customers have ordered and not yet had, who bought it in
@@ -175,7 +181,8 @@ whether it is used in manufacturing. Each is changed where it is shown. The
 pencil (or the arrow on a choice) opens the item form's own field there, so
 the workspace's scripts and rules hold, and leaving it or pressing Enter
 saves. Escape puts it back. A field the form hides is not shown, and one it
-locks can't be changed.
+locks can't be changed. An item with stock keeps Batches and Serial Numbers
+locked, as ERPNext refuses to change them once stock has moved.
 
 **Edit Details** changes everything else about the item, grouped as Details,
 Stock, Reordering, Units, Serial Numbers and Batches, Variants, Buying,
@@ -654,7 +661,8 @@ a register and a movement form in it would be a rail with five rows.
   page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the
   form. `read` gathers what ERPNext keeps in a dozen places, each as the
   reader may see it: the Bins per warehouse with their reorder levels, the
-  stock ledger's last moves (each Stock Entry by its type), suppliers from
+  stock ledger's last moves (each Stock Entry by its type, a transfer's two
+  rows made one by the pure `merged`, each with who made it), suppliers from
   the item's own table and its submitted orders, open purchase and sales
   orders with what is still to come, material requests, prices, its bills of
   materials, what they go into and the work orders making it. `headline` is

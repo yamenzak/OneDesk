@@ -10615,6 +10615,71 @@ done stay checkboxes, as frappe-ui's own to-do lists draw them. The guard
 `setting-is-a-switch` keeps a new checkbox out, and `docs/STANDARD.md` says
 so under point 6.
 
+#### 1f. The Stock view
+
+Your word: all six on the item's Stock view.
+
+Found:
+
+- **Our look (5)**: a warehouse read "Stores - SGA" and opened ERPNext's
+  Stock Balance report. It said what it held but not what was free to use or
+  what it was worth.
+- **Built from frappe (8)**: reorder levels were changed in a dialog of the
+  item's whole table, not on the row the page showed.
+- **Plain words (12)**: a move read "Material Transfer" twice, once out of
+  one warehouse and once into the other, and "Material Issue" for stock
+  used on a project. Nothing said who made it.
+- **Nothing lost (6)**: Move Stock and Count Stock were only on the page's
+  menu, without the warehouse.
+- **Rules (15)**: Batches and Serial Numbers looked open on an item with
+  stock. ERPNext's item.js locks them on refresh, then its own
+  `toggle_has_serial_batch_fields` turns them back on once lots are on in
+  Stock Settings. Desk's form had the same fault. The server refuses the
+  change anyway, so nothing could be saved, but the switch lied. The page's
+  hidden form had also refreshed without the item's onload
+  (`stock_exists`), so it never locked them at all. Allow Negative Stock
+  only looked grey. That is the Switch's off look.
+
+Fixed:
+
+- **Our look (5)**: each warehouse by its own name, opening the warehouse.
+  It says what is promised, free to use, on order and worth, with a bar
+  against its reorder level and one order on top (`ItemPlaces.vue`).
+- **Built from frappe (8)**: the reorder level and how much is ordered at a
+  time are the item form's own table fields, changed on the row
+  (`onedesk.record.lend_row`, `FieldEdit` with `table` and `row`). **Set
+  Reorder Level** adds a row as the grid does and saves the two together.
+- **Plain words (12)**: one row per move, "Moved 120 from Stores to Mansour
+  Villa Site", "Used 80 on Mansour Villa Windows and Doors", "Received",
+  "Delivered", "Counted", each with who made it. `view.merged` pairs a
+  transfer's two ledger rows.
+- **Nothing lost (6)**: each warehouse's menu has Move Stock and Count
+  Stock, started with the item and that warehouse.
+- **Rules (15)**: the hidden form loads the item as desk does, with its
+  onload, and hears a field changed after the refresh. OneDesk's `item_form.js`
+  locks Batches and Serial Numbers again after ERPNext's toggle, so desk's
+  form is right too.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_an_items_stock_says_where_it_is_and_what_moved`, and the reorder change, the new row, Move and Count checked in the browser |
+| 2 Rules on the server | ERPNext's own: `cant_change` and the reorder row's checks, nothing of ours |
+| 3 Hand-offs | a warehouse opens its own page, a move its document, Move and Count their forms |
+| 4 Tier declared | unchanged, Item in PAGES |
+| 5 Our look | warehouse rows with free, worth and the bar; moves in plain words |
+| 6 Nothing lost | Move Stock and Count Stock per warehouse, Stock Ledger kept |
+| 7 Extensible | the place `oneinventory_item.stock` now says low warehouses by name |
+| 8 Built from frappe | the form's own table fields in place, values through `frappe.format` |
+| 9 Overrides recorded | three rows: refresh_field heard, a row's control, the stock lock |
+| 10 Notifications | nothing new |
+| 11 Printed | nothing new to print |
+| 12 Plain words | every new string in Arabic and German |
+| 13 Documented | README An item's page and the file map, STANDARD on table rows |
+| 14 Intake | nothing new to read |
+| 15 Permissions | the row's own field status from the form, Move and Count only for who may create them |
+| 16 Legal | nothing new |
+| 17 Clean code | `ItemPlaces.vue` one concern, ruff clean |
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the

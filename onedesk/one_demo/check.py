@@ -4735,6 +4735,29 @@ def oneinventory_an_item_opens_on_its_own_page():
 
 
 @check
+def oneinventory_an_items_stock_says_where_it_is_and_what_moved():
+	"""The Stock view names each warehouse as people call it, says what is
+	free to use and which reorder row is its own, so the page changes the
+	level in place. A transfer is one move from the one warehouse to the
+	other, with who made it."""
+	from onedesk.one_inventory import view
+
+	with as_user("karim@one.test"):
+		said = view.read("ALU-6063")
+	places = {one["called"]: one for one in said["stock"]["places"]}
+	stores = places.get("Stores")
+	assert stores, list(places)
+	assert stores["free"] == stores["on_hand"] - stores["reserved"], stores
+	assert stores["row"] and stores["level"], "the Stores reorder row is the item's own"
+	assert all(" - " not in called for called in places), list(places)
+	moved = [one for one in said["stock"]["moves"] if one.get("from")]
+	assert moved, "the transfer to the Mansour villa reads as one move"
+	assert moved[0]["from"] == "Stores" and moved[0]["to"] == "Mansour Villa Site", moved[0]
+	assert moved[0]["actual_qty"] > 0 and len(moved[0]["left"]) == 2, moved[0]
+	assert all(one["by"] for one in said["stock"]["moves"]), "each move says who made it"
+
+
+@check
 def oneinventory_an_items_head_has_its_barcodes_and_trends():
 	"""A new item is given its code as its first barcode. Manage Barcodes puts
 	them in the order it is given, so the first two are the head's, and

@@ -102,8 +102,21 @@ onedesk.item.start = (doctype, item, values = {}, line = {}, table = "items", fi
 // What the item page's head starts, each a document of ERPNext's own.
 onedesk.item.order = (item) => onedesk.item.start("Purchase Order", item);
 onedesk.item.request = (item) => onedesk.item.start("Material Request", item, { material_request_type: "Purchase" });
-onedesk.item.move = (item) => onedesk.item.start("Stock Entry", item, { stock_entry_type: "Material Transfer", purpose: "Material Transfer" });
-onedesk.item.count = (item, opening) => onedesk.item.start("Stock Reconciliation", item, opening ? { purpose: "Opening Stock" } : {});
+// From a warehouse's row, the move starts from it and the count is of it.
+onedesk.item.move = (item, warehouse) =>
+	onedesk.item.start(
+		"Stock Entry",
+		item,
+		{ stock_entry_type: "Material Transfer", purpose: "Material Transfer", ...(warehouse ? { from_warehouse: warehouse } : {}) },
+		warehouse ? { s_warehouse: warehouse } : {}
+	);
+onedesk.item.count = (item, opening, warehouse) =>
+	onedesk.item.start(
+		"Stock Reconciliation",
+		item,
+		{ ...(opening ? { purpose: "Opening Stock" } : {}), ...(warehouse ? { set_warehouse: warehouse } : {}) },
+		warehouse ? { warehouse } : {}
+	);
 onedesk.item.make = (item, bom) => {
 	frappe.model.with_doctype("Work Order", () => {
 		const doc = frappe.model.get_new_doc("Work Order");

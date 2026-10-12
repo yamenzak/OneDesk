@@ -1649,6 +1649,27 @@ OVERRIDES = [
 		"this.$wrapper",
 	),
 	(
+		"A page hears a field changed by a script after the form's refresh",
+		"onedesk.record.form wraps the hidden form's refresh_field, which set_df_property and toggle_enable call, so a page reads the field's state again",
+		"onedesk/public/js/record.js",
+		"frappe/frappe/public/js/frappe/form/form.js",
+		"refresh_field(fname) {",
+	),
+	(
+		"A page changes a field of a table row in place",
+		"onedesk.record.lend_row makes the row's control as their grid row does, with the grid's own get_query, and floats it over the page",
+		"onedesk/public/js/record.js",
+		"frappe/frappe/public/js/frappe/form/grid_row.js",
+		"var field = frappe.ui.form.make_control({",
+	),
+	(
+		"An item with stock keeps Batches and Serial Numbers locked",
+		"their toggle_has_serial_batch_fields runs after the refresh that locks both and turns them back on when lots are on, so item_form.js locks them again",
+		"onedesk/public/js/item_form.js",
+		"erpnext/erpnext/stock/doctype/item/item.js",
+		'frm.toggle_enable(["has_serial_no", "has_batch_no"], !hide_fields);',
+	),
+	(
 		"An item's head draws its barcodes as the Barcode field does",
 		"the kit's barcode() makes a Barcode control off the page and takes the SVG its get_barcode_html returns",
 		"frontend/src/kit/desk.js",

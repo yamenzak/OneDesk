@@ -2,9 +2,11 @@
   <!-- One field of a record, shown as the form shows it read-only, with a
        pencil (a chevron for a Link or Select) that puts the form's own
        control for it over the place it is shown. A Check is frappe-ui's
-       Switch, which sets the form's value. Nothing shows while the form hides the field. -->
+       Switch, which sets the form's value. Nothing shows while the form hides the field.
+       With `table` and `row`, the field is one of that table row's, as
+       desk's grid shows it. -->
   <div v-if="status && status !== 'None'" class="flex min-w-0 items-center gap-1.5" :class="[start ? 'justify-start' : 'justify-end', { 'w-full': editing }]">
-    <Switch v-if="check" :model-value="Boolean(form.frm.value?.doc?.[field])" :disabled="!writable" :aria-label="label" @update:model-value="tick" />
+    <Switch v-if="check" :model-value="checked" :disabled="!writable" :aria-label="label" @update:model-value="tick" />
     <div v-else-if="editing" ref="spot" class="w-full min-w-48" />
     <template v-else>
       <span v-if="long && shown" class="min-w-0 text-start [&_p]:mb-2" v-html="shown" />
@@ -45,8 +47,14 @@ const props = defineProps({
   placeholder: String,
   // Set at the line's start, as long text is, not its end.
   start: Boolean,
+  // A field of this table row of the form, not of the form itself.
+  table: String,
+  row: String,
+  // Lent from the start, and saved by the page, not by a change to it (a
+  // new row whose fields go in together). Escape asks the page to cancel.
+  hold: Boolean,
 });
-const emit = defineEmits(["saved"]);
+const emit = defineEmits(["saved", "cancel"]);
 
 const PICKED = ["Link", "Select", "Dynamic Link", "Autocomplete"];
 const LONG = ["Text Editor", "Small Text", "Text", "Long Text", "Markdown Editor"];
@@ -57,18 +65,20 @@ let lent = null;
 let saving = false;
 let stop = null;
 
-const control = computed(() => props.form.control(props.field));
-const status = computed(() => props.form.status(props.field));
-const fieldtype = computed(() => control.value?.df.fieldtype);
+// The form, or the table row the field is in.
+const source = computed(() => (props.table ? props.form.row(props.table, props.row) : props.form));
+const status = computed(() => source.value.status(props.field));
+const fieldtype = computed(() => source.value.df(props.field)?.fieldtype);
 const long = computed(() => LONG.includes(fieldtype.value));
 const check = computed(() => fieldtype.value === "Check");
 const writable = computed(() => status.value === "Write");
-const shown = computed(() => (props.form.version.value, props.form.shown(props.field)));
+const shown = computed(() => (props.form.version.value, source.value.shown(props.field)));
+const checked = computed(() => (props.form.version.value, Boolean(Number(source.value.value(props.field) || 0))));
 
 async function start() {
   editing.value = true;
   await nextTick();
-  lent = props.form.lend(props.field, spot.value, { keys, left });
+  lent = source.value.lend(props.field, spot.value, { keys, left });
   const c = lent?.control;
   (c?.$input || c?.quill)?.focus?.();
 }
@@ -96,6 +106,7 @@ function close() {
 }
 
 function cancel() {
+  if (props.hold) return emit("cancel");
   const frm = props.form.frm.value;
   if (frm?.is_dirty()) frm.reload_doc();
   close();
@@ -107,7 +118,7 @@ function keys(e) {
     e.stopPropagation();
     return cancel();
   }
-  if (e.key !== "Enter" || long.value) return;
+  if (e.key !== "Enter" || long.value || props.hold) return;
   e.preventDefault();
   // The input's own change goes into the form first.
   lent?.control?.$input?.trigger("change");
@@ -116,20 +127,22 @@ function keys(e) {
 
 // Leaving the field without a change puts it back.
 function left() {
-  if (long.value || !editing.value || saving) return;
+  if (long.value || props.hold || !editing.value || saving) return;
   if (!props.form.frm.value?.is_dirty()) close();
 }
 
 // A switch turned is set through the form, which its scripts hear, then saved.
 async function tick(on) {
-  await props.form.set(props.field, on ? 1 : 0);
+  await source.value.set(props.field, on ? 1 : 0);
   save();
 }
 
 onMounted(() => {
-  stop = props.form.edited((fieldname) => {
-    if (fieldname === props.field && editing.value && !long.value) setTimeout(save, 0);
+  stop = props.form.edited((fieldname, row) => {
+    if (fieldname !== props.field || (row || null) !== (props.row || null)) return;
+    if (editing.value && !long.value && !props.hold) setTimeout(save, 0);
   });
+  if (props.hold && writable.value) start();
 });
 onBeforeUnmount(() => {
   stop?.();

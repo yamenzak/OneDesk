@@ -272,10 +272,21 @@ def _month_ends(moves, starts) -> tuple[list[float], list[float]]:
 	return held, worth
 
 
+def _called(warehouse: str | None) -> str | None:
+	"""A warehouse by its own name, without the company's letters."""
+	if not warehouse:
+		return None
+	return frappe.get_cached_value("Warehouse", warehouse, "warehouse_name") or warehouse
+
+
 def _place(row, level) -> dict:
 	reorder = flt(level.warehouse_reorder_level) if level else 0
 	return {
 		"warehouse": row.warehouse,
+		"called": _called(row.warehouse),
+		# The item's own reorder row for it, which the page changes in place.
+		"row": level.name if level else None,
+		"free": flt(row.get("actual_qty")) - flt(row.get("reserved_qty")),
 		"on_hand": flt(row.get("actual_qty")),
 		"reserved": flt(row.get("reserved_qty")),
 		"held": flt(row.get("reserved_stock")),
@@ -320,27 +331,67 @@ def _moves(item: str) -> list:
 			"qty_after_transaction",
 			"stock_value_difference",
 			"project",
+			"owner",
 		],
 		order_by="posting_datetime desc, creation desc",
 		limit=MOST,
 	)
-	# A stock entry says what kind of move it was: issued, moved, made.
+	# A stock entry says what kind of move it was, and what for: issued,
+	# moved, made.
 	entries = {one.voucher_no for one in moves if one.voucher_type == "Stock Entry"}
-	kinds = (
-		dict(
+	kinds = {
+		entry.name: entry
+		for entry in (
 			frappe.get_all(
 				"Stock Entry",
 				filters={"name": ["in", list(entries)]},
-				fields=["name", "stock_entry_type"],
-				as_list=True,
+				fields=["name", "stock_entry_type", "purpose"],
 			)
+			if entries
+			else []
 		)
-		if entries
-		else {}
-	)
+	}
 	for one in moves:
-		one["kind"] = kinds.get(one.voucher_no) or one.voucher_type
-	return moves
+		entry = kinds.get(one.voucher_no)
+		one["kind"] = entry.stock_entry_type if entry else one.voucher_type
+		one["purpose"] = entry.purpose if entry else None
+		one["called"] = _called(one.warehouse)
+		one["project_name"] = (
+			frappe.get_cached_value("Project", one.project, "project_name") if one.project else None
+		)
+		one["by"] = frappe.utils.get_fullname(one.owner) if one.owner else None
+	return merged(moves)
+
+
+def merged(moves: list) -> list:
+	"""A move out of one warehouse and into another on the same document is
+	one move, from the one to the other. Pure over the ledger's rows."""
+	out, seen = [], {}
+	for one in moves:
+		key = (one["voucher_type"], one["voucher_no"])
+		twin = seen.get(key)
+		if (
+			twin
+			and "from" not in twin
+			and flt(twin["actual_qty"]) == -flt(one["actual_qty"])
+			and twin["warehouse"] != one["warehouse"]
+		):
+			out_, in_ = (twin, one) if flt(twin["actual_qty"]) < 0 else (one, twin)
+			twin.update(
+				{
+					"from": out_["called"],
+					"to": in_["called"],
+					"actual_qty": abs(flt(one["actual_qty"])),
+					"left": [
+						{"called": out_["called"], "qty": out_["qty_after_transaction"]},
+						{"called": in_["called"], "qty": in_["qty_after_transaction"]},
+					],
+				}
+			)
+			continue
+		seen[key] = one
+		out.append(one)
+	return out
 
 
 def _buying(doc) -> dict | None:
