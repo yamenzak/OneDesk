@@ -38,6 +38,7 @@ EVERYTHING = (
 	("stock", _lt("Quality Inspections"), "DocType", "Quality Inspection", _lt("Goods checked on the way in, out or while made.")),
 	("buying", _lt("To Order"), "Report", "To Order", _lt("What runs low, and orders for it.")),
 	("buying", _lt("Material Requests"), "DocType", "Material Request", _lt("Goods asked for by the stores, the workshop or a project.")),
+	("buying", _lt("Quotes"), "Page", "quotes", _lt("Ask suppliers for prices, see their answers side by side and order the cheapest.")),
 	("buying", _lt("Requests for Quotation"), "DocType", "Request for Quotation", _lt("Suppliers asked for their prices.")),
 	("buying", _lt("Supplier Quotations"), "DocType", "Supplier Quotation", _lt("The prices suppliers gave.")),
 	("buying", _lt("Quote Comparison"), "Report", "Supplier Quotation Comparison", _lt("Suppliers' prices side by side.")),

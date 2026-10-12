@@ -24,6 +24,10 @@ PRICED = {
 	ALUMINIUM: {"SIL-CLR": 33.0, "FIX-ANCH": 6.2, "SEAL-EPDM": 4.4},
 	SEALANTS: {"SIL-CLR": 29.5, "FIX-ANCH": 6.6, "SEAL-EPDM": 4.7},
 }
+EURO = "Euro Hardware Trading"
+#: Profile for the stores, asked of Al Noor and Euro Hardware: code, quantity,
+#: and Euro Hardware's price in euros. Al Noor has not answered yet.
+STORES_ASKED = ("ALU-6063", 500, 6.2)
 #: The year's price for aluminium profile, and how much is agreed.
 AGREED = ("ALU-6063", 12000, 26.5)
 
@@ -38,6 +42,7 @@ def run(password=None):
 		_agreed(project)
 	_scored()
 	_profile()
+	_asking()
 	from onedesk.one_inventory import tell
 
 	tell.orders_late()
@@ -316,3 +321,32 @@ def _scored():
 					{"criteria_name": one.name, "max_score": flt(one.max_score), "formula": one.formula, "weight": flt(one.weight)},
 				)
 			save(card)
+
+
+def _asking():
+	"""Karim asks Al Noor and Euro Hardware to price profile for the stores,
+	from the Quotes page. Euro Hardware answers in euros, Al Noor not yet."""
+	from erpnext.buying.doctype.request_for_quotation.mapper import make_supplier_quotation_from_rfq
+
+	from onedesk.one_inventory import quotes
+
+	if frappe.db.exists("Request for Quotation Supplier", {"supplier": EURO}):
+		return
+	code, qty, rate = STORES_ASKED
+	with as_user(BUYER):
+		request = frappe.new_doc("Material Request")
+		request.material_request_type = "Purchase"
+		request.company = COMPANY
+		dated(request, ago(3), "transaction_date")
+		request.schedule_date = ahead(14)
+		request.append("items", {"item_code": code, "qty": qty, "schedule_date": ahead(14), "warehouse": wh("Stores")})
+		request = save(request, submit=True)
+		asked = frappe.get_doc("Request for Quotation", quotes.ask(request.name, [ALUMINIUM, EURO], "Prices for profile for the stores, please."))
+		asked.transaction_date = ago(2)
+		asked.submit()
+		quote = make_supplier_quotation_from_rfq(asked.name, for_supplier=EURO)
+		dated(quote, ago(1), "transaction_date")
+		quote.valid_till = ahead(5)
+		for row in quote.items:
+			row.rate = rate
+		save(quote, submit=True)

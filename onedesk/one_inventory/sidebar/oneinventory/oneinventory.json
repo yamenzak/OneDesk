@@ -151,11 +151,11 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Requests for Quotation",
-   "link_type": "DocType",
+   "label": "Quotes",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Request for Quotation"
+   "link_to": "quotes"
   },
   {
    "child": 1,
@@ -328,7 +328,7 @@
    "route": "setup"
   }
  ],
- "modified": "2026-10-31 13:00:00.000000",
+ "modified": "2026-10-31 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

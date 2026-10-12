@@ -1058,8 +1058,11 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 		assert listed, "nothing to order in the demo"
 		first = listed[0]
 		order.order([{**first, "supplier": first.get("supplier") or "Al Noor Aluminium"}])
-		again = {(one["item_code"], one["warehouse"]) for one in order.rows()}
-		assert (first["item_code"], first["warehouse"]) not in again, "a row already on a draft order is offered again"
+		# A requested row is its request's own line, as two requests may ask for the same item.
+		def row(one):
+			return one.get("material_request_item") or (one["item_code"], one["warehouse"])
+
+		assert row(first) not in {row(one) for one in order.rows()}, "a row already on a draft order is offered again"
 	with as_user(OWNER):
 		ready.fix("depreciation")
 
@@ -4993,6 +4996,66 @@ def oneinventory_lots_and_numbers_are_one_tool():
 		assert not said["batches"] and said["figures"]["lots"] is None, said["figures"]
 		assert not lots.read(view="serials")["serials"] and not said["can"]["Batch"]
 		assert ai.lots_and_numbers().get("error")
+
+
+@check
+def oneinventory_quotes_ask_compare_and_order_on_one_page():
+	"""Quotes: the stores' profile asked of Al Noor and Euro Hardware, Euro
+	Hardware's answer in euros compared in dirhams, Al Noor still waiting,
+	and the villa's request with every cheapest line ordered already. Al
+	Noor's quote typed in makes them cheapest, Order the Cheapest drafts
+	their order from their quote, and Ask for Prices drafts a request by
+	ERPNext's own mapper. OneAI reads it. Somebody outside buying sees none
+	of it."""
+	from erpnext.buying.doctype.request_for_quotation.mapper import make_supplier_quotation_from_rfq
+
+	from onedesk.one_demo.ordering import ALUMINIUM, EURO, STORES_ASKED
+	from onedesk.one_inventory import ai, quotes
+
+	code, qty, rate = STORES_ASKED
+	with as_user("karim@one.test"):
+		said = quotes.read()
+		assert said["figures"]["waiting"] >= 1 and said["figures"]["expiring"] >= 1, said["figures"]
+		stores = next(one for one in said["asked"] if any(row["supplier"] == EURO for row in one["suppliers"]))
+		answered = {row["supplier"]: row["answered"] for row in stores["suppliers"]}
+		assert answered == {ALUMINIUM: False, EURO: True} and not stores["ordered"], stores
+
+		compared = quotes.compare(stores["name"])
+		line = compared["lines"][0]
+		assert line["item"] == code and line["qty"] == qty and line["cheapest"] == EURO, line
+		offer = line["offers"][EURO]
+		assert offer["rate"] == rate and offer["base_rate"] > rate * 3, offer
+		assert [one["quote"] is None for one in compared["suppliers"]] == [True, False], compared["suppliers"]
+
+		villa = quotes.compare(next(one["name"] for one in said["asked"] if one["ordered"] and one["answered"] == 2))
+		assert all(one["ordered"] for one in villa["lines"]) and not any(one["cheapest_on"] for one in villa["suppliers"]), villa
+
+		# Al Noor answers by mail, cheaper, and Karim orders the cheapest.
+		theirs = make_supplier_quotation_from_rfq(stores["name"], for_supplier=ALUMINIUM)
+		for row in theirs.items:
+			row.rate = 24.0
+		theirs.insert()
+		theirs.submit()
+		compared = quotes.compare(stores["name"])
+		assert compared["lines"][0]["cheapest"] == ALUMINIUM, compared["lines"]
+		made = quotes.order_cheapest(stores["name"])
+		order = frappe.get_doc("Purchase Order", made[0])
+		assert len(made) == 1 and order.docstatus == 0 and order.supplier == ALUMINIUM, made
+		assert [(row.item_code, row.qty, row.supplier_quotation) for row in order.items] == [(code, qty, theirs.name)], order.items
+
+		# Ask for Prices drafts a request for what is still needed.
+		pending = frappe.get_list("Material Request", filters={"docstatus": 1, "material_request_type": "Purchase", "status": "Pending"}, pluck="name", limit=1)
+		if pending:
+			drafted = frappe.get_doc("Request for Quotation", quotes.ask(pending[0], [ALUMINIUM, EURO]))
+			assert drafted.docstatus == 0 and [row.supplier for row in drafted.suppliers] == [ALUMINIUM, EURO], drafted.suppliers
+			assert all(row.material_request == pending[0] for row in drafted.items)
+
+		facts = ai.quotes_now()
+		assert facts["figures"] == quotes.figures() and facts["newest_compared"], facts
+	with as_user("nadia@one.test"):
+		said = quotes.read()
+		assert not said["asked"] and said["figures"]["waiting"] is None and not said["can"]["ask"], said
+		assert ai.quotes_now().get("error")
 
 
 @check

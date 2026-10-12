@@ -22,6 +22,8 @@ PLANT = "plant"
 HOME = "inventory"
 #: Lots (page/lots).
 LOTS = "lots"
+#: Quotes (page/quotes).
+QUOTES = "quotes"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -159,6 +161,18 @@ _COMPARE = {
 	"doctype": "Supplier Quotation",
 	"expects": "quote_comparison",
 }
+_UNANSWERED = {
+	"label": _lt("Who has not answered?"),
+	"ask": _lt("Which suppliers have not answered a request for prices yet, what were they asked for and since when?"),
+	"can": "read",
+	"expects": "quotes_now",
+}
+_CHEAPEST = {
+	"label": _lt("Who is cheapest?"),
+	"ask": _lt("For the newest request for prices, who is cheapest on each line, and which quotes run out soon?"),
+	"can": "read",
+	"expects": "quotes_now",
+}
 #: On a quote's own form, where the reader's right to read it is the form's.
 _COMPARE_HERE = {key: value for key, value in _COMPARE.items() if key != "doctype"}
 _LATE = {
@@ -247,6 +261,7 @@ SUGGESTIONS = {
 	f"page:{PLANT}": [_MACHINES, _ON_FLOOR],
 	f"page:{HOME}": [_LATE, _LOW, _DUE],
 	f"page:{LOTS}": [_GOING_OFF, _WHERE_NUMBER],
+	f"page:{QUOTES}": [_UNANSWERED, _CHEAPEST],
 	"Batch": [_GOING_OFF],
 	"Serial No": [_WHERE_NUMBER],
 	"Workstation": [_MACHINES, _ON_FLOOR],
@@ -296,6 +311,15 @@ def page(said: dict) -> str | None:
 			"off, each serial number with where it is or who has it, and the items kept in lots or by number. "
 			"lots_and_numbers reads it as the page shows it. How the page works is in OneInventory's "
 			"documentation (how_to)."
+		)
+	if said.get("page") == QUOTES:
+		return (
+			"The reader is on Quotes, which lists each request for prices with which suppliers answered and "
+			"which have not, each supplier's quote with its total and until when it holds, and one request's "
+			"quotes side by side with the cheapest on each line. quotes_now reads it as the page shows it, and "
+			"quote_comparison reads one request's quotes; plan_quote_request drafts a new request for a material "
+			"request as a card. "
+			"How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") == PLANT:
 		return (
@@ -1491,6 +1515,51 @@ def lots_and_numbers(
 				"warranty_until": one["warranty_expiry_date"],
 			}
 			for one in lots.serials(item=item)
+		],
+	}
+
+
+def quotes_now() -> dict:
+	"""What the Quotes page shows: suppliers still to answer, quotes waiting
+	for a decision or still drafts, quotes running out within a week, each
+	request with who answered and who has not, and the newest answered
+	request compared line by line."""
+	from onedesk.one_inventory import quotes
+
+	if not frappe.has_permission("Request for Quotation", "read") and not frappe.has_permission("Supplier Quotation", "read"):
+		return {"error": "The reader may not see requests for prices or quotes."}
+	asked = quotes.asked()
+	newest = next((one["name"] for one in asked if one["answered"]), None)
+	compared = quotes.compare(newest) if newest else None
+	return {
+		"figures": quotes.figures(),
+		"requests": [
+			{
+				"request": one["name"],
+				"asks_for": one["what"],
+				"asked_on": one["date"],
+				"answered_by": [row["name"] for row in one["suppliers"] if row["answered"]],
+				"not_answered": [row["name"] for row in one["suppliers"] if not row["answered"]],
+				"ordered": one["ordered"],
+			}
+			for one in asked[:10]
+		],
+		"newest_compared": compared and {
+			"request": compared["name"],
+			"lines": [
+				{"item": line["name"], "qty": line["qty"], "cheapest": line["cheapest"], "rates_in_company_money": {k: v["base_rate"] for k, v in line["offers"].items()}}
+				for line in compared["lines"]
+			],
+			"quotes": [
+				{"supplier": one["name"], "total": one["total"], "currency": one["currency"], "holds_until": one["valid_till"], "status": one["status"]}
+				for one in compared["suppliers"]
+				if one["quote"]
+			],
+		},
+		"running_out": [
+			{"quote": one["name"], "supplier": one["supplier_name"], "holds_until": one["valid_till"]}
+			for one in quotes.quotes()
+			if one["expiring"]
 		],
 	}
 

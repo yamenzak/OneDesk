@@ -34,8 +34,8 @@ The rail keeps what people use every day:
 - **Items**, **Stock on Hand**, **Receipts**, **Deliveries**, **Stock
   Movements**, **Stock Counts** and **Lots**, which holds lots and serial
   numbers together. See Lots and expiry dates.
-- **Buying** — **To Order**, **Material Requests**, **Requests for
-  Quotation**, **Purchase Orders** and **Suppliers**. See Buying.
+- **Buying** — **To Order**, **Material Requests**, **Quotes**, **Purchase
+  Orders** and **Suppliers**. See Buying.
 - **Making** — **Shop Floor**, **Plant Floor**, **Work Orders**, **Bills of
   Materials** and **Subcontracting Orders**. See Making.
 - **Assets** — **Assets**, **Maintenance** and **Repairs**.
@@ -296,9 +296,10 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 ## Buying
 
 **Buying** in the rail goes the way buying does. It holds **To Order**, **Material
-Requests**, **Requests for Quotation**, **Supplier Quotations**, **Quote
-Comparison**, **Purchase Orders**, **Blanket Orders** and **Suppliers**.
-Suppliers are kept in OneBook, and the link here opens the same supplier.
+Requests**, **Quotes**, **Purchase Orders** and **Suppliers**. Requests for
+Quotation, Supplier Quotations, Quote Comparison and Blanket Orders are under
+Everything on Home. Suppliers are kept in OneBook, and the link here opens the
+same supplier.
 
 1. **Ask for it.** Somebody who needs goods makes a **Material Request**,
    saying what, how many, for which warehouse and project, and when it is
@@ -306,13 +307,26 @@ Suppliers are kept in OneBook, and the link here opens the same supplier.
    Its page says the **Project**, who **Asked By**, when it is **Wanted
    By** (in red once late), how many **Quotes** came in, and how much is
    **Ordered** and **Received**.
-2. **Ask for prices.** **Create › Request for Quotation** on the request
-   names the suppliers to ask. Submit it and **Send Email** mails each one a
+2. **Ask for prices.** **Ask for Prices** on **Quotes** picks the material
+   request and the suppliers, and mails each one a link, or leaves the
+   request a draft to finish on its form. **Create › Request for Quotation**
+   on the material request does the same from there. Submit it and **Send Email** mails each one a
    link. A supplier with a portal login prices it there, and their quote
    arrives as a draft with whoever asked told. A quote by mail is
    **Create › Supplier Quotation** on the request. A quote holds until its
    **Valid Till**, and expires by itself after.
-3. **Compare.** A request for quotation says how many suppliers
+3. **Compare.** **Quotes** lists each request with who answered and who has
+   not (**Asked**), every supplier's quote with its total and until when it
+   holds (**Quotes**), and one request's quotes side by side (**Compare**):
+   each supplier's rate on each line, in their own money and in dirhams for
+   one in another money, with the cheapest live rate marked and a line
+   ordered already said as ordered. **Add Their Quote** types in the quote
+   of a supplier who answered by mail. **Order** drafts an order from one
+   quote, and **Order the Cheapest** drafts one to each supplier for the
+   lines they are cheapest on. The figures say how many suppliers are still
+   to answer, how many quotes wait for a decision or are still drafts, and
+   how many run out within a week. OneAI answers **Who has not answered?**
+   and **Who is cheapest?** there. A request for quotation says how many suppliers
    **Answered** and who is **Cheapest**, line by line. **Quote Comparison**
    sets every quote side by side, in the company's money too. A quote says
    on how many of its lines it is the cheapest.
@@ -787,6 +801,22 @@ a register and a movement form in it would be a rail with five rows.
   entry. New Lot inserts a Batch with `frappe.client.insert`, and ERPNext
   numbers it and works out its expiry. Turn On runs the Inventory Check's
   `serials` fix. OneAI's `lots_and_numbers` reads the page.
+- `quotes.py`, `page/quotes`, `frontend/src/quotes` and
+  `public/js/quotes_actions.js` — Quotes. `read` gives the figures and one
+  tab: `asked` (Request for Quotation with its suppliers' quote_status and
+  each one's quote, `_answers`), `quotes` (Supplier Quotation with the
+  request it answers and the orders made from it) or `compare`. `compare`
+  sets a request's lines against each supplier asked, rate and base_rate
+  from Supplier Quotation Item, the cheapest live base_rate marked, and a
+  line ordered when the quotes' ordered_qty covers it. Every change is
+  ERPNext's mapper: `ask` runs Material Request's
+  `make_request_for_quotation`, inserts it and, sent, submits it and runs
+  `send_supplier_emails`. Add Their Quote calls
+  `make_supplier_quotation_from_rfq` with `for_supplier`, as the request's
+  form does. Order opens `supplier_quotation.mapper.make_purchase_order`,
+  and `order_cheapest` runs it per supplier with `filtered_children` for the
+  lines they are cheapest on, leaving drafts. OneAI's `quotes_now` reads the
+  page.
 - `floor.py`, `page/floor`, `frontend/src/floor` and
   `public/js/floor_actions.js` — the Shop Floor. `read` reads through
   ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its

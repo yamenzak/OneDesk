@@ -133,6 +133,7 @@ GROUPS = {
 			"on_the_floor",
 			"plant_floor_now",
 			"lots_and_numbers",
+			"quotes_now",
 			"plan_work_order",
 			"asset_facts",
 			"equipment_held",
@@ -304,6 +305,7 @@ PAGES = {
 	"stock-on-hand": "inventory",
 	"inventory": "inventory",
 	"lots": "inventory",
+	"quotes": "inventory",
 	"floor": "inventory",
 	"plant": "inventory",
 }

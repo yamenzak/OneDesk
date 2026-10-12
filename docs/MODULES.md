@@ -512,6 +512,9 @@ No doctypes yet.
 * `onedesk.one_inventory.parts.add`
 * `onedesk.one_inventory.parts.read`
 * `onedesk.one_inventory.plant.read`
+* `onedesk.one_inventory.quotes.ask`
+* `onedesk.one_inventory.quotes.order_cheapest`
+* `onedesk.one_inventory.quotes.read`
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.stock.on_hand`
 * `onedesk.one_inventory.view.files`

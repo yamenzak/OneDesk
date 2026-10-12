@@ -37,6 +37,8 @@ export const SCREENS = [
 	{ who: "karim@one.test", path: "/desk/inventory", page: "inventory", sees: ["Stock Worth", "Late Orders", "Gulf Glass Industries"], panel: true },
 	{ who: "karim@one.test", path: "/desk/inventory/setup", page: "inventory", sees: ["Warehouses", "Where stock is kept."], panel: true },
 	{ who: "karim@one.test", path: "/desk/lots", page: "lots", sees: ["Lots in Stock", "Weatherproof Silicone Sealant", "Stores - SGA"], panel: true },
+	{ who: "karim@one.test", path: "/desk/quotes", page: "quotes", sees: ["Waiting for Prices", "Aluminium Profile 6063", "Euro Hardware Trading"], panel: true },
+	{ who: "karim@one.test", path: "/desk/quotes?view=compare&request=PUR-RFQ-2026-00005", page: "quotes", sees: ["Cheapest", "Emirates Sealants & Fixings"], panel: true },
 	{ who: "karim@one.test", path: "/desk/lots?view=serials", page: "lots", sees: ["SL-0001", "Smart Lock 500"], panel: true },
 	{ who: "tariq@one.test", path: "/desk/plant", page: "plant", sees: ["Plant Floor", "Saw Line", "Glazing Table"], panel: true },
 	{ who: "tariq@one.test", path: "/desk/floor", page: "floor", sees: ["Shop Floor", "Open Work Orders", "Sliding Door 2400"], panel: true },

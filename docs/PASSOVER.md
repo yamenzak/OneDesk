@@ -11622,7 +11622,7 @@ points.
 3. **Lots** (done, 7e) — batches and serial numbers as one tool: what each lot holds
    and where, what goes off soon, and steps to turn lots on for an item and
    make a lot. The item's Stock tab shows the same part.
-4. **Quotes** — asking suppliers for prices, their answers and the
+4. **Quotes** (done, 7f) — asking suppliers for prices, their answers and the
    comparison, as one page.
 5. **Sent out** — what suppliers make from our materials: the orders, what
    went out and what came back, as one page.
@@ -11719,6 +11719,55 @@ Done:
 | 17 Clean code | one server file, three parts shared with the item |
 | Everything follows frappe | frappe's dialogs and controls, frappe.client for every change |
 | What ERPNext already does | ERPNext's batch numbering, shelf life and serial series, and its refusal to change an item that has moved |
+
+#### 7f. Quotes, asking for prices and comparing them on one page
+
+Looked at as Karim: asking suppliers for prices meant a material request's
+Create menu, then the request for quotation's form, then each supplier's
+quotation, then a comparison report, then the quote's Create menu. Nothing
+said which suppliers had not answered. The comparison report wanted two
+filters before it showed anything.
+
+Done:
+
+- **Quotes** (page/quotes, frontend/src/quotes) takes Requests for Quotation's
+  place in the rail. Over it, Waiting for Prices, Quotes to Decide, Quotes
+  to Check and Running Out.
+- **Asked** lists each request with what it asks for, who answered and who
+  has not. **Quotes** lists each supplier's quote with its total in its own
+  money, until when it holds, the request it answers and the orders made
+  from it. **Compare** sets one request's quotes side by side, each rate in
+  the supplier's money and in dirhams for one in euros, the cheapest live
+  rate marked and a line already ordered said as ordered.
+- **Ask for Prices** picks the material request and the suppliers and mails
+  them, or leaves a draft. **Add Their Quote** types in a supplier's answer
+  by mail, as the request's own form does. **Order** drafts an order from
+  one quote. **Order the Cheapest** drafts one to each supplier for the
+  lines they are cheapest on. Every one is ERPNext's own mapper.
+- The demo asks Al Noor and Euro Hardware to price profile for the stores.
+  Euro Hardware answered in euros, Al Noor not yet.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | a request half answered in euros, the villa's request fully ordered, a new check typing in a quote, ordering the cheapest and asking for prices |
+| 2 Rules on the server | ERPNext's mappers and their checks (an expired quote cannot be ordered, ordered quantities are taken off) |
+| 3 Hand-offs | rows open the request, the quote, the item's Buying tab and the drafted order |
+| 4 Tier declared | page `quotes` in SCREENS |
+| 5 Our look | figures, tabs, rows and a comparison table from frappe-ui, at 1440 wide and on a phone |
+| 6 Nothing lost | the request, quote, comparison report and blanket orders stay, under Everything on Home |
+| 7 Extensible | the page is a place, `oneinventory_quotes.shown` |
+| 8 Built from frappe | frappe's dialogs, Link and MultiSelectList controls, realtime on the three doctypes |
+| 9 Overrides recorded | none |
+| 10 Notifications | none new, ERPNext's own mail to the suppliers |
+| 11 Printed | none new, the request prints as ERPNext's |
+| 12 Plain words | asked, waiting, to decide, running out, in Arabic and German |
+| 13 Documented, OneAI | the README's Buying, `quotes_now` with Who has not answered? and Who is cheapest? |
+| 14 Intake | a supplier's quote by mail stays Intake's to read |
+| 15 Permissions | each tab and button by its doctype's permission, Nadia sees nothing |
+| 16 Legal | nothing new |
+| 17 Clean code | one server file, two parts |
+| Everything follows frappe | ERPNext's mappers for every change, frappe's dialogs |
+| What ERPNext already does | the supplier's currency and the company's, quote validity, ordered quantities, the supplier portal |
 
 #### 8. Equipment
 
