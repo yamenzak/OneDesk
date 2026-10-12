@@ -353,11 +353,32 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 			for one in selling.get("quotes") or []
 		],
 		"made_from": [
-			{"item": one.item_name, "qty": one.qty, "unit": one.uom} for one in making.get("materials") or []
+			{"item": one.item_name, "qty": one.qty, "unit": one.uom, "enough_for": one.get("covers")}
+			for one in making.get("materials") or []
+		],
+		"can_make_now": making.get("can_make"),
+		"steps": [
+			{"step": one.operation, "workstation": one.workstation, "minutes": one.time_in_mins}
+			for one in making.get("steps") or []
 		],
 		"being_made": [
-			{"work_order": one.name, "qty": one.qty, "made": one.produced_qty, "project": one.project}
+			{
+				"work_order": one.name,
+				"qty": one.qty,
+				"made": one.produced_qty,
+				"project": one.project,
+				"late": one.get("late") or None,
+				"steps": [{"step": step.operation, "done": step.completed_qty} for step in one.get("steps") or []],
+			}
 			for one in making.get("orders") or []
+		],
+		"made_last_year": [
+			{"work_order": one.name, "made": one.produced_qty, "project": one.project}
+			for one in making.get("made") or []
+		],
+		"needed_for_making": [
+			{"work_order": one.name, "for": one.item_name, "still_to_take": one.left}
+			for one in making.get("needed") or []
 		],
 	}
 	return {key: value for key, value in out.items() if value not in (None, [], {})}

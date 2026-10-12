@@ -149,6 +149,30 @@ onedesk.item.make = (item, bom) => {
 	});
 };
 onedesk.item.bom = (item) => frappe.new_doc("BOM", { item });
+// What a work order has made, recorded as its own form's Finish records it:
+// how many, up to what has been taken for it, then ERPNext's manufacture
+// entry opened in its form.
+onedesk.item.finish = (work_order, most) => {
+	frappe.prompt(
+		[{ fieldtype: "Float", fieldname: "qty", label: __("How Many Made"), reqd: 1, default: most, description: __("Up to {0}", [most]) }],
+		async ({ qty }) => {
+			if (!(qty > 0)) {
+				frappe.msgprint(__("Quantity must be greater than zero."));
+				return;
+			}
+			const entry = await frappe.xcall("erpnext.manufacturing.doctype.work_order.mapper.make_stock_entry", { work_order_id: work_order, purpose: "Manufacture", qty });
+			frappe.model.sync(entry);
+			frappe.set_route("Form", entry.doctype, entry.name);
+		},
+		__("Finish {0}", [work_order]),
+		__("Finish")
+	);
+};
+// ERPNext's Shop Floor, at the work order, as its form's button opens it.
+onedesk.item.shop_floor = (work_order) => {
+	frappe.route_options = { work_order };
+	frappe.set_route("shop-floor");
+};
 onedesk.item.price = (item, buying) => frappe.new_doc("Item Price", { item_code: item, price_list: frappe.defaults.get_default(buying ? "buying_price_list" : "selling_price_list") || undefined });
 
 // A variant of a template made from its attributes, as ERPNext's Single

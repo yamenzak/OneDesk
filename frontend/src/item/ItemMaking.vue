@@ -1,21 +1,39 @@
 <template>
-  <!-- What the item is made from, the work orders making it, its bills of
-       materials, and what it goes into. -->
+  <!-- What the item is made from and how many the stock would make, the
+       steps that make it, the work orders making it step by step, what was
+       made in the last year, its bills of materials, and, for a material,
+       what it goes into and what the open work orders still need of it. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
-    <Section v-if="making.boms.length" :title="__('Made From')" icon="lucide-list-tree" :aside="said.made ? said.made.name : ''" :action="said.made ? { icon: 'lucide-arrow-up-right', label: __('Bill of Materials'), onClick: () => go(`/desk/bom/${encodeURIComponent(said.made.name)}`) } : null">
-      <Rows :rows="materials" :empty="__('No default bill of materials')" />
-      <p v-if="said.made" class="mt-2 text-sm text-ink-gray-5">{{ __("For {0}, costing {1}", [quantity(said.made.quantity, said.stock_uom), money(said.made.total_cost, said.currency)]) }}</p>
-    </Section>
-    <Section :title="__('Being Made')" icon="lucide-hammer" :aside="making.orders.length || ''" :action="said.made && said.can['Work Order'] && !said.disabled ? { text: true, icon: 'lucide-plus', label: __('Make More'), onClick: () => onedesk().item.make(said.name, said.made.name) } : null">
-      <Rows :rows="orders" :empty="__('Nothing being made')" />
-    </Section>
-    <Section :title="__('Bills of Materials')" icon="lucide-file-stack" :aside="making.boms.length || ''" :action="said.can.BOM ? { text: true, icon: 'lucide-plus', label: __('New Bill of Materials'), onClick: () => onedesk().item.bom(said.name) } : null">
-      <Rows :rows="boms" :empty="__('No bill of materials')" />
-    </Section>
+    <template v-if="making.made_here">
+      <Section v-if="making.boms.length" :title="__('Made From')" icon="lucide-list-tree" :aside="said.made ? said.made.name : ''" :action="said.made ? { icon: 'lucide-arrow-up-right', label: __('Bill of Materials'), onClick: () => go(`/desk/bom/${encodeURIComponent(said.made.name)}`) } : null">
+        <p v-if="making.can_make" class="mb-2 text-base" :class="making.can_make.qty ? 'text-ink-gray-7' : 'text-ink-red-4'">
+          {{ making.can_make.qty ? __("Enough for {0}. {1} runs out first.", [quantity(making.can_make.qty, said.stock_uom), making.can_make.limit]) : __("Not enough {0} for one", [making.can_make.limit]) }}
+        </p>
+        <Rows :rows="materials" :empty="__('No default bill of materials')" />
+      </Section>
+      <Section v-if="making.steps.length" :title="__('Steps')" icon="lucide-list-ordered" :aside="making.steps.length">
+        <Rows :rows="steps" />
+        <p v-if="said.made && bom" class="mt-2 text-sm text-ink-gray-5">
+          {{ __("For {0}, {1} of materials and {2} of steps, {3} in all", [quantity(said.made.quantity, said.stock_uom), money(bom.raw_material_cost, bom.currency), money(bom.operating_cost, bom.currency), money(bom.total_cost, bom.currency)]) }}
+        </p>
+      </Section>
+      <Section :title="__('Being Made')" icon="lucide-hammer" :aside="making.orders.length || ''" :action="said.made && said.can['Work Order'] && !said.disabled ? { text: true, icon: 'lucide-plus', label: __('Make More'), onClick: () => onedesk().item.make(said.name, said.made.name) } : null">
+        <Rows :rows="orders" :empty="__('Nothing being made')" />
+      </Section>
+      <Section v-if="making.made.length" :title="__('Made, Last 12 Months')" icon="lucide-package-check" :aside="quantity(madeQty, said.stock_uom)">
+        <Rows :rows="made" />
+      </Section>
+    </template>
     <Section v-if="making.used_in.length" :title="__('Goes Into')" icon="lucide-git-merge" :aside="making.used_in.length">
       <Rows :rows="usedIn" />
+    </Section>
+    <Section v-if="making.needed.length" :title="__('Needed for Making')" icon="lucide-clipboard-list" :aside="quantity(neededQty, said.stock_uom)">
+      <Rows :rows="needed" />
+    </Section>
+    <Section v-if="making.made_here || making.boms.length" :title="__('Bills of Materials')" icon="lucide-file-stack" :aside="making.boms.length || ''" :action="said.can.BOM ? { text: true, icon: 'lucide-plus', label: __('New Bill of Materials'), onClick: () => onedesk().item.bom(said.name) } : null">
+      <Rows :rows="boms" :empty="__('No bill of materials')" />
     </Section>
   </div>
     <!-- How the item is kept here: the item's own form fields, changed in place. -->
@@ -36,27 +54,67 @@ import { usePlace } from "../project/place";
 const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
 const emit = defineEmits(["changed"]);
 const making = computed(() => props.said.making);
+const uom = computed(() => props.said.stock_uom);
+const bom = computed(() => making.value.boms.find((one) => one.name === props.said.made?.name) || null);
+const madeQty = computed(() => making.value.made.reduce((sum, one) => sum + one.produced_qty, 0));
+const neededQty = computed(() => making.value.needed.reduce((sum, one) => sum + one.left, 0));
 
+// Each material with how many its free stock would make; the one that runs
+// out first marked.
 const materials = computed(() =>
   making.value.materials.map((one, i) => ({
     key: `${one.item_code}-${i}`,
     label: one.item_name,
     sub: one.item_code !== one.item_name ? one.item_code : "",
+    badge: making.value.can_make && one.covers === making.value.can_make.qty ? { label: __("Runs Out First"), theme: "orange" } : null,
+    below: one.covers === null ? "" : one.covers ? __("Enough for {0}", [quantity(one.covers)]) : __("None free"),
     dim: quantity(one.qty, one.uom),
     value: money(one.amount, props.said.currency),
-    route: `/desk/item/${encodeURIComponent(one.item_code)}`,
+    route: `/desk/oneinventory/item/${encodeURIComponent(one.item_code)}?view=making`,
   }))
 );
 
+const steps = computed(() =>
+  making.value.steps.map((one, i) => ({
+    key: `${one.operation}-${i}`,
+    label: __(one.operation),
+    sub: one.workstation || "",
+    dim: __("{0} min", [one.time_in_mins]),
+    value: money(one.operating_cost, bom.value?.currency || props.said.currency),
+    route: one.workstation ? `/desk/workstation/${encodeURIComponent(one.workstation)}` : `/desk/operation/${encodeURIComponent(one.operation)}`,
+  }))
+);
+
+// A work order still open: for which project, how far each step has got,
+// red once it was wanted. Finish records what has been made, and Shop
+// Floor opens ERPNext's page for the people on the floor at it.
 const orders = computed(() =>
   making.value.orders.map((one) => ({
     key: one.name,
-    label: one.name,
-    sub: one.project || "",
+    label: one.project_name || one.name,
+    sub: one.project_name ? one.name : "",
+    dot: one.late ? "red" : undefined,
     dim: __("{0} of {1} made", [quantity(one.produced_qty), quantity(one.qty)]),
     progress: one.qty ? Math.round((100 * one.produced_qty) / one.qty) : 0,
-    below: one.expected_delivery_date ? __("Wanted by {0}", [date(one.expected_delivery_date)]) : "",
+    below: one.expected_delivery_date ? (one.late ? __("Was wanted by {0}", [date(one.expected_delivery_date)]) : __("Wanted by {0}", [date(one.expected_delivery_date)])) : "",
+    // How many each step has done, of the order's quantity above.
+    lines: one.steps.length ? [one.steps.map((step) => `${__(step.operation)} ${quantity(step.completed_qty)}`).join(" · ")] : [],
     value: __(one.status),
+    route: `/desk/work-order/${encodeURIComponent(one.name)}`,
+    actions: [
+      making.value.can["Stock Entry"] && one.can_finish > 0 && { label: __("Finish"), icon: "lucide-package-check", onClick: () => onedesk().item.finish(one.name, one.can_finish) },
+      making.value.can.shop_floor && one.steps.some((step) => step.completed_qty < one.qty) && { label: __("Open on Shop Floor"), icon: "lucide-factory", onClick: () => onedesk().item.shop_floor(one.name) },
+    ].filter(Boolean),
+  }))
+);
+
+const made = computed(() =>
+  making.value.made.map((one) => ({
+    key: one.name,
+    label: one.project_name || one.name,
+    sub: one.project_name ? one.name : "",
+    dim: one.actual_end_date ? date(one.actual_end_date) : "",
+    value: quantity(one.produced_qty, uom.value),
     route: `/desk/work-order/${encodeURIComponent(one.name)}`,
   }))
 );
@@ -77,20 +135,39 @@ const usedIn = computed(() =>
     key: `${one.name}-${one.item}`,
     label: one.item_name,
     sub: one.name,
-    value: quantity(one.qty, props.said.stock_uom),
-    route: `/desk/item/${encodeURIComponent(one.item)}`,
+    value: quantity(one.qty, uom.value),
+    route: `/desk/oneinventory/item/${encodeURIComponent(one.item)}?view=making`,
+  }))
+);
+
+// What the open work orders still have to take of it.
+const needed = computed(() =>
+  making.value.needed.map((one) => ({
+    key: one.name,
+    label: one.item_name,
+    sub: one.name,
+    below: one.project_name || "",
+    value: __("{0} still to take", [quantity(one.left, uom.value)]),
+    route: `/desk/work-order/${encodeURIComponent(one.name)}`,
   }))
 );
 
 // The Making view is a place (one_studio/places.py).
 const spot = usePlace("oneinventory_item.making", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
-  making: { bom: props.said.made?.name || null, orders: making.value.orders.length },
+  making: {
+    bom: props.said.made?.name || null,
+    orders: making.value.orders.length,
+    can_make: making.value.can_make?.qty ?? null,
+    runs_out_first: making.value.can_make?.limit || null,
+  },
 }));
 
-// The item's own form fields that belong here, shown or locked as its form has them.
-const details = [
-  { label: __("Used in Manufacturing"), field: "include_item_in_manufacturing" },
-  { label: __("Default Bill of Materials"), field: "default_bom" },
-];
+// The item's own form fields that belong here, shown or locked as its form
+// has them. Whether it is taken as a material only means something for what
+// goes into something.
+const details = computed(() => [
+  ...(making.value.used_in.length || !making.value.made_here ? [{ label: __("Taken as a Material"), field: "include_item_in_manufacturing" }] : []),
+  ...(making.value.made_here ? [{ label: __("Default Bill of Materials"), field: "default_bom" }] : []),
+]);
 </script>

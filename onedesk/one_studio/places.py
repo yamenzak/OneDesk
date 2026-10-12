@@ -128,7 +128,7 @@ PLACES = {
 			},
 			"making": {
 				"about": _lt("An item's Making view is opened."),
-				"gives": "item.name, item.item_name, making.bom (the default bill of materials), making.orders (how many open)",
+				"gives": "item.name, item.item_name, making.bom (the default bill of materials), making.orders (how many open), making.can_make (how many the free stock would make), making.runs_out_first (the material that limits it)",
 				"may": ("note", "action"),
 			},
 			"files": {

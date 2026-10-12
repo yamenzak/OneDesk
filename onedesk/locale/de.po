@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-12 18:32+0000\n"
-"PO-Revision-Date: 2026-10-12 18:32+0000\n"
+"POT-Creation-Date: 2026-10-12 20:33+0000\n"
+"PO-Revision-Date: 2026-10-12 20:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1656,7 +1656,7 @@ msgid "Add User Permission"
 msgstr "Benutzerberechtigung hinzufügen"
 
 #: frontend/src/item/ItemOverview.vue:23 frontend/src/item/ItemPage.vue:303
-#: onedesk/public/js/item_actions.js:174 onedesk/public/js/item_actions.js:176
+#: onedesk/public/js/item_actions.js:198 onedesk/public/js/item_actions.js:200
 msgid "Add Variant"
 msgstr "Variante hinzufügen"
 
@@ -3923,7 +3923,7 @@ msgstr "Bevor ein Teil des OneAI-Guthabens des Arbeitsbereichs verfällt, eine W
 msgid "Begins on Day"
 msgstr "Beginnt an Tag"
 
-#: frontend/src/item/ItemMaking.vue:11
+#: frontend/src/item/ItemMaking.vue:22
 msgid "Being Made"
 msgstr "In Fertigung"
 
@@ -4032,7 +4032,7 @@ msgstr "Fortschritt abrechnen gibt es für Bestellungen und Kundenaufträge."
 msgid "Bill To"
 msgstr "Rechnung an"
 
-#: frontend/src/item/ItemMaking.vue:7
+#: frontend/src/item/ItemMaking.vue:10
 msgid "Bill of Materials"
 msgstr "Stückliste"
 
@@ -4158,7 +4158,7 @@ msgid "Bills carry tax"
 msgstr "Eingangsrechnungen enthalten Steuer"
 
 #. Label of a Sidebar Item
-#: frontend/src/item/ItemMaking.vue:14
+#: frontend/src/item/ItemMaking.vue:35
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Bills of Materials"
 msgstr "Stücklisten"
@@ -7060,7 +7060,7 @@ msgstr ""
 msgid "Deep clean"
 msgstr "Grundreinigung"
 
-#: frontend/src/item/ItemMaking.vue:68 frontend/src/item/ItemSuppliers.vue:16
+#: frontend/src/item/ItemMaking.vue:126 frontend/src/item/ItemSuppliers.vue:16
 #: onedesk/one/ai.py:2722 onedesk/public/js/ai_model_list.js:17
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:398
@@ -7071,7 +7071,7 @@ msgstr "Grundreinigung"
 msgid "Default"
 msgstr "Standard"
 
-#: frontend/src/item/ItemMaking.vue:94
+#: frontend/src/item/ItemMaking.vue:171
 msgid "Default Bill of Materials"
 msgstr "Standardstückliste"
 
@@ -7506,7 +7506,7 @@ msgstr "Einzelheit"
 #. Label in the One Appointment Letter print format
 #. Label of the said (Small Text) field in DocType 'Intake Lesson'
 #. Label of the section_details (Section Break) field in DocType 'Reading'
-#: frontend/src/item/ItemBuying.vue:29 frontend/src/item/ItemMaking.vue:23
+#: frontend/src/item/ItemBuying.vue:29 frontend/src/item/ItemMaking.vue:41
 #: frontend/src/item/ItemOverview.vue:33 frontend/src/item/ItemSelling.vue:27
 #: frontend/src/item/ItemStock.vue:20 frontend/src/task/TaskPage.vue:115
 #: frontend/src/task/TaskPage.vue:219
@@ -7848,7 +7848,7 @@ msgstr "Download-Größe"
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "Zuerst herunterladen. Nach dem Schließen des Arbeitsbereichs kann nichts mehr exportiert werden."
 
-#: frontend/src/item/ItemMaking.vue:68 frontend/src/project/Time.vue:90
+#: frontend/src/item/ItemMaking.vue:126 frontend/src/project/Time.vue:90
 #: frontend/src/task/TaskTime.vue:33
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 msgid "Draft"
@@ -8722,6 +8722,14 @@ msgstr "Endet {0}"
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Engineer"
 msgstr "Ingenieur"
+
+#: frontend/src/item/ItemMaking.vue:70
+msgid "Enough for {0}"
+msgstr "Reicht für {0}"
+
+#: frontend/src/item/ItemMaking.vue:12
+msgid "Enough for {0}. {1} runs out first."
+msgstr "Reicht für {0}. {1} geht zuerst aus."
 
 #: onedesk/one_admin/hosts.py:74 onedesk/one_admin/hosts.py:82
 msgid "Enter a domain, such as office.example.com."
@@ -9839,7 +9847,9 @@ msgid "Finds or makes everything a workspace needs from Cloudflare with the toke
 msgstr "Findet oder erstellt mit dem Token oben alles, was ein Arbeitsbereich von Cloudflare braucht. Bereits Eingerichtetes bleibt unverändert."
 
 #. Task in the Year-End Audit project template
+#: frontend/src/item/ItemMaking.vue:105
 #: onedesk/one_project/library/year_end_audit.json
+#: onedesk/public/js/item_actions.js:168
 msgid "Finish"
 msgstr ""
 
@@ -9847,6 +9857,10 @@ msgstr ""
 #: onedesk/notifications/one_admin/finish_signing_up.md
 msgid "Finish Signing Up"
 msgstr "Anmeldung abschließen"
+
+#: onedesk/public/js/item_actions.js:167
+msgid "Finish {0}"
+msgstr "{0} abschließen"
 
 #. Label of the finished_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -10150,9 +10164,9 @@ msgstr ""
 msgid "For {0} of {1}"
 msgstr "Für {0} von {1}"
 
-#: frontend/src/item/ItemMaking.vue:9
-msgid "For {0}, costing {1}"
-msgstr "Für {0}, Kosten {1}"
+#: frontend/src/item/ItemMaking.vue:19
+msgid "For {0}, {1} of materials and {2} of steps, {3} in all"
+msgstr "Für {0}, {1} Material und {2} Arbeitsschritte, {3} insgesamt"
 
 #: frontend/src/project/Money.vue:18
 msgid "Forecast"
@@ -10379,7 +10393,7 @@ msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abtei
 msgid "From {0} every day counts as a working day. Make next year's list."
 msgstr "Ab {0} zählt jeder Tag als Arbeitstag. Legen Sie die Liste für nächstes Jahr an."
 
-#: onedesk/public/js/item_actions.js:169
+#: onedesk/public/js/item_actions.js:193
 msgid "From {0} to {1}, in steps of {2}"
 msgstr "Von {0} bis {1}, in Schritten von {2}"
 
@@ -10622,7 +10636,7 @@ msgstr "Ziele, Zielgruppe und Budget"
 msgid "Goals, audience and pages agreed"
 msgstr "Ziele, Zielgruppe und Seiten abgestimmt"
 
-#: frontend/src/item/ItemMaking.vue:17
+#: frontend/src/item/ItemMaking.vue:29
 msgid "Goes Into"
 msgstr "Geht ein in"
 
@@ -11166,6 +11180,10 @@ msgstr "Wie lange"
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "How Long Deals Take"
 msgstr "Wie lange Deals dauern"
+
+#: onedesk/public/js/item_actions.js:157
+msgid "How Many Made"
+msgstr "Wie viele hergestellt"
 
 #. Label of the 'frequency' field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -13978,7 +13996,7 @@ msgstr "Erstellt von"
 msgid "Made For"
 msgstr "Gefertigt für"
 
-#: frontend/src/item/ItemMaking.vue:7 onedesk/public/js/item_new.js:129
+#: frontend/src/item/ItemMaking.vue:10 onedesk/public/js/item_new.js:129
 msgid "Made From"
 msgstr "Gefertigt aus"
 
@@ -14060,6 +14078,10 @@ msgstr "In unserer Werkstatt gefertigt"
 #: frontend/src/item/ItemStock.vue:63 onedesk/one_intake/panel.py:211
 msgid "Made {0}"
 msgstr "{0} angelegt"
+
+#: frontend/src/item/ItemMaking.vue:25
+msgid "Made, Last 12 Months"
+msgstr "Hergestellt, letzte 12 Monate"
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -14222,7 +14244,7 @@ msgstr "Zur Hauptadresse machen"
 msgid "Make Member"
 msgstr "Zum Mitglied machen"
 
-#: frontend/src/item/ItemMaking.vue:11 frontend/src/item/ItemPage.vue:298
+#: frontend/src/item/ItemMaking.vue:22 frontend/src/item/ItemPage.vue:298
 msgid "Make More"
 msgstr "Mehr fertigen"
 
@@ -15221,6 +15243,10 @@ msgstr "Benötigt bis"
 msgid "Needed by {0}"
 msgstr "Benötigt bis {0}"
 
+#: frontend/src/item/ItemMaking.vue:32
+msgid "Needed for Making"
+msgstr "Für die Fertigung benötigt"
+
 #. Label of the capability (Select) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Needs"
@@ -15339,7 +15365,7 @@ msgstr "Neue Charge automatisch angelegt"
 msgid "New Bill"
 msgstr "Neue Eingangsrechnung"
 
-#: frontend/src/item/ItemMaking.vue:14
+#: frontend/src/item/ItemMaking.vue:35
 msgid "New Bill of Materials"
 msgstr "Neue Stückliste"
 
@@ -15777,7 +15803,7 @@ msgstr "Keine Automatisierungen"
 msgid "No batches in stock"
 msgstr "Keine Chargen auf Lager"
 
-#: frontend/src/item/ItemMaking.vue:15
+#: frontend/src/item/ItemMaking.vue:36
 msgid "No bill of materials"
 msgstr "Keine Stückliste"
 
@@ -15843,7 +15869,7 @@ msgstr "Kein Datum"
 msgid "No days on site"
 msgstr "Keine Tage vor Ort"
 
-#: frontend/src/item/ItemMaking.vue:8
+#: frontend/src/item/ItemMaking.vue:14
 msgid "No default bill of materials"
 msgstr "Keine Standardstückliste"
 
@@ -16305,6 +16331,10 @@ msgstr "Niemand auf dieser Liste hat eingecheckt"
 msgid "None"
 msgstr "Keine"
 
+#: frontend/src/item/ItemMaking.vue:70
+msgid "None free"
+msgstr "Nichts frei"
+
 #: onedesk/one_inventory/heads.py:125 onedesk/one_inventory/heads.py:260
 msgid "None left"
 msgstr "Nichts mehr da"
@@ -16331,7 +16361,7 @@ msgstr "Keines, von Hand gesetzt"
 msgid "Normal"
 msgstr "Normal"
 
-#: frontend/src/item/ItemMaking.vue:68
+#: frontend/src/item/ItemMaking.vue:126
 msgid "Not Active"
 msgstr "Nicht aktiv"
 
@@ -16465,6 +16495,10 @@ msgstr "Noch nicht gezählt"
 #: onedesk/one/privacy.py:140
 msgid "Not deleted"
 msgstr "Nicht gelöscht"
+
+#: frontend/src/item/ItemMaking.vue:12
+msgid "Not enough {0} for one"
+msgstr "Nicht genug {0} für eins"
 
 #: onedesk/www/r.html:3 onedesk/www/s.html:3 onedesk/www/welcome.html:21
 msgid "Not found"
@@ -16665,7 +16699,7 @@ msgstr "Nichts Neues"
 msgid "Nothing asked yet. Ask something about what is on screen, or anything else."
 msgstr "Noch nichts gefragt. Fragen Sie zu dem, was auf dem Bildschirm steht, oder zu etwas anderem."
 
-#: frontend/src/item/ItemMaking.vue:12
+#: frontend/src/item/ItemMaking.vue:23
 msgid "Nothing being made"
 msgstr "Nichts in Fertigung"
 
@@ -18106,6 +18140,10 @@ msgstr "In Stripe öffnen"
 #: onedesk/www/welcome.html:28
 msgid "Open it"
 msgstr "Öffnen"
+
+#: frontend/src/item/ItemMaking.vue:106
+msgid "Open on Shop Floor"
+msgstr "In der Werkstatt öffnen"
 
 #: onedesk/public/js/onecloud.js:109 onedesk/public/js/onecloud.js:1928
 msgid "Open record"
@@ -20632,6 +20670,10 @@ msgstr "Mengen pro {0}"
 msgid "Quantity"
 msgstr "Menge"
 
+#: onedesk/public/js/item_actions.js:160
+msgid "Quantity must be greater than zero."
+msgstr "Die Menge muss größer als null sein."
+
 #: onedesk/one_hr/hiring.py:505
 msgid "Questions"
 msgstr "Fragen"
@@ -22366,6 +22408,10 @@ msgstr "Läuft"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Runs On"
 msgstr "Läuft mit"
+
+#: frontend/src/item/ItemMaking.vue:69
+msgid "Runs Out First"
+msgstr "Geht zuerst aus"
 
 #: onedesk/public/js/settings.js:2749
 msgid "Runs once with the settings above and uses OneAI credits."
@@ -24591,6 +24637,7 @@ msgstr "Schritt {0} von {1}"
 #. Job'
 #. Label of the walk_said (HTML) field in DocType 'Provisioning Job'
 #. Label in the One Work Order print format
+#: frontend/src/item/ItemMaking.vue:16
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:243 onedesk/one_admin/heads.py:684
 #: onedesk/one_inventory/heads.py:1344
@@ -25356,6 +25403,10 @@ msgstr "{0} zurücknehmen und mit „Zurücknehmen“ auf der Seite des Anlagegu
 #: onedesk/one_inventory/heads.py:1173
 msgid "Taken Out"
 msgstr "Entnommen"
+
+#: frontend/src/item/ItemMaking.vue:170
+msgid "Taken as a Material"
+msgstr "Als Material verwendet"
 
 #: onedesk/one_inventory/heads.py:1070
 msgid "Taken back."
@@ -28591,6 +28642,10 @@ msgstr "Nach oben"
 msgid "Up To"
 msgstr "Bis"
 
+#: onedesk/public/js/item_actions.js:157
+msgid "Up to {0}"
+msgstr "Bis zu {0}"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
@@ -28744,10 +28799,6 @@ msgstr "Von {0} Projekten verwendet"
 #: onedesk/one/settings.py:813
 msgid "Used for the company name, lines and banner in letter heads."
 msgstr "Wird für Firmenname, Linien und Banner im Briefkopf verwendet."
-
-#: frontend/src/item/ItemMaking.vue:93
-msgid "Used in Manufacturing"
-msgstr "In der Fertigung verwendet"
 
 #. Description of the 'Key' (Data) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -29205,7 +29256,7 @@ msgstr "Wartet auf"
 msgid "Wanted By"
 msgstr "Benötigt bis"
 
-#: frontend/src/item/ItemMaking.vue:58
+#: frontend/src/item/ItemMaking.vue:99
 msgid "Wanted by {0}"
 msgstr "Benötigt bis {0}"
 
@@ -29242,6 +29293,10 @@ msgstr "War wert"
 #: frontend/src/item/ItemBuying.vue:60 frontend/src/item/ItemSelling.vue:66
 msgid "Was due {0}"
 msgstr "War fällig am {0}"
+
+#: frontend/src/item/ItemMaking.vue:99
+msgid "Was wanted by {0}"
+msgstr "War bis {0} gewünscht"
 
 #: onedesk/public/js/oneai.js:263
 msgid "Was {0}"
@@ -34488,7 +34543,7 @@ msgstr "{0} ist bereits der Standard für {1}."
 msgid "{0} is already the site of {1}."
 msgstr "{0} ist bereits der Standort von {1}."
 
-#: onedesk/public/js/item_actions.js:181
+#: onedesk/public/js/item_actions.js:205
 msgid "{0} is already this variant."
 msgstr "{0} ist bereits diese Variante."
 
@@ -34914,6 +34969,10 @@ msgstr "{0}-Manager"
 msgid "{0} may only compare the record's fields with plain values, such as {1}."
 msgstr "{0} darf nur die Felder des Datensatzes mit einfachen Werten vergleichen, zum Beispiel {1}."
 
+#: frontend/src/item/ItemMaking.vue:82
+msgid "{0} min"
+msgstr "{0} Min."
+
 #: onedesk/public/js/ai_model_list.js:68
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} Modelle, {1} bepreist, {2} brauchen Prüfung."
@@ -35029,7 +35088,7 @@ msgstr "{0} von {1} erledigt"
 msgid "{0} of {1} lines"
 msgstr "{0} von {1} Zeilen"
 
-#: frontend/src/item/ItemMaking.vue:56
+#: frontend/src/item/ItemMaking.vue:97
 msgid "{0} of {1} made"
 msgstr "{0} von {1} gefertigt"
 
@@ -35327,6 +35386,10 @@ msgstr "{0} stehen noch aus"
 #: frontend/src/item/ItemOverview.vue:112
 msgid "{0} still to send"
 msgstr "{0} noch zu senden"
+
+#: frontend/src/item/ItemMaking.vue:150
+msgid "{0} still to take"
+msgstr "{0} noch zu entnehmen"
 
 #: frontend/src/project/Overview.vue:399
 msgid "{0} sub-projects"

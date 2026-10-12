@@ -2997,7 +2997,13 @@ def onehr_requests_are_answered_by_who_answers_them():
 	with as_user(demo.HR):
 		request.approve(nadia, "Counted.")
 		assert frappe.db.get_value("Attendance Request", nadia, "docstatus") == 1
-		rania = frappe.get_doc({"doctype": "Attendance Request", "employee": _employee("Rania"), "company": COMPANY, "from_date": add_days(today(), -2), "to_date": add_days(today(), -2), "reason": "On Duty", "one_reason": "Customer Site", "explanation": "At the tower all day."}).insert()
+		# A working day of hers: HRMS refuses a request that is all holiday.
+		from erpnext.setup.doctype.employee.employee import is_holiday
+
+		day = add_days(today(), -2)
+		while is_holiday(_employee("Rania"), day):
+			day = add_days(day, -1)
+		rania = frappe.get_doc({"doctype": "Attendance Request", "employee": _employee("Rania"), "company": COMPANY, "from_date": day, "to_date": day, "reason": "On Duty", "one_reason": "Customer Site", "explanation": "At the tower all day."}).insert()
 		request.reject(rania.name, "You were in the office that day.")
 		assert frappe.db.get_value("Attendance Request", rania.name, ["docstatus", "one_decision"]) == (0, request.REJECTED)
 
@@ -4818,6 +4824,34 @@ def oneinventory_an_items_selling_says_what_can_go_and_who_buys():
 	assert acme["currency"] == "USD" and acme["their_amount"] and acme["their_amount"] != acme["amount"], acme
 	assert selling["sales"] and all(one["rate"] for one in selling["sales"]), selling["sales"]
 	assert any(one["price_list_rate"] > 2350 for one in selling["prices"]), selling["prices"]
+
+
+@check
+def oneinventory_an_items_making_says_what_can_be_made_and_how_far():
+	"""The Making view: how many the free stock of its materials would make
+	and which runs out first, the steps that make it, each open work order
+	step by step with what Finish would take, what was made in the last
+	year, and, for a material, what the open work orders still need of it."""
+	from onedesk.one_inventory import view
+
+	assert view.can_make([]) is None
+	assert view.can_make(
+		[{"item_code": "A", "item_name": "A", "covers": 9}, {"item_code": "B", "item_name": "B", "covers": 4}]
+	) == {"qty": 4, "limit": "B"}
+	with as_user("wsadmin@one.test"):
+		window = view.read("WIN-CS12")["making"]
+		profile = view.read("ALU-6063")["making"]
+	assert window["made_here"] and window["materials"], window
+	least = min(one["covers"] for one in window["materials"])
+	assert window["can_make"]["qty"] == least, window["can_make"]
+	assert [one["operation"] for one in window["steps"]] == ["Cutting", "Assembly", "Glazing"], window["steps"]
+	order = window["orders"][0]
+	assert [step["operation"] for step in order["steps"]] == ["Cutting", "Assembly", "Glazing"], order
+	assert order["can_finish"] == order["transferred"] - order["produced_qty"], order
+	assert order["project_name"], order
+	assert sum(one["produced_qty"] for one in window["made"]) >= 100, window["made"]
+	assert not profile["made_here"], "a bought material has no work orders of its own"
+	assert any(one["item_name"] == "Sliding Door 2400" and one["left"] > 0 for one in profile["needed"]), profile["needed"]
 
 
 @check

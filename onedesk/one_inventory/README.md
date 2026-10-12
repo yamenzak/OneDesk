@@ -183,8 +183,17 @@ Then its views, each only where the item has it:
   **New Order** and **Set Customer's Code**. The selling prices are changed
   on the row, and one says when it was last sold below it. Each makes the
   next document as its own form's button does.
-- **Making**: what it is made from, the work orders making it, its bills of
-  materials, and what it goes into.
+- **Making**: what it is made from, each material with how many its free
+  stock would make, and "Enough for 182, Structural Silicone runs out
+  first" over them. Then the steps that make it, each at its workstation
+  with its minutes and cost, and what one costs in materials and in steps.
+  Each work order still open says its project, how far each step has got
+  and, once late, in red. Its menu has **Finish**, which records what has
+  been made as the work order's own Finish does, and **Open on Shop Floor**,
+  ERPNext's page for the people on the floor, at that work order. Then what
+  was made in the last twelve months, and its bills of materials. A
+  material bought rather than made shows only what it goes into and what
+  the open work orders still need of it.
 - **Files** and **Activity**, as on every record.
 
 The main button is **Order More**, or **Make More** for something made

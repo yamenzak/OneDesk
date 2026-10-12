@@ -812,7 +812,10 @@ def _prices(item: str, side: str) -> list:
 
 
 def _making(doc) -> dict | None:
-	"""What it is made from, what it goes into, and the work orders making it."""
+	"""What it is made from and how many the stock on hand would make, the
+	steps that make it, the work orders making it step by step, what was made
+	in the last year, and, for a material, what it goes into and what the open
+	work orders still need of it."""
 	if not _readable("BOM"):
 		return None
 	boms = frappe.get_list(
@@ -825,19 +828,33 @@ def _making(doc) -> dict | None:
 			"docstatus",
 			"quantity",
 			"total_cost",
+			"raw_material_cost",
+			"operating_cost",
 			"currency",
 			"project",
 		],
 		order_by="is_default desc, modified desc",
 		limit=MOST,
 	)
-	materials = []
+	materials, steps = [], []
 	default = next((one for one in boms if one.is_default and one.is_active), None)
 	if default:
 		materials = frappe.get_all(
 			"BOM Item",
 			filters={"parent": default.name, "parenttype": "BOM"},
-			fields=["item_code", "item_name", "qty", "uom", "amount"],
+			fields=["item_code", "item_name", "qty", "uom", "stock_qty", "amount"],
+			order_by="idx asc",
+		)
+		free = _free({one.item_code for one in materials})
+		for one in materials:
+			# What the free stock of it would make, at what one of the item takes.
+			per_one = flt(one.stock_qty) / (flt(default.quantity) or 1)
+			one["free"] = free.get(one.item_code, 0)
+			one["covers"] = int(one["free"] // per_one) if per_one else None
+		steps = frappe.get_all(
+			"BOM Operation",
+			filters={"parent": default.name, "parenttype": "BOM"},
+			fields=["operation", "workstation", "time_in_mins", "operating_cost"],
 			order_by="idx asc",
 		)
 	used_in = frappe.get_list(
@@ -846,7 +863,7 @@ def _making(doc) -> dict | None:
 		fields=["name", "item", "item_name", "is_default", "`tabBOM Item`.qty as qty"],
 		limit=MOST,
 	)
-	orders = []
+	orders, made, needed = [], [], []
 	if _readable("Work Order"):
 		orders = frappe.get_list(
 			"Work Order",
@@ -859,6 +876,9 @@ def _making(doc) -> dict | None:
 				"name",
 				"qty",
 				"produced_qty",
+				"material_transferred_for_manufacturing as transferred",
+				"process_loss_qty",
+				"skip_transfer",
 				"status",
 				"project",
 				"planned_start_date",
@@ -867,11 +887,99 @@ def _making(doc) -> dict | None:
 			order_by="planned_start_date asc",
 			limit=MOST,
 		)
+		today = getdate(nowdate())
+		for row in orders:
+			row["project_name"] = _project_name(row.project)
+			row["late"] = bool(row.expected_delivery_date and getdate(row.expected_delivery_date) < today)
+			row["steps"] = frappe.get_all(
+				"Work Order Operation",
+				filters={"parent": row.name, "parenttype": "Work Order"},
+				fields=["operation", "workstation", "completed_qty", "status"],
+				order_by="idx asc",
+			)
+			# What Finish would take, as the work order's own Finish button reckons it.
+			ready = flt(row.qty if row.skip_transfer else row.transferred) - flt(row.produced_qty)
+			row["can_finish"] = max(ready - flt(row.process_loss_qty), 0)
+		made = frappe.get_list(
+			"Work Order",
+			filters={
+				"production_item": doc.name,
+				"docstatus": 1,
+				"status": "Completed",
+				"actual_end_date": [">=", frappe.utils.add_months(nowdate(), -12)],
+			},
+			fields=["name", "produced_qty", "project", "actual_end_date"],
+			order_by="actual_end_date desc",
+			limit=MOST,
+		)
+		for row in made:
+			row["project_name"] = _project_name(row.project)
+			row["actual_end_date"] = getdate(row.actual_end_date) if row.actual_end_date else None
+		needed = frappe.get_list(
+			"Work Order",
+			filters=[
+				["Work Order Item", "item_code", "=", doc.name],
+				["docstatus", "=", 1],
+				["status", "not in", ("Completed", "Closed", "Cancelled", "Stopped")],
+			],
+			fields=[
+				"name",
+				"production_item",
+				"item_name",
+				"project",
+				"`tabWork Order Item`.required_qty as required",
+				"`tabWork Order Item`.transferred_qty as transferred",
+			],
+			limit=MOST,
+		)
+		needed = [row for row in needed if flt(row.required) > flt(row.transferred)]
+		for row in needed:
+			row["left"] = flt(row.required) - flt(row.transferred)
+			row["project_name"] = _project_name(row.project)
 	# Something made here has its Making tab before its first bill of materials.
 	made_here = doc.default_material_request_type == "Manufacture" and not doc.is_fixed_asset
 	if not (boms or used_in or orders or made_here):
 		return None
-	return {"boms": boms, "materials": materials, "used_in": used_in, "orders": orders}
+	return {
+		"made_here": bool(made_here or boms or orders),
+		"boms": boms,
+		"materials": materials,
+		"can_make": can_make(materials),
+		"steps": steps,
+		"used_in": used_in,
+		"orders": orders,
+		"made": made,
+		"needed": needed,
+		"can": {
+			"Stock Entry": bool(frappe.has_permission("Stock Entry", "create")),
+			# ERPNext's own page for the people on the floor, opened at a work order.
+			"shop_floor": bool(
+				frappe.db.exists("Page", "shop-floor") and frappe.get_cached_doc("Page", "shop-floor").is_permitted()
+			),
+		},
+	}
+
+
+def can_make(materials: list) -> dict | None:
+	"""How many the free stock of its materials would make, and which runs
+	out first. Pure."""
+	counted = [one for one in materials if one.get("covers") is not None]
+	if not counted:
+		return None
+	first = min(counted, key=lambda one: one["covers"])
+	return {"qty": first["covers"], "limit": first["item_name"] or first["item_code"]}
+
+
+def _free(items) -> dict:
+	"""What of each item is on hand and not held for work orders already."""
+	free = {}
+	for row in frappe.get_all(
+		"Bin",
+		filters={"item_code": ["in", list(items)]},
+		fields=["item_code", "actual_qty", "reserved_qty_for_production"],
+	):
+		free[row.item_code] = free.get(row.item_code, 0) + flt(row.actual_qty) - flt(row.reserved_qty_for_production)
+	return {item: max(qty, 0) for item, qty in free.items()}
 
 
 def _assets(item: str) -> list:

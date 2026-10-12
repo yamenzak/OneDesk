@@ -10809,6 +10809,73 @@ Fixed:
 | 16 Legal | nothing new |
 | 17 Clean code | `ItemCustomers.vue` one concern, `ready()` pure, ruff clean |
 
+#### 1i. The Making view
+
+Your word: all six on the item's Making view.
+
+Found:
+
+- **Nothing lost (6)**: the bill of materials' three steps (Cutting at the
+  Saw Line, Assembly, Glazing) and their AED 43 of the AED 747 cost were
+  nowhere on the page. Neither were the two work orders already finished
+  (100 windows), nor how far each step of the open one had got.
+- **Plain words (12)**: Made From listed what one window takes but not
+  whether there was stock to make the 280 Bayview is short. The open work
+  order showed PROJ-0003, not the project's name, and wasn't marked late.
+  "Used in Manufacturing" sat off on a finished window, which reads as if
+  it isn't made. It is ERPNext's setting for whether an item is taken as a
+  material.
+- **Hand-offs (3)**: a work order couldn't be finished from here, nor
+  opened on ERPNext's Shop Floor.
+- **Our look (5)**: a bought material showed an empty Being Made and an
+  empty Bills of Materials, and not what the open work orders still need.
+
+Fixed:
+
+- **Plain words (12)**: each material says how many its free stock would
+  make (on hand less what work orders already hold) and the one that runs
+  out first is marked. The window says "Enough for 182. Structural
+  Silicone runs out first."
+- **Nothing lost (6)**: a Steps section with each step's workstation,
+  minutes and cost, and what one costs in materials and in steps. Each open
+  work order says each step's count (Cutting 30, Assembly 12, Glazing 12)
+  and the project by name, red once wanted. Made, Last 12 Months lists the
+  finished orders.
+- **Hand-offs (3)**: **Finish** records what has been made the way the
+  work order's own Finish button does (up to what was taken for it, then
+  ERPNext's manufacture entry in its form). **Open on Shop Floor** opens
+  ERPNext's Shop Floor at the work order, as its form's button does, for
+  who may open that page.
+- **Our look (5)**: a bought material shows Goes Into and Needed for
+  Making ("128 Meter still to take" for the sliding door order). The
+  switch is called "Taken as a Material" and shows only on what goes into
+  something. Default Bill of Materials shows only on what is made here.
+
+ERPNext also has its own manufacturing screens: Shop Floor, Visual Plant
+Floor, Production Plan Visualizer, BOM Creator and BOM Comparison Tool.
+They stay ERPNext's, the item page opens Shop Floor at a work order, and
+whether the rail carries them is for your word.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_an_items_making_says_what_can_be_made_and_how_far`, Finish and Shop Floor tried in the browser |
+| 2 Rules on the server | ERPNext's own, nothing of ours |
+| 3 Hand-offs | Finish, Open on Shop Floor, Make More, New Bill of Materials |
+| 4 Tier declared | unchanged, Item in PAGES |
+| 5 Our look | what can be made, steps, a material's own view |
+| 6 Nothing lost | steps, step counts and finished work orders now shown |
+| 7 Extensible | the place `oneinventory_item.making` gives how many can be made and what runs out first |
+| 8 Built from frappe | ERPNext's make_stock_entry mapper and its Shop Floor route, the item's own fields in place |
+| 9 Overrides recorded | none, all public calls |
+| 10 Notifications | nothing new |
+| 11 Printed | nothing new to print |
+| 12 Plain words | Taken as a Material, Runs Out First, every new string in Arabic and German |
+| 13 Documented | README An item's page, OneAI reads what can be made, the steps and each step's count |
+| 14 Intake | nothing new to read |
+| 15 Permissions | Finish for who may make a stock entry, Shop Floor for who may open that page |
+| 16 Legal | nothing new |
+| 17 Clean code | `can_make()` pure, `_free()` one query, ruff clean |
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the
