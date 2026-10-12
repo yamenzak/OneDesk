@@ -10554,6 +10554,58 @@ Fixed:
 | 16 Legal | a brand's logo is fetched from its own website, as a customer's is |
 | 17 Clean code | desk reached only through the kit, ruff clean |
 
+#### 1d. Sold by Size, and lots with expiry dates
+
+Your questions: is Measured By different from the unit, and where are lots
+and expiry dates managed.
+
+Found:
+
+- **Plain words (12)**: Measured By said Piece, Length or Area, which read as
+  a second unit. It only says whether each line gives a size.
+- **Works (1)**: an item counted in metres said Piece until somebody changed
+  it, so its lines had no size columns.
+- **Our look (5)**: Batches and Serial Numbers were under More. A lot's form
+  said nothing of where it is or when it expires, and nothing said a lot was
+  running out of date.
+
+Fixed:
+
+- **Plain words (12)**: **Sold by Size**, No, Length or Area. A patch turned
+  Piece into No.
+- **Rules on the server (2)**: an item counted in a length or an area is sold
+  by it when it is made or its unit changes (`measure.follows_unit` on
+  before_validate, from ERPNext's UOM categories), so Data Import and OneAI
+  set it too. New Item sets it as the unit is picked.
+- **Our look (5)**: Batches and Serial Numbers beside the stock in the rail,
+  Batch Expiry and Stock by Batch under Reports. A lot's head says what is
+  left and where, made, expires, came from and taken out. Expiring Soon and
+  Expired, Still in Stock under Needs You.
+- **Notifications (10)**: Expiring Soon, once, to whoever keeps the stores.
+- **Demo coverage (1)**: Weatherproof Silicone Sealant in two lots, the
+  January lot expiring within the month, part of it at the villa. ERPNext's
+  lots switch is on in the demo.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_lots_say_their_dates_and_where_they_went`, and the sizes check covers Sold by Size following the unit |
+| 2 Rules on the server | `follows_unit` on before_validate |
+| 3 Hand-offs | a lot opens the receipt it came from and ERPNext's trace |
+| 4 Tier declared | Batch in HEADS |
+| 5 Our look | the item's Needs You and Stock rows, the lot's head |
+| 6 Nothing lost | the lot's form keeps ERPNext's stock levels, Move and Split |
+| 7 Extensible | nothing new |
+| 8 Built from frappe | values through `formatdate` and the band |
+| 9 Overrides recorded | none, both use public hooks |
+| 10 Notifications | Expiring Soon |
+| 11 Printed | nothing new to print |
+| 12 Plain words | Sold by Size, every new string in Arabic and German |
+| 13 Documented | README, Selling by size and Lots and expiry dates |
+| 14 Intake | nothing new to read |
+| 15 Permissions | the lot's own permissions, the item page refuses Nadia |
+| 16 Legal | nothing new |
+| 17 Clean code | `batches.py` one concern, ruff clean |
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the

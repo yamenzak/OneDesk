@@ -87,6 +87,30 @@
   {
    "child": 0,
    "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Batches",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Batch"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Serial Numbers",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Serial No"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
    "icon": "shopping-cart",
    "indent": 1,
    "keep_closed": 0,
@@ -386,6 +410,30 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Batch Expiry",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Batch Item Expiry Status"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Stock by Batch",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Batch-Wise Balance History"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Order Progress",
    "link_type": "Report",
    "show_arrow": 0,
@@ -558,30 +606,6 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Item Price"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Serial Numbers",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Serial No"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Batches",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Batch"
   },
   {
    "child": 1,
@@ -823,7 +847,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-26 12:00:00.000000",
+ "modified": "2026-10-27 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

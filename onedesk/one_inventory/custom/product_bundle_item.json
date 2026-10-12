@@ -3,7 +3,7 @@
   {
    "fieldname": "one_measured_by",
    "fieldtype": "Data",
-   "label": "Measured By",
+   "label": "Sold by Size",
    "fetch_from": "item_code.one_measured_by",
    "read_only": 1,
    "hidden": 1,

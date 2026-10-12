@@ -50,13 +50,13 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 			{
 				fieldtype: "Select",
 				fieldname: "measured_by",
-				label: __("Measured By"),
+				label: __("Sold by Size"),
 				options: [
-					{ value: "Piece", label: __("Piece") },
+					{ value: "No", label: __("No") },
 					{ value: "Length", label: __("Length") },
 					{ value: "Area", label: __("Area") },
 				],
-				default: "Piece",
+				default: "No",
 				depends_on: kind(["Stock", "Versions", "Service"]),
 			},
 			{
@@ -200,6 +200,7 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 							if (!typed) step.form.set_value("code", onedesk.item.code_from(step.get_value("title"))).then(() => (typed = false));
 						};
 						step.get_field("measured_by").df.onchange = () => this.follow_measure(step);
+						step.get_field("unit").df.onchange = () => this.follow_unit(step);
 						this.follow_kind(step);
 					},
 				},
@@ -311,6 +312,16 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 		const was = details.get_value("unit");
 		if (unit && [this.said.unit, "Meter", "Square Meter"].includes(was)) details.form.set_value("unit", unit);
 		if (!unit && ["Meter", "Square Meter"].includes(was)) details.form.set_value("unit", this.said.unit);
+	}
+
+	// A unit that is a length or an area sells the item by it, as saving the
+	// item would (measure.py follows_unit).
+	follow_unit(details) {
+		const unit = details.get_value("unit");
+		if (!unit || details.get_value("measured_by") !== "No") return;
+		frappe.xcall("onedesk.one_inventory.measure.unit_is", { uom: unit }).then((kind) => {
+			if (kind && details.get_value("unit") === unit) details.form.set_value("measured_by", kind);
+		});
 	}
 
 	follow_made(step) {

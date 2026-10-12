@@ -11,7 +11,7 @@ from frappe.utils import flt, fmt_money, formatdate, getdate, today
 from frappe.utils.caching import request_cache
 
 from onedesk.one import figures
-from onedesk.one_inventory import assets, custody, item
+from onedesk.one_inventory import assets, batches, custody, item
 
 FIXED = [["is_fixed_asset", "=", 1]]
 STOCK = [["is_stock_item", "=", 1]]
@@ -235,6 +235,60 @@ def warehouse_low(doc):
 def warehouse_last(doc):
 	last = _held(doc.name)["last"]
 	return formatdate(last) if last else {"value": _("Never"), "tone": "quiet"}
+
+
+# ------------------------------------------------------------------ a batch
+
+
+@request_cache
+def _left(name: str) -> list:
+	return batches.left(name)
+
+
+@request_cache
+def _moves(name: str) -> list:
+	return batches.moves(name)
+
+
+def batch_left(doc):
+	"""What is left of it, and where when it is in more than one warehouse."""
+	places = _left(doc.name)
+	total = sum(one["qty"] for one in places)
+	if not places:
+		return {"value": _("None left"), "tone": "quiet"}
+	said = _count(doc, total)
+	if len(places) == 1:
+		called = frappe.get_cached_value("Warehouse", places[0]["warehouse"], "warehouse_name")
+		return _("{0} in {1}").format(said, called or places[0]["warehouse"])
+	return _("{0} in {1} warehouses").format(said, len(places))
+
+
+def batch_expires(doc):
+	"""Its expiry date, red once past with some left, amber within a month."""
+	if not doc.expiry_date:
+		return None
+	tone = {"Expired": "alarm", "Expiring Soon": "waiting"}.get(
+		batches.state(doc.expiry_date, sum(one["qty"] for one in _left(doc.name)))
+	)
+	return {"value": formatdate(doc.expiry_date), "tone": tone or "quiet"}
+
+
+def batch_came_from(doc):
+	"""The document that first brought it in."""
+	moves = [one for one in _moves(doc.name) if one["qty"] > 0]
+	if not moves:
+		return None
+	kind, name = moves[-1]["doctype"], moves[-1]["name"]
+	return {
+		"value": _("{0} {1}").format(_(kind), name),
+		"route": f"/desk/{frappe.scrub(kind).replace('_', '-')}/{quote(name)}",
+	}
+
+
+def batch_went(doc):
+	"""How many documents took some out, opening its trace."""
+	out = {(one["doctype"], one["name"]) for one in _moves(doc.name) if one["qty"] < 0}
+	return {"value": len(out), "tone": None if out else "quiet"}
 
 
 # ------------------------------------------------------------------ a receipt
@@ -899,6 +953,10 @@ MEASURES = {
 	"asset.where": where,
 	"asset.next_service": next_service,
 	"asset.who_has_it": who_has_it,
+	"batch.left": batch_left,
+	"batch.expires": batch_expires,
+	"batch.came_from": batch_came_from,
+	"batch.went": batch_went,
 	"warehouse.items": warehouse_items,
 	"warehouse.worth": warehouse_worth,
 	"warehouse.low": warehouse_low,
@@ -1096,6 +1154,26 @@ HEADS = [
 		],
 		"verbs": [{"verb": "asset.give"}, {"verb": "asset.take_back"}],
 		"charts": [{"chart": "asset.life", "shown_when": SUBMITTED}],
+	},
+	{
+		"doctype": "Batch",
+		"band": [
+			{
+				"label": _lt("Left"),
+				"source": "Measure",
+				"measure": "batch.left",
+				"route": "/desk/query-report/Batch-Wise Balance History?item_code={{ doc.item }}&batch_no={{ doc.name }}",
+			},
+			{"label": _lt("Made"), "source": "Field", "field": "manufacturing_date", "hide_empty": 1},
+			{"label": _lt("Expires"), "source": "Measure", "measure": "batch.expires"},
+			{"label": _lt("Came From"), "source": "Measure", "measure": "batch.came_from"},
+			{
+				"label": _lt("Taken Out"),
+				"source": "Measure",
+				"measure": "batch.went",
+				"route": "/desk/query-report/Serial No and Batch Traceability?batches={{ doc.name }}",
+			},
+		],
 	},
 	{
 		"doctype": "Warehouse",

@@ -40,6 +40,7 @@ HEADS = (
 	"Asset Value Adjustment",
 	"Attendance Request",
 	"BOM",
+	"Batch",
 	"Blanket Order",
 	"Clock Attempt",
 	"Contract",

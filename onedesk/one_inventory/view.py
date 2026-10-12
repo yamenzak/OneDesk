@@ -12,7 +12,7 @@ import frappe
 from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one import figures
-from onedesk.one_inventory import barcodes, heads
+from onedesk.one_inventory import barcodes, batches, heads
 from onedesk.one_inventory import item as stock
 
 #: What the page reads of the item itself.
@@ -291,13 +291,17 @@ def _place(row, level) -> dict:
 def _batches(item: str) -> list:
 	if not _readable("Batch"):
 		return []
-	return frappe.get_list(
+	found = frappe.get_list(
 		"Batch",
 		filters={"item": item, "disabled": 0, "batch_qty": [">", 0]},
-		fields=["name", "batch_qty", "expiry_date", "manufacturing_date"],
+		fields=["name", "batch_id", "batch_qty", "expiry_date", "manufacturing_date"],
 		order_by="expiry_date asc",
 		limit=MOST,
 	)
+	# Expired or Expiring Soon, for Needs You (one_inventory/batches.py).
+	for one in found:
+		one["state"] = batches.state(one.expiry_date, one.batch_qty)
+	return found
 
 
 def _moves(item: str) -> list:

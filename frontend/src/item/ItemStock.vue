@@ -27,7 +27,7 @@
 <script setup>
 import { computed } from "vue";
 
-import { Facts, PlaceSpot, Rows, Section, __, date, go, isPast, onedesk, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, date, go, onedesk, quantity } from "../kit";
 import { usePlace } from "../project/place";
 
 const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
@@ -50,9 +50,9 @@ const places = computed(() =>
 const batches = computed(() =>
   props.said.stock.batches.map((one) => ({
     key: one.name,
-    label: one.name,
-    dot: one.expiry_date && isPast(one.expiry_date) ? "red" : undefined,
-    dim: one.expiry_date ? __("Expires {0}", [date(one.expiry_date)]) : "",
+    label: one.batch_id || one.name,
+    dot: { Expired: "red", "Expiring Soon": "orange" }[one.state],
+    dim: one.expiry_date ? (one.state === "Expired" ? __("Expired {0}", [date(one.expiry_date)]) : __("Expires {0}", [date(one.expiry_date)])) : "",
     value: quantity(one.batch_qty, uom.value),
     route: `/desk/batch/${encodeURIComponent(one.name)}`,
   }))

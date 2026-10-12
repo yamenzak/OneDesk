@@ -205,3 +205,36 @@ def services() -> None:
 			asset=asset,
 			due=formatdate(log.due_date),
 		)
+
+
+def expiring() -> None:
+	"""Daily: a batch with some in stock that expires within a month is told
+	once to whoever keeps the stores, so it is used or sold first. ERPNext
+	only greys it out in its list. See one_inventory/batches.py."""
+	from frappe.utils import add_days, flt, formatdate, today
+	from frappe.utils.user import get_users_with_role
+
+	from onedesk.one_inventory.batches import SOON
+
+	people = sorted(get_users_with_role("Stock Manager"))
+	if not people:
+		return
+	for batch in frappe.get_all(
+		"Batch",
+		filters={
+			"disabled": 0,
+			"batch_qty": [">", 0],
+			"expiry_date": ["between", [today(), add_days(today(), SOON)]],
+		},
+		fields=["name", "batch_id", "item", "item_name", "batch_qty", "stock_uom", "expiry_date"],
+	):
+		notify.notify(
+			"Expiring Soon",
+			people,
+			record=("Batch", batch.name),
+			dedupe_on=["type", "document_type", "document_name"],
+			batch=batch.batch_id or batch.name,
+			item=batch.item_name or batch.item,
+			left=f"{flt(batch.batch_qty):g} {batch.stock_uom or ''}".strip(),
+			on=formatdate(batch.expiry_date),
+		)

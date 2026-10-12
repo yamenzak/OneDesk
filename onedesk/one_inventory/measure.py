@@ -1,5 +1,5 @@
-"""Items sold by size: an item measured by length or area (Item's Measured
-By), and a line that gives its pieces, length and width in millimetres. The
+"""Items sold by size: an item sold by length or area (Item's Sold by Size),
+and a line that gives its pieces, length and width in millimetres. The
 line's quantity is worked out from them, in the line's unit, so ERPNext prices,
 taxes, stocks and costs it as it would any other line. Every table that lines
 up items carries the size (custom fields one_measured_by, one_pieces,
@@ -58,6 +58,36 @@ BUYING = {
 	"Purchase Invoice",
 }
 SELLING = {"Quotation", "Sales Order", "Delivery Note", "Sales Invoice", "POS Invoice", "Opportunity"}
+
+
+def unit_kind(uom: str | None) -> str | None:
+	"""Length or Area when ERPNext's table of units counts `uom` as one."""
+	if not uom:
+		return None
+	for side in ("from_uom", "to_uom"):
+		category = frappe.db.get_value("UOM Conversion Factor", {side: uom}, "category")
+		if category in BASE:
+			return category
+	return None
+
+
+@frappe.whitelist()
+def unit_is(uom: str) -> str | None:
+	"""What New Item sets Sold by Size to when its unit is picked."""
+	return unit_kind(uom)
+
+
+def follows_unit(doc, method=None) -> None:
+	"""Item before_validate: an item counted in a length or an area is sold by
+	it, once it is made or its unit changes, on every path an item is saved
+	by. One already sold by size keeps what it says (a sheet kept by the
+	piece and sold by the square metre)."""
+	if doc.get("one_measured_by") in BASE:
+		return
+	before = doc.get_doc_before_save() if not doc.is_new() else None
+	if before and before.stock_uom == doc.stock_uom:
+		return
+	doc.one_measured_by = unit_kind(doc.stock_uom) or "No"
 
 
 def amount(measured_by: str, pieces, length, width) -> float:

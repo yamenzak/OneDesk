@@ -56,3 +56,4 @@ onedesk.one_project.patches.timesheets_titled
 onedesk.one_inventory.patches.making_roles
 onedesk.one_inventory.patches.maintenance_due
 onedesk.one_inventory.patches.maintenance_named
+onedesk.one_inventory.patches.sold_by_size

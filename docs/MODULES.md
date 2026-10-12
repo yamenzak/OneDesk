@@ -503,6 +503,7 @@ No doctypes yet.
 * `onedesk.one_inventory.kinds.make`
 * `onedesk.one_inventory.kinds.stocked`
 * `onedesk.one_inventory.measure.line_quantity`
+* `onedesk.one_inventory.measure.unit_is`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.parts.add`
 * `onedesk.one_inventory.parts.read`

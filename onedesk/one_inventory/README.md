@@ -66,8 +66,9 @@ asset's depreciation lands in OneBook's books by itself.
 - **Sizes or Colours** — one product in several versions. Pick the sizes and
   colours it comes in, and each combination becomes its own item.
 
-**Details** asks for its name, group, unit and a picture. **Measured By** says
-whether it is sold by the piece, by length or by area (see Selling by size).
+**Details** asks for its name, group, unit and a picture. **Sold by Size**
+says whether each line gives its length (**Length**) or its length and width
+(**Area**), or neither (**No**). See Selling by size.
 
 **Buying, Selling and Stock** has a switch for each side. **Sold to
 Customers** opens its selling price. **Bought from Suppliers** opens its
@@ -85,8 +86,8 @@ as stock items when you press **Add Parts**.
 
 ## Selling by size
 
-Glass, sheets, profiles and the like are sold by size. An item measured by
-**Length** or **Area** gets **Pieces**, **Length (mm)** and **Width (mm)** on
+Glass, sheets, profiles and the like are sold by size. An item whose **Sold
+by Size** says **Length** or **Area** gets **Pieces**, **Length (mm)** and **Width (mm)** on
 every line it is on: quotations, orders, deliveries, invoices, purchase
 orders, receipts, stock movements, bills of materials and the rest. The
 quantity is worked out from the size, in the line's unit, and the price,
@@ -99,7 +100,11 @@ tax, stock and cost follow from the quantity as on any other line.
   as a sheet of 3.125 m². Two sheets of 1250 × 2500 mm then come to 2 sheets.
 - A unit ERPNext can convert to also works, such as square feet.
 
-The size columns show only once a line's item is measured, and the quantity
+An item counted in a length or an area, such as metres or square feet, is set
+to be sold by it when it is made or its unit changes. A sheet kept by the
+piece is set by hand.
+
+The size columns show only once a line's item is sold by size, and the quantity
 shows its unit, such as 3.840 m². The size prints under the item's name on
 quotes, orders, invoices and the other printed records, such as
 "4 × 1200 × 800 mm". A quotation's sizes carry to the order made from it, and
@@ -531,6 +536,24 @@ many **Items** it changed, and the **Difference** it made in the books.
 
 OneAI says what a count found and what it did to the books.
 
+## Lots and expiry dates
+
+Goods that go off, such as sealant, are kept in lots. Turn on **Batches** and
+**Expires** for the item, with how many days it keeps, and each receipt asks
+which lot it is. **Batches** and **Serial Numbers** are in the rail beside
+the stock, and **Batch Expiry** and **Stock by Batch** are under Reports.
+
+A lot's page says what is left and in which warehouses, when it was made and
+when it expires (amber within a month, red once past), the receipt it came
+from, and how many times some was taken out, opening ERPNext's trace of it.
+Its stock levels, Move and Split are ERPNext's own.
+
+An item's Stock view lists its lots with their dates. Its Overview says
+**Expiring Soon** for a lot that runs out of date within a month and
+**Expired, Still in Stock** for one past its date, so it is used, sold or
+taken out of stock first. Whoever keeps the stores is told once when a lot
+with some left will expire within a month.
+
 ## When stock and the books disagree
 
 A back-dated entry, such as a count dated last week, makes ERPNext
@@ -615,7 +638,9 @@ a register and a movement form in it would be a rail with five rows.
   (Item Supplier) or name; `add` makes the missing parts stock items in Raw
   Material, bought and not sold.
 - `measure.py` and `public/js/measure.js` — selling by size. Item's
-  `one_measured_by`, and on every table in `LINES` the custom fields
+  `one_measured_by` (Sold by Size: No, Length or Area), set by `follows_unit`
+  before_validate from ERPNext's UOM Conversion Factor category when the item
+  is made or its unit changes, and on every table in `LINES` the custom fields
   one_measured_by (fetched from the item), one_pieces, one_length, one_width
   and one_size. `sized` runs before_validate on every record (`doc_events`
   "*"), so the quantity holds under bulk edit, Data Import and ERPNext's
@@ -645,6 +670,12 @@ a register and a movement form in it would be a rail with five rows.
   last prices bought at. The fields shown in each view's Details are the
   item form's own, held out of sight by the kit's `useForm` and lent where
   they are shown (`FieldEdit`, docs/STANDARD.md point 6).
+- `batches.py` — lots. ERPNext keeps a lot's moves in the Serial and Batch
+  Entry rows of each move's bundle, so `left` and `moves` read those, per
+  warehouse, and `state` (pure) says Expired or Expiring Soon. A lot's head
+  is in `heads.py` (`batch.*`), and `tell.expiring` tells whoever keeps the
+  stores once a day. A lot's name is ERPNext's own hash; people read its
+  `batch_id`.
 - `barcodes.py` and `frontend/src/item/ItemBarcodes.vue` — barcodes, in
   ERPNext's own Item Barcode table. `coded` gives a new item its code as its
   first barcode on every path an item is made by. `save` keeps the order the

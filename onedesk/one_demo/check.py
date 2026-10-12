@@ -4767,6 +4767,48 @@ def oneinventory_an_items_head_has_its_barcodes_and_trends():
 
 
 @check
+def oneinventory_lots_say_their_dates_and_where_they_went():
+	"""The sealant's January lot runs out of date within the month with some
+	still in the Stores and some at the villa. The item's page says so under
+	Needs You, the lot's head says what is left and where, when it expires,
+	the receipt it came from and that some was taken out, and whoever keeps
+	the stores is told once. Past its date, it says Expired. Somebody
+	without OneInventory is refused the item."""
+	from frappe.utils import add_days, today
+
+	from onedesk.one_inventory import batches, heads, tell, view
+
+	old = frappe.get_doc("Batch", {"batch_id": "SIL-WP-A1", "item": "SIL-WP"})
+	with as_user("karim@one.test"):
+		said = view.read("SIL-WP")
+		states = {one["batch_id"]: one["state"] for one in said["stock"]["batches"]}
+		assert states == {"SIL-WP-A1": "Expiring Soon", "SIL-WP-B2": None}, states
+		left = batches.left(old.name)
+		assert {one["warehouse"] for one in left} == {wh("Stores"), wh("Mansour Villa Site")}, left
+		assert sum(one["qty"] for one in left) == old.batch_qty == 120
+		assert "2" in heads.batch_left(old), heads.batch_left(old)
+		assert heads.batch_expires(old)["tone"] == "waiting"
+		came = heads.batch_came_from(old)
+		assert came["route"].startswith("/desk/purchase-receipt/"), came
+		assert heads.batch_went(old)["value"] == 1
+		assert [one.batch_id for one in batches.dated("SIL-WP")] == ["SIL-WP-A1"]
+	with _Told() as told:
+		tell.expiring()
+	keepers = told.to("Expiring Soon")
+	assert keepers and keepers <= set(frappe.get_all("Has Role", filters={"role": "Stock Manager"}, pluck="parent")), keepers
+	frappe.db.set_value("Batch", old.name, "expiry_date", add_days(today(), -1))
+	old.reload()
+	assert heads.batch_expires(old)["tone"] == "alarm" and batches.state(old.expiry_date, old.batch_qty) == "Expired"
+	with as_user("nadia@one.test"):
+		try:
+			view.read("SIL-WP")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody without OneInventory reads the sealant")
+
+
+@check
 def oneinventory_new_item_parts_list_and_sizes():
 	"""New Item makes an item by its kind, measured by area or length or by the
 	piece; a sheet kept by the piece says how many square metres it is. A
@@ -4793,6 +4835,17 @@ def oneinventory_new_item_parts_list_and_sizes():
 		assert round(measure.line_quantity(glass, "Area", "Square Meter", 4, 1200, 800), 3) == 3.84
 		assert round(measure.line_quantity(sheet, "Area", "Nos", 2, 1250, 2500), 3) == 2.0
 		assert round(measure.line_quantity(profile, "Length", "Meter", 6, 2400), 3) == 14.4
+		# Sold by Size follows a unit that is a length or an area, unless set.
+		assert measure.unit_is("Foot") == "Length" and measure.unit_is("Square Foot") == "Area" and not measure.unit_is("Nos")
+		cord = frappe.get_doc({"doctype": "Item", "item_code": "DEMO-CORD", "item_name": "Backer Rod", "item_group": "Products", "stock_uom": "Meter"}).insert()
+		assert cord.one_measured_by == "Length", cord.one_measured_by
+		bolt = frappe.get_doc({"doctype": "Item", "item_code": "DEMO-BOLT", "item_name": "Bolt", "item_group": "Products", "stock_uom": "Nos"}).insert()
+		assert bolt.one_measured_by == "No", bolt.one_measured_by
+		bolt.stock_uom = "Square Meter"
+		bolt.save()
+		assert bolt.one_measured_by == "Area", "a new unit that is an area sells it by area"
+		assert frappe.db.get_value("Item", sheet, "one_measured_by") == "Area", "a sheet kept by the piece keeps what it says"
+		assert not frappe.db.exists("Item", {"one_measured_by": ["in", ["Piece", ""]]}), "every item says No, Length or Area"
 	with as_user("omar@one.test"):
 		customer = frappe.get_all("Customer", limit=1, pluck="name")[0]
 		quote = frappe.get_doc({"doctype": "Quotation", "quotation_to": "Customer", "party_name": customer, "items": [
@@ -4829,7 +4882,7 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 		stores = stock.on_hand(warehouse=wh("Stores"))
 		in_stores = sum(flt(one) for one in frappe.get_all("Bin", filters={"warehouse": wh("Stores")}, pluck="stock_value"))
 		assert abs(stores["worth"] - in_stores) < 0.01 and stores["worth"] < every["worth"]
-		assert [one["item"] for one in stock.on_hand(search="silicone")["items"]] == ["SIL-CLR"]
+		assert sorted(one["item"] for one in stock.on_hand(search="silicone")["items"]) == ["SIL-CLR", "SIL-WP"]
 		place = frappe.get_doc("Warehouse", wh("Stores"))
 		assert heads.warehouse_items(place) == sum(1 for one in stores["items"] if one["on_hand"] > 0)
 		assert heads.warehouse_low(place)["value"] >= 1 and heads.warehouse_last(place)

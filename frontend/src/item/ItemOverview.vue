@@ -71,7 +71,7 @@ const assets = computed(() =>
 );
 
 // What needs the reader about the item: more promised than there is, a
-// warehouse running low, an order late in or out, a request not yet ordered,
+// lot expired or expiring, a warehouse running low, an order late in or out, a request not yet ordered,
 // or its end of life gone by.
 const needs = computed(() => {
   const s = props.said;
@@ -83,6 +83,21 @@ const needs = computed(() => {
   }
   if (s.summary?.free < 0) {
     rows.push({ key: "short", dot: "red", label: __("{0} more promised than on hand", [quantity(-s.summary.free, uom)]), onClick: () => emit("view", "selling") });
+  }
+  // A lot past its date with some still in stock, or one running out of date
+  // within the month (one_inventory/batches.py), opening the lot.
+  for (const one of s.stock?.batches || []) {
+    if (!one.state) continue;
+    const past = one.state === "Expired";
+    rows.push({
+      key: `lot-${one.name}`,
+      dot: past ? "red" : "orange",
+      label: past ? __("Expired, Still in Stock") : __("Expiring Soon"),
+      sub: one.batch_id || one.name,
+      below: quantity(one.batch_qty, uom),
+      value: past ? __("Expired {0}", [date(one.expiry_date)]) : __("Expires {0}", [date(one.expiry_date)]),
+      route: `/desk/batch/${encodeURIComponent(one.name)}`,
+    });
   }
   for (const one of s.stock?.places || []) {
     if (!one.low) continue;
@@ -106,7 +121,7 @@ const needs = computed(() => {
 // shown or locked as its form shows or locks them. How it is kept, bought,
 // sold and made is on those tabs.
 const details_ = computed(() => [
-  { label: __("Measured By"), field: "one_measured_by" },
+  { label: __("Sold by Size"), field: "one_measured_by" },
   { label: __("Bought"), field: "is_purchase_item" },
   { label: __("Sold"), field: "is_sales_item" },
   props.said.made && { label: __("Made Here"), value: __("Yes") },

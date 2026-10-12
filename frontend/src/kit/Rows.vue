@@ -8,7 +8,7 @@
        `icon` in its place), and
        opens its `route` or runs its `onClick`. -->
   <div v-if="!rows.length && empty" class="py-3 text-base text-ink-gray-5">{{ empty }}</div>
-  <List v-else :columns="['minmax(0,1fr)', bars ? '6rem' : 'auto', '8rem']" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+  <List v-else :columns="['minmax(0,1fr)', bars ? '6rem' : 'auto', 'minmax(8rem,max-content)']" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
     <ListRows :items="rows" row-key="key" v-slot="{ item }">
       <ListRow v-bind="opens(item)">
         <ListCell class="min-w-0 gap-2.5">
@@ -36,7 +36,7 @@
           <Progress v-else-if="item.progress !== undefined && item.progress !== null" :value="item.progress" size="md" class="w-full" />
         </ListCell>
         <ListCell v-else class="justify-end text-base tabular-nums text-ink-gray-5">{{ item.dim }}</ListCell>
-        <ListCell class="justify-end text-base tabular-nums text-ink-gray-7">{{ item.value }}</ListCell>
+        <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7">{{ item.value }}</ListCell>
       </ListRow>
     </ListRows>
   </List>

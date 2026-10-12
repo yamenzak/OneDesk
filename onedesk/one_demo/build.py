@@ -23,6 +23,7 @@ STEPS = (
 	"making",
 	"selling",
 	"moving",
+	"lots",
 	"ordering",
 	"assets",
 	"books",

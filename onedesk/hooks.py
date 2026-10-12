@@ -168,6 +168,8 @@ scheduler_events = {
 	"daily": [
 		# Goods past their date on an order, told to whoever ordered them. See one_inventory/tell.py.
 		"onedesk.one_inventory.tell.orders_late",
+		# A lot that expires within a month, told to whoever keeps the stores. See one_inventory/tell.py.
+		"onedesk.one_inventory.tell.expiring",
 		# A service due within a week, or late, told to whoever does it. See one_inventory/tell.py.
 		"onedesk.one_inventory.tell.services",
 		# Privacy requests nobody decided in a week. See one/privacy.py.
@@ -422,6 +424,8 @@ doc_events = {
 		"validate": "onedesk.one_inventory.assets.fixed_item",
 		# A new item's code is its first barcode. See one_inventory/barcodes.py.
 		"before_insert": "onedesk.one_inventory.barcodes.coded",
+		# An item counted in a length or an area is sold by it. See one_inventory/measure.py.
+		"before_validate": "onedesk.one_inventory.measure.follows_unit",
 	},
 	# A brand without a logo gets its website's. See one_mail/faces.py.
 	"Brand": {
@@ -1236,6 +1240,7 @@ one_makes_records = {
 	"Asset Value Adjustment": ["one_inventory"],
 	"Attendance Request": ["one_hr"],
 	"BOM": ["one_inventory"],
+	"Batch": ["one_inventory"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
 	"Blanket Order": ["one_inventory"],

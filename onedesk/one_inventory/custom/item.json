@@ -4,12 +4,12 @@
    "dt": "Item",
    "fieldname": "one_measured_by",
    "fieldtype": "Select",
-   "label": "Measured By",
-   "options": "Piece\nLength\nArea",
-   "default": "Piece",
+   "label": "Sold by Size",
+   "options": "No\nLength\nArea",
+   "default": "No",
    "insert_after": "stock_uom",
    "module": "One Inventory",
-   "description": "Orders give each piece's size, and the quantity follows."
+   "description": "Orders give each piece's length, or length and width, and the quantity follows. Set from the unit when it is a length or an area."
   }
  ],
  "doctype": "Item",
