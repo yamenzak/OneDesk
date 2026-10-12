@@ -13,7 +13,7 @@
         <TextInput v-model="search" class="w-full max-w-xs" type="search" :placeholder="__('Search Items')" :aria-label="__('Search Items')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
         </TextInput>
-        <Checkbox v-model="lowOnly" :label="__('Low or Short Only')" class="ms-1" />
+        <Switch v-model="lowOnly" :label="__('Low or Short Only')" class="ms-1" />
         <span class="ms-auto text-sm tabular-nums text-ink-gray-5">{{ counted }}</span>
       </div>
 
@@ -57,7 +57,7 @@
 // was an empty page with a Generate button. This reads what ERPNext keeps
 // current with every move, and each item opens its own page.
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Badge, Checkbox, TextInput } from "frappe-ui";
+import { Badge, Switch, TextInput } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Figures, Loading, Page, PlaceSpot, ViewTabs, __, call, followList, go, money, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";

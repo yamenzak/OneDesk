@@ -128,9 +128,13 @@ user on 2026-10-12, first on the item page).
   desk's don't reach.
 - A change saves the form as desk saves it, against the `modified` it
   loaded. Enter or leaving the field saves, Escape reloads it unchanged.
-  Long text gets Save and Cancel. A Check sets the form's value and saves.
+  Long text gets Save and Cancel. A Check is frappe-ui's Switch, which sets
+  the form's value and saves.
 - A field the form hides is not shown, and one it locks has no pencil.
 - Each label sits on the left and its value on the right (`Facts`).
+- Something on or off is a Switch, never a checkbox, on a page as in a
+  filter (set by the user on 2026-10-12). A checkbox is only a step ticked
+  off a checklist or a task done (`test_a_setting_is_a_switch`).
 
 OneProject and OneTask follow this when they are next passed.
 

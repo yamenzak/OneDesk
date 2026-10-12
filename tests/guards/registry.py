@@ -193,6 +193,12 @@ GUARDS = [
 		"tests/guards/test_islands.py::test_an_island_uses_frappe_ui_tokens",
 	),
 	Guard(
+		"setting-is-a-switch",
+		8,
+		"a checkbox for something on or off, where frappe-ui's Switch is the standard",
+		"tests/guards/test_islands.py::test_a_setting_is_a_switch",
+	),
+	Guard(
 		"kit-reaches-desk",
 		8,
 		"an island reaching into desk other than through the kit",

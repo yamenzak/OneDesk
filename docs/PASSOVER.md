@@ -10606,6 +10606,15 @@ Fixed:
 | 16 Legal | nothing new |
 | 17 Clean code | `batches.py` one concern, ruff clean |
 
+#### 1e. Switches, not checkboxes
+
+Your word: a checkbox for something on or off is a frappe-ui Switch, the new
+standard. A field's Check changed in place (`FieldEdit`) and Stock on Hand's
+Low or Short Only are Switches now. A step ticked off a checklist and a task
+done stay checkboxes, as frappe-ui's own to-do lists draw them. The guard
+`setting-is-a-switch` keeps a new checkbox out, and `docs/STANDARD.md` says
+so under point 6.
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the

@@ -112,3 +112,18 @@ def test_what_an_island_says_is_translated():
 		for text in re.findall(r">([^<>{}]+)<", template):
 			words = text.strip()
 			assert not re.search(r"[A-Za-z]{2,}", words), f"{path.name} says {words!r} untranslated"
+
+
+#: Where a box is ticked rather than a setting turned on: a checklist's steps
+#: and a task done, as frappe-ui's own to-do lists draw them.
+TICKED = {"task/TaskPage.vue", "task/MyTasks.vue", "project/TaskPanel.vue"}
+
+
+def test_a_setting_is_a_switch():
+	"""Something on or off, a field's Check or a filter, is frappe-ui's Switch
+	(set by the user on 2026-10-12). A Checkbox is only a step ticked off."""
+	for path in _vue():
+		name = str(path.relative_to(SRC))
+		if name in TICKED:
+			continue
+		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"

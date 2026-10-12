@@ -1,10 +1,10 @@
 <template>
   <!-- One field of a record, shown as the form shows it read-only, with a
        pencil (a chevron for a Link or Select) that puts the form's own
-       control for it over the place it is shown. A Check is a box that sets
-       the form's value. Nothing shows while the form hides the field. -->
+       control for it over the place it is shown. A Check is frappe-ui's
+       Switch, which sets the form's value. Nothing shows while the form hides the field. -->
   <div v-if="status && status !== 'None'" class="flex min-w-0 items-center gap-1.5" :class="[start ? 'justify-start' : 'justify-end', { 'w-full': editing }]">
-    <Checkbox v-if="check" :model-value="Boolean(form.frm.value?.doc?.[field])" :disabled="!writable" :aria-label="label" @update:model-value="tick" />
+    <Switch v-if="check" :model-value="Boolean(form.frm.value?.doc?.[field])" :disabled="!writable" :aria-label="label" @update:model-value="tick" />
     <div v-else-if="editing" ref="spot" class="w-full min-w-48" />
     <template v-else>
       <span v-if="long && shown" class="min-w-0 text-start [&_p]:mb-2" v-html="shown" />
@@ -32,7 +32,7 @@
 // field's control to the page while it is changed, and takes it back after.
 // A change saves the form as desk saves it; Escape reloads it unchanged.
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-import { Button, Checkbox } from "frappe-ui";
+import { Button, Switch } from "frappe-ui";
 
 import { __ } from "./desk";
 
@@ -120,7 +120,7 @@ function left() {
   if (!props.form.frm.value?.is_dirty()) close();
 }
 
-// A box ticked is set through the form, which its scripts hear, then saved.
+// A switch turned is set through the form, which its scripts hear, then saved.
 async function tick(on) {
   await props.form.set(props.field, on ? 1 : 0);
   save();
