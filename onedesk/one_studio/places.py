@@ -165,6 +165,28 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_home": {
+		"label": "OneInventory",
+		"record": "Item",
+		"events": {
+			"shown": {
+				"about": _lt("OneInventory's Home is opened, and each time an order, a move, a lot or a service changes."),
+				"gives": "home.worth (stock worth, or null), home.low (items running low), home.late (orders late), home.going_off (lots going off), home.services (services due this week), home.work (work orders late), home.drafts (drafts left)",
+				"may": ("note", "action"),
+			},
+		},
+	},
+	"oneinventory_lots": {
+		"label": "OneInventory",
+		"record": "Batch",
+		"events": {
+			"shown": {
+				"about": _lt("Lots is opened, and each time a lot, a serial number or an item kept in lots changes."),
+				"gives": "lots.view (batches, serials or items), lots.lots (lots in stock), lots.going_off, lots.gone, lots.serials (numbered pieces in stock)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneinventory_plant": {
 		"label": "OneInventory",
 		"record": "Workstation",

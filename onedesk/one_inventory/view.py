@@ -12,7 +12,7 @@ import frappe
 from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one import figures
-from onedesk.one_inventory import barcodes, batches, heads
+from onedesk.one_inventory import barcodes, heads, lots
 from onedesk.one_inventory import item as stock
 
 #: What the page reads of the item itself.
@@ -211,7 +211,9 @@ def _stock(doc) -> dict:
 		"places": [
 			one for one in places if one["on_hand"] or one["ordered"] or one["reserved"] or one["level"]
 		],
-		"batches": _batches(doc.name) if doc.has_batch_no else [],
+		# Its lots and numbered pieces as the Lots page shows them (lots.py).
+		"batches": lots.lots(item=doc.name) if doc.has_batch_no else [],
+		"numbers": lots.serials(item=doc.name) if doc.has_serial_no else [],
 		"serials": frappe.db.count("Serial No", {"item_code": doc.name, "status": "Active"})
 		if doc.has_serial_no and _readable("Serial No")
 		else None,
@@ -297,22 +299,6 @@ def _place(row, level) -> dict:
 		"order_qty": flt(level.warehouse_reorder_qty) if level else 0,
 		"low": bool(reorder and flt(row.get("projected_qty")) <= reorder),
 	}
-
-
-def _batches(item: str) -> list:
-	if not _readable("Batch"):
-		return []
-	found = frappe.get_list(
-		"Batch",
-		filters={"item": item, "disabled": 0, "batch_qty": [">", 0]},
-		fields=["name", "batch_id", "batch_qty", "expiry_date", "manufacturing_date"],
-		order_by="expiry_date asc",
-		limit=MOST,
-	)
-	# Expired or Expiring Soon, for Needs You (one_inventory/batches.py).
-	for one in found:
-		one["state"] = batches.state(one.expiry_date, one.batch_qty)
-	return found
 
 
 def _moves(item: str) -> list:

@@ -63,8 +63,11 @@ def test_the_usual_asset_categories_are_made_only_for_ledgers_the_chart_has():
 
 def test_the_inventory_check_opens_setup_and_shares_the_books_checks_page():
 	rail = json.loads((tree.APP / "one_inventory" / "sidebar" / "oneinventory" / "oneinventory.json").read_text())
-	labels = [item["label"] for item in rail["items"]]
-	assert rail["items"][labels.index("Setup") + 1]["link_to"] == "Inventory Check"
+	setup = next(item for item in rail["items"] if item["label"] == "Setup")
+	assert (setup["link_type"], setup["link_to"], setup.get("route")) == ("Page", "inventory", "setup")
+	# The Home's Setup part opens on the Inventory Check.
+	home = (tree.APP / "one_inventory" / "home.py").read_text()
+	assert home.index('("setup", _lt("Inventory Check")') < home.index('("setup", _lt("Warehouses")')
 	page = (tree.APP / "one_inventory" / "report" / "inventory_check" / "inventory_check.js").read_text()
 	assert "onedesk.check.report(" in page
 	assert '"/assets/onedesk/js/check.js"' in (tree.APP / "hooks.py").read_text()

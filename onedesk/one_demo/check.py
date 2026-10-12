@@ -4920,6 +4920,82 @@ def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
 
 
 @check
+def oneinventory_home_says_what_needs_somebody_and_where_everything_is():
+	"""OneInventory's Home: the orders late, the items running low, the lots
+	going off, the services due this week, the work orders past their date
+	and the drafts left, each counted as its own screen counts it, and a
+	directory of everything the reader may open. Somebody outside the stores
+	sees none of it."""
+	from onedesk.one_inventory import ai, batches, home
+
+	with as_user("karim@one.test"):
+		said = home.read()
+		needs = said["needs"]
+		assert needs["late"]["count"] == ai.late_orders()["count"] == said["figures"]["late"] > 0, needs["late"]
+		assert needs["low"]["count"] == ai.running_low()["count"] == said["figures"]["low"] > 0, needs["low"]
+		assert needs["lots"]["count"] == len(batches.dated()) == said["figures"]["going_off"] > 0, needs["lots"]
+		assert len(needs["late"]["rows"]) <= home.FEW
+		assert said["figures"]["worth"] > 0
+		shown = {one["target"] for one in said["everything"]}
+		assert {"Item", "Warehouse", "Stock Ledger", "To Order", "stock-on-hand"} <= shown, shown
+		assert all(one["about"] and one["label"] for one in said["everything"])
+		assert {one["group"] for one in said["everything"]} <= {key for key, _label in home.GROUPS}
+	with as_user("nadia@one.test"):
+		said = home.read()
+		assert said["figures"]["worth"] is None and not said["needs"]["late"]["count"], said["figures"]
+		assert not any(one["target"] in ("Warehouse", "Stock Ledger", "Purchase Order") for one in said["everything"])
+
+
+@check
+def oneinventory_lots_and_numbers_are_one_tool():
+	"""Lots: the sealant's two lots, the one going off first, each with what
+	is left and where, the six smart locks by number in the Stores, and the
+	items kept either way. An item set up from the page to be kept in lots,
+	and a lot made for it, show at once. OneAI reads it. Somebody outside the
+	stores sees none of it."""
+	from onedesk.one_demo.lots import LOCK, LOCKS
+	from onedesk.one_inventory import ai, lots
+
+	with as_user("karim@one.test"):
+		said = lots.read()
+		assert said["switched_on"] and said["can"]["Batch"], said["can"]
+		sealant = [one for one in said["batches"] if one["item"] == "SIL-WP"]
+		assert [one["batch_id"] for one in sealant] == ["SIL-WP-A1", "SIL-WP-B2"], sealant
+		assert sealant[0]["state"] == "Expiring Soon" and not sealant[1]["state"], sealant
+		assert {place["warehouse"] for place in sealant[0]["where"]} == {wh("Stores"), wh("Mansour Villa Site")}, sealant[0]
+		assert sum(place["qty"] for place in sealant[0]["where"]) == sealant[0]["batch_qty"]
+		assert said["figures"]["going_off"] >= 1 and said["figures"]["serials"] >= len(LOCKS[1]), said["figures"]
+		assert [one["batch_id"] for one in lots.read(soon=1)["batches"] if one["item"] == "SIL-WP"] == ["SIL-WP-A1"]
+
+		numbers = lots.read(view="serials", item=LOCK)["serials"]
+		assert sorted(one["serial_no"] for one in numbers) == LOCKS[1], numbers
+		assert all(one["status"] == "Active" and one["warehouse"] == wh("Stores") for one in numbers), numbers
+		assert [one["serial_no"] for one in lots.read(view="serials", search="SL-0003")["serials"]] == ["SL-0003"]
+		kept = {one["name"]: one for one in lots.read(view="items")["items"]}
+		assert kept["SIL-WP"]["has_batch_no"] and kept[LOCK]["has_serial_no"], kept
+
+		# Track Lots and New Lot, as lots_actions.js makes them.
+		frappe.get_doc({"doctype": "Item", "item_code": "CHK-PRIMER", "item_name": "Check Primer", "item_group": "Consumable", "stock_uom": "Nos", "is_stock_item": 1}).insert()
+		offered = [row[0] for row in lots.can_be_tracked("Item", "", "name", 0, 500)]
+		assert "CHK-PRIMER" in offered and "SIL-WP" not in offered and "ALU-6063-PC" not in offered, offered
+		frappe.client.set_value("Item", "CHK-PRIMER", {"has_batch_no": 1, "create_new_batch": 1, "batch_number_series": "PR-.###", "has_expiry_date": 1, "shelf_life_in_days": 90})
+		made = frappe.client.insert({"doctype": "Batch", "item": "CHK-PRIMER", "batch_id": "", "manufacturing_date": frappe.utils.today()})
+		assert made["batch_id"].startswith("PR-"), made
+		assert str(made["expiry_date"]) == frappe.utils.add_days(frappe.utils.today(), 90), made
+		assert "CHK-PRIMER" in {one["name"] for one in lots.read(view="items")["items"]}
+
+		facts = ai.lots_and_numbers(item="SIL-WP")
+		assert [one["lot"] for one in facts["lots"]] == ["SIL-WP-A1", "SIL-WP-B2"], facts
+		assert len(ai.lots_and_numbers(item=LOCK)["numbers"]) == len(LOCKS[1])
+		assert ai.lots_and_numbers(item="NOPE").get("error")
+	with as_user("nadia@one.test"):
+		said = lots.read()
+		assert not said["batches"] and said["figures"]["lots"] is None, said["figures"]
+		assert not lots.read(view="serials")["serials"] and not said["can"]["Batch"]
+		assert ai.lots_and_numbers().get("error")
+
+
+@check
 def oneinventory_the_plant_floor_shows_each_workstation():
 	"""The Plant Floor: the workshop's three workstations with ERPNext's
 	statuses, the step running on the saw and who is on it, the steps waiting

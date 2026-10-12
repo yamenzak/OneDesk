@@ -1,16 +1,21 @@
 <template>
   <!-- Where the item is kept: each warehouse with what it holds, what is
        promised from it and on its way to it, and its reorder level; then its
-       batches, and the last moves in and out of it. -->
+       lots or numbered pieces, and the last moves in and out of it. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section :title="__('Where It Is')" icon="lucide-warehouse" :aside="said.stock.places.length || ''">
       <ItemPlaces :said="said" :form="form" @changed="emit('changed')" />
     </Section>
-    <Section v-if="said.has_batch_no" :title="__('Batches')" icon="lucide-boxes" :aside="said.stock.batches.length || ''">
-      <Rows :rows="batches" :empty="__('No batches in stock')" />
+    <!-- Its lots and numbered pieces, as the Lots page shows them (frontend/src/lots). -->
+    <Section v-if="said.has_batch_no" :title="__('Lots')" icon="lucide-boxes" :aside="said.stock.batches.length || ''" :action="lotAction">
+      <LotRows :lots="said.stock.batches" :with-item="false" :empty="__('No lots in stock')" />
     </Section>
+    <Section v-if="said.has_serial_no" :title="__('Serial Numbers')" icon="lucide-hash" :aside="said.stock.numbers.length || ''" :action="{ icon: 'lucide-arrow-up-right', label: __('Lots'), onClick: () => go(`/desk/lots?view=serials&item=${encodeURIComponent(said.name)}`) }">
+      <SerialRows :serials="said.stock.numbers" :with-item="false" :empty="__('No numbered pieces yet')" />
+    </Section>
+    <button v-if="canTrack" type="button" class="mt-3 text-sm text-ink-gray-5 hover:underline" @click="onedesk().lots.track(said.name, () => emit('changed'))">{{ __("Keep it in lots or by number") }}</button>
     <Section :title="__('Last Moves')" icon="lucide-arrow-left-right" :action="{ icon: 'lucide-arrow-up-right', label: __('Stock Ledger'), onClick: () => go(`/desk/query-report/Stock Ledger?item_code=${encodeURIComponent(said.name)}`) }">
       <Rows :rows="moves" :empty="__('No moves yet')" />
     </Section>
@@ -27,7 +32,9 @@
 <script setup>
 import { computed } from "vue";
 
-import { Facts, PlaceSpot, Rows, Section, __, date, go, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, can, date, go, onedesk, quantity } from "../kit";
+import LotRows from "../lots/LotRows.vue";
+import SerialRows from "../lots/SerialRows.vue";
 import ItemPlaces from "./ItemPlaces.vue";
 import { usePlace } from "../project/place";
 
@@ -36,16 +43,12 @@ const emit = defineEmits(["changed"]);
 const uom = computed(() => props.said.stock_uom);
 const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");
 
-const batches = computed(() =>
-  props.said.stock.batches.map((one) => ({
-    key: one.name,
-    label: one.batch_id || one.name,
-    dot: { Expired: "red", "Expiring Soon": "orange" }[one.state],
-    dim: one.expiry_date ? (one.state === "Expired" ? __("Expired {0}", [date(one.expiry_date)]) : __("Expires {0}", [date(one.expiry_date)])) : "",
-    value: quantity(one.batch_qty, uom.value),
-    route: `/desk/batch/${encodeURIComponent(one.name)}`,
-  }))
+// New Lot when the reader may make one, as the Lots page offers it.
+const lotAction = computed(() =>
+  can("create", "Batch") ? { text: true, icon: "lucide-plus", label: __("New Lot"), onClick: () => onedesk().lots.new_lot(props.said.name, () => emit("changed")) } : null
 );
+// An item not kept in lots yet, which hasn't moved, may be set up to be.
+const canTrack = computed(() => !props.said.has_batch_no && !props.said.has_serial_no && !props.said.stock_exists && props.form.status("has_batch_no") === "Write");
 
 // A move in plain words: what happened, to how much, and where.
 function told(one) {
@@ -114,12 +117,12 @@ const spot = usePlace("oneinventory_item.stock", () => ({
 const details = [
   { label: __("Safety Stock"), field: "safety_stock" },
   { label: __("Allow Negative Stock"), field: "allow_negative_stock" },
-  { label: __("Batches"), field: "has_batch_no" },
-  { label: __("New Batch Made Automatically"), field: "create_new_batch" },
-  { label: __("Batch Numbering"), field: "batch_number_series" },
-  { label: __("Expires"), field: "has_expiry_date" },
-  { label: __("Shelf Life in Days"), field: "shelf_life_in_days" },
-  { label: __("Serial Numbers"), field: "has_serial_no" },
+  { label: __("Kept in Lots"), field: "has_batch_no" },
+  { label: __("Number New Lots Automatically"), field: "create_new_batch" },
+  { label: __("Lot Numbering"), field: "batch_number_series" },
+  { label: __("Lots Go Off"), field: "has_expiry_date" },
+  { label: __("Days a Lot Keeps"), field: "shelf_life_in_days" },
+  { label: __("Kept by Number"), field: "has_serial_no" },
   { label: __("Serial Numbering"), field: "serial_no_series" },
   { label: __("Warranty in Days"), field: "warranty_period" },
   { label: __("Weight"), field: "weight_per_unit" },

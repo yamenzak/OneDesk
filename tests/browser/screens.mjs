@@ -34,6 +34,10 @@ export const SCREENS = [
 	{ who: "karim@one.test", path: "/desk/stock-on-hand", page: "stock-on-hand", sees: ["Stock on Hand", "Structural Silicone", "All Warehouses"], panel: true },
 	{ who: "karim@one.test", path: "/desk/item/ALU-6063", page: "item-view", sees: ["Aluminium Profile 6063", "On Hand", "Al Noor Aluminium", "Assign", "Files"], panel: false },
 	{ who: "tariq@one.test", path: "/desk/item/WIN-CS12?view=making", page: "item-view", sees: ["Casement Window 1200", "Made From", "Being Made"], panel: false },
+	{ who: "karim@one.test", path: "/desk/inventory", page: "inventory", sees: ["Stock Worth", "Late Orders", "Gulf Glass Industries"], panel: true },
+	{ who: "karim@one.test", path: "/desk/inventory/setup", page: "inventory", sees: ["Warehouses", "Where stock is kept."], panel: true },
+	{ who: "karim@one.test", path: "/desk/lots", page: "lots", sees: ["Lots in Stock", "Weatherproof Silicone Sealant", "Stores - SGA"], panel: true },
+	{ who: "karim@one.test", path: "/desk/lots?view=serials", page: "lots", sees: ["SL-0001", "Smart Lock 500"], panel: true },
 	{ who: "tariq@one.test", path: "/desk/plant", page: "plant", sees: ["Plant Floor", "Saw Line", "Glazing Table"], panel: true },
 	{ who: "tariq@one.test", path: "/desk/floor", page: "floor", sees: ["Shop Floor", "Open Work Orders", "Sliding Door 2400"], panel: true },
 	// OneCRM

@@ -2,7 +2,9 @@
 from the day it was made. Two lots were bought from Emirates Sealants &
 Fixings, one in January that runs out of date within the month and is still
 partly in the Stores, and one in August. Some of the old lot went to the
-Mansour villa, so a lot's page says where it came from and where it went."""
+Mansour villa, so a lot's page says where it came from and where it went.
+And pieces kept by number: six smart locks from Euro Hardware Trading, each
+with its own serial number and a two-year warranty."""
 
 import frappe
 from frappe.utils import add_days
@@ -22,6 +24,10 @@ LOTS = (
 #: How much of the old lot went to site, and when.
 SENT = 70
 
+#: The smart locks: item, supplier, their numbers, received, rate.
+LOCK = "HW-SMART"
+LOCKS = ("Euro Hardware Trading", [f"SL-{n:04d}" for n in range(1, 7)], ago(30), 105)
+
 
 def run(password=None):
 	# Lots and serial numbers are off in ERPNext until a workspace turns them on.
@@ -33,6 +39,7 @@ def run(password=None):
 	for lot in LOTS:
 		_lot(*lot)
 	_sent()
+	_locks()
 
 
 def _item():
@@ -115,3 +122,46 @@ def _sent():
 			},
 		)
 		save(move, submit=True)
+
+
+def _locks():
+	"""Six smart locks, each with its serial number, received into the Stores."""
+	supplier, numbers, received, rate = LOCKS
+	if frappe.db.exists("Serial No", numbers[0]) or not frappe.db.exists("Supplier", supplier):
+		return
+	with as_user(BUYER):
+		if not frappe.db.exists("Item", LOCK):
+			frappe.get_doc(
+				{
+					"doctype": "Item",
+					"item_code": LOCK,
+					"item_name": "Smart Lock 500",
+					"item_group": "Hardware" if frappe.db.exists("Item Group", "Hardware") else "Raw Material",
+					"stock_uom": "Nos",
+					"description": "<p>Keypad and fingerprint lock for aluminium doors.</p>",
+					"is_stock_item": 1,
+					"is_purchase_item": 1,
+					"has_serial_no": 1,
+					"serial_no_series": "SL-.####",
+					"warranty_period": 730,
+					"item_defaults": [{"company": COMPANY, "default_warehouse": wh("Stores")}],
+				}
+			).insert()
+		receipt = frappe.new_doc("Purchase Receipt")
+		receipt.supplier = supplier
+		receipt.company = COMPANY
+		# The supplier bills in euros, as its orders do (one_demo/buying.py).
+		receipt.currency = "EUR"
+		dated(receipt, received)
+		receipt.append(
+			"items",
+			{
+				"item_code": LOCK,
+				"qty": len(numbers),
+				"rate": rate,
+				"warehouse": wh("Stores"),
+				"use_serial_batch_fields": 1,
+				"serial_no": "\n".join(numbers),
+			},
+		)
+		save(receipt, submit=True)

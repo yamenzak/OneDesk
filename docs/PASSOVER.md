@@ -11602,6 +11602,124 @@ Done:
 | Everything follows frappe | the dialogs are frappe's, the parts frappe-ui's, the page follows realtime |
 | What ERPNext already does | the floor's warehouse, its company on the stock entry, the step order, the status colours |
 
+#### 7c. OneInventory made simple (the overnight plan)
+
+Asked on 2026-10-12: the item is done, and the rest of OneInventory is a rail
+of seventy links. Make it simple and pretty, use all of ERPNext under it,
+and turn things like lots into one tool that the item's page also shows.
+Worked through alone overnight, one screen per commit, each against the
+points.
+
+1. **Home** (done, 7d) — a page that says what needs somebody today (orders late,
+   items running low, lots going off, services due, work running late,
+   drafts to finish) and a directory of everything in OneInventory, each
+   with a line saying what it is for, searchable. Reports and Setup open
+   their part of it.
+2. **The rail** (done, 7d) — only what people use every day: Home, Items, Stock on
+   Hand, Receipts, Deliveries, Moves, Counts, Lots, then Buying, Making
+   and Equipment with their main lists, then Reports and Setup. Everything
+   else stays one click away in the directory.
+3. **Lots** (done, 7e) — batches and serial numbers as one tool: what each lot holds
+   and where, what goes off soon, and steps to turn lots on for an item and
+   make a lot. The item's Stock tab shows the same part.
+4. **Quotes** — asking suppliers for prices, their answers and the
+   comparison, as one page.
+5. **Sent out** — what suppliers make from our materials: the orders, what
+   went out and what came back, as one page.
+6. **Upkeep** — services, repairs and the log of an asset's upkeep as one
+   page.
+
+Each is written up below as it is done.
+
+
+#### 7d. Home, and a rail of what people use
+
+Looked at as Karim: the rail had seventy links under nine headings, and
+OneInventory opened on Items with nothing saying what needed somebody.
+
+Done:
+
+- **Home** (page/inventory, frontend/src/home) opens OneInventory. Over it,
+  Stock Worth, Running Low, Late Orders and Going Off. **Today** lists what
+  needs somebody, each kind only when there is some: late orders, items
+  running low with Order, lots going off, services due this week, work
+  orders past their date, and drafts left more than a day. **Everything**
+  lists all seventy-odd screens with a line each saying what it is for,
+  searchable, under Stock, Buying, Making, Equipment, Reports and Setup.
+- **The rail** went from seventy links to twenty-seven: Home, the stock
+  screens, five each for buying and making, three for assets, and Reports
+  and Setup, which open Home's part. More is gone. Setup opens on the
+  Inventory Check, then the lists from One's Masters next to the rest.
+- Home counts as OneAI counts: the same readers (late_orders, running_low,
+  services_due, batches.dated), each as the reader may see it. Somebody
+  outside the stores sees no figures and no stock screens.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | three late orders, the silicone running low, the sealant going off, two services, the tower's windows late, a draft receipt; a new check |
+| 2 Rules on the server | nothing new |
+| 3 Hand-offs | each row opens its record, the stock tab, To Order or the Shop Floor |
+| 4 Tier declared | page `inventory` in SCREENS |
+| 5 Our look | figures, tabs, rows and a directory from frappe-ui, at 1440 wide and on a phone |
+| 6 Nothing lost | every screen the rail had is in Everything, and the rail's own customization layer is kept |
+| 7 Extensible | the page is a place, `oneinventory_home.shown` |
+| 8 Built from frappe | frappe's permissions decide what shows, realtime on the records Today reads |
+| 9 Overrides recorded | none |
+| 10 Notifications | none new, Today shows what the notifications tell |
+| 11 Printed | none |
+| 12 Plain words | every heading, row and line, in Arabic and German |
+| 13 Documented, OneAI | the README's Finding your way, the page's sentence and suggestions |
+| 14 Intake | nothing new |
+| 15 Permissions | each figure, kind and entry only when the reader may read it, Nadia nothing |
+| 16 Legal | nothing new |
+| 17 Clean code | one server file, one part |
+| Everything follows frappe | the links are frappe's routes, a report's and page's roles decide |
+| What ERPNext already does | late, low and going off read as ERPNext's own reordering, orders and batches have them |
+
+#### 7e. Lots, one tool for lots and serial numbers
+
+Looked at as Karim: Batches and Serial Numbers were two of ERPNext's lists,
+and keeping an item in lots meant finding five fields on the item's form.
+The item's Stock tab listed batches with ERPNext's names.
+
+Done:
+
+- **Lots** (page/lots, frontend/src/lots) takes their place in the rail.
+  Over it, Lots in Stock, Going Off, Gone Off and Numbered Pieces. Tabs for
+  Lots (what is left of each and where, when it goes off, those going off
+  first), Serial Numbers (where each is or who has it, its warranty) and
+  Items (how each is kept and numbered, as "Numbered like SL-0001").
+- **Track Lots** sets an item up in one dialog, lots or by number, with the
+  item's own fields saved together, and offers only items that have never
+  moved. **New Lot** makes a lot, ERPNext numbering it and working out when
+  it goes off. **Turn On** switches lots on for the workspace.
+- **The item's Stock tab** shows the same rows, with New Lot, Keep it in
+  lots or by number, and the details named as the dialog names them.
+- The demo has six smart locks by number, bought from Euro Hardware in
+  euros, beside the sealant's two lots.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the sealant's lots, the locks by number, a new check making a lot for an item set up from the page |
+| 2 Rules on the server | ERPNext's Item and Batch rules, the dialogs save through frappe.client |
+| 3 Hand-offs | each row opens its lot or serial number, an item opens on its Stock tab, the item's link opens Lots narrowed to it |
+| 4 Tier declared | page `lots` in SCREENS |
+| 5 Our look | figures, tabs, rows and frappe's dialogs, at 1440 wide and on a phone |
+| 6 Nothing lost | ERPNext's Batch and Serial No lists and pages stay, reached from each row |
+| 7 Extensible | the page is a place, `oneinventory_lots.shown` |
+| 8 Built from frappe | frappe's Link, Select, Check and Date controls, realtime on Batch, Serial No and Item |
+| 9 Overrides recorded | none |
+| 10 Notifications | none new, Lot Expiring Soon stays |
+| 11 Printed | none |
+| 12 Plain words | lots, numbered pieces, goes off, in Arabic and German |
+| 13 Documented, OneAI | the README's Lots and expiry dates, `lots_and_numbers` with Which lots go off soon? |
+| 14 Intake | receipts with lots stay as Intake reads them |
+| 15 Permissions | Batch, Serial No and Item read decide, Nadia sees nothing |
+| 16 Legal | nothing new |
+| 17 Clean code | one server file, three parts shared with the item |
+| Everything follows frappe | frappe's dialogs and controls, frappe.client for every change |
+| What ERPNext already does | ERPNext's batch numbering, shelf life and serial series, and its refusal to change an item that has moved |
+
 #### 8. Equipment
 
 Looked at as Karim on the assets, an asset, the movements, the maintenance

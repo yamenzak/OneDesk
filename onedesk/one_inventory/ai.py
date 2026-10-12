@@ -18,6 +18,10 @@ STOCK = "stock-on-hand"
 FLOOR = "floor"
 #: Plant Floor (page/plant).
 PLANT = "plant"
+#: OneInventory's Home (page/inventory).
+HOME = "inventory"
+#: Lots (page/lots).
+LOTS = "lots"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -182,6 +186,18 @@ _MACHINES = {
 	"can": "read",
 	"expects": "plant_floor_now",
 }
+_GOING_OFF = {
+	"label": _lt("Which lots go off soon?"),
+	"ask": _lt("Which lots go off within a month or have gone off, how much is left of each and where is it?"),
+	"can": "read",
+	"expects": "lots_and_numbers",
+}
+_WHERE_NUMBER = {
+	"label": _lt("Where is each numbered piece?"),
+	"ask": _lt("Which numbered pieces are in stock and where, which went to a customer, and whose warranty ends soon?"),
+	"can": "read",
+	"expects": "lots_and_numbers",
+}
 _HOW_FAR = {
 	"label": _lt("How far along is it?"),
 	"ask": _lt("How far along is this work order, step by step, and is everything it needs in the stores?"),
@@ -229,6 +245,10 @@ SUGGESTIONS = {
 	f"page:{STOCK}": [_LOW, _HELD],
 	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
 	f"page:{PLANT}": [_MACHINES, _ON_FLOOR],
+	f"page:{HOME}": [_LATE, _LOW, _DUE],
+	f"page:{LOTS}": [_GOING_OFF, _WHERE_NUMBER],
+	"Batch": [_GOING_OFF],
+	"Serial No": [_WHERE_NUMBER],
 	"Workstation": [_MACHINES, _ON_FLOOR],
 	"Warehouse": [_WORTH, _LOW],
 	"Purchase Receipt": [_RECEIVED, _ARRIVING],
@@ -262,6 +282,20 @@ def page(said: dict) -> str | None:
 			"The reader is on the Shop Floor, which shows the open work orders with how far their steps have got, "
 			"and each step's job card to start, pause, record and close. on_the_floor reads what is running now; "
 			"work_order_facts reads one work order. How the page works is in OneInventory's documentation (how_to)."
+		)
+	if said.get("page") == HOME:
+		return (
+			"The reader is on OneInventory's Home, which shows the orders late, the items running low, the lots "
+			"going off, the services due, the work orders past their date and the drafts left, and everything in "
+			"OneInventory with what it is for. late_orders, running_low and services_due read those; how each "
+			"part works is in OneInventory's documentation (how_to)."
+		)
+	if said.get("page") == LOTS:
+		return (
+			"The reader is on Lots, which shows each lot in stock with how much is left and where, when it goes "
+			"off, each serial number with where it is or who has it, and the items kept in lots or by number. "
+			"lots_and_numbers reads it as the page shows it. How the page works is in OneInventory's "
+			"documentation (how_to)."
 		)
 	if said.get("page") == PLANT:
 		return (
@@ -1416,6 +1450,47 @@ def plant_floor_now(
 		"stock": [
 			{"item": one["item_name"], "here": one["actual_qty"], "kept_for_making": one["for_making"], "unit": one["uom"]}
 			for one in said["stock"]
+		],
+	}
+
+
+def lots_and_numbers(
+	item: Annotated[str, "Only this item's lots and numbers, by its code. Left out, every item."] | None = None,
+	soon: Annotated[bool, "Only the lots going off within a month or gone off."] = False,
+) -> dict:
+	"""What the Lots page shows: how many lots are in stock and how many go
+	off soon or have, each lot with what is left and where, and each serial
+	number with where it is or who has it and its warranty."""
+	from onedesk.one_inventory import lots
+
+	if not frappe.has_permission("Batch", "read") and not frappe.has_permission("Serial No", "read"):
+		return {"error": "The reader may not see lots or serial numbers."}
+	if item and not frappe.db.exists("Item", item):
+		return {"error": f"No item has the code {item}."}
+	return {
+		"figures": lots.figures(),
+		"lots": [
+			{
+				"lot": one["batch_id"] or one["name"],
+				"item": one["item_name"],
+				"left": one["batch_qty"],
+				"unit": one["stock_uom"],
+				"goes_off": one["expiry_date"],
+				"state": one["state"] or "Fine",
+				"where": [{"warehouse": place["warehouse"], "qty": place["qty"]} for place in one["where"]],
+			}
+			for one in lots.lots(item=item, soon=1 if soon else 0)
+		],
+		"numbers": [
+			{
+				"number": one["serial_no"] or one["name"],
+				"item": one["item_name"],
+				"status": one["status"],
+				"where": one["warehouse"] or None,
+				"with": one["customer"] or None,
+				"warranty_until": one["warranty_expiry_date"],
+			}
+			for one in lots.serials(item=item)
 		],
 	}
 

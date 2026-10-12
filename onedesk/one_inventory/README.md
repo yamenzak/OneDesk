@@ -14,46 +14,45 @@ asset's depreciation lands in OneBook's books by itself.
 
 ## Finding your way
 
-**OneInventory** in the dock opens it. The rail has:
+**OneInventory** in the dock opens it on **Home**. Over it, what the stock is
+worth, how many items are **Running Low**, how many orders are late and how
+many lots are going off.
 
-- **Items** — everything you buy, sell or keep, each with its stock. Tabs
-  across the top split it into stock, services, equipment and products in
-  several versions, and each stock item says how many are on hand.
-- **Stock on Hand** — how much of each item is in each warehouse, and what it
-  is worth.
-- **Receipts** — goods that arrived from a supplier.
-- **Deliveries** — goods that left for a customer.
-- **Stock Movements** — anything else that moves stock: from one warehouse to
-  another, used up, written off, or found.
-- **Stock Counts** — counting what is on the shelf and correcting the books to
-  match.
-- **Buying** — from **To Order** (what is running low) to **Purchase
-  Orders** and **Suppliers**. See Buying.
-- **Making** — **Work Orders**, **Job Cards**, **Bills of Materials**,
-  **Subcontracting Orders** and **Subcontracting Receipts**. See Making.
-- **Assets** — **Assets** (the register), **Asset Movements** (who has what,
-  and where), **Maintenance**, **Repairs** and the **Asset Register** report.
-- **Reports** — **Stock Ledger** (every movement of stock), **Projected
-  Stock** (what there will be once orders arrive and leave), **Stock Ageing**
-  (how long stock has sat), **Order Progress** (each purchase order, how much
-  has arrived and been billed), **Request to Bill** (a purchase from its
-  request to its bill), **Buying by Month** (what each supplier billed, month
-  by month), **Delivery Dates** (each delivery against the date the customer
-  was given), **Stock against the Books** (where stock's value and the
-  accounts differ, and "Stock and the books agree" when they do), **Making
-  Progress** (each work order and how much is made), **Sent Out to Be Made**
-  (what suppliers make for you and what came back), **Asset Balances** and
-  **Depreciation**.
-- **More** — pick lists, packing slips, delivery trips, landed costs, item
-  prices, serial numbers, batches, quality inspections, supplier scorecards,
-  production plans, the maintenance log, value adjustments and asset
-  capitalization.
-- **Setup** — the **Inventory Check** (what is missing before stock can be
-  kept right), warehouses, price lists, asset categories, locations,
-  maintenance teams, **Stock Settings**, **Buying Settings**, workstations,
-  operations, routings, subcontracted items and **Manufacturing Settings**.
-  Item groups, brands, units and attributes (Colour, Size and their values)
-  are in One's **Masters**.
+- **Today** lists what needs somebody, each kind only when there is some:
+  **Late Orders** (purchase orders with goods past their date), **Running
+  Low** (with **Order**, which opens To Order), **Going Off** (lots near or
+  past their date), **Services Due** (late or due this week), **Work Running
+  Late** (work orders past their date) and **Left as Drafts** (receipts,
+  deliveries, moves and counts started more than a day ago). Each row opens
+  what it is about.
+- **Everything** lists all of OneInventory, each with a line saying what it
+  is for, under Stock, Buying, Making, Equipment, Reports and Setup, and a
+  search. **Reports** and **Setup** in the rail open their part of it.
+
+The rail keeps what people use every day:
+
+- **Items**, **Stock on Hand**, **Receipts**, **Deliveries**, **Stock
+  Movements**, **Stock Counts** and **Lots**, which holds lots and serial
+  numbers together. See Lots and expiry dates.
+- **Buying** — **To Order**, **Material Requests**, **Requests for
+  Quotation**, **Purchase Orders** and **Suppliers**. See Buying.
+- **Making** — **Shop Floor**, **Plant Floor**, **Work Orders**, **Bills of
+  Materials** and **Subcontracting Orders**. See Making.
+- **Assets** — **Assets**, **Maintenance** and **Repairs**.
+- **Reports** — the stock, buying, making and asset reports, each with what
+  it shows.
+- **Setup** — the **Inventory Check** first (what is missing before stock
+  can be kept right), then warehouses, item groups, brands, units and
+  attributes (from One's **Masters**), price lists, workstations, plant
+  floors, operations, routings, subcontracted items, asset categories,
+  locations, maintenance teams, and the stock, buying and manufacturing
+  settings.
+
+Everything else (supplier quotations, quote comparison, blanket orders, job
+cards, subcontracting receipts, asset movements, pick lists, packing slips,
+delivery trips, landed costs, item prices, quality inspections, supplier
+scorecards, production plans, the maintenance log, value adjustments and
+asset capitalization) is in **Everything** on Home.
 
 ## A new item
 
@@ -214,8 +213,8 @@ whether it is used in manufacturing. Each is changed where it is shown. The
 pencil (or the arrow on a choice) opens the item form's own field there, so
 the workspace's scripts and rules hold, and leaving it or pressing Enter
 saves. Escape puts it back. A field the form hides is not shown, and one it
-locks can't be changed. An item with stock keeps Batches and Serial Numbers
-locked, as ERPNext refuses to change them once stock has moved.
+locks can't be changed. An item with stock keeps Kept in Lots and Kept by
+Number locked, as ERPNext refuses to change them once stock has moved.
 
 **Edit Details** changes everything else about the item, grouped as Details,
 Stock, Reordering, Units, Serial Numbers and Batches, Variants, Buying,
@@ -631,21 +630,44 @@ OneAI says what a count found and what it did to the books.
 
 ## Lots and expiry dates
 
-Goods that go off, such as sealant, are kept in lots. Turn on **Batches** and
-**Expires** for the item, with how many days it keeps, and each receipt asks
-which lot it is. **Batches** and **Serial Numbers** are in the rail beside
-the stock, and **Batch Expiry** and **Stock by Batch** are under Reports.
+**Lots** in the rail keeps lots and serial numbers in one place. The figures
+say how many lots are in stock, how many go off within a month, how many have
+gone off and how many numbered pieces are in stock. Three tabs follow.
+
+- **Lots** lists each lot with something left, the one going off first. Each
+  says what is left in each warehouse and when it goes off, amber within a
+  month and red once past. **Going Off Only** narrows it to those.
+- **Serial Numbers** lists each numbered piece with where it is, or the
+  customer it went to, and when its warranty ends.
+- **Items** lists the items kept in lots or by number, and how each is
+  numbered.
+
+**Track Lots** sets an item up to be kept in lots or by number in one step:
+whether new lots are numbered for you and how, whether lots go off and how
+many days one keeps, or how serial numbers run and how long the warranty is.
+It offers only items that have never moved, since ERPNext fixes how an item
+is kept once it has. **New Lot** makes a lot by hand, with when it was made
+and when it goes off. Left empty, the date is worked out from how long the
+item keeps. Each receipt asks which lot or numbers came in.
+
+When lots are switched off for the workspace, the page says so and
+**Turn On** switches them on, as the Inventory Check does.
+
+An item's Stock view shows the same lots and numbers, with **New Lot**, and
+**Keep it in lots or by number** for an item that has not moved yet. Its
+Overview says **Expiring Soon** for a lot that runs out of date within a
+month and **Expired, Still in Stock** for one past its date, so it is used,
+sold or taken out of stock first. Whoever keeps the stores is told once when
+a lot with some left will expire within a month. **Batch Expiry** and
+**Stock by Batch** are under Reports.
 
 A lot's page says what is left and in which warehouses, when it was made and
-when it expires (amber within a month, red once past), the receipt it came
-from, and how many times some was taken out, opening ERPNext's trace of it.
-Its stock levels, Move and Split are ERPNext's own.
+when it expires, the receipt it came from, and how many times some was taken
+out, opening ERPNext's trace of it. Its stock levels, Move and Split are
+ERPNext's own.
 
-An item's Stock view lists its lots with their dates. Its Overview says
-**Expiring Soon** for a lot that runs out of date within a month and
-**Expired, Still in Stock** for one past its date, so it is used, sold or
-taken out of stock first. Whoever keeps the stores is told once when a lot
-with some left will expire within a month.
+OneAI answers **Which lots go off soon?** and **Where is each numbered
+piece?** on the page, from `lots_and_numbers`.
 
 ## When stock and the books disagree
 
@@ -742,6 +764,29 @@ a register and a movement form in it would be a rail with five rows.
   form script sets the quantity as the size is typed, shows the size columns
   only where a line is measured, and the unit's symbol beside the quantity.
   The shipped print formats merge one_size under the item's name.
+- `home.py`, `page/inventory` and `frontend/src/home` — Home. `needs_you`
+  reads what needs somebody through the readers OneAI uses
+  (`ai.late_orders`, `ai.running_low`, `ai.services_due`) and
+  `batches.dated`, so Home and OneAI count the same, each as the reader may
+  see it, `FEW` rows of each with how many more. `drafts` counts papers left
+  as drafts more than a day. `EVERYTHING` is the directory, each entry with
+  what it is for, shown only when the reader may open it (a doctype's read
+  permission, a report's or page's own roles). The rail's Reports and Setup
+  are Page links to it with a route (`/desk/inventory/reports`).
+- `lots.py`, `page/lots`, `frontend/src/lots` and
+  `public/js/lots_actions.js` — Lots. `read` gives the figures and one tab:
+  `lots` (Batch with something left, sorted by expiry in Python, each with
+  `batches.state` and `batches.left`), `serials` (Serial No, in stock
+  first) or `kept_in_lots` (items with has_batch_no or has_serial_no). The
+  item's Stock view reads the same `lots` and `serials` through `view.py`,
+  drawn by the same `LotRows` and `SerialRows`. Track Lots sets the item's
+  own fields (has_batch_no, create_new_batch, batch_number_series,
+  has_expiry_date, shelf_life_in_days, or has_serial_no, serial_no_series,
+  warranty_period) with `frappe.client.set_value`, so ERPNext's Item rules
+  apply. Its item picker is `can_be_tracked`, items with no stock ledger
+  entry. New Lot inserts a Batch with `frappe.client.insert`, and ERPNext
+  numbers it and works out its expiry. Turn On runs the Inventory Check's
+  `serials` fix. OneAI's `lots_and_numbers` reads the page.
 - `floor.py`, `page/floor`, `frontend/src/floor` and
   `public/js/floor_actions.js` — the Shop Floor. `read` reads through
   ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its
@@ -1076,7 +1121,7 @@ a register and a movement form in it would be a rail with five rows.
     accounts; an empty one stops the first receipt.
   - **Serial and batch numbers.** Switched off by default: the item has no
     *Has Serial No* or *Has Batch No*, and a bundle is refused — while the
-    rail offers Serial Numbers and Batches. Whether a business tracks them is
+    rail offers Lots. Whether a business tracks them is
     its decision, so it is a suggestion.
   - **Somewhere for an asset to be.** An asset will not save without a
     location, and a new company has none. The fix asks what to call the

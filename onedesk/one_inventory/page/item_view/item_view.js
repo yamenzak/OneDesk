@@ -8,7 +8,7 @@ frappe.pages["item-view"].on_page_load = (wrapper) => {
 		title: __("Item"),
 		parent: { label: __("Items"), route: "/desk/item" },
 		// Edit Details and the documents started from an item (item_actions.js).
-		requires: ["/assets/onedesk/js/project_actions.js", "/assets/onedesk/js/item_actions.js"],
+		requires: ["/assets/onedesk/js/project_actions.js", "/assets/onedesk/js/item_actions.js", "/assets/onedesk/js/lots_actions.js"],
 		hide_sidebar: !frappe.is_mobile(),
 		record: "Item",
 		files: "files",
