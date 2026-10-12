@@ -10876,6 +10876,38 @@ whether the rail carries them is for your word.
 | 16 Legal | nothing new |
 | 17 Clean code | `can_make()` pure, `_free()` one query, ruff clean |
 
+#### 1j. The item, field by field
+
+Your word: check how a brand is set, how an item is disabled, whether it
+can have several suppliers, and whether every ERPNext Item field is wired
+and ours.
+
+- **Brand**: the head showed it with its logo but it could only be set in
+  Edit Details. It is now in the head's row with the group and unit,
+  changed in place ("No brand" when empty).
+- **Disable**: the ··· menu has Disable Item and then Enable Item. A
+  disabled item says so in red, and Order More, Make More, Request
+  Material, Move Stock and Count Stock leave its menu. Tried in the browser
+  both ways.
+- **Several suppliers**: yes. The Buying tab lists each, Add Supplier adds
+  one to the item's list, each has its part number and Make Default.
+- **Every field**: of ERPNext's 82 Item fields and One's own, all but six
+  are on the page or in Edit Details in frappe's own controls. The six are
+  Opening Stock (only asked at creation, the page has Set Opening Stock),
+  Last Purchase Rate (shown as Last Received or Last Ordered from the
+  documents), Customer Code (ERPNext joins the customers' codes, which the
+  Selling tab changes), Total Projected Qty (the head's On Order and Free
+  to Sell), and Default Item Manufacturer with its part number. Those last
+  two come from ERPNext's Item Manufacturer, which was nowhere in One. The
+  Buying tab now has Manufacturers, each part number changed in place, Add
+  Manufacturer and Make Default. The demo's profile is made by Schüco
+  International as AWS-50.100.
+- **Sales prices**: Omar sells and could not see a selling price. Item
+  Price is now read by the Sales User and kept by the Sales Manager
+  (one_inventory/access.py).
+- **Left**: ERPNext's form also offers Multiple Variants (many variants at
+  once from a template). The page adds one variant at a time.
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the

@@ -33,11 +33,15 @@ GIVEN = (
 	{doctype: {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE} for doctype in REGISTER}
 	| {doctype: {STOCK_USER: roles.WORK, STOCK_MANAGER: roles.MANAGE} for doctype in UPKEEP}
 	| {
+		# What an item sells and is bought for. ERPNext gives prices to the
+		# master managers alone, so a salesperson could not see the list price.
 		"Item Price": {
 			STOCK_USER: roles.USE,
 			"Purchase User": roles.USE,
+			"Sales User": roles.USE,
 			STOCK_MANAGER: roles.MANAGE,
 			"Purchase Manager": roles.MANAGE,
+			"Sales Manager": roles.MANAGE,
 			"Item Manager": roles.MANAGE,
 		},
 		# Freight and duty come in on a forwarder's bill, which the accountant

@@ -486,6 +486,7 @@ def _buying(doc) -> dict | None:
 		"requests": requests,
 		"quotes": _quotes(doc.name),
 		"prices": _prices(doc.name, "buying"),
+		"manufacturers": _manufacturers(doc.name),
 		# The last price paid, which a buying price is held against.
 		"last_paid": (
 			{
@@ -499,9 +500,23 @@ def _buying(doc) -> dict | None:
 		),
 		"can": {
 			one: bool(frappe.has_permission(one, "create"))
-			for one in ("Purchase Receipt", "Request for Quotation", "Supplier Quotation")
+			for one in ("Purchase Receipt", "Request for Quotation", "Supplier Quotation", "Item Manufacturer")
 		},
 	}
+
+
+def _manufacturers(item: str) -> list:
+	"""Who makes it and under what part number, the default first: ERPNext
+	fills the default on every order and receipt line."""
+	if not _readable("Item Manufacturer"):
+		return []
+	return frappe.get_list(
+		"Item Manufacturer",
+		filters={"item_code": item},
+		fields=["name", "manufacturer", "manufacturer_part_no", "is_default"],
+		order_by="is_default desc, manufacturer asc",
+		limit=MOST,
+	)
 
 
 def _supplier(name: str) -> dict:

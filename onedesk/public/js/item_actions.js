@@ -149,6 +149,7 @@ onedesk.item.make = (item, bom) => {
 	});
 };
 onedesk.item.bom = (item) => frappe.new_doc("BOM", { item });
+onedesk.item.manufacturer = (item) => frappe.new_doc("Item Manufacturer", { item_code: item });
 // What a work order has made, recorded as its own form's Finish records it:
 // how many, up to what has been taken for it, then ERPNext's manufacture
 // entry opened in its form.

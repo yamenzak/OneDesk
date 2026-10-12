@@ -187,13 +187,16 @@ def _agreed(project):
 QUOTED = ((ALUMINIUM, "AED", 26.0, 20), ("Euro Hardware Trading", "EUR", 6.3, 30))
 #: Al Noor's own code for the profile, on the item's supplier list.
 PART_NO = "AN-6063-T5"
+#: Who makes the profile, and their own number for it.
+MAKER = ("Schüco International", "AWS-50.100")
 #: Who asks for the next run of profile.
 PROFILE_ASKER = "samir@one.test"
 
 
 def _profile():
 	"""Aluminium profile 6063 as its Buying view shows it: Al Noor its default
-	supplier with their part number, two quotes still open for the next run,
+	supplier with their part number, Schüco who makes it with theirs, two
+	quotes still open for the next run,
 	one in euros, and Samir's request for it not yet ordered."""
 	code = AGREED[0]
 	item = frappe.get_doc("Item", code)
@@ -205,6 +208,18 @@ def _profile():
 		else:
 			item.append("item_defaults", {"company": COMPANY, "default_supplier": ALUMINIUM})
 		item.save()
+	if not frappe.db.exists("Manufacturer", MAKER[0]):
+		frappe.get_doc({"doctype": "Manufacturer", "short_name": MAKER[0]}).insert()
+	if not frappe.db.exists("Item Manufacturer", {"item_code": code}):
+		frappe.get_doc(
+			{
+				"doctype": "Item Manufacturer",
+				"item_code": code,
+				"manufacturer": MAKER[0],
+				"manufacturer_part_no": MAKER[1],
+				"is_default": 1,
+			}
+		).insert()
 	with as_user(BUYER):
 		for supplier, currency, rate, days in QUOTED:
 			if frappe.db.exists(

@@ -206,6 +206,7 @@ const facts = computed(() => {
     // The item's own form fields, changed in place (FieldEdit).
     { label: __("Item Group"), field: "item_group" },
     { label: __("Unit"), field: "stock_uom" },
+    { label: __("Brand"), field: "brand", placeholder: __("No brand") },
     // Left empty, it is valued as Stock Settings says.
     s.stock && { label: __("Valued By"), field: "valuation_method", placeholder: __(s.valuation) },
     ...s.attributes.map((one) => ({ label: __(one.attribute), value: one.value })),

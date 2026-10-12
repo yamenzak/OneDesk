@@ -1,7 +1,7 @@
 <template>
   <!-- Who the item is bought from and at what, the quotes still open, what is
-       on order and still to arrive, what has been asked for, and its buying
-       prices. Each starts the next document as its own form would. -->
+       on order and still to arrive, what has been asked for, who makes it,
+       and its buying prices. Each starts the next document as its own form would. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
@@ -16,6 +16,12 @@
     </Section>
     <Section v-if="buying.requests.length" :title="__('Requested')" icon="lucide-clipboard-list" :aside="buying.requests.length">
       <Rows :rows="requests" />
+    </Section>
+    <Section v-if="buying.manufacturers.length || buying.can['Item Manufacturer']" :title="__('Manufacturers')" icon="lucide-factory" :aside="buying.manufacturers.length || ''" :action="buying.can['Item Manufacturer'] ? { text: true, icon: 'lucide-plus', label: __('Add Manufacturer'), onClick: () => onedesk().item.manufacturer(said.name) } : null">
+      <div v-if="!buying.manufacturers.length" class="py-3 text-base text-ink-gray-5">{{ __("No manufacturer") }}</div>
+      <ul v-else class="divide-y divide-outline-gray-1">
+        <ItemManufacturerRow v-for="one in buying.manufacturers" :key="one.name" :maker="one" @changed="emit('changed')" />
+      </ul>
     </Section>
     <Section :title="__('Buying Prices')" icon="lucide-tag" :action="said.can['Item Price'] ? { text: true, icon: 'lucide-plus', label: __('Set Price'), onClick: () => onedesk().item.price(said.name, true) } : null">
       <div v-if="!buying.prices.length" class="py-3 text-base text-ink-gray-5">{{ __("No buying price") }}</div>
@@ -38,6 +44,7 @@ import { computed, ref } from "vue";
 
 import { Facts, PlaceSpot, Rows, Section, __, date, money, onedesk, quantity } from "../kit";
 import { usePlace } from "../project/place";
+import ItemManufacturerRow from "./ItemManufacturerRow.vue";
 import ItemPriceRow from "./ItemPriceRow.vue";
 import ItemSuppliers from "./ItemSuppliers.vue";
 

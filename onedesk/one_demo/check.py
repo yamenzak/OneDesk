@@ -4790,6 +4790,8 @@ def oneinventory_an_items_buying_says_who_at_what_and_what_next():
 	assert asked and asked[0]["by"], buying["requests"]
 	assert buying["last_paid"] and buying["last_paid"]["currency"] == said["currency"], buying["last_paid"]
 	assert said["last_bought"].kind == "received", said["last_bought"]
+	makers = buying["manufacturers"]
+	assert makers and makers[0]["is_default"] and makers[0]["manufacturer_part_no"], makers
 
 
 @check
@@ -4824,6 +4826,9 @@ def oneinventory_an_items_selling_says_what_can_go_and_who_buys():
 	assert acme["currency"] == "USD" and acme["their_amount"] and acme["their_amount"] != acme["amount"], acme
 	assert selling["sales"] and all(one["rate"] for one in selling["sales"]), selling["sales"]
 	assert any(one["price_list_rate"] > 2350 for one in selling["prices"]), selling["prices"]
+	# A salesperson sees the list price of what they sell.
+	with as_user("omar@one.test"):
+		assert view.read("WIN-CS12")["selling"]["prices"], "Omar sells the window and sees its price"
 
 
 @check

@@ -324,6 +324,10 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 			}
 			for one in buying.get("quotes") or []
 		],
+		"manufacturers": [
+			{"manufacturer": one.manufacturer, "part_no": one.manufacturer_part_no, "default": bool(one.is_default)}
+			for one in buying.get("manufacturers") or []
+		],
 		"purchase_orders": [_order(one) for one in buying.get("orders") or []],
 		"sales_orders": [
 			{**_order(one), "can_go_now": one.get("can_go"), "short": one.get("short")}

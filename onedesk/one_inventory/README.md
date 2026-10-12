@@ -167,9 +167,12 @@ Then its views, each only where the item has it:
   marked, each with **Order This**. What is on order says how much has
   arrived and when it is due (in red once late), with **Receive**. What has
   been asked for says who asked and for which project, with **Make Order**.
-  Each makes the next document as its own form's button does. The buying
-  prices are changed on the row, and one that differs from the last price
-  paid says so and offers **Use Last Price**.
+  Each makes the next document as its own form's button does. Who makes
+  it, each manufacturer with their part number changed on the row, the
+  default marked (ERPNext puts it on every order line), with **Add
+  Manufacturer** and **Make Default**. The buying prices are changed on the
+  row, and one that differs from the last price paid says so and offers
+  **Use Last Price**.
 - **Selling**: what customers have ordered and not yet had, each with how
   much has gone and whether what is on hand covers it. Stock goes to the
   orders soonest due first, so a row says **Can Go Now** or how many it is
