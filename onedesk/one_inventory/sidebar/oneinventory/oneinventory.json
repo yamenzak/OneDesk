@@ -281,23 +281,11 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Maintenance",
-   "link_type": "DocType",
+   "label": "Upkeep",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Asset Maintenance"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Repairs",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Asset Repair"
+   "link_to": "upkeep"
   },
   {
    "child": 0,
@@ -328,7 +316,7 @@
    "route": "setup"
   }
  ],
- "modified": "2026-10-31 15:00:00.000000",
+ "modified": "2026-10-31 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

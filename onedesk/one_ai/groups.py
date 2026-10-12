@@ -135,6 +135,7 @@ GROUPS = {
 			"lots_and_numbers",
 			"quotes_now",
 			"sent_out_now",
+			"upkeep_now",
 			"plan_work_order",
 			"asset_facts",
 			"equipment_held",
@@ -308,6 +309,7 @@ PAGES = {
 	"lots": "inventory",
 	"quotes": "inventory",
 	"sent-out": "inventory",
+	"upkeep": "inventory",
 	"floor": "inventory",
 	"plant": "inventory",
 }

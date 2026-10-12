@@ -79,6 +79,14 @@ def test_a_layer_nobody_rearranged_follows_the_apps_new_order():
 	# A row of the layer's own stays after the row it followed.
 	mid = ["items", "mine", "buying", "to-order"]
 	assert rebased(mid, ["buying", "to-order", "items"], lambda one: one, lambda one: one == "mine") == ["buying", "to-order", "items", "mine"]
+	# A group of its own that followed a row now gone stays after the app's
+	# rows under the group it follows, and never takes them in.
+	grouped = ["assets", "asset", "yours", "van", "reports", "upkeep"]
+	now = ["assets", "asset", "upkeep", "reports"]
+	children = {"asset", "upkeep", "van"}
+	assert rebased(grouped, now, lambda one: one, lambda one: one in ("yours", "van"), lambda one: one in children) == [
+		"assets", "asset", "upkeep", "yours", "van", "reports"
+	]
 
 
 def test_layers_are_settled_on_migrate():

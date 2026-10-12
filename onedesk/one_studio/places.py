@@ -209,6 +209,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_upkeep": {
+		"label": "OneInventory",
+		"record": "Asset Maintenance Log",
+		"events": {
+			"shown": {
+				"about": _lt("Upkeep is opened, and each time a service, a plan or a repair changes."),
+				"gives": "upkeep.view (due, repairs, plans or log), upkeep.this_week (services due this week), upkeep.late, upkeep.broken (equipment out of order), upkeep.repairs_cost (the last twelve months)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneinventory_plant": {
 		"label": "OneInventory",
 		"record": "Workstation",

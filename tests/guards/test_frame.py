@@ -200,6 +200,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"oneinventory_lots.shown": (ROOT / "frontend" / "src" / "lots" / "LotsPage.vue").read_text(),
 		"oneinventory_quotes.shown": (ROOT / "frontend" / "src" / "quotes" / "QuotesPage.vue").read_text(),
 		"oneinventory_sent_out.shown": (ROOT / "frontend" / "src" / "sent_out" / "SentOutPage.vue").read_text(),
+		"oneinventory_upkeep.shown": (ROOT / "frontend" / "src" / "upkeep" / "UpkeepPage.vue").read_text(),
 		"oneinventory_plant.shown": (ROOT / "frontend" / "src" / "plant" / "PlantFloor.vue").read_text(),
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),

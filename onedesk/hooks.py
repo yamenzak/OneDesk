@@ -1398,6 +1398,8 @@ one_ai_reads = [
 	"onedesk.one_inventory.ai.quotes_now",
 	# Work out with suppliers, as the Sent Out page shows it.
 	"onedesk.one_inventory.ai.sent_out_now",
+	# Services due, repairs and plans, as the Upkeep page shows them.
+	"onedesk.one_inventory.ai.upkeep_now",
 	# How a piece of equipment is doing, who holds what and which services are due.
 	"onedesk.one_inventory.ai.asset_facts",
 	"onedesk.one_inventory.ai.equipment_held",

@@ -147,6 +147,7 @@ SCREENS = {
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"inventory": "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)",
 	"lots": "batches and serial numbers as one tool, what each lot holds and where (Batch, Serial No)",
+	"upkeep": "servicing and mending the equipment, services due, repairs, plans and what was done (Asset Maintenance Log, Asset Repair)",
 	"sent-out": "work a supplier does on our own materials, what went and what came back (Subcontracting Order)",
 	"quotes": "asking suppliers for prices, their answers and the comparison (Request for Quotation, Supplier Quotation)",
 	"floor": "the work on the floor, work orders and each step's job card (Work Order, Job Card)",

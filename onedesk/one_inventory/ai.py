@@ -26,6 +26,8 @@ LOTS = "lots"
 QUOTES = "quotes"
 #: Sent Out (page/sent_out).
 SENT_OUT = "sent-out"
+#: Upkeep (page/upkeep).
+UPKEEP = "upkeep"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -169,6 +171,12 @@ _OUT_NOW = {
 	"can": "read",
 	"expects": "sent_out_now",
 }
+_BROKEN = {
+	"label": _lt("What is out of order?"),
+	"ask": _lt("Which equipment is out of order, since when and what is wrong, and what did repairs cost this year?"),
+	"can": "read",
+	"expects": "upkeep_now",
+}
 _UNANSWERED = {
 	"label": _lt("Who has not answered?"),
 	"ask": _lt("Which suppliers have not answered a request for prices yet, what were they asked for and since when?"),
@@ -271,6 +279,8 @@ SUGGESTIONS = {
 	f"page:{LOTS}": [_GOING_OFF, _WHERE_NUMBER],
 	f"page:{QUOTES}": [_UNANSWERED, _CHEAPEST],
 	f"page:{SENT_OUT}": [_OUT_NOW],
+	f"page:{UPKEEP}": [_DUE, _BROKEN],
+	"Asset Repair": [_BROKEN],
 	"Subcontracting Order": [_OUT_NOW],
 	"Batch": [_GOING_OFF],
 	"Serial No": [_WHERE_NUMBER],
@@ -330,6 +340,13 @@ def page(said: dict) -> str | None:
 			"quote_comparison reads one request's quotes; plan_quote_request drafts a new request for a material "
 			"request as a card. "
 			"How the page works is in OneInventory's documentation (how_to)."
+		)
+	if said.get("page") == UPKEEP:
+		return (
+			"The reader is on Upkeep, which lists the services on the equipment not done yet, the repairs, each "
+			"asset's servicing plan and what was done. upkeep_now reads it as the page shows it, and "
+			"services_due the services due within a month. How the page works is in OneInventory's "
+			"documentation (how_to)."
 		)
 	if said.get("page") == SENT_OUT:
 		return (
@@ -1605,6 +1622,28 @@ def sent_out_now() -> dict:
 			for one in sent_out.orders()
 		],
 		"not_ready": [{"purchase_order": one["name"], "supplier": one["supplier_name"]} for one in sent_out.to_order()],
+	}
+
+
+def upkeep_now() -> dict:
+	"""What the Upkeep page shows: services due this week and late, each
+	service not done yet with who does it, the equipment out of order and
+	since when, and what repairs cost over the last twelve months."""
+	from onedesk.one_inventory import upkeep
+
+	if not frappe.has_permission("Asset Maintenance Log", "read") and not frappe.has_permission("Asset Repair", "read"):
+		return {"error": "The reader may not see services or repairs."}
+	return {
+		"figures": upkeep.figures(),
+		"services": [
+			{"asset": one["asset_name"], "job": one["task_name"], "due": one["due_date"], "late": one["late"], "done_by": one["assign_to_name"]}
+			for one in upkeep.due()
+		],
+		"out_of_order": [
+			{"asset": one["asset_name"], "wrong": one["description"], "since": one["failure_date"], "days": one["days_out"]}
+			for one in upkeep.repairs()
+			if one["open"]
+		],
 	}
 
 

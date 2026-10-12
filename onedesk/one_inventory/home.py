@@ -57,6 +57,7 @@ EVERYTHING = (
 	("making", _lt("Subcontracting Receipts"), "DocType", "Subcontracting Receipt", _lt("What a supplier made, taken back in.")),
 	("equipment", _lt("Assets"), "DocType", "Asset", _lt("The company's equipment, who has it and what it is worth.")),
 	("equipment", _lt("Asset Movements"), "DocType", "Asset Movement", _lt("Equipment handed to someone or moved.")),
+	("equipment", _lt("Upkeep"), "Page", "upkeep", _lt("Services due, repairs, each asset's plan and what was done, on one page.")),
 	("equipment", _lt("Maintenance"), "DocType", "Asset Maintenance", _lt("The services each piece of equipment needs.")),
 	("equipment", _lt("Maintenance Log"), "DocType", "Asset Maintenance Log", _lt("Each service, due and done.")),
 	("equipment", _lt("Repairs"), "DocType", "Asset Repair", _lt("Equipment mended, and what it cost.")),

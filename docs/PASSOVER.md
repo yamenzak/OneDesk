@@ -11626,7 +11626,7 @@ points.
    comparison, as one page.
 5. **Sent out** (done, 7g) — what suppliers make from our materials: the orders, what
    went out and what came back, as one page.
-6. **Upkeep** — services, repairs and the log of an asset's upkeep as one
+6. **Upkeep** (done, 7h) — services, repairs and the log of an asset's upkeep as one
    page.
 
 Each is written up below as it is done.
@@ -11813,6 +11813,47 @@ Done:
 | 17 Clean code | one server file, one part |
 | Everything follows frappe | ERPNext's calls for every change, opened as drafts |
 | What ERPNext already does | the supplier's warehouse, transferred, consumed and returned quantities, its statuses |
+
+#### 7h. Upkeep, servicing and mending on one page
+
+Looked at as Karim: services were three lists (the plans, the maintenance
+log and the repairs), and recording a service done meant opening the log,
+setting its status, typing the date and submitting. Nothing said what was
+out of order now.
+
+Done:
+
+- **Upkeep** (page/upkeep, frontend/src/upkeep) takes Maintenance's and
+  Repairs' place in the rail. Over it, Due This Week, Late, Out of Order
+  and Repairs Cost over twelve months.
+- **Due** lists each service not done yet with the asset, the job and who
+  does it, red once late, with **Mark Done** (the day and what was done, in
+  one dialog). **Repairs** lists what is broken and since when, then what
+  was mended and its cost. **Plans** lists each asset's jobs and when each
+  is next due. **Done** lists services and repairs together, latest first.
+- **Report a Breakdown** and **Plan a Service** open ERPNext's own forms.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the late truck service, Huda's broken laptop, three plans, the CNC checks done, a new check marking the truck's service done |
+| 2 Rules on the server | ERPNext's log rules (a completion date for a completed service, submit only when completed) and its next-date update |
+| 3 Hand-offs | rows open the service, the repair, the plan and the asset |
+| 4 Tier declared | page `upkeep` in SCREENS |
+| 5 Our look | figures, tabs and rows from frappe-ui, at 1440 wide and on a phone |
+| 6 Nothing lost | the plans, the maintenance log and repairs stay, under Everything on Home |
+| 7 Extensible | the page is a place, `oneinventory_upkeep.shown` |
+| 8 Built from frappe | frappe's dialog and Date control, realtime on the three doctypes |
+| 9 Overrides recorded | none |
+| 10 Notifications | none new, Service Due and Service Late stay |
+| 11 Printed | none new |
+| 12 Plain words | due, late, out of order, mended, in Arabic and German |
+| 13 Documented, OneAI | the README's Servicing equipment, `upkeep_now` with What is out of order? |
+| 14 Intake | a garage's bill stays Intake's to read |
+| 15 Permissions | each figure, tab and button by its doctype's permission, Nadia sees nothing |
+| 16 Legal | nothing new |
+| 17 Clean code | one server file, one part |
+| Everything follows frappe | ERPNext's own log submit, frappe's dialog |
+| What ERPNext already does | periodicity, next due date, overdue status, repair downtime and cost |
 
 #### 8. Equipment
 

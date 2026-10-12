@@ -277,11 +277,13 @@ def untouched(rows: list, before: list | None, key, added) -> bool:
 	return ours == [one for one in before if one in ours]
 
 
-def rebased(rows: list, shipped: list, key, added) -> list:
+def rebased(rows: list, shipped: list, key, added, child=lambda row: False) -> list:
 	"""A layer nobody rearranged, in the order the app ships now: the app's
 	rows in that order, the layer's own rows at the end (Your Records) still
-	at the end, and any other of its own after the row it followed. Pure over
-	the arrangement, the shipped order, a key and what the layer added."""
+	at the end, and any other of its own after the row it followed. A group of
+	its own goes after the app's rows under that one too, so it never takes
+	them in. Pure over the arrangement, the shipped order, a key, what the
+	layer added and which rows sit under a group."""
 	place = {one: i for i, one in enumerate(shipped)}
 	theirs = [i for i, row in enumerate(rows) if not added(row) and key(row) in place]
 	tail = rows[theirs[-1] + 1 :] if theirs else list(rows)
@@ -290,6 +292,9 @@ def rebased(rows: list, shipped: list, key, added) -> list:
 	for row in rows[: len(rows) - len(tail)]:
 		if added(row) or key(row) not in place:
 			at = next((i for i, one in enumerate(out) if key(one) == before), -1) if before else -1
+			if not child(row):
+				while at + 1 < len(out) and child(out[at + 1]) and key(out[at + 1]) in place:
+					at += 1
 			out.insert(at + 1, row)
 		before = key(row)
 	return out + tail
@@ -320,7 +325,7 @@ def settle() -> None:
 		user = one.user or None
 		rows = layer_arrangement(one.module, user)
 		if untouched(rows, kept.get(one.module), item_key, lambda row: row.get("added")):
-			moved = rebased(rows, shipped[one.module], item_key, lambda row: row.get("added"))
+			moved = rebased(rows, shipped[one.module], item_key, lambda row: row.get("added"), lambda row: bool(row.get("child")))
 		else:
 			named = {item_key(row) for row in frappe.get_doc("Custom Sidebar", one.name).sidebar_items}
 			moved = anchored(rows, shipped[one.module], named, item_key)

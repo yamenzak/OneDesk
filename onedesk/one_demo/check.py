@@ -5099,6 +5099,39 @@ def oneinventory_sent_out_says_what_went_and_what_came_back():
 
 
 @check
+def oneinventory_upkeep_says_what_is_due_broken_and_done():
+	"""Upkeep: the second truck's service late with Yousef, Huda's laptop out
+	of order, a plan for each serviced asset and the CNC centre's checks
+	done. Marking the truck's service done takes it off Due, puts it in Done
+	and moves its next date a quarter on, as ERPNext works it out. OneAI
+	reads it. Somebody outside the stores sees none of it."""
+	from onedesk.one_inventory import ai, upkeep
+
+	with as_user("karim@one.test"):
+		said = upkeep.read()
+		assert said["figures"]["late"] >= 1 and said["figures"]["broken"] >= 1, said["figures"]
+		truck = next(one for one in said["due"] if one["asset_name"] == "Pickup Truck 2")
+		assert truck["late"] and truck["assign_to_name"] == "Yousef Bakr", truck
+		broken = [one for one in upkeep.read(view="repairs")["repairs"] if one["open"]]
+		assert [one["asset_name"] for one in broken] == ["Laptop Huda"] and broken[0]["days_out"] >= 0, broken
+		plans = {one["asset_name"]: one for one in upkeep.read(view="plans")["plans"]}
+		assert {"Pickup Truck 1", "Pickup Truck 2", "CNC Profile Machining Centre"} <= set(plans), list(plans)
+		assert any(one["asset_name"] == "CNC Profile Machining Centre" for one in upkeep.read(view="log")["log"])
+		facts = ai.upkeep_now()
+		assert any(one["asset"] == "Pickup Truck 2" and one["late"] for one in facts["services"]), facts
+
+		upkeep.done(truck["name"], frappe.utils.today(), "Oil and filters changed.")
+		assert truck["name"] not in {one["name"] for one in upkeep.read()["due"]}
+		assert truck["name"] in {one["name"] for one in upkeep.read(view="log")["log"]}
+		task = frappe.db.get_value("Asset Maintenance Task", {"parent": truck["asset"]}, ["last_completion_date", "next_due_date"], as_dict=True)
+		assert str(task.last_completion_date) == frappe.utils.today() and str(task.next_due_date) == str(frappe.utils.add_months(frappe.utils.today(), 3)), task
+	with as_user("nadia@one.test"):
+		said = upkeep.read()
+		assert not said["due"] and said["figures"]["late"] is None and not said["can"]["done"], said
+		assert ai.upkeep_now().get("error")
+
+
+@check
 def oneinventory_the_plant_floor_shows_each_workstation():
 	"""The Plant Floor: the workshop's three workstations with ERPNext's
 	statuses, the step running on the saw and who is on it, the steps waiting

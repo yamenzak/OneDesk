@@ -38,7 +38,7 @@ The rail keeps what people use every day:
   Orders** and **Suppliers**. See Buying.
 - **Making** — **Shop Floor**, **Plant Floor**, **Work Orders**, **Bills of
   Materials** and **Sent Out**. See Making.
-- **Assets** — **Assets**, **Maintenance** and **Repairs**.
+- **Assets** — **Assets** and **Upkeep**.
 - **Reports** — the stock, buying, making and asset reports, each with what
   it shows.
 - **Setup** — the **Inventory Check** first (what is missing before stock
@@ -584,6 +584,25 @@ hold, given to the stores.
 
 ## Servicing equipment
 
+**Upkeep** in the rail keeps servicing and mending on one page. The figures
+say how many services are due this week, how many are late, what is out of
+order, and what repairs cost over the last twelve months.
+
+- **Due** lists each service not done yet, the soonest first, with the
+  asset, the job, who does it and how often, red once late. **Mark Done**
+  asks the day and what was done, records it on ERPNext's own maintenance
+  log and works out the next date from that day.
+- **Repairs** lists what broke, what is wrong and how many days it has been
+  out of use, then the repairs finished, with what each cost.
+- **Plans** lists each asset's servicing plan: its team, and each job with
+  how often and when it is next due.
+- **Done** lists what was done, services with who did them and repairs with
+  what they cost, the latest first.
+
+**Report a Breakdown** opens a new repair and **Plan a Service** a new plan.
+OneAI answers **Which services are due?** and **What is out of order?**
+there.
+
 Tick **Maintenance Required** on an asset that needs looking after, then
 **Assets › Maintenance › + Add**: the asset, the maintenance team, and a row
 per job — what it is, how often (monthly, quarterly, yearly…), from when,
@@ -838,6 +857,14 @@ a register and a movement form in it would be a rail with five rows.
   `subcontracting_controller.make_rm_stock_entry` and
   `subcontracting_order.make_subcontracting_receipt`. OneAI's
   `sent_out_now` reads the page.
+- `upkeep.py`, `page/upkeep`, `frontend/src/upkeep` and
+  `public/js/upkeep_actions.js` — Upkeep. `read` gives the figures and one
+  tab: `due` (Asset Maintenance Log not submitted, Planned or Overdue),
+  `repairs` (Asset Repair, open first, with the days since it failed),
+  `plans` (Asset Maintenance with its tasks) or `log` (submitted, completed
+  logs and submitted repairs). `done` completes and submits a log as its
+  form does, and ERPNext's own `update_maintenance_task` moves the task's
+  next date. OneAI's `upkeep_now` reads the page.
 - `floor.py`, `page/floor`, `frontend/src/floor` and
   `public/js/floor_actions.js` — the Shop Floor. `read` reads through
   ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its
