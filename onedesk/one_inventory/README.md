@@ -345,9 +345,9 @@ Suppliers are kept in OneBook, and the link here opens the same supplier.
 
 ## Making
 
-**Making** in the rail is the workshop: **Shop Floor**, **Work Orders**, **Job Cards**,
+**Making** in the rail is the workshop: **Shop Floor**, **Plant Floor**, **Work Orders**, **Job Cards**,
 **Bills of Materials**, **Subcontracting Orders** and **Subcontracting
-Receipts**. Workstations, operations and Manufacturing Settings are under
+Receipts**. Workstations, plant floors, operations and Manufacturing Settings are under
 Setup, and production plans under More.
 
 1. **Say how it is made.** A **Bill of Materials** names what one of a
@@ -408,6 +408,25 @@ now (**Running Now**), how many are **Waiting to Start**, and how many were
 Everything on it is ERPNext's own job card, done through ERPNext's own
 calls, so the job card's form, its time logs and its reports say the same.
 It changes as soon as somebody else starts or closes a step.
+
+### Plant Floor
+
+**Plant Floor** under Making shows a floor's workstations as cards. Over it,
+how many **Workstations** there are, how many are **Making**, how many are
+**Stopped** by a problem or for maintenance, and how many **Steps Running**.
+
+- Each card says the workstation's type, its status in ERPNext's colours,
+  each step running on it and who is on it, and how many steps wait to
+  start there. A card opens the workstation's steps on the Shop Floor.
+- **Change Status** sets the workstation's status (Production, Off, Idle,
+  Problem, Maintenance or Setup). Every open Plant Floor changes with it.
+- **Type** and **Status** narrow the cards. A workspace with more than one
+  floor has a tab for each.
+- **Stock Here** lists what the floor's warehouse holds, and how much of it
+  is kept for work orders. **Add Stock** and **Move Stock** make the stock
+  entry as a draft to check and submit.
+- A floor is set up with **New Plant Floor**: its name and its warehouse.
+  A workstation joins it with **Plant Floor** on the workstation.
 
 - **What making costs a project.** The materials a project's work order uses
   count in the project's Stock Used on OneProject, as ERPNext counts them.
@@ -740,6 +759,18 @@ a register and a movement form in it would be a rail with five rows.
   follows Job Card and Work Order through frappe.realtime. ERPNext's own
   page stays at /desk/shop-floor. OneAI's `on_the_floor` reads what is
   running.
+- `plant.py`, `page/plant`, `frontend/src/plant` and
+  `public/js/plant_actions.js` — the Plant Floor. `read` reads ERPNext's
+  own `workstation.get_workstations` for a floor's cards and its filters,
+  the steps running on each workstation (`floor.running_now`), and
+  `plant_floor.get_stock_summary` for the floor's warehouse, leaving out
+  items with nothing there. Change Status saves the workstation's status,
+  which ERPNext tells every open Plant Floor about. Add Stock and Move Stock
+  run the Plant Floor's own `make_stock_entry` and open the draft. ERPNext's
+  Visual Plant Floor stays at /desk/visual-plant-floor. OneAI's
+  `plant_floor_now` reads it. Plant Floor is read by the Manufacturing User
+  and kept by the Manufacturing Manager (access.py), as ERPNext gives it to
+  the System Manager alone.
 - `view.py`, `page/item_view` and `frontend/src/item` — an item's page. An
   item is the hub of the stores, as a project is of a job, so it opens on a
   page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the

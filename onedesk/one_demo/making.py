@@ -21,6 +21,12 @@ WORKSTATIONS = (
 	("Glazing Table", "Glazing", 50, "Joseph Mathew"),
 )
 
+#: The workshop's floor, kept by Tariq, and how each workstation stands now:
+#: the saw is cutting, the bench is idle, and the glazing table is down for
+#: a new suction lifter.
+FLOOR = "Workshop"
+STANDING = {"Saw Line": "Production", "Assembly Bench": "Idle", "Glazing Table": "Maintenance"}
+
 #: product, [(material, qty for one)], [(step, minutes for one)]
 BOMS = (
 	(
@@ -78,6 +84,7 @@ def run(password=None):
 		_asked(projects[VILLA])
 	if not frappe.db.exists("Subcontracting Order", {"docstatus": 1}):
 		_coated(projects[VILLA])
+	_on_the_saw()
 
 
 def _workshop():
@@ -91,6 +98,14 @@ def _workshop():
 			{"workstation_name": workstation, "workstation_costs": [{"operating_component": "Wages", "operating_cost": rate}]},
 		)
 		once("Operation", {"name": step}, {"name": step, "workstation": workstation})
+	# A floor is the workshop's setup, kept by its manager.
+	with as_user(BUYER):
+		once("Plant Floor", {"name": FLOOR}, {"floor_name": FLOOR, "company": COMPANY, "warehouse": wh("Work In Progress")})
+	for workstation, status in STANDING.items():
+		if not frappe.db.get_value("Workstation", workstation, "plant_floor"):
+			doc = frappe.get_doc("Workstation", workstation)
+			doc.update({"plant_floor": FLOOR, "status": status})
+			doc.save()
 
 
 def _bom(product, materials, steps):
@@ -182,6 +197,25 @@ def _worked(order, ahead_of, made, started):
 		card.save()
 		card.submit()
 	return last.date()
+
+
+def _on_the_saw():
+	"""Arun has been cutting the villa's last doors since the morning, so the
+	floor has a step running."""
+	from erpnext.manufacturing.doctype.workstation.workstation import update_job_card
+
+	if frappe.db.exists("Job Card Time Log", {"from_time": ["is", "set"], "to_time": ["is", "not set"]}):
+		return
+	product, _qty, _wanted = ASKED
+	order = frappe.db.get_value("Work Order", {"production_item": product, "docstatus": 1, "status": "Not Started"})
+	card = order and frappe.db.get_value("Job Card", {"work_order": order, "operation": "Cutting", "docstatus": 0})
+	if not card:
+		return
+	arun = frappe.db.get_value("Employee", {"employee_name": WORKSTATIONS[0][3]})
+	with as_user(SUPERVISOR):
+		update_job_card(
+			card, "start_timer", start_time=str(add_to_date(None, minutes=-95)), employees=[{"employee": arun}]
+		)
 
 
 def _asked(project):

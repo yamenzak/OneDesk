@@ -16,6 +16,8 @@ PAGE = "item-view"
 STOCK = "stock-on-hand"
 #: Shop Floor (page/floor).
 FLOOR = "floor"
+#: Plant Floor (page/plant).
+PLANT = "plant"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -174,6 +176,12 @@ _ON_FLOOR = {
 	"can": "read",
 	"expects": "on_the_floor",
 }
+_MACHINES = {
+	"label": _lt("How are the workstations doing?"),
+	"ask": _lt("Which workstations are making, which are stopped and why, and what is running on each?"),
+	"can": "read",
+	"expects": "plant_floor_now",
+}
 _HOW_FAR = {
 	"label": _lt("How far along is it?"),
 	"ask": _lt("How far along is this work order, step by step, and is everything it needs in the stores?"),
@@ -220,6 +228,8 @@ SUGGESTIONS = {
 	"Item": [_LOW, _HOW],
 	f"page:{STOCK}": [_LOW, _HELD],
 	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
+	f"page:{PLANT}": [_MACHINES, _ON_FLOOR],
+	"Workstation": [_MACHINES, _ON_FLOOR],
 	"Warehouse": [_WORTH, _LOW],
 	"Purchase Receipt": [_RECEIVED, _ARRIVING],
 	"Purchase Order": [_RECEIVE, _LATE, _ARRIVING],
@@ -252,6 +262,12 @@ def page(said: dict) -> str | None:
 			"The reader is on the Shop Floor, which shows the open work orders with how far their steps have got, "
 			"and each step's job card to start, pause, record and close. on_the_floor reads what is running now; "
 			"work_order_facts reads one work order. How the page works is in OneInventory's documentation (how_to)."
+		)
+	if said.get("page") == PLANT:
+		return (
+			"The reader is on the Plant Floor, which shows a floor's workstations with their status and what is "
+			"running on each, and the stock kept on the floor. plant_floor_now reads it; on_the_floor reads the "
+			"steps. How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") != PAGE:
 		return None
@@ -1337,7 +1353,7 @@ def on_the_floor(
 			filters={"parent": card.name},
 			fields=["employee", "from_time", "to_time", "time_in_mins"],
 		)
-		open_log = next((log for log in logs if not log.to_time), None)
+		open_log = next((log for log in logs if log.from_time and not log.to_time), None)
 		minutes = sum(flt(log.time_in_mins) for log in logs if log.to_time)
 		if open_log and not card.is_paused:
 			minutes += (frappe.utils.now_datetime() - frappe.utils.get_datetime(open_log.from_time)).total_seconds() / 60
@@ -1363,6 +1379,45 @@ def on_the_floor(
 			}
 		)
 	return {"figures": floor.figures(), "steps": steps}
+
+
+def plant_floor_now(
+	plant: Annotated[str, "The plant floor, by name. Left out, the first one."] | None = None,
+) -> dict:
+	"""What the Plant Floor shows: each workstation's status, the steps
+	running on it and who is on them, how many wait there, and what the
+	floor's warehouse holds."""
+	from onedesk.one_inventory import plant as plants
+
+	if not frappe.has_permission("Workstation", "read"):
+		return {"error": "The reader may not see workstations."}
+	if plant and not frappe.db.exists("Plant Floor", plant):
+		return {"error": f"No plant floor is called {plant}."}
+	said = plants.read(plant=plant)
+	if not said["plant"]:
+		return {"error": "There is no plant floor yet."}
+	return {
+		"plant": said["plant"].name,
+		"floors": [one.name for one in said["floors"]],
+		"figures": said["figures"],
+		"workstations": [
+			{
+				"workstation": one["name"],
+				"type": one["workstation_type"],
+				"status": one["status"],
+				"running": [
+					{"step": step["operation"], "makes": step["item_name"], "work_order": step["work_order"], "people": step["people"]}
+					for step in one["running"]
+				],
+				"waiting": one["waiting"],
+			}
+			for one in said["workstations"]
+		],
+		"stock": [
+			{"item": one["item_name"], "here": one["actual_qty"], "kept_for_making": one["for_making"], "unit": one["uom"]}
+			for one in said["stock"]
+		],
+	}
 
 
 def work_order_facts(work_order: Annotated[str, "The work order's number, such as MFG-WO-2026-00006."]) -> dict:

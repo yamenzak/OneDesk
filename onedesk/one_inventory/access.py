@@ -72,6 +72,14 @@ GIVEN = (
 			"Manufacturing Manager": roles.MANAGE,
 		},
 	}
+	| {
+		# A floor of the workshop and the workstations on it, shown on the
+		# Plant Floor. ERPNext gives it to the System Manager alone.
+		"Plant Floor": {
+			"Manufacturing User": roles.USE,
+			"Manufacturing Manager": roles.MANAGE,
+		},
+	}
 	# Scoring suppliers by delivery and quality, System Manager's alone in
 	# ERPNext too. The buyer reads the scores and the buying manager sets
 	# them up.

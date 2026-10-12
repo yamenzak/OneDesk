@@ -4880,22 +4880,20 @@ def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
 		said = floor.read(work_order=door["name"])
 		assert said["work_order"]["project_name"], said["work_order"]
 		assert [one["operation"] for one in said["steps"]] == ["Cutting", "Assembly", "Glazing"], said["steps"]
-		cut = said["steps"][0]
-		assert cut["may"]["start"] and not cut["may"]["pause"], cut["may"]
-		assert said["employee"], "Tariq starts a step as himself"
-
-		update_job_card(cut["name"], "start_timer", start_time=str(at), employees=[{"employee": said["employee"]}])
-		cut = floor.read(work_order=door["name"])["steps"][0]
+		cut, joint = said["steps"][0], said["steps"][1]
+		# Arun has been on the saw since the morning (one_demo/making.py).
 		assert cut["running"] and cut["may"]["pause"] and cut["may"]["record"] and not cut["may"]["start"], cut
-		assert cut["people"] == ["Tariq Haidar"], cut["people"]
+		assert cut["people"] == ["Arun Kumar"] and cut["minutes"] == 0 and cut["since"], cut
+		assert joint["may"]["start"] and not joint["may"]["pause"], joint["may"]
+		assert said["employee"], "Tariq starts a step as himself"
 		running = ai.on_the_floor()
 		assert any(one["job_card"] == cut["name"] and one["state"] == "running" for one in running["steps"]), running
 		assert running["figures"]["running"] >= 1, running["figures"]
 
-		update_job_card(cut["name"], "pause_job", end_time=str(at + datetime.timedelta(minutes=20)))
+		update_job_card(cut["name"], "pause_job", end_time=str(at))
 		cut = floor.read(work_order=door["name"])["steps"][0]
 		assert cut["paused"] and cut["may"]["resume"] and not cut["running"], cut
-		update_job_card(cut["name"], "resume_job", start_time=str(at + datetime.timedelta(minutes=30)))
+		update_job_card(cut["name"], "resume_job", start_time=str(at + datetime.timedelta(minutes=10)))
 
 		closed_before = floor.figures()["done_today"]
 		shop_floor.complete_and_submit(
@@ -4905,6 +4903,10 @@ def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
 		assert cut["docstatus"] == 1 and cut["done"] == cut["for_quantity"], cut
 		assert not any(cut["may"][key] for key in ("start", "pause", "resume", "record")), cut["may"]
 		assert floor.figures()["done_today"] == closed_before + 1
+		# ERPNext keeps the steps in order: Assembly starts once Cutting is closed.
+		update_job_card(joint["name"], "start_timer", start_time=str(at), employees=[{"employee": said["employee"]}])
+		joint = floor.read(work_order=door["name"])["steps"][1]
+		assert joint["running"] and joint["people"] == ["Tariq Haidar"], joint
 		saw = floor.read(workstation="Saw Line")
 		assert all(one["workstation"] == "Saw Line" for one in saw["steps"]), saw["steps"]
 	with as_user("nadia@one.test"):
@@ -4915,6 +4917,48 @@ def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
 			pass
 		else:
 			raise AssertionError("somebody outside the workshop read the Shop Floor")
+
+
+@check
+def oneinventory_the_plant_floor_shows_each_workstation():
+	"""The Plant Floor: the workshop's three workstations with ERPNext's
+	statuses, the step running on the saw and who is on it, the steps waiting
+	at each, and the stock kept on the floor. A status changed on a
+	workstation shows at once, and the figures follow. OneAI reads it.
+	Somebody outside the workshop sees none of it."""
+	from onedesk.one_inventory import ai, plant
+
+	with as_user("tariq@one.test"):
+		said = plant.read()
+		assert said["plant"]["name"] == "Workshop", said["plant"]
+		shown = {one["name"]: one for one in said["workstations"]}
+		assert {name: one["status"] for name, one in shown.items()} == {
+			"Saw Line": "Production",
+			"Assembly Bench": "Idle",
+			"Glazing Table": "Maintenance",
+		}, shown
+		saw = shown["Saw Line"]
+		assert [step["operation"] for step in saw["running"]] == ["Cutting"], saw
+		assert saw["running"][0]["people"] == ["Arun Kumar"], saw["running"]
+		assert shown["Assembly Bench"]["waiting"] >= 1, shown["Assembly Bench"]
+		assert said["figures"] == {"workstations": 3, "making": 1, "stopped": 1, "running": 1}, said["figures"]
+		assert said["stock"] and all(one["actual_qty"] > 0 for one in said["stock"]), said["stock"]
+		assert [one["name"] for one in plant.read(status="Maintenance")["workstations"]] == ["Glazing Table"]
+
+		frappe.client.set_value("Workstation", "Glazing Table", "status", "Production")
+		after = plant.read()
+		assert after["figures"]["making"] == 2 and after["figures"]["stopped"] == 0, after["figures"]
+		facts = ai.plant_floor_now()
+		assert {one["workstation"]: one["status"] for one in facts["workstations"]}["Glazing Table"] == "Production"
+		assert ai.plant_floor_now("Nowhere").get("error")
+	with as_user("nadia@one.test"):
+		assert ai.plant_floor_now().get("error")
+		try:
+			plant.read()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody outside the workshop read the Plant Floor")
 
 
 @check

@@ -73,11 +73,15 @@ def figures() -> dict:
 
 
 def running_now(job_card) -> bool:
-	"""A job card is running while a time log of it is open and it is not paused."""
+	"""A job card is running while a time log of it has started and not ended,
+	and it is not paused. ERPNext leaves a row with neither for each employee."""
 	if job_card.get("is_paused"):
 		return False
 	return bool(
-		frappe.db.exists("Job Card Time Log", {"parent": job_card.name, "to_time": ["is", "not set"]})
+		frappe.db.exists(
+			"Job Card Time Log",
+			{"parent": job_card.name, "from_time": ["is", "set"], "to_time": ["is", "not set"]},
+		)
 	)
 
 
@@ -141,7 +145,7 @@ def _step(one: dict) -> dict:
 	materials, its instructions and its quality check, as ERPNext's page has
 	them, and what its buttons may do now."""
 	logs = one.get("time_logs") or []
-	open_log = next((log for log in logs if not log.get("to_time")), None)
+	open_log = next((log for log in logs if log.get("from_time") and not log.get("to_time")), None)
 	worked = sum(flt(log.get("time_in_mins")) for log in logs if log.get("to_time"))
 	employees = sorted({log.get("employee") for log in logs if log.get("employee")})
 	names = dict(

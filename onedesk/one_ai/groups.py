@@ -131,6 +131,7 @@ GROUPS = {
 			"work_in_hand",
 			"work_order_facts",
 			"on_the_floor",
+			"plant_floor_now",
 			"plan_work_order",
 			"asset_facts",
 			"equipment_held",
@@ -301,6 +302,7 @@ PAGES = {
 	"item-view": "inventory",
 	"stock-on-hand": "inventory",
 	"floor": "inventory",
+	"plant": "inventory",
 }
 
 

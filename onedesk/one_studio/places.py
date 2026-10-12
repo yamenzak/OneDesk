@@ -165,6 +165,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_plant": {
+		"label": "OneInventory",
+		"record": "Workstation",
+		"events": {
+			"shown": {
+				"about": _lt("Plant Floor is opened, and each time a workstation's status or a step on it changes."),
+				"gives": "plant.name (the floor shown, or null), plant.workstations (how many, and the list of each one's name and status), plant.making, plant.stopped, plant.running (steps running)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecloud": {
 		"label": "OneCloud",
 		"record": "File",

@@ -244,6 +244,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Plant Floor",
+   "link_to": "plant",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Work Orders",
    "link_to": "Work Order",
    "link_type": "DocType",
@@ -816,6 +828,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Plant Floors",
+   "link_to": "Plant Floor",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Operations",
    "link_to": "Operation",
    "link_type": "DocType",
@@ -859,7 +883,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-28 12:00:00.000000",
+ "modified": "2026-10-29 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

@@ -11542,6 +11542,66 @@ Done:
 | Everything follows frappe | the dialogs are frappe's, the parts frappe-ui's, the page follows realtime |
 | What ERPNext already does | open counted as ERPNext counts it, time logs, process loss, quality check before submit, job card status |
 
+#### 7b. Plant Floor
+
+Looked at as Tariq on ERPNext's Visual Plant Floor (/desk/visual-plant-floor)
+and the Plant Floor form.
+
+Found:
+
+- **Our look (5)**: the page is a Link field over ERPNext's own cards, in its
+  own look, and was nowhere in the rail. A card opened ERPNext's Shop Floor.
+- **Permissions (15)**: ERPNext lets only the System Manager read a Plant
+  Floor, so nobody in the workshop could open the page with a floor in it.
+- **Demo coverage (1)**: the demo had no plant floor, and no step running.
+
+Done:
+
+- **Plant Floor** is a page of OneInventory under Making (page/plant,
+  frontend/src/plant). Over it, Workstations, Making, Stopped and Steps
+  Running. Each workstation is a card with its type, its status in ERPNext's
+  colours, each step running on it and who is on it, and how many steps wait
+  there. A card opens that workstation's tab on our Shop Floor. Change Status
+  sets the workstation's status. Type and Status narrow the cards, and each
+  floor has a tab when there is more than one.
+- **Stock Here** lists what the floor's warehouse holds and how much is kept
+  for work orders, leaving out items with nothing there. Add Stock and Move
+  Stock make the Plant Floor's own stock entry and open the draft.
+- Plant Floor is read by the Manufacturing User and kept by the
+  Manufacturing Manager. Plant Floors is under Setup in the rail.
+- The demo's Workshop floor holds the three workstations: the saw making,
+  the bench idle, the glazing table under maintenance. Arun has been cutting
+  the villa's last doors since the morning, so the Shop Floor and the Plant
+  Floor both have a step running. Both checks follow that.
+- A time row with no start, which ERPNext leaves on each finished job card,
+  no longer counts as running.
+- ERPNext keeps steps in order: Assembly cannot start before Cutting is
+  closed. Its message says so, and the check follows it.
+- **Left**: the Plant Floor form still shows ERPNext's own cards on its
+  Workstations tab.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the Workshop floor, three statuses, a step running on the saw, a new check |
+| 2 Rules on the server | nothing new, the status is the workstation's own |
+| 3 Hand-offs | a card opens the Shop Floor at its workstation, Add and Move Stock make a stock entry |
+| 4 Tier declared | page `plant` in SCREENS |
+| 5 Our look | cards, figures, filters and rows from frappe-ui, at 1440 wide and on a phone |
+| 6 Nothing lost | ERPNext's filters, status colours and stock actions kept, its page kept |
+| 7 Extensible | the page is a place, `oneinventory_plant.shown` |
+| 8 Built from frappe | ERPNext's get_workstations, get_stock_summary and make_stock_entry, frappe's dialogs, realtime on Workstation, Job Card and Plant Floor |
+| 9 Overrides recorded | the Plant Floor grant in access.py |
+| 10 Notifications | none |
+| 11 Printed | none, nothing leaves the company |
+| 12 Plain words | every label, badge and dialog, in Arabic and German |
+| 13 Documented, OneAI | the README's Plant Floor section, `plant_floor_now` with How are the workstations doing? |
+| 14 Intake | nothing new |
+| 15 Permissions | the manufacturing roles read it, Change Status needs write on Workstation, the stock actions need Stock Entry, Nadia nothing |
+| 16 Legal | the cards name who is on a step, as job cards do |
+| 17 Clean code | lint clean, one server file, one actions file, one part |
+| Everything follows frappe | the dialogs are frappe's, the parts frappe-ui's, the page follows realtime |
+| What ERPNext already does | the floor's warehouse, its company on the stock entry, the step order, the status colours |
+
 #### 8. Equipment
 
 Looked at as Karim on the assets, an asset, the movements, the maintenance

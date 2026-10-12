@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-12 21:27+0000\n"
-"PO-Revision-Date: 2026-10-12 21:27+0000\n"
+"POT-Creation-Date: 2026-10-12 21:44+0000\n"
+"PO-Revision-Date: 2026-10-12 21:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -121,6 +121,10 @@ msgstr "مهمة واحدة مفتوحة"
 msgid "1 person"
 msgstr "شخص واحد"
 
+#: frontend/src/plant/PlantFloor.vue:40
+msgid "1 step waiting"
+msgstr "خطوة واحدة بالانتظار"
+
 #: frontend/src/project/Overview.vue:399
 msgid "1 sub-project"
 msgstr "مشروع فرعي واحد"
@@ -141,6 +145,10 @@ msgstr "أسبوع واحد"
 #: frontend/src/floor/ShopFloor.vue:136
 msgid "1 work order"
 msgstr "أمر عمل واحد"
+
+#: frontend/src/plant/PlantFloor.vue:114
+msgid "1 workstation"
+msgstr "محطة عمل واحدة"
 
 #: onedesk/one/print_blocks.py:441
 msgid "1 {0} = {1} {2}"
@@ -487,7 +495,7 @@ msgstr "وصل مستند"
 msgid "A document arrived for {0}"
 msgstr "وصل مستند لـ {0}"
 
-#: onedesk/one_studio/places.py:187
+#: onedesk/one_studio/places.py:198
 msgid "A document is opened in OneIntake's inbox."
 msgstr "يُفتح مستند في صندوق OneIntake."
 
@@ -529,7 +537,7 @@ msgstr "حقل من هذا السجل. يأتي القسم في آخر تبوي�
 msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
 msgstr "يذكر الحقل فقط تسميته ونوعه وخياراته وما إذا كان مطلوباً وما إذا كان في القائمة."
 
-#: onedesk/one_studio/places.py:173
+#: onedesk/one_studio/places.py:184
 msgid "A file is chosen in OneCloud and its preview is shown."
 msgstr "يُختار ملف في OneCloud وتظهر معاينته."
 
@@ -806,47 +814,51 @@ msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظ�
 msgid "A print format needs a name."
 msgstr "يحتاج تنسيق الطباعة إلى اسم."
 
-#: onedesk/one_studio/places.py:331
+#: frontend/src/plant/PlantFloor.vue:122
+msgid "A problem or maintenance"
+msgstr "عطل أو صيانة"
+
+#: onedesk/one_studio/places.py:342
 msgid "A project template's page is opened, and each time the template changes."
 msgstr "عند فتح صفحة قالب مشروع، وكلما تغيّر القالب."
 
-#: onedesk/one_studio/places.py:292
+#: onedesk/one_studio/places.py:303
 msgid "A project's Activity view is opened, and each time it shows more."
 msgstr "عند فتح عرض النشاط لمشروع، وفي كل مرة يعرض المزيد."
 
-#: onedesk/one_studio/places.py:287
+#: onedesk/one_studio/places.py:298
 msgid "A project's Files view is opened, and each time its files change."
 msgstr "عند فتح عرض الملفات لمشروع، وفي كل مرة تتغير ملفاته."
 
-#: onedesk/one_studio/places.py:265
+#: onedesk/one_studio/places.py:276
 msgid "A project's Invoices view is opened, and each time its invoices change."
 msgstr "عند فتح عرض الفواتير لمشروع، وفي كل مرة تتغير فواتيره."
 
-#: onedesk/one_studio/places.py:256
+#: onedesk/one_studio/places.py:267
 msgid "A project's Money view is opened, and each time its figures change."
 msgstr "عند فتح عرض المال لمشروع، وفي كل مرة تتغير أرقامه."
 
-#: onedesk/one_studio/places.py:234
+#: onedesk/one_studio/places.py:245
 msgid "A project's Overview is opened, and each time its figures change."
 msgstr "عند فتح نظرة عامة على مشروع، وفي كل مرة تتغير أرقامه."
 
-#: onedesk/one_studio/places.py:274
+#: onedesk/one_studio/places.py:285
 msgid "A project's Suppliers view is opened, and each time what it buys changes."
 msgstr "عند فتح عرض الموردين لمشروع، وفي كل مرة تتغير مشترياته."
 
-#: onedesk/one_studio/places.py:243
+#: onedesk/one_studio/places.py:254
 msgid "A project's Tasks are opened as a table, a board or a timeline, and each time they change."
 msgstr "عند فتح مهام مشروع كجدول أو لوحة أو مخطط زمني، وفي كل مرة تتغير."
 
-#: onedesk/one_studio/places.py:282
+#: onedesk/one_studio/places.py:293
 msgid "A project's Team view is opened, and each time its team changes."
 msgstr "عند فتح عرض الفريق لمشروع، وفي كل مرة يتغير فريقه."
 
-#: onedesk/one_studio/places.py:248
+#: onedesk/one_studio/places.py:259
 msgid "A project's Time view is opened, and each time its hours change."
 msgstr "عند فتح عرض الوقت لمشروع، وفي كل مرة تتغير ساعاته."
 
-#: onedesk/one_studio/places.py:224
+#: onedesk/one_studio/places.py:235
 msgid "A project's page is opened, and each time the project changes."
 msgstr "تُفتح صفحة المشروع، وفي كل مرة يتغير فيها المشروع."
 
@@ -981,7 +993,7 @@ msgstr "تغطي الورقة {0} يوماً على الأكثر."
 msgid "A signup from the public sign-up page."
 msgstr "تسجيل من صفحة التسجيل العامة."
 
-#: onedesk/one_studio/places.py:213
+#: onedesk/one_studio/places.py:224
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr "تُفتح الصفحة الرئيسية لمساحة: One وOneCRM وOneHR وOneBook وكل مساحة أخرى."
 
@@ -1632,6 +1644,10 @@ msgstr "إضافة سلسلة"
 msgid "Add Step"
 msgstr "إضافة خطوة"
 
+#: frontend/src/plant/PlantFloor.vue:141 onedesk/public/js/plant_actions.js:70
+msgid "Add Stock"
+msgstr "إضافة مخزون"
+
 #: frontend/src/project/Overview.vue:122
 msgid "Add Sub-project"
 msgstr "إضافة مشروع فرعي"
@@ -2196,6 +2212,10 @@ msgstr "كل المهام"
 msgid "All Time"
 msgstr "الإجمالي"
 
+#: frontend/src/plant/PlantFloor.vue:109
+msgid "All Types"
+msgstr "كل الأنواع"
+
 #: frontend/src/stock/StockOnHand.vue:111
 msgid "All Warehouses"
 msgstr "كل المستودعات"
@@ -2522,7 +2542,7 @@ msgstr "الموظف هو الشخص صاحب الحساب: دوره وقسمه 
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له سجل انصراف عند نهاية المناوبة، ويُعلَّم بأنه أُغلق تلقائياً."
 
-#: onedesk/one_studio/places.py:342
+#: onedesk/one_studio/places.py:353
 msgid "An event's card is opened in OneCalendar."
 msgstr "تُفتح بطاقة حدث في OneCalendar."
 
@@ -2652,6 +2672,10 @@ msgstr "يجيب من سجلاتك"
 #: onedesk/public/js/settings.js:2085
 msgid "Any"
 msgstr "أي"
+
+#: frontend/src/plant/PlantFloor.vue:110
+msgid "Any Status"
+msgstr "أي حالة"
 
 #: onedesk/one/ai.py:273
 msgid "Any odd sign-ins?"
@@ -3148,7 +3172,7 @@ msgstr "اسألني عمّا يحتاجونه، أو عن مساحة العمل
 msgid "Ask next round"
 msgstr "اسأل في الجولة التالية"
 
-#: onedesk/one_inventory/ai.py:143
+#: onedesk/one_inventory/ai.py:145
 msgid "Ask suppliers for prices"
 msgstr "اطلب الأسعار من الموردين"
 
@@ -4871,6 +4895,14 @@ msgstr "تغيير الخطة"
 msgid "Change Request"
 msgstr "طلب تغيير"
 
+#: frontend/src/plant/PlantFloor.vue:43
+msgid "Change Status"
+msgstr "تغيير الحالة"
+
+#: onedesk/public/js/plant_actions.js:24
+msgid "Change Status of {0}"
+msgstr "تغيير حالة {0}"
+
 #: onedesk/one_studio/ai.py:23
 msgid "Change a collection…"
 msgstr "تغيير مجموعة…"
@@ -4883,11 +4915,11 @@ msgstr "تعديل العمل الإضافي"
 msgid "Change this extension so that "
 msgstr "غيّر هذه الإضافة بحيث "
 
-#: onedesk/one_inventory/ai.py:43
+#: onedesk/one_inventory/ai.py:45
 msgid "Change this item: "
 msgstr "غيّر هذا الصنف: "
 
-#: onedesk/one_inventory/ai.py:42
+#: onedesk/one_inventory/ai.py:44
 msgid "Change this item…"
 msgstr "تغيير هذا الصنف…"
 
@@ -5699,11 +5731,11 @@ msgstr "أحداث الشركة"
 msgid "Company, chart of accounts and taxes"
 msgstr "الشركة ودليل الحسابات والضرائب"
 
-#: onedesk/one_inventory/ai.py:150
+#: onedesk/one_inventory/ai.py:152
 msgid "Compare the quotes"
 msgstr "قارن عروض الأسعار"
 
-#: onedesk/one_inventory/ai.py:151
+#: onedesk/one_inventory/ai.py:153
 msgid "Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."
 msgstr "قارن عروض الأسعار التي أرسلها الموردون لهذا الطلب، بندًا بندًا، وقل من الأرخص في كل بند."
 
@@ -6373,8 +6405,9 @@ msgstr "شمول العطل أيضاً"
 #: onedesk/public/js/doctype_settings.js:554
 #: onedesk/public/js/doctype_settings.js:889 onedesk/public/js/onecloud.js:1494
 #: onedesk/public/js/onecloud.js:1818 onedesk/public/js/opportunity.js:18
-#: onedesk/public/js/opportunity.js:19 onedesk/public/js/progress.js:35
-#: onedesk/public/js/progress.js:89 onedesk/public/js/project_actions.js:44
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/plant_actions.js:71
+#: onedesk/public/js/progress.js:35 onedesk/public/js/progress.js:89
+#: onedesk/public/js/project_actions.js:44
 #: onedesk/public/js/project_actions.js:142
 #: onedesk/public/js/project_actions.js:563 onedesk/public/js/settings.js:1114
 #: onedesk/public/js/settings.js:1220 onedesk/public/js/settings.js:2218
@@ -7338,7 +7371,7 @@ msgstr "التسليم بحلول"
 msgid "Deliver To"
 msgstr "التسليم إلى"
 
-#: onedesk/one_inventory/ai.py:112
+#: onedesk/one_inventory/ai.py:114
 msgid "Deliver this order"
 msgstr "سلّم هذا الأمر"
 
@@ -7899,7 +7932,7 @@ msgstr "مسودة"
 msgid "Draft Invoices"
 msgstr "فواتير مسودة"
 
-#: onedesk/one_inventory/ai.py:113
+#: onedesk/one_inventory/ai.py:115
 msgid "Draft a delivery for what is still to go out on this order."
 msgstr "جهّز مسودة تسليم لما تبقى من هذا الأمر."
 
@@ -7915,7 +7948,7 @@ msgstr "صِغ وظيفة شاغرة من هذا الطلب — عنوانها �
 msgid "Draft a project template for a kind of job we do. Ask me first what the job is, then offer a template we have or one from the library before drafting a new one."
 msgstr "صُغ قالب مشروع لنوع من الأعمال التي نقوم بها. اسألني أولًا عن نوع العمل، ثم اعرض قالبًا لدينا أو قالبًا من المكتبة قبل صياغة قالب جديد."
 
-#: onedesk/one_inventory/ai.py:89
+#: onedesk/one_inventory/ai.py:91
 msgid "Draft a receipt for what is still to come on this order."
 msgstr "جهّز مسودة استلام لما تبقى من هذا الأمر."
 
@@ -7927,7 +7960,7 @@ msgstr "اكتب مسودة رد"
 msgid "Draft a reply to this conversation that says: "
 msgstr "اكتب مسودة ردّ على هذه المحادثة تقول: "
 
-#: onedesk/one_inventory/ai.py:144
+#: onedesk/one_inventory/ai.py:146
 msgid "Draft a request for quotation for this material request, to the suppliers who sold us these items before."
 msgstr "صِغ طلب عرض أسعار لطلب المواد هذا، إلى الموردين الذين باعونا هذه الأصناف من قبل."
 
@@ -7943,11 +7976,11 @@ msgstr "اكتب مسودة رسالة متابعة قصيرة لهم من سج�
 msgid "Draft a template"
 msgstr "صياغة قالب"
 
-#: onedesk/one_inventory/ai.py:129
+#: onedesk/one_inventory/ai.py:131
 msgid "Draft a transfer of stock from the stores to a site or another warehouse."
 msgstr "صُغ مسودة نقل مخزون من المخازن إلى موقع أو مستودع آخر."
 
-#: onedesk/one_inventory/ai.py:185
+#: onedesk/one_inventory/ai.py:193
 msgid "Draft a work order to make ten of this, with its own bill of materials."
 msgstr "صغ أمر عمل لصنع عشرة من هذا، بقائمة المواد الخاصة به."
 
@@ -8322,6 +8355,10 @@ msgstr ""
 #: onedesk/public/js/settings.js:782
 msgid "Edit Memory"
 msgstr "تعديل الذكرى"
+
+#: frontend/src/plant/PlantFloor.vue:156
+msgid "Edit Plant Floor"
+msgstr "تعديل أرضية الإنتاج"
 
 #: onedesk/public/js/doctype_settings.js:1081
 msgid "Edit Rule"
@@ -10898,11 +10935,11 @@ msgstr "تسليم إلى شخص آخر"
 msgid "Hand To…"
 msgstr "تسليم إلى…"
 
-#: onedesk/one_inventory/ai.py:209
+#: onedesk/one_inventory/ai.py:217
 msgid "Hand this asset to "
 msgstr "سلّم هذا الأصل إلى "
 
-#: onedesk/one_inventory/ai.py:208
+#: onedesk/one_inventory/ai.py:216
 msgid "Hand this to somebody…"
 msgstr "سلّمه لشخص ما…"
 
@@ -11251,6 +11288,10 @@ msgstr "كيف يقرأ OneAI ما يصل إلى مساحة العمل هذه."
 msgid "How OneAI works, which models run, and what happens to what you send it."
 msgstr "كيف يعمل OneAI، وأي النماذج تعمل، وماذا يحدث لما ترسله إليه."
 
+#: onedesk/one_inventory/ai.py:180
+msgid "How are the workstations doing?"
+msgstr "كيف حال محطات العمل؟"
+
 #: onedesk/one/ai.py:253
 msgid "How did the webhooks' calls go this week, and why did any give up?"
 msgstr "كيف سارت استدعاءات الويب هوكس هذا الأسبوع، ولماذا توقف أي منها؟"
@@ -11307,11 +11348,11 @@ msgstr "كيف يعمل البريد هنا؟"
 msgid "How does this page work?"
 msgstr "كيف تعمل هذه الصفحة؟"
 
-#: onedesk/one_inventory/ai.py:178
+#: onedesk/one_inventory/ai.py:186
 msgid "How far along is it?"
 msgstr "إلى أين وصل؟"
 
-#: onedesk/one_inventory/ai.py:179
+#: onedesk/one_inventory/ai.py:187
 msgid "How far along is this work order, step by step, and is everything it needs in the stores?"
 msgstr "إلى أين وصل أمر العمل هذا، خطوة بخطوة، وهل كل ما يحتاجه موجود في المخازن؟"
 
@@ -11321,19 +11362,19 @@ msgstr "إلى أين وصل أمر العمل هذا، خطوة بخطوة، و
 msgid "How good the browser said the position was."
 msgstr "مدى دقة الموقع بحسب ما أفاد به المتصفح."
 
-#: onedesk/one_inventory/ai.py:192
+#: onedesk/one_inventory/ai.py:200
 msgid "How is this asset doing?"
 msgstr "كيف حال هذا الأصل؟"
 
-#: onedesk/one_inventory/ai.py:193
+#: onedesk/one_inventory/ai.py:201
 msgid "How is this asset doing? Say who has it and where, what it is worth, its next service and whether it is late, and its repairs."
 msgstr "كيف حال هذا الأصل؟ قل من يحمله وأين، وكم يساوي، وموعد صيانته القادمة وهل تأخرت، وإصلاحاته."
 
-#: onedesk/one_inventory/ai.py:21
+#: onedesk/one_inventory/ai.py:23
 msgid "How is this item doing?"
 msgstr "كيف حال هذا الصنف؟"
 
-#: onedesk/one_inventory/ai.py:22
+#: onedesk/one_inventory/ai.py:24
 msgid "How is this item doing? Say how much is on hand and free to sell, whether it is low anywhere, what is on order or being made, and what it last cost."
 msgstr "كيف حال هذا الصنف؟ قل كم في المخزون وكم متاح للبيع، وهل هو منخفض في أي مكان، وما المطلوب أو قيد التصنيع، وكم كانت آخر تكلفة له."
 
@@ -12503,7 +12544,8 @@ msgstr "سيؤدي ذلك إلى استبدال {0}."
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/progress.js:82 onedesk/public/js/project_actions.js:124
+#: onedesk/public/js/plant_actions.js:35 onedesk/public/js/progress.js:82
+#: onedesk/public/js/project_actions.js:124
 #: onedesk/public/js/project_actions.js:555 onedesk/www/order.html:56
 #: onedesk/www/rfq.html:50
 msgid "Item"
@@ -14319,7 +14361,7 @@ msgstr "إنشاء مجموعة…"
 msgid "Make a rule"
 msgstr "أنشئ قاعدة"
 
-#: onedesk/one_inventory/ai.py:184
+#: onedesk/one_inventory/ai.py:192
 msgid "Make a work order"
 msgstr "أنشئ أمر عمل"
 
@@ -14366,7 +14408,7 @@ msgid "Makes"
 msgstr "يصنع"
 
 #. Label of a Sidebar Item
-#: frontend/src/item/ItemPage.vue:177
+#: frontend/src/item/ItemPage.vue:177 frontend/src/plant/PlantFloor.vue:121
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/item_actions.js:18
 msgid "Making"
@@ -15022,7 +15064,8 @@ msgid "Move Materials"
 msgstr "نقل المواد"
 
 #: frontend/src/item/ItemPage.vue:302 frontend/src/item/ItemPlaces.vue:79
-#: frontend/src/stock/StockOnHand.vue:142
+#: frontend/src/plant/PlantFloor.vue:142 frontend/src/stock/StockOnHand.vue:142
+#: onedesk/public/js/plant_actions.js:70
 msgid "Move Stock"
 msgstr "نقل المخزون"
 
@@ -15516,6 +15559,10 @@ msgstr "كلمة المرور الجديدة"
 #: onedesk/public/js/settings.js:1849
 msgid "New Plan"
 msgstr "الخطة الجديدة"
+
+#: frontend/src/plant/PlantFloor.vue:10 frontend/src/plant/PlantFloor.vue:154
+msgid "New Plant Floor"
+msgstr "أرضية إنتاج جديدة"
 
 #: onedesk/public/js/doctype_settings.js:877
 msgid "New Print Format"
@@ -16196,6 +16243,10 @@ msgstr "لا توجد خطة مناسبة"
 msgid "No plan is on offer at the moment."
 msgstr "لا توجد خطة معروضة حالياً."
 
+#: frontend/src/plant/PlantFloor.vue:9
+msgid "No plant floors yet"
+msgstr "لا توجد أرضيات إنتاج بعد"
+
 #: onedesk/one_hr/rules.py:27
 msgid "No position was sent."
 msgstr "لم يُرسَل أي موقع."
@@ -16371,6 +16422,14 @@ msgstr "لم تستدعه أي مساحة عمل هذا الشهر."
 #: onedesk/one_admin/heads.py:483
 msgid "No workspace has this yet."
 msgstr "لا توجد مساحة عمل لديها هذا بعد."
+
+#: frontend/src/plant/PlantFloor.vue:23
+msgid "No workstations match"
+msgstr "لا توجد محطات عمل مطابقة"
+
+#: frontend/src/plant/PlantFloor.vue:23
+msgid "No workstations on this floor"
+msgstr "لا توجد محطات عمل في هذه الأرضية"
 
 #: onedesk/one_book/ready.py:206
 msgid "No year has ended with entries left open."
@@ -16819,6 +16878,10 @@ msgstr "لا شيء هنا بعد"
 msgid "Nothing is spent and no attendance is marked."
 msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 
+#: frontend/src/plant/PlantFloor.vue:50
+msgid "Nothing kept here"
+msgstr "لا شيء محفوظ هنا"
+
 #: onedesk/one_inventory/ready.py:92
 msgid "Nothing leaves a warehouse that does not have it."
 msgstr "لا يخرج من المستودع ما ليس فيه."
@@ -16842,6 +16905,10 @@ msgstr "لا شيء في المصنع"
 #: frontend/src/project/Suppliers.vue:142
 msgid "Nothing requested or received"
 msgstr "لم يُطلب أو يُستلم شيء"
+
+#: frontend/src/plant/PlantFloor.vue:39
+msgid "Nothing running"
+msgstr "لا شيء قيد التشغيل"
 
 #: onedesk/public/js/onecloud.js:402
 msgid "Nothing shared with you"
@@ -18226,6 +18293,10 @@ msgstr "أوامر العمل المفتوحة"
 #: onedesk/public/js/account_request.js:10
 msgid "Open Workspace"
 msgstr "افتح مساحة العمل"
+
+#: frontend/src/plant/PlantFloor.vue:44
+msgid "Open Workstation"
+msgstr "فتح محطة العمل"
 
 #: onedesk/public/js/onecloud.js:1927
 msgid "Open file location"
@@ -19903,6 +19974,22 @@ msgstr "مخططات التخطيط والبيانات"
 msgid "Plans, sections and elevations"
 msgstr "المساقط والقطاعات والواجهات"
 
+#. Label of a Sidebar Item
+#: frontend/src/plant/PlantFloor.vue:150
+#: onedesk/one_inventory/page/plant/plant.js:10
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Plant Floor"
+msgstr "أرضية الإنتاج"
+
+#: onedesk/one_studio/places.py:173
+msgid "Plant Floor is opened, and each time a workstation's status or a step on it changes."
+msgstr "عند فتح أرضية الإنتاج، وكلما تغيّرت حالة محطة عمل أو خطوة عليها."
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Plant Floors"
+msgstr "أرضيات الإنتاج"
+
 #. Label of the platform (Data) field in DocType 'Clock Attempt'
 #. Label of the platform (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -20774,13 +20861,14 @@ msgstr "الكميات لكل {0}"
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/item_new.js:140 onedesk/public/js/item_new.js:288
-#: onedesk/public/js/settings.js:1903 onedesk/www/order.html:57
-#: onedesk/www/rfq.html:51 onedesk/www/rfq.html:69 onedesk/www/rfq.html:70
+#: onedesk/public/js/plant_actions.js:36 onedesk/public/js/settings.js:1903
+#: onedesk/www/order.html:57 onedesk/www/rfq.html:51 onedesk/www/rfq.html:69
+#: onedesk/www/rfq.html:70
 msgid "Quantity"
 msgstr "الكمية"
 
 #: onedesk/public/js/floor_actions.js:78 onedesk/public/js/floor_actions.js:92
-#: onedesk/public/js/item_actions.js:161
+#: onedesk/public/js/item_actions.js:161 onedesk/public/js/plant_actions.js:51
 msgid "Quantity must be greater than zero."
 msgstr "يجب أن تكون الكمية أكبر من صفر."
 
@@ -21192,7 +21280,7 @@ msgstr "استلام إلى المخزون"
 msgid "Receive and inspect materials"
 msgstr "استلام المواد وفحصها"
 
-#: onedesk/one_inventory/ai.py:88
+#: onedesk/one_inventory/ai.py:90
 msgid "Receive this order"
 msgstr "استلم هذا الأمر"
 
@@ -22694,6 +22782,7 @@ msgstr "اعتماد العينات ومخططات الورشة"
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/item_actions.js:40
 #: onedesk/public/js/next_step.js:31 onedesk/public/js/onecloud.js:1629
 #: onedesk/public/js/onemail.js:928 onedesk/public/js/onemail.js:952
+#: onedesk/public/js/plant_actions.js:25
 #: onedesk/public/js/project_actions.js:72
 #: onedesk/public/js/project_actions.js:326
 #: onedesk/public/js/project_actions.js:373
@@ -23052,7 +23141,7 @@ msgstr "أرسل الملفات هنا"
 msgid "Send request"
 msgstr "إرسال الطلب"
 
-#: onedesk/one_inventory/ai.py:128
+#: onedesk/one_inventory/ai.py:130
 msgid "Send stock to a site"
 msgstr "أرسل مخزوناً إلى موقع"
 
@@ -23704,7 +23793,7 @@ msgid "Ship to"
 msgstr "الشحن إلى"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:182
+#: frontend/src/floor/ShopFloor.vue:182 frontend/src/plant/PlantFloor.vue:155
 #: onedesk/one_inventory/page/floor/floor.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Shop Floor"
@@ -23746,11 +23835,11 @@ msgstr "قبيل مقابلة أنت فيها، بالمدة التي تحدده
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr "قبيل المقابلة، بالمدة التي تحددها إعدادات الموارد البشرية."
 
-#: onedesk/one_inventory/ai.py:32
+#: onedesk/one_inventory/ai.py:34
 msgid "Should I order more of this item? Say what is on hand and promised, its reorder level, what is already on order, and who it was last bought from and at what price."
 msgstr "هل أطلب المزيد من هذا الصنف؟ قل ما في المخزون وما وُعد به، ومستوى إعادة طلبه، وما هو مطلوب بالفعل، وممن اشتُري آخر مرة وبأي سعر."
 
-#: onedesk/one_inventory/ai.py:31
+#: onedesk/one_inventory/ai.py:33
 msgid "Should I order more?"
 msgstr "هل أطلب المزيد؟"
 
@@ -24471,7 +24560,7 @@ msgstr ""
 msgid "Sources"
 msgstr "المصادر"
 
-#: onedesk/one_studio/places.py:208
+#: onedesk/one_studio/places.py:219
 msgid "Space Home"
 msgstr "الصفحة الرئيسية للمساحة"
 
@@ -24745,7 +24834,8 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Interview Recording'
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
-#: frontend/src/project/Facts.vue:8 frontend/src/project/Invoices.vue:34
+#: frontend/src/plant/PlantFloor.vue:19 frontend/src/project/Facts.vue:8
+#: frontend/src/project/Invoices.vue:34
 #: frontend/src/project/ProjectPage.vue:205
 #: frontend/src/project/Suppliers.vue:94 frontend/src/project/Suppliers.vue:148
 #: frontend/src/project/TaskPanel.vue:8 frontend/src/project/Tasks.vue:20
@@ -24773,7 +24863,8 @@ msgstr ""
 #: onedesk/one_project/ai.py:575
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/settings.js:1755 onedesk/public/js/settings.js:2472
+#: onedesk/public/js/plant_actions.js:14 onedesk/public/js/settings.js:1755
+#: onedesk/public/js/settings.js:2472
 msgid "Status"
 msgstr "الحالة"
 
@@ -24811,6 +24902,10 @@ msgstr "الخطوة {0} من {1}"
 #: onedesk/public/js/settings.js:2057
 msgid "Steps"
 msgstr ""
+
+#: frontend/src/plant/PlantFloor.vue:123
+msgid "Steps Running"
+msgstr "خطوات قيد التشغيل"
 
 #: frontend/src/floor/ShopFloor.vue:174
 msgid "Steps with someone on them"
@@ -24850,6 +24945,10 @@ msgstr "رصيد المخزون"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock Counts"
 msgstr "جرد المخزون"
+
+#: frontend/src/plant/PlantFloor.vue:49
+msgid "Stock Here"
+msgstr "المخزون هنا"
 
 #. Label of a Sidebar Item
 #: frontend/src/item/ItemPage.vue:308 frontend/src/item/ItemStock.vue:14
@@ -25020,9 +25119,10 @@ msgstr "منع مساحات العمل من اختيار هذا النموذج"
 msgid "Stop writing this field"
 msgstr "توقف عن كتابة هذا الحقل"
 
-#: frontend/src/project/TaskPanel.vue:69 frontend/src/task/TaskPage.vue:35
+#: frontend/src/plant/PlantFloor.vue:122 frontend/src/project/TaskPanel.vue:69
+#: frontend/src/task/TaskPage.vue:35
 msgid "Stopped"
-msgstr "متوقف"
+msgstr "متوقفة"
 
 #. Label of the storage_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -26172,7 +26272,7 @@ msgstr "نموذج OneAI الذي جرى عليه الطلب."
 msgid "The Person on the Record"
 msgstr "الشخص المذكور في السجل"
 
-#: onedesk/one_studio/places.py:303
+#: onedesk/one_studio/places.py:314
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr "عند فتح قائمة المشاريع، وفي كل مرة تُعرض من جديد."
 
@@ -26893,7 +26993,7 @@ msgstr "صاحب كلمة المرور"
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
 msgstr "لم يُصدر الهاتف مفتاح المرور إلا بعد بصمة الوجه أو بصمة الإصبع أو رمز PIN."
 
-#: onedesk/one_studio/places.py:201
+#: onedesk/one_studio/places.py:212
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr "تُرسم لوحة المبيعات، وفي كل مرة تتغير فيها قيمة مرحلة."
 
@@ -28092,6 +28192,10 @@ msgstr "للدفع"
 msgid "To Suppliers"
 msgstr "للموردين"
 
+#: onedesk/public/js/plant_actions.js:42
+msgid "To Warehouse"
+msgstr "إلى المستودع"
+
 #: onedesk/one_hr/ai_letters.py:76
 msgid "To Whom It May Concern"
 msgstr "إلى من يهمه الأمر"
@@ -28546,8 +28650,9 @@ msgstr "تسجيل الدخول بخطوتين"
 #. Label of the kind (Data) field in DocType 'Stripe Webhook Event'
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
-#: frontend/src/project/TaskPanel.vue:51 frontend/src/task/TaskPage.vue:270
-#: onedesk/one/portal.py:69 onedesk/one/print_blocks.py:59
+#: frontend/src/plant/PlantFloor.vue:18 frontend/src/project/TaskPanel.vue:51
+#: frontend/src/task/TaskPage.vue:270 onedesk/one/portal.py:69
+#: onedesk/one/print_blocks.py:59
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -29724,11 +29829,11 @@ msgstr "ما يعمل عليه الإجراء المحتاج إلى هذا حي�
 msgid "What an administrator kept out of the copy, and why. The person is told."
 msgstr "ما استبعده مسؤول من النسخة ولماذا. يُبلَّغ الشخص بذلك."
 
-#: onedesk/one_inventory/ai.py:73
+#: onedesk/one_inventory/ai.py:75
 msgid "What came in on this receipt?"
 msgstr "ماذا وصل في هذا الاستلام؟"
 
-#: onedesk/one_inventory/ai.py:74
+#: onedesk/one_inventory/ai.py:76
 msgid "What came in on this receipt? Say what was accepted and rejected and why, what it cost with freight and duty, which order it was for, and whether it is billed."
 msgstr "ماذا وصل في هذا الاستلام؟ اذكر ما قُبل وما رُفض ولماذا، وكم كلّف مع الشحن والرسوم، ولأي أمر شراء كان، وهل فوتر."
 
@@ -29752,19 +29857,19 @@ msgstr "ما الذي تغيّر منذ الشهر الماضي؟"
 msgid "What changed today?"
 msgstr "ما الذي تغيّر اليوم؟"
 
-#: onedesk/one_inventory/ai.py:135
+#: onedesk/one_inventory/ai.py:137
 msgid "What did this count find?"
 msgstr "ماذا وجد هذا الجرد؟"
 
-#: onedesk/one_inventory/ai.py:121
+#: onedesk/one_inventory/ai.py:123
 msgid "What did this movement do?"
 msgstr "ماذا فعلت هذه الحركة؟"
 
-#: onedesk/one_inventory/ai.py:136
+#: onedesk/one_inventory/ai.py:138
 msgid "What did this stock count find? Say what the books held and what was counted, and what it did to the books."
 msgstr "ماذا وجد جرد المخزون هذا؟ اذكر ما كان في الدفاتر وما تم عدّه، وأثره على الدفاتر."
 
-#: onedesk/one_inventory/ai.py:122
+#: onedesk/one_inventory/ai.py:124
 msgid "What did this stock movement do? Say from where to where, for which project, what it was worth and who made it."
 msgstr "ماذا فعلت حركة المخزون هذه؟ اذكر من أين إلى أين، ولأي مشروع، وكم كانت قيمتها ومن أنشأها."
 
@@ -29788,7 +29893,7 @@ msgstr "ماذا تعرف عني؟ قل ما تتذكره من محادثاتن�
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
 msgstr "ماذا تقول سياسة الإجازات لدينا — كم يومًا أحصل عليه من كل نوع، وما الذي يُرحّل، وما أيام العطل؟"
 
-#: onedesk/one_inventory/ai.py:66
+#: onedesk/one_inventory/ai.py:68
 msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
 msgstr "ماذا يحوي هذا المستودع، وكم قيمته، وما المنخفض أو الناقص فيه؟"
 
@@ -29854,31 +29959,31 @@ msgstr "ما في هذا الأسبوع؟"
 msgid "What is our leave policy?"
 msgstr "ما سياسة الإجازات لدينا؟"
 
-#: onedesk/one_inventory/ai.py:50
+#: onedesk/one_inventory/ai.py:52
 msgid "What is running low?"
 msgstr "ما الذي ينفد؟"
 
-#: onedesk/one_inventory/ai.py:172
+#: onedesk/one_inventory/ai.py:174
 msgid "What is running on the floor?"
 msgstr "ما الذي يعمل في المصنع الآن؟"
 
-#: onedesk/one_inventory/ai.py:58
+#: onedesk/one_inventory/ai.py:60
 msgid "What is short?"
 msgstr "ما الناقص؟"
 
-#: onedesk/one_inventory/ai.py:84
+#: onedesk/one_inventory/ai.py:86
 msgid "What is still to arrive from suppliers, what is late, and from whom?"
 msgstr "ما الذي لم يصل بعد من الموردين، وما المتأخر، ومن أي مورد؟"
 
-#: onedesk/one_inventory/ai.py:83
+#: onedesk/one_inventory/ai.py:85
 msgid "What is still to arrive?"
 msgstr "ما الذي لم يصل بعد؟"
 
-#: onedesk/one_inventory/ai.py:108
+#: onedesk/one_inventory/ai.py:110
 msgid "What is still to deliver to customers, what is late, and is the stock there for it?"
 msgstr "ما الذي لم يُسلَّم للعملاء بعد، وما المتأخر، وهل المخزون متوفر له؟"
 
-#: onedesk/one_inventory/ai.py:107
+#: onedesk/one_inventory/ai.py:109
 msgid "What is still to deliver?"
 msgstr "ما الذي لم يُسلَّم بعد؟"
 
@@ -29894,7 +29999,7 @@ msgstr "ما الذي يشغل المساحة؟"
 msgid "What is the list I have open used for, on which records, and who may change it?"
 msgstr "فيمَ تُستخدم القائمة المفتوحة، وفي أي سجلات، ومن يمكنه تغييرها؟"
 
-#: onedesk/one_inventory/ai.py:166
+#: onedesk/one_inventory/ai.py:168
 msgid "What is the workshop making?"
 msgstr "ماذا تصنع الورشة؟"
 
@@ -29902,7 +30007,7 @@ msgstr "ماذا تصنع الورشة؟"
 msgid "What is this list for?"
 msgstr "ما فائدة هذه القائمة؟"
 
-#: onedesk/one_inventory/ai.py:65
+#: onedesk/one_inventory/ai.py:67
 msgid "What is this warehouse worth?"
 msgstr "كم قيمة هذا المستودع؟"
 
@@ -30191,11 +30296,11 @@ msgstr "ما قيل عن {project} في {date}"
 msgid "What we do with personal data: yours, and the personal data your organisation puts into One."
 msgstr "ما نفعله بالبيانات الشخصية: بياناتك، والبيانات الشخصية التي تضعها مؤسستك في One."
 
-#: onedesk/one_inventory/ai.py:97
+#: onedesk/one_inventory/ai.py:99
 msgid "What went out on this delivery?"
 msgstr "ماذا خرج في هذا التسليم؟"
 
-#: onedesk/one_inventory/ai.py:98
+#: onedesk/one_inventory/ai.py:100
 msgid "What went out on this delivery? Say which order it was for, what it was worth, how it was packed, which trip takes it and who drives, and whether it is billed."
 msgstr "ماذا خرج في هذا التسليم؟ اذكر لأي أمر كان، وكم قيمته، وكيف عُبّئ، وأي رحلة تأخذه ومن يقود، وهل فوتر."
 
@@ -31246,11 +31351,11 @@ msgstr "ما النماذج التي غيّرتها مساحة العمل، وك
 msgid "Which forms have we changed?"
 msgstr "ما النماذج التي غيّرناها؟"
 
-#: onedesk/one_inventory/ai.py:51
+#: onedesk/one_inventory/ai.py:53
 msgid "Which items are at or below their reorder level, where, and what is already on order for them."
 msgstr "أي الأصناف عند مستوى إعادة الطلب أو دونه، وأين، وما المطلوب لها بالفعل."
 
-#: onedesk/one_inventory/ai.py:59
+#: onedesk/one_inventory/ai.py:61
 msgid "Which items have more promised to customers than is on hand, by how much, and what is on order for them."
 msgstr "أي الأصناف وُعد العملاء منها بأكثر من المتوفر، وبكم، وما المطلوب منها في أوامر الشراء."
 
@@ -31298,7 +31403,7 @@ msgstr "أي العملاء المحتملين المفتوحين ينتظرون
 msgid "Which open projects need attention: marked at risk or off track, with late tasks, past their end date, or over their estimated cost?"
 msgstr "أي المشاريع المفتوحة تحتاج إلى انتباه: مصنّفة معرّضة للخطر أو خارج المسار، أو فيها مهام متأخرة، أو تجاوزت تاريخ نهايتها أو تكلفتها المقدّرة؟"
 
-#: onedesk/one_inventory/ai.py:159
+#: onedesk/one_inventory/ai.py:161
 msgid "Which orders are late?"
 msgstr "أي أوامر الشراء متأخرة؟"
 
@@ -31329,7 +31434,7 @@ msgstr "بأي تنسيق طباعة تُطبع فواتير المبيعات، 
 msgid "Which projects need attention?"
 msgstr "أي المشاريع تحتاج إلى انتباه؟"
 
-#: onedesk/one_inventory/ai.py:160
+#: onedesk/one_inventory/ai.py:162
 msgid "Which purchase orders are late, from whom, since when, and what is still to come on each?"
 msgstr "أي أوامر الشراء متأخرة، ومن أي مورد، ومنذ متى، وما الذي لم يصل بعد في كل منها؟"
 
@@ -31341,11 +31446,11 @@ msgstr "ما التقارير التي تُرسل بالبريد، وكم مرة
 msgid "Which reports go out by mail?"
 msgstr "ما التقارير التي تُرسل بالبريد؟"
 
-#: onedesk/one_inventory/ai.py:202
+#: onedesk/one_inventory/ai.py:210
 msgid "Which services are due?"
 msgstr "ما الصيانات المستحقة؟"
 
-#: onedesk/one_inventory/ai.py:203
+#: onedesk/one_inventory/ai.py:211
 msgid "Which services on our equipment are late or due in the next month, and who does each?"
 msgstr "ما الصيانات المتأخرة أو المستحقة على معداتنا خلال الشهر القادم، ومن يقوم بكل منها؟"
 
@@ -31353,7 +31458,7 @@ msgstr "ما الصيانات المتأخرة أو المستحقة على مع
 msgid "Which should be emailed?"
 msgstr "أيها يجب إرساله بالبريد؟"
 
-#: onedesk/one_inventory/ai.py:173
+#: onedesk/one_inventory/ai.py:175
 msgid "Which steps is someone on now, for how long, which are paused, and which are short of materials?"
 msgstr "ما الخطوات التي يعمل عليها أحد الآن، ومنذ متى، وأيها متوقفة مؤقتاً، وأيها ينقصها مواد؟"
 
@@ -31361,13 +31466,17 @@ msgstr "ما الخطوات التي يعمل عليها أحد الآن، وم�
 msgid "Which webhook calls gave up this week, and what did the other system answer?"
 msgstr "أي استدعاءات ويب هوك توقفت هذا الأسبوع، وبماذا ردّ النظام الآخر؟"
 
-#: onedesk/one_inventory/ai.py:167
+#: onedesk/one_inventory/ai.py:169
 msgid "Which work orders are open, for what, how far along, and which are late?"
 msgstr "أي أوامر العمل مفتوحة، ولأي غرض، وإلى أين وصلت، وأيها متأخر؟"
 
 #: onedesk/one_admin/ai.py:62
 msgid "Which workspaces have this, how many are live, and what do they pay?"
 msgstr "ما مساحات العمل التي لديها هذا، وكم منها نشط، وكم تدفع؟"
+
+#: onedesk/one_inventory/ai.py:181
+msgid "Which workstations are making, which are stopped and why, and what is running on each?"
+msgstr "ما محطات العمل التي تُنتج، وأيها متوقفة ولماذا، وما الذي يعمل على كل منها؟"
 
 #. Label of the user (Link) field in DocType 'Legal Acceptance'
 #: onedesk/one/automation_steps.py:29
@@ -31925,7 +32034,7 @@ msgstr "العمل في يوم عطلة"
 msgid "Workload"
 msgstr "عبء العمل"
 
-#: onedesk/one_studio/places.py:317
+#: onedesk/one_studio/places.py:328
 msgid "Workload is opened, and each time it is drawn again."
 msgstr "عند فتح عبء العمل، وفي كل مرة يُعرض من جديد."
 
@@ -32150,7 +32259,8 @@ msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must 
 msgstr "تحصل مساحات العمل على عناوين بريدها هنا، مثل m.4dl.app. يجب أن يكون في منطقة نطاق مساحة العمل نفسها."
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:189
+#: frontend/src/floor/ShopFloor.vue:189 frontend/src/plant/PlantFloor.vue:120
+#: frontend/src/plant/PlantFloor.vue:157
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Workstations"
 msgstr "محطات العمل"
@@ -34425,7 +34535,7 @@ msgstr "يوجد هنا بالفعل {0} ملفات بهذه الأسماء"
 msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} يملأ حقلًا في سجل، لذا يجب أن يكون الطلب من سجل."
 
-#: frontend/src/floor/FloorSteps.vue:18
+#: frontend/src/floor/FloorSteps.vue:18 frontend/src/plant/PlantFloor.vue:36
 msgid "{0} for {1}"
 msgstr "{0} لـ {1}"
 
@@ -35124,6 +35234,10 @@ msgstr "{0} أصناف لها حد إعادة طلب، لكن لا يُطلب ش
 msgid "{0} items selected"
 msgstr "{0} عناصر محددة"
 
+#: frontend/src/plant/PlantFloor.vue:136
+msgid "{0} kept for making"
+msgstr "{0} محجوزة للتصنيع"
+
 #: frontend/src/project/Team.vue:45
 msgid "{0} late"
 msgstr "{0} متأخرة"
@@ -35568,6 +35682,10 @@ msgstr "{0} مصروف"
 msgid "{0} starts on {1}"
 msgstr "تبدأ {0} في {1}"
 
+#: frontend/src/plant/PlantFloor.vue:40
+msgid "{0} steps waiting"
+msgstr "{0} خطوات بالانتظار"
+
 #: onedesk/one_project/status.py:63 onedesk/one_project/status.py:95
 msgid "{0} still has open work."
 msgstr "لا يزال في {0} عمل مفتوح."
@@ -35760,6 +35878,10 @@ msgstr "استدعته {0} مساحات عمل هذا الشهر، {1} مرة."
 #: onedesk/one_admin/heads.py:487
 msgid "{0} workspaces have this"
 msgstr "{0} مساحات عمل لديها هذا"
+
+#: frontend/src/plant/PlantFloor.vue:114
+msgid "{0} workstations"
+msgstr "{0} محطات عمل"
 
 #: onedesk/one_intake/understand.py:390
 msgid "{0} years"

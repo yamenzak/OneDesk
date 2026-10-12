@@ -508,6 +508,7 @@ No doctypes yet.
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.parts.add`
 * `onedesk.one_inventory.parts.read`
+* `onedesk.one_inventory.plant.read`
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.stock.on_hand`
 * `onedesk.one_inventory.view.files`
