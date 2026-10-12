@@ -303,10 +303,26 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 			{
 				"supplier": one["supplier"],
 				"last_rate": one["rate"],
+				"currency": one["currency"],
+				"rate_before": one["before"],
 				"last_ordered": str(one["last"]) if one["last"] else None,
+				"part_no": one["part_no"],
+				"agreed": {"rate": one["agreed"]["rate"], "left": one["agreed"]["left"]} if one["agreed"] else None,
 				"default": one["default"],
 			}
 			for one in buying.get("suppliers") or []
+		],
+		"open_quotes": [
+			{
+				"quote": one.name,
+				"supplier": one.supplier,
+				"rate": one.rate,
+				"currency": one.currency,
+				"unit": one.uom,
+				"valid_till": str(one.valid_till) if one.valid_till else None,
+				"cheapest": one.cheapest,
+			}
+			for one in buying.get("quotes") or []
 		],
 		"purchase_orders": [_order(one) for one in buying.get("orders") or []],
 		"sales_orders": [_order(one) for one in selling.get("orders") or []],
@@ -1159,7 +1175,7 @@ def plan_item_change(
 
 
 def _last(last) -> dict | None:
-	return {"rate": last.rate, "supplier": last.supplier, "on": str(last.on_date)} if last else None
+	return {"rate": last.rate, "supplier": last.supplier, "on": str(last.on_date), "kind": last.kind} if last else None
 
 
 def _order(one) -> dict:

@@ -248,7 +248,7 @@ const figures = computed(() => {
     list.push({ title: __("Assets"), value: String(s.assets.length), note: drafts ? __("{0} not yet registered", [drafts]) : "", route: `/desk/asset?item_code=${encodeURIComponent(s.name)}` });
   }
   if (s.last_made) list.push({ title: __("Last Made"), value: quantity(s.last_made.qty, uom.value), note: date(s.last_made.posting_date) });
-  else if (s.last_bought) list.push({ title: __("Last Bought"), value: money(s.last_bought.rate, s.currency), note: __("{0}, from {1}", [date(s.last_bought.on_date), s.last_bought.supplier]), sparkline: trend.prices?.length > 1 ? traced(trend.prices, "line") : undefined });
+  else if (s.last_bought) list.push({ title: s.last_bought.kind === "received" ? __("Last Received") : __("Last Ordered"), value: money(s.last_bought.rate, s.currency), note: __("{0}, from {1}", [date(s.last_bought.on_date), s.last_bought.supplier]), sparkline: trend.prices?.length > 1 ? traced(trend.prices, "line") : undefined });
   const price = s.selling?.prices?.find((one) => !one.customer);
   if (!s.stock && price) list.push({ title: __("Selling Price"), value: money(price.price_list_rate, price.currency), note: price.price_list });
   if (!s.stock && s.selling?.customers?.length) {

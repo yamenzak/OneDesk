@@ -87,6 +87,12 @@ onedesk.item.start = (doctype, item, values = {}, line = {}, table = "items", fi
 	frappe.model.with_doctype(doctype, () => {
 		const doc = frappe.model.get_new_doc(doctype);
 		Object.assign(doc, values);
+		// A table among the values gets its rows as the form adds them.
+		for (const [fieldname, rows] of Object.entries(values)) {
+			if (!Array.isArray(rows)) continue;
+			doc[fieldname] = [];
+			rows.forEach((one) => Object.assign(frappe.model.add_child(doc, fieldname), one));
+		}
 		const row = frappe.model.add_child(doc, table);
 		Object.assign(row, { [field]: item, ...line });
 		const ready = (_event, frm) => {
@@ -100,7 +106,15 @@ onedesk.item.start = (doctype, item, values = {}, line = {}, table = "items", fi
 };
 
 // What the item page's head starts, each a document of ERPNext's own.
-onedesk.item.order = (item) => onedesk.item.start("Purchase Order", item);
+onedesk.item.order = (item, supplier) => onedesk.item.start("Purchase Order", item, supplier ? { supplier } : {});
+// A request for a quote, to the supplier when there is one.
+onedesk.item.ask = (item, supplier) =>
+	onedesk.item.start("Request for Quotation", item, supplier ? { suppliers: [{ supplier }] } : {});
+// A document made from another as its own form's button makes it, with
+// ERPNext's mapper (an order received, a request ordered, a quote ordered).
+// `triggers` re-runs the new form's link triggers, where ERPNext's own button does.
+onedesk.item.mapped = (method, source_name, args, triggers = false) =>
+	frappe.model.open_mapped_doc({ method, source_name, args, run_link_triggers: triggers });
 onedesk.item.request = (item) => onedesk.item.start("Material Request", item, { material_request_type: "Purchase" });
 // From a warehouse's row, the move starts from it and the count is of it.
 onedesk.item.move = (item, warehouse) =>

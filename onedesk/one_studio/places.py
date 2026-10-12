@@ -113,12 +113,12 @@ PLACES = {
 			},
 			"stock": {
 				"about": _lt("An item's Stock view is opened, and each time its stock changes."),
-				"gives": "item.name, item.item_name, stock.places (how many warehouses), stock.low_in (warehouses), stock.moves (how many shown)",
+				"gives": "item.name, item.item_name, stock.places (how many warehouses), stock.low_in (warehouses by name), stock.moves (how many shown)",
 				"may": ("note", "action"),
 			},
 			"buying": {
 				"about": _lt("An item's Buying view is opened."),
-				"gives": "item.name, item.item_name, buying.suppliers (names), buying.orders (how many open), buying.late (how many late)",
+				"gives": "item.name, item.item_name, buying.suppliers (names), buying.orders (how many open), buying.late (how many late), buying.quotes (how many open)",
 				"may": ("note", "action"),
 			},
 			"selling": {

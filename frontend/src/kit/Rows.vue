@@ -3,12 +3,13 @@
        a badge after the name (a label, or `{ label, theme }`), a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
        aside then goes under the name; with
        `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
-       value on the right; it may carry a
+       value on the right (with a quieter `under` it); it may carry a
        dot or an avatar (`avatar` the name, `image` the picture, or an
        `icon` in its place), and
-       opens its `route` or runs its `onClick`. -->
+       opens its `route` or runs its `onClick`. A row's `actions` are a menu
+       at its end, frappe-ui's Dropdown. -->
   <div v-if="!rows.length && empty" class="py-3 text-base text-ink-gray-5">{{ empty }}</div>
-  <List v-else :columns="['minmax(0,1fr)', bars ? '6rem' : 'auto', 'minmax(8rem,max-content)']" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+  <List v-else :columns="columns" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
     <ListRows :items="rows" row-key="key" v-slot="{ item }">
       <ListRow v-bind="opens(item)">
         <ListCell class="min-w-0 gap-2.5">
@@ -36,7 +37,17 @@
           <Progress v-else-if="item.progress !== undefined && item.progress !== null" :value="item.progress" size="md" class="w-full" />
         </ListCell>
         <ListCell v-else class="justify-end text-base tabular-nums text-ink-gray-5">{{ item.dim }}</ListCell>
-        <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7">{{ item.value }}</ListCell>
+        <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7">
+          <div class="text-end">
+            <div>{{ item.value }}</div>
+            <div v-if="item.under" class="text-sm text-ink-gray-5">{{ item.under }}</div>
+          </div>
+        </ListCell>
+        <ListCell v-if="menus" class="justify-end" @click.stop>
+          <Dropdown v-if="item.actions?.length" :options="item.actions" placement="right">
+            <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('Actions')" /></template>
+          </Dropdown>
+        </ListCell>
       </ListRow>
     </ListRows>
   </List>
@@ -44,16 +55,18 @@
 
 <script setup>
 import { computed } from "vue";
-import { Avatar, Badge, Progress } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { go } from "./desk";
+import { __, go } from "./desk";
 
 const props = defineProps({ rows: { type: Array, required: true }, empty: String });
 const bars = computed(() => props.rows.some((row) => row.progress !== undefined && row.progress !== null));
+const menus = computed(() => props.rows.some((row) => row.actions?.length));
+const columns = computed(() => ["minmax(0,1fr)", bars.value ? "6rem" : "auto", "minmax(8rem,max-content)", ...(menus.value ? ["2rem"] : [])]);
 // One line for the name, and one more for each line under it.
 const height = computed(() =>
-  Math.max(...props.rows.map((row) => 40 + 18 * ((bars.value && row.dim ? 1 : 0) + (row.below ? 1 : 0) + (row.lines?.length || 0))), 40)
+  Math.max(...props.rows.map((row) => 40 + 18 * Math.max((bars.value && row.dim ? 1 : 0) + (row.below ? 1 : 0) + (row.lines?.length || 0), row.under ? 1 : 0)), 40)
 );
 
 const dots = { red: "bg-surface-red-5", orange: "bg-surface-amber-5", green: "bg-surface-green-5", blue: "bg-surface-blue-5", gray: "bg-surface-gray-5" };

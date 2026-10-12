@@ -395,76 +395,210 @@ def merged(moves: list) -> list:
 
 
 def _buying(doc) -> dict | None:
-	"""Who it is bought from and at what, what is on order and what has been asked for."""
+	"""Who it is bought from and at what, in their own currency, what is on
+	order and asked for, the quotes still open, and its buying prices."""
 	if not (doc.is_purchase_item or doc.is_fixed_asset):
 		return None
 	suppliers = {}
+	lines = []
 	if _readable("Purchase Order"):
-		for row in frappe.get_list(
+		lines = frappe.get_list(
 			"Purchase Order",
 			filters=[["Purchase Order Item", "item_code", "=", doc.name], ["docstatus", "=", 1]],
 			fields=[
 				"supplier",
+				"currency",
 				"transaction_date",
-				"`tabPurchase Order Item`.base_rate as rate",
+				"`tabPurchase Order Item`.rate as rate",
+				"`tabPurchase Order Item`.base_rate as base_rate",
+				"`tabPurchase Order Item`.uom as uom",
 				"`tabPurchase Order Item`.qty as qty",
 			],
-			order_by="transaction_date desc",
+			order_by="transaction_date desc, creation desc",
 			limit=200,
-		):
-			one = suppliers.setdefault(
-				row.supplier,
-				{
-					"supplier": row.supplier,
-					"rate": row.rate,
-					"last": row.transaction_date,
-					"qty": 0,
-					"orders": 0,
-				},
-			)
+		)
+		for row in lines:
+			one = suppliers.setdefault(row.supplier, _supplier(row.supplier))
+			if one["last"] is None:
+				one.update(
+					last=row.transaction_date, rate=row.rate, base_rate=row.base_rate, currency=row.currency
+				)
+			elif one["before"] is None and row.rate != one["rate"]:
+				one["before"] = row.rate
 			one["qty"] += flt(row.qty)
 			one["orders"] += 1
+	# The item's own list of who supplies it, each with their part number.
 	for row in doc.get("supplier_items") or []:
-		suppliers.setdefault(
-			row.supplier, {"supplier": row.supplier, "rate": None, "last": None, "qty": 0, "orders": 0}
-		)["part_no"] = row.supplier_part_no
-	default = next(
-		(row.default_supplier for row in doc.get("item_defaults") or [] if row.default_supplier), None
-	)
+		one = suppliers.setdefault(row.supplier, _supplier(row.supplier))
+		one.update(part_no=row.supplier_part_no, row=row.name)
+	company = erpnext.get_default_company()
+	defaults = next((row for row in doc.get("item_defaults") or [] if row.company == company), None)
+	default = defaults.default_supplier if defaults else None
+	if default and default not in suppliers:
+		suppliers[default] = _supplier(default)
+	agreed = _agreed(doc.name)
+	images = _images("Supplier", suppliers)
 	for one in suppliers.values():
 		one["default"] = one["supplier"] == default
+		one["image"] = images.get(one["supplier"])
+		one["agreed"] = agreed.get(one["supplier"])
+	orders = _open(
+		"Purchase Order",
+		"Purchase Order Item",
+		[
+			"supplier as party",
+			"schedule_date as due",
+			"status",
+			"`tabPurchase Order Item`.qty as qty",
+			"`tabPurchase Order Item`.received_qty as done",
+		],
+		doc.name,
+	)
+	requests = _open(
+		"Material Request",
+		"Material Request Item",
+		[
+			"material_request_type as kind",
+			"schedule_date as due",
+			"status",
+			"owner",
+			"`tabMaterial Request Item`.project as project",
+			"`tabMaterial Request Item`.qty as qty",
+			"`tabMaterial Request Item`.ordered_qty as done",
+		],
+		doc.name,
+		status=(
+			"not in",
+			("Ordered", "Transferred", "Issued", "Received", "Stopped", "Cancelled", "Manufactured"),
+		),
+	)
+	for row in requests:
+		row["by"] = frappe.utils.get_fullname(row.owner)
+		row["project_name"] = _project_name(row.project)
+	party_images = _images("Supplier", {row.party for row in orders})
+	for row in orders:
+		row["image"] = party_images.get(row.party)
 	return {
 		"suppliers": sorted(suppliers.values(), key=lambda one: (not one["default"], -one["orders"]))[:MOST],
-		"orders": _open(
-			"Purchase Order",
-			"Purchase Order Item",
-			[
-				"supplier as party",
-				"schedule_date as due",
-				"status",
-				"`tabPurchase Order Item`.qty as qty",
-				"`tabPurchase Order Item`.received_qty as done",
-			],
-			doc.name,
-		),
-		"requests": _open(
-			"Material Request",
-			"Material Request Item",
-			[
-				"material_request_type as kind",
-				"schedule_date as due",
-				"status",
-				"`tabMaterial Request Item`.qty as qty",
-				"`tabMaterial Request Item`.ordered_qty as done",
-			],
-			doc.name,
-			status=(
-				"not in",
-				("Ordered", "Transferred", "Issued", "Received", "Stopped", "Cancelled", "Manufactured"),
-			),
-		),
+		"default_row": defaults.name if defaults else None,
+		"company": company,
+		"orders": orders,
+		"requests": requests,
+		"quotes": _quotes(doc.name),
 		"prices": _prices(doc.name, "buying"),
+		# The last price paid, which a buying price is held against.
+		"last_paid": (
+			{
+				"rate": lines[0].rate,
+				"currency": lines[0].currency,
+				"uom": lines[0].uom,
+				"on": lines[0].transaction_date,
+			}
+			if lines
+			else None
+		),
+		"can": {
+			one: bool(frappe.has_permission(one, "create"))
+			for one in ("Purchase Receipt", "Request for Quotation", "Supplier Quotation")
+		},
 	}
+
+
+def _supplier(name: str) -> dict:
+	return {
+		"supplier": name,
+		"last": None,
+		"rate": None,
+		"base_rate": None,
+		"currency": None,
+		"before": None,
+		"qty": 0,
+		"orders": 0,
+		"part_no": None,
+		"row": None,
+	}
+
+
+def _images(doctype: str, names) -> dict:
+	"""Each party's picture (one_mail/faces.py dresses a party without one)."""
+	names = [one for one in names if one]
+	if not names:
+		return {}
+	return dict(
+		frappe.get_all(doctype, filters={"name": ["in", names]}, fields=["name", "image"], as_list=True)
+	)
+
+
+def _project_name(project: str | None) -> str | None:
+	return frappe.get_cached_value("Project", project, "project_name") if project else None
+
+
+def _agreed(item: str) -> dict:
+	"""What each supplier has agreed for it on a blanket order still running:
+	the rate, how much is left of it, and until when."""
+	if not _readable("Blanket Order"):
+		return {}
+	found = {}
+	for row in frappe.get_list(
+		"Blanket Order",
+		filters=[
+			["Blanket Order Item", "item_code", "=", item],
+			["docstatus", "=", 1],
+			["blanket_order_type", "=", "Purchasing"],
+			["to_date", ">=", nowdate()],
+		],
+		fields=[
+			"supplier",
+			"to_date",
+			"`tabBlanket Order Item`.rate as rate",
+			"`tabBlanket Order Item`.qty as qty",
+			"`tabBlanket Order Item`.ordered_qty as ordered",
+		],
+		order_by="to_date asc",
+	):
+		found.setdefault(
+			row.supplier,
+			{"rate": row.rate, "left": max(flt(row.qty) - flt(row.ordered), 0), "until": row.to_date},
+		)
+	return found
+
+
+def _quotes(item: str) -> list:
+	"""Supplier quotes for it still open, cheapest first by what one stock
+	unit costs in the company's currency."""
+	if not _readable("Supplier Quotation"):
+		return []
+	rows = frappe.get_list(
+		"Supplier Quotation",
+		filters=[
+			["Supplier Quotation Item", "item_code", "=", item],
+			["docstatus", "=", 1],
+			["status", "not in", ("Ordered", "Expired", "Stopped", "Cancelled")],
+		],
+		fields=[
+			"name",
+			"supplier",
+			"currency",
+			"valid_till",
+			"transaction_date",
+			"`tabSupplier Quotation Item`.rate as rate",
+			"`tabSupplier Quotation Item`.base_rate as base_rate",
+			"`tabSupplier Quotation Item`.uom as uom",
+			"`tabSupplier Quotation Item`.conversion_factor as conversion_factor",
+			"`tabSupplier Quotation Item`.qty as qty",
+		],
+		limit=MOST,
+	)
+	today = getdate(nowdate())
+	rows = [row for row in rows if not row.valid_till or getdate(row.valid_till) >= today]
+	for row in rows:
+		row["per_unit"] = flt(row.base_rate) / (flt(row.conversion_factor) or 1)
+	rows.sort(key=lambda row: row["per_unit"])
+	images = _images("Supplier", {row.supplier for row in rows})
+	for i, row in enumerate(rows):
+		row["image"] = images.get(row.supplier)
+		row["cheapest"] = i == 0 and len(rows) > 1
+	return rows
 
 
 def _selling(doc) -> dict | None:

@@ -158,8 +158,18 @@ Then its views, each only where the item has it:
   plain words ("Moved 120 from Stores to Mansour Villa Site", "Used 80 on
   Mansour Villa Windows and Doors"), each with who made it. A move from one
   warehouse to another is one row.
-- **Buying**: who it is bought from and at what, what is on order and when it
-  is due (in red once late), what has been requested, and its buying prices.
+- **Buying**: who it is bought from, each with their picture, the last
+  price ordered and the one before it in their own currency (with the
+  dirhams under it when it is another), what they agreed for the year and
+  their part number, changed on the row. **Add Supplier** puts one on the
+  item's list, and each supplier's menu has **Order from Them**, **Ask for a
+  Quote** and **Make Default**. Then the quotes still open, the cheapest
+  marked, each with **Order This**. What is on order says how much has
+  arrived and when it is due (in red once late), with **Receive**. What has
+  been asked for says who asked and for which project, with **Make Order**.
+  Each makes the next document as its own form's button does. The buying
+  prices are changed on the row, and one that differs from the last price
+  paid says so and offers **Use Last Price**.
 - **Selling**: what customers have ordered and not yet had, who bought it in
   the last twelve months, and its selling prices.
 - **Making**: what it is made from, the work orders making it, its bills of
@@ -666,7 +676,10 @@ a register and a movement form in it would be a rail with five rows.
   the item's own table and its submitted orders, open purchase and sales
   orders with what is still to come, material requests, prices, its bills of
   materials, what they go into and the work orders making it. `headline` is
-  pure. What the page changes it changes as desk does, and
+  pure. The supplier's last two prices, a blanket order still running, the
+  quotes still open and the last price paid come from the submitted
+  documents, each in its party's currency with its base amount. What the
+  page changes it changes as desk does, and
   `public/js/item_actions.js` has Edit Details (every field, its tables in
   frappe's grid, a row's company the workspace's own) and the documents an
   item starts, each opened in its form with ERPNext's own triggers filling

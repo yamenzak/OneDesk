@@ -73,7 +73,9 @@ def last_bought(doc):
 	if last:
 		# The day goes in the label, as a party's last invoice does.
 		return {
-			"label": _("Last Bought · {0}").format(formatdate(last.on_date)),
+			"label": (_("Last Received · {0}") if last.kind == "received" else _("Last Ordered · {0}")).format(
+				formatdate(last.on_date)
+			),
 			"value": _("{0} from {1}").format(_money(last.rate), last.supplier),
 		}
 	return {"value": _("Never"), "tone": "quiet"} if doc.is_stock_item else None

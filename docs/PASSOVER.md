@@ -10680,6 +10680,69 @@ Fixed:
 | 16 Legal | nothing new |
 | 17 Clean code | `ItemPlaces.vue` one concern, ruff clean |
 
+#### 1g. The Buying view
+
+Your word: all six on the item's Buying view, and suppliers with their
+picture.
+
+Found:
+
+- **Plain words (12)**: the head's Last Bought said AED 28.00 (the last
+  receipt) while the supplier row said 26.50 (the last order, not yet in).
+- **Nothing lost (6)**: three supplier quotes and two requests for quotes
+  were nowhere on the page. The blanket order Al Noor agreed for the year
+  wasn't either.
+- **Built from frappe (8)**: the item had no default supplier and no
+  supplier list, and the page had nowhere to set one.
+- **What ERPNext already does**: prices showed in dirhams only, so a
+  supplier billing in euros read wrong.
+- **Hand-offs (3)**: an order couldn't be received, a request ordered or a
+  quote ordered from here.
+- **Our look (5)**: Buying Unit read "–" when empty, though ERPNext then
+  buys in the stock unit.
+
+Fixed:
+
+- **Our look (5)**: each supplier with their picture (one_mail/faces.py
+  dresses a supplier from Gravatar and Google's favicons, the initial
+  stands in until then), the last price and the one before, in their own
+  currency with the dirhams under it, and what they agreed for the year.
+- **Built from frappe (8)**: the part number is the item's own supplier row,
+  changed on the row. **Add Supplier** adds a row as the grid does.
+  **Make Default** sets the item's defaults row for the workspace's company.
+  Each buying price is changed on the row through the Item Price's own
+  form, and **Use Last Price** sets it there.
+- **Plain words (12)**: the head says Last Received or Last Ordered.
+- **Nothing lost (6)**: a Quotes section, cheapest first by what a metre
+  costs in dirhams. On Order says how much has arrived. Requested says who
+  asked and for which project.
+- **Hand-offs (3)**: **Receive**, **Make Order**, **Order This**, **Order
+  from Them** and **Ask for a Quote** each open the next document as its
+  own form's button does, with ERPNext's mapper.
+- **Demo coverage (1)**: Al Noor is the profile's default supplier with its
+  part number, Al Noor and Euro Hardware Trading have quotes still open
+  (one in euros), and Samir has asked for the next run.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_an_items_buying_says_who_at_what_and_what_next`, and each action and change tried in the browser |
+| 2 Rules on the server | ERPNext's own, nothing of ours |
+| 3 Hand-offs | Receive, Make Order, Order This, Order from Them, Ask for a Quote |
+| 4 Tier declared | unchanged, Item in PAGES |
+| 5 Our look | suppliers with pictures, quotes, received of ordered |
+| 6 Nothing lost | quotes, agreements and requests now shown |
+| 7 Extensible | the place `oneinventory_item.buying` gives the open quotes too |
+| 8 Built from frappe | the item's and the price's own fields in place, ERPNext's mappers |
+| 9 Overrides recorded | none, all public calls |
+| 10 Notifications | nothing new |
+| 11 Printed | nothing new to print |
+| 12 Plain words | Last Received or Last Ordered, every new string in Arabic and German |
+| 13 Documented | README An item's page and the file map, OneAI reads quotes and part numbers |
+| 14 Intake | nothing new to read |
+| 15 Permissions | each action only for who may make the document, fields as the form allows |
+| 16 Legal | nothing new |
+| 17 Clean code | `ItemSuppliers.vue` and `ItemPriceRow.vue` one concern each, ruff clean |
+
 #### 2. Stock on Hand and warehouses
 
 Looked at as Karim on Stock on Hand, the warehouse tree, the Stores and the

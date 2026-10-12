@@ -34,10 +34,11 @@ def summary(bins: list, levels: list) -> dict:
 
 
 def last_bought(item: str) -> dict | None:
-	"""The last receipt or order it was on: the rate, from whom, and when."""
-	for child, parent, date in (
-		("Purchase Receipt Item", "Purchase Receipt", "posting_date"),
-		("Purchase Order Item", "Purchase Order", "transaction_date"),
+	"""The last receipt or order it was on: the rate, from whom, when, and
+	whether it was received or only ordered."""
+	for child, parent, date, kind in (
+		("Purchase Receipt Item", "Purchase Receipt", "posting_date", "received"),
+		("Purchase Order Item", "Purchase Order", "transaction_date", "ordered"),
 	):
 		found = frappe.db.sql(
 			f"""select item.base_rate as rate, doc.supplier, doc.{date} as on_date
@@ -48,7 +49,7 @@ def last_bought(item: str) -> dict | None:
 			as_dict=True,
 		)
 		if found:
-			return found[0]
+			return frappe._dict(found[0], kind=kind)
 	return None
 
 

@@ -4758,6 +4758,35 @@ def oneinventory_an_items_stock_says_where_it_is_and_what_moved():
 
 
 @check
+def oneinventory_an_items_buying_says_who_at_what_and_what_next():
+	"""The Buying view: the default supplier first with their part number,
+	the last price and the one before, what they agreed for the year; the
+	quotes still open cheapest first by what a metre costs in dirhams, one in
+	euros; what is still to arrive; who asked for what is not yet ordered,
+	and for which project; and the last price paid, which the buying price
+	is held against. The header's last price says it was received."""
+	from onedesk.one_inventory import view
+
+	with as_user("karim@one.test"):
+		said = view.read("ALU-6063")
+	buying = said["buying"]
+	first = buying["suppliers"][0]
+	assert first["supplier"] == "Al Noor Aluminium" and first["default"], first
+	assert first["part_no"] and first["row"], "the part number is the item's own supplier row"
+	assert first["before"] and first["before"] != first["rate"], first
+	assert first["agreed"] and first["agreed"]["left"] > 0, first
+	quotes = buying["quotes"]
+	assert len(quotes) >= 2 and quotes[0]["cheapest"], quotes
+	assert [one["per_unit"] for one in quotes] == sorted(one["per_unit"] for one in quotes), quotes
+	assert any(one["currency"] == "EUR" and one["base_rate"] != one["rate"] for one in quotes), quotes
+	assert all(one["qty"] >= one["done"] for one in buying["orders"]), buying["orders"]
+	asked = [one for one in buying["requests"] if one["project_name"]]
+	assert asked and asked[0]["by"], buying["requests"]
+	assert buying["last_paid"] and buying["last_paid"]["currency"] == said["currency"], buying["last_paid"]
+	assert said["last_bought"].kind == "received", said["last_bought"]
+
+
+@check
 def oneinventory_an_items_head_has_its_barcodes_and_trends():
 	"""A new item is given its code as its first barcode. Manage Barcodes puts
 	them in the order it is given, so the first two are the head's, and

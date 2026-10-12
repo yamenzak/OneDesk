@@ -9,7 +9,7 @@ from unittest import mock
 import frappe
 from frappe.utils import add_days, flt
 
-from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, save, tag, wh
+from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, save, tag, today, wh
 
 BUYER = "karim@one.test"
 SITE = "rania@one.test"
@@ -37,6 +37,7 @@ def run(password=None):
 	if not frappe.db.exists("Blanket Order", {"supplier": ALUMINIUM, "docstatus": 1}):
 		_agreed(project)
 	_scored()
+	_profile()
 	from onedesk.one_inventory import tell
 
 	tell.orders_late()
@@ -180,6 +181,61 @@ def _agreed(project):
 		for row in order.items:
 			row.rate = rate
 		save(order, submit=True)
+
+
+#: The profile's next prices: who quotes, in what currency, at what, valid how long.
+QUOTED = ((ALUMINIUM, "AED", 26.0, 20), ("Euro Hardware Trading", "EUR", 6.3, 30))
+#: Al Noor's own code for the profile, on the item's supplier list.
+PART_NO = "AN-6063-T5"
+#: Who asks for the next run of profile.
+PROFILE_ASKER = "samir@one.test"
+
+
+def _profile():
+	"""Aluminium profile 6063 as its Buying view shows it: Al Noor its default
+	supplier with their part number, two quotes still open for the next run,
+	one in euros, and Samir's request for it not yet ordered."""
+	code = AGREED[0]
+	item = frappe.get_doc("Item", code)
+	if not item.supplier_items:
+		item.append("supplier_items", {"supplier": ALUMINIUM, "supplier_part_no": PART_NO})
+		defaults = next((row for row in item.item_defaults if row.company == COMPANY), None)
+		if defaults:
+			defaults.default_supplier = ALUMINIUM
+		else:
+			item.append("item_defaults", {"company": COMPANY, "default_supplier": ALUMINIUM})
+		item.save()
+	with as_user(BUYER):
+		for supplier, currency, rate, days in QUOTED:
+			if frappe.db.exists(
+				"Supplier Quotation",
+				{"supplier": supplier, "docstatus": 1, "status": "Submitted", "valid_till": [">=", today()]},
+			):
+				continue
+			quote = frappe.new_doc("Supplier Quotation")
+			quote.supplier = supplier
+			quote.company = COMPANY
+			quote.currency = currency
+			dated(quote, ago(3), "transaction_date")
+			quote.valid_till = ahead(days)
+			quote.append("items", {"item_code": code, "qty": 1200, "rate": rate})
+			save(quote, submit=True)
+	project = frappe.db.get_value("Project", {"project_name": VILLA})
+	if frappe.db.exists("Material Request Item", {"item_code": code, "docstatus": 1, "ordered_qty": 0}):
+		return
+	# Samir asks for the profile, as he asked for its last run.
+	with as_user(PROFILE_ASKER):
+		request = frappe.new_doc("Material Request")
+		request.material_request_type = "Purchase"
+		request.company = COMPANY
+		request.project = project
+		dated(request, ago(1), "transaction_date")
+		request.schedule_date = ahead(10)
+		request.append(
+			"items",
+			{"item_code": code, "qty": 400, "schedule_date": ahead(10), "project": project, "warehouse": wh("Stores")},
+		)
+		save(request, submit=True)
 
 
 def _expired():
