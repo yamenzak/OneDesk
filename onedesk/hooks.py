@@ -1396,6 +1396,8 @@ one_ai_reads = [
 	"onedesk.one_inventory.ai.lots_and_numbers",
 	# Requests for prices and the quotes, as the Quotes page shows them.
 	"onedesk.one_inventory.ai.quotes_now",
+	# Work out with suppliers, as the Sent Out page shows it.
+	"onedesk.one_inventory.ai.sent_out_now",
 	# How a piece of equipment is doing, who holds what and which services are due.
 	"onedesk.one_inventory.ai.asset_facts",
 	"onedesk.one_inventory.ai.equipment_held",

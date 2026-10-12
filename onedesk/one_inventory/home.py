@@ -52,6 +52,7 @@ EVERYTHING = (
 	("making", _lt("Job Cards"), "DocType", "Job Card", _lt("Each step of a work order, with who did it and how long it took.")),
 	("making", _lt("Bills of Materials"), "DocType", "BOM", _lt("What a product is made from, and its steps.")),
 	("making", _lt("Production Plans"), "DocType", "Production Plan", _lt("Work orders and requests planned from sales orders.")),
+	("making", _lt("Sent Out"), "Page", "sent-out", _lt("Work a supplier does on your materials: what went, what came back and when it is due.")),
 	("making", _lt("Subcontracting Orders"), "DocType", "Subcontracting Order", _lt("Work a supplier does with your materials.")),
 	("making", _lt("Subcontracting Receipts"), "DocType", "Subcontracting Receipt", _lt("What a supplier made, taken back in.")),
 	("equipment", _lt("Assets"), "DocType", "Asset", _lt("The company's equipment, who has it and what it is worth.")),

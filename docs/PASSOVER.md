@@ -11624,7 +11624,7 @@ points.
    make a lot. The item's Stock tab shows the same part.
 4. **Quotes** (done, 7f) — asking suppliers for prices, their answers and the
    comparison, as one page.
-5. **Sent out** — what suppliers make from our materials: the orders, what
+5. **Sent out** (done, 7g) — what suppliers make from our materials: the orders, what
    went out and what came back, as one page.
 6. **Upkeep** — services, repairs and the log of an asset's upkeep as one
    page.
@@ -11768,6 +11768,51 @@ Done:
 | 17 Clean code | one server file, two parts |
 | Everything follows frappe | ERPNext's mappers for every change, frappe's dialogs |
 | What ERPNext already does | the supplier's currency and the company's, quote validity, ordered quantities, the supplier portal |
+
+#### 7g. Sent Out, work a supplier does on our materials
+
+Looked at as Karim: powder coating meant a subcontracted purchase order, a
+subcontracting order made from it, a transfer to the coater and a receipt
+back, each a list of its own. Nothing said what was out with the coater
+now, what was due back or what our profile at the coater was worth.
+
+Done:
+
+- **Sent Out** (page/sent_out, frontend/src/sent_out) takes Subcontracting
+  Orders' place in the rail. Over it, Out Now, Materials to Send, Late Back
+  and With Suppliers (our materials at cost).
+- **Out Now** lists each order with what the supplier makes and how much is
+  back, what went to them, the project and when it is due, by ERPNext's own
+  status in plain words. **Back** lists those done with. A subcontracted
+  purchase order with no subcontracting order yet is under Not Ready to
+  Send.
+- **Send Work Out**, **Make Subcontracting Order**, **Send Materials** and
+  **Receive Back** are each ERPNext's own call, as the order's form makes
+  them, opening a draft.
+- The demo has the tower's profile with Gulf Powder Coating now, sent three
+  days ago and due back in four, beside the villa's, done with.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | an order out now and one back, a new check taking the tower's back |
+| 2 Rules on the server | ERPNext's subcontracting rules, through its own calls |
+| 3 Hand-offs | rows open the order and its purchase order, the transfer and receipt open as drafts |
+| 4 Tier declared | page `sent-out` in SCREENS |
+| 5 Our look | figures, tabs and rows from frappe-ui, at 1440 wide and on a phone |
+| 6 Nothing lost | subcontracting orders and receipts stay, under Everything on Home |
+| 7 Extensible | the page is a place, `oneinventory_sent_out.shown` |
+| 8 Built from frappe | ERPNext's statuses, realtime on the four doctypes |
+| 9 Overrides recorded | none |
+| 10 Notifications | none new |
+| 11 Printed | none new, the order prints as ERPNext's |
+| 12 Plain words | out now, to send, with supplier, back, in Arabic and German |
+| 13 Documented, OneAI | the README's Sending work out, `sent_out_now` with What is out with suppliers? |
+| 14 Intake | nothing new |
+| 15 Permissions | each figure, tab and button by its doctype's permission, Tariq reads it, Nadia sees nothing |
+| 16 Legal | nothing new |
+| 17 Clean code | one server file, one part |
+| Everything follows frappe | ERPNext's calls for every change, opened as drafts |
+| What ERPNext already does | the supplier's warehouse, transferred, consumed and returned quantities, its statuses |
 
 #### 8. Equipment
 

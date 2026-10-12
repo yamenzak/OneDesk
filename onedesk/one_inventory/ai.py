@@ -24,6 +24,8 @@ HOME = "inventory"
 LOTS = "lots"
 #: Quotes (page/quotes).
 QUOTES = "quotes"
+#: Sent Out (page/sent_out).
+SENT_OUT = "sent-out"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -161,6 +163,12 @@ _COMPARE = {
 	"doctype": "Supplier Quotation",
 	"expects": "quote_comparison",
 }
+_OUT_NOW = {
+	"label": _lt("What is out with suppliers?"),
+	"ask": _lt("What is out with suppliers now, what went to each, what came back, and what is late?"),
+	"can": "read",
+	"expects": "sent_out_now",
+}
 _UNANSWERED = {
 	"label": _lt("Who has not answered?"),
 	"ask": _lt("Which suppliers have not answered a request for prices yet, what were they asked for and since when?"),
@@ -262,6 +270,8 @@ SUGGESTIONS = {
 	f"page:{HOME}": [_LATE, _LOW, _DUE],
 	f"page:{LOTS}": [_GOING_OFF, _WHERE_NUMBER],
 	f"page:{QUOTES}": [_UNANSWERED, _CHEAPEST],
+	f"page:{SENT_OUT}": [_OUT_NOW],
+	"Subcontracting Order": [_OUT_NOW],
 	"Batch": [_GOING_OFF],
 	"Serial No": [_WHERE_NUMBER],
 	"Workstation": [_MACHINES, _ON_FLOOR],
@@ -320,6 +330,13 @@ def page(said: dict) -> str | None:
 			"quote_comparison reads one request's quotes; plan_quote_request drafts a new request for a material "
 			"request as a card. "
 			"How the page works is in OneInventory's documentation (how_to)."
+		)
+	if said.get("page") == SENT_OUT:
+		return (
+			"The reader is on Sent Out, which lists the work suppliers do on our own materials, powder coating "
+			"say: what each makes, what went to them and what came back, when it is due, and what the materials "
+			"with suppliers are worth. sent_out_now reads it as the page shows it. How the page works is in "
+			"OneInventory's documentation (how_to)."
 		)
 	if said.get("page") == PLANT:
 		return (
@@ -1561,6 +1578,33 @@ def quotes_now() -> dict:
 			for one in quotes.quotes()
 			if one["expiring"]
 		],
+	}
+
+
+def sent_out_now() -> dict:
+	"""What the Sent Out page shows: the orders still out with suppliers,
+	each with what it makes and how much came back, the materials sent and
+	used, when it is due back and whether it is late, and the figures."""
+	from onedesk.one_inventory import sent_out
+
+	if not frappe.has_permission("Subcontracting Order", "read"):
+		return {"error": "The reader may not see work sent out."}
+	return {
+		"figures": sent_out.figures(),
+		"out": [
+			{
+				"order": one["name"],
+				"supplier": one["supplier_name"] or one["supplier"],
+				"status": one["status"],
+				"project": one["project_name"],
+				"makes": [{"item": row["name"], "qty": row["qty"], "back": row["back"], "unit": row["uom"]} for row in one["makes"]],
+				"materials_sent": [{"item": row["name"], "sent": row["sent"], "used": row["used"], "unit": row["uom"]} for row in one["materials"]],
+				"due_back": one["schedule_date"],
+				"late": one["late"],
+			}
+			for one in sent_out.orders()
+		],
+		"not_ready": [{"purchase_order": one["name"], "supplier": one["supplier_name"]} for one in sent_out.to_order()],
 	}
 
 

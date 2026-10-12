@@ -59,6 +59,9 @@ ASKED = ("DR-SL24", 8, ahead(4))
 
 #: Coating: metres sent, the price a metre, sent and back.
 COATED = (300, 4.5, ago(20), ago(12))
+#: The tower's profile, with the coater now: sent three days ago, due back
+#: in four, nothing back yet.
+COATING = (200, 4.5, ago(3), ahead(4))
 
 
 def run(password=None):
@@ -84,6 +87,8 @@ def run(password=None):
 		_asked(projects[VILLA])
 	if not frappe.db.exists("Subcontracting Order", {"docstatus": 1}):
 		_coated(projects[VILLA])
+	if not frappe.db.exists("Subcontracting Order", {"docstatus": 1, "per_received": ["<", 100]}):
+		_coated(projects[TOWER], COATING, back_in=False)
 	_on_the_saw()
 
 
@@ -238,9 +243,9 @@ def _asked(project):
 		_work_order(product, qty, wanted, 0, project, (request.name, request.items[0].name))
 
 
-def _coated(project):
-	"""Karim sends the villa's profile to Gulf Powder Coating to be coated in
-	the villa's colour, and takes it back into the stores."""
+def _coated(project, coated=COATED, back_in=True):
+	"""Karim sends a project's profile to Gulf Powder Coating to be coated in
+	its colour, and, once it is back, takes it into the stores."""
 	from erpnext.buying.doctype.purchase_order.mapper import make_subcontracting_order
 	from erpnext.controllers.subcontracting_controller import make_rm_stock_entry
 	from erpnext.subcontracting.doctype.subcontracting_order.subcontracting_order import (
@@ -248,7 +253,7 @@ def _coated(project):
 	)
 	from erpnext.subcontracting.doctype.subcontracting_receipt.mapper import make_purchase_receipt
 
-	metres, rate, sent, back = COATED
+	metres, rate, sent, back = coated
 	with as_user(BUYER):
 		place = once(
 			"Warehouse",
@@ -300,6 +305,8 @@ def _coated(project):
 		materials = frappe.get_doc(make_rm_stock_entry(sub.name))
 		dated(materials, sent)
 		save(materials, submit=True)
+		if not back_in:
+			return
 		receipt = frappe.get_doc(make_subcontracting_receipt(sub.name))
 		dated(receipt, back)
 		receipt.supplier_delivery_note = "GPC-DN-0417"

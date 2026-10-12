@@ -110,7 +110,7 @@ GROUPS = {
 		"words": ("project", "milestone", "template", "projekt", "meilenstein", "vorlage", "مشروع", "مشاريع", "قالب"),
 	},
 	"inventory": {
-		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, what came in on a receipt, what is still to arrive or to deliver, a delivery and its trip, a stock movement or a count and what it did to the books, comparing suppliers' quotes, which orders are late, what the workshop is making and how far a work order is, which lots go off soon and where each numbered piece is, how a piece of equipment is doing, who holds what and which services are due, drafting a receipt or a delivery for an order, a transfer to a site, a request for quotation, a work order or a handover of equipment, whether to order more, and changing an item or its reorder level",
+		"about": "stock and buying: how an item is doing, what the stores or one warehouse hold and are worth, how much is on hand, free to sell and on order, what is running low or short, what came in on a receipt, what is still to arrive or to deliver, a delivery and its trip, a stock movement or a count and what it did to the books, comparing suppliers' quotes, which orders are late, what the workshop is making and how far a work order is, which lots go off soon and where each numbered piece is, what is out with a supplier being coated or made from our materials, how a piece of equipment is doing, who holds what and which services are due, drafting a receipt or a delivery for an order, a transfer to a site, a request for quotation, a work order or a handover of equipment, whether to order more, and changing an item or its reorder level",
 		"tools": (
 			"item_facts",
 			"stock_on_hand",
@@ -134,6 +134,7 @@ GROUPS = {
 			"plant_floor_now",
 			"lots_and_numbers",
 			"quotes_now",
+			"sent_out_now",
 			"plan_work_order",
 			"asset_facts",
 			"equipment_held",
@@ -306,6 +307,7 @@ PAGES = {
 	"inventory": "inventory",
 	"lots": "inventory",
 	"quotes": "inventory",
+	"sent-out": "inventory",
 	"floor": "inventory",
 	"plant": "inventory",
 }

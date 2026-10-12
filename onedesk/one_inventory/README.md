@@ -37,7 +37,7 @@ The rail keeps what people use every day:
 - **Buying** — **To Order**, **Material Requests**, **Quotes**, **Purchase
   Orders** and **Suppliers**. See Buying.
 - **Making** — **Shop Floor**, **Plant Floor**, **Work Orders**, **Bills of
-  Materials** and **Subcontracting Orders**. See Making.
+  Materials** and **Sent Out**. See Making.
 - **Assets** — **Assets**, **Maintenance** and **Repairs**.
 - **Reports** — the stock, buying, making and asset reports, each with what
   it shows.
@@ -358,10 +358,11 @@ same supplier.
 
 ## Making
 
-**Making** in the rail is the workshop: **Shop Floor**, **Plant Floor**, **Work Orders**, **Job Cards**,
-**Bills of Materials**, **Subcontracting Orders** and **Subcontracting
-Receipts**. Workstations, plant floors, operations and Manufacturing Settings are under
-Setup, and production plans under More.
+**Making** in the rail is the workshop: **Shop Floor**, **Plant Floor**, **Work
+Orders**, **Bills of Materials** and **Sent Out**. Job cards, subcontracting
+orders and receipts and production plans are under Everything on Home, and
+workstations, plant floors, operations and Manufacturing Settings under
+Setup.
 
 1. **Say how it is made.** A **Bill of Materials** names what one of a
    product takes, and with **With Operations** the steps (cutting,
@@ -445,13 +446,21 @@ how many **Workstations** there are, how many are **Making**, how many are
   count in the project's Stock Used on OneProject, as ERPNext counts them.
 - **Sending work out.** A product a supplier makes from your materials,
   powder coating say, is a **Subcontracted Item** (Setup) naming the
-  supplier's service. A purchase order for the service with **Is
-  Subcontracted** becomes a **Subcontracting Order** with **Create**. Its
-  page says how much of the materials went out (**Materials Sent**) and how
-  much came back (**Received**). **Material to Supplier** sends them, and
-  a **Subcontracting Receipt** takes the goods back into the stores. The
-  supplier's bill is made from the purchase receipt it creates. This is not
-  OneProject's subcontract, which is a package of work on a project.
+  supplier's service. **Sent Out** in the rail keeps that work on one page.
+  The figures say how many orders are out, how many still have materials
+  to send, how many are late back, and what our materials with suppliers
+  are worth at cost. **Out Now** lists each order with what the supplier
+  makes and how much is back, what went to them, the project and when it
+  is due, red once late. **Back** lists those done with.
+  **Send Work Out** starts the purchase order for the supplier's service,
+  marked **Is Subcontracted**. A purchase order with no subcontracting
+  order yet is listed under **Not Ready to Send**, with **Make
+  Subcontracting Order**. On an order, **Send Materials** opens ERPNext's
+  transfer to the supplier and **Receive Back** its receipt into the
+  stores, both as drafts to check and submit. The supplier's bill is made
+  from the purchase receipt the receipt creates. OneAI answers **What is
+  out with suppliers?** there. This is not OneProject's subcontract, which
+  is a package of work on a project.
 
 ## Receiving
 
@@ -817,6 +826,18 @@ a register and a movement form in it would be a rail with five rows.
   and `order_cheapest` runs it per supplier with `filtered_children` for the
   lines they are cheapest on, leaving drafts. OneAI's `quotes_now` reads the
   page.
+- `sent_out.py`, `page/sent_out`, `frontend/src/sent_out` and
+  `public/js/sent_out_actions.js` — Sent Out. `read` gives the figures and
+  one tab of Subcontracting Orders by ERPNext's own status (`OUT` or
+  `DONE`), each with its items (qty, received_qty) and supplied items
+  (supplied less returned, consumed). `figures` values the stock in the open
+  orders' supplier warehouses from Bin. `to_order` lists subcontracted
+  purchase orders with no subcontracting order. Every change is ERPNext's
+  call, as the Subcontracting Order's form makes it:
+  `purchase_order.mapper.make_subcontracting_order`,
+  `subcontracting_controller.make_rm_stock_entry` and
+  `subcontracting_order.make_subcontracting_receipt`. OneAI's
+  `sent_out_now` reads the page.
 - `floor.py`, `page/floor`, `frontend/src/floor` and
   `public/js/floor_actions.js` — the Shop Floor. `read` reads through
   ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its

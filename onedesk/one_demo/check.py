@@ -4761,9 +4761,9 @@ def oneinventory_an_items_stock_says_where_it_is_and_what_moved():
 	assert stores["row"] and stores["level"], "the Stores reorder row is the item's own"
 	assert all(" - " not in called for called in places), list(places)
 	moved = [one for one in said["stock"]["moves"] if one.get("from")]
-	assert moved, "the transfer to the Mansour villa reads as one move"
-	assert moved[0]["from"] == "Stores" and moved[0]["to"] == "Mansour Villa Site", moved[0]
-	assert moved[0]["actual_qty"] > 0 and len(moved[0]["left"]) == 2, moved[0]
+	villa = next((one for one in moved if one["to"] == "Mansour Villa Site"), None)
+	assert villa, "the transfer to the Mansour villa reads as one move"
+	assert villa["from"] == "Stores" and villa["actual_qty"] > 0 and len(villa["left"]) == 2, villa
 	assert all(one["by"] for one in said["stock"]["moves"]), "each move says who made it"
 
 
@@ -5056,6 +5056,46 @@ def oneinventory_quotes_ask_compare_and_order_on_one_page():
 		said = quotes.read()
 		assert not said["asked"] and said["figures"]["waiting"] is None and not said["can"]["ask"], said
 		assert ai.quotes_now().get("error")
+
+
+@check
+def oneinventory_sent_out_says_what_went_and_what_came_back():
+	"""Sent Out: the tower's profile with Gulf Powder Coating, all sent and
+	nothing back yet, the villa's done with, and what the materials with the
+	coater are worth. Taking the tower's back through ERPNext's receipt moves
+	it to Back. OneAI reads it. Tariq sees it, somebody outside the stores
+	and the workshop does not."""
+	from erpnext.subcontracting.doctype.subcontracting_order.subcontracting_order import (
+		make_subcontracting_receipt,
+	)
+
+	from onedesk.one_demo.making import COATER, COATING
+	from onedesk.one_inventory import ai, sent_out
+
+	metres = COATING[0]
+	with as_user("karim@one.test"):
+		said = sent_out.read()
+		tower = next(one for one in said["orders"] if one["supplier"] == COATER)
+		assert tower["status"] == "Material Transferred" and not tower["late"], tower
+		assert [(row["item"], row["qty"], row["back"]) for row in tower["makes"]] == [("ALU-6063-PC", metres, 0)], tower["makes"]
+		assert [(row["item"], row["sent"]) for row in tower["materials"]] == [("ALU-6063", metres)], tower["materials"]
+		assert tower["project_name"] == "Bayview Tower Curtain Wall"
+		assert said["figures"]["out"] >= 1 and said["figures"]["worth"] > 0, said["figures"]
+		assert any(one["status"] == "Completed" for one in sent_out.read(view="done")["orders"])
+		facts = ai.sent_out_now()
+		assert any(one["order"] == tower["name"] for one in facts["out"]), facts
+
+		receipt = frappe.get_doc(make_subcontracting_receipt(tower["name"]))
+		receipt.insert()
+		receipt.submit()
+		assert tower["name"] not in {one["name"] for one in sent_out.read()["orders"]}
+		assert tower["name"] in {one["name"] for one in sent_out.read(view="done")["orders"]}
+	with as_user("tariq@one.test"):
+		assert sent_out.figures()["out"] is not None
+	with as_user("nadia@one.test"):
+		said = sent_out.read()
+		assert not said["orders"] and said["figures"]["out"] is None, said
+		assert ai.sent_out_now().get("error")
 
 
 @check
@@ -5640,12 +5680,14 @@ def oneinventory_making_from_bill_to_finished_goods():
 	assert print_blocks.party(done)["name"] == "Mansour & Sons" and print_blocks.party(frappe.get_doc("Work Order", for_stock)) == {}
 
 	# The villa's profile went out to be coated and came back.
-	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1})
+	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1, "project": villa})
 	assert sent.project == villa and sent.status == "Completed" and heads.sent_out(sent)["meter"]["value"] == 300
-	back = frappe.get_doc("Subcontracting Receipt", {"supplier": making.COATER, "docstatus": 1})
+	back = frappe.get_doc("Subcontracting Receipt", frappe.db.get_value("Subcontracting Receipt Item", {"subcontracting_order": sent.name, "docstatus": 1}, "parent"))
 	assert heads.sub_order(back)["value"] == sent.name
 	assert frappe.db.get_value("Purchase Order", sent.purchase_order, "status") == "To Bill"
-	assert flt(get_stock_balance("ALU-6063-PC", wh("Stores"))) == 300 and not flt(get_stock_balance("ALU-6063", wh(making.COATER)))
+	# The tower's profile is still with the coater, and nothing more of the villa's.
+	assert flt(get_stock_balance("ALU-6063-PC", wh("Stores"))) == 300
+	assert flt(get_stock_balance("ALU-6063", wh(making.COATER))) == making.COATING[0]
 
 	rows = {row["key"]: row for row in ready.checks()}
 	assert rows["workshop"]["state"] == ready.READY and rows["floor"]["state"] == ready.READY

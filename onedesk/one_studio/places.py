@@ -198,6 +198,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_sent_out": {
+		"label": "OneInventory",
+		"record": "Subcontracting Order",
+		"events": {
+			"shown": {
+				"about": _lt("Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."),
+				"gives": "sent_out.view (out or done), sent_out.out (orders still out), sent_out.to_send, sent_out.late, sent_out.worth (materials with suppliers, at cost)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneinventory_plant": {
 		"label": "OneInventory",
 		"record": "Workstation",
