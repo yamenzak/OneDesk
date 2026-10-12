@@ -130,6 +130,7 @@ GROUPS = {
 			"plan_quote_request",
 			"work_in_hand",
 			"work_order_facts",
+			"on_the_floor",
 			"plan_work_order",
 			"asset_facts",
 			"equipment_held",
@@ -299,6 +300,7 @@ PAGES = {
 	"one-admin": "console",
 	"item-view": "inventory",
 	"stock-on-hand": "inventory",
+	"floor": "inventory",
 }
 
 

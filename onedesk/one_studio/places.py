@@ -154,6 +154,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_floor": {
+		"label": "OneInventory",
+		"record": "Job Card",
+		"events": {
+			"shown": {
+				"about": _lt("Shop Floor is opened, and each time a step starts, pauses or closes."),
+				"gives": "floor.open (work orders open), floor.running (steps someone is on), floor.waiting (steps not started), floor.done_today (steps closed today), floor.work_order (the one open, or null), floor.workstation (the one shown, or null)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecloud": {
 		"label": "OneCloud",
 		"record": "File",

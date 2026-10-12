@@ -967,10 +967,8 @@ def _making(doc) -> dict | None:
 		"needed": needed,
 		"can": {
 			"Stock Entry": bool(frappe.has_permission("Stock Entry", "create")),
-			# ERPNext's own page for the people on the floor, opened at a work order.
-			"shop_floor": bool(
-				frappe.db.exists("Page", "shop-floor") and frappe.get_cached_doc("Page", "shop-floor").is_permitted()
-			),
+			# Shop Floor (page/floor), opened at a work order.
+			"shop_floor": bool(frappe.db.exists("Page", "floor") and frappe.get_cached_doc("Page", "floor").is_permitted()),
 		},
 	}
 

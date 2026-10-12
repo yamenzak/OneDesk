@@ -498,6 +498,7 @@ No doctypes yet.
 * `onedesk.one_inventory.barcodes.save`
 * `onedesk.one_inventory.custody.give`
 * `onedesk.one_inventory.custody.take_back`
+* `onedesk.one_inventory.floor.read`
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.kinds.defaults`
 * `onedesk.one_inventory.kinds.make`

@@ -193,7 +193,7 @@ Then its views, each only where the item has it:
   Each work order still open says its project, how far each step has got
   and, once late, in red. Its menu has **Finish**, which records what has
   been made as the work order's own Finish does, and **Open on Shop Floor**,
-  ERPNext's page for the people on the floor, at that work order. Then what
+  the Shop Floor at that work order. Then what
   was made in the last twelve months, and its bills of materials. A
   material bought rather than made shows only what it goes into and what
   the open work orders still need of it.
@@ -345,7 +345,7 @@ Suppliers are kept in OneBook, and the link here opens the same supplier.
 
 ## Making
 
-**Making** in the rail is the workshop: **Work Orders**, **Job Cards**,
+**Making** in the rail is the workshop: **Shop Floor**, **Work Orders**, **Job Cards**,
 **Bills of Materials**, **Subcontracting Orders** and **Subcontracting
 Receipts**. Workstations, operations and Manufacturing Settings are under
 Setup, and production plans under More.
@@ -374,6 +374,40 @@ Setup, and production plans under More.
    Finished Goods, valued at its materials and its workshop time. Whoever
    asked for it and the project's manager are told (**Work Order Done**)
    once all of it is made.
+
+### Shop Floor
+
+**Shop Floor** under Making is the page for the people in the workshop.
+Over it, how many work orders are **Open**, how many steps someone is on
+now (**Running Now**), how many are **Waiting to Start**, and how many were
+**Closed Today**.
+
+- **Open** lists the work orders still on the floor, each with its project,
+  the step it is at and where, how many are made and how many of its steps
+  are done, the late ones with a red dot. **Done** lists the finished ones.
+  Each workstation has a tab of its own with its steps, the oldest first.
+- **A work order** shows its steps, each a job card. A step says how many
+  are done of how many, who is on it, how long it has run, what of its
+  materials is short in the stores, and whether it needs a quality check
+  before it closes. **Finish** puts what was made into stock, as on the
+  work order.
+- **Start** asks when it started and who is on it, the reader first. A
+  running step has **Pause**, and a paused one **Resume**.
+- **Record Made**, in the step's menu, asks how many were made and lost and
+  when the session ended. **Close Step** closes the step, its quality
+  check first when it needs one. **Carry On Later** records the session and
+  leaves the step paused for the next. A step whose sessions are all
+  recorded has **Close Step** as its button.
+- **Move Materials** makes the stock entry that moves what the step still
+  needs to it. **Check Quality** takes the readings of the step's quality
+  check and records them. A rejected check keeps the step open. **Read
+  Instructions** shows the operation's own instructions.
+- A step that makes a part of its own (**Receive Into Stock**) puts it into
+  stock once closed.
+
+Everything on it is ERPNext's own job card, done through ERPNext's own
+calls, so the job card's form, its time logs and its reports say the same.
+It changes as soon as somebody else starts or closes a step.
 
 - **What making costs a project.** The materials a project's work order uses
   count in the project's Stock Used on OneProject, as ERPNext counts them.
@@ -689,6 +723,23 @@ a register and a movement form in it would be a rail with five rows.
   form script sets the quantity as the size is typed, shows the size columns
   only where a line is measured, and the unit's symbol beside the quantity.
   The shipped print formats merge one_size under the item's name.
+- `floor.py`, `page/floor`, `frontend/src/floor` and
+  `public/js/floor_actions.js` — the Shop Floor. `read` reads through
+  ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its
+  `get_work_orders` for the board and its count, and its `get_data` for a
+  work order's or a workstation's job cards, with their materials,
+  instructions, quality check and time logs. `_step` says what each step's
+  buttons may do now (`may`), as ERPNext's page offers them. `figures`
+  counts open work orders by ERPNext's own bucket, and running, waiting and
+  closed-today job cards. Every change is ERPNext's whitelisted call, made
+  from `floor_actions.js` in frappe's dialogs: Workstation's
+  `update_job_card` (start_timer, pause_job, resume_job), Shop Floor's
+  `save_and_continue`, `complete_and_submit`, `submit_job_card`,
+  `make_manufacture_stock_entry`, `get_quality_inspection_checklist` and
+  `submit_quality_inspection`, and Job Card's `make_stock_entry`. The page
+  follows Job Card and Work Order through frappe.realtime. ERPNext's own
+  page stays at /desk/shop-floor. OneAI's `on_the_floor` reads what is
+  running.
 - `view.py`, `page/item_view` and `frontend/src/item` — an item's page. An
   item is the hub of the stores, as a project is of a job, so it opens on a
   page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the

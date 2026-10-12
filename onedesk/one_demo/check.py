@@ -7,6 +7,7 @@
 starts with it, such as a module's.
 """
 
+import datetime
 import traceback
 
 import frappe
@@ -4857,6 +4858,63 @@ def oneinventory_an_items_making_says_what_can_be_made_and_how_far():
 	assert sum(one["produced_qty"] for one in window["made"]) >= 100, window["made"]
 	assert not profile["made_here"], "a bought material has no work orders of its own"
 	assert any(one["item_name"] == "Sliding Door 2400" and one["left"] > 0 for one in profile["needed"]), profile["needed"]
+
+
+@check
+def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
+	"""The Shop Floor: the board counts the open work orders as ERPNext's Shop
+	Floor does, a work order shows its steps, and a step is started, paused,
+	resumed and closed through ERPNext's own calls, each time saying what may
+	be done next. OneAI reads what is running. Somebody outside the workshop
+	sees none of it."""
+	from erpnext.manufacturing.doctype.workstation.workstation import update_job_card
+	from erpnext.manufacturing.page.shop_floor import shop_floor
+
+	from onedesk.one_inventory import ai, floor
+
+	at = frappe.utils.now_datetime()
+	with as_user("tariq@one.test"):
+		board = floor.read()
+		assert board["figures"]["open"] == board["total"] == len(board["work_orders"]), board["figures"]
+		door = next(one for one in board["work_orders"] if one["production_item"] == "DR-SL24")
+		said = floor.read(work_order=door["name"])
+		assert said["work_order"]["project_name"], said["work_order"]
+		assert [one["operation"] for one in said["steps"]] == ["Cutting", "Assembly", "Glazing"], said["steps"]
+		cut = said["steps"][0]
+		assert cut["may"]["start"] and not cut["may"]["pause"], cut["may"]
+		assert said["employee"], "Tariq starts a step as himself"
+
+		update_job_card(cut["name"], "start_timer", start_time=str(at), employees=[{"employee": said["employee"]}])
+		cut = floor.read(work_order=door["name"])["steps"][0]
+		assert cut["running"] and cut["may"]["pause"] and cut["may"]["record"] and not cut["may"]["start"], cut
+		assert cut["people"] == ["Tariq Haidar"], cut["people"]
+		running = ai.on_the_floor()
+		assert any(one["job_card"] == cut["name"] and one["state"] == "running" for one in running["steps"]), running
+		assert running["figures"]["running"] >= 1, running["figures"]
+
+		update_job_card(cut["name"], "pause_job", end_time=str(at + datetime.timedelta(minutes=20)))
+		cut = floor.read(work_order=door["name"])["steps"][0]
+		assert cut["paused"] and cut["may"]["resume"] and not cut["running"], cut
+		update_job_card(cut["name"], "resume_job", start_time=str(at + datetime.timedelta(minutes=30)))
+
+		closed_before = floor.figures()["done_today"]
+		shop_floor.complete_and_submit(
+			cut["name"], cut["for_quantity"], cut["for_quantity"], 0, 0, str(at + datetime.timedelta(minutes=50))
+		)
+		cut = floor.read(work_order=door["name"])["steps"][0]
+		assert cut["docstatus"] == 1 and cut["done"] == cut["for_quantity"], cut
+		assert not any(cut["may"][key] for key in ("start", "pause", "resume", "record")), cut["may"]
+		assert floor.figures()["done_today"] == closed_before + 1
+		saw = floor.read(workstation="Saw Line")
+		assert all(one["workstation"] == "Saw Line" for one in saw["steps"]), saw["steps"]
+	with as_user("nadia@one.test"):
+		assert ai.on_the_floor().get("error")
+		try:
+			floor.read()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody outside the workshop read the Shop Floor")
 
 
 @check

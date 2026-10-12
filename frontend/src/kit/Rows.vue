@@ -36,8 +36,8 @@
           </div>
           <Progress v-else-if="item.progress !== undefined && item.progress !== null" :value="item.progress" size="md" class="w-full" />
         </ListCell>
-        <ListCell v-else class="justify-end text-base tabular-nums text-ink-gray-5">{{ item.dim }}</ListCell>
-        <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7">
+        <ListCell v-else-if="dims" class="justify-end text-base tabular-nums text-ink-gray-5">{{ item.dim }}</ListCell>
+        <ListCell v-if="values" class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7">
           <div class="text-end">
             <div>{{ item.value }}</div>
             <div v-if="item.under" class="text-sm text-ink-gray-5">{{ item.under }}</div>
@@ -63,7 +63,15 @@ import { __, go } from "./desk";
 const props = defineProps({ rows: { type: Array, required: true }, empty: String });
 const bars = computed(() => props.rows.some((row) => row.progress !== undefined && row.progress !== null));
 const menus = computed(() => props.rows.some((row) => row.actions?.length));
-const columns = computed(() => ["minmax(0,1fr)", bars.value ? "6rem" : "auto", "minmax(8rem,max-content)", ...(menus.value ? ["2rem"] : [])]);
+// A column for the aside and one for the value, each only when some row has one.
+const dims = computed(() => props.rows.some((row) => row.dim));
+const values = computed(() => props.rows.some((row) => row.value || row.under));
+const columns = computed(() => [
+  "minmax(0,1fr)",
+  ...(bars.value ? ["6rem"] : dims.value ? ["auto"] : []),
+  ...(values.value ? ["minmax(8rem,max-content)"] : []),
+  ...(menus.value ? ["2rem"] : []),
+]);
 // One line for the name, and one more for each line under it.
 const height = computed(() =>
   Math.max(...props.rows.map((row) => 40 + 18 * Math.max((bars.value && row.dim ? 1 : 0) + (row.below ? 1 : 0) + (row.lines?.length || 0), row.under ? 1 : 0)), 40)

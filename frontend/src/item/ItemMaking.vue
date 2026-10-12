@@ -87,7 +87,7 @@ const steps = computed(() =>
 
 // A work order still open: for which project, how far each step has got,
 // red once it was wanted. Finish records what has been made, and Shop
-// Floor opens ERPNext's page for the people on the floor at it.
+// Floor opens the floor's own page at it.
 const orders = computed(() =>
   making.value.orders.map((one) => ({
     key: one.name,
@@ -103,7 +103,7 @@ const orders = computed(() =>
     route: `/desk/work-order/${encodeURIComponent(one.name)}`,
     actions: [
       making.value.can["Stock Entry"] && one.can_finish > 0 && { label: __("Finish"), icon: "lucide-package-check", onClick: () => onedesk().item.finish(one.name, one.can_finish) },
-      making.value.can.shop_floor && one.steps.some((step) => step.completed_qty < one.qty) && { label: __("Open on Shop Floor"), icon: "lucide-factory", onClick: () => onedesk().item.shop_floor(one.name) },
+      making.value.can.shop_floor && one.steps.some((step) => step.completed_qty < one.qty) && { label: __("Open on Shop Floor"), icon: "lucide-factory", onClick: () => go(`/desk/floor?work_order=${encodeURIComponent(one.name)}`) },
     ].filter(Boolean),
   }))
 );

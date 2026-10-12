@@ -145,6 +145,7 @@ SCREENS = {
 	"task-view": "the page a Task opens on (PAGES)",
 	"item-view": "the page an Item opens on (PAGES)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
+	"floor": "the work on the floor, work orders and each step's job card (Work Order, Job Card)",
 	"my-tasks": "the reader's own tasks, grouped, drawn with frappe-ui (Task)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"onemail": "mail, read and written (Communication)",

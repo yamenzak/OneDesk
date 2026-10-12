@@ -169,11 +169,6 @@ onedesk.item.finish = (work_order, most) => {
 		__("Finish")
 	);
 };
-// ERPNext's Shop Floor, at the work order, as its form's button opens it.
-onedesk.item.shop_floor = (work_order) => {
-	frappe.route_options = { work_order };
-	frappe.set_route("shop-floor");
-};
 onedesk.item.price = (item, buying) => frappe.new_doc("Item Price", { item_code: item, price_list: frappe.defaults.get_default(buying ? "buying_price_list" : "selling_price_list") || undefined });
 
 // A variant of a template made from its attributes, as ERPNext's Single

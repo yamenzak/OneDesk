@@ -11478,6 +11478,70 @@ Fixed:
 | Everything follows frappe | the forms, the lists and the print are frappe's and ERPNext's own |
 | What ERPNext already does | operating cost from job cards' time, a part-done job card's rest still to do, the project carried to every movement, subcontracting's materials and receipt |
 
+#### 7a. Shop Floor
+
+Looked at as Tariq on ERPNext's Shop Floor (/desk/shop-floor), on a desktop
+and a phone. The user asked why it had ERPNext's logo and look, and to make
+it ours.
+
+Found:
+
+- **Our look (5)**: ERPNext's page is its own app inside the desk, with its
+  logo, colours and buttons. It was nowhere in OneInventory's rail. The
+  item's Making view sent people to it.
+- **Built from frappe (8)**: its server side is sound. It counts open work
+  orders, reads a work order's or a workstation's job cards with their
+  materials, instructions, quality check and time, and does every change
+  through the job card's own methods. Nothing of it needed to change.
+
+Done:
+
+- **Shop Floor** is a page of OneInventory under Making (page/floor,
+  frontend/src/floor). Over it, Open Work Orders, Running Now, Waiting to
+  Start and Closed Today. The board lists the open work orders, each with
+  its project, the step it is at, how much is made and how many steps are
+  done, the late ones with a red dot. Done lists the finished ones. Each
+  workstation has a tab with its steps.
+- A work order shows its steps. Each says how many are done, who is on it,
+  how long it has run (a clock while it runs), what is short in the stores,
+  and whether it needs a quality check. Its button is the next thing to do:
+  Start, Pause, Resume, Close Step or Receive Into Stock. Its menu has
+  Record Made, Move Materials, Check Quality, Read Instructions and Open Job
+  Card. Finish on the work order is the item page's own.
+- Every change is ERPNext's whitelisted call in frappe's dialogs
+  (floor_actions.js). Start asks when and who, the reader first. Record Made
+  asks how many were made and lost, then Close Step or Carry On Later. A
+  step that needs a quality check takes its readings first, and a rejected
+  check keeps the step open.
+- The instructions line is left out when the operation's description only
+  says its name again.
+- On a phone each work order is one line under its name, without the bar.
+  The shared rows leave out a column no row fills.
+- The item's Making view opens our Shop Floor at the work order.
+  ERPNext's page stays where it was.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | Tariq's two open work orders, three workstations and their job cards; a new check starts, pauses, resumes and closes a step, and reads it as OneAI does |
+| 2 Rules on the server | nothing new, every rule is the job card's own |
+| 3 Hand-offs | a closed step's sub-assembly goes into stock through ERPNext's entry, Move Materials makes the job card's own stock entry |
+| 4 Tier declared | page `floor` in SCREENS |
+| 5 Our look | figures, tabs, rows and steps from frappe-ui, at 1440 wide and on a phone |
+| 6 Nothing lost | everything ERPNext's page does, and its page kept |
+| 7 Extensible | the page is a place, `oneinventory_floor.shown` |
+| 8 Built from frappe | ERPNext's own Shop Floor queries and calls, frappe's dialogs, realtime on Job Card and Work Order |
+| 9 Overrides recorded | none, the page only calls ERPNext |
+| 10 Notifications | none new, Work Order Done as before |
+| 11 Printed | One Work Order as before |
+| 12 Plain words | every label, button and dialog, in Arabic and German |
+| 13 Documented, OneAI | the README's Shop Floor section, `on_the_floor` with What is running on the floor? |
+| 14 Intake | nothing new |
+| 15 Permissions | the manufacturing and shop floor roles see it, start needs write on Job Card, Close Step needs submit, Nadia nothing |
+| 16 Legal | job cards name employees, as before |
+| 17 Clean code | lint clean, one server file, one actions file, two parts |
+| Everything follows frappe | the dialogs are frappe's, the parts frappe-ui's, the page follows realtime |
+| What ERPNext already does | open counted as ERPNext counts it, time logs, process loss, quality check before submit, job card status |
+
 #### 8. Equipment
 
 Looked at as Karim on the assets, an asset, the movements, the maintenance

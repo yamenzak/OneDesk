@@ -54,6 +54,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.task": "Task",
 		"onedesk.item": "Item",
 		"onedesk.stock": None,
+		"onedesk.floor": None,
 		"onedesk.my_tasks": None,
 		"onedesk.timers": None,
 	}

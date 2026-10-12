@@ -1389,6 +1389,8 @@ one_ai_reads = [
 	# What the workshop has in hand, and how far one work order is.
 	"onedesk.one_inventory.ai.work_in_hand",
 	"onedesk.one_inventory.ai.work_order_facts",
+	# What is running on the Shop Floor now.
+	"onedesk.one_inventory.ai.on_the_floor",
 	# How a piece of equipment is doing, who holds what and which services are due.
 	"onedesk.one_inventory.ai.asset_facts",
 	"onedesk.one_inventory.ai.equipment_held",

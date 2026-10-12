@@ -14,6 +14,8 @@ from frappe.utils import flt, get_fullname
 PAGE = "item-view"
 #: Stock on Hand (page/stock_on_hand).
 STOCK = "stock-on-hand"
+#: Shop Floor (page/floor).
+FLOOR = "floor"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -166,6 +168,12 @@ _IN_HAND = {
 	"can": "read",
 	"expects": "work_in_hand",
 }
+_ON_FLOOR = {
+	"label": _lt("What is running on the floor?"),
+	"ask": _lt("Which steps is someone on now, for how long, which are paused, and which are short of materials?"),
+	"can": "read",
+	"expects": "on_the_floor",
+}
 _HOW_FAR = {
 	"label": _lt("How far along is it?"),
 	"ask": _lt("How far along is this work order, step by step, and is everything it needs in the stores?"),
@@ -211,6 +219,7 @@ SUGGESTIONS = {
 	f"page:{PAGE}/buying": [_ORDER, _HOW],
 	"Item": [_LOW, _HOW],
 	f"page:{STOCK}": [_LOW, _HELD],
+	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
 	"Warehouse": [_WORTH, _LOW],
 	"Purchase Receipt": [_RECEIVED, _ARRIVING],
 	"Purchase Order": [_RECEIVE, _LATE, _ARRIVING],
@@ -223,7 +232,7 @@ SUGGESTIONS = {
 	"Stock Reconciliation": [_COUNTED],
 	"Work Order": [_HOW_FAR, _IN_HAND],
 	"BOM": [_MAKE, _IN_HAND],
-	"Job Card": [_IN_HAND],
+	"Job Card": [_ON_FLOOR, _IN_HAND],
 	"Asset": [_ASSET, _HAND, _DUE],
 	"Asset Maintenance Log": [_DUE],
 	"Asset Maintenance": [_DUE],
@@ -237,6 +246,12 @@ def page(said: dict) -> str | None:
 			"The reader is on Stock on Hand, which lists what each item has on hand, free to sell, on order and "
 			"its worth, in every warehouse or one. stock_on_hand reads it as the page shows it. How the page works "
 			"is in OneInventory's documentation (how_to)."
+		)
+	if said.get("page") == FLOOR:
+		return (
+			"The reader is on the Shop Floor, which shows the open work orders with how far their steps have got, "
+			"and each step's job card to start, pause, record and close. on_the_floor reads what is running now; "
+			"work_order_facts reads one work order. How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") != PAGE:
 		return None
@@ -1291,6 +1306,63 @@ def work_in_hand(
 			}
 		)
 	return {"orders": out, "count": len(out)}
+
+
+def on_the_floor(
+	workstation: Annotated[str, "Only the steps at this workstation, by name."] | None = None,
+) -> dict:
+	"""What the Shop Floor shows now: how many work orders are open, each step
+	someone is on and for how long, the paused ones, those waiting to start, and
+	the steps short of materials."""
+	from onedesk.one_inventory import floor
+
+	if not frappe.has_permission("Job Card", "read"):
+		return {"error": "The reader may not see job cards."}
+	filters = {"docstatus": 0, "is_subcontracted": 0}
+	if workstation:
+		filters["workstation"] = frappe.db.get_value("Workstation", {"name": workstation}) or frappe.db.get_value(
+			"Workstation", {"workstation_name": workstation}
+		)
+		if not filters["workstation"]:
+			return {"error": f"No workstation is called {workstation}."}
+	steps = []
+	for card in frappe.get_list(
+		"Job Card",
+		filters=filters,
+		fields=["name", "operation", "workstation", "work_order", "item_name", "status", "is_paused", "for_quantity", "total_completed_qty"],
+		order_by="expected_start_date asc, name asc",
+	):
+		logs = frappe.get_all(
+			"Job Card Time Log",
+			filters={"parent": card.name},
+			fields=["employee", "from_time", "to_time", "time_in_mins"],
+		)
+		open_log = next((log for log in logs if not log.to_time), None)
+		minutes = sum(flt(log.time_in_mins) for log in logs if log.to_time)
+		if open_log and not card.is_paused:
+			minutes += (frappe.utils.now_datetime() - frappe.utils.get_datetime(open_log.from_time)).total_seconds() / 60
+		people = sorted({log.employee for log in logs if log.employee})
+		short = [
+			row.get("item_name")
+			for row in floor.shop_floor.get_job_card_materials(card.name)
+			if row.get("status") == "short"
+		]
+		steps.append(
+			{
+				"job_card": card.name,
+				"step": card.operation,
+				"workstation": card.workstation,
+				"work_order": card.work_order,
+				"makes": card.item_name,
+				"state": "running" if floor.running_now(card) else "paused" if card.is_paused else "waiting" if card.status == "Open" else card.status,
+				"done": flt(card.total_completed_qty),
+				"of": flt(card.for_quantity),
+				"minutes": round(minutes),
+				"people": [frappe.db.get_value("Employee", who, "employee_name") or who for who in people],
+				"short_of": short,
+			}
+		)
+	return {"figures": floor.figures(), "steps": steps}
 
 
 def work_order_facts(work_order: Annotated[str, "The work order's number, such as MFG-WO-2026-00006."]) -> dict:
