@@ -110,27 +110,39 @@ kept by the piece is refused, because that is not a whole sheet.
 
 ## An item's page
 
-An item opens on a page of its own. Above its name it says what kind of
-thing it is (a stock item, a service, equipment or a template for variants),
-and **Made Here** when it has a bill of materials. Under its name is the one
+An item opens on a page of its own. Above its name is its brand, with the
+brand's logo (taken from the brand's website when it has none), and what kind
+of thing it is (a stock item, a service, equipment or a template for
+variants), and **Made Here** when it has a bill of materials. Beside its name
+is its picture, which you change by clicking it. Under its name is the one
 thing worth saying, if anything: **Disabled**, **Low in** a warehouse, or how
 many more are promised to customers than there are, and how many are being
-made. Then its code, group, unit and how its stock is valued.
+made. Then its code, group, unit and how its stock is valued, each changed
+where it is shown.
+
+On the right are its first two barcodes. A new item is given its code as its
+first barcode. **Manage Barcodes** adds, changes and removes them, and the
+order you drag them into decides which two show.
 
 The figures under that depend on what it is:
 
 - **A stock item**: **On Hand** across every warehouse, **Free to Sell**
   (on hand, less what is promised to customers), **On Order** (and how many
   are being made), what it is **Worth** in the books, and when it was **Last
-  Bought** and from whom, or **Last Made**.
+  Bought** and from whom, or **Last Made**. Under On Hand and Worth is a line
+  of the last twelve months and how much they moved this month, under On
+  Order what was ordered each month, and under Last Bought the prices it was
+  last bought at.
 - **A service**: its **Selling Price** and what it **Sold in 12 Months**.
 - **Equipment**: how many **Assets** it has become, and how many are not yet
   registered.
 
 Then its views, each only where the item has it:
 
-- **Overview**: what left stock, month by month for a year, its description
-  and the rest of its details. A template lists its variants, and equipment
+- **Overview**: what **Needs You** first, only when something does (past its
+  end of life, more promised than there is, running low, an order late in or
+  out, a request not yet ordered), then what was used and sent out, month by
+  month for a year, its description and its details. A template lists its variants, and equipment
   its assets and who has each.
 - **Stock**: each warehouse, with what it holds, what is promised and on
   order, and its reorder level; its batches; and its last moves in and out.
@@ -150,6 +162,15 @@ stock yet), **Edit Details**, **Disable Item**, ERPNext's **Stock Balance**,
 **Stock Ledger** and **Stock Projected Qty**, and frappe's own Print, Email,
 Duplicate, Rename and Delete. Each starts the document in its own form with
 the item on its first line.
+
+Every view keeps its own **Details** beside it: Stock has safety stock,
+batches, serial numbers and weight, Buying has the buying unit, lead time and
+minimum order, Selling the selling unit, discount and commission, and Making
+whether it is used in manufacturing. Each is changed where it is shown. The
+pencil (or the arrow on a choice) opens the item form's own field there, so
+the workspace's scripts and rules hold, and leaving it or pressing Enter
+saves. Escape puts it back. A field the form hides is not shown, and one it
+locks can't be changed.
 
 **Edit Details** changes everything else about the item, grouped as Details,
 Stock, Reordering, Units, Serial Numbers and Batches, Variants, Buying,
@@ -618,7 +639,17 @@ a register and a movement form in it would be a rail with five rows.
   item starts, each opened in its form with ERPNext's own triggers filling
   the line. The page keeps frappe's sidebar and menu and hears the item and
   its stock change. Each view is a place for OneStudio
-  (`oneinventory_item.*`).
+  (`oneinventory_item.*`). `_trends` draws the head's lines from the ledger's
+  balance per warehouse at each month's end (a stock count sets a balance
+  without moving any), the purchase orders per month, and `item.rates` the
+  last prices bought at. The fields shown in each view's Details are the
+  item form's own, held out of sight by the kit's `useForm` and lent where
+  they are shown (`FieldEdit`, docs/STANDARD.md point 6).
+- `barcodes.py` and `frontend/src/item/ItemBarcodes.vue` — barcodes, in
+  ERPNext's own Item Barcode table. `coded` gives a new item its code as its
+  first barcode on every path an item is made by. `save` keeps the order the
+  dialog leaves, so the first two are the head's. They are drawn by frappe's
+  own Barcode control in the format their type names.
 - `stock.py`, `page/stock_on_hand` and `frontend/src/stock` — Stock on
   Hand. ERPNext's Stock Balance answers it over a period and is a prepared
   report, so the rail's first look at the stores was an empty page with a

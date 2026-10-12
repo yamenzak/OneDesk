@@ -1,7 +1,8 @@
 <template>
   <!-- What the item is made from, the work orders making it, its bills of
        materials, and what it goes into. -->
-  <div class="pb-12">
+  <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section v-if="making.boms.length" :title="__('Made From')" icon="lucide-list-tree" :aside="said.made ? said.made.name : ''" :action="said.made ? { icon: 'lucide-arrow-up-right', label: __('Bill of Materials'), onClick: () => go(`/desk/bom/${encodeURIComponent(said.made.name)}`) } : null">
       <Rows :rows="materials" :empty="__('No default bill of materials')" />
@@ -17,15 +18,23 @@
       <Rows :rows="usedIn" />
     </Section>
   </div>
+    <!-- How the item is kept here: the item's own form fields, changed in place. -->
+    <aside class="min-w-0">
+      <Section :title="__('Details')" icon="lucide-info">
+        <Facts :facts="details" :form="form" @saved="emit('changed')" />
+      </Section>
+    </aside>
+  </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 
-import { PlaceSpot, Rows, Section, __, date, go, money, onedesk, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, date, go, money, onedesk, quantity } from "../kit";
 import { usePlace } from "../project/place";
 
-const props = defineProps({ said: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
+const emit = defineEmits(["changed"]);
 const making = computed(() => props.said.making);
 
 const materials = computed(() =>
@@ -78,4 +87,10 @@ const spot = usePlace("oneinventory_item.making", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   making: { bom: props.said.made?.name || null, orders: making.value.orders.length },
 }));
+
+// The item's own form fields that belong here, shown or locked as its form has them.
+const details = [
+  { label: __("Used in Manufacturing"), field: "include_item_in_manufacturing" },
+  { label: __("Default Bill of Materials"), field: "default_bom" },
+];
 </script>

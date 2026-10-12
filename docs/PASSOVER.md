@@ -842,6 +842,10 @@ Up next, in this order:
 4. The finished modules again, against the new points only, one screen at a
    time. OneProject is done and closed (2026-10-09). What it took is
    `docs/STANDARD.md`, and every module after it is finished the same way.
+5. **Back to the project and the task** once OneInventory's items are done:
+   their pages move to the new standard for changing a field (the record's
+   own form field in place, labels left and values right, no Edit Details
+   dialog). See `docs/STANDARD.md`, Changing a field where it is shown.
 
 Noticed along the way, for the screen it belongs to:
 
@@ -10491,6 +10495,64 @@ a cleaner and more connected way.
 - **Plain words (12)**: every new string in Arabic and German.
 - **Masters**: Attributes (Colour, Size) with their values edited in the
   Masters dialog, and a field shows only when its section's condition holds.
+
+#### 1c. An item's head, and its fields changed in place
+
+Looked at as Karim on Aluminium Profile 6063, each view, on a desktop.
+
+Found:
+
+- **Our look (5)**: the head had no picture, no brand and no barcodes, and the
+  figures were bare numbers with nothing to say how they moved.
+- **Nothing lost (6)**: a field was changed only in Edit Details, a dialog
+  away. The first try drew our own inputs, which skipped the workspace's
+  scripts and the form's rules. Your word: "the same form fields, just
+  hidden behind the edit".
+- **Our look (5)**: fields sat against their labels, and lead time sat on
+  the Overview instead of Buying.
+- **Works (1)**: the On Hand line added up moves, so the opening stock count
+  (2,200 m, which sets a balance without moving any) was missing. It ended
+  at 728 m with 2,928 m on hand. The new demo check found it.
+
+Fixed:
+
+- **Our look (5)**: the brand and its logo above the name (from the
+  brand's website, `faces.py`, Brand gets a Website), the picture beside it,
+  the first two barcodes on the right with Manage Barcodes, and a line under
+  On Hand, Worth, On Order and Last Bought (frappe-ui's NumberCard).
+- **Nothing lost (6)**: the item's real desk form is held out of sight
+  (`onedesk.record.form`, the kit's `useForm`) and its own control is lent
+  over the place a field is shown (`onedesk.record.lend`, `FieldEdit`). Its
+  scripts, queries, `depends_on` and locks hold, and it saves against
+  `modified`. Written as the new standard in `docs/STANDARD.md`, point 6.
+- **Our look (5)**: labels left and values right, each view with its own
+  Details: Stock (safety stock, batches, serial numbers, weight), Buying
+  (unit, lead time, minimum order, over receipt, supplied by the customer),
+  Selling (unit, discount, over billing, commission), Making.
+- **Our look (5)**: Needs You on the Overview, only when something does.
+- **Works (1, 2)**: a new item gets its code as its first barcode on
+  before_insert (`barcodes.py`), so Data Import and OneAI give it one too.
+  The On Hand and Worth lines read each warehouse's balance at month end.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_an_items_head_has_its_barcodes_and_trends`: a new item's barcode, the order kept, twelve months that end at what is on hand, Nadia refused |
+| 2 Rules on the server | the barcode on before_insert, every change saved through the form's own save |
+| 3 Hand-offs | no new hand-off |
+| 4 Tier declared | the item's page as before |
+| 5 Our look | the head and every view at 1440 wide |
+| 6 Nothing lost | the form's own fields, its scripts and locks, its save against `modified` |
+| 7 Extensible | the views keep their places, and client scripts reach the fields |
+| 8 Built from frappe | frappe's controls, frappe's Barcode control, frappe-ui's NumberCard and Checkbox, values through `frappe.format` |
+| 9 Overrides recorded | four rows: the hidden form, the lent control, the Barcode control, the sidebar's picture |
+| 10 Notifications | nothing new to tell |
+| 11 Printed | nothing new to print |
+| 12 Plain words | every new label and row in Arabic and German |
+| 13 Documented | README, An item's page and the file map |
+| 14 Intake | nothing new to read |
+| 15 Permissions | the form's own field status, and `barcodes.save` checks write |
+| 16 Legal | a brand's logo is fetched from its own website, as a customer's is |
+| 17 Clean code | desk reached only through the kit, ruff clean |
 
 #### 2. Stock on Hand and warehouses
 

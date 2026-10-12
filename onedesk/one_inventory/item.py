@@ -52,6 +52,24 @@ def last_bought(item: str) -> dict | None:
 	return None
 
 
+def rates(item: str, count: int = 12) -> list[float]:
+	"""What it cost each of the last `count` times it was received, oldest
+	first, or ordered when it has not been received yet."""
+	for child, parent, date in (
+		("Purchase Receipt Item", "Purchase Receipt", "posting_date"),
+		("Purchase Order Item", "Purchase Order", "transaction_date"),
+	):
+		found = frappe.db.sql(
+			f"""select item.base_rate from `tab{child}` item join `tab{parent}` doc on doc.name = item.parent
+			where item.item_code = %s and doc.docstatus = 1
+			order by doc.{date} desc, doc.creation desc limit %s""",
+			(item, count),
+		)
+		if found:
+			return [flt(row[0]) for row in reversed(found)]
+	return []
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def said(item: str) -> dict:

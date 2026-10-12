@@ -1,0 +1,17 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Brand",
+   "fieldname": "one_website",
+   "fieldtype": "Data",
+   "options": "URL",
+   "label": "Website",
+   "insert_after": "brand",
+   "module": "One Inventory"
+  }
+ ],
+ "doctype": "Brand",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

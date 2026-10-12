@@ -10,15 +10,19 @@
 // tests/guards/test_frame.py checks it still covers what they read.
 frappe.provide("onedesk.record");
 
+// The records a page holds a live desk form for (onedesk.record.form).
+onedesk.record.held = new Set();
+
 // The record and its docinfo, read fresh, without leaving a copy in locals
-// that a form opened next would take for the saved record.
+// that a form opened next would take for the saved record, unless the page
+// holds the record's own form, which reads it from there.
 onedesk.record.read = async (doctype, name) => {
 	// frappe's dialogs read the kind's meta, which a page on another record never loaded.
 	await frappe.model.with_doctype(doctype);
 	const r = await frappe.call({ method: "frappe.desk.form.load.getdoc", type: "GET", args: { doctype, name } });
 	const doc = (r.docs || [])[0] || {};
 	const docinfo = r.docinfo || {};
-	frappe.model.remove_from_locals(doctype, name);
+	if (!onedesk.record.held.has(`${doctype}/${name}`)) frappe.model.remove_from_locals(doctype, name);
 	return { doc, docinfo };
 };
 
@@ -184,7 +188,7 @@ onedesk.record.menu = (doctype, record, { changed = () => {}, gone = () => {} } 
 	if (frappe.boot.user.can_create.includes(doctype) && !meta.allow_copy)
 		add(__("Duplicate"), async () => {
 			const copy = frappe.model.copy_doc(await frappe.model.with_doc(doctype, name));
-			frappe.model.remove_from_locals(doctype, name);
+			if (!onedesk.record.held.has(`${doctype}/${name}`)) frappe.model.remove_from_locals(doctype, name);
 			frappe.set_route("Form", doctype, copy.name);
 		});
 	if (meta.allow_rename && perm.write) add(__("Rename"), () => frappe.model.rename_doc(doctype, name, changed));
@@ -299,5 +303,96 @@ onedesk.record.sidebar = (page, doctype, name, { files = null } = {}) => {
 		frappe.realtime.doc_unsubscribe(doctype, name);
 		page.page_actions.find(".form-viewers").remove();
 		page.sidebar.empty();
+	};
+};
+
+// The record's own desk form, mounted out of sight as frappe mounts one in its
+// Data Import dialog: its client scripts, queries, depends_on and
+// set_df_property all run, and a page changes a field by putting that form's
+// own control where the field is shown (the kit's FieldEdit), then saving the
+// form as desk saves it, against the `modified` it loaded. `changed` runs on
+// each refresh of the form, `edited(fieldname)` on each change of one of its
+// values. Returns { frm, stop }.
+onedesk.record.form = (doctype, name, changed = () => {}, edited = () => {}) =>
+	new Promise((done) => {
+		frappe.model.with_doctype(doctype, () =>
+			frappe.model.with_doc(doctype, name, (got, r) => {
+				if (r && r["403"]) return done(null);
+				const key = `${doctype}/${name}`;
+				onedesk.record.held.add(key);
+				const $host = $('<div class="one-record-form" hidden></div>').appendTo(document.body);
+				// in_form=false as frappe's own: a rename doesn't take the route.
+				const frm = new frappe.ui.form.Form(doctype, $host.get(0), false);
+				// Nor does it take the page's title or breadcrumbs.
+				frm.in_dialog = true;
+				// Nor write its tab into the page's address.
+				const set_active_tab = frm.set_active_tab.bind(frm);
+				frm.set_active_tab = (tab) => {
+					const was = window.location.href;
+					set_active_tab(tab);
+					if (window.location.href !== was) history.replaceState(history.state, "", was);
+				};
+				const heard = (refreshed) => refreshed === frm && changed(frm);
+				frappe.ui.form.on(doctype, "refresh", heard);
+				const typed = (fieldname, value, doc) => doc && doc.name === frm.docname && edited(fieldname);
+				frappe.model.on(doctype, "*", typed);
+				frm.refresh(name);
+				changed(frm);
+				done({
+					frm,
+					stop() {
+						const handlers = (frappe.ui.form.handlers[doctype] || {}).refresh || [];
+						const at = handlers.indexOf(heard);
+						if (at >= 0) handlers.splice(at, 1);
+						const any = frappe.model.events[doctype]["*"];
+						if (any.includes(typed)) any.splice(any.indexOf(typed), 1);
+						removeEventListener("beforeunload", frm.beforeUnloadListener, { capture: true });
+						if (window.cur_frm === frm) window.cur_frm = null;
+						onedesk.record.held.delete(key);
+						$host.remove();
+					},
+				});
+			})
+		);
+	});
+
+// A field of a held form lent to a page: the form's own control, floated over
+// `spot`, the place the page shows the field, until it is given back. It stays
+// in the document, where desk's styles reach it, as they don't inside a page's
+// island. `keys(e)` hears its keys; `left()` runs once focus leaves it for
+// anywhere but its own popups (a date picker, a link's results).
+onedesk.record.lend = (frm, fieldname, spot, { keys = () => {}, left = () => {} } = {}) => {
+	const control = frm.fields_dict[fieldname];
+	const $home = $('<span hidden class="one-field-home"></span>').insertBefore(control.$wrapper);
+	const $float = $('<div class="one-field-float"></div>').appendTo(document.body).append(control.$wrapper);
+	const place = () => {
+		const r = spot.getBoundingClientRect();
+		$float.css({ top: r.top, left: r.left, width: Math.max(r.width, 192) });
+		spot.style.height = `${$float.outerHeight()}px`;
+	};
+	place();
+	control.refresh();
+	place();
+	window.addEventListener("scroll", place, true);
+	window.addEventListener("resize", place);
+	$float.on("keydown", keys);
+	$float.on("focusout", () =>
+		setTimeout(() => {
+			if ($float[0].contains(document.activeElement)) return;
+			if (document.querySelector(".datepicker.active, .awesomplete > ul:not([hidden]):not(:empty)")) return;
+			left();
+		}, 200)
+	);
+	return {
+		control,
+		place,
+		give_back() {
+			window.removeEventListener("scroll", place, true);
+			window.removeEventListener("resize", place);
+			control.$wrapper.insertAfter($home);
+			$home.remove();
+			$float.remove();
+			spot.style.height = "";
+		},
 	};
 };

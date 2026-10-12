@@ -1,7 +1,8 @@
 <template>
   <!-- Who the item is bought from and at what, what is on order and still to
        arrive, what has been asked for, and its buying prices. -->
-  <div class="pb-12">
+  <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section :title="__('Suppliers')" icon="lucide-truck" :aside="buying.suppliers.length || ''">
       <Rows :rows="suppliers" :empty="__('Never bought')" />
@@ -16,15 +17,23 @@
       <Rows :rows="prices(buying.prices)" :empty="__('No buying price')" />
     </Section>
   </div>
+    <!-- How the item is kept here: the item's own form fields, changed in place. -->
+    <aside class="min-w-0">
+      <Section :title="__('Details')" icon="lucide-info">
+        <Facts :facts="details" :form="form" @saved="emit('changed')" />
+      </Section>
+    </aside>
+  </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 
-import { PlaceSpot, Rows, Section, __, date, money, onedesk, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, date, money, onedesk, quantity } from "../kit";
 import { usePlace } from "../project/place";
 
-const props = defineProps({ said: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
+const emit = defineEmits(["changed"]);
 const buying = computed(() => props.said.buying);
 
 const suppliers = computed(() =>
@@ -67,4 +76,13 @@ const spot = usePlace("oneinventory_item.buying", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   buying: { suppliers: buying.value.suppliers.map((one) => one.supplier), orders: buying.value.orders.length, late: buying.value.orders.filter((one) => one.late).length },
 }));
+
+// The item's own form fields that belong here, shown or locked as its form has them.
+const details = [
+  { label: __("Buying Unit"), field: "purchase_uom" },
+  { label: __("Lead Time in Days"), field: "lead_time_days" },
+  { label: __("Minimum Order"), field: "min_order_qty" },
+  { label: __("Over Receipt Allowance (%)"), field: "over_delivery_receipt_allowance" },
+  { label: __("Supplied by the Customer"), field: "is_customer_provided_item" },
+];
 </script>

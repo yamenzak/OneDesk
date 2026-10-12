@@ -623,3 +623,41 @@ a.one-shell-row:hover {
 	width: 16px;
 	height: 16px;
 }
+
+/* A record's own form field, lent to a page and floated over the place it
+   is shown (onedesk.record.lend): the control alone, without its label or
+   help, which the page already shows. */
+.one-field-float {
+	position: fixed;
+	z-index: 1030;
+}
+
+.one-field-float .control-label,
+.one-field-float .help-box,
+.one-field-float .tooltip-content,
+.one-field-float .control-value,
+.one-field-float .disp-area {
+	display: none !important;
+}
+
+.one-field-float .frappe-control,
+.one-field-float .form-group {
+	margin: 0;
+}
+
+.one-field-float .input-max-width {
+	max-width: none;
+}
+
+/* OneAI's Write button stays with a lent text field, at the end of its
+   toolbar, since the label it sits beside is hidden here. */
+.one-field-float .frappe-control {
+	position: relative;
+}
+
+.one-field-float .one-ai-write {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	z-index: 1;
+}

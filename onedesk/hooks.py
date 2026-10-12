@@ -418,7 +418,16 @@ doc_events = {
 		"on_submit": "onedesk.one_inventory.assets.registered",
 	},
 	# The assets register finishes itself. See one_inventory/assets.py.
-	"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"},
+	"Item": {
+		"validate": "onedesk.one_inventory.assets.fixed_item",
+		# A new item's code is its first barcode. See one_inventory/barcodes.py.
+		"before_insert": "onedesk.one_inventory.barcodes.coded",
+	},
+	# A brand without a logo gets its website's. See one_mail/faces.py.
+	"Brand": {
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"on_update": "onedesk.one_mail.faces.dress_later",
+	},
 	# Whoever is given equipment is told. See one_inventory/tell.py.
 	"Asset Movement": {"on_submit": "onedesk.one_inventory.tell.handed_over"},
 	# Every task on a schedule has its next date. See one_inventory/maintenance.py.

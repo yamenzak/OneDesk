@@ -1,19 +1,23 @@
 <template>
-  <!-- What the item is and how it moves: what left stock month by month, its
-       description, its variants or its equipment on the left; the rest of
-       what it is on the right, each with its value. -->
-  <div ref="root" class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+  <!-- What the item is and how it moves: what was used and sent out month by
+       month, its description, its variants or its equipment on the left;
+       what needs the reader and the rest of what it is on the right, each
+       field changed where it is shown (FieldEdit). -->
+  <div ref="root" class="pb-12">
+  <!-- Across the top, and only when there is something to do. -->
+  <Section v-if="needs.length" boxed class="!mt-0" :title="__('Needs You')" icon="lucide-bell" :aside="needs.length">
+    <Rows :rows="needs" />
+  </Section>
+  <div class="grid gap-x-10 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
       <div v-if="moved.length" data-cards class="pb-5">
         <ChartCard class="h-64">
-          <BarChart :title="__('Out of Stock, Month by Month')" :subtitle="said.moved.said" :data="moved" x="month" :y="['qty']" :series-config="{ qty: { label: __('Out of Stock') } }" />
+          <BarChart :title="__('Used and Sent Out, Month by Month')" :subtitle="said.moved.said" :data="moved" x="month" :y="['qty']" :series-config="{ qty: { label: __('Used and Sent Out') } }" />
         </ChartCard>
       </div>
 
-      <Section :title="__('Description')" icon="lucide-file-text" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Description'), onClick: describe } : null">
-        <div v-if="described" class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.description" />
-        <button v-else-if="said.can_write" class="text-base text-ink-gray-5 hover:text-ink-gray-8" @click="describe">{{ __("Add Description") }}</button>
-        <p v-else class="text-base text-ink-gray-5">{{ __("No description") }}</p>
+      <Section :title="__('Description')" icon="lucide-file-text">
+        <FieldEdit :form="form" field="description" start :label="__('Description')" :placeholder="said.can_write ? __('Add Description') : __('No description')" @saved="emit('changed')" />
       </Section>
 
       <Section v-if="said.has_variants" :title="__('Variants')" icon="lucide-layers" :aside="said.variants.length || ''" :action="said.can.Item ? { text: true, icon: 'lucide-plus', label: __('Add Variant'), onClick: () => onedesk().item.variant(said.name) } : null">
@@ -26,11 +30,11 @@
     </div>
 
     <aside class="flex min-w-0 flex-col">
-      <Section :title="__('Details')" icon="lucide-info" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Details'), onClick: details } : null">
-        <Facts v-if="details_.length" :facts="details_" />
-        <p v-else class="text-base text-ink-gray-5">{{ __("Nothing") }}</p>
+      <Section :title="__('Details')" icon="lucide-info">
+        <Facts :facts="details_" :form="form" @saved="emit('changed')" />
       </Section>
     </aside>
+  </div>
   </div>
 </template>
 
@@ -38,17 +42,14 @@
 import { computed, ref } from "vue";
 import { BarChart, ChartCard } from "frappe-ui/charts";
 
-import { Facts, Rows, Section, __, date, go, onedesk, quantity } from "../kit";
+import { Facts, FieldEdit, Rows, Section, __, date, go, onedesk, quantity } from "../kit";
 
-const props = defineProps({ said: { type: Object, required: true } });
+// `form` is the item's own desk form (the kit's useForm), whose fields
+// Details and Description change in place.
+const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
 const emit = defineEmits(["changed", "view"]);
 const root = ref();
 
-// ERPNext writes the item's name as its description when none is given.
-const described = computed(() => {
-  const text = (props.said.description || "").replace(/<[^>]*>/g, "").trim();
-  return Boolean(text) && text !== props.said.item_name && text !== props.said.item_code;
-});
 const moved = computed(() => {
   const m = props.said.moved;
   if (!m || !m.values.some(Boolean)) return [];
@@ -69,24 +70,50 @@ const assets = computed(() =>
   }))
 );
 
-// The rest of what the item is, each only where it has a value.
-const details_ = computed(() => {
+// What needs the reader about the item: more promised than there is, a
+// warehouse running low, an order late in or out, a request not yet ordered,
+// or its end of life gone by.
+const needs = computed(() => {
   const s = props.said;
-  const yes = (on, label) => (on ? label : null);
-  const uses = [yes(s.is_purchase_item, __("Bought")), yes(s.is_sales_item, __("Sold")), yes(s.made, __("Made Here")), yes(s.is_sub_contracted_item, __("Made by a Subcontractor"))].filter(Boolean);
-  return [
-    uses.length && { label: __("Used For"), value: uses.join(", ") },
-    s.lead_time_days && { label: __("Lead Time"), value: __("{0} days", [s.lead_time_days]) },
-    s.min_order_qty && { label: __("Minimum Order"), value: quantity(s.min_order_qty, s.stock_uom) },
-    s.safety_stock && { label: __("Safety Stock"), value: quantity(s.safety_stock, s.stock_uom) },
-    s.has_batch_no && { label: __("Batches"), value: __("Kept by batch") },
-    s.has_serial_no && { label: __("Serial Numbers"), value: s.stock?.serials !== null && s.stock?.serials !== undefined ? __("{0} in stock", [s.stock.serials]) : __("Kept by serial number") },
-    s.asset_category && { label: __("Asset Category"), value: s.asset_category, route: `/desk/asset-category/${encodeURIComponent(s.asset_category)}` },
-    // ERPNext sets 2099 when nobody gives one.
-    s.end_of_life && !String(s.end_of_life).startsWith("2099") && { label: __("End of Life"), value: date(s.end_of_life) },
-  ].filter(Boolean);
+  const uom = s.stock_uom;
+  const rows = [];
+  const today = new Date().toISOString().slice(0, 10);
+  if (s.end_of_life && !String(s.end_of_life).startsWith("2099") && s.end_of_life <= today) {
+    rows.push({ key: "ended", dot: "red", label: __("Past Its End of Life"), value: date(s.end_of_life) });
+  }
+  if (s.summary?.free < 0) {
+    rows.push({ key: "short", dot: "red", label: __("{0} more promised than on hand", [quantity(-s.summary.free, uom)]), onClick: () => emit("view", "selling") });
+  }
+  for (const one of s.stock?.places || []) {
+    if (!one.low) continue;
+    rows.push({ key: `low-${one.warehouse}`, dot: "orange", label: __("Running Low in {0}", [one.warehouse]), below: __("Reorders at {0}", [quantity(one.level, uom)]), value: __("{0} expected", [quantity(one.projected, uom)]), onClick: () => emit("view", "stock") });
+  }
+  for (const one of s.buying?.orders || []) {
+    if (!one.late) continue;
+    rows.push({ key: one.name, dot: "red", label: __("Late from {0}", [one.party]), sub: one.name, below: __("{0} still to come", [quantity(one.left, uom)]), value: __("Due {0}", [date(one.due)]), route: `/desk/purchase-order/${encodeURIComponent(one.name)}` });
+  }
+  for (const one of s.selling?.orders || []) {
+    if (!one.late) continue;
+    rows.push({ key: one.name, dot: "red", label: __("Late to {0}", [one.party]), sub: one.name, below: __("{0} still to send", [quantity(one.left, uom)]), value: __("Due {0}", [date(one.due)]), route: `/desk/sales-order/${encodeURIComponent(one.name)}` });
+  }
+  for (const one of s.buying?.requests || []) {
+    rows.push({ key: one.name, dot: "orange", label: __("Asked For, Not Yet Ordered"), sub: one.name, below: quantity(one.left, uom), value: __("Due {0}", [date(one.due)]), route: `/desk/material-request/${encodeURIComponent(one.name)}` });
+  }
+  return rows;
 });
 
-const details = () => onedesk().item.edit(props.said.name, props.said.modified, () => emit("changed"));
-const describe = () => onedesk().item.edit(props.said.name, props.said.modified, () => emit("changed"), ["description"]);
+// What the item is: the item's own form fields, each changed in place, and
+// shown or locked as its form shows or locks them. How it is kept, bought,
+// sold and made is on those tabs.
+const details_ = computed(() => [
+  { label: __("Measured By"), field: "one_measured_by" },
+  { label: __("Bought"), field: "is_purchase_item" },
+  { label: __("Sold"), field: "is_sales_item" },
+  props.said.made && { label: __("Made Here"), value: __("Yes") },
+  { label: __("Made by a Subcontractor"), field: "is_sub_contracted_item" },
+  { label: __("Country of Origin"), field: "country_of_origin" },
+  { label: __("Customs Tariff Number"), field: "customs_tariff_number" },
+  { label: __("Asset Category"), field: "asset_category" },
+  { label: __("End of Life"), field: "end_of_life" },
+].filter(Boolean));
 </script>

@@ -253,3 +253,29 @@ export function setQuery(key, value) {
 	const oneai = window.onedesk && window.onedesk.oneai;
 	if (oneai && oneai.panel) oneai.panel.moved(oneai.where());
 }
+
+/** A barcode as desk's Barcode field draws it (frappe.ui.form.ControlBarcode),
+ * as SVG markup, or "" when the value does not fit the format. `options` are
+ * JsBarcode's. */
+export function barcode(value, format, options = {}) {
+	const control = frappe().ui.form.make_control({
+		parent: document.createElement("div"),
+		df: { fieldtype: "Barcode", fieldname: "barcode", options: JSON.stringify({ format, ...options }) },
+		render_input: true,
+	});
+	return control.get_barcode_html(value) || "";
+}
+
+/** A field of a doctype as desk has it, its doctype loaded first. */
+export const docfield = (doctype, fieldname) =>
+	new Promise((done) => frappe().model.with_doctype(doctype, () => done(frappe().meta.get_docfield(doctype, fieldname))));
+
+/** Desk's own dialog, with frappe's fields. */
+export const dialog = (options) => new (frappe().ui.Dialog)(options);
+
+/** Desk's alert in the corner, as a form's save shows "Saved". */
+export const alert = (message, indicator = "green") => frappe().show_alert({ message, indicator });
+
+/** A value as desk's form writes it for its field, read-only and inline. */
+/** (A whole number comes back as a number, and 0 must still show.) */
+export const formatted = (value, df, doc) => String(frappe().format(value, df, { inline: true, only_value: true }, doc) ?? "");

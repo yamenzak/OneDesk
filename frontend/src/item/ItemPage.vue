@@ -6,25 +6,49 @@
            one thing worth saying, what it is and how much of it there is.
            Frappe's own form sidebar is on the page's right (onedesk.island_page). -->
       <header class="pt-6">
-        <div class="flex flex-wrap items-center gap-2">
-          <Badge :label="__(KIND[said.kind] || said.kind)" theme="gray" size="md" />
-          <Badge v-if="said.made" :label="__('Made Here')" theme="blue" size="md" />
-          <Badge v-if="said.disabled" :label="__('Disabled')" theme="red" size="md" />
-          <button v-if="said.variant_of" class="text-sm text-ink-gray-5 hover:text-ink-gray-8" @click="go(`/desk/item/${encodeURIComponent(said.variant_of)}`)">
-            {{ __("Variant of {0}", [said.variant_of_title || said.variant_of]) }}
-          </button>
-        </div>
-        <Title class="mt-3" :said="{ title: said.item_name, can_write: said.can_write }" size="text-3xl lg:text-4xl" field="item_name" :label="__('Item Name')" @change="set" />
-        <p v-if="headline" class="mt-1 text-base" :class="TONE[said.headline.tone]">{{ headline }}</p>
-        <dl class="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-base">
-          <div v-for="one in facts" :key="one.label" class="flex min-w-0 flex-col gap-1">
-            <dt class="text-sm text-ink-gray-5">{{ one.label }}</dt>
-            <dd class="truncate py-1 text-ink-gray-8">
-              <button v-if="one.route" :class="LINK" @click="go(one.route)">{{ one.value }}</button>
-              <span v-else>{{ one.value }}</span>
-            </dd>
+        <div class="flex items-start justify-between gap-6">
+          <div class="min-w-0 flex-1">
+            <!-- Its brand, with its logo when it has one, and what kind of thing it is. -->
+            <div class="flex flex-wrap items-center gap-2">
+              <button v-if="said.brand" class="flex items-center gap-1.5 text-sm text-ink-gray-6 hover:text-ink-gray-8" @click="go(`/desk/item?brand=${encodeURIComponent(said.brand)}`)">
+                <img v-if="said.brand_logo" :src="said.brand_logo" alt="" class="size-4 rounded-1 object-contain" />
+                <span>{{ said.brand }}</span>
+              </button>
+              <span v-if="said.brand" class="text-ink-gray-4" aria-hidden="true">·</span>
+              <Badge :label="__(KIND[said.kind] || said.kind)" theme="gray" size="md" />
+              <Badge v-if="said.made" :label="__('Made Here')" theme="blue" size="md" />
+              <Badge v-if="said.disabled" :label="__('Disabled')" theme="red" size="md" />
+              <button v-if="said.variant_of" class="text-sm text-ink-gray-5 hover:text-ink-gray-8" @click="go(`/desk/item/${encodeURIComponent(said.variant_of)}`)">
+                {{ __("Variant of {0}", [said.variant_of_title || said.variant_of]) }}
+              </button>
+            </div>
+            <div class="mt-3 flex items-center gap-4">
+              <!-- Its picture; one who may change the item puts a new one in. -->
+              <button
+                class="shrink-0 rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3"
+                :class="said.can_write ? 'cursor-pointer' : 'cursor-default'"
+                :aria-label="said.image ? __('Change Picture') : __('Add Picture')"
+                @click="picture"
+              >
+                <Avatar :image="said.image" :label="said.item_name" shape="square" size="3xl" class="size-14" />
+              </button>
+              <Title class="min-w-0" :said="{ title: said.item_name, can_write: said.can_write }" size="text-3xl lg:text-4xl" field="item_name" :label="__('Item Name')" @change="set" />
+            </div>
+            <p v-if="headline" class="mt-1 text-base" :class="TONE[said.headline.tone]">{{ headline }}</p>
+            <dl class="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-base">
+              <div v-for="one in facts" :key="one.label" class="flex min-w-0 flex-col gap-1">
+                <dt class="text-sm text-ink-gray-5">{{ one.label }}</dt>
+                <dd class="truncate py-1 text-ink-gray-8">
+                  <FieldEdit v-if="one.field" :form="form" :field="one.field" :label="one.label" :placeholder="one.placeholder" @saved="load" />
+                  <button v-else-if="one.route" :class="LINK" @click="go(one.route)">{{ one.value }}</button>
+                  <span v-else>{{ one.value }}</span>
+                </dd>
+              </div>
+            </dl>
           </div>
-        </dl>
+          <ItemBarcodes v-if="wide" :item="said.name" :barcodes="said.barcodes" :can-write="said.can_write" class="shrink-0" @changed="load" />
+        </div>
+        <ItemBarcodes v-if="!wide" :item="said.name" :barcodes="said.barcodes" :can-write="said.can_write" class="mt-4 !items-start" @changed="load" />
         <!-- In cards on a desktop; two to a row on a phone, where five cards
              would fill the screen before the views. -->
         <Figures v-if="figures.length" :figures="figures" :columns="figures.length" :boxed="wide" class="mt-5" />
@@ -35,11 +59,11 @@
       <ViewTabs v-model="view" :views="VIEWS" class="mt-5" />
 
       <div class="pt-4">
-        <ItemOverview v-if="view === 'overview'" :said="said" @changed="load" @view="(key) => (view = key)" />
-        <ItemStock v-else-if="view === 'stock'" :said="said" />
-        <ItemBuying v-else-if="view === 'buying'" :said="said" />
-        <ItemSelling v-else-if="view === 'selling'" :said="said" />
-        <ItemMaking v-else-if="view === 'making'" :said="said" />
+        <ItemOverview v-if="view === 'overview'" :said="said" :form="form" @changed="load" @view="(key) => (view = key)" />
+        <ItemStock v-else-if="view === 'stock'" :said="said" :form="form" @changed="load" />
+        <ItemBuying v-else-if="view === 'buying'" :said="said" :form="form" @changed="load" />
+        <ItemSelling v-else-if="view === 'selling'" :said="said" :form="form" @changed="load" />
+        <ItemMaking v-else-if="view === 'making'" :said="said" :form="form" @changed="load" />
         <ItemFiles v-else-if="view === 'files'" :item="said.name" :title="said.item_name" @count="(n) => (fileCount = n)" />
         <div v-else-if="view === 'activity'" class="pb-12">
           <PlaceSpot :said="activitySpot" class="mb-3" />
@@ -59,11 +83,12 @@
 // forms (item_actions.js). Desk's own page head above it carries the main
 // action and the rest (onedesk.island_page), from what `report` says.
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Badge } from "frappe-ui";
+import { Avatar, Badge } from "frappe-ui";
 
-import { Figures, Loading, Page, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, money, onResize, onedesk, quantity, setQuery, setValue, useRecord, viewWidth } from "../kit";
+import { FieldEdit, Figures, Loading, Page, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, money, onResize, onedesk, quantity, setQuery, setValue, upload, useForm, useRecord, viewWidth } from "../kit";
 import Title from "../project/Title.vue";
 import { usePlace } from "../project/place";
+import ItemBarcodes from "./ItemBarcodes.vue";
 import ItemBuying from "./ItemBuying.vue";
 import ItemFiles from "./ItemFiles.vue";
 import ItemMaking from "./ItemMaking.vue";
@@ -95,6 +120,8 @@ const view = ref(props.query.view || "overview");
 const fileCount = ref(null);
 // The record as its form has it: frappe's own menu items under the page's.
 const record = useRecord("Item", name);
+// The item's own desk form, whose fields the page changes in place.
+const form = useForm("Item", name);
 
 async function load() {
   const asked = name.value;
@@ -132,7 +159,10 @@ onBeforeUnmount(() => {
 });
 watch(view, (now) => setQuery("view", now === "overview" ? null : now));
 watch(() => props.query.view, (now) => now && (view.value = now));
-watch(() => said.value?.modified, (now, before) => now && before && now !== before && record.reload());
+watch(() => said.value?.modified, (now, before) => {
+  if (now && before && now !== before) record.reload();
+  form.reload(now);
+});
 watch(record.record, () => said.value && report());
 
 const VIEWS = computed(() => {
@@ -173,27 +203,44 @@ const facts = computed(() => {
   const s = said.value;
   return [
     s.item_code !== s.item_name && { label: __("Item Code"), value: s.item_code },
-    { label: __("Item Group"), value: s.item_group, route: `/desk/item?item_group=${encodeURIComponent(s.item_group)}` },
-    { label: __("Unit"), value: __(s.stock_uom) },
-    s.brand && { label: __("Brand"), value: s.brand },
-    s.stock && { label: __("Valued By"), value: __(s.valuation) },
+    // The item's own form fields, changed in place (FieldEdit).
+    { label: __("Item Group"), field: "item_group" },
+    { label: __("Unit"), field: "stock_uom" },
+    // Left empty, it is valued as Stock Settings says.
+    s.stock && { label: __("Valued By"), field: "valuation_method", placeholder: __(s.valuation) },
     ...s.attributes.map((one) => ({ label: __(one.attribute), value: one.value })),
   ].filter(Boolean);
 });
 
 // How much of it there is and what it is worth, for stock; what it sells for,
 // for a service; how many are on the register, for equipment.
+// A trend for a card to draw across its foot (frappe-ui's NumberCard), when
+// there is one to see.
+const traced = (data, type = "area") => (data?.some((value) => value) ? { data, type } : undefined);
+// A month-end series as a card shows it: the year's trend, and how far it
+// moved this month.
+function since(data) {
+  const sparkline = traced(data);
+  if (!sparkline) return {};
+  const delta = data[data.length - 1] - data[data.length - 2];
+  return { sparkline, delta: Math.abs(delta) > 1e-9 ? delta : null };
+}
+
 const figures = computed(() => {
   const s = said.value;
   const sum = s.summary || {};
+  const trend = s.trends || {};
   const list = [];
   if (s.stock) {
     const places = s.stock.places.filter((one) => one.on_hand).length;
+    const where = places > 1 ? __("In {0} warehouses", [places]) : places === 1 ? __("In {0}", [s.stock.places.find((one) => one.on_hand).warehouse]) : "";
+    const held = since(trend.held);
+    const worth = since(trend.worth);
     list.push(
-      { title: __("On Hand"), value: quantity(sum.on_hand, uom.value), note: places > 1 ? __("In {0} warehouses", [places]) : places === 1 ? __("In {0}", [s.stock.places.find((one) => one.on_hand).warehouse]) : "", route: `/desk/query-report/Stock Balance?item_code=${encodeURIComponent(s.name)}` },
+      { title: __("On Hand"), value: quantity(sum.on_hand, uom.value), ...held, deltaFormat: (v) => quantity(v, uom.value), note: held.delta ? __("this month") : where, route: `/desk/query-report/Stock Balance?item_code=${encodeURIComponent(s.name)}` },
       { title: __("Free to Sell"), value: quantity(sum.free, uom.value), note: sum.on_hand - sum.free > 0 ? (sum.held ? __("{0} promised to customers, {1} of it held", [quantity(sum.on_hand - sum.free), quantity(sum.held)]) : __("{0} promised to customers", [quantity(sum.on_hand - sum.free)])) : "", alarm: sum.free < 0, bar: sum.on_hand > 0 ? Math.max(0, Math.min(100, (100 * sum.free) / sum.on_hand)) : null },
-      { title: __("On Order"), value: quantity(sum.ordered, uom.value), note: making.value ? __("{0} being made", [quantity(making.value)]) : "" },
-      { title: __("Worth"), value: money(sum.value, s.currency), note: __("Valued by {0}", [__(s.valuation)]) },
+      { title: __("On Order"), value: quantity(sum.ordered, uom.value), note: making.value ? __("{0} being made", [quantity(making.value)]) : "", sparkline: traced(trend.ordered, "bar") },
+      { title: __("Worth"), value: money(sum.value, s.currency), ...worth, deltaFormat: (v) => money(v, s.currency), note: worth.delta ? __("this month") : __("Valued by {0}", [__(s.valuation)]) },
     );
   }
   if (s.assets) {
@@ -201,7 +248,7 @@ const figures = computed(() => {
     list.push({ title: __("Assets"), value: String(s.assets.length), note: drafts ? __("{0} not yet registered", [drafts]) : "", route: `/desk/asset?item_code=${encodeURIComponent(s.name)}` });
   }
   if (s.last_made) list.push({ title: __("Last Made"), value: quantity(s.last_made.qty, uom.value), note: date(s.last_made.posting_date) });
-  else if (s.last_bought) list.push({ title: __("Last Bought"), value: money(s.last_bought.rate, s.currency), note: __("From {0}, {1}", [s.last_bought.supplier, date(s.last_bought.on_date)]) });
+  else if (s.last_bought) list.push({ title: __("Last Bought"), value: money(s.last_bought.rate, s.currency), note: __("{0}, from {1}", [date(s.last_bought.on_date), s.last_bought.supplier]), sparkline: trend.prices?.length > 1 ? traced(trend.prices, "line") : undefined });
   const price = s.selling?.prices?.find((one) => !one.customer);
   if (!s.stock && price) list.push({ title: __("Selling Price"), value: money(price.price_list_rate, price.currency), note: price.price_list });
   if (!s.stock && s.selling?.customers?.length) {
@@ -217,6 +264,15 @@ async function set(fieldname, value) {
   } finally {
     load();
   }
+}
+
+// A picture put in through desk's own upload dialog becomes the item's image.
+function picture() {
+  if (!said.value?.can_write) return;
+  upload("Item", name.value, (file) => set("image", file.file_url), {
+    allow_multiple: false,
+    restrictions: { allowed_file_types: ["image/*"] },
+  });
 }
 
 const desk = onedesk;

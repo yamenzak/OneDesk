@@ -4735,6 +4735,38 @@ def oneinventory_an_item_opens_on_its_own_page():
 
 
 @check
+def oneinventory_an_items_head_has_its_barcodes_and_trends():
+	"""A new item is given its code as its first barcode. Manage Barcodes puts
+	them in the order it is given, so the first two are the head's, and
+	somebody who may only read the item can't change them. The head's cards
+	draw twelve months of stock held, its worth and what was ordered, and the
+	prices it was last bought at."""
+	from onedesk.one_inventory import barcodes, view
+
+	with as_user("karim@one.test"):
+		item = frappe.get_doc(
+			{"doctype": "Item", "item_code": "CHK-BAR-1", "item_name": "Barcode check", "item_group": "Raw Material", "stock_uom": "Nos"}
+		).insert()
+		assert [row.barcode for row in item.barcodes] == ["CHK-BAR-1"], item.barcodes
+		rows = barcodes.save("CHK-BAR-1", [{"barcode": "6291041500213", "barcode_type": "EAN"}, {"barcode": "CHK-BAR-1"}])
+		assert [row["barcode"] for row in rows] == ["6291041500213", "CHK-BAR-1"], rows
+		said = view.read("CHK-BAR-1")
+		assert [row["barcode"] for row in said["barcodes"]][: barcodes.FEATURED] == ["6291041500213", "CHK-BAR-1"]
+		head = view.read("ALU-6063")
+		trends = head["trends"]
+		assert len(trends["held"]) == 12 and len(trends["worth"]) == 12 and len(trends["ordered"]) == 12, trends
+		assert abs(trends["held"][-1] - head["summary"]["on_hand"]) < 0.001, (trends["held"], head["summary"])
+		assert trends["prices"], "the last prices it was bought at"
+	with as_user("nadia@one.test"):
+		try:
+			barcodes.save("CHK-BAR-1", [])
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody who can't change the item changed its barcodes")
+
+
+@check
 def oneinventory_new_item_parts_list_and_sizes():
 	"""New Item makes an item by its kind, measured by area or length or by the
 	piece; a sheet kept by the piece says how many square metres it is. A

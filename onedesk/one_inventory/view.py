@@ -11,7 +11,8 @@ import erpnext
 import frappe
 from frappe.utils import flt, getdate, nowdate
 
-from onedesk.one_inventory import heads
+from onedesk.one import figures
+from onedesk.one_inventory import barcodes, heads
 from onedesk.one_inventory import item as stock
 
 #: What the page reads of the item itself.
@@ -40,6 +41,10 @@ FIELDS = (
 	"safety_stock",
 	"min_order_qty",
 	"asset_category",
+	"one_measured_by",
+	"shelf_life_in_days",
+	"weight_per_unit",
+	"weight_uom",
 	"modified",
 )
 
@@ -108,11 +113,16 @@ def read(item: Annotated[str, "The item code."]) -> dict:
 			"last_bought": stock.last_bought(item) if not doc.is_fixed_asset else None,
 			"moved": heads.moved(doc),
 			"stock": _stock(doc) if doc.is_stock_item and not doc.is_fixed_asset else None,
+			"trends": _trends(doc),
 			"buying": _buying(doc),
 			"selling": _selling(doc),
 			"making": _making(doc),
 			"assets": _assets(item) if doc.is_fixed_asset else None,
 			"files": files(item),
+			"barcodes": barcodes.listed(doc),
+			"brand_logo": frappe.db.get_value("Brand", doc.brand, "image") if doc.brand else None,
+			# Batches and serial numbers are fixed once it has moved, as its form has them.
+			"stock_exists": bool(doc.is_stock_item and doc.stock_ledger_created()),
 			"can_write": bool(frappe.has_permission("Item", "write", doc=doc)),
 			"can": {
 				one: bool(frappe.has_permission(one, "create"))
@@ -207,6 +217,59 @@ def _stock(doc) -> dict:
 		else None,
 		"moves": _moves(doc.name),
 	}
+
+
+def _trends(doc) -> dict:
+	"""What the head's cards draw under their numbers: how much was on hand and
+	what it was worth at the end of each of the last twelve months, how much
+	was ordered each month, and what it cost the last times it was bought.
+	Read as the reader's own lists would give them."""
+	said = {"prices": stock.rates(doc.name) if not doc.is_fixed_asset else []}
+	if not doc.is_stock_item or doc.is_fixed_asset:
+		return said
+	day = getdate(nowdate())
+	starts = figures.months(day)
+	if frappe.has_permission("Stock Ledger Entry", "read"):
+		# Each warehouse's balance after its last move of the month, as the
+		# ledger keeps it: a stock count sets a balance without moving any.
+		moves = frappe.get_list(
+			"Stock Ledger Entry",
+			filters={"item_code": doc.name, "is_cancelled": 0, "posting_date": ["<=", day]},
+			fields=["warehouse", "posting_date", "qty_after_transaction", "stock_value"],
+			order_by="posting_datetime asc, creation asc",
+			limit_page_length=0,
+		)
+		said["held"], said["worth"] = _month_ends(moves, starts)
+	if frappe.has_permission("Purchase Order", "read"):
+		rows = frappe.get_list(
+			"Purchase Order",
+			filters=[
+				["Purchase Order Item", "item_code", "=", doc.name],
+				["docstatus", "=", 1],
+				["transaction_date", ">=", starts[0]],
+			],
+			fields=["transaction_date", "items.item_code", "items.stock_qty as qty"],
+			limit_page_length=0,
+		)
+		said["ordered"] = figures.by_month(
+			((getdate(row.transaction_date), row.qty) for row in rows if row.item_code == doc.name), day
+		)
+	return said
+
+
+def _month_ends(moves, starts) -> tuple[list[float], list[float]]:
+	"""How much was held, and its worth, at the end of each month from
+	`starts`, from ledger rows in the order they were posted."""
+	balance, held, worth = {}, [], []
+	moves = iter(moves)
+	row = next(moves, None)
+	for end in [*starts[1:], None]:
+		while row and (end is None or getdate(row.posting_date) < end):
+			balance[row.warehouse] = (flt(row.qty_after_transaction), flt(row.stock_value))
+			row = next(moves, None)
+		held.append(sum(qty for qty, _ in balance.values()))
+		worth.append(sum(value for _, value in balance.values()))
+	return held, worth
 
 
 def _place(row, level) -> dict:

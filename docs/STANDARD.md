@@ -114,6 +114,26 @@ against the `modified` it loaded, and it hears changes made elsewhere
 (`tests/guards/test_frame.py`). Every field on the form can be changed on
 the page, in place or in Edit Details (`test_a_page_edits_every_field_of_its_record`).
 
+**Changing a field where it is shown.** A field on a page is changed where it
+is shown, not in a dialog, and it is the record's own form field (set by the
+user on 2026-10-12, first on the item page).
+- The page holds the record's real desk form, out of sight
+  (`onedesk.record.form`, the kit's `useForm`), as frappe's own Data Import
+  dialog holds one. Its client scripts, queries, `depends_on` and
+  `set_df_property` all run.
+- Each field shows its value as the form formats it, with a pencil (a
+  chevron for a Link or Select). The pencil floats that form's own control
+  over the place (`onedesk.record.lend`, the kit's `FieldEdit`). It floats
+  rather than moves because a page's island has its own styles, which
+  desk's don't reach.
+- A change saves the form as desk saves it, against the `modified` it
+  loaded. Enter or leaving the field saves, Escape reloads it unchanged.
+  Long text gets Save and Cancel. A Check sets the form's value and saves.
+- A field the form hides is not shown, and one it locks has no pencil.
+- Each label sits on the left and its value on the right (`Facts`).
+
+OneProject and OneTask follow this when they are next passed.
+
 **7 Extensible.** Every view of a page is a place where OneStudio's
 extensions go, told what the view shows (`one_studio/places.py`, mapped to
 its source in `tests/guards/test_frame.py`). OneProject has one for the page

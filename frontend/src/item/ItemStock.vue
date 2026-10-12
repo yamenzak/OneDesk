@@ -2,7 +2,8 @@
   <!-- Where the item is kept: each warehouse with what it holds, what is
        promised from it and on its way to it, and its reorder level; then its
        batches, and the last moves in and out of it. -->
-  <div class="pb-12">
+  <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section :title="__('Where It Is')" icon="lucide-warehouse" :aside="said.stock.places.length || ''" :action="said.can_write ? { text: true, icon: 'lucide-pencil', label: __('Set Reorder Levels'), onClick: levels } : null">
       <Rows :rows="places" :empty="__('Not kept anywhere yet')" />
@@ -14,15 +15,23 @@
       <Rows :rows="moves" :empty="__('No moves yet')" />
     </Section>
   </div>
+    <!-- How the item is kept here: the item's own form fields, changed in place. -->
+    <aside class="min-w-0">
+      <Section :title="__('Details')" icon="lucide-info">
+        <Facts :facts="details" :form="form" @saved="emit('changed')" />
+      </Section>
+    </aside>
+  </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 
-import { PlaceSpot, Rows, Section, __, date, go, isPast, onedesk, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, date, go, isPast, onedesk, quantity } from "../kit";
 import { usePlace } from "../project/place";
 
-const props = defineProps({ said: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
+const emit = defineEmits(["changed"]);
 const uom = computed(() => props.said.stock_uom);
 const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");
 
@@ -69,4 +78,20 @@ const spot = usePlace("oneinventory_item.stock", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   stock: { places: props.said.stock.places.length, low_in: props.said.stock.places.filter((one) => one.low).map((one) => one.warehouse), moves: props.said.stock.moves.length },
 }));
+
+// The item's own form fields that belong here, shown or locked as its form has them.
+const details = [
+  { label: __("Safety Stock"), field: "safety_stock" },
+  { label: __("Allow Negative Stock"), field: "allow_negative_stock" },
+  { label: __("Batches"), field: "has_batch_no" },
+  { label: __("New Batch Made Automatically"), field: "create_new_batch" },
+  { label: __("Batch Numbering"), field: "batch_number_series" },
+  { label: __("Expires"), field: "has_expiry_date" },
+  { label: __("Shelf Life in Days"), field: "shelf_life_in_days" },
+  { label: __("Serial Numbers"), field: "has_serial_no" },
+  { label: __("Serial Numbering"), field: "serial_no_series" },
+  { label: __("Warranty in Days"), field: "warranty_period" },
+  { label: __("Weight"), field: "weight_per_unit" },
+  { label: __("Weight Unit"), field: "weight_uom" },
+];
 </script>

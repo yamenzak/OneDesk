@@ -228,6 +228,7 @@ DRESSED = {
 	"Manufacturer": ("logo", "organisation"),
 	"Company": ("company_logo", "organisation"),
 	"Bank": ("one_logo", "bank"),
+	"Brand": ("image", "bank"),
 }
 
 #: Users who are nobody to look for.
@@ -275,7 +276,7 @@ def _email_of(doc) -> str | None:
 
 
 def sources_of(doc) -> list[str]:
-	return sources(DRESSED[doc.doctype][1], _email_of(doc), doc.get("website"))
+	return sources(DRESSED[doc.doctype][1], _email_of(doc), doc.get("website") or doc.get("one_website"))
 
 
 def _other_record(doc) -> tuple[str, str] | None:

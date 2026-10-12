@@ -14,3 +14,6 @@ frappe.pages["item-view"].on_page_load = (wrapper) => {
 		files: "files",
 	});
 };
+
+// The page's head carries the item's picture, so the sidebar's goes.
+onedesk.record.sidebar_parts.Item = [(frm) => frm.sidebar.image_section.addClass("hide")];

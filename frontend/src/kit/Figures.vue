@@ -3,12 +3,25 @@
        dashboard, or each in a card of its own (`boxed`), as frappe-ui's
        ChartCard draws one.
        A figure may open its documents (`route`), carry an `action`, or ask
-       for the next step with a `button` under it. -->
+       for the next step with a `button` under it. One with a `sparkline` is
+       drawn whole by NumberCard: its trend across the card's foot, its
+       change (`delta`) and its note on the line under the number. -->
   <!-- In cards, one to a row on a phone: two cards side by side leave a
        figure too little room and it loses its last digits. -->
   <div class="grid" :class="[COLUMNS[columns || figures.length] || 'lg:grid-cols-4', boxed ? 'grid-cols-1 gap-3 sm:grid-cols-2' : 'grid-cols-2 gap-x-8 gap-y-6 pb-3']">
-    <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: boxed }">
-      <NumberCard :title="one.title" :value="one.value" :card="false" :color="one.alarm ? 'var(--ink-red-5)' : undefined">
+    <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: boxed && !one.sparkline }">
+      <NumberCard
+        :title="one.title"
+        :value="one.value"
+        :card="boxed && !!one.sparkline"
+        :class="{ 'flex-1': one.sparkline }"
+        :color="one.alarm ? 'var(--ink-red-5)' : undefined"
+        :sparkline="one.sparkline"
+        :delta="one.delta"
+        :delta-format="one.deltaFormat"
+        :delta-caption="one.sparkline ? one.note : undefined"
+        :negative-is-better="one.negativeIsBetter"
+      >
         <template v-if="one.action" #actions>
           <Button variant="ghost" :icon="one.action.icon" :aria-label="one.action.label" @click="one.action.onClick" />
         </template>
@@ -16,7 +29,7 @@
           <Button variant="ghost" icon="lucide-arrow-up-right" :aria-label="one.title" @click="go(one.route)" />
         </template>
       </NumberCard>
-      <div v-if="one.note" class="mt-1 line-clamp-3 whitespace-pre-line text-sm text-ink-gray-5">{{ one.note }}</div>
+      <div v-if="one.note && !one.sparkline" class="mt-1 line-clamp-3 whitespace-pre-line text-sm text-ink-gray-5">{{ one.note }}</div>
       <Button v-if="one.button" class="mt-2 self-start" size="sm" :icon-left="one.button.icon" :label="one.button.label" @click="one.button.onClick" />
       <Progress v-if="one.bar !== undefined && one.bar !== null" :value="one.bar" size="md" class="mt-3" />
     </div>

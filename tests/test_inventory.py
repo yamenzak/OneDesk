@@ -164,7 +164,7 @@ def test_an_item_that_becomes_a_fixed_asset_makes_its_assets_when_bought():
 def test_a_receipt_registers_the_assets_it_made():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert '"on_submit": "onedesk.one_inventory.assets.registered"' in hooks
-	assert '"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"}' in hooks
+	assert '"validate": "onedesk.one_inventory.assets.fixed_item"' in hooks
 	source = (tree.APP / "one_inventory" / "assets.py").read_text(encoding="utf-8")
 	assert 'savepoint("one_asset")' in source and 'rollback(save_point="one_asset")' in source
 

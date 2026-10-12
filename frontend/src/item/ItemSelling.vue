@@ -1,7 +1,8 @@
 <template>
   <!-- What customers have ordered and not yet had, who buys the item and for
        how much over the last twelve months, and its selling prices. -->
-  <div class="pb-12">
+  <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section :title="__('To Deliver')" icon="lucide-package-check" :aside="selling.orders.length || ''">
       <Rows :rows="orders" :empty="__('Nothing to deliver')" />
@@ -13,15 +14,23 @@
       <Rows :rows="prices" :empty="__('No selling price')" />
     </Section>
   </div>
+    <!-- How the item is kept here: the item's own form fields, changed in place. -->
+    <aside class="min-w-0">
+      <Section :title="__('Details')" icon="lucide-info">
+        <Facts :facts="details" :form="form" @saved="emit('changed')" />
+      </Section>
+    </aside>
+  </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 
-import { PlaceSpot, Rows, Section, __, date, money, onedesk, quantity } from "../kit";
+import { Facts, PlaceSpot, Rows, Section, __, date, money, onedesk, quantity } from "../kit";
 import { usePlace } from "../project/place";
 
-const props = defineProps({ said: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
+const emit = defineEmits(["changed"]);
 const selling = computed(() => props.said.selling);
 const uom = computed(() => props.said.stock_uom);
 
@@ -64,4 +73,12 @@ const spot = usePlace("oneinventory_item.selling", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   selling: { orders: selling.value.orders.length, late: selling.value.orders.filter((one) => one.late).length, customers: selling.value.customers.map((one) => one.customer) },
 }));
+
+// The item's own form fields that belong here, shown or locked as its form has them.
+const details = [
+  { label: __("Selling Unit"), field: "sales_uom" },
+  { label: __("Maximum Discount (%)"), field: "max_discount" },
+  { label: __("Over Billing Allowance (%)"), field: "over_billing_allowance" },
+  { label: __("Earns Commission"), field: "grant_commission" },
+];
 </script>
