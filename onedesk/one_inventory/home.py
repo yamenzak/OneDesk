@@ -127,10 +127,10 @@ def _currency() -> str | None:
 
 
 def _worth() -> float | None:
-	if not frappe.has_permission("Bin", "read"):
-		return None
-	got = frappe.get_list("Bin", fields=[{"SUM": "stock_value", "as": "worth"}])
-	return flt(got[0].worth) if got else 0
+	"""Stock Worth, the reader's company's, as the Number Card counts it."""
+	from onedesk.one_inventory import story
+
+	return story._worth_now()
 
 
 def _kept(rows: list) -> dict:

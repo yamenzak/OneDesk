@@ -56,7 +56,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, date, followList, go, money, newDoc, onedesk, quantity, setQuery } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery } from "../kit";
 import InventoryStory from "./InventoryStory.vue";
 
 const props = defineProps({
@@ -137,7 +137,7 @@ const cards = computed(() => {
       props: {
         title: one.title,
         value: got[one.key].value ?? 0,
-        format: one.money ? (value) => money(value, story.value.currency, 0) : undefined,
+        format: one.money ? (value) => money(value, story.value.currency, 0) : count,
         ...(one.alone || change(got[one.key].series) === null ? {} : { delta: change(got[one.key].series), deltaSuffix: "%", deltaCaption: __("vs last month") }),
         sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined },
       },

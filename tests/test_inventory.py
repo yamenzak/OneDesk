@@ -2,6 +2,7 @@
 delivered, and the equipment it keeps — on ERPNext's Stock, Buying and Assets."""
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -289,3 +290,19 @@ def test_home_figures_are_number_cards():
 		method = card["method"].rsplit(".", 1)[1]
 		assert card["method"] == f"onedesk.one_inventory.story.{method}"
 		assert f"@frappe.read_only()\ndef {method}(filters" in story, method
+
+
+def test_home_reads_one_company_in_its_currency():
+	"""Every figure on Home is the reader's company's, in its currency: each
+	read of a record that has a company goes through `_ours`, stock kept by
+	warehouse through `_bins`, and assets read their company-currency cost."""
+	story = (INVENTORY / "story.py").read_text(encoding="utf-8")
+	calls = re.findall(r'frappe\.get_list\(\s*"([^"]+)",\s*filters=(.*?)fields=', story, re.S)
+	assert calls
+	for doctype, filters in calls:
+		if doctype in ("Stock Ledger Entry", "Purchase Order", "Material Request", "Work Order", "Job Card", "Asset", "Stock Entry"):
+			assert "_ours(" in filters, doctype
+		if doctype == "Bin":
+			assert "_bins(" in filters, doctype
+	assert "total_asset_cost" in story and "net_purchase_amount" not in story
+	assert "produced_qty" not in story, "Made adds worth, not mixed units"

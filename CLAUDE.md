@@ -94,6 +94,18 @@ default fills the value, and a document that can do better than the default does
 add a field or meet a screen that asks which company, the answer is to take the
 question off the screen, not to answer it.
 
+## Every figure keeps to what is set
+
+Any figure that adds things up (a Home, a card, a chart, a total) is the
+reader's default company's, in its currency, from amounts already in that
+currency (`base_`, `stock_value`, `total_asset_cost`). A quantity is added up
+only within one item, with its unit; across items it is worth. Money, numbers,
+months and the first day of the week print the way the workspace and reader
+set them, through the kit's `money`, `count`, `hours`, `quantity` and
+`weekdays`. Nobody should have to ask for this.
+`docs/PASSOVER.md`, What ERPNext already does, has the whole of it, and
+`tests/guards/test_formats.py` catches a chart left on the browser's format.
+
 ## Declare, don't code
 
 Doctypes, Workspaces, Docks, Sidebars, Roles, Print Formats, Notifications and

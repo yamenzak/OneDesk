@@ -236,6 +236,12 @@ GUARDS = [
 		"tests/guards/test_formats.py::test_nothing_is_formatted_by_hand",
 	),
 	Guard(
+		"charts-format-through-frappe",
+		8,
+		"a frappe-ui chart or number card left to print its numbers the browser's way",
+		"tests/guards/test_formats.py::test_every_chart_prints_through_frappe",
+	),
+	Guard(
 		"hooks-exist",
 		8,
 		"a hook naming a function or asset that does not exist",

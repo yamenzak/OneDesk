@@ -22,3 +22,23 @@ def _views():
 def test_nothing_is_formatted_by_hand():
 	found = {str(path.relative_to(ROOT)) for path in _views() if BY_HAND.search(path.read_text())}
 	assert found - KIT == set(), sorted(found - KIT)
+
+
+#: frappe-ui's charts and number card: each prints numbers.
+CHART = re.compile(r"<(BarChart|AreaChart|LineChart|DonutChart|FunnelChart|HeatmapChart|ScatterChart|SankeyChart|NumberCard)\b([^>]*)>", re.S)
+
+
+def test_every_chart_prints_through_frappe():
+	"""A frappe-ui chart left without a `format` prints its numbers the
+	browser's way, not in the workspace's number format or the company's
+	currency. Each one is given the kit's formatter (`money`, `count`,
+	`hours`), on itself, an axis or a series, or through `v-bind`."""
+	bare = []
+	for path in _views():
+		if path.suffix != ".vue":
+			continue
+		for match in CHART.finditer(path.read_text()):
+			attrs = match.group(2)
+			if not re.search(r"format|v-bind=", attrs):
+				bare.append(f"{path.relative_to(ROOT)}: {match.group(1)}")
+	assert not bare, bare

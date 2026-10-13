@@ -1,10 +1,9 @@
 """OneInventory's Home, told as a story (page/inventory, frontend/src/home):
-the headline figures with their last twelve months, then where stock is, how
-it moves, how old it is, buying, making and equipment, each as the reader may
-see it. Every figure is read through frappe.get_list, so permissions and
-record access hold; a part the reader may not see is left out.
+the headline figures with their months, then where stock is, how it moves,
+how old it is, buying, making and equipment. Each is read through
+frappe.get_list as the reader may see it, for the reader's company, in its
+currency. How it works is in the module's README, Under the hood.
 """
-
 import calendar
 from collections import defaultdict
 from datetime import date
@@ -31,6 +30,36 @@ def _may(doctype: str) -> bool:
 	return bool(frappe.has_permission(doctype, "read"))
 
 
+def _company() -> str | None:
+	"""The company the story is told for: the reader's default company."""
+	import erpnext
+
+	return erpnext.get_default_company()
+
+
+def _ours(filters: dict) -> dict:
+	"""The filters, narrowed to the reader's company where there is one."""
+	company = _company()
+	return {**filters, "company": company} if company else filters
+
+
+def _warehouses() -> list[str] | None:
+	"""The company's warehouses, for what is kept by warehouse (a Bin)."""
+	company = _company()
+	if not company:
+		return None
+	return frappe.get_all("Warehouse", filters={"company": company}, pluck="name")
+
+
+def _bins(filters: dict | None = None) -> dict:
+	"""Bin filters, narrowed to the company's warehouses."""
+	places = _warehouses()
+	filters = dict(filters or {})
+	if places is not None:
+		filters["warehouse"] = ["in", places or [""]]
+	return filters
+
+
 def _months() -> list[date]:
 	start = getdate(today()).replace(day=1)
 	return [getdate(add_months(start, -back)) for back in range(MONTHS - 1, -1, -1)]
@@ -51,7 +80,7 @@ def read() -> dict:
 	see it or there is nothing to draw."""
 	import erpnext
 
-	company = erpnext.get_default_company()
+	company = _company()
 	months = _months()
 	moves = _moves(months[0]) if _may("Stock Ledger Entry") else None
 	if moves:
@@ -75,7 +104,7 @@ def _moves(since: date) -> list[dict]:
 	warehouse: its net worth moved, and what it was."""
 	rows = frappe.get_list(
 		"Stock Ledger Entry",
-		filters={"is_cancelled": 0, "posting_date": [">=", since]},
+		filters=_ours({"is_cancelled": 0, "posting_date": [">=", since]}),
 		fields=[
 			"posting_date",
 			"voucher_type",
@@ -129,7 +158,7 @@ def _kinds(rows: list) -> dict:
 def _worth_now() -> float | None:
 	if not _may("Bin"):
 		return None
-	got = frappe.get_list("Bin", fields=[{"SUM": "stock_value", "as": "worth"}])
+	got = frappe.get_list("Bin", filters=_bins(), fields=[{"SUM": "stock_value", "as": "worth"}])
 	return flt(got[0].worth) if got else 0.0
 
 
@@ -285,7 +314,7 @@ def _on_order(months: list[date]) -> dict:
 	"""What is ordered and not yet here, and what was ordered each month."""
 	orders = frappe.get_list(
 		"Purchase Order",
-		filters={"docstatus": 1, "status": ["not in", ("Closed", "On Hold")]},
+		filters=_ours({"docstatus": 1, "status": ["not in", ("Closed", "On Hold")]}),
 		fields=["transaction_date", "base_net_total", "per_received"],
 		limit_page_length=0,
 	)
@@ -316,7 +345,7 @@ def _where() -> dict | None:
 		return None
 	bins = frappe.get_list(
 		"Bin",
-		filters={"stock_value": [">", 0]},
+		filters=_bins({"stock_value": [">", 0]}),
 		fields=["warehouse", "item_code", "stock_value"],
 		limit_page_length=0,
 	)
@@ -479,7 +508,7 @@ def _buying(since: date) -> dict | None:
 		return None
 	orders = frappe.get_list(
 		"Purchase Order",
-		filters={"docstatus": 1, "transaction_date": [">=", since]},
+		filters=_ours({"docstatus": 1, "transaction_date": [">=", since]}),
 		fields=["name", "supplier", "supplier_name", "base_net_total", "per_received", "schedule_date"],
 		limit_page_length=0,
 	)
@@ -522,7 +551,9 @@ def _requests(since: date) -> list[dict] | None:
 	said = defaultdict(int)
 	for one in frappe.get_list(
 		"Material Request",
-		filters={"docstatus": 1, "material_request_type": "Purchase", "transaction_date": [">=", since]},
+		filters=_ours(
+			{"docstatus": 1, "material_request_type": "Purchase", "transaction_date": [">=", since]}
+		),
 		fields=["status", {"COUNT": "*", "as": "n"}],
 		group_by="status",
 	):
@@ -559,29 +590,43 @@ def _received_on(orders: list[str]) -> dict:
 
 
 def _making(since: date) -> dict | None:
-	"""Work orders by status, what was made each month, and the hours each
-	workstation worked."""
+	"""Work orders by status, the worth of what was made each month by
+	product, and the hours each workstation worked. Made is worth, in the
+	company's currency, so pieces and metres of different products are never
+	stacked as one number."""
 	if not _may("Work Order"):
 		return None
 	statuses = frappe.get_list(
 		"Work Order",
-		filters={"docstatus": ["<", 2]},
+		filters=_ours({"docstatus": ["<", 2]}),
 		fields=["status", {"COUNT": "*", "as": "orders"}],
 		group_by="status",
 	)
-	made = frappe.get_list(
-		"Work Order",
-		filters={"docstatus": 1, "produced_qty": [">", 0], "modified": [">=", since]},
-		fields=["item_name", "produced_qty", "actual_end_date", "modified"],
-		limit_page_length=0,
+	made = (
+		frappe.get_list(
+			"Stock Entry",
+			filters=[
+				*[[k, "=", v] for k, v in _ours({"docstatus": 1, "purpose": "Manufacture"}).items()],
+				["posting_date", ">=", since],
+				["Stock Entry Detail", "is_finished_item", "=", 1],
+			],
+			fields=[
+				"posting_date",
+				"`tabStock Entry Detail`.item_name as item_name",
+				"`tabStock Entry Detail`.amount as amount",
+			],
+			limit_page_length=0,
+		)
+		if _may("Stock Entry")
+		else []
 	)
 	by = defaultdict(float)
 	for one in made:
-		by[(_month(one.actual_end_date or one.modified), one.item_name)] += flt(one.produced_qty)
+		by[(_month(one.posting_date), one.item_name)] += flt(one.amount)
 	hours = (
 		frappe.get_list(
 			"Job Card",
-			filters={"docstatus": ["<", 2], "workstation": ["is", "set"]},
+			filters=_ours({"docstatus": ["<", 2], "workstation": ["is", "set"]}),
 			fields=["workstation", {"SUM": "total_time_in_mins", "as": "minutes"}],
 			group_by="workstation",
 		)
@@ -590,7 +635,10 @@ def _making(since: date) -> dict | None:
 	)
 	return {
 		"statuses": [{"status": one.status, "orders": one.orders} for one in statuses],
-		"made": [{"month": month, "item": item, "made": qty} for (month, item), qty in sorted(by.items())],
+		"made": [
+			{"month": month, "item": item, "made": round(worth, 2)}
+			for (month, item), worth in sorted(by.items())
+		],
 		"hours": sorted(
 			[
 				{"workstation": one.workstation, "hours": round(flt(one.minutes) / 60, 1)}
@@ -602,28 +650,37 @@ def _making(since: date) -> dict | None:
 	}
 
 
+def _plans() -> list[str]:
+	"""The company's maintenance plans, which its services hang from."""
+	return frappe.get_all("Asset Maintenance", filters=_ours({}), pluck="name")
+
+
 def _equipment(months: list[date]) -> dict | None:
 	"""Equipment's worth by kind, bought against now, its status, and its
-	services month by month."""
+	services month by month. Both worths are the company's currency
+	(`total_asset_cost`, `value_after_depreciation`)."""
 	if not _may("Asset"):
 		return None
 	assets = frappe.get_list(
 		"Asset",
-		filters={"docstatus": 1},
-		fields=["asset_category", "status", "net_purchase_amount", "value_after_depreciation"],
+		filters=_ours({"docstatus": 1}),
+		fields=["asset_category", "status", "total_asset_cost", "value_after_depreciation"],
 		limit_page_length=0,
 	)
 	kinds = defaultdict(lambda: {"bought": 0.0, "now": 0.0})
 	statuses = defaultdict(int)
 	for one in assets:
-		kinds[one.asset_category]["bought"] += flt(one.net_purchase_amount)
+		kinds[one.asset_category]["bought"] += flt(one.total_asset_cost)
 		kinds[one.asset_category]["now"] += flt(one.value_after_depreciation)
 		statuses[one.status] += 1
 	services = []
 	if _may("Asset Maintenance Log"):
 		logs = frappe.get_list(
 			"Asset Maintenance Log",
-			filters={"due_date": ["between", (months[0], _end(getdate(add_months(months[-1], 2))))]},
+			filters={
+				"due_date": ["between", (months[0], _end(getdate(add_months(months[-1], 2))))],
+				"asset_maintenance": ["in", _plans() or [""]],
+			},
 			fields=["due_date", "maintenance_status"],
 			limit_page_length=0,
 		)

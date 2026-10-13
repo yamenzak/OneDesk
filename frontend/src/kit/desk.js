@@ -152,6 +152,13 @@ export const emailOn = (doctype, name, options) => onedesk().record.email(doctyp
 /** A whole number as the workspace writes numbers. */
 export const count = (value) => window.format_number(value || 0, null, 0);
 
+// The days of the week from the one the workspace starts its week on (System
+// Settings), each as Python's weekday() numbers it (0 is Monday).
+export const weekdays = () => {
+	const first = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].indexOf(frappe().boot.sysdefaults?.first_day_of_the_week);
+	return Array.from({ length: 7 }, (_, i) => (i + Math.max(first, 0)) % 7);
+};
+
 /** How many, with its unit if given, to two places only when it has a
  * fraction: "3,308 Meter", "1.30 Square Meter". */
 export const quantity = (value, uom) => {

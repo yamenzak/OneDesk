@@ -12,7 +12,7 @@
     <div class="min-w-0">
       <div v-if="moved.length" data-cards class="pb-5">
         <ChartCard class="h-64">
-          <BarChart :title="__('Used and Sent Out, Month by Month')" :subtitle="said.moved.said" :data="moved" x="month" :y="['qty']" :series-config="{ qty: { label: __('Used and Sent Out') } }" />
+          <BarChart :title="__('Used and Sent Out, Month by Month')" :subtitle="said.moved.said" :data="moved" x="month" :y="['qty']" :y-axis="{ format: (value) => quantity(value, said.stock_uom) }" :series-config="{ qty: { label: __('Used and Sent Out') } }" />
         </ChartCard>
       </div>
 

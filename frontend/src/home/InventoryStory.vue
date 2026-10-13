@@ -28,10 +28,10 @@
     <Section v-if="story.moves" :title="__('How Stock Moves')" icon="lucide-arrow-left-right" data-cards>
       <div class="grid gap-3 lg:grid-cols-2">
         <ChartCard v-if="story.moves.worth" class="h-80">
-          <AreaChart :title="__('Stock Worth by Month')" :data="story.moves.worth" x="month" :y="['worth']" :x-axis="{ timeGrain: 'month' }" :y-axis="{ format: cash }" :series-config="{ worth: { label: __('Stock Worth'), color: hue(0) } }" />
+          <AreaChart :title="__('Stock Worth by Month')" :data="story.moves.worth" x="month" :y="['worth']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: cash }" :series-config="{ worth: { label: __('Stock Worth'), color: hue(0) } }" />
         </ChartCard>
         <ChartCard class="h-80">
-          <BarChart :title="__('In and Out by Month')" :data="story.moves.flow" x="month" :y="FLOW" stacked :x-axis="{ timeGrain: 'month' }" :y-axis="{ format: cash }" :series-config="flowSeries" :reference-lines="[{ value: 0 }]" />
+          <BarChart :title="__('In and Out by Month')" :data="story.moves.flow" x="month" :y="FLOW" stacked :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: cash }" :series-config="flowSeries" :reference-lines="[{ value: 0 }]" />
         </ChartCard>
       </div>
       <ChartCard v-if="story.moves.paths.length" class="mt-3 h-[30rem]">
@@ -39,10 +39,10 @@
       </ChartCard>
       <div class="mt-3 grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <ChartCard class="h-80">
-          <HeatmapChart :title="__('Busy Days')" :data="story.moves.days" x="month" y="day" value="moves" :x-axis="{ format: monthName }" :y-axis="{ format: dayName }" palette="sequential" />
+          <HeatmapChart :title="__('Busy Days')" :data="busyDays" x="month" y="day" value="moves" :x-axis="{ format: monthName }" :y-axis="{ format: dayName }" :format="count" palette="sequential" />
         </ChartCard>
         <ChartCard v-if="story.moves.kinds.length" class="h-80">
-          <DonutChart :title="__('Papers by Kind')" :data="kinds" category="kind" value="papers" variant="half" :center-label="__('Papers')" :palette="kindColors" />
+          <DonutChart :title="__('Papers by Kind')" :data="kinds" category="kind" value="papers" variant="half" :center-label="__('Papers')" :format="count" :palette="kindColors" />
         </ChartCard>
       </div>
     </Section>
@@ -56,7 +56,7 @@
     <Section v-if="story.buying" :title="__('Buying')" icon="lucide-shopping-cart" data-cards>
       <div class="grid gap-3 lg:grid-cols-3">
         <ChartCard v-if="requests.length" class="h-96">
-          <FunnelChart :title="__('Material Requests')" :data="requests" category="step" value="requests" :palette="ramp(2)" @select="go('/desk/material-request')" />
+          <FunnelChart :title="__('Material Requests')" :data="requests" category="step" value="requests" :format="count" :palette="ramp(2)" @select="go('/desk/material-request')" />
         </ChartCard>
         <ChartCard class="h-96">
           <BarChart :title="__('Bought by Supplier')" :data="suppliers" x="name" y="worth" split-by="name" stacked horizontal :y-axis="{ format: cash }" :palette="ramp(6)" @select="(one) => go(`/desk/purchase-order?supplier=${encodeURIComponent(one.row.supplier)}`)" />
@@ -70,13 +70,13 @@
     <Section v-if="making" :title="__('Making')" icon="lucide-factory" data-cards>
       <div class="grid gap-3 lg:grid-cols-3">
         <ChartCard v-if="making.statuses.length" class="h-80">
-          <DonutChart :title="__('Work Orders')" :data="making.statuses" category="label" value="orders" :center-label="__('Work Orders')" :palette="making.statusColors" @select="(one) => go(`/desk/work-order?status=${encodeURIComponent(one.rows[0].status)}`)" />
+          <DonutChart :title="__('Work Orders')" :data="making.statuses" category="label" value="orders" :format="count" :center-label="__('Work Orders')" :palette="making.statusColors" @select="(one) => go(`/desk/work-order?status=${encodeURIComponent(one.rows[0].status)}`)" />
         </ChartCard>
         <ChartCard v-if="making.made.length" class="h-80">
-          <BarChart :title="__('Made by Month')" :data="making.made" x="month" y="made" split-by="item" stacked :x-axis="{ timeGrain: 'month' }" :palette="ramp(4)" />
+          <BarChart :title="__('Worth Made by Month')" :data="making.made" x="month" y="made" split-by="item" stacked :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: cash }" :palette="ramp(4)" />
         </ChartCard>
         <ChartCard v-if="making.hours.length" class="h-80">
-          <BarChart :title="__('Hours by Workstation')" :data="making.hours" x="workstation" :y="['hours']" horizontal :series-config="{ hours: { label: __('Hours'), color: hue(6) } }" @select="(one) => go(`/desk/workstation/${encodeURIComponent(one.row.workstation)}`)" />
+          <BarChart :title="__('Hours by Workstation')" :data="making.hours" x="workstation" :y="['hours']" horizontal :y-axis="{ format: asHours }" :series-config="{ hours: { label: __('Hours'), color: hue(6) } }" @select="(one) => go(`/desk/workstation/${encodeURIComponent(one.row.workstation)}`)" />
         </ChartCard>
       </div>
     </Section>
@@ -87,10 +87,10 @@
           <BarChart :title="__('Worth by Kind')" :data="equipment.kinds" x="kind" :y="['bought', 'now']" horizontal :y-axis="{ format: cash }" :series-config="{ bought: { label: __('Bought For'), color: hue(0) }, now: { label: __('Worth Now'), color: hue(1) } }" @select="(one) => go(`/desk/asset?asset_category=${encodeURIComponent(one.row.kind)}`)" />
         </ChartCard>
         <ChartCard v-if="equipment.statuses.length" class="h-80">
-          <DonutChart :title="__('Assets by Status')" :data="equipment.statuses" category="label" value="assets" variant="half" :center-label="__('Assets')" :palette="equipment.statusColors" @select="(one) => go(`/desk/asset?status=${encodeURIComponent(one.rows[0].status)}`)" />
+          <DonutChart :title="__('Assets by Status')" :data="equipment.statuses" category="label" value="assets" variant="half" :format="count" :center-label="__('Assets')" :palette="equipment.statusColors" @select="(one) => go(`/desk/asset?status=${encodeURIComponent(one.rows[0].status)}`)" />
         </ChartCard>
         <ChartCard v-if="equipment.services.length" class="h-80">
-          <BarChart :title="__('Services by Month')" :data="equipment.services" x="month" y="services" split-by="label" stacked :x-axis="{ timeGrain: 'month' }" :palette="equipment.serviceColors" @select="go('/desk/upkeep')" />
+          <BarChart :title="__('Services by Month')" :data="equipment.services" x="month" y="services" split-by="label" stacked :y-axis="{ format: count }" :x-axis="{ timeGrain: 'month', format: monthName }" :palette="equipment.serviceColors" @select="go('/desk/upkeep')" />
         </ChartCard>
       </div>
     </Section>
@@ -102,7 +102,7 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { AreaChart, BarChart, ChartCard, DonutChart, FunnelChart, HeatmapChart, SankeyChart, ScatterChart, useChartTokens } from "frappe-ui/charts";
 
-import { Section, __, go, money, shortMonth } from "../kit";
+import { Section, __, count, go, hours as asHours, money, shortMonth, weekdays } from "../kit";
 
 // What needs somebody: late in red, soon in amber.
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
@@ -126,10 +126,17 @@ const STATUS = { good: 2, going: 0, late: 8, broken: 8 };
 const statusHue = (tone) => (tone in STATUS ? hue(STATUS[tone]) : tokens.value.axisLabel);
 
 const cash = (value) => money(value, props.story.currency, 0);
-const days = (value) => __("{0} d", [Math.round(value)]);
+// Counts, hours and days as the reader's number format writes them, never
+// the browser's.
+const days = (value) => __("{0} d", [count(value)]);
 const DAYS = () => [__("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"), __("Sunday")];
 const dayName = (value) => DAYS()[Number(value)] ?? value;
-const monthName = (value) => shortMonth(value instanceof Date ? value.toISOString().slice(0, 10) : value);
+const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
+// The busy days, each month's week from the workspace's first day of the week.
+const busyDays = computed(() => {
+  const order = weekdays();
+  return [...props.story.moves.days].sort((a, b) => (a.month < b.month ? -1 : a.month > b.month ? 1 : order.indexOf(a.day) - order.indexOf(b.day)));
+});
 
 // In and out by kind: what came in in greens and blue, what went out in
 // amber and red, counts in grey either way.

@@ -116,7 +116,10 @@ frappe-ui's charts. Use the whole range (Number Card, Area, Bar stacked,
 grouped and horizontal, Donut and half Donut, Sankey, Heatmap, Funnel,
 Scatter) where each fits what it shows, and colour by what a chart shows: a
 kind keeps its hue, statuses keep theirs, magnitude runs light to dark. Never
-two value axes on one chart. Every figure is read as the reader may see it,
+two value axes on one chart. Every figure keeps to what the workspace and
+the reader set (`docs/PASSOVER.md`, What ERPNext already does, Figures that
+add things up): the reader's company in its currency, worth across items
+rather than mixed units, and frappe's own formats. Every figure is read as the reader may see it,
 and a slice or a bar opens what it stands for. What needs somebody (Today)
 and the directory (Everything) stay beside it as tabs.
 

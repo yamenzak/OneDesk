@@ -18,10 +18,10 @@
 
       <div v-if="taskSlices.length || weekly.length" data-cards class="grid gap-3 pb-5 pt-1" :class="{ 'sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]': taskSlices.length && weekly.length }">
         <ChartCard v-if="taskSlices.length" class="h-64">
-          <DonutChart :title="__('Tasks')" :subtitle="tasksSaid" :data="taskSlices" category="status" value="n" :center-label="tasks.length === 1 ? tasks[0].status : __('Tasks')" :palette="taskColors" @select="$emit('view', 'tasks')" />
+          <DonutChart :title="__('Tasks')" :subtitle="tasksSaid" :data="taskSlices" category="status" value="n" :format="count" :center-label="tasks.length === 1 ? tasks[0].status : __('Tasks')" :palette="taskColors" @select="$emit('view', 'tasks')" />
         </ChartCard>
         <ChartCard v-if="weekly.length" class="h-64">
-          <BarChart :title="__('Hours by Week')" :subtitle="__('{0} in 12 weeks', [hours(view.weekly.total)])" :data="weekly" x="week" :y="['hours']" :series-config="{ hours: { label: __('Hours') } }" />
+          <BarChart :title="__('Hours by Week')" :subtitle="__('{0} in 12 weeks', [hours(view.weekly.total)])" :data="weekly" x="week" :y="['hours']" :y-axis="{ format: hours }" :series-config="{ hours: { label: __('Hours') } }" />
         </ChartCard>
       </div>
 
@@ -132,7 +132,7 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
+import { Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
 import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";

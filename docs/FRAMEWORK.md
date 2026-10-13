@@ -226,7 +226,7 @@ CSS custom properties, in `frappe/public/css/espresso/`. Use these, never a lite
 
 ## Whitelisted server methods
 
-* `frappe` — 194 modules expose at least one
+* `frappe` — 193 modules expose at least one
 * `erpnext` — 237 modules expose at least one
 * `hrms` — 71 modules expose at least one
 

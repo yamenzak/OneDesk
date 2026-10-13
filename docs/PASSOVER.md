@@ -271,6 +271,23 @@ keep it working. On every doctype the pass checks:
 - **Units, stock and payment terms.** Quantities use the item's unit and
   conversion factor; a stock item moves stock; an invoice's due dates come
   from its payment terms.
+- **Figures that add things up** (a Home, a card, a chart, a total). Set by
+  the user on 2026-10-13, so it is never asked for again:
+  - Each is the reader's company's, their default as
+    `erpnext.get_default_company` reads it, in that company's currency. Two
+    companies in two currencies are never added up. It reads amounts already
+    in the company's currency (`base_` amounts, `stock_value`,
+    `total_asset_cost`, a stock entry line's `amount`), never a document's
+    own.
+  - A quantity is added up only within one item, and shows its unit. Across
+    items a figure is worth, in the company's currency, never pieces and
+    metres in one bar.
+  - It prints the way the reader and the workspace set it: money through
+    `format_currency`, numbers through `format_number` (the kit's `money`,
+    `count`, `hours`, `quantity`), months and days in the reader's language,
+    and a week from System Settings' first day of the week (the kit's
+    `weekdays`). Every frappe-ui chart and number card gets one of those
+    formatters (`tests/guards/test_formats.py`).
 
 ## A record answers first
 
@@ -12193,4 +12210,28 @@ Purchase Order), so any frappe dashboard or workspace can show them. Home
 takes each figure's value from its card's own method and draws the
 sparkline beside it. The demo check calls every card and finds the value
 Home shows. Nadia is refused each one.
+
+**Home's figures, as the workspace sets them.** The user asked whether Home
+respects every currency, unit and setting. Four did not:
+
+- **Company.** It added every company the reader could see, in the default
+  company's currency. Now every figure is the reader's default company's
+  (`story._ours`, `story._bins` for stock kept by warehouse, the
+  maintenance plans for services), and Stock Worth in `home.py` is the
+  card's own count.
+- **Units.** Made by Month stacked produced quantities of different items.
+  It is now Worth Made by Month, from the finished lines of manufacture
+  entries, in dirhams.
+- **Currency.** Bought For read `net_purchase_amount`, whose currency field
+  an asset does not have. It reads `total_asset_cost`, in the company's
+  currency.
+- **The reader's settings.** Counts, hours and days printed the browser's
+  way, and Busy Days always started on Monday. They print through
+  `format_number`, the month axes in the reader's language, and Busy Days
+  starts on System Settings' first day (Sunday in the demo). The new guard
+  found three more charts printing the browser's way, the project's Tasks
+  and Hours by Week and the item's Used and Sent Out, and they are fixed too.
+
+Now a standing rule under What ERPNext already does, Figures that add things
+up.
 
