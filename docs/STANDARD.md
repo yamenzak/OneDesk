@@ -157,6 +157,10 @@ site's by a demo check): nothing reached may be open to nobody beyond each
 module's count. And no sentence frappe, erpnext or hrms say names them:
 `onedesk/translations/<lang>.csv`, generated from the snapshot, says One in
 English, Arabic and German, but for the outside names kept on purpose.
+And each of our own screens is read for what its server lists: every one it
+does not hear change, every number it prints bare, and every company's
+record it lists without the reader's company, each held to a count that only
+falls.
 
 **Changing a field where it is shown.** A field on a page is changed where it
 is shown, not in a dialog, and it is the record's own form field (set by the

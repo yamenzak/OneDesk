@@ -166,3 +166,65 @@ def test_nothing_upstream_says_names_them():
 	for lang, rows in said.items():
 		for msgid, text, _ in rows:
 			assert not atlas.SAID_BRAND.search(_unbranded(text)), (lang, msgid, text)
+
+
+# ------------------------------------------------------------------ our screens
+
+#: Record types each screen lists but does not hear change. Lower it as each
+#: is followed (the kit's followList); it may never rise.
+UNHEARD = {
+	"project": 9,
+	"task": 2,
+	"item": 11,
+	"home": 8,
+	"sent_out": 2,
+	"upkeep": 1,
+	"floor": 2,
+	"my_tasks": 2,
+	"timers": 4,
+}
+
+#: Numbers a screen prints with no formatter around them.
+BARE = {}
+
+#: Record types a screen lists without the reader's company, in a type with one.
+NOT_THE_COMPANYS = {
+	"project": 8,
+	"task": 2,
+	"item": 9,
+	"home": 5,
+	"lots": 1,
+	"quotes": 2,
+	"sent_out": 2,
+	"upkeep": 3,
+	"floor": 2,
+	"plant": 1,
+	"my_tasks": 2,
+	"timers": 3,
+}
+
+
+def _held(key: str, allowed: dict) -> None:
+	now = {one["screen"]: one[key] for one in atlas.screens() if one[key]}
+	grown = {s: names for s, names in now.items() if len(names) > allowed.get(s, 0)}
+	assert not grown, f"{key} grew: {grown}"
+	stale = {s: (len(now.get(s, [])), n) for s, n in allowed.items() if len(now.get(s, [])) < n}
+	assert not stale, f"lower the count (now, written): {stale}"
+
+
+def test_a_screen_hears_what_it_lists():
+	_held("unheard", UNHEARD)
+
+
+def test_a_screen_prints_numbers_through_frappe():
+	_held("bare", BARE)
+
+
+def test_a_screen_lists_the_readers_company():
+	_held("no_company", NOT_THE_COMPANYS)
+
+
+def test_the_screens_are_read():
+	"""The reader of screens still finds what Stock on Hand lists and hears."""
+	stock = next(one for one in atlas.screens() if one["screen"] == "stock")
+	assert "Bin" in stock["reads"] and "Bin" not in stock["unheard"]

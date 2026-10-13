@@ -135,7 +135,9 @@ changed it, and whether OneStudio, OneAI and OneIntake reach it. Nothing a
 person reaches may be open to nobody beyond each module's count. No sentence
 of frappe's, erpnext's or hrms's names them: `onedesk/translations/` says One
 instead, generated, but for the outside names in `onedesk/one/atlas.py`
-`OUTSIDE`.
+`OUTSIDE`. Each of our screens is listed too, with what its server lists that it
+does not hear change, prints bare or lists without the reader's company; each
+count only falls.
 
 ## Declare, don't code
 

@@ -114,7 +114,8 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-const stop = [followList("Stock Ledger Entry", soon), followList("Bin", soon)];
+// Renaming an item, a warehouse or a unit shows too.
+const stop = ["Stock Ledger Entry", "Bin", "Item", "Warehouse", "UOM"].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);

@@ -509,6 +509,24 @@ GUARDS = [
 		"a sentence frappe, erpnext or hrms say that still names them, in English, Arabic or German",
 		"tests/guards/test_atlas.py::test_nothing_upstream_says_names_them",
 	),
+	Guard(
+		"screen-hears",
+		5,
+		"a screen of ours listing a record type it does not hear change, beyond its count",
+		"tests/guards/test_atlas.py::test_a_screen_hears_what_it_lists",
+	),
+	Guard(
+		"screen-bare-numbers",
+		8,
+		"a screen of ours printing a number with no formatter, beyond its count",
+		"tests/guards/test_atlas.py::test_a_screen_prints_numbers_through_frappe",
+	),
+	Guard(
+		"screen-company",
+		2,
+		"a screen of ours listing a company's records without the reader's company, beyond its count",
+		"tests/guards/test_atlas.py::test_a_screen_lists_the_readers_company",
+	),
 	# 7 Extensible
 	Guard(
 		"page-places",

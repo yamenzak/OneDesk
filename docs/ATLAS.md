@@ -25,6 +25,31 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 | erpnext | 139 | 188 | 10 | 148 |
 | hrms | 88 | 23 | 0 | 19 |
 
+## Our screens
+
+Each of One's own screens, with the record types its server lists for it.
+**Not heard** are listed but not followed, so the screen does not change when
+one is saved elsewhere; **bare** are numbers printed without frappe's format;
+**not the company's** are listed without the reader's company, in a type that
+has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
+
+| Screen | Lists | Not heard | Bare | Not the company's |
+|---|---|---|---|---|
+| project (`frontend/src/project/ProjectPage.vue`) | Contact, Employee, File, Payment Schedule, Project, Quotation, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | Employee, File, Quotation, Record Head, Sales Order, Sales Order Item, Supplier, User, User Group Member | – | Employee, Project, Quotation, Sales Invoice, Sales Order, Supplier, Task, Timesheet |
+| template (`frontend/src/template/TemplatePage.vue`) | – | – | – | – |
+| task (`frontend/src/task/TaskPage.vue`) | File, Task, Task Depends On, Timesheet, Timesheet Detail, User | File, User | – | Task, Timesheet |
+| item (`frontend/src/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Employee, File, Item, Item Manufacturer, Item Price, Purchase Order, Quotation, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | Asset, Blanket Order, Employee, File, Item Manufacturer, Quotation, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation | – | Asset, BOM, Bin, Blanket Order, Employee, Quotation, Sales Invoice, Stock Entry, Work Order |
+| stock (`frontend/src/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
+| home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | Asset, Asset Maintenance, Bin, Item, Job Card, Material Request, Stock Ledger Entry, Warehouse | – | Bin, Material Request, Purchase Order, Purchase Receipt, Work Order |
+| lots (`frontend/src/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | Serial No |
+| quotes (`frontend/src/quotes/QuotesPage.vue`) | Purchase Order Item, Request for Quotation, Request for Quotation Item, Request for Quotation Supplier, Supplier Quotation, Supplier Quotation Item | – | – | Request for Quotation, Supplier Quotation |
+| sent_out (`frontend/src/sent_out/SentOutPage.vue`) | Bin, Project, Purchase Order, Subcontracting Order, Subcontracting Order Item, Subcontracting Order Supplied Item | Bin, Project | – | Purchase Order, Subcontracting Order |
+| upkeep (`frontend/src/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | Asset | – | Asset, Asset Maintenance, Asset Repair |
+| floor (`frontend/src/floor/ShopFloor.vue`) | Employee, Job Card, Workstation | Employee, Workstation | – | Employee, Job Card |
+| plant (`frontend/src/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | Job Card |
+| my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | Timesheet, Timesheet Detail | – | Task, Timesheet |
+| timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | Project, Task, Timesheet, Timesheet Detail | – | Project, Task, Timesheet |
+
 ## erpnext / Accounts
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
