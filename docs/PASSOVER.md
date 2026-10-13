@@ -12365,3 +12365,38 @@ Entry, Master Production Schedule, Sales Forecast and others wait, with about
 forty reports. Each module's walk brings its count to zero; the guard only lets
 it fall.
 
+**OneInventory's atlas, cleared.** The user left the places to me. All 44
+waiting in Stock, Buying, Manufacturing and Assets now have a home or an
+answer:
+
+- **Setup**: Putaway Rules, Stock Dimensions and Stock Closings beside the
+  warehouses; Variant Settings beside the attributes; Scorecard Variables
+  beside supplier groups; Replace in Bills of Materials (BOM Update Tool)
+  beside routings; Shift Factors and Delivery Settings at the end.
+- **Everything**: Item Alternatives, Lead Times and Standard Costs under
+  Stock; Production Timeline, Production Schedules, Sales Forecasts, the Bill
+  of Materials Builder and Downtime under Making; Shift Allocations under
+  Equipment.
+- **Reports**: stock by warehouse, age and worth by warehouse, warehouse
+  capacity, shortages, use by item, cost of goods sold, price list rates,
+  bundles, batches, lots, serial numbers and their history, material
+  requirements, downtime by reason, comparing two bills of materials, and an
+  asset's history.
+- **Answered**: Item Balance (Simple) is Stock on Hand; eight of ERPNext's
+  ledger checks (Incorrect Stock Value, Stock Ledger Invariant Check and the
+  like) are left out, since Stock against the Books and the Inventory Check
+  say what a workspace needs; Stock Reposting Settings is left at its
+  defaults; an asset's depreciation schedule is drawn on its form.
+- **Opened to its people**: Item Lead Time was the System Manager's alone and
+  Delivery Settings a Delivery Manager's; the stock, buying and making roles
+  get lead times and the stock manager the delivery settings.
+- **Demo**: a putaway rule for the hinges, the silicones standing in for each
+  other, profile's lead time, packing shims kept at a standard cost, a stop on
+  the saw, a forecast and the schedule made from it, a door laid out in the
+  builder, and two shift factors. Three stay empty on purpose and their counts
+  rose by exactly them: a stock dimension adds a field to every stock form, a
+  stock closing refuses the history the demo writes behind it, and a shift
+  allocation wants an asset depreciated by shift.
+- The labels these forms brought that upstream never translated are in
+  `onedesk/translations/words/`.
+

@@ -16,21 +16,17 @@ import atlas
 #: is placed or answered; it may never rise.
 WAITING = {
 	"erpnext / Accounts": 57,
-	"erpnext / Assets": 4,
 	"erpnext / Bulk Transaction": 2,
-	"erpnext / Buying": 1,
 	"erpnext / CRM": 3,
 	"erpnext / Communication": 1,
 	"erpnext / EDI": 2,
 	"erpnext / ERPNext Integrations": 1,
 	"erpnext / Maintenance": 2,
-	"erpnext / Manufacturing": 9,
 	"erpnext / Projects": 2,
 	"erpnext / Quality Management": 9,
 	"erpnext / Regional": 4,
 	"erpnext / Selling": 5,
 	"erpnext / Setup": 7,
-	"erpnext / Stock": 30,
 	"erpnext / Support": 1,
 	"erpnext / Telephony": 4,
 	"erpnext / Utilities": 4,
@@ -82,7 +78,8 @@ def test_the_map_finds_a_way_in():
 	reach = atlas.reach()
 	assert reach[("DocType", "Item")][0] == "named"
 	assert reach[("DocType", "Warehouse Type")][0] == "linked"
-	assert ("DocType", "Putaway Rule") not in reach, "a read-only link is no way in"
+	assert reach[("DocType", "Putaway Rule")][0] == "named"
+	assert ("DocType", "Stock Reposting Settings") not in reach
 
 
 def test_the_atlas_is_current():
@@ -235,7 +232,8 @@ def test_the_screens_are_read():
 #: Point 1. Record types a person reaches that the demo has none of.
 EMPTY = {
 	"erpnext / Accounts": 27,
-	"erpnext / Assets": 1,
+	# Shift allocations want an asset depreciated by shift.
+	"erpnext / Assets": 2,
 	"erpnext / CRM": 5,
 	"erpnext / Maintenance": 1,
 	"erpnext / Manufacturing": 4,
@@ -243,7 +241,9 @@ EMPTY = {
 	"erpnext / Regional": 1,
 	"erpnext / Selling": 4,
 	"erpnext / Setup": 4,
-	"erpnext / Stock": 5,
+	# Placed with none on purpose: a stock dimension adds a field to every stock
+	# form, and a closing refuses the history the demo writes behind it.
+	"erpnext / Stock": 8,
 	"erpnext / Subcontracting": 1,
 	"erpnext / Support": 4,
 	"frappe / Automation": 1,
@@ -286,8 +286,8 @@ ENGLISH = {
 	"erpnext / Assets": 3,
 	"erpnext / Buying": 30,
 	"erpnext / CRM": 14,
-	"erpnext / Manufacturing": 92,
-	"erpnext / Projects": 48,
+	"erpnext / Manufacturing": 83,
+	"erpnext / Projects": 46,
 	"erpnext / Selling": 52,
 	"erpnext / Setup": 44,
 	"erpnext / Stock": 49,
@@ -300,7 +300,7 @@ ENGLISH = {
 	"frappe / Integrations": 6,
 	"frappe / Printing": 6,
 	"frappe / Website": 2,
-	"hrms / HR": 256,
+	"hrms / HR": 255,
 	"hrms / Payroll": 111,
 }
 
@@ -330,8 +330,9 @@ def test_what_is_reached_reads_in_every_language():
 
 
 def test_the_points_are_read():
-	"""The readers still work: the demo has items, Putaway Rule has none, an
+	"""The readers still work: the demo has items and a putaway rule but no
+	stock dimension, an
 	order prints from ours and the order sends Order Late."""
-	assert atlas.kept("Item") and not atlas.kept("Putaway Rule")
+	assert atlas.kept("Item") and atlas.kept("Putaway Rule") and not atlas.kept("Inventory Dimension")
 	assert atlas.goes_out("Purchase Order") and atlas.printed("Purchase Order")
 	assert "Order Late" in atlas.sends("Purchase Order")

@@ -748,7 +748,8 @@
 "System Manager"
 ],
 "Delivery Settings": [
-"Delivery Manager"
+"Delivery Manager",
+"Stock Manager"
 ],
 "Delivery Trip": [
 "Delivery Manager",
@@ -1344,6 +1345,12 @@
 "Workspace Administrator"
 ],
 "Item Lead Time": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Item Manufacturer": [
@@ -2951,6 +2958,7 @@
 "Asset Maintenance Team",
 "Asset Movement",
 "Asset Repair",
+"Asset Shift Factor",
 "Asset Value Adjustment",
 "Assignment Rule",
 "Attendance",
@@ -2958,6 +2966,7 @@
 "Attendance Request",
 "Auto Repeat",
 "BOM",
+"BOM Creator",
 "Bank",
 "Bank Account",
 "Bank Transaction",
@@ -3004,6 +3013,7 @@
 "DocType Settings Map",
 "Dock",
 "Domain",
+"Downtime Entry",
 "Driver",
 "Email Account",
 "Email Queue",
@@ -3040,10 +3050,13 @@
 "Interview Type",
 "Issue Priority",
 "Item",
+"Item Alternative",
 "Item Attribute",
 "Item Group",
+"Item Lead Time",
 "Item Manufacturer",
 "Item Price",
+"Item Standard Cost",
 "Item Tax Template",
 "Job Applicant",
 "Job Applicant Source",
@@ -3069,6 +3082,7 @@
 "Mail Folder",
 "Manufacturer",
 "Market Segment",
+"Master Production Schedule",
 "Material Request",
 "Milestone",
 "Milestone Tracker",
@@ -3115,6 +3129,7 @@
 "Purchase Order",
 "Purchase Receipt",
 "Purchase Taxes and Charges Template",
+"Putaway Rule",
 "Quality Inspection",
 "Quality Inspection Parameter",
 "Quotation",
@@ -3132,6 +3147,7 @@
 "Salary Slip",
 "Salary Structure",
 "Salary Structure Assignment",
+"Sales Forecast",
 "Sales Invoice",
 "Sales Order",
 "Sales Partner Type",

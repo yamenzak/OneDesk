@@ -404,7 +404,7 @@ def answers() -> dict:
 				kind = value.elts[0]
 				said[ast.literal_eval(key)] = (
 					names[kind.id] if isinstance(kind, ast.Name) else kind.value,
-					ast.literal_eval(value.elts[1]),
+					names[value.elts[1].id] if isinstance(value.elts[1], ast.Name) else ast.literal_eval(value.elts[1]),
 				)
 			return said
 	return {}

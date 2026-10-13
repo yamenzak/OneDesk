@@ -13,6 +13,9 @@ REPLACED = "replaced"
 #: Not offered, and why.
 LEFT_OUT = "left out"
 
+#: What a ledger check is, said once for each of them.
+CHECK = "a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs"
+
 ANSWERS = {
 	# One's own
 	("DocType", "AI Memory"): (INSIDE, "Workspace Settings › Privacy lists and forgets what OneAI remembers"),
@@ -41,7 +44,6 @@ ANSWERS = {
 		ENGINE,
 		"one line per stock move; the Stock Ledger report shows them",
 	),
-	("DocType", "Stock Closing Balance"): (ENGINE, "balances a Stock Closing Entry keeps"),
 	("DocType", "Repost Item Valuation"): (
 		ENGINE,
 		"ERPNext revalues stock after a back-dated move by itself",
@@ -55,6 +57,20 @@ ANSWERS = {
 	("Page", "stock-balance"): (REPLACED, "Stock on Hand"),
 	("Page", "shop-floor"): (REPLACED, "Shop Floor"),
 	("Page", "visual-plant-floor"): (REPLACED, "Plant Floor"),
+	("DocType", "Asset Depreciation Schedule"): (INSIDE, "an asset's form draws its schedule"),
+	("DocType", "Stock Reposting Settings"): (
+		LEFT_OUT,
+		"how ERPNext paces revaluing stock; its defaults suit every workspace",
+	),
+	("Report", "Item Balance (Simple)"): (REPLACED, "Stock on Hand"),
+	("Report", "FIFO Queue vs Qty After Transaction Comparison"): (LEFT_OUT, CHECK),
+	("Report", "Incorrect Balance Qty After Transaction"): (LEFT_OUT, CHECK),
+	("Report", "Incorrect Serial No Valuation"): (LEFT_OUT, CHECK),
+	("Report", "Incorrect Stock Value Report"): (LEFT_OUT, CHECK),
+	("Report", "Stock Ledger Invariant Check"): (LEFT_OUT, CHECK),
+	("Report", "Stock Ledger Variance"): (LEFT_OUT, CHECK),
+	("Report", "Stock Valuation Comparison"): (LEFT_OUT, CHECK),
+	("Report", "Stock Ledger Entries of Cancelled Vouchers"): (LEFT_OUT, CHECK),
 }
 
 #: Names kept wherever upstream says them: an outside product a workspace meets,

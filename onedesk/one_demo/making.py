@@ -90,6 +90,7 @@ def run(password=None):
 	if not frappe.db.exists("Subcontracting Order", {"docstatus": 1, "per_received": ["<", 100]}):
 		_coated(projects[TOWER], COATING, back_in=False)
 	_on_the_saw()
+	_planned()
 
 
 def _workshop():
@@ -316,3 +317,72 @@ def _coated(project, coated=COATED, back_in=True):
 		taken = frappe.get_doc(make_purchase_receipt(receipt.name))
 		dated(taken, back)
 		save(taken, submit=True)
+
+
+def _planned():
+	"""Planning ahead of the orders: a stop on the saw last week, six months'
+	forecast of casement windows, the schedule made from it, and a sliding
+	door's parts laid out in the builder."""
+	saw, (_, _, _, cutter) = WORKSTATIONS[0][0], WORKSTATIONS[0]
+	operator = frappe.db.get_value("Employee", {"employee_name": cutter})
+	if operator:
+		once(
+			"Downtime Entry",
+			{"workstation": saw},
+			{
+				"workstation": saw,
+				"operator": operator,
+				"from_time": f"{ago(6)} 10:00:00",
+				"to_time": f"{ago(6)} 11:30:00",
+				"stop_reason": "Machine malfunction",
+				"remarks": "The blade guard jammed.",
+			},
+		)
+	forecast = once(
+		"Sales Forecast",
+		{"company": COMPANY},
+		{
+			"company": COMPANY,
+			"parent_warehouse": frappe.db.get_value("Warehouse", {"company": COMPANY, "is_group": 1, "parent_warehouse": ["in", ("", None)]}),
+			"from_date": ahead(1),
+			"frequency": "Monthly",
+			"demand_number": 6,
+			"selected_items": [{"item_code": "WIN-CS12", "demand_qty": 40}],
+			"items": [{"item_code": "WIN-CS12", "demand_qty": 40, "delivery_date": ahead(30), "warehouse": wh("Finished Goods")}],
+		},
+	)
+	once(
+		"Master Production Schedule",
+		{"company": COMPANY},
+		{
+			"company": COMPANY,
+			"posting_date": today(),
+			"from_date": ahead(1),
+			"sales_forecast": forecast.name,
+			"items": [
+				{
+					"item_code": "WIN-CS12",
+					"warehouse": wh("Finished Goods"),
+					"delivery_date": ahead(30),
+					"planned_qty": 40,
+					"bom_no": frappe.db.get_value("BOM", {"item": "WIN-CS12", "is_default": 1}),
+				}
+			],
+		},
+	)
+	once(
+		"BOM Creator",
+		{"item_code": "DR-SL24"},
+		{
+			"name": "Sliding Door 2400, laid out",
+			"item_code": "DR-SL24",
+			"qty": 1,
+			"company": COMPANY,
+			"currency": frappe.get_cached_value("Company", COMPANY, "default_currency"),
+			"rm_cost_as_per": "Valuation Rate",
+			"items": [
+				{"item_code": code, "fg_item": "DR-SL24", "qty": qty}
+				for code, qty in (("ALU-6063", 16), ("GLS-DGU", 4.5), ("HW-LOCK", 1))
+			],
+		},
+	)

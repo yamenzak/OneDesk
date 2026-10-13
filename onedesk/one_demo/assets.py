@@ -9,7 +9,7 @@ The demo README's assets row tells it in full."""
 import frappe
 from frappe.utils import add_days, get_last_day, getdate
 
-from onedesk.one_demo.base import COMPANY, account, ago, as_user, dated, make, on, save, today
+from onedesk.one_demo.base import COMPANY, account, ago, as_user, dated, make, on, once, save, today
 
 STORES = "karim@one.test"
 BOOKS = "huda@one.test"
@@ -86,6 +86,7 @@ def run(password=None):
 		_written_down()
 	if not frappe.db.exists("Employee Separation", {"employee": _employee(DRIVER)}):
 		_driver_leaving()
+	_shifts()
 
 
 def _maintenance():
@@ -282,3 +283,10 @@ def _driver_leaving():
 			},
 			submit=True,
 		)
+
+
+def _shifts():
+	"""How much harder a machine wears on a longer day, for depreciation by
+	shift."""
+	once("Asset Shift Factor", {"shift_name": "Single Shift"}, {"shift_name": "Single Shift", "shift_factor": 1, "default": 1})
+	once("Asset Shift Factor", {"shift_name": "Double Shift"}, {"shift_name": "Double Shift", "shift_factor": 1.5})

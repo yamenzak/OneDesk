@@ -63,11 +63,13 @@ The rail keeps what people use every day:
 - **Reports** — the stock, buying, making and asset reports, each with what
   it shows.
 - **Setup** — the **Inventory Check** first (what is missing before stock
-  can be kept right), then warehouses, item groups, brands, units and
-  attributes (from One's **Masters**), price lists, workstations, plant
-  floors, operations, routings, subcontracted items, asset categories,
-  locations, maintenance teams, and the stock, buying and manufacturing
-  settings.
+  can be kept right), then warehouses with their putaway rules, stock
+  dimensions and stock closings, item groups, brands, units and attributes
+  (from One's **Masters**) with variant settings, supplier groups and
+  scorecard variables, price lists, workstations, plant floors, operations,
+  routings, Replace in Bills of Materials, subcontracted items, asset
+  categories, locations, maintenance teams, shift factors, delivery
+  settings, and the stock, buying and manufacturing settings.
 
 **Lots**, **Quotes**, **Sent Out** and **Upkeep** each gather several kinds
 of record. At the top of each is the same view switch a list has. **List
@@ -76,9 +78,14 @@ reports that go with them are there too. On those lists the switch leads back
 to the page.
 
 Everything else (blanket orders, job cards, asset movements, pick lists,
-packing slips, delivery trips, landed costs, item prices, quality
-inspections, supplier scorecards, production plans, value adjustments and
-asset capitalization) is in **Everything** on Home.
+packing slips, delivery trips, landed costs, item prices, item alternatives,
+lead times, standard costs, quality inspections, supplier scorecards,
+production plans and their timeline, production schedules, sales forecasts,
+the bill of materials builder, downtime, value adjustments, asset
+capitalization and shift allocations) is in **Everything** on Home. Every
+record type, report and page ERPNext has for stock, buying, making and
+assets is on the rail, on Home, or answered in `onedesk/one/atlas.py`
+(`docs/ATLAS.md`).
 
 ## A new item
 

@@ -86,6 +86,18 @@ GIVEN = (
 	| {doctype: {"Purchase User": roles.USE, "Purchase Manager": roles.MANAGE} for doctype in SCORING}
 )
 
+# How long an item takes to buy or make, and what a delivery tells the
+# customer: ERPNext gives both to the System Manager or a Delivery Manager alone.
+GIVEN["Item Lead Time"] = {
+	"Stock User": roles.WORK,
+	"Purchase User": roles.WORK,
+	"Manufacturing User": roles.WORK,
+	"Stock Manager": roles.MANAGE,
+	"Purchase Manager": roles.MANAGE,
+	"Manufacturing Manager": roles.MANAGE,
+}
+GIVEN["Delivery Settings"] = {"Stock Manager": ("read", "write")}
+
 # The people's officers see what a person holds and where it went, to ask
 # for it back when they leave. ERPNext gives assets to stock and accounts only.
 for doctype in ("Asset", "Asset Movement"):
