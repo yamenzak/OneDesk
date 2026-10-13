@@ -5345,6 +5345,28 @@ def oneinventory_new_item_parts_list_and_sizes():
 
 
 @check
+def one_atlas_knows_who_may_open_what():
+	"""docs/atlas-roles.json is this site's: who may read each record type,
+	report and page, every grant of One's applied, which docs/ATLAS.md says
+	and tests/guards/test_atlas.py holds."""
+	import json
+	import os
+
+	from onedesk.one import reach
+
+	path = os.path.join(frappe.get_app_path("onedesk"), "..", "docs", "atlas-roles.json")
+	with open(path) as f:
+		kept = json.load(f)
+	assert reach.atlas() == kept, "run python scripts/atlas.py --roles"
+	# One's words for theirs: frappe reads onedesk/translations after every app.
+	from frappe.translate import get_all_translations
+
+	frappe.clear_cache()
+	assert get_all_translations("en").get("ERPNext Settings") == "Settings"
+	assert "ERPNext" not in get_all_translations("de").get("ERPNext User ID", "ERPNext")
+
+
+@check
 def oneinventory_transfer_stock_moves_it_in_one_step():
 	"""Transfer Stock on Stock on Hand asks only where from, where to and what,
 	with the project and a note, and ERPNext's Material Transfer is made and submitted as the reader: the

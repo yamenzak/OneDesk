@@ -491,6 +491,24 @@ GUARDS = [
 		"an answer for something that is now reached or no longer exists",
 		"tests/guards/test_atlas.py::test_every_answer_names_something_unreached",
 	),
+	Guard(
+		"atlas-open-to",
+		6,
+		"a record type a person reaches that no role a workspace gives may open, beyond each module's count",
+		"tests/guards/test_atlas.py::test_what_is_reached_is_open_to_somebody",
+	),
+	Guard(
+		"brand-current",
+		5,
+		"onedesk/translations not what the snapshot's brand sentences make",
+		"tests/guards/test_atlas.py::test_the_brand_translations_are_current",
+	),
+	Guard(
+		"brand-said",
+		5,
+		"a sentence frappe, erpnext or hrms say that still names them, in English, Arabic or German",
+		"tests/guards/test_atlas.py::test_nothing_upstream_says_names_them",
+	),
 	# 7 Extensible
 	Guard(
 		"page-places",

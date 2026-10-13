@@ -152,6 +152,11 @@ replaced or left out, or waits. `tests/guards/test_atlas.py` holds what waits
 in each module to a count that only falls, and an upstream update that adds a
 record type fails until it is placed. **A module's walk is not done while its
 modules have anything waiting.**
+The same map says who may open each thing (from the demo site, kept the
+site's by a demo check): nothing reached may be open to nobody beyond each
+module's count. And no sentence frappe, erpnext or hrms say names them:
+`onedesk/translations/<lang>.csv`, generated from the snapshot, says One in
+English, Arabic and German, but for the outside names kept on purpose.
 
 **Changing a field where it is shown.** A field on a page is changed where it
 is shown, not in a dialog, and it is the record's own form field (set by the

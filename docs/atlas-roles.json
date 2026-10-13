@@ -1,0 +1,4348 @@
+{
+"doctypes": {
+"AI Action": [
+"One Operator",
+"System Manager",
+"Workspace Administrator"
+],
+"AI Action Setting": [
+"System Manager",
+"Workspace Administrator"
+],
+"AI Chat": [
+"All",
+"System Manager"
+],
+"AI Knowledge": [
+"All",
+"Workspace Administrator"
+],
+"AI Memory": [
+"All"
+],
+"AI Model": [
+"One Operator"
+],
+"AI Proposal": [
+"All",
+"System Manager"
+],
+"AI Touch": [
+"System Manager"
+],
+"API Request Log": [
+"System Manager"
+],
+"About Us Settings": [
+"Website Manager"
+],
+"Access Log": [
+"System Manager",
+"Workspace Administrator"
+],
+"Account": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User",
+"Sales User"
+],
+"Account Category": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Account Closing Balance": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Account Request": [
+"One Operator"
+],
+"Accounting Dimension": [
+"Accounts Manager",
+"System Manager"
+],
+"Accounting Dimension Filter": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Accounting Period": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Accounts Settings": [
+"Accounts Manager",
+"Purchase User",
+"Sales User"
+],
+"Activity Cost": [
+"Projects User"
+],
+"Activity Log": [
+"System Manager",
+"Workspace Administrator"
+],
+"Activity Type": [
+"Employee",
+"HR Manager",
+"Projects User",
+"System Manager"
+],
+"Additional Salary": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Address": [
+"Accounts Manager",
+"Accounts User",
+"All",
+"Maintenance User",
+"Purchase User",
+"Sales User",
+"System Manager"
+],
+"Address Template": [
+"System Manager",
+"Workspace Administrator"
+],
+"Advance Payment Ledger Entry": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Appointment": [
+"Employee",
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Appointment Booking Settings": [
+"HR Manager",
+"Sales Manager",
+"System Manager"
+],
+"Appointment Letter": [
+"HR Manager",
+"System Manager"
+],
+"Appointment Letter Template": [
+"HR Manager",
+"System Manager"
+],
+"Appraisal": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Appraisal Cycle": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Appraisal Template": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Arrear": [
+"HR Manager",
+"System Manager"
+],
+"Asset": [
+"Accounts User",
+"HR Manager",
+"HR User",
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Asset Activity": [
+"Accounts User",
+"Quality Manager",
+"System Manager"
+],
+"Asset Capitalization": [
+"Manufacturing Manager",
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Asset Category": [
+"Accounts Manager",
+"Accounts User",
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Asset Depreciation Schedule": [
+"Accounts User",
+"Quality Manager"
+],
+"Asset Maintenance": [
+"Manufacturing User",
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Asset Maintenance Log": [
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Asset Maintenance Team": [
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Asset Movement": [
+"Accounts Manager",
+"HR Manager",
+"HR User",
+"Stock Manager",
+"System Manager"
+],
+"Asset Repair": [
+"Manufacturing Manager",
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Asset Shift Allocation": [
+"Accounts User",
+"System Manager"
+],
+"Asset Shift Factor": [
+"Accounts User",
+"System Manager"
+],
+"Asset Value Adjustment": [
+"Accounts Manager",
+"Accounts User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Assignment Rule": [
+"Sales Manager",
+"System Manager"
+],
+"Attendance": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Attendance Reason": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Attendance Request": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Audit Trail": [
+"System Manager"
+],
+"Authorization Control": [],
+"Authorization Rule": [
+"System Manager"
+],
+"Auto Email Report": [
+"Report Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Auto Repeat": [
+"Accounts Manager",
+"Accounts User",
+"Desk User",
+"System Manager"
+],
+"Automation Event Subscription": [
+"System Manager"
+],
+"Automation Flow": [
+"System Manager",
+"Workspace Administrator"
+],
+"Automation Run": [
+"System Manager"
+],
+"Automation Settings": [
+"System Manager"
+],
+"Automation Trigger Queue": [
+"System Manager"
+],
+"BOM": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"BOM Creator": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"BOM Update Log": [
+"Manufacturing Manager",
+"System Manager"
+],
+"BOM Update Tool": [
+"Manufacturing Manager"
+],
+"Background Task": [
+"Desk User",
+"System Manager"
+],
+"Bank": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Bank Account": [
+"Accounts Manager",
+"Accounts User"
+],
+"Bank Account Balance": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"System Manager"
+],
+"Bank Account Subtype": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Bank Account Type": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Bank Clearance": [
+"Accounts User"
+],
+"Bank Guarantee": [
+"Accounts Manager",
+"Accounts User"
+],
+"Bank Reconciliation Tool": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Bank Statement Import": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Bank Statement Import Log": [
+"System Manager"
+],
+"Bank Transaction": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Bank Transaction Rule": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Batch": [
+"Item Manager",
+"Stock User"
+],
+"Bin": [
+"Purchase Manager",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Bisect Accounting Statements": [
+"Administrator"
+],
+"Bisect Nodes": [
+"Administrator"
+],
+"Blanket Order": [
+"Purchase Manager",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"Stock User",
+"System Manager"
+],
+"Branch": [
+"HR Manager",
+"HR User",
+"Workspace Administrator"
+],
+"Brand": [
+"Accounts User",
+"Item Manager",
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"Budget": [
+"Accounts Manager",
+"Projects Manager"
+],
+"Bulk Salary Structure Assignment": [
+"HR Manager",
+"HR User"
+],
+"Bulk Transaction Log": [
+"System Manager"
+],
+"Bulk Transaction Log Detail": [
+"System Manager"
+],
+"Bulk Update": [
+"System Manager"
+],
+"Buying Settings": [
+"Accounts Manager",
+"Accounts User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"CRM Settings": [
+"Sales Manager",
+"Sales Master Manager",
+"System Manager"
+],
+"Calendar Feed": [
+"System Manager",
+"Workspace Administrator"
+],
+"Calendar View": [
+"Desk User",
+"System Manager"
+],
+"Call Log": [
+"Employee",
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Campaign": [
+"Sales Manager",
+"Sales Master Manager",
+"Sales User"
+],
+"Cashier Closing": [
+"System Manager"
+],
+"Chart of Accounts Importer": [
+"Accounts Manager"
+],
+"Cheque Print Template": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Client Script": [
+"Administrator",
+"System Manager"
+],
+"Clock Attempt": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Clock Device": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Clock Network": [
+"HR Manager",
+"HR User"
+],
+"Clock Place": [
+"HR Manager",
+"HR User"
+],
+"Clock Reason": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Cloud Drive Password": [
+"Workspace Administrator"
+],
+"Cloud File Request": [
+"Desk User",
+"Workspace Administrator"
+],
+"Cloud File Version": [
+"Workspace Administrator"
+],
+"Cloud Link": [
+"Desk User",
+"Workspace Administrator"
+],
+"Cloud Mount": [
+"Desk User",
+"Workspace Administrator"
+],
+"Code List": [
+"System Manager"
+],
+"Color": [
+"Website Manager"
+],
+"Comment": [
+"System Manager",
+"Website Manager"
+],
+"Common Code": [
+"System Manager"
+],
+"Communication": [
+"All",
+"Inbox User",
+"System Manager"
+],
+"Communication Medium": [
+"System Manager"
+],
+"Company": [
+"Accounts Manager",
+"Accounts User",
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"Projects User",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"Stock User",
+"System Manager"
+],
+"Company Van": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"Compensatory Leave Request": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Competitor": [
+"Maintenance Manager",
+"Maintenance User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User"
+],
+"Connected App": [
+"All",
+"System Manager"
+],
+"Console Log": [
+"System Manager"
+],
+"Contact": [
+"Accounts Manager",
+"Accounts User",
+"All",
+"Maintenance Manager",
+"Maintenance User",
+"Purchase Manager",
+"Purchase Master Manager",
+"Purchase User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"System Manager"
+],
+"Contact Us Settings": [
+"Website Manager"
+],
+"Contract": [
+"HR Manager",
+"Purchase Manager",
+"Sales Manager",
+"System Manager"
+],
+"Contract Template": [
+"HR Manager",
+"Purchase Manager",
+"Sales Manager",
+"System Manager"
+],
+"Cost Center": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User",
+"Sales User"
+],
+"Cost Center Allocation": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Country": [
+"All",
+"System Manager"
+],
+"Coupon Code": [
+"Accounts User",
+"Sales Manager",
+"System Manager",
+"Website Manager"
+],
+"Credit Ledger Entry": [
+"One Operator"
+],
+"Credit Reservation": [
+"One Operator"
+],
+"Currency": [
+"Accounts Manager",
+"Accounts User",
+"HR Manager",
+"HR User",
+"Purchase User",
+"Sales User",
+"System Manager"
+],
+"Currency Exchange": [
+"Accounts Manager",
+"Accounts User",
+"Purchase User",
+"Sales User"
+],
+"Currency Exchange Settings": [
+"Accounts User",
+"System Manager"
+],
+"Custom DocPerm": [
+"System Manager"
+],
+"Custom Field": [
+"Administrator",
+"System Manager"
+],
+"Custom HTML Block": [
+"Desk User",
+"System Manager",
+"Workspace Manager"
+],
+"Custom Icon": [
+"System Manager"
+],
+"Custom Role": [
+"System Manager"
+],
+"Custom Sidebar": [
+"Desk User",
+"Workspace Manager"
+],
+"Custom Workspace": [
+"System Manager",
+"Workspace Manager"
+],
+"Customer": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Customer Group": [
+"Accounts User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Workspace Administrator"
+],
+"Customize Form": [
+"System Manager"
+],
+"Customs Tariff Number": [
+"Stock Manager",
+"Stock User"
+],
+"Dashboard": [
+"Dashboard Manager",
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"Dashboard Chart": [
+"Dashboard Manager",
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"Dashboard Chart Source": [
+"Administrator",
+"System Manager"
+],
+"Dashboard Settings": [
+"Desk User"
+],
+"Data Export": [
+"System Manager"
+],
+"Data Import": [
+"System Manager"
+],
+"Data Import Log": [
+"System Manager"
+],
+"Deleted Document": [
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"Delivery Note": [
+"Accounts User",
+"Delivery Manager",
+"Delivery User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Delivery Schedule Item": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Delivery Settings": [
+"Delivery Manager"
+],
+"Delivery Trip": [
+"Delivery Manager",
+"Delivery User",
+"Fulfillment User",
+"Stock User"
+],
+"Department": [
+"Academics User",
+"HR Manager",
+"HR User",
+"Workspace Administrator"
+],
+"Designation": [
+"HR Manager",
+"HR User",
+"Sales User",
+"Workspace Administrator"
+],
+"Desktop Icon": [
+"Desk User",
+"System Manager"
+],
+"Desktop Layout": [
+"Desk User",
+"System Manager"
+],
+"Desktop Settings": [
+"System Manager"
+],
+"Discussion Reply": [
+"System Manager"
+],
+"Discussion Topic": [
+"System Manager"
+],
+"DocShare": [
+"System Manager"
+],
+"DocType": [
+"Administrator",
+"System Manager"
+],
+"DocType Layout": [
+"Desk User",
+"System Manager"
+],
+"DocType Settings Map": [
+"System Manager"
+],
+"Dock": [
+"Desk User",
+"Workspace Manager"
+],
+"Document Follow": [
+"Desk User",
+"System Manager"
+],
+"Document Naming Rule": [
+"System Manager",
+"Workspace Administrator"
+],
+"Document Naming Settings": [
+"System Manager"
+],
+"Document Share Key": [
+"System Manager"
+],
+"Document Template": [
+"Desk User",
+"System Manager"
+],
+"Domain": [
+"Administrator",
+"System Manager"
+],
+"Domain Settings": [
+"System Manager"
+],
+"Downtime Entry": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"Driver": [
+"Delivery Manager",
+"Delivery User",
+"Fleet Manager",
+"System Manager"
+],
+"DuckDB Sync": [
+"Accounts Manager",
+"Sales Manager",
+"System Manager"
+],
+"Dunning": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Dunning Type": [
+"Accounts Manager",
+"Administrator",
+"System Manager"
+],
+"Email Account": [
+"HR Manager",
+"Inbox User",
+"System Manager"
+],
+"Email Campaign": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Email Digest": [
+"System Manager"
+],
+"Email Domain": [
+"System Manager"
+],
+"Email Flag Queue": [
+"System Manager"
+],
+"Email Group": [
+"Newsletter Manager",
+"Sales Manager",
+"Sales User"
+],
+"Email Group Member": [
+"Newsletter Manager",
+"Sales Manager",
+"Sales User"
+],
+"Email Queue": [
+"System Manager"
+],
+"Email Rule": [
+"System Manager"
+],
+"Email Template": [
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"Email Unsubscribe": [
+"System Manager"
+],
+"Employee": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Employee Advance": [
+"Employee",
+"Employee Self Service",
+"Expense Approver",
+"HR Manager",
+"HR User"
+],
+"Employee Attendance Tool": [
+"HR Manager"
+],
+"Employee Benefit Application": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Benefit Claim": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Benefit Ledger": [
+"Administrator",
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Checkin": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Feedback Criteria": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Grade": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Grievance": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Group": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Health Insurance": [
+"HR Manager",
+"HR User"
+],
+"Employee Incentive": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee Letter": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee Onboarding": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Onboarding Template": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Other Income": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee Performance Feedback": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Promotion": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee Referral": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Separation": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Separation Template": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Skill Map": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Tax Exemption Category": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Tax Exemption Declaration": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Tax Exemption Proof Submission": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Tax Exemption Sub Category": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Transfer": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employment Type": [
+"HR Manager",
+"HR User",
+"Workspace Administrator"
+],
+"Error Log": [
+"System Manager"
+],
+"Event": [
+"All",
+"Desk User",
+"System Manager"
+],
+"Exchange Rate Revaluation": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Exit Interview": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Expense Claim": [
+"Employee",
+"Employee Self Service",
+"Expense Approver",
+"HR Manager",
+"HR User"
+],
+"Expense Claim Type": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Extension": [
+"System Manager",
+"Workspace Administrator"
+],
+"Face": [
+"Workspace Administrator"
+],
+"File": [
+"All",
+"Employee Self Service",
+"System Manager"
+],
+"File Link": [
+"Workspace Administrator"
+],
+"Finance Book": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Workspace Administrator"
+],
+"Financial Report Template": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Fiscal Year": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Employee",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Form Tour": [
+"Desk User",
+"System Manager"
+],
+"Full and Final Statement": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"GL Entry": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Gender": [
+"All",
+"System Manager",
+"Workspace Administrator"
+],
+"Geolocation Settings": [
+"System Manager"
+],
+"Global Defaults": [
+"System Manager"
+],
+"Global Search Settings": [
+"Desk User",
+"System Manager"
+],
+"Goal": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Google Calendar": [
+"Desk User",
+"System Manager"
+],
+"Google Contacts": [
+"Desk User",
+"System Manager"
+],
+"Google Settings": [
+"System Manager"
+],
+"Gratuity": [
+"Accounts Manager",
+"Accounts User",
+"HR Manager",
+"HR User"
+],
+"Gratuity Rule": [
+"HR Manager",
+"HR User"
+],
+"Grievance Type": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager",
+"Workspace Administrator"
+],
+"HR Settings": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"HR Telemetry Milestone": [
+"System Manager"
+],
+"Help Article": [
+"Knowledge Base Contributor",
+"Knowledge Base Editor"
+],
+"Help Category": [
+"Website Manager"
+],
+"Holiday List": [
+"Employee Self Service",
+"HR Manager"
+],
+"Holiday List Assignment": [
+"HR Manager",
+"System Manager"
+],
+"Identification Document Type": [
+"HR Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Identifier": [
+"Workspace Administrator"
+],
+"Import Supplier Invoice": [],
+"Income Tax Slab": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Incoming Call Settings": [
+"System Manager"
+],
+"Incoterm": [
+"Accounts Manager",
+"Accounts User",
+"Purchase Manager",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Industry Type": [
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Workspace Administrator"
+],
+"Installation Note": [
+"Sales User"
+],
+"Installed Applications": [
+"System Manager"
+],
+"Intake Action": [
+"Desk User",
+"Workspace Administrator"
+],
+"Intake Lesson": [
+"Workspace Administrator"
+],
+"Intake Settings": [
+"Workspace Administrator"
+],
+"Integration Request": [
+"System Manager"
+],
+"Interest": [
+"Academics User",
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Interview": [
+"HR Manager",
+"HR User",
+"Interviewer",
+"System Manager"
+],
+"Interview Feedback": [
+"HR Manager",
+"HR User",
+"Interviewer"
+],
+"Interview Recording": [
+"HR Manager",
+"HR User",
+"Interviewer"
+],
+"Interview Type": [
+"HR Manager",
+"HR User",
+"Interviewer"
+],
+"Inventory Dimension": [
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Invoice Discounting": [
+"Accounts Manager"
+],
+"Issue": [
+"Support Team"
+],
+"Issue Priority": [
+"System Manager"
+],
+"Issue Type": [
+"Support Team",
+"System Manager"
+],
+"Item": [
+"Accounts User",
+"Item Manager",
+"Maintenance User",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Item Alternative": [
+"Item Manager",
+"Stock Manager",
+"Stock User"
+],
+"Item Attribute": [
+"Item Manager",
+"Manufacturing Manager",
+"Purchase Manager",
+"Stock Manager",
+"Workspace Administrator"
+],
+"Item Group": [
+"Accounts User",
+"Item Manager",
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"Item Lead Time": [
+"System Manager"
+],
+"Item Manufacturer": [
+"Item Manager",
+"Stock Manager",
+"Stock User"
+],
+"Item Price": [
+"Item Manager",
+"Purchase Manager",
+"Purchase Master Manager",
+"Purchase User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Item Standard Cost": [
+"Accounts Manager",
+"Stock Manager"
+],
+"Item Tax Template": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Item Variant Settings": [
+"Item Manager",
+"System Manager"
+],
+"Job Applicant": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Job Applicant Source": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Job Card": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"Job Offer": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Job Offer Term Template": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Job Opening": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Job Opening Template": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Job Requisition": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Journal Entry": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Journal Entry Template": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"KRA": [
+"HR Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Kanban Board": [
+"Desk User",
+"System Manager"
+],
+"LDAP Settings": [
+"System Manager"
+],
+"Landed Cost Voucher": [
+"Accounts Manager",
+"Stock Manager",
+"Stock User"
+],
+"Language": [
+"All",
+"System Manager"
+],
+"Lead": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Leave Adjustment": [
+"HR Manager",
+"HR User"
+],
+"Leave Allocation": [
+"HR Manager",
+"HR User"
+],
+"Leave Application": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"Leave Approver"
+],
+"Leave Block List": [
+"HR Manager",
+"HR User"
+],
+"Leave Control Panel": [
+"HR Manager",
+"HR User"
+],
+"Leave Encashment": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Leave Ledger Entry": [
+"All",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Leave Period": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Leave Policy": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Leave Policy Assignment": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Leave Type": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Ledger Health": [
+"System Manager"
+],
+"Ledger Health Monitor": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Ledger Merge": [
+"Accounts Manager",
+"System Manager"
+],
+"Legal Acceptance": [
+"Workspace Administrator"
+],
+"Legal Document Version": [
+"Workspace Administrator"
+],
+"Letter Head": [
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"List Filter": [
+"Desk User"
+],
+"List View Settings": [
+"System Manager"
+],
+"Location": [
+"Accounts User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Log Settings": [
+"System Manager"
+],
+"Lower Deduction Certificate": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Loyalty Point Entry": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Loyalty Program": [
+"System Manager"
+],
+"Mail Folder": [
+"Workspace Administrator"
+],
+"Mail Rule": [
+"Inbox User"
+],
+"Maintenance Schedule": [
+"Maintenance Manager",
+"Maintenance User"
+],
+"Maintenance Visit": [
+"Maintenance Manager",
+"Maintenance User"
+],
+"Manufacturer": [
+"Stock Manager",
+"Stock User"
+],
+"Manufacturing Settings": [
+"Manufacturing Manager"
+],
+"MapReduce Job": [
+"System Manager"
+],
+"MapReduce Task": [
+"System Manager"
+],
+"Market Segment": [
+"Sales Manager",
+"Workspace Administrator"
+],
+"Master Production Schedule": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Material Request": [
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Milestone": [
+"System Manager"
+],
+"Milestone Tracker": [
+"System Manager"
+],
+"Mode of Payment": [
+"Accounts Manager",
+"Accounts User"
+],
+"Module Def": [
+"Administrator",
+"All",
+"System Manager"
+],
+"Module Onboarding": [
+"Desk User",
+"System Manager"
+],
+"Module Profile": [
+"System Manager"
+],
+"Monthly Distribution": [
+"Accounts Manager"
+],
+"Navbar Settings": [
+"System Manager"
+],
+"Network Printer Settings": [
+"Desk User",
+"System Manager"
+],
+"Non Conformance": [
+"Employee",
+"Quality Manager",
+"System Manager"
+],
+"Note": [
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"Notification": [
+"System Manager",
+"Workspace Administrator"
+],
+"Notification Log": [
+"All"
+],
+"Notification Settings": [
+"All"
+],
+"Notification Type": [
+"System Manager",
+"Workspace Administrator"
+],
+"Number Card": [
+"Dashboard Manager",
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"OAuth Authorization Code": [
+"System Manager"
+],
+"OAuth Bearer Token": [
+"System Manager"
+],
+"OAuth Client": [
+"System Manager"
+],
+"OAuth Provider Settings": [
+"System Manager"
+],
+"OAuth Settings": [
+"System Manager"
+],
+"Offer Term": [
+"HR Manager",
+"System Manager"
+],
+"Offering": [
+"One Operator"
+],
+"Onboarding Step": [
+"Administrator",
+"Desk User"
+],
+"One Admin Settings": [
+"One Operator"
+],
+"Opening Invoice Creation Tool": [
+"Accounts Manager",
+"System Manager"
+],
+"Operation": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"Opportunity": [
+"Sales Manager",
+"Sales User"
+],
+"Opportunity Lost Reason": [
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"System Manager",
+"Workspace Administrator"
+],
+"Opportunity Type": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Overtime Slip": [
+"Employee",
+"HR User",
+"Leave Approver",
+"System Manager"
+],
+"Overtime Type": [
+"HR Manager",
+"System Manager"
+],
+"POS Closing Entry": [
+"Administrator",
+"Sales Manager",
+"System Manager"
+],
+"POS Invoice": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales User"
+],
+"POS Invoice Merge Log": [
+"Administrator",
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"POS Opening Entry": [
+"Administrator",
+"Sales Manager",
+"System Manager"
+],
+"POS Profile": [
+"Accounts Manager",
+"Accounts User"
+],
+"POS Settings": [
+"Accounts User",
+"Sales User",
+"System Manager"
+],
+"PWA Notification": [
+"Employee",
+"System Manager"
+],
+"Package": [
+"System Manager"
+],
+"Package Import": [
+"System Manager"
+],
+"Package Release": [
+"System Manager"
+],
+"Packing Slip": [
+"Item Manager",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Page": [
+"Administrator",
+"System Manager"
+],
+"Party Link": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Party Specific Item": [
+"System Manager"
+],
+"Party Type": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Patch Log": [
+"Administrator",
+"System Manager"
+],
+"Payment Entry": [
+"Accounts Manager",
+"Accounts User"
+],
+"Payment Gateway Account": [
+"Accounts Manager"
+],
+"Payment Ledger Entry": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Payment Order": [
+"Accounts Manager",
+"Accounts User"
+],
+"Payment Reconciliation": [
+"Accounts Manager",
+"Accounts User"
+],
+"Payment Request": [
+"Accounts Manager",
+"Accounts User"
+],
+"Payment Term": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Payment Terms Template": [
+"Accounts Manager",
+"Accounts User",
+"Maintenance Manager",
+"Maintenance User",
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Payroll Correction": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Payroll Entry": [
+"HR Manager"
+],
+"Payroll Period": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Payroll Settings": [
+"HR Manager",
+"System Manager"
+],
+"Pegged Currencies": [
+"System Manager"
+],
+"Period Closing Voucher": [
+"Accounts Manager",
+"System Manager"
+],
+"Permission Inspector": [
+"System Manager"
+],
+"Permission Log": [
+"System Manager"
+],
+"Permission Type": [
+"Administrator"
+],
+"Personal Data Deletion Request": [
+"System Manager",
+"Workspace Administrator"
+],
+"Personal Data Download Request": [
+"System Manager",
+"Workspace Administrator"
+],
+"Pick List": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Plaid Settings": [
+"System Manager"
+],
+"Plant Floor": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"Portal Settings": [
+"Website Manager"
+],
+"Prepared Report": [
+"Prepared Report User",
+"System Manager"
+],
+"Price List": [
+"Manufacturing User",
+"Purchase Master Manager",
+"Purchase User",
+"Sales Master Manager",
+"Sales User"
+],
+"Pricing Rule": [
+"Accounts Manager",
+"Purchase Manager",
+"Sales Manager",
+"System Manager",
+"Website Manager"
+],
+"Print Format": [
+"System Manager",
+"Workspace Administrator"
+],
+"Print Format Field Template": [
+"System Manager",
+"Workspace Administrator"
+],
+"Print Format Snippet": [
+"System Manager",
+"Workspace Administrator"
+],
+"Print Heading": [
+"Desk User",
+"System Manager",
+"Workspace Administrator"
+],
+"Print Settings": [
+"System Manager",
+"Workspace Administrator"
+],
+"Print Style": [
+"System Manager"
+],
+"Process Deferred Accounting": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Process Payment Reconciliation": [
+"Accounts Manager",
+"Accounts User"
+],
+"Process Payment Reconciliation Log": [
+"Accounts Manager",
+"Accounts User"
+],
+"Process Period Closing Voucher": [
+"Accounts Manager",
+"System Manager"
+],
+"Process Statement Of Accounts": [
+"Accounts Manager",
+"Accounts User"
+],
+"Process Subscription": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Product Bundle": [
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Production Plan": [
+"Manufacturing User"
+],
+"Production Plan Schedule": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"Proforma Invoice": [
+"Sales Manager",
+"Sales User"
+],
+"Project": [
+"Accounts Manager",
+"Accounts User",
+"HR Manager",
+"HR User",
+"Projects Manager",
+"Projects User"
+],
+"Project Template": [
+"Projects Manager",
+"Projects User",
+"System Manager"
+],
+"Project Type": [
+"Projects Manager",
+"Projects User",
+"System Manager",
+"Workspace Administrator"
+],
+"Project Update": [
+"Projects User"
+],
+"Projects Settings": [
+"Projects Manager",
+"System Manager"
+],
+"Promotional Scheme": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"System Manager"
+],
+"Property Setter": [
+"Administrator",
+"System Manager"
+],
+"Prospect": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Provisioning Job": [
+"One Operator"
+],
+"Purchase Invoice": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Purchase Order": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Purchase Receipt": [
+"Accounts User",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Purchase Taxes and Charges Template": [
+"Accounts Manager",
+"Accounts User",
+"Purchase Manager",
+"Purchase Master Manager",
+"Purchase User"
+],
+"Purpose of Travel": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Push Device": [],
+"Push Notification Settings": [
+"System Manager"
+],
+"Putaway Rule": [
+"Stock Manager",
+"Stock User"
+],
+"Quality Action": [
+"Desk User",
+"Quality Manager",
+"System Manager"
+],
+"Quality Feedback": [
+"Desk User",
+"Quality Manager",
+"System Manager"
+],
+"Quality Feedback Template": [
+"Quality Manager",
+"System Manager"
+],
+"Quality Goal": [
+"Desk User",
+"Quality Manager",
+"System Manager"
+],
+"Quality Inspection": [
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Quality Inspection Parameter": [
+"Manufacturing User",
+"Quality Manager",
+"Stock User",
+"System Manager"
+],
+"Quality Inspection Parameter Group": [
+"Manufacturing User",
+"Quality Manager",
+"Stock User",
+"System Manager"
+],
+"Quality Inspection Template": [
+"Manufacturing User",
+"Quality Manager",
+"Stock User",
+"System Manager"
+],
+"Quality Meeting": [
+"Desk User",
+"Quality Manager",
+"System Manager"
+],
+"Quality Procedure": [
+"Desk User",
+"Quality Manager",
+"System Manager"
+],
+"Quality Review": [
+"Desk User",
+"Quality Manager",
+"System Manager"
+],
+"Quick Stock Balance": [
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Quotation": [
+"Maintenance Manager",
+"Maintenance User",
+"Sales Manager",
+"Sales User"
+],
+"Quotation Lost Reason": [
+"Maintenance Manager",
+"Maintenance User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User"
+],
+"RQ Job": [
+"Administrator",
+"System Manager"
+],
+"RQ Worker": [
+"System Manager"
+],
+"Reading": [
+"Workspace Administrator"
+],
+"Record Head": [],
+"Record Type": [
+"System Manager",
+"Workspace Administrator"
+],
+"Recorder": [
+"Administrator"
+],
+"Reminder": [
+"Desk User"
+],
+"Rename Tool": [
+"System Manager"
+],
+"Report": [
+"Administrator",
+"Desk User",
+"Report Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Repost Accounting Ledger": [
+"System Manager"
+],
+"Repost Item Valuation": [
+"Accounts Manager",
+"Stock Manager",
+"System Manager"
+],
+"Repost Payment Ledger": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Request for Quotation": [
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Retention Bonus": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Role": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Role Permission for Page and Report": [
+"System Manager"
+],
+"Role Profile": [
+"System Manager"
+],
+"Route History": [
+"System Manager"
+],
+"Routing": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"SMS Center": [
+"System Manager"
+],
+"SMS Log": [
+"System Manager"
+],
+"SMS Settings": [
+"System Manager"
+],
+"Salary Component": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Salary Slip": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Salary Structure": [
+"HR Manager",
+"HR User"
+],
+"Salary Structure Assignment": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Salary Withholding": [
+"Employee",
+"HR Manager",
+"System Manager"
+],
+"Sales Forecast": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Sales Invoice": [
+"Accounts Manager",
+"Accounts User"
+],
+"Sales Order": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Partner": [
+"Sales Manager",
+"Sales Master Manager",
+"Sales User"
+],
+"Sales Partner Type": [
+"System Manager"
+],
+"Sales Person": [
+"Sales Manager",
+"Sales Master Manager",
+"Sales User"
+],
+"Sales Stage": [
+"Sales Manager"
+],
+"Sales Taxes and Charges Template": [
+"Accounts Manager",
+"Sales Master Manager",
+"Sales User"
+],
+"Salutation": [
+"Administrator",
+"All",
+"System Manager",
+"Workspace Administrator"
+],
+"Scheduled Job Log": [
+"System Manager"
+],
+"Scheduled Job Type": [
+"System Manager"
+],
+"Scheduler Event": [
+"System Manager"
+],
+"Security Settings": [
+"System Manager"
+],
+"Selling Settings": [
+"Accounts User",
+"Projects User",
+"Sales Manager",
+"Sales User",
+"Stock User",
+"System Manager"
+],
+"Serial No": [
+"Item Manager",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Serial and Batch Bundle": [
+"Delivery Manager",
+"Delivery User",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Server Script": [
+"Script Manager"
+],
+"Service Level Agreement": [
+"Desk User",
+"System Manager"
+],
+"Session Default Settings": [
+"System Manager"
+],
+"Share Transfer": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Share Type": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"System Manager"
+],
+"Shareholder": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Shift Assignment": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Shift Assignment Tool": [
+"HR User"
+],
+"Shift Location": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Shift Request": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Shift Schedule": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Shift Schedule Assignment": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Shift Type": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Shipment": [
+"Stock Manager",
+"System Manager"
+],
+"Shipment Parcel Template": [
+"System Manager"
+],
+"Shipping Rule": [
+"Accounts Manager",
+"Accounts User",
+"Sales Master Manager",
+"Sales User"
+],
+"Sidebar": [
+"Desk User",
+"System Manager"
+],
+"Skill": [
+"HR Manager",
+"HR User",
+"System Manager",
+"Workspace Administrator"
+],
+"Slack Webhook URL": [
+"System Manager"
+],
+"Social Login Key": [
+"System Manager"
+],
+"South Africa VAT Settings": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Staffing Plan": [
+"HR Manager",
+"HR User"
+],
+"Stock Closing Balance": [
+"Accounts Manager",
+"Stock User"
+],
+"Stock Closing Entry": [
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Stock Entry": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Stock Entry Type": [
+"Manufacturing Manager",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Stock Ledger Entry": [
+"Accounts Manager",
+"Stock User"
+],
+"Stock Reconciliation": [
+"Stock Manager"
+],
+"Stock Reposting Settings": [
+"System Manager"
+],
+"Stock Reservation Entry": [
+"Purchase Manager",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Stock Settings": [
+"Accounts User",
+"Manufacturing User",
+"Projects User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Stripe Webhook Event": [
+"One Operator"
+],
+"Subcontracting BOM": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"System Manager"
+],
+"Subcontracting Inward Order": [
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Subcontracting Order": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Subcontracting Receipt": [
+"Accounts User",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Submission Queue": [
+"Desk User",
+"System Manager"
+],
+"Subscription": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Subscription Plan": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Subscription Settings": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Success Action": [
+"System Manager"
+],
+"Supplier": [
+"Accounts Manager",
+"Accounts User",
+"Purchase Manager",
+"Purchase Master Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Supplier Group": [
+"Accounts User",
+"Item Manager",
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase Master Manager",
+"Purchase User",
+"Stock Manager",
+"Workspace Administrator"
+],
+"Supplier Quotation": [
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Supplier Scorecard": [
+"Purchase Manager",
+"Purchase User",
+"System Manager"
+],
+"Supplier Scorecard Criteria": [
+"Purchase Manager",
+"Purchase User",
+"System Manager"
+],
+"Supplier Scorecard Period": [
+"Purchase Manager",
+"Purchase User",
+"System Manager"
+],
+"Supplier Scorecard Standing": [
+"Purchase Manager",
+"Purchase User",
+"System Manager"
+],
+"Supplier Scorecard Variable": [
+"Purchase Manager",
+"Purchase User",
+"System Manager"
+],
+"Support Settings": [
+"System Manager"
+],
+"System Console": [
+"Administrator"
+],
+"System Health Report": [
+"System Manager"
+],
+"System Settings": [
+"System Manager"
+],
+"Tag": [
+"All",
+"System Manager"
+],
+"Tag Link": [
+"All",
+"System Manager"
+],
+"Task": [
+"Desk User",
+"HR Manager",
+"HR User",
+"Projects User"
+],
+"Task Type": [
+"HR Manager",
+"Projects Manager",
+"Projects User",
+"System Manager"
+],
+"Tax Category": [
+"Accounts Manager",
+"Accounts User",
+"System Manager",
+"Workspace Administrator"
+],
+"Tax Rule": [
+"Accounts Manager"
+],
+"Tax Withholding Category": [
+"Accounts Manager",
+"Accounts User",
+"System Manager"
+],
+"Tax Withholding Group": [
+"System Manager"
+],
+"Telephony Call Type": [
+"System Manager"
+],
+"Tenant": [
+"One Operator"
+],
+"Tenant Domain": [
+"One Operator"
+],
+"Tenant Event": [
+"One Operator"
+],
+"Terms and Conditions": [
+"Accounts Manager",
+"Accounts User",
+"HR Manager",
+"Purchase User",
+"Sales Master Manager",
+"Sales User",
+"Stock User",
+"System Manager"
+],
+"Territory": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Stock User",
+"Workspace Administrator"
+],
+"Timesheet": [
+"Accounts User",
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"Manufacturing User",
+"Projects User"
+],
+"ToDo": [
+"All",
+"System Manager"
+],
+"Token Cache": [
+"All",
+"System Manager"
+],
+"Training Event": [
+"HR Manager",
+"HR User"
+],
+"Training Feedback": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Training Program": [
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Training Result": [
+"HR Manager",
+"HR User"
+],
+"Transaction Deletion Record": [
+"System Manager"
+],
+"Translation": [
+"System Manager",
+"Translator"
+],
+"Travel Request": [
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"UAE VAT Settings": [
+"Accounts Manager",
+"Accounts User",
+"All",
+"System Manager"
+],
+"UOM": [
+"Item Manager",
+"Manufacturing Manager",
+"Purchase Manager",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"UOM Category": [
+"Item Manager",
+"Manufacturing Manager",
+"Purchase Manager",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"UOM Conversion Factor": [
+"System Manager"
+],
+"UTM Campaign": [
+"Marketing Manager",
+"Newsletter Manager",
+"System Manager"
+],
+"UTM Medium": [
+"Marketing Manager",
+"System Manager"
+],
+"UTM Source": [
+"Marketing Manager",
+"Sales Manager",
+"Sales User",
+"System Manager",
+"Workspace Administrator"
+],
+"Unhandled Email": [
+"System Manager"
+],
+"Unreconcile Payment": [
+"Accounts Manager",
+"Accounts User"
+],
+"User": [
+"System Manager"
+],
+"User Group": [
+"Desk User",
+"System Manager"
+],
+"User Invitation": [
+"System Manager"
+],
+"User Permission": [
+"System Manager"
+],
+"User Type": [
+"Administrator",
+"System Manager"
+],
+"Vehicle": [
+"Delivery Manager",
+"Delivery User",
+"Fleet Manager"
+],
+"Vehicle Log": [
+"Fleet Manager",
+"HR Manager",
+"HR User"
+],
+"Vehicle Service Item": [
+"System Manager"
+],
+"Version": [
+"Administrator",
+"System Manager",
+"Workspace Administrator"
+],
+"Video": [
+"All",
+"System Manager"
+],
+"Video Settings": [
+"System Manager"
+],
+"View Log": [
+"System Manager"
+],
+"Voice Call Settings": [
+"All",
+"System Manager"
+],
+"Warehouse": [
+"Accounts User",
+"Item Manager",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock User"
+],
+"Warehouse Type": [
+"Accounts User",
+"Item Manager",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Warranty Claim": [
+"Maintenance User"
+],
+"Web Form": [
+"Website Manager"
+],
+"Web Form Request": [
+"Website Manager"
+],
+"Web Page": [
+"Website Manager"
+],
+"Web Page View": [
+"System Manager"
+],
+"Web Template": [
+"System Manager"
+],
+"Webhook": [
+"System Manager",
+"Workspace Administrator"
+],
+"Webhook Request Log": [
+"System Manager",
+"Workspace Administrator"
+],
+"Website Route Meta": [
+"System Manager"
+],
+"Website Script": [
+"Website Manager"
+],
+"Website Settings": [
+"Website Manager"
+],
+"Website Sidebar": [
+"Website Manager"
+],
+"Website Slideshow": [
+"Website Manager"
+],
+"Website Theme": [
+"Administrator",
+"Website Manager"
+],
+"Work Order": [
+"Manufacturing User",
+"Stock User"
+],
+"Workflow": [
+"System Manager",
+"Workspace Administrator"
+],
+"Workflow Action": [
+"Desk User"
+],
+"Workflow Action Master": [
+"System Manager",
+"Workspace Administrator"
+],
+"Workflow State": [
+"System Manager",
+"Workspace Administrator"
+],
+"Workflow Transition Tasks": [
+"System Manager"
+],
+"Workspace": [
+"Desk User",
+"Workspace Manager"
+],
+"Workspace Account": [
+"System Manager",
+"Workspace Administrator"
+],
+"Workspace Customization": [],
+"Workspace Field": [
+"System Manager",
+"Workspace Administrator"
+],
+"Workspace Sidebar": [
+"Desk User",
+"System Manager"
+],
+"Workstation": [
+"Manufacturing User"
+],
+"Workstation Operating Component": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"Workstation Type": [
+"Manufacturing User"
+]
+},
+"pages": {
+"backups": [
+"System Manager"
+],
+"bom-comparison-tool": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"component-explorer": [
+"System Manager"
+],
+"dashboard-view": [],
+"desktop": [
+"All"
+],
+"floor": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Shop Floor Manager",
+"Shop Floor User"
+],
+"intake": [
+"Desk User"
+],
+"inventory": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"item-view": [
+"Desk User"
+],
+"legal": [
+"Desk User"
+],
+"lots": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"masters": [
+"Accounts Manager",
+"HR Manager",
+"Item Manager",
+"Projects Manager",
+"Purchase Manager",
+"Sales Manager",
+"Stock Manager",
+"Workspace Administrator"
+],
+"my-tasks": [
+"Desk User"
+],
+"onecalendar": [
+"Desk User"
+],
+"onecloud": [
+"Desk User"
+],
+"onemail": [
+"Desk User"
+],
+"organizational-chart": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"permission-manager": [
+"System Manager"
+],
+"plant": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Operator",
+"Shop Floor Manager",
+"Shop Floor User"
+],
+"point-of-sale": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales User"
+],
+"print": [],
+"print-format-builder": [
+"System Manager"
+],
+"production-plan-visualizer": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"project-template-view": [
+"Desk User"
+],
+"project-view": [
+"Desk User"
+],
+"quotes": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"ready-to-submit": [
+"Accounts Manager",
+"Accounts User",
+"Purchase User",
+"Sales User"
+],
+"sales-funnel": [
+"Sales Manager"
+],
+"sent-out": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"settings": [
+"Desk User"
+],
+"setup-wizard": [
+"System Manager"
+],
+"shop-floor": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Shop Floor Manager",
+"Shop Floor User"
+],
+"stock-balance": [
+"Stock User"
+],
+"stock-on-hand": [
+"Desk User"
+],
+"task-view": [
+"Desk User"
+],
+"timers": [
+"Desk User"
+],
+"upkeep": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"visual-plant-floor": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Operator"
+],
+"warehouse-capacity-summary": [
+"Stock Manager",
+"Stock User"
+],
+"workflow-builder": [
+"System Manager"
+],
+"workspace-restore": [
+"Workspace Manager"
+],
+"workspace-settings": [
+"Workspace Administrator"
+]
+},
+"reports": {
+"AI Credits": [
+"Workspace Administrator"
+],
+"AI Usage": [],
+"Account Balance": [],
+"Accounts Payable": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Accounts Payable Summary": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Accounts Receivable": [
+"Accounts Manager",
+"Accounts User"
+],
+"Accounts Receivable Summary": [
+"Accounts Manager",
+"Accounts User"
+],
+"Accrued Earnings Report": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Address And Contacts": [
+"Accounts User",
+"Maintenance User",
+"Purchase User",
+"Sales User"
+],
+"Addresses And Contacts": [
+"Accounts User",
+"Maintenance User",
+"Purchase User",
+"Sales User"
+],
+"Appraisal Overview": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Asset Activity": [
+"Accounts User",
+"Quality Manager",
+"System Manager"
+],
+"Asset Depreciation Ledger": [
+"Accounts User"
+],
+"Asset Depreciations and Balances": [
+"Accounts User"
+],
+"Asset Maintenance": [
+"System Manager"
+],
+"Attendance by Shift": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Audit System Hooks": [
+"System Manager"
+],
+"Available Batch Report": [
+"Accounts Manager",
+"Stock User"
+],
+"Available Serial No": [
+"Accounts Manager",
+"Stock User"
+],
+"Available Stock for Packing Items": [
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"BOM Explorer": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"BOM Operations Time": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"BOM Search": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"BOM Stock Analysis": [
+"Manufacturing Manager",
+"Manufacturing User"
+],
+"BOM Variance Report": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Balance Sheet": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Bank Clearance Summary": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Bank Reconciliation Statement": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Bank Remittance": [
+"HR Manager"
+],
+"Batch Item Expiry Status": [
+"Accounts Manager",
+"Stock User"
+],
+"Batch Split Tree": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Batch-Wise Balance History": [
+"Accounts Manager",
+"Stock User"
+],
+"Billed Items To Be Received": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User",
+"Stock User"
+],
+"Books Check": [
+"Accounts Manager",
+"Accounts User",
+"System Manager",
+"Workspace Administrator"
+],
+"Budget Variance Report": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User",
+"Sales User"
+],
+"COGS By Item Group": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Calculated Discount Mismatch": [
+"Accounts Manager",
+"Accounts User",
+"Administrator",
+"System Manager"
+],
+"Campaign Efficiency": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Cash Flow": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Cheques and Deposits Incorrectly cleared": [
+"Accounts Manager",
+"Accounts User"
+],
+"Completed Work Orders": [
+"Manufacturing User",
+"Stock User"
+],
+"Consolidated Accounts Payable": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Consolidated Accounts Payable Summary": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Consolidated Accounts Receivable": [
+"Accounts Manager",
+"Accounts User"
+],
+"Consolidated Accounts Receivable Summary": [
+"Accounts Manager",
+"Accounts User"
+],
+"Consolidated Financial Statement": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User",
+"Sales User"
+],
+"Consolidated Trial Balance": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Cost of Poor Quality Report": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"Custom Financial Statement": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Customer Acquisition and Loyalty": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Customer Credit Balance": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Customer Ledger Summary": [
+"Accounts Manager",
+"Accounts User"
+],
+"Customer-wise Item Price": [
+"Accounts Manager",
+"Accounts User",
+"Sales Manager",
+"Sales Master Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Customers Without Any Sales Transactions": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Daily Timesheet Summary": [
+"Accounts User",
+"HR User",
+"Manufacturing User",
+"Projects User"
+],
+"Database Storage Usage By Tables": [
+"System Manager"
+],
+"Deadlines": [
+"Desk User",
+"Workspace Administrator"
+],
+"Deal Forecast": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Deferred Revenue and Expense": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Delayed Item Report": [
+"Accounts User",
+"Maintenance User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Delayed Order Report": [
+"Accounts User",
+"Maintenance User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Delayed Tasks Summary": [
+"Projects Manager",
+"Projects User"
+],
+"Delivered Items To Be Billed": [
+"Accounts Manager",
+"Accounts User"
+],
+"Delivery Note Trends": [
+"Accounts User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Dimension-wise Accounts Balance Report": [],
+"Document Share Report": [
+"System Manager"
+],
+"Downtime Analysis": [
+"Manufacturing Manager",
+"Manufacturing User",
+"System Manager"
+],
+"Electronic Invoice Register": [],
+"Employee Advance Summary": [
+"Employee",
+"Expense Approver"
+],
+"Employee Analytics": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee Birthday": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee CTC Break-up": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Exits": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Employee Hours Utilization Based On Timesheet": [
+"HR Manager",
+"HR User"
+],
+"Employee Information": [
+"HR Manager",
+"HR User"
+],
+"Employee Leave Balance": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Employee Leave Balance Summary": [
+"Employee",
+"HR Manager",
+"HR User",
+"Leave Approver"
+],
+"Employees working on a holiday": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Exponential Smoothing Forecasting": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"FIFO Queue vs Qty After Transaction Comparison": [
+"Administrator"
+],
+"Financial Ratios": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"First Response Time for Issues": [
+"Support Team"
+],
+"First Response Time for Opportunity": [
+"Sales Manager",
+"Sales User"
+],
+"Fixed Asset Register": [
+"Accounts User",
+"Quality Manager"
+],
+"General Ledger": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"General and Payment Ledger Comparison": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Gross Profit": [
+"Accounts Manager",
+"Accounts User"
+],
+"Gross and Net Profit Report": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Hiring Pipeline": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Hours Utilization": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"How Long Deals Take": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"IRS 1099": [
+"Accounts Manager",
+"System Manager"
+],
+"Inactive Customers": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Inactive Sales Items": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Income Tax Computation": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Income Tax Deductions": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User"
+],
+"Incorrect Balance Qty After Transaction": [
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Incorrect Serial No Valuation": [
+"Accounts Manager",
+"Accounts User",
+"Stock Manager",
+"Stock User"
+],
+"Incorrect Serial and Batch Bundle": [
+"Delivery Manager",
+"Delivery User",
+"Maintenance User",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Incorrect Stock Value Report": [
+"Accounts Manager",
+"Stock User"
+],
+"Invalid Ledger Entries": [],
+"Inventory Check": [
+"Accounts Manager",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"Issue Analytics": [
+"Support Team"
+],
+"Issue Summary": [
+"Support Team"
+],
+"Issued Items Against Work Order": [
+"Manufacturing User",
+"Stock User"
+],
+"Item Balance (Simple)": [
+"Purchase User",
+"Sales User",
+"Stock User"
+],
+"Item Price Stock": [
+"Accounts User",
+"Item Manager",
+"Maintenance User",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Item Prices": [
+"Accounts Manager",
+"Stock User"
+],
+"Item Shortage Report": [
+"Purchase User",
+"Sales User",
+"Stock User"
+],
+"Item Variant Details": [
+"Accounts User",
+"Item Manager",
+"Maintenance User",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Item Where Used": [
+"Item Manager",
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Item Wise Consumption": [
+"Accounts Manager",
+"Stock User"
+],
+"Item-wise Price List Rate": [
+"Purchase Master Manager",
+"Sales Master Manager"
+],
+"Item-wise Purchase History": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Item-wise Purchase Register": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Item-wise Sales History": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Item-wise Sales Register": [
+"Accounts Manager",
+"Accounts User"
+],
+"Items To Be Requested": [
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Itemwise Recommended Reorder Level": [
+"Accounts User",
+"Item Manager",
+"Maintenance User",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Job Card Summary": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Landed Cost Report": [
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Lead Conversion Time": [
+"Sales Manager",
+"Sales User"
+],
+"Lead Details": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Lead Owner Efficiency": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Lead Sources": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Leave Ledger": [
+"Employee",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Lost Opportunity": [
+"Sales Manager",
+"Sales User"
+],
+"Lost Quotations": [
+"Sales Manager",
+"Sales User"
+],
+"Maintenance Schedules": [],
+"Material Requests for which Supplier Quotations are not created": [
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Material Requirements Planning Report": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Monthly Attendance": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Monthly Attendance Sheet": [
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Negative Batch Report": [
+"Delivery Manager",
+"Delivery User",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Open Work Orders": [
+"Manufacturing User",
+"Stock User"
+],
+"Opportunity Summary by Sales Stage": [
+"Sales Manager",
+"Sales User"
+],
+"POS Register": [
+"Accounts Manager",
+"Accounts User"
+],
+"Payment Ledger": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Payment Period Based On Invoice Date": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Payment Terms Status for Sales Order": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Pending SO Items For Purchase Request": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Permitted Documents For User": [
+"System Manager"
+],
+"Plan Calculator": [],
+"Prepared Report Analytics": [
+"System Manager"
+],
+"Price Check": [],
+"Process Loss Report": [
+"Manufacturing User"
+],
+"Procurement Tracker": [
+"Purchase Manager",
+"Purchase User"
+],
+"Product Bundle Balance": [
+"Stock User"
+],
+"Production Analytics": [
+"Manufacturing User",
+"Stock User"
+],
+"Production Plan Summary": [
+"Manufacturing User"
+],
+"Production Planning Report": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock User"
+],
+"Profit and Loss Statement": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Profitability Analysis": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Project Profitability": [
+"Accounts User",
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"Manufacturing User",
+"Projects User"
+],
+"Project Summary": [
+"Projects Manager",
+"Projects User"
+],
+"Project wise Stock Tracking": [
+"Projects Manager",
+"Projects User"
+],
+"Prospects Engaged But Not Converted": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Purchase Analytics": [
+"Purchase Manager",
+"Purchase User"
+],
+"Purchase Invoice Trends": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Purchase Order Analysis": [
+"Purchase Manager",
+"Purchase User",
+"Stock User",
+"Supplier"
+],
+"Purchase Order Trends": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Purchase Receipt Trends": [
+"Accounts User",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Purchase Register": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Quality Inspection Summary": [
+"Quality Manager",
+"Stock Manager",
+"Stock User"
+],
+"Quotation Trends": [
+"Maintenance Manager",
+"Maintenance User",
+"Sales Manager",
+"Sales User"
+],
+"Received Items To Be Billed": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Recruitment Analytics": [
+"HR Manager",
+"HR User"
+],
+"Requested Items To Be Transferred": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Requested Items to Order and Receive": [
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User"
+],
+"Reserved Stock": [
+"System Manager"
+],
+"Review": [
+"Quality Manager",
+"System Manager"
+],
+"Salary Payments Based On Payment Mode": [
+"Employee",
+"HR Manager",
+"HR User"
+],
+"Salary Payments via ECS": [
+"HR Manager",
+"HR User"
+],
+"Salary Register": [
+"HR Manager",
+"HR User"
+],
+"Sales Analytics": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Stock User"
+],
+"Sales Invoice Trends": [
+"Accounts Manager",
+"Accounts User"
+],
+"Sales Order Analysis": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Order Trends": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Partner Commission Summary": [
+"Maintenance User",
+"Sales Manager"
+],
+"Sales Partner Target Variance based on Item Group": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Partner Transaction Summary": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Partners Commission": [
+"Accounts Manager",
+"Accounts User"
+],
+"Sales Payment Summary": [
+"Accounts Manager",
+"Accounts User"
+],
+"Sales Person Commission Summary": [
+"Maintenance User",
+"Sales Manager"
+],
+"Sales Person Target Variance Based On Item Group": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Person-wise Transaction Summary": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Sales Pipeline Analytics": [
+"Sales Manager",
+"Sales User"
+],
+"Sales Register": [
+"Accounts Manager",
+"Accounts User"
+],
+"Serial No Ledger": [
+"Purchase User",
+"Sales User",
+"Stock User"
+],
+"Serial No Service Contract Expiry": [
+"Item Manager",
+"Stock Manager",
+"Stock User"
+],
+"Serial No Status": [
+"Item Manager",
+"Stock Manager",
+"Stock User"
+],
+"Serial No Warranty Expiry": [
+"Item Manager",
+"Stock Manager",
+"Stock User"
+],
+"Serial No and Batch Traceability": [
+"Delivery Manager",
+"Delivery User",
+"Manufacturing Manager",
+"Manufacturing User",
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"System Manager"
+],
+"Serial and Batch Summary": [
+"Maintenance User",
+"Purchase User",
+"Sales User",
+"Stock User",
+"System Manager"
+],
+"Serial and Batch Wise Stock Balance": [
+"Accounts Manager",
+"Stock User"
+],
+"Share Balance": [
+"System Manager"
+],
+"Share Ledger": [
+"Administrator",
+"System Manager"
+],
+"Shift Attendance": [
+"Employee",
+"Employee Self Service",
+"HR Manager",
+"HR User",
+"System Manager"
+],
+"Spending": [
+"Desk User",
+"Workspace Administrator"
+],
+"Stock Ageing": [
+"Accounts User",
+"Item Manager",
+"Maintenance User",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Stock Analytics": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Stock Balance": [
+"Accounts Manager",
+"Stock User"
+],
+"Stock Ledger": [
+"Accounts Manager",
+"Stock User"
+],
+"Stock Ledger Entries of Cancelled Vouchers": [
+"Stock Manager",
+"System Manager"
+],
+"Stock Ledger Invariant Check": [
+"System Manager"
+],
+"Stock Ledger Variance": [],
+"Stock Projected Qty": [
+"Accounts User",
+"Item Manager",
+"Maintenance User",
+"Manufacturing User",
+"Purchase User",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Stock Qty vs Batch Qty": [
+"Item Manager"
+],
+"Stock Qty vs Serial No Count": [
+"Stock Manager",
+"Stock User"
+],
+"Stock Valuation Comparison": [
+"Accounts Manager",
+"Stock Manager"
+],
+"Stock and Account Value Comparison": [
+"Accounts Manager",
+"Stock User"
+],
+"Storage Check": [
+"System Manager",
+"Workspace Administrator"
+],
+"Subcontract Order Summary": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Subcontracted Item To Be Received": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Subcontracted Items To Be Delivered": [
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Subcontracted Raw Materials To Be Received": [
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Subcontracted Raw Materials To Be Transferred": [
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Subcontracting Inward Order Summary": [
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Supplier Ledger Summary": [
+"Accounts Manager",
+"Accounts User"
+],
+"Supplier Quotation Comparison": [
+"Manufacturing Manager",
+"Purchase Manager",
+"Purchase User",
+"Stock User"
+],
+"Support Hour Distribution": [
+"Support Team",
+"System Manager"
+],
+"TDS Computation Summary": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Tax Withholding Details": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Purchase User"
+],
+"Territory Target Variance Based On Item Group": [
+"Accounts User",
+"Maintenance User",
+"Sales Manager",
+"Sales User",
+"Stock User"
+],
+"Territory-wise Sales": [
+"Sales Manager",
+"Sales User"
+],
+"Timesheet Billing Summary": [
+"Accounts User",
+"Employee",
+"Employee Self Service",
+"HR User",
+"Manufacturing User",
+"Projects User"
+],
+"To Order": [
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
+"ToDo": [
+"System Manager"
+],
+"Total Stock Summary": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock Manager",
+"Stock User"
+],
+"Trial Balance": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Trial Balance (Simple)": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Trial Balance for Party": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"UAE VAT 201": [],
+"Unpaid Expense Claim": [
+"Expense Approver",
+"HR Manager",
+"HR User"
+],
+"User Doctype Permissions": [
+"System Manager"
+],
+"VAT Audit Report": [],
+"VAT Return": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Workspace Administrator"
+],
+"Vehicle Expenses": [
+"Fleet Manager"
+],
+"Voucher-wise Balance": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
+"Warehouse Wise Stock Balance": [
+"Accounts Manager",
+"Stock User"
+],
+"Warehouse wise Item Balance Age and Value": [
+"Accounts Manager",
+"Sales User",
+"Stock Manager",
+"Stock User"
+],
+"Website Analytics": [
+"System Manager",
+"Website Manager"
+],
+"Won and Lost": [
+"Sales Manager",
+"Sales User",
+"System Manager"
+],
+"Work Order Consumed Materials": [
+"Manufacturing User",
+"Stock User"
+],
+"Work Order Stock Report": [
+"Manufacturing User",
+"Stock User"
+],
+"Work Order Summary": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Stock User"
+],
+"Work Orders in Progress": [
+"Manufacturing User",
+"Stock User"
+],
+"Workload": [
+"Projects Manager",
+"Projects User"
+],
+"YouTube Interactions": [
+"All",
+"System Manager"
+]
+}
+}

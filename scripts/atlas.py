@@ -13,7 +13,9 @@ then every visible link on a form already reached, until nothing new is.
 import argparse
 import ast
 import json
+import os
 import re
+import subprocess
 import sys
 from functools import cache
 from pathlib import Path
@@ -26,6 +28,10 @@ import tree
 BENCH = Path("/home/frappe/bench1/apps")
 APPS = ("frappe", "erpnext", "hrms")
 SNAPSHOT = tree.ROOT / "docs" / "upstream" / "atlas.json"
+#: Who may read what on the demo site, every grant of One's applied
+#: (one/reach.py `atlas`). A demo check keeps it the site's.
+ROLES = tree.ROOT / "docs" / "atlas-roles.json"
+SITE = os.environ.get("ONE_SITE", "onedesk.localhost")
 FRONTEND = tree.ROOT / "frontend" / "src"
 
 #: Field types a person clicks through to another record. A hidden or
@@ -116,13 +122,54 @@ def _read(app_dir: Path, app: str) -> dict:
 	return said
 
 
+def _po(path: Path) -> dict:
+	"""{(msgid, context): msgstr} from a .po or .pot file."""
+	out, entry, key = {}, {}, None
+	if not path.exists():
+		return out
+
+	def flush():
+		if entry.get("msgid"):
+			out[(entry["msgid"], entry.get("msgctxt") or "")] = entry.get("msgstr", "")
+
+	for line in [*path.read_text().splitlines(), ""]:
+		if not line.strip():
+			flush()
+			entry, key = {}, None
+		elif line.startswith("#"):
+			continue
+		elif line.startswith(("msgid ", "msgstr ", "msgctxt ")):
+			key, _, rest = line.partition(" ")
+			entry[key] = json.loads(rest)
+		elif line.startswith('"') and key:
+			entry[key] += json.loads(line)
+	return out
+
+
+#: The languages One is translated into besides English.
+LANGUAGES = ("ar", "de")
+
+
+def _brand(app_dir: Path) -> dict:
+	"""Every sentence an app can show that names a brand, with its own Arabic
+	and German: {msgid: {context, ar, de}}."""
+	pot = _po(app_dir / "locale" / "main.pot")
+	said = {lang: _po(app_dir / "locale" / f"{lang}.po") for lang in LANGUAGES}
+	return {
+		msgid: {"context": context, **{lang: said[lang].get((msgid, context), "") for lang in LANGUAGES}}
+		for (msgid, context) in pot
+		if BRAND.search(msgid)
+	}
+
+
 def snapshot() -> dict:
 	"""frappe, erpnext and hrms as the bench has them."""
-	out = {"doctypes": {}, "reports": {}, "pages": {}}
+	out = {"doctypes": {}, "reports": {}, "pages": {}, "brand": {}}
 	for app in APPS:
 		said = _read(BENCH / app / app, app)
-		for kind in out:
+		for kind in ("doctypes", "reports", "pages"):
 			out[kind].update(said[kind])
+		out["brand"].update(_brand(BENCH / app / app))
 	return out
 
 
@@ -343,6 +390,150 @@ def waiting() -> dict:
 	return out
 
 
+# ------------------------------------------------------------------ the columns
+
+#: Roles every person on a workspace's desk holds, and the administrator's.
+EVERYBODY = ("All", "Desk User", "Employee", "Employee Self Service")
+ADMINISTRATOR = "Workspace Administrator"
+
+
+@cache
+def givable() -> dict:
+	"""{role: the app a workspace gives it with} (one/settings.py APPS)."""
+	module = ast.parse((tree.APP / "one" / "settings.py").read_text())
+	out = {role: "everybody" for role in EVERYBODY} | {ADMINISTRATOR: "the administrator"}
+	for node in module.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "APPS":
+			for label, _code, users, managers in ast.literal_eval(node.value):
+				for role in (*users, *managers):
+					out.setdefault(role, label)
+	return out
+
+
+@cache
+def readers() -> dict:
+	return json.loads(ROLES.read_text()) if ROLES.exists() else {"doctypes": {}, "reports": {}, "pages": {}}
+
+
+def open_to(kind: str, name: str) -> list[str] | None:
+	"""The apps whose people may open it; None when the site was not read."""
+	said = readers()[KINDS[kind]]
+	if name not in said:
+		return None
+	roles = said[name]
+	if kind != "DocType" and not roles:
+		return ["its record type's readers"]
+	apps = sorted({givable()[role] for role in roles if role in givable()})
+	return ["everybody"] if "everybody" in apps else apps
+
+
+def _hooked() -> dict:
+	"""{doctype: [what hooks.py gives it]}."""
+	module = ast.parse((tree.APP / "hooks.py").read_text())
+	out: dict = {}
+	names = {
+		"doctype_js": "form script",
+		"doctype_list_js": "list script",
+		"doctype_tree_js": "tree script",
+		"doc_events": "events",
+		"override_doctype_class": "class",
+	}
+	for node in module.body:
+		if (
+			isinstance(node, ast.Assign)
+			and getattr(node.targets[0], "id", None) in names
+			and isinstance(node.value, ast.Dict)
+		):
+			for key in node.value.keys:
+				if isinstance(key, ast.Constant):
+					out.setdefault(key.value, []).append(names[node.targets[0].id])
+	return out
+
+
+_FORM_ON = re.compile(r"""frappe\.ui\.form\.on\(\s*["']([^"']+)["']""")
+
+
+@cache
+def changes() -> dict:
+	"""{doctype: what One changed about it}."""
+	out: dict = {}
+	for path in tree.APP.glob("*/custom/*.json"):
+		data = json.loads(path.read_text())
+		row = out.setdefault(data.get("doctype"), {})
+		row["fields"] = row.get("fields", 0) + len(data.get("custom_fields") or [])
+		row["setters"] = row.get("setters", 0) + len(data.get("property_setters") or [])
+	for doctype, said in _hooked().items():
+		out.setdefault(doctype, {}).setdefault("hooks", set()).update(said)
+	for path in (tree.APP / "public" / "js").glob("*.js"):
+		for doctype in _FORM_ON.findall(path.read_text()):
+			out.setdefault(doctype, {}).setdefault("hooks", set()).add("form script")
+	tiers_ = ast.parse((tree.APP / "one" / "tiers.py").read_text())
+	for node in tiers_.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "HEADS":
+			for doctype in ast.literal_eval(node.value):
+				out.setdefault(doctype, {})["head"] = True
+	for doctype in paged():
+		out.setdefault(doctype, {})["page"] = True
+	return out
+
+
+def changed(name: str) -> str:
+	row = changes().get(name) or {}
+	if row.get("page"):
+		return "a page of our own"
+	said = []
+	if row.get("head"):
+		said.append("a head")
+	said += sorted(row.get("hooks", ()))
+	if row.get("fields"):
+		said.append(f"{row['fields']} fields")
+	if row.get("setters"):
+		said.append(f"{row['setters']} settings")
+	return ", ".join(said) or "untouched"
+
+
+@cache
+def _refused_modules() -> tuple:
+	module = ast.parse((tree.APP / "one" / "customize.py").read_text())
+	for node in module.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "REFUSED_MODULES":
+			return ast.literal_eval(node.value)
+	return ()
+
+
+def studio(name: str) -> str:
+	"""Whether a workspace's OneStudio may customize it (one/customize.py)."""
+	meta = everything()["doctypes"][name]
+	return "no" if meta["single"] or meta["module"] in _refused_modules() else "yes"
+
+
+@cache
+def _taught() -> str:
+	return "\n".join(path.read_text() for path in tree.APP.glob("*/ai*.py"))
+
+
+def ai(name: str) -> str:
+	"""OneAI reads any record its reader may; `taught` where a module's ai.py
+	gives it tools or knowledge of its own about this one."""
+	return "taught" if f'"{name}"' in _taught() else "general"
+
+
+@cache
+def _made() -> frozenset:
+	found = set()
+	for name in ("plans.py", "money.py"):
+		found |= set(
+			re.findall(
+				r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', (tree.APP / "one_intake" / name).read_text()
+			)
+		)
+	return frozenset(found)
+
+
+def intake(name: str) -> str:
+	return "makes it" if name in _made() else ""
+
+
 SEEN = {"named": "On a rail or a Home", "routed": "Opened by our screens"}
 FOUND = {
 	"linked": "Through a form's link",
@@ -350,6 +541,18 @@ FOUND = {
 	"related": "Under a list's Related Reports",
 }
 HEADER = "<!-- generated by scripts/atlas.py through scripts/docs.py — do not edit -->\n"
+
+
+def _way(row: dict, said: dict) -> str:
+	how = row["reach"][0] if row["reach"] else None
+	if how in SEEN:
+		return SEEN[how].lower()
+	if how in FOUND:
+		return f"{FOUND[how].lower()} ({row['reach'][1][0]})"
+	if (row["kind"], row["name"]) in said:
+		kind, why = said[(row["kind"], row["name"])]
+		return f"{kind}: {why}"
+	return "**waiting**"
 
 
 def page() -> str:
@@ -363,11 +566,19 @@ def page() -> str:
 		"",
 		"Every record type, report and page frappe, erpnext and hrms ship, and One's own, with",
 		"how a person reaches it in One. Upstream is read from `docs/upstream/atlas.json`",
-		"(`python scripts/atlas.py --snapshot`), One from this repository. A way in is",
-		"**seen** when a rail, a Home or one of our screens names it, **found** when only a",
-		"form's link, its Connections tab or a list's Related Reports leads there. Anything",
-		"with neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decision;",
+		"(`python scripts/atlas.py --snapshot`), One from this repository, and who may open",
+		"what from the demo site (`docs/atlas-roles.json`, `--roles`). A way in is **seen**",
+		"when a rail, a Home or one of our screens names it, **found** when only a form's",
+		"link, its Connections tab or a list's Related Reports leads there. Anything with",
+		"neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decision;",
 		"`tests/guards/test_atlas.py` holds the count waiting in each module, which only falls.",
+		"",
+		"For each record type: who may open it (the apps whose roles read it), what One",
+		"changed (a page of our own, a head on the form, scripts, events, fields, settings),",
+		"whether a workspace's OneStudio may customize it, whether OneAI was taught it or",
+		"reads it with its general tools, and whether OneIntake makes it from a document.",
+		"Every sentence upstream says naming ERPNext, Frappe or HRMS reads One",
+		"(`onedesk/translations/`, `--brand`), but for the outside names in `OUTSIDE`.",
 		"",
 		"| App | Seen | Found | Answered | Waiting |",
 		"|---|---|---|---|---|",
@@ -380,30 +591,134 @@ def page() -> str:
 		lines.append(f"| {app} | {seen} | {found} | {answered} | {len(mine) - seen - found - answered} |")
 	for (app, module), mine in sorted(by_module.items()):
 		lines += ["", f"## {app} / {module or 'no module'}", ""]
-		groups: dict = {}
-		for r in mine:
-			how = r["reach"][0] if r["reach"] else None
-			label = r["name"] if r["kind"] == "DocType" else f"{r['name']} ({r['kind'].lower()})"
-			if how in SEEN:
-				groups.setdefault(SEEN[how], []).append(label)
-			elif how in FOUND:
-				groups.setdefault(FOUND[how], []).append(f"{label} ({r['reach'][1][0]})")
-			elif (r["kind"], r["name"]) in said:
-				kind, why = said[(r["kind"], r["name"])]
-				groups.setdefault("Answered", []).append(f"{label}: {kind}, {why}")
-			else:
-				groups.setdefault("**Waiting**", []).append(label)
-		for title in (*SEEN.values(), *FOUND.values(), "Answered", "**Waiting**"):
-			if groups.get(title):
-				lines.append(f"- {title}: " + "; ".join(groups[title]) + ".")
+		types = [r for r in mine if r["kind"] == "DocType"]
+		if types:
+			lines += [
+				"| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |",
+				"|---|---|---|---|---|---|---|",
+			]
+			for r in types:
+				who = open_to("DocType", r["name"])
+				shown = "not read" if who is None else (", ".join(who) or "**nobody**")
+				lines.append(
+					f"| {r['name']} | {_way(r, said)} | {shown} | {changed(r['name'])} | {studio(r['name'])} | {ai(r['name'])} | {intake(r['name'])} |"
+				)
+		for kind in ("Report", "Page"):
+			others = [r for r in mine if r["kind"] == kind]
+			if others:
+				lines += [
+					"",
+					f"{kind}s: " + "; ".join(f"{r['name']} ({_way(r, said)})" for r in others) + ".",
+				]
 	return "\n".join(lines) + "\n"
+
+
+# ------------------------------------------------------------------ the brand
+
+#: Each brand as frappe, erpnext and hrms write it, in every language, and
+#: what One says instead. Longest first, so "Frappe HR" is not read as "Frappe".
+SWAPS = (
+	("Frappe Personalwesen", "OneHR"),
+	("Frappe Framework-Instanz", "One"),
+	("Frappe-Framework", "One"),
+	("Frappe Framework", "One"),
+	("إطار عمل Frappe", "One"),
+	("Frappe HR", "OneHR"),
+	("فرابيه", "One"),
+	("فرابي", "One"),
+	("Frappé", "One"),
+	("HRMS", "OneHR"),
+	("ERPNext", "One"),
+	("Frappe", "One"),
+)
+#: A brand still said, in any of the three languages.
+SAID_BRAND = re.compile(r"ERPNext|Frappe|Frappé|HRMS|فرابي")
+
+
+def _module_dict(name: str) -> dict:
+	module = ast.parse((tree.APP / "one" / "atlas.py").read_text())
+	for node in module.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == name:
+			return ast.literal_eval(node.value)
+	return {}
+
+
+def _swap(text: str, outside: dict) -> str:
+	kept = {}
+	for i, name in enumerate(sorted(outside, key=len, reverse=True)):
+		if name in text:
+			kept[f"\x00{i}\x00"] = name
+			text = text.replace(name, f"\x00{i}\x00")
+	for theirs, ours_ in SWAPS:
+		text = text.replace(theirs, ours_)
+	for mark, name in kept.items():
+		text = text.replace(mark, name)
+	return text
+
+
+def rebranded() -> dict:
+	"""{lang: [(msgid, said, context)]}: every upstream sentence that names a
+	brand, as One says it in English, Arabic and German."""
+	outside, said = _module_dict("OUTSIDE"), _module_dict("SAID")
+	out = {"en": [], **{lang: [] for lang in LANGUAGES}}
+	for msgid, theirs in sorted(upstream()["brand"].items()):
+		if msgid in said:
+			for lang, text in zip(("en", *LANGUAGES), said[msgid], strict=True):
+				out[lang].append((msgid, text, theirs["context"]))
+			continue
+		en = _swap(msgid, outside)
+		if en == msgid:
+			continue
+		out["en"].append((msgid, en, theirs["context"]))
+		for lang in LANGUAGES:
+			out[lang].append(
+				(msgid, _swap(theirs[lang] or msgid, outside) if theirs[lang] else en, theirs["context"])
+			)
+	return out
+
+
+TRANSLATIONS = tree.APP / "translations"
+
+
+def translation_files() -> dict:
+	"""What onedesk/translations/<lang>.csv hold: frappe reads them after
+	every app's own, so One's words win."""
+	import csv
+	import io
+
+	files = {}
+	for lang, rows in rebranded().items():
+		buffer = io.StringIO()
+		writer = csv.writer(buffer, lineterminator="\n")
+		for msgid, text, context in rows:
+			writer.writerow([msgid.replace("\n", "\\n"), text.replace("\n", "\\n"), context])
+		files[lang] = buffer.getvalue()
+	return files
 
 
 def main() -> int:
 	args = argparse.ArgumentParser()
 	args.add_argument("--snapshot", action="store_true")
 	args.add_argument("--check", action="store_true")
+	args.add_argument("--brand", action="store_true")
+	args.add_argument("--roles", action="store_true")
 	opts = args.parse_args()
+	if opts.roles:
+		setup = os.environ.get("ONE_BENCH_ENV")
+		cmd = (
+			f". {setup} && " if setup else ""
+		) + f"cd {BENCH.parent} && bench --site {SITE} execute onedesk.one.reach.atlas"
+		run = ["su", "frappe", "-c", cmd] if os.geteuid() == 0 else ["bash", "-c", cmd]
+		said = subprocess.run(run, capture_output=True, text=True, check=True).stdout
+		ROLES.write_text(json.dumps(json.loads(said), sort_keys=True, indent=0) + "\n")
+		print(f"wrote {ROLES.relative_to(tree.ROOT)}")
+		return 0
+	if opts.brand:
+		TRANSLATIONS.mkdir(exist_ok=True)
+		for lang, text in translation_files().items():
+			(TRANSLATIONS / f"{lang}.csv").write_text(text)
+		print(f"wrote {TRANSLATIONS.relative_to(tree.ROOT)}")
+		return 0
 	if opts.snapshot:
 		SNAPSHOT.write_text(json.dumps(snapshot(), sort_keys=True, separators=(",", ":")) + "\n")
 		print(f"wrote {SNAPSHOT.relative_to(tree.ROOT)}")

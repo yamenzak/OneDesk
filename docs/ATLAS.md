@@ -4,11 +4,19 @@
 
 Every record type, report and page frappe, erpnext and hrms ship, and One's own, with
 how a person reaches it in One. Upstream is read from `docs/upstream/atlas.json`
-(`python scripts/atlas.py --snapshot`), One from this repository. A way in is
-**seen** when a rail, a Home or one of our screens names it, **found** when only a
-form's link, its Connections tab or a list's Related Reports leads there. Anything
-with neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decision;
+(`python scripts/atlas.py --snapshot`), One from this repository, and who may open
+what from the demo site (`docs/atlas-roles.json`, `--roles`). A way in is **seen**
+when a rail, a Home or one of our screens names it, **found** when only a form's
+link, its Connections tab or a list's Related Reports leads there. Anything with
+neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decision;
 `tests/guards/test_atlas.py` holds the count waiting in each module, which only falls.
+
+For each record type: who may open it (the apps whose roles read it), what One
+changed (a page of our own, a head on the form, scripts, events, fields, settings),
+whether a workspace's OneStudio may customize it, whether OneAI was taught it or
+reads it with its general tools, and whether OneIntake makes it from a document.
+Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
+(`onedesk/translations/`, `--brand`), but for the outside names in `OUTSIDE`.
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
@@ -19,287 +27,955 @@ with neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decisio
 
 ## erpnext / Accounts
 
-- On a rail or a Home: Account; Accounts Settings; Bank Account; Bank Reconciliation Tool; Bank Statement Import; Bank Transaction; Bank Transaction Rule; Cost Center; Fiscal Year; Item Tax Template; Journal Entry; Mode of Payment; Opening Invoice Creation Tool; Payment Entry; Payment Terms Template; Period Closing Voucher; Process Statement Of Accounts; Purchase Invoice; Purchase Taxes and Charges Template; Sales Invoice; Sales Taxes and Charges Template; Tax Rule; Accounts Payable (report); Accounts Receivable (report); Asset Depreciation Ledger (report); Asset Depreciations and Balances (report); Balance Sheet (report); Cash Flow (report); General Ledger (report); Gross Profit (report); Profit and Loss Statement (report); Trial Balance (report).
-- Opened by our screens: Budget.
-- Through a form's link: Account Category (Account: account_category); Bank (Payment Order: company_bank); Bank Account Subtype (Bank Account: account_subtype); Bank Account Type (Bank Account: account_type); Coupon Code (Sales Order: coupon_code); Dunning Type (Dunning: dunning_type); Finance Book (Asset Category: finance_book); Journal Entry Template (Journal Entry: from_template); Loyalty Program (Customer: loyalty_program); Monthly Distribution (Territory: distribution_id); POS Invoice (Sales Invoice: pos_invoice); Payment Gateway Account (Payment Request: payment_gateway_account); Payment Term (Purchase Order: payment_term); Pricing Rule (Coupon Code: pricing_rule); Shipping Rule (Supplier Quotation: shipping_rule); Subscription Plan (Payment Request: plan); Tax Category (Item Group: tax_category); Tax Withholding Category (Item: purchase_tax_withholding_category); Tax Withholding Group (Tax Withholding Category: tax_withholding_group).
-- Through a form's Connections: Bank Guarantee (Bank's Connections); Dunning (Customer's Connections); Invoice Discounting (Sales Invoice's Connections); POS Profile (Sales Taxes and Charges Template's Connections); Payment Order (Payment Request's Connections); Payment Request (Purchase Order's Connections); Subscription (Subscription Plan's Connections).
-- Under a list's Related Reports: Account Balance (report) (Bank Account's list); Accounts Payable Summary (report) (Purchase Invoice's list); Accounts Receivable Summary (report) (Sales Invoice's list); Bank Clearance Summary (report) (Journal Entry's list); Bank Reconciliation Statement (report) (Journal Entry's list); Billed Items To Be Received (report) (Purchase Invoice's list); Budget Variance Report (report) (Cost Center's list); Calculated Discount Mismatch (report) (Version's list); Cheques and Deposits Incorrectly cleared (report) (Payment Entry's list); Consolidated Accounts Payable (report) (Purchase Invoice's list); Consolidated Accounts Payable Summary (report) (Purchase Invoice's list); Consolidated Accounts Receivable (report) (Sales Invoice's list); Consolidated Accounts Receivable Summary (report) (Sales Invoice's list); Consolidated Financial Statement (report) (Account's list); Customer Ledger Summary (report) (Sales Invoice's list); Delivered Items To Be Billed (report) (Sales Invoice's list); Financial Ratios (report) (Account's list); Inactive Sales Items (report) (Sales Invoice's list); Item-wise Purchase Register (report) (Purchase Invoice's list); Item-wise Sales Register (report) (Sales Invoice's list); POS Register (report) (POS Invoice's list); Payment Period Based On Invoice Date (report) (Journal Entry's list); Purchase Invoice Trends (report) (Purchase Invoice's list); Purchase Register (report) (Purchase Invoice's list); Received Items To Be Billed (report) (Purchase Invoice's list); Sales Invoice Trends (report) (Sales Invoice's list); Sales Partners Commission (report) (Sales Invoice's list); Sales Payment Summary (report) (Sales Invoice's list); Sales Register (report) (Sales Invoice's list); Supplier Ledger Summary (report) (Purchase Invoice's list); TDS Computation Summary (report) (Purchase Invoice's list); Tax Withholding Details (report) (Purchase Invoice's list).
-- **Waiting**: Account Closing Balance; Accounting Dimension; Accounting Dimension Filter; Accounting Period; Advance Payment Ledger Entry; Bank Account Balance; Bank Clearance; Bank Statement Import Log; Bisect Accounting Statements; Bisect Nodes; Cashier Closing; Chart of Accounts Importer; Cheque Print Template; Cost Center Allocation; Currency Exchange Settings; Exchange Rate Revaluation; Financial Report Template; GL Entry; Ledger Health; Ledger Health Monitor; Ledger Merge; Loyalty Point Entry; POS Closing Entry; POS Invoice Merge Log; POS Opening Entry; POS Settings; Party Link; Payment Ledger Entry; Payment Reconciliation; Pegged Currencies; Process Deferred Accounting; Process Payment Reconciliation; Process Payment Reconciliation Log; Process Period Closing Voucher; Process Subscription; Promotional Scheme; Repost Accounting Ledger; Repost Payment Ledger; Share Transfer; Share Type; Shareholder; Subscription Settings; Unreconcile Payment; Consolidated Trial Balance (report); Custom Financial Statement (report); Deferred Revenue and Expense (report); Dimension-wise Accounts Balance Report (report); General and Payment Ledger Comparison (report); Gross and Net Profit Report (report); Invalid Ledger Entries (report); Payment Ledger (report); Profitability Analysis (report); Share Balance (report); Share Ledger (report); Trial Balance (Simple) (report); Trial Balance for Party (report); Voucher-wise Balance (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Account | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | taught |  |
+| Account Category | through a form's link (Account: account_category) | OneBook | untouched | yes | general |  |
+| Account Closing Balance | **waiting** | OneBook | untouched | yes | general |  |
+| Accounting Dimension | **waiting** | OneBook | untouched | yes | general |  |
+| Accounting Dimension Filter | **waiting** | OneBook | untouched | yes | general |  |
+| Accounting Period | **waiting** | OneBook | untouched | yes | general |  |
+| Accounts Settings | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | no | general |  |
+| Advance Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  |
+| Bank | through a form's link (Payment Order: company_bank) | OneBook | events, 1 fields, 1 settings | yes | general |  |
+| Bank Account | on a rail or a home | OneBook | events | yes | general |  |
+| Bank Account Balance | **waiting** | OneBook | untouched | yes | general |  |
+| Bank Account Subtype | through a form's link (Bank Account: account_subtype) | OneBook | untouched | yes | general |  |
+| Bank Account Type | through a form's link (Bank Account: account_type) | OneBook | untouched | yes | general |  |
+| Bank Clearance | **waiting** | OneBook | untouched | no | general |  |
+| Bank Guarantee | through a form's connections (Bank's Connections) | OneBook | untouched | yes | general |  |
+| Bank Reconciliation Tool | on a rail or a home | OneBook | untouched | no | general |  |
+| Bank Statement Import | on a rail or a home | OneBook | untouched | yes | general |  |
+| Bank Statement Import Log | **waiting** | **nobody** | untouched | yes | general |  |
+| Bank Transaction | on a rail or a home | OneBook | untouched | yes | general | makes it |
+| Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  |
+| Bisect Accounting Statements | **waiting** | **nobody** | untouched | no | general |  |
+| Bisect Nodes | **waiting** | **nobody** | untouched | yes | general |  |
+| Budget | opened by our screens | OneBook, OneProject | events | yes | taught |  |
+| Cashier Closing | **waiting** | **nobody** | untouched | yes | general |  |
+| Chart of Accounts Importer | **waiting** | OneBook | untouched | no | general |  |
+| Cheque Print Template | **waiting** | OneBook | untouched | yes | general |  |
+| Cost Center | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  |
+| Cost Center Allocation | **waiting** | OneBook | untouched | yes | general |  |
+| Coupon Code | through a form's link (Sales Order: coupon_code) | OneBook, OneCRM | untouched | yes | general |  |
+| Currency Exchange Settings | **waiting** | OneBook | untouched | no | general |  |
+| Dunning | through a form's connections (Customer's Connections) | OneBook | untouched | yes | general |  |
+| Dunning Type | through a form's link (Dunning: dunning_type) | OneBook | untouched | yes | general |  |
+| Exchange Rate Revaluation | **waiting** | OneBook | untouched | yes | general |  |
+| Finance Book | through a form's link (Asset Category: finance_book) | OneBook, the administrator | untouched | yes | general |  |
+| Financial Report Template | **waiting** | OneBook | untouched | yes | general |  |
+| Fiscal Year | on a rail or a home | everybody | untouched | yes | general |  |
+| GL Entry | **waiting** | OneBook | untouched | yes | general |  |
+| Invoice Discounting | through a form's connections (Sales Invoice's Connections) | OneBook | untouched | yes | general |  |
+| Item Tax Template | on a rail or a home | OneBook | untouched | yes | general |  |
+| Journal Entry | on a rail or a home | OneBook | events | yes | general |  |
+| Journal Entry Template | through a form's link (Journal Entry: from_template) | OneBook | untouched | yes | general |  |
+| Ledger Health | **waiting** | **nobody** | untouched | yes | general |  |
+| Ledger Health Monitor | **waiting** | OneBook | untouched | no | general |  |
+| Ledger Merge | **waiting** | OneBook | untouched | yes | general |  |
+| Loyalty Point Entry | **waiting** | OneBook | untouched | yes | general |  |
+| Loyalty Program | through a form's link (Customer: loyalty_program) | **nobody** | untouched | yes | general |  |
+| Mode of Payment | on a rail or a home | OneBook | untouched | yes | general |  |
+| Monthly Distribution | through a form's link (Territory: distribution_id) | OneBook | untouched | yes | general |  |
+| Opening Invoice Creation Tool | on a rail or a home | OneBook | untouched | no | general |  |
+| POS Closing Entry | **waiting** | OneCRM | untouched | yes | general |  |
+| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  |
+| POS Invoice Merge Log | **waiting** | OneCRM | untouched | yes | general |  |
+| POS Opening Entry | **waiting** | OneCRM | untouched | yes | general |  |
+| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  |
+| POS Settings | **waiting** | OneBook, OneCRM | untouched | no | general |  |
+| Party Link | **waiting** | OneBook | untouched | yes | general |  |
+| Payment Entry | on a rail or a home | OneBook | events | yes | general | makes it |
+| Payment Gateway Account | through a form's link (Payment Request: payment_gateway_account) | OneBook | untouched | yes | general |  |
+| Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  |
+| Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  |
+| Payment Reconciliation | **waiting** | OneBook | untouched | no | general |  |
+| Payment Request | through a form's connections (Purchase Order's Connections) | OneBook | untouched | yes | general |  |
+| Payment Term | through a form's link (Purchase Order: payment_term) | OneBook | untouched | yes | general |  |
+| Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  |
+| Pegged Currencies | **waiting** | **nobody** | untouched | no | general |  |
+| Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  |
+| Pricing Rule | through a form's link (Coupon Code: pricing_rule) | OneBook, OneCRM, OneInventory | untouched | yes | general |  |
+| Process Deferred Accounting | **waiting** | OneBook | untouched | yes | general |  |
+| Process Payment Reconciliation | **waiting** | OneBook | untouched | yes | general |  |
+| Process Payment Reconciliation Log | **waiting** | OneBook | untouched | yes | general |  |
+| Process Period Closing Voucher | **waiting** | OneBook | untouched | yes | general |  |
+| Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  |
+| Process Subscription | **waiting** | OneBook | untouched | yes | general |  |
+| Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  |
+| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 1 settings | yes | general | makes it |
+| Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  |
+| Repost Accounting Ledger | **waiting** | **nobody** | untouched | yes | general |  |
+| Repost Payment Ledger | **waiting** | OneBook | untouched | yes | general |  |
+| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 4 fields, 1 settings | yes | taught |  |
+| Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  |
+| Share Transfer | **waiting** | OneBook | untouched | yes | general |  |
+| Share Type | **waiting** | OneBook, OneCRM | untouched | yes | general |  |
+| Shareholder | **waiting** | OneBook | untouched | yes | general |  |
+| Shipping Rule | through a form's link (Supplier Quotation: shipping_rule) | OneBook, OneCRM | untouched | yes | general |  |
+| Subscription | through a form's connections (Subscription Plan's Connections) | OneBook | untouched | yes | general |  |
+| Subscription Plan | through a form's link (Payment Request: plan) | OneBook | untouched | yes | general |  |
+| Subscription Settings | **waiting** | OneBook | untouched | no | general |  |
+| Tax Category | through a form's link (Item Group: tax_category) | OneBook, the administrator | untouched | yes | general |  |
+| Tax Rule | on a rail or a home | OneBook | untouched | yes | general |  |
+| Tax Withholding Category | through a form's link (Item: purchase_tax_withholding_category) | OneBook | untouched | yes | general |  |
+| Tax Withholding Group | through a form's link (Tax Withholding Category: tax_withholding_group) | **nobody** | untouched | yes | general |  |
+| Unreconcile Payment | **waiting** | OneBook | untouched | yes | general |  |
+
+Reports: Account Balance (under a list's related reports (Bank Account's list)); Accounts Payable (on a rail or a home); Accounts Payable Summary (under a list's related reports (Purchase Invoice's list)); Accounts Receivable (on a rail or a home); Accounts Receivable Summary (under a list's related reports (Sales Invoice's list)); Asset Depreciation Ledger (on a rail or a home); Asset Depreciations and Balances (on a rail or a home); Balance Sheet (on a rail or a home); Bank Clearance Summary (under a list's related reports (Journal Entry's list)); Bank Reconciliation Statement (under a list's related reports (Journal Entry's list)); Billed Items To Be Received (under a list's related reports (Purchase Invoice's list)); Budget Variance Report (under a list's related reports (Cost Center's list)); Calculated Discount Mismatch (under a list's related reports (Version's list)); Cash Flow (on a rail or a home); Cheques and Deposits Incorrectly cleared (under a list's related reports (Payment Entry's list)); Consolidated Accounts Payable (under a list's related reports (Purchase Invoice's list)); Consolidated Accounts Payable Summary (under a list's related reports (Purchase Invoice's list)); Consolidated Accounts Receivable (under a list's related reports (Sales Invoice's list)); Consolidated Accounts Receivable Summary (under a list's related reports (Sales Invoice's list)); Consolidated Financial Statement (under a list's related reports (Account's list)); Consolidated Trial Balance (**waiting**); Custom Financial Statement (**waiting**); Customer Ledger Summary (under a list's related reports (Sales Invoice's list)); Deferred Revenue and Expense (**waiting**); Delivered Items To Be Billed (under a list's related reports (Sales Invoice's list)); Dimension-wise Accounts Balance Report (**waiting**); Financial Ratios (under a list's related reports (Account's list)); General Ledger (on a rail or a home); General and Payment Ledger Comparison (**waiting**); Gross Profit (on a rail or a home); Gross and Net Profit Report (**waiting**); Inactive Sales Items (under a list's related reports (Sales Invoice's list)); Invalid Ledger Entries (**waiting**); Item-wise Purchase Register (under a list's related reports (Purchase Invoice's list)); Item-wise Sales Register (under a list's related reports (Sales Invoice's list)); POS Register (under a list's related reports (POS Invoice's list)); Payment Ledger (**waiting**); Payment Period Based On Invoice Date (under a list's related reports (Journal Entry's list)); Profit and Loss Statement (on a rail or a home); Profitability Analysis (**waiting**); Purchase Invoice Trends (under a list's related reports (Purchase Invoice's list)); Purchase Register (under a list's related reports (Purchase Invoice's list)); Received Items To Be Billed (under a list's related reports (Purchase Invoice's list)); Sales Invoice Trends (under a list's related reports (Sales Invoice's list)); Sales Partners Commission (under a list's related reports (Sales Invoice's list)); Sales Payment Summary (under a list's related reports (Sales Invoice's list)); Sales Register (under a list's related reports (Sales Invoice's list)); Share Balance (**waiting**); Share Ledger (**waiting**); Supplier Ledger Summary (under a list's related reports (Purchase Invoice's list)); TDS Computation Summary (under a list's related reports (Purchase Invoice's list)); Tax Withholding Details (under a list's related reports (Purchase Invoice's list)); Trial Balance (on a rail or a home); Trial Balance (Simple) (**waiting**); Trial Balance for Party (**waiting**); Voucher-wise Balance (**waiting**).
 
 ## erpnext / Assets
 
-- On a rail or a Home: Asset; Asset Capitalization; Asset Category; Asset Maintenance; Asset Maintenance Log; Asset Maintenance Team; Asset Movement; Asset Repair; Asset Value Adjustment; Location; Fixed Asset Register (report).
-- Opened by our screens: Asset Maintenance (report).
-- Answered: Asset Activity: engine, an asset's history, kept as it is moved, repaired and depreciated.
-- **Waiting**: Asset Depreciation Schedule; Asset Shift Allocation; Asset Shift Factor; Asset Activity (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Asset | on a rail or a home | OneBook, OneHR, OneInventory | a head, 3 settings | yes | taught |  |
+| Asset Activity | engine: an asset's history, kept as it is moved, repaired and depreciated | OneBook | untouched | yes | general |  |
+| Asset Capitalization | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Asset Category | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  |
+| Asset Depreciation Schedule | **waiting** | OneBook | untouched | yes | general |  |
+| Asset Maintenance | on a rail or a home | OneInventory | a head, events | yes | taught |  |
+| Asset Maintenance Log | on a rail or a home | OneInventory | a head, events, 1 fields, 7 settings | yes | taught |  |
+| Asset Maintenance Team | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Asset Movement | on a rail or a home | OneBook, OneHR, OneInventory | a head, events | yes | taught |  |
+| Asset Repair | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  |
+| Asset Shift Allocation | **waiting** | OneBook | untouched | yes | general |  |
+| Asset Shift Factor | **waiting** | OneBook | untouched | yes | general |  |
+| Asset Value Adjustment | on a rail or a home | OneBook, OneInventory | a head, 1 settings | yes | taught |  |
+| Location | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  |
+
+Reports: Asset Activity (**waiting**); Asset Maintenance (opened by our screens); Fixed Asset Register (on a rail or a home).
 
 ## erpnext / Bulk Transaction
 
-- **Waiting**: Bulk Transaction Log; Bulk Transaction Log Detail.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Bulk Transaction Log | **waiting** | **nobody** | untouched | yes | general |  |
+| Bulk Transaction Log Detail | **waiting** | **nobody** | untouched | yes | general |  |
 
 ## erpnext / Buying
 
-- On a rail or a Home: Buying Settings; Purchase Order; Request for Quotation; Supplier; Supplier Quotation; Supplier Scorecard; Procurement Tracker (report); Purchase Analytics (report); Purchase Order Analysis (report); Subcontract Order Summary (report); Supplier Quotation Comparison (report).
-- Through a form's link: Supplier Scorecard Criteria (Supplier Scorecard: criteria_name); Supplier Scorecard Standing (Supplier Scorecard: standing_name).
-- Through a form's Connections: Supplier Scorecard Period (Supplier Scorecard's Connections).
-- Under a list's Related Reports: Item-wise Purchase History (report) (Purchase Order's list); Purchase Order Trends (report) (Purchase Order's list); Requested Items to Order and Receive (report) (Material Request's list); Subcontracted Item To Be Received (report) (Subcontracting Order's list); Subcontracted Raw Materials To Be Transferred (report) (Subcontracting Order's list).
-- **Waiting**: Supplier Scorecard Variable.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |
+| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, 3 fields | yes | taught |  |
+| Request for Quotation | on a rail or a home | OneInventory | a head, events, 1 fields, 4 settings | yes | taught |  |
+| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, 3 fields | yes | taught | makes it |
+| Supplier Quotation | on a rail or a home | OneInventory | a head, events | yes | taught | makes it |
+| Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  |
+| Supplier Scorecard Period | through a form's connections (Supplier Scorecard's Connections) | OneInventory | untouched | yes | general |  |
+| Supplier Scorecard Standing | through a form's link (Supplier Scorecard: standing_name) | OneInventory | untouched | yes | general |  |
+| Supplier Scorecard Variable | **waiting** | OneInventory | untouched | yes | general |  |
+
+Reports: Item-wise Purchase History (under a list's related reports (Purchase Order's list)); Procurement Tracker (on a rail or a home); Purchase Analytics (on a rail or a home); Purchase Order Analysis (on a rail or a home); Purchase Order Trends (under a list's related reports (Purchase Order's list)); Requested Items to Order and Receive (under a list's related reports (Material Request's list)); Subcontract Order Summary (on a rail or a home); Subcontracted Item To Be Received (under a list's related reports (Subcontracting Order's list)); Subcontracted Raw Materials To Be Transferred (under a list's related reports (Subcontracting Order's list)); Supplier Quotation Comparison (on a rail or a home).
 
 ## erpnext / CRM
 
-- On a rail or a Home: Appointment; CRM Settings; Campaign; Contract; Email Campaign; Lead; Opportunity; Prospect; Sales Stage; Campaign Efficiency (report).
-- Through a form's link: Competitor (Quotation: competitor); Contract Template (Contract: contract_template); Market Segment (Prospect: market_segment); Opportunity Lost Reason (Opportunity: lost_reason).
-- Under a list's Related Reports: First Response Time for Opportunity (report) (Opportunity's list); Lead Details (report) (Lead's list); Lead Owner Efficiency (report) (Lead's list); Lost Opportunity (report) (Opportunity's list); Opportunity Summary by Sales Stage (report) (Opportunity's list); Prospects Engaged But Not Converted (report) (Lead's list); Sales Pipeline Analytics (report) (Opportunity's list).
-- **Waiting**: Appointment Booking Settings; Opportunity Type; Lead Conversion Time (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Appointment | on a rail or a home | everybody | 1 settings | yes | general |  |
+| Appointment Booking Settings | **waiting** | OneCRM, OneHR | untouched | no | general |  |
+| CRM Settings | on a rail or a home | OneCRM | 6 settings | no | general |  |
+| Campaign | on a rail or a home | OneCRM | untouched | yes | general |  |
+| Competitor | through a form's link (Quotation: competitor) | OneCRM | untouched | yes | general |  |
+| Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it |
+| Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  |
+| Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  |
+| Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 28 settings | yes | taught | makes it |
+| Market Segment | through a form's link (Prospect: market_segment) | OneCRM, the administrator | untouched | yes | general |  |
+| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 34 settings | yes | taught |  |
+| Opportunity Lost Reason | through a form's link (Opportunity: lost_reason) | OneCRM, the administrator | untouched | yes | general |  |
+| Opportunity Type | **waiting** | OneCRM | untouched | yes | general |  |
+| Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  |
+| Sales Stage | on a rail or a home | OneCRM | events, 3 fields, 2 settings | yes | general |  |
+
+Reports: Campaign Efficiency (on a rail or a home); First Response Time for Opportunity (under a list's related reports (Opportunity's list)); Lead Conversion Time (**waiting**); Lead Details (under a list's related reports (Lead's list)); Lead Owner Efficiency (under a list's related reports (Lead's list)); Lost Opportunity (under a list's related reports (Opportunity's list)); Opportunity Summary by Sales Stage (under a list's related reports (Opportunity's list)); Prospects Engaged But Not Converted (under a list's related reports (Lead's list)); Sales Pipeline Analytics (under a list's related reports (Opportunity's list)).
 
 ## erpnext / Communication
 
-- **Waiting**: Communication Medium.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Communication Medium | **waiting** | **nobody** | untouched | yes | general |  |
 
 ## erpnext / EDI
 
-- **Waiting**: Code List; Common Code.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Code List | **waiting** | **nobody** | untouched | yes | general |  |
+| Common Code | **waiting** | **nobody** | untouched | yes | general |  |
 
 ## erpnext / ERPNext Integrations
 
-- **Waiting**: Plaid Settings.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Plaid Settings | **waiting** | **nobody** | untouched | no | general |  |
 
 ## erpnext / Maintenance
 
-- Through a form's Connections: Maintenance Visit (Sales Order's Connections).
-- **Waiting**: Maintenance Schedule; Maintenance Schedules (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Maintenance Schedule | **waiting** | **nobody** | untouched | yes | general |  |
+| Maintenance Visit | through a form's connections (Sales Order's Connections) | **nobody** | untouched | yes | general |  |
+
+Reports: Maintenance Schedules (**waiting**).
 
 ## erpnext / Manufacturing
 
-- On a rail or a Home: BOM; Blanket Order; Job Card; Manufacturing Settings; Operation; Plant Floor; Production Plan; Routing; Work Order; Workstation; Work Order Summary (report).
-- Through a form's link: Workstation Operating Component (Workstation Type: operating_component); Workstation Type (Routing: workstation_type).
-- Through a form's Connections: Production Plan Schedule (Production Plan's Connections).
-- Under a list's Related Reports: BOM Explorer (report) (BOM's list); BOM Operations Time (report) (BOM's list); BOM Stock Analysis (report) (BOM's list); BOM Variance Report (report) (Stock Entry's list); Completed Work Orders (report) (Work Order's list); Cost of Poor Quality Report (report) (Job Card's list); Exponential Smoothing Forecasting (report) (Sales Order's list); Issued Items Against Work Order (report) (Work Order's list); Job Card Summary (report) (Job Card's list); Open Work Orders (report) (Work Order's list); Process Loss Report (report) (Work Order's list); Production Analytics (report) (Work Order's list); Production Plan Summary (report) (Production Plan's list); Production Planning Report (report) (Work Order's list); Quality Inspection Summary (report) (Quality Inspection's list); Work Order Consumed Materials (report) (Work Order's list); Work Order Stock Report (report) (Work Order's list); Work Orders in Progress (report) (Work Order's list).
-- Answered: BOM Update Log: engine, what a BOM Update Tool run changed; shop-floor (page): replaced, Shop Floor; visual-plant-floor (page): replaced, Plant Floor.
-- **Waiting**: BOM Creator; BOM Update Tool; Downtime Entry; Master Production Schedule; Sales Forecast; Downtime Analysis (report); Material Requirements Planning Report (report); bom-comparison-tool (page); production-plan-visualizer (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| BOM | on a rail or a home | OneInventory | a head, 6 settings | yes | taught |  |
+| BOM Creator | **waiting** | OneInventory | untouched | yes | general |  |
+| BOM Update Log | engine: what a BOM Update Tool run changed | OneInventory | untouched | yes | general |  |
+| BOM Update Tool | **waiting** | OneInventory | untouched | no | general |  |
+| Blanket Order | on a rail or a home | OneCRM, OneInventory | a head, 6 settings | yes | general |  |
+| Downtime Entry | **waiting** | OneInventory | untouched | yes | general |  |
+| Job Card | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  |
+| Manufacturing Settings | on a rail or a home | OneInventory | untouched | no | general |  |
+| Master Production Schedule | **waiting** | OneInventory | untouched | yes | general |  |
+| Operation | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Plant Floor | on a rail or a home | OneInventory | untouched | yes | taught |  |
+| Production Plan | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Production Plan Schedule | through a form's connections (Production Plan's Connections) | OneInventory | untouched | yes | general |  |
+| Routing | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Sales Forecast | **waiting** | OneCRM, OneInventory | untouched | yes | general |  |
+| Work Order | on a rail or a home | OneInventory | a head, events, 8 settings | yes | taught |  |
+| Workstation | on a rail or a home | OneInventory | untouched | yes | taught |  |
+| Workstation Operating Component | through a form's link (Workstation Type: operating_component) | OneInventory | untouched | yes | general |  |
+| Workstation Type | through a form's link (Routing: workstation_type) | OneInventory | untouched | yes | general |  |
+
+Reports: BOM Explorer (under a list's related reports (BOM's list)); BOM Operations Time (under a list's related reports (BOM's list)); BOM Stock Analysis (under a list's related reports (BOM's list)); BOM Variance Report (under a list's related reports (Stock Entry's list)); Completed Work Orders (under a list's related reports (Work Order's list)); Cost of Poor Quality Report (under a list's related reports (Job Card's list)); Downtime Analysis (**waiting**); Exponential Smoothing Forecasting (under a list's related reports (Sales Order's list)); Issued Items Against Work Order (under a list's related reports (Work Order's list)); Job Card Summary (under a list's related reports (Job Card's list)); Material Requirements Planning Report (**waiting**); Open Work Orders (under a list's related reports (Work Order's list)); Process Loss Report (under a list's related reports (Work Order's list)); Production Analytics (under a list's related reports (Work Order's list)); Production Plan Summary (under a list's related reports (Production Plan's list)); Production Planning Report (under a list's related reports (Work Order's list)); Quality Inspection Summary (under a list's related reports (Quality Inspection's list)); Work Order Consumed Materials (under a list's related reports (Work Order's list)); Work Order Stock Report (under a list's related reports (Work Order's list)); Work Order Summary (on a rail or a home); Work Orders in Progress (under a list's related reports (Work Order's list)).
+
+Pages: bom-comparison-tool (**waiting**); production-plan-visualizer (**waiting**); shop-floor (replaced: Shop Floor); visual-plant-floor (replaced: Plant Floor).
 
 ## erpnext / Projects
 
-- On a rail or a Home: Activity Type; Project; Project Template; Task; Task Type; Timesheet; Daily Timesheet Summary (report); Delayed Tasks Summary (report); Project Summary (report); Project wise Stock Tracking (report); Timesheet Billing Summary (report).
-- Opened by our screens: Projects Settings.
-- Through a form's link: Project Type (Project Template: project_type).
-- **Waiting**: Activity Cost; Project Update.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Activity Cost | **waiting** | OneProject | untouched | yes | general |  |
+| Activity Type | on a rail or a home | everybody | form script | yes | taught |  |
+| Project | on a rail or a home | OneBook, OneHR, OneProject | a page of our own | yes | taught |  |
+| Project Template | on a rail or a home | OneProject | a page of our own | yes | taught |  |
+| Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  |
+| Project Update | **waiting** | OneProject | untouched | yes | taught | makes it |
+| Projects Settings | opened by our screens | OneProject | 5 fields, 6 settings | no | general |  |
+| Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it |
+| Task Type | on a rail or a home | OneHR, OneProject | untouched | yes | general |  |
+| Timesheet | on a rail or a home | everybody | class, events, form script, list script, 2 fields, 31 settings | yes | taught |  |
+
+Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (on a rail or a home); Project Summary (on a rail or a home); Project wise Stock Tracking (on a rail or a home); Timesheet Billing Summary (on a rail or a home).
 
 ## erpnext / Quality Management
 
-- **Waiting**: Non Conformance; Quality Action; Quality Feedback; Quality Feedback Template; Quality Goal; Quality Meeting; Quality Procedure; Quality Review; Review (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Non Conformance | **waiting** | everybody | untouched | yes | general |  |
+| Quality Action | **waiting** | everybody | untouched | yes | general |  |
+| Quality Feedback | **waiting** | everybody | untouched | yes | general |  |
+| Quality Feedback Template | **waiting** | **nobody** | untouched | yes | general |  |
+| Quality Goal | **waiting** | everybody | untouched | yes | general |  |
+| Quality Meeting | **waiting** | everybody | untouched | yes | general |  |
+| Quality Procedure | **waiting** | everybody | untouched | yes | general |  |
+| Quality Review | **waiting** | everybody | untouched | yes | general |  |
+
+Reports: Review (**waiting**).
 
 ## erpnext / Regional
 
-- On a rail or a Home: UAE VAT Settings; UAE VAT 201 (report).
-- Under a list's Related Reports: Electronic Invoice Register (report) (Sales Invoice's list); IRS 1099 (report) (Supplier's list).
-- **Waiting**: Import Supplier Invoice; Lower Deduction Certificate; South Africa VAT Settings; VAT Audit Report (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Import Supplier Invoice | **waiting** | **nobody** | untouched | yes | general |  |
+| Lower Deduction Certificate | **waiting** | OneBook | untouched | yes | general |  |
+| South Africa VAT Settings | **waiting** | OneBook | untouched | yes | general |  |
+| UAE VAT Settings | on a rail or a home | everybody | untouched | yes | general |  |
+
+Reports: Electronic Invoice Register (under a list's related reports (Sales Invoice's list)); IRS 1099 (under a list's related reports (Supplier's list)); UAE VAT 201 (on a rail or a home); VAT Audit Report (**waiting**).
 
 ## erpnext / Selling
 
-- On a rail or a Home: Customer; Quotation; Sales Order; Address And Contacts (report).
-- Through a form's link: Industry Type (Prospect: industry); Product Bundle (Delivery Note: product_bundle); Sales Partner Type (Sales Partner: partner_type).
-- Through a form's Connections: Delivery Schedule Item (Sales Order's Connections); Installation Note (Customer's Connections); Proforma Invoice (Sales Order's Connections).
-- Under a list's Related Reports: Available Stock for Packing Items (report) (Product Bundle's list); Customer Acquisition and Loyalty (report) (Customer's list); Customer Credit Balance (report) (Customer's list); Customer-wise Item Price (report) (Customer's list); Customers Without Any Sales Transactions (report) (Sales Invoice's list); Inactive Customers (report) (Sales Order's list); Item-wise Sales History (report) (Sales Order's list); Lost Quotations (report) (Quotation's list); Payment Terms Status for Sales Order (report) (Sales Order's list); Pending SO Items For Purchase Request (report) (Sales Order's list); Quotation Trends (report) (Quotation's list); Sales Analytics (report) (Sales Order's list); Sales Order Analysis (report) (Sales Order's list); Sales Order Trends (report) (Sales Order's list); Sales Partner Commission Summary (report) (Sales Order's list); Sales Partner Target Variance based on Item Group (report) (Sales Order's list); Sales Partner Transaction Summary (report) (Sales Order's list); Sales Person Commission Summary (report) (Sales Order's list); Sales Person Target Variance Based On Item Group (report) (Sales Order's list); Sales Person-wise Transaction Summary (report) (Sales Order's list); Territory Target Variance Based On Item Group (report) (Sales Order's list); Territory-wise Sales (report) (Opportunity's list).
-- **Waiting**: Party Specific Item; SMS Center; Selling Settings; point-of-sale (page); sales-funnel (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 3 fields, 7 settings | yes | taught | makes it |
+| Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  |
+| Industry Type | through a form's link (Prospect: industry) | OneCRM, the administrator | untouched | yes | general |  |
+| Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  |
+| Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  |
+| Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  |
+| Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  |
+| Quotation | on a rail or a home | OneCRM | events, form script, 2 fields | yes | general | makes it |
+| SMS Center | **waiting** | **nobody** | untouched | no | general |  |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields | yes | taught | makes it |
+| Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  |
+| Selling Settings | **waiting** | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |
+
+Reports: Address And Contacts (on a rail or a home); Available Stock for Packing Items (under a list's related reports (Product Bundle's list)); Customer Acquisition and Loyalty (under a list's related reports (Customer's list)); Customer Credit Balance (under a list's related reports (Customer's list)); Customer-wise Item Price (under a list's related reports (Customer's list)); Customers Without Any Sales Transactions (under a list's related reports (Sales Invoice's list)); Inactive Customers (under a list's related reports (Sales Order's list)); Item-wise Sales History (under a list's related reports (Sales Order's list)); Lost Quotations (under a list's related reports (Quotation's list)); Payment Terms Status for Sales Order (under a list's related reports (Sales Order's list)); Pending SO Items For Purchase Request (under a list's related reports (Sales Order's list)); Quotation Trends (under a list's related reports (Quotation's list)); Sales Analytics (under a list's related reports (Sales Order's list)); Sales Order Analysis (under a list's related reports (Sales Order's list)); Sales Order Trends (under a list's related reports (Sales Order's list)); Sales Partner Commission Summary (under a list's related reports (Sales Order's list)); Sales Partner Target Variance based on Item Group (under a list's related reports (Sales Order's list)); Sales Partner Transaction Summary (under a list's related reports (Sales Order's list)); Sales Person Commission Summary (under a list's related reports (Sales Order's list)); Sales Person Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Sales Person-wise Transaction Summary (under a list's related reports (Sales Order's list)); Territory Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Territory-wise Sales (under a list's related reports (Opportunity's list)).
+
+Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 
 ## erpnext / Setup
 
-- On a rail or a Home: Brand; Company; Driver; Employee; Employee Group; Holiday List; Item Group; Sales Person; Supplier Group; UOM; Vehicle.
-- Through a form's link: Branch (Job Opening Template: location); Customer Group (Item: customer_group); Department (Job Opening Template: department); Designation (Job Opening Template: designation); Incoterm (Supplier Quotation: incoterm); Party Type (Bank Transaction Rule: party_type); Quotation Lost Reason (Quotation: lost_reason); Sales Partner (Delivery Note: sales_partner); Terms and Conditions (Blanket Order: tc_name); Territory (Delivery Note: territory).
-- **Waiting**: Authorization Control; Authorization Rule; Currency Exchange; Email Digest; Global Defaults; Transaction Deletion Record; UOM Conversion Factor.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Authorization Control | **waiting** | **nobody** | untouched | no | general |  |
+| Authorization Rule | **waiting** | **nobody** | untouched | yes | general |  |
+| Branch | through a form's link (Job Opening Template: location) | OneHR, the administrator | untouched | yes | general |  |
+| Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  |
+| Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  |
+| Currency Exchange | **waiting** | OneBook, OneCRM, OneInventory | untouched | yes | general |  |
+| Customer Group | through a form's link (Item: customer_group) | OneBook, OneCRM, the administrator | events | yes | general |  |
+| Department | through a form's link (Job Opening Template: department) | OneHR, the administrator | events | yes | general |  |
+| Designation | through a form's link (Job Opening Template: designation) | OneCRM, OneHR, the administrator | untouched | yes | general |  |
+| Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  |
+| Email Digest | **waiting** | **nobody** | untouched | yes | general |  |
+| Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it |
+| Employee Group | on a rail or a home | OneHR | untouched | yes | general |  |
+| Global Defaults | **waiting** | **nobody** | untouched | no | general |  |
+| Holiday List | on a rail or a home | everybody | untouched | yes | taught |  |
+| Incoterm | through a form's link (Supplier Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  |
+| Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  |
+| Party Type | through a form's link (Bank Transaction Rule: party_type) | OneBook | untouched | yes | general |  |
+| Quotation Lost Reason | through a form's link (Quotation: lost_reason) | OneCRM | untouched | yes | general |  |
+| Sales Partner | through a form's link (Delivery Note: sales_partner) | OneCRM | untouched | yes | general |  |
+| Sales Person | on a rail or a home | OneCRM | untouched | yes | general |  |
+| Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | events | yes | general |  |
+| Terms and Conditions | through a form's link (Blanket Order: tc_name) | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  |
+| Territory | through a form's link (Delivery Note: territory) | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  |
+| Transaction Deletion Record | **waiting** | **nobody** | untouched | yes | general |  |
+| UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  |
+| UOM Conversion Factor | **waiting** | **nobody** | untouched | yes | general |  |
+| Vehicle | on a rail or a home | **nobody** | untouched | yes | general |  |
 
 ## erpnext / Stock
 
-- On a rail or a Home: Batch; Delivery Note; Delivery Trip; Item; Item Attribute; Item Price; Landed Cost Voucher; Material Request; Packing Slip; Pick List; Price List; Purchase Receipt; Quality Inspection; Serial No; Stock Entry; Stock Reconciliation; Stock Settings; Warehouse; Batch Item Expiry Status (report); Batch-Wise Balance History (report); Delayed Order Report (report); Stock Ageing (report); Stock Ledger (report); Stock Projected Qty (report); Stock and Account Value Comparison (report).
-- Opened by our screens: Item Manufacturer; Manufacturer; Item Variant Details (report); Serial No and Batch Traceability (report); Stock Balance (report).
-- Through a form's link: Customs Tariff Number (Item: customs_tariff_number); Quality Inspection Parameter (Quality Inspection Template: specification); Quality Inspection Parameter Group (Quality Inspection Parameter: parameter_group); Quality Inspection Template (Operation: quality_inspection_template); Serial and Batch Bundle (Asset Capitalization: serial_and_batch_bundle); Shipment Parcel Template (Shipment: parcel_template); Stock Entry Type (Stock Entry: stock_entry_type); UOM Category (UOM: category); Warehouse Type (Warehouse: warehouse_type).
-- Through a form's Connections: Shipment (Delivery Note's Connections); Stock Reservation Entry (Subcontracting Order's Connections).
-- Under a list's Related Reports: BOM Search (report) (BOM's list); Batch Split Tree (report) (Batch's list); Delayed Item Report (report) (Delivery Note's list); Delivery Note Trends (report) (Delivery Note's list); Incorrect Serial and Batch Bundle (report) (Serial and Batch Bundle's list); Item Price Stock (report) (Item's list); Item Where Used (report) (Item's list); Item-wise Price List Rate (report) (Item Price's list); Items To Be Requested (report) (Material Request's list); Itemwise Recommended Reorder Level (report) (Item's list); Landed Cost Report (report) (Landed Cost Voucher's list); Material Requests for which Supplier Quotations are not created (report) (Material Request's list); Negative Batch Report (report) (Serial and Batch Bundle's list); Purchase Receipt Trends (report) (Purchase Receipt's list); Requested Items To Be Transferred (report) (Stock Entry's list); Reserved Stock (report) (Stock Reservation Entry's list); Serial No Service Contract Expiry (report) (Serial No's list); Serial No Status (report) (Serial No's list); Serial No Warranty Expiry (report) (Serial No's list); Serial and Batch Summary (report) (Serial and Batch Bundle's list); Stock Analytics (report) (Stock Entry's list); Stock Qty vs Batch Qty (report) (Item's list); Stock Qty vs Serial No Count (report) (Item's list); Total Stock Summary (report) (Stock Entry's list).
-- Answered: Bin: engine, what each warehouse holds of each item; Stock on Hand reads it; Quick Stock Balance: replaced, Stock on Hand; Repost Item Valuation: engine, ERPNext revalues stock after a back-dated move by itself; Stock Closing Balance: engine, balances a Stock Closing Entry keeps; Stock Ledger Entry: engine, one line per stock move; the Stock Ledger report shows them; stock-balance (page): replaced, Stock on Hand.
-- **Waiting**: Delivery Settings; Inventory Dimension; Item Alternative; Item Lead Time; Item Standard Cost; Item Variant Settings; Putaway Rule; Stock Closing Entry; Stock Reposting Settings; Available Batch Report (report); Available Serial No (report); COGS By Item Group (report); FIFO Queue vs Qty After Transaction Comparison (report); Incorrect Balance Qty After Transaction (report); Incorrect Serial No Valuation (report); Incorrect Stock Value Report (report); Item Balance (Simple) (report); Item Prices (report); Item Shortage Report (report); Item Wise Consumption (report); Product Bundle Balance (report); Serial No Ledger (report); Serial and Batch Wise Stock Balance (report); Stock Ledger Entries of Cancelled Vouchers (report); Stock Ledger Invariant Check (report); Stock Ledger Variance (report); Stock Valuation Comparison (report); Warehouse Wise Stock Balance (report); Warehouse wise Item Balance Age and Value (report); warehouse-capacity-summary (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Batch | on a rail or a home | OneInventory | a head | yes | taught |  |
+| Bin | engine: what each warehouse holds of each item; Stock on Hand reads it | OneCRM, OneInventory | untouched | yes | taught |  |
+| Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  |
+| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 2 settings | yes | taught |  |
+| Delivery Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | taught |  |
+| Inventory Dimension | **waiting** | OneInventory | untouched | yes | general |  |
+| Item | on a rail or a home | OneBook, OneCRM, OneInventory | a page of our own | yes | taught |  |
+| Item Alternative | **waiting** | OneInventory | untouched | yes | general |  |
+| Item Attribute | on a rail or a home | OneInventory, the administrator | untouched | yes | general |  |
+| Item Lead Time | **waiting** | **nobody** | untouched | yes | general |  |
+| Item Manufacturer | opened by our screens | OneInventory | untouched | yes | general |  |
+| Item Price | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  |
+| Item Standard Cost | **waiting** | OneBook, OneInventory | untouched | yes | general |  |
+| Item Variant Settings | **waiting** | OneInventory | untouched | no | general |  |
+| Landed Cost Voucher | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  |
+| Manufacturer | opened by our screens | OneInventory | events | yes | general |  |
+| Material Request | on a rail or a home | OneInventory | a head, events, 1 fields, 5 settings | yes | taught |  |
+| Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  |
+| Pick List | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Price List | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  |
+| Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it |
+| Putaway Rule | **waiting** | OneInventory | untouched | yes | general |  |
+| Quality Inspection | on a rail or a home | OneInventory | untouched | yes | taught |  |
+| Quality Inspection Parameter | through a form's link (Quality Inspection Template: specification) | OneInventory | untouched | yes | general |  |
+| Quality Inspection Parameter Group | through a form's link (Quality Inspection Parameter: parameter_group) | OneInventory | untouched | yes | general |  |
+| Quality Inspection Template | through a form's link (Operation: quality_inspection_template) | OneInventory | untouched | yes | general |  |
+| Quick Stock Balance | replaced: Stock on Hand | OneInventory | untouched | no | general |  |
+| Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | events | yes | general |  |
+| Serial No | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  |
+| Serial and Batch Bundle | through a form's link (Asset Capitalization: serial_and_batch_bundle) | OneInventory | untouched | yes | general |  |
+| Shipment | through a form's connections (Delivery Note's Connections) | OneInventory | untouched | yes | general |  |
+| Shipment Parcel Template | through a form's link (Shipment: parcel_template) | **nobody** | untouched | yes | general |  |
+| Stock Closing Balance | engine: balances a Stock Closing Entry keeps | OneBook, OneInventory | untouched | yes | general |  |
+| Stock Closing Entry | **waiting** | OneInventory | untouched | yes | general |  |
+| Stock Entry | on a rail or a home | OneInventory | a head, events, list script, 5 settings | yes | taught |  |
+| Stock Entry Type | through a form's link (Stock Entry: stock_entry_type) | OneInventory | untouched | yes | general |  |
+| Stock Ledger Entry | engine: one line per stock move; the Stock Ledger report shows them | OneBook, OneInventory | untouched | yes | general |  |
+| Stock Reconciliation | on a rail or a home | OneInventory | a head, 7 settings | yes | taught |  |
+| Stock Reposting Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Stock Reservation Entry | through a form's connections (Subcontracting Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  |
+| Stock Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | 1 settings | no | general |  |
+| UOM Category | through a form's link (UOM: category) | OneCRM, OneInventory, the administrator | untouched | yes | general |  |
+| Warehouse | on a rail or a home | OneBook, OneCRM, OneInventory | a head, tree script | yes | taught |  |
+| Warehouse Type | through a form's link (Warehouse: warehouse_type) | OneBook, OneCRM, OneInventory | untouched | yes | general |  |
+
+Reports: Available Batch Report (**waiting**); Available Serial No (**waiting**); BOM Search (under a list's related reports (BOM's list)); Batch Item Expiry Status (on a rail or a home); Batch Split Tree (under a list's related reports (Batch's list)); Batch-Wise Balance History (on a rail or a home); COGS By Item Group (**waiting**); Delayed Item Report (under a list's related reports (Delivery Note's list)); Delayed Order Report (on a rail or a home); Delivery Note Trends (under a list's related reports (Delivery Note's list)); FIFO Queue vs Qty After Transaction Comparison (**waiting**); Incorrect Balance Qty After Transaction (**waiting**); Incorrect Serial No Valuation (**waiting**); Incorrect Serial and Batch Bundle (under a list's related reports (Serial and Batch Bundle's list)); Incorrect Stock Value Report (**waiting**); Item Balance (Simple) (**waiting**); Item Price Stock (under a list's related reports (Item's list)); Item Prices (**waiting**); Item Shortage Report (**waiting**); Item Variant Details (opened by our screens); Item Where Used (under a list's related reports (Item's list)); Item Wise Consumption (**waiting**); Item-wise Price List Rate (under a list's related reports (Item Price's list)); Items To Be Requested (under a list's related reports (Material Request's list)); Itemwise Recommended Reorder Level (under a list's related reports (Item's list)); Landed Cost Report (under a list's related reports (Landed Cost Voucher's list)); Material Requests for which Supplier Quotations are not created (under a list's related reports (Material Request's list)); Negative Batch Report (under a list's related reports (Serial and Batch Bundle's list)); Product Bundle Balance (**waiting**); Purchase Receipt Trends (under a list's related reports (Purchase Receipt's list)); Requested Items To Be Transferred (under a list's related reports (Stock Entry's list)); Reserved Stock (under a list's related reports (Stock Reservation Entry's list)); Serial No Ledger (**waiting**); Serial No Service Contract Expiry (under a list's related reports (Serial No's list)); Serial No Status (under a list's related reports (Serial No's list)); Serial No Warranty Expiry (under a list's related reports (Serial No's list)); Serial No and Batch Traceability (opened by our screens); Serial and Batch Summary (under a list's related reports (Serial and Batch Bundle's list)); Serial and Batch Wise Stock Balance (**waiting**); Stock Ageing (on a rail or a home); Stock Analytics (under a list's related reports (Stock Entry's list)); Stock Balance (opened by our screens); Stock Ledger (on a rail or a home); Stock Ledger Entries of Cancelled Vouchers (**waiting**); Stock Ledger Invariant Check (**waiting**); Stock Ledger Variance (**waiting**); Stock Projected Qty (on a rail or a home); Stock Qty vs Batch Qty (under a list's related reports (Item's list)); Stock Qty vs Serial No Count (under a list's related reports (Item's list)); Stock Valuation Comparison (**waiting**); Stock and Account Value Comparison (on a rail or a home); Total Stock Summary (under a list's related reports (Stock Entry's list)); Warehouse Wise Stock Balance (**waiting**); Warehouse wise Item Balance Age and Value (**waiting**).
+
+Pages: stock-balance (replaced: Stock on Hand); warehouse-capacity-summary (**waiting**).
 
 ## erpnext / Subcontracting
 
-- On a rail or a Home: Subcontracting BOM; Subcontracting Order; Subcontracting Receipt.
-- Through a form's Connections: Subcontracting Inward Order (Sales Order's Connections).
-- Under a list's Related Reports: Subcontracted Items To Be Delivered (report) (Subcontracting Inward Order's list); Subcontracted Raw Materials To Be Received (report) (Subcontracting Inward Order's list); Subcontracting Inward Order Summary (report) (Subcontracting Inward Order's list).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Subcontracting BOM | on a rail or a home | OneInventory | untouched | yes | general |  |
+| Subcontracting Inward Order | through a form's connections (Sales Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  |
+| Subcontracting Order | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  |
+| Subcontracting Receipt | on a rail or a home | OneBook, OneInventory | a head, 3 settings | yes | general |  |
+
+Reports: Subcontracted Items To Be Delivered (under a list's related reports (Subcontracting Inward Order's list)); Subcontracted Raw Materials To Be Received (under a list's related reports (Subcontracting Inward Order's list)); Subcontracting Inward Order Summary (under a list's related reports (Subcontracting Inward Order's list)).
 
 ## erpnext / Support
 
-- Through a form's link: Issue Priority (Service Level Agreement: priority); Issue Type (Issue: issue_type).
-- Through a form's Connections: Issue (Company's Connections); Service Level Agreement (Holiday List's Connections); Warranty Claim (Customer's Connections).
-- Under a list's Related Reports: First Response Time for Issues (report) (Issue's list); Issue Analytics (report) (Issue's list); Issue Summary (report) (Issue's list); Support Hour Distribution (report) (Issue's list).
-- **Waiting**: Support Settings.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Issue | through a form's connections (Company's Connections) | **nobody** | untouched | yes | taught |  |
+| Issue Priority | through a form's link (Service Level Agreement: priority) | **nobody** | untouched | yes | general |  |
+| Issue Type | through a form's link (Issue: issue_type) | **nobody** | untouched | yes | general |  |
+| Service Level Agreement | through a form's connections (Holiday List's Connections) | everybody | untouched | yes | general |  |
+| Support Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Warranty Claim | through a form's connections (Customer's Connections) | **nobody** | untouched | yes | general |  |
+
+Reports: First Response Time for Issues (under a list's related reports (Issue's list)); Issue Analytics (under a list's related reports (Issue's list)); Issue Summary (under a list's related reports (Issue's list)); Support Hour Distribution (under a list's related reports (Issue's list)).
 
 ## erpnext / Telephony
 
-- **Waiting**: Call Log; Incoming Call Settings; Telephony Call Type; Voice Call Settings.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Call Log | **waiting** | everybody | events | yes | taught |  |
+| Incoming Call Settings | **waiting** | **nobody** | untouched | yes | general |  |
+| Telephony Call Type | **waiting** | **nobody** | untouched | yes | general |  |
+| Voice Call Settings | **waiting** | everybody | untouched | yes | general |  |
 
 ## erpnext / Utilities
 
-- **Waiting**: Rename Tool; Video; Video Settings; YouTube Interactions (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Rename Tool | **waiting** | **nobody** | untouched | no | general |  |
+| Video | **waiting** | everybody | untouched | yes | general |  |
+| Video Settings | **waiting** | **nobody** | untouched | no | general |  |
+
+Reports: YouTube Interactions (**waiting**).
 
 ## frappe / Automation
 
-- On a rail or a Home: Assignment Rule; Auto Repeat; Automation Flow.
-- **Waiting**: Automation Event Subscription; Automation Run; Automation Settings; Automation Trigger Queue; Milestone; Milestone Tracker; Reminder.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Assignment Rule | on a rail or a home | OneCRM | events | no | general |  |
+| Auto Repeat | on a rail or a home | everybody | untouched | no | general |  |
+| Automation Event Subscription | **waiting** | **nobody** | untouched | no | general |  |
+| Automation Flow | on a rail or a home | the administrator | events, form script | no | taught |  |
+| Automation Run | **waiting** | **nobody** | untouched | no | general |  |
+| Automation Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Automation Trigger Queue | **waiting** | **nobody** | untouched | no | general |  |
+| Milestone | **waiting** | **nobody** | untouched | no | taught |  |
+| Milestone Tracker | **waiting** | **nobody** | untouched | no | general |  |
+| Reminder | **waiting** | everybody | untouched | no | general |  |
 
 ## frappe / Contacts
 
-- On a rail or a Home: Address; Contact.
-- Through a form's link: Gender (User: gender); Salutation (Contact: salutation).
-- Under a list's Related Reports: Addresses And Contacts (report) (Address's list).
-- **Waiting**: Address Template.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Address | on a rail or a home | everybody | events | yes | general |  |
+| Address Template | **waiting** | the administrator | events | yes | general |  |
+| Contact | on a rail or a home | everybody | events, form script, 3 fields, 6 settings | yes | taught | makes it |
+| Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  |
+| Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  |
+
+Reports: Addresses And Contacts (under a list's related reports (Address's list)).
 
 ## frappe / Core
 
-- On a rail or a Home: Access Log; Activity Log; Deleted Document; Version.
-- Opened by our screens: Custom Role; Document Naming Rule; Role Profile; User Group.
-- Through a form's link: DocType (Customize Form: doc_type); DocType Layout (Workspace: doctype_layout); Domain (DocType: restrict_to_domain); Language (User: language); Module Def (DocType: module); Module Profile (User: module_profile); Package (Module Def: package); Page (Form Tour: page_name); Report (Number Card: report_name); Role (DocType: role); User (Email Account: connected_user); User Type (User: user_type).
-- Under a list's Related Reports: Permitted Documents For User (report) (User's list); User Doctype Permissions (report) (User's list).
-- **Waiting**: API Request Log; Audit Trail; Background Task; Comment; Communication; Custom DocPerm; Custom Icon; Data Export; Data Import; Data Import Log; DocShare; DocType Settings Map; Document Naming Settings; Document Share Key; Domain Settings; DuckDB Sync; Error Log; File; Installed Applications; Log Settings; MapReduce Job; MapReduce Task; Navbar Settings; Package Import; Package Release; Patch Log; Permission Inspector; Permission Log; Permission Type; Prepared Report; RQ Job; RQ Worker; Recorder; Role Permission for Page and Report; SMS Log; SMS Settings; Scheduled Job Log; Scheduled Job Type; Scheduler Event; Security Settings; Server Script; Session Default Settings; Submission Queue; Success Action; System Settings; Translation; User Invitation; User Permission; View Log; Database Storage Usage By Tables (report); Document Share Report (report); Prepared Report Analytics (report); component-explorer (page); dashboard-view (page); permission-manager (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| API Request Log | **waiting** | **nobody** | untouched | no | general |  |
+| Access Log | on a rail or a home | the administrator | list script, 3 settings | no | taught |  |
+| Activity Log | on a rail or a home | the administrator | list script, 4 settings | no | taught |  |
+| Audit Trail | **waiting** | **nobody** | untouched | no | general |  |
+| Background Task | **waiting** | everybody | untouched | no | general |  |
+| Comment | **waiting** | **nobody** | untouched | no | taught |  |
+| Communication | **waiting** | everybody | events, 7 fields | no | taught |  |
+| Custom DocPerm | **waiting** | **nobody** | untouched | no | general |  |
+| Custom Icon | **waiting** | **nobody** | untouched | no | general |  |
+| Custom Role | opened by our screens | **nobody** | untouched | no | general |  |
+| Data Export | **waiting** | **nobody** | untouched | no | general |  |
+| Data Import | **waiting** | **nobody** | untouched | no | general |  |
+| Data Import Log | **waiting** | **nobody** | untouched | no | general |  |
+| Deleted Document | on a rail or a home | everybody | form script, list script, 1 fields, 2 settings | no | taught |  |
+| DocShare | **waiting** | **nobody** | events | no | taught |  |
+| DocType | through a form's link (Customize Form: doc_type) | **nobody** | untouched | no | taught |  |
+| DocType Layout | through a form's link (Workspace: doctype_layout) | everybody | untouched | no | general |  |
+| DocType Settings Map | **waiting** | **nobody** | untouched | no | general |  |
+| Document Naming Rule | opened by our screens | the administrator | events | no | taught |  |
+| Document Naming Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Document Share Key | **waiting** | **nobody** | untouched | no | general |  |
+| Domain | through a form's link (DocType: restrict_to_domain) | **nobody** | untouched | no | general |  |
+| Domain Settings | **waiting** | **nobody** | untouched | no | general |  |
+| DuckDB Sync | **waiting** | OneBook, OneCRM | untouched | no | general |  |
+| Error Log | **waiting** | **nobody** | untouched | no | taught |  |
+| File | **waiting** | everybody | class, events, 10 fields | no | taught |  |
+| Installed Applications | **waiting** | **nobody** | untouched | no | general |  |
+| Language | through a form's link (User: language) | everybody | untouched | no | general |  |
+| Log Settings | **waiting** | **nobody** | untouched | no | general |  |
+| MapReduce Job | **waiting** | **nobody** | untouched | no | general |  |
+| MapReduce Task | **waiting** | **nobody** | untouched | no | general |  |
+| Module Def | through a form's link (DocType: module) | everybody | untouched | no | general |  |
+| Module Profile | through a form's link (User: module_profile) | **nobody** | untouched | no | general |  |
+| Navbar Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Package | through a form's link (Module Def: package) | **nobody** | untouched | no | general |  |
+| Package Import | **waiting** | **nobody** | untouched | no | general |  |
+| Package Release | **waiting** | **nobody** | untouched | no | general |  |
+| Page | through a form's link (Form Tour: page_name) | **nobody** | untouched | no | taught |  |
+| Patch Log | **waiting** | **nobody** | untouched | no | general |  |
+| Permission Inspector | **waiting** | **nobody** | untouched | no | general |  |
+| Permission Log | **waiting** | **nobody** | untouched | no | general |  |
+| Permission Type | **waiting** | **nobody** | untouched | no | general |  |
+| Prepared Report | **waiting** | **nobody** | untouched | no | general |  |
+| RQ Job | **waiting** | **nobody** | untouched | no | general |  |
+| RQ Worker | **waiting** | **nobody** | untouched | no | general |  |
+| Recorder | **waiting** | **nobody** | untouched | no | general |  |
+| Report | through a form's link (Number Card: report_name) | everybody | events | no | taught |  |
+| Role | through a form's link (DocType: role) | OneHR | 1 fields | no | taught |  |
+| Role Permission for Page and Report | **waiting** | **nobody** | untouched | no | general |  |
+| Role Profile | opened by our screens | **nobody** | untouched | no | taught |  |
+| SMS Log | **waiting** | **nobody** | untouched | no | general |  |
+| SMS Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Scheduled Job Log | **waiting** | **nobody** | untouched | no | general |  |
+| Scheduled Job Type | **waiting** | **nobody** | untouched | no | general |  |
+| Scheduler Event | **waiting** | **nobody** | untouched | no | general |  |
+| Security Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Server Script | **waiting** | **nobody** | events | no | general |  |
+| Session Default Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Submission Queue | **waiting** | everybody | untouched | no | general |  |
+| Success Action | **waiting** | **nobody** | untouched | no | general |  |
+| System Settings | **waiting** | **nobody** | events, 2 fields | no | taught |  |
+| Translation | **waiting** | **nobody** | untouched | no | general |  |
+| User | through a form's link (Email Account: connected_user) | **nobody** | events, 2 fields, 1 settings | no | taught |  |
+| User Group | opened by our screens | everybody | untouched | no | taught |  |
+| User Invitation | **waiting** | **nobody** | untouched | no | general |  |
+| User Permission | **waiting** | **nobody** | untouched | no | taught |  |
+| User Type | through a form's link (User: user_type) | **nobody** | untouched | no | general |  |
+| Version | on a rail or a home | the administrator | events, list script, 1 settings | no | taught |  |
+| View Log | **waiting** | **nobody** | untouched | no | general |  |
+
+Reports: Database Storage Usage By Tables (**waiting**); Document Share Report (**waiting**); Permitted Documents For User (under a list's related reports (User's list)); Prepared Report Analytics (**waiting**); User Doctype Permissions (under a list's related reports (User's list)).
+
+Pages: component-explorer (**waiting**); dashboard-view (**waiting**); permission-manager (**waiting**).
 
 ## frappe / Custom
 
-- Opened by our screens: Customize Form.
-- **Waiting**: Client Script; Custom Field; Property Setter; Audit System Hooks (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Client Script | **waiting** | **nobody** | events | no | general |  |
+| Custom Field | **waiting** | **nobody** | events | no | taught |  |
+| Customize Form | opened by our screens | **nobody** | untouched | no | general |  |
+| Property Setter | **waiting** | **nobody** | events | no | taught |  |
+
+Reports: Audit System Hooks (**waiting**).
 
 ## frappe / Desk
 
-- On a rail or a Home: Dashboard; Event; Note.
-- Opened by our screens: Custom Sidebar; Dock; Kanban Board; Notification Type.
-- Through a form's link: Custom HTML Block (Workspace: custom_block_name); Dashboard Chart (Workspace: chart_name); Dashboard Chart Source (Dashboard Chart: source); Form Tour (Onboarding Step: form_tour); Module Onboarding (Workspace: module_onboarding); Number Card (Workspace: number_card_name); Onboarding Step (Module Onboarding: step); Workspace (User: default_workspace).
-- **Waiting**: Bulk Update; Calendar View; Console Log; Custom Workspace; Dashboard Settings; Desktop Icon; Desktop Layout; Desktop Settings; Document Template; Global Search Settings; List Filter; List View Settings; Notification Log; Notification Settings; Route History; Sidebar; System Console; System Health Report; Tag; Tag Link; ToDo; Workspace Sidebar; ToDo (report); backups (page); desktop (page); setup-wizard (page); workspace-restore (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Bulk Update | **waiting** | **nobody** | untouched | no | general |  |
+| Calendar View | **waiting** | everybody | untouched | no | general |  |
+| Console Log | **waiting** | **nobody** | untouched | no | general |  |
+| Custom HTML Block | through a form's link (Workspace: custom_block_name) | everybody | untouched | no | general |  |
+| Custom Sidebar | opened by our screens | everybody | untouched | no | taught |  |
+| Custom Workspace | **waiting** | **nobody** | untouched | no | general |  |
+| Dashboard | on a rail or a home | everybody | events, form script | no | taught |  |
+| Dashboard Chart | through a form's link (Workspace: chart_name) | everybody | events | no | taught |  |
+| Dashboard Chart Source | through a form's link (Dashboard Chart: source) | **nobody** | untouched | no | general |  |
+| Dashboard Settings | **waiting** | everybody | untouched | no | general |  |
+| Desktop Icon | **waiting** | everybody | untouched | no | general |  |
+| Desktop Layout | **waiting** | everybody | untouched | no | general |  |
+| Desktop Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Dock | opened by our screens | everybody | untouched | no | general |  |
+| Document Template | **waiting** | everybody | untouched | no | general |  |
+| Event | on a rail or a home | everybody | events, 1 fields | no | taught | makes it |
+| Form Tour | through a form's link (Onboarding Step: form_tour) | everybody | untouched | no | general |  |
+| Global Search Settings | **waiting** | everybody | untouched | no | general |  |
+| Kanban Board | opened by our screens | everybody | events | no | general |  |
+| List Filter | **waiting** | everybody | untouched | no | general |  |
+| List View Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Module Onboarding | through a form's link (Workspace: module_onboarding) | everybody | untouched | no | general |  |
+| Note | on a rail or a home | everybody | events, form script | no | taught |  |
+| Notification Log | **waiting** | everybody | events | no | general |  |
+| Notification Settings | **waiting** | everybody | events, 1 fields | no | taught |  |
+| Notification Type | opened by our screens | the administrator | events, 15 fields | no | taught |  |
+| Number Card | through a form's link (Workspace: number_card_name) | everybody | events | no | taught |  |
+| Onboarding Step | through a form's link (Module Onboarding: step) | everybody | untouched | no | general |  |
+| Route History | **waiting** | **nobody** | untouched | no | general |  |
+| Sidebar | **waiting** | everybody | untouched | no | general |  |
+| System Console | **waiting** | **nobody** | untouched | no | general |  |
+| System Health Report | **waiting** | **nobody** | untouched | no | general |  |
+| Tag | **waiting** | everybody | untouched | no | general |  |
+| Tag Link | **waiting** | everybody | untouched | no | general |  |
+| ToDo | **waiting** | everybody | events | no | general |  |
+| Workspace | through a form's link (User: default_workspace) | everybody | untouched | no | taught |  |
+| Workspace Sidebar | **waiting** | everybody | untouched | no | general |  |
+
+Reports: ToDo (**waiting**).
+
+Pages: backups (**waiting**); desktop (**waiting**); setup-wizard (**waiting**); workspace-restore (**waiting**).
 
 ## frappe / Email
 
-- On a rail or a Home: Auto Email Report; Email Group.
-- Opened by our screens: Email Account; Notification.
-- Through a form's link: Email Domain (Email Account: domain); Email Template (Customize Form: default_email_template).
-- **Waiting**: Document Follow; Email Flag Queue; Email Group Member; Email Queue; Email Rule; Email Unsubscribe; Unhandled Email.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Auto Email Report | on a rail or a home | the administrator | events | no | taught |  |
+| Document Follow | **waiting** | everybody | untouched | no | general |  |
+| Email Account | opened by our screens | OneHR | events, 9 fields | no | taught |  |
+| Email Domain | through a form's link (Email Account: domain) | **nobody** | untouched | no | general |  |
+| Email Flag Queue | **waiting** | **nobody** | untouched | no | general |  |
+| Email Group | on a rail or a home | OneCRM | untouched | no | general |  |
+| Email Group Member | **waiting** | OneCRM | untouched | no | general |  |
+| Email Queue | **waiting** | **nobody** | untouched | no | general |  |
+| Email Rule | **waiting** | **nobody** | untouched | no | general |  |
+| Email Template | through a form's link (Customize Form: default_email_template) | everybody | events | no | taught |  |
+| Email Unsubscribe | **waiting** | **nobody** | 1 fields | no | general |  |
+| Notification | opened by our screens | the administrator | class, events, 1 fields | no | taught |  |
+| Unhandled Email | **waiting** | **nobody** | untouched | no | general |  |
 
 ## frappe / Geo
 
-- Through a form's link: Country (Manufacturer: country); Currency (Number Card: currency).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Country | through a form's link (Manufacturer: country) | everybody | untouched | yes | general |  |
+| Currency | through a form's link (Number Card: currency) | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | taught |  |
 
 ## frappe / Integrations
 
-- On a rail or a Home: Google Calendar; Webhook; Webhook Request Log.
-- Through a form's link: Connected App (Email Account: connected_app); Slack Webhook URL (Notification: slack_webhook_url).
-- **Waiting**: Geolocation Settings; Google Contacts; Google Settings; Integration Request; LDAP Settings; OAuth Authorization Code; OAuth Bearer Token; OAuth Client; OAuth Provider Settings; OAuth Settings; Push Notification Settings; Social Login Key; Token Cache.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Connected App | through a form's link (Email Account: connected_app) | everybody | untouched | no | general |  |
+| Geolocation Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Google Calendar | on a rail or a home | everybody | untouched | no | general |  |
+| Google Contacts | **waiting** | everybody | untouched | no | general |  |
+| Google Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Integration Request | **waiting** | **nobody** | untouched | no | general |  |
+| LDAP Settings | **waiting** | **nobody** | untouched | no | general |  |
+| OAuth Authorization Code | **waiting** | **nobody** | untouched | no | general |  |
+| OAuth Bearer Token | **waiting** | **nobody** | untouched | no | general |  |
+| OAuth Client | **waiting** | **nobody** | untouched | no | general |  |
+| OAuth Provider Settings | **waiting** | **nobody** | untouched | no | general |  |
+| OAuth Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Push Notification Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Slack Webhook URL | through a form's link (Notification: slack_webhook_url) | **nobody** | untouched | no | general |  |
+| Social Login Key | **waiting** | **nobody** | untouched | no | general |  |
+| Token Cache | **waiting** | everybody | untouched | no | general |  |
+| Webhook | on a rail or a home | the administrator | events, form script | no | taught |  |
+| Webhook Request Log | on a rail or a home | the administrator | untouched | no | taught |  |
 
 ## frappe / Printing
 
-- Opened by our screens: Letter Head; Print Format.
-- Through a form's link: Print Heading (Subcontracting Receipt: select_print_heading).
-- **Waiting**: Network Printer Settings; Print Format Field Template; Print Format Snippet; Print Settings; Print Style; print (page); print-format-builder (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Letter Head | opened by our screens | everybody | events, 2 fields, 2 settings | no | taught |  |
+| Network Printer Settings | **waiting** | everybody | untouched | no | general |  |
+| Print Format | opened by our screens | the administrator | events | no | taught |  |
+| Print Format Field Template | **waiting** | the administrator | untouched | no | general |  |
+| Print Format Snippet | **waiting** | the administrator | events | no | general |  |
+| Print Heading | through a form's link (Subcontracting Receipt: select_print_heading) | everybody | untouched | no | general |  |
+| Print Settings | **waiting** | the administrator | untouched | no | general |  |
+| Print Style | **waiting** | **nobody** | untouched | no | general |  |
+
+Pages: print (**waiting**); print-format-builder (**waiting**).
 
 ## frappe / Website
 
-- On a rail or a Home: Personal Data Deletion Request; Personal Data Download Request.
-- Through a form's link: UTM Campaign (Delivery Note: utm_campaign); UTM Medium (Delivery Note: utm_medium); UTM Source (Delivery Note: utm_source); Web Form (HR Settings: exit_questionnaire_web_form); Website Sidebar (Web Form: website_sidebar).
-- **Waiting**: About Us Settings; Color; Contact Us Settings; Discussion Reply; Discussion Topic; Help Article; Help Category; Portal Settings; Web Form Request; Web Page; Web Page View; Web Template; Website Route Meta; Website Script; Website Settings; Website Slideshow; Website Theme; Website Analytics (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| About Us Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Color | **waiting** | **nobody** | untouched | no | general |  |
+| Contact Us Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Discussion Reply | **waiting** | **nobody** | untouched | no | general |  |
+| Discussion Topic | **waiting** | **nobody** | untouched | no | general |  |
+| Help Article | **waiting** | **nobody** | untouched | no | general |  |
+| Help Category | **waiting** | **nobody** | untouched | no | general |  |
+| Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  |
+| Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  |
+| Portal Settings | **waiting** | **nobody** | untouched | no | general |  |
+| UTM Campaign | through a form's link (Delivery Note: utm_campaign) | **nobody** | untouched | no | general |  |
+| UTM Medium | through a form's link (Delivery Note: utm_medium) | **nobody** | untouched | no | general |  |
+| UTM Source | through a form's link (Delivery Note: utm_source) | OneCRM, the administrator | untouched | no | general |  |
+| Web Form | through a form's link (HR Settings: exit_questionnaire_web_form) | **nobody** | untouched | no | general |  |
+| Web Form Request | **waiting** | **nobody** | untouched | no | general |  |
+| Web Page | **waiting** | **nobody** | untouched | no | general |  |
+| Web Page View | **waiting** | **nobody** | untouched | no | general |  |
+| Web Template | **waiting** | **nobody** | untouched | no | general |  |
+| Website Route Meta | **waiting** | **nobody** | untouched | no | general |  |
+| Website Script | **waiting** | **nobody** | untouched | no | general |  |
+| Website Settings | **waiting** | **nobody** | untouched | no | general |  |
+| Website Sidebar | through a form's link (Web Form: website_sidebar) | **nobody** | untouched | no | general |  |
+| Website Slideshow | **waiting** | **nobody** | untouched | no | general |  |
+| Website Theme | **waiting** | **nobody** | untouched | no | general |  |
+
+Reports: Website Analytics (**waiting**).
 
 ## frappe / Workflow
 
-- Opened by our screens: Workflow.
-- Through a form's link: Workflow Action Master (Workflow: action); Workflow State (Workflow: state); Workflow Transition Tasks (Workflow: transition_tasks).
-- **Waiting**: Workflow Action; workflow-builder (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Workflow | opened by our screens | the administrator | events | no | taught |  |
+| Workflow Action | **waiting** | everybody | events | no | general |  |
+| Workflow Action Master | through a form's link (Workflow: action) | the administrator | untouched | no | general |  |
+| Workflow State | through a form's link (Workflow: state) | the administrator | untouched | no | general |  |
+| Workflow Transition Tasks | through a form's link (Workflow: transition_tasks) | **nobody** | untouched | no | general |  |
+
+Pages: workflow-builder (**waiting**).
 
 ## hrms / HR
 
-- On a rail or a Home: Appointment Letter; Appointment Letter Template; Appraisal; Appraisal Cycle; Appraisal Template; Attendance; Attendance Request; Employee Advance; Employee Attendance Tool; Employee Checkin; Employee Feedback Criteria; Employee Grade; Employee Grievance; Employee Onboarding; Employee Performance Feedback; Employee Promotion; Employee Referral; Employee Separation; Employee Skill Map; Expense Claim; Expense Claim Type; Goal; HR Settings; Holiday List Assignment; Interview; Interview Type; Job Applicant; Job Offer; Job Offer Term Template; Job Opening; Job Opening Template; Job Requisition; Leave Allocation; Leave Application; Leave Block List; Leave Control Panel; Leave Encashment; Leave Period; Leave Policy; Leave Policy Assignment; Leave Type; Overtime Slip; Overtime Type; Purpose of Travel; Shift Location; Shift Request; Shift Schedule; Shift Type; Staffing Plan; Training Event; Training Feedback; Training Program; Training Result; Travel Request; Vehicle Log; Appraisal Overview (report); Employee Analytics (report); Employee Birthday (report); Employee Exits (report); Employee Information (report); Employee Leave Balance (report); Employee Leave Balance Summary (report); Employees working on a holiday (report); Project Profitability (report); Unpaid Expense Claim (report); Vehicle Expenses (report); organizational-chart (page).
-- Through a form's link: Employment Type (Job Opening Template: employment_type); Grievance Type (Employee Grievance: grievance_type); Identification Document Type (Travel Request: personal_id_type); Job Applicant Source (Job Applicant: source); KRA (Appraisal Template: key_result_area); Offer Term (Job Offer Term Template: offer_term); Skill (Interview Type: skill); Vehicle Service Item (Vehicle Log: service_item).
-- Through a form's Connections: Compensatory Leave Request (Leave Allocation's Connections); Employee Onboarding Template (Employee Grade's Connections); Employee Separation Template (Employee Grade's Connections); Leave Adjustment (Leave Allocation's Connections); Shift Assignment (Shift Type's Connections).
-- Under a list's Related Reports: Employee Advance Summary (report) (Employee Advance's list); Employee Hours Utilization Based On Timesheet (report) (Timesheet's list); Monthly Attendance Sheet (report) (Attendance's list); Recruitment Analytics (report) (Staffing Plan's list); Shift Attendance (report) (Attendance's list).
-- **Waiting**: Employee Health Insurance; Employee Transfer; Exit Interview; Full and Final Statement; HR Telemetry Milestone; Interest; Interview Feedback; Leave Ledger Entry; PWA Notification; Shift Assignment Tool; Shift Schedule Assignment; Leave Ledger (report).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Appointment Letter | on a rail or a home | OneHR | events | yes | general |  |
+| Appointment Letter Template | on a rail or a home | OneHR | untouched | yes | general |  |
+| Appraisal | on a rail or a home | everybody | a head, events | yes | taught |  |
+| Appraisal Cycle | on a rail or a home | everybody | 1 settings | yes | taught |  |
+| Appraisal Template | on a rail or a home | everybody | untouched | yes | general |  |
+| Attendance | on a rail or a home | everybody | events, form script, list script, 3 settings | yes | taught |  |
+| Attendance Request | on a rail or a home | everybody | a head, events, form script, 7 fields, 6 settings | yes | general |  |
+| Compensatory Leave Request | through a form's connections (Leave Allocation's Connections) | everybody | untouched | yes | general |  |
+| Employee Advance | on a rail or a home | everybody | 1 settings | yes | general |  |
+| Employee Attendance Tool | on a rail or a home | OneHR | form script, 4 fields, 3 settings | no | general |  |
+| Employee Checkin | on a rail or a home | everybody | class, list script, 5 fields, 2 settings | yes | general |  |
+| Employee Feedback Criteria | on a rail or a home | OneHR | untouched | yes | general |  |
+| Employee Grade | on a rail or a home | OneHR | untouched | yes | general |  |
+| Employee Grievance | on a rail or a home | everybody | events, 6 fields, 3 settings | yes | taught |  |
+| Employee Health Insurance | **waiting** | OneHR | untouched | yes | general |  |
+| Employee Onboarding | on a rail or a home | OneHR | events, 1 settings | yes | taught |  |
+| Employee Onboarding Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  |
+| Employee Performance Feedback | on a rail or a home | everybody | untouched | yes | taught |  |
+| Employee Promotion | on a rail or a home | everybody | a head, events, 1 fields, 2 settings | yes | general |  |
+| Employee Referral | on a rail or a home | everybody | untouched | yes | general |  |
+| Employee Separation | on a rail or a home | OneHR | events, 2 settings | yes | taught |  |
+| Employee Separation Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  |
+| Employee Skill Map | on a rail or a home | OneHR | untouched | yes | general |  |
+| Employee Transfer | **waiting** | everybody | untouched | yes | general |  |
+| Employment Type | through a form's link (Job Opening Template: employment_type) | OneHR, the administrator | untouched | yes | general |  |
+| Exit Interview | **waiting** | OneHR | untouched | yes | taught |  |
+| Expense Claim | on a rail or a home | everybody | a head, class, events, 5 fields, 6 settings | yes | taught | makes it |
+| Expense Claim Type | on a rail or a home | everybody | untouched | yes | taught |  |
+| Full and Final Statement | **waiting** | OneHR | untouched | yes | general |  |
+| Goal | on a rail or a home | everybody | 2 settings | yes | taught |  |
+| Grievance Type | through a form's link (Employee Grievance: grievance_type) | everybody | untouched | yes | general |  |
+| HR Settings | on a rail or a home | everybody | 30 fields, 30 settings | no | taught |  |
+| HR Telemetry Milestone | **waiting** | **nobody** | untouched | yes | general |  |
+| Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  |
+| Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | untouched | yes | general |  |
+| Interest | **waiting** | everybody | untouched | yes | general |  |
+| Interview | on a rail or a home | OneHR | class, events, form script, 3 fields, 3 settings | yes | taught |  |
+| Interview Feedback | **waiting** | OneHR | untouched | yes | taught |  |
+| Interview Type | on a rail or a home | OneHR | untouched | yes | taught |  |
+| Job Applicant | on a rail or a home | OneHR | events, 6 fields, 3 settings | yes | taught | makes it |
+| Job Applicant Source | through a form's link (Job Applicant: source) | OneHR | untouched | yes | general |  |
+| Job Offer | on a rail or a home | OneHR | 2 settings | yes | taught |  |
+| Job Offer Term Template | on a rail or a home | OneHR | untouched | yes | general |  |
+| Job Opening | on a rail or a home | OneHR | 1 fields, 1 settings | yes | taught |  |
+| Job Opening Template | on a rail or a home | OneHR | untouched | yes | general |  |
+| Job Requisition | on a rail or a home | OneHR | untouched | yes | taught |  |
+| KRA | through a form's link (Appraisal Template: key_result_area) | OneHR, the administrator | untouched | yes | taught |  |
+| Leave Adjustment | through a form's connections (Leave Allocation's Connections) | OneHR | untouched | yes | general |  |
+| Leave Allocation | on a rail or a home | OneHR | 10 settings | yes | general |  |
+| Leave Application | on a rail or a home | everybody | a head, class, events, 5 fields, 7 settings | yes | taught | makes it |
+| Leave Block List | on a rail or a home | OneHR | untouched | yes | general |  |
+| Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |
+| Leave Encashment | on a rail or a home | everybody | a head, 5 settings | yes | general |  |
+| Leave Ledger Entry | **waiting** | everybody | untouched | yes | general |  |
+| Leave Period | on a rail or a home | OneHR | untouched | yes | general |  |
+| Leave Policy | on a rail or a home | OneHR | 1 settings | yes | general |  |
+| Leave Policy Assignment | on a rail or a home | OneHR | 1 settings | yes | general |  |
+| Leave Type | on a rail or a home | everybody | untouched | yes | taught |  |
+| Offer Term | through a form's link (Job Offer Term Template: offer_term) | OneHR | untouched | yes | general |  |
+| Overtime Slip | on a rail or a home | everybody | a head, events, form script, 2 fields, 2 settings | yes | general |  |
+| Overtime Type | on a rail or a home | OneHR | untouched | yes | general |  |
+| PWA Notification | **waiting** | everybody | untouched | yes | general |  |
+| Purpose of Travel | on a rail or a home | OneHR | untouched | yes | general |  |
+| Shift Assignment | through a form's connections (Shift Type's Connections) | everybody | untouched | yes | general |  |
+| Shift Assignment Tool | **waiting** | OneHR | untouched | no | general |  |
+| Shift Location | on a rail or a home | everybody | 3 fields | yes | general |  |
+| Shift Request | on a rail or a home | everybody | a head, class, events, form script, 6 fields, 4 settings | yes | general |  |
+| Shift Schedule | on a rail or a home | everybody | untouched | yes | general |  |
+| Shift Schedule Assignment | **waiting** | everybody | untouched | yes | general |  |
+| Shift Type | on a rail or a home | everybody | a head | yes | general |  |
+| Skill | through a form's link (Interview Type: skill) | OneHR, the administrator | untouched | yes | general |  |
+| Staffing Plan | on a rail or a home | OneHR | 3 settings | yes | general |  |
+| Training Event | on a rail or a home | OneHR | 4 settings | yes | taught |  |
+| Training Feedback | on a rail or a home | everybody | untouched | yes | general |  |
+| Training Program | on a rail or a home | everybody | 2 settings | yes | taught |  |
+| Training Result | on a rail or a home | OneHR | events, 1 fields, 1 settings | yes | general |  |
+| Travel Request | on a rail or a home | everybody | 2 settings | yes | general |  |
+| Vehicle Log | on a rail or a home | OneHR | a head, 4 settings | yes | general |  |
+| Vehicle Service Item | through a form's link (Vehicle Log: service_item) | **nobody** | untouched | yes | general |  |
+
+Reports: Appraisal Overview (on a rail or a home); Employee Advance Summary (under a list's related reports (Employee Advance's list)); Employee Analytics (on a rail or a home); Employee Birthday (on a rail or a home); Employee Exits (on a rail or a home); Employee Hours Utilization Based On Timesheet (under a list's related reports (Timesheet's list)); Employee Information (on a rail or a home); Employee Leave Balance (on a rail or a home); Employee Leave Balance Summary (on a rail or a home); Employees working on a holiday (on a rail or a home); Leave Ledger (**waiting**); Monthly Attendance Sheet (under a list's related reports (Attendance's list)); Project Profitability (on a rail or a home); Recruitment Analytics (under a list's related reports (Staffing Plan's list)); Shift Attendance (under a list's related reports (Attendance's list)); Unpaid Expense Claim (on a rail or a home); Vehicle Expenses (on a rail or a home).
+
+Pages: organizational-chart (on a rail or a home).
 
 ## hrms / Payroll
 
-- On a rail or a Home: Additional Salary; Employee Benefit Application; Employee Benefit Claim; Employee Tax Exemption Category; Employee Tax Exemption Declaration; Employee Tax Exemption Proof Submission; Gratuity; Income Tax Slab; Payroll Entry; Payroll Settings; Salary Component; Salary Slip; Salary Structure; Salary Structure Assignment; Salary Withholding; Accrued Earnings Report (report); Employee CTC Break-up (report); Income Tax Computation (report); Income Tax Deductions (report); Salary Register (report).
-- Opened by our screens: Payroll Period.
-- Through a form's link: Employee Tax Exemption Sub Category (Employee Tax Exemption Proof Submission: exemption_sub_category); Gratuity Rule (Gratuity: gratuity_rule).
-- Under a list's Related Reports: Bank Remittance (report) (Payroll Entry's list); Salary Payments Based On Payment Mode (report) (Salary Slip's list); Salary Payments via ECS (report) (Salary Slip's list).
-- **Waiting**: Arrear; Bulk Salary Structure Assignment; Employee Benefit Ledger; Employee Incentive; Employee Other Income; Payroll Correction; Retention Bonus.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Additional Salary | on a rail or a home | OneHR | 2 settings | yes | general |  |
+| Arrear | **waiting** | OneHR | untouched | yes | general |  |
+| Bulk Salary Structure Assignment | **waiting** | OneHR | untouched | no | general |  |
+| Employee Benefit Application | on a rail or a home | everybody | events, 2 settings | yes | general |  |
+| Employee Benefit Claim | on a rail or a home | everybody | events | yes | general |  |
+| Employee Benefit Ledger | **waiting** | everybody | untouched | yes | general |  |
+| Employee Incentive | **waiting** | everybody | untouched | yes | general |  |
+| Employee Other Income | **waiting** | everybody | untouched | yes | general |  |
+| Employee Tax Exemption Category | on a rail or a home | OneHR | untouched | yes | general |  |
+| Employee Tax Exemption Declaration | on a rail or a home | everybody | a head, 2 settings | yes | general |  |
+| Employee Tax Exemption Proof Submission | on a rail or a home | everybody | a head, 2 settings | yes | general |  |
+| Employee Tax Exemption Sub Category | through a form's link (Employee Tax Exemption Proof Submission: exemption_sub_category) | OneHR | untouched | yes | general |  |
+| Gratuity | on a rail or a home | OneBook, OneHR | untouched | yes | general |  |
+| Gratuity Rule | through a form's link (Gratuity: gratuity_rule) | OneHR | untouched | yes | general |  |
+| Income Tax Slab | on a rail or a home | OneHR | untouched | yes | general |  |
+| Payroll Correction | **waiting** | everybody | untouched | yes | general |  |
+| Payroll Entry | on a rail or a home | OneHR | a head, 8 settings | yes | taught |  |
+| Payroll Period | opened by our screens | everybody | untouched | yes | general |  |
+| Payroll Settings | on a rail or a home | OneHR | events | no | general |  |
+| Retention Bonus | **waiting** | everybody | untouched | yes | general |  |
+| Salary Component | on a rail or a home | everybody | events | yes | general |  |
+| Salary Slip | on a rail or a home | everybody | a head, 2 settings | yes | taught |  |
+| Salary Structure | on a rail or a home | OneHR | untouched | yes | general |  |
+| Salary Structure Assignment | on a rail or a home | everybody | 2 settings | yes | general |  |
+| Salary Withholding | on a rail or a home | everybody | 5 settings | yes | general |  |
+
+Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a list's related reports (Payroll Entry's list)); Employee CTC Break-up (on a rail or a home); Income Tax Computation (on a rail or a home); Income Tax Deductions (on a rail or a home); Salary Payments Based On Payment Mode (under a list's related reports (Salary Slip's list)); Salary Payments via ECS (under a list's related reports (Salary Slip's list)); Salary Register (on a rail or a home).
 
 ## onedesk / One
 
-- On a rail or a Home: masters (page); settings (page); workspace-settings (page).
-- Opened by our screens: Push Device; Record Head.
-- Answered: Workspace Account: inside, Account, from the rail's foot; Workspace Customization: engine, OneStudio's ledger of what a workspace changed.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Push Device | opened by our screens | **nobody** | untouched | no | taught |  |
+| Record Head | opened by our screens | **nobody** | untouched | no | general |  |
+| Workspace Account | inside: Account, from the rail's foot | the administrator | a head, form script | no | taught |  |
+| Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  |
+
+Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-settings (on a rail or a home).
 
 ## onedesk / One AI
 
-- On a rail or a Home: AI Chat; AI Knowledge; AI Proposal; AI Credits (report).
-- Opened by our screens: AI Action Setting; AI Touch.
-- Through a form's link: AI Action (AI Action Setting: action).
-- Answered: AI Memory: inside, Workspace Settings › Privacy lists and forgets what OneAI remembers.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| AI Action | through a form's link (AI Action Setting: action) | the administrator | untouched | no | taught |  |
+| AI Action Setting | opened by our screens | the administrator | a head, form script | no | general |  |
+| AI Chat | on a rail or a home | everybody | untouched | no | general |  |
+| AI Knowledge | on a rail or a home | everybody | untouched | no | taught |  |
+| AI Memory | inside: Workspace Settings › Privacy lists and forgets what OneAI remembers | everybody | untouched | no | general |  |
+| AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  |
+| AI Touch | opened by our screens | **nobody** | untouched | no | general |  |
+
+Reports: AI Credits (on a rail or a home).
 
 ## onedesk / One Admin
 
-- On a rail or a Home: AI Model; Account Request; Credit Ledger Entry; Offering; One Admin Settings; Provisioning Job; Tenant; Tenant Domain; Tenant Event; AI Usage (report); Plan Calculator (report); Price Check (report).
-- Through a form's Connections: Stripe Webhook Event (Account Request's Connections).
-- Answered: Credit Reservation: engine, credits held while OneAI works, released when it is done.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| AI Model | on a rail or a home | **nobody** | a head, form script, list script | no | taught |  |
+| Account Request | on a rail or a home | **nobody** | a head, form script | no | taught |  |
+| Credit Ledger Entry | on a rail or a home | **nobody** | a head, form script, list script | no | general |  |
+| Credit Reservation | engine: credits held while OneAI works, released when it is done | **nobody** | untouched | no | general |  |
+| Offering | on a rail or a home | **nobody** | a head, events, form script | no | taught |  |
+| One Admin Settings | on a rail or a home | **nobody** | a head, events, form script | no | taught |  |
+| Provisioning Job | on a rail or a home | **nobody** | a head | no | taught |  |
+| Stripe Webhook Event | through a form's connections (Account Request's Connections) | **nobody** | untouched | no | taught |  |
+| Tenant | on a rail or a home | **nobody** | a head, form script | no | taught |  |
+| Tenant Domain | on a rail or a home | **nobody** | a head | no | taught |  |
+| Tenant Event | on a rail or a home | **nobody** | untouched | no | taught |  |
+
+Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 
 ## onedesk / One Book
 
-- On a rail or a Home: Books Check (report); VAT Return (report).
+
+Reports: Books Check (on a rail or a home); VAT Return (on a rail or a home).
 
 ## onedesk / One CRM
 
-- On a rail or a Home: Deal Forecast (report); How Long Deals Take (report); Lead Sources (report); Won and Lost (report).
+
+Reports: Deal Forecast (on a rail or a home); How Long Deals Take (on a rail or a home); Lead Sources (on a rail or a home); Won and Lost (on a rail or a home).
 
 ## onedesk / One Calendar
 
-- On a rail or a Home: Calendar Feed; onecalendar (page).
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Calendar Feed | on a rail or a home | the administrator | untouched | yes | general |  |
+
+Pages: onecalendar (on a rail or a home).
 
 ## onedesk / One HR
 
-- On a rail or a Home: Clock Attempt; Clock Device; Clock Network; Clock Place; Clock Reason; Employee Letter; Attendance by Shift (report); Hiring Pipeline (report); Hours Utilization (report); Monthly Attendance (report).
-- Through a form's link: Attendance Reason (Attendance Request: one_reason).
-- Answered: Interview Recording: inside, an interview's Recording, on the interview.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Attendance Reason | through a form's link (Attendance Request: one_reason) | everybody | untouched | yes | general |  |
+| Clock Attempt | on a rail or a home | everybody | a head | yes | general |  |
+| Clock Device | on a rail or a home | everybody | untouched | yes | general |  |
+| Clock Network | on a rail or a home | OneHR | form script | yes | general |  |
+| Clock Place | on a rail or a home | OneHR | form script | yes | general |  |
+| Clock Reason | on a rail or a home | everybody | untouched | yes | general |  |
+| Employee Letter | on a rail or a home | everybody | untouched | yes | taught |  |
+| Interview Recording | inside: an interview's Recording, on the interview | OneHR | untouched | yes | taught |  |
+
+Reports: Attendance by Shift (on a rail or a home); Hiring Pipeline (on a rail or a home); Hours Utilization (on a rail or a home); Monthly Attendance (on a rail or a home).
 
 ## onedesk / One Intake
 
-- On a rail or a Home: Deadlines (report); Spending (report); intake (page); ready-to-submit (page).
-- Opened by our screens: Intake Action.
-- Answered: File Link: engine, what OneIntake filed a document under; Identifier: engine, numbers OneIntake recognised a party by; Intake Lesson: engine, what OneIntake learnt from a correction; Intake Settings: inside, Workspace Settings › OneIntake; Reading: inside, a OneIntake document's Reading.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| File Link | engine: what OneIntake filed a document under | the administrator | untouched | yes | general |  |
+| Identifier | engine: numbers OneIntake recognised a party by | the administrator | untouched | yes | general |  |
+| Intake Action | opened by our screens | everybody | untouched | yes | general |  |
+| Intake Lesson | engine: what OneIntake learnt from a correction | the administrator | untouched | yes | general |  |
+| Intake Settings | inside: Workspace Settings › OneIntake | the administrator | untouched | no | general |  |
+| Reading | inside: a OneIntake document's Reading | the administrator | untouched | yes | taught |  |
+
+Reports: Deadlines (on a rail or a home); Spending (on a rail or a home).
+
+Pages: intake (on a rail or a home); ready-to-submit (on a rail or a home).
 
 ## onedesk / One Inventory
 
-- On a rail or a Home: Inventory Check (report); To Order (report); floor (page); inventory (page); lots (page); plant (page); quotes (page); sent-out (page); stock-on-hand (page); upkeep (page).
-- Answered: item-view (page): inside, an Item opens on it.
+
+Reports: Inventory Check (on a rail or a home); To Order (on a rail or a home).
+
+Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); lots (on a rail or a home); plant (on a rail or a home); quotes (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); upkeep (on a rail or a home).
 
 ## onedesk / One Legal
 
-- Opened by our screens: Legal Acceptance; legal (page).
-- Answered: Legal Document Version: engine, each agreement as it was agreed to.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Legal Acceptance | opened by our screens | the administrator | untouched | no | general |  |
+| Legal Document Version | engine: each agreement as it was agreed to | the administrator | untouched | no | general |  |
+
+Pages: legal (opened by our screens).
 
 ## onedesk / One Mail
 
-- On a rail or a Home: onemail (page).
-- Opened by our screens: Mail Rule.
-- Through a form's link: Mail Folder (Mail Rule: move_to).
-- Answered: Face: engine, the faces OneMail draws beside a sender.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Face | engine: the faces OneMail draws beside a sender | the administrator | untouched | yes | general |  |
+| Mail Folder | through a form's link (Mail Rule: move_to) | the administrator | untouched | yes | taught |  |
+| Mail Rule | opened by our screens | **nobody** | untouched | yes | taught |  |
+
+Pages: onemail (on a rail or a home).
 
 ## onedesk / One Project
 
-- On a rail or a Home: Workload (report).
-- Answered: project-template-view (page): inside, a Project Template opens on it; project-view (page): inside, a Project opens on it.
+
+Reports: Workload (on a rail or a home).
+
+Pages: project-template-view (inside: a Project Template opens on it); project-view (inside: a Project opens on it).
 
 ## onedesk / One Storage
 
-- On a rail or a Home: Storage Check (report); onecloud (page).
-- Opened by our screens: Cloud Mount.
-- Answered: Cloud Drive Password: inside, OneCloud › Connect a Drive makes and revokes them; Cloud File Request: inside, a OneCloud folder's Request Files; Cloud File Version: inside, a OneCloud file's Versions; Cloud Link: inside, a OneCloud file's Share.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Cloud Drive Password | inside: OneCloud › Connect a Drive makes and revokes them | the administrator | untouched | yes | general |  |
+| Cloud File Request | inside: a OneCloud folder's Request Files | everybody | untouched | yes | general |  |
+| Cloud File Version | inside: a OneCloud file's Versions | the administrator | untouched | yes | general |  |
+| Cloud Link | inside: a OneCloud file's Share | everybody | untouched | yes | general |  |
+| Cloud Mount | opened by our screens | everybody | untouched | yes | general |  |
+
+Reports: Storage Check (on a rail or a home).
+
+Pages: onecloud (on a rail or a home).
 
 ## onedesk / One Studio
 
-- On a rail or a Home: Extension; Record Type; Workspace Field.
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |
+|---|---|---|---|---|---|---|
+| Extension | on a rail or a home | the administrator | a head | yes | taught |  |
+| Record Type | on a rail or a home | the administrator | untouched | yes | taught |  |
+| Workspace Field | on a rail or a home | the administrator | untouched | yes | taught |  |
 
 ## onedesk / One Task
 
-- On a rail or a Home: my-tasks (page).
-- Opened by our screens: timers (page).
-- Answered: task-view (page): inside, a Task opens on it.
+
+Pages: my-tasks (on a rail or a home); task-view (inside: a Task opens on it); timers (opened by our screens).

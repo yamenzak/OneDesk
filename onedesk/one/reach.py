@@ -89,3 +89,20 @@ def unopened(sidebars: dict | None) -> None:
 				continue
 			kept.append(item)
 		sidebar["items"] = kept
+
+
+def atlas() -> dict:
+	"""Who may read each record type, report and page on this site, with every
+	grant One makes applied, for scripts/atlas.py --roles."""
+	doctypes = {}
+	for name in frappe.get_all("DocType", filters={"istable": 0}, pluck="name"):
+		doctypes[name] = sorted(_readers(name))
+	reports = {}
+	for name in frappe.get_all("Report", filters={"is_standard": "Yes"}, pluck="name"):
+		reports[name] = sorted(
+			frappe.get_all("Has Role", {"parent": name, "parenttype": "Report"}, pluck="role")
+		)
+	pages = {}
+	for name in frappe.get_all("Page", pluck="name"):
+		pages[name] = sorted(frappe.get_all("Has Role", {"parent": name, "parenttype": "Page"}, pluck="role"))
+	return {"doctypes": doctypes, "reports": reports, "pages": pages}

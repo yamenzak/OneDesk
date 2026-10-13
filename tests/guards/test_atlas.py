@@ -87,3 +87,82 @@ def test_the_map_finds_a_way_in():
 
 def test_the_atlas_is_current():
 	assert (atlas.tree.ROOT / "docs" / "ATLAS.md").read_text() == atlas.page(), "run python scripts/docs.py"
+
+
+# ------------------------------------------------------------------ who may open it
+
+#: Modules whose records live on the operator's own site, where the operator
+#: holds every right (one_admin).
+OPERATOR = ("One Admin",)
+
+#: What each module has that a person reaches but no role a workspace gives may
+#: open. Lower it as each is opened to its people or its way in is closed.
+NOBODY = {
+	"erpnext / Accounts": 2,
+	"erpnext / Maintenance": 1,
+	"erpnext / Selling": 1,
+	"erpnext / Setup": 2,
+	"erpnext / Stock": 1,
+	"erpnext / Support": 4,
+	"frappe / Core": 9,
+	"frappe / Custom": 1,
+	"frappe / Desk": 1,
+	"frappe / Email": 1,
+	"frappe / Integrations": 1,
+	"frappe / Website": 4,
+	"frappe / Workflow": 1,
+	"hrms / HR": 1,
+	"onedesk / One": 2,
+	"onedesk / One AI": 1,
+	"onedesk / One Mail": 1,
+}
+
+
+def _nobody() -> dict:
+	out = {}
+	for row in atlas.rows():
+		if row["kind"] == "DocType" and row["reach"] and row["module"] not in OPERATOR:
+			if atlas.open_to("DocType", row["name"]) == []:
+				out.setdefault(f"{row['app']} / {row['module']}", []).append(row["name"])
+	return out
+
+
+def test_what_is_reached_is_open_to_somebody():
+	now = _nobody()
+	grown = {m: names for m, names in now.items() if len(names) > NOBODY.get(m, 0)}
+	assert not grown, f"reached, but no role a workspace gives may open it: {grown}"
+	stale = {m: (len(now.get(m, [])), n) for m, n in NOBODY.items() if len(now.get(m, [])) < n}
+	assert not stale, f"lower NOBODY (now, written): {stale}"
+
+
+def test_who_may_open_what_was_read():
+	"""docs/atlas-roles.json was read from the site; a demo check holds it to
+	the site's (one_atlas_knows_who_may_open_what)."""
+	assert atlas.readers()["doctypes"].get("Item"), "run python scripts/atlas.py --roles"
+
+
+# ------------------------------------------------------------------ the brand
+
+
+def test_the_brand_translations_are_current():
+	for lang, text in atlas.translation_files().items():
+		path = atlas.TRANSLATIONS / f"{lang}.csv"
+		assert path.exists() and path.read_text() == text, f"run python scripts/atlas.py --brand ({lang})"
+
+
+def _unbranded(text: str) -> str:
+	for name in atlas._module_dict("OUTSIDE"):
+		text = text.replace(name, "")
+	return text
+
+
+def test_nothing_upstream_says_names_them():
+	"""Every sentence frappe, erpnext or hrms say naming themselves reads One,
+	in English, Arabic and German, but for an outside name kept on purpose."""
+	said = atlas.rebranded()
+	swapped = {msgid for msgid, _, _ in said["en"]}
+	for msgid in atlas.upstream()["brand"]:
+		assert msgid in swapped or not atlas.SAID_BRAND.search(_unbranded(msgid)), msgid
+	for lang, rows in said.items():
+		for msgid, text, _ in rows:
+			assert not atlas.SAID_BRAND.search(_unbranded(text)), (lang, msgid, text)

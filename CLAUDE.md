@@ -127,7 +127,15 @@ with how a person gets to it, and `tests/guards/test_atlas.py` fails when one
 has no way in and no answer in `onedesk/one/atlas.py` beyond each module's
 waiting count, which only falls. When a walk reaches a module, bring its
 waiting count to zero: place each thing (rail, Home, Setup, a record's page)
-or answer it. After an upstream update, `python scripts/atlas.py --snapshot`.
+or answer it. After an upstream update, `python scripts/atlas.py --snapshot`
+then `--brand`; after a change to who may read what, `--roles`.
+
+The atlas also says, for each record type, who may open it, how much One
+changed it, and whether OneStudio, OneAI and OneIntake reach it. Nothing a
+person reaches may be open to nobody beyond each module's count. No sentence
+of frappe's, erpnext's or hrms's names them: `onedesk/translations/` says One
+instead, generated, but for the outside names in `onedesk/one/atlas.py`
+`OUTSIDE`.
 
 ## Declare, don't code
 

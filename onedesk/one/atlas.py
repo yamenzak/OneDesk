@@ -56,3 +56,32 @@ ANSWERS = {
 	("Page", "shop-floor"): (REPLACED, "Shop Floor"),
 	("Page", "visual-plant-floor"): (REPLACED, "Plant Floor"),
 }
+
+#: Names kept wherever upstream says them: an outside product a workspace meets,
+#: or a notice to keep. Every other brand reads One (onedesk/translations/).
+OUTSIDE = {
+	"Frappe Technologies": "the copyright notice the AGPL asks to be kept",
+	"Frappe Cloud": "the host a workspace's site runs on",
+	"Frappe Mail": "a mail service an email account can connect to",
+	"Frappe CRM": "a separate CRM whose site CRM Settings can sync with",
+	"Frappe School": "frappe's courses, linked from onboarding One marks complete",
+	"Frappe Support": "frappe's support portal; One hides that row of the Help menu",
+	"Frappe UI": "the component library a developer builds a page with",
+}
+
+#: Said in our own words where swapping the name would read badly.
+SAID = {
+	"Company Abbreviation (requires ERPNext to be installed)": (
+		"Company Abbreviation",
+		"اختصار الشركة",
+		"Firmenkürzel",
+	),
+	"Fiscal Year (requires ERPNext to be installed)": ("Fiscal Year", "السنة المالية", "Geschäftsjahr"),
+	"ERPNext Settings": ("Settings", "الإعدادات", "Einstellungen"),
+	"ERPNext User ID": ("User ID", "معرف المستخدم", "Benutzer-ID"),
+	"Something you bought before using ERPNext, with what you paid, where it is, and how much has already depreciated. See [Asset](https://docs.frappe.io/erpnext/user/manual/en/asset).": (
+		"Something you bought before using One, with what you paid, where it is, and how much has already depreciated.",
+		"شيء اشتريته قبل استخدام One، مع ما دفعته ومكانه ومقدار ما استُهلك منه.",
+		"Etwas, das Sie vor One gekauft haben, mit dem Preis, dem Ort und der bereits erfolgten Abschreibung.",
+	),
+}
