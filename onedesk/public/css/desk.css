@@ -1038,16 +1038,19 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	border-top: 1px solid var(--outline-elevation-2);
 }
 
-/* A scope's button belongs to a phone's second bar; wider, it is a crumb. */
+/* The record's and a scope's buttons belong to a phone's second bar;
+ * wider, they are crumbs. */
+.page-head .page-actions .one-head-record,
 .page-head .page-actions .one-head-scope {
 	display: none;
 }
 
 /* On a phone the head is two bars (public/js/phone_head.js), each its own
- * height with a line under it. The first is the panel's button, the place
- * and the record, and search. The second is the record's status, the view
- * switch and a scope (a project's All Work) at its start, and the page's
- * buttons at its end. It is there only when the page has some. */
+ * height with a line under it. The first is for the kind of record: the
+ * panel's button, the place, and search. The second is for the record: its
+ * name, its status and what narrows it (a project's All Work) at the start,
+ * its buttons at the end. A list's second bar has its view switch and its
+ * buttons. A bar is there only when it has something. */
 @media (max-width: 767.98px) {
 	.page-head .page-head-content {
 		height: auto;
@@ -1103,8 +1106,37 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .page-actions .page-indicator-pill:not(.hide) {
 		display: inline-flex;
 	}
+	.page-head .page-actions .one-head-record {
+		display: inline-flex;
+		order: -1;
+		/* the record's name has the room the buttons leave */
+		flex: 0 1 auto;
+		min-width: 4rem;
+		margin: 0;
+		padding-inline: 0 !important;
+		background: transparent;
+		font-size: var(--text-lg);
+		font-weight: var(--font-weight-medium);
+		color: var(--ink-gray-8);
+	}
+	.page-head .page-actions .one-head-record .es-button__label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.page-head .page-actions .one-head-record:hover {
+		background: transparent;
+	}
+	.page-head .navbar-breadcrumbs li.one-crumb-record {
+		display: none !important;
+	}
+	/* The first crumb, the place, always shows in the first bar. */
+	.page-head .navbar-breadcrumbs li:first-child {
+		display: flex;
+	}
 	.page-head .page-actions .page-indicator-pill {
 		order: 0;
+		flex-shrink: 0;
 	}
 	.page-head .page-actions .custom-mobile-actions {
 		order: 1;
@@ -1113,7 +1145,15 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 		display: inline-flex;
 		order: 2;
 		margin: 0;
-		min-width: 0;
+		flex: 0 0 auto;
+	}
+	.page-head .page-actions .one-head-scope .es-button__label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.page-head .page-actions .standard-actions {
+		flex-shrink: 0;
 	}
 	.page-head .page-actions .filters {
 		order: 3;

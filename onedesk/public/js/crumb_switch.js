@@ -156,8 +156,9 @@ onedesk.crumbs.places = ($crumb, here) =>
 	});
 
 // A record's switcher: the records of its kind, as a link field finds them.
-onedesk.crumbs.records = ($crumb, { doctype, name, list }) =>
+onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 	onedesk.crumbs.switch($crumb, {
+		button,
 		placeholder: __("Search {0}", [list || __(doctype)]),
 		options: async (txt) => {
 			const all = { label: __("All {0}", [list || __(doctype)]), icon: "list", onclick: () => frappe.set_route("List", doctype) };
@@ -195,10 +196,20 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list }) =>
 			const doctype = form ? route[1] : this.one_record;
 			const name = form ? route[2] : this.one_record && route[1];
 			const at = form ? items.length - 1 : items.findIndex((item) => item.one_record);
-			// A crumb after the record narrows what of it is shown (a project's
-			// All Work). On a phone it is a button in the head's second bar,
-			// beside the view switch, so the first bar has room for the names.
-			this.page_actions?.children(".one-head-scope").remove();
+			// On a phone the trail splits over the head's two bars: the place
+			// stays in the first, and the record and what narrows it (a
+			// project's All Work) are buttons at the start of the second,
+			// beside its status and buttons (phone_head.js). Wider, they are
+			// crumbs as frappe draws them.
+			this.page_actions?.children(".one-head-record, .one-head-scope").remove();
+			const below = (i, kind, wire) => {
+				if (at < 0 || i < at || !this.page_actions) return;
+				$crumbs.eq(i).addClass(i === at ? "one-crumb-record" : "one-crumb-scope");
+				// Their order in the bar is desk.css's: the record first.
+				const $button = frappe.ui.button({ label: items[i].label, icon_right: "chevrons-up-down", css_class: kind });
+				this.page_actions.prepend($button);
+				wire($button);
+			};
 			const done = new Set();
 			items.forEach((item, i) => {
 				if (!item.one_menu) return;
@@ -206,11 +217,7 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list }) =>
 				const options = async (txt) => matching(await menu(), txt);
 				onedesk.crumbs.switch($crumbs.eq(i), { options });
 				done.add(i);
-				if (at < 0 || i <= at || !this.page_actions) return;
-				$crumbs.eq(i).addClass("one-crumb-scope");
-				const $scope = frappe.ui.button({ label: item.label, icon_right: "chevrons-up-down", css_class: "one-head-scope" });
-				this.page_actions.prepend($scope);
-				onedesk.crumbs.switch($scope, { options, button: true });
+				below(i, i === at ? "one-head-record" : "one-head-scope", ($b) => onedesk.crumbs.switch($b, { options, button: true }));
 			});
 			// The place: the crumb that leads back to it, or the place's own page.
 			let place = -1;
@@ -227,7 +234,9 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list }) =>
 			if (place >= 0 && !done.has(place)) onedesk.crumbs.places($crumbs.eq(place).addClass("one-places"), here);
 			if (doctype && name && at >= 0 && !done.has(at)) {
 				const list = place >= 0 ? items[place].label : null;
-				onedesk.crumbs.records($crumbs.eq(at), { doctype, name: decodeURIComponent(name), list });
+				const record = { doctype, name: decodeURIComponent(name), list };
+				onedesk.crumbs.records($crumbs.eq(at), record);
+				below(at, "one-head-record", ($b) => onedesk.crumbs.records($b, { ...record, button: true }));
 			}
 		};
 	}

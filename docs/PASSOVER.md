@@ -184,11 +184,13 @@ it's universal over the app". Every module has this without asking
     filters those.
 - On a phone the head is two bars (your word: "on mobile we need to introduce
   our double top navbar so we don't keep struggling with trimmed content",
-  then "why not two navbars, why did you cram them up"). Each is its own
-  height with a line under it. The first is the panel's button, the place and
-  the record, and search. The second has the record's status with its word,
-  the view switch and a scope such as a project's **All Work** at its start,
-  and the page's buttons at its end (`public/js/phone_head.js`).
+  then "why not two navbars, why did you cram them up", then "top bar is for
+  the doctype stuff, bottom bar is for the current doc, so the breadcrumb
+  should split"). Each is its own height with a line under it. The first is
+  the panel's button, the place, and search. The second is the record: its
+  name, its status with its word and a scope such as a project's **All Work**
+  at its start, its buttons at its end. A list's second bar has its view
+  switch and its buttons (`public/js/phone_head.js`, `crumb_switch.js`).
 - No module puts places of its own in the page head.
 - Every view of a list marks the list's row in the panel.
 

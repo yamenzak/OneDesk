@@ -12,8 +12,9 @@ same way (docs/PASSOVER.md, The panel and A record's page).
   the panel itself, the record's searches its kind as a link field does.
   No module draws places of its own in the page head, and no crumb is a
   menu of its own.
-- On a phone the head is two bars, the breadcrumb across the first and the
-  page's buttons in the second (public/js/phone_head.js, desk.css).
+- On a phone the head is two bars and the trail splits over them: the place
+  in the first, the record and its buttons in the second
+  (public/js/phone_head.js, desk.css).
 """
 
 import re
@@ -103,7 +104,8 @@ def test_a_phone_head_is_two_rows():
 	assert "li.one-crumb-switch:not(:last-child)" in phone, "a phone shows every crumb that switches"
 	assert "border-top: 1px solid" in phone and "height: 44px" in phone, "the second bar is a bar of its own"
 	switch = (APP / "public" / "js" / "crumb_switch.js").read_text()
-	assert "one-head-scope" in switch, "a scope crumb is a button in the second bar"
+	assert "one-head-scope" in switch and "one-head-record" in switch, "the record and its scope are in the second bar"
+	assert "li.one-crumb-record" in phone, "the first bar keeps the place, not the record"
 
 
 def test_a_records_activity_is_written_as_a_forms_is():
