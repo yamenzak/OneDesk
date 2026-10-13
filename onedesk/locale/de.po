@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-13 18:24+0000\n"
+"POT-Creation-Date: 2026-10-13 20:06+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -6535,8 +6535,10 @@ msgstr "Zeit erfassen nach"
 msgid "Count of {0}"
 msgstr "Anzahl {0}"
 
+#. Label of the 'qty' field in DocType 'Stock Reconciliation Item'
 #: frontend/src/home/InventoryStory.vue:168
 #: frontend/src/home/InventoryStory.vue:171
+#: onedesk/one_inventory/custom/stock_reconciliation_item.json
 #: onedesk/public/js/checkin_list.js:15
 msgid "Counted"
 msgstr "Gezählt"
@@ -7821,7 +7823,10 @@ msgstr "Gerät"
 msgid "Device ID"
 msgstr "Geräte-ID"
 
+#. Label of the 'quantity_difference' field in DocType 'Stock Reconciliation
+#. Item'
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:178
+#: onedesk/one_inventory/custom/stock_reconciliation_item.json
 #: onedesk/one_inventory/heads.py:1427
 msgid "Difference"
 msgstr "Differenz"
@@ -10679,6 +10684,7 @@ msgstr "Fracht und Zoll, die den Warenkosten zugeschlagen werden."
 msgid "Friday"
 msgstr "Freitag"
 
+#. Label of the 'from_warehouse' field in DocType 'Stock Entry'
 #. Label in the One Pick List print format
 #. Label in the One Stock Entry print format
 #. Label in the One Work Order print format
@@ -10688,6 +10694,7 @@ msgstr "Freitag"
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
 #: onedesk/one_intake/bundle.py:76 onedesk/one_intake/panel.py:125
 #: onedesk/one_intake/report/deadlines/deadlines.js:8
+#: onedesk/one_inventory/custom/stock_entry.json
 #: onedesk/one_inventory/heads.py:1317 onedesk/one_inventory/heads.py:1381
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
@@ -18019,6 +18026,11 @@ msgstr "In Meine Aufgaben"
 #: frontend/src/project/Overview.vue:216 onedesk/one_inventory/heads.py:1108
 msgid "On Order"
 msgstr "Bestellt"
+
+#. Label of the 'current_qty' field in DocType 'Stock Reconciliation Item'
+#: onedesk/one_inventory/custom/stock_reconciliation_item.json
+msgid "On Record"
+msgstr "Laut Bestand"
 
 #. Label of the sold_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -29287,10 +29299,12 @@ msgstr "Titel"
 msgid "Titled"
 msgstr "Benannt"
 
+#. Label of the 'to_warehouse' field in DocType 'Stock Entry'
 #. Label in the One Stock Entry print format
 #. Label in the One Timesheet print format
 #: onedesk/one/ai_setup.py:418 onedesk/one/print_blocks.py:61
 #: onedesk/one/print_blocks.py:75 onedesk/one_ai/chat.py:349
+#: onedesk/one_inventory/custom/stock_entry.json
 #: onedesk/one_inventory/heads.py:1318 onedesk/one_inventory/heads.py:1382
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json

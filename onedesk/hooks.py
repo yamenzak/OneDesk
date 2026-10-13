@@ -1029,6 +1029,8 @@ doctype_js = {
 	"Sales Invoice": "public/js/customer_project.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
+	# A count's difference printed as a number. See stock_count.js.
+	"Stock Reconciliation": "public/js/stock_count.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

@@ -29,6 +29,7 @@ def _opening():
 		return
 	doc = frappe.new_doc("Stock Reconciliation")
 	doc.purpose = "Opening Stock"
+	doc.set_warehouse = wh("Stores")
 	doc.company = frappe.db.get_single_value("Global Defaults", "default_company")
 	dated(doc, on(1, 1))
 	doc.posting_time = "08:00:00"

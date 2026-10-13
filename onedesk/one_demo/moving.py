@@ -94,6 +94,7 @@ def _counted():
 		doc = frappe.new_doc("Stock Reconciliation")
 		doc.company = COMPANY
 		doc.purpose = "Stock Reconciliation"
+		doc.set_warehouse = wh("Stores")
 		dated(doc, day)
 		doc.posting_time = "17:00:00"
 		doc.expense_account = frappe.get_cached_value("Company", COMPANY, "stock_adjustment_account")

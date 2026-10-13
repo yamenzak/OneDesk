@@ -11827,7 +11827,8 @@ Reports and Setup.
 | Receipts | done |
 | Deliveries | done |
 | Stock Movements | done |
-| Stock Counts | next |
+| Stock Counts | done |
+| Lots | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12148,4 +12149,33 @@ manufacture for the tower, and the atlas's rows for Stock Entry.
 | 1 Demo coverage | a receipt without a receipt note, a transfer in transit |
 | 5 Our look | nothing cut in the list, a unit on every line |
 | 12 Plain words | From and To, three labels translated |
+
+**Stock Counts.** Looked at as Karim, at 1440 wide and on a phone: frappe's
+list of Stock Reconciliations and ERPNext's form, the opening stock and the
+count that found three hinges short.
+
+- **A count that did not say what it found.** A counted line showed the 617
+  counted but not the 620 the books held nor the difference, which is what a
+  count is for. Its lines now read Counted, On Record and Difference, side by
+  side (ERPNext's own fields, brought into the table and ordered after the
+  count), and the difference prints as the number it is, signed and
+  right-aligned (`stock_count.js`); ERPNext keeps it as text, "-3.0".
+- **The list's warehouse was blank.** Neither demo count named its warehouse,
+  so Default Warehouse said nothing; both name the Stores now, the demo does
+  so from the start, and a check holds it. The list filters by warehouse
+  instead of by the difference account, an accountant's field whose label was
+  cut.
+- **What stays as ERPNext does it.** A count keeps only its lines that
+  changed: the demo counted the hinges, handles and locks and only the hinges
+  remain, which is ERPNext's way of keeping the books small. The purpose reads
+  "Stock Reconciliation", ERPNext's word, beside the rail's Stock Counts.
+- The rest holds: the head (Purpose, Where, Items, Difference), opening stock
+  with each item's rate, Count Stock on Stock on Hand starting a count of the
+  warehouse that is open, and the phone rows.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | both counts name their warehouse |
+| 5 Our look | counted, on record and difference side by side, a number not text |
+| What ERPNext already does | its own fields brought forward, its rule on unchanged lines kept |
 

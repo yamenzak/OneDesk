@@ -5357,6 +5357,8 @@ def oneinventory_a_return_is_counted_on_what_it_came_back_against():
 		assert returns, f"the demo sends back no {doctype}"
 		for against in returns:
 			assert flt(frappe.db.get_value(doctype, against, "per_returned")) > 0, (doctype, against)
+	# Each count says where it was taken, so the list's warehouse is never blank.
+	assert not frappe.get_all("Stock Reconciliation", filters={"docstatus": 1, "set_warehouse": ["is", "not set"]})
 	shipment = frappe.get_all("Shipment Delivery Note", filters={"parenttype": "Shipment"}, pluck="delivery_note")
 	assert shipment and frappe.db.get_value("Delivery Note", shipment[0], "customer") == "Gulf Properties REIT", shipment
 
