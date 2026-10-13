@@ -10381,7 +10381,7 @@ page of its own, and Quality Management stays out.
 | 8 | Equipment | done |
 | 9 | Reports and Setup | done |
 | 10 | Across modules | done |
-| 11 | Closed against the standard | next |
+| 11 | Closed against the standard, walked again screen by screen in rail order | in progress |
 
 #### 0. The baseline
 
@@ -12116,3 +12116,34 @@ Fixed:
 | 17 Clean code | lint clean, each fix in the module that owns it |
 | Everything follows frappe | frappe's forms, HRMS's checklist, ERPNext's mapper and payment schedule |
 | What ERPNext already does | the order's agreed payment terms kept where there are any, and the bill left a draft for the books to submit |
+
+#### 11. The walk, screen by screen
+
+Asked on 2026-10-13, after Items and the new head: walk OneInventory again,
+one screen at a time, in the rail's order. Home, Stock on Hand, Receipts,
+Deliveries, Stock Movements, Stock Counts, Lots, then Buying (To Order,
+Material Requests, Quotes, Purchase Orders, Suppliers), Making (Shop Floor,
+Plant Floor, Work Orders, Bills of Materials, Sent Out), Assets and Upkeep,
+Reports and Setup.
+
+| Screen | State |
+|---|---|
+| Home | done |
+| Stock on Hand | next |
+
+**Home.** Looked at as Karim, at 1440 wide and on a phone.
+
+- **Our look (5)**: on a phone a row's code was cut to a stub after the name
+  ("Gulf Glass Industries · PUR…", "Structural Silicone · Stores …"), which
+  says nothing. A row's code (`sub` in the kit's Rows) now shows whole or is
+  left out when the row is too narrow, and the name keeps its room. Wider,
+  nothing changes. Every page built on Rows gets it (the item's tabs, Lots,
+  Quotes, Sent Out, Upkeep, the floors, the project's Overview).
+- The rest holds: the figures, Today's six kinds, Everything and its search,
+  and the head's one bar on a phone, as there is no record.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | a row's code whole or left out on a phone |
+| Everything follows frappe | frappe-ui's List and its rows, nothing hand-drawn |
+

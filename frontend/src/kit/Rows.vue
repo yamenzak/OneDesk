@@ -1,5 +1,6 @@
 <template>
   <!-- Rows of a list: frappe-ui's List. A row says what it is, a quiet aside,
+       a quieter `sub` after the name, shown whole or left out when the row is narrow,
        a badge after the name (a label, or `{ label, theme }`), a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
        aside then goes under the name; with
        `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
@@ -18,8 +19,9 @@
           <Avatar v-else-if="item.icon" :shape="item.square ? 'square' : 'circle'" size="sm"><span :class="item.icon" class="size-3" /></Avatar>
           <div class="min-w-0 flex-1">
             <div class="flex min-w-0 items-center gap-2">
-              <div class="truncate text-base text-ink-gray-8">
-                {{ item.label }}<span v-if="item.sub" class="text-ink-gray-5"> · {{ item.sub }}</span>
+              <div class="flex h-[1lh] min-w-0 flex-wrap overflow-hidden text-base">
+                <span class="max-w-full truncate text-ink-gray-8">{{ item.label }}</span>
+                <span v-if="item.sub" class="whitespace-nowrap ps-1 text-ink-gray-5">· {{ item.sub }}</span>
               </div>
               <Badge v-if="item.badge" :label="item.badge.label || item.badge" :theme="item.badge.theme || 'gray'" size="sm" />
             </div>
