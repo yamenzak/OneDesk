@@ -30,6 +30,8 @@ frappe.provide("onedesk");
 
 onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
+	// The doctype of the record the page shows, whose crumb switches between them.
+	page.one_record = record;
 	// An app's own page, with no panel header, puts the app's mark before its
 	// name, as onedesk.shell.page does.
 	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);

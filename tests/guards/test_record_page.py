@@ -7,9 +7,13 @@ same way (docs/PASSOVER.md, The panel and A record's page).
   the top of the page.
 - A record's details are frappe's own form sidebar on the page's right
   (onedesk.record.sidebar), not one drawn by the page.
-- Where the panel is not out, the breadcrumb is the menu of the module's
-  places, for every module from the panel itself (public/js/panel_menu.js).
-  No module draws places of its own in the page head.
+- Every crumb with somewhere to go is a searchable switcher
+  (public/js/crumb_switch.js): the place's lists the module's places from
+  the panel itself, the record's searches its kind as a link field does.
+  No module draws places of its own in the page head, and no crumb is a
+  menu of its own.
+- On a phone the head is two rows, the breadcrumb across the first and the
+  page's buttons in the second (public/js/phone_head.js, desk.css).
 """
 
 import re
@@ -69,15 +73,34 @@ def test_no_page_draws_its_own_record_sidebar():
 	assert not found, found
 
 
-def test_the_breadcrumb_is_the_panels_menu_everywhere():
+def test_every_crumb_is_a_searchable_switcher():
 	hooks = (APP / "hooks.py").read_text()
-	assert '"/assets/onedesk/js/panel_menu.js"' in hooks
-	menu = (APP / "public" / "js" / "panel_menu.js").read_text()
-	assert ".body-sidebar .sidebar-items .item-anchor" in menu, "the places are the panel's own rows"
-	assert "frappe.is_mobile()" in menu and "hide_sidebar" in menu
-	# No module puts places of its own beside the breadcrumb.
-	found = [str(path.relative_to(ROOT)) for path in JS if "navbar-breadcrumbs" in path.read_text() and path.name != "panel_menu.js"]
+	assert '"/assets/onedesk/js/panel_menu.js"' in hooks and '"/assets/onedesk/js/crumb_switch.js"' in hooks
+	panel = (APP / "public" / "js" / "panel_menu.js").read_text()
+	assert ".body-sidebar .sidebar-items .item-anchor" in panel, "the places are the panel's own rows"
+	switch = (APP / "public" / "js" / "crumb_switch.js").read_text()
+	assert "new frappe.ui.Popover({" in switch and 'type="text"' in switch, "a crumb opens a search over its choices"
+	assert "frappe.desk.search.search_link" in switch, "a record's crumb searches its kind as a link field does"
+	assert "onedesk.crumbs.places(" in switch and "onedesk.crumbs.records(" in switch
+	# No module puts places of its own beside the breadcrumb, nor makes a crumb a menu.
+	found = [
+		str(path.relative_to(ROOT))
+		for path in JS
+		if ("navbar-breadcrumbs" in path.read_text() or "new frappe.ui.Dropdown({ trigger: $crumb" in path.read_text())
+		and path.name != "crumb_switch.js"
+	]
 	assert not found, found
+
+
+def test_a_phone_head_is_two_rows():
+	hooks = (APP / "hooks.py").read_text()
+	assert '"/assets/onedesk/js/phone_head.js"' in hooks
+	head = (APP / "public" / "js" / "phone_head.js").read_text()
+	assert "--page-head-height" in head, "frappe's sticky parts are told the head's height"
+	css = (APP / "public" / "css" / "desk.css").read_text()
+	phone = css[css.index("@media (max-width: 767.98px)") :]
+	assert "flex-wrap: wrap !important" in phone and "flex: 1 0 100%" in phone, "the page's buttons wrap to a row of their own"
+	assert "li.one-crumb-switch:not(:last-child)" in phone, "a phone shows every crumb that switches"
 
 
 def test_a_records_activity_is_written_as_a_forms_is():

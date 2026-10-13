@@ -93,18 +93,19 @@ $.extend(onedesk.shell, {
 
 	// A record inside a page: its section's name and then its own, as a
 	// form's breadcrumb reads "Customer / Client Example Ltd", with `between`
-	// any records it sits under, as a sub-project's parents. `menu` makes the
-	// last a menu of where to go instead, frappe.ui.Dropdown's options: a
-	// project's page lists the other projects. `after` are crumbs after it,
-	// each `{ label, menu }`: a project with sub-projects switches between
-	// all of its work, its own, and each sub-project.
+	// any records it sits under, as a sub-project's parents. The record's
+	// name switches between records of its kind (crumb_switch.js); `menu`
+	// gives it choices of its own instead, frappe.ui.Dropdown's options.
+	// `after` are crumbs after it, each `{ label, menu }`: a project with
+	// sub-projects switches between all of its work, its own, and each
+	// sub-project.
 	trail(parent, route, label, between = [], menu = null, page = frappe.get_current_page(), after = []) {
 		if (page) {
 			page.set_breadcrumbs([
 				{ label: parent, href: route },
 				...between.map((one) => ({ label: one.label, href: one.route })),
-				{ label, ...(menu ? { suffix: "chevron-down", one_menu: menu } : {}) },
-				...after.map((one) => ({ label: one.label, suffix: "chevron-down", one_menu: one.menu })),
+				{ label, one_record: true, ...(menu ? { one_menu: menu } : {}) },
+				...after.map((one) => ({ label: one.label, one_menu: one.menu })),
 			]);
 		}
 		frappe.utils.set_title(label);
@@ -605,28 +606,6 @@ onedesk.shell.Editor = class Editor {
 			const path = route[0] === "Form" ? (home ? home[0].route : `/desk/${frappe.router.slug(route[1])}`) : window.location.pathname;
 			const found_row = row(path) || (route[0] === "Form" ? null : row(window.location.pathname));
 			return light(this, found_row && $(found_row).parent());
-		};
-	}
-}
-
-// A crumb made a menu (shell.trail): each with a chevron opens its own
-// `one_menu`. A page draws its trail afresh each time, so the menus follow
-// each drawing.
-{
-	const Page = frappe.ui.Page;
-	if (Page && !Page.prototype.__one_crumb_menu) {
-		Page.prototype.__one_crumb_menu = true;
-		const drawn = Page.prototype.render_breadcrumbs;
-		Page.prototype.render_breadcrumbs = function () {
-			drawn.call(this);
-			const $crumbs = this.$breadcrumbs && this.$breadcrumbs.children("li");
-			if (!$crumbs || !$crumbs.length) return;
-			this.get_breadcrumbs().forEach((item, i) => {
-				const menu = item.one_menu;
-				if (!menu) return;
-				const $crumb = $crumbs.eq(i).addClass("one-crumb-menu");
-				new frappe.ui.Dropdown({ trigger: $crumb, options: () => menu() });
-			});
 		};
 	}
 }

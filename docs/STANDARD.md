@@ -143,6 +143,21 @@ user on 2026-10-12, first on the item page).
 
 OneProject and OneTask follow this when they are next passed.
 
+**The head and the breadcrumb.** Set by the user on 2026-10-13, for every
+page.
+- Every crumb with somewhere to go is a switcher with a search box, as a
+  link field searches (`public/js/crumb_switch.js`). The place's crumb lists
+  the app's places. A record's crumb lists records of its kind, its own
+  suggestions first (a project's open projects), and finds any by typing.
+  **All …** stays at the foot. A page never draws a menu of its own on a
+  crumb; it gives the trail a `menu` and the switcher draws it.
+- On a phone the head is two rows (`public/js/phone_head.js`). The first is
+  the panel's button, the whole trail and search. The second is the page's
+  buttons, with the record's status first. A name is never cut to make room
+  for a button.
+- A page that gathers several kinds of record keeps frappe's view switch,
+  leading to their List and Report views (`public/js/page_views.js`).
+
 **7 Extensible.** Every view of a page is a place where OneStudio's
 extensions go, told what the view shows (`one_studio/places.py`, mapped to
 its source in `tests/guards/test_frame.py`). OneProject has one for the page

@@ -1191,10 +1191,12 @@ app_include_js = [
 	"/assets/onedesk/js/project_new.js",
 	# New Item, by kind, in the same steps. See one_inventory/kinds.py.
 	"/assets/onedesk/js/item_new.js",
-	# Where the panel is not out, the breadcrumb is the menu of the module's places. See public/js/panel_menu.js.
+	# The breadcrumb switches between places and records. See public/js/crumb_switch.js.
 	"/assets/onedesk/js/panel_menu.js",
-	# A project's name in its breadcrumb lists the other projects. See public/js/project_places.js.
+	"/assets/onedesk/js/crumb_switch.js",
 	"/assets/onedesk/js/project_places.js",
+	# On a phone the head is two rows. See public/js/phone_head.js.
+	"/assets/onedesk/js/phone_head.js",
 	# Frappe's Settings dialog for a doctype, for a workspace administrator.
 	"/assets/onedesk/js/doctype_settings.js",
 	# Extensions on One's own pages: OneMail, OneCalendar, a record's head. See one_studio/places.py.

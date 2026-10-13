@@ -162,10 +162,16 @@ GUARDS = [
 		"tests/guards/test_record_page.py::test_no_page_draws_its_own_record_sidebar",
 	),
 	Guard(
-		"crumb-menu",
+		"crumb-switch",
 		5,
-		"a module putting places of its own in the page head instead of the panel's menu in the breadcrumb",
-		"tests/guards/test_record_page.py::test_the_breadcrumb_is_the_panels_menu_everywhere",
+		"a module putting places of its own in the page head, or a crumb that is a menu of its own instead of the searchable switcher",
+		"tests/guards/test_record_page.py::test_every_crumb_is_a_searchable_switcher",
+	),
+	Guard(
+		"phone-head",
+		5,
+		"a phone head that crams the breadcrumb and the page's buttons into one row",
+		"tests/guards/test_record_page.py::test_a_phone_head_is_two_rows",
 	),
 	# 8 Built from frappe
 	Guard(

@@ -164,19 +164,29 @@ be ours; how it behaves is frappe's.
 Your word: "it should be open on all collection views. On smaller devices it
 becomes changeable from the breadcrumbs, like Projects ▾", and "make sure
 it's universal over the app". Every module has this without asking
-(`public/js/panel_menu.js`, guarded by `tests/guards/test_record_page.py`).
+(`public/js/crumb_switch.js`, guarded by `tests/guards/test_record_page.py`).
 
 - On a desktop the module's panel is open on every collection view (a list
   and its Report, Kanban, Tree and other views, a report, a page that lists).
   It is frappe's own sidebar, and a page leaves `hide_sidebar` unset.
 - A record's page closes it (`hide_sidebar: !frappe.is_mobile()`), as a
   project's and a template's do.
-- Wherever the panel is not out, the breadcrumb is the menu of the module's
-  places, read from the panel itself, in its order and under its sections,
-  the place you are on ticked:
-  - on a phone, the place's own name at the top, **Projects ▾**;
-  - on a record's page, the place's name before the record's, at any width.
-  The record's own name keeps its own menu, as a project's lists the others.
+- The breadcrumb switches, at any width (your word on 2026-10-13: "standardize
+  the breadcrumbs dropdowns for switching doctype and document ... make it
+  searchable like a link field"). Each crumb opens a search box over its
+  choices (`public/js/crumb_switch.js`):
+  - the place's name lists the module's places, read from the panel itself,
+    in its order and under its sections, the place you are on marked;
+  - a record's name lists the records of its kind and finds any as a link
+    field does, a project's open projects first, **All Projects** pinned at
+    the foot;
+  - a crumb a page gives choices of its own (a project's **All Work**)
+    filters those.
+- On a phone the head is two rows (your word: "on mobile we need to introduce
+  our double top navbar so we don't keep struggling with trimmed content").
+  The first is the panel's button, the whole trail and search. The second is
+  the page's buttons, the view switch at its start and the record's status
+  with its word (`public/js/phone_head.js`).
 - No module puts places of its own in the page head.
 - Every view of a list marks the list's row in the panel.
 

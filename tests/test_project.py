@@ -1350,9 +1350,9 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 		("Hours by Day", "Daily Timesheet Summary"),
 		("Stock by Project", "Project wise Stock Tracking"),
 	]
-	# The panel is open on the four and shut on a record; where it is not out,
-	# the breadcrumb is the menu of its rows, as in every module
-	# (public/js/panel_menu.js, tests/guards/test_record_page.py).
+	# The panel is open on the four and shut on a record; the breadcrumb
+	# switches between its rows, as in every module (public/js/crumb_switch.js,
+	# tests/guards/test_record_page.py).
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "TabButtons" not in places and "hide_sidebar" not in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
@@ -1361,11 +1361,15 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	# Setup is in the Projects list's menu.
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Rates")' in menu and '__("Project Templates")' not in menu
-	# A project's name in its breadcrumb lists the others.
+	# A project's name in its breadcrumb switches to the others: the reader's
+	# open projects before anything is typed, any project as it is.
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
-	assert "hide_sidebar: !frappe.is_mobile()" in view_js and "onedesk.project.picker(" in view_js
+	assert "hide_sidebar: !frappe.is_mobile()" in view_js and 'record: "Project"' in view_js
+	assert "onedesk.crumbs.suggest.Project = onedesk.project.picker" in places
 	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
-	assert "one_menu: menu" in shell and "new frappe.ui.Dropdown({ trigger: $crumb, options: () => menu() })" in shell
+	assert "one_record: true" in shell and "one_menu: menu" in shell
+	switch = (tree.APP / "public" / "js" / "crumb_switch.js").read_text()
+	assert "frappe.desk.search.search_link" in switch and "new frappe.ui.Popover({" in switch
 	view_py = (PROJECT / "view.py").read_text()
 	picker = view_py[view_py.index("def picker(") : view_py.index("PICKED = ")]
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in picker

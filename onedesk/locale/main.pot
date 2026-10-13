@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-13 05:22+0000\n"
-"PO-Revision-Date: 2026-10-13 05:22+0000\n"
+"POT-Creation-Date: 2026-10-13 06:30+0000\n"
+"PO-Revision-Date: 2026-10-13 06:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2213,7 +2213,7 @@ msgstr ""
 msgid "All Events"
 msgstr ""
 
-#: onedesk/public/js/project_places.js:15 onedesk/public/js/project_tree.js:8
+#: onedesk/public/js/project_tree.js:8
 msgid "All Projects"
 msgstr ""
 
@@ -2288,6 +2288,10 @@ msgstr ""
 
 #: onedesk/one_admin/heads.py:421
 msgid "All settings are filled in."
+msgstr ""
+
+#: onedesk/public/js/crumb_switch.js:162
+msgid "All {0}"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:319
@@ -10877,6 +10881,10 @@ msgstr ""
 msgid "Go through these settings with me: which ones matter for a company like ours, what each is set to now, and what you would change. Suggest the changes."
 msgstr ""
 
+#: onedesk/public/js/crumb_switch.js:153
+msgid "Go to"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Goal"
@@ -14153,6 +14161,10 @@ msgstr ""
 msgid "Load More"
 msgstr ""
 
+#: onedesk/public/js/crumb_switch.js:126
+msgid "Loading..."
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:351
 #: onedesk/public/js/settings.js:1552 onedesk/public/js/shell.js:38
 msgid "Loading…"
@@ -16548,7 +16560,8 @@ msgstr ""
 msgid "No masters"
 msgstr ""
 
-#: onedesk/one/page/masters/masters.js:145 onedesk/public/js/shell.js:151
+#: onedesk/one/page/masters/masters.js:145 onedesk/public/js/crumb_switch.js:77
+#: onedesk/public/js/shell.js:152
 msgid "No matches"
 msgstr ""
 
@@ -17004,7 +17017,7 @@ msgstr ""
 
 #. Label of the one_unsaved (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
-#: onedesk/public/js/settings.js:3253 onedesk/public/js/shell.js:367
+#: onedesk/public/js/settings.js:3253 onedesk/public/js/shell.js:368
 msgid "Not Saved"
 msgstr ""
 
@@ -17428,7 +17441,7 @@ msgstr ""
 msgid "Nothing to score suppliers by yet. Fix adds Delivered On Time and Accepted on Arrival."
 msgstr ""
 
-#: onedesk/public/js/shell.js:150
+#: onedesk/public/js/shell.js:151
 msgid "Nothing to show"
 msgstr ""
 
@@ -19364,7 +19377,8 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/item/ItemPage.vue:173 frontend/src/project/ProjectPage.vue:181
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/page_views.js:86
+#: onedesk/public/js/page_views.js:99
 msgid "Overview"
 msgstr ""
 
@@ -22217,7 +22231,7 @@ msgstr ""
 #: onedesk/one_admin/heads.py:620 onedesk/one_admin/heads.py:627
 #: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:1958
 #: onedesk/public/js/onecloud.js:1959 onedesk/public/js/onecloud.js:1979
-#: onedesk/public/js/onemail.js:93 onedesk/public/js/shell.js:303
+#: onedesk/public/js/onemail.js:93 onedesk/public/js/shell.js:304
 msgid "Refresh"
 msgstr ""
 
@@ -23404,7 +23418,7 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:763
 #: onedesk/public/js/project_actions.js:844 onedesk/public/js/reports.js:420
 #: onedesk/public/js/settings.js:491 onedesk/public/js/settings.js:788
-#: onedesk/public/js/settings.js:2713 onedesk/public/js/shell.js:471
+#: onedesk/public/js/settings.js:2713 onedesk/public/js/shell.js:472
 #: onedesk/public/js/task_actions.js:33
 #: onedesk/website/doctype/web_form/templates/web_form.html:19
 #: onedesk/www/account_profile.html:29
@@ -23431,7 +23445,7 @@ msgstr ""
 #: frontend/src/item/ItemBarcodes.vue:85
 #: onedesk/one/page/masters/masters.js:238
 #: onedesk/one/page/masters/masters.js:257 onedesk/public/js/reports.js:429
-#: onedesk/public/js/shell.js:529
+#: onedesk/public/js/shell.js:530
 #: onedesk/website/doctype/web_form/templates/web_form.html:118
 msgid "Saved"
 msgstr ""
@@ -23582,8 +23596,8 @@ msgstr ""
 #: frontend/src/sent_out/SentOutPage.vue:15
 #: frontend/src/upkeep/UpkeepPage.vue:14
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/desk.js:171 onedesk/public/js/onemail.js:91
-#: onedesk/www/portal.html:47
+#: onedesk/public/js/crumb_switch.js:132 onedesk/public/js/desk.js:171
+#: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:47
 msgid "Search"
 msgstr ""
 
@@ -23604,7 +23618,7 @@ msgstr ""
 msgid "Search everywhere"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:360
+#: onedesk/public/js/crumb_switch.js:160 onedesk/public/js/onecloud.js:360
 msgid "Search {0}"
 msgstr ""
 
@@ -28451,7 +28465,7 @@ msgstr ""
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr ""
 
-#: onedesk/public/js/head.js:391 onedesk/public/js/shell.js:353
+#: onedesk/public/js/head.js:391 onedesk/public/js/shell.js:354
 msgid "This form has been modified after you have loaded it"
 msgstr ""
 
@@ -28551,7 +28565,7 @@ msgstr ""
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr ""
 
-#: onedesk/public/js/island_page.js:99
+#: onedesk/public/js/island_page.js:101
 msgid "This page has not been built"
 msgstr ""
 

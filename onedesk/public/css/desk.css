@@ -970,21 +970,171 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	color: var(--text-muted);
 }
 
-/* A crumb that is a menu: the module's places (public/js/panel_menu.js), or
- * where to go from a record (shell.trail), the chevron beside the name. */
-.navbar-breadcrumbs li.one-crumb-menu {
+/* A crumb that switches (public/js/crumb_switch.js): the place's, the
+ * record's, or one a page gives choices to, with frappe-ui's up-down chevron
+ * after the name. The place's crumb keeps its name, and the record's name
+ * after it is the one that shortens. */
+.navbar-breadcrumbs li.one-crumb-switch {
 	cursor: pointer;
-	flex-shrink: 0;
+	min-width: 0;
 }
-
-.navbar-breadcrumbs li.one-places {
+.navbar-breadcrumbs li.one-crumb-switch > :first-child {
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
-	cursor: pointer;
-	/* frappe lets every crumb shrink; this one keeps its name and chevron,
-	   and the record's name after it is the one that shortens. */
+	min-width: 0;
+}
+.navbar-breadcrumbs li.one-crumb-switch .one-crumb-chevron {
 	flex-shrink: 0;
+	color: var(--ink-gray-5);
+}
+.navbar-breadcrumbs li.one-places {
+	flex-shrink: 0;
+}
+
+/* Its panel: frappe-ui's Combobox with the search at the top, the rows
+ * frappe's menu rows. */
+.one-crumb-switch-popover.es-popover {
+	width: calc(var(--spacing) * 76);
+	padding: 0;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+.one-crumb-switch-panel {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	max-height: min(420px, 70vh);
+}
+.one-crumb-switch-search {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 0 12px;
+	border-bottom: 1px solid var(--outline-elevation-2);
+	color: var(--ink-gray-5);
+}
+.one-crumb-switch-search input {
+	flex: 1;
+	min-width: 0;
+	padding: 8px 0;
+	border: 0;
+	background: transparent;
+	font-size: var(--text-base);
+	color: var(--ink-gray-8);
+	outline: none;
+	box-shadow: none;
+}
+.one-crumb-switch-search input::placeholder {
+	color: var(--ink-gray-4);
+}
+.one-crumb-switch-rows {
+	overflow-y: auto;
+	min-height: 0;
+}
+.one-crumb-switch-foot:not(:empty) {
+	border-top: 1px solid var(--outline-elevation-2);
+}
+
+/* On a phone the head is two rows (public/js/phone_head.js): the panel's
+ * button, the breadcrumb across the width and search, then the page's
+ * buttons, the view switch first and the rest at the end. */
+@media (max-width: 767.98px) {
+	.page-head .page-head-content {
+		height: auto;
+		/* frappe's .flex-nowrap is !important */
+		flex-wrap: wrap !important;
+		row-gap: 0;
+		padding-bottom: 8px;
+	}
+	.page-head .page-title {
+		flex: 1 1 0;
+		min-width: 0;
+		width: auto;
+	}
+	.page-head .page-title .title-area {
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+	.page-head .standard-items-section {
+		display: contents;
+	}
+	.page-head .page-head-content .page-actions {
+		order: 1;
+		flex: 1 0 100%;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 8px;
+		/* the edges of the first row: the panel's button, and search;
+		   frappe's .pl-0 on the row is !important */
+		padding-block: 0;
+		padding-inline: 15px 10px !important;
+	}
+	.page-head .page-actions .standard-actions .es-button:first-child,
+	.page-head .page-actions .custom-mobile-actions .es-button {
+		margin-inline-start: 0;
+	}
+	.page-head.one-head-actions .page-head-content .page-actions {
+		padding-top: 8px;
+	}
+	.page-head .page-actions .custom-mobile-actions:not(.hide) {
+		margin-inline-end: auto;
+	}
+	.page-head .page-actions .page-indicator-pill:not(.hide) {
+		display: inline-flex;
+		margin-inline-end: auto;
+	}
+	.page-head .page-actions .page-indicator-pill:not(.hide) ~ .custom-mobile-actions {
+		margin-inline-end: 0;
+	}
+	/* The view switch has room for its name again: frappe squares a
+	   button whose label it hides below md (page.scss), by a rule whose
+	   :has() parts outweigh any selector of ours. */
+	.page-head .page-actions .view-switcher .hidden-xs {
+		display: inline !important;
+	}
+	.page-head .page-actions .view-switcher .es-button {
+		width: auto !important;
+		padding-inline: calc(var(--spacing) * 2) !important;
+	}
+	/* The whole trail fits now: the place and the record, each a switcher. */
+	.page-head .navbar-breadcrumbs,
+	body[data-route^="Form"] .page-head .navbar-breadcrumbs {
+		max-width: none;
+		width: auto;
+		min-width: 0;
+	}
+	.page-head .navbar-breadcrumbs ol {
+		min-width: 0;
+	}
+	/* Every crumb that switches shows, the place's giving way first, then
+	   the record's; a plain crumb between them (a sub-project's parents)
+	   stays hidden, as frappe hides it. */
+	.page-head .navbar-breadcrumbs li.one-crumb-switch:not(:last-child) {
+		display: flex;
+	}
+	.page-head .navbar-breadcrumbs.mobile-no-divider li.one-crumb-switch + li.one-crumb-switch::before,
+	.page-head .navbar-breadcrumbs.mobile-no-divider li.one-crumb-switch + li:last-child::before {
+		content: "/" / "";
+	}
+	.page-head .navbar-breadcrumbs li.one-crumb-switch,
+	.page-head .navbar-breadcrumbs li:last-child {
+		min-width: 2.5rem;
+		flex-shrink: 1;
+	}
+	.page-head .navbar-breadcrumbs li.one-places {
+		flex-shrink: 4;
+	}
+	body[data-route^="Form"] .page-title .es-breadcrumbs li:last-child .es-breadcrumbs__label {
+		max-width: none;
+	}
+	.page-head .navbar-breadcrumbs .es-breadcrumbs__label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
 
 /* A record's own page (the project's, the template's) keeps its side panel in

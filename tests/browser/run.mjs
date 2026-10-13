@@ -9,8 +9,8 @@
 // screenshot of each screen.
 //
 // A screen's `panel` says whether the module's panel is open on a desktop
-// (docs/PASSOVER.md, The panel), `phone` the places its breadcrumb lists as a
-// menu on a phone, and `menu` the places it lists on a desktop.
+// (docs/PASSOVER.md, The panel), `phone` the places its breadcrumb's switcher
+// lists on a phone, and `menu` the places it lists on a desktop.
 import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -67,7 +67,7 @@ async function crumb_menu(screen, labels, phone) {
 		const missing = [];
 		for (const label of labels) {
 			try {
-				await page.getByRole("menuitem", { name: label, exact: true }).waitFor({ state: "visible", timeout: 5000 });
+				await page.locator(".one-crumb-switch-rows").getByRole("option", { name: label, exact: true }).waitFor({ state: "visible", timeout: 5000 });
 			} catch {
 				missing.push(`breadcrumb menu${where} does not list "${label}"`);
 			}

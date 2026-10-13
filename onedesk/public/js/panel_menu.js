@@ -53,7 +53,7 @@ onedesk.panel.row = (path) => {
 onedesk.panel.out = (page = frappe.container?.page?.page) => !frappe.is_mobile() && !(page && page.hide_sidebar);
 
 // The panel's rows as frappe.ui.Dropdown's, read when it opens, in sections,
-// the row `here` ticked.
+// the row `here` marked. The place's crumb lists them (crumb_switch.js).
 onedesk.panel.options = (here) => {
 	const groups = [];
 	for (const row of onedesk.panel.rows()) {
@@ -61,52 +61,9 @@ onedesk.panel.options = (here) => {
 		if (!group || group.name !== row.section) groups.push((group = { name: row.section, rows: [] }));
 		group.rows.push({
 			label: row.label,
-			icon: here && row.href === here.href ? "check" : null,
+			selected: !!here && row.href === here.href,
 			onclick: () => frappe.set_route(row.href),
 		});
 	}
 	return groups.flatMap((group) => (group.name ? [{ group: group.name, options: group.rows }] : group.rows));
 };
-
-// A crumb made that menu.
-onedesk.panel.menu = ($crumb, here) => {
-	$crumb.addClass("one-places");
-	$crumb.find("a").removeAttr("href");
-	$crumb.children().first().append(frappe.utils.icon("chevron-down", "xs"));
-	new frappe.ui.Dropdown({ trigger: $crumb, options: () => onedesk.panel.options(here) });
-};
-
-// A page draws its own trail (`Page.render_breadcrumbs`), its title the last
-// crumb, so the menu follows each drawing and leaves the names to the page.
-{
-	const Page = frappe.ui.Page;
-	const drawn = Page.prototype.render_breadcrumbs;
-	Page.prototype.render_breadcrumbs = function () {
-		drawn.call(this);
-		if (!this.$breadcrumbs?.length || onedesk.panel.out(this)) return;
-		const $crumbs = this.$breadcrumbs.children("li");
-		const here = onedesk.panel.row(window.location.pathname);
-		// The place's own page: its name, the last crumb.
-		if (here && frappe.is_mobile()) return void ($crumbs.length && onedesk.panel.menu($crumbs.last(), here));
-		// A page under a place: the crumb that leads back to it.
-		for (const li of $crumbs.toArray()) {
-			const row = onedesk.panel.row($(li).find("a").attr("href"));
-			if (row) return void onedesk.panel.menu($(li), row);
-		}
-	};
-}
-
-// The panel is drawn after the page on a cold load: the trail is drawn again
-// once it is there.
-{
-	const Sidebar = frappe.ui.Sidebar;
-	if (Sidebar && !Sidebar.prototype.__one_panel_menu) {
-		Sidebar.prototype.__one_panel_menu = true;
-		const made = Sidebar.prototype.make_sidebar;
-		Sidebar.prototype.make_sidebar = function (...args) {
-			const result = made.apply(this, args);
-			frappe.get_current_page?.()?.render_breadcrumbs();
-			return result;
-		};
-	}
-}

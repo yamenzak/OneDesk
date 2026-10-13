@@ -59,8 +59,8 @@ onedesk.page_views.page_of = (doctype) => {
 };
 
 // The switcher on a page, as frappe draws it on a list (ListViewSelect): the
-// page's own name selected, then List View and Report View, each naming the
-// record types when the page gathers more than one.
+// page itself, its Overview, selected, then List View and Report View, each
+// naming the record types when the page gathers more than one.
 onedesk.page_views.switcher = (page, name) => {
 	const said = onedesk.page_views[name];
 	if (!said) return;
@@ -83,7 +83,7 @@ onedesk.page_views.switcher = (page, name) => {
 			return item;
 		};
 		return [
-			{ label: said.label(), icon: icons.Dashboard, selected: true },
+			{ label: __("Overview"), icon: icons.Dashboard, selected: true },
 			row("List", listed),
 			row(
 				"Report",
@@ -96,7 +96,7 @@ onedesk.page_views.switcher = (page, name) => {
 	page.custom_actions.add(page.custom_mobile_actions).children(".view-switcher").remove();
 	const $wrapper = $('<div class="custom-btn-group view-switcher"></div>');
 	const $trigger = frappe.ui.button({ css_class: "ellipsis" });
-	frappe.ui.button.dress($trigger, { label: said.label(), icon: icons.Dashboard, icon_right: "chevrons-up-down" });
+	frappe.ui.button.dress($trigger, { label: __("Overview"), icon: icons.Dashboard, icon_right: "chevrons-up-down" });
 	$trigger.find(".es-button__label").addClass("hidden-xs custom-btn-group-label");
 	$trigger.children("svg").last().addClass("hidden-xs");
 	$wrapper.append($trigger);
