@@ -141,6 +141,18 @@ against the `modified` it loaded, and it hears changes made elsewhere
 (`tests/guards/test_frame.py`). Every field on the form can be changed on
 the page, in place or in Edit Details (`test_a_page_edits_every_field_of_its_record`).
 
+**Nothing upstream is lost either.** Set by the user on 2026-10-13. Every
+record type, report and page frappe, erpnext and hrms ship has a way in or a
+written answer (`docs/ATLAS.md`, drawn by `scripts/atlas.py`). A way in is
+seen (a rail, a Home, one of our screens) or found (a form's link, its
+Connections tab, a list's Related Reports); a record on a page of our own has
+no Connections tab, so what only its form led to has to be placed again.
+Anything else is answered in `onedesk/one/atlas.py` as engine, inside,
+replaced or left out, or waits. `tests/guards/test_atlas.py` holds what waits
+in each module to a count that only falls, and an upstream update that adds a
+record type fails until it is placed. **A module's walk is not done while its
+modules have anything waiting.**
+
 **Changing a field where it is shown.** A field on a page is changed where it
 is shown, not in a dialog, and it is the record's own form field (set by the
 user on 2026-10-12, first on the item page).
@@ -284,6 +296,7 @@ Each must pass before a push.
 python3 -m pytest -q tests                  # fast tests and every guard
 sh check.sh                                 # the demo suite, every check
 python3 scripts/overrides.py --check
+python3 scripts/atlas.py --check            # the snapshot is the bench's
 python3 scripts/docs.py --check
 ruff check onedesk/<module> onedesk/one_demo
 ```

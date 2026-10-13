@@ -12348,3 +12348,20 @@ supplier's dispatch note (in euros) and a received one in dirhams.
 | 9 Overrides recorded | "A document in the company's currency says its taxes once" |
 | What ERPNext already does | the company's currency said once |
 
+**The atlas.** Asked on 2026-10-13, after Putaway Rule turned out to have no
+way in: the goal is every ERPNext feature, more simply, and nothing should
+rely on someone noticing a gap. `scripts/atlas.py` reads every record type,
+report and page frappe, erpnext and hrms ship (a snapshot in
+`docs/upstream/atlas.json`) and One's own, and finds how a person reaches each:
+named on a rail or a Home, opened by one of our screens, or found through a
+form's editable link, its Connections tab or a list's Related Reports, until
+nothing new is reached. A read-only link is no way in, and a record on a page
+of our own (Item, Project, Task, Project Template) has no Connections tab.
+The first count, in `docs/ATLAS.md`: of One's own, every one is reached or
+answered; frappe has 141 waiting, erpnext 148, hrms 19. In OneInventory's
+modules, Putaway Rule, Inventory Dimension, Item Alternative, Item Lead Time,
+Item Standard Cost, Stock Closing Entry, BOM Creator, BOM Update Tool, Downtime
+Entry, Master Production Schedule, Sales Forecast and others wait, with about
+forty reports. Each module's walk brings its count to zero; the guard only lets
+it fall.
+

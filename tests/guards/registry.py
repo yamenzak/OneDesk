@@ -473,6 +473,24 @@ GUARDS = [
 		"a page of its own with no island the guards know",
 		"tests/guards/test_frame.py::test_every_page_is_drawn_by_a_known_island",
 	),
+	Guard(
+		"atlas-placed",
+		6,
+		"a record type, report or page frappe, erpnext, hrms or One ships with no way in and no answer, beyond each module's count",
+		"tests/guards/test_atlas.py::test_nothing_waits_that_was_not_waiting",
+	),
+	Guard(
+		"atlas-lowered",
+		6,
+		"a module's waiting count left above what still waits",
+		"tests/guards/test_atlas.py::test_the_counts_are_lowered_as_things_are_placed",
+	),
+	Guard(
+		"atlas-answers",
+		6,
+		"an answer for something that is now reached or no longer exists",
+		"tests/guards/test_atlas.py::test_every_answer_names_something_unreached",
+	),
 	# 7 Extensible
 	Guard(
 		"page-places",

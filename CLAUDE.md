@@ -119,6 +119,16 @@ screen's opening comment says `Modelled on …`, and
 listed in `UNMODELLED` until each is redrawn. Badge colours are frappe-ui's
 (`gray`, `blue`, `green`, `amber`, `red`, `violet`); there is no orange.
 
+## Nothing ERPNext has is lost
+
+The goal is every feature frappe, erpnext and hrms have, reached in One more
+simply. `docs/ATLAS.md` lists every record type, report and page they ship
+with how a person gets to it, and `tests/guards/test_atlas.py` fails when one
+has no way in and no answer in `onedesk/one/atlas.py` beyond each module's
+waiting count, which only falls. When a walk reaches a module, bring its
+waiting count to zero: place each thing (rail, Home, Setup, a record's page)
+or answer it. After an upstream update, `python scripts/atlas.py --snapshot`.
+
 ## Declare, don't code
 
 Doctypes, Workspaces, Docks, Sidebars, Roles, Print Formats, Notifications and

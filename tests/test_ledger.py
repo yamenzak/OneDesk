@@ -105,9 +105,9 @@ def test_only_the_ledger_knows_a_balance_is_made_of_rows():
 	"""Everything above it asks for a number. A second module querying these
 	tables is a second definition of what a balance is."""
 	elsewhere = []
-	#: hooks.py names both doctypes to gate them, and one/tiers.py to say how
-	#: they are shown: registration rather than a query.
-	exempt = {LEDGER, tree.APP / "hooks.py", tree.APP / "one" / "tiers.py"}
+	#: hooks.py names both doctypes to gate them, one/tiers.py to say how they
+	#: are shown and one/atlas.py where: registration rather than a query.
+	exempt = {LEDGER, tree.APP / "hooks.py", tree.APP / "one" / "tiers.py", tree.APP / "one" / "atlas.py"}
 	for path in tree.python():
 		if path in exempt or path.parent.name in ("credit_ledger_entry", "credit_reservation"):
 			continue

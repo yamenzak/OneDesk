@@ -11,6 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import atlas
 import tree
 
 DOCS = tree.ROOT / "docs"
@@ -137,7 +138,9 @@ def upstream_page() -> str:
 		" Restart the bench after it.\n"
 		"4. Run `scripts/overrides.py --check`, the gates, the browser screens and the"
 		" demo checks (a fresh install and demo build is the surest), and fix what"
-		" broke.\n"
+		" broke. Then `python scripts/atlas.py --snapshot`: a record type, report or"
+		" page upstream added fails `tests/guards/test_atlas.py` until it is placed or"
+		" answered (docs/ATLAS.md).\n"
 		"5. Close every item in the note: tick it and say, after a dash, what was done:"
 		" **Kept** (still right as it is), **Corrected** (we changed ours to follow),"
 		" **Adopted** (we now use what upstream added), **Not for us**, or **Later**"
@@ -157,7 +160,7 @@ def upstream_page() -> str:
 	return "".join(out)
 
 
-PAGES = {"MODULES.md": modules_page, "UPSTREAM.md": upstream_page}
+PAGES = {"MODULES.md": modules_page, "UPSTREAM.md": upstream_page, "ATLAS.md": atlas.page}
 
 
 def main() -> int:

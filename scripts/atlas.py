@@ -1,0 +1,424 @@
+"""The atlas: every record type, report and page frappe, erpnext and hrms ship,
+and ours, with where One reaches it, or the answer for why it does not.
+
+Upstream is read once into a snapshot (docs/upstream/atlas.json) so the
+guards run without a bench. One's side is read from this repository: the
+rails, the workspaces, each Home's directory, every route our code opens, and
+then every visible link on a form already reached, until nothing new is.
+
+    python scripts/atlas.py --snapshot   read the bench into the snapshot
+    python scripts/atlas.py --check      fail when the snapshot is not the bench's
+"""
+
+import argparse
+import ast
+import json
+import re
+import sys
+from functools import cache
+from pathlib import Path
+from urllib.parse import unquote
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import tree
+
+BENCH = Path("/home/frappe/bench1/apps")
+APPS = ("frappe", "erpnext", "hrms")
+SNAPSHOT = tree.ROOT / "docs" / "upstream" / "atlas.json"
+FRONTEND = tree.ROOT / "frontend" / "src"
+
+#: Field types a person clicks through to another record. A hidden or
+#: read-only one is no way in: nobody can pick or make a record from it.
+LINKS = ("Link", "Table MultiSelect")
+TABLES = ("Table", "Table MultiSelect")
+#: Words that name the upstream product to whoever reads a screen.
+BRAND = re.compile(r"\b(ERPNext|Frappe|HRMS)\b")
+
+
+# ------------------------------------------------------------------ reading a doctype
+
+
+def _doctype(data: dict, app: str) -> dict:
+	fields = data.get("fields") or []
+	return {
+		"app": app,
+		"module": data.get("module"),
+		"table": int(bool(data.get("istable"))),
+		"single": int(bool(data.get("issingle"))),
+		"links": sorted(
+			[f["fieldname"], f["options"], int(bool(f.get("hidden") or f.get("read_only")))]
+			for f in fields
+			if f.get("fieldtype") in LINKS and f.get("options")
+		),
+		"tables": sorted(
+			[f["fieldname"], f["options"], int(bool(f.get("hidden")))]
+			for f in fields
+			if f.get("fieldtype") in TABLES and f.get("options")
+		),
+		"fields": sum(
+			1 for f in fields if f.get("fieldtype") not in ("Section Break", "Column Break", "Tab Break")
+		),
+		"roles": sorted(
+			{p["role"] for p in data.get("permissions") or [] if p.get("read") and not p.get("permlevel")}
+		),
+		"brand": sorted(
+			{
+				text
+				for text in [data.get("description") or ""]
+				+ [f.get(key) or "" for f in fields for key in ("label", "description")]
+				if BRAND.search(text)
+			}
+		),
+	}
+
+
+_ITEMS = re.compile(r"[\"']items[\"']\s*:\s*\[([^\]]*)\]")
+_QUOTED = re.compile(r"[\"']([^\"']+)[\"']")
+
+
+def _connections(folder: Path) -> list[str]:
+	"""The records a form's Connections tab lists (<doctype>_dashboard.py)."""
+	board = folder / f"{folder.name}_dashboard.py"
+	if not board.exists():
+		return []
+	return sorted({name for items in _ITEMS.findall(board.read_text()) for name in _QUOTED.findall(items)})
+
+
+def _read(app_dir: Path, app: str) -> dict:
+	said = {"doctypes": {}, "reports": {}, "pages": {}}
+	for path in sorted(app_dir.glob("*/doctype/*/*.json")):
+		data = json.loads(path.read_text())
+		if isinstance(data, dict) and data.get("doctype") == "DocType" and path.stem == path.parent.name:
+			said["doctypes"][data["name"]] = {**_doctype(data, app), "connections": _connections(path.parent)}
+	for path in sorted(app_dir.glob("*/report/*/*.json")):
+		data = json.loads(path.read_text())
+		if isinstance(data, dict) and data.get("doctype") == "Report" and path.stem == path.parent.name:
+			said["reports"][data["name"]] = {
+				"app": app,
+				"module": data.get("module"),
+				"ref": data.get("ref_doctype"),
+				"type": data.get("report_type"),
+				"roles": sorted({r["role"] for r in data.get("roles") or []}),
+				"brand": [data["name"]] if BRAND.search(data["name"]) else [],
+			}
+	for path in sorted(app_dir.glob("*/page/*/*.json")):
+		data = json.loads(path.read_text())
+		if isinstance(data, dict) and data.get("doctype") == "Page" and path.stem == path.parent.name:
+			title = data.get("title") or data["name"]
+			said["pages"][data["name"]] = {
+				"app": app,
+				"module": data.get("module"),
+				"title": title,
+				"roles": sorted({r["role"] for r in data.get("roles") or []}),
+				"brand": [title] if BRAND.search(title) else [],
+			}
+	return said
+
+
+def snapshot() -> dict:
+	"""frappe, erpnext and hrms as the bench has them."""
+	out = {"doctypes": {}, "reports": {}, "pages": {}}
+	for app in APPS:
+		said = _read(BENCH / app / app, app)
+		for kind in out:
+			out[kind].update(said[kind])
+	return out
+
+
+@cache
+def upstream() -> dict:
+	return json.loads(SNAPSHOT.read_text())
+
+
+@cache
+def ours() -> dict:
+	return _read(tree.APP, "onedesk")
+
+
+def everything() -> dict:
+	both = {kind: {**upstream()[kind], **ours()[kind]} for kind in ("doctypes", "reports", "pages")}
+	_customized(both["doctypes"])
+	return both
+
+
+def _customized(doctypes: dict) -> None:
+	"""Our custom fields add links and tables; our property setters hide fields."""
+	for path in tree.APP.glob("*/custom/*.json"):
+		data = json.loads(path.read_text())
+		meta = doctypes.get(data.get("doctype"))
+		if not meta:
+			continue
+		for field in data.get("custom_fields") or []:
+			row = [
+				field["fieldname"],
+				field.get("options"),
+				int(bool(field.get("hidden") or field.get("read_only"))),
+			]
+			if field.get("fieldtype") in LINKS and field.get("options"):
+				meta["links"].append(row)
+			if field.get("fieldtype") in TABLES and field.get("options"):
+				meta["tables"].append(row)
+		hidden = {
+			ps["field_name"]
+			for ps in data.get("property_setters") or []
+			if ps.get("property") in ("hidden", "read_only") and str(ps.get("value")) == "1"
+		}
+		for rows in (meta["links"], meta["tables"]):
+			for row in rows:
+				if row[0] in hidden:
+					row[2] = 1
+
+
+# ------------------------------------------------------------------ where One reaches things
+
+_SLUG = re.compile(r"/desk/([a-z0-9-]+)")
+_REPORT_URL = re.compile(r"query-report/([^\"'`?#/]+)")
+_ROUTED = re.compile(
+	r"""set_route\(\s*["'](?:List|Form|Tree|Report|query-report)["']\s*,\s*["']([^"']+)["']"""
+)
+_NEW = re.compile(r"""new_doc\(\s*["']([^"']+)["']""")
+_DIRECTORY = re.compile(r"""_lt\("[^"]*"\),\s*"(DocType|Report|Page|Masters)",\s*"([^"]+)\"""")
+
+
+def _slug(name: str) -> str:
+	return name.lower().replace(" ", "-").replace("_", "-")
+
+
+def named() -> dict:
+	"""What One names a way into: {(kind, name): [where]}."""
+	found: dict = {}
+
+	def add(kind, name, where):
+		found.setdefault((kind, name), []).append(where)
+
+	for path in sorted(tree.APP.glob("*/sidebar/*/*.json")):
+		data = json.loads(path.read_text())
+		for row in data.get("items") or []:
+			if row.get("type") == "Link" and row.get("link_to"):
+				add(row.get("link_type") or "DocType", row["link_to"], f"{data['title']}'s rail")
+	for path in sorted(tree.APP.glob("*/workspace/*/*.json")):
+		data = json.loads(path.read_text())
+		for row in (data.get("links") or []) + (data.get("shortcuts") or []):
+			if row.get("link_to"):
+				add(
+					row.get("link_type") or row.get("type") or "DocType",
+					row["link_to"],
+					f"{data['name']} workspace",
+				)
+		for row in data.get("quick_lists") or []:
+			if row.get("document_type"):
+				add("DocType", row["document_type"], f"{data['name']} workspace")
+	for path in sorted(tree.APP.rglob("*.py")):
+		if "one_demo" in path.parts or "__pycache__" in path.parts:
+			continue
+		for kind, name in _DIRECTORY.findall(path.read_text()):
+			add("DocType" if kind == "Masters" else kind, name, f"{path.parent.name}'s Home")
+	return found
+
+
+def routed() -> dict:
+	"""Records our screens and scripts open by route: {(kind, name): [file]}."""
+	slugs = {}
+	for name in everything()["doctypes"]:
+		slugs.setdefault(_slug(name), name)
+	pages = {_slug(name): name for name in everything()["pages"]}
+	found: dict = {}
+	paths = [p for p in tree.sources() if "one_demo" not in p.parts]
+	paths += [p for p in FRONTEND.rglob("*") if p.suffix in (".vue", ".js")]
+	for path in paths:
+		text = path.read_text(errors="ignore")
+		where = str(path.relative_to(tree.ROOT))
+		for slug in _SLUG.findall(text):
+			if slug in slugs:
+				found.setdefault(("DocType", slugs[slug]), []).append(where)
+			elif slug in pages:
+				found.setdefault(("Page", pages[slug]), []).append(where)
+		for name in _REPORT_URL.findall(text):
+			found.setdefault(("Report", unquote(name)), []).append(where)
+		for name in _ROUTED.findall(text) + _NEW.findall(text):
+			found.setdefault(("DocType", name), []).append(where)
+			found.setdefault(("Report", name), []).append(where)
+	return found
+
+
+def reach() -> dict:
+	"""How each record type, report and page is reached:
+	{(kind, name): (how, where)}. `named` and `routed` are ways in somebody
+	sees; `linked`, `connected` and `related` are ways in somebody finds."""
+	every = everything()
+	doctypes = every["doctypes"]
+	out = {}
+	for (kind, name), where in named().items():
+		out[(kind, name)] = ("named", sorted(set(where)))
+	for (kind, name), where in routed().items():
+		out.setdefault((kind, name), ("routed", sorted(set(where))))
+	# A form reached opens every record its visible links name, and its tables',
+	# and its Connections tab lists more; a record on a page of our own has none.
+	pages = paged()
+	queue = [name for (kind, name) in out if kind == "DocType" and name in doctypes]
+	while queue:
+		name = queue.pop()
+		meta = doctypes.get(name) or {}
+		parts = [name] + [child for _, child, hidden in meta.get("tables", []) if not hidden]
+		for part in parts:
+			for fieldname, target, hidden in (doctypes.get(part) or {}).get("links", []):
+				if hidden or target not in doctypes or ("DocType", target) in out:
+					continue
+				out[("DocType", target)] = ("linked", [f"{name}: {fieldname}"])
+				queue.append(target)
+		if name in pages:
+			continue
+		for target in meta.get("connections", []):
+			if target in doctypes and ("DocType", target) not in out:
+				out[("DocType", target)] = ("connected", [f"{name}'s Connections"])
+				queue.append(target)
+	# A list reached offers, under Related Reports, every report made for it
+	# and every report made for none (frappe's list_view_select.js).
+	for name, meta in every["reports"].items():
+		ref = meta.get("ref")
+		if ("Report", name) not in out and (not ref or ("DocType", ref) in out):
+			out[("Report", name)] = ("related", [f"{ref}'s list" if ref else "every list"])
+	return {key: value for key, value in out.items() if key[0] in KINDS and key[1] in every[KINDS[key[0]]]}
+
+
+KINDS = {"DocType": "doctypes", "Report": "reports", "Page": "pages"}
+
+
+@cache
+def paged() -> frozenset:
+	"""Records with a page of their own (one/tiers.py PAGES), which has no
+	Connections tab."""
+	tree_ = ast.parse((tree.APP / "one" / "tiers.py").read_text())
+	for node in tree_.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "PAGES":
+			return frozenset(ast.literal_eval(node.value))
+	return frozenset()
+
+
+def rows() -> list[dict]:
+	"""Every record type (not a child table), report and page, with its reach."""
+	every = everything()
+	reached = reach()
+	out = []
+	for kind, key in KINDS.items():
+		for name, meta in sorted(every[key].items()):
+			if kind == "DocType" and meta["table"]:
+				continue
+			how = reached.get((kind, name))
+			out.append(
+				{"kind": kind, "name": name, "app": meta["app"], "module": meta["module"], "reach": how}
+			)
+	return out
+
+
+@cache
+def answers() -> dict:
+	"""onedesk/one/atlas.py ANSWERS, read without importing the app."""
+	module = ast.parse((tree.APP / "one" / "atlas.py").read_text())
+	names = {}
+	for node in module.body:
+		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant):
+			names[node.targets[0].id] = node.value.value
+	for node in module.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "ANSWERS":
+			said = {}
+			for key, value in zip(node.value.keys, node.value.values, strict=True):
+				kind = value.elts[0]
+				said[ast.literal_eval(key)] = (
+					names[kind.id] if isinstance(kind, ast.Name) else kind.value,
+					ast.literal_eval(value.elts[1]),
+				)
+			return said
+	return {}
+
+
+def waiting() -> dict:
+	"""What has neither a way in nor an answer, by app and module."""
+	said = answers()
+	out = {}
+	for row in rows():
+		if not row["reach"] and (row["kind"], row["name"]) not in said:
+			out.setdefault(f"{row['app']} / {row['module']}", []).append(f"{row['kind']} {row['name']}")
+	return out
+
+
+SEEN = {"named": "On a rail or a Home", "routed": "Opened by our screens"}
+FOUND = {
+	"linked": "Through a form's link",
+	"connected": "Through a form's Connections",
+	"related": "Under a list's Related Reports",
+}
+HEADER = "<!-- generated by scripts/atlas.py through scripts/docs.py — do not edit -->\n"
+
+
+def page() -> str:
+	said = answers()
+	by_module: dict = {}
+	for row in rows():
+		by_module.setdefault((row["app"], row["module"] or ""), []).append(row)
+	lines = [
+		HEADER,
+		"# The atlas",
+		"",
+		"Every record type, report and page frappe, erpnext and hrms ship, and One's own, with",
+		"how a person reaches it in One. Upstream is read from `docs/upstream/atlas.json`",
+		"(`python scripts/atlas.py --snapshot`), One from this repository. A way in is",
+		"**seen** when a rail, a Home or one of our screens names it, **found** when only a",
+		"form's link, its Connections tab or a list's Related Reports leads there. Anything",
+		"with neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decision;",
+		"`tests/guards/test_atlas.py` holds the count waiting in each module, which only falls.",
+		"",
+		"| App | Seen | Found | Answered | Waiting |",
+		"|---|---|---|---|---|",
+	]
+	for app in ("onedesk", *APPS):
+		mine = [r for (a, _), rs in by_module.items() if a == app for r in rs]
+		seen = sum(1 for r in mine if r["reach"] and r["reach"][0] in SEEN)
+		found = sum(1 for r in mine if r["reach"] and r["reach"][0] in FOUND)
+		answered = sum(1 for r in mine if not r["reach"] and (r["kind"], r["name"]) in said)
+		lines.append(f"| {app} | {seen} | {found} | {answered} | {len(mine) - seen - found - answered} |")
+	for (app, module), mine in sorted(by_module.items()):
+		lines += ["", f"## {app} / {module or 'no module'}", ""]
+		groups: dict = {}
+		for r in mine:
+			how = r["reach"][0] if r["reach"] else None
+			label = r["name"] if r["kind"] == "DocType" else f"{r['name']} ({r['kind'].lower()})"
+			if how in SEEN:
+				groups.setdefault(SEEN[how], []).append(label)
+			elif how in FOUND:
+				groups.setdefault(FOUND[how], []).append(f"{label} ({r['reach'][1][0]})")
+			elif (r["kind"], r["name"]) in said:
+				kind, why = said[(r["kind"], r["name"])]
+				groups.setdefault("Answered", []).append(f"{label}: {kind}, {why}")
+			else:
+				groups.setdefault("**Waiting**", []).append(label)
+		for title in (*SEEN.values(), *FOUND.values(), "Answered", "**Waiting**"):
+			if groups.get(title):
+				lines.append(f"- {title}: " + "; ".join(groups[title]) + ".")
+	return "\n".join(lines) + "\n"
+
+
+def main() -> int:
+	args = argparse.ArgumentParser()
+	args.add_argument("--snapshot", action="store_true")
+	args.add_argument("--check", action="store_true")
+	opts = args.parse_args()
+	if opts.snapshot:
+		SNAPSHOT.write_text(json.dumps(snapshot(), sort_keys=True, separators=(",", ":")) + "\n")
+		print(f"wrote {SNAPSHOT.relative_to(tree.ROOT)}")
+		return 0
+	if opts.check:
+		if not BENCH.exists():
+			print("no bench here; the snapshot is checked where there is one")
+			return 0
+		if json.loads(SNAPSHOT.read_text()) != snapshot():
+			print("stale: docs/upstream/atlas.json. Run `python scripts/atlas.py --snapshot`.")
+			return 1
+		return 0
+	args.print_help()
+	return 0
+
+
+if __name__ == "__main__":
+	sys.exit(main())
