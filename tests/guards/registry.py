@@ -527,6 +527,30 @@ GUARDS = [
 		"a screen of ours listing a company's records without the reader's company, beyond its count",
 		"tests/guards/test_atlas.py::test_a_screen_lists_the_readers_company",
 	),
+	Guard(
+		"atlas-demo",
+		1,
+		"a record type a person reaches that the demo has none of, beyond each module's count",
+		"tests/guards/test_atlas.py::test_the_demo_has_one_of_everything_reached",
+	),
+	Guard(
+		"atlas-printed",
+		11,
+		"a document sent to a customer or supplier on a print not ours, beyond each module's count",
+		"tests/guards/test_atlas.py::test_what_goes_out_prints_from_ours",
+	),
+	Guard(
+		"atlas-list",
+		5,
+		"a list that says nothing but a number, beyond each module's count",
+		"tests/guards/test_atlas.py::test_a_list_says_more_than_a_number",
+	),
+	Guard(
+		"atlas-english",
+		12,
+		"a label on a reached form still English in Arabic or German, beyond each module's count",
+		"tests/guards/test_atlas.py::test_what_is_reached_reads_in_every_language",
+	),
 	# 7 Extensible
 	Guard(
 		"page-places",

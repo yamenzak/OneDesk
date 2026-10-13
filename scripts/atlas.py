@@ -30,7 +30,7 @@ APPS = ("frappe", "erpnext", "hrms")
 SNAPSHOT = tree.ROOT / "docs" / "upstream" / "atlas.json"
 #: Who may read what on the demo site, every grant of One's applied
 #: (one/reach.py `atlas`). A demo check keeps it the site's.
-ROLES = tree.ROOT / "docs" / "atlas-roles.json"
+ROLES = tree.ROOT / "docs" / "atlas-site.json"
 SITE = os.environ.get("ONE_SITE", "onedesk.localhost")
 FRONTEND = tree.ROOT / "frontend" / "src"
 
@@ -75,6 +75,14 @@ def _doctype(data: dict, app: str) -> dict:
 				+ [f.get(key) or "" for f in fields for key in ("label", "description")]
 				if BRAND.search(text)
 			}
+		),
+		"submittable": int(bool(data.get("is_submittable"))),
+		"title": data.get("title_field") or "",
+		"autoname": data.get("autoname") or "",
+		"listed": sorted(f["fieldname"] for f in fields if f.get("in_list_view") and not f.get("hidden")),
+		# What a person reads on its form: its name and every visible label.
+		"labels": sorted(
+			{data["name"]} | {f["label"] for f in fields if f.get("label") and not f.get("hidden")}
 		),
 	}
 
@@ -164,12 +172,29 @@ def _brand(app_dir: Path) -> dict:
 
 def snapshot() -> dict:
 	"""frappe, erpnext and hrms as the bench has them."""
-	out = {"doctypes": {}, "reports": {}, "pages": {}, "brand": {}}
+	out = {"doctypes": {}, "reports": {}, "pages": {}, "brand": {}, "notifications": {}}
+	translated = {lang: set() for lang in LANGUAGES}
 	for app in APPS:
 		said = _read(BENCH / app / app, app)
 		for kind in ("doctypes", "reports", "pages"):
 			out[kind].update(said[kind])
 		out["brand"].update(_brand(BENCH / app / app))
+		for lang in LANGUAGES:
+			translated[lang] |= {
+				msgid for (msgid, _), text in _po(BENCH / app / app / "locale" / f"{lang}.po").items() if text
+			}
+		for path in sorted((BENCH / app / app).glob("*/notification/*/*.json")):
+			data = json.loads(path.read_text())
+			if isinstance(data, dict) and data.get("doctype") == "Notification":
+				out["notifications"][data["name"]] = {
+					"doctype": data.get("document_type"),
+					"enabled": int(bool(data.get("enabled"))),
+				}
+	# Each label upstream leaves in English, by language.
+	for meta in out["doctypes"].values():
+		meta["untranslated"] = {
+			lang: [label for label in meta["labels"] if label not in translated[lang]] for lang in LANGUAGES
+		}
 	return out
 
 
@@ -183,6 +208,7 @@ def ours() -> dict:
 	return _read(tree.APP, "onedesk")
 
 
+@cache
 def everything() -> dict:
 	both = {kind: {**upstream()[kind], **ours()[kind]} for kind in ("doctypes", "reports", "pages")}
 	_customized(both["doctypes"])
@@ -232,6 +258,7 @@ def _slug(name: str) -> str:
 	return name.lower().replace(" ", "-").replace("_", "-")
 
 
+@cache
 def named() -> dict:
 	"""What One names a way into: {(kind, name): [where]}."""
 	found: dict = {}
@@ -264,6 +291,7 @@ def named() -> dict:
 	return found
 
 
+@cache
 def routed() -> dict:
 	"""Records our screens and scripts open by route: {(kind, name): [file]}."""
 	slugs = {}
@@ -289,6 +317,7 @@ def routed() -> dict:
 	return found
 
 
+@cache
 def reach() -> dict:
 	"""How each record type, report and page is reached:
 	{(kind, name): (how, where)}. `named` and `routed` are ways in somebody
@@ -343,6 +372,7 @@ def paged() -> frozenset:
 	return frozenset()
 
 
+@cache
 def rows() -> list[dict]:
 	"""Every record type (not a child table), report and page, with its reach."""
 	every = everything()
@@ -380,6 +410,7 @@ def answers() -> dict:
 	return {}
 
 
+@cache
 def waiting() -> dict:
 	"""What has neither a way in nor an answer, by app and module."""
 	said = answers()
@@ -588,7 +619,7 @@ def page() -> str:
 		"Every record type, report and page frappe, erpnext and hrms ship, and One's own, with",
 		"how a person reaches it in One. Upstream is read from `docs/upstream/atlas.json`",
 		"(`python scripts/atlas.py --snapshot`), One from this repository, and who may open",
-		"what from the demo site (`docs/atlas-roles.json`, `--roles`). A way in is **seen**",
+		"what from the demo site (`docs/atlas-site.json`, `--site`). A way in is **seen**",
 		"when a rail, a Home or one of our screens names it, **found** when only a form's",
 		"link, its Connections tab or a list's Related Reports leads there. Anything with",
 		"neither is answered in `onedesk/one/atlas.py`, or **waiting** for a decision;",
@@ -597,7 +628,12 @@ def page() -> str:
 		"For each record type: who may open it (the apps whose roles read it), what One",
 		"changed (a page of our own, a head on the form, scripts, events, fields, settings),",
 		"whether a workspace's OneStudio may customize it, whether OneAI was taught it or",
-		"reads it with its general tools, and whether OneIntake makes it from a document.",
+		"reads it with its general tools, and whether OneIntake makes it from a document;",
+		"then the Passover points it can be read for: whether the demo has one, whether a",
+		"document sent to a customer or supplier prints from a format of ours, whether its",
+		"list says more than a number, how many of its labels are still English in Arabic",
+		"and German, and what One sends about it (One's notifications and upstream's",
+		"Notification records; emails upstream sends from its own code are not read).",
 		"Every sentence upstream says naming ERPNext, Frappe or HRMS reads One",
 		"(`onedesk/translations/`, `--brand`), but for the outside names in `OUTSIDE`.",
 		"",
@@ -616,14 +652,22 @@ def page() -> str:
 		types = [r for r in mine if r["kind"] == "DocType"]
 		if types:
 			lines += [
-				"| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake |",
-				"|---|---|---|---|---|---|---|",
+				"| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |",
+				"|---|---|---|---|---|---|---|---|---|---|---|---|",
 			]
 			for r in types:
 				who = open_to("DocType", r["name"])
 				shown = "not read" if who is None else (", ".join(who) or "**nobody**")
+				meta = everything()["doctypes"][r["name"]]
+				demo = "" if meta["single"] else ("yes" if kept(r["name"]) else "**none**")
+				prints = ("ours" if printed(r["name"]) else "**theirs**") if goes_out(r["name"]) else ""
+				english = ", ".join(
+					f"{lang} {len(labels)}" for lang, labels in untranslated(r["name"]).items() if labels
+				)
 				lines.append(
-					f"| {r['name']} | {_way(r, said)} | {shown} | {changed(r['name'])} | {studio(r['name'])} | {ai(r['name'])} | {intake(r['name'])} |"
+					f"| {r['name']} | {_way(r, said)} | {shown} | {changed(r['name'])} | {studio(r['name'])} | {ai(r['name'])} "
+					f"| {intake(r['name'])} | {demo} | {prints} | {'**only an ID**' if only_an_id(r['name']) else ''} "
+					f"| {english} | {', '.join(sends(r['name']))} |"
 				)
 		for kind in ("Report", "Page"):
 			others = [r for r in mine if r["kind"] == kind]
@@ -633,6 +677,148 @@ def page() -> str:
 					f"{kind}s: " + "; ".join(f"{r['name']} ({_way(r, said)})" for r in others) + ".",
 				]
 	return "\n".join(lines) + "\n"
+
+
+# ------------------------------------------------------------------ the Passover points, per record type
+
+#: Who a document goes out to: a submitted one naming either is printed and
+#: sent. A person's own papers (an offer, a payslip) are tests/guards/test_print.py's.
+PARTIES = ("Customer", "Supplier")
+
+
+def kept(name: str) -> bool:
+	"""Point 1: the demo has one, so a walk sees it with something in it."""
+	return name in set(readers().get("kept", []))
+
+
+@cache
+def _our_prints() -> frozenset:
+	return frozenset(
+		json.loads(path.read_text()).get("doc_type") for path in tree.APP.glob("*/print_format/*/*.json")
+	)
+
+
+def goes_out(name: str) -> bool:
+	meta = everything()["doctypes"][name]
+	named = any(target in PARTIES for _, target, _ in meta["links"])
+	return bool(meta.get("submittable")) and named and name not in _module_dict("NOT_SENT")
+
+
+def printed(name: str) -> bool:
+	"""Point 11: it prints from a format of ours."""
+	return name in _our_prints()
+
+
+@cache
+def _list_setters() -> dict:
+	"""{doctype: {"title": field, "listed": {field: shown}}} from our property setters."""
+	out: dict = {}
+	for path in tree.APP.glob("*/custom/*.json"):
+		data = json.loads(path.read_text())
+		for ps in data.get("property_setters") or []:
+			row = out.setdefault(ps.get("doc_type") or data.get("doctype"), {"listed": {}})
+			if ps.get("property") == "title_field":
+				row["title"] = ps.get("value")
+			elif ps.get("property") == "in_list_view":
+				row["listed"][ps.get("field_name")] = str(ps.get("value")) == "1"
+		for field in data.get("custom_fields") or []:
+			if field.get("in_list_view"):
+				out.setdefault(data.get("doctype"), {"listed": {}})["listed"][field["fieldname"]] = True
+	return out
+
+
+def only_an_id(name: str) -> bool:
+	"""Point 5: its list says nothing but a number: no title, no column, and a
+	name made by a series, a hash or a counter."""
+	meta = everything()["doctypes"][name]
+	ours_ = _list_setters().get(name, {"listed": {}})
+	listed = {f for f in meta.get("listed", []) if ours_["listed"].get(f, True)} | {
+		f for f, shown in ours_["listed"].items() if shown
+	}
+	title = ours_.get("title", meta.get("title"))
+	naming = meta.get("autoname") or ""
+	meaningful = (
+		naming.startswith(("field:", "prompt", "Prompt")) or (naming == "" and not meta.get("submittable"))
+	)
+	return not title and not listed and not meaningful
+
+
+@cache
+def _our_words() -> dict:
+	"""Every label One translates itself, by language: its po and its translations."""
+	out = {}
+	for lang in LANGUAGES:
+		said = {msgid for (msgid, _), text in _po(tree.APP / "locale" / f"{lang}.po").items() if text}
+		said |= {msgid for msgid, _, _ in rebranded()[lang]}
+		words = WORDS / f"{lang}.csv"
+		if words.exists():
+			import csv
+
+			said |= {row[0] for row in csv.reader(words.read_text().splitlines()) if row}
+		out[lang] = said
+	return out
+
+
+def untranslated(name: str) -> dict:
+	"""Point 12: the labels on its form still in English, by language."""
+	meta = everything()["doctypes"][name]
+	return {
+		lang: [label for label in labels if label not in _our_words()[lang]]
+		for lang, labels in (meta.get("untranslated") or {}).items()
+	}
+
+
+@cache
+def _sent() -> dict:
+	"""Point 10: {doctype: [what is sent about it]}: One's notify() calls, and
+	upstream's own Notifications that are on."""
+	out: dict = {}
+	for path in tree.python():
+		if "one_demo" in path.parts:
+			continue
+		for node in ast.walk(ast.parse(path.read_text())):
+			if not isinstance(node, ast.Call):
+				continue
+			fn = node.func.attr if isinstance(node.func, ast.Attribute) else getattr(node.func, "id", "")
+			if fn != "notify" or not node.args or not isinstance(node.args[0], ast.Constant):
+				continue
+			for kw in node.keywords:
+				if (
+					kw.arg == "record"
+					and isinstance(kw.value, ast.Tuple)
+					and isinstance(kw.value.elts[0], ast.Constant)
+				):
+					out.setdefault(kw.value.elts[0].value, set()).add(node.args[0].value)
+	for name, one in upstream().get("notifications", {}).items():
+		if one["enabled"] and one["doctype"]:
+			out.setdefault(one["doctype"], set()).add(f"{name} (theirs)")
+	return {doctype: sorted(names) for doctype, names in out.items()}
+
+
+def sends(name: str) -> list[str]:
+	return _sent().get(name, [])
+
+
+@cache
+def points() -> dict:
+	"""{check: {"app / module": [names]}} for every record type a person
+	reaches: none in the demo, sent out on another's print, a list of bare
+	numbers, and labels still in English (one entry per label and language)."""
+	out = {"empty": {}, "unprinted": {}, "only_an_id": {}, "english": {}}
+	every = everything()["doctypes"]
+	for row in rows():
+		if row["kind"] != "DocType" or not row["reach"] or every[row["name"]]["single"]:
+			continue
+		where, name = f"{row['app']} / {row['module']}", row["name"]
+		if not kept(name):
+			out["empty"].setdefault(where, []).append(name)
+		if goes_out(name) and not printed(name):
+			out["unprinted"].setdefault(where, []).append(name)
+		if only_an_id(name):
+			out["only_an_id"].setdefault(where, []).append(name)
+		for lang, labels in untranslated(name).items():
+			out["english"].setdefault(where, []).extend(f"{name}: {label} ({lang})" for label in labels)
+	return {check: {k: v for k, v in said.items() if v} for check, said in out.items()}
 
 
 # ------------------------------------------------------------------ our screens
@@ -741,6 +927,7 @@ def method_reads(method: str) -> tuple[bool, list[tuple[str, bool]]]:
 	return marked or not writes, reads
 
 
+@cache
 def screens() -> list[dict]:
 	"""Every island screen: what its server reads, what it hears change, the
 	numbers it prints bare, and what it reads of a company's without one."""
@@ -817,6 +1004,7 @@ SWAPS = (
 SAID_BRAND = re.compile(r"ERPNext|Frappe|Frappé|HRMS|فرابي")
 
 
+@cache
 def _module_dict(name: str) -> dict:
 	module = ast.parse((tree.APP / "one" / "atlas.py").read_text())
 	for node in module.body:
@@ -838,6 +1026,7 @@ def _swap(text: str, outside: dict) -> str:
 	return text
 
 
+@cache
 def rebranded() -> dict:
 	"""{lang: [(msgid, said, context)]}: every upstream sentence that names a
 	brand, as One says it in English, Arabic and German."""
@@ -860,8 +1049,12 @@ def rebranded() -> dict:
 
 
 TRANSLATIONS = tree.APP / "translations"
+#: Labels of theirs One translates where they never did, kept by hand,
+#: "msgid,translation" a line; folded into translations/<lang>.csv.
+WORDS = TRANSLATIONS / "words"
 
 
+@cache
 def translation_files() -> dict:
 	"""What onedesk/translations/<lang>.csv hold: frappe reads them after
 	every app's own, so One's words win."""
@@ -874,7 +1067,8 @@ def translation_files() -> dict:
 		writer = csv.writer(buffer, lineterminator="\n")
 		for msgid, text, context in rows:
 			writer.writerow([msgid.replace("\n", "\\n"), text.replace("\n", "\\n"), context])
-		files[lang] = buffer.getvalue()
+		words = WORDS / f"{lang}.csv"
+		files[lang] = buffer.getvalue() + (words.read_text() if words.exists() else "")
 	return files
 
 
@@ -883,9 +1077,9 @@ def main() -> int:
 	args.add_argument("--snapshot", action="store_true")
 	args.add_argument("--check", action="store_true")
 	args.add_argument("--brand", action="store_true")
-	args.add_argument("--roles", action="store_true")
+	args.add_argument("--site", action="store_true")
 	opts = args.parse_args()
-	if opts.roles:
+	if opts.site:
 		setup = os.environ.get("ONE_BENCH_ENV")
 		cmd = (
 			f". {setup} && " if setup else ""

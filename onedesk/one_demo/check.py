@@ -5346,7 +5346,7 @@ def oneinventory_new_item_parts_list_and_sizes():
 
 @check
 def one_atlas_knows_who_may_open_what():
-	"""docs/atlas-roles.json is this site's: who may read each record type,
+	"""docs/atlas-site.json is this site's: what it has and who may read each record type,
 	report and page, every grant of One's applied, which docs/ATLAS.md says
 	and tests/guards/test_atlas.py holds."""
 	import json
@@ -5354,10 +5354,10 @@ def one_atlas_knows_who_may_open_what():
 
 	from onedesk.one import reach
 
-	path = os.path.join(frappe.get_app_path("onedesk"), "..", "docs", "atlas-roles.json")
+	path = os.path.join(frappe.get_app_path("onedesk"), "..", "docs", "atlas-site.json")
 	with open(path) as f:
 		kept = json.load(f)
-	assert reach.atlas() == kept, "run python scripts/atlas.py --roles"
+	assert reach.atlas() == kept, "run python scripts/atlas.py --site"
 	# One's words for theirs: frappe reads onedesk/translations after every app.
 	from frappe.translate import get_all_translations
 

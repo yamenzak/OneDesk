@@ -160,7 +160,11 @@ English, Arabic and German, but for the outside names kept on purpose.
 And each of our own screens is read for what its server lists: every one it
 does not hear change, every number it prints bare, and every company's
 record it lists without the reader's company, each held to a count that only
-falls.
+falls. Five of the points are read for every record type a person reaches as
+well: point 1, the demo has one; point 11, a document sent to a customer or
+supplier prints from a format of ours; point 5, its list says more than a
+number; point 12, its labels read in Arabic and German; and point 10, what is
+sent about it is listed. The first four are held to counts that only fall.
 
 **Changing a field where it is shown.** A field on a page is changed where it
 is shown, not in a dialog, and it is the record's own form field (set by the

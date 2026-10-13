@@ -93,7 +93,8 @@ def unopened(sidebars: dict | None) -> None:
 
 def atlas() -> dict:
 	"""Who may read each record type, report and page on this site, with every
-	grant One makes applied, for scripts/atlas.py --roles."""
+	grant One makes applied, and which record types it has any of, for
+	scripts/atlas.py --site."""
 	doctypes = {}
 	for name in frappe.get_all("DocType", filters={"istable": 0}, pluck="name"):
 		doctypes[name] = sorted(_readers(name))
@@ -105,4 +106,12 @@ def atlas() -> dict:
 	pages = {}
 	for name in frappe.get_all("Page", pluck="name"):
 		pages[name] = sorted(frappe.get_all("Has Role", {"parent": name, "parenttype": "Page"}, pluck="role"))
-	return {"doctypes": doctypes, "reports": reports, "pages": pages}
+	# What the demo keeps at least one of, so a walk sees each with something in it.
+	kept = sorted(
+		name
+		for name in doctypes
+		if not frappe.get_meta(name).issingle
+		and not frappe.get_meta(name).is_virtual
+		and frappe.db.count(name, cache=False)
+	)
+	return {"doctypes": doctypes, "reports": reports, "pages": pages, "kept": kept}

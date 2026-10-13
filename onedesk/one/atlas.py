@@ -85,3 +85,16 @@ SAID = {
 		"Etwas, das Sie vor One gekauft haben, mit dem Preis, dem Ort und der bereits erfolgten Abschreibung.",
 	),
 }
+
+#: Documents naming a customer or supplier that are not sent to them, so need
+#: no print of ours (scripts/atlas.py `goes_out`).
+NOT_SENT = {
+	"Purchase Invoice": "the supplier's own bill, entered as it came",
+	"Supplier Quotation": "the supplier's prices, entered as they came",
+	"Supplier Scorecard Period": "how a supplier scored, kept by the buyers",
+	"Material Request": "goods asked for inside the company",
+	"Production Plan": "what the workshop plans to make",
+	"Asset": "the company's own equipment",
+	"Vehicle Log": "a company car's trips and fuel",
+	"Training Event": "a training the company runs for its people",
+}

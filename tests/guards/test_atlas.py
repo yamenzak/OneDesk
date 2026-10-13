@@ -136,9 +136,9 @@ def test_what_is_reached_is_open_to_somebody():
 
 
 def test_who_may_open_what_was_read():
-	"""docs/atlas-roles.json was read from the site; a demo check holds it to
+	"""docs/atlas-site.json was read from the site; a demo check holds it to
 	the site's (one_atlas_knows_who_may_open_what)."""
-	assert atlas.readers()["doctypes"].get("Item"), "run python scripts/atlas.py --roles"
+	assert atlas.readers()["doctypes"].get("Item"), "run python scripts/atlas.py --site"
 
 
 # ------------------------------------------------------------------ the brand
@@ -228,3 +228,110 @@ def test_the_screens_are_read():
 	"""The reader of screens still finds what Stock on Hand lists and hears."""
 	stock = next(one for one in atlas.screens() if one["screen"] == "stock")
 	assert "Bin" in stock["reads"] and "Bin" not in stock["unheard"]
+
+
+# ------------------------------------------------------------------ the Passover points, per record type
+
+#: Point 1. Record types a person reaches that the demo has none of.
+EMPTY = {
+	"erpnext / Accounts": 27,
+	"erpnext / Assets": 1,
+	"erpnext / CRM": 5,
+	"erpnext / Maintenance": 1,
+	"erpnext / Manufacturing": 4,
+	"erpnext / Projects": 1,
+	"erpnext / Regional": 1,
+	"erpnext / Selling": 4,
+	"erpnext / Setup": 4,
+	"erpnext / Stock": 5,
+	"erpnext / Subcontracting": 1,
+	"erpnext / Support": 4,
+	"frappe / Automation": 1,
+	"frappe / Core": 6,
+	"frappe / Desk": 1,
+	"frappe / Email": 3,
+	"frappe / Integrations": 5,
+	"frappe / Website": 5,
+	"frappe / Workflow": 2,
+	"hrms / HR": 32,
+	"hrms / Payroll": 9,
+	"onedesk / One": 1,
+	"onedesk / One AI": 2,
+	"onedesk / One Admin": 9,
+	"onedesk / One Calendar": 1,
+	"onedesk / One HR": 5,
+	"onedesk / One Mail": 1,
+	"onedesk / One Storage": 1,
+	"onedesk / One Studio": 1,
+}
+
+#: Point 11. Documents sent to a customer or supplier on a print not ours.
+UNPRINTED = {
+	"erpnext / Accounts": 4,
+	"erpnext / Maintenance": 1,
+	"erpnext / Selling": 2,
+	"erpnext / Stock": 1,
+	"erpnext / Subcontracting": 3,
+}
+
+#: Point 5. Lists that say nothing but a number.
+ONLY_AN_ID = {
+	"frappe / Core": 1,
+}
+
+#: Point 12. Labels on a reached form still English in Arabic or German,
+#: counted once for each language.
+ENGLISH = {
+	"erpnext / Accounts": 98,
+	"erpnext / Assets": 3,
+	"erpnext / Buying": 30,
+	"erpnext / CRM": 14,
+	"erpnext / Manufacturing": 92,
+	"erpnext / Projects": 48,
+	"erpnext / Selling": 52,
+	"erpnext / Setup": 44,
+	"erpnext / Stock": 49,
+	"erpnext / Subcontracting": 5,
+	"erpnext / Support": 6,
+	"frappe / Automation": 32,
+	"frappe / Core": 26,
+	"frappe / Desk": 33,
+	"frappe / Email": 4,
+	"frappe / Integrations": 6,
+	"frappe / Printing": 6,
+	"frappe / Website": 2,
+	"hrms / HR": 256,
+	"hrms / Payroll": 111,
+}
+
+
+def _point(check: str, allowed: dict) -> None:
+	now = atlas.points()[check]
+	grown = {m: names for m, names in now.items() if len(names) > allowed.get(m, 0)}
+	assert not grown, f"{check} grew: {grown}"
+	stale = {m: (len(now.get(m, [])), n) for m, n in allowed.items() if len(now.get(m, [])) < n}
+	assert not stale, f"lower {check.upper()} (now, written): {stale}"
+
+
+def test_the_demo_has_one_of_everything_reached():
+	_point("empty", EMPTY)
+
+
+def test_what_goes_out_prints_from_ours():
+	_point("unprinted", UNPRINTED)
+
+
+def test_a_list_says_more_than_a_number():
+	_point("only_an_id", ONLY_AN_ID)
+
+
+def test_what_is_reached_reads_in_every_language():
+	_point("english", ENGLISH)
+
+
+def test_the_points_are_read():
+	"""The readers still work: the demo has items, Putaway Rule has none, an
+	order prints from ours and the order sends Order Late."""
+	assert atlas.kept("Item") and not atlas.kept("Putaway Rule")
+	assert atlas.goes_out("Purchase Order") and atlas.printed("Purchase Order")
+	assert "Order Late" in atlas.sends("Purchase Order")

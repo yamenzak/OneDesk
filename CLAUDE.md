@@ -128,7 +128,7 @@ has no way in and no answer in `onedesk/one/atlas.py` beyond each module's
 waiting count, which only falls. When a walk reaches a module, bring its
 waiting count to zero: place each thing (rail, Home, Setup, a record's page)
 or answer it. After an upstream update, `python scripts/atlas.py --snapshot`
-then `--brand`; after a change to who may read what, `--roles`.
+then `--brand`; after a change to who may read what, `--site`.
 
 The atlas also says, for each record type, who may open it, how much One
 changed it, and whether OneStudio, OneAI and OneIntake reach it. Nothing a
@@ -137,7 +137,11 @@ of frappe's, erpnext's or hrms's names them: `onedesk/translations/` says One
 instead, generated, but for the outside names in `onedesk/one/atlas.py`
 `OUTSIDE`. Each of our screens is listed too, with what its server lists that it
 does not hear change, prints bare or lists without the reader's company; each
-count only falls.
+count only falls. And for every record type a person reaches: the demo has
+one, a document sent to a customer or supplier prints from ours (or is in
+`NOT_SENT`), its list says more than a number, its labels read in Arabic and
+German (a label they never translated goes in `onedesk/translations/words/`),
+and what it sends is listed. Each count only falls.
 
 ## Declare, don't code
 
