@@ -42,6 +42,30 @@
    "property_type": "Check",
    "value": "0",
    "field_name": "company"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "material_request_type"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Date",
+   "field_name": "transaction_date"
+  },
+  {
+   "doc_type": "Material Request",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "320",
+   "field_name": "title"
   }
  ],
  "sync_on_migrate": 1

@@ -396,7 +396,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Item Variant Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  | ar 1 |  |
 | Landed Cost Voucher | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Manufacturer | opened by our screens | OneInventory | events | yes | general |  | yes |  |  | ar 1 |  |
-| Material Request | on a rail or a home | OneInventory | a head, events, 1 fields, 5 settings | yes | taught |  | yes |  |  | ar 1 | Material Request Raised, Material Request Receipt Notification (theirs) |
+| Material Request | on a rail or a home | OneInventory | a head, events, list script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  | Material Request Raised, Material Request Receipt Notification (theirs) |
 | Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Pick List | on a rail or a home | OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
 | Price List | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -785,7 +785,7 @@ Pages: workflow-builder (**waiting**).
 | Interview Type | on a rail or a home | OneHR | untouched | yes | taught |  | yes |  |  | ar 4, de 1 |  |
 | Job Applicant | on a rail or a home | OneHR | events, 6 fields, 3 settings | yes | taught | makes it | yes |  |  | ar 4 |  |
 | Job Applicant Source | through a form's link (Job Applicant: source) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Job Offer | on a rail or a home | OneHR | 2 settings | yes | taught |  | yes |  |  | ar 2 |  |
+| Job Offer | on a rail or a home | OneHR | 2 settings | yes | taught |  | yes |  |  | ar 1 |  |
 | Job Offer Term Template | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Job Opening | on a rail or a home | OneHR | 1 fields, 1 settings | yes | taught |  | yes |  |  | ar 13, de 3 |  |
 | Job Opening Template | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 5, de 1 |  |

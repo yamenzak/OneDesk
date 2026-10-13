@@ -11830,7 +11830,8 @@ Reports and Setup.
 | Stock Counts | done |
 | Lots | done, redrawn after Odoo and Katana |
 | Buying › To Order | done, redrawn after Odoo's Replenishment |
-| Buying › Material Requests | next |
+| Buying › Material Requests | done |
+| Buying › Quotes | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12250,3 +12251,28 @@ warehouse.
 | 5 Our look | modelled on Odoo's Replenishment, one Badge, a table not a grid |
 | 8 Built from frappe | frappe-ui's List with its selection, Badge, Avatar and TabButtons |
 | What ERPNext already does | its reorder quantity and request links kept; one company's lines |
+
+
+**Material Requests.** Looked at as Karim, at 1440 wide and on a phone:
+frappe's list and ERPNext's form, a pending purchase request for the villa.
+
+- **The title cut to its first two words.** Every row read "Purchase
+  Request" and the rest was gone, with a Purpose column saying Purchase
+  again beside it. Purpose is off the list and stays a filter; the title is
+  320 wide; and the number column frappe adds once Purpose went is left
+  off, as on Receipts (`material_request_list.js`). It is still on hover
+  and in search.
+- **The item squeezed by a date said twice.** A request's lines each showed
+  Required By, which ERPNext copies from the request's own, and the item
+  was cut to "ALU-6063: Alumini". The line's date is off the table and
+  stays in the line's own form.
+- **Transaction Date** says Date, as the purchase order does.
+- **Still in English.** "Printing Details" had no Arabic; the atlas counted
+  it on Stock and HR both, and both counts fall.
+- The rest holds: the head (Asked By, Wanted By, Quotes 1 of 2, Ordered,
+  Received), Stop and Create, the phone rows.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | the title readable, nothing said twice |
+| Still in English | none left on Material Request |

@@ -346,7 +346,10 @@ same supplier.
    wanted.
    Its page says the **Project**, who **Asked By**, when it is **Wanted
    By** (in red once late), how many **Quotes** came in, and how much is
-   **Ordered** and **Received**.
+   **Ordered** and **Received**. The list leads with the title, which
+   already names the items and whether they are bought or made, so it has
+   no number or Purpose column; a request's lines take the request's
+   Required By and leave it out of the table.
 2. **Ask for prices.** **Ask for Prices** on **Quotes** picks the material
    request and the suppliers, and mails each one a link, or leaves the
    request a draft to finish on its form. **Create › Request for Quotation**
