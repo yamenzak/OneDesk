@@ -116,7 +116,10 @@ def on_hand(
 	symbols = dict(
 		frappe.get_all(
 			"UOM",
-			filters={"name": ["in", list({one.stock_uom for one in named.values()}) or [""]], "symbol": ["is", "set"]},
+			filters={
+				"name": ["in", list({one.stock_uom for one in named.values()}) or [""]],
+				"symbol": ["is", "set"],
+			},
 			fields=["name", "symbol"],
 			as_list=True,
 		)
@@ -180,9 +183,12 @@ def transfer(
 	source: Annotated[str, "The warehouse the stock leaves."],
 	target: Annotated[str, "The warehouse it goes to."],
 	lines: Annotated[list | str, "Each item and how many: [{item, qty}]."],
+	project: Annotated[str, "The project the stock is moved for."] | None = None,
+	remarks: Annotated[str, "A note kept on the movement."] | None = None,
 ) -> str:
 	"""Stock moved from one warehouse to another, as Shopify's Transfer asks it:
-	where from, where to, and which items and how many. ERPNext's own Material
+	where from, where to, and which items and how many, with the project it is
+	for and a note when there is one. ERPNext's own Material
 	Transfer is made and submitted, as the reader, so its permissions, stock
 	checks and books all hold; the name of the entry comes back."""
 	lines = frappe.parse_json(lines) if isinstance(lines, str) else lines
@@ -193,8 +199,18 @@ def transfer(
 	entry.purpose = "Material Transfer"
 	entry.company = frappe.db.get_value("Warehouse", source, "company")
 	entry.from_warehouse, entry.to_warehouse = source, target
+	entry.project, entry.remarks = project or None, remarks or None
 	for one in wanted:
-		entry.append("items", {"item_code": one["item"], "qty": flt(one["qty"]), "s_warehouse": source, "t_warehouse": target})
+		entry.append(
+			"items",
+			{
+				"item_code": one["item"],
+				"qty": flt(one["qty"]),
+				"s_warehouse": source,
+				"t_warehouse": target,
+				"project": project or None,
+			},
+		)
 	entry.set_stock_entry_type()
 	entry.insert()
 	entry.submit()

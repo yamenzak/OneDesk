@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-13 14:19+0000\n"
-"PO-Revision-Date: 2026-10-13 14:19+0000\n"
+"POT-Creation-Date: 2026-10-13 15:13+0000\n"
+"PO-Revision-Date: 2026-10-13 15:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1813,7 +1813,7 @@ msgstr ""
 msgid "Add an employee"
 msgstr ""
 
-#: onedesk/one_inventory/stock.py:191
+#: onedesk/one_inventory/stock.py:197
 msgid "Add an item and how many to move."
 msgstr ""
 
@@ -15657,7 +15657,7 @@ msgstr ""
 
 #: onedesk/one_intake/panel.py:226 onedesk/one_intake/panel.py:227
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:84
-#: onedesk/public/js/item_actions.js:243
+#: onedesk/public/js/item_actions.js:247
 msgid "Moved to {0}"
 msgstr ""
 
@@ -18906,7 +18906,7 @@ msgstr ""
 msgid "Open Folder"
 msgstr ""
 
-#: onedesk/public/js/item_actions.js:248
+#: onedesk/public/js/item_actions.js:252
 msgid "Open Full Form"
 msgstr ""
 
@@ -21227,6 +21227,7 @@ msgstr ""
 #: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/page/project_view/project_view.js:8
 #: onedesk/one_project/report/workload/workload.js:52
+#: onedesk/public/js/item_actions.js:237
 #: onedesk/public/js/project_actions.js:424
 #: onedesk/public/js/project_actions.js:639
 #: onedesk/public/js/project_list.js:204 onedesk/public/js/project_tree.js:32
@@ -22566,6 +22567,10 @@ msgstr ""
 
 #: onedesk/public/js/record.js:195
 msgid "Reload"
+msgstr ""
+
+#: onedesk/public/js/item_actions.js:239
+msgid "Remarks"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:120
@@ -29480,7 +29485,6 @@ msgstr ""
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one/print_blocks.py:263
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/item_actions.js:237
 msgid "Transfer"
 msgstr ""
 
@@ -29494,6 +29498,7 @@ msgstr ""
 
 #: frontend/src/item/ItemPage.vue:302 frontend/src/item/ItemPlaces.vue:79
 #: frontend/src/stock/StockOnHand.vue:180 onedesk/public/js/item_actions.js:217
+#: onedesk/public/js/item_actions.js:241
 msgid "Transfer Stock"
 msgstr ""
 

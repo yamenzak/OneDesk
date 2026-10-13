@@ -12304,7 +12304,12 @@ where to, and which items and how many. The button is **Transfer Stock** now
 dialog asking those three, and `stock.transfer` makes ERPNext's Material
 Transfer and submits it as the reader, so its permissions, its stock check
 and its books hold; a batched item takes its batches as ERPNext picks them.
-**Open Full Form** in the dialog leaves for ERPNext's form. The demo check
+Under the items, the dialog takes the **Project** the stock is moved for (on
+the entry and every line, so Stock Movements and OneAI say which project) and
+**Remarks**; everything else the Material Transfer form has (Add to Transit,
+a posting date, a chosen batch, another unit, inspection, putaway, additional
+costs) stays in the full form. **Open Full Form** in the dialog leaves for
+ERPNext's form, carrying what was filled in. The demo check
 `oneinventory_transfer_stock_moves_it_in_one_step` moves the hinges and the
 sealant, is refused more than there is, and refuses somebody without
 OneInventory.

@@ -207,7 +207,7 @@ onedesk.item.variant = async (item) => {
 // What Stock on Hand starts, for a warehouse when one is chosen.
 frappe.provide("onedesk.stock");
 // A transfer as Shopify's asks it: where from, where to, and which items and
-// how many. The server makes ERPNext's Material Transfer and submits it
+// how many, with the project it is for and a note. The server makes ERPNext's Material Transfer and submits it
 // (one_inventory/stock.py, transfer); Open Full Form leaves for ERPNext's form.
 onedesk.stock.move = (warehouse, item) => {
 	// No company in the filter: a link's search prints its filters, and the
@@ -233,12 +233,16 @@ onedesk.stock.move = (warehouse, item) => {
 					{ fieldtype: "Float", fieldname: "qty", label: __("Quantity"), in_list_view: 1, reqd: 1, columns: 3 },
 				],
 			},
+			{ fieldtype: "Section Break" },
+			{ fieldtype: "Link", fieldname: "project", label: __("Project"), options: "Project", get_query: () => ({ filters: { status: "Open" } }) },
+			{ fieldtype: "Column Break" },
+			{ fieldtype: "Data", fieldname: "remarks", label: __("Remarks") },
 		],
 		primary_action_label: __("Transfer Stock"),
-		primary_action: async ({ source, target, lines }) => {
+		primary_action: async ({ source, target, lines, project, remarks }) => {
 			dialog.disable_primary_action();
 			try {
-				const name = await frappe.xcall("onedesk.one_inventory.stock.transfer", { source, target, lines });
+				const name = await frappe.xcall("onedesk.one_inventory.stock.transfer", { source, target, lines, project, remarks });
 				dialog.hide();
 				frappe.show_alert({ message: `${__("Moved to {0}", [frappe.utils.escape_html(target)])} · ${frappe.utils.get_form_link("Stock Entry", name, true)}`, indicator: "green" }, 7);
 			} finally {
@@ -247,9 +251,9 @@ onedesk.stock.move = (warehouse, item) => {
 		},
 		secondary_action_label: __("Open Full Form"),
 		secondary_action: () => {
-			const { source, target } = dialog.get_values(true) || {};
+			const { source, target, project, remarks } = dialog.get_values(true) || {};
 			dialog.hide();
-			frappe.new_doc("Stock Entry", { stock_entry_type: "Material Transfer", purpose: "Material Transfer", from_warehouse: source, to_warehouse: target });
+			frappe.new_doc("Stock Entry", { stock_entry_type: "Material Transfer", purpose: "Material Transfer", from_warehouse: source, to_warehouse: target, project, remarks });
 		},
 	});
 	dialog.show();

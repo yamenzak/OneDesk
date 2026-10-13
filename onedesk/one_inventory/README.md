@@ -270,7 +270,8 @@ a line keeps the picture, the name, the status and Available. An item opens
 on its own page. The page changes as stock moves.
 
 The main button is **Transfer Stock**, which asks only where from (the
-warehouse that is open), where to, and which items and how many, then makes
+warehouse that is open), where to, which items and how many, and the
+project and a note when there are, then makes
 and submits ERPNext's Material Transfer. **Open Full Form** in it leaves for
 ERPNext's Stock Entry instead. The menu has **Count Stock**, **Add
 Warehouse**, and ERPNext's **Stock Balance** and **Stock Projected Qty**

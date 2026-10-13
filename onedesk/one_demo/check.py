@@ -5347,7 +5347,7 @@ def oneinventory_new_item_parts_list_and_sizes():
 @check
 def oneinventory_transfer_stock_moves_it_in_one_step():
 	"""Transfer Stock on Stock on Hand asks only where from, where to and what,
-	and ERPNext's Material Transfer is made and submitted as the reader: the
+	with the project and a note, and ERPNext's Material Transfer is made and submitted as the reader: the
 	hinges leave Stores and arrive in Finished Goods, a batched item (the
 	sealant) takes its batches as ERPNext picks them, more than there is is
 	refused by ERPNext's own check, and somebody without OneInventory cannot
@@ -5361,9 +5361,13 @@ def oneinventory_transfer_stock_moves_it_in_one_step():
 
 	before = held("HW-HINGE", "Stores"), held("HW-HINGE", "Finished Goods")
 	with as_user("karim@one.test"):
-		name = stock.transfer(wh("Stores"), wh("Finished Goods"), [{"item": "HW-HINGE", "qty": 10}, {"item": "SIL-WP", "qty": 5}])
+		project = frappe.get_all("Project", filters={"status": "Open"}, pluck="name", limit=1)[0]
+		name = stock.transfer(
+			wh("Stores"), wh("Finished Goods"), [{"item": "HW-HINGE", "qty": 10}, {"item": "SIL-WP", "qty": 5}], project=project, remarks="For the villa's doors"
+		)
 		entry = frappe.get_doc("Stock Entry", name)
 		assert entry.docstatus == 1 and entry.purpose == "Material Transfer" and len(entry.items) == 2, entry.as_dict()
+		assert entry.project == project and {row.project for row in entry.items} == {project} and entry.remarks == "For the villa's doors"
 		assert (held("HW-HINGE", "Stores"), held("HW-HINGE", "Finished Goods")) == (before[0] - 10, before[1] + 10)
 		try:
 			stock.transfer(wh("Stores"), wh("Finished Goods"), [{"item": "HW-HINGE", "qty": 1_000_000}])
