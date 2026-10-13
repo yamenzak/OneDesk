@@ -13,14 +13,14 @@
 
     <Section v-if="story.where" :title="__('Where Stock Is')" icon="lucide-warehouse" data-cards>
       <div class="grid gap-3 lg:grid-cols-3">
-        <ChartCard class="h-80">
+        <ChartCard class="h-96">
           <DonutChart :title="__('By Warehouse')" :data="story.where.warehouses" category="name" value="worth" :format="cash" :center-label="__('Stock Worth')" :palette="ramp(0)" @select="(one) => go(`/desk/stock-on-hand?warehouse=${encodeURIComponent(one.rows[0].warehouse)}`)" />
         </ChartCard>
-        <ChartCard class="h-80">
-          <BarChart :title="__('By Item Group')" :data="story.where.groups" x="name" y="worth" split-by="name" stacked horizontal :y-axis="{ format: cash }" :palette="ramp(4)" @select="(one) => go(`/desk/item?item_group=${encodeURIComponent(one.row.group)}`)" />
+        <ChartCard class="h-96">
+          <BarChart :title="__('By Item Group')" :data="story.where.groups" x="name" y="worth" split-by="name" stacked horizontal :x-axis="wrap" :y-axis="{ format: cash }" :palette="ramp(4)" @select="(one) => go(`/desk/item?item_group=${encodeURIComponent(one.row.group)}`)" />
         </ChartCard>
-        <ChartCard class="h-80">
-          <BarChart :title="__('Most Valuable Items')" :data="story.where.items" x="name" :y="['worth']" horizontal :y-axis="{ format: cash }" :series-config="{ worth: { label: __('Stock Worth'), color: hue(4) } }" @select="(one) => go(`/desk/item/${encodeURIComponent(one.row.item)}`)" />
+        <ChartCard class="h-96">
+          <BarChart :title="__('Most Valuable Items')" :data="story.where.items" x="name" :y="['worth']" horizontal :x-axis="wrap" :y-axis="{ format: cash }" :series-config="{ worth: { label: __('Stock Worth'), color: hue(4) } }" @select="(one) => go(`/desk/item/${encodeURIComponent(one.row.item)}`)" />
         </ChartCard>
       </div>
     </Section>
@@ -34,8 +34,10 @@
           <BarChart :title="__('In and Out by Month')" :data="story.moves.flow" x="month" :y="FLOW" stacked :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: cash }" :series-config="flowSeries" :reference-lines="[{ value: 0 }]" />
         </ChartCard>
       </div>
-      <ChartCard v-if="story.moves.paths.length" class="mt-3 h-[30rem]">
-        <SankeyChart :title="__('Where Goods Came From and Went')" :data="story.moves.paths" source="from" target="to" value="worth" :format="cash" :palette="ramp(2)" />
+      <ChartCard v-if="story.moves.paths.length" class="mt-3 h-[30rem] overflow-x-auto">
+        <div class="h-full min-w-[46rem]">
+        <SankeyChart :title="__('Where Goods Came From and Went')" :data="story.moves.paths" source="from" target="to" value="worth" :format="cash" :echart-options="sankeyRoom" :palette="ramp(2)" />
+        </div>
       </ChartCard>
       <div class="mt-3 grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <ChartCard class="h-80">
@@ -59,7 +61,7 @@
           <FunnelChart :title="__('Material Requests')" :data="requests" category="step" value="requests" :format="count" :palette="ramp(2)" @select="go('/desk/material-request')" />
         </ChartCard>
         <ChartCard class="h-96">
-          <BarChart :title="__('Bought by Supplier')" :data="suppliers" x="name" y="worth" split-by="name" stacked horizontal :y-axis="{ format: cash }" :palette="ramp(6)" @select="(one) => go(`/desk/purchase-order?supplier=${encodeURIComponent(one.row.supplier)}`)" />
+          <BarChart :title="__('Bought by Supplier')" :data="suppliers" x="name" y="worth" split-by="name" stacked horizontal :x-axis="wrap" :y-axis="{ format: cash }" :palette="ramp(6)" @select="(one) => go(`/desk/purchase-order?supplier=${encodeURIComponent(one.row.supplier)}`)" />
         </ChartCard>
         <ChartCard class="h-96">
           <ScatterChart :title="__('How Suppliers Keep to Dates')" :data="suppliers" x="worth" y="late" size="orders" split-by="name" label="name" :x-axis="{ title: __('Ordered'), format: cash }" :y-axis="{ title: __('Days Late'), format: days }" :palette="ramp(6)" />
@@ -76,7 +78,7 @@
           <BarChart :title="__('Worth Made by Month')" :data="making.made" x="month" y="made" split-by="item" stacked :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: cash }" :palette="ramp(4)" />
         </ChartCard>
         <ChartCard v-if="making.hours.length" class="h-80">
-          <BarChart :title="__('Hours by Workstation')" :data="making.hours" x="workstation" :y="['hours']" horizontal :y-axis="{ format: asHours }" :series-config="{ hours: { label: __('Hours'), color: hue(6) } }" @select="(one) => go(`/desk/workstation/${encodeURIComponent(one.row.workstation)}`)" />
+          <BarChart :title="__('Hours by Workstation')" :data="making.hours" x="workstation" :y="['hours']" horizontal :x-axis="wrap" :y-axis="{ format: asHours }" :series-config="{ hours: { label: __('Hours'), color: hue(6) } }" @select="(one) => go(`/desk/workstation/${encodeURIComponent(one.row.workstation)}`)" />
         </ChartCard>
       </div>
     </Section>
@@ -84,7 +86,7 @@
     <Section v-if="equipment" :title="__('Equipment')" icon="lucide-truck" data-cards>
       <div class="grid gap-3 lg:grid-cols-3">
         <ChartCard v-if="equipment.kinds.length" class="h-80">
-          <BarChart :title="__('Worth by Kind')" :data="equipment.kinds" x="kind" :y="['bought', 'now']" horizontal :y-axis="{ format: cash }" :series-config="{ bought: { label: __('Bought For'), color: hue(0) }, now: { label: __('Worth Now'), color: hue(1) } }" @select="(one) => go(`/desk/asset?asset_category=${encodeURIComponent(one.row.kind)}`)" />
+          <BarChart :title="__('Worth by Kind')" :data="equipment.kinds" x="kind" :y="['bought', 'now']" horizontal :x-axis="wrap" :y-axis="{ format: cash }" :series-config="{ bought: { label: __('Bought For'), color: hue(0) }, now: { label: __('Worth Now'), color: hue(1) } }" @select="(one) => go(`/desk/asset?asset_category=${encodeURIComponent(one.row.kind)}`)" />
         </ChartCard>
         <ChartCard v-if="equipment.statuses.length" class="h-80">
           <DonutChart :title="__('Assets by Status')" :data="equipment.statuses" category="label" value="assets" variant="half" :format="count" :center-label="__('Assets')" :palette="equipment.statusColors" @select="(one) => go(`/desk/asset?status=${encodeURIComponent(one.rows[0].status)}`)" />
@@ -126,6 +128,22 @@ const STATUS = { good: 2, going: 0, late: 8, broken: 8 };
 const statusHue = (tone) => (tone in STATUS ? hue(STATUS[tone]) : tokens.value.axisLabel);
 
 const cash = (value) => money(value, props.story.currency, 0);
+
+// A name on a horizontal bar wraps onto a second line rather than being cut
+// short, on a desktop and on a phone alike.
+const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
+
+// The Sankey's last column of names hangs off its right edge: the plot leaves
+// room for the longest of them, so none is cut. On a phone the card scrolls
+// sideways rather than squeezing the flow.
+const sankeyRoom = computed(() => {
+  const paths = props.story.moves?.paths || [];
+  const from = new Set(paths.map((one) => one.from));
+  const ends = {};
+  for (const one of paths) if (!from.has(one.to)) ends[one.to] = (ends[one.to] || 0) + one.worth;
+  const longest = Math.max(0, ...Object.entries(ends).map(([name, worth]) => `${name} · ${cash(worth)}`.length));
+  return { media: [{ query: { minWidth: 0 }, option: { series: [{ right: Math.round(longest * 6.6) + 24 }] } }] };
+});
 // Counts, hours and days as the reader's number format writes them, never
 // the browser's.
 const days = (value) => __("{0} d", [count(value)]);
