@@ -9,6 +9,7 @@ from typing import Annotated
 
 import erpnext
 import frappe
+from frappe import _
 from frappe.utils import flt
 
 #: The most items the page lists at once; the rest are a search away.
@@ -172,3 +173,29 @@ def on_hand(
 			for one in ("Stock Entry", "Stock Reconciliation", "Warehouse")
 		},
 	}
+
+
+@frappe.whitelist()
+def transfer(
+	source: Annotated[str, "The warehouse the stock leaves."],
+	target: Annotated[str, "The warehouse it goes to."],
+	lines: Annotated[list | str, "Each item and how many: [{item, qty}]."],
+) -> str:
+	"""Stock moved from one warehouse to another, as Shopify's Transfer asks it:
+	where from, where to, and which items and how many. ERPNext's own Material
+	Transfer is made and submitted, as the reader, so its permissions, stock
+	checks and books all hold; the name of the entry comes back."""
+	lines = frappe.parse_json(lines) if isinstance(lines, str) else lines
+	wanted = [one for one in lines or [] if one.get("item") and flt(one.get("qty")) > 0]
+	if not wanted:
+		frappe.throw(_("Add an item and how many to move."))
+	entry = frappe.new_doc("Stock Entry")
+	entry.purpose = "Material Transfer"
+	entry.company = frappe.db.get_value("Warehouse", source, "company")
+	entry.from_warehouse, entry.to_warehouse = source, target
+	for one in wanted:
+		entry.append("items", {"item_code": one["item"], "qty": flt(one["qty"]), "s_warehouse": source, "t_warehouse": target})
+	entry.set_stock_entry_type()
+	entry.insert()
+	entry.submit()
+	return entry.name

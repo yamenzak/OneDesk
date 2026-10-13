@@ -120,14 +120,8 @@ onedesk.item.ask = (item, supplier) =>
 onedesk.item.mapped = (method, source_name, args, triggers = false) =>
 	frappe.model.open_mapped_doc({ method, source_name, args, run_link_triggers: triggers });
 onedesk.item.request = (item) => onedesk.item.start("Material Request", item, { material_request_type: "Purchase" });
-// From a warehouse's row, the move starts from it and the count is of it.
-onedesk.item.move = (item, warehouse) =>
-	onedesk.item.start(
-		"Stock Entry",
-		item,
-		{ stock_entry_type: "Material Transfer", purpose: "Material Transfer", ...(warehouse ? { from_warehouse: warehouse } : {}) },
-		warehouse ? { s_warehouse: warehouse } : {}
-	);
+// From a warehouse's row, the transfer starts from it and the count is of it.
+onedesk.item.move = (item, warehouse) => onedesk.stock.move(warehouse, item);
 onedesk.item.count = (item, opening, warehouse) =>
 	onedesk.item.start(
 		"Stock Reconciliation",
@@ -212,7 +206,53 @@ onedesk.item.variant = async (item) => {
 
 // What Stock on Hand starts, for a warehouse when one is chosen.
 frappe.provide("onedesk.stock");
-onedesk.stock.move = (warehouse) =>
-	frappe.new_doc("Stock Entry", { stock_entry_type: "Material Transfer", purpose: "Material Transfer", from_warehouse: warehouse });
+// A transfer as Shopify's asks it: where from, where to, and which items and
+// how many. The server makes ERPNext's Material Transfer and submits it
+// (one_inventory/stock.py, transfer); Open Full Form leaves for ERPNext's form.
+onedesk.stock.move = (warehouse, item) => {
+	// No company in the filter: a link's search prints its filters, and the
+	// workspace is one company. ERPNext refuses a warehouse of another.
+	const places = (other) => () => ({ filters: { is_group: 0, disabled: 0, ...(other() ? { name: ["!=", other()] } : {}) } });
+	const dialog = new frappe.ui.Dialog({
+		title: __("Transfer Stock"),
+		size: "large",
+		fields: [
+			{ fieldtype: "Link", fieldname: "source", label: __("From"), options: "Warehouse", reqd: 1, default: warehouse, get_query: places(() => dialog.get_value("target")) },
+			{ fieldtype: "Column Break" },
+			{ fieldtype: "Link", fieldname: "target", label: __("To"), options: "Warehouse", reqd: 1, get_query: places(() => dialog.get_value("source")) },
+			{ fieldtype: "Section Break" },
+			{
+				fieldtype: "Table",
+				fieldname: "lines",
+				label: __("Items"),
+				reqd: 1,
+				in_place_edit: true,
+				data: [{ item: item || "", qty: null }],
+				fields: [
+					{ fieldtype: "Link", fieldname: "item", label: __("Item"), options: "Item", in_list_view: 1, reqd: 1, columns: 7, get_query: () => ({ filters: { is_stock_item: 1, disabled: 0, has_variants: 0 } }) },
+					{ fieldtype: "Float", fieldname: "qty", label: __("Quantity"), in_list_view: 1, reqd: 1, columns: 3 },
+				],
+			},
+		],
+		primary_action_label: __("Transfer Stock"),
+		primary_action: async ({ source, target, lines }) => {
+			dialog.disable_primary_action();
+			try {
+				const name = await frappe.xcall("onedesk.one_inventory.stock.transfer", { source, target, lines });
+				dialog.hide();
+				frappe.show_alert({ message: `${__("Moved to {0}", [frappe.utils.escape_html(target)])} · ${frappe.utils.get_form_link("Stock Entry", name, true)}`, indicator: "green" }, 7);
+			} finally {
+				dialog.enable_primary_action();
+			}
+		},
+		secondary_action_label: __("Open Full Form"),
+		secondary_action: () => {
+			const { source, target } = dialog.get_values(true) || {};
+			dialog.hide();
+			frappe.new_doc("Stock Entry", { stock_entry_type: "Material Transfer", purpose: "Material Transfer", from_warehouse: source, to_warehouse: target });
+		},
+	});
+	dialog.show();
+};
 onedesk.stock.count = (warehouse) => frappe.new_doc("Stock Reconciliation", { set_warehouse: warehouse });
 onedesk.stock.warehouse = () => frappe.new_doc("Warehouse");

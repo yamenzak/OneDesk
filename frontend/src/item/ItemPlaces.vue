@@ -76,7 +76,7 @@ const rows = computed(() =>
 function actions(one, row) {
   const out = [];
   if (props.said.is_stock_item && can("create", "Stock Entry"))
-    out.push({ label: __("Move Stock"), icon: "lucide-arrow-left-right", onClick: () => onedesk().item.move(props.said.name, one.warehouse) });
+    out.push({ label: __("Transfer Stock"), icon: "lucide-arrow-left-right", onClick: () => onedesk().item.move(props.said.name, one.warehouse) });
   if (props.said.is_stock_item && can("create", "Stock Reconciliation"))
     out.push({ label: __("Count Stock"), icon: "lucide-list-checks", onClick: () => onedesk().item.count(props.said.name, false, one.warehouse) });
   if (!row && props.said.can_write) out.push({ label: __("Set Reorder Level"), icon: "lucide-bell-ring", onClick: () => add(one.warehouse) });

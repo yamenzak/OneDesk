@@ -178,8 +178,8 @@ Then its views, each only where the item has it:
   promised, what is free to use and what it is worth, and a bar against its
   reorder level. The level and how much is ordered at a time are changed on
   the row, and **Set Reorder Level** gives a warehouse one. Each row's menu
-  has **Move Stock** and **Count Stock**, which start the document with the
-  item and that warehouse filled in. Then its batches, and its last moves in
+  has **Transfer Stock**, which asks where to and how many, and **Count
+  Stock**, which starts the count with the item and that warehouse filled in. Then its batches, and its last moves in
   plain words ("Moved 120 from Stores to Mansour Villa Site", "Used 80 on
   Mansour Villa Windows and Doors"), each with who made it. A move from one
   warehouse to another is one row.
@@ -226,7 +226,7 @@ Then its views, each only where the item has it:
 
 The main button is **Order More**, or **Make More** for something made
 here, or **Add Variant** for a template. The menu has **Request Material**,
-**Move Stock**, **Count Stock** (or **Set Opening Stock** for an item with no
+**Transfer Stock**, **Count Stock** (or **Set Opening Stock** for an item with no
 stock yet), **Edit Details**, **Disable Item**, ERPNext's **Stock Balance**,
 **Stock Ledger** and **Stock Projected Qty**, and frappe's own Print, Email,
 Duplicate, Rename and Delete. Each starts the document in its own form with
@@ -253,20 +253,26 @@ disabled, or a warehouse's reorder level) as a card you approve.
 
 ## Stock on hand and warehouses
 
-**Stock on Hand** says what the stores hold now. At the top are what it is all
-**Worth**, how many **Items** are held, how many are **Low** (at or below
-their reorder level) and how many are **Short** (more promised to customers
-than there is). **Show Low Items** on the Low figure narrows the list to them.
+**Stock on Hand** says what the stores hold now, drawn after Shopify's
+Inventory and Katana's Stock screen. At the top are what it is all **Worth**,
+how many **Items** are held, how many are **Low** (at or below their reorder
+level) and how many are **Short** (more promised to customers than there is);
+the Low and Short figures narrow the list to theirs.
 
-Under the figures is a tab for **All Warehouses** and one for each warehouse,
-with how many items it holds. Each line is an item, with what is **On Hand**,
-**Free to Sell** (on hand, less what is promised), **On Order** and what it is
-**Worth**. **Low in** a warehouse and how many are **short** show beside its
-name. Search finds an item by its name or code, and **Low or Short Only**
-leaves the rest out. An item opens on its own page. The page changes as stock
-moves.
+Above the list are the warehouse picker (**All Warehouses** or one), a search
+by name or code, and **All**, **Low**, **Short** and **Out of Stock** with how
+many of each. Each line is an item: its picture, its name with its code and
+group under it, one status (In Stock, Low, Short or Out of Stock, the worst
+that is true), then **On Hand**, **Committed** (promised to customers),
+**Available** (on hand, less what is committed), **Incoming** (on order) and
+its **Value**. A quantity carries its unit, and nothing is a dash. On a phone
+a line keeps the picture, the name, the status and Available. An item opens
+on its own page. The page changes as stock moves.
 
-The main button is **Move Stock**. The menu has **Count Stock**, **Add
+The main button is **Transfer Stock**, which asks only where from (the
+warehouse that is open), where to, and which items and how many, then makes
+and submits ERPNext's Material Transfer. **Open Full Form** in it leaves for
+ERPNext's Stock Entry instead. The menu has **Count Stock**, **Add
 Warehouse**, and ERPNext's **Stock Balance** and **Stock Projected Qty**
 reports, each for the warehouse that is open.
 
@@ -662,8 +668,8 @@ difference is posted to the account you choose, and its band says what it
 ## Moving stock
 
 **Stock Movements** lists every movement with its type, where it came from,
-where it went, its project and what it moved. **Move Stock** on Stock on Hand
-starts a transfer from the warehouse you are looking at.
+where it went, its project and what it moved. **Transfer Stock** on Stock on Hand
+moves stock from the warehouse you are looking at in one step.
 
 A movement says above its fields which **Project** it is for, its **Type**,
 **From** and **To** which warehouse, what it is **Worth**, and for goods made,

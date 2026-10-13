@@ -12296,3 +12296,16 @@ expected side by side, and what is missing against the reorder point).
 | 5 Our look | modelled on Shopify and Katana, `test_a_screen_names_the_app_it_follows` |
 | 8 Built from frappe | frappe-ui's Avatar, Badge, Dropdown and TabButtons; `test_a_badge_is_a_colour_frappe_ui_has` |
 
+**Transfer Stock.** Move Stock opened ERPNext's whole Stock Entry form: a
+series, Add to Transit, Putaway Rule, Inspection, a rate and an Additional
+Costs tab, to move fifty hinges to a site. Shopify's Transfer asks where from,
+where to, and which items and how many. The button is **Transfer Stock** now
+(on Stock on Hand, an item's page and an item's warehouse row), a frappe
+dialog asking those three, and `stock.transfer` makes ERPNext's Material
+Transfer and submits it as the reader, so its permissions, its stock check
+and its books hold; a batched item takes its batches as ERPNext picks them.
+**Open Full Form** in the dialog leaves for ERPNext's form. The demo check
+`oneinventory_transfer_stock_moves_it_in_one_step` moves the hinges and the
+sealant, is refused more than there is, and refuses somebody without
+OneInventory.
+

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-13 14:06+0000\n"
+"POT-Creation-Date: 2026-10-13 14:19+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1739,7 +1739,7 @@ msgid "Add User Permission"
 msgstr "Benutzerberechtigung hinzufügen"
 
 #: frontend/src/item/ItemOverview.vue:23 frontend/src/item/ItemPage.vue:304
-#: onedesk/public/js/item_actions.js:194 onedesk/public/js/item_actions.js:196
+#: onedesk/public/js/item_actions.js:188 onedesk/public/js/item_actions.js:190
 msgid "Add Variant"
 msgstr "Variante hinzufügen"
 
@@ -1814,6 +1814,10 @@ msgstr "Lege aus jedem dieser Lebensläufe eine Bewerbung für diese Stelle an."
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "Add an employee"
 msgstr "Mitarbeiter anlegen"
+
+#: onedesk/one_inventory/stock.py:191
+msgid "Add an item and how many to move."
+msgstr "Fügen Sie einen Artikel und die zu bewegende Menge hinzu."
 
 #: onedesk/one_hr/ai.py:64 onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:105
 msgid "Add applicants from CVs"
@@ -10167,7 +10171,7 @@ msgstr "Findet oder erstellt mit dem Token oben alles, was ein Arbeitsbereich vo
 #. Task in the Year-End Audit project template
 #: frontend/src/floor/ShopFloor.vue:28 frontend/src/item/ItemMaking.vue:105
 #: onedesk/one_project/library/year_end_audit.json
-#: onedesk/public/js/item_actions.js:169
+#: onedesk/public/js/item_actions.js:163
 msgid "Finish"
 msgstr ""
 
@@ -10176,7 +10180,7 @@ msgstr ""
 msgid "Finish Signing Up"
 msgstr "Anmeldung abschließen"
 
-#: onedesk/public/js/item_actions.js:168
+#: onedesk/public/js/item_actions.js:162
 msgid "Finish {0}"
 msgstr "{0} abschließen"
 
@@ -10641,7 +10645,7 @@ msgstr "Freitag"
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/public/js/onemail.js:803
+#: onedesk/public/js/item_actions.js:220 onedesk/public/js/onemail.js:803
 msgid "From"
 msgstr "Von"
 
@@ -10743,7 +10747,7 @@ msgstr "Ab {0} zählt jeder Tag als Arbeitstag. Legen Sie die Liste für nächst
 msgid "From {0} to {1}"
 msgstr "Von {0} bis {1}"
 
-#: onedesk/public/js/item_actions.js:189
+#: onedesk/public/js/item_actions.js:183
 msgid "From {0} to {1}, in steps of {2}"
 msgstr "Von {0} bis {1}, in Schritten von {2}"
 
@@ -11585,7 +11589,7 @@ msgstr "Wie lange Deals dauern"
 msgid "How Many Lost"
 msgstr "Wie viele verloren"
 
-#: onedesk/public/js/floor_actions.js:72 onedesk/public/js/item_actions.js:158
+#: onedesk/public/js/floor_actions.js:72 onedesk/public/js/item_actions.js:152
 msgid "How Many Made"
 msgstr "Wie viele hergestellt"
 
@@ -12911,9 +12915,9 @@ msgstr "Dies würde {0} überschreiben."
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/lots_actions.js:16 onedesk/public/js/lots_actions.js:93
-#: onedesk/public/js/plant_actions.js:35 onedesk/public/js/progress.js:82
-#: onedesk/public/js/project_actions.js:124
+#: onedesk/public/js/item_actions.js:232 onedesk/public/js/lots_actions.js:16
+#: onedesk/public/js/lots_actions.js:93 onedesk/public/js/plant_actions.js:35
+#: onedesk/public/js/progress.js:82 onedesk/public/js/project_actions.js:124
 #: onedesk/public/js/project_actions.js:555 onedesk/www/order.html:56
 #: onedesk/www/rfq.html:50
 msgid "Item"
@@ -12951,6 +12955,7 @@ msgstr "Artikelsteuervorlagen"
 #: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:24
 #: onedesk/one_inventory/page/item_view/item_view.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/item_actions.js:227
 msgid "Items"
 msgstr "Artikel"
 
@@ -15582,9 +15587,7 @@ msgstr "Verschieben"
 msgid "Move Materials"
 msgstr "Material umlagern"
 
-#: frontend/src/item/ItemPage.vue:302 frontend/src/item/ItemPlaces.vue:79
-#: frontend/src/plant/PlantFloor.vue:142 frontend/src/stock/StockOnHand.vue:180
-#: onedesk/public/js/plant_actions.js:70
+#: frontend/src/plant/PlantFloor.vue:142 onedesk/public/js/plant_actions.js:70
 msgid "Move Stock"
 msgstr "Bestand umlagern"
 
@@ -15650,6 +15653,7 @@ msgstr "In den Papierkorb verschoben"
 
 #: onedesk/one_intake/panel.py:226 onedesk/one_intake/panel.py:227
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:84
+#: onedesk/public/js/item_actions.js:243
 msgid "Moved to {0}"
 msgstr "Verschoben nach {0}"
 
@@ -18898,6 +18902,10 @@ msgstr "Dokument öffnen"
 msgid "Open Folder"
 msgstr "Ordner öffnen"
 
+#: onedesk/public/js/item_actions.js:248
+msgid "Open Full Form"
+msgstr "Vollständiges Formular öffnen"
+
 #: frontend/src/floor/FloorSteps.vue:102
 msgid "Open Job Card"
 msgstr "Arbeitskarte öffnen"
@@ -21598,15 +21606,15 @@ msgstr "Mengen pro {0}"
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/public/js/item_new.js:140 onedesk/public/js/item_new.js:288
-#: onedesk/public/js/plant_actions.js:36 onedesk/public/js/settings.js:1903
-#: onedesk/www/order.html:57 onedesk/www/rfq.html:51 onedesk/www/rfq.html:69
-#: onedesk/www/rfq.html:70
+#: onedesk/public/js/item_actions.js:233 onedesk/public/js/item_new.js:140
+#: onedesk/public/js/item_new.js:288 onedesk/public/js/plant_actions.js:36
+#: onedesk/public/js/settings.js:1903 onedesk/www/order.html:57
+#: onedesk/www/rfq.html:51 onedesk/www/rfq.html:69 onedesk/www/rfq.html:70
 msgid "Quantity"
 msgstr "Menge"
 
 #: onedesk/public/js/floor_actions.js:78 onedesk/public/js/floor_actions.js:92
-#: onedesk/public/js/item_actions.js:161 onedesk/public/js/plant_actions.js:51
+#: onedesk/public/js/item_actions.js:155 onedesk/public/js/plant_actions.js:51
 msgid "Quantity must be greater than zero."
 msgstr "Die Menge muss größer als null sein."
 
@@ -29093,8 +29101,8 @@ msgstr "Benannt"
 #: onedesk/one_inventory/heads.py:1318 onedesk/one_inventory/heads.py:1382
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/public/js/intake.js:159 onedesk/public/js/onemail.js:557
-#: onedesk/public/js/onemail.js:803
+#: onedesk/public/js/intake.js:159 onedesk/public/js/item_actions.js:222
+#: onedesk/public/js/onemail.js:557 onedesk/public/js/onemail.js:803
 msgid "To"
 msgstr "An"
 
@@ -29452,6 +29460,7 @@ msgstr "Transkripte bleiben erhalten. 0 bewahrt das Audio unbegrenzt auf."
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one/print_blocks.py:263
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/public/js/item_actions.js:237
 msgid "Transfer"
 msgstr "Überweisung"
 
@@ -29462,6 +29471,11 @@ msgstr "Umbuchungs-Nr."
 #: onedesk/one/print_blocks.py:259
 msgid "Transfer Note"
 msgstr "Umlagerungsschein"
+
+#: frontend/src/item/ItemPage.vue:302 frontend/src/item/ItemPlaces.vue:79
+#: frontend/src/stock/StockOnHand.vue:180 onedesk/public/js/item_actions.js:217
+msgid "Transfer Stock"
+msgstr "Bestand umlagern"
 
 #: onedesk/public/js/oneai/Panel.vue:310
 msgid "Translate it into "
@@ -29902,7 +29916,7 @@ msgstr "Bis"
 msgid "Up to 30 Days"
 msgstr "Bis 30 Tage"
 
-#: onedesk/public/js/item_actions.js:158
+#: onedesk/public/js/item_actions.js:152
 msgid "Up to {0}"
 msgstr "Bis zu {0}"
 
@@ -36097,7 +36111,7 @@ msgstr "{0} ist bereits der Standard für {1}."
 msgid "{0} is already the site of {1}."
 msgstr "{0} ist bereits der Standort von {1}."
 
-#: onedesk/public/js/item_actions.js:201
+#: onedesk/public/js/item_actions.js:195
 msgid "{0} is already this variant."
 msgstr "{0} ist bereits diese Variante."
 

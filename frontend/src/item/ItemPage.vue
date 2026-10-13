@@ -299,7 +299,7 @@ function actions(s) {
   if (usable && s.made && can["Work Order"]) list.push({ label: __("Make More"), primary: true, onClick: () => desk().item.make(s.name, s.made.name) });
   else if (usable && s.is_purchase_item && can["Purchase Order"]) list.push({ label: __("Order More"), primary: true, onClick: () => desk().item.order(s.name) });
   if (usable && s.is_purchase_item && can["Material Request"]) list.push({ label: __("Request Material"), onClick: () => desk().item.request(s.name) });
-  if (usable && s.stock && can["Stock Entry"]) list.push({ label: __("Move Stock"), onClick: () => desk().item.move(s.name) });
+  if (usable && s.stock && can["Stock Entry"]) list.push({ label: __("Transfer Stock"), onClick: () => desk().item.move(s.name) });
   if (usable && s.stock && can["Stock Reconciliation"]) list.push({ label: s.stock.moves.length ? __("Count Stock") : __("Set Opening Stock"), onClick: () => desk().item.count(s.name, !s.stock.moves.length) });
   if (s.has_variants && can.Item) list.push({ label: __("Add Variant"), primary: true, onClick: () => desk().item.variant(s.name) });
   if (s.can_write) list.push({ label: __("Edit Details"), onClick: details });

@@ -177,7 +177,7 @@ function report() {
   const warehouse = s.warehouse || undefined;
   props.onActions?.(
     [
-      s.can["Stock Entry"] && { label: __("Move Stock"), primary: true, onClick: () => onedesk().stock.move(warehouse) },
+      s.can["Stock Entry"] && { label: __("Transfer Stock"), primary: true, onClick: () => onedesk().stock.move(warehouse) },
       s.can["Stock Reconciliation"] && { label: __("Count Stock"), onClick: () => onedesk().stock.count(warehouse) },
       s.can.Warehouse && { label: __("Add Warehouse"), onClick: () => onedesk().stock.warehouse() },
       { label: __("Stock Balance"), onClick: () => go(`/desk/query-report/Stock Balance${warehouse ? `?warehouse=${encodeURIComponent(warehouse)}` : ""}`) },
