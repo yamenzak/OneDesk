@@ -28,9 +28,18 @@ def left(batch: str) -> list[dict]:
 	for row in _entries(batch):
 		held[row.warehouse] = held.get(row.warehouse, 0) + flt(row.qty)
 	return sorted(
-		({"warehouse": warehouse, "qty": qty} for warehouse, qty in held.items() if flt(qty, 6) > 0),
+		(
+			{"warehouse": warehouse, "label": _called(warehouse), "qty": qty}
+			for warehouse, qty in held.items()
+			if flt(qty, 6) > 0
+		),
 		key=lambda one: -one["qty"],
 	)
+
+
+def _called(warehouse: str | None) -> str | None:
+	"""A warehouse by its own name, without the company's letters after it."""
+	return warehouse and (frappe.get_cached_value("Warehouse", warehouse, "warehouse_name") or warehouse)
 
 
 def moves(batch: str) -> list[dict]:

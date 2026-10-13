@@ -203,6 +203,15 @@ export const mentionable = () =>
 /** A date in the past? Compared as desk's dates are, by day. */
 export const isPast = (value) => Boolean(value) && value < frappe().datetime.get_today();
 
+/** How far a day is from today, as words: "in 24 days", "3 days ago", "today". */
+export const fromToday = (value) => {
+	const days = frappe().datetime.get_day_diff(value, frappe().datetime.get_today());
+	if (!days) return __("today");
+	if (days === 1) return __("tomorrow");
+	if (days === -1) return __("yesterday");
+	return days > 0 ? __("in {0} days", [days]) : __("{0} days ago", [-days]);
+};
+
 /** A short date, "3 Oct", for chips; the long form is `date`. */
 /** A month as desk names it, in the reader's language: "October 2026". */
 export const monthName = (value) =>

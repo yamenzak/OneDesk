@@ -11828,7 +11828,8 @@ Reports and Setup.
 | Deliveries | done |
 | Stock Movements | done |
 | Stock Counts | done |
-| Lots | next |
+| Lots | done, redrawn after Odoo and Katana |
+| Buying › To Order | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12178,4 +12179,34 @@ count that found three hinges short.
 | 1 Demo coverage | both counts name their warehouse |
 | 5 Our look | counted, on record and difference side by side, a number not text |
 | What ERPNext already does | its own fields brought forward, its rule on unchanged lines kept |
+
+**Lots.** One of our own screens, so drawn after an app people know (the
+rule from Stock on Hand): Odoo's Lots and Serial Numbers and Katana's batch
+tracking. Looked at as Karim, at 1440 wide, on a phone and on an item's Stock
+tab, which shows the same rows.
+
+- **A wall of text, redrawn.** Each lot was a line of text with a dot and
+  "70 in Mansour Villa Site - SGA · 50 in Stores - SGA" under it. Lots is a
+  table now: the lot and its item, one status Badge (Good, Going Off, Gone
+  Off, or Keeps for a lot with no date), Made, Goes Off with "in 23 days",
+  where it is as a chip per warehouse by its own name, and what is left with
+  its unit quiet after it. Serial Numbers is a table too: the number and its
+  item, its status, where it is or the customer who has it, its lot and its
+  warranty. On a phone a row keeps the lot, its status and what is left; on
+  an item's half-width Stock tab, where it is goes under the lot.
+- **Filters above, not a switch.** Going Off Only became All, Going Off and
+  Gone Off with their counts, and the Going Off and Gone Off figures filter to
+  theirs. Home's "lots going off" still opens it filtered.
+- **The company's own.** The serial numbers, and their count, were every
+  company's; they are the reader's company's now, which the atlas had flagged.
+- **Numbers through frappe.** The figures printed with `String()`; they go
+  through the kit's `count`.
+- The page names what it is modelled on, and comes off the list of screens
+  still to be redrawn.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on Odoo and Katana, one status, a table not text |
+| 8 Built from frappe | frappe-ui's List, Badge, Avatar and TabButtons; counts through `count` |
+| What ERPNext already does | the reader's company's serial numbers |
 

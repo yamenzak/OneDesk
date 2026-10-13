@@ -4,6 +4,7 @@ lots. The item's Stock tab shows the same rows. How it works is in the
 module's README, Under the hood.
 """
 
+import erpnext
 import frappe
 from frappe.utils import flt
 
@@ -52,7 +53,9 @@ def figures() -> dict:
 		states = [batches.state(one.expiry_date, one.batch_qty) for one in held]
 		out.update(lots=len(held), going_off=states.count("Expiring Soon"), gone=states.count("Expired"))
 	if frappe.has_permission("Serial No", "read"):
-		out["serials"] = len(frappe.get_list("Serial No", filters={"status": "Active"}, pluck="name"))
+		company = erpnext.get_default_company()
+		mine = {"status": "Active", **({"company": company} if company else {})}
+		out["serials"] = len(frappe.get_list("Serial No", filters=mine, pluck="name"))
 	return out
 
 
@@ -98,9 +101,17 @@ def serials(search: str | None = None, item: str | None = None) -> list[dict]:
 	if not frappe.has_permission("Serial No", "read"):
 		return []
 	filters = {"item_code": item} if item else {}
+	# The reader's company's pieces, as everything else this page counts.
+	company = erpnext.get_default_company()
+	if company:
+		filters["company"] = company
 	or_filters = {"serial_no": ["like", f"%{search}%"], "item_name": ["like", f"%{search}%"]} if search else None
 	found = [
-		{**one, "warranty_expiry_date": str(one.warranty_expiry_date) if one.warranty_expiry_date else None}
+		{
+			**one,
+			"warehouse_label": batches._called(one.warehouse),
+			"warranty_expiry_date": str(one.warranty_expiry_date) if one.warranty_expiry_date else None,
+		}
 		for one in frappe.get_list(
 			"Serial No",
 			filters=filters,

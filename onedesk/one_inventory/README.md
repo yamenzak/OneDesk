@@ -714,13 +714,18 @@ OneAI says what a count found and what it did to the books.
 
 **Lots** in the rail keeps lots and serial numbers in one place. The figures
 say how many lots are in stock, how many go off within a month, how many have
-gone off and how many numbered pieces are in stock. Three tabs follow.
+gone off and how many numbered pieces are in stock, the company's own. Three
+tabs follow. An item's Stock tab shows the same lots and numbers.
 
-- **Lots** lists each lot with something left, the one going off first. Each
-  says what is left in each warehouse and when it goes off, amber within a
-  month and red once past. **Going Off Only** narrows it to those.
-- **Serial Numbers** lists each numbered piece with where it is, or the
-  customer it went to, and when its warranty ends.
+- **Lots** is a table drawn after Odoo's Lots and Serial Numbers and
+  Katana's batch tracking: each lot with something left, the one going off
+  first, with one status (Good, Going Off within a month, Gone Off, or Keeps
+  for a lot that never goes off), when it was made, when it goes off and in
+  how many days, what is left in each warehouse, and how much in all.
+  **All**, **Going Off** and **Gone Off** above it narrow it, and the Going
+  Off and Gone Off figures do too.
+- **Serial Numbers** is a table of each numbered piece with its status, where
+  it is or the customer it went to, its lot, and when its warranty ends.
 - **Items** lists the items kept in lots or by number, and how each is
   numbered.
 

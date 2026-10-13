@@ -2,7 +2,9 @@
   <!-- Lots (one_inventory/page/lots): batches and serial numbers as one tool.
        What each lot holds and where, which go off soon, each serial number
        and where it is, and the items kept in lots, with Track Lots and New
-       Lot (one_inventory/lots.py, lots_actions.js). -->
+       Lot (one_inventory/lots.py, lots_actions.js). Modelled on Odoo's Lots
+       and Serial Numbers and Katana's batch tracking: a table of lots with one
+       status each, filtered by state above it. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -19,14 +21,14 @@
         <TextInput v-model="search" class="w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
         </TextInput>
-        <Switch v-if="shown === 'batches'" v-model="soon" :label="__('Going Off Only')" class="ms-1" />
+        <TabButtons v-if="shown === 'batches' && states.length > 1" v-model="state" :options="states" class="ms-auto" />
         <Button v-if="item" variant="subtle" :label="__('Only {0}', [item])" :aria-label="__('Show Every Item')" @click="item = null">
           <template #suffix><span class="lucide-x size-3.5" aria-hidden="true" /></template>
         </Button>
       </div>
 
       <div class="mt-3">
-        <LotRows v-if="shown === 'batches'" :lots="said.batches" :empty="search || soon ? __('No lots match') : __('No lots in stock')" />
+        <LotRows v-if="shown === 'batches'" :lots="lots" :empty="search || state !== 'all' ? __('No lots match') : __('No lots in stock')" />
         <SerialRows v-else-if="shown === 'serials'" :serials="said.serials" :empty="search ? __('No numbers match') : __('No serial numbers yet')" />
         <Rows v-else :rows="items" :empty="__('No item is kept in lots yet')" />
       </div>
@@ -36,9 +38,9 @@
 
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Button, Switch, TextInput } from "frappe-ui";
+import { Button, TabButtons, TextInput } from "frappe-ui";
 
-import { Figures, Loading, Page, PlaceSpot, Rows, ViewTabs, __, call, followList, onResize, onedesk, setQuery, viewWidth } from "../kit";
+import { Figures, Loading, Page, PlaceSpot, Rows, ViewTabs, __, call, count, followList, onResize, onedesk, setQuery, viewWidth } from "../kit";
 import LotRows from "./LotRows.vue";
 import SerialRows from "./SerialRows.vue";
 
@@ -52,7 +54,8 @@ const props = defineProps({
 const said = ref(null);
 const shown = ref(props.query.view || "batches");
 const search = ref("");
-const soon = ref(!!props.query.soon);
+// All, those going off within a month, or those gone off; ?soon= opens on the first two.
+const state = ref(props.query.soon ? "soon" : "all");
 // An item's page opens the page narrowed to that item.
 const item = ref(props.query.item || null);
 const wide = ref(viewWidth() >= 640);
@@ -61,7 +64,7 @@ onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 let asked = 0;
 async function load() {
   const mine = ++asked;
-  const got = await call("onedesk.one_inventory.lots.read", { view: shown.value, search: search.value.trim() || null, soon: soon.value ? 1 : 0, item: item.value });
+  const got = await call("onedesk.one_inventory.lots.read", { view: shown.value, search: search.value.trim() || null, item: item.value });
   if (mine !== asked) return;
   said.value = got;
   report();
@@ -82,7 +85,7 @@ watch(shown, (now) => {
   setQuery("view", now === "batches" ? null : now);
   load();
 });
-watch(soon, load);
+watch(state, (now) => setQuery("soon", now === "soon" ? 1 : null));
 watch(item, (now) => {
   setQuery("item", now);
   load();
@@ -91,6 +94,21 @@ let typed = null;
 watch(search, () => {
   clearTimeout(typed);
   typed = setTimeout(load, 300);
+});
+
+const lots = computed(() => {
+  const all = said.value?.batches || [];
+  if (state.value === "soon") return all.filter((one) => one.state);
+  if (state.value === "gone") return all.filter((one) => one.state === "Expired");
+  return all;
+});
+const states = computed(() => {
+  const f = said.value?.figures || {};
+  return [
+    { value: "all", label: __("All") },
+    (f.going_off || f.gone) && { value: "soon", label: __("Going Off {0}", [count((f.going_off || 0) + (f.gone || 0))]) },
+    f.gone && { value: "gone", label: __("Gone Off {0}", [count(f.gone)]) },
+  ].filter(Boolean);
 });
 
 const views = computed(() => [
@@ -102,10 +120,10 @@ const views = computed(() => [
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    f.lots !== null && { title: __("Lots in Stock"), value: String(f.lots) },
-    f.going_off !== null && { title: __("Going Off"), value: String(f.going_off), alarm: f.going_off > 0, note: f.going_off ? __("Within a month") : "" },
-    f.gone !== null && { title: __("Gone Off"), value: String(f.gone), alarm: f.gone > 0 },
-    f.serials !== null && { title: __("Numbered Pieces"), value: String(f.serials) },
+    f.lots !== null && { title: __("Lots in Stock"), value: count(f.lots) },
+    f.going_off !== null && { title: __("Going Off"), value: count(f.going_off), alarm: f.going_off > 0, note: f.going_off ? __("Within a month") : "", action: f.going_off ? { icon: "lucide-filter", label: __("Show Lots Going Off"), onClick: () => (state.value = "soon") } : null },
+    f.gone !== null && { title: __("Gone Off"), value: count(f.gone), alarm: f.gone > 0, action: f.gone ? { icon: "lucide-filter", label: __("Show Lots Gone Off"), onClick: () => (state.value = "gone") } : null },
+    f.serials !== null && { title: __("Numbered Pieces"), value: count(f.serials) },
   ].filter(Boolean);
 });
 

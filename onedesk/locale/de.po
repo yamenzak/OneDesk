@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-13 20:06+0000\n"
+"POT-Creation-Date: 2026-10-13 20:33+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -2229,6 +2229,7 @@ msgid "Agreements"
 msgstr "Vereinbarungen"
 
 #. Name of a role
+#: frontend/src/lots/LotsPage.vue:108
 #: frontend/src/project/ProjectActivity.vue:113
 #: frontend/src/project/Time.vue:89 frontend/src/stock/StockOnHand.vue:148
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -4698,7 +4699,7 @@ msgstr "Nach Artikelgruppe"
 msgid "By Line"
 msgstr "Nach Position"
 
-#: frontend/src/lots/LotsPage.vue:121
+#: frontend/src/lots/LotsPage.vue:139
 msgid "By Number"
 msgstr "Nach Nummer"
 
@@ -9002,8 +9003,8 @@ msgstr "Ende der Lebensdauer"
 msgid "End of Service"
 msgstr "Dienstende"
 
-#: frontend/src/project/Overview.vue:451 onedesk/one_inventory/heads.py:575
-#: onedesk/public/js/settings.js:2988
+#: frontend/src/lots/SerialRows.vue:33 frontend/src/project/Overview.vue:451
+#: onedesk/one_inventory/heads.py:575 onedesk/public/js/settings.js:2988
 msgid "Ended"
 msgstr "Beendet"
 
@@ -11053,11 +11054,15 @@ msgstr "Ziele, Zielgruppe und Seiten abgestimmt"
 msgid "Goes Into"
 msgstr "Geht ein in"
 
+#: frontend/src/lots/LotRows.vue:12
+msgid "Goes Off"
+msgstr "Läuft ab"
+
 #: onedesk/public/js/lots_actions.js:111
 msgid "Goes Off On"
 msgstr "Läuft ab am"
 
-#: frontend/src/home/InventoryHome.vue:242 frontend/src/lots/LotRows.vue:39
+#: frontend/src/home/InventoryHome.vue:242
 msgid "Goes off {0}"
 msgstr "Läuft ab am {0}"
 
@@ -11065,22 +11070,31 @@ msgstr "Läuft ab am {0}"
 msgid "Goes to"
 msgstr "Führt zu"
 
-#: frontend/src/home/InventoryHome.vue:233 frontend/src/lots/LotsPage.vue:106
+#: frontend/src/home/InventoryHome.vue:233 frontend/src/lots/LotRows.vue:80
+#: frontend/src/lots/LotsPage.vue:124
 msgid "Going Off"
 msgstr "Läuft bald ab"
 
-#: frontend/src/lots/LotsPage.vue:22
-msgid "Going Off Only"
-msgstr "Nur bald ablaufende"
+#: frontend/src/lots/LotsPage.vue:109
+msgid "Going Off {0}"
+msgstr "Läuft bald ab {0}"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Gone"
 msgstr "Verschwunden"
 
-#: frontend/src/lots/LotsPage.vue:107
+#: frontend/src/lots/LotRows.vue:79 frontend/src/lots/LotsPage.vue:125
 msgid "Gone Off"
 msgstr "Abgelaufen"
+
+#: frontend/src/lots/LotsPage.vue:110
+msgid "Gone Off {0}"
+msgstr "Abgelaufen {0}"
+
+#: frontend/src/lots/LotRows.vue:83
+msgid "Good"
+msgstr "Gut"
 
 #: onedesk/one/print_blocks.py:19
 msgid "Goods Received Note"
@@ -13038,7 +13052,7 @@ msgid "Item Tax Templates"
 msgstr "Artikelsteuervorlagen"
 
 #. Label of a Sidebar Item
-#: frontend/src/lots/LotsPage.vue:99 frontend/src/stock/StockOnHand.vue:168
+#: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
 #: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:24
 #: onedesk/one_inventory/page/item_view/item_view.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -13050,7 +13064,7 @@ msgstr "Artikel"
 msgid "Items Held"
 msgstr "Gelagerte Artikel"
 
-#: frontend/src/lots/LotsPage.vue:11
+#: frontend/src/lots/LotsPage.vue:13
 msgid "Items can't be kept in lots or by number yet."
 msgstr "Artikel können noch nicht in Chargen oder nach Nummer geführt werden."
 
@@ -13252,7 +13266,11 @@ msgstr "Beide behalten"
 msgid "Keep it in lots or by number"
 msgstr "In Chargen oder nach Nummer führen"
 
-#: frontend/src/lots/LotsPage.vue:124
+#: frontend/src/lots/LotRows.vue:83
+msgid "Keeps"
+msgstr "Hält"
+
+#: frontend/src/lots/LotsPage.vue:142
 msgid "Keeps {0} days"
 msgstr "Hält {0} Tage"
 
@@ -13953,9 +13971,9 @@ msgstr "Austritt"
 msgid "Ledger"
 msgstr ""
 
-#: frontend/src/project/Money.vue:43 frontend/src/project/Money.vue:155
-#: frontend/src/project/Overview.vue:216 onedesk/one_inventory/heads.py:1164
-#: onedesk/public/js/settings.js:2261
+#: frontend/src/lots/LotRows.vue:14 frontend/src/project/Money.vue:43
+#: frontend/src/project/Money.vue:155 frontend/src/project/Overview.vue:216
+#: onedesk/one_inventory/heads.py:1164 onedesk/public/js/settings.js:2261
 msgid "Left"
 msgstr "Übrig"
 
@@ -14584,6 +14602,10 @@ msgstr "Verlustgründe"
 msgid "Lost Value"
 msgstr ""
 
+#: frontend/src/lots/LotRows.vue:9 frontend/src/lots/SerialRows.vue:12
+msgid "Lot"
+msgstr "Charge"
+
 #: onedesk/public/js/lots_actions.js:103
 msgid "Lot Number"
 msgstr "Chargennummer"
@@ -14598,8 +14620,8 @@ msgstr "Charge {0} angelegt"
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryHome.vue:245 frontend/src/item/ItemStock.vue:12
-#: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:97
-#: frontend/src/lots/LotsPage.vue:121 frontend/src/lots/LotsPage.vue:146
+#: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:115
+#: frontend/src/lots/LotsPage.vue:139 frontend/src/lots/LotsPage.vue:164
 #: onedesk/one_inventory/home.py:30 onedesk/one_inventory/page/lots/lots.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:14
@@ -14614,7 +14636,7 @@ msgstr "Chargen laufen ab"
 msgid "Lots and when they go off."
 msgstr "Chargen und wann sie ablaufen."
 
-#: frontend/src/lots/LotsPage.vue:105
+#: frontend/src/lots/LotsPage.vue:123
 msgid "Lots in Stock"
 msgstr "Chargen auf Lager"
 
@@ -14654,8 +14676,8 @@ msgid "MB"
 msgstr "MB"
 
 #: frontend/src/home/InventoryStory.vue:165
-#: frontend/src/home/InventoryStory.vue:171 onedesk/one_inventory/heads.py:1169
-#: onedesk/one_inventory/heads.py:1334
+#: frontend/src/home/InventoryStory.vue:171 frontend/src/lots/LotRows.vue:11
+#: onedesk/one_inventory/heads.py:1169 onedesk/one_inventory/heads.py:1334
 msgid "Made"
 msgstr "Gefertigt"
 
@@ -14754,8 +14776,7 @@ msgstr "Angelegt aus {0}."
 msgid "Made in Our Workshop"
 msgstr "In unserer Werkstatt gefertigt"
 
-#: frontend/src/item/ItemStock.vue:66 frontend/src/lots/LotRows.vue:37
-#: onedesk/one_intake/panel.py:211
+#: frontend/src/item/ItemStock.vue:66 onedesk/one_intake/panel.py:211
 msgid "Made {0}"
 msgstr "{0} angelegt"
 
@@ -16180,7 +16201,7 @@ msgstr "Neue Stufe"
 msgid "New Link"
 msgstr "Neuer Link"
 
-#: frontend/src/item/ItemStock.vue:48 frontend/src/lots/LotsPage.vue:150
+#: frontend/src/item/ItemStock.vue:48 frontend/src/lots/LotsPage.vue:168
 #: onedesk/public/js/lots_actions.js:88
 msgid "New Lot"
 msgstr "Neue Charge"
@@ -16736,7 +16757,7 @@ msgstr "Noch keine Rechnungen. Ein Tarif mit Testphase stellt die erste Rechnung
 msgid "No item has a reorder level yet. Set one on an item's Stock view."
 msgstr "Noch kein Artikel hat einen Meldebestand. Legen Sie ihn in der Bestandsansicht eines Artikels fest."
 
-#: frontend/src/lots/LotsPage.vue:31
+#: frontend/src/lots/LotsPage.vue:33
 msgid "No item is kept in lots yet"
 msgstr "Noch kein Artikel in Chargen geführt"
 
@@ -16772,11 +16793,11 @@ msgstr "Nicht mehr angeboten"
 msgid "No longer ready."
 msgstr "Nicht mehr bereit."
 
-#: frontend/src/item/ItemStock.vue:13 frontend/src/lots/LotsPage.vue:29
+#: frontend/src/item/ItemStock.vue:13 frontend/src/lots/LotsPage.vue:31
 msgid "No lots in stock"
 msgstr "Keine Chargen auf Lager"
 
-#: frontend/src/lots/LotsPage.vue:29
+#: frontend/src/lots/LotsPage.vue:31
 msgid "No lots match"
 msgstr "Keine passenden Chargen"
 
@@ -16863,7 +16884,7 @@ msgstr "Noch keine nummerierten Stücke"
 msgid "No numbered records"
 msgstr "Keine nummerierten Datensätze"
 
-#: frontend/src/lots/LotsPage.vue:30
+#: frontend/src/lots/LotsPage.vue:32
 msgid "No numbers match"
 msgstr "Keine passenden Nummern"
 
@@ -17022,7 +17043,7 @@ msgstr "Kein Plan"
 msgid "No selling price"
 msgstr "Kein Verkaufspreis"
 
-#: frontend/src/lots/LotsPage.vue:30
+#: frontend/src/lots/LotsPage.vue:32
 msgid "No serial numbers yet"
 msgstr "Noch keine Seriennummern"
 
@@ -17815,19 +17836,19 @@ msgstr "Rechnungen nach Jahr nummerieren"
 msgid "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
 msgstr "Anzahl verschiedener Mitarbeiter und jeweiliger Eincheckungen, bevor ein vorgeschlagenes Netzwerk oder ein vorgeschlagener Ort bestätigt wird."
 
-#: frontend/src/lots/LotsPage.vue:108
+#: frontend/src/lots/LotsPage.vue:126
 msgid "Numbered Pieces"
 msgstr "Nummerierte Stücke"
 
-#: frontend/src/lots/LotsPage.vue:123
+#: frontend/src/lots/LotsPage.vue:141
 msgid "Numbered automatically"
 msgstr "Automatisch nummeriert"
 
-#: frontend/src/lots/LotsPage.vue:123
+#: frontend/src/lots/LotsPage.vue:141
 msgid "Numbered by hand"
 msgstr "Von Hand nummeriert"
 
-#: frontend/src/lots/LotsPage.vue:123 frontend/src/lots/LotsPage.vue:125
+#: frontend/src/lots/LotsPage.vue:141 frontend/src/lots/LotsPage.vue:143
 msgid "Numbered like {0}"
 msgstr "Nummeriert wie {0}"
 
@@ -18955,7 +18976,7 @@ msgstr "Nur Sie können diesen zustimmen."
 msgid "Only you can see your memories."
 msgstr "Nur Sie sehen Ihre Erinnerungen."
 
-#: frontend/src/lots/LotsPage.vue:23 onedesk/public/js/onecloud.js:1398
+#: frontend/src/lots/LotsPage.vue:25 onedesk/public/js/onecloud.js:1398
 msgid "Only {0}"
 msgstr "Nur {0}"
 
@@ -23903,7 +23924,7 @@ msgid "Seal and weatherproof"
 msgstr "Abdichten und wetterfest machen"
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
-#: frontend/src/home/InventoryHome.vue:32 frontend/src/lots/LotsPage.vue:19
+#: frontend/src/home/InventoryHome.vue:32 frontend/src/lots/LotsPage.vue:21
 #: frontend/src/project/ProjectPage.vue:22
 #: frontend/src/quotes/QuotesPage.vue:15
 #: frontend/src/sent_out/SentOutPage.vue:15
@@ -24269,6 +24290,10 @@ msgstr "Austritt"
 msgid "Separator"
 msgstr "Trennzeichen"
 
+#: frontend/src/lots/SerialRows.vue:9
+msgid "Serial Number"
+msgstr "Seriennummer"
+
 #: onedesk/one_inventory/home.py:90
 msgid "Serial Number History"
 msgstr "Verlauf der Seriennummer"
@@ -24277,7 +24302,7 @@ msgstr "Verlauf der Seriennummer"
 msgid "Serial Numbering"
 msgstr "Seriennummerierung"
 
-#: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:98
+#: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:116
 #: onedesk/one_inventory/home.py:32 onedesk/public/js/page_views.js:17
 msgid "Serial Numbers"
 msgstr "Seriennummern"
@@ -24871,7 +24896,7 @@ msgstr "Abgeschlossene anzeigen"
 msgid "Show Error"
 msgstr ""
 
-#: frontend/src/lots/LotsPage.vue:23
+#: frontend/src/lots/LotsPage.vue:25
 msgid "Show Every Item"
 msgstr "Alle Artikel zeigen"
 
@@ -24895,6 +24920,14 @@ msgstr "Weniger anzeigen"
 #: onedesk/public/js/record.js:187
 msgid "Show Links"
 msgstr ""
+
+#: frontend/src/lots/LotsPage.vue:124
+msgid "Show Lots Going Off"
+msgstr "Bald ablaufende Chargen zeigen"
+
+#: frontend/src/lots/LotsPage.vue:125
+msgid "Show Lots Gone Off"
+msgstr "Abgelaufene Chargen zeigen"
 
 #: frontend/src/stock/StockOnHand.vue:169
 msgid "Show Low Items"
@@ -25864,6 +25897,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Interview Recording'
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
+#: frontend/src/lots/LotRows.vue:10 frontend/src/lots/SerialRows.vue:10
 #: frontend/src/plant/PlantFloor.vue:19 frontend/src/project/Facts.vue:8
 #: frontend/src/project/Invoices.vue:34
 #: frontend/src/project/ProjectPage.vue:205
@@ -29575,7 +29609,7 @@ msgstr "Gesamt · {0}"
 msgid "Totals Only"
 msgstr "Nur Summen"
 
-#: frontend/src/lots/LotsPage.vue:151 onedesk/public/js/lots_actions.js:11
+#: frontend/src/lots/LotsPage.vue:169 onedesk/public/js/lots_actions.js:11
 msgid "Track Lots"
 msgstr "Chargen verfolgen"
 
@@ -29777,7 +29811,7 @@ msgstr "Dienstag"
 msgid "Turn Off"
 msgstr "Abschalten"
 
-#: frontend/src/lots/LotsPage.vue:12 onedesk/one_studio/heads.py:78
+#: frontend/src/lots/LotsPage.vue:14 onedesk/one_studio/heads.py:78
 msgid "Turn On"
 msgstr "Einschalten"
 
@@ -30799,17 +30833,13 @@ msgstr "Lager"
 msgid "Warn"
 msgstr "Warnen"
 
-#: frontend/src/lots/SerialRows.vue:30
-msgid "Warranty ended {0}"
-msgstr "Garantie endete {0}"
+#: frontend/src/lots/SerialRows.vue:13
+msgid "Warranty"
+msgstr "Garantie"
 
 #: frontend/src/item/ItemStock.vue:127 onedesk/public/js/lots_actions.js:58
 msgid "Warranty in Days"
 msgstr "Garantie in Tagen"
-
-#: frontend/src/lots/SerialRows.vue:31
-msgid "Warranty until {0}"
-msgstr "Garantie bis {0}"
 
 #. Label of the was (Long Text) field in DocType 'Workspace Customization'
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
@@ -30969,7 +30999,7 @@ msgstr ""
 msgid "Welcome mail and contacts"
 msgstr "Willkommensmail und Ansprechpartner"
 
-#: frontend/src/home/InventoryHome.vue:242 frontend/src/lots/LotRows.vue:38
+#: frontend/src/home/InventoryHome.vue:242
 msgid "Went off {0}"
 msgstr "Abgelaufen am {0}"
 
@@ -32590,6 +32620,7 @@ msgstr "Wenn {0} zu {1} wechselt"
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #. Label in the One Work Order print format
+#: frontend/src/lots/LotRows.vue:13 frontend/src/lots/SerialRows.vue:11
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/heads.py:650 onedesk/one_inventory/heads.py:1133
 #: onedesk/one_inventory/heads.py:1352 onedesk/one_inventory/heads.py:1425
@@ -33350,7 +33381,7 @@ msgstr "Beim Lieferanten"
 msgid "With Suppliers"
 msgstr "Bei Lieferanten"
 
-#: frontend/src/item/ItemOverview.vue:66 frontend/src/lots/SerialRows.vue:27
+#: frontend/src/item/ItemOverview.vue:66 frontend/src/lots/SerialRows.vue:63
 msgid "With {0}"
 msgstr "Bei {0}"
 
@@ -33370,7 +33401,7 @@ msgstr "Zurückgehalten"
 msgid "Withheld: {0}"
 msgstr "Zurückgehalten: {0}"
 
-#: frontend/src/lots/LotsPage.vue:106
+#: frontend/src/lots/LotsPage.vue:124
 msgid "Within a month"
 msgstr "Innerhalb eines Monats"
 
@@ -34862,6 +34893,10 @@ msgstr "verspätet gekommen, früher gegangen"
 msgid "in the list"
 msgstr "in der Liste"
 
+#: frontend/src/kit/desk.js:212
+msgid "in {0} days"
+msgstr "in {0} Tagen"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "input"
@@ -35420,6 +35455,14 @@ msgstr "dieser Teil konnte nicht transkribiert werden"
 msgid "thread"
 msgstr "Unterhaltung"
 
+#: frontend/src/kit/desk.js:209
+msgid "today"
+msgstr "heute"
+
+#: frontend/src/kit/desk.js:210
+msgid "tomorrow"
+msgstr "morgen"
+
 #: onedesk/one_admin/setup.py:327
 msgid "unchanged"
 msgstr "unverändert"
@@ -35505,6 +35548,10 @@ msgstr "workers-ai"
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
 msgid "yellow"
 msgstr ""
+
+#: frontend/src/kit/desk.js:211
+msgid "yesterday"
+msgstr "gestern"
 
 #: onedesk/one/tell.py:381
 msgid "your data to be deleted"
@@ -35969,6 +36016,10 @@ msgstr "{0} Tage nach {2} eines {1}"
 msgid "{0} days after {1}"
 msgstr "{0} Tage nach {1}"
 
+#: frontend/src/kit/desk.js:212
+msgid "{0} days ago"
+msgstr "vor {0} Tagen"
+
 #: onedesk/one/rules.py:251
 msgid "{0} days before a {1}'s {2}"
 msgstr "{0} Tage vor {2} eines {1}"
@@ -36274,7 +36325,7 @@ msgstr "{0} in 12 Monaten"
 msgid "{0} in 12 weeks"
 msgstr "{0} in 12 Wochen"
 
-#: frontend/src/lots/LotRows.vue:29 onedesk/one_inventory/heads.py:264
+#: onedesk/one_inventory/heads.py:264
 msgid "{0} in {1}"
 msgstr "{0} in {1}"
 

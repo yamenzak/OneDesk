@@ -135,7 +135,6 @@ UNMODELLED = {
 	"floor/ShopFloor.vue",
 	"home/InventoryHome.vue",
 	"item/ItemPage.vue",
-	"lots/LotsPage.vue",
 	"plant/PlantFloor.vue",
 	"project/ProjectPage.vue",
 	"quotes/QuotesPage.vue",
