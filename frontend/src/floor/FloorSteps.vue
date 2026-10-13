@@ -54,7 +54,7 @@ const now = ref(Date.now());
 const tick = setInterval(() => (now.value = Date.now()), 1000);
 onBeforeUnmount(() => clearInterval(tick));
 
-const THEMES = { "Work In Progress": "orange", "Material Transferred": "blue", "On Hold": "red", Completed: "green", "To Manufacture": "blue", Submitted: "green", "Not Started": "gray", Open: "gray" };
+const THEMES = { "Work In Progress": "amber", "Material Transferred": "blue", "On Hold": "red", Completed: "green", "To Manufacture": "blue", Submitted: "green", "Not Started": "gray", Open: "gray" };
 
 const rows = computed(() =>
   props.steps.map((one) => {

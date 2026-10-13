@@ -84,7 +84,7 @@ const props = defineProps({
 // Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 
-const STATE = { Draft: "gray", "Not Billable": "gray", "To Invoice": "orange", Invoiced: "green" };
+const STATE = { Draft: "gray", "Not Billable": "gray", "To Invoice": "amber", Invoiced: "green" };
 const FILTERS = [
   { value: "all", label: __("All") },
   { value: "Draft", label: __("Draft") },

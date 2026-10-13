@@ -66,7 +66,7 @@ const materials = computed(() =>
     key: `${one.item_code}-${i}`,
     label: one.item_name,
     sub: one.item_code !== one.item_name ? one.item_code : "",
-    badge: making.value.can_make && one.covers === making.value.can_make.qty ? { label: __("Runs Out First"), theme: "orange" } : null,
+    badge: making.value.can_make && one.covers === making.value.can_make.qty ? { label: __("Runs Out First"), theme: "amber" } : null,
     below: one.covers === null ? "" : one.covers ? __("Enough for {0}", [quantity(one.covers)]) : __("None free"),
     dim: quantity(one.qty, one.uom),
     value: money(one.amount, props.said.currency),

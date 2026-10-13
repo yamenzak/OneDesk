@@ -18,7 +18,7 @@ const props = defineProps({
   empty: String,
 });
 
-const DOTS = { Expired: "red", "Expiring Soon": "orange" };
+const DOTS = { Expired: "red", "Expiring Soon": "amber" };
 
 const rows = computed(() =>
   props.lots.map((one) => ({

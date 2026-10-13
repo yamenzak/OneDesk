@@ -165,7 +165,7 @@ function counts(one) {
     value: steps,
   };
 }
-const THEMES = { "In Process": "orange", "Not Started": "gray", Completed: "green", "Stock Reserved": "blue", "Stock Partially Reserved": "blue" };
+const THEMES = { "In Process": "amber", "Not Started": "gray", Completed: "green", "Stock Reserved": "blue", "Stock Partially Reserved": "blue" };
 
 const figures = computed(() => {
   const f = said.value.figures;

@@ -257,6 +257,8 @@ def test_stock_on_hand_adds_each_item_up_and_puts_what_is_low_or_short_first():
 	anchor = said[-1]
 	assert (anchor["on_hand"], anchor["worth"], anchor["places"]) == (55, 110, 2)
 	assert said[0]["low_in"] == ["Stores"] and said[1]["free"] == -3
+	assert [one["state"] for one in said] == ["low", "short", "in"], "one status each, the worst that is true"
+	assert (said[1]["committed"], said[1]["unit"]) == (5, "Nos")
 
 
 def test_home_tells_its_story_through_frappe():

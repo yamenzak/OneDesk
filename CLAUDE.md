@@ -106,6 +106,19 @@ set them, through the kit's `money`, `count`, `hours`, `quantity` and
 `docs/PASSOVER.md`, What ERPNext already does, has the whole of it, and
 `tests/guards/test_formats.py` catches a chart left on the browser's format.
 
+## A screen of our own follows an app people know
+
+Before drawing a screen of our own, find the app that does the same job best
+(Shopify or Katana for stock, Linear for issues, Harvest for time) and draw it
+the way they do, with frappe-ui's parts. A table is not a wall of text: a
+picture or avatar, the name with its code quiet under it, one status as a
+coloured Badge, figures right-aligned with their unit smaller and grey, a dash
+for nothing, and filters as a picker and a row of TabButtons above it. The
+screen's opening comment says `Modelled on …`, and
+`tests/guards/test_islands.py` keeps it, with the screens drawn before this
+listed in `UNMODELLED` until each is redrawn. Badge colours are frappe-ui's
+(`gray`, `blue`, `green`, `amber`, `red`, `violet`); there is no orange.
+
 ## Declare, don't code
 
 Doctypes, Workspaces, Docks, Sidebars, Roles, Print Formats, Notifications and

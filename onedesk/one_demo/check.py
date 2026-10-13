@@ -5366,6 +5366,8 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 		low = {one["item"]: one for one in every["items"] if one["low_in"]}
 		assert "SIL-CLR" in low and wh("Stores") in low["SIL-CLR"]["low_in"], list(low)
 		assert any(one["item"] == "WIN-CS12" and one["free"] < 0 for one in every["items"]), "the windows are promised beyond what there is"
+		assert all(one["state"] == "short" for one in every["items"] if one["free"] < 0), "short is the status of anything promised beyond what there is"
+		assert all(one["on_hand"] == one["committed"] + one["free"] for one in every["items"]), "on hand is committed and available, as Shopify splits it"
 		stores = stock.on_hand(warehouse=wh("Stores"))
 		in_stores = sum(flt(one) for one in frappe.get_all("Bin", filters={"warehouse": wh("Stores")}, pluck="stock_value"))
 		assert abs(stores["worth"] - in_stores) < 0.01 and stores["worth"] < every["worth"]

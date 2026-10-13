@@ -12146,7 +12146,7 @@ Reports and Setup.
 | Screen | State |
 |---|---|
 | Home | done, then told as a story |
-| Stock on Hand | done |
+| Stock on Hand | done, then redrawn after Shopify and Katana |
 | Receipts | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
@@ -12262,4 +12262,37 @@ the points and Figures that add things up.
 | 5 Our look | units on every quantity, no wrapped figures |
 | 8 Built from frappe | counts through `format_number`, worth through `format_currency` |
 | What ERPNext already does | the reader's company only, the item's stock unit on every quantity |
+
+**Stock on Hand, redrawn.** The user, looking at it: these tables are walls of
+text and not organised, and a screen of ours should follow how a known app
+draws the same thing. Looked at against Shopify's Inventory (one location at a
+time, picked above the list; on hand split into committed and available; a
+picture on every row) and Katana's Stock screen (in stock, committed and
+expected side by side, and what is missing against the reorder point).
+
+- **One status, in colour.** A row said "Low in Stores" or "280 Nos short" in
+  a badge glued to its name. Each row now has a Status column with one Badge:
+  In Stock (green), Low (amber), Short (red) or Out of Stock (grey), the worst
+  that is true, worked out on the server (`stock.rows`, `state`). Hovering it
+  says where it is low or how much is short.
+- **Shopify's quantities.** Free to Sell became Committed and Available, the
+  way Shopify splits On Hand; On Order became Incoming. The number is the
+  figure, the unit smaller and grey after it, by its symbol where the
+  workspace gave one (m² for Square Meter), and nothing is a dash.
+- **A picture on every row.** The item's image, or its initial in a square.
+- **Filters above, not tabs across.** Eight warehouse tabs ran off the side;
+  the warehouse is a picker now, as Shopify's location is, and Low, Short and
+  Out of Stock are TabButtons with their counts. The Low and Short figures
+  filter to theirs.
+- **On a phone** a row is the picture, the name, the status and code under it,
+  and Available on the right.
+- **Badge colours.** frappe-ui's Badge has no orange, so every orange badge
+  in the product (warnings on the floors, quotes, invoices, items, sent out)
+  was drawn grey. They are amber now, and a guard holds every badge to the
+  colours Badge has.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on Shopify and Katana, `test_a_screen_names_the_app_it_follows` |
+| 8 Built from frappe | frappe-ui's Avatar, Badge, Dropdown and TabButtons; `test_a_badge_is_a_colour_frappe_ui_has` |
 

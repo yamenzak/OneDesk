@@ -56,7 +56,7 @@ const moved = computed(() => {
   return m.labels.map((month, i) => ({ month, qty: m.values[i] }));
 });
 
-const STATUS = { Draft: "gray", Submitted: "blue", "In Maintenance": "orange", "Out of Order": "red", Scrapped: "red", Sold: "gray" };
+const STATUS = { Draft: "gray", Submitted: "blue", "In Maintenance": "amber", "Out of Order": "red", Scrapped: "red", Sold: "gray" };
 const assets = computed(() =>
   (props.said.assets || []).map((one) => ({
     key: one.name,
@@ -91,7 +91,7 @@ const needs = computed(() => {
     const past = one.state === "Expired";
     rows.push({
       key: `lot-${one.name}`,
-      dot: past ? "red" : "orange",
+      dot: past ? "red" : "amber",
       label: past ? __("Expired, Still in Stock") : __("Expiring Soon"),
       sub: one.batch_id || one.name,
       below: quantity(one.batch_qty, uom),
@@ -101,7 +101,7 @@ const needs = computed(() => {
   }
   for (const one of s.stock?.places || []) {
     if (!one.low) continue;
-    rows.push({ key: `low-${one.warehouse}`, dot: "orange", label: __("Running Low in {0}", [one.warehouse]), below: __("Reorders at {0}", [quantity(one.level, uom)]), value: __("{0} expected", [quantity(one.projected, uom)]), onClick: () => emit("view", "stock") });
+    rows.push({ key: `low-${one.warehouse}`, dot: "amber", label: __("Running Low in {0}", [one.warehouse]), below: __("Reorders at {0}", [quantity(one.level, uom)]), value: __("{0} expected", [quantity(one.projected, uom)]), onClick: () => emit("view", "stock") });
   }
   for (const one of s.buying?.orders || []) {
     if (!one.late) continue;
@@ -112,7 +112,7 @@ const needs = computed(() => {
     rows.push({ key: one.name, dot: "red", label: __("Late to {0}", [one.party]), sub: one.name, below: __("{0} still to send", [quantity(one.left, uom)]), value: __("Due {0}", [date(one.due)]), route: `/desk/sales-order/${encodeURIComponent(one.name)}` });
   }
   for (const one of s.buying?.requests || []) {
-    rows.push({ key: one.name, dot: "orange", label: __("Asked For, Not Yet Ordered"), sub: one.name, below: quantity(one.left, uom), value: __("Due {0}", [date(one.due)]), route: `/desk/material-request/${encodeURIComponent(one.name)}` });
+    rows.push({ key: one.name, dot: "amber", label: __("Asked For, Not Yet Ordered"), sub: one.name, below: quantity(one.left, uom), value: __("Due {0}", [date(one.due)]), route: `/desk/material-request/${encodeURIComponent(one.name)}` });
   }
   return rows;
 });

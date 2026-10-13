@@ -180,7 +180,7 @@ const props = defineProps({ said: { type: Object, required: true } });
 // Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 
-const STATUS = { "On Hold": "orange", Closed: "gray", Completed: "green" };
+const STATUS = { "On Hold": "amber", Closed: "gray", Completed: "green" };
 const cash = computed(() => props.said.money);
 const orders = computed(() => cash.value.suppliers);
 // Goods are on Buying, with what's received; the cards are the packages of work.
@@ -239,7 +239,7 @@ const bill = (one) => onedesk().progress.ask({ doctype: "Purchase Order", doc: {
 const order = () => newDoc("Purchase Order", { project: props.said.name });
 
 // The suppliers' bills, as the Invoices view lists the customer's.
-const BILL = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: "red", Draft: "red", Return: "gray", "Debit Note Issued": "gray" };
+const BILL = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Debit Note Issued": "gray" };
 const bills = ref(null);
 // One supplier needs no column of its own.
 const byParty = computed(() => (bills.value?.parties || 0) > 1);
@@ -275,8 +275,8 @@ function billActions(item) {
 
 // Buying: ERPNext's statuses, coloured as its lists colour them.
 const PAPER = {
-  Draft: "red", Pending: "orange", "Partially Ordered": "orange", Ordered: "green", Received: "green", "Partially Received": "orange",
-  Submitted: "blue", "To Pay": "orange", "To Bill": "orange", "To Receive": "orange", "To Receive and Bill": "orange", Completed: "green", Closed: "gray",
+  Draft: "red", Pending: "amber", "Partially Ordered": "amber", Ordered: "green", Received: "green", "Partially Received": "amber",
+  Submitted: "blue", "To Pay": "amber", "To Bill": "amber", "To Receive": "amber", "To Receive and Bill": "amber", Completed: "green", Closed: "gray",
   Stopped: "red", Expired: "gray", Cancelled: "red",
 };
 const slug = (doctype) => doctype.toLowerCase().replaceAll(" ", "-");

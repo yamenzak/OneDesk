@@ -32,7 +32,10 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 				"item_name": item["item_name"],
 				"group": item["item_group"],
 				"uom": item["stock_uom"],
+				"unit": item.get("unit") or item["stock_uom"],
+				"image": item.get("image"),
 				"on_hand": 0.0,
+				"committed": 0.0,
 				"free": 0.0,
 				"on_order": 0.0,
 				"held": 0.0,
@@ -44,6 +47,7 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 		actual = flt(one.get("actual_qty"))
 		row["on_hand"] += actual
 		# Stock held for an order is part of what orders want already.
+		row["committed"] += flt(one.get("reserved_qty"))
 		row["free"] += actual - flt(one.get("reserved_qty"))
 		row["held"] += flt(one.get("reserved_stock"))
 		row["on_order"] += flt(one.get("ordered_qty"))
@@ -52,6 +56,12 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 		reorder = level.get((one["item_code"], one["warehouse"]))
 		if reorder and flt(one.get("projected_qty")) <= reorder:
 			row["low_in"].append(one["warehouse"])
+	for row in out.values():
+		# One word for the row, the worst of what is true: more promised than
+		# there is, none at all, at or below the reorder level, or in stock.
+		row["state"] = (
+			"short" if row["free"] < 0 else "out" if row["on_hand"] <= 0 else "low" if row["low_in"] else "in"
+		)
 	return sorted(
 		(one for one in out.values() if one["on_hand"] or one["on_order"] or one["low_in"]),
 		key=lambda one: (not one["low_in"], one["free"] >= 0, one["item_name"].lower()),
@@ -97,10 +107,21 @@ def on_hand(
 		for one in frappe.get_list(
 			"Item",
 			filters={"name": ["in", list({one.item_code for one in bins}) or [""]]},
-			fields=["name", "item_name", "item_group", "stock_uom"],
+			fields=["name", "item_name", "item_group", "stock_uom", "image"],
 			limit=0,
 		)
 	}
+	# A unit by its symbol where the workspace gave it one (m² for Square Meter).
+	symbols = dict(
+		frappe.get_all(
+			"UOM",
+			filters={"name": ["in", list({one.stock_uom for one in named.values()}) or [""]], "symbol": ["is", "set"]},
+			fields=["name", "symbol"],
+			as_list=True,
+		)
+	)
+	for one in named.values():
+		one.unit = symbols.get(one.stock_uom)
 	if search:
 		said = search.strip().lower()
 		named = {
@@ -145,6 +166,7 @@ def on_hand(
 		"worth": sum(one["worth"] for one in listed),
 		"low": sum(1 for one in listed if one["low_in"]),
 		"short": sum(1 for one in listed if one["free"] < 0),
+		"out": sum(1 for one in listed if one["state"] == "out"),
 		"can": {
 			one: bool(frappe.has_permission(one, "create"))
 			for one in ("Stock Entry", "Stock Reconciliation", "Warehouse")

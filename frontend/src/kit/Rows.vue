@@ -79,7 +79,7 @@ const height = computed(() =>
   Math.max(...props.rows.map((row) => 40 + 18 * Math.max((bars.value && row.dim ? 1 : 0) + (row.below ? 1 : 0) + (row.lines?.length || 0), row.under ? 1 : 0)), 40)
 );
 
-const dots = { red: "bg-surface-red-5", orange: "bg-surface-amber-5", green: "bg-surface-green-5", blue: "bg-surface-blue-5", gray: "bg-surface-gray-5" };
+const dots = { red: "bg-surface-red-5", amber: "bg-surface-amber-5", orange: "bg-surface-amber-5", green: "bg-surface-green-5", blue: "bg-surface-blue-5", gray: "bg-surface-gray-5" };
 
 function opens(item) {
   if (item.onClick) return { onClick: item.onClick };

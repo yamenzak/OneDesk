@@ -33,6 +33,6 @@ import { __, go, hours, monthName } from "../kit";
 defineProps({ months: { type: Object, required: true } });
 defineEmits(["invoice"]);
 
-const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: "red", Draft: "gray" };
+const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "gray" };
 const named = (value) => monthName(value);
 </script>

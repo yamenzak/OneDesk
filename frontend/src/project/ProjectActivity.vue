@@ -117,7 +117,7 @@ const FILTERS = [
 ];
 const shown = ref("all");
 const VERBS = () => ({ created: __("created"), submitted: __("submitted"), cancelled: __("cancelled") });
-const HEALTH = { "On Track": "green", "At Risk": "orange", "Off Track": "red" };
+const HEALTH = { "On Track": "green", "At Risk": "amber", "Off Track": "red" };
 // The gutter icon of each kind of row; a cancelled document and photos have their own.
 const ICONS = { document: "lucide-file-text", tasks: "lucide-list-plus", task: "lucide-circle-check", time: "lucide-clock", update: "lucide-message-square-text", files: "lucide-paperclip", started: "lucide-folder-plus" };
 const iconOf = (one, icon) => (one.data.verb === "cancelled" ? "lucide-file-x" : one.type === "files" && one.data.photos ? "lucide-image" : icon);

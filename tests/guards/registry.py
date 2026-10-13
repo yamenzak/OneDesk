@@ -150,6 +150,12 @@ GUARDS = [
 		"tests/guards/test_record_page.py::test_no_tab_row_sticks_to_the_top",
 	),
 	Guard(
+		"screen-modelled-on",
+		5,
+		"a screen of our own that does not name the app it is drawn after",
+		"tests/guards/test_islands.py::test_a_screen_names_the_app_it_follows",
+	),
+	Guard(
 		"tabs-one-row",
 		5,
 		"a record's views drawn as tabs of their own, or a row that does not scroll when they do not fit",
@@ -209,6 +215,12 @@ GUARDS = [
 		8,
 		"an island reaching into desk other than through the kit",
 		"tests/guards/test_islands.py::test_only_the_kit_reaches_into_desk",
+	),
+	Guard(
+		"badge-colours",
+		8,
+		"a badge in a colour frappe-ui's Badge does not have, drawn gray",
+		"tests/guards/test_islands.py::test_a_badge_is_a_colour_frappe_ui_has",
 	),
 	Guard(
 		"list-is-frappes",

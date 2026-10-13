@@ -148,7 +148,7 @@ const { tokens } = useChartTokens(root);
 const kind = computed(() => props.said.kind);
 
 // A quotation's status as a dot: still open, ordered, or gone.
-const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "orange", Draft: "gray" };
+const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "amber", Draft: "gray" };
 
 const NAMES = () => ({
   contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), margin: __("Margin"), done: __("Done"),
@@ -399,7 +399,7 @@ const subProjects = computed(() =>
         [...worth, one.below && (one.below === 1 ? __("1 sub-project") : __("{0} sub-projects", [one.below]))].filter(Boolean).join(" · "),
       ].filter(Boolean),
       value: one.status === "Completed" ? __("Completed") : share(one.share),
-      dot: one.health === "Off Track" || late || one.over ? "red" : one.health === "At Risk" ? "orange" : undefined,
+      dot: one.health === "Off Track" || late || one.over ? "red" : one.health === "At Risk" ? "amber" : undefined,
       route: `/desk/project/${encodeURIComponent(one.name)}`,
     };
   })
@@ -448,7 +448,7 @@ const contracts = computed(() =>
     image: one.image,
     square: true,
     sub: [one.party_type === "Supplier" ? __("Supplier") : "", one.project !== props.said.name ? one.project_title || one.project : one.template || ""].filter(Boolean).join(" · "),
-    badge: !one.signed ? { label: __("Not Signed"), theme: "orange" } : one.status === "Inactive" ? { label: __("Ended"), theme: "gray" } : { label: __("Signed"), theme: "green" },
+    badge: !one.signed ? { label: __("Not Signed"), theme: "amber" } : one.status === "Inactive" ? { label: __("Ended"), theme: "gray" } : { label: __("Signed"), theme: "green" },
     value: one.ends ? date(one.ends) : "",
     route: one.route,
   }))
@@ -491,7 +491,7 @@ const subcontracts = computed(() =>
         one.to_pay >= 1 && __("{0} to pay", [money(one.to_pay, props.said.currency)]),
       ].filter(Boolean),
       value: billed(one) >= 100 ? __("Billed") : __("{0}% billed", [billed(one)]),
-      dot: ahead ? "orange" : undefined,
+      dot: ahead ? "amber" : undefined,
       route: one.route,
     };
   })

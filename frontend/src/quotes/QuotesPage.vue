@@ -141,7 +141,7 @@ const asked = computed(() =>
 function badge(one, waiting) {
   if (one.draft) return { label: __("Draft"), theme: "gray" };
   if (one.ordered) return { label: __("Ordered"), theme: "green" };
-  if (waiting.length) return { label: __("Waiting"), theme: "orange" };
+  if (waiting.length) return { label: __("Waiting"), theme: "amber" };
   return { label: __("Answered"), theme: "blue" };
 }
 
@@ -163,7 +163,7 @@ const quotes = computed(() =>
       key: one.name,
       label: one.supplier_name || one.supplier,
       sub: one.name,
-      dot: one.expiring ? "orange" : null,
+      dot: one.expiring ? "amber" : null,
       badge: { label: label(), theme },
       below: [
         one.request ? __("Answers {0}", [one.request]) : "",

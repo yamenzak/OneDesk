@@ -127,3 +127,57 @@ def test_a_setting_is_a_switch():
 		if name in TICKED:
 			continue
 		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"
+
+
+#: Screens drawn before they had to name what they follow. It only shrinks: a
+#: screen redrawn after an app people already know comes off it.
+UNMODELLED = {
+	"floor/ShopFloor.vue",
+	"home/InventoryHome.vue",
+	"item/ItemPage.vue",
+	"lots/LotsPage.vue",
+	"plant/PlantFloor.vue",
+	"project/ProjectPage.vue",
+	"quotes/QuotesPage.vue",
+	"sent_out/SentOutPage.vue",
+	"task/MyTasks.vue",
+	"task/TaskPage.vue",
+	"template/TemplatePage.vue",
+	"task/Timers.vue",
+	"upkeep/UpkeepPage.vue",
+}
+
+
+def test_a_screen_names_the_app_it_follows():
+	"""A screen of our own is drawn after the app people already use for the
+	same job (Shopify's inventory, Linear's issues), not invented, and its
+	opening comment says which: `Modelled on …`."""
+	screens = {}
+	for source in _entries().values():
+		entry = (FRONTEND / source).read_text(encoding="utf-8")
+		for component in re.findall(r'import \w+ from "\.\./([\w/]+\.vue)"', entry):
+			screens[component] = (SRC / component).read_text(encoding="utf-8")
+	assert screens, "no screens found"
+	named = {path for path, text in screens.items() if "Modelled on " in text.split("</template>")[0][:1500]}
+	assert set(screens) - named <= UNMODELLED, sorted(set(screens) - named - UNMODELLED)
+	assert not UNMODELLED & named, f"named now, take off UNMODELLED: {sorted(UNMODELLED & named)}"
+	assert UNMODELLED <= set(screens), sorted(UNMODELLED - set(screens))
+
+
+#: frappe-ui's Badge colours. Any other is drawn gray, without a word.
+BADGE_THEMES = {"gray", "blue", "green", "amber", "red", "violet"}
+
+
+def test_a_badge_is_a_colour_frappe_ui_has():
+	"""frappe-ui's Badge has no orange: a badge given it falls back to gray, so
+	a warning reads as nothing. Every colour named for a badge or a status in a
+	screen is one Badge draws."""
+	wrong = []
+	for path in _vue():
+		text = path.read_text(encoding="utf-8")
+		for colour in re.findall(r'theme="(\w+)"', text) + re.findall(r'\btheme: "(\w+)"', text):
+			if colour not in BADGE_THEMES:
+				wrong.append(f"{path.relative_to(SRC)}: {colour}")
+		if '"orange"' in text and path.name != "PlaceSpot.vue":
+			wrong.append(f"{path.relative_to(SRC)}: orange")
+	assert not wrong, wrong

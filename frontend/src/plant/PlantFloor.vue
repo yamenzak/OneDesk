@@ -74,7 +74,7 @@ const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 
 // The colours ERPNext gives each status (workstation.get_color_map).
-const THEMES = { Production: "green", Off: "gray", Idle: "gray", Problem: "red", Maintenance: "orange", Setup: "blue" };
+const THEMES = { Production: "green", Off: "gray", Idle: "gray", Problem: "red", Maintenance: "amber", Setup: "blue" };
 
 let asked = 0;
 async function load() {

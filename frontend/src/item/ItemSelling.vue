@@ -65,7 +65,7 @@ const orders = computed(() =>
     dot: one.late ? "red" : undefined,
     dim: one.due ? (one.late ? __("Was due {0}", [date(one.due)]) : __("Due {0}", [date(one.due)])) : "",
     below: [one.name, one.project_name].filter(Boolean).join(" · "),
-    badge: one.short === undefined ? null : one.short > 0 ? { label: __("{0} short", [quantity(one.short)]), theme: "orange" } : { label: __("Can Go Now"), theme: "green" },
+    badge: one.short === undefined ? null : one.short > 0 ? { label: __("{0} short", [quantity(one.short)]), theme: "amber" } : { label: __("Can Go Now"), theme: "green" },
     value: __("{0} of {1} delivered", [quantity(one.done), quantity(one.qty, uom.value)]),
     route: `/desk/sales-order/${encodeURIComponent(one.name)}`,
     actions: [

@@ -123,6 +123,18 @@ rather than mixed units, and frappe's own formats. Every figure is read as the r
 and a slice or a bar opens what it stands for. What needs somebody (Today)
 and the directory (Everything) stay beside it as tabs.
 
+**A screen of our own follows an app people know.** Set by the user on
+2026-10-13, first on Stock on Hand. Before a screen is drawn, the app that
+does the same job best is looked at (Shopify's Inventory and Katana's Stock
+for what the stores hold) and the screen follows its layout, built from
+frappe-ui. A list of records is not a wall of text: a picture or avatar, the
+name with its code quiet under it, one status as a coloured Badge, figures
+right-aligned with the unit smaller and grey and a dash for nothing, and
+filters as a picker and TabButtons above it rather than a long row of tabs.
+The screen's opening comment names its model (`Modelled on …`), which
+`tests/guards/test_islands.py` holds; screens drawn before the rule wait in
+its `UNMODELLED` until redrawn.
+
 **6 Nothing lost.** A page of its own keeps everything frappe's form gives.
 Its sidebar is frappe's own, its menu is frappe's under the page's, it saves
 against the `modified` it loaded, and it hears changes made elsewhere

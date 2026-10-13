@@ -83,7 +83,7 @@ const props = defineProps({ projectName: { type: String, required: true }, proje
 const only = useOnly();
 
 // ERPNext's own colours for an invoice's status.
-const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "orange", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
+const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
 const said = ref(null);
 const spot = usePlace("oneproject.invoices", () =>
   said.value && {

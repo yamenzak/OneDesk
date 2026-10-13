@@ -93,8 +93,8 @@ const figures = computed(() => {
 
 // ERPNext's own statuses, in plain words.
 const STATES = {
-  Open: [() => __("To Send"), "orange"],
-  "Partial Material Transferred": [() => __("Partly Sent"), "orange"],
+  Open: [() => __("To Send"), "amber"],
+  "Partial Material Transferred": [() => __("Partly Sent"), "amber"],
   "Material Transferred": [() => __("With Supplier"), "blue"],
   "Partially Received": [() => __("Partly Back"), "blue"],
   Completed: [() => __("Back"), "green"],
