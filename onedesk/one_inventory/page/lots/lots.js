@@ -7,6 +7,7 @@
 frappe.pages["lots"].on_page_load = (wrapper) => {
 	onedesk.island_page(wrapper, {
 		island: "onedesk.lots",
+		views: "lots",
 		title: __("Lots"),
 		requires: ["/assets/onedesk/js/lots_actions.js"],
 	});

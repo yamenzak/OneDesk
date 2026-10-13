@@ -1159,6 +1159,7 @@ app_include_js = [
 	"/assets/onedesk/js/desk.js",
 	# A record on a page of its own keeps its form's menu and sidebar. See record.js.
 	"/assets/onedesk/js/record.js",
+	"/assets/onedesk/js/page_views.js",
 	# A line's size on every record that lines up items. See one_inventory/measure.py.
 	"/assets/onedesk/js/measure.js",
 	# What of frappe's own desk a workspace is not offered; see one/outside.py.

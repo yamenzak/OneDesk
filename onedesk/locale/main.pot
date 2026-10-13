@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-12 23:42+0000\n"
-"PO-Revision-Date: 2026-10-12 23:42+0000\n"
+"POT-Creation-Date: 2026-10-13 05:22+0000\n"
+"PO-Revision-Date: 2026-10-13 05:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3909,11 +3909,11 @@ msgstr ""
 msgid "Based On"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:69
+#: onedesk/one_inventory/home.py:69 onedesk/public/js/page_views.js:20
 msgid "Batch Expiry"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:31
+#: onedesk/one_inventory/home.py:31 onedesk/public/js/page_views.js:16
 msgid "Batches"
 msgstr ""
 
@@ -14376,8 +14376,9 @@ msgstr ""
 #: frontend/src/home/InventoryHome.vue:189 frontend/src/item/ItemStock.vue:12
 #: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:97
 #: frontend/src/lots/LotsPage.vue:121 frontend/src/lots/LotsPage.vue:146
-#: onedesk/one_inventory/home.py:30 onedesk/one_inventory/page/lots/lots.js:10
+#: onedesk/one_inventory/home.py:30 onedesk/one_inventory/page/lots/lots.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/page_views.js:14
 msgid "Lots"
 msgstr ""
 
@@ -14663,6 +14664,7 @@ msgstr ""
 
 #: onedesk/one_inventory/calendar.py:31 onedesk/one_inventory/calendar.py:58
 #: onedesk/one_inventory/home.py:61 onedesk/one_inventory/maintenance.py:90
+#: onedesk/public/js/page_views.js:45
 msgid "Maintenance"
 msgstr ""
 
@@ -14670,7 +14672,7 @@ msgstr ""
 msgid "Maintenance Due"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:206 onedesk/one_inventory/home.py:62
+#: onedesk/one_inventory/home.py:62 onedesk/public/js/page_views.js:43
 msgid "Maintenance Log"
 msgstr ""
 
@@ -21481,7 +21483,7 @@ msgstr ""
 msgid "Quotations"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:44
+#: onedesk/one_inventory/home.py:44 onedesk/public/js/page_views.js:30
 msgid "Quote Comparison"
 msgstr ""
 
@@ -21514,8 +21516,9 @@ msgstr ""
 #: frontend/src/quotes/QuotesPage.vue:101
 #: frontend/src/quotes/QuotesPage.vue:202 onedesk/one/portal.py:30
 #: onedesk/one_inventory/heads.py:1231 onedesk/one_inventory/home.py:41
-#: onedesk/one_inventory/page/quotes/quotes.js:10
+#: onedesk/one_inventory/page/quotes/quotes.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/page_views.js:25
 msgid "Quotes"
 msgstr ""
 
@@ -22575,7 +22578,7 @@ msgid "Repacked {0}"
 msgstr ""
 
 #: frontend/src/upkeep/UpkeepPage.vue:77 onedesk/one_inventory/heads.py:1148
-#: onedesk/one_inventory/home.py:63
+#: onedesk/one_inventory/home.py:63 onedesk/public/js/page_views.js:44
 msgid "Repairs"
 msgstr ""
 
@@ -22661,6 +22664,7 @@ msgstr ""
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/public/js/page_views.js:81
 msgid "Reports"
 msgstr ""
 
@@ -22766,7 +22770,7 @@ msgstr ""
 msgid "Requests"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:42
+#: onedesk/one_inventory/home.py:42 onedesk/public/js/page_views.js:27
 msgid "Requests for Quotation"
 msgstr ""
 
@@ -23832,8 +23836,9 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/sent_out/SentOutPage.vue:150 onedesk/one_inventory/home.py:55
-#: onedesk/one_inventory/page/sent_out/sent_out.js:10
+#: onedesk/one_inventory/page/sent_out/sent_out.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/page_views.js:33
 msgid "Sent Out"
 msgstr ""
 
@@ -23841,7 +23846,7 @@ msgstr ""
 msgid "Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."
 msgstr ""
 
-#: onedesk/one_inventory/home.py:77
+#: onedesk/one_inventory/home.py:77 onedesk/public/js/page_views.js:38
 msgid "Sent Out to Be Made"
 msgstr ""
 
@@ -23936,7 +23941,7 @@ msgid "Serial Numbering"
 msgstr ""
 
 #: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:98
-#: onedesk/one_inventory/home.py:32
+#: onedesk/one_inventory/home.py:32 onedesk/public/js/page_views.js:17
 msgid "Serial Numbers"
 msgstr ""
 
@@ -25667,7 +25672,7 @@ msgstr ""
 msgid "Stock and the books agree"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:70
+#: onedesk/one_inventory/home.py:70 onedesk/public/js/page_views.js:21
 msgid "Stock by Batch"
 msgstr ""
 
@@ -25969,11 +25974,11 @@ msgstr ""
 msgid "Subcontracted Items"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:56
+#: onedesk/one_inventory/home.py:56 onedesk/public/js/page_views.js:35
 msgid "Subcontracting Orders"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:57
+#: onedesk/one_inventory/home.py:57 onedesk/public/js/page_views.js:36
 msgid "Subcontracting Receipts"
 msgstr ""
 
@@ -26177,7 +26182,7 @@ msgstr ""
 msgid "Supplier Quotation"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:43
+#: onedesk/one_inventory/home.py:43 onedesk/public/js/page_views.js:28
 msgid "Supplier Quotations"
 msgstr ""
 
@@ -28546,7 +28551,7 @@ msgstr ""
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr ""
 
-#: onedesk/public/js/island_page.js:94
+#: onedesk/public/js/island_page.js:99
 msgid "This page has not been built"
 msgstr ""
 
@@ -29711,9 +29716,11 @@ msgid "Updates"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: frontend/src/home/InventoryHome.vue:206
 #: frontend/src/upkeep/UpkeepPage.vue:182 onedesk/one_inventory/home.py:60
-#: onedesk/one_inventory/page/upkeep/upkeep.js:9
+#: onedesk/one_inventory/page/upkeep/upkeep.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/page_views.js:41
 msgid "Upkeep"
 msgstr ""
 

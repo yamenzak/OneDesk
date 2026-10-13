@@ -14,6 +14,10 @@
 //   rest go in the ··· menu, as frappe puts them, `standard` ones (a record's
 //   Print, Email, Delete…, onedesk.record.menu) in its lower part.
 //
+// `views` names the page in onedesk.page_views when it gathers record types
+// into one screen: frappe's view switcher then sits in its head, leading to
+// their List and Report views (page_views.js).
+//
 // `menu` makes the page's name in the breadcrumb a menu (shell.trail), and
 // `hide_sidebar` closes the module's panel on arrival, as frappe's pages do.
 // `record` names the doctype of a page that shows one record, the first part
@@ -24,7 +28,7 @@
 // an app's mark before the page's name, for an app's own page.
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null }) => {
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
 	// An app's own page, with no panel header, puts the app's mark before its
 	// name, as onedesk.shell.page does.
@@ -58,6 +62,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			else if (action.button) page.add_inner_button(action.label, run);
 			else page.add_menu_item(action.label, run, !!action.standard);
 		}
+		if (views) onedesk.page_views.switcher(page, views);
 	};
 	// A view of the island, by its `?view=`, as its own tabs set it.
 	const view = (key) => {

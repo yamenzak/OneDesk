@@ -11634,6 +11634,18 @@ pushed on its own (Home, the rail and Lots together, as the rail carries
 Lots), and the full demo suite passed after the last, 145 of 145. Home's
 Services Due now leads to Upkeep.
 
+**The list and report views kept.** The user saw that the four new pages had
+taken the rail's place of frappe's List and Report views of their records,
+which are worth keeping. Each page now has frappe's own view switch in its
+head, beside the page's own name. **List View** and **Report View** open the
+records it gathers (Batches and Serial Numbers, Requests for Quotation and
+Supplier Quotations, Subcontracting Orders and Receipts, the Maintenance Log,
+Repairs and Maintenance), and Report View also holds the script reports that
+go with them. Frappe's switcher on those lists has the page as its first row,
+so the way back is the same control. One registry serves both
+(`public/js/page_views.js`), the wrap of `get_view_options` is recorded in
+`scripts/overrides.py`, and the rows follow read and report permission.
+
 
 #### 7d. Home, and a rail of what people use
 

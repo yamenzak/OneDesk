@@ -48,10 +48,15 @@ The rail keeps what people use every day:
   locations, maintenance teams, and the stock, buying and manufacturing
   settings.
 
-Everything else (supplier quotations, quote comparison, blanket orders, job
-cards, subcontracting receipts, asset movements, pick lists, packing slips,
-delivery trips, landed costs, item prices, quality inspections, supplier
-scorecards, production plans, the maintenance log, value adjustments and
+**Lots**, **Quotes**, **Sent Out** and **Upkeep** each gather several kinds
+of record. At the top of each is the same view switch a list has. **List
+View** and **Report View** open those records as a list or a report, and the
+reports that go with them are there too. On those lists the switch leads back
+to the page.
+
+Everything else (blanket orders, job cards, asset movements, pick lists,
+packing slips, delivery trips, landed costs, item prices, quality
+inspections, supplier scorecards, production plans, value adjustments and
 asset capitalization) is in **Everything** on Home.
 
 ## A new item
@@ -865,6 +870,13 @@ a register and a movement form in it would be a rail with five rows.
   logs and submitted repairs). `done` completes and submits a log as its
   form does, and ERPNext's own `update_maintenance_task` moves the task's
   next date. OneAI's `upkeep_now` reads the page.
+- `public/js/page_views.js` — the view switch on Lots, Quotes, Sent Out and
+  Upkeep. `onedesk.page_views` names, per page, the doctypes it gathers (with
+  the tab that shows each) and the script reports that go with them.
+  `switcher` draws frappe's own switcher in the page's head (the
+  `views` option of `onedesk.island_page`), with List View and Report View
+  per doctype. ListViewSelect's `get_view_options` is wrapped so the
+  switcher on those doctypes' lists has the page as its first row.
 - `floor.py`, `page/floor`, `frontend/src/floor` and
   `public/js/floor_actions.js` — the Shop Floor. `read` reads through
   ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its

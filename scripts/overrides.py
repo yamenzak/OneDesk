@@ -2489,6 +2489,13 @@ OVERRIDES = [
 		"prepare_tasks() {",
 	),
 	(
+		"A list's view switch leads back to the page that gathers it",
+		"page_views.js wraps ListViewSelect's get_view_options so Batch, Serial No, the quotation, subcontracting and maintenance lists have Lots, Quotes, Sent Out or Upkeep as their first view, and draws the same switcher on those pages",
+		"onedesk/public/js/page_views.js",
+		"frappe/frappe/public/js/frappe/list/list_view_select.js",
+		"get_view_options() {",
+	),
+	(
 		"A chart's colours say what each slice is",
 		"chart_colors.js wraps the chart widget's get_chart_args to colour each label by what it means and draw the legend for pie and donut charts",
 		"onedesk/public/js/chart_colors.js",
