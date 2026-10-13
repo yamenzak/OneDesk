@@ -155,36 +155,121 @@ def _worth_by_month(months: list[date], moves: list, now: float) -> list[float]:
 	return out
 
 
+def _taken(months: list[date], moves: list) -> list[float]:
+	return [
+		a + b
+		for a, b in zip(
+			_series(months, moves, ("bought",)), _series(months, moves, ("received",)), strict=True
+		)
+	]
+
+
+def _sent(months: list[date], moves: list) -> list[float]:
+	return [
+		a + b
+		for a, b in zip(
+			_series(months, moves, ("delivered",)), _series(months, moves, ("used",), -1), strict=True
+		)
+	]
+
+
+def _made(months: list[date], moves: list) -> list[float]:
+	return _series(months, moves, ("made",), 1)
+
+
+#: The headline figures: the key the page knows each by, and the frappe
+#: Number Card (number_card/) whose method counts it.
+CARDS = (
+	("worth", "Stock Worth"),
+	("taken_in", "Taken In This Month"),
+	("sent_out", "Sent Out This Month"),
+	("made", "Made This Month"),
+	("on_order", "Still on Order"),
+	("papers", "Moves This Month"),
+)
+
+
 def _cards(months: list[date], moves: list | None) -> dict:
-	"""The headline figures, each with its twelve months for a sparkline."""
-	out = {}
+	"""The headline figures, each its Number Card's own value, with its months
+	for a sparkline."""
+	series = {}
 	now = _worth_now()
 	if now is not None and moves is not None:
-		worth = _worth_by_month(months, moves, now)
-		taken = [
-			a + b
-			for a, b in zip(
-				_series(months, moves, ("bought",)), _series(months, moves, ("received",)), strict=True
-			)
-		]
-		sent = [
-			a + b
-			for a, b in zip(
-				_series(months, moves, ("delivered",)), _series(months, moves, ("used",), -1), strict=True
-			)
-		]
-		made = _series(months, moves, ("made",), 1)
-		papers = _papers(months, moves)
-		out.update(
-			worth={"value": now, "series": worth},
-			taken_in={"value": taken[-1], "series": taken},
-			sent_out={"value": sent[-1], "series": sent},
-			made={"value": made[-1], "series": made},
-			papers={"value": papers[-1], "series": papers},
+		series.update(
+			worth=_worth_by_month(months, moves, now),
+			taken_in=_taken(months, moves),
+			sent_out=_sent(months, moves),
+			made=_made(months, moves),
+			papers=_papers(months, moves),
 		)
 	if _may("Purchase Order"):
-		out["on_order"] = _on_order(months)
+		series["on_order"] = _on_order(months)["series"]
+	out = {}
+	for key, name in CARDS:
+		if key in series:
+			method = frappe.get_attr(frappe.get_cached_value("Number Card", name, "method"))
+			out[key] = {"card": name, "value": method()["value"], "series": series[key]}
 	return out
+
+
+def _card(value, route: list, fieldtype: str = "Currency", options: dict | None = None) -> dict:
+	card = {"value": value, "fieldtype": fieldtype, "route": route}
+	if options:
+		card["route_options"] = options
+	return card
+
+
+def _month_moves() -> tuple[list[date], list]:
+	"""This month, and the papers that moved stock in it, for a card."""
+	frappe.has_permission("Stock Ledger Entry", "read", throw=True)
+	month = getdate(today()).replace(day=1)
+	return [month], _moves(month)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def stock_worth(filters: str | None = None) -> dict:
+	"""What the stock in every warehouse is worth today (Stock on Hand)."""
+	frappe.has_permission("Bin", "read", throw=True)
+	return _card(_worth_now(), ["stock-on-hand"])
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def taken_in_this_month(filters: str | None = None) -> dict:
+	"""The worth of goods bought or taken in since the first of the month."""
+	return _card(_taken(*_month_moves())[-1], ["List", "Purchase Receipt"])
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def sent_out_this_month(filters: str | None = None) -> dict:
+	"""The worth of goods delivered or used on jobs since the first of the month."""
+	return _card(_sent(*_month_moves())[-1], ["List", "Delivery Note"])
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def made_this_month(filters: str | None = None) -> dict:
+	"""The worth of what the workshop made since the first of the month."""
+	return _card(_made(*_month_moves())[-1], ["List", "Work Order"])
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def still_on_order(filters: str | None = None) -> dict:
+	"""The worth of what is ordered from suppliers and not yet here."""
+	frappe.has_permission("Purchase Order", "read", throw=True)
+	return _card(
+		_on_order(_months())["value"], ["List", "Purchase Order"], options={"status": "To Receive and Bill"}
+	)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def moves_this_month(filters: str | None = None) -> dict:
+	"""How many papers moved stock since the first of the month."""
+	return _card(_papers(*_month_moves())[-1], ["query-report", "Stock Ledger"], "Int")
 
 
 def _papers(months: list[date], moves: list) -> list[int]:

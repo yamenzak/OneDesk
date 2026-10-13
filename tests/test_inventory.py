@@ -270,3 +270,22 @@ def test_home_tells_its_story_through_frappe():
 		assert f"<{chart}" in page, chart
 	home = (tree.APP.parent / "frontend" / "src" / "home" / "InventoryHome.vue").read_text(encoding="utf-8")
 	assert "<NumberCard" in home and "sparkline" in home
+
+
+def test_home_figures_are_number_cards():
+	"""Each of Home's six figures is a frappe Number Card shipped with the
+	module, counted by a whitelisted method in story.py and naming the record
+	type frappe checks before it shows the card."""
+	import ast
+
+	story = (INVENTORY / "story.py").read_text(encoding="utf-8")
+	cards = ast.literal_eval(story.split("CARDS = ", 1)[1].split("\n\n", 1)[0])
+	assert len(cards) == 6
+	for _key, name in cards:
+		folder = name.lower().replace(" ", "_")
+		card = json.loads((INVENTORY / "number_card" / folder / f"{folder}.json").read_text())
+		assert (card["name"], card["type"], card["module"], card["is_standard"]) == (name, "Custom", "One Inventory", 1)
+		assert card["document_type"]
+		method = card["method"].rsplit(".", 1)[1]
+		assert card["method"] == f"onedesk.one_inventory.story.{method}"
+		assert f"@frappe.read_only()\ndef {method}(filters" in story, method

@@ -4964,6 +4964,18 @@ def oneinventory_home_tells_the_story_of_the_stock():
 		cards = told["cards"]
 		assert round(cards["worth"]["value"], 2) == round(worth, 2) > 0, cards["worth"]
 		assert cards["worth"]["series"][-1] == round(worth, 2), cards["worth"]["series"]
+		# Each figure is its Number Card's own method, as frappe's dashboards call it.
+		said = {
+			"worth": story.stock_worth(),
+			"taken_in": story.taken_in_this_month(),
+			"sent_out": story.sent_out_this_month(),
+			"made": story.made_this_month(),
+			"on_order": story.still_on_order(),
+			"papers": story.moves_this_month(),
+		}
+		for key, name in story.CARDS:
+			assert frappe.db.get_value("Number Card", name, "module") == "One Inventory", name
+			assert said[key]["value"] == cards[key]["value"] and cards[key]["card"] == name, (name, said[key], cards[key])
 		assert len(cards["worth"]["series"]) == len(told["months"]) <= story.MONTHS
 		where = told["where"]
 		assert round(sum(one["worth"] for one in where["warehouses"])) == round(worth)

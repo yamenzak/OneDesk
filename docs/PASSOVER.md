@@ -12183,3 +12183,14 @@ range of charts, many colours and a clear flow. Now the standard
 | 15 Permissions | each part only when the reader may read its records |
 | Everything follows frappe | frappe-ui's charts and their colour tokens, nothing hand-drawn |
 
+**The figures as Number Cards.** The user's word: make them Number Card
+records. The six figures over Home ship as frappe Number Cards in
+`one_inventory/number_card/`, Custom cards counted by `story.py`
+(`stock_worth`, `taken_in_this_month`, `sent_out_this_month`,
+`made_this_month`, `still_on_order`, `moves_this_month`). Each names the
+record type frappe checks before it shows the card (Bin, Stock Ledger Entry,
+Purchase Order), so any frappe dashboard or workspace can show them. Home
+takes each figure's value from its card's own method and draws the
+sparkline beside it. The demo check calls every card and finds the value
+Home shows. Nadia is refused each one.
+

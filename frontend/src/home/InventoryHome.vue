@@ -108,13 +108,15 @@ const needed = computed(() => {
 
 // The headline figures: what stock is worth, what came in, went out and was
 // made this month, what is still on order and how many papers moved stock,
-// each against last month and drawn over its months.
+// each against last month and drawn over its months. Still on Order is drawn
+// over what was ordered each month, which is not what it counts, so it is
+// not set against last month (`alone`).
 const CARDS = () => [
   { key: "worth", title: __("Stock Worth"), money: true, type: "area", hue: 0, route: "/desk/stock-on-hand" },
   { key: "taken_in", title: __("Taken In This Month"), money: true, type: "bar", hue: 2, route: "/desk/purchase-receipt" },
   { key: "sent_out", title: __("Sent Out This Month"), money: true, type: "bar", hue: 6, route: "/desk/delivery-note" },
   { key: "made", title: __("Made This Month"), money: true, type: "line", hue: 4, route: "/desk/work-order" },
-  { key: "on_order", title: __("Still on Order"), money: true, type: "area", hue: 5, route: "/desk/purchase-order?status=To Receive and Bill" },
+  { key: "on_order", title: __("Still on Order"), money: true, type: "area", hue: 5, alone: true, route: "/desk/purchase-order?status=To Receive and Bill" },
   { key: "papers", title: __("Moves This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
 ];
 // The cards' colours, as frappe-ui reads them for this island and its theme.
@@ -136,7 +138,7 @@ const cards = computed(() => {
         title: one.title,
         value: got[one.key].value ?? 0,
         format: one.money ? (value) => money(value, story.value.currency, 0) : undefined,
-        ...(change(got[one.key].series) === null ? {} : { delta: change(got[one.key].series), deltaSuffix: "%", deltaCaption: __("vs last month") }),
+        ...(one.alone || change(got[one.key].series) === null ? {} : { delta: change(got[one.key].series), deltaSuffix: "%", deltaCaption: __("vs last month") }),
         sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined },
       },
     }));

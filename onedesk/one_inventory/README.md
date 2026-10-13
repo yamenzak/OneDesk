@@ -832,8 +832,15 @@ a register and a movement form in it would be a rail with five rows.
   form script sets the quantity as the size is typed, shows the size columns
   only where a line is measured, and the unit's symbol beside the quantity.
   The shipped print formats merge one_size under the item's name.
+- `number_card/` — the six figures over Home as frappe Number Cards (Stock
+  Worth, Taken In This Month, Sent Out This Month, Made This Month, Still on
+  Order, Moves This Month), each counted by its method in `story.py`
+  (`stock_worth`, `taken_in_this_month` and so on). Any frappe dashboard or
+  workspace can show them, and frappe shows each only to somebody who may read
+  the record type it names.
 - `story.py` and `frontend/src/home/InventoryStory.vue` — Home's Overview.
-  `read` gives the six figures with their months and each part of the story,
+  `read` gives the six figures, each its Number Card's own value, with their
+  months, and each part of the story,
   read through `frappe.get_list` so permissions and record access hold, and
   a part the reader may not see comes back empty. Moves are the stock
   ledger's papers since the story starts, each named for what it was from the

@@ -518,7 +518,13 @@ No doctypes yet.
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.sent_out.read`
 * `onedesk.one_inventory.stock.on_hand`
+* `onedesk.one_inventory.story.made_this_month`
+* `onedesk.one_inventory.story.moves_this_month`
 * `onedesk.one_inventory.story.read`
+* `onedesk.one_inventory.story.sent_out_this_month`
+* `onedesk.one_inventory.story.still_on_order`
+* `onedesk.one_inventory.story.stock_worth`
+* `onedesk.one_inventory.story.taken_in_this_month`
 * `onedesk.one_inventory.upkeep.done`
 * `onedesk.one_inventory.upkeep.read`
 * `onedesk.one_inventory.view.files`
