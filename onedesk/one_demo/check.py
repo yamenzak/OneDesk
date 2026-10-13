@@ -5360,6 +5360,9 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 	with as_user("karim@one.test"):
 		every = stock.on_hand()
 		assert every["count"] and abs(every["worth"] - held) < 0.01, (every["worth"], held)
+		# One company, one currency: every warehouse shown is the reader's company's.
+		company = frappe.db.get_value("Warehouse", wh("Stores"), "company")
+		assert {frappe.db.get_value("Warehouse", one["name"], "company") for one in every["warehouses"]} == {company}
 		low = {one["item"]: one for one in every["items"] if one["low_in"]}
 		assert "SIL-CLR" in low and wh("Stores") in low["SIL-CLR"]["low_in"], list(low)
 		assert any(one["item"] == "WIN-CS12" and one["free"] < 0 for one in every["items"]), "the windows are promised beyond what there is"

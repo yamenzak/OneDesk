@@ -67,12 +67,12 @@ def on_hand(
 	"""What is on hand, item by item, with what each warehouse holds and is
 	worth, as the reader may see it."""
 	frappe.has_permission("Bin", "read", throw=True)
-	currency = (
-		erpnext.get_company_currency(erpnext.get_default_company()) if erpnext.get_default_company() else None
-	)
+	# The reader's company's warehouses only, so the worth is one currency's.
+	company = erpnext.get_default_company()
+	currency = erpnext.get_company_currency(company) if company else None
 	warehouses = frappe.get_list(
 		"Warehouse",
-		filters={"is_group": 0, "disabled": 0},
+		filters={"is_group": 0, "disabled": 0, **({"company": company} if company else {})},
 		fields=["name", "warehouse_name", "warehouse_type", "parent_warehouse"],
 		order_by="lft asc",
 	)

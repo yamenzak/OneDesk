@@ -12146,7 +12146,8 @@ Reports and Setup.
 | Screen | State |
 |---|---|
 | Home | done, then told as a story |
-| Stock on Hand | next |
+| Stock on Hand | done |
+| Receipts | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12234,4 +12235,31 @@ respects every currency, unit and setting. Four did not:
 
 Now a standing rule under What ERPNext already does, Figures that add things
 up.
+
+
+
+**Stock on Hand.** Looked at as Karim, at 1440 wide and on a phone, against
+the points and Figures that add things up.
+
+- **Company (What ERPNext already does).** The warehouses were every
+  company's, so Worth could add two currencies. They are the reader's
+  company's now, and the demo check holds every warehouse shown to one
+  company.
+- **Units.** Free to Sell, On Order and the "280 short" badge printed bare
+  numbers. Each carries the item's unit now ("280 Nos short", "426 Meter"),
+  and the two columns are wide enough that "533.40 Square Meter" stays on
+  one line.
+- **Number format.** Items, Low, Short and "15 items" printed the browser's
+  way. They print through the kit's `count`.
+- The rest holds: worth through `format_currency`, the page reads again on
+  every stock move (`Stock Ledger Entry` and `Bin` realtime), each row opens
+  its item, Move Stock and Count Stock open frappe's own forms, and on a
+  phone the row's warning takes its second line.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | `oneinventory_stock_on_hand_says_what_the_stores_hold`, now holding the warehouses to one company |
+| 5 Our look | units on every quantity, no wrapped figures |
+| 8 Built from frappe | counts through `format_number`, worth through `format_currency` |
+| What ERPNext already does | the reader's company only, the item's stock unit on every quantity |
 

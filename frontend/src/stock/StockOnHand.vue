@@ -33,20 +33,20 @@
                 <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
                   <span class="truncate text-base text-ink-gray-8">{{ item.item_name }}</span>
                   <Badge v-if="item.low_in.length" :label="low(item)" theme="orange" size="sm" class="max-sm:hidden" />
-                  <Badge v-if="item.free < 0" :label="__('{0} short', [quantity(-item.free)])" theme="red" size="sm" class="max-sm:hidden" />
+                  <Badge v-if="item.free < 0" :label="__('{0} short', [quantity(-item.free, item.uom)])" theme="red" size="sm" class="max-sm:hidden" />
                 </div>
                 <span class="truncate text-sm text-ink-gray-5" :class="warned(item) && 'max-sm:hidden'">{{ [item.item !== item.item_name && item.item, item.group].filter(Boolean).join(" · ") }}</span>
                 <span v-if="warned(item)" class="truncate text-sm sm:hidden" :class="item.free < 0 ? 'text-ink-red-5' : 'text-ink-amber-6'">{{ warned(item) }}</span>
               </div>
             </ListCell>
             <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-8">{{ quantity(item.on_hand, item.uom) }}</ListCell>
-            <ListCell class="justify-end text-base tabular-nums max-md:hidden" :class="item.free < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ quantity(item.free) }}</ListCell>
-            <ListCell class="justify-end text-base tabular-nums text-ink-gray-7 max-md:hidden">{{ item.on_order ? quantity(item.on_order) : "" }}</ListCell>
+            <ListCell class="justify-end whitespace-nowrap text-base tabular-nums max-md:hidden" :class="item.free < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ quantity(item.free, item.uom) }}</ListCell>
+            <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7 max-md:hidden">{{ item.on_order ? quantity(item.on_order, item.uom) : "" }}</ListCell>
             <ListCell class="justify-end text-base tabular-nums text-ink-gray-7 max-sm:hidden">{{ money(item.worth, said.currency) }}</ListCell>
           </ListRow>
         </ListRows>
       </List>
-      <p v-if="said.count > said.items.length" class="mt-3 text-sm text-ink-gray-5">{{ __("Showing {0} of {1}. Search to find the rest.", [said.items.length, said.count]) }}</p>
+      <p v-if="said.count > said.items.length" class="mt-3 text-sm text-ink-gray-5">{{ __("Showing {0} of {1}. Search to find the rest.", [count(said.items.length), count(said.count)]) }}</p>
     </template>
   </Page>
 </template>
@@ -60,7 +60,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Switch, TextInput } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Page, PlaceSpot, ViewTabs, __, call, followList, go, money, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
+import { Figures, Loading, Page, PlaceSpot, ViewTabs, __, call, count, followList, go, money, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -75,7 +75,7 @@ const search = ref("");
 const lowOnly = ref(false);
 const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
-const columns = { base: ["minmax(0,1fr)", "auto"], sm: ["minmax(0,1fr)", "10rem", "9rem"], md: ["minmax(0,1fr)", "10rem", "8rem", "7rem", "9rem"] };
+const columns = { base: ["minmax(0,1fr)", "auto"], sm: ["minmax(0,1fr)", "10rem", "9rem"], md: ["minmax(0,1fr)", "10rem", "10rem", "10rem", "9rem"] };
 
 async function load() {
   const asked = shown.value;
@@ -106,7 +106,7 @@ watch(() => props.query.warehouse, (now) => (shown.value = now || "all"));
 const short = (name) => said.value?.warehouses.find((one) => one.name === name)?.label || name;
 // On a phone the warnings take the second line, so a row stays one height.
 const low = (item) => __("Low in {0}", [item.low_in.map(short).join(", ")]);
-const warned = (item) => [item.low_in.length && low(item), item.free < 0 && __("{0} short", [quantity(-item.free)])].filter(Boolean).join(" · ");
+const warned = (item) => [item.low_in.length && low(item), item.free < 0 && __("{0} short", [quantity(-item.free, item.uom)])].filter(Boolean).join(" · ");
 const places = computed(() => [
   { key: "all", label: __("All Warehouses") },
   ...(said.value?.warehouses || []).map((one) => ({ key: one.name, label: one.label, count: one.items || null })),
@@ -120,15 +120,15 @@ const rows = computed(() => {
       (!lowOnly.value || one.low_in.length || one.free < 0)
   );
 });
-const counted = computed(() => (rows.value.length === 1 ? __("1 item") : __("{0} items", [rows.value.length])));
+const counted = computed(() => (rows.value.length === 1 ? __("1 item") : __("{0} items", [count(rows.value.length)])));
 
 const figures = computed(() => {
   const s = said.value;
   return [
     { title: __("Worth"), value: money(s.worth, s.currency), note: s.warehouse ? short(s.warehouse) : __("In every warehouse") },
-    { title: __("Items"), value: String(s.count) },
-    { title: __("Low"), value: String(s.low), alarm: s.low > 0, note: s.low ? __("At or below their reorder level") : "", action: s.low ? { icon: "lucide-filter", label: __("Show Low Items"), onClick: () => (lowOnly.value = true) } : null },
-    { title: __("Short"), value: String(s.short), alarm: s.short > 0, note: s.short ? __("More promised than on hand") : "" },
+    { title: __("Items"), value: count(s.count) },
+    { title: __("Low"), value: count(s.low), alarm: s.low > 0, note: s.low ? __("At or below their reorder level") : "", action: s.low ? { icon: "lucide-filter", label: __("Show Low Items"), onClick: () => (lowOnly.value = true) } : null },
+    { title: __("Short"), value: count(s.short), alarm: s.short > 0, note: s.short ? __("More promised than on hand") : "" },
   ];
 });
 
