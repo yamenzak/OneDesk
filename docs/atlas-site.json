@@ -3375,6 +3375,13 @@
 "timers": [
 "Desk User"
 ],
+"to-order": [
+"Purchase Manager",
+"Purchase User",
+"Stock Manager",
+"Stock User",
+"Workspace Administrator"
+],
 "upkeep": [
 "Item Manager",
 "Manufacturing Manager",
@@ -4536,13 +4543,6 @@
 "HR User",
 "Manufacturing User",
 "Projects User"
-],
-"To Order": [
-"Purchase Manager",
-"Purchase User",
-"Stock Manager",
-"Stock User",
-"Workspace Administrator"
 ],
 "ToDo": [
 "System Manager"

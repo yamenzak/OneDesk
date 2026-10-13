@@ -39,7 +39,7 @@ EVERYTHING = (
 	("stock", _lt("Lead Times"), "DocType", "Item Lead Time", _lt("How many days each item takes to buy or make.")),
 	("stock", _lt("Standard Costs"), "DocType", "Item Standard Cost", _lt("What an item is valued at when it is kept at a standard cost.")),
 	("stock", _lt("Quality Inspections"), "DocType", "Quality Inspection", _lt("Goods checked on the way in, out or while made.")),
-	("buying", _lt("To Order"), "Report", "To Order", _lt("What runs low, and orders for it.")),
+	("buying", _lt("To Order"), "Page", "to-order", _lt("What runs low, and orders for it.")),
 	("buying", _lt("Material Requests"), "DocType", "Material Request", _lt("Goods asked for by the stores, the workshop or a project.")),
 	("buying", _lt("Quotes"), "Page", "quotes", _lt("Ask suppliers for prices, see their answers side by side and order the cheapest.")),
 	("buying", _lt("Requests for Quotation"), "DocType", "Request for Quotation", _lt("Suppliers asked for their prices.")),

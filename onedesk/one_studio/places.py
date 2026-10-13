@@ -187,6 +187,17 @@ PLACES = {
 			},
 		},
 	},
+	"oneinventory_order": {
+		"label": "OneInventory",
+		"record": "Material Request",
+		"events": {
+			"shown": {
+				"about": _lt("To Order is opened, and each time a request, a purchase order or stock changes."),
+				"gives": "order.lines (how many), order.requested, order.low, order.cost (at the last prices), order.unpriced (lines with no price yet)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneinventory_quotes": {
 		"label": "OneInventory",
 		"record": "Supplier Quotation",

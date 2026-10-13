@@ -579,11 +579,14 @@ level, and how many to order each time. Once a day, anything at or below its
 level gets a **Material Request** by itself.
 
 **Buying › To Order** lists what needs ordering: every request not yet
-ordered, and every item that is low and not yet requested — how many, for
-which warehouse, from whom (the item's default supplier, or whoever it was
-last bought from) and what it last cost. Tick the rows and press **Order**:
-one draft purchase order is made for each supplier, and rows with no
-supplier go to the one you pick. A supplier billed in another currency gets
+ordered, and every item that is low and not yet requested — why it is
+there, how many, for which warehouse, from whom (the item's default
+supplier, or whoever it was last bought from), what it last cost a unit and
+what the line would cost. The figures above say how many lines, how many
+requested and running low, and what it all comes to before tax. Tick the
+lines and press **Order**, or **Order All** with none ticked: one draft
+purchase order is made for each supplier, and lines with no supplier go to
+the one you pick. A supplier billed in another currency gets
 their order in it. Read the drafts, correct prices and quantities, and submit
 them. A request line held by draft orders leaves the list, and no order,
 however it is made, can order more of a request line than is left on it.
@@ -1112,7 +1115,7 @@ a register and a movement form in it would be a rail with five rows.
   `said` reads them into one answer. Low is ERPNext's own test, projected
   quantity at or below the level (`summary`, pure), so the page, the band and
   the reorder list agree.
-- `order.py` and `report/to_order` — what to order. ERPNext's daily
+- `order.py` and `page/to_order` — what to order. ERPNext's daily
   `reorder_item` raises a Material Request for everything low, and stops:
   nothing lists the requests, groups them by supplier or makes the orders.
   To Order lists open purchase requests not fully ordered plus items low with
@@ -1134,10 +1137,13 @@ a register and a movement form in it would be a rail with five rows.
   do it again for the next one. Nothing lists what is short, or who supplies
   it.
 
-  **To Order** (`report/to_order`) is that list: every open purchase request
-  not yet fully ordered, and every item low with no request yet — how many,
-  for which warehouse, from whom, at what it last cost. **Order** makes one
-  draft purchase order per supplier from the rows ticked, each row still
+  **To Order** (`page/to_order`, drawn by `frontend/src/to_order` from
+  `read`) is that list, modelled on Odoo's Replenishment screen: every open
+  purchase request in the company not yet fully ordered, and every item low
+  in one of its warehouses with no request yet — why, how many, for which
+  warehouse, from whom, at what it last cost a stock unit. It was a report,
+  a grid of IDs with a checkbox column. **Order** makes one draft purchase
+  order per supplier from the lines ticked, each row still
   pointing at its request, so ERPNext marks the request ordered when the
   order is submitted. Until then what a draft holds is off the list.
   Drafts, because what is ordered and at what price is somebody's decision

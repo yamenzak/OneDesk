@@ -1056,6 +1056,11 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 		assert made and frappe.db.get_value("Purchase Order", made[0], "docstatus") == 0
 		listed = order.rows()
 		assert listed, "nothing to order in the demo"
+		# To Order's page: the same lines, each with its unit and warehouse by name, costed.
+		said = order.read()
+		assert said["figures"]["lines"] == len(said["lines"]) == len(listed) and said["currency"], said["figures"]
+		assert all(one["unit"] and one["warehouse_label"] and one["why"] in ("requested", "low") for one in said["lines"])
+		assert said["figures"]["cost"] == sum(one["cost"] or 0 for one in said["lines"]) and said["can"]["order"]
 		first = listed[0]
 		order.order([{**first, "supplier": first.get("supplier") or "Al Noor Aluminium"}])
 		# A requested row is its request's own line, as two requests may ask for the same item.
@@ -4940,7 +4945,7 @@ def oneinventory_home_says_what_needs_somebody_and_where_everything_is():
 		assert len(needs["late"]["rows"]) <= home.FEW
 		assert said["figures"]["worth"] > 0
 		shown = {one["target"] for one in said["everything"]}
-		assert {"Item", "Warehouse", "Stock Ledger", "To Order", "stock-on-hand"} <= shown, shown
+		assert {"Item", "Warehouse", "Stock Ledger", "to-order", "stock-on-hand"} <= shown, shown
 		assert all(one["about"] and one["label"] for one in said["everything"])
 		assert {one["group"] for one in said["everything"]} <= {key for key, _label in home.GROUPS}
 	with as_user("nadia@one.test"):

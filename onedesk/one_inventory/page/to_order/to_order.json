@@ -1,0 +1,35 @@
+{
+ "content": null,
+ "creation": "2026-10-13 21:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2026-10-13 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Inventory",
+ "name": "to-order",
+ "owner": "Administrator",
+ "page_name": "to-order",
+ "roles": [
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Workspace Administrator"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "To Order"
+}

@@ -509,6 +509,7 @@ No doctypes yet.
 * `onedesk.one_inventory.measure.line_quantity`
 * `onedesk.one_inventory.measure.unit_is`
 * `onedesk.one_inventory.order.order`
+* `onedesk.one_inventory.order.read`
 * `onedesk.one_inventory.parts.add`
 * `onedesk.one_inventory.parts.read`
 * `onedesk.one_inventory.plant.read`

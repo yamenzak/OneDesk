@@ -876,6 +876,10 @@ def _module(path: Path):
 	return ast.parse(path.read_text()) if path.exists() else None
 
 
+#: A table a query names.
+_TABLE = re.compile(r"`tab([^`]+)`")
+
+
 def _calls(fn: ast.AST) -> tuple[set, list, bool]:
 	"""Names a function calls, the reads in it, and whether it writes."""
 	names, reads, writes = set(), [], False
@@ -886,7 +890,11 @@ def _calls(fn: ast.AST) -> tuple[set, list, bool]:
 			names.add(node.func.id)
 		elif isinstance(node.func, ast.Attribute):
 			attr = node.func.attr
-			if attr in WRITES:
+			# A query that only selects reads the tables it names.
+			said = node.args[0].value if node.args and isinstance(node.args[0], ast.Constant) else None
+			if attr == "sql" and isinstance(said, str) and said.lstrip().lower().startswith("select"):
+				reads += _TABLE.findall(said)
+			elif attr in WRITES:
 				writes = True
 			if (
 				attr in READS

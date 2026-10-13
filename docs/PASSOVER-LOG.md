@@ -11829,7 +11829,8 @@ Reports and Setup.
 | Stock Movements | done |
 | Stock Counts | done |
 | Lots | done, redrawn after Odoo and Katana |
-| Buying › To Order | next |
+| Buying › To Order | done, redrawn after Odoo's Replenishment |
+| Buying › Material Requests | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12210,3 +12211,42 @@ tab, which shows the same rows.
 | 8 Built from frappe | frappe-ui's List, Badge, Avatar and TabButtons; counts through `count` |
 | What ERPNext already does | the reader's company's serial numbers |
 
+**To Order.** Looked at as Karim, at 1440 wide and on a phone. It was a
+Script Report: frappe's grid with a checkbox column, an ID, a warehouse and a
+request number per row, a Why column of plain text, and frappe's filter hint
+and execution time under it. On a phone it showed the item and half the
+warehouse.
+
+- **A grid, redrawn as a page.** To Order is a page now
+  (`one_inventory/page/to_order`, drawn by `frontend/src/to_order`), modelled
+  on Odoo's Replenishment screen: one line per item and warehouse, why it is
+  there, how many and from whom, ticked and ordered in one go. A line is the
+  item with its picture, code and warehouse by its own name; a Requested or
+  Running Low Badge with the request and when it is needed, or what is left
+  against the reorder level; the supplier with what it last cost a unit;
+  how many with its unit quiet after it; and what the line would cost. On a
+  phone a line keeps the item, its Badge and how many.
+- **Figures above.** How many lines and from how many suppliers, Requested
+  and Running Low, each filtering to its own, and what it all costs before
+  tax at the last prices paid, or how many lines were never bought.
+- **Order or Order All.** The head's button orders the lines ticked, "Order
+  2", or every line shown after asking. Lines with no supplier still ask
+  for one. New Material Request sits beside it.
+- **The company's own.** Requests, low items and draft orders were every
+  company's; they are the reader's company's now. The rate was the last
+  order line's in its own buying unit; it is a stock unit's, as the quantity
+  is.
+- **Live.** It reads again when a request, an order, stock, an item, a
+  supplier, a warehouse or a unit changes.
+- **The atlas reads queries.** It counted any `frappe.db.sql` as a write, so
+  a screen whose server queries was invisible to it. A query that only
+  selects is read for the tables it names; only To Order's row changed.
+- The report goes (`to_order_a_page` deletes its record); the rail, Home's
+  Running Low and its Everything open the page.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | the page's lines, units, warehouses and cost checked against the reorder rows |
+| 5 Our look | modelled on Odoo's Replenishment, one Badge, a table not a grid |
+| 8 Built from frappe | frappe-ui's List with its selection, Badge, Avatar and TabButtons |
+| What ERPNext already does | its reorder quantity and request links kept; one company's lines |

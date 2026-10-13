@@ -146,6 +146,7 @@ SCREENS = {
 	"item-view": "the page an Item opens on (PAGES)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"inventory": "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)",
+	"to-order": "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)",
 	"lots": "batches and serial numbers as one tool, what each lot holds and where (Batch, Serial No)",
 	"upkeep": "servicing and mending the equipment, services due, repairs, plans and what was done (Asset Maintenance Log, Asset Repair)",
 	"sent-out": "work a supplier does on our own materials, what went and what came back (Subcontracting Order)",

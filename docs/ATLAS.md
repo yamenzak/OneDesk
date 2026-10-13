@@ -47,6 +47,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | stock (`frontend/src/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | Asset, Asset Maintenance, Bin, Item, Job Card, Material Request, Stock Ledger Entry, Warehouse | – | Bin, Material Request, Purchase Order, Purchase Receipt, Work Order |
 | lots (`frontend/src/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
+| to_order (`frontend/src/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | quotes (`frontend/src/quotes/QuotesPage.vue`) | Purchase Order Item, Request for Quotation, Request for Quotation Item, Request for Quotation Supplier, Supplier Quotation, Supplier Quotation Item | – | – | Request for Quotation, Supplier Quotation |
 | sent_out (`frontend/src/sent_out/SentOutPage.vue`) | Bin, Project, Purchase Order, Subcontracting Order, Subcontracting Order Item, Subcontracting Order Supplied Item | Bin, Project | – | Purchase Order, Subcontracting Order |
 | upkeep (`frontend/src/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | Asset | – | Asset, Asset Maintenance, Asset Repair |
@@ -953,9 +954,9 @@ Pages: intake (on a rail or a home); ready-to-submit (on a rail or a home).
 ## onedesk / One Inventory
 
 
-Reports: Inventory Check (on a rail or a home); To Order (on a rail or a home).
+Reports: Inventory Check (on a rail or a home).
 
-Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); lots (on a rail or a home); plant (on a rail or a home); quotes (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); upkeep (on a rail or a home).
+Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); lots (on a rail or a home); plant (on a rail or a home); quotes (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home); upkeep (on a rail or a home).
 
 ## onedesk / One Legal
 

@@ -214,7 +214,7 @@ const parts = computed(() => {
       title: __("Running Low"),
       icon: "lucide-package-minus",
       count: n.low.count,
-      action: { text: true, label: __("Order"), icon: "lucide-shopping-cart", onClick: () => go("/desk/query-report/To Order") },
+      action: { text: true, label: __("Order"), icon: "lucide-shopping-cart", onClick: () => go("/desk/to-order") },
       rows: n.low.rows.map((one) => ({
         key: `${one.item}:${one.warehouse}`,
         label: one.name,
@@ -225,7 +225,7 @@ const parts = computed(() => {
         under: __("Reorder at {0}", [quantity(one.reorder_level)]),
         route: `/desk/item/${encodeURIComponent(one.item)}?view=stock`,
       })),
-      more: more(n.low, __("To Order"), "/desk/query-report/To Order"),
+      more: more(n.low, __("To Order"), "/desk/to-order"),
     });
   if (n.lots.count)
     out.push({

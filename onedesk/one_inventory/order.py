@@ -24,17 +24,18 @@ def left(asked: float, ordered: float, held: float) -> float:
 	return max(flt(asked) - flt(ordered) - flt(held), 0)
 
 
-def drafted(lines: list[str], but: str | None = None) -> dict:
-	"""How much of each request line draft orders hold, in stock units,
-	{material_request_item: qty}, leaving out the order `but`."""
+def drafted(lines: list[str], company: str, but: str | None = None) -> dict:
+	"""How much of each request line the company's draft orders hold, in
+	stock units, {material_request_item: qty}, leaving out the order `but`."""
 	if not lines:
 		return {}
 	rows = frappe.db.sql(
 		"""select item.material_request_item, sum(item.stock_qty) as qty
 		from `tabPurchase Order Item` item join `tabPurchase Order` doc on doc.name = item.parent
-		where doc.docstatus = 0 and doc.name != %(but)s and item.material_request_item in %(lines)s
+		where doc.docstatus = 0 and doc.company = %(company)s and doc.name != %(but)s
+			and item.material_request_item in %(lines)s
 		group by item.material_request_item""",
-		{"lines": tuple(lines), "but": but or ""},
+		{"lines": tuple(lines), "company": company, "but": but or ""},
 	)
 	return {line: flt(qty) for line, qty in rows}
 
@@ -58,7 +59,7 @@ def within_requests(doc, method=None) -> None:
 			fields=["name", "parent", "item_code", "stock_qty", "ordered_qty"],
 		)
 	}
-	held = drafted(list(ours), but=doc.name)
+	held = drafted(list(ours), doc.company, but=doc.name)
 	allowance = flt(frappe.db.get_single_value("Buying Settings", "over_order_allowance"))
 	for line, qty in ours.items():
 		one = asked.get(line)
@@ -75,26 +76,34 @@ def within_requests(doc, method=None) -> None:
 
 
 def rows() -> list[dict]:
+	"""What to order, in the company's warehouses: each open purchase request
+	line not yet ordered, then each item at or below its level with nothing
+	asked for it."""
+	from erpnext import get_default_company
+
+	company = get_default_company()
 	requested = frappe.db.sql(
 		"""select item.item_code, item.item_name, item.warehouse, item.name as material_request_item,
 			item.parent as material_request, item.stock_qty, item.ordered_qty, item.stock_uom as uom,
-			item.project
+			item.project, item.schedule_date as needed_by
 		from `tabMaterial Request Item` item join `tabMaterial Request` request on request.name = item.parent
-		where request.docstatus = 1 and request.material_request_type = 'Purchase'
+		where request.docstatus = 1 and request.material_request_type = 'Purchase' and request.company = %(company)s
 			and request.status not in ('Stopped', 'Cancelled') and item.stock_qty > item.ordered_qty
 		order by request.transaction_date, item.idx""",
+		{"company": company},
 		as_dict=True,
 	)
 	# What draft orders hold is being ordered: the order's own rule
 	# (within_requests) keeps a line from being ordered twice over.
-	held = drafted([row.material_request_item for row in requested])
+	held = drafted([row.material_request_item for row in requested], company)
 	for row in requested:
 		row["qty"] = left(row.pop("stock_qty"), row.pop("ordered_qty"), held.get(row.material_request_item))
 	requested = [row for row in requested if row["qty"] > 0]
 	drafted_lows = frappe.db.sql(
 		"""select item.item_code, item.warehouse
 		from `tabPurchase Order Item` item join `tabPurchase Order` doc on doc.name = item.parent
-		where doc.docstatus = 0""",
+		where doc.docstatus = 0 and doc.company = %(company)s""",
+		{"company": company},
 		as_dict=True,
 	)
 	asked = {(row.item_code, row.warehouse) for row in requested} | {(row.item_code, row.warehouse) for row in drafted_lows}
@@ -103,29 +112,102 @@ def rows() -> list[dict]:
 			level.warehouse_reorder_level as level, level.warehouse_reorder_qty as reorder_qty,
 			coalesce(bin.projected_qty, 0) as projected
 		from `tabItem Reorder` level join `tabItem` item on item.name = level.parent
+		join `tabWarehouse` warehouse on warehouse.name = level.warehouse and warehouse.company = %(company)s
 		left join `tabBin` bin on bin.item_code = level.parent and bin.warehouse = level.warehouse
 		where item.disabled = 0 and item.is_purchase_item = 1 and level.material_request_type = 'Purchase'
 			and level.warehouse_reorder_level > 0 and coalesce(bin.projected_qty, 0) <= level.warehouse_reorder_level""",
+		{"company": company},
 		as_dict=True,
 	)
-	out = [dict(row, why=_("Requested")) for row in requested]
+	out = [dict(row, key=row.material_request_item, why="requested") for row in requested]
 	for row in low:
 		if (row.item_code, row.warehouse) in asked:
 			continue
-		out.append(dict(row, qty=quantity(row.level, row.reorder_qty, row.projected), why=_("Low")))
+		qty = quantity(row.level, row.reorder_qty, row.projected)
+		out.append(dict(row, key=f"{row.item_code}:{row.warehouse}", qty=qty, why="low"))
 	for row in out:
-		row["supplier"], row["rate"] = supplier_for(row["item_code"])
+		row["supplier"], row["rate"] = supplier_for(row["item_code"], company)
 	return out
 
 
-def supplier_for(item: str) -> tuple:
+def supplier_for(item: str, company: str | None = None) -> tuple:
+	"""Who an item is bought from, its default supplier or whoever sold it
+	last, and what it cost a stock unit then."""
 	from erpnext import get_default_company
 
 	default = frappe.db.get_value(
-		"Item Default", {"parent": item, "company": get_default_company()}, "default_supplier"
+		"Item Default", {"parent": item, "company": company or get_default_company()}, "default_supplier"
 	)
 	last = last_bought(item)
-	return default or (last.supplier if last else None), (last.rate if last else None)
+	return default or (last.supplier if last else None), (last.unit_rate if last else None)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def read() -> dict:
+	"""To Order's page (one_inventory/page/to_order): each line to order with
+	its picture, unit and warehouse by their own names, what it would cost at
+	the last price, and the figures above them."""
+	frappe.has_permission("Material Request", "read", throw=True)
+	from erpnext import get_company_currency, get_default_company
+
+	company = get_default_company()
+	lines = rows()
+	items = {
+		one.name: one
+		for one in frappe.get_all(
+			"Item",
+			filters={"name": ["in", list({row["item_code"] for row in lines}) or [""]]},
+			fields=["name", "image", "stock_uom"],
+		)
+	}
+	symbols = dict(
+		frappe.get_all(
+			"UOM",
+			filters={"name": ["in", list({row["uom"] for row in lines}) or [""]], "symbol": ["is", "set"]},
+			fields=["name", "symbol"],
+			as_list=True,
+		)
+	)
+	places = dict(
+		frappe.get_all(
+			"Warehouse",
+			filters={"name": ["in", list({row["warehouse"] for row in lines}) or [""]]},
+			fields=["name", "warehouse_name"],
+			as_list=True,
+		)
+	)
+	suppliers = dict(
+		frappe.get_all(
+			"Supplier",
+			filters={"name": ["in", list({row["supplier"] for row in lines if row["supplier"]}) or [""]]},
+			fields=["name", "supplier_name"],
+			as_list=True,
+		)
+	)
+	for row in lines:
+		row["image"] = (items.get(row["item_code"]) or {}).get("image")
+		row["unit"] = symbols.get(row["uom"]) or row["uom"]
+		row["warehouse_label"] = places.get(row["warehouse"]) or row["warehouse"]
+		row["supplier_name"] = suppliers.get(row["supplier"]) or row["supplier"]
+		row["cost"] = flt(row["qty"]) * flt(row["rate"]) if row["rate"] else None
+	priced = [row["cost"] for row in lines if row["cost"] is not None]
+	return {
+		"lines": lines,
+		"currency": get_company_currency(company) if company else None,
+		"figures": {
+			"lines": len(lines),
+			"requested": sum(1 for row in lines if row["why"] == "requested"),
+			"low": sum(1 for row in lines if row["why"] == "low"),
+			"cost": sum(priced),
+			"unpriced": len(lines) - len(priced),
+			"suppliers": len({row["supplier"] for row in lines if row["supplier"]}),
+		},
+		"can": {
+			"order": bool(frappe.has_permission("Purchase Order", "create")),
+			"request": bool(frappe.has_permission("Material Request", "create")),
+		},
+	}
 
 
 def grouped(picked: list[dict], fallback: str | None = None) -> dict:

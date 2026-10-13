@@ -37,6 +37,7 @@ export const SCREENS = [
 	{ who: "karim@one.test", path: "/desk/inventory", page: "inventory", sees: ["Stock Worth", "3 Late Orders", "Where Stock Is", "Where Goods Came From and Went"], panel: true },
 	{ who: "karim@one.test", path: "/desk/inventory?view=today", page: "inventory", sees: ["Late Orders", "Gulf Glass Industries"], panel: true },
 	{ who: "karim@one.test", path: "/desk/inventory/setup", page: "inventory", sees: ["Warehouses", "Where stock is kept."], panel: true },
+	{ who: "karim@one.test", path: "/desk/to-order", page: "to-order", sees: ["Running Low", "Structural Silicone Sealant"], panel: true },
 	{ who: "karim@one.test", path: "/desk/lots", page: "lots", sees: ["Lots in Stock", "Weatherproof Silicone Sealant", "Stores - SGA"], panel: true },
 	{ who: "karim@one.test", path: "/desk/quotes", page: "quotes", sees: ["Waiting for Prices", "Aluminium Profile 6063", "Euro Hardware Trading"], panel: true },
 	{ who: "karim@one.test", path: "/desk/quotes?view=compare&request=PUR-RFQ-2026-00005", page: "quotes", sees: ["Cheapest", "Emirates Sealants & Fixings"], panel: true },
