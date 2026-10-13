@@ -13,7 +13,7 @@ same way (docs/PASSOVER.md, The panel and A record's page).
   No module draws places of its own in the page head, and no crumb is a
   menu of its own.
 - On a phone the head is two bars and the trail splits over them: the place
-  in the first, the record and its buttons in the second
+  and the page's buttons in the first, the record in the second
   (public/js/phone_head.js, desk.css).
 """
 
@@ -98,6 +98,7 @@ def test_a_phone_head_is_two_rows():
 	assert '"/assets/onedesk/js/phone_head.js"' in hooks
 	head = (APP / "public" / "js" / "phone_head.js").read_text()
 	assert "--page-head-height" in head, "frappe's sticky parts are told the head's height"
+	assert "search.before(buttons)" in head, "the page's buttons are in the first bar"
 	css = (APP / "public" / "css" / "desk.css").read_text()
 	phone = css[css.index("@media (max-width: 767.98px)") :]
 	assert "flex-wrap: wrap !important" in phone and "flex: 1 0 100%" in phone, "the page's buttons wrap to a row of their own"

@@ -152,11 +152,10 @@ page.
   **All …** stays at the foot. A page never draws a menu of its own on a
   crumb; it gives the trail a `menu` and the switcher draws it.
 - On a phone the head is two bars, each its own height with a line under it
-  (`public/js/phone_head.js`). The trail splits over them. The first bar is
-  for the kind of record: the panel's button, the place, and search. The
-  second is for the record: its name, its status and a scope such as a
-  project's All Work at its start, its buttons at its end. A list's second
-  bar has its view switch and its buttons.
+  (`public/js/phone_head.js`). The trail splits over them. The first bar has
+  the panel's button, the place, the page's buttons and search. The second
+  is the record's: its name, its status and a scope such as a project's All
+  Work. A list's second bar has its view switch.
 - A page that gathers several kinds of record keeps frappe's view switch,
   leading to their List and Report views (`public/js/page_views.js`).
 

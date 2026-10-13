@@ -186,11 +186,11 @@ it's universal over the app". Every module has this without asking
   our double top navbar so we don't keep struggling with trimmed content",
   then "why not two navbars, why did you cram them up", then "top bar is for
   the doctype stuff, bottom bar is for the current doc, so the breadcrumb
-  should split"). Each is its own height with a line under it. The first is
-  the panel's button, the place, and search. The second is the record: its
-  name, its status with its word and a scope such as a project's **All Work**
-  at its start, its buttons at its end. A list's second bar has its view
-  switch and its buttons (`public/js/phone_head.js`, `crumb_switch.js`).
+  should split", then "move actions to the top bar"). Each is its own height
+  with a line under it. The first is the panel's button, the place, the
+  page's buttons and search. The second is the record's: its name, its status
+  with its word and a scope such as a project's **All Work**. A list's second
+  bar has its view switch (`public/js/phone_head.js`, `crumb_switch.js`).
 - No module puts places of its own in the page head.
 - Every view of a list marks the list's row in the panel.
 
