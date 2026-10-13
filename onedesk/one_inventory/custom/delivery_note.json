@@ -18,6 +18,22 @@
    "property": "in_standard_filter",
    "property_type": "Check",
    "value": "0"
+  },
+  {
+   "doc_type": "Delivery Note",
+   "doctype_or_field": "DocField",
+   "field_name": "in_words",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": ""
+  },
+  {
+   "doc_type": "Delivery Note",
+   "doctype_or_field": "DocField",
+   "field_name": "base_in_words",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": ""
   }
  ],
  "sync_on_migrate": 1

@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Sales Order",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Sales Order",
+   "doctype_or_field": "DocField",
+   "field_name": "base_in_words",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": ""
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -60,9 +60,14 @@ def make(values: dict, submit: bool = False):
 
 
 def save(doc, submit: bool = False):
-	"""A record built by a mapper or a One action, saved as a form would."""
+	"""A record built by a mapper or a One action, saved as a form would, then
+	opened again and submitted as a form does. ERPNext's controllers decide
+	some things when a record is loaded, such as a return crediting what it
+	came back against, so one built in memory and submitted at once missed
+	them."""
 	doc.insert()
 	if submit:
+		doc = frappe.get_doc(doc.doctype, doc.name)
 		doc.submit()
 	return tag(doc)
 

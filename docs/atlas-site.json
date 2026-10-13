@@ -2408,6 +2408,8 @@
 "System Manager"
 ],
 "Shipment Parcel Template": [
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Shipping Rule": [
@@ -3163,6 +3165,8 @@
 "Shift Location",
 "Shift Request",
 "Shift Type",
+"Shipment",
+"Shipment Parcel Template",
 "Sidebar",
 "Skill",
 "Stock Entry",

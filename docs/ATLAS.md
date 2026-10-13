@@ -66,7 +66,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Accounting Dimension Filter | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Accounting Period | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Accounts Settings | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | no | general |  |  |  |  | ar 61, de 51 |  |
-| Advance Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  | **only an ID** | ar 2 |  |
+| Advance Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  | **only an ID** | ar 1 |  |
 | Bank | through a form's link (Payment Order: company_bank) | OneBook | events, 1 fields, 1 settings | yes | general |  | yes |  |  | ar 1 |  |
 | Bank Account | on a rail or a home | OneBook | events | yes | general |  | yes |  |  | ar 3, de 2 |  |
 | Bank Account Balance | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
@@ -108,14 +108,14 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Mode of Payment | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Monthly Distribution | through a form's link (Territory: distribution_id) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Opening Invoice Creation Tool | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
-| POS Closing Entry | **waiting** | OneCRM | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 9 |  |
+| POS Closing Entry | **waiting** | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 4 |  |
 | POS Invoice Merge Log | **waiting** | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | POS Opening Entry | **waiting** | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  | ar 11, de 1 |  |
+| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  | ar 10, de 1 |  |
 | POS Settings | **waiting** | OneBook, OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Party Link | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Payment Entry | on a rail or a home | OneBook | events | yes | general | makes it | yes |  |  | ar 5 |  |
+| Payment Entry | on a rail or a home | OneBook | events | yes | general | makes it | yes |  |  | ar 4 |  |
 | Payment Gateway Account | through a form's link (Payment Request: payment_gateway_account) | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |
@@ -133,11 +133,11 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Subscription | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 1 settings | yes | general | makes it | yes |  |  | ar 7 | Bill Due |
+| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 1 settings | yes | general | makes it | yes |  |  | ar 3 | Bill Due |
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Repost Payment Ledger | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 4 fields, 1 settings | yes | taught |  | yes | ours |  | ar 12, de 3 |  |
+| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 4 fields, 2 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Share Transfer | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Share Type | **waiting** | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -187,10 +187,10 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 24, de 21 |  |
-| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, 3 fields | yes | taught |  | yes | ours |  | ar 5 | Order Late |
+| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, 3 fields | yes | taught |  | yes | ours |  | ar 1 | Order Late |
 | Request for Quotation | on a rail or a home | OneInventory | a head, events, 1 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Supplier | on a rail or a home | OneBook, OneInventory | a head, events, 3 fields | yes | taught | makes it | yes |  |  | ar 10, de 10 |  |
-| Supplier Quotation | on a rail or a home | OneInventory | a head, events | yes | taught | makes it | yes |  |  | ar 4 | Quote Received |
+| Supplier Quotation | on a rail or a home | OneInventory | a head, events | yes | taught | makes it | yes |  |  | ar 1 | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Period | through a form's connections (Supplier Scorecard's Connections) | OneInventory | untouched | yes | general |  | yes |  |  | ar 1 |  |
@@ -213,7 +213,7 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 28 settings | yes | taught | makes it | yes |  |  | ar 3 |  |
 | Market Segment | through a form's link (Prospect: market_segment) | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes |  |  | ar 5 |  |
+| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes |  |  | ar 4 |  |
 | Opportunity Lost Reason | through a form's link (Opportunity: lost_reason) | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity Type | **waiting** | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  | **none** |  |  | ar 2 |  |
@@ -257,7 +257,7 @@ Reports: Maintenance Schedules (**waiting**).
 | BOM Creator | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | BOM Update Log | engine: what a BOM Update Tool run changed | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | BOM Update Tool | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
-| Blanket Order | on a rail or a home | OneCRM, OneInventory | a head, 6 settings | yes | general |  | yes | ours |  | ar 1 |  |
+| Blanket Order | on a rail or a home | OneCRM, OneInventory | a head, 6 settings | yes | general |  | yes | ours |  |  |  |
 | Downtime Entry | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Job Card | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  | yes |  |  | ar 10, de 6 |  |
 | Manufacturing Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  | ar 7, de 1 |  |
@@ -290,7 +290,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 | Projects Settings | opened by our screens | OneProject | 5 fields, 6 settings | no | general |  |  |  |  |  |  |
 | Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 3 | Arrived After Closing, Due Date Changed, Hours Over Plan, Pending Review, Task Done, Task Ready |
 | Task Type | on a rail or a home | OneHR, OneProject | untouched | yes | general |  | **none** |  |  |  |  |
-| Timesheet | on a rail or a home | everybody | class, events, form script, list script, 2 fields, 31 settings | yes | taught |  | yes | ours |  | ar 4 |  |
+| Timesheet | on a rail or a home | everybody | class, events, form script, list script, 2 fields, 31 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 
 Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (on a rail or a home); Project Summary (on a rail or a home); Project wise Stock Tracking (on a rail or a home); Timesheet Billing Summary (on a rail or a home).
 
@@ -331,9 +331,9 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 4, de 4 |  |
-| Quotation | on a rail or a home | OneCRM | events, form script, 2 fields | yes | general | makes it | yes |  |  | ar 5 |  |
+| Quotation | on a rail or a home | OneCRM | events, form script, 2 fields | yes | general | makes it | yes |  |  |  |  |
 | SMS Center | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields | yes | taught | makes it | yes | ours |  | ar 14, de 4 |  |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 |  |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | **waiting** | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 
@@ -350,7 +350,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Branch | through a form's link (Job Opening Template: location) | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
 | Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  | ar 15, de 13 |  |
-| Currency Exchange | **waiting** | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  | ar 1 |  |
+| Currency Exchange | **waiting** | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Customer Group | through a form's link (Item: customer_group) | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  | ar 1 |  |
 | Department | through a form's link (Job Opening Template: department) | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Designation | through a form's link (Job Opening Template: designation) | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
@@ -358,7 +358,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 2 |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  | ar 10 | Birthday, Could Not Mark Left, Employee Details Changed, Work Anniversary |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
-| Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 4, de 3 |  |
+| Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  | ar 2 |  |
 | Incoterm | through a form's link (Supplier Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
@@ -381,7 +381,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Batch | on a rail or a home | OneInventory | a head | yes | taught |  | yes |  |  | ar 1 | Expiring Soon |
 | Bin | engine: what each warehouse holds of each item; Stock on Hand reads it | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  | ar 2 |  |
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 2 settings | yes | taught |  | yes | ours |  | ar 12, de 3 |  |
+| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | taught |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
@@ -399,7 +399,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Pick List | on a rail or a home | OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
 | Price List | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  | ar 5 |  |
+| Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
 | Putaway Rule | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Inspection | on a rail or a home | OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Quality Inspection Parameter | through a form's link (Quality Inspection Template: specification) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -409,8 +409,8 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | events | yes | general |  | yes |  |  | ar 6, de 1 | Reposting Failed |
 | Serial No | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Serial and Batch Bundle | through a form's link (Asset Capitalization: serial_and_batch_bundle) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Shipment | through a form's connections (Delivery Note's Connections) | OneInventory | untouched | yes | general |  | **none** | **theirs** |  | ar 2 |  |
-| Shipment Parcel Template | through a form's link (Shipment: parcel_template) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Shipment | through a form's connections (Delivery Note's Connections) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Shipment Parcel Template | through a form's link (Shipment: parcel_template) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Closing Balance | through a form's connections (Stock Closing Entry's Connections) | OneBook, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Stock Closing Entry | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Stock Entry | on a rail or a home | OneInventory | a head, events, list script, 5 settings | yes | taught |  | yes | ours |  | ar 2, de 1 |  |
@@ -769,7 +769,7 @@ Pages: workflow-builder (**waiting**).
 | Employee Transfer | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Employment Type | through a form's link (Job Opening Template: employment_type) | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Exit Interview | **waiting** | OneHR | untouched | yes | taught |  | **none** |  |  | ar 9 | Exit Interview Scheduled (theirs) |
-| Expense Claim | on a rail or a home | everybody | a head, class, events, 5 fields, 6 settings | yes | taught | makes it | yes |  |  | ar 14, de 5 |  |
+| Expense Claim | on a rail or a home | everybody | a head, class, events, 5 fields, 6 settings | yes | taught | makes it | yes |  |  | ar 12, de 5 |  |
 | Expense Claim Type | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  | ar 1 |  |
 | Full and Final Statement | **waiting** | OneHR | untouched | yes | general |  | **none** |  |  | ar 5, de 1 |  |
 | Goal | on a rail or a home | everybody | 2 settings | yes | taught |  | **none** |  |  | ar 3 |  |
@@ -847,9 +847,9 @@ Pages: organizational-chart (on a rail or a home).
 | Gratuity Rule | through a form's link (Gratuity: gratuity_rule) | OneHR | untouched | yes | general |  | yes |  |  | ar 8, de 1 |  |
 | Income Tax Slab | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Payroll Correction | **waiting** | everybody | untouched | yes | general |  | **none** |  |  | ar 8, de 8 |  |
-| Payroll Entry | on a rail or a home | OneHR | a head, 8 settings | yes | taught |  | yes |  |  | ar 8, de 1 |  |
+| Payroll Entry | on a rail or a home | OneHR | a head, 8 settings | yes | taught |  | yes |  |  | ar 7, de 1 |  |
 | Payroll Period | opened by our screens | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Payroll Settings | on a rail or a home | OneHR | events | no | general |  |  |  |  | ar 9, de 4 |  |
+| Payroll Settings | on a rail or a home | OneHR | events | no | general |  |  |  |  | ar 8, de 4 |  |
 | Retention Bonus | **waiting** | everybody | untouched | yes | general |  | **none** |  |  | ar 2 | Retention Bonus (theirs) |
 | Salary Component | on a rail or a home | everybody | events | yes | general |  | yes |  |  | ar 8, de 5 |  |
 | Salary Slip | on a rail or a home | everybody | a head, 2 settings | yes | taught |  | yes |  |  | ar 37, de 2 |  |

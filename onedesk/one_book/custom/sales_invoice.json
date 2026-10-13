@@ -24,6 +24,14 @@
    "property": "allow_auto_repeat",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Sales Invoice",
+   "doctype_or_field": "DocField",
+   "field_name": "base_in_words",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": ""
   }
  ],
  "sync_on_migrate": 1

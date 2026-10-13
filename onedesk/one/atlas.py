@@ -113,4 +113,5 @@ NOT_SENT = {
 	"Asset": "the company's own equipment",
 	"Vehicle Log": "a company car's trips and fuel",
 	"Training Event": "a training the company runs for its people",
+	"Shipment": "a booking with a carrier, whose label the carrier prints",
 }

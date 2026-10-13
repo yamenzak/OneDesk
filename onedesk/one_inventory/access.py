@@ -97,6 +97,8 @@ GIVEN["Item Lead Time"] = {
 	"Manufacturing Manager": roles.MANAGE,
 }
 GIVEN["Delivery Settings"] = {"Stock Manager": ("read", "write")}
+# The crate sizes a shipment's parcels start from, the System Manager's alone.
+GIVEN["Shipment Parcel Template"] = {"Stock User": roles.USE, "Stock Manager": roles.MANAGE}
 
 # The people's officers see what a person holds and where it went, to ask
 # for it back when they leave. ERPNext gives assets to stock and accounts only.

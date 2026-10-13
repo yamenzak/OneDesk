@@ -11825,7 +11825,8 @@ Reports and Setup.
 | Home | done, then told as a story |
 | Stock on Hand | done, then redrawn after Shopify and Katana |
 | Receipts | done |
-| Deliveries | next |
+| Deliveries | done |
+| Stock Movements | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12076,4 +12077,43 @@ answer:
   allocation wants an asset depreciated by shift.
 - The labels these forms brought that upstream never translated are in
   `onedesk/translations/words/`.
+
+**Deliveries.** Looked at as Karim, at 1440 wide and on a phone: frappe's list
+of Delivery Notes and ERPNext's form, a delivery with a window sent back, one
+in dollars and the atlas's Stock part.
+
+- **A return that did not count (What ERPNext already does).** Crescent
+  Schools sent a window back, yet its delivery's head said Billed 95.83% with
+  nothing returned. ERPNext decides that a delivery is a return as the
+  record is loaded, so one the demo built and submitted in one go never
+  credited what it came back against; through the form, saved and then
+  submitted, it does. The demo's `save` now submits the record as the form
+  would, this site's four returns were credited once, and
+  `oneinventory_a_return_is_counted_on_what_it_came_back_against` holds it for
+  deliveries and receipts. The head now reads Returned 4.17%.
+- **"Will be visible once you save" on a saved record.** A delivered note said
+  "In Words (Export) will be visible once you save the Delivery Note." under
+  its In Words, as Sales Orders and Sales Invoices do. The note is gone on
+  all three.
+- **Shipments.** Delivery Note's Connections leads to Shipment, which the
+  demo had none of; the balustrades for Gulf Properties are now booked with a
+  carrier in two balustrade crates. Shipment Parcel Template was open to
+  nobody in a workspace; the stock roles have it. A shipment is a booking
+  whose label the carrier prints, so it needs no print of ours (`NOT_SENT`).
+- **Labels.** Fifteen of the delivery's labels and two of the shipment's were
+  English in Arabic or German (Shipping Contact, Exchange Rate, Totals in the
+  company's currency); they are translated, which lowered Accounts, Selling
+  and Buying too.
+- The rest holds: the list's two filters (frappe's search on the customer's
+  name and ERPNext's pick of a customer) do different things and stay; the
+  head (Project, Order, Total, Billed, Returned); the print is ours; the phone
+  rows.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | returns counted, a shipment and a crate |
+| 6 Nothing lost | Shipment and its crates reached and opened to the stores |
+| 11 Printed | the note prints from ours; a shipment needs none |
+| 12 Plain words | the save notice gone, seventeen labels translated |
+| What ERPNext already does | a return credits what it came back against |
 

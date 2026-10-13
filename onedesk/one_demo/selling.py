@@ -1,8 +1,9 @@
 """Selling products, apart from the projects: orders delivered and invoiced
 and paid, one in pounds, one still to deliver, a window sent back and credited,
 two sample windows sent to New York in dollars, balustrades delivered and not
-yet invoiced, a survey fee nobody has paid, and the villa's sliding doors held
-for it while its first windows are picked, packed and sent to site."""
+yet invoiced, a survey fee nobody has paid, the villa's sliding doors held
+for it while its first windows are picked, packed and sent to site, and the
+balustrades booked with a carrier in crates."""
 
 import frappe
 from frappe.utils import add_days
@@ -22,6 +23,7 @@ def run(password=None):
 	if not frappe.db.exists("Delivery Note", {"docstatus": 1}):
 		_sell()
 	_to_site()
+	_shipped()
 
 
 def _sell():
@@ -206,3 +208,40 @@ def _pay(invoice, date):
 		payment.reference_no = f"RCPT-{invoice.name[-6:]}"
 		payment.reference_date = date
 		save(rated(payment), submit=True)
+
+
+def _shipped():
+	"""The balustrades for Gulf Properties booked with a carrier, in two
+	balustrade crates, picked up from the company's address."""
+	note = frappe.db.get_value("Delivery Note", {"customer": "Gulf Properties REIT", "docstatus": 1, "is_return": 0})
+	if not note or frappe.db.exists("Shipment Delivery Note", {"delivery_note": note}):
+		return
+	with as_user(STORES):
+		crate = once(
+			"Shipment Parcel Template",
+			{"parcel_template_name": "Balustrade Crate"},
+			{"parcel_template_name": "Balustrade Crate", "length": 260, "width": 40, "height": 120, "weight": 180},
+		)
+		ours = frappe.db.get_value("Dynamic Link", {"parenttype": "Address", "link_doctype": "Company", "link_name": COMPANY}, "parent")
+		theirs = frappe.db.get_value("Dynamic Link", {"parenttype": "Address", "link_doctype": "Customer", "link_name": "Gulf Properties REIT"}, "parent")
+		shipment = frappe.get_doc(
+			{
+				"doctype": "Shipment",
+				"pickup_from_type": "Company",
+				"pickup_company": COMPANY,
+				"pickup_address_name": ours,
+				"pickup_contact_person": STORES,
+				"delivery_to_type": "Customer",
+				"delivery_customer": "Gulf Properties REIT",
+				"delivery_address_name": theirs,
+				"value_of_goods": frappe.db.get_value("Delivery Note", note, "grand_total"),
+				"pickup_date": ahead(2),
+				"pickup_from": "09:00:00",
+				"pickup_to": "12:00:00",
+				"description_of_content": "Glass balustrade panels",
+				"parcel_template": crate.name,
+				"shipment_parcel": [{"length": 260, "width": 40, "height": 120, "weight": 180, "count": 2}],
+				"shipment_delivery_note": [{"delivery_note": note}],
+			}
+		)
+		save(shipment)

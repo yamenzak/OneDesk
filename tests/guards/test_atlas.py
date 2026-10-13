@@ -99,7 +99,6 @@ NOBODY = {
 	"erpnext / Maintenance": 1,
 	"erpnext / Selling": 1,
 	"erpnext / Setup": 2,
-	"erpnext / Stock": 1,
 	"erpnext / Support": 4,
 	"frappe / Core": 9,
 	"frappe / Custom": 1,
@@ -243,7 +242,7 @@ EMPTY = {
 	"erpnext / Setup": 4,
 	# Placed with none on purpose: a stock dimension adds a field to every stock
 	# form, and a closing refuses the history the demo writes behind it.
-	"erpnext / Stock": 8,
+	"erpnext / Stock": 6,
 	"erpnext / Subcontracting": 1,
 	"erpnext / Support": 4,
 	"frappe / Automation": 1,
@@ -270,7 +269,6 @@ UNPRINTED = {
 	"erpnext / Accounts": 4,
 	"erpnext / Maintenance": 1,
 	"erpnext / Selling": 2,
-	"erpnext / Stock": 1,
 	"erpnext / Subcontracting": 3,
 }
 
@@ -282,15 +280,15 @@ ONLY_AN_ID = {
 #: Point 12. Labels on a reached form still English in Arabic or German,
 #: counted once for each language.
 ENGLISH = {
-	"erpnext / Accounts": 98,
+	"erpnext / Accounts": 74,
 	"erpnext / Assets": 3,
-	"erpnext / Buying": 30,
-	"erpnext / CRM": 14,
-	"erpnext / Manufacturing": 83,
-	"erpnext / Projects": 46,
-	"erpnext / Selling": 52,
+	"erpnext / Buying": 23,
+	"erpnext / CRM": 13,
+	"erpnext / Manufacturing": 82,
+	"erpnext / Projects": 44,
+	"erpnext / Selling": 34,
 	"erpnext / Setup": 44,
-	"erpnext / Stock": 49,
+	"erpnext / Stock": 27,
 	"erpnext / Subcontracting": 5,
 	"erpnext / Support": 6,
 	"frappe / Automation": 32,
@@ -300,8 +298,8 @@ ENGLISH = {
 	"frappe / Integrations": 6,
 	"frappe / Printing": 6,
 	"frappe / Website": 2,
-	"hrms / HR": 255,
-	"hrms / Payroll": 111,
+	"hrms / HR": 253,
+	"hrms / Payroll": 110,
 }
 
 

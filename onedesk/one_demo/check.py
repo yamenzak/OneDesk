@@ -5345,6 +5345,23 @@ def oneinventory_new_item_parts_list_and_sizes():
 
 
 @check
+def oneinventory_a_return_is_counted_on_what_it_came_back_against():
+	"""A window sent back is counted on its delivery, and goods sent back to a
+	supplier on their receipt, so the delivery's head says Returned and its
+	billed share reads true. The demo saves a return and submits it as the
+	form does; one built and submitted in one go was never counted."""
+	from frappe.utils import flt
+
+	for doctype in ("Delivery Note", "Purchase Receipt"):
+		returns = frappe.get_all(doctype, filters={"is_return": 1, "docstatus": 1}, pluck="return_against")
+		assert returns, f"the demo sends back no {doctype}"
+		for against in returns:
+			assert flt(frappe.db.get_value(doctype, against, "per_returned")) > 0, (doctype, against)
+	shipment = frappe.get_all("Shipment Delivery Note", filters={"parenttype": "Shipment"}, pluck="delivery_note")
+	assert shipment and frappe.db.get_value("Delivery Note", shipment[0], "customer") == "Gulf Properties REIT", shipment
+
+
+@check
 def one_atlas_knows_who_may_open_what():
 	"""docs/atlas-site.json is this site's: what it has and who may read each record type,
 	report and page, every grant of One's applied, which docs/ATLAS.md says
