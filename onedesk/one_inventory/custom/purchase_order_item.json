@@ -63,6 +63,15 @@
  ],
  "doctype": "Purchase Order Item",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Purchase Order Item",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "schedule_date"
+  }
+ ],
  "sync_on_migrate": 1
 }

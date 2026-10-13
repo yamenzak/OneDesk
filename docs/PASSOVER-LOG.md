@@ -11832,7 +11832,8 @@ Reports and Setup.
 | Buying › To Order | done, redrawn after Odoo's Replenishment |
 | Buying › Material Requests | done |
 | Buying › Quotes | done, redrawn after Odoo Purchase |
-| Buying › Purchase Orders | next |
+| Buying › Purchase Orders | done |
+| Buying › Suppliers | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12313,3 +12314,33 @@ Asked, Quotes and Compare.
 | 5 Our look | modelled on Odoo Purchase, one Badge, tables not text |
 | 8 Built from frappe | frappe-ui's List, Badge, Avatar, Dropdown and TabButtons |
 | What ERPNext already does | one company's requests and quotes; Order only where a line is left |
+
+**Purchase Orders.** Looked at as Karim, at 1440 wide and on a phone:
+frappe's list and ERPNext's form, an order for the villa's sealant, received
+and not billed.
+
+- **Names and states cut.** The list cut every supplier to "Al Noor Alu"
+  and every status to "To Receive an…", with the number column taking
+  room. The number is left off, as on Receipts (`purchase_order_list.js`);
+  the supplier is 220 wide; the dates, the total and the two bars have
+  widths of their own, so the status gets the rest and reads whole; and
+  % Billed and % Received say Billed and Received, as the head does.
+- **Two filters for one thing.** Supplier and Supplier Name both sat in the
+  filter bar; Supplier Name, frappe's own search, stays. Advance Payment
+  Status goes to the Filter menu, where it still is.
+- **The item squeezed by a date said twice.** As on a request, each line's
+  Required By is off the items table and stays in the line's form.
+- **"100.0%" and "0.0%".** A percent in a record's head said what frappe
+  formats, one decimal. It is a whole number now, with its bar under it,
+  on every head that shows one (one/head.py): an order's Received and
+  Billed, a request's Ordered and Received, a receipt's Billed and the
+  rest.
+- The rest holds: the head's Project and Total, Create and Status, the
+  phone rows. The whole demo was run: 141 of 149 pass, and the 8 that do
+  not need an outgoing mail account, a PDF renderer download or server
+  extensions this box does not have.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | names and states whole, nothing said twice, percents whole with a bar |
+| Everything follows frappe | widths and labels by property setter, frappe's own search kept |

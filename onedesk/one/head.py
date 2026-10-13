@@ -354,7 +354,17 @@ def _stat(doc, row, measured=None) -> dict | None:
 
 def _value(doc, row):
 	if row.source == "Field":
-		return doc.get_formatted(row.field) if doc.get(row.field) not in (None, "") else None
+		if doc.get(row.field) in (None, ""):
+			return None
+		# A share of a whole is said in whole numbers, with its bar under it:
+		# frappe would say "100.0%".
+		if doc.meta.get_field(row.field).fieldtype == "Percent":
+			share = flt(doc.get(row.field))
+			return {
+				"value": f"{frappe.format_value(round(share), {'fieldtype': 'Int'})}%",
+				"meter": {"value": share, "of": 100},
+			}
+		return doc.get_formatted(row.field)
 	if row.source == "Linked Field":
 		target = doc.get(row.link_field)
 		through = doc.meta.get_field(row.link_field).options

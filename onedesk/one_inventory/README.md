@@ -382,8 +382,11 @@ same supplier.
    go to different suppliers, each from whoever is cheapest on it.
    An order's page says its **Total** in the supplier's money (with the
    company's beside it), when it is **Wanted By**, the blanket order it is
-   **Agreed On**, and how much is **Received** and **Billed**. **Submit**
-   sends nothing by itself. Print it or mail it from its menu.
+   **Agreed On**, and how much is **Received** and **Billed**, each a whole
+   percent with its bar. **Submit** sends nothing by itself. Print it or
+   mail it from its menu. The list gives the supplier room for its name and
+   the status room for "To Receive and Bill", without the number, and a
+   line's own Required By stays out of the items table.
 5. **Receive and pay.** See Receiving. The supplier's bill is
    **Create › Purchase Invoice**, and it is OneBook's from there.
 

@@ -40,6 +40,87 @@
  ],
  "doctype": "Purchase Order",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "supplier"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "advance_payment_status"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "220",
+   "field_name": "supplier_name"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "110",
+   "field_name": "transaction_date"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "110",
+   "field_name": "schedule_date"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "120",
+   "field_name": "grand_total"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "90",
+   "field_name": "per_billed"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "90",
+   "field_name": "per_received"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Billed",
+   "field_name": "per_billed"
+  },
+  {
+   "doc_type": "Purchase Order",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Received",
+   "field_name": "per_received"
+  }
+ ],
  "sync_on_migrate": 1
 }
