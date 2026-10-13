@@ -11,12 +11,12 @@ onedesk.measure.SIZE = ["one_pieces", "one_length", "one_width"];
 
 onedesk.measure.measured = (row) => ["Length", "Area"].includes(row.one_measured_by);
 
-// 3.840 m², on a measured line of a table that has no unit column,
-// so metres and sheets don't read alike.
+// 3.840 m² or 24 Nos, on every line of a table that has no unit column, so
+// metres, sheets and pieces don't read alike.
 onedesk.measure.formatter = (value, df, options, doc) => {
 	const shown = frappe.format(value, { ...df, formatter: null }, { ...options, inline: true }, doc);
 	const listed = ["uom", "stock_uom"].some((f) => frappe.meta.get_docfield(df.parent, f)?.in_list_view);
-	const unit = doc && !listed && onedesk.measure.measured(doc) ? doc.uom || doc.stock_uom : null;
+	const unit = doc && !listed ? doc.uom || doc.stock_uom : null;
 	const symbol = unit && (frappe.boot.one_measure?.symbols?.[unit] || __(unit));
 	return frappe.form.formatters._right(unit ? `${shown} ${frappe.utils.escape_html(symbol)}` : shown, options);
 };

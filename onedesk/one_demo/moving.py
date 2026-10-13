@@ -33,6 +33,8 @@ def run(password=None):
 	if not frappe.db.exists("Stock Reconciliation", {"docstatus": 1, "purpose": "Stock Reconciliation"}):
 		_counted()
 	_reposted()
+	_given()
+	_on_the_road()
 
 
 def _site() -> str:
@@ -99,4 +101,40 @@ def _counted():
 			have, rate = get_stock_balance(one, wh("Stores"), day, "17:00:00", with_valuation_rate=True)[:2]
 			counted = flt(have) - (short if one == code else 0)
 			doc.append("items", {"item_code": one, "warehouse": wh("Stores"), "qty": counted, "valuation_rate": rate})
+		save(doc, submit=True)
+
+
+def _given():
+	"""Gaskets the seal supplier threw in with an order, taken into the
+	Stores with no receipt to go with them: a Material Receipt."""
+	if frappe.db.exists("Stock Entry", {"docstatus": 1, "purpose": "Material Receipt"}):
+		return
+	with as_user(STORES):
+		doc = frappe.new_doc("Stock Entry")
+		doc.stock_entry_type = "Material Receipt"
+		doc.purpose = "Material Receipt"
+		doc.company = COMPANY
+		dated(doc, ago(5))
+		doc.remarks = "Spare gaskets the seal supplier added to the order, free of charge."
+		doc.to_warehouse = wh("Stores")
+		doc.append("items", {"item_code": "SEAL-EPDM", "qty": 50, "t_warehouse": wh("Stores"), "basic_rate": 4.2})
+		save(doc, submit=True)
+
+
+def _on_the_road():
+	"""Double-glazed units on their way to the tower's site: sent through Goods
+	In Transit, not arrived yet, so the move's head says how much has."""
+	if frappe.db.exists("Stock Entry", {"docstatus": 1, "add_to_transit": 1}):
+		return
+	project = frappe.db.get_value("Project", {"project_name": "Bayview Tower Curtain Wall"})
+	with as_user(STORES):
+		doc = frappe.new_doc("Stock Entry")
+		doc.stock_entry_type = "Material Transfer"
+		doc.purpose = "Material Transfer"
+		doc.company = COMPANY
+		doc.add_to_transit = 1
+		doc.project = project
+		dated(doc, ago(1))
+		doc.from_warehouse, doc.to_warehouse = wh("Stores"), wh("Goods In Transit")
+		doc.append("items", {"item_code": "GLS-DGU", "qty": 12, "s_warehouse": wh("Stores"), "t_warehouse": wh("Goods In Transit"), "project": project})
 		save(doc, submit=True)

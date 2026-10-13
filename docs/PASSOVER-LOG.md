@@ -11826,7 +11826,8 @@ Reports and Setup.
 | Stock on Hand | done, then redrawn after Shopify and Katana |
 | Receipts | done |
 | Deliveries | done |
-| Stock Movements | next |
+| Stock Movements | done |
+| Stock Counts | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12116,4 +12117,35 @@ in dollars and the atlas's Stock part.
 | 11 Printed | the note prints from ours; a shipment needs none |
 | 12 Plain words | the save notice gone, seventeen labels translated |
 | What ERPNext already does | a return credits what it came back against |
+
+**Stock Movements.** Looked at as Karim, at 1440 wide and on a phone: frappe's
+list of Stock Entries and ERPNext's form, a transfer to the villa's site, a
+manufacture for the tower, and the atlas's rows for Stock Entry.
+
+- **A list cut short.** The type read "Material Transfei", the two warehouse
+  filters "Default Source Wa" and "Default Target Wa", and frappe's ID column
+  ran off the edge as "MAT". The warehouses are called From and To, on the
+  list and the form, and the ID is left off the list (frappe's
+  `hide_name_column`): the type, date, project and value tell rows apart.
+- **A unit on some lines only.** A making's lines said "108 Meter" and
+  "15.600 m²" but a bare "24" for the hinges, since only lines sold by size
+  carried a unit. Every line of a table with no unit column carries its own
+  now, on every record that lists items (`measure.js`).
+- **Kinds the demo never made.** Nothing had come in without a receipt and
+  nothing was on the road. The demo now takes in spare gaskets the seal
+  supplier threw in (a Material Receipt) and sends double-glazed units to the
+  tower through Goods In Transit, not arrived yet, so the list shows In
+  Transit, the head says Arrived 0.0% and End Transit is offered.
+- **Labels.** Three of the entry's and its type's labels were English in
+  Arabic or German; they are translated.
+- The rest holds: the head (Project, Type, From, To, Value, Used for a
+  making, Arrived for a transfer through transit), what a making made in the
+  list's Total Amount, the print is ours, and Transfer Stock on Stock on Hand
+  makes the same entry in one step.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | a receipt without a receipt note, a transfer in transit |
+| 5 Our look | nothing cut in the list, a unit on every line |
+| 12 Plain words | From and To, three labels translated |
 
