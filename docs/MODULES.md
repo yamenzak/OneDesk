@@ -518,6 +518,7 @@ No doctypes yet.
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.sent_out.read`
 * `onedesk.one_inventory.stock.on_hand`
+* `onedesk.one_inventory.story.read`
 * `onedesk.one_inventory.upkeep.done`
 * `onedesk.one_inventory.upkeep.read`
 * `onedesk.one_inventory.view.files`

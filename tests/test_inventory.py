@@ -256,3 +256,17 @@ def test_stock_on_hand_adds_each_item_up_and_puts_what_is_low_or_short_first():
 	anchor = said[-1]
 	assert (anchor["on_hand"], anchor["worth"], anchor["places"]) == (55, 110, 2)
 	assert said[0]["low_in"] == ["Stores"] and said[1]["free"] == -3
+
+
+def test_home_tells_its_story_through_frappe():
+	"""Home's Overview reads every figure through frappe.get_list, so permissions
+	and record access hold, and draws with frappe-ui's charts alone."""
+	story = (INVENTORY / "story.py").read_text(encoding="utf-8")
+	assert "frappe.db.sql" not in story and "frappe.qb" not in story
+	assert "@frappe.read_only()" in story and "stock_ageing import execute" in story
+	page = (tree.APP.parent / "frontend" / "src" / "home" / "InventoryStory.vue").read_text(encoding="utf-8")
+	assert 'from "frappe-ui/charts"' in page
+	for chart in ("AreaChart", "BarChart", "DonutChart", "FunnelChart", "HeatmapChart", "SankeyChart", "ScatterChart"):
+		assert f"<{chart}" in page, chart
+	home = (tree.APP.parent / "frontend" / "src" / "home" / "InventoryHome.vue").read_text(encoding="utf-8")
+	assert "<NumberCard" in home and "sparkline" in home

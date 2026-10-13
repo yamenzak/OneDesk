@@ -4950,6 +4950,39 @@ def oneinventory_home_says_what_needs_somebody_and_where_everything_is():
 
 
 @check
+def oneinventory_home_tells_the_story_of_the_stock():
+	"""OneInventory's Overview: stock's worth today and month by month, the
+	same worth split by warehouse and by item group, goods' path from each
+	supplier to a customer or a project, how old the stock is, how far the
+	requests got, the work orders by status and the equipment by kind, each
+	as the reader may see it. Somebody outside the stores sees none of it."""
+	from onedesk.one_inventory import home, story
+
+	with as_user("karim@one.test"):
+		told = story.read()
+		worth = home.read()["figures"]["worth"]
+		cards = told["cards"]
+		assert round(cards["worth"]["value"], 2) == round(worth, 2) > 0, cards["worth"]
+		assert cards["worth"]["series"][-1] == round(worth, 2), cards["worth"]["series"]
+		assert len(cards["worth"]["series"]) == len(told["months"]) <= story.MONTHS
+		where = told["where"]
+		assert round(sum(one["worth"] for one in where["warehouses"])) == round(worth)
+		assert round(sum(one["worth"] for one in where["groups"])) == round(worth)
+		assert all(" - " not in one["name"] for one in where["warehouses"]), where["warehouses"]
+		paths = told["moves"]["paths"]
+		assert any(one["from"] == "Al Noor Aluminium" for one in paths), paths
+		assert not any(one["to"].startswith("PROJ-") for one in paths), paths
+		assert round(sum(one["worth"] for one in told["ages"])) == round(worth), told["ages"]
+		steps = [one["requests"] for one in told["buying"]["requests"]]
+		assert steps == sorted(steps, reverse=True) and steps[0] > 0, steps
+		assert {one["status"] for one in told["making"]["statuses"]} >= {"Completed", "In Process"}
+		assert {one["kind"] for one in told["equipment"]["kinds"]} >= {"Vehicles", "Machinery"}
+	with as_user("nadia@one.test"):
+		told = story.read()
+		assert not told["cards"].get("worth") and not told["where"] and not told["moves"], told["cards"]
+
+
+@check
 def oneinventory_lots_and_numbers_are_one_tool():
 	"""Lots: the sealant's two lots, the one going off first, each with what
 	is left and where, the six smart locks by number in the Stores, and the

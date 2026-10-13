@@ -5,12 +5,21 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
+      <!-- The headline figures, each with its months as a sparkline. -->
+      <div v-if="cards.length" ref="cardsRoot" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+        <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
+      </div>
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
+      <!-- Overview: what needs somebody, then the story of the stock. -->
+      <template v-if="shown === 'overview'">
+        <Loading v-if="!story" />
+        <InventoryStory v-else :story="story" :needs="chips" @today="shown = 'today'" />
+      </template>
+
       <!-- Today: what needs somebody, kind by kind, the empty kinds left out. -->
-      <template v-if="shown === 'today'">
+      <template v-else-if="shown === 'today'">
         <p v-if="!parts.length" class="py-10 text-center text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
         <Section v-for="part in parts" :key="part.key" :title="part.title" :icon="part.icon" :aside="part.count" :action="part.action">
           <Rows :rows="part.rows" />
@@ -45,8 +54,10 @@
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
+import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Figures, Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, date, followList, go, money, newDoc, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, date, followList, go, money, newDoc, onedesk, quantity, setQuery } from "../kit";
+import InventoryStory from "./InventoryStory.vue";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -57,12 +68,13 @@ const props = defineProps({
 
 const said = ref(null);
 // Today, everything, or one part of it: /desk/inventory/reports opens Reports.
-const shown = ref(props.route[0] || props.query.view || "today");
+const shown = ref(props.route[0] || props.query.view || "overview");
 const search = ref("");
-const wide = ref(viewWidth() >= 640);
-onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
+// The story is read beside what needs somebody, so Today never waits on it.
+const story = ref(null);
 
 async function load() {
+  call("onedesk.one_inventory.story.read").then((got) => (story.value = got));
   said.value = await call("onedesk.one_inventory.home.read");
   report();
 }
@@ -79,9 +91,10 @@ onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
 });
-watch(shown, (now) => setQuery("view", now === "today" ? null : now));
+watch(shown, (now) => setQuery("view", now === "overview" ? null : now));
 
 const views = computed(() => [
+  { key: "overview", label: __("Overview") },
   { key: "today", label: __("Today"), count: needed.value || null },
   { key: "everything", label: __("Everything") },
   ...said.value.groups.filter((one) => ["reports", "setup"].includes(one.key)).map((one) => ({ key: one.key, label: one.label })),
@@ -93,13 +106,54 @@ const needed = computed(() => {
   return n.late.count + n.low.count + n.lots.count + n.services.count + n.work.count + n.drafts.length;
 });
 
-const figures = computed(() => {
-  const f = said.value.figures;
+// The headline figures: what stock is worth, what came in, went out and was
+// made this month, what is still on order and how many papers moved stock,
+// each against last month and drawn over its months.
+const CARDS = () => [
+  { key: "worth", title: __("Stock Worth"), money: true, type: "area", hue: 0, route: "/desk/stock-on-hand" },
+  { key: "taken_in", title: __("Taken In This Month"), money: true, type: "bar", hue: 2, route: "/desk/purchase-receipt" },
+  { key: "sent_out", title: __("Sent Out This Month"), money: true, type: "bar", hue: 6, route: "/desk/delivery-note" },
+  { key: "made", title: __("Made This Month"), money: true, type: "line", hue: 4, route: "/desk/work-order" },
+  { key: "on_order", title: __("Still on Order"), money: true, type: "area", hue: 5, route: "/desk/purchase-order?status=To Receive and Bill" },
+  { key: "papers", title: __("Moves This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
+];
+// The cards' colours, as frappe-ui reads them for this island and its theme.
+const cardsRoot = ref();
+const { tokens } = useChartTokens(cardsRoot);
+const change = (series) => {
+  const [before, now] = series.slice(-2);
+  return before ? Math.round(((now - before) / Math.abs(before)) * 100) : null;
+};
+const cards = computed(() => {
+  const got = story.value?.cards || {};
+  const hues = tokens.value.categorical;
+  return CARDS()
+    .filter((one) => got[one.key])
+    .map((one) => ({
+      key: one.key,
+      route: one.route,
+      props: {
+        title: one.title,
+        value: got[one.key].value ?? 0,
+        format: one.money ? (value) => money(value, story.value.currency, 0) : undefined,
+        ...(change(got[one.key].series) === null ? {} : { delta: change(got[one.key].series), deltaSuffix: "%", deltaCaption: __("vs last month") }),
+        sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined },
+      },
+    }));
+});
+
+// What needs somebody, one button each, leading to Today.
+const chips = computed(() => {
+  const n = said.value?.needs;
+  if (!n) return [];
+  const drafts = n.drafts.reduce((sum, d) => sum + d.count, 0);
   return [
-    f.worth !== null && { title: __("Stock Worth"), value: money(f.worth, said.value.currency), route: "/desk/stock-on-hand" },
-    { title: __("Running Low"), value: String(f.low), alarm: f.low > 0, route: "/desk/query-report/To Order" },
-    { title: __("Late Orders"), value: String(f.late), alarm: f.late > 0 },
-    { title: __("Going Off"), value: String(f.going_off), alarm: f.going_off > 0 },
+    n.late.count && { key: "late", tone: "late", icon: "lucide-truck", label: n.late.count === 1 ? __("1 Late Order") : __("{0} Late Orders", [n.late.count]) },
+    n.low.count && { key: "low", tone: "soon", icon: "lucide-package-minus", label: n.low.count === 1 ? __("1 Item Running Low") : __("{0} Items Running Low", [n.low.count]) },
+    n.lots.count && { key: "lots", tone: "soon", icon: "lucide-hourglass", label: n.lots.count === 1 ? __("1 Lot Going Off") : __("{0} Lots Going Off", [n.lots.count]) },
+    n.services.count && { key: "services", tone: "soon", icon: "lucide-wrench", label: n.services.count === 1 ? __("1 Service Due") : __("{0} Services Due", [n.services.count]) },
+    n.work.count && { key: "work", tone: "late", icon: "lucide-factory", label: n.work.count === 1 ? __("1 Work Order Late") : __("{0} Work Orders Late", [n.work.count]) },
+    n.drafts.length && { key: "drafts", tone: "left", icon: "lucide-file-pen-line", label: drafts === 1 ? __("1 Draft Left") : __("{0} Drafts Left", [drafts]) },
   ].filter(Boolean);
 });
 

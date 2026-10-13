@@ -14,10 +14,31 @@ asset's depreciation lands in OneBook's books by itself.
 
 ## Finding your way
 
-**OneInventory** in the dock opens it on **Home**. Over it, what the stock is
-worth, how many items are **Running Low**, how many orders are late and how
-many lots are going off.
+**OneInventory** in the dock opens it on **Home**. Over it, six figures,
+each against last month and drawn over its months: **Stock Worth**, **Taken
+In This Month**, **Sent Out This Month**, **Made This Month**, **Still on
+Order** and **Moves This Month**. Each opens its list.
 
+- **Overview** opens first. A button for each kind of thing that needs
+  somebody (3 Late Orders, 1 Item Running Low) leads to Today. Then the story
+  of the stock, in six parts:
+  - **Where Stock Is**: its worth by warehouse, by item group, and the most
+    valuable items.
+  - **How Stock Moves**: its worth month by month, what came in and went out
+    each month by kind, where goods came from and went (supplier to
+    warehouse to customer, project or the workshop), the busy days, and the
+    papers by kind.
+  - **How Old Stock Is**: its worth by age, as ERPNext's Stock Ageing counts
+    it.
+  - **Buying**: how far the material requests got, what was bought from
+    each supplier, and how each supplier keeps to its dates.
+  - **Making**: the work orders by status, what was made each month, and
+    the hours at each workstation.
+  - **Equipment**: its worth by kind, bought against now, the assets by
+    status, and the services by month.
+
+  A slice or a bar opens what it stands for: a warehouse's stock, an item
+  group's items, a supplier's orders, the work orders or assets in a status.
 - **Today** lists what needs somebody, each kind only when there is some:
   **Late Orders** (purchase orders with goods past their date), **Running
   Low** (with **Order**, which opens To Order), **Going Off** (lots near or
@@ -811,6 +832,17 @@ a register and a movement form in it would be a rail with five rows.
   form script sets the quantity as the size is typed, shows the size columns
   only where a line is measured, and the unit's symbol beside the quantity.
   The shipped print formats merge one_size under the item's name.
+- `story.py` and `frontend/src/home/InventoryStory.vue` — Home's Overview.
+  `read` gives the six figures with their months and each part of the story,
+  read through `frappe.get_list` so permissions and record access hold, and
+  a part the reader may not see comes back empty. Moves are the stock
+  ledger's papers since the story starts, each named for what it was from the
+  paper itself (`_kinds`). Worth by month is today's less what moved since,
+  so the last month always equals Stock on Hand. Ages are ERPNext's Stock
+  Ageing, in five bands. The page draws it with frappe-ui's charts, colours
+  by what a chart shows: a kind of move keeps its hue, statuses keep theirs
+  (done green, under way blue, late red), and age and busy days run light to
+  dark.
 - `home.py`, `page/inventory` and `frontend/src/home` — Home. `needs_you`
   reads what needs somebody through the readers OneAI uses
   (`ai.late_orders`, `ai.running_low`, `ai.services_due`) and

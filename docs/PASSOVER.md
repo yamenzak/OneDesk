@@ -12128,7 +12128,7 @@ Reports and Setup.
 
 | Screen | State |
 |---|---|
-| Home | done |
+| Home | done, then told as a story |
 | Stock on Hand | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
@@ -12146,4 +12146,40 @@ Reports and Setup.
 |---|---|
 | 5 Our look | a row's code whole or left out on a phone |
 | Everything follows frappe | frappe-ui's List and its rows, nothing hand-drawn |
+
+**Home, told as a story.** The user's word on 2026-10-13: a Home is a
+dashboard that tells the whole story, with figures and sparklines, a wide
+range of charts, many colours and a clear flow. Now the standard
+(`docs/STANDARD.md`, A module's Home tells its story).
+
+- **Figures**: six NumberCards, each against last month with its months as
+  a sparkline (area, bars or a line), each in its own colour.
+- **Overview** opens first: a button per kind of thing that needs somebody,
+  then six parts with twenty charts. Where Stock Is (donut, two horizontal
+  bars), How Stock Moves (area, in and out as stacked bars either side of
+  nought, a Sankey of goods from supplier to warehouse to customer, project
+  or the workshop, a heatmap of busy days, a half donut of papers), How Old
+  Stock Is (bars light to dark), Buying (funnel, bars, scatter), Making
+  (donut, stacked bars, bars) and Equipment (grouped bars, half donut,
+  stacked bars).
+- Today, Everything, Reports and Setup stay as tabs. `?view=today` opens
+  Today.
+- Read by `one_inventory/story.py` through `frappe.get_list`, about half a
+  second on the demo. Nadia sees none of it.
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | a new check, `oneinventory_home_tells_the_story_of_the_stock`: worth adds up by warehouse, by group and by age, paths name suppliers and projects, the requests narrow |
+| 2 Rules on the server | nothing new, it only reads |
+| 3 Hand-offs | a slice or a bar opens a warehouse's stock, a group's items, an item, a supplier's orders, the work orders or assets in a status, a workstation |
+| 4 Tier declared | page `inventory` in SCREENS, unchanged |
+| 5 Our look | frappe-ui's NumberCard and charts, at 1440 wide and on a phone, one chart a row |
+| 6 Nothing lost | Today and Everything kept as tabs |
+| 7 Extensible | the page is still the place `oneinventory_home.shown` |
+| 8 Built from frappe | frappe.get_list for every figure, ERPNext's Stock Ageing for the ages, money through frappe's format_currency |
+| 9 Overrides recorded | none |
+| 12 Plain words | every title, label and band in Arabic and German |
+| 13 Documented | the README's Finding your way and Under the hood |
+| 15 Permissions | each part only when the reader may read its records |
+| Everything follows frappe | frappe-ui's charts and their colour tokens, nothing hand-drawn |
 

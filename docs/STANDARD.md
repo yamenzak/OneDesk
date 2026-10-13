@@ -108,6 +108,18 @@ is checked at 1440 wide and on a phone. **Watch for** text cut off in a
 column, a figure only a bar says, a large empty state where every other one
 is a line, and a list that only fits on a desktop.
 
+**A module's Home tells its story.** Set by the user on 2026-10-13, first on
+OneInventory. A Home opens on figures with sparklines (frappe-ui's
+NumberCard, each against last month), a button for each kind of thing that
+needs somebody, then the module's story in parts, top to bottom, each a row of
+frappe-ui's charts. Use the whole range (Number Card, Area, Bar stacked,
+grouped and horizontal, Donut and half Donut, Sankey, Heatmap, Funnel,
+Scatter) where each fits what it shows, and colour by what a chart shows: a
+kind keeps its hue, statuses keep theirs, magnitude runs light to dark. Never
+two value axes on one chart. Every figure is read as the reader may see it,
+and a slice or a bar opens what it stands for. What needs somebody (Today)
+and the directory (Everything) stay beside it as tabs.
+
 **6 Nothing lost.** A page of its own keeps everything frappe's form gives.
 Its sidebar is frappe's own, its menu is frappe's under the page's, it saves
 against the `modified` it loaded, and it hears changes made elsewhere
