@@ -26,7 +26,7 @@ is finished when it meets all of it, and the gates at the end pass.
 3. **Every point, every screen.** Look at the screen in the browser as the
    people who use it (OneProject used Samir, who runs projects, and Huda, who
    keeps the books), on a desktop and a phone, and read the code behind it.
-   Write the findings under the points in `docs/PASSOVER.md`. Each screen ends
+   Write the findings under the points in `docs/PASSOVER-LOG.md`. Each screen ends
    with a table of all seventeen points, plus Everything follows frappe and
    What ERPNext already does, saying what was looked at, even where nothing
    was found. A point left out of the table is a point not checked.
@@ -36,7 +36,7 @@ is finished when it meets all of it, and the gates at the end pass.
    that every point is written down. They were walked again against the
    points they had skipped, and that found as much as the first walk. A
    module is not finished until every screen has every point in its table.
-6. **Close it.** Mark each screen done in `docs/PASSOVER.md`, then the module
+6. **Close it.** Mark each screen done in `docs/PASSOVER-LOG.md`, then the module
    closed, with what stays open written down.
 
 ## What finished looks like
@@ -343,11 +343,11 @@ views, across modules, and the closing pass. It added these to watch for:
   frappe's sidebar, bugs included, such as "Repeats Weekly" without its
   words. Fix them for the form too, and record the override.
 
-What stays open on OneTask is under its step 5 in `docs/PASSOVER.md`.
+What stays open on OneTask is under its step 5 in `docs/PASSOVER-LOG.md`.
 
 ## The next module
 
 Each finished module is walked again against these points, one screen at a
-time, in the order `docs/PASSOVER.md` keeps under Up next. A module is closed
+time, in the order `docs/PASSOVER-LOG.md` keeps under Up next. A module is closed
 the way OneProject was, with a row in its table saying "closed" and its open
 items written down.

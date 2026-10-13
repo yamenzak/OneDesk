@@ -119,6 +119,14 @@ screen's opening comment says `Modelled on …`, and
 listed in `UNMODELLED` until each is redrawn. Badge colours are frappe-ui's
 (`gray`, `blue`, `green`, `amber`, `red`, `violet`); there is no orange.
 
+## The passover
+
+`docs/PASSOVER.md` is the seventeen points and how a screen is walked, short
+enough to read before every screen. What each walk found and fixed, where
+each area stands and what is up next go in `docs/PASSOVER-LOG.md`. The
+guards and the atlas check what a machine can; the walk is for what it
+cannot (placement, the look, the words, the flow, a phone).
+
 ## Nothing ERPNext has is lost
 
 The goal is every feature frappe, erpnext and hrms have, reached in One more

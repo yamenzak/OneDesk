@@ -338,7 +338,7 @@ and OneAI.
 ### 11. The closing pass
 
 Every screen's table complete, the gates green on a fresh rebuild, the
-module marked closed in `docs/PASSOVER.md` and what stays open written down.
+module marked closed in `docs/PASSOVER-LOG.md` and what stays open written down.
 
 ## Across every screen
 

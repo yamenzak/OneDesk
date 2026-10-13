@@ -201,7 +201,7 @@ on nothing but the browsers.
 - **Workspace › Notifications** lists every type by app, and opens one as a
   form: on or off, its subject and message with a live preview, and whether it
   may be mailed and is for new people. What it checks is in
-  `docs/PASSOVER.md`.
+  `docs/PASSOVER-LOG.md`.
 - **An edited text is sandboxed.** It renders in a Jinja environment with no
   globals, and `notify.validate` refuses a text naming anything but the type's
   slots, however it is saved.

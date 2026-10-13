@@ -6,7 +6,7 @@ its line goes and the screen's own README says what it does.
 
 ## Products still to pass
 
-The passover (`docs/PASSOVER.md`) has done Settings, One › Home, OneMail,
+The passover (`docs/PASSOVER-LOG.md`) has done Settings, One › Home, OneMail,
 OneCloud, OneCalendar, OneTask, OneAdmin › Home, OneStudio › Extensions and
 Forms, and the portal with the public Your Data page. Still to go, one
 screen at a time: **OneStudio › Record Types**, **OneProject**, **OneCRM**,
@@ -15,7 +15,7 @@ rest of **OneAdmin**.
 
 ## Next after the foundations: project templates
 
-Decided, and built right after the foundations arc (`docs/PASSOVER.md`, Up
+Decided, and built right after the foundations arc (`docs/PASSOVER-LOG.md`, Up
 next): a template page in the OneProject rail that edits a template in the
 Tasks table ("Day 12 · 5 days"); a library of presets shipped as files and
 copied into a workspace on use, starting with aluminium & glazing; and OneAI
