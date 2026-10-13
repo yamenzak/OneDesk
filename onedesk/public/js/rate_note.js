@@ -30,3 +30,21 @@
 		};
 	}
 })();
+
+// A money document in the company's own currency shows its tax totals once.
+// ERPNext's change_form_labels hides the company-currency copies when the two
+// currencies are one, then shows its tax totals again whenever they are not
+// zero, base_ ones included, so a dirham receipt said its taxes twice.
+(() => {
+	const proto = window.erpnext?.TransactionController?.prototype;
+	const theirs = proto?.change_form_labels;
+	if (typeof theirs !== "function") return;
+	const BASE = ["base_taxes_and_charges_added", "base_taxes_and_charges_deducted", "base_total_taxes_and_charges"];
+	proto.change_form_labels = function (company, ...rest) {
+		const back = theirs.call(this, company, ...rest);
+		if (this.frm && company && this.frm.doc.currency === company) {
+			this.frm.toggle_display(BASE.filter((field) => this.frm.fields_dict[field]), false);
+		}
+		return back;
+	};
+})();

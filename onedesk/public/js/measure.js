@@ -2,7 +2,8 @@
 // is measured by length or area (Item's Measured By) gives its pieces, length
 // and width, and its quantity follows as they are typed, shown with its unit.
 // The server works it out again on save (one_inventory/measure.py `sized`).
-// The size columns show in a table once one of its lines is measured.
+// The size columns show in a table once one of its lines is measured, and on a
+// submitted record once one of them was given its size.
 
 frappe.provide("onedesk.measure");
 
@@ -24,11 +25,14 @@ onedesk.measure.columns = (frm) => {
 	for (const fieldname of frappe.boot.one_measure?.records?.[frm.doctype] || []) {
 		const grid = frm.fields_dict[fieldname]?.grid;
 		if (!grid) continue;
-		// The quantity with its unit, on the table and each row it has drawn.
-		const qty = grid.docfields?.find((df) => df.fieldname === "qty");
-		const formatted = grid.grid_rows?.length && qty && qty.formatter !== onedesk.measure.formatter;
-		if (formatted) grid.update_docfield_property("qty", "formatter", onedesk.measure.formatter);
-		const show = (frm.doc[fieldname] || []).some(onedesk.measure.measured);
+		// The quantity with its unit, and a receipt's rejected quantity beside it,
+		// on the table and each row it has drawn.
+		const quantities = (grid.docfields || []).filter((df) => ["qty", "rejected_qty"].includes(df.fieldname) && df.formatter !== onedesk.measure.formatter);
+		const formatted = grid.grid_rows?.length && quantities.length;
+		if (formatted) quantities.forEach((df) => grid.update_docfield_property(df.fieldname, "formatter", onedesk.measure.formatter));
+		// Once submitted, only where a line was given its size: glass bought as
+		// so many square metres has none, and its columns would only say 0.
+		const show = (frm.doc[fieldname] || []).some((row) => onedesk.measure.measured(row) && (frm.doc.docstatus === 0 || row.one_length));
 		if (grid.one_sized !== show) {
 			grid.one_sized = show;
 			grid.set_column_disp_in_list_view(onedesk.measure.SIZE, show);

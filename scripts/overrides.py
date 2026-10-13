@@ -2132,6 +2132,13 @@ OVERRIDES = [
 		'" = [?] " + company_currency',
 	),
 	(
+		"A document in the company's currency says its taxes once",
+		"theirs hides the company-currency tax totals when the document's currency is the company's, then shows them again whenever they are not zero; rate_note.js wraps change_form_labels and hides the three base_ tax totals again",
+		"onedesk/public/js/rate_note.js",
+		"erpnext/erpnext/public/js/controllers/transaction.js",
+		"this.frm.toggle_display(field, this.frm.doc[field] !== 0 || this.frm.doc.docstatus !== 1);",
+	),
+	(
 		"Whoever reads a sales order may read Selling Settings",
 		"ERPNext's sales_order_proforma.js reads two Selling Settings as an order opens and gives them to the Sales Manager alone; one_crm/access.py gives read to the sales, stock, accounts and project users",
 		"onedesk/one_crm/access.py",

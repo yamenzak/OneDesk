@@ -1184,7 +1184,8 @@ app_include_js = [
 	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
-	# The exchange rate said with the rate in it, not "[?]". See rate_note.js.
+	# The exchange rate said with the rate in it, not "[?]", and taxes said once
+	# in the company's currency. See rate_note.js.
 	"/assets/onedesk/js/rate_note.js",
 	# New Project, by kind: frappe's quick entry for Project. See one_project/kinds.py.
 	"/assets/onedesk/js/island_page.js",

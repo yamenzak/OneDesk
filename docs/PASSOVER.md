@@ -12147,7 +12147,8 @@ Reports and Setup.
 |---|---|
 | Home | done, then told as a story |
 | Stock on Hand | done, then redrawn after Shopify and Katana |
-| Receipts | next |
+| Receipts | done |
+| Deliveries | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12313,4 +12314,37 @@ ERPNext's form, carrying what was filled in. The demo check
 `oneinventory_transfer_stock_moves_it_in_one_step` moves the hinges and the
 sealant, is refused more than there is, and refuses somebody without
 OneInventory.
+
+**Receipts.** Looked at as Karim, at 1440 wide and on a phone: frappe's own
+list of Purchase Receipts and ERPNext's form, a draft OneAI read from a
+supplier's dispatch note (in euros) and a received one in dirhams.
+
+- **Taxes said twice (What ERPNext already does).** A dirham receipt showed
+  Taxes and Charges Added and Total Taxes and Charges twice, once marked
+  "(Company Currency)". ERPNext's `change_form_labels` hides the company's
+  copies when the two currencies are one, then shows its tax totals again
+  whenever they are not zero, `base_` ones included. `rate_note.js` hides
+  the three again after it, for every quotation, order, receipt and invoice
+  in the company's currency, and `scripts/overrides.py` holds the line it
+  answers.
+- **Sizes that said 0.** Glass sold by the square metre and bought as so many
+  square metres has no pieces, length or width, but its received lines showed
+  Pieces 1, Length 0 and Width 0 and squeezed the item's code to a stub. On a
+  submitted record the size columns now show only once a line was given its
+  size; a draft still shows them to be filled in.
+- **Rejected without its unit.** Accepted said "34 m²" and Rejected "6". The
+  rejected quantity carries the unit too.
+- The rest holds: the list's columns (supplier, status, date, grand total in
+  the receipt's own currency, billed) and its phone rows, OneAI's mark on
+  what it made and **1 not checked** narrowing to them, the head (Order,
+  Worth in both currencies, Rejected in red, Billed), and Create's bill and
+  return. The list's live updates could not be seen here: this box serves
+  the site without the proxy that carries socket.io, which is the box, not
+  the product.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | no zero size columns, a unit on both quantities |
+| 9 Overrides recorded | "A document in the company's currency says its taxes once" |
+| What ERPNext already does | the company's currency said once |
 
