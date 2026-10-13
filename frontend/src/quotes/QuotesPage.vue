@@ -1,9 +1,9 @@
 <template>
   <!-- Quotes (one_inventory/page/quotes): asking suppliers for prices, their
-       answers and the comparison as one page. Asked lists each request with
-       who answered, Quotes each supplier's quote, and Compare one request's
-       quotes side by side with the orders (one_inventory/quotes.py,
-       quotes_actions.js). -->
+       answers and the comparison as one page (one_inventory/quotes.py,
+       quotes_actions.js). Modelled on Odoo Purchase: Asked is its list of
+       RFQs, Quotes its vendors' quotations, and Compare its Compare Product
+       Lines, one request's quotes side by side with the cheapest marked. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -11,23 +11,24 @@
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
-      <div v-if="shown !== 'compare'" class="mt-4">
+      <div v-if="shown !== 'compare'" class="mt-4 flex flex-wrap items-center gap-2">
         <TextInput v-model="search" class="w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
         </TextInput>
+        <TabButtons v-if="shown === 'quotes' && kinds.length > 1" v-model="kind" :options="kinds" class="ms-auto" />
       </div>
 
       <div v-if="shown === 'asked'" class="mt-3">
-        <Rows :rows="asked" :empty="search ? __('No requests match') : __('No prices asked for yet')" />
+        <RequestRows :requests="said.asked" :can="said.can" :empty="search ? __('No requests match') : __('No prices asked for yet')" @compare="compare" />
       </div>
       <div v-else-if="shown === 'quotes'" class="mt-3">
-        <Rows :rows="quotes" :empty="search ? __('No quotes match') : __('No quotes yet')" />
+        <QuoteRows :quotes="quotes" :can="said.can" :empty="search || kind !== 'all' ? __('No quotes match') : __('No quotes yet')" @compare="compare" />
       </div>
       <div v-else class="mt-4">
         <div v-if="!said.compare" class="py-3 text-base text-ink-gray-5">{{ __("No quotes to compare yet") }}</div>
         <template v-else>
           <div class="mb-4 flex flex-wrap items-center gap-2">
-            <Select v-model="request" class="w-full max-w-sm" :options="said.requests.map((one) => ({ value: one.name, label: `${one.label} · ${one.name}` }))" :aria-label="__('Request')" />
+            <Select v-model="request" class="w-full max-w-md" :options="said.requests.map((one) => ({ value: one.name, label: `${one.label} · ${one.name}` }))" :aria-label="__('Request')" />
             <span class="text-sm text-ink-gray-5">{{ asking }}</span>
             <Button v-if="cheapestOrder" class="ms-auto" variant="solid" :label="__('Order the Cheapest')" @click="onedesk().quotes.order_cheapest(said.compare.name, load)" />
             <Button :class="{ 'ms-auto': !cheapestOrder }" variant="ghost" icon-right="lucide-arrow-up-right" :label="__('Open Request')" @click="go(`/desk/request-for-quotation/${encodeURIComponent(said.compare.name)}`)" />
@@ -41,10 +42,12 @@
 
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Button, Select, TextInput } from "frappe-ui";
+import { Button, Select, TabButtons, TextInput } from "frappe-ui";
 
-import { Figures, Loading, Page, PlaceSpot, Rows, ViewTabs, __, andList, call, date, followList, go, money, onResize, onedesk, setQuery, viewWidth } from "../kit";
+import { Figures, Loading, Page, PlaceSpot, ViewTabs, __, andList, call, count, date, followList, go, onResize, onedesk, setQuery, viewWidth } from "../kit";
 import QuoteCompare from "./QuoteCompare.vue";
+import QuoteRows from "./QuoteRows.vue";
+import RequestRows from "./RequestRows.vue";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -56,6 +59,7 @@ const props = defineProps({
 const said = ref(null);
 const shown = ref(props.query.view || (props.query.request ? "compare" : "asked"));
 const search = ref("");
+const kind = ref(props.query.kind || "all");
 const request = ref(props.query.request || null);
 const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
@@ -104,83 +108,36 @@ const views = computed(() => [
 
 const figures = computed(() => {
   const f = said.value.figures;
+  const show = (view, state) => () => {
+    kind.value = state || "all";
+    shown.value = view;
+  };
   return [
-    f.waiting !== null && { title: __("Waiting for Prices"), value: String(f.waiting), note: f.waiting ? __("Suppliers still to answer") : "" },
-    f.to_decide !== null && { title: __("Quotes to Decide"), value: String(f.to_decide) },
-    f.drafts !== null && { title: __("Quotes to Check"), value: String(f.drafts), note: f.drafts ? __("Still drafts") : "" },
-    f.expiring !== null && { title: __("Running Out"), value: String(f.expiring), alarm: f.expiring > 0, note: f.expiring ? __("Within a week") : "" },
+    f.waiting !== null && { title: __("Waiting for Prices"), value: count(f.waiting), note: f.waiting ? __("Suppliers still to answer") : "", action: f.waiting ? { icon: "lucide-filter", label: __("Show Requests"), onClick: show("asked") } : null },
+    f.to_decide !== null && { title: __("Quotes to Decide"), value: count(f.to_decide), action: f.to_decide ? { icon: "lucide-filter", label: __("Show Quotes to Decide"), onClick: show("quotes", "decide") } : null },
+    f.drafts !== null && { title: __("Quotes to Check"), value: count(f.drafts), note: f.drafts ? __("Still drafts") : "", action: f.drafts ? { icon: "lucide-filter", label: __("Show Quotes to Check"), onClick: show("quotes", "check") } : null },
+    f.expiring !== null && { title: __("Running Out"), value: count(f.expiring), alarm: f.expiring > 0, note: f.expiring ? __("Within a week") : "", action: f.expiring ? { icon: "lucide-filter", label: __("Show Quotes Running Out"), onClick: show("quotes", "soon") } : null },
   ].filter(Boolean);
 });
 
-// A request in a line: what it asks for, who answered and who has not yet.
-const asked = computed(() =>
-  said.value.asked.map((one) => {
-    const waiting = one.suppliers.filter((row) => !row.answered);
-    const answered = one.suppliers.filter((row) => row.answered);
-    return {
-      key: one.name,
-      label: one.what,
-      sub: one.name,
-      badge: badge(one, waiting),
-      lines: [
-        answered.length ? __("Answered by {0}", [andList(answered.map((row) => row.name))]) : "",
-        waiting.length && !one.draft ? __("Waiting for {0}", [andList(waiting.map((row) => row.name))]) : "",
-      ].filter(Boolean),
-      value: __("{0} of {1}", [one.answered, one.suppliers.length]),
-      under: one.date ? __("Asked {0}", [date(one.date)]) : "",
-      onClick: () => compare(one.name),
-      actions: [
-        one.answered && { label: __("Compare"), icon: "lucide-columns-3", onClick: () => compare(one.name) },
-        ...(said.value.can.quote && !one.draft ? waiting.map((row) => ({ label: __("Add Quote from {0}", [row.name]), icon: "lucide-plus", onClick: () => onedesk().quotes.add(one.name, row.supplier) })) : []),
-        { label: __("Open Request"), icon: "lucide-arrow-up-right", onClick: () => go(`/desk/request-for-quotation/${encodeURIComponent(one.name)}`) },
-      ].filter(Boolean),
-    };
-  })
-);
-
-function badge(one, waiting) {
-  if (one.draft) return { label: __("Draft"), theme: "gray" };
-  if (one.ordered) return { label: __("Ordered"), theme: "green" };
-  if (waiting.length) return { label: __("Waiting"), theme: "amber" };
-  return { label: __("Answered"), theme: "blue" };
-}
-
-const STATES = {
-  Draft: [() => __("To Check"), "gray"],
-  Submitted: [() => __("To Decide"), "blue"],
-  "Partially Ordered": [() => __("Partly Ordered"), "green"],
-  Ordered: [() => __("Ordered"), "green"],
-  Expired: [() => __("Expired"), "red"],
-  Stopped: [() => __("Stopped"), "gray"],
+// Quotes by what is left to do with them, as the figures count them.
+const KINDS = {
+  decide: (one) => one.status === "Submitted",
+  check: (one) => one.status === "Draft",
+  soon: (one) => one.expiring,
 };
-
-// A supplier's quote in a line: its total in its own money, until when it
-// holds, and what it answers or was ordered as.
-const quotes = computed(() =>
-  said.value.quotes.map((one) => {
-    const [label, theme] = STATES[one.status] || [() => __(one.status), "gray"];
-    return {
-      key: one.name,
-      label: one.supplier_name || one.supplier,
-      sub: one.name,
-      dot: one.expiring ? "amber" : null,
-      badge: { label: label(), theme },
-      below: [
-        one.request ? __("Answers {0}", [one.request]) : "",
-        one.orders.length ? __("Ordered as {0}", [andList(one.orders)]) : "",
-      ]
-        .filter(Boolean)
-        .join(" · "),
-      value: money(one.grand_total, one.currency),
-      under: one.valid_till ? (one.status === "Expired" ? __("Expired {0}", [date(one.valid_till)]) : __("Holds until {0}", [date(one.valid_till)])) : "",
-      route: `/desk/supplier-quotation/${encodeURIComponent(one.name)}`,
-      actions: [
-        one.request && { label: __("Compare"), icon: "lucide-columns-3", onClick: () => compare(one.request) },
-        said.value.can.order && ["Submitted", "Partially Ordered"].includes(one.status) && { label: __("Order"), icon: "lucide-shopping-cart", onClick: () => onedesk().quotes.order(one.name) },
-      ].filter(Boolean),
-    };
-  })
-);
+const kinds = computed(() => {
+  const all = said.value?.quotes || [];
+  const n = (key) => all.filter(KINDS[key]).length;
+  return [
+    { value: "all", label: __("All") },
+    n("decide") && { value: "decide", label: __("To Decide {0}", [count(n("decide"))]) },
+    n("check") && { value: "check", label: __("To Check {0}", [count(n("check"))]) },
+    n("soon") && { value: "soon", label: __("Running Out {0}", [count(n("soon"))]) },
+  ].filter(Boolean);
+});
+const quotes = computed(() => (kind.value === "all" ? said.value.quotes : said.value.quotes.filter(KINDS[kind.value])));
+watch(kind, (now) => setQuery("kind", now === "all" ? null : now));
 
 function compare(name) {
   request.value = name;

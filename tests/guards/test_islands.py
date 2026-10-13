@@ -137,7 +137,6 @@ UNMODELLED = {
 	"item/ItemPage.vue",
 	"plant/PlantFloor.vue",
 	"project/ProjectPage.vue",
-	"quotes/QuotesPage.vue",
 	"sent_out/SentOutPage.vue",
 	"task/MyTasks.vue",
 	"task/TaskPage.vue",

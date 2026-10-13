@@ -358,14 +358,19 @@ same supplier.
    arrives as a draft with whoever asked told. A quote by mail is
    **Create › Supplier Quotation** on the request. A quote holds until its
    **Valid Till**, and expires by itself after.
-3. **Compare.** **Quotes** lists each request with who answered and who has
-   not (**Asked**), every supplier's quote with its total and until when it
-   holds (**Quotes**), and one request's quotes side by side (**Compare**):
+3. **Compare.** **Quotes** is laid out as Odoo Purchase lays it out. **Asked**
+   is a table of requests: what each asks for, where it stands, each
+   supplier asked with a tick once they answered, how many answered, and
+   when it was asked and is wanted. **Quotes** is a table of suppliers'
+   quotes: who, where it stands, the request it answers and the orders made
+   from it, until when it holds, and its total in its own money, with All,
+   To Decide, To Check and Running Out above it. **Compare** sets one
+   request's quotes side by side:
    each supplier's rate on each line, in their own money and in dirhams for
    one in another money, with the cheapest live rate marked and a line
    ordered already said as ordered. **Add Their Quote** types in the quote
    of a supplier who answered by mail. **Order** drafts an order from one
-   quote, and **Order the Cheapest** drafts one to each supplier for the
+   quote while a line it prices is left to order, and **Order the Cheapest** drafts one to each supplier for the
    lines they are cheapest on. The figures say how many suppliers are still
    to answer, how many quotes wait for a decision or are still drafts, and
    how many run out within a week. OneAI answers **Who has not answered?**

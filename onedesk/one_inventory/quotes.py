@@ -5,6 +5,7 @@ from the request, and a purchase order from a quote. How it works is in the
 module's README, Under the hood.
 """
 
+import erpnext
 import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, today
@@ -45,19 +46,28 @@ def figures() -> dict:
 	"""Suppliers still to answer, quotes waiting for a decision, quotes
 	still in draft, and live quotes running out within a week."""
 	out = {"waiting": None, "to_decide": None, "drafts": None, "expiring": None}
+	company = erpnext.get_default_company()
 	if frappe.has_permission("Request for Quotation", "read"):
-		open_requests = frappe.get_list("Request for Quotation", filters={"docstatus": 1, "status": ["!=", "Cancelled"]}, pluck="name")
+		open_requests = frappe.get_list(
+			"Request for Quotation",
+			filters={"docstatus": 1, "status": ["!=", "Cancelled"], "company": company},
+			pluck="name",
+		)
 		out["waiting"] = (
 			frappe.db.count("Request for Quotation Supplier", {"parent": ["in", open_requests], "quote_status": "Pending"})
 			if open_requests
 			else 0
 		)
 	if frappe.has_permission("Supplier Quotation", "read"):
-		live = frappe.get_list("Supplier Quotation", filters={"docstatus": 1, "status": "Submitted"}, fields=["valid_till"])
+		live = frappe.get_list(
+			"Supplier Quotation",
+			filters={"docstatus": 1, "status": "Submitted", "company": company},
+			fields=["valid_till"],
+		)
 		soon = add_days(today(), SOON)
 		out.update(
 			to_decide=len(live),
-			drafts=len(frappe.get_list("Supplier Quotation", filters={"docstatus": 0}, pluck="name")),
+			drafts=len(frappe.get_list("Supplier Quotation", filters={"docstatus": 0, "company": company}, pluck="name")),
 			expiring=sum(1 for one in live if one.valid_till and getdate(today()) <= getdate(one.valid_till) <= getdate(soon)),
 		)
 	return out
@@ -69,7 +79,7 @@ def asked(search: str | None = None) -> list[dict]:
 	how they answered."""
 	if not frappe.has_permission("Request for Quotation", "read"):
 		return []
-	filters = {"docstatus": ["<", 2]}
+	filters = {"docstatus": ["<", 2], "company": erpnext.get_default_company()}
 	if search:
 		filters["name"] = ["like", f"%{search}%"]
 	found = frappe.get_list(
@@ -143,7 +153,11 @@ def _answers(requests: list) -> dict:
 		one.name: one
 		for one in frappe.get_all(
 			"Supplier Quotation",
-			filters={"name": ["in", [row.parent for row in rows]], "docstatus": ["<", 2]},
+			filters={
+				"name": ["in", [row.parent for row in rows]],
+				"docstatus": ["<", 2],
+				"company": erpnext.get_default_company(),
+			},
 			fields=["name", "supplier", "status", "creation"],
 			order_by="creation asc",
 		)
@@ -174,7 +188,7 @@ def quotes(search: str | None = None) -> list[dict]:
 	or_filters = {"name": ["like", f"%{search}%"], "supplier_name": ["like", f"%{search}%"]} if search else None
 	found = frappe.get_list(
 		"Supplier Quotation",
-		filters={"docstatus": ["<", 2]},
+		filters={"docstatus": ["<", 2], "company": erpnext.get_default_company()},
 		or_filters=or_filters,
 		fields=[
 			"name",

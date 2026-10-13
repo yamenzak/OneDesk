@@ -11831,7 +11831,8 @@ Reports and Setup.
 | Lots | done, redrawn after Odoo and Katana |
 | Buying › To Order | done, redrawn after Odoo's Replenishment |
 | Buying › Material Requests | done |
-| Buying › Quotes | next |
+| Buying › Quotes | done, redrawn after Odoo Purchase |
+| Buying › Purchase Orders | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12276,3 +12277,39 @@ frappe's list and ERPNext's form, a pending purchase request for the villa.
 |---|---|
 | 5 Our look | the title readable, nothing said twice |
 | Still in English | none left on Material Request |
+
+**Quotes.** One of our own screens and on the list still to be drawn after
+an app people know. Looked at as Karim, at 1440 wide and on a phone, on
+Asked, Quotes and Compare.
+
+- **Two walls of text, redrawn as tables.** Asked and Quotes were lines of
+  text: "Aluminium Profile 6063 · PUR-RFQ-2026-00006 Waiting / Answered by
+  Euro Hardware Trading / Waiting for Al Noor Aluminium". They follow Odoo
+  Purchase now. Asked is its list of RFQs: what is asked for with its number
+  and project, a status Badge, each supplier asked as a chip with a tick once
+  they answered or a clock while they have not, Answered "1 of 2", and when
+  it was asked and is wanted. Quotes is its vendors' quotations: the
+  supplier, a status Badge (To Check, To Decide, Partly Ordered, Ordered,
+  Expired), the request it answers and the orders made from it, Holds Until
+  with "in 4 days" in amber once it runs out within a week, and the total in
+  the quote's own money. Each row keeps its menu. On a phone a row keeps the
+  name, its Badge and the number on the right. Compare already followed
+  Odoo's Compare Product Lines and stays.
+- **Figures that filter.** Each figure opens what it counts, and Quotes has
+  All, To Decide, To Check and Running Out above it with their counts.
+- **Order with nothing left.** Compare offered Order under a quote whose
+  every line was ordered already, from it or another. It offers Open Quote
+  then.
+- **The company's own.** The figures, requests and quotes were every
+  company's; they are the reader's company's now, and the atlas's count for
+  Quotes falls to none.
+- **Numbers through frappe.** The figures printed with `String()`; they go
+  through `count`.
+- The page names what it is modelled on and comes off the list still to be
+  redrawn.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on Odoo Purchase, one Badge, tables not text |
+| 8 Built from frappe | frappe-ui's List, Badge, Avatar, Dropdown and TabButtons |
+| What ERPNext already does | one company's requests and quotes; Order only where a line is left |

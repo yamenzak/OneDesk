@@ -72,8 +72,9 @@ const props = defineProps({ said: { type: Object, required: true }, can: { type:
 
 const columns = computed(() => ["minmax(12rem,1.4fr)", "7rem", ...props.said.suppliers.map(() => "minmax(9rem,1fr)")]);
 
-// A quote may be ordered from while it holds and something on it is left to order.
-const canOrder = (one) => props.can.order && !one.expired && ["Submitted", "Partially Ordered"].includes(one.status);
+// A quote may be ordered from while it holds and a line it prices is left to order.
+const canOrder = (one) =>
+  props.can.order && !one.expired && ["Submitted", "Partially Ordered"].includes(one.status) && props.said.lines.some((line) => !line.ordered && line.offers[one.supplier]);
 
 function held(one) {
   if (one.draft) return __("Draft");

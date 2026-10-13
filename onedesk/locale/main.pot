@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-13 20:53+0000\n"
-"PO-Revision-Date: 2026-10-13 20:53+0000\n"
+"POT-Creation-Date: 2026-10-13 21:32+0000\n"
+"PO-Revision-Date: 2026-10-13 21:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1510,7 +1510,8 @@ msgstr ""
 #: frontend/src/item/ItemPlaces.vue:32 frontend/src/item/ItemSuppliers.vue:35
 #: frontend/src/kit/Rows.vue:50 frontend/src/project/Invoices.vue:62
 #: frontend/src/project/Suppliers.vue:74 frontend/src/project/Suppliers.vue:122
-#: frontend/src/project/Team.vue:52 frontend/src/template/Tasks.vue:85
+#: frontend/src/project/Team.vue:52 frontend/src/quotes/QuoteRows.vue:45
+#: frontend/src/quotes/RequestRows.vue:41 frontend/src/template/Tasks.vue:85
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:26
 #: onedesk/public/js/project.js:31 onedesk/public/js/project.js:33
 #: onedesk/public/js/project.js:48 onedesk/public/js/project.js:52
@@ -1678,7 +1679,7 @@ msgstr ""
 msgid "Add Public Holidays"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:134
+#: frontend/src/quotes/RequestRows.vue:77
 msgid "Add Quote from {0}"
 msgstr ""
 
@@ -2229,8 +2230,9 @@ msgstr ""
 #. Name of a role
 #: frontend/src/lots/LotsPage.vue:108
 #: frontend/src/project/ProjectActivity.vue:113
-#: frontend/src/project/Time.vue:89 frontend/src/stock/StockOnHand.vue:148
-#: frontend/src/to_order/ToOrderPage.vue:134
+#: frontend/src/project/Time.vue:89 frontend/src/quotes/QuotesPage.vue:133
+#: frontend/src/stock/StockOnHand.vue:148
+#: frontend/src/to_order/ToOrderPage.vue:135
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
@@ -2740,21 +2742,15 @@ msgstr ""
 msgid "Answer"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:145 onedesk/one_inventory/heads.py:1251
+#: frontend/src/quotes/RequestRows.vue:11
+#: frontend/src/quotes/RequestRows.vue:28
+#: frontend/src/quotes/RequestRows.vue:70 onedesk/one_inventory/heads.py:1251
 #: onedesk/public/js/crm_record.js:90
 msgid "Answered"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:126
-msgid "Answered by {0}"
-msgstr ""
-
 #: onedesk/public/js/oneai/Panel.vue:359
 msgid "Answers from your own records"
-msgstr ""
-
-#: frontend/src/quotes/QuotesPage.vue:169
-msgid "Answers {0}"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2085
@@ -3233,7 +3229,7 @@ msgstr ""
 msgid "Ask an administrator for access."
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:204
+#: frontend/src/quotes/QuotesPage.vue:161
 #: onedesk/public/js/quotes_actions.js:11
 msgid "Ask for Prices"
 msgstr ""
@@ -3306,7 +3302,8 @@ msgstr ""
 msgid "Ask {1} for invoice {0}"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:100
+#: frontend/src/quotes/QuotesPage.vue:104
+#: frontend/src/quotes/RequestRows.vue:12
 #: onedesk/one_studio/doctype/extension/extension.js:138
 msgid "Asked"
 msgstr ""
@@ -3358,7 +3355,7 @@ msgstr ""
 msgid "Asked every {0}"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:153
+#: frontend/src/to_order/ToOrderPage.vue:154
 msgid "Asked for and not ordered yet"
 msgstr ""
 
@@ -3371,8 +3368,7 @@ msgstr ""
 msgid "Asked twice a day"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:130
-#: frontend/src/quotes/QuotesPage.vue:194
+#: frontend/src/quotes/QuotesPage.vue:151
 msgid "Asked {0}"
 msgstr ""
 
@@ -3514,7 +3510,7 @@ msgid "At checkout"
 msgstr ""
 
 #: frontend/src/stock/StockOnHand.vue:169
-#: frontend/src/to_order/ToOrderPage.vue:154
+#: frontend/src/to_order/ToOrderPage.vue:155
 msgid "At or below their reorder level"
 msgstr ""
 
@@ -4082,7 +4078,7 @@ msgstr ""
 msgid "Before some of the workspace's OneAI credits expire, a week ahead."
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:155
+#: frontend/src/to_order/ToOrderPage.vue:156
 msgid "Before tax, at the last prices paid"
 msgstr ""
 
@@ -5462,7 +5458,7 @@ msgstr ""
 msgid "Choose the model"
 msgstr ""
 
-#: onedesk/one_inventory/quotes.py:328
+#: onedesk/one_inventory/quotes.py:338
 msgid "Choose the suppliers to ask."
 msgstr ""
 
@@ -5914,9 +5910,8 @@ msgstr ""
 msgid "Company, chart of accounts and taxes"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:102
-#: frontend/src/quotes/QuotesPage.vue:133
-#: frontend/src/quotes/QuotesPage.vue:178
+#: frontend/src/quotes/QuoteRows.vue:86 frontend/src/quotes/QuotesPage.vue:106
+#: frontend/src/quotes/RequestRows.vue:75
 msgid "Compare"
 msgstr ""
 
@@ -6416,7 +6411,7 @@ msgstr ""
 #: frontend/src/project/Money.vue:26 frontend/src/project/Money.vue:126
 #: frontend/src/project/Overview.vue:154 frontend/src/project/Time.vue:35
 #: frontend/src/to_order/ToOrderPage.vue:27
-#: frontend/src/to_order/ToOrderPage.vue:155
+#: frontend/src/to_order/ToOrderPage.vue:156
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:148
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:168
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
@@ -7078,6 +7073,7 @@ msgid "Database Used"
 msgstr ""
 
 #. Label of the date (Date) field in DocType 'Reading Date'
+#. Label of the 'transaction_date' field in DocType 'Material Request'
 #: frontend/src/project/Invoices.vue:32 frontend/src/project/Suppliers.vue:92
 #: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:30
 #: frontend/src/task/TaskTime.vue:22 onedesk/one/portal.py:330
@@ -7096,6 +7092,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/report/deadlines/deadlines.py:34
+#: onedesk/one_inventory/custom/material_request.json
 #: onedesk/one_project/ai.py:682 onedesk/public/js/onemail.js:803
 #: onedesk/public/js/overtime.js:25 onedesk/public/js/project_actions.js:404
 #: onedesk/public/js/settings.js:1619 onedesk/public/js/settings.js:1752
@@ -8162,8 +8159,8 @@ msgid "Downtime by Reason"
 msgstr ""
 
 #: frontend/src/item/ItemMaking.vue:126 frontend/src/project/Time.vue:90
-#: frontend/src/quotes/QuoteCompare.vue:79
-#: frontend/src/quotes/QuotesPage.vue:142 frontend/src/task/TaskTime.vue:33
+#: frontend/src/quotes/QuoteCompare.vue:80
+#: frontend/src/quotes/RequestRows.vue:67 frontend/src/task/TaskTime.vue:33
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 msgid "Draft"
 msgstr ""
@@ -8266,7 +8263,7 @@ msgstr ""
 msgid "Draft my update on this project from my week: what I finished, the time I logged, and what is next or late for me. Two to four plain sentences, in the first person, as a card I can approve."
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:181
+#: frontend/src/to_order/ToOrderPage.vue:182
 msgid "Draft purchase orders for all {0} lines?"
 msgstr ""
 
@@ -9513,7 +9510,7 @@ msgstr ""
 msgid "Everything in the workspace, {size}, is ready to download from Plan and Credits: the database, every record as a spreadsheet, and every file. {missing}"
 msgstr ""
 
-#: onedesk/one_inventory/quotes.py:331
+#: onedesk/one_inventory/quotes.py:341
 msgid "Everything on {0} is ordered already."
 msgstr ""
 
@@ -9521,7 +9518,7 @@ msgstr ""
 msgid "Everything on {0} moves to {1}, and {0} is deleted."
 msgstr ""
 
-#: onedesk/one_inventory/quotes.py:381
+#: onedesk/one_inventory/quotes.py:391
 msgid "Everything quoted on {0} is ordered already."
 msgstr ""
 
@@ -9647,14 +9644,13 @@ msgstr ""
 msgid "Experience Letter"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:153
+#: frontend/src/quotes/QuoteRows.vue:76
 #: onedesk/public/js/credit_ledger_entry_list.js:19
 msgid "Expired"
 msgstr ""
 
 #: frontend/src/item/ItemOverview.vue:98
-#: frontend/src/quotes/QuoteCompare.vue:80
-#: frontend/src/quotes/QuotesPage.vue:175 onedesk/one_inventory/heads.py:509
+#: frontend/src/quotes/QuoteCompare.vue:81 onedesk/one_inventory/heads.py:509
 msgid "Expired {0}"
 msgstr ""
 
@@ -10532,7 +10528,7 @@ msgstr ""
 msgid "For the actions we use most, is there a cheaper model on offer that would do the job, and what would it save?"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:175
+#: frontend/src/to_order/ToOrderPage.vue:176
 msgid "For the lines that have no supplier of their own."
 msgstr ""
 
@@ -10806,7 +10802,7 @@ msgstr ""
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:194
+#: frontend/src/quotes/QuotesPage.vue:151
 msgid "From {0}"
 msgstr ""
 
@@ -10814,7 +10810,7 @@ msgstr ""
 msgid "From {0} every day counts as a working day. Make next year's list."
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:152
+#: frontend/src/to_order/ToOrderPage.vue:153
 msgid "From {0} suppliers"
 msgstr ""
 
@@ -11514,8 +11510,11 @@ msgstr ""
 msgid "Holder"
 msgstr ""
 
-#: frontend/src/quotes/QuoteCompare.vue:82
-#: frontend/src/quotes/QuotesPage.vue:175
+#: frontend/src/quotes/QuoteRows.vue:12
+msgid "Holds Until"
+msgstr ""
+
+#: frontend/src/quotes/QuoteCompare.vue:83
 msgid "Holds until {0}"
 msgstr ""
 
@@ -15319,7 +15318,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryStory.vue:61
-#: frontend/src/to_order/ToOrderPage.vue:192 onedesk/one_inventory/home.py:43
+#: frontend/src/to_order/ToOrderPage.vue:193 onedesk/one_inventory/home.py:43
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Material Requests"
 msgstr ""
@@ -16236,7 +16235,7 @@ msgstr ""
 
 #: frontend/src/home/InventoryHome.vue:308
 #: frontend/src/project/Suppliers.vue:137
-#: frontend/src/to_order/ToOrderPage.vue:191
+#: frontend/src/to_order/ToOrderPage.vue:192
 msgid "New Material Request"
 msgstr ""
 
@@ -16984,7 +16983,7 @@ msgstr ""
 msgid "No price for this model on the published page."
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:21
+#: frontend/src/quotes/QuotesPage.vue:22
 msgid "No prices asked for yet"
 msgstr ""
 
@@ -17000,15 +16999,15 @@ msgstr ""
 msgid "No quotations"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:24
+#: frontend/src/quotes/QuotesPage.vue:25
 msgid "No quotes match"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:27
+#: frontend/src/quotes/QuotesPage.vue:28
 msgid "No quotes to compare yet"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:24
+#: frontend/src/quotes/QuotesPage.vue:25
 msgid "No quotes yet"
 msgstr ""
 
@@ -17028,11 +17027,11 @@ msgstr ""
 msgid "No reminders sent"
 msgstr ""
 
-#: onedesk/one_inventory/quotes.py:358
+#: onedesk/one_inventory/quotes.py:368
 msgid "No request for quotation the reader may see is {0}."
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:21
+#: frontend/src/quotes/QuotesPage.vue:22
 msgid "No requests match"
 msgstr ""
 
@@ -17370,6 +17369,7 @@ msgid "Not answered"
 msgstr ""
 
 #: frontend/src/quotes/QuoteCompare.vue:46
+#: frontend/src/quotes/RequestRows.vue:28
 msgid "Not answered yet"
 msgstr ""
 
@@ -17725,7 +17725,7 @@ msgstr ""
 msgid "Nothing to order"
 msgstr ""
 
-#: onedesk/one_inventory/order.py:265
+#: onedesk/one_inventory/order.py:268
 msgid "Nothing to order: pick rows, and a supplier for those that have none."
 msgstr ""
 
@@ -19018,7 +19018,7 @@ msgstr ""
 msgid "Only {0} can download or close the workspace."
 msgstr ""
 
-#: onedesk/one_inventory/order.py:70
+#: onedesk/one_inventory/order.py:71
 msgid "Only {0} of {1} on {2} is left to order. Other orders hold the rest."
 msgstr ""
 
@@ -19115,7 +19115,7 @@ msgstr ""
 msgid "Open Quotes"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:33 frontend/src/quotes/QuotesPage.vue:135
+#: frontend/src/quotes/QuotesPage.vue:34 frontend/src/quotes/RequestRows.vue:79
 msgid "Open Request"
 msgstr ""
 
@@ -19254,9 +19254,8 @@ msgstr ""
 #. Label in the One Pick List print format
 #. Label of the priority (Int) field in DocType 'Mail Rule'
 #: frontend/src/home/InventoryHome.vue:217
-#: frontend/src/quotes/QuoteCompare.vue:55
-#: frontend/src/quotes/QuotesPage.vue:179
-#: frontend/src/to_order/ToOrderPage.vue:178
+#: frontend/src/quotes/QuoteCompare.vue:55 frontend/src/quotes/QuoteRows.vue:87
+#: frontend/src/to_order/ToOrderPage.vue:179
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_inventory/heads.py:1279 onedesk/one_inventory/heads.py:1295
@@ -19267,7 +19266,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:190
+#: frontend/src/to_order/ToOrderPage.vue:191
 msgid "Order All"
 msgstr ""
 
@@ -19347,11 +19346,11 @@ msgstr ""
 msgid "Order long-lead items"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:32
+#: frontend/src/quotes/QuotesPage.vue:33
 msgid "Order the Cheapest"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:190
+#: frontend/src/to_order/ToOrderPage.vue:191
 msgid "Order {0}"
 msgstr ""
 
@@ -19359,16 +19358,15 @@ msgstr ""
 #: frontend/src/home/InventoryStory.vue:67
 #: frontend/src/home/InventoryStory.vue:184 frontend/src/project/Money.vue:163
 #: frontend/src/project/Suppliers.vue:202
-#: frontend/src/quotes/QuoteCompare.vue:81
-#: frontend/src/quotes/QuotesPage.vue:143
-#: frontend/src/quotes/QuotesPage.vue:152 onedesk/one_inventory/heads.py:1233
+#: frontend/src/quotes/QuoteCompare.vue:82 frontend/src/quotes/QuoteRows.vue:75
+#: frontend/src/quotes/RequestRows.vue:68 onedesk/one_inventory/heads.py:1233
 #: onedesk/one_inventory/heads.py:1271 onedesk/one_project/custom/project.json
 #: onedesk/one_project/money.py:152 onedesk/one_project/money.py:167
 #: onedesk/public/js/progress.js:83
 msgid "Ordered"
 msgstr ""
 
-#: onedesk/one_inventory/order.py:73
+#: onedesk/one_inventory/order.py:74
 msgid "Ordered Already"
 msgstr ""
 
@@ -19376,7 +19374,7 @@ msgstr ""
 msgid "Ordered On"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:170
+#: frontend/src/quotes/QuoteRows.vue:32
 msgid "Ordered as {0}"
 msgstr ""
 
@@ -19954,7 +19952,7 @@ msgstr ""
 msgid "Partly Back"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:151
+#: frontend/src/quotes/QuoteRows.vue:74
 msgid "Partly Ordered"
 msgstr ""
 
@@ -21681,7 +21679,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryHome.vue:209
-#: frontend/src/to_order/ToOrderPage.vue:193 onedesk/one_inventory/home.py:48
+#: frontend/src/to_order/ToOrderPage.vue:194 onedesk/one_inventory/home.py:48
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Purchase Orders"
 msgstr ""
@@ -21887,8 +21885,8 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/item/ItemBuying.vue:11 frontend/src/item/ItemSelling.vue:12
-#: frontend/src/quotes/QuotesPage.vue:101
-#: frontend/src/quotes/QuotesPage.vue:202 onedesk/one/portal.py:30
+#: frontend/src/quotes/QuotesPage.vue:105
+#: frontend/src/quotes/QuotesPage.vue:159 onedesk/one/portal.py:30
 #: onedesk/one_inventory/heads.py:1231 onedesk/one_inventory/home.py:44
 #: onedesk/one_inventory/page/quotes/quotes.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -21900,11 +21898,11 @@ msgstr ""
 msgid "Quotes is opened, and each time a request for prices, a quote or an order changes."
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:110
+#: frontend/src/quotes/QuotesPage.vue:118
 msgid "Quotes to Check"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:109
+#: frontend/src/quotes/QuotesPage.vue:117
 msgid "Quotes to Decide"
 msgstr ""
 
@@ -23069,7 +23067,8 @@ msgstr ""
 #. Request'
 #. Label of the asked (Small Text) field in DocType 'Extension'
 #. Label of the asked (Small Text) field in DocType 'Record Type'
-#: frontend/src/quotes/QuotesPage.vue:30
+#: frontend/src/quotes/QuoteRows.vue:11 frontend/src/quotes/QuotesPage.vue:31
+#: frontend/src/quotes/RequestRows.vue:8
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_inventory/heads.py:1250
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -23134,12 +23133,12 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: frontend/src/item/ItemBuying.vue:17
 #: frontend/src/to_order/ToOrderPage.vue:100
-#: frontend/src/to_order/ToOrderPage.vue:153
+#: frontend/src/to_order/ToOrderPage.vue:154
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Requested"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:135
+#: frontend/src/to_order/ToOrderPage.vue:136
 msgid "Requested {0}"
 msgstr ""
 
@@ -23599,7 +23598,7 @@ msgstr ""
 
 #: frontend/src/home/InventoryHome.vue:214
 #: frontend/src/to_order/ToOrderPage.vue:101
-#: frontend/src/to_order/ToOrderPage.vue:154
+#: frontend/src/to_order/ToOrderPage.vue:155
 msgid "Running Low"
 msgstr ""
 
@@ -23607,7 +23606,7 @@ msgstr ""
 msgid "Running Low in {0}"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:136
+#: frontend/src/to_order/ToOrderPage.vue:137
 msgid "Running Low {0}"
 msgstr ""
 
@@ -23615,8 +23614,12 @@ msgstr ""
 msgid "Running Now"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:111
+#: frontend/src/quotes/QuotesPage.vue:119
 msgid "Running Out"
+msgstr ""
+
+#: frontend/src/quotes/QuotesPage.vue:136
+msgid "Running Out {0}"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:96
@@ -24994,11 +24997,27 @@ msgstr ""
 msgid "Show More"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:153
-msgid "Show Requested"
+#: frontend/src/quotes/QuotesPage.vue:119
+msgid "Show Quotes Running Out"
+msgstr ""
+
+#: frontend/src/quotes/QuotesPage.vue:118
+msgid "Show Quotes to Check"
+msgstr ""
+
+#: frontend/src/quotes/QuotesPage.vue:117
+msgid "Show Quotes to Decide"
 msgstr ""
 
 #: frontend/src/to_order/ToOrderPage.vue:154
+msgid "Show Requested"
+msgstr ""
+
+#: frontend/src/quotes/QuotesPage.vue:116
+msgid "Show Requests"
+msgstr ""
+
+#: frontend/src/to_order/ToOrderPage.vue:155
 msgid "Show Running Low"
 msgstr ""
 
@@ -25981,6 +26000,7 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:94 frontend/src/project/Suppliers.vue:148
 #: frontend/src/project/TaskPanel.vue:8 frontend/src/project/Tasks.vue:20
 #: frontend/src/project/Tasks.vue:43 frontend/src/project/Time.vue:36
+#: frontend/src/quotes/QuoteRows.vue:10 frontend/src/quotes/RequestRows.vue:9
 #: frontend/src/stock/StockOnHand.vue:30 frontend/src/task/TaskPage.vue:10
 #: frontend/src/task/TaskTime.vue:26
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -26061,7 +26081,7 @@ msgstr ""
 msgid "Still closing"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:110
+#: frontend/src/quotes/QuotesPage.vue:118
 msgid "Still drafts"
 msgstr ""
 
@@ -26321,7 +26341,7 @@ msgid "Stop writing this field"
 msgstr ""
 
 #: frontend/src/plant/PlantFloor.vue:122 frontend/src/project/TaskPanel.vue:69
-#: frontend/src/quotes/QuotesPage.vue:154 frontend/src/task/TaskPage.vue:35
+#: frontend/src/quotes/QuoteRows.vue:77 frontend/src/task/TaskPage.vue:35
 msgid "Stopped"
 msgstr ""
 
@@ -26676,8 +26696,8 @@ msgstr ""
 #. Label of the supplier (Link) field in DocType 'Project Contact'
 #: frontend/src/item/ItemSuppliers.vue:41 frontend/src/project/Overview.vue:450
 #: frontend/src/project/Suppliers.vue:91 frontend/src/project/Suppliers.vue:146
-#: frontend/src/to_order/ToOrderPage.vue:25
-#: frontend/src/to_order/ToOrderPage.vue:175 onedesk/one/print_blocks.py:106
+#: frontend/src/quotes/QuoteRows.vue:9 frontend/src/to_order/ToOrderPage.vue:25
+#: frontend/src/to_order/ToOrderPage.vue:176 onedesk/one/print_blocks.py:106
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/lots_actions.js:114
 #: onedesk/public/js/project_actions.js:496
@@ -26712,7 +26732,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/item/ItemBuying.vue:8 frontend/src/project/Overview.vue:84
 #: frontend/src/project/ProjectPage.vue:187
-#: frontend/src/project/Suppliers.vue:12
+#: frontend/src/project/Suppliers.vue:12 frontend/src/quotes/RequestRows.vue:10
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/home.py:50
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -26729,7 +26749,7 @@ msgstr ""
 msgid "Suppliers can be scored"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:108
+#: frontend/src/quotes/QuotesPage.vue:116
 msgid "Suppliers still to answer"
 msgstr ""
 
@@ -29419,8 +29439,12 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:149
+#: frontend/src/quotes/QuoteRows.vue:72
 msgid "To Check"
+msgstr ""
+
+#: frontend/src/quotes/QuotesPage.vue:135
+msgid "To Check {0}"
 msgstr ""
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:13
@@ -29437,8 +29461,12 @@ msgstr ""
 msgid "To Date"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:150
+#: frontend/src/quotes/QuoteRows.vue:73
 msgid "To Decide"
+msgstr ""
+
+#: frontend/src/quotes/QuotesPage.vue:134
+msgid "To Decide {0}"
 msgstr ""
 
 #: frontend/src/item/ItemSelling.vue:9
@@ -29456,8 +29484,8 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryHome.vue:228
 #: frontend/src/to_order/ToOrderPage.vue:26
-#: frontend/src/to_order/ToOrderPage.vue:152
-#: frontend/src/to_order/ToOrderPage.vue:186 onedesk/one_inventory/home.py:42
+#: frontend/src/to_order/ToOrderPage.vue:153
+#: frontend/src/to_order/ToOrderPage.vue:187 onedesk/one_inventory/home.py:42
 #: onedesk/one_inventory/page/to_order/to_order.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "To Order"
@@ -29644,9 +29672,10 @@ msgstr ""
 
 #. Label of the gross (Float) field in DocType 'Reading'
 #: frontend/src/project/Invoices.vue:35 frontend/src/project/Suppliers.vue:95
-#: frontend/src/quotes/QuoteCompare.vue:38 onedesk/one/portal.py:66
-#: onedesk/one/portal.py:381 onedesk/one/print_blocks.py:449
-#: onedesk/one/print_blocks.py:628 onedesk/one/print_blocks.py:662
+#: frontend/src/quotes/QuoteCompare.vue:38 frontend/src/quotes/QuoteRows.vue:13
+#: onedesk/one/portal.py:66 onedesk/one/portal.py:381
+#: onedesk/one/print_blocks.py:449 onedesk/one/print_blocks.py:628
+#: onedesk/one/print_blocks.py:662
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
 #: onedesk/one_book/heads.py:326 onedesk/one_crm/heads.py:227
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -30779,7 +30808,7 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: frontend/src/quotes/QuotesPage.vue:144 frontend/src/task/MyTasks.vue:60
+#: frontend/src/quotes/RequestRows.vue:69 frontend/src/task/MyTasks.vue:60
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
@@ -30810,7 +30839,7 @@ msgstr ""
 msgid "Waiting for Frappe Cloud"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:108
+#: frontend/src/quotes/QuotesPage.vue:116
 msgid "Waiting for Prices"
 msgstr ""
 
@@ -30839,10 +30868,6 @@ msgstr ""
 
 #: onedesk/one_ai/heads.py:17 onedesk/one_intake/digest.py:84
 msgid "Waiting for you"
-msgstr ""
-
-#: frontend/src/quotes/QuotesPage.vue:127
-msgid "Waiting for {0}"
 msgstr ""
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:34
@@ -30891,6 +30916,10 @@ msgstr ""
 
 #: frontend/src/floor/ShopFloor.vue:23 frontend/src/item/ItemMaking.vue:99
 msgid "Wanted by {0}"
+msgstr ""
+
+#: frontend/src/quotes/RequestRows.vue:36
+msgid "Wanted {0}"
 msgstr ""
 
 #: onedesk/one_inventory/home.py:81
@@ -33046,7 +33075,7 @@ msgstr ""
 msgid "Who Is On It"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:177
+#: frontend/src/to_order/ToOrderPage.vue:178
 msgid "Who Supplies the Rest?"
 msgstr ""
 
@@ -33481,7 +33510,7 @@ msgstr ""
 msgid "Within a month"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:111
+#: frontend/src/quotes/QuotesPage.vue:119
 msgid "Within a week"
 msgstr ""
 
@@ -35073,7 +35102,7 @@ msgstr ""
 msgid "moved it from {0}"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:128
+#: frontend/src/to_order/ToOrderPage.vue:129
 msgid "needed {0}"
 msgstr ""
 
@@ -35824,7 +35853,7 @@ msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
 #: frontend/src/sent_out/SentOutPage.vue:114
-#: onedesk/one_inventory/quotes.py:165 onedesk/one_project/billing.py:581
+#: onedesk/one_inventory/quotes.py:175 onedesk/one_project/billing.py:581
 msgid "{0} and {1} more"
 msgstr ""
 
@@ -36948,11 +36977,11 @@ msgstr ""
 msgid "{0} left, about three days at the rate the workspace uses them."
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:129
+#: frontend/src/to_order/ToOrderPage.vue:130
 msgid "{0} left, reorder at {1}"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:155
+#: frontend/src/to_order/ToOrderPage.vue:156
 msgid "{0} lines never bought before"
 msgstr ""
 
@@ -37054,7 +37083,7 @@ msgstr ""
 #: frontend/src/project/MilestoneLanes.vue:104
 #: frontend/src/project/Months.vue:11 frontend/src/project/TaskPanel.vue:85
 #: frontend/src/project/TaskPanel.vue:96 frontend/src/project/Tasks.vue:34
-#: frontend/src/quotes/QuotesPage.vue:129
+#: frontend/src/quotes/RequestRows.vue:32
 #: frontend/src/sent_out/SentOutPage.vue:120 frontend/src/task/TaskPage.vue:65
 #: frontend/src/task/TaskPage.vue:76 frontend/src/task/TaskPage.vue:257
 #: frontend/src/task/TaskPage.vue:258 onedesk/one/heads.py:71
@@ -37297,7 +37326,7 @@ msgstr ""
 msgid "{0} promised to customers, {1} of it held"
 msgstr ""
 
-#: frontend/src/to_order/ToOrderPage.vue:166
+#: frontend/src/to_order/ToOrderPage.vue:167
 msgid "{0} purchase orders drafted."
 msgstr ""
 
