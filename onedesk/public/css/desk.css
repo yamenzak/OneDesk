@@ -1038,21 +1038,30 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	border-top: 1px solid var(--outline-elevation-2);
 }
 
-/* On a phone the head is two rows (public/js/phone_head.js): the panel's
- * button, the breadcrumb across the width and search, then the page's
- * buttons, the view switch first and the rest at the end. */
+/* A scope's button belongs to a phone's second bar; wider, it is a crumb. */
+.page-head .page-actions .one-head-scope {
+	display: none;
+}
+
+/* On a phone the head is two bars (public/js/phone_head.js), each its own
+ * height with a line under it. The first is the panel's button, the place
+ * and the record, and search. The second is the record's status, the view
+ * switch and a scope (a project's All Work) at its start, and the page's
+ * buttons at its end. It is there only when the page has some. */
 @media (max-width: 767.98px) {
 	.page-head .page-head-content {
 		height: auto;
 		/* frappe's .flex-nowrap is !important */
 		flex-wrap: wrap !important;
 		row-gap: 0;
-		padding-bottom: 8px;
+		padding: 0;
 	}
 	.page-head .page-title {
 		flex: 1 1 0;
 		min-width: 0;
 		width: auto;
+		height: var(--navbar-height);
+		align-items: center;
 	}
 	.page-head .page-title .title-area {
 		min-width: 0;
@@ -1061,6 +1070,9 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .standard-items-section {
 		display: contents;
 	}
+	.page-head .page-head-content .search-bar {
+		align-self: center;
+	}
 	.page-head .page-head-content .page-actions {
 		order: 1;
 		flex: 1 0 100%;
@@ -1068,27 +1080,49 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 		align-items: center;
 		justify-content: flex-end;
 		gap: 8px;
-		/* the edges of the first row: the panel's button, and search;
+		height: 0;
+		overflow: hidden;
+		/* the edges of the first bar: the panel's button, and search;
 		   frappe's .pl-0 on the row is !important */
 		padding-block: 0;
 		padding-inline: 15px 10px !important;
+	}
+	.page-head.one-head-actions .page-head-content .page-actions {
+		height: 44px;
+		overflow: visible;
+		border-top: 1px solid var(--border-color);
 	}
 	.page-head .page-actions .standard-actions .es-button:first-child,
 	.page-head .page-actions .custom-mobile-actions .es-button {
 		margin-inline-start: 0;
 	}
-	.page-head.one-head-actions .page-head-content .page-actions {
-		padding-top: 8px;
-	}
-	.page-head .page-actions .custom-mobile-actions:not(.hide) {
-		margin-inline-end: auto;
+	/* What the page shows at the start, what can be done at the end. */
+	.page-head .page-actions .standard-actions {
+		margin-inline-start: auto;
 	}
 	.page-head .page-actions .page-indicator-pill:not(.hide) {
 		display: inline-flex;
-		margin-inline-end: auto;
 	}
-	.page-head .page-actions .page-indicator-pill:not(.hide) ~ .custom-mobile-actions {
-		margin-inline-end: 0;
+	.page-head .page-actions .page-indicator-pill {
+		order: 0;
+	}
+	.page-head .page-actions .custom-mobile-actions {
+		order: 1;
+	}
+	.page-head .page-actions .one-head-scope {
+		display: inline-flex;
+		order: 2;
+		margin: 0;
+		min-width: 0;
+	}
+	.page-head .page-actions .filters {
+		order: 3;
+	}
+	.page-head .page-actions .standard-actions {
+		order: 4;
+	}
+	.page-head .navbar-breadcrumbs li.one-crumb-scope {
+		display: none !important;
 	}
 	/* The view switch has room for its name again: frappe squares a
 	   button whose label it hides below md (page.scss), by a rule whose

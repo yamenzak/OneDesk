@@ -182,11 +182,13 @@ it's universal over the app". Every module has this without asking
     the foot;
   - a crumb a page gives choices of its own (a project's **All Work**)
     filters those.
-- On a phone the head is two rows (your word: "on mobile we need to introduce
-  our double top navbar so we don't keep struggling with trimmed content").
-  The first is the panel's button, the whole trail and search. The second is
-  the page's buttons, the view switch at its start and the record's status
-  with its word (`public/js/phone_head.js`).
+- On a phone the head is two bars (your word: "on mobile we need to introduce
+  our double top navbar so we don't keep struggling with trimmed content",
+  then "why not two navbars, why did you cram them up"). Each is its own
+  height with a line under it. The first is the panel's button, the place and
+  the record, and search. The second has the record's status with its word,
+  the view switch and a scope such as a project's **All Work** at its start,
+  and the page's buttons at its end (`public/js/phone_head.js`).
 - No module puts places of its own in the page head.
 - Every view of a list marks the list's row in the panel.
 

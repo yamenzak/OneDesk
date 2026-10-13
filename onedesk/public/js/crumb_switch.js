@@ -129,12 +129,13 @@ const panel = ({ options, placeholder, picked }) => {
 };
 
 // A crumb made a switcher. `options(txt)` gives the rows for what is typed.
-onedesk.crumbs.switch = ($crumb, { options, placeholder = __("Search") }) => {
+// `button` is a button already drawn, as a scope's in a phone's second bar.
+onedesk.crumbs.switch = ($crumb, { options, placeholder = __("Search"), button = false }) => {
 	if (!$crumb?.length) return;
-	$crumb.addClass("one-crumb-switch");
+	if (!button) $crumb.addClass("one-crumb-switch");
 	// The crumb opens its switcher; where it led is the first of its rows.
-	$crumb.find("a").removeAttr("href").attr({ role: "button", tabindex: 0 });
-	if (!$crumb.find(".one-crumb-chevron").length) {
+	if (!button) $crumb.find("a").removeAttr("href").attr({ role: "button", tabindex: 0 });
+	if (!button && !$crumb.find(".one-crumb-chevron").length) {
 		$crumb.children().first().append($(frappe.utils.icon("chevrons-up-down", "xs")).addClass("one-crumb-chevron"));
 	}
 	let drawn = null;
@@ -188,19 +189,29 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list }) =>
 			const $crumbs = this.$breadcrumbs && this.$breadcrumbs.children("li");
 			if (!$crumbs || !$crumbs.length) return;
 			const items = this.get_breadcrumbs();
-			const done = new Set();
-			items.forEach((item, i) => {
-				if (!item.one_menu) return;
-				const menu = item.one_menu;
-				onedesk.crumbs.switch($crumbs.eq(i), { options: async (txt) => matching(await menu(), txt) });
-				done.add(i);
-			});
 			// The record: a form's, or a record page's (onedesk.island_page `record`).
 			const route = frappe.get_route();
 			const form = route[0] === "Form" && route[2] && !String(route[2]).startsWith("new-");
 			const doctype = form ? route[1] : this.one_record;
 			const name = form ? route[2] : this.one_record && route[1];
 			const at = form ? items.length - 1 : items.findIndex((item) => item.one_record);
+			// A crumb after the record narrows what of it is shown (a project's
+			// All Work). On a phone it is a button in the head's second bar,
+			// beside the view switch, so the first bar has room for the names.
+			this.page_actions?.children(".one-head-scope").remove();
+			const done = new Set();
+			items.forEach((item, i) => {
+				if (!item.one_menu) return;
+				const menu = item.one_menu;
+				const options = async (txt) => matching(await menu(), txt);
+				onedesk.crumbs.switch($crumbs.eq(i), { options });
+				done.add(i);
+				if (at < 0 || i <= at || !this.page_actions) return;
+				$crumbs.eq(i).addClass("one-crumb-scope");
+				const $scope = frappe.ui.button({ label: item.label, icon_right: "chevrons-up-down", css_class: "one-head-scope" });
+				this.page_actions.prepend($scope);
+				onedesk.crumbs.switch($scope, { options, button: true });
+			});
 			// The place: the crumb that leads back to it, or the place's own page.
 			let place = -1;
 			let here = null;
