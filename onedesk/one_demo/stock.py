@@ -21,6 +21,7 @@ OPENING = (
 
 def run(password=None):
 	_opening()
+	_cleared()
 	_kept()
 
 
@@ -37,6 +38,23 @@ def _opening():
 	for code, qty, rate in OPENING:
 		doc.append("items", {"item_code": code, "warehouse": wh("Stores"), "qty": qty, "valuation_rate": rate})
 	save(doc, submit=True)
+
+
+def _cleared():
+	"""The other side of the opening stock: what it was worth moves from
+	Temporary Opening to the owners' capital, as an accountant posts it, so
+	Temporary Opening ends at nought (the Books Check's opening balances)."""
+	from onedesk.one_book import ready
+
+	held = ready.temporary(COMPANY)
+	if not held:
+		return
+	from onedesk.one_demo.books import _entry, _equity
+
+	account, balance = held
+	amount = abs(balance)
+	cleared = ((account, amount, 0), (_equity(), 0, amount)) if balance < 0 else ((account, 0, amount), (_equity(), amount, 0))
+	_entry(on(1, 1), "Opening Entry", "Opening stock, against capital", cleared)
 
 
 def _kept():

@@ -91,6 +91,10 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
   template is added to a new invoice or bill when nobody picks one, in a
   form and on every invoice or bill One, OneAI or an import makes.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
+- **Opening balances are finished.** ERPNext posts opening invoices and
+  opening stock against Temporary Opening; once every opening balance is in,
+  an accountant moves what it holds to capital with a Journal Entry. Until
+  then the Balance Sheet carries it, and the check says how much.
 - **Every year that has ended is closed.** **Fix** closes the year (below).
 - In the UAE: **the VAT return knows the VAT accounts**, **invoices carry
   the company's TRN** and **the company's emirate is known**. **Fix** fills

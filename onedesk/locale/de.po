@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 21:08+0000\n"
+"POT-Creation-Date: 2026-10-14 21:24+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -420,11 +420,11 @@ msgstr "Eine Schichtzuweisung wird angelegt und die Person arbeitet diese Schich
 msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
 msgstr "Ein Standort der Schicht oder ein einzelner Mitarbeiter. Beide Felder leer lassen, damit es site-weit gilt."
 
-#: onedesk/one_book/ready.py:184
+#: onedesk/one_book/ready.py:185
 msgid "A UAE tax invoice must show the supplier's TRN."
 msgstr "Eine VAE-Steuerrechnung muss die Steuernummer des Lieferanten zeigen."
 
-#: onedesk/one_book/ready.py:82 onedesk/one_book/ready.py:83
+#: onedesk/one_book/ready.py:83 onedesk/one_book/ready.py:84
 msgid "A bank account is set up"
 msgstr "Ein Bankkonto ist eingerichtet"
 
@@ -552,7 +552,7 @@ msgstr "Ein Guthabenpaket, das gekauft wurde."
 msgid "A custom domain on a workspace. Created when the workspace requests one."
 msgstr "Eine eigene Domain auf einem Arbeitsbereich. Wird angelegt, wenn der Arbeitsbereich sie anfordert."
 
-#: onedesk/one_book/ready.py:166
+#: onedesk/one_book/ready.py:167
 msgid "A customer is mailed the invoice a week after it falls due."
 msgstr "Der Kunde erhält die Rechnung eine Woche nach Fälligkeit per E-Mail."
 
@@ -755,7 +755,7 @@ msgstr "Ein Haushalt führt keine Bücher. Es entstehen keine Entwürfe, und Aus
 msgid "A job needs a workspace."
 msgstr "Ein Job braucht einen Arbeitsbereich."
 
-#: onedesk/one_book/ready.py:164
+#: onedesk/one_book/ready.py:165
 msgid "A late customer is reminded"
 msgstr "Ein säumiger Kunde wird erinnert"
 
@@ -1190,7 +1190,7 @@ msgstr "Ein Standardtag hat {0} Stunden. Alles darüber hinaus sind Überstunden
 msgid "A standard letter head can only be set as default or disabled."
 msgstr "Ein Standard-Briefkopf kann nur als Standard festgelegt oder deaktiviert werden."
 
-#: onedesk/one_book/ready.py:157 onedesk/one_book/ready.py:158
+#: onedesk/one_book/ready.py:158 onedesk/one_book/ready.py:159
 msgid "A supplier's bill cannot be entered twice"
 msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 
@@ -1230,7 +1230,7 @@ msgstr "Die Zeitansicht einer Aufgabe wird geöffnet, und jedes Mal, wenn sich i
 msgid "A task's page is opened, and each time the task changes."
 msgstr "Die Seite einer Aufgabe wird geöffnet, und jedes Mal, wenn sich die Aufgabe ändert."
 
-#: onedesk/one_book/ready.py:149
+#: onedesk/one_book/ready.py:150
 msgid "A tax template brings its taxes"
 msgstr "Eine Steuervorlage bringt ihre Steuern mit"
 
@@ -2850,11 +2850,11 @@ msgstr "Ein Anbau, eine Villenrenovierung oder ein kleiner Neubau."
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
 
-#: onedesk/one_book/ready.py:152
+#: onedesk/one_book/ready.py:153
 msgid "An invoice or bill made by an import or by OneAI names its tax template and charges no tax."
 msgstr "Eine Rechnung, die ein Import oder OneAI erstellt, nennt ihre Steuervorlage und berechnet keine Steuer."
 
-#: onedesk/one_book/ready.py:151
+#: onedesk/one_book/ready.py:152
 msgid "An invoice or bill that names a tax template gets its taxes, however it was made."
 msgstr "Eine Rechnung, die eine Steuervorlage nennt, erhält deren Steuern, wie auch immer sie erstellt wurde."
 
@@ -4220,7 +4220,7 @@ msgstr "Banktransaktionsregel"
 msgid "Bank and cash reconciled"
 msgstr "Bank und Kasse abgestimmt"
 
-#: onedesk/one_book/ready.py:102 onedesk/one_book/ready.py:104
+#: onedesk/one_book/ready.py:103 onedesk/one_book/ready.py:105
 msgid "Bank payments know which account"
 msgstr "Bankzahlungen kennen ihr Konto"
 
@@ -9444,7 +9444,7 @@ msgstr "Geben Sie eine gültige E-Mail-Adresse ein."
 msgid "Enter the Cloudflare API token first."
 msgstr "Geben Sie zuerst das Cloudflare-API-Token ein."
 
-#: onedesk/one_book/ready.py:236
+#: onedesk/one_book/ready.py:271
 msgid "Enter the TRN."
 msgstr "Geben Sie die Steuernummer ein."
 
@@ -9794,7 +9794,7 @@ msgstr "Wöchentlich"
 msgid "Every week or month, as HR Settings says, when you have holidays coming up."
 msgstr "Jede Woche oder jeden Monat, wie in den HR-Einstellungen festgelegt, wenn Feiertage anstehen."
 
-#: onedesk/one_book/ready.py:199
+#: onedesk/one_book/ready.py:234
 msgid "Every year that has ended is closed"
 msgstr "Jedes abgelaufene Jahr ist abgeschlossen"
 
@@ -13309,7 +13309,7 @@ msgstr "Rechnungen, die jeden Monat, jedes Quartal oder Jahr erneut erstellt wer
 msgid "Invoices carry tax"
 msgstr "Rechnungen enthalten Steuer"
 
-#: onedesk/one_book/ready.py:182
+#: onedesk/one_book/ready.py:183
 msgid "Invoices carry the company's TRN"
 msgstr "Rechnungen tragen die Steuernummer des Unternehmens"
 
@@ -16487,7 +16487,7 @@ msgstr "Name ist erforderlich."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhielt."
 
-#: onedesk/one_book/ready.py:303
+#: onedesk/one_book/ready.py:338
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
 
@@ -17020,7 +17020,7 @@ msgstr "Liste für nächstes Jahr"
 msgid "Next on {0}"
 msgstr "Nächste am {0}"
 
-#: onedesk/one_book/ready.py:61
+#: onedesk/one_book/ready.py:62
 msgid "Next year's is made three days before this one ends."
 msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 
@@ -17313,7 +17313,7 @@ msgstr "Es wurde keine Datei hochgeladen."
 msgid "No files yet"
 msgstr "Noch keine Dateien"
 
-#: onedesk/one_book/ready.py:60
+#: onedesk/one_book/ready.py:61
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "Kein Geschäftsjahr umfasst heute, daher kann nichts mit heutigem Datum gespeichert werden."
 
@@ -17689,11 +17689,11 @@ msgstr "Keine Aufgaben mit Terminen"
 msgid "No tasks yet"
 msgstr "Noch keine Aufgaben"
 
-#: onedesk/one_book/ready.py:110
+#: onedesk/one_book/ready.py:111
 msgid "No tax templates, so nothing is charged. Add one if you are registered for VAT."
 msgstr "Keine Steuervorlagen, daher wird nichts berechnet. Legen Sie eine an, wenn Sie umsatzsteuerpflichtig sind."
 
-#: onedesk/one_book/ready.py:116
+#: onedesk/one_book/ready.py:117
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr "Keine Vorlage ist Standard, daher wird nichts berechnet, solange niemand eine wählt."
 
@@ -17745,7 +17745,7 @@ msgstr "Keine passenden Arbeitsplätze"
 msgid "No workstations on this floor"
 msgstr "Keine Arbeitsplätze in dieser Halle"
 
-#: onedesk/one_book/ready.py:206
+#: onedesk/one_book/ready.py:241
 msgid "No year has ended with entries left open."
 msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 
@@ -17777,7 +17777,7 @@ msgstr "Niemand hat es."
 msgid "Nobody has work this week"
 msgstr "Niemand hat diese Woche Arbeit"
 
-#: onedesk/one_book/ready.py:167
+#: onedesk/one_book/ready.py:168
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt dem Kunden eine Woche nach Fälligkeit."
 
@@ -17907,7 +17907,7 @@ msgstr "Nicht erfasst"
 msgid "Not Working"
 msgstr "Funktioniert nicht"
 
-#: frontend/src/home/BooksStory.vue:89
+#: frontend/src/home/BooksStory.vue:89 onedesk/public/js/reports.js:509
 msgid "Not Yet Due"
 msgstr "Noch nicht fällig"
 
@@ -18319,7 +18319,7 @@ msgstr "Nichts zu liefern"
 msgid "Nothing to do"
 msgstr "Nichts zu tun"
 
-#: onedesk/one_book/ready.py:267 onedesk/one_inventory/ready.py:358
+#: onedesk/one_book/ready.py:302 onedesk/one_inventory/ready.py:358
 #: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
@@ -19790,6 +19790,10 @@ msgstr "Status der Ausschreibung"
 msgid "Opening balances and stock imported"
 msgstr "Eröffnungssalden und Bestände importiert"
 
+#: onedesk/one_book/ready.py:218
+msgid "Opening balances are finished"
+msgstr "Die Eröffnungssalden sind vollständig"
+
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:226
 msgid "Openings"
 msgstr "Stellenausschreibungen"
@@ -20949,7 +20953,7 @@ msgstr "Zahlung {0} erfasst."
 msgid "Payments"
 msgstr "Zahlungen"
 
-#: onedesk/one_book/ready.py:82
+#: onedesk/one_book/ready.py:83
 msgid "Payments by transfer, cheque or card have somewhere to go."
 msgstr "Zahlungen per Überweisung, Scheck oder Karte haben ein Ziel."
 
@@ -22908,7 +22912,7 @@ msgstr "Beleg-Nr."
 msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
 msgstr "Wareneingänge und Lieferungen erreichen das Hauptbuch nicht, daher zeigt die Bilanz keinen Bestand."
 
-#: onedesk/one_book/ready.py:68
+#: onedesk/one_book/ready.py:69
 msgid "Receivable, payable, income, cost center and round-off."
 msgstr "Forderungen, Verbindlichkeiten, Erlöse, Kostenstelle und Rundung."
 
@@ -24501,7 +24505,7 @@ msgstr ""
 msgid "Sales Taxes and Charges Template"
 msgstr ""
 
-#: onedesk/one_book/ready.py:190
+#: onedesk/one_book/ready.py:191
 msgid "Sales are reported under the company's emirate."
 msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 
@@ -25300,7 +25304,7 @@ msgstr "Wird durch Abrechnungsereignisse und die Aktionen in der Symbolleiste ge
 msgid "Set by your workspace."
 msgstr "Von Ihrem Arbeitsbereich festgelegt."
 
-#: onedesk/one_book/ready.py:67 onedesk/one_inventory/ready.py:232
+#: onedesk/one_book/ready.py:68 onedesk/one_inventory/ready.py:232
 msgid "Set on the company: {0}."
 msgstr "Im Unternehmen festlegen: {0}."
 
@@ -27899,6 +27903,14 @@ msgstr ""
 msgid "Templates built"
 msgstr "Templates gebaut"
 
+#: onedesk/one_book/ready.py:221
+msgid "Temporary Opening is at nought."
+msgstr "Das vorläufige Eröffnungskonto steht auf null."
+
+#: onedesk/one_book/ready.py:227
+msgid "Temporary Opening still holds {0}: post the other side of the opening balances to capital with a Journal Entry."
+msgstr "Das vorläufige Eröffnungskonto hält noch {0}: buchen Sie die Gegenseite der Eröffnungssalden mit einer Buchung auf das Kapital."
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Tenant"
@@ -28274,7 +28286,7 @@ msgstr "Die Umsatzsteuererklärung der VAE, Feld für Feld."
 msgid "The VAT owed for a period, ready for the tax office."
 msgstr "Die für einen Zeitraum geschuldete Umsatzsteuer, bereit fürs Finanzamt."
 
-#: onedesk/one_book/ready.py:177
+#: onedesk/one_book/ready.py:178
 msgid "The VAT return knows the VAT accounts"
 msgstr "Die USt-Erklärung kennt die USt-Konten"
 
@@ -28369,7 +28381,7 @@ msgstr "Der eigene Zähler des Authenticators. Ein niedrigerer Wert als der gesp
 msgid "The bell is always on. These are the channels people may add to it."
 msgstr "Die Glocke ist immer an. Dies sind die Kanäle, die man hinzufügen kann."
 
-#: onedesk/one_book/ready.py:205
+#: onedesk/one_book/ready.py:240
 msgid "The books are locked up to {0}."
 msgstr "Die Bücher sind bis {0} gesperrt."
 
@@ -28406,7 +28418,7 @@ msgstr "Der Kontenplan hat kein Steuerkonto mit VAT im Namen."
 msgid "The chart of accounts has no equity account to close the year into."
 msgstr "Der Kontenplan hat kein Eigenkapitalkonto, in das das Jahr abgeschlossen werden kann."
 
-#: onedesk/one_book/ready.py:341
+#: onedesk/one_book/ready.py:376
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "Der Kontenplan hat keine Gruppe für Bankkonten. Legen Sie eine unter Umlaufvermögen mit dem Typ Bank an."
 
@@ -28427,15 +28439,15 @@ msgstr "Die Abrechnung wird geschlossen und nichts wird gebucht."
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "Die Farbe eines Briefkopfs, im Firmennamen, in seinen Linien und im Band eines Banners."
 
-#: onedesk/one_book/ready.py:186
+#: onedesk/one_book/ready.py:187
 msgid "The company has no TRN, and a UAE tax invoice must show it."
 msgstr "Das Unternehmen hat keine Steuernummer, und eine VAE-Steuerrechnung muss sie zeigen."
 
-#: onedesk/one_book/ready.py:192
+#: onedesk/one_book/ready.py:193
 msgid "The company has no address with an emirate, so the return cannot say where sales were made."
 msgstr "Das Unternehmen hat keine Adresse mit Emirat, daher kann die Erklärung nicht sagen, wo verkauft wurde."
 
-#: onedesk/one_book/ready.py:103
+#: onedesk/one_book/ready.py:104
 msgid "The company has no default bank account."
 msgstr "Das Unternehmen hat kein Standardbankkonto."
 
@@ -28443,15 +28455,15 @@ msgstr "Das Unternehmen hat kein Standardbankkonto."
 msgid "The company's bank accounts."
 msgstr "Die Bankkonten des Unternehmens."
 
-#: onedesk/one_book/ready.py:67 onedesk/one_book/ready.py:68
+#: onedesk/one_book/ready.py:68 onedesk/one_book/ready.py:69
 msgid "The company's default accounts are set"
 msgstr "Die Standardkonten des Unternehmens sind gesetzt"
 
-#: onedesk/one_book/ready.py:102
+#: onedesk/one_book/ready.py:103
 msgid "The company's default bank and every bank mode of payment point at a bank account."
 msgstr "Die Standardbank des Unternehmens und jede Bank-Zahlungsart verweisen auf ein Bankkonto."
 
-#: onedesk/one_book/ready.py:187
+#: onedesk/one_book/ready.py:188
 msgid "The company's emirate is known"
 msgstr "Das Emirat des Unternehmens ist bekannt"
 
@@ -29192,11 +29204,11 @@ msgstr "Die Revision und der Hash des Textes, wie one_legal/assemble.py sie bild
 msgid "The role Accounts Settings names"
 msgstr "Die Rolle, die die Kontoeinstellungen nennen"
 
-#: onedesk/one_book/ready.py:158
+#: onedesk/one_book/ready.py:159
 msgid "The same supplier invoice number can be entered twice and paid twice."
 msgstr "Dieselbe Lieferantenrechnungsnummer kann zweimal erfasst und zweimal bezahlt werden."
 
-#: onedesk/one_book/ready.py:157
+#: onedesk/one_book/ready.py:158
 msgid "The same supplier invoice number is refused a second time."
 msgstr "Dieselbe Lieferantenrechnungsnummer wird beim zweiten Mal abgelehnt."
 
@@ -29534,7 +29546,7 @@ msgstr "Es gibt bereits eine Vorlage namens {0}."
 msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
 msgstr "Es gibt keine Anlagenkategorie, und ein Artikel mit „Ist Anlagevermögen“ braucht eine."
 
-#: onedesk/one_book/ready.py:83
+#: onedesk/one_book/ready.py:84
 msgid "There is no company bank account, so a payment by transfer does not know where the money went."
 msgstr "Es gibt kein Firmenbankkonto, daher weiß eine Überweisung nicht, wohin das Geld ging."
 
@@ -30328,7 +30340,7 @@ msgstr "Ihnen zugewiesene Aufgaben"
 msgid "Today"
 msgstr "Heute"
 
-#: onedesk/one_book/ready.py:60 onedesk/one_book/ready.py:61
+#: onedesk/one_book/ready.py:61 onedesk/one_book/ready.py:62
 msgid "Today is in a fiscal year"
 msgstr "Heute liegt in einem Geschäftsjahr"
 
@@ -30817,11 +30829,11 @@ msgstr ""
 msgid "UAE VAT Settings"
 msgstr ""
 
-#: onedesk/one_book/ready.py:181
+#: onedesk/one_book/ready.py:182
 msgid "UAE VAT Settings are empty, so the return's reverse-charge boxes read nought."
 msgstr "Die UAE-USt-Einstellungen sind leer, daher stehen die Reverse-Charge-Felder der Erklärung auf null."
 
-#: onedesk/one_book/ready.py:179
+#: onedesk/one_book/ready.py:180
 msgid "UAE VAT Settings name the accounts VAT is charged and paid to."
 msgstr "Die UAE-USt-Einstellungen nennen die Konten für berechnete und gezahlte USt."
 
@@ -34386,7 +34398,7 @@ msgstr "Innerhalb eines Monats"
 msgid "Within a week"
 msgstr "Innerhalb einer Woche"
 
-#: onedesk/one_book/ready.py:103
+#: onedesk/one_book/ready.py:104
 msgid "Without an account: {0}."
 msgstr "Ohne Konto: {0}."
 
@@ -37225,7 +37237,7 @@ msgstr "{0} ist bereits beigetreten. Senden Sie stattdessen eine Passwort-Zurüc
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "{0} hat sich seit dem Vorschlag geändert, daher gilt er nicht mehr."
 
-#: onedesk/one_book/ready.py:202
+#: onedesk/one_book/ready.py:237
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "{0} ist abgelaufen, und der Gewinn ist noch nicht in die Gewinnrücklagen übertragen."
 
@@ -37412,11 +37424,11 @@ msgstr "{0} ist eine Tabelle: geben Sie ihre Spalten an"
 msgid "{0} is a template."
 msgstr "{0} ist jetzt eine Vorlage."
 
-#: onedesk/one_book/ready.py:115
+#: onedesk/one_book/ready.py:116
 msgid "{0} is added in a form, but not to one made by One, OneAI or an import."
 msgstr "{0} wird in einem Formular hinzugefügt, aber nicht zu dem, was One, OneAI oder ein Import erstellt."
 
-#: onedesk/one_book/ready.py:113
+#: onedesk/one_book/ready.py:114
 msgid "{0} is added unless somebody picks another."
 msgstr "{0} wird hinzugefügt, sofern niemand eine andere wählt."
 

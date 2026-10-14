@@ -228,7 +228,6 @@ EMPTY = {
 	"erpnext / Maintenance": 1,
 	"erpnext / Manufacturing": 4,
 	"erpnext / Projects": 1,
-	"erpnext / Regional": 1,
 	"erpnext / Selling": 4,
 	"erpnext / Setup": 4,
 	# Placed with none on purpose: a stock dimension adds a field to every stock

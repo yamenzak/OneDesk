@@ -4,7 +4,7 @@ row of the Books Check, with the fix beside it.
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, add_years, getdate, nowdate
+from frappe.utils import add_days, add_years, flt, getdate, nowdate
 
 #: Who may change what the check fixes.
 FIXERS = ("Accounts Manager", "Workspace Administrator")
@@ -43,6 +43,7 @@ def checks() -> list[dict]:
 		_bill_numbers(),
 		_reminder(),
 		*_uae(one),
+		_opening(one),
 		_closed(one),
 	]
 
@@ -191,6 +192,40 @@ def _uae(one) -> list[dict]:
 	else:
 		rows.append(_row("emirate", check, TO_DO, _("The company has no address with an emirate, so the return cannot say where sales were made."), "emirate"))
 	return rows
+
+
+def temporary(company_name: str) -> tuple[str, float] | None:
+	"""Temporary Opening and what it still holds, debit less credit, when it
+	holds anything. Pure but for reading the ledger."""
+	account = frappe.db.get_value(
+		"Account", {"company": company_name, "account_type": "Temporary", "is_group": 0}, "name"
+	)
+	if not account:
+		return None
+	held = frappe.db.sql(
+		"""select sum(debit) - sum(credit) from `tabGL Entry`
+		where account = %s and is_cancelled = 0""",
+		account,
+	)
+	balance = flt(held[0][0]) if held else 0
+	return (account, balance) if abs(balance) >= 0.005 else None
+
+
+def _opening(one) -> dict:
+	"""ERPNext posts opening invoices and opening stock against Temporary
+	Opening, and an accountant moves what it holds to capital once every
+	opening balance is in. Until then the Balance Sheet carries it."""
+	check = _("Opening balances are finished")
+	held = temporary(one.name)
+	if not held:
+		return _row("opening", check, READY, _("Temporary Opening is at nought."))
+	amount = frappe.format_value(abs(held[1]), {"fieldtype": "Currency", "options": "currency"}, currency=one.default_currency)
+	return _row(
+		"opening",
+		check,
+		TO_DO,
+		_("Temporary Opening still holds {0}: post the other side of the opening balances to capital with a Journal Entry.").format(amount),
+	)
 
 
 def _closed(one) -> dict:

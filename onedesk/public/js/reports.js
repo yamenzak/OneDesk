@@ -492,6 +492,105 @@ frappe.ui.form.on("Dashboard", {
 // tried twice. Now, because frappe's report bundle loads before this file and
 // a report opened by its address is drawn before the first requests settle;
 // and once they do, for a class loaded later.
+// A chart of one period is drawn as bars. ERPNext draws the Balance Sheet as
+// a line, and a line through one year is a single point frappe's chart does
+// not draw: a year's Balance Sheet opened on empty axes. And an ageing chart
+// calls what is not yet due "<0", where its report's own filter says "Not
+// Yet Due" in our Home's words.
+onedesk.reports.one_period_bars = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_bars) return;
+	QueryReport.prototype.__one_bars = true;
+	const theirs = QueryReport.prototype.get_chart_options;
+	QueryReport.prototype.get_chart_options = function (data) {
+		const options = theirs.call(this, data);
+		if (options && options.type === "line" && options.data.labels.length === 1) options.type = "bar";
+		if (options && ["Accounts Receivable", "Accounts Payable"].includes(this.report_name))
+			options.data.labels = options.data.labels.map((label) => (label === "<0" ? __("Not Yet Due") : label));
+		return options;
+	};
+};
+
+// A column says something. One empty on every row goes: Accounts Receivable
+// carried an empty Cost Center and Customer LPO between the party and the
+// amounts. ERPNext's two ledgers of who owes whom, and Gross Profit, also lead
+// with the amounts, which came ninth or later, past the window's edge, behind
+// a Party Type that is always the filter's and a contact's name.
+const COLUMNS = {
+	"Accounts Receivable": {
+		dropped: ["party_type", "customer_primary_contact"],
+		first: ["posting_date", "party", "voucher_no", "due_date", "invoiced", "paid", "credit_note", "outstanding", "age"],
+	},
+	"Accounts Payable": {
+		dropped: ["party_type"],
+		first: ["posting_date", "party", "voucher_no", "due_date", "invoiced", "paid", "credit_note", "outstanding", "age"],
+	},
+	// What each sale made, before what it was: the profit came fifteenth.
+	"Gross Profit": {
+		first: ["sales_invoice", "customer", "posting_date", "qty", "selling_amount", "buying_amount", "gross_profit", "gross_profit_%"],
+	},
+};
+
+onedesk.reports.columns_that_say_something = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_columns) return;
+	QueryReport.prototype.__one_columns = true;
+	const theirs = QueryReport.prototype.prepare_report_data;
+	QueryReport.prototype.prepare_report_data = function (data) {
+		const rows = ((data && data.result) || []).filter((row) => row && typeof row === "object");
+		const records = rows.filter((row) => !Array.isArray(row));
+		const described = (data && data.columns || []).every((column) => column && typeof column === "object");
+		if (records.length && described) {
+			const said = COLUMNS[this.report_name] || {};
+			const all = data.columns || [];
+			const empty = (column) => {
+				const name = column.fieldname;
+				return name && records.every((row) => row[name] === null || row[name] === undefined || row[name] === "");
+			};
+			let kept = all.map((column, at) => at).filter((at) => at === 0 || !((said.dropped || []).includes(all[at].fieldname) || empty(all[at])));
+			if (said.first) {
+				const rank = (at) => {
+					const found = said.first.indexOf(all[at].fieldname);
+					return found === -1 ? said.first.length : found;
+				};
+				kept = kept.sort((a, b) => rank(a) - rank(b) || a - b);
+			}
+			// A row as a list, such as a totals row, is read by position: it
+			// follows the columns it was written for.
+			const result = (data.result || []).map((row) => (Array.isArray(row) ? kept.map((at) => row[at]) : row));
+			data = { ...data, columns: kept.map((at) => all[at]), result };
+		}
+		return theirs.call(this, data);
+	};
+};
+
+// A Finance Book filter is shown only where the workspace keeps a second set
+// of books. Every financial statement asked for a Finance Book and offered
+// "Include Default FB Entries" to a company that has none.
+onedesk.reports.books_kept = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_books) return;
+	QueryReport.prototype.__one_books = true;
+	let kept = null;
+	const theirs = QueryReport.prototype.setup_filters;
+	QueryReport.prototype.setup_filters = function () {
+		const out = theirs.apply(this, arguments);
+		const filters = (this.filters || []).filter(
+			(filter) => (filter.df.fieldtype === "Link" && filter.df.options === "Finance Book") || filter.df.fieldname === "include_default_book_entries"
+		);
+		if (!filters.length) return out;
+		kept = kept || frappe.db.count("Finance Book");
+		kept.then((count) => {
+			if (count) return;
+			filters.forEach((filter) => {
+				filter.df.hidden = 1;
+				filter.$wrapper && filter.$wrapper.hide();
+			});
+		});
+		return out;
+	};
+};
+
 onedesk.reports.wrap = () => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
@@ -503,6 +602,9 @@ onedesk.reports.wrap = () => {
 	onedesk.reports.a_choice_is_made();
 	onedesk.reports.who_is_leaving();
 	onedesk.reports.good_news();
+	onedesk.reports.one_period_bars();
+	onedesk.reports.columns_that_say_something();
+	onedesk.reports.books_kept();
 };
 onedesk.reports.wrap();
 

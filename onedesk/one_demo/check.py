@@ -5838,6 +5838,24 @@ def onebook_the_bank_says_what_is_left_to_match():
 
 
 @check
+def onebook_the_books_check_has_nothing_left_to_do():
+	"""The demo company is set up as its accountant would leave it: nothing
+	on the Books Check is To Do, Temporary Opening is at nought, and the UAE
+	VAT 201 reports the sales made in Dubai, the company's emirate."""
+	from frappe.desk.query_report import run as run_report
+
+	from onedesk.one_book import ready
+
+	with as_user("huda@one.test"):
+		todo = [row["key"] for row in ready.checks() if row["state"] == ready.TO_DO]
+		assert not todo, todo
+		assert not ready.temporary(COMPANY)
+		said = run_report("UAE VAT 201", filters={"company": COMPANY, "from_date": add_days(today(), -365), "to_date": today()})
+		dubai = next(row for row in said["result"] if isinstance(row, dict) and row.get("no") == "1b")
+		assert flt(dubai.get("raw_amount")) > 0, dubai
+
+
+@check
 def oneinventory_a_documents_head_says_where_it_stands():
 	"""Every stores document Karim opens says what is next in a sentence, and
 	one that moves through stages draws them: Al Noor's late order in red with

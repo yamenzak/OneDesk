@@ -169,6 +169,20 @@ def run(password=None):
 			make({"doctype": "Activity Type", "activity_type": name, "costing_rate": cost, "billing_rate": bills})
 
 	_vat()
+	_uae()
+
+
+def _uae():
+	"""The UAE return's two Books Check items, done before the first sale so
+	every invoice carries the company's emirate (one_book/vat.py): the VAT
+	accounts the return reads, and the company's address in Dubai."""
+	from onedesk.one_book import ready, vat
+
+	if not vat.settled_accounts(COMPANY):
+		ready.fix("uae_vat")
+	address = vat.company_address(COMPANY)
+	if not (address and frappe.db.get_value("Address", address, "emirate")):
+		ready.fix("emirate", emirate="Dubai", address_line1="Warehouse 14, Al Quoz Industrial Area 3", city="Dubai")
 
 
 #: The suppliers who sell from abroad, and where from.

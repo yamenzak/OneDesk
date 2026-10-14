@@ -13155,3 +13155,47 @@ company's bank account.
 6. Is Rule Evaluated is hidden.
 
 Check: `onebook_the_bank_says_what_is_left_to_match`.
+
+### OneBook › the reports
+
+Looked at as Huda: Profit and Loss, Balance Sheet, Cash Flow, Accounts
+Receivable and Payable, General Ledger, Trial Balance, Gross Profit, the VAT
+Return, the UAE VAT 201 and the Books Check.
+
+**Found.**
+
+1. The Balance Sheet's chart was empty axes: ERPNext draws it as a line, and
+   a line through one year is a single point frappe's chart does not draw.
+2. Accounts Receivable and Payable put the amounts ninth, past the window's
+   edge, behind a Party Type that is always the filter's, a contact's name,
+   and an empty Cost Center and Customer LPO. Gross Profit put the profit
+   fifteenth. The ageing chart called what is not yet due "<0".
+3. Every financial statement asked for a Finance Book and offered "Include
+   Default FB Entries" to a company with no finance book.
+4. The UAE VAT 201 reported every sale as zero-rated and Dubai as nought: the
+   demo company had left two Books Check items To Do (the VAT accounts the
+   return reads, the company's emirate), so no invoice carried an emirate.
+5. The Trial Balance and the Balance Sheet carried 217,270.00 in Temporary
+   Opening: the opening stock went there and nothing moved it to capital.
+   The Books Check did not ask.
+6. General Ledger, Trial Balance, Cash Flow, Profit and Loss and the VAT
+   Return read right; General Ledger's Voucher Subtype repeats the type, and
+   it is ERPNext's.
+
+**Done.**
+
+1. A one-period line chart is drawn as bars; the Balance Sheet shows Assets,
+   Liabilities and Equity.
+2. A column empty on every row is dropped from any report; Accounts
+   Receivable, Accounts Payable and Gross Profit lead with the amounts, a
+   totals row following its columns by position; the ageing chart says Not
+   Yet Due.
+3. Finance Book and its check are hidden where no finance book is kept.
+4. The demo does both UAE items before its first sale (masters `_uae`), and
+   this site's invoices were given the company's emirate: the UAE VAT 201
+   reports 746,730.00 standard rated in Dubai.
+5. The Books Check asks "Opening balances are finished" and says what
+   Temporary Opening still holds; the demo posts the other side of its
+   opening stock to capital (stock `_cleared`).
+
+Check: `onebook_the_books_check_has_nothing_left_to_do`.

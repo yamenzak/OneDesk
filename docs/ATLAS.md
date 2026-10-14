@@ -321,7 +321,7 @@ Reports: Review (**waiting**).
 | Import Supplier Invoice | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Lower Deduction Certificate | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | South Africa VAT Settings | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| UAE VAT Settings | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  |  |  |
+| UAE VAT Settings | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
 Reports: Electronic Invoice Register (under a list's related reports (Sales Invoice's list)); IRS 1099 (under a list's related reports (Supplier's list)); UAE VAT 201 (on a rail or a home); VAT Audit Report (**waiting**).
 
