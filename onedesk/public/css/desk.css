@@ -1403,3 +1403,11 @@ body[data-route="List/Item/List"] .list-row-col.list-subject {
 .one-check .report-footer {
 	display: none !important;
 }
+
+/* Workload draws its rows through an island (workload.js); frappe's cards,
+ * grid and footer stay out of sight, its filters in view. */
+.one-workload .report-summary,
+.one-workload .report-wrapper,
+.one-workload .report-footer {
+	display: none !important;
+}

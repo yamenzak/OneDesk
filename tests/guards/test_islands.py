@@ -56,7 +56,14 @@ def test_every_island_is_declared_built_and_mounted():
 				or "onedesk.check.report = " in path.read_text(encoding="utf-8")
 			)
 		]
-		assert pages or tabs, f"no desk page, record tab or check report mounts {name}"
+		# Or one of our own reports, whose script keeps frappe's filters and
+		# draws its rows through the island in place of the grid.
+		reports = [
+			path
+			for path in tree.APP.glob("*/report/*/*.js")
+			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
+		]
+		assert pages or tabs or reports, f"no desk page, record tab or report mounts {name}"
 		for page in pages:
 			assert "onedesk.island_page(" in page.read_text(encoding="utf-8"), page
 

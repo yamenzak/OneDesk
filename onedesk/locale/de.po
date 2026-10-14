@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 09:12+0000\n"
+"POT-Creation-Date: 2026-10-14 12:02+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -154,6 +154,10 @@ msgstr "1 Bestellung"
 msgid "1 person"
 msgstr "1 Person"
 
+#: frontend/src/workload/WorkloadList.vue:13
+msgid "1 person over capacity"
+msgstr "1 Person über der Kapazität"
+
 #: frontend/src/plant/PlantFloor.vue:55
 msgid "1 step waiting"
 msgstr "1 Schritt wartet"
@@ -164,6 +168,7 @@ msgstr "1 Teilprojekt"
 
 #: frontend/src/project/Overview.vue:119
 #: frontend/src/template/TemplatePage.vue:87
+#: frontend/src/workload/WorkloadList.vue:35
 msgid "1 task"
 msgstr "1 Aufgabe"
 
@@ -5051,8 +5056,8 @@ msgstr ""
 msgid "Capability"
 msgstr "Fähigkeit"
 
-#: onedesk/one_project/report/workload/workload.py:95
-#: onedesk/one_project/report/workload/workload.py:172
+#: onedesk/one_project/report/workload/workload.py:97
+#: onedesk/one_project/report/workload/workload.py:175
 msgid "Capacity (Hours)"
 msgstr "Kapazität (Stunden)"
 
@@ -8187,6 +8192,7 @@ msgstr "Wartende Domains"
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #. Label in the One Work Order print format
+#. Label of the 'percent_complete' field in DocType 'Project'
 #. Label of the done (Check) field in DocType 'Task Step'
 #: frontend/src/floor/ShopFloor.vue:134
 #: frontend/src/project/MilestoneLanes.vue:103
@@ -8202,7 +8208,8 @@ msgstr "Wartende Domains"
 #: onedesk/one_intake/page/intake/intake.js:28
 #: onedesk/one_inventory/heads.py:1654
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_project/heads.py:215 onedesk/one_project/portal.py:14
+#: onedesk/one_project/custom/project.json onedesk/one_project/heads.py:215
+#: onedesk/one_project/portal.py:14
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/learned.js:34 onedesk/public/js/onecloud.js:2282
 #: onedesk/public/js/progress.js:54 onedesk/public/js/progress.js:85
@@ -9573,6 +9580,10 @@ msgstr "Alle"
 msgid "Everyone has One, OneCloud, OneMail, OneTask and OneCalendar."
 msgstr "Alle haben One, OneCloud, OneMail, OneTask und OneCalendar."
 
+#: frontend/src/workload/WorkloadList.vue:13
+msgid "Everyone has room"
+msgstr "Alle haben noch Luft"
+
 #. Who a notification is sent to
 #: onedesk/notifications/one/announcement.md
 #: onedesk/notifications/one/workspace_closing.md
@@ -10791,8 +10802,12 @@ msgstr "Frappe Cloud hat keinen Server {0} in diesem Konto."
 msgid "Frappe Cloud stopped serving the site"
 msgstr "Frappe Cloud stellt die Website nicht mehr bereit"
 
-#: onedesk/one_project/report/workload/workload.py:98
-#: onedesk/one_project/report/workload/workload.py:174
+#: frontend/src/workload/WorkloadList.vue:26
+msgid "Free"
+msgstr "Frei"
+
+#: onedesk/one_project/report/workload/workload.py:100
+#: onedesk/one_project/report/workload/workload.py:177
 msgid "Free (Hours)"
 msgstr "Frei (Stunden)"
 
@@ -12340,7 +12355,9 @@ msgstr "Wenn {0} diese Adresse kennt, ist ein Bestätigungslink unterwegs."
 #. Label of the reads_image (Check) field in DocType 'AI Model'
 #. Label of the image (Attach Image) field in DocType 'Face'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_mail/doctype/face/face.json onedesk/public/js/onecloud.js:36
+#: onedesk/one_mail/doctype/face/face.json
+#: onedesk/one_project/report/workload/workload.py:174
+#: onedesk/public/js/onecloud.js:36
 msgid "Image"
 msgstr "Bild"
 
@@ -13895,7 +13912,7 @@ msgstr "Dauer (Tage)"
 #: frontend/src/project/group.js:41 frontend/src/upkeep/UpkeepPage.vue:89
 #: frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:186
-#: onedesk/one_project/report/workload/workload.py:177
+#: onedesk/one_project/report/workload/workload.py:180
 #: onedesk/public/js/band.js:194
 msgid "Late"
 msgstr "Verspätet"
@@ -14592,7 +14609,12 @@ msgstr "Live"
 msgid "Live On"
 msgstr "Live seit"
 
-#: onedesk/one_project/report/workload/workload.py:175
+#: frontend/src/workload/WorkloadList.vue:24
+#: frontend/src/workload/WorkloadList.vue:50
+msgid "Load"
+msgstr "Auslastung"
+
+#: onedesk/one_project/report/workload/workload.py:178
 msgid "Load (%)"
 msgstr "Auslastung (%)"
 
@@ -16140,7 +16162,7 @@ msgstr "Meine Aufgaben"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/one_project/report/workload/workload.py:171
+#: onedesk/one_project/report/workload/workload.py:173
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/doctype_settings.js:535
@@ -17318,6 +17340,7 @@ msgid "No task"
 msgstr "Keine Aufgabe"
 
 #: frontend/src/project/Tasks.vue:82 frontend/src/template/Tasks.vue:101
+#: frontend/src/workload/WorkloadList.vue:36
 msgid "No tasks"
 msgstr "Keine Aufgaben"
 
@@ -17425,6 +17448,10 @@ msgstr "Für {0} kann niemand einen Schichtantrag genehmigen. Tragen Sie zuerst 
 msgid "Nobody has it."
 msgstr "Niemand hat es."
 
+#: frontend/src/workload/WorkloadList.vue:20
+msgid "Nobody has work this week"
+msgstr "Niemand hat diese Woche Arbeit"
+
 #: onedesk/one_book/ready.py:167
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt dem Kunden eine Woche nach Fälligkeit."
@@ -17493,7 +17520,7 @@ msgstr "Nicht abgerechnet"
 msgid "Not Checked In"
 msgstr "Nicht eingecheckt"
 
-#: onedesk/one_project/report/workload/workload.py:178
+#: onedesk/one_project/report/workload/workload.py:181
 msgid "Not Estimated"
 msgstr "Nicht geschätzt"
 
@@ -19872,7 +19899,7 @@ msgstr "Bei Überschreitung"
 msgid "Over Budget is Warn or Stop."
 msgstr "Bei Überschreitung ist Warnen oder Stoppen."
 
-#: onedesk/one_project/report/workload/workload.py:103
+#: onedesk/one_project/report/workload/workload.py:105
 msgid "Over Capacity"
 msgstr "Über Kapazität"
 
@@ -20760,10 +20787,11 @@ msgstr "Berechtigungen"
 #. Option for the 'Kind' (Select) field in DocType 'Face'
 #: frontend/src/project/Team.vue:24 frontend/src/project/Time.vue:31
 #: frontend/src/project/Time.vue:100 frontend/src/task/TaskTime.vue:23
+#: frontend/src/workload/WorkloadList.vue:23
 #: onedesk/one/doctype/push_device/push_device.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
 #: onedesk/one_mail/doctype/face/face.json
-#: onedesk/one_project/report/workload/workload.py:170
+#: onedesk/one_project/report/workload/workload.py:172
 #: onedesk/public/js/settings.js:935
 msgid "Person"
 msgstr "Person"
@@ -21117,12 +21145,12 @@ msgstr "Aufgaben planen"
 
 #: frontend/src/project/TaskPanel.vue:33 frontend/src/project/Tasks.vue:23
 #: frontend/src/task/TaskPage.vue:27 frontend/src/upkeep/UpkeepRows.vue:195
-#: onedesk/one_inventory/heads.py:803
+#: frontend/src/workload/WorkloadList.vue:25 onedesk/one_inventory/heads.py:803
 msgid "Planned"
 msgstr "Geplant"
 
-#: onedesk/one_project/report/workload/workload.py:96
-#: onedesk/one_project/report/workload/workload.py:173
+#: onedesk/one_project/report/workload/workload.py:98
+#: onedesk/one_project/report/workload/workload.py:176
 msgid "Planned (Hours)"
 msgstr "Geplant (Stunden)"
 
@@ -21676,7 +21704,7 @@ msgstr "Fortschritt…"
 #: onedesk/one_project/custom/quotation.json
 #: onedesk/one_project/custom/request_for_quotation.json
 #: onedesk/one_project/page/project_view/project_view.js:8
-#: onedesk/one_project/report/workload/workload.js:52
+#: onedesk/one_project/report/workload/workload.js:80
 #: onedesk/public/js/item_actions.js:237
 #: onedesk/public/js/project_actions.js:424
 #: onedesk/public/js/project_actions.js:639
@@ -27331,7 +27359,7 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:182 onedesk/one_project/ai.py:894
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json
-#: onedesk/one_project/report/workload/workload.py:176
+#: onedesk/one_project/report/workload/workload.py:179
 #: onedesk/one_storage/namespace.py:736 onedesk/one_storage/namespace.py:836
 #: onedesk/one_task/page/task_view/task_view.js:9 onedesk/www/projects.html:125
 msgid "Tasks"
@@ -31379,11 +31407,11 @@ msgstr "Mittwoch"
 msgid "Week"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.js:51
+#: onedesk/one_project/report/workload/workload.js:79
 msgid "Week Of"
 msgstr "Woche vom"
 
-#: onedesk/one_project/report/workload/workload.py:67
+#: onedesk/one_project/report/workload/workload.py:69
 msgid "Week of {0} to {1}"
 msgstr "Woche vom {0} bis {1}"
 
@@ -35542,6 +35570,10 @@ msgstr "nichts"
 msgid "nothing can do {0} now"
 msgstr "nichts kann jetzt {0}"
 
+#: frontend/src/workload/WorkloadList.vue:58
+msgid "of {0}"
+msgstr "von {0}"
+
 #: frontend/src/project/Time.vue:199
 msgid "of {0} a month"
 msgstr "von {0} im Monat"
@@ -37325,7 +37357,7 @@ msgstr "{0} Artikel haben einen Meldebestand, aber nichts wird angefordert, wenn
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
-#: frontend/src/project/Team.vue:45
+#: frontend/src/project/Team.vue:45 frontend/src/workload/WorkloadList.vue:39
 msgid "{0} late"
 msgstr "{0} überfällig"
 
@@ -37424,6 +37456,10 @@ msgstr "{0} braucht seine Auswahl, eine pro Zeile."
 msgid "{0} not checked"
 msgstr "{0} nicht geprüft"
 
+#: frontend/src/workload/WorkloadList.vue:43
+msgid "{0} not estimated"
+msgstr "{0} ohne Schätzung"
+
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:151
 msgid "{0} not found"
 msgstr "{0} nicht gefunden"
@@ -37517,6 +37553,10 @@ msgstr "{0} von {1} gefertigt"
 #: onedesk/one_inventory/heads.py:113
 msgid "{0} of {1} months"
 msgstr "{0} von {1} Monaten"
+
+#: frontend/src/workload/WorkloadList.vue:11
+msgid "{0} of {1} planned"
+msgstr "{0} von {1} verplant"
 
 #: frontend/src/check/CheckList.vue:11
 msgid "{0} of {1} ready"
@@ -37680,6 +37720,10 @@ msgstr "{0} Personen auf dieser Stufe, die benachrichtigt werden"
 #: onedesk/one_admin/billing.py:156
 msgid "{0} people have seats and the plan allows {1}. Deactivate someone first."
 msgstr "{0} Personen haben Plätze und der Plan erlaubt {1}. Deaktivieren Sie zuerst jemanden."
+
+#: frontend/src/workload/WorkloadList.vue:13
+msgid "{0} people over capacity"
+msgstr "{0} Personen über der Kapazität"
 
 #: onedesk/public/js/settings.js:917
 msgid "{0} people."
@@ -37852,6 +37896,7 @@ msgstr "{0} nimmt seinen Wert von nirgendwo."
 
 #: frontend/src/project/Overview.vue:119
 #: frontend/src/template/TemplatePage.vue:87
+#: frontend/src/workload/WorkloadList.vue:35
 msgid "{0} tasks"
 msgstr "{0} Aufgaben"
 

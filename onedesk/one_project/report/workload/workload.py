@@ -50,10 +50,12 @@ def execute(filters=None):
 	rows = []
 	for user, one in people.items():
 		capacity = working_days(user, starts, ends) * per_day
+		named = frappe.db.get_value("User", user, ["full_name", "user_image"], as_dict=True) or {}
 		rows.append(
 			{
 				"user": user,
-				"full_name": frappe.db.get_value("User", user, "full_name"),
+				"full_name": named.get("full_name"),
+				"image": named.get("user_image"),
 				"capacity": capacity,
 				"planned": round(one["hours"], 1),
 				"free": round(capacity - one["hours"], 1),
@@ -169,6 +171,7 @@ def columns() -> list[dict]:
 	return [
 		{"fieldname": "user", "label": _("Person"), "fieldtype": "Link", "options": "User", "width": 220},
 		{"fieldname": "full_name", "label": _("Name"), "fieldtype": "Data", "hidden": 1},
+		{"fieldname": "image", "label": _("Image"), "fieldtype": "Data", "hidden": 1},
 		{"fieldname": "capacity", "label": _("Capacity (Hours)"), "fieldtype": "Float", "precision": 1, "width": 150},
 		{"fieldname": "planned", "label": _("Planned (Hours)"), "fieldtype": "Float", "precision": 1, "width": 150},
 		{"fieldname": "free", "label": _("Free (Hours)"), "fieldtype": "Float", "precision": 1, "width": 130},

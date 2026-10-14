@@ -12705,3 +12705,22 @@ phone, the list and Mansour Villa's page.
   on every page drawing Facts.
 - The page's **All Work** beside the name is the switch between the main
   project and every sub-project, and stays.
+
+**OneProject, again: Workload.** Looked at as Karim, at 1440 wide and on a
+phone.
+
+- **A grid of hours.** Our own report, drawn as frappe's grid: row numbers
+  ("1…" for the tenth), a filter row under the heading, "For comparison,
+  use >5" and the run time, and four cards that said the same totals in
+  four colours. Nine columns of figures where the question is one: who has
+  too much. It is drawn after Asana's Workload and Float's capacity view now
+  (`frontend/src/workload`): the team's week in one line with a bar ("62.6 h
+  of 540 h planned", "1 person over capacity" in red), then a person a row,
+  their load as a bar that turns amber near full and red past it, hours
+  planned of the hours they have, and what is free. Their tasks, late and
+  not estimated are under their name and each opens the tasks it counts.
+- frappe's filters stay, and its grid, cards and footer stay out of sight
+  as the report's own, so an export and OneAI read the same rows. An
+  island may now be mounted by one of our own reports (`test_islands.py`).
+- **Workspace Builder** is the workspace's first administrator, given a
+  real task on an exit checklist, so it stays.

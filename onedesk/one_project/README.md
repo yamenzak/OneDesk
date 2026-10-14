@@ -2011,8 +2011,13 @@ one field for it.
 - `report/workload` — Workload: planned hours from ERPNext's Expected Time
   and Actual Time on the reader's visible tasks (`in_week`, `load` pure),
   capacity from the holiday list (the employee's, else the company's), HR
-  Settings' Standard Working Hours and approved Leave Applications. Figures,
-  not a chart.
+  Settings' Standard Working Hours and approved Leave Applications. Its rows
+  are drawn by an island (`frontend/src/workload`), modelled on Asana's
+  Workload: the team's week in a line with a bar, then a person a row with
+  their load as a bar, red past what they have, and their tasks, late and
+  not estimated, each opening the tasks it counts. frappe's filters stay;
+  its grid, cards and footer stay out of sight as the report's own, so
+  exports and OneAI read the same rows.
 
   **Planned** is the hours still to do on each person's open tasks in the
   week: a task's Expected Time less the time already logged on it (ERPNext's

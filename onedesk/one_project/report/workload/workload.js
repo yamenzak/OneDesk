@@ -1,10 +1,26 @@
 // Who has how many hours of open work in a week (report/workload/workload.py).
-// Figures, not a chart: the team's week in the cards above, over capacity and
-// late in red, and a person's tasks, late tasks and tasks not estimated open
-// their list. Everyone on an open project's team is listed, free or not.
+// The rows are drawn by an island (frontend/src/workload), modelled on Asana's
+// Workload: the team's week in a line with a bar, then a person a row with
+// their load as a bar, red past what they have. frappe's grid, its cards and
+// its footer stay, out of sight, as the report's own; its filters stay. A
+// person's tasks, late tasks and tasks not estimated open their list.
+// Everyone on an open project's team is listed, free or not.
+const ONE_TASKS = {
+	tasks: {},
+	late: () => ({ exp_end_date: ["<", frappe.datetime.get_today()] }),
+	unestimated: { expected_time: 0 },
+};
+function one_tasks(user, which) {
+	const narrow = typeof ONE_TASKS[which] === "function" ? ONE_TASKS[which]() : ONE_TASKS[which];
+	const where = { _assign: ["like", `%${user}%`], status: ["in", ["Open", "Working", "Pending Review"]], ...narrow };
+	frappe.route_options = where;
+	frappe.set_route("List", "Task");
+}
+
 frappe.query_reports["Workload"] = {
 	// Drawn again when a task, a timesheet or a leave changes, as a list follows its records.
 	onload(report) {
+		report.page.wrapper.addClass("one-workload");
 		if (report.one_followed) return;
 		report.one_followed = true;
 		const FOLLOWED = ["Task", "Timesheet", "Leave Application"];
@@ -17,11 +33,23 @@ frappe.query_reports["Workload"] = {
 		});
 	},
 	// The workspace's extensions are told the week as the table shows it
-	// (one_studio/places.py), and lent a spot under the cards.
+	// (one_studio/places.py), and lent a spot above the rows.
 	after_datatable_render() {
 		const report = frappe.query_report;
+		if (!report) return;
+		const props = {
+			rows: (report.data || []).filter((one) => one && one.user),
+			week: report.raw_data?.message || "",
+			onOpen: one_tasks,
+		};
+		report.$report_message.hide();
+		if (report.$one_island && document.contains(report.$one_island[0])) report.one_island.update(props);
+		else {
+			report.$one_island = $('<div class="one-workload-host"></div>').insertAfter(report.$summary);
+			report.one_island = frappe.ui.mount_island("onedesk.workload", report.$one_island[0], props);
+		}
 		const places = onedesk.places;
-		if (!report || !places) return;
+		if (!places) return;
 		report.$one_spot && report.$one_spot.remove();
 		report.$one_spot = null;
 		if (!places.listening("oneproject_workload.week")) return;
@@ -44,7 +72,7 @@ frappe.query_reports["Workload"] = {
 		};
 		places.emit("oneproject_workload.week", { week }, places.spot(($spot) => {
 			report.$one_spot = $spot;
-			$spot.addClass("px-3").insertAfter(report.$summary);
+			$spot.addClass("px-5 pt-4").insertBefore(report.$one_island);
 		}));
 	},
 	filters: [
