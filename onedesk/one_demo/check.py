@@ -1338,6 +1338,41 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 
 
 @check
+def oneproject_buying_says_what_oneinventory_says():
+	"""A project's Buying says each order, request and receipt in the word its
+	own head says it in OneInventory: Al Noor's late order on the villa is
+	Late there as it is on the order. Issue Stock from the project uses stock
+	on it, as Transfer Stock moves it, and its cost is the project's. To
+	Order and Quotes name a request's project by its name."""
+	from onedesk.one_inventory import heads, order, quotes, stock
+	from onedesk.one_project import buying
+
+	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	with as_user("samir@one.test"):
+		papers = buying.papers(villa)["papers"]
+	for one in papers:
+		if one["doctype"] in heads.STANDS:
+			said = heads.stands(frappe.get_doc(one["doctype"], one["name"]))
+			assert (one["status"], one["tone"]) == (said["label"], said["colour"]), (one, said)
+	late = [one for one in papers if one["doctype"] == "Purchase Order" and one["tone"] == "red"]
+	assert late and all(one["status"] == "Late" for one in late), papers
+	with as_user("karim@one.test"):
+		rows = order.rows()
+		asked = quotes.asked()
+	named = {row.get("project_title") for row in rows if row.get("project")}
+	assert "Mansour Villa Windows and Doors" in named, named
+	assert not any(one["project"] and one["project"].startswith("PROJ-") for one in asked), asked
+	with as_user("karim@one.test"):
+		item = frappe.db.get_value("Bin", {"warehouse": wh("Stores"), "actual_qty": [">", 5]}, "item_code")
+		made = stock.issue(wh("Stores"), [{"item": item, "qty": 1}], villa, "Demo check")
+	entry = frappe.get_doc("Stock Entry", made)
+	assert entry.docstatus == 1 and entry.purpose == "Material Issue" and entry.project == villa, entry.as_dict()
+	assert all(row.project == villa for row in entry.items)
+	entry.cancel()
+	frappe.delete_doc("Stock Entry", made, force=True)
+
+
+@check
 def oneproject_a_timesheet_says_what_is_left_to_bill():
 	"""A timesheet's head says what is left to bill on it: one with billable
 	hours not yet invoiced in orange with its Billed step under way, one with

@@ -135,7 +135,7 @@
         </h2>
         <div class="ms-auto flex gap-2">
           <Button v-if="buying?.can_request" size="sm" icon-left="lucide-plus" :label="__('New Material Request')" @click="newDoc('Material Request', { project: said.name, material_request_type: 'Purchase' })" />
-          <Button v-if="buying?.can_ask" size="sm" icon-left="lucide-plus" :label="__('Request Prices')" @click="newDoc('Request for Quotation', { project: said.name })" />
+          <Button v-if="buying?.can_ask" size="sm" icon-left="lucide-plus" :label="__('Ask for Prices')" @click="askPrices" />
         </div>
       </div>
       <Loading v-if="!buying" />
@@ -158,7 +158,7 @@
             </ListCell>
             <ListCell class="min-w-0 gap-2 max-md:hidden"><Avatar v-if="item.party_image" :label="item.party" :image="item.party_image" shape="square" size="sm" /><span class="truncate text-ink-gray-7">{{ item.party || "–" }}</span></ListCell>
             <ListCell class="tabular-nums text-ink-gray-7 max-md:hidden">{{ item.date ? date(item.date) : "" }}</ListCell>
-            <ListCell><Badge :label="__(item.status)" :theme="PAPER[item.status] || 'gray'" size="md" /></ListCell>
+            <ListCell><Badge :label="__(item.status)" :theme="item.tone ? TONE[item.tone] : PAPER[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8 max-md:hidden">{{ item.amount ? sum(item.amount, item.currency || cash.currency) : "" }}</ListCell>
           </ListRow>
         </ListRows>
@@ -172,7 +172,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDoc, onedesk, plain } from "../kit";
+import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDoc, onedesk, plain, requires } from "../kit";
 import { onlyArg, useOnly } from "./only";
 import { usePlace } from "./place";
 
@@ -273,13 +273,20 @@ function billActions(item) {
   ].filter(Boolean);
 }
 
-// Buying: ERPNext's statuses, coloured as its lists colour them.
+// Buying: an order, a request or a receipt in the word its head says it in
+// (one_inventory/heads.py `stands`), in its colour; a quotation in ERPNext's,
+// coloured as its lists colour them.
+const TONE = { red: "red", orange: "amber", blue: "blue", green: "green", gray: "gray" };
 const PAPER = {
   Draft: "red", Pending: "amber", "Partially Ordered": "amber", Ordered: "green", Received: "green", "Partially Received": "amber",
   Submitted: "blue", "To Pay": "amber", "To Bill": "amber", "To Receive": "amber", "To Receive and Bill": "amber", Completed: "green", Closed: "gray",
   Stopped: "red", Expired: "gray", Cancelled: "red",
 };
 const slug = (doctype) => doctype.toLowerCase().replaceAll(" ", "-");
+// As OneInventory's Quotes page asks (quotes_actions.js), from the project's
+// own material requests.
+const askPrices = () =>
+  requires(["/assets/onedesk/js/quotes_actions.js"]).then(() => onedesk().quotes.ask(load, { project: props.said.name }));
 // An order for goods says how much has come, and warns when it's billed ahead.
 const received = (item) =>
   item.received === null || item.received === undefined ? "" : [__("{0}% received", [Math.round(item.received)]), __("{0}% billed", [Math.round(item.billed)])].join(" · ");

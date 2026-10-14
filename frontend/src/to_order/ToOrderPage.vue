@@ -116,7 +116,7 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-const stop = ["Material Request", "Purchase Order", "Bin", "Item", "Supplier", "Warehouse", "UOM"].map((one) => followList(one, soon));
+const stop = ["Material Request", "Purchase Order", "Bin", "Item", "Supplier", "Warehouse", "UOM", "Project"].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
@@ -126,7 +126,7 @@ watch(picked, () => said.value && report());
 // What put the line here, under its badge.
 const because = (one) =>
   one.why === "requested"
-    ? [one.material_request, one.needed_by && __("needed {0}", [fromToday(one.needed_by)])].filter(Boolean).join(" · ")
+    ? [one.project_title || one.material_request, one.needed_by && __("needed {0}", [fromToday(one.needed_by)])].filter(Boolean).join(" · ")
     : __("{0} left, reorder at {1}", [quantity(one.projected), quantity(one.level)]);
 
 const reasons = computed(() => {

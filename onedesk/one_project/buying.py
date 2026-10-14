@@ -10,6 +10,7 @@ from frappe import _
 from frappe.query_builder.functions import Sum
 from frappe.utils import flt
 
+from onedesk.one_inventory import heads
 from onedesk.one_project import money, tree
 
 #: Each document, the line table naming the project and what it calls it,
@@ -67,11 +68,15 @@ def papers(
 			order_by=f"{day} desc",
 			limit_page_length=SHOWN,
 		):
+			# An order, a request or a receipt says where it stands as its own
+			# head does in OneInventory: late, waiting, a bill to come.
+			said = heads.stands(frappe.get_doc(doctype, one.name)) if doctype in heads.STANDS else None
 			found.append(
 				{
 					"doctype": doctype,
 					"name": one.name,
-					"status": "Draft" if one.docstatus == 0 else one.status,
+					"status": said["label"] if said else "Draft" if one.docstatus == 0 else one.status,
+					"tone": said["colour"] if said else None,
 					"date": str(one.get(day)) if one.get(day) else None,
 					"party": one.get("supplier_name") or _suppliers(doctype, one.name),
 					"supplier": one.get("supplier"),

@@ -99,6 +99,18 @@ def rows() -> list[dict]:
 	for row in requested:
 		row["qty"] = left(row.pop("stock_qty"), row.pop("ordered_qty"), held.get(row.material_request_item))
 	requested = [row for row in requested if row["qty"] > 0]
+	# Which project a request is for, by its name, as a project's own page
+	# says the request.
+	titles = dict(
+		frappe.get_all(
+			"Project",
+			filters={"name": ["in", list({row.project for row in requested if row.project}) or [""]]},
+			fields=["name", "project_name"],
+			as_list=True,
+		)
+	)
+	for row in requested:
+		row["project_title"] = titles.get(row.project) or row.project
 	drafted_lows = frappe.db.sql(
 		"""select item.item_code, item.warehouse
 		from `tabPurchase Order Item` item join `tabPurchase Order` doc on doc.name = item.parent

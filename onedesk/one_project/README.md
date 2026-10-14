@@ -949,9 +949,14 @@ readable.
 **Buying**, under the cards, lists what's being bought for the project and
 its sub-projects: material requests, requests for quotation, the suppliers'
 quotations, orders for goods (with how much is received and billed, in amber
-when it's billed ahead of what's come) and the goods received, newest first. **New Material Request**
-asks for material for the project, and **Request Prices** asks suppliers to
-quote.
+when it's billed ahead of what's come) and the goods received, newest first.
+Each says where it stands in the word its own page says it in OneInventory:
+an order **Late**, **Waiting**, **Bill to Come**, **To Pay** or **Done**; a
+request **To Order**, **Quoting**, **Part Ordered** or **Late**; a receipt
+**Bill to Come** or **Billed**; a request for prices how many have quoted.
+**New Material Request** asks for material for the project, and **Ask for
+Prices** asks suppliers to quote for one of its requests, as the Quotes page
+asks.
 
 **Subcontracts** on a Fixed Price project's Overview lists the subcontracts: what
 each is for, which sub-project it's on, how much is billed, and what's to pay
@@ -1398,7 +1403,7 @@ sub-project.
 - **From OneInventory**: Purchase orders, goods received and stock issued for the project count in its Cost. A purchase order for a package of work is a subcontract on the Suppliers view.
 - **From OneIntake**: A supplier's bill that names an open project is drafted for that project. So is a supplier's timesheet, at the hours and rate it gives. A site log a colleague mails in is their part of the day's update on the project it names. A customer asking for extra work on their project gets a draft quotation for Extra Work on it, which becomes a sub-project once ordered.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
-- **To OneInventory**: New Material Request, Request Prices, New Purchase Order and Issue Stock on a project's page start those records on the project.
+- **To OneInventory**: New Material Request, Ask for Prices, New Purchase Order and Issue Stock on a project's page start those records on the project. Ask for Prices and Issue Stock ask as OneInventory's Quotes page and Transfer Stock do, with the project filled in; an issue is made and submitted at once, so its cost shows on Money.
 - **To OneHR**: New Expense Claim on Money starts an expense claim on the project, which counts in its Cost once approved.
 - **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
 - **To OneCRM**: New Quotation and Quote Extra Work start the customer's quotation on the project, and Make Order turns the one open quotation into its Sales Order. Add Contract makes the Sales Order for a contract agreed without a quotation. Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.

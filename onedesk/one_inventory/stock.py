@@ -191,12 +191,29 @@ def transfer(
 	for and a note when there is one. ERPNext's own Material
 	Transfer is made and submitted, as the reader, so its permissions, stock
 	checks and books all hold; the name of the entry comes back."""
+	return _moved("Material Transfer", source, target, lines, project, remarks)
+
+
+@frappe.whitelist(methods=["POST"])
+def issue(
+	source: Annotated[str, "The warehouse the stock is taken from."],
+	lines: Annotated[list | str, "Each item and how many: [{item, qty}]."],
+	project: Annotated[str, "The project it is used on."] | None = None,
+	remarks: Annotated[str, "A note kept on the issue."] | None = None,
+) -> str:
+	"""Stock taken off the shelf and used, on a project when one is named, so
+	its cost is the project's: ERPNext's own Material Issue, made and
+	submitted as the reader, asked as a transfer is."""
+	return _moved("Material Issue", source, None, lines, project, remarks)
+
+
+def _moved(purpose: str, source: str, target: str | None, lines, project, remarks) -> str:
 	lines = frappe.parse_json(lines) if isinstance(lines, str) else lines
 	wanted = [one for one in lines or [] if one.get("item") and flt(one.get("qty")) > 0]
 	if not wanted:
 		frappe.throw(_("Add an item and how many to move."))
 	entry = frappe.new_doc("Stock Entry")
-	entry.purpose = "Material Transfer"
+	entry.purpose = purpose
 	entry.company = frappe.db.get_value("Warehouse", source, "company")
 	entry.from_warehouse, entry.to_warehouse = source, target
 	entry.project, entry.remarks = project or None, remarks or None

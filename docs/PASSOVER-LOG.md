@@ -12821,3 +12821,36 @@ and Task Type, looked at as Samir and Karim at 1440 wide and on a phone.
 - OneInventory's Home and item page, the last two, say what they follow:
   Shopify's admin Home, and Shopify's product page with Odoo's product
   form. UNMODELLED is empty.
+
+**Where OneProject and OneInventory meet.** Asked after the second pass:
+the seams themselves, walked both ways as Samir and Karim, on the villa.
+
+- **A late order that looked fine.** A project's Buying said each document
+  in ERPNext's status: Al Noor's order, which OneInventory's head says
+  "Nothing has come… wanted 2 days ago" in red, was an amber "To Receive and
+  Bill" on the project, and a late request "Partially Received". Each
+  sentence on a buying document's head now carries the word a list says it
+  in, and Buying says that word in its colour (`heads.stands`): an order
+  Late, Waiting, Bill to Come, To Pay or Done; a request To Order, Quoting,
+  Part Ordered or Late; a receipt Bill to Come or Billed; a request for
+  prices "1 of 2 Quoted" or All Quoted. One sentence gives both, so the
+  two cannot say different things.
+- **Two ways to ask for prices.** The project's Request Prices opened
+  ERPNext's empty request for quotation; the Quotes page asks in a dialog
+  from a material request, mailing the suppliers. The project's is now Ask
+  for Prices, the same dialog, offering the project's own requests. Asked
+  by its lines, a search returned a request once a line and frappe joined
+  the repeats; the requests are looked up by name first.
+- **Issue Stock** opened ERPNext's whole Stock Entry form. It asks as
+  Transfer Stock does, where from and which items, with the project filled
+  in by name, and the server makes and submits the Material Issue
+  (`stock.issue`), so its cost is on Money at once.
+- **A project by its number.** Quotes named a request's project "PROJ-0001",
+  and To Order said only the request's number; both say the project's name.
+- What was already right: a purchase order, receipt, delivery, movement and
+  work order name their project at the top and open it; Shop Floor and Sent
+  Out name it under each order; ordering from To Order keeps the request's
+  project on the order; an issue counts in the project's Stock Used.
+- The demo check `oneproject_buying_says_what_oneinventory_says` holds
+  Buying to the heads, To Order and Quotes to names, and an issue to its
+  project.

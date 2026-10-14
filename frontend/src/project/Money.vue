@@ -11,7 +11,7 @@
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
       <!-- What the work uses: stock taken out for it, and what the team paid
            themselves, each naming the project (money.py). -->
-      <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="newDoc('Stock Entry', { stock_entry_type: 'Material Issue', purpose: 'Material Issue', project: said.name, company: said.company })" />
+      <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="issueStock" />
       <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name, company: said.company })" />
     </div>
     <PlaceSpot :said="spot" class="mb-3" />
@@ -82,7 +82,7 @@ import { computed, ref } from "vue";
 import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDoc, onedesk, plain } from "../kit";
+import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDoc, onedesk, plain, requires } from "../kit";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
@@ -96,6 +96,10 @@ const maybe = (value) => (value === null || value === undefined ? "–" : amount
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : null);
 const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : null);
 const frm = () => ({ doctype: "Project", doc: { name: props.said.name } });
+// Stock used on the project, asked as OneInventory asks it (item_actions.js),
+// with the project filled in; its cost shows here once issued.
+const issueStock = () =>
+  requires(["/assets/onedesk/js/item_actions.js"]).then(() => onedesk().stock.issue({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
 
 // The forecast, by how the project earns (money.py). A project with no
 // customer and nothing ordered by one has no contract: its forecast is the

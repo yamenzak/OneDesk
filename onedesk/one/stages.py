@@ -44,9 +44,10 @@ def share(value) -> str:
 
 def draft(doc, what: str) -> dict | None:
 	"""The sentence of a draft, `what` submitting it does, and of a cancelled
-	document; nothing for one that is submitted."""
+	document, each with the word a list says it in; nothing for one that is
+	submitted."""
 	if doc.docstatus == 0:
-		return {"text": what, "colour": "blue"}
+		return {"text": what, "colour": "blue", "label": _("Draft")}
 	if doc.docstatus == 2:
-		return {"text": _("Cancelled; it counts for nothing."), "colour": "gray"}
+		return {"text": _("Cancelled; it counts for nothing."), "colour": "gray", "label": _("Cancelled")}
 	return None

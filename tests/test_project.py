@@ -876,7 +876,7 @@ def test_buying_lists_what_is_bought_for_the_project():
 	for doctype in ("Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Receipt"):
 		assert f'"{doctype}"' in buying
 	vue = (tree.ROOT / "frontend" / "src" / "project" / "Suppliers.vue").read_text()
-	assert "onedesk.one_project.buying.papers" in vue and "__('Request Prices')" in vue
+	assert "onedesk.one_project.buying.papers" in vue and "__('Ask for Prices')" in vue and "quotes.ask(load, { project" in vue
 
 
 def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():

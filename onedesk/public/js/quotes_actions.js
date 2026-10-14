@@ -5,8 +5,14 @@ frappe.provide("onedesk.quotes");
 
 // Asking suppliers to price what a material request still needs. Sent now,
 // the request is submitted and each supplier mailed a link, as its form's
-// Send Email does. Otherwise it opens as a draft.
-onedesk.quotes.ask = (done) => {
+// Send Email does. Otherwise it opens as a draft. Asked from a project's page,
+// the requests offered are that project's.
+onedesk.quotes.ask = async (done, { project } = {}) => {
+	// The project's requests by name: filtered on their lines, a search
+	// returns a request once a line and frappe joins the repeats.
+	const mine = project
+		? [...new Set((await frappe.db.get_list("Material Request", { filters: [["Material Request Item", "project", "=", project]], fields: ["name"], limit: 0 })).map((one) => one.name))]
+		: null;
 	const dialog = new frappe.ui.Dialog({
 		title: __("Ask for Prices"),
 		fields: [
@@ -16,8 +22,14 @@ onedesk.quotes.ask = (done) => {
 				label: __("Material Request"),
 				options: "Material Request",
 				reqd: 1,
+				filter_description: mine ? __("The project's requests still to order") : null,
 				get_query: () => ({
-					filters: { docstatus: 1, material_request_type: "Purchase", status: ["in", ["Pending", "Partially Ordered"]] },
+					filters: [
+						["Material Request", "docstatus", "=", 1],
+						["Material Request", "material_request_type", "=", "Purchase"],
+						["Material Request", "status", "in", ["Pending", "Partially Ordered"]],
+						...(mine ? [["Material Request", "name", "in", mine.length ? mine : [""]]] : []),
+					],
 				}),
 			},
 			{

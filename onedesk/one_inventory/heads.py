@@ -572,22 +572,22 @@ def order_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to order from {0}.").format(supplier)):
 		return said
 	if doc.status in ("Closed", "On Hold"):
-		return {"text": _("{0}; nothing more is expected on it.").format(_(doc.status)), "colour": "gray"}
+		return {"text": _("{0}; nothing more is expected on it.").format(_(doc.status)), "colour": "gray", "label": _(doc.status)}
 	waiting = [row.schedule_date for row in doc.items if flt(row.received_qty) < flt(row.qty)]
 	if waiting:
 		day = min(waiting)
 		if (days := stages.overdue(day)) and not flt(doc.per_received):
-			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
+			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red", "label": _("Late")}
 		if days:
-			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
-		return {"text": _("Waiting for {0}; wanted by {1}.").format(supplier, formatdate(day)), "colour": "blue"}
+			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red", "label": _("Late")}
+		return {"text": _("Waiting for {0}; wanted by {1}.").format(supplier, formatdate(day)), "colour": "blue", "label": _("Waiting")}
 	if flt(doc.per_billed) < 100:
-		return {"text": _("Everything is in; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
+		return {"text": _("Everything is in; the bill from {0} is still to come.").format(supplier), "colour": "orange", "label": _("Bill to Come")}
 	paid = _paid(doc)
 	if paid < flt(doc.grand_total) - 0.005:
 		left = fmt_money(flt(doc.grand_total) - paid, currency=doc.currency)
-		return {"text": _("Received and billed; {0} is still to pay.").format(left), "colour": "orange"}
-	return {"text": _("Received, billed and paid."), "colour": "green"}
+		return {"text": _("Received and billed; {0} is still to pay.").format(left), "colour": "orange", "label": _("To Pay")}
+	return {"text": _("Received, billed and paid."), "colour": "green", "label": _("Done")}
 
 
 # ------------------------------------------------------------------ a request
@@ -654,38 +654,66 @@ def request_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to ask for these.")):
 		return said
 	if doc.status in ("Stopped", "Cancelled"):
-		return {"text": _("Stopped; nothing more will be done on it."), "colour": "gray"}
+		return {"text": _("Stopped; nothing more will be done on it."), "colour": "gray", "label": _("Stopped")}
 	kind = doc.material_request_type
 	days = stages.overdue(doc.schedule_date)
 	ordered, received = flt(doc.per_ordered), flt(doc.per_received)
 	if kind == "Purchase":
 		if received >= 100:
-			return {"text": _("Ordered and received."), "colour": "green"}
+			return {"text": _("Ordered and received."), "colour": "green", "label": _("Received")}
 		if ordered >= 100:
 			if days:
-				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(stages.days(days)), "colour": "red"}
-			return {"text": _("Ordered; waiting for the goods."), "colour": "blue"}
+				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(stages.days(days)), "colour": "red", "label": _("Late")}
+			return {"text": _("Ordered; waiting for the goods."), "colour": "blue", "label": _("Ordered")}
 		if days:
-			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
+			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red", "label": _("Late")}
 		suppliers, quotes = _request_quotes(doc)
 		if ordered:
-			return {"text": _("Part is ordered; the rest is still to order."), "colour": "orange"}
+			return {"text": _("Part is ordered; the rest is still to order."), "colour": "orange", "label": _("Part Ordered")}
 		if quotes:
-			return {"text": _("{0} of {1} suppliers have quoted. Order from the best.").format(quotes, suppliers), "colour": "orange"}
+			return {"text": _("{0} of {1} suppliers have quoted. Order from the best.").format(quotes, suppliers), "colour": "orange", "label": _("Quoted")}
 		if suppliers:
-			return {"text": _("Waiting for {0} suppliers to quote.").format(suppliers), "colour": "blue"}
-		return {"text": _("Nothing ordered yet. Ask for quotes or order it."), "colour": "orange"}
+			return {"text": _("Waiting for {0} suppliers to quote.").format(suppliers), "colour": "blue", "label": _("Quoting")}
+		return {"text": _("Nothing ordered yet. Ask for quotes or order it."), "colour": "orange", "label": _("To Order")}
 	if kind == "Manufacture":
 		if received >= 100:
-			return {"text": _("Made."), "colour": "green"}
+			return {"text": _("Made."), "colour": "green", "label": _("Made")}
 		if ordered:
-			return {"text": _("Being made."), "colour": "red" if days else "blue"}
-		return {"text": _("No work order yet. Make one to start."), "colour": "red" if days else "orange"}
+			return {"text": _("Being made."), "colour": "red" if days else "blue", "label": _("Late") if days else _("Being Made")}
+		return {"text": _("No work order yet. Make one to start."), "colour": "red" if days else "orange", "label": _("Late") if days else _("To Make")}
 	if ordered >= 100:
-		return {"text": _("Done."), "colour": "green"}
+		return {"text": _("Done."), "colour": "green", "label": _("Done")}
 	if days:
-		return {"text": _("Not done yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
-	return {"text": _("Wanted by {0}.").format(formatdate(doc.schedule_date)), "colour": "blue"}
+		return {"text": _("Not done yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red", "label": _("Late")}
+	return {"text": _("Wanted by {0}.").format(formatdate(doc.schedule_date)), "colour": "blue", "label": _("Waiting")}
+
+
+def rfq_stands(doc):
+	"""A request for prices: how many of the suppliers asked have quoted."""
+	if said := stages.draft(doc, ""):
+		return said
+	answered = {supplier for lines in _quoted(doc.name).values() for _rate, supplier, _name in lines}
+	asked = _asked(doc.name)
+	if asked and len(answered) >= len(asked):
+		return {"label": _("All Quoted"), "colour": "green"}
+	return {"label": _("{0} of {1} Quoted").format(len(answered), len(asked)), "colour": "blue"}
+
+
+#: The buying documents whose head's sentence names where they stand.
+STANDS = {
+	"Purchase Order": "order_said",
+	"Material Request": "request_said",
+	"Purchase Receipt": "receipt_said",
+	"Request for Quotation": "rfq_stands",
+}
+
+
+def stands(doc) -> dict | None:
+	"""The word a list says a buying document is in and its colour: its head's
+	sentence, short, so a project's Buying says what the document says."""
+	said = STANDS.get(doc.doctype)
+	said = globals()[said](doc) if said else None
+	return {"label": said["label"], "colour": said["colour"]} if said else None
 
 
 # ------------------------------------------------------------------ a receipt and a delivery
@@ -716,12 +744,12 @@ def receipt_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to put these into stock.")):
 		return said
 	if doc.is_return:
-		return {"text": _("Goods sent back to {0}.").format(supplier), "colour": "gray"}
+		return {"text": _("Goods sent back to {0}.").format(supplier), "colour": "gray", "label": _("Returned")}
 	if any(flt(row.rejected_qty) for row in doc.items):
-		return {"text": _("Some were rejected. Send them back to {0}.").format(supplier), "colour": "red"}
+		return {"text": _("Some were rejected. Send them back to {0}.").format(supplier), "colour": "red", "label": _("Rejected")}
 	if flt(doc.per_billed) < 100:
-		return {"text": _("In stock; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
-	return {"text": _("In stock and billed."), "colour": "green"}
+		return {"text": _("In stock; the bill from {0} is still to come.").format(supplier), "colour": "orange", "label": _("Bill to Come")}
+	return {"text": _("In stock and billed."), "colour": "green", "label": _("Billed")}
 
 
 def delivery_progress(doc):

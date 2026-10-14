@@ -518,6 +518,7 @@ No doctypes yet.
 * `onedesk.one_inventory.quotes.read`
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.sent_out.read`
+* `onedesk.one_inventory.stock.issue`
 * `onedesk.one_inventory.stock.on_hand`
 * `onedesk.one_inventory.stock.transfer`
 * `onedesk.one_inventory.story.made_this_month`

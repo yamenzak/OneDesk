@@ -258,5 +258,56 @@ onedesk.stock.move = (warehouse, item) => {
 	});
 	dialog.show();
 };
+// Stock used, on a project when it is asked from one, as a transfer is asked:
+// where from, which items and how many, and a note. The server makes ERPNext's
+// Material Issue and submits it (one_inventory/stock.py, issue), so its cost
+// is the project's at once; Open Full Form leaves for ERPNext's form.
+onedesk.stock.issue = ({ project, title, warehouse, done } = {}) => {
+	// The project reads by its name, not its number, in a field nobody changes.
+	if (project && title) frappe.utils.add_link_title("Project", project, title);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Issue Stock"),
+		size: "large",
+		fields: [
+			{ fieldtype: "Link", fieldname: "source", label: __("From"), options: "Warehouse", reqd: 1, default: warehouse, get_query: () => ({ filters: { is_group: 0, disabled: 0 } }) },
+			{ fieldtype: "Column Break" },
+			{ fieldtype: "Link", fieldname: "project", label: __("Project"), options: "Project", default: project, read_only: project ? 1 : 0, get_query: () => ({ filters: { status: "Open" } }) },
+			{ fieldtype: "Section Break" },
+			{
+				fieldtype: "Table",
+				fieldname: "lines",
+				label: __("Items"),
+				reqd: 1,
+				in_place_edit: true,
+				data: [{ item: "", qty: null }],
+				fields: [
+					{ fieldtype: "Link", fieldname: "item", label: __("Item"), options: "Item", in_list_view: 1, reqd: 1, columns: 7, get_query: () => ({ filters: { is_stock_item: 1, disabled: 0, has_variants: 0 } }) },
+					{ fieldtype: "Float", fieldname: "qty", label: __("Quantity"), in_list_view: 1, reqd: 1, columns: 3 },
+				],
+			},
+			{ fieldtype: "Section Break" },
+			{ fieldtype: "Data", fieldname: "remarks", label: __("Remarks") },
+		],
+		primary_action_label: __("Issue Stock"),
+		primary_action: async ({ source, lines, project: on, remarks }) => {
+			dialog.disable_primary_action();
+			try {
+				const name = await frappe.xcall("onedesk.one_inventory.stock.issue", { source, lines, project: on, remarks });
+				dialog.hide();
+				frappe.show_alert({ message: `${__("Issued from {0}", [frappe.utils.escape_html(source)])} · ${frappe.utils.get_form_link("Stock Entry", name, true)}`, indicator: "green" }, 7);
+				done?.();
+			} finally {
+				dialog.enable_primary_action();
+			}
+		},
+		secondary_action_label: __("Open Full Form"),
+		secondary_action: () => {
+			const { source, project: on, remarks } = dialog.get_values(true) || {};
+			dialog.hide();
+			frappe.new_doc("Stock Entry", { stock_entry_type: "Material Issue", purpose: "Material Issue", from_warehouse: source, project: on, remarks });
+		},
+	});
+	dialog.show();
+};
 onedesk.stock.count = (warehouse) => frappe.new_doc("Stock Reconciliation", { set_warehouse: warehouse });
 onedesk.stock.warehouse = () => frappe.new_doc("Warehouse");

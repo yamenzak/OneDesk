@@ -129,7 +129,7 @@ def asked(search: str | None = None) -> list[dict]:
 				"what": _what(lines),
 				"lines": len(lines),
 				"requests": list(dict.fromkeys(row.material_request for row in lines if row.material_request)),
-				"project": next((row.project_name for row in lines if row.project_name), None),
+				"project": _project(next((row.project_name for row in lines if row.project_name), None)),
 				"suppliers": who,
 				"answered": sum(1 for row in who if row["answered"]),
 				"ordered": any(row["status"] in ("Ordered", "Partially Ordered") for row in who),
@@ -394,3 +394,8 @@ def order_cheapest(request: str) -> list[str]:
 	if not made:
 		frappe.throw(_("Everything quoted on {0} is ordered already.").format(request))
 	return made
+
+
+def _project(name: str | None) -> str | None:
+	"""A project by its own name, as its page says it."""
+	return (frappe.db.get_value("Project", name, "project_name") or name) if name else None
