@@ -21,7 +21,7 @@ GROUPS = (
 	("setup", _lt("Setup")),
 )
 #: What a report is about, as Reports sets them out, one section to a topic.
-TOPICS = (
+REPORT_SECTIONS = (
 	("stock", _lt("Stock")),
 	("lots", _lt("Lots and Serial Numbers")),
 	("buying", _lt("Buying and Selling")),
@@ -61,6 +61,44 @@ REPORT_TOPICS = {
 	"Asset Activity": "equipment",
 	"COGS By Item Group": "books",
 	"Stock and Account Value Comparison": "books",
+}
+#: What a part of Setup is about, as Setup sets them out, the settings first.
+SETUP_SECTIONS = (
+	("settings", _lt("Settings")),
+	("stock", _lt("Stock")),
+	("items", _lt("Items")),
+	("buying", _lt("Buying")),
+	("making", _lt("Making")),
+	("equipment", _lt("Equipment")),
+)
+SETUP_TOPICS = {
+	"Inventory Check": "settings",
+	"Stock Settings": "settings",
+	"Buying Settings": "settings",
+	"Manufacturing Settings": "settings",
+	"Delivery Settings": "settings",
+	"Item Variant Settings": "settings",
+	"Warehouse": "stock",
+	"Putaway Rule": "stock",
+	"Inventory Dimension": "stock",
+	"Stock Closing Entry": "stock",
+	"UOM": "stock",
+	"Item Group": "items",
+	"Brand": "items",
+	"Item Attribute": "items",
+	"Price List": "items",
+	"Supplier Group": "buying",
+	"Supplier Scorecard Variable": "buying",
+	"Workstation": "making",
+	"Plant Floor": "making",
+	"Operation": "making",
+	"Routing": "making",
+	"BOM Update Tool": "making",
+	"Subcontracting BOM": "making",
+	"Asset Category": "equipment",
+	"Location": "equipment",
+	"Asset Maintenance Team": "equipment",
+	"Asset Shift Factor": "equipment",
 }
 EVERYTHING = (
 	("stock", _lt("Items"), "DocType", "Item", _lt("Everything you keep, buy, sell or make.")),
@@ -190,7 +228,10 @@ def read() -> dict:
 		"currency": _currency(),
 		"needs": needs,
 		"groups": [{"key": key, "label": str(label)} for key, label in GROUPS],
-		"topics": [{"key": key, "label": str(label)} for key, label in TOPICS],
+		"sections": {
+			"reports": [{"key": key, "label": str(label)} for key, label in REPORT_SECTIONS],
+			"setup": [{"key": key, "label": str(label)} for key, label in SETUP_SECTIONS],
+		},
 		"everything": directory(),
 	}
 
@@ -308,7 +349,7 @@ def directory() -> list[dict]:
 			"kind": kind,
 			"target": target,
 			"about": str(about),
-			"topic": REPORT_TOPICS.get(target) if group == "reports" else None,
+			"topic": {"reports": REPORT_TOPICS, "setup": SETUP_TOPICS}.get(group, {}).get(target),
 		}
 		for group, label, kind, target, about in EVERYTHING
 		if _may(kind, target)

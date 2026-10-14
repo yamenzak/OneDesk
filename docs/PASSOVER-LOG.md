@@ -11842,7 +11842,7 @@ Reports and Setup.
 | Assets › Assets | done |
 | Assets › Upkeep | done, redrawn after UpKeep and Fiix |
 | Reports | done |
-| Setup | next |
+| Setup | done; the Checks drawn as a checklist |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12619,3 +12619,33 @@ at 1440 wide and on a phone, and two of the reports opened from it.
 | Point | On this screen |
 |---|---|
 | 5 Our look | reports by topic, as a reports center sets them out |
+
+**Setup.** The rail's Setup opens Home's Setup tab. Looked at as Karim, at
+1440 wide and on a phone, with the Inventory Check and Stock Settings opened
+from it.
+
+- **Twenty-seven in one heap.** Setup is set out as Odoo's configuration
+  is, a section to an area: **Settings** (the Inventory Check first, then
+  Stock, Buying, Manufacturing, Delivery and Variant Settings), **Stock**,
+  **Items**, **Buying**, **Making** and **Equipment** (`home.py`
+  SETUP_SECTIONS and SETUP_TOPICS). The test that holds every report to a
+  topic holds every part of Setup to one too.
+- **The Inventory Check was a grid.** Our own report, drawn as frappe's
+  grid: row numbers cut to "1…", the filter hint and the run time under it,
+  and Fix in a far column. It is a checklist now, modelled on Shopify's
+  setup guide and Stripe's account checklist (`frontend/src/check`): how
+  many of how many are ready with a bar, then To Do, Suggested and Ready,
+  each with its icon, what it means and its Fix, solid where it must be
+  done. It stays a report, as Home, the readiness rows and three modules
+  name it, and draws its rows through the island (`check.js`). The Books
+  Check and the Storage Check are the same report, so they are checklists
+  too. An island may now be mounted by a check report (`test_islands.py`).
+- Stock Settings is ERPNext's own form, and opens as it was.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | Setup by area; a checklist, not a grid |
+| 8 Built from frappe | frappe-ui's Progress and Button, inside frappe's report |
+
+OneInventory's walk is done: every screen on its rail has been looked at,
+fixed and pushed, and the atlas has nothing waiting in its modules.

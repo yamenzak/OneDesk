@@ -40,7 +40,8 @@ def test_every_island_is_declared_built_and_mounted():
 		# the same everywhere.
 		assert 'from "../kit"' in entry and "screen(" in entry, name
 		# And a desk page mounts it through onedesk.island_page, which keeps the
-		# head, or a record's tab through onedesk.record_tabs, which keeps the form.
+		# head, a record's tab through onedesk.record_tabs, which keeps the form,
+		# or a check report through onedesk.check.report, which keeps the report.
 		pages = [
 			path
 			for path in tree.APP.glob("*/page/*/*.js")
@@ -50,9 +51,12 @@ def test_every_island_is_declared_built_and_mounted():
 			path
 			for path in (tree.APP / "public" / "js").glob("*.js")
 			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
-			and "onedesk.record_tabs.register(" in path.read_text(encoding="utf-8")
+			and (
+				"onedesk.record_tabs.register(" in path.read_text(encoding="utf-8")
+				or "onedesk.check.report = " in path.read_text(encoding="utf-8")
+			)
 		]
-		assert pages or tabs, f"no desk page or record tab mounts {name}"
+		assert pages or tabs, f"no desk page, record tab or check report mounts {name}"
 		for page in pages:
 			assert "onedesk.island_page(" in page.read_text(encoding="utf-8"), page
 

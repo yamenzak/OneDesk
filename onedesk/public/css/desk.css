@@ -1269,3 +1269,11 @@ body[data-route^="project-template-view"] .layout-side-section {
 body[data-route="List/Item/List"] .list-row-col.list-subject {
 	flex: 2.4;
 }
+
+/* A check report draws its rows as a checklist (check.js); frappe's grid, its
+ * filter bar and its footer stay, out of sight, as the report's own. */
+.one-check .page-form,
+.one-check .report-wrapper,
+.one-check .report-footer {
+	display: none !important;
+}

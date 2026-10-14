@@ -175,15 +175,14 @@ function route(one) {
 const groups = computed(() => {
   const words = search.value.trim().toLowerCase();
   const matches = (one) => !words || `${one.label} ${one.about}`.toLowerCase().includes(words);
-  // Reports set out by what each is about, as Zoho Inventory's Reports
-  // Center sets them out, a section to a topic.
-  if (shown.value === "reports")
-    return (said.value.topics || [])
-      .map((topic) => ({ ...topic, rows: said.value.everything.filter((one) => one.group === "reports" && one.topic === topic.key && matches(one)) }))
+  // Reports and Setup set out by what each part is about, a section to a
+  // topic, as Zoho Inventory's Reports Center and Odoo's configuration do.
+  const sections = said.value.sections?.[shown.value];
+  if (sections)
+    return sections
+      .map((topic) => ({ ...topic, rows: said.value.everything.filter((one) => one.group === shown.value && one.topic === topic.key && matches(one)) }))
       .filter((topic) => topic.rows.length);
-  const only = shown.value === "setup" ? "setup" : null;
   return said.value.groups
-    .filter((group) => !only || group.key === only)
     .map((group) => ({
       ...group,
       rows: said.value.everything.filter(

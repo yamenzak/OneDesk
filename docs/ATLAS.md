@@ -49,6 +49,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | lots (`frontend/src/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
 | to_order (`frontend/src/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | supplier_items (`frontend/src/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
+| check (`frontend/src/check/CheckList.vue`) | – | – | – | – |
 | quotes (`frontend/src/quotes/QuotesPage.vue`) | Purchase Order Item, Request for Quotation, Request for Quotation Item, Request for Quotation Supplier, Supplier Quotation, Supplier Quotation Item | – | – | – |
 | sent_out (`frontend/src/sent_out/SentOutPage.vue`) | Bin, Project, Purchase Order, Subcontracting Order, Subcontracting Order Item, Subcontracting Order Supplied Item | – | – | – |
 | upkeep (`frontend/src/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | – | – | – |
