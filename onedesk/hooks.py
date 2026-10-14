@@ -403,7 +403,12 @@ doc_events = {
 		# and is titled by the party's name (one_book/paid.py).
 		"validate": ["onedesk.one_project.chain.paid_for", "onedesk.one_book.paid.titled"],
 	},
-	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
+	"Journal Entry": {
+		"on_submit": "onedesk.one_intake.steps.paid",
+		"on_cancel": "onedesk.one_intake.steps.paid",
+		# Titled by what it is for, not its first account. See one_book/journal.py.
+		"validate": "onedesk.one_book.journal.titled",
+	},
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
 		# Starts with its order's payment terms. See one_project/terms.py.
@@ -1287,7 +1292,7 @@ one_makes_records = {
 	"Job Applicant": ["one_hr"],
 	"Job Card": ["one_inventory"],
 	"Job Opening": ["one_hr"],
-	"Journal Entry": ["one_admin"],
+	"Journal Entry": ["one_admin", "one_book"],
 	"Lead": ["one_admin", "one_crm"],
 	"Leave Application": ["one_hr"],
 	"Leave Encashment": ["one_hr"],

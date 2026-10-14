@@ -5794,6 +5794,27 @@ def onebook_a_payment_says_where_it_stands():
 
 
 @check
+def onebook_a_journal_entry_says_what_it_is_for():
+	"""No journal entry is titled by one of its own accounts: a month's
+	depreciation names its asset, a payroll its period, the rent its remark.
+	Each says in a sentence what it moved, and names what it is for."""
+	from onedesk.one import head
+	from onedesk.one_book import journal
+
+	record = frappe.get_doc("Record Head", "Journal Entry")
+	with as_user("huda@one.test"):
+		for name in frappe.get_all("Journal Entry", filters={"docstatus": 1}, pluck="name"):
+			doc = frappe.get_doc("Journal Entry", name)
+			if journal.referenced(doc) or doc.user_remark:
+				assert not journal.untitled(doc), (name, doc.title)
+			said = head.said(doc, record)
+			assert said["sentence"] and said["sentence"]["text"], name
+		asset = frappe.get_all("Journal Entry", filters={"voucher_type": "Depreciation Entry", "docstatus": 1}, pluck="name", limit=1)
+		said = head.said(frappe.get_doc("Journal Entry", asset[0]), record)
+		assert any(one.get("route", "").startswith("/desk/asset/") for one in said["band"]), said["band"]
+
+
+@check
 def oneinventory_a_documents_head_says_where_it_stands():
 	"""Every stores document Karim opens says what is next in a sentence, and
 	one that moves through stages draws them: Al Noor's late order in red with

@@ -55,6 +55,7 @@ HEADS = (
 	"Extension",
 	"Item",
 	"Job Card",
+	"Journal Entry",
 	"Lead",
 	"Leave Application",
 	"Leave Encashment",

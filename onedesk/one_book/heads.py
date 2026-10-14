@@ -387,6 +387,64 @@ def payment_progress(doc):
 	)
 
 
+# ------------------------------------------------------------------ a journal entry
+
+
+def _journal_money(doc, value) -> str:
+	return fmt_money(flt(value), currency=frappe.get_cached_value("Company", doc.company, "default_currency"))
+
+
+def journal_said(doc):
+	"""What the entry moved, in a sentence: from the account credited to the
+	one debited when there are two, else across how many."""
+	if found := stages.draft(doc, _("A draft. Submit it to post it to the books.")):
+		return found
+	rows = doc.get("accounts") or []
+	debited = [row.account for row in rows if flt(row.debit) > 0]
+	credited = [row.account for row in rows if flt(row.credit) > 0]
+	amount = _journal_money(doc, doc.total_debit)
+	if len(debited) == 1 and len(credited) == 1:
+		text = _("{0} from {1} to {2}.").format(amount, credited[0], debited[0])
+	else:
+		text = _("{0} across {1} accounts.").format(amount, len({row.account for row in rows}))
+	return {"text": text, "colour": "green"}
+
+
+def journal_progress(doc):
+	"""Posted when it was, then reconciled with the bank statement, when one
+	of its lines is a bank account."""
+	if doc.docstatus != 1:
+		return None
+	banked = any(
+		frappe.get_cached_value("Account", row.account, "account_type") == "Bank"
+		for row in doc.get("accounts") or []
+	)
+	if not banked:
+		return None
+	return stages.track(
+		stages.step(_("Posted"), "done", formatdate(doc.posting_date)),
+		stages.step(
+			_("Reconciled"),
+			"done" if doc.clearance_date else "now",
+			formatdate(doc.clearance_date) if doc.clearance_date else _("Not in a bank statement yet"),
+		),
+	)
+
+
+def journal_reference(doc):
+	"""The document the entry is for: an asset, a payroll, an invoice."""
+	from onedesk.one_book import journal
+
+	found = journal.referenced(doc)
+	if not found or not frappe.has_permission(found[0], "read", found[1]):
+		return None
+	return {
+		"label": _(found[0]),
+		"value": journal.named(*found),
+		"route": f"/desk/{frappe.scrub(found[0]).replace('_', '-')}/{found[1]}",
+	}
+
+
 MEASURES = {
 	"party.outstanding": party_outstanding,
 	"party.overdue": party_overdue,
@@ -399,6 +457,9 @@ MEASURES = {
 	"invoice.repeats": repeats,
 	"payment.said": payment_said,
 	"payment.progress": payment_progress,
+	"journal.said": journal_said,
+	"journal.progress": journal_progress,
+	"journal.reference": journal_reference,
 }
 
 
@@ -503,6 +564,16 @@ HEADS = [
 	}
 	for doctype in paid.SETTLED
 ] + [
+	{
+		"doctype": "Journal Entry",
+		"sentences": [{"measure": "journal.said"}],
+		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "journal.progress"},
+			{"label": _lt("Reference Name"), "source": "Measure", "measure": "journal.reference"},
+			{"label": _lt("Reference Number"), "source": "Field", "field": "cheque_no", "hide_empty": 1},
+			{"label": _lt("Total Debit"), "source": "Field", "field": "total_debit"},
+		],
+	},
 	{
 		"doctype": "Payment Entry",
 		# Where it stands, as an invoice's head says it: a sentence, then a

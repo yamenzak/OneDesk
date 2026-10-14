@@ -103,7 +103,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | GL Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Invoice Discounting | through a form's connections (Sales Invoice's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Item Tax Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Journal Entry | on a rail or a home | OneBook | events | yes | general |  | yes |  |  | ar 2, de 1 |  |
+| Journal Entry | on a rail or a home | OneBook | a head, events, 1 settings | yes | general |  | yes |  |  | ar 2, de 1 |  |
 | Journal Entry Template | through a form's link (Journal Entry: from_template) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Ledger Health | **waiting** | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
 | Ledger Health Monitor | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |

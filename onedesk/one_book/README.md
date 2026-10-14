@@ -253,7 +253,19 @@ fails a small business on first use or leaves a question unanswered.
   the demo's checks and OneAI. The `OneBook` workspace and its six number
   cards were Home until the page replaced them (`patches/home_is_a_page`).
 - `custom/` — **Outstanding Amount** is a column of both invoice lists, as
-  Frappe Books' lists show what is still due beside the total.
+  Frappe Books' lists show what is still due beside the total; **Paid
+  Amount** a column of the payments, in place of the two accounts; and
+  **Posting Date** a column of the journal entries.
+- `paid.py` `titled` and `journal.py` — what a payment and a journal entry
+  are called. ERPNext titles a payment by the party's ID (an employee's
+  reads HR-EMP-00013) and a journal entry by its first account (forty read
+  Accumulated Depreciation - SGA). A payment takes the party's name; a
+  journal entry nobody titled takes the asset it depreciates, the payroll's
+  period, its remark or what it references. Two patches retitle the old
+  ones.
+- `heads.py`, a payment and a journal entry — a sentence of what moved,
+  and for one through a bank account a track to **Reconciled**, read from
+  its clearance date, the field the Bank Reconciliation Tool sets.
 - `paid.py` and `heads.py` — the band and **Record Payment**, a Record Head
   (one/head.py).
   ERPNext's **Create › Payment** opens a thirty-field Payment Entry for the

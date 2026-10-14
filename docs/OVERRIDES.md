@@ -5,6 +5,7 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| A journal entry is titled by what it is for | ERPNext titles a journal entry by its first account and HRMS a payroll's by its payable account, so the list read Accumulated Depreciation - SGA forty times; one_book/journal.py titles one nobody titled by the asset it depreciates, the payroll's period, its remark or what it references, and a patch retitles the old ones | `onedesk/one_book/journal.py` | `erpnext/erpnext/accounts/doctype/journal_entry/journal_entry.py` | `return self.pay_to_recd_from or self.accounts[0].account` |
 | A payment is titled by the party's name | ERPNext titles a payment by its party's ID, so a payment to an employee read HR-EMP-00013 in its list and its crumb; one_book/paid.py titled sets the party's name after ERPNext's set_title, and a patch retitles the old ones | `onedesk/one_book/paid.py` | `erpnext/erpnext/accounts/doctype/payment_entry/payment_entry.py` | `self.title = self.party` |
 | A payment list says how much | ERPNext lists a payment by the two accounts it moved between and not its amount; property setters swap Account Paid From and Account Paid To for Paid Amount, as Frappe Books' payment list does | `onedesk/one_book/custom/payment_entry.json` | `erpnext/erpnext/accounts/doctype/payment_entry/payment_entry.json` | `"fieldname": "paid_amount"` |
 | Connections with nothing in them are not shown on a form's only tab | frappe draws a record's connections at the top of its first tab when it has no Connections tab, an empty box per kind: a payment opened on a lone Bank Transaction box; desk.css hides the block there until a count shows, and a Connections tab keeps its empty links to create from | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/form/dashboard.js` | `css_class: "form-links",` |
@@ -383,4 +384,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | The quantity's unit beside it on a measured line | public/js/measure.js sets a formatter on the quantity of each drawn row through update_docfield_property, since each row keeps its own copy of the field | `onedesk/public/js/measure.js` | `frappe/frappe/public/js/frappe/form/grid.js` | `update_docfield_property(fieldname, property, value) {` |
 | A line's size prints under its item | the shipped builder print formats with item lines merge one_size under item_name; frappe's Table macro draws merged fields as lines under the cell | `onedesk/one_crm/print_format/one_quotation/one_quotation.json` | `frappe/frappe/templates/print_format/macros/Table.html` | `column.merged_fields` |
 
-377 overrides.
+378 overrides.

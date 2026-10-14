@@ -13088,3 +13088,33 @@ Record Payment on an unpaid sales invoice.
 7. The demo writes TRF-00002, and the demo site's were set right.
 
 Check: `onebook_a_payment_says_where_it_stands`.
+
+### OneBook › Journal Entry
+
+Looked at as Huda: the list at a desk and on a phone, the rent paid from the
+bank, a month's depreciation, a payroll.
+
+**Found.**
+
+1. Every entry was titled by an account: ERPNext titles one by its first
+   account and HRMS a payroll's by its payable account, so forty rows read
+   "Accumulated Depreciation - SGA" and the payrolls "Payroll Payable - SGA".
+   The list could not tell one from another.
+2. The list had no date.
+3. An entry had no head: nothing said what it moved, whether the bank
+   statement had it, or which asset a depreciation was for.
+
+**Done.**
+
+1. `journal.titled` titles an entry nobody titled by what it is for:
+   "Depreciation of Laptop Mariam", "Salaries from 01-09-2026 to
+   30-09-2026", its remark ("DEWA, September"), or what it references
+   ("Asset: CNC Profile Machining Centre"). A title somebody typed is kept;
+   `patches/journals_titled` retitles the old ones.
+2. Posting Date is a column, and the title's column is wider.
+3. An entry says "38,000.00 from Emirates NBD Operating Account - SGA to
+   Rent Expense - SGA." (or "across 4 accounts"); one through a bank account
+   has a track, Posted then Reconciled; the band names the asset, payroll or
+   invoice it is for, the Reference Number and the Total Debit.
+
+Check: `onebook_a_journal_entry_says_what_it_is_for`.
