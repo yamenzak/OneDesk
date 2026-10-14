@@ -11,9 +11,10 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import fmt_money, formatdate, today
+from frappe.utils import flt, fmt_money, formatdate, today
 from frappe.utils.caching import request_cache
 
+from onedesk.one import stages
 from onedesk.one_project import overview
 
 #: A task that is still to do is none of these.
@@ -188,6 +189,46 @@ def of(doc):
 	return {"value": title, "route": f"/desk/project/{quote(name, safe='')}"}
 
 
+def _hours(value) -> str:
+	value = flt(value)
+	return _("{0} h").format(fmt_money(value, precision=1 if value % 1 else 0))
+
+
+def timesheet_progress(doc):
+	"""Logged, then billed when any of it is billable."""
+	if doc.docstatus != 1:
+		return None
+	days = formatdate(doc.start_date) if doc.start_date == doc.end_date else _("{0} to {1}").format(formatdate(doc.start_date), formatdate(doc.end_date))
+	billable = flt(doc.total_billable_hours)
+	billed = flt(doc.per_billed) >= 100
+	return stages.track(
+		stages.step(_("Logged"), "done", days),
+		billable and stages.step(_("Billed"), stages.at(billed, True), _("All") if billed else stages.share(doc.per_billed)),
+	)
+
+
+def timesheet_said(doc):
+	who = doc.employee_name or (frappe.utils.get_fullname(doc.user) if doc.user else _("somebody"))
+	hours = _hours(doc.total_hours)
+	if said := stages.draft(doc, _("A draft. Submit it to count {0} of {1}'s time.").format(hours, who)):
+		return said
+	billable = flt(doc.total_billable_hours)
+	if not billable:
+		return {"text": _("{0} of {1}'s time; none of it is billed to the customer.").format(hours, who), "colour": "gray"}
+	if flt(doc.per_billed) >= 100:
+		return {"text": _("Billed: {0} of {1}'s time.").format(_hours(billable), who), "colour": "green"}
+	left = billable - flt(doc.total_billed_hours)
+	return {"text": _("{0} still to bill to the customer.").format(_hours(left)), "colour": "orange"}
+
+
+def timesheet_worth(doc):
+	"""What the billable hours are worth at the project's rates, which the form
+	keeps out of sight."""
+	if not flt(doc.total_billable_hours) or not flt(doc.total_billable_amount):
+		return None
+	return fmt_money(doc.total_billable_amount, currency=doc.currency)
+
+
 MEASURES = {
 	"project.health": health,
 	"project.sub_projects": sub_projects,
@@ -200,6 +241,9 @@ MEASURES = {
 	"project.late": late,
 	"project.milestone": milestone,
 	"project.of": of,
+	"timesheet.progress": timesheet_progress,
+	"timesheet.said": timesheet_said,
+	"timesheet.worth": timesheet_worth,
 }
 
 CHARTS = {
@@ -222,5 +266,13 @@ HEADS = [
 			{"label": _lt("Next Milestone"), "source": "Measure", "measure": "project.milestone"},
 		],
 		"charts": [{"chart": "project.hours"}],
+	},
+	{
+		"doctype": "Timesheet",
+		"sentences": [{"measure": "timesheet.said"}],
+		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "timesheet.progress"},
+			{"label": _lt("Worth"), "source": "Measure", "measure": "timesheet.worth"},
+		],
 	},
 ]

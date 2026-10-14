@@ -12724,3 +12724,30 @@ phone.
   island may now be mounted by one of our own reports (`test_islands.py`).
 - **Workspace Builder** is the workspace's first administrator, given a
   real task on an exit checklist, so it stays.
+
+**OneProject, again: Timesheet.** Looked at as Karim, at 1440 wide and on a
+phone, the list and two timesheets, one billable and one not.
+
+- **Three ways to write an hour.** Hours read "9", "3.60" and "1" down one
+  column and Billable Hours "0.00" for none. They read "9 h", "3.6 h", and
+  none billable is a dash. A one-day sheet said its day twice, in Start
+  Date and End Date; the days are one column now, the first and last only
+  when they differ, and the room went to the names, which read whole.
+- **A form with no head.** A timesheet opened on its fields. It opens on
+  what is left to bill ("3.6 h still to bill to the customer", orange), or
+  that none of it is billable (gray), over a track from Logged to Billed,
+  and what its billable hours are worth at the project's rates, which the
+  form keeps out of sight. Currency, AED on every sheet in an AED
+  workspace, shows only when a sheet is in another, and the dates moved
+  beside the project rather than under an empty column.
+- **No gray.** frappe's alert knows blue, green, yellow, orange, red and
+  white, and draws one it does not know as blue: every gray sentence since
+  the document heads (a closed order, a return, a BOM not in use) read
+  blue. A gray sentence goes as frappe's plain one and is drawn gray.
+- **A closed order under way.** A closed purchase order's track showed
+  Received and Billed as current. On a document closed, on hold or
+  stopped no step is under way (`stages.track(stopped=…)`).
+- The steps, the track and the words a sentence is made of moved from
+  OneInventory's heads to `one/stages.py`, as OneProject's heads use them
+  now too. Opened from the direct address a timesheet shows OneHR's rail,
+  frappe's home for it; from OneProject's rail it stays in OneProject.

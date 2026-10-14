@@ -10,7 +10,7 @@ from frappe import _, _lt
 from frappe.utils import flt, fmt_money, formatdate, getdate, today
 from frappe.utils.caching import request_cache
 
-from onedesk.one import figures
+from onedesk.one import figures, stages
 from onedesk.one_inventory import assets, batches, custody, item
 
 FIXED = [["is_fixed_asset", "=", 1]]
@@ -525,45 +525,6 @@ def _paid(doc) -> float:
 	return min(paid, flt(doc.grand_total))
 
 
-# A document that moves through stages says where it stands in a sentence
-# and a track, as Shopify's order page does; the band keeps only what the
-# form does not already say.
-
-
-def _step(label: str, state: str, note: str = "") -> dict:
-	"""One stage on a track: done, the one it is at (now, or late), or next."""
-	return {"label": label, "state": state, "note": note}
-
-
-def _track(*steps) -> dict:
-	return {"value": "", "steps": [one for one in steps if one]}
-
-
-def _at(done: bool, started: bool, late: bool = False) -> str:
-	return "done" if done else "late" if late else "now" if started else "next"
-
-
-def _days(count: int) -> str:
-	return _("1 day") if count == 1 else _("{0} days").format(count)
-
-
-def _overdue(day) -> int:
-	"""How many days ago a day passed, or nothing when it has not."""
-	return max((getdate(today()) - getdate(day)).days, 0) if day else 0
-
-
-def _share(value) -> str:
-	return _("{0}% so far").format(round(flt(value))) if flt(value) else ""
-
-
-def _draft(doc, what: str) -> dict | None:
-	if doc.docstatus == 0:
-		return {"text": what, "colour": "blue"}
-	if doc.docstatus == 2:
-		return {"text": _("Cancelled; it counts for nothing."), "colour": "gray"}
-	return None
-
-
 # ------------------------------------------------------------------ an order
 
 
@@ -580,14 +541,14 @@ def order_progress(doc):
 	total = flt(doc.grand_total)
 	settled = paid >= total - 0.005
 	waiting = [row.schedule_date for row in lines if flt(row.received_qty) < flt(row.qty)]
-	late = bool(waiting) and bool(_overdue(min(waiting))) and doc.status not in ("Closed", "On Hold")
+	late = bool(waiting) and bool(stages.overdue(min(waiting))) and doc.status not in ("Closed", "On Hold")
 	# One thing to a note: a sum and a date side by side reorder around an
 	# Arabic currency sign.
-	return _track(
-		_step(_("Ordered"), "done", formatdate(doc.transaction_date)),
-		_step(
+	return stages.track(
+		stages.step(_("Ordered"), "done", formatdate(doc.transaction_date)),
+		stages.step(
 			_("Received"),
-			_at(received, True, late),
+			stages.at(received, True, late),
 			_("All in")
 			if received
 			else _("{0} of {1} lines in").format(arrived, len(lines))
@@ -596,28 +557,29 @@ def order_progress(doc):
 			if late
 			else _("Due {0}").format(formatdate(min(waiting))),
 		),
-		_step(_("Billed"), _at(billed, received or flt(doc.per_billed)), money(total) if billed else _share(doc.per_billed)),
-		_step(
+		stages.step(_("Billed"), stages.at(billed, received or flt(doc.per_billed)), money(total) if billed else stages.share(doc.per_billed)),
+		stages.step(
 			_("Paid"),
-			_at(settled, billed or paid),
+			stages.at(settled, billed or paid),
 			_("In full") if settled else _("{0} left").format(money(total - paid)) if billed or paid else "",
 		),
+		stopped=doc.status in ("Closed", "On Hold"),
 	)
 
 
 def order_said(doc):
 	supplier = doc.supplier_name or doc.supplier
-	if said := _draft(doc, _("A draft. Submit it to order from {0}.").format(supplier)):
+	if said := stages.draft(doc, _("A draft. Submit it to order from {0}.").format(supplier)):
 		return said
 	if doc.status in ("Closed", "On Hold"):
 		return {"text": _("{0}; nothing more is expected on it.").format(_(doc.status)), "colour": "gray"}
 	waiting = [row.schedule_date for row in doc.items if flt(row.received_qty) < flt(row.qty)]
 	if waiting:
 		day = min(waiting)
-		if (days := _overdue(day)) and not flt(doc.per_received):
-			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, _days(days)), "colour": "red"}
+		if (days := stages.overdue(day)) and not flt(doc.per_received):
+			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
 		if days:
-			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, _days(days)), "colour": "red"}
+			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
 		return {"text": _("Waiting for {0}; wanted by {1}.").format(supplier, formatdate(day)), "colour": "blue"}
 	if flt(doc.per_billed) < 100:
 		return {"text": _("Everything is in; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
@@ -657,52 +619,54 @@ def request_progress(doc):
 		return None
 	kind = doc.material_request_type
 	done = flt(doc.per_ordered) >= 100
-	late = bool(_overdue(doc.schedule_date))
-	asked = _step(_("Asked"), "done", formatdate(doc.transaction_date))
+	late = bool(stages.overdue(doc.schedule_date))
+	asked = stages.step(_("Asked"), "done", formatdate(doc.transaction_date))
 	if kind == "Purchase":
 		suppliers, quotes = _request_quotes(doc)
 		received = flt(doc.per_received) >= 100
-		return _track(
+		return stages.track(
 			asked,
 			suppliers
-			and _step(
+			and stages.step(
 				_("Quoted"),
-				_at(quotes >= suppliers or flt(doc.per_ordered), True),
+				stages.at(quotes >= suppliers or flt(doc.per_ordered), True),
 				_("{0} of {1} answered").format(quotes, suppliers),
 			),
-			_step(_("Ordered"), _at(done, True, late and not flt(doc.per_ordered)), _("All") if done else _share(doc.per_ordered)),
-			_step(_("Received"), _at(received, flt(doc.per_ordered), late and done), _("All in") if received else _share(doc.per_received)),
-		)
+			stages.step(_("Ordered"), stages.at(done, True, late and not flt(doc.per_ordered)), _("All") if done else stages.share(doc.per_ordered)),
+			stages.step(_("Received"), stages.at(received, flt(doc.per_ordered), late and done), _("All in") if received else stages.share(doc.per_received)),
+		stopped=doc.status == "Stopped",
+	)
 	if kind == "Manufacture":
 		made = flt(doc.per_received) >= 100
-		return _track(
+		return stages.track(
 			asked,
-			_step(_("Work Order"), _at(done, True), _("All") if done else _share(doc.per_ordered)),
-			_step(_("Made"), _at(made, flt(doc.per_ordered), late), _("All") if made else _share(doc.per_received)),
-		)
+			stages.step(_("Work Order"), stages.at(done, True), _("All") if done else stages.share(doc.per_ordered)),
+			stages.step(_("Made"), stages.at(made, flt(doc.per_ordered), late), _("All") if made else stages.share(doc.per_received)),
+		stopped=doc.status == "Stopped",
+	)
 	if kind == "Customer Provided":
-		return _track(asked, _step(_("Received"), _at(done, True, late), _("All in") if done else _share(doc.per_ordered)))
+		return stages.track(asked, stages.step(_("Received"), stages.at(done, True, late), _("All in") if done else stages.share(doc.per_ordered)), stopped=doc.status == "Stopped")
 	moved = _("Issued") if kind == "Material Issue" else _("Moved")
-	return _track(asked, _step(moved, _at(done, True, late), _("All") if done else _share(doc.per_ordered)))
+	return stages.track(asked, stages.step(moved, stages.at(done, True, late), _("All") if done else stages.share(doc.per_ordered)), stopped=doc.status == "Stopped")
 
 
 def request_said(doc):
-	if said := _draft(doc, _("A draft. Submit it to ask for these.")):
+	if said := stages.draft(doc, _("A draft. Submit it to ask for these.")):
 		return said
 	if doc.status in ("Stopped", "Cancelled"):
 		return {"text": _("Stopped; nothing more will be done on it."), "colour": "gray"}
 	kind = doc.material_request_type
-	days = _overdue(doc.schedule_date)
+	days = stages.overdue(doc.schedule_date)
 	ordered, received = flt(doc.per_ordered), flt(doc.per_received)
 	if kind == "Purchase":
 		if received >= 100:
 			return {"text": _("Ordered and received."), "colour": "green"}
 		if ordered >= 100:
 			if days:
-				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(_days(days)), "colour": "red"}
+				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(stages.days(days)), "colour": "red"}
 			return {"text": _("Ordered; waiting for the goods."), "colour": "blue"}
 		if days:
-			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(_days(days)), "colour": "red"}
+			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
 		suppliers, quotes = _request_quotes(doc)
 		if ordered:
 			return {"text": _("Part is ordered; the rest is still to order."), "colour": "orange"}
@@ -720,7 +684,7 @@ def request_said(doc):
 	if ordered >= 100:
 		return {"text": _("Done."), "colour": "green"}
 	if days:
-		return {"text": _("Not done yet, and it was wanted {0} ago.").format(_days(days)), "colour": "red"}
+		return {"text": _("Not done yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
 	return {"text": _("Wanted by {0}.").format(formatdate(doc.schedule_date)), "colour": "blue"}
 
 
@@ -740,16 +704,16 @@ def receipt_progress(doc):
 		return None
 	orders = [row.purchase_order for row in doc.items if row.get("purchase_order")]
 	billed = flt(doc.per_billed) >= 100
-	return _track(
-		orders and _step(_("Ordered"), "done", _ordered_on("Purchase Order", orders)),
-		_step(_("Received"), "done", formatdate(doc.posting_date)),
-		_step(_("Billed"), _at(billed, True), _("All") if billed else _share(doc.per_billed)),
+	return stages.track(
+		orders and stages.step(_("Ordered"), "done", _ordered_on("Purchase Order", orders)),
+		stages.step(_("Received"), "done", formatdate(doc.posting_date)),
+		stages.step(_("Billed"), stages.at(billed, True), _("All") if billed else stages.share(doc.per_billed)),
 	)
 
 
 def receipt_said(doc):
 	supplier = doc.supplier_name or doc.supplier
-	if said := _draft(doc, _("A draft. Submit it to put these into stock.")):
+	if said := stages.draft(doc, _("A draft. Submit it to put these into stock.")):
 		return said
 	if doc.is_return:
 		return {"text": _("Goods sent back to {0}.").format(supplier), "colour": "gray"}
@@ -766,16 +730,16 @@ def delivery_progress(doc):
 		return None
 	orders = [row.against_sales_order for row in doc.items if row.get("against_sales_order")]
 	billed = flt(doc.per_billed) >= 100
-	return _track(
-		orders and _step(_("Ordered"), "done", _ordered_on("Sales Order", orders)),
-		_step(_("Delivered"), "done", formatdate(doc.posting_date)),
-		_step(_("Billed"), _at(billed, True), _("All") if billed else _share(doc.per_billed)),
+	return stages.track(
+		orders and stages.step(_("Ordered"), "done", _ordered_on("Sales Order", orders)),
+		stages.step(_("Delivered"), "done", formatdate(doc.posting_date)),
+		stages.step(_("Billed"), stages.at(billed, True), _("All") if billed else stages.share(doc.per_billed)),
 	)
 
 
 def delivery_said(doc):
 	customer = doc.customer_name or doc.customer
-	if said := _draft(doc, _("A draft. Submit it to take these out of stock for {0}.").format(customer)):
+	if said := stages.draft(doc, _("A draft. Submit it to take these out of stock for {0}.").format(customer)):
 		return said
 	if doc.is_return:
 		return {"text": _("Goods {0} sent back.").format(customer), "colour": "gray"}
@@ -794,40 +758,41 @@ def work_progress(doc):
 	if doc.docstatus != 1:
 		return None
 	made = flt(doc.produced_qty) >= flt(doc.qty)
-	late = not made and bool(_overdue(doc.expected_delivery_date))
+	late = not made and bool(stages.overdue(doc.expected_delivery_date))
 	sent = flt(doc.material_transferred_for_manufacturing)
 	unit = _(doc.stock_uom or "")
 	steps = len(doc.operations)
 	finished = sum(1 for row in doc.operations if row.status == "Completed")
-	return _track(
-		_step(_("Planned"), "done", formatdate(doc.planned_start_date)),
+	return stages.track(
+		stages.step(_("Planned"), "done", formatdate(doc.planned_start_date)),
 		not doc.skip_transfer
-		and _step(
+		and stages.step(
 			_("Materials Sent"),
-			_at(sent >= flt(doc.qty), True, late and not sent),
-			_("All on the floor") if sent >= flt(doc.qty) else _share(100 * sent / flt(doc.qty)) if flt(doc.qty) else "",
+			stages.at(sent >= flt(doc.qty), True, late and not sent),
+			_("All on the floor") if sent >= flt(doc.qty) else stages.share(100 * sent / flt(doc.qty)) if flt(doc.qty) else "",
 		),
 		steps
-		and _step(_("Steps"), _at(finished >= steps, sent or doc.skip_transfer), _("{0} of {1}").format(finished, steps)),
-		_step(
+		and stages.step(_("Steps"), stages.at(finished >= steps, sent or doc.skip_transfer), _("{0} of {1}").format(finished, steps)),
+		stages.step(
 			_("Made"),
-			_at(made, flt(doc.produced_qty) or (not steps and (sent or doc.skip_transfer)), late),
+			stages.at(made, flt(doc.produced_qty) or (not steps and (sent or doc.skip_transfer)), late),
 			_("{0} of {1} {2}").format(fmt_money(flt(doc.produced_qty), precision=0), fmt_money(flt(doc.qty), precision=0), unit).strip(),
 		),
+		stopped=doc.status in ("Stopped", "Closed"),
 	)
 
 
 def work_said(doc):
 	what = doc.item_name or doc.production_item
-	if said := _draft(doc, _("A draft. Submit it to plan making {0}.").format(what)):
+	if said := stages.draft(doc, _("A draft. Submit it to plan making {0}.").format(what)):
 		return said
 	if doc.status in ("Stopped", "Closed"):
 		return {"text": _("{0}; nothing more will be made on it.").format(_(doc.status)), "colour": "gray"}
 	if doc.status == "Completed":
 		return {"text": _("All made."), "colour": "green"}
-	days = _overdue(doc.expected_delivery_date)
+	days = stages.overdue(doc.expected_delivery_date)
 	if days:
-		return {"text": _("Not finished, and it was wanted {0} ago.").format(_days(days)), "colour": "red"}
+		return {"text": _("Not finished, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
 	if not doc.skip_transfer and not flt(doc.material_transferred_for_manufacturing):
 		return {"text": _("Send the materials to the floor to start."), "colour": "orange"}
 	if doc.expected_delivery_date:
@@ -842,28 +807,29 @@ def sub_progress(doc):
 	wanted = sum(flt(row.required_qty) for row in doc.supplied_items)
 	sent = sum(flt(row.supplied_qty) for row in doc.supplied_items)
 	back = flt(doc.per_received) >= 100
-	late = not back and bool(_overdue(doc.schedule_date))
-	return _track(
-		_step(_("Ordered"), "done", formatdate(doc.transaction_date)),
+	late = not back and bool(stages.overdue(doc.schedule_date))
+	return stages.track(
+		stages.step(_("Ordered"), "done", formatdate(doc.transaction_date)),
 		wanted
-		and _step(_("Materials Sent"), _at(sent >= wanted, True, late and not sent), _("All") if sent >= wanted else _share(100 * sent / wanted)),
-		_step(_("Back"), _at(back, sent or not wanted, late and bool(sent)), _("All") if back else _share(doc.per_received)),
+		and stages.step(_("Materials Sent"), stages.at(sent >= wanted, True, late and not sent), _("All") if sent >= wanted else stages.share(100 * sent / wanted)),
+		stages.step(_("Back"), stages.at(back, sent or not wanted, late and bool(sent)), _("All") if back else stages.share(doc.per_received)),
+		stopped=doc.status == "Closed",
 	)
 
 
 def sub_said(doc):
 	supplier = doc.supplier_name or doc.supplier
-	if said := _draft(doc, _("A draft. Submit it to send work to {0}.").format(supplier)):
+	if said := stages.draft(doc, _("A draft. Submit it to send work to {0}.").format(supplier)):
 		return said
 	if doc.status == "Closed":
 		return {"text": _("Closed; nothing more is expected on it."), "colour": "gray"}
 	if flt(doc.per_received) >= 100:
 		return {"text": _("All back from {0}.").format(supplier), "colour": "green"}
-	days = _overdue(doc.schedule_date)
+	days = stages.overdue(doc.schedule_date)
 	if doc.status in ("Open", "Partial Material Transferred"):
 		return {"text": _("Send the materials to {0} to start.").format(supplier), "colour": "red" if days else "orange"}
 	if days:
-		return {"text": _("With {0}, and it was wanted back {1} ago.").format(supplier, _days(days)), "colour": "red"}
+		return {"text": _("With {0}, and it was wanted back {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
 	if doc.schedule_date:
 		return {"text": _("With {0}; wanted back by {1}.").format(supplier, formatdate(doc.schedule_date)), "colour": "blue"}
 	return {"text": _("With {0}.").format(supplier), "colour": "blue"}
@@ -871,7 +837,7 @@ def sub_said(doc):
 
 def bom_said(doc):
 	what = doc.item_name or doc.item
-	if said := _draft(doc, _("A draft. Submit it to make {0} from it.").format(what)):
+	if said := stages.draft(doc, _("A draft. Submit it to make {0} from it.").format(what)):
 		return said
 	if not doc.is_active:
 		return {"text": _("Not in use; new work orders cannot pick it."), "colour": "gray"}
@@ -887,7 +853,7 @@ def bom_said(doc):
 
 
 def asset_said(doc):
-	if said := _draft(doc, _("A draft. Submit it to put it in use.")):
+	if said := stages.draft(doc, _("A draft. Submit it to put it in use.")):
 		return said
 	if doc.status in ("Sold", "Scrapped"):
 		day = doc.get("disposal_date")
@@ -898,8 +864,8 @@ def asset_said(doc):
 			return {"text": _("Being serviced."), "colour": "orange"}
 		return {"text": _("Out of order; it cannot be used until it is mended."), "colour": "red"}
 	service = _asset(doc.name)["service"]
-	if service and (days := _overdue(service.due_date)):
-		return {"text": _("{0} was due {1} ago.").format(service.task_name, _days(days)), "colour": "red"}
+	if service and (days := stages.overdue(service.due_date)):
+		return {"text": _("{0} was due {1} ago.").format(service.task_name, stages.days(days)), "colour": "red"}
 	holder = _asset(doc.name)["custodian_name"] or doc.custodian
 	where = doc.location
 	if doc.status == "Fully Depreciated":

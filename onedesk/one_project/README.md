@@ -21,8 +21,12 @@ places, and its reports below them.
 - **Timesheet**: the time people have logged, across projects, newest first. Each
   timesheet shows who, the project, the days it covers, its hours and how
   many of them are billable. Filter it by project, status, start date or
-  person. A timesheet prints as **One Timesheet**, for a customer billed
-  for time to sign.
+  person. Its days are one column, the first and last only when they
+  differ, and hours read as hours. A timesheet opens on what is left to
+  bill on it, in orange, or that none of it is billable, in gray, over a
+  track from Logged to Billed and what its billable hours are worth at the
+  project's rates (`heads.py`, `timesheet.*`). A timesheet prints as **One
+  Timesheet**, for a customer billed for time to sign.
 - **Templates**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
 - **Reports**, ERPNext's own reports across all projects:

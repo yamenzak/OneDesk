@@ -92,9 +92,11 @@ onedesk.head.draw = (frm, drawn = null) => {
 		const said = head.sentence;
 		setTimeout(() => {
 			frm.layout.message.children(".form-message:not(:has(.one-band))").remove();
+			// frappe's alert has no gray and draws one it does not know as blue;
+			// a quiet sentence goes as its plain one, coloured gray in desk.css.
 			frm.dashboard.set_headline_alert(
 				`<span class="one-head-sentence">${frappe.utils.escape_html(said.text)}</span>`,
-				said.colour,
+				said.colour === "gray" ? "white" : said.colour,
 				true,
 			);
 			// The news first, then the numbers.

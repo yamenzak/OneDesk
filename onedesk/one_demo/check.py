@@ -1338,6 +1338,25 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 
 
 @check
+def oneproject_a_timesheet_says_what_is_left_to_bill():
+	"""A timesheet's head says what is left to bill on it: one with billable
+	hours not yet invoiced in orange with its Billed step under way, one with
+	none billable in gray with only its Logged step."""
+	from onedesk.one import head
+
+	record = frappe.get_doc("Record Head", "Timesheet")
+	with as_user("samir@one.test"):
+		billable = frappe.get_all("Timesheet", filters={"docstatus": 1, "total_billable_hours": [">", 0], "per_billed": ["<", 100]}, pluck="name", limit=1)
+		own = frappe.get_all("Timesheet", filters={"docstatus": 1, "total_billable_hours": 0}, pluck="name", limit=1)
+		assert billable and own, (billable, own)
+		said = head.said(frappe.get_doc("Timesheet", billable[0]), record)
+		assert said["sentence"]["colour"] == "orange", said["sentence"]
+		assert [(step["label"], step["state"]) for step in said["band"][0]["steps"]] == [("Logged", "done"), ("Billed", "now")], said["band"]
+		said = head.said(frappe.get_doc("Timesheet", own[0]), record)
+		assert said["sentence"]["colour"] == "gray" and [step["label"] for step in said["band"][0]["steps"]] == ["Logged"], said
+
+
+@check
 def oneproject_samir_runs_a_project():
 	"""What Samir changes on a project's page: the team, a contact, time,
 	a cost type's budget, the update he is asked for, a template from the

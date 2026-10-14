@@ -83,6 +83,7 @@ HEADS = (
 	"Supplier Quotation",
 	"Tenant",
 	"Tenant Domain",
+	"Timesheet",
 	"Vehicle Log",
 	"Warehouse",
 	"Work Order",

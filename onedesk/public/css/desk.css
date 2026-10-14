@@ -82,6 +82,13 @@
 	padding-right: var(--padding-lg);
 }
 
+/* A quiet one, said in gray: frappe's alert has none (head.js). */
+.form-message.white:has(.one-head-sentence) {
+	border: 1px solid var(--surface-gray-2);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-7);
+}
+
 /* Two panels rather than two things pushed to opposite walls. A flex row with
    space-between left a dead gap down the middle and let the legend — which is
    wider than the chart it explains — run into the first column of numbers. A
@@ -1389,6 +1396,11 @@ body[data-route^="project-template-view"] .layout-side-section {
 	background: var(--surface-base);
 	color: var(--text-color);
 	box-shadow: var(--shadow-sm);
+}
+
+/* A timesheet is looked up by who it is for, whose name fits whole. */
+body[data-route="List/Timesheet/List"] .list-row-col.list-subject {
+	flex: 1.4;
 }
 
 /* An item's name is what it is looked up by; its column takes the room. */

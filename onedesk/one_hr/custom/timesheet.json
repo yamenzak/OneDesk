@@ -18,7 +18,7 @@
    "doctype_or_field": "DocType",
    "property": "field_order",
    "property_type": "Text",
-   "value": "[\"title\", \"naming_series\", \"company\", \"customer\", \"currency\", \"exchange_rate\", \"sales_invoice\", \"column_break_3\", \"status\", \"parent_project\", \"user\", \"start_date\", \"end_date\", \"employee_detail\", \"employee\", \"department\", \"column_break_9\", \"employee_name\", \"section_break_5\", \"time_logs\", \"working_hours\", \"total_hours\", \"billing_details\", \"total_billable_hours\", \"total_billable_amount\", \"section_break_18\", \"note\", \"amended_from\", \"billing_tab\", \"total_costing_amount\", \"base_total_billable_amount\", \"base_total_costing_amount\", \"column_break_10\", \"total_billed_hours\", \"total_billed_amount\", \"base_total_billed_amount\", \"per_billed\"]"
+   "value": "[\"title\", \"naming_series\", \"company\", \"customer\", \"currency\", \"exchange_rate\", \"sales_invoice\", \"status\", \"parent_project\", \"user\", \"column_break_3\", \"start_date\", \"end_date\", \"employee_detail\", \"employee\", \"department\", \"column_break_9\", \"employee_name\", \"section_break_5\", \"time_logs\", \"working_hours\", \"total_hours\", \"billing_details\", \"total_billable_hours\", \"total_billable_amount\", \"section_break_18\", \"note\", \"amended_from\", \"billing_tab\", \"total_costing_amount\", \"base_total_billable_amount\", \"base_total_costing_amount\", \"column_break_10\", \"total_billed_hours\", \"total_billed_amount\", \"base_total_billed_amount\", \"per_billed\"]"
   },
   {
    "doc_type": "Timesheet",
@@ -193,7 +193,7 @@
    "doctype_or_field": "DocField",
    "property": "in_list_view",
    "property_type": "Check",
-   "value": "1",
+   "value": "0",
    "field_name": "end_date"
   },
   {
@@ -257,6 +257,54 @@
    "property": "label",
    "property_type": "Data",
    "value": "Billable Hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "110",
+   "field_name": "status"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "210",
+   "field_name": "start_date"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "220",
+   "field_name": "parent_project"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "80",
+   "field_name": "total_hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "110",
+   "field_name": "total_billable_hours"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:doc.currency && doc.currency !== frappe.defaults.get_default('currency')",
+   "field_name": "currency"
   }
  ],
  "sync_on_migrate": 1
