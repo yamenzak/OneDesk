@@ -129,10 +129,6 @@ def next_depreciation(doc):
 	}
 
 
-def where(doc):
-	return doc.location or {"value": _("Nowhere yet"), "tone": "waiting"}
-
-
 def next_service(doc):
 	"""Only equipment marked Maintenance Required has a service to be due."""
 	service = _asset(doc.name)["service"]
@@ -148,12 +144,6 @@ def next_service(doc):
 		"tone": "alarm" if getdate(service.due_date) < getdate(today()) else None,
 		"route": f"/desk/asset-maintenance-log/{quote(service.name)}",
 	}
-
-
-def who_has_it(doc):
-	if not doc.custodian:
-		return {"value": _("Nobody"), "tone": "quiet", "route": None}
-	return _asset(doc.name)["custodian_name"] or doc.custodian
 
 
 # ------------------------------------------------------------------ a warehouse
@@ -417,30 +407,6 @@ def request_asked_by(doc):
 	return frappe.utils.get_fullname(doc.owner)
 
 
-def request_wanted(doc):
-	return _wanted(doc.schedule_date, doc.docstatus != 1 or flt(doc.per_received) >= 100 or doc.status in ("Stopped", "Cancelled"))
-
-
-def request_quotes(doc):
-	"""The quotes suppliers sent for it, opening the request that asked them."""
-	asked = frappe.get_all(
-		"Request for Quotation Item",
-		filters={"material_request": doc.name, "docstatus": ["<", 2]},
-		pluck="parent",
-		distinct=True,
-	)
-	if not asked:
-		return None
-	quotes = frappe.get_all(
-		"Supplier Quotation Item",
-		filters={"request_for_quotation": ["in", asked], "docstatus": ["<", 2]},
-		pluck="parent",
-		distinct=True,
-	)
-	value = _("{0} of {1}").format(len(quotes), len(_asked(asked[0]))) if len(asked) == 1 else str(len(quotes))
-	return {"value": value, "route": f"/desk/request-for-quotation/{quote(asked[0])}"}
-
-
 @request_cache
 def _asked(rfq: str) -> list:
 	return frappe.get_all("Request for Quotation Supplier", filters={"parent": rfq}, pluck="supplier")
@@ -542,14 +508,411 @@ def order_total(doc):
 	return _total(doc)
 
 
-def order_wanted(doc):
-	"""The earliest day goods still to come are wanted."""
-	waiting = [row.schedule_date for row in doc.items if flt(row.received_qty) < flt(row.qty)]
-	if doc.docstatus != 1 or doc.status in ("Closed", "On Hold", "Completed"):
-		return formatdate(doc.schedule_date) if doc.schedule_date else None
-	if not waiting:
+def _paid(doc) -> float:
+	"""What has been paid on an order: what was paid ahead, and what its
+	submitted bills no longer owe."""
+	bills = frappe.get_all(
+		"Purchase Invoice Item",
+		filters={"purchase_order": doc.name, "docstatus": 1},
+		pluck="parent",
+		distinct=True,
+	)
+	paid = flt(doc.advance_paid)
+	for bill in frappe.get_all(
+		"Purchase Invoice", filters={"name": ["in", bills or [""]]}, fields=["grand_total", "outstanding_amount"]
+	):
+		paid += flt(bill.grand_total) - flt(bill.outstanding_amount)
+	return min(paid, flt(doc.grand_total))
+
+
+# A document that moves through stages says where it stands in a sentence
+# and a track, as Shopify's order page does; the band keeps only what the
+# form does not already say.
+
+
+def _step(label: str, state: str, note: str = "") -> dict:
+	"""One stage on a track: done, the one it is at (now, or late), or next."""
+	return {"label": label, "state": state, "note": note}
+
+
+def _track(*steps) -> dict:
+	return {"value": "", "steps": [one for one in steps if one]}
+
+
+def _at(done: bool, started: bool, late: bool = False) -> str:
+	return "done" if done else "late" if late else "now" if started else "next"
+
+
+def _days(count: int) -> str:
+	return _("1 day") if count == 1 else _("{0} days").format(count)
+
+
+def _overdue(day) -> int:
+	"""How many days ago a day passed, or nothing when it has not."""
+	return max((getdate(today()) - getdate(day)).days, 0) if day else 0
+
+
+def _share(value) -> str:
+	return _("{0}% so far").format(round(flt(value))) if flt(value) else ""
+
+
+def _draft(doc, what: str) -> dict | None:
+	if doc.docstatus == 0:
+		return {"text": what, "colour": "blue"}
+	if doc.docstatus == 2:
+		return {"text": _("Cancelled; it counts for nothing."), "colour": "gray"}
+	return None
+
+
+# ------------------------------------------------------------------ an order
+
+
+def order_progress(doc):
+	"""Ordered, received, billed, paid."""
+	if doc.docstatus != 1:
 		return None
-	return _wanted(min(waiting), False)
+	money = lambda value: fmt_money(value, currency=doc.currency)  # noqa: E731
+	lines = list(doc.items)
+	arrived = sum(1 for row in lines if flt(row.received_qty) >= flt(row.qty))
+	received = flt(doc.per_received) >= 100
+	billed = flt(doc.per_billed) >= 100
+	paid = _paid(doc)
+	total = flt(doc.grand_total)
+	settled = paid >= total - 0.005
+	waiting = [row.schedule_date for row in lines if flt(row.received_qty) < flt(row.qty)]
+	late = bool(waiting) and bool(_overdue(min(waiting))) and doc.status not in ("Closed", "On Hold")
+	# One thing to a note: a sum and a date side by side reorder around an
+	# Arabic currency sign.
+	return _track(
+		_step(_("Ordered"), "done", formatdate(doc.transaction_date)),
+		_step(
+			_("Received"),
+			_at(received, True, late),
+			_("All in")
+			if received
+			else _("{0} of {1} lines in").format(arrived, len(lines))
+			if arrived
+			else _("Late since {0}").format(formatdate(min(waiting)))
+			if late
+			else _("Due {0}").format(formatdate(min(waiting))),
+		),
+		_step(_("Billed"), _at(billed, received or flt(doc.per_billed)), money(total) if billed else _share(doc.per_billed)),
+		_step(
+			_("Paid"),
+			_at(settled, billed or paid),
+			_("In full") if settled else _("{0} left").format(money(total - paid)) if billed or paid else "",
+		),
+	)
+
+
+def order_said(doc):
+	supplier = doc.supplier_name or doc.supplier
+	if said := _draft(doc, _("A draft. Submit it to order from {0}.").format(supplier)):
+		return said
+	if doc.status in ("Closed", "On Hold"):
+		return {"text": _("{0}; nothing more is expected on it.").format(_(doc.status)), "colour": "gray"}
+	waiting = [row.schedule_date for row in doc.items if flt(row.received_qty) < flt(row.qty)]
+	if waiting:
+		day = min(waiting)
+		if (days := _overdue(day)) and not flt(doc.per_received):
+			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, _days(days)), "colour": "red"}
+		if days:
+			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, _days(days)), "colour": "red"}
+		return {"text": _("Waiting for {0}; wanted by {1}.").format(supplier, formatdate(day)), "colour": "blue"}
+	if flt(doc.per_billed) < 100:
+		return {"text": _("Everything is in; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
+	paid = _paid(doc)
+	if paid < flt(doc.grand_total) - 0.005:
+		left = fmt_money(flt(doc.grand_total) - paid, currency=doc.currency)
+		return {"text": _("Received and billed; {0} is still to pay.").format(left), "colour": "orange"}
+	return {"text": _("Received, billed and paid."), "colour": "green"}
+
+
+# ------------------------------------------------------------------ a request
+
+
+def _request_quotes(doc) -> tuple[int, int]:
+	"""How many suppliers were asked to quote for it, and how many did."""
+	asked = frappe.get_all(
+		"Request for Quotation Item",
+		filters={"material_request": doc.name, "docstatus": ["<", 2]},
+		pluck="parent",
+		distinct=True,
+	)
+	if not asked:
+		return 0, 0
+	quotes = frappe.get_all(
+		"Supplier Quotation Item",
+		filters={"request_for_quotation": ["in", asked], "docstatus": ["<", 2]},
+		pluck="parent",
+		distinct=True,
+	)
+	return sum(len(_asked(one)) for one in asked), len(quotes)
+
+
+def request_progress(doc):
+	"""Asked, then quoted, ordered and received when it is to buy; moved,
+	issued or made for the rest."""
+	if doc.docstatus != 1:
+		return None
+	kind = doc.material_request_type
+	done = flt(doc.per_ordered) >= 100
+	late = bool(_overdue(doc.schedule_date))
+	asked = _step(_("Asked"), "done", formatdate(doc.transaction_date))
+	if kind == "Purchase":
+		suppliers, quotes = _request_quotes(doc)
+		received = flt(doc.per_received) >= 100
+		return _track(
+			asked,
+			suppliers
+			and _step(
+				_("Quoted"),
+				_at(quotes >= suppliers or flt(doc.per_ordered), True),
+				_("{0} of {1} answered").format(quotes, suppliers),
+			),
+			_step(_("Ordered"), _at(done, True, late and not flt(doc.per_ordered)), _("All") if done else _share(doc.per_ordered)),
+			_step(_("Received"), _at(received, flt(doc.per_ordered), late and done), _("All in") if received else _share(doc.per_received)),
+		)
+	if kind == "Manufacture":
+		made = flt(doc.per_received) >= 100
+		return _track(
+			asked,
+			_step(_("Work Order"), _at(done, True), _("All") if done else _share(doc.per_ordered)),
+			_step(_("Made"), _at(made, flt(doc.per_ordered), late), _("All") if made else _share(doc.per_received)),
+		)
+	if kind == "Customer Provided":
+		return _track(asked, _step(_("Received"), _at(done, True, late), _("All in") if done else _share(doc.per_ordered)))
+	moved = _("Issued") if kind == "Material Issue" else _("Moved")
+	return _track(asked, _step(moved, _at(done, True, late), _("All") if done else _share(doc.per_ordered)))
+
+
+def request_said(doc):
+	if said := _draft(doc, _("A draft. Submit it to ask for these.")):
+		return said
+	if doc.status in ("Stopped", "Cancelled"):
+		return {"text": _("Stopped; nothing more will be done on it."), "colour": "gray"}
+	kind = doc.material_request_type
+	days = _overdue(doc.schedule_date)
+	ordered, received = flt(doc.per_ordered), flt(doc.per_received)
+	if kind == "Purchase":
+		if received >= 100:
+			return {"text": _("Ordered and received."), "colour": "green"}
+		if ordered >= 100:
+			if days:
+				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(_days(days)), "colour": "red"}
+			return {"text": _("Ordered; waiting for the goods."), "colour": "blue"}
+		if days:
+			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(_days(days)), "colour": "red"}
+		suppliers, quotes = _request_quotes(doc)
+		if ordered:
+			return {"text": _("Part is ordered; the rest is still to order."), "colour": "orange"}
+		if quotes:
+			return {"text": _("{0} of {1} suppliers have quoted. Order from the best.").format(quotes, suppliers), "colour": "orange"}
+		if suppliers:
+			return {"text": _("Waiting for {0} suppliers to quote.").format(suppliers), "colour": "blue"}
+		return {"text": _("Nothing ordered yet. Ask for quotes or order it."), "colour": "orange"}
+	if kind == "Manufacture":
+		if received >= 100:
+			return {"text": _("Made."), "colour": "green"}
+		if ordered:
+			return {"text": _("Being made."), "colour": "red" if days else "blue"}
+		return {"text": _("No work order yet. Make one to start."), "colour": "red" if days else "orange"}
+	if ordered >= 100:
+		return {"text": _("Done."), "colour": "green"}
+	if days:
+		return {"text": _("Not done yet, and it was wanted {0} ago.").format(_days(days)), "colour": "red"}
+	return {"text": _("Wanted by {0}.").format(formatdate(doc.schedule_date)), "colour": "blue"}
+
+
+# ------------------------------------------------------------------ a receipt and a delivery
+
+
+def _ordered_on(doctype: str, names) -> str:
+	names = list(dict.fromkeys(one for one in names if one))
+	if len(names) != 1:
+		return _("{0} orders").format(len(names)) if names else ""
+	return formatdate(frappe.db.get_value(doctype, names[0], "transaction_date"))
+
+
+def receipt_progress(doc):
+	"""Ordered (when it was), received, billed."""
+	if doc.docstatus != 1 or doc.is_return:
+		return None
+	orders = [row.purchase_order for row in doc.items if row.get("purchase_order")]
+	billed = flt(doc.per_billed) >= 100
+	return _track(
+		orders and _step(_("Ordered"), "done", _ordered_on("Purchase Order", orders)),
+		_step(_("Received"), "done", formatdate(doc.posting_date)),
+		_step(_("Billed"), _at(billed, True), _("All") if billed else _share(doc.per_billed)),
+	)
+
+
+def receipt_said(doc):
+	supplier = doc.supplier_name or doc.supplier
+	if said := _draft(doc, _("A draft. Submit it to put these into stock.")):
+		return said
+	if doc.is_return:
+		return {"text": _("Goods sent back to {0}.").format(supplier), "colour": "gray"}
+	if any(flt(row.rejected_qty) for row in doc.items):
+		return {"text": _("Some were rejected. Send them back to {0}.").format(supplier), "colour": "red"}
+	if flt(doc.per_billed) < 100:
+		return {"text": _("In stock; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
+	return {"text": _("In stock and billed."), "colour": "green"}
+
+
+def delivery_progress(doc):
+	"""Ordered (when it was), delivered, billed."""
+	if doc.docstatus != 1 or doc.is_return:
+		return None
+	orders = [row.against_sales_order for row in doc.items if row.get("against_sales_order")]
+	billed = flt(doc.per_billed) >= 100
+	return _track(
+		orders and _step(_("Ordered"), "done", _ordered_on("Sales Order", orders)),
+		_step(_("Delivered"), "done", formatdate(doc.posting_date)),
+		_step(_("Billed"), _at(billed, True), _("All") if billed else _share(doc.per_billed)),
+	)
+
+
+def delivery_said(doc):
+	customer = doc.customer_name or doc.customer
+	if said := _draft(doc, _("A draft. Submit it to take these out of stock for {0}.").format(customer)):
+		return said
+	if doc.is_return:
+		return {"text": _("Goods {0} sent back.").format(customer), "colour": "gray"}
+	if flt(doc.per_returned):
+		return {"text": _("{0}% of it came back.").format(round(flt(doc.per_returned))), "colour": "orange"}
+	if flt(doc.per_billed) < 100:
+		return {"text": _("Delivered to {0}; not billed yet.").format(customer), "colour": "orange"}
+	return {"text": _("Delivered and billed."), "colour": "green"}
+
+
+# ------------------------------------------------------------------ making
+
+
+def work_progress(doc):
+	"""Planned, materials sent, the steps, made."""
+	if doc.docstatus != 1:
+		return None
+	made = flt(doc.produced_qty) >= flt(doc.qty)
+	late = not made and bool(_overdue(doc.expected_delivery_date))
+	sent = flt(doc.material_transferred_for_manufacturing)
+	unit = _(doc.stock_uom or "")
+	steps = len(doc.operations)
+	finished = sum(1 for row in doc.operations if row.status == "Completed")
+	return _track(
+		_step(_("Planned"), "done", formatdate(doc.planned_start_date)),
+		not doc.skip_transfer
+		and _step(
+			_("Materials Sent"),
+			_at(sent >= flt(doc.qty), True, late and not sent),
+			_("All on the floor") if sent >= flt(doc.qty) else _share(100 * sent / flt(doc.qty)) if flt(doc.qty) else "",
+		),
+		steps
+		and _step(_("Steps"), _at(finished >= steps, sent or doc.skip_transfer), _("{0} of {1}").format(finished, steps)),
+		_step(
+			_("Made"),
+			_at(made, flt(doc.produced_qty) or (not steps and (sent or doc.skip_transfer)), late),
+			_("{0} of {1} {2}").format(fmt_money(flt(doc.produced_qty), precision=0), fmt_money(flt(doc.qty), precision=0), unit).strip(),
+		),
+	)
+
+
+def work_said(doc):
+	what = doc.item_name or doc.production_item
+	if said := _draft(doc, _("A draft. Submit it to plan making {0}.").format(what)):
+		return said
+	if doc.status in ("Stopped", "Closed"):
+		return {"text": _("{0}; nothing more will be made on it.").format(_(doc.status)), "colour": "gray"}
+	if doc.status == "Completed":
+		return {"text": _("All made."), "colour": "green"}
+	days = _overdue(doc.expected_delivery_date)
+	if days:
+		return {"text": _("Not finished, and it was wanted {0} ago.").format(_days(days)), "colour": "red"}
+	if not doc.skip_transfer and not flt(doc.material_transferred_for_manufacturing):
+		return {"text": _("Send the materials to the floor to start."), "colour": "orange"}
+	if doc.expected_delivery_date:
+		return {"text": _("Being made; wanted by {0}.").format(formatdate(doc.expected_delivery_date)), "colour": "blue"}
+	return {"text": _("Being made."), "colour": "blue"}
+
+
+def sub_progress(doc):
+	"""Ordered, materials sent, back."""
+	if doc.docstatus != 1:
+		return None
+	wanted = sum(flt(row.required_qty) for row in doc.supplied_items)
+	sent = sum(flt(row.supplied_qty) for row in doc.supplied_items)
+	back = flt(doc.per_received) >= 100
+	late = not back and bool(_overdue(doc.schedule_date))
+	return _track(
+		_step(_("Ordered"), "done", formatdate(doc.transaction_date)),
+		wanted
+		and _step(_("Materials Sent"), _at(sent >= wanted, True, late and not sent), _("All") if sent >= wanted else _share(100 * sent / wanted)),
+		_step(_("Back"), _at(back, sent or not wanted, late and bool(sent)), _("All") if back else _share(doc.per_received)),
+	)
+
+
+def sub_said(doc):
+	supplier = doc.supplier_name or doc.supplier
+	if said := _draft(doc, _("A draft. Submit it to send work to {0}.").format(supplier)):
+		return said
+	if doc.status == "Closed":
+		return {"text": _("Closed; nothing more is expected on it."), "colour": "gray"}
+	if flt(doc.per_received) >= 100:
+		return {"text": _("All back from {0}.").format(supplier), "colour": "green"}
+	days = _overdue(doc.schedule_date)
+	if doc.status in ("Open", "Partial Material Transferred"):
+		return {"text": _("Send the materials to {0} to start.").format(supplier), "colour": "red" if days else "orange"}
+	if days:
+		return {"text": _("With {0}, and it was wanted back {1} ago.").format(supplier, _days(days)), "colour": "red"}
+	if doc.schedule_date:
+		return {"text": _("With {0}; wanted back by {1}.").format(supplier, formatdate(doc.schedule_date)), "colour": "blue"}
+	return {"text": _("With {0}.").format(supplier), "colour": "blue"}
+
+
+def bom_said(doc):
+	what = doc.item_name or doc.item
+	if said := _draft(doc, _("A draft. Submit it to make {0} from it.").format(what)):
+		return said
+	if not doc.is_active:
+		return {"text": _("Not in use; new work orders cannot pick it."), "colour": "gray"}
+	if doc.is_default:
+		return {"text": _("New work orders for {0} use this one.").format(what), "colour": "green"}
+	default = frappe.db.get_value("BOM", {"item": doc.item, "is_default": 1, "docstatus": 1}, "name")
+	if default:
+		return {"text": _("In use, but new work orders for {0} pick {1}.").format(what, default), "colour": "orange"}
+	return {"text": _("In use, and no BOM for {0} is the default.").format(what), "colour": "orange"}
+
+
+# ------------------------------------------------------------------ equipment
+
+
+def asset_said(doc):
+	if said := _draft(doc, _("A draft. Submit it to put it in use.")):
+		return said
+	if doc.status in ("Sold", "Scrapped"):
+		day = doc.get("disposal_date")
+		said = _("Sold on {0}.") if doc.status == "Sold" else _("Scrapped on {0}.")
+		return {"text": said.format(formatdate(day)) if day else _(doc.status), "colour": "gray"}
+	if doc.status in ("Out of Order", "In Maintenance"):
+		if doc.status == "In Maintenance":
+			return {"text": _("Being serviced."), "colour": "orange"}
+		return {"text": _("Out of order; it cannot be used until it is mended."), "colour": "red"}
+	service = _asset(doc.name)["service"]
+	if service and (days := _overdue(service.due_date)):
+		return {"text": _("{0} was due {1} ago.").format(service.task_name, _days(days)), "colour": "red"}
+	holder = _asset(doc.name)["custodian_name"] or doc.custodian
+	where = doc.location
+	if doc.status == "Fully Depreciated":
+		said = _("Written off to nothing, and still in use.")
+	elif holder and where:
+		said = _("In use by {0}, at {1}.").format(holder, where)
+	elif holder:
+		said = _("In use by {0}.").format(holder)
+	elif where:
+		said = _("At {0}; nobody has it.").format(where)
+	else:
+		said = _("In use.")
+	return {"text": said, "colour": "gray" if doc.status == "Fully Depreciated" else "green"}
 
 
 def order_blanket(doc):
@@ -662,26 +1025,6 @@ def _of(made, wanted, unit) -> dict:
 	return {"value": f"{said} {_(unit or '')}".strip(), "meter": {"value": flt(made), "of": flt(wanted)}}
 
 
-def work_made(doc):
-	return _of(doc.produced_qty, doc.qty, doc.stock_uom)
-
-
-def work_materials(doc):
-	"""Whether the materials are on the floor for it."""
-	if doc.skip_transfer or doc.docstatus != 1:
-		return None
-	sent = flt(doc.material_transferred_for_manufacturing)
-	if not sent:
-		return {"value": _("Not sent yet"), "tone": "quiet"}
-	if sent >= flt(doc.qty):
-		return _("All on the floor")
-	return _("For {0} of {1}").format(fmt_money(sent, precision=0), fmt_money(flt(doc.qty), precision=0))
-
-
-def work_wanted(doc):
-	return _wanted(doc.expected_delivery_date, doc.docstatus != 1 or doc.status in ("Completed", "Closed", "Stopped"))
-
-
 def work_for(doc):
 	"""Who it is made for: the customer's order, or whoever asked for it."""
 	if doc.sales_order:
@@ -740,16 +1083,6 @@ def card_by(doc):
 	if len(names) > 1:
 		return _("{0} people").format(len(names))
 	return frappe.db.get_value("Employee", names[0], "employee_name") or names[0]
-
-
-def sent_out(doc):
-	"""How much of the materials the subcontractor needs has gone to them."""
-	wanted = sum(flt(row.required_qty) for row in doc.supplied_items)
-	if not wanted:
-		return None
-	sent = sum(flt(row.supplied_qty) for row in doc.supplied_items)
-	units = {row.stock_uom for row in doc.supplied_items}
-	return _of(sent, wanted, units.pop() if len(units) == 1 else "")
 
 
 def sub_order(doc):
@@ -952,9 +1285,7 @@ MEASURES = {
 	"asset.depreciation": depreciation,
 	"asset.written_off": written_off,
 	"asset.next_depreciation": next_depreciation,
-	"asset.where": where,
 	"asset.next_service": next_service,
-	"asset.who_has_it": who_has_it,
 	"batch.left": batch_left,
 	"batch.expires": batch_expires,
 	"batch.came_from": batch_came_from,
@@ -977,8 +1308,6 @@ MEASURES = {
 	"count.items": count_items,
 	"count.where": count_where,
 	"request.asked_by": request_asked_by,
-	"request.wanted": request_wanted,
-	"request.quotes": request_quotes,
 	"rfq.request": rfq_request,
 	"rfq.answered": rfq_answered,
 	"rfq.cheapest": rfq_cheapest,
@@ -987,15 +1316,25 @@ MEASURES = {
 	"quote.cheapest": quote_cheapest,
 	"quote.ordered": quote_ordered,
 	"order.total": order_total,
-	"order.wanted": order_wanted,
+	"order.progress": order_progress,
+	"order.said": order_said,
+	"material.progress": request_progress,
+	"material.said": request_said,
+	"receipt.progress": receipt_progress,
+	"receipt.said": receipt_said,
+	"delivery.progress": delivery_progress,
+	"delivery.said": delivery_said,
+	"work.progress": work_progress,
+	"work.said": work_said,
+	"sub.progress": sub_progress,
+	"sub.said": sub_said,
+	"bom.said": bom_said,
+	"asset.said": asset_said,
 	"order.blanket": order_blanket,
 	"blanket.party": blanket_party,
 	"blanket.runs": blanket_runs,
 	"blanket.ordered": blanket_ordered,
 	"blanket.orders": blanket_orders,
-	"work.made": work_made,
-	"work.materials": work_materials,
-	"work.wanted": work_wanted,
 	"work.for": work_for,
 	"bom.cost": bom_cost,
 	"bom.orders": bom_orders,
@@ -1004,7 +1343,6 @@ MEASURES = {
 	"card.done": card_done,
 	"card.time": card_time,
 	"card.by": card_by,
-	"sub.sent": sent_out,
 	"sub.order": sub_order,
 	"handover.what": handed_what,
 	"handover.to": handed_to,
@@ -1124,25 +1462,18 @@ HEADS = [
 	},
 	{
 		"doctype": "Asset",
+		"sentences": [{"measure": "asset.said"}],
 		"band": [
 			{"label": _lt("Worth Now"), "source": "Measure", "measure": "asset.worth_now"},
 			{"label": _lt("Cost"), "source": "Measure", "measure": "asset.cost"},
 			{"label": _lt("Depreciation"), "source": "Measure", "measure": "asset.depreciation"},
 			{"label": _lt("Written Off"), "source": "Measure", "measure": "asset.written_off"},
 			{"label": _lt("Next Depreciation"), "source": "Measure", "measure": "asset.next_depreciation"},
-			{"label": _lt("Where"), "source": "Measure", "measure": "asset.where"},
 			{
 				"label": _lt("Next Service"),
 				"source": "Measure",
 				"measure": "asset.next_service",
 				"shown_when": [["maintenance_required", "=", 1]],
-			},
-			{
-				"label": _lt("Who Has It"),
-				"source": "Measure",
-				"measure": "asset.who_has_it",
-				"shown_when": SUBMITTED,
-				"route": "/desk/employee/{{ doc.custodian }}",
 			},
 			{
 				"label": _lt("Repairs"),
@@ -1203,46 +1534,27 @@ HEADS = [
 	},
 	{
 		"doctype": "Purchase Order",
+		# Where it stands and what is next, as Shopify's order page says it: a
+		# sentence, then a track from ordered to paid, then what it is for.
+		"sentences": [{"measure": "order.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "order.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Total"), "source": "Measure", "measure": "order.total"},
-			{"label": _lt("Wanted By"), "source": "Measure", "measure": "order.wanted"},
+			{"label": _lt("Total"), "source": "Measure", "measure": "order.total", "shown_when": [["docstatus", "=", 0]]},
 			{"label": _lt("Agreed On"), "source": "Measure", "measure": "order.blanket"},
-			{
-				"label": _lt("Received"),
-				"source": "Field",
-				"field": "per_received",
-				"shown_when": [["docstatus", "=", 1]],
-			},
-			{
-				"label": _lt("Billed"),
-				"source": "Field",
-				"field": "per_billed",
-				"shown_when": [["docstatus", "=", 1]],
-			},
 		],
 	},
+
 	{
 		"doctype": "Material Request",
+		"sentences": [{"measure": "material.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "material.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Asked By"), "source": "Measure", "measure": "request.asked_by"},
-			{"label": _lt("Wanted By"), "source": "Measure", "measure": "request.wanted"},
-			{"label": _lt("Quotes"), "source": "Measure", "measure": "request.quotes"},
-			{
-				"label": _lt("Ordered"),
-				"source": "Field",
-				"field": "per_ordered",
-				"shown_when": [["docstatus", "=", 1], ["material_request_type", "=", "Purchase"]],
-			},
-			{
-				"label": _lt("Received"),
-				"source": "Field",
-				"field": "per_received",
-				"shown_when": [["docstatus", "=", 1], ["material_request_type", "=", "Purchase"]],
-			},
 		],
 	},
+
 	{
 		"doctype": "Request for Quotation",
 		"band": [
@@ -1274,41 +1586,29 @@ HEADS = [
 	},
 	{
 		"doctype": "Purchase Receipt",
+		"sentences": [{"measure": "receipt.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "receipt.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Order"), "source": "Measure", "measure": "receipt.order"},
 			{"label": _lt("Worth"), "source": "Measure", "measure": "receipt.worth"},
 			{"label": _lt("Landed Costs"), "source": "Measure", "measure": "receipt.landed"},
 			{"label": _lt("Rejected"), "source": "Measure", "measure": "receipt.rejected"},
-			{
-				"label": _lt("Billed"),
-				"source": "Field",
-				"field": "per_billed",
-				"shown_when": [["docstatus", "=", 1], ["is_return", "=", 0]],
-			},
 		],
 	},
+
 	{
 		"doctype": "Delivery Note",
+		"sentences": [{"measure": "delivery.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "delivery.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Order"), "source": "Measure", "measure": "delivery.order"},
 			{"label": _lt("Total"), "source": "Measure", "measure": "delivery.total"},
 			{"label": _lt("Trip"), "source": "Measure", "measure": "delivery.trip"},
-			{
-				"label": _lt("Billed"),
-				"source": "Field",
-				"field": "per_billed",
-				"shown_when": [["docstatus", "=", 1], ["is_return", "=", 0]],
-			},
-			{
-				"label": _lt("Returned"),
-				"source": "Field",
-				"field": "per_returned",
-				"shown_when": [["per_returned", ">", 0]],
-			},
 		],
 	},
+
 	{
 		"doctype": "Stock Entry",
 		"band": [
@@ -1328,23 +1628,24 @@ HEADS = [
 	},
 	{
 		"doctype": "Work Order",
+		"sentences": [{"measure": "work.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "work.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("For"), "source": "Measure", "measure": "work.for"},
-			{"label": _lt("Made"), "source": "Measure", "measure": "work.made", "shown_when": SUBMITTED},
-			{"label": _lt("Materials"), "source": "Measure", "measure": "work.materials"},
-			{"label": _lt("Wanted By"), "source": "Measure", "measure": "work.wanted"},
 		],
 	},
+
 	{
 		"doctype": "BOM",
+		"sentences": [{"measure": "bom.said"}],
 		"band": [
-			{"label": _lt("Makes"), "source": "Field", "field": "item_name"},
 			{"label": _lt("Cost Each"), "source": "Measure", "measure": "bom.cost"},
 			{"label": _lt("Steps"), "source": "Measure", "measure": "bom.steps"},
 			{"label": _lt("Work Orders"), "source": "Measure", "measure": "bom.orders", "shown_when": SUBMITTED},
 		],
 	},
+
 	{
 		"doctype": "Job Card",
 		"band": [
@@ -1357,14 +1658,14 @@ HEADS = [
 	},
 	{
 		"doctype": "Subcontracting Order",
+		"sentences": [{"measure": "sub.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "sub.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("With"), "source": "Field", "field": "supplier_name"},
 			{"label": _lt("Total"), "source": "Field", "field": "total"},
-			{"label": _lt("Materials Sent"), "source": "Measure", "measure": "sub.sent", "shown_when": SUBMITTED},
-			{"label": _lt("Received"), "source": "Field", "field": "per_received", "shown_when": SUBMITTED},
 		],
 	},
+
 	{
 		"doctype": "Subcontracting Receipt",
 		"band": [

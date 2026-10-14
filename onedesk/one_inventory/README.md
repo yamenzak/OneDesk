@@ -1084,8 +1084,7 @@ a register and a movement form in it would be a rail with five rows.
   reads on opening.
 - `heads.py`, `tell.py`, `access.py` and `ready.py` on buying. A material
   request, a request for quotation, a supplier quotation and a blanket order
-  each have a head, and a purchase order's says its total and when it is
-  wanted. Who is cheapest is read line by line in the company's money
+  each have a head. Who is cheapest is read line by line in the company's money
   (`_quoted`, `base_rate`), so a quote in euros compares, and an expired
   quote never counts. `tell.orders_late`, daily, tells whoever made an order
   whose stock or asset lines are past their date and not all received, once
@@ -1099,6 +1098,16 @@ a register and a movement form in it would be a rail with five rows.
   then refused for. A request for quotation's title is its number, where
   ERPNext titles it with the company's name. One Blanket Order prints the
   agreement for the supplier.
+- `heads.py` — where a document stands. A purchase order, a material
+  request, a receipt, a delivery, a work order and work sent out each open
+  on a sentence saying what is next, coloured by how urgent it is (late is
+  red), then a track of their stages, Ordered → Received → Billed → Paid on
+  an order, each done, the one it is at, late or still to come
+  (`*.progress`, drawn by `band.steps`). A BOM and an asset have the
+  sentence alone. Modelled on Shopify's order page. The band keeps only what
+  the form does not already say: the project, the order it came from, what
+  it is worth. A note on a step says one thing, as a sum and a date side by
+  side reorder around an Arabic currency sign.
 - `making.py`, `heads.py` (Work Order, BOM, Job Card, Subcontracting Order
   and Receipt), `tell.work_done`, `print_format/one_work_order`, `ready.py`
   and the five `custom/` lists — making. The work order form fetches its

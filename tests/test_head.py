@@ -118,6 +118,17 @@ def test_every_head_names_only_registered_measures_and_verbs():
 					)
 
 
+def test_no_two_spaces_register_one_name():
+	"""The registries merge into one dict, so a second module's name would
+	quietly replace the first's on every record that names it."""
+	for hook in ("one_measures", "one_verbs", "one_charts"):
+		seen: dict = {}
+		for path in _hook(hook):
+			for key in _declared(path).keys:
+				assert key.value not in seen, f"{key.value} is registered by {seen[key.value]} and {path}"
+				seen[key.value] = path
+
+
 def test_a_verb_says_whom_it_is_for_when_and_what_it_does():
 	for path in _hook("one_verbs"):
 		for key, verb in zip(_declared(path).keys, _declared(path).values, strict=True):

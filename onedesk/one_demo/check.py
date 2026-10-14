@@ -5677,6 +5677,36 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 
 
 @check
+def oneinventory_a_documents_head_says_where_it_stands():
+	"""Every stores document Karim opens says what is next in a sentence, and
+	one that moves through stages draws them: Al Noor's late order in red with
+	its Received step late, a paid order in green with every step done."""
+	from onedesk.one import head
+
+	tracked = {"Purchase Order", "Material Request", "Purchase Receipt", "Delivery Note", "Work Order", "Subcontracting Order"}
+	with as_user("karim@one.test"):
+		for doctype in sorted(tracked | {"BOM", "Asset"}):
+			record = frappe.get_doc("Record Head", doctype)
+			for name in frappe.get_all(doctype, filters={"docstatus": 1}, pluck="name", limit=20):
+				document = frappe.get_doc(doctype, name)
+				said = head.said(document, record)
+				assert said["sentence"] and said["sentence"]["text"], (doctype, name)
+				# A return is the goods going back, with no stages of its own.
+				if doctype in tracked and not document.get("is_return"):
+					steps = next((one["steps"] for one in said["band"] if one.get("steps")), None)
+					assert steps and all(step["state"] in ("done", "now", "late", "next") for step in steps), (doctype, name, said["band"])
+		record = frappe.get_doc("Record Head", "Purchase Order")
+		late = frappe.get_all("Purchase Order", filters={"docstatus": 1, "per_received": 0, "status": ["not in", ["Closed", "On Hold"]], "schedule_date": ["<", today()]}, pluck="name")
+		assert late
+		said = head.said(frappe.get_doc("Purchase Order", late[0]), record)
+		assert said["sentence"]["colour"] == "red", said["sentence"]
+		assert [step["state"] for step in said["band"][0]["steps"]][:2] == ["done", "late"], said["band"][0]
+		paid = frappe.get_all("Purchase Order", filters={"docstatus": 1, "status": "Completed"}, pluck="name")
+		finished = [one for one in (head.said(frappe.get_doc("Purchase Order", name), record) for name in paid) if one["sentence"]["colour"] == "green"]
+		assert finished and all(step["state"] == "done" for step in finished[0]["band"][0]["steps"]), finished[:1]
+
+
+@check
 def oneinventory_buying_from_request_to_order():
 	"""Buying, as Rania, Karim, a supplier on the portal and Huda do it. Rania
 	asked for sealant, anchors and gaskets for the villa, Al Noor and Emirates
@@ -5707,11 +5737,11 @@ def oneinventory_buying_from_request_to_order():
 	ordered = {row.item_code: frappe.db.get_value("Purchase Order", row.parent, "supplier") for row in frappe.get_all("Purchase Order Item", filters={"material_request": asked.name, "docstatus": 1}, fields=["item_code", "parent"])}
 	assert ordered == {code: frappe.db.get_value("Supplier", {"supplier_name": name}) for code, name in cheapest.items()}
 	assert heads.rfq_cheapest(rfq)["value"] == "Split between 2" and heads.rfq_answered(rfq)["value"] == "2 of 2"
-	assert heads.quote_cheapest(portal)["value"] == "1 of 3 lines" and heads.request_quotes(asked)["value"] == "2 of 2"
+	assert heads.quote_cheapest(portal)["value"] == "1 of 3 lines" and heads._request_quotes(asked) == (2, 2)
 
 	# Al Noor is late, Karim is told once, and closed orders and services are not late.
 	late = frappe.get_doc("Purchase Order", frappe.db.get_value("Purchase Order Item", {"material_request": asked.name, "item_code": "FIX-ANCH", "docstatus": 1}, "parent"))
-	assert heads.order_wanted(late)["tone"] == "alarm"
+	assert heads.order_said(late)["colour"] == "red"
 	named = {one.name for one in tell.late()}
 	assert late.name in named
 	closed = frappe.get_all("Purchase Order", filters={"status": "Closed"}, pluck="name")
@@ -5819,8 +5849,9 @@ def oneinventory_making_from_bill_to_finished_goods():
 	# The tower's windows are cut, and twelve of thirty assembled and made. The
 	# rest is still to do, not lost.
 	going = frappe.get_doc("Work Order", {"project": tower, "docstatus": 1})
-	assert going.status == "In Process" and heads.work_made(going)["value"] == "12 of 30 Nos"
-	assert heads.work_materials(going) == "All on the floor"
+	steps = {step["label"]: step for step in heads.work_progress(going)["steps"]}
+	assert going.status == "In Process" and steps["Made"]["note"] == "12 of 30 Nos"
+	assert steps["Materials Sent"]["note"] == "All on the floor" and steps["Materials Sent"]["state"] == "done"
 	steps = {one.operation: one for one in frappe.get_all("Job Card", filters={"work_order": going.name, "docstatus": 1}, fields=["operation", "total_completed_qty", "process_loss_qty"])}
 	assert steps["Cutting"].total_completed_qty == 30 and steps["Assembly"].total_completed_qty == 12 and not steps["Assembly"].process_loss_qty
 
@@ -5857,7 +5888,7 @@ def oneinventory_making_from_bill_to_finished_goods():
 
 	# The villa's profile went out to be coated and came back.
 	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1, "project": villa})
-	assert sent.project == villa and sent.status == "Completed" and heads.sent_out(sent)["meter"]["value"] == 300
+	assert sent.project == villa and sent.status == "Completed" and {step["label"]: step["state"] for step in heads.sub_progress(sent)["steps"]} == {"Ordered": "done", "Materials Sent": "done", "Back": "done"}
 	back = frappe.get_doc("Subcontracting Receipt", frappe.db.get_value("Subcontracting Receipt Item", {"subcontracting_order": sent.name, "docstatus": 1}, "parent"))
 	assert heads.sub_order(back)["value"] == sent.name
 	assert frappe.db.get_value("Purchase Order", sent.purchase_order, "status") == "To Bill"

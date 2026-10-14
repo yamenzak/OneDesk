@@ -12649,3 +12649,38 @@ from it.
 
 OneInventory's walk is done: every screen on its rail has been looked at,
 fixed and pushed, and the atlas has nothing waiting in its modules.
+
+**Document heads.** After the walk, the head of every document that moves
+through stages. Looked at as Karim on a late, a part-received and a paid
+purchase order, then a request, a receipt, a delivery, two work orders, work
+sent out, a BOM and two assets, at 1440 wide and on a phone.
+
+- **The band said what the form says.** A purchase order's head was Total,
+  Wanted By, Project, Billed and Received as percentages, wrapping onto two
+  rows, all of it in the form below. Nobody read it. A document now opens
+  on a sentence saying what is next, in the colour of how urgent it is:
+  "Nothing has come from Al Noor Aluminium, and it was wanted 2 days ago" in
+  red, "Everything is in; the bill from Gulf Glass Industries is still to
+  come" in orange, "Received, billed and paid" in green. Under it, the
+  document's stages as a track, Ordered → Received → Billed → Paid, each
+  done, the one it is at, or late in red, with a short note ("1 of 2 lines
+  in", "Late since 12-10-2026", "In full"); two by two on a phone. Then only
+  what the form does not already say. Modelled on Shopify's order page.
+- The same for a material request (Asked → Quoted → Ordered → Received, or
+  Work Order → Made, or Moved), a receipt and a delivery (Ordered →
+  Received or Delivered → Billed), a work order (Planned → Materials Sent →
+  Steps → Made) and work sent out (Ordered → Materials Sent → Back). A BOM
+  says whether new work orders pick it, and an asset who has it and where,
+  or that its service is overdue.
+- **A clash nobody saw.** `request.said` was already OneAdmin's, for an
+  account request, and the registries merge into one dict, so the second
+  quietly replaced the first. The material request's are `material.*`, and
+  `test_no_two_spaces_register_one_name` refuses a second.
+- The demo check `oneinventory_a_documents_head_says_where_it_stands` reads
+  every stores document's head back.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | A sentence and a track, not a band of fields |
+| 8 Built from frappe | frappe's headline alert and our band, with steps |
+

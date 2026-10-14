@@ -13,6 +13,7 @@ frappe.provide("onedesk.band");
 // `extra.note` is a line under the value, as HTML the caller has escaped.
 onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 	const esc = frappe.utils.escape_html;
+	if (extra.steps) return onedesk.band.steps(extra.steps);
 	// A time since is sent as the moment and said here, the way the desk says
 	// every other: "yesterday", "3 days ago".
 	// `short` says it the way the clock does ("5 d").
@@ -29,6 +30,27 @@ onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 		onedesk.band.meter(extra.meter);
 	const cls = `one-stat${tone ? " one-stat-" + tone : ""}`;
 	return route ? `<a class="${cls}" href="${route}">${inner}</a>` : `<span class="${cls}">${inner}</span>`;
+};
+
+// Where a record stands, as a track across the band's width, modelled on
+// Shopify's order page: each step done (a tick), the one it is at, late (in
+// red), or still to come, with what it means under its name.
+onedesk.band.steps = (steps) => {
+	const esc = frappe.utils.escape_html;
+	const ICON = { done: "check", now: "dot", late: "alert-circle", next: "dot" };
+	return (
+		`<ol class="one-steps">` +
+		steps
+			.map(
+				(step) =>
+					`<li class="one-step one-step-${esc(step.state)}">` +
+					`<span class="one-step-mark">${step.state === "done" || step.state === "late" ? frappe.utils.icon(ICON[step.state], "xs") : ""}</span>` +
+					`<span class="one-step-text"><span class="one-step-label">${esc(step.label)}</span>` +
+					`<span class="one-step-note">${esc(step.note || "")}</span></span></li>`
+			)
+			.join("") +
+		`</ol>`
+	);
 };
 
 // How a number changed against the period before. `better` says which way is

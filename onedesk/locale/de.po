@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 08:44+0000\n"
+"POT-Creation-Date: 2026-10-14 09:12+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -79,7 +79,7 @@ msgstr "1 Kostenposten, {0}"
 #: frontend/src/template/Tasks.vue:126
 #: frontend/src/template/TemplatePage.vue:88
 #: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one/settings.py:803
-#: onedesk/one_inventory/heads.py:860
+#: onedesk/one_inventory/heads.py:547 onedesk/one_inventory/heads.py:1193
 msgid "1 day"
 msgstr "1 Tag"
 
@@ -224,7 +224,7 @@ msgstr "8 Stunden"
 msgid "91 to 180 Days"
 msgstr "91 bis 180 Tage"
 
-#: onedesk/public/js/band.js:43
+#: onedesk/public/js/band.js:65
 msgid "999+"
 msgstr "999+"
 
@@ -552,6 +552,38 @@ msgstr "Bei einem Dokument ohne Ablaufdatum, etwa einer Geburtsurkunde, bleibt d
 #: onedesk/one_admin/hosts.py:84
 msgid "A domain is at most {0} characters."
 msgstr "Eine Domain hat höchstens {0} Zeichen."
+
+#: onedesk/one_inventory/heads.py:690
+msgid "A draft. Submit it to ask for these."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese anzufordern."
+
+#: onedesk/one_inventory/heads.py:874
+msgid "A draft. Submit it to make {0} from it."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um daraus {0} zu fertigen."
+
+#: onedesk/one_inventory/heads.py:610
+msgid "A draft. Submit it to order from {0}."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um bei {0} zu bestellen."
+
+#: onedesk/one_inventory/heads.py:822
+msgid "A draft. Submit it to plan making {0}."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um die Fertigung von {0} zu planen."
+
+#: onedesk/one_inventory/heads.py:890
+msgid "A draft. Submit it to put it in use."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um es in Gebrauch zu nehmen."
+
+#: onedesk/one_inventory/heads.py:752
+msgid "A draft. Submit it to put these into stock."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese einzulagern."
+
+#: onedesk/one_inventory/heads.py:856
+msgid "A draft. Submit it to send work to {0}."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um Arbeit an {0} zu vergeben."
+
+#: onedesk/one_inventory/heads.py:778
+msgid "A draft. Submit it to take these out of stock for {0}."
+msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese für {0} auszulagern."
 
 #: onedesk/one_storage/dav.py:271
 msgid "A drive"
@@ -1319,7 +1351,7 @@ msgstr "Über dem Mindestbestand"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:219
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:177
-#: onedesk/public/js/band.js:175
+#: onedesk/public/js/band.js:197
 msgid "Absent"
 msgstr "Abwesend"
 
@@ -2214,7 +2246,7 @@ msgstr "Jetzt zustimmen"
 msgid "Agreed"
 msgstr "Zugestimmt"
 
-#: onedesk/one_inventory/heads.py:1210
+#: onedesk/one_inventory/heads.py:1544
 msgid "Agreed On"
 msgstr "Rahmenvertrag"
 
@@ -2252,6 +2284,10 @@ msgstr "Vereinbarungen"
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_inventory/heads.py:673 onedesk/one_inventory/heads.py:680
+#: onedesk/one_inventory/heads.py:681 onedesk/one_inventory/heads.py:686
+#: onedesk/one_inventory/heads.py:746 onedesk/one_inventory/heads.py:772
+#: onedesk/one_inventory/heads.py:849 onedesk/one_inventory/heads.py:850
 #: onedesk/public/js/item_list.js:10 onedesk/public/js/settings.js:1399
 msgid "All"
 msgstr "Alle"
@@ -2321,6 +2357,10 @@ msgstr "Alle Arbeitsaufträge"
 msgid "All agreements"
 msgstr "Alle Vereinbarungen"
 
+#: onedesk/one_inventory/heads.py:861
+msgid "All back from {0}."
+msgstr "Alles ist von {0} zurück."
+
 #: onedesk/public/js/doctype_settings.js:1095
 msgid "All conditions must match. Leave empty to always apply."
 msgstr "Alle Bedingungen müssen zutreffen. Leer lassen, um immer anzuwenden."
@@ -2337,6 +2377,15 @@ msgstr "Ganztägig"
 msgid "All holidays are already in the list."
 msgstr "Alle Feiertage sind bereits in der Liste."
 
+#: onedesk/one_inventory/heads.py:591 onedesk/one_inventory/heads.py:674
+#: onedesk/one_inventory/heads.py:684
+msgid "All in"
+msgstr "Alles da"
+
+#: onedesk/one_inventory/heads.py:827
+msgid "All made."
+msgstr "Alles gefertigt."
+
 #: onedesk/public/js/settings.js:318
 msgid "All notifications appear in One."
 msgstr "Alle Benachrichtigungen erscheinen in One."
@@ -2346,7 +2395,7 @@ msgstr "Alle Benachrichtigungen erscheinen in One."
 msgid "All of these"
 msgstr "Alle davon"
 
-#: onedesk/one_inventory/heads.py:677
+#: onedesk/one_inventory/heads.py:808
 msgid "All on the floor"
 msgstr "Alles in der Werkstatt"
 
@@ -2759,7 +2808,7 @@ msgstr "Antwort"
 
 #: frontend/src/quotes/RequestRows.vue:11
 #: frontend/src/quotes/RequestRows.vue:28
-#: frontend/src/quotes/RequestRows.vue:70 onedesk/one_inventory/heads.py:1251
+#: frontend/src/quotes/RequestRows.vue:70 onedesk/one_inventory/heads.py:1563
 #: onedesk/public/js/crm_record.js:90
 msgid "Answered"
 msgstr "Angenommen"
@@ -3134,7 +3183,7 @@ msgstr "Sind wir im günstigsten Tarif?"
 msgid "Area"
 msgstr "Fläche"
 
-#: onedesk/one_inventory/heads.py:1322
+#: onedesk/one_inventory/heads.py:1622
 msgid "Arrived"
 msgstr "Eingegangen"
 
@@ -3318,7 +3367,7 @@ msgid "Ask {1} for invoice {0}"
 msgstr "Bei {1} die Rechnung {0} anfordern"
 
 #: frontend/src/quotes/QuotesPage.vue:104
-#: frontend/src/quotes/RequestRows.vue:12
+#: frontend/src/quotes/RequestRows.vue:12 onedesk/one_inventory/heads.py:661
 #: onedesk/one_studio/doctype/extension/extension.js:138
 msgid "Asked"
 msgstr "Angefragt"
@@ -3328,7 +3377,7 @@ msgstr "Angefragt"
 #. Label of the asked_by_name (Data) field in DocType 'Extension'
 #. Label of the asked_by (Link) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_inventory/heads.py:1229
+#: onedesk/one_inventory/heads.py:1554
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Asked By"
@@ -3349,7 +3398,7 @@ msgstr "Angefragt, noch nicht bestellt"
 
 #. Label of the asked_on (Datetime) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/one_inventory/heads.py:1259
+#: onedesk/one_inventory/heads.py:1571
 msgid "Asked On"
 msgstr "Angefragt am"
 
@@ -3415,8 +3464,8 @@ msgstr "Rahmen montieren"
 #: frontend/src/upkeep/UpkeepRows.vue:11 frontend/src/upkeep/UpkeepRows.vue:52
 #: frontend/src/upkeep/UpkeepRows.vue:83 frontend/src/upkeep/UpkeepRows.vue:112
 #: onedesk/one_inventory/custom/asset_maintenance_log.json
-#: onedesk/one_inventory/heads.py:1389 onedesk/one_inventory/heads.py:1398
-#: onedesk/one_inventory/heads.py:1407 onedesk/one_inventory/heads.py:1415
+#: onedesk/one_inventory/heads.py:1690 onedesk/one_inventory/heads.py:1699
+#: onedesk/one_inventory/heads.py:1708 onedesk/one_inventory/heads.py:1716
 msgid "Asset"
 msgstr ""
 
@@ -3455,7 +3504,7 @@ msgstr "Anlagenwertanpassungen"
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryStory.vue:92
 #: frontend/src/item/ItemOverview.vue:27 frontend/src/item/ItemPage.vue:249
-#: onedesk/one_inventory/heads.py:1082 onedesk/one_inventory/home.py:146
+#: onedesk/one_inventory/heads.py:1420 onedesk/one_inventory/home.py:146
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Assets"
 msgstr "Anlagen"
@@ -3542,6 +3591,10 @@ msgstr "Seit {0} am Ende seiner Lebensdauer"
 #: onedesk/one/settings.py:819
 msgid "At the foot of every mail the workspace sends. Leave it empty for none."
 msgstr "Am Ende jeder E-Mail, die der Arbeitsbereich sendet. Leer lassen für keine."
+
+#: onedesk/one_inventory/heads.py:912
+msgid "At {0}; nobody has it."
+msgstr "In {0}; niemand hat es."
 
 #: onedesk/one_admin/home.py:121 onedesk/one_admin/home.py:305
 msgid "At: {0}"
@@ -3850,7 +3903,8 @@ msgid "B"
 msgstr "B"
 
 #: frontend/src/sent_out/OutRows.vue:13 frontend/src/sent_out/OutRows.vue:96
-#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/public/js/onecloud.js:116
+#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one_inventory/heads.py:850
+#: onedesk/public/js/onecloud.js:116
 msgid "Back"
 msgstr "Zurück"
 
@@ -4118,6 +4172,18 @@ msgstr "In Fertigung"
 msgid "Being built"
 msgstr "Wird aufgebaut"
 
+#: onedesk/one_inventory/heads.py:718 onedesk/one_inventory/heads.py:835
+msgid "Being made."
+msgstr "Wird gefertigt."
+
+#: onedesk/one_inventory/heads.py:834
+msgid "Being made; wanted by {0}."
+msgstr "Wird gefertigt; benötigt bis {0}."
+
+#: onedesk/one_inventory/heads.py:898
+msgid "Being serviced."
+msgstr "Wird gewartet."
+
 #: onedesk/one/heads.py:15 onedesk/one/heads.py:16
 msgid "Being set up"
 msgstr "Wird eingerichtet"
@@ -4271,8 +4337,8 @@ msgstr "Abrechenbar nach Meilensteinen"
 #: onedesk/one_crm/heads.py:236
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:182
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
-#: onedesk/one_inventory/heads.py:1218 onedesk/one_inventory/heads.py:1284
-#: onedesk/one_inventory/heads.py:1299 onedesk/one_project/custom/project.json
+#: onedesk/one_inventory/heads.py:599 onedesk/one_inventory/heads.py:746
+#: onedesk/one_inventory/heads.py:772 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/heads.py:218 onedesk/one_project/money.py:171
 msgid "Billed"
@@ -4720,7 +4786,7 @@ msgstr "Einkauf, Verkauf und Lager"
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:19
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
-#: onedesk/one_inventory/heads.py:1355
+#: onedesk/one_inventory/heads.py:1656
 msgid "By"
 msgstr "Nach"
 
@@ -4849,7 +4915,7 @@ msgstr "Anruf erfasst"
 msgid "Calls"
 msgstr "Aufrufe"
 
-#: onedesk/one_inventory/heads.py:1171
+#: onedesk/one_inventory/heads.py:1502
 msgid "Came From"
 msgstr "Herkunft"
 
@@ -4948,6 +5014,10 @@ msgstr "Löschung abbrechen"
 #: onedesk/public/js/contract_list.js:11
 msgid "Cancelled"
 msgstr "Abgesagt"
+
+#: onedesk/one_inventory/heads.py:563
+msgid "Cancelled; it counts for nothing."
+msgstr "Storniert; es zählt nicht."
 
 #: onedesk/one_admin/steps.py:62
 msgid "Cancelling its subscription in Stripe"
@@ -5061,7 +5131,7 @@ msgstr "Zeugnis"
 
 #. Label of the change (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_inventory/heads.py:1418
+#: onedesk/one_inventory/heads.py:1719
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:24
 #: onedesk/public/js/settings.js:1802 onedesk/www/account_profile.html:37
 msgid "Change"
@@ -5223,11 +5293,11 @@ msgstr "{0} mahnen"
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:52
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:128
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:138
-#: onedesk/one_inventory/heads.py:1252
+#: onedesk/one_inventory/heads.py:1564
 msgid "Cheapest"
 msgstr "Am günstigsten"
 
-#: onedesk/one_inventory/heads.py:1262
+#: onedesk/one_inventory/heads.py:1574
 msgid "Cheapest On"
 msgstr "Am günstigsten bei"
 
@@ -5680,6 +5750,10 @@ msgstr "Auf Ihren Wunsch geschlossen."
 #: onedesk/one_admin/accounts.py:170
 msgid "Closed at your request. It will be deleted on {0}. Reply to our email to keep it."
 msgstr "Auf Ihren Wunsch geschlossen. Er wird am {0} gelöscht. Antworten Sie auf unsere E-Mail, um ihn zu behalten."
+
+#: onedesk/one_inventory/heads.py:859
+msgid "Closed; nothing more is expected on it."
+msgstr "Geschlossen; darauf wird nichts mehr erwartet."
 
 #: onedesk/one_crm/heads.py:214 onedesk/one_project/ai.py:579
 msgid "Closes"
@@ -6450,7 +6524,7 @@ msgstr "Korrektur"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:168
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
 #: onedesk/one_admin/report/price_check/price_check.py:113
-#: onedesk/one_inventory/heads.py:1129 onedesk/one_inventory/heads.py:1409
+#: onedesk/one_inventory/heads.py:1468 onedesk/one_inventory/heads.py:1710
 #: onedesk/one_project/heads.py:217
 msgid "Cost"
 msgstr "Kosten"
@@ -6466,7 +6540,7 @@ msgstr "Kostenstelle"
 msgid "Cost Centers"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1343
+#: onedesk/one_inventory/heads.py:1643
 msgid "Cost Each"
 msgstr "Kosten pro Stück"
 
@@ -7637,13 +7711,21 @@ msgstr "Lieferung zur Baustelle"
 #: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:240
 #: onedesk/one/portal.py:241 onedesk/one/portal.py:242
 #: onedesk/one/portal.py:249 onedesk/one_crm/heads.py:230
-#: onedesk/one_project/money.py:153
+#: onedesk/one_inventory/heads.py:771 onedesk/one_project/money.py:153
 msgid "Delivered"
 msgstr "Geliefert"
 
 #: onedesk/one/print_blocks.py:157 onedesk/one/print_blocks.py:159
 msgid "Delivered By"
 msgstr "Geliefert von"
+
+#: onedesk/one_inventory/heads.py:786
+msgid "Delivered and billed."
+msgstr "Geliefert und berechnet."
+
+#: onedesk/one_inventory/heads.py:785
+msgid "Delivered to {0}; not billed yet."
+msgstr "An {0} geliefert; noch nicht berechnet."
 
 #: frontend/src/item/ItemStock.vue:79
 msgid "Delivered {0}"
@@ -7722,7 +7804,7 @@ msgstr "Bereitgestellte Worker"
 msgid "Deploying it in Frappe Cloud updates every workspace on it."
 msgstr "Die Bereitstellung in Frappe Cloud aktualisiert jeden Arbeitsbereich darauf."
 
-#: onedesk/one_inventory/heads.py:1130 onedesk/one_inventory/home.py:184
+#: onedesk/one_inventory/heads.py:1469 onedesk/one_inventory/home.py:184
 msgid "Depreciation"
 msgstr "Abschreibung"
 
@@ -7870,7 +7952,7 @@ msgstr "Geräte-ID"
 #. Item'
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:178
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json
-#: onedesk/one_inventory/heads.py:1427
+#: onedesk/one_inventory/heads.py:1728
 msgid "Difference"
 msgstr "Differenz"
 
@@ -8118,7 +8200,7 @@ msgstr "Wartende Domains"
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/page/intake/intake.js:28
-#: onedesk/one_inventory/heads.py:1353
+#: onedesk/one_inventory/heads.py:1654
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/heads.py:215 onedesk/one_project/portal.py:14
 #: onedesk/one_task/doctype/task_step/task_step.json
@@ -8127,7 +8209,7 @@ msgstr "Wartende Domains"
 msgid "Done"
 msgstr "Erledigt"
 
-#: onedesk/one_inventory/heads.py:1400
+#: onedesk/one_inventory/heads.py:1701
 msgid "Done By"
 msgstr "Erledigt von"
 
@@ -8142,6 +8224,7 @@ msgid "Done When"
 msgstr "Erledigt, wenn"
 
 #: onedesk/one/head.py:481 onedesk/one_ai/suggest.py:92
+#: onedesk/one_inventory/heads.py:721
 msgid "Done."
 msgstr "Erledigt."
 
@@ -8370,7 +8453,7 @@ msgstr "Verworfen"
 #: onedesk/one/portal.py:335 onedesk/one_admin/accounts.py:217
 #: onedesk/one_book/heads.py:324
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_inventory/heads.py:1399 onedesk/one_project/heads.py:216
+#: onedesk/one_inventory/heads.py:1700 onedesk/one_project/heads.py:216
 #: onedesk/public/js/settings.js:1745 onedesk/public/js/task_new.js:41
 msgid "Due"
 msgstr "Fällig"
@@ -8430,7 +8513,7 @@ msgstr "Morgen fällig"
 #: frontend/src/project/Invoices.vue:57 frontend/src/project/Overview.vue:317
 #: frontend/src/project/Overview.vue:353 frontend/src/project/Suppliers.vue:70
 #: frontend/src/project/Suppliers.vue:117
-#: frontend/src/sent_out/SentOutPage.vue:106
+#: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one_inventory/heads.py:597
 msgid "Due {0}"
 msgstr "Fällig am {0}"
 
@@ -8840,7 +8923,7 @@ msgstr "Emirat"
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:144
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_inventory/heads.py:1047 onedesk/public/js/floor_actions.js:33
+#: onedesk/one_inventory/heads.py:1385 onedesk/public/js/floor_actions.js:33
 #: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "Mitarbeiter"
@@ -9050,7 +9133,7 @@ msgid "End of Service"
 msgstr "Dienstende"
 
 #: frontend/src/lots/SerialRows.vue:33 frontend/src/project/Overview.vue:451
-#: onedesk/one_inventory/heads.py:575 onedesk/public/js/settings.js:2988
+#: onedesk/one_inventory/heads.py:938 onedesk/public/js/settings.js:2988
 msgid "Ended"
 msgstr "Beendet"
 
@@ -9158,7 +9241,7 @@ msgstr "Gebäudehülle"
 
 #. Label in the One Equipment Handover print format
 #: frontend/src/home/InventoryStory.vue:86 onedesk/one_hr/heads.py:656
-#: onedesk/one_inventory/heads.py:1380 onedesk/one_inventory/home.py:19
+#: onedesk/one_inventory/heads.py:1681 onedesk/one_inventory/home.py:19
 #: onedesk/one_inventory/home.py:29 onedesk/one_inventory/home.py:72
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_actions.js:20 onedesk/public/js/item_list.js:14
@@ -9546,6 +9629,10 @@ msgstr "Alles freigegeben"
 msgid "Everything in the workspace, {size}, is ready to download from Plan and Credits: the database, every record as a spreadsheet, and every file. {missing}"
 msgstr "Alles im Arbeitsbereich, {size}, steht unter „Tarif und Guthaben“ zum Herunterladen bereit: die Datenbank, jeder Datensatz als Tabelle und jede Datei. {missing}"
 
+#: onedesk/one_inventory/heads.py:623
+msgid "Everything is in; the bill from {0} is still to come."
+msgstr "Alles ist da; die Rechnung von {0} steht noch aus."
+
 #: frontend/src/check/CheckList.vue:11
 msgid "Everything is set up"
 msgstr "Alles ist eingerichtet"
@@ -9690,7 +9777,7 @@ msgid "Expired"
 msgstr "Abgelaufen"
 
 #: frontend/src/item/ItemOverview.vue:98
-#: frontend/src/quotes/QuoteCompare.vue:81 onedesk/one_inventory/heads.py:509
+#: frontend/src/quotes/QuoteCompare.vue:81 onedesk/one_inventory/heads.py:475
 msgid "Expired {0}"
 msgstr "Abgelaufen am {0}"
 
@@ -9698,7 +9785,7 @@ msgstr "Abgelaufen am {0}"
 msgid "Expired, Still in Stock"
 msgstr "Abgelaufen, noch auf Lager"
 
-#: onedesk/one_intake/calendar.py:174 onedesk/one_inventory/heads.py:1170
+#: onedesk/one_intake/calendar.py:174 onedesk/one_inventory/heads.py:1501
 msgid "Expires"
 msgstr "Läuft ab"
 
@@ -10522,7 +10609,7 @@ msgstr ""
 #. Label of the label (Data) field in DocType 'Cloud Drive Password'
 #: onedesk/one/print_blocks.py:114
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:9
-#: onedesk/one_inventory/heads.py:1333
+#: onedesk/one_inventory/heads.py:1635
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 #: onedesk/public/js/doctype_settings.js:540
 msgid "For"
@@ -10601,10 +10688,6 @@ msgstr "Für deine Organisation"
 #: onedesk/one/print_blocks.py:168 onedesk/one/print_blocks.py:169
 msgid "For {0}"
 msgstr "Für {0}"
-
-#: onedesk/one_inventory/heads.py:678
-msgid "For {0} of {1}"
-msgstr "Für {0} von {1}"
 
 #: frontend/src/item/ItemMaking.vue:19
 msgid "For {0}, {1} of materials and {2} of steps, {3} in all"
@@ -10722,7 +10805,7 @@ msgstr "Kostenlose Testphase (Tage)"
 msgid "Free for {0} days"
 msgstr "{0} Tage kostenlos"
 
-#: frontend/src/item/ItemPage.vue:242 onedesk/one_inventory/heads.py:1106
+#: frontend/src/item/ItemPage.vue:242 onedesk/one_inventory/heads.py:1444
 msgid "Free to Sell"
 msgstr "Frei verkäuflich"
 
@@ -10749,7 +10832,7 @@ msgstr "Freitag"
 #: onedesk/one_intake/bundle.py:76 onedesk/one_intake/panel.py:125
 #: onedesk/one_intake/report/deadlines/deadlines.js:8
 #: onedesk/one_inventory/custom/stock_entry.json
-#: onedesk/one_inventory/heads.py:1317 onedesk/one_inventory/heads.py:1381
+#: onedesk/one_inventory/heads.py:1617 onedesk/one_inventory/heads.py:1682
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
@@ -10798,7 +10881,7 @@ msgstr "Von Adresse"
 msgid "From contains \"{0}\""
 msgstr "Von enthält \"{0}\""
 
-#: onedesk/public/js/band.js:171
+#: onedesk/public/js/band.js:193
 msgid "From home"
 msgstr "Von zuhause"
 
@@ -10946,7 +11029,7 @@ msgstr "Kontaktformular"
 msgid "Get the contract signed"
 msgstr "Vertrag unterschreiben lassen"
 
-#: onedesk/one_inventory/heads.py:1041
+#: onedesk/one_inventory/heads.py:1379
 msgid "Give"
 msgstr "Geben"
 
@@ -10956,11 +11039,11 @@ msgid "Give Credits"
 msgstr "Guthaben vergeben"
 
 #. Label of the one_for (Small Text) field in DocType 'Task'
-#: onedesk/one_inventory/heads.py:1040 onedesk/one_task/custom/task.json
+#: onedesk/one_inventory/heads.py:1378 onedesk/one_task/custom/task.json
 msgid "Give To"
 msgstr "Geben an"
 
-#: onedesk/one_inventory/heads.py:1039
+#: onedesk/one_inventory/heads.py:1377
 msgid "Give To…"
 msgstr "Geben an…"
 
@@ -11029,7 +11112,7 @@ msgstr "Von One gutgeschrieben"
 msgid "Given by {0}."
 msgstr "Vergeben von {0}."
 
-#: onedesk/one_inventory/heads.py:1053
+#: onedesk/one_inventory/heads.py:1391
 msgid "Given."
 msgstr "Übergeben."
 
@@ -11169,6 +11252,10 @@ msgstr "Waren, die das Lager, die Werkstatt oder ein Projekt anfordert."
 msgid "Goods checked on the way in, out or while made."
 msgstr "Waren, die beim Eingang, Ausgang oder in der Fertigung geprüft werden."
 
+#: onedesk/one_inventory/heads.py:755
+msgid "Goods sent back to {0}."
+msgstr "Ware an {0} zurückgeschickt."
+
 #: onedesk/one_inventory/home.py:107
 msgid "Goods sent out to customers."
 msgstr "An Kunden versandte Waren."
@@ -11176,6 +11263,10 @@ msgstr "An Kunden versandte Waren."
 #: onedesk/one_inventory/home.py:106
 msgid "Goods taken in from suppliers."
 msgstr "Von Lieferanten übernommene Waren."
+
+#: onedesk/one_inventory/heads.py:781
+msgid "Goods {0} sent back."
+msgstr "Ware, die {0} zurückgeschickt hat."
 
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:110
@@ -11358,15 +11449,15 @@ msgstr ""
 msgid "Half Day"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:120 onedesk/public/js/band.js:173
+#: onedesk/one_hr/presence.py:120 onedesk/public/js/band.js:195
 msgid "Half day"
 msgstr "Halbtags"
 
-#: onedesk/one_inventory/heads.py:1040
+#: onedesk/one_inventory/heads.py:1378
 msgid "Hand To Somebody Else"
 msgstr "An jemand anderen übergeben"
 
-#: onedesk/one_inventory/heads.py:1039
+#: onedesk/one_inventory/heads.py:1377
 msgid "Hand To…"
 msgstr "Übergeben an…"
 
@@ -11562,7 +11653,7 @@ msgstr "Gilt bis {0}"
 
 #: onedesk/one/settings.py:1564 onedesk/one/settings.py:1611
 #: onedesk/one_hr/employee.py:110 onedesk/one_hr/employee.py:257
-#: onedesk/one_hr/presence.py:151 onedesk/public/js/band.js:176
+#: onedesk/one_hr/presence.py:151 onedesk/public/js/band.js:198
 msgid "Holiday"
 msgstr "Feiertag"
 
@@ -12345,6 +12436,10 @@ msgstr "In Byte. Null heißt unbegrenzt."
 msgid "In every warehouse"
 msgstr "In allen Lagern"
 
+#: onedesk/one_inventory/heads.py:603
+msgid "In full"
+msgstr "Vollständig"
+
 #: onedesk/one/ai_setup.py:652
 msgid "In it"
 msgstr "Darin"
@@ -12360,6 +12455,14 @@ msgstr "In Pixeln."
 #: onedesk/one/ai.py:46
 msgid "In plain words, what have I and my organisation agreed to, and what does it mean for my data?"
 msgstr "In einfachen Worten: Wozu haben meine Organisation und ich zugestimmt, und was bedeutet das für meine Daten?"
+
+#: onedesk/one_inventory/heads.py:760
+msgid "In stock and billed."
+msgstr "Eingelagert und berechnet."
+
+#: onedesk/one_inventory/heads.py:759
+msgid "In stock; the bill from {0} is still to come."
+msgstr "Eingelagert; die Rechnung von {0} steht noch aus."
 
 #. Label of the one_deleted (Check) field in DocType 'File'
 #: onedesk/one_storage/custom/file.json
@@ -12388,6 +12491,26 @@ msgstr "Welche Anmeldungen sind in der letzten Woche fehlgeschlagen, und hat sic
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "In the subject or anywhere in the message."
 msgstr "Im Betreff oder irgendwo in der Nachricht."
+
+#: onedesk/one_inventory/heads.py:908
+msgid "In use by {0}, at {1}."
+msgstr "In Gebrauch bei {0}, in {1}."
+
+#: onedesk/one_inventory/heads.py:910
+msgid "In use by {0}."
+msgstr "In Gebrauch bei {0}."
+
+#: onedesk/one_inventory/heads.py:883
+msgid "In use, and no BOM for {0} is the default."
+msgstr "In Gebrauch, und keine Stückliste für {0} ist Standard."
+
+#: onedesk/one_inventory/heads.py:882
+msgid "In use, but new work orders for {0} pick {1}."
+msgstr "In Gebrauch, aber neue Arbeitsaufträge für {0} nehmen {1}."
+
+#: onedesk/one_inventory/heads.py:914
+msgid "In use."
+msgstr "In Gebrauch."
 
 #: onedesk/public/js/project_new.js:34
 msgid "In your templates"
@@ -12947,6 +13070,7 @@ msgstr "Lager ausgeben"
 #. Label of the issued_section (Section Break) field in DocType 'Employee
 #. Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+#: onedesk/one_inventory/heads.py:685
 msgid "Issued"
 msgstr ""
 
@@ -13125,7 +13249,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
-#: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:69
+#: onedesk/one_inventory/heads.py:1727 onedesk/one_inventory/home.py:69
 #: onedesk/one_inventory/home.py:104
 #: onedesk/one_inventory/page/item_view/item_view.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -13134,7 +13258,7 @@ msgstr ""
 msgid "Items"
 msgstr "Artikel"
 
-#: onedesk/one_inventory/heads.py:1184
+#: onedesk/one_inventory/heads.py:1515
 msgid "Items Held"
 msgstr "Gelagerte Artikel"
 
@@ -13356,7 +13480,7 @@ msgid "Kept"
 msgstr "Gespeichert"
 
 #. Label in the One Equipment Handover print format
-#: onedesk/one/print_blocks.py:380 onedesk/one_inventory/heads.py:1064
+#: onedesk/one/print_blocks.py:380 onedesk/one_inventory/heads.py:1402
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 msgid "Kept At"
 msgstr "Aufbewahrt in"
@@ -13499,7 +13623,7 @@ msgstr "Kennt"
 msgid "Label"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1281 onedesk/one_inventory/home.py:116
+#: onedesk/one_inventory/heads.py:1595 onedesk/one_inventory/home.py:116
 msgid "Landed Costs"
 msgstr "Anschaffungsnebenkosten"
 
@@ -13552,7 +13676,7 @@ msgstr "Letzte Rechnung"
 msgid "Last Billed"
 msgstr "Zuletzt abgerechnet"
 
-#: onedesk/one_inventory/heads.py:1117
+#: onedesk/one_inventory/heads.py:1455
 msgid "Last Bought"
 msgstr "Zuletzt gekauft"
 
@@ -13580,7 +13704,7 @@ msgstr "Letzter Kündigungstag"
 msgid "Last Day, in {0} days"
 msgstr "Letzter Tag, in {0} Tagen"
 
-#: onedesk/one_inventory/heads.py:1401
+#: onedesk/one_inventory/heads.py:1702
 msgid "Last Done"
 msgstr "Zuletzt erledigt"
 
@@ -13619,7 +13743,7 @@ msgstr "Zuletzt gelistet"
 msgid "Last Made"
 msgstr "Zuletzt gefertigt"
 
-#: onedesk/one_inventory/heads.py:1197
+#: onedesk/one_inventory/heads.py:1528
 msgid "Last Move"
 msgstr "Letzte Bewegung"
 
@@ -13772,7 +13896,7 @@ msgstr "Dauer (Tage)"
 #: frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:186
 #: onedesk/one_project/report/workload/workload.py:177
-#: onedesk/public/js/band.js:172
+#: onedesk/public/js/band.js:194
 msgid "Late"
 msgstr "Verspätet"
 
@@ -13796,7 +13920,8 @@ msgstr "Verspätete Bestellungen"
 msgid "Late from {0}"
 msgstr "Verspätet von {0}"
 
-#: onedesk/one_crm/heads.py:175 onedesk/one_inventory/heads.py:412
+#: onedesk/one_crm/heads.py:175 onedesk/one_inventory/heads.py:402
+#: onedesk/one_inventory/heads.py:595
 msgid "Late since {0}"
 msgstr "Überfällig seit {0}"
 
@@ -14057,7 +14182,7 @@ msgstr ""
 
 #: frontend/src/lots/LotRows.vue:14 frontend/src/project/Money.vue:43
 #: frontend/src/project/Money.vue:155 frontend/src/project/Overview.vue:216
-#: onedesk/one_inventory/heads.py:1164 onedesk/public/js/settings.js:2261
+#: onedesk/one_inventory/heads.py:1495 onedesk/public/js/settings.js:2261
 msgid "Left"
 msgstr "Übrig"
 
@@ -14740,7 +14865,7 @@ msgstr "Chargen verderblicher Waren mit ihren Daten."
 #: frontend/src/item/ItemPlaces.vue:15 frontend/src/stock/StockOnHand.vue:98
 #: frontend/src/stock/StockOnHand.vue:169
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/one_inventory/heads.py:1191 onedesk/public/js/item_list.js:63
+#: onedesk/one_inventory/heads.py:1522 onedesk/public/js/item_list.js:63
 msgid "Low"
 msgstr "Knapp"
 
@@ -14766,7 +14891,8 @@ msgstr "MB"
 #: frontend/src/floor/OrderRows.vue:12 frontend/src/home/InventoryStory.vue:165
 #: frontend/src/home/InventoryStory.vue:171 frontend/src/lots/LotRows.vue:11
 #: onedesk/one_inventory/custom/work_order.json
-#: onedesk/one_inventory/heads.py:1169 onedesk/one_inventory/heads.py:1334
+#: onedesk/one_inventory/heads.py:681 onedesk/one_inventory/heads.py:813
+#: onedesk/one_inventory/heads.py:1500
 msgid "Made"
 msgstr "Gefertigt"
 
@@ -14872,6 +14998,10 @@ msgstr "{0} angelegt"
 #: frontend/src/item/ItemMaking.vue:25
 msgid "Made, Last 12 Months"
 msgstr "Hergestellt, letzte 12 Monate"
+
+#: onedesk/one_inventory/heads.py:716
+msgid "Made."
+msgstr "Gefertigt."
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -15106,7 +15236,7 @@ msgid "Make {0} the main address? Sign-in, invitations and links in emails will 
 msgstr "{0} zur Hauptadresse machen? Anmeldung, Einladungen und Links in E-Mails verwenden sie."
 
 #. Label in the One Work Order print format
-#: frontend/src/sent_out/OutRows.vue:9 onedesk/one_inventory/heads.py:1342
+#: frontend/src/sent_out/OutRows.vue:9
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Makes"
 msgstr "Fertigt"
@@ -15396,13 +15526,12 @@ msgid "Material Requirements"
 msgstr "Materialbedarf"
 
 #. Label in the One Work Order print format
-#: onedesk/one_inventory/heads.py:1335
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/item_new.js:135
 msgid "Materials"
 msgstr "Material"
 
-#: onedesk/one_inventory/heads.py:1364
+#: onedesk/one_inventory/heads.py:806 onedesk/one_inventory/heads.py:849
 msgid "Materials Sent"
 msgstr "Material gesendet"
 
@@ -15843,7 +15972,7 @@ msgstr "Umzugswochenende"
 msgid "Move {0}"
 msgstr "{0} verschieben"
 
-#: onedesk/public/js/onemail.js:678
+#: onedesk/one_inventory/heads.py:685 onedesk/public/js/onemail.js:678
 msgid "Moved"
 msgstr "Verschoben"
 
@@ -16188,8 +16317,8 @@ msgstr "Netzwerk"
 msgid "Network and Location"
 msgstr "Netzwerk und Ort"
 
-#: onedesk/one_inventory/heads.py:81 onedesk/one_inventory/heads.py:239
-#: onedesk/one_inventory/heads.py:825 onedesk/public/js/settings.js:386
+#: onedesk/one_inventory/heads.py:81 onedesk/one_inventory/heads.py:229
+#: onedesk/one_inventory/heads.py:1158 onedesk/public/js/settings.js:386
 #: onedesk/public/js/settings.js:962
 msgid "Never"
 msgstr "Nie"
@@ -16447,6 +16576,10 @@ msgstr "Neue E-Mails kommen nicht an. Verbinden Sie es erneut mit seinem Passwor
 msgid "New premises chosen"
 msgstr "Neue Räume ausgewählt"
 
+#: onedesk/one_inventory/heads.py:879
+msgid "New work orders for {0} use this one."
+msgstr "Neue Arbeitsaufträge für {0} nutzen diese."
+
 #: onedesk/one_admin/home.py:362
 msgid "New workspaces can't be built until a server is added."
 msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzugefügt ist."
@@ -16487,7 +16620,7 @@ msgstr "Nächste 2 Wochen"
 msgid "Next 7 Days"
 msgstr "Nächste 7 Tage"
 
-#: onedesk/one_inventory/heads.py:1132
+#: onedesk/one_inventory/heads.py:1471
 msgid "Next Depreciation"
 msgstr "Nächste Abschreibung"
 
@@ -16504,11 +16637,11 @@ msgstr "Nächster Meilenstein"
 msgid "Next Run"
 msgstr "Nächster Lauf"
 
-#: onedesk/one_inventory/heads.py:1135 onedesk/one_inventory/heads.py:1390
+#: onedesk/one_inventory/heads.py:1473 onedesk/one_inventory/heads.py:1691
 msgid "Next Service"
 msgstr "Nächste Wartung"
 
-#: onedesk/one_inventory/heads.py:146 onedesk/one_inventory/heads.py:837
+#: onedesk/one_inventory/heads.py:142 onedesk/one_inventory/heads.py:1170
 msgid "Next Service · {0}"
 msgstr "Nächste Wartung · {0}"
 
@@ -17128,7 +17261,7 @@ msgstr "Noch keine Gehaltsabrechnungen für {0} bis {1}."
 msgid "No sales yet"
 msgstr "Noch keine Verkäufe"
 
-#: onedesk/one_inventory/heads.py:141
+#: onedesk/one_inventory/heads.py:137
 msgid "No schedule"
 msgstr "Kein Plan"
 
@@ -17244,6 +17377,10 @@ msgstr "Keine Benutzerberechtigungen"
 msgid "No variants"
 msgstr "Keine Varianten"
 
+#: onedesk/one_inventory/heads.py:719
+msgid "No work order yet. Make one to start."
+msgstr "Noch kein Arbeitsauftrag. Legen Sie einen an, um zu beginnen."
+
 #: onedesk/one_admin/heads.py:570
 msgid "No workspace called it this month."
 msgstr "Kein Arbeitsbereich hat es diesen Monat aufgerufen."
@@ -17272,7 +17409,7 @@ msgstr "Es ist kein {0}-Bucket eingerichtet."
 msgid "No."
 msgstr ""
 
-#: frontend/src/project/Time.vue:146 onedesk/one_inventory/heads.py:155
+#: frontend/src/project/Time.vue:146
 msgid "Nobody"
 msgstr "Niemand"
 
@@ -17309,7 +17446,7 @@ msgstr "Keine"
 msgid "None free"
 msgstr "Nichts frei"
 
-#: onedesk/one_inventory/heads.py:125 onedesk/one_inventory/heads.py:260
+#: onedesk/one_inventory/heads.py:125 onedesk/one_inventory/heads.py:250
 msgid "None left"
 msgstr "Nichts mehr da"
 
@@ -17322,7 +17459,7 @@ msgid "None planned"
 msgstr "Nichts geplant"
 
 #: onedesk/one_book/heads.py:198 onedesk/one_crm/heads.py:150
-#: onedesk/one_inventory/heads.py:732
+#: onedesk/one_inventory/heads.py:1075
 msgid "None yet"
 msgstr "Noch keiner"
 
@@ -17417,7 +17554,7 @@ msgstr "Nicht erfasst"
 msgid "Not Working"
 msgstr "Funktioniert nicht"
 
-#: frontend/src/item/ItemOverview.vue:65 onedesk/one_inventory/heads.py:1090
+#: frontend/src/item/ItemOverview.vue:65 onedesk/one_inventory/heads.py:1428
 msgid "Not Yet Registered"
 msgstr "Noch nicht erfasst"
 
@@ -17432,6 +17569,10 @@ msgstr "Kein Meilenstein"
 #: onedesk/public/js/settings.js:1056
 msgid "Not active recently"
 msgstr "In letzter Zeit nicht aktiv"
+
+#: onedesk/one_inventory/heads.py:705
+msgid "Not all ordered yet, and it was wanted {0} ago."
+msgstr "Noch nicht alles bestellt, und es wurde vor {0} benötigt."
 
 #: frontend/src/sent_out/SentOutPage.vue:93
 msgid "Not all sent yet"
@@ -17487,9 +17628,17 @@ msgstr "Noch nicht gezählt"
 msgid "Not deleted"
 msgstr "Nicht gelöscht"
 
+#: onedesk/one_inventory/heads.py:723
+msgid "Not done yet, and it was wanted {0} ago."
+msgstr "Noch nicht erledigt, und es wurde vor {0} benötigt."
+
 #: frontend/src/item/ItemMaking.vue:12
 msgid "Not enough {0} for one"
 msgstr "Nicht genug {0} für eins"
+
+#: onedesk/one_inventory/heads.py:830
+msgid "Not finished, and it was wanted {0} ago."
+msgstr "Nicht fertig, und es wurde vor {0} benötigt."
 
 #: onedesk/www/r.html:3 onedesk/www/s.html:3 onedesk/www/welcome.html:21
 msgid "Not found"
@@ -17508,6 +17657,10 @@ msgstr "Nicht im Dokument"
 msgid "Not in the document ({0})"
 msgstr "Nicht im Dokument ({0})"
 
+#: onedesk/one_inventory/heads.py:877
+msgid "Not in use; new work orders cannot pick it."
+msgstr "Nicht in Gebrauch; neue Arbeitsaufträge können sie nicht wählen."
+
 #: frontend/src/project/Months.vue:20
 msgid "Not invoiced"
 msgstr "Nicht fakturiert"
@@ -17524,7 +17677,7 @@ msgstr "Noch nirgends gelagert"
 msgid "Not mailed in this workspace."
 msgstr "Wird in diesem Workspace nicht gemailt."
 
-#: onedesk/public/js/band.js:231
+#: onedesk/public/js/band.js:253
 msgid "Not marked"
 msgstr "Nicht erfasst"
 
@@ -17532,7 +17685,7 @@ msgstr "Nicht erfasst"
 msgid "Not offered"
 msgstr "Nicht angeboten"
 
-#: onedesk/one_inventory/heads.py:303 onedesk/one_inventory/heads.py:357
+#: onedesk/one_inventory/heads.py:293 onedesk/one_inventory/heads.py:347
 msgid "Not ordered"
 msgstr "Nicht bestellt"
 
@@ -17572,10 +17725,6 @@ msgstr "Nicht selbst erfasst: {0}"
 #: onedesk/public/js/onemail.js:548
 msgid "Not saved, storage is full"
 msgstr "Nicht gespeichert, Speicher voll"
-
-#: onedesk/one_inventory/heads.py:675
-msgid "Not sent yet"
-msgstr "Noch nicht gesendet"
 
 #: frontend/src/project/Overview.vue:303 frontend/src/project/Overview.vue:309
 msgid "Not set"
@@ -17723,9 +17872,13 @@ msgstr "Danach kann niemand mehr etwas mit diesem oder früherem Datum erfassen,
 msgid "Nothing done yet"
 msgstr "Noch nichts erledigt"
 
-#: frontend/src/upkeep/UpkeepPage.vue:98 onedesk/one_inventory/heads.py:834
+#: frontend/src/upkeep/UpkeepPage.vue:98 onedesk/one_inventory/heads.py:1167
 msgid "Nothing due"
 msgstr "Nichts fällig"
+
+#: onedesk/one_inventory/heads.py:618
+msgid "Nothing has come from {0}, and it was wanted {1} ago."
+msgstr "Von {0} ist nichts gekommen, und es wurde vor {1} benötigt."
 
 #: onedesk/one_ai/heads.py:43
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
@@ -17768,6 +17921,10 @@ msgstr "Nichts bestellt"
 #: frontend/src/floor/ShopFloor.vue:49
 msgid "Nothing on the floor"
 msgstr "Nichts in der Werkstatt"
+
+#: onedesk/one_inventory/heads.py:713
+msgid "Nothing ordered yet. Ask for quotes or order it."
+msgstr "Noch nichts bestellt. Holen Sie Angebote ein oder bestellen Sie."
 
 #: frontend/src/sent_out/SentOutPage.vue:26
 msgid "Nothing out now"
@@ -17843,7 +18000,7 @@ msgstr "Es wurde nichts abgebucht"
 msgid "Nothing will be written to attendance."
 msgstr "Es wird keine Anwesenheit erfasst."
 
-#: onedesk/one_inventory/heads.py:866
+#: onedesk/one_inventory/heads.py:1199
 msgid "Nothing yet"
 msgstr "Noch nichts"
 
@@ -17913,17 +18070,13 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1417
+#: onedesk/one_inventory/heads.py:1718
 msgid "Now Worth"
 msgstr "Jetzt wert"
 
 #: onedesk/public/js/reports.js:403
 msgid "Nowhere"
 msgstr "Nirgends"
-
-#: onedesk/one_inventory/heads.py:133
-msgid "Nowhere yet"
-msgstr "Noch nirgends"
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -18111,7 +18264,7 @@ msgid "Old system closed"
 msgstr "Altsystem abgeschaltet"
 
 #: onedesk/one/ai.py:3853 onedesk/one/ai.py:4073 onedesk/one_ai/chat.py:749
-#: onedesk/one_inventory/heads.py:1383
+#: onedesk/one_inventory/heads.py:1684
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271 onedesk/public/js/settings.js:593
@@ -18136,7 +18289,7 @@ msgid "On Everyone's Calendar"
 msgstr "In allen Kalendern"
 
 #: frontend/src/item/ItemPage.vue:241 frontend/src/plant/PlantFloor.vue:69
-#: frontend/src/stock/StockOnHand.vue:31 onedesk/one_inventory/heads.py:1100
+#: frontend/src/stock/StockOnHand.vue:31 onedesk/one_inventory/heads.py:1438
 #: onedesk/public/js/item_list.js:71
 msgid "On Hand"
 msgstr "Auf Lager"
@@ -18163,7 +18316,7 @@ msgstr "In Meine Aufgaben"
 #: frontend/src/item/ItemBuying.vue:14 frontend/src/item/ItemPage.vue:243
 #: frontend/src/project/Overview.vue:216
 #: frontend/src/supplier/SupplierItems.vue:24
-#: onedesk/one_inventory/heads.py:1108
+#: onedesk/one_inventory/heads.py:1446
 msgid "On Order"
 msgstr "Bestellt"
 
@@ -18241,7 +18394,7 @@ msgid "On in this browser"
 msgstr "In diesem Browser an"
 
 #: onedesk/one_hr/employee.py:125 onedesk/one_hr/presence.py:120
-#: onedesk/one_hr/presence.py:222 onedesk/public/js/band.js:174
+#: onedesk/one_hr/presence.py:222 onedesk/public/js/band.js:196
 msgid "On leave"
 msgstr "Im Urlaub"
 
@@ -19347,8 +19500,8 @@ msgstr "Oder einfügen"
 #: frontend/src/to_order/ToOrderPage.vue:179
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_inventory/heads.py:1279 onedesk/one_inventory/heads.py:1295
-#: onedesk/one_inventory/heads.py:1373
+#: onedesk/one_inventory/heads.py:1593 onedesk/one_inventory/heads.py:1606
+#: onedesk/one_inventory/heads.py:1674
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/project_actions.js:610 onedesk/www/projects.html:181
@@ -19448,8 +19601,10 @@ msgstr "{0} bestellen"
 #: frontend/src/home/InventoryStory.vue:184 frontend/src/project/Money.vue:163
 #: frontend/src/project/Suppliers.vue:202
 #: frontend/src/quotes/QuoteCompare.vue:82 frontend/src/quotes/QuoteRows.vue:75
-#: frontend/src/quotes/RequestRows.vue:68 onedesk/one_inventory/heads.py:1233
-#: onedesk/one_inventory/heads.py:1271 onedesk/one_project/custom/project.json
+#: frontend/src/quotes/RequestRows.vue:68 onedesk/one_inventory/heads.py:587
+#: onedesk/one_inventory/heads.py:673 onedesk/one_inventory/heads.py:744
+#: onedesk/one_inventory/heads.py:770 onedesk/one_inventory/heads.py:847
+#: onedesk/one_inventory/heads.py:1583 onedesk/one_project/custom/project.json
 #: onedesk/one_project/money.py:152 onedesk/one_project/money.py:167
 #: onedesk/public/js/progress.js:83
 msgid "Ordered"
@@ -19459,16 +19614,28 @@ msgstr "Bestellt"
 msgid "Ordered Already"
 msgstr "Bereits bestellt"
 
-#: onedesk/one_inventory/heads.py:1263
+#: onedesk/one_inventory/heads.py:1575
 msgid "Ordered On"
 msgstr "Bestellt in"
+
+#: onedesk/one_inventory/heads.py:699
+msgid "Ordered and received."
+msgstr "Bestellt und erhalten."
 
 #: frontend/src/quotes/QuoteRows.vue:32
 msgid "Ordered as {0}"
 msgstr "Bestellt als {0}"
 
+#: onedesk/one_inventory/heads.py:702
+msgid "Ordered, but the goods were wanted {0} ago."
+msgstr "Bestellt, aber die Ware wurde vor {0} benötigt."
+
+#: onedesk/one_inventory/heads.py:703
+msgid "Ordered; waiting for the goods."
+msgstr "Bestellt; wartet auf die Ware."
+
 #: frontend/src/item/ItemPlaces.vue:22 frontend/src/project/Overview.vue:35
-#: onedesk/one_inventory/heads.py:1272
+#: onedesk/one_inventory/heads.py:1584
 msgid "Orders"
 msgstr "Aufträge"
 
@@ -19625,11 +19792,11 @@ msgstr ""
 msgid "Out of Stock {0}"
 msgstr "Nicht vorrätig {0}"
 
-#: onedesk/one_inventory/heads.py:938
+#: onedesk/one_inventory/heads.py:1271
 msgid "Out of Stock, Month by Month"
 msgstr "Lagerabgang, Monat für Monat"
 
-#: frontend/src/upkeep/UpkeepRows.vue:55 onedesk/one_inventory/heads.py:1408
+#: frontend/src/upkeep/UpkeepRows.vue:55 onedesk/one_inventory/heads.py:1709
 msgid "Out of Use"
 msgstr "Außer Betrieb"
 
@@ -19640,6 +19807,10 @@ msgstr "Veraltet"
 #: onedesk/public/js/onemail.js:916
 msgid "Out of office for {0}"
 msgstr "Abwesenheit für {0}"
+
+#: onedesk/one_inventory/heads.py:899
+msgid "Out of order; it cannot be used until it is mended."
+msgstr "Defekt; es kann erst nach der Reparatur genutzt werden."
 
 #. Label of the output_per_million (Float) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -19888,9 +20059,9 @@ msgstr "Seiten"
 #: onedesk/one/print_blocks.py:429 onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:325
-#: onedesk/one_project/money.py:162 onedesk/one_project/money.py:173
-#: onedesk/one_project/view.py:437 onedesk/public/js/settings.js:1745
-#: onedesk/www/projects.html:189
+#: onedesk/one_inventory/heads.py:601 onedesk/one_project/money.py:162
+#: onedesk/one_project/money.py:173 onedesk/one_project/view.py:437
+#: onedesk/public/js/settings.js:1745 onedesk/www/projects.html:189
 msgid "Paid"
 msgstr "Bezahlt"
 
@@ -20019,6 +20190,14 @@ msgstr "Teilenummer"
 #: onedesk/public/js/task_new.js:31
 msgid "Part Of"
 msgstr "Teil von"
+
+#: onedesk/one_inventory/heads.py:620
+msgid "Part has come from {0}; the rest was wanted {1} ago."
+msgstr "Ein Teil kam von {0}; der Rest wurde vor {1} benötigt."
+
+#: onedesk/one_inventory/heads.py:708
+msgid "Part is ordered; the rest is still to order."
+msgstr "Ein Teil ist bestellt; der Rest muss noch bestellt werden."
 
 #: onedesk/www/projects.html:50
 msgid "Part of"
@@ -20938,6 +21117,7 @@ msgstr "Aufgaben planen"
 
 #: frontend/src/project/TaskPanel.vue:33 frontend/src/project/Tasks.vue:23
 #: frontend/src/task/TaskPage.vue:27 frontend/src/upkeep/UpkeepRows.vue:195
+#: onedesk/one_inventory/heads.py:803
 msgid "Planned"
 msgstr "Geplant"
 
@@ -21170,7 +21350,7 @@ msgstr "Wird vorbereitet. Sie werden benachrichtigt, wenn es fertig ist."
 #. Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:176
-#: onedesk/public/js/band.js:170
+#: onedesk/public/js/band.js:192
 msgid "Present"
 msgstr "Anwesend"
 
@@ -21459,7 +21639,10 @@ msgstr "Gewinn aus abgerechneten Stunden"
 
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:259 onedesk/one/portal.py:67
-#: onedesk/one/print_blocks.py:598 onedesk/public/js/onecloud.js:364
+#: onedesk/one/print_blocks.py:598 onedesk/one_inventory/heads.py:1541
+#: onedesk/one_inventory/heads.py:1552 onedesk/one_inventory/heads.py:1591
+#: onedesk/one_inventory/heads.py:1604 onedesk/one_inventory/heads.py:1633
+#: onedesk/one_inventory/heads.py:1663 onedesk/public/js/onecloud.js:364
 #: onedesk/public/js/onecloud.js:666 onedesk/public/js/project_actions.js:755
 #: onedesk/www/projects.html:39
 msgid "Progress"
@@ -21484,11 +21667,11 @@ msgstr "Fortschritt…"
 #: onedesk/one_crm/heads.py:216 onedesk/one_crm/heads.py:226
 #: onedesk/one_crm/heads.py:246 onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
-#: onedesk/one_inventory/heads.py:1207 onedesk/one_inventory/heads.py:1228
-#: onedesk/one_inventory/heads.py:1249 onedesk/one_inventory/heads.py:1258
-#: onedesk/one_inventory/heads.py:1278 onedesk/one_inventory/heads.py:1294
-#: onedesk/one_inventory/heads.py:1315 onedesk/one_inventory/heads.py:1332
-#: onedesk/one_inventory/heads.py:1361 onedesk/one_inventory/heads.py:1371
+#: onedesk/one_inventory/heads.py:1542 onedesk/one_inventory/heads.py:1553
+#: onedesk/one_inventory/heads.py:1561 onedesk/one_inventory/heads.py:1570
+#: onedesk/one_inventory/heads.py:1592 onedesk/one_inventory/heads.py:1605
+#: onedesk/one_inventory/heads.py:1615 onedesk/one_inventory/heads.py:1634
+#: onedesk/one_inventory/heads.py:1664 onedesk/one_inventory/heads.py:1672
 #: onedesk/one_project/custom/material_request.json
 #: onedesk/one_project/custom/quotation.json
 #: onedesk/one_project/custom/request_for_quotation.json
@@ -21785,7 +21968,7 @@ msgstr "Einkauf"
 #. Label of the purpose (Small Text) field in DocType 'Employee Letter'
 #: onedesk/one/print_blocks.py:56
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
-#: onedesk/one_inventory/heads.py:1424
+#: onedesk/one_inventory/heads.py:1725
 msgid "Purpose"
 msgstr ""
 
@@ -21962,7 +22145,7 @@ msgstr "Angebotsanfragen"
 
 #: frontend/src/project/Overview.vue:154
 #: frontend/src/supplier/SupplierItems.vue:35 onedesk/one/portal.py:458
-#: onedesk/one_project/money.py:137
+#: onedesk/one_inventory/heads.py:669 onedesk/one_project/money.py:137
 #: onedesk/templates/includes/transaction_row.html:12
 msgid "Quoted"
 msgstr "Angeboten"
@@ -21983,7 +22166,7 @@ msgstr "Angeboten, gültig bis {0}"
 #: frontend/src/item/ItemBuying.vue:11 frontend/src/item/ItemSelling.vue:12
 #: frontend/src/quotes/QuotesPage.vue:105
 #: frontend/src/quotes/QuotesPage.vue:159 onedesk/one/portal.py:30
-#: onedesk/one_inventory/heads.py:1231 onedesk/one_inventory/home.py:124
+#: onedesk/one_inventory/home.py:124
 #: onedesk/one_inventory/page/quotes/quotes.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:25
@@ -22351,8 +22534,8 @@ msgstr "Was {0} gefertigt hat, ins Lager übernehmen?"
 
 #. Label in the One Purchase Receipt print format
 #. Label of the 'per_received' field in DocType 'Purchase Order'
-#: onedesk/one_inventory/heads.py:1212 onedesk/one_inventory/heads.py:1239
-#: onedesk/one_inventory/heads.py:1365
+#: onedesk/one_inventory/heads.py:589 onedesk/one_inventory/heads.py:674
+#: onedesk/one_inventory/heads.py:684 onedesk/one_inventory/heads.py:745
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/money.py:169 onedesk/public/js/settings.js:2782
@@ -22373,6 +22556,10 @@ msgstr "Empfangen von"
 msgid "Received From"
 msgstr ""
 
+#: onedesk/one_inventory/heads.py:627
+msgid "Received and billed; {0} is still to pay."
+msgstr "Erhalten und berechnet; {0} sind noch zu zahlen."
+
 #: frontend/src/item/ItemStock.vue:77
 msgid "Received {0}"
 msgstr "{0} erhalten"
@@ -22380,6 +22567,10 @@ msgstr "{0} erhalten"
 #: frontend/src/item/ItemStock.vue:83
 msgid "Received {0} from Subcontractor"
 msgstr "{0} vom Subunternehmer erhalten"
+
+#: onedesk/one_inventory/heads.py:628
+msgid "Received, billed and paid."
+msgstr "Erhalten, berechnet und bezahlt."
 
 #: onedesk/public/js/settings.js:452
 msgid "Receives Only"
@@ -22808,7 +22999,7 @@ msgstr "Ablehnen? Das Einchecken bleibt erfasst und zählt nicht mehr für den T
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/one_inventory/heads.py:1282
+#: onedesk/one_inventory/heads.py:1596
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/public/js/checkin_list.js:12
 msgid "Rejected"
@@ -23017,7 +23208,7 @@ msgstr ""
 msgid "Reopen Task"
 msgstr "Aufgabe wieder öffnen"
 
-#: onedesk/one_inventory/heads.py:1115
+#: onedesk/one_inventory/heads.py:1453
 msgid "Reorder"
 msgstr "Nachbestellung"
 
@@ -23055,7 +23246,7 @@ msgstr "{0} umgepackt"
 msgid "Repair"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:80 onedesk/one_inventory/heads.py:1148
+#: frontend/src/upkeep/UpkeepPage.vue:80 onedesk/one_inventory/heads.py:1479
 #: onedesk/one_inventory/home.py:151 onedesk/public/js/page_views.js:44
 msgid "Repairs"
 msgstr "Reparaturen"
@@ -23172,7 +23363,7 @@ msgstr "Neubuchung fehlgeschlagen"
 #: frontend/src/quotes/QuoteRows.vue:11 frontend/src/quotes/QuotesPage.vue:31
 #: frontend/src/quotes/RequestRows.vue:8
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_inventory/heads.py:1250
+#: onedesk/one_inventory/heads.py:1562
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/www/your_data.html:138 onedesk/www/your_data.html:170
@@ -23486,10 +23677,6 @@ msgstr "Rückgabe"
 msgid "Return {0} ({1})"
 msgstr "{0} zurückgeben ({1})"
 
-#: onedesk/one_inventory/heads.py:1305
-msgid "Returned"
-msgstr "Zurückgegeben"
-
 #: frontend/src/item/ItemStock.vue:79 frontend/src/item/ItemStock.vue:81
 msgid "Returned {0} by Customer"
 msgstr "{0} vom Kunden zurückgegeben"
@@ -23733,7 +23920,7 @@ msgid "Running…"
 msgstr "Wird ausgeführt…"
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_inventory/heads.py:1270 onedesk/one_project/ai.py:896
+#: onedesk/one_inventory/heads.py:1582 onedesk/one_project/ai.py:896
 #: onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
@@ -24046,6 +24233,10 @@ msgstr "Punktzahl"
 msgid "Scorecard Variables"
 msgstr "Scorecard-Variablen"
 
+#: onedesk/one_inventory/heads.py:894
+msgid "Scrapped on {0}."
+msgstr "Verschrottet am {0}."
+
 #. Label of the screen (Data) field in DocType 'Clock Attempt'
 #. Label of the screen (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -24282,6 +24473,14 @@ msgstr "Bestand zu einer Baustelle schicken"
 #: onedesk/one_legal/gate.py:217
 msgid "Send the list of documents you are agreeing to."
 msgstr "Sende die Liste der Dokumente, denen du zustimmst."
+
+#: onedesk/one_inventory/heads.py:832
+msgid "Send the materials to the floor to start."
+msgstr "Schicken Sie das Material in die Fertigung, um zu beginnen."
+
+#: onedesk/one_inventory/heads.py:864
+msgid "Send the materials to {0} to start."
+msgstr "Schicken Sie das Material an {0}, um zu beginnen."
 
 #: onedesk/public/js/oneai/Panel.vue:161
 msgid "Send this again"
@@ -24557,7 +24756,7 @@ msgstr ""
 msgid "Services & Finishes"
 msgstr "Haustechnik & Ausbau"
 
-#: onedesk/one_inventory/heads.py:1391
+#: onedesk/one_inventory/heads.py:1692
 msgid "Services Done"
 msgstr "Erledigte Wartungen"
 
@@ -25689,6 +25888,10 @@ msgstr "Nach Maß verkauft"
 msgid "Sold in 12 Months"
 msgstr "Verkauft in 12 Monaten"
 
+#: onedesk/one_inventory/heads.py:894
+msgid "Sold on {0}."
+msgstr "Verkauft am {0}."
+
 #: onedesk/public/js/item_new.js:94
 msgid "Sold to Customers"
 msgstr "An Kunden verkauft"
@@ -25724,6 +25927,10 @@ msgstr "Einige Zeilen passen zu keinem Artikel."
 #: onedesk/one_intake/drafts.py:28
 msgid "Some values aren't in the document."
 msgstr "Einige Werte stehen nicht im Dokument."
+
+#: onedesk/one_inventory/heads.py:757
+msgid "Some were rejected. Send them back to {0}."
+msgstr "Einiges wurde abgelehnt. Schicken Sie es an {0} zurück."
 
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -25867,7 +26074,7 @@ msgstr "Verbraucht"
 msgid "Spent beyond the balance, so it's owed."
 msgstr "Über das Guthaben hinaus verbraucht, daher geschuldet."
 
-#: onedesk/one_inventory/heads.py:490
+#: onedesk/one_inventory/heads.py:456
 msgid "Split between {0}"
 msgstr "Aufgeteilt auf {0}"
 
@@ -26163,7 +26370,7 @@ msgstr "Schritt {0} von {1}"
 #: frontend/src/item/ItemMaking.vue:16 frontend/src/plant/PlantFloor.vue:57
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:243 onedesk/one_admin/heads.py:684
-#: onedesk/one_inventory/heads.py:1344
+#: onedesk/one_inventory/heads.py:811 onedesk/one_inventory/heads.py:1644
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/settings.js:2057
 msgid "Steps"
@@ -26449,6 +26656,10 @@ msgstr "Dieses Feld nicht mehr schreiben"
 #: frontend/src/quotes/QuoteRows.vue:77 frontend/src/task/TaskPage.vue:35
 msgid "Stopped"
 msgstr "Gestoppt"
+
+#: onedesk/one_inventory/heads.py:693
+msgid "Stopped; nothing more will be done on it."
+msgstr "Gestoppt; daran wird nichts mehr getan."
 
 #. Label of the storage_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -26998,7 +27209,7 @@ msgstr ""
 msgid "Tagged {0}"
 msgstr "Markiert mit {0}"
 
-#: onedesk/one_inventory/heads.py:1057 onedesk/one_inventory/heads.py:1058
+#: onedesk/one_inventory/heads.py:1395 onedesk/one_inventory/heads.py:1396
 msgid "Take Back"
 msgstr "Zurücknehmen"
 
@@ -27025,7 +27236,7 @@ msgstr "Angenommen"
 msgid "Taken In This Month"
 msgstr "Diesen Monat angenommen"
 
-#: onedesk/one_inventory/heads.py:1173
+#: onedesk/one_inventory/heads.py:1504
 msgid "Taken Out"
 msgstr "Entnommen"
 
@@ -27033,7 +27244,7 @@ msgstr "Entnommen"
 msgid "Taken as a Material"
 msgstr "Als Material verwendet"
 
-#: onedesk/one_inventory/heads.py:1070
+#: onedesk/one_inventory/heads.py:1408
 msgid "Taken back."
 msgstr "Zurückgenommen."
 
@@ -27210,7 +27421,7 @@ msgstr "Steuerpflichtiger Betrag"
 #: frontend/src/project/ProjectPage.vue:188 frontend/src/project/Team.vue:11
 #: frontend/src/upkeep/UpkeepRows.vue:85
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_inventory/heads.py:1392
+#: onedesk/one_inventory/heads.py:1693
 msgid "Team"
 msgstr "Team"
 
@@ -29430,7 +29641,7 @@ msgstr "Fliesenarbeiten"
 #: frontend/src/task/TaskPage.vue:220 frontend/src/task/TaskTime.vue:9
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/one_inventory/heads.py:1354 onedesk/one_project/billing.py:97
+#: onedesk/one_inventory/heads.py:1655 onedesk/one_project/billing.py:97
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:179 onedesk/one_project/money.py:216
@@ -29546,7 +29757,7 @@ msgstr "Benannt"
 #: onedesk/one/ai_setup.py:418 onedesk/one/print_blocks.py:61
 #: onedesk/one/print_blocks.py:75 onedesk/one_ai/chat.py:349
 #: onedesk/one_inventory/custom/stock_entry.json
-#: onedesk/one_inventory/heads.py:1318 onedesk/one_inventory/heads.py:1382
+#: onedesk/one_inventory/heads.py:1618 onedesk/one_inventory/heads.py:1683
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/intake.js:159 onedesk/public/js/item_actions.js:222
@@ -29795,9 +30006,9 @@ msgstr "Kopfvorlage"
 #: onedesk/one_book/heads.py:326 onedesk/one_crm/heads.py:227
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
-#: onedesk/one_intake/panel.py:138 onedesk/one_inventory/heads.py:1208
-#: onedesk/one_inventory/heads.py:1260 onedesk/one_inventory/heads.py:1296
-#: onedesk/one_inventory/heads.py:1363 onedesk/one_inventory/heads.py:1374
+#: onedesk/one_intake/panel.py:138 onedesk/one_inventory/heads.py:1543
+#: onedesk/one_inventory/heads.py:1572 onedesk/one_inventory/heads.py:1607
+#: onedesk/one_inventory/heads.py:1665 onedesk/one_inventory/heads.py:1675
 #: onedesk/www/rfq.html:86
 msgid "Total"
 msgstr "Gesamt"
@@ -29822,7 +30033,7 @@ msgstr "Summe von {0}"
 msgid "Total paid"
 msgstr "Summe gezahlt"
 
-#: onedesk/one_inventory/heads.py:368 onedesk/one_inventory/heads.py:402
+#: onedesk/one_inventory/heads.py:358 onedesk/one_inventory/heads.py:392
 msgid "Total · {0}"
 msgstr "Gesamt · {0}"
 
@@ -30000,7 +30211,7 @@ msgstr "Versuche"
 msgid "Trigger"
 msgstr "Auslöser"
 
-#: onedesk/one_inventory/heads.py:1297
+#: onedesk/one_inventory/heads.py:1608
 msgid "Trip"
 msgstr "Fahrt"
 
@@ -30112,7 +30323,7 @@ msgstr "Zwei-Faktor-Anmeldung"
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/one_intake/bundle.py:76 onedesk/one_inventory/heads.py:1316
+#: onedesk/one_intake/bundle.py:76 onedesk/one_inventory/heads.py:1616
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/onecloud.js:146 onedesk/public/js/onecloud.js:364
 #: onedesk/public/js/onecloud.js:662 onedesk/public/js/onecloud.js:1591
@@ -30516,7 +30727,7 @@ msgstr "Mit {0} ein Feld des Datensatzes einfügen."
 #: frontend/src/project/Money.vue:44
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:137
-#: onedesk/one_inventory/heads.py:1320 onedesk/one_inventory/story.py:437
+#: onedesk/one_inventory/heads.py:1620 onedesk/one_inventory/story.py:437
 msgid "Used"
 msgstr "Verbraucht"
 
@@ -30694,7 +30905,7 @@ msgstr ""
 msgid "Valid From"
 msgstr "Gültig ab"
 
-#: frontend/src/project/Overview.vue:154 onedesk/one_inventory/heads.py:1261
+#: frontend/src/project/Overview.vue:154 onedesk/one_inventory/heads.py:1573
 msgid "Valid Till"
 msgstr ""
 
@@ -30721,7 +30932,7 @@ msgstr "Gültig bis"
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:62
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
-#: onedesk/one_inventory/heads.py:1319
+#: onedesk/one_inventory/heads.py:1619
 #: onedesk/public/js/doctype_settings.js:1101
 #: onedesk/public/js/settings.js:2520
 msgid "Value"
@@ -30985,6 +31196,14 @@ msgstr "Wartet auf das DNS des Kunden."
 msgid "Waiting for you"
 msgstr "Wartet auf Sie"
 
+#: onedesk/one_inventory/heads.py:712
+msgid "Waiting for {0} suppliers to quote."
+msgstr "Wartet auf Angebote von {0} Lieferanten."
+
+#: onedesk/one_inventory/heads.py:621
+msgid "Waiting for {0}; wanted by {1}."
+msgstr "Wartet auf {0}; benötigt bis {1}."
+
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:34
 #: onedesk/one_admin/heads.py:31
 msgid "Waiting on Frappe Cloud"
@@ -31027,14 +31246,16 @@ msgstr "Wartet auf"
 #. Label of the 'expected_delivery_date' field in DocType 'Work Order'
 #: frontend/src/floor/OrderRows.vue:14 onedesk/one/print_blocks.py:76
 #: onedesk/one_inventory/custom/work_order.json
-#: onedesk/one_inventory/heads.py:1209 onedesk/one_inventory/heads.py:1230
-#: onedesk/one_inventory/heads.py:1336
 msgid "Wanted By"
 msgstr "Benötigt bis"
 
 #: frontend/src/floor/ShopFloor.vue:25 frontend/src/item/ItemMaking.vue:99
 msgid "Wanted by {0}"
 msgstr "Benötigt bis {0}"
+
+#: onedesk/one_inventory/heads.py:724
+msgid "Wanted by {0}."
+msgstr "Benötigt bis {0}."
 
 #: frontend/src/quotes/RequestRows.vue:36
 msgid "Wanted {0}"
@@ -31069,7 +31290,7 @@ msgstr "War"
 msgid "Was Due"
 msgstr "War fällig"
 
-#: onedesk/one_inventory/heads.py:1416
+#: onedesk/one_inventory/heads.py:1717
 msgid "Was Worth"
 msgstr "War wert"
 
@@ -32840,8 +33061,8 @@ msgstr "Wenn {0} zu {1} wechselt"
 #. Label in the One Work Order print format
 #: frontend/src/lots/LotRows.vue:13 frontend/src/lots/SerialRows.vue:11
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/one_hr/heads.py:650 onedesk/one_inventory/heads.py:1133
-#: onedesk/one_inventory/heads.py:1352 onedesk/one_inventory/heads.py:1425
+#: onedesk/one_hr/heads.py:650 onedesk/one_inventory/heads.py:1653
+#: onedesk/one_inventory/heads.py:1726
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_studio/ai.py:451
 msgid "Where"
@@ -33183,10 +33404,6 @@ msgstr "Welche Arbeitsplätze fertigen, welche stehen still und warum, und was l
 #: onedesk/public/js/intake.js:105
 msgid "Who"
 msgstr "Wer"
-
-#: onedesk/one_inventory/heads.py:1141
-msgid "Who Has It"
-msgstr "Wer hat es"
 
 #: onedesk/public/js/floor_actions.js:29
 msgid "Who Is On It"
@@ -33586,8 +33803,8 @@ msgstr "Fenster, Türen, Vorhangfassaden und Verglasung, von der Vertragsprüfun
 msgid "Wish them a happy birthday."
 msgstr "Gratulieren Sie zum Geburtstag."
 
-#: onedesk/one_inventory/heads.py:1269 onedesk/one_inventory/heads.py:1362
-#: onedesk/one_inventory/heads.py:1372 onedesk/public/js/project_actions.js:179
+#: onedesk/one_inventory/heads.py:1581 onedesk/one_inventory/heads.py:1673
+#: onedesk/public/js/project_actions.js:179
 msgid "With"
 msgstr "Mit"
 
@@ -33607,6 +33824,18 @@ msgstr "Bei Lieferanten"
 #: frontend/src/item/ItemOverview.vue:66 frontend/src/lots/SerialRows.vue:63
 msgid "With {0}"
 msgstr "Bei {0}"
+
+#: onedesk/one_inventory/heads.py:866
+msgid "With {0}, and it was wanted back {1} ago."
+msgstr "Bei {0}, und es sollte vor {1} zurück sein."
+
+#: onedesk/one_inventory/heads.py:869
+msgid "With {0}."
+msgstr "Bei {0}."
+
+#: onedesk/one_inventory/heads.py:868
+msgid "With {0}; wanted back by {1}."
+msgstr "Bei {0}; zurück bis {1}."
 
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -33693,7 +33922,7 @@ msgid "Work From Home"
 msgstr ""
 
 #: frontend/src/floor/OrderRows.vue:9 onedesk/one/print_blocks.py:26
-#: onedesk/one_inventory/heads.py:1351
+#: onedesk/one_inventory/heads.py:680 onedesk/one_inventory/heads.py:1652
 msgid "Work Order"
 msgstr ""
 
@@ -33704,7 +33933,7 @@ msgstr "Arbeitsauftrag fertig"
 
 #. Label of a Sidebar Item
 #: frontend/src/floor/ShopFloor.vue:160 frontend/src/home/InventoryHome.vue:285
-#: frontend/src/home/InventoryStory.vue:75 onedesk/one_inventory/heads.py:1345
+#: frontend/src/home/InventoryStory.vue:75 onedesk/one_inventory/heads.py:1645
 #: onedesk/one_inventory/home.py:134
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Work Orders"
@@ -34019,8 +34248,8 @@ msgid "Workstations"
 msgstr "Arbeitsplätze"
 
 #: frontend/src/item/ItemPage.vue:244 frontend/src/stock/StockOnHand.vue:167
-#: onedesk/one_inventory/heads.py:1114 onedesk/one_inventory/heads.py:1189
-#: onedesk/one_inventory/heads.py:1280
+#: onedesk/one_inventory/heads.py:1452 onedesk/one_inventory/heads.py:1520
+#: onedesk/one_inventory/heads.py:1594
 msgid "Worth"
 msgstr "Wert"
 
@@ -34030,11 +34259,11 @@ msgstr "Hergestellter Wert nach Monat"
 
 #. Label of the 'value_after_depreciation' field in DocType 'Asset'
 #: frontend/src/home/InventoryStory.vue:89
-#: onedesk/one_inventory/custom/asset.json onedesk/one_inventory/heads.py:1128
+#: onedesk/one_inventory/custom/asset.json onedesk/one_inventory/heads.py:1467
 msgid "Worth Now"
 msgstr "Aktueller Wert"
 
-#: onedesk/one_inventory/heads.py:939
+#: onedesk/one_inventory/heads.py:1272
 msgid "Worth Over Its Life"
 msgstr "Wert über die Lebensdauer"
 
@@ -34050,7 +34279,7 @@ msgstr "Gut zu wissen vor dem Anruf"
 msgid "Worth weighing"
 msgstr "Abzuwägen"
 
-#: onedesk/one_inventory/heads.py:327
+#: onedesk/one_inventory/heads.py:317
 msgid "Worth · {0}"
 msgstr "Wert · {0}"
 
@@ -34195,7 +34424,7 @@ msgstr "Ich schreibe es erneut auf. Transkript und Anmerkungen folgen, sobald ic
 msgid "Writing…"
 msgstr "Wird geschrieben…"
 
-#: onedesk/one_inventory/heads.py:1131 onedesk/public/js/asset_list.js:11
+#: onedesk/one_inventory/heads.py:1470 onedesk/public/js/asset_list.js:11
 msgid "Written Off"
 msgstr "Abgeschrieben"
 
@@ -34233,6 +34462,10 @@ msgstr "Geschrieben von {0}"
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "Written in the Document"
 msgstr "Im Dokument geschrieben"
+
+#: onedesk/one_inventory/heads.py:906
+msgid "Written off to nothing, and still in use."
+msgstr "Vollständig abgeschrieben und noch in Gebrauch."
 
 #. Description of the 'Value' (Data) field in DocType 'Identifier'
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -35108,11 +35341,11 @@ msgstr "ausgeblendet"
 msgid "image"
 msgstr "Bild"
 
-#: onedesk/public/js/band.js:235
+#: onedesk/public/js/band.js:257
 msgid "in late"
 msgstr "verspätet gekommen"
 
-#: onedesk/public/js/band.js:234
+#: onedesk/public/js/band.js:256
 msgid "in late, left early"
 msgstr "verspätet gekommen, früher gegangen"
 
@@ -35179,7 +35412,7 @@ msgid "later"
 msgstr "später"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:111
-#: onedesk/public/js/band.js:236
+#: onedesk/public/js/band.js:258
 msgid "left early"
 msgstr "früher gegangen"
 
@@ -36019,7 +36252,7 @@ msgstr "{0} hat eine Kopie seiner Daten angefordert. Senden Sie sie innerhalb ei
 msgid "{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised."
 msgstr "{0} hat die Löschung seines Kontos angefordert. Die Genehmigung meldet die Person ab und löscht ihre Daten. Aufbewahrte Datensätze werden anonymisiert."
 
-#: onedesk/one_inventory/heads.py:795
+#: onedesk/one_inventory/heads.py:1128
 msgid "{0} assets"
 msgstr "{0} Anlagen"
 
@@ -36027,7 +36260,7 @@ msgstr "{0} Anlagen"
 msgid "{0} assets are drafts, so they are not depreciated or counted. Each says why on its page."
 msgstr "{0} Anlagegüter sind Entwürfe und werden weder abgeschrieben noch gezählt. Jedes nennt den Grund auf seiner Seite."
 
-#: onedesk/one_inventory/heads.py:933
+#: onedesk/one_inventory/heads.py:1266
 msgid "{0} at the end"
 msgstr "{0} am Ende"
 
@@ -36248,7 +36481,8 @@ msgstr "{0} T"
 #: frontend/src/template/TemplatePage.vue:88
 #: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one_crm/heads.py:32
 #: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:390
-#: onedesk/one_inventory/heads.py:860 onedesk/one_project/ai.py:897
+#: onedesk/one_inventory/heads.py:547 onedesk/one_inventory/heads.py:1193
+#: onedesk/one_project/ai.py:897
 msgid "{0} days"
 msgstr "{0} Tage"
 
@@ -36411,7 +36645,7 @@ msgstr "{0} geht über {1}, das keine Verknüpfung ist."
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "{0} reicht bereits bis {1}, daher kann sie nur auf {1} oder mehr gesetzt werden."
 
-#: frontend/src/kit/desk.js:32 onedesk/one_inventory/heads.py:733
+#: frontend/src/kit/desk.js:32 onedesk/one_inventory/heads.py:1076
 #: onedesk/one_project/billing.py:443 onedesk/one_project/view.py:512
 #: onedesk/templates/includes/timesheet/timesheet_row.html:12
 msgid "{0} h"
@@ -36548,7 +36782,7 @@ msgid "{0} holidays added. Save to keep them."
 msgstr "{0} Feiertage hinzugefügt. Speichern, um sie zu behalten."
 
 #: onedesk/one/settings.py:852 onedesk/one_crm/heads.py:30
-#: onedesk/public/js/band.js:237 onedesk/www/projects.html:145
+#: onedesk/public/js/band.js:259 onedesk/www/projects.html:145
 msgid "{0} hours"
 msgstr "{0} Stunden"
 
@@ -36561,7 +36795,7 @@ msgid "{0} hours, {1}"
 msgstr "{0} Stunden, {1}"
 
 #: frontend/src/item/ItemCustomers.vue:68 onedesk/one_book/heads.py:234
-#: onedesk/one_inventory/heads.py:902
+#: onedesk/one_inventory/heads.py:1235
 msgid "{0} in 12 months"
 msgstr "{0} in 12 Monaten"
 
@@ -36569,7 +36803,7 @@ msgstr "{0} in 12 Monaten"
 msgid "{0} in 12 weeks"
 msgstr "{0} in 12 Wochen"
 
-#: onedesk/one_inventory/heads.py:264
+#: onedesk/one_inventory/heads.py:254
 msgid "{0} in {1}"
 msgstr "{0} in {1}"
 
@@ -36581,7 +36815,7 @@ msgstr "{0} in {1} Aufrufen"
 msgid "{0} in {1} days."
 msgstr "{0} in {1} Tagen."
 
-#: onedesk/one_inventory/heads.py:265
+#: onedesk/one_inventory/heads.py:255
 msgid "{0} in {1} warehouses"
 msgstr "{0} in {1} Lagern"
 
@@ -37096,7 +37330,7 @@ msgid "{0} late"
 msgstr "{0} überfällig"
 
 #: frontend/src/project/Overview.vue:470 onedesk/one_hr/heads.py:74
-#: onedesk/public/js/project_actions.js:614
+#: onedesk/one_inventory/heads.py:603 onedesk/public/js/project_actions.js:614
 msgid "{0} left"
 msgstr "{0} übrig"
 
@@ -37228,8 +37462,8 @@ msgstr "{0} davon aktiv."
 #: frontend/src/task/TaskPage.vue:76 frontend/src/task/TaskPage.vue:257
 #: frontend/src/task/TaskPage.vue:258 onedesk/one/heads.py:71
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:43
-#: onedesk/one_admin/heads.py:156 onedesk/one_inventory/heads.py:440
-#: onedesk/one_inventory/heads.py:480 onedesk/one_inventory/heads.py:661
+#: onedesk/one_admin/heads.py:156 onedesk/one_inventory/heads.py:446
+#: onedesk/one_inventory/heads.py:811 onedesk/one_inventory/heads.py:1024
 #: onedesk/one_project/heads.py:36 onedesk/one_project/view.py:607
 #: onedesk/public/js/settings.js:1517 onedesk/public/js/work_order_list.js:20
 msgid "{0} of {1}"
@@ -37238,6 +37472,10 @@ msgstr "{0} von {1}"
 #: onedesk/public/js/tenant.js:111
 msgid "{0} of {1} ({2}%)"
 msgstr "{0} von {1} ({2} %)"
+
+#: onedesk/one_inventory/heads.py:671
+msgid "{0} of {1} answered"
+msgstr "{0} von {1} geantwortet"
 
 #: frontend/src/project/Overview.vue:370 frontend/src/project/Overview.vue:391
 msgid "{0} of {1} budget"
@@ -37263,9 +37501,13 @@ msgstr "{0} von {1} geliefert"
 msgid "{0} of {1} done"
 msgstr "{0} von {1} erledigt"
 
-#: onedesk/one_inventory/heads.py:524
+#: onedesk/one_inventory/heads.py:490
 msgid "{0} of {1} lines"
 msgstr "{0} von {1} Zeilen"
+
+#: onedesk/one_inventory/heads.py:593
+msgid "{0} of {1} lines in"
+msgstr "{0} von {1} Positionen da"
 
 #: frontend/src/floor/ShopFloor.vue:29 frontend/src/home/InventoryHome.vue:281
 #: frontend/src/item/ItemMaking.vue:97
@@ -37292,6 +37534,10 @@ msgstr "{0} von {1} Plätzen belegt."
 msgid "{0} of {1} still to make"
 msgstr "{0} von {1} noch zu fertigen"
 
+#: onedesk/one_inventory/heads.py:710
+msgid "{0} of {1} suppliers have quoted. Order from the best."
+msgstr "{0} von {1} Lieferanten haben angeboten. Bestellen Sie beim besten."
+
 #: onedesk/one_project/view.py:598
 msgid "{0} of {1} tasks"
 msgstr "{0} von {1} Aufgaben"
@@ -37307,6 +37553,10 @@ msgstr "{0} von {1} belegt"
 #: onedesk/one_admin/home.py:335
 msgid "{0} of {1} workspaces"
 msgstr "{0} von {1} Arbeitsbereichen"
+
+#: onedesk/one_inventory/heads.py:815
+msgid "{0} of {1} {2}"
+msgstr "{0} von {1} {2}"
 
 #: onedesk/one/tell.py:525
 msgid "{0} off"
@@ -37364,8 +37614,8 @@ msgid "{0} open tasks and {1} sub-projects"
 msgstr "{0} offene Aufgaben und {1} Unterprojekte"
 
 #: frontend/src/project/Facts.vue:16 frontend/src/supplier/SupplierItems.vue:50
-#: onedesk/one_inventory/heads.py:306 onedesk/one_inventory/heads.py:360
-#: onedesk/one_inventory/heads.py:538
+#: onedesk/one_inventory/heads.py:296 onedesk/one_inventory/heads.py:350
+#: onedesk/one_inventory/heads.py:504 onedesk/one_inventory/heads.py:733
 msgid "{0} orders"
 msgstr "{0} Aufträge"
 
@@ -37413,8 +37663,8 @@ msgstr "{0} pausierte Timer"
 msgid "{0} pending"
 msgstr "{0} ausstehend"
 
-#: frontend/src/project/Overview.vue:306 onedesk/one_inventory/heads.py:741
-#: onedesk/one_inventory/heads.py:779 onedesk/public/js/settings.js:1337
+#: frontend/src/project/Overview.vue:306 onedesk/one_inventory/heads.py:1084
+#: onedesk/one_inventory/heads.py:1112 onedesk/public/js/settings.js:1337
 #: onedesk/www/start.py:120
 msgid "{0} people"
 msgstr "{0} Personen"
@@ -37435,7 +37685,7 @@ msgstr "{0} Personen haben Plätze und der Plan erlaubt {1}. Deaktivieren Sie zu
 msgid "{0} people."
 msgstr "{0} Personen."
 
-#: onedesk/one_inventory/heads.py:788
+#: onedesk/one_inventory/heads.py:1121
 msgid "{0} places"
 msgstr "{0} Orte"
 
@@ -37475,7 +37725,7 @@ msgstr "{0} Neuberechnungen nach rückdatierten Buchungen laufen."
 msgid "{0} recalculations after back-dated entries stopped with an error, so what they change is not in the books yet. Fix tries them again."
 msgstr "{0} Neuberechnungen nach rückdatierten Buchungen sind mit einem Fehler stehen geblieben, daher ist ihre Änderung noch nicht in der Buchhaltung. Beheben versucht es erneut."
 
-#: onedesk/one_inventory/heads.py:472
+#: onedesk/one_inventory/heads.py:438
 msgid "{0} requests"
 msgstr "{0} Anfragen"
 
@@ -37634,7 +37884,7 @@ msgid "{0} to pay"
 msgstr "{0} zu bezahlen"
 
 #: onedesk/one_hr/heads.py:210 onedesk/one_hr/heads.py:338
-#: onedesk/one_inventory/heads.py:573 onedesk/one_inventory/ready.py:139
+#: onedesk/one_inventory/heads.py:936 onedesk/one_inventory/ready.py:139
 #: onedesk/one_project/tell.py:353 onedesk/public/js/settings.js:2992
 msgid "{0} to {1}"
 msgstr "{0} an {1}"
@@ -37679,7 +37929,7 @@ msgstr "{0}-Benutzer"
 msgid "{0} waiting in OneIntake"
 msgstr "{0} warten in OneIntake"
 
-#: onedesk/one_inventory/heads.py:614
+#: onedesk/one_inventory/heads.py:977
 msgid "{0} warehouses"
 msgstr "{0} Lager"
 
@@ -37695,6 +37945,10 @@ msgstr "{0} war bereits {1}."
 #: onedesk/one_mail/holders.py:177
 msgid "{0} was connected without Enable Outgoing, so it can't send."
 msgstr "{0} wurde ohne „Ausgehend aktivieren“ verbunden und kann daher nicht senden."
+
+#: onedesk/one_inventory/heads.py:902
+msgid "{0} was due {1} ago."
+msgstr "{0} war vor {1} fällig."
 
 #: onedesk/one_admin/signup.py:97
 msgid "{0} was taken by someone else after this signup was abandoned."
@@ -37758,7 +38012,7 @@ msgid "{0} years"
 msgstr "{0} Jahre"
 
 #: frontend/src/kit/desk.js:166 onedesk/one/ai_setup.py:532
-#: onedesk/one_inventory/heads.py:285
+#: onedesk/one_inventory/heads.py:275
 msgid "{0} {1}"
 msgstr ""
 
@@ -37848,6 +38102,11 @@ msgstr "{0} % erledigt"
 msgid "{0}% margin"
 msgstr "{0} % Marge"
 
+#: onedesk/one_inventory/heads.py:783
+#, python-format
+msgid "{0}% of it came back."
+msgstr "{0} % davon kamen zurück."
+
 #: frontend/src/project/Money.vue:216
 #, python-format
 msgid "{0}% of ordered"
@@ -37879,6 +38138,11 @@ msgstr "{0} % erhalten"
 #, python-format
 msgid "{0}% retention"
 msgstr "{0} % Einbehalt"
+
+#: onedesk/one_inventory/heads.py:556
+#, python-format
+msgid "{0}% so far"
+msgstr "{0} % bisher"
 
 #: onedesk/one/home.py:160
 #, python-format
@@ -38112,6 +38376,14 @@ msgstr "{0}: {1} Personen, {2}, alle gebucht."
 #: onedesk/one_hr/heads.py:312
 msgid "{0}: {1} people, {2}, in {3} slips still in draft."
 msgstr "{0}: {1} Personen, {2}, in {3} Abrechnungen noch im Entwurf."
+
+#: onedesk/one_inventory/heads.py:613
+msgid "{0}; nothing more is expected on it."
+msgstr "{0}; darauf wird nichts mehr erwartet."
+
+#: onedesk/one_inventory/heads.py:825
+msgid "{0}; nothing more will be made on it."
+msgstr "{0}; darauf wird nichts mehr gefertigt."
 
 #: onedesk/one_admin/offerings.py:184
 msgid "{addon} costs {price} a month, as much as moving from {lower} to {upper}."

@@ -238,6 +238,111 @@ a.one-day:hover {
 	}
 }
 
+/* A record's track (band.js `steps`): across the band's whole width, over
+   its other figures, each step a mark, its name and what it means, joined by
+   a line that is filled as far as the record has come. */
+.one-steps {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(0, 1fr);
+	gap: var(--margin-md);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.one-step {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	min-width: 0;
+	padding-top: 10px;
+	border-top: 3px solid var(--surface-gray-2);
+}
+
+.one-step-done {
+	border-top-color: var(--surface-gray-7);
+}
+
+.one-step-now {
+	border-top-color: var(--surface-blue-5);
+}
+
+.one-step-late {
+	border-top-color: var(--surface-red-5);
+}
+
+.one-step-mark {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border-radius: 999px;
+	background: var(--surface-gray-2);
+	color: var(--surface-base);
+}
+
+.one-step-done .one-step-mark {
+	background: var(--surface-gray-7);
+}
+
+.one-step-now .one-step-mark {
+	background: var(--surface-blue-5);
+	box-shadow: inset 0 0 0 5px var(--surface-blue-5), inset 0 0 0 9px var(--surface-base);
+}
+
+.one-step-late .one-step-mark {
+	background: var(--surface-red-5);
+}
+
+.one-step-mark .icon {
+	stroke: currentColor;
+}
+
+.one-step-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.one-step-label {
+	font-size: var(--text-base);
+	font-weight: var(--weight-semibold);
+	line-height: 1.3;
+	color: var(--ink-gray-8);
+}
+
+.one-step-next .one-step-label {
+	color: var(--ink-gray-5);
+}
+
+.one-step-note {
+	font-size: var(--text-sm);
+	line-height: 1.35;
+	color: var(--ink-gray-5);
+	unicode-bidi: isolate;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.one-step-late .one-step-note {
+	color: var(--ink-red-5);
+}
+
+/* Two by two on a phone, where four would cut every label. */
+@media (max-width: 575px) {
+	.one-steps {
+		grid-auto-flow: row;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		row-gap: var(--margin-sm);
+	}
+}
+
 .one-stat {
 	display: flex;
 	flex-direction: column;
