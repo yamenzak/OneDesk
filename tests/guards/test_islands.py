@@ -142,7 +142,6 @@ UNMODELLED = {
 	"home/InventoryHome.vue",
 	"item/ItemPage.vue",
 	"project/ProjectPage.vue",
-	"sent_out/SentOutPage.vue",
 	"task/MyTasks.vue",
 	"task/TaskPage.vue",
 	"template/TemplatePage.vue",

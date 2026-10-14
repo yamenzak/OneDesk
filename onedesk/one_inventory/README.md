@@ -513,9 +513,11 @@ how many **Workstations** there are, how many are **Making**, how many are
   supplier's service. **Sent Out** in the rail keeps that work on one page.
   The figures say how many orders are out, how many still have materials
   to send, how many are late back, and what our materials with suppliers
-  are worth at cost. **Out Now** lists each order with what the supplier
-  makes and how much is back, what went to them, the project and when it
-  is due, red once late. **Back** lists those done with.
+  are worth at cost. **Out Now** is a table, as Katana lays out its
+  outsourced orders: what the supplier makes with its number and project,
+  the supplier, where it stands, what went to them, how much is back with a
+  bar, and when it is due, red once late. **Back** is the same table of
+  those done with, with when each went.
   **Send Work Out** starts the purchase order for the supplier's service,
   marked **Is Subcontracted**. A purchase order with no subcontracting
   order yet is listed under **Not Ready to Send**, with **Make

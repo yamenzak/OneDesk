@@ -11838,7 +11838,8 @@ Reports and Setup.
 | Making › Plant Floor | done, drawn after Odoo's work centres |
 | Making › Work Orders | done |
 | Making › Bills of Materials | done |
-| Making › Sent Out | next |
+| Making › Sent Out | done, redrawn after Katana and Odoo |
+| Assets › Assets | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12508,3 +12509,34 @@ steps.
 |---|---|
 | 5 Our look | a word, not a checkbox; the steps' table says where each runs |
 | Still in English | none left on a bill, its steps or its lines |
+
+**Sent Out.** One of our own screens, on the list still to be drawn after an
+app people know. Looked at as Karim, at 1440 wide and on a phone, on Out Now
+and Back.
+
+- **Lines of text, redrawn as a table.** An order was "Aluminium Profile
+  6063, Powder Coated · Gulf Powder Coating With Supplier / 0 of 200 Meter
+  back / Sent 200 Meter of Aluminium Profile 6063 / For Bayview Tower".
+  It is a table now (`OutRows.vue`), modelled on Katana's outsourced
+  purchase orders and Odoo's subcontracting: what the supplier makes with
+  its picture, number and project, the supplier, a status Badge in plain
+  words, what was sent (the material and how much, or how many of them went
+  in full), how much is back with a bar, and when it is due with "in 3
+  days", red once late. On Back the last column says when it went. A phone
+  keeps what is made, its Badge and how much is back.
+- **Units by their symbol** where the workspace gave one.
+- **The company's own.** The orders, the figures and the purchase orders
+  not ready to send were every company's; they are the reader's company's
+  now, and the money said in the company's own currency, where it was read
+  from the reader's default. The page hears bins and projects too. The
+  atlas's counts for Sent Out fall to none.
+- **Numbers through frappe.** The figures printed with `String()`; they go
+  through `count`.
+- The page names what it is modelled on and comes off the list still to be
+  redrawn.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on Katana and Odoo, a table not text |
+| 8 Built from frappe | frappe-ui's List, Badge, Avatar, Progress and Dropdown |
+| What ERPNext already does | its Subcontracting Order's own statuses and calls; one company's orders |

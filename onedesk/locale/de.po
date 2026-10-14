@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 06:47+0000\n"
+"POT-Creation-Date: 2026-10-14 07:10+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1520,16 +1520,16 @@ msgstr "Handlung"
 #: frontend/src/project/Invoices.vue:62 frontend/src/project/Suppliers.vue:74
 #: frontend/src/project/Suppliers.vue:122 frontend/src/project/Team.vue:52
 #: frontend/src/quotes/QuoteRows.vue:45 frontend/src/quotes/RequestRows.vue:41
-#: frontend/src/template/Tasks.vue:85 onedesk/one/sidebar/one/one.json
-#: onedesk/public/js/project.js:26 onedesk/public/js/project.js:31
-#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:48
-#: onedesk/public/js/project.js:52 onedesk/public/js/project.js:77
-#: onedesk/public/js/settings.js:983 onedesk/public/js/settings.js:993
-#: onedesk/public/js/settings.js:1004 onedesk/public/js/settings.js:1016
-#: onedesk/public/js/settings.js:1025 onedesk/public/js/settings.js:1261
-#: onedesk/public/js/settings.js:1310 onedesk/public/js/settings.js:1342
-#: onedesk/public/js/settings.js:2586 onedesk/public/js/settings.js:3203
-#: onedesk/public/js/settings.js:3260
+#: frontend/src/sent_out/OutRows.vue:59 frontend/src/template/Tasks.vue:85
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:26
+#: onedesk/public/js/project.js:31 onedesk/public/js/project.js:33
+#: onedesk/public/js/project.js:48 onedesk/public/js/project.js:52
+#: onedesk/public/js/project.js:77 onedesk/public/js/settings.js:983
+#: onedesk/public/js/settings.js:993 onedesk/public/js/settings.js:1004
+#: onedesk/public/js/settings.js:1016 onedesk/public/js/settings.js:1025
+#: onedesk/public/js/settings.js:1261 onedesk/public/js/settings.js:1310
+#: onedesk/public/js/settings.js:1342 onedesk/public/js/settings.js:2586
+#: onedesk/public/js/settings.js:3203 onedesk/public/js/settings.js:3260
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -3845,8 +3845,8 @@ msgstr "Abwesend bis"
 msgid "B"
 msgstr "B"
 
-#: frontend/src/sent_out/SentOutPage.vue:81
-#: frontend/src/sent_out/SentOutPage.vue:100 onedesk/public/js/onecloud.js:116
+#: frontend/src/sent_out/OutRows.vue:13 frontend/src/sent_out/OutRows.vue:96
+#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/public/js/onecloud.js:116
 msgid "Back"
 msgstr "Zurück"
 
@@ -5646,7 +5646,7 @@ msgstr "{0} abschließen? Danach kann nichts mehr darauf erfasst werden."
 
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
-#: frontend/src/sent_out/SentOutPage.vue:101 onedesk/one_admin/accounts.py:148
+#: frontend/src/sent_out/OutRows.vue:97 onedesk/one_admin/accounts.py:148
 #: onedesk/one_admin/accounts.py:168
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
@@ -8352,10 +8352,10 @@ msgstr "Verworfen"
 #: frontend/src/project/Invoices.vue:33 frontend/src/project/Overview.vue:156
 #: frontend/src/project/Overview.vue:302 frontend/src/project/Suppliers.vue:93
 #: frontend/src/project/TaskPanel.vue:31 frontend/src/project/Tasks.vue:21
-#: frontend/src/task/MyTasks.vue:34 frontend/src/task/MyTasks.vue:44
-#: frontend/src/task/TaskPage.vue:23 frontend/src/upkeep/UpkeepPage.vue:76
-#: onedesk/one/portal.py:335 onedesk/one_admin/accounts.py:217
-#: onedesk/one_book/heads.py:324
+#: frontend/src/sent_out/OutRows.vue:14 frontend/src/task/MyTasks.vue:34
+#: frontend/src/task/MyTasks.vue:44 frontend/src/task/TaskPage.vue:23
+#: frontend/src/upkeep/UpkeepPage.vue:76 onedesk/one/portal.py:335
+#: onedesk/one_admin/accounts.py:217 onedesk/one_book/heads.py:324
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_inventory/heads.py:1399 onedesk/one_project/heads.py:216
 #: onedesk/public/js/settings.js:1745 onedesk/public/js/task_new.js:41
@@ -8417,8 +8417,7 @@ msgstr "Morgen fällig"
 #: frontend/src/project/Invoices.vue:57 frontend/src/project/Overview.vue:317
 #: frontend/src/project/Overview.vue:353 frontend/src/project/Suppliers.vue:70
 #: frontend/src/project/Suppliers.vue:117
-#: frontend/src/sent_out/SentOutPage.vue:123
-#: frontend/src/sent_out/SentOutPage.vue:142
+#: frontend/src/sent_out/SentOutPage.vue:106
 #: frontend/src/upkeep/UpkeepPage.vue:123
 msgid "Due {0}"
 msgstr "Fällig am {0}"
@@ -10580,8 +10579,7 @@ msgstr "Für dich"
 msgid "For your organisation"
 msgstr "Für deine Organisation"
 
-#: frontend/src/item/ItemBuying.vue:114
-#: frontend/src/sent_out/SentOutPage.vue:121 onedesk/one/print_blocks.py:156
+#: frontend/src/item/ItemBuying.vue:114 onedesk/one/print_blocks.py:156
 #: onedesk/one/print_blocks.py:165 onedesk/one/print_blocks.py:166
 #: onedesk/one/print_blocks.py:168 onedesk/one/print_blocks.py:169
 msgid "For {0}"
@@ -13753,7 +13751,7 @@ msgstr "Dauer (Tage)"
 msgid "Late"
 msgstr "Verspätet"
 
-#: frontend/src/sent_out/SentOutPage.vue:89
+#: frontend/src/sent_out/SentOutPage.vue:94
 msgid "Late Back"
 msgstr "Verspätet zurück"
 
@@ -15018,7 +15016,7 @@ msgstr "Mehr fertigen"
 msgid "Make Order"
 msgstr "Auftrag erstellen"
 
-#: frontend/src/sent_out/SentOutPage.vue:144
+#: frontend/src/sent_out/SentOutPage.vue:108
 msgid "Make Subcontracting Order"
 msgstr "Lohnfertigungsauftrag anlegen"
 
@@ -15066,7 +15064,7 @@ msgstr "Kürzer machen"
 msgid "Make it smaller"
 msgstr "Kleiner machen"
 
-#: frontend/src/sent_out/SentOutPage.vue:141
+#: frontend/src/sent_out/SentOutPage.vue:105
 msgid "Make its subcontracting order to send the materials"
 msgstr "Lohnfertigungsauftrag anlegen, um das Material zu senden"
 
@@ -15079,7 +15077,7 @@ msgid "Make {0} the main address? Sign-in, invitations and links in emails will 
 msgstr "{0} zur Hauptadresse machen? Anmeldung, Einladungen und Links in E-Mails verwenden sie."
 
 #. Label in the One Work Order print format
-#: onedesk/one_inventory/heads.py:1342
+#: frontend/src/sent_out/OutRows.vue:9 onedesk/one_inventory/heads.py:1342
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Makes"
 msgstr "Fertigt"
@@ -15387,7 +15385,7 @@ msgstr "Verbrauchtes Material"
 msgid "Materials go to {0} and what is made goes to {1}."
 msgstr "Material kommt nach {0}, Gefertigtes nach {1}."
 
-#: frontend/src/sent_out/SentOutPage.vue:88
+#: frontend/src/sent_out/SentOutPage.vue:93
 msgid "Materials to Send"
 msgstr "Zu sendendes Material"
 
@@ -16986,7 +16984,7 @@ msgstr "Kein offener Server für EU-Arbeitsbereiche"
 msgid "No open server for new workspaces"
 msgstr "Kein offener Server für neue Arbeitsbereiche"
 
-#: frontend/src/sent_out/SentOutPage.vue:24
+#: frontend/src/sent_out/SentOutPage.vue:26
 msgid "No orders match"
 msgstr "Keine passenden Aufträge"
 
@@ -17349,7 +17347,7 @@ msgstr "Noch nicht berechnet"
 msgid "Not Permitted"
 msgstr ""
 
-#: frontend/src/sent_out/SentOutPage.vue:20
+#: frontend/src/sent_out/SentOutPage.vue:22
 msgid "Not Ready to Send"
 msgstr "Noch nicht versandbereit"
 
@@ -17408,7 +17406,7 @@ msgstr "Kein Meilenstein"
 msgid "Not active recently"
 msgstr "In letzter Zeit nicht aktiv"
 
-#: frontend/src/sent_out/SentOutPage.vue:88
+#: frontend/src/sent_out/SentOutPage.vue:93
 msgid "Not all sent yet"
 msgstr "Noch nicht alles gesendet"
 
@@ -17665,7 +17663,7 @@ msgstr "Nichts Neues"
 msgid "Nothing asked yet. Ask something about what is on screen, or anything else."
 msgstr "Noch nichts gefragt. Fragen Sie zu dem, was auf dem Bildschirm steht, oder zu etwas anderem."
 
-#: frontend/src/sent_out/SentOutPage.vue:24
+#: frontend/src/sent_out/SentOutPage.vue:26
 msgid "Nothing back yet"
 msgstr "Noch nichts zurück"
 
@@ -17744,7 +17742,7 @@ msgstr "Nichts bestellt"
 msgid "Nothing on the floor"
 msgstr "Nichts in der Werkstatt"
 
-#: frontend/src/sent_out/SentOutPage.vue:24
+#: frontend/src/sent_out/SentOutPage.vue:26
 msgid "Nothing out now"
 msgstr "Derzeit nichts draußen"
 
@@ -19163,7 +19161,7 @@ msgstr "Plan öffnen"
 msgid "Open Projects"
 msgstr "Offene Projekte"
 
-#: frontend/src/sent_out/SentOutPage.vue:129
+#: frontend/src/sent_out/OutRows.vue:115
 msgid "Open Purchase Order"
 msgstr "Bestellung öffnen"
 
@@ -19545,7 +19543,7 @@ msgstr "Sonst nur die Person, die ihn angelegt hat. Nur ein Arbeitsbereich-Admin
 msgid "Our invoice {0} of {1} for {2} was due on {3}, and {4} of it is still outstanding."
 msgstr "Unsere Rechnung {0} vom {1} über {2} war am {3} fällig, und {4} davon sind noch offen."
 
-#: frontend/src/sent_out/SentOutPage.vue:90
+#: frontend/src/sent_out/SentOutPage.vue:95
 msgid "Our materials, at cost"
 msgstr "Unser Material, zu Kosten"
 
@@ -19562,8 +19560,8 @@ msgstr "Unser"
 msgid "Out"
 msgstr "Aus"
 
-#: frontend/src/sent_out/SentOutPage.vue:80
-#: frontend/src/sent_out/SentOutPage.vue:87
+#: frontend/src/sent_out/SentOutPage.vue:85
+#: frontend/src/sent_out/SentOutPage.vue:92
 msgid "Out Now"
 msgstr "Derzeit draußen"
 
@@ -20008,7 +20006,7 @@ msgstr "Beteiligte"
 msgid "Partitions and ceiling frames"
 msgstr "Trennwände und Deckenunterkonstruktion"
 
-#: frontend/src/sent_out/SentOutPage.vue:99
+#: frontend/src/sent_out/OutRows.vue:95
 msgid "Partly Back"
 msgstr "Teilweise zurück"
 
@@ -20018,7 +20016,7 @@ msgstr "Teilweise bestellt"
 
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: frontend/src/sent_out/SentOutPage.vue:97
+#: frontend/src/sent_out/OutRows.vue:93
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/public/js/onecloud.js:1736
 msgid "Partly Sent"
@@ -22302,7 +22300,7 @@ msgstr "Forderungen und Verbindlichkeiten geprüft"
 msgid "Receive"
 msgstr "Empfangen"
 
-#: frontend/src/sent_out/SentOutPage.vue:128
+#: frontend/src/sent_out/OutRows.vue:114
 msgid "Receive Back"
 msgstr "Zurücknehmen"
 
@@ -24056,7 +24054,7 @@ msgstr "Abdichten und wetterfest machen"
 #: frontend/src/home/InventoryHome.vue:32 frontend/src/lots/LotsPage.vue:21
 #: frontend/src/project/ProjectPage.vue:22
 #: frontend/src/quotes/QuotesPage.vue:15
-#: frontend/src/sent_out/SentOutPage.vue:15
+#: frontend/src/sent_out/SentOutPage.vue:17
 #: frontend/src/to_order/ToOrderPage.vue:14
 #: frontend/src/upkeep/UpkeepPage.vue:14
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -24201,7 +24199,7 @@ msgstr "Senden"
 msgid "Send Link"
 msgstr "Link senden"
 
-#: frontend/src/sent_out/SentOutPage.vue:127
+#: frontend/src/sent_out/OutRows.vue:113
 msgid "Send Materials"
 msgstr "Material senden"
 
@@ -24225,7 +24223,7 @@ msgstr "Test senden"
 msgid "Send This"
 msgstr "Senden"
 
-#: frontend/src/sent_out/SentOutPage.vue:152
+#: frontend/src/sent_out/SentOutPage.vue:116
 msgid "Send Work Out"
 msgstr "Arbeit vergeben"
 
@@ -24292,7 +24290,7 @@ msgstr "Vertraulichkeit"
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
-#: onedesk/one/portal.py:235
+#: frontend/src/sent_out/OutRows.vue:12 onedesk/one/portal.py:235
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -24309,12 +24307,13 @@ msgid "Sent By"
 msgstr "Versandt von"
 
 #. Label of the sent_on (Datetime) field in DocType 'Cloud File Request Upload'
+#: frontend/src/sent_out/OutRows.vue:14
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 msgid "Sent On"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/sent_out/SentOutPage.vue:150 onedesk/one_inventory/home.py:63
+#: frontend/src/sent_out/SentOutPage.vue:114 onedesk/one_inventory/home.py:63
 #: onedesk/one_inventory/page/sent_out/sent_out.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:33
@@ -24361,11 +24360,6 @@ msgstr "Wird an {0} gesendet."
 #: onedesk/public/js/privacy_request.js:33
 msgid "Sent to {0}. For example, payroll for the month has to close first."
 msgstr "Wird an {0} gesendet. Zum Beispiel: Die Gehaltsabrechnung des Monats muss zuerst abgeschlossen werden."
-
-#: frontend/src/sent_out/SentOutPage.vue:120
-#: frontend/src/sent_out/SentOutPage.vue:123
-msgid "Sent {0}"
-msgstr "Gesendet {0}"
 
 #: onedesk/www/s.py:39
 msgid "Sent {0} files. Thank you."
@@ -26068,8 +26062,8 @@ msgstr ""
 #: frontend/src/project/TaskPanel.vue:8 frontend/src/project/Tasks.vue:20
 #: frontend/src/project/Tasks.vue:43 frontend/src/project/Time.vue:36
 #: frontend/src/quotes/QuoteRows.vue:10 frontend/src/quotes/RequestRows.vue:9
-#: frontend/src/stock/StockOnHand.vue:30 frontend/src/task/TaskPage.vue:10
-#: frontend/src/task/TaskTime.vue:26
+#: frontend/src/sent_out/OutRows.vue:11 frontend/src/stock/StockOnHand.vue:30
+#: frontend/src/task/TaskPage.vue:10 frontend/src/task/TaskTime.vue:26
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one/portal.py:66 onedesk/one/portal.py:67 onedesk/one/portal.py:68
@@ -26763,7 +26757,8 @@ msgstr "Vom Kunden beigestellt"
 #. Label of the supplier (Link) field in DocType 'Project Contact'
 #: frontend/src/item/ItemSuppliers.vue:41 frontend/src/project/Overview.vue:450
 #: frontend/src/project/Suppliers.vue:91 frontend/src/project/Suppliers.vue:146
-#: frontend/src/quotes/QuoteRows.vue:9 frontend/src/to_order/ToOrderPage.vue:25
+#: frontend/src/quotes/QuoteRows.vue:9 frontend/src/sent_out/OutRows.vue:10
+#: frontend/src/to_order/ToOrderPage.vue:25
 #: frontend/src/to_order/ToOrderPage.vue:176 onedesk/one/print_blocks.py:106
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/lots_actions.js:114
@@ -29576,7 +29571,7 @@ msgstr "An externe Adressen"
 msgid "To Pay"
 msgstr "Zu zahlen"
 
-#: frontend/src/sent_out/SentOutPage.vue:96
+#: frontend/src/sent_out/OutRows.vue:92
 msgid "To Send"
 msgstr "Zu senden"
 
@@ -31031,7 +31026,6 @@ msgstr "War wert"
 
 #: frontend/src/home/InventoryHome.vue:259 frontend/src/item/ItemBuying.vue:67
 #: frontend/src/item/ItemSelling.vue:66
-#: frontend/src/sent_out/SentOutPage.vue:123
 msgid "Was due {0}"
 msgstr "War fällig am {0}"
 
@@ -33553,11 +33547,11 @@ msgstr "Mit"
 msgid "With Steps"
 msgstr "Mit Schritten"
 
-#: frontend/src/sent_out/SentOutPage.vue:98
+#: frontend/src/sent_out/OutRows.vue:94
 msgid "With Supplier"
 msgstr "Beim Lieferanten"
 
-#: frontend/src/sent_out/SentOutPage.vue:90
+#: frontend/src/sent_out/SentOutPage.vue:95
 msgid "With Suppliers"
 msgstr "Bei Lieferanten"
 
@@ -35163,6 +35157,10 @@ msgstr "hat {0} zur Feiertagsliste für alle gemacht"
 msgid "manual"
 msgstr "von Hand"
 
+#: frontend/src/sent_out/OutRows.vue:40
+msgid "materials sent"
+msgstr "Materialien gesendet"
+
 #: onedesk/one/ai_setup.py:545
 msgid "may no longer {0}"
 msgstr "darf nicht mehr {0}"
@@ -35937,8 +35935,8 @@ msgstr ""
 msgid "{0} and {1} aren't in the same zone."
 msgstr "{0} und {1} sind nicht in derselben Zone."
 
-#: frontend/src/sent_out/SentOutPage.vue:114
-#: onedesk/one_inventory/quotes.py:179 onedesk/one_project/billing.py:581
+#: frontend/src/sent_out/OutRows.vue:105 onedesk/one_inventory/quotes.py:179
+#: onedesk/one_project/billing.py:581
 msgid "{0} and {1} more"
 msgstr "{0} und {1} weitere"
 
@@ -37173,8 +37171,8 @@ msgstr "{0} davon aktiv."
 #: frontend/src/project/MilestoneLanes.vue:104
 #: frontend/src/project/Months.vue:11 frontend/src/project/TaskPanel.vue:85
 #: frontend/src/project/TaskPanel.vue:96 frontend/src/project/Tasks.vue:34
-#: frontend/src/quotes/RequestRows.vue:32
-#: frontend/src/sent_out/SentOutPage.vue:120 frontend/src/task/TaskPage.vue:65
+#: frontend/src/quotes/RequestRows.vue:32 frontend/src/sent_out/OutRows.vue:38
+#: frontend/src/sent_out/OutRows.vue:46 frontend/src/task/TaskPage.vue:65
 #: frontend/src/task/TaskPage.vue:76 frontend/src/task/TaskPage.vue:257
 #: frontend/src/task/TaskPage.vue:258 onedesk/one/heads.py:71
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:43
@@ -37188,10 +37186,6 @@ msgstr "{0} von {1}"
 #: onedesk/public/js/tenant.js:111
 msgid "{0} of {1} ({2}%)"
 msgstr "{0} von {1} ({2} %)"
-
-#: frontend/src/sent_out/SentOutPage.vue:119
-msgid "{0} of {1} back"
-msgstr "{0} von {1} zurück"
 
 #: frontend/src/project/Overview.vue:370 frontend/src/project/Overview.vue:391
 msgid "{0} of {1} budget"

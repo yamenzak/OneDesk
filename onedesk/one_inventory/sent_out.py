@@ -5,6 +5,7 @@ it. Every change is ERPNext's own call. How it works is in the module's
 README, Under the hood.
 """
 
+import erpnext
 import frappe
 from frappe.utils import flt, getdate, today
 
@@ -25,7 +26,7 @@ def read(view: str = "out", search: str | None = None) -> dict:
 			"receive": bool(frappe.has_permission("Subcontracting Receipt", "create")),
 		},
 		"figures": figures(),
-		"currency": frappe.get_cached_value("Company", frappe.defaults.get_user_default("Company") or frappe.db.get_single_value("Global Defaults", "default_company"), "default_currency"),
+		"currency": erpnext.get_company_currency(erpnext.get_default_company()),
 		"orders": orders(done=view == "done", search=search),
 		"to_order": to_order() if view != "done" else [],
 	}
@@ -38,7 +39,7 @@ def figures() -> dict:
 		return {"out": None, "to_send": None, "late": None, "worth": None}
 	out = frappe.get_list(
 		"Subcontracting Order",
-		filters={"docstatus": 1, "status": ["in", OUT]},
+		filters={"docstatus": 1, "status": ["in", OUT], "company": erpnext.get_default_company()},
 		fields=["name", "status", "schedule_date", "supplier_warehouse"],
 	)
 	day = getdate(today())
@@ -71,7 +72,7 @@ def orders(done: bool = False, search: str | None = None) -> list[dict]:
 	and used, and when it is due back."""
 	if not frappe.has_permission("Subcontracting Order", "read"):
 		return []
-	filters = {"docstatus": 1, "status": ["in", DONE if done else OUT]}
+	filters = {"docstatus": 1, "status": ["in", DONE if done else OUT], "company": erpnext.get_default_company()}
 	or_filters = {"name": ["like", f"%{search}%"], "supplier_name": ["like", f"%{search}%"]} if search else None
 	found = frappe.get_list(
 		"Subcontracting Order",
@@ -102,7 +103,15 @@ def orders(done: bool = False, search: str | None = None) -> list[dict]:
 		order_by="idx",
 	):
 		makes.setdefault(row.parent, []).append(
-			{"item": row.item_code, "name": row.item_name, "qty": flt(row.qty), "back": flt(row.received_qty), "uom": row.stock_uom}
+			{
+				"item": row.item_code,
+				"name": row.item_name,
+				"image": frappe.get_cached_value("Item", row.item_code, "image"),
+				"qty": flt(row.qty),
+				"back": flt(row.received_qty),
+				"uom": row.stock_uom,
+				"unit": _unit(row.stock_uom),
+			}
 		)
 	sent: dict = {}
 	for row in frappe.get_all(
@@ -119,6 +128,7 @@ def orders(done: bool = False, search: str | None = None) -> list[dict]:
 				"sent": flt(row.supplied_qty) - flt(row.returned_qty),
 				"used": flt(row.consumed_qty),
 				"uom": row.stock_uom,
+				"unit": _unit(row.stock_uom),
 			}
 		)
 	projects = {
@@ -149,7 +159,12 @@ def to_order() -> list[dict]:
 		return []
 	found = frappe.get_list(
 		"Purchase Order",
-		filters={"docstatus": 1, "is_subcontracted": 1, "status": ["not in", ["Closed", "Completed", "Cancelled"]]},
+		filters={
+			"docstatus": 1,
+			"is_subcontracted": 1,
+			"status": ["not in", ["Closed", "Completed", "Cancelled"]],
+			"company": erpnext.get_default_company(),
+		},
 		fields=["name", "supplier", "supplier_name", "transaction_date", "schedule_date"],
 		order_by="transaction_date desc",
 		limit=MOST,
@@ -164,3 +179,8 @@ def to_order() -> list[dict]:
 		for one in found
 		if one.name not in made
 	]
+
+
+def _unit(uom: str | None) -> str | None:
+	"""A unit by its symbol where the workspace gave it one (m for Meter)."""
+	return (frappe.get_cached_value("UOM", uom, "symbol") or uom) if uom else uom

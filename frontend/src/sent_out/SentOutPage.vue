@@ -3,7 +3,9 @@
        materials as one page. Each order says what the supplier makes, what
        went to them and what came back, and when it is due, with Send
        Materials and Receive Back where they fit (one_inventory/sent_out.py,
-       sent_out_actions.js). -->
+       sent_out_actions.js). Modelled on Katana's outsourced purchase orders
+       and Odoo's subcontracting: one table of what is out, and the orders
+       not ready to send above it. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -21,7 +23,7 @@
         <Rows :rows="toOrder" />
       </Section>
       <div class="mt-3">
-        <Rows :rows="rows" :empty="search ? __('No orders match') : shown === 'done' ? __('Nothing back yet') : __('Nothing out now')" />
+        <OutRows :orders="said.orders" :can="said.can" :done="shown === 'done'" :empty="search ? __('No orders match') : shown === 'done' ? __('Nothing back yet') : __('Nothing out now')" />
       </div>
     </template>
   </Page>
@@ -31,7 +33,8 @@
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 
-import { Figures, Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, date, followList, go, money, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
+import { Figures, Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, money, onResize, onedesk, setQuery, viewWidth } from "../kit";
+import OutRows from "./OutRows.vue";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -61,7 +64,9 @@ const soonLoad = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-const stop = ["Subcontracting Order", "Subcontracting Receipt", "Stock Entry", "Purchase Order"].map((one) => followList(one, soonLoad));
+// What the materials with suppliers are worth moves with their bins; a
+// project renamed shows too.
+const stop = ["Subcontracting Order", "Subcontracting Receipt", "Stock Entry", "Purchase Order", "Bin", "Project"].map((one) => followList(one, soonLoad));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
@@ -84,53 +89,12 @@ const views = computed(() => [
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    f.out !== null && { title: __("Out Now"), value: String(f.out) },
-    f.to_send !== null && { title: __("Materials to Send"), value: String(f.to_send), note: f.to_send ? __("Not all sent yet") : "" },
-    f.late !== null && { title: __("Late Back"), value: String(f.late), alarm: f.late > 0 },
+    f.out !== null && { title: __("Out Now"), value: count(f.out) },
+    f.to_send !== null && { title: __("Materials to Send"), value: count(f.to_send), note: f.to_send ? __("Not all sent yet") : "" },
+    f.late !== null && { title: __("Late Back"), value: count(f.late), alarm: f.late > 0 },
     f.worth !== null && { title: __("With Suppliers"), value: money(f.worth, said.value.currency), note: __("Our materials, at cost") },
   ].filter(Boolean);
 });
-
-// ERPNext's own statuses, in plain words.
-const STATES = {
-  Open: [() => __("To Send"), "amber"],
-  "Partial Material Transferred": [() => __("Partly Sent"), "amber"],
-  "Material Transferred": [() => __("With Supplier"), "blue"],
-  "Partially Received": [() => __("Partly Back"), "blue"],
-  Completed: [() => __("Back"), "green"],
-  Closed: [() => __("Closed"), "gray"],
-};
-
-// An order in a row: what the supplier makes and how much is back, what
-// went to them, and when it is due.
-const rows = computed(() =>
-  said.value.orders.map((one) => {
-    const [label, theme] = STATES[one.status] || [() => __(one.status), "gray"];
-    const made = one.makes[0];
-    const back = one.makes.reduce((sum, row) => sum + row.back, 0);
-    const asked = one.makes.reduce((sum, row) => sum + row.qty, 0);
-    return {
-      key: one.name,
-      label: made ? (one.makes.length > 1 ? __("{0} and {1} more", [made.name, one.makes.length - 1]) : made.name) : one.name,
-      sub: one.supplier_name || one.supplier,
-      dot: one.late ? "red" : null,
-      badge: { label: label(), theme },
-      lines: [
-        made ? __("{0} of {1} back", [quantity(back), quantity(asked, made.uom)]) : "",
-        one.materials.length ? __("Sent {0}", [one.materials.map((row) => __("{0} of {1}", [quantity(row.sent, row.uom), row.name])).join(", ")]) : "",
-        one.project_name ? __("For {0}", [one.project_name]) : "",
-      ].filter(Boolean),
-      value: one.schedule_date ? (one.late ? __("Was due {0}", [date(one.schedule_date)]) : shown.value === "done" ? __("Sent {0}", [date(one.transaction_date)]) : __("Due {0}", [date(one.schedule_date)])) : "",
-      under: one.name,
-      route: `/desk/subcontracting-order/${encodeURIComponent(one.name)}`,
-      actions: [
-        said.value.can.send && ["Open", "Partial Material Transferred"].includes(one.status) && { label: __("Send Materials"), icon: "lucide-truck", onClick: () => onedesk().sent_out.send(one.name) },
-        said.value.can.receive && ["Partial Material Transferred", "Material Transferred", "Partially Received"].includes(one.status) && { label: __("Receive Back"), icon: "lucide-package-check", onClick: () => onedesk().sent_out.receive(one.name) },
-        one.purchase_order && { label: __("Open Purchase Order"), icon: "lucide-arrow-up-right", onClick: () => go(`/desk/purchase-order/${encodeURIComponent(one.purchase_order)}`) },
-      ].filter(Boolean),
-    };
-  })
-);
 
 // Subcontracted purchase orders that still need their subcontracting order.
 const toOrder = computed(() =>
