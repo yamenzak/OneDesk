@@ -20,6 +20,48 @@ GROUPS = (
 	("reports", _lt("Reports")),
 	("setup", _lt("Setup")),
 )
+#: What a report is about, as Reports sets them out, one section to a topic.
+TOPICS = (
+	("stock", _lt("Stock")),
+	("lots", _lt("Lots and Serial Numbers")),
+	("buying", _lt("Buying and Selling")),
+	("making", _lt("Making")),
+	("equipment", _lt("Equipment")),
+	("books", _lt("The Books")),
+)
+REPORT_TOPICS = {
+	"Stock Ledger": "stock",
+	"Stock Projected Qty": "stock",
+	"Stock Ageing": "stock",
+	"Warehouse Wise Stock Balance": "stock",
+	"Warehouse wise Item Balance Age and Value": "stock",
+	"warehouse-capacity-summary": "stock",
+	"Item Shortage Report": "stock",
+	"Item Wise Consumption": "stock",
+	"Product Bundle Balance": "stock",
+	"Batch Item Expiry Status": "lots",
+	"Available Batch Report": "lots",
+	"Serial and Batch Wise Stock Balance": "lots",
+	"Available Serial No": "lots",
+	"Serial No Ledger": "lots",
+	"Batch-Wise Balance History": "lots",
+	"Purchase Order Analysis": "buying",
+	"Procurement Tracker": "buying",
+	"Purchase Analytics": "buying",
+	"Item Prices": "buying",
+	"Delayed Order Report": "buying",
+	"Work Order Summary": "making",
+	"Material Requirements Planning Report": "making",
+	"Downtime Analysis": "making",
+	"bom-comparison-tool": "making",
+	"Subcontract Order Summary": "making",
+	"Fixed Asset Register": "equipment",
+	"Asset Depreciations and Balances": "equipment",
+	"Asset Depreciation Ledger": "equipment",
+	"Asset Activity": "equipment",
+	"COGS By Item Group": "books",
+	"Stock and Account Value Comparison": "books",
+}
 EVERYTHING = (
 	("stock", _lt("Items"), "DocType", "Item", _lt("Everything you keep, buy, sell or make.")),
 	("stock", _lt("Stock on Hand"), "Page", "stock-on-hand", _lt("What each warehouse holds now, and what it is worth.")),
@@ -148,6 +190,7 @@ def read() -> dict:
 		"currency": _currency(),
 		"needs": needs,
 		"groups": [{"key": key, "label": str(label)} for key, label in GROUPS],
+		"topics": [{"key": key, "label": str(label)} for key, label in TOPICS],
 		"everything": directory(),
 	}
 
@@ -259,7 +302,14 @@ def _may(kind: str, target: str) -> bool:
 def directory() -> list[dict]:
 	"""Everything in OneInventory the reader may open, with what it is for."""
 	return [
-		{"group": group, "label": str(label), "kind": kind, "target": target, "about": str(about)}
+		{
+			"group": group,
+			"label": str(label),
+			"kind": kind,
+			"target": target,
+			"about": str(about),
+			"topic": REPORT_TOPICS.get(target) if group == "reports" else None,
+		}
 		for group, label, kind, target, about in EVERYTHING
 		if _may(kind, target)
 	]

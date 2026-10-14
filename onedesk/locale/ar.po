@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 08:05+0000\n"
+"POT-Creation-Date: 2026-10-14 08:28+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -83,7 +83,7 @@ msgstr "تكلفة واحدة، {0}"
 msgid "1 day"
 msgstr "يوم واحد"
 
-#: frontend/src/home/InventoryHome.vue:206
+#: frontend/src/home/InventoryHome.vue:213
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:329 frontend/src/project/Overview.vue:410
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:238
@@ -99,7 +99,7 @@ msgstr "يوم واحد من {0}."
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
-#: frontend/src/home/InventoryHome.vue:291
+#: frontend/src/home/InventoryHome.vue:298
 #: frontend/src/project/Invoices.vue:119
 msgid "1 draft"
 msgstr "مسودة واحدة"
@@ -855,7 +855,7 @@ msgstr "صورة شخص أو شعار جهة، يُبحث عنها مرة واح
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
-#: onedesk/one_inventory/home.py:49
+#: onedesk/one_inventory/home.py:91
 msgid "A price agreed with a supplier for a year."
 msgstr "سعر متفق عليه مع مورد لمدة سنة."
 
@@ -1032,7 +1032,7 @@ msgstr "رُفعت شكوى حساسة"
 msgid "A series is parts joined by dots. Text stays as written, such as INV- or SO/."
 msgstr "السلسلة أجزاء تفصل بينها نقاط. يبقى النص كما كُتب، مثل INV- أو SO/."
 
-#: onedesk/one_inventory/home.py:122
+#: onedesk/one_inventory/home.py:164
 msgid "A set of steps used by more than one product."
 msgstr "مجموعة خطوات يستخدمها أكثر من منتج."
 
@@ -1127,7 +1127,7 @@ msgstr "تم حفظ ملف اختبار وقراءته."
 msgid "A to Z"
 msgstr "من أ إلى ي"
 
-#: onedesk/one_inventory/home.py:35
+#: onedesk/one_inventory/home.py:77
 msgid "A van's round of deliveries."
 msgstr "جولة توصيل لشاحنة."
 
@@ -2198,7 +2198,7 @@ msgstr "بعد هذا العدد من كلمات المرور الخاطئة ا�
 msgid "Against Invoice"
 msgstr "مقابل الفاتورة"
 
-#: onedesk/one_inventory/home.py:80
+#: onedesk/one_inventory/home.py:122
 msgid "Age and Worth by Warehouse"
 msgstr "العمر والقيمة حسب المستودع"
 
@@ -2590,7 +2590,7 @@ msgstr "تطبيق لأجهزة iPhone وAndroid، من الفكرة إلى ال
 msgid "An approved Attendance Request covered this date, so being off the network or away from every location was not penalised."
 msgstr "غطّى طلب حضور معتمد هذا التاريخ، لذا لم يُحتسب الخروج من الشبكة أو الابتعاد عن كل المواقع."
 
-#: onedesk/one_inventory/home.py:72
+#: onedesk/one_inventory/home.py:114
 msgid "An asset's worth set right."
 msgstr "تصحيح قيمة أصل."
 
@@ -3284,7 +3284,7 @@ msgstr "اسأل في الجولة التالية"
 msgid "Ask suppliers for prices"
 msgstr "اطلب الأسعار من الموردين"
 
-#: onedesk/one_inventory/home.py:44
+#: onedesk/one_inventory/home.py:86
 msgid "Ask suppliers for prices, see their answers side by side and order the cheapest."
 msgstr "اطلب الأسعار من الموردين، وقارن ردودهم جنبًا إلى جنب، واطلب الأرخص."
 
@@ -3420,15 +3420,15 @@ msgstr "تجميع الإطارات"
 msgid "Asset"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:103
+#: onedesk/one_inventory/home.py:145
 msgid "Asset Balances"
 msgstr "أرصدة الأصول"
 
-#: onedesk/one_inventory/home.py:73
+#: onedesk/one_inventory/home.py:115
 msgid "Asset Capitalization"
 msgstr "رسملة الأصول"
 
-#: onedesk/one_inventory/home.py:125
+#: onedesk/one_inventory/home.py:167
 msgid "Asset Categories"
 msgstr "فئات الأصول"
 
@@ -3436,26 +3436,26 @@ msgstr "فئات الأصول"
 msgid "Asset Category"
 msgstr "فئة الأصل"
 
-#: onedesk/one_inventory/home.py:105
+#: onedesk/one_inventory/home.py:147
 msgid "Asset History"
 msgstr "سجل الأصل"
 
-#: onedesk/one_inventory/home.py:67
+#: onedesk/one_inventory/home.py:109
 msgid "Asset Movements"
 msgstr "حركات الأصول"
 
-#: onedesk/one_inventory/home.py:102
+#: onedesk/one_inventory/home.py:144
 msgid "Asset Register"
 msgstr "سجل الأصول"
 
-#: onedesk/one_inventory/home.py:72
+#: onedesk/one_inventory/home.py:114
 msgid "Asset Value Adjustments"
 msgstr "تعديلات قيمة الأصول"
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryStory.vue:92
 #: frontend/src/item/ItemOverview.vue:27 frontend/src/item/ItemPage.vue:249
-#: onedesk/one_inventory/heads.py:1082 onedesk/one_inventory/home.py:66
+#: onedesk/one_inventory/heads.py:1082 onedesk/one_inventory/home.py:108
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Assets"
 msgstr "الأصول"
@@ -3669,7 +3669,7 @@ msgstr "سيُسجَّل الحضور من تسجيلات الدخول على ه
 msgid "Attribute"
 msgstr "السمة"
 
-#: onedesk/one/masters.py:32 onedesk/one_inventory/home.py:114
+#: onedesk/one/masters.py:32 onedesk/one_inventory/home.py:156
 msgid "Attributes"
 msgstr "السمات"
 
@@ -4000,19 +4000,19 @@ msgstr ""
 msgid "Based On"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:78 onedesk/public/js/page_views.js:20
+#: onedesk/one_inventory/home.py:120 onedesk/public/js/page_views.js:20
 msgid "Batch Expiry"
 msgstr "انتهاء صلاحية الدفعات"
 
-#: onedesk/one_inventory/home.py:31 onedesk/public/js/page_views.js:16
+#: onedesk/one_inventory/home.py:73 onedesk/public/js/page_views.js:16
 msgid "Batches"
 msgstr "الدفعات"
 
-#: onedesk/one_inventory/home.py:30
+#: onedesk/one_inventory/home.py:72
 msgid "Batches and serial numbers: what each lot holds, where, and what goes off soon."
 msgstr "الدفعات والأرقام التسلسلية: ما تحويه كل دفعة وأين هي وما ينتهي قريبًا."
 
-#: onedesk/one_inventory/home.py:87
+#: onedesk/one_inventory/home.py:129
 msgid "Batches on Hand"
 msgstr "الدفعات المتوفرة"
 
@@ -4220,7 +4220,7 @@ msgstr "الفاتورة إلى"
 msgid "Bill of Materials"
 msgstr "قائمة المواد"
 
-#: onedesk/one_inventory/home.py:61
+#: onedesk/one_inventory/home.py:103
 msgid "Bill of Materials Builder"
 msgstr "منشئ قوائم المواد"
 
@@ -4348,7 +4348,7 @@ msgid "Bills carry tax"
 msgstr "فواتير الموردين تحمل الضريبة"
 
 #. Label of a Sidebar Item
-#: frontend/src/item/ItemMaking.vue:35 onedesk/one_inventory/home.py:56
+#: frontend/src/item/ItemMaking.vue:35 onedesk/one_inventory/home.py:98
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Bills of Materials"
 msgstr "قوائم المواد"
@@ -4377,7 +4377,7 @@ msgstr "يُترك فارغاً إذا كانت مساحة العمل ما زا�
 msgid "Blanket Order"
 msgstr "أمر شراء إطاري"
 
-#: onedesk/one_inventory/home.py:49
+#: onedesk/one_inventory/home.py:91
 msgid "Blanket Orders"
 msgstr "أوامر الشراء الإطارية"
 
@@ -4511,7 +4511,7 @@ msgstr "لون العلامة التجارية"
 msgid "Brand Line"
 msgstr "خط العلامة التجارية"
 
-#: onedesk/one/masters.py:29 onedesk/one_inventory/home.py:112
+#: onedesk/one/masters.py:29 onedesk/one_inventory/home.py:154
 msgid "Brands"
 msgstr "العلامات التجارية"
 
@@ -4637,7 +4637,7 @@ msgstr "بناء {0} يستغرق ساعات"
 msgid "Built"
 msgstr "أُنشئت"
 
-#: onedesk/one_inventory/home.py:86
+#: onedesk/one_inventory/home.py:128
 msgid "Bundles on Hand"
 msgstr "الحزم المتوفرة"
 
@@ -4686,7 +4686,7 @@ msgstr "سعر الشراء"
 msgid "Buying Prices"
 msgstr "أسعار الشراء"
 
-#: onedesk/one_inventory/home.py:131
+#: onedesk/one_inventory/home.py:173
 msgid "Buying Settings"
 msgstr "إعدادات الشراء"
 
@@ -4698,7 +4698,11 @@ msgstr "وحدة الشراء"
 msgid "Buying and Making"
 msgstr "الشراء والتصنيع"
 
-#: onedesk/one_inventory/home.py:94
+#: onedesk/one_inventory/home.py:27
+msgid "Buying and Selling"
+msgstr ""
+
+#: onedesk/one_inventory/home.py:136
 msgid "Buying by Month"
 msgstr "المشتريات حسب الشهر"
 
@@ -5943,7 +5947,7 @@ msgstr "الشركة ودليل الحسابات والضرائب"
 msgid "Compare"
 msgstr "قارن"
 
-#: onedesk/one_inventory/home.py:100
+#: onedesk/one_inventory/home.py:142
 msgid "Compare Bills of Materials"
 msgstr "مقارنة قوائم المواد"
 
@@ -6474,7 +6478,7 @@ msgstr "نوع التكلفة"
 msgid "Cost Types"
 msgstr "أنواع التكاليف"
 
-#: onedesk/one_inventory/home.py:84
+#: onedesk/one_inventory/home.py:126
 msgid "Cost of Goods Sold"
 msgstr "تكلفة البضاعة المباعة"
 
@@ -6610,7 +6614,7 @@ msgstr ""
 msgid "Country of Origin"
 msgstr "بلد المنشأ"
 
-#: onedesk/one_inventory/home.py:29 onedesk/one_inventory/home.py:229
+#: onedesk/one_inventory/home.py:71 onedesk/one_inventory/home.py:272
 msgid "Counts"
 msgstr "الجرد"
 
@@ -6980,7 +6984,7 @@ msgstr ""
 msgid "Customer Number"
 msgstr "رقم العميل"
 
-#: onedesk/one_inventory/home.py:95
+#: onedesk/one_inventory/home.py:137
 msgid "Customer orders that went out late."
 msgstr "طلبات العملاء التي خرجت متأخرة."
 
@@ -7645,7 +7649,7 @@ msgid "Delivered {0}"
 msgstr "سُلّم {0}"
 
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/home.py:27 onedesk/one_inventory/home.py:227
+#: onedesk/one_inventory/home.py:69 onedesk/one_inventory/home.py:270
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Deliveries"
 msgstr "التسليمات"
@@ -7663,7 +7667,7 @@ msgstr ""
 msgid "Delivery Date"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:95
+#: onedesk/one_inventory/home.py:137
 msgid "Delivery Dates"
 msgstr "مواعيد التسليم"
 
@@ -7677,11 +7681,11 @@ msgstr "رقم التسليم"
 msgid "Delivery Note"
 msgstr "إشعار تسليم"
 
-#: onedesk/one_inventory/home.py:129
+#: onedesk/one_inventory/home.py:171
 msgid "Delivery Settings"
 msgstr "إعدادات التسليم"
 
-#: onedesk/one_inventory/home.py:35
+#: onedesk/one_inventory/home.py:77
 msgid "Delivery Trips"
 msgstr "رحلات التسليم"
 
@@ -7717,7 +7721,7 @@ msgstr "عمّال Workers المنشورة"
 msgid "Deploying it in Frappe Cloud updates every workspace on it."
 msgstr "نشره في Frappe Cloud يحدّث كل مساحات العمل عليه."
 
-#: onedesk/one_inventory/heads.py:1130 onedesk/one_inventory/home.py:104
+#: onedesk/one_inventory/heads.py:1130 onedesk/one_inventory/home.py:146
 msgid "Depreciation"
 msgstr "الإهلاك"
 
@@ -8181,11 +8185,11 @@ msgstr "حجم التنزيل"
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "نزّله أولًا. لا يمكن تصدير أي شيء بعد إغلاق مساحة العمل."
 
-#: onedesk/one_inventory/home.py:62
+#: onedesk/one_inventory/home.py:104
 msgid "Downtime"
 msgstr "التوقف"
 
-#: onedesk/one_inventory/home.py:99
+#: onedesk/one_inventory/home.py:141
 msgid "Downtime by Reason"
 msgstr "التوقف حسب السبب"
 
@@ -8418,7 +8422,7 @@ msgstr "يستحق اليوم"
 msgid "Due tomorrow"
 msgstr "يستحق غدًا"
 
-#: frontend/src/home/InventoryHome.vue:259 frontend/src/item/ItemBuying.vue:67
+#: frontend/src/home/InventoryHome.vue:266 frontend/src/item/ItemBuying.vue:67
 #: frontend/src/item/ItemOverview.vue:108
 #: frontend/src/item/ItemOverview.vue:112
 #: frontend/src/item/ItemOverview.vue:115 frontend/src/item/ItemSelling.vue:66
@@ -8502,11 +8506,11 @@ msgstr "كل مُقابِل لم يقدّمه بعد"
 msgid "Each invited address"
 msgstr "كل عنوان مدعو"
 
-#: onedesk/one_inventory/home.py:85
+#: onedesk/one_inventory/home.py:127
 msgid "Each item's buying and selling prices, side by side."
 msgstr "أسعار شراء كل صنف وبيعه جنبًا إلى جنب."
 
-#: onedesk/one_inventory/home.py:104
+#: onedesk/one_inventory/home.py:146
 msgid "Each month's depreciation."
 msgstr "إهلاك كل شهر."
 
@@ -8571,11 +8575,11 @@ msgstr "يتلقى كل مرسل رد غياب واحدًا كل أربعة أي
 msgid "Each sender gets one reply every four days. Mailing lists get none."
 msgstr "يتلقى كل مرسل ردًا واحدًا كل أربعة أيام. ولا تتلقى القوائم البريدية أي رد."
 
-#: onedesk/one_inventory/home.py:70
+#: onedesk/one_inventory/home.py:112
 msgid "Each service, due and done."
 msgstr "كل صيانة، المستحقة والمنجزة."
 
-#: onedesk/one_inventory/home.py:55
+#: onedesk/one_inventory/home.py:97
 msgid "Each step of a work order, with who did it and how long it took."
 msgstr "كل خطوة من أمر عمل، مع من قام بها وكم استغرقت."
 
@@ -8595,7 +8599,7 @@ msgstr "كل منها يستهلك أرصدة OneAI."
 msgid "Each workspace is billed on its own, so each has its own card."
 msgstr "تُفوتر كل مساحة عمل على حدة، ولذلك لكل منها بطاقتها."
 
-#: onedesk/one_inventory/home.py:53
+#: onedesk/one_inventory/home.py:95
 msgid "Each workstation, and what is running on it."
 msgstr "كل محطة عمل، وما يعمل عليها."
 
@@ -9154,6 +9158,7 @@ msgstr "الغلاف الخارجي"
 #. Label in the One Equipment Handover print format
 #: frontend/src/home/InventoryStory.vue:86 onedesk/one_hr/heads.py:656
 #: onedesk/one_inventory/heads.py:1380 onedesk/one_inventory/home.py:19
+#: onedesk/one_inventory/home.py:29
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_actions.js:20 onedesk/public/js/item_list.js:14
 #: onedesk/public/js/item_new.js:12
@@ -9169,11 +9174,11 @@ msgstr "تسليم معدات"
 msgid "Equipment Handover"
 msgstr "تسليم المعدات"
 
-#: onedesk/one_inventory/home.py:67
+#: onedesk/one_inventory/home.py:109
 msgid "Equipment handed to someone or moved."
 msgstr "معدات سُلّمت لأحد أو نُقلت."
 
-#: onedesk/one_inventory/home.py:71
+#: onedesk/one_inventory/home.py:113
 msgid "Equipment mended, and what it cost."
 msgstr "معدات أُصلحت، وكم كلّف ذلك."
 
@@ -9293,7 +9298,7 @@ msgstr "كل أصل محفوظ في موقع."
 msgid "Every asset is registered"
 msgstr "كل الأصول مسجّلة"
 
-#: onedesk/one_inventory/home.py:102
+#: onedesk/one_inventory/home.py:144
 msgid "Every asset with its cost and worth."
 msgstr "كل أصل بتكلفته وقيمته."
 
@@ -9388,7 +9393,7 @@ msgstr "كل صباح، ما يستحق في ذلك اليوم وما تأخر. 
 msgid "Every morning, what is on your calendar that day. Not sent on a day with nothing on it."
 msgstr "كل صباح، ما في تقويمك لذلك اليوم. لا يُرسل في يوم خالٍ."
 
-#: onedesk/one_inventory/home.py:75
+#: onedesk/one_inventory/home.py:117
 msgid "Every move of stock, one line each."
 msgstr "كل حركة مخزون، سطر لكل منها."
 
@@ -9420,7 +9425,7 @@ msgstr "كل صلاحية تتضمن القراءة."
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr "يُرحّل كل استلام وتسليم إلى حسابات المخزون."
 
-#: onedesk/one_inventory/home.py:89
+#: onedesk/one_inventory/home.py:131
 msgid "Every serial number in stock, and where."
 msgstr "كل رقم تسلسلي في المخزون ومكانه."
 
@@ -9552,7 +9557,7 @@ msgstr "ينتقل كل ما في {0} إلى {1}، ويُحذف {0}."
 msgid "Everything quoted on {0} is ordered already."
 msgstr "كل ما عُرض على {0} مطلوب بالفعل."
 
-#: onedesk/one_inventory/home.py:24
+#: onedesk/one_inventory/home.py:66
 msgid "Everything you keep, buy, sell or make."
 msgstr "كل ما تحتفظ به أو تشتريه أو تبيعه أو تصنعه."
 
@@ -10720,7 +10725,7 @@ msgstr "متاح للبيع"
 msgid "Free until {0}."
 msgstr "مجانًا حتى {0}."
 
-#: onedesk/one_inventory/home.py:36
+#: onedesk/one_inventory/home.py:78
 msgid "Freight and duty added to what goods cost."
 msgstr "الشحن والرسوم المضافة إلى تكلفة البضائع."
 
@@ -10806,7 +10811,7 @@ msgstr "من المكتبة"
 msgid "From the day received"
 msgstr "من يوم الاستلام"
 
-#: onedesk/one_inventory/home.py:93
+#: onedesk/one_inventory/home.py:135
 msgid "From the request to the supplier's bill."
 msgstr "من الطلب إلى فاتورة المورد."
 
@@ -11109,7 +11114,7 @@ msgstr "ينتهي"
 msgid "Goes Off On"
 msgstr "تنتهي في"
 
-#: frontend/src/home/InventoryHome.vue:242
+#: frontend/src/home/InventoryHome.vue:249
 msgid "Goes off {0}"
 msgstr "تنتهي صلاحيتها {0}"
 
@@ -11117,7 +11122,7 @@ msgstr "تنتهي صلاحيتها {0}"
 msgid "Goes to"
 msgstr "يفتح"
 
-#: frontend/src/home/InventoryHome.vue:233 frontend/src/lots/LotRows.vue:80
+#: frontend/src/home/InventoryHome.vue:240 frontend/src/lots/LotRows.vue:80
 #: frontend/src/lots/LotsPage.vue:124
 msgid "Going Off"
 msgstr "قاربت صلاحيتها على الانتهاء"
@@ -11151,19 +11156,19 @@ msgstr "إشعار استلام بضائع"
 msgid "Goods Returned"
 msgstr "بضائع مرتجعة"
 
-#: onedesk/one_inventory/home.py:43
+#: onedesk/one_inventory/home.py:85
 msgid "Goods asked for by the stores, the workshop or a project."
 msgstr "بضائع يطلبها المخزن أو الورشة أو مشروع."
 
-#: onedesk/one_inventory/home.py:41
+#: onedesk/one_inventory/home.py:83
 msgid "Goods checked on the way in, out or while made."
 msgstr "بضائع تُفحص عند الدخول أو الخروج أو أثناء الصنع."
 
-#: onedesk/one_inventory/home.py:27
+#: onedesk/one_inventory/home.py:69
 msgid "Goods sent out to customers."
 msgstr "بضائع أُرسلت إلى العملاء."
 
-#: onedesk/one_inventory/home.py:26
+#: onedesk/one_inventory/home.py:68
 msgid "Goods taken in from suppliers."
 msgstr "بضائع استُلمت من الموردين."
 
@@ -11743,7 +11748,7 @@ msgstr "مدى التزام الموردين بالمواعيد"
 msgid "How are the workstations doing?"
 msgstr "كيف حال محطات العمل؟"
 
-#: onedesk/one_inventory/home.py:131
+#: onedesk/one_inventory/home.py:173
 msgid "How buying works."
 msgstr "كيف يعمل الشراء."
 
@@ -11803,7 +11808,7 @@ msgstr "كيف يعمل البريد هنا؟"
 msgid "How does this page work?"
 msgstr "كيف تعمل هذه الصفحة؟"
 
-#: onedesk/one_inventory/home.py:51
+#: onedesk/one_inventory/home.py:93
 msgid "How each supplier delivers, scored."
 msgstr "تقييم أداء كل مورد في التوريد."
 
@@ -11815,15 +11820,15 @@ msgstr "إلى أين وصل؟"
 msgid "How far along is this work order, step by step, and is everything it needs in the stores?"
 msgstr "إلى أين وصل أمر العمل هذا، خطوة بخطوة، وهل كل ما يحتاجه موجود في المخازن؟"
 
-#: onedesk/one_inventory/home.py:92
+#: onedesk/one_inventory/home.py:134
 msgid "How far each purchase order has come."
 msgstr "إلى أين وصل كل أمر شراء."
 
-#: onedesk/one_inventory/home.py:97
+#: onedesk/one_inventory/home.py:139
 msgid "How far each work order has come."
 msgstr "إلى أين وصل كل أمر عمل."
 
-#: onedesk/one_inventory/home.py:81
+#: onedesk/one_inventory/home.py:123
 msgid "How full each warehouse is against its putaway rules."
 msgstr "مدى امتلاء كل مستودع مقارنة بقواعد التخزين."
 
@@ -11909,7 +11914,7 @@ msgstr "مدة رفض تسجيل الدخول بعد كثرة كلمات الم�
 msgid "How long someone stays signed in while inactive."
 msgstr "مدة بقاء الشخص مسجّل الدخول أثناء عدم النشاط."
 
-#: onedesk/one_inventory/home.py:77
+#: onedesk/one_inventory/home.py:119
 msgid "How long stock has been sitting."
 msgstr "منذ متى والمخزون راكد."
 
@@ -11921,7 +11926,7 @@ msgstr "كم ستدوم أرصدة OneAI لدينا بمعدل استخدامن�
 msgid "How long will our credits last?"
 msgstr "كم ستدوم أرصدتنا؟"
 
-#: onedesk/one_inventory/home.py:99
+#: onedesk/one_inventory/home.py:141
 msgid "How long workstations stood still, and why."
 msgstr "كم توقفت محطات العمل ولماذا."
 
@@ -11930,7 +11935,7 @@ msgstr "كم توقفت محطات العمل ولماذا."
 msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
 msgstr "المدة التي تتوقعها لهذا العمل. ينبّه المؤقّت عند تجاوزها. واتركه فارغاً فلا ينبّه أبداً."
 
-#: onedesk/one_inventory/home.py:132
+#: onedesk/one_inventory/home.py:174
 msgid "How making works."
 msgstr "كيف يعمل التصنيع."
 
@@ -11946,11 +11951,11 @@ msgstr "عدد نسخ قاعدة البيانات المحفوظة في أي و�
 msgid "How many credits one dollar of provider cost becomes, before markup. Not the price of a credit."
 msgstr "كم رصيدًا يصبح دولار واحد من كلفة المزوّد، قبل الهامش. ليس سعر الرصيد."
 
-#: onedesk/one_inventory/home.py:39
+#: onedesk/one_inventory/home.py:81
 msgid "How many days each item takes to buy or make."
 msgstr "كم يومًا يستغرق شراء كل صنف أو تصنيعه."
 
-#: onedesk/one_inventory/home.py:86
+#: onedesk/one_inventory/home.py:128
 msgid "How many of each bundle the stock can make up."
 msgstr "كم حزمة من كل نوع يمكن تكوينها من المخزون."
 
@@ -11973,11 +11978,11 @@ msgstr "كم تبقى لي من الإجازات، ومن في فريقي في �
 msgid "How much leave do I have?"
 msgstr "كم لديّ من الإجازات؟"
 
-#: onedesk/one_inventory/home.py:128
+#: onedesk/one_inventory/home.py:170
 msgid "How much more an asset wears on a longer shift."
 msgstr "كم يزيد استهلاك الأصل في الوردية الأطول."
 
-#: onedesk/one_inventory/home.py:83
+#: onedesk/one_inventory/home.py:125
 msgid "How much of each item was used up."
 msgstr "كم استُهلك من كل صنف."
 
@@ -11998,7 +12003,7 @@ msgstr "كم مرة"
 msgid "How often people are told their coming holidays. Whether they are is decided on Notifications."
 msgstr "كم مرة يُبلّغ الناس بعطلاتهم القادمة. أما إن كانوا يُبلّغون فيُحدد في الإشعارات."
 
-#: onedesk/one_inventory/home.py:80
+#: onedesk/one_inventory/home.py:122
 msgid "How old and how much each warehouse's stock is."
 msgstr "كم عمر مخزون كل مستودع وكم قيمته."
 
@@ -12010,7 +12015,7 @@ msgstr "كيف سيعرفها الناس عندما يختارون طريقة ت
 msgid "How should One look?"
 msgstr "كيف تريد أن يبدو One؟"
 
-#: onedesk/one_inventory/home.py:130
+#: onedesk/one_inventory/home.py:172
 msgid "How stock is valued and moved."
 msgstr "كيف يُقيَّم المخزون ويُنقل."
 
@@ -12708,7 +12713,7 @@ msgid "Invalid private key."
 msgstr "مفتاح خاص غير صالح."
 
 #. Name of a report
-#: onedesk/one_inventory/home.py:106
+#: onedesk/one_inventory/home.py:148
 #: onedesk/one_inventory/report/inventory_check/inventory_check.json
 msgid "Inventory Check"
 msgstr "فحص المخزون"
@@ -13076,7 +13081,7 @@ msgstr "سيؤدي ذلك إلى استبدال {0}."
 msgid "Item"
 msgstr "الصنف"
 
-#: onedesk/one_inventory/home.py:38
+#: onedesk/one_inventory/home.py:80
 msgid "Item Alternatives"
 msgstr "بدائل الأصناف"
 
@@ -13090,7 +13095,7 @@ msgstr "رمز الصنف"
 msgid "Item Group"
 msgstr "مجموعة الأصناف"
 
-#: onedesk/one/masters.py:28 onedesk/one_inventory/home.py:111
+#: onedesk/one/masters.py:28 onedesk/one_inventory/home.py:153
 msgid "Item Groups"
 msgstr "مجموعات الأصناف"
 
@@ -13099,7 +13104,7 @@ msgstr "مجموعات الأصناف"
 msgid "Item Name"
 msgstr "اسم الصنف"
 
-#: onedesk/one_inventory/home.py:37
+#: onedesk/one_inventory/home.py:79
 msgid "Item Prices"
 msgstr "أسعار الأصناف"
 
@@ -13115,7 +13120,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
-#: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:24
+#: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:66
 #: onedesk/one_inventory/page/item_view/item_view.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_inventory/supplier_items.py:15
@@ -13131,7 +13136,7 @@ msgstr "الأصناف المحفوظة"
 msgid "Items can't be kept in lots or by number yet."
 msgstr "لا يمكن بعد حفظ الأصناف في دفعات أو بأرقام."
 
-#: onedesk/one_inventory/home.py:82
+#: onedesk/one_inventory/home.py:124
 msgid "Items wanted beyond what is on hand."
 msgstr "أصناف مطلوبة بأكثر مما هو متوفر."
 
@@ -13209,7 +13214,7 @@ msgstr "المهمة"
 msgid "Job Applicant"
 msgstr "متقدم للوظيفة"
 
-#: frontend/src/floor/ShopFloor.vue:161 onedesk/one_inventory/home.py:55
+#: frontend/src/floor/ShopFloor.vue:161 onedesk/one_inventory/home.py:97
 msgid "Job Cards"
 msgstr "بطاقات العمل"
 
@@ -13455,7 +13460,7 @@ msgstr "النوع"
 msgid "Kind of Document"
 msgstr "نوع المستند"
 
-#: onedesk/one_inventory/home.py:125
+#: onedesk/one_inventory/home.py:167
 msgid "Kinds of equipment, and how each loses worth."
 msgstr "أنواع المعدات، وكيف تفقد كل منها قيمتها."
 
@@ -13488,7 +13493,7 @@ msgstr "يعرف عن"
 msgid "Label"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1281 onedesk/one_inventory/home.py:36
+#: onedesk/one_inventory/heads.py:1281 onedesk/one_inventory/home.py:78
 msgid "Landed Costs"
 msgstr "تكاليف الشحن"
 
@@ -13777,7 +13782,7 @@ msgstr "متأخر بـ"
 msgid "Late Only"
 msgstr "المتأخرون فقط"
 
-#: frontend/src/home/InventoryHome.vue:197
+#: frontend/src/home/InventoryHome.vue:204
 msgid "Late Orders"
 msgstr "طلبات متأخرة"
 
@@ -13815,7 +13820,7 @@ msgstr "خط العرض وخط الطول مطلوبان لتسجيل الحضو
 msgid "Launch"
 msgstr "الإطلاق"
 
-#: onedesk/one_inventory/home.py:61
+#: onedesk/one_inventory/home.py:103
 msgid "Lay out a product's whole tree of parts at once."
 msgstr "ارسم شجرة أجزاء المنتج كلها دفعة واحدة."
 
@@ -13864,7 +13869,7 @@ msgstr ""
 msgid "Lead Time in Days"
 msgstr "مدة التوريد بالأيام"
 
-#: onedesk/one_inventory/home.py:39
+#: onedesk/one_inventory/home.py:81
 msgid "Lead Times"
 msgstr "مهل التوريد"
 
@@ -14062,7 +14067,7 @@ msgstr "غادر مبكراً بـ"
 msgid "Left Early Only"
 msgstr "من غادروا مبكراً فقط"
 
-#: frontend/src/home/InventoryHome.vue:284
+#: frontend/src/home/InventoryHome.vue:291
 msgid "Left as Drafts"
 msgstr "تُركت كمسودات"
 
@@ -14484,7 +14489,7 @@ msgstr "الموقع"
 msgid "Location permission was refused."
 msgstr "رُفض إذن الوصول إلى الموقع."
 
-#: onedesk/one_inventory/home.py:126
+#: onedesk/one_inventory/home.py:168
 msgid "Locations"
 msgstr "المواقع"
 
@@ -14692,10 +14697,10 @@ msgid "Lot {0} made"
 msgstr "أُنشئت الدفعة {0}"
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:245 frontend/src/item/ItemStock.vue:12
+#: frontend/src/home/InventoryHome.vue:252 frontend/src/item/ItemStock.vue:12
 #: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:115
 #: frontend/src/lots/LotsPage.vue:139 frontend/src/lots/LotsPage.vue:164
-#: onedesk/one_inventory/home.py:30 onedesk/one_inventory/page/lots/lots.js:11
+#: onedesk/one_inventory/home.py:72 onedesk/one_inventory/page/lots/lots.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:14
 msgid "Lots"
@@ -14705,7 +14710,11 @@ msgstr "الدفعات"
 msgid "Lots Go Off"
 msgstr "الدفعات تنتهي صلاحيتها"
 
-#: onedesk/one_inventory/home.py:78
+#: onedesk/one_inventory/home.py:26
+msgid "Lots and Serial Numbers"
+msgstr "الدفعات والأرقام التسلسلية"
+
+#: onedesk/one_inventory/home.py:120
 msgid "Lots and when they go off."
 msgstr "الدفعات ومتى تنتهي صلاحيتها."
 
@@ -14717,7 +14726,7 @@ msgstr "الدفعات في المخزون"
 msgid "Lots is opened, and each time a lot, a serial number or an item kept in lots changes."
 msgstr "تُفتح الدفعات، وفي كل مرة تتغير فيها دفعة أو رقم تسلسلي أو صنف محفوظ في دفعات."
 
-#: onedesk/one_inventory/home.py:31
+#: onedesk/one_inventory/home.py:73
 msgid "Lots of goods that go off, with their dates."
 msgstr "دفعات بضائع تنتهي صلاحيتها، مع تواريخها."
 
@@ -14990,7 +14999,7 @@ msgid "Main Address Changed"
 msgstr "تغيّر العنوان الرئيسي"
 
 #: onedesk/one_inventory/calendar.py:31 onedesk/one_inventory/calendar.py:58
-#: onedesk/one_inventory/home.py:69 onedesk/one_inventory/maintenance.py:90
+#: onedesk/one_inventory/home.py:111 onedesk/one_inventory/maintenance.py:90
 #: onedesk/public/js/page_views.js:45
 msgid "Maintenance"
 msgstr "الصيانة"
@@ -14999,11 +15008,11 @@ msgstr "الصيانة"
 msgid "Maintenance Due"
 msgstr "صيانة مستحقة"
 
-#: onedesk/one_inventory/home.py:70 onedesk/public/js/page_views.js:43
+#: onedesk/one_inventory/home.py:112 onedesk/public/js/page_views.js:43
 msgid "Maintenance Log"
 msgstr "سجل الصيانة"
 
-#: onedesk/one_inventory/home.py:127
+#: onedesk/one_inventory/home.py:169
 msgid "Maintenance Teams"
 msgstr "فرق الصيانة"
 
@@ -15099,12 +15108,13 @@ msgstr "يصنع"
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryStory.vue:72 frontend/src/item/ItemPage.vue:177
 #: frontend/src/plant/PlantFloor.vue:189 onedesk/one_inventory/home.py:18
+#: onedesk/one_inventory/home.py:28
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_inventory/story.py:439 onedesk/public/js/item_actions.js:18
 msgid "Making"
 msgstr "التصنيع"
 
-#: onedesk/one_inventory/home.py:97
+#: onedesk/one_inventory/home.py:139
 msgid "Making Progress"
 msgstr "تقدّم التصنيع"
 
@@ -15143,7 +15153,7 @@ msgstr "المدير"
 msgid "Manufacturers"
 msgstr "الشركات المصنّعة"
 
-#: onedesk/one_inventory/home.py:132
+#: onedesk/one_inventory/home.py:174
 msgid "Manufacturing Settings"
 msgstr "إعدادات التصنيع"
 
@@ -15370,12 +15380,12 @@ msgstr "استُلم طلب المواد"
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryStory.vue:61
-#: frontend/src/to_order/ToOrderPage.vue:193 onedesk/one_inventory/home.py:43
+#: frontend/src/to_order/ToOrderPage.vue:193 onedesk/one_inventory/home.py:85
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Material Requests"
 msgstr "طلبات المواد"
 
-#: onedesk/one_inventory/home.py:98
+#: onedesk/one_inventory/home.py:140
 msgid "Material Requirements"
 msgstr "متطلبات المواد"
 
@@ -15757,7 +15767,7 @@ msgstr "يحتجز أكثر من عميل محتجزات هنا. أفرج عنه
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "هناك محتجزات لأكثر من مورد هنا. ادفعها من كل فاتورة مورد."
 
-#: onedesk/one_inventory/home.py:109
+#: onedesk/one_inventory/home.py:151
 msgid "More ways to split stock, such as a shelf or a project."
 msgstr "طرق إضافية لتقسيم المخزون، كالرف أو المشروع."
 
@@ -15895,7 +15905,7 @@ msgstr "رقم الحركة"
 msgid "Movers booked"
 msgstr "حجز شركة النقل"
 
-#: onedesk/one_inventory/home.py:28 onedesk/one_inventory/home.py:228
+#: onedesk/one_inventory/home.py:70 onedesk/one_inventory/home.py:271
 msgid "Moves"
 msgstr "الحركات"
 
@@ -16255,7 +16265,7 @@ msgstr "مجموعة جديدة"
 msgid "New Invoice"
 msgstr "فاتورة جديدة"
 
-#: frontend/src/home/InventoryHome.vue:305 onedesk/public/js/item_new.js:22
+#: frontend/src/home/InventoryHome.vue:312 onedesk/public/js/item_new.js:22
 msgid "New Item"
 msgstr "صنف جديد"
 
@@ -16287,13 +16297,13 @@ msgstr "دفعة جديدة"
 msgid "New Mail Template"
 msgstr "قالب بريد جديد"
 
-#: frontend/src/home/InventoryHome.vue:308
+#: frontend/src/home/InventoryHome.vue:315
 #: frontend/src/project/Suppliers.vue:137
 #: frontend/src/to_order/ToOrderPage.vue:192
 msgid "New Material Request"
 msgstr "طلب مواد جديد"
 
-#: frontend/src/home/InventoryHome.vue:307
+#: frontend/src/home/InventoryHome.vue:314
 msgid "New Move"
 msgstr "حركة جديدة"
 
@@ -16335,7 +16345,7 @@ msgstr "أمر شراء جديد"
 msgid "New Quotation"
 msgstr "عرض سعر جديد"
 
-#: frontend/src/home/InventoryHome.vue:306
+#: frontend/src/home/InventoryHome.vue:313
 msgid "New Receipt"
 msgstr "استلام جديد"
 
@@ -17745,7 +17755,7 @@ msgstr "لا شيء يحتاجك"
 msgid "Nothing on hand here"
 msgstr "لا شيء متوفر هنا"
 
-#: frontend/src/home/InventoryHome.vue:223 frontend/src/item/ItemBuying.vue:15
+#: frontend/src/home/InventoryHome.vue:230 frontend/src/item/ItemBuying.vue:15
 msgid "Nothing on order"
 msgstr "لا شيء قيد الطلب"
 
@@ -18756,7 +18766,7 @@ msgstr "إعدادات OneIntake"
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/InventoryHome.vue:300
+#: frontend/src/home/InventoryHome.vue:307
 #: onedesk/one_inventory/page/inventory/inventory.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
@@ -19274,7 +19284,7 @@ msgstr "الوظائف الشاغرة"
 msgid "Opens the welcome page for this signup."
 msgstr "يفتح صفحة الترحيب لهذا التسجيل."
 
-#: onedesk/one_inventory/home.py:121
+#: onedesk/one_inventory/home.py:163
 msgid "Operations"
 msgstr "العمليات"
 
@@ -19322,7 +19332,7 @@ msgstr "أو الصقها"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Label in the One Pick List print format
 #. Label of the priority (Int) field in DocType 'Mail Rule'
-#: frontend/src/home/InventoryHome.vue:217
+#: frontend/src/home/InventoryHome.vue:224
 #: frontend/src/quotes/QuoteCompare.vue:55 frontend/src/quotes/QuoteRows.vue:87
 #: frontend/src/to_order/ToOrderPage.vue:179
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -19370,7 +19380,7 @@ msgstr ""
 msgid "Order Number"
 msgstr "رقم الطلب"
 
-#: onedesk/one_inventory/home.py:92
+#: onedesk/one_inventory/home.py:134
 msgid "Order Progress"
 msgstr "تقدّم الطلبات"
 
@@ -19843,7 +19853,7 @@ msgstr "التغليف"
 msgid "Packing Slip"
 msgstr "قسيمة التعبئة"
 
-#: onedesk/one_inventory/home.py:34
+#: onedesk/one_inventory/home.py:76
 msgid "Packing Slips"
 msgstr "قسائم التعبئة"
 
@@ -20041,7 +20051,7 @@ msgstr "الأجزاء"
 msgid "Parts List"
 msgstr "قائمة القطع"
 
-#: onedesk/one_inventory/home.py:73
+#: onedesk/one_inventory/home.py:115
 msgid "Parts and work made into an asset."
 msgstr "قطع وعمل تحوّلت إلى أصل."
 
@@ -20635,7 +20645,7 @@ msgstr "قائمة الالتقاط"
 msgid "Pick List No"
 msgstr "رقم قائمة الالتقاط"
 
-#: onedesk/one_inventory/home.py:33
+#: onedesk/one_inventory/home.py:75
 msgid "Pick Lists"
 msgstr "قوائم الانتقاء"
 
@@ -20963,7 +20973,7 @@ msgid "Plans, sections and elevations"
 msgstr "المساقط والقطاعات والواجهات"
 
 #. Label of a Sidebar Item
-#: frontend/src/plant/PlantFloor.vue:197 onedesk/one_inventory/home.py:53
+#: frontend/src/plant/PlantFloor.vue:197 onedesk/one_inventory/home.py:95
 #: onedesk/one_inventory/page/plant/plant.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Plant Floor"
@@ -20973,7 +20983,7 @@ msgstr "أرضية الإنتاج"
 msgid "Plant Floor is opened, and each time a workstation's status or a step on it changes."
 msgstr "عند فتح أرضية الإنتاج، وكلما تغيّرت حالة محطة عمل أو خطوة عليها."
 
-#: onedesk/one_inventory/home.py:120
+#: onedesk/one_inventory/home.py:162
 msgid "Plant Floors"
 msgstr "أرضيات الإنتاج"
 
@@ -21215,11 +21225,11 @@ msgstr ""
 msgid "Price List Problems"
 msgstr "مشكلات قائمة الأسعار"
 
-#: onedesk/one_inventory/home.py:85
+#: onedesk/one_inventory/home.py:127
 msgid "Price List Rates"
 msgstr "أسعار قوائم الأسعار"
 
-#: onedesk/one_inventory/home.py:118
+#: onedesk/one_inventory/home.py:160
 msgid "Price Lists"
 msgstr "قوائم الأسعار"
 
@@ -21377,19 +21387,19 @@ msgstr "المشتريات وإدارة المواد"
 msgid "Product"
 msgstr "المنتج"
 
-#: onedesk/one_inventory/home.py:57
+#: onedesk/one_inventory/home.py:99
 msgid "Production Plans"
 msgstr "خطط الإنتاج"
 
-#: onedesk/one_inventory/home.py:59
+#: onedesk/one_inventory/home.py:101
 msgid "Production Schedules"
 msgstr "جداول الإنتاج"
 
-#: onedesk/one_inventory/home.py:58
+#: onedesk/one_inventory/home.py:100
 msgid "Production Timeline"
 msgstr "الجدول الزمني للإنتاج"
 
-#: onedesk/one_inventory/home.py:58
+#: onedesk/one_inventory/home.py:100
 msgid "Production plans laid out over time."
 msgstr "خطط الإنتاج موزعة على الزمن."
 
@@ -21548,7 +21558,7 @@ msgstr "طُلب تحديث المشروع"
 msgid "Project or About"
 msgstr "المشروع أو الموضوع"
 
-#: frontend/src/stock/StockOnHand.vue:185 onedesk/one_inventory/home.py:76
+#: frontend/src/stock/StockOnHand.vue:185 onedesk/one_inventory/home.py:118
 msgid "Projected Stock"
 msgstr "المخزون المتوقع"
 
@@ -21741,8 +21751,8 @@ msgid "Purchase Order"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:209
-#: frontend/src/to_order/ToOrderPage.vue:194 onedesk/one_inventory/home.py:48
+#: frontend/src/home/InventoryHome.vue:216
+#: frontend/src/to_order/ToOrderPage.vue:194 onedesk/one_inventory/home.py:90
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Purchase Orders"
 msgstr "أوامر الشراء"
@@ -21813,7 +21823,7 @@ msgstr "الإشعار الفوري يعمل"
 msgid "Put Under"
 msgstr "وضعها تحت"
 
-#: onedesk/one_inventory/home.py:108
+#: onedesk/one_inventory/home.py:150
 msgid "Putaway Rules"
 msgstr "قواعد التخزين"
 
@@ -21821,7 +21831,7 @@ msgstr "قواعد التخزين"
 msgid "Quality"
 msgstr "الجودة"
 
-#: onedesk/one_inventory/home.py:41
+#: onedesk/one_inventory/home.py:83
 msgid "Quality Inspections"
 msgstr "فحوصات الجودة"
 
@@ -21918,7 +21928,7 @@ msgstr "رقم عرض السعر"
 msgid "Quotations"
 msgstr "عروض الأسعار"
 
-#: onedesk/one_inventory/home.py:47 onedesk/public/js/page_views.js:30
+#: onedesk/one_inventory/home.py:89 onedesk/public/js/page_views.js:30
 msgid "Quote Comparison"
 msgstr "مقارنة العروض"
 
@@ -21963,7 +21973,7 @@ msgstr "عرض سعر صالح حتى {0}"
 #: frontend/src/item/ItemBuying.vue:11 frontend/src/item/ItemSelling.vue:12
 #: frontend/src/quotes/QuotesPage.vue:105
 #: frontend/src/quotes/QuotesPage.vue:159 onedesk/one/portal.py:30
-#: onedesk/one_inventory/heads.py:1231 onedesk/one_inventory/home.py:44
+#: onedesk/one_inventory/heads.py:1231 onedesk/one_inventory/home.py:86
 #: onedesk/one_inventory/page/quotes/quotes.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:25
@@ -22281,7 +22291,7 @@ msgid "Receipt No"
 msgstr "رقم الإيصال"
 
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/home.py:26 onedesk/one_inventory/home.py:226
+#: onedesk/one_inventory/home.py:68 onedesk/one_inventory/home.py:269
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Receipts"
 msgstr "الاستلامات"
@@ -23001,7 +23011,7 @@ msgstr "إعادة فتح المهمة"
 msgid "Reorder"
 msgstr "إعادة الطلب"
 
-#: frontend/src/home/InventoryHome.vue:225
+#: frontend/src/home/InventoryHome.vue:232
 msgid "Reorder at {0}"
 msgstr "إعادة الطلب عند {0}"
 
@@ -23036,7 +23046,7 @@ msgid "Repair"
 msgstr ""
 
 #: frontend/src/upkeep/UpkeepPage.vue:80 onedesk/one_inventory/heads.py:1148
-#: onedesk/one_inventory/home.py:71 onedesk/public/js/page_views.js:44
+#: onedesk/one_inventory/home.py:113 onedesk/public/js/page_views.js:44
 msgid "Repairs"
 msgstr "الإصلاحات"
 
@@ -23066,7 +23076,7 @@ msgstr "يتكرر {0}"
 msgid "Replace"
 msgstr "استبدال"
 
-#: onedesk/one_inventory/home.py:123
+#: onedesk/one_inventory/home.py:165
 msgid "Replace in Bills of Materials"
 msgstr "الاستبدال في قوائم المواد"
 
@@ -23208,7 +23218,7 @@ msgstr "روابط الطلب"
 msgid "Request sent"
 msgstr "أُرسل الطلب"
 
-#: onedesk/one_inventory/home.py:93
+#: onedesk/one_inventory/home.py:135
 msgid "Request to Bill"
 msgstr "من الطلب إلى الفاتورة"
 
@@ -23237,7 +23247,7 @@ msgstr "تم الطلب. ستتلقى إشعارًا عندما تصبح جاه�
 msgid "Requests"
 msgstr "الطلبات"
 
-#: onedesk/one_inventory/home.py:45 onedesk/public/js/page_views.js:27
+#: onedesk/one_inventory/home.py:87 onedesk/public/js/page_views.js:27
 msgid "Requests for Quotation"
 msgstr "طلبات عروض الأسعار"
 
@@ -23606,7 +23616,7 @@ msgstr "سقف الخرسانة"
 msgid "Roof waterproofing"
 msgstr "عزل السطح"
 
-#: onedesk/one_inventory/home.py:122
+#: onedesk/one_inventory/home.py:164
 msgid "Routings"
 msgstr "مسارات التصنيع"
 
@@ -23678,7 +23688,7 @@ msgstr "كتابة جدول سير الفعالية"
 msgid "Running"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:214
+#: frontend/src/home/InventoryHome.vue:221
 #: frontend/src/to_order/ToOrderPage.vue:101
 #: frontend/src/to_order/ToOrderPage.vue:155
 msgid "Running Low"
@@ -23813,7 +23823,7 @@ msgstr "حجز الراتب"
 msgid "Sales"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:60
+#: onedesk/one_inventory/home.py:102
 msgid "Sales Forecasts"
 msgstr "توقعات المبيعات"
 
@@ -24022,7 +24032,7 @@ msgstr "الاتفاق على النطاق والخطة"
 msgid "Score"
 msgstr "الدرجة"
 
-#: onedesk/one_inventory/home.py:117
+#: onedesk/one_inventory/home.py:159
 msgid "Scorecard Variables"
 msgstr "متغيرات بطاقة التقييم"
 
@@ -24325,7 +24335,7 @@ msgid "Sent On"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/sent_out/SentOutPage.vue:114 onedesk/one_inventory/home.py:63
+#: frontend/src/sent_out/SentOutPage.vue:114 onedesk/one_inventory/home.py:105
 #: onedesk/one_inventory/page/sent_out/sent_out.js:11
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:33
@@ -24342,7 +24352,7 @@ msgstr "المُرسل هذا الشهر"
 msgid "Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."
 msgstr "تُفتح صفحة المُرسل للخارج، وفي كل مرة يتغير فيها أمر أو تحويل أو استلام لعمل مُرسل للخارج."
 
-#: onedesk/one_inventory/home.py:101 onedesk/public/js/page_views.js:38
+#: onedesk/one_inventory/home.py:143 onedesk/public/js/page_views.js:38
 msgid "Sent Out to Be Made"
 msgstr "مُرسَل للتصنيع"
 
@@ -24431,7 +24441,7 @@ msgstr "الفاصل"
 msgid "Serial Number"
 msgstr "الرقم التسلسلي"
 
-#: onedesk/one_inventory/home.py:90
+#: onedesk/one_inventory/home.py:132
 msgid "Serial Number History"
 msgstr "سجل الرقم التسلسلي"
 
@@ -24440,7 +24450,7 @@ msgid "Serial Numbering"
 msgstr "ترقيم الأرقام التسلسلية"
 
 #: frontend/src/item/ItemStock.vue:15 frontend/src/lots/LotsPage.vue:116
-#: onedesk/one_inventory/home.py:32 onedesk/public/js/page_views.js:17
+#: onedesk/one_inventory/home.py:74 onedesk/public/js/page_views.js:17
 msgid "Serial Numbers"
 msgstr "الأرقام التسلسلية"
 
@@ -24448,7 +24458,7 @@ msgstr "الأرقام التسلسلية"
 msgid "Serial Numbers and Batches"
 msgstr "الأرقام التسلسلية والدفعات"
 
-#: onedesk/one_inventory/home.py:89
+#: onedesk/one_inventory/home.py:131
 msgid "Serial Numbers on Hand"
 msgstr "الأرقام التسلسلية المتوفرة"
 
@@ -24541,7 +24551,7 @@ msgstr "الخدمات والتشطيبات"
 msgid "Services Done"
 msgstr "صيانات منجزة"
 
-#: frontend/src/home/InventoryHome.vue:250
+#: frontend/src/home/InventoryHome.vue:257
 msgid "Services Due"
 msgstr "صيانات مستحقة"
 
@@ -24549,7 +24559,7 @@ msgstr "صيانات مستحقة"
 msgid "Services by Month"
 msgstr "الصيانات حسب الشهر"
 
-#: onedesk/one_inventory/home.py:68
+#: onedesk/one_inventory/home.py:110
 msgid "Services due, repairs, each asset's plan and what was done, on one page."
 msgstr "الصيانات المستحقة والإصلاحات وخطة كل أصل وما أُنجز، في صفحة واحدة."
 
@@ -24881,7 +24891,7 @@ msgstr "المشاركة"
 msgid "Shift"
 msgstr ""
 
-#: onedesk/one_inventory/home.py:74
+#: onedesk/one_inventory/home.py:116
 msgid "Shift Allocations"
 msgstr "توزيع الورديات"
 
@@ -24895,7 +24905,7 @@ msgstr "تم الرد على المناوبة"
 msgid "Shift Asked"
 msgstr "مناوبة مطلوبة"
 
-#: onedesk/one_inventory/home.py:128
+#: onedesk/one_inventory/home.py:170
 msgid "Shift Factors"
 msgstr "معاملات الورديات"
 
@@ -24954,7 +24964,7 @@ msgstr "الشحن إلى"
 
 #. Label of a Sidebar Item
 #: frontend/src/floor/ShopFloor.vue:155 frontend/src/plant/PlantFloor.vue:202
-#: onedesk/one_inventory/home.py:52
+#: onedesk/one_inventory/home.py:94
 #: onedesk/one_inventory/page/floor/floor.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Shop Floor"
@@ -24990,7 +25000,7 @@ msgstr "نقص في {0}، يلزم {1} إضافية"
 msgid "Short {0}"
 msgstr "ناقص {0}"
 
-#: onedesk/one_inventory/home.py:82
+#: onedesk/one_inventory/home.py:124
 msgid "Shortages"
 msgstr "النواقص"
 
@@ -25381,7 +25391,7 @@ msgstr "التسجيلات"
 msgid "Since {0}"
 msgstr "منذ {0}"
 
-#: onedesk/one_inventory/home.py:32
+#: onedesk/one_inventory/home.py:74
 msgid "Single pieces kept track of by their number."
 msgstr "قطع مفردة تُتابع برقمها."
 
@@ -25535,7 +25545,7 @@ msgstr "الحجم"
 msgid "Sizes or Colours"
 msgstr "مقاسات أو ألوان"
 
-#: onedesk/one_inventory/home.py:114
+#: onedesk/one_inventory/home.py:156
 msgid "Sizes, colours and the like, for an item's versions."
 msgstr "المقاسات والألوان ونحوها، لنسخ الصنف."
 
@@ -25894,7 +25904,7 @@ msgstr ""
 msgid "Standard Apps"
 msgstr "التطبيقات القياسية"
 
-#: onedesk/one_inventory/home.py:40
+#: onedesk/one_inventory/home.py:82
 msgid "Standard Costs"
 msgstr "التكاليف المعيارية"
 
@@ -25986,7 +25996,7 @@ msgstr "بدأ في"
 msgid "Started On"
 msgstr "بدأ في"
 
-#: frontend/src/home/InventoryHome.vue:290
+#: frontend/src/home/InventoryHome.vue:297
 msgid "Started more than a day ago"
 msgstr "بدأت منذ أكثر من يوم"
 
@@ -26179,7 +26189,7 @@ msgid "Still on Order"
 msgstr "ما زال قيد الطلب"
 
 #: frontend/src/item/ItemPage.vue:174 onedesk/one_inventory/home.py:16
-#: onedesk/public/js/item_actions.js:11
+#: onedesk/one_inventory/home.py:25 onedesk/public/js/item_actions.js:11
 msgid "Stock"
 msgstr "المخزون"
 
@@ -26188,7 +26198,7 @@ msgstr "المخزون"
 msgid "Stock Account Wrong"
 msgstr "حساب المخزون خاطئ"
 
-#: onedesk/one_inventory/home.py:77
+#: onedesk/one_inventory/home.py:119
 msgid "Stock Ageing"
 msgstr "عمر المخزون"
 
@@ -26196,7 +26206,7 @@ msgstr "عمر المخزون"
 msgid "Stock Balance"
 msgstr "رصيد المخزون"
 
-#: onedesk/one_inventory/home.py:110
+#: onedesk/one_inventory/home.py:152
 msgid "Stock Closings"
 msgstr "إقفالات المخزون"
 
@@ -26205,7 +26215,7 @@ msgstr "إقفالات المخزون"
 msgid "Stock Counts"
 msgstr "جرد المخزون"
 
-#: onedesk/one_inventory/home.py:109
+#: onedesk/one_inventory/home.py:151
 msgid "Stock Dimensions"
 msgstr "أبعاد المخزون"
 
@@ -26214,7 +26224,7 @@ msgid "Stock Here"
 msgstr "المخزون هنا"
 
 #: frontend/src/item/ItemPage.vue:308 frontend/src/item/ItemStock.vue:19
-#: onedesk/one_inventory/home.py:75
+#: onedesk/one_inventory/home.py:117
 msgid "Stock Ledger"
 msgstr "دفتر المخزون"
 
@@ -26231,7 +26241,7 @@ msgstr "حركات المخزون"
 msgid "Stock Projected Qty"
 msgstr "الكمية المتوقعة في المخزون"
 
-#: onedesk/one_inventory/home.py:130
+#: onedesk/one_inventory/home.py:172
 msgid "Stock Settings"
 msgstr "إعدادات المخزون"
 
@@ -26256,7 +26266,7 @@ msgstr "قيمة المخزون حسب العمر"
 msgid "Stock Worth by Month"
 msgstr "قيمة المخزون حسب الشهر"
 
-#: onedesk/one_inventory/home.py:96
+#: onedesk/one_inventory/home.py:138
 msgid "Stock against the Books"
 msgstr "المخزون مقابل الدفاتر"
 
@@ -26270,11 +26280,11 @@ msgstr "مديرو المخزون والحسابات"
 msgid "Stock and the books agree"
 msgstr "المخزون والدفاتر متطابقان"
 
-#: onedesk/one_inventory/home.py:91 onedesk/public/js/page_views.js:21
+#: onedesk/one_inventory/home.py:133 onedesk/public/js/page_views.js:21
 msgid "Stock by Batch"
 msgstr "المخزون حسب الدفعة"
 
-#: onedesk/one_inventory/home.py:88
+#: onedesk/one_inventory/home.py:130
 msgid "Stock by Lot"
 msgstr "المخزون حسب الدفعة"
 
@@ -26283,11 +26293,11 @@ msgstr "المخزون حسب الدفعة"
 msgid "Stock by Project"
 msgstr "المخزون حسب المشروع"
 
-#: onedesk/one_inventory/home.py:79
+#: onedesk/one_inventory/home.py:121
 msgid "Stock by Warehouse"
 msgstr "المخزون حسب المستودع"
 
-#: onedesk/one_inventory/home.py:88
+#: onedesk/one_inventory/home.py:130
 msgid "Stock by batch and serial number, in each warehouse."
 msgstr "المخزون حسب الدفعة والرقم التسلسلي في كل مستودع."
 
@@ -26312,7 +26322,7 @@ msgstr "لا يمكن أن ينزل المخزون تحت الصفر"
 msgid "Stock count"
 msgstr "جرد المخزون"
 
-#: onedesk/one_inventory/home.py:29
+#: onedesk/one_inventory/home.py:71
 msgid "Stock counted, and set right where it was wrong."
 msgstr "مخزون جُرد، وصُحّح حيث كان خاطئاً."
 
@@ -26328,12 +26338,12 @@ msgstr "المخزون لا يُقيَّم في الدفاتر، فلا يُست
 msgid "Stock is valued in the books"
 msgstr "المخزون مُقيّم في الدفاتر"
 
-#: onedesk/one_inventory/home.py:28
+#: onedesk/one_inventory/home.py:70
 msgid "Stock moved between warehouses, used up or added."
 msgstr "مخزون نُقل بين المستودعات أو استُهلك أو أُضيف."
 
 #. Label of a Sidebar Item
-#: frontend/src/stock/StockOnHand.vue:176 onedesk/one_inventory/home.py:25
+#: frontend/src/stock/StockOnHand.vue:176 onedesk/one_inventory/home.py:67
 #: onedesk/one_inventory/page/stock_on_hand/stock_on_hand.js:8
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock on Hand"
@@ -26356,11 +26366,11 @@ msgstr "قيم المخزون محدَّثة"
 msgid "Stock values could not be recalculated"
 msgstr "تعذّرت إعادة احتساب قيم المخزون"
 
-#: onedesk/one_inventory/home.py:110
+#: onedesk/one_inventory/home.py:152
 msgid "Stock's balances kept at a date, so older moves need not be read again."
 msgstr "أرصدة المخزون محفوظة في تاريخ، فلا حاجة لقراءة الحركات الأقدم مجددًا."
 
-#: onedesk/one_inventory/home.py:96
+#: onedesk/one_inventory/home.py:138
 msgid "Stock's worth against the accounts."
 msgstr "قيمة المخزون مقابل الحسابات."
 
@@ -26584,15 +26594,15 @@ msgstr "المشاريع الفرعية"
 msgid "Sub-tasks"
 msgstr "المهام الفرعية"
 
-#: onedesk/one_inventory/home.py:124
+#: onedesk/one_inventory/home.py:166
 msgid "Subcontracted Items"
 msgstr "أصناف بالتعاقد الفرعي"
 
-#: onedesk/one_inventory/home.py:64 onedesk/public/js/page_views.js:35
+#: onedesk/one_inventory/home.py:106 onedesk/public/js/page_views.js:35
 msgid "Subcontracting Orders"
 msgstr "أوامر التعاقد الفرعي"
 
-#: onedesk/one_inventory/home.py:65 onedesk/public/js/page_views.js:36
+#: onedesk/one_inventory/home.py:107 onedesk/public/js/page_views.js:36
 msgid "Subcontracting Receipts"
 msgstr "استلامات التعاقد الفرعي"
 
@@ -26792,7 +26802,7 @@ msgstr "المورّد"
 msgid "Supplier Group"
 msgstr ""
 
-#: onedesk/one/masters.py:33 onedesk/one_inventory/home.py:116
+#: onedesk/one/masters.py:33 onedesk/one_inventory/home.py:158
 msgid "Supplier Groups"
 msgstr "مجموعات الموردين"
 
@@ -26800,11 +26810,11 @@ msgstr "مجموعات الموردين"
 msgid "Supplier Quotation"
 msgstr "عرض سعر المورد"
 
-#: onedesk/one_inventory/home.py:46 onedesk/public/js/page_views.js:28
+#: onedesk/one_inventory/home.py:88 onedesk/public/js/page_views.js:28
 msgid "Supplier Quotations"
 msgstr "عروض أسعار الموردين"
 
-#: onedesk/one_inventory/home.py:51
+#: onedesk/one_inventory/home.py:93
 msgid "Supplier Scorecards"
 msgstr "بطاقات أداء الموردين"
 
@@ -26818,14 +26828,14 @@ msgstr "سداد فواتير الموردين"
 #: frontend/src/project/ProjectPage.vue:187
 #: frontend/src/project/Suppliers.vue:12 frontend/src/quotes/RequestRows.vue:10
 #: onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_inventory/home.py:50
+#: onedesk/one_inventory/home.py:92
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_inventory/story.py:431 onedesk/one_project/tree.py:202
 #: onedesk/public/js/quotes_actions.js:26
 msgid "Suppliers"
 msgstr "الموردون"
 
-#: onedesk/one_inventory/home.py:45
+#: onedesk/one_inventory/home.py:87
 msgid "Suppliers asked for their prices."
 msgstr "موردون طُلبت منهم أسعارهم."
 
@@ -26837,7 +26847,7 @@ msgstr "يمكن تقييم الموردين"
 msgid "Suppliers still to answer"
 msgstr "موردون لم يجيبوا بعد"
 
-#: onedesk/one_inventory/home.py:47
+#: onedesk/one_inventory/home.py:89
 msgid "Suppliers' prices side by side."
 msgstr "أسعار الموردين جنباً إلى جنب."
 
@@ -26901,7 +26911,7 @@ msgstr "فشل تعليق {0}"
 msgid "Suspending {0} is stalled"
 msgstr "إيقاف {0} متوقف"
 
-#: onedesk/one_inventory/home.py:123
+#: onedesk/one_inventory/home.py:165
 msgid "Swap a part for another in every bill of materials, or bring their costs up to date."
 msgstr "استبدل جزءًا بآخر في كل قوائم المواد، أو حدّث تكاليفها."
 
@@ -27553,6 +27563,10 @@ msgstr "إجراء الذكاء الاصطناعي الذي أُجري الاس�
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr "بوابة الذكاء الاصطناعي على حساب Cloudflare أعلاه."
 
+#: onedesk/one_inventory/home.py:30
+msgid "The Books"
+msgstr "الدفاتر"
+
 #: onedesk/one/settings.py:859
 msgid "The Code Comes From"
 msgstr "مصدر الرمز"
@@ -27785,7 +27799,7 @@ msgstr "البنك الافتراضي للشركة وكل طريقة دفع بن
 msgid "The company's emirate is known"
 msgstr "إمارة الشركة معروفة"
 
-#: onedesk/one_inventory/home.py:66
+#: onedesk/one_inventory/home.py:108
 msgid "The company's equipment, who has it and what it is worth."
 msgstr "معدات الشركة، ومن يحملها وكم قيمتها."
 
@@ -27905,7 +27919,7 @@ msgstr "الموظف المغادر"
 msgid "The expense is booked and the money is owed to them."
 msgstr "تُسجَّل المصروفات ويصبح المبلغ مستحقًا لهم."
 
-#: onedesk/one_inventory/home.py:117
+#: onedesk/one_inventory/home.py:159
 msgid "The figures a supplier's score is worked out from."
 msgstr "الأرقام التي يُحسب منها تقييم المورد."
 
@@ -27965,11 +27979,11 @@ msgstr "التنزيل الكامل جاهز"
 msgid "The function that makes the record, when it is not a plain insert."
 msgstr "الدالة التي تنشئ السجل حين لا يكون إدراجًا بسيطًا."
 
-#: onedesk/one_inventory/home.py:111
+#: onedesk/one_inventory/home.py:153
 msgid "The groups items are sorted into."
 msgstr "المجموعات التي تُصنَّف فيها الأصناف."
 
-#: onedesk/one_inventory/home.py:116
+#: onedesk/one_inventory/home.py:158
 msgid "The groups suppliers are sorted into."
 msgstr "المجموعات التي يُصنَّف فيها الموردون."
 
@@ -28060,7 +28074,7 @@ msgstr "أدنى ما يمكن أن يزيد به السعر على تكلفته
 msgid "The link may be broken, or the page has moved."
 msgstr "قد يكون الرابط معطلاً، أو نُقلت الصفحة."
 
-#: onedesk/one_inventory/home.py:118
+#: onedesk/one_inventory/home.py:160
 msgid "The lists prices are kept in, for buying and selling."
 msgstr "القوائم التي تُحفظ فيها الأسعار، للشراء والبيع."
 
@@ -28075,7 +28089,7 @@ msgstr "السجل الذي كتبته هذه المحاولة. يكون فار�
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
 msgstr "مجلد صندوق البريد الذي هي فيه، باسمه على الخادم، أو INBOX أو Sent أو Archive أو Junk أو Trash لعنوان على نطاق البريد."
 
-#: onedesk/one_inventory/home.py:112
+#: onedesk/one_inventory/home.py:154
 msgid "The makes items are sold under."
 msgstr "العلامات التي تُباع بها الأصناف."
 
@@ -28401,7 +28415,7 @@ msgstr "صاحب الحساب السابق"
 msgid "The previous address"
 msgstr "العنوان السابق"
 
-#: onedesk/one_inventory/home.py:46
+#: onedesk/one_inventory/home.py:88
 msgid "The prices suppliers gave."
 msgstr "الأسعار التي قدّمها الموردون."
 
@@ -28540,7 +28554,7 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
 
-#: onedesk/one_inventory/home.py:69
+#: onedesk/one_inventory/home.py:111
 msgid "The services each piece of equipment needs."
 msgstr "الصيانات التي تحتاجها كل قطعة معدات."
 
@@ -28586,7 +28600,7 @@ msgstr "تاريخ البداية بعد تاريخ النهاية."
 msgid "The status set on each day of an approved request. Only Work From Home is kept separate in Attendance."
 msgstr "الحالة المسجّلة لكل يوم من طلب معتمد. العمل من المنزل وحده يبقى منفصلًا في الحضور."
 
-#: onedesk/one_inventory/home.py:121
+#: onedesk/one_inventory/home.py:163
 msgid "The steps products are made in."
 msgstr "الخطوات التي تُصنع بها المنتجات."
 
@@ -28648,11 +28662,11 @@ msgstr "المحادثة كاملة، بالشكل الذي تتحدث به ال
 msgid "The wording on the provider's page that defeated the parser."
 msgstr "الصياغة في صفحة المزوّد التي عجز المحلّل عن قراءتها."
 
-#: onedesk/one_inventory/home.py:52
+#: onedesk/one_inventory/home.py:94
 msgid "The work on the floor, step by step."
 msgstr "العمل في المصنع، خطوة بخطوة."
 
-#: onedesk/one_inventory/home.py:120
+#: onedesk/one_inventory/home.py:162
 msgid "The workshop's floors and their workstations."
 msgstr "أرضيات الورشة ومحطات عملها."
 
@@ -29571,10 +29585,10 @@ msgid "To Invoice"
 msgstr "للفوترة"
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:228
+#: frontend/src/home/InventoryHome.vue:235
 #: frontend/src/to_order/ToOrderPage.vue:26
 #: frontend/src/to_order/ToOrderPage.vue:153
-#: frontend/src/to_order/ToOrderPage.vue:187 onedesk/one_inventory/home.py:42
+#: frontend/src/to_order/ToOrderPage.vue:187 onedesk/one_inventory/home.py:84
 #: onedesk/one_inventory/page/to_order/to_order.js:9
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "To Order"
@@ -30065,7 +30079,7 @@ msgstr "مرتين يوميًا"
 msgid "Two Sides"
 msgstr "جانبان"
 
-#: onedesk/one_inventory/home.py:100
+#: onedesk/one_inventory/home.py:142
 msgid "Two bills of materials side by side."
 msgstr "قائمتا مواد جنبًا إلى جنب."
 
@@ -30239,7 +30253,7 @@ msgstr "لا يمكن حساب الوحدة {0} بـ {1}. اختر وحدة قا
 msgid "Unit {0} not found"
 msgstr "الوحدة {0} غير موجودة"
 
-#: onedesk/one/masters.py:30 onedesk/one_inventory/home.py:113
+#: onedesk/one/masters.py:30 onedesk/one_inventory/home.py:155
 #: onedesk/public/js/item_actions.js:13
 msgid "Units"
 msgstr "الوحدات"
@@ -30392,8 +30406,8 @@ msgid "Updates"
 msgstr "التحديثات"
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:262
-#: frontend/src/upkeep/UpkeepPage.vue:109 onedesk/one_inventory/home.py:68
+#: frontend/src/home/InventoryHome.vue:269
+#: frontend/src/upkeep/UpkeepPage.vue:109 onedesk/one_inventory/home.py:110
 #: onedesk/one_inventory/page/upkeep/upkeep.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:41
@@ -30510,7 +30524,7 @@ msgstr "المستخدم والمُرسل، شهرًا بشهر"
 msgid "Used by 1 project"
 msgstr "مستخدم في مشروع واحد"
 
-#: onedesk/one_inventory/home.py:83
+#: onedesk/one_inventory/home.py:125
 msgid "Used by Item"
 msgstr "المستهلك حسب الصنف"
 
@@ -30722,7 +30736,7 @@ msgstr "القيم التي جمعتها الخطوات المنفَّذة حت�
 msgid "Variant Details Report"
 msgstr "تقرير تفاصيل المتغيرات"
 
-#: onedesk/one_inventory/home.py:115
+#: onedesk/one_inventory/home.py:157
 msgid "Variant Settings"
 msgstr "إعدادات المتغيرات"
 
@@ -31014,11 +31028,11 @@ msgstr "مطلوب بحلول {0}"
 msgid "Wanted {0}"
 msgstr "مطلوب {0}"
 
-#: onedesk/one_inventory/home.py:81
+#: onedesk/one_inventory/home.py:123
 msgid "Warehouse Capacity"
 msgstr "سعة المستودع"
 
-#: onedesk/one_inventory/home.py:107
+#: onedesk/one_inventory/home.py:149
 msgid "Warehouses"
 msgstr "المستودعات"
 
@@ -31047,12 +31061,12 @@ msgstr "كان مستحقًا"
 msgid "Was Worth"
 msgstr "كانت قيمته"
 
-#: frontend/src/home/InventoryHome.vue:259 frontend/src/item/ItemBuying.vue:67
+#: frontend/src/home/InventoryHome.vue:266 frontend/src/item/ItemBuying.vue:67
 #: frontend/src/item/ItemSelling.vue:66
 msgid "Was due {0}"
 msgstr "كان مستحقًا في {0}"
 
-#: frontend/src/floor/ShopFloor.vue:25 frontend/src/home/InventoryHome.vue:276
+#: frontend/src/floor/ShopFloor.vue:25 frontend/src/home/InventoryHome.vue:283
 #: frontend/src/item/ItemMaking.vue:99
 msgid "Was wanted by {0}"
 msgstr "كان مطلوبًا بحلول {0}"
@@ -31191,7 +31205,7 @@ msgstr ""
 msgid "Welcome mail and contacts"
 msgstr "رسالة الترحيب وجهات الاتصال"
 
-#: frontend/src/home/InventoryHome.vue:242
+#: frontend/src/home/InventoryHome.vue:249
 msgid "Went off {0}"
 msgstr "انتهت صلاحيتها {0}"
 
@@ -31286,7 +31300,7 @@ msgstr "ما الذي أُنجز"
 msgid "What Was Said"
 msgstr "ما قيل"
 
-#: onedesk/one_inventory/home.py:129
+#: onedesk/one_inventory/home.py:171
 msgid "What a customer is told when their delivery leaves."
 msgstr "ما يُبلَّغ به العميل عند خروج شحنته."
 
@@ -31295,15 +31309,15 @@ msgstr "ما يُبلَّغ به العميل عند خروج شحنته."
 msgid "What a file in OneCloud held before it was replaced."
 msgstr "ما كان يحتويه ملف في OneCloud قبل استبداله."
 
-#: onedesk/one_inventory/home.py:115
+#: onedesk/one_inventory/home.py:157
 msgid "What a new version of an item copies from its template."
 msgstr "ما تنسخه النسخة الجديدة من الصنف عن قالبه."
 
-#: onedesk/one_inventory/home.py:56
+#: onedesk/one_inventory/home.py:98
 msgid "What a product is made from, and its steps."
 msgstr "مِمّ يُصنع المنتج، وخطواته."
 
-#: onedesk/one_inventory/home.py:65
+#: onedesk/one_inventory/home.py:107
 msgid "What a supplier made, taken back in."
 msgstr "ما صنعه المورد، مُستلماً من جديد."
 
@@ -31333,7 +31347,7 @@ msgstr "ما يعمل عليه الإجراء المحتاج إلى هذا حي�
 msgid "What an administrator kept out of the copy, and why. The person is told."
 msgstr "ما استبعده مسؤول من النسخة ولماذا. يُبلَّغ الشخص بذلك."
 
-#: onedesk/one_inventory/home.py:40
+#: onedesk/one_inventory/home.py:82
 msgid "What an item is valued at when it is kept at a standard cost."
 msgstr "قيمة الصنف حين يُقيَّم بتكلفة معيارية."
 
@@ -31417,15 +31431,15 @@ msgstr "ما يضيفه كل غيغابايت من قاعدة البيانات �
 msgid "What each check saw when this log was written."
 msgstr "ما رصده كل تحقق عند كتابة هذا السجل."
 
-#: onedesk/one_inventory/home.py:37
+#: onedesk/one_inventory/home.py:79
 msgid "What each item is bought and sold for."
 msgstr "بكم يُشترى ويُباع كل صنف."
 
-#: onedesk/one_inventory/home.py:87
+#: onedesk/one_inventory/home.py:129
 msgid "What each lot holds now."
 msgstr "ما تحويه كل دفعة الآن."
 
-#: onedesk/one_inventory/home.py:91
+#: onedesk/one_inventory/home.py:133
 msgid "What each lot holds over time."
 msgstr "ما تحويه كل دفعة عبر الزمن."
 
@@ -31433,15 +31447,15 @@ msgstr "ما تحويه كل دفعة عبر الزمن."
 msgid "What each warehouse holds is posted to a stock account."
 msgstr "ما يحويه كل مستودع يُرحَّل إلى حساب مخزون."
 
-#: onedesk/one_inventory/home.py:25
+#: onedesk/one_inventory/home.py:67
 msgid "What each warehouse holds now, and what it is worth."
 msgstr "ما يحويه كل مستودع الآن، وكم قيمته."
 
-#: onedesk/one_inventory/home.py:79
+#: onedesk/one_inventory/home.py:121
 msgid "What each warehouse holds, and its worth."
 msgstr "ما يحويه كل مستودع وقيمته."
 
-#: onedesk/one_inventory/home.py:105
+#: onedesk/one_inventory/home.py:147
 msgid "What happened to each asset, and when."
 msgstr "ما جرى لكل أصل ومتى."
 
@@ -31458,7 +31472,7 @@ msgstr "على ماذا وافقت؟"
 msgid "What is \"{0}\" in {1} for? Suggest a value."
 msgstr "ما الغرض من «{0}» في {1}؟ اقترح قيمة."
 
-#: onedesk/one_inventory/home.py:60
+#: onedesk/one_inventory/home.py:102
 msgid "What is expected to sell, to plan making by."
 msgstr "ما يُتوقع بيعه، لتخطيط التصنيع على أساسه."
 
@@ -31483,7 +31497,7 @@ msgstr "ما المتبقي في هذه المهمة: الخطوات والمه�
 msgid "What is missing from my profile?"
 msgstr "ما الناقص في ملفي الشخصي؟"
 
-#: onedesk/one_inventory/home.py:106
+#: onedesk/one_inventory/home.py:148
 msgid "What is not set up yet, with the fix."
 msgstr "ما لم يُعدّ بعد، مع الحل."
 
@@ -31572,7 +31586,7 @@ msgstr "ما يمنحه، في سطر واحد، يُكتب عند الحفظ."
 msgid "What left as a file?"
 msgstr "ما الذي خرج كملف؟"
 
-#: onedesk/one_inventory/home.py:38
+#: onedesk/one_inventory/home.py:80
 msgid "What may be used in place of an item when it runs out."
 msgstr "ما يمكن استخدامه بدل الصنف عند نفاده."
 
@@ -31604,7 +31618,7 @@ msgstr "ما الذي لم يُفوتر بعد في هذا المشروع؟ اذ
 msgid "What runs by itself?"
 msgstr "ما الذي يعمل تلقائيًا؟"
 
-#: onedesk/one_inventory/home.py:42
+#: onedesk/one_inventory/home.py:84
 msgid "What runs low, and orders for it."
 msgstr "ما ينفد، والطلبات له."
 
@@ -31624,7 +31638,7 @@ msgstr "ماذا ينبغي أن يشتروا؟"
 msgid "What should we change?"
 msgstr "ما الذي يجب أن نغيره؟"
 
-#: onedesk/one_inventory/home.py:84
+#: onedesk/one_inventory/home.py:126
 msgid "What sold goods cost, by item group."
 msgstr "تكلفة البضائع المباعة حسب مجموعة الأصناف."
 
@@ -31642,7 +31656,7 @@ msgstr "ما الذي يلفت النظر في هذه القائمة؟"
 msgid "What submitting this will add to the next payroll, from each type's rate and multipliers."
 msgstr "ما سيضيفه اعتماد هذا إلى كشف الرواتب القادم، من سعر كل نوع ومعاملاته."
 
-#: onedesk/one_inventory/home.py:101
+#: onedesk/one_inventory/home.py:143
 msgid "What suppliers are making for you."
 msgstr "ما يصنعه الموردون لك."
 
@@ -31671,7 +31685,7 @@ msgstr "اسم المخطط، إن لم يكن اسمه الأصلي."
 msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr "ما تدفعه الشركة مقدّماً، قبل أن يُنفق أو يُطالَب بشيء."
 
-#: onedesk/one_inventory/home.py:103
+#: onedesk/one_inventory/home.py:145
 msgid "What the equipment was worth and is worth now."
 msgstr "كم كانت قيمة المعدات وكم قيمتها الآن."
 
@@ -31733,7 +31747,7 @@ msgstr "ما كان يحمله صف الوحدة، وتعيده إعادة ال�
 msgid "What the person deciding wrote, if anything."
 msgstr "ما كتبه من بتَّ في الطلب، إن كتب شيئاً."
 
-#: onedesk/one_inventory/home.py:98
+#: onedesk/one_inventory/home.py:140
 msgid "What the production schedule needs, against what is on hand and coming."
 msgstr "ما يحتاجه جدول الإنتاج مقابل المتوفر والقادم."
 
@@ -31787,7 +31801,7 @@ msgstr "ما كان متبقياً لديه قبل هذا الطلب. والجد
 msgid "What they wrote when they got in touch."
 msgstr "ما كتبوه عند تواصلهم."
 
-#: onedesk/one_inventory/home.py:113
+#: onedesk/one_inventory/home.py:155
 msgid "What things are counted in."
 msgstr "وحدات العدّ."
 
@@ -31820,15 +31834,15 @@ msgstr "ما يُتم هذه الخطوة تلقائيًا، كتبه OneAI. ف�
 msgid "What to do"
 msgstr "ما يجب فعله"
 
-#: onedesk/one_inventory/home.py:33
+#: onedesk/one_inventory/home.py:75
 msgid "What to fetch from where, for an order."
 msgstr "ما يُجلب ومن أين، لطلب ما."
 
-#: onedesk/one_inventory/home.py:59
+#: onedesk/one_inventory/home.py:101
 msgid "What to make each period, from forecasts and orders."
 msgstr "ما يُصنع في كل فترة، من التوقعات والطلبات."
 
-#: onedesk/one_inventory/home.py:54
+#: onedesk/one_inventory/home.py:96
 msgid "What to make, how many, and for whom."
 msgstr "ماذا يُصنع، وكم، ولمن."
 
@@ -31854,7 +31868,7 @@ msgstr "ما الذي استهلك أكثر الأرصدة هذا الشهر؟"
 msgid "What was added to the plan. Changed from the workspace, through Stripe."
 msgstr "ما أُضيف إلى الخطة. يُغيَّر من مساحة العمل عبر Stripe."
 
-#: onedesk/one_inventory/home.py:94
+#: onedesk/one_inventory/home.py:136
 msgid "What was bought, month by month."
 msgstr "ما اشتُري، شهراً بشهر."
 
@@ -31883,7 +31897,7 @@ msgstr "ما أُنجز، وما التالي، وأي عائق."
 msgid "What was exported or printed in the last week, by whom, and was any of it large?"
 msgstr "ما الذي صُدِّر أو طُبع في الأسبوع الماضي، ومن قام بذلك، وهل كان شيء منه كبيراً؟"
 
-#: onedesk/one_inventory/home.py:48
+#: onedesk/one_inventory/home.py:90
 msgid "What was ordered, and what is still to come."
 msgstr "ما طُلب، وما لم يصل بعد."
 
@@ -31896,7 +31910,7 @@ msgstr "ما قيل عن {project} في {date}"
 msgid "What we do with personal data: yours, and the personal data your organisation puts into One."
 msgstr "ما نفعله بالبيانات الشخصية: بياناتك، والبيانات الشخصية التي تضعها مؤسستك في One."
 
-#: onedesk/one_inventory/home.py:34
+#: onedesk/one_inventory/home.py:76
 msgid "What went in each box of a delivery."
 msgstr "ما وُضع في كل صندوق من التوصيل."
 
@@ -31945,7 +31959,7 @@ msgstr "تغيّر ما يمكنك استخدامه في One"
 msgid "What you exported or printed, without the pages"
 msgstr "ما صدّرته أو طبعته، دون الصفحات"
 
-#: onedesk/one_inventory/home.py:76
+#: onedesk/one_inventory/home.py:118
 msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
 
@@ -32214,7 +32228,7 @@ msgstr "عندما يجعل مسؤول مساحة العمل شخصًا آخر �
 msgid "When a workspace's administrator moves it to someone else's account."
 msgstr "عندما ينقل مسؤول مساحة العمل إلى حساب شخص آخر."
 
-#: onedesk/one_inventory/home.py:62
+#: onedesk/one_inventory/home.py:104
 msgid "When a workstation stood still, and why."
 msgstr "متى توقفت محطة العمل ولماذا."
 
@@ -32843,7 +32857,7 @@ msgstr "أين وصل"
 msgid "Where Stock Is"
 msgstr "أين المخزون"
 
-#: onedesk/one_inventory/home.py:108
+#: onedesk/one_inventory/home.py:150
 msgid "Where arriving stock is put away, and how much each warehouse holds."
 msgstr "أين يُخزَّن المخزون الوارد وكم يتسع كل مستودع."
 
@@ -32871,11 +32885,11 @@ msgstr "أين وصلت هذه الصفقة؟"
 msgid "Where does this deal stand? Say in a few lines what it is, how far it has got, what was said last and by whom, and what should happen next."
 msgstr "أين وصلت هذه الصفقة؟ قل في بضعة أسطر ما هي، وإلى أين وصلت، وما آخر ما قيل ومن قاله، وما الذي يجب أن يحدث بعد ذلك."
 
-#: onedesk/one_inventory/home.py:90
+#: onedesk/one_inventory/home.py:132
 msgid "Where each serial number has been."
 msgstr "أين كان كل رقم تسلسلي."
 
-#: onedesk/one_inventory/home.py:126
+#: onedesk/one_inventory/home.py:168
 msgid "Where equipment is kept."
 msgstr "أين تُحفظ المعدات."
 
@@ -32900,7 +32914,7 @@ msgstr "أين يذهب مال هذا المشروع؟ اذكر ما فُوتر 
 msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
 msgstr "حيث تُبنى مساحات العمل الجديدة. توضع كل منها على أفرغ خادم مفتوح يقبلها."
 
-#: onedesk/one_inventory/home.py:107
+#: onedesk/one_inventory/home.py:149
 msgid "Where stock is kept."
 msgstr "أين يُحفظ المخزون."
 
@@ -32935,7 +32949,7 @@ msgstr "إلى أين يؤدي الرقم. قد يذكر حقول السجل ب�
 msgid "Where this user's desk session was live from, if they had one."
 msgstr "المكان الذي كانت تعمل منه جلسة هذا المستخدم، إن وُجدت."
 
-#: onedesk/one_inventory/home.py:119
+#: onedesk/one_inventory/home.py:161
 msgid "Where work is done, and what an hour there costs."
 msgstr "أين يُنجز العمل، وكم تكلّف الساعة هناك."
 
@@ -33107,7 +33121,7 @@ msgstr "ما التقارير التي تُرسل بالبريد، وكم مرة
 msgid "Which reports go out by mail?"
 msgstr "ما التقارير التي تُرسل بالبريد؟"
 
-#: onedesk/one_inventory/home.py:124
+#: onedesk/one_inventory/home.py:166
 msgid "Which service a supplier charges for making what."
 msgstr "أي خدمة يحاسب عليها المورد مقابل صنع ماذا."
 
@@ -33119,7 +33133,7 @@ msgstr "ما الصيانات المستحقة؟"
 msgid "Which services on our equipment are late or due in the next month, and who does each?"
 msgstr "ما الصيانات المتأخرة أو المستحقة على معداتنا خلال الشهر القادم، ومن يقوم بكل منها؟"
 
-#: onedesk/one_inventory/home.py:74
+#: onedesk/one_inventory/home.py:116
 msgid "Which shifts an asset worked, for its depreciation."
 msgstr "الورديات التي عمل فيها الأصل، لحساب إهلاكه."
 
@@ -33274,7 +33288,7 @@ msgstr "لم يتغيّر من يدفع"
 msgid "Who sees only part?"
 msgstr "من يرى جزءًا فقط؟"
 
-#: onedesk/one_inventory/home.py:127
+#: onedesk/one_inventory/home.py:169
 msgid "Who services the equipment."
 msgstr "من يصون المعدات."
 
@@ -33293,7 +33307,7 @@ msgstr "من تكون مساحة العمل هذه في دفاتر موقع ال
 msgid "Who worked on this?"
 msgstr "من عمل على هذه؟"
 
-#: onedesk/one_inventory/home.py:50
+#: onedesk/one_inventory/home.py:92
 msgid "Who you buy from."
 msgstr "ممن تشتري."
 
@@ -33677,22 +33691,22 @@ msgid "Work Order Done"
 msgstr "اكتمل أمر العمل"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:160 frontend/src/home/InventoryHome.vue:279
+#: frontend/src/floor/ShopFloor.vue:160 frontend/src/home/InventoryHome.vue:286
 #: frontend/src/home/InventoryStory.vue:75 onedesk/one_inventory/heads.py:1345
-#: onedesk/one_inventory/home.py:54
+#: onedesk/one_inventory/home.py:96
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Work Orders"
 msgstr "أوامر العمل"
 
-#: frontend/src/home/InventoryHome.vue:267
+#: frontend/src/home/InventoryHome.vue:274
 msgid "Work Running Late"
 msgstr "أعمال متأخرة"
 
-#: onedesk/one_inventory/home.py:63
+#: onedesk/one_inventory/home.py:105
 msgid "Work a supplier does on your materials: what went, what came back and when it is due."
 msgstr "عمل يقوم به مورد على موادك: ما أُرسل وما عاد ومتى يستحق."
 
-#: onedesk/one_inventory/home.py:64
+#: onedesk/one_inventory/home.py:106
 msgid "Work a supplier does with your materials."
 msgstr "عمل يقوم به مورد بموادك."
 
@@ -33708,7 +33722,7 @@ msgstr "العمل المنجز {0}%"
 msgid "Work or a charge, never stocked."
 msgstr "عمل أو رسوم، لا يُخزّن أبدًا."
 
-#: onedesk/one_inventory/home.py:57
+#: onedesk/one_inventory/home.py:99
 msgid "Work orders and requests planned from sales orders."
 msgstr "أوامر عمل وطلبات مخططة من أوامر البيع."
 
@@ -33988,7 +34002,7 @@ msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must 
 msgstr "تحصل مساحات العمل على عناوين بريدها هنا، مثل m.4dl.app. يجب أن يكون في منطقة نطاق مساحة العمل نفسها."
 
 #: frontend/src/floor/ShopFloor.vue:162 frontend/src/plant/PlantFloor.vue:188
-#: frontend/src/plant/PlantFloor.vue:204 onedesk/one_inventory/home.py:119
+#: frontend/src/plant/PlantFloor.vue:204 onedesk/one_inventory/home.py:161
 msgid "Workstations"
 msgstr "محطات العمل"
 
@@ -36246,7 +36260,7 @@ msgstr "قبل {0} أيام من {2} في {1}"
 msgid "{0} days before {1}"
 msgstr "قبل {1} بـ {0} أيام"
 
-#: frontend/src/home/InventoryHome.vue:206
+#: frontend/src/home/InventoryHome.vue:213
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:330 frontend/src/project/Overview.vue:411
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:238
@@ -36304,7 +36318,7 @@ msgstr "{0} منجز"
 msgid "{0} draft orders made"
 msgstr "أُنشئت {0} مسودات طلبات"
 
-#: frontend/src/home/InventoryHome.vue:291
+#: frontend/src/home/InventoryHome.vue:298
 #: frontend/src/project/Invoices.vue:119
 msgid "{0} drafts"
 msgstr "{0} مسودات"
@@ -37130,7 +37144,7 @@ msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة.
 msgid "{0} months"
 msgstr "{0} أشهر"
 
-#: frontend/src/home/InventoryHome.vue:192
+#: frontend/src/home/InventoryHome.vue:199
 #: frontend/src/project/ProjectActivity.vue:48
 msgid "{0} more"
 msgstr "{0} أخرى"
@@ -37241,7 +37255,7 @@ msgstr "{0} من {1} منجزة"
 msgid "{0} of {1} lines"
 msgstr "{0} من {1} بنود"
 
-#: frontend/src/floor/ShopFloor.vue:29 frontend/src/home/InventoryHome.vue:275
+#: frontend/src/floor/ShopFloor.vue:29 frontend/src/home/InventoryHome.vue:282
 #: frontend/src/item/ItemMaking.vue:97
 msgid "{0} of {1} made"
 msgstr "صُنع {0} من {1}"
@@ -37286,7 +37300,7 @@ msgstr "{0} معطّل"
 msgid "{0} on"
 msgstr "{0} مفعّل"
 
-#: frontend/src/home/InventoryHome.vue:223 frontend/src/item/ItemPlaces.vue:64
+#: frontend/src/home/InventoryHome.vue:230 frontend/src/item/ItemPlaces.vue:64
 #: frontend/src/supplier/SupplierItems.vue:128 onedesk/one_project/view.py:585
 msgid "{0} on order"
 msgstr "{0} قيد الطلب"

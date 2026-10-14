@@ -174,13 +174,20 @@ function route(one) {
 
 const groups = computed(() => {
   const words = search.value.trim().toLowerCase();
-  const only = ["reports", "setup"].includes(shown.value) ? shown.value : null;
+  const matches = (one) => !words || `${one.label} ${one.about}`.toLowerCase().includes(words);
+  // Reports set out by what each is about, as Zoho Inventory's Reports
+  // Center sets them out, a section to a topic.
+  if (shown.value === "reports")
+    return (said.value.topics || [])
+      .map((topic) => ({ ...topic, rows: said.value.everything.filter((one) => one.group === "reports" && one.topic === topic.key && matches(one)) }))
+      .filter((topic) => topic.rows.length);
+  const only = shown.value === "setup" ? "setup" : null;
   return said.value.groups
     .filter((group) => !only || group.key === only)
     .map((group) => ({
       ...group,
       rows: said.value.everything.filter(
-        (one) => one.group === group.key && (!words || `${one.label} ${one.about}`.toLowerCase().includes(words))
+        (one) => one.group === group.key && matches(one)
       ),
     }))
     .filter((group) => group.rows.length);

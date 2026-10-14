@@ -308,3 +308,21 @@ def test_home_reads_one_company_in_its_currency():
 			assert "_bins(" in filters, doctype
 	assert "total_asset_cost" in story and "net_purchase_amount" not in story
 	assert "produced_qty" not in story, "Made adds worth, not mixed units"
+
+
+def test_every_report_on_reports_has_a_topic():
+	"""Reports sets each report out under what it is about; one with no topic
+	would fall out of the tab."""
+	import ast
+
+	source = (tree.APP / "one_inventory" / "home.py").read_text()
+	module = ast.parse(source)
+	topics = next(
+		ast.literal_eval(node.value)
+		for node in module.body
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "REPORT_TOPICS"
+	)
+	reports = set(re.findall(r'\(\s*"reports",\s*_lt\("[^"]+"\),\s*"\w+",\s*"([^"]+)"', source))
+	assert reports and reports == set(topics), reports ^ set(topics)
+	keys = set(re.findall(r'\(\s*"(\w+)",\s*_lt\(', source.split("TOPICS = (")[1].split(")\n")[0]))
+	assert set(topics.values()) <= keys, set(topics.values()) - keys

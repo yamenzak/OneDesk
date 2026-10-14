@@ -11841,7 +11841,8 @@ Reports and Setup.
 | Making › Sent Out | done, redrawn after Katana and Odoo |
 | Assets › Assets | done |
 | Assets › Upkeep | done, redrawn after UpKeep and Fiix |
-| Reports | next |
+| Reports | done |
+| Setup | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12598,3 +12599,23 @@ tabs.
 | 5 Our look | modelled on UpKeep and Fiix, a table per tab, one status |
 | 8 Built from frappe | frappe-ui's List, Badge, Avatar and Dropdown |
 | What ERPNext already does | its maintenance log and repair states; one company's assets |
+
+**Reports.** The rail's Reports opens Home's Reports tab. Looked at as Karim,
+at 1440 wide and on a phone, and two of the reports opened from it.
+
+- **Thirty-one in one heap.** Batch Expiry sat beside Cost of Goods Sold
+  beside Order Progress, in the order they were written down. Reports are
+  set out by what each is about now, as Zoho Inventory's Reports Center
+  sets them out: Stock, Lots and Serial Numbers, Buying and Selling,
+  Making, Equipment and The Books, each a section with its count
+  (`home.py` TOPICS and REPORT_TOPICS). A test holds every report on the
+  tab to a topic, so a new one cannot fall out of it.
+- The reports themselves are ERPNext's and open as they were: Stock Ageing
+  and the Fixed Asset Register, with no Company filter. Asset Register on
+  the tab opens a report titled Fixed Asset Register, as Projected Stock
+  opens Stock Projected Qty; the tab says what each is for in our words and
+  the report keeps its own name.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | reports by topic, as a reports center sets them out |
