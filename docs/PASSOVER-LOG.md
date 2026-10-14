@@ -12684,3 +12684,24 @@ sent out, a BOM and two assets, at 1440 wide and on a phone.
 | 5 Our look | A sentence and a track, not a band of fields |
 | 8 Built from frappe | frappe's headline alert and our band, with steps |
 
+
+**OneProject, again: Projects.** Walked a second time after OneInventory's,
+against what that walk settled. Looked at as Karim, at 1440 wide and on a
+phone, the list and Mansour Villa's page.
+
+- **One name on every row.** The Project Manager column read Samir Aoun
+  thirteen times, and took the width the customer needed ("Bayview De…").
+  It leaves the list and stays a filter; Customer is wider and reads whole.
+  "% Completed" is **Done**, as the bar beside it says.
+- **A pill lost on a phone.** Under a name frappe sets the row's fields in a
+  line that clips at the screen's edge, so a long customer pushed the Kind
+  pill off and left a stray "•". The line is a flex line now, the text
+  shortening with an ellipsis and a pill keeping its width; every list on
+  a phone, Purchase Orders and Assets looked at too.
+- **A value cut at its start.** The page's About read Retention as "٤ at
+  handover · Due 10-02-2027": the kit's Facts pushed a long value to the
+  end of a clipped flex row, so it lost its start with no ellipsis, and
+  what was left of "10% · 50%" read as a glyph. A long value wraps now,
+  on every page drawing Facts.
+- The page's **All Work** beside the name is the switch between the main
+  project and every sub-project, and stays.

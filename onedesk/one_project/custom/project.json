@@ -41,7 +41,7 @@
    "label": "Project Manager",
    "options": "User",
    "insert_after": "one_health",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "in_standard_filter": 1,
    "default": "__user",
    "module": "One Project",
@@ -740,6 +740,22 @@
    "property": "track_changes",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "190",
+   "field_name": "customer"
+  },
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Done",
+   "field_name": "percent_complete"
   }
  ],
  "sync_on_migrate": 1

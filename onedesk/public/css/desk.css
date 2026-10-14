@@ -750,6 +750,27 @@ a.one-chart-head:hover .one-stat-label {
 	[data-page-route^="List/"] .frappe-list .result .list-row .mobile-layout {
 		min-width: 0;
 	}
+	/* Under the name frappe sets its fields in a line that clips at the edge,
+	 * so a pill after a long name went missing. As a flex line the text
+	 * shortens with an ellipsis and a pill keeps its width. */
+	[data-page-route^="List/"] .frappe-list .result .list-row .level-left.level-left:has(> .mobile-layout) {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	[data-page-route^="List/"] .frappe-list .result .list-row .level-left > .list-subject {
+		flex: 0 0 100%;
+	}
+	/* Sized from nothing up to its own width, so the line never wraps. */
+	[data-page-route^="List/"] .frappe-list .result .list-row .level-left > .mobile-layout {
+		flex: 1 1 0;
+		min-width: 0;
+		max-width: max-content;
+	}
+	[data-page-route^="List/"] .frappe-list .result .list-row .level-left > .mobile-layout:has(.es-badge) {
+		flex: 0 0 auto;
+		max-width: none;
+	}
 }
 
 /* A project's milestone on the Projects timeline (project_calendar.js): a mark
