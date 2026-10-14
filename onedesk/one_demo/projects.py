@@ -532,7 +532,7 @@ def _pay(invoice, date, part=1.0):
 	with as_user(ACCOUNTS_USER):
 		payment = get_payment_entry(invoice.doctype, invoice.name)
 		dated(payment, date)
-		payment.reference_no = f"TRF-{invoice.name[-6:]}"
+		payment.reference_no = f"TRF-{invoice.name.rsplit('-', 1)[-1]}"
 		payment.reference_date = date
 		if part < 1 or held:
 			amount = flt((payment.paid_amount - held) * part, 2)

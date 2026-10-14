@@ -13042,3 +13042,49 @@ desk and on a phone.
 Left: ERPNext's own customer overview (`customer_overview.js`) throws a
 `removeChild` error in the console on every customer page; it is theirs and
 draws.
+
+### OneBook › Payment Entry
+
+Looked at as Huda: the list at a desk and on a phone, a payment received
+into cash, one paid from the bank to an employee, a draft OneAI made, and
+Record Payment on an unpaid sales invoice.
+
+**Found.**
+
+1. The list showed the two accounts the money moved between and not how
+   much; Books' payment list shows the amount.
+2. A payment to an employee was titled HR-EMP-00013, in the list and the
+   crumb: ERPNext titles a payment by the party's ID.
+3. A payment had no head: nothing said what moved, to whom, or whether the
+   bank statement had it yet.
+4. Every payment opened on an empty "Bank Transaction" box: frappe draws a
+   form's connections at the top of its only tab when it has no
+   Connections tab, one box per kind, counted or not.
+5. The head's sentence cleared every message above the form to take frappe's
+   "Submit this document to confirm" off, and with it OneAI's "Made by OneAI
+   … Not checked yet" banner. Since invoices got a sentence in the last
+   round, a bill OneAI drafted lost its banner too.
+6. Record Payment asked for Amount, Paid On, Paid Into and Reference: our
+   words for Paid Amount, Posting Date, Account Paid To and Cheque/Reference
+   No.
+7. The demo's transfer references read TRF--00002.
+
+**Done.**
+
+1. Paid Amount is a column; Account Paid From and To are not.
+2. `paid.titled` titles a payment by the party's name;
+   `patches/payments_titled_by_name` retitles the old ones.
+3. A payment says "61,503.00 received from Mansour & Sons." or "… paid to
+   Joseph Mathew.", in orange with what is not yet set against an invoice; a
+   draft says what submitting it records. A payment through a bank account
+   has a track, Paid or Received, then Reconciled with its clearance date or
+   "Not in a bank statement yet"; cash has no statement and no track. The
+   band says Project, Mode of Payment, Account Paid To or From, and
+   Cheque/Reference No.
+4. desk.css hides a connections block at the top of a form's only tab until
+   one of its counts shows; a Connections tab keeps its empty links.
+5. `head.js` spares the form's intro when it clears frappe's submit message.
+6. The dialog says ERPNext's labels.
+7. The demo writes TRF-00002, and the demo site's were set right.
+
+Check: `onebook_a_payment_says_where_it_stands`.

@@ -399,8 +399,9 @@ doc_events = {
 	"Payment Entry": {
 		"on_submit": "onedesk.one_intake.steps.paid",
 		"on_cancel": "onedesk.one_intake.steps.paid",
-		# A payment takes the project its invoices name. See one_project/chain.py.
-		"validate": "onedesk.one_project.chain.paid_for",
+		# A payment takes the project its invoices name (one_project/chain.py),
+		# and is titled by the party's name (one_book/paid.py).
+		"validate": ["onedesk.one_project.chain.paid_for", "onedesk.one_book.paid.titled"],
 	},
 	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
 	"Purchase Invoice": {
@@ -1297,6 +1298,7 @@ one_makes_records = {
 	"Opportunity": ["one_admin", "one_crm"],
 	"Opportunity Lost Reason": ["one_admin", "one_crm"],
 	"Overtime Slip": ["one_hr"],
+	"Payment Entry": ["one_book"],
 	"Payment Term": ["one_project"],
 	"Payment Terms Template": ["one_project"],
 	"Payroll Entry": ["one_hr"],

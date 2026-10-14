@@ -49,3 +49,10 @@ def settle(doctype: str, name: str, amount: float, account: str, reference: str 
 	entry.submit()
 	return entry.name
 
+
+
+def titled(doc, method=None) -> None:
+	"""A payment to or from somebody is titled by their name, not their ID:
+	ERPNext titles it by the party, which for an employee is HR-EMP-00013."""
+	if doc.payment_type in ("Receive", "Pay") and doc.party_name and doc.title == doc.party:
+		doc.title = doc.party_name

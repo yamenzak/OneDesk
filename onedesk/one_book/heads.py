@@ -329,6 +329,64 @@ def invoice_party_billed(doc):
 	return _billed(party, doc.get(BILLS[party][1]), marked_day=doc.posting_date)
 
 
+# ------------------------------------------------------------------ a payment
+
+
+def _bank_side(doc) -> str | None:
+	"""The company's own account a payment moved money in or out of."""
+	return doc.paid_to if doc.payment_type == "Receive" else doc.paid_from
+
+
+def _payment_money(doc, value) -> str:
+	currency = (
+		doc.paid_to_account_currency if doc.payment_type == "Receive" else doc.paid_from_account_currency
+	)
+	return fmt_money(flt(value), currency=currency)
+
+
+def payment_said(doc):
+	"""Where a payment stands, in a sentence: one thing a sentence."""
+	party = doc.party_name or doc.party
+	if doc.payment_type == "Receive":
+		what = _("A draft. Submit it to record the money received from {0}.").format(party)
+		done = _("{0} received from {1}.").format(_payment_money(doc, doc.received_amount), party)
+	elif doc.payment_type == "Pay":
+		what = _("A draft. Submit it to record the money paid to {0}.").format(party)
+		done = _("{0} paid to {1}.").format(_payment_money(doc, doc.paid_amount), party)
+	else:
+		what = _("A draft. Submit it to move the money.")
+		done = _("{0} moved from {1} to {2}.").format(
+			_payment_money(doc, doc.paid_amount), doc.paid_from, doc.paid_to
+		)
+	if found := stages.draft(doc, what):
+		return found
+	if flt(doc.unallocated_amount) > 0 and doc.payment_type != "Internal Transfer":
+		left = fmt_money(flt(doc.unallocated_amount), currency=doc.party_account_currency)
+		return {
+			"text": " ".join([done, _("{0} is not set against an invoice yet.").format(left)]),
+			"colour": "orange",
+		}
+	return {"text": done, "colour": "green"}
+
+
+def payment_progress(doc):
+	"""Paid or received when it was, then reconciled with the bank statement:
+	only for money through a bank account, since cash has no statement."""
+	if doc.docstatus != 1:
+		return None
+	moved = {"Receive": _("Received"), "Pay": _("Paid")}.get(doc.payment_type, _("Internal Transfer"))
+	if frappe.get_cached_value("Account", _bank_side(doc), "account_type") != "Bank":
+		return None
+	return stages.track(
+		stages.step(moved, "done", formatdate(doc.posting_date)),
+		stages.step(
+			_("Reconciled"),
+			"done" if doc.clearance_date else "now",
+			formatdate(doc.clearance_date) if doc.clearance_date else _("Not in a bank statement yet"),
+		),
+	)
+
+
 MEASURES = {
 	"party.outstanding": party_outstanding,
 	"party.overdue": party_overdue,
@@ -339,6 +397,8 @@ MEASURES = {
 	"invoice.outstanding": outstanding,
 	"invoice.due": due,
 	"invoice.repeats": repeats,
+	"payment.said": payment_said,
+	"payment.progress": payment_progress,
 }
 
 
@@ -360,16 +420,16 @@ def _asks(doc) -> list[dict]:
 		{
 			"fieldtype": "Currency",
 			"fieldname": "amount",
-			"label": _("Amount"),
+			"label": _("Paid Amount"),
 			"options": "currency",
 			"reqd": 1,
 			"default": doc.outstanding_amount,
 		},
-		{"fieldtype": "Date", "fieldname": "on", "label": _("Paid On"), "reqd": 1, "default": today()},
+		{"fieldtype": "Date", "fieldname": "on", "label": _("Posting Date"), "reqd": 1, "default": today()},
 		{
 			"fieldtype": "Link",
 			"fieldname": "account",
-			"label": _("Paid From") if bill else _("Paid Into"),
+			"label": _("Account Paid From") if bill else _("Account Paid To"),
 			"options": "Account",
 			"reqd": 1,
 			"default": bank or cash,
@@ -378,7 +438,7 @@ def _asks(doc) -> list[dict]:
 		{
 			"fieldtype": "Data",
 			"fieldname": "reference",
-			"label": _("Reference"),
+			"label": _("Cheque/Reference No"),
 			"description": _("The cheque or transfer number. The invoice's number when left empty."),
 		},
 	]
@@ -443,6 +503,35 @@ HEADS = [
 	}
 	for doctype in paid.SETTLED
 ] + [
+	{
+		"doctype": "Payment Entry",
+		# Where it stands, as an invoice's head says it: a sentence, then a
+		# track to reconciled, then what the form keeps lower down.
+		"sentences": [{"measure": "payment.said"}],
+		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "payment.progress"},
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+			{"label": _lt("Mode of Payment"), "source": "Field", "field": "mode_of_payment", "hide_empty": 1},
+			{
+				"label": _lt("Account Paid To"),
+				"source": "Field",
+				"field": "paid_to",
+				"shown_when": [["payment_type", "=", "Receive"]],
+			},
+			{
+				"label": _lt("Account Paid From"),
+				"source": "Field",
+				"field": "paid_from",
+				"shown_when": [["payment_type", "=", "Pay"]],
+			},
+			{
+				"label": _lt("Cheque/Reference No"),
+				"source": "Field",
+				"field": "reference_no",
+				"hide_empty": 1,
+			},
+		],
+	},
 	{
 		"doctype": "Customer",
 		"band": [

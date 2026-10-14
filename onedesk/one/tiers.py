@@ -63,6 +63,7 @@ HEADS = (
 	"One Admin Settings",
 	"Opportunity",
 	"Overtime Slip",
+	"Payment Entry",
 	"Payroll Entry",
 	"Project",
 	"Provisioning Job",

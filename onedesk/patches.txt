@@ -61,3 +61,4 @@ onedesk.one_inventory.patches.to_order_a_page
 onedesk.one_project.patches.reports_without_checklists
 onedesk.one.patches.erpnext_labels
 onedesk.one_book.patches.home_is_a_page
+onedesk.one_book.patches.payments_titled_by_name

@@ -1409,6 +1409,13 @@ body[data-route="List/Timesheet/List"] .list-row-col.list-subject {
 	flex: 1.4;
 }
 
+/* A record whose connections sit at the top of its only tab, not a
+   Connections tab of their own, shows them only once one has something:
+   a payment says nothing of a bank statement line it is not matched to. */
+.tab-pane[id$="-__details"] > .form-dashboard > .form-links:not(:has(.count:not(.hidden))) {
+	display: none;
+}
+
 /* An invoice is looked up by whom it is to or from, whose name fits whole
    beside what is still owed. */
 body[data-route="List/Sales Invoice/List"] .list-row-col.list-subject,

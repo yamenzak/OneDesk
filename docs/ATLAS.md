@@ -120,7 +120,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  | ar 10, de 1 |  |
 | POS Settings | **waiting** | OneBook, OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Party Link | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Payment Entry | on a rail or a home | OneBook | events | yes | general | makes it | yes |  |  | ar 4 |  |
+| Payment Entry | on a rail or a home | OneBook | a head, events, 3 settings | yes | general | makes it | yes |  |  | ar 4 |  |
 | Payment Gateway Account | through a form's link (Subscription Plan: payment_gateway) | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |

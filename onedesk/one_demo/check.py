@@ -5774,6 +5774,26 @@ def onebook_home_tells_how_the_money_is_doing():
 
 
 @check
+def onebook_a_payment_says_where_it_stands():
+	"""Every payment Huda opens says in a sentence what moved, to or from
+	whom, and a payment through the bank says whether the statement has it
+	yet. A payment to an employee is titled by their name, not HR-EMP."""
+	from onedesk.one import head
+
+	record = frappe.get_doc("Record Head", "Payment Entry")
+	with as_user("huda@one.test"):
+		for name in frappe.get_all("Payment Entry", filters={"docstatus": ["<", 2]}, pluck="name"):
+			doc = frappe.get_doc("Payment Entry", name)
+			said = head.said(doc, record)
+			assert said["sentence"] and said["sentence"]["text"], name
+			if doc.docstatus == 1 and frappe.get_cached_value("Account", doc.paid_from if doc.payment_type == "Pay" else doc.paid_to, "account_type") == "Bank":
+				steps = said["band"][0]["steps"]
+				assert steps[-1]["state"] == ("done" if doc.clearance_date else "now"), (name, steps)
+	named = frappe.get_all("Payment Entry", filters={"party_type": "Employee"}, fields=["title", "party", "party_name"])
+	assert named and all(one.title == one.party_name for one in named), named
+
+
+@check
 def oneinventory_a_documents_head_says_where_it_stands():
 	"""Every stores document Karim opens says what is next in a sentence, and
 	one that moves through stages draws them: Al Noor's late order in red with

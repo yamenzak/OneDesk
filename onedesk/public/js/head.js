@@ -91,7 +91,8 @@ onedesk.head.draw = (frm, drawn = null) => {
 		// dismiss, and it is drawn again on every refresh anyway.
 		const said = head.sentence;
 		setTimeout(() => {
-			frm.layout.message.children(".form-message:not(:has(.one-band))").remove();
+			// Only that: a form's intro (OneAI's "Made by OneAI", intake.js) stays.
+			frm.layout.message.children(".form-message:not(:has(.one-band))").not(frm.$intro_message || []).remove();
 			// frappe's alert has no gray and draws one it does not know as blue;
 			// a quiet sentence goes as its plain one, coloured gray in desk.css.
 			frm.dashboard.set_headline_alert(
