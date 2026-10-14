@@ -3,29 +3,6 @@
 // asks them (manufacturing/doctype/plant_floor). `done` reads the page again.
 frappe.provide("onedesk.plant");
 
-// A workstation's status, saved on the workstation, which tells every open
-// Plant Floor (ERPNext's Workstation.on_update).
-onedesk.plant.status = (workstation, now, statuses, done) => {
-	frappe.prompt(
-		[
-			{
-				fieldtype: "Select",
-				fieldname: "status",
-				label: __("Status"),
-				options: statuses.map((value) => ({ value, label: __(value) })),
-				default: now,
-				reqd: 1,
-			},
-		],
-		async (values) => {
-			await frappe.xcall("frappe.client.set_value", { doctype: "Workstation", name: workstation, fieldname: "status", value: values.status });
-			done?.();
-		},
-		__("Change Status of {0}", [workstation]),
-		__("Save")
-	);
-};
-
 // Stock brought onto the floor, or moved off it to another warehouse, made by
 // the Plant Floor's own make_stock_entry and opened as a draft to check.
 onedesk.plant.stock = (plant, item, purpose) => {

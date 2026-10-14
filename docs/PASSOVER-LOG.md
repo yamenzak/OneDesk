@@ -11835,7 +11835,8 @@ Reports and Setup.
 | Buying › Purchase Orders | done |
 | Buying › Suppliers | done |
 | Making › Shop Floor | done, redrawn after Odoo's Shop Floor |
-| Making › Plant Floor | next |
+| Making › Plant Floor | done, drawn after Odoo's work centres |
+| Making › Work Orders | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12423,3 +12424,32 @@ a workstation's tab and a work order's steps.
 | 5 Our look | modelled on Odoo's Shop Floor, a table and cards, not text |
 | 8 Built from frappe | frappe-ui's List, Badge, Avatar, Progress, Button and Dropdown |
 | What ERPNext already does | its Shop Floor's own calls and states; one company's job cards |
+
+**Plant Floor.** One of our own screens, on the list still to be drawn after
+an app people know. It was cards already, as ERPNext's Visual Plant Floor
+and Odoo's work centres are; looked at as Karim, at 1440 wide and on a phone.
+
+- **A dialog to change one field.** Change Status opened a dialog with a
+  Select in it, under an arrow that looked like a link out. The status is a
+  menu on the card now, its dot in ERPNext's colour, the current one
+  ticked; the gear opens the workstation and **Steps** its steps on the
+  Shop Floor (`plant_actions.js` loses the dialog).
+- **A step running and no clock.** A card said "Cutting for Sliding Door
+  2400 · Arun Kumar"; it says how long it has run, ticking, as the Shop
+  Floor's cards do.
+- **Stock Here was lines of text** with the unit spelt out ("44 Square
+  Meter"). It is a table: the item, On Hand, For Making and Coming, each
+  with its unit quiet after it as a symbol (m²), and its menu.
+- **The company's own.** The floors and the job cards counted on a card were
+  every company's; they are the reader's company's now, and the atlas's
+  count for the floor falls to none.
+- **Numbers through frappe.** The figures printed with `String()`; they go
+  through `count`, Stopped is red when there is one, and Making filters.
+- The page names what it is modelled on and comes off the list still to be
+  redrawn.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on Odoo's work centres; a status menu, a clock, a table |
+| 8 Built from frappe | frappe-ui's Dropdown, Button, Avatar and List |
+| What ERPNext already does | its Plant Floor's own calls and statuses; one company's floors and job cards |

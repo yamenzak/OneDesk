@@ -490,15 +490,18 @@ It changes as soon as somebody else starts or closes a step.
 how many **Workstations** there are, how many are **Making**, how many are
 **Stopped** by a problem or for maintenance, and how many **Steps Running**.
 
-- Each card says the workstation's type, its status in ERPNext's colours,
-  each step running on it and who is on it, and how many steps wait to
-  start there. A card opens the workstation's steps on the Shop Floor.
-- **Change Status** sets the workstation's status (Production, Off, Idle,
-  Problem, Maintenance or Setup). Every open Plant Floor changes with it.
+- It is laid out as Odoo's work centres are. Each card says the
+  workstation's type, its status with ERPNext's colour, each step running
+  on it with who is on it and its clock, and how many steps wait to start
+  there. Its name and **Steps** open the workstation's steps on the Shop
+  Floor, and the gear opens the workstation.
+- The status is a menu on the card: Production, Off, Idle, Problem,
+  Maintenance or Setup. Every open Plant Floor changes with it.
 - **Type** and **Status** narrow the cards. A workspace with more than one
   floor has a tab for each.
-- **Stock Here** lists what the floor's warehouse holds, and how much of it
-  is kept for work orders. **Add Stock** and **Move Stock** make the stock
+- **Stock Here** is a table of what the floor's warehouse holds, how much of
+  it is kept for work orders, and how much is on its way, each with its
+  unit. **Add Stock** and **Move Stock** make the stock
   entry as a draft to check and submit.
 - A floor is set up with **New Plant Floor**: its name and its warehouse.
   A workstation joins it with **Plant Floor** on the workstation.

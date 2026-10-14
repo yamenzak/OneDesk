@@ -2,7 +2,9 @@
   <!-- Plant Floor (one_inventory/page/plant): a floor's workstations, each with
        its status and what is running on it, and the stock kept on the floor
        (one_inventory/plant.py, through ERPNext's own Plant Floor). A
-       workstation opens its steps on the Shop Floor. -->
+       workstation opens its steps on the Shop Floor. Modelled on Odoo's work
+       centres overview: a card per workstation with its status to change in
+       place, what runs on it with its clock, and what waits. -->
   <Page wide>
     <Loading v-if="!said" />
     <div v-else-if="!said.plant" class="py-16 text-center">
@@ -22,32 +24,74 @@
 
       <p v-if="!said.workstations.length" class="py-10 text-center text-base text-ink-gray-5">{{ type || status ? __("No workstations match") : __("No workstations on this floor") }}</p>
       <ul v-else class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <li v-for="one in cards" :key="one.name" class="flex flex-col rounded-3 border border-outline-gray-2 bg-surface-cards">
-          <button type="button" class="flex flex-1 flex-col gap-2 rounded-3 p-3 text-start hover:bg-surface-gray-1 focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/floor?workstation=${encodeURIComponent(one.name)}`)">
-            <div class="flex items-start gap-3">
-              <Avatar :label="one.name" :image="one.image" shape="square" size="xl" />
-              <div class="min-w-0 flex-1">
-                <div class="truncate text-base font-medium text-ink-gray-8">{{ one.name }}</div>
-                <div v-if="one.workstation_type" class="truncate text-sm text-ink-gray-5">{{ one.workstation_type }}</div>
-                <Badge :label="__(one.status)" :theme="THEMES[one.status] || 'gray'" size="sm" class="mt-1" />
-              </div>
+        <li v-for="one in cards" :key="one.name" class="flex flex-col gap-3 rounded-4 border bg-surface-elevation-2 p-4" :class="one.running.length ? 'border-outline-green-2' : 'border-outline-gray-1'">
+          <div class="flex items-start gap-3">
+            <Avatar :label="one.name" :image="one.image" shape="square" size="xl" />
+            <div class="min-w-0 flex-1">
+              <button type="button" class="max-w-full truncate rounded-2 text-base font-semibold text-ink-gray-9 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/floor?workstation=${encodeURIComponent(one.name)}`)">{{ one.name }}</button>
+              <div v-if="one.workstation_type" class="truncate text-sm text-ink-gray-5">{{ one.workstation_type }}</div>
             </div>
-            <div v-for="step in one.running" :key="step.job_card" class="text-sm text-ink-gray-7">
-              <span class="me-1.5 inline-block h-2 w-2 rounded-full bg-surface-green-5" aria-hidden="true" />{{ __("{0} for {1}", [__(step.operation), step.item_name]) }}
-              <div v-if="step.people.length" class="ms-3.5 text-ink-gray-5">{{ step.people.join(", ") }}</div>
+          </div>
+          <Dropdown v-if="said.can.Workstation" :options="statusMenu(one)" placement="left">
+            <template #trigger>
+              <Button size="sm" variant="subtle" class="self-start" icon-right="lucide-chevron-down" :aria-label="__('Change Status')">
+                <template #prefix><span class="size-2 rounded-full" :class="DOTS[one.status] || DOTS.Off" aria-hidden="true" /></template>
+                {{ __(one.status) }}
+              </Button>
+            </template>
+          </Dropdown>
+          <Badge v-else class="self-start" :label="__(one.status)" :theme="THEMES[one.status] || 'gray'" size="md" />
+
+          <div v-for="step in one.running" :key="step.job_card" class="min-w-0">
+            <div class="truncate text-sm font-medium text-ink-gray-8">{{ __("{0} for {1}", [__(step.operation), step.item_name]) }}</div>
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="truncate text-sm text-ink-gray-5">{{ step.people.join(", ") }}</span>
+              <span v-if="step.since" class="shrink-0 text-lg font-semibold tabular-nums text-ink-green-4">{{ clock(step.since) }}</span>
             </div>
-            <div v-if="!one.running.length" class="text-sm text-ink-gray-5">{{ __("Nothing running") }}</div>
-            <div v-if="one.waiting" class="text-sm text-ink-gray-5">{{ one.waiting === 1 ? __("1 step waiting") : __("{0} steps waiting", [one.waiting]) }}</div>
-          </button>
-          <div class="flex items-center justify-end gap-1 border-t border-outline-gray-1 px-2 py-1.5">
-            <Button v-if="said.can.Workstation" variant="ghost" size="sm" :label="__('Change Status')" @click="onedesk().plant.status(one.name, one.status, said.statuses, load)" />
-            <Button variant="ghost" size="sm" icon="lucide-arrow-up-right" :aria-label="__('Open Workstation')" @click="go(`/desk/workstation/${encodeURIComponent(one.name)}`)" />
+          </div>
+          <div v-if="!one.running.length" class="text-sm text-ink-gray-5">{{ __("Nothing running") }}</div>
+
+          <div class="mt-auto flex items-center justify-between gap-2 border-t border-outline-gray-1 pt-3">
+            <span class="text-sm text-ink-gray-5">{{ one.waiting ? (one.waiting === 1 ? __("1 step waiting") : __("{0} steps waiting", [count(one.waiting)])) : __("Nothing waiting") }}</span>
+            <div class="flex items-center gap-1">
+              <Button size="sm" variant="ghost" :label="__('Steps')" icon-right="lucide-arrow-right" @click="go(`/desk/floor?workstation=${encodeURIComponent(one.name)}`)" />
+              <Button size="sm" variant="ghost" icon="lucide-settings-2" :aria-label="__('Open Workstation')" @click="go(`/desk/workstation/${encodeURIComponent(one.name)}`)" />
+            </div>
           </div>
         </li>
       </ul>
 
       <Section v-if="said.plant.warehouse" :title="__('Stock Here')" icon="lucide-package" :aside="said.plant.warehouse" class="mt-6">
-        <Rows :rows="stock" :empty="__('Nothing kept here')" />
+        <p v-if="!said.stock.length" class="py-3 text-base text-ink-gray-5">{{ __("Nothing kept here") }}</p>
+        <List v-else :columns="stockColumns" divider="full" :row-height="52" class="-mx-3 list-gap-4 list-row-px-3">
+          <ListHeader>
+            <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end">{{ __("On Hand") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end max-sm:hidden">{{ __("For Making") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end max-lg:hidden">{{ __("Coming") }}</ListHeaderCell>
+            <ListHeaderCell />
+          </ListHeader>
+          <ListRows :items="said.stock" row-key="item_code" v-slot="{ item }">
+            <ListRow @click="go(`/desk/item/${encodeURIComponent(item.item_code)}?view=stock`)">
+              <ListCell class="min-w-0 gap-3">
+                <Avatar :label="item.item_name" :image="item.image" shape="square" size="md" />
+                <span class="truncate text-base text-ink-gray-8">{{ item.item_name }}</span>
+              </ListCell>
+              <ListCell v-for="key in ['actual_qty', 'for_making', 'coming']" :key="key" class="justify-end whitespace-nowrap tabular-nums" :class="STOCK_SHOWN[key]">
+                <template v-if="item[key]">
+                  <span class="text-base" :class="key === 'actual_qty' ? 'text-ink-gray-8' : 'text-ink-gray-7'">{{ quantity(item[key]) }}</span>
+                  <span class="ms-1 text-sm text-ink-gray-5">{{ __(item.unit) }}</span>
+                </template>
+                <span v-else class="text-base text-ink-gray-4">–</span>
+              </ListCell>
+              <ListCell class="justify-end" @click.stop>
+                <Dropdown v-if="said.can['Stock Entry']" :options="stockMenu(item)" placement="right">
+                  <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('Actions')" /></template>
+                </Dropdown>
+              </ListCell>
+            </ListRow>
+          </ListRows>
+        </List>
       </Section>
     </template>
   </Page>
@@ -55,9 +99,10 @@
 
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Avatar, Badge, Button, FormControl } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown, FormControl } from "frappe-ui";
+import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, followList, go, newDoc, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
+import { Figures, Loading, Page, PlaceSpot, Section, ViewTabs, __, call, count, duration, followList, go, newDoc, onResize, onedesk, quantity, secondsSince, setQuery, setValue, viewWidth } from "../kit";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -75,6 +120,29 @@ onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 
 // The colours ERPNext gives each status (workstation.get_color_map).
 const THEMES = { Production: "green", Off: "gray", Idle: "gray", Problem: "red", Maintenance: "amber", Setup: "blue" };
+const DOTS = { Production: "bg-surface-green-5", Off: "bg-surface-gray-5", Idle: "bg-surface-gray-4", Problem: "bg-surface-red-5", Maintenance: "bg-surface-amber-5", Setup: "bg-surface-blue-5" };
+// The stock table keeps what is on hand on a phone; the rest join as it widens.
+const stockColumns = { base: ["minmax(0,1fr)", "auto", "2rem"], sm: ["minmax(0,1fr)", "8rem", "8rem", "2rem"], lg: ["minmax(0,1fr)", "8rem", "8rem", "8rem", "2rem"] };
+const STOCK_SHOWN = { actual_qty: "", for_making: "max-sm:hidden", coming: "max-lg:hidden" };
+
+// A clock for each step running, ticking.
+const now = ref(Date.now());
+const tick = setInterval(() => (now.value = Date.now()), 1000);
+onBeforeUnmount(() => clearInterval(tick));
+const clock = (since) => (now.value, duration(secondsSince(since)));
+
+// Each status to set the workstation to, as its own Status field offers them.
+const statusMenu = (one) =>
+  said.value.statuses.map((value) => ({
+    label: __(value),
+    icon: value === one.status ? "lucide-check" : undefined,
+    onClick: () => value !== one.status && setValue("Workstation", one.name, "status", value).then(load),
+  }));
+// Add Stock or Move Stock, as ERPNext's Plant Floor offers them.
+const stockMenu = (one) => [
+  { label: __("Add Stock"), icon: "lucide-plus", onClick: () => onedesk().plant.stock(said.value.plant, one, "Material Receipt") },
+  { label: __("Move Stock"), icon: "lucide-arrow-left-right", onClick: () => onedesk().plant.stock(said.value.plant, one, "Material Transfer") },
+];
 
 let asked = 0;
 async function load() {
@@ -111,39 +179,18 @@ const statusOptions = computed(() => [{ label: __("Any Status"), value: "" }, ..
 const cards = computed(() => said.value.workstations);
 const counted = computed(() => {
   const n = said.value.workstations.length;
-  return n === 1 ? __("1 workstation") : __("{0} workstations", [n]);
+  return n === 1 ? __("1 workstation") : __("{0} workstations", [count(n)]);
 });
 
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    { title: __("Workstations"), value: String(f.workstations) },
-    { title: __("Making"), value: String(f.making) },
-    { title: __("Stopped"), value: String(f.stopped), note: f.stopped ? __("A problem or maintenance") : "" },
-    { title: __("Steps Running"), value: String(f.running) },
+    { title: __("Workstations"), value: count(f.workstations) },
+    { title: __("Making"), value: count(f.making), action: f.making ? { icon: "lucide-filter", label: __("Show Workstations Making"), onClick: () => (status.value = "Production") } : null },
+    { title: __("Stopped"), value: count(f.stopped), alarm: f.stopped > 0, note: f.stopped ? __("A problem or maintenance") : "" },
+    { title: __("Steps Running"), value: count(f.running) },
   ];
 });
-
-// What the floor keeps: how much is here, how much of it is kept for work
-// orders, and Add Stock or Move Stock as ERPNext's Plant Floor offers them.
-const stock = computed(() =>
-  said.value.stock.map((one) => ({
-    key: one.item_code,
-    label: one.item_name,
-    avatar: one.item_name,
-    image: one.image,
-    square: true,
-    below: one.for_making ? __("{0} kept for making", [quantity(one.for_making, one.uom)]) : "",
-    value: quantity(one.actual_qty, one.uom),
-    route: `/desk/item/${encodeURIComponent(one.item_code)}`,
-    actions: said.value.can["Stock Entry"]
-      ? [
-          { label: __("Add Stock"), icon: "lucide-plus", onClick: () => onedesk().plant.stock(said.value.plant, one, "Material Receipt") },
-          { label: __("Move Stock"), icon: "lucide-arrow-left-right", onClick: () => onedesk().plant.stock(said.value.plant, one, "Material Transfer") },
-        ]
-      : [],
-  }))
-);
 
 function report() {
   const s = said.value;

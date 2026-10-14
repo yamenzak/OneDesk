@@ -190,7 +190,6 @@ NOT_THE_COMPANYS = {
 	"home": 5,
 	"sent_out": 2,
 	"upkeep": 3,
-	"plant": 1,
 	"my_tasks": 2,
 	"timers": 3,
 }

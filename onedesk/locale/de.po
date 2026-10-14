@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 05:52+0000\n"
+"POT-Creation-Date: 2026-10-14 06:19+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -153,7 +153,7 @@ msgstr "1 Bestellung"
 msgid "1 person"
 msgstr "1 Person"
 
-#: frontend/src/plant/PlantFloor.vue:40
+#: frontend/src/plant/PlantFloor.vue:55
 msgid "1 step waiting"
 msgstr "1 Schritt wartet"
 
@@ -174,11 +174,11 @@ msgstr "1 Aufgabe ohne Termine"
 msgid "1 week"
 msgstr "1 Woche"
 
-#: frontend/src/floor/ShopFloor.vue:139
+#: frontend/src/floor/ShopFloor.vue:140
 msgid "1 work order"
 msgstr "1 Arbeitsauftrag"
 
-#: frontend/src/plant/PlantFloor.vue:114
+#: frontend/src/plant/PlantFloor.vue:182
 msgid "1 workstation"
 msgstr "1 Arbeitsplatz"
 
@@ -862,7 +862,7 @@ msgstr "Ein mit einem Lieferanten für ein Jahr vereinbarter Preis."
 msgid "A print format needs a name."
 msgstr "Ein Druckformat braucht einen Namen."
 
-#: frontend/src/plant/PlantFloor.vue:122
+#: frontend/src/plant/PlantFloor.vue:190
 msgid "A problem or maintenance"
 msgstr "Eine Störung oder Wartung"
 
@@ -1516,19 +1516,20 @@ msgstr "Handlung"
 #: frontend/src/floor/FloorSteps.vue:50 frontend/src/item/ItemCustomers.vue:32
 #: frontend/src/item/ItemManufacturerRow.vue:19
 #: frontend/src/item/ItemPlaces.vue:32 frontend/src/item/ItemSuppliers.vue:35
-#: frontend/src/kit/Rows.vue:50 frontend/src/project/Invoices.vue:62
-#: frontend/src/project/Suppliers.vue:74 frontend/src/project/Suppliers.vue:122
-#: frontend/src/project/Team.vue:52 frontend/src/quotes/QuoteRows.vue:45
-#: frontend/src/quotes/RequestRows.vue:41 frontend/src/template/Tasks.vue:85
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:26
-#: onedesk/public/js/project.js:31 onedesk/public/js/project.js:33
-#: onedesk/public/js/project.js:48 onedesk/public/js/project.js:52
-#: onedesk/public/js/project.js:77 onedesk/public/js/settings.js:983
-#: onedesk/public/js/settings.js:993 onedesk/public/js/settings.js:1004
-#: onedesk/public/js/settings.js:1016 onedesk/public/js/settings.js:1025
-#: onedesk/public/js/settings.js:1261 onedesk/public/js/settings.js:1310
-#: onedesk/public/js/settings.js:1342 onedesk/public/js/settings.js:2586
-#: onedesk/public/js/settings.js:3203 onedesk/public/js/settings.js:3260
+#: frontend/src/kit/Rows.vue:50 frontend/src/plant/PlantFloor.vue:89
+#: frontend/src/project/Invoices.vue:62 frontend/src/project/Suppliers.vue:74
+#: frontend/src/project/Suppliers.vue:122 frontend/src/project/Team.vue:52
+#: frontend/src/quotes/QuoteRows.vue:45 frontend/src/quotes/RequestRows.vue:41
+#: frontend/src/template/Tasks.vue:85 onedesk/one/sidebar/one/one.json
+#: onedesk/public/js/project.js:26 onedesk/public/js/project.js:31
+#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:48
+#: onedesk/public/js/project.js:52 onedesk/public/js/project.js:77
+#: onedesk/public/js/settings.js:983 onedesk/public/js/settings.js:993
+#: onedesk/public/js/settings.js:1004 onedesk/public/js/settings.js:1016
+#: onedesk/public/js/settings.js:1025 onedesk/public/js/settings.js:1261
+#: onedesk/public/js/settings.js:1310 onedesk/public/js/settings.js:1342
+#: onedesk/public/js/settings.js:2586 onedesk/public/js/settings.js:3203
+#: onedesk/public/js/settings.js:3260
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -1705,7 +1706,7 @@ msgstr "Serie hinzufügen"
 msgid "Add Step"
 msgstr "Schritt hinzufügen"
 
-#: frontend/src/plant/PlantFloor.vue:141 onedesk/public/js/plant_actions.js:70
+#: frontend/src/plant/PlantFloor.vue:143 onedesk/public/js/plant_actions.js:47
 msgid "Add Stock"
 msgstr "Bestand hinzufügen"
 
@@ -2297,7 +2298,7 @@ msgstr "Alle Aufgaben"
 msgid "All Time"
 msgstr "Insgesamt"
 
-#: frontend/src/plant/PlantFloor.vue:109
+#: frontend/src/plant/PlantFloor.vue:177
 msgid "All Types"
 msgstr "Alle Arten"
 
@@ -2769,7 +2770,7 @@ msgstr "Antwortet aus Ihren eigenen Datensätzen"
 msgid "Any"
 msgstr "Beliebig"
 
-#: frontend/src/plant/PlantFloor.vue:110
+#: frontend/src/plant/PlantFloor.vue:178
 msgid "Any Status"
 msgstr "Jeder Status"
 
@@ -5083,13 +5084,9 @@ msgstr "Tarif wechseln"
 msgid "Change Request"
 msgstr "Änderungswunsch"
 
-#: frontend/src/plant/PlantFloor.vue:43
+#: frontend/src/plant/PlantFloor.vue:37
 msgid "Change Status"
 msgstr "Status ändern"
-
-#: onedesk/public/js/plant_actions.js:24
-msgid "Change Status of {0}"
-msgstr "Status von {0} ändern"
 
 #: onedesk/one_studio/ai.py:23
 msgid "Change a collection…"
@@ -5662,7 +5659,7 @@ msgstr "Geschlossen"
 msgid "Closed Automatically"
 msgstr "Automatisch geschlossen"
 
-#: frontend/src/floor/ShopFloor.vue:148
+#: frontend/src/floor/ShopFloor.vue:149
 msgid "Closed Today"
 msgstr "Heute abgeschlossen"
 
@@ -5874,6 +5871,10 @@ msgstr ""
 #: onedesk/public/js/item_new.js:121
 msgid "Comes In"
 msgstr "Erhältlich in"
+
+#: frontend/src/plant/PlantFloor.vue:71
+msgid "Coming"
+msgstr "Unterwegs"
 
 #: frontend/src/home/InventoryStory.vue:184
 msgid "Coming In"
@@ -6630,7 +6631,7 @@ msgstr "Feiertage einschließen"
 #: onedesk/public/js/doctype_settings.js:889
 #: onedesk/public/js/lots_actions.js:116 onedesk/public/js/onecloud.js:1494
 #: onedesk/public/js/onecloud.js:1818 onedesk/public/js/opportunity.js:18
-#: onedesk/public/js/opportunity.js:19 onedesk/public/js/plant_actions.js:71
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/plant_actions.js:48
 #: onedesk/public/js/progress.js:35 onedesk/public/js/progress.js:89
 #: onedesk/public/js/project_actions.js:44
 #: onedesk/public/js/project_actions.js:142
@@ -8094,7 +8095,7 @@ msgstr "Wartende Domains"
 #. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #. Label in the One Work Order print format
 #. Label of the done (Check) field in DocType 'Task Step'
-#: frontend/src/floor/ShopFloor.vue:133
+#: frontend/src/floor/ShopFloor.vue:134
 #: frontend/src/project/MilestoneLanes.vue:103
 #: frontend/src/project/Overview.vue:154
 #: frontend/src/project/ProjectPage.vue:28
@@ -8651,7 +8652,7 @@ msgstr ""
 msgid "Edit Memory"
 msgstr "Erinnerung bearbeiten"
 
-#: frontend/src/plant/PlantFloor.vue:156
+#: frontend/src/plant/PlantFloor.vue:203
 msgid "Edit Plant Floor"
 msgstr "Produktionshalle bearbeiten"
 
@@ -10510,6 +10511,10 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:540
 msgid "For"
 msgstr "Für"
+
+#: frontend/src/plant/PlantFloor.vue:70
+msgid "For Making"
+msgstr "Für die Fertigung"
 
 #: onedesk/one_project/ai.py:56
 msgid "For each subcontractor on this project, what is left to bill, the retention held, any advance not yet set off, and what has been paid."
@@ -13037,7 +13042,7 @@ msgstr "Dies würde {0} überschreiben."
 #. Label in the One Purchase Receipt print format
 #. Label in the One Request for Quotation print format
 #. Label in the One Stock Entry print format
-#: frontend/src/quotes/QuoteCompare.vue:11
+#: frontend/src/plant/PlantFloor.vue:68 frontend/src/quotes/QuoteCompare.vue:11
 #: frontend/src/stock/StockOnHand.vue:29
 #: frontend/src/supplier/SupplierItems.vue:21
 #: frontend/src/to_order/ToOrderPage.vue:23
@@ -13054,7 +13059,7 @@ msgstr "Dies würde {0} überschreiben."
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/public/js/item_actions.js:232 onedesk/public/js/lots_actions.js:16
-#: onedesk/public/js/lots_actions.js:93 onedesk/public/js/plant_actions.js:35
+#: onedesk/public/js/lots_actions.js:93 onedesk/public/js/plant_actions.js:12
 #: onedesk/public/js/progress.js:82 onedesk/public/js/project_actions.js:124
 #: onedesk/public/js/project_actions.js:555 onedesk/www/order.html:56
 #: onedesk/www/rfq.html:50
@@ -13188,7 +13193,7 @@ msgstr "Auftrag"
 msgid "Job Applicant"
 msgstr ""
 
-#: frontend/src/floor/ShopFloor.vue:160 onedesk/one_inventory/home.py:55
+#: frontend/src/floor/ShopFloor.vue:161 onedesk/one_inventory/home.py:55
 msgid "Job Cards"
 msgstr "Arbeitskarten"
 
@@ -15073,7 +15078,7 @@ msgstr "Fertigt"
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryStory.vue:72 frontend/src/item/ItemPage.vue:177
-#: frontend/src/plant/PlantFloor.vue:121 onedesk/one_inventory/home.py:18
+#: frontend/src/plant/PlantFloor.vue:189 onedesk/one_inventory/home.py:18
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_inventory/story.py:439 onedesk/public/js/item_actions.js:18
 msgid "Making"
@@ -15765,7 +15770,7 @@ msgstr "Verschieben"
 msgid "Move Materials"
 msgstr "Material umlagern"
 
-#: frontend/src/plant/PlantFloor.vue:142 onedesk/public/js/plant_actions.js:70
+#: frontend/src/plant/PlantFloor.vue:144 onedesk/public/js/plant_actions.js:47
 msgid "Move Stock"
 msgstr "Bestand umlagern"
 
@@ -16282,7 +16287,7 @@ msgstr "Neues Passwort"
 msgid "New Plan"
 msgstr "Neuer Tarif"
 
-#: frontend/src/plant/PlantFloor.vue:10 frontend/src/plant/PlantFloor.vue:154
+#: frontend/src/plant/PlantFloor.vue:12 frontend/src/plant/PlantFloor.vue:201
 msgid "New Plant Floor"
 msgstr "Neue Produktionshalle"
 
@@ -16339,7 +16344,7 @@ msgstr "Neue Aufgabe"
 msgid "New Template"
 msgstr "Neue Vorlage"
 
-#: frontend/src/floor/ShopFloor.vue:158
+#: frontend/src/floor/ShopFloor.vue:159
 msgid "New Work Order"
 msgstr "Neuer Arbeitsauftrag"
 
@@ -17000,7 +17005,7 @@ msgstr "Kein Plan passt"
 msgid "No plan is on offer at the moment."
 msgstr "Zurzeit wird kein Tarif angeboten."
 
-#: frontend/src/plant/PlantFloor.vue:9
+#: frontend/src/plant/PlantFloor.vue:11
 msgid "No plant floors yet"
 msgstr "Noch keine Produktionshallen"
 
@@ -17212,11 +17217,11 @@ msgstr "Kein Arbeitsbereich hat es diesen Monat aufgerufen."
 msgid "No workspace has this yet."
 msgstr "Noch kein Arbeitsbereich hat dies."
 
-#: frontend/src/plant/PlantFloor.vue:23
+#: frontend/src/plant/PlantFloor.vue:25
 msgid "No workstations match"
 msgstr "Keine passenden Arbeitsplätze"
 
-#: frontend/src/plant/PlantFloor.vue:23
+#: frontend/src/plant/PlantFloor.vue:25
 msgid "No workstations on this floor"
 msgstr "Keine Arbeitsplätze in dieser Halle"
 
@@ -17696,7 +17701,7 @@ msgstr "Hier ist noch nichts"
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 
-#: frontend/src/plant/PlantFloor.vue:50
+#: frontend/src/plant/PlantFloor.vue:65
 msgid "Nothing kept here"
 msgstr "Hier liegt nichts"
 
@@ -17733,7 +17738,7 @@ msgstr "Derzeit nichts draußen"
 msgid "Nothing requested or received"
 msgstr "Nichts angefordert oder erhalten"
 
-#: frontend/src/plant/PlantFloor.vue:39
+#: frontend/src/plant/PlantFloor.vue:52
 msgid "Nothing running"
 msgstr "Nichts läuft"
 
@@ -17782,6 +17787,7 @@ msgstr "Noch nichts, wonach Lieferanten bewertet werden. „Beheben“ fügt Pü
 msgid "Nothing to show"
 msgstr "Nichts anzuzeigen"
 
+#: frontend/src/plant/PlantFloor.vue:55
 #: onedesk/one_intake/page/intake/intake.js:100
 msgid "Nothing waiting"
 msgstr "Nichts wartet"
@@ -18090,8 +18096,9 @@ msgstr "Im Namen von"
 msgid "On Everyone's Calendar"
 msgstr "In allen Kalendern"
 
-#: frontend/src/item/ItemPage.vue:241 frontend/src/stock/StockOnHand.vue:31
-#: onedesk/one_inventory/heads.py:1100 onedesk/public/js/item_list.js:71
+#: frontend/src/item/ItemPage.vue:241 frontend/src/plant/PlantFloor.vue:69
+#: frontend/src/stock/StockOnHand.vue:31 onedesk/one_inventory/heads.py:1100
+#: onedesk/public/js/item_list.js:71
 msgid "On Hand"
 msgstr "Auf Lager"
 
@@ -19074,7 +19081,7 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/floor/ShopFloor.vue:132
+#: frontend/src/floor/ShopFloor.vue:133
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:376
 #: onedesk/one_crm/custom/sales_stage.json
@@ -19170,7 +19177,7 @@ msgstr ""
 msgid "Open Tasks"
 msgstr "Offene Aufgaben"
 
-#: frontend/src/floor/ShopFloor.vue:145
+#: frontend/src/floor/ShopFloor.vue:146
 msgid "Open Work Orders"
 msgstr "Offene Arbeitsaufträge"
 
@@ -19178,7 +19185,7 @@ msgstr "Offene Arbeitsaufträge"
 msgid "Open Workspace"
 msgstr "Arbeitsbereich öffnen"
 
-#: frontend/src/plant/PlantFloor.vue:44
+#: frontend/src/plant/PlantFloor.vue:58
 msgid "Open Workstation"
 msgstr "Arbeitsplatz öffnen"
 
@@ -20936,7 +20943,7 @@ msgid "Plans, sections and elevations"
 msgstr "Grundrisse, Schnitte und Ansichten"
 
 #. Label of a Sidebar Item
-#: frontend/src/plant/PlantFloor.vue:150 onedesk/one_inventory/home.py:53
+#: frontend/src/plant/PlantFloor.vue:197 onedesk/one_inventory/home.py:53
 #: onedesk/one_inventory/page/plant/plant.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Plant Floor"
@@ -21840,14 +21847,14 @@ msgstr "Mengen pro {0}"
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/item_actions.js:233 onedesk/public/js/item_new.js:140
-#: onedesk/public/js/item_new.js:288 onedesk/public/js/plant_actions.js:36
+#: onedesk/public/js/item_new.js:288 onedesk/public/js/plant_actions.js:13
 #: onedesk/public/js/settings.js:1903 onedesk/www/order.html:57
 #: onedesk/www/rfq.html:51 onedesk/www/rfq.html:69 onedesk/www/rfq.html:70
 msgid "Quantity"
 msgstr "Menge"
 
 #: onedesk/public/js/floor_actions.js:78 onedesk/public/js/floor_actions.js:92
-#: onedesk/public/js/item_actions.js:155 onedesk/public/js/plant_actions.js:51
+#: onedesk/public/js/item_actions.js:155 onedesk/public/js/plant_actions.js:28
 msgid "Quantity must be greater than zero."
 msgstr "Die Menge muss größer als null sein."
 
@@ -23661,7 +23668,7 @@ msgstr "Wird knapp in {0}"
 msgid "Running Low {0}"
 msgstr "Wird knapp {0}"
 
-#: frontend/src/floor/ShopFloor.vue:146
+#: frontend/src/floor/ShopFloor.vue:147
 msgid "Running Now"
 msgstr "Läuft gerade"
 
@@ -23848,8 +23855,7 @@ msgstr "Samstag"
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/item_actions.js:40
 #: onedesk/public/js/lots_actions.js:60 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1629 onedesk/public/js/onemail.js:928
-#: onedesk/public/js/onemail.js:952 onedesk/public/js/plant_actions.js:25
-#: onedesk/public/js/project_actions.js:72
+#: onedesk/public/js/onemail.js:952 onedesk/public/js/project_actions.js:72
 #: onedesk/public/js/project_actions.js:326
 #: onedesk/public/js/project_actions.js:373
 #: onedesk/public/js/project_actions.js:507
@@ -24926,7 +24932,7 @@ msgid "Ship to"
 msgstr "Lieferung an"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:154 frontend/src/plant/PlantFloor.vue:155
+#: frontend/src/floor/ShopFloor.vue:155 frontend/src/plant/PlantFloor.vue:202
 #: onedesk/one_inventory/home.py:52
 #: onedesk/one_inventory/page/floor/floor.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -25087,6 +25093,10 @@ msgstr "Anzeigen bis"
 #: onedesk/public/js/note.js:13
 msgid "Show When People Sign In"
 msgstr "Bei der Anmeldung anzeigen"
+
+#: frontend/src/plant/PlantFloor.vue:189
+msgid "Show Workstations Making"
+msgstr "Produzierende Arbeitsplätze anzeigen"
 
 #: frontend/src/project/ProjectActivity.vue:154
 msgid "Show earlier activity"
@@ -26037,7 +26047,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: frontend/src/floor/OrderRows.vue:10 frontend/src/lots/LotRows.vue:10
-#: frontend/src/lots/SerialRows.vue:10 frontend/src/plant/PlantFloor.vue:19
+#: frontend/src/lots/SerialRows.vue:10 frontend/src/plant/PlantFloor.vue:21
 #: frontend/src/project/Facts.vue:8 frontend/src/project/Invoices.vue:34
 #: frontend/src/project/ProjectPage.vue:205
 #: frontend/src/project/Suppliers.vue:94 frontend/src/project/Suppliers.vue:148
@@ -26068,8 +26078,7 @@ msgstr ""
 #: onedesk/one_project/ai.py:575
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/plant_actions.js:14 onedesk/public/js/settings.js:1755
-#: onedesk/public/js/settings.js:2472
+#: onedesk/public/js/settings.js:1755 onedesk/public/js/settings.js:2472
 msgid "Status"
 msgstr "Status"
 
@@ -26100,7 +26109,7 @@ msgstr "Schritt {0} von {1}"
 #. Label of the walk_said (HTML) field in DocType 'Provisioning Job'
 #. Label in the One Work Order print format
 #: frontend/src/floor/OrderRows.vue:13 frontend/src/floor/ShopFloor.vue:33
-#: frontend/src/item/ItemMaking.vue:16
+#: frontend/src/item/ItemMaking.vue:16 frontend/src/plant/PlantFloor.vue:57
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:243 onedesk/one_admin/heads.py:684
 #: onedesk/one_inventory/heads.py:1344
@@ -26109,11 +26118,11 @@ msgstr "Schritt {0} von {1}"
 msgid "Steps"
 msgstr ""
 
-#: frontend/src/plant/PlantFloor.vue:123
+#: frontend/src/plant/PlantFloor.vue:191
 msgid "Steps Running"
 msgstr "Laufende Schritte"
 
-#: frontend/src/floor/ShopFloor.vue:146
+#: frontend/src/floor/ShopFloor.vue:147
 msgid "Steps with someone on them"
 msgstr "Schritte, an denen jemand arbeitet"
 
@@ -26170,7 +26179,7 @@ msgstr "Inventuren"
 msgid "Stock Dimensions"
 msgstr "Bestandsdimensionen"
 
-#: frontend/src/plant/PlantFloor.vue:49
+#: frontend/src/plant/PlantFloor.vue:64
 msgid "Stock Here"
 msgstr "Bestand hier"
 
@@ -26384,7 +26393,7 @@ msgstr "Arbeitsbereiche dieses Modell nicht mehr wählen lassen"
 msgid "Stop writing this field"
 msgstr "Dieses Feld nicht mehr schreiben"
 
-#: frontend/src/plant/PlantFloor.vue:122 frontend/src/project/TaskPanel.vue:69
+#: frontend/src/plant/PlantFloor.vue:190 frontend/src/project/TaskPanel.vue:69
 #: frontend/src/quotes/QuoteRows.vue:77 frontend/src/task/TaskPage.vue:35
 msgid "Stopped"
 msgstr "Gestoppt"
@@ -29561,7 +29570,7 @@ msgstr "Zu senden"
 msgid "To Suppliers"
 msgstr "An Lieferanten"
 
-#: onedesk/public/js/plant_actions.js:42
+#: onedesk/public/js/plant_actions.js:19
 msgid "To Warehouse"
 msgstr "Ins Lager"
 
@@ -30039,7 +30048,7 @@ msgstr "Zwei-Faktor-Anmeldung"
 #. Label of the kind (Data) field in DocType 'Stripe Webhook Event'
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
-#: frontend/src/plant/PlantFloor.vue:18 frontend/src/project/TaskPanel.vue:51
+#: frontend/src/plant/PlantFloor.vue:20 frontend/src/project/TaskPanel.vue:51
 #: frontend/src/task/TaskPage.vue:270 onedesk/one/portal.py:69
 #: onedesk/one/print_blocks.py:59
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
@@ -30939,7 +30948,7 @@ msgstr "Wartet auf {0} andere Aufgaben"
 msgid "Waiting since {0}."
 msgstr "Wartet seit {0}."
 
-#: frontend/src/floor/ShopFloor.vue:147
+#: frontend/src/floor/ShopFloor.vue:148
 msgid "Waiting to Start"
 msgstr "Wartet auf den Start"
 
@@ -33630,7 +33639,7 @@ msgid "Work Order Done"
 msgstr "Arbeitsauftrag fertig"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:159 frontend/src/home/InventoryHome.vue:279
+#: frontend/src/floor/ShopFloor.vue:160 frontend/src/home/InventoryHome.vue:279
 #: frontend/src/home/InventoryStory.vue:75 onedesk/one_inventory/heads.py:1345
 #: onedesk/one_inventory/home.py:54
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -33940,8 +33949,8 @@ msgstr "Arbeitsbereiche sind unter &lt;Kennung&gt;.&lt;dies&gt; erreichbar, zum 
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
 msgstr "Arbeitsbereiche erhalten hier ihre Mailadressen, zum Beispiel m.4dl.app. Sie muss in derselben Zone wie die Arbeitsbereich-Domain liegen."
 
-#: frontend/src/floor/ShopFloor.vue:161 frontend/src/plant/PlantFloor.vue:120
-#: frontend/src/plant/PlantFloor.vue:157 onedesk/one_inventory/home.py:119
+#: frontend/src/floor/ShopFloor.vue:162 frontend/src/plant/PlantFloor.vue:188
+#: frontend/src/plant/PlantFloor.vue:204 onedesk/one_inventory/home.py:119
 msgid "Workstations"
 msgstr "Arbeitsplätze"
 
@@ -36294,7 +36303,7 @@ msgstr "{0} Dateien mit diesen Namen sind bereits hier"
 msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} füllt ein Datensatzfeld, daher muss die Anfrage an einem Datensatz erfolgen."
 
-#: frontend/src/floor/FloorSteps.vue:13 frontend/src/plant/PlantFloor.vue:36
+#: frontend/src/floor/FloorSteps.vue:13 frontend/src/plant/PlantFloor.vue:46
 msgid "{0} for {1}"
 msgstr "{0} für {1}"
 
@@ -37010,10 +37019,6 @@ msgstr "{0} Artikel haben einen Meldebestand, aber nichts wird angefordert, wenn
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
-#: frontend/src/plant/PlantFloor.vue:136
-msgid "{0} kept for making"
-msgstr "{0} für die Fertigung reserviert"
-
 #: frontend/src/project/Team.vue:45
 msgid "{0} late"
 msgstr "{0} überfällig"
@@ -37471,7 +37476,7 @@ msgstr "{0} ausgegeben"
 msgid "{0} starts on {1}"
 msgstr "{0} beginnt am {1}"
 
-#: frontend/src/plant/PlantFloor.vue:40
+#: frontend/src/plant/PlantFloor.vue:55
 msgid "{0} steps waiting"
 msgstr "{0} Schritte warten"
 
@@ -37652,7 +37657,7 @@ msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte 
 msgid "{0} with {1} digits"
 msgstr "{0} mit {1} Ziffern"
 
-#: frontend/src/floor/ShopFloor.vue:139
+#: frontend/src/floor/ShopFloor.vue:140
 msgid "{0} work orders"
 msgstr "{0} Arbeitsaufträge"
 
@@ -37668,7 +37673,7 @@ msgstr "{0} Arbeitsbereiche haben es diesen Monat {1} Mal aufgerufen."
 msgid "{0} workspaces have this"
 msgstr "{0} Arbeitsbereiche haben dies"
 
-#: frontend/src/plant/PlantFloor.vue:114
+#: frontend/src/plant/PlantFloor.vue:182
 msgid "{0} workstations"
 msgstr "{0} Arbeitsplätze"
 
