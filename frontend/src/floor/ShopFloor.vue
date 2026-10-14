@@ -3,7 +3,9 @@
        work orders, each with how far its steps have got, then those done; a
        workstation's steps; and one work order's steps, each a job card to
        start, pause, record and close (one_inventory/floor.py, through
-       ERPNext's own Shop Floor). -->
+       ERPNext's own Shop Floor). Modelled on Odoo's Shop Floor: a tab per
+       workstation, the orders as a table, and each step a card with its
+       clock, who is on it and one button for what comes next. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -36,7 +38,7 @@
       <template v-else>
         <ViewTabs v-model="shown" :views="views" class="mt-5" />
         <!-- A workstation's steps, the oldest first. -->
-        <FloorSteps v-if="station" :steps="said.steps" :can="said.can" :employee="said.employee" show-order class="mt-2" @changed="load" @open="open" />
+        <FloorSteps v-if="station" :steps="said.steps" :can="said.can" :employee="said.employee" show-order class="mt-4" @changed="load" @open="open" />
         <template v-else>
           <div class="mt-4 flex flex-wrap items-center gap-2">
             <TextInput v-model="search" class="w-full max-w-xs" type="search" :placeholder="__('Search Work Orders')" :aria-label="__('Search Work Orders')">
@@ -44,7 +46,7 @@
             </TextInput>
             <span class="ms-auto text-sm tabular-nums text-ink-gray-5">{{ counted }}</span>
           </div>
-          <Rows :rows="orders" :empty="shown === 'done' ? __('Nothing done yet') : __('Nothing on the floor')" class="mt-3" />
+          <OrderRows :orders="said.work_orders || []" :empty="shown === 'done' ? __('Nothing done yet') : __('Nothing on the floor')" class="mt-3" @open="open" />
         </template>
       </template>
     </template>
@@ -55,8 +57,9 @@
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Button, TextInput } from "frappe-ui";
 
-import { Figures, Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, date, followList, go, newDoc, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
+import { Figures, Loading, Page, PlaceSpot, Section, ViewTabs, __, call, count, date, followList, go, newDoc, onResize, onedesk, quantity, setQuery, viewWidth } from "../kit";
 import FloorSteps from "./FloorSteps.vue";
+import OrderRows from "./OrderRows.vue";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -104,7 +107,8 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-const stop = [followList("Job Card", soon), followList("Work Order", soon)];
+// A person or a workstation renamed shows too.
+const stop = ["Job Card", "Work Order", "Employee", "Workstation"].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
@@ -133,47 +137,16 @@ const views = computed(() => [
 
 const counted = computed(() => {
   const n = said.value?.total || 0;
-  return n === 1 ? __("1 work order") : __("{0} work orders", [n]);
+  return n === 1 ? __("1 work order") : __("{0} work orders", [count(n)]);
 });
-
-// A work order on the board: for which project, how far its steps have got,
-// and the step it is at, red once it was wanted.
-const orders = computed(() =>
-  (said.value?.work_orders || []).map((one) => ({
-    key: one.name,
-    label: one.item_name || one.production_item,
-    sub: one.name,
-    avatar: one.item_name || one.production_item,
-    image: one.item_image,
-    square: true,
-    dot: one.late ? "red" : undefined,
-    badge: { label: __(one.status), theme: THEMES[one.status] || "gray" },
-    below: [one.project_name, one.current_operation && (one.workstation_name ? __("{0} at {1}", [__(one.current_operation), one.workstation_name]) : __(one.current_operation))].filter(Boolean).join(" · "),
-    ...counts(one),
-    onClick: () => open(one.name),
-  }))
-);
-// How much is made and how far its steps have got: a bar and a figure on a
-// wide screen, one line under the name on a phone.
-function counts(one) {
-  const made = __("{0} of {1} made", [quantity(one.produced_qty), quantity(one.qty)]);
-  const steps = one.total_operations ? __("{0} of {1} steps done", [one.completed_operations, one.total_operations]) : "";
-  if (!wide.value) return { lines: [[made, steps].filter(Boolean).join(" · ")] };
-  return {
-    dim: made,
-    progress: one.total_operations ? Math.round((100 * one.completed_operations) / one.total_operations) : one.per_completed,
-    value: steps,
-  };
-}
-const THEMES = { "In Process": "amber", "Not Started": "gray", Completed: "green", "Stock Reserved": "blue", "Stock Partially Reserved": "blue" };
 
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    { title: __("Open Work Orders"), value: String(f.open) },
-    { title: __("Running Now"), value: String(f.running), note: f.running ? __("Steps with someone on them") : "" },
-    { title: __("Waiting to Start"), value: String(f.waiting) },
-    { title: __("Closed Today"), value: String(f.done_today) },
+    { title: __("Open Work Orders"), value: count(f.open) },
+    { title: __("Running Now"), value: count(f.running), note: f.running ? __("Steps with someone on them") : "" },
+    { title: __("Waiting to Start"), value: count(f.waiting) },
+    { title: __("Closed Today"), value: count(f.done_today) },
   ];
 });
 

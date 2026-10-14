@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 05:39+0000\n"
+"POT-Creation-Date: 2026-10-14 05:52+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -174,7 +174,7 @@ msgstr "مهمة واحدة بلا تواريخ"
 msgid "1 week"
 msgstr "أسبوع واحد"
 
-#: frontend/src/floor/ShopFloor.vue:136
+#: frontend/src/floor/ShopFloor.vue:139
 msgid "1 work order"
 msgstr "أمر عمل واحد"
 
@@ -1513,7 +1513,7 @@ msgid "Action"
 msgstr "إجراء"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/FloorSteps.vue:27 frontend/src/item/ItemCustomers.vue:32
+#: frontend/src/floor/FloorSteps.vue:50 frontend/src/item/ItemCustomers.vue:32
 #: frontend/src/item/ItemManufacturerRow.vue:19
 #: frontend/src/item/ItemPlaces.vue:32 frontend/src/item/ItemSuppliers.vue:35
 #: frontend/src/kit/Rows.vue:50 frontend/src/project/Invoices.vue:62
@@ -2310,7 +2310,7 @@ msgstr "كل المستودعات"
 msgid "All Work"
 msgstr "كل العمل"
 
-#: frontend/src/floor/ShopFloor.vue:16
+#: frontend/src/floor/ShopFloor.vue:18
 msgid "All Work Orders"
 msgstr "كل أوامر العمل"
 
@@ -3503,6 +3503,10 @@ msgstr "المُسنَد إليهم"
 #: onedesk/one_task/capture.py:38
 msgid "Assignment for {0} {1}"
 msgstr ""
+
+#: frontend/src/floor/OrderRows.vue:11
+msgid "At"
+msgstr "في"
 
 #. Option for the 'Health' (Select) field in DocType 'Project'
 #. Option for the 'Health' (Select) field in DocType 'Project User'
@@ -5245,7 +5249,7 @@ msgstr "افحص ملفي الشخصي"
 msgid "Check Out"
 msgstr "تسجيل الانصراف"
 
-#: frontend/src/floor/FloorSteps.vue:101
+#: frontend/src/floor/FloorSteps.vue:121
 msgid "Check Quality"
 msgstr "فحص الجودة"
 
@@ -5620,7 +5624,7 @@ msgstr "إغلاق"
 msgid "Close Calls"
 msgstr "قريبة من الحد"
 
-#: frontend/src/floor/FloorSteps.vue:91 onedesk/public/js/floor_actions.js:76
+#: frontend/src/floor/FloorSteps.vue:111 onedesk/public/js/floor_actions.js:76
 msgid "Close Step"
 msgstr "إغلاق الخطوة"
 
@@ -5658,7 +5662,7 @@ msgstr "مغلق"
 msgid "Closed Automatically"
 msgstr "أُغلق تلقائياً"
 
-#: frontend/src/floor/ShopFloor.vue:176
+#: frontend/src/floor/ShopFloor.vue:148
 msgid "Closed Today"
 msgstr "أُغلقت اليوم"
 
@@ -8090,7 +8094,7 @@ msgstr "نطاقات بالانتظار"
 #. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #. Label in the One Work Order print format
 #. Label of the done (Check) field in DocType 'Task Step'
-#: frontend/src/floor/ShopFloor.vue:130
+#: frontend/src/floor/ShopFloor.vue:133
 #: frontend/src/project/MilestoneLanes.vue:103
 #: frontend/src/project/Overview.vue:154
 #: frontend/src/project/ProjectPage.vue:28
@@ -10252,7 +10256,7 @@ msgid "Finds or makes everything a workspace needs from Cloudflare with the toke
 msgstr "يجد أو ينشئ كل ما تحتاجه مساحة العمل من Cloudflare بالرمز أعلاه. لا يغيّر شيئًا مُعدًّا مسبقًا."
 
 #. Task in the Year-End Audit project template
-#: frontend/src/floor/ShopFloor.vue:28 frontend/src/item/ItemMaking.vue:105
+#: frontend/src/floor/ShopFloor.vue:30 frontend/src/item/ItemMaking.vue:105
 #: onedesk/one_project/library/year_end_audit.json
 #: onedesk/public/js/item_actions.js:163
 msgid "Finish"
@@ -13184,7 +13188,7 @@ msgstr "المهمة"
 msgid "Job Applicant"
 msgstr "متقدم للوظيفة"
 
-#: frontend/src/floor/ShopFloor.vue:188 onedesk/one_inventory/home.py:55
+#: frontend/src/floor/ShopFloor.vue:160 onedesk/one_inventory/home.py:55
 msgid "Job Cards"
 msgstr "بطاقات العمل"
 
@@ -14720,7 +14724,7 @@ msgstr "الأصغر يُنفَّذ أولًا."
 msgid "MB"
 msgstr "ميغابايت"
 
-#: frontend/src/home/InventoryStory.vue:165
+#: frontend/src/floor/OrderRows.vue:12 frontend/src/home/InventoryStory.vue:165
 #: frontend/src/home/InventoryStory.vue:171 frontend/src/lots/LotRows.vue:11
 #: onedesk/one_inventory/heads.py:1169 onedesk/one_inventory/heads.py:1334
 msgid "Made"
@@ -15757,7 +15761,7 @@ msgstr "أقصى عدد لمساحات العمل"
 msgid "Move"
 msgstr "نقل"
 
-#: frontend/src/floor/FloorSteps.vue:99
+#: frontend/src/floor/FloorSteps.vue:119
 msgid "Move Materials"
 msgstr "نقل المواد"
 
@@ -16090,7 +16094,7 @@ msgstr "بحاجة إليك"
 msgid "Needs a Password"
 msgstr "يحتاج إلى كلمة مرور"
 
-#: frontend/src/floor/FloorSteps.vue:75
+#: frontend/src/floor/FloorSteps.vue:95
 msgid "Needs a quality check before it closes"
 msgstr "تحتاج إلى فحص جودة قبل إغلاقها"
 
@@ -16335,7 +16339,7 @@ msgstr "مهمة جديدة"
 msgid "New Template"
 msgstr "قالب جديد"
 
-#: frontend/src/floor/ShopFloor.vue:186
+#: frontend/src/floor/ShopFloor.vue:158
 msgid "New Work Order"
 msgstr "أمر عمل جديد"
 
@@ -17116,7 +17120,7 @@ msgstr "لا يوجد صوت. تحقّق من الميكروفون."
 msgid "No starred items"
 msgstr "لا توجد عناصر مميزة بنجمة"
 
-#: frontend/src/floor/FloorSteps.vue:6
+#: frontend/src/floor/FloorSteps.vue:7
 msgid "No steps here"
 msgstr "لا توجد خطوات هنا"
 
@@ -17247,6 +17251,10 @@ msgstr "لا أحد لديه."
 #: onedesk/one_book/ready.py:167
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr "لا أحد يُذكَّر بفاتورة غير مدفوعة. الإصلاح يراسل العميل بعد أسبوع من الاستحقاق."
+
+#: frontend/src/floor/FloorSteps.vue:27
+msgid "Nobody on it yet"
+msgstr "لا أحد عليها بعد"
 
 #: onedesk/public/js/attendance_tool.js:47
 msgid "Nobody on this list checked in"
@@ -17667,7 +17675,7 @@ msgstr "لا يتغير شيء لمساحة العمل خلال هذه الفت�
 msgid "Nothing dated on or before this day can then be entered, changed or cancelled, by anybody."
 msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغاء أي شيء بتاريخ هذا اليوم أو قبله."
 
-#: frontend/src/floor/ShopFloor.vue:47 frontend/src/upkeep/UpkeepPage.vue:98
+#: frontend/src/floor/ShopFloor.vue:49 frontend/src/upkeep/UpkeepPage.vue:98
 msgid "Nothing done yet"
 msgstr "لم يُنجز شيء بعد"
 
@@ -17713,7 +17721,7 @@ msgstr "لا شيء متوفر هنا"
 msgid "Nothing on order"
 msgstr "لا شيء قيد الطلب"
 
-#: frontend/src/floor/ShopFloor.vue:47
+#: frontend/src/floor/ShopFloor.vue:49
 msgid "Nothing on the floor"
 msgstr "لا شيء في المصنع"
 
@@ -19066,7 +19074,7 @@ msgstr "لا يستطيع ذلك إلا {0}، الذي يدفع لمساحة ا�
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/floor/ShopFloor.vue:129
+#: frontend/src/floor/ShopFloor.vue:132
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:376
 #: onedesk/one_crm/custom/sales_stage.json
@@ -19104,7 +19112,7 @@ msgstr "فتح المجلد"
 msgid "Open Full Form"
 msgstr "فتح النموذج الكامل"
 
-#: frontend/src/floor/FloorSteps.vue:102
+#: frontend/src/floor/FloorSteps.vue:122
 msgid "Open Job Card"
 msgstr "فتح بطاقة العمل"
 
@@ -19162,7 +19170,7 @@ msgstr ""
 msgid "Open Tasks"
 msgstr "المهام المفتوحة"
 
-#: frontend/src/floor/ShopFloor.vue:173
+#: frontend/src/floor/ShopFloor.vue:145
 msgid "Open Work Orders"
 msgstr "أوامر العمل المفتوحة"
 
@@ -20135,7 +20143,7 @@ msgstr "المسار"
 msgid "Patient"
 msgstr "المريض"
 
-#: frontend/src/floor/FloorSteps.vue:89
+#: frontend/src/floor/FloorSteps.vue:109
 msgid "Pause"
 msgstr "إيقاف مؤقت"
 
@@ -21790,7 +21798,7 @@ msgstr "الجودة"
 msgid "Quality Inspections"
 msgstr "فحوصات الجودة"
 
-#: frontend/src/floor/FloorSteps.vue:75
+#: frontend/src/floor/FloorSteps.vue:95
 msgid "Quality check {0}"
 msgstr "فحص الجودة {0}"
 
@@ -22061,7 +22069,7 @@ msgstr "قراءة تسجيلات الحضور"
 msgid "Read Files Attached to Records"
 msgstr "قراءة الملفات المرفقة بالسجلات"
 
-#: frontend/src/floor/FloorSteps.vue:100
+#: frontend/src/floor/FloorSteps.vue:120
 msgid "Read Instructions"
 msgstr "قراءة التعليمات"
 
@@ -22277,7 +22285,7 @@ msgstr "استلام"
 msgid "Receive Back"
 msgstr "استلم العائد"
 
-#: frontend/src/floor/FloorSteps.vue:86
+#: frontend/src/floor/FloorSteps.vue:106
 msgid "Receive Into Stock"
 msgstr "استلام إلى المخزون"
 
@@ -22448,7 +22456,7 @@ msgstr "جملة رأس السجل"
 msgid "Record Head Verb"
 msgstr "إجراء رأس السجل"
 
-#: frontend/src/floor/FloorSteps.vue:98
+#: frontend/src/floor/FloorSteps.vue:118
 msgid "Record Made"
 msgstr "تسجيل ما صُنع"
 
@@ -23330,7 +23338,7 @@ msgstr "نتائج من كل مكان"
 msgid "Results in {0}"
 msgstr "النتائج في {0}"
 
-#: frontend/src/floor/FloorSteps.vue:90 onedesk/one_admin/heads.py:633
+#: frontend/src/floor/FloorSteps.vue:110 onedesk/one_admin/heads.py:633
 #: onedesk/one_admin/home.py:125 onedesk/public/js/timesheet.js:86
 msgid "Resume"
 msgstr "استئناف"
@@ -23653,7 +23661,7 @@ msgstr "ينفد في {0}"
 msgid "Running Low {0}"
 msgstr "على وشك النفاد {0}"
 
-#: frontend/src/floor/ShopFloor.vue:174
+#: frontend/src/floor/ShopFloor.vue:146
 msgid "Running Now"
 msgstr "قيد التشغيل الآن"
 
@@ -24042,7 +24050,7 @@ msgstr "بحث"
 msgid "Search Items"
 msgstr "البحث في الأصناف"
 
-#: frontend/src/floor/ShopFloor.vue:42
+#: frontend/src/floor/ShopFloor.vue:44
 msgid "Search Work Orders"
 msgstr "البحث في أوامر العمل"
 
@@ -24918,7 +24926,7 @@ msgid "Ship to"
 msgstr "الشحن إلى"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:182 frontend/src/plant/PlantFloor.vue:155
+#: frontend/src/floor/ShopFloor.vue:154 frontend/src/plant/PlantFloor.vue:155
 #: onedesk/one_inventory/home.py:52
 #: onedesk/one_inventory/page/floor/floor.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -24947,7 +24955,7 @@ msgstr "أدلة مختصرة لكل دور"
 msgid "Short of {0}"
 msgstr "ينقصها {0}"
 
-#: frontend/src/floor/FloorSteps.vue:74
+#: frontend/src/floor/FloorSteps.vue:94
 msgid "Short of {0}, {1} more needed"
 msgstr "نقص في {0}، يلزم {1} إضافية"
 
@@ -25876,7 +25884,7 @@ msgstr "تمييز بنجمة"
 msgid "Starred"
 msgstr "المميّزة بنجمة"
 
-#: frontend/src/floor/FloorSteps.vue:88 onedesk/public/js/floor_actions.js:36
+#: frontend/src/floor/FloorSteps.vue:108 onedesk/public/js/floor_actions.js:36
 #: onedesk/public/js/timesheet.js:86
 msgid "Start"
 msgstr ""
@@ -26028,9 +26036,9 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Interview Recording'
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
-#: frontend/src/lots/LotRows.vue:10 frontend/src/lots/SerialRows.vue:10
-#: frontend/src/plant/PlantFloor.vue:19 frontend/src/project/Facts.vue:8
-#: frontend/src/project/Invoices.vue:34
+#: frontend/src/floor/OrderRows.vue:10 frontend/src/lots/LotRows.vue:10
+#: frontend/src/lots/SerialRows.vue:10 frontend/src/plant/PlantFloor.vue:19
+#: frontend/src/project/Facts.vue:8 frontend/src/project/Invoices.vue:34
 #: frontend/src/project/ProjectPage.vue:205
 #: frontend/src/project/Suppliers.vue:94 frontend/src/project/Suppliers.vue:148
 #: frontend/src/project/TaskPanel.vue:8 frontend/src/project/Tasks.vue:20
@@ -26091,7 +26099,8 @@ msgstr "الخطوة {0} من {1}"
 #. Job'
 #. Label of the walk_said (HTML) field in DocType 'Provisioning Job'
 #. Label in the One Work Order print format
-#: frontend/src/floor/ShopFloor.vue:31 frontend/src/item/ItemMaking.vue:16
+#: frontend/src/floor/OrderRows.vue:13 frontend/src/floor/ShopFloor.vue:33
+#: frontend/src/item/ItemMaking.vue:16
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:243 onedesk/one_admin/heads.py:684
 #: onedesk/one_inventory/heads.py:1344
@@ -26104,7 +26113,7 @@ msgstr ""
 msgid "Steps Running"
 msgstr "خطوات قيد التشغيل"
 
-#: frontend/src/floor/ShopFloor.vue:174
+#: frontend/src/floor/ShopFloor.vue:146
 msgid "Steps with someone on them"
 msgstr "خطوات يعمل عليها أحد"
 
@@ -30930,7 +30939,7 @@ msgstr "بانتظار {0} مهام أخرى"
 msgid "Waiting since {0}."
 msgstr "بالانتظار منذ {0}."
 
-#: frontend/src/floor/ShopFloor.vue:175
+#: frontend/src/floor/ShopFloor.vue:147
 msgid "Waiting to Start"
 msgstr "بانتظار البدء"
 
@@ -30948,12 +30957,13 @@ msgstr "بانتظار التشغيل"
 msgid "Waits On"
 msgstr "ينتظر"
 
-#: onedesk/one/print_blocks.py:76 onedesk/one_inventory/heads.py:1209
-#: onedesk/one_inventory/heads.py:1230 onedesk/one_inventory/heads.py:1336
+#: frontend/src/floor/OrderRows.vue:14 onedesk/one/print_blocks.py:76
+#: onedesk/one_inventory/heads.py:1209 onedesk/one_inventory/heads.py:1230
+#: onedesk/one_inventory/heads.py:1336
 msgid "Wanted By"
 msgstr "مطلوب بحلول"
 
-#: frontend/src/floor/ShopFloor.vue:23 frontend/src/item/ItemMaking.vue:99
+#: frontend/src/floor/ShopFloor.vue:25 frontend/src/item/ItemMaking.vue:99
 msgid "Wanted by {0}"
 msgstr "مطلوب بحلول {0}"
 
@@ -31000,7 +31010,7 @@ msgstr "كانت قيمته"
 msgid "Was due {0}"
 msgstr "كان مستحقًا في {0}"
 
-#: frontend/src/floor/ShopFloor.vue:23 frontend/src/home/InventoryHome.vue:276
+#: frontend/src/floor/ShopFloor.vue:25 frontend/src/home/InventoryHome.vue:276
 #: frontend/src/item/ItemMaking.vue:99
 msgid "Was wanted by {0}"
 msgstr "كان مطلوبًا بحلول {0}"
@@ -33609,7 +33619,8 @@ msgstr "العمل المنجز"
 msgid "Work From Home"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:26 onedesk/one_inventory/heads.py:1351
+#: frontend/src/floor/OrderRows.vue:9 onedesk/one/print_blocks.py:26
+#: onedesk/one_inventory/heads.py:1351
 msgid "Work Order"
 msgstr ""
 
@@ -33619,7 +33630,7 @@ msgid "Work Order Done"
 msgstr "اكتمل أمر العمل"
 
 #. Label of a Sidebar Item
-#: frontend/src/floor/ShopFloor.vue:187 frontend/src/home/InventoryHome.vue:279
+#: frontend/src/floor/ShopFloor.vue:159 frontend/src/home/InventoryHome.vue:279
 #: frontend/src/home/InventoryStory.vue:75 onedesk/one_inventory/heads.py:1345
 #: onedesk/one_inventory/home.py:54
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -33929,7 +33940,7 @@ msgstr "يُوصل إلى مساحات العمل على &lt;المعرّف&gt;.
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
 msgstr "تحصل مساحات العمل على عناوين بريدها هنا، مثل m.4dl.app. يجب أن يكون في منطقة نطاق مساحة العمل نفسها."
 
-#: frontend/src/floor/ShopFloor.vue:189 frontend/src/plant/PlantFloor.vue:120
+#: frontend/src/floor/ShopFloor.vue:161 frontend/src/plant/PlantFloor.vue:120
 #: frontend/src/plant/PlantFloor.vue:157 onedesk/one_inventory/home.py:119
 msgid "Workstations"
 msgstr "محطات العمل"
@@ -35944,7 +35955,6 @@ msgstr "{0} في النهاية"
 msgid "{0} at the level {1}"
 msgstr "{0} في المستوى {1}"
 
-#: frontend/src/floor/ShopFloor.vue:151
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:129
 msgid "{0} at {1}"
 msgstr "{0} في {1}"
@@ -36284,7 +36294,7 @@ msgstr "يوجد هنا بالفعل {0} ملفات بهذه الأسماء"
 msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} يملأ حقلًا في سجل، لذا يجب أن يكون الطلب من سجل."
 
-#: frontend/src/floor/FloorSteps.vue:18 frontend/src/plant/PlantFloor.vue:36
+#: frontend/src/floor/FloorSteps.vue:13 frontend/src/plant/PlantFloor.vue:36
 msgid "{0} for {1}"
 msgstr "{0} لـ {1}"
 
@@ -37045,7 +37055,7 @@ msgstr "{0} يرتبط بـ {1}، وهو ليس نوع سجل يمكنك فتح�
 msgid "{0} list"
 msgstr "قائمة {0}"
 
-#: frontend/src/floor/FloorSteps.vue:72
+#: frontend/src/floor/FloorSteps.vue:35
 msgid "{0} lost"
 msgstr "{0} مفقودة"
 
@@ -37131,6 +37141,7 @@ msgstr "سُحب {0} من أرصدتها البالغة {1}."
 msgid "{0} of them live."
 msgstr "منها {0} تعمل."
 
+#: frontend/src/floor/OrderRows.vue:38 frontend/src/floor/OrderRows.vue:43
 #: frontend/src/project/MilestoneLanes.vue:37
 #: frontend/src/project/MilestoneLanes.vue:104
 #: frontend/src/project/Months.vue:11 frontend/src/project/TaskPanel.vue:85
@@ -37175,7 +37186,7 @@ msgstr "متبقٍ {0} من {1} رصيد. بلا انتهاء."
 msgid "{0} of {1} delivered"
 msgstr "سُلّم {0} من {1}"
 
-#: frontend/src/floor/FloorSteps.vue:72 frontend/src/project/Overview.vue:242
+#: frontend/src/floor/FloorSteps.vue:34 frontend/src/project/Overview.vue:242
 msgid "{0} of {1} done"
 msgstr "{0} من {1} منجزة"
 
@@ -37183,8 +37194,8 @@ msgstr "{0} من {1} منجزة"
 msgid "{0} of {1} lines"
 msgstr "{0} من {1} بنود"
 
-#: frontend/src/floor/ShopFloor.vue:27 frontend/src/floor/ShopFloor.vue:159
-#: frontend/src/home/InventoryHome.vue:275 frontend/src/item/ItemMaking.vue:97
+#: frontend/src/floor/ShopFloor.vue:29 frontend/src/home/InventoryHome.vue:275
+#: frontend/src/item/ItemMaking.vue:97
 msgid "{0} of {1} made"
 msgstr "صُنع {0} من {1}"
 
@@ -37199,10 +37210,6 @@ msgstr "استُلم {0} من {1}"
 #: onedesk/public/js/settings.js:917
 msgid "{0} of {1} seats used."
 msgstr "{0} من {1} مقاعد مستخدمة."
-
-#: frontend/src/floor/ShopFloor.vue:160
-msgid "{0} of {1} steps done"
-msgstr "{0} من {1} خطوات منجزة"
 
 #: onedesk/public/js/floor_actions.js:72
 msgid "{0} of {1} still to make"
@@ -37645,7 +37652,7 @@ msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حض
 msgid "{0} with {1} digits"
 msgstr "{0} بعدد {1} أرقام"
 
-#: frontend/src/floor/ShopFloor.vue:136
+#: frontend/src/floor/ShopFloor.vue:139
 msgid "{0} work orders"
 msgstr "{0} أوامر عمل"
 

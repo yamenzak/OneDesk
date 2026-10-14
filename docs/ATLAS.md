@@ -52,7 +52,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | quotes (`frontend/src/quotes/QuotesPage.vue`) | Purchase Order Item, Request for Quotation, Request for Quotation Item, Request for Quotation Supplier, Supplier Quotation, Supplier Quotation Item | – | – | – |
 | sent_out (`frontend/src/sent_out/SentOutPage.vue`) | Bin, Project, Purchase Order, Subcontracting Order, Subcontracting Order Item, Subcontracting Order Supplied Item | Bin, Project | – | Purchase Order, Subcontracting Order |
 | upkeep (`frontend/src/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | Asset | – | Asset, Asset Maintenance, Asset Repair |
-| floor (`frontend/src/floor/ShopFloor.vue`) | Employee, Job Card, Workstation | Employee, Workstation | – | Employee, Job Card |
+| floor (`frontend/src/floor/ShopFloor.vue`) | Employee, Job Card, Workstation | – | – | – |
 | plant (`frontend/src/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | Job Card |
 | my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | Timesheet, Timesheet Detail | – | Task, Timesheet |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | Project, Task, Timesheet, Timesheet Detail | – | Project, Task, Timesheet |

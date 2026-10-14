@@ -3,6 +3,7 @@ step's job card, read through ERPNext's own Shop Floor. How it works is in
 the module's README, Under the hood.
 """
 
+import erpnext
 import frappe
 from erpnext.manufacturing.page.shop_floor import shop_floor
 from frappe.utils import flt, get_datetime, getdate, now_datetime, nowdate
@@ -55,9 +56,10 @@ def figures() -> dict:
 	# Open as the board has it: a work order whose steps are all done is the
 	# floor's no more, though it waits for its finished goods.
 	open_orders = shop_floor.get_work_orders("open", 0, 1)["total"]
+	company = erpnext.get_default_company()
 	drafts = frappe.get_all(
 		"Job Card",
-		filters={"docstatus": 0, "is_subcontracted": 0},
+		filters={"docstatus": 0, "is_subcontracted": 0, "company": company},
 		fields=["name", "status", "is_paused"],
 	)
 	running = [one.name for one in drafts if running_now(one)]
@@ -67,7 +69,11 @@ def figures() -> dict:
 		"waiting": sum(1 for one in drafts if one.status == "Open"),
 		"done_today": frappe.db.count(
 			"Job Card",
-			{"docstatus": 1, "modified": [">=", get_datetime(f"{getdate(nowdate())} 00:00:00")]},
+			{
+				"docstatus": 1,
+				"company": company,
+				"modified": [">=", get_datetime(f"{getdate(nowdate())} 00:00:00")],
+			},
 		),
 	}
 
@@ -86,11 +92,12 @@ def running_now(job_card) -> bool:
 
 
 def _card(one: dict) -> dict:
-	"""One work order on the board, with its project by name."""
-	project = frappe.db.get_value("Work Order", one.name, "project")
+	"""One work order on the board, with its project by name and when it is wanted."""
+	project, wanted = frappe.db.get_value("Work Order", one.name, ["project", "expected_delivery_date"])
 	return {
 		**one,
 		"project": project,
+		"wanted": str(wanted) if wanted else None,
 		"project_name": frappe.db.get_value("Project", project, "project_name") if project else None,
 		"workstation_name": one.get("workstation_name") or one.get("workstation"),
 		"late": _late(one.name),
@@ -149,7 +156,12 @@ def _step(one: dict) -> dict:
 	worked = sum(flt(log.get("time_in_mins")) for log in logs if log.get("to_time"))
 	employees = sorted({log.get("employee") for log in logs if log.get("employee")})
 	names = dict(
-		frappe.get_all("Employee", filters={"name": ["in", employees]}, fields=["name", "employee_name"], as_list=True)
+		frappe.get_all(
+			"Employee",
+			filters={"name": ["in", employees], "company": erpnext.get_default_company()},
+			fields=["name", "employee_name"],
+			as_list=True,
+		)
 	) if employees else {}
 	draft = one.docstatus == 0
 	return {
@@ -158,6 +170,7 @@ def _step(one: dict) -> dict:
 		"workstation": one.workstation,
 		"work_order": one.work_order,
 		"item": one.finished_good or one.production_item,
+		"item_name": frappe.get_cached_value("Item", one.finished_good or one.production_item, "item_name"),
 		"image": one.get("item_image"),
 		"status": one.status,
 		"docstatus": one.docstatus,

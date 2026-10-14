@@ -11834,7 +11834,8 @@ Reports and Setup.
 | Buying › Quotes | done, redrawn after Odoo Purchase |
 | Buying › Purchase Orders | done |
 | Buying › Suppliers | done |
-| Making › Shop Floor | next |
+| Making › Shop Floor | done, redrawn after Odoo's Shop Floor |
+| Making › Plant Floor | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12386,3 +12387,39 @@ now be mounted by a record tab as well as a page (`test_islands.py`).
 | 1 Demo coverage | Al Noor's aluminium agreed and its anchors priced, read as Karim |
 | 5 Our look | modelled on Odoo's vendor price list, a table not text |
 | 8 Built from frappe | frappe-ui's List, Avatar and Badge, in frappe's own form tab |
+
+**Shop Floor.** One of our own screens, on the list still to be drawn after
+an app people know. Looked at as Karim, at 1440 wide and on a phone, on Open,
+a workstation's tab and a work order's steps.
+
+- **The board was lines of text.** Each work order was "Glass Balustrade ·
+  MFG-WO-2026-00007 In Process / 0 of 40 made / Mansour Villa Windows and
+  Doors", with a bar that stood empty for an order with no steps. It is a
+  table now (`OrderRows.vue`), modelled on Odoo's Shop Floor and Katana's
+  make orders: the item with its number and project, a status Badge, the
+  step it is at and where, Made with a bar under it, Steps "0 of 3" or a
+  dash, and Wanted By with "in 7 days", red once past. On a phone a row
+  keeps the item, its Badge and Made.
+- **The steps were a list of text.** A step is a card now, as Odoo's Shop
+  Floor draws an operation: the operation and its workstation (or, on a
+  workstation's tab, the item by name and its work order), a status Badge,
+  who is on it with their faces and the clock in large figures while it
+  runs, a bar of how many are done of how many, a short material or a
+  quality check with its icon, and one wide button for what comes next with
+  the rest in its menu. Three to a row on a desktop, one on a phone.
+- **The item by its code.** A workstation's step said "DR-SL24 for
+  MFG-WO-2026-00008"; it says the item's name.
+- **The company's own.** The job cards counted in the figures, and the
+  people on a step, were every company's; they are the reader's company's
+  now, and the page follows people and workstations being renamed too. The
+  atlas's counts for the floor fall to none.
+- **Numbers through frappe.** The figures printed with `String()`; they go
+  through `count`.
+- The page names what it is modelled on and comes off the list still to be
+  redrawn.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on Odoo's Shop Floor, a table and cards, not text |
+| 8 Built from frappe | frappe-ui's List, Badge, Avatar, Progress, Button and Dropdown |
+| What ERPNext already does | its Shop Floor's own calls and states; one company's job cards |

@@ -454,14 +454,17 @@ Over it, how many work orders are **Open**, how many steps someone is on
 now (**Running Now**), how many are **Waiting to Start**, and how many were
 **Closed Today**.
 
-- **Open** lists the work orders still on the floor, each with its project,
-  the step it is at and where, how many are made and how many of its steps
-  are done, the late ones with a red dot. **Done** lists the finished ones.
-  Each workstation has a tab of its own with its steps, the oldest first.
-- **A work order** shows its steps, each a job card. A step says how many
-  are done of how many, who is on it, how long it has run, what of its
-  materials is short in the stores, and whether it needs a quality check
-  before it closes. **Finish** puts what was made into stock, as on the
+- It is laid out as Odoo's Shop Floor is. **Open** is a table of the work
+  orders still on the floor: the item with its number and project, its
+  status, the step it is at and where, how many are made with a bar, how
+  many of its steps are done, and when it is wanted, red once that is past.
+  **Done** lists the finished ones. Each workstation has a tab of its own
+  with its steps, the oldest first.
+- **A work order** shows its steps as cards, each a job card: the operation
+  and its workstation, its status, who is on it and the clock while it
+  runs, how many are done of how many with a bar, what of its materials is
+  short in the stores, and whether it needs a quality check before it
+  closes, with one button for what comes next and the rest in its menu. **Finish** puts what was made into stock, as on the
   work order.
 - **Start** asks when it started and who is on it, the reader first. A
   running step has **Pause**, and a paused one **Resume**.

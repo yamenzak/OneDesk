@@ -139,7 +139,6 @@ def test_a_setting_is_a_switch():
 #: Screens drawn before they had to name what they follow. It only shrinks: a
 #: screen redrawn after an app people already know comes off it.
 UNMODELLED = {
-	"floor/ShopFloor.vue",
 	"home/InventoryHome.vue",
 	"item/ItemPage.vue",
 	"plant/PlantFloor.vue",

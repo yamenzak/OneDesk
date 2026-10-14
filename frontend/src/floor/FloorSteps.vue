@@ -1,39 +1,62 @@
 <template>
-  <!-- A work order's or a workstation's steps, each a job card: who is on
-       it and for how long, how many are done of how many, what of its
-       materials is short, what it says to do, its quality check, and the
-       button for what comes next, as ERPNext's Shop Floor offers it. -->
+  <!-- A work order's or a workstation's steps, each a job card, as cards
+       modelled on Odoo's Shop Floor: the operation and where it stands, the
+       clock and who is on it, how many are done of how many, what of its
+       materials is short, its quality check, and one button for what comes
+       next, as ERPNext's Shop Floor offers it. -->
   <div v-if="!steps.length" class="py-3 text-base text-ink-gray-5">{{ __("No steps here") }}</div>
-  <ul v-else class="divide-y divide-outline-gray-1">
-    <li v-for="one in rows" :key="one.name" class="flex flex-wrap gap-x-4 gap-y-2 py-3">
-      <span class="mt-2 h-2 w-2 shrink-0 rounded-full" :class="one.running ? 'bg-surface-green-5' : one.late ? 'bg-surface-red-5' : 'bg-surface-gray-4'" aria-hidden="true" />
-      <div class="min-w-0 flex-1">
-        <div class="flex min-w-0 flex-wrap items-center gap-2">
-          <button type="button" class="truncate rounded-2 text-base font-medium text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/job-card/${encodeURIComponent(one.name)}`)">
-            {{ __(one.operation) }}
-          </button>
-          <span v-if="one.workstation" class="text-base text-ink-gray-5">{{ one.workstation }}</span>
-          <Badge :label="one.paused ? __('Paused') : __(one.status)" :theme="one.theme" size="sm" />
+  <div v-else class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <div v-for="one in rows" :key="one.name" class="flex min-w-0 flex-col gap-3 rounded-4 border bg-surface-elevation-2 p-4" :class="one.running ? 'border-outline-green-2' : 'border-outline-gray-1'">
+      <div class="flex min-w-0 items-start gap-2">
+        <div class="min-w-0 flex-1">
+          <button type="button" class="max-w-full truncate rounded-2 text-lg font-semibold text-ink-gray-9 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/job-card/${encodeURIComponent(one.name)}`)">{{ __(one.operation) }}</button>
+          <button v-if="showOrder" type="button" class="block max-w-full truncate text-start text-sm text-ink-gray-5 hover:underline" @click="emit('open', one.work_order)">{{ __("{0} for {1}", [one.item_name || one.item, one.work_order]) }}</button>
+          <div v-else-if="one.workstation" class="truncate text-sm text-ink-gray-5">{{ one.workstation }}</div>
         </div>
-        <button v-if="showOrder" type="button" class="text-sm text-ink-gray-5 hover:underline" @click="emit('open', one.work_order)">{{ __("{0} for {1}", [one.item, one.work_order]) }}</button>
-        <div v-for="(line, i) in one.lines" :key="i" class="text-sm text-ink-gray-5" :class="line.tone === 'red' && 'text-ink-red-4'">{{ line.text }}</div>
-        <p v-if="one.instructions?.description" class="mt-1 line-clamp-2 text-sm text-ink-gray-6">{{ one.instructions.description }}</p>
-        <Progress v-if="one.partway" :value="one.bar" size="sm" class="mt-2 max-w-64" />
+        <Badge :label="one.paused ? __('Paused') : __(one.status)" :theme="one.theme" size="md" />
       </div>
-      <div class="flex shrink-0 items-start gap-1">
-        <span v-if="one.running || one.minutes" class="me-2 pt-1.5 text-base tabular-nums" :class="one.running ? 'text-ink-green-4' : 'text-ink-gray-5'">{{ one.clock }}</span>
-        <Button v-if="one.next" :variant="one.next.solid ? 'solid' : 'subtle'" :label="one.next.label" :icon-left="one.next.icon" @click="one.next.onClick" />
+
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex min-w-0 items-center gap-2">
+          <template v-if="one.people.length">
+            <div class="flex -space-x-1.5">
+              <Avatar v-for="who in one.people.slice(0, 3)" :key="who" :label="who" size="sm" :title="who" />
+            </div>
+            <span class="truncate text-sm text-ink-gray-6">{{ one.people.join(", ") }}</span>
+          </template>
+          <span v-else class="text-sm text-ink-gray-4">{{ __("Nobody on it yet") }}</span>
+        </div>
+        <span v-if="one.running || one.minutes" class="shrink-0 text-xl font-semibold tabular-nums" :class="one.running ? 'text-ink-green-4' : 'text-ink-gray-5'">{{ one.clock }}</span>
+      </div>
+
+      <div>
+        <div class="mb-1.5 flex items-baseline justify-between text-sm tabular-nums text-ink-gray-6">
+          <span>{{ __("{0} of {1} done", [quantity(one.done), quantity(one.for_quantity, one.uom)]) }}</span>
+          <span v-if="one.loss" class="text-ink-gray-5">{{ __("{0} lost", [quantity(one.loss)]) }}</span>
+        </div>
+        <Progress :value="one.bar" size="md" />
+      </div>
+
+      <div v-for="(line, i) in one.lines" :key="i" class="flex items-start gap-1.5 text-sm" :class="line.tone === 'red' ? 'text-ink-red-5' : 'text-ink-gray-6'">
+        <span :class="line.icon" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+        <span>{{ line.text }}</span>
+      </div>
+      <p v-if="one.instructions?.description" class="line-clamp-2 text-sm text-ink-gray-6">{{ one.instructions.description }}</p>
+
+      <div class="mt-auto flex items-center gap-2 pt-1">
+        <Button v-if="one.next" class="flex-1" size="md" :variant="one.next.solid ? 'solid' : 'subtle'" :label="one.next.label" :icon-left="one.next.icon" @click="one.next.onClick" />
+        <span v-else class="flex-1" />
         <Dropdown v-if="one.more.length" :options="one.more" placement="right">
-          <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('Actions')" /></template>
+          <template #trigger><Button size="md" variant="subtle" icon="lucide-ellipsis" :aria-label="__('Actions')" /></template>
         </Dropdown>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, ref } from "vue";
-import { Badge, Button, Dropdown, Progress } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 
 import { __, duration, go, onedesk, quantity, secondsSince } from "../kit";
 
@@ -66,13 +89,10 @@ const rows = computed(() =>
       theme: one.paused ? "red" : THEMES[one.status] || "gray",
       clock: duration(seconds),
       bar,
-      // A bar only while it is part done, the badge says the rest.
-      partway: bar > 0 && bar < 100,
+      // What needs saying under the bar: a material short, the quality check.
       lines: [
-        { text: [__("{0} of {1} done", [quantity(one.done), quantity(one.for_quantity, one.uom)]), one.loss && __("{0} lost", [quantity(one.loss)])].filter(Boolean).join(" · ") },
-        one.people.length && { text: one.people.join(", ") },
-        ...one.short.map((row) => ({ text: __("Short of {0}, {1} more needed", [row.item_name, quantity(row.shortage - row.on_hand_qty, row.uom)]), tone: "red" })),
-        one.qc.required && { text: one.qc.status ? __("Quality check {0}", [__(one.qc.status)]) : __("Needs a quality check before it closes"), tone: one.qc.status === "Rejected" ? "red" : null },
+        ...one.short.map((row) => ({ text: __("Short of {0}, {1} more needed", [row.item_name, quantity(row.shortage - row.on_hand_qty, row.uom)]), tone: "red", icon: "lucide-triangle-alert" })),
+        one.qc.required && { text: one.qc.status ? __("Quality check {0}", [__(one.qc.status)]) : __("Needs a quality check before it closes"), tone: one.qc.status === "Rejected" ? "red" : null, icon: "lucide-shield-check" },
       ].filter(Boolean),
       next: next(one),
       more: more(one),
