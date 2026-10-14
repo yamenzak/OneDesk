@@ -152,6 +152,7 @@ SCREENS = {
 	"task-view": "the page a Task opens on (PAGES)",
 	"item-view": "the page an Item opens on (PAGES)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
+	"books": "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)",
 	"inventory": "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)",
 	"to-order": "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)",
 	"lots": "batches and serial numbers as one tool, what each lot holds and where (Batch, Serial No)",

@@ -4,6 +4,7 @@ profit.
 """
 
 import frappe
+from frappe import _lt
 from frappe.utils import add_days, flt, get_first_day, getdate, nowdate
 
 #: How far ahead Due This Week looks, today included.
@@ -60,7 +61,7 @@ def profit_this_month(filters: str | None = None) -> dict:
 	return _card(amount, ["query-report", "Profit and Loss Statement"])
 
 
-def _unpaid(doctype: str) -> list:
+def _unpaid(doctype: str, fields: list | None = None) -> list:
 	"""What each still owes, in the company's currency. ERPNext keeps it in
 	the party's, so an invoice in dollars to a party billed in dollars is
 	turned at the invoice's own rate."""
@@ -71,13 +72,76 @@ def _unpaid(doctype: str) -> list:
 	rows = frappe.get_list(
 		doctype,
 		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": company},
-		fields=["outstanding_amount", "due_date", "conversion_rate", "party_account_currency"],
+		fields=[
+			"name",
+			"outstanding_amount",
+			"due_date",
+			"conversion_rate",
+			"party_account_currency",
+			*(fields or []),
+		],
 		limit=0,
 	)
 	for row in rows:
+		row.own = flt(row.outstanding_amount)
 		if row.party_account_currency and row.party_account_currency != ours:
 			row.outstanding_amount = flt(row.outstanding_amount) * flt(row.conversion_rate or 1)
 	return rows
+
+
+def _schedule(doctype: str, names: list) -> dict:
+	"""Each invoice's payment schedule, the earliest part first."""
+	found = {}
+	if not names:
+		return found
+	for row in frappe.get_all(
+		"Payment Schedule",
+		filters={"parenttype": doctype, "parent": ["in", names]},
+		fields=["parent", "due_date", "payment_amount"],
+		order_by="due_date asc, idx asc",
+	):
+		found.setdefault(row.parent, []).append(row)
+	return found
+
+
+def parts(row: dict, schedule: list) -> list[dict]:
+	"""What an invoice still owes, part by part as its payment schedule falls
+	due. What was paid settles the earliest parts first, as ERPNext's Overdue
+	status counts it, so a retention held for a year does not hide a part
+	long late. The parts add up to what it owes, in the company's currency.
+	Pure over the invoice's outstanding_amount (and `own`, the same in its
+	own currency) and due_date, and its schedule's payment_amount and
+	due_date."""
+	owed = flt(row.get("outstanding_amount"))
+	own = flt(row.get("own", owed))
+	paid = sum(flt(one.get("payment_amount")) for one in schedule or []) - own
+	left = []
+	for one in schedule or []:
+		part = flt(one.get("payment_amount"))
+		settled = min(part, max(paid, 0))
+		paid -= settled
+		if part - settled > 0:
+			left.append((one.get("due_date"), part - settled))
+	total = sum(amount for _, amount in left)
+	if not total:
+		return [{"outstanding_amount": owed, "due_date": row.get("due_date")}]
+	return [{"outstanding_amount": owed * amount / total, "due_date": day} for day, amount in left]
+
+
+def _due(doctype: str, fields: list | None = None) -> list:
+	"""What is still owed on each invoice, part by part (`parts`), each part
+	carrying the invoice's own fields."""
+	rows = _unpaid(doctype, fields)
+	schedule = _schedule(doctype, [row.name for row in rows])
+	return [{**row, **part} for row in rows for part in parts(row, schedule.get(row.name))]
+
+
+def yesterday():
+	return add_days(nowdate(), -1)
+
+
+def this_week():
+	return add_days(nowdate(), WEEK - 1)
 
 
 def outstanding(rows: list, until=None) -> float:
@@ -101,7 +165,7 @@ def owed_to_us(filters: str | None = None) -> dict:
 @frappe.read_only()
 def overdue(filters: str | None = None) -> dict:
 	"""What customers owe on invoices past their due date."""
-	amount = outstanding(_unpaid("Sales Invoice"), until=add_days(nowdate(), -1))
+	amount = outstanding(_due("Sales Invoice"), until=yesterday())
 	return _card(amount, ["List", "Sales Invoice"], {"status": "Overdue"})
 
 
@@ -116,5 +180,287 @@ def we_owe(filters: str | None = None) -> dict:
 @frappe.read_only()
 def due_this_week(filters: str | None = None) -> dict:
 	"""What falls due on bills in the next seven days, and any already late."""
-	amount = outstanding(_unpaid("Purchase Invoice"), until=add_days(nowdate(), WEEK - 1))
+	amount = outstanding(_due("Purchase Invoice"), until=this_week())
 	return _card(amount, ["List", "Purchase Invoice"], {"status": ["in", ["Unpaid", "Overdue", "Partly Paid"]]})
+
+
+# ------------------------------------------------------------------ the page
+
+#: How many rows of each kind Today shows before it says how many more.
+FEW = 5
+
+#: The directory's groups, in the order ERPNext's Invoicing sidebar sets them.
+GROUPS = (
+	("receivables", _lt("Receivables")),
+	("payables", _lt("Payables")),
+	("payments", _lt("Payments")),
+	("banking", _lt("Banking")),
+	("reports", _lt("Reports")),
+	("setup", _lt("Setup")),
+)
+#: What a report is about, as Reports sets them out, one section to a topic.
+REPORT_SECTIONS = (
+	("statements", _lt("Financial Reports")),
+	("ledgers", _lt("Ledgers")),
+	("registers", _lt("Registers")),
+	("profit", _lt("Profitability")),
+	("tax", _lt("Taxes")),
+)
+REPORT_TOPICS = {
+	"Profit and Loss Statement": "statements",
+	"Balance Sheet": "statements",
+	"Cash Flow": "statements",
+	"Trial Balance": "statements",
+	"Consolidated Financial Statement": "statements",
+	"Budget Variance Report": "statements",
+	"General Ledger": "ledgers",
+	"Customer Ledger Summary": "ledgers",
+	"Supplier Ledger Summary": "ledgers",
+	"Trial Balance for Party": "ledgers",
+	"Bank Reconciliation Statement": "ledgers",
+	"Accounts Receivable": "registers",
+	"Accounts Receivable Summary": "registers",
+	"Accounts Payable": "registers",
+	"Accounts Payable Summary": "registers",
+	"Sales Register": "registers",
+	"Purchase Register": "registers",
+	"Item-wise Sales Register": "registers",
+	"Item-wise Purchase Register": "registers",
+	"Payment Period Based On Invoice Date": "registers",
+	"Customer Credit Balance": "registers",
+	"Spending": "registers",
+	"Gross Profit": "profit",
+	"Profitability Analysis": "profit",
+	"Sales Invoice Trends": "profit",
+	"Purchase Invoice Trends": "profit",
+	"VAT Return": "tax",
+	"UAE VAT 201": "tax",
+	"Tax Withholding Details": "tax",
+}
+#: What a part of Setup is about, as Setup sets them out, the checks first.
+SETUP_SECTIONS = (
+	("settings", _lt("Settings")),
+	("accounts", _lt("Accounts")),
+	("tax", _lt("Taxes")),
+	("payments", _lt("Payments")),
+)
+SETUP_TOPICS = {
+	"Books Check": "settings",
+	"Accounts Settings": "settings",
+	"UAE VAT Settings": "settings",
+	"Account": "accounts",
+	"Cost Center": "accounts",
+	"Fiscal Year": "accounts",
+	"Finance Book": "accounts",
+	"Period Closing Voucher": "accounts",
+	"Opening Invoice Creation Tool": "accounts",
+	"Sales Taxes and Charges Template": "tax",
+	"Purchase Taxes and Charges Template": "tax",
+	"Item Tax Template": "tax",
+	"Tax Rule": "tax",
+	"Tax Category": "tax",
+	"Tax Withholding Category": "tax",
+	"Payment Terms Template": "payments",
+	"Payment Term": "payments",
+	"Mode of Payment": "payments",
+	"Bank Transaction Rule": "payments",
+}
+
+#: Each called what ERPNext calls what it opens, a filtered list as ERPNext's
+#: own sidebar calls it (and with its filters): the name Ctrl+K finds it by.
+EVERYTHING = (
+	("receivables", _lt("Sales Invoice"), "DocType", "Sales Invoice", _lt("What you have billed customers.")),
+	("receivables", _lt("Credit Note"), "DocType", "Sales Invoice", _lt("Money given back to a customer, against an invoice."), {"is_return": 1}),
+	("receivables", _lt("Customer"), "DocType", "Customer", _lt("Who you sell to, and what each owes.")),
+	("receivables", _lt("Dunning"), "DocType", "Dunning", _lt("A reminder to a customer who is late paying, with any fee.")),
+	("receivables", _lt("Process Statement Of Accounts"), "DocType", "Process Statement Of Accounts", _lt("Each customer's statement, mailed on a schedule.")),
+	("receivables", _lt("Auto Repeat"), "DocType", "Auto Repeat", _lt("Invoices and bills made again every month, quarter or year."), {"reference_doctype": ["in", ["Sales Invoice", "Purchase Invoice"]]}),
+	("payables", _lt("Purchase Invoice"), "DocType", "Purchase Invoice", _lt("What suppliers have billed you.")),
+	("payables", _lt("Debit Note"), "DocType", "Purchase Invoice", _lt("Money a supplier gives back, against their invoice."), {"is_return": 1}),
+	("payables", _lt("Supplier"), "DocType", "Supplier", _lt("Who you buy from, and what you owe each.")),
+	("payables", _lt("Ready to Submit"), "Page", "ready-to-submit", _lt("Bills read from mail and scans, waiting to be submitted.")),
+	("payments", _lt("Payment Entry"), "DocType", "Payment Entry", _lt("Money received from customers and paid to suppliers.")),
+	("payments", _lt("Journal Entry"), "DocType", "Journal Entry", _lt("Anything that is not an invoice or a payment: corrections, accruals, opening balances.")),
+	("payments", _lt("Payment Request"), "DocType", "Payment Request", _lt("A link sent to a customer to pay online.")),
+	("payments", _lt("Payment Reconciliation"), "DocType", "Payment Reconciliation", _lt("Payments matched to the invoices they settle.")),
+	("banking", _lt("Bank Reconciliation Tool"), "DocType", "Bank Reconciliation Tool", _lt("Your bank statement matched to what is in the books.")),
+	("banking", _lt("Bank Transaction"), "DocType", "Bank Transaction", _lt("Each line of the bank statement.")),
+	("banking", _lt("Bank Statement Import"), "DocType", "Bank Statement Import", _lt("A bank statement read in from a file.")),
+	("banking", _lt("Bank Account"), "DocType", "Bank Account", _lt("The company's bank accounts.")),
+	("reports", _lt("Profit and Loss"), "Report", "Profit and Loss Statement", _lt("Income less expenses, month by month or year by year.")),
+	("reports", _lt("Balance Sheet"), "Report", "Balance Sheet", _lt("What the company owns and owes on a day.")),
+	("reports", _lt("Cash Flow"), "Report", "Cash Flow", _lt("Where the cash came from and went.")),
+	("reports", _lt("Trial Balance"), "Report", "Trial Balance", _lt("Every account's balance, debits against credits.")),
+	("reports", _lt("Consolidated Financial Statement"), "Report", "Consolidated Financial Statement", _lt("The statements of several companies as one.")),
+	("reports", _lt("Budget Variance Report"), "Report", "Budget Variance Report", _lt("What was spent against the budget.")),
+	("reports", _lt("General Ledger"), "Report", "General Ledger", _lt("Every entry in the books, one line each.")),
+	("reports", _lt("Customer Ledger Summary"), "Report", "Customer Ledger Summary", _lt("Each customer's invoices, payments and balance.")),
+	("reports", _lt("Supplier Ledger Summary"), "Report", "Supplier Ledger Summary", _lt("Each supplier's bills, payments and balance.")),
+	("reports", _lt("Trial Balance for Party"), "Report", "Trial Balance for Party", _lt("Each customer's or supplier's opening, movement and closing.")),
+	("reports", _lt("Bank Reconciliation Statement"), "Report", "Bank Reconciliation Statement", _lt("The books' bank balance against the statement's.")),
+	("reports", _lt("Accounts Receivable"), "Report", "Accounts Receivable", _lt("Who owes you, and how late.")),
+	("reports", _lt("Accounts Receivable Summary"), "Report", "Accounts Receivable Summary", _lt("What each customer owes, by how late.")),
+	("reports", _lt("Accounts Payable"), "Report", "Accounts Payable", _lt("Whom you owe, and when it falls due.")),
+	("reports", _lt("Accounts Payable Summary"), "Report", "Accounts Payable Summary", _lt("What you owe each supplier, by how late.")),
+	("reports", _lt("Sales Register"), "Report", "Sales Register", _lt("Every sales invoice with its taxes, one line each.")),
+	("reports", _lt("Purchase Register"), "Report", "Purchase Register", _lt("Every purchase invoice with its taxes, one line each.")),
+	("reports", _lt("Item-wise Sales Register"), "Report", "Item-wise Sales Register", _lt("Every line of every sales invoice.")),
+	("reports", _lt("Item-wise Purchase Register"), "Report", "Item-wise Purchase Register", _lt("Every line of every purchase invoice.")),
+	("reports", _lt("Payment Period Based On Invoice Date"), "Report", "Payment Period Based On Invoice Date", _lt("How long each invoice took to be paid.")),
+	("reports", _lt("Customer Credit Balance"), "Report", "Customer Credit Balance", _lt("Each customer's credit limit, and what is left of it.")),
+	("reports", _lt("Spending"), "Report", "Spending", _lt("What the company spent, by supplier and kind.")),
+	("reports", _lt("Gross Profit"), "Report", "Gross Profit", _lt("What each sale made over what it cost.")),
+	("reports", _lt("Profitability Analysis"), "Report", "Profitability Analysis", _lt("Income and expenses by cost center or project.")),
+	("reports", _lt("Sales Invoice Trends"), "Report", "Sales Invoice Trends", _lt("What was invoiced, period against period.")),
+	("reports", _lt("Purchase Invoice Trends"), "Report", "Purchase Invoice Trends", _lt("What was billed, period against period.")),
+	("reports", _lt("VAT Return"), "Report", "VAT Return", _lt("The VAT owed for a period, ready for the tax office.")),
+	("reports", _lt("UAE VAT 201"), "Report", "UAE VAT 201", _lt("The UAE's VAT return, box by box.")),
+	("reports", _lt("Tax Withholding Details"), "Report", "Tax Withholding Details", _lt("Tax withheld from suppliers, payment by payment.")),
+	("setup", _lt("Books Check"), "Report", "Books Check", _lt("What is not set up yet, with the fix.")),
+	("setup", _lt("Accounts Settings"), "DocType", "Accounts Settings", _lt("How invoices, payments and the books work.")),
+	("setup", _lt("UAE VAT Settings"), "DocType", "UAE VAT Settings", _lt("The accounts the UAE VAT 201 reads.")),
+	("setup", _lt("Chart of Accounts"), "DocType", "Account", _lt("The accounts the books are kept in.")),
+	("setup", _lt("Cost Center"), "DocType", "Cost Center", _lt("The parts of the business costs and income are kept by.")),
+	("setup", _lt("Fiscal Year"), "DocType", "Fiscal Year", _lt("The years the books are kept and closed in.")),
+	("setup", _lt("Finance Book"), "Masters", "Finance Book", _lt("A second set of books, such as for tax depreciation.")),
+	("setup", _lt("Period Closing Voucher"), "DocType", "Period Closing Voucher", _lt("A year closed, its profit carried into equity.")),
+	("setup", _lt("Opening Invoice Creation Tool"), "DocType", "Opening Invoice Creation Tool", _lt("What customers and suppliers owed when you started.")),
+	("setup", _lt("Sales Taxes and Charges Template"), "DocType", "Sales Taxes and Charges Template", _lt("The taxes a sale carries.")),
+	("setup", _lt("Purchase Taxes and Charges Template"), "DocType", "Purchase Taxes and Charges Template", _lt("The taxes a purchase carries.")),
+	("setup", _lt("Item Tax Template"), "DocType", "Item Tax Template", _lt("A rate for items taxed differently.")),
+	("setup", _lt("Tax Rule"), "DocType", "Tax Rule", _lt("Which tax template a sale or purchase takes, by party and place.")),
+	("setup", _lt("Tax Category"), "Masters", "Tax Category", _lt("Groups of customers and suppliers taxed alike.")),
+	("setup", _lt("Tax Withholding Category"), "DocType", "Tax Withholding Category", _lt("Tax held back from what is paid to suppliers.")),
+	("setup", _lt("Payment Terms Template"), "DocType", "Payment Terms Template", _lt("When an invoice falls due, in one part or several.")),
+	("setup", _lt("Payment Term"), "DocType", "Payment Term", _lt("One part of a payment terms template.")),
+	("setup", _lt("Mode of Payment"), "DocType", "Mode of Payment", _lt("Cash, card, transfer, and the account each goes to.")),
+	("setup", _lt("Bank Transaction Rule"), "DocType", "Bank Transaction Rule", _lt("How a bank line is matched without asking.")),
+)
+
+@frappe.whitelist()
+def read() -> dict:
+	"""What needs somebody, and the directory, as the reader may see them."""
+	return {
+		"needs": needs_you(),
+		"groups": [{"key": key, "label": str(label)} for key, label in GROUPS],
+		"sections": {
+			"reports": [{"key": key, "label": str(label)} for key, label in REPORT_SECTIONS],
+			"setup": [{"key": key, "label": str(label)} for key, label in SETUP_SECTIONS],
+		},
+		"everything": directory(),
+	}
+
+
+def _kept(rows: list) -> dict:
+	return {"rows": rows[:FEW], "count": len(rows)}
+
+
+def needs_you() -> dict:
+	"""Invoices overdue, bills due this week or late, bank lines to match and
+	drafts left more than a day, each as the reader may see them."""
+	day = getdate(nowdate())
+	return {
+		"overdue": _kept(_late("Sales Invoice", "customer", yesterday(), day)),
+		"bills": _kept(_late("Purchase Invoice", "supplier", this_week(), day)),
+		"bank": _bank(),
+		"drafts": drafts(),
+	}
+
+
+def _late(doctype: str, party: str, until, day) -> list[dict]:
+	"""What has a part still owed falling due by `until`, the latest first:
+	ERPNext's Overdue, read from the payment schedule as its status is."""
+	if not frappe.has_permission(doctype, "read"):
+		return []
+	rows = frappe.get_list(
+		doctype,
+		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": _company()},
+		fields=["name", party, f"{party}_name as party_name", "due_date", "outstanding_amount", "currency"],
+		limit_page_length=0,
+	)
+	schedule = _schedule(doctype, [one.name for one in rows])
+	out = []
+	for one in rows:
+		first = min(getdate(part["due_date"]) for part in parts(one, schedule.get(one.name)) if part["due_date"])
+		if first > getdate(until):
+			continue
+		out.append(
+			{
+				"name": one.name,
+				"party": one.party_name or one.get(party),
+				"due_date": str(first),
+				"late": (day - first).days,
+				"outstanding": flt(one.outstanding_amount),
+				"currency": one.currency,
+			}
+		)
+	return sorted(out, key=lambda one: one["due_date"])
+
+
+def _bank() -> dict:
+	"""Bank lines not yet matched, by bank account."""
+	if not frappe.has_permission("Bank Transaction", "read"):
+		return {"rows": [], "count": 0}
+	rows = frappe.get_list(
+		"Bank Transaction",
+		filters={"docstatus": 1, "status": "Unreconciled", "company": _company()},
+		fields=["bank_account", {"COUNT": "*", "as": "lines"}, {"SUM": "unallocated_amount", "as": "amount"}],
+		group_by="bank_account",
+		limit_page_length=0,
+	)
+	return {
+		"rows": [{"bank_account": one.bank_account, "lines": one.lines, "amount": flt(one.amount)} for one in rows],
+		"count": sum(one.lines for one in rows),
+	}
+
+
+#: The papers a draft of which is work left half done.
+DRAFTS = (
+	("Sales Invoice", _lt("Sales Invoice")),
+	("Purchase Invoice", _lt("Purchase Invoice")),
+	("Payment Entry", _lt("Payment Entry")),
+	("Journal Entry", _lt("Journal Entry")),
+)
+
+
+def drafts() -> list[dict]:
+	"""For each kind of paper, how many drafts were left more than a day ago."""
+	out = []
+	for doctype, label in DRAFTS:
+		if not frappe.has_permission(doctype, "read"):
+			continue
+		count = len(
+			frappe.get_list(
+				doctype,
+				filters={"docstatus": 0, "modified": ["<", add_days(nowdate(), -1)]},
+				pluck="name",
+			)
+		)
+		if count:
+			out.append({"doctype": doctype, "label": str(label), "count": count})
+	return out
+
+
+def _may(kind: str, target: str) -> bool:
+	if kind in ("DocType", "Masters"):
+		return bool(frappe.has_permission(target, "read"))
+	if not frappe.db.exists(kind, target):
+		return False
+	return bool(frappe.get_cached_doc(kind, target).is_permitted())
+
+
+def directory() -> list[dict]:
+	"""Everything in OneBook the reader may open, with what it is for."""
+	return [
+		{
+			"group": group,
+			"label": str(label),
+			"kind": kind,
+			"target": target,
+			"filters": filters[0] if filters else None,
+			"about": str(about),
+			"topic": {"reports": REPORT_TOPICS, "setup": SETUP_TOPICS}.get(group, {}).get(target),
+		}
+		for group, label, kind, target, about, *filters in EVERYTHING
+		if _may(kind, target)
+	]

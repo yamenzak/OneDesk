@@ -1,6 +1,7 @@
-"""OneInventory, OneProject and OneTask call a thing what ERPNext calls it,
-the name Ctrl+K finds (docs/WORDING.md, On a Screen): a rail row says the
-doctype's, report's or page's own name, and a field keeps ERPNext's label."""
+"""OneInventory, OneProject, OneTask and OneBook call a thing what ERPNext
+calls it, the name Ctrl+K finds (docs/WORDING.md, On a Screen): a rail row
+says the doctype's, report's or page's own name, or what ERPNext's own sidebar
+calls that same link, and a field keeps ERPNext's label."""
 
 import json
 from pathlib import Path
@@ -15,10 +16,11 @@ RAILS = {
 	"one_inventory": "oneinventory",
 	"one_project": "oneproject",
 	"one_task": "onetask",
+	"one_book": "onebook",
 }
 
 #: The pages a module opens on, titled for the module.
-HOMES = ("inventory", "my-tasks")
+HOMES = ("inventory", "my-tasks", "books")
 
 #: The custom files whose labels are these three modules' to keep: their own,
 #: and Timesheet's, which sits on OneProject's rail and is OneHR's file.
@@ -35,8 +37,19 @@ def _pages() -> dict[str, str]:
 	return found
 
 
+def _theirs() -> set[tuple]:
+	"""What ERPNext's own sidebars call a link: (label, kind, target, filters)."""
+	found = set()
+	for path in (APPS / "erpnext" / "erpnext" / "workspace_sidebar").glob("*.json"):
+		for row in json.loads(path.read_text(encoding="utf-8")).get("items", []):
+			if row.get("type") == "Link" and row.get("link_to"):
+				found.add((row["label"], row.get("link_type"), row["link_to"]))
+	return found
+
+
 def test_a_rail_row_says_what_it_opens():
 	pages = _pages()
+	theirs = _theirs()
 	wrong = []
 	for module, rail in RAILS.items():
 		items = json.loads((APP / module / "sidebar" / rail / f"{rail}.json").read_text(encoding="utf-8"))["items"]
@@ -47,6 +60,8 @@ def test_a_rail_row_says_what_it_opens():
 			wanted = target if kind in ("DocType", "Report") else pages.get(target) if kind == "Page" else None
 			# A module's own home page is titled for the module and its row says
 			# what it opens on: Home, My Tasks.
+			if (row["label"], kind, target) in theirs:
+				continue
 			if wanted is not None and row["label"] != wanted and not (kind == "Page" and target in HOMES):
 				wrong.append(f"{rail}: {row['label']!r} opens {kind} {target!r}, called {wanted!r}")
 	assert not wrong, "\n".join(wrong)

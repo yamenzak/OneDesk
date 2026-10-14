@@ -32,6 +32,14 @@
    "property": "description",
    "property_type": "Small Text",
    "value": ""
+  },
+  {
+   "doc_type": "Sales Invoice",
+   "doctype_or_field": "DocField",
+   "field_name": "outstanding_amount",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1

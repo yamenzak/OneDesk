@@ -55,6 +55,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.item": "Item",
 		"onedesk.stock": None,
 		"onedesk.home": None,
+		"onedesk.books": None,
 		"onedesk.lots": None,
 		"onedesk.to_order": None,
 		"onedesk.supplier_items": None,

@@ -3145,6 +3145,7 @@
 "Request for Quotation",
 "Role",
 "Role Profile",
+"Route History",
 "Salary Component",
 "Salary Slip",
 "Salary Structure",
@@ -3225,6 +3226,10 @@
 "Manufacturing Manager",
 "Manufacturing User",
 "System Manager"
+],
+"books": [
+"Accounts Manager",
+"Accounts User"
 ],
 "component-explorer": [
 "System Manager"

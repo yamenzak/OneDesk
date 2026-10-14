@@ -1409,6 +1409,13 @@ body[data-route="List/Timesheet/List"] .list-row-col.list-subject {
 	flex: 1.4;
 }
 
+/* An invoice is looked up by whom it is to or from, whose name fits whole
+   beside what is still owed. */
+body[data-route="List/Sales Invoice/List"] .list-row-col.list-subject,
+body[data-route="List/Purchase Invoice/List"] .list-row-col.list-subject {
+	flex: 1.6;
+}
+
 /* An item's name is what it is looked up by; its column takes the room. */
 body[data-route="List/Item/List"] .list-row-col.list-subject {
 	flex: 2.4;

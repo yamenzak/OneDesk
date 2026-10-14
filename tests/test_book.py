@@ -31,8 +31,8 @@ def test_the_money_is_onebooks_and_the_customer_onecrms():
 	items = _items()
 	owned = {item["link_to"] for item in RAIL["items"] if item.get("is_default_module") and item["type"] == "Link"}
 	assert {"Sales Invoice", "Purchase Invoice", "Payment Entry", "Journal Entry", "Supplier"} <= owned
-	assert not items["Customers"]["is_default_module"], "customers are OneCRM's"
-	assert "is_return" in items["Invoices"]["filters"] and "is_return" in items["Credit Notes"]["filters"]
+	assert not items["Customer"]["is_default_module"], "customers are OneCRM's"
+	assert "is_return" in items["Credit Note"]["filters"] and "is_return" in items["Debit Note"]["filters"]
 
 
 def test_every_report_row_names_a_report_erpnext_or_onebook_ships():
@@ -82,10 +82,12 @@ def test_a_company_bank_account_wires_the_bank_modes_of_payment():
 	assert '"Bank Account": {"on_update": "onedesk.one_book.ready.wired"}' in HOOKS
 
 
-def test_the_books_check_opens_the_setup_group():
-	setup = [item["label"] for item in RAIL["items"]]
-	at = setup.index("Setup")
-	assert RAIL["items"][at + 1]["link_to"] == "Books Check"
+def test_the_books_check_opens_setup():
+	assert _items()["Setup"]["link_to"] == "books" and _items()["Setup"]["route"] == "setup"
+	source = (BOOK / "home.py").read_text(encoding="utf-8")
+	# The first of Setup's rows in the directory, after GROUPS names the group.
+	rows = [line for line in source.splitlines() if line.strip().startswith('("setup", _lt("') and '"Setup"' not in line]
+	assert '"Books Check"' in rows[0]
 
 
 def test_what_is_outstanding_counts_only_what_falls_due_by_the_day():
@@ -100,17 +102,25 @@ def test_what_is_outstanding_counts_only_what_falls_due_by_the_day():
 	assert outstanding(rows, until=date(2026, 9, 29)) == 150
 
 
-def test_every_figure_on_home_is_ours_and_worked_out_here():
-	workspace = json.loads((BOOK / "workspace" / "onebook" / "onebook.json").read_text())
-	source = (BOOK / "home.py").read_text(encoding="utf-8")
-	assert len(workspace["number_cards"]) == 6
-	for row in workspace["number_cards"]:
-		folder = row["number_card_name"].lower().replace(" ", "_")
-		card = json.loads((BOOK / "number_card" / folder / f"{folder}.json").read_text())
-		assert card["type"] == "Custom" and card["module"] == "One Book"
-		assert card["method"].startswith("onedesk.one_book.home.")
-		assert f"def {card['method'].rsplit('.', 1)[1]}(" in source
-	assert RAIL["items"][0]["link_to"] == "OneBook" and RAIL["items"][0]["link_type"] == "Workspace"
+def test_home_is_onebooks_page_with_its_six_figures():
+	assert RAIL["items"][0]["link_to"] == "books" and RAIL["items"][0]["link_type"] == "Page"
+	source = (BOOK / "story.py").read_text(encoding="utf-8")
+	for card in ("cash", "receivable", "overdue", "payable", "due_this_week", "profit"):
+		assert f'cards["{card}"]' in source, card
+	assert not (BOOK / "workspace").exists() and not (BOOK / "number_card").exists()
+
+
+def test_what_is_owed_is_aged_in_erpnexts_ranges():
+	ageing = _load(BOOK / "story.py", ("ageing",), flt=float, date_diff=lambda a, b: (a - b).days, today=lambda: date(2026, 10, 14), RANGES=(30, 60, 90, 120))["ageing"]
+	rows = [
+		{"outstanding_amount": 10, "due_date": date(2026, 10, 20)},
+		{"outstanding_amount": 20, "due_date": date(2026, 10, 14)},
+		{"outstanding_amount": 30, "due_date": date(2026, 9, 1)},
+		{"outstanding_amount": 40, "due_date": date(2026, 1, 1)},
+	]
+	got = {one["band"]: one["owed"] for one in ageing(rows, date(2026, 10, 14))}
+	assert list(got) == ["not_due", "0-30", "31-60", "61-90", "91-120", "121-Above"]
+	assert got["not_due"] == 30 and got["31-60"] == 30 and got["121-Above"] == 40
 
 
 def test_a_closing_entry_does_not_count_as_this_months_profit():
@@ -203,3 +213,22 @@ def test_what_is_owed_is_in_the_companys_currency():
 	home = (BOOK / "home.py").read_text(encoding="utf-8")
 	unpaid = home[home.index("def _unpaid") :].split("\n\n\n")[0]
 	assert "party_account_currency" in unpaid and "conversion_rate" in unpaid
+
+
+def test_what_is_owed_falls_due_part_by_part():
+	parts = _load(BOOK / "home.py", ("parts",), flt=float)["parts"]
+	invoice = {"outstanding_amount": 300, "due_date": date(2027, 2, 10)}
+	assert parts(invoice, []) == [{"outstanding_amount": 300, "due_date": date(2027, 2, 10)}]
+	# 400 of 700 paid settles the first part and some of the second; the part
+	# long late is not hidden behind the retention's date.
+	schedule = [
+		{"due_date": date(2026, 5, 30), "payment_amount": 300},
+		{"due_date": date(2026, 9, 1), "payment_amount": 200},
+		{"due_date": date(2027, 2, 10), "payment_amount": 200},
+	]
+	assert parts(invoice, schedule) == [
+		{"outstanding_amount": 100, "due_date": date(2026, 9, 1)},
+		{"outstanding_amount": 200, "due_date": date(2027, 2, 10)},
+	]
+	# In the company's currency, the parts still add up to what is owed.
+	assert sum(one["outstanding_amount"] for one in parts({**invoice, "outstanding_amount": 600, "own": 300}, schedule)) == 600

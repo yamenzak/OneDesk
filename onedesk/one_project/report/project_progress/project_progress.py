@@ -9,10 +9,13 @@ from onedesk.one_hr.lifecycle import BOARDING
 #: Their columns that say again what the Project column says.
 REPEATED = ("project_name", "project_type")
 
+#: The filters ours offers; theirs passes every filter to the Project list as
+#: is, so anything else (a date range a link carries) is refused.
+OFFERED = ("status", "priority", "is_active")
+
 
 def execute(filters=None):
-	filters = {key: value for key, value in (filters or {}).items() if value not in (None, "")}
-	filters.pop("company", None)
+	filters = {key: value for key, value in (filters or {}).items() if key in OFFERED and value not in (None, "")}
 	filters["project_type"] = ["!=", BOARDING]
 	columns, data, message, chart, summary = upstream.execute(filters)
 	for one in summary or []:

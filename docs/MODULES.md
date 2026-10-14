@@ -183,7 +183,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
-* **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
+* **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
 
@@ -400,9 +400,11 @@ No doctypes yet.
 * `onedesk.one_book.home.overdue`
 * `onedesk.one_book.home.owed_to_us`
 * `onedesk.one_book.home.profit_this_month`
+* `onedesk.one_book.home.read`
 * `onedesk.one_book.home.we_owe`
 * `onedesk.one_book.paid.settle`
 * `onedesk.one_book.ready.fix`
+* `onedesk.one_book.story.read`
 * `onedesk.one_book.tell.credit_limit`
 * `onedesk.one_calendar.events.card`
 * `onedesk.one_calendar.events.make`

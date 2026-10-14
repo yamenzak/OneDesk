@@ -12,27 +12,33 @@ amount, a customer's balance, an employee's expense claim.
 
 ## Finding your way
 
-**OneBook** in the dock opens it. The rail has:
+**OneBook** in the dock opens it. Every row is called what ERPNext calls what
+it opens, the name **Ctrl+K** finds it by, or what ERPNext's own Invoicing
+sidebar calls it. The rail has:
 
-- **Home** — what needs doing and where the money stands (below).
-- **Invoices** — what you have billed customers. A **credit note** (money
-  given back) is under **More**.
-- **Bills** — what suppliers have billed you. A **debit note** is under
-  **More**.
-- **Payments** — money received and money paid.
-- **Bank** — matching your bank statement to what is in the books.
-- **Journal Entries** — anything that is not an invoice, bill or payment:
-  corrections, accruals, opening balances.
-- **Customers** and **Suppliers**.
-- **Reports** — **Profit and Loss**, **Balance Sheet**, **Cash Flow**,
-  **Receivables** (who owes you, and how late), **Payables** (whom you owe),
-  **General Ledger**, **Trial Balance**, **Gross Profit**, the **VAT Return**
-  and, in the UAE, the **UAE VAT 201**.
-- **More** — credit and debit notes, bank transactions, importing a bank
-  statement, customer statements, repeating invoices and bills, opening
-  invoices and closing a period.
-- **Setup** — the chart of accounts, cost centers, bank accounts, taxes,
-  payment terms, modes of payment and fiscal years.
+- **Home** — how the money is doing, what needs doing, and everything else
+  (below).
+- **Sales Invoice** — what you have billed customers. **Purchase Invoice** —
+  what suppliers have billed you.
+- **Payment Entry** — money received and money paid. **Journal Entry** —
+  anything that is not an invoice or a payment: corrections, accruals,
+  opening balances.
+- **Bank Reconciliation Tool** — matching your bank statement to the books.
+- **Ready to Submit** — bills read from mail and scans, waiting for you.
+- **Customer** and **Supplier**.
+- **Receivables** — **Credit Note** (money given back), **Accounts
+  Receivable** (who owes you, and how late) and **Process Statement Of
+  Accounts** (customer statements by mail).
+- **Payables** — **Debit Note** and **Accounts Payable** (whom you owe).
+- **Banking** — **Bank Transaction**, **Bank Statement Import** and **Bank
+  Account**.
+- **Financial Reports** — **Profit and Loss**, **Balance Sheet**, **Cash
+  Flow**, **General Ledger**, **Trial Balance**, **Gross Profit**, the **VAT
+  Return** and, in the UAE, the **UAE VAT 201**.
+- **Reports** and **Setup** open those parts of Home: every accounting report
+  by what it is about, and the chart of accounts, cost centers, taxes,
+  payment terms, modes of payment, fiscal years and settings, with the
+  **Books Check** first.
 
 Everything here is for whoever People gives OneBook. An **Accounts User**
 matches the bank and imports a statement; an **Accounts Manager** also
@@ -42,21 +48,34 @@ to accounts (`access.py`).
 
 ## Home
 
-The top row is what needs doing: **Draft Invoices** not yet issued,
-**Overdue Invoices**, **Bills to Pay** and **Bank to Match** (bank lines not
-yet matched to a payment), each with how many. Under it are **New Invoice**,
-**New Bill**, **Match the Bank** and the **Books Check**.
+Six figures say where the money stands, each with its last twelve months
+drawn small under it:
 
-The six figures say where the money stands:
-
-- **Cash** — what is in the bank and cash accounts.
-- **Owed to Us** — what customers still owe on invoices, and **Overdue** — the
+- **Cash** — what is in the bank and cash accounts, against last month.
+- **Accounts Receivable** — what customers still owe, and **Overdue** — the
   part of it past its due date.
-- **We Owe** — what is still to pay on bills, and **Due This Week** — the part
-  due in the next seven days, including any already late.
-- **Profit This Month** — income less expenses since the first of the month.
+- **Accounts Payable** — what is still to pay suppliers, and **Due This
+  Week** — the part due in the next seven days, including any already late.
+- **Profit This Month** — income less expenses since the first of the month,
+  against last month.
 
-Click a figure to open the report or list it came from.
+Click a figure to open the report or list it came from. Under them are five
+tabs:
+
+- **Overview** — what needs doing as a row of buttons, then the money told in
+  charts, as Frappe Books' dashboard tells it: **Cash Flow** (what came into
+  and went out of the bank and cash accounts each month), **Profit and Loss**
+  (each month's profit or loss) and **Top Expenses** (the five largest expense
+  accounts and the rest); then, for **Accounts Receivable** and **Accounts
+  Payable** each, the **Ageing** of what is owed in ERPNext's ranges, who owes
+  or is owed the most, and the year's invoices by status. Click a chart to
+  open what it was drawn from.
+- **Today** — overdue sales invoices, purchase invoices due this week or
+  already late, unreconciled bank transactions by bank account, and drafts
+  left more than a day, each row opening its document.
+- **Everything** — every accounting screen, each called what ERPNext calls it
+  and with a line on what it is for, with a search.
+- **Reports** and **Setup** — their part of Everything, by topic.
 
 ## Getting ready
 
@@ -83,17 +102,21 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 
 ## An invoice, from start to paid
 
-1. **Invoices › + Add Sales Invoice.** Pick the customer, add a line per item
+1. **Sales Invoice › + Add Sales Invoice.** Pick the customer, add a line per item
    or service with its quantity and rate, and the tax if you charge one. The
    due date follows the customer's payment terms.
 2. **Save** keeps a draft you can still change. **Submit** issues it: it is in
    the books from then on and can no longer be edited, only cancelled or
    credited.
-3. The band under the title says the **Project** it is for, what is
-   **Outstanding**, when it is **Due** (the first part still unpaid, as
-   ERPNext's status reads it, so a retention held for a year doesn't hide a
-   late payment; in red, with how many days late, once it has passed), what is
-   **Paid** (with a line showing how much of the total) and the **Total**.
+3. A sentence over the page says where it stands ("25 days late. Acme
+   Holdings still owes $1,300.00.", "Paid in full."), and under it a track
+   from **Ordered** and **Delivered** (when an order or delivery note came
+   first) to **Billed** and **Paid**, the last with how much is paid so far
+   or how late it is. Beside the track are the **Project** it is for, the
+   **Outstanding Amount**, the **Payment Due Date** (the first part still
+   unpaid, as ERPNext's status reads it, so a retention held for a year
+   doesn't hide a late payment; in red once it has passed) and the **Grand
+   Total**.
    Beside them, **Billed to** the customer is a bar a month for a year of
    what they were invoiced, with this invoice's month in blue and the rest in
    grey, so a first invoice and a regular's look different at a glance.
@@ -106,16 +129,16 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 5. Money back to a customer is **Create › Return / Credit Note** on the
    invoice.
 
-A bill works the same way from **Bills**: the supplier, what they charged for,
+A purchase invoice works the same way from **Purchase Invoice**: the supplier, what they charged for,
 **Submit**, and **Record Payment** when you pay it.
 
-**A customer's page** answers first what they **Owe Us** (red when any of it
+**A customer's page** answers first their **Total Unpaid** (red when any of it
 is late, and against their credit limit when one is set), what is
-**Overdue** and how old the oldest is, what was **Billed This Year** (with
-how much more or less than by this day last year), the **Last Invoice**, and
+**Overdue** and how old the oldest is, their **Annual Billing** (with
+how much more or less than by this day last year), the **Last Sales Invoice**, and
 their **Open Orders**. Beside them, **Billed** is their year, a bar a month.
-A supplier's page says the same from the other side: **We Owe**,
-**Overdue**, **Bought This Year**, the **Last Bill**, **Open Orders** and
+A supplier's page says the same from the other side: **Total Unpaid**,
+**Overdue**, **Annual Billing**, the **Last Purchase Invoice**, **Open Orders** and
 **Bought**. Every figure is worked out from the invoices your own list would
 show you.
 
@@ -136,18 +159,18 @@ this month's in.
 
 The band on a repeating invoice says **Repeats Monthly** and when the next
 one is made; clicking it opens the schedule, where it can be paused or
-stopped. **More › Repeating** lists every schedule.
+stopped. **Home › Everything › Auto Repeat** lists every schedule.
 
 ## VAT
 
-**Reports › VAT Return** is the figure for any VAT return: for the dates you
+**Financial Reports › VAT Return** is the figure for any VAT return: for the dates you
 pick, the tax charged on invoices and the tax paid on bills and expense
 claims, each by tax account and rate with the amount it was charged on, and
 what is left **To pay** (or **To reclaim**). Credit notes lower what was
 charged. Tax added to the cost of what was bought is not counted, since it
 cannot be reclaimed.
 
-In the UAE, **Reports › UAE VAT 201** is the return in the FTA's own boxes.
+In the UAE, **Financial Reports › UAE VAT 201** is the return in the FTA's own boxes.
 The Books Check makes sure it has what it reads: the VAT accounts, the
 company's **TRN** (printed on every tax invoice) and its **emirate** (sales
 are reported under it). The VAT on each bill is filled into the bill's
@@ -216,19 +239,21 @@ fails a small business on first use or leaves a question unanswered.
   still reachable by search. It replaces the Accounts sidebar the dock's Books
   row used to open. Supplier is owned here (`is_default_module`), Customer by
   OneCRM.
-- `workspace/onebook`, `number_card/` and `home.py` — Home. ERPNext's
+- `page/books`, `home.py` and `story.py` — Home, the `onedesk.books` island
+  (frontend/src/home/BooksHome.vue, BooksStory.vue), laid out as
+  OneInventory's Home and drawn from Frappe Books' dashboard. ERPNext's
   accounting number cards total every invoice ever submitted and count a
   credit note as a negative invoice; none says what is unpaid, late or due.
-  Each figure is worked out in `home.py`: cash and profit from the ledger
-  (profit leaves out the Period Closing Voucher's entries, which move profit
-  rather than make it), what is owed from `outstanding_amount` on submitted
-  invoices and bills, by due date (`outstanding`, pure).
-
-  ERPNext ships accounting number cards, and none answers these: they total
-  every invoice ever submitted, count a credit note as a negative invoice, and
-  say nothing about what is still unpaid. Each figure here is worked out from
-  the ledger or from what is outstanding, for the one company, and opens the
-  report it came from.
+  `story.py` works each figure and chart out for the one company: cash and
+  profit from the ledger (leaving out the Period Closing Voucher's entries,
+  which move profit rather than make it), what is owed from
+  `outstanding_amount` on submitted invoices, by due date (`home.outstanding`
+  and `ageing`, both pure). `home.py` has Today and the directory, each row
+  named as ERPNext names what it opens; its single-figure functions stay for
+  the demo's checks and OneAI. The `OneBook` workspace and its six number
+  cards were Home until the page replaced them (`patches/home_is_a_page`).
+- `custom/` — **Outstanding Amount** is a column of both invoice lists, as
+  Frappe Books' lists show what is still due beside the total.
 - `paid.py` and `heads.py` — the band and **Record Payment**, a Record Head
   (one/head.py).
   ERPNext's **Create › Payment** opens a thirty-field Payment Entry for the
@@ -438,16 +463,16 @@ fails a small business on first use or leaves a question unanswered.
 ERPNext lets only a **System Manager** open three of the tools the rail
 links to, or add a bank, and keeps the purchase tax templates from accounts:
 
-- **Bank** (Bank Reconciliation Tool) and **Bank Statement Import**: matching
+- **Bank Reconciliation Tool** and **Bank Statement Import**: matching
   the bank's lines to payments is an accountant's daily work, so an Accounts
   User may do it and import a statement, and an Accounts Manager too.
-- **Opening Invoices** (Opening Invoice Creation Tool): what customers and
+- **Opening Invoice Creation Tool**: what customers and
   suppliers owed on the day the books start, entered once, by an Accounts
   Manager.
 - **Banks**: the list of banks a bank account picks from. ERPNext lets only
   a System Manager add one, so One's own Add Bank stopped for everybody; an
   Accounts Manager adds one here and an Accounts User reads them.
-- **Purchase Tax Templates**: ERPNext gives them to buying. The VAT a bill
+- **Purchase Taxes and Charges Template**: ERPNext gives them to buying. The VAT a bill
   carries is the books' decision, so an Accounts Manager keeps them and an
   Accounts User reads them.
 - **Suppliers**: a bill often comes from a new supplier, so an Accounts

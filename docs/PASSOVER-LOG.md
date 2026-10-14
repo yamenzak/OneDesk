@@ -12894,3 +12894,151 @@ Receipt in search.
   colour from the document's head, so a late order is still red there.
 - Removing the renames let more of the three modules read in Arabic and
   German: ERPNext translates its own labels, and ours were English only.
+
+## OneBook
+
+### What Frappe Books teaches OneBook
+
+Asked on 2026-10-14: read `frappe/frappe-books` (cloned beside the bench) for
+its UI, how it is organised and what it added, and bring over what is worth
+having, while OneBook stays ERPNext's accounting inside the desk rather than a
+second app with its own ledger. Books is AGPL like this repo; nothing below
+copies its code, only its ideas.
+
+**What it is.** A frappe-ui app at `/books` over its own `Books …` doctypes
+and its own `Books Ledger Entry`: Sales Invoice, Purchase Invoice, Payment,
+Journal Entry, stock, a POS and India's GST, with a setup wizard and a Get
+Started page. Eight reports, each a Script Report reading its ledger.
+
+**The UI.**
+
+- *Navigation.* Ten groups, only the open one expanded: Get Started,
+  Dashboard, Sales (Quotation, Sales Invoice, Sales Payment, Customer),
+  Purchases (Purchase Invoice, Purchase Payment, Supplier), Common (Journal
+  Entry, Item, Price List), Reports, Inventory, POS, GST, Setup. Every row is
+  the doctype's own name; a filtered list says what the filter makes it.
+- *Dashboard.* Four figures with a link out (Paid sales, Unpaid sales, Paid
+  purchases, Unpaid purchases), then Cashflow (inflow and outflow on the cash
+  and bank accounts, by month), Profit and Loss (profit and loss by month) and
+  Top expenses (the five largest expense accounts and Others, around "Total
+  spending"), over This year, This quarter, This month or Year to date.
+- *Lists.* Number, Status, party, date, grand total and the amount still due;
+  the status pill carries the amount ("Unpaid ₹X"). Colours: Saved blue,
+  Unpaid and Partly Paid amber, Paid green, Return grey, Cancelled red.
+- *The invoice.* One column, Main and Settings tabs, Items, then Tax and
+  Totals, then Outstanding. Create → Payment opens the payment in a side panel
+  with the party, account and reference already set; submitting it reloads the
+  invoice to Paid. View → Accounting entries opens the General Ledger on it.
+  Cancelling warns which payments it cancels with it.
+- *Reports.* One date range with presets, periodicity as tabs, group rows
+  fold, Total Profit green, zero cells grey.
+- *Onboarding.* Get Started: cards for Organisation, Accounts (Review
+  accounts, Opening balances, Add taxes), Sales and Purchase, each with Set up
+  and Documentation, ticked when the record exists, hidden once all are done.
+
+**How it is organised.** Pure accounting in `accounting/` (ledger posting,
+invoice, payment, settlement, returns, money), commerce extras in
+`commerce/`, stock in `inventory/`, report logic in `reports/` with the Script
+Reports as thin wrappers, India in `regional.py`. Statuses are worked out once
+(`status.py`: Saved, Cancelled, Return, Return Issued, Paid, Unpaid, Partly
+Paid, Submitted) and there is no Overdue. Its GLOSSARY names a party, a
+return, settlement and "due" once, and the screens hold to them.
+
+**Set against OneBook.**
+
+- *What OneBook already has, and better.* ERPNext's ledger, multi-currency,
+  payment terms, bank reconciliation, period closing, repeating invoices,
+  statements of account, the full report set, and Overdue as a status. Record
+  Payment on the invoice's head is Books' Create → Payment in one dialog.
+  Books Check is Get Started's job — what is not set up yet, with the fix —
+  for the whole of accounting rather than eight cards.
+- *What Books does better, and is worth taking.*
+  1. **A Home that tells the story.** Books' dashboard answers "how is the
+     money doing" in three charts; OneBook's Home was six figures and eight
+     buttons on a workspace. OneBook's Home becomes a page like OneInventory's:
+     the figures with their months, an Overview with Books' three charts and
+     where the receivables and payables stand, Today (what is overdue, due
+     this week, bank lines to match, drafts left), and Everything, Reports and
+     Setup, each row called what it opens.
+  2. **The amount still due in the list.** Books' invoice list shows what is
+     still owed beside the total; ERPNext's shows only the total. Outstanding
+     Amount goes into the Sales Invoice and Purchase Invoice lists.
+  3. **Names held to.** Books' rail says Sales Invoice, not Invoices. OneBook's
+     rail said Invoices, Bills, Payments, Bank, Receivables and Payables; it
+     now says what ERPNext's own Invoicing sidebar says: Sales Invoice, Credit
+     Note, Purchase Invoice, Debit Note, Payment Entry, Journal Entry,
+     Accounts Receivable, Accounts Payable, Profit and Loss.
+  4. **Where an invoice stands, at a glance.** Books' status pill is the whole
+     story; OneBook's head gets the stages track OneInventory's documents
+     have: Draft, Submitted, Partly Paid, Paid.
+- *What is not worth taking.* Its own ledger and doctypes (OneBook is
+  ERPNext's, and that is what lets a project, a customer and a payroll read
+  it); the POS (ERPNext has one, and no customer of ours has asked); India's
+  GST; the setup wizard (Frappe's runs once for the workspace); its search
+  (Ctrl+K already finds every doctype and report by the names above);
+  auto-pay on submit (ERPNext's Include Payment does it on the invoice).
+
+### OneBook: Home, the rail and the invoice, after Frappe Books
+
+What was looked at, as Huda (Accounts Manager): Home, the Sales Invoice and
+Purchase Invoice lists, an overdue invoice, a customer and a supplier, at a
+desk and on a phone.
+
+**Found.**
+
+1. Home was a workspace of eight buttons and six figures; nothing said how
+   the money was doing over time, and Reports and Setup were two long rail
+   groups. Books' dashboard says it in three charts.
+2. The rail said Invoices, Bills, Payments, Bank, Journal Entries, Customers,
+   Receivables, Payables, Credit Notes, Repeating and Statements: names Ctrl+K
+   does not find.
+3. The invoice lists showed the grand total and not what is still owed.
+4. An invoice's head said Outstanding, Due, Paid and Total, our words, with
+   no sentence and no track, unlike every OneInventory document.
+5. The customer's and supplier's heads said Owes Us, We Owe, Billed This
+   Year, Bought This Year, Last Bill.
+6. Overdue was read from an invoice's last due date. ERPNext reads the
+   payment schedule, settling what was paid against the earliest parts, so
+   Mansour & Sons' invoice with a retention due in 2027 showed nothing
+   overdue on their page though ERPNext's list said Overdue; Home's figure
+   counted 3 of the 6 overdue invoices.
+7. Project Progress (OneProject's, from the last round) refused a filter it
+   does not offer, a date a link carries, so `every_report_of_ones_runs`
+   failed.
+
+**Done.**
+
+1. Home is the `books` page, laid out as OneInventory's: six figures with
+   their months (Cash, Accounts Receivable, Overdue, Accounts Payable, Due
+   This Week, Profit This Month); Overview with Cash Flow, Profit and Loss and
+   Top Expenses as Books draws them, then Ageing in ERPNext's ranges, who
+   owes or is owed most, and the year's invoices by status, for each of
+   Accounts Receivable and Accounts Payable; Today (overdue sales invoices,
+   purchase invoices due, unreconciled bank transactions, drafts left); and
+   Everything, Reports and Setup, sixty-six rows each called what it opens.
+   The workspace and its six number cards are gone (`home_is_a_page`).
+2. The rail says what ERPNext's own Invoicing sidebar says: Sales Invoice,
+   Purchase Invoice, Payment Entry, Journal Entry, Bank Reconciliation Tool,
+   Customer, Supplier, then Receivables (Credit Note, Accounts Receivable,
+   Process Statement Of Accounts), Payables (Debit Note, Accounts Payable),
+   Banking and Financial Reports, and Reports and Setup into Home. The guard
+   now holds OneBook's rail too, and accepts a label ERPNext's own sidebar
+   gives the same link.
+3. Outstanding Amount is a column of both lists; the party's column is wider
+   so its name fits beside it.
+4. The invoice says where it stands in a sentence ("25 days late. Acme
+   Holdings still owes $1,300.00."), then a track Ordered, Delivered or
+   Received, Billed, Paid; the band says Outstanding Amount, Payment Due Date
+   and Grand Total, ERPNext's labels.
+5. The party heads say Total Unpaid and Annual Billing, ERPNext's own words
+   on the customer's dashboard, and Last Sales Invoice, Last Purchase Invoice.
+6. `home.parts` splits what an invoice owes by its schedule, paid settling
+   the earliest first, and Home's Overdue and Due This Week, Today, the
+   ageing and the party's Overdue all read it: Today lists the six ERPNext
+   calls Overdue, and Mansour & Sons' page says 113,810 overdue, oldest 46
+   days.
+7. Project Progress passes their report only the filters it offers.
+
+Left: ERPNext's own customer overview (`customer_overview.js`) throws a
+`removeChild` error in the console on every customer page; it is theirs and
+draws.

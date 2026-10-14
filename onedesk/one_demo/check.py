@@ -5739,6 +5739,41 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 
 
 @check
+def onebook_home_tells_how_the_money_is_doing():
+	"""Huda's Home: its figures agree with the ledger and with what is owed,
+	the ageing adds up to Accounts Receivable, Today lists every overdue sales
+	invoice, and every row of the directory opens something that exists. An
+	overdue invoice's head is red with its Paid step late; a paid one is
+	green with every step done."""
+	from onedesk.one import head
+	from onedesk.one_book import home, story
+
+	with as_user("huda@one.test"):
+		told = story.read()
+		said = home.read()
+		cards = told["cards"]
+		assert set(cards) == {"cash", "receivable", "overdue", "payable", "due_this_week", "profit"}, set(cards)
+		assert abs(cards["cash"]["value"] - home.cash()["value"]) < 0.01, (cards["cash"], home.cash())
+		assert abs(cards["profit"]["value"] - home.profit_this_month()["value"]) < 0.01
+		assert abs(cards["receivable"]["value"] - home.owed_to_us()["value"]) < 0.01
+		assert len(cards["cash"]["series"]) == story.MONTHS
+		aged = sum(one["owed"] for one in told["receivable"]["ages"])
+		assert abs(aged - cards["receivable"]["value"]) < 0.01, (aged, cards["receivable"])
+		overdue = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Overdue"}, pluck="name")
+		assert overdue and said["needs"]["overdue"]["count"] == len(overdue), (said["needs"]["overdue"], overdue)
+		for row in said["everything"]:
+			kind = "DocType" if row["kind"] == "Masters" else row["kind"]
+			assert frappe.db.exists(kind, row["target"]), row
+		record = frappe.get_doc("Record Head", "Sales Invoice")
+		late = head.said(frappe.get_doc("Sales Invoice", overdue[0]), record)
+		assert late["sentence"]["colour"] == "red", late["sentence"]
+		assert late["band"][0]["steps"][-1]["state"] == "late", late["band"][0]
+		paid = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Paid", "is_return": 0}, pluck="name", limit=1)
+		done = head.said(frappe.get_doc("Sales Invoice", paid[0]), record)
+		assert done["sentence"]["colour"] == "green" and all(step["state"] == "done" for step in done["band"][0]["steps"]), done
+
+
+@check
 def oneinventory_a_documents_head_says_where_it_stands():
 	"""Every stores document Karim opens says what is next in a sentence, and
 	one that moves through stages draws them: Al Noor's late order in red with

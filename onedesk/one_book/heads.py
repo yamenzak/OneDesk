@@ -9,7 +9,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import date_diff, flt, fmt_money, formatdate, getdate, today
 
-from onedesk.one import figures
+from onedesk.one import figures, stages
 from onedesk.one_book import paid
 
 #: What the band is on: a submitted invoice or bill that is not a return.
@@ -47,19 +47,87 @@ def due(doc):
 	if not _due_on(doc):
 		return None
 	late = _late(doc)
-	when = formatdate(_due_on(doc) if late is not None else doc.due_date)
 	if late is None:
-		return {"label": _("Was Due"), "value": when, "tone": "quiet"}
+		return None
+	when = formatdate(_due_on(doc))
 	if late > 0:
-		return {"value": _("{0} · {1} days late").format(when, late), "tone": "alarm"}
+		return {"value": when, "tone": "alarm"}
 	if late == 0:
 		return {"value": _("Today"), "tone": "waiting"}
 	return _("{0} · in {1} days").format(when, -late)
 
 
-def paid_so_far(doc):
-	paid_now = flt(doc.grand_total) - flt(doc.outstanding_amount)
-	return {"value": _money(doc, paid_now), "meter": {"value": paid_now, "of": flt(doc.grand_total)}}
+def _party(doc) -> str:
+	if doc.doctype == "Sales Invoice":
+		return doc.customer_name or doc.customer
+	return doc.supplier_name or doc.supplier
+
+
+def _before(doc) -> tuple[list, list]:
+	"""The orders and the deliveries or receipts the invoice bills."""
+	if doc.doctype == "Sales Invoice":
+		order, moved = "sales_order", "delivery_note"
+	else:
+		order, moved = "purchase_order", "purchase_receipt"
+	rows = doc.get("items") or []
+	return [row.get(order) for row in rows if row.get(order)], [
+		row.get(moved) for row in rows if row.get(moved)
+	]
+
+
+def progress(doc):
+	"""Ordered and delivered or received when it was, billed, paid: where the
+	invoice stands, as Frappe Books' status pill says it, on a track."""
+	if doc.docstatus != 1 or doc.is_return:
+		return None
+	orders, moved = _before(doc)
+	selling = doc.doctype == "Sales Invoice"
+	owed = flt(doc.outstanding_amount)
+	late = _late(doc)
+	if owed <= 0:
+		note = _("All")
+	elif late and late > 0:
+		note = _("{0} late").format(stages.days(late))
+	else:
+		note = stages.share(
+			(flt(doc.grand_total) - owed) / flt(doc.grand_total) * 100 if flt(doc.grand_total) else 0
+		)
+	return stages.track(
+		orders and stages.step(_("Ordered"), "done"),
+		(moved or doc.get("update_stock"))
+		and stages.step(_("Delivered") if selling else _("Received"), "done"),
+		stages.step(_("Billed"), "done", formatdate(doc.posting_date)),
+		stages.step(_("Paid"), stages.at(owed <= 0, True, bool(late and late > 0)), note),
+	)
+
+
+def said(doc):
+	"""Where the invoice stands, in a sentence: one thing a sentence."""
+	party = _party(doc)
+	selling = doc.doctype == "Sales Invoice"
+	what = (
+		_("A draft. Submit it to bill {0}.")
+		if selling
+		else _("A draft. Submit it to record what {0} billed.")
+	)
+	if found := stages.draft(doc, what.format(party)):
+		return found
+	if doc.is_return:
+		text = _("A credit note to {0}.") if selling else _("A debit note from {0}.")
+		return {"text": text.format(party), "colour": "gray"}
+	owed = flt(doc.outstanding_amount)
+	if owed <= 0:
+		if doc.status in ("Credit Note Issued", "Debit Note Issued"):
+			return {"text": _("Settled by a return."), "colour": "gray"}
+		return {"text": _("Paid in full."), "colour": "green"}
+	late = _late(doc)
+	if late and late > 0:
+		text = _("{0} late. {1} still owes {2}.") if selling else _("{0} late. {2} still to pay {1}.")
+		return {"text": text.format(stages.days(late), party, _money(doc, owed)), "colour": "red"}
+	if late == 0:
+		return {"text": _("{0} falls due today.").format(_money(doc, owed)), "colour": "orange"}
+	text = _("{0} still owed by {1}.") if selling else _("{0} still to pay {1}.")
+	return {"text": text.format(_money(doc, owed), party), "colour": "orange"}
 
 
 def repeats(doc):
@@ -142,21 +210,34 @@ def _credit(doc, owed: float) -> dict | None:
 
 
 def party_overdue(doc):
-	rows = _bills(doc.doctype, doc.name, fields=["outstanding_amount", "conversion_rate", "due_date"])
+	"""What is past due, part by part as each invoice's payment schedule falls
+	due (home.parts), as ERPNext's Overdue status and OneBook's Home read it."""
+	from onedesk.one_book import home
+
+	rows = _bills(doc.doctype, doc.name, fields=["name", "outstanding_amount", "conversion_rate", "due_date"])
 	if not rows:
 		return None
+	owing = [row for row in rows if flt(row.outstanding_amount) > 0]
+	schedule = home._schedule(BILLS[doc.doctype][0], [row.name for row in owing])
+	day = getdate()
 	late = [
-		row
-		for row in rows
-		if flt(row.outstanding_amount) > 0 and row.due_date and getdate(row.due_date) < getdate()
+		part
+		for row in owing
+		for part in home.parts(
+			{
+				"outstanding_amount": flt(row.outstanding_amount) * flt(row.conversion_rate or 1),
+				"own": flt(row.outstanding_amount),
+				"due_date": row.due_date,
+			},
+			schedule.get(row.name),
+		)
+		if part["due_date"] and getdate(part["due_date"]) < day
 	]
 	if not late:
 		return None
-	oldest = max(date_diff(today(), row.due_date) for row in late)
+	oldest = max(date_diff(today(), part["due_date"]) for part in late)
 	return {
-		"value": _party_money(
-			sum(flt(row.outstanding_amount) * flt(row.conversion_rate or 1) for row in late)
-		),
+		"value": _party_money(sum(part["outstanding_amount"] for part in late)),
 		"label": _("Overdue · oldest {0} days").format(oldest),
 		"tone": "alarm",
 	}
@@ -199,7 +280,7 @@ def party_last_bill(doc):
 	last = found[0]
 	# The day goes in the label: beside an amount in a right-to-left currency
 	# the two run into each other.
-	label = _("Last Invoice") if doc.doctype == "Customer" else _("Last Bill")
+	label = _("Last Sales Invoice") if doc.doctype == "Customer" else _("Last Purchase Invoice")
 	return {
 		"label": _("{0} · {1}").format(label, formatdate(last.posting_date)),
 		"value": _party_money(last.base_grand_total),
@@ -253,9 +334,10 @@ MEASURES = {
 	"party.overdue": party_overdue,
 	"party.this_year": party_this_year,
 	"party.last_bill": party_last_bill,
+	"invoice.progress": progress,
+	"invoice.said": said,
 	"invoice.outstanding": outstanding,
 	"invoice.due": due,
-	"invoice.paid": paid_so_far,
 	"invoice.repeats": repeats,
 }
 
@@ -319,12 +401,17 @@ VERBS = {
 }
 
 _BAND = [
+	{"label": _lt("Progress"), "source": "Measure", "measure": "invoice.progress"},
 	{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-	{"label": _lt("Outstanding"), "source": "Measure", "measure": "invoice.outstanding", "shown_when": OWED},
-	{"label": _lt("Due"), "source": "Measure", "measure": "invoice.due", "shown_when": OWED},
-	{"label": _lt("Paid"), "source": "Measure", "measure": "invoice.paid", "shown_when": OWED},
-	{"label": _lt("Total"), "source": "Field", "field": "grand_total", "shown_when": OWED},
-	{"label": _lt("Repeats"), "source": "Measure", "measure": "invoice.repeats", "shown_when": OWED},
+	{
+		"label": _lt("Outstanding Amount"),
+		"source": "Measure",
+		"measure": "invoice.outstanding",
+		"shown_when": OWED,
+	},
+	{"label": _lt("Payment Due Date"), "source": "Measure", "measure": "invoice.due", "shown_when": OWED},
+	{"label": _lt("Grand Total"), "source": "Field", "field": "grand_total"},
+	{"label": _lt("Auto Repeat"), "source": "Measure", "measure": "invoice.repeats", "shown_when": OWED},
 ]
 
 CHARTS = {
@@ -347,6 +434,9 @@ CHARTS = {
 HEADS = [
 	{
 		"doctype": doctype,
+		# Where it stands, as Frappe Books' status pill says it: a sentence,
+		# then a track from ordered to paid, then what the form keeps low down.
+		"sentences": [{"measure": "invoice.said"}],
 		"band": _BAND,
 		"verbs": [{"verb": "invoice.record_payment", "primary": 1}],
 		"charts": [{"chart": "invoice.party_billed", "shown_when": [["docstatus", "=", 1]]}],
@@ -356,10 +446,10 @@ HEADS = [
 	{
 		"doctype": "Customer",
 		"band": [
-			{"label": _lt("Owes Us"), "source": "Measure", "measure": "party.outstanding"},
+			{"label": _lt("Total Unpaid"), "source": "Measure", "measure": "party.outstanding"},
 			{"label": _lt("Overdue"), "source": "Measure", "measure": "party.overdue"},
-			{"label": _lt("Billed This Year"), "source": "Measure", "measure": "party.this_year"},
-			{"label": _lt("Last Invoice"), "source": "Measure", "measure": "party.last_bill"},
+			{"label": _lt("Annual Billing"), "source": "Measure", "measure": "party.this_year"},
+			{"label": _lt("Last Sales Invoice"), "source": "Measure", "measure": "party.last_bill"},
 			{
 				"label": _lt("Open Orders"),
 				"source": "Count",
@@ -378,10 +468,10 @@ HEADS = [
 	{
 		"doctype": "Supplier",
 		"band": [
-			{"label": _lt("We Owe"), "source": "Measure", "measure": "party.outstanding"},
+			{"label": _lt("Total Unpaid"), "source": "Measure", "measure": "party.outstanding"},
 			{"label": _lt("Overdue"), "source": "Measure", "measure": "party.overdue"},
-			{"label": _lt("Bought This Year"), "source": "Measure", "measure": "party.this_year"},
-			{"label": _lt("Last Bill"), "source": "Measure", "measure": "party.last_bill"},
+			{"label": _lt("Annual Billing"), "source": "Measure", "measure": "party.this_year"},
+			{"label": _lt("Last Purchase Invoice"), "source": "Measure", "measure": "party.last_bill"},
 			{
 				"label": _lt("Open Orders"),
 				"source": "Count",

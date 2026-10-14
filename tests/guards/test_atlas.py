@@ -15,7 +15,7 @@ import atlas
 #: What each module still has with no way in and no answer. Lower it as each
 #: is placed or answered; it may never rise.
 WAITING = {
-	"erpnext / Accounts": 57,
+	"erpnext / Accounts": 54,
 	"erpnext / Bulk Transaction": 2,
 	"erpnext / CRM": 3,
 	"erpnext / Communication": 1,
@@ -271,7 +271,7 @@ ONLY_AN_ID = {
 #: Point 12. Labels on a reached form still English in Arabic or German,
 #: counted once for each language.
 ENGLISH = {
-	"erpnext / Accounts": 74,
+	"erpnext / Accounts": 72,
 	"erpnext / Assets": 3,
 	"erpnext / Buying": 23,
 	"erpnext / CRM": 13,
