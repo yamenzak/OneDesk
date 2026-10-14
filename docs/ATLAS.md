@@ -270,7 +270,7 @@ Reports: Maintenance Schedules (**waiting**).
 | Production Plan Schedule | through a form's connections (Production Plan's Connections) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Routing | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Forecast | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Work Order | on a rail or a home | OneInventory | a head, events, 8 settings | yes | taught |  | yes |  |  | ar 7, de 5 | Work Order Done |
+| Work Order | on a rail or a home | OneInventory | a head, events, list script, 17 settings | yes | taught |  | yes |  |  | ar 7, de 5 | Work Order Done |
 | Workstation | on a rail or a home | OneInventory | untouched | yes | taught |  | yes |  |  | ar 1 |  |
 | Workstation Operating Component | through a form's link (Workstation Type: operating_component) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Workstation Type | through a form's link (Routing: workstation_type) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |

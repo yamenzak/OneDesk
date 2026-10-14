@@ -11836,7 +11836,8 @@ Reports and Setup.
 | Buying › Suppliers | done |
 | Making › Shop Floor | done, redrawn after Odoo's Shop Floor |
 | Making › Plant Floor | done, drawn after Odoo's work centres |
-| Making › Work Orders | next |
+| Making › Work Orders | done |
+| Making › Bills of Materials | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12453,3 +12454,29 @@ and Odoo's work centres are; looked at as Karim, at 1440 wide and on a phone.
 | 5 Our look | modelled on Odoo's work centres; a status menu, a clock, a table |
 | 8 Built from frappe | frappe-ui's Dropdown, Button, Avatar and List |
 | What ERPNext already does | its Plant Floor's own calls and statuses; one company's floors and job cards |
+
+**Work Orders.** Looked at as Karim, at 1440 wide and on a phone: frappe's
+list and ERPNext's form, an order for the villa's sliding doors not started
+yet.
+
+- **Names cut and two bare numbers.** The list cut "Casement Wi", said Qty
+  To Manufacture and Manufactured Qty as two columns, one "0.000" beside
+  "40", and cut all three headers. How many is one column now, **Made**,
+  "12 of 30", whole numbers without decimals (`work_order_list.js`); the
+  date says **Wanted By**, as the head does; the number column is left off
+  and the item is 220 wide. A phone's row says "12 of 30 · 14-10-2026"
+  where it said "30 · 12".
+- **Two filters for one thing.** Item To Manufacture and Item Name both sat
+  in the bar; frappe's own search on the name stays.
+- **Not started in red.** ERPNext colours an order not started yet red, as
+  if it were late; it is grey, as the Shop Floor says it, on the list and
+  the form (recorded in `scripts/overrides.py`).
+- **Zeros on the form.** Disassembled Qty and Additional Transferred Qty
+  showed 0 on every order; they show once there is some.
+- The rest holds: the head (Project, For, Made with its bar, Materials,
+  Wanted By), Start, Create, Operator Dashboard, the tabs.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | names whole, made of how many in one column, no zeros, no red for nothing |
+| 9 Overrides recorded | "A work order not started yet is grey" |

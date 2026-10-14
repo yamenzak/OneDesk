@@ -65,6 +65,78 @@
    "property_type": "Check",
    "value": "0",
    "field_name": "production_item"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "production_item"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "qty"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Made",
+   "field_name": "produced_qty"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Wanted By",
+   "field_name": "expected_delivery_date"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "220",
+   "field_name": "item_name"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "120",
+   "field_name": "produced_qty"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "110",
+   "field_name": "expected_delivery_date"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:doc.docstatus==1 && doc.disassembled_qty",
+   "field_name": "disassembled_qty"
+  },
+  {
+   "doc_type": "Work Order",
+   "doctype_or_field": "DocField",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:doc.docstatus==1 && doc.skip_transfer==0 && doc.additional_transferred_qty",
+   "field_name": "additional_transferred_qty"
   }
  ],
  "sync_on_migrate": 1

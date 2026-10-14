@@ -2132,6 +2132,13 @@ OVERRIDES = [
 		'" = [?] " + company_currency',
 	),
 	(
+		"A work order not started yet is grey",
+		"theirs colours a submitted work order not started red, as if it were late; work_order_list.js wraps get_indicator and says it grey, as the Shop Floor does",
+		"onedesk/public/js/work_order_list.js",
+		"erpnext/erpnext/manufacturing/doctype/work_order/work_order_list.js",
+		'"Not Started": "red",',
+	),
+	(
 		"A document in the company's currency says its taxes once",
 		"theirs hides the company-currency tax totals when the document's currency is the company's, then shows them again whenever they are not zero; rate_note.js wraps change_form_labels and hides the three base_ tax totals again",
 		"onedesk/public/js/rate_note.js",

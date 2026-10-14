@@ -1081,6 +1081,7 @@ doctype_list_js = {
 	"Material Request": "public/js/material_request_list.js",
 	"Purchase Order": "public/js/purchase_order_list.js",
 	"Supplier": "public/js/supplier_list.js",
+	"Work Order": "public/js/work_order_list.js",
 }
 
 override_doctype_dashboards = {
