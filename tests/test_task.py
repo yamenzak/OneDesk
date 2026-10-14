@@ -196,3 +196,16 @@ def test_a_tasks_due_date_is_in_sight_and_the_list_has_room_for_its_subject():
 	assert setters[("company", "hidden")] == "1"
 	assert setters[("is_group", "in_list_view")] == "0" and setters[("exp_end_date", "in_list_view")] == "1"
 	assert "hide_name_column = true" in (tree.APP / "public" / "js" / "task_list.js").read_text()
+
+
+def test_a_step_does_not_say_whose_it_is_beside_whose_it_is():
+	# HRMS names an onboarding's step "Plan the first week : Feras Odeh", and
+	# My Tasks says Feras Odeh beside it (mine.py `unnamed`).
+	source = "def unnamed(" + _body((TASK / "mine.py").read_text(), "unnamed")
+	space: dict = {}
+	exec(source, space)
+	unnamed = space["unnamed"]
+	assert unnamed("Plan the first week : Feras Odeh", "Feras Odeh") == "Plan the first week"
+	assert unnamed("Plan the first week : Feras Odeh", "Nordlicht") == "Plan the first week : Feras Odeh"
+	assert unnamed("Site visits", None) == "Site visits"
+	assert unnamed(" : Feras Odeh", "Feras Odeh") == " : Feras Odeh"

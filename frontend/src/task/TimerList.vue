@@ -31,7 +31,11 @@
           <Button variant="ghost" icon="lucide-square" :aria-label="__('Stop Timer')" :title="__('Stop Timer')" @click="stop(one)" />
         </div>
       </section>
-      <p v-if="!said.running && !said.paused.length" class="py-6 text-center text-base text-ink-gray-5">{{ __("No timers") }}</p>
+      <div v-if="!said.running && !said.paused.length" class="flex flex-col items-center gap-1 py-6 text-center">
+        <span class="lucide-timer size-6 text-ink-gray-4" aria-hidden="true" />
+        <p class="mt-1 text-base text-ink-gray-7">{{ __("No timer running") }}</p>
+        <p class="max-w-56 text-sm text-ink-gray-5">{{ __("Start one from a task with its play button. It keeps running when you leave the page.") }}</p>
+      </div>
     </template>
   </div>
 </template>

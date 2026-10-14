@@ -293,7 +293,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 | Project Update | **waiting** | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
 | Projects Settings | opened by our screens | OneProject | 5 fields, 6 settings | no | general |  |  |  |  |  |  |
 | Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 3 | Arrived After Closing, Due Date Changed, Hours Over Plan, Pending Review, Task Done, Task Ready |
-| Task Type | on a rail or a home | OneHR, OneProject | untouched | yes | general |  | **none** |  |  |  |  |
+| Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
 | Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 37 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 
 Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (on a rail or a home); Project Summary (under a list's related reports (Project's list)); Project wise Stock Tracking (under a list's related reports (Project's list)); Timesheet Billing Summary (on a rail or a home).

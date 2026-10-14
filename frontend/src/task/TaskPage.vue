@@ -2,15 +2,17 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The task's head: where it stands, what it is called, the one thing
-           worth saying, when it runs and how far along it is. Frappe's own
-           form sidebar is on the page's right (onedesk.island_page). -->
+      <!-- A task's page.
+           Modelled on Linear's issue and Asana's task: where it stands, what
+           it is called, the one thing worth saying, when it runs and how far
+           along it is, then its details, time, files and activity. Frappe's
+           own form sidebar is on the page's right (onedesk.island_page). -->
       <header class="pt-6">
         <div class="flex flex-wrap items-center gap-2">
           <Pill :value="said.status" :options="said.statuses" :colors="TASK_STATUS" :label="__('Status')" :readonly="!said.can_write" @change="(v) => set('status', v)" />
           <Pill :value="said.priority" :options="said.priorities" :colors="PRIORITY" :label="__('Priority')" :readonly="!said.can_write" @change="(v) => set('priority', v)" />
           <Badge v-if="said.is_milestone" :label="__('Milestone')" theme="violet" size="md" />
-          <Badge v-if="said.is_template" :label="__('Template')" theme="gray" size="md" />
+          <Badge v-if="said.is_template && said.status !== 'Template'" :label="__('Template')" theme="gray" size="md" />
         </div>
         <Title class="mt-3" :said="{ title: said.subject, can_write: said.can_write }" size="text-3xl lg:text-4xl" field="subject" :label="__('Subject')" @change="set" />
         <p v-if="headline" class="mt-1 text-base" :class="TONE[said.headline.tone]">{{ headline }}</p>
@@ -26,7 +28,7 @@
           <div class="flex flex-col gap-1">
             <dt class="text-sm text-ink-gray-5">{{ __("Planned") }}</dt>
             <dd class="flex items-center gap-1">
-              <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-24 tabular-nums" :model-value="said.expected_time || ''" :disabled="!said.can_write" :aria-label="__('Planned Hours')" :placeholder="__('Set Hours')" @change="(e) => set('expected_time', Number(e.target.value) || 0)" />
+              <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-16 tabular-nums" :model-value="said.expected_time || ''" :disabled="!said.can_write" :aria-label="__('Planned Hours')" :placeholder="__('Set Hours')" @change="(e) => set('expected_time', Number(e.target.value) || 0)" />
               <span v-if="said.expected_time" class="text-ink-gray-5">{{ __("h") }}</span>
             </dd>
           </div>
@@ -346,14 +348,16 @@ const unheard = listen("one_timers", timed);
 onBeforeUnmount(unheard);
 watch(running, () => said.value && report());
 
-// What can be done to the task, each only for whoever may do it.
+// What can be done to the task, each only for whoever may do it. A
+// template's task is never done or repeated: it is copied into projects.
 function actions(s) {
   const list = [];
-  if (s.can_write && !DONE.includes(s.status)) list.push({ label: __("Complete Task"), primary: true, onClick: () => set("status", "Completed") });
-  if (s.can_write && DONE.includes(s.status)) list.push({ label: __("Reopen Task"), primary: true, onClick: () => set("status", "Open") });
+  const template = s.is_template || s.status === "Template";
+  if (s.can_write && !template && !DONE.includes(s.status)) list.push({ label: __("Complete Task"), primary: true, onClick: () => set("status", "Completed") });
+  if (s.can_write && !template && DONE.includes(s.status)) list.push({ label: __("Reopen Task"), primary: true, onClick: () => set("status", "Open") });
   if (s.can_time || timing.value) list.push({ label: timing.value ? __("Stop Timer") : __("Start Timer"), button: true, onClick: time });
   if (s.can_write) list.push({ label: __("Edit Details"), onClick: details });
-  if (s.can_write && !s.auto_repeat) list.push({ label: __("Repeat"), onClick: () => desk().project.repeat_task(s.name, load) });
+  if (s.can_write && !template && !s.auto_repeat) list.push({ label: __("Repeat"), onClick: () => desk().project.repeat_task(s.name, load) });
   if (s.can_write && s.auto_repeat && !s.repeat?.disabled) list.push({ label: __("Stop Repeating"), onClick: () => desk().project.stop_repeat(s.name, load) });
   return list;
 }

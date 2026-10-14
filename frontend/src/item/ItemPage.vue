@@ -2,9 +2,12 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The item's head: what kind of thing it is, what it is called, the
-           one thing worth saying, what it is and how much of it there is.
-           Frappe's own form sidebar is on the page's right (onedesk.island_page). -->
+      <!-- An item's page.
+           Modelled on Shopify's product page and Odoo's product form: what
+           kind of thing it is, what it is called, the one thing worth saying,
+           what it is and how much of it there is, then a view each for its
+           stock, buying, selling and making. Frappe's own form sidebar is on
+           the page's right (onedesk.island_page). -->
       <header class="pt-6">
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0 flex-1">

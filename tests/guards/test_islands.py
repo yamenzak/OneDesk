@@ -147,15 +147,9 @@ def test_a_setting_is_a_switch():
 		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"
 
 
-#: Screens drawn before they had to name what they follow. It only shrinks: a
-#: screen redrawn after an app people already know comes off it.
-UNMODELLED = {
-	"home/InventoryHome.vue",
-	"item/ItemPage.vue",
-	"task/MyTasks.vue",
-	"task/TaskPage.vue",
-	"task/Timers.vue",
-}
+#: Screens drawn before they had to name what they follow. It only shrinks,
+#: and is empty: every screen of ours names the app it follows.
+UNMODELLED: set[str] = set()
 
 
 def test_a_screen_names_the_app_it_follows():

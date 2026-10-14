@@ -12789,3 +12789,35 @@ at as Karim at 1440 wide.
   line when the profits are small beside the axis, Billable Hours writes
   hours to three places, and Hours by Day opens on today, so usually on
   nothing. Each is their report's own output; none is wrong.
+
+**OneTask, again.** My Tasks, Inbox, All Tasks, a task, Timers, Task Delays
+and Task Type, looked at as Samir and Karim at 1440 wide and on a phone.
+
+- **A name said twice.** HRMS names an onboarding's step "Plan the first
+  week on site : Feras Odeh", and My Tasks said Feras Odeh beside it. The
+  step reads "Plan the first week on site" there (`mine.unnamed`).
+- **An email for a project.** HRMS names an onboarding's project "Employee
+  Onboarding : feras.odeh@example.com", which every task's Project column
+  then said. While it still has their name it is "Onboarding: Feras Odeh",
+  or "Exit: Sanjay Patel" (`lifecycle._named`, recorded in
+  `scripts/overrides.py`).
+- **A third of the row on a phone.** frappe keeps the right of a list row
+  as wide as three people's faces, which a phone does not show, so a task's
+  name had 146 of 350 pixels. Every list on a phone gives the row back.
+- **"Expected End Dat…"** on All Tasks is **Due Date**, as My Tasks says
+  Due. "3 not checked" beside it is OneIntake's, and stays.
+- **A template's task.** It showed Template twice, its status and a badge,
+  and offered Complete Task and Repeat; it is copied into projects and
+  never done. Once, and neither.
+- **"No timers."** Timers says none is running and how to start one, as
+  Toggl's and Harvest's do. Task Type's empty list said "like bug or
+  feature"; it says Site Visit or Inspection.
+- My Tasks, a task's page and Timers say what they follow (Asana's My
+  Tasks and Todoist's Upcoming; Linear's issue and Asana's task; Toggl's
+  and Harvest's timer) and leave UNMODELLED, which now holds only
+  OneInventory's Home and the item page.
+- Task Delays is ERPNext's and lists every task, HR's among them; a late
+  HR step is a late task, so it stays.
+- OneInventory's Home and item page, the last two, say what they follow:
+  Shopify's admin Home, and Shopify's product page with Odoo's product
+  form. UNMODELLED is empty.

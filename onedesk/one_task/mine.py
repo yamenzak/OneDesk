@@ -103,6 +103,7 @@ def tasks(view: str = "mine") -> list[dict]:
 		# What a task OneIntake made is about, where it is in no project.
 		if not one.project and one.one_about_doctype and one.one_about:
 			one.about_title = about(one.one_about_doctype, one.one_about)
+		one.subject = unnamed(one.subject, (one.place or {}).get("label") or one.get("about_title"))
 		grouped.setdefault(when(one.due, today), []).append(one)
 	return [
 		{
@@ -169,6 +170,14 @@ def place(project: str | None, title: str | None = None) -> dict | None:
 				"kind": doctype,
 			}
 	return {"label": title or project, "route": f"/desk/project/{project}", "kind": "Project"}
+
+
+def unnamed(subject: str | None, where: str | None) -> str | None:
+	"""A task's subject without the name the row already says beside it: HRMS
+	names an onboarding's step "Plan the first week : Feras Odeh". Pure."""
+	if subject and where and subject.endswith(f" : {where}") and len(subject) > len(where) + 3:
+		return subject[: -len(where) - 3]
+	return subject
 
 
 def about(doctype: str, name: str) -> str:

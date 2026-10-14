@@ -757,6 +757,12 @@ a.one-chart-head:hover .one-stat-label {
 	[data-page-route^="List/"] .frappe-list .result .list-row .mobile-layout {
 		min-width: 0;
 	}
+	/* frappe keeps the right of a row as wide as three people's faces
+	 * (list.scss, has-assign-to), which a phone does not show: on Tasks it
+	 * left the name 146 of 350 pixels. */
+	[data-page-route^="List/"] .frappe-list .result.result .list-row .level-right.level-right {
+		min-width: 0;
+	}
 	/* Under the name frappe sets its fields in a line that clips at the edge,
 	 * so a pill after a long name went missing. As a flex line the text
 	 * shortens with an ellipsis and a pill keeps its width. */

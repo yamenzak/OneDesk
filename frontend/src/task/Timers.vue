@@ -2,7 +2,9 @@
   <!-- The reader's timers. Beside the rail's Timers tile, frappe-ui's Popover
        anchored to the tile (`reference`), opened and closed by the tile
        (desk.js `onedesk.dock.timers_open`). On a phone, which has no rail,
-       the page /desk/timers. -->
+       the page /desk/timers.
+       Modelled on Toggl's and Harvest's timer: the one running with its
+       clock, pause and stop, then the ones paused to resume. -->
   <Popover
     v-if="reference"
     trigger="manual"

@@ -1,7 +1,9 @@
 <template>
   <!-- OneInventory's Home (one_inventory/page/inventory): what needs somebody
        today, and everything in OneInventory with what it is for
-       (one_inventory/home.py). Reports and Setup open their part of it. -->
+       (one_inventory/home.py). Reports and Setup open their part of it.
+       Modelled on Shopify's admin Home: the figures that matter with their
+       trend, then what needs somebody, then where everything is. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>

@@ -1,7 +1,9 @@
 <template>
   <!-- OneTask's page (one_task/page/my_tasks): its column, then the open
        view's tasks in one list, grouped by when each is due
-       (one_task/mine.py, read as the reader). -->
+       (one_task/mine.py, read as the reader).
+       Modelled on Asana's My Tasks and Todoist's Upcoming: Overdue, the next
+       seven days and Later, each task ticked off in place, a timer on it. -->
   <div class="flex">
     <!-- The column stays in sight while the list scrolls. -->
     <div class="sticky top-12 h-[calc(100svh-3rem)] shrink-0">

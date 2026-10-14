@@ -1,6 +1,7 @@
 """Two things that refuse the first onboarding a workspace submits."""
 
 import frappe
+from frappe import _
 from frappe.utils import getdate
 
 #: Where the answer already is. `Company.default_holiday_list` is what
@@ -26,19 +27,33 @@ BOARDING = "Employee Boarding"
 
 def typed(doc, method=None) -> None:
 	"""Employee Onboarding and Employee Separation on_update: the project HRMS
-	made for the checklist is typed as a boarding."""
+	made for the checklist is typed as a boarding, and named for whose it is."""
 	if doc.get("project") and not frappe.db.get_value("Project", doc.project, "project_type"):
 		_boarding()
 		frappe.db.set_value("Project", doc.project, "project_type", BOARDING, update_modified=False)
+	if doc.get("project"):
+		_named(doc.doctype, doc.project, doc.employee_name)
 
 
 def settle_boardings(*_args) -> None:
-	"""The boarding projects made before they were typed."""
+	"""The boarding projects made before they were typed or named."""
 	for boarding in BOARDINGS:
-		for project in frappe.get_all(boarding, filters={"project": ["is", "set"]}, pluck="project"):
-			if not frappe.db.get_value("Project", project, "project_type"):
+		for one in frappe.get_all(boarding, filters={"project": ["is", "set"]}, fields=["project", "employee_name"]):
+			if not frappe.db.get_value("Project", one.project, "project_type"):
 				_boarding()
-				frappe.db.set_value("Project", project, "project_type", BOARDING, update_modified=False)
+				frappe.db.set_value("Project", one.project, "project_type", BOARDING, update_modified=False)
+			_named(boarding, one.project, one.employee_name)
+
+
+def _named(boarding: str, project: str, person: str | None) -> None:
+	"""HRMS names the project "Employee Onboarding : " and the applicant's
+	email, which a task's Project column then says. While it still has their
+	name it is "Onboarding: Feras Odeh"; one somebody renamed is left."""
+	title = frappe.db.get_value("Project", project, "project_name") or ""
+	if not person or not title.startswith(f"{_(boarding)} : "):
+		return
+	said = _("Onboarding: {0}") if boarding == "Employee Onboarding" else _("Exit: {0}")
+	frappe.db.set_value("Project", project, "project_name", said.format(person), update_modified=False)
 
 
 def _boarding() -> None:

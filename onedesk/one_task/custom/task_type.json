@@ -1,0 +1,15 @@
+{
+ "custom_fields": [],
+ "doctype": "Task Type",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Task Type",
+   "doctype_or_field": "DocType",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": "A kind of task, such as Site Visit or Inspection, to sort and count tasks by."
+  }
+ ],
+ "sync_on_migrate": 1
+}

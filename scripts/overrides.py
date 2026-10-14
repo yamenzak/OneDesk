@@ -984,6 +984,13 @@ OVERRIDES = [
 		"def update_late_entry",
 	),
 	(
+		"A boarding project is named for whose it is",
+		"HRMS names it \"Employee Onboarding : \" and the applicant's email, which every task's Project column then says; lifecycle._named makes it \"Onboarding: Feras Odeh\" while it still has their name",
+		"onedesk/one_hr/lifecycle.py",
+		"hrms/hrms/controllers/employee_boarding_controller.py",
+		'project_name = _(self.doctype) + " : "',
+	),
+	(
 		"An onboarding takes the company's holiday list",
 		"an onboarding is for somebody who is not an employee yet, so their branch throws on a field nothing fills",
 		"onedesk/one_hr/lifecycle.py",
