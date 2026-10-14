@@ -12751,3 +12751,22 @@ phone, the list and two timesheets, one billable and one not.
   OneInventory's heads to `one/stages.py`, as OneProject's heads use them
   now too. Opened from the direct address a timesheet shows OneHR's rail,
   frappe's home for it; from OneProject's rail it stays in OneProject.
+
+**OneProject, again: Templates.** Looked at as Karim, who may read
+templates, and as Samir, who makes them, at 1440 wide and on a phone.
+
+- **Boxes for a reader.** To Karim every cell of a template's tasks was a
+  disabled input, a gray box round each name and each hour, and each task
+  a greyed flag button. Somebody who may only read it reads text now: the
+  name, a blue flag on a milestone and nothing on the rest, the hours.
+  Samir's page is as it was.
+- **"ID" over the names.** frappe heads a list's first column "ID" when its
+  kind has no title field, over "Aluminium & Glazing". It is named for the
+  kind now, "Project Template", on every such list (`list_names.js`,
+  recorded in `scripts/overrides.py`): Task Type, Activity Type and the
+  rest.
+- **"25 • 148" on a phone.** The counts read with what they count: "25
+  tasks", "148 days", "1 project".
+- The template page and the project page say what they follow: TeamGantt's
+  and Smartsheet's templates, and Asana's project with monday's boards.
+  Both leave UNMODELLED.

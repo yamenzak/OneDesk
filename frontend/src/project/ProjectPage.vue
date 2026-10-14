@@ -2,9 +2,10 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The views, as monday's and Asana's: each opens in place, as a
-           form's tabs do, across the top under the project's head. Frappe's
-           own form sidebar is on the page's right (onedesk.island_page). -->
+      <!-- A project's page. Modelled on Asana's project and monday's
+           boards: a head with its health, then views that each open in place,
+           as a form's tabs do, across the top under the head. Frappe's own
+           form sidebar is on the page's right (onedesk.island_page). -->
       <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <PlaceSpot :said="placed" class="mt-4" />

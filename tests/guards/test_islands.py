@@ -152,10 +152,8 @@ def test_a_setting_is_a_switch():
 UNMODELLED = {
 	"home/InventoryHome.vue",
 	"item/ItemPage.vue",
-	"project/ProjectPage.vue",
 	"task/MyTasks.vue",
 	"task/TaskPage.vue",
-	"template/TemplatePage.vue",
 	"task/Timers.vue",
 }
 

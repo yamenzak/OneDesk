@@ -1,7 +1,10 @@
 <template>
   <!-- The Tasks table in template mode: each task a day after the start and a
        number of days long, renamed, nested, linked and marked as a milestone
-       in place (one_project/template_view.py). -->
+       in place (one_project/template_view.py).
+       Modelled on TeamGantt's and Smartsheet's project templates: phases with their tasks under them,
+       each a day and a length from the start, what it waits on and its
+       hours. Somebody who may only read it reads text, not boxes. -->
   <div class="overflow-x-auto rounded-5 border border-outline-gray-2">
     <List :columns="COLUMNS" :row-height="44" divider="full" class="min-w-[52rem] list-gap-3 list-row-px-3">
       <ListHeader class="bg-surface-gray-1">
@@ -16,26 +19,28 @@
           <ListCell class="min-w-0 gap-1.5" :style="item.depth ? { paddingInlineStart: `${item.depth * 1.25}rem` } : null">
             <span v-if="item.depth" class="lucide-corner-down-right size-4 shrink-0 text-ink-gray-4" />
             <Button
+              v-if="canWrite"
               size="sm"
               icon="lucide-flag"
               :theme="item.is_milestone ? 'blue' : 'gray'"
               :variant="item.is_milestone ? 'subtle' : 'ghost'"
               :class="!item.is_milestone && 'opacity-40 hover:opacity-100'"
-              :disabled="!canWrite"
               :aria-label="item.is_milestone ? __('Not a Milestone') : __('Milestone')"
               :aria-pressed="!!item.is_milestone"
               @click="$emit('change', item.name, 'is_milestone', item.is_milestone ? 0 : 1)"
             />
+            <span v-else-if="item.is_milestone" class="lucide-flag size-4 shrink-0 text-ink-blue-5" :aria-label="__('Milestone')" />
             <TextInput
+              v-if="canWrite"
               size="sm"
               variant="ghost"
               class="min-w-0 flex-1"
               :class="item.is_group && 'font-semibold'"
               :model-value="item.subject"
-              :disabled="!canWrite"
               :aria-label="__('Task')"
               @change="(e) => rename(item, e.target.value)"
             />
+            <span v-else class="min-w-0 flex-1 truncate text-base text-ink-gray-8" :class="item.is_group && 'font-semibold'">{{ item.subject }}</span>
           </ListCell>
           <ListCell>
             <Popover v-if="canWrite">
@@ -66,6 +71,7 @@
           </ListCell>
           <ListCell>
             <TextInput
+              v-if="canWrite"
               type="number"
               size="sm"
               variant="ghost"
@@ -73,11 +79,11 @@
               step="0.5"
               class="w-16 tabular-nums"
               :model-value="item.expected_time || ''"
-              :disabled="!canWrite"
               :aria-label="__('Hours')"
               placeholder="–"
               @change="(e) => $emit('change', item.name, 'expected_time', e.target.value)"
             />
+            <span v-else class="text-base tabular-nums" :class="item.expected_time ? 'text-ink-gray-7' : 'text-ink-gray-4'">{{ item.expected_time || "–" }}</span>
           </ListCell>
           <ListCell>
             <Dropdown v-if="canWrite" :options="menu(item)">

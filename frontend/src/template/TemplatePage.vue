@@ -1,8 +1,10 @@
 <template>
   <Page wide>
     <Loading v-if="!said" />
-    <!-- The template's tasks. Frappe's own form sidebar is on the page's
-         right (onedesk.island_page). -->
+    <!-- A project template's page: what it adds up to and what it agrees
+         with the customer, then its tasks (Tasks.vue).
+         Modelled on TeamGantt's and Smartsheet's project templates. Frappe's
+         own form sidebar is on the page's right (onedesk.island_page). -->
     <div v-else class="pt-6">
       <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <PlaceSpot :said="placed" class="mb-4" />

@@ -2447,6 +2447,13 @@ OVERRIDES = [
 		"get_filters_for_args() {",
 	),
 	(
+		"A list's first column is named for its kind, not \"ID\"",
+		"list_names.js renames ListView.setup_columns' Subject column on a doctype with no title field from frappe's \"ID\" to the doctype's own name",
+		"onedesk/public/js/list_names.js",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		"setup_columns(",
+	),
+	(
 		"The address of a Projects view carries only the filters somebody chose",
 		"project_list.js takes project_type back out of ListView.get_search_params unless the filter area has it",
 		"onedesk/public/js/project_list.js",
