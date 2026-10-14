@@ -160,7 +160,7 @@ Reports: Account Balance (under a list's related reports (Bank Account's list));
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Asset | on a rail or a home | OneBook, OneHR, OneInventory | a head, 3 settings | yes | taught |  | yes |  |  | ar 3 | Equipment Handed Over |
+| Asset | on a rail or a home | OneBook, OneHR, OneInventory | a head, list script, 7 settings | yes | taught |  | yes |  |  | ar 3 | Equipment Handed Over |
 | Asset Activity | engine: an asset's history, kept as it is moved, repaired and depreciated | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Capitalization | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Asset Category | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |

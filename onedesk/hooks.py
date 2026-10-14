@@ -1083,6 +1083,7 @@ doctype_list_js = {
 	"Supplier": "public/js/supplier_list.js",
 	"Work Order": "public/js/work_order_list.js",
 	"BOM": "public/js/bom_list.js",
+	"Asset": "public/js/asset_list.js",
 }
 
 override_doctype_dashboards = {

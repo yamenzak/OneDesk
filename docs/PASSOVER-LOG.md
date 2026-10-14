@@ -11839,7 +11839,8 @@ Reports and Setup.
 | Making › Work Orders | done |
 | Making › Bills of Materials | done |
 | Making › Sent Out | done, redrawn after Katana and Odoo |
-| Assets › Assets | next |
+| Assets › Assets | done |
+| Assets › Upkeep | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12540,3 +12541,29 @@ and Back.
 | 5 Our look | modelled on Katana and Odoo, a table not text |
 | 8 Built from frappe | frappe-ui's List, Badge, Avatar, Progress and Dropdown |
 | What ERPNext already does | its Subcontracting Order's own statuses and calls; one company's orders |
+
+**Assets.** Looked at as Karim, at 1440 wide and on a phone: frappe's list
+and ERPNext's form, the CNC machine.
+
+- **How it is booked, not what it is.** Five of six assets said "Partially
+  Depreciated", in grey, which is how ERPNext books an asset in service. It
+  says **In Use**, in green; one written off to nothing says **Written
+  Off**; and Out of Order, grey before, is red (`asset_list.js`, recorded in
+  `scripts/overrides.py`). The form's status says the same.
+- **What it is worth was missing.** The list said nothing of money; it says
+  **Worth Now**, as the asset's head does, where it said the number.
+- **The name cut** ("CNC Profile Mach…") is 220 wide; Item Code leaves the
+  filter bar, as the name search covers it, and the bar fits one row.
+- **Off the edge on a phone.** Every row's status pill was cut at the
+  screen's edge, here and on any list whose second line is long enough:
+  frappe draws the rows in a table that grows to its longest line. The rule
+  that kept the Projects list to the screen's width (`desk.css`) holds for
+  every list now.
+- The rest holds: the head (Worth Over Its Life, Worth Now, Cost, Written
+  Off, Next Depreciation, Where, Next Service, Who Has It), Hand To and
+  Take Back, the tabs.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | plain-word states, its worth, nothing off the edge on a phone |
+| 9 Overrides recorded | "An asset in service says In Use" |

@@ -1407,9 +1407,9 @@ def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 	assert not fields["one_health"]["in_list_view"] and fields["one_health"]["in_standard_filter"]
 	# The Tree's button is the list's.
 	assert '__("Add {0}", [__("Project")])' in (tree.APP / "public" / "js" / "project_tree.js").read_text()
-	# On a phone the list is as wide as the screen.
+	# On a phone the list is as wide as the screen, as every list is.
 	css = (tree.APP / "public" / "css" / "desk.css").read_text()
-	assert '[data-page-route="List/Project/List"] .frappe-list .result .list-row-container' in css
+	assert '[data-page-route^="List/"] .frappe-list .result .list-row-container' in css
 
 
 def test_the_other_views_of_projects_are_oneprojects_own():

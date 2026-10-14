@@ -25,6 +25,38 @@
    "property": "show_title_field_in_link",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Asset",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "item_code"
+  },
+  {
+   "doc_type": "Asset",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "220",
+   "field_name": "asset_name"
+  },
+  {
+   "doc_type": "Asset",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "value_after_depreciation"
+  },
+  {
+   "doc_type": "Asset",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Worth Now",
+   "field_name": "value_after_depreciation"
   }
  ],
  "sync_on_migrate": 1

@@ -628,20 +628,21 @@ a.one-chart-head:hover .one-stat-label {
 	display: block;
 }
 
-/* On a phone the Projects list is as wide as the screen: frappe draws its rows
- * in a table that grows to its longest name, and a sub-project's name carries
- * its parent's ("Handrails · Villa Al Barsha"), so the status pill went off
- * the edge. As a block the name shortens with an ellipsis instead. */
+/* On a phone every list is as wide as the screen: frappe draws its rows in a
+ * table that grows to its longest line, so a sub-project's name carrying its
+ * parent's, or an asset's place and kind under its name, put the status pill
+ * off the edge. As a block the line shortens with an ellipsis instead. */
 @media (max-width: 767px) {
-	[data-page-route="List/Project/List"] .layout-main-section-wrapper .frappe-list .result-container .result.result {
+	[data-page-route^="List/"] .layout-main-section-wrapper .frappe-list .result-container .result.result {
 		display: block;
 	}
-	[data-page-route="List/Project/List"] .frappe-list .result .list-row-container {
+	[data-page-route^="List/"] .frappe-list .result .list-row-container {
 		max-width: 100%;
 	}
-	[data-page-route="List/Project/List"] .frappe-list .result .list-row,
-	[data-page-route="List/Project/List"] .frappe-list .result .list-row .level-left,
-	[data-page-route="List/Project/List"] .frappe-list .result .list-row .level-right {
+	[data-page-route^="List/"] .frappe-list .result .list-row,
+	[data-page-route^="List/"] .frappe-list .result .list-row .level-left,
+	[data-page-route^="List/"] .frappe-list .result .list-row .level-right,
+	[data-page-route^="List/"] .frappe-list .result .list-row .mobile-layout {
 		min-width: 0;
 	}
 }

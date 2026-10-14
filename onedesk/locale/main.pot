@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 07:10+0000\n"
-"PO-Revision-Date: 2026-10-14 07:10+0000\n"
+"POT-Creation-Date: 2026-10-14 07:27+0000\n"
+"PO-Revision-Date: 2026-10-14 07:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -12309,6 +12309,10 @@ msgstr ""
 msgid "In Stock"
 msgstr ""
 
+#: onedesk/public/js/asset_list.js:9 onedesk/public/js/asset_list.js:10
+msgid "In Use"
+msgstr ""
+
 #: frontend/src/home/InventoryStory.vue:34
 msgid "In and Out by Month"
 msgstr ""
@@ -19586,6 +19590,7 @@ msgid "Out of Office"
 msgstr ""
 
 #: frontend/src/upkeep/UpkeepPage.vue:87 frontend/src/upkeep/UpkeepPage.vue:141
+#: onedesk/public/js/asset_list.js:12
 msgid "Out of Order"
 msgstr ""
 
@@ -34003,7 +34008,9 @@ msgstr ""
 msgid "Worth Made by Month"
 msgstr ""
 
-#: frontend/src/home/InventoryStory.vue:89 onedesk/one_inventory/heads.py:1128
+#. Label of the 'value_after_depreciation' field in DocType 'Asset'
+#: frontend/src/home/InventoryStory.vue:89
+#: onedesk/one_inventory/custom/asset.json onedesk/one_inventory/heads.py:1128
 msgid "Worth Now"
 msgstr ""
 
@@ -34168,7 +34175,7 @@ msgstr ""
 msgid "Writing…"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1131
+#: onedesk/one_inventory/heads.py:1131 onedesk/public/js/asset_list.js:11
 msgid "Written Off"
 msgstr ""
 

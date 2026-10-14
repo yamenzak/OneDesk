@@ -2132,6 +2132,13 @@ OVERRIDES = [
 		'" = [?] " + company_currency',
 	),
 	(
+		"An asset in service says In Use",
+		"theirs says an asset in service Partially Depreciated in grey and one out of order in grey too; asset_list.js wraps get_indicator and says In Use in green, Written Off for one fully depreciated, and Out of Order in red",
+		"onedesk/public/js/asset_list.js",
+		"erpnext/erpnext/assets/doctype/asset/asset_list.js",
+		'return [__("Partially Depreciated"), "grey", "status,=,Partially Depreciated"];',
+	),
+	(
 		"A work order not started yet is grey",
 		"theirs colours a submitted work order not started red, as if it were late; work_order_list.js wraps get_indicator and says it grey, as the Shop Floor does",
 		"onedesk/public/js/work_order_list.js",

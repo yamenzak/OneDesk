@@ -118,6 +118,7 @@ COLLECTIONS = {
 	"Purchase Receipt": {"List": "the supplier with room for its name, without the number or the returned column"},
 	"Delivery Note": {"List": "the customer with room for its name, without the number, the returned column or the target warehouse filter"},
 	"Purchase Order": {"List": "the supplier with room for its name, without the number, the supplier link filter or the advance filter"},
+	"Asset": {"List": "the name with room for it, its status in plain words, and what it is worth now, without the number or the item filter"},
 	"BOM": {"List": "the item with room for its name, and whether it has steps said as a word, not a checkbox"},
 	"Work Order": {"List": "the item with room for its name, how many are made of how many in one column, without the number or the item filter"},
 	"Supplier": {"List": "the name with room for it, without the number column or the company-or-person column"},
