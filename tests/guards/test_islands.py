@@ -146,7 +146,6 @@ UNMODELLED = {
 	"task/TaskPage.vue",
 	"template/TemplatePage.vue",
 	"task/Timers.vue",
-	"upkeep/UpkeepPage.vue",
 }
 
 

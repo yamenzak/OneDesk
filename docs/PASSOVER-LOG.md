@@ -11840,7 +11840,8 @@ Reports and Setup.
 | Making › Bills of Materials | done |
 | Making › Sent Out | done, redrawn after Katana and Odoo |
 | Assets › Assets | done |
-| Assets › Upkeep | next |
+| Assets › Upkeep | done, redrawn after UpKeep and Fiix |
+| Reports | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12567,3 +12568,33 @@ and ERPNext's form, the CNC machine.
 |---|---|
 | 5 Our look | plain-word states, its worth, nothing off the edge on a phone |
 | 9 Overrides recorded | "An asset in service says In Use" |
+
+**Upkeep.** One of our own screens, on the list still to be drawn after an
+app people know. Looked at as Karim, at 1440 wide and on a phone, on all four
+tabs.
+
+- **Four tabs of text, redrawn as tables** (`UpkeepRows.vue`), modelled on
+  UpKeep's and Fiix's work order lists. **Due**: the asset with its picture
+  and the job, Late, Due Soon or Planned, who does it with their face, how
+  often, and when with "in 3 days", red once past; Mark Done in its menu.
+  **Repairs**: the asset and what is wrong, Out of Order or Mended, when it
+  broke, how long it was out of use (red while it still is) and what it
+  cost. **Plans**: the asset and who manages it, its jobs and how often,
+  its team, and when it is next due. **Done**: the asset and what was done,
+  Service or Repair, by whom, what it cost and when. A phone keeps the asset
+  with its Badge and the day.
+- **Figures that filter.** Late opens Due and Out of Order opens Repairs.
+- **The company's own.** The repairs, plans and assets read, and the
+  repairs counted and costed, were every company's; they are the reader's
+  company's now, the money in its own currency, and the page hears an
+  asset renamed. The atlas's counts for Upkeep fall to none.
+- **Numbers through frappe.** The figures printed with `String()`; they go
+  through `count`.
+- The page names what it is modelled on and comes off the list still to be
+  redrawn.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | modelled on UpKeep and Fiix, a table per tab, one status |
+| 8 Built from frappe | frappe-ui's List, Badge, Avatar and Dropdown |
+| What ERPNext already does | its maintenance log and repair states; one company's assets |

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 07:27+0000\n"
-"PO-Revision-Date: 2026-10-14 07:27+0000\n"
+"POT-Creation-Date: 2026-10-14 08:05+0000\n"
+"PO-Revision-Date: 2026-10-14 08:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,8 @@ msgstr ""
 
 #: frontend/src/supplier/SupplierItems.vue:62
 #: frontend/src/template/Tasks.vue:126
-#: frontend/src/template/TemplatePage.vue:88 onedesk/one/settings.py:803
+#: frontend/src/template/TemplatePage.vue:88
+#: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one/settings.py:803
 #: onedesk/one_inventory/heads.py:860
 msgid "1 day"
 msgstr ""
@@ -1519,15 +1520,16 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:122 frontend/src/project/Team.vue:52
 #: frontend/src/quotes/QuoteRows.vue:45 frontend/src/quotes/RequestRows.vue:41
 #: frontend/src/sent_out/OutRows.vue:59 frontend/src/template/Tasks.vue:85
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:26
-#: onedesk/public/js/project.js:31 onedesk/public/js/project.js:33
-#: onedesk/public/js/project.js:48 onedesk/public/js/project.js:52
-#: onedesk/public/js/project.js:77 onedesk/public/js/settings.js:983
-#: onedesk/public/js/settings.js:993 onedesk/public/js/settings.js:1004
-#: onedesk/public/js/settings.js:1016 onedesk/public/js/settings.js:1025
-#: onedesk/public/js/settings.js:1261 onedesk/public/js/settings.js:1310
-#: onedesk/public/js/settings.js:1342 onedesk/public/js/settings.js:2586
-#: onedesk/public/js/settings.js:3203 onedesk/public/js/settings.js:3260
+#: frontend/src/upkeep/UpkeepRows.vue:42 onedesk/one/sidebar/one/one.json
+#: onedesk/public/js/project.js:26 onedesk/public/js/project.js:31
+#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:48
+#: onedesk/public/js/project.js:52 onedesk/public/js/project.js:77
+#: onedesk/public/js/settings.js:983 onedesk/public/js/settings.js:993
+#: onedesk/public/js/settings.js:1004 onedesk/public/js/settings.js:1016
+#: onedesk/public/js/settings.js:1025 onedesk/public/js/settings.js:1261
+#: onedesk/public/js/settings.js:1310 onedesk/public/js/settings.js:1342
+#: onedesk/public/js/settings.js:2586 onedesk/public/js/settings.js:3203
+#: onedesk/public/js/settings.js:3260
 msgid "Actions"
 msgstr ""
 
@@ -3408,6 +3410,8 @@ msgid "Assemble frames"
 msgstr ""
 
 #. Label of the one_asset_title (Data) field in DocType 'Asset Maintenance Log'
+#: frontend/src/upkeep/UpkeepRows.vue:11 frontend/src/upkeep/UpkeepRows.vue:52
+#: frontend/src/upkeep/UpkeepRows.vue:83 frontend/src/upkeep/UpkeepRows.vue:112
 #: onedesk/one_inventory/custom/asset_maintenance_log.json
 #: onedesk/one_inventory/heads.py:1389 onedesk/one_inventory/heads.py:1398
 #: onedesk/one_inventory/heads.py:1407 onedesk/one_inventory/heads.py:1415
@@ -4535,8 +4539,8 @@ msgstr ""
 msgid "Bring Timesheets into Sales Invoices"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:144
-msgid "Broke {0}"
+#: frontend/src/upkeep/UpkeepRows.vue:54
+msgid "Broke"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
@@ -4703,6 +4707,7 @@ msgstr ""
 #. Label of the by (Select) field in DocType 'Tenant Event'
 #. Label of the by (Link) field in DocType 'Intake Lesson'
 #. Label of the by_date (Date) field in DocType 'Reading Ask'
+#: frontend/src/upkeep/UpkeepRows.vue:114
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:19
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:19
@@ -6433,6 +6438,7 @@ msgstr ""
 #: frontend/src/project/Overview.vue:154 frontend/src/project/Time.vue:35
 #: frontend/src/to_order/ToOrderPage.vue:27
 #: frontend/src/to_order/ToOrderPage.vue:156
+#: frontend/src/upkeep/UpkeepRows.vue:56 frontend/src/upkeep/UpkeepRows.vue:115
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:148
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:168
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
@@ -8097,7 +8103,7 @@ msgstr ""
 #: frontend/src/project/MilestoneLanes.vue:103
 #: frontend/src/project/Overview.vue:154
 #: frontend/src/project/ProjectPage.vue:28
-#: frontend/src/upkeep/UpkeepPage.vue:79
+#: frontend/src/upkeep/UpkeepPage.vue:82
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:35
@@ -8118,6 +8124,7 @@ msgstr ""
 msgid "Done By"
 msgstr ""
 
+#: frontend/src/upkeep/UpkeepRows.vue:116
 #: onedesk/public/js/upkeep_actions.js:11
 msgid "Done On"
 msgstr ""
@@ -8352,8 +8359,9 @@ msgstr ""
 #: frontend/src/project/TaskPanel.vue:31 frontend/src/project/Tasks.vue:21
 #: frontend/src/sent_out/OutRows.vue:14 frontend/src/task/MyTasks.vue:34
 #: frontend/src/task/MyTasks.vue:44 frontend/src/task/TaskPage.vue:23
-#: frontend/src/upkeep/UpkeepPage.vue:76 onedesk/one/portal.py:335
-#: onedesk/one_admin/accounts.py:217 onedesk/one_book/heads.py:324
+#: frontend/src/upkeep/UpkeepPage.vue:79 frontend/src/upkeep/UpkeepRows.vue:15
+#: onedesk/one/portal.py:335 onedesk/one_admin/accounts.py:217
+#: onedesk/one_book/heads.py:324
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_inventory/heads.py:1399 onedesk/one_project/heads.py:216
 #: onedesk/public/js/settings.js:1745 onedesk/public/js/task_new.js:41
@@ -8374,13 +8382,13 @@ msgstr ""
 msgid "Due Date Changed"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:75
+#: frontend/src/project/Overview.vue:75 frontend/src/upkeep/UpkeepRows.vue:195
 msgid "Due Soon"
 msgstr ""
 
 #. Label of a number card
 #. Label of a number card in the OneBook Workspace
-#: frontend/src/upkeep/UpkeepPage.vue:85
+#: frontend/src/upkeep/UpkeepPage.vue:88
 #: onedesk/one_book/number_card/due_this_week/due_this_week.json
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Due This Week"
@@ -8416,7 +8424,6 @@ msgstr ""
 #: frontend/src/project/Overview.vue:353 frontend/src/project/Suppliers.vue:70
 #: frontend/src/project/Suppliers.vue:117
 #: frontend/src/sent_out/SentOutPage.vue:106
-#: frontend/src/upkeep/UpkeepPage.vue:123
 msgid "Due {0}"
 msgstr ""
 
@@ -11705,6 +11712,7 @@ msgid "How Many Made"
 msgstr ""
 
 #. Label of the 'frequency' field in DocType 'Project'
+#: frontend/src/upkeep/UpkeepRows.vue:14
 #: onedesk/one_project/custom/project.json
 msgid "How Often"
 msgstr ""
@@ -13236,6 +13244,7 @@ msgid "Job Requisition"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: frontend/src/upkeep/UpkeepRows.vue:84
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Jobs"
 msgstr ""
@@ -13419,6 +13428,7 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Mail Folder'
 #. Label of the one_kind (Select) field in DocType 'Project'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
+#: frontend/src/upkeep/UpkeepRows.vue:113
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -13734,7 +13744,7 @@ msgstr ""
 msgid "Last synced {0}."
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:88
+#: frontend/src/upkeep/UpkeepPage.vue:91
 msgid "Last twelve months"
 msgstr ""
 
@@ -13746,8 +13756,8 @@ msgstr ""
 msgid "Lasts (Days)"
 msgstr ""
 
-#: frontend/src/project/group.js:41 frontend/src/upkeep/UpkeepPage.vue:86
-#: frontend/src/upkeep/UpkeepPage.vue:121
+#: frontend/src/project/group.js:41 frontend/src/upkeep/UpkeepPage.vue:89
+#: frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:186
 #: onedesk/one_project/report/workload/workload.py:177
 #: onedesk/public/js/band.js:172
@@ -15114,7 +15124,7 @@ msgstr ""
 msgid "Managed by HR."
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:160
+#: frontend/src/upkeep/UpkeepRows.vue:94
 msgid "Managed by {0}"
 msgstr ""
 
@@ -15186,7 +15196,7 @@ msgstr ""
 msgid "Mark Attendance"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:126 onedesk/public/js/upkeep_actions.js:9
+#: frontend/src/upkeep/UpkeepRows.vue:201 onedesk/public/js/upkeep_actions.js:9
 #: onedesk/public/js/upkeep_actions.js:14
 msgid "Mark Done"
 msgstr ""
@@ -15498,7 +15508,7 @@ msgstr ""
 msgid "Memory"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:141
+#: frontend/src/upkeep/UpkeepRows.vue:197
 msgid "Mended"
 msgstr ""
 
@@ -16447,7 +16457,8 @@ msgstr ""
 msgid "Newsletters"
 msgstr ""
 
-#: frontend/src/project/Media.vue:11 onedesk/one/print_blocks.py:604
+#: frontend/src/project/Media.vue:11 frontend/src/upkeep/UpkeepRows.vue:86
+#: onedesk/one/print_blocks.py:604
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400 onedesk/public/js/item_new.js:345
 #: onedesk/public/js/project_actions.js:619
@@ -16527,10 +16538,6 @@ msgstr ""
 
 #: onedesk/one_book/ready.py:61
 msgid "Next year's is made three days before this one ends."
-msgstr ""
-
-#: frontend/src/upkeep/UpkeepPage.vue:159
-msgid "Next {0}"
 msgstr ""
 
 #: onedesk/one_admin/home.py:155 onedesk/public/js/doctype_settings.js:453
@@ -16774,7 +16781,7 @@ msgstr ""
 msgid "No emails"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:97
+#: frontend/src/upkeep/UpkeepPage.vue:100
 msgid "No equipment is serviced on a plan yet"
 msgstr ""
 
@@ -17687,7 +17694,7 @@ msgstr ""
 msgid "Nothing bought from them yet"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:96
+#: frontend/src/upkeep/UpkeepPage.vue:99
 msgid "Nothing broken"
 msgstr ""
 
@@ -17700,11 +17707,11 @@ msgstr ""
 msgid "Nothing dated on or before this day can then be entered, changed or cancelled, by anybody."
 msgstr ""
 
-#: frontend/src/floor/ShopFloor.vue:49 frontend/src/upkeep/UpkeepPage.vue:98
+#: frontend/src/floor/ShopFloor.vue:49 frontend/src/upkeep/UpkeepPage.vue:101
 msgid "Nothing done yet"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:95 onedesk/one_inventory/heads.py:834
+#: frontend/src/upkeep/UpkeepPage.vue:98 onedesk/one_inventory/heads.py:834
 msgid "Nothing due"
 msgstr ""
 
@@ -19119,7 +19126,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:127
+#: frontend/src/upkeep/UpkeepRows.vue:202
 msgid "Open Asset"
 msgstr ""
 
@@ -19589,7 +19596,7 @@ msgstr ""
 msgid "Out of Office"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:87 frontend/src/upkeep/UpkeepPage.vue:141
+#: frontend/src/upkeep/UpkeepPage.vue:90 frontend/src/upkeep/UpkeepRows.vue:197
 #: onedesk/public/js/asset_list.js:12
 msgid "Out of Order"
 msgstr ""
@@ -19606,7 +19613,7 @@ msgstr ""
 msgid "Out of Stock, Month by Month"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1408
+#: frontend/src/upkeep/UpkeepRows.vue:55 onedesk/one_inventory/heads.py:1408
 msgid "Out of Use"
 msgstr ""
 
@@ -19616,10 +19623,6 @@ msgstr ""
 
 #: onedesk/public/js/onemail.js:916
 msgid "Out of office for {0}"
-msgstr ""
-
-#: frontend/src/upkeep/UpkeepPage.vue:143
-msgid "Out {0} days"
 msgstr ""
 
 #. Label of the output_per_million (Float) field in DocType 'AI Model'
@@ -20890,7 +20893,7 @@ msgstr ""
 msgid "Plan Key"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:187
+#: frontend/src/upkeep/UpkeepPage.vue:114
 msgid "Plan a Service"
 msgstr ""
 
@@ -20921,7 +20924,7 @@ msgid "Plan the tasks"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:33 frontend/src/project/Tasks.vue:23
-#: frontend/src/task/TaskPage.vue:27
+#: frontend/src/task/TaskPage.vue:27 frontend/src/upkeep/UpkeepRows.vue:195
 msgid "Planned"
 msgstr ""
 
@@ -20957,7 +20960,7 @@ msgstr ""
 msgid "Planning drawings and statements"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:78
+#: frontend/src/upkeep/UpkeepPage.vue:81
 msgid "Plans"
 msgstr ""
 
@@ -23035,12 +23038,16 @@ msgstr ""
 msgid "Repacked {0}"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:77 onedesk/one_inventory/heads.py:1148
+#: frontend/src/upkeep/UpkeepRows.vue:128
+msgid "Repair"
+msgstr ""
+
+#: frontend/src/upkeep/UpkeepPage.vue:80 onedesk/one_inventory/heads.py:1148
 #: onedesk/one_inventory/home.py:71 onedesk/public/js/page_views.js:44
 msgid "Repairs"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:88
+#: frontend/src/upkeep/UpkeepPage.vue:91
 msgid "Repairs Cost"
 msgstr ""
 
@@ -23110,7 +23117,7 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: frontend/src/upkeep/UpkeepPage.vue:186
+#: frontend/src/upkeep/UpkeepPage.vue:113
 msgid "Report a Breakdown"
 msgstr ""
 
@@ -24068,7 +24075,7 @@ msgstr ""
 #: frontend/src/quotes/QuotesPage.vue:15
 #: frontend/src/sent_out/SentOutPage.vue:17
 #: frontend/src/to_order/ToOrderPage.vue:14
-#: frontend/src/upkeep/UpkeepPage.vue:14
+#: frontend/src/upkeep/UpkeepPage.vue:15
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/public/js/crumb_switch.js:133 onedesk/public/js/desk.js:171
 #: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:47
@@ -24512,6 +24519,7 @@ msgid "Servers"
 msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
+#: frontend/src/upkeep/UpkeepRows.vue:128
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/public/js/item_new.js:11
 msgid "Service"
@@ -25030,6 +25038,10 @@ msgstr ""
 msgid "Show Completed"
 msgstr ""
 
+#: frontend/src/upkeep/UpkeepPage.vue:89
+msgid "Show Due"
+msgstr ""
+
 #: onedesk/www/error.html:25
 msgid "Show Error"
 msgstr ""
@@ -25085,6 +25097,10 @@ msgstr ""
 
 #: frontend/src/quotes/QuotesPage.vue:117
 msgid "Show Quotes to Decide"
+msgstr ""
+
+#: frontend/src/upkeep/UpkeepPage.vue:90
+msgid "Show Repairs"
 msgstr ""
 
 #: frontend/src/to_order/ToOrderPage.vue:154
@@ -26089,6 +26105,7 @@ msgstr ""
 #: frontend/src/quotes/QuoteRows.vue:10 frontend/src/quotes/RequestRows.vue:9
 #: frontend/src/sent_out/OutRows.vue:11 frontend/src/stock/StockOnHand.vue:30
 #: frontend/src/task/TaskPage.vue:10 frontend/src/task/TaskTime.vue:26
+#: frontend/src/upkeep/UpkeepRows.vue:12 frontend/src/upkeep/UpkeepRows.vue:53
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one/portal.py:66 onedesk/one/portal.py:67 onedesk/one/portal.py:68
@@ -27189,6 +27206,7 @@ msgstr ""
 #: frontend/src/project/Header.vue:15 frontend/src/project/Header.vue:29
 #: frontend/src/project/Overview.vue:306
 #: frontend/src/project/ProjectPage.vue:188 frontend/src/project/Team.vue:11
+#: frontend/src/upkeep/UpkeepRows.vue:85
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_inventory/heads.py:1392
 msgid "Team"
@@ -30395,7 +30413,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/InventoryHome.vue:262
-#: frontend/src/upkeep/UpkeepPage.vue:182 onedesk/one_inventory/home.py:68
+#: frontend/src/upkeep/UpkeepPage.vue:109 onedesk/one_inventory/home.py:68
 #: onedesk/one_inventory/page/upkeep/upkeep.js:10
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:41
@@ -33154,7 +33172,7 @@ msgid "Which workstations are making, which are stopped and why, and what is run
 msgstr ""
 
 #. Label of the user (Link) field in DocType 'Legal Acceptance'
-#: onedesk/one/automation_steps.py:29
+#: frontend/src/upkeep/UpkeepRows.vue:13 onedesk/one/automation_steps.py:29
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/public/js/intake.js:105
 msgid "Who"
@@ -36218,7 +36236,8 @@ msgstr ""
 
 #: frontend/src/supplier/SupplierItems.vue:62
 #: frontend/src/template/Tasks.vue:126
-#: frontend/src/template/TemplatePage.vue:88 onedesk/one_crm/heads.py:32
+#: frontend/src/template/TemplatePage.vue:88
+#: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one_crm/heads.py:32
 #: onedesk/one_crm/heads.py:40 onedesk/one_intake/understand.py:390
 #: onedesk/one_inventory/heads.py:860 onedesk/one_project/ai.py:897
 msgid "{0} days"
@@ -36981,7 +37000,7 @@ msgstr ""
 msgid "{0} is over budget"
 msgstr ""
 
-#: onedesk/one_inventory/upkeep.py:251
+#: onedesk/one_inventory/upkeep.py:262
 msgid "{0} is recorded already."
 msgstr ""
 

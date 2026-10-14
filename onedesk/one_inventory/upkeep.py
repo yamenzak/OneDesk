@@ -5,6 +5,7 @@ Maintenance, Asset Maintenance Log and Asset Repair keep it. How it works is
 in the module's README, Under the hood.
 """
 
+import erpnext
 import frappe
 from frappe import _
 from frappe.utils import add_days, add_months, flt, get_datetime, getdate, now_datetime, today
@@ -24,7 +25,7 @@ def read(view: str = "due", search: str | None = None) -> dict:
 			"repair": bool(frappe.has_permission("Asset Repair", "create")),
 			"plan": bool(frappe.has_permission("Asset Maintenance", "create")),
 		},
-		"currency": frappe.get_cached_value("Company", frappe.db.get_single_value("Global Defaults", "default_company"), "default_currency"),
+		"currency": erpnext.get_company_currency(erpnext.get_default_company()),
 		"figures": figures(),
 		"due": [],
 		"repairs": [],
@@ -58,13 +59,18 @@ def figures() -> dict:
 			late=sum(1 for one in open_ if one.due_date and getdate(one.due_date) < day),
 		)
 	if frappe.has_permission("Asset Repair", "read"):
-		out["broken"] = len(frappe.get_list("Asset Repair", filters={"docstatus": 0, "repair_status": "Pending"}, pluck="name"))
+		company = erpnext.get_default_company()
+		out["broken"] = len(
+			frappe.get_list(
+				"Asset Repair", filters={"docstatus": 0, "repair_status": "Pending", "company": company}, pluck="name"
+			)
+		)
 		out["repairs_cost"] = flt(
 			sum(
 				flt(one.repair_cost)
 				for one in frappe.get_list(
 					"Asset Repair",
-					filters={"docstatus": 1, "completion_date": [">=", add_months(today(), -12)]},
+					filters={"docstatus": 1, "company": company, "completion_date": [">=", add_months(today(), -12)]},
 					fields=["repair_cost"],
 				)
 			)
@@ -79,7 +85,11 @@ def _assets(names) -> dict:
 		return {}
 	return {
 		one.name: one
-		for one in frappe.get_all("Asset", filters={"name": ["in", names]}, fields=["name", "asset_name", "image", "location", "custodian"])
+		for one in frappe.get_all(
+			"Asset",
+			filters={"name": ["in", names], "company": erpnext.get_default_company()},
+			fields=["name", "asset_name", "image", "location", "custodian"],
+		)
 	}
 
 
@@ -123,7 +133,7 @@ def repairs(search: str | None = None) -> list[dict]:
 	or_filters = {"asset_name": ["like", f"%{search}%"], "description": ["like", f"%{search}%"]} if search else None
 	found = frappe.get_list(
 		"Asset Repair",
-		filters={"docstatus": ["<", 2]},
+		filters={"docstatus": ["<", 2], "company": erpnext.get_default_company()},
 		or_filters=or_filters,
 		fields=["name", "asset", "asset_name", "repair_status", "failure_date", "completion_date", "repair_cost", "description", "docstatus", "downtime"],
 		order_by="failure_date desc",
@@ -155,6 +165,7 @@ def plans(search: str | None = None) -> list[dict]:
 		return []
 	found = frappe.get_list(
 		"Asset Maintenance",
+		filters={"company": erpnext.get_default_company()},
 		fields=["name", "asset_name", "maintenance_team", "maintenance_manager_name"],
 		order_by="modified desc",
 		limit=MOST,

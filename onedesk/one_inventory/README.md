@@ -655,10 +655,12 @@ hold, given to the stores.
 
 **Upkeep** in the rail keeps servicing and mending on one page. The figures
 say how many services are due this week, how many are late, what is out of
-order, and what repairs cost over the last twelve months.
+order, and what repairs cost over the last twelve months. Each tab is a
+table, as UpKeep and Fiix lay out their work orders, one status to a row.
 
 - **Due** lists each service not done yet, the soonest first, with the
-  asset, the job, who does it and how often, red once late. **Mark Done**
+  asset, the job, Late, Due Soon or Planned, who does it, how often and
+  when, red once late. **Mark Done**
   asks the day and what was done, records it on ERPNext's own maintenance
   log and works out the next date from that day.
 - **Repairs** lists what broke, what is wrong and how many days it has been

@@ -173,7 +173,6 @@ UNHEARD = {
 	"task": 2,
 	"item": 11,
 	"home": 8,
-	"upkeep": 1,
 	"my_tasks": 2,
 	"timers": 4,
 }
@@ -187,7 +186,6 @@ NOT_THE_COMPANYS = {
 	"task": 2,
 	"item": 9,
 	"home": 5,
-	"upkeep": 3,
 	"my_tasks": 2,
 	"timers": 3,
 }
