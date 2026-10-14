@@ -1,7 +1,7 @@
 <template>
-  <!-- Upkeep (one_inventory/page/upkeep): servicing and mending the company's
-       equipment as one page. Due lists the services not done yet, Repairs
-       what broke, Plans each asset's servicing, and Done what was done
+  <!-- Asset Maintenance (one_inventory/page/upkeep): servicing and mending the company's
+       equipment as one page. Planned lists the maintenance not done yet, Asset
+       Repair what broke, Asset Maintenance each asset's plan, and Completed what was done
        (one_inventory/upkeep.py, upkeep_actions.js). Modelled on UpKeep's and
        Fiix's work order lists: a table per tab, one status per row. -->
   <Page wide>
@@ -76,19 +76,19 @@ watch(search, () => {
 });
 
 const views = computed(() => [
-  { key: "due", label: __("Due"), count: (said.value?.figures.late || 0) + (said.value?.figures.this_week || 0) || null },
-  { key: "repairs", label: __("Repairs"), count: said.value?.figures.broken || null },
-  { key: "plans", label: __("Plans") },
-  { key: "log", label: __("Done") },
+  { key: "due", label: __("Planned"), count: (said.value?.figures.late || 0) + (said.value?.figures.this_week || 0) || null },
+  { key: "repairs", label: __("Asset Repair"), count: said.value?.figures.broken || null },
+  { key: "plans", label: __("Asset Maintenance") },
+  { key: "log", label: __("Completed") },
 ]);
 
 const figures = computed(() => {
   const f = said.value.figures;
   return [
     f.this_week !== null && { title: __("Due This Week"), value: count(f.this_week) },
-    f.late !== null && { title: __("Late"), value: count(f.late), alarm: f.late > 0, action: f.late ? { icon: "lucide-filter", label: __("Show Due"), onClick: () => (shown.value = "due") } : null },
-    f.broken !== null && { title: __("Out of Order"), value: count(f.broken), alarm: f.broken > 0, action: f.broken ? { icon: "lucide-filter", label: __("Show Repairs"), onClick: () => (shown.value = "repairs") } : null },
-    f.repairs_cost !== null && { title: __("Repairs Cost"), value: money(f.repairs_cost, said.value.currency), note: __("Last twelve months") },
+    f.late !== null && { title: __("Overdue"), value: count(f.late), alarm: f.late > 0, action: f.late ? { icon: "lucide-filter", label: __("Show Planned"), onClick: () => (shown.value = "due") } : null },
+    f.broken !== null && { title: __("Out of Order"), value: count(f.broken), alarm: f.broken > 0, action: f.broken ? { icon: "lucide-filter", label: __("Show Asset Repairs"), onClick: () => (shown.value = "repairs") } : null },
+    f.repairs_cost !== null && { title: __("Repair Cost"), value: money(f.repairs_cost, said.value.currency), note: __("Last twelve months") },
   ].filter(Boolean);
 });
 
@@ -97,8 +97,8 @@ const empty = computed(
     ({
       due: __("Nothing due"),
       repairs: __("Nothing broken"),
-      plans: __("No equipment is serviced on a plan yet"),
-      log: __("Nothing done yet"),
+      plans: __("No Asset Maintenance yet"),
+      log: __("Nothing completed yet"),
     })[shown.value]
 );
 
@@ -106,12 +106,12 @@ const rows = computed(() => said.value[shown.value] || []);
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("Upkeep") });
+  props.onTitle?.({ title: __("Asset Maintenance") });
   extended(s);
   props.onActions?.(
     [
-      s.can.repair && { label: __("Report a Breakdown"), primary: true, onClick: () => onedesk().upkeep.broken() },
-      s.can.plan && { label: __("Plan a Service"), onClick: () => onedesk().upkeep.plan() },
+      s.can.repair && { label: __("New Asset Repair"), primary: true, onClick: () => onedesk().upkeep.broken() },
+      s.can.plan && { label: __("New Asset Maintenance"), onClick: () => onedesk().upkeep.plan() },
     ].filter(Boolean)
   );
 }

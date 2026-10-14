@@ -11,13 +11,13 @@ onedesk.item.GROUPS = [
 	[__("Stock"), ["valuation_method", "valuation_rate", "allow_negative_stock", "shelf_life_in_days", "end_of_life", "warranty_period", "weight_per_unit", "weight_uom"]],
 	[__("Reordering"), ["reorder_levels", "default_material_request_type", "safety_stock", "lead_time_days", "min_order_qty"]],
 	[__("Units"), ["uoms", "purchase_uom", "sales_uom"]],
-	[__("Serial Numbers and Batches"), ["has_serial_no", "serial_no_series", "use_serial_no_wise_valuation", "has_batch_no", "create_new_batch", "batch_number_series", "has_expiry_date", "retain_sample", "sample_quantity"]],
+	[__("Serial Nos and Batches"), ["has_serial_no", "serial_no_series", "use_serial_no_wise_valuation", "has_batch_no", "create_new_batch", "batch_number_series", "has_expiry_date", "retain_sample", "sample_quantity"]],
 	[__("Variants"), ["has_variants", "variant_based_on"]],
 	[__("Buying"), ["is_purchase_item", "is_customer_provided_item", "delivered_by_supplier", "supplier_items", "over_delivery_receipt_allowance", "country_of_origin", "customs_tariff_number", "purchase_tax_withholding_category", "enable_deferred_expense", "no_of_months_exp"]],
 	[__("Selling"), ["is_sales_item", "standard_rate", "max_discount", "over_billing_allowance", "grant_commission", "customer_items", "sales_tax_withholding_category", "enable_deferred_revenue", "no_of_months"]],
-	[__("Making"), ["include_item_in_manufacturing", "is_sub_contracted_item", "production_capacity"]],
+	[__("Manufacturing"), ["include_item_in_manufacturing", "is_sub_contracted_item", "production_capacity"]],
 	[__("Quality"), ["inspection_required_before_purchase", "inspection_required_before_delivery", "quality_inspection_template"]],
-	[__("Equipment"), ["is_fixed_asset", "asset_category", "asset_naming_series", "auto_create_assets", "is_grouped_asset"]],
+	[__("Asset"), ["is_fixed_asset", "asset_category", "asset_naming_series", "auto_create_assets", "is_grouped_asset"]],
 	[__("Accounts"), ["item_defaults", "taxes"]],
 ];
 // Changed in place on the page: its name, its description, whether it is

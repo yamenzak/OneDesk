@@ -1339,9 +1339,9 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 
 @check
 def oneproject_buying_says_what_oneinventory_says():
-	"""A project's Buying says each order, request and receipt in the word its
-	own head says it in OneInventory: Al Noor's late order on the villa is
-	Late there as it is on the order. Issue Stock from the project uses stock
+	"""A project's Buying says each order, request and receipt in ERPNext's
+	status, as urgent as its own head in OneInventory says it is: Al Noor's
+	late order on the villa is red there as it is on the order. Issue Stock from the project uses stock
 	on it, as Transfer Stock moves it, and its cost is the project's. To
 	Order and Quotes name a request's project by its name."""
 	from onedesk.one_inventory import heads, order, quotes, stock
@@ -1352,10 +1352,11 @@ def oneproject_buying_says_what_oneinventory_says():
 		papers = buying.papers(villa)["papers"]
 	for one in papers:
 		if one["doctype"] in heads.STANDS:
-			said = heads.stands(frappe.get_doc(one["doctype"], one["name"]))
-			assert (one["status"], one["tone"]) == (said["label"], said["colour"]), (one, said)
+			doc = frappe.get_doc(one["doctype"], one["name"])
+			assert one["tone"] == heads.stands(doc), (one, heads.stands(doc))
+			assert one["status"] == ("Draft" if doc.docstatus == 0 else doc.status), one
 	late = [one for one in papers if one["doctype"] == "Purchase Order" and one["tone"] == "red"]
-	assert late and all(one["status"] == "Late" for one in late), papers
+	assert late and all(one["status"].startswith("To Receive") for one in late), papers
 	with as_user("karim@one.test"):
 		rows = order.rows()
 		asked = quotes.asked()
@@ -1386,9 +1387,9 @@ def oneproject_a_timesheet_says_what_is_left_to_bill():
 		assert billable and own, (billable, own)
 		said = head.said(frappe.get_doc("Timesheet", billable[0]), record)
 		assert said["sentence"]["colour"] == "orange", said["sentence"]
-		assert [(step["label"], step["state"]) for step in said["band"][0]["steps"]] == [("Logged", "done"), ("Billed", "now")], said["band"]
+		assert [(step["label"], step["state"]) for step in said["band"][0]["steps"]] == [("Submitted", "done"), ("Billed", "now")], said["band"]
 		said = head.said(frappe.get_doc("Timesheet", own[0]), record)
-		assert said["sentence"]["colour"] == "gray" and [step["label"] for step in said["band"][0]["steps"]] == ["Logged"], said
+		assert said["sentence"]["colour"] == "gray" and [step["label"] for step in said["band"][0]["steps"]] == ["Submitted"], said
 
 
 @check
@@ -1838,7 +1839,7 @@ def oneproject_workload_time_and_templates_read_true():
 @check
 def oneproject_and_onetask_reports_open_for_their_people():
 	"""ERPNext's and HRMS's project reports in the two rails run for Samir,
-	the busy ones with rows, under the rail's names; Mariam, who works on no
+	the busy ones with rows, under their own names; Mariam, who works on no
 	project, is not offered Task Delays."""
 	from frappe.desk.desk_views import DeskViews
 	from frappe.desk.query_report import run
@@ -1846,12 +1847,12 @@ def oneproject_and_onetask_reports_open_for_their_people():
 	rails = {
 		"OneProject": {
 			"Project Progress": "Project Progress",
-			"Project Profitability": "Profit on Billed Hours",
-			"Timesheet Billing Summary": "Billable Hours",
-			"Daily Timesheet Summary": "Hours by Day",
+			"Project Profitability": "Project Profitability",
+			"Timesheet Billing Summary": "Timesheet Billing Summary",
+			"Daily Timesheet Summary": "Daily Timesheet Summary",
 			"Stock by Project": "Stock by Project",
 		},
-		"OneTask": {"Delayed Tasks Summary": "Task Delays"},
+		"OneTask": {"Delayed Tasks Summary": "Delayed Tasks Summary"},
 	}
 	company = frappe.defaults.get_global_default("company")
 	month = {"from_date": add_days(today(), -60), "to_date": today()}
@@ -5911,8 +5912,8 @@ def oneinventory_making_from_bill_to_finished_goods():
 	# rest is still to do, not lost.
 	going = frappe.get_doc("Work Order", {"project": tower, "docstatus": 1})
 	steps = {step["label"]: step for step in heads.work_progress(going)["steps"]}
-	assert going.status == "In Process" and steps["Made"]["note"] == "12 of 30 Nos"
-	assert steps["Materials Sent"]["note"] == "All on the floor" and steps["Materials Sent"]["state"] == "done"
+	assert going.status == "In Process" and steps["Manufactured"]["note"] == "12 of 30 Nos"
+	assert steps["Material Transferred"]["note"] == "All on the floor" and steps["Material Transferred"]["state"] == "done"
 	steps = {one.operation: one for one in frappe.get_all("Job Card", filters={"work_order": going.name, "docstatus": 1}, fields=["operation", "total_completed_qty", "process_loss_qty"])}
 	assert steps["Cutting"].total_completed_qty == 30 and steps["Assembly"].total_completed_qty == 12 and not steps["Assembly"].process_loss_qty
 
@@ -5949,7 +5950,7 @@ def oneinventory_making_from_bill_to_finished_goods():
 
 	# The villa's profile went out to be coated and came back.
 	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1, "project": villa})
-	assert sent.project == villa and sent.status == "Completed" and {step["label"]: step["state"] for step in heads.sub_progress(sent)["steps"]} == {"Ordered": "done", "Materials Sent": "done", "Back": "done"}
+	assert sent.project == villa and sent.status == "Completed" and {step["label"]: step["state"] for step in heads.sub_progress(sent)["steps"]} == {"Ordered": "done", "Material Transferred": "done", "Received": "done"}
 	back = frappe.get_doc("Subcontracting Receipt", frappe.db.get_value("Subcontracting Receipt Item", {"subcontracting_order": sent.name, "docstatus": 1}, "parent"))
 	assert heads.sub_order(back)["value"] == sent.name
 	assert frappe.db.get_value("Purchase Order", sent.purchase_order, "status") == "To Bill"

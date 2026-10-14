@@ -88,9 +88,12 @@ on any screen gets a guard first, then the fix.
     from our print blocks in the house look.
 12. **Plain words**: every heading, note, button, column, badge, empty state
     and confirmation on the screen reads like a good SaaS product, as
-    `docs/WORDING.md` says under On a Screen. A heading is the plain name of
-    what is listed. A note is optional and one short sentence. Frappe's own
-    words, never our coinages ("carry", "came with", "take back"). No colon or
+    `docs/WORDING.md` says under On a Screen. A thing is called what ERPNext
+    calls it, the name Ctrl+K finds: a rail row, heading, crumb, field label,
+    column and status say the doctype's, report's, field's or status's own
+    name (Purchase Receipt, not Receipts). A note is optional and one short
+    sentence. Frappe's own words, never our coinages ("carry", "came with",
+    "take back"). No colon or
     semicolon joining two clauses, and no narrating how OneAI works. The
     screen's README section is written the same way.
 

@@ -10,8 +10,8 @@
       <ListHeader class="bg-surface-gray-1">
         <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
         <ListHeaderCell>{{ __("When") }}</ListHeaderCell>
-        <ListHeaderCell>{{ __("Waits On") }}</ListHeaderCell>
-        <ListHeaderCell>{{ __("Hours") }}</ListHeaderCell>
+        <ListHeaderCell>{{ __("Depends On") }}</ListHeaderCell>
+        <ListHeaderCell>{{ __("Expected Time") }}</ListHeaderCell>
         <ListHeaderCell />
       </ListHeader>
       <ListRows :items="rows" row-key="name" v-slot="{ item }">
@@ -49,8 +49,8 @@
               </template>
               <template #default>
                 <div class="flex w-56 flex-col gap-3 p-3">
-                  <TextInput type="number" size="sm" min="0" :label="__('Begins on Day')" :model-value="item.start" @change="(e) => $emit('change', item.name, 'start', e.target.value)" />
-                  <TextInput type="number" size="sm" min="0" :label="__('Lasts (Days)')" :model-value="item.duration" @change="(e) => $emit('change', item.name, 'duration', e.target.value)" />
+                  <TextInput type="number" size="sm" min="0" :label="__('Begin On (Days)')" :model-value="item.start" @change="(e) => $emit('change', item.name, 'start', e.target.value)" />
+                  <TextInput type="number" size="sm" min="0" :label="__('Duration (Days)')" :model-value="item.duration" @change="(e) => $emit('change', item.name, 'duration', e.target.value)" />
                 </div>
               </template>
             </Popover>
@@ -79,7 +79,7 @@
               step="0.5"
               class="w-16 tabular-nums"
               :model-value="item.expected_time || ''"
-              :aria-label="__('Hours')"
+              :aria-label="__('Expected Time')"
               placeholder="–"
               @change="(e) => $emit('change', item.name, 'expected_time', e.target.value)"
             />

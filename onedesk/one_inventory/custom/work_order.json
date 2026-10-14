@@ -85,22 +85,6 @@
   {
    "doc_type": "Work Order",
    "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Made",
-   "field_name": "produced_qty"
-  },
-  {
-   "doc_type": "Work Order",
-   "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Wanted By",
-   "field_name": "expected_delivery_date"
-  },
-  {
-   "doc_type": "Work Order",
-   "doctype_or_field": "DocField",
    "property": "width",
    "property_type": "Data",
    "value": "220",

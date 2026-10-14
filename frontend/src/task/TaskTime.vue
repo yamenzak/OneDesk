@@ -6,7 +6,7 @@
     <PlaceSpot :said="spot" class="mb-3" />
     <div class="flex flex-wrap items-center gap-2 pb-2">
       <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
-        <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Time") }}
+        <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Timesheet") }}
         <span v-if="time.entries.length" class="text-base font-normal text-ink-gray-5">{{ time.entries.length }}</span>
       </h2>
       <Button v-if="said.project && said.can_time" size="sm" variant="solid" icon-left="lucide-plus" :label="__('Log Time')" @click="logTime" />

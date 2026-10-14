@@ -59,3 +59,4 @@ onedesk.one_inventory.patches.maintenance_named
 onedesk.one_inventory.patches.sold_by_size
 onedesk.one_inventory.patches.to_order_a_page
 onedesk.one_project.patches.reports_without_checklists
+onedesk.one.patches.erpnext_labels

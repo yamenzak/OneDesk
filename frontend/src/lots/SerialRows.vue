@@ -1,15 +1,15 @@
 <template>
   <!-- Serial numbers as a table, modelled on Odoo's Lots and Serial Numbers:
        each piece, its status as ERPNext keeps it, where it is or who has it,
-       its lot, and its warranty (one_inventory/lots.py). The Lots page and an
-       item's Stock tab both show them. -->
+       its lot, and its warranty (one_inventory/lots.py). The Batch and Serial No page
+       and an item's Stock tab both show them. -->
   <p v-if="!serials.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
-      <ListHeaderCell>{{ __("Serial Number") }}</ListHeaderCell>
+      <ListHeaderCell>{{ __("Serial No") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
       <ListHeaderCell class="max-md:hidden">{{ __("Where") }}</ListHeaderCell>
-      <ListHeaderCell class="max-lg:hidden">{{ __("Lot") }}</ListHeaderCell>
+      <ListHeaderCell class="max-lg:hidden">{{ __("Batch No") }}</ListHeaderCell>
       <ListHeaderCell class="justify-end max-sm:hidden">{{ __("Warranty") }}</ListHeaderCell>
     </ListHeader>
     <ListRows :items="serials" row-key="name" v-slot="{ item }">

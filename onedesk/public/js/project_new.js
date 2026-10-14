@@ -163,7 +163,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				depends_on: "eval:doc.retention",
 			},
 			{ fieldtype: "Section Break", depends_on: kind(["Time and Materials", "Internal"]) },
-			{ fieldtype: "Currency", fieldname: "budget", label: __("Budget") },
+			{ fieldtype: "Currency", fieldname: "budget", label: __("Estimated Cost") },
 			{ fieldtype: "Column Break" },
 			// What's bought for a Time and Materials job is billed at cost plus this (one_project/billing.py).
 			{ fieldtype: "Percent", fieldname: "markup", label: __("Markup on Costs"), depends_on: kind(["Time and Materials"]) },
@@ -174,14 +174,14 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 		];
 		const plan = [
 			{ fieldtype: "Data", fieldname: "kind", hidden: 1 },
-			{ fieldtype: "Date", fieldname: "starts", label: __("Starts"), default: doc.expected_start_date },
+			{ fieldtype: "Date", fieldname: "starts", label: __("Expected Start Date"), default: doc.expected_start_date },
 			{ fieldtype: "Link", fieldname: "manager", label: __("Manager"), options: "User" },
 			{ fieldtype: "Column Break" },
 			// A retainer runs month to month, so it has a start and no end.
 			{
 				fieldtype: "Date",
 				fieldname: "ends",
-				label: __("Ends"),
+				label: __("Expected End Date"),
 				default: doc.expected_end_date,
 				depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),
 			},

@@ -1,4 +1,4 @@
-// What the Lots page (one_inventory/page/lots) and an item's Stock tab do,
+// What the Batch and Serial No page (one_inventory/page/lots) and an item's Stock tab do,
 // each through frappe's own calls on ERPNext's records, asked in frappe's own
 // dialogs. `done` reads the page again.
 frappe.provide("onedesk.lots");
@@ -8,7 +8,7 @@ frappe.provide("onedesk.lots");
 // moved already cannot change how it is kept).
 onedesk.lots.track = (item, done) => {
 	const dialog = new frappe.ui.Dialog({
-		title: __("Track Lots"),
+		title: __("Track Batches"),
 		fields: [
 			{
 				fieldtype: "Link",
@@ -26,36 +26,36 @@ onedesk.lots.track = (item, done) => {
 				fieldname: "kind",
 				label: __("Keep It"),
 				options: [
-					{ value: "lots", label: __("In lots, each with its dates") },
-					{ value: "serials", label: __("By number, piece by piece") },
+					{ value: "lots", label: __("In batches, each with its dates") },
+					{ value: "serials", label: __("By Serial No, piece by piece") },
 				],
 				default: "lots",
 				reqd: 1,
 			},
 			{ fieldtype: "Section Break", depends_on: "eval:doc.kind=='lots'" },
-			{ fieldtype: "Check", fieldname: "auto", label: __("Number New Lots Automatically"), default: 1 },
+			{ fieldtype: "Check", fieldname: "auto", label: __("Automatically Create New Batch"), default: 1 },
 			{
 				fieldtype: "Data",
 				fieldname: "batch_series",
-				label: __("Lot Numbering"),
+				label: __("Batch Number Series"),
 				description: __("For example LOT-.YYYY.-.####"),
 				depends_on: "eval:doc.auto",
 			},
-			{ fieldtype: "Check", fieldname: "expires", label: __("Lots Go Off"), default: 0 },
+			{ fieldtype: "Check", fieldname: "expires", label: __("Has Expiry Date"), default: 0 },
 			{
 				fieldtype: "Int",
 				fieldname: "shelf_life",
-				label: __("Days a Lot Keeps"),
+				label: __("Shelf Life In Days"),
 				depends_on: "eval:doc.expires",
 			},
 			{ fieldtype: "Section Break", depends_on: "eval:doc.kind=='serials'" },
 			{
 				fieldtype: "Data",
 				fieldname: "serial_series",
-				label: __("Numbering"),
+				label: __("Serial Number Series"),
 				description: __("For example SN-.#####. Left empty, each number is typed in."),
 			},
-			{ fieldtype: "Int", fieldname: "warranty", label: __("Warranty in Days") },
+			{ fieldtype: "Int", fieldname: "warranty", label: __("Warranty Period (in days)") },
 		],
 		primary_action_label: __("Save"),
 		primary_action: async (values) => {
@@ -71,7 +71,7 @@ onedesk.lots.track = (item, done) => {
 				: { has_serial_no: 1, serial_no_series: values.serial_series || "", warranty_period: cint(values.warranty) || 0 };
 			await frappe.xcall("frappe.client.set_value", { doctype: "Item", name: values.item, fieldname: fields });
 			dialog.hide();
-			frappe.show_alert({ message: lots ? __("{0} is kept in lots", [values.item]) : __("{0} is kept by number", [values.item]), indicator: "green" });
+			frappe.show_alert({ message: lots ? __("{0} is kept in batches", [values.item]) : __("{0} is kept by Serial No", [values.item]), indicator: "green" });
 			done?.();
 		},
 	});
@@ -85,7 +85,7 @@ onedesk.lots.new_lot = async (item, done) => {
 	const auto = item ? await frappe.db.get_value("Item", item, ["create_new_batch", "has_expiry_date"]) : null;
 	const own = auto?.message || {};
 	const dialog = new frappe.ui.Dialog({
-		title: __("New Lot"),
+		title: __("New Batch"),
 		fields: [
 			{
 				fieldtype: "Link",
@@ -100,15 +100,15 @@ onedesk.lots.new_lot = async (item, done) => {
 			{
 				fieldtype: "Data",
 				fieldname: "batch_id",
-				label: __("Lot Number"),
+				label: __("Batch ID"),
 				reqd: item && own.create_new_batch ? 0 : 1,
 				description: item && own.create_new_batch ? __("Left empty, the next number is given.") : "",
 			},
-			{ fieldtype: "Date", fieldname: "manufacturing_date", label: __("Made On"), default: frappe.datetime.get_today() },
+			{ fieldtype: "Date", fieldname: "manufacturing_date", label: __("Manufacturing Date"), default: frappe.datetime.get_today() },
 			{
 				fieldtype: "Date",
 				fieldname: "expiry_date",
-				label: __("Goes Off On"),
+				label: __("Expiry Date"),
 				description: __("Left empty, worked out from how long the item keeps."),
 			},
 			{ fieldtype: "Link", fieldname: "supplier", label: __("Supplier"), options: "Supplier" },
@@ -126,7 +126,7 @@ onedesk.lots.new_lot = async (item, done) => {
 				},
 			});
 			dialog.hide();
-			frappe.show_alert({ message: __("Lot {0} made", [made.batch_id || made.name]), indicator: "green" });
+			frappe.show_alert({ message: __("Batch {0} made", [made.batch_id || made.name]), indicator: "green" });
 			done?.();
 		},
 	});
@@ -136,7 +136,7 @@ onedesk.lots.new_lot = async (item, done) => {
 // Lots and serial numbers are off in ERPNext until a workspace turns them on,
 // as the Inventory Check's fix does (one_inventory/ready.py).
 onedesk.lots.switch_on = (done) =>
-	frappe.confirm(__("Let items be kept in lots or by serial number?"), async () => {
+	frappe.confirm(__("Let items be kept in batches or by Serial No?"), async () => {
 		await frappe.xcall("onedesk.one_inventory.ready.fix", { key: "serials" });
 		done?.();
 	});

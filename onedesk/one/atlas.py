@@ -39,7 +39,7 @@ ANSWERS = {
 	("Page", "project-template-view"): (INSIDE, "a Project Template opens on it"),
 	("Page", "task-view"): (INSIDE, "a Task opens on it"),
 	# OneInventory
-	("DocType", "Bin"): (ENGINE, "what each warehouse holds of each item; Stock on Hand reads it"),
+	("DocType", "Bin"): (ENGINE, "what each warehouse holds of each item; Stock Summary reads it"),
 	("DocType", "Stock Ledger Entry"): (
 		ENGINE,
 		"one line per stock move; the Stock Ledger report shows them",
@@ -53,8 +53,8 @@ ANSWERS = {
 		ENGINE,
 		"an asset's history, kept as it is moved, repaired and depreciated",
 	),
-	("DocType", "Quick Stock Balance"): (REPLACED, "Stock on Hand"),
-	("Page", "stock-balance"): (REPLACED, "Stock on Hand"),
+	("DocType", "Quick Stock Balance"): (REPLACED, "Stock Summary"),
+	("Page", "stock-balance"): (REPLACED, "Stock Summary"),
 	("Page", "shop-floor"): (REPLACED, "Shop Floor"),
 	("Page", "visual-plant-floor"): (REPLACED, "Plant Floor"),
 	("DocType", "Asset Depreciation Schedule"): (INSIDE, "an asset's form draws its schedule"),
@@ -62,7 +62,7 @@ ANSWERS = {
 		LEFT_OUT,
 		"how ERPNext paces revaluing stock; its defaults suit every workspace",
 	),
-	("Report", "Item Balance (Simple)"): (REPLACED, "Stock on Hand"),
+	("Report", "Item Balance (Simple)"): (REPLACED, "Stock Summary"),
 	("Report", "FIFO Queue vs Qty After Transaction Comparison"): (LEFT_OUT, CHECK),
 	("Report", "Incorrect Balance Qty After Transaction"): (LEFT_OUT, CHECK),
 	("Report", "Incorrect Serial No Valuation"): (LEFT_OUT, CHECK),

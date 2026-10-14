@@ -1,5 +1,5 @@
 <template>
-  <!-- Quotes (one_inventory/page/quotes): asking suppliers for prices, their
+  <!-- Request for Quotation (one_inventory/page/quotes): asking suppliers for prices, their
        answers and the comparison as one page (one_inventory/quotes.py,
        quotes_actions.js). Modelled on Odoo Purchase: Asked is its list of
        RFQs, Quotes its vendors' quotations, and Compare its Compare Product
@@ -22,16 +22,16 @@
         <RequestRows :requests="said.asked" :can="said.can" :empty="search ? __('No requests match') : __('No prices asked for yet')" @compare="compare" />
       </div>
       <div v-else-if="shown === 'quotes'" class="mt-3">
-        <QuoteRows :quotes="quotes" :can="said.can" :empty="search || kind !== 'all' ? __('No quotes match') : __('No quotes yet')" @compare="compare" />
+        <QuoteRows :quotes="quotes" :can="said.can" :empty="search || kind !== 'all' ? __('No supplier quotations match') : __('No supplier quotations yet')" @compare="compare" />
       </div>
       <div v-else class="mt-4">
-        <div v-if="!said.compare" class="py-3 text-base text-ink-gray-5">{{ __("No quotes to compare yet") }}</div>
+        <div v-if="!said.compare" class="py-3 text-base text-ink-gray-5">{{ __("No supplier quotations to compare yet") }}</div>
         <template v-else>
           <div class="mb-4 flex flex-wrap items-center gap-2">
-            <Select v-model="request" class="w-full max-w-md" :options="said.requests.map((one) => ({ value: one.name, label: `${one.label} · ${one.name}` }))" :aria-label="__('Request')" />
+            <Select v-model="request" class="w-full max-w-md" :options="said.requests.map((one) => ({ value: one.name, label: `${one.label} · ${one.name}` }))" :aria-label="__('Request for Quotation')" />
             <span class="text-sm text-ink-gray-5">{{ asking }}</span>
             <Button v-if="cheapestOrder" class="ms-auto" variant="solid" :label="__('Order the Cheapest')" @click="onedesk().quotes.order_cheapest(said.compare.name, load)" />
-            <Button :class="{ 'ms-auto': !cheapestOrder }" variant="ghost" icon-right="lucide-arrow-up-right" :label="__('Open Request')" @click="go(`/desk/request-for-quotation/${encodeURIComponent(said.compare.name)}`)" />
+            <Button :class="{ 'ms-auto': !cheapestOrder }" variant="ghost" icon-right="lucide-arrow-up-right" :label="__('Open Request for Quotation')" @click="go(`/desk/request-for-quotation/${encodeURIComponent(said.compare.name)}`)" />
           </div>
           <QuoteCompare :said="said.compare" :can="said.can" />
         </template>
@@ -101,9 +101,9 @@ watch(search, () => {
 });
 
 const views = computed(() => [
-  { key: "asked", label: __("Asked"), count: said.value?.figures.waiting || null },
-  { key: "quotes", label: __("Quotes"), count: said.value?.figures.to_decide || null },
-  { key: "compare", label: __("Compare") },
+  { key: "asked", label: __("Request for Quotation"), count: said.value?.figures.waiting || null },
+  { key: "quotes", label: __("Supplier Quotations"), count: said.value?.figures.to_decide || null },
+  { key: "compare", label: __("Comparison") },
 ]);
 
 const figures = computed(() => {
@@ -113,10 +113,10 @@ const figures = computed(() => {
     shown.value = view;
   };
   return [
-    f.waiting !== null && { title: __("Waiting for Prices"), value: count(f.waiting), note: f.waiting ? __("Suppliers still to answer") : "", action: f.waiting ? { icon: "lucide-filter", label: __("Show Requests"), onClick: show("asked") } : null },
-    f.to_decide !== null && { title: __("Quotes to Decide"), value: count(f.to_decide), action: f.to_decide ? { icon: "lucide-filter", label: __("Show Quotes to Decide"), onClick: show("quotes", "decide") } : null },
-    f.drafts !== null && { title: __("Quotes to Check"), value: count(f.drafts), note: f.drafts ? __("Still drafts") : "", action: f.drafts ? { icon: "lucide-filter", label: __("Show Quotes to Check"), onClick: show("quotes", "check") } : null },
-    f.expiring !== null && { title: __("Running Out"), value: count(f.expiring), alarm: f.expiring > 0, note: f.expiring ? __("Within a week") : "", action: f.expiring ? { icon: "lucide-filter", label: __("Show Quotes Running Out"), onClick: show("quotes", "soon") } : null },
+    f.waiting !== null && { title: __("Waiting for Prices"), value: count(f.waiting), note: f.waiting ? __("Suppliers still to answer") : "", action: f.waiting ? { icon: "lucide-filter", label: __("Show Requests for Quotation"), onClick: show("asked") } : null },
+    f.to_decide !== null && { title: __("Supplier Quotations to Decide"), value: count(f.to_decide), action: f.to_decide ? { icon: "lucide-filter", label: __("Show Supplier Quotations to Decide"), onClick: show("quotes", "decide") } : null },
+    f.drafts !== null && { title: __("Draft Supplier Quotations"), value: count(f.drafts), note: f.drafts ? __("Still drafts") : "", action: f.drafts ? { icon: "lucide-filter", label: __("Show Draft Supplier Quotations"), onClick: show("quotes", "check") } : null },
+    f.expiring !== null && { title: __("Expiring"), value: count(f.expiring), alarm: f.expiring > 0, note: f.expiring ? __("Within a week") : "", action: f.expiring ? { icon: "lucide-filter", label: __("Show Expiring Supplier Quotations"), onClick: show("quotes", "soon") } : null },
   ].filter(Boolean);
 });
 
@@ -132,8 +132,8 @@ const kinds = computed(() => {
   return [
     { value: "all", label: __("All") },
     n("decide") && { value: "decide", label: __("To Decide {0}", [count(n("decide"))]) },
-    n("check") && { value: "check", label: __("To Check {0}", [count(n("check"))]) },
-    n("soon") && { value: "soon", label: __("Running Out {0}", [count(n("soon"))]) },
+    n("check") && { value: "check", label: __("Draft {0}", [count(n("check"))]) },
+    n("soon") && { value: "soon", label: __("Expiring {0}", [count(n("soon"))]) },
   ].filter(Boolean);
 });
 const quotes = computed(() => (kind.value === "all" ? said.value.quotes : said.value.quotes.filter(KINDS[kind.value])));
@@ -156,7 +156,7 @@ const cheapestOrder = computed(
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("Quotes") });
+  props.onTitle?.({ title: __("Request for Quotation") });
   extended(s);
   props.onActions?.([s.can.ask && { label: __("Ask for Prices"), primary: true, onClick: () => onedesk().quotes.ask(load) }].filter(Boolean));
 }

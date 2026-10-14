@@ -11,7 +11,7 @@
           <span class="lucide-users size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Team") }}
           <span v-if="said.people.length" class="text-base font-normal text-ink-gray-5">{{ said.people.length }}</span>
         </h2>
-        <Button v-if="said.can_change" size="sm" variant="solid" icon-left="lucide-user-plus" :label="__('Add Member')" @click="addMember" />
+        <Button v-if="said.can_change" size="sm" variant="solid" icon-left="lucide-user-plus" :label="__('Add User')" @click="addMember" />
       </div>
       <!-- What the workspace's extensions add here (one_studio/places.py). -->
       <PlaceSpot :said="spot" class="mb-4" />
@@ -35,7 +35,7 @@
                 <div class="flex min-w-0 items-center gap-2">
                   <span class="truncate text-base text-ink-gray-8">{{ item.name }}</span>
                   <Badge v-if="item.manager" :label="__('Manager')" theme="blue" size="md" />
-                  <Badge v-else-if="item.member" :label="__('Member')" theme="gray" size="md" />
+                  <Badge v-else-if="item.member" :label="__('User')" theme="gray" size="md" />
                 </div>
                 <div v-if="item.job || !item.signs_in || item.portal" class="truncate text-sm text-ink-gray-5">{{ [item.job, !item.signs_in && __("No sign-in"), item.portal && __("Portal")].filter(Boolean).join(" · ") }}</div>
               </div>
@@ -173,9 +173,9 @@ function actions(person) {
               : { label: __("Show Files"), icon: "lucide-eye", onClick: () => show(person, { files: 1 }) },
           ]
         : []),
-      { label: __("Remove Member"), icon: "lucide-user-minus", onClick: () => removeMember(person) },
+      { label: __("Remove User"), icon: "lucide-user-minus", onClick: () => removeMember(person) },
     ];
-  if (person.can_join) return [{ label: __("Make Member"), icon: "lucide-user-plus", onClick: () => makeMember(person) }];
+  if (person.can_join) return [{ label: __("Add to Users"), icon: "lucide-user-plus", onClick: () => makeMember(person) }];
   return [];
 }
 function removeMember(person) {

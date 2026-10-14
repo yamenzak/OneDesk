@@ -151,9 +151,9 @@ const kind = computed(() => props.said.kind);
 const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "amber", Draft: "gray" };
 
 const NAMES = () => ({
-  contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), margin: __("Margin"), done: __("Done"),
+  contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), margin: __("Margin"), done: __("% Completed"),
   hours: __("Hours This Month"), month: __("This Month"), unbilled: __("Not Invoiced Yet"), fee: __("Monthly Fee"),
-  months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Budget Used"), due: __("Due"), overdue: __("Overdue Tasks"),
+  months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Estimated Cost Used"), due: __("Expected End Date"), overdue: __("Overdue Tasks"),
 });
 const figure = (card) => {
   if (card.money !== undefined && card.money !== null) return money(card.money, card.currency || props.said.currency);
@@ -189,7 +189,7 @@ const workAndBilling = computed(() => {
   const sum = (value) => money(value, props.said.currency);
   const owed = [b.overdue && __("{0} overdue", [sum(b.overdue)]), b.retention && __("{0} retention", [sum(Math.min(b.retention, b.owed))])].filter(Boolean);
   return [
-    { key: "done", label: __("Work Done"), progress: b.done, value: `${b.done}%` },
+    { key: "done", label: __("% Completed"), progress: b.done, value: `${b.done}%` },
     b.billable && { key: "billable", label: __("Billable on Milestones"), dim: b.billable.names.join(", "), progress: b.billable.share, value: `${b.billable.share}%` },
     b.unbilled && { key: "unbilled", label: __("Not Invoiced Yet"), value: sum(b.unbilled) },
     b.ahead && { key: "ahead", label: __("Billed Ahead"), value: sum(b.ahead) },
@@ -299,7 +299,7 @@ const facts = computed(() => {
   return [
     s.progress_method && { label: __("Progress"), value: __(s.progress_method) },
     s.kind !== "Internal" && {
-      label: __("Due"),
+      label: __("Expected End Date"),
       value: s.ends ? [date(s.ends), open && ends(left)].filter(Boolean).join(" · ") : __("Not set"),
       tone: !s.ends ? "gray" : open && left < 0 ? "red" : undefined,
     },

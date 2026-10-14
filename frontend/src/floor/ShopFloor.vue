@@ -22,7 +22,7 @@
             <div class="mt-0.5 flex flex-wrap gap-x-3 text-base text-ink-gray-5">
               <button type="button" class="hover:underline" @click="go(`/desk/work-order/${encodeURIComponent(order.name)}`)">{{ order.name }}</button>
               <span v-if="order.project_name">{{ order.project_name }}</span>
-              <span v-if="order.expected_delivery_date" :class="order.late && 'text-ink-red-4'">{{ order.late ? __("Was wanted by {0}", [date(order.expected_delivery_date)]) : __("Wanted by {0}", [date(order.expected_delivery_date)]) }}</span>
+              <span v-if="order.expected_delivery_date" :class="order.late && 'text-ink-red-4'">{{ order.late ? __("Was expected by {0}", [date(order.expected_delivery_date)]) : __("Expected by {0}", [date(order.expected_delivery_date)]) }}</span>
             </div>
           </div>
           <div class="flex shrink-0 items-center gap-3">
@@ -30,7 +30,7 @@
             <Button v-if="order.can_finish > 0 && said.can['Stock Entry']" variant="solid" :label="__('Finish')" @click="onedesk().item.finish(order.name, order.can_finish)" />
           </div>
         </div>
-        <Section :title="__('Steps')" icon="lucide-list-ordered" :aside="said.steps.length" class="mt-2">
+        <Section :title="__('Operations')" icon="lucide-list-ordered" :aside="said.steps.length" class="mt-2">
           <FloorSteps :steps="said.steps" :can="said.can" :employee="said.employee" @changed="load" />
         </Section>
       </template>
@@ -46,7 +46,7 @@
             </TextInput>
             <span class="ms-auto text-sm tabular-nums text-ink-gray-5">{{ counted }}</span>
           </div>
-          <OrderRows :orders="said.work_orders || []" :empty="shown === 'done' ? __('Nothing done yet') : __('Nothing on the floor')" class="mt-3" @open="open" />
+          <OrderRows :orders="said.work_orders || []" :empty="shown === 'done' ? __('Nothing completed yet') : __('Nothing on the floor')" class="mt-3" @open="open" />
         </template>
       </template>
     </template>
@@ -131,7 +131,7 @@ watch(() => props.query.work_order, (now) => {
 
 const views = computed(() => [
   { key: "open", label: __("Open"), count: said.value?.figures.open || null },
-  { key: "done", label: __("Done") },
+  { key: "done", label: __("Completed") },
   ...(said.value?.workstations || []).map((one) => ({ key: one.name, label: one.workstation_name || one.name, icon: "lucide-cog" })),
 ]);
 
@@ -144,7 +144,7 @@ const figures = computed(() => {
   const f = said.value.figures;
   return [
     { title: __("Open Work Orders"), value: count(f.open) },
-    { title: __("Running Now"), value: count(f.running), note: f.running ? __("Steps with someone on them") : "" },
+    { title: __("Running Now"), value: count(f.running), note: f.running ? __("Operations with someone on them") : "" },
     { title: __("Waiting to Start"), value: count(f.waiting) },
     { title: __("Closed Today"), value: count(f.done_today) },
   ];

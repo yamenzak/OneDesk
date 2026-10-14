@@ -15,7 +15,7 @@
     <Section v-if="said.has_serial_no" :title="__('Serial Numbers')" icon="lucide-hash" :aside="said.stock.numbers.length || ''" :action="{ icon: 'lucide-arrow-up-right', label: __('Lots'), onClick: () => go(`/desk/lots?view=serials&item=${encodeURIComponent(said.name)}`) }">
       <SerialRows :serials="said.stock.numbers" :with-item="false" :empty="__('No numbered pieces yet')" />
     </Section>
-    <button v-if="canTrack" type="button" class="mt-3 text-sm text-ink-gray-5 hover:underline" @click="onedesk().lots.track(said.name, () => emit('changed'))">{{ __("Keep it in lots or by number") }}</button>
+    <button v-if="canTrack" type="button" class="mt-3 text-sm text-ink-gray-5 hover:underline" @click="onedesk().lots.track(said.name, () => emit('changed'))">{{ __("Track by Batch or Serial No") }}</button>
     <Section :title="__('Last Moves')" icon="lucide-arrow-left-right" :action="{ icon: 'lucide-arrow-up-right', label: __('Stock Ledger'), onClick: () => go(`/desk/query-report/Stock Ledger?item_code=${encodeURIComponent(said.name)}`) }">
       <Rows :rows="moves" :empty="__('No moves yet')" />
     </Section>
@@ -45,7 +45,7 @@ const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");
 
 // New Lot when the reader may make one, as the Lots page offers it.
 const lotAction = computed(() =>
-  can("create", "Batch") ? { text: true, icon: "lucide-plus", label: __("New Lot"), onClick: () => onedesk().lots.new_lot(props.said.name, () => emit("changed")) } : null
+  can("create", "Batch") ? { text: true, icon: "lucide-plus", label: __("New Batch"), onClick: () => onedesk().lots.new_lot(props.said.name, () => emit("changed")) } : null
 );
 // An item not kept in lots yet, which hasn't moved, may be set up to be.
 const canTrack = computed(() => !props.said.has_batch_no && !props.said.has_serial_no && !props.said.stock_exists && props.form.status("has_batch_no") === "Write");
@@ -117,15 +117,15 @@ const spot = usePlace("oneinventory_item.stock", () => ({
 const details = [
   { label: __("Safety Stock"), field: "safety_stock" },
   { label: __("Allow Negative Stock"), field: "allow_negative_stock" },
-  { label: __("Kept in Lots"), field: "has_batch_no" },
-  { label: __("Number New Lots Automatically"), field: "create_new_batch" },
-  { label: __("Lot Numbering"), field: "batch_number_series" },
-  { label: __("Lots Go Off"), field: "has_expiry_date" },
-  { label: __("Days a Lot Keeps"), field: "shelf_life_in_days" },
-  { label: __("Kept by Number"), field: "has_serial_no" },
-  { label: __("Serial Numbering"), field: "serial_no_series" },
-  { label: __("Warranty in Days"), field: "warranty_period" },
-  { label: __("Weight"), field: "weight_per_unit" },
-  { label: __("Weight Unit"), field: "weight_uom" },
+  { label: __("Has Batch No"), field: "has_batch_no" },
+  { label: __("Automatically Create New Batch"), field: "create_new_batch" },
+  { label: __("Batch Number Series"), field: "batch_number_series" },
+  { label: __("Has Expiry Date"), field: "has_expiry_date" },
+  { label: __("Shelf Life In Days"), field: "shelf_life_in_days" },
+  { label: __("Has Serial No"), field: "has_serial_no" },
+  { label: __("Serial Number Series"), field: "serial_no_series" },
+  { label: __("Warranty Period (in days)"), field: "warranty_period" },
+  { label: __("Weight Per Unit"), field: "weight_per_unit" },
+  { label: __("Weight UOM"), field: "weight_uom" },
 ];
 </script>

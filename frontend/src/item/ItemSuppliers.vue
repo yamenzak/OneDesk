@@ -91,7 +91,7 @@ function actions(one, row) {
   if (props.said.can["Purchase Order"] && !props.said.disabled)
     out.push({ label: __("Order from Them"), icon: "lucide-shopping-cart", onClick: () => onedesk().item.order(props.said.name, one.supplier) });
   if (buying.value.can["Request for Quotation"] && !props.said.disabled)
-    out.push({ label: __("Ask for a Quote"), icon: "lucide-message-square-quote", onClick: () => onedesk().item.ask(props.said.name, one.supplier) });
+    out.push({ label: __("Request for Quotation"), icon: "lucide-message-square-quote", onClick: () => onedesk().item.ask(props.said.name, one.supplier) });
   if (props.said.can_write && !one.default) out.push({ label: __("Make Default"), icon: "lucide-star", onClick: () => makeDefault(one.supplier) });
   if (props.said.can_write && !row) out.push({ label: __("Set Part Number"), icon: "lucide-hash", onClick: () => add(one.supplier) });
   return out;

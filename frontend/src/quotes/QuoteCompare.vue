@@ -4,7 +4,7 @@
        rate in their own money and, for a quote in another money, the
        company's under it. The cheapest live rate on a line is marked. Under
        each supplier, their total and until when it holds, with Order, or
-       Add Their Quote for one still to answer. -->
+       Add Supplier Quotation for one still to answer. -->
   <div class="overflow-x-auto">
     <List :columns="columns" :row-height="56" divider="full" class="-mx-3 min-w-max list-gap-3 list-row-px-3">
       <ListHeader>
@@ -51,10 +51,10 @@
         <ListCell />
         <ListCell />
         <ListCell v-for="one in said.suppliers" :key="one.supplier" class="justify-end">
-          <Button v-if="one.quote && one.draft" size="sm" :label="__('Check Quote')" @click="go(`/desk/supplier-quotation/${encodeURIComponent(one.quote)}`)" />
+          <Button v-if="one.quote && one.draft" size="sm" :label="__('Check Supplier Quotation')" @click="go(`/desk/supplier-quotation/${encodeURIComponent(one.quote)}`)" />
           <Button v-else-if="one.quote && canOrder(one)" size="sm" :label="__('Order')" @click="onedesk().quotes.order(one.quote)" />
-          <Button v-else-if="one.quote" size="sm" variant="ghost" :label="__('Open Quote')" @click="go(`/desk/supplier-quotation/${encodeURIComponent(one.quote)}`)" />
-          <Button v-else-if="can.quote && !said.draft" size="sm" :label="__('Add Their Quote')" @click="onedesk().quotes.add(said.name, one.supplier)" />
+          <Button v-else-if="one.quote" size="sm" variant="ghost" :label="__('Open Supplier Quotation')" @click="go(`/desk/supplier-quotation/${encodeURIComponent(one.quote)}`)" />
+          <Button v-else-if="can.quote && !said.draft" size="sm" :label="__('Add Supplier Quotation')" @click="onedesk().quotes.add(said.name, one.supplier)" />
         </ListCell>
       </ListRow>
     </List>
@@ -80,6 +80,6 @@ function held(one) {
   if (one.draft) return __("Draft");
   if (one.expired) return __("Expired {0}", [date(one.valid_till)]);
   if (one.status === "Ordered") return __("Ordered");
-  return one.valid_till ? __("Holds until {0}", [date(one.valid_till)]) : "";
+  return one.valid_till ? __("Valid till {0}", [date(one.valid_till)]) : "";
 }
 </script>

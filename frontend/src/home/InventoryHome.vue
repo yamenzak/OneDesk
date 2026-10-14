@@ -114,12 +114,12 @@ const needed = computed(() => {
 // over what was ordered each month, which is not what it counts, so it is
 // not set against last month (`alone`).
 const CARDS = () => [
-  { key: "worth", title: __("Stock Worth"), money: true, type: "area", hue: 0, route: "/desk/stock-on-hand" },
-  { key: "taken_in", title: __("Taken In This Month"), money: true, type: "bar", hue: 2, route: "/desk/purchase-receipt" },
-  { key: "sent_out", title: __("Sent Out This Month"), money: true, type: "bar", hue: 6, route: "/desk/delivery-note" },
-  { key: "made", title: __("Made This Month"), money: true, type: "line", hue: 4, route: "/desk/work-order" },
-  { key: "on_order", title: __("Still on Order"), money: true, type: "area", hue: 5, alone: true, route: "/desk/purchase-order?status=To Receive and Bill" },
-  { key: "papers", title: __("Moves This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
+  { key: "worth", title: __("Stock Value"), money: true, type: "area", hue: 0, route: "/desk/stock-on-hand" },
+  { key: "taken_in", title: __("Received This Month"), money: true, type: "bar", hue: 2, route: "/desk/purchase-receipt" },
+  { key: "sent_out", title: __("Delivered This Month"), money: true, type: "bar", hue: 6, route: "/desk/delivery-note" },
+  { key: "made", title: __("Manufactured This Month"), money: true, type: "line", hue: 4, route: "/desk/work-order" },
+  { key: "on_order", title: __("To Receive"), money: true, type: "area", hue: 5, alone: true, route: "/desk/purchase-order?status=To Receive and Bill" },
+  { key: "papers", title: __("Stock Ledger Entries This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
 ];
 // The cards' colours, as frappe-ui reads them for this island and its theme.
 const cardsRoot = ref();
@@ -154,8 +154,8 @@ const chips = computed(() => {
   return [
     n.late.count && { key: "late", tone: "late", icon: "lucide-truck", label: n.late.count === 1 ? __("1 Late Order") : __("{0} Late Orders", [n.late.count]) },
     n.low.count && { key: "low", tone: "soon", icon: "lucide-package-minus", label: n.low.count === 1 ? __("1 Item Running Low") : __("{0} Items Running Low", [n.low.count]) },
-    n.lots.count && { key: "lots", tone: "soon", icon: "lucide-hourglass", label: n.lots.count === 1 ? __("1 Lot Going Off") : __("{0} Lots Going Off", [n.lots.count]) },
-    n.services.count && { key: "services", tone: "soon", icon: "lucide-wrench", label: n.services.count === 1 ? __("1 Service Due") : __("{0} Services Due", [n.services.count]) },
+    n.lots.count && { key: "lots", tone: "soon", icon: "lucide-hourglass", label: n.lots.count === 1 ? __("1 Batch Expiring Soon") : __("{0} Batches Expiring Soon", [n.lots.count]) },
+    n.services.count && { key: "services", tone: "soon", icon: "lucide-wrench", label: n.services.count === 1 ? __("1 Maintenance Due") : __("{0} Maintenance Due", [n.services.count]) },
     n.work.count && { key: "work", tone: "late", icon: "lucide-factory", label: n.work.count === 1 ? __("1 Work Order Late") : __("{0} Work Orders Late", [n.work.count]) },
     n.drafts.length && { key: "drafts", tone: "left", icon: "lucide-file-pen-line", label: drafts === 1 ? __("1 Draft Left") : __("{0} Drafts Left", [drafts]) },
   ].filter(Boolean);
@@ -233,12 +233,12 @@ const parts = computed(() => {
         under: __("Reorder at {0}", [quantity(one.reorder_level)]),
         route: `/desk/item/${encodeURIComponent(one.item)}?view=stock`,
       })),
-      more: more(n.low, __("To Order"), "/desk/to-order"),
+      more: more(n.low, __("Reorder"), "/desk/to-order"),
     });
   if (n.lots.count)
     out.push({
       key: "lots",
-      title: __("Going Off"),
+      title: __("Expiring Soon"),
       icon: "lucide-hourglass",
       count: n.lots.count,
       rows: n.lots.rows.map((one) => ({
@@ -247,15 +247,15 @@ const parts = computed(() => {
         sub: one.batch_id || one.name,
         dot: one.gone ? "red" : "amber",
         value: quantity(one.qty, one.uom),
-        under: one.gone ? __("Went off {0}", [date(one.expiry_date)]) : __("Goes off {0}", [date(one.expiry_date)]),
+        under: one.gone ? __("Expired {0}", [date(one.expiry_date)]) : __("Expires {0}", [date(one.expiry_date)]),
         route: `/desk/batch/${encodeURIComponent(one.name)}`,
       })),
-      more: more(n.lots, __("Lots"), "/desk/lots?soon=1"),
+      more: more(n.lots, __("Batch and Serial No"), "/desk/lots?soon=1"),
     });
   if (n.services.count)
     out.push({
       key: "services",
-      title: __("Services Due"),
+      title: __("Maintenance Due"),
       icon: "lucide-wrench",
       count: n.services.count,
       rows: n.services.rows.map((one) => ({
@@ -267,7 +267,7 @@ const parts = computed(() => {
         value: one.late ? __("Was due {0}", [date(one.due)]) : __("Due {0}", [date(one.due)]),
         route: `/desk/asset-maintenance-log/${encodeURIComponent(one.service)}`,
       })),
-      more: more(n.services, __("Upkeep"), "/desk/upkeep"),
+      more: more(n.services, __("Asset Maintenance"), "/desk/upkeep"),
     });
   if (n.work.count)
     out.push({
@@ -281,7 +281,7 @@ const parts = computed(() => {
         sub: one.name,
         dot: "red",
         value: __("{0} of {1} made", [quantity(one.produced_qty), quantity(one.qty)]),
-        under: __("Was wanted by {0}", [date(one.expected_delivery_date)]),
+        under: __("Was expected by {0}", [date(one.expected_delivery_date)]),
         route: `/desk/floor?work_order=${encodeURIComponent(one.name)}`,
       })),
       more: more(n.work, __("Work Orders"), "/desk/work-order"),
@@ -311,8 +311,8 @@ function report() {
   props.onActions?.(
     [
       can("Item") && { label: __("New Item"), primary: true, onClick: () => newDoc("Item") },
-      can("Purchase Receipt") && { label: __("New Receipt"), onClick: () => newDoc("Purchase Receipt") },
-      can("Stock Entry") && { label: __("New Move"), onClick: () => newDoc("Stock Entry") },
+      can("Purchase Receipt") && { label: __("New Purchase Receipt"), onClick: () => newDoc("Purchase Receipt") },
+      can("Stock Entry") && { label: __("New Stock Entry"), onClick: () => newDoc("Stock Entry") },
       can("Material Request") && { label: __("New Material Request"), onClick: () => newDoc("Material Request") },
     ].filter(Boolean)
   );

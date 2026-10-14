@@ -127,14 +127,6 @@
   {
    "doc_type": "Timesheet",
    "doctype_or_field": "DocField",
-   "field_name": "billing_details",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Billable"
-  },
-  {
-   "doc_type": "Timesheet",
-   "doctype_or_field": "DocField",
    "field_name": "total_billable_hours",
    "property": "description",
    "property_type": "Text",
@@ -241,22 +233,6 @@
    "property": "in_standard_filter",
    "property_type": "Check",
    "value": "0"
-  },
-  {
-   "doc_type": "Timesheet",
-   "doctype_or_field": "DocField",
-   "field_name": "total_hours",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Hours"
-  },
-  {
-   "doc_type": "Timesheet",
-   "doctype_or_field": "DocField",
-   "field_name": "total_billable_hours",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Billable Hours"
   },
   {
    "doc_type": "Timesheet",

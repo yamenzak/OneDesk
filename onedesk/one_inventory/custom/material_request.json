@@ -54,14 +54,6 @@
   {
    "doc_type": "Material Request",
    "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Date",
-   "field_name": "transaction_date"
-  },
-  {
-   "doc_type": "Material Request",
-   "doctype_or_field": "DocField",
    "property": "width",
    "property_type": "Data",
    "value": "320",

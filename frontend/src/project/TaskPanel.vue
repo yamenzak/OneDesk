@@ -26,17 +26,17 @@
         <dd class="min-w-0"><People named :users="task.assigned" :people="work.people" :options="canWrite ? team : null" :groups="canWrite ? work.user_groups || [] : []" @add="(u) => $emit('give', task.name, u)" @group="(users) => $emit('give', task.name, users)" @remove="(u) => $emit('take', task.name, u)" /></dd>
         <dt class="text-ink-gray-5">{{ __("Priority") }}</dt>
         <dd><Pill :value="task.priority" :options="work.priorities" :colors="PRIORITY" :label="__('Priority')" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'priority', v)" /></dd>
-        <dt class="text-ink-gray-5">{{ __("Starts") }}</dt>
+        <dt class="text-ink-gray-5">{{ __("Expected Start Date") }}</dt>
         <dd class="w-44"><Due :value="task.exp_start_date" done :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_start_date', v)" /></dd>
-        <dt class="text-ink-gray-5">{{ __("Due") }}</dt>
+        <dt class="text-ink-gray-5">{{ __("Expected End Date") }}</dt>
         <dd class="w-44"><Due :value="task.exp_end_date" :done="task.status === 'Completed'" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'exp_end_date', v)" /></dd>
-        <dt class="text-ink-gray-5">{{ __("Planned") }}</dt>
+        <dt class="text-ink-gray-5">{{ __("Expected Time") }}</dt>
         <dd class="flex items-center gap-1">
-          <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-28 tabular-nums" :model-value="task.expected_time || ''" :disabled="!canWrite" :aria-label="__('Planned Hours')" :placeholder="__('Set Hours')" @change="(e) => $emit('set', task.name, 'expected_time', Number(e.target.value) || 0)" />
+          <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-28 tabular-nums" :model-value="task.expected_time || ''" :disabled="!canWrite" :aria-label="__('Expected Time')" :placeholder="__('Set Hours')" @change="(e) => $emit('set', task.name, 'expected_time', Number(e.target.value) || 0)" />
           <span v-if="task.expected_time" class="text-ink-gray-5">{{ __("h") }}</span>
         </dd>
         <template v-if="task.actual_time">
-          <dt class="text-ink-gray-5">{{ __("Logged") }}</dt>
+          <dt class="text-ink-gray-5">{{ __("Actual Time") }}</dt>
           <dd class="text-ink-gray-8 tabular-nums">{{ hours(task.actual_time) }}</dd>
         </template>
         <dt class="text-ink-gray-5">{{ __("Milestone") }}</dt>
@@ -92,7 +92,7 @@
 
       <section v-if="subTasks.length || work.can_create">
         <div class="mb-2 flex items-center justify-between">
-          <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Sub-tasks") }}</h3>
+          <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Child Tasks") }}</h3>
           <span v-if="subTasks.length" class="text-sm tabular-nums text-ink-gray-5">{{ __("{0} of {1}", [subTasks.filter((one) => one.status === "Completed").length, subTasks.length]) }}</span>
         </div>
         <div class="flex flex-col gap-1.5">

@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2026-10-12 12:00:00.000000",
+ "modified": "2026-11-01 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "lots",
@@ -37,5 +37,5 @@
  "standard": "Yes",
  "style": null,
  "system_page": 0,
- "title": "Lots"
+ "title": "Batch and Serial No"
 }

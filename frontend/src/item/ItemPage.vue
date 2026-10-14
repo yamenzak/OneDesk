@@ -177,7 +177,7 @@ const VIEWS = computed(() => {
     s.stock && { key: "stock", label: __("Stock"), icon: "lucide-warehouse", count: s.stock.places.length || null },
     s.buying && { key: "buying", label: __("Buying"), icon: "lucide-shopping-cart", count: open(s.buying.orders) },
     s.selling && { key: "selling", label: __("Selling"), icon: "lucide-hand-coins", count: open(s.selling.orders) },
-    s.making && { key: "making", label: __("Making"), icon: "lucide-hammer", count: s.making.orders.length || null },
+    s.making && { key: "making", label: __("Manufacturing"), icon: "lucide-hammer", count: s.making.orders.length || null },
     { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
     { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean);
@@ -208,10 +208,10 @@ const facts = computed(() => {
     s.item_code !== s.item_name && { label: __("Item Code"), value: s.item_code },
     // The item's own form fields, changed in place (FieldEdit).
     { label: __("Item Group"), field: "item_group" },
-    { label: __("Unit"), field: "stock_uom" },
+    { label: __("Default Unit of Measure"), field: "stock_uom" },
     { label: __("Brand"), field: "brand", placeholder: __("No brand") },
     // Left empty, it is valued as Stock Settings says.
-    s.stock && { label: __("Valued By"), field: "valuation_method", placeholder: __(s.valuation) },
+    s.stock && { label: __("Valuation Method"), field: "valuation_method", placeholder: __(s.valuation) },
     ...s.attributes.map((one) => ({ label: __(one.attribute), value: one.value })),
   ].filter(Boolean);
 });
@@ -244,14 +244,14 @@ const figures = computed(() => {
       { title: __("On Hand"), value: quantity(sum.on_hand, uom.value), ...held, deltaFormat: (v) => quantity(v, uom.value), note: held.delta ? __("this month") : where, route: `/desk/query-report/Stock Balance?item_code=${encodeURIComponent(s.name)}` },
       { title: __("Free to Sell"), value: quantity(sum.free, uom.value), note: sum.on_hand - sum.free > 0 ? (sum.held ? __("{0} promised to customers, {1} of it held", [quantity(sum.on_hand - sum.free), quantity(sum.held)]) : __("{0} promised to customers", [quantity(sum.on_hand - sum.free)])) : "", alarm: sum.free < 0, bar: sum.on_hand > 0 ? Math.max(0, Math.min(100, (100 * sum.free) / sum.on_hand)) : null },
       { title: __("On Order"), value: quantity(sum.ordered, uom.value), note: making.value ? __("{0} being made", [quantity(making.value)]) : "", sparkline: traced(trend.ordered, "bar") },
-      { title: __("Worth"), value: money(sum.value, s.currency), ...worth, deltaFormat: (v) => money(v, s.currency), note: worth.delta ? __("this month") : __("Valued by {0}", [__(s.valuation)]) },
+      { title: __("Stock Value"), value: money(sum.value, s.currency), ...worth, deltaFormat: (v) => money(v, s.currency), note: worth.delta ? __("this month") : __("Valued by {0}", [__(s.valuation)]) },
     );
   }
   if (s.assets) {
     const drafts = s.assets.filter((one) => one.docstatus === 0).length;
     list.push({ title: __("Assets"), value: String(s.assets.length), note: drafts ? __("{0} not yet registered", [drafts]) : "", route: `/desk/asset?item_code=${encodeURIComponent(s.name)}` });
   }
-  if (s.last_made) list.push({ title: __("Last Made"), value: quantity(s.last_made.qty, uom.value), note: date(s.last_made.posting_date) });
+  if (s.last_made) list.push({ title: __("Last Manufactured"), value: quantity(s.last_made.qty, uom.value), note: date(s.last_made.posting_date) });
   else if (s.last_bought) list.push({ title: s.last_bought.kind === "received" ? __("Last Received") : __("Last Ordered"), value: money(s.last_bought.rate, s.currency), note: __("{0}, from {1}", [date(s.last_bought.on_date), s.last_bought.supplier]), sparkline: trend.prices?.length > 1 ? traced(trend.prices, "line") : undefined });
   const price = s.selling?.prices?.find((one) => !one.customer);
   if (!s.stock && price) list.push({ title: __("Selling Price"), value: money(price.price_list_rate, price.currency), note: price.price_list });

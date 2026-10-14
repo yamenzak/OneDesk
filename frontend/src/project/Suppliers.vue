@@ -273,9 +273,9 @@ function billActions(item) {
   ].filter(Boolean);
 }
 
-// Buying: an order, a request or a receipt in the word its head says it in
-// (one_inventory/heads.py `stands`), in its colour; a quotation in ERPNext's,
-// coloured as its lists colour them.
+// Buying: ERPNext's statuses. An order, a request or a receipt is coloured as
+// urgent as its head says it is (one_inventory/heads.py `stands`), a late one
+// red; a quotation as its list colours it.
 const TONE = { red: "red", orange: "amber", blue: "blue", green: "green", gray: "gray" };
 const PAPER = {
   Draft: "red", Pending: "amber", "Partially Ordered": "amber", Ordered: "green", Received: "green", "Partially Received": "amber",

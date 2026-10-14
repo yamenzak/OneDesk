@@ -122,10 +122,10 @@ const needs = computed(() => {
 // sold and made is on those tabs.
 const details_ = computed(() => [
   { label: __("Sold by Size"), field: "one_measured_by" },
-  { label: __("Bought"), field: "is_purchase_item" },
-  { label: __("Sold"), field: "is_sales_item" },
-  props.said.made && { label: __("Made Here"), value: __("Yes") },
-  { label: __("Made by a Subcontractor"), field: "is_sub_contracted_item" },
+  { label: __("Allow Purchase"), field: "is_purchase_item" },
+  { label: __("Allow Sales"), field: "is_sales_item" },
+  props.said.made && { label: __("Manufactured"), value: __("Yes") },
+  { label: __("Is Subcontracted Item"), field: "is_sub_contracted_item" },
   { label: __("Country of Origin"), field: "country_of_origin" },
   { label: __("Customs Tariff Number"), field: "customs_tariff_number" },
   { label: __("Asset Category"), field: "asset_category" },

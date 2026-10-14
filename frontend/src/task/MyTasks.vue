@@ -33,7 +33,7 @@
       <!-- A task of one's own, in no project: its name, and when it is due. -->
       <div class="mt-4 flex gap-2">
         <TextInput v-model="subject" class="min-w-0 flex-1" :placeholder="__('Add a task')" :maxlength="140" :disabled="adding" :aria-label="__('Add a task')" @keydown.enter.prevent="add" />
-        <DatePicker v-model="due" class="w-32 shrink-0 sm:w-40" :format="dateFormat()" :placeholder="__('Due')" />
+        <DatePicker v-model="due" class="w-32 shrink-0 sm:w-40" :format="dateFormat()" :placeholder="__('Expected End Date')" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
 
@@ -43,7 +43,7 @@
         <ListHeader>
           <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
           <ListHeaderCell class="max-md:hidden">{{ __("Project or About") }}</ListHeaderCell>
-          <ListHeaderCell>{{ __("Due") }}</ListHeaderCell>
+          <ListHeaderCell>{{ __("Expected End Date") }}</ListHeaderCell>
           <ListHeaderCell v-if="times" />
         </ListHeader>
         <ListGroup v-for="group in groups" :key="group.key">

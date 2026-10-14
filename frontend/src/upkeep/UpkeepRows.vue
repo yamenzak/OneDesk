@@ -1,8 +1,8 @@
 <template>
   <!-- Upkeep's tabs as tables, modelled on UpKeep's and Fiix's work order
        lists: each row the asset with its picture and the job, one status,
-       who does it and when (one_inventory/upkeep.py). Due, Repairs, Plans
-       and Done each have the columns their rows need. -->
+       who does it and when (one_inventory/upkeep.py). Planned, Asset Repair,
+       Asset Maintenance and Completed each have the columns their rows need. -->
   <p v-if="!rows.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
 
   <!-- Services not done yet. -->
@@ -11,7 +11,7 @@
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
       <ListHeaderCell class="max-lg:hidden">{{ __("Who") }}</ListHeaderCell>
-      <ListHeaderCell class="max-xl:hidden">{{ __("How Often") }}</ListHeaderCell>
+      <ListHeaderCell class="max-xl:hidden">{{ __("Periodicity") }}</ListHeaderCell>
       <ListHeaderCell>{{ __("Due") }}</ListHeaderCell>
       <ListHeaderCell />
     </ListHeader>
@@ -51,8 +51,8 @@
     <ListHeader>
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
-      <ListHeaderCell class="max-lg:hidden">{{ __("Broke") }}</ListHeaderCell>
-      <ListHeaderCell class="justify-end">{{ __("Out of Use") }}</ListHeaderCell>
+      <ListHeaderCell class="max-lg:hidden">{{ __("Failure Date") }}</ListHeaderCell>
+      <ListHeaderCell class="justify-end">{{ __("Downtime") }}</ListHeaderCell>
       <ListHeaderCell class="justify-end max-md:hidden">{{ __("Cost") }}</ListHeaderCell>
     </ListHeader>
     <ListRows :items="rows" row-key="name" v-slot="{ item }">
@@ -81,9 +81,9 @@
   <List v-else-if="kind === 'plans'" :columns="PLANS" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
-      <ListHeaderCell class="max-md:hidden">{{ __("Jobs") }}</ListHeaderCell>
-      <ListHeaderCell class="max-lg:hidden">{{ __("Team") }}</ListHeaderCell>
-      <ListHeaderCell>{{ __("Next") }}</ListHeaderCell>
+      <ListHeaderCell class="max-md:hidden">{{ __("Maintenance Tasks") }}</ListHeaderCell>
+      <ListHeaderCell class="max-lg:hidden">{{ __("Maintenance Team") }}</ListHeaderCell>
+      <ListHeaderCell>{{ __("Next Due Date") }}</ListHeaderCell>
     </ListHeader>
     <ListRows :items="rows" row-key="name" v-slot="{ item }">
       <ListRow @click="go(`/desk/asset-maintenance/${encodeURIComponent(item.name)}`)">
@@ -113,7 +113,7 @@
       <ListHeaderCell class="max-sm:hidden">{{ __("Kind") }}</ListHeaderCell>
       <ListHeaderCell class="max-lg:hidden">{{ __("By") }}</ListHeaderCell>
       <ListHeaderCell class="justify-end max-md:hidden">{{ __("Cost") }}</ListHeaderCell>
-      <ListHeaderCell>{{ __("Done On") }}</ListHeaderCell>
+      <ListHeaderCell>{{ __("Completion Date") }}</ListHeaderCell>
     </ListHeader>
     <ListRows :items="rows" row-key="name" v-slot="{ item }">
       <ListRow @click="go(item.kind === 'repair' ? `/desk/asset-repair/${encodeURIComponent(item.name)}` : `/desk/asset-maintenance-log/${encodeURIComponent(item.name)}`)">
@@ -125,7 +125,7 @@
           </div>
         </ListCell>
         <ListCell class="max-sm:hidden">
-          <Badge :label="item.kind === 'repair' ? __('Repair') : __('Service')" :theme="item.kind === 'repair' ? 'amber' : 'blue'" size="md" />
+          <Badge :label="item.kind === 'repair' ? __('Repair') : __('Maintenance')" :theme="item.kind === 'repair' ? 'amber' : 'blue'" size="md" />
         </ListCell>
         <ListCell class="truncate text-base text-ink-gray-7 max-lg:hidden">{{ item.by || "–" }}</ListCell>
         <ListCell class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7 max-md:hidden">{{ item.cost ? money(item.cost, currency) : "–" }}</ListCell>
@@ -190,11 +190,11 @@ const DONE = {
 
 // A service late, due within a week, or further off.
 function dueState(one) {
-  if (one.late) return { label: __("Late"), theme: "red" };
+  if (one.late) return { label: __("Overdue"), theme: "red" };
   const soon = one.due_date && (new Date(one.due_date) - new Date(today())) / 86400000 <= 7;
   return soon ? { label: __("Due Soon"), theme: "amber" } : { label: __("Planned"), theme: "gray" };
 }
-const repairState = (one) => (one.open ? { label: __("Out of Order"), theme: "red" } : { label: __("Mended"), theme: "green" });
+const repairState = (one) => (one.open ? { label: __("Out of Order"), theme: "red" } : { label: __("Completed"), theme: "green" });
 
 const dueMenu = (one) =>
   [

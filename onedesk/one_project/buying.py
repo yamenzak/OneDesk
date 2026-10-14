@@ -68,15 +68,15 @@ def papers(
 			order_by=f"{day} desc",
 			limit_page_length=SHOWN,
 		):
-			# An order, a request or a receipt says where it stands as its own
-			# head does in OneInventory: late, waiting, a bill to come.
-			said = heads.stands(frappe.get_doc(doctype, one.name)) if doctype in heads.STANDS else None
+			# ERPNext's status, as urgent as the document's own head in
+			# OneInventory says it is: a late order red.
+			tone = heads.stands(frappe.get_doc(doctype, one.name)) if doctype in heads.STANDS else None
 			found.append(
 				{
 					"doctype": doctype,
 					"name": one.name,
-					"status": said["label"] if said else "Draft" if one.docstatus == 0 else one.status,
-					"tone": said["colour"] if said else None,
+					"status": "Draft" if one.docstatus == 0 else one.status,
+					"tone": tone,
 					"date": str(one.get(day)) if one.get(day) else None,
 					"party": one.get("supplier_name") or _suppliers(doctype, one.name),
 					"supplier": one.get("supplier"),

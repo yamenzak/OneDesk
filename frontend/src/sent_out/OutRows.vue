@@ -9,8 +9,8 @@
       <ListHeaderCell>{{ __("Makes") }}</ListHeaderCell>
       <ListHeaderCell class="max-lg:hidden">{{ __("Supplier") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
-      <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Sent") }}</ListHeaderCell>
-      <ListHeaderCell class="justify-end">{{ __("Back") }}</ListHeaderCell>
+      <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Supplied") }}</ListHeaderCell>
+      <ListHeaderCell class="justify-end">{{ __("Received") }}</ListHeaderCell>
       <ListHeaderCell class="max-md:hidden">{{ done ? __("Sent On") : __("Due") }}</ListHeaderCell>
       <ListHeaderCell />
     </ListHeader>
@@ -37,7 +37,7 @@
               <template v-if="item.materials.length === 1">{{ quantity(item.materials[0].sent) }} <span class="text-sm text-ink-gray-5">{{ __(item.materials[0].unit) }}</span></template>
               <template v-else>{{ __("{0} of {1}", [count(sentAll(item)), count(item.materials.length)]) }}</template>
             </span>
-            <span class="max-w-full truncate text-sm text-ink-gray-5">{{ item.materials.length === 1 ? item.materials[0].name : __("materials sent") }}</span>
+            <span class="max-w-full truncate text-sm text-ink-gray-5">{{ item.materials.length === 1 ? item.materials[0].name : __("supplied") }}</span>
           </div>
           <span v-else class="text-base text-ink-gray-4">–</span>
         </ListCell>
@@ -73,7 +73,7 @@ import { __, count, date, fromToday, go, onedesk, quantity } from "../kit";
 const props = defineProps({
   orders: { type: Array, required: true },
   can: { type: Object, required: true },
-  // The Back tab: when each went, not when it is due.
+  // The Received tab: when each went, not when it is due.
   done: Boolean,
   empty: String,
 });
@@ -87,13 +87,13 @@ const columns = {
   xl: ["minmax(0,1fr)", "minmax(0,12rem)", "8rem", "9rem", "8rem", "7rem", "2rem"],
 };
 
-// ERPNext's own statuses, in plain words.
+// ERPNext's own statuses, each with its colour.
 const STATES = {
-  Open: [() => __("To Send"), "amber"],
-  "Partial Material Transferred": [() => __("Partly Sent"), "amber"],
-  "Material Transferred": [() => __("With Supplier"), "blue"],
-  "Partially Received": [() => __("Partly Back"), "blue"],
-  Completed: [() => __("Back"), "green"],
+  Open: [() => __("Open"), "amber"],
+  "Partial Material Transferred": [() => __("Partial Material Transferred"), "amber"],
+  "Material Transferred": [() => __("Material Transferred"), "blue"],
+  "Partially Received": [() => __("Partially Received"), "blue"],
+  Completed: [() => __("Completed"), "green"],
   Closed: [() => __("Closed"), "gray"],
 };
 function state(one) {
@@ -110,8 +110,8 @@ const sentAll = (one) => one.materials.filter((row) => row.sent >= row.needed).l
 
 const actions = (one) =>
   [
-    props.can.send && ["Open", "Partial Material Transferred"].includes(one.status) && { label: __("Send Materials"), icon: "lucide-truck", onClick: () => onedesk().sent_out.send(one.name) },
-    props.can.receive && ["Partial Material Transferred", "Material Transferred", "Partially Received"].includes(one.status) && { label: __("Receive Back"), icon: "lucide-package-check", onClick: () => onedesk().sent_out.receive(one.name) },
+    props.can.send && ["Open", "Partial Material Transferred"].includes(one.status) && { label: __("Transfer Material"), icon: "lucide-truck", onClick: () => onedesk().sent_out.send(one.name) },
+    props.can.receive && ["Partial Material Transferred", "Material Transferred", "Partially Received"].includes(one.status) && { label: __("Subcontracting Receipt"), icon: "lucide-package-check", onClick: () => onedesk().sent_out.receive(one.name) },
     one.purchase_order && { label: __("Open Purchase Order"), icon: "lucide-arrow-up-right", onClick: () => go(`/desk/purchase-order/${encodeURIComponent(one.purchase_order)}`) },
   ].filter(Boolean);
 </script>

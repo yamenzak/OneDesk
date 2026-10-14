@@ -5,7 +5,7 @@
   <p v-if="!requests.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
-      <ListHeaderCell>{{ __("Request") }}</ListHeaderCell>
+      <ListHeaderCell>{{ __("Request for Quotation") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
       <ListHeaderCell class="max-lg:hidden">{{ __("Suppliers") }}</ListHeaderCell>
       <ListHeaderCell class="justify-end">{{ __("Answered") }}</ListHeaderCell>
@@ -33,7 +33,7 @@
         <ListCell class="max-xl:hidden">
           <div class="flex flex-col">
             <span class="whitespace-nowrap text-base tabular-nums text-ink-gray-7">{{ item.date ? date(item.date) : "–" }}</span>
-            <span v-if="item.wanted" class="whitespace-nowrap text-sm text-ink-gray-5">{{ __("Wanted {0}", [date(item.wanted)]) }}</span>
+            <span v-if="item.wanted" class="whitespace-nowrap text-sm text-ink-gray-5">{{ __("Required By {0}", [date(item.wanted)]) }}</span>
           </div>
         </ListCell>
         <ListCell class="justify-end" @click.stop>
@@ -74,8 +74,8 @@ const actions = (one) =>
   [
     one.answered && { label: __("Compare"), icon: "lucide-columns-3", onClick: () => emit("compare", one.name) },
     ...(props.can.quote && !one.draft
-      ? one.suppliers.filter((row) => !row.answered).map((row) => ({ label: __("Add Quote from {0}", [row.name]), icon: "lucide-plus", onClick: () => onedesk().quotes.add(one.name, row.supplier) }))
+      ? one.suppliers.filter((row) => !row.answered).map((row) => ({ label: __("Add Supplier Quotation from {0}", [row.name]), icon: "lucide-plus", onClick: () => onedesk().quotes.add(one.name, row.supplier) }))
       : []),
-    { label: __("Open Request"), icon: "lucide-arrow-up-right", onClick: () => go(`/desk/request-for-quotation/${encodeURIComponent(one.name)}`) },
+    { label: __("Open Request for Quotation"), icon: "lucide-arrow-up-right", onClick: () => go(`/desk/request-for-quotation/${encodeURIComponent(one.name)}`) },
   ].filter(Boolean);
 </script>

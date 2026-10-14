@@ -12854,3 +12854,43 @@ the seams themselves, walked both ways as Samir and Karim, on the villa.
 - The demo check `oneproject_buying_says_what_oneinventory_says` holds
   Buying to the heads, To Order and Quotes to names, and an issue to its
   project.
+
+**ERPNext's names, in OneInventory, OneProject and OneTask.** Asked on
+2026-10-14: the screens' own names for things ("To Order", "Receipts", "Lots",
+"Due") did not match what Ctrl+K and ERPNext's forms call them, so a reader
+looking for a Purchase Receipt found Receipts on the rail and Purchase
+Receipt in search.
+
+- **The rule.** A thing is called what ERPNext calls it, the name Ctrl+K finds:
+  a rail row, a heading, a crumb, a field's label, a column and a status say
+  the doctype's, report's, field's or status's own name. A page of ours that
+  gathers several kinds is named in ERPNext's words for what it does, or for
+  the ERPNext page it replaces. `docs/WORDING.md` (On a Screen) and the walk's
+  point 12 say so; `tests/guards/test_erpnext_names.py` holds the three rails
+  and every label these modules set.
+- **The rails.** Every row opens what it says: Item, Purchase Receipt,
+  Delivery Note, Stock Entry, Stock Reconciliation, Material Request, Purchase
+  Order, Supplier, Work Order, BOM, Asset; Project, Project Template, Project
+  Profitability, Timesheet Billing Summary, Daily Timesheet Summary; Task,
+  Delayed Tasks Summary. Making is Manufacturing.
+- **Our pages.** Stock on Hand is **Stock Summary**, the title of ERPNext's page
+  it replaces; Lots is **Batch and Serial No**; To Order is **Reorder**,
+  ERPNext's word on the Item and in its reports; Quotes is **Request for
+  Quotation**; Sent Out is **Subcontracting Order**; Upkeep is **Asset
+  Maintenance**. Shop Floor and Plant Floor were ERPNext's own already. Inside
+  them every coined noun went: a lot is a Batch, a quote a Supplier
+  Quotation, a step an Operation, "Made" Manufactured, "Worth" Stock Value,
+  "Going Off" Expiring Soon; Sent Out's and Upkeep's statuses are ERPNext's.
+  Home's directory names every row after what it opens.
+- **Fields.** 46 label renames came off (Wanted By, Made, Worth Now, Due Date,
+  Budget, Members, Time Cost, Billable Hours and the rest), on the forms, the
+  lists and the pages that drew them, and `patches/erpnext_labels.py` takes
+  them off a live site. A capital fixed or a section heading left blank stays.
+  The heads' band labels say the field they show (Value After Depreciation,
+  Custodian, Required By, Expected Delivery Date).
+- **Statuses.** Assets say ERPNext's Partially Depreciated and Fully
+  Depreciated, not In Use and Written Off; one out of order stays red. A
+  project's Buying says ERPNext's status (To Receive and Bill) and keeps its
+  colour from the document's head, so a late order is still red there.
+- Removing the renames let more of the three modules read in Arabic and
+  German: ERPNext translates its own labels, and ours were English only.

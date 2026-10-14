@@ -319,7 +319,7 @@ onedesk.project.budget = async (frm, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Budget"),
 		fields: [
-			typed ? null : { fieldtype: "Currency", fieldname: "budget", label: __("Budget"), reqd: 1, default: now.estimated_costing },
+			typed ? null : { fieldtype: "Currency", fieldname: "budget", label: __("Estimated Cost"), reqd: 1, default: now.estimated_costing },
 			{ fieldtype: "Currency", fieldname: "time_budget", label: __("Time Budget"), default: now.one_time_budget },
 			{ fieldtype: "Float", fieldname: "hours", label: __("Planned Hours"), precision: 1, default: now.one_hours_planned },
 		].filter(Boolean),
@@ -455,7 +455,7 @@ onedesk.project.log_time = (frm, done) => {
 // Add Member: somebody joins the project's Members (one_project/team.py).
 onedesk.project.add_member = (frm, done) => {
 	const dialog = new frappe.ui.Dialog({
-		title: __("Add Member"),
+		title: __("Add User"),
 		fields: [
 			{
 				fieldtype: "Link",
@@ -466,7 +466,7 @@ onedesk.project.add_member = (frm, done) => {
 				get_query: () => ({ filters: { enabled: 1, name: ["not in", ["Administrator", "Guest"]] } }),
 			},
 		],
-		primary_action_label: __("Add Member"),
+		primary_action_label: __("Add User"),
 		primary_action: async ({ user }) => {
 			const said = await frappe.xcall("onedesk.one_project.team.add", { project: frm.doc.name, user });
 			dialog.hide();
@@ -896,8 +896,8 @@ onedesk.project.members_in_sidebar = (frm) => {
 	frm.share_doc = () => onedesk.project.add_member(frm, () => (frm.reload_doc ? frm.reload_doc() : frm.sidebar.reload_docinfo()));
 	const $shared = frm.sidebar?.sidebar?.find(".form-shared");
 	if (!$shared?.length) return;
-	$shared.find(".share-label .ellipsis").text(__("Members"));
-	$shared.find(".share-doc-btn").attr("title", __("Add Member"));
+	$shared.find(".share-label .ellipsis").text(__("Users"));
+	$shared.find(".share-doc-btn").attr("title", __("Add User"));
 };
 frappe.provide("onedesk.record.sidebar_parts");
 (onedesk.record.sidebar_parts.Project ||= []).push(onedesk.project.members_in_sidebar);

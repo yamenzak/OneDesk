@@ -15,7 +15,7 @@ project task assigned to you shows on your My Tasks and on the project's board.
 **OneProject** in the dock opens it. The panel on the left lists its four
 places, and its reports below them.
 
-- **Projects**: every project you can see. Employee onboarding and exit
+- **Project**: every project you can see. Employee onboarding and exit
   checklists belong to OneHR and aren't listed.
 - **Workload**: how many hours of open work each person has in a week.
 - **Timesheet**: the time people have logged, across projects, newest first. Each
@@ -27,27 +27,27 @@ places, and its reports below them.
   track from Logged to Billed and what its billable hours are worth at the
   project's rates (`heads.py`, `timesheet.*`). A timesheet prints as **One
   Timesheet**, for a customer billed for time to sign.
-- **Templates**: the tasks a kind of job usually has, to start a project
+- **Project Template**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
 - **Reports**, ERPNext's own reports across all projects:
   - **Project Summary**: each project's tasks, how many are done and how
     many are late, and how far along it is.
-  - **Profit on Billed Hours**: what billed timesheets earned against what
+  - **Project Profitability**: what billed timesheets earned against what
     the people who logged them cost. It counts only people paid from their
     timesheets.
-  - **Billable Hours**: hours worked and hours billed, by person or by
+  - **Timesheet Billing Summary**: hours worked and hours billed, by person or by
     project.
-  - **Hours by Day**: each timesheet line in a range of days, opening on
+  - **Daily Timesheet Summary**: each timesheet line in a range of days, opening on
     today.
   - **Stock by Project**: what each project's items cost, bought, issued
     from stock and delivered, beside the project's value.
 
   A report shows only to people whose role may open it.
 
-On a phone, tap the place's name at the top, **Projects**, to go to another.
-A project's page and a template's page have no panel. There, **Projects** or
-**Templates** at the top goes to another of the four places. **Rates**, what an hour of each
-activity costs and is billed at, is in the ··· menu on **Projects**.
+On a phone, tap the place's name at the top, **Project**, to go to another.
+A project's page and a template's page have no panel. There, **Project** or
+**Project Template** at the top goes to another of the four places. **Activity Type**, what an hour of each
+activity costs and is billed at, is in the ··· menu on **Project**.
 
 On a project's page, its name at the top opens your other open projects and
 **All Projects**. Its sub-projects are in the step after its name.
@@ -57,7 +57,7 @@ types are in One's **Masters**.
 
 ### Seeing projects another way
 
-The view switch at the top of **Projects** lays them out as:
+The view switch at the top of **Project** lays them out as:
 
 - **List View**: the list, with its filters.
 - **Report View**: a table you can sort, group and add columns to, and save
@@ -94,7 +94,7 @@ opens beside OneProject's rail, as Rates and Project Types do. It holds:
   Days on Site**.
 
 A day on site costs what its activity costs an hour, so give **Site Work** a
-rate under **Rates**. With none, a day on site costs nothing.
+rate under **Activity Type**. With none, a day on site costs nothing.
 
 ### Rates
 
@@ -242,7 +242,7 @@ as on any form:
   by cost type. Shown to whoever may see the documents behind it.
 - **Invoices**: the customer's invoices for the project, with what's paid and
   what's still owed.
-- **Suppliers**: each subcontract as a card, with **Bill Progress**.
+- **Supplier**: each subcontract as a card, with **Bill Progress**.
 - **Team**: who's on the project, what's on them and the hours they've put
   in.
 - **Files**: OneCloud on the project's folder, as every record's Files tab is:
@@ -505,7 +505,7 @@ status, total, and what's **Outstanding**, ERPNext's figure, the one the
 invoice itself says. What of it is retention still held is said under it,
 with the date it's due on hover. The customer and their logo show when there's more than
 one customer. The figures and amounts are in the company's currency, said
-once above them, as on **Suppliers**. An invoice in the customer's own
+once above them, as on **Supplier**. An invoice in the customer's own
 currency keeps its symbol.
 
 The figures above are what's been **Invoiced**, **Paid** (with anything paid
@@ -614,7 +614,7 @@ The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **···** has **Ask for Updates** and **Group Under New Project**. The other steps are where they belong. **Quote Extra Work** is
 under **Quotations** and **Draw Up Contract** under **Contracts** on the
 Overview, **Add Sub-project** under **Sub-projects**, **Issue Stock** and
-**New Expense Claim** on **Money**, and **Templates** on **Tasks**. On a
+**New Expense Claim** on **Money**, and **Project Template** on **Tasks**. On a
 Fixed Price project with no contract yet, **New Quotation** takes the place
 of **Quote Extra Work**, and while one quotation is open **Make Order** is
 the main button.
@@ -637,7 +637,7 @@ them here. Each button shows only to whoever may do what it does.
 
 **Project Manager** is the one person who runs a project. It starts as
 whoever created it. The manager always sees the project, whether or not
-they're a member. Filter **Projects** by it, or by **Health**.
+they're a member. Filter **Project** by it, or by **Health**.
 
 ## Who sees a project
 
@@ -760,7 +760,7 @@ tasks or sub-projects until it's opened again.
 Every document about a project names it:
 
 - **Customer**: quotations, sales orders, delivery notes and sales invoices.
-- **Suppliers**: material requests, requests for quotation, supplier
+- **Supplier**: material requests, requests for quotation, supplier
   quotations, purchase orders, purchase receipts and purchase invoices.
 - **Work**: tasks, timesheets, updates, expense claims and stock used.
 - **Payments**: payments in and out.
@@ -866,7 +866,7 @@ sub-project's budget without cost types, and cost booked to accounts none
 of them use.
 
 **How a cost lands in a cost type**: by the account it's booked to, with
-the project on it. A supplier's bill (**Record Bill** on **Suppliers**, or
+the project on it. A supplier's bill (**Record Bill** on **Supplier**, or
 an order's bill) books to each item's expense account; an expense claim to
 its claim type's account; **Issue Stock** to the item's expense account, or
 else the company's cost of goods, never to Stock Adjustment. Click a cost
@@ -897,7 +897,7 @@ as 1 **Lump Sum**, so it can be billed a part at a time. An order with a Lump
 Sum line, or for anything not kept in stock, is a subcontract. An order for
 stock items is goods, and is listed under **Buying**.
 
-**Suppliers** on the project's page shows each subcontract as a card: the
+**Supplier** on the project's page shows each subcontract as a card: the
 supplier, what it was ordered for and which sub-project, how much of it is
 billed, what's left to bill, what's been paid, what's **To Pay** now (in red,
 with how late, once it's past due), the retention held and the advance not
@@ -908,7 +908,7 @@ supplier's bill with no order before it, a shop receipt, on the project.
 supplier to the project's contacts before anything is ordered from them,
 and they're listed under **No Order Yet** until there's an order. The line above adds up
 what's ordered, billed, left to bill, to pay, overdue and held. A Fixed
-Price project always shows **Suppliers**; others once they have an order.
+Price project always shows **Supplier**; others once they have an order.
 
 **Bill Progress** (on the supplier's card, or under **Create** on a submitted
 order) asks how far the
@@ -950,12 +950,10 @@ readable.
 its sub-projects: material requests, requests for quotation, the suppliers'
 quotations, orders for goods (with how much is received and billed, in amber
 when it's billed ahead of what's come) and the goods received, newest first.
-Each says where it stands in the word its own page says it in OneInventory:
-an order **Late**, **Waiting**, **Bill to Come**, **To Pay** or **Done**; a
-request **To Order**, **Quoting**, **Part Ordered** or **Late**; a receipt
-**Bill to Come** or **Billed**; a request for prices how many have quoted.
-**New Material Request** asks for material for the project, and **Ask for
-Prices** asks suppliers to quote for one of its requests, as the Quotes page
+Each says ERPNext's status, coloured as urgent as its own page in
+OneInventory says it is, so a late order is red. **New Material Request**
+asks for material for the project, and **Ask for Prices** asks suppliers to
+quote for one of its requests, as OneInventory's Request for Quotation page
 asks.
 
 **Subcontracts** on a Fixed Price project's Overview lists the subcontracts: what
@@ -963,7 +961,7 @@ each is for, which sub-project it's on, how much is billed, and what's to pay
 once retention is set aside. An amber dot marks an order billed further than
 the work on its project has got, with how far that is. A supplier's bill with
 a payment past its due date is in **Needs You** as **Pay** the supplier. The
-arrow on the heading opens **Suppliers**.
+arrow on the heading opens **Supplier**.
 
 ## What's agreed with the customer
 
@@ -1011,7 +1009,7 @@ record who signed it and when, then submit it.
 
 **Contracts** on the Overview lists each one with who it is with, whether it
 is signed and when it ends. A supplier's contract also shows on its card on
-the **Suppliers** tab. **About** shows the customer's: **Signed** with when it
+the **Supplier** tab. **About** shows the customer's: **Signed** with when it
 ends, or **Not signed yet**. While the project is open, Needs You says **Get
 the contract signed** for each one not signed, and **Renew the contract** from
 a month before a signed one ends, unless a later one with the same party runs
@@ -1213,7 +1211,7 @@ On a project's page, OneAI offers what fits the view you're on:
   **What's left to pay the subcontractors?**
 - **Invoices**: **What's still to invoice?** and **Remind a customer of an
   overdue invoice**
-- **Suppliers**: **What's left to pay the subcontractors?**
+- **Supplier**: **What's left to pay the subcontractors?**
 - **Team**: **Who has too much on?** and **What is late?**
 
 An internal project has no customer, so it isn't offered the customer
@@ -1243,7 +1241,7 @@ and the invoice attached, and you send it. Ask it to add somebody to the
 team or a contact, and approving the card adds them as **Add Member** and
 **Add Contact** do.
 
-On **Templates** and on a template's page, OneAI offers **Draft a template**.
+On **Project Template** and on a template's page, OneAI offers **Draft a template**.
 Say what kind of job it is for. It offers a template you already have, or
 one from the library, first. A new one comes as a card listing its phases,
 how many tasks it has and how many days it runs. Approving it makes the
@@ -1284,10 +1282,10 @@ draws itself again when a task, a timesheet or a leave changes. OneAI offers
 
 A customer can follow their projects on the website. On the customer's
 **Contact**, **Invite as User** gives that person a login. They sign in at the
-workspace's address and see their own pages: **Projects**, and their
+workspace's address and see their own pages: **Project**, and their
 quotations, orders and invoices.
 
-**Projects** lists the customer's open projects. Opening one shows:
+**Project** lists the customer's open projects. Opening one shows:
 
 - its Featured Media beside its name, turning on its own as on the project's
   page, with arrows and the small photos to turn it by hand;
@@ -1315,7 +1313,7 @@ A job you do again and again, like a website, a fit-out or an office move,
 starts from a **template**: its usual tasks, when each starts and how long it
 takes, which depends on which, the milestones and the checklists.
 
-**Templates** at the top of OneProject lists them, each with how many tasks
+**Project Template** at the top of OneProject lists them, each with how many tasks
 it has, how many days it runs and how many projects were started from it. A
 template opens on a page
 of its own, its tasks in the same table a project's are in, each with when it
@@ -1344,7 +1342,7 @@ your workspace adds to templates. **New Project** at the top starts one.
 ### From the library
 
 OneProject comes with templates ready to use. **From the Library** in
-**New Project**, in **Add from Template** and on the **Templates** list offers
+**New Project**, in **Add from Template** and on the **Project Template** list offers
 them as a list to pick from or search, each with its tasks, its days and what
 it is for, or **In your templates** once you have a copy. The first time one
 is used it is copied into the workspace as a
@@ -1369,7 +1367,7 @@ workspace lacks are made the first time it is used, to change as you like.
 
 ### Other ways to make one
 
-- **Save as Template** (in **Templates** on a project's **Tasks**) creates one from a
+- **Save as Template** (in **Project Template** on a project's **Tasks**) creates one from a
   project that went well. Each task keeps when it started and ended, as days
   after the project started, so a task that started on day 5 and took three
   days does the same next time. Cancelled tasks are left out.
@@ -1378,7 +1376,7 @@ workspace lacks are made the first time it is used, to change as you like.
   saved, dated from the project's **Expected Start Date** (today if it has
   none), each with its sub-tasks, dependencies, checklist and whether it's a
   milestone, and named with the project's **Task Prefix** if it has one.
-- **Add from Template** (in **Templates** on a project's **Tasks**) adds a template's
+- **Add from Template** (in **Project Template** on a project's **Tasks**) adds a template's
   tasks to a project that's already running, beside the tasks it has, dated
   from the day you choose.
 

@@ -69,11 +69,11 @@ onedesk.floor.record = (step, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Record {0}", [__(step.operation)]),
 		fields: [
-			{ fieldtype: "Float", fieldname: "qty", label: __("How Many Made"), default: left, reqd: 1, description: __("{0} of {1} still to make", [left, step.for_quantity]) },
-			{ fieldtype: "Float", fieldname: "loss", label: __("How Many Lost"), default: 0 },
+			{ fieldtype: "Float", fieldname: "qty", label: __("Completed Qty"), default: left, reqd: 1, description: __("{0} of {1} still to make", [left, step.for_quantity]) },
+			{ fieldtype: "Float", fieldname: "loss", label: __("Process Loss Qty"), default: 0 },
 			{ fieldtype: "Datetime", fieldname: "end_time", label: __("Ended At"), default: frappe.datetime.now_datetime(), reqd: 1 },
 		],
-		primary_action_label: __("Close Step"),
+		primary_action_label: __("Close Operation"),
 		primary_action: (values) => {
 			if (!(flt(values.qty) > 0)) return frappe.msgprint(__("Quantity must be greater than zero."));
 			dialog.hide();
@@ -139,7 +139,7 @@ onedesk.floor.check = async (step, then) => {
 					: { specification: one.specification, status: values[`p${i}`] }
 			);
 			const r = await frappe.xcall(`${FLOOR}.submit_quality_inspection`, { job_card: step.name, readings: JSON.stringify(readings) });
-			if (r?.status === "Rejected") frappe.msgprint(__("The check was rejected, so the step stays open."));
+			if (r?.status === "Rejected") frappe.msgprint(__("The check was rejected, so the operation stays open."));
 			else then?.();
 		},
 	});

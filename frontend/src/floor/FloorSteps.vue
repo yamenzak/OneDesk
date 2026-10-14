@@ -4,7 +4,7 @@
        clock and who is on it, how many are done of how many, what of its
        materials is short, its quality check, and one button for what comes
        next, as ERPNext's Shop Floor offers it. -->
-  <div v-if="!steps.length" class="py-3 text-base text-ink-gray-5">{{ __("No steps here") }}</div>
+  <div v-if="!steps.length" class="py-3 text-base text-ink-gray-5">{{ __("No operations here") }}</div>
   <div v-else class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
     <div v-for="one in rows" :key="one.name" class="flex min-w-0 flex-col gap-3 rounded-4 border bg-surface-elevation-2 p-4" :class="one.running ? 'border-outline-green-2' : 'border-outline-gray-1'">
       <div class="flex min-w-0 items-start gap-2">
@@ -108,7 +108,7 @@ function next(one) {
   if (may.start) return { label: __("Start"), icon: "lucide-play", solid: true, onClick: () => onedesk().floor.start(one.name, props.employee, done) };
   if (may.pause) return { label: __("Pause"), icon: "lucide-pause", onClick: () => onedesk().floor.pause(one.name, done) };
   if (may.resume) return { label: __("Resume"), icon: "lucide-play", solid: true, onClick: () => onedesk().floor.resume(one.name, done) };
-  if (may.submit && props.can.submit) return { label: __("Close Step"), icon: "lucide-check", onClick: () => onedesk().floor.close(one, done) };
+  if (may.submit && props.can.submit) return { label: __("Close Operation"), icon: "lucide-check", onClick: () => onedesk().floor.close(one, done) };
   return null;
 }
 
@@ -116,7 +116,7 @@ function next(one) {
 function more(one) {
   const out = [];
   if (one.may.record && props.can.start) out.push({ label: __("Record Made"), icon: "lucide-clipboard-check", onClick: () => onedesk().floor.record(one, done) });
-  if (one.to_move && one.docstatus === 0 && props.can["Stock Entry"]) out.push({ label: __("Move Materials"), icon: "lucide-arrow-left-right", onClick: () => onedesk().floor.move(one.name) });
+  if (one.to_move && one.docstatus === 0 && props.can["Stock Entry"]) out.push({ label: __("Transfer Material"), icon: "lucide-arrow-left-right", onClick: () => onedesk().floor.move(one.name) });
   if (one.instructions?.work_instruction) out.push({ label: __("Read Instructions"), icon: "lucide-book-open", onClick: () => onedesk().floor.instructions(one) });
   if (one.qc.has_checklist && one.docstatus === 0 && props.can["Quality Inspection"] && one.qc.status !== "Accepted") out.push({ label: __("Check Quality"), icon: "lucide-shield-check", onClick: () => onedesk().floor.check(one, done) });
   out.push({ label: __("Open Job Card"), icon: "lucide-arrow-up-right", onClick: () => go(`/desk/job-card/${encodeURIComponent(one.name)}`) });

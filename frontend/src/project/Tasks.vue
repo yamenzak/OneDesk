@@ -18,9 +18,9 @@
             <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Assigned To") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Status") }}</ListHeaderCell>
-            <ListHeaderCell>{{ __("Due") }}</ListHeaderCell>
+            <ListHeaderCell>{{ __("Expected End Date") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Priority") }}</ListHeaderCell>
-            <ListHeaderCell>{{ __("Planned") }}</ListHeaderCell>
+            <ListHeaderCell>{{ __("Expected Time") }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Progress") }}</ListHeaderCell>
           </ListHeader>
           <ListRows :items="nest(group.tasks)" row-key="name" v-slot="{ item }">
@@ -58,7 +58,7 @@
                   class="w-full tabular-nums"
                   :model-value="item.expected_time || ''"
                   :disabled="!canWrite"
-                  :aria-label="__('Planned Hours')"
+                  :aria-label="__('Expected Time')"
                   placeholder="–"
                   @change="(e) => $emit('set', item.name, 'expected_time', Number(e.target.value) || 0)"
                 />

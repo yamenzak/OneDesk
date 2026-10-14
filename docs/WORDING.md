@@ -116,6 +116,19 @@ Headings, notes under a heading, buttons, column names, badges, empty states
 and confirmations read like any good SaaS product. Plain words a person
 already knows, and nothing clever.
 
+**A thing is called what ERPNext and frappe call it.** A rail row, a list's,
+report's or page's heading, a crumb, a field's label, a column and a status
+say the name ERPNext gives the doctype, report, field or status — the name
+Ctrl+K finds it by, and the name its own form, its messages and the
+reader's training use. `Purchase Receipt`, not `Receipts`; `Stock Entry`,
+not `Stock Movements`; `Expected End Date`, not `Due`; `Partially
+Depreciated`, not `In Use`. A page of ours that gathers several kinds is
+named in ERPNext's words for what it does (`Reorder`, `Asset Maintenance`,
+`Batch and Serial No`), or for the ERPNext page it replaces (`Stock
+Summary`). A capital fixed or a section heading left blank is not a rename.
+OneInventory, OneProject and OneTask are held to it by
+`tests/guards/test_erpnext_names.py`.
+
 **A heading is the plain name of what is listed.** `Custom Fields`, not
 `Fields Added Here`. `Changed Fields`, not `Fields Changed Here`.
 

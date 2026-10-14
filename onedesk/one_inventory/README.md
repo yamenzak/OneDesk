@@ -32,7 +32,7 @@ Order** and **Moves This Month**. Each opens its list.
     it.
   - **Buying**: how far the material requests got, what was bought from
     each supplier, and how each supplier keeps to its dates.
-  - **Making**: the work orders by status, what was made each month, and
+  - **Manufacturing**: the work orders by status, what was made each month, and
     the hours at each workstation.
   - **Equipment**: its worth by kind, bought against now, the assets by
     status, and the services by month.
@@ -52,14 +52,14 @@ Order** and **Moves This Month**. Each opens its list.
 
 The rail keeps what people use every day:
 
-- **Items**, **Stock on Hand**, **Receipts**, **Deliveries**, **Stock
-  Movements**, **Stock Counts** and **Lots**, which holds lots and serial
+- **Item**, **Stock Summary**, **Purchase Receipt**, **Delivery Note**, **Stock
+  Movements**, **Stock Reconciliation** and **Batch and Serial No**, which holds lots and serial
   numbers together. See Lots and expiry dates.
-- **Buying** — **To Order**, **Material Requests**, **Quotes**, **Purchase
-  Orders** and **Suppliers**. See Buying.
-- **Making** — **Shop Floor**, **Plant Floor**, **Work Orders**, **Bills of
-  Materials** and **Sent Out**. See Making.
-- **Assets** — **Assets** and **Upkeep**.
+- **Buying** — **Reorder**, **Material Request**, **Request for Quotation**, **Purchase
+  Orders** and **Supplier**. See Buying.
+- **Manufacturing** — **Shop Floor**, **Plant Floor**, **Work Order**, **Bills of
+  Materials** and **Subcontracting Order**. See Making.
+- **Asset** — **Asset** and **Asset Maintenance**.
 - **Reports** — the stock, buying, making and asset reports, each with what
   it shows.
 - **Setup** — the **Inventory Check** first (what is missing before stock
@@ -71,7 +71,7 @@ The rail keeps what people use every day:
   categories, locations, maintenance teams, shift factors, delivery
   settings, and the stock, buying and manufacturing settings.
 
-**Lots**, **Quotes**, **Sent Out** and **Upkeep** each gather several kinds
+**Batch and Serial No**, **Request for Quotation**, **Subcontracting Order** and **Asset Maintenance** each gather several kinds
 of record. At the top of each is the same view switch a list has. **List
 View** and **Report View** open those records as a list or a report, and the
 reports that go with them are there too. On those lists the switch leads back
@@ -171,7 +171,7 @@ The figures under that depend on what it is:
   Order what was ordered each month, and under Last Bought the prices it was
   last bought at.
 - **A service**: its **Selling Price** and what it **Sold in 12 Months**.
-- **Equipment**: how many **Assets** it has become, and how many are not yet
+- **Equipment**: how many **Asset** it has become, and how many are not yet
   registered.
 
 Then its views, each only where the item has it:
@@ -218,7 +218,7 @@ Then its views, each only where the item has it:
   **New Order** and **Set Customer's Code**. The selling prices are changed
   on the row, and one says when it was last sold below it. Each makes the
   next document as its own form's button does.
-- **Making**: what it is made from, each material with how many its free
+- **Manufacturing**: what it is made from, each material with how many its free
   stock would make, and "Enough for 182, Structural Silicone runs out
   first" over them. Then the steps that make it, each at its workstation
   with its minutes and cost, and what one costs in materials and in steps.
@@ -260,9 +260,9 @@ disabled, or a warehouse's reorder level) as a card you approve.
 
 ## Stock on hand and warehouses
 
-**Stock on Hand** says what the stores hold now, drawn after Shopify's
+**Stock Summary** says what the stores hold now, drawn after Shopify's
 Inventory and Katana's Stock screen. At the top are what it is all **Worth**,
-how many **Items** are held, how many are **Low** (at or below their reorder
+how many **Item** are held, how many are **Low** (at or below their reorder
 level) and how many are **Short** (more promised to customers than there is);
 the Low and Short figures narrow the list to theirs.
 
@@ -306,7 +306,7 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 - **Stock cannot go below zero.** If it could, what it is worth would go
   wrong with it. **Fix** stops it.
 - **Running low asks for more.** An item at its reorder level gets a
-  material request each night. **Fix** turns this on. **To Order** lists
+  material request each night. **Fix** turns this on. **Reorder** lists
   what is low either way.
 - **Rejected goods are not billed.** ERPNext's own setting bills what was
   rejected on arrival too. **Fix** bills only what was accepted.
@@ -335,11 +335,11 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 
 ## Buying
 
-**Buying** in the rail goes the way buying does. It holds **To Order**, **Material
-Requests**, **Quotes**, **Purchase Orders** and **Suppliers**. Requests for
+**Buying** in the rail goes the way buying does. It holds **Reorder**, **Material
+Requests**, **Request for Quotation**, **Purchase Order** and **Supplier**. Requests for
 Quotation, Supplier Quotations, Quote Comparison and Blanket Orders are under
 Everything on Home. Suppliers are kept in OneBook, and the link here opens the
-same supplier. A supplier's **Items** tab, modelled on Odoo's vendor price
+same supplier. A supplier's **Item** tab, modelled on Odoo's vendor price
 list, says what is bought from them, item by item: their own code for it,
 whether they are its default supplier, the last price paid in their money
 and what it was before, or what they agreed on a blanket order, how much was
@@ -352,12 +352,12 @@ Order** starts one with them (`supplier_items.py`).
    saying what, how many, for which warehouse and project, and when it is
    wanted.
    Its page says the **Project**, who **Asked By**, when it is **Wanted
-   By** (in red once late), how many **Quotes** came in, and how much is
+   By** (in red once late), how many **Request for Quotation** came in, and how much is
    **Ordered** and **Received**. The list leads with the title, which
    already names the items and whether they are bought or made, so it has
    no number or Purpose column; a request's lines take the request's
    Required By and leave it out of the table.
-2. **Ask for prices.** **Ask for Prices** on **Quotes** picks the material
+2. **Ask for prices.** **Ask for Prices** on **Request for Quotation** picks the material
    request and the suppliers, and mails each one a link, or leaves the
    request a draft to finish on its form. **Create › Request for Quotation**
    on the material request does the same from there. Submit it and **Send Email** mails each one a
@@ -365,10 +365,10 @@ Order** starts one with them (`supplier_items.py`).
    arrives as a draft with whoever asked told. A quote by mail is
    **Create › Supplier Quotation** on the request. A quote holds until its
    **Valid Till**, and expires by itself after.
-3. **Compare.** **Quotes** is laid out as Odoo Purchase lays it out. **Asked**
+3. **Compare.** **Request for Quotation** is laid out as Odoo Purchase lays it out. **Asked**
    is a table of requests: what each asks for, where it stands, each
    supplier asked with a tick once they answered, how many answered, and
-   when it was asked and is wanted. **Quotes** is a table of suppliers'
+   when it was asked and is wanted. **Request for Quotation** is a table of suppliers'
    quotes: who, where it stands, the request it answers and the orders made
    from it, until when it holds, and its total in its own money, with All,
    To Decide, To Check and Running Out above it. **Compare** sets one
@@ -414,10 +414,10 @@ Order** starts one with them (`supplier_items.py`).
   or a receipt must come before a bill, and how much over a request may be
   ordered.
 
-## Making
+## Manufacturing
 
-**Making** in the rail is the workshop: **Shop Floor**, **Plant Floor**, **Work
-Orders**, **Bills of Materials** and **Sent Out**. Job cards, subcontracting
+**Manufacturing** in the rail is the workshop: **Shop Floor**, **Plant Floor**, **Work
+Orders**, **BOM** and **Subcontracting Order**. Job cards, subcontracting
 orders and receipts and production plans are under Everything on Home, and
 workstations, plant floors, operations and Manufacturing Settings under
 Setup.
@@ -426,7 +426,7 @@ Setup.
    product takes, and with **With Operations** the steps (cutting,
    assembling, glazing) and the workstation each is done at, with its
    minutes. Its page says what it **Makes**, its **Cost Each** in materials
-   and time, its **Steps**, and how many **Work Orders** use it.
+   and time, its **Steps**, and how many **Work Order** use it.
 2. **Make it.** A **Work Order** makes so many of a product, for stock,
    for a project or for a customer's order. Somebody who needs goods made
    asks with a **Material Request** of type Manufacture, and **Create ›
@@ -487,7 +487,7 @@ It changes as soon as somebody else starts or closes a step.
 ### Plant Floor
 
 **Plant Floor** under Making shows a floor's workstations as cards. Over it,
-how many **Workstations** there are, how many are **Making**, how many are
+how many **Workstations** there are, how many are **Manufacturing**, how many are
 **Stopped** by a problem or for maintenance, and how many **Steps Running**.
 
 - It is laid out as Odoo's work centres are. Each card says the
@@ -510,7 +510,7 @@ how many **Workstations** there are, how many are **Making**, how many are
   count in the project's Stock Used on OneProject, as ERPNext counts them.
 - **Sending work out.** A product a supplier makes from your materials,
   powder coating say, is a **Subcontracted Item** (Setup) naming the
-  supplier's service. **Sent Out** in the rail keeps that work on one page.
+  supplier's service. **Subcontracting Order** in the rail keeps that work on one page.
   The figures say how many orders are out, how many still have materials
   to send, how many are late back, and what our materials with suppliers
   are worth at cost. **Out Now** is a table, as Katana lays out its
@@ -530,7 +530,7 @@ how many **Workstations** there are, how many are **Making**, how many are
 
 ## Receiving
 
-**Receipts** lists every delivery with its supplier, where it stands, its date,
+**Purchase Receipt** lists every delivery with its supplier, where it stands, its date,
 its total and how much of it is billed. A supplier's delivery note read from
 mail is already there as a draft, marked as made by OneAI.
 
@@ -566,7 +566,7 @@ late, and drafts a receipt for what arrived on an order as a card you approve.
 The customer's order is OneCRM's and the invoice is OneBook's. What happens
 between them is here.
 
-**Deliveries** lists every delivery with its customer, where it stands, its
+**Delivery Note** lists every delivery with its customer, where it stands, its
 date, its total and how much of it is billed.
 
 A delivery says above its fields which **Project** and **Order** it is for,
@@ -653,7 +653,7 @@ hold, given to the stores.
 
 ## Servicing equipment
 
-**Upkeep** in the rail keeps servicing and mending on one page. The figures
+**Asset Maintenance** in the rail keeps servicing and mending on one page. The figures
 say how many services are due this week, how many are late, what is out of
 order, and what repairs cost over the last twelve months. Each tab is a
 table, as UpKeep and Fiix lay out their work orders, one status to a row.
@@ -706,7 +706,7 @@ difference is posted to the account you choose, and its band says what it
 
 ## Moving stock
 
-**Stock Movements** lists every movement with its type, where it came from,
+**Stock Entry** lists every movement with its type, where it came from,
 where it went, its project and what it moved. **Transfer Stock** on Stock on Hand
 moves stock from the warehouse you are looking at in one step.
 
@@ -737,18 +737,18 @@ The first count of a new warehouse is how you enter opening stock. Set
 **Purpose** to **Opening Stock**, and its value goes to Temporary Opening.
 
 A count says above its fields what it was for, **Where** it was counted, how
-many **Items** it changed, and the **Difference** it made in the books.
+many **Item** it changed, and the **Difference** it made in the books.
 
 OneAI says what a count found and what it did to the books.
 
-## Lots and expiry dates
+## Batches and expiry dates
 
-**Lots** in the rail keeps lots and serial numbers in one place. The figures
+**Batch and Serial No** in the rail keeps lots and serial numbers in one place. The figures
 say how many lots are in stock, how many go off within a month, how many have
 gone off and how many numbered pieces are in stock, the company's own. Three
 tabs follow. An item's Stock tab shows the same lots and numbers.
 
-- **Lots** is a table drawn after Odoo's Lots and Serial Numbers and
+- **Batch and Serial No** is a table drawn after Odoo's Lots and Serial Numbers and
   Katana's batch tracking: each lot with something left, the one going off
   first, with one status (Good, Going Off within a month, Gone Off, or Keeps
   for a lot that never goes off), when it was made, when it goes off and in
@@ -757,7 +757,7 @@ tabs follow. An item's Stock tab shows the same lots and numbers.
   Off and Gone Off figures do too.
 - **Serial Numbers** is a table of each numbered piece with its status, where
   it is or the customer it went to, its lot, and when its warranty ends.
-- **Items** lists the items kept in lots or by number, and how each is
+- **Item** lists the items kept in lots or by number, and how each is
   numbered.
 
 **Track Lots** sets an item up to be kept in lots or by number in one step:
@@ -831,7 +831,7 @@ split.
 - **From OneBook**: Suppliers are kept in OneBook, and Buying › Suppliers opens the same supplier there. A supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneIntake**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal. A supplier's bill for an order, such as the coater's, becomes a draft bill against the order, due when the bill says.
 - **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant. A repair takes its cost from the garage's bill, and an asset's value adjustment posts a journal entry.
-- **To OneProject**: A project's Buying says each order, request and receipt in the word its head says it in here (`heads.stands`), and To Order and Quotes name a request's project by its name. What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way, and so do the materials a project's work orders use. Its manager is told when one is made.
+- **To OneProject**: A project's Buying colours each order, request and receipt as urgent as its head here says it is (`heads.stands`), and To Order and Quotes name a request's project by its name. What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way, and so do the materials a project's work orders use. Its manager is told when one is made.
 - **To OneHR**: An employee's page shows how much equipment they hold, to HR as well, who may read the register. A person given equipment is told and signs the handover. When they leave, HR submits their separation, and it gets a Return task for each piece, given to the stores.
 - **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
 

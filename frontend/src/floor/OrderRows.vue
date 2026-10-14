@@ -9,9 +9,9 @@
       <ListHeaderCell>{{ __("Work Order") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
       <ListHeaderCell class="max-lg:hidden">{{ __("At") }}</ListHeaderCell>
-      <ListHeaderCell class="justify-end">{{ __("Made") }}</ListHeaderCell>
-      <ListHeaderCell class="justify-end max-lg:hidden">{{ __("Steps") }}</ListHeaderCell>
-      <ListHeaderCell class="max-xl:hidden">{{ __("Wanted By") }}</ListHeaderCell>
+      <ListHeaderCell class="justify-end">{{ __("Manufactured Qty") }}</ListHeaderCell>
+      <ListHeaderCell class="justify-end max-lg:hidden">{{ __("Operations") }}</ListHeaderCell>
+      <ListHeaderCell class="max-xl:hidden">{{ __("Expected Delivery Date") }}</ListHeaderCell>
     </ListHeader>
     <ListRows :items="orders" row-key="name" v-slot="{ item }">
       <ListRow @click="emit('open', item.name)">

@@ -1,5 +1,5 @@
 <template>
-  <!-- Stock on Hand (one_inventory/page/stock_on_hand): what the company holds
+  <!-- Stock Summary (one_inventory/page/stock_on_hand): what the company holds
        now, in every warehouse or one, item by item (one_inventory/stock.py,
        read as the reader). Modelled on Shopify's Inventory and Katana's Stock
        screen: a picture and a name, one status, and on hand split into what
@@ -28,11 +28,11 @@
         <ListHeader>
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
           <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end max-xl:hidden">{{ __("On Hand") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Committed") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Available") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end max-lg:hidden">{{ __("Incoming") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end max-sm:hidden">{{ __("Value") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Actual Qty") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Reserved Qty") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end">{{ __("Available Qty") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-lg:hidden">{{ __("Ordered Qty") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end max-sm:hidden">{{ __("Stock Value") }}</ListHeaderCell>
         </ListHeader>
         <ListRows :items="rows" row-key="item" v-slot="{ item }">
           <ListRow @click="go(`/desk/item/${encodeURIComponent(item.item)}`)">
@@ -164,7 +164,7 @@ const rows = computed(() => {
 const figures = computed(() => {
   const s = said.value;
   return [
-    { title: __("Worth"), value: money(s.worth, s.currency), note: s.warehouse ? short(s.warehouse) : __("In every warehouse") },
+    { title: __("Stock Value"), value: money(s.worth, s.currency), note: s.warehouse ? short(s.warehouse) : __("In every warehouse") },
     { title: __("Items"), value: count(s.count) },
     { title: __("Low"), value: count(s.low), alarm: s.low > 0, note: s.low ? __("At or below their reorder level") : "", action: s.low ? { icon: "lucide-filter", label: __("Show Low Items"), onClick: () => (state.value = "low") } : null },
     { title: __("Short"), value: count(s.short), alarm: s.short > 0, note: s.short ? __("More promised than on hand") : "", action: s.short ? { icon: "lucide-filter", label: __("Show Short Items"), onClick: () => (state.value = "short") } : null },
@@ -173,7 +173,7 @@ const figures = computed(() => {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("Stock on Hand") });
+  props.onTitle?.({ title: __("Stock Summary") });
   extended(s);
   const warehouse = s.warehouse || undefined;
   props.onActions?.(
@@ -182,7 +182,7 @@ function report() {
       s.can["Stock Reconciliation"] && { label: __("Count Stock"), onClick: () => onedesk().stock.count(warehouse) },
       s.can.Warehouse && { label: __("Add Warehouse"), onClick: () => onedesk().stock.warehouse() },
       { label: __("Stock Balance"), onClick: () => go(`/desk/query-report/Stock Balance${warehouse ? `?warehouse=${encodeURIComponent(warehouse)}` : ""}`) },
-      { label: __("Projected Stock"), onClick: () => go(`/desk/query-report/Stock Projected Qty${warehouse ? `?warehouse=${encodeURIComponent(warehouse)}` : ""}`) },
+      { label: __("Stock Projected Qty"), onClick: () => go(`/desk/query-report/Stock Projected Qty${warehouse ? `?warehouse=${encodeURIComponent(warehouse)}` : ""}`) },
     ].filter(Boolean)
   );
 }

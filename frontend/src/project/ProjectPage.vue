@@ -28,7 +28,7 @@
         </Dropdown>
         <Button size="sm" :variant="showDone ? 'subtle' : 'ghost'" icon-left="lucide-circle-check" :label="__('Done')" @click="showDone = !showDone" />
         <Dropdown v-if="templates.length" :options="templates">
-          <template #trigger><Button size="sm" icon-left="lucide-layout-template" :label="__('Templates')" /></template>
+          <template #trigger><Button size="sm" icon-left="lucide-layout-template" :label="__('Project Template')" /></template>
         </Dropdown>
         <Button v-if="work?.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Task')" @click="newTask" />
       </div>
@@ -182,7 +182,7 @@ const VIEWS = computed(() =>
     { key: "overview", label: __("Overview"), icon: "lucide-layout-dashboard" },
     { key: "tasks", label: __("Tasks"), icon: "lucide-list-checks", count: count.value || null },
     // Each of these only for whoever may see it (view.py `views`).
-    allowed("time") && { key: "time", label: __("Time"), icon: "lucide-clock" },
+    allowed("time") && { key: "time", label: __("Timesheet"), icon: "lucide-clock" },
     allowed("money") && { key: "money", label: __("Money"), icon: "lucide-wallet" },
     allowed("invoices") && { key: "invoices", label: __("Invoices"), icon: "lucide-receipt" },
     allowed("suppliers") && { key: "suppliers", label: __("Suppliers"), icon: "lucide-truck", count: said.value.money.suppliers.length || null },
@@ -203,7 +203,7 @@ const tree = computed(() => (work.value?.groups || []).map((one) => one.key));
 // A view the reader may not see (Money, Suppliers) opens Overview instead.
 watch(VIEWS, (now) => said.value && !now.some((one) => one.key === tab.value) && (view.value = "overview"));
 
-const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Assigned To"), due: __("Due Date") });
+const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Assigned To"), due: __("Expected End Date") });
 const groupLabel = computed(() => GROUPS()[groupBy.value]);
 const groupChoices = computed(() => Object.entries(GROUPS()).map(([key, label]) => ({ label, selected: key === groupBy.value, onClick: () => (groupBy.value = key) })));
 const shown = computed(() => (work.value ? visible(work.value, { search: search.value, showDone: showDone.value }) : []));

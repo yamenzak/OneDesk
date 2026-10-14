@@ -167,7 +167,7 @@ const spot = usePlace("oneinventory_item.making", () => ({
 // has them. Whether it is taken as a material only means something for what
 // goes into something.
 const details = computed(() => [
-  ...(making.value.used_in.length || !making.value.made_here ? [{ label: __("Taken as a Material"), field: "include_item_in_manufacturing" }] : []),
-  ...(making.value.made_here ? [{ label: __("Default Bill of Materials"), field: "default_bom" }] : []),
+  ...(making.value.used_in.length || !making.value.made_here ? [{ label: __("Include Item In Manufacturing"), field: "include_item_in_manufacturing" }] : []),
+  ...(making.value.made_here ? [{ label: __("Default BOM"), field: "default_bom" }] : []),
 ]);
 </script>

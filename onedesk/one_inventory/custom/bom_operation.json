@@ -26,14 +26,6 @@
    "property_type": "Check",
    "value": "1",
    "field_name": "workstation"
-  },
-  {
-   "doc_type": "BOM Operation",
-   "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Minutes",
-   "field_name": "time_in_mins"
   }
  ],
  "sync_on_migrate": 1

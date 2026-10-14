@@ -17,8 +17,8 @@ else you have to do is here.
 - **Inbox**: your open tasks with no project, the ones you made and the
   ones given to you, such as a task Intake made about a supplier's bill.
   Quick notes to yourself go here.
-- **All Tasks** at the bottom: every task you can see, as a list.
-- **Reports**, **Task Delays**: ERPNext's report of every task you can see,
+- **Task** at the bottom: every task you can see, as a list.
+- **Reports**, **Delayed Tasks Summary**: ERPNext's report of every task you can see,
   on time or late, with how late. It shows to those who work on projects.
 - **Setup** (Task Type), for those with access.
 
@@ -61,7 +61,7 @@ it has no end date.
 
 ## All Tasks
 
-**All Tasks**, at the foot of the column, is every task you can see, as
+**Task**, at the foot of the column, is every task you can see, as
 frappe's list, with its other views under **List View**:
 
 - **Report**: the same tasks as a table you can change in place.

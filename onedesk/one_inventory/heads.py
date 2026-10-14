@@ -73,7 +73,7 @@ def last_bought(doc):
 	if last:
 		# The day goes in the label, as a party's last invoice does.
 		return {
-			"label": (_("Last Received · {0}") if last.kind == "received" else _("Last Ordered · {0}")).format(
+			"label": _("Last Purchase Rate · {0}").format(
 				formatdate(last.on_date)
 			),
 			"value": _("{0} from {1}").format(_money(last.rate), last.supplier),
@@ -139,7 +139,7 @@ def next_service(doc):
 			"route": f"/desk/asset-maintenance/new?asset_name={quote(doc.name)}",
 		}
 	return {
-		"label": _("Next Service · {0}").format(formatdate(service.due_date)),
+		"label": _("Next Due Date · {0}").format(formatdate(service.due_date)),
 		"value": service.task_name,
 		"tone": "alarm" if getdate(service.due_date) < getdate(today()) else None,
 		"route": f"/desk/asset-maintenance-log/{quote(service.name)}",
@@ -314,7 +314,7 @@ def receipt_worth(doc):
 	company = frappe.get_cached_value("Company", doc.company, "default_currency")
 	if doc.currency and doc.currency != company:
 		return {
-			"label": _("Worth · {0}").format(fmt_money(doc.net_total, currency=doc.currency)),
+			"label": _("Stock Value · {0}").format(fmt_money(doc.net_total, currency=doc.currency)),
 			"value": fmt_money(value, currency=company),
 		}
 	return fmt_money(value, currency=company)
@@ -355,7 +355,7 @@ def delivery_total(doc):
 	company = frappe.get_cached_value("Company", doc.company, "default_currency")
 	shown = fmt_money(doc.grand_total, currency=doc.currency)
 	if doc.currency and doc.currency != company:
-		return {"label": _("Total · {0}").format(fmt_money(doc.base_grand_total, currency=company)), "value": shown}
+		return {"label": _("Grand Total · {0}").format(fmt_money(doc.base_grand_total, currency=company)), "value": shown}
 	return shown
 
 
@@ -389,7 +389,7 @@ def _total(doc):
 	company = _company_money(doc)
 	shown = fmt_money(doc.grand_total, currency=doc.currency)
 	if doc.currency and doc.currency != company:
-		return {"label": _("Total · {0}").format(fmt_money(doc.base_grand_total, currency=company)), "value": shown}
+		return {"label": _("Grand Total · {0}").format(fmt_money(doc.base_grand_total, currency=company)), "value": shown}
 	return shown
 
 
@@ -572,22 +572,22 @@ def order_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to order from {0}.").format(supplier)):
 		return said
 	if doc.status in ("Closed", "On Hold"):
-		return {"text": _("{0}; nothing more is expected on it.").format(_(doc.status)), "colour": "gray", "label": _(doc.status)}
+		return {"text": _("{0}; nothing more is expected on it.").format(_(doc.status)), "colour": "gray"}
 	waiting = [row.schedule_date for row in doc.items if flt(row.received_qty) < flt(row.qty)]
 	if waiting:
 		day = min(waiting)
 		if (days := stages.overdue(day)) and not flt(doc.per_received):
-			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red", "label": _("Late")}
+			return {"text": _("Nothing has come from {0}, and it was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
 		if days:
-			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red", "label": _("Late")}
-		return {"text": _("Waiting for {0}; wanted by {1}.").format(supplier, formatdate(day)), "colour": "blue", "label": _("Waiting")}
+			return {"text": _("Part has come from {0}; the rest was wanted {1} ago.").format(supplier, stages.days(days)), "colour": "red"}
+		return {"text": _("Waiting for {0}; wanted by {1}.").format(supplier, formatdate(day)), "colour": "blue"}
 	if flt(doc.per_billed) < 100:
-		return {"text": _("Everything is in; the bill from {0} is still to come.").format(supplier), "colour": "orange", "label": _("Bill to Come")}
+		return {"text": _("Everything is in; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
 	paid = _paid(doc)
 	if paid < flt(doc.grand_total) - 0.005:
 		left = fmt_money(flt(doc.grand_total) - paid, currency=doc.currency)
-		return {"text": _("Received and billed; {0} is still to pay.").format(left), "colour": "orange", "label": _("To Pay")}
-	return {"text": _("Received, billed and paid."), "colour": "green", "label": _("Done")}
+		return {"text": _("Received and billed; {0} is still to pay.").format(left), "colour": "orange"}
+	return {"text": _("Received, billed and paid."), "colour": "green"}
 
 
 # ------------------------------------------------------------------ a request
@@ -620,7 +620,7 @@ def request_progress(doc):
 	kind = doc.material_request_type
 	done = flt(doc.per_ordered) >= 100
 	late = bool(stages.overdue(doc.schedule_date))
-	asked = stages.step(_("Asked"), "done", formatdate(doc.transaction_date))
+	asked = stages.step(_("Requested"), "done", formatdate(doc.transaction_date))
 	if kind == "Purchase":
 		suppliers, quotes = _request_quotes(doc)
 		received = flt(doc.per_received) >= 100
@@ -641,7 +641,7 @@ def request_progress(doc):
 		return stages.track(
 			asked,
 			stages.step(_("Work Order"), stages.at(done, True), _("All") if done else stages.share(doc.per_ordered)),
-			stages.step(_("Made"), stages.at(made, flt(doc.per_ordered), late), _("All") if made else stages.share(doc.per_received)),
+			stages.step(_("Manufactured"), stages.at(made, flt(doc.per_ordered), late), _("All") if made else stages.share(doc.per_received)),
 		stopped=doc.status == "Stopped",
 	)
 	if kind == "Customer Provided":
@@ -654,52 +654,50 @@ def request_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to ask for these.")):
 		return said
 	if doc.status in ("Stopped", "Cancelled"):
-		return {"text": _("Stopped; nothing more will be done on it."), "colour": "gray", "label": _("Stopped")}
+		return {"text": _("Stopped; nothing more will be done on it."), "colour": "gray"}
 	kind = doc.material_request_type
 	days = stages.overdue(doc.schedule_date)
 	ordered, received = flt(doc.per_ordered), flt(doc.per_received)
 	if kind == "Purchase":
 		if received >= 100:
-			return {"text": _("Ordered and received."), "colour": "green", "label": _("Received")}
+			return {"text": _("Ordered and received."), "colour": "green"}
 		if ordered >= 100:
 			if days:
-				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(stages.days(days)), "colour": "red", "label": _("Late")}
-			return {"text": _("Ordered; waiting for the goods."), "colour": "blue", "label": _("Ordered")}
+				return {"text": _("Ordered, but the goods were wanted {0} ago.").format(stages.days(days)), "colour": "red"}
+			return {"text": _("Ordered; waiting for the goods."), "colour": "blue"}
 		if days:
-			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red", "label": _("Late")}
+			return {"text": _("Not all ordered yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
 		suppliers, quotes = _request_quotes(doc)
 		if ordered:
-			return {"text": _("Part is ordered; the rest is still to order."), "colour": "orange", "label": _("Part Ordered")}
+			return {"text": _("Part is ordered; the rest is still to order."), "colour": "orange"}
 		if quotes:
-			return {"text": _("{0} of {1} suppliers have quoted. Order from the best.").format(quotes, suppliers), "colour": "orange", "label": _("Quoted")}
+			return {"text": _("{0} of {1} suppliers have quoted. Order from the best.").format(quotes, suppliers), "colour": "orange"}
 		if suppliers:
-			return {"text": _("Waiting for {0} suppliers to quote.").format(suppliers), "colour": "blue", "label": _("Quoting")}
-		return {"text": _("Nothing ordered yet. Ask for quotes or order it."), "colour": "orange", "label": _("To Order")}
+			return {"text": _("Waiting for {0} suppliers to quote.").format(suppliers), "colour": "blue"}
+		return {"text": _("Nothing ordered yet. Ask for quotes or order it."), "colour": "orange"}
 	if kind == "Manufacture":
 		if received >= 100:
-			return {"text": _("Made."), "colour": "green", "label": _("Made")}
+			return {"text": _("Made."), "colour": "green"}
 		if ordered:
-			return {"text": _("Being made."), "colour": "red" if days else "blue", "label": _("Late") if days else _("Being Made")}
-		return {"text": _("No work order yet. Make one to start."), "colour": "red" if days else "orange", "label": _("Late") if days else _("To Make")}
+			return {"text": _("Being made."), "colour": "red" if days else "blue"}
+		return {"text": _("No work order yet. Make one to start."), "colour": "red" if days else "orange"}
 	if ordered >= 100:
-		return {"text": _("Done."), "colour": "green", "label": _("Done")}
+		return {"text": _("Done."), "colour": "green"}
 	if days:
-		return {"text": _("Not done yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red", "label": _("Late")}
-	return {"text": _("Wanted by {0}.").format(formatdate(doc.schedule_date)), "colour": "blue", "label": _("Waiting")}
+		return {"text": _("Not done yet, and it was wanted {0} ago.").format(stages.days(days)), "colour": "red"}
+	return {"text": _("Wanted by {0}.").format(formatdate(doc.schedule_date)), "colour": "blue"}
 
 
 def rfq_stands(doc):
-	"""A request for prices: how many of the suppliers asked have quoted."""
+	"""A request for prices: green once every supplier asked has quoted."""
 	if said := stages.draft(doc, ""):
 		return said
 	answered = {supplier for lines in _quoted(doc.name).values() for _rate, supplier, _name in lines}
 	asked = _asked(doc.name)
-	if asked and len(answered) >= len(asked):
-		return {"label": _("All Quoted"), "colour": "green"}
-	return {"label": _("{0} of {1} Quoted").format(len(answered), len(asked)), "colour": "blue"}
+	return {"colour": "green" if asked and len(answered) >= len(asked) else "blue"}
 
 
-#: The buying documents whose head's sentence names where they stand.
+#: The buying documents whose head's sentence says how urgent they are.
 STANDS = {
 	"Purchase Order": "order_said",
 	"Material Request": "request_said",
@@ -708,12 +706,12 @@ STANDS = {
 }
 
 
-def stands(doc) -> dict | None:
-	"""The word a list says a buying document is in and its colour: its head's
-	sentence, short, so a project's Buying says what the document says."""
+def stands(doc) -> str | None:
+	"""The colour of a buying document's head's sentence, so a project's
+	Buying draws its ERPNext status as urgent as the document says it is."""
 	said = STANDS.get(doc.doctype)
 	said = globals()[said](doc) if said else None
-	return {"label": said["label"], "colour": said["colour"]} if said else None
+	return said["colour"] if said else None
 
 
 # ------------------------------------------------------------------ a receipt and a delivery
@@ -744,12 +742,12 @@ def receipt_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to put these into stock.")):
 		return said
 	if doc.is_return:
-		return {"text": _("Goods sent back to {0}.").format(supplier), "colour": "gray", "label": _("Returned")}
+		return {"text": _("Goods sent back to {0}.").format(supplier), "colour": "gray"}
 	if any(flt(row.rejected_qty) for row in doc.items):
-		return {"text": _("Some were rejected. Send them back to {0}.").format(supplier), "colour": "red", "label": _("Rejected")}
+		return {"text": _("Some were rejected. Send them back to {0}.").format(supplier), "colour": "red"}
 	if flt(doc.per_billed) < 100:
-		return {"text": _("In stock; the bill from {0} is still to come.").format(supplier), "colour": "orange", "label": _("Bill to Come")}
-	return {"text": _("In stock and billed."), "colour": "green", "label": _("Billed")}
+		return {"text": _("In stock; the bill from {0} is still to come.").format(supplier), "colour": "orange"}
+	return {"text": _("In stock and billed."), "colour": "green"}
 
 
 def delivery_progress(doc):
@@ -795,14 +793,14 @@ def work_progress(doc):
 		stages.step(_("Planned"), "done", formatdate(doc.planned_start_date)),
 		not doc.skip_transfer
 		and stages.step(
-			_("Materials Sent"),
+			_("Material Transferred"),
 			stages.at(sent >= flt(doc.qty), True, late and not sent),
 			_("All on the floor") if sent >= flt(doc.qty) else stages.share(100 * sent / flt(doc.qty)) if flt(doc.qty) else "",
 		),
 		steps
-		and stages.step(_("Steps"), stages.at(finished >= steps, sent or doc.skip_transfer), _("{0} of {1}").format(finished, steps)),
+		and stages.step(_("Operations"), stages.at(finished >= steps, sent or doc.skip_transfer), _("{0} of {1}").format(finished, steps)),
 		stages.step(
-			_("Made"),
+			_("Manufactured"),
 			stages.at(made, flt(doc.produced_qty) or (not steps and (sent or doc.skip_transfer)), late),
 			_("{0} of {1} {2}").format(fmt_money(flt(doc.produced_qty), precision=0), fmt_money(flt(doc.qty), precision=0), unit).strip(),
 		),
@@ -839,8 +837,8 @@ def sub_progress(doc):
 	return stages.track(
 		stages.step(_("Ordered"), "done", formatdate(doc.transaction_date)),
 		wanted
-		and stages.step(_("Materials Sent"), stages.at(sent >= wanted, True, late and not sent), _("All") if sent >= wanted else stages.share(100 * sent / wanted)),
-		stages.step(_("Back"), stages.at(back, sent or not wanted, late and bool(sent)), _("All") if back else stages.share(doc.per_received)),
+		and stages.step(_("Material Transferred"), stages.at(sent >= wanted, True, late and not sent), _("All") if sent >= wanted else stages.share(100 * sent / wanted)),
+		stages.step(_("Received"), stages.at(back, sent or not wanted, late and bool(sent)), _("All") if back else stages.share(doc.per_received)),
 		stopped=doc.status == "Closed",
 	)
 
@@ -929,7 +927,7 @@ def blanket_runs(doc):
 		return None
 	said = _("{0} to {1}").format(formatdate(doc.from_date), formatdate(doc.to_date))
 	if getdate(doc.to_date) < getdate(today()):
-		return {"value": said, "tone": "quiet", "label": _("Ended")}
+		return {"value": said, "tone": "quiet"}
 	return said
 
 
@@ -1161,7 +1159,7 @@ def schedule_next(doc):
 		return {"value": _("Nothing due"), "tone": "quiet"}
 	late = getdate(found.due_date) < getdate(today())
 	return {
-		"label": _("Next Service · {0}").format(formatdate(found.due_date)),
+		"label": _("Next Due Date · {0}").format(formatdate(found.due_date)),
 		"value": found.task_name,
 		"tone": "alarm" if late else None,
 		"route": f"/desk/asset-maintenance-log/{quote(found.name)}",
@@ -1263,7 +1261,7 @@ def life(doc):
 
 CHARTS = {
 	"item.moved": {"doctypes": ["Item"], "label": _lt("Out of Stock, Month by Month"), "figures": moved},
-	"asset.life": {"doctypes": ["Asset"], "label": _lt("Worth Over Its Life"), "figures": life},
+	"asset.life": {"doctypes": ["Asset"], "label": _lt("Value After Depreciation"), "figures": life},
 }
 
 
@@ -1411,7 +1409,7 @@ HEADS = [
 		"doctype": "Item",
 		"band": [
 			{
-				"label": _lt("Assets"),
+				"label": _lt("Asset"),
 				"source": "Count",
 				"of_doctype": "Asset",
 				"filters": [["item_code", "=", "{{ doc.name }}"], ["docstatus", "<", 2]],
@@ -1419,7 +1417,7 @@ HEADS = [
 				"route": "/desk/asset?item_code={{ doc.name }}",
 			},
 			{
-				"label": _lt("Not Yet Registered"),
+				"label": _lt("Draft Assets"),
 				"source": "Count",
 				"of_doctype": "Asset",
 				"filters": [["item_code", "=", "{{ doc.name }}"], ["docstatus", "=", 0]],
@@ -1429,24 +1427,24 @@ HEADS = [
 				"hide_empty": 1,
 			},
 			{
-				"label": _lt("On Hand"),
+				"label": _lt("Actual Qty"),
 				"source": "Measure",
 				"measure": "item.on_hand",
 				"shown_when": STOCK,
 				"route": "/desk/query-report/Stock Balance?item_code={{ doc.name }}",
 			},
-			{"label": _lt("Free to Sell"), "source": "Measure", "measure": "item.free", "shown_when": STOCK},
+			{"label": _lt("Available Qty"), "source": "Measure", "measure": "item.free", "shown_when": STOCK},
 			{
-				"label": _lt("On Order"),
+				"label": _lt("Ordered Qty"),
 				"source": "Measure",
 				"measure": "item.on_order",
 				"shown_when": STOCK,
 				"route": '/desk/purchase-order?item_code={{ doc.name }}&docstatus=1&status=["not in",["Completed","Closed"]]',
 			},
-			{"label": _lt("Worth"), "source": "Measure", "measure": "item.worth", "shown_when": STOCK},
-			{"label": _lt("Reorder"), "source": "Measure", "measure": "item.reorder", "shown_when": STOCK},
+			{"label": _lt("Stock Value"), "source": "Measure", "measure": "item.worth", "shown_when": STOCK},
+			{"label": _lt("Reorder Level"), "source": "Measure", "measure": "item.reorder", "shown_when": STOCK},
 			{
-				"label": _lt("Last Bought"),
+				"label": _lt("Last Purchase Rate"),
 				"source": "Measure",
 				"measure": "item.last_bought",
 				"shown_when": [["is_fixed_asset", "=", 0]],
@@ -1458,19 +1456,19 @@ HEADS = [
 		"doctype": "Asset",
 		"sentences": [{"measure": "asset.said"}],
 		"band": [
-			{"label": _lt("Worth Now"), "source": "Measure", "measure": "asset.worth_now"},
-			{"label": _lt("Cost"), "source": "Measure", "measure": "asset.cost"},
+			{"label": _lt("Value After Depreciation"), "source": "Measure", "measure": "asset.worth_now"},
+			{"label": _lt("Net Purchase Amount"), "source": "Measure", "measure": "asset.cost"},
 			{"label": _lt("Depreciation"), "source": "Measure", "measure": "asset.depreciation"},
-			{"label": _lt("Written Off"), "source": "Measure", "measure": "asset.written_off"},
+			{"label": _lt("Depreciations Booked"), "source": "Measure", "measure": "asset.written_off"},
 			{"label": _lt("Next Depreciation"), "source": "Measure", "measure": "asset.next_depreciation"},
 			{
-				"label": _lt("Next Service"),
+				"label": _lt("Next Due Date"),
 				"source": "Measure",
 				"measure": "asset.next_service",
 				"shown_when": [["maintenance_required", "=", 1]],
 			},
 			{
-				"label": _lt("Repairs"),
+				"label": _lt("Asset Repair"),
 				"source": "Count",
 				"of_doctype": "Asset Repair",
 				"filters": [["asset", "=", "{{ doc.name }}"], ["docstatus", "<", 2]],
@@ -1486,16 +1484,16 @@ HEADS = [
 		"doctype": "Batch",
 		"band": [
 			{
-				"label": _lt("Left"),
+				"label": _lt("Batch Quantity"),
 				"source": "Measure",
 				"measure": "batch.left",
 				"route": "/desk/query-report/Batch-Wise Balance History?item_code={{ doc.item }}&batch_no={{ doc.name }}",
 			},
-			{"label": _lt("Made"), "source": "Field", "field": "manufacturing_date", "hide_empty": 1},
-			{"label": _lt("Expires"), "source": "Measure", "measure": "batch.expires"},
-			{"label": _lt("Came From"), "source": "Measure", "measure": "batch.came_from"},
+			{"label": _lt("Manufacturing Date"), "source": "Field", "field": "manufacturing_date", "hide_empty": 1},
+			{"label": _lt("Expiry Date"), "source": "Measure", "measure": "batch.expires"},
+			{"label": _lt("Source Document"), "source": "Measure", "measure": "batch.came_from"},
 			{
-				"label": _lt("Taken Out"),
+				"label": _lt("Issued"),
 				"source": "Measure",
 				"measure": "batch.went",
 				"route": "/desk/query-report/Serial No and Batch Traceability?batches={{ doc.name }}",
@@ -1506,20 +1504,20 @@ HEADS = [
 		"doctype": "Warehouse",
 		"band": [
 			{
-				"label": _lt("Items Held"),
+				"label": _lt("Items"),
 				"source": "Measure",
 				"measure": "warehouse.items",
 				"route": "/desk/stock-on-hand?warehouse={{ doc.name }}",
 			},
-			{"label": _lt("Worth"), "source": "Measure", "measure": "warehouse.worth"},
+			{"label": _lt("Stock Value"), "source": "Measure", "measure": "warehouse.worth"},
 			{
-				"label": _lt("Low"),
+				"label": _lt("Below Reorder Level"),
 				"source": "Measure",
 				"measure": "warehouse.low",
 				"route": "/desk/stock-on-hand?warehouse={{ doc.name }}",
 			},
 			{
-				"label": _lt("Last Move"),
+				"label": _lt("Last Stock Entry"),
 				"source": "Measure",
 				"measure": "warehouse.last",
 				"route": "/desk/query-report/Stock Ledger?warehouse={{ doc.name }}",
@@ -1534,8 +1532,8 @@ HEADS = [
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "order.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Total"), "source": "Measure", "measure": "order.total", "shown_when": [["docstatus", "=", 0]]},
-			{"label": _lt("Agreed On"), "source": "Measure", "measure": "order.blanket"},
+			{"label": _lt("Grand Total"), "source": "Measure", "measure": "order.total", "shown_when": [["docstatus", "=", 0]]},
+			{"label": _lt("Blanket Order"), "source": "Measure", "measure": "order.blanket"},
 		],
 	},
 
@@ -1545,7 +1543,7 @@ HEADS = [
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "material.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Asked By"), "source": "Measure", "measure": "request.asked_by"},
+			{"label": _lt("Requested By"), "source": "Measure", "measure": "request.asked_by"},
 		],
 	},
 
@@ -1553,8 +1551,8 @@ HEADS = [
 		"doctype": "Request for Quotation",
 		"band": [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Request"), "source": "Measure", "measure": "rfq.request"},
-			{"label": _lt("Answered"), "source": "Measure", "measure": "rfq.answered"},
+			{"label": _lt("Material Request"), "source": "Measure", "measure": "rfq.request"},
+			{"label": _lt("Quoted"), "source": "Measure", "measure": "rfq.answered"},
 			{"label": _lt("Cheapest"), "source": "Measure", "measure": "rfq.cheapest"},
 		],
 	},
@@ -1562,20 +1560,20 @@ HEADS = [
 		"doctype": "Supplier Quotation",
 		"band": [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Asked On"), "source": "Measure", "measure": "quote.request"},
-			{"label": _lt("Total"), "source": "Measure", "measure": "order.total"},
+			{"label": _lt("Request for Quotation"), "source": "Measure", "measure": "quote.request"},
+			{"label": _lt("Grand Total"), "source": "Measure", "measure": "order.total"},
 			{"label": _lt("Valid Till"), "source": "Measure", "measure": "quote.valid"},
-			{"label": _lt("Cheapest On"), "source": "Measure", "measure": "quote.cheapest"},
-			{"label": _lt("Ordered On"), "source": "Measure", "measure": "quote.ordered"},
+			{"label": _lt("Lowest On"), "source": "Measure", "measure": "quote.cheapest"},
+			{"label": _lt("Purchase Order"), "source": "Measure", "measure": "quote.ordered"},
 		],
 	},
 	{
 		"doctype": "Blanket Order",
 		"band": [
-			{"label": _lt("With"), "source": "Measure", "measure": "blanket.party"},
-			{"label": _lt("Runs"), "source": "Measure", "measure": "blanket.runs"},
-			{"label": _lt("Ordered"), "source": "Measure", "measure": "blanket.ordered"},
-			{"label": _lt("Orders"), "source": "Measure", "measure": "blanket.orders", "shown_when": SUBMITTED},
+			{"label": _lt("Party"), "source": "Measure", "measure": "blanket.party"},
+			{"label": _lt("Validity"), "source": "Measure", "measure": "blanket.runs"},
+			{"label": _lt("Ordered Qty"), "source": "Measure", "measure": "blanket.ordered"},
+			{"label": _lt("Purchase Order"), "source": "Measure", "measure": "blanket.orders", "shown_when": SUBMITTED},
 		],
 	},
 	{
@@ -1584,10 +1582,10 @@ HEADS = [
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "receipt.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Order"), "source": "Measure", "measure": "receipt.order"},
-			{"label": _lt("Worth"), "source": "Measure", "measure": "receipt.worth"},
-			{"label": _lt("Landed Costs"), "source": "Measure", "measure": "receipt.landed"},
-			{"label": _lt("Rejected"), "source": "Measure", "measure": "receipt.rejected"},
+			{"label": _lt("Purchase Order"), "source": "Measure", "measure": "receipt.order"},
+			{"label": _lt("Stock Value"), "source": "Measure", "measure": "receipt.worth"},
+			{"label": _lt("Landed Cost Voucher"), "source": "Measure", "measure": "receipt.landed"},
+			{"label": _lt("Rejected Qty"), "source": "Measure", "measure": "receipt.rejected"},
 		],
 	},
 
@@ -1597,9 +1595,9 @@ HEADS = [
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "delivery.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Order"), "source": "Measure", "measure": "delivery.order"},
-			{"label": _lt("Total"), "source": "Measure", "measure": "delivery.total"},
-			{"label": _lt("Trip"), "source": "Measure", "measure": "delivery.trip"},
+			{"label": _lt("Sales Order"), "source": "Measure", "measure": "delivery.order"},
+			{"label": _lt("Grand Total"), "source": "Measure", "measure": "delivery.total"},
+			{"label": _lt("Delivery Trip"), "source": "Measure", "measure": "delivery.trip"},
 		],
 	},
 
@@ -1607,13 +1605,13 @@ HEADS = [
 		"doctype": "Stock Entry",
 		"band": [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Type"), "source": "Field", "field": "stock_entry_type"},
-			{"label": _lt("From"), "source": "Measure", "measure": "move.from"},
-			{"label": _lt("To"), "source": "Measure", "measure": "move.to"},
-			{"label": _lt("Value"), "source": "Measure", "measure": "move.value"},
-			{"label": _lt("Used"), "source": "Measure", "measure": "move.used"},
+			{"label": _lt("Stock Entry Type"), "source": "Field", "field": "stock_entry_type"},
+			{"label": _lt("Default Source Warehouse"), "source": "Measure", "measure": "move.from"},
+			{"label": _lt("Default Target Warehouse"), "source": "Measure", "measure": "move.to"},
+			{"label": _lt("Total Value"), "source": "Measure", "measure": "move.value"},
+			{"label": _lt("Total Outgoing Value"), "source": "Measure", "measure": "move.used"},
 			{
-				"label": _lt("Arrived"),
+				"label": _lt("% Transferred"),
 				"source": "Field",
 				"field": "per_transferred",
 				"shown_when": [["add_to_transit", "=", 1], ["docstatus", "=", 1]],
@@ -1626,7 +1624,7 @@ HEADS = [
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "work.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("For"), "source": "Measure", "measure": "work.for"},
+			{"label": _lt("Sales Order or Material Request"), "source": "Measure", "measure": "work.for"},
 		],
 	},
 
@@ -1634,9 +1632,9 @@ HEADS = [
 		"doctype": "BOM",
 		"sentences": [{"measure": "bom.said"}],
 		"band": [
-			{"label": _lt("Cost Each"), "source": "Measure", "measure": "bom.cost"},
-			{"label": _lt("Steps"), "source": "Measure", "measure": "bom.steps"},
-			{"label": _lt("Work Orders"), "source": "Measure", "measure": "bom.orders", "shown_when": SUBMITTED},
+			{"label": _lt("Cost per Unit"), "source": "Measure", "measure": "bom.cost"},
+			{"label": _lt("Operations"), "source": "Measure", "measure": "bom.steps"},
+			{"label": _lt("Work Order"), "source": "Measure", "measure": "bom.orders", "shown_when": SUBMITTED},
 		],
 	},
 
@@ -1644,10 +1642,10 @@ HEADS = [
 		"doctype": "Job Card",
 		"band": [
 			{"label": _lt("Work Order"), "source": "Measure", "measure": "card.order"},
-			{"label": _lt("Where"), "source": "Field", "field": "workstation"},
-			{"label": _lt("Done"), "source": "Measure", "measure": "card.done"},
-			{"label": _lt("Time"), "source": "Measure", "measure": "card.time"},
-			{"label": _lt("By"), "source": "Measure", "measure": "card.by"},
+			{"label": _lt("Workstation"), "source": "Field", "field": "workstation"},
+			{"label": _lt("Total Completed Qty"), "source": "Measure", "measure": "card.done"},
+			{"label": _lt("Total Time in Mins"), "source": "Measure", "measure": "card.time"},
+			{"label": _lt("Employee"), "source": "Measure", "measure": "card.by"},
 		],
 	},
 	{
@@ -1664,62 +1662,62 @@ HEADS = [
 		"doctype": "Subcontracting Receipt",
 		"band": [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("With"), "source": "Field", "field": "supplier_name"},
-			{"label": _lt("Order"), "source": "Measure", "measure": "sub.order"},
+			{"label": _lt("Supplier"), "source": "Field", "field": "supplier_name"},
+			{"label": _lt("Subcontracting Order"), "source": "Measure", "measure": "sub.order"},
 			{"label": _lt("Total"), "source": "Field", "field": "total"},
 		],
 	},
 	{
 		"doctype": "Asset Movement",
 		"band": [
-			{"label": _lt("Equipment"), "source": "Measure", "measure": "handover.what"},
-			{"label": _lt("From"), "source": "Measure", "measure": "handover.from"},
-			{"label": _lt("To"), "source": "Measure", "measure": "handover.to"},
-			{"label": _lt("On"), "source": "Field", "field": "transaction_date"},
+			{"label": _lt("Asset"), "source": "Measure", "measure": "handover.what"},
+			{"label": _lt("From Employee"), "source": "Measure", "measure": "handover.from"},
+			{"label": _lt("To Employee"), "source": "Measure", "measure": "handover.to"},
+			{"label": _lt("Transaction Date"), "source": "Field", "field": "transaction_date"},
 		],
 	},
 	{
 		"doctype": "Asset Maintenance",
 		"band": [
 			{"label": _lt("Asset"), "source": "Measure", "measure": "service.asset"},
-			{"label": _lt("Next Service"), "source": "Measure", "measure": "schedule.next"},
-			{"label": _lt("Services Done"), "source": "Measure", "measure": "schedule.done"},
-			{"label": _lt("Team"), "source": "Field", "field": "maintenance_team"},
+			{"label": _lt("Next Due Date"), "source": "Measure", "measure": "schedule.next"},
+			{"label": _lt("Completed"), "source": "Measure", "measure": "schedule.done"},
+			{"label": _lt("Maintenance Team"), "source": "Field", "field": "maintenance_team"},
 		],
 	},
 	{
 		"doctype": "Asset Maintenance Log",
 		"band": [
 			{"label": _lt("Asset"), "source": "Measure", "measure": "service.asset"},
-			{"label": _lt("Due"), "source": "Measure", "measure": "service.due"},
-			{"label": _lt("Done By"), "source": "Field", "field": "assign_to_name"},
-			{"label": _lt("Last Done"), "source": "Measure", "measure": "service.last"},
+			{"label": _lt("Due Date"), "source": "Measure", "measure": "service.due"},
+			{"label": _lt("Assign To"), "source": "Field", "field": "assign_to_name"},
+			{"label": _lt("Last Completion Date"), "source": "Measure", "measure": "service.last"},
 		],
 	},
 	{
 		"doctype": "Asset Repair",
 		"band": [
 			{"label": _lt("Asset"), "source": "Measure", "measure": "repair.asset"},
-			{"label": _lt("Out of Use"), "source": "Measure", "measure": "repair.out"},
-			{"label": _lt("Cost"), "source": "Measure", "measure": "repair.cost"},
+			{"label": _lt("Downtime"), "source": "Measure", "measure": "repair.out"},
+			{"label": _lt("Repair Cost"), "source": "Measure", "measure": "repair.cost"},
 		],
 	},
 	{
 		"doctype": "Asset Value Adjustment",
 		"band": [
 			{"label": _lt("Asset"), "source": "Measure", "measure": "repair.asset"},
-			{"label": _lt("Was Worth"), "source": "Field", "field": "current_asset_value"},
-			{"label": _lt("Now Worth"), "source": "Field", "field": "new_asset_value"},
-			{"label": _lt("Change"), "source": "Measure", "measure": "adjustment.change"},
+			{"label": _lt("Current Asset Value"), "source": "Field", "field": "current_asset_value"},
+			{"label": _lt("New Asset Value"), "source": "Field", "field": "new_asset_value"},
+			{"label": _lt("Difference Amount"), "source": "Measure", "measure": "adjustment.change"},
 		],
 	},
 	{
 		"doctype": "Stock Reconciliation",
 		"band": [
 			{"label": _lt("Purpose"), "source": "Field", "field": "purpose"},
-			{"label": _lt("Where"), "source": "Measure", "measure": "count.where"},
+			{"label": _lt("Warehouse"), "source": "Measure", "measure": "count.where"},
 			{"label": _lt("Items"), "source": "Measure", "measure": "count.items"},
-			{"label": _lt("Difference"), "source": "Field", "field": "difference_amount", "shown_when": [["docstatus", "=", 1]]},
+			{"label": _lt("Difference Amount"), "source": "Field", "field": "difference_amount", "shown_when": [["docstatus", "=", 1]]},
 		],
 	},
 ]

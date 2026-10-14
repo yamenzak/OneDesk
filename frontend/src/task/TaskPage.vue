@@ -18,17 +18,17 @@
         <p v-if="headline" class="mt-1 text-base" :class="TONE[said.headline.tone]">{{ headline }}</p>
         <dl class="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-base">
           <div class="flex flex-col gap-1">
-            <dt class="text-sm text-ink-gray-5">{{ __("Starts") }}</dt>
+            <dt class="text-sm text-ink-gray-5">{{ __("Expected Start Date") }}</dt>
             <dd class="w-40"><Due :value="day(said.exp_start_date)" done :readonly="!said.can_write" @change="(v) => set('exp_start_date', v)" /></dd>
           </div>
           <div class="flex flex-col gap-1">
-            <dt class="text-sm text-ink-gray-5">{{ __("Due") }}</dt>
+            <dt class="text-sm text-ink-gray-5">{{ __("Expected End Date") }}</dt>
             <dd class="w-40"><Due :value="day(said.exp_end_date)" :done="DONE.includes(said.status)" :readonly="!said.can_write" @change="(v) => set('exp_end_date', v)" /></dd>
           </div>
           <div class="flex flex-col gap-1">
-            <dt class="text-sm text-ink-gray-5">{{ __("Planned") }}</dt>
+            <dt class="text-sm text-ink-gray-5">{{ __("Expected Time") }}</dt>
             <dd class="flex items-center gap-1">
-              <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-16 tabular-nums" :model-value="said.expected_time || ''" :disabled="!said.can_write" :aria-label="__('Planned Hours')" :placeholder="__('Set Hours')" @change="(e) => set('expected_time', Number(e.target.value) || 0)" />
+              <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-16 tabular-nums" :model-value="said.expected_time || ''" :disabled="!said.can_write" :aria-label="__('Expected Time')" :placeholder="__('Set Hours')" @change="(e) => set('expected_time', Number(e.target.value) || 0)" />
               <span v-if="said.expected_time" class="text-ink-gray-5">{{ __("h") }}</span>
             </dd>
           </div>
@@ -74,7 +74,7 @@
 
             <section v-if="said.sub_tasks.length || said.can_create">
               <div class="mb-2 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Sub-tasks") }}</h3>
+                <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Child Tasks") }}</h3>
                 <span v-if="said.sub_tasks.length" class="text-sm tabular-nums text-ink-gray-5">{{ __("{0} of {1}", [doneSubs, said.sub_tasks.length]) }}</span>
               </div>
               <div class="flex flex-col divide-y divide-outline-gray-1">
@@ -219,7 +219,7 @@ watch(record.record, () => said.value && report());
 const VIEWS = computed(() =>
   [
     { key: "details", label: __("Details"), icon: "lucide-list-checks" },
-    said.value?.time && { key: "time", label: __("Time"), icon: "lucide-clock", count: said.value.time.entries.length || null },
+    said.value?.time && { key: "time", label: __("Timesheet"), icon: "lucide-clock", count: said.value.time.entries.length || null },
     { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
     { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean)
@@ -249,7 +249,7 @@ const figures = computed(() => {
   const logged = s.time ? s.time.logged : s.actual_time || 0;
   if (s.expected_time || logged) {
     list.push({
-      title: __("Logged"),
+      title: __("Actual Time"),
       value: hours(logged),
       note: s.expected_time ? __("of {0} planned", [hours(s.expected_time)]) : "",
       bar: s.expected_time ? Math.min(100, (logged / s.expected_time) * 100) : null,
@@ -257,7 +257,7 @@ const figures = computed(() => {
     });
   }
   if (s.steps.length) list.push({ title: __("Checklist"), value: __("{0} of {1}", [doneSteps.value, s.steps.length]), bar: (doneSteps.value / s.steps.length) * 100 });
-  if (s.sub_tasks.length) list.push({ title: __("Sub-tasks"), value: __("{0} of {1}", [doneSubs.value, s.sub_tasks.length]), bar: (doneSubs.value / s.sub_tasks.length) * 100 });
+  if (s.sub_tasks.length) list.push({ title: __("Child Tasks"), value: __("{0} of {1}", [doneSubs.value, s.sub_tasks.length]), bar: (doneSubs.value / s.sub_tasks.length) * 100 });
   if (!s.steps.length && s.progress) list.push({ title: __("Progress"), value: `${Math.round(s.progress)}%`, bar: s.progress });
   return list;
 });

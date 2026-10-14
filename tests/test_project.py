@@ -304,7 +304,7 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	assert '"Project Template": "public/js/project_template.js"' in HOOKS
 	# Tasks are OneTask's rail's, which leaves a template's tasks out.
 	rail = TASK / "sidebar" / "onetask" / "onetask.json"
-	tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "All Tasks")
+	tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Task")
 	assert "is_template" in tasks["filters"], rail.name
 
 
@@ -502,7 +502,7 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
 	# Somebody's first week is not client work: left out quietly in every view.
-	assert "filters" not in items["Projects"]
+	assert "filters" not in items["Project"]
 	assert '"project_type", "!=", "Employee Boarding"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
 	lifecycle = (tree.APP / "one_hr" / "lifecycle.py").read_text()
 	assert 'BOARDING = "Employee Boarding"' in lifecycle
@@ -548,14 +548,13 @@ def test_a_projects_page_puts_its_dates_and_members_on_details():
 		< order.index("costing_tab")
 	)
 	assert said[("Project", "section_break_18", "collapsible")] == "0"
-	assert (
-		said[("Project", "users", "label")] == "Members" and said[("Project", "users", "description")] == ""
-	)
+	# Users keeps ERPNext's label (tests/guards/test_erpnext_names.py).
+	assert ("Project", "users", "label") not in said and said[("Project", "users", "description")] == ""
 	assert said[("Project User", "view_attachments", "in_list_view")] == "0"
 	# One asks in its own words when the project has none (updates.py).
 	assert said[("Project", "subject", "mandatory_depends_on")] == ""
 	assert said[("Project", "message", "mandatory_depends_on")] == ""
-	assert said[("Project", "total_costing_amount", "label")] == "Time Cost"
+	assert ("Project", "total_costing_amount", "label") not in said, "ERPNext's label"
 	# Hourly is not offered, so it is not where a project starts, and the
 	# projects that said it say Weekly (patches/no_hourly_asks.py).
 	assert (
@@ -1337,18 +1336,18 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	said = [(item["label"], item.get("link_to")) for item in rail["items"]]
 	assert said == [
-		("Projects", "Project"),
+		("Project", "Project"),
 		("Workload", "Workload"),
 		("Timesheet", "Timesheet"),
-		("Templates", "Project Template"),
-		# ERPNext's and HRMS's project reports, under the names the rail gives
-		# them (one/titles.py), with Company filled and hidden (reports.js);
-		# two of them ours over theirs, without the HR checklists.
+		("Project Template", "Project Template"),
+		# ERPNext's and HRMS's project reports, by their own names
+		# (tests/guards/test_erpnext_names.py), with Company filled and hidden
+		# (reports.js); two of them ours over theirs, without the HR checklists.
 		("Reports", None),
 		("Project Progress", "Project Progress"),
-		("Profit on Billed Hours", "Project Profitability"),
-		("Billable Hours", "Timesheet Billing Summary"),
-		("Hours by Day", "Daily Timesheet Summary"),
+		("Project Profitability", "Project Profitability"),
+		("Timesheet Billing Summary", "Timesheet Billing Summary"),
+		("Daily Timesheet Summary", "Daily Timesheet Summary"),
 		("Stock by Project", "Stock by Project"),
 	]
 	# The panel is open on the four and shut on a record; the breadcrumb
@@ -1361,7 +1360,7 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	assert "hide_sidebar: !frappe.is_mobile()" in template_js and 'record: "Project Template"' in template_js
 	# Setup is in the Projects list's menu.
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
-	assert '__("Rates")' in menu and '__("Project Templates")' not in menu
+	assert '__("Activity Type")' in menu and '__("Project Templates")' not in menu
 	# A project's name in its breadcrumb switches to the others: the reader's
 	# open projects before anything is typed, any project as it is.
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
@@ -1401,7 +1400,7 @@ def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	setters = {(one.get("field_name"), one["property"]): one["value"] for one in custom["property_setters"]}
 	assert setters[("customer", "in_standard_filter")] == "0"
-	assert setters[("expected_end_date", "label")] == "Due Date"
+	assert ("expected_end_date", "label") not in setters, "ERPNext's Expected End Date"
 	assert setters[("project_name", "width")] == "260"
 	assert setters[(None, "sort_field")] == "modified" and setters[(None, "sort_order")] == "DESC"
 	fields = {one["fieldname"]: one for one in custom["custom_fields"]}
@@ -1906,7 +1905,7 @@ def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
 	# Only what the head doesn't say.
 	for gone in ("s.customer", "s.manager", "s.contract", "s.starts", "s.parent"):
 		assert gone not in about
-	for said in ('__("Progress")', '__("Due")', '__("Team")', '__("Priority")'):
+	for said in ('__("Progress")', '__("Expected End Date")', '__("Team")', '__("Priority")'):
 		assert said in about
 	assert "__('About', null, 'Project')" in overview
 	# Changed in place, with frappe's controls, against the loaded record.
@@ -1958,7 +1957,7 @@ def test_the_tasks_table_says_what_waits_and_how_long_and_nests_sub_tasks():
 	assert '__("Waiting on {0}", [item.waiting.join(", ")])' in tasks
 	assert (
 		"$emit('set', item.name, 'expected_time'" in tasks
-		and '<ListHeaderCell>{{ __("Planned") }}</ListHeaderCell>' in tasks
+		and '<ListHeaderCell>{{ __("Expected Time") }}</ListHeaderCell>' in tasks
 	)
 	assert ':items="nest(group.tasks)"' in tasks and "<TextInput" in tasks
 	group = (tree.ROOT / "frontend" / "src" / "project" / "group.js").read_text()
@@ -2062,7 +2061,7 @@ def test_time_is_counted_apart_from_how_the_customer_pays():
 	billing = (PROJECT / "billing.py").read_text()
 	assert "for one in sorted(tree.scope(project))" in billing
 	view = (tree.ROOT / "frontend" / "src" / "project" / "Time.vue").read_text()
-	assert "ListGroup" in view and '__("Time Cost")' in view and "said.money" in view
+	assert "ListGroup" in view and '__("Total Costing Amount")' in view and "said.money" in view
 
 
 def test_a_day_on_site_is_a_day_on_the_project():

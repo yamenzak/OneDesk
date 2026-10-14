@@ -1,5 +1,5 @@
 <template>
-  <!-- To Order (one_inventory/page/to_order): what to buy, each open purchase
+  <!-- Reorder (one_inventory/page/to_order): what to buy, each open purchase
        request and each item at or below its level (one_inventory/order.py).
        Modelled on Odoo's Replenishment screen: one line per item and
        warehouse, why it is there, how many and from whom, ticked and ordered
@@ -23,7 +23,7 @@
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
           <ListHeaderCell class="max-sm:hidden">{{ __("Why") }}</ListHeaderCell>
           <ListHeaderCell class="max-lg:hidden">{{ __("Supplier") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("To Order") }}</ListHeaderCell>
+          <ListHeaderCell class="justify-end">{{ __("Qty") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Cost") }}</ListHeaderCell>
         </ListHeader>
         <ListRows :items="lines" row-key="key" v-slot="{ item, value }">
@@ -150,7 +150,7 @@ const lines = computed(() => {
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    { title: __("To Order"), value: count(f.lines), note: f.suppliers ? __("From {0} suppliers", [count(f.suppliers)]) : "" },
+    { title: __("Items"), value: count(f.lines), note: f.suppliers ? __("From {0} suppliers", [count(f.suppliers)]) : "" },
     { title: __("Requested"), value: count(f.requested), note: f.requested ? __("Asked for and not ordered yet") : "", action: f.requested ? { icon: "lucide-filter", label: __("Show Requested"), onClick: () => (reason.value = "requested") } : null },
     { title: __("Running Low"), value: count(f.low), alarm: f.low > 0, note: f.low ? __("At or below their reorder level") : "", action: f.low ? { icon: "lucide-filter", label: __("Show Running Low"), onClick: () => (reason.value = "low") } : null },
     { title: __("Cost"), value: money(f.cost, said.value.currency), note: f.unpriced ? __("{0} lines never bought before", [count(f.unpriced)]) : __("Before tax, at the last prices paid") },
@@ -184,7 +184,7 @@ function order() {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("To Order") });
+  props.onTitle?.({ title: __("Reorder") });
   extended(s);
   props.onActions?.(
     [

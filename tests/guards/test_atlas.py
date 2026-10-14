@@ -276,7 +276,7 @@ ENGLISH = {
 	"erpnext / Buying": 23,
 	"erpnext / CRM": 13,
 	"erpnext / Manufacturing": 35,
-	"erpnext / Projects": 44,
+	"erpnext / Projects": 41,
 	"erpnext / Selling": 34,
 	"erpnext / Setup": 44,
 	"erpnext / Stock": 21,
@@ -289,7 +289,7 @@ ENGLISH = {
 	"frappe / Integrations": 6,
 	"frappe / Printing": 6,
 	"frappe / Website": 2,
-	"hrms / HR": 252,
+	"hrms / HR": 250,
 	"hrms / Payroll": 110,
 }
 

@@ -202,7 +202,7 @@ def timesheet_progress(doc):
 	billable = flt(doc.total_billable_hours)
 	billed = flt(doc.per_billed) >= 100
 	return stages.track(
-		stages.step(_("Logged"), "done", days),
+		stages.step(_("Submitted"), "done", days),
 		billable and stages.step(_("Billed"), stages.at(billed, True), _("All") if billed else stages.share(doc.per_billed)),
 	)
 
@@ -256,8 +256,8 @@ HEADS = [
 		"band": [
 			{"label": _lt("Health"), "source": "Measure", "measure": "project.health"},
 			{"label": _lt("Sub-projects"), "source": "Measure", "measure": "project.sub_projects"},
-			{"label": _lt("Done"), "source": "Measure", "measure": "project.done"},
-			{"label": _lt("Due"), "source": "Measure", "measure": "project.due"},
+			{"label": _lt("% Completed"), "source": "Measure", "measure": "project.done"},
+			{"label": _lt("Expected End Date"), "source": "Measure", "measure": "project.due"},
 			{"label": _lt("Cost"), "source": "Measure", "measure": "project.cost"},
 			{"label": _lt("Billed"), "source": "Measure", "measure": "project.billed"},
 			{"label": _lt("Margin So Far"), "source": "Measure", "measure": "project.margin"},
@@ -272,7 +272,7 @@ HEADS = [
 		"sentences": [{"measure": "timesheet.said"}],
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "timesheet.progress"},
-			{"label": _lt("Worth"), "source": "Measure", "measure": "timesheet.worth"},
+			{"label": _lt("Total Billable Amount"), "source": "Measure", "measure": "timesheet.worth"},
 		],
 	},
 ]

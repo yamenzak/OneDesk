@@ -8,8 +8,8 @@ onedesk.upkeep.done = (service, what, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Mark Done"),
 		fields: [
-			{ fieldtype: "Date", fieldname: "on", label: __("Done On"), default: frappe.datetime.get_today(), reqd: 1 },
-			{ fieldtype: "Small Text", fieldname: "notes", label: __("What Was Done") },
+			{ fieldtype: "Date", fieldname: "on", label: __("Completion Date"), default: frappe.datetime.get_today(), reqd: 1 },
+			{ fieldtype: "Small Text", fieldname: "notes", label: __("Actions Performed") },
 		],
 		primary_action_label: __("Mark Done"),
 		primary_action: async (values) => {

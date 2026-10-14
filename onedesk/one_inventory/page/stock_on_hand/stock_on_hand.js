@@ -5,7 +5,7 @@
 frappe.pages["stock-on-hand"].on_page_load = (wrapper) => {
 	onedesk.island_page(wrapper, {
 		island: "onedesk.stock",
-		title: __("Stock on Hand"),
+		title: __("Stock Summary"),
 		// Transfer Stock, Count Stock and Add Warehouse (item_actions.js).
 		requires: ["/assets/onedesk/js/project_actions.js", "/assets/onedesk/js/item_actions.js"],
 	});

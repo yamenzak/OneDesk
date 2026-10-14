@@ -1,5 +1,5 @@
 <template>
-  <!-- Sent Out (one_inventory/page/sent_out): work a supplier does on our own
+  <!-- Subcontracting Order (one_inventory/page/sent_out): work a supplier does on our own
        materials as one page. Each order says what the supplier makes, what
        went to them and what came back, and when it is due, with Send
        Materials and Receive Back where they fit (one_inventory/sent_out.py,
@@ -23,7 +23,7 @@
         <Rows :rows="toOrder" />
       </Section>
       <div class="mt-3">
-        <OutRows :orders="said.orders" :can="said.can" :done="shown === 'done'" :empty="search ? __('No orders match') : shown === 'done' ? __('Nothing back yet') : __('Nothing out now')" />
+        <OutRows :orders="said.orders" :can="said.can" :done="shown === 'done'" :empty="search ? __('No orders match') : shown === 'done' ? __('Nothing received yet') : __('Nothing open now')" />
       </div>
     </template>
   </Page>
@@ -82,16 +82,16 @@ watch(search, () => {
 });
 
 const views = computed(() => [
-  { key: "out", label: __("Out Now"), count: said.value?.figures.out || null },
-  { key: "done", label: __("Back") },
+  { key: "out", label: __("Open"), count: said.value?.figures.out || null },
+  { key: "done", label: __("Received") },
 ]);
 
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    f.out !== null && { title: __("Out Now"), value: count(f.out) },
-    f.to_send !== null && { title: __("Materials to Send"), value: count(f.to_send), note: f.to_send ? __("Not all sent yet") : "" },
-    f.late !== null && { title: __("Late Back"), value: count(f.late), alarm: f.late > 0 },
+    f.out !== null && { title: __("Open"), value: count(f.out) },
+    f.to_send !== null && { title: __("Material to Transfer"), value: count(f.to_send), note: f.to_send ? __("Not all transferred yet") : "" },
+    f.late !== null && { title: __("Late"), value: count(f.late), alarm: f.late > 0 },
     f.worth !== null && { title: __("With Suppliers"), value: money(f.worth, said.value.currency), note: __("Our materials, at cost") },
   ].filter(Boolean);
 });
@@ -111,9 +111,9 @@ const toOrder = computed(() =>
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("Sent Out") });
+  props.onTitle?.({ title: __("Subcontracting Order") });
   extended(s);
-  props.onActions?.([s.can.order && { label: __("Send Work Out"), primary: true, onClick: () => onedesk().sent_out.new() }].filter(Boolean));
+  props.onActions?.([s.can.order && { label: __("New Subcontracting Order"), primary: true, onClick: () => onedesk().sent_out.new() }].filter(Boolean));
 }
 
 // The page is a place (one_studio/places.py): its extensions are told what

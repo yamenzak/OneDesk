@@ -91,7 +91,7 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 	// by whoever may change it.
 	onload(listview) {
 		if (frappe.model.can_read("Activity Type")) {
-			listview.page.add_menu_item(__("Rates"), () => frappe.set_route("List", "Activity Type"));
+			listview.page.add_menu_item(__("Activity Type"), () => frappe.set_route("List", "Activity Type"));
 		}
 		if (frappe.model.can_write("Projects Settings")) {
 			listview.page.add_menu_item(__("Projects Settings"), () => frappe.set_route("Form", "Projects Settings"));

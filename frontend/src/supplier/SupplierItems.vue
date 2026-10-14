@@ -34,7 +34,7 @@
                   <Badge v-if="item.default" :label="__('Default')" theme="blue" size="sm" />
                   <Badge v-if="item.quoted" :label="__('Quoted')" theme="gray" size="sm" />
                 </div>
-                <span class="truncate text-sm text-ink-gray-5">{{ [item.item !== item.item_name && item.item, item.part_no && __("Their code {0}", [item.part_no])].filter(Boolean).join(" · ") }}</span>
+                <span class="truncate text-sm text-ink-gray-5">{{ [item.item !== item.item_name && item.item, item.part_no && __("Supplier Part No {0}", [item.part_no])].filter(Boolean).join(" · ") }}</span>
               </div>
             </ListCell>
             <ListCell class="justify-end">
@@ -134,6 +134,6 @@ function when(one) {
   if (one.agreed) return __("Agreed until {0}", [date(one.agreed.until)]);
   if (one.last) return [date(one.last.on), one.before && __("was {0}", [money(one.before, one.last.currency)])].filter(Boolean).join(" · ");
   if (one.quoted.expired) return __("Quoted {0}, expired", [date(one.quoted.on)]);
-  return one.quoted.until ? __("Quoted, holds until {0}", [date(one.quoted.until)]) : __("Quoted {0}", [date(one.quoted.on)]);
+  return one.quoted.until ? __("Quoted, valid till {0}", [date(one.quoted.until)]) : __("Quoted {0}", [date(one.quoted.on)]);
 }
 </script>

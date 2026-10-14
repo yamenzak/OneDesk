@@ -52,9 +52,9 @@
           <div v-if="!one.running.length" class="text-sm text-ink-gray-5">{{ __("Nothing running") }}</div>
 
           <div class="mt-auto flex items-center justify-between gap-2 border-t border-outline-gray-1 pt-3">
-            <span class="text-sm text-ink-gray-5">{{ one.waiting ? (one.waiting === 1 ? __("1 step waiting") : __("{0} steps waiting", [count(one.waiting)])) : __("Nothing waiting") }}</span>
+            <span class="text-sm text-ink-gray-5">{{ one.waiting ? (one.waiting === 1 ? __("1 operation waiting") : __("{0} operations waiting", [count(one.waiting)])) : __("Nothing waiting") }}</span>
             <div class="flex items-center gap-1">
-              <Button size="sm" variant="ghost" :label="__('Steps')" icon-right="lucide-arrow-right" @click="go(`/desk/floor?workstation=${encodeURIComponent(one.name)}`)" />
+              <Button size="sm" variant="ghost" :label="__('Operations')" icon-right="lucide-arrow-right" @click="go(`/desk/floor?workstation=${encodeURIComponent(one.name)}`)" />
               <Button size="sm" variant="ghost" icon="lucide-settings-2" :aria-label="__('Open Workstation')" @click="go(`/desk/workstation/${encodeURIComponent(one.name)}`)" />
             </div>
           </div>
@@ -66,8 +66,8 @@
         <List v-else :columns="stockColumns" divider="full" :row-height="52" class="-mx-3 list-gap-4 list-row-px-3">
           <ListHeader>
             <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
-            <ListHeaderCell class="justify-end">{{ __("On Hand") }}</ListHeaderCell>
-            <ListHeaderCell class="justify-end max-sm:hidden">{{ __("For Making") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end">{{ __("Actual Qty") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end max-sm:hidden">{{ __("Reserved Qty for Production") }}</ListHeaderCell>
             <ListHeaderCell class="justify-end max-lg:hidden">{{ __("Coming") }}</ListHeaderCell>
             <ListHeaderCell />
           </ListHeader>
@@ -186,9 +186,9 @@ const figures = computed(() => {
   const f = said.value.figures;
   return [
     { title: __("Workstations"), value: count(f.workstations) },
-    { title: __("Making"), value: count(f.making), action: f.making ? { icon: "lucide-filter", label: __("Show Workstations Making"), onClick: () => (status.value = "Production") } : null },
+    { title: __("Production"), value: count(f.making), action: f.making ? { icon: "lucide-filter", label: __("Show Workstations in Production"), onClick: () => (status.value = "Production") } : null },
     { title: __("Stopped"), value: count(f.stopped), alarm: f.stopped > 0, note: f.stopped ? __("A problem or maintenance") : "" },
-    { title: __("Steps Running"), value: count(f.running) },
+    { title: __("Operations Running"), value: count(f.running) },
   ];
 });
 

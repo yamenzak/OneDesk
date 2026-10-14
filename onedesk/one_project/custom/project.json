@@ -238,49 +238,9 @@
    "doc_type": "Project",
    "doctype_or_field": "DocField",
    "field_name": "section_break_18",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Dates"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "section_break_18",
    "property": "collapsible",
    "property_type": "Check",
    "value": "0"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "actual_start_date",
-   "property": "label",
-   "property_type": "Data",
-   "value": "First Time Logged"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "actual_end_date",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Last Time Logged"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "actual_time",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Hours Logged"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "users_section",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Members"
   },
   {
    "doc_type": "Project",
@@ -289,14 +249,6 @@
    "property": "collapsible",
    "property_type": "Check",
    "value": "0"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "users",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Members"
   },
   {
    "doc_type": "Project",
@@ -357,78 +309,6 @@
   {
    "doc_type": "Project",
    "doctype_or_field": "DocField",
-   "field_name": "total_costing_amount",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Time Cost"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "total_purchase_cost",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Purchases"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "total_consumed_material_cost",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Materials Used"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "cost_center",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Cost Center"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "total_sales_amount",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Ordered"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "total_billable_amount",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Billable Time"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "total_billed_amount",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Billed"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "gross_margin",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Margin"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "per_gross_margin",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Margin %"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
    "field_name": "subject",
    "property": "mandatory_depends_on",
    "property_type": "Data",
@@ -449,54 +329,6 @@
    "property": "description",
    "property_type": "Text",
    "value": ""
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "frequency",
-   "property": "label",
-   "property_type": "Data",
-   "value": "How Often"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "day_to_send",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Day"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "weekly_time_to_send",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Time"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "daily_time_to_send",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Time"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "first_email",
-   "property": "label",
-   "property_type": "Data",
-   "value": "First Ask"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "second_email",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Second Ask"
   },
   {
    "doc_type": "Project",
@@ -561,14 +393,6 @@
    "property": "default",
    "property_type": "Text",
    "value": "Weekly"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "field_name": "total_expense_claim",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Expense Claims"
   },
   {
    "doc_type": "Project",
@@ -669,30 +493,6 @@
   {
    "doc_type": "Project",
    "doctype_or_field": "DocField",
-   "field_name": "estimated_costing",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Budget"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Start Date",
-   "field_name": "expected_start_date"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Due Date",
-   "field_name": "expected_end_date"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
    "property": "width",
    "property_type": "Data",
    "value": "260",
@@ -748,14 +548,6 @@
    "property_type": "Data",
    "value": "190",
    "field_name": "customer"
-  },
-  {
-   "doc_type": "Project",
-   "doctype_or_field": "DocField",
-   "property": "label",
-   "property_type": "Data",
-   "value": "Done",
-   "field_name": "percent_complete"
   }
  ],
  "sync_on_migrate": 1

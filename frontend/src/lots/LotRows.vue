@@ -2,14 +2,14 @@
   <!-- Lots as a table, modelled on Odoo's Lots and Serial Numbers and Katana's
        batch tracking: the lot and its item, one status, when it was made and
        when it goes off, where it is, and how much is left (one_inventory/lots.py).
-       The Lots page and an item's Stock tab both show them. -->
+       The Batch and Serial No page and an item's Stock tab both show them. -->
   <p v-if="!lots.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
-      <ListHeaderCell>{{ __("Lot") }}</ListHeaderCell>
+      <ListHeaderCell>{{ __("Batch") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
-      <ListHeaderCell v-if="withItem" class="max-lg:hidden">{{ __("Made") }}</ListHeaderCell>
-      <ListHeaderCell class="max-md:hidden">{{ __("Goes Off") }}</ListHeaderCell>
+      <ListHeaderCell v-if="withItem" class="max-lg:hidden">{{ __("Manufacturing Date") }}</ListHeaderCell>
+      <ListHeaderCell class="max-md:hidden">{{ __("Expiry Date") }}</ListHeaderCell>
       <ListHeaderCell v-if="withItem" class="max-lg:hidden">{{ __("Where") }}</ListHeaderCell>
       <ListHeaderCell class="justify-end">{{ __("Left") }}</ListHeaderCell>
     </ListHeader>
@@ -76,8 +76,8 @@ const columns = computed(() =>
 );
 const places = (one) => (one.where || []).map((place) => `${place.label || place.warehouse} ${quantity(place.qty)}`).join(" · ");
 const STATE = {
-  Expired: { label: __("Gone Off"), theme: "red" },
-  "Expiring Soon": { label: __("Going Off"), theme: "amber" },
+  Expired: { label: __("Expired"), theme: "red" },
+  "Expiring Soon": { label: __("Expiring Soon"), theme: "amber" },
 };
 const TEXT = { Expired: "text-ink-red-5", "Expiring Soon": "text-ink-amber-6" };
 const status = (one) => STATE[one.state] || (one.expiry_date ? { label: __("Good"), theme: "green" } : { label: __("Keeps"), theme: "gray" });

@@ -1,5 +1,5 @@
-// A page that gathers some record types into one screen (Lots, Quotes, Sent
-// Out, Upkeep) is one more view of those records, beside frappe's own. The
+// A page that gathers some record types into one screen (Batch and Serial No,
+// Request for Quotation, Subcontracting Order, Asset Maintenance) is one more view of those records, beside frappe's own. The
 // page's head carries frappe's view switcher, leading to their List and
 // Report views and to the reports that belong with them, and frappe's
 // switcher on those lists leads back to the page. One registry serves both
@@ -7,42 +7,42 @@
 frappe.provide("onedesk");
 
 // Per page: its name in the switcher, and in order the record types it
-// gathers, each with its plain name and the page's tab that shows it, then
+// gathers, each by its own name and the page's tab that shows it, then
 // the script reports that go with them.
 onedesk.page_views = {
 	lots: {
-		label: () => __("Lots"),
+		label: () => __("Batch and Serial No"),
 		doctypes: [
-			["Batch", () => __("Batches"), "batches"],
-			["Serial No", () => __("Serial Numbers"), "serials"],
+			["Batch", () => __("Batch"), "batches"],
+			["Serial No", () => __("Serial No"), "serials"],
 		],
 		reports: [
-			["Batch Item Expiry Status", () => __("Batch Expiry")],
-			["Batch-Wise Balance History", () => __("Stock by Batch")],
+			["Batch Item Expiry Status", () => __("Batch Item Expiry Status")],
+			["Batch-Wise Balance History", () => __("Batch-Wise Balance History")],
 		],
 	},
 	quotes: {
-		label: () => __("Quotes"),
+		label: () => __("Request for Quotation"),
 		doctypes: [
-			["Request for Quotation", () => __("Requests for Quotation"), "asked"],
-			["Supplier Quotation", () => __("Supplier Quotations"), "quotes"],
+			["Request for Quotation", () => __("Request for Quotation"), "asked"],
+			["Supplier Quotation", () => __("Supplier Quotation"), "quotes"],
 		],
-		reports: [["Supplier Quotation Comparison", () => __("Quote Comparison")]],
+		reports: [["Supplier Quotation Comparison", () => __("Supplier Quotation Comparison")]],
 	},
 	"sent-out": {
-		label: () => __("Sent Out"),
+		label: () => __("Subcontracting Order"),
 		doctypes: [
-			["Subcontracting Order", () => __("Subcontracting Orders"), "out"],
-			["Subcontracting Receipt", () => __("Subcontracting Receipts"), "done"],
+			["Subcontracting Order", () => __("Subcontracting Order"), "out"],
+			["Subcontracting Receipt", () => __("Subcontracting Receipt"), "done"],
 		],
-		reports: [["Subcontract Order Summary", () => __("Sent Out to Be Made")]],
+		reports: [["Subcontract Order Summary", () => __("Subcontract Order Summary")]],
 	},
 	upkeep: {
-		label: () => __("Upkeep"),
+		label: () => __("Asset Maintenance"),
 		doctypes: [
-			["Asset Maintenance Log", () => __("Maintenance Log"), "due"],
-			["Asset Repair", () => __("Repairs"), "repairs"],
-			["Asset Maintenance", () => __("Maintenance"), "plans"],
+			["Asset Maintenance Log", () => __("Asset Maintenance Log"), "due"],
+			["Asset Repair", () => __("Asset Repair"), "repairs"],
+			["Asset Maintenance", () => __("Asset Maintenance"), "plans"],
 		],
 		reports: [],
 	},

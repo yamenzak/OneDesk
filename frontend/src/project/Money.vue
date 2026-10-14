@@ -111,7 +111,7 @@ const soFarOnly = computed(() => selling.value && ["Time and Materials", "Retain
 const budgetFigure = () => {
   const c = cash.value;
   return {
-    title: __("Budget"),
+    title: __("Estimated Cost"),
     value: c.budget ? amount(c.budget) : "–",
     note: c.budget && selling.value ? __("{0} spent", [amount(c.spent)]) : "",
     bar: selling.value ? share(c.spent, c.budget) ?? undefined : undefined,

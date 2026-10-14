@@ -10,7 +10,7 @@
       <!-- The title and what can be done, on one line as on Tasks. -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
-          <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Time") }}
+          <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Timesheet") }}
           <span v-if="counted" class="text-base font-normal text-ink-gray-5">{{ counted }}</span>
         </h2>
         <TabButtons v-if="filters.length > 1" v-model="shown" :options="filters" />
@@ -204,7 +204,7 @@ const figures = computed(() => {
     ];
   const list = [
     {
-      title: __("Logged"),
+      title: __("Actual Time"),
       value: hours(t.hours),
       note: [t.planned ? __("of {0} planned", [hours(t.planned)]) : "", drafts].filter(Boolean).join("\n"),
       action: !t.planned && s.can_budget ? { icon: "lucide-plus", label: __("Set Planned Hours"), onClick: setBudget } : null,
@@ -226,7 +226,7 @@ const figures = computed(() => {
   }
   // Time's cost against its budget, where the project has one (Money, Change Budget).
   list.push({
-    title: __("Time Cost"),
+    title: __("Total Costing Amount"),
     value: amount(t.cost),
     note: t.time_budget ? __("of {0} budget", [amount(t.time_budget)]) : "",
     bar: t.time_budget ? Math.min(100, Math.round((100 * t.cost) / t.time_budget)) : undefined,

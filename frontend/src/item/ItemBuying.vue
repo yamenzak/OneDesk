@@ -131,10 +131,10 @@ const spot = usePlace("oneinventory_item.buying", () => ({
 
 // The item's own form fields that belong here, shown or locked as its form has them.
 const details = [
-  { label: __("Buying Unit"), field: "purchase_uom", placeholder: __("Same as stock") },
+  { label: __("Default Purchase Unit of Measure"), field: "purchase_uom", placeholder: __("Same as stock") },
   { label: __("Lead Time in Days"), field: "lead_time_days" },
-  { label: __("Minimum Order"), field: "min_order_qty" },
-  { label: __("Over Receipt Allowance (%)"), field: "over_delivery_receipt_allowance" },
-  { label: __("Supplied by the Customer"), field: "is_customer_provided_item" },
+  { label: __("Minimum Order Qty"), field: "min_order_qty" },
+  { label: __("Over Delivery/Receipt Allowance (%)"), field: "over_delivery_receipt_allowance" },
+  { label: __("Is Customer Provided Item"), field: "is_customer_provided_item" },
 ];
 </script>

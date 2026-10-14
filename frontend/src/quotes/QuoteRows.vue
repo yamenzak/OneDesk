@@ -8,8 +8,8 @@
     <ListHeader>
       <ListHeaderCell>{{ __("Supplier") }}</ListHeaderCell>
       <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
-      <ListHeaderCell class="max-lg:hidden">{{ __("Request") }}</ListHeaderCell>
-      <ListHeaderCell class="max-md:hidden">{{ __("Holds Until") }}</ListHeaderCell>
+      <ListHeaderCell class="max-lg:hidden">{{ __("Request for Quotation") }}</ListHeaderCell>
+      <ListHeaderCell class="max-md:hidden">{{ __("Valid Till") }}</ListHeaderCell>
       <ListHeaderCell class="justify-end">{{ __("Total") }}</ListHeaderCell>
       <ListHeaderCell />
     </ListHeader>
@@ -67,11 +67,11 @@ const columns = {
   lg: ["minmax(0,1fr)", "8rem", "minmax(0,1fr)", "8rem", "8rem", "2rem"],
 };
 
-// ERPNext's states, said as what is left to do with the quote.
+// ERPNext's own statuses, each with its colour.
 const STATES = {
-  Draft: [() => __("To Check"), "gray"],
-  Submitted: [() => __("To Decide"), "blue"],
-  "Partially Ordered": [() => __("Partly Ordered"), "green"],
+  Draft: [() => __("Draft"), "gray"],
+  Submitted: [() => __("Submitted"), "blue"],
+  "Partially Ordered": [() => __("Partially Ordered"), "green"],
   Ordered: [() => __("Ordered"), "green"],
   Expired: [() => __("Expired"), "red"],
   Stopped: [() => __("Stopped"), "gray"],

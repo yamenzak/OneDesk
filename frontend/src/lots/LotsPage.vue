@@ -1,8 +1,8 @@
 <template>
-  <!-- Lots (one_inventory/page/lots): batches and serial numbers as one tool.
+  <!-- Batch and Serial No (one_inventory/page/lots): batches and serial numbers as one tool.
        What each lot holds and where, which go off soon, each serial number
-       and where it is, and the items kept in lots, with Track Lots and New
-       Lot (one_inventory/lots.py, lots_actions.js). Modelled on Odoo's Lots
+       and where it is, and the items kept in lots, with Track Batches and New
+       Batch (one_inventory/lots.py, lots_actions.js). Modelled on Odoo's Lots
        and Serial Numbers and Katana's batch tracking: a table of lots with one
        status each, filtered by state above it. -->
   <Page wide>
@@ -10,7 +10,7 @@
     <template v-else>
       <div v-if="!said.switched_on" class="mt-6 flex flex-wrap items-center gap-3 rounded-3 bg-surface-gray-2 px-4 py-3">
         <span class="lucide-info size-4 text-ink-gray-5" aria-hidden="true" />
-        <span class="flex-1 text-base text-ink-gray-7">{{ __("Items can't be kept in lots or by number yet.") }}</span>
+        <span class="flex-1 text-base text-ink-gray-7">{{ __("Items can't be kept in batches or by Serial No yet.") }}</span>
         <Button v-if="said.can.switch" variant="solid" :label="__('Turn On')" @click="onedesk().lots.switch_on(load)" />
       </div>
       <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
@@ -28,9 +28,9 @@
       </div>
 
       <div class="mt-3">
-        <LotRows v-if="shown === 'batches'" :lots="lots" :empty="search || state !== 'all' ? __('No lots match') : __('No lots in stock')" />
-        <SerialRows v-else-if="shown === 'serials'" :serials="said.serials" :empty="search ? __('No numbers match') : __('No serial numbers yet')" />
-        <Rows v-else :rows="items" :empty="__('No item is kept in lots yet')" />
+        <LotRows v-if="shown === 'batches'" :lots="lots" :empty="search || state !== 'all' ? __('No batches match') : __('No batches in stock')" />
+        <SerialRows v-else-if="shown === 'serials'" :serials="said.serials" :empty="search ? __('No Serial Nos match') : __('No Serial Nos yet')" />
+        <Rows v-else :rows="items" :empty="__('No item is kept in batches yet')" />
       </div>
     </template>
   </Page>
@@ -106,24 +106,24 @@ const states = computed(() => {
   const f = said.value?.figures || {};
   return [
     { value: "all", label: __("All") },
-    (f.going_off || f.gone) && { value: "soon", label: __("Going Off {0}", [count((f.going_off || 0) + (f.gone || 0))]) },
-    f.gone && { value: "gone", label: __("Gone Off {0}", [count(f.gone)]) },
+    (f.going_off || f.gone) && { value: "soon", label: __("Expiring Soon {0}", [count((f.going_off || 0) + (f.gone || 0))]) },
+    f.gone && { value: "gone", label: __("Expired {0}", [count(f.gone)]) },
   ].filter(Boolean);
 });
 
 const views = computed(() => [
-  { key: "batches", label: __("Lots"), count: said.value?.figures.lots || null },
-  { key: "serials", label: __("Serial Numbers"), count: said.value?.figures.serials || null },
+  { key: "batches", label: __("Batches"), count: said.value?.figures.lots || null },
+  { key: "serials", label: __("Serial Nos"), count: said.value?.figures.serials || null },
   { key: "items", label: __("Items") },
 ]);
 
 const figures = computed(() => {
   const f = said.value.figures;
   return [
-    f.lots !== null && { title: __("Lots in Stock"), value: count(f.lots) },
-    f.going_off !== null && { title: __("Going Off"), value: count(f.going_off), alarm: f.going_off > 0, note: f.going_off ? __("Within a month") : "", action: f.going_off ? { icon: "lucide-filter", label: __("Show Lots Going Off"), onClick: () => (state.value = "soon") } : null },
-    f.gone !== null && { title: __("Gone Off"), value: count(f.gone), alarm: f.gone > 0, action: f.gone ? { icon: "lucide-filter", label: __("Show Lots Gone Off"), onClick: () => (state.value = "gone") } : null },
-    f.serials !== null && { title: __("Numbered Pieces"), value: count(f.serials) },
+    f.lots !== null && { title: __("Batches in Stock"), value: count(f.lots) },
+    f.going_off !== null && { title: __("Expiring Soon"), value: count(f.going_off), alarm: f.going_off > 0, note: f.going_off ? __("Within a month") : "", action: f.going_off ? { icon: "lucide-filter", label: __("Show Batches Expiring Soon"), onClick: () => (state.value = "soon") } : null },
+    f.gone !== null && { title: __("Expired"), value: count(f.gone), alarm: f.gone > 0, action: f.gone ? { icon: "lucide-filter", label: __("Show Expired Batches"), onClick: () => (state.value = "gone") } : null },
+    f.serials !== null && { title: __("Serial Nos"), value: count(f.serials) },
   ].filter(Boolean);
 });
 
@@ -136,7 +136,7 @@ const items = computed(() =>
     avatar: one.item_name,
     image: one.image,
     square: true,
-    badge: one.has_batch_no ? __("Lots") : __("By Number"),
+    badge: one.has_batch_no ? __("Batch") : __("Serial No"),
     below: [
       one.has_batch_no && (one.create_new_batch ? (one.batch_number_series ? __("Numbered like {0}", [example(one.batch_number_series)]) : __("Numbered automatically")) : __("Numbered by hand")),
       one.has_batch_no && one.has_expiry_date && one.shelf_life_in_days ? __("Keeps {0} days", [one.shelf_life_in_days]) : "",
@@ -161,12 +161,12 @@ function example(series) {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("Lots") });
+  props.onTitle?.({ title: __("Batch and Serial No") });
   extended(s);
   props.onActions?.(
     [
-      s.switched_on && s.can.Batch && { label: __("New Lot"), primary: true, onClick: () => onedesk().lots.new_lot(null, load) },
-      s.switched_on && s.can.Item && { label: __("Track Lots"), onClick: () => onedesk().lots.track(null, load) },
+      s.switched_on && s.can.Batch && { label: __("New Batch"), primary: true, onClick: () => onedesk().lots.new_lot(null, load) },
+      s.switched_on && s.can.Item && { label: __("Track Batches"), onClick: () => onedesk().lots.track(null, load) },
     ].filter(Boolean)
   );
 }

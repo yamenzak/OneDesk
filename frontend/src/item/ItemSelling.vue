@@ -108,9 +108,9 @@ const spot = usePlace("oneinventory_item.selling", () => ({
 
 // The item's own form fields that belong here, shown or locked as its form has them.
 const details = [
-  { label: __("Selling Unit"), field: "sales_uom", placeholder: __("Same as stock") },
-  { label: __("Maximum Discount (%)"), field: "max_discount", blankZero: true, placeholder: __("No limit") },
+  { label: __("Default Sales Unit of Measure"), field: "sales_uom", placeholder: __("Same as stock") },
+  { label: __("Max Discount (%)"), field: "max_discount", blankZero: true, placeholder: __("No limit") },
   { label: __("Over Billing Allowance (%)"), field: "over_billing_allowance" },
-  { label: __("Earns Commission"), field: "grant_commission" },
+  { label: __("Grant Commission"), field: "grant_commission" },
 ];
 </script>
