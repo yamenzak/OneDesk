@@ -12366,3 +12366,23 @@ rail was laid out; the supplier is the same record either way.
 | Point | On this screen |
 |---|---|
 | 5 Our look | the name whole and said once, no column saying one thing |
+
+**A supplier's Items.** Asked on 2026-10-14, after Suppliers: a supplier
+said what was owed and bought in money, and nothing of what was bought. An
+item's Buying tab said who it is bought from; the other way round was
+missing. A supplier has an **Items** tab now (`one_inventory/supplier_items.py`,
+`frontend/src/supplier`, drawn into the form by `onedesk.record_tabs`),
+modelled on Odoo's vendor price list: each item with their own code for it, a
+Default badge, the last price in their money with what it was before or the
+rate agreed on a blanket order, how much was bought in a year in how many
+orders, what is on order and the lead time, then what they quoted for and
+were never ordered from. On Order and Lead Time show only when some item has
+one. The tab counts its items, follows orders, quotes, agreements and items,
+reads the reader's company only, and has New Purchase Order. An island may
+now be mounted by a record tab as well as a page (`test_islands.py`).
+
+| Point | On this screen |
+|---|---|
+| 1 Demo coverage | Al Noor's aluminium agreed and its anchors priced, read as Karim |
+| 5 Our look | modelled on Odoo's vendor price list, a table not text |
+| 8 Built from frappe | frappe-ui's List, Avatar and Badge, in frappe's own form tab |

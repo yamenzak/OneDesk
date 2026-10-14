@@ -5686,7 +5686,7 @@ def oneinventory_buying_from_request_to_order():
 	orders never made good are closed, and Gulf Glass and Al Noor are scored.
 	A request line cannot be ordered twice over on drafts."""
 	from onedesk.one import print_blocks
-	from onedesk.one_inventory import ai, heads, order, ready, tell
+	from onedesk.one_inventory import ai, heads, order, ready, supplier_items, tell
 
 	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
 	asked = frappe.get_doc("Material Request", {"owner": "rania@one.test", "project": villa, "docstatus": 1, "material_request_type": "Purchase"})
@@ -5737,6 +5737,15 @@ def oneinventory_buying_from_request_to_order():
 	assert flt(agreed.items[0].ordered_qty) == sum(flt(one.qty) for one in on_it)
 	assert heads.blanket_ordered(agreed)["meter"]["value"] == flt(agreed.items[0].ordered_qty)
 	assert print_blocks.title(agreed)["title"] == "Blanket Order" and print_blocks.party(agreed)["name"] == "Al Noor Aluminium"
+
+	# Al Noor's Items tab: the aluminium agreed for the year, and the anchors
+	# it was cheapest on, each with its last price in its own money.
+	with as_user("karim@one.test"):
+		tab = supplier_items.read("Al Noor Aluminium")
+	lines = {one["item"]: one for one in tab["items"]}
+	assert lines["ALU-6063"]["agreed"] and lines["ALU-6063"]["orders"], lines.get("ALU-6063")
+	assert lines["FIX-ANCH"]["last"]["rate"] > 0 and lines["FIX-ANCH"]["unit"], lines.get("FIX-ANCH")
+	assert tab["count"] == len(tab["items"]) and all(one["item_name"] for one in tab["items"])
 
 	# A request line is not ordered twice over on drafts, and To Order agrees.
 	glass = frappe.get_doc("Material Request Item", {"item_code": "GLS-DGU", "project": villa, "docstatus": 1, "ordered_qty": 0})

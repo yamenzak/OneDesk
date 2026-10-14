@@ -1186,6 +1186,7 @@ app_include_js = [
 	"/assets/onedesk/js/extension_errors.js",
 	"/assets/onedesk/js/record_mail.js",
 	"/assets/onedesk/js/record_activity.js",
+	"/assets/onedesk/js/supplier_items.js",
 	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
@@ -1627,6 +1628,8 @@ one_record_tabs = [
 	"onedesk.one_storage.namespace.TABS",
 	"onedesk.one.tabs.TABS",
 	"onedesk.one_studio.mend.TABS",
+	# What is bought from a supplier, item by item. See one_inventory/supplier_items.py.
+	"onedesk.one_inventory.supplier_items.TABS",
 ]
 
 # What each module puts on the calendar, as layers. Each reads its own records

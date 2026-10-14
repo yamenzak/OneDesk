@@ -527,6 +527,7 @@ No doctypes yet.
 * `onedesk.one_inventory.story.still_on_order`
 * `onedesk.one_inventory.story.stock_worth`
 * `onedesk.one_inventory.story.taken_in_this_month`
+* `onedesk.one_inventory.supplier_items.read`
 * `onedesk.one_inventory.upkeep.done`
 * `onedesk.one_inventory.upkeep.read`
 * `onedesk.one_inventory.view.files`

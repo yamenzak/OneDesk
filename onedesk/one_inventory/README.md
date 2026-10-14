@@ -339,7 +339,14 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 Requests**, **Quotes**, **Purchase Orders** and **Suppliers**. Requests for
 Quotation, Supplier Quotations, Quote Comparison and Blanket Orders are under
 Everything on Home. Suppliers are kept in OneBook, and the link here opens the
-same supplier.
+same supplier. A supplier's **Items** tab, modelled on Odoo's vendor price
+list, says what is bought from them, item by item: their own code for it,
+whether they are its default supplier, the last price paid in their money
+and what it was before, or what they agreed on a blanket order, how much was
+bought in a year and in how many orders, what is on order and the lead time;
+then what they quoted for and were never ordered from. Each opens the item's
+Buying tab, which says the same from the item's side, and **New Purchase
+Order** starts one with them (`supplier_items.py`).
 
 1. **Ask for it.** Somebody who needs goods makes a **Material Request**,
    saying what, how many, for which warehouse and project, and when it is

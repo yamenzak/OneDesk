@@ -57,6 +57,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.home": None,
 		"onedesk.lots": None,
 		"onedesk.to_order": None,
+		"onedesk.supplier_items": None,
 		"onedesk.quotes": None,
 		"onedesk.sent_out": None,
 		"onedesk.upkeep": None,
