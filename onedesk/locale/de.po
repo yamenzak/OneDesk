@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 20:57+0000\n"
+"POT-Creation-Date: 2026-10-14 21:08+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -531,7 +531,7 @@ msgstr "Eine Unterhaltung wird im Lesebereich von OneMail geöffnet."
 msgid "A copy of {0}"
 msgstr "Eine Kopie von {0}"
 
-#: onedesk/one_book/heads.py:116
+#: onedesk/one_book/heads.py:119
 msgid "A credit note to {0}."
 msgstr "Eine Gutschrift an {0}."
 
@@ -576,7 +576,7 @@ msgstr "Ein Tag vor Ort wurde für {0} nicht erfasst"
 msgid "A deal moved to this stage takes this probability, unless one was typed."
 msgstr "Ein Deal, der in diese Phase verschoben wird, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
 
-#: onedesk/one_book/heads.py:116
+#: onedesk/one_book/heads.py:119
 msgid "A debit note from {0}."
 msgstr "Eine Lastschrift von {0}."
 
@@ -605,7 +605,7 @@ msgstr "Eine Domain hat höchstens {0} Zeichen."
 msgid "A draft. Submit it to ask for these."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese anzufordern."
 
-#: onedesk/one_book/heads.py:109
+#: onedesk/one_book/heads.py:112
 msgid "A draft. Submit it to bill {0}."
 msgstr "Ein Entwurf. Buchen Sie ihn, um {0} zu fakturieren."
 
@@ -617,7 +617,7 @@ msgstr "Ein Entwurf. Reichen Sie ihn ein, um {0} von {1}s Zeit zu zählen."
 msgid "A draft. Submit it to make {0} from it."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um daraus {0} zu fertigen."
 
-#: onedesk/one_book/heads.py:357
+#: onedesk/one_book/heads.py:360
 msgid "A draft. Submit it to move the money."
 msgstr "Ein Entwurf. Buchen Sie ihn, um das Geld umzubuchen."
 
@@ -629,7 +629,7 @@ msgstr "Ein Entwurf. Reichen Sie ihn ein, um bei {0} zu bestellen."
 msgid "A draft. Submit it to plan making {0}."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um die Fertigung von {0} zu planen."
 
-#: onedesk/one_book/heads.py:400
+#: onedesk/one_book/heads.py:403
 msgid "A draft. Submit it to post it to the books."
 msgstr "Ein Entwurf. Buchen Sie ihn, um ihn in die Bücher zu übernehmen."
 
@@ -641,15 +641,19 @@ msgstr "Ein Entwurf. Reichen Sie ihn ein, um es in Gebrauch zu nehmen."
 msgid "A draft. Submit it to put these into stock."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese einzulagern."
 
-#: onedesk/one_book/heads.py:354
+#: onedesk/one_book/heads.py:461
+msgid "A draft. Submit it to reconcile it."
+msgstr "Ein Entwurf. Buchen Sie ihn, um ihn abzugleichen."
+
+#: onedesk/one_book/heads.py:357
 msgid "A draft. Submit it to record the money paid to {0}."
 msgstr "Ein Entwurf. Buchen Sie ihn, um die Zahlung an {0} zu erfassen."
 
-#: onedesk/one_book/heads.py:351
+#: onedesk/one_book/heads.py:354
 msgid "A draft. Submit it to record the money received from {0}."
 msgstr "Ein Entwurf. Buchen Sie ihn, um den Zahlungseingang von {0} zu erfassen."
 
-#: onedesk/one_book/heads.py:111
+#: onedesk/one_book/heads.py:114
 msgid "A draft. Submit it to record what {0} billed."
 msgstr "Ein Entwurf. Buchen Sie ihn, um zu erfassen, was {0} berechnet hat."
 
@@ -1555,11 +1559,11 @@ msgstr ""
 msgid "Account Number"
 msgstr "Kontonummer"
 
-#: onedesk/one_book/heads.py:493 onedesk/one_book/heads.py:593
+#: onedesk/one_book/heads.py:607 onedesk/one_book/heads.py:730
 msgid "Account Paid From"
 msgstr ""
 
-#: onedesk/one_book/heads.py:493 onedesk/one_book/heads.py:587
+#: onedesk/one_book/heads.py:607 onedesk/one_book/heads.py:724
 msgid "Account Paid To"
 msgstr ""
 
@@ -2426,7 +2430,7 @@ msgstr "Vereinbarungen"
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_book/heads.py:88 onedesk/one_inventory/heads.py:635
+#: onedesk/one_book/heads.py:91 onedesk/one_inventory/heads.py:635
 #: onedesk/one_inventory/heads.py:643 onedesk/one_inventory/heads.py:644
 #: onedesk/one_inventory/heads.py:650 onedesk/one_inventory/heads.py:736
 #: onedesk/one_inventory/heads.py:762 onedesk/one_inventory/heads.py:840
@@ -2922,7 +2926,7 @@ msgstr "Ankündigung"
 msgid "Announcements"
 msgstr "Ankündigungen"
 
-#: onedesk/one_book/heads.py:611 onedesk/one_book/heads.py:633
+#: onedesk/one_book/heads.py:748 onedesk/one_book/heads.py:770
 msgid "Annual Billing"
 msgstr "Jahresumsatz"
 
@@ -3986,7 +3990,7 @@ msgid "Auto Close Open Check-ins at Shift End"
 msgstr "Offene Eincheckungen zum Schichtende automatisch schließen"
 
 #. Label of the auto_repeat (Link) field in DocType 'Task'
-#: onedesk/one_book/heads.py:535 onedesk/one_book/home.py:277
+#: onedesk/one_book/heads.py:649 onedesk/one_book/home.py:277
 #: onedesk/one_task/custom/task.json
 msgid "Auto Repeat"
 msgstr ""
@@ -4143,7 +4147,7 @@ msgstr "Aufbewahrte Sicherungen"
 
 #. Label of the credits_balance (Float) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/public/js/settings.js:1557
+#: onedesk/one_book/heads.py:699 onedesk/public/js/settings.js:1557
 msgid "Balance"
 msgstr ""
 
@@ -4173,7 +4177,8 @@ msgid "Bank"
 msgstr "Bank"
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:289 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/heads.py:685 onedesk/one_book/home.py:289
+#: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Account"
 msgstr ""
 
@@ -4186,8 +4191,8 @@ msgid "Bank Reconciliation Statement"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:239 onedesk/one_book/home.py:286
-#: onedesk/one_book/sidebar/onebook/onebook.json
+#: frontend/src/home/BooksHome.vue:239 onedesk/one_book/heads.py:693
+#: onedesk/one_book/home.py:286 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Reconciliation Tool"
 msgstr ""
 
@@ -4558,8 +4563,8 @@ msgstr "Abrechenbar nach Meilensteinen"
 #: frontend/src/project/Overview.vue:154 frontend/src/project/Overview.vue:472
 #: frontend/src/project/Overview.vue:493 frontend/src/project/Suppliers.vue:60
 #: frontend/src/project/Suppliers.vue:203
-#: frontend/src/project/Suppliers.vue:226 onedesk/one_book/heads.py:99
-#: onedesk/one_book/heads.py:541 onedesk/one_crm/heads.py:236
+#: frontend/src/project/Suppliers.vue:226 onedesk/one_book/heads.py:102
+#: onedesk/one_book/heads.py:655 onedesk/one_crm/heads.py:236
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:182
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
 #: onedesk/one_inventory/heads.py:560 onedesk/one_inventory/heads.py:736
@@ -4588,11 +4593,11 @@ msgstr "Rechnung an"
 msgid "Billed by the hour at agreed rates, plus what's bought for it."
 msgstr "Nach Stunden zu vereinbarten Sätzen abgerechnet, plus was dafür gekauft wird."
 
-#: onedesk/one_book/heads.py:549
+#: onedesk/one_book/heads.py:663
 msgid "Billed by {0}"
 msgstr "Berechnet von {0}"
 
-#: onedesk/one_book/heads.py:547
+#: onedesk/one_book/heads.py:661
 msgid "Billed to {0}"
 msgstr "Berechnet an {0}"
 
@@ -4726,7 +4731,7 @@ msgid "Both"
 msgstr ""
 
 #: frontend/src/home/InventoryStory.vue:163
-#: frontend/src/home/InventoryStory.vue:171 onedesk/one_book/heads.py:541
+#: frontend/src/home/InventoryStory.vue:171 onedesk/one_book/heads.py:655
 msgid "Bought"
 msgstr "Gekauft"
 
@@ -5686,7 +5691,7 @@ msgstr "Zugangsdaten für Checkout und Webhook. Das Webhook-Geheimnis ist erford
 msgid "Checks"
 msgstr "Prüfungen"
 
-#: onedesk/one_book/heads.py:502 onedesk/one_book/heads.py:599
+#: onedesk/one_book/heads.py:616 onedesk/one_book/heads.py:736
 msgid "Cheque/Reference No"
 msgstr ""
 
@@ -7911,7 +7916,7 @@ msgstr "Lieferung zur Baustelle"
 #: frontend/src/home/InventoryStory.vue:166
 #: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:240
 #: onedesk/one/portal.py:241 onedesk/one/portal.py:242
-#: onedesk/one/portal.py:249 onedesk/one_book/heads.py:98
+#: onedesk/one/portal.py:249 onedesk/one_book/heads.py:101
 #: onedesk/one_crm/heads.py:230 onedesk/one_inventory/heads.py:761
 #: onedesk/one_project/money.py:153
 msgid "Delivered"
@@ -11569,7 +11574,7 @@ msgstr "Karenzzeiten"
 msgid "Grace period ended"
 msgstr "Schonfrist abgelaufen"
 
-#: frontend/src/home/BooksStory.vue:38 onedesk/one_book/heads.py:534
+#: frontend/src/home/BooksStory.vue:38 onedesk/one_book/heads.py:648
 #: onedesk/one_inventory/heads.py:1535 onedesk/one_inventory/heads.py:1564
 #: onedesk/one_inventory/heads.py:1599
 msgid "Grand Total"
@@ -13040,7 +13045,7 @@ msgstr "Innenausbau"
 msgid "Internal"
 msgstr "Intern"
 
-#: onedesk/one_book/heads.py:377
+#: onedesk/one_book/heads.py:380
 msgid "Internal Transfer"
 msgstr ""
 
@@ -14029,6 +14034,10 @@ msgstr "Letzte Adresse"
 msgid "Last Answer"
 msgstr "Letzte Antwort"
 
+#: onedesk/one_book/heads.py:701
+msgid "Last Bank Transaction"
+msgstr "Letzte Banktransaktion"
+
 #: frontend/src/project/Overview.vue:198
 msgid "Last Billed"
 msgstr "Zuletzt abgerechnet"
@@ -14115,7 +14124,7 @@ msgstr "Letzter Preis"
 msgid "Last Priced"
 msgstr "Zuletzt bepreist"
 
-#: onedesk/one_book/heads.py:283 onedesk/one_book/heads.py:634
+#: onedesk/one_book/heads.py:286 onedesk/one_book/heads.py:771
 msgid "Last Purchase Invoice"
 msgstr "Letzte Eingangsrechnung"
 
@@ -14149,7 +14158,7 @@ msgstr "Zuletzt erinnert"
 msgid "Last Said On"
 msgstr "Zuletzt gesagt am"
 
-#: onedesk/one_book/heads.py:283 onedesk/one_book/heads.py:612
+#: onedesk/one_book/heads.py:286 onedesk/one_book/heads.py:749
 msgid "Last Sales Invoice"
 msgstr "Letzte Ausgangsrechnung"
 
@@ -15800,6 +15809,10 @@ msgstr "Zugeordneter Datensatz"
 msgid "Matched Type"
 msgstr "Zugeordnete Art"
 
+#: onedesk/one_book/heads.py:467
+msgid "Matched in the books."
+msgstr "In den Büchern abgeglichen."
+
 #: onedesk/one_mail/ai.py:278
 msgid "Matching mail is moved too"
 msgstr "Passende E-Mails werden ebenfalls verschoben"
@@ -16075,7 +16088,7 @@ msgstr ""
 msgid "Modality"
 msgstr "Modalität"
 
-#: onedesk/one_book/heads.py:585 onedesk/one_book/home.py:336
+#: onedesk/one_book/heads.py:722 onedesk/one_book/home.py:336
 msgid "Mode of Payment"
 msgstr ""
 
@@ -17003,7 +17016,7 @@ msgstr "Nächster Schritt fällig"
 msgid "Next Year's List"
 msgstr "Liste für nächstes Jahr"
 
-#: onedesk/one_book/heads.py:146
+#: onedesk/one_book/heads.py:149
 msgid "Next on {0}"
 msgstr "Nächste am {0}"
 
@@ -17777,7 +17790,8 @@ msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
 
 #: frontend/src/project/Time.vue:100 onedesk/one/ai.py:2707
-#: onedesk/one/ai_setup.py:132 onedesk/public/js/settings.js:2351
+#: onedesk/one/ai_setup.py:132 onedesk/one_book/heads.py:533
+#: onedesk/public/js/settings.js:2351
 msgid "None"
 msgstr "Keine"
 
@@ -17797,8 +17811,8 @@ msgstr "Keines Ihrer Postfächer kann E-Mails senden"
 msgid "None planned"
 msgstr "Nichts geplant"
 
-#: onedesk/one_book/heads.py:279 onedesk/one_crm/heads.py:150
-#: onedesk/one_inventory/heads.py:1067
+#: onedesk/one_book/heads.py:282 onedesk/one_book/heads.py:549
+#: onedesk/one_crm/heads.py:150 onedesk/one_inventory/heads.py:1067
 msgid "None yet"
 msgstr "Noch keiner"
 
@@ -17987,7 +18001,7 @@ msgstr "Nicht fertig, und es wurde vor {0} benötigt."
 msgid "Not found"
 msgstr "Nicht gefunden"
 
-#: onedesk/one_book/heads.py:385 onedesk/one_book/heads.py:429
+#: onedesk/one_book/heads.py:388 onedesk/one_book/heads.py:432
 msgid "Not in a bank statement yet"
 msgstr "Noch nicht im Kontoauszug"
 
@@ -18027,6 +18041,10 @@ msgstr "Wird in diesem Workspace nicht gemailt."
 #: onedesk/public/js/band.js:253
 msgid "Not marked"
 msgstr "Nicht erfasst"
+
+#: onedesk/one_book/heads.py:471
+msgid "Not matched to a payment yet."
+msgstr "Noch keiner Zahlung zugeordnet."
 
 #: onedesk/public/js/ai_model_list.js:20
 msgid "Not offered"
@@ -19613,6 +19631,7 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 #: frontend/src/sent_out/SentOutPage.vue:85
 #: frontend/src/sent_out/SentOutPage.vue:92
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+#: onedesk/one_book/heads.py:505
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:376
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -19665,7 +19684,7 @@ msgstr "Ältere Einträge öffnen"
 msgid "Open Order"
 msgstr "Bestellung öffnen"
 
-#: onedesk/one_book/heads.py:614 onedesk/one_book/heads.py:636
+#: onedesk/one_book/heads.py:751 onedesk/one_book/heads.py:773
 msgid "Open Orders"
 msgstr ""
 
@@ -19941,7 +19960,7 @@ msgstr "{0} bestellen"
 #: frontend/src/home/InventoryStory.vue:184 frontend/src/project/Money.vue:167
 #: frontend/src/project/Suppliers.vue:202
 #: frontend/src/quotes/QuoteCompare.vue:82 frontend/src/quotes/QuoteRows.vue:75
-#: frontend/src/quotes/RequestRows.vue:68 onedesk/one_book/heads.py:96
+#: frontend/src/quotes/RequestRows.vue:68 onedesk/one_book/heads.py:99
 #: onedesk/one_inventory/heads.py:548 onedesk/one_inventory/heads.py:635
 #: onedesk/one_inventory/heads.py:734 onedesk/one_inventory/heads.py:760
 #: onedesk/one_inventory/heads.py:838 onedesk/one_project/money.py:152
@@ -20195,7 +20214,7 @@ msgstr "Ausgabe-Token"
 msgid "Outstanding"
 msgstr "Offen"
 
-#: frontend/src/home/BooksStory.vue:35 onedesk/one_book/heads.py:528
+#: frontend/src/home/BooksStory.vue:35 onedesk/one_book/heads.py:642
 msgid "Outstanding Amount"
 msgstr ""
 
@@ -20250,7 +20269,7 @@ msgstr "Über ein Jahr"
 #: frontend/src/upkeep/UpkeepPage.vue:89 frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/one_book/heads.py:610 onedesk/one_book/heads.py:632
+#: onedesk/one_book/heads.py:747 onedesk/one_book/heads.py:769
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:39
 #: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:199
 msgid "Overdue"
@@ -20265,7 +20284,7 @@ msgstr "Überfällig für"
 msgid "Overdue Tasks"
 msgstr "Überfällige Aufgaben"
 
-#: onedesk/one_book/heads.py:241
+#: onedesk/one_book/heads.py:244
 msgid "Overdue · oldest {0} days"
 msgstr "Überfällig · älteste {0} Tage"
 
@@ -20385,15 +20404,15 @@ msgstr "Seiten"
 #: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:386
 #: onedesk/one/print_blocks.py:429 onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:100
-#: onedesk/one_book/heads.py:377 onedesk/one_inventory/heads.py:562
+#: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:103
+#: onedesk/one_book/heads.py:380 onedesk/one_inventory/heads.py:562
 #: onedesk/one_project/money.py:162 onedesk/one_project/money.py:173
 #: onedesk/one_project/view.py:437 onedesk/public/js/settings.js:1745
 #: onedesk/www/projects.html:189
 msgid "Paid"
 msgstr "Bezahlt"
 
-#: onedesk/one_book/heads.py:484
+#: onedesk/one_book/heads.py:598
 msgid "Paid Amount"
 msgstr ""
 
@@ -20429,7 +20448,7 @@ msgstr "Per Lastschrift bezahlt."
 msgid "Paid in Advance"
 msgstr "Im Voraus bezahlt"
 
-#: onedesk/one_book/heads.py:122
+#: onedesk/one_book/heads.py:125
 msgid "Paid in full."
 msgstr "Vollständig bezahlt."
 
@@ -20800,15 +20819,20 @@ msgstr "Zahlung"
 msgid "Payment Advice"
 msgstr "Zahlungsavis"
 
-#: onedesk/one_book/heads.py:533
+#: onedesk/one_book/heads.py:647
 msgid "Payment Due Date"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_book/heads.py:496 onedesk/one_book/heads.py:692
 #: onedesk/one_book/home.py:282 onedesk/one_book/home.py:421
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Payment Entry"
 msgstr ""
+
+#: onedesk/one_book/heads.py:496
+msgid "Payment Entry · Draft"
+msgstr "Zahlung · Entwurf"
 
 #: onedesk/one_intake/panel.py:139 onedesk/public/js/settings.js:1498
 msgid "Payment Method"
@@ -20915,7 +20939,7 @@ msgstr "Zahlung eingegangen. Der Arbeitsbereich wird angelegt."
 msgid "Payment received. {workspace} is open again at {address}. Thank you."
 msgstr "Zahlung erhalten. {workspace} ist wieder unter {address} erreichbar. Vielen Dank."
 
-#: onedesk/one_book/heads.py:510
+#: onedesk/one_book/heads.py:624
 msgid "Payment {0} recorded."
 msgstr "Zahlung {0} erfasst."
 
@@ -21623,11 +21647,11 @@ msgstr "Update posten"
 msgid "Post your update on the project's page, or reply to the email."
 msgstr "Posten Sie Ihr Update auf der Seite des Projekts oder antworten Sie auf die E-Mail."
 
-#: onedesk/one_book/heads.py:425
+#: onedesk/one_book/heads.py:428
 msgid "Posted"
 msgstr "Gebucht"
 
-#: onedesk/one_book/heads.py:489
+#: onedesk/one_book/heads.py:603
 msgid "Posting Date"
 msgstr ""
 
@@ -22009,8 +22033,8 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:67
-#: onedesk/one/print_blocks.py:598 onedesk/one_book/heads.py:525
-#: onedesk/one_book/heads.py:571 onedesk/one_book/heads.py:583
+#: onedesk/one/print_blocks.py:598 onedesk/one_book/heads.py:639
+#: onedesk/one_book/heads.py:708 onedesk/one_book/heads.py:720
 #: onedesk/one_inventory/heads.py:1533 onedesk/one_inventory/heads.py:1544
 #: onedesk/one_inventory/heads.py:1583 onedesk/one_inventory/heads.py:1596
 #: onedesk/one_inventory/heads.py:1625 onedesk/one_inventory/heads.py:1655
@@ -22036,8 +22060,8 @@ msgstr "Fortschritt…"
 #: frontend/src/project/ProjectPage.vue:206
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
 #: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:34
-#: onedesk/one/print_blocks.py:402 onedesk/one_book/heads.py:526
-#: onedesk/one_book/heads.py:584 onedesk/one_crm/heads.py:216
+#: onedesk/one/print_blocks.py:402 onedesk/one_book/heads.py:640
+#: onedesk/one_book/heads.py:721 onedesk/one_crm/heads.py:216
 #: onedesk/one_crm/heads.py:226 onedesk/one_crm/heads.py:246
 #: onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
@@ -22924,8 +22948,8 @@ msgstr "Was {0} gefertigt hat, ins Lager übernehmen?"
 #: frontend/src/home/InventoryStory.vue:171
 #: frontend/src/home/InventoryStory.vue:184
 #: frontend/src/sent_out/OutRows.vue:13
-#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one_book/heads.py:98
-#: onedesk/one_book/heads.py:377 onedesk/one_inventory/heads.py:550
+#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one_book/heads.py:101
+#: onedesk/one_book/heads.py:380 onedesk/one_inventory/heads.py:550
 #: onedesk/one_inventory/heads.py:636 onedesk/one_inventory/heads.py:648
 #: onedesk/one_inventory/heads.py:735 onedesk/one_inventory/heads.py:841
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
@@ -22996,7 +23020,7 @@ msgstr "Empfänger"
 msgid "Recipients who haven't sent everything"
 msgstr "Empfänger, die noch nicht alles gesendet haben"
 
-#: onedesk/one_book/heads.py:383 onedesk/one_book/heads.py:427
+#: onedesk/one_book/heads.py:386 onedesk/one_book/heads.py:430
 msgid "Reconciled"
 msgstr ""
 
@@ -23025,7 +23049,7 @@ msgstr "Wieder verbunden"
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:517
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:631
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:39
@@ -23105,7 +23129,7 @@ msgid "Record Overtime"
 msgstr "Überstunden erfassen"
 
 #: frontend/src/project/Invoices.vue:155 frontend/src/project/Suppliers.vue:267
-#: onedesk/one_book/heads.py:516
+#: onedesk/one_book/heads.py:630
 msgid "Record Payment"
 msgstr "Zahlung erfassen"
 
@@ -23268,11 +23292,11 @@ msgstr "Referenz"
 msgid "Reference Date"
 msgstr ""
 
-#: onedesk/one_book/heads.py:572
+#: onedesk/one_book/heads.py:709
 msgid "Reference Name"
 msgstr ""
 
-#: onedesk/one_book/heads.py:573
+#: onedesk/one_book/heads.py:687 onedesk/one_book/heads.py:710
 msgid "Reference Number"
 msgstr ""
 
@@ -23681,7 +23705,7 @@ msgstr "Wiederholen"
 msgid "Repeats"
 msgstr "Wiederholt"
 
-#: onedesk/one_book/heads.py:145
+#: onedesk/one_book/heads.py:148
 msgid "Repeats {0}"
 msgstr "Wiederholt {0}"
 
@@ -25380,7 +25404,7 @@ msgstr "Eingewöhnung"
 msgid "Settled"
 msgstr ""
 
-#: onedesk/one_book/heads.py:121
+#: onedesk/one_book/heads.py:124
 msgid "Settled by a return."
 msgstr "Durch eine Rückgabe ausgeglichen."
 
@@ -28390,7 +28414,7 @@ msgstr "Der Kontenplan hat keine Gruppe für Bankkonten. Legen Sie eine unter Um
 msgid "The check was rejected, so the operation stays open."
 msgstr "Die Prüfung wurde abgelehnt, daher bleibt der Arbeitsgang offen."
 
-#: onedesk/one_book/heads.py:503
+#: onedesk/one_book/heads.py:617
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr "Scheck- oder Überweisungsnummer. Leer gelassen gilt die Rechnungsnummer."
 
@@ -30296,7 +30320,7 @@ msgstr "Ihnen zugewiesene Aufgaben"
 #: frontend/src/home/BooksHome.vue:100 frontend/src/home/InventoryHome.vue:100
 #: frontend/src/project/MilestoneLanes.vue:22
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
-#: frontend/src/project/Overview.vue:331 onedesk/one_book/heads.py:56
+#: frontend/src/project/Overview.vue:331 onedesk/one_book/heads.py:59
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
 #: onedesk/one_project/heads.py:79 onedesk/one_project/view.py:408
 #: onedesk/one_project/view.py:623 onedesk/one_task/mine.py:17
@@ -30434,7 +30458,7 @@ msgstr ""
 msgid "Total Costing Amount"
 msgstr ""
 
-#: onedesk/one_book/heads.py:574
+#: onedesk/one_book/heads.py:711
 msgid "Total Debit"
 msgstr ""
 
@@ -30454,7 +30478,7 @@ msgstr "Gesamtwert Ausgang"
 msgid "Total Time in Mins"
 msgstr ""
 
-#: onedesk/one_book/heads.py:609 onedesk/one_book/heads.py:631
+#: onedesk/one_book/heads.py:746 onedesk/one_book/heads.py:768
 msgid "Total Unpaid"
 msgstr "Summe unbezahlt"
 
@@ -30995,6 +31019,10 @@ msgstr "Ungelesen"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Unreadable"
 msgstr "Nicht lesbar"
+
+#: onedesk/one_book/heads.py:700
+msgid "Unreconciled"
+msgstr ""
 
 #: frontend/src/home/BooksHome.vue:236
 msgid "Unreconciled Bank Transactions"
@@ -36230,7 +36258,7 @@ msgstr "hat es mit {0} geteilt"
 msgid "shown"
 msgstr "angezeigt"
 
-#: onedesk/one_book/heads.py:263
+#: onedesk/one_book/heads.py:266
 msgid "since last year"
 msgstr ""
 
@@ -36655,7 +36683,7 @@ msgstr "{0} pro Monat mehr. Die Differenz für den Rest dieses Monats wird jetzt
 msgid "{0} a {1}"
 msgstr "{0} je {1}"
 
-#: onedesk/one_book/heads.py:409
+#: onedesk/one_book/heads.py:412
 msgid "{0} across {1} accounts."
 msgstr "{0} über {1} Konten."
 
@@ -37077,7 +37105,7 @@ msgstr "{0} hat {1} exportiert"
 msgid "{0} extra work"
 msgstr "{0} Zusatzarbeiten"
 
-#: onedesk/one_book/heads.py:128
+#: onedesk/one_book/heads.py:131
 msgid "{0} falls due today."
 msgstr "{0} wird heute fällig."
 
@@ -37133,7 +37161,7 @@ msgstr "{0} frei verfügbar"
 msgid "{0} from {1}"
 msgstr "{0} von {1}"
 
-#: onedesk/one_book/heads.py:407
+#: onedesk/one_book/heads.py:410
 msgid "{0} from {1} to {2}."
 msgstr "{0} von {1} nach {2}."
 
@@ -37299,7 +37327,7 @@ msgstr "{0} Stunden in 12 Wochen"
 msgid "{0} hours, {1}"
 msgstr "{0} Stunden, {1}"
 
-#: frontend/src/item/ItemCustomers.vue:68 onedesk/one_book/heads.py:315
+#: frontend/src/item/ItemCustomers.vue:68 onedesk/one_book/heads.py:318
 #: onedesk/one_inventory/heads.py:1227
 msgid "{0} in 12 months"
 msgstr "{0} in 12 Monaten"
@@ -37307,6 +37335,10 @@ msgstr "{0} in 12 Monaten"
 #: frontend/src/project/Overview.vue:24
 msgid "{0} in 12 weeks"
 msgstr "{0} in 12 Wochen"
+
+#: onedesk/one_book/heads.py:465
+msgid "{0} in on {1}."
+msgstr "{0} eingegangen am {1}."
 
 #: onedesk/one_inventory/heads.py:254
 msgid "{0} in {1}"
@@ -37704,7 +37736,7 @@ msgstr "{0} gehört nicht zu den Aufgaben dieser Vorlage."
 msgid "{0} is not printed from formats this workspace sets."
 msgstr "{0} wird nicht mit Formaten gedruckt, die dieser Arbeitsbereich festlegt."
 
-#: onedesk/one_book/heads.py:366
+#: onedesk/one_book/heads.py:369
 msgid "{0} is not set against an invoice yet."
 msgstr "{0} ist noch keiner Rechnung zugeordnet."
 
@@ -37835,15 +37867,15 @@ msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
 #: frontend/src/project/Team.vue:45 frontend/src/workload/WorkloadList.vue:39
-#: onedesk/one_book/heads.py:90
+#: onedesk/one_book/heads.py:93
 msgid "{0} late"
 msgstr "{0} überfällig"
 
-#: onedesk/one_book/heads.py:125
+#: onedesk/one_book/heads.py:128
 msgid "{0} late. {1} still owes {2}."
 msgstr "{0} überfällig. {1} schuldet noch {2}."
 
-#: onedesk/one_book/heads.py:125
+#: onedesk/one_book/heads.py:128
 msgid "{0} late. {2} still to pay {1}."
 msgstr "{0} überfällig. {2} sind noch an {1} zu zahlen."
 
@@ -37921,7 +37953,7 @@ msgstr "{0} weitere bestellt"
 msgid "{0} more promised than on hand"
 msgstr "{0} mehr zugesagt als auf Lager"
 
-#: onedesk/one_book/heads.py:358
+#: onedesk/one_book/heads.py:361
 msgid "{0} moved from {1} to {2}."
 msgstr "{0} von {1} nach {2} umgebucht."
 
@@ -38161,6 +38193,10 @@ msgstr "{0} Aufträge"
 msgid "{0} out of 5"
 msgstr "{0} von 5"
 
+#: onedesk/one_book/heads.py:465
+msgid "{0} out on {1}."
+msgstr "{0} abgegangen am {1}."
+
 #: frontend/src/project/Months.vue:14 frontend/src/project/Overview.vue:221
 msgid "{0} over"
 msgstr "{0} darüber"
@@ -38181,7 +38217,7 @@ msgstr "{0} hat bezahlt und hat keinen Arbeitsbereich"
 msgid "{0} paid in advance"
 msgstr "{0} im Voraus bezahlt"
 
-#: onedesk/one_book/heads.py:355
+#: onedesk/one_book/heads.py:358
 msgid "{0} paid to {1}."
 msgstr "{0} an {1} gezahlt."
 
@@ -38275,7 +38311,7 @@ msgstr "{0} Neuberechnungen nach rückdatierten Buchungen laufen."
 msgid "{0} recalculations after back-dated entries stopped with an error, so what they change is not in the books yet. Fix tries them again."
 msgstr "{0} Neuberechnungen nach rückdatierten Buchungen sind mit einem Fehler stehen geblieben, daher ist ihre Änderung noch nicht in der Buchhaltung. Beheben versucht es erneut."
 
-#: onedesk/one_book/heads.py:352
+#: onedesk/one_book/heads.py:355
 msgid "{0} received from {1}."
 msgstr "{0} von {1} erhalten."
 
@@ -38372,7 +38408,7 @@ msgstr "{0} hat noch {1}. Auch diese abschließen?"
 msgid "{0} still owed"
 msgstr "{0} noch offen"
 
-#: onedesk/one_book/heads.py:129
+#: onedesk/one_book/heads.py:132
 msgid "{0} still owed by {1}."
 msgstr "{1} schuldet noch {0}."
 
@@ -38384,7 +38420,11 @@ msgstr "{0} sind dem Kunden noch zu berechnen."
 msgid "{0} still to come"
 msgstr "{0} stehen noch aus"
 
-#: onedesk/one_book/heads.py:129
+#: onedesk/one_book/heads.py:470
+msgid "{0} still to match."
+msgstr "{0} noch abzugleichen."
+
+#: onedesk/one_book/heads.py:132
 msgid "{0} still to pay {1}."
 msgstr "{0} sind noch an {1} zu zahlen."
 
@@ -38617,7 +38657,7 @@ msgstr "{0} {1}?"
 msgid "{0} · Ordered"
 msgstr "{0} · Bestellt"
 
-#: onedesk/one_book/heads.py:57
+#: onedesk/one_book/heads.py:60
 msgid "{0} · in {1} days"
 msgstr "{0} · in {1} Tagen"
 
@@ -38625,7 +38665,7 @@ msgstr "{0} · in {1} Tagen"
 msgid "{0} · waiting for you"
 msgstr "{0} · wartet auf Sie"
 
-#: onedesk/one_book/heads.py:285 onedesk/one_crm/heads.py:92
+#: onedesk/one_book/heads.py:288 onedesk/one_crm/heads.py:92
 msgid "{0} · {1}"
 msgstr "{0} · {1}"
 

@@ -263,6 +263,17 @@ fails a small business on first use or leaves a question unanswered.
   journal entry nobody titled takes the asset it depreciates, the payroll's
   period, its remark or what it references. Two patches retitle the old
   ones.
+- `public/js/bank.js` — the Bank Reconciliation Tool and a new Bank
+  Statement Import start on the company's default or only bank account;
+  ERPNext leaves both empty, and the tool draws nothing until one is
+  picked. The tool's intro advertised ERPNext's separate Banking app, which
+  One does not install, and is cleared.
+- `heads.py`, the bank — a statement line says what came in or went out
+  and whether it is matched, and names the payment with its reference that
+  is not matched yet, as the tool would suggest; a bank account says what
+  the books hold in it, how many lines are unmatched (into the tool) and the
+  last statement line's date. A line is titled by what the bank wrote, not
+  by the bank account (`custom/bank_transaction.json`).
 - `heads.py`, a payment and a journal entry — a sentence of what moved,
   and for one through a bank account a track to **Reconciled**, read from
   its clearance date, the field the Bank Reconciliation Tool sets.

@@ -972,6 +972,9 @@ fixtures = [
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {
+	# Starts on the company's bank account, without ERPNext's Banking app ad.
+	"Bank Reconciliation Tool": "public/js/bank.js",
+	"Bank Statement Import": "public/js/bank.js",
 	# A trip's route buttons only where Google Maps can answer. See one_inventory/trips.py.
 	"Delivery Trip": "public/js/delivery_trip.js",
 	# What a workspace's webhook may not do is not offered. See one/webhooks.py.
@@ -1266,6 +1269,7 @@ one_makes_records = {
 	"Batch": ["one_inventory"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
+	"Bank Transaction": ["one_book"],
 	"Blanket Order": ["one_inventory"],
 	"Budget": ["one_project"],
 	"Call Log": ["one_crm"],

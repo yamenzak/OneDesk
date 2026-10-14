@@ -13118,3 +13118,40 @@ bank, a month's depreciation, a payroll.
    invoice it is for, the Reference Number and the Total Debit.
 
 Check: `onebook_a_journal_entry_says_what_it_is_for`.
+
+### OneBook › the bank
+
+Looked at as Huda: the Bank Reconciliation Tool, the Bank Transaction list
+and a line OneAI read from a statement, a new Bank Statement Import, and the
+company's bank account.
+
+**Found.**
+
+1. The tool opened with no bank account, so it drew nothing, under an intro
+   advertising "the new Banking module", ERPNext's separate app, which One
+   does not install.
+2. A new statement import asked for the bank account though the company has
+   one.
+3. Every statement line was titled by the bank account: the list's title
+   column read "Operating Account" twice.
+4. A line said nothing of whether it was matched, though a payment with its
+   reference (the draft OneAI made for Marina Hotels) was waiting.
+5. A bank account said nothing of what the books hold in it or what is left
+   to match.
+6. "Is Rule Evaluated", a flag the transaction rules set, was a checkbox on
+   every line.
+
+**Done.**
+
+1. and 2. `bank.js` starts the tool and a new import on the company's
+   default or only bank account, and clears the tool's intro. The tool now
+   opens on the two unmatched lines.
+3. A line is titled by its description; the column is wider.
+4. A line says "12,000.00 in on 06-10-2026. Not matched to a payment yet.",
+   in orange; its band names the bank account, the reference, the payment
+   with the same reference (marked when it is a draft) and opens the tool.
+5. A bank account's band says its Balance in the books, how many lines are
+   Unreconciled (into the tool) and the Last Bank Transaction's date.
+6. Is Rule Evaluated is hidden.
+
+Check: `onebook_the_bank_says_what_is_left_to_match`.

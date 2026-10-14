@@ -73,16 +73,16 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Accounts Settings | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | no | general |  |  |  |  | ar 61, de 51 |  |
 | Advance Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  | **only an ID** | ar 1 |  |
 | Bank | through a form's link (Payment Order: company_bank) | OneBook | events, 1 fields, 1 settings | yes | general |  | yes |  |  | ar 1 |  |
-| Bank Account | on a rail or a home | OneBook | events | yes | general |  | yes |  |  | ar 3, de 2 |  |
+| Bank Account | on a rail or a home | OneBook | a head, events | yes | general |  | yes |  |  | ar 3, de 2 |  |
 | Bank Account Balance | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Bank Account Subtype | through a form's link (Bank Account: account_subtype) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Account Type | through a form's link (Bank Account: account_type) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Clearance | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Bank Guarantee | through a form's connections (Bank's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  | ar 2 |  |
-| Bank Reconciliation Tool | on a rail or a home | OneBook | untouched | no | general |  |  |  |  | ar 1 |  |
-| Bank Statement Import | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
+| Bank Reconciliation Tool | on a rail or a home | OneBook | form script | no | general |  |  |  |  | ar 1 |  |
+| Bank Statement Import | on a rail or a home | OneBook | form script | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Bank Statement Import Log | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 14, de 14 |  |
-| Bank Transaction | on a rail or a home | OneBook | untouched | yes | general | makes it | yes |  |  | ar 2, de 2 |  |
+| Bank Transaction | on a rail or a home | OneBook | a head, 2 settings | yes | general | makes it | yes |  |  | ar 2, de 2 |  |
 | Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  | ar 3, de 3 |  |
 | Bisect Accounting Statements | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Bisect Nodes | **waiting** | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |

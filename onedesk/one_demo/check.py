@@ -5815,6 +5815,29 @@ def onebook_a_journal_entry_says_what_it_is_for():
 
 
 @check
+def onebook_the_bank_says_what_is_left_to_match():
+	"""Huda's bank account says what the books hold and how many statement
+	lines are unmatched; a line says what came in or went out and points at
+	the payment with its reference, the draft OneAI made for Marina Hotels."""
+	from onedesk.one import head
+
+	with as_user("huda@one.test"):
+		account = frappe.get_all("Bank Account", filters={"is_company_account": 1, "is_default": 1}, pluck="name")[0]
+		said = head.said(frappe.get_doc("Bank Account", account), frappe.get_doc("Record Head", "Bank Account"))
+		unmatched = frappe.db.count("Bank Transaction", {"bank_account": account, "docstatus": 1, "status": "Unreconciled"})
+		assert unmatched and any(one.get("value") == str(unmatched) for one in said["band"]), said["band"]
+		record = frappe.get_doc("Record Head", "Bank Transaction")
+		lines = frappe.get_all("Bank Transaction", filters={"docstatus": 1, "status": "Unreconciled"}, fields=["name", "reference_number"])
+		for one in lines:
+			said = head.said(frappe.get_doc("Bank Transaction", one.name), record)
+			assert said["sentence"]["colour"] == "orange", said["sentence"]
+		paid = [one for one in lines if one.reference_number and frappe.db.exists("Payment Entry", {"reference_no": one.reference_number})]
+		assert paid, lines
+		said = head.said(frappe.get_doc("Bank Transaction", paid[0].name), record)
+		assert any((one.get("route") or "").startswith("/desk/payment-entry/") for one in said["band"]), said["band"]
+
+
+@check
 def oneinventory_a_documents_head_says_where_it_stands():
 	"""Every stores document Karim opens says what is next in a sentence, and
 	one that moves through stages draws them: Al Noor's late order in red with

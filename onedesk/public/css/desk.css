@@ -1423,8 +1423,10 @@ body[data-route="List/Purchase Invoice/List"] .list-row-col.list-subject {
 	flex: 1.6;
 }
 
-/* A journal entry is looked up by what it is for, a sentence of a title. */
-body[data-route="List/Journal Entry/List"] .list-row-col.list-subject {
+/* A journal entry is looked up by what it is for, a statement line by what
+   the bank wrote: a sentence of a title either way. */
+body[data-route="List/Journal Entry/List"] .list-row-col.list-subject,
+body[data-route="List/Bank Transaction/List"] .list-row-col.list-subject {
 	flex: 2.2;
 }
 

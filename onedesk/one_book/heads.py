@@ -5,6 +5,9 @@ are owed, what is late, what was billed this year against last, and their
 billing month by month. See one/head.py.
 """
 
+import json
+from urllib.parse import quote
+
 import frappe
 from frappe import _, _lt
 from frappe.utils import date_diff, flt, fmt_money, formatdate, getdate, today
@@ -445,6 +448,111 @@ def journal_reference(doc):
 	}
 
 
+# ------------------------------------------------------------------ the bank
+
+
+def _tool(bank_account: str) -> str:
+	return f"/desk/bank-reconciliation-tool?bank_account={quote(bank_account or '')}"
+
+
+def line_said(doc):
+	"""A bank statement line, in a sentence: what came in or went out, and
+	whether it is matched to a payment yet."""
+	if found := stages.draft(doc, _("A draft. Submit it to reconcile it.")):
+		return found
+	inward = flt(doc.deposit) > 0
+	amount = fmt_money(flt(doc.deposit) or flt(doc.withdrawal), currency=doc.currency)
+	moved = (_("{0} in on {1}.") if inward else _("{0} out on {1}.")).format(amount, formatdate(doc.date))
+	if doc.status == "Reconciled" or flt(doc.unallocated_amount) <= 0:
+		return {"text": " ".join([moved, _("Matched in the books.")]), "colour": "green"}
+	if flt(doc.allocated_amount) > 0:
+		left = fmt_money(flt(doc.unallocated_amount), currency=doc.currency)
+		return {"text": " ".join([moved, _("{0} still to match.").format(left)]), "colour": "orange"}
+	return {"text": " ".join([moved, _("Not matched to a payment yet.")]), "colour": "orange"}
+
+
+def line_match(doc):
+	"""A payment with the line's reference that is not matched to it yet: the
+	one the Bank Reconciliation Tool would suggest first."""
+	if doc.docstatus != 1 or flt(doc.unallocated_amount) <= 0 or not (doc.reference_number or "").strip():
+		return None
+	if not frappe.has_permission("Payment Entry", "read"):
+		return None
+	found = frappe.get_list(
+		"Payment Entry",
+		filters={
+			"reference_no": doc.reference_number.strip(),
+			"docstatus": ["<", 2],
+			"clearance_date": ["is", "not set"],
+		},
+		fields=["name", "title", "docstatus"],
+		limit_page_length=1,
+	)
+	if not found:
+		return None
+	one = found[0]
+	return {
+		"value": one.title or one.name,
+		"label": _("Payment Entry · Draft") if one.docstatus == 0 else _("Payment Entry"),
+		"route": f"/desk/payment-entry/{one.name}",
+		"tone": "waiting" if one.docstatus == 0 else None,
+	}
+
+
+def line_reconcile(doc):
+	if doc.docstatus != 1 or flt(doc.unallocated_amount) <= 0:
+		return None
+	return {"value": _("Open"), "route": _tool(doc.bank_account)}
+
+
+def account_balance(doc):
+	"""What the books hold in the account today."""
+	if not doc.account or not frappe.has_permission("GL Entry", "read"):
+		return None
+	held = frappe.get_list(
+		"GL Entry",
+		filters={"account": doc.account, "is_cancelled": 0},
+		fields=[{"SUM": "debit", "as": "debit"}, {"SUM": "credit", "as": "credit"}],
+	)
+	value = flt(held[0].debit) - flt(held[0].credit) if held else 0
+	currency = frappe.get_cached_value("Account", doc.account, "account_currency")
+	return {
+		"value": fmt_money(value, currency=currency),
+		"route": f"/desk/query-report/General Ledger?account={quote(json.dumps([doc.account]))}",
+	}
+
+
+def account_unmatched(doc):
+	"""How many statement lines are not matched to a payment yet."""
+	if not frappe.has_permission("Bank Transaction", "read"):
+		return None
+	count = frappe.db.count(
+		"Bank Transaction", {"bank_account": doc.name, "docstatus": 1, "status": "Unreconciled"}
+	)
+	if not count:
+		return {"value": _("None"), "tone": "quiet"}
+	return {"value": str(count), "tone": "waiting", "route": _tool(doc.name)}
+
+
+def account_last_line(doc):
+	"""The last day a statement line came in for, from an import or by hand."""
+	if not frappe.has_permission("Bank Transaction", "read"):
+		return None
+	last = frappe.get_list(
+		"Bank Transaction",
+		filters={"bank_account": doc.name, "docstatus": 1},
+		fields=["date"],
+		order_by="date desc",
+		limit_page_length=1,
+	)
+	if not last:
+		return {"value": _("None yet"), "tone": "quiet"}
+	return {
+		"value": formatdate(last[0].date),
+		"route": f"/desk/bank-transaction?bank_account={quote(doc.name)}",
+	}
+
+
 MEASURES = {
 	"party.outstanding": party_outstanding,
 	"party.overdue": party_overdue,
@@ -460,6 +568,12 @@ MEASURES = {
 	"journal.said": journal_said,
 	"journal.progress": journal_progress,
 	"journal.reference": journal_reference,
+	"bank.line_said": line_said,
+	"bank.line_match": line_match,
+	"bank.line_reconcile": line_reconcile,
+	"bank.balance": account_balance,
+	"bank.unmatched": account_unmatched,
+	"bank.last_line": account_last_line,
 }
 
 
@@ -564,6 +678,29 @@ HEADS = [
 	}
 	for doctype in paid.SETTLED
 ] + [
+	{
+		"doctype": "Bank Transaction",
+		"sentences": [{"measure": "bank.line_said"}],
+		"band": [
+			{"label": _lt("Bank Account"), "source": "Field", "field": "bank_account"},
+			{
+				"label": _lt("Reference Number"),
+				"source": "Field",
+				"field": "reference_number",
+				"hide_empty": 1,
+			},
+			{"label": _lt("Payment Entry"), "source": "Measure", "measure": "bank.line_match"},
+			{"label": _lt("Bank Reconciliation Tool"), "source": "Measure", "measure": "bank.line_reconcile"},
+		],
+	},
+	{
+		"doctype": "Bank Account",
+		"band": [
+			{"label": _lt("Balance"), "source": "Measure", "measure": "bank.balance"},
+			{"label": _lt("Unreconciled"), "source": "Measure", "measure": "bank.unmatched"},
+			{"label": _lt("Last Bank Transaction"), "source": "Measure", "measure": "bank.last_line"},
+		],
+	},
 	{
 		"doctype": "Journal Entry",
 		"sentences": [{"measure": "journal.said"}],
