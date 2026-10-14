@@ -1342,13 +1342,14 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 		("Timesheet", "Timesheet"),
 		("Templates", "Project Template"),
 		# ERPNext's and HRMS's project reports, under the names the rail gives
-		# them (one/titles.py), with Company filled and hidden (reports.js).
+		# them (one/titles.py), with Company filled and hidden (reports.js);
+		# two of them ours over theirs, without the HR checklists.
 		("Reports", None),
-		("Project Summary", "Project Summary"),
+		("Project Progress", "Project Progress"),
 		("Profit on Billed Hours", "Project Profitability"),
 		("Billable Hours", "Timesheet Billing Summary"),
 		("Hours by Day", "Daily Timesheet Summary"),
-		("Stock by Project", "Project wise Stock Tracking"),
+		("Stock by Project", "Stock by Project"),
 	]
 	# The panel is open on the four and shut on a record; the breadcrumb
 	# switches between its rows, as in every module (public/js/crumb_switch.js,

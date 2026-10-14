@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 12:22+0000\n"
+"POT-Creation-Date: 2026-10-14 12:33+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -21564,6 +21564,7 @@ msgstr "Druckt mit"
 #: frontend/src/project/Overview.vue:307 frontend/src/project/TaskPanel.vue:27
 #: frontend/src/project/TaskPanel.vue:28 frontend/src/project/Tasks.vue:22
 #: frontend/src/project/Tasks.vue:49 frontend/src/task/TaskPage.vue:11
+#: onedesk/one_project/report/project_progress/project_progress.js:17
 #: onedesk/public/js/doctype_settings.js:1104 onedesk/public/js/task_new.js:37
 msgid "Priority"
 msgstr "Priorität"
@@ -21758,6 +21759,13 @@ msgstr "Projektleitung"
 msgid "Project Name"
 msgstr "Projektname"
 
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_project/report/project_progress/project_progress.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Project Progress"
+msgstr "Projektfortschritt"
+
 #: onedesk/one/print_blocks.py:34
 msgid "Project Status"
 msgstr ""
@@ -21768,9 +21776,7 @@ msgid "Project Stopped"
 msgstr "Projekt angehalten"
 
 #. Name of a notification
-#. Label of a Sidebar Item
 #: onedesk/notifications/one_project/project_summary.md
-#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Project Summary"
 msgstr "Projektzusammenfassung"
 
@@ -26378,6 +26384,7 @@ msgstr ""
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:138
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:182
 #: onedesk/one_project/ai.py:575
+#: onedesk/one_project/report/project_progress/project_progress.js:10
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/settings.js:1755 onedesk/public/js/settings.js:2472
@@ -26551,7 +26558,9 @@ msgstr "Bestand nach Charge"
 msgid "Stock by Lot"
 msgstr "Bestand nach Charge"
 
+#. Name of a report
 #. Label of a Sidebar Item
+#: onedesk/one_project/report/stock_by_project/stock_by_project.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Stock by Project"
 msgstr "Lager nach Projekt"

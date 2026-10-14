@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "oneproject",
  "idx": 0,
- "modified": "2026-10-27 12:30:00.000000",
+ "modified": "2026-10-28 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Project",
  "name": "OneProject",
@@ -82,11 +82,11 @@
    "indent": 0,
    "is_default_module": 0,
    "keep_closed": 0,
-   "label": "Project Summary",
+   "label": "Project Progress",
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Project Summary"
+   "link_to": "Project Progress"
   },
   {
    "child": 1,
@@ -134,7 +134,7 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Project wise Stock Tracking"
+   "link_to": "Stock by Project"
   }
  ]
 }

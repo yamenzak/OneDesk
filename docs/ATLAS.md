@@ -25,9 +25,9 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 69 | 4 | 20 | 0 |
+| onedesk | 71 | 4 | 20 | 0 |
 | frappe | 33 | 40 | 0 | 141 |
-| erpnext | 172 | 189 | 20 | 104 |
+| erpnext | 170 | 191 | 20 | 104 |
 | hrms | 88 | 23 | 0 | 19 |
 
 ## Our screens
@@ -296,7 +296,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 | Task Type | on a rail or a home | OneHR, OneProject | untouched | yes | general |  | **none** |  |  |  |  |
 | Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 37 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 
-Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (on a rail or a home); Project Summary (on a rail or a home); Project wise Stock Tracking (on a rail or a home); Timesheet Billing Summary (on a rail or a home).
+Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (on a rail or a home); Project Summary (under a list's related reports (Project's list)); Project wise Stock Tracking (under a list's related reports (Project's list)); Timesheet Billing Summary (on a rail or a home).
 
 ## erpnext / Quality Management
 
@@ -983,7 +983,7 @@ Pages: onemail (on a rail or a home).
 ## onedesk / One Project
 
 
-Reports: Workload (on a rail or a home).
+Reports: Project Progress (on a rail or a home); Stock by Project (on a rail or a home); Workload (on a rail or a home).
 
 Pages: project-template-view (inside: a Project Template opens on it); project-view (inside: a Project opens on it).
 

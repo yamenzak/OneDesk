@@ -22,6 +22,9 @@ HIDE_REPORTS = (
 	"Shift Attendance",
 	"Employee Hours Utilization Based On Timesheet",
 	"Recruitment Analytics",
+	# OneProject's, without the HR checklists; see one_project/report.
+	"Project Summary",
+	"Project wise Stock Tracking",
 	# OneCRM's board, Deal Forecast and Won and Lost; see one_crm/measure.py.
 	"Sales Pipeline Analytics",
 	"Opportunity Summary by Sales Stage",

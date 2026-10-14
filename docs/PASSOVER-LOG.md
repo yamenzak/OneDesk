@@ -12770,3 +12770,22 @@ templates, and as Samir, who makes them, at 1440 wide and on a phone.
 - The template page and the project page say what they follow: TeamGantt's
   and Smartsheet's templates, and Asana's project with monday's boards.
   Both leave UNMODELLED.
+
+**OneProject, again: Reports.** The five ERPNext reports on the rail, looked
+at as Karim at 1440 wide.
+
+- **HR checklists in a project's report.** ERPNext's Project Summary and
+  Project wise Stock Tracking read every Project, and an employee's
+  onboarding or exit checklist is one, so "Employee Separation : HR-EMP-…"
+  sat in the summary's rows, chart and task totals, and in the stock
+  report. Stock Tracking also read past the reader's permissions, with a
+  Company column on a one-company site and the name twice. Ours, **Project
+  Progress** and **Stock by Project**, ask theirs with the checklists left
+  out, drop the repeated name and the company, give completion as a whole
+  share ("33%" where theirs said "33.33" and the average "23.572%"), and
+  keep only the projects stock moved on. Theirs are disabled, as OneHR's
+  replaced reports are.
+- Left as ERPNext's: Profit on Billed Hours draws its chart with 0 on every
+  line when the profits are small beside the axis, Billable Hours writes
+  hours to three places, and Hours by Day opens on today, so usually on
+  nothing. Each is their report's own output; none is wrong.

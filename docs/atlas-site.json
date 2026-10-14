@@ -4173,6 +4173,10 @@
 "Manufacturing User",
 "Projects User"
 ],
+"Project Progress": [
+"Projects Manager",
+"Projects User"
+],
 "Project Summary": [
 "Projects Manager",
 "Projects User"
@@ -4464,6 +4468,10 @@
 "Stock and Account Value Comparison": [
 "Accounts Manager",
 "Stock User"
+],
+"Stock by Project": [
+"Projects Manager",
+"Projects User"
 ],
 "Storage Check": [
 "System Manager",

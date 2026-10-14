@@ -2012,6 +2012,15 @@ one field for it.
 - Boarding projects — HRMS builds an onboarding or an exit out of a Project —
   are typed **Employee Boarding** by one_hr/lifecycle.py, and the Projects
   rail entry, the Tree view and the Timeline leave that type out.
+- `report/project_progress` and `report/stock_by_project` — ERPNext's
+  Project Summary and Project wise Stock Tracking, asked through theirs
+  without the HR checklists. Theirs read every Project, and an employee's
+  onboarding or exit checklist is one (one_hr/lifecycle.py), so their rows,
+  charts and totals took them in; Stock Tracking also read past the reader's
+  permissions. Ours drop the columns that say the project's name again and
+  the company, give completion as a whole share, and keep only the projects
+  stock moved on. Theirs are disabled (one/declutter.py,
+  patches/reports_without_checklists.py).
 - `report/workload` — Workload: planned hours from ERPNext's Expected Time
   and Actual Time on the reader's visible tasks (`in_week`, `load` pure),
   capacity from the holiday list (the employee's, else the company's), HR

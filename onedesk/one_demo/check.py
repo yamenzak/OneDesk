@@ -1810,11 +1810,11 @@ def oneproject_and_onetask_reports_open_for_their_people():
 
 	rails = {
 		"OneProject": {
-			"Project Summary": "Project Summary",
+			"Project Progress": "Project Progress",
 			"Project Profitability": "Profit on Billed Hours",
 			"Timesheet Billing Summary": "Billable Hours",
 			"Daily Timesheet Summary": "Hours by Day",
-			"Project wise Stock Tracking": "Stock by Project",
+			"Stock by Project": "Stock by Project",
 		},
 		"OneTask": {"Delayed Tasks Summary": "Task Delays"},
 	}
@@ -1825,7 +1825,7 @@ def oneproject_and_onetask_reports_open_for_their_people():
 		"Timesheet Billing Summary": {**month, "group_by": "Group by Employee"},
 		"Daily Timesheet Summary": month,
 	}
-	busy = {"Project Summary", "Timesheet Billing Summary", "Daily Timesheet Summary", "Project wise Stock Tracking", "Delayed Tasks Summary"}
+	busy = {"Project Progress", "Timesheet Billing Summary", "Daily Timesheet Summary", "Stock by Project", "Delayed Tasks Summary"}
 	with as_user("samir@one.test"):
 		for sidebar, reports in rails.items():
 			for report, label in reports.items():
@@ -1833,6 +1833,13 @@ def oneproject_and_onetask_reports_open_for_their_people():
 				assert row == label, (sidebar, report, row)
 				said = run(report, filters={"company": company, **wanted.get(report, {})})
 				assert report not in busy or said["result"], report
+		# Ours leave out an employee's onboarding and exit checklists.
+		checklists = set(frappe.get_all("Project", filters={"project_type": "Employee Boarding"}, pluck="name"))
+		assert checklists
+		for report in ("Project Progress", "Stock by Project"):
+			rows = run(report, filters={})["result"]
+			named = {row.get("name") or row.get("project_id") for row in rows}
+			assert not named & checklists, (report, named & checklists)
 	with as_user("mariam@one.test"):
 		assert "Delayed Tasks Summary" not in DeskViews.get_allowed_reports()
 
