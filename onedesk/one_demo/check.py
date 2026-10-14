@@ -993,7 +993,7 @@ def onebook_keeps_the_books_rules():
 			raise AssertionError("an order was paid as if it were an invoice")
 		except frappe.ValidationError:
 			pass
-		bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "bill_no": ["is", "set"]}, fields=["name", "bill_no"], limit=1)[0]
+		bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "bill_no": ["is", "set"], "auto_repeat": ["is", "not set"]}, fields=["name", "bill_no"], limit=1)[0]
 		repeat = frappe.get_doc({"doctype": "Auto Repeat", "reference_doctype": "Purchase Invoice", "reference_document": bill.name, "frequency": "Monthly", "start_date": today()}).insert()
 		copy = repeat.make_new_document()
 		assert not copy.bill_no and copy.name != bill.name, "last month's supplier number would be refused"
@@ -5853,6 +5853,23 @@ def onebook_the_books_check_has_nothing_left_to_do():
 		said = run_report("UAE VAT 201", filters={"company": COMPANY, "from_date": add_days(today(), -365), "to_date": today()})
 		dubai = next(row for row in said["result"] if isinstance(row, dict) and row.get("no") == "1b")
 		assert flt(dubai.get("raw_amount")) > 0, dubai
+
+
+@check
+def onebook_a_uae_invoice_prints_as_a_tax_invoice():
+	"""In the UAE a sales invoice prints as a Tax Invoice and a credit note as
+	a Tax Credit Note, each with the company's TRN, and the VAT line says its
+	rate once."""
+	from onedesk.one import print_blocks
+
+	trn = frappe.get_cached_value("Company", COMPANY, "tax_id")
+	invoice = frappe.get_doc("Sales Invoice", frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 0}, pluck="name", limit=1)[0])
+	said = print_blocks.title(invoice)
+	assert said["title"] == "Tax Invoice" and trn in said["tax"], said
+	note = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 1}, pluck="name", limit=1)
+	assert print_blocks.title(frappe.get_doc("Sales Invoice", note[0]))["title"] == "Tax Credit Note"
+	lines = [label for label, _value in print_blocks.totals(invoice)["rows"]]
+	assert not any("@" in str(label) and "%" in str(label).split("@")[0] for label in lines), lines
 
 
 @check

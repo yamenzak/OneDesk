@@ -4,6 +4,7 @@ The parts frappe's print format builder cannot say, as frappe's own Print Format
 Field Templates, each drawn from `one_print_block` with frappe's formatted values.
 """
 
+import re
 from pathlib import Path
 
 import frappe
@@ -261,12 +262,57 @@ def title(doc) -> dict:
 		said = _("Issue Note")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Internal Transfer":
 		said, number = _("Transfer"), _("Transfer No")
+	# In the UAE a VAT-registered company's invoice is a Tax Invoice, and a
+	# return a Tax Credit Note, each with the company's TRN (FTA, Article 59).
+	trn = _trn(doc)
+	heading = doc.get("select_print_heading")
+	if trn and doc.doctype == "Sales Invoice":
+		said = _("Tax Credit Note") if doc.get("is_return") else _("Tax Invoice")
+		if doc.get("is_return"):
+			number = _("Credit Note No")
+		# ERPNext heads every return "Credit Note" on its own; that gives way.
+		if heading in AUTOMATIC:
+			heading = None
 	# A Print Heading frappe lets the record choose, such as Tax Invoice. A
 	# draft or cancelled record is marked by frappe itself, above the page.
-	heading = doc.get("select_print_heading")
 	# A customer knows a project by what it is called, not its number.
 	name = doc.get("project_name") if doc.doctype == "Project" else None
-	return {"title": _(heading) if heading else str(said), "label": str(number), "name": name or doc.name}
+	return {
+		"title": _(heading) if heading else str(said),
+		"label": str(number),
+		"name": name or doc.name,
+		"tax": _("TRN {0}").format(trn) if trn else None,
+	}
+
+
+#: The Print Headings ERPNext sets on a return by itself, not by choice.
+AUTOMATIC = ("Credit Note", "Debit Note")
+
+
+def _trn(doc) -> str | None:
+	"""The company's TRN, where an invoice must carry it: a sales invoice of a
+	company in the UAE that has one."""
+	if doc.doctype != "Sales Invoice":
+		return None
+	from onedesk.one_book import vat
+
+	company = _company(doc)
+	if not company or not vat.in_uae(company):
+		return None
+	return frappe.get_cached_value("Company", company, "tax_id") or None
+
+
+def tax_label(description: str | None, rate) -> str:
+	"""A tax line as a reader says it: ERPNext writes "VAT 5% @ 5.0", the rate
+	twice, the second as a bare number. Pure."""
+	said = (description or "").strip()
+	found = re.match(r"^(.*?)\s*@\s*([0-9.]+)\s*$", said)
+	if not found:
+		return said
+	head, number = found.group(1), flt(found.group(2))
+	if "%" in head:
+		return head
+	return f"{head} @ {number:g}%"
 
 
 def _made_for(doc, heading) -> dict:
@@ -334,7 +380,7 @@ def party(doc) -> dict:
 		"address": address,
 		"contact": doc.get("contact_display"),
 		"email": doc.get("contact_email"),
-		"tax": _("Tax ID {0}").format(tax) if tax else None,
+		"tax": (_("TRN {0}") if _trn(doc) else _("Tax ID {0}")).format(tax) if tax else None,
 		"ship_heading": _("Ship To") if ship else None,
 		"ship": ship,
 	}
@@ -418,7 +464,7 @@ def totals(doc) -> dict:
 		rows.append((_("Discount"), "− " + money(doc, doc.get("discount_amount"))))
 	for tax in doc.get("taxes") or []:
 		if flt(tax.tax_amount):
-			rows.append((tax.description or tax.account_head, money(doc, tax.tax_amount)))
+			rows.append((tax_label(tax.description, tax.rate) or tax.account_head, money(doc, tax.tax_amount)))
 	rounded = flt(doc.get("rounded_total")) and not cint(doc.get("disable_rounded_total"))
 	total = doc.get("rounded_total") if rounded else doc.get("grand_total")
 	owed = []

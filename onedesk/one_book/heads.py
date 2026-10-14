@@ -666,13 +666,27 @@ CHARTS = {
 	},
 }
 
+#: What a credit or debit note is against, in each doctype's own label.
+RETURN_AGAINST = {
+	"Sales Invoice": _lt("Return Against"),
+	"Purchase Invoice": _lt("Return Against Purchase Invoice"),
+}
+
 HEADS = [
 	{
 		"doctype": doctype,
 		# Where it stands, as Frappe Books' status pill says it: a sentence,
 		# then a track from ordered to paid, then what the form keeps low down.
 		"sentences": [{"measure": "invoice.said"}],
-		"band": _BAND,
+		"band": [
+			*_BAND,
+			{
+				"label": RETURN_AGAINST[doctype],
+				"source": "Field",
+				"field": "return_against",
+				"shown_when": [["is_return", "=", 1]],
+			},
+		],
 		"verbs": [{"verb": "invoice.record_payment", "primary": 1}],
 		"charts": [{"chart": "invoice.party_billed", "shown_when": [["docstatus", "=", 1]]}],
 	}

@@ -1450,3 +1450,12 @@ body[data-route="List/Item/List"] .list-row-col.list-subject {
 .one-workload .report-footer {
 	display: none !important;
 }
+
+/* frappe-ui's charts measure their labels in a hidden element parked at
+   left: -9999px. In a right-to-left page that is scrollable room, so an
+   Arabic page with a chart grew eleven thousand pixels wide and opened on
+   nothing. Parked on the other side, it takes no room in either direction. */
+html[dir="rtl"] body > div[style*="left: -9999px"] {
+	left: auto !important;
+	right: -9999px !important;
+}

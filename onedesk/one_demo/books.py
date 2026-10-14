@@ -14,6 +14,7 @@ def run(password=None):
 	with as_user(ACCOUNTS):
 		# From the Books Check: a bill OneAI drafts with the VAT template gets the VAT.
 		ready.fix("template_taxes")
+		_repeating()
 		bank = _bank()
 		if frappe.db.exists("Journal Entry", {"voucher_type": "Opening Entry", "docstatus": 1}):
 			return
@@ -26,6 +27,31 @@ def run(password=None):
 		for month in range(1, today().month):
 			date = on(month, 20)
 			_entry(date, "Journal Entry", f"DEWA, {date.strftime('%B')}", ((utilities, 6200 + month * 140, 0), (bank, 0, 6200 + month * 140)))
+
+
+def _repeating():
+	"""Gulf Office Supplies bills the same every month, so its last bill is
+	made again each month from the next one on (one_book/repeat.py)."""
+	from frappe.utils import add_months
+
+	last = frappe.get_all(
+		"Purchase Invoice",
+		filters={"supplier": "Gulf Office Supplies", "docstatus": 1, "is_return": 0},
+		fields=["name", "posting_date"],
+		order_by="posting_date desc",
+		limit=1,
+	)
+	if not last or frappe.db.exists("Auto Repeat", {"reference_doctype": "Purchase Invoice"}):
+		return
+	make(
+		{
+			"doctype": "Auto Repeat",
+			"reference_doctype": "Purchase Invoice",
+			"reference_document": last[0].name,
+			"frequency": "Monthly",
+			"start_date": add_months(last[0].posting_date, 1),
+		}
+	)
 
 
 def _bank():

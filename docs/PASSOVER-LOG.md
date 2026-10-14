@@ -13199,3 +13199,46 @@ Return, the UAE VAT 201 and the Books Check.
    opening stock to capital (stock `_cleared`).
 
 Check: `onebook_the_books_check_has_nothing_left_to_do`.
+
+### OneBook › print, notes and the rest
+
+Looked at: the One Sales Invoice and One Payment Receipt prints, a credit
+note and a debit note, Ready to Submit, Auto Repeat, Period Closing, OneBook
+in Arabic, and OneBook as Omar, an Accounts User.
+
+**Found.**
+
+1. A VAT-registered UAE company's invoice printed as "Invoice", its TRN only
+   in the footer as "Tax ID"; a credit note as "Credit Note". The FTA asks
+   for "Tax Invoice" and the supplier's TRN.
+2. The VAT line printed "VAT 5% @ 5.0": ERPNext's description, the rate
+   twice and the second a bare number.
+3. A credit or debit note's band did not say which invoice it returns.
+4. Every OneBook page with a chart was blank in Arabic: frappe-ui's charts
+   measure text in a hidden element at left: -9999px, which a right-to-left
+   page can scroll to, so the page was 11,439 pixels wide and opened on
+   nothing. OneInventory's Home had the same.
+5. In Arabic, Top Expenses' "Others" read as another app's "other
+   allowances".
+6. Auto Repeat had nothing for invoices or bills.
+7. The payment receipt, Ready to Submit, the credit note's sentence and the
+   Accounts User's Home read right. No year has ended, so Period Closing has
+   nothing to show; the Books Check says so.
+
+**Done.**
+
+1. A UAE sales invoice prints "Tax Invoice", a return "Tax Credit Note"
+   (with Credit Note No), each with "TRN 100234567800003" under the number;
+   ERPNext's automatic return heading gives way, a chosen one is kept. A
+   customer's tax number reads TRN there too.
+2. `tax_label` drops ERPNext's "@ rate" when the line already says it,
+   and writes "@ 5%" when it does not.
+3. The band says Return Against (Return Against Purchase Invoice on a bill).
+4. desk.css parks the measuring element on the right in a right-to-left
+   page; the Arabic Home and OneInventory's are the window's width again.
+5. It is "All Other Accounts", ours to translate.
+6. The demo repeats Gulf Office Supplies' monthly bill.
+
+Not looked at: OneBook on a brand-new workspace with no entries.
+
+Check: `onebook_a_uae_invoice_prints_as_a_tax_invoice`.

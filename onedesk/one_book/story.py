@@ -159,7 +159,7 @@ def _expenses(company: str, since: date) -> list[dict]:
 	]
 	rest = sum(value for value, _ in ranked[TOP:])
 	if rest:
-		rows.append({"name": frappe._("Others"), "account": None, "spent": rest})
+		rows.append({"name": frappe._("All Other Accounts"), "account": None, "spent": rest})
 	return rows
 
 

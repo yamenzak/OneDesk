@@ -260,6 +260,12 @@ fails a small business on first use or leaves a question unanswered.
   Frappe Books' lists show what is still due beside the total; **Paid
   Amount** a column of the payments, in place of the two accounts; and
   **Posting Date** a column of the journal entries.
+- `one/print_blocks.py`, a UAE invoice — a VAT-registered company's sales
+  invoice prints as a **Tax Invoice** and a return as a **Tax Credit Note**,
+  each with the company's **TRN** under its number, as the FTA asks (its
+  Executive Regulation, Article 59). ERPNext heads every return "Credit Note"
+  by itself; that automatic heading gives way, and one somebody chose is
+  kept. A tax line says its rate once ("VAT 5%", not "VAT 5% @ 5.0").
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

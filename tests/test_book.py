@@ -232,3 +232,12 @@ def test_what_is_owed_falls_due_part_by_part():
 	]
 	# In the company's currency, the parts still add up to what is owed.
 	assert sum(one["outstanding_amount"] for one in parts({**invoice, "outstanding_amount": 600, "own": 300}, schedule)) == 600
+
+
+def test_a_tax_line_says_its_rate_once():
+	import re
+
+	tax_label = _load(tree.APP / "one" / "print_blocks.py", ("tax_label",), flt=float, re=re)["tax_label"]
+	assert tax_label("VAT 5% @ 5.0", 5) == "VAT 5%"
+	assert tax_label("VAT @ 5.0", 5) == "VAT @ 5%"
+	assert tax_label("Customs Duty", 0) == "Customs Duty"
