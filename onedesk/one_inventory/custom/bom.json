@@ -49,6 +49,46 @@
    "property_type": "Check",
    "value": "0",
    "field_name": "item"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "item"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Item To Manufacture",
+   "field_name": "item"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Item Name",
+   "field_name": "item_name"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "240",
+   "field_name": "item_name"
+  },
+  {
+   "doc_type": "BOM",
+   "doctype_or_field": "DocField",
+   "property": "label",
+   "property_type": "Data",
+   "value": "With Steps",
+   "field_name": "with_operations"
   }
  ],
  "sync_on_migrate": 1

@@ -11837,7 +11837,8 @@ Reports and Setup.
 | Making › Shop Floor | done, redrawn after Odoo's Shop Floor |
 | Making › Plant Floor | done, drawn after Odoo's work centres |
 | Making › Work Orders | done |
-| Making › Bills of Materials | next |
+| Making › Bills of Materials | done |
+| Making › Sent Out | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12480,3 +12481,30 @@ yet.
 |---|---|
 | 5 Our look | names whole, made of how many in one column, no zeros, no red for nothing |
 | 9 Overrides recorded | "A work order not started yet is grey" |
+
+**Bills of Materials.** Looked at as Karim, at 1440 wide and on a phone:
+frappe's list and ERPNext's form, the sliding door's bill with its three
+steps.
+
+- **A checkbox that looked like one to tick.** With Operations was a column
+  of checkboxes, on a phone the first thing in each row. It says Yes or a
+  dash (`bom_list.js`), and the field says **With Steps**, as the Shop
+  Floor and the head call them.
+- **The name cut.** "Aluminium Profile 606…" is 240 wide; Item name and
+  Item to manufacture say Item Name and Item To Manufacture, as the work
+  order does, and the item's own filter goes, as the name search covers it.
+- **The steps' table said nothing useful.** Sequence ID said 0 on every
+  step and Workstation Type was empty, while the workstation each step runs
+  at was not shown. The table is Operation, **Minutes** and **Workstation**.
+- **Still in English.** Fifty labels on a bill, its steps and its lines
+  had no Arabic or German ("Track semi finished goods", "Transfer material
+  against", "Operation time"…); all are said now
+  (`translations/words`), and the atlas's count for Manufacturing falls
+  from 82 to 35, Subcontracting's from 4 to 3.
+- The rest holds: the head (Makes, Cost Each, Steps, Work Orders), Create,
+  the cost tab.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | a word, not a checkbox; the steps' table says where each runs |
+| Still in English | none left on a bill, its steps or its lines |

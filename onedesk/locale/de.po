@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 06:19+0000\n"
+"POT-Creation-Date: 2026-10-14 06:47+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -13084,7 +13084,8 @@ msgstr "Artikelgruppe"
 msgid "Item Groups"
 msgstr "Artikelgruppen"
 
-#: frontend/src/item/ItemPage.vue:35
+#. Label of the 'item_name' field in DocType 'BOM'
+#: frontend/src/item/ItemPage.vue:35 onedesk/one_inventory/custom/bom.json
 msgid "Item Name"
 msgstr "Artikelname"
 
@@ -13096,6 +13097,11 @@ msgstr "Artikelpreise"
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Item Tax Templates"
 msgstr "Artikelsteuervorlagen"
+
+#. Label of the 'item' field in DocType 'BOM'
+#: onedesk/one_inventory/custom/bom.json
+msgid "Item To Manufacture"
+msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
@@ -14729,8 +14735,10 @@ msgstr "Niedrigere zuerst."
 msgid "MB"
 msgstr "MB"
 
+#. Label of the 'produced_qty' field in DocType 'Work Order'
 #: frontend/src/floor/OrderRows.vue:12 frontend/src/home/InventoryStory.vue:165
 #: frontend/src/home/InventoryStory.vue:171 frontend/src/lots/LotRows.vue:11
+#: onedesk/one_inventory/custom/work_order.json
 #: onedesk/one_inventory/heads.py:1169 onedesk/one_inventory/heads.py:1334
 msgid "Made"
 msgstr "Gefertigt"
@@ -15578,7 +15586,9 @@ msgstr "Mindestens 8 Zeichen, darunter mindestens eine Zahl oder ein Sonderzeich
 msgid "Minimum Order"
 msgstr "Mindestbestellung"
 
+#. Label of the 'time_in_mins' field in DocType 'BOM Operation'
 #. Label in the One Work Order print format
+#: onedesk/one_inventory/custom/bom_operation.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Minutes"
 msgstr ""
@@ -17361,6 +17371,10 @@ msgstr "Nicht angezeigt"
 #: frontend/src/project/Overview.vue:451
 msgid "Not Signed"
 msgstr "Nicht unterschrieben"
+
+#: onedesk/public/js/work_order_list.js:15
+msgid "Not Started"
+msgstr ""
 
 #: frontend/src/task/TaskTime.vue:68
 msgid "Not Submitted"
@@ -30966,7 +30980,9 @@ msgstr "Wartet auf den Start"
 msgid "Waits On"
 msgstr "Wartet auf"
 
+#. Label of the 'expected_delivery_date' field in DocType 'Work Order'
 #: frontend/src/floor/OrderRows.vue:14 onedesk/one/print_blocks.py:76
+#: onedesk/one_inventory/custom/work_order.json
 #: onedesk/one_inventory/heads.py:1209 onedesk/one_inventory/heads.py:1230
 #: onedesk/one_inventory/heads.py:1336
 msgid "Wanted By"
@@ -33532,6 +33548,11 @@ msgstr "Gratulieren Sie zum Geburtstag."
 msgid "With"
 msgstr "Mit"
 
+#. Label of the 'with_operations' field in DocType 'BOM'
+#: onedesk/one_inventory/custom/bom.json
+msgid "With Steps"
+msgstr "Mit Schritten"
+
 #: frontend/src/sent_out/SentOutPage.vue:98
 msgid "With Supplier"
 msgstr "Beim Lieferanten"
@@ -34202,7 +34223,8 @@ msgstr "Jahresabschluss {0}"
 
 #: frontend/src/item/ItemOverview.vue:127 onedesk/one/ai.py:2722
 #: onedesk/one/ai.py:2725 onedesk/one/ai.py:3853 onedesk/one/ai.py:4073
-#: onedesk/one_ai/chat.py:750 onedesk/public/js/onecloud.js:738
+#: onedesk/one_ai/chat.py:750 onedesk/public/js/bom_list.js:8
+#: onedesk/public/js/onecloud.js:738
 msgid "Yes"
 msgstr ""
 
@@ -37159,7 +37181,7 @@ msgstr "{0} davon aktiv."
 #: onedesk/one_admin/heads.py:156 onedesk/one_inventory/heads.py:440
 #: onedesk/one_inventory/heads.py:480 onedesk/one_inventory/heads.py:661
 #: onedesk/one_project/heads.py:36 onedesk/one_project/view.py:607
-#: onedesk/public/js/settings.js:1517
+#: onedesk/public/js/settings.js:1517 onedesk/public/js/work_order_list.js:20
 msgid "{0} of {1}"
 msgstr "{0} von {1}"
 
