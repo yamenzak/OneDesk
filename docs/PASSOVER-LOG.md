@@ -11833,7 +11833,8 @@ Reports and Setup.
 | Buying › Material Requests | done |
 | Buying › Quotes | done, redrawn after Odoo Purchase |
 | Buying › Purchase Orders | done |
-| Buying › Suppliers | next |
+| Buying › Suppliers | done |
+| Making › Shop Floor | next |
 
 **Home.** Looked at as Karim, at 1440 wide and on a phone.
 
@@ -12344,3 +12345,24 @@ and not billed.
 |---|---|
 | 5 Our look | names and states whole, nothing said twice, percents whole with a bar |
 | Everything follows frappe | widths and labels by property setter, frappe's own search kept |
+
+**Suppliers.** Looked at as Karim, at 1440 wide and on a phone. Suppliers
+are kept in OneBook, so the row opens OneBook's list, as decided when the
+rail was laid out; the supplier is the same record either way.
+
+- **The name said twice and cut once.** The list cut "Al Noor Aluminiu" in
+  its first column and said it whole again in the number column, which for
+  a supplier is its name. The number column is left off
+  (`supplier_list.js`) and the name is 240 wide.
+- **A column that said Company twelve times.** Supplier Type is off the
+  list; it is on the supplier, and a filter away.
+- The rest holds: the head (We Owe, Bought This Year, Last Bill, Open
+  Orders, a year of buying by month), the tabs, OneAI's mark on the
+  supplier it made and **1 not checked**, the phone rows. The chart's last
+  two month labels touch ("SepOct"): frappe-charts always keeps the last
+  label, even beside the one before it, on every chart of twelve months.
+  It is frappe's, and left to it.
+
+| Point | On this screen |
+|---|---|
+| 5 Our look | the name whole and said once, no column saying one thing |

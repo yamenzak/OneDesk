@@ -44,6 +44,23 @@
  ],
  "doctype": "Supplier",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Supplier",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "supplier_type"
+  },
+  {
+   "doc_type": "Supplier",
+   "doctype_or_field": "DocField",
+   "property": "width",
+   "property_type": "Data",
+   "value": "240",
+   "field_name": "supplier_name"
+  }
+ ],
  "sync_on_migrate": 1
 }

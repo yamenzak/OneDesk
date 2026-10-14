@@ -190,7 +190,7 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 24, de 21 |  |
 | Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 3 fields, 10 settings | yes | taught |  | yes | ours |  | ar 1 | Order Late |
 | Request for Quotation | on a rail or a home | OneInventory | a head, events, 1 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
-| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, 3 fields | yes | taught | makes it | yes |  |  | ar 10, de 10 |  |
+| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 10, de 10 |  |
 | Supplier Quotation | on a rail or a home | OneInventory | a head, events | yes | taught | makes it | yes |  |  | ar 1 | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
