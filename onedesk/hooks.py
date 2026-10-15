@@ -458,6 +458,12 @@ doc_events = {
 		"on_update": "onedesk.one_calendar.tell.saved",
 		"on_trash": "onedesk.one_calendar.tell.removed",
 	},
+	# ERPNext's Appointment puts its meeting on everyone's calendar; it goes on its
+	# maker's. See one_calendar/events.py.
+	"Appointment": {
+		"validate": "onedesk.one_calendar.events.booking",
+		"on_update": "onedesk.one_calendar.events.booked",
+	},
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {

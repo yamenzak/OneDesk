@@ -4,7 +4,7 @@ them, the next step each is waiting on, and the quotations sent, accepted
 and turned down."""
 
 import frappe
-from frappe.utils import add_days, add_to_date, date_diff, get_datetime, getdate, now_datetime
+from frappe.utils import add_days, add_to_date, date_diff, get_datetime, getdate, now_datetime, today
 
 from onedesk.one_demo.base import ago, ahead, as_user, make, save, tag, wh
 
@@ -114,6 +114,7 @@ def run(password=None):
 					quote.declare_enquiry_lost([{"lost_reason": _lost_reason()}], [], "Went with a cheaper local supplier.")
 		_convert("Lucy")
 		_last_year()
+		_marketing()
 	_from_the_form()
 
 
@@ -227,7 +228,7 @@ def _last_year():
 	from erpnext.selling.doctype.quotation.mapper import make_sales_order
 
 	from onedesk.one_demo.base import dated
-	from onedesk.one_demo.selling import _pay
+	from onedesk.one_demo.selling import _deliver, _pay
 
 	for first, last, company, email, source, months, status, step in LAST_YEARS_LEADS:
 		if frappe.db.exists("Lead", {"email_id": email}):
@@ -291,6 +292,7 @@ def _last_year():
 				row.delivery_date = order.delivery_date
 			order = save(order, submit=True)
 			frappe.db.set_value("Quotation", quote.name, "valid_till", add_days(closed, 20), update_modified=False)
+			_deliver(order, add_days(closed, 5))
 			if got in ("Billed", "Paid"):
 				invoice = _billed(order.name, add_days(closed, 7))
 				if got == "Paid":
@@ -336,3 +338,82 @@ def _back(doctype: str, name: str, day):
 		"update `tabVersion` set creation = %(w)s, modified = %(w)s where ref_doctype = %(t)s and docname = %(n)s",
 		{"w": when, "t": doctype, "n": name},
 	)
+
+
+#: campaign, what it was, and the emails of the leads it brought in.
+CAMPAIGNS = (
+	("Dubai Design Week 2026", "Our stand at Design Week.", ("peter@novak.example", "omar@haddad.example")),
+	("Hotel Refit Mailer", "Mail to hotel owners planning a refit.", ("marcus@webbhosp.example", "sam@okafor.example")),
+)
+
+
+def _marketing():
+	"""Where leads came from and what is sent to them: two campaigns with the
+	leads each brought in, an email group of hotel owners, a mail campaign to
+	it, a prospect with its leads, and a meeting booked with a lead."""
+	for name, about, emails in CAMPAIGNS:
+		if not frappe.db.exists("Campaign", {"campaign_name": name}):
+			make({"doctype": "Campaign", "campaign_name": name, "description": about})
+		for email in emails:
+			lead = frappe.db.get_value("Lead", {"email_id": email})
+			if lead:
+				frappe.db.set_value("Lead", lead, "utm_campaign", name, update_modified=False)
+	# Mail templates are the administrator's (one/access.py).
+	if not frappe.db.exists("Email Template", "Hotel Refit"):
+		with as_user("Administrator"):
+			make(
+				{
+					"doctype": "Email Template",
+					"name": "Hotel Refit",
+					"subject": "Glazing for your refit",
+					"response": "<p>We fit curtain walls, partitions and doors for hotels while they stay open.</p>",
+				}
+			)
+	campaign = frappe.db.get_value("Campaign", {"campaign_name": "Hotel Refit Mailer"})
+	planned = frappe.get_doc("Campaign", campaign)
+	if not planned.campaign_schedules:
+		for days in (0, 7):
+			planned.append("campaign_schedules", {"send_after_days": days, "email_template": "Hotel Refit"})
+		planned.save()
+	if not frappe.db.exists("Email Group", "Hotel Owners"):
+		make({"doctype": "Email Group", "title": "Hotel Owners"})
+		for email in CAMPAIGNS[1][2]:
+			make({"doctype": "Email Group Member", "email_group": "Hotel Owners", "email": email})
+	if not frappe.db.exists("Email Campaign", {"campaign_name": campaign}):
+		make(
+			{
+				"doctype": "Email Campaign",
+				"campaign_name": campaign,
+				"email_campaign_for": "Email Group",
+				"recipient": "Hotel Owners",
+				"start_date": today(),
+				"sender": SALES,
+			}
+		)
+	yusuf = frappe.db.get_value("Lead", {"email_id": "yusuf@erdem.example"})
+	if yusuf and not frappe.db.exists("Prospect", "Erdem Towers"):
+		make(
+			{
+				"doctype": "Prospect",
+				"company_name": "Erdem Towers",
+				"industry": frappe.db.get_value("Lead", yusuf, "industry"),
+				"territory": "Dubai",
+				"prospect_owner": SALES,
+				"no_of_employees": "51-200",
+				"leads": [{"lead": yusuf}],
+			}
+		)
+	marcus = frappe.db.get_value("Lead", {"email_id": "marcus@webbhosp.example"})
+	if marcus and not frappe.db.exists("Appointment", {"party": marcus}):
+		make(
+			{
+				"doctype": "Appointment",
+				"customer_name": "Marcus Webb",
+				"customer_email": "marcus@webbhosp.example",
+				"scheduled_time": f"{add_days(today(), 2)} 11:00:00",
+				"status": "Open",
+				"appointment_with": "Lead",
+				"party": marcus,
+				"customer_details": "Walk the lobby with Samir to measure for the curtain wall.",
+			}
+		)

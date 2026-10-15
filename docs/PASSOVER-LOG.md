@@ -13461,3 +13461,33 @@ Not taken: the board's card counting its calls and mail. frappe's card
 already counts comments, and the band's Last Call says the rest.
 
 Demo check `onecrm_an_opportunity_says_where_its_sale_went`.
+
+### OneCRM › Selling, Campaign and the rest
+
+Looked at as Omar: Quotation, Sales Order, Appointment and Contract under
+Selling; Campaign, Email Campaign and Email Group; Prospect; Customer.
+
+**Found.**
+
+1. Appointment, Campaign, Email Campaign, Email Group and Prospect were empty
+   in the demo, so nothing on those screens had been seen working.
+2. Booking an Appointment as a salesperson failed: ERPNext puts the meeting
+   it makes on everyone's calendar as a Public event, which One allows only
+   a Workspace Administrator or HR Manager to do.
+3. The year of selling added in the last round left its orders undelivered,
+   so the Sales Order list read Overdue on work long done.
+
+**Done.**
+
+1. The demo has two campaigns with the leads each brought in (Campaign
+   Efficiency counts two each), an email group of hotel owners with a mail
+   campaign under way to it, a prospect, Erdem Towers, holding its lead, and
+   a meeting booked with Marcus Webb for the day after tomorrow.
+2. An Appointment's meeting goes on its maker's own calendar
+   (`one_calendar/events.booking`): the rule on Public events stands, and the
+   salesperson books without asking an administrator.
+3. The past orders are delivered five days after they were won, so they read
+   To Bill or Completed as the money got.
+
+Demo check `onecrm_campaigns_prospects_and_meetings`. The Customer list's ID
+column repeats the name, as every list named by its title does; frappe's.

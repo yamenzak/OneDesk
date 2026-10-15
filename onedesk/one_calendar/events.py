@@ -255,6 +255,9 @@ def validate(doc, method=None) -> None:
 		doc.one_guests = None
 	if doc.event_type != "Public" or frappe.flags.in_install or frappe.flags.in_migrate:
 		return
+	if frappe.flags.one_booking:
+		doc.event_type = "Private"
+		return
 	before = doc.get_doc_before_save()
 	if before and before.event_type == "Public" and doc.owner == frappe.session.user:
 		return
@@ -265,6 +268,16 @@ def validate(doc, method=None) -> None:
 			),
 			frappe.PermissionError,
 		)
+
+
+def booking(doc, method=None) -> None:
+	"""An Appointment is being saved: the meeting ERPNext makes for it, which
+	it marks Public, goes on its maker's calendar instead (validate above)."""
+	frappe.flags.one_booking = doc.name
+
+
+def booked(doc, method=None) -> None:
+	frappe.flags.one_booking = None
 
 
 # ------------------------------------------------------------------ making and showing

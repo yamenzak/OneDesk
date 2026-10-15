@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-15 06:58+0000\n"
-"PO-Revision-Date: 2026-10-15 06:58+0000\n"
+"POT-Creation-Date: 2026-10-15 07:11+0000\n"
+"PO-Revision-Date: 2026-10-15 07:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -19547,7 +19547,7 @@ msgstr ""
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr ""
 
-#: onedesk/one_calendar/events.py:263
+#: onedesk/one_calendar/events.py:266
 msgid "Only a Workspace Administrator or HR Manager can put an event on everyone's calendar."
 msgstr ""
 
@@ -28512,7 +28512,7 @@ msgstr ""
 msgid "That did not work. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_calendar/events.py:377
+#: onedesk/one_calendar/events.py:390
 msgid "That event is not on your calendar."
 msgstr ""
 

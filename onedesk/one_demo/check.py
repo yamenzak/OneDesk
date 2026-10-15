@@ -5833,6 +5833,27 @@ def onecrm_an_opportunity_says_where_its_sale_went():
 
 
 @check
+def onecrm_campaigns_prospects_and_meetings():
+	"""What Omar's Campaign and Selling groups list: each campaign counts the
+	leads it brought in Campaign Efficiency, the mail campaign is under way
+	to its email group, the prospect holds its lead, and the meeting booked
+	with Marcus is on Omar's own calendar, not everyone's."""
+	from frappe.desk.query_report import run
+
+	with as_user("omar@one.test"):
+		rows = run("Campaign Efficiency", {"from_date": str(add_days(today(), -400)), "to_date": today()})["result"]
+		counted = {row["utm_campaign"]: row["lead_count"] for row in rows}
+		assert counted.get("Dubai Design Week 2026") == 2 and counted.get("Hotel Refit Mailer") == 2, rows
+		mailing = frappe.get_all("Email Campaign", filters={"recipient": "Hotel Owners"}, fields=["status"])
+		assert mailing and mailing[0].status in ("Scheduled", "In Progress"), mailing
+		assert frappe.get_all("Prospect Lead", filters={"parent": "Erdem Towers"}, pluck="lead_name")
+		meeting = frappe.get_all("Appointment", filters={"customer_email": "marcus@webbhosp.example"}, fields=["calendar_event"])
+		assert meeting and meeting[0].calendar_event, meeting
+		event = frappe.get_doc("Event", meeting[0].calendar_event)
+		assert event.event_type == "Private" and event.owner == "omar@one.test", (event.event_type, event.owner)
+
+
+@check
 def onebook_a_payment_says_where_it_stands():
 	"""Every payment Huda opens says in a sentence what moved, to or from
 	whom, and a payment through the bank says whether the statement has it

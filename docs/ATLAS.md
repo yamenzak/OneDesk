@@ -209,20 +209,20 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Appointment | on a rail or a home | everybody | 1 settings | yes | general |  | **none** |  |  | ar 3 |  |
+| Appointment | on a rail or a home | everybody | events, 1 settings | yes | general |  | yes |  |  | ar 3 |  |
 | Appointment Booking Settings | on a rail or a home | OneCRM, OneHR | untouched | no | general |  |  |  |  | ar 5, de 2 |  |
 | CRM Settings | on a rail or a home | OneCRM | 6 settings | no | general |  |  |  |  | ar 3, de 2 |  |
-| Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Competitor | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  | de 1 |  |
 | Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 28 settings | yes | taught | makes it | yes |  |  | ar 3 |  |
 | Market Segment | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes |  |  | ar 4 |  |
 | Opportunity Lost Reason | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  | **none** |  |  | ar 2 |  |
+| Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  | yes |  |  | ar 2 |  |
 | Sales Stage | on a rail or a home | OneCRM | events, 3 fields, 2 settings | yes | general |  | yes |  |  |  |  |
 
 Reports: Campaign Efficiency (on a rail or a home); First Response Time for Opportunity (on a rail or a home); Lead Conversion Time (on a rail or a home); Lead Details (on a rail or a home); Lead Owner Efficiency (on a rail or a home); Lost Opportunity (on a rail or a home); Opportunity Summary by Sales Stage (on a rail or a home); Prospects Engaged But Not Converted (on a rail or a home); Sales Pipeline Analytics (on a rail or a home).
@@ -648,8 +648,8 @@ Pages: backups (**waiting**); desktop (**waiting**); setup-wizard (**waiting**);
 | Email Account | opened by our screens | OneHR | events, 9 fields | no | taught |  | yes |  |  |  |  |
 | Email Domain | through a form's link (Email Account: domain) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Flag Queue | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Email Group | on a rail or a home | OneCRM | untouched | no | general |  | **none** |  |  |  |  |
-| Email Group Member | **waiting** | OneCRM | untouched | no | general |  | **none** |  |  |  |  |
+| Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
+| Email Group Member | **waiting** | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Queue | **waiting** | **nobody** | untouched | no | general |  | yes |  | **only an ID** | ar 1, de 1 |  |
 | Email Rule | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Template | through a form's link (Customize Form: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
@@ -716,7 +716,7 @@ Pages: print (**waiting**); print-format-builder (**waiting**).
 | Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Portal Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| UTM Campaign | through a form's link (Pricing Rule: campaign) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| UTM Campaign | through a form's link (Pricing Rule: campaign) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | UTM Medium | through a form's link (Delivery Note: utm_medium) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | UTM Source | on a rail or a home | OneCRM, the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Web Form | on a rail or a home | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |

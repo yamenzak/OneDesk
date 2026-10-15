@@ -354,7 +354,7 @@ Change any of it under Role Permissions; One does not change it back.
 - **To OneProject**: A quotation for a customer with one open project is put on that project, however it is made. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
 - **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell, and the order says at the top how much has gone out.
 - **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice. A customer's page counts their open opportunities and what they are worth, opening them.
-- **To OneCalendar**: Your next steps on leads and opportunities are on your calendar at the time they are due.
+- **To OneCalendar**: Your next steps on leads and opportunities are on your calendar at the time they are due. An Appointment booked with a lead or a customer is a meeting on your own calendar; ERPNext would put it on everyone's.
 
 ## Under the hood
 
