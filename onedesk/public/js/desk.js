@@ -150,35 +150,33 @@ onedesk.dock.rows = (sidebar) => {
 	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 };
 
-// The bar across the top of the shell, Discord's and Slack's title bar: Search
-// in the middle, then Check In, OneIntake, Timers, Notifications and the
-// background tasks at its right end, each frappe's button for the same thing.
+// The bar across the top of the shell, Discord's and Slack's title bar: Search,
+// Check In, OneIntake, Timers, Notifications and the background tasks at its
+// right end, each frappe's button for the same thing.
 // The rail below it keeps only the apps and the avatar. Made once; hidden on a
 // phone (desk.css).
 onedesk.dock.bar = () => {
 	if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 	const $bar = $(`<header class="one-bar" role="toolbar" aria-label="${__("Tools")}">
-		<div class="one-bar-middle"></div>
 		<div class="one-bar-tools"></div>
 	</header>`).prependTo(document.body);
 	$("body").addClass("one-barred");
-	const add = ({ label, icon, css, badge = "", click, $to = $bar.find(".one-bar-tools") }) => {
+	const add = ({ label, icon, css, badge = "", click, tip = label, $to = $bar.find(".one-bar-tools") }) => {
 		const $tile = $(
 			`<button class="one-bar-tool ${css}" aria-label="${frappe.utils.escape_html(label)}">${frappe.utils.icon(icon, "sm")}${badge}</button>`
 		).appendTo($to);
 		if (click) $tile.on("click", click);
-		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: label, side: "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" }));
+		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: tip, side: "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" }));
 		return $tile;
 	};
 	// page.js opens frappe's search from this class, wherever it is clicked.
 	if (frappe.boot.desk_settings.search_bar) {
-		$(`<button class="one-bar-search">
-			${frappe.utils.icon("search", "sm")}
-			<span class="one-bar-search-label">${__("Search")}</span>
-			<kbd>${frappe.utils.is_mac() ? "⌘K" : "Ctrl+K"}</kbd>
-		</button>`)
-			.addClass("navbar-modal-search-mobile")
-			.appendTo($bar.find(".one-bar-middle"));
+		add({
+			label: __("Search"),
+			tip: `${__("Search")} ${frappe.utils.is_mac() ? "⌘K" : "Ctrl+K"}`,
+			icon: "search",
+			css: "navbar-modal-search-mobile",
+		});
 	}
 	add({
 		label: __("Check In"),

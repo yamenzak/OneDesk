@@ -1733,6 +1733,13 @@ OVERRIDES = [
 		'doctype: bool(frappe.get_list(doctype, filters=filters, limit=1, pluck="name"))',
 	),
 	(
+		"The pinned rail and the bar are one frame, with the rest inset in it",
+		"their pinned rail ends in a rule of its own; ours gives the rule to the inset, rounded where it meets the bar's",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/scss/desk/dock.scss",
+		"border-right: 1px solid var(--outline-gray-1);",
+	),
+	(
 		"Search, Check In, OneIntake, Timers and Notifications sit in a bar across the top of the shell",
 		"their rail lost Search and the bell to the sidebar's band, which a page with a sidebar of its own hides, and with it every way to them; the shell's boxes, each the window's height, are the window less the bar",
 		"onedesk/public/css/desk.css",

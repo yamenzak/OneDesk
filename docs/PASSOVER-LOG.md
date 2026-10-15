@@ -13708,3 +13708,21 @@ dark mode restated by hand.
 - **Ctrl+K** in the bar sat a pixel above "Search": frappe's `kbd` is a fixed
   20px box with its text at the top. It takes the label's line now.
 
+## The inset
+
+*Asked:* round the corner where the page meets the rail and the bar, so the
+main area reads as inset; and Search as an icon beside the others rather than
+a field in the middle.
+
+*Done:*
+
+- **One frame.** With the rail pinned, the bar and the rail are one surface
+  (the sidebar's), and everything right of the rail sits inset in it, as
+  Discord's channels and chat do: one 1px rule along its top and its left,
+  rounded `--radius-lg` where they meet. The corner is the sidebar's while it
+  is open, and the page's when frappe folds the sidebar away or a page (a
+  project, My Tasks) hides it (`desk.css`). The rail and the bar lost their
+  own dividing rules to it. With the rail floating, nothing changes.
+- **Search is an icon,** first of the bar's tools, with its shortcut in the
+  tooltip. The field, its label and its `kbd` are gone.
+
