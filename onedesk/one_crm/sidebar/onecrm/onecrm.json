@@ -31,7 +31,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 2
+   "idx": 2,
+   "icon": "user-plus"
   },
   {
    "child": 0,
@@ -44,7 +45,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 3
+   "idx": 3,
+   "icon": "handshake"
   },
   {
    "child": 0,
@@ -57,7 +59,8 @@
    "url": "/desk/opportunity/view/kanban/Pipeline",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 4
+   "idx": 4,
+   "icon": "square-kanban"
   },
   {
    "child": 0,
@@ -70,7 +73,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 5
+   "idx": 5,
+   "icon": "users"
   },
   {
    "child": 0,
@@ -83,7 +87,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 6
+   "idx": 6,
+   "icon": "building-2"
   },
   {
    "child": 0,
@@ -231,7 +236,7 @@
    "idx": 17
   }
  ],
- "modified": "2026-11-03 10:00:00.000000",
+ "modified": "2026-11-03 11:00:00.000000",
  "modified_by": "Administrator",
  "module": "One CRM",
  "name": "OneCRM",
