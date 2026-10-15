@@ -220,7 +220,7 @@ def test_the_screens_are_read():
 
 #: Point 1. Record types a person reaches that the demo has none of.
 EMPTY = {
-	"erpnext / Accounts": 27,
+	"erpnext / Accounts": 21,
 	# Shift allocations want an asset depreciated by shift.
 	"erpnext / Assets": 2,
 	"erpnext / CRM": 1,
@@ -255,7 +255,7 @@ EMPTY = {
 
 #: Point 11. Documents sent to a customer or supplier on a print not ours.
 UNPRINTED = {
-	"erpnext / Accounts": 4,
+	"erpnext / Accounts": 3,
 	"erpnext / Maintenance": 1,
 	"erpnext / Selling": 2,
 	"erpnext / Subcontracting": 3,

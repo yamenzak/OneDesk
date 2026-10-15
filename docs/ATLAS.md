@@ -84,7 +84,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Bank Statement Import | on a rail or a home | OneBook | form script | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Bank Statement Import Log | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 14, de 14 |  |
 | Bank Transaction | on a rail or a home | OneBook | a head, 2 settings | yes | taught | makes it | yes |  |  | ar 2, de 2 |  |
-| Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  | ar 3, de 3 |  |
+| Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  | ar 3, de 3 |  |
 | Bisect Accounting Statements | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Bisect Nodes | **waiting** | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
 | Budget | opened by our screens | OneBook, OneProject | events | yes | taught |  | yes |  |  | de 1 | Over Budget |
@@ -95,8 +95,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Cost Center Allocation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Coupon Code | through a form's link (Sales Order: coupon_code) | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Currency Exchange Settings | **waiting** | OneBook | untouched | no | general |  |  |  |  | ar 1 |  |
-| Dunning | on a rail or a home | OneBook | untouched | yes | general |  | **none** | **theirs** |  | ar 1 |  |
-| Dunning Type | through a form's link (Dunning: dunning_type) | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Dunning | on a rail or a home | OneBook | untouched | yes | general |  | yes | ours |  | ar 1 |  |
+| Dunning Type | through a form's link (Dunning: dunning_type) | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Exchange Rate Revaluation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Finance Book | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Financial Report Template | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | de 1 |  |
@@ -126,7 +126,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Payment Reconciliation | on a rail or a home | OneBook | untouched | no | general |  |  |  |  | ar 2, de 2 |  |
-| Payment Request | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  | ar 2 |  |
+| Payment Request | on a rail or a home | OneBook | 3 settings | yes | general |  | yes |  |  | ar 2 |  |
 | Payment Term | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pegged Currencies | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
@@ -136,7 +136,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Process Payment Reconciliation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Payment Reconciliation Log | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Period Closing Voucher | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 2, de 3 |  |
-| Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Subscription | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 3 | Bill Due |
@@ -152,7 +152,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Subscription | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  | ar 9, de 9 |  |
 | Subscription Plan | through a form's link (Subscription: plan) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Subscription Settings | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |
-| Tax Category | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
+| Tax Category | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Tax Rule | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Tax Withholding Category | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Tax Withholding Group | through a form's link (Tax Withholding Category: tax_withholding_group) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
@@ -784,7 +784,7 @@ Pages: workflow-builder (**waiting**).
 | HR Telemetry Milestone | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  | ar 3, de 3 |  |
 | Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Interest | **waiting** | everybody | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Interest | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Interview | on a rail or a home | OneHR | class, events, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  | ar 8 | Interview Feedback Due |
 | Interview Feedback | **waiting** | OneHR | untouched | yes | taught |  | **none** |  |  | ar 3 |  |
 | Interview Type | on a rail or a home | OneHR | untouched | yes | taught |  | yes |  |  | ar 4, de 1 |  |

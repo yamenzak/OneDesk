@@ -151,6 +151,18 @@ customer is reminded**), a customer is mailed the invoice a week after it
 fell due, if it is still unpaid. The wording is **Automation › Workspace Notifications ›
 Payment Reminder**.
 
+**Chasing by hand.** On an overdue invoice, **Create › Dunning** makes a
+payment reminder listing every invoice of theirs that is late, how late, and
+what is owed, with a fee or interest if its **Dunning Type** charges one. It
+prints as **Payment Reminder**, with your bank to pay into. **Create › Payment
+Request** sends a link to pay online. **Process Statement Of Accounts**
+mails each customer their statement on a schedule, monthly or as often as you
+set.
+
+**Bank lines matched by a rule.** A **Bank Transaction Rule** (Home › Setup)
+matches a bank line by its description, such as DEWA's direct debit to
+Utility Expenses, so it is not asked about each month.
+
 ## Repeating invoices and bills
 
 Rent, a retainer, a monthly service: make the first invoice or bill as usual,

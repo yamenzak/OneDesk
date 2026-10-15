@@ -5902,6 +5902,27 @@ def onebook_oneai_reads_the_money_as_home_does():
 
 
 @check
+def onebook_chases_what_customers_owe():
+	"""Huda's chasing: the customer longest late has a payment reminder that
+	prints as One's Payment Reminder with each overdue invoice and the bank to
+	pay into; another has a payment request; the statements go monthly; DEWA's
+	direct debits match by a rule; and Dunning opens in OneBook's rail."""
+	from onedesk.one import print_blocks
+
+	with as_user("huda@one.test"):
+		reminder = frappe.get_doc("Dunning", frappe.get_all("Dunning", filters={"docstatus": 1}, pluck="name", limit=1)[0])
+		said = print_blocks.overdue(reminder)
+		assert said["rows"] and said["rows"][0][0] == reminder.overdue_payments[0].sales_invoice, said
+		assert print_blocks.title(reminder)["title"] == "Payment Reminder"
+		assert print_blocks.bank(reminder), "it says where to pay"
+		assert frappe.db.get_value("Property Setter", {"doc_type": "Dunning", "property": "default_print_format"}, "value") == "One Payment Reminder"
+		assert frappe.get_all("Payment Request", filters={"reference_doctype": "Sales Invoice", "docstatus": 1})
+		assert frappe.db.get_value("Process Statement Of Accounts", "Monthly Statements", "frequency") == "Monthly"
+		assert frappe.db.exists("Bank Transaction Rule", "DEWA direct debit")
+	assert frappe.get_hooks("one_module_heirs").get("Accounts") == ["OneBook"], "Dunning opens in OneBook"
+
+
+@check
 def onebook_a_payment_says_where_it_stands():
 	"""Every payment Huda opens says in a sentence what moved, to or from
 	whom, and a payment through the bank says whether the statement has it

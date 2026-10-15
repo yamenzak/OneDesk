@@ -27,6 +27,7 @@ TITLES = {
 	"Work Order": (_lt("Work Order"), _lt("Order No")),
 	"Asset Movement": (_lt("Equipment Handover"), _lt("Handover No")),
 	"Payment Entry": (_lt("Receipt"), _lt("Receipt No")),
+	"Dunning": (_lt("Payment Reminder"), _lt("Reminder No")),
 	"Salary Slip": (_lt("Payslip"), _lt("Payslip No")),
 	"Job Offer": (_lt("Job Offer"), _lt("Offer No")),
 	"Appointment Letter": (_lt("Appointment Letter"), _lt("Letter No")),
@@ -82,6 +83,7 @@ DETAILS = {
 		(_lt("Reference"), "reference_no"),
 		(_lt("Reference Date"), "reference_date"),
 	),
+	"Dunning": ((_lt("Date"), "posting_date"),),
 	"Salary Slip": ((_lt("Working Days"), "total_working_days"), (_lt("Paid Days"), "payment_days")),
 	"Job Offer": ((_lt("Date"), "offer_date"), (_lt("Position"), "designation")),
 	"Appointment Letter": ((_lt("Starts On"), "appointment_date"),),
@@ -118,6 +120,7 @@ PARTIES = {
 	# Goods moved to a warehouse go to its address, a site's among them.
 	"Stock Entry": (_lt("Deliver To"), None),
 	"Payment Entry": (_lt("Received From"), "party_name"),
+	"Dunning": (_lt("Bill To"), "customer_name"),
 	"Salary Slip": (_lt("Employee"), "employee_name"),
 	"Job Offer": (_lt("Offered To"), "applicant_name"),
 	"Appointment Letter": (_lt("Addressed To"), "applicant_name"),
@@ -133,6 +136,7 @@ FORMATS = {
 	"Sales Order": ("One Sales Order", "one_crm"),
 	"Sales Invoice": ("One Sales Invoice", "one_book"),
 	"Payment Entry": ("One Payment Receipt", "one_book"),
+	"Dunning": ("One Payment Reminder", "one_book"),
 	"Delivery Note": ("One Delivery Note", "one_inventory"),
 	"Purchase Receipt": ("One Purchase Receipt", "one_inventory"),
 	"Pick List": ("One Pick List", "one_inventory"),
@@ -226,6 +230,7 @@ def one_print_block(doc, block: str) -> dict:
 		"bank": bank,
 		"payslip": payslip,
 		"payment": payment,
+		"overdue": overdue,
 		"signatures": signatures,
 		"progress": progress,
 		"time": time_billed,
@@ -580,6 +585,44 @@ def payment(doc) -> dict:
 			for row in doc.get("references") or []
 			if flt(row.allocated_amount)
 		],
+	}
+
+
+def _lines(html: str | None) -> list[str]:
+	"""A letter ERPNext keeps as HTML, as the plain lines it says, so the paper
+	shows its words and none of its markup."""
+	from frappe.utils import strip_html
+
+	return [line for one in re.split(r"</p>|<br\s*/?>", html or "") if (line := strip_html(one).strip())]
+
+
+def overdue(doc) -> dict:
+	"""A payment reminder's letter, the invoices it is about with how late each
+	is, and what is asked for: what is owed, the fee and the interest."""
+	if doc.doctype != "Dunning":
+		return {}
+	rows = [
+		(
+			row.sales_invoice,
+			row.get_formatted("due_date"),
+			_("{0} days").format(cint(row.overdue_days)) if cint(row.overdue_days) else "",
+			money(doc, row.outstanding),
+		)
+		for row in doc.get("overdue_payments") or []
+	]
+	asked = [(_("Outstanding"), money(doc, doc.total_outstanding))]
+	if flt(doc.dunning_fee):
+		asked.append((_("Fee"), money(doc, doc.dunning_fee)))
+	if flt(doc.total_interest):
+		asked.append((_("Interest"), money(doc, doc.total_interest)))
+	return {
+		"letter": _lines(doc.body_text),
+		"heading": _("Overdue Invoices"),
+		"columns": (_("Invoice"), _("Due Date"), _("Late By"), _("Outstanding")),
+		"rows": rows,
+		"asked": asked,
+		"total": (_("Grand Total"), money(doc, doc.grand_total)),
+		"closing": _lines(doc.closing_text),
 	}
 
 

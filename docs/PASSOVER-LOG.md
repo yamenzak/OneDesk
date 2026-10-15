@@ -13574,3 +13574,49 @@ Customer and Bank Transaction. The tools are OneAI's `books` group, and the
 Home pages `books` and `onecrm` now name their groups. The AI Addendum (22)
 says OneAI reads the books and never posts, pays or changes them. Demo check
 `onebook_oneai_reads_the_money_as_home_does`.
+
+### OneBook against the seventeen points
+
+Every point read against OneBook: Home, the invoices, payments, journal
+entries, the bank, the reports and Setup.
+
+1. **Demo coverage.** *Found:* Dunning, Process Statement Of Accounts, Payment
+   Request, Bank Transaction Rule and Tax Category were empty. *Done:* the
+   demo chases what is owed (`one_demo/books._collecting`): a payment reminder
+   to Osei Builders, 93 days late, a payment request to Palm Interiors, the
+   monthly statements, a DEWA rule and an Export tax category. Left empty on
+   purpose: Period Closing Voucher (closing a year refuses the history the
+   demo writes behind it), Finance Book, Tax Withholding Category (no
+   withholding in the UAE), Bank Statement Import (Intake reads the
+   statement).
+2. **Rules on the server.** ERPNext's controllers, OneBook's hooks (titles,
+   currency, VAT, the books' rules).
+3. **Hand-offs.** A sale runs from quotation to payment in the demo, and the
+   README's Connections say each.
+4. **Tier declared.** `books` in `tiers.SCREENS`; the invoices, payments,
+   journal entries and bank lines have heads.
+5. **Our look.** Home as OneInventory's and OneCRM's.
+6. **Nothing lost.** No record page of its own.
+7. **Extensible.** Home is the `onebook_home` place (the OneCRM pass).
+8. **Built from frappe.** frappe-ui charts and kit parts.
+9. **Overrides recorded.** As each walk left them.
+10. **Notifications.** Payment Reminder, Statement of Accounts, Credit Limit
+    Crossed and New Fiscal Year are files in `notifications/one_book`.
+11. **Printed.** *Found:* a payment reminder, which goes to the customer,
+    printed on ERPNext's plain Dunning format. *Done:* it prints as One
+    Payment Reminder (`print_blocks.overdue`, `overdue.html`): the letter,
+    each late invoice with its due date and how late, what is asked and the
+    bank to pay into. The letter is printed as its words, never its markup.
+12. **Plain words.** *Found:* Payment Request's list showed the naming
+    series. *Done:* it shows the party and the amount.
+13. **OneAI.** `one_book/ai.py`, the last round.
+14. **Intake.** A supplier invoice, an e-invoice, a payment advice, a
+    contract and a bank statement are samples, each handled in the suite.
+15. **Permissions.** *Found:* a Dunning or a Payment Request, which no rail
+    lists, opened in another app's rail (Huda's opened in OneHR). *Done:*
+    ERPNext's Accounts module is OneBook's (`one_module_heirs`), and CRM and
+    Selling OneCRM's, so whatever no rail lists opens beside its own.
+16. **Legal.** The AI Addendum (22), the last round.
+17. **Clean code.** One layout; each new part has its README line.
+
+Demo check `onebook_chases_what_customers_owe`.

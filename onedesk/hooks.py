@@ -1253,6 +1253,10 @@ one_module_heirs = {
 	"Assets": ["OneInventory"],
 	"Manufacturing": ["OneInventory"],
 	"Subcontracting": ["OneInventory"],
+	# ERPNext's accounts, and its CRM and selling, beside OneBook's and OneCRM's rails.
+	"Accounts": ["OneBook"],
+	"CRM": ["OneCRM"],
+	"Selling": ["OneCRM"],
 }
 
 # Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them
