@@ -1,4 +1,4 @@
-"""OneInventory, OneProject, OneTask and OneBook call a thing what ERPNext
+"""OneInventory, OneProject, OneTask, OneBook and OneCRM call a thing what ERPNext
 calls it, the name Ctrl+K finds (docs/WORDING.md, On a Screen): a rail row
 says the doctype's, report's or page's own name, or what ERPNext's own sidebar
 calls that same link, and a field keeps ERPNext's label."""
@@ -17,6 +17,7 @@ RAILS = {
 	"one_project": "oneproject",
 	"one_task": "onetask",
 	"one_book": "onebook",
+	"one_crm": "onecrm",
 }
 
 #: The pages a module opens on, titled for the module.

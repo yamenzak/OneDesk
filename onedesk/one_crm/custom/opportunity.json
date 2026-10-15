@@ -265,7 +265,7 @@
    "field_name": "utm_analytics_section",
    "property": "label",
    "property_type": "Data",
-   "value": "Source"
+   "value": "Analytics"
   },
   {
    "doc_type": "Opportunity",

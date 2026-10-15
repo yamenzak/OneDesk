@@ -3195,7 +3195,6 @@
 "Territory",
 "Timesheet",
 "ToDo",
-"Translation",
 "UAE VAT Settings",
 "UOM",
 "UOM Category",
@@ -3695,11 +3694,6 @@
 "Desk User",
 "Workspace Administrator"
 ],
-"Deal Forecast": [
-"Sales Manager",
-"Sales User",
-"System Manager"
-],
 "Deferred Revenue and Expense": [
 "Accounts Manager",
 "Accounts User",
@@ -3846,11 +3840,6 @@
 "Hours Utilization": [
 "HR Manager",
 "HR User",
-"System Manager"
-],
-"How Long Deals Take": [
-"Sales Manager",
-"Sales User",
 "System Manager"
 ],
 "IRS 1099": [
@@ -4097,6 +4086,11 @@
 "Open Work Orders": [
 "Manufacturing User",
 "Stock User"
+],
+"Opportunity Forecast": [
+"Sales Manager",
+"Sales User",
+"System Manager"
 ],
 "Opportunity Summary by Sales Stage": [
 "Sales Manager",
@@ -4549,6 +4543,11 @@
 "Territory-wise Sales": [
 "Sales Manager",
 "Sales User"
+],
+"Time in Sales Stage": [
+"Sales Manager",
+"Sales User",
+"System Manager"
 ],
 "Timesheet Billing Summary": [
 "Accounts User",

@@ -130,7 +130,7 @@ def take(doctype: Annotated[str, "Lead or Opportunity."], name: str) -> None:
 	from onedesk.one_crm.next import OWNER
 
 	if doctype not in OWNER:
-		frappe.throw(_("Only a lead or a deal has an owner."))
+		frappe.throw(_("Only a lead or an opportunity has an owner."))
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("write")
 	if doc.get(OWNER[doctype]):

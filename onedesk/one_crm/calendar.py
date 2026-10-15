@@ -11,7 +11,7 @@ from onedesk.one_crm import next as next_step
 LAYERS = [
 	{
 		"key": "deal-steps",
-		"label": _lt("Deal Next Steps"),
+		"label": _lt("Opportunity Next Steps"),
 		"color": "green",
 		"group": "Mine",
 		"doctype": "Opportunity",

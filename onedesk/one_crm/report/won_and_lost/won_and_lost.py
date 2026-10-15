@@ -12,7 +12,7 @@ from frappe.utils import getdate
 from onedesk.one_crm import measure
 
 #: What a row can be, and how a deal is put in one.
-BY = ("Month", "Deal Owner", "Source", "Lost Reason")
+BY = ("Month", "Opportunity Owner", "Source", "Lost Reason")
 
 
 def execute(filters: dict | None = None) -> tuple:
@@ -43,7 +43,7 @@ def execute(filters: dict | None = None) -> tuple:
 def _groups(by, deal, one, reasons) -> list[str]:
 	if by == "Month":
 		return [one.on.strftime("%Y-%m")]
-	if by == "Deal Owner":
+	if by == "Opportunity Owner":
 		return [deal.opportunity_owner or measure.not_recorded()]
 	if by == "Source":
 		return [deal.utm_source or measure.not_recorded()]

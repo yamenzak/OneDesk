@@ -1,4 +1,4 @@
-frappe.query_reports["How Long Deals Take"] = {
+frappe.query_reports["Time in Sales Stage"] = {
 	filters: [
 		{
 			fieldname: "from_date",
@@ -14,7 +14,7 @@ frappe.query_reports["How Long Deals Take"] = {
 		},
 		{
 			fieldname: "owner",
-			label: __("Deal Owner"),
+			label: __("Opportunity Owner"),
 			fieldtype: "Link",
 			options: "User",
 		},

@@ -58,7 +58,7 @@ def _row(label) -> dict:
 def _columns() -> list[dict]:
 	return [
 		{"fieldname": "month", "label": _("Expected To Close"), "fieldtype": "Data", "width": 160},
-		{"fieldname": "deals", "label": _("Open Deals"), "fieldtype": "Int", "width": 110},
+		{"fieldname": "deals", "label": _("Open Opportunities"), "fieldtype": "Int", "width": 110},
 		{"fieldname": "value", "label": _("Value"), "fieldtype": "Currency", "width": 140},
 		{"fieldname": "weighted", "label": _("Weighted Value"), "fieldtype": "Currency", "width": 150},
 		{"fieldname": "won", "label": _("Won"), "fieldtype": "Currency", "width": 140},

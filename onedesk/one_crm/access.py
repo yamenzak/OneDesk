@@ -117,7 +117,7 @@ def assignment_rule(doc, method=None) -> None:
 	if not layer.held():
 		return
 	if doc.document_type not in SHARED_OUT:
-		frappe.throw(_("A rule of yours shares out leads or deals."))
+		frappe.throw(_("A rule of yours shares out leads or opportunities."))
 	meta = frappe.get_meta(doc.document_type)
 	for field in CONDITIONS:
 		if not plain(meta, doc.get(field)):

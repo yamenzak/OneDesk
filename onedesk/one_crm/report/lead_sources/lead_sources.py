@@ -64,7 +64,7 @@ def _columns() -> list[dict]:
 		{"fieldname": "leads", "label": _("Leads"), "fieldtype": "Int", "width": 80},
 		{"fieldname": "replied", "label": _("Replied (%)"), "fieldtype": "Percent", "width": 110},
 		{"fieldname": "first_reply", "label": _("Median First Reply (Hours)"), "fieldtype": "Float", "width": 190},
-		{"fieldname": "deals", "label": _("Deals"), "fieldtype": "Int", "width": 80},
+		{"fieldname": "deals", "label": _("Opportunities"), "fieldtype": "Int", "width": 80},
 		{"fieldname": "won", "label": _("Won"), "fieldtype": "Int", "width": 80},
 		{"fieldname": "won_value", "label": _("Won Value"), "fieldtype": "Currency", "width": 140},
 		{"fieldname": "conversion", "label": _("Leads Won (%)"), "fieldtype": "Percent", "width": 130},

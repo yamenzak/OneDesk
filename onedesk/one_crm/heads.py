@@ -50,7 +50,7 @@ def _money(value, currency) -> str:
 def value(doc):
 	said = _said(doc.doctype, doc.name)
 	return {
-		"label": _("Deal Value · {0}%").format(round(said["probability"])),
+		"label": _("Opportunity Amount · {0}%").format(round(said["probability"])),
 		"value": _money(said["value"], said["currency"]),
 		"meter": {"value": said["probability"], "of": 100},
 	}
@@ -195,7 +195,7 @@ VERBS = {
 	# Nobody's yet: it came in from the web form or the inbox. See capture.py.
 	"crm.take": {
 		"doctypes": list(OWNER),
-		"label": lambda doc: _("Take This Lead") if doc.doctype == "Lead" else _("Take This Deal"),
+		"label": lambda doc: _("Take This Lead") if doc.doctype == "Lead" else _("Take This Opportunity"),
 		"when": lambda doc: not doc.get(OWNER[doc.doctype]) and bool(doc.has_permission("write")),
 		"fields": [],
 		"run": lambda doc: capture.take(doc.doctype, doc.name) or _("It is yours."),
@@ -207,7 +207,7 @@ HEADS = [
 	{
 		"doctype": "Opportunity",
 		"band": [
-			{"label": _lt("Deal Value"), "source": "Measure", "measure": "crm.value"},
+			{"label": _lt("Opportunity Amount"), "source": "Measure", "measure": "crm.value"},
 			{"label": _lt("Sales Stage"), "source": "Measure", "measure": "crm.stage"},
 			{"label": _lt("Next Step"), "source": "Measure", "measure": "crm.next_step"},
 			{"label": _lt("Last Contact"), "source": "Measure", "measure": "crm.contact"},
@@ -255,7 +255,7 @@ HEADS = [
 			{"label": _lt("First Reply"), "source": "Measure", "measure": "crm.reply"},
 			{"label": _lt("Next Step"), "source": "Measure", "measure": "crm.next_step"},
 			{"label": _lt("Last Contact"), "source": "Measure", "measure": "crm.contact"},
-			{"label": _lt("Deals"), "source": "Measure", "measure": "crm.deals"},
+			{"label": _lt("Opportunity"), "source": "Measure", "measure": "crm.deals"},
 			{"label": _lt("Source"), "source": "Measure", "measure": "crm.source"},
 		],
 		"verbs": [{"verb": "crm.take"}],

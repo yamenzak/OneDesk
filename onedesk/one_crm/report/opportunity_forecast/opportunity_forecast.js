@@ -1,6 +1,6 @@
 // No company and no currency filter: one workspace is one company, and every
 // amount is in its currency.
-frappe.query_reports["Deal Forecast"] = {
+frappe.query_reports["Opportunity Forecast"] = {
 	filters: [
 		{
 			fieldname: "from_month",
@@ -16,7 +16,7 @@ frappe.query_reports["Deal Forecast"] = {
 		},
 		{
 			fieldname: "owner",
-			label: __("Deal Owner"),
+			label: __("Opportunity Owner"),
 			fieldtype: "Link",
 			options: "User",
 		},

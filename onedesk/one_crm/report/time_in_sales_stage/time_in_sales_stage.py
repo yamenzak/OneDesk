@@ -78,7 +78,7 @@ def _to_win(every, owned, start, end) -> list[float]:
 def _columns() -> list[dict]:
 	return [
 		{"fieldname": "stage", "label": _("Sales Stage"), "fieldtype": "Data", "width": 180},
-		{"fieldname": "deals", "label": _("Deals"), "fieldtype": "Int", "width": 90},
+		{"fieldname": "deals", "label": _("Opportunities"), "fieldtype": "Int", "width": 90},
 		{"fieldname": "usual", "label": _("Usual Days"), "fieldtype": "Float", "precision": 1, "width": 120},
 		{"fieldname": "longest", "label": _("Longest Days"), "fieldtype": "Float", "precision": 1, "width": 120},
 		{"fieldname": "now", "label": _("In It Now"), "fieldtype": "Int", "width": 100},

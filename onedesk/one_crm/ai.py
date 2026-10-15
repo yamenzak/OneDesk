@@ -19,15 +19,15 @@ from onedesk.one_crm import next as next_step
 SUGGESTIONS = {
 	"Opportunity": [
 		{
-			"label": _lt("Where does this deal stand?"),
-			"ask": _lt("Where does this deal stand? Say in a few lines what it is, how far it has got, what "
+			"label": _lt("Where does this opportunity stand?"),
+			"ask": _lt("Where does this opportunity stand? Say in a few lines what it is, how far it has got, what "
 			"was said last and by whom, and what should happen next."),
 			"can": "read",
 			"view": "Form",
 		},
 		{
 			"label": _lt("Suggest the next step"),
-			"ask": _lt("From this deal's history, suggest its next step and the day to do it by."),
+			"ask": _lt("From this opportunity's history, suggest its next step and the day to do it by."),
 			"can": "write",
 			"view": "Form",
 			"expects": "plan_next_step",
@@ -35,27 +35,27 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Write up a call"),
 			"ask": _lt("I have just spoken to them on the phone. Ask me what was said, then write it up as a "
-			"call on this deal and suggest the next step it leads to."),
+			"call on this opportunity and suggest the next step it leads to."),
 			"can": "write",
 			"view": "Form",
 		},
 		{
 			"label": _lt("Draft a follow-up"),
-			"ask": _lt("Draft a short follow-up email to them from this deal's history: what was said last, "
+			"ask": _lt("Draft a short follow-up email to them from this opportunity's history: what was said last, "
 			"what we agreed, and the one thing we are asking for. Plain words, no sales talk."),
 			"can": "read",
 			"view": "Form",
 		},
 		{
-			"label": _lt("Which deals have gone quiet?"),
-			"ask": _lt("Which open deals have gone quiet: nobody has spoken to them for two weeks and nothing "
+			"label": _lt("Which opportunities have gone quiet?"),
+			"ask": _lt("Which open opportunities have gone quiet: nobody has spoken to them for two weeks and nothing "
 			"is planned?"),
 			"can": "read",
 			"view": "List",
 		},
 		{
-			"label": _lt("Why are we losing deals?"),
-			"ask": _lt("Why have we lost deals this year?"),
+			"label": _lt("Why are we losing opportunities?"),
+			"ask": _lt("Why have we lost opportunities this year?"),
 			"can": "read",
 			"view": "List",
 		},
@@ -106,15 +106,15 @@ SUGGESTIONS = {
 	],
 	"workspace:OneCRM": [
 		{
-			"label": _lt("Which deals have gone quiet?"),
-			"ask": _lt("Which open deals have gone quiet: nobody has spoken to them for two weeks and nothing "
+			"label": _lt("Which opportunities have gone quiet?"),
+			"ask": _lt("Which open opportunities have gone quiet: nobody has spoken to them for two weeks and nothing "
 			"is planned?"),
 			"doctype": "Opportunity",
 			"can": "read",
 		},
 		{
-			"label": _lt("Why are we losing deals?"),
-			"ask": _lt("Why have we lost deals this year?"),
+			"label": _lt("Why are we losing opportunities?"),
+			"ask": _lt("Why have we lost opportunities this year?"),
 			"doctype": "Opportunity",
 			"can": "read",
 		},

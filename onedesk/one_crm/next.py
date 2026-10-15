@@ -79,7 +79,7 @@ def done(
 ) -> None:
 	"""The current step is done: say so on the timeline, and set the next."""
 	if doctype not in OPEN:
-		frappe.throw(_("Only a lead or a deal has a next step."))
+		frappe.throw(_("Only a lead or an opportunity has a next step."))
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("write")
 	if doc.one_next_step:

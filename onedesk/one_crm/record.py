@@ -21,7 +21,7 @@ OUTCOME = {"Answered": "Completed", "No Answer": "No Answer", "Busy": "Busy"}
 @frappe.read_only()
 def overview(doctype: Annotated[str, "Lead or Opportunity."], name: str) -> dict:
 	if doctype not in next_step.OPEN:
-		frappe.throw(_("Only a lead or a deal has an overview."))
+		frappe.throw(_("Only a lead or an opportunity has an overview."))
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("read")
 	said = {
@@ -159,7 +159,7 @@ def log_call(
 ) -> str:
 	"""A call written down by hand, as a Call Log on the lead or deal."""
 	if doctype not in next_step.OPEN:
-		frappe.throw(_("Only a lead or a deal has calls."))
+		frappe.throw(_("Only a lead or an opportunity has calls."))
 	if direction not in ("Outgoing", "Incoming") or outcome not in OUTCOME:
 		frappe.throw(_("A call is Outgoing or Incoming, and Answered, No Answer or Busy."))
 	doc = frappe.get_doc(doctype, name)

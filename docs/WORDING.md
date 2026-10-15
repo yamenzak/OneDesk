@@ -127,8 +127,8 @@ named in ERPNext's words for what it does (`Reorder`, `Asset Maintenance`,
 `Batch and Serial No`), or for the ERPNext page it replaces (`Stock
 Summary`). A filtered list is called what ERPNext's own sidebar calls it
 (`Credit Note`, `Debit Note`, `Profit and Loss`). A capital fixed or a
-section heading left blank is not a rename. OneInventory, OneProject, OneTask
-and OneBook are held to it by `tests/guards/test_erpnext_names.py`.
+section heading left blank is not a rename. OneInventory, OneProject, OneTask,
+OneBook and OneCRM are held to it by `tests/guards/test_erpnext_names.py`.
 
 **A heading is the plain name of what is listed.** `Custom Fields`, not
 `Fields Added Here`. `Changed Fields`, not `Fields Changed Here`.

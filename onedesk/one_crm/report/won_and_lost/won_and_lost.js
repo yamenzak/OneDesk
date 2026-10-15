@@ -18,7 +18,7 @@ frappe.query_reports["Won and Lost"] = {
 			fieldtype: "Select",
 			options: [
 				{ value: "Month", label: __("Month") },
-				{ value: "Deal Owner", label: __("Deal Owner") },
+				{ value: "Opportunity Owner", label: __("Opportunity Owner") },
 				{ value: "Source", label: __("Source") },
 				{ value: "Lost Reason", label: __("Lost Reason") },
 			],

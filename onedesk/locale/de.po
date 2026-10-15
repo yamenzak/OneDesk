@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-14 21:41+0000\n"
+"POT-Creation-Date: 2026-10-15 06:11+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -570,12 +570,6 @@ msgstr "Ein Datum aus einem Dokument und wofür es gilt."
 msgid "A day on site wasn't written for {0}"
 msgstr "Ein Tag vor Ort wurde für {0} nicht erfasst"
 
-#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
-#. Stage'
-#: onedesk/one_crm/custom/sales_stage.json
-msgid "A deal moved to this stage takes this probability, unless one was typed."
-msgstr "Ein Deal, der in diese Phase verschoben wird, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
-
 #: onedesk/one_book/heads.py:119
 msgid "A debit note from {0}."
 msgstr "Eine Lastschrift von {0}."
@@ -1100,8 +1094,8 @@ msgid "A rule fires when a record is made, saved, submitted, cancelled or change
 msgstr "Eine Regel greift, wenn ein Datensatz angelegt, gespeichert, gebucht, storniert oder geändert wird, oder an einem Datum."
 
 #: onedesk/one_crm/access.py:120
-msgid "A rule of yours shares out leads or deals."
-msgstr "Eine Regel von Ihnen verteilt nur Leads oder Deals."
+msgid "A rule of yours shares out leads or opportunities."
+msgstr "Eine Ihrer Regeln verteilt Leads oder Chancen."
 
 #: onedesk/one/rules.py:153
 msgid "A rule tells people by role, by a person on the record, or its assignees, and nobody else."
@@ -2250,11 +2244,6 @@ msgstr "Adressiert an"
 msgid "Addresses"
 msgstr "Adressen"
 
-#. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Addresses and Contacts"
-msgstr "Adressen und Kontakte"
-
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Addresses changed with suppliers, banks and authorities"
@@ -2903,6 +2892,12 @@ msgstr "Die Seite eines Artikels wird geöffnet, und jedes Mal, wenn sich der Ar
 msgid "An office, shop or restaurant fitted out inside a shell, from survey to handover."
 msgstr "Ein Büro, Laden oder Restaurant im Rohbau ausgebaut, von der Aufnahme bis zur Übergabe."
 
+#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
+#. Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "An opportunity moved to this stage takes this probability, unless one was typed."
+msgstr "Eine Chance, die in diese Phase wechselt, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
+
 #: onedesk/one_inventory/ready.py:115
 msgid "An order can have its stock set aside, so no other order takes it."
 msgstr "Einem Auftrag kann Bestand zurückgelegt werden, damit kein anderer Auftrag ihn nimmt."
@@ -2919,6 +2914,12 @@ msgstr "Ein Update zu {0}"
 #: onedesk/notifications/one_hr/urgent_grievance.md
 msgid "An urgent grievance was raised"
 msgstr "Eine dringende Beschwerde wurde eingereicht"
+
+#. Label of the 'utm_analytics_section' field in DocType 'Lead'
+#. Label of the 'utm_analytics_section' field in DocType 'Opportunity'
+#: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
+msgid "Analytics"
+msgstr ""
 
 #. Name of a notification
 #: onedesk/notifications/one/announcement.md
@@ -3721,6 +3722,11 @@ msgstr "Mir zugewiesen"
 #: onedesk/one/automations.py:139 onedesk/one/settings.py:2008
 msgid "Assignees"
 msgstr "Zugewiesene"
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Assignment Rule"
+msgstr ""
 
 #: onedesk/one_task/capture.py:38
 msgid "Assignment for {0} {1}"
@@ -7234,6 +7240,11 @@ msgstr "Eigene Stufen liegen zwischen Benutzer und Manager."
 msgid "Customer"
 msgstr "Kunde"
 
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Customer Addresses And Contacts"
+msgstr ""
+
 #: onedesk/one_book/home.py:310
 msgid "Customer Credit Balance"
 msgstr ""
@@ -7500,42 +7511,6 @@ msgstr "Frist"
 #: onedesk/one_intake/report/deadlines/deadlines.json
 msgid "Deadlines"
 msgstr "Fristen"
-
-#. Label of the deal (Link) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json
-msgid "Deal"
-msgstr "Deal"
-
-#. Name of a report
-#. Label of a Sidebar Item
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.json
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Deal Forecast"
-msgstr "Deal-Prognose"
-
-#: onedesk/one_crm/calendar.py:14
-msgid "Deal Next Steps"
-msgstr "Nächste Schritte bei Deals"
-
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.js:19
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.js:17
-#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:21
-msgid "Deal Owner"
-msgstr ""
-
-#: onedesk/one_crm/heads.py:210
-msgid "Deal Value"
-msgstr "Wert des Deals"
-
-#: onedesk/one_crm/heads.py:53
-msgid "Deal Value · {0}%"
-msgstr "Deal-Wert · {0} %"
-
-#: onedesk/one_crm/heads.py:258
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:81
-#: onedesk/one_crm/report/lead_sources/lead_sources.py:67
-msgid "Deals"
-msgstr "Deals"
 
 #. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
@@ -8542,8 +8517,8 @@ msgid "Draft a short first reply to this lead that answers what they asked, and 
 msgstr "Entwirf eine kurze erste Antwort an diesen Lead, die seine Frage beantwortet und einen nächsten Schritt vorschlägt. Einfache Worte, keine Verkaufssprache."
 
 #: onedesk/one_crm/ai.py:44
-msgid "Draft a short follow-up email to them from this deal's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
-msgstr "Entwirf eine kurze Nachfass-E-Mail an sie aus dem Verlauf dieses Deals: was zuletzt gesagt wurde, was wir vereinbart haben und das eine, worum wir bitten. Einfache Worte, keine Verkaufssprache."
+msgid "Draft a short follow-up email to them from this opportunity's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
+msgstr "Entwirf eine kurze Nachfass-E-Mail an sie aus dem Verlauf dieser Chance: was zuletzt gesagt wurde, was wir vereinbart haben und das eine, worum wir bitten. Einfache Worte, keine Verkaufssprache."
 
 #: onedesk/one_project/ai.py:152
 msgid "Draft a template"
@@ -10018,7 +9993,7 @@ msgstr ""
 msgid "Expected Time"
 msgstr "Erwartete Zeit"
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:60
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:60
 msgid "Expected To Close"
 msgstr "Erwarteter Abschluss"
 
@@ -11150,7 +11125,7 @@ msgstr "Freitag"
 #. Label in the One Timesheet print format
 #: onedesk/one/print_blocks.py:57 onedesk/one/print_blocks.py:61
 #: onedesk/one/print_blocks.py:76
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.js:7
 #: onedesk/one_intake/bundle.py:76 onedesk/one_intake/panel.py:125
 #: onedesk/one_intake/report/deadlines/deadlines.js:8
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
@@ -11170,8 +11145,8 @@ msgstr "Von enthält"
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:7
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:7
 #: onedesk/one_book/report/vat_return/vat_return.js:6
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.js:5
 #: onedesk/one_crm/report/lead_sources/lead_sources.js:5
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.js:5
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:5
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
@@ -11240,13 +11215,13 @@ msgstr "Was sollte ich anhand des Lebenslaufs und der Prüfung durch OneAI im er
 msgid "From this appraisal, where is this person weakest, and which of our training programs or coming events would help? If none fits, say what to look for."
 msgstr "Wo ist diese Person laut dieser Beurteilung am schwächsten, und welche unserer Schulungsprogramme oder kommenden Termine würden helfen? Wenn nichts passt, sag, wonach man suchen sollte."
 
-#: onedesk/one_crm/ai.py:30
-msgid "From this deal's history, suggest its next step and the day to do it by."
-msgstr "Schlage aus dem Verlauf dieses Deals den nächsten Schritt und den Tag vor, bis zu dem er erledigt sein soll."
-
 #: onedesk/one_crm/ai.py:73
 msgid "From this lead's history, suggest its next step and the day to do it by."
 msgstr "Schlage aus dem Verlauf dieses Leads den nächsten Schritt und den Tag vor, bis zu dem er erledigt sein soll."
+
+#: onedesk/one_crm/ai.py:30
+msgid "From this opportunity's history, suggest its next step and the day to do it by."
+msgstr "Schlage aus dem Verlauf dieser Chance den nächsten Schritt und den Tag vor, bis zu dem er erledigt sein soll."
 
 #: onedesk/one_hr/ai.py:172
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
@@ -12103,13 +12078,6 @@ msgstr "Wie füge ich ihn hinzu?"
 msgid "How Long"
 msgstr "Wie lange"
 
-#. Name of a report
-#. Label of a Sidebar Item
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.json
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "How Long Deals Take"
-msgstr "Wie lange Deals dauern"
-
 #: onedesk/public/js/item_actions.js:152
 msgid "How Many Made"
 msgstr "Wie viele hergestellt"
@@ -12445,13 +12413,13 @@ msgstr "Die Nummerierung von {0} hat sich seit diesem Vorschlag geändert, daher
 msgid "How {0} looks has changed since this was suggested, so it no longer applies."
 msgstr "Das Aussehen von {0} hat sich seit diesem Vorschlag geändert, daher gilt er nicht mehr."
 
-#: onedesk/one_crm/ai.py:37
-msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this deal and suggest the next step it leads to."
-msgstr "Ich habe gerade mit ihnen telefoniert. Frag mich, was gesagt wurde, halte es als Anruf in diesem Deal fest und schlage den nächsten Schritt vor, der daraus folgt."
-
 #: onedesk/one_crm/ai.py:80
 msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this lead and suggest the next step it leads to."
 msgstr "Ich habe gerade mit ihnen telefoniert. Frag mich, was gesagt wurde, halte es als Anruf bei diesem Lead fest und schlage den nächsten Schritt vor, der daraus folgt."
+
+#: onedesk/one_crm/ai.py:37
+msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this opportunity and suggest the next step it leads to."
+msgstr "Ich habe gerade mit ihnen telefoniert. Frag mich, was gesagt wurde, halte es als Anruf zu dieser Chance fest und schlage den nächsten Schritt vor, zu dem er führt."
 
 #: onedesk/public/js/legal.js:57
 msgid "I have read and agree to these"
@@ -12683,7 +12651,7 @@ msgstr "Wählen Sie in Dateien Andere Orte und fügen Sie die Adresse mit davs:/
 msgid "In Finder, choose Go › Connect to Server and paste the address."
 msgstr "Wählen Sie im Finder „Gehe zu › Mit Server verbinden“ und fügen Sie die Adresse ein."
 
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:84
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:84
 msgid "In It Now"
 msgstr "Jetzt darin"
 
@@ -14331,11 +14299,6 @@ msgstr "Raum- und Sitzplan"
 msgid "Lead"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Lead Assignment"
-msgstr "Lead-Zuweisung"
-
 #: onedesk/one_crm/calendar.py:22
 msgid "Lead Next Steps"
 msgstr "Nächste Schritte bei Leads"
@@ -15085,11 +15048,11 @@ msgstr "Nur Logo"
 msgid "Logo and Details"
 msgstr "Logo und Angaben"
 
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:85
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:85
 msgid "Longer Than Usual"
 msgstr "Länger als üblich"
 
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:83
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:83
 msgid "Longest Days"
 msgstr "Längste Dauer in Tagen"
 
@@ -16212,7 +16175,7 @@ msgid "Monthly credits are used first. Bought credits never expire."
 msgstr "Monatliche Credits werden zuerst verbraucht. Gekaufte Credits verfallen nie."
 
 #: frontend/src/project/Overview.vue:64
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.js:13
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.js:13
 msgid "Months"
 msgstr "Monate"
 
@@ -17092,7 +17055,7 @@ msgstr "Noch keine Anlagenwartung"
 msgid "No Bank Account"
 msgstr "Kein Bankkonto"
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:42
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:42
 msgid "No Closing Date"
 msgstr "Kein Abschlussdatum"
 
@@ -19381,20 +19344,20 @@ msgid "Only a flagged attempt needs reviewing."
 msgstr "Nur ein markierter Versuch muss geprüft werden."
 
 #: onedesk/one_crm/next.py:82
-msgid "Only a lead or a deal has a next step."
-msgstr "Nur ein Lead oder ein Deal hat einen nächsten Schritt."
+msgid "Only a lead or an opportunity has a next step."
+msgstr "Nur ein Lead oder eine Chance hat einen nächsten Schritt."
 
 #: onedesk/one_crm/record.py:24
-msgid "Only a lead or a deal has an overview."
-msgstr "Nur ein Lead oder ein Deal hat eine Übersicht."
+msgid "Only a lead or an opportunity has an overview."
+msgstr "Nur ein Lead oder eine Chance hat eine Übersicht."
 
 #: onedesk/one_crm/capture.py:133
-msgid "Only a lead or a deal has an owner."
-msgstr "Nur ein Lead oder ein Deal hat einen Verantwortlichen."
+msgid "Only a lead or an opportunity has an owner."
+msgstr "Nur ein Lead oder eine Chance hat einen Verantwortlichen."
 
 #: onedesk/one_crm/record.py:162
-msgid "Only a lead or a deal has calls."
-msgstr "Nur ein Lead oder ein Deal hat Anrufe."
+msgid "Only a lead or an opportunity has calls."
+msgstr "Nur ein Lead oder eine Chance hat Anrufe."
 
 #: onedesk/one_admin/doctype/offering/offering.py:70
 msgid "Only a recurring offering can have a trial."
@@ -19660,10 +19623,6 @@ msgstr "Offen"
 msgid "Open Asset"
 msgstr "Anlage öffnen"
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:61
-msgid "Open Deals"
-msgstr "Offene Deals"
-
 #: onedesk/one_intake/page/intake/intake.js:173
 msgid "Open Document"
 msgstr "Dokument öffnen"
@@ -19687,6 +19646,10 @@ msgstr "Liste öffnen"
 #: frontend/src/task/TaskTime.vue:40
 msgid "Open Older Entries"
 msgstr "Ältere Einträge öffnen"
+
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:61
+msgid "Open Opportunities"
+msgstr "Offene Chancen"
 
 #: frontend/src/project/Suppliers.vue:76
 msgid "Open Order"
@@ -19841,9 +19804,41 @@ msgstr ""
 msgid "Operators can't set {0}."
 msgstr "Operatoren können {0} nicht setzen."
 
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:67
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:81
+msgid "Opportunities"
+msgstr ""
+
+#. Label of the deal (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_crm/heads.py:258 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Opportunity"
+msgstr ""
+
+#: onedesk/one_crm/heads.py:210
+msgid "Opportunity Amount"
+msgstr ""
+
+#: onedesk/one_crm/heads.py:53
+msgid "Opportunity Amount · {0}%"
+msgstr "Betrag der Chance · {0} %"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Opportunity Forecast"
+msgstr "Chancenprognose"
+
+#: onedesk/one_crm/calendar.py:14
+msgid "Opportunity Next Steps"
+msgstr "Nächste Schritte bei Chancen"
+
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.js:19
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.js:17
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:21
+msgid "Opportunity Owner"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:152
@@ -20278,7 +20273,7 @@ msgstr "Über ein Jahr"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:761 onedesk/one_book/heads.py:783
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:39
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:39
 #: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:199
 msgid "Overdue"
 msgstr "Überfällig"
@@ -24508,7 +24503,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/heads.py:64 onedesk/one_crm/heads.py:211
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:80
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:80
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Sales Stage"
 msgstr ""
@@ -26422,10 +26417,7 @@ msgid "Sorted by"
 msgstr "Sortiert nach"
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
-#. Label of the 'utm_analytics_section' field in DocType 'Lead'
-#. Label of the 'utm_analytics_section' field in DocType 'Opportunity'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-#: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
 #: onedesk/one_crm/heads.py:217 onedesk/one_crm/heads.py:259
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:63
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
@@ -27648,12 +27640,12 @@ msgid "Take Back"
 msgstr "Zurücknehmen"
 
 #: onedesk/one_crm/heads.py:198
-msgid "Take This Deal"
-msgstr "Diesen Deal übernehmen"
-
-#: onedesk/one_crm/heads.py:198
 msgid "Take This Lead"
 msgstr "Diesen Lead übernehmen"
+
+#: onedesk/one_crm/heads.py:198
+msgid "Take This Opportunity"
+msgstr "Diese Chance übernehmen"
 
 #: onedesk/one_inventory/custody.py:63
 msgid "Take back {0} and record it with Take Back on the asset's page."
@@ -30149,6 +30141,13 @@ msgstr "Aufgewendete Zeit"
 msgid "Time and Materials"
 msgstr "Zeit und Material"
 
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Time in Sales Stage"
+msgstr "Zeit in der Verkaufsphase"
+
 #: onedesk/public/js/project_actions.js:448
 #: onedesk/public/js/task_actions.js:104
 msgid "Time logged"
@@ -30247,8 +30246,8 @@ msgstr "An"
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:13
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:13
 #: onedesk/one_book/report/vat_return/vat_return.js:11
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.js:11
 #: onedesk/one_crm/report/lead_sources/lead_sources.js:11
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.js:11
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:11
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
@@ -30311,7 +30310,7 @@ msgstr "Ins Lager"
 msgid "To Whom It May Concern"
 msgstr "An wen es betrifft"
 
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:54
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:54
 msgid "To Win"
 msgstr "Bis zum Gewinn"
 
@@ -31376,7 +31375,7 @@ msgstr "Nutzer testen ihre eigene Arbeit"
 msgid "Uses {0}. Set by your workspace."
 msgstr "Verwendet {0}. Von Ihrem Arbeitsbereich festgelegt."
 
-#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:82
+#: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:82
 msgid "Usual Days"
 msgstr "Übliche Dauer in Tagen"
 
@@ -31452,7 +31451,7 @@ msgstr ""
 #: onedesk/one/automations.py:127
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:62
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:62
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/public/js/doctype_settings.js:1101
@@ -31932,7 +31931,7 @@ msgstr ""
 msgid "Weighted Pipeline"
 msgstr "Gewichtete Pipeline"
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:63
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:63
 msgid "Weighted Value"
 msgstr "Gewichteter Wert"
 
@@ -33658,12 +33657,12 @@ msgid "Where did this workspace's OneAI credits go? Say what it has left and unt
 msgstr "Wohin sind die OneAI-Credits dieses Arbeitsbereichs gegangen? Nennen Sie, was noch übrig ist und bis wann, was diesen Monat auf welchen Modellen ausgegeben wurde und was von Hand vergeben oder zurückgenommen wurde, mit der Nachricht dazu."
 
 #: onedesk/one_crm/ai.py:22
-msgid "Where does this deal stand?"
-msgstr "Wo steht dieser Deal?"
+msgid "Where does this opportunity stand?"
+msgstr "Wo steht diese Chance?"
 
 #: onedesk/one_crm/ai.py:23
-msgid "Where does this deal stand? Say in a few lines what it is, how far it has got, what was said last and by whom, and what should happen next."
-msgstr "Wo steht dieser Deal? Sag in wenigen Zeilen, worum es geht, wie weit er ist, was zuletzt von wem gesagt wurde und was als Nächstes passieren sollte."
+msgid "Where does this opportunity stand? Say in a few lines what it is, how far it has got, what was said last and by whom, and what should happen next."
+msgstr "Wo steht diese Chance? Sag in wenigen Zeilen, worum es geht, wie weit sie ist, was zuletzt von wem gesagt wurde und was als Nächstes passieren sollte."
 
 #: onedesk/one_inventory/home.py:170
 msgid "Where each serial number has been."
@@ -33770,10 +33769,6 @@ msgstr "Welche Unterhaltungen in diesem Ordner warten auf eine Antwort von uns? 
 msgid "Which dashboards do we have, and what does each chart and card count?"
 msgstr "Welche Dashboards haben wir, und was zählt jedes Diagramm und jede Karte?"
 
-#: onedesk/one_crm/ai.py:50 onedesk/one_crm/ai.py:109
-msgid "Which deals have gone quiet?"
-msgstr "Welche Deals sind eingeschlafen?"
-
 #: onedesk/one/push.py:124
 msgid "Which device?"
 msgstr "Welches Gerät?"
@@ -33850,17 +33845,21 @@ msgstr "Welche Rechnungen dieses Projekts sind überfällig? Entwirf eine kurze,
 msgid "Which of this project's tasks are late, who is on each, and what waits on them?"
 msgstr "Welche Aufgaben dieses Projekts sind verspätet, wer arbeitet daran und was wartet darauf?"
 
-#: onedesk/one_crm/ai.py:51 onedesk/one_crm/ai.py:110
-msgid "Which open deals have gone quiet: nobody has spoken to them for two weeks and nothing is planned?"
-msgstr "Welche offenen Deals sind eingeschlafen: Seit zwei Wochen hat niemand mit ihnen gesprochen, und nichts ist geplant?"
-
 #: onedesk/one_crm/ai.py:101
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "Welche offenen Leads warten auf uns: Seit einer Woche hat niemand mit ihnen gesprochen, und nichts ist geplant?"
 
+#: onedesk/one_crm/ai.py:51 onedesk/one_crm/ai.py:110
+msgid "Which open opportunities have gone quiet: nobody has spoken to them for two weeks and nothing is planned?"
+msgstr "Welche offenen Chancen sind still geworden: Seit zwei Wochen hat niemand mit ihnen gesprochen und nichts ist geplant?"
+
 #: onedesk/one_project/ai.py:185
 msgid "Which open projects need attention: marked at risk or off track, with late tasks, past their end date, or over their estimated cost?"
 msgstr "Welche offenen Projekte brauchen Aufmerksamkeit: als gefährdet oder nicht im Plan markiert, mit verspäteten Aufgaben, über ihrem Enddatum oder über den geschätzten Kosten?"
+
+#: onedesk/one_crm/ai.py:50 onedesk/one_crm/ai.py:109
+msgid "Which opportunities have gone quiet?"
+msgstr "Welche Chancen sind still geworden?"
 
 #: onedesk/one_inventory/ai.py:195
 msgid "Which orders are late?"
@@ -34212,8 +34211,8 @@ msgid "Why are people leaving?"
 msgstr "Warum gehen Leute?"
 
 #: onedesk/one_crm/ai.py:57 onedesk/one_crm/ai.py:116
-msgid "Why are we losing deals?"
-msgstr "Warum verlieren wir Deals?"
+msgid "Why are we losing opportunities?"
+msgstr "Warum verlieren wir Chancen?"
 
 #: onedesk/one/ai.py:259
 msgid "Why did these fail?"
@@ -34232,8 +34231,8 @@ msgid "Why have people left over the last twelve months, and how many said each 
 msgstr "Warum haben in den letzten zwölf Monaten Leute gekündigt, und wie viele nannten welchen Grund?"
 
 #: onedesk/one_crm/ai.py:58 onedesk/one_crm/ai.py:117
-msgid "Why have we lost deals this year?"
-msgstr "Warum haben wir dieses Jahr Deals verloren?"
+msgid "Why have we lost opportunities this year?"
+msgstr "Warum haben wir dieses Jahr Chancen verloren?"
 
 #: onedesk/one/ai.py:441
 msgid "Why is a mailbox not working?"
@@ -34428,8 +34427,8 @@ msgstr "Ohne Konto: {0}."
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:64
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:68
+#: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:64
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:69
 msgid "Won"
 msgstr "Gewonnen"
@@ -34455,8 +34454,8 @@ msgstr "Gewonnen und verloren"
 
 #. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
-msgid "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline."
-msgstr "Gewonnen wandelt den Deal um, Verloren fragt nach dem Grund. Zurückgestellt hält ihn offen, aber außerhalb der Pipeline."
+msgid "Won converts the opportunity and Lost asks why. On Hold keeps it open but out of the pipeline."
+msgstr "Gewonnen wandelt die Chance um, Verloren fragt nach dem Grund. Zurückgestellt hält sie offen, aber außerhalb der Pipeline."
 
 #: frontend/src/project/ProjectActivity.vue:115 onedesk/one_project/tree.py:199
 #: onedesk/public/js/project_actions.js:716

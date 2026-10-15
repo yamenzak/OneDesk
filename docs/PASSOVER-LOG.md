@@ -13242,3 +13242,129 @@ in Arabic, and OneBook as Omar, an Accounts User.
 Not looked at: OneBook on a brand-new workspace with no entries.
 
 Check: `onebook_a_uae_invoice_prints_as_a_tax_invoice`.
+
+## OneCRM
+
+### What Frappe CRM teaches OneCRM
+
+Asked on 2026-10-15: read `frappe/crm` (cloned beside the bench, `ba2a6bb`)
+for its UI, the features it has that OneCRM lacks and how it is organised,
+and bring over what is worth having, while OneCRM stays ERPNext's Lead,
+Opportunity, Customer and Quotation, so a customer is the same record a sales
+invoice and a project read. Frappe CRM is AGPL like this repo; nothing below
+copies its code, only its ideas.
+
+**What it is.** A frappe-ui app at `/crm` over its own `CRM Lead`, `CRM Deal`,
+`CRM Organization`, `CRM Task`, `FCRM Note` and `CRM Call Log`, with its own
+status masters, a status-change log and Twilio/Exotel telephony. ERPNext is an
+optional integration: a `crm_deal` link on Quotation and Customer, a customer
+made when a deal is won, and a Quotations tab on the deal. Nothing links an
+invoice, a payment or a project back to a deal.
+
+**The UI.**
+
+- *Navigation.* Dashboard, Leads, Deals, Contacts, Organizations, Notes,
+  Tasks, Call Logs, then pinned and public views. Ctrl+K finds records and
+  offers Upcoming, Recent and Create.
+- *Lists.* A status is a coloured dot and its name; clicking a cell filters
+  by it; quick filters above; an SLA column; bulk Convert to Deal. A view is
+  List, Kanban or Group By, picked from the crumb. An empty list offers
+  Create and Import.
+- *The board.* A column's + makes a deal in that status; a card counts its
+  mails, calls, notes and tasks. Dropping a card on a Lost status asks the
+  reason and puts the card back if the dialog is closed.
+- *A deal's page.* A side panel of fields, then tabs: Activity, Emails,
+  Comments, Calls, Tasks, Notes, Attachments, and Quotations when ERPNext is
+  on. Convert to Deal asks for an existing organization or contact. Lost asks
+  a reason from Pricing, Competition, Budget Constraints, Missing Features,
+  Long Sales Cycle, No Decision-Maker, Unresponsive Prospect, Poor Fit and
+  Other, and Other needs a note.
+- *Dashboard.* 7, 30, 60 or 90 days or a range. Figures with their change on
+  the period before: Total leads, Ongoing deals, Won deals, Average won
+  value, Average deal value, Average time to close a lead and a deal. Charts:
+  Sales trend (leads, deals and won by day), Forecasted revenue (expected
+  value × probability by expected month, against won), Funnel conversion,
+  Deals by stage, Lost deal reasons, Leads and Deals by source, Deals by
+  territory, Deals by salesperson.
+
+**How it is organised.** One doctype a concept, each status a master with a
+colour, a type (Open, Ongoing, On Hold, Won, Lost), a position and a
+probability. A status change writes a log row with how long the last one
+lasted. Owner, assignment and sharing are kept in step. Conversion is locked
+and repeatable and maps custom fields by label. Mail from a lead's address
+lands on the lead; phone numbers match in E.164.
+
+**Set against OneCRM.**
+
+- *What OneCRM already has.* Most of the model, built over ERPNext in earlier
+  rounds: Sales Stage with position, probability and an outcome (Open, On
+  Hold, Won, Lost) that drives the status (`stages.py`); the stage log as
+  frappe's Milestone, with how long a stage usually takes (`measure.py`); a
+  reason required on Lost from one list shared with quotations; the board
+  with each column's value and weighted value; a next step on every lead and
+  opportunity, reminded and on the calendar; the first reply timed;
+  duplicates caught on email, phone and business name; calls written down;
+  one timeline; a web form and an inbox that make leads; and the forecast,
+  won-and-lost, lead-source and stage-time reports.
+- *What Frappe CRM does better, and is worth taking.*
+  1. **A Home that tells the story.** Its dashboard answers "how is selling
+     going" in eight charts; OneCRM's Home is a workspace of seven buttons and
+     four figures. Home becomes a page like OneBook's: figures with their
+     months, an Overview with its sales trend, forecast, funnel, stages, lost
+     reasons, sources and salespeople, Today, and Everything, Reports and
+     Setup.
+  2. **Names held to.** Its rail says Leads, Deals, Organizations, its own
+     doctypes' names. OneCRM renames ERPNext's Opportunity to Deal with
+     Translation rows, so the rail, the form and every label say a name
+     Ctrl+K does not find. It goes back to Opportunity, as OneBook went back
+     to Sales Invoice.
+  3. **The rest of the sale on the opportunity.** Its deal has a Quotations
+     tab and stops there. Ours is ERPNext's, so the sale goes on: the
+     opportunity says where it stands in a sentence and a track, Lead,
+     Opportunity, Quotation, Sales Order, Billed, Paid, the way an invoice
+     does in OneBook, with the project it became.
+  4. **The customer as a seller sees it.** Its organization page lists its
+     deals and contacts. Our customer's head is all OneBook's money; it gains
+     the open opportunities and what they are worth.
+  5. **A card says how busy a deal is.** The board's card gains the count of
+     calls and mail.
+- *What is not worth taking.* Its own doctypes (ours are ERPNext's, which is
+  what lets an invoice and a project read the customer); Notes and Tasks as
+  screens (a note is a comment on the timeline, a task is OneTask's); a
+  status per lead and per deal as a master (ERPNext's statuses are worked out
+  from what happened, and the stage is the master); telephony (Call Log is
+  the seam it would write to); lead scoring and temperature (nothing in the
+  demo or a small team's day uses them); dropping a card on Lost (a deal is
+  lost from its page, where the reason is asked).
+
+### OneCRM: Opportunity, the name Ctrl+K finds
+
+Looked at as Omar (Sales Manager): the rail, the Opportunity and Lead lists,
+Crescent Schools' opportunity and Webb Hospitality's lead.
+
+**Found.**
+
+1. Translation rows (`one-deal-…`) called ERPNext's Opportunity a Deal in
+   every language, so the rail, the form, its labels (Deal With, Deal Owner,
+   Deal Value), the lead's status and ERPNext's own messages said a word
+   Ctrl+K does not find.
+2. Two of our reports were named for deals: Deal Forecast and How Long Deals
+   Take.
+3. The rail said Lead Assignment for Assignment Rule and Addresses and
+   Contacts for Address And Contacts.
+4. The Source and Campaign section was relabelled Source; ERPNext calls it
+   Analytics.
+
+**Done.**
+
+1. The rows are gone (`patches/opportunity_again`, and the fixture), so every
+   screen says Opportunity, Opportunity From, Opportunity Owner and
+   Opportunity Amount, and a lead turned into one reads Opportunity. Our own
+   words follow: the head's Opportunity Amount and Take This Opportunity, the
+   lead's Opportunity, the calendar's Opportunity Next Steps, OneAI's
+   questions, and the messages.
+2. The reports are Opportunity Forecast and Time in Sales Stage.
+3. The rail says Assignment Rule and Customer Addresses And Contacts, as
+   ERPNext's own Selling sidebar does, and the guard holds OneCRM's rail and
+   labels now.
+4. The section is Analytics again.

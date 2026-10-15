@@ -568,7 +568,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Submission Queue | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Success Action | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | System Settings | **waiting** | **nobody** | events, 2 fields | no | taught |  |  |  |  | ar 8, de 5 |  |
-| Translation | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Translation | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User | through a form's link (Asset Maintenance: assign_to) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  | ar 4, de 4 |  |
 | User Group | opened by our screens | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | User Invitation | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -917,7 +917,7 @@ Pages: books (on a rail or a home).
 ## onedesk / One CRM
 
 
-Reports: Deal Forecast (on a rail or a home); How Long Deals Take (on a rail or a home); Lead Sources (on a rail or a home); Won and Lost (on a rail or a home).
+Reports: Lead Sources (on a rail or a home); Opportunity Forecast (on a rail or a home); Time in Sales Stage (on a rail or a home); Won and Lost (on a rail or a home).
 
 ## onedesk / One Calendar
 

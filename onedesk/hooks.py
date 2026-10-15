@@ -953,9 +953,6 @@ fixtures = [
 	# What a model may be asked to do, and the instruction it is asked with.
 	# A fixture so a new one arrives with a migrate and an edit survives the next.
 	"AI Action",
-	# An Opportunity is called a Deal, in every language One ships. Translation
-	# rows rather than a catalogue, so a workspace can change the word back.
-	{"dt": "Translation", "filters": [["name", "like", "one-deal-%"]]},
 	# The tracker that dates every move of an opportunity's stage.
 	{"dt": "Milestone Tracker", "filters": [["name", "=", "Opportunity-sales_stage"]]},
 	# One list of reasons a deal is lost, on a deal and on its quotation alike.
