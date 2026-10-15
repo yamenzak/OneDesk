@@ -482,7 +482,7 @@ a.one-stat:hover .one-stat-value {
 
 /* The bar across the top of the shell (desk.js `bar`), modelled on Discord's
    and Slack's title bar: Search in the middle, the tools at its right end, on
-   the One mark's own dark core in either theme. Hidden on a phone, where the
+   the rail's surface with the rail's rule under it. Hidden on a phone, where the
    panel's band keeps them. */
 .one-bar {
 	display: none;
@@ -506,6 +506,7 @@ a.one-stat:hover .one-stat-value {
 		align-items: center;
 		height: var(--one-bar-height);
 		padding: 0 8px;
+		border-bottom: 1px solid var(--outline-gray-1);
 		background: var(--one-bar-bg);
 		color: var(--one-bar-ink);
 	}
@@ -610,7 +611,7 @@ a.one-stat:hover .one-stat-value {
 	stroke: currentColor;
 }
 
-/* A count beside its tool, light on the dark bar. */
+/* A count beside its tool, as the rail's were. */
 .one-bar .one-bar-badge {
 	min-width: 16px;
 	height: 16px;
@@ -646,7 +647,7 @@ a.one-stat:hover .one-stat-value {
 .one-bar .one-clock .one-clock-dot {
 	width: 6px;
 	height: 6px;
-	background: var(--one-bar-hover);
+	background: var(--surface-gray-4);
 }
 
 .one-bar .one-clock .one-clock-dot.one-clock-on {

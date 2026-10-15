@@ -13630,8 +13630,10 @@ Discord's.
 
 *Done:*
 
-- **The bar.** 28px across the whole window, on the One mark's dark core in
-  either theme (`--one-bar-*` in `theme.css`). Search is a field in the
+- **The bar.** 28px across the whole window, on the rail's own surface with
+  the rail's rule under it, so the two are one frame (`--one-bar-*` in
+  `theme.css`, frappe's tokens only). A first go on the One mark's dark navy
+  was turned down. Search is a field in the
   middle that says its shortcut; Check In, OneIntake, Timers, Notifications
   and the background tasks sit at its right end, each with its tooltip below
   it and its count beside it (`desk.js` `bar`, `desk.css`). They are frappe's

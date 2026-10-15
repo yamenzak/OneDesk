@@ -49,18 +49,18 @@ html[data-one-theme="one"][data-theme="dark"] {
 	--one-suite-core: #0f172a;
 }
 
-/* The bar across the top of the shell (desk.css), on the mark's dark core in
- * either theme, so what is on it is light in either. */
+/* The bar across the top of the shell (desk.css), on the rail's own surface,
+ * so the two read as one frame around the page, as Discord's do. */
 
 :root {
 	--one-bar-height: 28px;
 	/* What the bar takes off the window's height: none until it is shown. */
 	--one-bar-offset: 0px;
-	--one-bar-bg: var(--one-suite-core);
-	--one-bar-ink: rgba(255, 255, 255, 0.72);
-	--one-bar-ink-strong: #ffffff;
-	--one-bar-fill: rgba(255, 255, 255, 0.1);
-	--one-bar-hover: rgba(255, 255, 255, 0.18);
+	--one-bar-bg: var(--desk-sidebar-bg);
+	--one-bar-ink: var(--ink-gray-6);
+	--one-bar-ink-strong: var(--ink-gray-9);
+	--one-bar-fill: var(--surface-gray-2);
+	--one-bar-hover: var(--dock-tile-hover);
 }
 
 /* OneAI's spectrum, read off the mark itself.

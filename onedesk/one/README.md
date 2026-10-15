@@ -27,7 +27,7 @@ Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
 except **Masters**, which an app's managers see too. Click a group's name to
 fold it away; the quieter ones start folded.
 
-The thin dark bar across the top of every page holds **Search** in the
+The thin bar across the top of every page holds **Search** in the
 middle and **Check In**, **OneIntake**, **Timers** and **Notifications** at its
 right end. A number on one says how much waits there. The rail under it keeps
 only the apps and your picture. On a phone there is no bar, and they are at
