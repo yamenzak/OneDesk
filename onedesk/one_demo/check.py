@@ -3185,6 +3185,23 @@ DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/1
 
 
 @check
+def onehr_a_colleagues_record_opens_for_whoever_may_read_it():
+	"""Karim may read Mariam's record but not Leave Policy or Salary
+	Structure: it opens without a permission error and offers him nothing to
+	assign. Mariam, who assigns them, is offered the salary structures there
+	are."""
+	from onedesk.one_hr import employee
+
+	company = frappe.db.get_value("Employee", _employee("Mariam"), "company")
+	with as_user("karim@one.test"):
+		assert not frappe.has_permission("Leave Policy", "read")
+		assert not frappe.has_permission("Salary Structure", "read")
+		assert not any(employee.get_assignable_masters(company).values())
+	with as_user("mariam@one.test"):
+		assert employee.get_assignable_masters(company)["Salary Structure"] is True
+
+
+@check
 def onehr_tariq_clocks_in_with_his_phone():
 	"""The workspace turns on clocking in. Tariq registers his phone's
 	passkey; clocking with it from a network nobody knows is refused, and from

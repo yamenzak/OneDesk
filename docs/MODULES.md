@@ -426,6 +426,7 @@ No doctypes yet.
 * `onedesk.one_crm.story.read`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
+* `onedesk.one_hr.employee.get_assignable_masters`
 * `onedesk.one_hr.employee.overview`
 * `onedesk.one_hr.employee.passkey_of`
 * `onedesk.one_hr.encashment.rate`

@@ -1733,6 +1733,13 @@ OVERRIDES = [
 		"return self.update_if_holiday(self.end_date)",
 	),
 	(
+		"An employee's Create Assignments menu asks only of what the reader may read",
+		"their question reads Leave Policy, Salary Structure and Shift Schedule whatever the reader may read, so a colleague's record opened on a permission error",
+		"onedesk/one_hr/employee.py",
+		"hrms/hrms/overrides/employee_master.py",
+		'doctype: bool(frappe.get_list(doctype, filters=filters, limit=1, pluck="name"))',
+	),
+	(
 		"Search, Check In, OneIntake, Timers and Notifications sit in a bar across the top of the shell",
 		"their rail lost Search and the bell to the sidebar's band, which a page with a sidebar of its own hides, and with it every way to them; the shell's boxes, each the window's height, are the window less the bar",
 		"onedesk/public/css/desk.css",

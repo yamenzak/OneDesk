@@ -539,9 +539,14 @@ a.one-stat:hover .one-stat-value {
 	}
 }
 
+/* Centred on the window, and on the bar's height above its rule. */
 .one-bar-middle {
 	position: absolute;
+	top: 0;
+	bottom: 0;
 	left: 50%;
+	display: flex;
+	align-items: center;
 	transform: translateX(-50%);
 }
 

@@ -13650,7 +13650,15 @@ Discord's.
 - **On a phone** there is no bar, and the panel's band keeps the rows, as
   before.
 
-*Found on the way:* opening a colleague's employee record as Karim, who may
-read the record but not Leave Policy, says "Insufficient Permission for Leave
-Policy".
+- **The search field** was centred across the window but not down the bar:
+  1.5px above it and 3.5px below. It is centred on the bar's height above its
+  rule now, 2.5px each way, as every button is.
+
+*Found on the way, and fixed:* opening a colleague's employee record as
+Karim, who may read the record but not Leave Policy, said "Insufficient
+Permission for Leave Policy". HRMS's Create Assignments menu asks whether a
+leave policy, salary structure and shift schedule exist without asking
+whether the reader may read them. One asks only of what the reader may read
+(`one_hr/employee.get_assignable_masters`), so Karim gets no error and no
+menu, and HR keeps the menu.
 
