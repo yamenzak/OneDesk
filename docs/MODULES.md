@@ -183,7 +183,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
-* **workspace** — one, one_admin, onecrm, onehr, onehr_setup
+* **workspace** — one, one_admin, onehr, onehr_setup
 
 ## Whitelisted methods
 
@@ -419,13 +419,11 @@ No doctypes yet.
 * `onedesk.one_crm.capture.merge`
 * `onedesk.one_crm.capture.not_duplicate`
 * `onedesk.one_crm.capture.take`
-* `onedesk.one_crm.measure.pipeline`
-* `onedesk.one_crm.measure.weighted`
-* `onedesk.one_crm.measure.win_rate`
-* `onedesk.one_crm.measure.won_this_month`
+* `onedesk.one_crm.home.read`
 * `onedesk.one_crm.next.done`
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
+* `onedesk.one_crm.story.read`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

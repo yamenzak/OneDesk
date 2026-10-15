@@ -8,7 +8,7 @@ from statistics import median
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, get_datetime, get_first_day, getdate, now_datetime, nowdate
+from frappe.utils import add_days, flt, get_datetime, getdate, now_datetime
 
 from onedesk.one_crm import next as next_step
 from onedesk.one_crm import stages
@@ -46,11 +46,19 @@ def closed(deals: list[str] | None = None) -> dict[str, frappe._dict]:
 	return found
 
 
+def company() -> str:
+	"""The workspace's company: One is one company to a workspace."""
+	from erpnext import get_default_company
+
+	return get_default_company()
+
+
 def deals(filters: dict | None = None, fields: tuple = ()) -> list[frappe._dict]:
-	"""The deals the reader may see, with what every measure needs."""
+	"""The deals the reader may see, the company's, with what every measure
+	needs."""
 	return frappe.get_list(
 		"Opportunity",
-		filters=filters or {},
+		filters={"company": company(), **(filters or {})},
 		fields=[
 			"name",
 			"status",
@@ -77,50 +85,6 @@ def value(deal) -> float:
 
 
 # ------------------------------------------------------------------ Home
-
-
-def _card(amount, route: str, fieldtype: str = "Currency") -> dict:
-	return {"value": amount, "fieldtype": fieldtype, "route": ["query-report", route]}
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def pipeline(filters: str | None = None) -> dict:
-	"""What the open deals are worth, leaving out the ones on hold."""
-	open_ = deals(alive())
-	return _card(sum(value(one) for one in open_), "Opportunity Forecast")
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def weighted(filters: str | None = None) -> dict:
-	"""What the open deals are worth, each by its probability, leaving out the
-	ones on hold."""
-	open_ = deals(alive())
-	return _card(sum(value(one) * flt(one.probability) / 100 for one in open_), "Opportunity Forecast")
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def won_this_month(filters: str | None = None) -> dict:
-	"""What was won since the first of the month."""
-	start = get_first_day(nowdate())
-	shut = closed()
-	mine = {one.name: one for one in deals({"name": ["in", list(shut) or [""]]})}
-	return _card(
-		sum(value(mine[name]) for name, one in shut.items() if one.outcome == "Won" and one.on >= start and name in mine),
-		"Won and Lost",
-	)
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def win_rate(filters: str | None = None) -> dict:
-	"""Of the deals closed in the last RATE_DAYS days, the share that was won."""
-	since = getdate(add_days(nowdate(), -RATE_DAYS))
-	visible = set(frappe.get_list("Opportunity", pluck="name", limit=0))
-	recent = [one.outcome for name, one in closed().items() if one.on >= since and name in visible]
-	return _card(rate(recent.count("Won"), recent.count("Lost")), "Won and Lost", fieldtype="Percent")
 
 
 def rate(won: int, lost: int) -> float:

@@ -17,7 +17,6 @@ import atlas
 WAITING = {
 	"erpnext / Accounts": 54,
 	"erpnext / Bulk Transaction": 2,
-	"erpnext / CRM": 3,
 	"erpnext / Communication": 1,
 	"erpnext / EDI": 2,
 	"erpnext / ERPNext Integrations": 1,
@@ -25,7 +24,7 @@ WAITING = {
 	"erpnext / Projects": 2,
 	"erpnext / Quality Management": 9,
 	"erpnext / Regional": 4,
-	"erpnext / Selling": 5,
+	"erpnext / Selling": 4,
 	"erpnext / Setup": 7,
 	"erpnext / Support": 1,
 	"erpnext / Telephony": 4,

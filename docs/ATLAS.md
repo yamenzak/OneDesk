@@ -25,9 +25,9 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 72 | 4 | 20 | 0 |
-| frappe | 33 | 40 | 0 | 141 |
-| erpnext | 195 | 169 | 20 | 101 |
+| onedesk | 73 | 4 | 20 | 0 |
+| frappe | 35 | 38 | 0 | 141 |
+| erpnext | 226 | 142 | 20 | 97 |
 | hrms | 88 | 23 | 0 | 19 |
 
 ## Our screens
@@ -47,6 +47,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | stock (`frontend/src/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | Asset, Asset Maintenance, Bin, Item, Job Card, Material Request, Stock Ledger Entry, Warehouse | – | Bin, Material Request, Purchase Order, Purchase Receipt, Work Order |
 | books (`frontend/src/home/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
+| crm (`frontend/src/home/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
 | lots (`frontend/src/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
 | to_order (`frontend/src/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Project, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | supplier_items (`frontend/src/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
@@ -111,7 +112,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Loyalty Point Entry | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Loyalty Program | through a form's link (Customer: loyalty_program) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Mode of Payment | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Monthly Distribution | through a form's connections (Fiscal Year's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Monthly Distribution | through a form's link (Territory: distribution_id) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Opening Invoice Creation Tool | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | POS Closing Entry | **waiting** | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 4 |  |
@@ -130,7 +131,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pegged Currencies | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  | **none** |  |  |  |  |
-| Pricing Rule | through a form's link (Coupon Code: pricing_rule) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Deferred Accounting | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Payment Reconciliation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Payment Reconciliation Log | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
@@ -209,22 +210,22 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Appointment | on a rail or a home | everybody | 1 settings | yes | general |  | **none** |  |  | ar 3 |  |
-| Appointment Booking Settings | **waiting** | OneCRM, OneHR | untouched | no | general |  |  |  |  | ar 5, de 2 |  |
+| Appointment Booking Settings | on a rail or a home | OneCRM, OneHR | untouched | no | general |  |  |  |  | ar 5, de 2 |  |
 | CRM Settings | on a rail or a home | OneCRM | 6 settings | no | general |  |  |  |  | ar 3, de 2 |  |
 | Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Competitor | through a form's link (Quotation: competitor) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| Competitor | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  | de 1 |  |
 | Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 28 settings | yes | taught | makes it | yes |  |  | ar 3 |  |
-| Market Segment | through a form's link (Prospect: market_segment) | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Market Segment | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes |  |  | ar 4 |  |
-| Opportunity Lost Reason | through a form's link (Opportunity: lost_reason) | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Opportunity Type | **waiting** | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
+| Opportunity Lost Reason | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Opportunity Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  | **none** |  |  | ar 2 |  |
 | Sales Stage | on a rail or a home | OneCRM | events, 3 fields, 2 settings | yes | general |  | yes |  |  |  |  |
 
-Reports: Campaign Efficiency (on a rail or a home); First Response Time for Opportunity (under a list's related reports (Opportunity's list)); Lead Conversion Time (**waiting**); Lead Details (under a list's related reports (Lead's list)); Lead Owner Efficiency (under a list's related reports (Lead's list)); Lost Opportunity (under a list's related reports (Opportunity's list)); Opportunity Summary by Sales Stage (under a list's related reports (Opportunity's list)); Prospects Engaged But Not Converted (under a list's related reports (Lead's list)); Sales Pipeline Analytics (under a list's related reports (Opportunity's list)).
+Reports: Campaign Efficiency (on a rail or a home); First Response Time for Opportunity (on a rail or a home); Lead Conversion Time (on a rail or a home); Lead Details (on a rail or a home); Lead Owner Efficiency (on a rail or a home); Lost Opportunity (on a rail or a home); Opportunity Summary by Sales Stage (on a rail or a home); Prospects Engaged But Not Converted (on a rail or a home); Sales Pipeline Analytics (on a rail or a home).
 
 ## erpnext / Communication
 
@@ -331,7 +332,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 3 fields, 7 settings | yes | taught | makes it | yes |  |  | ar 12, de 9 | Credit Limit Crossed |
 | Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Industry Type | through a form's link (Prospect: industry) | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Industry Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
@@ -340,9 +341,9 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | SMS Center | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 |  |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
-| Selling Settings | **waiting** | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 34, de 30 |  |
+| Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 34, de 30 |  |
 
-Reports: Address And Contacts (on a rail or a home); Available Stock for Packing Items (under a list's related reports (Product Bundle's list)); Customer Acquisition and Loyalty (under a list's related reports (Customer's list)); Customer Credit Balance (on a rail or a home); Customer-wise Item Price (under a list's related reports (Customer's list)); Customers Without Any Sales Transactions (under a list's related reports (Sales Invoice's list)); Inactive Customers (under a list's related reports (Sales Order's list)); Item-wise Sales History (under a list's related reports (Sales Order's list)); Lost Quotations (under a list's related reports (Quotation's list)); Payment Terms Status for Sales Order (under a list's related reports (Sales Order's list)); Pending SO Items For Purchase Request (under a list's related reports (Sales Order's list)); Quotation Trends (under a list's related reports (Quotation's list)); Sales Analytics (under a list's related reports (Sales Order's list)); Sales Order Analysis (under a list's related reports (Sales Order's list)); Sales Order Trends (under a list's related reports (Sales Order's list)); Sales Partner Commission Summary (under a list's related reports (Sales Order's list)); Sales Partner Target Variance based on Item Group (under a list's related reports (Sales Order's list)); Sales Partner Transaction Summary (under a list's related reports (Sales Order's list)); Sales Person Commission Summary (under a list's related reports (Sales Order's list)); Sales Person Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Sales Person-wise Transaction Summary (under a list's related reports (Sales Order's list)); Territory Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Territory-wise Sales (under a list's related reports (Opportunity's list)).
+Reports: Address And Contacts (on a rail or a home); Available Stock for Packing Items (under a list's related reports (Product Bundle's list)); Customer Acquisition and Loyalty (on a rail or a home); Customer Credit Balance (on a rail or a home); Customer-wise Item Price (under a list's related reports (Customer's list)); Customers Without Any Sales Transactions (on a rail or a home); Inactive Customers (on a rail or a home); Item-wise Sales History (on a rail or a home); Lost Quotations (on a rail or a home); Payment Terms Status for Sales Order (under a list's related reports (Sales Order's list)); Pending SO Items For Purchase Request (under a list's related reports (Sales Order's list)); Quotation Trends (on a rail or a home); Sales Analytics (on a rail or a home); Sales Order Analysis (on a rail or a home); Sales Order Trends (on a rail or a home); Sales Partner Commission Summary (under a list's related reports (Sales Order's list)); Sales Partner Target Variance based on Item Group (under a list's related reports (Sales Order's list)); Sales Partner Transaction Summary (under a list's related reports (Sales Order's list)); Sales Person Commission Summary (under a list's related reports (Sales Order's list)); Sales Person Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Sales Person-wise Transaction Summary (on a rail or a home); Territory Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Territory-wise Sales (on a rail or a home).
 
 Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 
@@ -356,7 +357,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
 | Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  | ar 15, de 13 |  |
 | Currency Exchange | **waiting** | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Customer Group | through a form's connections (Payment Terms Template's Connections) | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  | ar 1 |  |
+| Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  | ar 1 |  |
 | Department | through a form's link (Job Opening Template: department) | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Designation | through a form's link (Job Opening Template: designation) | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
@@ -369,11 +370,11 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Party Type | through a form's link (Bank Transaction Rule: party_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Quotation Lost Reason | through a form's link (Quotation: lost_reason) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Sales Partner | through a form's connections (Fiscal Year's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| Sales Partner | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Person | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Terms and Conditions | through a form's link (Request for Quotation: tc_name) | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  | ar 1, de 1 |  |
-| Territory | through a form's connections (Fiscal Year's Connections) | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Terms and Conditions | on a rail or a home | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  | ar 1, de 1 |  |
+| Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Transaction Deletion Record | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | UOM Conversion Factor | **waiting** | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
@@ -715,10 +716,10 @@ Pages: print (**waiting**); print-format-builder (**waiting**).
 | Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Portal Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| UTM Campaign | through a form's link (POS Profile: utm_campaign) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| UTM Campaign | through a form's link (Pricing Rule: campaign) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | UTM Medium | through a form's link (Delivery Note: utm_medium) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| UTM Source | through a form's link (POS Profile: utm_source) | OneCRM, the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Web Form | through a form's link (HR Settings: exit_questionnaire_web_form) | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
+| UTM Source | on a rail or a home | OneCRM, the administrator | untouched | no | general |  | yes |  |  |  |  |
+| Web Form | on a rail or a home | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Web Form Request | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
 | Web Page | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Web Page View | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -918,6 +919,8 @@ Pages: books (on a rail or a home).
 
 
 Reports: Lead Sources (on a rail or a home); Opportunity Forecast (on a rail or a home); Time in Sales Stage (on a rail or a home); Won and Lost (on a rail or a home).
+
+Pages: onecrm (on a rail or a home).
 
 ## onedesk / One Calendar
 

@@ -1111,21 +1111,16 @@ def onecrm_leads_and_deals_as_omar_works_them():
 	call logged and a step done, a lead from the web form taken, a lead that
 	is not the same person cleared and one that is merged, and what OneAI
 	reads and suggests on the way."""
-	from onedesk.one_crm import ai, board, capture, measure, next, record
+	from onedesk.one_crm import ai, board, capture, next, record, story
 
 	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
 	lead = frappe.db.get_value("Lead", {"email_id": "hamad@suwaidi.example"})
 	priya = frappe.db.get_value("Lead", {"email_id": "priya@nairinteriors.example"})
 	khalid = frappe.db.get_value("Lead", {"email_id": "khalid@suwaidi.example"})
 	with as_user("omar@one.test"):
-		figures = {
-			"pipeline": measure.pipeline(),
-			"weighted": measure.weighted(),
-			"won this month": measure.won_this_month(),
-			"win rate": measure.win_rate(),
-		}
+		figures = story.read()["cards"]
 		assert figures["pipeline"]["value"] > figures["weighted"]["value"] > 0, figures
-		assert figures["win rate"]["value"] == 50.0, "one won and one lost in the last months"
+		assert figures["rate"]["value"] == 50.0, "two won and two lost in the last 90 days"
 		stages = board.worth()["stages"]
 		assert sum(one["value"] for one in stages.values()) >= figures["pipeline"]["value"], stages
 		assert record.overview("Opportunity", deal)["next"]
@@ -1151,7 +1146,8 @@ def onecrm_leads_and_deals_as_omar_works_them():
 		assert ai.lead_facts(lead)["history"]
 		assert "quiet" in ai.gone_quiet("Opportunity") and "quiet" in ai.gone_quiet("Lead")
 		lost = ai.why_we_lose()
-		assert lost["won"] == 1 and lost["lost"] == 1 and lost["deals"][0]["reasons"] == ["Price"], lost
+		assert lost["won"] == 6 and lost["lost"] == 6, "a year of selling, and this month's"
+		assert [one["reasons"] for one in lost["deals"] if one["deal"] == "Iqbal Clinics reception"] == [["Price"]], lost
 		assert ai.add_lead("Hamad Al Suwaidi", "hamad@suwaidi.example").get("error"), "a lead we have is not suggested twice"
 		assert ai.add_lead("Joanna Pike", "joanna@pike.example", "Pike Hotels").get("state") == "Proposed"
 		assert ai.plan_next_step("Opportunity", deal, "Call to agree the price", str(add_days(today(), 2))).get("state") == "Proposed"
@@ -5771,6 +5767,37 @@ def onebook_home_tells_how_the_money_is_doing():
 		paid = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Paid", "is_return": 0}, pluck="name", limit=1)
 		done = head.said(frappe.get_doc("Sales Invoice", paid[0]), record)
 		assert done["sentence"]["colour"] == "green" and all(step["state"] == "done" for step in done["band"][0]["steps"]), done
+
+
+@check
+def onecrm_home_tells_how_selling_is_going():
+	"""Omar's Home: a year of selling month by month, the funnel following
+	opportunities to their quotations, orders, invoices and payments as
+	ERPNext links them, the pipeline by stage adding up to its value, every
+	lost one under a reason, Today listing only steps that are set and due,
+	and every row of the directory opening something that exists."""
+	from onedesk.one_crm import home, measure, story
+
+	with as_user("omar@one.test"):
+		told = story.read()
+		said = home.read()
+		cards = told["cards"]
+		assert set(cards) == {"leads", "pipeline", "weighted", "won", "rate", "average"}, set(cards)
+		assert len(cards["won"]["series"]) == story.MONTHS and sum(1 for one in cards["won"]["series"] if one) >= 5, cards["won"]
+		alive = sum(measure.value(one) for one in measure.deals(measure.alive()))
+		assert abs(cards["pipeline"]["value"] - alive) < 0.01
+		staged = sum(one["value"] for one in told["pipeline"]["stages"] if not one["held"])
+		assert abs(staged - alive) < 0.01, (staged, alive)
+		funnel = {one["step"]: one["count"] for one in told["sales"]["funnel"]}
+		assert list(funnel) == list(story.FUNNEL), funnel
+		assert funnel["Opportunity"] >= funnel["Quotation"] >= funnel["Sales Order"] >= funnel["Sales Invoice"] >= funnel["Paid"] >= 1, funnel
+		lost = sum(1 for one in measure.closed().values() if one.outcome == "Lost" and one.on >= getdate(told["months"][0]))
+		assert sum(one["count"] for one in told["pipeline"]["lost"]) >= lost, told["pipeline"]["lost"]
+		due = said["needs"]["opportunities"]["rows"] + said["needs"]["leads"]["rows"]
+		assert due and all(one["on"] for one in due), due
+		for row in said["everything"]:
+			kind = "DocType" if row["kind"] == "Masters" else row["kind"]
+			assert frappe.db.exists(kind, row["target"]), row
 
 
 @check

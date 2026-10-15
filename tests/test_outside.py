@@ -109,8 +109,7 @@ def test_frappes_error_pages_are_ones():
 def test_addresses_and_contacts_is_in_onecrm():
 	"""Gap 11: erpnext's working report of a party's addresses and contacts,
 	opening on customers. frappe's own files every row under the first party."""
-	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())
-	assert "Address And Contacts" in [one.get("link_to") for one in crm["items"]]
+	assert '"Report", "Address And Contacts"' in (tree.APP / "one_crm" / "home.py").read_text()
 	reports = (tree.APP / "public" / "js" / "reports.js").read_text()
 	assert (
 		'"Address And Contacts": { party_type: ["Customer", "Lead", "Supplier", "Sales Partner"] }' in reports

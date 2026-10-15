@@ -126,8 +126,7 @@ def test_a_master_has_one_home():
 		rows = doc.get("items") or doc.get("links") or []
 		linked = {row.get("link_to") for row in rows if row.get("type") == "Link"}
 		assert not linked & held, f"{path.name} links {sorted(linked & held)}, which Masters holds"
-	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())["items"]
-	assert "Sales Stage" in {row.get("link_to") for row in crm}
+	assert '"DocType", "Sales Stage"' in (tree.APP / "one_crm" / "home.py").read_text()
 	js = (PAGE / "masters.js").read_text()
 	assert 'add_custom_action(__("Edit Full Form")' in js and '"tables": _has_tables(meta)' in SOURCE
 

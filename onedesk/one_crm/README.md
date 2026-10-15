@@ -14,8 +14,8 @@ the same record the rest of One reads.
 
 The rail on the left has the whole of OneCRM in it:
 
-- **Home** — *my day*: what is due and what has no next step, and four
-  figures on the pipeline.
+- **Home** — how selling is going, what needs you today, and everything in
+  OneCRM with what it is for.
 - **Lead** — somebody who got in touch, or somebody you want to reach.
 - **Opportunity** — a sale you are working on, with what it is worth and how far it
   has got.
@@ -23,9 +23,10 @@ The rail on the left has the whole of OneCRM in it:
 - **Customer** — somebody who has bought, or is about to.
 - **Prospect** — a business you want to sell to. Its people are contacts, in
   One's **Address Book** with every other app's.
-- **Sales**, **Campaigns**, **Setup** — one group each, opened with the arrow.
-  Quotations, sales orders, appointments, contracts and the four sales reports
-  are under Sales. A sales order is what a won opportunity becomes: OneInventory
+- **Selling** and **Campaign** — one group each, opened with the arrow.
+  Quotations, sales orders, appointments and contracts are under Selling.
+- **Reports** and **Setup** — open their part of Home: every sales report,
+  and every setting and list OneCRM keeps, each with what it is for. A sales order is what a won opportunity becomes: OneInventory
   delivers it and OneBook invoices it. At its top it says its project and
   total, the day what is still to go out was promised (in red once that day
   has passed), and how much has been delivered and billed.
@@ -141,28 +142,53 @@ lead brings the lead's comments and mail with it (CRM Settings).
 
 ### Home
 
-Home is your day, counting only your own leads and opportunities that are still open:
+Home opens on six figures, each opening the report behind it:
 
-- **Opportunities Due** and **Leads Due** — a next step due today or already overdue.
-- **Unplanned Opportunities** and **Unplanned Leads** — nothing planned next.
-- **Unclaimed Leads** — new leads nobody has taken yet, everybody's to see.
-- **New Lead** and **Pipeline**, the two places most days start.
-
-Each count opens the list it counts.
-
-### Reports and figures
-
-Under Home's **My Day** is **The Pipeline**: four figures, each opening the
-report behind it.
-
-- **Pipeline Value** — what the open opportunities are worth, leaving out the ones on
-  hold.
+- **Leads This Month** — how many came in, against last month.
+- **Pipeline Value** — what the open opportunities are worth, leaving out the
+  ones on hold.
 - **Weighted Pipeline** — the same, each opportunity counted at its probability.
-- **Won This Month** — what was won since the first of the month.
-- **Win Rate (90 Days)** — of the opportunities won or lost in the last 90 days, the
-  share that was won.
+- **Won This Month** — what was won since the first of the month, with the
+  months before it.
+- **Win Rate (90 Days)** — of the opportunities won or lost in the last 90
+  days, the share that was won.
+- **Average Won Value** — what an opportunity won in the last year was worth.
 
-Four reports, in the **Sales** group:
+Under them, **Overview** tells how selling is going, in three parts:
+
+- **Selling** — the **Funnel Conversion**: of the opportunities of the last
+  twelve months, how many got a quotation, a sales order, a sales invoice, and
+  were paid. Then the **Sales Trend**, leads, opportunities and wins month by
+  month, and **Forecasted Revenue**, what was won each month beside what the
+  open opportunities should bring in the months they are expected to close,
+  each at its probability.
+- **Sales Pipeline** — what the open opportunities are worth in each stage,
+  On Hold in amber; each owner's pipeline beside what they won; and why
+  opportunities were lost.
+- **Source** — where leads came from and how many became opportunities, what
+  was won from each source, and the pipeline by territory.
+
+Click a part of a chart to open what it counts.
+
+**Today** is your day, counting only your own leads and opportunities that
+are still open:
+
+- **Opportunities Due** and **Leads Due** — a next step due today or already
+  overdue.
+- **Past Expected Closing Date** — open opportunities whose day to close has
+  gone.
+- **Unclaimed Leads** — new leads nobody has taken yet, everybody's to see.
+- **Quotations Expiring** — open quotations whose Valid Till is this week.
+- **No Next Step** — nothing planned next.
+- **Left as Drafts** — quotations and sales orders you started more than a
+  day ago.
+
+**Everything**, **Reports** and **Setup** list every screen, report and
+setting of OneCRM, each with a line on what it is for, and a search.
+
+### Reports
+
+Four reports of OneCRM's own, under **Reports** with ERPNext's:
 
 - **Opportunity Forecast** — the open opportunities, except those on hold, by the month they
   are expected to close, with their value, their weighted value, and what was
@@ -215,8 +241,8 @@ gone quiet. Move it back to any stage when it starts again.
 
 Every move is recorded with the date, so how long an opportunity has sat in a stage is
 known, and so is how long opportunities usually sit there: the middle of the stays
-that ended in the last year, once there are three. **Time in Sales Stage**, in
-the Sales group, has it for every stage — how many opportunities passed through, the
+that ended in the last year, once there are three. **Time in Sales Stage**, under
+Reports, has it for every stage — how many opportunities passed through, the
 usual and the longest stay, how many are in it now and how many of those have
 been there longer than usual — and a last row, **To Win**, from an opportunity coming
 in to its being won. Filter it by dates and by Opportunity Owner.
@@ -281,14 +307,17 @@ the last contact and times the first reply. Anybody in sales may approve one.
 
 ## Setup
 
-**Sales Person**, **Sales Stage**, **Assignment Rule**, **Get in Touch Form**
-and **CRM Settings** are in the Setup group. Territories, customer groups,
-industries, market segments, lead sources and lost reasons are in One's
-**Masters**. **Campaigns** has Campaign, Email Campaign, Email Group
-and Campaign Efficiency. The workspace's mailboxes are in Settings › Mail.
+**Setup** in the rail opens Home's Setup: **CRM Settings**, **Selling
+Settings**, **Get in Touch Form**, **Sales Stage**, **Sales Person**,
+**Assignment Rule**, the lists a lead and an opportunity are sorted by —
+**Lead Source**, **Opportunity Lost Reason**, **Territory**, **Customer Group**,
+**Industry Type**, **Market Segment** — and the prices and terms a quotation
+carries. The lists are kept in One's **Masters**. **Campaign** in the rail has
+Campaign, Email Campaign and Email Group; Campaign Efficiency is under
+Reports. The workspace's mailboxes are in Settings › Mail.
 
-A Sales Manager runs Email Campaign, Email Group, Lead Source and Lead
-Assignment, and a Sales User reads them. ERPNext gives them only to its
+A Sales Manager runs Email Campaign, Email Group, Lead Source and Assignment
+Rule, and a Sales User reads them. ERPNext gives them only to its
 System Manager and a Newsletter Manager nobody is given here (`access.py`).
 
 **Forms carry what a small business fills in.** A lead asks for a name, job
@@ -452,6 +481,16 @@ Four ideas in it are worth having here, and each is a stage:
     it — replacing `one_first_reply_at` — and the agreement needs a holiday
     list, which a new site has only after its setup wizard.
 
+After Frappe CRM was read (docs/PASSOVER-LOG.md, OneCRM), two more:
+
+14. **ERPNext's names.** *Done* — `patches/opportunity_again`. The Translation
+    rows that called an Opportunity a Deal are gone, and with them the word
+    on every screen.
+15. **Home tells the story.** *Done* — `page/onecrm`, `home.py`, `story.py`,
+    `chain.py`. The workspace and its four number cards gave way to a page
+    like OneBook's, with Frappe CRM's dashboard and a funnel that follows a
+    sale to its payment.
+
 Left behind, with the reason: its own stage, stage-log and call doctypes
 (Sales Stage with three fields, Milestone and Call Log do the same); a chart
 on every screen (the reports and Home's four figures answer the questions);
@@ -481,7 +520,7 @@ added: contracts stay with ERPNext's roles.
   hand from a lead's or opportunity's page, and OneAI suggests one from what they
   said about a call, which they approve as themselves. They may now read,
   make and correct one.
-- Only a **System Manager** could open what the Campaigns and Setup groups
+- Only a **System Manager** could open what the Campaign group and Setup
   link to: Email Campaign, Email Group, Lead Source and Assignment Rule. A
   Sales Manager now runs them and a Sales User reads them (`GIVEN`).
 - A **Sales Manager** keeps the Assignment Rules that share out leads and
@@ -559,6 +598,17 @@ comments and mail; ERPNext's own refusal of a second lead with the same email
 is off, and capture's own rules decide instead; the Source (UTM) section is
 shown.
 
+### chain.py
+
+ERPNext links each paper of a sale to the one before it and nothing back: a
+Quotation names its opportunity, a Sales Order Item its quotation
+(`prevdoc_docname`), a Sales Invoice Item its order. So nothing on an
+opportunity knows what it became. `follow` walks the chain forward for many
+opportunities at once, each paper as the reader may see it, and `reached`
+says how far one got: a submitted quotation, order and invoice, and Paid once
+every invoice is. Home's funnel counts it; Frappe CRM's own deal stops at its
+quotations, because it has no orders or invoices of its own to follow.
+
 ### deal.py
 
 ERPNext works out `base_opportunity_amount` only in the form's script, so an
@@ -582,6 +632,15 @@ A time since ("yesterday") is sent as the moment itself (`when`), and the
 desk says it with frappe's own `prettyDate` when it draws the band, so it
 reads as every other time on the desk does.
 
+### home.py
+
+What needs the reader today, and the directory behind Everything, Reports and
+Setup: OneBook's `home.py` laid over sales. A due step is asked to be set as
+well as due, since frappe compares an empty date as the first day there is
+and would count every lead with no step as overdue. Each row of the
+directory is called what ERPNext calls what it opens, a filtered list as
+ERPNext's own sidebar calls it.
+
 ### measure.py
 
 **When an opportunity was won or lost** is the Milestone that recorded it reaching a
@@ -596,9 +655,8 @@ is an opportunity arriving in a stage, and it left when the next one was written
 over the last year — the median, so one opportunity forgotten for a year does not make
 every other opportunity look quick.
 
-The four figures on Home are Custom number cards, so each is worked out in
-`measure.py` through the reader's own permissions and opens the report behind
-it.
+The figures on Home are worked out in `story.py` from `measure.py`, through
+the reader's own permissions.
 
 ### next.py
 
@@ -647,3 +705,13 @@ the weighted value and the forecast leave it out (`measure.alive`).
 
 Stage changes are recorded by frappe's Milestone Tracker, a fixture, so the
 day an opportunity reached its stage is a row rather than a guess.
+
+### story.py
+
+Frappe CRM's dashboard over ERPNext's records: its figures, sales trend,
+forecasted revenue, funnel, stages, lost reasons, sources and territories,
+for the last twelve months. Won and lost are read from `measure.closed`, so a
+month is the month it was won, not the last time anybody edited it. The
+funnel is ours: Frappe CRM's runs Lead, Deal, Won from its status log, which a
+sale that goes on to be ordered, billed and paid outgrows, so ours counts the
+papers `chain.py` follows.

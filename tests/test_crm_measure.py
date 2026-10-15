@@ -33,14 +33,14 @@ def test_no_report_or_card_measures_by_modified():
 		assert '"modified"' not in path.read_text(encoding="utf-8"), path.name
 
 
-def test_every_card_on_home_is_ours_and_worked_out_here():
-	workspace = json.loads((CRM / "workspace" / "onecrm" / "onecrm.json").read_text())
-	source = (CRM / "measure.py").read_text(encoding="utf-8")
-	for row in workspace["number_cards"]:
-		folder = row["number_card_name"].lower().replace(" ", "_").replace("(", "").replace(")", "")
-		card = json.loads((CRM / "number_card" / folder / f"{folder}.json").read_text())
-		assert card["type"] == "Custom" and card["module"] == "One CRM"
-		assert f"def {card['method'].rsplit('.', 1)[1]}(" in source
+def test_every_card_on_home_is_worked_out_in_the_story():
+	"""Home is a page; its figures are story.py's, and the workspace and its
+	number cards are gone."""
+	assert not (CRM / "workspace").exists() and not (CRM / "number_card").exists()
+	story = (CRM / "story.py").read_text(encoding="utf-8")
+	page = (tree.ROOT / "frontend" / "src" / "home" / "CrmHome.vue").read_text(encoding="utf-8")
+	for key in ("leads", "pipeline", "weighted", "won", "rate", "average"):
+		assert f'"{key}"' in story and f'key: "{key}"' in page, key
 
 
 def test_a_deal_and_its_quotation_share_one_list_of_reasons():

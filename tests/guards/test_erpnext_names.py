@@ -21,7 +21,7 @@ RAILS = {
 }
 
 #: The pages a module opens on, titled for the module.
-HOMES = ("inventory", "my-tasks", "books")
+HOMES = ("inventory", "my-tasks", "books", "onecrm")
 
 #: The custom files whose labels are these three modules' to keep: their own,
 #: and Timesheet's, which sits on OneProject's rail and is OneHR's file.

@@ -114,7 +114,8 @@ def test_a_deal_on_hold_is_open_and_out_of_the_pipeline():
 	assert 'now != "Open"' not in source
 	assert source.count("in CLOSED") >= 3
 	measure = (tree.APP / "one_crm" / "measure.py").read_text()
-	assert measure.count("deals(alive())") == 2 and "stages.held()" in measure
+	story = (tree.APP / "one_crm" / "story.py").read_text()
+	assert story.count("measure.deals(measure.alive()") >= 4 and "stages.held()" in measure
 	forecast = (tree.APP / "one_crm" / "report" / "opportunity_forecast" / "opportunity_forecast.py").read_text()
 	assert "measure.alive()" in forecast
 

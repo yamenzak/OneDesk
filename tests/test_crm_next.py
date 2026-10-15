@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 NEXT = tree.APP / "one_crm" / "next.py"
-WORKSPACE = tree.APP / "one_crm" / "workspace" / "onecrm" / "onecrm.json"
+HOME = tree.APP / "one_crm" / "home.py"
 ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext/crm/doctype")
 
 
@@ -29,21 +29,11 @@ def test_every_open_status_is_one_erpnext_has():
 
 
 def test_home_counts_what_the_reminders_count_as_open():
-	"""Home's shortcuts are frappe filter expressions, so the open statuses are
-	written there a second time; they must be the same list."""
-	shortcuts = json.loads(WORKSPACE.read_text(encoding="utf-8"))["shortcuts"]
-	open_ = _constant("OPEN")
-	owner = _constant("OWNER")
-	mine = [one for one in shortcuts if "frappe.session.user" in one["stats_filter"]]
-	assert len(mine) == 4
-	for one in shortcuts:
-		said = re.search(r'"status","in",(\[[^\]]*\])', one["stats_filter"])
-		if said:
-			assert tuple(json.loads(said.group(1))) == open_[one["link_to"]], one["label"]
-	for one in mine:
-		doctype = one["link_to"]
-		assert f'"{owner[doctype]}","=",frappe.session.user' in one["stats_filter"], one["label"]
-		assert one.get("format") == "{}", "a count of 0 draws an empty badge without a format"
+	"""Today reads the open statuses and the owner from next.py itself, so
+	what it counts as due is what is reminded."""
+	home = HOME.read_text(encoding="utf-8")
+	assert 'next_step.OPEN[doctype]' in home and "next_step.OWNER[doctype]" in home
+	assert '"one_next_on", "is", "set" if due else "not set"' in home, "an empty step is never due"
 
 
 def test_both_records_carry_the_step_and_remind():

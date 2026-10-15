@@ -8,6 +8,7 @@ import frappe
 
 #: What says when each happened, by doctype.
 DATES = {
+	"Opportunity": "transaction_date",
 	"Quotation": "transaction_date",
 	"Sales Order": "transaction_date",
 	"Delivery Note": "posting_date",

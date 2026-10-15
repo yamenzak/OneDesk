@@ -13368,3 +13368,47 @@ Crescent Schools' opportunity and Webb Hospitality's lead.
    ERPNext's own Selling sidebar does, and the guard holds OneCRM's rail and
    labels now.
 4. The section is Analytics again.
+
+### OneCRM: Home tells how selling is going
+
+Looked at as Omar: Home at a desk and on a phone, Today, Reports and Setup.
+
+**Found.**
+
+1. Home was a workspace of seven buttons and four figures. Nothing said how
+   selling was going over time, where the pipeline stood or why opportunities
+   were lost; Frappe CRM's dashboard says it in eight charts.
+2. Nothing followed an opportunity past its quotation. ERPNext links each
+   paper only to the one before it, so whether a won opportunity was ordered,
+   billed and paid was three lists away.
+3. The demo's selling was all this month, so no chart had months to draw.
+4. The rail carried five reports in Selling and a Setup group of six, while
+   ERPNext's own CRM and Selling sidebars have some twenty sales reports that
+   were reachable only from a list's menu.
+
+**Done.**
+
+1. Home is the `onecrm` page, laid out as OneBook's (`home.py`, `story.py`,
+   `CrmHome.vue`, `CrmStory.vue`): six figures (Leads This Month, Pipeline
+   Value, Weighted Pipeline, Won This Month, Win Rate (90 Days), Average Won
+   Value); Overview with Frappe CRM's charts in three parts, Selling, Sales
+   Pipeline and Source; Today (opportunities and leads due, past their
+   closing date, unclaimed leads, quotations expiring this week, no next step,
+   drafts); and Everything, Reports and Setup, fifty-nine rows each called what
+   it opens. The workspace and its number cards are gone
+   (`patches/home_is_a_page`). `/desk/crm` is ERPNext's CRM workspace, so the
+   page is `onecrm`, where the old workspace was.
+2. `chain.py` follows an opportunity forward to its quotations, orders and
+   invoices, and Home's Funnel Conversion counts it: of 19 opportunities of
+   the last twelve months, 15 were quoted, 6 ordered, 4 invoiced and 3 paid.
+3. The demo has a year of selling: ten opportunities won and lost month by
+   month, the won ones ordered, billed and paid as far as each got, and eleven
+   leads, each on its own day (`one_demo/crm.py`, `history.py` now moves an
+   opportunity to its date).
+4. The rail is Home, Lead, Opportunity, Pipeline, Customer, Prospect, Selling,
+   Campaign, Reports and Setup. Reports lists OneCRM's four beside
+   twenty-two of ERPNext's, in four topics; Setup has the settings, stages,
+   people, lists and prices. Today asks a due step to be set as well, since
+   frappe compares an empty date as the earliest there is.
+
+Demo check `onecrm_home_tells_how_selling_is_going`.
