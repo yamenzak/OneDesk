@@ -197,6 +197,8 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"oneinventory_stock.on_hand": (ROOT / "frontend" / "src" / "stock" / "StockOnHand.vue").read_text(),
 		"oneinventory_floor.shown": (ROOT / "frontend" / "src" / "floor" / "ShopFloor.vue").read_text(),
 		"oneinventory_home.shown": (ROOT / "frontend" / "src" / "home" / "InventoryHome.vue").read_text(),
+		"onecrm_home.shown": (ROOT / "frontend" / "src" / "home" / "CrmHome.vue").read_text(),
+		"onebook_home.shown": (ROOT / "frontend" / "src" / "home" / "BooksHome.vue").read_text(),
 		"oneinventory_lots.shown": (ROOT / "frontend" / "src" / "lots" / "LotsPage.vue").read_text(),
 		"oneinventory_order.shown": (ROOT / "frontend" / "src" / "to_order" / "ToOrderPage.vue").read_text(),
 		"oneinventory_quotes.shown": (ROOT / "frontend" / "src" / "quotes" / "QuotesPage.vue").read_text(),

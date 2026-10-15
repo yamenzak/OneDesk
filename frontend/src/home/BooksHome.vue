@@ -12,6 +12,7 @@
       <div v-if="cards.length" ref="cardsRoot" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
+      <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
       <!-- Overview: what needs somebody, then the story of the money. -->
@@ -54,11 +55,11 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, setQuery } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, onedesk, setQuery } from "../kit";
 import BooksStory from "./BooksStory.vue";
 
 const props = defineProps({
@@ -266,6 +267,7 @@ const parts = computed(() => {
 function report() {
   const s = said.value;
   props.onTitle?.({ title: __("OneBook") });
+  extended(s);
   const can = (doctype) => s.everything.some((one) => one.kind === "DocType" && one.target === doctype);
   props.onActions?.(
     [
@@ -275,5 +277,25 @@ function report() {
       can("Journal Entry") && { label: __("New Journal Entry"), onClick: () => newDoc("Journal Entry") },
     ].filter(Boolean)
   );
+}
+
+// The page is a place (one_studio/places.py): its extensions are told what
+// needs the reader, and may add a note or a button.
+const placed = reactive({ notes: [], actions: [] });
+let drawn = null;
+function extended(s) {
+  const places = onedesk().places;
+  if (!places?.listening("onebook_home.shown")) return;
+  const n = s.needs;
+  const data = { home: { overdue: n.overdue.count, bills: n.bills.count, bank: n.bank.count, drafts: n.drafts.reduce((sum, one) => sum + one.count, 0) } };
+  const now = JSON.stringify(data);
+  if (now === drawn) return;
+  drawn = now;
+  placed.notes = [];
+  placed.actions = [];
+  places.emit("onebook_home.shown", data, {
+    note: (text, tone) => placed.notes.push({ text: String(text || ""), tone }),
+    action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
+  });
 }
 </script>

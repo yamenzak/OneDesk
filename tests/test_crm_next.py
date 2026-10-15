@@ -41,7 +41,8 @@ def test_both_records_carry_the_step_and_remind():
 	for doctype in ("lead", "opportunity"):
 		custom = json.loads((tree.APP / "one_crm" / "custom" / f"{doctype}.json").read_text())
 		assert {"one_next_step", "one_next_on"} <= {f["fieldname"] for f in custom["custom_fields"]}
-	assert hooks.count('"onedesk.one_crm.next.on_update"') == 2
+	assert '"onedesk.one_crm.tell.due"' in hooks, "a step come due is told every five minutes"
+	assert (tree.APP / "notifications" / "one_crm" / "next_step_due.md").exists()
 
 
 def test_the_form_offers_a_next_step_where_the_server_reminds():

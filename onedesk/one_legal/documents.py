@@ -114,9 +114,9 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 23: OneInventory keeps who holds which equipment, and the handover they sign.
+		# 24: OneCRM keeps leads from its form and inbox, matched by email, phone and business.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 23,
+		"revision": 24,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -128,10 +128,9 @@ DOCUMENTS = {
 	"dpa": {
 		"title": "Data Processing Addendum",
 		"audience": "customer",
-		# 2: the whole of the data in one download when the agreement ends.
-		# 3: a webhook is the organisation's instruction; its recipient is theirs.
-		# 4: the portal, whom a workspace lets see which of its records.
-		"revision": 4,
+		# 5: OneCRM's form visitors and email campaigns are the organisation's to answer for.
+		# Earlier revisions: README.md, documents.py.
+		"revision": 5,
 		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
 	},
 	"subprocessors": {
@@ -145,9 +144,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 20: what OneAI reads and drafts in OneInventory, equipment included.
+		# 21: what OneAI reads and drafts in OneCRM, business cards included.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 20,
+		"revision": 21,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

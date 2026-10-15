@@ -1,7 +1,7 @@
 """What happens next on a lead or a deal, and when.
 
-Two fields on the record rather than a ToDo. The owner is reminded at the time
-with frappe's own Reminder.
+Two fields on the record rather than a ToDo. The owner is told when it comes due
+(tell.py's `due`, the Next Step Due notification).
 """
 
 from typing import Annotated
@@ -9,7 +9,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 from frappe.query_builder.functions import IfNull
-from frappe.utils import escape_html, format_datetime, get_datetime, now_datetime
+from frappe.utils import escape_html, format_datetime
 
 #: The statuses in which somebody still has something to do.
 OPEN = {
@@ -33,41 +33,6 @@ def settle() -> None:
 		.where(table.owner != "Guest")
 		.run()
 	)
-
-
-def on_update(doc, method=None) -> None:
-	"""Keep one reminder per record, at the step's time, for the record's owner."""
-	before = doc.get_doc_before_save()
-	moved = not before or (before.one_next_on, before.one_next_step, before.get(OWNER[doc.doctype])) != (
-		doc.one_next_on,
-		doc.one_next_step,
-		doc.get(OWNER[doc.doctype]),
-	)
-	if moved:
-		remind(doc)
-
-
-def remind(doc) -> None:
-	frappe.db.delete(
-		"Reminder", {"reminder_doctype": doc.doctype, "reminder_docname": doc.name, "notified": 0}
-	)
-	if not doc.one_next_on or get_datetime(doc.one_next_on) <= now_datetime():
-		return
-	if doc.get("status") not in OPEN[doc.doctype]:
-		return
-	reminder = frappe.get_doc(
-		{
-			"doctype": "Reminder",
-			"remind_at": doc.one_next_on,
-			"description": f"{doc.one_next_step or _('Next Step')}: {doc.get('title') or doc.name}",
-			"reminder_doctype": doc.doctype,
-			"reminder_docname": doc.name,
-		}
-	).insert(ignore_permissions=True)
-	# A Reminder is always the saver's; the step is the owner's.
-	owner = doc.get(OWNER[doc.doctype])
-	if owner and owner != reminder.user:
-		reminder.db_set("user", owner)
 
 
 @frappe.whitelist(methods=["POST"])

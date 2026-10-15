@@ -158,8 +158,13 @@ scheduler_events = {
 		# Readings that waited for credits are tried again, and files that were
 		# never read are caught up. See one_intake/pipeline.py.
 		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
-		# An interview starting soon, told to its interviewers. See one_hr/tell.py.
-		"*/5 * * * *": ["onedesk.one_hr.tell.interviews_soon", "onedesk.one_calendar.tell.soon"],
+		# An interview starting soon, an event, a lead's or opportunity's next step
+		# come due. See one_hr/tell.py, one_calendar/tell.py, one_crm/tell.py.
+		"*/5 * * * *": [
+			"onedesk.one_hr.tell.interviews_soon",
+			"onedesk.one_calendar.tell.soon",
+			"onedesk.one_crm.tell.due",
+		],
 		# Each person's day, in the morning. See one_calendar/tell.py.
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		# Each person's tasks due today and late. See one_task/tell.py.
@@ -759,14 +764,12 @@ doc_events = {
 	"Opportunity": {
 		"before_validate": "onedesk.one_crm.stages.before_validate",
 		"validate": "onedesk.one_crm.deal.validate",
-		"on_update": "onedesk.one_crm.next.on_update",
 	},
-	# The owner is reminded of the next step (one_crm/next.py), and a lead that
-	# already exists is found rather than made twice (one_crm/capture.py).
+	# A lead that already exists is found rather than made twice
+	# (one_crm/capture.py).
 	"Lead": {
 		"before_insert": "onedesk.one_crm.capture.before_insert",
 		"on_update": [
-			"onedesk.one_crm.next.on_update",
 			# A lead without a picture gets their face, or their company's logo.
 			# See one_mail/faces.py.
 			"onedesk.one_mail.faces.dress_later",
@@ -1591,6 +1594,7 @@ one_ai_page = [
 	"onedesk.one_inventory.ai.page",
 	"onedesk.one_admin.ai.page",
 	"onedesk.one_project.ai.page",
+	"onedesk.one_crm.ai.page",
 ]
 
 # Kinds of record whose home is one of a module's pages rather than their own

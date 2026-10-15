@@ -5798,6 +5798,11 @@ def onecrm_home_tells_how_selling_is_going():
 		for row in said["everything"]:
 			kind = "DocType" if row["kind"] == "Masters" else row["kind"]
 			assert frappe.db.exists(kind, row["target"]), row
+		from onedesk.one_ai import chat, suggest
+
+		offered = [one["label"] for one in suggest.for_page({"page": "onecrm"})]
+		assert "Why are we losing opportunities?" in offered, offered
+		assert "OneCRM's Home" in chat._page({"page": "onecrm"})
 
 
 @check
@@ -5851,6 +5856,24 @@ def onecrm_campaigns_prospects_and_meetings():
 		assert meeting and meeting[0].calendar_event, meeting
 		event = frappe.get_doc("Event", meeting[0].calendar_event)
 		assert event.event_type == "Private" and event.owner == "omar@one.test", (event.event_type, event.owner)
+
+
+@check
+def onecrm_a_next_step_come_due_is_told_once():
+	"""A step come due on Omar's opportunity reaches him as Next Step Due, in
+	its words, once however often the scheduler looks."""
+	from unittest.mock import patch
+
+	from onedesk.one_crm import tell
+
+	deal = frappe.db.get_value("Opportunity", {"title": "Nordlicht second showroom"})
+	frappe.db.set_value("Opportunity", deal, {"one_next_step": "Send the workshop agenda", "one_next_on": add_to_date(now_datetime(), minutes=-1)})
+	told = []
+	with patch("onedesk.one.notify.notify", side_effect=lambda name, users, **said: told.append((name, users, said))):
+		tell.due()
+		tell.due()
+	assert [(name, users) for name, users, _said in told] == [("Next Step Due", "omar@one.test")], told
+	assert told[0][2]["step"] == "Send the workshop agenda" and told[0][2]["title"] == "Nordlicht second showroom", told
 
 
 @check

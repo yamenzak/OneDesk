@@ -490,7 +490,7 @@ Reports: YouTube Interactions (**waiting**).
 | Automation Trigger Queue | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |
 | Milestone | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | Milestone Tracker | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Reminder | **waiting** | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Reminder | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
 
 ## frappe / Contacts
 

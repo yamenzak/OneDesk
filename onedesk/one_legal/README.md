@@ -215,6 +215,8 @@ person acknowledges it.
   project's Time view shows each person's hours, and their cost only to those
   who see timesheet rates. 23, OneInventory keeps who holds which equipment,
   shows it to the stores and HR, and prints a handover for them to sign.
+  24, OneCRM keeps leads from its Get in Touch form and the inbox, compared by
+  email, phone and business name.
 - AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
   calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
   tasks and their steps. 8, OneAI writes extensions, read a second time, and
@@ -231,6 +233,12 @@ person acknowledges it.
   person logged on it. 19, OneAI suggests a change to a task, made only when
   you approve it. 20, OneAI reads OneInventory as you see it, equipment and
   who holds it included, and drafts what it suggests there for you to approve.
+  21, OneAI reads a lead or an opportunity with its history, and a business
+  card or a signature, and suggests a lead, a call or a next step.
+- Data Processing Addendum: 2, the whole of the data in one download when the
+  agreement ends. 3, a webhook is the organisation's instruction, its recipient
+  theirs. 4, the portal, whom a workspace lets see which of its records. 5, the people a workspace's Get in Touch form and
+  email campaigns reach are the organisation's to tell and answer for.
 
 ### gate.py
 

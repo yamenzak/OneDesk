@@ -13491,3 +13491,63 @@ Selling; Campaign, Email Campaign and Email Group; Prospect; Customer.
 
 Demo check `onecrm_campaigns_prospects_and_meetings`. The Customer list's ID
 column repeats the name, as every list named by its title does; frappe's.
+
+### OneCRM against the seventeen points
+
+Every point read against OneCRM as it stands after the walk: the Home page,
+Lead, Opportunity, the Pipeline, Customer, Prospect, the Selling and Campaign
+groups, Reports and Setup.
+
+1. **Demo coverage.** Every screen has records: a year of opportunities won
+   and lost, leads from every source, a prospect, a booked meeting, two
+   campaigns, an email group and a mail campaign. Seven demo checks
+   (`onecrm_…`) cover them.
+2. **Rules on the server.** The stage, the probability, the reasons for a
+   loss, duplicates, the owner and the meeting's calendar are each a hook.
+   The heads and Home only read.
+3. **Hand-offs.** A year of opportunities runs from quotation to sales order,
+   delivery, invoice and payment in the demo, and the README's Connections
+   say each.
+4. **Tier declared.** `onecrm` is in `tiers.SCREENS`. Lead, Opportunity,
+   Sales Order and Contract have heads.
+5. **Our look.** Home is frappe-ui charts and kit parts, laid out as OneBook's
+   and OneInventory's Homes.
+6. **Nothing lost.** OneCRM has no record page of its own. Every record is
+   frappe's form with a head.
+7. **Extensible.** *Found:* the old workspace was a place (`space.home`), and
+   the page that replaced it was not, nor was OneBook's. *Done:* both Homes are
+   places, `onecrm_home` and `onebook_home`, telling an extension what needs
+   the reader and lending it a note or a button, as OneInventory's does.
+8. **Built from frappe.** frappe-ui's NumberCard, LineChart, BarChart,
+   FunnelChart and DonutChart. Money goes through frappe's formatting.
+9. **Overrides recorded.** Status colours, the appointment's calendar, and
+   every earlier one.
+10. **Notifications.** *Found:* a next step's reminder was frappe's own
+    Reminder, a bell entry nobody could switch off or reword in Settings ›
+    Notifications. *Done:* it is One's Next Step Due
+    (`notifications/one_crm/next_step_due.md`), sent by `tell.due` every five
+    minutes, once per step. The Reminders still waiting were removed
+    (`patches/next_step_is_ours`).
+11. **Printed.** Quotation, Sales Order and Contract print as One Quotation,
+    One Sales Order and One Contract. A lead and an opportunity never leave
+    the company.
+12. **Plain words.** ERPNext's names throughout, and the guard holds the rail.
+13. **Documented, and OneAI knows.** *Found:* Home's OneAI suggestions were
+    keyed to the workspace that is gone, so the panel offered nothing there,
+    and OneAI was not told what the page is. *Done:* they are keyed to
+    `page:onecrm`, and `ai.page` tells OneAI what Home shows.
+14. **Intake.** A business card, an enquiry and an order from a lead are
+    samples, and the suite has Intake handle each.
+15. **Permissions.** Unchanged from the walk (`access.py`). Every part of Home
+    reads as the reader may see it, and the company's only.
+16. **Legal.** *Found:* OneCRM had no `legal.py`. It keeps the people a
+    workspace sells to, takes leads from a public form and an inbox, matches
+    them, and mails campaigns, and no agreement said so. *Done:*
+    `one_crm/legal.py` declares it: the Privacy Policy (24), the Data
+    Processing Addendum (5) and the AI Addendum (21). Everybody agrees again,
+    as they should.
+17. **Clean code.** The notification goes out from `tell.py`, the clauses
+    live in `legal.py`, and each has its README section.
+
+Left for OneBook's own pass: it has no `ai.py`, so OneAI has no suggestions
+and no sentence on its Home either.

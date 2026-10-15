@@ -104,7 +104,7 @@ SUGGESTIONS = {
 			"view": "List",
 		},
 	],
-	"workspace:OneCRM": [
+	"page:onecrm": [
 		{
 			"label": _lt("Which opportunities have gone quiet?"),
 			"ask": _lt("Which open opportunities have gone quiet: nobody has spoken to them for two weeks and nothing "
@@ -128,6 +128,18 @@ SUGGESTIONS = {
 		},
 	],
 }
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on OneCRM's Home."""
+	if said.get("page") != "onecrm":
+		return None
+	return (
+		"The reader is on OneCRM's Home, which shows the leads that came in, what the open opportunities are "
+		"worth, what was won, the win rate, the funnel from opportunity to quotation, sales order, invoice and "
+		"payment, and today's next steps, unclaimed leads and quotations running out. gone_quiet and why_we_lose "
+		"read the pipeline; how each part works is in OneCRM's documentation (how_to)."
+	)
 
 #: What each record type is called when talking to a person.
 CALLED = {"Lead": "lead", "Opportunity": "deal"}

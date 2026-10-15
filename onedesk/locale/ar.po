@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-15 07:11+0000\n"
+"POT-Creation-Date: 2026-10-15 11:53+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -56,7 +56,7 @@ msgstr "+{0} أخرى"
 msgid "1 Batch Expiring Soon"
 msgstr "دفعة واحدة تنتهي صلاحيتها قريبًا"
 
-#: frontend/src/home/BooksHome.vue:158 frontend/src/home/CrmHome.vue:163
+#: frontend/src/home/BooksHome.vue:159 frontend/src/home/CrmHome.vue:164
 #: frontend/src/home/InventoryHome.vue:160
 msgid "1 Draft Left"
 msgstr "مسودة واحدة متروكة"
@@ -73,35 +73,35 @@ msgstr "طلب واحد متأخر"
 msgid "1 Maintenance Due"
 msgstr "صيانة واحدة مستحقة"
 
-#: frontend/src/home/CrmHome.vue:158
+#: frontend/src/home/CrmHome.vue:159
 msgid "1 Next Step Due"
 msgstr "خطوة تالية واحدة مستحقة"
 
-#: frontend/src/home/CrmHome.vue:160
+#: frontend/src/home/CrmHome.vue:161
 msgid "1 Opportunity Past Its Closing Date"
 msgstr "فرصة واحدة تجاوزت تاريخ إغلاقها"
 
-#: frontend/src/home/BooksHome.vue:155
+#: frontend/src/home/BooksHome.vue:156
 msgid "1 Overdue Sales Invoice"
 msgstr "فاتورة مبيعات واحدة متأخرة"
 
-#: frontend/src/home/BooksHome.vue:156
+#: frontend/src/home/BooksHome.vue:157
 msgid "1 Purchase Invoice Due"
 msgstr "فاتورة شراء واحدة مستحقة"
 
-#: frontend/src/home/CrmHome.vue:161
+#: frontend/src/home/CrmHome.vue:162
 msgid "1 Quotation Expiring"
 msgstr "عرض سعر واحد تنتهي صلاحيته"
 
-#: frontend/src/home/CrmHome.vue:159
+#: frontend/src/home/CrmHome.vue:160
 msgid "1 Unclaimed Lead"
 msgstr "عميل محتمل واحد لم يتولَّه أحد"
 
-#: frontend/src/home/BooksHome.vue:157
+#: frontend/src/home/BooksHome.vue:158
 msgid "1 Unreconciled Bank Transaction"
 msgstr "معاملة بنكية واحدة غير مسواة"
 
-#: frontend/src/home/CrmHome.vue:162
+#: frontend/src/home/CrmHome.vue:163
 msgid "1 With No Next Step"
 msgstr "واحد بلا خطوة تالية"
 
@@ -126,7 +126,7 @@ msgstr "تكلفة واحدة، {0}"
 msgid "1 day"
 msgstr "يوم واحد"
 
-#: frontend/src/home/BooksHome.vue:192 frontend/src/home/InventoryHome.vue:214
+#: frontend/src/home/BooksHome.vue:193 frontend/src/home/InventoryHome.vue:214
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:329 frontend/src/project/Overview.vue:410
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:240
@@ -142,11 +142,11 @@ msgstr "يوم واحد من {0}."
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
-#: frontend/src/home/CrmHome.vue:211
+#: frontend/src/home/CrmHome.vue:212
 msgid "1 day past"
 msgstr "مضى يوم واحد"
 
-#: frontend/src/home/BooksHome.vue:259 frontend/src/home/CrmHome.vue:282
+#: frontend/src/home/BooksHome.vue:260 frontend/src/home/CrmHome.vue:283
 #: frontend/src/home/InventoryHome.vue:299
 #: frontend/src/project/Invoices.vue:119
 msgid "1 draft"
@@ -229,7 +229,7 @@ msgstr "مهمة واحدة"
 msgid "1 task without dates"
 msgstr "مهمة واحدة بلا تواريخ"
 
-#: frontend/src/home/BooksHome.vue:244
+#: frontend/src/home/BooksHome.vue:245
 msgid "1 transaction"
 msgstr "معاملة واحدة"
 
@@ -356,6 +356,11 @@ msgstr "<b>{project}</b>{customer}{due}"
 #: onedesk/notifications/one_project/project_completed.md
 msgid "<b>{project}</b>{customer}{owed}"
 msgstr "<b>{project}</b>{customer}{owed}"
+
+#. Message of a notification
+#: onedesk/notifications/one_crm/next_step_due.md
+msgid "<b>{step}</b> on {title}"
+msgstr "<b>{step}</b> على {title}"
 
 #. Message of a notification
 #: onedesk/notifications/one_task/pending_review.md
@@ -606,7 +611,7 @@ msgstr "وصل مستند"
 msgid "A document arrived for {0}"
 msgstr "وصل مستند لـ {0}"
 
-#: onedesk/one_studio/places.py:264
+#: onedesk/one_studio/places.py:286
 msgid "A document is opened in OneIntake's inbox."
 msgstr "يُفتح مستند في صندوق OneIntake."
 
@@ -712,7 +717,7 @@ msgstr "حقل من هذا السجل. يأتي القسم في آخر تبوي�
 msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
 msgstr "يذكر الحقل فقط تسميته ونوعه وخياراته وما إذا كان مطلوباً وما إذا كان في القائمة."
 
-#: onedesk/one_studio/places.py:250
+#: onedesk/one_studio/places.py:272
 msgid "A file is chosen in OneCloud and its preview is shown."
 msgstr "يُختار ملف في OneCloud وتظهر معاينته."
 
@@ -1017,47 +1022,47 @@ msgstr "يحتاج تنسيق الطباعة إلى اسم."
 msgid "A problem or maintenance"
 msgstr "عطل أو صيانة"
 
-#: onedesk/one_studio/places.py:408
+#: onedesk/one_studio/places.py:430
 msgid "A project template's page is opened, and each time the template changes."
 msgstr "عند فتح صفحة قالب مشروع، وكلما تغيّر القالب."
 
-#: onedesk/one_studio/places.py:369
+#: onedesk/one_studio/places.py:391
 msgid "A project's Activity view is opened, and each time it shows more."
 msgstr "عند فتح عرض النشاط لمشروع، وفي كل مرة يعرض المزيد."
 
-#: onedesk/one_studio/places.py:364
+#: onedesk/one_studio/places.py:386
 msgid "A project's Files view is opened, and each time its files change."
 msgstr "عند فتح عرض الملفات لمشروع، وفي كل مرة تتغير ملفاته."
 
-#: onedesk/one_studio/places.py:342
+#: onedesk/one_studio/places.py:364
 msgid "A project's Invoices view is opened, and each time its invoices change."
 msgstr "عند فتح عرض الفواتير لمشروع، وفي كل مرة تتغير فواتيره."
 
-#: onedesk/one_studio/places.py:333
+#: onedesk/one_studio/places.py:355
 msgid "A project's Money view is opened, and each time its figures change."
 msgstr "عند فتح عرض المال لمشروع، وفي كل مرة تتغير أرقامه."
 
-#: onedesk/one_studio/places.py:311
+#: onedesk/one_studio/places.py:333
 msgid "A project's Overview is opened, and each time its figures change."
 msgstr "عند فتح نظرة عامة على مشروع، وفي كل مرة تتغير أرقامه."
 
-#: onedesk/one_studio/places.py:351
+#: onedesk/one_studio/places.py:373
 msgid "A project's Suppliers view is opened, and each time what it buys changes."
 msgstr "عند فتح عرض الموردين لمشروع، وفي كل مرة تتغير مشترياته."
 
-#: onedesk/one_studio/places.py:320
+#: onedesk/one_studio/places.py:342
 msgid "A project's Tasks are opened as a table, a board or a timeline, and each time they change."
 msgstr "عند فتح مهام مشروع كجدول أو لوحة أو مخطط زمني، وفي كل مرة تتغير."
 
-#: onedesk/one_studio/places.py:359
+#: onedesk/one_studio/places.py:381
 msgid "A project's Team view is opened, and each time its team changes."
 msgstr "عند فتح عرض الفريق لمشروع، وفي كل مرة يتغير فريقه."
 
-#: onedesk/one_studio/places.py:325
+#: onedesk/one_studio/places.py:347
 msgid "A project's Time view is opened, and each time its hours change."
 msgstr "عند فتح عرض الوقت لمشروع، وفي كل مرة تتغير ساعاته."
 
-#: onedesk/one_studio/places.py:301
+#: onedesk/one_studio/places.py:323
 msgid "A project's page is opened, and each time the project changes."
 msgstr "تُفتح صفحة المشروع، وفي كل مرة يتغير فيها المشروع."
 
@@ -1216,7 +1221,7 @@ msgstr "تغطي الورقة {0} يوماً على الأكثر."
 msgid "A signup from the public sign-up page."
 msgstr "تسجيل من صفحة التسجيل العامة."
 
-#: onedesk/one_studio/places.py:290
+#: onedesk/one_studio/places.py:312
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr "تُفتح الصفحة الرئيسية لمساحة: One وOneCRM وOneHR وOneBook وكل مساحة أخرى."
 
@@ -1635,7 +1640,7 @@ msgid "Accounts"
 msgstr "الحسابات"
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:120 frontend/src/home/BooksStory.vue:122
+#: frontend/src/home/BooksHome.vue:121 frontend/src/home/BooksStory.vue:122
 #: onedesk/one_book/home.py:303 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Accounts Payable"
 msgstr ""
@@ -1645,7 +1650,7 @@ msgid "Accounts Payable Summary"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:118 frontend/src/home/BooksStory.vue:111
+#: frontend/src/home/BooksHome.vue:119 frontend/src/home/BooksStory.vue:111
 #: onedesk/one_book/home.py:301 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Accounts Receivable"
 msgstr ""
@@ -2865,7 +2870,7 @@ msgstr "الموظف هو الشخص صاحب الحساب: دوره وقسمه 
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له سجل انصراف عند نهاية المناوبة، ويُعلَّم بأنه أُغلق تلقائياً."
 
-#: onedesk/one_studio/places.py:419
+#: onedesk/one_studio/places.py:441
 msgid "An event's card is opened in OneCalendar."
 msgstr "تُفتح بطاقة حدث في OneCalendar."
 
@@ -4108,7 +4113,7 @@ msgstr ""
 msgid "Available fields: {0}"
 msgstr "الحقول المتاحة: {0}"
 
-#: frontend/src/home/CrmHome.vue:121
+#: frontend/src/home/CrmHome.vue:122
 msgid "Average Won Value"
 msgstr "متوسط قيمة الفرص الرابحة"
 
@@ -4256,7 +4261,7 @@ msgid "Bank Reconciliation Statement"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:239 onedesk/one_book/heads.py:707
+#: frontend/src/home/BooksHome.vue:240 onedesk/one_book/heads.py:707
 #: onedesk/one_book/home.py:286 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Reconciliation Tool"
 msgstr ""
@@ -5320,7 +5325,7 @@ msgstr "رقم القضية"
 msgid "Cases"
 msgstr "الصناديق"
 
-#: frontend/src/home/BooksHome.vue:117
+#: frontend/src/home/BooksHome.vue:118
 msgid "Cash"
 msgstr "النقد"
 
@@ -8485,7 +8490,7 @@ msgstr "تم."
 msgid "Done. It wrote {0}."
 msgstr "تم. وكُتب {0}."
 
-#: onedesk/one_crm/next.py:86
+#: onedesk/one_crm/next.py:51
 msgid "Done: {0}"
 msgstr "تم: {0}"
 
@@ -8733,7 +8738,7 @@ msgstr "تغيّر تاريخ الاستحقاق"
 msgid "Due Soon"
 msgstr "مستحق قريبًا"
 
-#: frontend/src/home/BooksHome.vue:121 frontend/src/upkeep/UpkeepPage.vue:88
+#: frontend/src/home/BooksHome.vue:122 frontend/src/upkeep/UpkeepPage.vue:88
 msgid "Due This Week"
 msgstr "مستحق هذا الأسبوع"
 
@@ -8750,7 +8755,7 @@ msgstr "مستحق خلال {0} أيام"
 msgid "Due on Receipt"
 msgstr "مستحق عند الاستلام"
 
-#: frontend/src/home/BooksHome.vue:228 frontend/src/home/CrmHome.vue:200
+#: frontend/src/home/BooksHome.vue:229 frontend/src/home/CrmHome.vue:201
 #: frontend/src/project/Overview.vue:412 frontend/src/task/TaskPage.vue:241
 #: onedesk/one_project/portal.py:180 onedesk/one_project/retention.py:134
 msgid "Due today"
@@ -8760,7 +8765,7 @@ msgstr "يستحق اليوم"
 msgid "Due tomorrow"
 msgstr "يستحق غدًا"
 
-#: frontend/src/home/BooksHome.vue:228 frontend/src/home/CrmHome.vue:200
+#: frontend/src/home/BooksHome.vue:229 frontend/src/home/CrmHome.vue:201
 #: frontend/src/home/InventoryHome.vue:267 frontend/src/item/ItemBuying.vue:67
 #: frontend/src/item/ItemOverview.vue:108
 #: frontend/src/item/ItemOverview.vue:112
@@ -9952,7 +9957,7 @@ msgstr "كل من يعمل هنا يحتاج إلى حساب. أضفهم الآ�
 msgid "Everyone's"
 msgstr "للجميع"
 
-#: frontend/src/home/BooksHome.vue:101 frontend/src/home/CrmHome.vue:101
+#: frontend/src/home/BooksHome.vue:102 frontend/src/home/CrmHome.vue:102
 #: frontend/src/home/InventoryHome.vue:101 onedesk/public/js/settings.js:772
 msgid "Everything"
 msgstr "كل شيء"
@@ -10172,7 +10177,7 @@ msgstr "تنتهي صلاحيته"
 msgid "Expires On"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:212
+#: frontend/src/home/CrmHome.vue:213
 msgid "Expires in {0} days"
 msgstr "تنتهي خلال {0} أيام"
 
@@ -10182,11 +10187,11 @@ msgstr "تنتهي خلال {0} أيام"
 msgid "Expires on"
 msgstr "ينتهي في"
 
-#: frontend/src/home/CrmHome.vue:212
+#: frontend/src/home/CrmHome.vue:213
 msgid "Expires today"
 msgstr "تنتهي اليوم"
 
-#: frontend/src/home/CrmHome.vue:212
+#: frontend/src/home/CrmHome.vue:213
 msgid "Expires tomorrow"
 msgstr "تنتهي غدًا"
 
@@ -14451,7 +14456,7 @@ msgstr "المخطط وتوزيع المقاعد"
 
 #. Label of the lead (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:235 frontend/src/home/CrmHome.vue:253
+#: frontend/src/home/CrmHome.vue:236 frontend/src/home/CrmHome.vue:254
 #: frontend/src/home/CrmStory.vue:89 frontend/src/home/CrmStory.vue:102
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/heads.py:131 onedesk/one_crm/home.py:34
@@ -14501,11 +14506,11 @@ msgstr "العملاء المحتملون حسب المصدر"
 msgid "Leads"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:231
+#: frontend/src/home/CrmHome.vue:232
 msgid "Leads Due"
 msgstr "عملاء محتملون مستحقون"
 
-#: frontend/src/home/CrmHome.vue:116
+#: frontend/src/home/CrmHome.vue:117
 msgid "Leads This Month"
 msgstr "العملاء المحتملون هذا الشهر"
 
@@ -14702,7 +14707,7 @@ msgstr "غادر مبكراً بـ"
 msgid "Left Early Only"
 msgstr "من غادروا مبكراً فقط"
 
-#: frontend/src/home/BooksHome.vue:252 frontend/src/home/CrmHome.vue:275
+#: frontend/src/home/BooksHome.vue:253 frontend/src/home/CrmHome.vue:276
 #: frontend/src/home/InventoryHome.vue:292
 msgid "Left as Drafts"
 msgstr "تُركت كمسودات"
@@ -15341,7 +15346,7 @@ msgstr "الدفعات"
 msgid "Lots and when they go off."
 msgstr "الدفعات ومتى تنتهي صلاحيتها."
 
-#: onedesk/one_studio/places.py:184
+#: onedesk/one_studio/places.py:206
 msgid "Lots is opened, and each time a lot, a serial number or an item kept in lots changes."
 msgstr "تُفتح الدفعات، وفي كل مرة تتغير فيها دفعة أو رقم تسلسلي أو صنف محفوظ في دفعات."
 
@@ -16075,7 +16080,7 @@ msgstr ""
 msgid "May Use Tools"
 msgstr "يجوز له استخدام الأدوات"
 
-#: onedesk/one_crm/ai.py:437
+#: onedesk/one_crm/ai.py:449
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr "ربما هو نفسه {0} {1}، حسب {2}."
 
@@ -16902,11 +16907,11 @@ msgstr "فاتورة جديدة"
 msgid "New Item"
 msgstr "صنف جديد"
 
-#: frontend/src/home/BooksHome.vue:275
+#: frontend/src/home/BooksHome.vue:277
 msgid "New Journal Entry"
 msgstr "قيد يومية جديد"
 
-#: frontend/src/home/CrmHome.vue:295
+#: frontend/src/home/CrmHome.vue:297
 msgid "New Lead"
 msgstr "عميل محتمل جديد"
 
@@ -16934,7 +16939,7 @@ msgstr "قالب بريد جديد"
 msgid "New Material Request"
 msgstr "طلب مواد جديد"
 
-#: frontend/src/home/CrmHome.vue:296
+#: frontend/src/home/CrmHome.vue:298
 msgid "New Opportunity"
 msgstr "فرصة جديدة"
 
@@ -16946,7 +16951,7 @@ msgstr "طلب جديد"
 msgid "New Password"
 msgstr "كلمة المرور الجديدة"
 
-#: frontend/src/home/BooksHome.vue:274
+#: frontend/src/home/BooksHome.vue:276
 msgid "New Payment Entry"
 msgstr "قيد دفع جديد"
 
@@ -16971,7 +16976,7 @@ msgstr "ملف وظيفي جديد"
 msgid "New Project"
 msgstr "مشروع جديد"
 
-#: frontend/src/home/BooksHome.vue:273
+#: frontend/src/home/BooksHome.vue:275
 msgid "New Purchase Invoice"
 msgstr ""
 
@@ -16984,7 +16989,7 @@ msgstr "أمر شراء جديد"
 msgid "New Purchase Receipt"
 msgstr "إيصال شراء جديد"
 
-#: frontend/src/home/CrmHome.vue:297 frontend/src/item/ItemCustomers.vue:80
+#: frontend/src/home/CrmHome.vue:299 frontend/src/item/ItemCustomers.vue:80
 #: frontend/src/project/Overview.vue:426
 msgid "New Quotation"
 msgstr "عرض سعر جديد"
@@ -16995,7 +17000,7 @@ msgstr "عرض سعر جديد"
 msgid "New Rule"
 msgstr "قاعدة جديدة"
 
-#: frontend/src/home/BooksHome.vue:272
+#: frontend/src/home/BooksHome.vue:274
 msgid "New Sales Invoice"
 msgstr ""
 
@@ -17174,12 +17179,12 @@ msgstr "الحالة التالية"
 
 #. Label of the one_next_step (Data) field in DocType 'Lead'
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
-#: frontend/src/home/CrmHome.vue:207 onedesk/one_crm/calendar.py:31
+#: frontend/src/home/CrmHome.vue:208 onedesk/one_crm/calendar.py:31
 #: onedesk/one_crm/calendar.py:41 onedesk/one_crm/calendar.py:70
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
 #: onedesk/one_crm/heads.py:231 onedesk/one_crm/heads.py:232
 #: onedesk/one_crm/heads.py:311 onedesk/one_crm/heads.py:355
-#: onedesk/one_crm/next.py:62 onedesk/public/js/next_step.js:23
+#: onedesk/one_crm/tell.py:48 onedesk/public/js/next_step.js:23
 msgid "Next Step"
 msgstr "الخطوة التالية"
 
@@ -17187,8 +17192,10 @@ msgstr "الخطوة التالية"
 msgid "Next Step Done"
 msgstr "تمت الخطوة التالية"
 
+#. Name of a notification
 #. Label of the one_next_on (Datetime) field in DocType 'Lead'
 #. Label of the one_next_on (Datetime) field in DocType 'Opportunity'
+#: onedesk/notifications/one_crm/next_step_due.md
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
 #: onedesk/public/js/next_step.js:27
 msgid "Next Step Due"
@@ -17262,7 +17269,7 @@ msgstr "لا يوجد مجلد أرشيف في صندوق البريد هذا"
 msgid "No Asset Maintenance yet"
 msgstr "لا توجد صيانة أصول بعد"
 
-#: frontend/src/home/BooksHome.vue:242
+#: frontend/src/home/BooksHome.vue:243
 msgid "No Bank Account"
 msgstr "بدون حساب بنكي"
 
@@ -17287,7 +17294,7 @@ msgstr "لا نموذج"
 msgid "No More Holidays This Year"
 msgstr "لا عطلات أخرى هذا العام"
 
-#: frontend/src/home/CrmHome.vue:267
+#: frontend/src/home/CrmHome.vue:268
 msgid "No Next Step"
 msgstr "بلا خطوة تالية"
 
@@ -18448,13 +18455,13 @@ msgstr "لا شيء محفوظ هنا"
 msgid "Nothing leaves a warehouse that does not have it."
 msgstr "لا يخرج من المستودع ما ليس فيه."
 
-#: frontend/src/home/BooksHome.vue:37 frontend/src/home/CrmHome.vue:37
+#: frontend/src/home/BooksHome.vue:38 frontend/src/home/CrmHome.vue:38
 #: frontend/src/home/InventoryHome.vue:37
 #: frontend/src/to_order/ToOrderPage.vue:20 onedesk/www/portal.html:70
 msgid "Nothing matches"
 msgstr "لا شيء يطابق"
 
-#: frontend/src/home/BooksHome.vue:25 frontend/src/home/CrmHome.vue:25
+#: frontend/src/home/BooksHome.vue:26 frontend/src/home/CrmHome.vue:26
 #: frontend/src/home/InventoryHome.vue:25
 msgid "Nothing needs you"
 msgstr "لا شيء يحتاجك"
@@ -19397,20 +19404,28 @@ msgstr "OneAdmin"
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/BooksHome.vue:268 onedesk/one_book/page/books/books.js:10
+#: frontend/src/home/BooksHome.vue:269 onedesk/one_book/page/books/books.js:10
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/settings.js:2811
 msgid "OneBook"
 msgstr "OneBook"
 
+#: onedesk/one_studio/places.py:195
+msgid "OneBook's Home is opened, and each time an invoice, a payment or a bank line changes."
+msgstr "تُفتح الصفحة الرئيسية لـ OneBook، وفي كل مرة تتغير فيها فاتورة أو دفعة أو حركة بنكية."
+
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/CrmHome.vue:291 onedesk/one_crm/page/onecrm/onecrm.js:10
+#: frontend/src/home/CrmHome.vue:292 onedesk/one_crm/page/onecrm/onecrm.js:10
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneCRM"
 msgstr "OneCRM"
+
+#: onedesk/one_studio/places.py:184
+msgid "OneCRM's Home is opened, and each time a lead, an opportunity or a quotation changes."
+msgstr "تُفتح الصفحة الرئيسية لـ OneCRM، وفي كل مرة يتغير فيها عميل محتمل أو فرصة أو عرض سعر."
 
 #. Title of a Sidebar
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:15
@@ -19563,7 +19578,7 @@ msgstr "صندوق البريد المربوط فقط له كلمة مرور ي�
 msgid "Only a flagged attempt needs reviewing."
 msgstr "المحاولات المُشار إليها وحدها هي التي تحتاج إلى مراجعة."
 
-#: onedesk/one_crm/next.py:82
+#: onedesk/one_crm/next.py:47
 msgid "Only a lead or an opportunity has a next step."
 msgstr "الخطوة التالية تكون فقط لعميل محتمل أو فرصة."
 
@@ -20029,7 +20044,7 @@ msgstr "لا يمكن للمشغّلين تعيين {0}."
 msgid "Opportunities"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:222
+#: frontend/src/home/CrmHome.vue:223
 msgid "Opportunities Due"
 msgstr "فرص مستحقة"
 
@@ -20051,7 +20066,7 @@ msgstr "الفرص وعروض الأسعار والطلبات والفواتير
 
 #. Label of the deal (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:226 frontend/src/home/CrmHome.vue:244
+#: frontend/src/home/CrmHome.vue:227 frontend/src/home/CrmHome.vue:245
 #: frontend/src/home/CrmStory.vue:90
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_book/heads.py:777 onedesk/one_crm/heads.py:132
@@ -20534,7 +20549,7 @@ msgstr "أكثر من سنة"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
-#: frontend/src/home/BooksHome.vue:119 frontend/src/home/BooksHome.vue:202
+#: frontend/src/home/BooksHome.vue:120 frontend/src/home/BooksHome.vue:203
 #: frontend/src/project/Invoices.vue:123 frontend/src/task/MyTasks.vue:14
 #: frontend/src/upkeep/UpkeepPage.vue:89 frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -20591,7 +20606,7 @@ msgid "Overtime recorded by hand: {0} hours, {1}."
 msgstr "عمل إضافي مُسجَّل يدوياً: {0} ساعة، {1}."
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:99 frontend/src/home/CrmHome.vue:99
+#: frontend/src/home/BooksHome.vue:100 frontend/src/home/CrmHome.vue:100
 #: frontend/src/home/InventoryHome.vue:99 frontend/src/item/ItemPage.vue:176
 #: frontend/src/project/ProjectPage.vue:182
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/page_views.js:86
@@ -20961,7 +20976,7 @@ msgstr "تنتهي صلاحية كلمات المرور بعد (أيام)"
 msgid "Past Due"
 msgstr "متأخرة"
 
-#: frontend/src/home/CrmHome.vue:240
+#: frontend/src/home/CrmHome.vue:241
 msgid "Past Expected Closing Date"
 msgstr "تجاوزت تاريخ الإغلاق المتوقع"
 
@@ -21654,7 +21669,7 @@ msgstr "القطع"
 msgid "Pipeline"
 msgstr "مسار المبيعات"
 
-#: frontend/src/home/CrmHome.vue:117 frontend/src/home/CrmStory.vue:54
+#: frontend/src/home/CrmHome.vue:118 frontend/src/home/CrmStory.vue:54
 #: frontend/src/home/CrmStory.vue:98
 msgid "Pipeline Value"
 msgstr "قيمة خط المبيعات"
@@ -21814,7 +21829,7 @@ msgstr "المساقط والقطاعات والواجهات"
 msgid "Plant Floor"
 msgstr "أرضية الإنتاج"
 
-#: onedesk/one_studio/places.py:239
+#: onedesk/one_studio/places.py:261
 msgid "Plant Floor is opened, and each time a workstation's status or a step on it changes."
 msgstr "عند فتح أرضية الإنتاج، وكلما تغيّرت حالة محطة عمل أو خطوة عليها."
 
@@ -22292,7 +22307,7 @@ msgstr "الملفات الوظيفية"
 msgid "Profit"
 msgstr "الربح"
 
-#: frontend/src/home/BooksHome.vue:122
+#: frontend/src/home/BooksHome.vue:123
 msgid "Profit This Month"
 msgstr "ربح هذا الشهر"
 
@@ -22633,7 +22648,7 @@ msgid "Purchase Analytics"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:231 onedesk/one_book/home.py:278
+#: frontend/src/home/BooksHome.vue:232 onedesk/one_book/home.py:278
 #: onedesk/one_book/home.py:420 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Purchase Invoice"
 msgstr ""
@@ -22646,7 +22661,7 @@ msgstr ""
 msgid "Purchase Invoice by Status"
 msgstr "فواتير الشراء حسب الحالة"
 
-#: frontend/src/home/BooksHome.vue:219
+#: frontend/src/home/BooksHome.vue:220
 msgid "Purchase Invoices Due"
 msgstr "فواتير شراء مستحقة"
 
@@ -22834,7 +22849,7 @@ msgid "Quotas"
 msgstr "الحصص"
 
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:262 onedesk/one/print_blocks.py:16
+#: frontend/src/home/CrmHome.vue:263 onedesk/one/print_blocks.py:16
 #: onedesk/one_crm/heads.py:133 onedesk/one_crm/heads.py:314
 #: onedesk/one_crm/home.py:105 onedesk/one_crm/home.py:309
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -22861,7 +22876,7 @@ msgstr "انتهت صلاحية عرض السعر {0} في {1}."
 msgid "Quotations"
 msgstr "عروض الأسعار"
 
-#: frontend/src/home/CrmHome.vue:258
+#: frontend/src/home/CrmHome.vue:259
 msgid "Quotations Expiring"
 msgstr "عروض أسعار تنتهي صلاحيتها"
 
@@ -22912,7 +22927,7 @@ msgstr "مُسعَّر، صالح حتى {0}"
 msgid "Quotes"
 msgstr "العروض"
 
-#: onedesk/one_studio/places.py:206
+#: onedesk/one_studio/places.py:228
 msgid "Quotes is opened, and each time a request for prices, a quote or an order changes."
 msgstr "تُفتح العروض، وفي كل مرة يتغير فيها طلب أسعار أو عرض أو طلب شراء."
 
@@ -24770,7 +24785,7 @@ msgid "Sales Forecast"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:214 onedesk/one_book/home.py:272
+#: frontend/src/home/BooksHome.vue:215 onedesk/one_book/home.py:272
 #: onedesk/one_book/home.py:419 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/home.py:107
 msgid "Sales Invoice"
@@ -25075,7 +25090,7 @@ msgid "Seal and weatherproof"
 msgstr "الإحكام والعزل ضد الطقس"
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
-#: frontend/src/home/BooksHome.vue:34 frontend/src/home/CrmHome.vue:34
+#: frontend/src/home/BooksHome.vue:35 frontend/src/home/CrmHome.vue:35
 #: frontend/src/home/InventoryHome.vue:34 frontend/src/lots/LotsPage.vue:21
 #: frontend/src/project/ProjectPage.vue:23
 #: frontend/src/quotes/QuotesPage.vue:15
@@ -25334,7 +25349,7 @@ msgstr "أرسله"
 msgid "Sent On"
 msgstr ""
 
-#: onedesk/one_studio/places.py:217
+#: onedesk/one_studio/places.py:239
 msgid "Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."
 msgstr "تُفتح صفحة المُرسل للخارج، وفي كل مرة يتغير فيها أمر أو تحويل أو استلام لعمل مُرسل للخارج."
 
@@ -26784,7 +26799,7 @@ msgstr ""
 msgid "Sources"
 msgstr "المصادر"
 
-#: onedesk/one_studio/places.py:285
+#: onedesk/one_studio/places.py:307
 msgid "Space Home"
 msgstr "الصفحة الرئيسية للمساحة"
 
@@ -26974,7 +26989,7 @@ msgstr "بدأ في"
 msgid "Started On"
 msgstr "بدأ في"
 
-#: frontend/src/home/BooksHome.vue:258 frontend/src/home/CrmHome.vue:281
+#: frontend/src/home/BooksHome.vue:259 frontend/src/home/CrmHome.vue:282
 #: frontend/src/home/InventoryHome.vue:298
 msgid "Started more than a day ago"
 msgstr "بدأت منذ أكثر من يوم"
@@ -28636,7 +28651,7 @@ msgstr "نموذج OneAI الذي جرى عليه الطلب."
 msgid "The Person on the Record"
 msgstr "الشخص المذكور في السجل"
 
-#: onedesk/one_studio/places.py:380
+#: onedesk/one_studio/places.py:402
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr "عند فتح قائمة المشاريع، وفي كل مرة تُعرض من جديد."
 
@@ -29107,6 +29122,11 @@ msgstr "يلزم القانون المنشأة بحفظه حتى ذلك الحي
 msgid "The layout would print badly: {0}."
 msgstr "سيُطبع التخطيط بشكل سيئ: {0}."
 
+#. Who a notification is sent to
+#: onedesk/notifications/one_crm/next_step_due.md
+msgid "The lead's or opportunity's owner"
+msgstr "مالك العميل المحتمل أو الفرصة"
+
 #. Description of the 'Least Margin' (Float) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -29421,7 +29441,7 @@ msgstr "صاحب كلمة المرور"
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
 msgstr "لم يُصدر الهاتف مفتاح المرور إلا بعد بصمة الوجه أو بصمة الإصبع أو رمز PIN."
 
-#: onedesk/one_studio/places.py:278
+#: onedesk/one_studio/places.py:300
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr "تُرسم لوحة المبيعات، وفي كل مرة تتغير فيها قيمة مرحلة."
 
@@ -30664,7 +30684,7 @@ msgstr ""
 msgid "To Invoice"
 msgstr "للفوترة"
 
-#: onedesk/one_studio/places.py:195
+#: onedesk/one_studio/places.py:217
 msgid "To Order is opened, and each time a request, a purchase order or stock changes."
 msgstr "تُفتح صفحة للطلب، وفي كل مرة يتغير فيها طلب مواد أو أمر شراء أو المخزون."
 
@@ -30739,7 +30759,7 @@ msgstr "إلى {0} عملاء"
 msgid "To-dos given to you"
 msgstr "المهام المسندة إليك"
 
-#: frontend/src/home/BooksHome.vue:100 frontend/src/home/CrmHome.vue:100
+#: frontend/src/home/BooksHome.vue:101 frontend/src/home/CrmHome.vue:101
 #: frontend/src/home/InventoryHome.vue:100
 #: frontend/src/project/MilestoneLanes.vue:22
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
@@ -31279,7 +31299,7 @@ msgstr "غير مُسندة"
 msgid "Unchanged"
 msgstr "دون تغيير"
 
-#: frontend/src/home/CrmHome.vue:249
+#: frontend/src/home/CrmHome.vue:250
 msgid "Unclaimed Leads"
 msgstr "عملاء محتملون بلا مسؤول"
 
@@ -31436,7 +31456,7 @@ msgstr "غير مقروء"
 msgid "Unreconciled"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:236
+#: frontend/src/home/BooksHome.vue:237
 msgid "Unreconciled Bank Transactions"
 msgstr "معاملات بنكية غير مسواة"
 
@@ -31526,7 +31546,7 @@ msgstr "مُحدَّث"
 msgid "Updates"
 msgstr "التحديثات"
 
-#: onedesk/one_studio/places.py:228
+#: onedesk/one_studio/places.py:250
 msgid "Upkeep is opened, and each time a service, a plan or a repair changes."
 msgstr "تُفتح صفحة الصيانة، وفي كل مرة تتغير فيها صيانة أو خطة أو إصلاح."
 
@@ -32301,7 +32321,7 @@ msgstr ""
 msgid "Weight UOM"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:118 frontend/src/home/CrmStory.vue:95
+#: frontend/src/home/CrmHome.vue:119 frontend/src/home/CrmStory.vue:95
 msgid "Weighted Pipeline"
 msgstr "خط المبيعات المرجّح"
 
@@ -33916,6 +33936,11 @@ msgid "When the last task a task waits on is done."
 msgstr "عند إنجاز آخر مهمة تنتظرها المهمة."
 
 #. When a notification is sent
+#: onedesk/notifications/one_crm/next_step_due.md
+msgid "When the next step on one of your leads or opportunities comes due."
+msgstr "عندما يحين موعد الخطوة التالية على أحد عملائك المحتملين أو فرصك."
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/earned_leave_not_allocated.md
 msgid "When the nightly job cannot allocate earned leave."
 msgstr "عندما تعجز المهمة الليلية عن تخصيص الإجازة المكتسبة."
@@ -34789,7 +34814,7 @@ msgstr "العرض (مم)"
 msgid "Win Rate (%)"
 msgstr "نسبة الفوز (%)"
 
-#: frontend/src/home/CrmHome.vue:120
+#: frontend/src/home/CrmHome.vue:121
 msgid "Win Rate (90 Days)"
 msgstr "نسبة الفوز (90 يوماً)"
 
@@ -34874,7 +34899,7 @@ msgstr "بلا حساب: {0}."
 msgid "Won"
 msgstr "مكسوبة"
 
-#: frontend/src/home/CrmHome.vue:119
+#: frontend/src/home/CrmHome.vue:120
 msgid "Won This Month"
 msgstr "المكسوب هذا الشهر"
 
@@ -35038,7 +35063,7 @@ msgstr "العمل في يوم عطلة"
 msgid "Workload"
 msgstr "عبء العمل"
 
-#: onedesk/one_studio/places.py:394
+#: onedesk/one_studio/places.py:416
 msgid "Workload is opened, and each time it is drawn again."
 msgstr "عند فتح عبء العمل، وفي كل مرة يُعرض من جديد."
 
@@ -36986,7 +37011,7 @@ msgstr "استخدام"
 msgid "video"
 msgstr "فيديو"
 
-#: frontend/src/home/BooksHome.vue:143 frontend/src/home/CrmHome.vue:145
+#: frontend/src/home/BooksHome.vue:144 frontend/src/home/CrmHome.vue:146
 #: frontend/src/home/InventoryHome.vue:143
 msgid "vs last month"
 msgstr "مقارنة بالشهر الماضي"
@@ -37105,7 +37130,7 @@ msgstr "موافقة {0}"
 msgid "{0} Batches Expiring Soon"
 msgstr "{0} دفعات تنتهي قريبًا"
 
-#: frontend/src/home/BooksHome.vue:158 frontend/src/home/CrmHome.vue:163
+#: frontend/src/home/BooksHome.vue:159 frontend/src/home/CrmHome.vue:164
 #: frontend/src/home/InventoryHome.vue:160
 msgid "{0} Drafts Left"
 msgstr "{0} مسودات متروكة"
@@ -37140,23 +37165,23 @@ msgstr "{0} صيانة مستحقة"
 msgid "{0} More"
 msgstr "{0} أخرى"
 
-#: frontend/src/home/CrmHome.vue:158
+#: frontend/src/home/CrmHome.vue:159
 msgid "{0} Next Steps Due"
 msgstr "{0} خطوات تالية مستحقة"
 
-#: frontend/src/home/CrmHome.vue:160
+#: frontend/src/home/CrmHome.vue:161
 msgid "{0} Opportunities Past Their Closing Date"
 msgstr "{0} فرص تجاوزت تاريخ إغلاقها"
 
-#: frontend/src/home/BooksHome.vue:155
+#: frontend/src/home/BooksHome.vue:156
 msgid "{0} Overdue Sales Invoices"
 msgstr "{0} فواتير مبيعات متأخرة"
 
-#: frontend/src/home/BooksHome.vue:156
+#: frontend/src/home/BooksHome.vue:157
 msgid "{0} Purchase Invoices Due"
 msgstr "{0} فواتير شراء مستحقة"
 
-#: frontend/src/home/CrmHome.vue:161
+#: frontend/src/home/CrmHome.vue:162
 msgid "{0} Quotations Expiring"
 msgstr "{0} عروض أسعار تنتهي صلاحيتها"
 
@@ -37168,15 +37193,15 @@ msgstr "{0} النسخة المُصلحة متوقفة حتى تشغّلها."
 msgid "{0} The fixed version was kept off: the review refused it. {1}"
 msgstr "{0} أُبقيت النسخة المُصلحة متوقفة: رفضتها المراجعة. {1}"
 
-#: frontend/src/home/CrmHome.vue:159
+#: frontend/src/home/CrmHome.vue:160
 msgid "{0} Unclaimed Leads"
 msgstr "{0} عملاء محتملين لم يتولَّهم أحد"
 
-#: frontend/src/home/BooksHome.vue:157
+#: frontend/src/home/BooksHome.vue:158
 msgid "{0} Unreconciled Bank Transactions"
 msgstr "{0} معاملات بنكية غير مسواة"
 
-#: frontend/src/home/CrmHome.vue:162
+#: frontend/src/home/CrmHome.vue:163
 msgid "{0} With No Next Step"
 msgstr "{0} بلا خطوة تالية"
 
@@ -37549,7 +37574,7 @@ msgstr "قبل {0} أيام من {2} في {1}"
 msgid "{0} days before {1}"
 msgstr "قبل {1} بـ {0} أيام"
 
-#: frontend/src/home/BooksHome.vue:192 frontend/src/home/InventoryHome.vue:214
+#: frontend/src/home/BooksHome.vue:193 frontend/src/home/InventoryHome.vue:214
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:330 frontend/src/project/Overview.vue:411
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:240
@@ -37567,7 +37592,7 @@ msgstr "{0} يوم من {1}."
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
-#: frontend/src/home/CrmHome.vue:211
+#: frontend/src/home/CrmHome.vue:212
 msgid "{0} days past"
 msgstr "مضت {0} أيام"
 
@@ -37611,7 +37636,7 @@ msgstr "{0} منجز"
 msgid "{0} draft orders made"
 msgstr "أُنشئت {0} مسودات طلبات"
 
-#: frontend/src/home/BooksHome.vue:259 frontend/src/home/CrmHome.vue:282
+#: frontend/src/home/BooksHome.vue:260 frontend/src/home/CrmHome.vue:283
 #: frontend/src/home/InventoryHome.vue:299
 #: frontend/src/project/Invoices.vue:119
 msgid "{0} drafts"
@@ -38464,7 +38489,7 @@ msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة.
 msgid "{0} months"
 msgstr "{0} أشهر"
 
-#: frontend/src/home/BooksHome.vue:197 frontend/src/home/CrmHome.vue:217
+#: frontend/src/home/BooksHome.vue:198 frontend/src/home/CrmHome.vue:218
 #: frontend/src/home/InventoryHome.vue:200
 #: frontend/src/project/ProjectActivity.vue:48
 msgid "{0} more"
@@ -39047,7 +39072,7 @@ msgstr "{0} اليوم"
 msgid "{0} tonight."
 msgstr "{0} الليلة."
 
-#: frontend/src/home/BooksHome.vue:244
+#: frontend/src/home/BooksHome.vue:245
 msgid "{0} transactions"
 msgstr "{0} معاملات"
 
@@ -39905,6 +39930,11 @@ msgstr "أرسل {sender} ‏{item} لطلب {request}"
 #: onedesk/notifications/one_calendar/event_invitation.md
 msgid "{state}: {event}, {when}"
 msgstr "{state}: {event}، {when}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_crm/next_step_due.md
+msgid "{step} is due"
+msgstr "حان موعد {step}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/order_late.md

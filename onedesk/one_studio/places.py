@@ -176,6 +176,28 @@ PLACES = {
 			},
 		},
 	},
+	"onecrm_home": {
+		"label": "OneCRM",
+		"record": "Opportunity",
+		"events": {
+			"shown": {
+				"about": _lt("OneCRM's Home is opened, and each time a lead, an opportunity or a quotation changes."),
+				"gives": "home.due (next steps due today or late), home.closing (opportunities past their closing date), home.unclaimed (leads nobody has taken), home.expiring (quotations running out this week), home.unplanned (open with no next step), home.drafts (drafts left)",
+				"may": ("note", "action"),
+			},
+		},
+	},
+	"onebook_home": {
+		"label": "OneBook",
+		"record": "Sales Invoice",
+		"events": {
+			"shown": {
+				"about": _lt("OneBook's Home is opened, and each time an invoice, a payment or a bank line changes."),
+				"gives": "home.overdue (sales invoices overdue), home.bills (purchase invoices due this week or late), home.bank (bank lines to reconcile), home.drafts (drafts left)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneinventory_lots": {
 		"label": "OneInventory",
 		"record": "Batch",

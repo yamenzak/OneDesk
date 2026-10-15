@@ -94,7 +94,8 @@ for how long until the first mail is sent or call is made to them, and then
 
 Every lead and opportunity has a **Next Step** — what you will do, such as "Call Rana
 about the quote" — and **Next Step Due**, when. At that time the owner (Lead
-Owner or Opportunity Owner) gets a notification. An opportunity nobody owns belongs to
+Owner or Opportunity Owner) gets the **Next Step Due** notification, which each
+person sets under Settings › Notifications. An opportunity nobody owns belongs to
 whoever made it, or to its lead's owner.
 
 When it is done, press **Next Step Done** on the lead or opportunity. It writes
@@ -696,6 +697,14 @@ is the answer somebody opened the forecast to find. So is an opportunity with no
 at all. Won is by the day the opportunity was won (`measure.closed`), not the day it
 was expected.
 
+### legal.py
+
+What the agreements say because of OneCRM: the Privacy Policy that it keeps
+leads from the form and the inbox and compares them by email, phone and
+business; the Data Processing Addendum that the form's visitors and the email
+campaigns' recipients are the organisation's to answer for; the AI Addendum
+what OneAI reads of a sale.
+
 ### stages.py
 
 ERPNext's `Sales Stage` is a name and nothing else, so an opportunity's stage
@@ -723,3 +732,11 @@ month is the month it was won, not the last time anybody edited it. The
 funnel is ours: Frappe CRM's runs Lead, Deal, Won from its status log, which a
 sale that goes on to be ordered, billed and paid outgrows, so ours counts the
 papers `chain.py` follows.
+
+### tell.py
+
+A next step's reminder was frappe's own Reminder, a bell entry nobody could
+switch off or reword. It is One's Next Step Due now, sent by `due` every five
+minutes to the owner of each open lead and opportunity whose step has come due
+since the last look, once (`patches/next_step_is_ours` removed the Reminders
+waiting).
