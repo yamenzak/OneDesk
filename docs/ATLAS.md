@@ -83,7 +83,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Bank Reconciliation Tool | on a rail or a home | OneBook | form script | no | general |  |  |  |  | ar 1 |  |
 | Bank Statement Import | on a rail or a home | OneBook | form script | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Bank Statement Import Log | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 14, de 14 |  |
-| Bank Transaction | on a rail or a home | OneBook | a head, 2 settings | yes | general | makes it | yes |  |  | ar 2, de 2 |  |
+| Bank Transaction | on a rail or a home | OneBook | a head, 2 settings | yes | taught | makes it | yes |  |  | ar 2, de 2 |  |
 | Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  | ar 3, de 3 |  |
 | Bisect Accounting Statements | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Bisect Nodes | **waiting** | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
@@ -101,7 +101,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Finance Book | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Financial Report Template | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | de 1 |  |
 | Fiscal Year | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  | Notification for new fiscal year (theirs) |
-| GL Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
+| GL Entry | **waiting** | OneBook | untouched | yes | taught |  | yes |  |  | ar 1 |  |
 | Invoice Discounting | through a form's connections (Sales Invoice's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Item Tax Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Journal Entry | on a rail or a home | OneBook | a head, events, 1 settings | yes | general |  | yes |  |  | ar 2, de 1 |  |
@@ -139,7 +139,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Subscription | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 2 settings | yes | general | makes it | yes |  |  | ar 3 | Bill Due |
+| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 3 | Bill Due |
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Repost Payment Ledger | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |

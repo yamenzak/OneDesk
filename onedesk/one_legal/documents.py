@@ -144,9 +144,9 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 21: what OneAI reads and drafts in OneCRM, business cards included.
+		# 22: what OneAI reads of the books in OneBook, and that it never changes them.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 21,
+		"revision": 22,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

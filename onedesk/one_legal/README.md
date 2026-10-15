@@ -234,7 +234,9 @@ person acknowledges it.
   you approve it. 20, OneAI reads OneInventory as you see it, equipment and
   who holds it included, and drafts what it suggests there for you to approve.
   21, OneAI reads a lead or an opportunity with its history, and a business
-  card or a signature, and suggests a lead, a call or a next step.
+  card or a signature, and suggests a lead, a call or a next step. 22, OneAI
+  reads the books in OneBook as you may see them, drafts a payment reminder,
+  and never posts, pays or changes anything.
 - Data Processing Addendum: 2, the whole of the data in one download when the
   agreement ends. 3, a webhook is the organisation's instruction, its recipient
   theirs. 4, the portal, whom a workspace lets see which of its records. 5, the people a workspace's Get in Touch form and

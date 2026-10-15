@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-15 11:53+0000\n"
+"POT-Creation-Date: 2026-10-15 12:05+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -8566,6 +8566,10 @@ msgstr "اكتب مسودة متابعة"
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr "صِغ وظيفة شاغرة من هذا الطلب — عنوانها ووصفها وما يتمتع به المتقدم القوي، سطرًا قصيرًا لكل بند — واقترح إنشاءها."
 
+#: onedesk/one_book/ai.py:67
+msgid "Draft a payment reminder"
+msgstr "صغ تذكيرًا بالدفع"
+
 #: onedesk/one_project/ai.py:153
 msgid "Draft a project template for a kind of job we do. Ask me first what the job is, then offer a template we have or one from the library before drafting a new one."
 msgstr "صُغ قالب مشروع لنوع من الأعمال التي نقوم بها. اسألني أولًا عن نوع العمل، ثم اعرض قالبًا لدينا أو قالبًا من المكتبة قبل صياغة قالب جديد."
@@ -8593,6 +8597,10 @@ msgstr "اكتب مسودة رد أول قصير على هذا العميل ال
 #: onedesk/one_crm/ai.py:44
 msgid "Draft a short follow-up email to them from this opportunity's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
 msgstr "اكتب لهم مسودة رسالة متابعة قصيرة من سجل هذه الفرصة: ما قيل آخر مرة، وما اتفقنا عليه، والأمر الواحد الذي نطلبه. بكلمات بسيطة، دون لغة تسويقية."
+
+#: onedesk/one_book/ai.py:68
+msgid "Draft a short, polite email to the customer asking them to pay what is still owed on this invoice, saying how much, since when it was due, and how to pay. Plain words, no threats."
+msgstr "صغ رسالة قصيرة ومهذبة إلى العميل تطلب منه دفع المبلغ المتبقي على هذه الفاتورة، مع ذكر المبلغ، ومنذ متى استحق، وكيفية الدفع. بكلمات بسيطة، دون تهديد."
 
 #: onedesk/one_project/ai.py:152
 msgid "Draft a template"
@@ -12326,6 +12334,14 @@ msgstr "مدى دقة الموقع بحسب ما أفاد به المتصفح."
 #: onedesk/one_book/home.py:320
 msgid "How invoices, payments and the books work."
 msgstr "كيف تعمل الفواتير والمدفوعات والدفاتر."
+
+#: onedesk/one_book/ai.py:22
+msgid "How is the money doing?"
+msgstr "كيف حال المال؟"
+
+#: onedesk/one_book/ai.py:23
+msgid "How is the money doing? Say what is in the bank, what customers owe and how much of it is late, what we owe and what falls due this week, and how profit went this month against the months before."
+msgstr "كيف حال المال؟ قل ما في البنك، وما يدين به العملاء وكم منه متأخر، وما ندين به وما يستحق هذا الأسبوع، وكيف كان الربح هذا الشهر مقارنة بالأشهر السابقة."
 
 #: onedesk/one_inventory/ai.py:246
 msgid "How is this asset doing?"
@@ -32541,6 +32557,14 @@ msgstr "ماذا تعرض لوحاتنا؟"
 msgid "What do our extensions do?"
 msgstr "ماذا تفعل إضافاتنا؟"
 
+#: onedesk/one_book/ai.py:78
+msgid "What do they owe, and how late?"
+msgstr "ماذا يدينون، وكم تأخروا؟"
+
+#: onedesk/one_book/ai.py:49
+msgid "What do we have to pay this week?"
+msgstr "ماذا علينا أن ندفع هذا الأسبوع؟"
+
 #: onedesk/one/ai.py:76
 msgid "What do you know about me?"
 msgstr "ماذا تعرف عني؟"
@@ -32552,6 +32576,10 @@ msgstr "ماذا تعرف عني؟ قل ما تتذكره من محادثاتن�
 #: onedesk/one_hr/ai.py:34
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
 msgstr "ماذا تقول سياسة الإجازات لدينا — كم يومًا أحصل عليه من كل نوع، وما الذي يُرحّل، وما أيام العطل؟"
+
+#: onedesk/one_book/ai.py:79
+msgid "What does this customer owe us, on which invoices, and how late is each?"
+msgstr "ماذا يدين لنا هذا العميل، وعلى أي فواتير، وكم تأخرت كل منها؟"
 
 #: onedesk/one_inventory/ai.py:78
 msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
@@ -34099,6 +34127,14 @@ msgstr "أين ذهب وقت هذا المشروع هذا الشهر؟ اذكر 
 msgid "Where did this workspace's OneAI credits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr "أين ذهبت أرصدة OneAI لمساحة العمل هذه؟ قل ما تبقى لديها وحتى متى، وما أنفقته هذا الشهر وعلى أي النماذج، وأي أرصدة مُنحت أو استُردت يدويًا مع ملاحظتها."
 
+#: onedesk/one_book/ai.py:57
+msgid "Where does this invoice stand?"
+msgstr "أين وصلت هذه الفاتورة؟"
+
+#: onedesk/one_book/ai.py:58
+msgid "Where does this invoice stand? Say what is still owed, what is late, and which payments and credit notes settled the rest."
+msgstr "أين وصلت هذه الفاتورة؟ قل ما المتبقي، وما المتأخر، وأي الدفعات وإشعارات الدائن سدّدت الباقي."
+
 #: onedesk/one_crm/ai.py:22
 msgid "Where does this opportunity stand?"
 msgstr "أين وصلت هذه الفرصة؟"
@@ -34199,6 +34235,14 @@ msgstr "ما الموافقات المفعّلة، ومن يتولى كل خطو
 msgid "Which automations are on, what starts each, and what does each do?"
 msgstr "ما الأتمتة المفعّلة، وما الذي يبدأ كلًّا منها، وماذا تفعل؟"
 
+#: onedesk/one_book/ai.py:88
+msgid "Which bank lines are still to be matched, in which accounts, and for how much?"
+msgstr "أي الحركات البنكية لم تُطابق بعد، وفي أي حسابات، وبكم؟"
+
+#: onedesk/one_book/ai.py:87
+msgid "Which bank lines are still to match?"
+msgstr "أي الحركات البنكية لم تُطابق بعد؟"
+
 #. Description of the 'For' (Data) field in DocType 'Cloud Drive Password'
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 msgid "Which computer or app it was made for."
@@ -34207,6 +34251,10 @@ msgstr "الحاسوب أو التطبيق الذي أُنشئت له."
 #: onedesk/one_mail/ai.py:39
 msgid "Which conversations in this folder are waiting for an answer from us? Oldest first."
 msgstr "أيّ المحادثات في هذا المجلد تنتظر ردًّا منا؟ الأقدم أولًا."
+
+#: onedesk/one_book/ai.py:34
+msgid "Which customers owe us the most, how much of it is late and by how long?"
+msgstr "أي العملاء يدينون لنا أكثر، وكم من ذلك متأخر وبكم؟"
 
 #: onedesk/one/ai.py:214
 msgid "Which dashboards do we have, and what does each chart and card count?"
@@ -34235,6 +34283,10 @@ msgstr "ما النماذج التي غيّرتها مساحة العمل، وك
 #: onedesk/one_studio/ai.py:40
 msgid "Which forms have we changed?"
 msgstr "ما النماذج التي غيّرناها؟"
+
+#: onedesk/one_book/ai.py:41
+msgid "Which invoices are overdue?"
+msgstr "أي الفواتير متأخرة؟"
 
 #: onedesk/one_inventory/ai.py:63
 msgid "Which items are at or below their reorder level, where, and what is already on order for them."
@@ -34335,6 +34387,10 @@ msgstr "بأي تنسيق طباعة تُطبع فواتير المبيعات، 
 msgid "Which projects need attention?"
 msgstr "أي المشاريع تحتاج إلى انتباه؟"
 
+#: onedesk/one_book/ai.py:50
+msgid "Which purchase invoices fall due this week or are already late, to whom and for how much?"
+msgstr "أي فواتير الشراء تستحق هذا الأسبوع أو تأخرت بالفعل، ولمن وبكم؟"
+
 #: onedesk/one_inventory/ai.py:196
 msgid "Which purchase orders are late, from whom, since when, and what is still to come on each?"
 msgstr "أي أوامر الشراء متأخرة، ومن أي مورد، ومنذ متى، وما الذي لم يصل بعد في كل منها؟"
@@ -34346,6 +34402,10 @@ msgstr "ما التقارير التي تُرسل بالبريد، وكم مرة
 #: onedesk/one/ai.py:220
 msgid "Which reports go out by mail?"
 msgstr "ما التقارير التي تُرسل بالبريد؟"
+
+#: onedesk/one_book/ai.py:42
+msgid "Which sales invoices are overdue, to whom, for how much, and since when?"
+msgstr "أي فواتير المبيعات متأخرة، ولمن، وبكم، ومنذ متى؟"
 
 #: onedesk/one_inventory/home.py:204
 msgid "Which service a supplier charges for making what."
@@ -34517,6 +34577,10 @@ msgstr "من يتأثر"
 #: onedesk/one_project/ai.py:74
 msgid "Who on this project has too much on? Say who has the most open and late tasks and the most hours this month, and which tasks could go to somebody with less."
 msgstr "من في هذا المشروع لديه عمل أكثر من اللازم؟ اذكر من لديه أكثر المهام المفتوحة والمتأخرة وأكثر الساعات هذا الشهر، وأي المهام يمكن أن تذهب إلى شخص لديه عمل أقل."
+
+#: onedesk/one_book/ai.py:33
+msgid "Who owes us the most, and how late?"
+msgstr "من يدين لنا أكثر، وكم تأخر؟"
 
 #: onedesk/one_book/home.py:301
 msgid "Who owes you, and how late."

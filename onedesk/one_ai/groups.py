@@ -89,6 +89,14 @@ GROUPS = {
 			"صفقة", "عميل", "مبيعات", "عملاء",
 		),
 	},
+	"books": {
+		"about": "money: how the money is doing, cash, what customers owe and how late, what we owe and what falls due this week, profit, one invoice and what settled it, drafting a payment reminder, bank lines still to match",
+		"tools": ("money_now", "late_invoices", "invoice_facts", "bank_to_match"),
+		"words": (
+			"money", "cash", "invoice", "bill", "owe", "overdue", "paid", "payment", "profit", "bank", "receivable",
+			"payable", "rechnung", "zahlung", "gewinn", "فاتورة", "دفع", "ربح", "بنك", "مستحق",
+		),
+	},
 	"projects": {
 		"about": "projects: how a project is going, what is late and what waits on it, which projects need attention, who has too much on this week, drafting your update, reminding a customer of an overdue invoice, adding a member or a contact, project templates and drafting one, starting a new project, putting a project on hold, completing or cancelling it, adding a milestone, logging your time, a cost type's budget",
 		"tools": (
@@ -280,6 +288,8 @@ MODULES = {
 	"Manufacturing": "inventory",
 	"Assets": "inventory",
 	"One Inventory": "inventory",
+	"Accounts": "books",
+	"One Book": "books",
 	"HR": "hr",
 	"Payroll": "hr",
 	"One HR": "hr",
@@ -313,6 +323,8 @@ PAGES = {
 	"upkeep": "inventory",
 	"floor": "inventory",
 	"plant": "inventory",
+	"books": "books",
+	"onecrm": "crm",
 }
 
 

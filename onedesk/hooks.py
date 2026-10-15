@@ -1436,6 +1436,11 @@ one_ai_reads = [
 	"onedesk.one_inventory.ai.asset_facts",
 	"onedesk.one_inventory.ai.equipment_held",
 	"onedesk.one_inventory.ai.services_due",
+	# How the money stands, what is late, one invoice, the bank. See one_book/ai.py.
+	"onedesk.one_book.ai.money_now",
+	"onedesk.one_book.ai.late_invoices",
+	"onedesk.one_book.ai.invoice_facts",
+	"onedesk.one_book.ai.bank_to_match",
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
@@ -1580,6 +1585,7 @@ one_ai_suggestions = [
 	"onedesk.one_calendar.ai.SUGGESTIONS",
 	"onedesk.one_task.ai.SUGGESTIONS",
 	"onedesk.one_inventory.ai.SUGGESTIONS",
+	"onedesk.one_book.ai.SUGGESTIONS",
 	"onedesk.one_project.ai.SUGGESTIONS",
 	"onedesk.one_admin.ai.SUGGESTIONS",
 	"onedesk.one_studio.ai.SUGGESTIONS",
@@ -1595,6 +1601,7 @@ one_ai_page = [
 	"onedesk.one_admin.ai.page",
 	"onedesk.one_project.ai.page",
 	"onedesk.one_crm.ai.page",
+	"onedesk.one_book.ai.page",
 ]
 
 # Kinds of record whose home is one of a module's pages rather than their own

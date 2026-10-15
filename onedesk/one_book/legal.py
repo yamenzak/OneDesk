@@ -1,0 +1,19 @@
+"""What OneBook adds to the agreements: what OneAI reads of the books. See
+one_book/ai.py and one_legal/README.md."""
+
+from onedesk.one_legal.registry import clause
+
+M = "OneBook"
+
+clause(
+	document="ai",
+	section="modules",
+	key="onebook-asks",
+	module=M,
+	body="""
+		In OneBook, when you ask OneAI about the money, it reads the books as you may see them: what is in the
+		bank, what customers and suppliers owe and how late, an invoice with the payments that settled it,
+		and the bank lines still to match. It drafts a payment reminder for you to send, and never posts,
+		pays or changes anything in the books.
+	""",
+)

@@ -13551,3 +13551,26 @@ groups, Reports and Setup.
 
 Left for OneBook's own pass: it has no `ai.py`, so OneAI has no suggestions
 and no sentence on its Home either.
+
+### OneBook: OneAI knows the books
+
+Found in OneCRM's pass against the points: OneBook had no `ai.py`, so OneAI
+had no suggestions on its Home or its lists, read nothing of the books beyond
+what any record lookup gives, and was not told what Home is.
+
+**Done.** `one_book/ai.py`, four reads and no writes:
+
+- `money_now`, Home's own figures and debts;
+- `late_invoices`, Today's overdue invoices or bills due, for one party if
+  asked;
+- `invoice_facts`, one invoice with when each part falls due and the
+  payments and credit notes that settled the rest;
+- `bank_to_match`, Today's bank lines.
+
+Suggestions on Home (How is the money doing?, Who owes us the most, and how
+late?, What do we have to pay this week?), on Sales Invoice (overdue, where it
+stands, a payment reminder drafted for the reader to send), Purchase Invoice,
+Customer and Bank Transaction. The tools are OneAI's `books` group, and the
+Home pages `books` and `onecrm` now name their groups. The AI Addendum (22)
+says OneAI reads the books and never posts, pays or changes them. Demo check
+`onebook_oneai_reads_the_money_as_home_does`.

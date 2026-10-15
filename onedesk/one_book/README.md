@@ -213,6 +213,24 @@ and payment (OneBook); a purchase goes order and receipt (OneInventory), bill
 and payment (OneBook). Each record opens in its own app's rail, wherever it
 was found.
 
+## OneAI in OneBook
+
+Open OneAI on a page and it offers what makes sense there. It reads the books
+as you may see them and never posts, pays or changes anything in them.
+
+- **On Home**: *How is the money doing?* says what is in the bank, what
+  customers owe and how much is late, what is owed and falls due this week,
+  and how profit went. *Who owes us the most, and how late?* and *What do we
+  have to pay this week?* list the invoices behind them.
+- **On a Sales Invoice**: *Where does this invoice stand?* says what is still
+  owed, what is late, and the payments and credit notes that settled the rest.
+  *Draft a payment reminder* writes a short, polite email for you to send.
+  On the list, *Which invoices are overdue?*
+- **On a Purchase Invoice**: *What do we have to pay this week?* on the list,
+  and *Where does this invoice stand?* on one.
+- **On a Customer**: *What do they owe, and how late?*
+- **On Bank Transaction**: *Which bank lines are still to match?*
+
 ## Connections
 
 - **From OneCRM**: A Sales Order is invoiced here with Create › Sales Invoice. Customers are kept in OneCRM.
@@ -512,3 +530,13 @@ links to, or add a bank, and keeps the purchase tax templates from accounts:
   Manager adds one too (`RAISED`).
 - **End of Service** (Gratuity): HRMS shows it to HR alone, but the books pay
   it, so accounts read it.
+
+### ai.py
+
+Four reads and no writes: `money_now` is Home's own figures and debts
+(`story.read`), `late_invoices` is Today's list (`home._late`, the payment
+schedule as ERPNext's Overdue reads it), `invoice_facts` is one invoice with its
+schedule, payments and credit notes, and `bank_to_match` is Today's bank lines.
+OneAI drafts a payment reminder as text for the reader to send; it is given no
+tool that posts, pays or reconciles, because a ledger entry is the one thing a
+suggestion card should never be.

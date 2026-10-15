@@ -5877,6 +5877,31 @@ def onecrm_a_next_step_come_due_is_told_once():
 
 
 @check
+def onebook_oneai_reads_the_money_as_home_does():
+	"""What OneAI reads in OneBook agrees with Home: the figures are Home's,
+	the overdue invoices are Today's, one invoice says what settled it, the
+	bank lines are Today's; and Home offers its three questions."""
+	from onedesk.one_ai import chat, suggest
+	from onedesk.one_book import ai, home, story
+
+	with as_user("huda@one.test"):
+		money = ai.money_now()
+		assert money["figures"]["cash"]["now"] == story.read()["cards"]["cash"]["value"], money["figures"]
+		late = ai.late_invoices("Sales Invoice")
+		assert late["count"] == home.needs_you()["overdue"]["count"] and late["count"], late
+		assert ai.late_invoices("Sales Invoice", party=late["invoices"][0]["party"])["count"] >= 1
+		paid = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Paid", "is_return": 0}, pluck="name", limit=1)
+		said = ai.invoice_facts(paid[0])
+		assert said["still_owed"] == 0 and said["payments"], said
+		assert ai.bank_to_match()["lines"] == home.needs_you()["bank"]["count"]
+		offered = [one["label"] for one in suggest.for_page({"page": "books"})]
+		assert "How is the money doing?" in offered, offered
+		assert "OneBook's Home" in chat._page({"page": "books"})
+	with as_user("rania@one.test"):
+		assert ai.bank_to_match().get("error") and ai.late_invoices().get("error"), "outside the books, nothing is read"
+
+
+@check
 def onebook_a_payment_says_where_it_stands():
 	"""Every payment Huda opens says in a sentence what moved, to or from
 	whom, and a payment through the bank says whether the statement has it
