@@ -237,26 +237,29 @@ def test_a_dialog_is_frappes():
 
 
 def test_every_page_outside_the_desk_wears_the_portal():
-	"""The pages a customer or a guest sees (/start, /welcome, the share and
-	request pages, a customer's project) are frappe's web pages in One's
-	portal look (public/css/portal.css), without frappe's footer, which says
-	"Powered by ERPNext"."""
+	"""The pages a guest sees (/start, /welcome, the share and request pages,
+	/legal) are frappe's web pages in One's portal look (public/css/portal.css),
+	without frappe's footer, which says "Powered by ERPNext". The portal
+	itself is a frappe-ui app (frontend/portal), whose build writes its page."""
 	pages = sorted((tree.APP / "www").glob("*.html"))
 	assert pages
-	# me.html is never drawn: me.py sends everybody on (a portal reader to
-	# their Profile), and the file is there so frappe's own /me is not found.
-	never_drawn = {"me.html"}
+	# me.html and projects.html are never drawn: their .py sends everybody on,
+	# and the file is there so frappe's and erpnext's own pages are not found.
+	never_drawn = {"me.html", "projects.html"}
 	for page in pages:
 		if page.name in never_drawn:
-			assert "frappe.Redirect" in (page.parent / "me.py").read_text(encoding="utf-8")
+			assert "frappe.Redirect" in page.with_suffix(".py").read_text(encoding="utf-8")
+			continue
+		if page.name == "portal.html":
 			continue
 		html = page.read_text(encoding="utf-8")
 		# A page of frappe's own, extended by its app prefix (Set Password),
-		# keeps frappe's page for anyone the shell is not for.
+		# is frappe's page, found first so its .py can send a portal reader on.
 		frappes = f'{{% extends "frappe/www/{page.name}" %}}'
-		web = ('{% extends "templates/web.html" %}', frappes)
-		assert html.lstrip().startswith(web), f"{page.name} is not a web page"
-		assert 'class="one-portal' in html, f"{page.name} is not in the portal's look"
-		no_footer = "{%- block footer -%}{%- endblock -%}" in html or frappes in html
-		assert no_footer, f"{page.name} keeps frappe's footer"
+		if html.lstrip().startswith(frappes):
+			assert "frappe.Redirect" in (page.parent / page.name.replace("-", "_").replace(".html", ".py")).read_text()
+			continue
+		assert html.lstrip().startswith('{% extends "templates/web.html" %}'), f"{page.name} is not a web page"
+		assert 'class="one-portal' in html or "for-login" in html, f"{page.name} is not in the portal's look"
+		assert "{%- block footer -%}{%- endblock -%}" in html, f"{page.name} keeps frappe's footer"
 		assert "<style" not in html, f"{page.name} styles itself; portal.css does"

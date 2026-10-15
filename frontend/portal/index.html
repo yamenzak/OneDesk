@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ boot.lang }}" dir="{{ 'rtl' if boot.rtl else 'ltr' }}">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+		<title>{{ boot.me.party or "One" }}</title>
+		<link rel="icon" href="/assets/onedesk/images/one.svg" />
+		<script>
+			// The reader's light or dark, before anything is drawn.
+			(() => {
+				const dark = matchMedia("(prefers-color-scheme: dark)");
+				const set = () => document.documentElement.setAttribute("data-theme", dark.matches ? "dark" : "light");
+				set();
+				dark.addEventListener("change", set);
+			})();
+		</script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script>
+			window.csrf_token = "{{ csrf_token }}";
+			window.frappe = { boot: {{ boot_json }} };
+		</script>
+		<script type="module" src="/src/main.js"></script>
+	</body>
+</html>

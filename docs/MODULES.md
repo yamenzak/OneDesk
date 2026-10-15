@@ -256,7 +256,14 @@ No doctypes yet.
 * `onedesk.one.numbering.set_current`
 * `onedesk.one.numbering.set_naming_by`
 * `onedesk.one.outside.kind_of`
+* `onedesk.one.portal.apps`
+* `onedesk.one.portal.form`
+* `onedesk.one.portal.home`
+* `onedesk.one.portal.record`
+* `onedesk.one.portal.rfq`
+* `onedesk.one.portal.rows`
 * `onedesk.one.portal.send_quote`
+* `onedesk.one.portal.your_data`
 * `onedesk.one.portal_invite.invite_again`
 * `onedesk.one.portal_invite.invite_contact`
 * `onedesk.one.portal_invite.restore`
@@ -606,6 +613,7 @@ No doctypes yet.
 * `onedesk.one_project.members.unseen`
 * `onedesk.one_project.money.money`
 * `onedesk.one_project.overview.overview`
+* `onedesk.one_project.portal.page`
 * `onedesk.one_project.progress.bill_progress`
 * `onedesk.one_project.progress.progress`
 * `onedesk.one_project.retainer.asked`

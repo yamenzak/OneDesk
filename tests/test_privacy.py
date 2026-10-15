@@ -150,7 +150,7 @@ def test_somebody_who_is_not_a_user_can_find_the_page():
 
 def test_the_public_page_is_frappes_sign_in_card():
 	page = (tree.APP / "www" / "your_data.html").read_text()
-	guest = page.split("{%- else %}", 1)[1]
+	guest = page
 	assert 'include_style("login.bundle.css")' in page and "import alert_banner" in page
 	assert '<section class="for-login one-your-data">' in guest and 'class="login-content page-card' in guest
 	assert 'alert_banner("success")' in guest and 'alert_banner("error")' in guest

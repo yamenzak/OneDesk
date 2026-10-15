@@ -1700,8 +1700,9 @@ choose their password, which works for a week, and land on the portal.
 Each sees only the records of their own customer or supplier. Home says how
 many of each they have, and how many invoices are waiting to be paid. On a
 computer the tabs are in a sidebar under their company's name; on a phone
-they scroll across the top. Which tabs show is set in frappe's Portal
-Settings.
+Home and the first three tabs are a bar along the bottom, and **More** has
+the rest. Which tabs show is set in frappe's Portal Settings. Each list has a
+search, and **Load More** under it once there are more than twenty.
 
 Opening a record shows its dates, items and totals, and **Download PDF**
 gives the printed copy. An invoice that is partly paid also shows what is
@@ -1717,12 +1718,14 @@ follows their projects: how far along each is, when it ends, its tasks and
 its order and invoices. Timesheets show the hours worked for them, one row
 per timesheet.
 
-Their own pages are under **Account** in the sidebar (in the menu under
-their initials on a phone):
+Their own pages are under **Account** in the sidebar (under **More** on a
+phone):
 
-- **Profile**: their name, picture, phone, language and time zone. **Save**
-  keeps them on the page.
-- **Password**: their old password, then the new one twice.
+- **Profile**: their name, picture, phone, language and time zone, saved with
+  **Save** in the page's head.
+- **Password**: their current password, then the new one twice, and
+  **Update**. It says how strong the new one is as they type, and can sign
+  them out of every other device.
 - **Your Data**: **Request My Data** asks for a copy, which an administrator
   reviews first; when it is ready, **Download My Data**. **Delete My
   Account** asks for the account to be deleted, confirmed with their
@@ -1794,7 +1797,7 @@ For the people who build One. OneAI does not read past this heading.
 | `../public/js/crumb_switch.js`, `../public/js/panel_menu.js` | Every crumb with somewhere to go is a switcher: a frappe.ui.Popover with a search box over frappe's menu rows, as frappe-ui's Combobox draws one with `trigger="button"`. The place's crumb lists the panel's rows (`onedesk.panel.options`), a record's crumb (a form's last, or the one `shell.trail` marks `one_record`) searches its doctype with `frappe.desk.search.search_link`, with `onedesk.crumbs.suggest[doctype]` before anything is typed (a project's: the reader's open projects), and a crumb a page gave a `menu` filters that. **All …** stays pinned under the rows |
 | `../public/js/phone_head.js` | Below 768 wide the page head is two bars, each its own height with a line under it (desk.css), and the trail splits over them: the place stays in the first with the panel's button and search, and phone_head.js moves the page's buttons there too, before search; crumb_switch.js draws the record's crumb and any after it (a project's All Work) as buttons in the second, beside the status and the view switch. The head is marked `one-head-actions` when it has any, its height is set as `--page-head-height` for frappe's sticky parts, and the status pill moves to the second row with its word, which frappe shrinks to a dot on a phone |
 | `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search offers One's pages and reports. A page not found or not permitted keeps the rail. Search, Check In, OneIntake, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
-| `portal.py`, `../www/portal.html`, `../templates/includes/one_portal_head.html` | The portal a workspace's customers and suppliers sign in to: its tabs (Portal Settings by role), its home, and every list in One's look, through frappe's own `portal` page and erpnext's list contexts. The row templates under `../templates/includes/` replace erpnext's. A contact invited as a user becomes a portal user of their customer or supplier |
+| `portal.py`, `../www/portal.py`, `../../frontend/portal/` | The portal a workspace's customers and suppliers sign in to, a frappe-ui app at `/portal`: its tabs (Portal Settings by role), its home, every list, record, quote request and account page, read through frappe's and erpnext's own contexts and answered as JSON. erpnext's and frappe's old portal addresses lead into it. A contact invited as a user becomes a portal user of their customer or supplier |
 | `../www/404.py`, `../www/message.py`, `../www/error.py`, `../www/me.py` | Frappe's web pages for not found, a message, an error and `/me`, in One's portal look. `/me` sends someone with a desk to Profile and an account holder to `/account` |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
@@ -1913,7 +1916,7 @@ on the screen somebody opens to click Open it.
 
 On every workspace's own site. A guest (a customer's contact, a supplier, a
 lead or an applicant with no account) gives their address and is mailed a
-link. A portal reader signed in asks as a user does, in the portal's shell,
+link. A portal reader signed in is sent to Your Data in the portal app,
 under Account: the same state and calls as You > Profile > Your Data on the
 desk. Someone with a desk is pointed to their profile.
 
@@ -2591,21 +2594,27 @@ account is touched.
 
 ### portal.py
 
-Frappe draws the portal: Portal Settings lists what each role sees (erpnext's
-Quotations, Orders and Invoices for a customer; Requests for Quotation and
-Purchase Orders for a supplier), frappe's `portal` page lists a kind of
-record through the kind's own `get_list_context`, and a row template draws
-each row. One's look replaces the templates only (www/portal.html and the row
-templates under templates/includes); what is listed, and for whom, stays
-erpnext's and frappe's.
+The portal is a frappe-ui app (frontend/portal), built by frappe-ui's vite
+plugin the way HRMS builds its own, and served at `/portal` by
+www/portal.py with what it starts with (`boot`: the reader, their tabs, their
+language). It draws; what is listed, and for whom, stays erpnext's and
+frappe's. Portal Settings lists what each role sees (`get_portal_sidebar_items`),
+`rows` lists a kind through frappe's `get_list_data_for_context`, which runs
+the kind's own `get_list_context`, `record` and `rfq` read erpnext's own page
+contexts (`templates/pages/order` and `rfq`), which check the reader may see
+the record, and `form` reads a web form through frappe's `get_form_data`. Each
+answers with every value as frappe formats it.
 
-The page's Python is frappe's own when it lists a kind of record (its
-ListPage asks for frappe's module by name), so what the template needs beyond
-frappe's context comes from the Jinja methods in portal.py.
+The Jinja portal this replaces (a page and a row template for each kind,
+under the site's navbar) is gone; website_redirects in hooks.py send its
+addresses, and erpnext's (/orders/<name>), into the app. ERPNext's project
+page is www/projects.py, which does the same: frappe keeps a redirect by its
+path alone, so a rule can't tell /projects?project=… from /projects.
 
 `ACCOUNT` is the reader's own account, under Account in the sidebar: frappe's
-profile web form, its Set Password page, One's Your Data (one/privacy.py) and
-frappe's Third Party Apps, shown once an app has been let in.
+Edit Profile web form, Password on frappe's update_password, One's Your Data
+(one/privacy.py) and frappe's Third Party Apps, shown once an app has been
+let in. frappe's own pages for these send a portal reader to the app (`reads`).
 
 `send_quote`: erpnext's own mapper (`create_supplier_quotation`) cannot finish
 for a portal user, since filling the quote's defaults reads each Item, which a

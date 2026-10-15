@@ -447,12 +447,11 @@ def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
 		'{"doctype": "Portal User", **where, "user": doc.user}'
 		in (tree.APP / "one" / "portal.py").read_text()
 	), "the only thing ERPNext's portal reads"
-	page = (tree.APP / "www" / "projects.py").read_text()
-	assert "portal.view(project)" in page, "One's page at ERPNext's address"
-	html = (tree.APP / "www" / "projects.html").read_text()
-	assert "_assign" not in html and "timesheet" not in html.lower() and "/tasks/new" not in html, (
-		"nothing of the team's"
-	)
+	portal = (PROJECT / "portal.py").read_text()
+	assert "said = view(project)" in portal, "the portal's page is the customer's view"
+	assert '"/portal/projects/' in (tree.APP / "www" / "projects.py").read_text(), "ERPNext's address leads to it"
+	html = (tree.ROOT / "frontend" / "portal" / "src" / "pages" / "Project.vue").read_text()
+	assert "_assign" not in html and "/tasks/new" not in html, "nothing of the team's"
 
 
 def test_a_tasks_hours_fall_in_the_days_of_the_week_they_cover():
@@ -1602,12 +1601,10 @@ def test_featured_media_turns_on_the_page_and_the_portal():
 		"@mouseenter",
 	):
 		assert part in hero, part
-	# The portal: the same, in plain JavaScript beside the project's facts.
-	page = (tree.APP / "www" / "projects.html").read_text()
-	assert "data-one-gallery" in page and "/assets/onedesk/js/one_gallery.js" in page
-	assert "muted playsinline" in page and "{% if media | length == 1 %} loop{% endif %}" in page
-	gallery = (tree.APP / "public" / "js" / "one_gallery.js").read_text()
-	for part in ('addEventListener("ended"', "prefers-reduced-motion", '"mouseenter"', "clip.play()"):
+	# The portal: the same, beside the project's facts.
+	gallery = (tree.ROOT / "frontend" / "portal" / "src" / "parts" / "Gallery.vue").read_text()
+	assert "<Gallery" in (tree.ROOT / "frontend" / "portal" / "src" / "pages" / "Project.vue").read_text()
+	for part in ("muted playsinline", ':loop="media.length === 1"', '@ended="on(1)"', "prefers-reduced-motion", "@mouseenter", "clip.value.play()"):
 		assert part in gallery, part
 
 
@@ -1760,7 +1757,7 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	)
 	assert '"On hold": "amber"' in (tree.ROOT / "frontend" / "src" / "project" / "colors.js").read_text()
 	assert '"On hold": "orange"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
-	assert "'amber' if doc.status == 'On hold'" in (tree.APP / "www" / "projects.html").read_text()
+	assert '"On hold": "amber"' in (PROJECT / "portal.py").read_text()
 	# Completing or cancelling asks first, and closes the open tasks and
 	# sub-projects with it; a task already closed keeps its status.
 	change = status[status.index("def change(") : status.index("def due(")]

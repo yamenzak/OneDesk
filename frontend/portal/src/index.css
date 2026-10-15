@@ -1,0 +1,39 @@
+@import "frappe-ui/style.css";
+
+html,
+body,
+#app {
+	height: 100%;
+}
+
+/* frappe-ui's dark sidebar surface is transparent, so the frame needs a page
+   behind it in both themes. */
+body {
+	background: var(--surface-base);
+}
+
+/* The page is inset in the sidebar's frame, as the desk's is: one rule along
+   its top and its start, rounded where they meet (desk.css, The inset). */
+[data-slot="desktop-shell"] {
+	background: var(--surface-sidebar);
+}
+
+[data-slot="desktop-shell-content"] {
+	margin-top: 0.5rem;
+	border-top: 1px solid var(--outline-gray-1);
+	border-inline-start: 1px solid var(--outline-gray-1);
+	border-start-start-radius: var(--radius-lg);
+	background: var(--surface-base);
+}
+
+/* frappe-ui's SidebarItem spaces its icon with physical margins (ml-2, pl-2);
+   right to left, the same space goes on the other side. */
+[dir="rtl"] [data-slot="sidebar-item"] .ml-2 {
+	margin-left: 0;
+	margin-right: 0.5rem;
+}
+
+[dir="rtl"] [data-slot="sidebar-item"] .pl-2 {
+	padding-left: 0;
+	padding-right: 0.5rem;
+}

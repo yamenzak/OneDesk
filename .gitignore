@@ -3,6 +3,8 @@ __pycache__/
 .venv/
 node_modules
 onedesk/public/dist/
+# Built from frontend/portal by `bench build`, as frappe-ui writes it.
+onedesk/www/portal.html
 *.egg-info/
 .DS_Store
 

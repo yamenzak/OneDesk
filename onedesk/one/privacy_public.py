@@ -45,13 +45,18 @@ def ask(email: str, kind: str) -> dict:
 		frappe.throw(_("Enter a valid email address."))
 	expires = add_to_date(now_datetime(), hours=LINK_HOURS).strftime("%Y-%m-%d %H:%M:%S")
 	tell.request_to_confirm(
-		email, _workspace(), kind, _signed("confirm", email=email, kind=kind, expires=expires), LINK_HOURS
+		email, workspace(), kind, _signed("confirm", email=email, kind=kind, expires=expires), LINK_HOURS
 	)
-	return {"said": _("If {0} knows this address, a link to confirm is on its way.").format(_workspace())}
+	return {"said": _("If {0} knows this address, a link to confirm is on its way.").format(workspace())}
 
 
-def _workspace() -> str:
-	return frappe.db.get_single_value("Workspace Account", "workspace_name") or frappe.local.site
+def workspace() -> str:
+	"""Who the reader is asking: the workspace's name, else its company's."""
+	return (
+		frappe.db.get_single_value("Workspace Account", "workspace_name")
+		or frappe.defaults.get_global_default("company")
+		or frappe.local.site
+	)
 
 
 def _page(title: str, text: str, ok: bool = True) -> None:
@@ -84,7 +89,7 @@ def confirm(email: str, kind: str, expires: str) -> None:
 	frappe.db.commit()
 	_page(
 		_("Request Confirmed"),
-		_("{0} will answer by email within a month.").format(_workspace()),
+		_("{0} will answer by email within a month.").format(workspace()),
 	)
 
 

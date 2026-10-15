@@ -1,12 +1,14 @@
-"""The portal a workspace's customers and suppliers sign in to.
+"""The portal a workspace's customers and suppliers sign in to: a frappe-ui
+app (frontend/portal), served at /portal by www/portal.py.
 
-Frappe draws it, and what is listed, and for whom, stays erpnext's and
-frappe's. One's look replaces the templates only, and the Jinja methods here
-give them what frappe's context does not.
+What is listed, and for whom, stays erpnext's and frappe's: the tabs are
+Portal Settings by role, a list is the kind's own list context, a record is
+erpnext's record page's context, which checks the reader may see it. This
+module turns those into what the app draws, formatted as frappe formats them.
 """
 
 import re
-from urllib.parse import quote
+from urllib.parse import urlencode
 
 import frappe
 from frappe import _, _lt
@@ -29,204 +31,73 @@ FORMS = {"addresses": {"button_label": "Save Address"}}
 #: and each is translated as it is drawn.
 SAID = (_lt("Quote Requests"), _lt("Quotes"), _lt("Save Address"))
 
-#: erpnext's indicator colours, as frappe-ui's Badge themes them.
-TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
+#: Where a Portal Settings route lives in the app, where the two differ.
+PATHS = {"/project": "projects"}
 
-#: Each tab's Lucide icon (frappe's sprite, on every web page).
+#: Each tab's Lucide icon.
 ICONS = {
-	"/project": "folder-kanban",
-	"/quotations": "file-text",
-	"/orders": "package",
-	"/invoices": "receipt",
-	"/shipments": "truck",
-	"/addresses": "map-pin",
-	"/timesheets": "clock",
-	"/rfq": "inbox",
-	"/supplier-quotations": "file-pen-line",
-	"/purchase-orders": "shopping-cart",
-	"/purchase-invoices": "receipt",
+	"projects": "folder-kanban",
+	"quotations": "file-text",
+	"orders": "package",
+	"invoices": "receipt",
+	"shipments": "truck",
+	"addresses": "map-pin",
+	"timesheets": "clock",
+	"rfq": "inbox",
+	"supplier-quotations": "file-pen-line",
+	"purchase-orders": "shopping-cart",
+	"purchase-invoices": "receipt",
 }
 
-#: Pages that belong to a tab without sharing its route: an address's form
-#: (frappe's web form) is under Addresses, a project's page under Projects.
-ALSO = {"/address": "/addresses", "/projects": "/project"}
-
-#: The reader's own account, under Account in the sidebar, as (route, title, icon);
-#: the profile's route is completed with the reader.
+#: The reader's own pages, under Account, as (path, title, icon).
 ACCOUNT = (
-	("/update-profile", _lt("Profile"), "user"),
-	("/update-password", _lt("Password"), "key-round"),
-	("/your-data", _lt("Your Data"), "shield-check"),
-	("/third_party_apps", _lt("Third Party Apps"), "plug"),
+	("profile", _lt("Profile"), "user"),
+	("password", _lt("Password"), "key-round"),
+	("your-data", _lt("Your Data"), "shield-check"),
+	("apps", _lt("Third Party Apps"), "plug"),
 )
 
-#: A list's columns, by the row template that draws it, as frappe-ui's
-#: ListView heads them.
+#: The kinds erpnext lists as transactions, each with a page of its own.
+TRANSACTIONS = (
+	"Quotation",
+	"Sales Order",
+	"Sales Invoice",
+	"Delivery Note",
+	"Request for Quotation",
+	"Supplier Quotation",
+	"Purchase Order",
+	"Purchase Invoice",
+)
+
+#: A list's column heads, by kind; any other kind has the first.
 COLUMNS = {
-	"templates/includes/transaction_row.html": (_lt("Number"), _lt("Status"), _lt("Total")),
-	"templates/includes/projects/project_row.html": (_lt("Project"), _lt("Status"), _lt("Progress")),
-	"templates/includes/timesheet/timesheet_row.html": (_lt("Timesheet"), _lt("Status"), _lt("Hours")),
-	"templates/includes/address_row.html": (_lt("Address"), _lt("Type"), _lt("City")),
+	None: (_lt("Number"), _lt("Status"), _lt("Total")),
+	"Request for Quotation": (_lt("Number"), _lt("Status"), _lt("Needed by")),
+	"Project": (_lt("Project"), _lt("Status"), _lt("Progress")),
+	"Timesheet": (_lt("Timesheet"), _lt("Status"), _lt("Hours")),
+	"Address": (_lt("Address"), _lt("Type"), _lt("City")),
 }
 
-#: A list's button for adding one, where the reader may: an address is added
-#: through frappe's web form.
-ADD = {"Address": ("/address/new", _lt("Add Address"))}
+#: A list's button for adding one, where the reader may.
+ADD = {"Address": ("addresses/new", _lt("Add Address"))}
 
-#: How many of a kind the home counts before it says "100+".
+#: How many rows a list gives at a time.
+PAGE = 20
+
+#: How many of a kind Home counts before it says "100+".
 COUNTED = 100
 
-#: The states of a kind that wait on the reader, and how the home says so.
+#: The states of a kind that wait on the reader, and how Home says so.
 WAITING = {
 	"Sales Invoice": (("Unpaid", "Overdue", "Partly Paid"), lambda n: _("{0} to pay").format(n)),
-	"Purchase Order": (("To Pay", "To Receive and Bill", "To Receive"), lambda n: _("{0} to deliver").format(n)),
+	"Purchase Order": (
+		("To Pay", "To Receive and Bill", "To Receive"),
+		lambda n: _("{0} to deliver").format(n),
+	),
 }
 
-
-def _here() -> str:
-	"""The first part of the page's path, as the tab it belongs to (ALSO)."""
-	request = getattr(frappe.local, "request", None)
-	here = "/" + (request.path.strip("/").split("/")[0] if request else "")
-	return ALSO.get(here, here)
-
-
-def one_portal_tabs() -> list[dict]:
-	"""The portal's tabs, from Portal Settings by the reader's roles, the one
-	being read marked."""
-	here = _here()
-	return [
-		{
-			"title": _(item.get("title")),
-			"route": item.get("route"),
-			"icon": ICONS.get(item.get("route"), "file-text"),
-			"current": item.get("route") == here,
-		}
-		for item in get_portal_sidebar_items()
-		if item.get("route")
-	]
-
-
-def one_portal_account() -> list[dict]:
-	"""The Account section of the sidebar (ACCOUNT), the page being read
-	marked. Third Party Apps only for someone who has let an app in."""
-	user = frappe.session.user
-	here = _here()
-	apps = frappe.db.exists("OAuth Bearer Token", {"user": user})
-	items = []
-	for route, title, icon in ACCOUNT:
-		if route == "/third_party_apps" and not apps:
-			continue
-		link = f"{route}/{quote(user)}/edit" if route == "/update-profile" else route
-		items.append({"title": str(title), "route": link, "icon": icon, "current": route == here})
-	return items
-
-
-def one_portal_here() -> dict | None:
-	"""What the page belongs to, for the head's Breadcrumbs: its tab, or the
-	Account page it is (which heads the page alone, `account`)."""
-	tab = next((one for one in one_portal_tabs() if one["current"]), None)
-	if tab:
-		return tab
-	page = next((one for one in one_portal_account() if one["current"]), None)
-	if page:
-		return {**page, "account": True}
-	return None
-
-
-def one_portal_at_home() -> bool:
-	"""Whether the page is the portal's home, which lights Home."""
-	return _here() == "/portal"
-
-
-def one_portal_me() -> dict:
-	"""Who is signed in, for the head's avatar and its menu, and the customer
-	or supplier they sign in for, which the sidebar's header names."""
-	user = frappe.session.user
-	name = frappe.utils.get_fullname(user) or user
-	party = frappe.db.get_value(
-		"Portal User", {"user": user, "parenttype": ("in", PARTIES)}, ["parenttype", "parent"], as_dict=True
-	)
-	title = ""
-	if party:
-		field = "customer_name" if party.parenttype == "Customer" else "supplier_name"
-		title = frappe.db.get_value(party.parenttype, party.parent, field) or party.parent
-	return {
-		"name": name,
-		"email": user,
-		"initials": "".join(w[0] for w in name.split()[:2]).upper(),
-		"party": title,
-	}
-
-
-#: A kind whose list heads differ from its row template's: a quote request
-#: has no total, and says when the goods are needed by instead.
-COLUMNS_OF = {"Request for Quotation": (_lt("Number"), _lt("Status"), _lt("Needed by"))}
-
-
-def one_portal_columns(row_template: str | None, doctype: str | None = None) -> list[str]:
-	"""A list's column heads (COLUMNS_OF, COLUMNS), or none for a kind One has
-	no row of its own for."""
-	heads = COLUMNS_OF.get(doctype or "") or COLUMNS.get(row_template or "", ())
-	return [str(one) for one in heads]
-
-
-def one_portal_add(doctype: str | None) -> dict | None:
-	"""The list's Add button for a kind (ADD), if it has one."""
-	if doctype not in ADD:
-		return None
-	route, label = ADD[doctype]
-	return {"route": route, "label": str(label)}
-
-
-def one_portal_timesheet(name: str) -> dict | None:
-	"""A timesheet as the portal lists it, once. erpnext's list gives a row for
-	each time entry, so the same timesheet comes back once per entry; its first
-	row is drawn with the whole timesheet (the projects it is for, what was
-	done, its hours) and the rest draw nothing."""
-	drawn = frappe.local.flags.setdefault("one_portal_timesheets", set())
-	if name in drawn:
-		return None
-	drawn.add(name)
-	rows = frappe.get_all(
-		"Timesheet Detail",
-		filters={"parent": name, "parenttype": "Timesheet"},
-		fields=["project", "activity_type", "hours", "billing_hours"],
-		order_by="idx",
-	)
-	projects = list(dict.fromkeys(row.project for row in rows if row.project))
-	titles = {
-		one.name: one.project_name
-		for one in frappe.get_all(
-			"Project", filters={"name": ("in", projects)}, fields=["name", "project_name"]
-		)
-	}
-	return {
-		"projects": ", ".join(titles.get(one) or one for one in projects),
-		"activities": ", ".join(dict.fromkeys(_(row.activity_type) for row in rows if row.activity_type)),
-		"hours": sum(frappe.utils.flt(row.billing_hours or row.hours) for row in rows),
-		"project": projects[0] if len(projects) == 1 else None,
-	}
-
-
-def one_portal_title(doctype: str | None, name: str | None) -> str:
-	"""A record's title for the head of frappe's web form (an address by its
-	title, not its name), if the reader may read it."""
-	if not (doctype and name) or not frappe.db.exists(doctype, name):
-		return ""
-	doc = frappe.get_doc(doctype, name)
-	if not frappe.has_website_permission(doc) and not doc.has_permission("read"):
-		return ""
-	# Address names no title field, but has its own `address_title`.
-	for field in (doc.meta.title_field, f"{frappe.scrub(doctype)}_title", "title"):
-		if field and doc.get(field):
-			return str(doc.get(field))
-	return name
-
-
-def one_portal_tone(colour: str | None) -> str:
-	"""The pill an erpnext indicator colour is drawn as."""
-	return TONES.get((colour or "").strip(), "gray")
-
+#: erpnext's indicator colours, as frappe-ui's Badge themes them.
+TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
 
 #: How a state reads to the portal's reader where erpnext's word is written
 #: for the workspace: a supplier's quote the buyer has yet to take up is, to
@@ -241,88 +112,12 @@ SAID_TO_READER = {
 	("Delivery Note", "To Bill"): ("green", _lt("Delivered")),
 	("Delivery Note", "Completed"): ("green", _lt("Delivered")),
 	# A supplier's purchase order, as the supplier sees it: what they still
-	# have to deliver.
-	# An advance is due before they deliver (erpnext's To Pay).
+	# have to deliver. An advance is due before they deliver (erpnext's To Pay).
 	("Purchase Order", "To Pay"): ("amber", _lt("Awaiting payment")),
 	("Purchase Order", "To Receive and Bill"): ("amber", _lt("To deliver")),
 	("Purchase Order", "To Receive"): ("amber", _lt("To deliver")),
 	("Purchase Order", "To Bill"): ("green", _lt("Delivered")),
 }
-
-
-def one_portal_status(doctype: str, status: str | None, docstatus: int = 1, colour: str | None = None):
-	"""A record's state as the portal's Badge says it: its tone and its word."""
-	if said := SAID_TO_READER.get((doctype, status)):
-		return said[0], str(said[1])
-	tone = one_portal_tone(colour or ("blue" if docstatus == 1 else "gray"))
-	return tone, _(status or "Submitted")
-
-
-def one_portal_quoted(rfq: str) -> bool:
-	"""Whether the reader's supplier has quoted for a request (the list's
-	badge, as the request's own page says it)."""
-	from erpnext.controllers.website_list_for_contact import get_customers_suppliers
-
-	_customers, suppliers = get_customers_suppliers("Request for Quotation Supplier", frappe.session.user)
-	if not suppliers:
-		return False
-	return bool(
-		frappe.db.sql(
-			"""select 1 from `tabSupplier Quotation` sq join `tabSupplier Quotation Item` sqi
-			on sqi.parent = sq.name where sqi.request_for_quotation = %s and sq.supplier in %s
-			and sq.docstatus < 2 limit 1""",
-			(rfq, tuple(suppliers)),
-		)
-	)
-
-
-def _field(row, field: str):
-	return row.get(field) if isinstance(row, dict) else getattr(row, field, None)
-
-
-def one_portal_number(value) -> str:
-	"""A quantity or hours as a person writes them: 10, not 10.00; 2.5, not
-	2.500. In the workspace's number format."""
-	from frappe.utils import flt, fmt_money
-
-	value = flt(value, 3)
-	if value == int(value):
-		return fmt_money(value, precision=0)
-	return fmt_money(value, precision=len(f"{value}".split(".")[1]))
-
-
-def one_portal_home() -> list[dict]:
-	"""What the reader has, a row a tab with anything in it: how many of each
-	kind are theirs, read the way the tab's own list reads them, and how many
-	wait on them (WAITING)."""
-	from frappe.www.list import get_list_data_for_context
-
-	rows = []
-	for item in get_portal_sidebar_items():
-		doctype = item.get("reference_doctype")
-		if not doctype:
-			continue
-		try:
-			found = get_list_data_for_context(None, doctype, limit=COUNTED + 1)
-		except frappe.PermissionError:
-			continue
-		if not found:
-			continue
-		# erpnext lists a timesheet once per time entry: each record once.
-		found = list({_field(one, "name"): one for one in found}.values())
-		states, say = WAITING.get(doctype, ((), None))
-		waiting = sum(1 for one in found if _field(one, "status") in states)
-		rows.append(
-			{
-				"title": _(item.get("title")),
-				"route": item.get("route"),
-				"icon": ICONS.get(item.get("route"), "file-text"),
-				"count": f"{COUNTED}+" if len(found) > COUNTED else str(len(found)),
-				"waiting": say(waiting) if waiting else "",
-			}
-		)
-	return rows
-
 
 #: A record page's facts, in order: the field, and how the page names it.
 #: Only those the record has are said.
@@ -342,11 +137,312 @@ FACTS = (
 OWED = ("Sales Invoice", "Purchase Invoice")
 
 
-def one_portal_record(doc) -> dict:
-	"""What a record's page shows beyond its items (www/order.html): its
-	status as a Badge, its facts (FACTS), where it goes, its totals and its
-	terms."""
-	from frappe.utils import fmt_money, global_date_format, sanitize_html, strip_html
+def _path(route: str) -> str:
+	return PATHS.get(route, route.strip("/"))
+
+
+def _kinds() -> dict[str, dict]:
+	"""The reader's tabs, from Portal Settings by their roles, by their path."""
+	return {
+		_path(item.get("route")): item
+		for item in get_portal_sidebar_items()
+		if item.get("route") and item.get("reference_doctype")
+	}
+
+
+def reads(user: str | None = None) -> bool:
+	"""Whether the portal is where this person works: signed in, without a
+	desk, with a tab. frappe's own account pages send them here."""
+	user = user or frappe.session.user
+	if user == "Guest" or frappe.get_cached_value("User", user, "user_type") != "Website User":
+		return False
+	return bool(_kinds())
+
+
+def _kind(path: str) -> str:
+	"""The doctype a tab lists; refuses one the reader has no tab for."""
+	item = _kinds().get(path)
+	if not item:
+		raise frappe.PermissionError
+	return item["reference_doctype"]
+
+
+def _me() -> dict:
+	"""Who is signed in, and the customer or supplier they sign in for."""
+	user = frappe.session.user
+	name = frappe.utils.get_fullname(user) or user
+	party = frappe.db.get_value(
+		"Portal User", {"user": user, "parenttype": ("in", PARTIES)}, ["parenttype", "parent"], as_dict=True
+	)
+	title = ""
+	if party:
+		field = "customer_name" if party.parenttype == "Customer" else "supplier_name"
+		title = frappe.db.get_value(party.parenttype, party.parent, field) or party.parent
+	return {
+		"name": name,
+		"email": user,
+		"image": frappe.db.get_value("User", user, "user_image"),
+		"party": title,
+	}
+
+
+def boot() -> dict:
+	"""What the app starts with (www/portal.py): the reader, their tabs, their
+	account's pages, and frappe's translations in their language."""
+	from frappe.boot import load_translations
+	from frappe.utils.jinja_globals import is_rtl
+
+	apps = frappe.db.exists("OAuth Bearer Token", {"user": frappe.session.user})
+	said = frappe._dict(
+		lang=frappe.local.lang,
+		rtl=is_rtl(),
+		site_name=frappe.local.site,
+		socketio_port=frappe.conf.socketio_port,
+		me=_me(),
+		tabs=[
+			{"path": path, "title": _(item.get("title")), "icon": ICONS.get(path, "file-text")}
+			for path, item in _kinds().items()
+		],
+		account=[
+			{"path": path, "title": str(title), "icon": icon}
+			for path, title, icon in ACCOUNT
+			if path != "apps" or apps
+		],
+	)
+	load_translations(said)
+	return said
+
+
+def _tone(colour: str | None) -> str:
+	return TONES.get((colour or "").strip(), "gray")
+
+
+def status(doctype: str, state: str | None, docstatus: int = 1, colour: str | None = None) -> tuple[str, str]:
+	"""A record's state as the portal's Badge says it: its theme and its word."""
+	if said := SAID_TO_READER.get((doctype, state)):
+		return said[0], str(said[1])
+	return _tone(colour or ("blue" if docstatus == 1 else "gray")), _(state or "Submitted")
+
+
+def number(value) -> str:
+	"""A quantity or hours as a person writes them: 10, not 10.00; 2.5, not
+	2.500. In the workspace's number format."""
+	from frappe.utils import flt, fmt_money
+
+	value = flt(value, 3)
+	if value == int(value):
+		return fmt_money(value, precision=0)
+	return fmt_money(value, precision=len(f"{value}".split(".")[1]))
+
+
+def _date(value) -> str:
+	return frappe.format(value, {"fieldtype": "Date"}) if value else ""
+
+
+def _quoted(rfq: str) -> bool:
+	"""Whether the reader's supplier has quoted for a request."""
+	from erpnext.controllers.website_list_for_contact import get_customers_suppliers
+
+	_customers, suppliers = get_customers_suppliers("Request for Quotation Supplier", frappe.session.user)
+	if not suppliers:
+		return False
+	return bool(
+		frappe.db.sql(
+			"""select 1 from `tabSupplier Quotation` sq join `tabSupplier Quotation Item` sqi
+			on sqi.parent = sq.name where sqi.request_for_quotation = %s and sq.supplier in %s
+			and sq.docstatus < 2 limit 1""",
+			(rfq, tuple(suppliers)),
+		)
+	)
+
+
+def _field(row, field: str):
+	return row.get(field) if isinstance(row, dict) else getattr(row, field, None)
+
+
+def _row(path: str, doctype: str, doc) -> dict | None:
+	"""One row of a list, as the app draws it: its name, a line under it, its
+	Badge, the figure at its end and where it opens."""
+	if doctype in TRANSACTIONS:
+		when = doc.get("transaction_date") or doc.get("posting_date") or doc.modified
+		line = " · ".join(one for one in (_date(when), doc.get("items_preview")) if one)
+		if doctype == "Request for Quotation":
+			quoted = _quoted(doc.name)
+			tone, word = ("green", _("Quoted")) if quoted else ("amber", _("To quote"))
+			figure = _date(doc.get("schedule_date"))
+		else:
+			tone, word = status(doctype, doc.status, doc.docstatus, doc.get("indicator_color"))
+			total = (
+				"rounded_total"
+				if doc.get("rounded_total") and not doc.get("disable_rounded_total")
+				else "grand_total"
+			)
+			figure = doc.get_formatted(total) if doc.get(total) else ""
+		return {
+			"name": doc.name,
+			"title": doc.name,
+			"line": line,
+			"tone": tone,
+			"status": word,
+			"figure": figure,
+			"to": f"{path}/{doc.name}",
+		}
+	if doctype == "Project":
+		from onedesk.one_project import portal as projects
+
+		project = frappe.get_doc("Project", doc.name)
+		ends = _("Ends {0}").format(_date(doc.expected_end_date)) if doc.get("expected_end_date") else ""
+		share = projects.progress(project)[0] if projects.may_see(project) else 0
+		return {
+			"name": doc.name,
+			"title": doc.get("project_name") or doc.name,
+			"line": ends,
+			"tone": "green" if doc.status == "Completed" else "blue",
+			"status": _(doc.status),
+			"figure": f"{share}%",
+			"to": f"projects/{doc.name}",
+		}
+	if doctype == "Timesheet":
+		sheet = _timesheet(doc.name)
+		tone = {"Billed": "green", "Cancelled": "red", "Submitted": "blue"}.get(doc.status, "gray")
+		return {
+			"name": doc.name,
+			"title": doc.name,
+			"line": " · ".join(one for one in (sheet["projects"], sheet["activities"]) if one),
+			"tone": tone,
+			"status": _(doc.status),
+			"figure": _("{0} h").format(number(sheet["hours"])),
+			"to": f"projects/{sheet['project']}" if sheet["project"] else None,
+		}
+	if doctype == "Address":
+		where = ", ".join(
+			one for one in (doc.address_line1, doc.address_line2, doc.state, doc.country) if one
+		)
+		return {
+			"name": doc.name,
+			"title": doc.get("address_title") or doc.name,
+			"line": where,
+			"tone": "gray",
+			"status": _(doc.address_type) if doc.get("address_type") else "",
+			"figure": doc.get("city") or "",
+			"to": f"addresses/{doc.name}",
+		}
+	meta = frappe.get_meta(doctype)
+	shown = [df for df in meta.fields if df.in_list_view][:3]
+	return {
+		"name": _field(doc, "name"),
+		"title": _field(doc, meta.title_field or "name") or _field(doc, "name"),
+		"line": " · ".join(
+			frappe.utils.strip_html(frappe.format(_field(doc, df.fieldname), df, doc=doc))
+			for df in shown
+			if _field(doc, df.fieldname)
+		),
+		"tone": "gray",
+		"status": "",
+		"figure": "",
+		"to": None,
+	}
+
+
+def _timesheet(name: str) -> dict:
+	"""A timesheet as the portal lists it: the projects it is for, what was
+	done, and its hours."""
+	rows = frappe.get_all(
+		"Timesheet Detail",
+		filters={"parent": name, "parenttype": "Timesheet"},
+		fields=["project", "activity_type", "hours", "billing_hours"],
+		order_by="idx",
+	)
+	projects = list(dict.fromkeys(row.project for row in rows if row.project))
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ("in", projects)}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	return {
+		"projects": ", ".join(titles.get(one) or one for one in projects),
+		"activities": ", ".join(dict.fromkeys(_(row.activity_type) for row in rows if row.activity_type)),
+		"hours": sum(frappe.utils.flt(row.billing_hours or row.hours) for row in rows),
+		"project": projects[0] if len(projects) == 1 else None,
+	}
+
+
+@frappe.whitelist()
+def rows(kind: str, txt: str | None = None, start: int = 0) -> dict:
+	"""A tab's list, a page at a time, as its kind's own list context gives it
+	to the reader, searched by `txt`: its column heads, its rows, whether there
+	are more, and its Add button where it has one."""
+	from frappe.www.list import get_list_data_for_context
+
+	doctype = _kind(kind)
+	start = frappe.utils.cint(start)
+	found = get_list_data_for_context(None, doctype, txt=txt or None, limit_start=start, limit=PAGE + 1)
+	more = len(found) > PAGE
+	# erpnext lists a timesheet once per time entry: each record once.
+	found = list({_field(one, "name"): one for one in found[:PAGE]}.values())
+	add = ADD.get(doctype)
+	return {
+		"doctype": doctype,
+		"columns": [str(one) for one in COLUMNS.get(doctype) or COLUMNS[None]],
+		"rows": [row for row in (_row(kind, doctype, one) for one in found) if row],
+		"more": more,
+		"add": {"to": add[0], "label": str(add[1])} if add else None,
+	}
+
+
+@frappe.whitelist()
+def home() -> list[dict]:
+	"""What the reader has, a row a tab with anything in it: how many of each
+	kind are theirs, read the way the tab's own list reads them, and how many
+	wait on them (WAITING)."""
+	from frappe.www.list import get_list_data_for_context
+
+	out = []
+	for path, item in _kinds().items():
+		doctype = item["reference_doctype"]
+		try:
+			found = get_list_data_for_context(None, doctype, limit=COUNTED + 1)
+		except frappe.PermissionError:
+			continue
+		if not found:
+			continue
+		found = list({_field(one, "name"): one for one in found}.values())
+		states, say = WAITING.get(doctype, ((), None))
+		waiting = sum(1 for one in found if _field(one, "status") in states)
+		out.append(
+			{
+				"path": path,
+				"title": _(item.get("title")),
+				"icon": ICONS.get(path, "file-text"),
+				"count": f"{COUNTED}+" if len(found) > COUNTED else str(len(found)),
+				"waiting": say(waiting) if waiting else "",
+			}
+		)
+	return out
+
+
+def _opened(doctype: str, name: str, page) -> frappe._dict:
+	"""A record through erpnext's own page context, which reads it, checks the
+	reader may see it and says what may be done with it."""
+	frappe.form_dict.doctype, frappe.form_dict.name = doctype, name
+	context = frappe._dict()
+	page.get_context(context)
+	return context
+
+
+@frappe.whitelist()
+def record(kind: str, name: str) -> dict:
+	"""A quotation, order, invoice, shipment or purchase document's page: its
+	Badge, its facts, its items, its totals, its terms and files, and what the
+	reader may do with it (Download PDF, Pay, Create Invoice)."""
+	from erpnext.templates.pages import order
+	from frappe.utils import fmt_money, sanitize_html, strip_html
+
+	doctype = _kind(kind)
+	if doctype not in TRANSACTIONS or doctype == "Request for Quotation":
+		raise frappe.PermissionError
+	context = _opened(doctype, name, order)
+	doc = context.doc
 
 	said, facts = set(), []
 	for field, label in FACTS:
@@ -354,10 +450,9 @@ def one_portal_record(doc) -> dict:
 		if not value or str(label) in said:
 			continue
 		said.add(str(label))
-		dated = doc.meta.get_field(field) and doc.meta.get_field(field).fieldtype == "Date"
-		facts.append({"label": str(label), "value": global_date_format(value) if dated else str(value)})
+		facts.append({"label": str(label), "value": doc.get_formatted(field)})
 	address = doc.get("shipping_address") or doc.get("address_display")
-	if address and doc.doctype in ("Sales Order", "Delivery Note", "Quotation"):
+	if address and doctype in ("Sales Order", "Delivery Note", "Quotation"):
 		lines = re.sub(r"<br\s*/?>", "\n", address)
 		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
 
@@ -379,7 +474,7 @@ def one_portal_record(doc) -> dict:
 		else "grand_total"
 	)
 	totals.append({"label": _("Total"), "value": doc.get_formatted(total), "strong": True})
-	if doc.doctype in OWED and doc.docstatus == 1:
+	if doctype in OWED and doc.docstatus == 1:
 		left = doc.get("outstanding_amount") or 0
 		paid = (doc.get(total) or 0) - left
 		if paid and left:
@@ -390,28 +485,84 @@ def one_portal_record(doc) -> dict:
 
 	# The record's own status, as its list says it, before erpnext's page's
 	# indicator, which says Submitted of an ordered quotation.
-	tone, status = one_portal_status(
-		doc.doctype,
-		doc.get("status") or doc.get("indicator_title"),
-		doc.docstatus,
-		doc.get("indicator_color"),
+	tone, word = status(
+		doctype, doc.get("status") or doc.get("indicator_title"), doc.docstatus, doc.get("indicator_color")
 	)
+	quoted = doctype == "Supplier Quotation"
+	actions = []
+	if doc.docstatus == 1:
+		actions.append(
+			{
+				"label": _("Download PDF"),
+				"icon": "download",
+				"href": "/api/method/frappe.utils.print_format.download_pdf?"
+				+ urlencode({"doctype": doctype, "name": doc.name, "format": context.print_format}),
+			}
+		)
+	if doctype == "Purchase Order" and context.show_make_pi_button:
+		actions.append(
+			{
+				"label": _("Create Invoice"),
+				"href": "/api/method/erpnext.buying.doctype.purchase_order.mapper.make_purchase_invoice_from_portal?"
+				+ urlencode({"purchase_order_name": doc.name}),
+			}
+		)
+	if context.show_pay_button:
+		actions.append(
+			{
+				"label": _("Pay {0}").format(fmt_money(context.pay_amount, currency=doc.currency)),
+				"solid": True,
+				"href": "/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?"
+				+ urlencode({"dn": doc.name, "dt": doctype, "submit_doc": 1, "order_type": "Shopping Cart"}),
+			}
+		)
 	return {
+		"name": doc.name,
 		"tone": tone,
-		"status": status,
+		"status": word,
 		"facts": facts,
+		"items": [
+			{
+				"item": row.item_name or row.item_code,
+				"about": _about(row),
+				"qty": number(row.qty),
+				"uom": _(row.get("uom") or row.get("stock_uom") or ""),
+				"rate": row.get_formatted("rate", doc),
+				"amount": row.get_formatted("amount", doc),
+			}
+			for row in doc.items
+		],
 		"totals": totals,
+		"terms_label": _("Notes") if quoted else _("Terms"),
 		"terms": sanitize_html(doc.terms) if doc.get("terms") else "",
+		"files": [
+			{"name": one.file_name, "url": one.file_url} for one in order.get_attachments(doctype, doc.name)
+		],
+		"actions": actions,
 	}
 
 
-def one_portal_rfq(doc) -> dict:
-	"""What a quote request's page shows (www/rfq.html), after erpnext's own
-	context has found the reader's supplier and their quotes (rfq_links):
-	whether they have answered, its facts, the buyer's message and terms, and
-	the rows they price."""
-	from frappe.utils import fmt_money, global_date_format, sanitize_html, strip_html
+def _about(row) -> str:
+	from frappe.utils import strip_html
 
+	about = strip_html(row.get("description") or "").strip()
+	return about if about and about != (row.item_name or row.item_code) else ""
+
+
+@frappe.whitelist()
+def rfq(name: str) -> dict:
+	"""A quote request's page, through erpnext's own context, which refuses a
+	request not sent to the reader's supplier: whether they have answered and
+	with what, its facts, the buyer's message and terms, and the rows they
+	price, with what the app needs to show amounts as they type."""
+	from erpnext.templates.pages import rfq as page
+	from frappe.locale import get_number_format
+	from frappe.utils import fmt_money, sanitize_html, strip_html
+
+	if _kind("rfq") != "Request for Quotation":
+		raise frappe.PermissionError
+	context = _opened("Request for Quotation", name, page)
+	doc = context.doc
 	quotes = []
 	for one in doc.get("rfq_links") or []:
 		quote = frappe.db.get_value(
@@ -420,49 +571,164 @@ def one_portal_rfq(doc) -> dict:
 			["transaction_date", "status", "docstatus", "grand_total", "currency"],
 			as_dict=True,
 		)
-		tone, status = one_portal_status("Supplier Quotation", quote.status, quote.docstatus)
+		tone, word = status("Supplier Quotation", quote.status, quote.docstatus)
 		quotes.append(
 			{
 				"name": one.name,
-				"date": global_date_format(quote.transaction_date),
-				"status": status,
+				"date": _date(quote.transaction_date),
+				"status": word,
 				"tone": tone,
 				"total": fmt_money(quote.grand_total, currency=quote.currency),
 			}
 		)
-	facts = [{"label": _("Date"), "value": global_date_format(doc.transaction_date)}]
+	facts = [{"label": _("Date"), "value": _date(doc.transaction_date)}]
 	if doc.get("schedule_date"):
-		facts.append({"label": _("Needed by"), "value": global_date_format(doc.schedule_date)})
+		facts.append({"label": _("Needed by"), "value": _date(doc.schedule_date)})
 	if doc.get("shipping_address_display"):
 		lines = re.sub(r"<br\s*/?>", "\n", doc.shipping_address_display)
 		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
-	rows = []
-	for row in doc.items:
-		about = strip_html(row.description or "").strip()
-		rows.append(
-			{
-				"name": row.name,
-				"item": row.item_name or row.item_code,
-				"about": about if about and about != (row.item_name or row.item_code) else "",
-				"qty": int(row.qty) if row.qty == int(row.qty) else row.qty,
-				"qty_said": one_portal_number(row.qty),
-				"uom": _(row.uom or ""),
-				"needed_by": global_date_format(row.schedule_date)
-				if row.schedule_date and row.schedule_date != doc.get("schedule_date")
-				else "",
-			}
-		)
+	currency = doc.get("currency") or frappe.db.get_default("currency")
+	said = get_number_format()
+	symbol = frappe.db.get_value("Currency", currency, "symbol") or currency
 	return {
+		"name": doc.name,
 		"quoted": bool(quotes),
 		"tone": "green" if quotes else "amber",
 		"status": _("Quoted") if quotes else _("To quote"),
+		"open": doc.docstatus == 1,
 		"quotes": quotes,
 		"facts": facts,
 		"message": sanitize_html(doc.message_for_supplier) if doc.get("message_for_supplier") else "",
 		"terms": sanitize_html(doc.terms) if doc.get("terms") else "",
-		"rows": rows,
-		"zero": fmt_money(0, currency=doc.get("currency")),
+		"rows": [
+			{
+				"name": row.name,
+				"item": row.item_name or row.item_code,
+				"about": _about(row),
+				"qty": frappe.utils.flt(row.qty),
+				"qty_said": number(row.qty),
+				"uom": _(row.uom or ""),
+				"needed_by": _date(row.schedule_date)
+				if row.schedule_date and row.schedule_date != doc.get("schedule_date")
+				else "",
+			}
+			for row in doc.items
+		],
+		"money": {
+			"symbol": symbol,
+			"on_right": bool(frappe.db.get_value("Currency", currency, "symbol_on_right")),
+			"decimal": said.decimal_separator,
+			"group": said.thousands_separator,
+			"precision": frappe.utils.cint(frappe.db.get_default("currency_precision") or said.precision),
+		},
 	}
+
+
+#: The frappe web forms the portal fills in, by the page they are on: the
+#: reader's profile (frappe's) and an address (erpnext's).
+WEB_FORMS = {"profile": "edit-profile", "addresses": "addresses"}
+
+
+@frappe.whitelist()
+def form(page: str, name: str | None = None) -> dict:
+	"""A web form's fields and the record it edits, through frappe's own
+	get_form_data, which checks the reader may: the profile is the reader's,
+	an address one of theirs or a new one."""
+	from frappe.website.doctype.web_form.web_form import get_form_data
+
+	web_form = WEB_FORMS.get(page)
+	if not web_form:
+		raise frappe.PermissionError
+	doctype = frappe.db.get_value("Web Form", web_form, "doc_type")
+	if page == "profile":
+		name = frappe.session.user
+	said = get_form_data(doctype, name, web_form)
+	fields = []
+	for one in said.web_form.web_form_fields:
+		fields.append(
+			{
+				"fieldname": one.fieldname,
+				"fieldtype": one.fieldtype,
+				"label": _(one.label) if one.label else "",
+				"reqd": one.reqd,
+				"options": _choices(one),
+			}
+		)
+	doc = said.get("doc")
+	return {
+		"web_form": web_form,
+		"fields": fields,
+		"doc": {one["fieldname"]: doc.get(one["fieldname"]) for one in fields if one["fieldname"]}
+		| {"name": doc.name}
+		if doc
+		else {},
+		"title": (doc.get("address_title") or doc.name) if doc and page == "addresses" else "",
+	}
+
+
+def _choices(field) -> list | None:
+	"""A select's options, or a link's as frappe's web form found them (a list
+	of values or of {value, label}, or a string a line each)."""
+	if field.fieldtype not in ("Select", "Autocomplete"):
+		return None
+	options = field.options or []
+	if isinstance(options, str):
+		options = (
+			frappe.parse_json(options)
+			if options.startswith("[")
+			else [one for one in options.split("\n") if one]
+		)
+	if field.fieldtype == "Select":
+		return [{"value": one, "label": _(one)} for one in options]
+	if not options and field.fieldname == "language":
+		# A portal reader may not read Language, so frappe's own form offers
+		# none: the languages the workspace has on, as its sign-in page does.
+		return [
+			{"value": one.name, "label": one.language_name}
+			for one in frappe.get_all(
+				"Language", filters={"enabled": 1}, fields=["name", "language_name"], order_by="language_name"
+			)
+		]
+	return options
+
+
+@frappe.whitelist()
+def your_data() -> dict:
+	"""What Your Data shows (one/privacy.py `state`), its dates said plainly."""
+	from frappe.utils import pretty_date
+
+	from onedesk.one import privacy
+
+	said = privacy.state()
+	copy, deletion = said["copy"], said["deletion"]
+	return {
+		"copy": {**copy, "on": pretty_date(copy["on"])} if copy else None,
+		"deletion": {**deletion, "on": pretty_date(deletion["on"])} if deletion else None,
+		"password": said["password"],
+	}
+
+
+@frappe.whitelist()
+def apps() -> list[dict]:
+	"""The apps the reader has let in, as frappe's Third Party Apps lists them;
+	frappe's delete_client takes one away."""
+	from frappe.utils import pretty_date
+	from frappe.www.third_party_apps import get_first_login
+
+	return [
+		{
+			"client": one.client,
+			"name": frappe.db.get_value("OAuth Client", one.client, "app_name") or one.client,
+			"since": pretty_date(get_first_login(one.client)),
+		}
+		for one in frappe.get_all(
+			"OAuth Bearer Token",
+			filters={"user": frappe.session.user},
+			fields=["client"],
+			distinct=True,
+			order_by="creation",
+		)
+	]
 
 
 @frappe.whitelist(methods=["POST"])

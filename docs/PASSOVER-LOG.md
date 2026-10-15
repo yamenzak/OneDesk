@@ -13726,3 +13726,66 @@ a field in the middle.
 - **Search is an icon,** first of the bar's tools, with its shortcut in the
   tooltip. The field, its label and its `kbd` are gone.
 
+
+## The portal, rebuilt
+
+*Asked:* go through every portal page and rework it from the ground up.
+
+*Found:* the portal was frappe's Jinja `portal` page and erpnext's row and
+record templates, each overridden with a hand-drawn copy of frappe-ui (a
+sidebar, a head, rows, badges) in 2,400 lines of `portal.css` and 17 Jinja
+methods. Every new screen meant another template, and none of it was
+frappe-ui's own. The guest pages (`/s`, `/r`, `/legal`, a guest's Your Data,
+404 and errors) were already in frappe's tokens.
+
+*Done:*
+
+- **A frappe-ui app at `/portal`** (`frontend/portal`), built by frappe-ui's
+  vite plugin the way HRMS builds its own: DesktopShell and Sidebar on a
+  computer, MobileShell with Home, the first three tabs and More on a phone,
+  ListView for every list, PageHeader on every page, frappe-ui's Dialog,
+  toasts and forms. Light and dark from the reader's system, Arabic right to
+  left (reka-ui's direction set from the boot, and frappe-ui's sidebar
+  margins turned with it), translations fetched as the desk fetches them.
+- **What it shows is still erpnext's and frappe's.** Tabs are Portal
+  Settings by role; lists are each kind's own `get_list_context`; a record
+  and a quote request read erpnext's own page context, which checks the
+  reader may; Profile and an address are frappe's web forms
+  (`get_form_data`, `accept`); Password is frappe's `update_password`.
+  `one/portal.py` only reads them and answers JSON, every value as frappe
+  formats it.
+- **Every old address leads in.** `/orders`, `/invoices`, `/rfq` and the
+  rest, `/address/…` and `/update-profile/…` are website_redirects;
+  `/projects?project=…` is a page of ours, since frappe keeps a redirect by
+  its path alone and can't tell it from `/projects`. `/me`, Set Password
+  and Third Party Apps send a portal reader to the app; a reset link keeps
+  frappe's page.
+- **Gone:** the Jinja portal (`order`, `rfq`, `projects` pages, five row
+  templates, the head, the sidebar, the web form override, `one_gallery.js`)
+  and 1,500 lines of `portal.css` nothing drew any more.
+- **Found on the way:** frappe-ui's dark sidebar is transparent, so the page
+  under it needed a background; the guest pages' solid buttons were gray-8
+  where frappe-ui's are gray-10; a guest's Your Data named the site's
+  hostname when no workspace name is set, and names the company now; the
+  project gallery stopped turning on its own, and turns again (held under
+  the pointer, still for less motion); Revoke used the browser's confirm and
+  is frappe-ui's Dialog; nothing linked to the privacy policy, and the
+  account menu does.
+
+*The points:* 1 a demo check walks Khalid's and Rami's portal
+(`a_customer_and_a_supplier_find_their_own_on_the_portal`); 2 every rule is
+erpnext's or frappe's; 3 a quote lands in OneInventory, Pay makes erpnext's
+payment request; 5 and 8 frappe-ui's parts only, and the token and island
+guards read the app now; 6 nothing of the old pages lost (files, Pay,
+Create Invoice, search, Add Address, the gallery, a timesheet once); 7 a
+tab a workspace adds to Portal Settings lists with frappe's columns, and a
+field added to a web form shows; 9 `scripts/overrides.py`; 11 Download PDF;
+12 every string in Arabic and German; 13 `one/README.md` and
+`one_project/README.md`; 15 erpnext's own checks, and the demo check proves
+a customer is refused another's invoice and a supplier's tab; 16 the
+privacy policy is a click away. 4, 10 and 14 have nothing new here: the
+portal is no doctype, and sends what it sent.
+
+Not walked: `/start`, `/welcome` and `/account*`, which run on the admin
+site only, and no admin site exists on this bench. They use none of what was
+removed.

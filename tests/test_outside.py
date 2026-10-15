@@ -98,7 +98,7 @@ def test_frappes_error_pages_are_ones():
 	assert "return message.get_context(context)" in (www / "message.py").read_text()
 	assert "context.http_status_code = 404" in (www / "404.py").read_text()
 	me = (www / "me.py").read_text()
-	assert '"/desk/settings?section=profile"' in me and '"/account"' in me and "/update-profile/" in me
+	assert '"/desk/settings?section=profile"' in me and '"/account"' in me and "/portal/profile" in me
 	# The passkey button is the sign-in card's, not Set Password's.
 	assert (
 		'".for-login:not(.one-your-data) .page-card-body"'

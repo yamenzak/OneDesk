@@ -45,10 +45,13 @@ def _administrators() -> list[str]:
 
 
 def where(user: str) -> str:
-	"""Where somebody reads their requests: their desk profile, or Your Data
-	on the portal for a customer's or supplier's contact."""
+	"""Where somebody reads their requests: their desk profile, Your Data on
+	the portal for a customer's or supplier's contact, or the page anybody
+	may ask from."""
 	if frappe.db.get_value("User", user, "user_type") == "System User":
 		return "/desk/settings?section=profile"
+	if set(frappe.get_roles(user)) & {"Customer", "Supplier"}:
+		return "/portal/your-data"
 	return "/your-data"
 
 

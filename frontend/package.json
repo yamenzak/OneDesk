@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "node build-islands.mjs --production",
+    "build": "node build-islands.mjs --production && cd portal && vite build",
     "dev": "node build-islands.mjs --watch"
   },
   "dependencies": {
@@ -22,5 +22,5 @@
     "typescript": "^5.9.3",
     "vite": "^8.1.5"
   },
-  "description": "OneDesk's islands: screens drawn with frappe-ui inside desk pages. See docs/ISLANDS.md."
+  "description": "OneDesk's frappe-ui islands (src/) and the portal app (portal/). See docs/ISLANDS.md and onedesk/one/README.md."
 }

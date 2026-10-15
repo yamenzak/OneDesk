@@ -1690,8 +1690,9 @@ additional_timeline_content = {
 	"Tenant": ["onedesk.one_admin.log.timeline"],
 }
 
-# A OneCloud link: /s/<token> is www/s.py, for somebody with no account.
+# /portal/… is the portal app (www/portal.py); /s/<token> a OneCloud link (www/s.py).
 website_route_rules = [
+	{"from_route": "/portal/<path:app_path>", "to_route": "portal"},
 	{"from_route": "/s/<token>", "to_route": "s"},
 	# A file request: /r/<token> is www/r.py.
 	{"from_route": "/r/<token>", "to_route": "r"},
@@ -1705,9 +1706,18 @@ website_route_rules = [
 	{"from_route": "/your-data", "to_route": "your_data"},
 ]
 
-# frappe's account deletion form: everybody asks under Your Data instead,
-# where the request is confirmed and decided as One decides it (one/privacy.py).
-website_redirects = [{"source": r"/request-for-account-deletion.*", "target": "/your-data"}]
+# frappe's account deletion form goes to Your Data, decided as One decides it
+# (one/privacy.py); the portal's places before it was an app, to the app.
+website_redirects = [
+	{"source": r"/request-for-account-deletion.*", "target": "/your-data"},
+	{
+		"source": r"/(orders|invoices|quotations|shipments|rfq|supplier-quotations|purchase-orders|purchase-invoices|addresses|timesheets)(/.*)?",
+		"target": r"/portal/\1\2",
+	},
+	{"source": "/project", "target": "/portal/projects"},
+	{"source": r"/address/(.+)", "target": r"/portal/addresses/\1"},
+	{"source": r"/update-profile/.*", "target": "/portal/profile"},
+]
 
 # OneCloud as a network drive (one_storage/dav.py), and frappe's webhook
 # sender kept off internal addresses (one/webhooks.py).
@@ -1722,24 +1732,6 @@ jinja = {
 		"onedesk.one.print_html.one_html_block",
 		# What One's print blocks show, in templates/one_print/. See one/print_blocks.py.
 		"onedesk.one.print_blocks.one_print_block",
-		# The portal's tabs, its home and its pills. See one/portal.py.
-		"onedesk.one.portal.one_portal_tabs",
-		"onedesk.one.portal.one_portal_tone",
-		"onedesk.one.portal.one_portal_home",
-		"onedesk.one.portal.one_portal_record",
-		"onedesk.one.portal.one_portal_rfq",
-		"onedesk.one.portal.one_portal_status",
-		"onedesk.one.portal.one_portal_quoted",
-		"onedesk.one.portal.one_portal_add",
-		"onedesk.one.portal.one_portal_timesheet",
-		"onedesk.one.portal.one_portal_title",
-		"onedesk.one.portal.one_portal_number",
-		"onedesk.one_project.portal.one_portal_progress",
-		"onedesk.one.portal.one_portal_here",
-		"onedesk.one.portal.one_portal_account",
-		"onedesk.one.portal.one_portal_at_home",
-		"onedesk.one.portal.one_portal_me",
-		"onedesk.one.portal.one_portal_columns",
 	]
 }
 

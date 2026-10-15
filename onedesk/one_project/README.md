@@ -2055,7 +2055,7 @@ one field for it.
 
   Only tasks the reader may see are counted. A project filter counts the tasks
   of that project and everything under it.
-- `portal.py` and `www/projects.py` — ERPNext's portal, reachable. A member
+- `portal.py` — ERPNext's portal, reachable. A member
   of the project sees its time (`time`, each activity's hours by day) unless
   their row hides timesheets, and its public files when it lets them, as
   ERPNext's own page did. Its list
@@ -2064,10 +2064,11 @@ one field for it.
   sent to One's desk (`onedesk.check_app_permission` now refuses website
   users on the apps screen); and its project page (/projects) checked role
   permissions a customer never has, so refused everybody — and showed the
-  team's assignees and a New Task button. `www/projects.py` replaces that page
-  (frappe renders the last app's page for a route): `view` checks ERPNext's own
-  website permission (`may_see`) and shows progress over the tree, the end,
-  milestones, sub-projects, tasks, the order and the invoices; `when` is pure.
+  team's assignees and a New Task button. The portal app's project page
+  (frontend/portal, `page`) takes its place, and /projects?project=… leads to
+  it: `view` checks ERPNext's own website permission (`may_see`) and shows
+  progress over the tree, the end, milestones, sub-projects, tasks, the order
+  and the invoices; `page` says each value as frappe formats it.
 
   ERPNext's portal lists a customer's projects at /project and shows one at
   /projects?project=…, to anybody listed under **Portal Users** on the
@@ -2085,9 +2086,9 @@ one field for it.
   project page (templates/pages/projects.py) checks the reader's role
   permissions, which a customer has none of, so it refused every customer. It
   also showed who in the team each task is assigned to, and a New Task button
-  that let a customer add tasks to the team's project. One's own page takes
-  its place at the same address (www/projects.py, since frappe renders the
-  last app's page for a route): what a customer asks of a project — how far
+  that let a customer add tasks to the team's project. The portal app's
+  project page takes its place, and the old address leads to it: what a
+  customer asks of a project — how far
   along it is, when it ends, the milestones, the sub-projects, the work and
   its state, and their order and invoices (`view`). Nothing of the team's: no
   names, no hours, no updates.

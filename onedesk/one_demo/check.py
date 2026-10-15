@@ -3922,6 +3922,54 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 
 
 @check
+def a_customer_and_a_supplier_find_their_own_on_the_portal():
+	"""Khalid, Mansour & Sons' contact, opens the portal (frontend/portal):
+	Home counts what he has, his invoices list, one opens with its total and
+	a PDF, and another customer's refuses him. His villa's page, his profile,
+	Your Data and Apps answer. Rami, Emirates Sealants' contact, opens a quote
+	request sent to his supplier with the rows he prices."""
+	import onedesk.one_project.portal
+	from onedesk.one import portal
+
+	khalid, rami = "khalid@mansour.example", "sales@emiratessealants.example"
+	theirs = frappe.db.get_value("Sales Invoice", {"customer": "Mansour & Sons", "docstatus": 1}, "name")
+	others = frappe.db.get_value("Sales Invoice", {"customer": ("!=", "Mansour & Sons"), "docstatus": 1}, "name")
+	with as_user(khalid):
+		assert portal.reads()
+		home = {one["path"]: one for one in portal.home()}
+		assert "invoices" in home and int(home["invoices"]["count"]) >= 1, home
+		listed = portal.rows("invoices")
+		assert listed["doctype"] == "Sales Invoice" and theirs in {one["name"] for one in listed["rows"]}, listed
+		said = portal.record("invoices", theirs)
+		assert said["name"] == theirs and said["totals"], said
+		assert any("download_pdf" in (one["href"] or "") for one in said["actions"]), said["actions"]
+		try:
+			portal.record("invoices", others)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a customer opened another customer's invoice")
+		try:
+			portal.rows("purchase-orders")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a customer listed a supplier's tab")
+		assert onedesk.one_project.portal.page(VILLA)["title"]
+		form = portal.form("profile")
+		assert form["doc"]["name"] == khalid and form["fields"], form
+		assert set(portal.your_data()) == {"copy", "deletion", "password"}
+		assert isinstance(portal.apps(), list)
+	sent = frappe.db.get_value(
+		"Request for Quotation Supplier", {"email_id": rami, "docstatus": 1}, "parent"
+	) or frappe.db.get_value("Request for Quotation Supplier", {"docstatus": 1}, "parent")
+	with as_user(rami):
+		said = portal.rfq(sent)
+		assert said["rows"] and said["money"]["symbol"], said
+		assert "rfq" in {one["path"] for one in portal.home()}
+
+
+@check
 def a_saved_report_is_its_makers_and_runs_no_code():
 	"""Omar saves his list of open deals as a report, and it goes under Saved
 	Reports in his own OneCRM sidebar. A report, a chart or a card made here

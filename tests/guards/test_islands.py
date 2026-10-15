@@ -25,7 +25,8 @@ def _entries() -> dict:
 
 
 def _vue() -> list[Path]:
-	return sorted(SRC.rglob("*.vue"))
+	"""Every screen: the islands, and the portal, a frappe-ui app of its own."""
+	return sorted([*SRC.rglob("*.vue"), *(FRONTEND / "portal" / "src").rglob("*.vue")])
 
 
 def test_every_island_is_declared_built_and_mounted():
@@ -73,7 +74,7 @@ def test_bench_build_builds_the_islands():
 	assert root["scripts"]["build"] == "yarn --cwd frontend build"
 	assert "frontend install --frozen-lockfile" in root["scripts"]["postinstall"]
 	frontend = json.loads((FRONTEND / "package.json").read_text())
-	assert frontend["scripts"]["build"] == "node build-islands.mjs --production"
+	assert frontend["scripts"]["build"] == "node build-islands.mjs --production && cd portal && vite build"
 	# One frappe-ui for every island, pinned: an upgrade is a decision.
 	assert re.fullmatch(r"\d+\.\d+\.\d+", frontend["dependencies"]["frappe-ui"])
 	assert frontend["dependencies"]["@framework/ui"] == "link:../../frappe/ui"
@@ -83,7 +84,7 @@ def test_bench_build_builds_the_islands():
 def test_an_island_is_frappe_ui_and_nothing_of_its_own():
 	"""A screen is frappe-ui's components laid out with its tokens. No style of
 	its own, no colour of its own, no part from anywhere else."""
-	allowed = re.compile(r'^(vue|frappe-ui(/[\w-]+)?|@framework/ui(/[\w/-]+)?|\.{1,2}/[\w./-]+)$')
+	allowed = re.compile(r'^(vue|vue-router|frappe-ui(/[\w-]+)?|@framework/ui(/[\w/-]+)?|\.{1,2}/[\w./-]+)$')
 	for path in _vue():
 		source = path.read_text(encoding="utf-8")
 		assert "<style" not in source, f"{path.name} styles itself; use frappe-ui's tokens"
@@ -141,7 +142,7 @@ def test_a_setting_is_a_switch():
 	"""Something on or off, a field's Check or a filter, is frappe-ui's Switch
 	(set by the user on 2026-10-12). A Checkbox is only a step ticked off."""
 	for path in _vue():
-		name = str(path.relative_to(SRC))
+		name = str(path.relative_to(SRC if path.is_relative_to(SRC) else FRONTEND))
 		if name in TICKED:
 			continue
 		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"
@@ -185,3 +186,12 @@ def test_a_badge_is_a_colour_frappe_ui_has():
 		if '"orange"' in text and path.name != "PlaceSpot.vue":
 			wrong.append(f"{path.relative_to(SRC)}: orange")
 	assert not wrong, wrong
+
+
+def test_a_portal_page_names_the_app_it_follows():
+	"""The portal's pages (frontend/portal) are screens too: each opening
+	comment says which app it follows."""
+	portal = FRONTEND / "portal" / "src"
+	for path in [portal / "App.vue", *sorted((portal / "pages").glob("*.vue"))]:
+		opening = path.read_text(encoding="utf-8").split("-->", 1)[0]
+		assert "Modelled on" in opening, f"{path.name} doesn't say which app it follows"

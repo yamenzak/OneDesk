@@ -147,13 +147,99 @@ def progress(doc, of: dict | None = None) -> tuple[int, int, int]:
 	return share, done, len(counted)
 
 
-def one_portal_progress(project: str) -> int:
-	"""A project's progress on the portal's list and a project's sub-project
-	rows (Jinja): the same share its own page shows."""
-	doc = frappe.get_doc("Project", project)
-	if not may_see(doc):
-		return 0
-	return progress(doc)[0]
+#: A project's status, as the portal's Badge themes it.
+TONES = {"Completed": "green", "Cancelled": "gray", "On hold": "amber"}
+
+#: A task's colour (SHOWN), as the portal's Badge themes it.
+TASK_TONES = {"orange": "amber"}
+
+
+@frappe.whitelist()
+def page(project: str) -> dict:
+	"""The portal's page for a project (frontend/portal), from `view`: how far
+	along it is and when it ends, its photos, its milestones, sub-projects
+	and tasks, the time and files a member is shown, its order and invoices.
+	Every value as frappe formats it."""
+	from frappe.utils import fmt_money
+
+	said = view(project)
+	doc = said["doc"]
+
+	def task(one):
+		return {
+			"subject": one.subject,
+			"tone": TASK_TONES.get(one.colour, one.colour),
+			"status": one.shown,
+			"due": _date(one.due),
+			"late": one.late,
+			"under": bool(one.parent_task),
+		}
+
+	return {
+		"name": doc.name,
+		"title": doc.project_name or doc.name,
+		"tone": TONES.get(doc.status, "blue"),
+		"status": _(doc.status),
+		"share": said["share"],
+		"done": said["done"],
+		"total": said["total"],
+		"ends": _date(doc.expected_end_date),
+		"when": when(said["days_left"]),
+		"late": (said["days_left"] or 0) < 0,
+		"parent": {"name": said["parent"].name, "title": said["parent"].project_name}
+		if said["parent"]
+		else None,
+		"media": [{key: one[key] for key in ("title", "url", "thumbnail", "kind")} for one in said["media"]],
+		"milestones": [task(one) for one in said["milestones"]],
+		"tasks": [task(one) for one in said["tasks"]],
+		"projects": [
+			{
+				"name": one.name,
+				"title": one.project_name or one.name,
+				"ends": _("Ends {0}").format(_date(one.expected_end_date)) if one.expected_end_date else "",
+				"tone": TONES.get(one.status, "blue"),
+				"status": _(one.status),
+				"share": progress(frappe.get_doc("Project", one.name))[0],
+			}
+			for one in said["projects"]
+		],
+		"time": {
+			"hours": frappe.format(said["time"]["hours"], {"fieldtype": "Float"}),
+			"rows": [
+				{
+					"what": _(one.activity_type) if one.activity_type else _("Time"),
+					"day": _date(one.day),
+					"hours": frappe.format(one.hours, {"fieldtype": "Float"}),
+				}
+				for one in said["time"]["rows"]
+			],
+		}
+		if said["time"]
+		else None,
+		"files": [{"name": one.file_name, "url": one.file_url} for one in said["files"]]
+		if said["files"]
+		else [],
+		"order": {
+			"name": said["order"].name,
+			"total": fmt_money(said["order"].grand_total, currency=said["order"].currency),
+		}
+		if said["order"]
+		else None,
+		"invoices": [
+			{
+				"name": one.name,
+				"date": _date(one.posting_date),
+				"tone": "amber" if one.outstanding_amount > 0 else "green",
+				"status": _("Unpaid") if one.outstanding_amount > 0 else _("Paid"),
+				"total": fmt_money(one.grand_total, currency=one.currency),
+			}
+			for one in said["invoices"]
+		],
+	}
+
+
+def _date(value) -> str:
+	return frappe.format(value, {"fieldtype": "Date"}) if value else ""
 
 
 def may_see(doc) -> bool:

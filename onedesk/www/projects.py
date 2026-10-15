@@ -1,26 +1,17 @@
-"""A customer's page for one of their projects, at ERPNext's own address.
+"""ERPNext's project page (/projects?project=…), as One's: it leads to the
+project's page in the portal app (one_project/portal.py `page`). A redirect
+rule can't, since frappe keeps a redirect by the path alone."""
 
-ERPNext's page here refused every customer and showed the team's assignments;
-this one takes its place, since frappe renders the last app's page for a route.
-See one_project/portal.py.
-"""
+from urllib.parse import quote
 
 import frappe
-
-from onedesk.one_project import portal
 
 no_cache = 1
 
 
 def get_context(context):
 	project = frappe.form_dict.get("project")
-	if frappe.session.user == "Guest":
-		frappe.local.flags.redirect_location = f"/login?redirect-to=/projects?project={project or ''}"
-		raise frappe.Redirect
-	if not project or not frappe.db.exists("Project", project):
-		raise frappe.DoesNotExistError
-	context.update(portal.view(project))
-	context.when = portal.when(context.days_left)
-	context.no_cache = 1
-	context.show_sidebar = False
-	context.title = context.doc.project_name
+	frappe.local.flags.redirect_location = (
+		f"/portal/projects/{quote(project)}" if project else "/portal/projects"
+	)
+	raise frappe.Redirect

@@ -107,9 +107,8 @@ CLASSES = re.compile(
 
 def _screens() -> list[Path]:
 	found = [p for p in tree._walk() if p.suffix in {".css", ".js", ".html", ".vue"}]
-	found += [
-		p for p in sorted(FRONTEND.rglob("*")) if p.is_file() and p.suffix in {".css", ".js", ".ts", ".vue"}
-	]
+	for root in (FRONTEND, FRONTEND.parent / "portal" / "src"):
+		found += [p for p in sorted(root.rglob("*")) if p.is_file() and p.suffix in {".css", ".js", ".ts", ".vue"}]
 	return [p for p in found if not any(part in str(p) for part in NOT_A_SCREEN)]
 
 
