@@ -5,7 +5,9 @@
 // had the most projects. A standard chart may name a colour per label under
 // `one_colors` in its Custom Options; the colours are then set from its labels
 // each time it draws, and the labels, which are the field's own values, are
-// shown in the reader's language.
+// shown in the reader's language. A colour is one of frappe-ui's hues, read
+// off its token as the chart draws, so it follows the theme; frappe-charts
+// paints SVG attributes, which take no var().
 //
 // A pie or donut so coloured has its legend drawn under it as a row that
 // wraps: frappe-charts puts each legend item 150 px from the last and one more
@@ -16,6 +18,8 @@
 	if (!Chart || Chart.prototype.one_colors) return;
 	Chart.prototype.one_colors = true;
 	const ROUND = ["pie", "donut", "percentage"];
+	const style = getComputedStyle(document.documentElement);
+	const hue = (name) => style.getPropertyValue(`--surface-${name || "gray"}-5`).trim();
 
 	const args = Chart.prototype.get_chart_args;
 	Chart.prototype.get_chart_args = function () {
@@ -25,7 +29,7 @@
 		const labels = (built.data && built.data.labels) || [];
 		this.one_legend = null;
 		if (named && labels.length) {
-			built.colors = labels.map((label) => named[label] || "#a6a49c");
+			built.colors = labels.map((label) => hue(named[label]));
 			built.data = { ...built.data, labels: labels.map((label) => __(label)) };
 			if (ROUND.includes(built.type)) {
 				built.showLegend = 0;

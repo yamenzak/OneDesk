@@ -19,7 +19,7 @@
         <button
           v-for="task in byStatus[status]"
           :key="task.name"
-          class="flex flex-col gap-2 rounded-4 border border-outline-gray-1 bg-surface-base p-3 text-start shadow-sm hover:border-outline-gray-3"
+          class="flex flex-col gap-2 rounded-4 border border-outline-gray-1 bg-surface-base p-3 text-start hover:border-outline-gray-3"
           :draggable="canWrite"
           @dragstart="dragging = task.name"
           @dragend="dragging = null"

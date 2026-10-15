@@ -28,7 +28,7 @@
 .os-photo {
 	position: relative;
 	flex: none;
-	border-radius: 50%;
+	border-radius: var(--radius-full);
 }
 
 .os-photo-edit {
@@ -40,10 +40,10 @@
 	justify-content: center;
 	width: 24px;
 	height: 24px;
-	border: 2px solid var(--surface-base);
-	border-radius: 50%;
+	outline: 2px solid var(--surface-base);
+	border-radius: var(--radius-full);
 	background: var(--surface-gray-7);
-	color: var(--ink-white);
+	color: var(--ink-base);
 	opacity: 0;
 	transition: opacity 0.15s;
 }
@@ -80,11 +80,11 @@
 /* Storage near its limit, and over it: frappe-ui's bar, in the colour of the
    warning it is. */
 .os-bar .os-bar-near .es-progress__fill {
-	background: var(--orange-500);
+	background: var(--surface-amber-5);
 }
 
 .os-bar .os-bar-over .es-progress__fill {
-	background: var(--red-500);
+	background: var(--surface-red-5);
 }
 
 .os-copy {
@@ -422,7 +422,7 @@
 /* A DNS record on Domains, as a DNS provider lists one. */
 .os-dns {
 	width: 100%;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--outline-gray-1);
 	border-radius: var(--radius-md);
 	border-collapse: separate;
 	border-spacing: 0;
@@ -430,15 +430,15 @@
 	font-size: var(--text-base);
 }
 .os-dns th {
-	background: var(--subtle-fg);
-	color: var(--text-muted);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-6);
 	font-weight: 500;
 	font-size: var(--text-sm);
 	padding: 6px 12px;
 	text-align: left;
 }
 .os-dns td {
-	border-top: 1px solid var(--border-color);
+	border-top: 1px solid var(--outline-gray-1);
 	padding: 8px 12px;
 	vertical-align: middle;
 }
@@ -449,7 +449,7 @@
 .os-dns-value {
 	font-family: var(--font-stack-monospace, monospace);
 	font-size: var(--text-sm);
-	color: var(--text-color);
+	color: var(--ink-gray-8);
 	word-break: break-all;
 }
 .os-dns-copy {
@@ -460,15 +460,15 @@
 	border: 0;
 	border-radius: var(--radius-sm);
 	background: transparent;
-	color: var(--text-muted);
+	color: var(--ink-gray-6);
 	vertical-align: middle;
 }
 .os-dns td > * {
 	vertical-align: middle;
 }
 .os-dns-copy:hover {
-	background: var(--subtle-fg);
-	color: var(--text-color);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
 }
 .os-dns-lead {
 	margin: 8px 0;
@@ -484,7 +484,7 @@
 .os-ai-logo {
 	width: 16px;
 	height: 16px;
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 	flex: none;
 }
 .os-ai-action {
@@ -514,13 +514,13 @@
 	flex-direction: column;
 	gap: 2px;
 	padding: var(--padding-sm) var(--padding-md);
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--outline-gray-1);
 	border-radius: var(--radius-md);
-	color: var(--text-color);
+	color: var(--ink-gray-8);
 	text-decoration: none;
 }
 .os-intake-fact:hover {
-	background: var(--subtle-fg);
+	background: var(--surface-gray-2);
 	text-decoration: none;
 }
 .os-intake-number {
@@ -542,8 +542,8 @@
 	width: 100%;
 	height: 300px;
 	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg, 8px);
-	background: var(--surface-white);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
 	margin-bottom: calc(var(--spacing) * 2);
 }
 
@@ -561,8 +561,8 @@
 	gap: calc(var(--spacing) * 1.5);
 	padding: calc(var(--spacing) * 2);
 	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg, 8px);
-	background: var(--surface-white);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
 	text-align: left;
 	cursor: pointer;
 }
@@ -573,15 +573,15 @@
 
 .one-lh-preset--chosen {
 	border-color: var(--outline-gray-5);
-	box-shadow: 0 0 0 1px var(--outline-gray-5);
+	outline: 1px solid var(--outline-gray-5);
 }
 
 .one-lh-preset__page {
 	width: 100%;
 	height: 48px;
 	border: 0;
-	border-radius: var(--radius, 6px);
-	background: var(--surface-white);
+	border-radius: var(--radius);
+	background: var(--surface-base);
 	pointer-events: none;
 }
 

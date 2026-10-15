@@ -216,14 +216,14 @@ onedesk.outside.lost = ({ code = "", core = "one" }) => {
 		<span class="one-lost__orbit"><i></i><i></i><i></i><i></i></span>
 		<svg viewBox="19 19 154 154" fill="none"><defs>
 			<linearGradient id="${id}-band" x1="28" y1="28" x2="164" y2="164" gradientUnits="userSpaceOnUse">
-				<stop offset="0" stop-color="#38BDF8"/><stop offset=".35" stop-color="#E11D48"/>
-				<stop offset=".68" stop-color="#FBBF24"/><stop offset="1" stop-color="#10B981"/></linearGradient>
+				<stop offset="0" style="stop-color: var(--one-suite-1)"/><stop offset=".35" style="stop-color: var(--one-suite-2)"/>
+				<stop offset=".68" style="stop-color: var(--one-suite-3)"/><stop offset="1" style="stop-color: var(--one-suite-4)"/></linearGradient>
 			<radialGradient id="${id}-core" cx="96" cy="96" r="54" gradientUnits="userSpaceOnUse">
-				<stop offset="0" stop-color="#1E293B"/><stop offset="1" stop-color="#0F172A"/></radialGradient></defs>
+				<stop offset="0" style="stop-color: var(--one-suite-core-glow)"/><stop offset="1" style="stop-color: var(--one-suite-core)"/></radialGradient></defs>
 			<circle class="one-lost__band" cx="96" cy="96" r="68" stroke="url(#${id}-band)" stroke-width="18"/>
 			<circle cx="96" cy="96" r="52" fill="url(#${id}-core)"/>
-			<circle cx="96" cy="96" r="52" stroke="#fff" stroke-opacity=".12" stroke-width="1.5"/>
-			<g class="one-lost__core one-lost__core--${core}" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">${mark}</g>
+			<circle cx="96" cy="96" r="52" style="stroke: var(--one-suite-glint)" stroke-opacity=".12" stroke-width="1.5"/>
+			<g class="one-lost__core one-lost__core--${core}" style="stroke: var(--one-suite-glint)" stroke-linecap="round" stroke-linejoin="round">${mark}</g>
 		</svg></span>${digit(code[2])}</div>`;
 };
 

@@ -44,6 +44,7 @@ what is up next. The points and how a screen is walked are in
 | Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
 | Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done, then moved to the bar |
 | Shell | The bar across the top: Search, Check In, OneIntake, Timers, Notifications | done |
+| Everywhere | frappe-ui's tokens only: one theme, no shadows, no literal colours, borders or corners | done, guarded |
 | Shell | Timers: the tile, the popover, pause | done |
 | OneProject, OneTask | Reports in the rail: ERPNext's and HRMS's project and task reports | done |
 | Demo | The business, figure by figure (`docs/SCENARIOS.md`): VAT, a late euro payment, a debit note, stock against the books, prices carried, payslips, leave, a leaver's end of service | done |
@@ -13661,4 +13662,49 @@ leave policy, salary structure and shift schedule exist without asking
 whether the reader may read them. One asks only of what the reader may read
 (`one_hr/employee.get_assignable_masters`), so Karim gets no error and no
 menu, and HR keeps the menu.
+
+## One theme, frappe-ui's tokens only
+
+*Asked:* everything in frappe-ui's tokens; fix the themes, which came out
+greyish in one place and bluish in the next in dark mode; no shadows, and no
+arbitrary colours, borders or radii; a guard for it.
+
+*Found:* the grey and the blue were two palettes fighting. `theme.css`
+redefined frappe's `--gray-N` ramp in slate blues, and frappe's desk routes
+its semantic tokens through that ramp. The islands' stylesheet (frappe-ui)
+sets the same semantic tokens to its own neutral greys on
+`[data-theme=dark]`, for the whole page, once an island has loaded. So a
+surface reading `--surface-gray-2` was grey and one reading the ramp was blue.
+Around it: 574 places off the tokens. They were frappe's older names
+(`--text-muted`, `--border-color`, `--card-bg`), fallbacks, the raw ramp,
+literal hex and rgba, shadows, 2px and 3px borders, pixel radii, Tailwind's
+raw palette and `shadow-*` classes. The portal had a private hex palette and a
+dark mode restated by hand.
+
+*Done:*
+
+- **One theme, frappe's.** The ramp override is gone; light and dark are
+  frappe's own neutral greys, the same values frappe-ui's islands use.
+- **Every screen on the tokens.** Colours are `--ink-*`, `--surface-*` and
+  `--outline-*`; frappe's older names map to what frappe itself defines them
+  as. Corners are `--radius-*`, borders are 1px, and our shadows are gone
+  (rings that marked focus or a choice are outlines now). Tailwind's raw
+  palette and shadows are out of the islands.
+- **The web pages too.** frappe's website stylesheet carries frappe-ui's
+  dark values; `one/portal.py` sets `data-theme` from the reader's preference
+  (`update_website_context`), so the portal's private palette and its
+  restated dark went.
+- **Charts.** A dashboard chart names a frappe-ui hue and `chart_colors.js`
+  reads its token as it draws, so a chart follows the theme too.
+- **The exceptions, named once.** The One mark's colours and OneAI's
+  spectrum (`--one-suite-*`, `--one-ai-*`); frappe-ui's on-photo overlays,
+  which it ships as Tailwind classes only (`--one-over-*`, checked against
+  its values); and two sandboxed frames that load no stylesheet of ours, a
+  received mail and a letter head on its white page. Print and mail are
+  outside it, being paper.
+- **The guard,** `tests/guards/test_tokens.py`: every stylesheet, style
+  attribute, component and template on a screen, every dashboard chart and
+  report, and each `--one-*` token defined where it is used.
+- **Ctrl+K** in the bar sat a pixel above "Search": frappe's `kbd` is a fixed
+  20px box with its text at the top. It takes the label's line now.
 

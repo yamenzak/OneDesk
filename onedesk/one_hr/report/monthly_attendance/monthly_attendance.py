@@ -9,14 +9,14 @@ from hrms.hr.report.monthly_attendance_sheet import monthly_attendance_sheet as 
 #: The grid is two-letter codes, so it needs a key. One line, in the order the
 #: codes rank, rather than HRMS's eight-item list wrapping above the chart.
 LEGEND = (
-	("P", "Present", "var(--green-500)"),
-	("WFH", "From home", "var(--green-500)"),
-	("HD/P", "Half day, rest present", "#914EE3"),
-	("HD/A", "Half day, rest absent", "var(--orange-500)"),
-	("A", "Absent", "var(--red-500)"),
-	("L", "On leave", "#3187D8"),
-	("H", "Holiday", "var(--gray-500)"),
-	("WO", "Weekly off", "var(--gray-500)"),
+	("P", "Present", "var(--ink-green-6)"),
+	("WFH", "From home", "var(--ink-green-6)"),
+	("HD/P", "Half day, rest present", "var(--ink-violet-6)"),
+	("HD/A", "Half day, rest absent", "var(--ink-amber-6)"),
+	("A", "Absent", "var(--ink-red-6)"),
+	("L", "On leave", "var(--ink-blue-6)"),
+	("H", "Holiday", "var(--ink-gray-5)"),
+	("WO", "Weekly off", "var(--ink-gray-5)"),
 )
 
 #: Longest a date range may be, which is HRMS's own limit and the reason it

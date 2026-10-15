@@ -140,47 +140,47 @@
 
 .one-day,
 .one-key {
-	--mark: var(--surface-gray-2);
+	--one-mark: var(--surface-gray-2);
 }
 
 .one-day-present,
 .one-key-present {
-	--mark: var(--surface-green-5);
+	--one-mark: var(--surface-green-5);
 }
 
 .one-day-wfh,
 .one-key-wfh {
-	--mark: var(--surface-green-3);
+	--one-mark: var(--surface-green-3);
 }
 
 .one-day-late,
 .one-key-late {
-	--mark: var(--surface-amber-3);
+	--one-mark: var(--surface-amber-3);
 }
 
 .one-day-half,
 .one-key-half {
-	--mark: var(--surface-amber-5);
+	--one-mark: var(--surface-amber-5);
 }
 
 .one-day-leave,
 .one-key-leave {
-	--mark: var(--surface-blue-4);
+	--one-mark: var(--surface-blue-4);
 }
 
 .one-day-absent,
 .one-key-absent {
-	--mark: var(--surface-red-5);
+	--one-mark: var(--surface-red-5);
 }
 
 .one-day-holiday,
 .one-key-holiday {
-	--mark: var(--surface-gray-4);
+	--one-mark: var(--surface-gray-4);
 }
 
 .one-day {
-	background: var(--mark);
-	border-radius: 3px;
+	background: var(--one-mark);
+	border-radius: var(--radius-sm);
 }
 
 /* The days before a month begins are drawn by frappe as nothing at all. */
@@ -209,8 +209,8 @@ a.one-day:hover {
 	width: 8px;
 	height: 8px;
 	margin-right: 4px;
-	border-radius: 2px;
-	background: var(--mark);
+	border-radius: var(--radius-sm);
+	background: var(--one-mark);
 }
 
 /* Label over value, the desk's own way of putting a number on screen. Three
@@ -265,20 +265,31 @@ a.one-day:hover {
 	align-items: flex-start;
 	gap: 8px;
 	min-width: 0;
-	padding-top: 10px;
-	border-top: 3px solid var(--surface-gray-2);
+	padding-top: 13px;
+	--one-step-track: var(--surface-gray-2);
+}
+
+/* The step's track: a bar along its top, not a border, in its state's colour. */
+.one-step::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 3px;
+	background: var(--one-step-track);
 }
 
 .one-step-done {
-	border-top-color: var(--surface-gray-7);
+	--one-step-track: var(--surface-gray-7);
 }
 
 .one-step-now {
-	border-top-color: var(--surface-blue-5);
+	--one-step-track: var(--surface-blue-5);
 }
 
 .one-step-late {
-	border-top-color: var(--surface-red-5);
+	--one-step-track: var(--surface-red-5);
 }
 
 .one-step-mark {
@@ -288,7 +299,7 @@ a.one-day:hover {
 	justify-content: center;
 	width: 18px;
 	height: 18px;
-	border-radius: 999px;
+	border-radius: var(--radius-full);
 	background: var(--surface-gray-2);
 	color: var(--surface-base);
 }
@@ -297,9 +308,11 @@ a.one-day:hover {
 	background: var(--surface-gray-7);
 }
 
+/* The step under way: a blue ring round an empty centre. */
 .one-step-now .one-step-mark {
-	background: var(--surface-blue-5);
-	box-shadow: inset 0 0 0 5px var(--surface-blue-5), inset 0 0 0 9px var(--surface-base);
+	background: var(--surface-base);
+	outline: 5px solid var(--surface-blue-5);
+	outline-offset: -5px;
 }
 
 .one-step-late .one-step-mark {
@@ -399,11 +412,11 @@ a.one-day:hover {
 }
 
 .one-stat-delta.green-stat {
-	color: var(--ink-green-6, var(--green-600));
+	color: var(--ink-green-6);
 }
 
 .one-stat-delta.red-stat {
-	color: var(--ink-red-6, var(--red-600));
+	color: var(--ink-red-6);
 }
 
 /* A part of a whole: frappe-ui's Progress, a track in the page's grey with
@@ -416,7 +429,7 @@ a.one-day:hover {
 	height: 4px;
 	margin-top: 4px;
 	overflow: hidden;
-	border-radius: var(--radius-full, 999px);
+	border-radius: var(--radius-full);
 	background: var(--surface-gray-2);
 }
 
@@ -428,11 +441,11 @@ a.one-day:hover {
 }
 
 .one-stat-alarm .one-stat-meter > span {
-	background: var(--surface-red-5, var(--red-500));
+	background: var(--surface-red-5);
 }
 
 .one-stat-waiting .one-stat-meter > span {
-	background: var(--surface-amber-5, var(--amber-500));
+	background: var(--surface-amber-5);
 }
 
 a.one-stat:hover {
@@ -591,7 +604,10 @@ a.one-stat:hover .one-stat-value {
 	text-align: left;
 }
 
+/* frappe's kbd is a fixed 20px box with its text at the top; here it is the
+   label's line, so the two sit on one baseline. */
 .one-bar-search kbd {
+	height: auto;
 	padding: 0;
 	background: none;
 	box-shadow: none;
@@ -646,7 +662,7 @@ a.one-stat:hover .one-stat-value {
 .one-timers-count.one-timers-on,
 .one-bar .one-bar-badge.one-timers-on {
 	background: var(--surface-green-7);
-	color: var(--white);
+	color: var(--ink-base);
 }
 
 .one-bar .one-clock .one-clock-dot {
@@ -703,11 +719,7 @@ a.one-stat:hover .one-stat-value {
 .one-band-charted {
 	grid-template-columns: max-content minmax(0, 1fr);
 	gap: var(--margin-lg) var(--margin-xl);
-	--one-chart-context: var(--gray-300);
-}
-
-[data-theme="dark"] .one-band-charted {
-	--one-chart-context: var(--gray-600);
+	--one-chart-context: var(--outline-gray-3);
 }
 
 .one-band-charts {
@@ -769,7 +781,7 @@ a.one-stat:hover .one-stat-value {
 	border-top: 0;
 	font-weight: var(--weight-regular);
 	font-size: var(--text-sm);
-	color: var(--text-muted);
+	color: var(--ink-gray-6);
 	white-space: nowrap;
 }
 
@@ -916,7 +928,7 @@ a.one-chart-head:hover .one-stat-label {
 	pointer-events: none;
 }
 .gantt .bar-wrapper.one-milestone .bar {
-	fill: var(--orange-400);
+	fill: var(--surface-amber-5);
 }
 
 /* A record's Files (record_files.js). Here and not in onecloud.css, which
@@ -1033,17 +1045,17 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 
 .one-place-note {
 	padding: 6px 10px;
-	border-radius: 8px;
+	border-radius: var(--radius);
 	font-size: var(--text-sm);
 	line-height: 1.4;
-	background: var(--bg-gray);
-	color: var(--text-on-gray);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
 }
 
-.one-place-note--blue { background: var(--bg-blue); color: var(--text-on-blue); }
-.one-place-note--green { background: var(--bg-green); color: var(--text-on-green); }
-.one-place-note--orange { background: var(--bg-orange); color: var(--text-on-orange); }
-.one-place-note--red { background: var(--bg-red); color: var(--text-on-red); }
+.one-place-note--blue { background: var(--surface-blue-2); color: var(--ink-blue-8); }
+.one-place-note--green { background: var(--surface-green-2); color: var(--ink-green-8); }
+.one-place-note--orange { background: var(--surface-orange-2); color: var(--ink-orange-8); }
+.one-place-note--red { background: var(--surface-red-2); color: var(--ink-red-8); }
 
 /* Buttons an extension adds beside its notes, in a page's spot for them. */
 .one-place-actions:empty,
@@ -1088,7 +1100,7 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	border-radius: var(--radius-md);
 	background: var(--surface-base);
 	text-align: start;
-	color: var(--text-color);
+	color: var(--ink-gray-8);
 	transition: background-color 0.15s, border-color 0.15s;
 }
 
@@ -1103,12 +1115,13 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 
 .one-kind:focus-visible {
 	outline: none;
-	box-shadow: 0 0 0 2px var(--outline-gray-3);
+	outline: 2px solid var(--outline-gray-3);
+	outline-offset: 1px;
 }
 
 .one-kind.on {
 	border-color: var(--surface-gray-10);
-	box-shadow: 0 0 0 1px var(--surface-gray-10);
+	outline: 1px solid var(--outline-gray-5);
 }
 
 .one-kind-icon {
@@ -1128,7 +1141,7 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 
 .one-kind-said {
 	font-size: var(--text-sm);
-	color: var(--text-muted);
+	color: var(--ink-gray-6);
 }
 
 /* New Project's steps: frappe's Slides inside the dialog rather than on the
@@ -1217,7 +1230,7 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	gap: 6px 18px;
 	padding: 0 16px 16px;
 	font-size: var(--text-sm);
-	color: var(--text-color);
+	color: var(--ink-gray-8);
 }
 .one-chart-legend-item {
 	display: inline-flex;
@@ -1227,10 +1240,10 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 .one-chart-legend-dot {
 	width: 8px;
 	height: 8px;
-	border-radius: 50%;
+	border-radius: var(--radius-full);
 }
 .one-chart-legend-count {
-	color: var(--text-muted);
+	color: var(--ink-gray-6);
 }
 
 /* A crumb that switches (public/js/crumb_switch.js): the place's, the
@@ -1357,7 +1370,7 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head.one-head-actions .page-head-content .page-actions {
 		height: 44px;
 		overflow: visible;
-		border-top: 1px solid var(--border-color);
+		border-top: 1px solid var(--outline-gray-1);
 	}
 	.page-head .page-actions .custom-mobile-actions .es-button {
 		margin-inline-start: 0;
@@ -1512,19 +1525,18 @@ body[data-route^="project-template-view"] .layout-side-section {
 	border: 0;
 	border-radius: var(--radius-sm);
 	background: transparent;
-	color: var(--text-muted);
+	color: var(--ink-gray-6);
 	font-size: var(--text-sm);
 	transition: background-color 0.15s, color 0.15s;
 }
 
 .one-item-tabs button:hover {
-	color: var(--text-color);
+	color: var(--ink-gray-8);
 }
 
 .one-item-tabs button[aria-selected="true"] {
 	background: var(--surface-base);
-	color: var(--text-color);
-	box-shadow: var(--shadow-sm);
+	color: var(--ink-gray-8);
 }
 
 /* A timesheet is looked up by who it is for, whose name fits whole. */

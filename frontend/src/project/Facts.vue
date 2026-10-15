@@ -9,7 +9,7 @@
       <Pill v-if="said.status === 'Open'" :value="said.health" :options="['On Track', 'At Risk', 'Off Track']" :colors="HEALTH" :label="__('Health')" :empty="__('Set Health')" :readonly="!said.can_write" @change="(v) => $emit('change', 'one_health', v)" />
     </div>
     <button v-if="said.customer" class="flex items-center gap-1.5 hover:underline" @click="go(`/desk/customer/${said.customer}`)">
-      <Avatar v-if="said.customer_image" :label="said.customer_name || said.customer" :image="said.customer_image" shape="square" size="xs" :class="onImage && 'bg-white'" />
+      <Avatar v-if="said.customer_image" :label="said.customer_name || said.customer" :image="said.customer_image" shape="square" size="xs" :class="onImage && 'bg-white-overlay-900'" />
       <span v-else class="lucide-building size-4" :class="icon" />{{ said.customer_name || said.customer }}
     </button>
     <button v-if="said.kind === 'Fixed Price' && said.orders?.length > 1" class="flex items-center gap-1.5 hover:underline" @click="go(said.orders_route)">

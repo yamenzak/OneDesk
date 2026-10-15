@@ -118,14 +118,14 @@ frappe.query_reports["Monthly Attendance"] = {
 		if (frappe.query_report.get_filter_value("summarized_view")) return value;
 
 		const colours = {
-			P: "var(--green-500)",
-			WFH: "var(--green-500)",
-			"HD/P": "#914EE3",
-			"HD/A": "var(--orange-500)",
-			A: "var(--red-500)",
-			L: "#3187D8",
+			P: "var(--ink-green-6)",
+			WFH: "var(--ink-green-6)",
+			"HD/P": "var(--ink-violet-6)",
+			"HD/A": "var(--ink-amber-6)",
+			A: "var(--ink-red-6)",
+			L: "var(--ink-blue-6)",
 		};
-		const colour = colours[value] || (value ? "var(--gray-500)" : null);
+		const colour = colours[value] || (value ? "var(--ink-gray-5)" : null);
 		return colour ? `<span style="color:${colour}">${value}</span>` : value;
 	},
 };

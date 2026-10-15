@@ -13,7 +13,7 @@
       @keydown.esc="editing = false"
       @blur="save"
     />
-    <h1 v-else class="min-w-0 line-clamp-2 break-words !font-semibold tracking-tight" :class="[size, onImage ? 'text-white' : 'text-ink-gray-9', said.can_write && (onImage ? 'cursor-text' : 'cursor-text rounded-3 hover:bg-surface-gray-3')]" @click="start">
+    <h1 v-else class="min-w-0 line-clamp-2 break-words !font-semibold tracking-tight" :class="[size, onImage ? 'text-white-overlay-900' : 'text-ink-gray-9', said.can_write && (onImage ? 'cursor-text' : 'cursor-text rounded-3 hover:bg-surface-gray-3')]" @click="start">
       {{ said.title }}
     </h1>
   </div>

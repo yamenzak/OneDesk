@@ -152,7 +152,8 @@
 
 .oc-items.oc-drop {
 	background: var(--surface-blue-1);
-	box-shadow: inset 0 0 0 2px var(--outline-blue-2);
+	outline: 2px solid var(--outline-blue-2);
+	outline-offset: -2px;
 }
 
 /* Details: a row per item, under column headings. */
@@ -267,7 +268,8 @@
 }
 
 .oc-items:focus .oc-item.oc-focus {
-	box-shadow: inset 0 0 0 1px var(--outline-blue-3);
+	outline: 1px solid var(--outline-blue-3);
+	outline-offset: -1px;
 }
 
 .oc-item.oc-cut {
@@ -277,7 +279,8 @@
 .oc-item.oc-drop,
 .oc-node.oc-drop {
 	background: var(--surface-blue-2);
-	box-shadow: inset 0 0 0 1px var(--outline-blue-3);
+	outline: 1px solid var(--outline-blue-3);
+	outline-offset: -1px;
 }
 
 .oc-name {
@@ -334,7 +337,7 @@
 	width: 20px;
 	height: 20px;
 	object-fit: cover;
-	border-radius: 3px;
+	border-radius: var(--radius-sm);
 }
 
 .oc-item[data-folder="1"] .oc-picture {
@@ -407,7 +410,8 @@
 	max-width: 72px;
 	max-height: 72px;
 	border-radius: var(--radius-sm);
-	box-shadow: 0 0 0 1px var(--outline-gray-1);
+	outline: 1px solid var(--outline-gray-1);
+	outline-offset: -1px;
 }
 
 .oc[data-view="tiles"] .oc-label {
@@ -512,8 +516,8 @@
 	flex-direction: column;
 	border-radius: var(--radius-lg);
 	background: var(--surface-elevation-2);
-	box-shadow: 0 0 0 1px var(--outline-gray-1), var(--elevation-2xl);
 	z-index: 5;
+	border: 1px solid var(--outline-gray-2);
 }
 
 .oc-uploads[hidden] {
@@ -551,7 +555,7 @@
 
 .oc-upload-bar {
 	height: 4px;
-	border-radius: 2px;
+	border-radius: var(--radius-sm);
 	background: var(--surface-gray-3);
 	overflow: hidden;
 }
@@ -838,7 +842,7 @@
 	height: min(560px, calc(100vh - 260px));
 	min-height: 380px;
 	border: 1px solid var(--outline-gray-1);
-	border-radius: var(--radius-md, 8px);
+	border-radius: var(--radius-md);
 }
 
 .oc-pick .oc-bar {

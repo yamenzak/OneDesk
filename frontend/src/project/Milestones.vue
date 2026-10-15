@@ -4,7 +4,7 @@
   <div class="flex overflow-x-auto pt-1">
     <button v-for="(one, i) in milestones" :key="one.name" class="relative flex min-w-32 flex-1 flex-col items-start gap-0.5 pt-5 text-start" @click="go(`/desk/task/${one.name}`)">
       <span class="absolute inset-x-0 top-[5px] h-0.5" :class="one.done ? 'bg-surface-gray-7' : 'bg-surface-gray-3'" />
-      <span class="absolute start-0 top-0 h-3 w-3 rounded-full border-2" :class="ring(one, i)" />
+      <span class="absolute start-0 top-0 h-3 w-3 rounded-full border" :class="ring(one, i)" />
       <span class="pe-3 text-base font-medium text-ink-gray-8">{{ one.subject }}</span>
       <span v-if="one.where" class="pe-3 text-sm text-ink-gray-5">{{ one.where }}</span>
       <span class="pe-3 text-sm tabular-nums" :class="late(one) ? 'text-ink-red-4' : 'text-ink-gray-5'">{{ when(one) }}</span>

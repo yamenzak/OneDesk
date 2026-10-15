@@ -128,7 +128,6 @@ Each row is something that would still run but stop working if upstream moved. `
 | Marks become sprite symbols | 27 Custom Icon rows, ids rewritten per mark so two marks cannot share a gradient | `scripts/icons.py` | `frappe/frappe/core/doctype/custom_icon/custom_icon.py` | `def to_symbol` |
 | Switch Theme offers palette x mode | frappe offers Light, Dark and Automatic; One offers its palettes, and system is a checkbox | `onedesk/public/js/theme.js` | `frappe/frappe/public/js/frappe/ui/theme_switcher.js` | `size: "large"` |
 | The theme dialog is two columns | `.theme-grid` is a flex row sized for three cards; a palette is two | `onedesk/public/css/desk.css` | `frappe/frappe/public/scss/desk/theme_switcher.scss` | `.theme-grid {` |
-| One's colour ramp | twelve raw values per mode, which every espresso token is a `var()` onto | `onedesk/public/css/theme.css` | `frappe/frappe/public/css/espresso/colors.css` | `--gray-50` |
 | The Employee band is not a notice | `set_headline` paints its band for an alert; this one is a permanent summary | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/form/layout.js` | `form-message border-bottom` |
 | Framework leaves the apps screen | it is frappe's own administration and everyone who needs it holds System Manager | `onedesk/one/boot.py` | `frappe/frappe/boot.py` | `on_apps_screen` |
 | The site wears One at install | `get_app_logo` reads Website Settings first, then Navbar Settings, then a hook we cannot win | `onedesk/one/brand.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def get_app_logo` |
@@ -395,4 +394,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | The quantity's unit beside it on a measured line | public/js/measure.js sets a formatter on the quantity of each drawn row through update_docfield_property, since each row keeps its own copy of the field | `onedesk/public/js/measure.js` | `frappe/frappe/public/js/frappe/form/grid.js` | `update_docfield_property(fieldname, property, value) {` |
 | A line's size prints under its item | the shipped builder print formats with item lines merge one_size under item_name; frappe's Table macro draws merged fields as lines under the cell | `onedesk/one_crm/print_format/one_quotation/one_quotation.json` | `frappe/frappe/templates/print_format/macros/Table.html` | `column.merged_fields` |
 
-389 overrides.
+388 overrides.

@@ -248,9 +248,9 @@
 	justify-content: center;
 	width: 32px;
 	height: 32px;
-	border-radius: 50%;
-	background: hsl(var(--hue) 70% 92%);
-	color: hsl(var(--hue) 45% 32%);
+	border-radius: var(--radius-full);
+	background: var(--one-face-bg);
+	color: var(--one-face-ink);
 	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 0.02em;
@@ -498,7 +498,7 @@ img.om-face {
 	border: 0;
 	/* The message's own colours are its sender's, on white, whatever the
 	 * desk's theme. */
-	background: var(--surface-white);
+	background: var(--surface-base);
 	border-radius: var(--radius);
 }
 
@@ -611,7 +611,6 @@ img.om-face {
 	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius);
 	background: var(--surface-base);
-	box-shadow: var(--shadow-lg);
 }
 
 .om-menu-item {

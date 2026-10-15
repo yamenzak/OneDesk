@@ -27,7 +27,7 @@
           <div class="relative h-10">
             <span class="absolute inset-x-0 top-[5px] h-0.5 bg-surface-gray-3" />
             <Tooltip v-for="one in lane.dated" :key="one.name" :text="tip(one)">
-              <button class="absolute top-0 z-[2] h-3 w-3 -translate-x-1/2 rounded-full border-2" :class="ring(one, lane)" :style="{ left: `${one.at}%` }" :aria-label="tip(one)" @click="go(`/desk/task/${one.name}`)" />
+              <button class="absolute top-0 z-[2] h-3 w-3 -translate-x-1/2 rounded-full border" :class="ring(one, lane)" :style="{ left: `${one.at}%` }" :aria-label="tip(one)" @click="go(`/desk/task/${one.name}`)" />
             </Tooltip>
             <div v-if="lane.next && lane.next.at !== undefined" class="absolute top-4 max-w-[60%] truncate text-sm" :class="lane.next.at > 60 ? '-translate-x-full text-end' : ''" :style="{ left: `${lane.next.at}%` }">
               <span class="text-ink-gray-8">{{ lane.next.subject }}</span>

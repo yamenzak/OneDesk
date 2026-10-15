@@ -4,12 +4,9 @@
  * with the products' colours in orbit: 403, 404, 500 and any other code with
  * a 0 in the middle. Without a code, its core says the rest (templates/includes/one_lost.html, public/js/outside.js).
  *
- * The web pages take their colours from .one-portal (portal.css), the desk's
- * from espresso, under the same names. */
+ * Its colours are frappe-ui's, on the desk and on the web alike. */
 
 .one-lost--desk {
-	--ink: var(--ink-gray-9);
-	--ink-soft: var(--ink-gray-5);
 	min-height: calc(100vh - 160px);
 }
 
@@ -56,7 +53,7 @@
 }
 
 .one-lost__digit {
-	background: linear-gradient(180deg, var(--ink) 30%, var(--ink-soft));
+	background: linear-gradient(180deg, var(--ink-gray-9) 30%, var(--ink-gray-5));
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
@@ -78,7 +75,6 @@
 	width: 100%;
 	height: 100%;
 	overflow: visible;
-	filter: drop-shadow(0 10px 24px color-mix(in srgb, var(--one-suite-core) 22%, transparent));
 }
 
 .one-lost__band {
@@ -102,7 +98,7 @@
 	position: absolute;
 	width: 0.075em;
 	height: 0.075em;
-	border-radius: 50%;
+	border-radius: var(--radius-full);
 }
 
 .one-lost__orbit i:nth-child(1) { top: 0; left: 50%; background: var(--one-suite-1); }
@@ -112,7 +108,7 @@
 
 .one-lost h1 {
 	margin: 0 0 8px;
-	color: var(--ink);
+	color: var(--ink-gray-9);
 	font-size: 26px;
 	font-weight: 600;
 	letter-spacing: -0.01em;
@@ -121,7 +117,7 @@
 .one-lost__line {
 	max-width: 28rem;
 	margin: 0 0 28px;
-	color: var(--ink-soft);
+	color: var(--ink-gray-5);
 	font-size: 15px;
 }
 

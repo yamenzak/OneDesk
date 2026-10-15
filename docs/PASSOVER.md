@@ -44,7 +44,9 @@ on any screen gets a guard first, then the fix.
 5. **Our look**: the product has its own look, as OneMail and OneCloud do,
    rather than a standard desk. It still uses frappe-ui and espresso parts.
    Nothing looks boxed in: sections sit on the page, and Save goes in the page
-   head.
+   head. Every colour, border and corner is a frappe-ui token (`--ink-*`,
+   `--surface-*`, `--outline-*`, `--radius-*`), a border is 1px, and nothing of
+   ours casts a shadow (`tests/guards/test_tokens.py`).
 6. **Nothing lost**: a page of its own keeps everything frappe's form gives,
    through the record frame: the menu (Print, PDF, Email, Copy Link, Duplicate,
    Delete, Customize, the form itself), the sidebar (Assign, Share, Like, Tags,

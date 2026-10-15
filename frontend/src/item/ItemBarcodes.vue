@@ -6,7 +6,7 @@
     <button
       v-for="one in shown"
       :key="one.barcode"
-      class="w-48 rounded-3 border border-outline-gray-1 bg-white px-3 pb-1 pt-2 text-left focus-visible:ring-2 focus-visible:ring-outline-gray-3"
+      class="w-48 rounded-3 border border-outline-gray-1 bg-white-overlay-900 px-3 pb-1 pt-2 text-left focus-visible:ring-2 focus-visible:ring-outline-gray-3"
       :class="canWrite ? 'hover:border-outline-gray-3' : 'cursor-default'"
       :aria-label="__('Barcode {0}', [one.barcode])"
       @click="manage"

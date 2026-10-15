@@ -1,42 +1,14 @@
-/* One's palette, in two modes.
+/* One's tokens, on frappe's.
  *
- * Every espresso semantic token is a var() onto the raw ramp — --surface-gray-1
- * is var(--gray-50), --ink-gray-8 is var(--gray-900) — so redefining the ramp
- * retints the whole desk without touching a component. A theme is therefore
- * these two blocks, and a second theme is two more.
+ * One has no palette of its own: every screen is drawn in frappe-ui's tokens
+ * (--ink-*, --surface-*, --outline-*, --radius-*), and light and dark are
+ * frappe's. The bluish ramp that used to be redefined here retinted only what
+ * read the ramp, while frappe-ui's islands set the semantic tokens to their
+ * own neutral values, so one surface came out grey and the next blue
+ * (tests/guards/test_tokens.py keeps it this way).
  *
- * html[data-one-theme] outranks frappe's [data-theme] on specificity, so the
- * dark block here wins over theirs. */
-
-html[data-one-theme="one"] {
-	--gray-50: #f7f8f9;
-	--gray-100: #eff1f4;
-	--gray-200: #e4e7ec;
-	--gray-300: #cdd3db;
-	--gray-400: #a9b2be;
-	--gray-450: #8b95a3;
-	--gray-500: #6e7886;
-	--gray-600: #566070;
-	--gray-700: #3c4553;
-	--gray-800: #2a313c;
-	--gray-900: #171d26;
-	--gray-950: #0d1218;
-}
-
-html[data-one-theme="one"][data-theme="dark"] {
-	--gray-50: #f7f8f9;
-	--gray-100: #d8dde4;
-	--gray-200: #adb5c0;
-	--gray-300: #96a0ae;
-	--gray-400: #76808f;
-	--gray-450: #545d6b;
-	--gray-500: #3f4854;
-	--gray-600: #343c47;
-	--gray-700: #262d37;
-	--gray-800: #212731;
-	--gray-900: #1b2029;
-	--gray-950: #141920;
-}
+ * What is here is One's own: the mark's colours, the only literal colours in
+ * the app, and the bar's tokens, made of frappe's. */
 
 /* One's own mark, the suite spectrum of scripts/brand/marks.json: the ring
  * that stands in for the 0 when a page is not found (lost.css). */
@@ -47,6 +19,8 @@ html[data-one-theme="one"][data-theme="dark"] {
 	--one-suite-3: #fbbf24;
 	--one-suite-4: #10b981;
 	--one-suite-core: #0f172a;
+	--one-suite-core-glow: #1e293b;
+	--one-suite-glint: #ffffff;
 }
 
 /* The bar across the top of the shell (desk.css), on the rail's own surface,
@@ -60,7 +34,7 @@ html[data-one-theme="one"][data-theme="dark"] {
 	--one-bar-ink: var(--ink-gray-6);
 	--one-bar-ink-strong: var(--ink-gray-9);
 	--one-bar-fill: var(--surface-gray-2);
-	--one-bar-hover: var(--dock-tile-hover);
+	--one-bar-hover: var(--surface-gray-3);
 }
 
 /* OneAI's spectrum, read off the mark itself.

@@ -93,7 +93,7 @@
 }
 
 .one-calendar-dot {
-	border-radius: 50%;
+	border-radius: var(--radius-full);
 	display: inline-block;
 	flex: 0 0 10px;
 	height: 10px;

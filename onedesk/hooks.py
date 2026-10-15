@@ -1173,6 +1173,8 @@ app_include_css = [
 ]
 # /start and /welcome, which are not desk screens and load none of the above.
 web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
+# A web page follows the reader's light or dark. See one/portal.py.
+update_website_context = ["onedesk.one.portal.light_or_dark"]
 # Screens drawn with frappe-ui inside desk pages are named by their entry in
 # frontend/build-islands.mjs, and mounted by onedesk.island_page. docs/ISLANDS.md.
 

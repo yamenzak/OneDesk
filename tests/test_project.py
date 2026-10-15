@@ -1467,7 +1467,7 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 	assert set(kinds) == {"Fixed Price", "Time and Materials", "Retainer", "Internal"}
 	colours = (tree.APP / "public" / "js" / "chart_colors.js").read_text()
 	assert (
-		"built.colors = labels.map((label) => named[label]" in colours and "built.showLegend = 0" in colours
+		"built.colors = labels.map((label) => hue(named[label]))" in colours and "built.showLegend = 0" in colours
 	)
 	assert '"/assets/onedesk/js/chart_colors.js"' in (tree.APP / "hooks.py").read_text()
 	# Kanban: a board by health, made once.

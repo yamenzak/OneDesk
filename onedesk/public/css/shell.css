@@ -294,7 +294,7 @@ a.one-shell-row:hover {
 	width: 7px;
 	height: 7px;
 	border-radius: var(--radius-full);
-	background: var(--ink-blue-6, var(--ink-gray-9));
+	background: var(--ink-blue-6);
 }
 
 /* Panes: side by side, divided by a rule, as tall as the window leaves them
@@ -466,7 +466,7 @@ a.one-shell-row:hover {
 .one-record-side .sidebar-standard-image {
 	width: 80px;
 	height: 80px;
-	border-radius: var(--radius-lg, 12px);
+	border-radius: var(--radius-lg);
 	object-fit: cover;
 }
 

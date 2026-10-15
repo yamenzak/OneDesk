@@ -21,7 +21,7 @@ frappe.query_reports["Time in Sales Stage"] = {
 	],
 	formatter(value, row, column, data, default_formatter) {
 		const shown = default_formatter(value, row, column, data);
-		if (column.fieldname === "stuck" && value) return `<span style="color: var(--orange-600)">${shown}</span>`;
+		if (column.fieldname === "stuck" && value) return `<span style="color: var(--ink-amber-6)">${shown}</span>`;
 		return shown;
 	},
 };

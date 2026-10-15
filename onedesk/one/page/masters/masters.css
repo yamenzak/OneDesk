@@ -20,7 +20,7 @@
 	margin-top: calc(var(--spacing) * 2);
 	padding: 0 calc(var(--spacing) * 2);
 	border: 0;
-	border-radius: var(--radius-md, 6px);
+	border-radius: var(--radius-md);
 	background: none;
 	font-size: var(--text-sm);
 	color: var(--ink-gray-6);
@@ -87,7 +87,7 @@
 	height: 30px;
 	padding: 0 calc(var(--spacing) * 2);
 	border: 0;
-	border-radius: var(--radius-md, 6px);
+	border-radius: var(--radius-md);
 	background: none;
 	color: var(--ink-gray-7);
 	font-size: var(--text-sm);

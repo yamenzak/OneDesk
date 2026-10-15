@@ -40,8 +40,7 @@ built itself. None shares a layout with another.
 
 Empty states are written five times (`.os-empty`, `.oi-empty`, `.om-none`…),
 rows four times, and OneMail and OneCloud each size themselves to the window
-with their own `fit()`. The only thing every page shares is `theme.css`, the
-palette. **Settings is the one page that already behaves like a desk form**,
+with their own `fit()`. The only thing every page shares is frappe-ui's tokens. **Settings is the one page that already behaves like a desk form**,
 and its `form()` is the nearest thing to a shell.
 
 **Forms: 39 scripts on 43 doctypes, six patterns.** They change the desk form in six

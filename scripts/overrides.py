@@ -886,13 +886,6 @@ OVERRIDES = [
 		".theme-grid {",
 	),
 	(
-		"One's colour ramp",
-		"twelve raw values per mode, which every espresso token is a `var()` onto",
-		"onedesk/public/css/theme.css",
-		"frappe/frappe/public/css/espresso/colors.css",
-		"--gray-50",
-	),
-	(
 		"The Employee band is not a notice",
 		"`set_headline` paints its band for an alert; this one is a permanent summary",
 		"onedesk/public/css/desk.css",

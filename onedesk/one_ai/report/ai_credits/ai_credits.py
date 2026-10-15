@@ -118,7 +118,7 @@ def _chart(said: dict, start, end) -> dict:
 		},
 		"type": "bar",
 		"fieldtype": "Float",
-		"colors": ["#7C5CFA"],
+		"colors": ["violet"],
 		"height": 220,
 	}
 

@@ -21,6 +21,8 @@ frappe.provide("onedesk");
 
 onedesk.OneMail = class OneMail {
 	static API = "onedesk.one_mail.api.";
+	// The hues a sender's initials are drawn in, frappe-ui's.
+	static FACES = ["blue", "green", "amber", "red", "violet", "cyan", "pink", "teal", "orange", "purple"];
 	static ACT = "onedesk.one_mail.actions.";
 	// How a conversation came to be on a record (one_mail/linking.py).
 	static FILED_BY = {
@@ -306,9 +308,11 @@ onedesk.OneMail = class OneMail {
 		const text = (name || email || "?").trim();
 		const parts = text.replace(/[<>"']/g, "").split(/[\s@._-]+/).filter(Boolean);
 		const initials = ((parts[0] || "?")[0] + ((parts[1] || "")[0] || "")).toUpperCase();
-		let hue = 0;
-		for (const char of email || text) hue = (hue * 31 + char.charCodeAt(0)) % 360;
-		return `<span class="om-face" style="--hue:${hue}" aria-hidden="true">${frappe.utils.escape_html(initials)}</span>`;
+		// One of frappe-ui's hues, the same one for the same person every time.
+		let hash = 0;
+		for (const char of email || text) hash = (hash * 31 + char.charCodeAt(0)) % 9973;
+		const hue = OneMail.FACES[hash % OneMail.FACES.length];
+		return `<span class="om-face" style="--one-face-bg: var(--surface-${hue}-2); --one-face-ink: var(--ink-${hue}-7)" aria-hidden="true">${frappe.utils.escape_html(initials)}</span>`;
 	}
 
 	who(item) {

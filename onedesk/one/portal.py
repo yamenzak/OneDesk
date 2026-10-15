@@ -586,3 +586,18 @@ def settle() -> None:
 		if frappe.db.exists("Web Form", form):
 			frappe.db.set_value("Web Form", form, words)
 	frappe.cache.delete_key("portal_menu_items")
+
+
+#: frappe's website stylesheet carries frappe-ui's dark values under
+#: [data-theme=dark], which nothing on the website sets: this sets it from the
+#: reader's own light or dark, before anything is drawn.
+LIGHT_OR_DARK = (
+	"<script>(()=>{const m=matchMedia('(prefers-color-scheme: dark)'),"
+	"set=()=>document.documentElement.setAttribute('data-theme',m.matches?'dark':'light');"
+	"set();m.addEventListener('change',set)})()</script>"
+)
+
+
+def light_or_dark(context):
+	"""Every web page in the reader's light or dark, as the desk is."""
+	context["head_include"] = (context.get("head_include") or "") + LIGHT_OR_DARK

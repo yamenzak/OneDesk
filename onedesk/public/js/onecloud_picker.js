@@ -108,7 +108,7 @@ frappe.require("file_uploader.bundle.js").then(() => {
 		label: __("OneCloud"),
 		// Drawn like its neighbours: a disc, and Lucide's cloud from the sprite.
 		icon: `<circle cx="15" cy="15" r="15" fill="var(--subtle-fg)"></circle>
-			<use href="#icon-cloud" x="7" y="7" width="16" height="16" style="color: var(--text-color)"></use>`,
+			<use href="#icon-cloud" x="7" y="7" width="16" height="16" style="color: var(--ink-gray-8)"></use>`,
 		action: (context) => onedesk.pick_from_onecloud(context),
 	});
 });

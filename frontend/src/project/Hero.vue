@@ -27,12 +27,12 @@
 
     <div v-if="media.length > 1" class="pointer-events-none absolute inset-x-6 top-5 flex gap-1.5 lg:inset-x-8">
       <span v-for="(one, i) in media" :key="one.name" class="h-0.5 flex-1 overflow-hidden rounded-full bg-white-overlay-300">
-        <span class="block h-full rounded-full bg-white" :style="{ width: `${i < at ? 100 : i === at ? Math.round(shown * 100) : 0}%` }" />
+        <span class="block h-full rounded-full bg-white-overlay-900" :style="{ width: `${i < at ? 100 : i === at ? Math.round(shown * 100) : 0}%` }" />
       </span>
     </div>
 
     <div class="absolute end-6 top-9 flex items-center gap-2 lg:end-8">
-      <button v-if="canAdd" class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white opacity-0 backdrop-blur-md transition hover:bg-black-overlay-600 group-hover:opacity-100" @click="$emit('add')">
+      <button v-if="canAdd" class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white-overlay-900 opacity-0 backdrop-blur-md transition hover:bg-black-overlay-600 group-hover:opacity-100" @click="$emit('add')">
         <span class="lucide-image-plus size-4" />{{ __("Add Photos") }}
       </button>
       <div v-if="media.length > 1" class="flex -space-x-2.5 max-sm:hidden">
@@ -40,7 +40,7 @@
           <Thumb :item="one" />
         </button>
       </div>
-      <button class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white backdrop-blur-md hover:bg-black-overlay-600" @click="$emit('open', at)">
+      <button class="flex h-8 items-center gap-1.5 rounded-5 border border-white-overlay-200 bg-black-overlay-400 px-2.5 text-sm font-medium text-white-overlay-900 backdrop-blur-md hover:bg-black-overlay-600" @click="$emit('open', at)">
         <span class="lucide-images size-4" />{{ media.length > 1 ? __("View All {0}", [media.length]) : __("View Media") }}
       </button>
     </div>
