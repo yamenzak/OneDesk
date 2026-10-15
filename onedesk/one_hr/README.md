@@ -67,8 +67,8 @@ Joining works the same way with an **Onboarding**.
 Employees clock in and out themselves from any phone or computer. There is no
 machine to buy.
 
-**Check In, at the foot of the rail.** It sits above your picture, with
-Search, OneIntake and Notifications, and has a dot: green while you are
+**Check In, in the bar at the top.** It sits at the bar's right end, with
+OneIntake, Timers and Notifications, and has a dot: green while you are
 clocked in, grey while you are not. On a phone it is at the top of the panel. Click it to clock in or out. It picks the right direction itself, and it does not
 appear for somebody on leave or on a holiday, for anybody without an employee
 record, or when the workspace has not turned self check-in on.

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-15 14:32+0000\n"
+"POT-Creation-Date: 2026-10-15 17:14+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -3490,7 +3490,7 @@ msgstr "Fragen Sie zu dieser Seite, lassen Sie etwas nachschlagen oder eine Änd
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr "Fragen Sie unter Ihre Daten erneut, wenn Sie Ihr Konto weiterhin löschen möchten."
 
-#: onedesk/public/js/desk.js:417 onedesk/public/js/outside.js:262
+#: onedesk/public/js/desk.js:423 onedesk/public/js/outside.js:262
 #: onedesk/www/message.html:27
 msgid "Ask an administrator for access."
 msgstr "Bitten Sie einen Administrator um Zugriff."
@@ -4201,7 +4201,7 @@ msgstr "Backend und Daten"
 msgid "Background"
 msgstr ""
 
-#: onedesk/public/js/desk.js:210
+#: onedesk/public/js/desk.js:219
 msgid "Background Tasks"
 msgstr "Hintergrundaufgaben"
 
@@ -5557,8 +5557,8 @@ msgstr "Prüfung"
 msgid "Check Again"
 msgstr "Erneut prüfen"
 
-#: onedesk/public/js/desk.js:121 onedesk/public/js/desk.js:173
-#: onedesk/public/js/desk.js:290 onedesk/public/js/desk.js:293
+#: onedesk/public/js/desk.js:115 onedesk/public/js/desk.js:182
+#: onedesk/public/js/desk.js:296 onedesk/public/js/desk.js:299
 msgid "Check In"
 msgstr ""
 
@@ -5696,11 +5696,11 @@ msgstr "Eincheckungen mit einer Punktzahl zwischen diesem Wert und der Ablehnung
 msgid "Checked By"
 msgstr "Geprüft von"
 
-#: onedesk/public/js/desk.js:293 onedesk/public/js/desk.js:343
+#: onedesk/public/js/desk.js:299 onedesk/public/js/desk.js:349
 msgid "Checked In"
 msgstr "Eingecheckt"
 
-#: onedesk/public/js/desk.js:343
+#: onedesk/public/js/desk.js:349
 msgid "Checked Out"
 msgstr "Ausgecheckt"
 
@@ -5712,7 +5712,7 @@ msgstr "Mit Dokument und Bestellung abgeglichen"
 msgid "Checked in"
 msgstr "Eingecheckt"
 
-#: onedesk/public/js/desk.js:288
+#: onedesk/public/js/desk.js:294
 msgid "Checked in {0}"
 msgstr "Eingecheckt {0}"
 
@@ -5724,11 +5724,11 @@ msgstr "Ausgecheckt"
 msgid "Checked when someone sets or changes their password."
 msgstr "Wird geprüft, wenn jemand sein Passwort festlegt oder ändert."
 
-#: onedesk/public/js/desk.js:307
+#: onedesk/public/js/desk.js:313
 msgid "Checking in…"
 msgstr "Einchecken läuft…"
 
-#: onedesk/public/js/desk.js:307
+#: onedesk/public/js/desk.js:313
 msgid "Checking out…"
 msgstr "Auschecken läuft…"
 
@@ -6869,7 +6869,7 @@ msgstr "Das Kontobuch konnte nicht geladen werden."
 msgid "Couldn't reach the server."
 msgstr "Der Server ist nicht erreichbar."
 
-#: onedesk/public/js/desk.js:312
+#: onedesk/public/js/desk.js:318
 msgid "Couldn't record the check-in."
 msgstr "Die Anmeldung konnte nicht erfasst werden."
 
@@ -18062,7 +18062,7 @@ msgstr "Nicht abrechenbar"
 msgid "Not Billed"
 msgstr "Nicht abgerechnet"
 
-#: onedesk/public/js/desk.js:335
+#: onedesk/public/js/desk.js:341
 msgid "Not Checked In"
 msgstr "Nicht eingecheckt"
 
@@ -18189,7 +18189,7 @@ msgstr "Nicht eingecheckt"
 msgid "Not checked until the workspace is linked to an account."
 msgstr "Wird erst geprüft, wenn der Arbeitsbereich mit einem Konto verknüpft ist."
 
-#: onedesk/public/js/desk.js:291
+#: onedesk/public/js/desk.js:297
 msgid "Not checking in today"
 msgstr "Heute kein Einchecken"
 
@@ -18465,7 +18465,7 @@ msgstr "Von {0} ist nichts gekommen, und es wurde vor {1} benötigt."
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Berechtigungen geprüft."
 
-#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:416
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:422
 #: onedesk/www/portal.html:36 onedesk/www/portal.html:72
 msgid "Nothing here yet"
 msgstr "Hier ist noch nichts"
@@ -18529,7 +18529,7 @@ msgstr "Nichts läuft"
 msgid "Nothing shared with you"
 msgstr "Nichts mit Ihnen geteilt"
 
-#: onedesk/public/js/desk.js:300
+#: onedesk/public/js/desk.js:306
 msgid "Nothing to check in. You're {0} today."
 msgstr "Nichts zum Einstempeln. Sie sind heute {0}."
 
@@ -18619,7 +18619,7 @@ msgstr "Benachrichtigung"
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:18 onedesk/one/settings.py:133
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:199 onedesk/public/js/doctype_settings.js:295
+#: onedesk/public/js/desk.js:208 onedesk/public/js/doctype_settings.js:295
 #: onedesk/public/js/settings.js:3089 onedesk/public/js/settings.js:3186
 #: onedesk/public/js/settings.js:3250
 msgid "Notifications"
@@ -19492,8 +19492,8 @@ msgstr "OneHR-Einrichtung"
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:128
-#: onedesk/public/js/desk.js:180 onedesk/public/js/desk.js:270
+#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:122
+#: onedesk/public/js/desk.js:189 onedesk/public/js/desk.js:276
 msgid "OneIntake"
 msgstr "OneIntake"
 
@@ -23744,7 +23744,7 @@ msgstr "Dieses Gerät registrieren"
 msgid "Register a passkey before checking in."
 msgstr "Registrieren Sie einen Passkey, bevor Sie einchecken."
 
-#: onedesk/public/js/desk.js:323
+#: onedesk/public/js/desk.js:329
 msgid "Register a passkey on this phone first?"
 msgstr "Zuerst einen Passkey auf diesem Telefon registrieren?"
 
@@ -25135,7 +25135,7 @@ msgstr "Abdichten und wetterfest machen"
 #: frontend/src/to_order/ToOrderPage.vue:14
 #: frontend/src/upkeep/UpkeepPage.vue:15
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:133 onedesk/public/js/desk.js:171
+#: onedesk/public/js/crumb_switch.js:133 onedesk/public/js/desk.js:177
 #: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:47
 msgid "Search"
 msgstr "Suchen"
@@ -30610,8 +30610,8 @@ msgid "Timeout (seconds)"
 msgstr "Zeitlimit (Sekunden)"
 
 #: frontend/src/task/Timers.vue:19 onedesk/one_task/page/timers/timers.js:4
-#: onedesk/public/js/desk.js:138 onedesk/public/js/desk.js:188
-#: onedesk/public/js/desk.js:232
+#: onedesk/public/js/desk.js:132 onedesk/public/js/desk.js:197
+#: onedesk/public/js/desk.js:238
 msgid "Timers"
 msgstr "Timer"
 
@@ -30648,7 +30648,7 @@ msgstr "Stundenzettel-Nr."
 msgid "Timesheets"
 msgstr "Zeiterfassungen"
 
-#: onedesk/public/js/desk.js:232
+#: onedesk/public/js/desk.js:238
 msgid "Timing {0}"
 msgstr "Zeitmessung für {0}"
 
@@ -30898,6 +30898,10 @@ msgstr "Zu viele Versuche in einer Minute. Warten Sie einen Moment und versuchen
 #: onedesk/www/your_data.html:185
 msgid "Too many tries. Try again in an hour."
 msgstr "Zu viele Versuche. Versuchen Sie es in einer Stunde erneut."
+
+#: onedesk/public/js/desk.js:160
+msgid "Tools"
+msgstr "Werkzeuge"
 
 #: frontend/src/home/BooksStory.vue:24
 msgid "Top Expenses"
@@ -36636,7 +36640,7 @@ msgid "not known yet"
 msgstr "noch nicht bekannt"
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:330
-#: onedesk/public/js/desk.js:363
+#: onedesk/public/js/desk.js:369
 msgid "nothing"
 msgstr "nichts"
 
@@ -38877,7 +38881,7 @@ msgstr "{0} Teile, keine neuen"
 msgid "{0} parts, {1} new"
 msgstr "{0} Teile, {1} neu"
 
-#: onedesk/public/js/desk.js:232
+#: onedesk/public/js/desk.js:238
 msgid "{0} paused timers"
 msgstr "{0} pausierte Timer"
 
@@ -39178,7 +39182,7 @@ msgstr "{0} belegt, ohne Grenze"
 msgid "{0} users"
 msgstr "{0}-Benutzer"
 
-#: onedesk/public/js/desk.js:270
+#: onedesk/public/js/desk.js:276
 msgid "{0} waiting in OneIntake"
 msgstr "{0} warten in OneIntake"
 

@@ -144,8 +144,8 @@ timesheet.
 - My Tasks shows when the running timer started.
 - A timer stopped within a minute adds nothing.
 
-**Timers**, at the foot of the rail above your picture, opens a small window
-beside it with your timers, on every page. The one running shows its time today, counting, with **Pause
+**Timers**, in the bar across the top of the page, opens a small window
+under it with your timers, on every page. The one running shows its time today, counting, with **Pause
 Timer** and **Stop Timer**. Paused ones show their time today, with **Resume
 Timer** and **Stop Timer**. Pausing adds the time so far to your timesheet and
 keeps the task in the list. Resuming starts a new line on the timesheet.

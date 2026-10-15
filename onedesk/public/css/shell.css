@@ -397,7 +397,7 @@ a.one-shell-row:hover {
 .one-record-view {
 	display: flex;
 	align-items: stretch;
-	min-height: calc(100vh - 48px);
+	min-height: calc(100dvh - 48px - var(--one-bar-offset));
 }
 
 .one-record-main {

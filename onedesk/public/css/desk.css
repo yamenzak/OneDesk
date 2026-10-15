@@ -480,65 +480,182 @@ a.one-stat:hover .one-stat-value {
 	background: var(--ink-gray-9);
 }
 
-/* The rail's foot, above the avatar: Search, Check In, OneIntake and
-   Notifications (desk.js `rail`). A count sits on its tile's corner. */
-.dock .one-rail-tools {
-	display: flex;
-	flex: 0 0 auto;
-	flex-direction: column;
-	align-items: center;
-	gap: 6px;
-	width: 100%;
-	padding: 6px 0;
+/* The bar across the top of the shell (desk.js `bar`), modelled on Discord's
+   and Slack's title bar: Search in the middle, the tools at its right end, on
+   the One mark's own dark core in either theme. Hidden on a phone, where the
+   panel's band keeps them. */
+.one-bar {
+	display: none;
 }
 
-.dock .one-rail-tool .one-rail-badge {
+@media (min-width: 768px) {
+	/* frappe's own body has `padding: 0 !important`. */
+	body.one-barred {
+		--one-bar-offset: var(--one-bar-height);
+		padding-top: var(--one-bar-height) !important;
+	}
+
+	.one-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		/* Over the floating rail's 1030, under frappe's modals. */
+		z-index: 1031;
+		display: flex;
+		align-items: center;
+		height: var(--one-bar-height);
+		padding: 0 8px;
+		background: var(--one-bar-bg);
+		color: var(--one-bar-ink);
+	}
+
+	/* frappe's shell is a row of boxes each the window's height. Beside the bar
+	   each is the window less the bar, or the page scrolls by the bar's height. */
+	body.one-barred .main-section,
+	body.one-barred.dock-pinned .dock,
+	body.one-barred .body-sidebar,
+	body.one-barred .sidebar-panel {
+		height: calc(100dvh - var(--one-bar-height));
+	}
+
+	body.one-barred .sidebar-panel {
+		min-height: 0;
+	}
+
+	body.one-barred:not(.dock-pinned) .dock {
+		max-height: calc(100dvh - 32px - 2 * var(--one-bar-height));
+	}
+
+	body.one-barred .report-view .layout-main-section,
+	body.one-barred[data-route^="Form"] .layout-side-section {
+		height: calc(100dvh - var(--page-head-height) - var(--one-bar-height));
+	}
+
+	/* The panel's band would only say the same again. */
+	body.one-barred .body-sidebar .standard-items-band {
+		display: none;
+	}
+}
+
+.one-bar-middle {
 	position: absolute;
-	top: 3px;
-	right: 1px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.one-bar-tools {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	margin-left: auto;
+}
+
+.one-bar-search,
+.one-bar-tool {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 22px;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: inherit;
+	font-size: var(--text-xs);
+	cursor: pointer;
+}
+
+.one-bar-tool {
+	padding: 0 5px;
+}
+
+.one-bar-tool.hide,
+.one-bar-tool.hidden {
+	display: none;
+}
+
+.one-bar-search {
+	width: min(420px, 36vw);
+	padding: 0 8px;
+	background: var(--one-bar-fill);
+}
+
+.one-bar-search-label {
+	flex: 1;
+	text-align: left;
+}
+
+.one-bar-search kbd {
+	padding: 0;
+	background: none;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+}
+
+.one-bar-search:hover,
+.one-bar-tool:hover {
+	background: var(--one-bar-hover);
+	color: var(--one-bar-ink-strong);
+}
+
+.one-bar-search:focus-visible,
+.one-bar-tool:focus-visible {
+	outline: 2px solid var(--one-bar-ink-strong);
+	outline-offset: -2px;
+}
+
+.one-bar-search svg,
+.one-bar-tool svg {
+	stroke: currentColor;
+}
+
+/* A count beside its tool, light on the dark bar. */
+.one-bar .one-bar-badge {
 	min-width: 16px;
 	height: 16px;
 	padding: 0 4px;
 	border-radius: var(--radius-full);
-	background: var(--ink-gray-9);
-	color: var(--ink-gray-1);
+	background: var(--one-bar-ink-strong);
+	color: var(--one-bar-bg);
 	font-size: 10px;
 	font-weight: 600;
 	line-height: 16px;
 	text-align: center;
 }
 
-.dock .one-rail-tool .one-rail-badge.one-intake-dot {
-	min-width: 8px;
-	width: 8px;
-	height: 8px;
-	top: 8px;
-	right: 8px;
+.one-bar .one-bar-badge.hide,
+.one-bar .one-bar-badge.hidden {
+	display: none;
+}
+
+.one-bar .one-bar-badge.one-intake-dot {
+	min-width: 6px;
+	width: 6px;
+	height: 6px;
 	padding: 0;
 }
 
 /* A timer running: its count in green, as frappe-ui's solid green Badge. */
 .one-timers-count.one-timers-on,
-.dock .one-rail-tool .one-rail-badge.one-timers-on {
+.one-bar .one-bar-badge.one-timers-on {
 	background: var(--surface-green-7);
 	color: var(--white);
 }
 
-.dock .one-rail-tool .one-clock-dot {
-	position: absolute;
-	right: 9px;
-	bottom: 9px;
+.one-bar .one-clock .one-clock-dot {
+	width: 6px;
+	height: 6px;
+	background: var(--one-bar-hover);
 }
 
-/* With the rail pinned beside it, the panel's band would only say the same
-   again. On a phone there is no rail, and the band keeps them. */
-@media (min-width: 768px) {
-	body.dock-pinned .body-sidebar .standard-items-band {
-		display: none;
-	}
+.one-bar .one-clock .one-clock-dot.one-clock-on {
+	background: var(--surface-green-5);
+}
 
+@media (min-width: 768px) {
 	/* frappe's Notifications and Background Tasks open in the sidebar's
-	   container, which a page with a sidebar of its own hides. A panel the rail
+	   container, which a page with a sidebar of its own hides. A panel the bar
 	   opened there shows on its own, beside the rail, without the sidebar. */
 	.body-sidebar-container[style*="display: none"]:has(.sidebar-panel:not(.hidden)) {
 		display: block !important;
@@ -1359,7 +1476,7 @@ body[data-route^="project-view"] .layout-side-section,
 body[data-route^="project-template-view"] .layout-side-section {
 	overflow-y: auto;
 	overflow-x: hidden;
-	height: calc(100vh - var(--page-head-height));
+	height: calc(100dvh - var(--page-head-height) - var(--one-bar-offset));
 	position: sticky;
 	top: var(--page-head-height);
 	align-self: flex-start;

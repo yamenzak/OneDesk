@@ -1,6 +1,6 @@
 frappe.provide("onedesk");
-// The rail rows below are set up while the dock is built, which can be before
-// the rest of this file has run.
+// The band's rows and the bar below are set up while the sidebar is built,
+// which can be before the rest of this file has run.
 frappe.provide("onedesk.dock");
 
 // A record being printed is still that record: frappe reads the print route as
@@ -24,11 +24,6 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		const first = !this.standard_items_setup;
 		super.add_standard_items(items);
 		if (first) onedesk.dock.rows(this);
-	}
-
-	refresh_dock() {
-		super.refresh_dock();
-		if (this.dock) onedesk.dock.rail(this.dock);
 	}
 
 	entity_from_route(route) {
@@ -100,15 +95,14 @@ if (frappe.boot.one_elsewhere) {
 	frappe.re_route[""] = "one";
 }
 
-// What a person checks on: Search, Check In, OneIntake and Notifications. They
-// sit at the foot of the rail, above the avatar, because the rail is on every
-// page and the panel is not: a page with a sidebar of its own, such as My
-// Tasks, OneMail or OneCloud, hides frappe's panel and the band under its
-// header with it. frappe kept Search and the bell in the rail until its "make
-// module sidebar primary"; these are its buttons, with its classes, so its
-// search, its bell's count and its Notifications panel work from here
-// (`rail`). On a phone there is no rail, and the band keeps them; with the rail
-// pinned the band is hidden (desk.css), so nothing shows twice.
+// What a person checks on: Search, Check In, OneIntake, Timers and
+// Notifications. On a desktop they live in the bar across the top of the shell
+// (`bar`), because it is on every page and the panel is not: a page with a
+// sidebar of its own, such as My Tasks, OneMail or OneCloud, hides frappe's
+// panel and the band under its header with it. These are frappe's buttons, with
+// its classes, so its search, its bell's count and its Notifications panel work
+// from there. On a phone there is no bar, and the band keeps them; beside the
+// bar the band is hidden (desk.css), so nothing shows twice.
 //
 // Clocking in is one row rather than a route because it happens twice a day
 // for everybody. The dot shows the state rather than offering a verb: green
@@ -131,7 +125,7 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
 		onClick: () => frappe.set_route("intake"),
 	});
-	// Without the rail, the timers open from here: beside the row, or as a
+	// Without the bar, the timers open from here: beside the row, or as a
 	// page on a phone.
 	if (onedesk.dock.times()) {
 		add({
@@ -139,13 +133,15 @@ onedesk.dock.rows = (sidebar) => {
 			icon: "timer",
 			class: "one-timers-row",
 			suffix: `<span class="one-timers-count es-badge hide" data-variant="ghost"></span>`,
-			onClick: () => onedesk.dock.timers_open($(".one-timers-row:visible").not(".one-rail-tool")[0]),
+			onClick: () => onedesk.dock.timers_open($(".one-timers-row:visible").not(".one-bar-tool")[0]),
 		});
 	}
+	onedesk.dock.bar();
 	onedesk.dock.refresh();
 	// Intake: what OneAI did with what arrived, and what waits for you. A
 	// number when something waits, a dot when something is unread.
 	onedesk.dock.intake();
+	onedesk.dock.timers();
 	// frappe's realtime drops a handler added before its socket exists.
 	const listen = () => {
 		frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
@@ -154,21 +150,36 @@ onedesk.dock.rows = (sidebar) => {
 	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 };
 
-// The rail's own tiles, at its foot above the avatar, each frappe's button for
-// the same thing. Made once per rail.
-onedesk.dock.rail = (dock) => {
-	if (frappe.session.user === "Guest" || dock.$dock.find(".one-rail-tools").length) return;
-	const $tools = $(`<div class="one-rail-tools"></div>`).insertBefore(dock.$dock.find(".dock-user"));
-	const add = ({ label, icon, css, badge = "", click }) => {
+// The bar across the top of the shell, Discord's and Slack's title bar: Search
+// in the middle, then Check In, OneIntake, Timers, Notifications and the
+// background tasks at its right end, each frappe's button for the same thing.
+// The rail below it keeps only the apps and the avatar. Made once; hidden on a
+// phone (desk.css).
+onedesk.dock.bar = () => {
+	if (frappe.session.user === "Guest" || $(".one-bar").length) return;
+	const $bar = $(`<header class="one-bar" role="toolbar" aria-label="${__("Tools")}">
+		<div class="one-bar-middle"></div>
+		<div class="one-bar-tools"></div>
+	</header>`).prependTo(document.body);
+	$("body").addClass("one-barred");
+	const add = ({ label, icon, css, badge = "", click, $to = $bar.find(".one-bar-tools") }) => {
 		const $tile = $(
-			`<button class="dock-item one-rail-tool ${css}" aria-label="${frappe.utils.escape_html(label)}">${frappe.utils.icon(icon, "md")}${badge}</button>`
-		).appendTo($tools);
+			`<button class="one-bar-tool ${css}" aria-label="${frappe.utils.escape_html(label)}">${frappe.utils.icon(icon, "sm")}${badge}</button>`
+		).appendTo($to);
 		if (click) $tile.on("click", click);
-		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: label, side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" }));
+		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: label, side: "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" }));
 		return $tile;
 	};
 	// page.js opens frappe's search from this class, wherever it is clicked.
-	if (frappe.boot.desk_settings.search_bar) add({ label: __("Search"), icon: "search", css: "navbar-modal-search-mobile" });
+	if (frappe.boot.desk_settings.search_bar) {
+		$(`<button class="one-bar-search">
+			${frappe.utils.icon("search", "sm")}
+			<span class="one-bar-search-label">${__("Search")}</span>
+			<kbd>${frappe.utils.is_mac() ? "⌘K" : "Ctrl+K"}</kbd>
+		</button>`)
+			.addClass("navbar-modal-search-mobile")
+			.appendTo($bar.find(".one-bar-middle"));
+	}
 	add({
 		label: __("Check In"),
 		icon: "clock",
@@ -180,7 +191,7 @@ onedesk.dock.rail = (dock) => {
 		label: __("OneIntake"),
 		icon: "inbox",
 		css: "one-intake-row",
-		badge: `<span class="one-intake-count one-rail-badge hide"></span>`,
+		badge: `<span class="one-intake-count one-bar-badge hide"></span>`,
 		click: () => frappe.set_route("intake"),
 	});
 	if (onedesk.dock.times()) {
@@ -188,7 +199,7 @@ onedesk.dock.rail = (dock) => {
 			label: __("Timers"),
 			icon: "timer",
 			css: "one-timers-row",
-			badge: `<span class="one-timers-count one-rail-badge hide"></span>`,
+			badge: `<span class="one-timers-count one-bar-badge hide"></span>`,
 			click: (event) => onedesk.dock.timers_open(event.currentTarget),
 		});
 	}
@@ -199,7 +210,7 @@ onedesk.dock.rail = (dock) => {
 			label: __("Notifications"),
 			icon: "bell",
 			css: "sidebar-notification",
-			badge: `<span class="notification-count one-rail-badge hidden" aria-live="polite"></span>`,
+			badge: `<span class="notification-count one-bar-badge hidden" aria-live="polite"></span>`,
 			click: () => frappe.ui.sidebar_panels.toggle("notifications"),
 		});
 		const unread = frappe.boot.notification_unread_count || 0;
@@ -212,9 +223,6 @@ onedesk.dock.rail = (dock) => {
 		css: "sidebar-background-tasks hidden",
 		click: () => frappe.ui.sidebar_panels.toggle("background-tasks"),
 	}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
-	onedesk.dock.refresh();
-	onedesk.dock.intake();
-	onedesk.dock.timers();
 };
 
 // Whoever may keep a timesheet may time a task (one_task/timer.py).
@@ -254,7 +262,7 @@ onedesk.dock.timers_open = (el) => {
 	pop.island = frappe.ui.mount_island("onedesk.timers", $host[0], { ...props, onClose: close });
 };
 
-// A row's or a tile's name, as read aloud and as the rail's tooltip says it.
+// A row's or a tile's name, as read aloud and as the bar's tooltip says it.
 onedesk.dock.name = ($item, label) =>
 	$item.attr("aria-label", label).each((_, el) => $(el).data("one-tip")?.set_text(label));
 

@@ -42,7 +42,8 @@ what is up next. The points and how a screen is walked are in
 | Products | OneTask › All Tasks and its views | done |
 | Products | OneTask › Across modules | done |
 | Products | OneTask, the closing pass | closed, the standard (`docs/STANDARD.md`) |
-| Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done |
+| Shell | The rail's foot: Search, Check In, OneIntake, Notifications | done, then moved to the bar |
+| Shell | The bar across the top: Search, Check In, OneIntake, Timers, Notifications | done |
 | Shell | Timers: the tile, the popover, pause | done |
 | OneProject, OneTask | Reports in the rail: ERPNext's and HRMS's project and task reports | done |
 | Demo | The business, figure by figure (`docs/SCENARIOS.md`): VAT, a late euro payment, a debit note, stock against the books, prices carried, payslips, leave, a leaver's end of service | done |
@@ -13620,3 +13621,34 @@ entries, the bank, the reports and Setup.
 17. **Clean code.** One layout; each new part has its README line.
 
 Demo check `onebook_chases_what_customers_owe`.
+
+## The bar across the top
+
+*Asked:* the four tiles above the avatar take room the rail needs for apps;
+move them to a very thin coloured bar across the top of the shell, as
+Discord's.
+
+*Done:*
+
+- **The bar.** 28px across the whole window, on the One mark's dark core in
+  either theme (`--one-bar-*` in `theme.css`). Search is a field in the
+  middle that says its shortcut; Check In, OneIntake, Timers, Notifications
+  and the background tasks sit at its right end, each with its tooltip below
+  it and its count beside it (`desk.js` `bar`, `desk.css`). They are frappe's
+  own buttons with frappe's classes still, so its search, its bell's count and
+  its panels work from there as they did from the rail.
+- **The rail** keeps only the apps and the avatar.
+- **The shell.** frappe makes the dock, the sidebar, its panels and the page
+  each the window's height, and its body has `padding: 0 !important`. Beside
+  the bar each is the window less the bar, so the page never scrolls by the
+  bar's height; the report view, a form's side column, a project's side
+  column, a record page and My Tasks' own column subtract it too
+  (`--one-bar-offset`, nothing until the bar shows).
+- **The Timers popover** opens under its tile rather than beside it.
+- **On a phone** there is no bar, and the panel's band keeps the rows, as
+  before.
+
+*Found on the way:* opening a colleague's employee record as Karim, who may
+read the record but not Leave Policy, says "Insufficient Permission for Leave
+Policy".
+

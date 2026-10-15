@@ -1733,11 +1733,11 @@ OVERRIDES = [
 		"return self.update_if_holiday(self.end_date)",
 	),
 	(
-		"Search, Check In, OneIntake and Notifications sit at the foot of the rail",
-		"their rail lost Search and the bell to the sidebar's band, which a page with a sidebar of its own hides, and with it every way to them",
-		"onedesk/public/js/desk.js",
-		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
-		'<div class="dock-user">',
+		"Search, Check In, OneIntake, Timers and Notifications sit in a bar across the top of the shell",
+		"their rail lost Search and the bell to the sidebar's band, which a page with a sidebar of its own hides, and with it every way to them; the shell's boxes, each the window's height, are the window less the bar",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/scss/desk/main.scss",
+		"height: 100dvh; // tracks the mobile browser bar",
 	),
 	(
 		"A panel the rail opens shows on a page without frappe's sidebar",

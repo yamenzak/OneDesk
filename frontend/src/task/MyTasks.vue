@@ -6,7 +6,7 @@
        seven days and Later, each task ticked off in place, a timer on it. -->
   <div class="flex">
     <!-- The column stays in sight while the list scrolls. -->
-    <div class="sticky top-12 h-[calc(100svh-3rem)] shrink-0">
+    <div class="sticky top-12 h-[calc(100svh-3rem-var(--one-bar-offset))] shrink-0">
       <Sidebar :aria-label="__('Views')" width="14rem" class="border-e border-outline-gray-1 px-2 py-3">
         <Button variant="solid" icon-left="lucide-plus" class="mb-3 w-full" :label="__('Add Task')" @click="newDoc('Task')" />
         <SidebarItem v-for="one in VIEWS" :key="one.key" :label="one.label" :icon="one.icon" :active="view === one.key" @click="open(one.key)">

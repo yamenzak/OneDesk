@@ -361,7 +361,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Department | through a form's link (Job Opening Template: department) | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Designation | through a form's link (Job Opening Template: designation) | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
-| Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 2 |  |
+| Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  | ar 10 | Birthday, Could Not Mark Left, Employee Details Changed, Work Anniversary |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |

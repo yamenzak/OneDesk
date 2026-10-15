@@ -1,6 +1,6 @@
 <template>
   <!-- The reader's timers (one_task/timer.py `timers`): the one running, with
-       its clock, and the ones paused, to resume. In the rail's Timers popover,
+       its clock, and the ones paused, to resume. In the bar's Timers popover,
        and on its own page on a phone (Timers.vue). -->
   <div class="flex flex-col gap-4">
     <Loading v-if="!said" />
