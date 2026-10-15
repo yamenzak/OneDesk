@@ -21,8 +21,9 @@ DEFAULTS = {
 		],
 	},
 	"Navbar Settings": {"app_logo": LOGO},
-	# Otherwise every mail ends "Sent via ERPNext" (erpnext's default_mail_footer).
-	"System Settings": {"disable_standard_email_footer": 1},
+	# Otherwise every mail ends "Sent via ERPNext" (erpnext's default_mail_footer),
+	# and every time carries its seconds, which no next step or meeting is set to.
+	"System Settings": {"disable_standard_email_footer": 1, "time_format": "HH:mm"},
 }
 
 

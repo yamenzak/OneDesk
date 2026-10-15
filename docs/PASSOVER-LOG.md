@@ -13412,3 +13412,52 @@ Looked at as Omar: Home at a desk and on a phone, Today, Reports and Setup.
    frappe compares an empty date as the earliest there is.
 
 Demo check `onecrm_home_tells_how_selling_is_going`.
+
+### OneCRM: the opportunity follows its sale, and the lists say their statuses
+
+Looked at as Omar: Crescent Schools' opportunity (quoted), Bayview's (won,
+paid), Osei's (won, owing), Marina's (won, ordered), Iqbal's (lost) and
+Harbour's (on hold); Crescent Schools' customer page; the Lead and
+Opportunity lists and the Pipeline.
+
+**Found.**
+
+1. An opportunity's page stopped at its quotation. Whether what was won was
+   ordered, billed or paid took opening the quotation, then the order, then
+   each invoice. Frappe CRM's deal stops there too.
+2. A won or lost opportunity said "Won for 290 days", a stay in a stage that
+   is really a day.
+3. A next step to come read "Next Step ·" with nothing after it: frappe's
+   prettyDate says only a time passed.
+4. A customer's page said everything OneBook knows and nothing about what
+   they may still buy.
+5. Open was red on every lead and opportunity, frappe's guess from the word,
+   as if something were wrong.
+6. With a year of history the lists opened on won and lost opportunities and
+   long-closed leads, first, since an empty Next Step Due sorts first.
+7. Every time on a list, a card and a form carried seconds.
+
+**Done.**
+
+1. The opportunity says where its sale stands in a line and a track
+   (`heads.progress`, `heads.said`, over `chain.follow`): Lead when it came
+   from one, Opportunity, Quotation, Sales Order, Billed and Paid, with what
+   is still owed. Bayview's is green and done to Paid; Osei's is red, 18,900
+   owed and late; Marina's says nothing is billed yet; Iqbal's says Lost:
+   Price; Harbour's is on hold with nothing under way.
+2. Won and lost say the day: "Won on 13-10-2026".
+3. A step to come says its day: "Next Step · 16-10-2026".
+4. A customer's head counts their open opportunities and what they are
+   worth, opening them (`crm.of_customer`, on OneBook's Customer head).
+5. Each status has its colour, as Frappe CRM's do: open blue, waiting on them
+   orange, quoted purple, won green, closed grey (`lead_list.js`,
+   `opportunity_list.js`, in OVERRIDES).
+6. Both lists open filtered to the statuses whose next step is reminded
+   (next.py's OPEN), the filter shown and a click away.
+7. A new workspace keeps time to the minute (`brand.py`); this one was set
+   so.
+
+Not taken: the board's card counting its calls and mail. frappe's card
+already counts comments, and the band's Last Call says the rest.
+
+Demo check `onecrm_an_opportunity_says_where_its_sale_went`.

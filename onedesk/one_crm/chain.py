@@ -98,6 +98,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 					"conversion_rate",
 					"party_account_currency",
 					"currency",
+					"posting_date",
 				],
 				limit=0,
 			)

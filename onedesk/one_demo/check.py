@@ -5801,6 +5801,38 @@ def onecrm_home_tells_how_selling_is_going():
 
 
 @check
+def onecrm_an_opportunity_says_where_its_sale_went():
+	"""An opportunity's head follows the sale past the deal: Bayview's paid
+	in full and green with every step done, Osei's billed and owing late in
+	red, Tran's ordered and not billed, Iqbal's lost with its reason, Harbour
+	on hold with nothing under way; and a customer's page counts what it may
+	still buy."""
+	from onedesk.one import head
+	from onedesk.one_crm import heads
+
+	record = frappe.get_doc("Record Head", "Opportunity")
+
+	def said(title):
+		return head.said(frappe.get_doc("Opportunity", {"title": title}), record)
+
+	with as_user("omar@one.test"):
+		paid = said("Bayview tower lobby doors")
+		assert paid["sentence"] == {"text": "Won, billed and paid in full.", "colour": "green"}, paid["sentence"]
+		assert [one["state"] for one in paid["band"][0]["steps"]] == ["done"] * 5, paid["band"][0]
+		owing = said("Osei Builders site office windows")
+		assert owing["sentence"]["colour"] == "red" and owing["band"][0]["steps"][-1]["state"] == "late", owing
+		ordered = said("Tran Retail shopfront")
+		assert ordered["sentence"]["text"] == "Won and ordered; nothing is billed yet.", ordered["sentence"]
+		lost = said("Iqbal Clinics reception")
+		assert lost["sentence"] == {"text": "Lost: Price.", "colour": "gray"}, lost["sentence"]
+		assert lost["band"][0]["steps"][0]["label"] == "Lead", lost["band"][0]
+		held = said("Harbour Logistics depot doors")
+		assert not any(one["state"] in ("now", "late") for one in held["band"][0]["steps"]), held["band"][0]
+		crescent = heads.of_customer(frappe.get_doc("Customer", "Crescent Schools"))
+		assert crescent and crescent["value"].startswith("1 open"), crescent
+
+
+@check
 def onebook_a_payment_says_where_it_stands():
 	"""Every payment Huda opens says in a sentence what moved, to or from
 	whom, and a payment through the bank says whether the statement has it

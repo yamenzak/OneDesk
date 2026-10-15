@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-15 06:38+0000\n"
+"POT-Creation-Date: 2026-10-15 06:58+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -475,7 +475,7 @@ msgstr "مبنى يُصمَّم مرحلة بعد مرحلة، من المتطل
 msgid "A business moved onto a new ERP, from the first workshop to life after go-live."
 msgstr "نقل شركة إلى نظام ERP جديد، من أول ورشة عمل إلى ما بعد التشغيل."
 
-#: onedesk/one_crm/home.py:116
+#: onedesk/one_crm/home.py:100
 msgid "A business you want to sell to, with its people."
 msgstr "شركة تريد البيع لها، مع موظفيها."
 
@@ -594,7 +594,7 @@ msgstr "لم يُسجَّل يوم في الموقع لـ {0}"
 msgid "A debit note from {0}."
 msgstr "إشعار مدين من {0}."
 
-#: onedesk/one_crm/home.py:425
+#: onedesk/one_crm/home.py:154
 msgid "A discount or price for some customers, items or quantities."
 msgstr "خصم أو سعر لبعض العملاء أو الأصناف أو الكميات."
 
@@ -840,7 +840,7 @@ msgstr "رابط يُرسل إلى العميل للدفع عبر الإنترن
 msgid "A link to a file or folder in OneCloud for people outside the team."
 msgstr "رابط إلى ملف أو مجلد في OneCloud لأشخاص من خارج الفريق."
 
-#: onedesk/one_crm/home.py:158
+#: onedesk/one_crm/home.py:111
 msgid "A list of addresses a newsletter goes to."
 msgstr "قائمة العناوين التي تُرسل إليها النشرة."
 
@@ -868,7 +868,7 @@ msgstr "مقياس سجّلته وحدة يحدّد الشارة بنفسه، ب
 msgid "A measure a module registered that says the sentence itself, as a text and a colour. Nothing said is no sentence."
 msgstr "مقياس سجّلته وحدة يقول الجملة نفسها، نصًا ولونًا. إن لم يقل شيئًا فلا جملة."
 
-#: onedesk/one_crm/home.py:125
+#: onedesk/one_crm/home.py:103
 msgid "A meeting booked with a lead or a customer."
 msgstr "اجتماع محجوز مع عميل محتمل أو عميل."
 
@@ -997,7 +997,7 @@ msgstr "صورة شخص أو شعار جهة، يُبحث عنها مرة واح
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
-#: onedesk/one_crm/home.py:138
+#: onedesk/one_crm/home.py:108
 msgid "A price agreed for a year of orders."
 msgstr "سعر متفق عليه لطلبات سنة كاملة."
 
@@ -1005,7 +1005,7 @@ msgstr "سعر متفق عليه لطلبات سنة كاملة."
 msgid "A price agreed with a supplier for a year."
 msgstr "سعر متفق عليه مع مورد لمدة سنة."
 
-#: onedesk/one_crm/home.py:129
+#: onedesk/one_crm/home.py:105
 msgid "A price sent to a lead or a customer."
 msgstr "سعر مرسل إلى عميل محتمل أو عميل."
 
@@ -1070,7 +1070,7 @@ msgstr "رابط HTTPS عام. لتصفية السجلات، استخدم أتم
 msgid "A queued unit of work against a workspace. Created by the system."
 msgstr "وحدة عمل في طابور التنفيذ على مساحة عمل. يُنشئها النظام."
 
-#: onedesk/one_crm/home.py:130
+#: onedesk/one_crm/home.py:106
 msgid "A quotation the customer said yes to."
 msgstr "عرض سعر وافق عليه العميل."
 
@@ -1165,7 +1165,7 @@ msgstr "بادئة القاعدة هي النص الذي يسبق الرقم، �
 msgid "A rule's text can name a field of the record, as {{ doc.field }}, and nothing else."
 msgstr "يمكن لنص القاعدة أن يذكر حقلاً من السجل، مثل {{ doc.field }}، ولا شيء غير ذلك."
 
-#: onedesk/one_crm/home.py:109
+#: onedesk/one_crm/home.py:99
 msgid "A sale you are working on, what it is worth and how far it has got."
 msgstr "صفقة تعمل عليها، وقيمتها وإلى أين وصلت."
 
@@ -2979,7 +2979,7 @@ msgstr "إعلان"
 msgid "Announcements"
 msgstr "الإعلانات"
 
-#: onedesk/one_book/heads.py:762 onedesk/one_book/heads.py:784
+#: onedesk/one_book/heads.py:762 onedesk/one_book/heads.py:786
 msgid "Annual Billing"
 msgstr "الفوترة السنوية"
 
@@ -3176,14 +3176,14 @@ msgstr "تعيين مقاولي الأعمال الميكانيكية والكه
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one_crm/home.py:122 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/home.py:103 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/planning.py:140
 msgid "Appointment"
 msgstr "موعد"
 
-#: onedesk/one_crm/home.py:345
+#: onedesk/one_crm/home.py:139
 msgid "Appointment Booking Settings"
 msgstr ""
 
@@ -3775,7 +3775,7 @@ msgstr "مسندة إليّ"
 msgid "Assignees"
 msgstr "المُسنَد إليهم"
 
-#: onedesk/one_crm/home.py:368
+#: onedesk/one_crm/home.py:143
 msgid "Assignment Rule"
 msgstr ""
 
@@ -4629,7 +4629,8 @@ msgstr "قابل للفوترة حسب المراحل"
 #: frontend/src/project/Overview.vue:493 frontend/src/project/Suppliers.vue:60
 #: frontend/src/project/Suppliers.vue:203
 #: frontend/src/project/Suppliers.vue:226 onedesk/one_book/heads.py:102
-#: onedesk/one_book/heads.py:655 onedesk/one_crm/heads.py:236
+#: onedesk/one_book/heads.py:655 onedesk/one_crm/heads.py:135
+#: onedesk/one_crm/heads.py:335
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:182
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
 #: onedesk/one_inventory/heads.py:560 onedesk/one_inventory/heads.py:736
@@ -4728,7 +4729,7 @@ msgstr "عيد ميلاد"
 msgid "Blank if the workspace still uses the address it was given."
 msgstr "يُترك فارغاً إذا كانت مساحة العمل ما زالت تستعمل العنوان الممنوح لها."
 
-#: onedesk/one/print_blocks.py:26 onedesk/one_crm/home.py:138
+#: onedesk/one/print_blocks.py:26 onedesk/one_crm/home.py:108
 #: onedesk/one_inventory/heads.py:1536 onedesk/one_inventory/home.py:131
 msgid "Blanket Order"
 msgstr "أمر شراء إطاري"
@@ -5093,7 +5094,7 @@ msgstr "بالبايت، من آخر قياس."
 msgid "COGS By Item Group"
 msgstr ""
 
-#: onedesk/one_crm/home.py:331
+#: onedesk/one_crm/home.py:137
 msgid "CRM Settings"
 msgstr ""
 
@@ -5146,10 +5147,6 @@ msgstr "روابط التقويم متوقفة في مساحة العمل هذه
 msgid "Call"
 msgstr ""
 
-#: onedesk/one_crm/home.py:128
-msgid "Call Log"
-msgstr ""
-
 #: onedesk/one/automations.py:124
 msgid "Call Webhook"
 msgstr "استدعاء Webhook"
@@ -5165,17 +5162,17 @@ msgstr "تم تسجيل المكالمة"
 msgid "Calls"
 msgstr "الاستدعاءات"
 
-#: onedesk/one_crm/heads.py:254
+#: onedesk/one_crm/heads.py:353
 msgid "Came In"
 msgstr "ورد منذ"
 
 #. Label of a Sidebar Item
-#: onedesk/one_crm/home.py:26 onedesk/one_crm/home.py:141
+#: onedesk/one_crm/home.py:27 onedesk/one_crm/home.py:109
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Campaign"
 msgstr ""
 
-#: onedesk/one_crm/home.py:246
+#: onedesk/one_crm/home.py:124
 msgid "Campaign Efficiency"
 msgstr ""
 
@@ -6005,7 +6002,7 @@ msgstr "أُغلق بناءً على طلبك. سيُحذف في {0}. ردّ ع�
 msgid "Closed; nothing more is expected on it."
 msgstr "مغلق؛ لا يُنتظر عليه شيء آخر."
 
-#: onedesk/one_crm/heads.py:214 onedesk/one_project/ai.py:579
+#: onedesk/one_crm/heads.py:313 onedesk/one_project/ai.py:579
 msgid "Closes"
 msgstr "موعد الإغلاق"
 
@@ -6288,7 +6285,7 @@ msgstr "يُقارن كنص مع ما يحويه الحقل الآن. تعديل
 msgid "Comparison"
 msgstr "المقارنة"
 
-#: onedesk/one_crm/home.py:390
+#: onedesk/one_crm/home.py:148
 msgid "Competitor"
 msgstr ""
 
@@ -6555,7 +6552,7 @@ msgstr "التنسيق مع الاستشاريين"
 
 #. Label of the 'contact_details' field in DocType 'Employee'
 #. Label of the contact (Link) field in DocType 'Project Contact'
-#: frontend/src/project/Team.vue:70 onedesk/one_crm/home.py:119
+#: frontend/src/project/Team.vue:70 onedesk/one_crm/home.py:102
 #: onedesk/one_hr/custom/employee.json onedesk/one_project/ai.py:789
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/project_actions.js:504
@@ -6625,7 +6622,7 @@ msgstr "يستمر بعد {0} (كان {1})"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Money.vue:188 frontend/src/project/Overview.vue:154
 #: onedesk/one/print_blocks.py:34 onedesk/one/print_blocks.py:663
-#: onedesk/one_crm/home.py:127 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/home.py:104 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_project/ai.py:990
@@ -7292,7 +7289,7 @@ msgstr "المستويات المخصصة تقع بين المستخدم وال�
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_book/home.py:274 onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_crm/home.py:35 onedesk/one_crm/home.py:118
+#: onedesk/one_crm/home.py:36 onedesk/one_crm/home.py:101
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_project/ai.py:983 onedesk/one_project/tree.py:200
@@ -7302,11 +7299,11 @@ msgstr "المستويات المخصصة تقع بين المستخدم وال�
 msgid "Customer"
 msgstr "العميل"
 
-#: onedesk/one_crm/home.py:317
+#: onedesk/one_crm/home.py:135
 msgid "Customer Acquisition and Loyalty"
 msgstr ""
 
-#: onedesk/one_crm/home.py:303
+#: onedesk/one_crm/home.py:133
 msgid "Customer Addresses And Contacts"
 msgstr ""
 
@@ -7314,7 +7311,7 @@ msgstr ""
 msgid "Customer Credit Balance"
 msgstr ""
 
-#: onedesk/one/masters.py:20 onedesk/one_crm/home.py:394
+#: onedesk/one/masters.py:20 onedesk/one_crm/home.py:150
 msgid "Customer Group"
 msgstr ""
 
@@ -7342,15 +7339,15 @@ msgstr "رمز العميل"
 msgid "Customers"
 msgstr "العملاء"
 
-#: onedesk/one_crm/home.py:324
+#: onedesk/one_crm/home.py:136
 msgid "Customers Without Any Sales Transactions"
 msgstr ""
 
-#: onedesk/one_crm/home.py:327
+#: onedesk/one_crm/home.py:136
 msgid "Customers who have never been billed."
 msgstr "عملاء لم تصدر لهم فاتورة قط."
 
-#: onedesk/one_crm/home.py:313
+#: onedesk/one_crm/home.py:134
 msgid "Customers who have not ordered for a while."
 msgstr "عملاء لم يطلبوا منذ مدة."
 
@@ -7950,7 +7947,7 @@ msgstr "تم إلغاء الحذف"
 msgid "Deliver"
 msgstr "تسليم"
 
-#: onedesk/one_crm/heads.py:228
+#: onedesk/one_crm/heads.py:327
 msgid "Deliver By"
 msgstr "التسليم بحلول"
 
@@ -7972,7 +7969,7 @@ msgstr "التوريد إلى الموقع"
 #: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:240
 #: onedesk/one/portal.py:241 onedesk/one/portal.py:242
 #: onedesk/one/portal.py:249 onedesk/one_book/heads.py:101
-#: onedesk/one_crm/heads.py:230 onedesk/one_inventory/heads.py:761
+#: onedesk/one_crm/heads.py:329 onedesk/one_inventory/heads.py:761
 #: onedesk/one_project/money.py:153
 msgid "Delivered"
 msgstr "المُسلَّم"
@@ -8880,7 +8877,7 @@ msgstr "أسعار شراء كل صنف وبيعه جنبًا إلى جنب."
 msgid "Each line of the bank statement."
 msgstr "كل سطر في كشف الحساب البنكي."
 
-#: onedesk/one_crm/home.py:200
+#: onedesk/one_crm/home.py:117
 msgid "Each lost opportunity, and why."
 msgstr "كل فرصة خاسرة، وسبب خسارتها."
 
@@ -8892,7 +8889,7 @@ msgstr "إهلاك كل شهر."
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr "كل أمر عمل جديد يسأل أين يُعمل وأين يوضع ما يُصنع. الإصلاح يعيّن مستودعي الأعمال الجارية والبضائع التامة للشركة."
 
-#: onedesk/one_crm/home.py:271
+#: onedesk/one_crm/home.py:128
 msgid "Each order line: delivered, billed, and what is late."
 msgstr "كل بند طلب: ما سُلّم وما فوتر وما تأخر."
 
@@ -9122,13 +9119,13 @@ msgstr "البريد مسموح"
 
 #. Name of a notification
 #. Label of a Sidebar Item
-#: onedesk/notifications/one_crm/email_campaign.md onedesk/one_crm/home.py:148
+#: onedesk/notifications/one_crm/email_campaign.md onedesk/one_crm/home.py:110
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Email Campaign"
 msgstr "حملة بريد إلكتروني"
 
 #. Label of a Sidebar Item
-#: onedesk/one_crm/home.py:155 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/home.py:111 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Email Group"
 msgstr ""
 
@@ -9451,7 +9448,7 @@ msgstr "انتهى منذ {0} أيام"
 
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-#: onedesk/one_crm/heads.py:248 onedesk/one_project/ai.py:985
+#: onedesk/one_crm/heads.py:347 onedesk/one_project/ai.py:985
 msgid "Ends"
 msgstr "ينتهي"
 
@@ -9694,10 +9691,6 @@ msgstr "كل أصل بتكلفته وقيمته."
 msgid "Every back-dated entry has been worked through."
 msgstr "تمت معالجة كل قيد بتاريخ سابق."
 
-#: onedesk/one_crm/home.py:128
-msgid "Every call made or taken, and what was said."
-msgstr "كل مكالمة أُجريت أو استُقبلت، وما قيل فيها."
-
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Every check-in attempt, allowed, flagged or refused."
@@ -9709,7 +9702,7 @@ msgstr "كل محاولة تسجيل حضور، سواء سُمح بها أو أ
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr "تُقيَّم كل عملية تسجيل حضور من 100 وتُحفظ الدرجة في محاولة التسجيل. وكل تحقق أدناه يخفق يخصم منها."
 
-#: onedesk/one_crm/home.py:306
+#: onedesk/one_crm/home.py:133
 msgid "Every customer's addresses and people."
 msgstr "عناوين كل عميل والأشخاص لديه."
 
@@ -9755,11 +9748,11 @@ msgstr "كل ساعة"
 msgid "Every invoice for the workspaces in your account, newest first."
 msgstr "كل فواتير مساحات العمل في حسابك، الأحدث أولًا."
 
-#: onedesk/one_crm/home.py:299
+#: onedesk/one_crm/home.py:132
 msgid "Every item sold, to whom and when."
 msgstr "كل صنف بيع، ولمن ومتى."
 
-#: onedesk/one_crm/home.py:221
+#: onedesk/one_crm/home.py:120
 msgid "Every lead with its business, contact and status."
 msgstr "كل عميل محتمل مع شركته وجهة اتصاله وحالته."
 
@@ -10827,12 +10820,12 @@ msgid "First Name"
 msgstr ""
 
 #. Label of the one_first_reply_at (Datetime) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json onedesk/one_crm/heads.py:108
-#: onedesk/one_crm/heads.py:255
+#: onedesk/one_crm/custom/lead.json onedesk/one_crm/heads.py:200
+#: onedesk/one_crm/heads.py:354
 msgid "First Reply"
 msgstr "أول رد"
 
-#: onedesk/one_crm/home.py:204
+#: onedesk/one_crm/home.py:118
 msgid "First Response Time for Opportunity"
 msgstr ""
 
@@ -11441,7 +11434,7 @@ msgstr ""
 msgid "Get in Touch"
 msgstr "تواصل معنا"
 
-#: onedesk/one_crm/home.py:352
+#: onedesk/one_crm/home.py:140
 msgid "Get in Touch Form"
 msgstr "نموذج تواصل معنا"
 
@@ -12311,7 +12304,7 @@ msgstr "إلى أين وصل كل أمر شراء."
 msgid "How far each work order has come."
 msgstr "إلى أين وصل كل أمر عمل."
 
-#: onedesk/one_crm/home.py:207
+#: onedesk/one_crm/home.py:118
 msgid "How fast opportunities were first answered."
 msgstr "مدى سرعة الرد الأول على الفرص."
 
@@ -12371,7 +12364,7 @@ msgstr "كيف يسير {project}؟"
 msgid "How it reads. Quiet for nothing to do, waiting for something to do, alarm for something late."
 msgstr "كيف يُقرأ. هادئ حين لا شيء مطلوب، ومنتظر حين يوجد ما يُنجز، وتنبيه حين يتأخر شيء."
 
-#: onedesk/one_crm/home.py:334
+#: onedesk/one_crm/home.py:137
 msgid "How leads, opportunities and quotations work."
 msgstr "كيف تعمل العملاء المحتملون والفرص وعروض الأسعار."
 
@@ -12386,7 +12379,7 @@ msgstr "طول يوم العمل حيث لا تحدده المناوبة. وكل
 msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
 msgstr "طول يوم العمل الكامل لهذا الموظف. يُملأ من مناوبته أو من إعدادات الحضور."
 
-#: onedesk/one_crm/home.py:235
+#: onedesk/one_crm/home.py:122
 msgid "How long a lead took to become a customer."
 msgstr "المدة التي استغرقها العميل المحتمل ليصبح عميلًا."
 
@@ -12409,7 +12402,7 @@ msgstr "المدة التي يجب إلغاؤه قبل نهايته، كما ي�
 msgid "How long each invoice took to be paid."
 msgstr "كم استغرق سداد كل فاتورة."
 
-#: onedesk/one_crm/home.py:179
+#: onedesk/one_crm/home.py:114
 msgid "How long opportunities stay in each stage, and take to win."
 msgstr "المدة التي تبقاها الفرص في كل مرحلة، وما تستغرقه للربح."
 
@@ -12466,7 +12459,7 @@ msgstr "كم يومًا يستغرق شراء كل صنف أو تصنيعه."
 msgid "How many of each bundle the stock can make up."
 msgstr "كم حزمة من كل نوع يمكن تكوينها من المخزون."
 
-#: onedesk/one_crm/home.py:193
+#: onedesk/one_crm/home.py:116
 msgid "How many opportunities are in each stage, and what they are worth."
 msgstr "عدد الفرص في كل مرحلة، وقيمتها."
 
@@ -12505,7 +12498,7 @@ msgstr "كم استُخدم من ساعات هذا الشهر؟"
 msgid "How much of this month's retainer hours are used, how many are left, and at this pace will the month go over? Say which months went over and which are not invoiced yet."
 msgstr "كم استُخدم من ساعات الاشتراك لهذا الشهر، وكم بقي، وهل سيتجاوز الشهر حدّه بهذا المعدل؟ اذكر الأشهر التي تجاوزت حدّها والأشهر التي لم تُفوتر بعد."
 
-#: onedesk/one_crm/home.py:371
+#: onedesk/one_crm/home.py:143
 msgid "How new leads are shared out."
 msgstr "كيف يُوزَّع العملاء المحتملون الجدد."
 
@@ -12526,7 +12519,7 @@ msgstr "كم عمر مخزون كل مستودع وكم قيمته."
 msgid "How people will know it when they choose how to get it."
 msgstr "كيف سيعرفها الناس عندما يختارون طريقة تلقيها."
 
-#: onedesk/one_crm/home.py:341
+#: onedesk/one_crm/home.py:138
 msgid "How quotations, orders and prices work."
 msgstr "كيف تعمل عروض الأسعار والطلبات والأسعار."
 
@@ -12962,7 +12955,7 @@ msgstr "المدخل لكل مليون رمز"
 msgid "In-app notifications are always on."
 msgstr "الإشعارات داخل التطبيق مفعّلة دائمًا."
 
-#: onedesk/one_crm/home.py:310
+#: onedesk/one_crm/home.py:134
 msgid "Inactive Customers"
 msgstr ""
 
@@ -13070,7 +13063,7 @@ msgstr "القطاعات"
 msgid "Industry"
 msgstr ""
 
-#: onedesk/one_crm/home.py:401
+#: onedesk/one_crm/home.py:151
 msgid "Industry Type"
 msgstr ""
 
@@ -13589,7 +13582,7 @@ msgstr "وهي أيضًا في حسابك في One، مع فواتيرك."
 msgid "It is no longer in {app}."
 msgstr "لم تعد موجودة في {app}."
 
-#: onedesk/one_crm/heads.py:201
+#: onedesk/one_crm/heads.py:298
 msgid "It is yours."
 msgstr "أصبح لك."
 
@@ -13751,7 +13744,7 @@ msgstr "الاستهلاك حسب الصنف"
 msgid "Item-wise Purchase Register"
 msgstr ""
 
-#: onedesk/one_crm/home.py:296
+#: onedesk/one_crm/home.py:132
 msgid "Item-wise Sales History"
 msgstr ""
 
@@ -14092,7 +14085,7 @@ msgstr "النوع"
 msgid "Kind of Document"
 msgstr "نوع المستند"
 
-#: onedesk/one_crm/home.py:397
+#: onedesk/one_crm/home.py:150
 msgid "Kinds of customer, each with its price list and terms."
 msgstr "أنواع العملاء، لكل منها قائمة أسعاره وشروطه."
 
@@ -14183,7 +14176,7 @@ msgid "Last Billed"
 msgstr "آخر فوترة"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:156
-#: onedesk/one_crm/heads.py:154
+#: onedesk/one_crm/heads.py:248
 msgid "Last Call"
 msgstr "آخر استدعاء"
 
@@ -14196,8 +14189,8 @@ msgstr "آخر فحص"
 msgid "Last Completion Date"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:149 onedesk/one_crm/heads.py:213
-#: onedesk/one_crm/heads.py:257
+#: onedesk/one_crm/heads.py:243 onedesk/one_crm/heads.py:312
+#: onedesk/one_crm/heads.py:356
 msgid "Last Contact"
 msgstr "آخر تواصل"
 
@@ -14210,7 +14203,7 @@ msgstr "آخر يوم للإلغاء"
 msgid "Last Day, in {0} days"
 msgstr "آخر يوم، بعد {0} يومًا"
 
-#: onedesk/one_crm/heads.py:154
+#: onedesk/one_crm/heads.py:248
 msgid "Last Email"
 msgstr "آخر بريد"
 
@@ -14264,7 +14257,7 @@ msgstr "آخر سعر"
 msgid "Last Priced"
 msgstr "آخر تسعير"
 
-#: onedesk/one_book/heads.py:286 onedesk/one_book/heads.py:785
+#: onedesk/one_book/heads.py:286 onedesk/one_book/heads.py:787
 msgid "Last Purchase Invoice"
 msgstr "آخر فاتورة شراء"
 
@@ -14412,7 +14405,7 @@ msgstr "طلبات متأخرة"
 msgid "Late from {0}"
 msgstr "متأخر من {0}"
 
-#: onedesk/one_crm/heads.py:175 onedesk/one_inventory/heads.py:402
+#: onedesk/one_crm/heads.py:269 onedesk/one_inventory/heads.py:402
 #: onedesk/one_inventory/heads.py:556
 msgid "Late since {0}"
 msgstr "متأخر منذ {0}"
@@ -14461,16 +14454,16 @@ msgstr "المخطط وتوزيع المقاعد"
 #: frontend/src/home/CrmHome.vue:235 frontend/src/home/CrmHome.vue:253
 #: frontend/src/home/CrmStory.vue:89 frontend/src/home/CrmStory.vue:102
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_crm/home.py:33 onedesk/one_crm/home.py:99
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/heads.py:131 onedesk/one_crm/home.py:34
+#: onedesk/one_crm/home.py:98 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Lead"
 msgstr ""
 
-#: onedesk/one_crm/home.py:232
+#: onedesk/one_crm/home.py:122
 msgid "Lead Conversion Time"
 msgstr ""
 
-#: onedesk/one_crm/home.py:218
+#: onedesk/one_crm/home.py:120
 msgid "Lead Details"
 msgstr ""
 
@@ -14478,16 +14471,16 @@ msgstr ""
 msgid "Lead Next Steps"
 msgstr "الخطوات التالية للعملاء المحتملين"
 
-#: onedesk/one_crm/home.py:225
+#: onedesk/one_crm/home.py:121
 msgid "Lead Owner Efficiency"
 msgstr ""
 
-#: onedesk/one/masters.py:24 onedesk/one_crm/home.py:375
+#: onedesk/one/masters.py:24 onedesk/one_crm/home.py:145
 msgid "Lead Source"
 msgstr ""
 
 #. Name of a report
-#: onedesk/one/masters.py:24 onedesk/one_crm/home.py:211
+#: onedesk/one/masters.py:24 onedesk/one_crm/home.py:119
 #: onedesk/one_crm/report/lead_sources/lead_sources.json
 msgid "Lead Sources"
 msgstr "مصادر العملاء المحتملين"
@@ -14525,7 +14518,7 @@ msgstr "يؤدي إلى"
 msgid "Leads Won (%)"
 msgstr "العملاء المكسوبون (%)"
 
-#: onedesk/one_crm/home.py:242
+#: onedesk/one_crm/home.py:123
 msgid "Leads spoken to often that have not bought."
 msgstr "عملاء محتملون تحدثنا إليهم كثيرًا ولم يشتروا."
 
@@ -15311,11 +15304,11 @@ msgstr "الخسارة"
 msgid "Lost"
 msgstr ""
 
-#: onedesk/one_crm/home.py:197
+#: onedesk/one_crm/home.py:117
 msgid "Lost Opportunity"
 msgstr ""
 
-#: onedesk/one_crm/home.py:265
+#: onedesk/one_crm/home.py:127
 msgid "Lost Quotations"
 msgstr ""
 
@@ -15331,6 +15324,14 @@ msgstr "أسباب الخسارة"
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:72
 msgid "Lost Value"
 msgstr ""
+
+#: onedesk/one_crm/heads.py:146
+msgid "Lost."
+msgstr "خاسرة."
+
+#: onedesk/one_crm/heads.py:146
+msgid "Lost: {0}."
+msgstr "خاسرة: {0}."
 
 #: frontend/src/item/ItemStock.vue:12 frontend/src/item/ItemStock.vue:15
 msgid "Lots"
@@ -15527,7 +15528,7 @@ msgstr "قوالب البريد"
 msgid "Mail That Matches"
 msgstr "البريد المطابق"
 
-#: onedesk/one_crm/home.py:151
+#: onedesk/one_crm/home.py:110
 msgid "Mail sent to a lead or a contact on a schedule."
 msgstr "بريد يُرسل إلى عميل محتمل أو جهة اتصال وفق جدول."
 
@@ -15872,7 +15873,7 @@ msgstr "مُسجَّل حاضراً"
 msgid "Marked {0}."
 msgstr "تم تعليمه كـ {0}."
 
-#: onedesk/one/masters.py:23 onedesk/one_crm/home.py:408
+#: onedesk/one/masters.py:23 onedesk/one_crm/home.py:152
 msgid "Market Segment"
 msgstr ""
 
@@ -15938,7 +15939,7 @@ msgstr ""
 #: onedesk/one/masters.py:99 onedesk/one/page/masters/masters.js:10
 #: onedesk/one/page/masters/masters.js:89
 #: onedesk/one/page/masters/masters.js:128 onedesk/one/sidebar/one/one.json
-#: onedesk/one_crm/home.py:68
+#: onedesk/one_crm/home.py:69
 msgid "Masters"
 msgstr "البيانات الأساسية"
 
@@ -17036,7 +17037,7 @@ msgstr "أمر عمل جديد"
 msgid "New conversation"
 msgstr "محادثة جديدة"
 
-#: onedesk/one_crm/home.py:320
+#: onedesk/one_crm/home.py:135
 msgid "New customers against returning ones, month by month."
 msgstr "العملاء الجدد مقابل العائدين، شهرًا بشهر."
 
@@ -17176,8 +17177,8 @@ msgstr "الحالة التالية"
 #: frontend/src/home/CrmHome.vue:207 onedesk/one_crm/calendar.py:31
 #: onedesk/one_crm/calendar.py:41 onedesk/one_crm/calendar.py:70
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
-#: onedesk/one_crm/heads.py:137 onedesk/one_crm/heads.py:138
-#: onedesk/one_crm/heads.py:212 onedesk/one_crm/heads.py:256
+#: onedesk/one_crm/heads.py:231 onedesk/one_crm/heads.py:232
+#: onedesk/one_crm/heads.py:311 onedesk/one_crm/heads.py:355
 #: onedesk/one_crm/next.py:62 onedesk/public/js/next_step.js:23
 msgid "Next Step"
 msgstr "الخطوة التالية"
@@ -17992,12 +17993,12 @@ msgstr "لم يبقَ شيء"
 msgid "None of your mailboxes can send email"
 msgstr "لا يمكن لأي من صناديق بريدك إرسال الرسائل"
 
-#: onedesk/one_crm/heads.py:135
+#: onedesk/one_crm/heads.py:227
 msgid "None planned"
 msgstr "لا شيء مخطط"
 
 #: onedesk/one_book/heads.py:282 onedesk/one_book/heads.py:549
-#: onedesk/one_crm/heads.py:150 onedesk/one_inventory/heads.py:1067
+#: onedesk/one_crm/heads.py:244 onedesk/one_inventory/heads.py:1067
 msgid "None yet"
 msgstr "لا شيء بعد"
 
@@ -18053,7 +18054,7 @@ msgstr ""
 msgid "Not Ready to Send"
 msgstr "غير جاهز للإرسال"
 
-#: frontend/src/home/CrmStory.vue:117 onedesk/one_crm/measure.py:88
+#: frontend/src/home/CrmStory.vue:117 onedesk/one_crm/measure.py:96
 msgid "Not Recorded"
 msgstr "غير مسجّل"
 
@@ -18914,6 +18915,10 @@ msgstr "حسب جدول كل دفعة كشوفات، بالنص المحدد ف�
 #: onedesk/one_project/status.py:17
 msgid "On hold"
 msgstr "معلّق"
+
+#: onedesk/one_crm/heads.py:149
+msgid "On hold, out of the pipeline until it moves again."
+msgstr "معلّقة، خارج خط المبيعات حتى تتحرك من جديد."
 
 #: onedesk/public/js/privacy_request.js:10
 msgid "On hold. {0} was notified of the reason."
@@ -19870,7 +19875,7 @@ msgstr "الفرص المفتوحة"
 msgid "Open Order"
 msgstr "فتح الأمر"
 
-#: onedesk/one_book/heads.py:765 onedesk/one_book/heads.py:787
+#: onedesk/one_book/heads.py:765 onedesk/one_book/heads.py:789
 msgid "Open Orders"
 msgstr ""
 
@@ -20028,7 +20033,7 @@ msgstr ""
 msgid "Opportunities Due"
 msgstr "فرص مستحقة"
 
-#: onedesk/one_crm/home.py:186
+#: onedesk/one_crm/home.py:115
 msgid "Opportunities by stage or owner, month by month."
 msgstr "الفرص حسب المرحلة أو المسؤول، شهرًا بشهر."
 
@@ -20036,11 +20041,11 @@ msgstr "الفرص حسب المرحلة أو المسؤول، شهرًا بشه
 msgid "Opportunities of the last 12 months"
 msgstr "فرص آخر 12 شهرًا"
 
-#: onedesk/one_crm/home.py:172
+#: onedesk/one_crm/home.py:113
 msgid "Opportunities won and lost, and the win rate."
 msgstr "الفرص الرابحة والخاسرة، ونسبة الربح."
 
-#: onedesk/one_crm/home.py:292
+#: onedesk/one_crm/home.py:131
 msgid "Opportunities, quotations, orders and invoices by territory."
 msgstr "الفرص وعروض الأسعار والطلبات والفواتير حسب المنطقة."
 
@@ -20049,26 +20054,27 @@ msgstr "الفرص وعروض الأسعار والطلبات والفواتير
 #: frontend/src/home/CrmHome.vue:226 frontend/src/home/CrmHome.vue:244
 #: frontend/src/home/CrmStory.vue:90
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_crm/heads.py:258 onedesk/one_crm/home.py:106
+#: onedesk/one_book/heads.py:777 onedesk/one_crm/heads.py:132
+#: onedesk/one_crm/heads.py:357 onedesk/one_crm/home.py:99
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Opportunity"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:210
+#: onedesk/one_crm/heads.py:309
 msgid "Opportunity Amount"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:53
+#: onedesk/one_crm/heads.py:54
 msgid "Opportunity Amount · {0}%"
 msgstr "مبلغ الفرصة · {0}%"
 
 #. Name of a report
-#: onedesk/one_crm/home.py:162
+#: onedesk/one_crm/home.py:112
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.json
 msgid "Opportunity Forecast"
 msgstr "توقعات الفرص"
 
-#: onedesk/one_crm/home.py:378
+#: onedesk/one_crm/home.py:146
 msgid "Opportunity Lost Reason"
 msgstr ""
 
@@ -20082,11 +20088,11 @@ msgstr "الخطوات التالية للفرص"
 msgid "Opportunity Owner"
 msgstr ""
 
-#: onedesk/one_crm/home.py:190
+#: onedesk/one_crm/home.py:116
 msgid "Opportunity Summary by Sales Stage"
 msgstr ""
 
-#: onedesk/one_crm/home.py:385
+#: onedesk/one_crm/home.py:147
 msgid "Opportunity Type"
 msgstr ""
 
@@ -20533,7 +20539,7 @@ msgstr "أكثر من سنة"
 #: frontend/src/upkeep/UpkeepPage.vue:89 frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/one_book/heads.py:761 onedesk/one_book/heads.py:783
+#: onedesk/one_book/heads.py:761 onedesk/one_book/heads.py:785
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:39
 #: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:199
 msgid "Overdue"
@@ -20670,10 +20676,10 @@ msgstr "الصفحات"
 #: onedesk/one/print_blocks.py:475 onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:103
-#: onedesk/one_book/heads.py:380 onedesk/one_inventory/heads.py:562
-#: onedesk/one_project/money.py:162 onedesk/one_project/money.py:173
-#: onedesk/one_project/view.py:437 onedesk/public/js/settings.js:1745
-#: onedesk/www/projects.html:189
+#: onedesk/one_book/heads.py:380 onedesk/one_crm/heads.py:136
+#: onedesk/one_inventory/heads.py:562 onedesk/one_project/money.py:162
+#: onedesk/one_project/money.py:173 onedesk/one_project/view.py:437
+#: onedesk/public/js/settings.js:1745 onedesk/www/projects.html:189
 msgid "Paid"
 msgstr "المدفوع"
 
@@ -22051,7 +22057,7 @@ msgstr "فحص الأسعار"
 
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/one_crm/home.py:415 onedesk/one_inventory/home.py:198
+#: onedesk/one_crm/home.py:153 onedesk/one_inventory/home.py:198
 msgid "Price List"
 msgstr ""
 
@@ -22088,11 +22094,11 @@ msgstr "تشمل الأسعار التوريد والتركيب كما ورد ف
 msgid "Prices cover the work quoted. A change after a stage is approved is charged at our day rate. The finished work belongs to the client once it is paid for in full. We may show it in our portfolio."
 msgstr "تشمل الأسعار العمل الوارد في عرض السعر. يُحتسب أي تغيير بعد اعتماد مرحلة ما بسعرنا اليومي. يصبح العمل المنجز ملكًا للعميل بعد دفع ثمنه كاملًا. يجوز لنا عرضه ضمن أعمالنا."
 
-#: onedesk/one_crm/home.py:69
+#: onedesk/one_crm/home.py:70
 msgid "Pricing"
 msgstr ""
 
-#: onedesk/one_crm/home.py:422
+#: onedesk/one_crm/home.py:154
 msgid "Pricing Rule"
 msgstr ""
 
@@ -22308,12 +22314,12 @@ msgstr ""
 #: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:67
 #: onedesk/one/print_blocks.py:644 onedesk/one_book/heads.py:639
 #: onedesk/one_book/heads.py:722 onedesk/one_book/heads.py:734
-#: onedesk/one_inventory/heads.py:1533 onedesk/one_inventory/heads.py:1544
-#: onedesk/one_inventory/heads.py:1583 onedesk/one_inventory/heads.py:1596
-#: onedesk/one_inventory/heads.py:1625 onedesk/one_inventory/heads.py:1655
-#: onedesk/one_project/heads.py:274 onedesk/public/js/onecloud.js:364
-#: onedesk/public/js/onecloud.js:666 onedesk/public/js/project_actions.js:755
-#: onedesk/www/projects.html:39
+#: onedesk/one_crm/heads.py:308 onedesk/one_inventory/heads.py:1533
+#: onedesk/one_inventory/heads.py:1544 onedesk/one_inventory/heads.py:1583
+#: onedesk/one_inventory/heads.py:1596 onedesk/one_inventory/heads.py:1625
+#: onedesk/one_inventory/heads.py:1655 onedesk/one_project/heads.py:274
+#: onedesk/public/js/onecloud.js:364 onedesk/public/js/onecloud.js:666
+#: onedesk/public/js/project_actions.js:755 onedesk/www/projects.html:39
 msgid "Progress"
 msgstr "التقدم"
 
@@ -22334,8 +22340,8 @@ msgstr "التقدم…"
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
 #: onedesk/one/portal.py:67 onedesk/one/print_blocks.py:35
 #: onedesk/one/print_blocks.py:448 onedesk/one_book/heads.py:640
-#: onedesk/one_book/heads.py:735 onedesk/one_crm/heads.py:216
-#: onedesk/one_crm/heads.py:226 onedesk/one_crm/heads.py:246
+#: onedesk/one_book/heads.py:735 onedesk/one_crm/heads.py:315
+#: onedesk/one_crm/heads.py:325 onedesk/one_crm/heads.py:345
 #: onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_inventory/heads.py:1534 onedesk/one_inventory/heads.py:1545
@@ -22536,11 +22542,11 @@ msgid "Proposed entries come from Learn New Networks and are Confirmed at the th
 msgstr "تأتي المقترحات من «تعلّم شبكات جديدة» وتُؤكَّد عند بلوغ الحد. لا يُقترح المرفوض مجددًا."
 
 #. Label of a Sidebar Item
-#: onedesk/one_crm/home.py:113 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/home.py:100 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Prospect"
 msgstr ""
 
-#: onedesk/one_crm/home.py:239
+#: onedesk/one_crm/home.py:123
 msgid "Prospects Engaged But Not Converted"
 msgstr ""
 
@@ -22829,8 +22835,9 @@ msgstr "الحصص"
 
 #. Label of a Sidebar Item
 #: frontend/src/home/CrmHome.vue:262 onedesk/one/print_blocks.py:16
-#: onedesk/one_crm/heads.py:215 onedesk/one_crm/home.py:129
-#: onedesk/one_crm/home.py:590 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/heads.py:133 onedesk/one_crm/heads.py:314
+#: onedesk/one_crm/home.py:105 onedesk/one_crm/home.py:309
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Quotation"
 msgstr ""
 
@@ -22838,9 +22845,17 @@ msgstr ""
 msgid "Quotation No"
 msgstr "رقم عرض السعر"
 
-#: onedesk/one_crm/home.py:260
+#: onedesk/one_crm/home.py:126
 msgid "Quotation Trends"
 msgstr ""
+
+#: onedesk/one_crm/heads.py:168
+msgid "Quotation {0} is with them until {1}."
+msgstr "عرض السعر {0} لديهم حتى {1}."
+
+#: onedesk/one_crm/heads.py:167
+msgid "Quotation {0} ran out on {1}."
+msgstr "انتهت صلاحية عرض السعر {0} في {1}."
 
 #: frontend/src/project/Overview.vue:39 frontend/src/project/Overview.vue:80
 msgid "Quotations"
@@ -22850,7 +22865,7 @@ msgstr "عروض الأسعار"
 msgid "Quotations Expiring"
 msgstr "عروض أسعار تنتهي صلاحيتها"
 
-#: onedesk/one_crm/home.py:265
+#: onedesk/one_crm/home.py:127
 msgid "Quotations lost, and why."
 msgstr "عروض الأسعار الخاسرة، وسبب خسارتها."
 
@@ -24050,7 +24065,7 @@ msgstr "تقرير بالبريد"
 
 #. Label of a Sidebar Item
 #: frontend/src/task/MyTasks.vue:21 onedesk/one_book/home.py:198
-#: onedesk/one_book/sidebar/onebook/onebook.json onedesk/one_crm/home.py:27
+#: onedesk/one_book/sidebar/onebook/onebook.json onedesk/one_crm/home.py:28
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json onedesk/one_inventory/home.py:20
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -24746,7 +24761,7 @@ msgstr ""
 msgid "Salary Withholding"
 msgstr "حجز الراتب"
 
-#: onedesk/one_crm/home.py:253
+#: onedesk/one_crm/home.py:125
 msgid "Sales Analytics"
 msgstr ""
 
@@ -24757,7 +24772,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/home/BooksHome.vue:214 onedesk/one_book/home.py:272
 #: onedesk/one_book/home.py:419 onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_crm/home.py:133
+#: onedesk/one_crm/home.py:107
 msgid "Sales Invoice"
 msgstr ""
 
@@ -24770,17 +24785,18 @@ msgid "Sales Invoice by Status"
 msgstr "فواتير المبيعات حسب الحالة"
 
 #. Label of a Sidebar Item
-#: onedesk/one/print_blocks.py:17 onedesk/one_crm/home.py:130
-#: onedesk/one_crm/home.py:591 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one/print_blocks.py:17 onedesk/one_crm/heads.py:134
+#: onedesk/one_crm/home.py:106 onedesk/one_crm/home.py:310
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_inventory/heads.py:1598
 msgid "Sales Order"
 msgstr ""
 
-#: onedesk/one_crm/home.py:268
+#: onedesk/one_crm/home.py:128
 msgid "Sales Order Analysis"
 msgstr ""
 
-#: onedesk/one_crm/home.py:275
+#: onedesk/one_crm/home.py:129
 msgid "Sales Order Trends"
 msgstr ""
 
@@ -24788,24 +24804,24 @@ msgstr ""
 msgid "Sales Order or Material Request"
 msgstr "أمر البيع أو طلب المواد"
 
-#: onedesk/one_crm/home.py:374
+#: onedesk/one_crm/home.py:144
 msgid "Sales Partner"
 msgstr ""
 
-#: onedesk/one_crm/home.py:365
+#: onedesk/one_crm/home.py:142
 msgid "Sales Person"
 msgstr ""
 
-#: onedesk/one_crm/home.py:282
+#: onedesk/one_crm/home.py:130
 msgid "Sales Person-wise Transaction Summary"
 msgstr ""
 
-#: frontend/src/home/CrmStory.vue:31 onedesk/one_crm/home.py:24
-#: onedesk/one_crm/home.py:32
+#: frontend/src/home/CrmStory.vue:31 onedesk/one_crm/home.py:25
+#: onedesk/one_crm/home.py:33
 msgid "Sales Pipeline"
 msgstr ""
 
-#: onedesk/one_crm/home.py:183
+#: onedesk/one_crm/home.py:115
 msgid "Sales Pipeline Analytics"
 msgstr ""
 
@@ -24813,13 +24829,13 @@ msgstr ""
 msgid "Sales Register"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:64 onedesk/one_crm/heads.py:211
-#: onedesk/one_crm/home.py:360
+#: onedesk/one_crm/heads.py:69 onedesk/one_crm/heads.py:310
+#: onedesk/one_crm/home.py:141
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:80
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one_book/home.py:328 onedesk/one_crm/home.py:436
+#: onedesk/one_book/home.py:328 onedesk/one_crm/home.py:156
 msgid "Sales Taxes and Charges Template"
 msgstr ""
 
@@ -24831,11 +24847,11 @@ msgstr "اتجاه المبيعات"
 msgid "Sales are reported under the company's emirate."
 msgstr "تُسجّل المبيعات تحت إمارة الشركة."
 
-#: onedesk/one_crm/home.py:256
+#: onedesk/one_crm/home.py:125
 msgid "Sales by customer, item or territory, month by month."
 msgstr "المبيعات حسب العميل أو الصنف أو المنطقة، شهرًا بشهر."
 
-#: onedesk/one_crm/home.py:388
+#: onedesk/one_crm/home.py:147
 msgid "Sales, support, maintenance: what an opportunity is for."
 msgstr "مبيعات، دعم، صيانة: الغرض من الفرصة."
 
@@ -25170,8 +25186,8 @@ msgstr "تسجيل الحضور الذاتي"
 #. Label of a Sidebar Item
 #: frontend/src/home/CrmStory.vue:16 frontend/src/item/ItemPage.vue:179
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/one_crm/home.py:25 onedesk/one_crm/home.py:34
-#: onedesk/one_crm/home.py:67 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/home.py:26 onedesk/one_crm/home.py:35
+#: onedesk/one_crm/home.py:68 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/public/js/item_actions.js:17 onedesk/public/js/item_new.js:93
 msgid "Selling"
 msgstr "البيع"
@@ -25184,7 +25200,7 @@ msgstr "سعر البيع"
 msgid "Selling Prices"
 msgstr "أسعار البيع"
 
-#: onedesk/one_crm/home.py:338
+#: onedesk/one_crm/home.py:138
 msgid "Selling Settings"
 msgstr ""
 
@@ -25722,7 +25738,7 @@ msgstr "إعداد العنوان"
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one/page/settings/settings.js:5 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/one_book/home.py:242 onedesk/one_crm/home.py:66
+#: onedesk/one_book/home.py:242 onedesk/one_crm/home.py:67
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_inventory/home.py:67 onedesk/public/js/doctype_settings.js:1167
 #: onedesk/public/js/head.js:36
@@ -25760,7 +25776,7 @@ msgstr "يسدّد"
 #: onedesk/one_book/home.py:199 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
-#: onedesk/one_crm/home.py:28 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/home.py:29 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_inventory/home.py:21
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
@@ -26288,7 +26304,7 @@ msgstr "موقّع"
 msgid "Signed Contract"
 msgstr "العقد الموقّع"
 
-#: onedesk/one/print_blocks.py:92 onedesk/one_crm/heads.py:247
+#: onedesk/one/print_blocks.py:92 onedesk/one_crm/heads.py:346
 msgid "Signed On"
 msgstr ""
 
@@ -26682,7 +26698,7 @@ msgstr "شخص أو جهة يأتي منها المستند أو إليها أو
 msgid "Somebody changed how {0} looks after you opened this. Refresh to see it; nothing was saved."
 msgstr "غيّر شخص ما شكل {0} بعد أن فتحت هذا. حدّث الصفحة لتراه؛ لم يُحفظ شيء."
 
-#: onedesk/one_crm/home.py:102
+#: onedesk/one_crm/home.py:98
 msgid "Somebody who got in touch, or somebody you want to reach."
 msgstr "شخص تواصل معك، أو شخص تريد الوصول إليه."
 
@@ -26753,7 +26769,7 @@ msgstr "مرتب حسب"
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #: frontend/src/home/CrmStory.vue:45
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-#: onedesk/one_crm/heads.py:217 onedesk/one_crm/heads.py:259
+#: onedesk/one_crm/heads.py:316 onedesk/one_crm/heads.py:358
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:63
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:194
@@ -27975,11 +27991,11 @@ msgstr "وُسم بـ {0}"
 msgid "Take Back"
 msgstr "استرجاع"
 
-#: onedesk/one_crm/heads.py:198
+#: onedesk/one_crm/heads.py:295
 msgid "Take This Lead"
 msgstr "تولَّ هذا العميل المحتمل"
 
-#: onedesk/one_crm/heads.py:198
+#: onedesk/one_crm/heads.py:295
 msgid "Take This Opportunity"
 msgstr "تولَّ هذه الفرصة"
 
@@ -28333,7 +28349,7 @@ msgstr "الشروط"
 
 #. Label of the one_terms (Link) field in DocType 'Project'
 #. Label of the one_terms (Link) field in DocType 'Project Template'
-#: frontend/src/project/Overview.vue:310 onedesk/one_crm/home.py:429
+#: frontend/src/project/Overview.vue:310 onedesk/one_crm/home.py:155
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/public/js/project_actions.js:261
@@ -28349,11 +28365,11 @@ msgstr "شروط الخدمة"
 msgid "Territories"
 msgstr "المناطق"
 
-#: onedesk/one/masters.py:21 onedesk/one_crm/home.py:391
+#: onedesk/one/masters.py:21 onedesk/one_crm/home.py:149
 msgid "Territory"
 msgstr ""
 
-#: onedesk/one_crm/home.py:289
+#: onedesk/one_crm/home.py:131
 msgid "Territory-wise Sales"
 msgstr ""
 
@@ -29025,7 +29041,7 @@ msgstr "تنتهي قائمة العطلات في {0}"
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr "الساعات أعلاه المؤشَّر عليها بالقابلة للفوترة. والمشروع هو من يحدد قيمتها."
 
-#: onedesk/one_crm/home.py:404
+#: onedesk/one_crm/home.py:151
 msgid "The industry a lead or a customer is in."
 msgstr "القطاع الذي يعمل فيه العميل المحتمل أو العميل."
 
@@ -29278,7 +29294,7 @@ msgstr "تُدرج الصفحة هذا النموذج دون سعر حالي."
 msgid "The page number position must be one of {0}."
 msgstr "يجب أن يكون موضع رقم الصفحة أحد {0}."
 
-#: onedesk/one_crm/home.py:411
+#: onedesk/one_crm/home.py:152
 msgid "The part of the market a lead or a customer is in."
 msgstr "جزء السوق الذي ينتمي إليه العميل المحتمل أو العميل."
 
@@ -29299,7 +29315,7 @@ msgstr "أُغلقت صفحة الدفع، والاسم متاح من جديد."
 msgid "The people and addresses set on the report"
 msgstr "الأشخاص والعناوين المحددون في التقرير"
 
-#: onedesk/one_crm/home.py:119
+#: onedesk/one_crm/home.py:102
 msgid "The people at your customers and prospects."
 msgstr "الأشخاص لدى عملائك والشركات المحتملة."
 
@@ -29409,7 +29425,7 @@ msgstr "لم يُصدر الهاتف مفتاح المرور إلا بعد بص�
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr "تُرسم لوحة المبيعات، وفي كل مرة تتغير فيها قيمة مرحلة."
 
-#: onedesk/one_crm/home.py:391
+#: onedesk/one_crm/home.py:149
 msgid "The places you sell in."
 msgstr "الأماكن التي تبيع فيها."
 
@@ -29463,7 +29479,7 @@ msgstr "العنوان السابق"
 msgid "The prices suppliers gave."
 msgstr "الأسعار التي قدّمها الموردون."
 
-#: onedesk/one_crm/home.py:418
+#: onedesk/one_crm/home.py:153
 msgid "The prices you sell at, one list per currency or customer group."
 msgstr "الأسعار التي تبيع بها، قائمة لكل عملة أو مجموعة عملاء."
 
@@ -29637,7 +29653,7 @@ msgstr "قاعدة بيانات الموقع ونسخها الاحتياطية. 
 msgid "The software One is built from, and the licences it carries."
 msgstr "البرمجيات التي بُني منها One، والتراخيص التي تحملها."
 
-#: onedesk/one_crm/home.py:363
+#: onedesk/one_crm/home.py:141
 msgid "The stages an opportunity moves through, and their probability."
 msgstr "المراحل التي تمر بها الفرصة، واحتماليتها."
 
@@ -29683,11 +29699,11 @@ msgstr "الجدول {0} يحتاج إلى أعمدته."
 msgid "The taxes a purchase carries."
 msgstr "الضرائب التي تحملها عملية الشراء."
 
-#: onedesk/one_book/home.py:328 onedesk/one_crm/home.py:439
+#: onedesk/one_book/home.py:328 onedesk/one_crm/home.py:156
 msgid "The taxes a sale carries."
 msgstr "الضرائب التي تحملها عملية البيع."
 
-#: onedesk/one_crm/home.py:432
+#: onedesk/one_crm/home.py:155
 msgid "The terms a quotation and an order carry."
 msgstr "الشروط التي يحملها عرض السعر والطلب."
 
@@ -29719,7 +29735,7 @@ msgstr "لا يملك الرمز منطقة لـ {0}."
 msgid "The total is {0}, but the document says {1}."
 msgstr "الإجمالي {0}، لكن المستند يذكر {1}."
 
-#: onedesk/one_crm/home.py:355
+#: onedesk/one_crm/home.py:140
 msgid "The website form that makes a lead."
 msgstr "نموذج الموقع الذي ينشئ عميلًا محتملًا."
 
@@ -30514,7 +30530,7 @@ msgid "Time and Materials"
 msgstr "الوقت والمواد"
 
 #. Name of a report
-#: onedesk/one_crm/home.py:176
+#: onedesk/one_crm/home.py:114
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.json
 msgid "Time in Sales Stage"
 msgstr "المدة في مرحلة المبيعات"
@@ -30842,7 +30858,7 @@ msgstr "نمط الأعلى"
 #: onedesk/one/print_blocks.py:495 onedesk/one/print_blocks.py:674
 #: onedesk/one/print_blocks.py:708
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
-#: onedesk/one_crm/heads.py:227 onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_crm/heads.py:326 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/panel.py:138 onedesk/one_inventory/heads.py:1657
 #: onedesk/one_inventory/heads.py:1667 onedesk/www/rfq.html:86
@@ -30885,7 +30901,7 @@ msgstr "إجمالي القيمة الصادرة"
 msgid "Total Time in Mins"
 msgstr ""
 
-#: onedesk/one_book/heads.py:760 onedesk/one_book/heads.py:782
+#: onedesk/one_book/heads.py:760 onedesk/one_book/heads.py:784
 msgid "Total Unpaid"
 msgstr "إجمالي غير المدفوع"
 
@@ -32031,7 +32047,7 @@ msgstr "انتظار حدث"
 msgid "Waiting"
 msgstr "قيد الانتظار"
 
-#: onedesk/one_crm/heads.py:112
+#: onedesk/one_crm/heads.py:204
 msgid "Waiting For a Reply"
 msgstr "بانتظار الرد"
 
@@ -32394,7 +32410,7 @@ msgstr "ما قيل"
 msgid "What a customer is told when their delivery leaves."
 msgstr "ما يُبلَّغ به العميل عند خروج شحنته."
 
-#: onedesk/one_crm/home.py:127
+#: onedesk/one_crm/home.py:104
 msgid "What a customer signs, and until when."
 msgstr "ما يوقّعه العميل، وحتى متى."
 
@@ -32411,7 +32427,7 @@ msgstr "ما تنسخه النسخة الجديدة من الصنف عن قال�
 msgid "What a product is made from, and its steps."
 msgstr "مِمّ يُصنع المنتج، وخطواته."
 
-#: onedesk/one_crm/home.py:136
+#: onedesk/one_crm/home.py:107
 msgid "What a sales order is billed with, in OneBook."
 msgstr "ما يُفوتر به أمر البيع، في OneBook."
 
@@ -32527,7 +32543,7 @@ msgstr "ماذا يحوي هذا المستودع، وكم قيمته، وما �
 msgid "What each GB of database adds to the site's Frappe Cloud plan."
 msgstr "ما يضيفه كل غيغابايت من قاعدة البيانات إلى خطة الموقع على Frappe Cloud."
 
-#: onedesk/one_crm/home.py:249
+#: onedesk/one_crm/home.py:124
 msgid "What each campaign brought in leads, opportunities and sales."
 msgstr "ما جلبته كل حملة من عملاء محتملين وفرص ومبيعات."
 
@@ -32545,7 +32561,7 @@ msgstr "ما على كل عميل، حسب مدة التأخير."
 msgid "What each item is bought and sold for."
 msgstr "بكم يُشترى ويُباع كل صنف."
 
-#: onedesk/one_crm/home.py:228
+#: onedesk/one_crm/home.py:121
 msgid "What each lead owner turned into opportunities and sales."
 msgstr "ما حوّله كل مسؤول عن العملاء المحتملين إلى فرص ومبيعات."
 
@@ -32561,7 +32577,7 @@ msgstr "ما تحويه كل دفعة عبر الزمن."
 msgid "What each sale made over what it cost."
 msgstr "ما حققته كل عملية بيع فوق تكلفتها."
 
-#: onedesk/one_crm/home.py:285
+#: onedesk/one_crm/home.py:130
 msgid "What each salesperson sold."
 msgstr "ما باعه كل مندوب مبيعات."
 
@@ -32870,7 +32886,7 @@ msgstr "ما قاله النموذج ولا يقوله نص المستند نف�
 msgid "What the module's row held, put back by Reset."
 msgstr "ما كان يحمله صف الوحدة، وتعيده إعادة الضبط."
 
-#: onedesk/one_crm/home.py:165
+#: onedesk/one_crm/home.py:112
 msgid "What the open opportunities will bring in, month by month."
 msgstr "ما ستجلبه الفرص المفتوحة، شهرًا بشهر."
 
@@ -33047,11 +33063,11 @@ msgstr "ما صدرت به فواتير، فترة مقابل فترة."
 msgid "What was ordered, and what is still to come."
 msgstr "ما طُلب، وما لم يصل بعد."
 
-#: onedesk/one_crm/home.py:278
+#: onedesk/one_crm/home.py:129
 msgid "What was ordered, period against period."
 msgstr "ما طُلب، فترة مقابل فترة."
 
-#: onedesk/one_crm/home.py:263
+#: onedesk/one_crm/home.py:126
 msgid "What was quoted, period against period."
 msgstr "ما قُدّم له عرض سعر، فترة مقابل فترة."
 
@@ -33600,7 +33616,7 @@ msgstr "آخر مرة قرأه فيها تطبيق تقويم آخر."
 msgid "When another operator changes OneAdmin Settings. Keys show only as changed."
 msgstr "عندما يغيّر مشغّل آخر إعدادات OneAdmin. تظهر المفاتيح كمتغيرة فقط."
 
-#: onedesk/one_crm/home.py:348
+#: onedesk/one_crm/home.py:139
 msgid "When customers may book a meeting, and with whom."
 msgstr "متى يمكن للعملاء حجز اجتماع، ومع من."
 
@@ -34030,11 +34046,11 @@ msgstr "أين وصل"
 msgid "Where Stock Is"
 msgstr "أين المخزون"
 
-#: onedesk/one_crm/home.py:144
+#: onedesk/one_crm/home.py:109
 msgid "Where a lead came from, to count what each campaign brought."
 msgstr "من أين جاء العميل المحتمل، لحساب ما جلبته كل حملة."
 
-#: onedesk/one_crm/home.py:375
+#: onedesk/one_crm/home.py:145
 msgid "Where a lead or an opportunity came from."
 msgstr "من أين جاء العميل المحتمل أو الفرصة."
 
@@ -34326,7 +34342,7 @@ msgstr "الورديات التي عمل فيها الأصل، لحساب إهل
 msgid "Which should be emailed?"
 msgstr "أيها يجب إرساله بالبريد؟"
 
-#: onedesk/one_crm/home.py:214
+#: onedesk/one_crm/home.py:119
 msgid "Which sources bring leads that turn into sales."
 msgstr "أي المصادر تجلب عملاء محتملين يتحولون إلى مبيعات."
 
@@ -34393,7 +34409,7 @@ msgstr "من يمكنه رؤية هذا الملف، وكيف؟"
 msgid "Who can see this?"
 msgstr "من يمكنه رؤية هذا؟"
 
-#: onedesk/one_crm/home.py:390
+#: onedesk/one_crm/home.py:148
 msgid "Who else a customer is talking to."
 msgstr "مع من يتحدث العميل أيضًا."
 
@@ -34405,7 +34421,7 @@ msgstr "من يرى بياناتي أيضًا؟"
 msgid "Who has access to what?"
 msgstr "من يملك الوصول إلى ماذا؟"
 
-#: onedesk/one_crm/home.py:118
+#: onedesk/one_crm/home.py:101
 msgid "Who has bought, or is about to."
 msgstr "من اشترى، أو على وشك الشراء."
 
@@ -34489,11 +34505,11 @@ msgstr "لم يتغيّر من يدفع"
 msgid "Who sees only part?"
 msgstr "من يرى جزءًا فقط؟"
 
-#: onedesk/one_crm/home.py:374
+#: onedesk/one_crm/home.py:144
 msgid "Who sells for you, on commission."
 msgstr "من يبيع لك مقابل عمولة."
 
-#: onedesk/one_crm/home.py:365
+#: onedesk/one_crm/home.py:142
 msgid "Who sells, and the team they are in."
 msgstr "من يبيع، والفريق الذي ينتمي إليه."
 
@@ -34628,7 +34644,7 @@ msgstr "سبب غياب الرقم"
 msgid "Why Was It Lost?"
 msgstr "لماذا خُسرت؟"
 
-#: onedesk/one_crm/home.py:381
+#: onedesk/one_crm/home.py:146
 msgid "Why an opportunity or a quotation is lost."
 msgstr "سبب خسارة الفرصة أو عرض السعر."
 
@@ -34868,10 +34884,22 @@ msgid "Won Value"
 msgstr "القيمة المكسوبة"
 
 #. Name of a report
-#: onedesk/one_crm/home.py:169
+#: onedesk/one_crm/home.py:113
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.json
 msgid "Won and Lost"
 msgstr "المكسوبة والخاسرة"
+
+#: onedesk/one_crm/heads.py:162
+msgid "Won and billed; {0} is still owed, and some of it is late."
+msgstr "رابحة ومفوترة؛ لا يزال {0} مستحقًا، وبعضه متأخر."
+
+#: onedesk/one_crm/heads.py:163
+msgid "Won and billed; {0} is still owed."
+msgstr "رابحة ومفوترة؛ لا يزال {0} مستحقًا."
+
+#: onedesk/one_crm/heads.py:157
+msgid "Won and ordered; nothing is billed yet."
+msgstr "رابحة ومطلوبة؛ لم يُفوتر شيء بعد."
 
 #: frontend/src/home/CrmStory.vue:51
 msgid "Won by Source"
@@ -34881,6 +34909,14 @@ msgstr "الرابحة حسب المصدر"
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "Won converts the opportunity and Lost asks why. On Hold keeps it open but out of the pipeline."
 msgstr "الربح يحوّل الفرصة، والخسارة تسأل عن السبب. المعلّقة تبقى مفتوحة لكن خارج خط المبيعات."
+
+#: onedesk/one_crm/heads.py:160
+msgid "Won, billed and paid in full."
+msgstr "رابحة ومفوترة ومدفوعة بالكامل."
+
+#: onedesk/one_crm/heads.py:155
+msgid "Won."
+msgstr "رابحة."
 
 #: frontend/src/project/ProjectActivity.vue:115 onedesk/one_project/tree.py:199
 #: onedesk/public/js/project_actions.js:716
@@ -35989,7 +36025,7 @@ msgstr "عمود"
 msgid "a copy of your data"
 msgstr "نسخة من بياناتك"
 
-#: onedesk/one_crm/heads.py:32 onedesk/one_crm/heads.py:40
+#: onedesk/one_crm/heads.py:33 onedesk/one_crm/heads.py:41
 msgid "a day"
 msgstr "يوم واحد"
 
@@ -36062,7 +36098,7 @@ msgstr "العنوان"
 msgid "administrator of the workspace"
 msgstr "مسؤول عن مساحة العمل"
 
-#: onedesk/one/ai.py:1073 onedesk/one_crm/heads.py:109
+#: onedesk/one/ai.py:1073 onedesk/one_crm/heads.py:201
 msgid "after {0}"
 msgstr "بعد {0}"
 
@@ -36075,7 +36111,7 @@ msgstr "تنبيه"
 msgid "already set"
 msgstr "مضبوط مسبقًا"
 
-#: onedesk/one_crm/heads.py:30
+#: onedesk/one_crm/heads.py:31
 msgid "an hour"
 msgstr "ساعة واحدة"
 
@@ -36240,11 +36276,11 @@ msgstr "انتهت {0}"
 msgid "feedback"
 msgstr "الملاحظات"
 
-#: onedesk/one_crm/heads.py:67 onedesk/one_intake/page/intake/intake.js:178
+#: onedesk/one_crm/heads.py:72 onedesk/one_intake/page/intake/intake.js:178
 msgid "for {0}"
 msgstr "منذ {0}"
 
-#: onedesk/one_crm/heads.py:65
+#: onedesk/one_crm/heads.py:70
 msgid "for {0} · usually {1}"
 msgstr "منذ {0} · عادةً {1}"
 
@@ -36530,7 +36566,8 @@ msgstr "الأقدم أولاً"
 msgid "on hold"
 msgstr "معلّق"
 
-#: onedesk/one/ai_setup.py:141 onedesk/public/js/settings.js:808
+#: onedesk/one/ai_setup.py:141 onedesk/one_crm/heads.py:65
+#: onedesk/public/js/settings.js:808
 msgid "on {0}"
 msgstr "في {0}"
 
@@ -36903,11 +36940,11 @@ msgstr "غدًا"
 msgid "unchanged"
 msgstr "دون تغيير"
 
-#: onedesk/one_crm/heads.py:39
+#: onedesk/one_crm/heads.py:40
 msgid "under a day"
 msgstr "أقل من يوم"
 
-#: onedesk/one_crm/heads.py:28
+#: onedesk/one_crm/heads.py:29
 msgid "under an hour"
 msgstr "أقل من ساعة"
 
@@ -37486,7 +37523,7 @@ msgstr "{0} ي"
 #: frontend/src/template/Tasks.vue:132
 #: frontend/src/template/TemplatePage.vue:90
 #: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one/stages.py:33
-#: onedesk/one_crm/heads.py:32 onedesk/one_crm/heads.py:40
+#: onedesk/one_crm/heads.py:33 onedesk/one_crm/heads.py:41
 #: onedesk/one_intake/understand.py:390 onedesk/one_inventory/heads.py:1185
 #: onedesk/one_project/ai.py:897 onedesk/public/js/project_template_list.js:8
 msgid "{0} days"
@@ -37801,7 +37838,7 @@ msgstr "{0} محتجزة من {1}"
 msgid "{0} holidays added. Save to keep them."
 msgstr "أُضيفت {0} عطلات. احفظ للإبقاء عليها."
 
-#: onedesk/one/settings.py:852 onedesk/one_crm/heads.py:30
+#: onedesk/one/settings.py:852 onedesk/one_crm/heads.py:31
 #: onedesk/public/js/band.js:259 onedesk/www/projects.html:145
 msgid "{0} hours"
 msgstr "{0} ساعة"
@@ -38647,7 +38684,7 @@ msgstr "{0} مرة واحدة"
 msgid "{0} only receives mail, so it has no signature."
 msgstr "{0} يستقبل البريد فقط، لذا ليس له توقيع."
 
-#: onedesk/one_crm/heads.py:121
+#: onedesk/one_crm/heads.py:213
 msgid "{0} open of {1}"
 msgstr "{0} مفتوحة من {1}"
 
@@ -38666,6 +38703,10 @@ msgstr "{0} مهام مفتوحة"
 #: onedesk/one_project/ai.py:580
 msgid "{0} open tasks and {1} sub-projects"
 msgstr "{0} مهام مفتوحة و{1} مشاريع فرعية"
+
+#: onedesk/one_crm/heads.py:184
+msgid "{0} open · {1}"
+msgstr "{0} مفتوحة · {1}"
 
 #: frontend/src/plant/PlantFloor.vue:55
 msgid "{0} operations waiting"
@@ -38696,6 +38737,10 @@ msgstr "{0} فوق الميزانية"
 #: frontend/src/project/Overview.vue:190 frontend/src/project/Suppliers.vue:205
 msgid "{0} overdue"
 msgstr "{0} متأخر"
+
+#: onedesk/one_crm/heads.py:136
+msgid "{0} owed"
+msgstr "{0} مستحق"
 
 #: onedesk/one_admin/home.py:182
 msgid "{0} paid and has no workspace"
@@ -39153,7 +39198,7 @@ msgstr "{0} · بعد {1} أيام"
 msgid "{0} · waiting for you"
 msgstr "{0} · بانتظارك"
 
-#: onedesk/one_book/heads.py:288 onedesk/one_crm/heads.py:92
+#: onedesk/one_book/heads.py:288 onedesk/one_crm/heads.py:97
 msgid "{0} · {1}"
 msgstr "{0} · {1}"
 
@@ -39161,7 +39206,7 @@ msgstr "{0} · {1}"
 msgid "{0} · {1} a month"
 msgstr "{0} · {1} شهريًا"
 
-#: onedesk/public/js/opportunity_list.js:36
+#: onedesk/public/js/opportunity_list.js:42
 msgid "{0} · {1} weighted"
 msgstr "{0} · {1} مرجّحة"
 

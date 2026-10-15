@@ -7,6 +7,12 @@
 (() => {
 	const settings = (frappe.listview_settings["Opportunity"] ||= {});
 	settings.formatters = { ...settings.formatters, ...onedesk.next_step.formatters };
+	// Each status in the colour of what it means; frappe's guess paints Open red.
+	const COLOUR = { Open: "blue", Replied: "orange", Quotation: "purple", Converted: "green", Lost: "gray", Closed: "gray" };
+	settings.get_indicator = (doc) => [__(doc.status), COLOUR[doc.status] || "gray", `status,=,${doc.status}`];
+	// The list opens on what is still being worked (next.py's OPEN), so a
+	// year of won and lost ones is a filter away rather than first.
+	settings.filters = [["status", "in", ["Open", "Quotation", "Replied"]]];
 
 	if (frappe.one_pipeline_worth) return;
 	frappe.one_pipeline_worth = true;

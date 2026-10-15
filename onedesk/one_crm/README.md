@@ -102,7 +102,8 @@ When it is done, press **Next Step Done** on the lead or opportunity. It writes
 does. **Set Next Step** does the same when there is none yet. Every change to
 a lead or opportunity, the next step included, is kept in its history.
 
-The Lead and Opportunity lists are sorted by Next Step Due, so the ones with no next
+The Lead and Opportunity lists open on the ones still being worked, each
+status in its own colour, and are sorted by Next Step Due, so the ones with no next
 step come first and the rest in the order they are due. A step whose time has
 passed is shown in red. The pipeline board shows each opportunity's next step on its
 card.
@@ -110,6 +111,13 @@ Your own next steps are also on **OneCalendar**, at the time they are due,
 under Opportunity Next Steps and Lead Next Steps.
 
 ### A lead's and an opportunity's page
+
+An opportunity's page says first where the sale stands, in a line and a
+track: quoted, ordered, billed and paid, as the quotation, the sales order and
+the sales invoices made from it say. The line says what the track cannot:
+lost and why, on hold, a quotation still with them or run out, or won and
+how much of it is still owed — red once some of that is late. Won and lost
+opportunities say the day they were won or lost rather than a time in a stage.
 
 The band under the name answers what the page is usually opened for, before
 anything is clicked:
@@ -341,11 +349,11 @@ Change any of it under Role Permissions; One does not change it back.
 
 - **From OneIntake**: An enquiry from somebody new that reaches a mailbox OneAI reads becomes a new lead. A customer's order that arrives by mail becomes a draft Sales Order.
 - **From OneMail**: Mail sent to a lead or an opportunity, and the replies to it, are on its timeline. The first mail sent to a lead counts as its first reply.
-- **From OneBook**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
+- **From OneBook**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice. An opportunity says how much of what was won is billed and paid, and what is still owed.
 - **From OneProject**: New Quotation and Quote Extra Work on a project start the customer's quotation on it, and Make Order orders the one open quotation. Add Contract makes the Sales Order for a contract agreed without one. Draw Up Contract on a project makes a Contract for it with its customer or one of its suppliers, listed under Sales. The contract says its project, when it was signed and when it ends at the top, and prints as One Contract, with both sides to sign. An opportunity says the project its quote went to, or the customer's one open project.
 - **To OneProject**: A quotation for a customer with one open project is put on that project, however it is made. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
 - **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell, and the order says at the top how much has gone out.
-- **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice.
+- **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice. A customer's page counts their open opportunities and what they are worth, opening them.
 - **To OneCalendar**: Your next steps on leads and opportunities are on your calendar at the time they are due.
 
 ## Under the hood

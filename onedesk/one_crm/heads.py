@@ -8,7 +8,8 @@ from frappe import _, _lt
 from frappe.utils import flt, fmt_money, formatdate, get_datetime, getdate, now_datetime, today
 from frappe.utils.caching import request_cache
 
-from onedesk.one_crm import capture, record
+from onedesk.one import stages as steps
+from onedesk.one_crm import capture, chain, record, stages
 from onedesk.one_crm.next import OWNER
 
 #: Where a record's time since goes in its label or value.
@@ -58,6 +59,10 @@ def value(doc):
 
 def stage(doc):
 	said = _said(doc.doctype, doc.name)
+	# Won or lost is a day, not a stay.
+	if doc.status in ("Converted", "Lost"):
+		named = said["stage"] or doc.status
+		return {"label": _(named), "value": _("on {0}").format(formatdate(said["since"]))}
 	stayed = lasted(said["since"])
 	usual = said.get("usual")
 	return {
@@ -91,6 +96,93 @@ def quotation(doc):
 	return {
 		"value": _("{0} · {1}").format(_(found.status), _money(found.grand_total, found.currency)),
 		"route": f"/desk/quotation/{found.name}",
+	}
+
+
+@request_cache
+def _went(name: str) -> frappe._dict:
+	return chain.follow([name])[name]
+
+
+def _ours() -> str:
+	from erpnext import get_company_currency, get_default_company
+
+	return get_company_currency(get_default_company())
+
+
+def _late(invoice) -> bool:
+	return "Overdue" in (invoice.status or "")
+
+
+def progress(doc):
+	"""Where the sale stands past the opportunity: quoted, ordered, billed and
+	paid, as ERPNext's papers say, on a track. Stopped while it is on hold or
+	once it is lost."""
+	went = _went(doc.name)
+	quotes = [one for one in went.quotations if one.docstatus == 1]
+	orders = [one for one in went.orders if one.docstatus == 1]
+	bills = [one for one in went.invoices if one.docstatus == 1]
+	owed = sum(chain.owed(one) for one in bills)
+	billed = bool(orders) and all(flt(one.per_billed) >= 100 for one in orders)
+	paid = bool(bills) and owed <= 0
+	late = any(_late(one) for one in bills)
+	held = doc.sales_stage in stages.held()
+	return steps.track(
+		doc.opportunity_from == "Lead" and steps.step(_("Lead"), "done"),
+		steps.step(_("Opportunity"), "done", formatdate(doc.transaction_date)),
+		steps.step(_("Quotation"), steps.at(bool(quotes), bool(went.quotations)), _(quotes[0].status) if quotes else ""),
+		steps.step(_("Sales Order"), steps.at(bool(orders), bool(went.orders))),
+		steps.step(_("Billed"), steps.at(billed, bool(bills)), steps.share(orders[0].per_billed) if orders and not billed else ""),
+		steps.step(_("Paid"), steps.at(paid, bool(bills), late), _("{0} owed").format(_money(owed, _ours())) if owed > 0 else ""),
+		stopped=doc.status == "Lost" or held,
+	)
+
+
+def said(doc):
+	"""Where the sale stands, in a sentence, once there is something to say
+	past the band: lost, on hold, quoted, or won and how far its money got."""
+	if doc.status == "Lost":
+		reasons = [_(one.lost_reason) for one in doc.lost_reasons or []]
+		text = _("Lost: {0}.").format(", ".join(reasons)) if reasons else _("Lost.")
+		return {"text": text, "colour": "gray"}
+	if doc.sales_stage in stages.held():
+		return {"text": _("On hold, out of the pipeline until it moves again."), "colour": "gray"}
+	went = _went(doc.name)
+	orders = [one for one in went.orders if one.docstatus == 1]
+	if doc.status == "Converted" or orders:
+		bills = [one for one in went.invoices if one.docstatus == 1]
+		if not orders:
+			return {"text": _("Won."), "colour": "green"}
+		if not bills:
+			return {"text": _("Won and ordered; nothing is billed yet."), "colour": "blue"}
+		owed = sum(chain.owed(one) for one in bills)
+		if owed <= 0:
+			return {"text": _("Won, billed and paid in full."), "colour": "green"}
+		if any(_late(one) for one in bills):
+			return {"text": _("Won and billed; {0} is still owed, and some of it is late.").format(_money(owed, _ours())), "colour": "red"}
+		return {"text": _("Won and billed; {0} is still owed.").format(_money(owed, _ours())), "colour": "orange"}
+	quotes = [one for one in went.quotations if one.docstatus == 1 and one.status in ("Open", "Replied")]
+	if quotes and quotes[0].valid_till:
+		if getdate(quotes[0].valid_till) < getdate(today()):
+			return {"text": _("Quotation {0} ran out on {1}.").format(quotes[0].name, formatdate(quotes[0].valid_till)), "colour": "orange"}
+		return {"text": _("Quotation {0} is with them until {1}.").format(quotes[0].name, formatdate(quotes[0].valid_till)), "colour": "blue"}
+	return None
+
+
+def of_customer(doc):
+	"""A customer's open opportunities and what they are worth, opening them."""
+	from onedesk.one_crm import measure
+	from onedesk.one_crm.next import OPEN
+
+	if not frappe.has_permission("Opportunity", "read"):
+		return None
+	found = measure.deals({"opportunity_from": "Customer", "party_name": doc.name, "status": ["in", OPEN["Opportunity"]]})
+	if not found:
+		return None
+	statuses = frappe.as_json(["in", list(OPEN["Opportunity"])], indent=None)
+	return {
+		"value": _("{0} open · {1}").format(len(found), _money(sum(measure.value(one) for one in found), _ours())),
+		"route": f"/desk/opportunity?opportunity_from=Customer&party_name={doc.name}&status={statuses}",
 	}
 
 
@@ -133,10 +225,12 @@ def next_step(doc):
 	step, on = said["next"]["step"], said["next"]["on"]
 	if not step and not on:
 		return {"value": _("None planned"), "tone": "waiting"}
+	# A day to come is said as the day; frappe says only a time passed.
+	ahead = on and getdate(on) > getdate(today())
 	return {
-		"label": _("Next Step") + (f" · {WHEN}" if on else ""),
+		"label": _("Next Step") + (f" · {formatdate(on)}" if ahead else f" · {WHEN}" if on else ""),
 		"value": step or _("Next Step"),
-		"when": str(on) if on else None,
+		"when": str(on) if on and not ahead else None,
 		"tone": "alarm" if on and get_datetime(on) < now_datetime() else None,
 	}
 
@@ -178,6 +272,9 @@ def deliver_by(doc):
 
 MEASURES = {
 	"crm.value": value,
+	"crm.progress": progress,
+	"crm.said": said,
+	"crm.of_customer": of_customer,
 	"crm.stage": stage,
 	"crm.closes": closes,
 	"crm.quotation": quotation,
@@ -206,7 +303,9 @@ VERBS = {
 HEADS = [
 	{
 		"doctype": "Opportunity",
+		"sentences": [{"measure": "crm.said"}],
 		"band": [
+			{"label": _lt("Progress"), "source": "Measure", "measure": "crm.progress"},
 			{"label": _lt("Opportunity Amount"), "source": "Measure", "measure": "crm.value"},
 			{"label": _lt("Sales Stage"), "source": "Measure", "measure": "crm.stage"},
 			{"label": _lt("Next Step"), "source": "Measure", "measure": "crm.next_step"},

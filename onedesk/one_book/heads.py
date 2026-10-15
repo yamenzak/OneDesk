@@ -773,6 +773,8 @@ HEADS = [
 				"route": '/desk/sales-order?customer={{ doc.name }}&docstatus=1&status=["not in",["Completed","Closed"]]',
 				"hide_empty": 1,
 			},
+			# OneCRM's: what the customer may still buy.
+			{"label": _lt("Opportunity"), "source": "Measure", "measure": "crm.of_customer"},
 		],
 		"charts": [{"chart": "party.billed"}],
 	},
