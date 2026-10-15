@@ -63,7 +63,7 @@
    "type": "Section Break",
    "label": "Address Book",
    "icon": "book-user",
-   "indent": 0,
+   "indent": 1,
    "collapsible": 1,
    "idx": 5
   },
@@ -98,7 +98,7 @@
    "type": "Section Break",
    "label": "You",
    "icon": "user",
-   "indent": 0,
+   "indent": 1,
    "collapsible": 1,
    "idx": 8
   },
@@ -191,7 +191,7 @@
    "type": "Section Break",
    "label": "Workspace",
    "icon": "building-2",
-   "indent": 0,
+   "indent": 1,
    "collapsible": 1,
    "idx": 16
   },
@@ -271,8 +271,8 @@
    "keep_closed": 1,
    "type": "Section Break",
    "label": "Setup",
-   "icon": "building-2",
-   "indent": 0,
+   "icon": "settings",
+   "indent": 1,
    "collapsible": 1,
    "idx": 23
   },
@@ -338,8 +338,8 @@
    "keep_closed": 1,
    "type": "Section Break",
    "label": "Automation",
-   "icon": "building-2",
-   "indent": 0,
+   "icon": "workflow",
+   "indent": 1,
    "collapsible": 1,
    "idx": 29
   },
@@ -405,8 +405,8 @@
    "keep_closed": 1,
    "type": "Section Break",
    "label": "Privacy",
-   "icon": "building-2",
-   "indent": 0,
+   "icon": "lock",
+   "indent": 1,
    "collapsible": 1,
    "idx": 35
   },
@@ -442,7 +442,7 @@
    "type": "Section Break",
    "label": "Audit Log",
    "icon": "scroll-text",
-   "indent": 0,
+   "indent": 1,
    "collapsible": 1,
    "idx": 38
   },
@@ -491,7 +491,7 @@
    "type": "Section Break",
    "label": "OneAI",
    "icon": "oneai",
-   "indent": 0,
+   "indent": 1,
    "collapsible": 1,
    "idx": 42
   },
@@ -557,7 +557,7 @@
    "type": "Section Break",
    "label": "OneIntake",
    "icon": "oneintake",
-   "indent": 0,
+   "indent": 1,
    "collapsible": 1,
    "idx": 48
   },
@@ -618,7 +618,7 @@
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-24 13:00:00",
+ "modified": "2026-11-03 12:00:00",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",
