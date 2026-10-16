@@ -1647,7 +1647,10 @@ as OneCRM's is `onecrm`; the workspace it replaces went with
   payroll, expense claims and the hiring funnel, in the company's currency.
 
 Home is a place (`onehr_home.shown`), so an extension may add a note or a
-button, and OneAI is told what it shows (`ai.page`). A rail's JSON is synced
+button, and OneAI is told what it shows (`ai.page`). HRMS's own phone app at
+`/hrms` is a second self-service, unbranded and reading approvals from PWA
+Notifications One never writes, so it opens this Home instead
+(`website_redirects`). A rail's JSON is synced
 only when its `modified` changes, so the rail's own date moved with it.
 
 ### tell.py

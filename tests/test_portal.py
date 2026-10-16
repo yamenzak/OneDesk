@@ -49,6 +49,7 @@ def test_the_old_portal_is_gone_and_its_places_lead_to_the_app():
 	redirects = HOOKS.split("website_redirects = [", 1)[1].split("\n]", 1)[0]
 	for where in ('"target": r"/portal/\\1\\2"', '"/portal/projects"', '"/portal/addresses/\\1"', '"/portal/profile"'):
 		assert where in redirects, where
+	assert '{"source": r"/hrms(/.*)?", "target": "/desk/onehr"}' in redirects, "HRMS's phone app opens OneHR"
 	assert "one_portal_" not in HOOKS
 
 

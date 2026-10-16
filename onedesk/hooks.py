@@ -1792,6 +1792,8 @@ website_redirects = [
 	{"source": "/project", "target": "/portal/projects"},
 	{"source": r"/address/(.+)", "target": r"/portal/addresses/\1"},
 	{"source": r"/update-profile/.*", "target": "/portal/profile"},
+	# HRMS's own phone app is a second self-service; OneHR's Home is the one.
+	{"source": r"/hrms(/.*)?", "target": "/desk/onehr"},
 ]
 
 # OneCloud as a network drive (one_storage/dav.py), and frappe's webhook
