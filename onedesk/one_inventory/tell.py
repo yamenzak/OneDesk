@@ -2,7 +2,7 @@
 (docs/NOTIFICATIONS.md, stage 6)."""
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 from onedesk.one import notify
 
@@ -28,11 +28,30 @@ def raised(doc, method=None) -> None:
 
 
 def _asked(doc) -> None:
-	"""A person's own request to buy something, told to purchasing."""
-	if doc.material_request_type != "Purchase":
-		return
+	"""A person's own request to buy something, told to purchasing; to move,
+	issue or make something, told to whoever keeps the stores or makes it."""
 	from frappe.utils import formatdate
 	from frappe.utils.user import get_users_with_role
+
+	if doc.material_request_type != "Purchase":
+		roles = (
+			("Manufacturing User", "Manufacturing Manager")
+			if doc.material_request_type == "Manufacture"
+			else ("Stock User", "Stock Manager")
+		)
+		people = sorted({one for role in roles for one in get_users_with_role(role)} - {frappe.session.user})
+		if people:
+			notify.notify(
+				"Stock Asked",
+				people,
+				record=("Material Request", doc.name),
+				who=frappe.utils.get_fullname(frappe.session.user),
+				kind=_lt(doc.material_request_type),
+				request=doc.name,
+				items=", ".join(dict.fromkeys(row.item_name or row.item_code for row in doc.items)),
+				wanted=formatdate(doc.schedule_date) if doc.get("schedule_date") else _("no date"),
+			)
+		return
 
 	people = sorted(
 		{*get_users_with_role("Purchase User"), *get_users_with_role("Purchase Manager")}
@@ -308,3 +327,100 @@ def expiring() -> None:
 			left=f"{flt(batch.batch_qty):g} {batch.stock_uom or ''}".strip(),
 			on=formatdate(batch.expiry_date),
 		)
+
+
+def _asker(request: str) -> str | None:
+	"""Whoever asked for a request, while they can sign in; nobody for one
+	reordering raised."""
+	owner = frappe.db.get_value("Material Request", request, "owner")
+	if owner in ("Administrator", "Guest", frappe.session.user):
+		return None
+	return owner if frappe.db.get_value("User", owner, "enabled") else None
+
+
+def moved(doc, method=None) -> None:
+	"""Stock Entry on_submit: a request it finishes moving or issuing, told to
+	whoever asked. ERPNext's rule tells only a request received."""
+	for request in dict.fromkeys(row.material_request for row in doc.items if row.get("material_request")):
+		status = frappe.db.get_value("Material Request", request, "status")
+		person = _asker(request)
+		if status in ("Transferred", "Issued") and person:
+			notify.notify(
+				"Material Request Done",
+				person,
+				record=("Material Request", request),
+				dedupe_on=["document_type", "document_name"],
+				request=request,
+				status=_lt(status),
+			)
+
+
+def update_status(name: str, status: str):
+	"""ERPNext's Stop and Re-open (material_request.update_status), and a
+	request stopped told to whoever asked."""
+	from erpnext.stock.doctype.material_request.material_request import update_status as theirs
+
+	theirs(name, status)
+	person = _asker(name)
+	if status == "Stopped" and person:
+		notify.notify(
+			"Material Request Stopped",
+			person,
+			record=("Material Request", name),
+			request=name,
+			by=frappe.utils.get_fullname(frappe.session.user),
+		)
+
+
+def reorder_failed() -> None:
+	"""Hourly: reordering that could not raise a request, from the hour's
+	Error Log, told to the stock and buying managers. ERPNext mails only
+	System Managers, nobody's role in a workspace."""
+	from frappe.utils import add_to_date, now_datetime
+	from frappe.utils.user import get_users_with_role
+
+	found = frappe.get_all(
+		"Error Log",
+		filters={
+			"method": "Unable to create material request",
+			"creation": [">=", add_to_date(now_datetime(), hours=-1)],
+		},
+		pluck="name",
+	)
+	people = sorted({*get_users_with_role("Stock Manager"), *get_users_with_role("Purchase Manager")})
+	if found and people:
+		notify.notify(
+			"Reordering Failed",
+			people,
+			link="/desk/material-request",
+			sender="Administrator",
+			count=len(found),
+		)
+
+
+def back_late() -> None:
+	"""Each morning: subcontracted goods due back yesterday and not back,
+	told once to whoever made the order."""
+	from frappe.utils import add_days, formatdate, getdate
+
+	for one in frappe.get_all(
+		"Subcontracting Order",
+		filters={
+			"docstatus": 1,
+			"status": ["not in", ["Completed", "Closed", "Cancelled"]],
+			"schedule_date": add_days(getdate(), -1),
+		},
+		fields=["name", "owner", "supplier", "supplier_name", "schedule_date"],
+	):
+		people = [one.owner] if _buys(one.owner) else None
+		if people:
+			notify.notify(
+				"Back From Supplier Late",
+				people,
+				record=("Subcontracting Order", one.name),
+				sender="Administrator",
+				dedupe_on=["document_type", "document_name"],
+				supplier=one.supplier_name or one.supplier,
+				order=one.name,
+				due=formatdate(one.schedule_date),
+			)

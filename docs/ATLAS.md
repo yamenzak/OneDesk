@@ -143,7 +143,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Repost Payment Ledger | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 5 fields, 3 settings | yes | taught |  | yes | ours |  | ar 2 | Invoice Overdue, Paid Online |
+| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 5 fields, 3 settings | yes | taught |  | yes | ours |  | ar 2 | Invoice Overdue |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Share Transfer | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Share Type | **waiting** | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -214,7 +214,7 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | CRM Settings | on a rail or a home | OneCRM | 6 settings | no | general |  |  |  |  | ar 3, de 2 |  |
 | Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Competitor | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  | de 1 |  |
+| Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  | de 1 | Contract Expiring |
 | Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 28 settings | yes | taught | makes it | yes |  |  | ar 3 | New Lead Waiting |
@@ -401,7 +401,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Item Variant Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  | ar 1 |  |
 | Landed Cost Voucher | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Manufacturer | opened by our screens | OneInventory | events | yes | general |  | yes |  |  | ar 1 |  |
-| Material Request | on a rail or a home | OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Raised, Material Request Receipt Notification (theirs) |
+| Material Request | on a rail or a home | OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
 | Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Pick List | on a rail or a home | OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
 | Price List | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -440,7 +440,7 @@ Pages: stock-balance (replaced: Stock Summary); warehouse-capacity-summary (on a
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Subcontracting BOM | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Subcontracting Inward Order | through a form's connections (Sales Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | **none** | **theirs** |  | ar 2 |  |
-| Subcontracting Order | opened by our screens | OneInventory | a head, 3 settings | yes | taught |  | yes | **theirs** |  |  |  |
+| Subcontracting Order | opened by our screens | OneInventory | a head, 3 settings | yes | taught |  | yes | **theirs** |  |  | Back From Supplier Late |
 | Subcontracting Receipt | on a rail or a home | OneBook, OneInventory | a head, 3 settings | yes | general |  | yes | **theirs** |  | ar 1 |  |
 
 Reports: Subcontracted Items To Be Delivered (under a list's related reports (Subcontracting Inward Order's list)); Subcontracted Raw Materials To Be Received (under a list's related reports (Subcontracting Inward Order's list)); Subcontracting Inward Order Summary (under a list's related reports (Subcontracting Inward Order's list)).
@@ -482,7 +482,7 @@ Reports: YouTube Interactions (**waiting**).
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Assignment Rule | on a rail or a home | OneCRM | events | no | general |  | yes |  |  |  |  |
-| Auto Repeat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Auto Repeat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  | Repeat Failed |
 | Automation Event Subscription | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
 | Automation Flow | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  | ar 16, de 16 |  |
 | Automation Run | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |

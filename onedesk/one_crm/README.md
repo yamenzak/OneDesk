@@ -754,6 +754,13 @@ minutes to the owner of each open lead and opportunity whose step has come due
 since the last look, once (`patches/next_step_is_ours` removed the Reminders
 waiting).
 
+Mail that comes in on a lead or an opportunity is told to its owner, whichever
+mailbox it reached (**They Replied**, `they_replied`). A contract two weeks
+from its end is told to whoever made it and the user it names (**Contract
+Expiring**); ERPNext only marks it Inactive on the day. erpnext's own mails
+from here are listed as types: Appointment Confirmation, and a proforma
+invoice sent from its order (**Proforma Invoice by Mail**).
+
 ## Answered on the portal
 
 A customer accepts or declines an open quotation on the portal

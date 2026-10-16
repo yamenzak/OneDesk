@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 13:06+0000\n"
+"POT-Creation-Date: 2026-10-16 13:12+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1255,6 +1255,11 @@ msgstr "Ein {0} muss einen Datensatz nennen."
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:36
 msgid "A {0} model can't be the default for {1}."
 msgstr "Ein {0}-Modell kann nicht der Standard für {1} sein."
+
+#. Message of a notification
+#: onedesk/notifications/one_inventory/stock_asked.md
+msgid "A {kind} request, {request}, wanted by {wanted}."
+msgstr "Eine Anforderung ({kind}), {request}, benötigt bis {wanted}."
 
 #. Name of a DocType
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -4152,6 +4157,11 @@ msgstr ""
 msgid "Back"
 msgstr "Zurück"
 
+#. Name of a notification
+#: onedesk/notifications/one_inventory/back_from_supplier_late.md
+msgid "Back From Supplier Late"
+msgstr "Rückgabe vom Lieferanten verspätet"
+
 #: onedesk/www/your_data.html:42
 msgid "Back to sign in"
 msgstr "Zurück zur Anmeldung"
@@ -6681,6 +6691,11 @@ msgstr "Vertrag"
 #: onedesk/notifications/one_hr/contract_ending.md
 msgid "Contract Ending"
 msgstr "Vertragsende"
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/contract_expiring.md
+msgid "Contract Expiring"
+msgstr "Vertrag läuft aus"
 
 #: onedesk/one/print_blocks.py:35
 msgid "Contract No"
@@ -10167,6 +10182,11 @@ msgstr "Alles ist da; die Rechnung von {0} steht noch aus."
 #: frontend/src/check/CheckList.vue:11
 msgid "Everything is set up"
 msgstr "Alles ist eingerichtet"
+
+#. Message of a notification
+#: onedesk/notifications/one_inventory/material_request_done.md
+msgid "Everything on it has been done."
+msgstr "Alles darauf ist erledigt."
 
 #: onedesk/one_inventory/quotes.py:345
 msgid "Everything on {0} is ordered already."
@@ -14008,6 +14028,11 @@ msgid "It was deleted."
 msgstr "Sie wurde gelöscht."
 
 #. Message of a notification
+#: onedesk/notifications/one_inventory/back_from_supplier_late.md
+msgid "It was due back on {due}. Chase {supplier}."
+msgstr "Es sollte am {due} zurück sein. Haken Sie bei {supplier} nach."
+
+#. Message of a notification
 #: onedesk/notifications/one_inventory/delivery_late.md
 msgid "It was due on {due}, and {left} of it has not been delivered. Deliver it, or tell the customer the new date."
 msgstr "Fällig war er am {due}, und {left} davon wurde nicht geliefert. Liefern Sie ihn, oder teilen Sie dem Kunden das neue Datum mit."
@@ -14163,6 +14188,11 @@ msgstr ""
 msgid "Items"
 msgstr "Artikel"
 
+#. Message of a notification
+#: onedesk/notifications/one_inventory/reordering_failed.md
+msgid "Items below their reorder level have no request to buy them. Check their reorder settings and default supplier."
+msgstr "Artikel unter ihrem Meldebestand haben keine Anforderung zum Kauf. Prüfen Sie ihre Nachbestelleinstellungen und den Standardlieferanten."
+
 #: frontend/src/lots/LotsPage.vue:13
 msgid "Items can't be kept in batches or by Serial No yet."
 msgstr "Artikel können noch nicht in Chargen oder nach Seriennummer geführt werden."
@@ -14220,6 +14250,11 @@ msgstr "Der neue Verantwortliche"
 #: onedesk/one/numbering.py:314
 msgid "Its own way"
 msgstr "Auf eigene Weise"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_crm/they_replied.md
+msgid "Its owner"
+msgstr "Der Verantwortliche"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/check_in_flagged.md
@@ -16482,6 +16517,11 @@ msgid "Material Request Asked"
 msgstr "Materialanforderung gestellt"
 
 #. Name of a notification
+#: onedesk/notifications/one_inventory/material_request_done.md
+msgid "Material Request Done"
+msgstr "Materialanforderung erledigt"
+
+#. Name of a notification
 #: onedesk/notifications/one_inventory/material_request_raised.md
 msgid "Material Request Raised"
 msgstr "Materialanforderung erstellt"
@@ -16490,6 +16530,11 @@ msgstr "Materialanforderung erstellt"
 #: onedesk/notifications/one_inventory/material_request_received.md
 msgid "Material Request Received"
 msgstr "Materialanforderung eingegangen"
+
+#. Name of a notification
+#: onedesk/notifications/one_inventory/material_request_stopped.md
+msgid "Material Request Stopped"
+msgstr "Materialanforderung angehalten"
 
 #: frontend/src/home/InventoryStory.vue:61
 #: frontend/src/to_order/ToOrderPage.vue:193
@@ -18967,6 +19012,11 @@ msgstr "Nichts verlässt ein Lager, das es nicht hat."
 #: frontend/src/to_order/ToOrderPage.vue:20
 msgid "Nothing matches"
 msgstr "Nichts passt"
+
+#. Message of a notification
+#: onedesk/notifications/one_inventory/material_request_stopped.md
+msgid "Nothing more on it will be ordered or moved. Ask them if you still need it."
+msgstr "Darauf wird nichts mehr bestellt oder bewegt. Fragen Sie nach, wenn Sie es noch brauchen."
 
 #: frontend/src/home/BooksHome.vue:26 frontend/src/home/CrmHome.vue:26
 #: frontend/src/home/InventoryHome.vue:25
@@ -23095,6 +23145,11 @@ msgstr ""
 msgid "Profitability Analysis"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_crm/proforma_invoice_by_mail.md
+msgid "Proforma Invoice by Mail"
+msgstr "Proformarechnung per E-Mail"
+
 #: frontend/portal/src/pages/Project.vue:77
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:77
@@ -24781,6 +24836,11 @@ msgid "Renamed to {0}"
 msgstr "Umbenannt in {0}"
 
 #. Message of a notification
+#: onedesk/notifications/one_crm/contract_expiring.md
+msgid "Renew it, or let it end."
+msgstr "Verlängern Sie ihn oder lassen Sie ihn auslaufen."
+
+#. Message of a notification
 #: onedesk/notifications/one_hr/contract_ending.md
 msgid "Renew it, or plan their last day."
 msgstr "Verlängern Sie ihn oder planen Sie den letzten Tag."
@@ -24830,6 +24890,11 @@ msgstr "Nachbestellung"
 msgid "Reordering Failed"
 msgstr "Nachbestellung fehlgeschlagen"
 
+#. Subject of a notification
+#: onedesk/notifications/one_inventory/reordering_failed.md
+msgid "Reordering could not raise {count} requests"
+msgstr "Die Nachbestellung konnte {count} Anforderungen nicht erstellen"
+
 #: frontend/src/item/ItemPlaces.vue:21
 msgid "Reorders At"
 msgstr "Nachbestellen bei"
@@ -24853,6 +24918,11 @@ msgstr ""
 #: frontend/src/project/TaskPanel.vue:202 frontend/src/task/TaskPage.vue:360
 msgid "Repeat"
 msgstr "Wiederholen"
+
+#. Name of a notification
+#: onedesk/notifications/one/repeat_failed.md
+msgid "Repeat Failed"
+msgstr "Wiederholung fehlgeschlagen"
 
 #. Name of a notification
 #: onedesk/notifications/one_book/repeated_by_mail.md
@@ -28093,6 +28163,11 @@ msgstr "Bestandskonto falsch"
 msgid "Stock Ageing"
 msgstr "Lageralter"
 
+#. Name of a notification
+#: onedesk/notifications/one_inventory/stock_asked.md
+msgid "Stock Asked"
+msgstr "Lageranforderung"
+
 #: frontend/src/item/ItemPage.vue:311 frontend/src/stock/StockOnHand.vue:184
 msgid "Stock Balance"
 msgstr "Lagerbestand"
@@ -29681,6 +29756,11 @@ msgid "The address this workspace was given. It cannot be removed."
 msgstr "Die diesem Arbeitsbereich zugewiesene Adresse. Sie kann nicht entfernt werden."
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_crm/proforma_invoice_by_mail.md
+msgid "The addresses it is sent to"
+msgstr "Die Adressen, an die sie geht"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_book/repeated_by_mail.md
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr "Die Adressen der Wiederholung und bei einem Fehler ihr Ersteller"
@@ -29821,6 +29901,11 @@ msgstr "Der eingeladene Kontakt"
 msgid "The content's hash, so the same file anywhere is read once."
 msgstr "Der Hash des Inhalts, damit dieselbe Datei nur einmal gelesen wird."
 
+#. Subject of a notification
+#: onedesk/notifications/one_crm/contract_expiring.md
+msgid "The contract with {party} ends on {date}"
+msgstr "Der Vertrag mit {party} endet am {date}"
+
 #. Message of a notification
 #: onedesk/notifications/one/your_data_is_ready.md
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
@@ -29875,6 +29960,11 @@ msgstr "Die Datenbank ist fast voll"
 #: onedesk/one_admin/billing.py:160
 msgid "The database uses {0} GB and the plan allows {1} GB."
 msgstr "Die Datenbank belegt {0} GB und der Plan erlaubt {1} GB."
+
+#. When a notification is sent
+#: onedesk/notifications/one_inventory/back_from_supplier_late.md
+msgid "The day after subcontracted goods were due back and have not all come back."
+msgstr "Am Tag, nachdem Lohnfertigungsware zurück sein sollte und nicht alles zurück ist."
 
 #. When a notification is sent
 #: onedesk/notifications/one_hr/exit_interview_scheduled.md
@@ -30236,6 +30326,11 @@ msgstr "Die neue Leitung, außer sie hat sich selbst eingetragen"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "Der nächste auszuführende Schritt. Schritte dürfen mehrfach laufen."
+
+#. Message of a notification
+#: onedesk/notifications/one/repeat_failed.md
+msgid "The next {kind} could not be made, so the repeat is switched off. Fix what stopped it, then switch the repeat back on."
+msgstr "Der nächste Beleg ({kind}) konnte nicht erstellt werden, daher ist die Wiederholung abgeschaltet. Beheben Sie die Ursache und schalten Sie sie wieder ein."
 
 #: onedesk/one/settings.py:2007
 msgid "The notification detail and the email body. Optional."
@@ -30619,6 +30714,11 @@ msgstr "Die eigene Verknüpfung des Datensatzes zu dem, dessen Feld gezeigt wird
 msgid "The record's own link to the one whose fields are shown."
 msgstr "Die eigene Verknüpfung des Datensatzes zu dem, dessen Felder gezeigt werden."
 
+#. Subject of a notification
+#: onedesk/notifications/one/repeat_failed.md
+msgid "The repeat of {document} stopped"
+msgstr "Die Wiederholung von {document} wurde gestoppt"
+
 #: onedesk/one_hr/heads.py:569
 msgid "The request is closed and nobody is assigned anything."
 msgstr "Der Antrag wird geschlossen und niemandem etwas zugewiesen."
@@ -30688,7 +30788,6 @@ msgstr "Die Datenbank der Site und ihre Sicherungen. Null heißt bei einem Tarif
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_book/deferred_posting_failed.md
-#: onedesk/notifications/one_inventory/reordering_failed.md
 msgid "The site's operators, so nobody in the workspace"
 msgstr "Die Betreiber der Website, also niemand im Arbeitsbereich"
 
@@ -30718,6 +30817,11 @@ msgstr "Der Status für jeden Tag eines genehmigten Antrags. Nur Homeoffice blei
 #: onedesk/one_inventory/home.py:201
 msgid "The steps products are made in."
 msgstr "Die Schritte, in denen Produkte gefertigt werden."
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_inventory/reordering_failed.md
+msgid "The stock and buying managers"
+msgstr "Die Lager- und Einkaufsleitung"
 
 #. Description of the 'Stripe Item' (Data) field in DocType 'Tenant Add-on'
 #: onedesk/one_admin/doctype/tenant_add_on/tenant_add_on.json
@@ -31133,6 +31237,11 @@ msgstr "Diese buchen auf ein Konto, das kein Bestandskonto ist, daher weichen Be
 #: onedesk/notifications/one/webhooks_failing.md
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
 msgstr "Diese Webhooks konnten nach allen Versuchen nicht zustellen: {webhooks}. Öffnen Sie jeden Aufruf, um zu sehen, was das andere System geantwortet hat."
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/they_replied.md
+msgid "They Replied"
+msgstr "Antwort erhalten"
 
 #. Message of a notification
 #: onedesk/notifications/one_storage/file_request_reminder.md
@@ -34454,6 +34563,11 @@ msgid "When a check-in looks wrong and waits for somebody to accept or reject it
 msgstr "Wenn ein Check-in falsch aussieht und darauf wartet, dass jemand ihn annimmt oder ablehnt."
 
 #. When a notification is sent
+#: onedesk/notifications/one_crm/contract_expiring.md
+msgid "When a contract with a customer or supplier ends in two weeks."
+msgstr "Wenn ein Vertrag mit einem Kunden oder Lieferanten in zwei Wochen endet."
+
+#. When a notification is sent
 #: onedesk/notifications/one/your_data_is_ready_to_download.md
 msgid "When a copy asked for on the Your Data page is ready, with the link to download it."
 msgstr "Wenn eine auf der Seite „Ihre Daten“ angeforderte Kopie bereit ist, mit dem Link zum Herunterladen."
@@ -34470,8 +34584,8 @@ msgstr "Wenn ein Kunde eines Ihrer Angebote ablehnt, im Portal oder über einen 
 
 #. When a notification is sent
 #: onedesk/notifications/one_book/paid_online.md
-msgid "When a customer pays an invoice online, through its payment link."
-msgstr "Wenn ein Kunde eine Rechnung online über ihren Zahlungslink bezahlt."
+msgid "When a customer pays an invoice, or an order's deposit, online through its payment link."
+msgstr "Wenn ein Kunde eine Rechnung oder die Anzahlung eines Auftrags online über den Zahlungslink bezahlt."
 
 #. When a notification is sent
 #: onedesk/notifications/one/your_request_is_on_hold.md
@@ -34612,6 +34726,11 @@ msgstr "Wenn ein Datensatz einen Genehmigungsschritt für eine Ihrer Rollen erre
 #: onedesk/notifications/one_book/repeated_by_mail.md
 msgid "When a repeated invoice or bill is made and its repeat is set to mail it, or when a repeat fails."
 msgstr "Wenn eine wiederholte Rechnung erstellt wird und ihre Wiederholung sie mailen soll, oder wenn eine Wiederholung fehlschlägt."
+
+#. When a notification is sent
+#: onedesk/notifications/one/repeat_failed.md
+msgid "When a repeating invoice, bill, order or task stops because the next one could not be made."
+msgstr "Wenn eine wiederkehrende Rechnung, Eingangsrechnung, ein Auftrag oder eine Aufgabe stoppt, weil die nächste nicht erstellt werden konnte."
 
 #. When a notification is sent
 #: onedesk/notifications/one/report_export_ready.md
@@ -34993,6 +35112,11 @@ msgstr "Wenn ungenutzter Urlaub in zwei Wochen verfällt."
 msgid "When mail arrives with attachments and the workspace's storage is full. Once a day at most."
 msgstr "Wenn E-Mails mit Anhängen eintreffen und der Speicher des Arbeitsbereichs voll ist. Höchstens einmal am Tag."
 
+#. When a notification is sent
+#: onedesk/notifications/one_crm/they_replied.md
+msgid "When mail comes in on a lead or an opportunity you own."
+msgstr "Wenn eine E-Mail zu einem Ihrer Leads oder Ihrer Verkaufschancen eingeht."
+
 #. Description of the 'Preferred Provider' (Select) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -35036,8 +35160,8 @@ msgstr "Wenn die Zahlung für den Arbeitsbereich überfällig ist, mit dem Tag, 
 
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/reordering_failed.md
-msgid "When reordering cannot raise a material request."
-msgstr "Wenn die Nachbestellung keine Materialanfrage erstellen kann."
+msgid "When reordering could not raise a request for items below their level."
+msgstr "Wenn die Nachbestellung für Artikel unter ihrem Bestand keine Anforderung erstellen konnte."
 
 #. When a notification is sent
 #: onedesk/notifications/one_project/added_to_project.md
@@ -35068,6 +35192,11 @@ msgstr "Wenn jemand eine Schicht anfragt."
 #: onedesk/notifications/one_inventory/material_request_asked.md
 msgid "When somebody asks for items to be bought."
 msgstr "Wenn jemand den Einkauf von Artikeln anfordert."
+
+#. When a notification is sent
+#: onedesk/notifications/one_inventory/stock_asked.md
+msgid "When somebody asks for items to be moved, issued or made."
+msgstr "Wenn jemand Artikel umlagern, ausgeben oder fertigen lassen möchte."
 
 #. When a notification is sent
 #: onedesk/notifications/one_hr/attendance_request_asked.md
@@ -35165,6 +35294,11 @@ msgid "When somebody saves a bill or invoice for a share of the work done."
 msgstr "Wenn jemand eine Rechnung für einen Teil der erledigten Arbeit speichert."
 
 #. When a notification is sent
+#: onedesk/notifications/one_crm/proforma_invoice_by_mail.md
+msgid "When somebody sends a proforma invoice from its order."
+msgstr "Wenn jemand eine Proformarechnung aus ihrem Auftrag versendet."
+
+#. When a notification is sent
 #: onedesk/notifications/one/sign_in_code.md
 msgid "When somebody signs in and the workspace asks for a code by email."
 msgstr "Wenn sich jemand anmeldet und der Arbeitsbereich einen Code per E-Mail verlangt."
@@ -35173,6 +35307,11 @@ msgstr "Wenn sich jemand anmeldet und der Arbeitsbereich einen Code per E-Mail v
 #: onedesk/notifications/one/authenticator_setup.md
 msgid "When somebody signs in for the first time where two-factor sign-in uses an authenticator app."
 msgstr "Wenn sich jemand zum ersten Mal anmeldet, wo die Zwei-Faktor-Anmeldung eine Authenticator-App nutzt."
+
+#. When a notification is sent
+#: onedesk/notifications/one_inventory/material_request_stopped.md
+msgid "When somebody stops a request you made."
+msgstr "Wenn jemand eine Ihrer Anforderungen anhält."
 
 #. When a notification is sent
 #: onedesk/notifications/one_calendar/taken_off_an_event.md
@@ -35317,6 +35456,11 @@ msgstr "Wenn die Feiertagsliste in 60, 30 oder 7 Tagen endet, ohne dass eine fol
 #: onedesk/notifications/one_project/hours_over_plan.md
 msgid "When the hours logged on a task, or on a whole project, pass the hours it planned."
 msgstr "Wenn die auf einer Aufgabe oder einem ganzen Projekt erfassten Stunden die geplanten überschreiten."
+
+#. When a notification is sent
+#: onedesk/notifications/one_inventory/material_request_done.md
+msgid "When the items you asked to be moved or issued have all been moved or issued."
+msgstr "Wenn alle Artikel, die Sie angefordert haben, umgelagert oder ausgegeben sind."
 
 #. When a notification is sent
 #: onedesk/notifications/one_task/task_ready.md
@@ -36048,6 +36192,8 @@ msgstr "Wer ist abwesend"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/job_requisition_answered.md
+#: onedesk/notifications/one_inventory/material_request_done.md
+#: onedesk/notifications/one_inventory/material_request_stopped.md
 #: onedesk/notifications/one_storage/file_request_answered.md
 #: onedesk/notifications/one_storage/file_request_complete.md
 msgid "Whoever asked"
@@ -36114,15 +36260,29 @@ msgid "Whoever keeps the stores"
 msgstr "Wer das Lager führt"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_inventory/stock_asked.md
+msgid "Whoever keeps the stores, or makes it for a manufacture request"
+msgstr "Wer das Lager führt, oder fertigt, bei einer Fertigungsanforderung"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_calendar/starting_soon.md
 msgid "Whoever made it and everybody invited"
 msgstr "Wer ihn angelegt hat und alle Eingeladenen"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_crm/contract_expiring.md
+msgid "Whoever made it, and the user it names"
+msgstr "Wer ihn erstellt hat, und der genannte Benutzer"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_book/invoice_overdue.md
-#: onedesk/notifications/one_book/paid_online.md
 msgid "Whoever made the invoice and the customer's account manager"
 msgstr "Wer die Rechnung erstellt hat und der Kundenbetreuer"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_book/paid_online.md
+msgid "Whoever made the invoice or order and the customer's account manager"
+msgstr "Wer die Rechnung oder den Auftrag erstellt hat, und die Kundenbetreuung"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_inventory/order_late.md
@@ -36152,6 +36312,11 @@ msgid "Whoever made the request, or purchasing when they cannot sign in"
 msgstr "Wer die Anfrage erstellt hat, oder der Einkauf, wenn diese Person sich nicht anmelden kann"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_inventory/back_from_supplier_late.md
+msgid "Whoever made the subcontracting order"
+msgstr "Wer den Lohnfertigungsauftrag erstellt hat"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_admin/payment_failed.md
 #: onedesk/notifications/one_admin/trial_ending.md
 msgid "Whoever pays for the workspace"
@@ -36166,6 +36331,11 @@ msgstr "Wer auf Mit OneAI reparieren gedrückt hat"
 #: onedesk/notifications/one_hr/referral_answered.md
 msgid "Whoever referred them"
 msgstr "Wer empfohlen hat"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one/repeat_failed.md
+msgid "Whoever set up the repeat, and accounts for an invoice, bill, order or entry"
+msgstr "Wer die Wiederholung eingerichtet hat, und die Buchhaltung bei Rechnung, Auftrag oder Buchung"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one/portal_link.md
@@ -37572,6 +37742,11 @@ msgid "Your request was approved. Your name and address are being removed from t
 msgstr "Ihre Anfrage wurde genehmigt. Ihr Name und Ihre Adresse werden aus den Unterlagen des Arbeitsbereichs entfernt. Unterlagen, die gesetzlich aufbewahrt werden müssen, etwa Rechnungen, bleiben ohne sie."
 
 #. Subject of a notification
+#: onedesk/notifications/one_inventory/material_request_done.md
+msgid "Your request {request} was {status}"
+msgstr "Ihre Anforderung {request} wurde {status}"
+
+#. Subject of a notification
 #: onedesk/notifications/one_hr/job_requisition_answered.md
 msgid "Your requisition for {designation} was {status}"
 msgstr "Ihre Anforderung für {designation} wurde {status}"
@@ -37787,7 +37962,7 @@ msgstr "bereits gesetzt"
 msgid "an hour"
 msgstr "eine Stunde"
 
-#: onedesk/one_hr/tell.py:808
+#: onedesk/one_hr/tell.py:815
 msgid "an opening"
 msgstr "eine offene Stelle"
 
@@ -37800,7 +37975,7 @@ msgstr "einem Betreiber"
 msgid "and {0} more"
 msgstr "und {0} weitere"
 
-#: onedesk/one_hr/tell.py:792
+#: onedesk/one_hr/tell.py:797
 msgid "approved"
 msgstr "genehmigt"
 
@@ -38161,7 +38336,7 @@ msgstr "kann kein KI-Aufruf bepreist werden"
 msgid "no address or domain works"
 msgstr "funktioniert keine Adresse und keine Domain"
 
-#: onedesk/one_inventory/tell.py:50
+#: onedesk/one_inventory/tell.py:48 onedesk/one_inventory/tell.py:65
 msgid "no date"
 msgstr "kein Datum"
 
@@ -38382,7 +38557,7 @@ msgstr ""
 msgid "register number"
 msgstr "Registernummer"
 
-#: onedesk/one_hr/tell.py:792
+#: onedesk/one_hr/tell.py:797
 msgid "rejected"
 msgstr "abgelehnt"
 
@@ -41365,6 +41540,11 @@ msgstr "{by} hat Ihren Passkey zurückgesetzt. Öffnen Sie One auf dem neuen Han
 msgid "{by} sent you {what}"
 msgstr "{by} hat Ihnen {what} gesendet"
 
+#. Subject of a notification
+#: onedesk/notifications/one_inventory/material_request_stopped.md
+msgid "{by} stopped your request {request}"
+msgstr "{by} hat Ihre Anforderung {request} angehalten"
+
 #. Message of a notification
 #: onedesk/notifications/one_book/credit_limit_crossed.md
 msgid "{by} was stopped from going ahead with a sale to them. They owe {outstanding} against a limit of {limit}. Raise the limit on the customer, or get paid first."
@@ -41741,6 +41921,11 @@ msgid "{step} on {title} is due"
 msgstr "{step} bei {title} ist fällig"
 
 #. Subject of a notification
+#: onedesk/notifications/one_inventory/back_from_supplier_late.md
+msgid "{supplier} is late returning {order}"
+msgstr "{supplier} ist mit der Rückgabe von {order} im Verzug"
+
+#. Subject of a notification
 #: onedesk/notifications/one_inventory/order_late.md
 msgid "{supplier} is late with {order}"
 msgstr "{supplier} ist mit {order} überfällig"
@@ -41860,6 +42045,7 @@ msgstr "{who} hat {collection} hinzugefügt"
 
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/material_request_asked.md
+#: onedesk/notifications/one_inventory/stock_asked.md
 msgid "{who} asked for {items}"
 msgstr "{who} hat {items} angefordert"
 
@@ -42013,6 +42199,11 @@ msgstr "{who} hat {title} ausgeschaltet"
 #: onedesk/notifications/one_studio/extension_turned_on.md
 msgid "{who} turned on {title}"
 msgstr "{who} hat {title} eingeschaltet"
+
+#. Subject of a notification
+#: onedesk/notifications/one_crm/they_replied.md
+msgid "{who} wrote about {title}"
+msgstr "{who} hat zu {title} geschrieben"
 
 #. Message of a notification
 #: onedesk/notifications/one_calendar/event_invitation.md

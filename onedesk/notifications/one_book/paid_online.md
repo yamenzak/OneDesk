@@ -2,8 +2,8 @@
 name: Paid Online
 app: OneBook
 roles: Accounts User, Accounts Manager, Sales User, Sales Manager
-about: When a customer pays an invoice online, through its payment link.
-to: Whoever made the invoice and the customer's account manager
+about: When a customer pays an invoice, or an order's deposit, online through its payment link.
+to: Whoever made the invoice or order and the customer's account manager
 email_default: yes
 push_default: yes
 ---

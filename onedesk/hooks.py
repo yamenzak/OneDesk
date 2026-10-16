@@ -174,6 +174,8 @@ scheduler_events = {
 			"onedesk.one_crm.tell.running_out",
 			"onedesk.one_book.tell.overdue",
 			"onedesk.one_inventory.tell.deliveries_late",
+			"onedesk.one_inventory.tell.back_late",
+			"onedesk.one_crm.tell.contracts_ending",
 		],
 		# Supplier bills due in the coming week, on Monday. See one_book/tell.py.
 		"25 6 * * 1": ["onedesk.one_book.tell.bills_due"],
@@ -250,6 +252,9 @@ scheduler_events = {
 		# A failed recalculation of stock values, or a warehouse posting to the
 		# wrong account, told to the stock and accounts managers. See one_inventory/tell.py.
 		"onedesk.one_inventory.tell.stock_values",
+		# Reordering that failed, and a repeat switched off. See one_inventory/tell.py, one/tell.py.
+		"onedesk.one_inventory.tell.reorder_failed",
+		"onedesk.one.tell.repeats_failed",
 	],
 	# What OneAI read for each person this week. See one_intake/digest.py.
 	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
@@ -274,7 +279,7 @@ doc_events = {
 	"Stock Entry": {
 		"before_validate": "onedesk.one_project.money.issued",
 		# A work order made in full, told to whoever asked. See one_inventory/tell.py.
-		"on_submit": "onedesk.one_inventory.tell.work_done",
+		"on_submit": ["onedesk.one_inventory.tell.work_done", "onedesk.one_inventory.tell.moved"],
 	},
 	# A change opened in the Audit Log shows only the fields its reader may read.
 	# See one/audit.py.
@@ -831,6 +836,7 @@ doc_events = {
 			# An open mailbox redraws. See one_mail/live.py.
 			"onedesk.one_mail.live.inserted",
 			"onedesk.one_crm.capture.replied",
+			"onedesk.one_crm.tell.they_replied",
 			# An emailed answer to a project's ask. See one_project/updates.py.
 			"onedesk.one_project.updates.answered",
 		],
@@ -879,6 +885,7 @@ doc_events = {
 # A form's timeline lists only the mail its reader may open: a link to a
 # record never grants read. See one_mail/linking.py.
 override_whitelisted_methods = {
+	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
 	"frappe.desk.form.load.getdoc": "onedesk.one_mail.linking.getdoc",
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",

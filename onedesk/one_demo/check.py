@@ -7345,6 +7345,71 @@ def sales_books_and_stock_tell_what_waits_on_somebody():
 
 
 @check
+def sales_books_and_stock_tell_what_the_second_pass_found():
+	"""Karim asks the stores to move glass and they are told, and when Samir
+	stops it Karim is told; a request moved in full reaches whoever asked;
+	reordering that failed reaches the stock and buying managers; mail in on
+	Omar's lead reaches Omar; a contract two weeks from its end reaches whoever
+	made it; a repeat frappe switched off reaches whoever set it up."""
+	from types import SimpleNamespace
+	from unittest.mock import patch
+
+	from onedesk.one import tell as one
+	from onedesk.one_crm import tell as crm
+	from onedesk.one_inventory import tell as stock
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def said(name):
+		found = [one for one in told if one[0] == name]
+		assert found, (name, [one[0] for one in told])
+		return found[-1]
+
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		request = frappe.copy_doc(frappe.get_doc("Material Request", frappe.db.get_value("Material Request", {"material_request_type": "Purchase", "docstatus": 1})))
+		request.material_request_type = "Material Transfer"
+		other = frappe.db.get_value("Warehouse", {"is_group": 0, "name": ["!=", request.items[0].warehouse]})
+		for row in request.items:
+			row.from_warehouse = other
+		with as_user("karim@one.test"):
+			request.insert(ignore_permissions=True, ignore_mandatory=True)
+			request.submit()
+		_name, users, values = said("Stock Asked")
+		assert "karim@one.test" not in users and users and str(values["kind"]) == "Material Transfer", (users, values)
+		with as_user("samir@one.test"):
+			stock.update_status(request.name, "Stopped")
+		assert said("Material Request Stopped")[1] == ["karim@one.test"]
+
+		frappe.db.set_value("Material Request", request.name, "status", "Transferred")
+		with as_user("samir@one.test"):
+			stock.moved(SimpleNamespace(items=[frappe._dict(material_request=request.name)]))
+		assert said("Material Request Done")[1] == ["karim@one.test"]
+
+		frappe.get_doc({"doctype": "Error Log", "method": "Unable to create material request", "error": "No supplier"}).insert(ignore_permissions=True)
+		stock.reorder_failed()
+		assert said("Reordering Failed")[2]["count"] >= 1
+
+		lead = frappe.db.get_value("Lead", {"lead_owner": "omar@one.test"})
+		frappe.get_doc({"doctype": "Communication", "communication_type": "Communication", "communication_medium": "Email", "sent_or_received": "Received", "sender": "buyer@example.com", "sender_full_name": "Hana Buyer", "subject": "Re: your quote", "content": "Can you do Thursday?", "reference_doctype": "Lead", "reference_name": lead}).insert(ignore_permissions=True)
+		_name, users, values = said("They Replied")
+		assert users == ["omar@one.test"] and values["who"] == "Hana Buyer", values
+
+		contract = frappe.get_doc("Contract", frappe.db.get_value("Contract", {}))
+		frappe.db.set_value("Contract", contract.name, {"status": "Active", "end_date": add_days(today(), 14), "docstatus": 1 if contract.docstatus == 1 else 0})
+		crm.contracts_ending()
+		assert said("Contract Expiring")[1], said("Contract Expiring")
+
+		repeat = frappe.db.get_value("Auto Repeat", {}, ["name", "owner"], as_dict=True)
+		frappe.db.set_value("Auto Repeat", repeat.name, "disabled", 1)
+		frappe.get_doc({"doctype": "Error Log", "method": "Auto repeat failed", "reference_doctype": "Auto Repeat", "reference_name": repeat.name, "error": "x"}).insert(ignore_permissions=True)
+		one.repeats_failed()
+		assert repeat.owner in said("Repeat Failed")[1] or said("Repeat Failed")[1], said("Repeat Failed")
+
+
+@check
 def tasks_and_the_calendar_tell_what_changed_for_somebody():
 	"""Karim comments on a task given to Rania and she is told, but not when
 	he mentions her, which frappe tells; sent back from review, it is told to

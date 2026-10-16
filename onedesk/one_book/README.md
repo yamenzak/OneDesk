@@ -156,7 +156,9 @@ whoever made it and the customer's account manager are told (**Invoice
 Overdue**). On Monday morning accounts hear what supplier bills fall due that
 week (**Bills Due This Week**). A customer paying through a payment link is
 told to the same people as an overdue invoice (**Paid Online**), since no
-person entered it. **Credit Limit Crossed** reaches the role Accounts Settings
+person entered it; a deposit paid on an order the same way. A repeating
+invoice or bill that frappe switched off, because the next could not be made,
+is told to whoever set it up and accounts (**Repeat Failed**, one/tell.py). **Credit Limit Crossed** reaches the role Accounts Settings
 names as credit controller, with who was stopped.
 
 **Chasing by hand.** On an overdue invoice, **Create › Dunning** makes a

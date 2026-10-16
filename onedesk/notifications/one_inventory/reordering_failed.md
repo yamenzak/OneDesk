@@ -1,7 +1,13 @@
 ---
 name: Reordering Failed
 app: OneInventory
-about: When reordering cannot raise a material request.
-to: The site's operators, so nobody in the workspace
-mailed_by: yes
+roles: Stock Manager, Purchase Manager
+about: When reordering could not raise a request for items below their level.
+to: The stock and buying managers
+email_default: yes
 ---
+
+# Reordering could not raise {count} requests
+
+Items below their reorder level have no request to buy them. Check their
+reorder settings and default supplier.

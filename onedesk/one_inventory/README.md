@@ -623,6 +623,16 @@ Raised**) and one a person asked for (**Material Request Asked**). A customer's
 order not all delivered by its date is told the next morning to whoever made
 it and the stock managers (**Delivery Late**).
 
+A request to move, issue or make something reaches whoever keeps the stores,
+or makes it (**Stock Asked**). Whoever asked hears when it is all moved or
+issued (**Material Request Done**; ERPNext's own rule tells only a request
+received) and when somebody stops it (**Material Request Stopped**, through
+`tell.update_status`, which wraps ERPNext's Stop). Reordering that could not
+raise a request is read from the hour's Error Log and told to the stock and
+buying managers (**Reordering Failed**); ERPNext mails it only to System
+Managers. Subcontracted goods a day late back are told to whoever ordered
+them (**Back From Supplier Late**).
+
 ## Buying equipment
 
 A laptop, a desk, a van: make it an item once, with **Is Fixed Asset** ticked

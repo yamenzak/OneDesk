@@ -161,3 +161,50 @@ def quotation_declined(quotation, user: str, reason: str) -> None:
 		quotation=quotation.name,
 		reason=reason or _("They gave no reason."),
 	)
+
+
+def they_replied(doc, method=None) -> None:
+	"""Communication after_insert: mail in on a lead or an opportunity, told
+	to its owner, wherever the mailbox it came to is."""
+	from onedesk.one_crm.next import OWNER
+
+	if doc.communication_type != "Communication" or doc.sent_or_received != "Received":
+		return
+	if doc.reference_doctype not in ("Lead", "Opportunity") or not doc.reference_name:
+		return
+	owner = frappe.db.get_value(doc.reference_doctype, doc.reference_name, OWNER[doc.reference_doctype])
+	if owner and frappe.db.get_value("User", owner, "enabled"):
+		record = frappe.get_doc(doc.reference_doctype, doc.reference_name)
+		notify.notify(
+			"They Replied",
+			owner,
+			record=(doc.reference_doctype, doc.reference_name),
+			sender="Administrator",
+			who=doc.sender_full_name or doc.sender or "",
+			title=_title(record),
+			subject=doc.subject or "",
+		)
+
+
+def contracts_ending() -> None:
+	"""Each morning: a contract that ends in two weeks, told to whoever made
+	it and the user it names. ERPNext marks it Inactive on the day."""
+	from frappe.utils import add_days, formatdate, getdate
+
+	for one in frappe.get_all(
+		"Contract",
+		filters={"docstatus": ["<", 2], "status": "Active", "end_date": add_days(getdate(), 14)},
+		fields=["name", "owner", "party_user", "party_name", "end_date"],
+	):
+		people = frappe.get_all(
+			"User", filters={"name": ["in", [one.owner, one.party_user]], "enabled": 1}, pluck="name"
+		)
+		if people:
+			notify.notify(
+				"Contract Expiring",
+				people,
+				record=("Contract", one.name),
+				sender="Administrator",
+				party=one.party_name,
+				date=formatdate(one.end_date),
+			)

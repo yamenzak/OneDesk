@@ -99,19 +99,21 @@ def bills_due() -> None:
 
 def paid_online(doc, method=None) -> None:
 	"""Payment Entry on_submit: a payment made through a payment link, told to
-	whoever made the invoice it pays and the customer's account manager."""
+	whoever made the invoice or order it pays and the customer's account
+	manager."""
 	if doc.payment_type != "Receive" or doc.party_type != "Customer":
 		return
 	for row in doc.references:
-		if not row.get("payment_request") or row.reference_doctype != "Sales Invoice":
+		# An invoice paid, or an order's deposit.
+		if not row.get("payment_request") or row.reference_doctype not in ("Sales Invoice", "Sales Order"):
 			continue
-		owner = frappe.db.get_value("Sales Invoice", row.reference_name, "owner")
+		owner = frappe.db.get_value(row.reference_doctype, row.reference_name, "owner")
 		people = [one for one in _theirs(owner, doc.party) if one != frappe.session.user]
 		if people:
 			notify.notify(
 				"Paid Online",
 				people,
-				record=("Sales Invoice", row.reference_name),
+				record=(row.reference_doctype, row.reference_name),
 				sender="Administrator",
 				customer=doc.party_name or doc.party,
 				amount=fmt_money(row.allocated_amount, currency=doc.paid_from_account_currency),

@@ -2,7 +2,7 @@
 they may do, their data and their sign-in (notifications/one/)."""
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 from onedesk.one import notify, roles
 
@@ -593,3 +593,47 @@ def _or(said: list[str]) -> str:
 	if len(said) < 2:
 		return "".join(said)
 	return _("{0} or {1}").format(", ".join(said[:-1]), said[-1])
+
+
+# ------------------------------------------------------------------ repeats
+
+
+def repeats_failed() -> None:
+	"""Hourly: a repeat frappe switched off because the next one could not be
+	made, from the hour's Error Log, told to whoever set it up, and accounts
+	for an invoice, bill or entry. frappe mails System Managers, nobody's
+	role in a workspace."""
+	from frappe.utils import add_to_date, now_datetime
+	from frappe.utils.user import get_users_with_role
+
+	books = ("Sales Invoice", "Purchase Invoice", "Journal Entry", "Sales Order", "Purchase Order")
+	for repeat in dict.fromkeys(
+		frappe.get_all(
+			"Error Log",
+			filters={
+				"reference_doctype": "Auto Repeat",
+				"creation": [">=", add_to_date(now_datetime(), hours=-1)],
+			},
+			pluck="reference_name",
+		)
+	):
+		one = frappe.db.get_value(
+			"Auto Repeat",
+			repeat,
+			["owner", "reference_doctype", "reference_document", "disabled"],
+			as_dict=True,
+		)
+		if not one or not one.disabled:
+			continue
+		people = [
+			one.owner,
+			*(get_users_with_role("Accounts Manager") if one.reference_doctype in books else []),
+		]
+		notify.notify(
+			"Repeat Failed",
+			frappe.get_all("User", filters={"name": ["in", people], "enabled": 1}, pluck="name"),
+			record=("Auto Repeat", repeat),
+			sender="Administrator",
+			kind=_lt(one.reference_doctype),
+			document=one.reference_document,
+		)
