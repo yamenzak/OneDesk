@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 08:09+0000\n"
+"POT-Creation-Date: 2026-10-16 10:00+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -849,13 +849,9 @@ msgstr "Eine Linie in der Markenfarbe unter der Kopfzeile."
 msgid "A line of an invoice or a receipt."
 msgstr "Eine Zeile einer Rechnung oder eines Belegs."
 
-#: onedesk/one/portal_share.py:215
+#: onedesk/one/portal_share.py:219
 msgid "A link needs an email address to go to."
 msgstr "Ein Link braucht eine E-Mail-Adresse, an die er geht."
-
-#: onedesk/public/js/portal_share.js:97
-msgid "A link opens this record for one person without an account, until its day. {0}"
-msgstr "Ein Link öffnet diesen Datensatz für eine Person ohne Konto, bis zu seinem Tag. {0}"
 
 #: onedesk/one_book/home.py:284
 msgid "A link sent to a customer to pay online."
@@ -3059,7 +3055,6 @@ msgstr "Preisanfrage beantworten"
 #: frontend/src/quotes/RequestRows.vue:11
 #: frontend/src/quotes/RequestRows.vue:28
 #: frontend/src/quotes/RequestRows.vue:70 onedesk/public/js/crm_record.js:90
-#: onedesk/public/js/portal_share.js:20
 msgid "Answered"
 msgstr "Angenommen"
 
@@ -3072,6 +3067,10 @@ msgstr "Beantwortet von"
 #: onedesk/one/doctype/portal_link/portal_link.json
 msgid "Answered On"
 msgstr "Beantwortet am"
+
+#: onedesk/public/js/portal_share.js:20
+msgid "Answered by {0}, {1}"
+msgstr "Beantwortet von {0}, {1}"
 
 #: frontend/portal/src/pages/Record.vue:70
 #: frontend/portal/src/pages/Rfq.vue:107
@@ -3859,7 +3858,7 @@ msgstr ""
 msgid "Assignment for {0} {1}"
 msgstr ""
 
-#: frontend/src/floor/OrderRows.vue:11 onedesk/public/js/portal_share.js:124
+#: frontend/src/floor/OrderRows.vue:11
 msgid "At"
 msgstr "Bei"
 
@@ -5289,6 +5288,10 @@ msgstr "Kann nur steigen, nicht unter {0}, verwendet von {1} {2}."
 msgid "Can only go up."
 msgstr "Kann nur steigen."
 
+#: onedesk/public/js/portal_share.js:95
+msgid "Can see"
+msgstr "Kann sehen"
+
 #. Label of the allow_upload (Check) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/public/js/onecloud.js:1444
@@ -5837,7 +5840,7 @@ msgstr ""
 msgid "Child Tasks"
 msgstr "Unteraufgaben"
 
-#: onedesk/one/portal_share.py:218
+#: onedesk/one/portal_share.py:234
 msgid "Choose a day that hasn't passed."
 msgstr "Wählen Sie einen Tag, der noch nicht vorbei ist."
 
@@ -5897,7 +5900,7 @@ msgstr "Wähle die Lieferanten, die gefragt werden sollen."
 msgid "Choose what the rule watches."
 msgstr "Wählen Sie, was die Regel beobachtet."
 
-#: onedesk/one/portal_share.py:211
+#: onedesk/one/portal_share.py:215
 msgid "Choose who at which supplier the link is for."
 msgstr "Wählen Sie, für wen bei welchem Lieferanten der Link ist."
 
@@ -6030,7 +6033,6 @@ msgstr "Einchecken-Signal"
 
 #: frontend/src/kit/Drawer.vue:11 onedesk/public/js/oneai/Panel.vue:38
 #: onedesk/public/js/onecloud.js:2275 onedesk/public/js/opportunity.js:17
-#: onedesk/public/js/portal_share.js:146
 msgid "Close"
 msgstr "Schließen"
 
@@ -6809,7 +6811,7 @@ msgstr "{0} Elemente kopiert"
 #: onedesk/public/js/intake.js:156 onedesk/public/js/intake.js:191
 #: onedesk/public/js/onecloud.js:100 onedesk/public/js/onecloud.js:1712
 #: onedesk/public/js/onecloud.js:1809 onedesk/public/js/onecloud.js:1934
-#: onedesk/public/js/portal_share.js:46 onedesk/public/js/settings.js:2510
+#: onedesk/public/js/portal_share.js:114 onedesk/public/js/settings.js:2510
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -6831,6 +6833,10 @@ msgstr "Kopie von"
 #: onedesk/public/js/project_template_list.js:17
 msgid "Copy Template"
 msgstr "Vorlage übernehmen"
+
+#: onedesk/public/js/portal_share.js:69
+msgid "Copy a link without sending it"
+msgstr "Einen Link kopieren, ohne ihn zu senden"
 
 #. Task in the Marketing Campaign project template
 #: onedesk/one_project/library/marketing_campaign.json
@@ -8612,6 +8618,11 @@ msgstr "Wartende Domains"
 msgid "Done"
 msgstr "Erledigt"
 
+#: onedesk/public/js/portal_share.js:33
+msgctxt "Close a dialog"
+msgid "Done"
+msgstr "Fertig"
+
 #. Label of the done_when (Small Text) field in DocType 'Task Step'
 #: onedesk/one_task/doctype/task_step/task_step.json
 msgid "Done When"
@@ -9253,11 +9264,11 @@ msgstr "„Eines von beiden“ akzeptiert ein Einchecken, das eine der beiden Pr
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
-#: onedesk/public/js/portal_share.js:120 onedesk/public/js/record.js:186
-#: onedesk/public/js/settings.js:324 onedesk/public/js/settings.js:1441
-#: onedesk/public/js/settings.js:1796 onedesk/public/js/settings.js:2201
-#: onedesk/public/js/settings.js:3058 onedesk/www/account_profile.html:33
-#: onedesk/www/start.html:37 onedesk/www/your_data.html:25
+#: onedesk/public/js/record.js:186 onedesk/public/js/settings.js:324
+#: onedesk/public/js/settings.js:1441 onedesk/public/js/settings.js:1796
+#: onedesk/public/js/settings.js:2201 onedesk/public/js/settings.js:3058
+#: onedesk/www/account_profile.html:33 onedesk/www/start.html:37
+#: onedesk/www/your_data.html:25
 msgid "Email"
 msgstr "E-Mail"
 
@@ -9265,7 +9276,7 @@ msgstr "E-Mail"
 msgid "Email Address"
 msgstr "E-Mail-Adresse"
 
-#: onedesk/public/js/portal_share.js:47
+#: onedesk/public/js/portal_share.js:115
 msgid "Email Again"
 msgstr "Erneut mailen"
 
@@ -9289,6 +9300,10 @@ msgstr ""
 #: onedesk/one/settings.py:831
 msgid "Email Link Sign-in"
 msgstr "Anmeldung per E-Mail-Link"
+
+#: onedesk/public/js/portal_share.js:72
+msgid "Email address"
+msgstr "E-Mail-Adresse"
 
 #: onedesk/public/js/onecloud.js:1434
 msgid "Email addresses"
@@ -9324,10 +9339,6 @@ msgstr "Die E-Mail wird immer gesendet, damit man antworten kann."
 #: onedesk/public/js/onecloud.js:1719
 msgid "Email isn't set up, so these links weren't sent."
 msgstr "E-Mail ist nicht eingerichtet, daher wurden diese Links nicht gesendet."
-
-#: onedesk/public/js/portal_share.js:138
-msgid "Email it to them"
-msgstr "Per E-Mail an sie senden"
 
 #: onedesk/one/settings.py:138
 msgid "Emails you the notifications turned on for email below."
@@ -10086,10 +10097,6 @@ msgstr "Alle im Team"
 msgid "Everyone on {0}"
 msgstr "Alle in {0}"
 
-#: onedesk/public/js/portal_share.js:89
-msgid "Everyone ticked sees it, and so will a contact who signs in later. Untick who shouldn't."
-msgstr "Alle Angehakten sehen ihn, ebenso ein Kontakt, der sich später anmeldet. Entfernen Sie den Haken bei denen, die ihn nicht sehen sollen."
-
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Everyone told and labels given out"
@@ -10309,7 +10316,6 @@ msgstr "Arbeitszeugnis"
 #: frontend/src/lots/LotRows.vue:79 frontend/src/lots/LotsPage.vue:125
 #: frontend/src/quotes/QuoteRows.vue:76
 #: onedesk/public/js/credit_ledger_entry_list.js:19
-#: onedesk/public/js/portal_share.js:21
 msgid "Expired"
 msgstr "Abgelaufen"
 
@@ -11188,7 +11194,6 @@ msgstr ""
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:9
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 #: onedesk/public/js/doctype_settings.js:540
-#: onedesk/public/js/portal_share.js:116
 msgid "For"
 msgstr "Für"
 
@@ -12181,6 +12186,10 @@ msgstr "Hilf mir, das einzurichten"
 #: onedesk/one/ai.py:472 onedesk/public/js/settings.js:3079
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr "Hilf mir, eine Benachrichtigungsregel einzurichten. Frag mich, was passieren soll und wer benachrichtigt werden soll, und schlage dann die Regel vor."
+
+#: onedesk/public/js/portal_share.js:96
+msgid "Hidden"
+msgstr "Verborgen"
 
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Delivery Note'
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Purchase
@@ -14939,10 +14948,6 @@ msgstr "Nur früher gegangen"
 msgid "Left as Drafts"
 msgstr "Als Entwurf liegen geblieben"
 
-#: onedesk/public/js/portal_share.js:136
-msgid "Left empty, a month from today"
-msgstr "Leer gelassen, ein Monat ab heute"
-
 #. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
@@ -14951,10 +14956,6 @@ msgstr "Bleibt es leer, wird das Vorschusskonto des Unternehmens und die Kostens
 #: onedesk/public/js/lots_actions.js:105
 msgid "Left empty, the next number is given."
 msgstr "Leer gelassen, wird die nächste Nummer vergeben."
-
-#: onedesk/public/js/portal_share.js:135
-msgid "Left empty, the quotation's last day or a month from today"
-msgstr "Leer gelassen, der letzte Tag des Angebots oder ein Monat ab heute"
 
 #: onedesk/public/js/quotes_actions.js:42
 msgid "Left empty, the usual message is sent."
@@ -15226,7 +15227,7 @@ msgstr "Link abgelaufen"
 msgid "Link not working"
 msgstr "Link funktioniert nicht"
 
-#: onedesk/public/js/portal_share.js:171 onedesk/public/js/portal_share.js:202
+#: onedesk/public/js/portal_share.js:146 onedesk/public/js/portal_share.js:168
 msgid "Link sent"
 msgstr "Link gesendet"
 
@@ -15300,7 +15301,7 @@ msgstr "Verknüpfter Abschnitt {0}"
 msgid "Linked to {0}"
 msgstr "Mit {0} verknüpft"
 
-#: onedesk/public/js/onecloud.js:1391 onedesk/public/js/portal_share.js:93
+#: onedesk/public/js/onecloud.js:1391 onedesk/public/js/portal_share.js:126
 #: onedesk/public/js/settings.js:1052 onedesk/public/js/settings.js:1482
 msgid "Links"
 msgstr "Links"
@@ -15893,10 +15894,6 @@ msgstr "Wartung nach Monat"
 msgid "Make Default"
 msgstr "Als Standard festlegen"
 
-#: onedesk/public/js/portal_share.js:139 onedesk/public/js/portal_share.js:189
-msgid "Make Link"
-msgstr "Link erstellen"
-
 #: onedesk/public/js/settings.js:2482
 msgid "Make Main Address"
 msgstr "Zur Hauptadresse machen"
@@ -15922,7 +15919,7 @@ msgstr "Erstelle eine Sammlung für "
 msgid "Make a collection…"
 msgstr "Sammlung erstellen…"
 
-#: onedesk/public/js/portal_share.js:180
+#: onedesk/public/js/portal_share.js:176
 msgid "Make a new link in its place? The old one stops opening."
 msgstr "Einen neuen Link an seiner Stelle erstellen? Der alte öffnet sich nicht mehr."
 
@@ -17193,7 +17190,6 @@ msgid "New Level"
 msgstr "Neue Stufe"
 
 #: onedesk/public/js/calendar_link.js:33 onedesk/public/js/calendar_link.js:78
-#: onedesk/public/js/portal_share.js:112
 msgid "New Link"
 msgstr "Neuer Link"
 
@@ -17599,6 +17595,10 @@ msgstr "Kein Zugriff"
 msgid "No access levels"
 msgstr "Keine Zugriffsstufen"
 
+#: onedesk/public/js/portal_share.js:75
+msgid "No account needed. It opens until {0}."
+msgstr "Kein Konto nötig. Er öffnet sich bis {0}."
+
 #: onedesk/public/js/settings.js:2599
 msgid "No actions"
 msgstr "Keine Aktionen"
@@ -17675,10 +17675,6 @@ msgstr "Kein Kalender-Link"
 #: onedesk/one_hr/tell.py:115
 msgid "No changes found in timings."
 msgstr "An den Zeiten hat sich nichts geändert."
-
-#: onedesk/public/js/portal_share.js:71
-msgid "No contact of {0} signs in to the portal yet."
-msgstr "Noch kein Kontakt von {0} meldet sich im Portal an."
 
 #: frontend/src/project/Team.vue:67
 msgid "No contacts"
@@ -17838,10 +17834,6 @@ msgstr "Keine Bibliotheken"
 #: frontend/src/item/ItemSelling.vue:112
 msgid "No limit"
 msgstr "Keine Grenze"
-
-#: onedesk/public/js/portal_share.js:26
-msgid "No links yet."
-msgstr "Noch keine Links."
 
 #: onedesk/public/js/settings.js:2653
 msgid "No longer offered"
@@ -18238,6 +18230,10 @@ msgstr "Niemand"
 msgid "Nobody Applied"
 msgstr "Niemand beworben"
 
+#: onedesk/public/js/portal_share.js:84
+msgid "Nobody at {0} signs in to the portal yet."
+msgstr "Bei {0} meldet sich noch niemand im Portal an."
+
 #: onedesk/one_hr/heads.py:234
 msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
 msgstr "Für {0} kann niemand einen Schichtantrag genehmigen. Tragen Sie zuerst im Mitarbeiterdatensatz einen Genehmiger für Schichtanträge ein."
@@ -18523,6 +18519,10 @@ msgstr "Noch keiner Zahlung zugeordnet."
 #: onedesk/public/js/ai_model_list.js:20
 msgid "Not offered"
 msgstr "Nicht angeboten"
+
+#: onedesk/public/js/portal_share.js:22
+msgid "Not opened yet"
+msgstr "Noch nicht geöffnet"
 
 #: onedesk/one_inventory/heads.py:293 onedesk/one_inventory/heads.py:347
 msgid "Not ordered"
@@ -19871,7 +19871,7 @@ msgstr "Nur ein Lead oder eine Chance hat einen Verantwortlichen."
 msgid "Only a lead or an opportunity has calls."
 msgstr "Nur ein Lead oder eine Chance hat Anrufe."
 
-#: onedesk/one/portal_share.py:286
+#: onedesk/one/portal_share.py:302
 msgid "Only a link that still opens can be sent."
 msgstr "Nur ein Link, der sich noch öffnet, kann gesendet werden."
 
@@ -20077,7 +20077,7 @@ msgstr "Nur die Person, die {0} verbunden hat, kann es entfernen."
 msgid "Only the person who saved a report, or an administrator, can move it."
 msgstr "Nur die Person, die einen Bericht gespeichert hat, oder ein Administrator kann ihn verschieben."
 
-#: onedesk/one/portal_share.py:158
+#: onedesk/one/portal_share.py:161
 msgid "Only the record's own contacts can be hidden from."
 msgstr "Nur vor den eigenen Kontakten des Datensatzes kann er verborgen werden."
 
@@ -20133,9 +20133,9 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 #: onedesk/public/js/doctype_settings.js:907 onedesk/public/js/intake.js:215
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:756
 #: onedesk/public/js/onecloud.js:1902 onedesk/public/js/onecloud.js:1910
-#: onedesk/public/js/onecloud.js:1926 onedesk/public/js/portal_share.js:19
-#: onedesk/public/js/project_actions.js:68 onedesk/public/js/project_tree.js:23
-#: onedesk/www/account.html:31 onedesk/www/s.html:48 onedesk/www/s.html:56
+#: onedesk/public/js/onecloud.js:1926 onedesk/public/js/project_actions.js:68
+#: onedesk/public/js/project_tree.js:23 onedesk/www/account.html:31
+#: onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr "Offen"
 
@@ -20250,7 +20250,7 @@ msgstr "In der Werkstatt öffnen"
 msgid "Open record"
 msgstr "Datensatz öffnen"
 
-#: onedesk/one/portal_share.py:300
+#: onedesk/one/portal_share.py:316
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
@@ -20264,6 +20264,14 @@ msgstr "{0} ältere Einträge öffnen"
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
 msgid "Opened on"
 msgstr "Geöffnet am"
+
+#: onedesk/public/js/portal_share.js:22
+msgid "Opened once"
+msgstr "Einmal geöffnet"
+
+#: onedesk/public/js/portal_share.js:22
+msgid "Opened {0} times"
+msgstr "{0}-mal geöffnet"
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:167
 msgid "Opening"
@@ -21659,6 +21667,10 @@ msgstr "Man kann sich mit einem per E-Mail gesendeten Link statt eines Passworts
 msgid "People on Other Lists"
 msgstr "Personen auf anderen Listen"
 
+#: onedesk/public/js/portal_share.js:105
+msgid "People on the portal"
+msgstr "Personen im Portal"
+
 #: onedesk/one/settings.py:816
 msgid "People sign in with the passkey on their own device, without a password."
 msgstr "Die Leute melden sich mit dem Passkey auf ihrem eigenen Gerät an, ohne Passwort."
@@ -22178,7 +22190,7 @@ msgstr "Port"
 
 #: frontend/portal/src/parts/PortalSidebar.vue:4
 #: frontend/src/project/Team.vue:40 onedesk/public/js/contact.js:24
-#: onedesk/public/js/portal_share.js:143 onedesk/public/js/portal_share.js:214
+#: onedesk/public/js/portal_share.js:193
 msgid "Portal"
 msgstr "Portal"
 
@@ -24868,7 +24880,7 @@ msgid "Revision"
 msgstr "Revision"
 
 #: frontend/portal/src/pages/Apps.vue:15 frontend/portal/src/pages/Apps.vue:20
-#: frontend/portal/src/pages/Apps.vue:25 onedesk/public/js/portal_share.js:49
+#: frontend/portal/src/pages/Apps.vue:25 onedesk/public/js/portal_share.js:117
 msgid "Revoke"
 msgstr "Widerrufen"
 
@@ -24887,7 +24899,6 @@ msgstr "Die verbleibenden {0} Credits entziehen?"
 #. Label of the disabled (Check) field in DocType 'Portal Link'
 #: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/public/js/credit_ledger_entry_list.js:23
-#: onedesk/public/js/portal_share.js:22
 msgid "Revoked"
 msgstr "Entzogen"
 
@@ -24945,7 +24956,7 @@ msgstr "Dachdecke"
 msgid "Roof waterproofing"
 msgstr "Dachabdichtung"
 
-#: onedesk/public/js/portal_share.js:48
+#: onedesk/public/js/portal_share.js:116
 msgid "Rotate"
 msgstr "Erneuern"
 
@@ -25277,8 +25288,7 @@ msgstr "Samstag"
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/item_actions.js:40
 #: onedesk/public/js/lots_actions.js:60 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1629 onedesk/public/js/onemail.js:932
-#: onedesk/public/js/onemail.js:956 onedesk/public/js/portal_share.js:146
-#: onedesk/public/js/project_actions.js:72
+#: onedesk/public/js/onemail.js:956 onedesk/public/js/project_actions.js:72
 #: onedesk/public/js/project_actions.js:326
 #: onedesk/public/js/project_actions.js:373
 #: onedesk/public/js/project_actions.js:507
@@ -25311,8 +25321,7 @@ msgstr "In Meinen Dateien speichern"
 #: frontend/portal/src/parts/WebForm.vue:125
 #: frontend/src/item/ItemBarcodes.vue:85
 #: onedesk/one/page/masters/masters.js:238
-#: onedesk/one/page/masters/masters.js:257
-#: onedesk/public/js/portal_share.js:155 onedesk/public/js/reports.js:429
+#: onedesk/one/page/masters/masters.js:257 onedesk/public/js/reports.js:429
 #: onedesk/public/js/shell.js:530
 msgid "Saved"
 msgstr "Gespeichert"
@@ -25604,7 +25613,7 @@ msgstr "Verkauf, Einkauf und Lager eingerichtet"
 msgid "Send"
 msgstr "Senden"
 
-#: onedesk/www/your_data.html:38
+#: onedesk/public/js/portal_share.js:68 onedesk/www/your_data.html:38
 msgid "Send Link"
 msgstr "Link senden"
 
@@ -25741,7 +25750,7 @@ msgstr "Maschinell versandt"
 msgid "Sent by {0}"
 msgstr "Gesendet von {0}"
 
-#: onedesk/one/portal_share.py:418
+#: onedesk/one/portal_share.py:434
 msgid "Sent by {0}."
 msgstr "Gesendet von {0}."
 
@@ -27110,7 +27119,7 @@ msgstr "Jemand, der sich gemeldet hat, oder jemand, den Sie erreichen möchten."
 msgid "Someone changed {0} after you opened it."
 msgstr "Jemand hat {0} geändert, nachdem Sie es geöffnet haben."
 
-#: onedesk/public/js/portal_share.js:117
+#: onedesk/public/js/portal_share.js:67
 msgid "Someone else…"
 msgstr "Jemand anderes…"
 
@@ -27800,7 +27809,7 @@ msgstr "Nicht mehr mit OneAI lesen"
 msgid "Stop sending this"
 msgstr "Dies nicht mehr senden"
 
-#: onedesk/public/js/portal_share.js:175
+#: onedesk/public/js/portal_share.js:171
 msgid "Stop this link opening? Whoever has it can't use it any more."
 msgstr "Diesen Link sperren? Wer ihn hat, kann ihn nicht mehr verwenden."
 
@@ -30516,7 +30525,7 @@ msgstr "Diese buchen auf ein Konto, das kein Bestandskonto ist, daher weichen Be
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
 msgstr "Diese Webhooks konnten nach allen Versuchen nicht zustellen: {webhooks}. Öffnen Sie jeden Aufruf, um zu sehen, was das andere System geantwortet hat."
 
-#: onedesk/public/js/portal_share.js:99
+#: onedesk/public/js/portal_share.js:65
 msgid "They can answer through it once."
 msgstr "Sie können darüber einmal antworten."
 
@@ -30709,7 +30718,7 @@ msgstr "Das dauert länger als üblich. Wir schreiben an {0}, sobald er bereit i
 msgid "This item no longer exists."
 msgstr "Dieses Element existiert nicht mehr."
 
-#: onedesk/one/portal_share.py:366
+#: onedesk/one/portal_share.py:382
 msgid "This link has been answered already."
 msgstr "Über diesen Link wurde bereits geantwortet."
 
@@ -30779,12 +30788,12 @@ msgstr "Diese Seite wurde nicht erstellt"
 msgid "This passkey was registered on a different browser."
 msgstr "Dieser Passkey wurde auf einem anderen Browser registriert."
 
-#: onedesk/one/portal.py:918 onedesk/one/portal_share.py:386
-#: onedesk/one/portal_share.py:397
+#: onedesk/one/portal.py:918 onedesk/one/portal_share.py:402
+#: onedesk/one/portal_share.py:413
 msgid "This quotation can't be answered any more."
 msgstr "Auf dieses Angebot kann nicht mehr geantwortet werden."
 
-#: onedesk/one/portal_share.py:193
+#: onedesk/one/portal_share.py:197
 msgid "This record has no customer or supplier to send it to."
 msgstr "Dieser Datensatz hat keinen Kunden oder Lieferanten, an den er gehen kann."
 
@@ -35100,10 +35109,6 @@ msgstr "Wer Ihnen schuldet, und wie lange schon."
 msgid "Who pays was not changed"
 msgstr "Der Zahler wurde nicht geändert"
 
-#: onedesk/public/js/portal_share.js:64
-msgid "Who sees it on the portal"
-msgstr "Wer ihn im Portal sieht"
-
 #: onedesk/one/ai.py:303
 msgid "Who sees only part?"
 msgstr "Wer sieht nur einen Teil?"
@@ -35660,10 +35665,6 @@ msgstr "Arbeitslast"
 msgid "Workload is opened, and each time it is drawn again."
 msgstr "Die Auslastung wird geöffnet, und jedes Mal, wenn sie neu gezeichnet wird."
 
-#: onedesk/public/js/portal_share.js:132
-msgid "Works until"
-msgstr "Gilt bis"
-
 #: onedesk/one_inventory/ready.py:191
 msgid "Workshop time is costed"
 msgstr "Werkstattzeit wird bewertet"
@@ -36022,7 +36023,7 @@ msgstr "Anruf festhalten"
 msgid "Write with {0}"
 msgstr "Mit {0} schreiben"
 
-#: onedesk/one/portal_share.py:369
+#: onedesk/one/portal_share.py:385
 msgid "Write your name, so we know who answered."
 msgstr "Schreiben Sie Ihren Namen, damit wir wissen, wer geantwortet hat."
 
@@ -36773,10 +36774,6 @@ msgstr "einem Betreiber"
 msgid "and {0} more"
 msgstr "und {0} weitere"
 
-#: onedesk/public/js/portal_share.js:38
-msgid "answered by {0}"
-msgstr "beantwortet von {0}"
-
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "audio"
@@ -36985,7 +36982,7 @@ msgstr "Std."
 msgid "hidden"
 msgstr "ausgeblendet"
 
-#: onedesk/one/portal_share.py:170
+#: onedesk/one/portal_share.py:173
 msgid "hidden on the portal from {0}"
 msgstr "im Portal verborgen vor {0}"
 
@@ -37081,17 +37078,13 @@ msgstr "hat {0} an {1} Tagen erfasst"
 msgid "macOS"
 msgstr "macOS"
 
-#: onedesk/one/portal_share.py:234
+#: onedesk/one/portal_share.py:250
 msgid "made a portal link for {0}"
 msgstr "hat einen Portal-Link für {0} erstellt"
 
 #: onedesk/one/holidays.py:209
 msgid "made next year's list, {0}"
 msgstr "die Liste für nächstes Jahr angelegt, {0}"
-
-#: onedesk/public/js/portal_share.js:32
-msgid "made {0}"
-msgstr "erstellt {0}"
 
 #: onedesk/one/holidays.py:220
 msgid "made {0} the holiday list for everyone"
@@ -37190,10 +37183,6 @@ msgstr "nicht in der Liste"
 msgid "not known yet"
 msgstr "noch nicht bekannt"
 
-#: onedesk/public/js/portal_share.js:37
-msgid "not opened yet"
-msgstr "noch nicht geöffnet"
-
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:330
 #: onedesk/public/js/desk.js:369
 msgid "nothing"
@@ -37277,17 +37266,9 @@ msgstr "nur die Datensätze von {0} {1}"
 msgid "only the records of {0} {1}, {2}"
 msgstr "nur die Datensätze von {0} {1}, {2}"
 
-#: onedesk/public/js/portal_share.js:34
-msgid "opened once, {0}"
-msgstr "einmal geöffnet, {0}"
-
 #: onedesk/public/js/onecloud.js:1402
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"
-
-#: onedesk/public/js/portal_share.js:36
-msgid "opened {0} times, last {1}"
-msgstr "{0}-mal geöffnet, zuletzt {1}"
 
 #: onedesk/one/ai.py:1062
 msgid "optional"
@@ -37403,7 +37384,7 @@ msgstr "hat Version {0} wiederhergestellt"
 msgid "restored {0} as {1}"
 msgstr ""
 
-#: onedesk/one/portal_share.py:260
+#: onedesk/one/portal_share.py:276
 msgid "revoked the portal link for {0}"
 msgstr "hat den Portal-Link für {0} gesperrt"
 
@@ -37436,7 +37417,7 @@ msgstr "hat es mit {0} geteilt"
 msgid "shown"
 msgstr "angezeigt"
 
-#: onedesk/one/portal_share.py:172
+#: onedesk/one/portal_share.py:175
 msgid "shown on the portal to {0} again"
 msgstr "im Portal wieder für {0} sichtbar"
 
@@ -37653,7 +37634,7 @@ msgstr "unbegrenzte Plätze"
 msgid "unlimited storage"
 msgstr "unbegrenzter Speicher"
 
-#: onedesk/public/js/onecloud.js:1400
+#: onedesk/public/js/onecloud.js:1400 onedesk/public/js/portal_share.js:23
 msgid "until {0}"
 msgstr "bis {0}"
 
@@ -37708,10 +37689,6 @@ msgstr "wer das Modell wählt, auf alle"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "workers-ai"
 msgstr "workers-ai"
-
-#: onedesk/public/js/portal_share.js:39
-msgid "works until {0}"
-msgstr "gilt bis {0}"
 
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
@@ -37774,7 +37751,7 @@ msgstr "{0} (war {1})"
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: onedesk/one/portal_share.py:373
+#: onedesk/one/portal_share.py:389
 msgid "{0} ({1}), through a link"
 msgstr "{0} ({1}), über einen Link"
 
@@ -39063,7 +39040,7 @@ msgstr "{0} ist {1} und kann nicht zu {2} wechseln."
 msgid "{0} is {1}, so it can't be offered."
 msgstr "{0} ist {1} und kann daher nicht angeboten werden."
 
-#: onedesk/one/portal_share.py:205
+#: onedesk/one/portal_share.py:209
 msgid "{0} isn't a contact of this record's customer or supplier."
 msgstr "{0} ist kein Kontakt des Kunden oder Lieferanten dieses Datensatzes."
 
@@ -39375,6 +39352,10 @@ msgstr "{0} an"
 #: frontend/src/supplier/SupplierItems.vue:128 onedesk/one_project/view.py:585
 msgid "{0} on order"
 msgstr "{0} bestellt"
+
+#: onedesk/public/js/portal_share.js:31
+msgid "{0} on the Portal"
+msgstr "{0} im Portal"
 
 #: onedesk/one_hr/heads.py:401
 msgid "{0} on the odometer since the last log, on {1} {2} costing {3} — {4} per {2}."
@@ -39868,7 +39849,7 @@ msgid "{0} years"
 msgstr "{0} Jahre"
 
 #: frontend/src/kit/desk.js:166 onedesk/one/ai_setup.py:532
-#: onedesk/one/portal_share.py:297 onedesk/one_inventory/heads.py:275
+#: onedesk/one/portal_share.py:313 onedesk/one_inventory/heads.py:275
 msgid "{0} {1}"
 msgstr "{0} {1}"
 

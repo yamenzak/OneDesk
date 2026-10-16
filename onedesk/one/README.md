@@ -1691,27 +1691,29 @@ choose their password, which works for a week, and land on the portal.
   turns off their login. **Restore Access** turns it back on.
 - An address that belongs to someone in the workspace cannot be invited.
   They sign in to One instead.
-- **Who sees a record**: by default every invited contact of a customer or
-  supplier sees all of its records, as ERPNext lists them. On a submitted
-  quotation, order, shipment, invoice, quote request, supplier quotation,
-  purchase order or purchase invoice, **Portal** lists the contacts who sign in to the portal,
-  ticked. Untick someone and **Save**, and that record no longer lists,
-  opens or prints for them: two departments of one customer each see their
-  own. Only who is unticked is kept, so a contact invited later sees the
-  record, and it can be changed any time. Projects, timesheets and addresses
-  stay the company's.
-- **Links**: the same **Portal** makes a link to the record for one person,
-  who needs no account: a contact of the customer or supplier, or any email
-  address. **Make Link** emails it to them with a button (Portal Link) or
-  copies it. It opens the record's page on the portal until its day: a
-  month, or a quotation's own last day if that is sooner. Through it they
-  can accept or decline a quotation, or price and send a quote, once, giving
-  their name; after that it only reads, and says who answered. Each link in
-  the list says how often it was opened and has **Copy**, **Email Again**,
-  **Rotate** (a new link in its place, the old one stops) and **Revoke**. A
-  link revoked, expired or mistyped says it no longer works, and nothing
-  else. Opening a link does not use it up, so a mail scanner that opens it
-  first spends nothing.
+- **Portal**, on a submitted quotation, order, shipment, invoice, quote
+  request, supplier quotation, purchase order or purchase invoice, opens one
+  window, laid out like OneCloud's Share:
+  - **Send Link** at the top sends a link to the record to one person, who
+    needs no account: a contact of the customer or supplier, or **Someone
+    else…** by email address. The copy button beside it makes the link
+    without sending it and copies it. A person has one open link per record,
+    so sending again sends the same one. It opens the record's page on the
+    portal until its day (a month, or a quotation's own last day if sooner).
+    Through it they can accept or decline a quotation, or price and send a
+    quote, once, giving their name; after that it only reads and says who
+    answered. Opening it does not use it up, so a mail scanner that opens it
+    first spends nothing. The mail (Portal Link) has a button to act.
+  - **People on the portal**: the contacts who sign in, each **Can see** or
+    **Hidden**, saved as you choose. By default everyone sees every record of
+    their customer or supplier; hidden, the record no longer lists, opens or
+    prints for them, so two departments of one customer can each see their
+    own. Only who is hidden is kept, so a contact invited later sees it.
+    Projects, timesheets and addresses stay the company's.
+  - **Links**: each open or answered link, with how often it was opened, and
+    **Copy**, **Email Again**, **Rotate** (a new link in its place, the old
+    one stops) and **Revoke**. A link revoked, expired or mistyped says it no
+    longer works, and nothing else.
 
 - **A customer** sees their quotations, orders, invoices, shipments,
   addresses, projects and timesheets.

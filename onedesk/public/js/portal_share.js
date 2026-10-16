@@ -1,7 +1,8 @@
-// A submitted record and the portal (one/portal_share.py): Portal opens who
-// of its customer's or supplier's portal contacts see it, and its signed
-// links for somebody without an account, with Copy, Email Again, Rotate and
-// Revoke on each and a new one at the foot.
+// A submitted record and the portal (one/portal_share.py). Portal opens one
+// dialog, modelled on OneCloud's Share (and Google Drive's): a link sent or
+// copied for one person at the top, the customer's or supplier's portal
+// contacts below with Can See or Hidden, saved as it is chosen, and the
+// record's links with Copy, Email Again, Rotate and Revoke.
 const PORTAL_KINDS = [
 	"Quotation",
 	"Sales Order",
@@ -15,194 +16,172 @@ const PORTAL_KINDS = [
 
 const portal_share = (name) => `onedesk.one.portal_share.${name}`;
 
-const portal_states = {
-	open: [__("Open"), "green"],
-	answered: [__("Answered"), "blue"],
-	expired: [__("Expired"), "gray"],
-	revoked: [__("Revoked"), "gray"],
-};
-
-function portal_links_html(links, may) {
-	if (!links.length) return `<p class="text-muted">${__("No links yet.")}</p>`;
-	const esc = frappe.utils.escape_html;
-	return links
-		.map((one) => {
-			const [state, tone] = portal_states[one.state];
-			const said = [
-				__("made {0}", [one.made]),
-				one.opened === 1
-					? __("opened once, {0}", [one.last_opened])
-					: one.opened
-					? __("opened {0} times, last {1}", [one.opened, one.last_opened])
-					: __("not opened yet"),
-				one.used_by ? __("answered by {0}", [esc(one.used_by)]) : "",
-				one.state === "open" ? __("works until {0}", [one.expires]) : "",
-			].filter(Boolean);
-			const button = (verb, label, theme) =>
-				frappe.ui.button.html({ label, theme, attrs: { "data-verb": verb, "data-link": one.name } });
-			const buttons =
-				one.state === "open"
-					? [
-							button("copy", __("Copy")),
-							may ? button("mail", __("Email Again")) : "",
-							may ? button("rotate", __("Rotate")) : "",
-							may ? button("revoke", __("Revoke"), "red") : "",
-					  ].join(" ")
-					: "";
-			return `<div class="portal-link" data-url="${esc(one.url)}">
-				<div><b>${esc(one.who)}</b> <span class="indicator-pill ${tone}">${state}</span></div>
-				<div class="text-muted small">${esc(one.email)} · ${said.join(" · ")}</div>
-				<div class="mt-1">${buttons}</div>
-			</div>`;
-		})
-		.join(`<hr class="my-2">`);
+function portal_link_line(one) {
+	if (one.state === "answered") return __("Answered by {0}, {1}", [one.used_by, one.used_on]);
+	const opened =
+		one.opened === 0 ? __("Not opened yet") : one.opened === 1 ? __("Opened once") : __("Opened {0} times", [one.opened]);
+	return `${opened} · ${__("until {0}", [one.expires])}`;
 }
 
-function portal_dialog(frm, said) {
+function portal_dialog(frm, first) {
 	const doctype = frm.doc.doctype;
 	const name = frm.doc.name;
-	const fields = [{ fieldtype: "Section Break", label: __("Who sees it on the portal") }];
-	said.groups.forEach((group, i) => {
-		if (!group.people.length) {
-			fields.push({
-				fieldtype: "HTML",
-				fieldname: `none_${i}`,
-				options: `<p class="text-muted">${__("No contact of {0} signs in to the portal yet.", [
-					frappe.utils.escape_html(group.said),
-				])}</p>`,
-			});
-			return;
-		}
-		fields.push({
-			fieldtype: "MultiCheck",
-			fieldname: `sees_${i}`,
-			label: group.said,
-			columns: 2,
-			read_only: !said.may,
-			options: group.people.map((one) => ({ label: one.name, value: one.contact, checked: one.sees })),
-		});
-	});
-	fields.push(
-		{
-			fieldtype: "HTML",
-			fieldname: "everyone",
-			options: `<p class="text-muted small">${__(
-				"Everyone ticked sees it, and so will a contact who signs in later. Untick who shouldn't."
-			)}</p>`,
-		},
-		{ fieldtype: "Section Break", label: __("Links") },
-		{
-			fieldtype: "HTML",
-			fieldname: "about",
-			options: `<p class="text-muted small">${__(
-				"A link opens this record for one person without an account, until its day. {0}",
-				[said.answers ? __("They can answer through it once.") : ""]
-			)}</p>`,
-		},
-		{ fieldtype: "HTML", fieldname: "links" }
-	);
-	const reachable = said.groups.flatMap((group) =>
-		group.reachable.map((one) => ({
-			value: one.contact,
-			label: said.groups.length > 1 ? `${one.name} (${group.said})` : `${one.name} · ${one.email}`,
-		}))
-	);
-	if (said.may) {
-		fields.push(
-			{ fieldtype: "Section Break", label: __("New Link") },
-			{
-				fieldtype: "Select",
-				fieldname: "contact",
-				label: __("For"),
-				options: [...reachable, { value: "", label: __("Someone else…") }],
-				default: reachable[0]?.value || "",
-			},
-			{ fieldtype: "Data", fieldname: "email", label: __("Email"), options: "Email", depends_on: "eval:!doc.contact" },
-			{
-				fieldtype: "Select",
-				fieldname: "party",
-				label: __("At"),
-				options: said.groups.map((group) => ({ value: group.party, label: group.said })),
-				depends_on: `eval:!doc.contact && ${said.groups.length > 1}`,
-			},
-			{ fieldtype: "Column Break" },
-			{
-				fieldtype: "Date",
-				fieldname: "expires_on",
-				label: __("Works until"),
-				description:
-					doctype === "Quotation"
-						? __("Left empty, the quotation's last day or a month from today")
-						: __("Left empty, a month from today"),
-			},
-			{ fieldtype: "Check", fieldname: "send", label: __("Email it to them"), default: 1 },
-			{ fieldtype: "Button", fieldname: "make", label: __("Make Link") }
-		);
-	}
+	const esc = frappe.utils.escape_html;
 	const dialog = new frappe.ui.Dialog({
-		title: __("Portal"),
-		size: "large",
-		fields,
-		primary_action_label: said.may ? __("Save") : __("Close"),
-		async primary_action() {
-			if (!said.may) return dialog.hide();
-			const hidden = said.groups.flatMap((group, i) => {
-				if (!group.people.length) return [];
-				const ticked = new Set(dialog.get_value(`sees_${i}`) || []);
-				return group.people.filter((one) => !ticked.has(one.contact)).map((one) => one.contact);
-			});
-			await frappe.xcall(portal_share("set_access"), { doctype, name, hidden });
-			frappe.show_alert({ message: __("Saved"), indicator: "green" });
-			dialog.hide();
-			frm.reload_doc();
-		},
+		title: __("{0} on the Portal", [name]),
+		fields: [{ fieldtype: "HTML", fieldname: "body" }],
+		primary_action_label: __("Done", null, "Close a dialog"),
+		primary_action: () => dialog.hide(),
 	});
-	const draw = (links) => {
-		const wrapper = dialog.fields_dict.links.$wrapper;
-		wrapper.html(portal_links_html(links, said.may));
-		wrapper.find("button[data-verb]").on("click", async (event) => {
-			const { verb, link } = event.currentTarget.dataset;
-			if (verb === "copy") {
-				frappe.utils.copy_to_clipboard($(event.currentTarget).closest(".portal-link").data("url"));
-				return;
-			}
+	const $body = dialog.fields_dict.body.$wrapper;
+	let said = first;
+
+	// frappe's own Select, chevron and all (form/controls/select.js).
+	const select = (css, options, disabled) =>
+		`<div class="frappe-control ${css}" data-fieldtype="Select"><div class="control-input flex align-center">
+			<select class="form-control" ${disabled ? "disabled" : ""}>${options}</select>
+			<div class="select-icon">${frappe.utils.icon("chevrons-up-down", "sm")}</div>
+		</div></div>`;
+	const icon_button = (icon, title, attrs, theme) =>
+		frappe.ui.button.html({ variant: "ghost", icon, title, theme, attrs });
+
+	const send_row = () => {
+		const reachable = said.groups.flatMap((group) =>
+			group.reachable.map((one) => ({ ...one, at: group.said }))
+		);
+		const options = reachable
+			.map((one) => {
+				const label = said.groups.length > 1 ? `${one.name} (${one.at})` : `${one.name} · ${one.email}`;
+				return `<option value="${esc(one.contact)}">${esc(label)}</option>`;
+			})
+			.join("");
+		const parties =
+			said.groups.length > 1
+				? select(
+						"ps-party",
+						said.groups.map((group) => `<option value="${esc(group.party)}">${esc(group.said)}</option>`).join("")
+				  )
+				: "";
+		const can = said.answers ? __("They can answer through it once.") : "";
+		return `<div class="ps-send">
+				${select("ps-to", `${options}<option value="">${__("Someone else…")}</option>`)}
+				${frappe.ui.button.html({ variant: "solid", icon: "send", label: __("Send Link"), attrs: { "data-send": 1 } })}
+				${icon_button("copy", __("Copy a link without sending it"), { "data-copy-new": 1 })}
+			</div>
+			<div class="ps-other">
+				<input class="form-control ps-email" type="email" placeholder="${__("Email address")}">
+				${parties}
+			</div>
+			<p class="ps-note">${esc(__("No account needed. It opens until {0}.", [said.until]))} ${can}</p>`;
+	};
+
+	const people = () => {
+		const many = said.groups.length > 1;
+		const rows = said.groups
+			.map((group) => {
+				const head = many ? `<div class="ps-party-head">${esc(group.said)}</div>` : "";
+				if (!group.people.length) {
+					return `${head}<p class="ps-note">${esc(__("Nobody at {0} signs in to the portal yet.", [group.said]))}</p>`;
+				}
+				return (
+					head +
+					group.people
+						.map(
+							(one) => `<div class="ps-row" data-contact="${esc(one.contact)}">
+							${frappe.get_avatar("avatar-medium", one.name)}
+							<span class="ps-who"><span class="ps-name">${esc(one.name)}</span><span class="ps-line">${esc(one.email || "")}</span></span>
+							${select(
+								"ps-sees",
+								`<option value="1" ${one.sees ? "selected" : ""}>${__("Can see")}</option>
+								<option value="0" ${one.sees ? "" : "selected"}>${__("Hidden")}</option>`,
+								!said.may
+							)}
+						</div>`
+						)
+						.join("")
+				);
+			})
+			.join("");
+		return `<div class="ps-head">${__("People on the portal")}</div>${rows}`;
+	};
+
+	const links = () => {
+		const live = said.links.filter((one) => ["open", "answered"].includes(one.state));
+		if (!live.length) return "";
+		const rows = live
+			.map((one) => {
+				const buttons = [
+					icon_button("copy", __("Copy"), { "data-verb": "copy" }),
+					said.may && one.state === "open" ? icon_button("mail", __("Email Again"), { "data-verb": "mail" }) : "",
+					said.may && one.state === "open" ? icon_button("refresh-cw", __("Rotate"), { "data-verb": "rotate" }) : "",
+					said.may ? icon_button("x", __("Revoke"), { "data-verb": "revoke" }, "red") : "",
+				].join("");
+				return `<div class="ps-row" data-link="${esc(one.name)}" data-url="${esc(one.url)}">
+					<span class="ps-icon">${frappe.utils.icon("link", "sm")}</span>
+					<span class="ps-who"><span class="ps-name">${esc(one.who)}</span><span class="ps-line">${esc(portal_link_line(one))}</span></span>
+					<span class="ps-actions">${buttons}</span>
+				</div>`;
+			})
+			.join("");
+		return `<div class="ps-head">${__("Links")}</div>${rows}`;
+	};
+
+	const draw = () => {
+		$body.html(`<div class="ps">${said.may ? send_row() : ""}${people()}${links()}</div>`);
+		const $to = $body.find(".ps-to select");
+		const someone = () => $body.find(".ps-other").toggle(!$to.val());
+		$to.on("change", someone);
+		someone();
+		const make = async (send) => {
+			const contact = $to.val();
+			const made = await frappe.xcall(portal_share("make_link"), {
+				doctype,
+				name,
+				contact: contact || null,
+				email: contact ? null : $body.find(".ps-email").val(),
+				party: contact ? null : $body.find(".ps-party select").val() || null,
+				send: send ? 1 : 0,
+			});
+			said.links = made.links;
+			if (send) frappe.show_alert({ message: __("Link sent"), indicator: "green" });
+			else frappe.utils.copy_to_clipboard(made.url);
+			draw();
+		};
+		$body.find("[data-send]").on("click", () => make(true));
+		$body.find("[data-copy-new]").on("click", () => make(false));
+		$body.find(".ps-sees select").on("change", async () => {
+			const hidden = $body
+				.find(".ps-sees select")
+				.toArray()
+				.filter((el) => el.value === "0")
+				.map((el) => $(el).closest(".ps-row").attr("data-contact"));
+			said = await frappe.xcall(portal_share("set_access"), { doctype, name, hidden });
+			draw();
+		});
+		$body.find("[data-verb]").on("click", async (event) => {
+			const $row = $(event.currentTarget).closest(".ps-row");
+			const link = $row.attr("data-link");
+			const verb = event.currentTarget.dataset.verb;
+			if (verb === "copy") return frappe.utils.copy_to_clipboard($row.attr("data-url"));
 			if (verb === "mail") {
 				await frappe.xcall(portal_share("mail_link"), { name: link });
-				frappe.show_alert({ message: __("Link sent"), indicator: "green" });
-				return;
+				return frappe.show_alert({ message: __("Link sent"), indicator: "green" });
 			}
 			if (verb === "revoke") {
-				frappe.confirm(__("Stop this link opening? Whoever has it can't use it any more."), async () => {
-					draw(await frappe.xcall(portal_share("revoke_link"), { name: link }));
+				return frappe.confirm(__("Stop this link opening? Whoever has it can't use it any more."), async () => {
+					said.links = await frappe.xcall(portal_share("revoke_link"), { name: link });
+					draw();
 				});
-				return;
 			}
 			frappe.confirm(__("Make a new link in its place? The old one stops opening."), async () => {
 				const made = await frappe.xcall(portal_share("rotate_link"), { name: link, send: 0 });
 				frappe.utils.copy_to_clipboard(made.url);
-				draw(made.links);
+				said.links = made.links;
+				draw();
 			});
 		});
 	};
-	draw(said.links);
-	if (said.may) {
-		frappe.ui.button.dress(dialog.fields_dict.make.$input, { label: __("Make Link"), variant: "solid" });
-		dialog.fields_dict.make.input.onclick = async () => {
-			const values = dialog.get_values(true);
-			const made = await frappe.xcall(portal_share("make_link"), {
-				doctype,
-				name,
-				contact: values.contact || null,
-				email: values.contact ? null : values.email,
-				party: values.contact ? null : values.party,
-				expires_on: values.expires_on ? `${values.expires_on} 23:59:59` : null,
-				send: values.send ? 1 : 0,
-			});
-			if (!values.send) frappe.utils.copy_to_clipboard(made.url);
-			else frappe.show_alert({ message: __("Link sent"), indicator: "green" });
-			draw(made.links);
-		};
-	}
+	draw();
 	dialog.show();
 }
 

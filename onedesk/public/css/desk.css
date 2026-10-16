@@ -1583,3 +1583,102 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	left: auto !important;
 	right: -9999px !important;
 }
+
+/* A record's Portal dialog (public/js/portal_share.js), drawn as OneCloud's
+   Share is: a send row, then people and links as rows. */
+.ps-send,
+.ps-other {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}
+
+.ps-other {
+	margin-top: calc(var(--spacing) * 2);
+}
+
+.ps-to,
+.ps-other > * {
+	flex: 1;
+	min-width: 0;
+}
+
+.ps .frappe-control {
+	margin: 0;
+}
+
+.ps-note {
+	margin: calc(var(--spacing) * 2) 0 0;
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.ps-head {
+	margin: calc(var(--spacing) * 6) 0 calc(var(--spacing) * 1);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.ps > .ps-head:first-child {
+	margin-top: 0;
+}
+
+.ps-party-head {
+	margin: calc(var(--spacing) * 3) 0 calc(var(--spacing) * 1);
+	color: var(--ink-gray-8);
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+.ps-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 2) 0;
+}
+
+.ps-icon {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--radius-full);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-6);
+}
+
+.ps-who {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.ps-name,
+.ps-line {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ps-name {
+	color: var(--ink-gray-8);
+}
+
+.ps-line {
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.ps-sees {
+	flex: none;
+	width: 8rem;
+}
+
+.ps-actions {
+	display: flex;
+	flex: none;
+	gap: calc(var(--spacing) * 0.5);
+}

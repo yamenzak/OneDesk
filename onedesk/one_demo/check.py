@@ -4176,6 +4176,8 @@ def a_link_opens_a_record_for_somebody_without_an_account_and_answers_once():
 				raise AssertionError("an answered link was mailed again")
 		again = portal_share.make_link("Request for Quotation", rfq.name, email="quotes@emiratessealants.example")
 		old = again["url"].rsplit("/", 1)[-1]
+		twice = portal_share.make_link("Request for Quotation", rfq.name, email="quotes@emiratessealants.example")
+		assert twice["url"] == again["url"], "a second link for the same person is the one they have"
 		with mock.patch("onedesk.one.tell.portal_link") as told:
 			portal_share.mail_link(again["links"][0]["name"])
 		assert told.called

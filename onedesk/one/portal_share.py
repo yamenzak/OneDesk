@@ -100,7 +100,8 @@ def _links(doc) -> list[dict]:
 				"last_opened": pretty_date(link.last_opened) if link.last_opened else "",
 				"expires": portal._date(link.expires_on),
 				"used_by": link.used_by or "",
-				"url": _url(link.get_password("token")) if state == "open" else "",
+				"used_on": pretty_date(link.used_on) if link.used_on else "",
+				"url": _url(link.get_password("token")) if state in ("open", "answered") else "",
 			}
 		)
 	return out
@@ -132,6 +133,7 @@ def access(doctype: str, name: str) -> dict:
 					"contact": one.name,
 					"name": one.full_name or one.email_id,
 					"email": one.email_id,
+					"user": one.user,
 					"sees": one.name not in hidden,
 				}
 			)
@@ -142,6 +144,7 @@ def access(doctype: str, name: str) -> dict:
 		"groups": groups,
 		"may": bool(frappe.has_permission(doctype, "write", doc)),
 		"answers": str(ANSWERS[doctype]) if doctype in ANSWERS else "",
+		"until": portal._date(_until(doc)),
 		"links": _links(doc),
 	}
 
@@ -186,7 +189,8 @@ def make_link(
 ) -> dict:
 	"""A signed link to the record for one person: a contact of its customer
 	or supplier, or an address. It opens until it expires (a quotation's own
-	last day, or a month), and answers once. Mailed to them when `send`."""
+	last day, or a month), and answers once; one open link per person.
+	Mailed to them when `send`."""
 	doc = _record(doctype, name, "write")
 	parties = _parties(doc)
 	if not parties:
@@ -213,6 +217,18 @@ def make_link(
 	email = (email or "").strip().lower()
 	if not frappe.utils.validate_email_address(email):
 		frappe.throw(_("A link needs an email address to go to."))
+	# The person's open link, if they have one: Rotate is for a new one.
+	for name in frappe.get_all(
+		"Portal Link",
+		filters={"reference_doctype": doctype, "reference_name": doc.name, "email": email, "disabled": 0},
+		pluck="name",
+	):
+		link = frappe.get_doc("Portal Link", name)
+		if _state(link) == "open" and not expires_on:
+			url = _url(link.get_password("token"))
+			if frappe.utils.cint(send):
+				_mail(link, url, doc)
+			return {"url": url, "links": _links(doc)}
 	until = get_datetime(expires_on) if expires_on else _until(doc)
 	if until < now_datetime():
 		frappe.throw(_("Choose a day that hasn't passed."))

@@ -13910,3 +13910,17 @@ total now. The mail's `sender` word was taken by frappe as the From address,
 so the name came out empty; it is `by`. On this bench, PDFs failed because
 frappe tried to download Chromium; `chromium_path` now points at the one
 installed (bench config, not the repo).
+
+## The Portal dialog, again
+
+*Found:* the dialog was frappe form fields stacked in three sections, with
+two buttons that committed different things (Make Link, and Save for the
+ticks), a run-on grey line per link and four text buttons under it.
+
+*Done:* drawn as OneCloud's Share is, after Google Drive's: a send row at the
+top (who, **Send Link**, and a copy button that makes the link without
+sending it), **People on the portal** as rows with their initials and a
+**Can see** or **Hidden** select that saves as it is chosen, and **Links** as
+rows with icon buttons. One **Done** closes it. Revoked and expired links
+are left out; the record's timeline keeps them. A second link for the same
+person is now the one they already have.
