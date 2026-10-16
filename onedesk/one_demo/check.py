@@ -7249,7 +7249,7 @@ def sales_books_and_stock_tell_what_waits_on_somebody():
 				{"doctype": "Material Request", "material_request_type": "Purchase", "schedule_date": add_days(today(), 7), "items": [{"item_code": item, "qty": 2, "schedule_date": add_days(today(), 7), "warehouse": frappe.db.get_value("Warehouse", {"is_group": 0})}]}
 			).insert()
 			asked.submit()
-		name, users, values = said("Material Request Asked", ("Material Request", asked.name))
+		_name, users, values = said("Material Request Asked", ("Material Request", asked.name))
 		assert "karim@one.test" not in users and values["who"] == "Karim Mansour", values
 
 		order = frappe.db.get_value("Sales Order", {"docstatus": 1, "status": ["in", ["To Deliver and Bill", "To Deliver"]]})
