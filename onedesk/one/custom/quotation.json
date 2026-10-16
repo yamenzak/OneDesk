@@ -1,0 +1,24 @@
+{
+ "custom_fields": [
+  {
+   "allow_on_submit": 1,
+   "description": "The customer's or supplier's portal contacts who may not see this record.",
+   "doctype": "Custom Field",
+   "dt": "Quotation",
+   "fieldname": "one_portal_hidden",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "insert_after": "amended_from",
+   "label": "Hidden on the Portal From",
+   "module": "One",
+   "name": "Quotation-one_portal_hidden",
+   "no_copy": 1,
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "doctype": "Quotation",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

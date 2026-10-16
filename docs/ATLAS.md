@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 73 | 4 | 20 | 0 |
+| onedesk | 73 | 4 | 21 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
 | erpnext | 226 | 142 | 20 | 97 |
 | hrms | 88 | 23 | 0 | 19 |
@@ -139,11 +139,11 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Subscription | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 2 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 3 | Bill Due |
+| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, form script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 3 | Bill Due |
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Repost Payment Ledger | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 4 fields, 3 settings | yes | taught |  | yes | ours |  | ar 2 |  |
+| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 5 fields, 3 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Share Transfer | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Share Type | **waiting** | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -193,10 +193,10 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 25, de 22 |  |
-| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 3 fields, 8 settings | yes | taught |  | yes | ours |  | ar 1 | Order Late |
-| Request for Quotation | opened by our screens | OneInventory | a head, events, 1 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
+| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 4 fields, 8 settings | yes | taught |  | yes | ours |  | ar 1 | Order Late |
+| Request for Quotation | opened by our screens | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 10, de 10 |  |
-| Supplier Quotation | on a rail or a home | OneInventory | a head, events | yes | taught | makes it | yes |  |  | ar 1 | Quote Received |
+| Supplier Quotation | on a rail or a home | OneInventory | a head, events, form script, 1 fields | yes | taught | makes it | yes |  |  | ar 1 | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Period | through a form's connections (Supplier Scorecard's Connections) | OneInventory | untouched | yes | general |  | yes |  |  | ar 1 |  |
@@ -337,9 +337,9 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 4, de 4 |  |
-| Quotation | on a rail or a home | OneCRM | events, form script, 2 fields | yes | general | makes it | yes |  |  |  | Quotation Declined |
+| Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined |
 | SMS Center | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 | Quotation Accepted |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 5 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 | Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 34, de 30 |  |
 
@@ -387,7 +387,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Batch | on a rail or a home | OneInventory | a head | yes | taught |  | yes |  |  | ar 1 | Expiring Soon |
 | Bin | engine: what each warehouse holds of each item; Stock Summary reads it | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  | ar 2 |  |
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 4 settings | yes | taught |  | yes | ours |  |  |  |
+| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | taught |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
@@ -498,7 +498,7 @@ Reports: YouTube Interactions (**waiting**).
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Address | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
 | Address Template | **waiting** | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Contact | on a rail or a home | everybody | events, form script, 4 fields, 6 settings | yes | taught | makes it | yes |  |  |  |  |
+| Contact | on a rail or a home | everybody | events, form script, 3 fields, 6 settings | yes | taught | makes it | yes |  |  |  |  |
 | Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
@@ -869,6 +869,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| Portal Link | inside: a submitted sale or purchase's Portal, under Links | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Push Device | opened by our screens | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | opened by our screens | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Account | inside: Account, from the rail's foot | the administrator | a head, form script | no | taught |  |  |  |  |  |  |

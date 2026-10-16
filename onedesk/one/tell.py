@@ -219,6 +219,11 @@ def invited_to_portal(email: str, what: str, **said) -> None:
 	notify.mail("Portal Invitation", email, what=what, **said)
 
 
+def portal_link(email: str, **said) -> None:
+	"""A signed link to a record, mailed to whoever it is for (portal_share.py)."""
+	notify.mail("Portal Link", email, **said)
+
+
 def access_changed(user: str, changes: str) -> None:
 	"""What a person may use changed, told to them."""
 	notify.notify("Access Changed", user, link="/desk", changes=changes, by=frappe.utils.get_fullname())

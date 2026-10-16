@@ -7,6 +7,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Portal Link | 16 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
 | Record Head Band | 12 | child |
@@ -272,6 +273,18 @@ No doctypes yet.
 * `onedesk.one.portal_invite.restore`
 * `onedesk.one.portal_invite.revoke`
 * `onedesk.one.portal_invite.state`
+* `onedesk.one.portal_share.access`
+* `onedesk.one.portal_share.link_accept`
+* `onedesk.one.portal_share.link_decline`
+* `onedesk.one.portal_share.link_pdf`
+* `onedesk.one.portal_share.link_preview`
+* `onedesk.one.portal_share.link_send`
+* `onedesk.one.portal_share.link_view`
+* `onedesk.one.portal_share.mail_link`
+* `onedesk.one.portal_share.make_link`
+* `onedesk.one.portal_share.revoke_link`
+* `onedesk.one.portal_share.rotate_link`
+* `onedesk.one.portal_share.set_access`
 * `onedesk.one.printing.default`
 * `onedesk.one.printing.design_letter_head`
 * `onedesk.one.printing.download_builder_preview_pdf`

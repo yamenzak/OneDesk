@@ -12,6 +12,7 @@ from urllib.parse import urlencode
 
 import frappe
 from frappe import _, _lt
+from frappe.model.document import Document
 from frappe.website.utils import get_portal_sidebar_items
 
 #: Portal Settings rows One has no use for: Issue has no place in One, and a
@@ -146,69 +147,62 @@ CALLED = {
 OWED = ("Sales Invoice", "Purchase Invoice")
 
 
-#: The field on each kind naming the contact a record is for (Contact's Portal
-#: Shows Only Their Own); a project, a timesheet and an address stay the company's.
-CONTACT_FIELD = {
-	"Quotation": "contact_person",
-	"Sales Order": "contact_person",
-	"Delivery Note": "contact_person",
-	"Sales Invoice": "contact_person",
-	"Supplier Quotation": "contact_person",
-	"Purchase Order": "contact_person",
-	"Purchase Invoice": "contact_person",
-}
+#: The kinds a record of may be hidden from some of its party's contacts on
+#: the portal (`one_portal_hidden`, set on the desk record: `access`).
+NARROWED = (
+	"Quotation",
+	"Sales Order",
+	"Delivery Note",
+	"Sales Invoice",
+	"Request for Quotation",
+	"Supplier Quotation",
+	"Purchase Order",
+	"Purchase Invoice",
+)
 
 
-def _own(user: str | None = None) -> str | None:
-	"""The contact a reader is, when they see only their own records."""
+def _contacts_of(user: str | None = None) -> set[str]:
+	"""The contacts a reader signs in as."""
 	user = user or frappe.session.user
-	cache = frappe.local.flags.setdefault("one_portal_own", {})
+	cache = frappe.local.flags.setdefault("one_portal_contacts", {})
 	if user not in cache:
-		said = frappe.db.get_value("Contact", {"user": user}, ["name", "one_portal_own"], as_dict=True)
-		cache[user] = said.name if said and said.one_portal_own else None
+		cache[user] = set(frappe.get_all("Contact", filters={"user": user}, pluck="name"))
 	return cache[user]
+
+
+def _hidden(doctype: str, doc) -> set[str]:
+	"""The contacts a record is hidden from on the portal."""
+	if isinstance(doc, Document):
+		value = doc.get("one_portal_hidden")
+	else:
+		value = frappe.db.get_value(doctype, _field(doc, "name"), "one_portal_hidden")
+	return set(frappe.parse_json(value) or []) if value else set()
 
 
 def _contact_of(user: str, party_type: str, party: str) -> str | None:
 	"""The reader's contact at a customer or supplier."""
-	return frappe.db.get_value(
-		"Contact",
-		{
-			"user": user,
-			"name": (
-				"in",
-				frappe.get_all(
-					"Dynamic Link",
-					filters={"parenttype": "Contact", "link_doctype": party_type, "link_name": party},
-					pluck="parent",
-				),
-			),
-		},
-		"name",
+	linked = frappe.get_all(
+		"Dynamic Link",
+		filters={"parenttype": "Contact", "link_doctype": party_type, "link_name": party},
+		pluck="parent",
 	)
+	return frappe.db.get_value("Contact", {"user": user, "name": ("in", linked)}, "name") if linked else None
 
 
 def mine(doctype: str, doc, user: str | None = None) -> bool:
-	"""Whether a record is the reader's to see as far as their own contact
-	goes: always, unless they see only their own, then only a record naming
-	them. A quote request names its suppliers' contacts on its rows."""
-	contact = _own(user)
-	if not contact:
+	"""Whether the reader sees a record as far as its own portal contacts go:
+	every contact of the customer or supplier does, unless the record was
+	hidden from them (`access`)."""
+	if doctype not in NARROWED:
 		return True
-	if doctype == "Request for Quotation":
-		return bool(
-			frappe.db.exists(
-				"Request for Quotation Supplier", {"parent": _field(doc, "name"), "contact": contact}
-			)
-		)
-	field = CONTACT_FIELD.get(doctype)
-	return not field or _field(doc, field) == contact
+	hidden = _hidden(doctype, doc)
+	return not hidden or not (_contacts_of(user) & hidden)
 
 
 def has_website_permission(doc, ptype: str = "read", user: str | None = None, verbose: bool = False) -> bool:
 	"""Beside erpnext's own (hooks.py), which lets every portal user of a
-	customer or supplier read all of its records: a contact who sees only
-	their own reads only those, on the portal, erpnext's pages and a PDF."""
+	customer or supplier read all of its records: a contact a record is
+	hidden from reads it nowhere, on the portal, erpnext's pages or a PDF."""
 	return mine(doc.doctype, doc, user)
 
 
@@ -267,6 +261,11 @@ def boot() -> dict:
 	from frappe.boot import load_translations
 	from frappe.utils.jinja_globals import is_rtl
 
+	if frappe.session.user == "Guest":
+		# A signed link's page (one/portal_share.py): nobody signed in, no tabs.
+		said = frappe._dict(lang=frappe.local.lang, rtl=is_rtl(), guest=True, me={}, tabs=[], account=[])
+		load_translations(said)
+		return said
 	apps = frappe.db.exists("OAuth Bearer Token", {"user": frappe.session.user})
 	said = frappe._dict(
 		lang=frappe.local.lang,
@@ -607,14 +606,21 @@ def record(kind: str, name: str) -> dict:
 	Badge, its facts, its items, its totals, its terms and files, and what the
 	reader may do with it (Download PDF, Pay, Create Invoice)."""
 	from erpnext.templates.pages import order
-	from frappe.utils import fmt_money, sanitize_html, strip_html
 
 	doctype = _kind(kind)
 	if doctype not in TRANSACTIONS or doctype == "Request for Quotation":
 		raise frappe.PermissionError
-	context = _opened(doctype, name, order)
-	doc = context.doc
+	return _record(doctype, _opened(doctype, name, order))
 
+
+def _record(doctype: str, context, pdf: str | None = None) -> dict:
+	"""A record's page from erpnext's page context (or one made for a signed
+	link, one/portal_share.py, which has its own PDF and no linked records:
+	the reader of a link has no portal to open them in)."""
+	from erpnext.templates.pages import order
+	from frappe.utils import fmt_money, sanitize_html, strip_html
+
+	doc = context.doc
 	said, facts = set(), []
 	for field, label in FACTS:
 		value = doc.get(field)
@@ -669,7 +675,8 @@ def record(kind: str, name: str) -> dict:
 			{
 				"label": _("Download PDF"),
 				"icon": "download",
-				"href": "/api/method/frappe.utils.print_format.download_pdf?"
+				"href": pdf
+				or "/api/method/frappe.utils.print_format.download_pdf?"
 				+ urlencode({"doctype": doctype, "name": doc.name, "format": context.print_format}),
 			}
 		)
@@ -698,7 +705,7 @@ def record(kind: str, name: str) -> dict:
 		| ({"line": _("Accepted. We'll confirm your order.")} if accepted else {}),
 		"answer": doctype == "Quotation" and _answerable(doc),
 		"steps": _steps(doctype, doc),
-		"related": _related(doctype, doc),
+		"related": [] if pdf else _related(doctype, doc),
 		"facts": facts,
 		"items": [
 			{
@@ -914,25 +921,32 @@ def _answer(kind: str, name: str):
 
 @frappe.whitelist(methods=["POST"])
 def accept_quote(kind: str, name: str, wanted: str, reference: str | None = None) -> str:
-	"""The customer accepts a quotation: erpnext's own mapper makes the order
-	from it, as the team would on the desk, with the date they need it by and
-	their reference, and it is kept a draft for whoever made the quotation to
-	check and submit. They are told."""
+	"""The customer accepts a quotation on the portal (`accept`)."""
+	from frappe.utils import get_fullname
+
+	doc = _answer(kind, name)
+	user = frappe.session.user
+	return accept(
+		doc, wanted, reference, user, _contact_of(user, "Customer", doc.party_name), get_fullname(user)
+	)
+
+
+def accept(doc, wanted: str, reference: str | None, user: str, contact: str | None, by: str) -> str:
+	"""A quotation accepted: erpnext's own mapper makes the order from it, as
+	the team would on the desk, with the date they need it by and their
+	reference, named for whoever accepted (`contact`). It is kept a draft for
+	whoever made the quotation to check and submit, and they are told."""
 	from erpnext.selling.doctype.quotation.mapper import make_sales_order
-	from frappe.utils import get_fullname, getdate, today
+	from frappe.utils import getdate, today
 
 	from onedesk.one_crm import tell
 
-	doc = _answer(kind, name)
 	if not wanted or getdate(wanted) < getdate(today()):
 		frappe.throw(_("Choose the date you need it by, today or later."))
-	user = frappe.session.user
 	frappe.session.user = "Administrator"
 	try:
 		order = make_sales_order(doc.name)
-		# The order is theirs: they are its contact, so a contact who sees
-		# only their own sees it.
-		order.contact_person = _contact_of(user, "Customer", order.customer) or order.contact_person
+		order.contact_person = contact or order.contact_person
 		order.delivery_date = wanted
 		for row in order.items:
 			row.delivery_date = wanted
@@ -940,33 +954,35 @@ def accept_quote(kind: str, name: str, wanted: str, reference: str | None = None
 			order.po_no, order.po_date = reference.strip()[:140], today()
 		order.flags.ignore_permissions = True
 		order.insert()
-		doc.add_comment(
-			"Info", _("Accepted on the portal by {0}: order {1}.").format(get_fullname(user), order.name)
-		)
+		doc.add_comment("Info", _("Accepted on the portal by {0}: order {1}.").format(by, order.name))
 	finally:
 		frappe.session.user = user
-	tell.quotation_accepted(doc, order, user, _date(wanted))
+	tell.quotation_accepted(doc, order, user if user != "Guest" else "Administrator", _date(wanted))
 	return order.name
 
 
 @frappe.whitelist(methods=["POST"])
 def decline_quote(kind: str, name: str, reason: str | None = None) -> None:
-	"""The customer declines a quotation: erpnext's own Set as Lost, with
-	their reason, and whoever made it is told."""
+	"""The customer declines a quotation on the portal (`decline`)."""
 	from frappe.utils import get_fullname
 
+	user = frappe.session.user
+	decline(_answer(kind, name), reason, user, get_fullname(user))
+
+
+def decline(doc, reason: str | None, user: str, by: str) -> None:
+	"""A quotation declined: erpnext's own Set as Lost, with their reason,
+	and whoever made it is told."""
 	from onedesk.one_crm import tell
 
-	doc = _answer(kind, name)
 	reason = (reason or "").strip()[:1000]
-	user = frappe.session.user
 	frappe.session.user = "Administrator"
 	try:
 		doc.declare_enquiry_lost([], [], detailed_reason=reason or _("Declined on the portal."))
-		doc.add_comment("Info", _("Declined on the portal by {0}.").format(get_fullname(user)))
+		doc.add_comment("Info", _("Declined on the portal by {0}.").format(by))
 	finally:
 		frappe.session.user = user
-	tell.quotation_declined(doc, user, reason)
+	tell.quotation_declined(doc, user if user != "Guest" else "Administrator", reason)
 
 
 def _related(doctype: str, doc) -> list[dict]:
@@ -1023,31 +1039,54 @@ def rfq(name: str) -> dict:
 	with what, its facts, the buyer's message and terms, and the rows they
 	price, with what the app needs to show amounts as they type."""
 	from erpnext.templates.pages import rfq as page
-	from frappe.locale import get_number_format
-	from frappe.utils import fmt_money, sanitize_html, strip_html
 
 	if _kind("rfq") != "Request for Quotation":
 		raise frappe.PermissionError
 	context = _opened("Request for Quotation", name, page)
 	if not mine("Request for Quotation", context.doc):
 		raise frappe.PermissionError
-	doc = context.doc
+	return _rfq(context.doc, [one.name for one in context.doc.get("rfq_links") or []])
+
+
+def _sent(rfq: str, supplier: str) -> list[str]:
+	"""The quotes a supplier sent for a request, as erpnext's page finds them."""
+	return frappe.get_all(
+		"Supplier Quotation",
+		filters={
+			"supplier": supplier,
+			"docstatus": ("<", 2),
+			"name": (
+				"in",
+				frappe.get_all(
+					"Supplier Quotation Item", filters={"request_for_quotation": rfq}, pluck="parent"
+				),
+			),
+		},
+		pluck="name",
+	)
+
+
+def _rfq(doc, sent: list[str]) -> dict:
+	"""A quote request's page for one supplier, with the quotes they sent."""
+	from frappe.locale import get_number_format
+	from frappe.utils import fmt_money, sanitize_html, strip_html
+
 	quotes = []
-	for one in doc.get("rfq_links") or []:
+	for one in sent:
 		quote = frappe.db.get_value(
 			"Supplier Quotation",
-			one.name,
-			["transaction_date", "status", "docstatus", "grand_total", "currency"],
+			one,
+			["transaction_date", "status", "docstatus", "grand_total", "rounded_total", "currency"],
 			as_dict=True,
 		)
 		tone, word = status("Supplier Quotation", quote.status, quote.docstatus)
 		quotes.append(
 			{
-				"name": one.name,
+				"name": one,
 				"date": _date(quote.transaction_date),
 				"status": word,
 				"tone": tone,
-				"total": fmt_money(quote.grand_total, currency=quote.currency),
+				"total": fmt_money(quote.rounded_total or quote.grand_total, currency=quote.currency),
 			}
 		)
 	facts = [{"label": _("Date"), "value": _date(doc.transaction_date)}]
@@ -1200,14 +1239,15 @@ def apps() -> list[dict]:
 	]
 
 
-def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool = True):
+def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool = True, link=None):
 	"""The supplier's quote for a request, built the way erpnext's own mapper
 	builds it but not saved: the reader is checked to be one of the supplier's
 	portal users and the request one sent to that supplier, and only each
 	row's rate, quantity and discount come from the page. The taxes are the
 	workspace's own (its templates, its Item Tax Templates and Tax Rules by
-	the supplier's country), as on any quote it records. Returns the quote,
-	the request, the supplier and the reader."""
+	the supplier's country), as on any quote it records. Through a signed
+	link (one/portal_share.py) the supplier and contact are the link's.
+	Returns the quote, the request, the supplier and the reader."""
 	from erpnext.buying.doctype.request_for_quotation.mapper import (
 		add_items,
 		get_quotable_rfq,
@@ -1217,17 +1257,21 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 	from frappe.utils import flt
 
 	user = frappe.session.user
-	# erpnext's page reads which request it is on from the form.
-	frappe.form_dict.doctype, frappe.form_dict.name = "Request for Quotation", rfq
-	supplier = get_supplier()
-	if (
-		not supplier
-		or not check_supplier_has_docname_access(supplier)
-		or not frappe.db.exists("Portal User", {"parent": supplier, "user": user})
-	):
-		frappe.throw(_("Not Permitted"), frappe.PermissionError)
-	if not mine("Request for Quotation", frappe._dict(name=rfq)):
-		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+	if link:
+		supplier, contact = link.party, link.contact
+	else:
+		# erpnext's page reads which request it is on from the form.
+		frappe.form_dict.doctype, frappe.form_dict.name = "Request for Quotation", rfq
+		supplier = get_supplier()
+		if (
+			not supplier
+			or not check_supplier_has_docname_access(supplier)
+			or not frappe.db.exists("Portal User", {"parent": supplier, "user": user})
+		):
+			frappe.throw(_("Not Permitted"), frappe.PermissionError)
+		if not mine("Request for Quotation", frappe._dict(name=rfq)):
+			frappe.throw(_("Not Permitted"), frappe.PermissionError)
+		contact = _contact_of(user, "Supplier", supplier)
 	if frappe.db.get_value("Request for Quotation", rfq, "docstatus") != 1:
 		frappe.throw(_("This request is closed."))
 	# erpnext's own check that the supplier was asked, and its row lookup,
@@ -1263,7 +1307,7 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 			# for what it sells and buys at its own prices, not for a quote.
 			"ignore_pricing_rule": 1,
 			# Whoever sent it is its contact.
-			"contact_person": _contact_of(user, "Supplier", supplier),
+			"contact_person": contact,
 			"terms": notes or "",
 		}
 	)
@@ -1296,9 +1340,14 @@ def quote_preview(rfq: str, rows: str | dict) -> dict:
 	"""What the supplier's quote comes to as they price it, as erpnext will
 	reckon it once sent: each row's discount, net amount and tax, the taxes
 	and the grand total, every value as frappe formats it."""
+	quote, _doc, _supplier, user = _quote(rfq, rows, sending=False)
+	return reckon(quote, user)
+
+
+def reckon(quote, user: str) -> dict:
+	"""A quote's rows, taxes and totals as erpnext reckons them, unsaved."""
 	from frappe.utils import flt, fmt_money
 
-	quote, _doc, _supplier, user = _quote(rfq, rows, sending=False)
 	if not quote:
 		return {"rows": {}, "taxes": [], "net": "", "total": ""}
 	frappe.session.user = "Administrator"
@@ -1343,13 +1392,19 @@ def quote_preview(rfq: str, rows: str | dict) -> dict:
 def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 	"""The supplier's answer to a quote request (`_quote`), saved as theirs,
 	and whoever asked told."""
-	quote, doc, supplier, user = _quote(rfq, rows, notes)
+	return send(*_quote(rfq, rows, notes))
+
+
+def send(quote, doc, supplier: str, user: str) -> str:
+	"""A quote saved as the supplier's, and whoever asked told."""
 	frappe.session.user = "Administrator"
 	try:
 		quote.insert()
 	finally:
 		frappe.session.user = user
-	# Saved with the user switched, the quote is the supplier's all the same.
+	# Saved with the user switched, the quote is the supplier's all the same;
+	# sent through a link, by nobody signed in, it is the workspace's.
+	user = user if user != "Guest" else "Administrator"
 	quote.db_set({"owner": user, "modified_by": user}, update_modified=False)
 
 	from onedesk.one import tell

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 06:58+0000\n"
-"PO-Revision-Date: 2026-10-16 06:58+0000\n"
+"POT-Creation-Date: 2026-10-16 08:09+0000\n"
+"PO-Revision-Date: 2026-10-16 08:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +140,7 @@ msgstr ""
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
-#: onedesk/one/portal.py:446 onedesk/one/portal.py:798
+#: onedesk/one/portal.py:445 onedesk/one/portal.py:805
 msgid "1 day overdue"
 msgstr ""
 
@@ -300,6 +300,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one_admin/confirm_your_new_email.md
 msgid "<a href=\"{link}\">Use this address for my One account</a><br><br>The link works once, for {minutes} minutes. If you didn't ask for this, you can ignore this email."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one/portal_link.md
+msgid "<b>{by}</b> at <b>{workspace}</b> sent you {what}.<br><br><a href=\"{link}\" class=\"btn btn-primary\">{button}</a><br><br>The link works until {until}. You don't need an account to open it."
 msgstr ""
 
 #. Message of a notification
@@ -840,6 +845,14 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 msgid "A line of an invoice or a receipt."
+msgstr ""
+
+#: onedesk/one/portal_share.py:215
+msgid "A link needs an email address to go to."
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:97
+msgid "A link opens this record for one person without an account, until its day. {0}"
 msgstr ""
 
 #: onedesk/one_book/home.py:284
@@ -1517,9 +1530,9 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:70
-#: frontend/portal/src/pages/Record.vue:111
-#: frontend/portal/src/pages/Record.vue:120
+#: frontend/portal/src/pages/Record.vue:73
+#: frontend/portal/src/pages/Record.vue:114
+#: frontend/portal/src/pages/Record.vue:124
 msgid "Accept Quotation"
 msgstr ""
 
@@ -1533,8 +1546,8 @@ msgstr ""
 
 #. Option for the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #. Label in the One Purchase Receipt print format
-#: onedesk/one/portal.py:351 onedesk/one/portal.py:664
-#: onedesk/one/portal.py:833
+#: onedesk/one/portal.py:350 onedesk/one/portal.py:670
+#: onedesk/one/portal.py:840
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:237
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
@@ -1546,11 +1559,11 @@ msgstr ""
 msgid "Accepted By"
 msgstr ""
 
-#: onedesk/one/portal.py:944
+#: onedesk/one/portal.py:957
 msgid "Accepted on the portal by {0}: order {1}."
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:199 onedesk/one/portal.py:698
+#: frontend/portal/src/pages/Record.vue:223 onedesk/one/portal.py:705
 msgid "Accepted. We'll confirm your order."
 msgstr ""
 
@@ -1846,7 +1859,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: onedesk/one/portal.py:82
+#: onedesk/one/portal.py:83
 msgid "Add Address"
 msgstr ""
 
@@ -2035,7 +2048,7 @@ msgstr ""
 msgid "Add a number to a field on the target document."
 msgstr ""
 
-#: onedesk/one/portal.py:1247
+#: onedesk/one/portal.py:1291
 msgid "Add a rate for at least one item."
 msgstr ""
 
@@ -2276,7 +2289,7 @@ msgstr ""
 #. Label of the address (Small Text) field in DocType 'Reading Party'
 #. Label of the url (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/custom/personal_data_download_request.json
-#: onedesk/one/letter_heads.py:51 onedesk/one/portal.py:78
+#: onedesk/one/letter_heads.py:51 onedesk/one/portal.py:79
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -2752,7 +2765,7 @@ msgstr ""
 #. Label in the One Sales Order print format
 #. Label of the amount (Float) field in DocType 'Reading Line'
 #. Label in the One Purchase Order print format
-#: frontend/portal/src/pages/Rfq.vue:26 frontend/src/project/Suppliers.vue:149
+#: frontend/portal/src/pages/Rfq.vue:28 frontend/src/project/Suppliers.vue:149
 #: frontend/src/project/Time.vue:35 onedesk/one/automations.py:130
 #: onedesk/one/print_blocks.py:748
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -2775,7 +2788,7 @@ msgstr ""
 msgid "Amount Received"
 msgstr ""
 
-#: onedesk/one/portal.py:789
+#: onedesk/one/portal.py:796
 msgid "Amount due"
 msgstr ""
 
@@ -3033,14 +3046,34 @@ msgid "Another employee has already checked in from this browser today."
 msgstr ""
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
-#: onedesk/one/portal.py:530 onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one/portal.py:529 onedesk/one_intake/doctype/reading/reading.json
 msgid "Answer"
+msgstr ""
+
+#: onedesk/one/portal_share.py:22
+msgid "Answer the quote request"
 msgstr ""
 
 #: frontend/src/quotes/RequestRows.vue:11
 #: frontend/src/quotes/RequestRows.vue:28
 #: frontend/src/quotes/RequestRows.vue:70 onedesk/public/js/crm_record.js:90
+#: onedesk/public/js/portal_share.js:20
 msgid "Answered"
+msgstr ""
+
+#. Label of the used_by (Data) field in DocType 'Portal Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
+msgid "Answered By"
+msgstr ""
+
+#. Label of the used_on (Datetime) field in DocType 'Portal Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
+msgid "Answered On"
+msgstr ""
+
+#: frontend/portal/src/pages/Record.vue:70
+#: frontend/portal/src/pages/Rfq.vue:107
+msgid "Answered by {0}, {1}."
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:359
@@ -3824,7 +3857,7 @@ msgstr ""
 msgid "Assignment for {0} {1}"
 msgstr ""
 
-#: frontend/src/floor/OrderRows.vue:11
+#: frontend/src/floor/OrderRows.vue:11 onedesk/public/js/portal_share.js:124
 msgid "At"
 msgstr ""
 
@@ -4165,7 +4198,7 @@ msgstr ""
 msgid "Awaiting approval ({0})."
 msgstr ""
 
-#: onedesk/one/portal.py:118
+#: onedesk/one/portal.py:119
 msgid "Awaiting payment"
 msgstr ""
 
@@ -5802,6 +5835,10 @@ msgstr ""
 msgid "Child Tasks"
 msgstr ""
 
+#: onedesk/one/portal_share.py:218
+msgid "Choose a day that hasn't passed."
+msgstr ""
+
 #: onedesk/templates/includes/one_drop.html:11
 msgid "Choose a file"
 msgstr ""
@@ -5842,7 +5879,7 @@ msgstr ""
 msgid "Choose the country first."
 msgstr ""
 
-#: onedesk/one/portal.py:928
+#: onedesk/one/portal.py:945
 msgid "Choose the date you need it by, today or later."
 msgstr ""
 
@@ -5856,6 +5893,10 @@ msgstr ""
 
 #: onedesk/one/rules.py:132
 msgid "Choose what the rule watches."
+msgstr ""
+
+#: onedesk/one/portal_share.py:211
+msgid "Choose who at which supplier the link is for."
 msgstr ""
 
 #: onedesk/one/automation_steps.py:47
@@ -5875,7 +5916,7 @@ msgstr ""
 msgid "Chosen Model"
 msgstr ""
 
-#: onedesk/one/portal.py:78 onedesk/one/settings.py:103
+#: onedesk/one/portal.py:79 onedesk/one/settings.py:103
 #: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
 msgstr ""
@@ -5987,6 +6028,7 @@ msgstr ""
 
 #: frontend/src/kit/Drawer.vue:11 onedesk/public/js/oneai/Panel.vue:38
 #: onedesk/public/js/onecloud.js:2275 onedesk/public/js/opportunity.js:17
+#: onedesk/public/js/portal_share.js:146
 msgid "Close"
 msgstr ""
 
@@ -6494,8 +6536,8 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
-#: onedesk/one/portal.py:109 onedesk/one/portal.py:110
-#: onedesk/one/portal.py:842 onedesk/one/privacy.py:191
+#: onedesk/one/portal.py:110 onedesk/one/portal.py:111
+#: onedesk/one/portal.py:849 onedesk/one/privacy.py:191
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Confirmed"
@@ -6596,9 +6638,11 @@ msgstr ""
 msgid "Consultants coordinated"
 msgstr ""
 
+#. Label of the contact (Link) field in DocType 'Portal Link'
 #. Label of the 'contact_details' field in DocType 'Employee'
 #. Label of the contact (Link) field in DocType 'Project Contact'
-#: frontend/src/project/Team.vue:70 onedesk/one_crm/home.py:102
+#: frontend/src/project/Team.vue:70
+#: onedesk/one/doctype/portal_link/portal_link.json onedesk/one_crm/home.py:102
 #: onedesk/one_hr/custom/employee.json onedesk/one_project/ai.py:789
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/project_actions.js:504
@@ -6763,7 +6807,7 @@ msgstr ""
 #: onedesk/public/js/intake.js:156 onedesk/public/js/intake.js:191
 #: onedesk/public/js/onecloud.js:100 onedesk/public/js/onecloud.js:1712
 #: onedesk/public/js/onecloud.js:1809 onedesk/public/js/onecloud.js:1934
-#: onedesk/public/js/settings.js:2510
+#: onedesk/public/js/portal_share.js:46 onedesk/public/js/settings.js:2510
 msgid "Copy"
 msgstr ""
 
@@ -6921,7 +6965,7 @@ msgstr ""
 msgid "Couldn't send test"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:181
+#: frontend/portal/src/pages/Rfq.vue:204
 msgid "Couldn't send the quote."
 msgstr ""
 
@@ -7040,7 +7084,7 @@ msgstr ""
 msgid "Create Download"
 msgstr ""
 
-#: onedesk/one/portal.py:679
+#: onedesk/one/portal.py:686
 msgid "Create Invoice"
 msgstr ""
 
@@ -7385,6 +7429,11 @@ msgstr ""
 msgid "Customer Number"
 msgstr ""
 
+#. Label of the party (Data) field in DocType 'Portal Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
+msgid "Customer or Supplier"
+msgstr ""
+
 #: onedesk/one_inventory/home.py:175
 msgid "Customer orders that went out late."
 msgstr ""
@@ -7524,8 +7573,8 @@ msgstr ""
 #. Label of the date (Date) field in DocType 'Reading Date'
 #: frontend/src/project/Invoices.vue:32 frontend/src/project/Suppliers.vue:92
 #: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:30
-#: frontend/src/task/TaskTime.vue:22 onedesk/one/portal.py:127
-#: onedesk/one/portal.py:128 onedesk/one/portal.py:1053
+#: frontend/src/task/TaskTime.vue:22 onedesk/one/portal.py:128
+#: onedesk/one/portal.py:129 onedesk/one/portal.py:1092
 #: onedesk/one/print_blocks.py:41 onedesk/one/print_blocks.py:43
 #: onedesk/one/print_blocks.py:48 onedesk/one/print_blocks.py:54
 #: onedesk/one/print_blocks.py:60 onedesk/one/print_blocks.py:71
@@ -7734,24 +7783,24 @@ msgstr ""
 msgid "Declared By"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:71
+#: frontend/portal/src/pages/Record.vue:74
 msgid "Decline"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:123
-#: frontend/portal/src/pages/Record.vue:128
+#: frontend/portal/src/pages/Record.vue:127
+#: frontend/portal/src/pages/Record.vue:135
 msgid "Decline Quotation"
 msgstr ""
 
-#: onedesk/one/portal.py:115 onedesk/one/portal.py:828
+#: onedesk/one/portal.py:116 onedesk/one/portal.py:835
 msgid "Declined"
 msgstr ""
 
-#: onedesk/one/portal.py:966
+#: onedesk/one/portal.py:982
 msgid "Declined on the portal by {0}."
 msgstr ""
 
-#: onedesk/one/portal.py:965
+#: onedesk/one/portal.py:981
 msgid "Declined on the portal."
 msgstr ""
 
@@ -8046,10 +8095,10 @@ msgid "Deliver to site"
 msgstr ""
 
 #: frontend/src/home/InventoryStory.vue:166
-#: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:111
-#: onedesk/one/portal.py:112 onedesk/one/portal.py:113
-#: onedesk/one/portal.py:121 onedesk/one/portal.py:843
-#: onedesk/one/portal.py:853 onedesk/one_book/heads.py:101
+#: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:112
+#: onedesk/one/portal.py:113 onedesk/one/portal.py:114
+#: onedesk/one/portal.py:122 onedesk/one/portal.py:850
+#: onedesk/one/portal.py:860 onedesk/one_book/heads.py:101
 #: onedesk/one_crm/heads.py:329 onedesk/one_inventory/heads.py:761
 #: onedesk/one_project/money.py:153
 msgid "Delivered"
@@ -8082,7 +8131,7 @@ msgstr ""
 msgid "Deliveries received from Stripe, used to ignore repeats."
 msgstr ""
 
-#: onedesk/one/portal.py:130 onedesk/one/portal.py:131
+#: onedesk/one/portal.py:131 onedesk/one/portal.py:132
 msgid "Delivery"
 msgstr ""
 
@@ -8111,7 +8160,7 @@ msgstr ""
 msgid "Delivery Trip"
 msgstr ""
 
-#: onedesk/one/portal.py:462 onedesk/one/portal.py:814
+#: onedesk/one/portal.py:461 onedesk/one/portal.py:821
 msgid "Delivery {0}"
 msgstr ""
 
@@ -8267,8 +8316,8 @@ msgstr ""
 #. Label in the One Appointment Letter print format
 #. Label of the said (Small Text) field in DocType 'Intake Lesson'
 #. Label of the section_details (Section Break) field in DocType 'Reading'
-#: frontend/portal/src/pages/Record.vue:75
-#: frontend/portal/src/pages/Rfq.vue:112 frontend/src/item/ItemBuying.vue:35
+#: frontend/portal/src/pages/Record.vue:78
+#: frontend/portal/src/pages/Rfq.vue:118 frontend/src/item/ItemBuying.vue:35
 #: frontend/src/item/ItemMaking.vue:41 frontend/src/item/ItemOverview.vue:33
 #: frontend/src/item/ItemSelling.vue:27 frontend/src/item/ItemStock.vue:25
 #: frontend/src/task/TaskPage.vue:117 frontend/src/task/TaskPage.vue:221
@@ -8368,12 +8417,12 @@ msgstr ""
 msgid "Disconnected"
 msgstr ""
 
-#: onedesk/one/portal.py:635 onedesk/one/print_blocks.py:469
+#: onedesk/one/portal.py:641 onedesk/one/print_blocks.py:469
 msgid "Discount"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:24 frontend/portal/src/pages/Rfq.vue:40
-#: frontend/portal/src/pages/Rfq.vue:43 frontend/portal/src/pages/Rfq.vue:58
+#: frontend/portal/src/pages/Rfq.vue:26 frontend/portal/src/pages/Rfq.vue:42
+#: frontend/portal/src/pages/Rfq.vue:45 frontend/portal/src/pages/Rfq.vue:60
 msgid "Discount %"
 msgstr ""
 
@@ -8599,7 +8648,7 @@ msgstr ""
 msgid "Download My Data"
 msgstr ""
 
-#: onedesk/one/portal.py:670
+#: onedesk/one/portal.py:676
 msgid "Download PDF"
 msgstr ""
 
@@ -8808,7 +8857,7 @@ msgstr ""
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: frontend/src/project/Invoices.vue:33 frontend/src/project/Suppliers.vue:93
 #: frontend/src/sent_out/OutRows.vue:14 frontend/src/upkeep/UpkeepRows.vue:15
-#: onedesk/one/portal.py:132 onedesk/one_admin/accounts.py:217
+#: onedesk/one/portal.py:133 onedesk/one_admin/accounts.py:217
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/public/js/settings.js:1745
 msgid "Due"
@@ -8866,8 +8915,8 @@ msgstr ""
 #: frontend/src/project/Invoices.vue:57 frontend/src/project/Overview.vue:317
 #: frontend/src/project/Overview.vue:353 frontend/src/project/Suppliers.vue:70
 #: frontend/src/project/Suppliers.vue:117
-#: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one/portal.py:449
-#: onedesk/one/portal.py:802 onedesk/one_inventory/heads.py:558
+#: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one/portal.py:448
+#: onedesk/one/portal.py:809 onedesk/one_inventory/heads.py:558
 msgid "Due {0}"
 msgstr ""
 
@@ -9181,6 +9230,7 @@ msgstr ""
 msgid "Either accepts a check-in that passes one of the two. Both requires each of them."
 msgstr ""
 
+#. Label of the email (Data) field in DocType 'Portal Link'
 #. Label of the email (Data) field in DocType 'Account Request'
 #. Label of a field in the get-in-touch Web Form
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
@@ -9189,8 +9239,10 @@ msgstr ""
 #. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the email (Data) field in DocType 'Cloud Link Invitee'
-#: frontend/src/project/Team.vue:72 onedesk/one/letter_heads.py:53
-#: onedesk/one/settings.py:431 onedesk/one/settings.py:858
+#: frontend/src/project/Team.vue:72
+#: onedesk/one/doctype/portal_link/portal_link.json
+#: onedesk/one/letter_heads.py:53 onedesk/one/settings.py:431
+#: onedesk/one/settings.py:858
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -9199,16 +9251,20 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
-#: onedesk/public/js/record.js:186 onedesk/public/js/settings.js:324
-#: onedesk/public/js/settings.js:1441 onedesk/public/js/settings.js:1796
-#: onedesk/public/js/settings.js:2201 onedesk/public/js/settings.js:3058
-#: onedesk/www/account_profile.html:33 onedesk/www/start.html:37
-#: onedesk/www/your_data.html:25
+#: onedesk/public/js/portal_share.js:120 onedesk/public/js/record.js:186
+#: onedesk/public/js/settings.js:324 onedesk/public/js/settings.js:1441
+#: onedesk/public/js/settings.js:1796 onedesk/public/js/settings.js:2201
+#: onedesk/public/js/settings.js:3058 onedesk/www/account_profile.html:33
+#: onedesk/www/start.html:37 onedesk/www/your_data.html:25
 msgid "Email"
 msgstr ""
 
 #: onedesk/public/js/onemail.js:875
 msgid "Email Address"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:47
+msgid "Email Again"
 msgstr ""
 
 #. Label of the one_allow_email (Check) field in DocType 'Notification Type'
@@ -9265,6 +9321,10 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1719
 msgid "Email isn't set up, so these links weren't sent."
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:138
+msgid "Email it to them"
 msgstr ""
 
 #: onedesk/one/settings.py:138
@@ -9573,7 +9633,7 @@ msgstr ""
 msgid "Ends tomorrow"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:322 onedesk/one/portal.py:371
+#: frontend/src/project/Overview.vue:322 onedesk/one/portal.py:370
 #: onedesk/one_project/portal.py:199
 msgid "Ends {0}"
 msgstr ""
@@ -10024,6 +10084,10 @@ msgstr ""
 msgid "Everyone on {0}"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:89
+msgid "Everyone ticked sees it, and so will a contact who signs in later. Untick who shouldn't."
+msgstr ""
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Everyone told and labels given out"
@@ -10243,6 +10307,7 @@ msgstr ""
 #: frontend/src/lots/LotRows.vue:79 frontend/src/lots/LotsPage.vue:125
 #: frontend/src/quotes/QuoteRows.vue:76
 #: onedesk/public/js/credit_ledger_entry_list.js:19
+#: onedesk/public/js/portal_share.js:21
 msgid "Expired"
 msgstr ""
 
@@ -10260,9 +10325,11 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
+#. Label of the expires_on (Datetime) field in DocType 'Portal Link'
 #. Label of the credits_expires_on (Date) field in DocType 'Workspace Account'
 #. Label of the expires_on (Date) field in DocType 'Credit Ledger Entry'
 #. Label of the expires_on (Date) field in DocType 'Employee Document'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -10707,7 +10774,7 @@ msgstr ""
 #. Label of the items (Table) field in DocType 'Cloud File Request'
 #. Label of a Sidebar Item
 #: frontend/portal/src/pages/Project.vue:113
-#: frontend/portal/src/pages/Record.vue:96 frontend/src/item/ItemFiles.vue:7
+#: frontend/portal/src/pages/Record.vue:99 frontend/src/item/ItemFiles.vue:7
 #: frontend/src/item/ItemPage.vue:181 frontend/src/project/Files.vue:10
 #: frontend/src/project/ProjectPage.vue:190 frontend/src/task/TaskFiles.vue:7
 #: frontend/src/task/TaskPage.vue:223
@@ -11120,6 +11187,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:9
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 #: onedesk/public/js/doctype_settings.js:540
+#: onedesk/public/js/portal_share.js:116
 msgid "For"
 msgstr ""
 
@@ -11409,7 +11477,7 @@ msgstr ""
 msgid "From the Library"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:15
+#: frontend/portal/src/pages/Rfq.vue:17
 msgid "From the buyer"
 msgstr ""
 
@@ -11463,6 +11531,10 @@ msgstr ""
 
 #: onedesk/public/js/item_actions.js:183
 msgid "From {0} to {1}, in steps of {2}"
+msgstr ""
+
+#: frontend/portal/src/pages/Link.vue:8
+msgid "From {0}, for {1}"
 msgstr ""
 
 #. Message of a notification
@@ -12109,6 +12181,27 @@ msgstr ""
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr ""
 
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Delivery Note'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Purchase
+#. Invoice'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Purchase
+#. Order'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Quotation'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Request for
+#. Quotation'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Sales Invoice'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Sales Order'
+#. Label of the one_portal_hidden (Small Text) field in DocType 'Supplier
+#. Quotation'
+#: onedesk/one/custom/delivery_note.json
+#: onedesk/one/custom/purchase_invoice.json
+#: onedesk/one/custom/purchase_order.json onedesk/one/custom/quotation.json
+#: onedesk/one/custom/request_for_quotation.json
+#: onedesk/one/custom/sales_invoice.json onedesk/one/custom/sales_order.json
+#: onedesk/one/custom/supplier_quotation.json
+msgid "Hidden on the Portal From"
+msgstr ""
+
 #: frontend/src/project/Team.vue:172
 msgid "Hide Files"
 msgstr ""
@@ -12219,7 +12312,7 @@ msgid "Holidays in {0}"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/portal/src/App.vue:10 frontend/portal/src/pages/Home.vue:6
+#: frontend/portal/src/App.vue:13 frontend/portal/src/pages/Home.vue:6
 #: frontend/portal/src/parts/PortalSidebar.vue:7
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -12234,7 +12327,7 @@ msgstr ""
 #. Label in the One Timesheet print format
 #: frontend/src/home/InventoryStory.vue:81 frontend/src/project/Overview.vue:24
 #: frontend/src/project/Time.vue:34 frontend/src/task/TaskTime.vue:25
-#: onedesk/one/portal.py:77 onedesk/one/print_blocks.py:90
+#: onedesk/one/portal.py:78 onedesk/one/print_blocks.py:90
 #: onedesk/one/print_blocks.py:748 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:141
 #: onedesk/one_project/ai.py:680
@@ -13121,7 +13214,7 @@ msgstr ""
 msgid "Includes"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:97
+#: frontend/portal/src/pages/Rfq.vue:102
 msgid "Including {0}"
 msgstr ""
 
@@ -13535,8 +13628,8 @@ msgstr ""
 
 #: frontend/src/project/Invoices.vue:119 frontend/src/project/Money.vue:180
 #: frontend/src/project/Overview.vue:156 frontend/src/project/Time.vue:92
-#: frontend/src/project/Time.vue:225 onedesk/one/portal.py:844
-#: onedesk/one/portal.py:848 onedesk/one/portal.py:854
+#: frontend/src/project/Time.vue:225 onedesk/one/portal.py:851
+#: onedesk/one/portal.py:855 onedesk/one/portal.py:861
 #: onedesk/one_project/money.py:154
 msgid "Invoiced"
 msgstr ""
@@ -13657,7 +13750,7 @@ msgstr ""
 
 #. Label of the issued_section (Section Break) field in DocType 'Employee
 #. Letter'
-#: onedesk/one/portal.py:858
+#: onedesk/one/portal.py:865
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_inventory/heads.py:649 onedesk/one_inventory/heads.py:1496
 msgid "Issued"
@@ -13780,7 +13873,7 @@ msgstr ""
 #. Label in the One Request for Quotation print format
 #. Label in the One Stock Entry print format
 #. Label of a Sidebar Item
-#: frontend/portal/src/pages/Rfq.vue:21 frontend/src/plant/PlantFloor.vue:68
+#: frontend/portal/src/pages/Rfq.vue:23 frontend/src/plant/PlantFloor.vue:68
 #: frontend/src/quotes/QuoteCompare.vue:11
 #: frontend/src/stock/StockOnHand.vue:29
 #: frontend/src/supplier/SupplierItems.vue:21
@@ -13885,7 +13978,7 @@ msgid "Item-wise Sales Register"
 msgstr ""
 
 #: frontend/portal/src/pages/List.vue:29
-#: frontend/portal/src/pages/Record.vue:29 frontend/portal/src/pages/Rfq.vue:18
+#: frontend/portal/src/pages/Record.vue:31 frontend/portal/src/pages/Rfq.vue:20
 #: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
 #: frontend/src/to_order/ToOrderPage.vue:153
 #: onedesk/one_inventory/heads.py:1507 onedesk/one_inventory/heads.py:1719
@@ -14378,6 +14471,11 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
+#. Label of the last_opened (Datetime) field in DocType 'Portal Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
+msgid "Last Opened"
+msgstr ""
+
 #: frontend/src/item/ItemPage.vue:255
 msgid "Last Ordered"
 msgstr ""
@@ -14842,6 +14940,10 @@ msgstr ""
 msgid "Left as Drafts"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:136
+msgid "Left empty, a month from today"
+msgstr ""
+
 #. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
@@ -14849,6 +14951,10 @@ msgstr ""
 
 #: onedesk/public/js/lots_actions.js:105
 msgid "Left empty, the next number is given."
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:135
+msgid "Left empty, the quotation's last day or a month from today"
 msgstr ""
 
 #: onedesk/public/js/quotes_actions.js:42
@@ -15121,6 +15227,14 @@ msgstr ""
 msgid "Link expired"
 msgstr ""
 
+#: frontend/portal/src/pages/Link.vue:12
+msgid "Link not working"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:171 onedesk/public/js/portal_share.js:202
+msgid "Link sent"
+msgstr ""
+
 #: onedesk/public/js/calendar_link.js:57
 msgid "Link switched off"
 msgstr ""
@@ -15133,7 +15247,7 @@ msgstr ""
 msgid "Link to Record"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:84
+#: frontend/portal/src/pages/Record.vue:87
 msgid "Linked"
 msgstr ""
 
@@ -15191,8 +15305,8 @@ msgstr ""
 msgid "Linked to {0}"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1391 onedesk/public/js/settings.js:1052
-#: onedesk/public/js/settings.js:1482
+#: onedesk/public/js/onecloud.js:1391 onedesk/public/js/portal_share.js:93
+#: onedesk/public/js/settings.js:1052 onedesk/public/js/settings.js:1482
 msgid "Links"
 msgstr ""
 
@@ -15785,6 +15899,10 @@ msgstr ""
 msgid "Make Default"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:139 onedesk/public/js/portal_share.js:189
+msgid "Make Link"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2482
 msgid "Make Main Address"
 msgstr ""
@@ -15808,6 +15926,10 @@ msgstr ""
 
 #: onedesk/one_studio/ai.py:17
 msgid "Make a collection…"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:180
+msgid "Make a new link in its place? The old one stops opening."
 msgstr ""
 
 #: onedesk/one/ai.py:471
@@ -16531,7 +16653,7 @@ msgstr ""
 msgid "Months Not Invoiced"
 msgstr ""
 
-#: frontend/portal/src/App.vue:18
+#: frontend/portal/src/App.vue:21
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:479
 #: onedesk/one_intake/page/intake/intake.js:35
 #: onedesk/public/js/project_actions.js:734
@@ -16857,12 +16979,12 @@ msgstr ""
 msgid "Needed Review"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:115 onedesk/one/portal.py:75
-#: onedesk/one/portal.py:1055
+#: frontend/portal/src/pages/Record.vue:118 onedesk/one/portal.py:76
+#: onedesk/one/portal.py:1094
 msgid "Needed by"
 msgstr ""
 
-#: onedesk/one/portal.py:460
+#: onedesk/one/portal.py:459
 msgid "Needed by {0}"
 msgstr ""
 
@@ -16935,7 +17057,7 @@ msgstr ""
 msgid "Net Purchase Amount"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:74
+#: frontend/portal/src/pages/Rfq.vue:76
 msgid "Net Total"
 msgstr ""
 
@@ -17077,6 +17199,7 @@ msgid "New Level"
 msgstr ""
 
 #: onedesk/public/js/calendar_link.js:33 onedesk/public/js/calendar_link.js:78
+#: onedesk/public/js/portal_share.js:112
 msgid "New Link"
 msgstr ""
 
@@ -17472,7 +17595,7 @@ msgid "No Shift"
 msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:10
-#: frontend/portal/src/pages/Record.vue:23 frontend/portal/src/pages/Rfq.vue:11
+#: frontend/portal/src/pages/Record.vue:25 frontend/portal/src/pages/Rfq.vue:13
 #: frontend/portal/src/parts/WebForm.vue:16 onedesk/public/js/outside.js:261
 #: onedesk/www/message.html:23
 msgid "No access"
@@ -17557,6 +17680,10 @@ msgstr ""
 
 #: onedesk/one_hr/tell.py:115
 msgid "No changes found in timings."
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:71
+msgid "No contact of {0} signs in to the portal yet."
 msgstr ""
 
 #: frontend/src/project/Team.vue:67
@@ -17716,6 +17843,10 @@ msgstr ""
 
 #: frontend/src/item/ItemSelling.vue:112
 msgid "No limit"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:26
+msgid "No links yet."
 msgstr ""
 
 #: onedesk/public/js/settings.js:2653
@@ -18207,7 +18338,7 @@ msgstr ""
 msgid "Not Invoiced Yet"
 msgstr ""
 
-#: onedesk/one/portal.py:1228 onedesk/one/portal.py:1230
+#: onedesk/one/portal.py:1271 onedesk/one/portal.py:1273
 #: onedesk/www/message.html:11 onedesk/www/message.html:22
 #: onedesk/www/message.html:25
 msgid "Not Permitted"
@@ -18532,7 +18663,7 @@ msgid "Note"
 msgstr ""
 
 #. Label in the One Work Order print format
-#: frontend/portal/src/pages/Rfq.vue:85 onedesk/one/portal.py:721
+#: frontend/portal/src/pages/Rfq.vue:87 onedesk/one/portal.py:728
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Notes"
 msgstr ""
@@ -18796,7 +18927,7 @@ msgid "Nudge"
 msgstr ""
 
 #. Label of the number (Data) field in DocType 'Employee Document'
-#: onedesk/one/portal.py:74 onedesk/one/portal.py:75
+#: onedesk/one/portal.py:75 onedesk/one/portal.py:76
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:76 onedesk/one_intake/panel.py:130
 #: onedesk/public/js/settings.js:1753
@@ -19128,12 +19259,6 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_hr/work_anniversary.md
 msgid "On the morning of a colleague's work anniversary."
-msgstr ""
-
-#. Description of the 'Portal Shows Only Their Own' (Check) field in DocType
-#. 'Contact'
-#: onedesk/one/custom/contact.json
-msgid "On the portal they see only the records they are the contact on, not the rest of their company's."
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:47
@@ -19752,6 +19877,10 @@ msgstr ""
 msgid "Only a lead or an opportunity has calls."
 msgstr ""
 
+#: onedesk/one/portal_share.py:286
+msgid "Only a link that still opens can be sent."
+msgstr ""
+
 #: onedesk/one_admin/doctype/offering/offering.py:70
 msgid "Only a recurring offering can have a trial."
 msgstr ""
@@ -19954,6 +20083,10 @@ msgstr ""
 msgid "Only the person who saved a report, or an administrator, can move it."
 msgstr ""
 
+#: onedesk/one/portal_share.py:158
+msgid "Only the record's own contacts can be hidden from."
+msgstr ""
+
 #: onedesk/public/js/settings.js:205
 msgid "Only you and HR see these."
 msgstr ""
@@ -20006,9 +20139,9 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:907 onedesk/public/js/intake.js:215
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:756
 #: onedesk/public/js/onecloud.js:1902 onedesk/public/js/onecloud.js:1910
-#: onedesk/public/js/onecloud.js:1926 onedesk/public/js/project_actions.js:68
-#: onedesk/public/js/project_tree.js:23 onedesk/www/account.html:31
-#: onedesk/www/s.html:48 onedesk/www/s.html:56
+#: onedesk/public/js/onecloud.js:1926 onedesk/public/js/portal_share.js:19
+#: onedesk/public/js/project_actions.js:68 onedesk/public/js/project_tree.js:23
+#: onedesk/www/account.html:31 onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr ""
 
@@ -20123,6 +20256,7 @@ msgstr ""
 msgid "Open record"
 msgstr ""
 
+#: onedesk/one/portal_share.py:300
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
@@ -20408,8 +20542,8 @@ msgstr ""
 #: frontend/src/home/InventoryStory.vue:184 frontend/src/project/Money.vue:167
 #: frontend/src/project/Suppliers.vue:202
 #: frontend/src/quotes/QuoteCompare.vue:82 frontend/src/quotes/QuoteRows.vue:75
-#: frontend/src/quotes/RequestRows.vue:68 onedesk/one/portal.py:834
-#: onedesk/one/portal.py:837 onedesk/one/portal.py:852
+#: frontend/src/quotes/RequestRows.vue:68 onedesk/one/portal.py:841
+#: onedesk/one/portal.py:844 onedesk/one/portal.py:859
 #: onedesk/one_book/heads.py:99 onedesk/one_inventory/heads.py:548
 #: onedesk/one_inventory/heads.py:635 onedesk/one_inventory/heads.py:734
 #: onedesk/one_inventory/heads.py:760 onedesk/one_inventory/heads.py:838
@@ -20853,10 +20987,10 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: frontend/src/project/Invoices.vue:120 frontend/src/project/Suppliers.vue:204
-#: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:652
-#: onedesk/one/portal.py:788 onedesk/one/portal.py:845
-#: onedesk/one/portal.py:855 onedesk/one/portal.py:858
-#: onedesk/one/portal.py:860 onedesk/one/print_blocks.py:480
+#: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:658
+#: onedesk/one/portal.py:795 onedesk/one/portal.py:852
+#: onedesk/one/portal.py:862 onedesk/one/portal.py:865
+#: onedesk/one/portal.py:867 onedesk/one/print_blocks.py:480
 #: onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:103
@@ -20903,7 +21037,7 @@ msgstr ""
 msgid "Paid in Advance"
 msgstr ""
 
-#: onedesk/one/portal.py:788
+#: onedesk/one/portal.py:795
 msgid "Paid in full"
 msgstr ""
 
@@ -21034,7 +21168,7 @@ msgstr ""
 msgid "Partly Sent"
 msgstr ""
 
-#: onedesk/one/portal.py:837
+#: onedesk/one/portal.py:844
 msgid "Partly ordered"
 msgstr ""
 
@@ -21065,8 +21199,10 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
+#. Label of the party_type (Data) field in DocType 'Portal Link'
 #. Label of the party_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the party_doctype (Link) field in DocType 'Reading'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Party Type"
@@ -21102,7 +21238,7 @@ msgstr ""
 
 #. Label of the password (Password) field in DocType 'Cloud Link'
 #. Label of the password (Password) field in DocType 'Cloud Mount'
-#: frontend/portal/src/pages/Password.vue:5 onedesk/one/portal.py:55
+#: frontend/portal/src/pages/Password.vue:5 onedesk/one/portal.py:56
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1451 onedesk/public/js/onecloud.js:1609
@@ -21249,7 +21385,7 @@ msgstr ""
 msgid "Pay within {0} days to avoid suspension."
 msgstr ""
 
-#: onedesk/one/portal.py:687 onedesk/one_project/view.py:959
+#: onedesk/one/portal.py:694 onedesk/one_project/view.py:959
 msgid "Pay {0}"
 msgstr ""
 
@@ -22051,6 +22187,7 @@ msgstr ""
 
 #: frontend/portal/src/parts/PortalSidebar.vue:4
 #: frontend/src/project/Team.vue:40 onedesk/public/js/contact.js:24
+#: onedesk/public/js/portal_share.js:143 onedesk/public/js/portal_share.js:214
 msgid "Portal"
 msgstr ""
 
@@ -22059,9 +22196,11 @@ msgstr ""
 msgid "Portal Invitation"
 msgstr ""
 
-#. Label of the one_portal_own (Check) field in DocType 'Contact'
-#: onedesk/one/custom/contact.json
-msgid "Portal Shows Only Their Own"
+#. Name of a notification
+#. Name of a DocType
+#: onedesk/notifications/one/portal_link.md
+#: onedesk/one/doctype/portal_link/portal_link.json
+msgid "Portal Link"
 msgstr ""
 
 #: onedesk/public/js/contact.js:15
@@ -22476,7 +22615,7 @@ msgid "Professional Tax Deductions"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/portal/src/pages/Profile.vue:4 onedesk/one/portal.py:54
+#: frontend/portal/src/pages/Profile.vue:4 onedesk/one/portal.py:55
 #: onedesk/one/settings.py:17 onedesk/one/settings.py:1066
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/settings.js:1137
 #: onedesk/public/js/settings.js:1292
@@ -22517,7 +22656,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:77
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
-#: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:76
+#: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:77
 #: onedesk/one/print_blocks.py:687 onedesk/one_book/heads.py:639
 #: onedesk/one_book/heads.py:722 onedesk/one_book/heads.py:734
 #: onedesk/one_crm/heads.py:308 onedesk/one_inventory/heads.py:1533
@@ -22544,7 +22683,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/project/ProjectPage.vue:206
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
-#: onedesk/one/portal.py:76 onedesk/one/print_blocks.py:36
+#: onedesk/one/portal.py:77 onedesk/one/print_blocks.py:36
 #: onedesk/one/print_blocks.py:453 onedesk/one_book/heads.py:640
 #: onedesk/one_book/heads.py:735 onedesk/one_crm/heads.py:315
 #: onedesk/one_crm/heads.py:325 onedesk/one_crm/heads.py:345
@@ -22986,8 +23125,8 @@ msgstr ""
 #. Label in the One Request for Quotation print format
 #. Label in the One Stock Entry print format
 #. Label in the One Work Order print format
-#: frontend/portal/src/pages/Rfq.vue:22 frontend/portal/src/pages/Rfq.vue:38
-#: frontend/portal/src/pages/Rfq.vue:41 frontend/portal/src/pages/Rfq.vue:52
+#: frontend/portal/src/pages/Rfq.vue:24 frontend/portal/src/pages/Rfq.vue:40
+#: frontend/portal/src/pages/Rfq.vue:43 frontend/portal/src/pages/Rfq.vue:54
 #: frontend/src/quotes/QuoteCompare.vue:12
 #: onedesk/one/doctype/workspace_add_on/workspace_add_on.json
 #: onedesk/one_admin/doctype/tenant_add_on/tenant_add_on.json
@@ -23066,7 +23205,7 @@ msgstr ""
 msgid "Quotation Trends"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:200
+#: frontend/portal/src/pages/Record.vue:224
 msgid "Quotation declined"
 msgstr ""
 
@@ -23090,7 +23229,7 @@ msgstr ""
 msgid "Quotations lost, and why."
 msgstr ""
 
-#: onedesk/one/portal.py:141
+#: onedesk/one/portal.py:142
 msgid "Quote"
 msgstr ""
 
@@ -23103,7 +23242,7 @@ msgstr ""
 msgid "Quote Received"
 msgstr ""
 
-#: onedesk/one/portal.py:140
+#: onedesk/one/portal.py:141
 msgid "Quote Request"
 msgstr ""
 
@@ -23112,17 +23251,17 @@ msgstr ""
 msgid "Quote Request Sent"
 msgstr ""
 
-#: onedesk/one/portal.py:32
+#: onedesk/one/portal.py:33
 msgid "Quote Requests"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:178
+#: frontend/portal/src/pages/Rfq.vue:196 frontend/portal/src/pages/Rfq.vue:201
 msgid "Quote sent"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:154
-#: frontend/src/supplier/SupplierItems.vue:35 onedesk/one/portal.py:346
-#: onedesk/one/portal.py:1066 onedesk/one_inventory/heads.py:631
+#: frontend/src/supplier/SupplierItems.vue:35 onedesk/one/portal.py:345
+#: onedesk/one/portal.py:1105 onedesk/one_inventory/heads.py:631
 #: onedesk/one_inventory/heads.py:1555 onedesk/one_project/money.py:137
 msgid "Quoted"
 msgstr ""
@@ -23140,7 +23279,7 @@ msgid "Quoted, valid till {0}"
 msgstr ""
 
 #: frontend/src/item/ItemBuying.vue:11 frontend/src/item/ItemSelling.vue:12
-#: onedesk/one/portal.py:32
+#: onedesk/one/portal.py:33
 msgid "Quotes"
 msgstr ""
 
@@ -23196,8 +23335,8 @@ msgstr ""
 #. Label in the One Sales Order print format
 #. Label in the One Blanket Order print format
 #. Label in the One Purchase Order print format
-#: frontend/portal/src/pages/Rfq.vue:23 frontend/portal/src/pages/Rfq.vue:39
-#: frontend/portal/src/pages/Rfq.vue:42 frontend/portal/src/pages/Rfq.vue:55
+#: frontend/portal/src/pages/Rfq.vue:25 frontend/portal/src/pages/Rfq.vue:41
+#: frontend/portal/src/pages/Rfq.vue:44 frontend/portal/src/pages/Rfq.vue:57
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -23485,7 +23624,7 @@ msgstr ""
 #: frontend/src/home/InventoryStory.vue:171
 #: frontend/src/home/InventoryStory.vue:184
 #: frontend/src/sent_out/OutRows.vue:13
-#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one/portal.py:860
+#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one/portal.py:867
 #: onedesk/one_book/heads.py:101 onedesk/one_book/heads.py:380
 #: onedesk/one_inventory/heads.py:550 onedesk/one_inventory/heads.py:636
 #: onedesk/one_inventory/heads.py:648 onedesk/one_inventory/heads.py:735
@@ -23574,6 +23713,7 @@ msgstr ""
 msgid "Reconnected"
 msgstr ""
 
+#. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
 #. Label of the record_doctype (Link) field in DocType 'Workspace
 #. Customization'
@@ -23584,6 +23724,7 @@ msgstr ""
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -23675,11 +23816,13 @@ msgstr ""
 msgid "Record Sharing"
 msgstr ""
 
+#. Label of the reference_doctype (Link) field in DocType 'Portal Link'
 #. Label of the for_doctype (Data) field in DocType 'AI Proposal'
 #. Label of the target_doctype (Link) field in DocType 'Intake Action'
 #. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/settings.py:1726 onedesk/one/settings.py:2001
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -24677,7 +24820,7 @@ msgstr ""
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #. Task in the New Client Onboarding project template
 #. Label of the review (Select) field in DocType 'Extension'
-#: onedesk/one/portal.py:529
+#: onedesk/one/portal.py:528
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_project/library/client_onboarding.json
 #: onedesk/one_studio/ai.py:378
@@ -24705,6 +24848,10 @@ msgstr ""
 msgid "Review and next steps"
 msgstr ""
 
+#: onedesk/one/portal_share.py:21
+msgid "Review the quotation"
+msgstr ""
+
 #: onedesk/one_hr/heads.py:609 onedesk/one_hr/heads.py:619
 msgid "Reviewed"
 msgstr ""
@@ -24730,7 +24877,7 @@ msgid "Revision"
 msgstr ""
 
 #: frontend/portal/src/pages/Apps.vue:15 frontend/portal/src/pages/Apps.vue:20
-#: frontend/portal/src/pages/Apps.vue:25
+#: frontend/portal/src/pages/Apps.vue:25 onedesk/public/js/portal_share.js:49
 msgid "Revoke"
 msgstr ""
 
@@ -24746,7 +24893,10 @@ msgstr ""
 msgid "Revoke the remaining {0} credits?"
 msgstr ""
 
+#. Label of the disabled (Check) field in DocType 'Portal Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/public/js/credit_ledger_entry_list.js:23
+#: onedesk/public/js/portal_share.js:22
 msgid "Revoked"
 msgstr ""
 
@@ -24802,6 +24952,10 @@ msgstr ""
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Roof waterproofing"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:48
+msgid "Rotate"
 msgstr ""
 
 #: onedesk/one_inventory/home.py:202
@@ -25132,7 +25286,8 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/item_actions.js:40
 #: onedesk/public/js/lots_actions.js:60 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1629 onedesk/public/js/onemail.js:932
-#: onedesk/public/js/onemail.js:956 onedesk/public/js/project_actions.js:72
+#: onedesk/public/js/onemail.js:956 onedesk/public/js/portal_share.js:146
+#: onedesk/public/js/project_actions.js:72
 #: onedesk/public/js/project_actions.js:326
 #: onedesk/public/js/project_actions.js:373
 #: onedesk/public/js/project_actions.js:507
@@ -25145,7 +25300,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: onedesk/one/portal.py:32
+#: onedesk/one/portal.py:33
 msgid "Save Address"
 msgstr ""
 
@@ -25165,7 +25320,8 @@ msgstr ""
 #: frontend/portal/src/parts/WebForm.vue:125
 #: frontend/src/item/ItemBarcodes.vue:85
 #: onedesk/one/page/masters/masters.js:238
-#: onedesk/one/page/masters/masters.js:257 onedesk/public/js/reports.js:429
+#: onedesk/one/page/masters/masters.js:257
+#: onedesk/public/js/portal_share.js:155 onedesk/public/js/reports.js:429
 #: onedesk/public/js/shell.js:530
 msgid "Saved"
 msgstr ""
@@ -25469,7 +25625,7 @@ msgstr ""
 msgid "Send Prompt"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:99
+#: frontend/portal/src/pages/Rfq.vue:104
 msgid "Send Quote"
 msgstr ""
 
@@ -25552,8 +25708,8 @@ msgstr ""
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
-#: onedesk/one/portal.py:106 onedesk/one/portal.py:828
-#: onedesk/one/portal.py:832 onedesk/one/portal.py:838
+#: onedesk/one/portal.py:107 onedesk/one/portal.py:835
+#: onedesk/one/portal.py:839 onedesk/one/portal.py:845
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -25592,6 +25748,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:3053
 msgid "Sent by {0}"
+msgstr ""
+
+#: onedesk/one/portal_share.py:418
+msgid "Sent by {0}."
 msgstr ""
 
 #: onedesk/public/js/settings.js:3170
@@ -25864,7 +26024,7 @@ msgstr ""
 msgid "Set Up Naming"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:98
+#: frontend/portal/src/pages/Rfq.vue:103
 msgid "Set a rate for each item you can supply."
 msgstr ""
 
@@ -26179,11 +26339,11 @@ msgstr ""
 msgid "Ship To"
 msgstr ""
 
-#: onedesk/one/portal.py:628 onedesk/one/portal.py:1058
+#: onedesk/one/portal.py:634 onedesk/one/portal.py:1097
 msgid "Ship to"
 msgstr ""
 
-#: onedesk/one/portal.py:848
+#: onedesk/one/portal.py:855
 msgid "Shipped"
 msgstr ""
 
@@ -26972,6 +27132,10 @@ msgstr ""
 msgid "Someone changed {0} after you opened it."
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:117
+msgid "Someone else…"
+msgstr ""
+
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 msgid "Something a document asks somebody to do."
@@ -26991,7 +27155,7 @@ msgstr ""
 msgid "Something went wrong"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:194
+#: frontend/portal/src/pages/Record.vue:218
 #: frontend/portal/src/pages/YourData.vue:77 onedesk/www/your_data.html:88
 msgid "Something went wrong. Try again in a moment."
 msgstr ""
@@ -27337,8 +27501,8 @@ msgstr ""
 #: frontend/src/upkeep/UpkeepRows.vue:12 frontend/src/upkeep/UpkeepRows.vue:53
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
-#: onedesk/one/portal.py:74 onedesk/one/portal.py:75 onedesk/one/portal.py:76
-#: onedesk/one/portal.py:77
+#: onedesk/one/portal.py:75 onedesk/one/portal.py:76 onedesk/one/portal.py:77
+#: onedesk/one/portal.py:78
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -27658,6 +27822,10 @@ msgstr ""
 msgid "Stop sending this"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:175
+msgid "Stop this link opening? Whoever has it can't use it any more."
+msgstr ""
+
 #: onedesk/public/js/ai_model_list.js:34
 msgid "Stop workspaces from picking this model"
 msgstr ""
@@ -27913,7 +28081,7 @@ msgstr ""
 msgid "Submit {0} drafts?"
 msgstr ""
 
-#: frontend/src/quotes/QuoteRows.vue:73 onedesk/one/portal.py:299
+#: frontend/src/quotes/QuoteRows.vue:73 onedesk/one/portal.py:298
 #: onedesk/one_project/heads.py:205
 msgid "Submitted"
 msgstr ""
@@ -27940,7 +28108,7 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: onedesk/one/portal.py:632 onedesk/one/print_blocks.py:467
+#: onedesk/one/portal.py:638 onedesk/one/print_blocks.py:467
 msgid "Subtotal"
 msgstr ""
 
@@ -28381,8 +28549,8 @@ msgstr ""
 
 #. Label of the tax (Float) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/portal/src/pages/Rfq.vue:25 onedesk/one/portal.py:640
-#: onedesk/one/portal.py:1331
+#: frontend/portal/src/pages/Rfq.vue:27 onedesk/one/portal.py:646
+#: onedesk/one/portal.py:1380
 #: onedesk/one_book/report/vat_return/vat_return.py:39
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -28470,7 +28638,7 @@ msgstr ""
 msgid "Tax withheld from suppliers, payment by payment."
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:46
+#: frontend/portal/src/pages/Rfq.vue:48
 msgid "Tax {0}"
 msgstr ""
 
@@ -28609,7 +28777,7 @@ msgstr ""
 #. Label in the One Purchase Receipt print format
 #. Label of the one_terms_section (Section Break) field in DocType 'Project
 #. Template'
-#: frontend/portal/src/pages/Rfq.vue:88 onedesk/one/portal.py:721
+#: frontend/portal/src/pages/Rfq.vue:93 onedesk/one/portal.py:728
 #: onedesk/one/print_recipes.py:182
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
@@ -29156,6 +29324,31 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_book/payment_reminder.md
 msgid "The customer's contact on the invoice"
+msgstr ""
+
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Delivery Note'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Purchase Invoice'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Purchase Order'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Quotation'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Request for Quotation'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Sales Invoice'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Sales Order'
+#. Description of the 'Hidden on the Portal From' (Small Text) field in DocType
+#. 'Supplier Quotation'
+#: onedesk/one/custom/delivery_note.json
+#: onedesk/one/custom/purchase_invoice.json
+#: onedesk/one/custom/purchase_order.json onedesk/one/custom/quotation.json
+#: onedesk/one/custom/request_for_quotation.json
+#: onedesk/one/custom/sales_invoice.json onedesk/one/custom/sales_order.json
+#: onedesk/one/custom/supplier_quotation.json
+msgid "The customer's or supplier's portal contacts who may not see this record."
 msgstr ""
 
 #. Subject of a notification
@@ -29757,7 +29950,7 @@ msgstr ""
 msgid "The previous address"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:125
+#: frontend/portal/src/pages/Record.vue:130
 msgid "The price, the timing, another supplier…"
 msgstr ""
 
@@ -30352,6 +30545,10 @@ msgstr ""
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:99
+msgid "They can answer through it once."
+msgstr ""
+
 #: onedesk/one_hr/heads.py:272
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr ""
@@ -30387,7 +30584,7 @@ msgstr ""
 msgid "Thinking…"
 msgstr ""
 
-#: frontend/portal/src/pages/Apps.vue:5 onedesk/one/portal.py:57
+#: frontend/portal/src/pages/Apps.vue:5 onedesk/one/portal.py:58
 msgid "Third Party Apps"
 msgstr ""
 
@@ -30518,7 +30715,7 @@ msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:10
-#: frontend/portal/src/pages/Record.vue:23
+#: frontend/portal/src/pages/Record.vue:25
 #: frontend/portal/src/parts/WebForm.vue:16
 msgid "This is not one of yours, or it was taken away."
 msgstr ""
@@ -30541,6 +30738,10 @@ msgstr ""
 msgid "This item no longer exists."
 msgstr ""
 
+#: onedesk/one/portal_share.py:366
+msgid "This link has been answered already."
+msgstr ""
+
 #: onedesk/one_admin/accounts.py:352
 msgid "This link has been used or has expired. Ask for a new one from your account."
 msgstr ""
@@ -30552,6 +30753,10 @@ msgstr ""
 #: onedesk/one/privacy.py:182 onedesk/one/privacy_public.py:79
 #: onedesk/one/privacy_public.py:146
 msgid "This link no longer works"
+msgstr ""
+
+#: frontend/portal/src/pages/Link.vue:32 onedesk/one/portal_share.py:26
+msgid "This link no longer works. Ask whoever sent it for a new one."
 msgstr ""
 
 #: onedesk/public/js/settings.js:2961
@@ -30603,8 +30808,13 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one/portal.py:911
+#: onedesk/one/portal.py:918 onedesk/one/portal_share.py:386
+#: onedesk/one/portal_share.py:397
 msgid "This quotation can't be answered any more."
+msgstr ""
+
+#: onedesk/one/portal_share.py:193
+msgid "This record has no customer or supplier to send it to."
 msgstr ""
 
 #: onedesk/one/approvals.py:37 onedesk/one/automations.py:38
@@ -30625,7 +30835,7 @@ msgstr ""
 msgid "This request expired. Try again."
 msgstr ""
 
-#: onedesk/one/portal.py:1232 onedesk/public/js/onecloud.js:1755
+#: onedesk/one/portal.py:1276 onedesk/public/js/onecloud.js:1755
 #: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr ""
@@ -30634,7 +30844,7 @@ msgstr ""
 msgid "This request is not waiting for a decision."
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:11
+#: frontend/portal/src/pages/Rfq.vue:13
 msgid "This request was not sent to you, or it is closed."
 msgstr ""
 
@@ -30862,6 +31072,11 @@ msgstr ""
 msgid "Timers"
 msgstr ""
 
+#. Label of the opened (Int) field in DocType 'Portal Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
+msgid "Times Opened"
+msgstr ""
+
 #. Label of the opened (Int) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Times opened"
@@ -30871,7 +31086,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: frontend/src/project/ProjectPage.vue:185 frontend/src/project/Time.vue:13
 #: frontend/src/task/TaskPage.vue:222 frontend/src/task/TaskTime.vue:9
-#: onedesk/one/portal.py:77 onedesk/one/print_blocks.py:34
+#: onedesk/one/portal.py:78 onedesk/one/print_blocks.py:34
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -31005,7 +31220,7 @@ msgstr ""
 msgid "To Win"
 msgstr ""
 
-#: onedesk/one/portal.py:119 onedesk/one/portal.py:120
+#: onedesk/one/portal.py:120 onedesk/one/portal.py:121
 msgid "To deliver"
 msgstr ""
 
@@ -31018,12 +31233,12 @@ msgstr ""
 msgid "To or Cc Contains"
 msgstr ""
 
-#: onedesk/one/portal.py:654
+#: onedesk/one/portal.py:660
 #: onedesk/one_book/report/vat_return/vat_return.py:75
 msgid "To pay"
 msgstr ""
 
-#: onedesk/one/portal.py:346 onedesk/one/portal.py:1066
+#: onedesk/one/portal.py:345 onedesk/one/portal.py:1105
 msgid "To quote"
 msgstr ""
 
@@ -31073,21 +31288,25 @@ msgstr ""
 msgid "Today's Tasks"
 msgstr ""
 
+#. Label of the token (Password) field in DocType 'Portal Link'
 #. Label of the token (Password) field in DocType 'Calendar Feed'
 #. Label of the token (Password) field in DocType 'Cloud File Request
 #. Recipient'
 #. Label of the token (Password) field in DocType 'Cloud Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Token"
 msgstr ""
 
+#. Label of the token_hash (Data) field in DocType 'Portal Link'
 #. Label of the token_hash (Data) field in DocType 'Tenant'
 #. Label of the token_hash (Data) field in DocType 'Calendar Feed'
 #. Label of the token_hash (Data) field in DocType 'Cloud File Request
 #. Recipient'
 #. Label of the token_hash (Data) field in DocType 'Cloud Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
@@ -31160,10 +31379,10 @@ msgid "Top Preset"
 msgstr ""
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: frontend/portal/src/pages/Rfq.vue:80 frontend/src/project/Invoices.vue:35
+#: frontend/portal/src/pages/Rfq.vue:82 frontend/src/project/Invoices.vue:35
 #: frontend/src/project/Suppliers.vue:95
 #: frontend/src/quotes/QuoteCompare.vue:38 frontend/src/quotes/QuoteRows.vue:13
-#: onedesk/one/portal.py:74 onedesk/one/portal.py:647 onedesk/one/portal.py:817
+#: onedesk/one/portal.py:75 onedesk/one/portal.py:653 onedesk/one/portal.py:824
 #: onedesk/one/print_blocks.py:500 onedesk/one/print_blocks.py:717
 #: onedesk/one/print_blocks.py:751
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
@@ -31531,7 +31750,7 @@ msgstr ""
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
 #: frontend/src/plant/PlantFloor.vue:20 frontend/src/project/TaskPanel.vue:51
-#: frontend/src/task/TaskPage.vue:272 onedesk/one/portal.py:78
+#: frontend/src/task/TaskPage.vue:272 onedesk/one/portal.py:79
 #: onedesk/one/print_blocks.py:61
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:102
@@ -31891,7 +32110,9 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
+#. Label of the section_use (Section Break) field in DocType 'Portal Link'
 #. Label of the section_use (Section Break) field in DocType 'Cloud Link'
+#: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Use"
 msgstr ""
@@ -32127,11 +32348,11 @@ msgstr ""
 msgid "Valid till {0}"
 msgstr ""
 
-#: onedesk/one/portal.py:129
+#: onedesk/one/portal.py:130
 msgid "Valid until"
 msgstr ""
 
-#: onedesk/one/portal.py:458 onedesk/one/portal.py:812
+#: onedesk/one/portal.py:457 onedesk/one/portal.py:819
 msgid "Valid until {0}"
 msgstr ""
 
@@ -32276,7 +32497,7 @@ msgid "Video Generation"
 msgstr ""
 
 #. Label of the view (Select) field in DocType 'Extension'
-#: onedesk/one/portal.py:531
+#: onedesk/one/portal.py:530
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/onecloud.js:158 onedesk/public/js/onecloud.js:1323
 #: onedesk/public/js/project.js:17 onedesk/public/js/project.js:22
@@ -32308,7 +32529,7 @@ msgstr ""
 msgid "View Workspaces"
 msgstr ""
 
-#: onedesk/one/portal.py:527
+#: onedesk/one/portal.py:526
 msgid "View and Pay"
 msgstr ""
 
@@ -32541,7 +32762,7 @@ msgstr ""
 msgid "We sent a link to {0}. The address changes when it is followed, within the hour."
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:114
+#: frontend/portal/src/pages/Record.vue:117
 msgid "We'll prepare your order for {0} and confirm it with you."
 msgstr ""
 
@@ -34192,6 +34413,11 @@ msgid "When someone pays for a new workspace."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one/portal_link.md
+msgid "When someone sends a customer or supplier a link to a record."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_storage/file_request_answered.md
 msgid "When someone sends a file you requested."
 msgstr ""
@@ -34343,7 +34569,7 @@ msgstr ""
 msgid "When you ask for your account to be deleted and sign in without a password."
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:86
+#: frontend/portal/src/pages/Rfq.vue:89
 msgid "When you can deliver, and anything the buyer should know."
 msgstr ""
 
@@ -34903,6 +35129,10 @@ msgstr ""
 msgid "Who pays was not changed"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:64
+msgid "Who sees it on the portal"
+msgstr ""
+
 #: onedesk/one/ai.py:303
 msgid "Who sees only part?"
 msgstr ""
@@ -35019,6 +35249,11 @@ msgid "Whoever made the request"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one/portal_link.md
+msgid "Whoever the link is for"
+msgstr ""
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_project/hours_over_plan.md
 msgid "Whoever the task is given to and the project's manager, or a project's manager"
 msgstr ""
@@ -35129,7 +35364,7 @@ msgstr ""
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:125
+#: frontend/portal/src/pages/Record.vue:130
 msgid "Why? (optional)"
 msgstr ""
 
@@ -35456,6 +35691,10 @@ msgstr ""
 
 #: onedesk/one_studio/places.py:416
 msgid "Workload is opened, and each time it is drawn again."
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:132
+msgid "Works until"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:191
@@ -35816,6 +36055,10 @@ msgstr ""
 msgid "Write with {0}"
 msgstr ""
 
+#: onedesk/one/portal_share.py:369
+msgid "Write your name, so we know who answered."
+msgstr ""
+
 #: onedesk/one_project/updates.py:113
 msgid "Write your update first."
 msgstr ""
@@ -36110,7 +36353,7 @@ msgstr ""
 msgid "You've sent everything. You can still replace a file."
 msgstr ""
 
-#: frontend/portal/src/pages/YourData.vue:6 onedesk/one/portal.py:56
+#: frontend/portal/src/pages/YourData.vue:6 onedesk/one/portal.py:57
 #: onedesk/public/js/login.js:91 onedesk/public/js/settings.js:212
 #: onedesk/www/your_data.html:16 onedesk/www/your_data.py:23
 msgid "Your Data"
@@ -36161,7 +36404,7 @@ msgstr ""
 msgid "Your Password"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:101
+#: frontend/portal/src/pages/Rfq.vue:106
 msgid "Your Quotes"
 msgstr ""
 
@@ -36292,6 +36535,12 @@ msgstr ""
 msgid "Your interview is at {when}"
 msgstr ""
 
+#: frontend/portal/src/pages/Record.vue:120
+#: frontend/portal/src/pages/Record.vue:131
+#: frontend/portal/src/pages/Rfq.vue:90
+msgid "Your name"
+msgstr ""
+
 #: onedesk/one_hr/rules.py:31
 msgid "Your passkey has been reset twice within a month."
 msgstr ""
@@ -36306,16 +36555,16 @@ msgstr ""
 msgid "Your password was changed on {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:116
+#: frontend/portal/src/pages/Record.vue:119
 msgid "Your purchase order number, if you have one"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:95
+#: frontend/portal/src/pages/Rfq.vue:100
 msgid "Your quote"
 msgstr ""
 
-#: frontend/portal/src/pages/Record.vue:116 onedesk/one/portal.py:133
-#: onedesk/one/portal.py:134
+#: frontend/portal/src/pages/Record.vue:119 onedesk/one/portal.py:134
+#: onedesk/one/portal.py:135
 msgid "Your reference"
 msgstr ""
 
@@ -36454,7 +36703,7 @@ msgstr ""
 msgid "a column"
 msgstr ""
 
-#: onedesk/one/tell.py:381
+#: onedesk/one/tell.py:386
 msgid "a copy of your data"
 msgstr ""
 
@@ -36557,6 +36806,10 @@ msgstr ""
 msgid "and {0} more"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:38
+msgid "answered by {0}"
+msgstr ""
+
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "audio"
@@ -36581,7 +36834,7 @@ msgstr ""
 msgid "by the customer"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:34 onedesk/one/ai_setup.py:312
+#: frontend/portal/src/pages/Rfq.vue:36 onedesk/one/ai_setup.py:312
 #: onedesk/one_admin/log.py:107 onedesk/one_intake/panel.py:157
 #: onedesk/public/js/intake.js:112 onedesk/public/js/intake.js:187
 msgid "by {0}"
@@ -36765,6 +37018,10 @@ msgstr ""
 msgid "hidden"
 msgstr ""
 
+#: onedesk/one/portal_share.py:170
+msgid "hidden on the portal from {0}"
+msgstr ""
+
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "image"
@@ -36857,8 +37114,16 @@ msgstr ""
 msgid "macOS"
 msgstr ""
 
+#: onedesk/one/portal_share.py:234
+msgid "made a portal link for {0}"
+msgstr ""
+
 #: onedesk/one/holidays.py:209
 msgid "made next year's list, {0}"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:32
+msgid "made {0}"
 msgstr ""
 
 #: onedesk/one/holidays.py:220
@@ -36878,7 +37143,7 @@ msgstr ""
 msgid "may now {0}"
 msgstr ""
 
-#: onedesk/one/tell.py:477
+#: onedesk/one/tell.py:482
 msgid "move it on"
 msgstr ""
 
@@ -36956,6 +37221,10 @@ msgstr ""
 
 #: onedesk/public/js/intake.js:101
 msgid "not known yet"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:37
+msgid "not opened yet"
 msgstr ""
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:330
@@ -37041,8 +37310,16 @@ msgstr ""
 msgid "only the records of {0} {1}, {2}"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:34
+msgid "opened once, {0}"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1402
 msgid "opened {0} times"
+msgstr ""
+
+#: onedesk/public/js/portal_share.js:36
+msgid "opened {0} times, last {1}"
 msgstr ""
 
 #: onedesk/one/ai.py:1062
@@ -37159,6 +37436,10 @@ msgstr ""
 msgid "restored {0} as {1}"
 msgstr ""
 
+#: onedesk/one/portal_share.py:260
+msgid "revoked the portal link for {0}"
+msgstr ""
+
 #: onedesk/one_admin/offerings.py:190
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:23
 msgid "seats"
@@ -37186,6 +37467,10 @@ msgstr ""
 
 #: onedesk/one/ai.py:1061
 msgid "shown"
+msgstr ""
+
+#: onedesk/one/portal_share.py:172
+msgid "shown on the portal to {0} again"
 msgstr ""
 
 #: onedesk/one_book/heads.py:266
@@ -37361,7 +37646,7 @@ msgstr ""
 msgid "thread"
 msgstr ""
 
-#: onedesk/one/portal.py:574
+#: onedesk/one/portal.py:573
 msgid "to pay"
 msgstr ""
 
@@ -37457,6 +37742,10 @@ msgstr ""
 msgid "workers-ai"
 msgstr ""
 
+#: onedesk/public/js/portal_share.js:39
+msgid "works until {0}"
+msgstr ""
+
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -37468,7 +37757,7 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
-#: onedesk/one/tell.py:381
+#: onedesk/one/tell.py:386
 msgid "your data to be deleted"
 msgstr ""
 
@@ -37513,9 +37802,13 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one/tell.py:583 onedesk/one_studio/extensions.py:457
+#: onedesk/one/tell.py:588 onedesk/one_studio/extensions.py:457
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
+msgstr ""
+
+#: onedesk/one/portal_share.py:373
+msgid "{0} ({1}), through a link"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:138
@@ -37691,7 +37984,7 @@ msgstr ""
 msgid "{0} always works."
 msgstr ""
 
-#: onedesk/one/tell.py:260
+#: onedesk/one/tell.py:265
 msgid "{0} and {1}"
 msgstr ""
 
@@ -37998,7 +38291,7 @@ msgstr ""
 msgid "{0} days of {1}; {2} left after."
 msgstr ""
 
-#: onedesk/one/portal.py:446 onedesk/one/portal.py:798
+#: onedesk/one/portal.py:445 onedesk/one/portal.py:805
 msgid "{0} days overdue"
 msgstr ""
 
@@ -38136,7 +38429,7 @@ msgstr ""
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr ""
 
-#: frontend/src/kit/desk.js:32 onedesk/one/portal.py:391
+#: frontend/src/kit/desk.js:32 onedesk/one/portal.py:390
 #: onedesk/one_inventory/heads.py:1068 onedesk/one_project/billing.py:443
 #: onedesk/one_project/heads.py:194 onedesk/one_project/view.py:512
 #: onedesk/public/js/timesheet_list.js:9
@@ -38796,6 +39089,10 @@ msgstr ""
 msgid "{0} is {1}, so it can't be offered."
 msgstr ""
 
+#: onedesk/one/portal_share.py:205
+msgid "{0} isn't a contact of this record's customer or supplier."
+msgstr ""
+
 #: onedesk/one_admin/doctype/tenant/tenant.py:19
 msgid "{0} isn't a valid slug. Use letters, digits and hyphens."
 msgstr ""
@@ -39023,7 +39320,7 @@ msgstr ""
 msgid "{0} of {1} done"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:98
+#: frontend/portal/src/pages/Rfq.vue:103
 msgid "{0} of {1} items priced"
 msgstr ""
 
@@ -39092,11 +39389,11 @@ msgstr ""
 msgid "{0} of {1}'s time; none of it is billed to the customer."
 msgstr ""
 
-#: onedesk/one/tell.py:525
+#: onedesk/one/tell.py:530
 msgid "{0} off"
 msgstr ""
 
-#: onedesk/one/tell.py:525
+#: onedesk/one/tell.py:530
 msgid "{0} on"
 msgstr ""
 
@@ -39447,7 +39744,7 @@ msgstr ""
 msgid "{0} to decide"
 msgstr ""
 
-#: onedesk/one/portal.py:95
+#: onedesk/one/portal.py:96
 msgid "{0} to deliver"
 msgstr ""
 
@@ -39459,7 +39756,7 @@ msgstr ""
 msgid "{0} to order"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:491 onedesk/one/portal.py:92
+#: frontend/src/project/Overview.vue:491 onedesk/one/portal.py:93
 msgid "{0} to pay"
 msgstr ""
 
@@ -39470,7 +39767,7 @@ msgstr ""
 msgid "{0} to {1}"
 msgstr ""
 
-#: onedesk/one/tell.py:523
+#: onedesk/one/tell.py:528
 msgid "{0} to {1}%"
 msgstr ""
 
@@ -39597,11 +39894,11 @@ msgid "{0} years"
 msgstr ""
 
 #: frontend/src/kit/desk.js:166 onedesk/one/ai_setup.py:532
-#: onedesk/one_inventory/heads.py:275
+#: onedesk/one/portal_share.py:297 onedesk/one_inventory/heads.py:275
 msgid "{0} {1}"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:34
+#: frontend/portal/src/pages/Rfq.vue:36
 msgid "{0} {1} asked for"
 msgstr ""
 
@@ -40097,6 +40394,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one_admin/workspace_moved_away.md
 msgid "{by} moved billing for {workspace} to someone else. You won't get any more invoices for it. If this is a mistake, reply to this email."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one/portal_link.md
+msgid "{by} sent you {what}"
 msgstr ""
 
 #. Subject of a notification

@@ -4044,31 +4044,30 @@ def a_customer_accepts_one_quotation_and_declines_another_on_the_portal():
 
 
 @check
-def a_portal_contact_set_to_their_own_sees_only_theirs():
-	"""Mansour & Sons' invoices are all Khalid's to see until his contact is
-	set to see only his own: then only the one naming him lists, counts and
-	opens, on the portal, erpnext's pages and a PDF alike. Rami, set the same
-	way, sees a quote request only once its row names him as the contact."""
-	from onedesk.one import portal
+def a_record_hidden_from_a_portal_contact_is_gone_for_them():
+	"""Mansour & Sons' invoices are all Khalid's to see until one is unticked
+	for him in its Portal dialog: then it neither lists nor opens for him, on
+	the portal, erpnext's pages or a PDF, and the rest still do. Ticked again,
+	it is back. A quote request unticked for Rami is gone for him the same
+	way, and only a record's own contacts can be unticked."""
+	from onedesk.one import portal, portal_share
 
 	khalid, rami = "khalid@mansour.example", "sales@emiratessealants.example"
 	invoices = frappe.get_all("Sales Invoice", filters={"customer": "Mansour & Sons", "docstatus": 1}, pluck="name", order_by="name")
 	assert len(invoices) > 1, invoices
 	his, other = invoices[0], invoices[1]
 
-	def fresh():
-		frappe.local.flags.pop("one_portal_own", None)
+	def listed(user, kind):
+		frappe.local.flags.pop("one_portal_contacts", None)
+		with as_user(user):
+			return {one["name"] for one in portal.rows(kind)["rows"]}
 
 	contact = frappe.db.get_value("Contact", {"user": khalid}, "name")
-	frappe.db.set_value("Sales Invoice", his, "contact_person", contact)
+	assert listed(khalid, "invoices") >= {his, other}, "the whole company's, by default"
+	said = portal_share.set_access("Sales Invoice", other, frappe.as_json([contact]))
+	assert [one["sees"] for one in said["groups"][0]["people"] if one["contact"] == contact] == [False]
+	assert his in listed(khalid, "invoices") and other not in listed(khalid, "invoices")
 	with as_user(khalid):
-		fresh()
-		assert {one["name"] for one in portal.rows("invoices")["rows"]} >= {his, other}, "the whole company's, by default"
-	frappe.db.set_value("Contact", contact, "one_portal_own", 1)
-	with as_user(khalid):
-		fresh()
-		assert [one["name"] for one in portal.rows("invoices")["rows"]] == [his]
-		assert {one["path"]: one for one in portal.home()["tiles"]}["invoices"]["count"] == "1"
 		assert portal.record("invoices", his)["name"] == his
 		assert not frappe.has_website_permission(frappe.get_doc("Sales Invoice", other)), "the PDF and erpnext's page refuse it too"
 		try:
@@ -4076,21 +4075,134 @@ def a_portal_contact_set_to_their_own_sees_only_theirs():
 		except frappe.PermissionError:
 			pass
 		else:
-			raise AssertionError("a contact set to their own opened a colleague's invoice")
+			raise AssertionError("a record unticked for a contact opened for them")
+	portal_share.set_access("Sales Invoice", other, "[]")
+	assert other in listed(khalid, "invoices")
 
-	supplier = frappe.db.get_value("Portal User", {"user": rami, "parenttype": "Supplier"}, "parent")
-	row = frappe.db.get_value("Request for Quotation Supplier", {"supplier": supplier, "docstatus": 1}, ["name", "parent"], as_dict=True)
+	row = frappe.db.get_value("Request for Quotation Supplier", {"supplier": "Emirates Sealants & Fixings", "docstatus": 1}, ["parent"], as_dict=True)
 	theirs = frappe.db.get_value("Contact", {"user": rami}, "name")
-	frappe.db.set_value("Contact", theirs, "one_portal_own", 1)
-	frappe.db.set_value("Request for Quotation Supplier", row.name, "contact", None)
-	with as_user(rami):
-		fresh()
-		assert row.parent not in {one["name"] for one in portal.rows("rfq")["rows"]}
-	frappe.db.set_value("Request for Quotation Supplier", row.name, "contact", theirs)
-	with as_user(rami):
-		fresh()
-		assert row.parent in {one["name"] for one in portal.rows("rfq")["rows"]}
-	fresh()
+	portal_share.set_access("Request for Quotation", row.parent, frappe.as_json([theirs]))
+	assert row.parent not in listed(rami, "rfq")
+	portal_share.set_access("Request for Quotation", row.parent, "[]")
+	assert row.parent in listed(rami, "rfq")
+	try:
+		portal_share.set_access("Sales Invoice", his, frappe.as_json([theirs]))
+	except frappe.ValidationError:
+		pass
+	else:
+		raise AssertionError("a record was hidden from somebody else's contact")
+	frappe.local.flags.pop("one_portal_contacts", None)
+
+
+@check
+def a_link_opens_a_record_for_somebody_without_an_account_and_answers_once():
+	"""Omar sends Khalid a link to an open quotation: anybody holding it sees
+	the quotation without signing in, accepts it once with their name, and
+	then only reads it. Karim sends Rami a link to a quote request, which
+	prices and sends a quote as Emirates Sealants' once. A link mailed again
+	goes to the same person; rotated, the old one stops and a new one opens;
+	revoked or past its day, it opens nothing, and a guess opens nothing."""
+	from unittest import mock
+
+	from onedesk.one import portal_share
+
+	base = frappe.get_doc("Quotation", frappe.get_all("Quotation", filters={"party_name": "Mansour & Sons", "docstatus": 1}, pluck="name", limit=1)[0])
+	quote = frappe.copy_doc(base)
+	quote.transaction_date, quote.valid_till, quote.payment_schedule = today(), add_days(today(), 10), []
+	for row in quote.items:
+		row.ordered_qty = 0
+	quote.insert(ignore_permissions=True)
+	quote.submit()
+	khalid = frappe.db.get_value("Contact", {"user": "khalid@mansour.example"}, "name")
+	with as_user("omar@one.test"):
+		said = portal_share.access("Quotation", quote.name)
+		assert said["may"] and khalid in {one["contact"] for one in said["groups"][0]["reachable"]}
+		with mock.patch("onedesk.one.tell.portal_link") as told:
+			made = portal_share.make_link("Quotation", quote.name, contact=khalid, send=1)
+		assert told.call_args.args[0] == "khalid@mansour.example" and told.call_args.kwargs["until"]
+	token = answered = made["url"].rsplit("/", 1)[-1]
+	link = frappe.get_doc("Portal Link", made["links"][0]["name"])
+	assert getdate(link.expires_on) == getdate(quote.valid_till), "a quotation's link lasts as long as it does"
+	assert link.token_hash != token and len(token) == 40, "only the token's hash is looked up"
+
+	with as_user("Guest"):
+		page = portal_share.link_view(token)
+		assert page["kind"] == "record" and page["page"]["answer"] and "link_pdf" in page["page"]["actions"][0]["href"]
+		try:
+			portal_share.link_accept(token, add_days(today(), 20), by="")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a link was answered by nobody")
+		with mock.patch("onedesk.one_crm.tell.quotation_accepted"):
+			order = portal_share.link_accept(token, add_days(today(), 20), "MS-PO-9", by="Khalid Mansour")
+		assert frappe.db.get_value("Sales Order", order, "contact_person") == khalid
+		assert not portal_share.link_view(token)["page"]["answer"]
+		assert portal_share.link_view(token)["answered"]["by"] == "Khalid Mansour"
+		try:
+			portal_share.link_decline(token, by="Khalid Mansour")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a link was answered twice")
+
+	rfq = frappe.copy_doc(frappe.get_doc("Request for Quotation", frappe.db.get_value("Request for Quotation Supplier", {"supplier": "Emirates Sealants & Fixings", "docstatus": 1}, "parent")))
+	rfq.transaction_date, rfq.schedule_date = today(), add_days(today(), 14)
+	rfq.suppliers = [one for one in rfq.suppliers if one.supplier == "Emirates Sealants & Fixings"]
+	for one in rfq.items:
+		one.schedule_date = rfq.schedule_date
+	rfq.insert(ignore_permissions=True)
+	rfq.submit()
+	with as_user("karim@one.test"):
+		made = portal_share.make_link("Request for Quotation", rfq.name, email="quotes@emiratessealants.example")
+	token = made["url"].rsplit("/", 1)[-1]
+	rows = {one.name: {"qty": one.qty, "rate": 20, "discount": 10} for one in rfq.items}
+	with as_user("Guest"):
+		assert portal_share.link_view(token)["page"]["open"]
+		assert portal_share.link_preview(token, frappe.as_json(rows))["total"]
+		with mock.patch("onedesk.one.tell.quote_received"):
+			sent = portal_share.link_send(token, frappe.as_json(rows), "Two weeks", by="Rami Haddad")
+		assert not portal_share.link_view(token)["page"]["open"]
+	assert frappe.db.get_value("Supplier Quotation", sent, ["supplier", "docstatus"]) == ("Emirates Sealants & Fixings", 0)
+
+	with as_user("karim@one.test"):
+		name = made["links"][0]["name"]
+		with mock.patch("onedesk.one.tell.portal_link") as told:
+			try:
+				portal_share.mail_link(name)
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("an answered link was mailed again")
+		again = portal_share.make_link("Request for Quotation", rfq.name, email="quotes@emiratessealants.example")
+		old = again["url"].rsplit("/", 1)[-1]
+		with mock.patch("onedesk.one.tell.portal_link") as told:
+			portal_share.mail_link(again["links"][0]["name"])
+		assert told.called
+		rotated = portal_share.rotate_link(again["links"][0]["name"])
+		new = rotated["url"].rsplit("/", 1)[-1]
+		states = [one["state"] for one in portal_share.revoke_link(rotated["links"][0]["name"])]
+		assert states.count("revoked") == 2, states
+	with as_user("Guest"), mock.patch("frappe.utils.print_format.download_pdf") as printed:
+		portal_share.link_pdf(answered)
+	frappe.flags.ignore_print_permissions = False
+	assert printed.call_args.args[:2] == ("Quotation", quote.name), "an answered link still prints"
+	frappe.db.set_value("Portal Link", link.name, "expires_on", add_days(now_datetime(), -1))
+	with as_user("Guest"):
+		for gone in (old, new, answered, "0" * 40, ""):
+			try:
+				portal_share.link_view(gone)
+			except frappe.PermissionError:
+				pass
+			else:
+				raise AssertionError("a revoked, expired or guessed link opened")
+	with as_user("khalid@mansour.example"):
+		try:
+			portal_share.access("Quotation", quote.name)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a portal reader opened a record's Portal dialog")
 
 
 @check

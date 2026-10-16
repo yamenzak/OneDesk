@@ -4,8 +4,10 @@
        priced in place in one card, with a discount and the tax the workspace
        charges on it, and the totals; notes; and beside them what
        the quote comes to and Send Quote (`send_quote`). Once answered, the
-       quotes sent take the button's place. -->
-  <Head :title="name" :crumbs="[{ label: tab, route: '/rfq' }]" :badge="doc" />
+       quotes sent take the button's place. Through a signed link (`token`,
+       pages/Link.vue) the same page for the link's supplier, sent once,
+       with the sender's name. -->
+  <Head :title="doc?.name || name" :crumbs="token ? [] : [{ label: tab, route: '/rfq' }]" :badge="doc" />
   <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
     <Loading v-if="!doc && !failed" />
     <Empty v-else-if="failed" :title="__('No access')" :line="__('This request was not sent to you, or it is closed.')" />
@@ -83,7 +85,10 @@
           </template>
         </Card>
         <Card v-if="open" :title="__('Notes')">
-          <Textarea v-model="notes" :placeholder="__('When you can deliver, and anything the buyer should know.')" :rows="3" />
+          <div class="flex flex-col gap-4">
+            <Textarea v-model="notes" :placeholder="__('When you can deliver, and anything the buyer should know.')" :rows="3" />
+            <FormControl v-if="token" v-model="by" type="text" :label="__('Your name')" required />
+          </div>
         </Card>
         <Card v-if="doc.terms" :title="__('Terms')">
           <div class="prose prose-sm max-w-none text-ink-gray-7" v-html="doc.terms" />
@@ -96,13 +101,14 @@
           <p class="mt-1 text-3xl font-semibold tabular-nums text-ink-gray-9">{{ grand }}</p>
           <p v-if="preview?.taxes?.length" class="text-sm text-ink-gray-6">{{ __("Including {0}", [preview.taxes.map((one) => one.label).join(", ")]) }}</p>
           <p class="mt-1 text-sm text-ink-gray-6">{{ priced ? __("{0} of {1} items priced", [pricedRows, doc.rows.length]) : __("Set a rate for each item you can supply.") }}</p>
-          <Button class="mt-4 w-full" variant="solid" size="md" :label="__('Send Quote')" :loading="sending" :disabled="!priced" @click="send" />
+          <Button class="mt-4 w-full" variant="solid" size="md" :label="__('Send Quote')" :loading="sending" :disabled="!priced || (token && !by.trim())" @click="send" />
         </Card>
         <Card v-if="doc.quotes.length" :title="__('Your Quotes')" flush>
+          <p v-if="answered" class="px-4 pt-3 text-sm text-ink-gray-6">{{ __("Answered by {0}, {1}.", [answered.by, answered.on]) }}</p>
           <LinkRow
             v-for="one in doc.quotes"
             :key="one.name"
-            :to="`/supplier-quotations/${one.name}`"
+            :to="token ? '' : `/supplier-quotations/${one.name}`"
             :name="one.name"
             :line="`${one.date} · ${one.total}`"
             :status="one.status"
@@ -125,7 +131,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { Button, TextInput, Textarea, debounce, toast } from "frappe-ui";
+import { Button, FormControl, TextInput, Textarea, debounce, toast } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { call } from "../call";
@@ -138,12 +144,19 @@ import LinkRow from "../parts/LinkRow.vue";
 import { phone } from "../phone";
 import { __, boot } from "../words";
 
-const props = defineProps({ name: { type: String, required: true } });
+const props = defineProps({
+  name: { type: String, default: "" },
+  // A signed link's token, and what its page first said (pages/Link.vue).
+  token: { type: String, default: "" },
+  link: { type: Object, default: null },
+});
 const router = useRouter();
 
 const tab = computed(() => boot().tabs?.find((one) => one.path === "rfq")?.title || "");
-const doc = ref(null);
+const doc = ref(props.link?.page || null);
+const answered = ref(props.link?.answered || null);
 const failed = ref(false);
+const by = ref("");
 const answer = reactive({});
 const notes = ref("");
 const sending = ref(false);
@@ -164,7 +177,10 @@ const grand = computed(() => preview.value?.total || money(total.value, doc.valu
 const reckon = debounce(async () => {
   if (!open.value) return;
   try {
-    preview.value = await call("quote_preview", { rfq: props.name, rows: JSON.stringify(answer) });
+    const rows = JSON.stringify(answer);
+    preview.value = props.token
+      ? await call("onedesk.one.portal_share.link_preview", { token: props.token, rows })
+      : await call("quote_preview", { rfq: props.name, rows });
   } catch {
     preview.value = null;
   }
@@ -174,7 +190,14 @@ watch(answer, reckon, { deep: true });
 async function send() {
   sending.value = true;
   try {
-    const quote = await call("send_quote", { rfq: props.name, rows: JSON.stringify(answer), notes: notes.value });
+    const rows = JSON.stringify(answer);
+    if (props.token) {
+      await call("onedesk.one.portal_share.link_send", { token: props.token, rows, notes: notes.value, by: by.value });
+      toast.success(__("Quote sent"));
+      await load();
+      return;
+    }
+    const quote = await call("send_quote", { rfq: props.name, rows, notes: notes.value });
     toast.success(__("Quote sent"));
     router.push(`/supplier-quotations/${quote}`);
   } catch (error) {
@@ -184,18 +207,34 @@ async function send() {
   }
 }
 
+function fill() {
+  for (const row of doc.value.rows) answer[row.name] = { qty: row.qty, rate: "", discount: "" };
+}
+
+async function load() {
+  failed.value = false;
+  try {
+    if (props.token) {
+      const said = await call("onedesk.one.portal_share.link_view", { token: props.token });
+      doc.value = said.page;
+      answered.value = said.answered;
+    } else {
+      doc.value = await call("rfq", { name: props.name });
+    }
+    fill();
+  } catch {
+    failed.value = true;
+  }
+}
+
 watch(
   () => props.name,
-  async () => {
+  () => {
+    if (props.token) return;
     doc.value = null;
-    failed.value = false;
-    try {
-      doc.value = await call("rfq", { name: props.name });
-      for (const row of doc.value.rows) answer[row.name] = { qty: row.qty, rate: "", discount: "" };
-    } catch {
-      failed.value = true;
-    }
+    load();
   },
   { immediate: true },
 );
+if (doc.value) fill();
 </script>

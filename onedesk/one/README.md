@@ -1691,13 +1691,27 @@ choose their password, which works for a week, and land on the portal.
   turns off their login. **Restore Access** turns it back on.
 - An address that belongs to someone in the workspace cannot be invited.
   They sign in to One instead.
-- **Portal Shows Only Their Own**, on the contact: by default each invited
-  contact sees everything of their customer or supplier, as ERPNext lists
-  it. Ticked, they see only the quotations, orders, shipments, invoices,
-  quotes, purchase orders and quote requests they are the contact on: two
-  departments of one customer each see their own. Projects, timesheets and
-  addresses stay the company's. An order a customer accepts on the portal,
-  and a quote a supplier sends, name whoever did it as the contact.
+- **Who sees a record**: by default every invited contact of a customer or
+  supplier sees all of its records, as ERPNext lists them. On a submitted
+  quotation, order, shipment, invoice, quote request, supplier quotation,
+  purchase order or purchase invoice, **Portal** lists the contacts who sign in to the portal,
+  ticked. Untick someone and **Save**, and that record no longer lists,
+  opens or prints for them: two departments of one customer each see their
+  own. Only who is unticked is kept, so a contact invited later sees the
+  record, and it can be changed any time. Projects, timesheets and addresses
+  stay the company's.
+- **Links**: the same **Portal** makes a link to the record for one person,
+  who needs no account: a contact of the customer or supplier, or any email
+  address. **Make Link** emails it to them with a button (Portal Link) or
+  copies it. It opens the record's page on the portal until its day: a
+  month, or a quotation's own last day if that is sooner. Through it they
+  can accept or decline a quotation, or price and send a quote, once, giving
+  their name; after that it only reads, and says who answered. Each link in
+  the list says how often it was opened and has **Copy**, **Email Again**,
+  **Rotate** (a new link in its place, the old one stops) and **Revoke**. A
+  link revoked, expired or mistyped says it no longer works, and nothing
+  else. Opening a link does not use it up, so a mail scanner that opens it
+  first spends nothing.
 
 - **A customer** sees their quotations, orders, invoices, shipments,
   addresses, projects and timesheets.
@@ -2644,11 +2658,29 @@ addresses, and erpnext's (/orders/<name>), into the app. ERPNext's project
 page is www/projects.py, which does the same: frappe keeps a redirect by its
 path alone, so a rule can't tell /projects?project=… from /projects.
 
-A contact set to see only their own (Contact's Portal Shows Only Their Own)
-is held to it by `mine`: the lists, Home and linked records filter by it, and
-`has_website_permission` (hooks.py), beside erpnext's own, refuses the rest on
-the record page, erpnext's own pages and a PDF. erpnext lets every portal
-user of a customer read all of it, and has no narrower rule to build on.
+A record unticked for some contacts keeps only them, as a list of Contact
+names in its `one_portal_hidden` (a hidden custom field on each of the eight
+kinds), so a contact added later sees it with nobody having to tick them.
+`mine` holds a reader to it: the lists, Home and linked records filter by it,
+and `has_website_permission` (hooks.py), beside erpnext's own, refuses the
+rest on the record page, erpnext's own pages and a PDF. erpnext lets every
+portal user of a customer read all of it, and has no narrower rule to build
+on. A quote request has no erpnext rule to sit beside, and adding one would
+open it to every website user, so `rfq` checks `mine` itself.
+
+A link (one/portal_share.py) is a Portal Link: the record, the party, the
+contact or address it is for, its last day, and the sha256 of its token,
+looked up by that hash; the token itself is a Password field, kept only so
+**Copy** can give the link again. `_live` refuses a revoked, expired,
+cancelled or unknown token with the same words, so a guess learns nothing.
+The link's page is the portal's own (pages/Link.vue draws Record.vue or
+Rfq.vue with the token), and its calls are `link_view`, `link_accept`,
+`link_decline`, `link_preview`, `link_send` and `link_pdf`, allowed to a
+guest, which run the signed-in reader's code (`accept`, `decline`, `_rfq`,
+`_quote`, `send`) with the link's party in place of a signed-in one. A link
+is used up by its answer, not by being opened, because mail scanners open
+links before people do. The answerer's name and address go on the record as
+a comment and on the link as `used_by`.
 
 `ACCOUNT` is the reader's own account, under Account in the sidebar: frappe's
 Edit Profile web form, Password on frappe's update_password, One's Your Data

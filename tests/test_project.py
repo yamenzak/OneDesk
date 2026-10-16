@@ -377,7 +377,7 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	]
 	assert "onedesk.one_project.patches.extra_work" in (tree.APP / "patches.txt").read_text()
 	assert "Quote Extra Work" in (tree.APP / "public" / "js" / "project.js").read_text()
-	assert '"Quotation": "public/js/quotation.js"' in HOOKS
+	assert '"Quotation": ["public/js/quotation.js"' in HOOKS
 	page = "".join(
 		(tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js")
 	)
@@ -791,7 +791,7 @@ def test_paid_is_read_from_the_invoices_however_they_were_paid():
 	assert '(gl.voucher_type == "Journal Entry")' in money and '(account.root_type == "Expense")' in money
 	chain = (PROJECT / "chain.py").read_text()
 	assert "def paid_for(" in chain and '"onedesk.one_project.chain.paid_for"' in HOOKS
-	assert '"Sales Invoice": "public/js/customer_project.js"' in HOOKS
+	assert '"Sales Invoice": ["public/js/customer_project.js"' in HOOKS
 
 
 def test_an_invoice_says_what_it_is_for_and_what_is_owed_now():
@@ -946,13 +946,13 @@ def test_subcontracts_are_billed_through_erpnexts_own_invoice():
 	assert fields["one_retention_due"]["mandatory_depends_on"] == "one_retention"
 	page = (tree.APP / "public" / "js" / "progress.js").read_text()
 	assert "frappe.model.open_mapped_doc" in page and '__("Bill Progress")' in page
-	assert '"Purchase Order": "public/js/progress.js"' in HOOKS
+	assert '"Purchase Order": ["public/js/progress.js"' in HOOKS
 	money = (PROJECT / "money.py").read_text()
 	assert "def _suppliers(" in money and "retention.held_on(" in money
 
 
 def test_the_customers_contract_is_billed_the_same_way():
-	assert '"Sales Order": ["public/js/progress.js", "public/js/customer_project.js"]' in HOOKS
+	assert '"Sales Order": ["public/js/progress.js", "public/js/customer_project.js"' in HOOKS
 	page = (tree.APP / "public" / "js" / "progress.js").read_text()
 	assert '["Purchase Order", "Sales Order"]' in page
 	for name in ("sales_order.json", "purchase_order.json"):

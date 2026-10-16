@@ -4,8 +4,10 @@
        Modelled on Shopify's order page in a customer account, with Stripe's
        invoice summary: where it is on its way across the top, its items and
        totals in one card, and beside them what it comes to (what is left to
-       pay, and Pay), its details and the records before and after it. -->
-  <Head :title="name" :crumbs="[{ label: tab, route: `/${kind}` }]" :badge="doc">
+       pay, and Pay), its details and the records before and after it.
+       Through a signed link (`token`, pages/Link.vue) the same page, read
+       through the link, answered once, with the answerer's name. -->
+  <Head :title="doc?.name || name" :crumbs="token ? [] : [{ label: tab, route: `/${kind}` }]" :badge="doc">
     <template #actions>
       <Button
         v-for="one in quiet"
@@ -65,6 +67,7 @@
           <p class="mt-1 text-3xl font-semibold tabular-nums text-ink-gray-9">{{ doc.summary.value }}</p>
           <p v-if="doc.summary.line" :class="['mt-1 text-sm', doc.summary.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ doc.summary.line }}</p>
           <Button v-for="one in solid" :key="one.href" class="mt-4 w-full" variant="solid" size="md" :label="one.label" :href="one.href" />
+          <p v-if="answered" class="mt-3 text-sm text-ink-gray-6">{{ __("Answered by {0}, {1}.", [answered.by, answered.on]) }}</p>
           <!-- A quotation still open: the customer's answer. -->
           <div v-if="doc.answer" class="mt-4 flex flex-col gap-2">
             <Button variant="solid" size="md" :label="__('Accept Quotation')" icon-left="lucide-check" @click="accepting = true" />
@@ -114,18 +117,22 @@
           <p class="text-p-base text-ink-gray-7">{{ __("We'll prepare your order for {0} and confirm it with you.", [doc?.summary.value]) }}</p>
           <FormControl v-model="wanted" type="date" :label="__('Needed by')" :min="today" required />
           <FormControl v-model="reference" type="text" :label="__('Your reference')" :placeholder="__('Your purchase order number, if you have one')" />
+          <FormControl v-if="token" v-model="by" type="text" :label="__('Your name')" required />
         </div>
       </template>
       <template #actions>
-        <Button class="w-full" variant="solid" :label="__('Accept Quotation')" :loading="busy" :disabled="!wanted" @click="accept" />
+        <Button class="w-full" variant="solid" :label="__('Accept Quotation')" :loading="busy" :disabled="!wanted || (token && !by.trim())" @click="accept" />
       </template>
     </Dialog>
     <Dialog v-model="declining" :title="__('Decline Quotation')">
       <template #default>
-        <Textarea v-model="reason" :label="__('Why? (optional)')" :placeholder="__('The price, the timing, another supplier…')" :rows="3" />
+        <div class="flex flex-col gap-4">
+          <Textarea v-model="reason" :label="__('Why? (optional)')" :placeholder="__('The price, the timing, another supplier…')" :rows="3" />
+          <FormControl v-if="token" v-model="by" type="text" :label="__('Your name')" required />
+        </div>
       </template>
       <template #actions>
-        <Button class="w-full" theme="red" variant="solid" :label="__('Decline Quotation')" :loading="busy" @click="decline" />
+        <Button class="w-full" theme="red" variant="solid" :label="__('Decline Quotation')" :loading="busy" :disabled="token && !by.trim()" @click="decline" />
       </template>
     </Dialog>
   </div>
@@ -146,10 +153,17 @@ import Thumb from "../parts/Thumb.vue";
 import { phone } from "../phone";
 import { __, boot } from "../words";
 
-const props = defineProps({ kind: { type: String, required: true }, name: { type: String, required: true } });
+const props = defineProps({
+  kind: { type: String, default: "" },
+  name: { type: String, default: "" },
+  // A signed link's token, and what its page first said (pages/Link.vue).
+  token: { type: String, default: "" },
+  link: { type: Object, default: null },
+});
 
 const tab = computed(() => boot().tabs?.find((one) => one.path === props.kind)?.title || "");
-const doc = ref(null);
+const doc = ref(props.link?.page || null);
+const answered = ref(props.link?.answered || null);
 const failed = ref(false);
 // Pay goes in the summary, under what it pays; the rest in the head.
 const solid = computed(() => (doc.value?.actions || []).filter((one) => one.solid));
@@ -158,7 +172,13 @@ const quiet = computed(() => (doc.value?.actions || []).filter((one) => !one.sol
 async function load() {
   failed.value = false;
   try {
-    doc.value = await call("record", { kind: props.kind, name: props.name });
+    if (props.token) {
+      const said = await call("onedesk.one.portal_share.link_view", { token: props.token });
+      doc.value = said.page;
+      answered.value = said.answered;
+    } else {
+      doc.value = await call("record", { kind: props.kind, name: props.name });
+    }
   } catch {
     failed.value = true;
   }
@@ -167,6 +187,7 @@ async function load() {
 watch(
   () => [props.kind, props.name],
   () => {
+    if (props.token) return;
     doc.value = null;
     load();
   },
@@ -182,11 +203,14 @@ const today = new Date().toISOString().slice(0, 10);
 const wanted = ref("");
 const reference = ref("");
 const reason = ref("");
+const by = ref("");
 
 async function answer(method, args, said) {
   busy.value = true;
   try {
-    await call(method, { kind: props.kind, name: props.name, ...args });
+    // Through a link, the link's own calls (one/portal_share.py), with who answered.
+    if (props.token) await call(`onedesk.one.portal_share.link_${method}`, { token: props.token, by: by.value, ...args });
+    else await call(`${method}_quote`, { kind: props.kind, name: props.name, ...args });
     toast.success(said);
     accepting.value = declining.value = false;
     await load();
@@ -196,6 +220,6 @@ async function answer(method, args, said) {
     busy.value = false;
   }
 }
-const accept = () => answer("accept_quote", { wanted: wanted.value, reference: reference.value }, __("Accepted. We'll confirm your order."));
-const decline = () => answer("decline_quote", { reason: reason.value }, __("Quotation declined"));
+const accept = () => answer("accept", { wanted: wanted.value, reference: reference.value }, __("Accepted. We'll confirm your order."));
+const decline = () => answer("decline", { reason: reason.value }, __("Quotation declined"));
 </script>

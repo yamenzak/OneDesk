@@ -12,6 +12,7 @@ const routes = [
 	{ path: "/addresses/:name", name: "Address", component: () => import("./pages/Address.vue"), props: true },
 	{ path: "/rfq/:name", name: "Rfq", component: () => import("./pages/Rfq.vue"), props: true },
 	{ path: "/projects/:name", name: "Project", component: () => import("./pages/Project.vue"), props: true },
+	{ path: "/l/:token", name: "Link", component: () => import("./pages/Link.vue"), props: true, meta: { bare: true } },
 	{ path: "/:kind", name: "List", component: () => import("./pages/List.vue"), props: true },
 	{ path: "/:kind/:name", name: "Record", component: () => import("./pages/Record.vue"), props: true },
 ];

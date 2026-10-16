@@ -83,7 +83,7 @@ def test_a_record_page_is_the_portals():
 	"""erpnext's record page context for the seven kinds first (the reader's
 	permission, Pay), then the Badge, Download PDF, the facts, the items and
 	the totals, answered by one/portal.record."""
-	record = SOURCE.split("def record(", 1)[1].split("\ndef ", 1)[0]
+	record = SOURCE.split("def record(", 1)[1].split("\ndef ", 1)[0] + SOURCE.split("def _record(", 1)[1].split("\ndef ", 1)[0]
 	assert "from erpnext.templates.pages import order" in record and "_opened(doctype, name, order)" in record
 	assert "frappe.utils.print_format.download_pdf" in record and "context.show_pay_button" in record
 	assert "FACTS = (" in SOURCE and "OWED = (" in SOURCE
@@ -99,7 +99,7 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	rfq = SOURCE.split("def rfq(", 1)[1].split("\ndef ", 1)[0]
 	assert "from erpnext.templates.pages import rfq as page" in rfq and 'doc.get("rfq_links")' in rfq
 	assert "send_quote" in _page("Rfq.vue")
-	send = SOURCE.split("def _quote(", 1)[1].split("\n@frappe.whitelist", 1)[0] + SOURCE.split("def send_quote", 1)[1].split("\ndef ", 1)[0]
+	send = "".join(SOURCE.split(f"def {one}(", 1)[1].split("\ndef ", 1)[0] for one in ("_quote", "send_quote", "send"))
 	assert '@frappe.whitelist(methods=["POST"])\ndef send_quote' in SOURCE
 	assert 'frappe.db.exists("Portal User", {"parent": supplier, "user": user})' in send
 	assert "check_supplier_has_docname_access(supplier)" in send

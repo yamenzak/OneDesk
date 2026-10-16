@@ -31,6 +31,7 @@ ANSWERS = {
 	("DocType", "Intake Settings"): (INSIDE, "Workspace Settings › OneIntake"),
 	("DocType", "Interview Recording"): (INSIDE, "an interview's Recording, on the interview"),
 	("DocType", "Legal Document Version"): (ENGINE, "each agreement as it was agreed to"),
+	("DocType", "Portal Link"): (INSIDE, "a submitted sale or purchase's Portal, under Links"),
 	("DocType", "Reading"): (INSIDE, "a OneIntake document's Reading"),
 	("DocType", "Workspace Account"): (INSIDE, "Account, from the rail's foot"),
 	("DocType", "Workspace Customization"): (ENGINE, "OneStudio's ledger of what a workspace changed"),

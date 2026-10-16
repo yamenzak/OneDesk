@@ -37,3 +37,10 @@ body {
 	padding-left: 0;
 	padding-right: 0.5rem;
 }
+
+/* A signed link's page has no sidebar, so nothing to inset it in. */
+[data-slot="desktop-shell"].bare [data-slot="desktop-shell-content"] {
+	margin-top: 0;
+	border: 0;
+	border-radius: 0;
+}

@@ -13879,3 +13879,34 @@ portal, and a quote sent from it, now name whoever did it as the contact, so
 it is theirs. The demo's records name no contact, so a contact set to their
 own sees nothing there until one does; a demo check sets one and proves the
 rest are refused.
+
+## Portal access by record, and links
+
+*Asked:* instead of a tick on the contact, a Portal action on each record:
+the whole customer and every contact see it by default, untick who should
+not. Then a signed link for a record (rotatable, usable once) for somebody
+without an account, sent by email with a button to act, or copied.
+
+*Done:* the contact's tick is gone (a patch removes its field). A submitted
+quotation, order, shipment, invoice, quote request, supplier quotation,
+purchase order or purchase invoice has **Portal**: its customer's or
+supplier's portal contacts, ticked; untick and **Save** and it no longer
+lists, opens or prints for them. Only who is unticked is kept
+(`one_portal_hidden`), so a contact invited later sees it.
+
+Under it, **Links**: **Make Link** for a contact or any address, until a day
+(a month, or a quotation's last day), mailed with a button (Portal Link) or
+copied. It opens the portal's own page at /portal/l/<token> with no sidebar:
+a quotation to accept or decline, a quote request to price and send, anything
+else to read and print. Answering asks for a name and uses the link up; after
+that it reads and says who answered. Each link says how often it was opened,
+with **Copy**, **Email Again**, **Rotate** and **Revoke**. Opening does not
+use a link up, since mail scanners open links first. Only a hash of the token
+is looked up, and a revoked, expired or guessed link says the same thing.
+
+*Found on the way:* the RFQ page's sent quotes showed the grand total and its
+summary the rounded one (4,974.90 against 4,975.00); both show the rounded
+total now. The mail's `sender` word was taken by frappe as the From address,
+so the name came out empty; it is `by`. On this bench, PDFs failed because
+frappe tried to download Chromium; `chromium_path` now points at the one
+installed (bench config, not the repo).

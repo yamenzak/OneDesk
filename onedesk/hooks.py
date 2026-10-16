@@ -1038,13 +1038,17 @@ doctype_js = {
 	"Activity Type": "public/js/activity_type.js",
 	"Project Template": "public/js/project_template.js",
 	# Bill Progress on a subcontract and on the customer's contract. See one_project/progress.py.
-	"Purchase Order": "public/js/progress.js",
-	"Quotation": "public/js/quotation.js",
+	# Portal, on each kind the portal shows. See one/portal_share.py.
+	"Purchase Order": ["public/js/progress.js", "public/js/portal_share.js"],
+	"Quotation": ["public/js/quotation.js", "public/js/portal_share.js"],
 	# A customer's one open project is named on a new order, delivery or
 	# invoice. See one_project/chain.py.
-	"Sales Order": ["public/js/progress.js", "public/js/customer_project.js"],
-	"Delivery Note": "public/js/customer_project.js",
-	"Sales Invoice": "public/js/customer_project.js",
+	"Sales Order": ["public/js/progress.js", "public/js/customer_project.js", "public/js/portal_share.js"],
+	"Delivery Note": ["public/js/customer_project.js", "public/js/portal_share.js"],
+	"Sales Invoice": ["public/js/customer_project.js", "public/js/portal_share.js"],
+	"Request for Quotation": "public/js/portal_share.js",
+	"Supplier Quotation": "public/js/portal_share.js",
+	"Purchase Invoice": "public/js/portal_share.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
 	# A count's difference printed as a number. See stock_count.js.
@@ -1706,8 +1710,8 @@ website_route_rules = [
 	{"from_route": "/your-data", "to_route": "your_data"},
 ]
 
-# Beside erpnext's own: a portal contact who sees only their own records
-# reads only those, wherever erpnext checks (one/portal.py `mine`).
+# Beside erpnext's own: a record unticked for a portal contact in its
+# Portal dialog is refused them wherever erpnext checks (one/portal.py `mine`).
 has_website_permission = {
 	doctype: "onedesk.one.portal.has_website_permission"
 	for doctype in (
