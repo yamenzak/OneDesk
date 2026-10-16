@@ -7,6 +7,6 @@ to: The lead's or opportunity's owner
 push_default: yes
 ---
 
-# {step} is due
+# {step} on {title} is due
 
-<b>{step}</b> on {title}
+Do it, then press Next Step Done on the {kind} and set what comes next.

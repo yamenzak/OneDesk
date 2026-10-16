@@ -169,6 +169,14 @@ scheduler_events = {
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		# Each person's tasks due today and late. See one_task/tell.py.
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
+		# A quotation running out; an invoice, an order gone late. See each tell.py.
+		"30 6 * * *": [
+			"onedesk.one_crm.tell.running_out",
+			"onedesk.one_book.tell.overdue",
+			"onedesk.one_inventory.tell.deliveries_late",
+		],
+		# Supplier bills due in the coming week, on Monday. See one_book/tell.py.
+		"25 6 * * 1": ["onedesk.one_book.tell.bills_due"],
 		# HRMS's morning reminders, told through the hub. See one_hr/tell.py.
 		"35 6 * * *": [
 			"onedesk.one_hr.tell.birthdays",
@@ -405,7 +413,8 @@ doc_events = {
 	# A payment lowers an invoice's outstanding with db_set, so the task step
 	# waiting for it is checked from the payment. See one_intake/steps.py.
 	"Payment Entry": {
-		"on_submit": "onedesk.one_intake.steps.paid",
+		# A payment made through a payment link is told. See one_book/tell.py.
+		"on_submit": ["onedesk.one_intake.steps.paid", "onedesk.one_book.tell.paid_online"],
 		"on_cancel": "onedesk.one_intake.steps.paid",
 		# A payment takes the project its invoices name (one_project/chain.py),
 		# and is titled by the party's name (one_book/paid.py).
@@ -769,6 +778,7 @@ doc_events = {
 	"Opportunity": {
 		"before_validate": "onedesk.one_crm.stages.before_validate",
 		"validate": "onedesk.one_crm.deal.validate",
+		"on_update": "onedesk.one_crm.tell.given",
 	},
 	# A lead that already exists is found rather than made twice
 	# (one_crm/capture.py).
@@ -778,8 +788,11 @@ doc_events = {
 			# A lead without a picture gets their face, or their company's logo.
 			# See one_mail/faces.py.
 			"onedesk.one_mail.faces.dress_later",
+			# Made somebody else's, told to them. See one_crm/tell.py.
+			"onedesk.one_crm.tell.given",
 		],
-		"after_insert": "onedesk.one_mail.faces.dress_later",
+		# A lead nobody owns is told to sales. See one_crm/tell.py.
+		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one_crm.tell.arrived"],
 	},
 	# An Assignment Rule's pick becomes the owner, and a lead's first reply is
 	# timed (one_crm/capture.py). A to-do about nothing becomes a task, and the

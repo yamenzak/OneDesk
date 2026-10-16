@@ -148,8 +148,16 @@ show you.
 
 **Reminding a late customer.** Once turned on (the Books Check's **A late
 customer is reminded**), a customer is mailed the invoice a week after it
-fell due, if it is still unpaid. The wording is **Automation › Workspace Notifications ›
-Payment Reminder**.
+fell due, if it is still unpaid. It is the Payment Reminder rule, in its own
+words, which frappe does not let be changed while it is on.
+
+**Being told.** The morning after an invoice goes past its due date unpaid,
+whoever made it and the customer's account manager are told (**Invoice
+Overdue**). On Monday morning accounts hear what supplier bills fall due that
+week (**Bills Due This Week**). A customer paying through a payment link is
+told to the same people as an overdue invoice (**Paid Online**), since no
+person entered it. **Credit Limit Crossed** reaches the role Accounts Settings
+names as credit controller, with who was stopped.
 
 **Chasing by hand.** On an overdue invoice, **Create › Dunning** makes a
 payment reminder listing every invoice of theirs that is late, how late, and

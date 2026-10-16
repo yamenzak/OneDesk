@@ -95,8 +95,21 @@ for how long until the first mail is sent or call is made to them, and then
 Every lead and opportunity has a **Next Step** — what you will do, such as "Call Rana
 about the quote" — and **Next Step Due**, when. At that time the owner (Lead
 Owner or Opportunity Owner) gets the **Next Step Due** notification, which each
-person sets under Settings › Notifications. An opportunity nobody owns belongs to
+person sets under You › Notifications. An opportunity nobody owns belongs to
 whoever made it, or to its lead's owner.
+
+**Being told.** Besides Next Step Due:
+
+- **Given to You**: somebody else makes you the owner of a lead or an
+  opportunity. An Assignment Rule's pick is told as frappe's own assignment.
+- **New Lead Waiting**: a lead from the website or the inbox that nobody owns,
+  to sales, until somebody takes it from Home.
+- **Quotation Running Out**: an open quotation three days from its last day,
+  to whoever made it and the opportunity's owner; after it the customer can
+  no longer accept it.
+- **Quotation Accepted** and **Declined**, on the portal or through a link, to
+  whoever made the quotation and the opportunity's owner, or the sales
+  managers when neither can sign in.
 
 When it is done, press **Next Step Done** on the lead or opportunity. It writes
 "Done: …" on the timeline, then asks what comes next; leave it empty if nothing

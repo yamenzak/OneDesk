@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 10:43+0000\n"
+"POT-Creation-Date: 2026-10-16 10:53+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -365,11 +365,6 @@ msgstr "<b>{project}</b>{customer}{due}"
 #: onedesk/notifications/one_project/project_completed.md
 msgid "<b>{project}</b>{customer}{owed}"
 msgstr "<b>{project}</b>{customer}{owed}"
-
-#. Message of a notification
-#: onedesk/notifications/one_crm/next_step_due.md
-msgid "<b>{step}</b> on {title}"
-msgstr "<b>{step}</b> على {title}"
 
 #. Message of a notification
 #: onedesk/notifications/one_task/pending_review.md
@@ -1665,6 +1660,7 @@ msgid "Accounting"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_book/bills_due_this_week.md
 #: onedesk/notifications/one_book/credit_limit_crossed.md
 #: onedesk/notifications/one_book/new_fiscal_year.md
 #: onedesk/one_book/home.py:243 onedesk/public/js/item_actions.js:21
@@ -2455,6 +2451,11 @@ msgstr "بعد هذا العدد من كلمات المرور الخاطئة ا�
 #: onedesk/one/print_blocks.py:50
 msgid "Against Invoice"
 msgstr "مقابل الفاتورة"
+
+#. Message of a notification
+#: onedesk/notifications/one_book/paid_online.md
+msgid "Against {invoice}. The payment is recorded; nothing needs doing."
+msgstr "مقابل {invoice}. سُجّلت الدفعة؛ لا حاجة لأي إجراء."
 
 #: frontend/src/home/BooksStory.vue:32
 msgid "Ageing"
@@ -4782,6 +4783,11 @@ msgstr "الفواتير الواردة"
 #: onedesk/one_project/custom/sales_invoice_item.json
 msgid "Bills Cost"
 msgstr "يفوتر التكلفة"
+
+#. Name of a notification
+#: onedesk/notifications/one_book/bills_due_this_week.md
+msgid "Bills Due This Week"
+msgstr "فواتير موردين مستحقة هذا الأسبوع"
 
 #: onedesk/one_book/ready.py:41
 msgid "Bills carry tax"
@@ -8156,6 +8162,11 @@ msgstr "التسليم"
 msgid "Delivery Date"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_inventory/delivery_late.md
+msgid "Delivery Late"
+msgstr "تسليم متأخر"
+
 #: onedesk/one/print_blocks.py:19 onedesk/one/print_blocks.py:66
 msgid "Delivery No"
 msgstr "رقم التسليم"
@@ -8491,6 +8502,11 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 #: onedesk/public/js/intake.js:53
 msgid "Do Not Pay Yet"
 msgstr "لا تدفع بعد"
+
+#. Message of a notification
+#: onedesk/notifications/one_crm/next_step_due.md
+msgid "Do it, then press Next Step Done on the {kind} and set what comes next."
+msgstr "أنجزها، ثم اضغط «تمّت الخطوة التالية» في {kind} وحدّد ما يليها."
 
 #: onedesk/one_ai/heads.py:89
 msgid "Do this now, as you?"
@@ -11266,11 +11282,6 @@ msgstr "في أحدث طلب أسعار، من الأرخص في كل بند، �
 msgid "For video calls. The browser asks which tab to share."
 msgstr "لمكالمات الفيديو. يسأل المتصفح عن علامة التبويب المراد مشاركتها."
 
-#. Message of a notification
-#: onedesk/notifications/one_inventory/material_request_raised.md
-msgid "For what fell to its reorder level: {items}."
-msgstr "لما وصل إلى حد إعادة الطلب: {items}."
-
 #: onedesk/public/js/legal.js:33
 msgid "For you"
 msgstr "لك"
@@ -11576,6 +11587,11 @@ msgstr "من {0}، إلى {1}"
 msgid "From {from_date} to {to_date}. Approve or reject it."
 msgstr "من {from_date} إلى {to_date}. وافق عليه أو ارفضه."
 
+#. Message of a notification
+#: onedesk/notifications/one_crm/new_lead_waiting.md
+msgid "From {source}. Take it from Home under Unclaimed Leads, or give it to somebody."
+msgstr "المصدر: {source}. خذه من الصفحة الرئيسية تحت العملاء المحتملين غير المُطالب بهم، أو أعطه لأحدهم."
+
 #: onedesk/one_admin/home.py:340 onedesk/one_admin/home.py:364
 msgid "Full"
 msgstr ""
@@ -11738,6 +11754,11 @@ msgstr "مقدَّمة من One"
 #: onedesk/one_admin/heads.py:333
 msgid "Given by {0}."
 msgstr "منحه {0}."
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/given_to_you.md
+msgid "Given to You"
+msgstr "أُسند إليك"
 
 #: onedesk/one_inventory/heads.py:1383
 msgid "Given."
@@ -13659,6 +13680,11 @@ msgstr "رقم الفاتورة"
 msgid "Invoice Number"
 msgstr "رقم الفاتورة"
 
+#. Name of a notification
+#: onedesk/notifications/one_book/invoice_overdue.md
+msgid "Invoice Overdue"
+msgstr "فاتورة متأخرة"
+
 #: frontend/src/project/Overview.vue:59
 #: frontend/src/project/ProjectPage.vue:377 frontend/src/project/Time.vue:223
 #: onedesk/public/js/project.js:33 onedesk/public/js/project_actions.js:118
@@ -13855,6 +13881,11 @@ msgstr "وهي أيضًا في حسابك في One، مع فواتيرك."
 msgid "It is no longer in {app}."
 msgstr "لم تعد موجودة في {app}."
 
+#. Message of a notification
+#: onedesk/notifications/one_crm/given_to_you.md
+msgid "It is yours now: it is on your Home, and its next step is yours to take."
+msgstr "أصبح لك الآن: موجود في صفحتك الرئيسية، وخطوته التالية عليك."
+
 #: onedesk/one_crm/heads.py:298
 msgid "It is yours."
 msgstr "أصبح لك."
@@ -13897,9 +13928,14 @@ msgid "It was deleted."
 msgstr "تم حذفها."
 
 #. Message of a notification
+#: onedesk/notifications/one_inventory/delivery_late.md
+msgid "It was due on {due}, and {left} of it has not been delivered. Deliver it, or tell the customer the new date."
+msgstr "كان موعده {due}، ولم يُسلَّم {left} منه. سلّمه، أو أخبر العميل بالموعد الجديد."
+
+#. Message of a notification
 #: onedesk/notifications/one_inventory/service_late.md
-msgid "It was due {due} and is not recorded done."
-msgstr "كان موعدها {due} ولم تُسجَّل منجزة."
+msgid "It was due {due} and is not recorded done. Do it, then record it done on the service."
+msgstr "كان موعدها {due} ولم تُسجَّل منجزة. أنجزها، ثم سجّلها منجزة في الصيانة."
 
 #: onedesk/one_intake/act.py:100
 msgid "It would end someone's employment."
@@ -14085,6 +14121,11 @@ msgstr "اسمه في Frappe Cloud، مثل u25-nuremberg-3.frappe.cloud."
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Its name on the server, as the server spells it."
 msgstr "اسمه على الخادم، كما يكتبه الخادم."
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_crm/given_to_you.md
+msgid "Its new owner"
+msgstr "مالكه الجديد"
 
 #: onedesk/one/numbering.py:314
 msgid "Its own way"
@@ -16321,6 +16362,11 @@ msgid "Material Request"
 msgstr "طلب مواد"
 
 #. Name of a notification
+#: onedesk/notifications/one_inventory/material_request_asked.md
+msgid "Material Request Asked"
+msgstr "طلب مواد جديد"
+
+#. Name of a notification
 #: onedesk/notifications/one_inventory/material_request_raised.md
 msgid "Material Request Raised"
 msgstr "أُنشئ طلب مواد"
@@ -17228,6 +17274,11 @@ msgstr "قيد يومية جديد"
 #: frontend/src/home/CrmHome.vue:297
 msgid "New Lead"
 msgstr "عميل محتمل جديد"
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/new_lead_waiting.md
+msgid "New Lead Waiting"
+msgstr "عميل محتمل جديد ينتظر"
 
 #: onedesk/one/ai.py:2682 onedesk/public/js/settings.js:2098
 #: onedesk/public/js/settings.js:2208
@@ -19185,6 +19236,11 @@ msgstr ""
 msgid "On Leave Today"
 msgstr "في إجازة اليوم"
 
+#. When a notification is sent
+#: onedesk/notifications/one_book/bills_due_this_week.md
+msgid "On Monday morning, when supplier bills fall due in the coming week."
+msgstr "صباح الاثنين، حين تستحق فواتير موردين في الأسبوع القادم."
+
 #: onedesk/one_studio/doctype/extension/extension.js:55
 msgid "On My Tasks"
 msgstr "في مهامي"
@@ -19301,6 +19357,16 @@ msgid "On the first of the month, for each retainer whose last month isn't invoi
 msgstr "في أول كل شهر، لكل اشتراك لم يُفوتر شهره الماضي."
 
 #. When a notification is sent
+#: onedesk/notifications/one_inventory/delivery_late.md
+msgid "On the morning after a customer's order was due to be delivered and has not all gone."
+msgstr "صباح اليوم التالي لموعد تسليم طلب عميل لم يُسلَّم كله."
+
+#. When a notification is sent
+#: onedesk/notifications/one_book/invoice_overdue.md
+msgid "On the morning after one of your invoices goes past its due date unpaid."
+msgstr "صباح اليوم التالي لتجاوز إحدى فواتيرك موعد استحقاقها دون دفع."
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/birthday.md
 msgid "On the morning of a colleague's birthday."
 msgstr "صباح عيد ميلاد زميل."
@@ -19337,6 +19403,11 @@ msgstr "في {0}"
 #: onedesk/one_project/view.py:381
 msgid "On {0}'s order"
 msgstr "ضمن أمر {0}"
+
+#. Message of a notification
+#: onedesk/notifications/one_inventory/material_request_asked.md
+msgid "On {request}, wanted by {wanted}. Order them from Buying, To Order."
+msgstr "في {request}، مطلوبة بحلول {wanted}. اطلبها من المشتريات، قيد الطلب."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -21089,6 +21160,11 @@ msgstr "الأيام المدفوعة"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Paid How"
 msgstr "طريقة الدفع"
+
+#. Name of a notification
+#: onedesk/notifications/one_book/paid_online.md
+msgid "Paid Online"
+msgstr "دُفعت عبر الإنترنت"
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one/print_blocks.py:359
@@ -23111,6 +23187,7 @@ msgid "Purchase Taxes and Charges Template"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_inventory/material_request_asked.md
 #: onedesk/notifications/one_inventory/material_request_raised.md
 msgid "Purchasing"
 msgstr "المشتريات"
@@ -23283,6 +23360,11 @@ msgstr "رفض عرض سعر"
 #: onedesk/one/print_blocks.py:16
 msgid "Quotation No"
 msgstr "رقم عرض السعر"
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/quotation_running_out.md
+msgid "Quotation Running Out"
+msgstr "عرض سعر يقترب من الانتهاء"
 
 #: onedesk/one_crm/home.py:126
 msgid "Quotation Trends"
@@ -24446,11 +24528,6 @@ msgstr "إعادة الطلب"
 msgid "Reordering Failed"
 msgstr "فشلت إعادة الطلب"
 
-#. Subject of a notification
-#: onedesk/notifications/one_inventory/material_request_raised.md
-msgid "Reordering raised {request}"
-msgstr "أنشأت إعادة الطلب {request}"
-
 #: frontend/src/item/ItemPlaces.vue:21
 msgid "Reorders At"
 msgstr "يُعاد الطلب عند"
@@ -25241,6 +25318,11 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Salary Withholding"
 msgstr "حجز الراتب"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_crm/new_lead_waiting.md
+msgid "Sales"
+msgstr "المبيعات"
 
 #: onedesk/one_crm/home.py:125
 msgid "Sales Analytics"
@@ -27826,14 +27908,14 @@ msgstr "تُفتح صفحة المخزون المتوفر، وفي كل مرة �
 msgid "Stock promised to an order can still go out on another one first."
 msgstr "المخزون الموعود لأمر قد يخرج لأمر آخر قبله."
 
+#. Subject of a notification
+#: onedesk/notifications/one_inventory/reposting_failed.md
+msgid "Stock values after {entry} could not be recalculated"
+msgstr "تعذّر إعادة احتساب قيم المخزون بعد {entry}"
+
 #: onedesk/one_inventory/ready.py:151
 msgid "Stock values are up to date"
 msgstr "قيم المخزون محدَّثة"
-
-#. Subject of a notification
-#: onedesk/notifications/one_inventory/reposting_failed.md
-msgid "Stock values could not be recalculated"
-msgstr "تعذّرت إعادة احتساب قيم المخزون"
 
 #: onedesk/one_inventory/home.py:190
 msgid "Stock's balances kept at a date, so older moves need not be read again."
@@ -29800,8 +29882,8 @@ msgstr "المشغّلون"
 
 #. Message of a notification
 #: onedesk/notifications/one_inventory/order_late.md
-msgid "The order wanted {items} by {due}, and not all of it has arrived."
-msgstr "طلب أمر الشراء {items} بحلول {due}، ولم يصل كله بعد."
+msgid "The order wanted {items} by {due}, and not all of it has arrived. Chase {supplier}, or close the order if nothing more is coming."
+msgstr "طلب الأمر {items} بحلول {due}، ولم يصل كله. تابع مع {supplier}، أو أغلق الأمر إن لم يكن هناك المزيد."
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_studio/collection_added.md
@@ -30631,7 +30713,7 @@ msgstr "طالب بمبلغ {0} واعتُمد {1}."
 msgid "They expire on {0}."
 msgstr "تنتهي صلاحيتها في {0}."
 
-#: onedesk/one_crm/tell.py:80
+#: onedesk/one_crm/tell.py:162
 msgid "They gave no reason."
 msgstr "لم يذكروا سببًا."
 
@@ -31983,7 +32065,7 @@ msgid "Units"
 msgstr "الوحدات"
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
-#: onedesk/one_hr/presence.py:90
+#: onedesk/one_crm/tell.py:91 onedesk/one_hr/presence.py:90
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Unknown"
 msgstr "غير معروف"
@@ -33874,13 +33956,18 @@ msgstr "عندما تجهز نسخة طُلبت من صفحة «بياناتك»
 
 #. When a notification is sent
 #: onedesk/notifications/one_crm/quotation_accepted.md
-msgid "When a customer accepts one of your quotations on the portal."
-msgstr "عندما يقبل عميل أحد عروض أسعارك عبر البوابة."
+msgid "When a customer accepts one of your quotations, on the portal or through a link."
+msgstr "عندما يقبل عميل أحد عروض أسعارك، في البوابة أو عبر رابط."
 
 #. When a notification is sent
 #: onedesk/notifications/one_crm/quotation_declined.md
-msgid "When a customer declines one of your quotations on the portal."
-msgstr "عندما يرفض عميل أحد عروض أسعارك عبر البوابة."
+msgid "When a customer declines one of your quotations, on the portal or through a link."
+msgstr "عندما يرفض عميل أحد عروض أسعارك، في البوابة أو عبر رابط."
+
+#. When a notification is sent
+#: onedesk/notifications/one_book/paid_online.md
+msgid "When a customer pays an invoice online, through its payment link."
+msgstr "عندما يدفع عميل فاتورة عبر الإنترنت، من خلال رابط الدفع."
 
 #. When a notification is sent
 #: onedesk/notifications/one/your_request_is_on_hold.md
@@ -33921,6 +34008,11 @@ msgstr "عند إرسال طلب ملفات."
 #: onedesk/notifications/one_admin/job_failed.md
 msgid "When a job to build, suspend, restore, archive or delete a workspace fails."
 msgstr "عندما تفشل مهمة لإنشاء مساحة عمل أو إيقافها أو استعادتها أو أرشفتها أو حذفها."
+
+#. When a notification is sent
+#: onedesk/notifications/one_crm/new_lead_waiting.md
+msgid "When a lead arrives that nobody owns, from the website or the inbox."
+msgstr "عندما يصل عميل محتمل لا يملكه أحد، من الموقع أو البريد الوارد."
 
 #. When a notification is sent
 #: onedesk/notifications/one_storage/link_shared.md
@@ -34209,6 +34301,11 @@ msgid "When an open project's end date is moved."
 msgstr "عند تغيير تاريخ نهاية مشروع مفتوح."
 
 #. When a notification is sent
+#: onedesk/notifications/one_crm/quotation_running_out.md
+msgid "When an open quotation has three days left to hold."
+msgstr "عندما يتبقى لعرض سعر مفتوح ثلاثة أيام."
+
+#. When a notification is sent
 #: onedesk/notifications/one_studio/collection_added.md
 msgid "When another administrator adds a custom collection."
 msgstr "عندما يضيف مسؤول آخر مجموعة مخصصة."
@@ -34399,6 +34496,11 @@ msgid "When somebody asks for a shift."
 msgstr "عندما يطلب أحد مناوبة."
 
 #. When a notification is sent
+#: onedesk/notifications/one_inventory/material_request_asked.md
+msgid "When somebody asks for items to be bought."
+msgstr "عندما يطلب أحدهم شراء أصناف."
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/attendance_request_asked.md
 msgid "When somebody asks to be marked present for days they worked away or from home."
 msgstr "عندما يطلب أحدهم احتسابه حاضراً لأيام عمل فيها خارج المكتب أو من المنزل."
@@ -34437,6 +34539,11 @@ msgstr "عندما يغادر أحد، بالقالب المحدد في إعدا
 #: onedesk/notifications/one_project/made_project_manager.md
 msgid "When somebody makes you a project's manager."
 msgstr "عندما يعيّنك أحد مديراً لمشروع."
+
+#. When a notification is sent
+#: onedesk/notifications/one_crm/given_to_you.md
+msgid "When somebody makes you the owner of a lead or an opportunity."
+msgstr "عندما يجعلك أحدهم مالك عميل محتمل أو فرصة."
 
 #. When a notification is sent
 #: onedesk/notifications/one_project/project_health.md
@@ -35337,21 +35444,37 @@ msgid "Whoever made it and everybody invited"
 msgstr "من أنشأه وكل المدعوين"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_book/invoice_overdue.md
+#: onedesk/notifications/one_book/paid_online.md
+msgid "Whoever made the invoice and the customer's account manager"
+msgstr "من أنشأ الفاتورة ومدير حساب العميل"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_inventory/order_late.md
 msgid "Whoever made the order"
 msgstr "من أنشأ أمر الشراء"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_inventory/delivery_late.md
+msgid "Whoever made the order, and the stock managers"
+msgstr "من أنشأ الطلب، ومديرو المخزون"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_crm/quotation_accepted.md
 #: onedesk/notifications/one_crm/quotation_declined.md
-msgid "Whoever made the quotation"
-msgstr "من أعد عرض السعر"
+#: onedesk/notifications/one_crm/quotation_running_out.md
+msgid "Whoever made the quotation, and the opportunity's owner"
+msgstr "من أنشأ عرض السعر، ومالك الفرصة"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_inventory/material_request_received.md
-#: onedesk/notifications/one_inventory/quote_received.md
 msgid "Whoever made the request"
 msgstr "من قدّم الطلب"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_inventory/quote_received.md
+msgid "Whoever made the request, or purchasing when they cannot sign in"
+msgstr "من أنشأ الطلب، أو المشتريات إن تعذّر عليه الدخول"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one/portal_link.md
@@ -37289,6 +37412,10 @@ msgstr "لا يمكن تسعير أي طلب ذكاء اصطناعي"
 msgid "no address or domain works"
 msgstr "لا يعمل أي عنوان أو نطاق"
 
+#: onedesk/one_inventory/tell.py:50
+msgid "no date"
+msgstr "دون تاريخ"
+
 #: onedesk/one_admin/heads.py:386
 msgid "no file can be kept"
 msgstr "لا يمكن حفظ أي ملف"
@@ -37904,7 +38031,7 @@ msgstr "{0} (مورّد)"
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
-#: onedesk/one/tell.py:564 onedesk/one_studio/extensions.py:457
+#: onedesk/one/tell.py:567 onedesk/one_studio/extensions.py:457
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
@@ -40522,6 +40649,11 @@ msgid "{count} OneAI models were taken off sale"
 msgstr "سُحب {count} من نماذج OneAI من البيع"
 
 #. Subject of a notification
+#: onedesk/notifications/one_book/bills_due_this_week.md
+msgid "{count} bills fall due this week"
+msgstr "{count} فواتير تستحق هذا الأسبوع"
+
+#. Subject of a notification
 #: onedesk/notifications/one_admin/domains_waiting.md
 msgid "{count} domains need attention"
 msgstr "{count} نطاقات تحتاج إلى انتباه"
@@ -40580,6 +40712,11 @@ msgstr "رفض {customer} عرض السعر {quotation}"
 #: onedesk/notifications/one_book/credit_limit_crossed.md
 msgid "{customer} is over their credit limit"
 msgstr "تجاوز {customer} حد الائتمان"
+
+#. Subject of a notification
+#: onedesk/notifications/one_book/paid_online.md
+msgid "{customer} paid {amount} online"
+msgstr "دفع {customer} مبلغ {amount} عبر الإنترنت"
 
 #. Message of a notification
 #: onedesk/notifications/one_studio/collection_added.md
@@ -40697,6 +40834,16 @@ msgid "{inviter} invited you to {workspace}"
 msgstr "دعاك {inviter} إلى {workspace}"
 
 #. Subject of a notification
+#: onedesk/notifications/one_book/invoice_overdue.md
+msgid "{invoice} for {customer} is overdue"
+msgstr "الفاتورة {invoice} لـ {customer} متأخرة"
+
+#. Message of a notification
+#: onedesk/notifications/one_inventory/material_request_raised.md
+msgid "{items} fell to their reorder level. Order them from Buying, To Order."
+msgstr "وصلت {items} إلى حد إعادة الطلب. اطلبها من المشتريات، قيد الطلب."
+
+#. Subject of a notification
 #: onedesk/notifications/one_inventory/expiring_soon.md
 msgid "{item} batch {batch} expires {on}"
 msgstr "تنتهي صلاحية الدفعة {batch} من {item} في {on}"
@@ -40734,6 +40881,16 @@ msgstr "اكتملت {milestone}"
 #: onedesk/notifications/one_admin/model_withdrawn.md
 msgid "{models}<br><br>Workspaces that picked them now run on the default."
 msgstr "{models}<br><br>مساحات العمل التي اختارتها تعمل الآن على الافتراضي."
+
+#. Subject of a notification
+#: onedesk/notifications/one_inventory/delivery_late.md
+msgid "{order} for {customer} is late"
+msgstr "الطلب {order} لـ {customer} متأخر"
+
+#. Message of a notification
+#: onedesk/notifications/one_book/invoice_overdue.md
+msgid "{outstanding} is still owed. It was due on {date}. Send a reminder, or record the payment if it has come in."
+msgstr "لا يزال {outstanding} مستحقاً. كان موعده {date}. أرسل تذكيراً، أو سجّل الدفعة إن وصلت."
 
 #. Message of a notification
 #: onedesk/notifications/one/deletion_asked.md
@@ -40786,14 +40943,29 @@ msgid "{project} now ends {ends}"
 msgstr "{project} ينتهي الآن في {ends}"
 
 #. Subject of a notification
+#: onedesk/notifications/one_crm/quotation_running_out.md
+msgid "{quotation} for {customer} holds until {date}"
+msgstr "عرض السعر {quotation} لـ {customer} سارٍ حتى {date}"
+
+#. Message of a notification
+#: onedesk/notifications/one_crm/quotation_declined.md
+msgid "{reason}<br>It is marked Lost."
+msgstr "{reason}<br>تم تعليمه خاسراً."
+
+#. Subject of a notification
+#: onedesk/notifications/one_inventory/material_request_raised.md
+msgid "{request} raised for items running low"
+msgstr "أُنشئ {request} لأصناف قاربت النفاد"
+
+#. Subject of a notification
 #: onedesk/notifications/one_calendar/event_invitation.md
 msgid "{state}: {event}, {when}"
 msgstr "{state}: {event}، {when}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_crm/next_step_due.md
-msgid "{step} is due"
-msgstr "حان موعد {step}"
+msgid "{step} on {title} is due"
+msgstr "حان موعد {step} في {title}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/order_late.md
@@ -40831,6 +41003,11 @@ msgid "{title} arrived after you closed this task."
 msgstr "وصل {title} بعد أن أغلقت هذه المهمة."
 
 #. Subject of a notification
+#: onedesk/notifications/one_crm/new_lead_waiting.md
+msgid "{title} is a new lead nobody owns"
+msgstr "{title} عميل محتمل جديد لا يملكه أحد"
+
+#. Subject of a notification
 #: onedesk/notifications/one_intake/phishing.md
 msgid "{title} may be phishing. Don't pay, reply or open its links."
 msgstr "قد يكون {title} تصيدًا احتياليًا. لا تدفع ولا ترد ولا تفتح روابطه."
@@ -40841,13 +41018,23 @@ msgstr "{top, right, bottom, left} بالبكسل"
 
 #. Message of a notification
 #: onedesk/notifications/one_inventory/quote_received.md
-msgid "{total} for {items}."
-msgstr "{total} مقابل {items}."
+msgid "{total} for {items}. Compare it with the other quotes, then order."
+msgstr "{total} مقابل {items}. قارنه بالعروض الأخرى، ثم اطلب."
+
+#. Message of a notification
+#: onedesk/notifications/one_book/bills_due_this_week.md
+msgid "{total} in all, the first on {first}. Pay them, or agree new dates with the suppliers."
+msgstr "{total} إجمالاً، أولها في {first}. ادفعها، أو اتفق مع الموردين على مواعيد جديدة."
 
 #. Message of a notification
 #: onedesk/notifications/one_crm/quotation_accepted.md
 msgid "{total}, wanted by {wanted}. Their order {order} is a draft: check it and submit it."
 msgstr "{total}، مطلوب بحلول {wanted}. طلبهم {order} مسودة: راجعه واعتمده."
+
+#. Message of a notification
+#: onedesk/notifications/one_crm/quotation_running_out.md
+msgid "{total}. After that day the customer can no longer accept it. Follow up, or give it a later date."
+msgstr "{total}. بعد ذلك اليوم لا يستطيع العميل قبوله. تابع، أو مدّد تاريخه."
 
 #. Message of a notification
 #: onedesk/notifications/one_hr/shift_asked.md
@@ -40887,6 +41074,11 @@ msgstr "أضافك {who} إلى {project}"
 #: onedesk/notifications/one_studio/collection_added.md
 msgid "{who} added {collection}"
 msgstr "أضاف {who} المجموعة {collection}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_inventory/material_request_asked.md
+msgid "{who} asked for {items}"
+msgstr "طلب {who} {items}"
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
@@ -40953,6 +41145,11 @@ msgstr "أعدّ {who} فاتورة لـ {order} عند إنجاز {share}%"
 #: onedesk/notifications/one_task/task_given.md
 msgid "{who} gave you {task}"
 msgstr "أسند إليك {who} {task}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_crm/given_to_you.md
+msgid "{who} gave you {title}"
+msgstr "أسند إليك {who} {title}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_calendar/invited_to_an_event.md

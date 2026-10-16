@@ -7176,3 +7176,84 @@ def onehr_tells_each_moment_somebody_waits_on():
 		with as_user("mariam@one.test"):
 			leave.answered("Approved")
 		assert said("Leave Answered")[2]["note"] == "Mariam Saleh: Enjoy it.", said("Leave Answered")
+
+
+@check
+def sales_books_and_stock_tell_what_waits_on_somebody():
+	"""Layla makes Samir the owner of a lead, and Samir is told; a lead nobody
+	owns reaches sales; a quotation three days from its last day reaches
+	whoever made it; an invoice gone overdue yesterday reaches whoever made
+	it; bills due this week reach accounts; a payment made through a payment
+	link is told; Karim's request to buy reaches purchasing; an order not
+	delivered by yesterday reaches whoever made it."""
+	from unittest.mock import patch
+
+	from onedesk.one_book import tell as books
+	from onedesk.one_crm import tell as crm
+	from onedesk.one_inventory import tell as stock
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def said(name, record=None):
+		found = [one for one in told if one[0] == name and (not record or one[2].get("record") == record)]
+		assert found, (name, record, [one[0] for one in told])
+		return found[-1]
+
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		lead = frappe.get_doc("Lead", frappe.db.get_value("Lead", {"lead_owner": ["!=", "samir@one.test"]}))
+		with as_user("wsadmin@one.test"):
+			lead.lead_owner = "samir@one.test"
+			lead.save()
+		assert said("Given to You", ("Lead", lead.name))[1] == ["samir@one.test"]
+
+		with as_user("wsadmin@one.test"):
+			new = frappe.get_doc({"doctype": "Lead", "lead_name": "Hana Ito", "email_id": "hana.ito@example.com", "lead_owner": ""})
+			new.insert()
+		if not new.lead_owner:
+			assert "samir@one.test" in said("New Lead Waiting", ("Lead", new.name))[1]
+
+		base = frappe.get_doc("Quotation", frappe.db.get_value("Quotation", {"docstatus": 1, "status": "Open"}))
+		quote = frappe.copy_doc(base)
+		quote.transaction_date, quote.valid_till, quote.payment_schedule, quote.lost_reasons = today(), add_days(today(), 3), [], []
+		for row in quote.items:
+			row.ordered_qty = 0
+		quote.insert(ignore_permissions=True)
+		quote.submit()
+		crm.running_out()
+		assert said("Quotation Running Out", ("Quotation", quote.name))[1], told
+
+		invoice = frappe.db.get_value("Sales Invoice", {"docstatus": 1, "outstanding_amount": [">", 0], "is_return": 0})
+		frappe.db.set_value("Sales Invoice", invoice, "due_date", add_days(today(), -1))
+		books.overdue()
+		assert said("Invoice Overdue", ("Sales Invoice", invoice))[1]
+
+		bill = frappe.db.get_value("Purchase Invoice", {"docstatus": 1, "outstanding_amount": [">", 0]})
+		if bill:
+			frappe.db.set_value("Purchase Invoice", bill, "due_date", add_days(today(), 2))
+			books.bills_due()
+			assert said("Bills Due This Week")[2]["count"] >= 1
+
+		paid = frappe._dict(
+			payment_type="Receive", party_type="Customer", party=frappe.db.get_value("Sales Invoice", invoice, "customer"), party_name="", paid_from_account_currency="AED",
+			references=[frappe._dict(payment_request="ACC-PRQ-1", reference_doctype="Sales Invoice", reference_name=invoice, allocated_amount=100)],
+		)
+		books.paid_online(paid)
+		assert said("Paid Online", ("Sales Invoice", invoice))[2]["invoice"] == invoice
+
+		item = frappe.db.get_value("Item", {"is_stock_item": 1, "disabled": 0})
+		with as_user("karim@one.test"):
+			asked = frappe.get_doc(
+				{"doctype": "Material Request", "material_request_type": "Purchase", "schedule_date": add_days(today(), 7), "items": [{"item_code": item, "qty": 2, "schedule_date": add_days(today(), 7), "warehouse": frappe.db.get_value("Warehouse", {"is_group": 0})}]}
+			).insert()
+			asked.submit()
+		name, users, values = said("Material Request Asked", ("Material Request", asked.name))
+		assert "karim@one.test" not in users and values["who"] == "Karim Mansour", values
+
+		order = frappe.db.get_value("Sales Order", {"docstatus": 1, "status": ["in", ["To Deliver and Bill", "To Deliver"]]})
+		if order:
+			frappe.db.set_value("Sales Order", order, "delivery_date", add_days(today(), -1))
+			stock.deliveries_late()
+			assert said("Delivery Late", ("Sales Order", order))[1]

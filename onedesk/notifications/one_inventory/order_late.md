@@ -9,4 +9,5 @@ email_default: yes
 
 # {supplier} is late with {order}
 
-The order wanted {items} by {due}, and not all of it has arrived.
+The order wanted {items} by {due}, and not all of it has arrived. Chase
+{supplier}, or close the order if nothing more is coming.

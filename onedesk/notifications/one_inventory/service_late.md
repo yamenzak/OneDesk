@@ -9,4 +9,5 @@ email_default: yes
 
 # {task} on {asset} is late
 
-It was due {due} and is not recorded done.
+It was due {due} and is not recorded done. Do it, then record it done on the
+service.

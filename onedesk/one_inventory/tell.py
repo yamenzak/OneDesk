@@ -14,6 +14,7 @@ def raised(doc, method=None) -> None:
 	the type decides."""
 	rows = [row for row in doc.items if row.get("reorder_level")]
 	if not rows:
+		_asked(doc)
 		return
 	from erpnext.stock.reorder_item import get_email_list
 
@@ -24,6 +25,62 @@ def raised(doc, method=None) -> None:
 		request=doc.name,
 		items=", ".join(row.item_name or row.item_code for row in rows),
 	)
+
+
+def _asked(doc) -> None:
+	"""A person's own request to buy something, told to purchasing."""
+	if doc.material_request_type != "Purchase":
+		return
+	from frappe.utils import formatdate
+	from frappe.utils.user import get_users_with_role
+
+	people = sorted(
+		{*get_users_with_role("Purchase User"), *get_users_with_role("Purchase Manager")}
+		- {frappe.session.user}
+	)
+	if not people:
+		return
+	notify.notify(
+		"Material Request Asked",
+		people,
+		record=("Material Request", doc.name),
+		who=frappe.utils.get_fullname(frappe.session.user),
+		request=doc.name,
+		items=", ".join(dict.fromkeys(row.item_name or row.item_code for row in doc.items)),
+		wanted=formatdate(doc.schedule_date) if doc.get("schedule_date") else _("no date"),
+	)
+
+
+def deliveries_late() -> None:
+	"""Each morning: a customer's order due yesterday and not all delivered,
+	told once to whoever made it and the stock managers."""
+	if not frappe.db.get_value("Notification Type", "Delivery Late", "enabled"):
+		return
+	from frappe.utils import add_days, flt, formatdate, getdate
+	from frappe.utils.user import get_users_with_role
+
+	stock = get_users_with_role("Stock Manager")
+	for one in frappe.get_all(
+		"Sales Order",
+		filters={
+			"docstatus": 1,
+			"status": ["in", ["To Deliver and Bill", "To Deliver"]],
+			"delivery_date": add_days(getdate(), -1),
+			"per_delivered": ["<", 100],
+		},
+		fields=["name", "owner", "customer", "customer_name", "delivery_date", "per_delivered"],
+	):
+		maker = frappe.get_all("User", filters={"name": one.owner, "enabled": 1}, pluck="name")
+		notify.notify(
+			"Delivery Late",
+			sorted({*maker, *stock}) or get_users_with_role("Sales Manager"),
+			record=("Sales Order", one.name),
+			sender="Administrator",
+			order=one.name,
+			customer=one.customer_name or one.customer,
+			due=formatdate(one.delivery_date),
+			left=f"{100 - flt(one.per_delivered):g}%",
+		)
 
 
 def stock_values() -> None:
@@ -125,7 +182,18 @@ def work_done(doc, method=None) -> None:
 	order = frappe.db.get_value(
 		"Work Order",
 		doc.work_order,
-		["name", "status", "item_name", "produced_qty", "stock_uom", "fg_warehouse", "project", "material_request", "sales_order", "owner"],
+		[
+			"name",
+			"status",
+			"item_name",
+			"produced_qty",
+			"stock_uom",
+			"fg_warehouse",
+			"project",
+			"material_request",
+			"sales_order",
+			"owner",
+		],
 		as_dict=True,
 	)
 	if not order or order.status != "Completed":
@@ -146,9 +214,9 @@ def work_done(doc, method=None) -> None:
 		order=order.name,
 		qty=f"{frappe.format(order.produced_qty, {'fieldtype': 'Float'})} {_(order.stock_uom or '')}".strip(),
 		item=order.item_name,
-		warehouse=frappe.get_cached_value("Warehouse", order.fg_warehouse, "warehouse_name") or order.fg_warehouse,
+		warehouse=frappe.get_cached_value("Warehouse", order.fg_warehouse, "warehouse_name")
+		or order.fg_warehouse,
 	)
-
 
 
 def handed_over(doc, method=None) -> None:
@@ -194,7 +262,9 @@ def services() -> None:
 		late = getdate(log.due_date) < day
 		people = [log.task_assignee_email]
 		if late:
-			people.append(frappe.db.get_value("Asset Maintenance", log.asset_maintenance, "maintenance_manager"))
+			people.append(
+				frappe.db.get_value("Asset Maintenance", log.asset_maintenance, "maintenance_manager")
+			)
 		notify.notify(
 			"Service Late" if late else "Service Due",
 			sorted(set(filter(None, people))),

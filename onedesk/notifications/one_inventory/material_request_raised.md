@@ -9,6 +9,6 @@ replaces: Stock Settings.reorder_email_notify
 starts_as: Stock Settings.reorder_email_notify
 ---
 
-# Reordering raised {request}
+# {request} raised for items running low
 
-For what fell to its reorder level: {items}.
+{items} fell to their reorder level. Order them from Buying, To Order.

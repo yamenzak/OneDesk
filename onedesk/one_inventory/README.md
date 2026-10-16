@@ -618,6 +618,11 @@ them. A request line held by draft orders leaves the list, and no order,
 however it is made, can order more of a request line than is left on it.
 A request is marked ordered when its order is submitted.
 
+Purchasing is told of both: a request reordering raised (**Material Request
+Raised**) and one a person asked for (**Material Request Asked**). A customer's
+order not all delivered by its date is told the next morning to whoever made
+it and the stock managers (**Delivery Late**).
+
 ## Buying equipment
 
 A laptop, a desk, a van: make it an item once, with **Is Fixed Asset** ticked
@@ -775,7 +780,7 @@ An item's Stock view shows the same lots and numbers, with **New Lot**, and
 **Keep it in lots or by number** for an item that has not moved yet. Its
 Overview says **Expiring Soon** for a lot that runs out of date within a
 month and **Expired, Still in Stock** for one past its date, so it is used,
-sold or taken out of stock first. Whoever keeps the stores is told once when
+sold or taken out of stock first. The stock managers are told once when
 a lot with some left will expire within a month. **Batch Expiry** and
 **Stock by Batch** are under Reports.
 

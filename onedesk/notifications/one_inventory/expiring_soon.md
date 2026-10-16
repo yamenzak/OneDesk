@@ -1,7 +1,7 @@
 ---
 name: Expiring Soon
 app: OneInventory
-roles: Stock User, Stock Manager
+roles: Stock Manager
 about: When a batch with some still in stock expires within a month.
 to: Whoever keeps the stores
 email_default: yes
