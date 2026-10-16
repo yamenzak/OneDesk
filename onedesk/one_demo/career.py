@@ -804,6 +804,8 @@ def _clock():
 
 
 def _clocked():
+	# The workshop clocks itself in: the switch HR turns on in HR Settings.
+	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
 	once(
 		"Clock Place",
 		{"label": "Al Quoz workshop"},
@@ -830,6 +832,9 @@ def _clocked():
 			"platform": "Android",
 			"model": "Pixel 8",
 			"registered_on": f"{ago(40)} 07:58:00",
+			# His old phone, reset by HR: a demo cannot hold a real key, and
+			# an Active row without one would ask him to sign with nothing.
+			"status": "Reset",
 		},
 	)
 	if not frappe.db.exists("Clock Attempt", {"employee": employee}):

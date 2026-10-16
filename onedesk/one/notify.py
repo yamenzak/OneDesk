@@ -6,6 +6,7 @@ workspace, `mail()` for addresses outside it.
 """
 
 import re
+from contextlib import contextmanager
 from functools import cache
 
 import frappe
@@ -548,11 +549,9 @@ def notify(
 		enqueue_create_notification(emails, doc, dedupe_on=dedupe_on)
 		if always:
 			for email in emails:
-				try:
+				# As frappe does for a notification's mail: the bell has it.
+				with unsent():
 					_send(email, lang, name, subject, message, link, record, always=True)
-				except frappe.OutgoingEmailError:
-					# As frappe does for a notification's mail: the bell has it.
-					frappe.log_error(title=_("Failed to send notification email"))
 
 
 def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -> None:
@@ -597,6 +596,23 @@ SENDMAIL = frozenset(
 		"sender",
 	}
 )
+
+
+@contextmanager
+def unsent():
+	"""A mail that could not go, because the workspace has no outgoing account
+	yet, logged rather than raised: what it was about still happened.
+
+	frappe throws with a message, and catching the throw leaves the message
+	behind, so whoever pressed the button was told to set up an email account
+	in a red dialog over a check-in that had worked.
+	"""
+	said = len(frappe.local.message_log)
+	try:
+		yield
+	except frappe.OutgoingEmailError:
+		del frappe.local.message_log[said:]
+		frappe.log_error(title=_("Failed to send notification email"))
 
 
 # ------------------------------------------------------------------ the mail itself
@@ -761,7 +777,5 @@ class NotificationLog(_NotificationLog):
 		frappe.publish_realtime("notification", after_commit=True, user=self.for_user)
 		set_notifications_as_unseen(self.for_user)
 		if is_email_notifications_enabled_for_type(self.for_user, self.type):
-			try:
+			with unsent():
 				mail_log(self)
-			except frappe.OutgoingEmailError:
-				self.log_error(_("Failed to send notification email"))

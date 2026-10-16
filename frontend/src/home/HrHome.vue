@@ -75,9 +75,11 @@ const said = ref(null);
 const shown = ref(props.route[0] || props.query.view || null);
 const search = ref("");
 const story = ref(null);
+const clock = ref(null);
 
 async function load() {
   call("onedesk.one_hr.story.read").then((got) => (story.value = got));
+  clock.value = await call("onedesk.one_hr.clock.ready");
   said.value = await call("onedesk.one_hr.home.read");
   if (!shown.value) shown.value = said.value.hr ? "overview" : "today";
   report();
@@ -250,10 +252,14 @@ function report() {
   const s = said.value;
   props.onTitle?.({ title: __("OneHR") });
   extended(s);
-  // Everybody's three: clock in, ask for leave, claim an expense.
+  // Everybody's three: clock in, ask for leave, claim an expense. The clock is
+  // the bar's own (public/js/desk.js), so this asks the same gates rather than
+  // opening a blank check-in nobody's phone vouched for; it is left out where
+  // the workspace has not switched self check-in on or there is nothing to punch.
+  const direction = clock.value?.direction;
   props.onActions?.([
-    { label: __("Check In"), primary: true, onClick: () => newDoc("Employee Checkin") },
-    { label: __("Request Leave"), onClick: () => newDoc("Leave Application") },
+    ...(direction ? [{ label: direction === "OUT" ? __("Check Out") : __("Check In"), primary: true, onClick: () => onedesk().dock.punch().then(load) }] : []),
+    { label: __("Request Leave"), primary: !direction, onClick: () => newDoc("Leave Application") },
     { label: __("Claim an Expense"), onClick: () => newDoc("Expense Claim") },
   ]);
 }

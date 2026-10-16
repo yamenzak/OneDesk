@@ -237,7 +237,8 @@ class Interview(HRMSInterview):
 		) or (self.job_applicant, None)
 		if not email:
 			return
-		try:
+		# No mail account yet: the interview still stands.
+		with notify.unsent():
 			notify.mail(
 				"Interview Scheduled, to the Applicant",
 				email,
@@ -247,9 +248,6 @@ class Interview(HRMSInterview):
 				applicant=applicant,
 				when=_when(self),
 			)
-		except frappe.OutgoingEmailError:
-			# No mail account yet: the interview still stands.
-			frappe.log_error(title=frappe._("Failed to send notification email"))
 
 	def on_update(self):
 		"""An interviewer added later is told then."""

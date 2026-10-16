@@ -171,12 +171,16 @@ def check(credential, employee: str) -> dict:
 
 
 def held_by(employee: str):
-	"""The one Active credential this employee has, or nothing."""
+	"""The one Active credential this employee has, or nothing.
+
+	A row with no key in it is not a passkey: it cannot sign, and taking it for
+	one sends the phone a challenge for a credential that does not exist.
+	"""
 	if not employee:
 		return None
 	found = frappe.get_all(
 		"Clock Device",
-		filters={"employee": employee, "status": "Active"},
+		filters={"employee": employee, "status": "Active", "credential_id": ["is", "set"]},
 		fields=["name", "credential_id", "public_key", "sign_count", "label", "user_agent"],
 		order_by="creation desc",
 		limit=1,
