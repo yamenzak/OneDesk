@@ -256,7 +256,9 @@ No doctypes yet.
 * `onedesk.one.numbering.set_current`
 * `onedesk.one.numbering.set_naming_by`
 * `onedesk.one.outside.kind_of`
+* `onedesk.one.portal.accept_quote`
 * `onedesk.one.portal.apps`
+* `onedesk.one.portal.decline_quote`
 * `onedesk.one.portal.form`
 * `onedesk.one.portal.home`
 * `onedesk.one.portal.quote_preview`

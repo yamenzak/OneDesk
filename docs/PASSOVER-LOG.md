@@ -13837,3 +13837,25 @@ discount also shows on every record's rows ("80 Nos × 19.00 − 10%"), each
 figure isolated so an Arabic currency symbol does not carry the discount
 past it. Checked live: priced at 4,975.00 with 10% and 5% off two rows, saved
 at 4,975.00 with the same rates.
+
+## A customer answers a quotation
+
+*Asked:* Accept and Decline on a customer's quotation.
+
+*Done:* an open quotation's page has **Accept Quotation** and **Decline**
+under its total. Accept asks for the date they need it by and their reference,
+and erpnext's own `make_sales_order` makes the order from it, kept a draft for
+whoever made the quotation to check and submit; they are told (Quotation
+Accepted, OneCRM), the quotation's timeline says who accepted, and the
+customer sees it as Accepted, with the steps Sent, Accepted, Ordered. Decline
+asks why and is erpnext's Set as Lost with that reason; whoever made it is
+told (Quotation Declined), and the customer sees Declined, not erpnext's Lost.
+Neither can be done twice, nor to another customer's quotation, nor to one run
+out unless Selling Settings allows orders on those. An answered, ordered or
+declined quotation no longer shows its last day in red.
+
+*Found on the way:* frappe-ui 1.0's Dialog takes `title` as a prop and its
+body in the default slot. The portal's three dialogs (Delete My Account,
+Revoke, and these) used the old `options.title` and `#body-content`, which
+draw an empty box: Delete My Account had never shown its words or its
+password field. A guard now refuses the old slots.

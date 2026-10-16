@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 06:28+0000\n"
+"POT-Creation-Date: 2026-10-16 06:41+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -142,7 +142,7 @@ msgstr "يوم واحد من {0}."
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
-#: onedesk/one/portal.py:370 onedesk/one/portal.py:717
+#: onedesk/one/portal.py:380 onedesk/one/portal.py:732
 msgid "1 day overdue"
 msgstr "متأخر يومًا واحدًا"
 
@@ -1519,6 +1519,12 @@ msgstr "الغائبون اليوم"
 msgid "Accept"
 msgstr "قبول"
 
+#: frontend/portal/src/pages/Record.vue:70
+#: frontend/portal/src/pages/Record.vue:111
+#: frontend/portal/src/pages/Record.vue:120
+msgid "Accept Quotation"
+msgstr "قبول عرض السعر"
+
 #: onedesk/one_hr/heads.py:606
 msgid "Accept this check-in?"
 msgstr "هل تقبل تسجيل الحضور هذا؟"
@@ -1529,16 +1535,26 @@ msgstr "سياسة الاستخدام المقبول"
 
 #. Option for the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #. Label in the One Purchase Receipt print format
+#: onedesk/one/portal.py:285 onedesk/one/portal.py:598
+#: onedesk/one/portal.py:767
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:237
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 msgid "Accepted"
-msgstr ""
+msgstr "مقبول"
 
 #: onedesk/one/print_blocks.py:161 onedesk/one/print_blocks.py:170
 #: onedesk/one/print_blocks.py:171
 msgid "Accepted By"
 msgstr "قَبِله"
+
+#: onedesk/one/portal.py:875
+msgid "Accepted on the portal by {0}: order {1}."
+msgstr "قبله {0} عبر البوابة: الطلب {1}."
+
+#: frontend/portal/src/pages/Record.vue:199 onedesk/one/portal.py:632
+msgid "Accepted. We'll confirm your order."
+msgstr "تم القبول. سنؤكد طلبك."
 
 #. Label of a Sidebar Item
 #. Label of the section_who (Section Break) field in DocType 'Cloud Mount'
@@ -2021,7 +2037,7 @@ msgstr "أضف عميلًا محتملًا من كل بطاقة عمل من هذ
 msgid "Add a number to a field on the target document."
 msgstr "يضيف عددًا إلى حقل في السجل."
 
-#: onedesk/one/portal.py:1053
+#: onedesk/one/portal.py:1172
 msgid "Add a rate for at least one item."
 msgstr "أضف سعرًا لعنصر واحد على الأقل."
 
@@ -2761,7 +2777,7 @@ msgstr "المبلغ المدفوع"
 msgid "Amount Received"
 msgstr "المبلغ المستلم"
 
-#: onedesk/one/portal.py:708
+#: onedesk/one/portal.py:723
 msgid "Amount due"
 msgstr "المبلغ المستحق"
 
@@ -3019,7 +3035,7 @@ msgid "Another employee has already checked in from this browser today."
 msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليوم."
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
-#: onedesk/one/portal.py:454 onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one/portal.py:464 onedesk/one_intake/doctype/reading/reading.json
 msgid "Answer"
 msgstr "رد"
 
@@ -4151,7 +4167,7 @@ msgstr "بانتظار الموافقة"
 msgid "Awaiting approval ({0})."
 msgstr "بانتظار الموافقة ({0})."
 
-#: onedesk/one/portal.py:116
+#: onedesk/one/portal.py:118
 msgid "Awaiting payment"
 msgstr "بانتظار الدفع"
 
@@ -5828,6 +5844,10 @@ msgstr "اختر الضريبة المحتسبة افتراضيًا"
 msgid "Choose the country first."
 msgstr "اختر البلد أولًا."
 
+#: onedesk/one/portal.py:862
+msgid "Choose the date you need it by, today or later."
+msgstr "اختر التاريخ الذي تحتاجه بحلوله، اليوم أو بعده."
+
 #: onedesk/public/js/oneai/Panel.vue:193
 msgid "Choose the model"
 msgstr "اختر النموذج"
@@ -6477,7 +6497,7 @@ msgstr "إرسال طلبات التأكيد إلى البنوك والعملا�
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one/portal.py:109 onedesk/one/portal.py:110
-#: onedesk/one/portal.py:747 onedesk/one/privacy.py:191
+#: onedesk/one/portal.py:776 onedesk/one/privacy.py:191
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Confirmed"
@@ -7022,7 +7042,7 @@ msgstr "إنشاء سجل"
 msgid "Create Download"
 msgstr "إنشاء التنزيل"
 
-#: onedesk/one/portal.py:600
+#: onedesk/one/portal.py:613
 msgid "Create Invoice"
 msgstr "إنشاء فاتورة"
 
@@ -7506,8 +7526,8 @@ msgstr "قاعدة البيانات المستخدمة"
 #. Label of the date (Date) field in DocType 'Reading Date'
 #: frontend/src/project/Invoices.vue:32 frontend/src/project/Suppliers.vue:92
 #: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:30
-#: frontend/src/task/TaskTime.vue:22 onedesk/one/portal.py:125
-#: onedesk/one/portal.py:126 onedesk/one/portal.py:861
+#: frontend/src/task/TaskTime.vue:22 onedesk/one/portal.py:127
+#: onedesk/one/portal.py:128 onedesk/one/portal.py:980
 #: onedesk/one/print_blocks.py:41 onedesk/one/print_blocks.py:43
 #: onedesk/one/print_blocks.py:48 onedesk/one/print_blocks.py:54
 #: onedesk/one/print_blocks.py:60 onedesk/one/print_blocks.py:71
@@ -7715,6 +7735,27 @@ msgstr "معلَن"
 #: onedesk/one/doctype/record_head/record_head.json
 msgid "Declared By"
 msgstr "صرّحت به"
+
+#: frontend/portal/src/pages/Record.vue:71
+msgid "Decline"
+msgstr "رفض"
+
+#: frontend/portal/src/pages/Record.vue:123
+#: frontend/portal/src/pages/Record.vue:128
+msgid "Decline Quotation"
+msgstr "رفض عرض السعر"
+
+#: onedesk/one/portal.py:115 onedesk/one/portal.py:762
+msgid "Declined"
+msgstr "مرفوض"
+
+#: onedesk/one/portal.py:897
+msgid "Declined on the portal by {0}."
+msgstr "رفضه {0} عبر البوابة."
+
+#: onedesk/one/portal.py:896
+msgid "Declined on the portal."
+msgstr "رُفض عبر البوابة."
 
 #: onedesk/templates/one_print/payslip.html:5
 msgid "Deductions"
@@ -8009,8 +8050,8 @@ msgstr "التوريد إلى الموقع"
 #: frontend/src/home/InventoryStory.vue:166
 #: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:111
 #: onedesk/one/portal.py:112 onedesk/one/portal.py:113
-#: onedesk/one/portal.py:119 onedesk/one/portal.py:748
-#: onedesk/one/portal.py:758 onedesk/one_book/heads.py:101
+#: onedesk/one/portal.py:121 onedesk/one/portal.py:777
+#: onedesk/one/portal.py:787 onedesk/one_book/heads.py:101
 #: onedesk/one_crm/heads.py:329 onedesk/one_inventory/heads.py:761
 #: onedesk/one_project/money.py:153
 msgid "Delivered"
@@ -8043,7 +8084,7 @@ msgstr "سُلّم {0}"
 msgid "Deliveries received from Stripe, used to ignore repeats."
 msgstr "التسليمات الواردة من Stripe، وتُستعمل لتجاهل المكرَّر."
 
-#: onedesk/one/portal.py:128 onedesk/one/portal.py:129
+#: onedesk/one/portal.py:130 onedesk/one/portal.py:131
 msgid "Delivery"
 msgstr "التسليم"
 
@@ -8072,7 +8113,7 @@ msgstr "إعدادات التسليم"
 msgid "Delivery Trip"
 msgstr ""
 
-#: onedesk/one/portal.py:386 onedesk/one/portal.py:727
+#: onedesk/one/portal.py:396 onedesk/one/portal.py:748
 msgid "Delivery {0}"
 msgstr "التسليم {0}"
 
@@ -8228,7 +8269,7 @@ msgstr "التفصيل"
 #. Label in the One Appointment Letter print format
 #. Label of the said (Small Text) field in DocType 'Intake Lesson'
 #. Label of the section_details (Section Break) field in DocType 'Reading'
-#: frontend/portal/src/pages/Record.vue:70
+#: frontend/portal/src/pages/Record.vue:75
 #: frontend/portal/src/pages/Rfq.vue:112 frontend/src/item/ItemBuying.vue:35
 #: frontend/src/item/ItemMaking.vue:41 frontend/src/item/ItemOverview.vue:33
 #: frontend/src/item/ItemSelling.vue:27 frontend/src/item/ItemStock.vue:25
@@ -8329,7 +8370,7 @@ msgstr "فصل {0}؟ تبقى الملفات على الخادم كما هي."
 msgid "Disconnected"
 msgstr "غير متصل"
 
-#: onedesk/one/portal.py:559 onedesk/one/print_blocks.py:469
+#: onedesk/one/portal.py:569 onedesk/one/print_blocks.py:469
 msgid "Discount"
 msgstr "الخصم"
 
@@ -8560,7 +8601,7 @@ msgstr "تاريخ إعداد التنزيل"
 msgid "Download My Data"
 msgstr "تنزيل بياناتي"
 
-#: onedesk/one/portal.py:591
+#: onedesk/one/portal.py:604
 msgid "Download PDF"
 msgstr "تنزيل PDF"
 
@@ -8769,7 +8810,7 @@ msgstr "أُسقط"
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: frontend/src/project/Invoices.vue:33 frontend/src/project/Suppliers.vue:93
 #: frontend/src/sent_out/OutRows.vue:14 frontend/src/upkeep/UpkeepRows.vue:15
-#: onedesk/one/portal.py:130 onedesk/one_admin/accounts.py:217
+#: onedesk/one/portal.py:132 onedesk/one_admin/accounts.py:217
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/public/js/settings.js:1745
 msgid "Due"
@@ -8827,8 +8868,8 @@ msgstr "يستحق غدًا"
 #: frontend/src/project/Invoices.vue:57 frontend/src/project/Overview.vue:317
 #: frontend/src/project/Overview.vue:353 frontend/src/project/Suppliers.vue:70
 #: frontend/src/project/Suppliers.vue:117
-#: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one/portal.py:373
-#: onedesk/one/portal.py:721 onedesk/one_inventory/heads.py:558
+#: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one/portal.py:383
+#: onedesk/one/portal.py:736 onedesk/one_inventory/heads.py:558
 msgid "Due {0}"
 msgstr "مستحقة {0}"
 
@@ -9534,7 +9575,7 @@ msgstr "ينتهي اليوم"
 msgid "Ends tomorrow"
 msgstr "ينتهي غدًا"
 
-#: frontend/src/project/Overview.vue:322 onedesk/one/portal.py:301
+#: frontend/src/project/Overview.vue:322 onedesk/one/portal.py:305
 #: onedesk/one_project/portal.py:199
 msgid "Ends {0}"
 msgstr "ينتهي {0}"
@@ -10668,7 +10709,7 @@ msgstr "حُفظ مع {0}"
 #. Label of the items (Table) field in DocType 'Cloud File Request'
 #. Label of a Sidebar Item
 #: frontend/portal/src/pages/Project.vue:113
-#: frontend/portal/src/pages/Record.vue:91 frontend/src/item/ItemFiles.vue:7
+#: frontend/portal/src/pages/Record.vue:96 frontend/src/item/ItemFiles.vue:7
 #: frontend/src/item/ItemPage.vue:181 frontend/src/project/Files.vue:10
 #: frontend/src/project/ProjectPage.vue:190 frontend/src/task/TaskFiles.vue:7
 #: frontend/src/task/TaskPage.vue:223
@@ -13495,8 +13536,8 @@ msgstr "أصدر فاتورة {project} عن الشهر الماضي"
 
 #: frontend/src/project/Invoices.vue:119 frontend/src/project/Money.vue:180
 #: frontend/src/project/Overview.vue:156 frontend/src/project/Time.vue:92
-#: frontend/src/project/Time.vue:225 onedesk/one/portal.py:749
-#: onedesk/one/portal.py:753 onedesk/one/portal.py:759
+#: frontend/src/project/Time.vue:225 onedesk/one/portal.py:778
+#: onedesk/one/portal.py:782 onedesk/one/portal.py:788
 #: onedesk/one_project/money.py:154
 msgid "Invoiced"
 msgstr "المفوتر"
@@ -13617,7 +13658,7 @@ msgstr "صرف مخزون"
 
 #. Label of the issued_section (Section Break) field in DocType 'Employee
 #. Letter'
-#: onedesk/one/portal.py:763
+#: onedesk/one/portal.py:792
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_inventory/heads.py:649 onedesk/one_inventory/heads.py:1496
 msgid "Issued"
@@ -15089,7 +15130,7 @@ msgstr "اربط جهة الاتصال بعميل أو مورد أولاً."
 msgid "Link to Record"
 msgstr "ربط بسجل"
 
-#: frontend/portal/src/pages/Record.vue:79
+#: frontend/portal/src/pages/Record.vue:84
 msgid "Linked"
 msgstr "مرتبطة"
 
@@ -16812,11 +16853,12 @@ msgstr "تضييق القائمة"
 msgid "Needed Review"
 msgstr "احتاج إلى مراجعة"
 
-#: onedesk/one/portal.py:75 onedesk/one/portal.py:863
+#: frontend/portal/src/pages/Record.vue:115 onedesk/one/portal.py:75
+#: onedesk/one/portal.py:982
 msgid "Needed by"
 msgstr "مطلوب بحلول"
 
-#: onedesk/one/portal.py:384
+#: onedesk/one/portal.py:394
 msgid "Needed by {0}"
 msgstr "مطلوب بحلول {0}"
 
@@ -18161,7 +18203,7 @@ msgstr "غير موجود"
 msgid "Not Invoiced Yet"
 msgstr "لم تُفوتر بعد"
 
-#: onedesk/one/portal.py:1036 onedesk/www/message.html:11
+#: onedesk/one/portal.py:1155 onedesk/www/message.html:11
 #: onedesk/www/message.html:22 onedesk/www/message.html:25
 msgid "Not Permitted"
 msgstr "غير مسموح"
@@ -18485,7 +18527,7 @@ msgid "Note"
 msgstr "ملاحظة"
 
 #. Label in the One Work Order print format
-#: frontend/portal/src/pages/Rfq.vue:85 onedesk/one/portal.py:640
+#: frontend/portal/src/pages/Rfq.vue:85 onedesk/one/portal.py:655
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Notes"
 msgstr "ملاحظات"
@@ -20355,8 +20397,8 @@ msgstr "اطلب {0}"
 #: frontend/src/home/InventoryStory.vue:184 frontend/src/project/Money.vue:167
 #: frontend/src/project/Suppliers.vue:202
 #: frontend/src/quotes/QuoteCompare.vue:82 frontend/src/quotes/QuoteRows.vue:75
-#: frontend/src/quotes/RequestRows.vue:68 onedesk/one/portal.py:740
-#: onedesk/one/portal.py:742 onedesk/one/portal.py:757
+#: frontend/src/quotes/RequestRows.vue:68 onedesk/one/portal.py:768
+#: onedesk/one/portal.py:771 onedesk/one/portal.py:786
 #: onedesk/one_book/heads.py:99 onedesk/one_inventory/heads.py:548
 #: onedesk/one_inventory/heads.py:635 onedesk/one_inventory/heads.py:734
 #: onedesk/one_inventory/heads.py:760 onedesk/one_inventory/heads.py:838
@@ -20800,10 +20842,10 @@ msgstr "الصفحات"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: frontend/src/project/Invoices.vue:120 frontend/src/project/Suppliers.vue:204
-#: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:576
-#: onedesk/one/portal.py:707 onedesk/one/portal.py:750
-#: onedesk/one/portal.py:760 onedesk/one/portal.py:763
-#: onedesk/one/portal.py:765 onedesk/one/print_blocks.py:480
+#: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:586
+#: onedesk/one/portal.py:722 onedesk/one/portal.py:779
+#: onedesk/one/portal.py:789 onedesk/one/portal.py:792
+#: onedesk/one/portal.py:794 onedesk/one/print_blocks.py:480
 #: onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:103
@@ -20850,7 +20892,7 @@ msgstr "مدفوعة بالخصم المباشر."
 msgid "Paid in Advance"
 msgstr "مدفوع مقدماً"
 
-#: onedesk/one/portal.py:707
+#: onedesk/one/portal.py:722
 msgid "Paid in full"
 msgstr "مدفوعة بالكامل"
 
@@ -20981,7 +21023,7 @@ msgstr "القواطع وهياكل الأسقف"
 msgid "Partly Sent"
 msgstr "أُرسل جزئيًا"
 
-#: onedesk/one/portal.py:742
+#: onedesk/one/portal.py:771
 msgid "Partly ordered"
 msgstr "طُلب جزئيًا"
 
@@ -21196,7 +21238,7 @@ msgstr "ادفع خلال {0} يوم لتجنب الحذف."
 msgid "Pay within {0} days to avoid suspension."
 msgstr "ادفع خلال {0} يوم لتجنب الإيقاف."
 
-#: onedesk/one/portal.py:608 onedesk/one_project/view.py:959
+#: onedesk/one/portal.py:621 onedesk/one_project/view.py:959
 msgid "Pay {0}"
 msgstr "ادفع {0}"
 
@@ -22987,6 +23029,16 @@ msgstr "الحصص"
 msgid "Quotation"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_crm/quotation_accepted.md
+msgid "Quotation Accepted"
+msgstr "قبول عرض سعر"
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/quotation_declined.md
+msgid "Quotation Declined"
+msgstr "رفض عرض سعر"
+
 #: onedesk/one/print_blocks.py:16
 msgid "Quotation No"
 msgstr "رقم عرض السعر"
@@ -22994,6 +23046,10 @@ msgstr "رقم عرض السعر"
 #: onedesk/one_crm/home.py:126
 msgid "Quotation Trends"
 msgstr ""
+
+#: frontend/portal/src/pages/Record.vue:200
+msgid "Quotation declined"
+msgstr "تم رفض عرض السعر"
 
 #: onedesk/one_crm/heads.py:168
 msgid "Quotation {0} is with them until {1}."
@@ -23015,7 +23071,7 @@ msgstr "عروض أسعار تنتهي صلاحيتها"
 msgid "Quotations lost, and why."
 msgstr "عروض الأسعار الخاسرة، وسبب خسارتها."
 
-#: onedesk/one/portal.py:139
+#: onedesk/one/portal.py:141
 msgid "Quote"
 msgstr "عرض سعر"
 
@@ -23028,7 +23084,7 @@ msgstr "عرض سعر لأعمال إضافية"
 msgid "Quote Received"
 msgstr "تم استلام عرض سعر"
 
-#: onedesk/one/portal.py:138
+#: onedesk/one/portal.py:140
 msgid "Quote Request"
 msgstr "طلب عرض سعر"
 
@@ -23046,8 +23102,8 @@ msgid "Quote sent"
 msgstr "أُرسل عرض السعر"
 
 #: frontend/src/project/Overview.vue:154
-#: frontend/src/supplier/SupplierItems.vue:35 onedesk/one/portal.py:278
-#: onedesk/one/portal.py:874 onedesk/one_inventory/heads.py:631
+#: frontend/src/supplier/SupplierItems.vue:35 onedesk/one/portal.py:280
+#: onedesk/one/portal.py:993 onedesk/one_inventory/heads.py:631
 #: onedesk/one_inventory/heads.py:1555 onedesk/one_project/money.py:137
 msgid "Quoted"
 msgstr "تم التسعير"
@@ -23410,7 +23466,7 @@ msgstr "استلام ما صنعته {0} إلى المخزون؟"
 #: frontend/src/home/InventoryStory.vue:171
 #: frontend/src/home/InventoryStory.vue:184
 #: frontend/src/sent_out/OutRows.vue:13
-#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one/portal.py:765
+#: frontend/src/sent_out/SentOutPage.vue:86 onedesk/one/portal.py:794
 #: onedesk/one_book/heads.py:101 onedesk/one_book/heads.py:380
 #: onedesk/one_inventory/heads.py:550 onedesk/one_inventory/heads.py:636
 #: onedesk/one_inventory/heads.py:648 onedesk/one_inventory/heads.py:735
@@ -24602,7 +24658,7 @@ msgstr "أُعيد {0} إلى المورد"
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #. Task in the New Client Onboarding project template
 #. Label of the review (Select) field in DocType 'Extension'
-#: onedesk/one/portal.py:453
+#: onedesk/one/portal.py:463
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_project/library/client_onboarding.json
 #: onedesk/one_studio/ai.py:378
@@ -25477,8 +25533,8 @@ msgstr "الحساسية"
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
-#: onedesk/one/portal.py:106 onedesk/one/portal.py:740
-#: onedesk/one/portal.py:743
+#: onedesk/one/portal.py:106 onedesk/one/portal.py:762
+#: onedesk/one/portal.py:766 onedesk/one/portal.py:772
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -26103,11 +26159,11 @@ msgstr ""
 msgid "Ship To"
 msgstr "الشحن إلى"
 
-#: onedesk/one/portal.py:552 onedesk/one/portal.py:866
+#: onedesk/one/portal.py:562 onedesk/one/portal.py:985
 msgid "Ship to"
 msgstr "الشحن إلى"
 
-#: onedesk/one/portal.py:753
+#: onedesk/one/portal.py:782
 msgid "Shipped"
 msgstr "تم الشحن"
 
@@ -26903,6 +26959,7 @@ msgstr "أمر تراجع عنه شخص أو رفضه، يُتذكَّر للم�
 msgid "Something went wrong"
 msgstr "حدث خطأ ما"
 
+#: frontend/portal/src/pages/Record.vue:194
 #: frontend/portal/src/pages/YourData.vue:77 onedesk/www/your_data.html:88
 msgid "Something went wrong. Try again in a moment."
 msgstr "حدث خطأ ما. حاول مرة أخرى بعد قليل."
@@ -27824,7 +27881,7 @@ msgstr "أرسل سجل دوامك"
 msgid "Submit {0} drafts?"
 msgstr "اعتماد {0} مسودات؟"
 
-#: frontend/src/quotes/QuoteRows.vue:73 onedesk/one/portal.py:231
+#: frontend/src/quotes/QuoteRows.vue:73 onedesk/one/portal.py:233
 #: onedesk/one_project/heads.py:205
 msgid "Submitted"
 msgstr "مُرسل"
@@ -27851,7 +27908,7 @@ msgstr "المعالِجون الفرعيون"
 msgid "Subscribe"
 msgstr "اشترك"
 
-#: onedesk/one/portal.py:556 onedesk/one/print_blocks.py:467
+#: onedesk/one/portal.py:566 onedesk/one/print_blocks.py:467
 msgid "Subtotal"
 msgstr "المجموع الفرعي"
 
@@ -28292,8 +28349,8 @@ msgstr "مهام مستحقة أو متأخرة"
 
 #. Label of the tax (Float) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/portal/src/pages/Rfq.vue:25 onedesk/one/portal.py:564
-#: onedesk/one/portal.py:1135
+#: frontend/portal/src/pages/Rfq.vue:25 onedesk/one/portal.py:574
+#: onedesk/one/portal.py:1254
 #: onedesk/one_book/report/vat_return/vat_return.py:39
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -28520,7 +28577,7 @@ msgstr "البند"
 #. Label in the One Purchase Receipt print format
 #. Label of the one_terms_section (Section Break) field in DocType 'Project
 #. Template'
-#: frontend/portal/src/pages/Rfq.vue:88 onedesk/one/portal.py:640
+#: frontend/portal/src/pages/Rfq.vue:88 onedesk/one/portal.py:655
 #: onedesk/one/print_recipes.py:182
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
@@ -29668,6 +29725,10 @@ msgstr "صاحب الحساب السابق"
 msgid "The previous address"
 msgstr "العنوان السابق"
 
+#: frontend/portal/src/pages/Record.vue:125
+msgid "The price, the timing, another supplier…"
+msgstr "السعر، الموعد، مورد آخر…"
+
 #: onedesk/one_inventory/home.py:128
 msgid "The prices suppliers gave."
 msgstr "الأسعار التي قدّمها الموردون."
@@ -30267,6 +30328,10 @@ msgstr "طالب بمبلغ {0} واعتُمد {1}."
 msgid "They expire on {0}."
 msgstr "تنتهي صلاحيتها في {0}."
 
+#: onedesk/one/tell.py:601
+msgid "They gave no reason."
+msgstr "لم يذكروا سببًا."
+
 #: onedesk/one/portal_invite.py:137
 msgid "They have already signed in."
 msgstr "لقد سجّلوا الدخول بالفعل."
@@ -30506,6 +30571,10 @@ msgstr "لم يتم بناء هذه الصفحة"
 msgid "This passkey was registered on a different browser."
 msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف."
 
+#: onedesk/one/portal.py:845
+msgid "This quotation can't be answered any more."
+msgstr "لم يعد بالإمكان الرد على عرض السعر هذا."
+
 #: onedesk/one/approvals.py:37 onedesk/one/automations.py:38
 #: onedesk/one/mail_templates.py:119 onedesk/one/numbering.py:58
 #: onedesk/one/printing.py:52
@@ -30524,7 +30593,7 @@ msgstr "انتهى هذا التسجيل بالفعل."
 msgid "This request expired. Try again."
 msgstr "انتهت صلاحية هذا الطلب. حاول مرة أخرى."
 
-#: onedesk/one/portal.py:1038 onedesk/public/js/onecloud.js:1755
+#: onedesk/one/portal.py:1157 onedesk/public/js/onecloud.js:1755
 #: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr "هذا الطلب مغلق."
@@ -30904,7 +30973,7 @@ msgstr "إلى من يهمه الأمر"
 msgid "To Win"
 msgstr "حتى الفوز"
 
-#: onedesk/one/portal.py:117 onedesk/one/portal.py:118
+#: onedesk/one/portal.py:119 onedesk/one/portal.py:120
 msgid "To deliver"
 msgstr "للتسليم"
 
@@ -30917,12 +30986,12 @@ msgstr "لعرضه، فعّل مسعّر يدويًا وأضف أسعاره."
 msgid "To or Cc Contains"
 msgstr "إلى أو نسخة يحتوي"
 
-#: onedesk/one/portal.py:578
+#: onedesk/one/portal.py:588
 #: onedesk/one_book/report/vat_return/vat_return.py:75
 msgid "To pay"
 msgstr "المستحق دفعه"
 
-#: onedesk/one/portal.py:278 onedesk/one/portal.py:874
+#: onedesk/one/portal.py:280 onedesk/one/portal.py:993
 msgid "To quote"
 msgstr "بانتظار التسعير"
 
@@ -31062,7 +31131,7 @@ msgstr "نمط الأعلى"
 #: frontend/portal/src/pages/Rfq.vue:80 frontend/src/project/Invoices.vue:35
 #: frontend/src/project/Suppliers.vue:95
 #: frontend/src/quotes/QuoteCompare.vue:38 frontend/src/quotes/QuoteRows.vue:13
-#: onedesk/one/portal.py:74 onedesk/one/portal.py:571 onedesk/one/portal.py:730
+#: onedesk/one/portal.py:74 onedesk/one/portal.py:581 onedesk/one/portal.py:751
 #: onedesk/one/print_blocks.py:500 onedesk/one/print_blocks.py:717
 #: onedesk/one/print_blocks.py:751
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
@@ -32026,11 +32095,11 @@ msgstr "صالح حتى"
 msgid "Valid till {0}"
 msgstr "صالح حتى {0}"
 
-#: onedesk/one/portal.py:127
+#: onedesk/one/portal.py:129
 msgid "Valid until"
 msgstr "صالح حتى"
 
-#: onedesk/one/portal.py:382 onedesk/one/portal.py:725
+#: onedesk/one/portal.py:392 onedesk/one/portal.py:746
 msgid "Valid until {0}"
 msgstr "صالح حتى {0}"
 
@@ -32175,7 +32244,7 @@ msgid "Video Generation"
 msgstr "توليد الفيديو"
 
 #. Label of the view (Select) field in DocType 'Extension'
-#: onedesk/one/portal.py:455
+#: onedesk/one/portal.py:465
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/onecloud.js:158 onedesk/public/js/onecloud.js:1323
 #: onedesk/public/js/project.js:17 onedesk/public/js/project.js:22
@@ -32207,7 +32276,7 @@ msgstr "عرض صفحة التسجيل"
 msgid "View Workspaces"
 msgstr "عرض مساحات العمل"
 
-#: onedesk/one/portal.py:451
+#: onedesk/one/portal.py:461
 msgid "View and Pay"
 msgstr "عرض ودفع"
 
@@ -32439,6 +32508,10 @@ msgstr "استلمنا دفعتك لـ {workspace}، لكن الإعداد وا�
 #: onedesk/www/account_profile.html:92
 msgid "We sent a link to {0}. The address changes when it is followed, within the hour."
 msgstr "أرسلنا رابطًا إلى {0}. يتغيّر العنوان عند فتحه خلال ساعة."
+
+#: frontend/portal/src/pages/Record.vue:114
+msgid "We'll prepare your order for {0} and confirm it with you."
+msgstr "سنجهز طلبك بقيمة {0} ونؤكده معك."
 
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -33466,6 +33539,16 @@ msgstr "عندما يبدو تسجيل حضور خاطئاً وينتظر من �
 #: onedesk/notifications/one/your_data_is_ready_to_download.md
 msgid "When a copy asked for on the Your Data page is ready, with the link to download it."
 msgstr "عندما تجهز نسخة طُلبت من صفحة «بياناتك»، مع رابط تنزيلها."
+
+#. When a notification is sent
+#: onedesk/notifications/one_crm/quotation_accepted.md
+msgid "When a customer accepts one of your quotations on the portal."
+msgstr "عندما يقبل عميل أحد عروض أسعارك عبر البوابة."
+
+#. When a notification is sent
+#: onedesk/notifications/one_crm/quotation_declined.md
+msgid "When a customer declines one of your quotations on the portal."
+msgstr "عندما يرفض عميل أحد عروض أسعارك عبر البوابة."
 
 #. When a notification is sent
 #: onedesk/notifications/one/your_request_is_on_hold.md
@@ -34892,6 +34975,12 @@ msgid "Whoever made the order"
 msgstr "من أنشأ أمر الشراء"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_crm/quotation_accepted.md
+#: onedesk/notifications/one_crm/quotation_declined.md
+msgid "Whoever made the quotation"
+msgstr "من أعد عرض السعر"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_inventory/material_request_received.md
 #: onedesk/notifications/one_inventory/quote_received.md
 msgid "Whoever made the request"
@@ -35007,6 +35096,10 @@ msgstr "لماذا لم تُنشأ هذه؟"
 #: onedesk/one_admin/ai.py:170
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr "لماذا لم تُنشأ مساحة العمل لهذا التسجيل؟ قل بكلمات بسيطة ما الذي أوقفها، وهل يُرجَّح أن ينجح «إنشاء مساحة العمل» الآن، وما العمل إن لم ينجح."
+
+#: frontend/portal/src/pages/Record.vue:125
+msgid "Why? (optional)"
+msgstr "لماذا؟ (اختياري)"
 
 #. Label of the one_width (Float) field in DocType 'Asset Capitalization
 #. Service Item'
@@ -36177,11 +36270,16 @@ msgstr "تم تغيير كلمة مرورك"
 msgid "Your password was changed on {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
 msgstr "تم تغيير كلمة مرورك في {when}، من {device} ({address}). إن لم تكن أنت، أعد تعيينها الآن من صفحة تسجيل الدخول وأخبر مسؤولك."
 
+#: frontend/portal/src/pages/Record.vue:116
+msgid "Your purchase order number, if you have one"
+msgstr "رقم أمر الشراء لديك، إن وجد"
+
 #: frontend/portal/src/pages/Rfq.vue:95
 msgid "Your quote"
 msgstr "عرض سعرك"
 
-#: onedesk/one/portal.py:131 onedesk/one/portal.py:132
+#: frontend/portal/src/pages/Record.vue:116 onedesk/one/portal.py:133
+#: onedesk/one/portal.py:134
 msgid "Your reference"
 msgstr "مرجعك"
 
@@ -37227,7 +37325,7 @@ msgstr "تعذّر تفريغ هذا الجزء"
 msgid "thread"
 msgstr "المحادثة"
 
-#: onedesk/one/portal.py:498
+#: onedesk/one/portal.py:508
 msgid "to pay"
 msgstr "للدفع"
 
@@ -37379,7 +37477,7 @@ msgstr "{0} (مورّد)"
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
-#: onedesk/one/tell.py:583 onedesk/one_studio/extensions.py:457
+#: onedesk/one/tell.py:612 onedesk/one_studio/extensions.py:457
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
@@ -37559,7 +37657,7 @@ msgstr "{0} يعمل دائمًا."
 
 #: onedesk/one/tell.py:260
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} و{1}"
 
 #: onedesk/one_admin/setup.py:118
 msgid "{0} and {1} aren't in the same zone."
@@ -37871,7 +37969,7 @@ msgstr "{0} يوم من {1}."
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
-#: onedesk/one/portal.py:370 onedesk/one/portal.py:717
+#: onedesk/one/portal.py:380 onedesk/one/portal.py:732
 msgid "{0} days overdue"
 msgstr "متأخر {0} أيام"
 
@@ -38009,7 +38107,7 @@ msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "يصل {0} إلى {1} فعلًا، لذا يمكن نقله إلى {1} أو أكثر فقط."
 
-#: frontend/src/kit/desk.js:32 onedesk/one/portal.py:321
+#: frontend/src/kit/desk.js:32 onedesk/one/portal.py:325
 #: onedesk/one_inventory/heads.py:1068 onedesk/one_project/billing.py:443
 #: onedesk/one_project/heads.py:194 onedesk/one_project/view.py:512
 #: onedesk/public/js/timesheet_list.js:9
@@ -40028,6 +40126,16 @@ msgid "{credits} of the workspace's OneAI credits expire on {date}. They are use
 msgstr "تنتهي صلاحية {credits} من أرصدة OneAI لمساحة العمل في {date}. تُستخدم قبل غيرها، فلا حاجة لفعل شيء إلا إن أردت استخدامها."
 
 #. Subject of a notification
+#: onedesk/notifications/one_crm/quotation_accepted.md
+msgid "{customer} accepted {quotation}"
+msgstr "قبل {customer} عرض السعر {quotation}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_crm/quotation_declined.md
+msgid "{customer} declined {quotation}"
+msgstr "رفض {customer} عرض السعر {quotation}"
+
+#. Subject of a notification
 #: onedesk/notifications/one_book/credit_limit_crossed.md
 msgid "{customer} is over their credit limit"
 msgstr "تجاوز {customer} حد الائتمان"
@@ -40279,6 +40387,11 @@ msgstr "{top, right, bottom, left} بالبكسل"
 #: onedesk/notifications/one_inventory/quote_received.md
 msgid "{total} for {items}."
 msgstr "{total} مقابل {items}."
+
+#. Message of a notification
+#: onedesk/notifications/one_crm/quotation_accepted.md
+msgid "{total}, wanted by {wanted}. Their order {order} is a draft: check it and submit it."
+msgstr "{total}، مطلوب بحلول {wanted}. طلبهم {order} مسودة: راجعه واعتمده."
 
 #: onedesk/one_admin/offerings.py:179
 msgid "{upper} costs more than {lower} and gives less {what}."

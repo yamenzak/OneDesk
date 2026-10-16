@@ -203,3 +203,13 @@ def test_a_portal_page_names_the_app_it_follows():
 	for path in [portal / "App.vue", *sorted((portal / "pages").glob("*.vue"))]:
 		opening = path.read_text(encoding="utf-8").split("-->", 1)[0]
 		assert "Modelled on" in opening, f"{path.name} doesn't say which app it follows"
+
+
+def test_a_dialog_is_drawn_with_frappe_ui_1s_slots():
+	"""frappe-ui 1.0's Dialog takes its title as a prop and its body in the
+	default slot. The old `options.title` and `#body-content` build without
+	complaint and draw an empty box with no title."""
+	for path in _vue():
+		source = path.read_text(encoding="utf-8")
+		assert "#body-content" not in source, f"{_name(path)} fills a slot Dialog no longer has; use the default slot"
+		assert ':options="{ title' not in source, f"{_name(path)} titles a Dialog the old way; use :title"

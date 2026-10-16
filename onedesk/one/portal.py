@@ -111,6 +111,8 @@ SAID_TO_READER = {
 	("Sales Order", "To Bill"): ("green", _lt("Delivered")),
 	("Delivery Note", "To Bill"): ("green", _lt("Delivered")),
 	("Delivery Note", "Completed"): ("green", _lt("Delivered")),
+	# A quotation the customer turned down, in their word, not the team's.
+	("Quotation", "Lost"): ("gray", _lt("Declined")),
 	# A supplier's purchase order, as the supplier sees it: what they still
 	# have to deliver. An advance is due before they deliver (erpnext's To Pay).
 	("Purchase Order", "To Pay"): ("amber", _lt("Awaiting payment")),
@@ -279,6 +281,8 @@ def _row(path: str, doctype: str, doc) -> dict | None:
 			figure = _date(doc.get("schedule_date"))
 		else:
 			tone, word = status(doctype, doc.status, doc.docstatus, doc.get("indicator_color"))
+			if doctype == "Quotation" and doc.status == "Open" and _accepted(doc.name):
+				tone, word = "blue", _("Accepted")
 			total = _total_field(doc)
 			figure = doc.get_formatted(total) if doc.get(total) else ""
 		return {
@@ -356,8 +360,14 @@ def _next(doctype: str, doc, done: bool) -> dict:
 	bill's due date, a quotation's last day, an order's delivery."""
 	from frappe.utils import date_diff, today
 
-	# A quote request's date has its own column.
+	# A quote request's date has its own column, and a quotation answered or
+	# ordered looks ahead to nothing.
 	if done or doc.docstatus != 1 or doctype == "Request for Quotation":
+		return {}
+	if doctype in ("Quotation", "Supplier Quotation") and (
+		doc.status in ("Ordered", "Partially Ordered", "Lost", "Expired", "Cancelled")
+		or (doctype == "Quotation" and _accepted(doc.name))
+	):
 		return {}
 	if doctype in OWED:
 		if (doc.get("outstanding_amount") or 0) <= 0 or not doc.get("due_date"):
@@ -450,7 +460,7 @@ def rows(kind: str, txt: str | None = None, start: int = 0, state: str | None = 
 ASKS = {
 	"Sales Invoice": (lambda doc: (doc.get("outstanding_amount") or 0) > 0, _lt("View and Pay")),
 	"Purchase Invoice": (lambda doc: False, None),
-	"Quotation": (lambda doc: doc.status == "Open", _lt("Review")),
+	"Quotation": (lambda doc: _answerable(doc), _lt("Review")),
 	"Request for Quotation": (lambda doc: not _quoted(doc.name), _lt("Answer")),
 	"Purchase Order": (lambda doc: doc.status in ("To Receive and Bill", "To Receive"), _lt("View")),
 }
@@ -583,6 +593,9 @@ def record(kind: str, name: str) -> dict:
 	tone, word = status(
 		doctype, doc.get("status") or doc.get("indicator_title"), doc.docstatus, doc.get("indicator_color")
 	)
+	accepted = _accepted(doc.name) if doctype == "Quotation" and doc.status == "Open" else None
+	if accepted:
+		tone, word = "blue", _("Accepted")
 	quoted = doctype == "Supplier Quotation"
 	actions = []
 	if doc.docstatus == 1:
@@ -615,7 +628,9 @@ def record(kind: str, name: str) -> dict:
 		"name": doc.name,
 		"tone": tone,
 		"status": word,
-		"summary": _summary(doctype, doc, total),
+		"summary": _summary(doctype, doc, total)
+		| ({"line": _("Accepted. We'll confirm your order.")} if accepted else {}),
+		"answer": doctype == "Quotation" and _answerable(doc),
 		"steps": _steps(doctype, doc),
 		"related": _related(doctype, doc),
 		"facts": facts,
@@ -721,7 +736,13 @@ def _summary(doctype: str, doc, total: str) -> dict:
 				said["line"] = _("Due {0}").format(_date(due))
 		return said
 	line = ""
-	if doctype in ("Quotation", "Supplier Quotation") and doc.get("valid_till"):
+	if doctype in ("Quotation", "Supplier Quotation") and doc.status in (
+		"Ordered",
+		"Partially Ordered",
+		"Lost",
+	):
+		line = status(doctype, doc.status)[1]
+	elif doctype in ("Quotation", "Supplier Quotation") and doc.get("valid_till"):
 		line = _("Valid until {0}").format(_date(doc.valid_till))
 	elif doc.get("delivery_date") or doc.get("schedule_date"):
 		line = _("Delivery {0}").format(_date(doc.get("delivery_date") or doc.get("schedule_date")))
@@ -737,7 +758,15 @@ def _steps(doctype: str, doc) -> list[dict]:
 
 	paid = (doc.get("outstanding_amount") or 0) <= 0
 	if doctype == "Quotation":
-		steps = [(_("Sent"), True), (_("Ordered"), doc.status == "Ordered")]
+		if doc.status == "Lost":
+			steps = [(_("Sent"), True), (_("Declined"), True)]
+		else:
+			ordered = doc.status == "Ordered"
+			steps = [
+				(_("Sent"), True),
+				(_("Accepted"), ordered or bool(_accepted(doc.name))),
+				(_("Ordered"), ordered),
+			]
 	elif doctype == "Supplier Quotation":
 		ordered = _("Partly ordered") if doc.status == "Partially Ordered" else _("Ordered")
 		steps = [(_("Sent"), True), (ordered, doc.status == "Ordered")]
@@ -779,6 +808,96 @@ def _owed(doctype: str, field: str, name: str) -> bool:
 	return bool(bills) and bool(
 		frappe.db.exists(doctype, {"name": ("in", bills), "outstanding_amount": (">", 0), "docstatus": 1})
 	)
+
+
+def _accepted(quotation: str) -> str | None:
+	"""The order a quotation was accepted as on the portal, or made into."""
+	return frappe.db.get_value(
+		"Sales Order Item", {"prevdoc_docname": quotation, "docstatus": ("<", 2)}, "parent"
+	)
+
+
+def _answerable(doc) -> bool:
+	"""Whether the customer may still accept or decline a quotation: sent,
+	open, not run out (unless the workspace takes orders on those, as
+	erpnext's Selling Settings says), and not accepted already."""
+	from frappe.utils import getdate, today
+
+	if doc.docstatus != 1 or doc.status not in ("Open", "Replied"):
+		return False
+	if doc.valid_till and getdate(doc.valid_till) < getdate(today()):
+		if not frappe.db.get_single_value(
+			"Selling Settings", "allow_sales_order_creation_for_expired_quotation"
+		):
+			return False
+	return not _accepted(doc.name)
+
+
+def _answer(kind: str, name: str):
+	"""A quotation the reader may answer, through erpnext's own page context,
+	which checks it is theirs."""
+	from erpnext.templates.pages import order
+
+	if _kind(kind) != "Quotation":
+		raise frappe.PermissionError
+	doc = _opened("Quotation", name, order).doc
+	if not _answerable(doc):
+		frappe.throw(_("This quotation can't be answered any more."))
+	return doc
+
+
+@frappe.whitelist(methods=["POST"])
+def accept_quote(kind: str, name: str, wanted: str, reference: str | None = None) -> str:
+	"""The customer accepts a quotation: erpnext's own mapper makes the order
+	from it, as the team would on the desk, with the date they need it by and
+	their reference, and it is kept a draft for whoever made the quotation to
+	check and submit. They are told."""
+	from erpnext.selling.doctype.quotation.mapper import make_sales_order
+	from frappe.utils import get_fullname, getdate, today
+
+	from onedesk.one_crm import tell
+
+	doc = _answer(kind, name)
+	if not wanted or getdate(wanted) < getdate(today()):
+		frappe.throw(_("Choose the date you need it by, today or later."))
+	user = frappe.session.user
+	frappe.session.user = "Administrator"
+	try:
+		order = make_sales_order(doc.name)
+		order.delivery_date = wanted
+		for row in order.items:
+			row.delivery_date = wanted
+		if reference and reference.strip():
+			order.po_no, order.po_date = reference.strip()[:140], today()
+		order.flags.ignore_permissions = True
+		order.insert()
+		doc.add_comment(
+			"Info", _("Accepted on the portal by {0}: order {1}.").format(get_fullname(user), order.name)
+		)
+	finally:
+		frappe.session.user = user
+	tell.quotation_accepted(doc, order, user, _date(wanted))
+	return order.name
+
+
+@frappe.whitelist(methods=["POST"])
+def decline_quote(kind: str, name: str, reason: str | None = None) -> None:
+	"""The customer declines a quotation: erpnext's own Set as Lost, with
+	their reason, and whoever made it is told."""
+	from frappe.utils import get_fullname
+
+	from onedesk.one_crm import tell
+
+	doc = _answer(kind, name)
+	reason = (reason or "").strip()[:1000]
+	user = frappe.session.user
+	frappe.session.user = "Administrator"
+	try:
+		doc.declare_enquiry_lost([], [], detailed_reason=reason or _("Declined on the portal."))
+		doc.add_comment("Info", _("Declined on the portal by {0}.").format(get_fullname(user)))
+	finally:
+		frappe.session.user = user
+	tell.quotation_declined(doc, user, reason)
 
 
 def _related(doctype: str, doc) -> list[dict]:

@@ -337,9 +337,9 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 4, de 4 |  |
-| Quotation | on a rail or a home | OneCRM | events, form script, 2 fields | yes | general | makes it | yes |  |  |  |  |
+| Quotation | on a rail or a home | OneCRM | events, form script, 2 fields | yes | general | makes it | yes |  |  |  | Quotation Declined |
 | SMS Center | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 |  |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 4 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 | Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 34, de 30 |  |
 

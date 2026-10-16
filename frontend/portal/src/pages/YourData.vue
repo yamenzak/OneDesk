@@ -28,8 +28,8 @@
         <Button v-else theme="red" :label="__('Delete My Account')" icon-left="lucide-user-x" @click="asked = true" />
       </Card>
     </div>
-    <Dialog v-model="asked" :options="{ title: __('Delete My Account') }">
-      <template #body-content>
+    <Dialog v-model="asked" :title="__('Delete My Account')">
+      <template #default>
         <div class="flex flex-col gap-3 text-p-base text-ink-gray-7">
           <p>{{ __("An administrator reviews the request. Then you're signed out and your account is turned off.") }} {{ __("Records the workspace keeps, such as invoices, stay without your name and address.") }}</p>
           <p>{{ __("This can't be undone. Request a copy of your data first if you need one.") }}</p>

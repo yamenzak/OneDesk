@@ -1727,6 +1727,15 @@ template, an item's Item Tax Template, a Tax Rule by the supplier's country),
 so it lands in the right accounts. Their quote lands in Quotes, and whoever made the
 request is told (Quote Received). A request they have answered says Quoted.
 
+A customer answers a quotation that is still open on its page. **Accept
+Quotation** asks when they need it by and their own reference, and makes the
+order from the quotation the way the team would on the desk: a draft, for
+whoever made the quotation to check and submit. They are told (Quotation
+Accepted), and the quotation says Accepted until the order is confirmed.
+**Decline** asks why, if they want to say, sets the quotation lost with that
+reason, and tells whoever made it (Quotation Declined); the customer sees it as
+Declined. An open quotation is on Home under Needs You until it is answered.
+
 A customer adds their own addresses (**Add Address**) and changes them, and
 follows their projects: how far along each is, when it ends, its tasks and
 its order and invoices. Timesheets show the hours worked for them, one row

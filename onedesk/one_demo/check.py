@@ -3987,6 +3987,61 @@ def a_customer_and_a_supplier_find_their_own_on_the_portal():
 
 
 @check
+def a_customer_accepts_one_quotation_and_declines_another_on_the_portal():
+	"""Khalid has two open quotations. He accepts one, needed by the end of
+	next month with his order number: erpnext makes the order from it, a
+	draft for whoever made the quotation to check, who is told. He declines
+	the other with a reason: erpnext sets it lost with it, and they are told.
+	Neither can be answered twice, and another customer's can't be at all."""
+	from unittest import mock
+
+	from onedesk.one import portal
+
+	khalid = "khalid@mansour.example"
+	base = frappe.get_doc("Quotation", frappe.get_all("Quotation", filters={"party_name": "Mansour & Sons", "docstatus": 1}, pluck="name", limit=1)[0])
+	opened = []
+	for _one in range(2):
+		new = frappe.copy_doc(base)
+		new.transaction_date, new.valid_till, new.payment_schedule = today(), add_days(today(), 30), []
+		for row in new.items:
+			row.ordered_qty = 0
+		new.insert(ignore_permissions=True)
+		new.submit()
+		opened.append(new.name)
+	taken, turned = opened
+	with as_user(khalid):
+		assert portal.record("quotations", taken)["answer"]
+		assert taken in {one["to"].split("/")[-1] for one in portal.home()["asks"]}, "an open quotation asks for an answer"
+		with mock.patch("onedesk.one_crm.tell.quotation_accepted") as told:
+			order = portal.accept_quote("quotations", taken, add_days(today(), 45), "MS-PO-4471")
+		assert told.called
+		said = frappe.db.get_value("Sales Order", order, ["docstatus", "customer", "delivery_date", "po_no"], as_dict=True)
+		assert (said.docstatus, said.customer, str(said.delivery_date), said.po_no) == (0, "Mansour & Sons", add_days(today(), 45), "MS-PO-4471"), said
+		page = portal.record("quotations", taken)
+		assert not page["answer"] and page["status"] == "Accepted", page["status"]
+		try:
+			portal.accept_quote("quotations", taken, add_days(today(), 45))
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a quotation was accepted twice")
+		with mock.patch("onedesk.one_crm.tell.quotation_declined") as told:
+			portal.decline_quote("quotations", turned, "Another supplier came in lower.")
+		assert told.called
+		assert frappe.db.get_value("Quotation", turned, ["status", "order_lost_reason"]) == ("Lost", "Another supplier came in lower.")
+		assert portal.record("quotations", turned)["status"] == "Declined"
+	other = frappe.get_all("Quotation", filters={"party_name": ("!=", "Mansour & Sons"), "docstatus": 1, "status": "Open"}, pluck="name", limit=1)
+	if other:
+		with as_user(khalid):
+			try:
+				portal.decline_quote("quotations", other[0])
+			except frappe.PermissionError:
+				pass
+			else:
+				raise AssertionError("a customer declined another customer's quotation")
+
+
+@check
 def a_saved_report_is_its_makers_and_runs_no_code():
 	"""Omar saves his list of open deals as a report, and it goes under Saved
 	Reports in his own OneCRM sidebar. A report, a chart or a card made here

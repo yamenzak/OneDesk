@@ -65,6 +65,11 @@
           <p class="mt-1 text-3xl font-semibold tabular-nums text-ink-gray-9">{{ doc.summary.value }}</p>
           <p v-if="doc.summary.line" :class="['mt-1 text-sm', doc.summary.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ doc.summary.line }}</p>
           <Button v-for="one in solid" :key="one.href" class="mt-4 w-full" variant="solid" size="md" :label="one.label" :href="one.href" />
+          <!-- A quotation still open: the customer's answer. -->
+          <div v-if="doc.answer" class="mt-4 flex flex-col gap-2">
+            <Button variant="solid" size="md" :label="__('Accept Quotation')" icon-left="lucide-check" @click="accepting = true" />
+            <Button size="md" :label="__('Decline')" @click="declining = true" />
+          </div>
         </Card>
 
         <Card :title="__('Details')">
@@ -103,12 +108,32 @@
         </Card>
       </aside>
     </div>
+    <Dialog v-model="accepting" :title="__('Accept Quotation')">
+      <template #default>
+        <div class="flex flex-col gap-4">
+          <p class="text-p-base text-ink-gray-7">{{ __("We'll prepare your order for {0} and confirm it with you.", [doc?.summary.value]) }}</p>
+          <FormControl v-model="wanted" type="date" :label="__('Needed by')" :min="today" required />
+          <FormControl v-model="reference" type="text" :label="__('Your reference')" :placeholder="__('Your purchase order number, if you have one')" />
+        </div>
+      </template>
+      <template #actions>
+        <Button class="w-full" variant="solid" :label="__('Accept Quotation')" :loading="busy" :disabled="!wanted" @click="accept" />
+      </template>
+    </Dialog>
+    <Dialog v-model="declining" :title="__('Decline Quotation')">
+      <template #default>
+        <Textarea v-model="reason" :label="__('Why? (optional)')" :placeholder="__('The price, the timing, another supplier…')" :rows="3" />
+      </template>
+      <template #actions>
+        <Button class="w-full" theme="red" variant="solid" :label="__('Decline Quotation')" :loading="busy" @click="decline" />
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from "vue";
-import { Button } from "frappe-ui";
+import { Button, Dialog, FormControl, Textarea, toast } from "frappe-ui";
 
 import { call } from "../call";
 import Card from "../parts/Card.vue";
@@ -119,7 +144,7 @@ import Loading from "../parts/Loading.vue";
 import Steps from "../parts/Steps.vue";
 import Thumb from "../parts/Thumb.vue";
 import { phone } from "../phone";
-import { boot } from "../words";
+import { __, boot } from "../words";
 
 const props = defineProps({ kind: { type: String, required: true }, name: { type: String, required: true } });
 
@@ -130,17 +155,47 @@ const failed = ref(false);
 const solid = computed(() => (doc.value?.actions || []).filter((one) => one.solid));
 const quiet = computed(() => (doc.value?.actions || []).filter((one) => !one.solid));
 
+async function load() {
+  failed.value = false;
+  try {
+    doc.value = await call("record", { kind: props.kind, name: props.name });
+  } catch {
+    failed.value = true;
+  }
+}
+
 watch(
   () => [props.kind, props.name],
-  async () => {
+  () => {
     doc.value = null;
-    failed.value = false;
-    try {
-      doc.value = await call("record", { kind: props.kind, name: props.name });
-    } catch {
-      failed.value = true;
-    }
+    load();
   },
   { immediate: true },
 );
+
+// The customer's answer to a quotation (one/portal.py `accept_quote`,
+// `decline_quote`): erpnext makes the order, or sets the quotation lost.
+const accepting = ref(false);
+const declining = ref(false);
+const busy = ref(false);
+const today = new Date().toISOString().slice(0, 10);
+const wanted = ref("");
+const reference = ref("");
+const reason = ref("");
+
+async function answer(method, args, said) {
+  busy.value = true;
+  try {
+    await call(method, { kind: props.kind, name: props.name, ...args });
+    toast.success(said);
+    accepting.value = declining.value = false;
+    await load();
+  } catch (error) {
+    toast.error(error?.messages?.[0] || __("Something went wrong. Try again in a moment."));
+  } finally {
+    busy.value = false;
+  }
+}
+const accept = () => answer("accept_quote", { wanted: wanted.value, reference: reference.value }, __("Accepted. We'll confirm your order."));
+const decline = () => answer("decline_quote", { reason: reason.value }, __("Quotation declined"));
 </script>

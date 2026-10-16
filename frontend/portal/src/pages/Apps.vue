@@ -17,8 +17,8 @@
       </ListRows>
     </List>
     <Empty v-else :title="__('No apps')" :line="__('Apps you let into your account will be here.')" />
-    <Dialog :model-value="!!asked" :options="{ title: __('Revoke') }" @update:model-value="asked = null">
-      <template #body-content>
+    <Dialog :model-value="!!asked" :title="__('Revoke')" @update:model-value="asked = null">
+      <template #default>
         <p class="text-p-base text-ink-gray-7">{{ __("Take away {0}'s access to your account?", [asked?.name]) }}</p>
       </template>
       <template #actions>

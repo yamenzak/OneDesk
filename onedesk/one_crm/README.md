@@ -740,3 +740,14 @@ switch off or reword. It is One's Next Step Due now, sent by `due` every five
 minutes to the owner of each open lead and opportunity whose step has come due
 since the last look, once (`patches/next_step_is_ours` removed the Reminders
 waiting).
+
+## Answered on the portal
+
+A customer accepts or declines an open quotation on the portal
+(one/portal.py `accept_quote`, `decline_quote`). Accepting makes the order with
+erpnext's own `make_sales_order`, which refuses a quotation run out unless
+Selling Settings allows it, with the date they need it by and their reference,
+and keeps it a draft: an order is the team's to confirm. Declining is erpnext's
+own Set as Lost, with their reason as its detail. Whoever made the quotation is
+told either way (`tell.quotation_accepted`, `tell.quotation_declined`), and the
+quotation's timeline says who answered.
