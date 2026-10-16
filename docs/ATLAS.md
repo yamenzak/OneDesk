@@ -498,7 +498,7 @@ Reports: YouTube Interactions (**waiting**).
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Address | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
 | Address Template | **waiting** | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Contact | on a rail or a home | everybody | events, form script, 3 fields, 6 settings | yes | taught | makes it | yes |  |  |  |  |
+| Contact | on a rail or a home | everybody | events, form script, 4 fields, 6 settings | yes | taught | makes it | yes |  |  |  |  |
 | Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 

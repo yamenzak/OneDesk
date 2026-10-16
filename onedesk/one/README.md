@@ -1691,6 +1691,13 @@ choose their password, which works for a week, and land on the portal.
   turns off their login. **Restore Access** turns it back on.
 - An address that belongs to someone in the workspace cannot be invited.
   They sign in to One instead.
+- **Portal Shows Only Their Own**, on the contact: by default each invited
+  contact sees everything of their customer or supplier, as ERPNext lists
+  it. Ticked, they see only the quotations, orders, shipments, invoices,
+  quotes, purchase orders and quote requests they are the contact on: two
+  departments of one customer each see their own. Projects, timesheets and
+  addresses stay the company's. An order a customer accepts on the portal,
+  and a quote a supplier sends, name whoever did it as the contact.
 
 - **A customer** sees their quotations, orders, invoices, shipments,
   addresses, projects and timesheets.
@@ -2636,6 +2643,12 @@ under the site's navbar) is gone; website_redirects in hooks.py send its
 addresses, and erpnext's (/orders/<name>), into the app. ERPNext's project
 page is www/projects.py, which does the same: frappe keeps a redirect by its
 path alone, so a rule can't tell /projects?project=… from /projects.
+
+A contact set to see only their own (Contact's Portal Shows Only Their Own)
+is held to it by `mine`: the lists, Home and linked records filter by it, and
+`has_website_permission` (hooks.py), beside erpnext's own, refuses the rest on
+the record page, erpnext's own pages and a PDF. erpnext lets every portal
+user of a customer read all of it, and has no narrower rule to build on.
 
 `ACCOUNT` is the reader's own account, under Account in the sidebar: frappe's
 Edit Profile web form, Password on frappe's update_password, One's Your Data

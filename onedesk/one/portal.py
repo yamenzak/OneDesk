@@ -146,6 +146,72 @@ CALLED = {
 OWED = ("Sales Invoice", "Purchase Invoice")
 
 
+#: The field on each kind naming the contact a record is for (Contact's Portal
+#: Shows Only Their Own); a project, a timesheet and an address stay the company's.
+CONTACT_FIELD = {
+	"Quotation": "contact_person",
+	"Sales Order": "contact_person",
+	"Delivery Note": "contact_person",
+	"Sales Invoice": "contact_person",
+	"Supplier Quotation": "contact_person",
+	"Purchase Order": "contact_person",
+	"Purchase Invoice": "contact_person",
+}
+
+
+def _own(user: str | None = None) -> str | None:
+	"""The contact a reader is, when they see only their own records."""
+	user = user or frappe.session.user
+	cache = frappe.local.flags.setdefault("one_portal_own", {})
+	if user not in cache:
+		said = frappe.db.get_value("Contact", {"user": user}, ["name", "one_portal_own"], as_dict=True)
+		cache[user] = said.name if said and said.one_portal_own else None
+	return cache[user]
+
+
+def _contact_of(user: str, party_type: str, party: str) -> str | None:
+	"""The reader's contact at a customer or supplier."""
+	return frappe.db.get_value(
+		"Contact",
+		{
+			"user": user,
+			"name": (
+				"in",
+				frappe.get_all(
+					"Dynamic Link",
+					filters={"parenttype": "Contact", "link_doctype": party_type, "link_name": party},
+					pluck="parent",
+				),
+			),
+		},
+		"name",
+	)
+
+
+def mine(doctype: str, doc, user: str | None = None) -> bool:
+	"""Whether a record is the reader's to see as far as their own contact
+	goes: always, unless they see only their own, then only a record naming
+	them. A quote request names its suppliers' contacts on its rows."""
+	contact = _own(user)
+	if not contact:
+		return True
+	if doctype == "Request for Quotation":
+		return bool(
+			frappe.db.exists(
+				"Request for Quotation Supplier", {"parent": _field(doc, "name"), "contact": contact}
+			)
+		)
+	field = CONTACT_FIELD.get(doctype)
+	return not field or _field(doc, field) == contact
+
+
+def has_website_permission(doc, ptype: str = "read", user: str | None = None, verbose: bool = False) -> bool:
+	"""Beside erpnext's own (hooks.py), which lets every portal user of a
+	customer or supplier read all of its records: a contact who sees only
+	their own reads only those, on the portal, erpnext's pages and a PDF."""
+	return mine(doc.doctype, doc, user)
+
+
 def _path(route: str) -> str:
 	return PATHS.get(route, route.strip("/"))
 
@@ -433,7 +499,7 @@ def rows(kind: str, txt: str | None = None, start: int = 0, state: str | None = 
 	start = frappe.utils.cint(start)
 	found = get_list_data_for_context(None, doctype, txt=txt or None, limit=COUNTED)
 	# erpnext lists a timesheet once per time entry: each record once.
-	found = list({_field(one, "name"): one for one in found}.values())
+	found = [one for one in {_field(one, "name"): one for one in found}.values() if mine(doctype, one)]
 	drawn = [row for row in (_row(kind, doctype, one) for one in found) if row]
 	states = {}
 	for row in drawn:
@@ -485,9 +551,9 @@ def home() -> dict:
 			found = get_list_data_for_context(None, doctype, limit=COUNTED + 1)
 		except frappe.PermissionError:
 			continue
+		found = [one for one in {_field(one, "name"): one for one in found}.values() if mine(doctype, one)]
 		if not found:
 			continue
-		found = list({_field(one, "name"): one for one in found}.values())
 		states, say = WAITING.get(doctype, ((), None))
 		waiting = sum(1 for one in found if _field(one, "status") in states)
 		tile = {
@@ -864,6 +930,9 @@ def accept_quote(kind: str, name: str, wanted: str, reference: str | None = None
 	frappe.session.user = "Administrator"
 	try:
 		order = make_sales_order(doc.name)
+		# The order is theirs: they are its contact, so a contact who sees
+		# only their own sees it.
+		order.contact_person = _contact_of(user, "Customer", order.customer) or order.contact_person
 		order.delivery_date = wanted
 		for row in order.items:
 			row.delivery_date = wanted
@@ -921,6 +990,8 @@ def _related(doctype: str, doc) -> list[dict]:
 		if not path or not frappe.db.exists(kind, {"name": name, "docstatus": 1, PARTY[kind]: party}):
 			continue
 		other = frappe.get_doc(kind, name)
+		if not mine(kind, other):
+			continue
 		if hasattr(other, "set_indicator"):
 			other.set_indicator()
 		tone, word = status(kind, other.status, other.docstatus, other.get("indicator_color"))
@@ -958,6 +1029,8 @@ def rfq(name: str) -> dict:
 	if _kind("rfq") != "Request for Quotation":
 		raise frappe.PermissionError
 	context = _opened("Request for Quotation", name, page)
+	if not mine("Request for Quotation", context.doc):
+		raise frappe.PermissionError
 	doc = context.doc
 	quotes = []
 	for one in doc.get("rfq_links") or []:
@@ -1153,6 +1226,8 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 		or not frappe.db.exists("Portal User", {"parent": supplier, "user": user})
 	):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+	if not mine("Request for Quotation", frappe._dict(name=rfq)):
+		frappe.throw(_("Not Permitted"), frappe.PermissionError)
 	if frappe.db.get_value("Request for Quotation", rfq, "docstatus") != 1:
 		frappe.throw(_("This request is closed."))
 	# erpnext's own check that the supplier was asked, and its row lookup,
@@ -1187,6 +1262,8 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 			# The supplier's own prices: the workspace's pricing rules are
 			# for what it sells and buys at its own prices, not for a quote.
 			"ignore_pricing_rule": 1,
+			# Whoever sent it is its contact.
+			"contact_person": _contact_of(user, "Supplier", supplier),
 			"terms": notes or "",
 		}
 	)

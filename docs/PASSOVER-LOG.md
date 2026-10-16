@@ -13859,3 +13859,23 @@ body in the default slot. The portal's three dialogs (Delete My Account,
 Revoke, and these) used the old `options.title` and `#body-content`, which
 draw an empty box: Delete My Account had never shown its words or its
 password field. A guard now refuses the old slots.
+
+## Portal access by contact
+
+*Asked:* is portal access per contact or per customer, and can two
+departments of one customer each see only their own?
+
+*Found:* invitations were per contact, but what a login sees was per
+company: erpnext lists every record of a customer or supplier to each of its
+portal users, with no narrower rule.
+
+*Done:* a contact's **Portal Shows Only Their Own**. Ticked, the lists, Home
+and linked records show only what names them as the contact, and a hook
+beside erpnext's `has_website_permission` refuses the rest wherever erpnext
+checks: the record page, erpnext's own pages and a PDF. A quote request
+counts as theirs when its supplier row names them. Projects, timesheets and
+addresses name nobody and stay the company's. An order accepted on the
+portal, and a quote sent from it, now name whoever did it as the contact, so
+it is theirs. The demo's records name no contact, so a contact set to their
+own sees nothing there until one does; a demo check sets one and proves the
+rest are refused.

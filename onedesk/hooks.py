@@ -1706,6 +1706,21 @@ website_route_rules = [
 	{"from_route": "/your-data", "to_route": "your_data"},
 ]
 
+# Beside erpnext's own: a portal contact who sees only their own records
+# reads only those, wherever erpnext checks (one/portal.py `mine`).
+has_website_permission = {
+	doctype: "onedesk.one.portal.has_website_permission"
+	for doctype in (
+		"Quotation",
+		"Sales Order",
+		"Delivery Note",
+		"Sales Invoice",
+		"Supplier Quotation",
+		"Purchase Order",
+		"Purchase Invoice",
+	)
+}
+
 # frappe's account deletion form goes to Your Data, decided as One decides it
 # (one/privacy.py); the portal's places before it was an app, to the app.
 website_redirects = [

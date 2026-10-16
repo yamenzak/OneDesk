@@ -3905,6 +3905,7 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 		assert said["rows"][rfq.items[0].name]["discount"] and said["total"], said
 		answered = portal.send_quote(rfq.name, priced, "Delivered in two lots.")
 		assert frappe.db.get_value("Supplier Quotation", answered, "supplier") == supplier
+		assert frappe.db.get_value("Supplier Quotation", answered, "contact_person") == frappe.db.get_value("Contact", {"user": user}, "name"), "the quote is theirs"
 		row = frappe.db.get_value(
 			"Supplier Quotation Item", {"parent": answered}, ["price_list_rate", "discount_percentage", "rate"], as_dict=True
 		)
@@ -4016,6 +4017,7 @@ def a_customer_accepts_one_quotation_and_declines_another_on_the_portal():
 			order = portal.accept_quote("quotations", taken, add_days(today(), 45), "MS-PO-4471")
 		assert told.called
 		said = frappe.db.get_value("Sales Order", order, ["docstatus", "customer", "delivery_date", "po_no"], as_dict=True)
+		assert frappe.db.get_value("Sales Order", order, "contact_person") == frappe.db.get_value("Contact", {"user": khalid}, "name"), "the order is his"
 		assert (said.docstatus, said.customer, str(said.delivery_date), said.po_no) == (0, "Mansour & Sons", add_days(today(), 45), "MS-PO-4471"), said
 		page = portal.record("quotations", taken)
 		assert not page["answer"] and page["status"] == "Accepted", page["status"]
@@ -4039,6 +4041,56 @@ def a_customer_accepts_one_quotation_and_declines_another_on_the_portal():
 				pass
 			else:
 				raise AssertionError("a customer declined another customer's quotation")
+
+
+@check
+def a_portal_contact_set_to_their_own_sees_only_theirs():
+	"""Mansour & Sons' invoices are all Khalid's to see until his contact is
+	set to see only his own: then only the one naming him lists, counts and
+	opens, on the portal, erpnext's pages and a PDF alike. Rami, set the same
+	way, sees a quote request only once its row names him as the contact."""
+	from onedesk.one import portal
+
+	khalid, rami = "khalid@mansour.example", "sales@emiratessealants.example"
+	invoices = frappe.get_all("Sales Invoice", filters={"customer": "Mansour & Sons", "docstatus": 1}, pluck="name", order_by="name")
+	assert len(invoices) > 1, invoices
+	his, other = invoices[0], invoices[1]
+
+	def fresh():
+		frappe.local.flags.pop("one_portal_own", None)
+
+	contact = frappe.db.get_value("Contact", {"user": khalid}, "name")
+	frappe.db.set_value("Sales Invoice", his, "contact_person", contact)
+	with as_user(khalid):
+		fresh()
+		assert {one["name"] for one in portal.rows("invoices")["rows"]} >= {his, other}, "the whole company's, by default"
+	frappe.db.set_value("Contact", contact, "one_portal_own", 1)
+	with as_user(khalid):
+		fresh()
+		assert [one["name"] for one in portal.rows("invoices")["rows"]] == [his]
+		assert {one["path"]: one for one in portal.home()["tiles"]}["invoices"]["count"] == "1"
+		assert portal.record("invoices", his)["name"] == his
+		assert not frappe.has_website_permission(frappe.get_doc("Sales Invoice", other)), "the PDF and erpnext's page refuse it too"
+		try:
+			portal.record("invoices", other)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a contact set to their own opened a colleague's invoice")
+
+	supplier = frappe.db.get_value("Portal User", {"user": rami, "parenttype": "Supplier"}, "parent")
+	row = frappe.db.get_value("Request for Quotation Supplier", {"supplier": supplier, "docstatus": 1}, ["name", "parent"], as_dict=True)
+	theirs = frappe.db.get_value("Contact", {"user": rami}, "name")
+	frappe.db.set_value("Contact", theirs, "one_portal_own", 1)
+	frappe.db.set_value("Request for Quotation Supplier", row.name, "contact", None)
+	with as_user(rami):
+		fresh()
+		assert row.parent not in {one["name"] for one in portal.rows("rfq")["rows"]}
+	frappe.db.set_value("Request for Quotation Supplier", row.name, "contact", theirs)
+	with as_user(rami):
+		fresh()
+		assert row.parent in {one["name"] for one in portal.rows("rfq")["rows"]}
+	fresh()
 
 
 @check
