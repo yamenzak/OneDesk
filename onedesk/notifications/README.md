@@ -45,6 +45,7 @@ it to that. The file is named for the type, in lower case with underscores.
 | `outside` | It goes to addresses outside the workspace, so only by mail |
 | `required` | It can't be turned off |
 | `always_mailed` | Mailed whatever the person chose, as a security notice is |
+| `from_one` | Sent by One about itself (its plan, credits, storage, billing), so its mail wears One's mark and colour rather than the workspace's. Every mail from the admin site does |
 | `oneai` | Written as OneAI |
 | `follows` | The same event said another way. It takes the choices of the one it follows |
 | `words`, `rule` | ERPNext's or HRMS's own rule, told on the bell in its own words |

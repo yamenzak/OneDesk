@@ -107,3 +107,11 @@ to do next.
 - Every mail was rendered on a sheet per module (the type's sample values
   in the frame it is sent in) and read, in English and Arabic.
 - Roles on every administrator's type.
+
+## Stage 5: whose mail it is
+
+Done. Looking at single mails found the company's Brand Colour unused and
+One's mark on nothing, because the mark is an SVG. The button is now the
+company's colour; One's own mails (the admin site's, and the fifteen types
+marked `from_one`) wear One's mark as a PNG; and a mail to a reader of
+Arabic reads right to left. docs/NOTIFICATIONS.md, The mail.

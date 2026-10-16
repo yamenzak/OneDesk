@@ -570,7 +570,14 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 	frappe.sendmail(
 		recipients=[recipients] if isinstance(recipients, str) else list(recipients),
 		subject=plain(subject),
-		message=compose(subject, message, link, button(name, kwargs, lang) if link else None, lang=lang),
+		message=compose(
+			subject,
+			message,
+			link,
+			button(name, kwargs, lang) if link else None,
+			lang=lang,
+			ones=bool((declared().get(name) or {}).get("from_one")),
+		),
 		with_container=True,
 		**passed,
 	)
@@ -602,10 +609,12 @@ def compose(
 	button: str | None = None,
 	reason: str = "",
 	lang: str | None = None,
+	ones: bool = False,
 ) -> str:
 	"""A mail's body as One draws it (templates/emails/one_mail.html): what
 	happened as its heading, the message, one button, and why it came,
-	right to left for a reader of Arabic. frappe frames it
+	right to left for a reader of Arabic, and marked when One sends it about
+	itself. frappe frames it
 	(templates/emails/standard.html, ours)."""
 	from markupsafe import Markup
 
@@ -619,6 +628,7 @@ def compose(
 			"button": button,
 			"reason": Markup(reason),
 			"rtl": (lang or "").split("-")[0] in RTL,
+			"ones": ones,
 		},
 	)
 
@@ -646,15 +656,49 @@ def plain(subject: str | None) -> str:
 	return html.unescape(frappe.utils.strip_html(subject or ""))
 
 
-def one_mail_brand() -> dict:
-	"""Above every framed mail: the workspace's name, with its company's logo
-	when it has one a mail can show (an SVG is shown by almost no client)."""
+def one_mail_brand(ones: bool = False) -> dict:
+	"""Above every framed mail, and the colour of its button: the workspace's
+	name, its company's logo when a mail can show it (an SVG is shown by
+	almost no client) and its company's Brand Colour. A mail One sends about
+	itself (`from_one`), and every mail from the admin site, wears One's."""
 	from onedesk.one.privacy_public import workspace
+	from onedesk.one_admin.site import is_admin
 
+	if ones or is_admin():
+		return {"name": "One", "logo": frappe.utils.get_url(ONE_MARK), "colour": INK, "ink": "#ffffff"}
 	company = frappe.defaults.get_global_default("company")
-	logo = frappe.db.get_value("Company", company, "company_logo") if company else None
+	logo, colour = (
+		frappe.db.get_value("Company", company, ["company_logo", "one_brand_colour"])
+		if company
+		else (None, None)
+	)
 	shown = logo and not logo.lower().split("?")[0].endswith(".svg")
-	return {"name": workspace(), "logo": frappe.utils.get_url(logo) if shown else None}
+	colour = colour if re.fullmatch(r"#[0-9a-fA-F]{6}", colour or "") else INK
+	return {
+		"name": workspace(),
+		"logo": frappe.utils.get_url(logo) if shown else None,
+		"colour": colour,
+		"ink": ink(colour),
+	}
+
+
+#: One's mark as a mail can show it: one.svg drawn at 96 pixels.
+ONE_MARK = "/assets/onedesk/images/one-mail.png"
+#: frappe-ui's gray-900, the button when there is no Brand Colour.
+INK = "#171717"
+
+
+def ink(colour: str) -> str:
+	"""White on a dark colour, ink on a light one: whichever reads better
+	against it, by WCAG's contrast. Pure."""
+
+	def lum(hex_):
+		c = [int(hex_[i : i + 2], 16) / 255 for i in (1, 3, 5)]
+		c = [v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+		return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+	behind = lum(colour)
+	return "#ffffff" if 1.05 / (behind + 0.05) >= (behind + 0.05) / (lum(INK) + 0.05) else INK
 
 
 def mail_log(log) -> None:
@@ -693,7 +737,7 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	frappe.sendmail(
 		recipients=email,
 		subject=plain(subject),
-		message=compose(subject, message, link, label, reason, lang),
+		message=compose(subject, message, link, label, reason, lang, bool(one.get("from_one"))),
 		with_container=True,
 		now=frappe.in_test,
 	)

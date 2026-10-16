@@ -626,7 +626,8 @@ def a_mail_says_what_happened_and_opens_it():
 	happened rather than frappe's "New Notification", with one button named
 	for what it opens and which notification it is; a mail to an outside
 	address is framed the same way, and one to a reader of Arabic right to
-	left. Its subject line reads as plain text."""
+	left. Its button is the company's colour, and a mail One sends about
+	itself wears One's mark. Its subject line reads as plain text."""
 	from unittest import mock
 
 	from onedesk.one import notify, tell
@@ -651,6 +652,10 @@ def a_mail_says_what_happened_and_opens_it():
 	assert "one-card" not in get_formatted_html("Re: your order", "<p>Hi</p>"), "a mail a person writes goes as written"
 	arabic = get_formatted_html("S", notify.compose("S", "M", lang="ar"), with_container=True)
 	assert arabic.count('dir="rtl"') >= 2, "a mail to a reader of Arabic reads right to left, masthead too"
+	colour = frappe.db.get_value("Company", COMPANY, "one_brand_colour")
+	assert colour.lower() in framed.lower(), "the button is the company's Brand Colour"
+	ones = get_formatted_html("S", notify.compose("S", "M", ones=True), with_container=True)
+	assert notify.ONE_MARK in ones and colour.lower() not in ones.lower(), "a mail about One wears One's mark"
 
 
 @check

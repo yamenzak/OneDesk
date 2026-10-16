@@ -6,6 +6,7 @@ about: When another administrator changes the workspace's plan or its add-ons.
 to: Every other administrator
 button: Open Plan and Credits
 email: no
+from_one: yes
 ---
 
 # {by} changed the plan to {plan}

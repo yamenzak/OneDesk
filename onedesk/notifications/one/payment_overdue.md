@@ -7,6 +7,7 @@ to: Every administrator
 button: Open Plan and Credits
 email: no
 always_mailed: yes
+from_one: yes
 ---
 
 # Payment for the workspace is overdue

@@ -6,6 +6,7 @@ about: When the full download of the workspace you asked for is ready.
 to: The person who pays for the workspace
 button: Open Plan and Credits
 email_default: yes
+from_one: yes
 ---
 
 # The full download is ready

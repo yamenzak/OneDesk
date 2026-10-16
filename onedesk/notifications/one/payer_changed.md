@@ -6,6 +6,7 @@ about: When another administrator changes who pays for the workspace.
 to: Every other administrator
 button: Open Plan and Credits
 email: no
+from_one: yes
 ---
 
 # {by} changed who pays for the workspace

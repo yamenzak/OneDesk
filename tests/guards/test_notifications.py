@@ -89,7 +89,7 @@ def test_nothing_declares_a_notification_anywhere_else():
 KEYS = {
 	"name", "app", "about", "subject", "message", "roles", "email", "push", "email_default",
 	"push_default", "outside", "required", "always_mailed", "words", "rule", "mailed_by", "switch",
-	"replaces", "starts_as", "to", "button", "follows", "oneai", "notification",
+	"replaces", "starts_as", "to", "button", "from_one", "follows", "oneai", "notification",
 }  # fmt: skip
 
 

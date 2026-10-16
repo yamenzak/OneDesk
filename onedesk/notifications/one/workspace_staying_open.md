@@ -7,6 +7,7 @@ button: Open Plan and Credits
 email: no
 required: yes
 always_mailed: yes
+from_one: yes
 ---
 
 # The workspace is staying open

@@ -7,6 +7,7 @@ to: Every administrator
 button: Open Domains
 email: no
 always_mailed: yes
+from_one: yes
 ---
 
 # {domain} stopped working

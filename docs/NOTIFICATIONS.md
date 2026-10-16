@@ -389,6 +389,13 @@ sent, and a link to change what the person gets by mail.
   `about` at the foot.
 - **A mail to an outside address** (`notify.mail`) is framed the same way, with
   no line about settings, since its reader has none.
+- **The workspace's, or One's.** The masthead is the workspace's name with
+  its company's logo (an SVG is shown by almost no client, so a mail leaves
+  it out), and the button is the company's Brand Colour, with white or ink on
+  it by contrast. A type marked `from_one` (plan, credits, storage, billing,
+  domains) is One speaking about itself and wears One's mark
+  (`images/one-mail.png`, one.svg drawn at 96 pixels) and ink, as does every
+  mail from the admin site (`notify.one_mail_brand`).
 - **Colours are written out.** A mail client reads no stylesheet of ours and
   no CSS variable, so the templates write frappe-ui's own values
   (espresso/colors.css), and the token guard leaves `templates/emails` alone.
