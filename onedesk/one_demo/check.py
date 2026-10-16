@@ -621,6 +621,36 @@ def every_notification_file_is_on_the_notifications_page():
 
 
 @check
+def a_mail_says_what_happened_and_opens_it():
+	"""A notification mailed to Karim is the workspace's, headed by what
+	happened rather than frappe's "New Notification", with one button named
+	for what it opens and which notification it is; a mail to an outside
+	address is framed the same way. Its subject line reads as plain text."""
+	from unittest import mock
+
+	from onedesk.one import notify, tell
+
+	subject, message = notify.render("Quote Received", {"supplier": "Emirates Sealants & Fixings", "request": "PUR-RFQ-2026-00005", "total": "4,975.00", "items": "Silicone"}, "en")
+	log = frappe._dict(for_user="karim@one.test", type="Quote Received", subject=subject, email_content=message, document_type="Supplier Quotation", document_name="PUR-SQTN-1", link=None)
+	with mock.patch("frappe.sendmail") as sent:
+		notify.mail_log(log)
+	said = sent.call_args.kwargs
+	assert said["subject"] == "Emirates Sealants & Fixings sent a quote for PUR-RFQ-2026-00005", said["subject"]
+	assert said["with_container"] and 'class="one-title"' in said["message"]
+	assert "Open Supplier Quotation" in said["message"] and "/desk/supplier-quotation/PUR-SQTN-1" in said["message"]
+	assert "<b>Quote Received</b>" in said["message"] and "section=notifications" in said["message"]
+	assert "New Notification" not in said["message"]
+	with mock.patch("frappe.sendmail") as sent:
+		tell.portal_link("x@example.com", by="Karim", what="Quote Request R", workspace="W", link="https://x/l/1", button="Answer", until="1-1-2027")
+	assert sent.call_args.kwargs["with_container"] and 'class="one-title"' in sent.call_args.kwargs["message"]
+	from frappe.email.email_body import get_formatted_html
+
+	framed = get_formatted_html("S", said["message"], with_container=True)
+	assert frappe.utils.escape_html(notify.one_mail_brand()["name"]) in framed and "one-card" in framed
+	assert "one-card" not in get_formatted_html("Re: your order", "<p>Hi</p>"), "a mail a person writes goes as written"
+
+
+@check
 def the_payment_reminder_is_turned_on_where_every_notification_is():
 	"""Send This on the Payment Reminder and the rule that mails it are one."""
 	with as_user(OWNER):

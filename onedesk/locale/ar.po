@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 10:00+0000\n"
+"POT-Creation-Date: 2026-10-16 10:26+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -5523,6 +5523,10 @@ msgstr "غيّر هذه المهمة: "
 msgid "Change this task…"
 msgstr "غيّر هذه المهمة…"
 
+#: onedesk/one/notify.py:644
+msgid "Change what you get by mail"
+msgstr "غيّر ما يصلك بالبريد"
+
 #: frontend/src/kit/FieldEdit.vue:18 onedesk/one_intake/panel.py:214
 #: onedesk/public/js/oneai/Record.vue:151
 msgid "Change {0}"
@@ -10570,6 +10574,10 @@ msgstr "فشل في الخطوة {number} من {steps}، {step}.<br>{error}"
 #: onedesk/one/printing.py:210
 msgid "Failed to render template: {0}"
 msgstr "تعذّر عرض القالب: {0}"
+
+#: onedesk/one/notify.py:675
+msgid "Failed to send notification email"
+msgstr "تعذّر إرسال بريد الإشعار"
 
 #: onedesk/one/setup_wizard.py:21
 msgid "Failed to set the appearance"
@@ -20139,6 +20147,11 @@ msgstr "لا يستطيع ذلك إلا {0}، الذي يدفع لمساحة ا�
 msgid "Open"
 msgstr "مفتوح"
 
+#: onedesk/one/notify.py:635
+msgctxt "Go to it"
+msgid "Open"
+msgstr "فتح"
+
 #: frontend/src/upkeep/UpkeepRows.vue:202
 msgid "Open Asset"
 msgstr "افتح الأصل"
@@ -20250,7 +20263,7 @@ msgstr "فتح في صالة الإنتاج"
 msgid "Open record"
 msgstr "فتح السجل"
 
-#: onedesk/one/portal_share.py:316
+#: onedesk/one/notify.py:638 onedesk/one/portal_share.py:316
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"

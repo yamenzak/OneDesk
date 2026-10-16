@@ -65,7 +65,8 @@ it to that. The file is named for the type, in lower case with underscores.
 ## Connections
 
 - `one/notify.py` is the one door everything goes out through. It makes each
-  file a Notification Type after every migrate.
+  file a Notification Type after every migrate, and draws every mail
+  (templates/emails, docs/NOTIFICATIONS.md under The mail).
 - Each module's `tell.py` decides when, and sends by name.
 - `one/rules.py` carries ERPNext's and HRMS's own rules to the bell.
 - Settings › Notifications lists every file by app, and a person's own

@@ -1,0 +1,13 @@
+{#- What One says in a mail (one/notify.py `compose`): what happened as the
+    heading, the message, one button to it, and which notification this is
+    with where to change it. Framed by standard.html. -#}
+<h1 class="one-title">{{ subject }}</h1>
+{%- if message %}
+<div class="one-text">{{ message }}</div>
+{%- endif %}
+{%- if link and button %}
+<div class="one-action"><a class="one-button" href="{{ link }}">{{ button }}</a></div>
+{%- endif %}
+{%- if reason %}
+<div class="one-reason">{{ reason }}</div>
+{%- endif %}

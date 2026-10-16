@@ -620,7 +620,7 @@ Reports: Audit System Hooks (**waiting**).
 | List View Settings | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Module Onboarding | through a form's link (Workspace: module_onboarding) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Note | on a rail or a home | everybody | events, form script | no | taught |  | **none** |  |  |  |  |
-| Notification Log | **waiting** | everybody | events | no | general |  | yes |  |  | ar 1, de 1 |  |
+| Notification Log | **waiting** | everybody | class, events | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Notification Settings | **waiting** | everybody | events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Notification Type | opened by our screens | the administrator | events, 15 fields | no | taught |  | yes |  |  | ar 2, de 2 |  |
 | Number Card | through a form's link (Workspace: number_card_name) | everybody | events | no | taught |  | yes |  |  |  |  |

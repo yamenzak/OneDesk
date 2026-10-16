@@ -1132,6 +1132,8 @@ override_doctype_class = {
 	"Expense Claim": "onedesk.one_hr.tell.ExpenseClaim",
 	"Shift Request": "onedesk.one_hr.tell.ShiftRequest",
 	"Interview": "onedesk.one_hr.tell.Interview",
+	# A notification mailed as One draws a mail. See one/notify.py `mail_log`.
+	"Notification Log": "onedesk.one.notify.NotificationLog",
 }
 
 # Every new file's content goes to R2 through admin's signed URLs, and is
@@ -1751,6 +1753,8 @@ jinja = {
 		"onedesk.one.print_html.one_html_block",
 		# What One's print blocks show, in templates/one_print/. See one/print_blocks.py.
 		"onedesk.one.print_blocks.one_print_block",
+		# The workspace above every framed mail. See templates/emails/standard.html.
+		"onedesk.one.notify.one_mail_brand",
 	]
 }
 

@@ -353,3 +353,33 @@ Moving them found four mails sent with no type, so they were on no page:
 The last three are mailed by frappe in its words and listed so everything sent
 is on one page.
 
+
+## The mail
+
+Every mail the workspace sends is drawn one way, modelled on Linear's and
+Stripe's notification mails: the workspace's name (with its company's logo,
+when that is an image a mail can show) above a white card, the footer under
+it. In the card, what happened is the heading, then the message, one button
+to what it is about, and at the foot which notification it is, when it is
+sent, and a link to change what the person gets by mail.
+
+- **Ours replaces frappe's frame.** `templates/emails/standard.html` and
+  `email_header.html` are found before frappe's, because frappe's template
+  loader searches the apps last-installed first. So frappe's own framed mails
+  (a password reset, a welcome) wear the same frame, and its header becomes
+  the card's heading unless the mail has one of its own.
+- **A mail somebody writes is not framed.** A message sent from a record or
+  in OneMail has no header and no container, and goes as written with only
+  the footer, as frappe's did.
+- **A notification's mail is ours.** frappe mailed each Notification Log with
+  "New Notification" as its heading and "Open Document" as its link.
+  `notify.NotificationLog` (hooks.py `override_doctype_class`) mails it
+  through `notify.mail_log` instead: the subject as the heading, the button
+  named for what it opens ("Open Supplier Quotation"), and the type's name and
+  `about` at the foot.
+- **A mail to an outside address** (`notify.mail`) is framed the same way, with
+  no line about settings, since its reader has none.
+- **Colours are written out.** A mail client reads no stylesheet of ours and
+  no CSS variable, so the templates write frappe-ui's own values
+  (espresso/colors.css), and the token guard leaves `templates/emails` alone.
+- **The subject line is plain text**: no tags, and `&amp;` as `&` (`plain`).

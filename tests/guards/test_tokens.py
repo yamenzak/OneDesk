@@ -21,7 +21,9 @@ FRONTEND = tree.ROOT / "frontend" / "src"
 
 #: What is printed or mailed: paper and mail clients have no tokens, so their
 #: colours are written out (docs/PRINTING.md).
-NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/")
+#: Mail is read by mail clients, which load no stylesheet of ours and read no
+#: CSS variable: templates/emails writes frappe-ui's own values out.
+NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails")
 
 #: Documents shown in a sandboxed frame, which loads no stylesheet of ours: a
 #: received mail, drawn as a mail client draws it, and a letter head on its

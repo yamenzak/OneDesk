@@ -220,7 +220,6 @@ def _push_once() -> None:
 	frappe.db.set_default("onedesk_push_seeded", "1")
 
 
-
 def validate(doc, method=None) -> None:
 	"""Notification Type validate: an administrator's text names only its own
 	slots and is Jinja that parses, a required type stays on, and a type that
@@ -235,9 +234,7 @@ def validate(doc, method=None) -> None:
 	if one.get("mailed_by"):
 		doc.one_allow_email = 0
 		if not (one.get("switch") or one.get("notification")) and not doc.enabled:
-			frappe.throw(
-				_("{0} always sends this. It can't be turned off.").format(one["app"])
-			)
+			frappe.throw(_("{0} always sends this. It can't be turned off.").format(one["app"]))
 	if one.get("switch"):
 		doctype, field = one["switch"]
 		if (1 if frappe.db.get_single_value(doctype, field) else 0) != (1 if doc.enabled else 0):
@@ -558,8 +555,9 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 	subject, message = render(name, kwargs, lang, words)
 	frappe.sendmail(
 		recipients=[recipients] if isinstance(recipients, str) else list(recipients),
-		subject=frappe.utils.strip_html(subject),
-		message=message,
+		subject=plain(subject),
+		message=compose(subject, message),
+		with_container=True,
 		**passed,
 	)
 
@@ -578,3 +576,99 @@ SENDMAIL = frozenset(
 		"sender",
 	}
 )
+
+
+# ------------------------------------------------------------------ the mail itself
+
+
+def compose(
+	subject: str, message: str, link: str | None = None, button: str | None = None, reason: str = ""
+) -> str:
+	"""A mail's body as One draws it (templates/emails/one_mail.html): what
+	happened as its heading, the message, one button, and why it came.
+	frappe frames it (templates/emails/standard.html, ours)."""
+	from markupsafe import Markup
+
+	# Our own file, filled with text `render` has already made safe; an
+	# administrator's text never reaches a template with frappe's globals.
+	return frappe.get_template("templates/emails/one_mail.html").render(
+		{
+			"subject": Markup(subject or ""),
+			"message": Markup(message or ""),
+			"link": frappe.utils.get_url(link) if link else None,
+			"button": button,
+			"reason": Markup(reason),
+		},
+	)
+
+
+def plain(subject: str | None) -> str:
+	"""A subject as a mail's subject line: no tags, and `&amp;` as `&`."""
+	import html
+
+	return html.unescape(frappe.utils.strip_html(subject or ""))
+
+
+def one_mail_brand() -> dict:
+	"""Above every framed mail: the workspace's name, with its company's logo
+	when it has one a mail can show (an SVG is shown by almost no client)."""
+	from onedesk.one.privacy_public import workspace
+
+	company = frappe.defaults.get_global_default("company")
+	logo = frappe.db.get_value("Company", company, "company_logo") if company else None
+	shown = logo and not logo.lower().split("?")[0].endswith(".svg")
+	return {"name": workspace(), "logo": frappe.utils.get_url(logo) if shown else None}
+
+
+def mail_log(log) -> None:
+	"""A notification mailed to its person, as frappe's send_notification_email
+	does, but drawn as One draws a mail: its own heading rather than "New
+	Notification", a button named for what it opens, and which notification
+	it is with where to change that."""
+	from frappe.utils import get_url_to_form
+
+	user = frappe.db.get_value("User", log.for_user, ["email", "language"], as_dict=True)
+	if not user or not user.email:
+		return
+	lang = user.language or frappe.db.get_single_value("System Settings", "language")
+	link, button = log.link, _("Open", lang=lang, context="Go to it")
+	if log.document_type and log.document_name:
+		link = link or get_url_to_form(log.document_type, log.document_name)
+		button = _("Open {0}", lang=lang).format(_(log.document_type, lang=lang))
+	one = declared().get(log.type) or {}
+	said = f"<b>{frappe.utils.escape_html(_(log.type, lang=lang))}</b>" if log.type else ""
+	if one.get("about"):
+		said += f" · {frappe.utils.escape_html(_(raw(one['about']), lang=lang))}"
+	change = frappe.utils.get_url("/desk/settings?section=notifications")
+	reason = f'{said}<br><a href="{change}">{_("Change what you get by mail", lang=lang)}</a>'
+	frappe.sendmail(
+		recipients=user.email,
+		subject=plain(log.subject),
+		message=compose(log.subject, log.email_content, link, button, reason),
+		with_container=True,
+		now=frappe.in_test,
+	)
+
+
+from frappe.desk.doctype.notification_log.notification_log import (
+	NotificationLog as _NotificationLog,
+)
+
+
+class NotificationLog(_NotificationLog):
+	"""frappe's Notification Log, mailed through `mail_log` (hooks.py
+	override_doctype_class)."""
+
+	def after_insert(self):
+		from frappe.desk.doctype.notification_log.notification_log import set_notifications_as_unseen
+		from frappe.desk.doctype.notification_settings.notification_settings import (
+			is_email_notifications_enabled_for_type,
+		)
+
+		frappe.publish_realtime("notification", after_commit=True, user=self.for_user)
+		set_notifications_as_unseen(self.for_user)
+		if is_email_notifications_enabled_for_type(self.for_user, self.type):
+			try:
+				mail_log(self)
+			except frappe.OutgoingEmailError:
+				self.log_error(_("Failed to send notification email"))
