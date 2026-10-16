@@ -3313,42 +3313,77 @@ def onehr_tariq_clocks_in_with_his_phone():
 
 
 @check
-def onehr_hr_allows_a_computer_that_is_theirs():
-	"""The computer at work that only Tariq uses: HR allows it, he makes a second
-	passkey there within the day, and it signs for him as his phone's does. Once
-	only, and never on a phone; a reset retires both."""
+def one_devices_decide_where_a_passkey_lives():
+	"""The builder adds the reception computer, shared, and Tariq's laptop,
+	assigned to him, and marks the reception computer from a browser on it.
+	Nobody is offered or allowed a passkey there. Tariq marks his laptop,
+	makes a second passkey on it beside his phone's, and it signs for him.
+	Lost retires the laptop's passkey and leaves the phone's."""
 	import json
 
-	from onedesk.one_demo import hr as demo
+	from onedesk.one import devices
+	from onedesk.one.signin import facts
+	from onedesk.one_demo.setup import BUILDER
 	from onedesk.one_hr import passkey
 
 	tariq = _employee("Tariq")
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
 	frappe.db.delete("Clock Device", {"user": "tariq@one.test"})
-	phone, desk = _Phone(b"t-phone"), _Phone(b"t-desk")
+	marked = lambda: {devices.COOKIE: frappe.local.cookie_manager.cookies[devices.COOKIE]["value"]}  # noqa: E731
+	with as_user(BUILDER):
+		reception = devices.add("Reception Computer", "Shared")["device"]
+		laptop = devices.add("Tariq's Laptop", "Assigned", "tariq@one.test")["device"]
+		_asked(headers={"User-Agent": DESKTOP})
+		devices.mark(reception)
+		at_reception = marked()
+
 	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": DESKTOP}, cookies=at_reception)
+		assert devices.here().name == reception
+		assert not passkey.ask(), "offered a passkey on the shared computer"
+		try:
+			passkey.start_registration()
+			raise AssertionError("a passkey was made on the shared computer")
+		except frappe.ValidationError:
+			pass
+
+		phone, desk = _Phone(b"t-phone"), _Phone(b"t-desk")
 		_asked(headers={"User-Agent": PHONE})
 		passkey.finish_registration(json.dumps(phone.make(passkey.start_registration())), {"user_agent": PHONE})
 		_asked(headers={"User-Agent": DESKTOP})
-		assert not passkey.computer_allowed("tariq@one.test")
-	with as_user(demo.HR):
-		passkey.allow_computer(tariq)
-	with as_user("tariq@one.test"):
-		_asked(headers={"User-Agent": PHONE})
-		assert not passkey.computer_allowed("tariq@one.test"), "a phone is not the computer HR allowed"
-		_asked(headers={"User-Agent": DESKTOP})
-		assert passkey.ask()
+		assert [one["marked"] for one in facts()["devices"]] == [False]
+		devices.mark(laptop)
+		at_laptop = marked()
+		_asked(headers={"User-Agent": DESKTOP}, cookies=at_laptop)
+		assert passkey.ask(), "not offered a passkey on his own laptop"
 		made = passkey.finish_registration(json.dumps(desk.make(passkey.start_registration())), {"user_agent": DESKTOP})
-		assert frappe.db.get_value("Clock Device", made["device"], "computer") == 1
-		assert not passkey.computer_allowed("tariq@one.test"), "allowed twice"
-		_asked(headers={"User-Agent": DESKTOP})
+		assert frappe.db.get_value("Clock Device", made["device"], "device") == laptop
+		_asked(headers={"User-Agent": DESKTOP}, cookies=at_laptop)
+		try:
+			passkey.start_registration()
+			raise AssertionError("two passkeys on one laptop")
+		except frappe.ValidationError:
+			pass
+		_asked(headers={"User-Agent": DESKTOP}, cookies=at_laptop)
 		options = passkey.start_assertion()
 		assert len(options["allowCredentials"]) == 2
-		_asked(headers={"User-Agent": DESKTOP}, cookies=_cookies())
+		_asked(headers={"User-Agent": DESKTOP}, cookies=at_laptop)
 		signed = passkey.check(json.dumps(desk.sign(options)), tariq)
 		assert signed["device"] == made["device"] and signed["verified"], signed
-	with as_user(demo.HR):
-		assert passkey.reset(tariq)["reset"] == 2
+
+	with as_user(BUILDER):
+		_asked(headers={"User-Agent": DESKTOP})
+		listed = devices.for_settings()
+		assert {one["name"] for one in listed["company"]} >= {reception, laptop}
+		assert any(one["user"] == "tariq@one.test" for one in listed["personal"])
+		assert devices.lost(laptop)["passkeys"] == 1
+		phone_key = passkey.held("tariq@one.test").name
+		devices.retire(reception)
+		assert frappe.db.get_value("Device", reception, "status") == "Retired"
+	assert passkey.held("tariq@one.test"), "the phone's passkey went with the laptop"
+	with as_user(BUILDER):
+		devices.retire_passkey(phone_key)
+	assert not passkey.held("tariq@one.test")
 	_unasked()
 
 

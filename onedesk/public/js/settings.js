@@ -602,15 +602,27 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						__("Passkey"),
 						row(
 							frappe.ui.badge.html({ label: data.passkey ? __("Registered") : __("Not registered"), theme: data.passkey ? "green" : "gray" }),
-							esc((data.passkeys || []).map((one) => (one.computer ? __("{0}, office computer", [one.label]) : one.label)).join(" · ")),
-							data.computer_allowed && data.passkey
+							esc((data.passkeys || []).map((one) => one.label).join(" · ")),
+							(data.devices || []).some((one) => one.here && !one.passkey)
 								? onedesk.shell.button(__("Register This Computer"), { "data-passkey": "1" }, "subtle", "monitor")
 								: !data.passkey
 								? onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle", "fingerprint")
 								: data.passkey_clocks
 								? ""
 								: onedesk.shell.button(__("Remove"), { "data-passkey-remove": "1" }, "ghost", "trash-2")
-						),
+						) +
+							// A company machine assigned to them that no browser has been
+							// told about yet: they mark it from here, at it (one/devices.py).
+							(data.devices || [])
+								.filter((one) => !one.marked)
+								.map((one) =>
+									row(
+										esc(one.device_name),
+										esc(__("Assigned to you. On it, mark it and make your passkey there.")),
+										onedesk.shell.button(__("This Is My {0}", [one.device_name]), { "data-mark": one.name }, "subtle", "monitor")
+									)
+								)
+								.join(""),
 						data.passkey_clocks
 							? data.passkey_signs_in
 								? __("Signs you in without a password, and checks you in.")
@@ -672,6 +684,16 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		this.$content.find("[data-passkey]").on("click", async () => {
 			await onedesk.passkey.register();
+			this.open("signin");
+		});
+		this.$content.find("[data-mark]").on("click", async (event) => {
+			await frappe.xcall("onedesk.one.devices.mark", { device: $(event.currentTarget).attr("data-mark") });
+			try {
+				await onedesk.passkey.register();
+				frappe.show_alert({ message: __("Passkey created. Use it next time you sign in."), indicator: "green" });
+			} catch (e) {
+				// Marked either way; Register This Computer is there next time.
+			}
 			this.open("signin");
 		});
 		this.$content.find("[data-passkey-remove]").on("click", () =>
@@ -2425,6 +2447,137 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	async design_letter_head(name) {
 		const designer = await frappe.xcall("onedesk.one.printing.design_letter_head", { letter_head: name });
 		frappe.set_route("print-format-builder", designer);
+	}
+
+	// The company's machines, and every passkey on somebody's own (one/devices.py).
+	// A machine is marked from a browser on it; a shared one never holds a
+	// passkey, an assigned one may hold its person's.
+	draw_devices(data) {
+		const esc = frappe.utils.escape_html;
+		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
+		this.page.set_primary_action(__("Add Device"), () => this.add_device(), "plus");
+		this.$content.html(
+			onedesk.shell.section(
+				__("Company Devices"),
+				'<div data-list="company"></div>',
+				__("Mark each machine from a browser on it. Shared machines never hold a passkey, and an assigned one can hold its person's.")
+			) +
+				onedesk.shell.section(
+					__("Personal Devices"),
+					'<div data-list="personal"></div>',
+					__("Passkeys on people's own phones and computers.")
+				)
+		);
+		const states = { Active: "green", Lost: "red", Retired: "gray" };
+		onedesk.shell.table(this.$content.find('[data-list="company"]'), {
+			rows: data.company || [],
+			icon: "monitor",
+			empty: __("No company devices"),
+			columns: [
+				{
+					label: __("Name"),
+					render: (one) =>
+						`<div>${esc(one.device_name)} ${one.here ? frappe.ui.badge.html({ label: __("This Browser"), theme: "blue" }) : ""}</div>${
+							one.asset ? `<div class="one-shell-quiet">${esc(one.asset_name || one.asset)}</div>` : ""
+						}`,
+				},
+				{ label: __("Used By"), render: (one) => esc(one.use === "Shared" ? __("Shared") : one.holder || one.user || "") },
+				{
+					label: __("Browser"),
+					render: (one) =>
+						`<span class="one-shell-quiet">${esc(one.marked ? __("Marked {0}", [when(one.marked_on)]) : __("Not marked"))}</span>`,
+				},
+				{ label: __("Passkeys"), render: (one) => esc(String(one.passkeys || 0)) },
+				{ label: __("Status"), render: (one) => frappe.ui.badge.html({ label: __(one.status), theme: states[one.status] || "gray" }) },
+				{
+					label: "",
+					render: (one) =>
+						one.status !== "Active"
+							? ""
+							: `<div class="one-shell-row-actions" data-device="${esc(one.name)}">${
+									one.here ? "" : onedesk.shell.button(__("Mark This Browser"), { "data-mark": "1" }, "ghost", "monitor-check")
+							  }${onedesk.shell.button(__("Lost"), { "data-lost": "1" }, "ghost", null, "red")}${onedesk.shell.button(
+									__("Retire"),
+									{ "data-retire": "1" },
+									"ghost"
+							  )}</div>`,
+				},
+			],
+		});
+		onedesk.shell.table(this.$content.find('[data-list="personal"]'), {
+			rows: data.personal || [],
+			icon: "smartphone",
+			empty: __("Nobody has a passkey yet"),
+			columns: [
+				{ label: __("Person"), render: (one) => esc(one.person || one.user) },
+				{
+					label: __("Device"),
+					render: (one) => `${esc(one.label || "")} ${one.synced ? frappe.ui.badge.html({ label: __("Synced"), theme: "gray" }) : ""}`,
+				},
+				{ label: __("Last Used"), render: (one) => `<span class="one-shell-quiet">${esc(when(one.last_used) || __("Never"))}</span>` },
+				{
+					label: "",
+					render: (one) =>
+						`<div class="one-shell-row-actions" data-passkey="${esc(one.name)}">${onedesk.shell.button(
+							__("Retire Passkey"),
+							{ "data-retire-passkey": "1" },
+							"ghost",
+							null,
+							"red"
+						)}</div>`,
+				},
+			],
+		});
+		const of = (event) => $(event.currentTarget).closest("[data-device]").attr("data-device");
+		const named = (device) => (data.company || []).find((one) => one.name === device)?.device_name || device;
+		this.$content.on("click", "[data-mark]", (event) => {
+			const device = of(event);
+			frappe.confirm(__("Mark this browser as {0}? Do this on that machine.", [esc(named(device))]), async () => {
+				await frappe.xcall("onedesk.one.devices.mark", { device });
+				this.refresh();
+			});
+		});
+		this.$content.on("click", "[data-lost]", (event) => {
+			const device = of(event);
+			frappe.confirm(__("Mark {0} as lost? Everybody signed in on it is signed out, and its passkeys stop working.", [esc(named(device))]), async () => {
+				const said = await frappe.xcall("onedesk.one.devices.lost", { device });
+				frappe.show_alert({ message: __("{0} signed out, {1} passkeys retired", [said.sessions, said.passkeys]), indicator: "green" });
+				this.refresh();
+			});
+		});
+		this.$content.on("click", "[data-retire]", (event) => {
+			const device = of(event);
+			frappe.confirm(__("Retire {0}? It is no longer the company's, and its passkeys stop working.", [esc(named(device))]), async () => {
+				await frappe.xcall("onedesk.one.devices.retire", { device });
+				this.refresh();
+			});
+		});
+		this.$content.on("click", "[data-retire-passkey]", (event) => {
+			const passkey = $(event.currentTarget).closest("[data-passkey]").attr("data-passkey");
+			frappe.confirm(__("Retire this passkey? Its owner signs in with their password until they make another."), async () => {
+				await frappe.xcall("onedesk.one.devices.retire_passkey", { passkey });
+				this.refresh();
+			});
+		});
+	}
+
+	add_device() {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Add Device"),
+			fields: [
+				{ fieldname: "device_name", fieldtype: "Data", label: __("Name"), reqd: 1, description: __("Such as Reception Computer or Yousef's Laptop.") },
+				{ fieldname: "use", fieldtype: "Select", label: __("Used By"), options: [{ value: "Assigned", label: __("One person") }, { value: "Shared", label: __("Several people") }], default: "Assigned", reqd: 1 },
+				{ fieldname: "user", fieldtype: "Link", options: "User", label: __("Assigned To"), depends_on: "eval:doc.use==='Assigned'", mandatory_depends_on: "eval:doc.use==='Assigned'" },
+				{ fieldname: "asset", fieldtype: "Link", options: "Asset", label: __("Asset") },
+			],
+			primary_action_label: __("Add"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one.devices.add", values);
+				dialog.hide();
+				this.refresh();
+			},
+		});
+		dialog.show();
 	}
 
 	// Where the workspace opens: the address One gives it, which always works,

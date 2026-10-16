@@ -50,21 +50,32 @@ def start_registration() -> dict:
 	return frappe.parse_json(webauthn.options_to_json(options))
 
 
-def _may_register(user: str, employee: str) -> bool:
+def _may_register(user: str, employee: str) -> str | None:
 	"""One passkey a person; for somebody the clock checks, one HR resets.
 
-	The one exception is the computer that is theirs at work, which HR allows
-	(`allow_computer`): a second passkey, on that computer. True when this is
-	that one.
+	A company machine marked as a Device decides first (one/devices.py): a
+	shared one holds nobody's, and an assigned one may hold its person's
+	alongside their phone's. The Device's name when this is that one.
 	"""
+	from onedesk.one import devices
+
 	if employee and is_blocked(employee):
 		# `held` asks for an Active credential, so without this a blocked
 		# employee would simply register a new passkey and carry on.
 		frappe.throw(
 			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
 		)
-	if computer_allowed(user):
-		return True
+	at = devices.here()
+	if at and at.use == "Shared":
+		frappe.throw(
+			_("{0} is shared, so nobody's passkey is made on it. Use your phone.").format(at.device_name)
+		)
+	if at:
+		if at.user != user:
+			frappe.throw(_("{0} is assigned to somebody else.").format(at.device_name))
+		if frappe.db.exists("Clock Device", {"device": at.name, "user": user, "status": "Active"}):
+			frappe.throw(_("You already have a passkey on {0}.").format(at.device_name))
+		return at.name
 
 	clocked = bool(employee) and policy.self_service()
 	if held(user):
@@ -83,42 +94,7 @@ def _may_register(user: str, employee: str) -> bool:
 				"A passkey registered on a shared machine can be used by anyone sitting at it."
 			)
 		)
-	return False
-
-
-#: How long HR's allowance for a computer stays open.
-COMPUTER_HOURS = 24
-
-
-@frappe.whitelist(methods=["POST"])
-def allow_computer(employee: str) -> dict:
-	"""HR's click for the computer that is somebody's own at work: for the next
-	day they may register a second passkey on a computer, once. Written on the
-	employee's timeline, since it is a door HR opened."""
-	from frappe.utils import add_to_date, format_datetime
-
-	if not frappe.has_permission("Clock Device", "write"):
-		frappe.throw(_("Only HR can allow a passkey on a computer."), frappe.PermissionError)
-	user = frappe.db.get_value("Employee", employee, "user_id")
-	if not user:
-		frappe.throw(_("This employee has no user to sign in with."))
-	until = add_to_date(now_datetime(), hours=COMPUTER_HOURS)
-	frappe.defaults.set_user_default("one_passkey_computer", str(until), user)
-	frappe.get_doc("Employee", employee).add_comment(
-		"Info", _("May register a passkey on their office computer until {0}.").format(format_datetime(until))
-	)
-	return {"until": str(until)}
-
-
-def computer_allowed(user: str) -> bool:
-	"""Whether HR's allowance is open for this person, and this is a computer
-	they have not already made one on."""
-	from frappe.utils import get_datetime
-
-	until = frappe.defaults.get_user_default("one_passkey_computer", user)
-	if not until or get_datetime(until) < now_datetime() or rules.is_phone(_agent()):
-		return False
-	return not frappe.db.exists("Clock Device", {"user": user, "status": "Active", "computer": 1})
+	return None
 
 
 @frappe.whitelist()
@@ -128,7 +104,7 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 	if user == "Guest":
 		frappe.throw(_("Sign in before registering a passkey."), frappe.PermissionError)
 	employee = own.employee_of()
-	computer = _may_register(user, employee)
+	on = _may_register(user, employee)
 
 	try:
 		done = webauthn.verify_registration_response(
@@ -147,7 +123,7 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 		{
 			"user": user,
 			"employee": employee or None,
-			"computer": int(computer),
+			"device": on,
 			"label": rules.device_label(seen),
 			"status": "Active",
 			"registered_on": now_datetime(),
@@ -161,8 +137,6 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 		}
 	)
 	device.insert(ignore_permissions=True)
-	if computer:
-		frappe.defaults.clear_user_default("one_passkey_computer", user)
 	from onedesk.one import tell
 
 	tell.passkey_added(frappe.session.user)
@@ -244,9 +218,9 @@ def held(user: str):
 
 
 def _active(whose: dict):
-	"""The phone's passkey before the office computer's, which HR adds."""
+	"""The person's own passkey before one on a company machine."""
 	found = every(whose)
-	return next((one for one in found if not one.computer), found[0] if found else None)
+	return next((one for one in found if not one.device), found[0] if found else None)
 
 
 def every(whose: dict) -> list:
@@ -267,7 +241,7 @@ def every(whose: dict) -> list:
 				"label",
 				"user_agent",
 				"backed_up",
-				"computer",
+				"device",
 			],
 			order_by="creation desc",
 			ignore_permissions=True,
@@ -317,10 +291,17 @@ def ask() -> bool:
 	from onedesk.one_hr import signin
 
 	user = frappe.session.user
+	from onedesk.one import devices
+
 	if user in ("Guest", "Administrator") or not signin.offered():
 		return False
-	if computer_allowed(user):
-		return True
+	at = devices.here()
+	if at:
+		# Their own company machine, until it holds their passkey; nobody's on
+		# a shared one.
+		return at.use == "Assigned" and at.user == user and not frappe.db.exists(
+			"Clock Device", {"device": at.name, "user": user, "status": "Active"}
+		)
 	if held(user):
 		return False
 	employee = own.employee_of()

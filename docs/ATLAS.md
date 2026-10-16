@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 74 | 4 | 21 | 0 |
+| onedesk | 74 | 4 | 22 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
 | erpnext | 229 | 139 | 20 | 97 |
 | hrms | 103 | 19 | 8 | 0 |
@@ -870,6 +870,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| Device | inside: Workspace Settings › Devices | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Portal Link | inside: a submitted sale or purchase's Portal, under Links | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Push Device | opened by our screens | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | opened by our screens | **nobody** | untouched | no | general |  | yes |  |  |  |  |

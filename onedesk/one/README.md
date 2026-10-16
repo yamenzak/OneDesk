@@ -1440,6 +1440,34 @@ sees its buttons. Other administrators see who that is.
 OneAI offers **Are we on the cheapest plan?**, **How long will our credits
 last?** and **What used the most credits this month?**
 
+### Devices, for the Workspace
+
+**Devices**, under Workspace, is where an administrator says which machines
+belong to the company and who uses them, so a passkey only lives where it
+should. Only administrators see it.
+
+- **Company Devices** lists each machine with who uses it, its asset if it has
+  one, and whether a browser on it has been marked. **Add Device** asks for a
+  name, **One person** or **Several people**, who it is assigned to, and the
+  asset (the asset's holder fills in the person).
+- **Mark This Browser**, pressed on that machine, tells One which device this
+  browser is. A browser cannot say which machine it runs on, so this is done
+  once per machine; the person a device is assigned to can do it themselves
+  from their Sign-in page (**This Is My …**).
+- A **Shared** machine, like a reception computer, never holds a passkey, and
+  nobody is offered one there. People sign in with their password, or with the
+  passkey on their phone by scanning the code.
+- An **Assigned** machine may hold its person's passkey beside their phone's,
+  even an employee's whose passkey otherwise has to be made on a phone.
+- **Lost** signs out everybody signed in on it and retires the passkeys made
+  on it. **Retire** is for a machine the company no longer has.
+- **Personal Devices** lists every passkey on somebody's own phone or computer,
+  with **Retire Passkey** for one that shouldn't be there.
+
+Marking is by a cookie, so clearing the browser's data on that machine unmarks
+it; mark it again. This is not device management: One can't lock, wipe or
+install anything on a machine.
+
 ### Domains, for the Workspace
 
 **Domains**, under Workspace, sets the addresses where the workspace opens in

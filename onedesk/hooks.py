@@ -1828,4 +1828,4 @@ user_data_fields = [
 ]
 
 # A sign-in from a device the person has not used before. See one/signin.py.
-on_session_creation = ["onedesk.one.signin.arrived"]
+on_session_creation = ["onedesk.one.signin.arrived", "onedesk.one.devices.signed_in"]

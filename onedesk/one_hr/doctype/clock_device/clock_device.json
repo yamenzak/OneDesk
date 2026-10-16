@@ -18,7 +18,7 @@
   "credential_section",
   "sign_count",
   "backed_up",
-  "computer",
+  "device",
   "column_break_credential",
   "aaguid",
   "key_section",
@@ -145,12 +145,12 @@
    "read_only": 1
   },
   {
-   "default": "0",
-   "fieldname": "computer",
-   "fieldtype": "Check",
-   "label": "Office Computer",
+   "fieldname": "device",
+   "fieldtype": "Link",
+   "label": "Device",
+   "options": "Device",
    "read_only": 1,
-   "description": "Made on the employee's own computer at work, which HR allowed."
+   "description": "The company machine it was made on. Empty when it is on the person's own phone or computer."
   },
   {
    "fieldname": "seen_section",
@@ -207,7 +207,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-16 23:00:00.000000",
+ "modified": "2026-10-17 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "Clock Device",

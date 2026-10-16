@@ -7,6 +7,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Device | 12 | document |
 | Portal Link | 16 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
@@ -223,6 +224,11 @@ No doctypes yet.
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
 * `onedesk.one.customize.save`
+* `onedesk.one.devices.add`
+* `onedesk.one.devices.lost`
+* `onedesk.one.devices.mark`
+* `onedesk.one.devices.retire`
+* `onedesk.one.devices.retire_passkey`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`
@@ -474,7 +480,6 @@ No doctypes yet.
 * `onedesk.one_hr.overtime.dates`
 * `onedesk.one_hr.overtime.day`
 * `onedesk.one_hr.overtime.record`
-* `onedesk.one_hr.passkey.allow_computer`
 * `onedesk.one_hr.passkey.ask_for_a_reset`
 * `onedesk.one_hr.passkey.finish_registration`
 * `onedesk.one_hr.passkey.not_now`

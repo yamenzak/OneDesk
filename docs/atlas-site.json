@@ -780,6 +780,10 @@
 "Desktop Settings": [
 "System Manager"
 ],
+"Device": [
+"System Manager",
+"Workspace Administrator"
+],
 "Discussion Reply": [
 "System Manager"
 ],
@@ -3023,6 +3027,7 @@
 "Delivery Trip",
 "Department",
 "Designation",
+"Device",
 "DocShare",
 "DocType",
 "DocType Settings Map",

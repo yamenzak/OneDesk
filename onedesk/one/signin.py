@@ -104,6 +104,7 @@ def facts(user: str | None = None) -> dict:
 	whether the account is safe."""
 	from frappe.twofactor import two_factor_is_enabled
 
+	from onedesk.one import devices
 	from onedesk.one_hr import own, policy
 	from onedesk.one_hr import passkey as keys
 	from onedesk.one_hr import signin as passkey_signin
@@ -114,15 +115,16 @@ def facts(user: str | None = None) -> dict:
 		"password_changed": frappe.db.get_value("User", user, "last_password_reset_date"),
 		"employee": employee,
 		"passkey": bool(keys.held(user)),
-		# Where it is: the phone's, and the office computer HR allowed.
+		# Where it is: their own device's, and a company machine's.
 		"passkeys": [
-			{"label": one.label, "computer": bool(one.computer)} for one in keys.every({"user": user})
+			{"label": frappe.db.get_value("Device", one.device, "device_name") if one.device else one.label}
+			for one in keys.every({"user": user})
 		],
 		"passkey_signs_in": passkey_signin.offered(),
 		# Their passkey checks them in too, so a new one is HR's to allow.
 		"passkey_clocks": bool(employee) and policy.self_service(),
-		# HR allowed a passkey on the computer that is theirs at work.
-		"computer_allowed": keys.computer_allowed(user),
+		# The company machines assigned to them (one/devices.py).
+		"devices": devices.mine(user),
 		"two_factor": bool(two_factor_is_enabled(user)),
 		"two_factor_method": frappe.get_system_settings("two_factor_method")
 		if two_factor_is_enabled(user)

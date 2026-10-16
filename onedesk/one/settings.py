@@ -24,6 +24,7 @@ SECTIONS = [
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
 	("access", _lt("Access"), "shield-check", "workspace"),
+	("devices", _lt("Devices"), "monitor-smartphone", "workspace"),
 	("notification_types", _lt("Workspace Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
@@ -197,6 +198,7 @@ def load(
 		"access": _access,
 		"plan": _plan,
 		"domains": _domains,
+		"devices": _devices,
 		"oneai": _oneai,
 		"intake": _intake,
 		"holidays": _holidays,
@@ -1374,6 +1376,14 @@ def _domains() -> dict:
 		"target": held.dns_target,
 		"last_heard": held.last_heard,
 	}
+
+
+def _devices() -> dict:
+	"""The company's machines and every passkey on somebody's own. See
+	one/devices.py."""
+	from onedesk.one import devices
+
+	return devices.for_settings()
 
 
 def _oneai() -> dict:

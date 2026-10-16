@@ -23,6 +23,7 @@ ANSWERS = {
 	("DocType", "Cloud File Request"): (INSIDE, "a OneCloud folder's Request Files"),
 	("DocType", "Cloud File Version"): (INSIDE, "a OneCloud file's Versions"),
 	("DocType", "Cloud Link"): (INSIDE, "a OneCloud file's Share"),
+	("DocType", "Device"): (INSIDE, "Workspace Settings › Devices"),
 	("DocType", "Credit Reservation"): (ENGINE, "credits held while OneAI works, released when it is done"),
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),
 	("DocType", "File Link"): (ENGINE, "what OneIntake filed a document under"),

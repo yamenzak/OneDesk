@@ -806,6 +806,17 @@ def _clock():
 def _clocked():
 	# The workshop clocks itself in: the switch HR turns on in HR Settings.
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
+	# The company's machines (one/devices.py): the front desk everybody uses,
+	# and Nadia's laptop, the asset she holds, which may carry her passkey.
+	once("Device", {"device_name": "Reception Computer"}, {"device_name": "Reception Computer", "use": "Shared"})
+	laptop = frappe.db.get_value("Asset", {"asset_name": "Laptop Nadia"})
+	nadia = frappe.db.get_value("Employee", _employee("Nadia"), "user_id")
+	if nadia:
+		once(
+			"Device",
+			{"device_name": "Nadia's Laptop"},
+			{"device_name": "Nadia's Laptop", "use": "Assigned", "user": nadia, "asset": laptop},
+		)
 	once(
 		"Clock Place",
 		{"label": "Al Quoz workshop"},
