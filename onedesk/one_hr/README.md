@@ -88,7 +88,9 @@ record, or when the workspace has not turned self check-in on.
 your phone keeps and unlocks with your face, fingerprint or PIN. Registering
 has to be done on a phone, not a desktop computer. Each employee has one
 passkey; after that it works on your other devices too, because iCloud and
-Google sync it. Every clock-in asks for your face or PIN again.
+Google sync it. Every clock-in asks for your face or PIN again. Clocking in
+from your laptop with the synced passkey is not flagged for that; a passkey
+that stays on one phone turning up in another browser is (`passkey-elsewhere`).
 
 **A lost or new phone.** The screen that refuses you has a button to ask HR
 for a reset. HR sees what your new phone looks like next to your old one, and

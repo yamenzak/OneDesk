@@ -181,7 +181,7 @@ def held_by(employee: str):
 	found = frappe.get_all(
 		"Clock Device",
 		filters={"employee": employee, "status": "Active", "credential_id": ["is", "set"]},
-		fields=["name", "credential_id", "public_key", "sign_count", "label", "user_agent"],
+		fields=["name", "credential_id", "public_key", "sign_count", "label", "user_agent", "backed_up"],
 		order_by="creation desc",
 		limit=1,
 		ignore_permissions=True,

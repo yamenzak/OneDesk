@@ -22,8 +22,15 @@ def passkey_gate(employee: str, credential, seen: dict) -> dict:
 	checked = passkey.check(credential, employee)
 	signals = [checked["why"]] if checked["why"] else []
 
+	# A synced passkey is on the employee's laptop as well as their phone, so a
+	# different browser is only a question for one that never leaves its device.
 	held = passkey.held_by(employee)
-	if checked["device"] and held and _unlike(held.get("user_agent"), seen.get("user_agent")):
+	if (
+		checked["device"]
+		and held
+		and not held.get("backed_up")
+		and _unlike(held.get("user_agent"), seen.get("user_agent"))
+	):
 		signals.append("passkey-elsewhere")
 
 	if passkey.resets_since(employee, add_to_date(getdate(), days=-30)) > 1:
@@ -292,5 +299,5 @@ def _unlike(was: str | None, now: str | None) -> bool:
 
 
 def _bracketed(agent: str) -> str:
-	start, _, rest = agent.partition("(")
+	_start, _, rest = agent.partition("(")
 	return rest.partition(")")[0].strip().lower() if rest else agent.strip().lower()
