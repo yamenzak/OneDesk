@@ -13822,3 +13822,18 @@ nothing grouped, nothing leading.
   10-02-2027": erpnext judges by the instalment, and so does the card now.
   The portal's demo check found its quote request through a test record of
   mine; it finds one by the supplier now.
+
+## A supplier's discount, and the tax before sending
+
+*Asked:* can a supplier give a discount and control VAT per row?
+
+*Done:* a Discount % column on every row, kept in erpnext's own fields (the
+supplier's rate as the row's list price, the discount off it), and the
+workspace's pricing rules left out of a supplier's quote. The tax stays the
+workspace's, since it is its accounts the quote lands in, but the supplier
+now sees it as they type: each row's tax and rate, the taxes and the grand
+total, reckoned by `quote_preview` on the same quote `send_quote` saves. A
+discount also shows on every record's rows ("80 Nos × 19.00 − 10%"), each
+figure isolated so an Arabic currency symbol does not carry the discount
+past it. Checked live: priced at 4,975.00 with 10% and 5% off two rows, saved
+at 4,975.00 with the same rates.

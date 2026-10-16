@@ -33,7 +33,13 @@
               <div class="min-w-0 flex-1">
                 <p class="truncate text-base text-ink-gray-9">{{ item.item }}</p>
                 <p v-if="item.about" class="truncate text-sm text-ink-gray-5">{{ item.about }}</p>
-                <p class="text-sm tabular-nums text-ink-gray-6">{{ item.qty }} {{ item.uom }} × {{ item.rate }}</p>
+                <p class="text-sm tabular-nums text-ink-gray-6">
+                  <!-- Each figure isolated: a currency written right to left
+                       would otherwise carry the discount past it. -->
+                  <bdi>{{ item.qty }} {{ item.uom }}</bdi> ×
+                  <template v-if="item.discount"><bdi>{{ item.list_rate }}</bdi> <bdi class="text-ink-green-6">− {{ item.discount }}</bdi></template>
+                  <bdi v-else>{{ item.rate }}</bdi>
+                </p>
               </div>
               <p class="shrink-0 text-base font-medium tabular-nums text-ink-gray-9">{{ item.amount }}</p>
             </li>

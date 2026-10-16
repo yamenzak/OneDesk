@@ -259,6 +259,7 @@ No doctypes yet.
 * `onedesk.one.portal.apps`
 * `onedesk.one.portal.form`
 * `onedesk.one.portal.home`
+* `onedesk.one.portal.quote_preview`
 * `onedesk.one.portal.record`
 * `onedesk.one.portal.rfq`
 * `onedesk.one.portal.rows`

@@ -1719,8 +1719,12 @@ shipments and invoices). **Download PDF** gives the printed copy. Each sees
 only their own records.
 
 A supplier answers a quote request on the portal: they set a rate for each
-item they can supply, change the quantity if they need to, add notes, and
-choose **Send Quote**. Their quote lands in Quotes, and whoever made the
+item they can supply, change the quantity if they need to, give a discount
+on any row, add notes, and choose **Send Quote**. As they type, each row
+shows its tax and the quote its taxes and total, the same as once it is sent.
+They cannot change the tax: it is the workspace's own (the purchase taxes
+template, an item's Item Tax Template, a Tax Rule by the supplier's country),
+so it lands in the right accounts. Their quote lands in Quotes, and whoever made the
 request is told (Quote Received). A request they have answered says Quoted.
 
 A customer adds their own addresses (**Add Address**) and changes them, and
@@ -2628,6 +2632,12 @@ path alone, so a rule can't tell /projects?project=… from /projects.
 Edit Profile web form, Password on frappe's update_password, One's Your Data
 (one/privacy.py) and frappe's Third Party Apps, shown once an app has been
 let in. frappe's own pages for these send a portal reader to the app (`reads`).
+
+`quote_preview` builds the same quote `send_quote` saves (`_quote`) and
+reckons it with erpnext's own `calculate_taxes_and_totals` without saving it,
+so the page and the saved quote cannot disagree. A row's discount is
+erpnext's `discount_percentage`, off the supplier's rate as its list price,
+and the quote ignores the workspace's pricing rules.
 
 `send_quote`: erpnext's own mapper (`create_supplier_quotation`) cannot finish
 for a portal user, since filling the quote's defaults reads each Item, which a

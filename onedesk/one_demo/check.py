@@ -3898,9 +3898,19 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 		).insert()
 		rfq.submit()
 	with as_user(user):
-		answered = portal.send_quote(rfq.name, {rfq.items[0].name: {"rate": 118.5, "qty": 40}}, "Delivered in two lots.")
+		# Priced with a tenth off, the page says what erpnext will reckon: the
+		# row's net, and the workspace's own tax on it.
+		priced = {rfq.items[0].name: {"rate": 120, "qty": 40, "discount": 10}}
+		said = portal.quote_preview(rfq.name, priced)
+		assert said["rows"][rfq.items[0].name]["discount"] and said["total"], said
+		answered = portal.send_quote(rfq.name, priced, "Delivered in two lots.")
 		assert frappe.db.get_value("Supplier Quotation", answered, "supplier") == supplier
-		assert frappe.db.get_value("Supplier Quotation Item", {"parent": answered}, "rate") == 118.5
+		row = frappe.db.get_value(
+			"Supplier Quotation Item", {"parent": answered}, ["price_list_rate", "discount_percentage", "rate"], as_dict=True
+		)
+		assert (row.price_list_rate, row.discount_percentage, row.rate) == (120, 10, 108), row
+		sent = frappe.get_doc("Supplier Quotation", answered)
+		assert said["net"] == frappe.utils.fmt_money(sent.net_total, currency=sent.currency), (said["net"], sent.net_total)
 	with as_user("rania@one.test"):
 		try:
 			portal.send_quote(rfq.name, {rfq.items[0].name: {"rate": 1, "qty": 40}})

@@ -99,7 +99,7 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	rfq = SOURCE.split("def rfq(", 1)[1].split("\ndef ", 1)[0]
 	assert "from erpnext.templates.pages import rfq as page" in rfq and 'doc.get("rfq_links")' in rfq
 	assert "send_quote" in _page("Rfq.vue")
-	send = SOURCE.split("def send_quote", 1)[1].split("\ndef ", 1)[0]
+	send = SOURCE.split("def _quote(", 1)[1].split("\n@frappe.whitelist", 1)[0] + SOURCE.split("def send_quote", 1)[1].split("\ndef ", 1)[0]
 	assert '@frappe.whitelist(methods=["POST"])\ndef send_quote' in SOURCE
 	assert 'frappe.db.exists("Portal User", {"parent": supplier, "user": user})' in send
 	assert "check_supplier_has_docname_access(supplier)" in send
@@ -107,6 +107,12 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	assert "finally:\n\t\tfrappe.session.user = user" in send
 	assert 'quote.db_set({"owner": user, "modified_by": user}' in send
 	assert "tell.quote_received(doc, quote, user, supplier)" in send
+	# A discount is erpnext's own, taken off the supplier's rate as its list
+	# price; the taxes are the workspace's, and the page sees them first.
+	assert "row.price_list_rate = rate" in send and "row.discount_percentage = discount" in send
+	assert '"ignore_pricing_rule": 1' in send
+	assert "def quote_preview(" in SOURCE and "quote.calculate_taxes_and_totals()" in SOURCE
+	assert '"quote_preview"' in _page("Rfq.vue")
 	told = (tree.APP / "one" / "tell.py").read_text().split("def quote_received(", 1)[1]
 	assert 'notify.notify(\n\t\t"Quote Received"' in told
 	notes = tree.notifications()

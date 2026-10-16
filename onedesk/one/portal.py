@@ -627,6 +627,11 @@ def record(kind: str, name: str) -> dict:
 				"qty": number(row.qty),
 				"uom": _(row.get("uom") or row.get("stock_uom") or ""),
 				"rate": row.get_formatted("rate", doc),
+				# A discount shows as the list rate less it, as on the print.
+				"list_rate": row.get_formatted("price_list_rate", doc)
+				if row.get("discount_percentage")
+				else "",
+				"discount": f"{number(row.discount_percentage)}%" if row.get("discount_percentage") else "",
 				"amount": row.get_formatted("amount", doc),
 			}
 			for row in doc.items
@@ -1003,11 +1008,14 @@ def apps() -> list[dict]:
 	]
 
 
-@frappe.whitelist(methods=["POST"])
-def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
-	"""The supplier's answer to a quote request: a rate (and the quantity they
-	can supply) for each row they price, and their notes. Everything else is
-	read from the request itself, never from the page."""
+def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool = True):
+	"""The supplier's quote for a request, built the way erpnext's own mapper
+	builds it but not saved: the reader is checked to be one of the supplier's
+	portal users and the request one sent to that supplier, and only each
+	row's rate, quantity and discount come from the page. The taxes are the
+	workspace's own (its templates, its Item Tax Templates and Tax Rules by
+	the supplier's country), as on any quote it records. Returns the quote,
+	the request, the supplier and the reader."""
 	from erpnext.buying.doctype.request_for_quotation.mapper import (
 		add_items,
 		get_quotable_rfq,
@@ -1033,15 +1041,19 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 	# from the supplier.
 	doc = get_quotable_rfq(rfq, supplier)
 	answered = frappe.parse_json(rows) or {}
-	items = []
+	items, off = [], {}
 	for row in doc.items:
 		given = answered.get(row.name) or {}
 		rate, qty = flt(given.get("rate")), flt(given.get("qty"))
 		if rate > 0 and qty > 0:
 			items.append({"name": row.name, "idx": row.idx, "rate": rate, "qty": qty})
+			off[row.name] = (rate, min(max(flt(given.get("discount")), 0), 100))
 	if not items:
-		frappe.throw(_("Add a rate for at least one item."))
-	validate_existing_supplier_quotation(supplier, doc.name)
+		if sending:
+			frappe.throw(_("Add a rate for at least one item."))
+		return None, doc, supplier, user
+	if sending:
+		validate_existing_supplier_quotation(supplier, doc.name)
 
 	supplier_doc = frappe.get_cached_doc("Supplier", supplier)
 	quote = frappe.get_doc(
@@ -1053,6 +1065,9 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 			or frappe.get_cached_value("Company", doc.company, "default_currency"),
 			"buying_price_list": supplier_doc.default_price_list
 			or frappe.db.get_single_value("Buying Settings", "buying_price_list"),
+			# The supplier's own prices: the workspace's pricing rules are
+			# for what it sells and buys at its own prices, not for a quote.
+			"ignore_pricing_rule": 1,
 			"terms": notes or "",
 		}
 	)
@@ -1067,6 +1082,74 @@ def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
 	frappe.session.user = "Administrator"
 	try:
 		quote.run_method("set_missing_values")
+	finally:
+		frappe.session.user = user
+	# A discount is erpnext's own: the supplier's rate is the row's list
+	# price and the discount comes off it, after the price list had its say.
+	for row in quote.items:
+		rate, discount = off[row.request_for_quotation_item]
+		row.price_list_rate = rate
+		row.discount_percentage = discount
+		row.discount_amount = flt(rate * discount / 100, row.precision("discount_amount"))
+		row.rate = flt(rate - row.discount_amount, row.precision("rate"))
+	return quote, doc, supplier, user
+
+
+@frappe.whitelist()
+def quote_preview(rfq: str, rows: str | dict) -> dict:
+	"""What the supplier's quote comes to as they price it, as erpnext will
+	reckon it once sent: each row's discount, net amount and tax, the taxes
+	and the grand total, every value as frappe formats it."""
+	from frappe.utils import flt, fmt_money
+
+	quote, _doc, _supplier, user = _quote(rfq, rows, sending=False)
+	if not quote:
+		return {"rows": {}, "taxes": [], "net": "", "total": ""}
+	frappe.session.user = "Administrator"
+	try:
+		quote.calculate_taxes_and_totals()
+	finally:
+		frappe.session.user = user
+	taxed = {}
+	for one in quote.get("_item_wise_tax_details") or []:
+		taxed.setdefault(one.item.request_for_quotation_item, []).append(one)
+
+	def money(value) -> str:
+		return fmt_money(value, currency=quote.currency)
+
+	out = {}
+	for row in quote.items:
+		tax = taxed.get(row.request_for_quotation_item, [])
+		rates = sorted({flt(one.rate) for one in tax if flt(one.rate)})
+		out[row.request_for_quotation_item] = {
+			"net": money(row.net_amount),
+			"discount": money(row.discount_amount * row.qty) if row.discount_amount else "",
+			"tax": money(sum(flt(one.amount) for one in tax)),
+			"rate": " + ".join(f"{number(one)}%" for one in rates),
+		}
+	return {
+		"rows": out,
+		"taxes": [
+			{
+				# erpnext writes "VAT 5% @ 5.0" where the account names its rate.
+				"label": re.sub(r"\s*@\s*[\d.]+\s*$", "", tax.description or "") or _("Tax"),
+				"value": money(tax.tax_amount),
+			}
+			for tax in quote.get("taxes") or []
+			if tax.tax_amount
+		],
+		"net": money(quote.net_total),
+		"total": money(quote.rounded_total or quote.grand_total),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def send_quote(rfq: str, rows: str | dict, notes: str | None = None) -> str:
+	"""The supplier's answer to a quote request (`_quote`), saved as theirs,
+	and whoever asked told."""
+	quote, doc, supplier, user = _quote(rfq, rows, notes)
+	frappe.session.user = "Administrator"
+	try:
 		quote.insert()
 	finally:
 		frappe.session.user = user
