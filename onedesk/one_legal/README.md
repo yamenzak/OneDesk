@@ -225,7 +225,10 @@ person acknowledges it.
   24, OneCRM keeps leads from its Get in Touch form and the inbox, compared by
   email, phone and business name. 25, what OneHR keeps of the people who work
   for a workspace and apply to it, who sees a sensitive grievance, and an
-  interview recorded only with the applicant's agreement.
+  interview recorded only with the applicant's agreement. 26, the browsers
+  people sign in on, which administrators see and sort, and passkeys for
+  everybody rather than employees only.
+- Cookie Policy: 2, the cookie that recognises the browser you sign in on.
 - AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
   calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
   tasks and their steps. 8, OneAI writes extensions, read a second time, and

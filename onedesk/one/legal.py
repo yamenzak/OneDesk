@@ -104,6 +104,33 @@ clause(
 	order=8,
 )
 
+# Workspace: Devices and passkeys
+
+clause(
+	document="privacy",
+	section="modules",
+	key="devices",
+	module=M,
+	body="""
+		When you sign in, One remembers the browser you used: what kind it is, when you last signed in on it
+		and the network address, and which passkeys you made on it. Your workspace's administrators see this
+		list, can name a browser and say whether it is shared or yours, and can turn off the passkeys on it.
+		A passkey's private key never leaves your device; One keeps only its public half.
+	""",
+	order=9,
+)
+
+clause(
+	document="cookies",
+	section="modules",
+	key="device",
+	module=M,
+	body="""
+		A cookie that recognises the browser you sign in on, so your workspace can tell its devices apart. It
+		holds a random code and nothing about you, and lasts until you clear it.
+	""",
+)
+
 # Workspace: Domains
 
 clause(

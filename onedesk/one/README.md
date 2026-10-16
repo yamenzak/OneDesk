@@ -1870,6 +1870,8 @@ Each section of Settings above lists the questions OneAI offers there.
 - **To OneBook**: People gives access to OneBook. Invoices and payment receipts print under the letter head, and a customer sees what is left to pay on the portal.
 - **To OneInventory**: People gives access to OneInventory. A supplier answers a request for quotation on the portal, and the quote reaches OneInventory with a notification to whoever asked.
 - **To OneHR**: People gives access to OneHR. **Holidays** sets the days off that leave and attendance use, and HR is told when somebody changes their address or emergency contact.
+- **From OneInventory**: **Devices** links a browser to the asset it is, and the asset's holder fills in who it's assigned to.
+- **To OneHR**: a device's Shared or Assigned decides where an employee's passkey may be made, for checking in as for signing in.
 
 ## Under the hood
 
@@ -1878,6 +1880,7 @@ For the people who build One. OneAI does not read past this heading.
 | File | What it does |
 |---|---|
 | `settings.py` | Every section's load and save; which sections a person may open |
+| `devices.py`, `doctype/device` | Devices: a browser's id at sign-in, what an administrator says it is, and the passkeys that stop when that changes |
 | `page/settings`, `page/workspace_settings` | The two pages: yours, and the workspace's (administrators only) |
 | `../public/js/settings.js` | Draws a section, and behaves like a desk form: dirty, stale saves, realtime |
 | `sidebar/one/one.json` | One's sidebar, with a link per section |

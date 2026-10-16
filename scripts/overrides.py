@@ -662,6 +662,13 @@ OVERRIDES = [
 		'{% include "templates/includes/integrations/third_party_apps.js" %}',
 	),
 	(
+		"The login page leads with the passkey",
+		"js/login.js puts Sign in with a Passkey first and solid, above frappe's form under an or, and steps frappe's own submit button down to subtle; it finds the button by this markup",
+		"onedesk/public/js/login.js",
+		"frappe/frappe/www/login.html",
+		'<button class="es-button w-full" data-variant="solid" type="submit">',
+	),
+	(
 		"A supplier's contact invited as a user sees the supplier's records",
 		"erpnext's portal lists read the party's Portal Users, and Invite as User never adds to them; one/portal.invited adds the login to each customer and supplier the contact is for",
 		"onedesk/one/portal.py",

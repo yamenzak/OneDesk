@@ -114,15 +114,15 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 24: OneCRM keeps leads from its form and inbox, matched by email, phone and business.
+		# 26: the browsers people sign in on, and passkeys for everybody.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 25,
+		"revision": 26,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
 		"title": "Cookie Policy",
 		"audience": "user",
-		"revision": 1,
+		"revision": 2,
 		"summary": "What One stores on your device and why.",
 	},
 	"dpa": {

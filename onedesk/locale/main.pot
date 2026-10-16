@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 20:07+0000\n"
-"PO-Revision-Date: 2026-10-16 20:07+0000\n"
+"POT-Creation-Date: 2026-10-16 20:18+0000\n"
+"PO-Revision-Date: 2026-10-16 20:18+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1172,7 +1172,7 @@ msgstr ""
 msgid "A second set of books, such as for tax depreciation."
 msgstr ""
 
-#: onedesk/one/ai.py:3096
+#: onedesk/one/ai.py:3104
 msgid "A section is a list of columns, each a list of blocks."
 msgstr ""
 
@@ -1232,7 +1232,7 @@ msgstr ""
 msgid "A supplier's scorecard scores them by {0}."
 msgstr ""
 
-#: onedesk/one/ai.py:2877
+#: onedesk/one/ai.py:2885
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr ""
 
@@ -1826,7 +1826,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one/ai.py:1856 onedesk/one_book/report/books_check/books_check.js:18
+#: onedesk/one/ai.py:1864 onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
@@ -2715,7 +2715,7 @@ msgstr ""
 msgid "Also by Email"
 msgstr ""
 
-#: onedesk/one/ai.py:1124 onedesk/one/ai.py:1147
+#: onedesk/one/ai.py:1132 onedesk/one/ai.py:1155
 msgid "Also on {0}"
 msgstr ""
 
@@ -3863,7 +3863,7 @@ msgstr ""
 msgid "Assets have categories"
 msgstr ""
 
-#: frontend/src/kit/People.vue:8 onedesk/one/ai.py:4048
+#: frontend/src/kit/People.vue:8 onedesk/one/ai.py:4056
 msgid "Assign"
 msgstr ""
 
@@ -5158,7 +5158,7 @@ msgstr ""
 msgid "Busy Days"
 msgstr ""
 
-#: onedesk/one/ai.py:1166
+#: onedesk/one/ai.py:1174
 msgid "Button"
 msgstr ""
 
@@ -5653,7 +5653,7 @@ msgstr ""
 msgid "Changed"
 msgstr ""
 
-#: onedesk/one/ai.py:3479
+#: onedesk/one/ai.py:3487
 msgid "Changed Format"
 msgstr ""
 
@@ -5696,7 +5696,7 @@ msgid "Charged at {0}× the provider's price."
 msgstr ""
 
 #. Label of the chart (Data) field in DocType 'Record Head Chart'
-#: onedesk/one/ai.py:1170
+#: onedesk/one/ai.py:1178
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "Chart"
 msgstr ""
@@ -6600,7 +6600,7 @@ msgstr ""
 msgid "Concept presented to the client"
 msgstr ""
 
-#: onedesk/one/ai.py:4071 onedesk/public/js/settings.js:3379
+#: onedesk/one/ai.py:4079 onedesk/public/js/settings.js:3379
 msgid "Conditions"
 msgstr ""
 
@@ -6737,7 +6737,7 @@ msgstr ""
 msgid "Connected to OneMail"
 msgstr ""
 
-#: onedesk/one/ai.py:1195 onedesk/public/js/settings.js:464
+#: onedesk/one/ai.py:1203 onedesk/public/js/settings.js:464
 msgid "Connection"
 msgstr ""
 
@@ -6867,7 +6867,7 @@ msgstr ""
 msgid "Continue to payment"
 msgstr ""
 
-#: onedesk/one/ai.py:2441
+#: onedesk/one/ai.py:2449
 msgid "Continues after {0} (was {1})"
 msgstr ""
 
@@ -7860,7 +7860,7 @@ msgstr ""
 msgid "Days Off"
 msgstr ""
 
-#: onedesk/one/ai.py:1881 onedesk/one/settings.py:1561
+#: onedesk/one/ai.py:1889 onedesk/one/settings.py:1561
 msgid "Days Off Each Week"
 msgstr ""
 
@@ -8021,7 +8021,7 @@ msgstr ""
 #: frontend/src/item/ItemMaking.vue:126
 #: frontend/src/item/ItemManufacturerRow.vue:11
 #: frontend/src/item/ItemSuppliers.vue:16
-#: frontend/src/supplier/SupplierItems.vue:34 onedesk/one/ai.py:2723
+#: frontend/src/supplier/SupplierItems.vue:34 onedesk/one/ai.py:2731
 #: onedesk/public/js/ai_model_list.js:17
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:398
@@ -8510,7 +8510,7 @@ msgstr ""
 msgid "Designations"
 msgstr ""
 
-#: onedesk/one/ai.py:2701 onedesk/one/ai.py:2720
+#: onedesk/one/ai.py:2709 onedesk/one/ai.py:2728
 msgid "Designed in HTML"
 msgstr ""
 
@@ -11617,8 +11617,8 @@ msgstr ""
 msgid "Foot Preset"
 msgstr ""
 
-#: onedesk/one/ai.py:2708 onedesk/one/ai.py:2716 onedesk/one/ai.py:2719
-#: onedesk/one/ai.py:2720 onedesk/one/printing.py:309
+#: onedesk/one/ai.py:2716 onedesk/one/ai.py:2724 onedesk/one/ai.py:2727
+#: onedesk/one/ai.py:2728 onedesk/one/printing.py:309
 #: onedesk/public/js/settings.js:2310
 msgid "Footer"
 msgstr ""
@@ -12257,7 +12257,7 @@ msgstr ""
 msgid "Goes Into"
 msgstr ""
 
-#: onedesk/one/ai.py:1202
+#: onedesk/one/ai.py:1210
 msgid "Goes to"
 msgstr ""
 
@@ -12645,7 +12645,7 @@ msgstr ""
 msgid "Headcount by department, branch or grade."
 msgstr ""
 
-#: onedesk/one/ai.py:2692 onedesk/one/ai.py:2700 onedesk/one/ai.py:2701
+#: onedesk/one/ai.py:2700 onedesk/one/ai.py:2708 onedesk/one/ai.py:2709
 #: onedesk/one/printing.py:303 onedesk/public/js/settings.js:2309
 msgid "Header"
 msgstr ""
@@ -16030,7 +16030,7 @@ msgstr ""
 msgid "Linked manually"
 msgstr ""
 
-#: onedesk/one/ai.py:1185
+#: onedesk/one/ai.py:1193
 msgid "Linked section"
 msgstr ""
 
@@ -16203,7 +16203,7 @@ msgid "Login with Passkey is not enabled on this site."
 msgstr ""
 
 #. Label of the one_logo (Attach Image) field in DocType 'Bank'
-#: onedesk/one/ai.py:2697 onedesk/one/letter_heads.py:34
+#: onedesk/one/ai.py:2705 onedesk/one/letter_heads.py:34
 #: onedesk/one_mail/custom/bank.json onedesk/public/js/settings.js:2291
 msgid "Logo"
 msgstr ""
@@ -17752,7 +17752,7 @@ msgstr ""
 msgid "Name the template."
 msgstr ""
 
-#: onedesk/one/ai.py:2418
+#: onedesk/one/ai.py:2426
 msgid "Named By"
 msgstr ""
 
@@ -17970,7 +17970,7 @@ msgstr ""
 msgid "New Fiscal Year"
 msgstr ""
 
-#: onedesk/one/ai.py:3479
+#: onedesk/one/ai.py:3487
 msgid "New Format"
 msgstr ""
 
@@ -17999,7 +17999,7 @@ msgstr ""
 msgid "New Lead Waiting"
 msgstr ""
 
-#: onedesk/one/ai.py:2683 onedesk/public/js/settings.js:2114
+#: onedesk/one/ai.py:2691 onedesk/public/js/settings.js:2114
 #: onedesk/public/js/settings.js:2224
 msgid "New Letter Head"
 msgstr ""
@@ -18078,7 +18078,7 @@ msgstr ""
 msgid "New Quotation"
 msgstr ""
 
-#: onedesk/one/ai.py:2460 onedesk/public/js/doctype_settings.js:296
+#: onedesk/one/ai.py:2468 onedesk/public/js/doctype_settings.js:296
 #: onedesk/public/js/settings.js:3191 onedesk/public/js/settings.js:3362
 #: onedesk/public/js/settings.js:3366
 msgid "New Rule"
@@ -18139,7 +18139,7 @@ msgstr ""
 msgid "New drive password"
 msgstr ""
 
-#: onedesk/one/ai.py:1106
+#: onedesk/one/ai.py:1114
 msgid "New field"
 msgstr ""
 
@@ -18334,8 +18334,8 @@ msgstr ""
 #. Label in the One Stock Entry print format
 #. Label in the One Work Order print format
 #. Label in the One Timesheet print format
-#: onedesk/one/ai.py:2723 onedesk/one/ai.py:2726 onedesk/one/ai.py:3854
-#: onedesk/one/ai.py:4074 onedesk/one/print_blocks.py:253
+#: onedesk/one/ai.py:2731 onedesk/one/ai.py:2734 onedesk/one/ai.py:3862
+#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:253
 #: onedesk/one_ai/chat.py:750
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -19106,7 +19106,7 @@ msgstr ""
 msgid "Nobody on this list checked in"
 msgstr ""
 
-#: frontend/src/project/Time.vue:100 onedesk/one/ai.py:2708
+#: frontend/src/project/Time.vue:100 onedesk/one/ai.py:2716
 #: onedesk/one/ai_setup.py:132 onedesk/one_book/heads.py:533
 #: onedesk/public/js/settings.js:2367
 msgid "None"
@@ -19759,7 +19759,7 @@ msgstr ""
 msgid "Notifies people in One and by email, as each person prefers."
 msgstr ""
 
-#: onedesk/one/ai.py:4028
+#: onedesk/one/ai.py:4036
 msgid "Notify"
 msgstr ""
 
@@ -19861,7 +19861,7 @@ msgstr ""
 msgid "Of Whom"
 msgstr ""
 
-#: onedesk/one/ai.py:2726 onedesk/one/settings.py:877
+#: onedesk/one/ai.py:2734 onedesk/one/settings.py:877
 #: onedesk/one_ai/chat.py:749
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:235
@@ -19957,7 +19957,7 @@ msgstr ""
 msgid "Old system closed"
 msgstr ""
 
-#: onedesk/one/ai.py:3854 onedesk/one/ai.py:4074 onedesk/one_ai/chat.py:749
+#: onedesk/one/ai.py:3862 onedesk/one/ai.py:4082 onedesk/one_ai/chat.py:749
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:235
 #: onedesk/public/js/doctype_settings.js:271 onedesk/public/js/settings.js:593
@@ -21226,6 +21226,7 @@ msgstr ""
 #. The button on a notification's mail
 #: onedesk/notifications/one/new_sign_in.md
 #: onedesk/notifications/one/passkey_added.md
+#: onedesk/notifications/one/passkey_turned_off.md
 #: onedesk/notifications/one/password_changed.md
 #: onedesk/notifications/one/sign_in_rules_changed.md
 #: onedesk/notifications/one_hr/passkey_reset_done.md
@@ -22319,6 +22320,11 @@ msgstr ""
 
 #: onedesk/one/settings.py:831
 msgid "Passkey Sign-in"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one/passkey_turned_off.md
+msgid "Passkey Turned Off"
 msgstr ""
 
 #: onedesk/public/js/passkey.js:163
@@ -23632,7 +23638,7 @@ msgstr ""
 msgid "Printing of {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:2631 onedesk/one/ai.py:3483
+#: onedesk/one/ai.py:2639 onedesk/one/ai.py:3491
 msgid "Prints With"
 msgstr ""
 
@@ -25404,7 +25410,7 @@ msgstr ""
 msgid "Remote pictures are hidden."
 msgstr ""
 
-#: frontend/portal/src/parts/WebForm.vue:31 onedesk/one/ai.py:1870
+#: frontend/portal/src/parts/WebForm.vue:31 onedesk/one/ai.py:1878
 #: onedesk/one/page/masters/masters.js:268
 #: onedesk/public/js/oneai/Panel.vue:172 onedesk/public/js/onecloud.js:1348
 #: onedesk/public/js/onecloud.js:1394 onedesk/public/js/onecloud.js:1541
@@ -25443,7 +25449,7 @@ msgstr ""
 msgid "Remove your passkey?"
 msgstr ""
 
-#: onedesk/one/ai.py:2450
+#: onedesk/one/ai.py:2458
 msgid "Remove {0}"
 msgstr ""
 
@@ -25468,7 +25474,7 @@ msgstr ""
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr ""
 
-#: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:273
+#: onedesk/one/ai.py:1093 onedesk/one/page/masters/masters.js:273
 msgid "Removed"
 msgstr ""
 
@@ -25483,7 +25489,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one/ai.py:1856
+#: onedesk/one/ai.py:1864
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/public/js/oneai/Panel.vue:23 onedesk/public/js/oneai/Panel.vue:616
@@ -26231,7 +26237,7 @@ msgstr ""
 
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label of the rule (Data) field in DocType 'Reading Date'
-#: onedesk/one/ai.py:2450 onedesk/one/ai.py:2460
+#: onedesk/one/ai.py:2458 onedesk/one/ai.py:2468
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:42
@@ -26794,7 +26800,7 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
-#: onedesk/one/ai.py:3480
+#: onedesk/one/ai.py:3488
 msgid "Sections"
 msgstr ""
 
@@ -27118,7 +27124,7 @@ msgstr ""
 msgid "Serial and batch numbers can be used"
 msgstr ""
 
-#: onedesk/one/ai.py:2403 onedesk/public/js/doctype_settings.js:397
+#: onedesk/one/ai.py:2411 onedesk/public/js/doctype_settings.js:397
 #: onedesk/public/js/doctype_settings.js:466 onedesk/public/js/settings.js:2041
 msgid "Series"
 msgstr ""
@@ -27212,7 +27218,7 @@ msgstr ""
 msgid "Session Address"
 msgstr ""
 
-#: onedesk/one/ai.py:4017
+#: onedesk/one/ai.py:4025
 msgid "Set"
 msgstr ""
 
@@ -27941,6 +27947,11 @@ msgstr ""
 msgid "Sign in with a drive password, not your One password."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one/passkey_turned_off.md
+msgid "Sign in with your password there, or with the passkey on your phone."
+msgstr ""
+
 #: onedesk/www/account.html:18
 msgid "Sign out"
 msgstr ""
@@ -28646,7 +28657,7 @@ msgstr ""
 msgid "Stalled"
 msgstr ""
 
-#: onedesk/one/ai.py:2632 onedesk/public/js/settings.js:2163
+#: onedesk/one/ai.py:2640 onedesk/public/js/settings.js:2163
 msgid "Standard"
 msgstr ""
 
@@ -28810,7 +28821,7 @@ msgstr ""
 msgid "Statement of Accounts"
 msgstr ""
 
-#: onedesk/one/ai.py:3853
+#: onedesk/one/ai.py:3861
 msgid "States"
 msgstr ""
 
@@ -31041,7 +31052,7 @@ msgstr ""
 msgid "The law says a business keeps this until then. It cannot be deleted before."
 msgstr ""
 
-#: onedesk/one/ai.py:3166
+#: onedesk/one/ai.py:3174
 msgid "The layout would print badly: {0}."
 msgstr ""
 
@@ -31398,6 +31409,11 @@ msgid "The person whose account it is"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one/passkey_turned_off.md
+msgid "The person whose passkey it was"
+msgstr ""
+
+#. Who a notification is sent to
 #: onedesk/notifications/one/password_changed.md
 msgid "The person whose password it is"
 msgstr ""
@@ -31702,7 +31718,7 @@ msgstr ""
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr ""
 
-#: onedesk/one/ai.py:2900
+#: onedesk/one/ai.py:2908
 msgid "The table {0} needs its columns."
 msgstr ""
 
@@ -33420,7 +33436,7 @@ msgstr ""
 msgid "Under a minute. Nothing added."
 msgstr ""
 
-#: onedesk/one/ai.py:1156
+#: onedesk/one/ai.py:1164
 msgid "Under the title"
 msgstr ""
 
@@ -35391,7 +35407,7 @@ msgstr ""
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: frontend/src/template/Tasks.vue:12 onedesk/one/ai.py:4063
+#: frontend/src/template/Tasks.vue:12 onedesk/one/ai.py:4071
 #: onedesk/one/settings.py:2020 onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:267 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -35841,6 +35857,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one/announcement.md
 msgid "When an administrator posts an announcement."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one/passkey_turned_off.md
+msgid "When an administrator turns off a passkey of yours on a device."
 msgstr ""
 
 #. When a notification is sent
@@ -38310,8 +38331,8 @@ msgstr ""
 msgid "Year-end close of {0}"
 msgstr ""
 
-#: frontend/src/item/ItemOverview.vue:127 onedesk/one/ai.py:2723
-#: onedesk/one/ai.py:2726 onedesk/one/ai.py:3854 onedesk/one/ai.py:4074
+#: frontend/src/item/ItemOverview.vue:127 onedesk/one/ai.py:2731
+#: onedesk/one/ai.py:2734 onedesk/one/ai.py:3862 onedesk/one/ai.py:4082
 #: onedesk/one_ai/chat.py:750 onedesk/public/js/bom_list.js:8
 #: onedesk/public/js/onecloud.js:738
 msgid "Yes"
@@ -38787,6 +38808,11 @@ msgid "Your passkey has been reset twice within a month."
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one/passkey_turned_off.md
+msgid "Your passkey on {device} no longer works"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one/password_changed.md
 msgid "Your password was changed"
 msgstr ""
@@ -38955,11 +38981,11 @@ msgstr ""
 msgid "a colour such as #0f766e or var(--gray-100)"
 msgstr ""
 
-#: onedesk/one/ai.py:3101
+#: onedesk/one/ai.py:3109
 msgid "a column"
 msgstr ""
 
-#: onedesk/one/tell.py:377
+#: onedesk/one/tell.py:384
 msgid "a copy of your data"
 msgstr ""
 
@@ -39036,7 +39062,7 @@ msgstr ""
 msgid "administrator of the workspace"
 msgstr ""
 
-#: onedesk/one/ai.py:1073 onedesk/one_crm/heads.py:201
+#: onedesk/one/ai.py:1081 onedesk/one_crm/heads.py:201
 msgid "after {0}"
 msgstr ""
 
@@ -39109,7 +39135,7 @@ msgstr ""
 msgid "cached"
 msgstr ""
 
-#: onedesk/one/ai.py:1056
+#: onedesk/one/ai.py:1064
 msgid "called {0}"
 msgstr ""
 
@@ -39278,7 +39304,7 @@ msgstr ""
 msgid "h"
 msgstr ""
 
-#: onedesk/one/ai.py:1061
+#: onedesk/one/ai.py:1069
 msgid "hidden"
 msgstr ""
 
@@ -39299,7 +39325,7 @@ msgstr ""
 msgid "in late, left early"
 msgstr ""
 
-#: onedesk/one/ai.py:1063
+#: onedesk/one/ai.py:1071
 msgid "in the list"
 msgstr ""
 
@@ -39316,7 +39342,7 @@ msgstr ""
 msgid "invites you to"
 msgstr ""
 
-#: onedesk/one/ai.py:3164
+#: onedesk/one/ai.py:3172
 msgid "it does not print {0}"
 msgstr ""
 
@@ -39345,7 +39371,7 @@ msgstr ""
 msgid "just you"
 msgstr ""
 
-#: onedesk/one/ai.py:1148 onedesk/one/ai.py:1150
+#: onedesk/one/ai.py:1156 onedesk/one/ai.py:1158
 msgid "label"
 msgstr ""
 
@@ -39403,7 +39429,7 @@ msgstr ""
 msgid "may now {0}"
 msgstr ""
 
-#: onedesk/one/tell.py:473
+#: onedesk/one/tell.py:480
 msgid "move it on"
 msgstr ""
 
@@ -39471,7 +39497,7 @@ msgstr ""
 msgid "nobody yet"
 msgstr ""
 
-#: onedesk/one/ai.py:1883 onedesk/one/ai.py:1884 onedesk/one/settings.py:1643
+#: onedesk/one/ai.py:1891 onedesk/one/ai.py:1892 onedesk/one/settings.py:1643
 msgid "none"
 msgstr ""
 
@@ -39479,7 +39505,7 @@ msgstr ""
 msgid "none of them live."
 msgstr ""
 
-#: onedesk/one/ai.py:1063
+#: onedesk/one/ai.py:1071
 msgid "not in the list"
 msgstr ""
 
@@ -39574,7 +39600,7 @@ msgstr ""
 msgid "opened {0} times"
 msgstr ""
 
-#: onedesk/one/ai.py:1062
+#: onedesk/one/ai.py:1070
 msgid "optional"
 msgstr ""
 
@@ -39680,7 +39706,7 @@ msgstr ""
 msgid "renamed {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:1062
+#: onedesk/one/ai.py:1070
 msgid "required"
 msgstr ""
 
@@ -39705,19 +39731,19 @@ msgstr ""
 msgid "seats"
 msgstr ""
 
-#: onedesk/one/ai.py:3091
+#: onedesk/one/ai.py:3099
 msgid "section {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:3109
+#: onedesk/one/ai.py:3117
 msgid "section {0} is empty"
 msgstr ""
 
-#: onedesk/one/ai.py:3076
+#: onedesk/one/ai.py:3084
 msgid "sections is a list of sections, each a list of columns."
 msgstr ""
 
-#: onedesk/one/ai.py:3001
+#: onedesk/one/ai.py:3009
 msgid "sections is not JSON: {0}."
 msgstr ""
 
@@ -39725,7 +39751,7 @@ msgstr ""
 msgid "shared it with {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:1061
+#: onedesk/one/ai.py:1069
 msgid "shown"
 msgstr ""
 
@@ -39809,7 +39835,7 @@ msgstr ""
 msgid "the billing owner"
 msgstr ""
 
-#: onedesk/one/ai.py:3119
+#: onedesk/one/ai.py:3127
 msgid "the columns of {0} come to {1}%, more than the page"
 msgstr ""
 
@@ -39889,7 +39915,7 @@ msgstr ""
 msgid "the year, 2026"
 msgstr ""
 
-#: onedesk/one/ai.py:3133
+#: onedesk/one/ai.py:3141
 msgid "there is no field {0} for the barcode"
 msgstr ""
 
@@ -40013,7 +40039,7 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
-#: onedesk/one/tell.py:377
+#: onedesk/one/tell.py:384
 msgid "your data to be deleted"
 msgstr ""
 
@@ -40053,12 +40079,12 @@ msgstr ""
 msgid "{0} (supplier)"
 msgstr ""
 
-#: onedesk/one/ai.py:1861 onedesk/one/ai.py:1882 onedesk/one/ai.py:2403
-#: onedesk/one/ai.py:2419 onedesk/one/ai.py:2632
+#: onedesk/one/ai.py:1869 onedesk/one/ai.py:1890 onedesk/one/ai.py:2411
+#: onedesk/one/ai.py:2427 onedesk/one/ai.py:2640
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one/tell.py:582 onedesk/one/tell.py:732
+#: onedesk/one/tell.py:589 onedesk/one/tell.py:739
 #: onedesk/one_studio/extensions.py:457 onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr ""
@@ -40083,7 +40109,7 @@ msgstr ""
 msgid "{0} AI credits a month"
 msgstr ""
 
-#: onedesk/one/ai.py:3744
+#: onedesk/one/ai.py:3752
 msgid "{0} Approval"
 msgstr ""
 
@@ -40325,7 +40351,7 @@ msgstr ""
 msgid "{0} at {1}"
 msgstr ""
 
-#: onedesk/one/ai.py:3988
+#: onedesk/one/ai.py:3996
 msgid "{0} automation"
 msgstr ""
 
@@ -40770,7 +40796,7 @@ msgstr ""
 msgid "{0} has no field that links to {1}, so the field cannot be filled from it."
 msgstr ""
 
-#: onedesk/one/ai.py:3031 onedesk/one/ai.py:3043
+#: onedesk/one/ai.py:3039 onedesk/one/ai.py:3051
 msgid "{0} has no field {1}"
 msgstr ""
 
@@ -40929,7 +40955,7 @@ msgstr ""
 msgid "{0} is a sub-project of {1}."
 msgstr ""
 
-#: onedesk/one/ai.py:3126
+#: onedesk/one/ai.py:3134
 msgid "{0} is a table: give it its columns"
 msgstr ""
 
@@ -41129,7 +41155,7 @@ msgstr ""
 msgid "{0} is not a library."
 msgstr ""
 
-#: onedesk/one/ai.py:3028
+#: onedesk/one/ai.py:3036
 msgid "{0} is not a link field and one of its fields, such as customer.customer_group"
 msgstr ""
 
@@ -41165,7 +41191,7 @@ msgstr ""
 msgid "{0} is not a series of {1}."
 msgstr ""
 
-#: onedesk/one/ai.py:3115
+#: onedesk/one/ai.py:3123
 msgid "{0} is not a table"
 msgstr ""
 
@@ -41173,7 +41199,7 @@ msgstr ""
 msgid "{0} is not a table of a form you may customize."
 msgstr ""
 
-#: onedesk/one/ai.py:3040
+#: onedesk/one/ai.py:3048
 msgid "{0} is not a table to repeat"
 msgstr ""
 
@@ -41670,11 +41696,11 @@ msgstr ""
 msgid "{0} of {1}'s time; none of it is billed to the customer."
 msgstr ""
 
-#: onedesk/one/tell.py:521
+#: onedesk/one/tell.py:528
 msgid "{0} off"
 msgstr ""
 
-#: onedesk/one/tell.py:521
+#: onedesk/one/tell.py:528
 msgid "{0} on"
 msgstr ""
 
@@ -41737,7 +41763,7 @@ msgstr ""
 msgid "{0} operations waiting"
 msgstr ""
 
-#: onedesk/one/tell.py:596
+#: onedesk/one/tell.py:603
 msgid "{0} or {1}"
 msgstr ""
 
@@ -42056,11 +42082,11 @@ msgstr ""
 msgid "{0} to {1}"
 msgstr ""
 
-#: onedesk/one/tell.py:519
+#: onedesk/one/tell.py:526
 msgid "{0} to {1}%"
 msgstr ""
 
-#: onedesk/one/ai.py:3842
+#: onedesk/one/ai.py:3850
 msgid "{0} to {1}, by {2}"
 msgstr ""
 
@@ -42154,7 +42180,7 @@ msgstr ""
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr ""
 
-#: onedesk/one/ai.py:2342
+#: onedesk/one/ai.py:2350
 msgid "{0} with {1} digits"
 msgstr ""
 
@@ -42328,15 +42354,15 @@ msgstr ""
 msgid "{0}% · {1} of {2} tasks"
 msgstr ""
 
-#: onedesk/one/ai.py:1127 onedesk/one/ai.py:1150
+#: onedesk/one/ai.py:1135 onedesk/one/ai.py:1158
 msgid "{0}, copied when made from {1}"
 msgstr ""
 
-#: onedesk/one/ai.py:1125 onedesk/one/ai.py:1148
+#: onedesk/one/ai.py:1133 onedesk/one/ai.py:1156
 msgid "{0}, filled from {1}"
 msgstr ""
 
-#: onedesk/one/ai.py:2343
+#: onedesk/one/ai.py:2351
 msgid "{0}, for every record"
 msgstr ""
 
@@ -42380,7 +42406,7 @@ msgstr ""
 msgid "{0}, unmetered"
 msgstr ""
 
-#: onedesk/one/ai.py:2343
+#: onedesk/one/ai.py:2351
 msgid "{0}, when {1}"
 msgstr ""
 
@@ -42445,7 +42471,7 @@ msgstr ""
 msgid "{0}: a style may only use this site's files and images."
 msgstr ""
 
-#: onedesk/one/ai.py:1252 onedesk/one/layer.py:165
+#: onedesk/one/ai.py:1260 onedesk/one/layer.py:165
 msgid "{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
 msgstr ""
 
@@ -42533,7 +42559,7 @@ msgstr ""
 msgid "{0}: {1} has no field {2} visible to everyone who can read it."
 msgstr ""
 
-#: onedesk/one/ai.py:1257
+#: onedesk/one/ai.py:1265
 msgid "{0}: {1} is not a form here."
 msgstr ""
 

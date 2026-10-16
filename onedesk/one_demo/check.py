@@ -3351,8 +3351,10 @@ def one_devices_decide_where_a_passkey_lives():
 		frappe.db.delete("Clock Device", {"user": BUILDER})
 		builder = _Phone(b"builder")
 		passkey.finish_registration(json.dumps(builder.make(passkey.start_registration())), {"user_agent": DESKTOP})
-		assert devices.save(reception, "Reception Computer", "Shared")["retired"] == 1
+		with _Told() as told:
+			assert devices.save(reception, "Reception Computer", "Shared")["retired"] == 1
 		assert not passkey.held(BUILDER), "a passkey still works on the shared computer"
+		assert told.to("Passkey Turned Off") == {BUILDER}, told.said
 		devices.save(laptop, "Tariq's Laptop", "Assigned", "tariq@one.test")
 
 	with as_user("tariq@one.test"):
@@ -3386,7 +3388,7 @@ def one_devices_decide_where_a_passkey_lives():
 
 	with as_user(BUILDER):
 		_asked(headers={"User-Agent": DESKTOP})
-		assert devices.lost(laptop)["passkeys"] == 1
+		assert devices.lost(laptop)["retired"] == 1
 		devices.retire(reception)
 	assert passkey.held("tariq@one.test"), "the phone's passkey went with the laptop"
 	devices.forget()

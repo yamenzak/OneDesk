@@ -13998,3 +13998,49 @@ The points:
 17. **Clean code.** One finding for the shell: a rail's JSON is synced only
     when its `modified` changes, so OneHR's rail had not changed on the site
     since the 10th, its new rows included. Its date moved with this change.
+
+### Passkey sign-in and Devices against the seventeen points
+
+What was built since OneHR's pass: a passkey belongs to a person rather than an
+employee, the login page leads with it, anybody without one is offered one after
+signing in, and Settings › Workspace › Devices lists every browser somebody
+signed in on for an administrator to name and sort into Shared or Assigned.
+
+1. **Demo coverage.** The demo has the Reception Computer (shared) and Nadia's
+   Laptop (assigned through her asset). `one_anybody_signs_in_with_a_passkey`,
+   `one_devices_decide_where_a_passkey_lives` and
+   `onehr_tariq_clocks_in_with_his_phone` cover signing in, the offer, sorting,
+   a passkey made before a browser was sorted, Lost, Retire and the clock.
+2. **Rules on the server.** *Found:* what sorting a device did to the passkeys
+   on it, and Lost's sign-out, lived in the Settings endpoints, so a change on
+   the Device form did nothing. *Done:* `Device.on_update` does both; the
+   endpoints only set the fields and save.
+3. **Hand-offs.** *Done:* One's README, Connections: a device links its asset
+   in OneInventory, its holder fills in who it's assigned to, and the clock in
+   OneHR reads the same rule.
+4. **Tier.** Device stays desk; Settings › Devices is its screen.
+5. **Our look.** The shell's table and dialog, as Domains.
+6. **Nothing lost.** Not a page of its own.
+7. **Extensible.** A Client or Server Script on Device runs, since the Settings
+   section saves through the record.
+8. **Built from frappe.** `onedesk.shell.table`, `frappe.ui.Dialog`,
+   `frappe.ui.badge`.
+9. **Overrides.** *Found:* the login page's change to frappe's own submit
+   button was not recorded. *Done:* in `scripts/overrides.py`.
+10. **Notifications.** *Found:* somebody whose passkey an administrator turned
+    off was not told. *Done:* **Passkey Turned Off**, to its owner, on sorting,
+    Lost or Retire.
+11. **Printed.** Nothing leaves the company.
+12. **Plain words.** *Found:* section subtitles and descriptions explaining the
+    mechanism. *Done:* cut, in 7fd8711.
+13. **Documented, OneAI.** One's README has Devices and Sign-in; OneAI is told
+    the reader is on Devices and what they can do there.
+14. **Intake.** No mail or file makes a device.
+15. **Permissions.** Devices is Workspace Administrator only; Clock Device is
+    read by its owner, HR for employees' and the administrator for all.
+16. **Legal.** *Found:* the browser's id cookie and the list of browsers were
+    in no agreement. *Done:* Privacy Policy 26 and Cookie Policy 2.
+17. **Clean code.** *Found, left:* everybody's passkeys are rows of OneHR's
+    Clock Device, and passkey sign-in is in `one_hr/`. It works, since every
+    site carries OneHR, but the record belongs in One as Passkey. A rename
+    across the clock, the ledger and the reviews, for its own change.

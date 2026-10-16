@@ -76,31 +76,47 @@ def signed_in(login_manager) -> None:
 
 @frappe.whitelist(methods=["POST"])
 def save(device: str, device_name: str, use: str | None = None, user: str | None = None, asset: str | None = None) -> dict:
-	"""What the administrator says a browser is. Passkeys already on it that
-	no longer belong there stop working: everybody's on a shared one, and
-	everybody's but its person's on an assigned one."""
-	roles.require()
-	doc = frappe.get_doc("Device", device)
-	doc.update({"device_name": device_name, "use": use or "", "user": user, "asset": asset})
-	doc.save()
-	if not doc.use:
-		return {"retired": 0}
-	filters = {"device": device, "status": "Active"}
-	if doc.use == "Assigned":
-		filters["user"] = ["!=", doc.user]
-	keys = frappe.get_all("Clock Device", filters=filters, pluck="name")
-	for name in keys:
-		frappe.db.set_value("Clock Device", name, "status", "Reset")
-	return {"retired": len(keys)}
+	"""What the administrator says a browser is (Device.on_update does the rest)."""
+	return _changed(device, {"device_name": device_name, "use": use or "", "user": user, "asset": asset})
 
 
 @frappe.whitelist(methods=["POST"])
 def lost(device: str) -> dict:
 	"""Whoever is signed in on it is signed out, and its passkeys stop working."""
+	return _changed(device, {"status": "Lost"})
+
+
+@frappe.whitelist(methods=["POST"])
+def retire(device: str) -> dict:
+	"""No longer in use: its passkeys stop working, and nobody is signed out."""
+	return _changed(device, {"status": "Retired"})
+
+
+def _changed(device: str, values: dict) -> dict:
 	roles.require()
+	before = frappe.db.count("Clock Device", {"device": device, "status": "Active"})
+	frappe.get_doc("Device", device).update(values).save()
+	return {"retired": before - frappe.db.count("Clock Device", {"device": device, "status": "Active"})}
+
+
+def retire_passkeys(device: str, keep: str | None = None) -> None:
+	"""Stop the passkeys on a device, but `keep`'s, and tell each owner."""
+	from onedesk.one import tell
+
+	filters = {"device": device, "status": "Active"}
+	if keep:
+		filters["user"] = ["!=", keep]
+	name = frappe.db.get_value("Device", device, "device_name")
+	for one in frappe.get_all("Clock Device", filters=filters, fields=["name", "user"]):
+		frappe.db.set_value("Clock Device", one.name, "status", "Reset")
+		if one.user:
+			tell.passkey_turned_off(one.user, name)
+
+
+def sign_out(device: str) -> int:
+	"""Every session started on the device ends."""
 	from frappe.sessions import delete_session
 
-	keys = _retire(device, "Lost")
 	ended = 0
 	for sid in _sessions(device):
 		# Sessions is keyed by sid and has no `name`, so get_value cannot read it.
@@ -109,22 +125,7 @@ def lost(device: str) -> dict:
 			delete_session(sid, user[0], reason="Device marked lost")
 			ended += 1
 	frappe.cache.delete_value(_sessions_key(device))
-	return {"passkeys": keys, "sessions": ended}
-
-
-@frappe.whitelist(methods=["POST"])
-def retire(device: str) -> None:
-	"""No longer in use: its passkeys stop working, and nobody is signed out."""
-	roles.require()
-	_retire(device, "Retired")
-
-
-def _retire(device: str, status: str) -> int:
-	frappe.db.set_value("Device", device, {"status": status, "token_hash": None})
-	keys = frappe.get_all("Clock Device", filters={"device": device, "status": "Active"}, pluck="name")
-	for name in keys:
-		frappe.db.set_value("Clock Device", name, "status", "Reset")
-	return len(keys)
+	return ended
 
 
 def forget() -> None:

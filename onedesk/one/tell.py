@@ -309,6 +309,13 @@ def passkey_added(user: str) -> None:
 	)
 
 
+def passkey_turned_off(user: str, device: str) -> None:
+	"""An administrator sorted, lost or retired a device a passkey of theirs was on."""
+	notify.notify(
+		"Passkey Turned Off", user, link="/desk/settings?section=signin", sender="Administrator", device=device
+	)
+
+
 # ------------------------------------------------------------------ privacy
 
 

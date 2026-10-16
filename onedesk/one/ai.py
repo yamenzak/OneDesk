@@ -608,6 +608,14 @@ def page(said: dict) -> str | None:
 			"what the workspace's administrators wrote for everybody. my_memories reads both. How it works "
 			"is in One's documentation under Settings › What OneAI Remembers (how_to)."
 		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "devices":
+		return (
+			"The reader administers the workspace and is on Devices in Workspace Settings: every browser "
+			"somebody signed in on, with who signed in last, when and from where, and how many passkeys it "
+			"holds. They name one and set it Shared (nobody's passkey is made there) or Assigned to one "
+			"person (theirs may be), or mark it Lost or Retired. How it works is in One's documentation "
+			"under Devices (how_to)."
+		)
 	if said.get("section") == "signin":
 		return (
 			"The reader is on Sign-in in their own Settings: their password, their passkey, whether two-factor "
