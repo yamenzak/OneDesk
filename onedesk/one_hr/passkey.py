@@ -302,22 +302,34 @@ def origin() -> str:
 	return f"https://{frappe.local.site}"
 
 
+#: Before anybody signs in, frappe gives every browser the same sid ("Guest"),
+#: so a challenge keyed by it is one slot shared by everybody on the login page.
+BINDER = "one_passkey"
+
+
 def _remember(challenge: bytes) -> None:
-	frappe.cache.set_value(
-		_key(), base64.b64encode(challenge).decode(), expires_in_sec=CHALLENGE_SECONDS
-	)
+	if frappe.session.user == "Guest" and frappe.local.request:
+		binder = frappe.generate_hash()
+		frappe.local.cookie_manager.set_cookie(BINDER, binder, max_age=CHALLENGE_SECONDS, httponly=True)
+		key = _key(binder)
+	else:
+		key = _key()
+	frappe.cache.set_value(key, base64.b64encode(challenge).decode(), expires_in_sec=CHALLENGE_SECONDS)
 
 
 def _recall() -> bytes:
-	held = frappe.cache.get_value(_key())
+	key = _key(frappe.request.cookies.get(BINDER) if frappe.session.user == "Guest" and frappe.local.request else None)
+	held = frappe.cache.get_value(key)
 	if not held:
 		frappe.throw(_("This request expired. Try again."))
-	frappe.cache.delete_value(_key())
+	frappe.cache.delete_value(key)
 	return base64.b64decode(held)
 
 
-def _key() -> str:
-	return f"one-passkey-challenge:{frappe.session.sid or frappe.session.user}"
+def _key(binder: str | None = None) -> str:
+	if frappe.session.user == "Guest":
+		return f"one-passkey-challenge:guest:{binder or 'none'}"
+	return f"one-passkey-challenge:{frappe.session.sid}"
 
 
 def _agent() -> str:

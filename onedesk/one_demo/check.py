@@ -3297,6 +3297,7 @@ def onehr_tariq_clocks_in_with_his_phone():
 	_asked(headers={"User-Agent": PHONE})
 	assert signin.offered()
 	options = signin.begin()
+	_asked(headers={"User-Agent": PHONE}, cookies=_cookies())
 	frappe.local.login_manager = mock.Mock()
 	assert signin.finish(json.dumps(phone.sign(options)))["user"] == "tariq@one.test"
 	frappe.local.login_manager.login_as.assert_called_once_with("tariq@one.test")
