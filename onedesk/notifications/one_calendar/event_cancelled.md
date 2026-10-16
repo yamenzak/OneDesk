@@ -9,4 +9,4 @@ push_default: yes
 
 # {event} is cancelled
 
-{who} cancelled <b>{event}</b>, which was {when}.
+{who} cancelled it. It was {when}.

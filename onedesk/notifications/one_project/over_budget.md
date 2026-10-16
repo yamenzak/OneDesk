@@ -10,4 +10,4 @@ push_default: yes
 
 # {cost_type} is over budget on {project}
 
-<b>{project}</b> · {cost_type} · {total} of {budget}
+{total} spent of a {budget} budget.

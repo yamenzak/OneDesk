@@ -10,6 +10,5 @@ always_mailed: yes
 
 # {person} asked for their account to be deleted
 
-{person} ({email}) asked for their account and what they left in the workspace
-to be deleted. Approve it, or hold it and say why, under Workspace › Privacy
-Requests.
+Their address is {email}. Approve it, or hold it and say why, under Workspace
+› Privacy Requests. The law allows one month.

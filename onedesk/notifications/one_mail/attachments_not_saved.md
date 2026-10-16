@@ -3,6 +3,7 @@ name: Attachments Not Saved
 app: OneMail
 about: When mail arrives with attachments and the workspace's storage is full. Once a day at most.
 to: Every administrator, and everybody who holds the mailbox
+button: Open Plan and Credits
 email_default: yes
 ---
 

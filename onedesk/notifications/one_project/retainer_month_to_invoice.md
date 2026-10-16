@@ -9,4 +9,4 @@ email_default: yes
 
 # Invoice {project} for last month
 
-<b>{project}</b> · {hours} h of {allowance} h{customer}
+{hours} h of the {allowance} h were used last month. Raise its invoice.

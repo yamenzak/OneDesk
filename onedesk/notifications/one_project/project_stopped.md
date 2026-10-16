@@ -9,4 +9,4 @@ push_default: yes
 
 # {project} is {state}
 
-{who} changed its status{customer}{due}.
+{who} changed its status.

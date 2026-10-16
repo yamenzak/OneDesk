@@ -9,5 +9,4 @@ email: no
 
 # {by} deleted {person}'s account
 
-{by} approved deleting {person}'s account. It is turned off and being erased
-now.
+Their account is turned off and being erased now.

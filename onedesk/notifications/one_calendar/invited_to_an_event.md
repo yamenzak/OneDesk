@@ -9,4 +9,4 @@ push_default: yes
 
 # {who} invited you to {event}
 
-<b>{event}</b>, {when}{where}.
+{when}{where}.

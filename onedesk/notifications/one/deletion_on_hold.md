@@ -3,6 +3,7 @@ name: Deletion On Hold
 app: One
 about: When an administrator holds your request to delete your account, and why.
 to: The person who asked
+button: Open Your Profile
 email: no
 always_mailed: yes
 ---

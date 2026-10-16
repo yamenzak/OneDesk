@@ -12,6 +12,7 @@ KEYS = (
 	"roles",
 	"about",
 	"to",
+	"button",
 	"email",
 	"push",
 	"email_default",
@@ -31,7 +32,7 @@ KEYS = (
 )
 
 #: Translated where they are shown.
-WORDS = ("name", "about", "to", "subject", "message")
+WORDS = ("name", "about", "to", "button", "subject", "message")
 FLAGS = ("email", "push", "email_default", "push_default", "outside", "required", "always_mailed", "oneai", "words", "mailed_by")
 #: A setting of the app's own: `HR Settings.send_birthday_reminders`.
 SETTINGS = ("switch", "starts_as")

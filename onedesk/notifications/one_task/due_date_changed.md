@@ -8,4 +8,4 @@ push_default: yes
 
 # {who} moved {task} to {due}
 
-<b>{task}</b>{was}{project}
+{facts}

@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: Every day while a privacy request has waited more than a week for a decision.
 to: Every administrator
+button: Open Privacy Requests
 email: no
 always_mailed: yes
 ---

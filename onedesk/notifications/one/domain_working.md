@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: When one of the workspace's own domains starts working.
 to: Every administrator
+button: Open Domains
 email: no
 always_mailed: yes
 ---

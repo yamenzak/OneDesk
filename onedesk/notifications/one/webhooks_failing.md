@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: Every morning, if webhooks failed to deliver the day before.
 to: Every administrator
+button: Open Webhooks
 email_default: yes
 ---
 

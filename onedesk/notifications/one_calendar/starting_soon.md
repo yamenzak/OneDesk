@@ -6,6 +6,4 @@ to: Whoever made it and everybody invited
 push_default: yes
 ---
 
-# {event} starts at {time}
-
-<b>{event}</b> starts at {time}{where}.
+# {event} starts at {time}{where}

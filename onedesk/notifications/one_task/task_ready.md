@@ -8,4 +8,4 @@ push_default: yes
 
 # {task} can start
 
-{done} is done{due}{project}.
+{done} is done. {facts}

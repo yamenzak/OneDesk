@@ -9,5 +9,5 @@ email_default: yes
 
 # {asset} is in your care
 
-{by} gave you {asset} on {date}. Look after it, and give it back when you are
+{by} gave it to you on {date}. Look after it, and give it back when you are
 asked.

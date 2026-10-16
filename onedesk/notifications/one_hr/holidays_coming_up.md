@@ -4,6 +4,7 @@ app: OneHR
 roles: Employee
 about: Every week or month, as HR Settings says, when you have holidays coming up.
 to: Each employee
+button: Open the Calendar
 email_default: yes
 replaces: HR Settings.send_holiday_reminders
 starts_as: HR Settings.send_holiday_reminders

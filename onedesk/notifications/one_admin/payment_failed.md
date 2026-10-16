@@ -4,10 +4,11 @@ app: OneAdmin
 roles: One Operator
 about: When a payment for a workspace fails, with the day it will be suspended.
 to: Whoever pays for the workspace
+button: Open your One account
 outside: yes
 ---
 
 # Payment for {workspace} failed
 
 Your card was not charged. Unless it is paid, {workspace} is suspended on
-{date}. Pay it, or change your card, on your account: {account}
+{date}. Pay it, or change your card, on your One account.

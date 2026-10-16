@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: When OneAI credits are added, from a pack, the monthly plan or One.
 to: Every administrator
+button: Open Plan and Credits
 email: no
 ---
 

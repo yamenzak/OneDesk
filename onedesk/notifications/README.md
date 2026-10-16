@@ -39,6 +39,7 @@ it to that. The file is named for the type, in lower case with underscores.
 | `roles` | Only people with one of these roles may choose how they get it |
 | `about` | When it is sent, from the reader's side |
 | `to` | Who it is sent to |
+| `button` | Its mail's button, when "Open" and the record's kind would not say it. A mail to an outside address draws it to the `link` (or `url`, `account`) it is sent with |
 | `email`, `push` | `no` when it is never mailed, or never pushed |
 | `email_default`, `push_default` | Mailed, or pushed, to everybody until they choose otherwise |
 | `outside` | It goes to addresses outside the workspace, so only by mail |

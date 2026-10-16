@@ -10,5 +10,4 @@ always_mailed: yes
 
 # {person} asked for a copy of their data
 
-{person} asked for a copy of their data. Review and send it in Privacy › Data
-Copies within one month.
+Review it and send it in Privacy › Data Copies. The law allows one month.

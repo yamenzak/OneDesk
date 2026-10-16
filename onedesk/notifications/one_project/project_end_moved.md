@@ -9,4 +9,4 @@ push_default: yes
 
 # {project} now ends {ends}
 
-<b>{who}</b> moved it from {was}{customer}
+{who} moved it from {was}.

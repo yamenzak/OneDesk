@@ -3,6 +3,7 @@ name: New Sign-in
 app: One
 about: When you sign in from a device or browser you have not used before.
 to: The person who signed in
+button: Open Sign-in
 email: no
 always_mailed: yes
 ---

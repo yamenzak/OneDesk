@@ -100,7 +100,7 @@ def completed(doc, before) -> None:
 		"Project Completed",
 		manager,
 		record=("Project", doc.name),
-		owed=" · " + _("{0} still owed").format(fmt_money(owed, currency=get_company_currency(doc.company)))
+		owed=" " + _("{0} is still owed.").format(fmt_money(owed, currency=get_company_currency(doc.company)))
 		if owed
 		else "",
 		**_facts(doc),
@@ -115,6 +115,15 @@ def _facts(doc) -> dict:
 		"project": doc.project_name,
 		"customer": f" · {doc.customer}" if doc.get("customer") else "",
 		"due": " · " + _("Ends {0}").format(formatdate(doc.expected_end_date)) if doc.get("expected_end_date") else "",
+		# The customer and the end on one line, for the mail.
+		"facts": " · ".join(
+			one
+			for one in (
+				doc.get("customer") or "",
+				_("Ends {0}").format(formatdate(doc.expected_end_date)) if doc.get("expected_end_date") else "",
+			)
+			if one
+		),
 	}
 
 

@@ -10,4 +10,4 @@ push_default: yes
 
 # {who} made you the manager of {project}
 
-<b>{project}</b>{customer}{due}
+{facts}

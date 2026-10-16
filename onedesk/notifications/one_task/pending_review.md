@@ -9,4 +9,4 @@ push_default: yes
 
 # {who} asked you to review {task}
 
-<b>{task}</b>{due}{project}
+{facts}

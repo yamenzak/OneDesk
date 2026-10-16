@@ -566,10 +566,11 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 	passed = {key: kwargs.pop(key) for key in list(kwargs) if key in SENDMAIL}
 	lang = lang or frappe.db.get_single_value("System Settings", "language")
 	subject, message = render(name, kwargs, lang, words)
+	link = next((kwargs[key] for key in ("link", "url", "account") if kwargs.get(key)), None)
 	frappe.sendmail(
 		recipients=[recipients] if isinstance(recipients, str) else list(recipients),
 		subject=plain(subject),
-		message=compose(subject, message),
+		message=compose(subject, message, link, button(name, kwargs, lang) if link else None),
 		with_container=True,
 		**passed,
 	)
@@ -615,6 +616,17 @@ def compose(
 	)
 
 
+def button(name: str, context: dict, lang: str | None) -> str | None:
+	"""The type's own words for its mail's button, in the reader's language,
+	with any slot filled (`{button}` for a portal link's)."""
+	said = (declared().get(name) or {}).get("button")
+	if not said:
+		return None
+	return _(raw(said), lang=lang).format_map(
+		_Slots({key: _said(value, lang) for key, value in context.items()})
+	)
+
+
 def plain(subject: str | None) -> str:
 	"""A subject as a mail's subject line: no tags, and `&amp;` as `&`."""
 	import html
@@ -652,10 +664,11 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	from frappe.utils import get_url_to_form
 
 	lang = lang or frappe.db.get_single_value("System Settings", "language")
-	button = _("Open", lang=lang, context="Go to it")
+	label = _("Open", lang=lang, context="Go to it")
 	if record:
 		link = link or get_url_to_form(*record)
-		button = _("Open {0}", lang=lang).format(_(record[0], lang=lang))
+		label = _("Open {0}", lang=lang).format(_(record[0], lang=lang))
+	label = button(kind, {}, lang) or label
 	one = declared().get(kind) or {}
 	said = f"<b>{frappe.utils.escape_html(_(kind, lang=lang))}</b>" if kind else ""
 	if one.get("about"):
@@ -668,7 +681,7 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	frappe.sendmail(
 		recipients=email,
 		subject=plain(subject),
-		message=compose(subject, message, link, button, reason),
+		message=compose(subject, message, link, label, reason),
 		with_container=True,
 		now=frappe.in_test,
 	)

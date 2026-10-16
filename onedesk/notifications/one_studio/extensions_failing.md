@@ -4,6 +4,7 @@ app: OneStudio
 roles: Workspace Administrator
 about: Every morning, the extensions that ran into errors the day before. Not sent when none did.
 to: Every administrator
+button: Open Extensions
 email_default: yes
 ---
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 11:12+0000\n"
+"POT-Creation-Date: 2026-10-16 11:18+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid " and "
 msgstr " und "
 
-#: onedesk/one_task/tell.py:157
+#: onedesk/one_task/tell.py:164
 msgid " · was {0}"
 msgstr " · war {0}"
 
@@ -293,99 +293,6 @@ msgstr "91 bis 180 Tage"
 #: onedesk/public/js/band.js:65
 msgid "999+"
 msgstr "999+"
-
-#. Message of a notification
-#: onedesk/notifications/one_admin/sign_in_link.md
-msgid "<a href=\"{link}\">Sign in to your One account</a><br><br>The link works once, for {minutes} minutes. If you didn't ask for it, you can ignore this email."
-msgstr "<a href=\"{link}\">Bei Ihrem One-Konto anmelden</a><br><br>Der Link funktioniert einmal, für {minutes} Minuten. Wenn Sie ihn nicht angefordert haben, können Sie diese E-Mail ignorieren."
-
-#. Message of a notification
-#: onedesk/notifications/one_admin/confirm_your_new_email.md
-msgid "<a href=\"{link}\">Use this address for my One account</a><br><br>The link works once, for {minutes} minutes. If you didn't ask for this, you can ignore this email."
-msgstr "<a href=\"{link}\">Diese Adresse für mein One-Konto verwenden</a><br><br>Der Link funktioniert einmal, für {minutes} Minuten. Wenn Sie das nicht angefordert haben, können Sie diese E-Mail ignorieren."
-
-#. Message of a notification
-#: onedesk/notifications/one/portal_link.md
-msgid "<b>{by}</b> at <b>{workspace}</b> sent you {what}.<br><br><a href=\"{link}\" class=\"btn btn-primary\">{button}</a><br><br>The link works until {until}. You don't need an account to open it."
-msgstr "<b>{by}</b> von <b>{workspace}</b> hat Ihnen {what} gesendet.<br><br><a href=\"{link}\" class=\"btn btn-primary\">{button}</a><br><br>Der Link funktioniert bis {until}. Sie brauchen kein Konto, um ihn zu öffnen."
-
-#. Message of a notification
-#: onedesk/notifications/one_calendar/starting_soon.md
-msgid "<b>{event}</b> starts at {time}{where}."
-msgstr "<b>{event}</b> beginnt um {time}{where}."
-
-#. Message of a notification
-#: onedesk/notifications/one_calendar/invited_to_an_event.md
-msgid "<b>{event}</b>, {when}{where}."
-msgstr "<b>{event}</b>, {when}{where}."
-
-#. Message of a notification
-#: onedesk/notifications/one/invitation.md
-msgid "<b>{inviter}</b> invited you to <b>{workspace}</b> on One.{apps}<br><br><a href=\"{link}\">Choose your password</a><br><br>The link works for {days} days. You sign in with {address}."
-msgstr "<b>{inviter}</b> hat Sie zu <b>{workspace}</b> auf One eingeladen.{apps}<br><br><a href=\"{link}\">Passwort wählen</a><br><br>Der Link gilt {days} Tage. Sie melden sich mit {address} an."
-
-#. Message of a notification
-#: onedesk/notifications/one/portal_invitation.md
-msgid "<b>{inviter}</b> invited you to the <b>{workspace}</b> portal, where you can see {what}.<br><br><a href=\"{link}\">Choose your password</a><br><br>The link works for {days} days. You sign in with {address}."
-msgstr "<b>{inviter}</b> hat Sie zum Portal von <b>{workspace}</b> eingeladen, wo Sie {what} sehen können.<br><br><a href=\"{link}\">Passwort wählen</a><br><br>Der Link ist {days} Tage gültig. Sie melden sich mit {address} an."
-
-#. Message of a notification
-#: onedesk/notifications/one_project/project_health.md
-msgid "<b>{project}</b> is {health}{due}"
-msgstr "<b>{project}</b> ist {health}{due}"
-
-#. Message of a notification
-#: onedesk/notifications/one_project/over_budget.md
-msgid "<b>{project}</b> · {cost_type} · {total} of {budget}"
-msgstr "<b>{project}</b> · {cost_type} · {total} von {budget}"
-
-#. Message of a notification
-#: onedesk/notifications/one_project/retainer_hours_used.md
-#: onedesk/notifications/one_project/retainer_month_to_invoice.md
-msgid "<b>{project}</b> · {hours} h of {allowance} h{customer}"
-msgstr "<b>{project}</b> · {hours} Std. von {allowance} Std.{customer}"
-
-#. Message of a notification
-#: onedesk/notifications/one_project/added_to_project.md
-#: onedesk/notifications/one_project/made_project_manager.md
-msgid "<b>{project}</b>{customer}{due}"
-msgstr "<b>{project}</b>{customer}{due}"
-
-#. Message of a notification
-#: onedesk/notifications/one_task/pending_review.md
-#: onedesk/notifications/one_task/task_given.md
-msgid "<b>{task}</b>{due}{project}"
-msgstr "<b>{task}</b>{due}{project}"
-
-#. Message of a notification
-#: onedesk/notifications/one_task/task_done.md
-msgid "<b>{task}</b>{project}"
-msgstr "<b>{task}</b>{project}"
-
-#. Message of a notification
-#: onedesk/notifications/one_project/hours_over_plan.md
-msgid "<b>{task}</b>{project} · {logged} h of {planned} h"
-msgstr "<b>{task}</b>{project} · {logged} Std. von {planned} Std."
-
-#. Message of a notification
-#: onedesk/notifications/one_task/due_date_changed.md
-msgid "<b>{task}</b>{was}{project}"
-msgstr "<b>{task}</b>{was}{project}"
-
-#. Message of a notification
-#: onedesk/notifications/one_storage/file_request_reminder.md
-msgid "<b>{who}</b> is still waiting for files for <b>{request}</b>.<br><br><a href=\"{link}\">Upload Files</a>"
-msgstr "<b>{who}</b> wartet noch auf Dateien für <b>{request}</b>.<br><br><a href=\"{link}\">Dateien hochladen</a>"
-
-#. Message of a notification
-#: onedesk/notifications/one_project/project_end_moved.md
-msgid "<b>{who}</b> moved it from {was}{customer}"
-msgstr "<b>{who}</b> hat es vom {was} verschoben{customer}"
-
-#. Message of a notification
-#: onedesk/notifications/one_storage/file_request.md
-msgid "<b>{who}</b> requested files for <b>{request}</b>.{note}{due}<br><br><a href=\"{link}\">Upload Files</a>"
-msgstr "<b>{who}</b> hat Dateien für <b>{request}</b> angefordert.{note}{due}<br><br><a href=\"{link}\">Dateien hochladen</a>"
 
 #. Header text in the One Admin Workspace
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
@@ -947,11 +854,6 @@ msgstr "Eine Nummer, auf die ein Dokument verweist: eine Rechnung, ein Auftrag, 
 #: onedesk/notifications/one/passkey_added.md
 msgid "A passkey was added to your account"
 msgstr "Deinem Konto wurde ein Passkey hinzugefügt"
-
-#. Message of a notification
-#: onedesk/notifications/one/passkey_added.md
-msgid "A passkey was added to your account on {when}, from {device} ({address}). If this was not you, tell your administrator now so they can remove it."
-msgstr "Deinem Konto wurde am {when} ein Passkey hinzugefügt, von {device} ({address}). Warst du das nicht, sag es sofort deinem Administrator, damit er ihn entfernt."
 
 #. Description of a DocType
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
@@ -5529,7 +5431,7 @@ msgstr "Diese Aufgabe ändern: "
 msgid "Change this task…"
 msgstr "Diese Aufgabe ändern…"
 
-#: onedesk/one/notify.py:667
+#: onedesk/one/notify.py:678
 msgid "Change what you get by mail"
 msgstr "Ändern, was Sie per E-Mail bekommen"
 
@@ -5921,6 +5823,17 @@ msgstr "Wählen Sie, wer benachrichtigt wird"
 #: onedesk/one/rules.py:161
 msgid "Choose who to notify, such as a role, a person on the record or its assignees."
 msgstr "Wählen Sie, wer benachrichtigt wird, z. B. eine Rolle, eine Person im Datensatz oder die Zuständigen."
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/invitation.md
+#: onedesk/notifications/one/portal_invitation.md
+msgid "Choose your password"
+msgstr "Passwort festlegen"
+
+#. Message of a notification
+#: onedesk/notifications/one/invitation.md
+msgid "Choose your password to start.{apps}<br><br>The link works for {days} days. You sign in with {address}."
+msgstr "Legen Sie Ihr Passwort fest, um zu beginnen.{apps}<br><br>Der Link gilt {days} Tage. Sie melden sich mit {address} an."
 
 #: onedesk/one_admin/steps.py:48
 msgid "Choosing a server"
@@ -6494,6 +6407,7 @@ msgid "Confirm"
 msgstr ""
 
 #. Name of a notification
+#. The button on a notification's mail
 #: onedesk/notifications/one/confirm_deletion.md
 msgid "Confirm Deletion"
 msgstr "Löschung bestätigen"
@@ -6501,6 +6415,11 @@ msgstr "Löschung bestätigen"
 #: frontend/portal/src/pages/Password.vue:15
 msgid "Confirm Password"
 msgstr "Passwort bestätigen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/confirm_your_request.md
+msgid "Confirm Request"
+msgstr "Anfrage bestätigen"
 
 #. Name of a notification
 #: onedesk/notifications/one_admin/confirm_your_new_email.md
@@ -8720,6 +8639,11 @@ msgstr "PDF herunterladen"
 msgid "Download Size"
 msgstr "Download-Größe"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one/your_data_is_ready_to_download.md
+msgid "Download Your Data"
+msgstr "Ihre Daten herunterladen"
+
 #: onedesk/public/js/settings.js:1702
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "Zuerst herunterladen. Nach dem Schließen des Arbeitsbereichs kann nichts mehr exportiert werden."
@@ -8980,7 +8904,7 @@ msgstr "Morgen fällig"
 #: frontend/src/project/Suppliers.vue:117
 #: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one/portal.py:448
 #: onedesk/one/portal.py:809 onedesk/one_inventory/heads.py:558
-#: onedesk/one_task/tell.py:217
+#: onedesk/one_task/tell.py:231
 msgid "Due {0}"
 msgstr "Fällig am {0}"
 
@@ -9709,6 +9633,7 @@ msgstr "Endet morgen"
 
 #: frontend/src/project/Overview.vue:322 onedesk/one/portal.py:370
 #: onedesk/one_project/portal.py:199 onedesk/one_project/tell.py:117
+#: onedesk/one_project/tell.py:123
 msgid "Ends {0}"
 msgstr "Endet {0}"
 
@@ -10643,7 +10568,7 @@ msgstr "Fehlgeschlagen bei Schritt {number} von {steps}, {step}.<br>{error}"
 msgid "Failed to render template: {0}"
 msgstr "Die Vorlage konnte nicht dargestellt werden: {0}"
 
-#: onedesk/one/notify.py:555 onedesk/one/notify.py:698
+#: onedesk/one/notify.py:555 onedesk/one/notify.py:709
 msgid "Failed to send notification email"
 msgstr "Benachrichtigungs-E-Mail konnte nicht gesendet werden"
 
@@ -11032,6 +10957,11 @@ msgstr ""
 #: onedesk/notifications/one_admin/finish_signing_up.md
 msgid "Finish Signing Up"
 msgstr "Anmeldung abschließen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_admin/finish_signing_up.md
+msgid "Finish signing up"
+msgstr "Registrierung abschließen"
 
 #: onedesk/public/js/item_actions.js:162
 msgid "Finish {0}"
@@ -11643,6 +11573,11 @@ msgstr "Vom {from_date} bis {to_date}. Genehmigen oder ablehnen."
 #: onedesk/notifications/one_crm/new_lead_waiting.md
 msgid "From {source}. Take it from Home under Unclaimed Leads, or give it to somebody."
 msgstr "Aus {source}. Übernehmen Sie ihn auf der Startseite unter Nicht beanspruchte Leads oder geben Sie ihn jemandem."
+
+#. Message of a notification
+#: onedesk/notifications/one/portal_link.md
+msgid "From {workspace}.<br><br>The link works until {until}. You don't need an account to open it."
+msgstr "Von {workspace}.<br><br>Der Link gilt bis {until}. Zum Öffnen brauchen Sie kein Konto."
 
 #: onedesk/one_admin/home.py:340 onedesk/one_admin/home.py:364
 msgid "Full"
@@ -13274,6 +13209,11 @@ msgstr "In {0} Tagen"
 msgid "In {0} warehouses"
 msgstr "In {0} Lagern"
 
+#. Message of a notification
+#: onedesk/notifications/one/holidays_changed.md
+msgid "In {holiday_list}: {what}. Leave, attendance and deadlines count around them from now on."
+msgstr "In {holiday_list}: {what}. Urlaub, Anwesenheit und Fristen richten sich ab jetzt danach."
+
 #. Label of the input_per_million (Float) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "In, per 1M Tokens"
@@ -13916,6 +13856,11 @@ msgstr "Es wird erforderlich und eindeutig."
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
 msgstr "Sie kann hier noch nicht laufen: Dieser Arbeitsbereich führt keine Erweiterungen auf dem Server aus. Bitte uns, sie einzuschalten."
 
+#. Message of a notification
+#: onedesk/notifications/one_studio/form_customized.md
+msgid "It changed for everyone. See it in OneStudio › Custom Fields."
+msgstr "Es hat sich für alle geändert. Sie finden es in OneStudio › Benutzerdefinierte Felder."
+
 #: onedesk/one_admin/heads.py:321
 msgid "It expired on {0} with {1} of {2} credits unused."
 msgstr "Abgelaufen am {0}, {1} von {2} Credits unverbraucht."
@@ -13971,14 +13916,19 @@ msgstr "Es braucht einen CNAME-Eintrag von {0} auf {1}."
 
 #. Message of a notification
 #: onedesk/notifications/one_task/sent_back.md
-msgid "It needs more work before it is done{project}."
-msgstr "Sie braucht noch Arbeit, bevor sie erledigt ist{project}."
+msgid "It needs more work before it is done. {facts}"
+msgstr "Sie braucht noch Arbeit, bevor sie erledigt ist. {facts}"
 
 #. Message of a notification
 #: onedesk/notifications/one_studio/extension_deleted.md
 #: onedesk/notifications/one_studio/extension_turned_off.md
 msgid "It no longer runs on {kind}. {explanation}"
 msgstr "Sie läuft nicht mehr auf {kind}. {explanation}"
+
+#. Message of a notification
+#: onedesk/notifications/one/plan_changed.md
+msgid "It now costs {monthly} a month."
+msgstr "Er kostet jetzt {monthly} im Monat."
 
 #. Message of a notification
 #: onedesk/notifications/one_hr/interview_moved.md
@@ -15998,7 +15948,7 @@ msgstr "Postfächer"
 msgid "Mailed to addresses outside the workspace, so nobody chooses channels for it."
 msgstr "Wird an Adressen außerhalb des Arbeitsbereichs gemailt, daher wählt niemand Kanäle dafür."
 
-#: onedesk/one/notify.py:664
+#: onedesk/one/notify.py:675
 msgid "Mailed to everybody it concerns, whatever they chose."
 msgstr "Geht per E-Mail an alle, die es betrifft, unabhängig von ihrer Wahl."
 
@@ -19490,6 +19440,16 @@ msgstr "Im Auftrag von {0}"
 msgid "On {request}, wanted by {wanted}. Order them from Buying, To Order."
 msgstr "In {request}, gewünscht bis {wanted}. Bestellen Sie sie unter Einkauf, Zu bestellen."
 
+#. Message of a notification
+#: onedesk/notifications/one/password_changed.md
+msgid "On {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
+msgstr "Am {when}, von {device} ({address}). Wenn Sie das nicht waren, setzen Sie es jetzt auf der Anmeldeseite zurück und informieren Sie Ihren Administrator."
+
+#. Message of a notification
+#: onedesk/notifications/one/passkey_added.md
+msgid "On {when}, from {device} ({address}). If this was not you, tell your administrator now so they can remove it."
+msgstr "Am {when}, von {device} ({address}). Wenn Sie das nicht waren, informieren Sie jetzt Ihren Administrator, damit er ihn entfernt."
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Onboarding"
@@ -20340,6 +20300,7 @@ msgstr "Nur {0} oder ein Administrator kann das entscheiden."
 msgid "Only {0}, who pays for the workspace, can do this."
 msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 
+#. The button on a notification's mail
 #. Label of the open (Check) field in DocType 'Workspace Server'
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
@@ -20348,6 +20309,7 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 #: frontend/src/floor/ShopFloor.vue:133 frontend/src/sent_out/OutRows.vue:92
 #: frontend/src/sent_out/SentOutPage.vue:85
 #: frontend/src/sent_out/SentOutPage.vue:92
+#: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_book/heads.py:505
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:376
@@ -20366,7 +20328,7 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 msgid "Open"
 msgstr "Offen"
 
-#: onedesk/one/notify.py:655
+#: onedesk/one/notify.py:665
 msgctxt "Go to it"
 msgid "Open"
 msgstr "Öffnen"
@@ -20375,9 +20337,31 @@ msgstr "Öffnen"
 msgid "Open Asset"
 msgstr "Anlage öffnen"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one_intake/intake_weekly.md
+msgid "Open Deadlines"
+msgstr "Fristen öffnen"
+
 #: onedesk/one_intake/page/intake/intake.js:173
 msgid "Open Document"
 msgstr "Dokument öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/domain_stopped_working.md
+#: onedesk/notifications/one/domain_working.md
+#: onedesk/notifications/one/main_address_changed.md
+msgid "Open Domains"
+msgstr "Domains öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_studio/extension_fixed.md
+msgid "Open Extension"
+msgstr "Erweiterung öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_studio/extensions_failing.md
+msgid "Open Extensions"
+msgstr "Erweiterungen öffnen"
 
 #: frontend/src/project/Media.vue:23
 msgid "Open Folder"
@@ -20387,6 +20371,12 @@ msgstr "Ordner öffnen"
 msgid "Open Full Form"
 msgstr "Vollständiges Formular öffnen"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one/holidays_changed.md
+#: onedesk/notifications/one/holidays_run_out_soon.md
+msgid "Open Holidays"
+msgstr "Feiertage öffnen"
+
 #: frontend/src/floor/FloorSteps.vue:122
 msgid "Open Job Card"
 msgstr "Arbeitskarte öffnen"
@@ -20395,9 +20385,24 @@ msgstr "Arbeitskarte öffnen"
 msgid "Open List"
 msgstr "Liste öffnen"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one_mail/mailbox_not_reachable.md
+msgid "Open Mail Settings"
+msgstr "E-Mail-Einstellungen öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_task/today_s_tasks.md
+msgid "Open My Tasks"
+msgstr "Meine Aufgaben öffnen"
+
 #: frontend/src/task/TaskTime.vue:40
 msgid "Open Older Entries"
 msgstr "Ältere Einträge öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/access_changed.md
+msgid "Open One"
+msgstr "One öffnen"
 
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:61
 msgid "Open Opportunities"
@@ -20411,9 +20416,36 @@ msgstr "Bestellung öffnen"
 msgid "Open Orders"
 msgstr ""
 
+#. The button on a notification's mail
+#: onedesk/notifications/one/administrator_added.md
+msgid "Open People"
+msgstr "Personen öffnen"
+
 #: onedesk/public/js/credit_ledger_entry.js:11
 msgid "Open Plan"
 msgstr "Plan öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/credits_added.md
+#: onedesk/notifications/one/credits_expiring.md
+#: onedesk/notifications/one/credits_ran_out.md
+#: onedesk/notifications/one/credits_running_low.md
+#: onedesk/notifications/one/database_nearly_full.md
+#: onedesk/notifications/one/full_download_ready.md
+#: onedesk/notifications/one/payer_changed.md
+#: onedesk/notifications/one/payment_overdue.md
+#: onedesk/notifications/one/plan_changed.md
+#: onedesk/notifications/one/storage_nearly_full.md
+#: onedesk/notifications/one/workspace_closing.md
+#: onedesk/notifications/one/workspace_staying_open.md
+#: onedesk/notifications/one_mail/attachments_not_saved.md
+msgid "Open Plan and Credits"
+msgstr "Tarif und Guthaben öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/privacy_requests_waiting.md
+msgid "Open Privacy Requests"
+msgstr "Datenschutzanfragen öffnen"
 
 #. Label of a number card
 #: onedesk/one_project/number_card/projects_under_way/projects_under_way.json
@@ -20433,6 +20465,14 @@ msgstr "Offene Angebote"
 msgid "Open Request for Quotation"
 msgstr "Angebotsanfrage öffnen"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one/new_sign_in.md
+#: onedesk/notifications/one/passkey_added.md
+#: onedesk/notifications/one/password_changed.md
+#: onedesk/notifications/one_hr/passkey_reset_done.md
+msgid "Open Sign-in"
+msgstr "Anmeldung öffnen"
+
 #: onedesk/one_legal/gate.py:30
 msgid "Open Source and Third-Party Notices"
 msgstr "Open-Source- und Drittanbieterhinweise"
@@ -20449,6 +20489,11 @@ msgstr ""
 msgid "Open Tasks"
 msgstr "Offene Aufgaben"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one/webhooks_failing.md
+msgid "Open Webhooks"
+msgstr "Webhooks öffnen"
+
 #: frontend/src/floor/ShopFloor.vue:146
 msgid "Open Work Orders"
 msgstr "Offene Arbeitsaufträge"
@@ -20460,6 +20505,12 @@ msgstr "Arbeitsbereich öffnen"
 #: frontend/src/plant/PlantFloor.vue:58
 msgid "Open Workstation"
 msgstr "Arbeitsplatz öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one/deletion_on_hold.md
+#: onedesk/notifications/one/your_data_is_ready.md
+msgid "Open Your Profile"
+msgstr "Ihr Profil öffnen"
 
 #: onedesk/public/js/onecloud.js:1927
 msgid "Open file location"
@@ -20479,6 +20530,11 @@ msgstr "Öffnen"
 msgid "Open it to read it and decide what happens next."
 msgstr "Öffnen Sie sie, um sie zu lesen und über das weitere Vorgehen zu entscheiden."
 
+#. Message of a notification
+#: onedesk/notifications/one_project/project_health.md
+msgid "Open it to see why, and what is being done."
+msgstr "Öffnen Sie es, um zu sehen, warum und was getan wird."
+
 #: frontend/src/item/ItemMaking.vue:106
 msgid "Open on Shop Floor"
 msgstr "In der Werkstatt öffnen"
@@ -20487,7 +20543,21 @@ msgstr "In der Werkstatt öffnen"
 msgid "Open record"
 msgstr "Datensatz öffnen"
 
-#: onedesk/one/notify.py:658 onedesk/one/portal_share.py:316
+#. The button on a notification's mail
+#: onedesk/notifications/one_calendar/today_s_events.md
+#: onedesk/notifications/one_hr/holidays_coming_up.md
+msgid "Open the Calendar"
+msgstr "Kalender öffnen"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_admin/payment_failed.md
+#: onedesk/notifications/one_admin/trial_ending.md
+#: onedesk/notifications/one_admin/workspace_moved_to_you.md
+#: onedesk/notifications/one_admin/workspace_ready.md
+msgid "Open your One account"
+msgstr "Ihr One-Konto öffnen"
+
+#: onedesk/one/notify.py:668 onedesk/one/portal_share.py:316
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
@@ -21091,7 +21161,7 @@ msgstr "Über ein Jahr"
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:761 onedesk/one_book/heads.py:785
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:39
-#: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:254
+#: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:273
 msgid "Overdue"
 msgstr "Überfällig"
 
@@ -23673,6 +23743,11 @@ msgstr "An Datensätze angehängte Dateien lesen"
 msgid "Read Instructions"
 msgstr "Anleitung lesen"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one/announcement.md
+msgid "Read It"
+msgstr "Lesen"
+
 #: onedesk/public/js/item_new.js:300
 msgid "Read List"
 msgstr "Liste lesen"
@@ -25122,6 +25197,12 @@ msgstr "Prüfung"
 msgid "Review Date"
 msgstr ""
 
+#. The button on a notification's mail
+#: onedesk/notifications/one_intake/intake_waiting.md
+#: onedesk/notifications/one_intake/intake_waiting_one_thing.md
+msgid "Review It"
+msgstr "Prüfen"
+
 #. Label of the review_note (Small Text) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Review Note"
@@ -25135,6 +25216,11 @@ msgstr "Prüfen und senden"
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Review and next steps"
 msgstr "Rückblick und nächste Schritte"
+
+#. Message of a notification
+#: onedesk/notifications/one/copy_asked.md
+msgid "Review it and send it in Privacy › Data Copies. The law allows one month."
+msgstr "Prüfen Sie sie und senden Sie sie unter Datenschutz › Datenkopien. Das Gesetz gibt einen Monat Zeit."
 
 #: onedesk/one/portal_share.py:21
 msgid "Review the quotation"
@@ -26916,6 +27002,11 @@ msgstr "Melden Sie sich zuerst an."
 msgid "Sign in to see this page."
 msgstr "Melden Sie sich an, um diese Seite zu sehen."
 
+#. The button on a notification's mail
+#: onedesk/notifications/one_admin/sign_in_link.md
+msgid "Sign in to your One account"
+msgstr "Bei Ihrem One-Konto anmelden"
+
 #: onedesk/one_admin/accounts.py:205 onedesk/one_admin/accounts.py:293
 msgid "Sign in to your One account first."
 msgstr "Melden Sie sich zuerst bei Ihrem One-Konto an."
@@ -26974,6 +27065,11 @@ msgstr "Anmeldung und Konten"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
 msgstr "Anmeldelinks, Anmeldungen und Hinweise an Kunden kommen von dieser Adresse. Sie muss in derselben Zone wie die Mail-Domain liegen."
+
+#. Message of a notification
+#: onedesk/notifications/one/main_address_changed.md
+msgid "Sign-in, invitations and every link in mail now use it."
+msgstr "Anmeldung, Einladungen und jeder Link in E-Mails verwenden sie jetzt."
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/audit_list.js:30
@@ -29605,11 +29701,6 @@ msgstr "Der Hash des Inhalts, damit dieselbe Datei nur einmal gelesen wird."
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 msgstr "Die angeforderte Kopie Ihrer Daten steht in Ihrem Profil zum Herunterladen bereit. Zurückgehalten: {withheld}"
 
-#. Message of a notification
-#: onedesk/notifications/one/your_data_is_ready_to_download.md
-msgid "The copy of your data you asked for is ready.<br><br><a href=\"{url}\">Download Your Data</a><br><br>The link works for {days} days.<br>Withheld: {withheld}"
-msgstr "Die angeforderte Kopie Ihrer Daten ist fertig.<br><br><a href=\"{url}\">Ihre Daten herunterladen</a><br><br>Der Link ist {days} Tage gültig.<br>Zurückgehalten: {withheld}"
-
 #: onedesk/public/js/settings.js:873
 msgid "The currency can't change once there are transactions."
 msgstr "Die Währung kann nach ersten Buchungen nicht mehr geändert werden."
@@ -29905,6 +29996,21 @@ msgstr "Wie weit ein Preis mindestens über seinen Kosten liegen muss. 2 heißt 
 #: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
 msgstr "Der Link ist vielleicht defekt, oder die Seite wurde verschoben."
+
+#. Message of a notification
+#: onedesk/notifications/one/your_data_is_ready_to_download.md
+msgid "The link works for {days} days.<br>Withheld: {withheld}"
+msgstr "Der Link gilt {days} Tage.<br>Zurückgehalten: {withheld}"
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/sign_in_link.md
+msgid "The link works once, for {minutes} minutes. If you didn't ask for it, you can ignore this email."
+msgstr "Der Link funktioniert einmal, {minutes} Minuten lang. Wenn Sie ihn nicht angefordert haben, können Sie diese E-Mail ignorieren."
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/confirm_your_new_email.md
+msgid "The link works once, for {minutes} minutes. If you didn't ask for this, you can ignore this email."
+msgstr "Der Link funktioniert einmal, {minutes} Minuten lang. Wenn Sie das nicht angefordert haben, können Sie diese E-Mail ignorieren."
 
 #: onedesk/one_inventory/home.py:198
 msgid "The lists prices are kept in, for buying and selling."
@@ -30694,6 +30800,16 @@ msgstr "Ihr Lieferschein"
 msgid "Their One account becomes the owner and receives invoices and payment notices."
 msgstr "Sein One-Konto wird Inhaber und erhält Rechnungen und Zahlungshinweise."
 
+#. Message of a notification
+#: onedesk/notifications/one/person_deleted.md
+msgid "Their account is turned off and being erased now."
+msgstr "Das Konto ist abgeschaltet und wird jetzt gelöscht."
+
+#. Message of a notification
+#: onedesk/notifications/one/deletion_asked.md
+msgid "Their address is {email}. Approve it, or hold it and say why, under Workspace › Privacy Requests. The law allows one month."
+msgstr "Die Adresse ist {email}. Genehmigen Sie es oder halten Sie es mit Begründung an, unter Arbeitsbereich › Datenschutzanfragen. Das Gesetz gibt einen Monat Zeit."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/expense_claim_asked.md
 msgid "Their expense approver"
@@ -30851,6 +30967,11 @@ msgstr "Es gibt nichts einzuchecken: Sie sind heute {0}."
 msgid "There is nothing to save here."
 msgstr "Hier gibt es nichts zu speichern."
 
+#. Message of a notification
+#: onedesk/notifications/one/portal_invitation.md
+msgid "There you can see {what}.<br><br>The link works for {days} days. You sign in with {address}."
+msgstr "Dort sehen Sie {what}.<br><br>Der Link gilt {days} Tage. Sie melden sich mit {address} an."
+
 #: onedesk/one_book/currency.py:52
 msgid "There's no exchange rate from {0} to {1}. Add one in Currency Exchange."
 msgstr "Es gibt keinen Wechselkurs von {0} zu {1}. Fügen Sie einen unter Währungs-Umrechnung hinzu."
@@ -30876,6 +30997,11 @@ msgstr "Diese buchen auf ein Konto, das kein Bestandskonto ist, daher weichen Be
 #: onedesk/notifications/one/webhooks_failing.md
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
 msgstr "Diese Webhooks konnten nach allen Versuchen nicht zustellen: {webhooks}. Öffnen Sie jeden Aufruf, um zu sehen, was das andere System geantwortet hat."
+
+#. Message of a notification
+#: onedesk/notifications/one_storage/file_request_reminder.md
+msgid "They are still waiting for them."
+msgstr "Sie warten noch darauf."
 
 #. Message of a notification
 #: onedesk/notifications/one/credits_expiring.md
@@ -31361,7 +31487,7 @@ msgstr "Fliesenarbeiten"
 #: onedesk/one_project/billing.py:97 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:179 onedesk/one_project/money.py:216
-#: onedesk/one_project/portal.py:210 onedesk/one_project/tell.py:266
+#: onedesk/one_project/portal.py:210 onedesk/one_project/tell.py:275
 #: onedesk/public/js/project_new.js:193
 msgid "Time"
 msgstr "Uhrzeit"
@@ -31608,7 +31734,7 @@ msgstr "Ihnen zugewiesene Aufgaben"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
 #: onedesk/one_project/heads.py:79 onedesk/one_project/view.py:408
 #: onedesk/one_project/view.py:623 onedesk/one_task/mine.py:17
-#: onedesk/one_task/tell.py:254
+#: onedesk/one_task/tell.py:273
 msgid "Today"
 msgstr "Heute"
 
@@ -32419,6 +32545,12 @@ msgstr "Instandhaltung wird geöffnet, und jedes Mal, wenn sich eine Wartung, ei
 msgid "Upload"
 msgstr "Hochladen"
 
+#. The button on a notification's mail
+#: onedesk/notifications/one_storage/file_request.md
+#: onedesk/notifications/one_storage/file_request_reminder.md
+msgid "Upload Files"
+msgstr "Dateien hochladen"
+
 #: onedesk/public/js/item_new.js:272
 msgid "Upload a list or paste one."
 msgstr "Lade eine Liste hoch oder füge eine ein."
@@ -32434,6 +32566,11 @@ msgstr "Ordner hochladen"
 #: onedesk/public/js/onecloud.js:1942
 msgid "Upload new version"
 msgstr "Neue Version hochladen"
+
+#. Message of a notification
+#: onedesk/notifications/one_storage/file_request.md
+msgid "Upload them with the button below.{note}{due}"
+msgstr "Laden Sie sie mit der Schaltfläche unten hoch.{note}{due}"
 
 #: onedesk/one_storage/upload.py:36
 msgid "Upload up to {0} files at a time."
@@ -32498,6 +32635,11 @@ msgstr "SSL verwenden"
 #: onedesk/public/js/doctype_settings.js:963
 msgid "Use This Expression"
 msgstr "Diesen Ausdruck verwenden"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_admin/confirm_your_new_email.md
+msgid "Use this address for my One account"
+msgstr "Diese Adresse für mein One-Konto verwenden"
 
 #: onedesk/public/js/doctype_settings.js:551
 msgid "Use {0} to insert a field of the record."
@@ -33096,7 +33238,7 @@ msgstr "War erwartet bis {0}"
 msgid "Was wanted by {0}"
 msgstr "War bis {0} gewünscht"
 
-#: onedesk/public/js/oneai.js:263
+#: onedesk/one_task/tell.py:169 onedesk/public/js/oneai.js:263
 msgid "Was {0}"
 msgstr "War {0}"
 
@@ -34757,6 +34899,11 @@ msgid "When somebody asks to sign in by a link in their mail, where Email Link S
 msgstr "Wenn jemand per Link in der E-Mail angemeldet werden möchte, wo die Anmeldung per E-Mail-Link aktiv ist."
 
 #. When a notification is sent
+#: onedesk/notifications/one_task/task_given.md
+msgid "When somebody assigns you a task."
+msgstr "Wenn Ihnen jemand eine Aufgabe zuweist."
+
+#. When a notification is sent
 #: onedesk/notifications/one_crm/appointment_confirmation.md
 msgid "When somebody books an appointment, and again once it is confirmed, in Appointment Booking Settings' words."
 msgstr "Wenn jemand einen Termin bucht, und noch einmal bei der Bestätigung, im Wortlaut der Terminbuchungseinstellungen."
@@ -34785,11 +34932,6 @@ msgstr "Wenn jemand anderes eine Aufgabe erledigt, die Sie ihm gegeben, erstellt
 #: onedesk/notifications/one_book/credit_limit_crossed.md
 msgid "When somebody flags a customer who is over their credit limit."
 msgstr "Wenn jemand einen Kunden meldet, der über seinem Kreditlimit liegt."
-
-#. When a notification is sent
-#: onedesk/notifications/one_task/task_given.md
-msgid "When somebody gives you a task."
-msgstr "Wenn Ihnen jemand eine Aufgabe gibt."
 
 #. When a notification is sent
 #: onedesk/notifications/one_hr/exit_questionnaire.md
@@ -36745,13 +36887,13 @@ msgstr "Sie sind {0} Meter vom nächstgelegenen Ort entfernt, von dem Sie einche
 
 #. Message of a notification
 #: onedesk/notifications/one/confirm_your_request.md
-msgid "You asked <b>{workspace}</b> for {asked}.<br><br><a href=\"{url}\">Confirm Request</a><br><br>The link works for {hours} hours. If you didn't ask, ignore this email."
-msgstr "Sie haben <b>{workspace}</b> um {asked} gebeten.<br><br><a href=\"{url}\">Anfrage bestätigen</a><br><br>Der Link ist {hours} Stunden gültig. Wenn Sie das nicht waren, ignorieren Sie diese E-Mail."
+msgid "You asked <b>{workspace}</b> for {asked}.<br><br>The link works for {hours} hours. If you didn't ask, ignore this email."
+msgstr "Sie haben <b>{workspace}</b> um {asked} gebeten.<br><br>Der Link gilt {hours} Stunden. Wenn Sie nicht gefragt haben, ignorieren Sie diese E-Mail."
 
 #. Message of a notification
 #: onedesk/notifications/one/confirm_deletion.md
-msgid "You asked for your account to be deleted.<br><br><a href=\"{url}\">Confirm Deletion</a><br><br>The link works for {hours} hours. If you didn't ask, ignore this email and your account stays."
-msgstr "Sie haben die Löschung Ihres Kontos angefordert.<br><br><a href=\"{url}\">Löschung bestätigen</a><br><br>Der Link ist {hours} Stunden gültig. Wenn Sie das nicht waren, ignorieren Sie diese E-Mail, und Ihr Konto bleibt bestehen."
+msgid "You asked for your account to be deleted.<br><br>The link works for {hours} hours. If you didn't ask, ignore this email and your account stays."
+msgstr "Sie haben die Löschung Ihres Kontos beantragt.<br><br>Der Link gilt {hours} Stunden. Wenn Sie das nicht waren, ignorieren Sie diese E-Mail, und Ihr Konto bleibt bestehen."
 
 #: onedesk/public/js/setup_wizard.js:20
 msgid "You can change this later in your settings."
@@ -36897,8 +37039,13 @@ msgstr "Sie melden sich mit {0} an, und dorthin gehen Rechnungen und Zahlungshin
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/finish_signing_up.md
-msgid "You started setting up {workspace} on One but didn't finish paying. The name is held for you for a week.<br><br><a href=\"{link}\">Finish signing up</a><br><br>If you changed your mind, there's nothing to do. If something went wrong, reply to this email."
-msgstr "Sie haben begonnen, {workspace} auf One einzurichten, aber die Zahlung nicht abgeschlossen. Der Name ist eine Woche für Sie reserviert.<br><br><a href=\"{link}\">Anmeldung abschließen</a><br><br>Wenn Sie es sich anders überlegt haben, müssen Sie nichts tun. Wenn etwas schiefgelaufen ist, antworten Sie auf diese E-Mail."
+msgid "You started setting up {workspace} on One but didn't finish paying. The name is held for you for a week.<br><br>If you changed your mind, there's nothing to do. If something went wrong, reply to this email."
+msgstr "Sie haben begonnen, {workspace} bei One einzurichten, die Zahlung aber nicht abgeschlossen. Der Name ist eine Woche für Sie reserviert.<br><br>Wenn Sie es sich anders überlegt haben, müssen Sie nichts tun. Wenn etwas schiefging, antworten Sie auf diese E-Mail."
+
+#. Message of a notification
+#: onedesk/notifications/one_storage/link_shared.md
+msgid "You'll get a sign-in code at this address when you open it."
+msgstr "Beim Öffnen erhalten Sie einen Anmeldecode an diese Adresse."
 
 #: frontend/portal/src/pages/YourData.vue:37 onedesk/public/js/settings.js:286
 msgid "You'll get an email with a link to confirm."
@@ -37034,8 +37181,8 @@ msgstr "Ihr Kontoauszug, abgeglichen mit den Büchern."
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/payment_failed.md
-msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your account: {account}"
-msgstr "Ihre Karte wurde nicht belastet. Wird nicht bezahlt, wird {workspace} am {date} gesperrt. Bezahlen Sie oder ändern Sie Ihre Karte in Ihrem Konto: {account}"
+msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
+msgstr "Ihre Karte wurde nicht belastet. Ohne Zahlung wird {workspace} am {date} gesperrt. Bezahlen Sie oder ändern Sie Ihre Karte in Ihrem One-Konto."
 
 #. Subject of a notification
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
@@ -37135,11 +37282,6 @@ msgstr "Ihr Passkey wurde innerhalb eines Monats zweimal zurückgesetzt."
 #: onedesk/notifications/one/password_changed.md
 msgid "Your password was changed"
 msgstr "Dein Passwort wurde geändert"
-
-#. Message of a notification
-#: onedesk/notifications/one/password_changed.md
-msgid "Your password was changed on {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
-msgstr "Dein Passwort wurde am {when} geändert, von {device} ({address}). Warst du das nicht, setze es jetzt auf der Anmeldeseite zurück und sag es deinem Administrator."
 
 #: frontend/portal/src/pages/Record.vue:119
 msgid "Your purchase order number, if you have one"
@@ -39119,11 +39261,11 @@ msgstr "{0} wurde nicht bezahlt."
 msgid "{0} held"
 msgstr "{0} in Besitz"
 
-#: onedesk/one_project/tell.py:337
+#: onedesk/one_project/tell.py:346
 msgid "{0} held by {1}"
 msgstr "{0} von {1} einbehalten"
 
-#: onedesk/one_project/tell.py:337
+#: onedesk/one_project/tell.py:346
 msgid "{0} held from {1}"
 msgstr "{0} bei {1} einbehalten"
 
@@ -39624,6 +39766,10 @@ msgstr "{0} ist abgemeldet. Die Daten werden gelöscht."
 #: onedesk/one/portal_invite.py:93
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr "{0} gehört zum Arbeitsbereich und meldet sich bei One an, nicht im Portal."
+
+#: onedesk/one_project/tell.py:103
+msgid "{0} is still owed."
+msgstr "{0} sind noch offen."
 
 #: onedesk/one_admin/signup.py:35 onedesk/one_admin/signup.py:37
 #: onedesk/one_admin/signup.py:49
@@ -40250,10 +40396,6 @@ msgstr "{0} hat noch {1}. Auch diese stornieren?"
 msgid "{0} still has {1}. Complete them too?"
 msgstr "{0} hat noch {1}. Auch diese abschließen?"
 
-#: onedesk/one_project/tell.py:103
-msgid "{0} still owed"
-msgstr "{0} noch offen"
-
 #: onedesk/one_book/heads.py:132
 msgid "{0} still owed by {1}."
 msgstr "{1} schuldet noch {0}."
@@ -40335,7 +40477,7 @@ msgstr "{0} zu bezahlen"
 
 #: onedesk/one_hr/heads.py:210 onedesk/one_hr/heads.py:338
 #: onedesk/one_inventory/heads.py:928 onedesk/one_inventory/ready.py:139
-#: onedesk/one_project/heads.py:201 onedesk/one_project/tell.py:353
+#: onedesk/one_project/heads.py:201 onedesk/one_project/tell.py:362
 #: onedesk/public/js/settings.js:2992
 msgid "{0} to {1}"
 msgstr "{0} an {1}"
@@ -40568,7 +40710,7 @@ msgid "{0}% of ordered"
 msgstr "{0}% des Bestellten"
 
 #: frontend/src/project/Money.vue:199 frontend/src/project/TaskPanel.vue:46
-#: frontend/src/task/TaskPage.vue:273 onedesk/one_project/tell.py:304
+#: frontend/src/task/TaskPage.vue:273 onedesk/one_project/tell.py:313
 #: onedesk/one_project/view.py:493
 #, python-format
 msgid "{0}% of the contract"
@@ -40860,11 +41002,6 @@ msgid "{big} costs more per unit than {small}."
 msgstr "{big} kostet pro Einheit mehr als {small}."
 
 #. Message of a notification
-#: onedesk/notifications/one/person_deleted.md
-msgid "{by} approved deleting {person}'s account. It is turned off and being erased now."
-msgstr "{by} hat das Löschen des Kontos von {person} genehmigt. Es ist deaktiviert und wird jetzt gelöscht."
-
-#. Message of a notification
 #: onedesk/notifications/one/workspace_closing.md
 msgid "{by} asked for the workspace to be closed. It works as usual until {date}. After that no one can sign in, and on {deleted} everything in it is permanently deleted. Download anything you need before then."
 msgstr "{by} hat die Schließung des Arbeitsbereichs beantragt. Er funktioniert bis {date} wie gewohnt. Danach kann sich niemand mehr anmelden, und am {deleted} wird alles darin endgültig gelöscht. Laden Sie vorher alles herunter, was Sie brauchen."
@@ -40889,11 +41026,6 @@ msgstr "{by} hat OneIntake geändert: {what}"
 msgid "{by} changed the holidays"
 msgstr "{by} hat die Feiertage geändert"
 
-#. Message of a notification
-#: onedesk/notifications/one/holidays_changed.md
-msgid "{by} changed the holidays in {holiday_list}: {what}. Leave, attendance and deadlines count around them from now on."
-msgstr "{by} hat die Feiertage in {holiday_list} geändert: {what}. Urlaub, Anwesenheit und Fristen richten sich ab jetzt danach."
-
 #. Subject of a notification
 #: onedesk/notifications/one/plan_changed.md
 msgid "{by} changed the plan to {plan}"
@@ -40903,11 +41035,6 @@ msgstr "{by} hat den Tarif auf {plan} geändert"
 #: onedesk/notifications/one/main_address_changed.md
 msgid "{by} changed the workspace's address to {domain}"
 msgstr "{by} hat die Adresse des Arbeitsbereichs auf {domain} geändert"
-
-#. Message of a notification
-#: onedesk/notifications/one/plan_changed.md
-msgid "{by} changed the workspace's plan to {plan}. It now costs {monthly} a month."
-msgstr "{by} hat den Tarif des Arbeitsbereichs auf {plan} geändert. Er kostet jetzt {monthly} pro Monat."
 
 #. Message of a notification
 #: onedesk/notifications/one/access_changed.md
@@ -40926,8 +41053,8 @@ msgstr "{by} hat das Konto von {person} gelöscht"
 
 #. Message of a notification
 #: onedesk/notifications/one_inventory/equipment_handed_over.md
-msgid "{by} gave you {asset} on {date}. Look after it, and give it back when you are asked."
-msgstr "{by} hat dir am {date} {asset} übergeben. Pflege es und gib es zurück, wenn du darum gebeten wirst."
+msgid "{by} gave it to you on {date}. Look after it, and give it back when you are asked."
+msgstr "{by} hat es Ihnen am {date} übergeben. Gehen Sie sorgsam damit um und geben Sie es zurück, wenn Sie darum gebeten werden."
 
 #. Message of a notification
 #: onedesk/notifications/one_hr/letter_issued.md
@@ -40940,24 +41067,14 @@ msgid "{by} kept the workspace open. Nothing changes."
 msgstr "{by} hat den Arbeitsbereich offen gehalten. Es ändert sich nichts."
 
 #. Message of a notification
-#: onedesk/notifications/one_admin/workspace_moved_to_you.md
-msgid "{by} made you the billing contact for {workspace}. Its invoices and payment notices now come to you.<br><br><a href=\"{account}\">Open your One account</a> and sign in with this address. If this is a mistake, reply to this email."
-msgstr "{by} hat Sie zum Rechnungskontakt für {workspace} gemacht. Rechnungen und Zahlungshinweise gehen jetzt an Sie.<br><br><a href=\"{account}\">Öffnen Sie Ihr One-Konto</a> und melden Sie sich mit dieser Adresse an. Falls das ein Fehler ist, antworten Sie auf diese E-Mail."
-
-#. Message of a notification
-#: onedesk/notifications/one/main_address_changed.md
-msgid "{by} made {domain} the workspace's main address. Sign-in, invitations and every link in mail now use it."
-msgstr "{by} hat {domain} zur Hauptadresse des Arbeitsbereichs gemacht. Anmeldung, Einladungen und jeder Link in E-Mails verwenden sie jetzt."
-
-#. Message of a notification
-#: onedesk/notifications/one/payer_changed.md
-msgid "{by} made {email} the one who pays. The workspace's invoices go to them from now on."
-msgstr "{by} hat {email} zum Zahler gemacht. Die Rechnungen des Arbeitsbereichs gehen ab jetzt dorthin."
-
-#. Message of a notification
 #: onedesk/notifications/one/administrator_added.md
-msgid "{by} made {person} an administrator of the workspace. If you did not expect this, check Workspace › People now."
-msgstr "{by} hat {person} zum Administrator des Arbeitsbereichs gemacht. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Arbeitsbereich › Personen."
+msgid "{by} made them one. If you did not expect this, check Workspace › People now."
+msgstr "{by} hat die Person dazu gemacht. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Arbeitsbereich › Personen."
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/workspace_moved_to_you.md
+msgid "{by} made you the billing contact for {workspace}. Its invoices and payment notices now come to you. Sign in with this address. If this is a mistake, reply to this email."
+msgstr "{by} hat Sie zum Rechnungskontakt für {workspace} gemacht. Rechnungen und Zahlungshinweise gehen jetzt an Sie. Melden Sie sich mit dieser Adresse an. Wenn das ein Irrtum ist, antworten Sie auf diese E-Mail."
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/workspace_moved_away.md
@@ -41066,13 +41183,18 @@ msgstr "{domain} funktioniert jetzt"
 
 #. Message of a notification
 #: onedesk/notifications/one_task/task_ready.md
-msgid "{done} is done{due}{project}."
-msgstr "{done} ist erledigt{due}{project}."
+msgid "{done} is done. {facts}"
+msgstr "{done} ist erledigt. {facts}"
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/signup_not_built.md
 msgid "{email} paid, but their workspace couldn't be built.<br>{error}<br><br>Build Workspace on the signup tries again. They've been notified of the delay."
 msgstr "{email} hat bezahlt, aber der Arbeitsbereich konnte nicht erstellt werden.<br>{error}<br><br>Arbeitsbereich erstellen in der Anmeldung versucht es erneut. Die Person wurde über die Verzögerung informiert."
+
+#. Message of a notification
+#: onedesk/notifications/one/payer_changed.md
+msgid "{email} pays from now on, and the workspace's invoices go to them."
+msgstr "{email} zahlt ab jetzt, und die Rechnungen des Arbeitsbereichs gehen an diese Adresse."
 
 #. Subject of a notification
 #: onedesk/notifications/one_hr/letter_requested.md
@@ -41141,8 +41263,8 @@ msgstr "{event} ist abgesagt"
 
 #. Subject of a notification
 #: onedesk/notifications/one_calendar/starting_soon.md
-msgid "{event} starts at {time}"
-msgstr "{event} beginnt um {time}"
+msgid "{event} starts at {time}{where}"
+msgstr "{event} beginnt um {time}{where}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_storage/arrived_through_a_link_one_file.md
@@ -41153,6 +41275,16 @@ msgstr "{file} in {folder} hochgeladen"
 #: onedesk/notifications/one/holidays_run_out_soon.md
 msgid "{holiday_list} ends on {last_day} and no list follows it. From {first_day} every day counts as a working day for leave and attendance. Make next year's list in Workspace › Holidays."
 msgstr "{holiday_list} endet am {last_day}, und keine Liste folgt. Ab {first_day} zählt jeder Tag für Urlaub und Anwesenheit als Arbeitstag. Legen Sie die Liste für nächstes Jahr unter Arbeitsbereich › Feiertage an."
+
+#. Message of a notification
+#: onedesk/notifications/one_project/retainer_hours_used.md
+msgid "{hours} h logged so far this month."
+msgstr "Diesen Monat bisher {hours} Std. erfasst."
+
+#. Message of a notification
+#: onedesk/notifications/one_project/retainer_month_to_invoice.md
+msgid "{hours} h of the {allowance} h were used last month. Raise its invoice."
+msgstr "Letzten Monat wurden {hours} Std. von {allowance} Std. genutzt. Stellen Sie die Rechnung."
 
 #. Subject of a notification
 #: onedesk/notifications/one/portal_invitation.md
@@ -41198,6 +41330,11 @@ msgstr "{label} wird für {price} verkauft und kostet {cost}, unter der {margin}
 msgid "{left} of it is still in stock. Use it or sell it first, or move it out of stock once it has expired."
 msgstr "{left} davon sind noch auf Lager. Zuerst verbrauchen oder verkaufen, oder nach Ablauf aus dem Bestand nehmen."
 
+#. Message of a notification
+#: onedesk/notifications/one_project/hours_over_plan.md
+msgid "{logged} h logged of the {planned} h planned."
+msgstr "{logged} Std. von {planned} Std. geplant erfasst."
+
 #. Subject of a notification
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
 msgid "{mailbox} is not connecting: {reason}"
@@ -41223,20 +41360,10 @@ msgstr "{outstanding} sind noch offen. Fällig war sie am {date}. Senden Sie ein
 msgid "{owed}. Pay it today."
 msgstr "{owed}. Bezahlen Sie sie heute."
 
-#. Message of a notification
-#: onedesk/notifications/one/deletion_asked.md
-msgid "{person} ({email}) asked for their account and what they left in the workspace to be deleted. Approve it, or hold it and say why, under Workspace › Privacy Requests."
-msgstr "{person} ({email}) hat angefragt, das Konto und alles im Arbeitsbereich Hinterlassene zu löschen. Genehmigen Sie es oder stellen Sie es mit Begründung zurück, unter Arbeitsbereich › Datenschutzanfragen."
-
 #. Subject of a notification
 #: onedesk/notifications/one/copy_asked.md
 msgid "{person} asked for a copy of their data"
 msgstr "{person} hat eine Kopie der eigenen Daten angefragt"
-
-#. Message of a notification
-#: onedesk/notifications/one/copy_asked.md
-msgid "{person} asked for a copy of their data. Review and send it in Privacy › Data Copies within one month."
-msgstr "{person} hat eine Kopie seiner Daten angefordert. Prüfen und senden Sie sie innerhalb eines Monats unter Datenschutz › Datenkopien."
 
 #. Subject of a notification
 #: onedesk/notifications/one/deletion_asked.md
@@ -41255,8 +41382,8 @@ msgstr "{place} wurde zu den Anmeldeorten hinzugefügt"
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/trial_ending.md
-msgid "{plan} then costs {price}, charged to your card on that day. Change your plan or cancel on your account: {account}"
-msgstr "{plan} kostet dann {price}, an diesem Tag von Ihrer Karte abgebucht. Ändern oder kündigen Sie Ihren Plan in Ihrem Konto: {account}"
+msgid "{plan} then costs {price}, charged to your card on that day. Change your plan or cancel on your One account."
+msgstr "{plan} kostet dann {price}, an diesem Tag von Ihrer Karte abgebucht. Ändern oder kündigen Sie Ihren Tarif in Ihrem One-Konto."
 
 #. Subject of a notification
 #: onedesk/notifications/one_project/retainer_hours_used.md
@@ -41369,6 +41496,11 @@ msgid "{total} in all, the first on {first}. Pay them, or agree new dates with t
 msgstr "Insgesamt {total}, die erste am {first}. Bezahlen Sie sie oder vereinbaren Sie neue Termine mit den Lieferanten."
 
 #. Message of a notification
+#: onedesk/notifications/one_project/over_budget.md
+msgid "{total} spent of a {budget} budget."
+msgstr "{total} von {budget} Budget ausgegeben."
+
+#. Message of a notification
 #: onedesk/notifications/one_crm/quotation_accepted.md
 msgid "{total}, wanted by {wanted}. Their order {order} is a draft: check it and submit it."
 msgstr "{total}, benötigt bis {wanted}. Ihr Auftrag {order} ist ein Entwurf: prüfen und buchen Sie ihn."
@@ -41396,6 +41528,11 @@ msgstr "{upper} spart nur {saves}% gegenüber {lower} mit Zusätzen."
 #: onedesk/notifications/one_inventory/stock_account_wrong.md
 msgid "{warehouse} posts to the wrong account"
 msgstr "{warehouse} bucht auf das falsche Konto"
+
+#. Message of a notification
+#: onedesk/notifications/one_calendar/invited_to_an_event.md
+msgid "{when}{where}."
+msgstr "{when}{where}."
 
 #. Message of a notification
 #: onedesk/notifications/one_studio/extension_turned_on.md
@@ -41439,8 +41576,8 @@ msgstr "{who} hat Ihnen {task} zugewiesen"
 
 #. Message of a notification
 #: onedesk/notifications/one_calendar/event_cancelled.md
-msgid "{who} cancelled <b>{event}</b>, which was {when}."
-msgstr "{who} hat <b>{event}</b> abgesagt, das {when} war."
+msgid "{who} cancelled it. It was {when}."
+msgstr "{who} hat es abgesagt. Es war am {when}."
 
 #. Subject of a notification
 #: onedesk/notifications/one_admin/settings_changed.md
@@ -41449,8 +41586,8 @@ msgstr "{who} hat die OneAdmin-Einstellungen geändert"
 
 #. Message of a notification
 #: onedesk/notifications/one_project/project_stopped.md
-msgid "{who} changed its status{customer}{due}."
-msgstr "{who} hat den Status geändert{customer}{due}."
+msgid "{who} changed its status."
+msgstr "{who} hat den Status geändert."
 
 #. Subject of a notification
 #: onedesk/notifications/one_studio/collection_changed.md
@@ -41467,11 +41604,6 @@ msgstr "{who} hat {event} geändert"
 msgid "{who} changed {form}"
 msgstr "{who} hat {form} geändert"
 
-#. Message of a notification
-#: onedesk/notifications/one_studio/form_customized.md
-msgid "{who} changed {form} for everyone. See it in OneStudio › Custom Fields."
-msgstr "{who} hat {form} für alle geändert. Siehe OneStudio › Benutzerdefinierte Felder."
-
 #. Subject of a notification
 #: onedesk/notifications/one_task/comment_on_your_task.md
 msgid "{who} commented on {task}"
@@ -41479,8 +41611,8 @@ msgstr "{who} hat {task} kommentiert"
 
 #. Message of a notification
 #: onedesk/notifications/one_project/project_completed.md
-msgid "{who} completed it{customer}{owed}."
-msgstr "{who} hat es abgeschlossen{customer}{owed}."
+msgid "{who} completed it.{owed}"
+msgstr "{who} hat es abgeschlossen.{owed}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_project/milestone_done.md
@@ -41527,6 +41659,11 @@ msgstr "{who} hat Sie zur Leitung von {project} gemacht"
 msgid "{who} marked {project} {health}"
 msgstr "{who} hat {project} als {health} markiert"
 
+#. Message of a notification
+#: onedesk/notifications/one_project/project_end_moved.md
+msgid "{who} moved it from {was}."
+msgstr "{who} hat es von {was} verschoben."
+
 #. Subject of a notification
 #: onedesk/notifications/one_task/due_date_changed.md
 msgid "{who} moved {task} to {due}"
@@ -41557,11 +41694,6 @@ msgstr "{who} hat {task} an Sie zurückgegeben"
 #: onedesk/notifications/one_storage/shared_with_you.md
 msgid "{who} shared {file} with you"
 msgstr "{who} hat {file} mit Ihnen geteilt"
-
-#. Message of a notification
-#: onedesk/notifications/one_storage/link_shared.md
-msgid "{who} shared {file} with you.<br><br><a href=\"{link}\">Open</a><br><br>You'll get a sign-in code at this address when you open it."
-msgstr "{who} hat {file} mit Ihnen geteilt.<br><br><a href=\"{link}\">Öffnen</a><br><br>Beim Öffnen erhalten Sie einen Anmeldecode an diese Adresse."
 
 #. Subject of a notification
 #: onedesk/notifications/one_calendar/taken_off_an_event.md
@@ -41630,8 +41762,8 @@ msgstr "{workspace} ist bereit"
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/workspace_ready.md
-msgid "{workspace} is ready at {address}.<br><br>A second email has a link to choose your password. It works for 7 days. If it hasn't arrived, reply to this email.<br><br>It's also in <a href=\"{account}\">your One account</a> with your other workspaces."
-msgstr "{workspace} ist unter {address} bereit.<br><br>Eine zweite E-Mail enthält einen Link zum Festlegen Ihres Passworts. Er gilt 7 Tage. Falls sie nicht angekommen ist, antworten Sie auf diese E-Mail.<br><br>Er ist auch in <a href=\"{account}\">Ihrem One-Konto</a> bei Ihren anderen Arbeitsbereichen."
+msgid "{workspace} is ready at {address}.<br><br>A second email has a link to choose your password. It works for 7 days. If it hasn't arrived, reply to this email. The workspace is also in your One account, with your other workspaces."
+msgstr "{workspace} ist unter {address} bereit.<br><br>Eine zweite E-Mail enthält einen Link zum Festlegen Ihres Passworts. Er gilt 7 Tage. Falls sie nicht angekommen ist, antworten Sie auf diese E-Mail. Der Arbeitsbereich ist auch in Ihrem One-Konto, bei Ihren anderen Arbeitsbereichen."
 
 #. Subject of a notification
 #: onedesk/notifications/one_admin/workspace_suspended.md

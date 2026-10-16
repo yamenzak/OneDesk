@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: When files use 90% of the plan's storage.
 to: Every administrator
+button: Open Plan and Credits
 email: no
 always_mailed: yes
 ---

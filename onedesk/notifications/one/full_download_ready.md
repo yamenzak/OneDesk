@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: When the full download of the workspace you asked for is ready.
 to: The person who pays for the workspace
+button: Open Plan and Credits
 email_default: yes
 ---
 

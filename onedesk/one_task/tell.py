@@ -71,7 +71,12 @@ def _completed(doc) -> bool:
 	)
 	subject, message = notify.render(
 		"Task Done",
-		{"who": get_fullname(doc.from_user), "task": task.subject, "project": _facts(task)["project"]},
+		{
+			"who": get_fullname(doc.from_user),
+			"task": task.subject,
+			"project": _facts(task)["project"],
+			"facts": _facts(task)["facts"],
+		},
 		lang,
 	)
 	_say(doc, "Task Done", subject, message)
@@ -100,6 +105,7 @@ def done(doc, method=None) -> None:
 		who=get_fullname(frappe.session.user),
 		task=doc.subject,
 		project=_facts(doc)["project"],
+		facts=_facts(doc)["project"].lstrip(" ·"),
 	)
 
 
@@ -143,6 +149,7 @@ def changed(doc, method=None) -> None:
 				who=get_fullname(frappe.session.user),
 				task=doc.subject,
 				project=_facts(doc)["project"],
+				facts=_facts(doc)["project"].lstrip(" ·"),
 			)
 	if before and doc.exp_end_date and _day(before.exp_end_date) != _day(doc.exp_end_date):
 		people = _others(_given(doc.name))
@@ -156,6 +163,14 @@ def changed(doc, method=None) -> None:
 				due=formatdate(doc.exp_end_date),
 				was=_(" · was {0}").format(formatdate(before.exp_end_date)) if before.exp_end_date else "",
 				project=_facts(doc)["project"],
+				facts=" · ".join(
+					one
+					for one in (
+						_("Was {0}").format(formatdate(before.exp_end_date)) if before.exp_end_date else "",
+						_facts(doc)["project"].lstrip(" ·"),
+					)
+					if one
+				),
 			)
 
 
@@ -213,9 +228,13 @@ def _facts(task) -> dict:
 
 	day = due(task)
 	title = frappe.db.get_value("Project", task.project, "project_name") if task.get("project") else None
+	due = _("Due {0}").format(formatdate(day)) if day else ""
+	project = (title or task.project) if task.get("project") else ""
 	return {
-		"due": " · " + _("Due {0}").format(formatdate(day)) if day else "",
-		"project": f" · {title or task.project}" if task.get("project") else "",
+		"due": f" · {due}" if due else "",
+		"project": f" · {project}" if project else "",
+		# Both on one line, for the mail: "Due 5 Oct 2026 · Website Relaunch".
+		"facts": " · ".join(one for one in (due, project) if one),
 	}
 
 

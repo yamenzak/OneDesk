@@ -9,4 +9,4 @@ email_default: no
 
 # {who} changed {form}
 
-{who} changed {form} for everyone. See it in OneStudio › Custom Fields.
+It changed for everyone. See it in OneStudio › Custom Fields.

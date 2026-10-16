@@ -10,4 +10,4 @@ push_default: yes
 
 # {who} added you to {project}
 
-<b>{project}</b>{customer}{due}
+{facts}

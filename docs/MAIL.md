@@ -93,8 +93,17 @@ And every upstream mail found unlisted is listed, with who it really reaches.
 
 ## Stage 4: the words
 
-Every type's default subject and message rewritten against what the audit
-found: the subject says what happened and to what, the message what to do
-next; a button label of the type's own where "Open {record}" is wrong;
-roles on every administrator's type. Every mail rendered on one sheet and
-looked at, in English and Arabic.
+Done. Every type's default subject and message rewritten against what the
+audit found: the subject says what happened and to what, the message what
+to do next.
+
+- A type may say `button:`, the label of its one button, where "Open
+  {record}" is wrong: "Open Plan and Credits", "Review It", "Confirm
+  Request". `notify.button()` reads it, in the reader's language, for bell
+  mails and for the mails a module sends itself; a link written into the
+  message as an anchor is gone from every type.
+- A task's facts and a project's are one line, "Due 20 Oct · Mansour Villa",
+  rather than a sentence each.
+- Every mail was rendered on a sheet per module (the type's sample values
+  in the frame it is sent in) and read, in English and Arabic.
+- Roles on every administrator's type.

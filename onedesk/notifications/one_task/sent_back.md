@@ -9,4 +9,4 @@ push_default: yes
 
 # {who} sent {task} back to you
 
-It needs more work before it is done{project}.
+It needs more work before it is done. {facts}

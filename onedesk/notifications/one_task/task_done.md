@@ -8,4 +8,4 @@ push_default: yes
 
 # {who} completed {task}
 
-<b>{task}</b>{project}
+{facts}

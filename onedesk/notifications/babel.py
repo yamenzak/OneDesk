@@ -6,6 +6,7 @@ SAID = {
 	"name": "Name of a notification",
 	"about": "When a notification is sent",
 	"to": "Who a notification is sent to",
+	"button": "The button on a notification's mail",
 	"subject": "Subject of a notification",
 	"message": "Message of a notification",
 }

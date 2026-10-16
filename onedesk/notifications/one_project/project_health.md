@@ -9,4 +9,4 @@ push_default: yes
 
 # {who} marked {project} {health}
 
-<b>{project}</b> is {health}{due}
+Open it to see why, and what is being done.

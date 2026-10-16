@@ -4,6 +4,7 @@ app: One
 roles: Workspace Administrator
 about: When the holiday list ends in 60, 30 or 7 days with no list after it.
 to: Every administrator
+button: Open Holidays
 email_default: yes
 ---
 

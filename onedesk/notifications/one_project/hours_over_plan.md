@@ -9,4 +9,4 @@ push_default: yes
 
 # {task} is over its planned hours
 
-<b>{task}</b>{project} · {logged} h of {planned} h
+{logged} h logged of the {planned} h planned.

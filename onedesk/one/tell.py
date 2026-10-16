@@ -313,7 +313,7 @@ def passkey_added(user: str) -> None:
 
 def asked_to_confirm_deletion(email: str, url: str, hours: int) -> None:
 	"""Somebody without a password asked to be deleted, and confirms by the link."""
-	notify.notify("Confirm Deletion", email, url=url, hours=hours)
+	notify.notify("Confirm Deletion", email, link=url, url=url, hours=hours)
 
 
 def deletion_asked(doc) -> None:

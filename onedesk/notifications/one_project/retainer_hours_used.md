@@ -9,4 +9,4 @@ push_default: yes
 
 # {project} has used its {allowance} h for this month
 
-<b>{project}</b> · {hours} h of {allowance} h{customer}
+{hours} h logged so far this month.
