@@ -570,7 +570,7 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 	frappe.sendmail(
 		recipients=[recipients] if isinstance(recipients, str) else list(recipients),
 		subject=plain(subject),
-		message=compose(subject, message, link, button(name, kwargs, lang) if link else None),
+		message=compose(subject, message, link, button(name, kwargs, lang) if link else None, lang=lang),
 		with_container=True,
 		**passed,
 	)
@@ -596,11 +596,17 @@ SENDMAIL = frozenset(
 
 
 def compose(
-	subject: str, message: str, link: str | None = None, button: str | None = None, reason: str = ""
+	subject: str,
+	message: str,
+	link: str | None = None,
+	button: str | None = None,
+	reason: str = "",
+	lang: str | None = None,
 ) -> str:
 	"""A mail's body as One draws it (templates/emails/one_mail.html): what
-	happened as its heading, the message, one button, and why it came.
-	frappe frames it (templates/emails/standard.html, ours)."""
+	happened as its heading, the message, one button, and why it came,
+	right to left for a reader of Arabic. frappe frames it
+	(templates/emails/standard.html, ours)."""
 	from markupsafe import Markup
 
 	# Our own file, filled with text `render` has already made safe; an
@@ -612,8 +618,14 @@ def compose(
 			"link": frappe.utils.get_url(link) if link else None,
 			"button": button,
 			"reason": Markup(reason),
+			"rtl": (lang or "").split("-")[0] in RTL,
 		},
 	)
+
+
+#: frappe's right-to-left languages (frappe.utils.jinja_globals.is_rtl,
+#: which reads only the request's language).
+RTL = frozenset({"ar", "fa", "he", "ku", "ps", "ur"})
 
 
 def button(name: str, context: dict, lang: str | None) -> str | None:
@@ -681,7 +693,7 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	frappe.sendmail(
 		recipients=email,
 		subject=plain(subject),
-		message=compose(subject, message, link, label, reason),
+		message=compose(subject, message, link, label, reason, lang),
 		with_container=True,
 		now=frappe.in_test,
 	)

@@ -45,13 +45,14 @@
 <body>
 	{%- if header or with_container %}
 	{%- set brand = one_mail_brand() if one_mail_brand is defined else {"name": brand_name, "logo": None} %}
-	<table class="one-page" border="0" cellpadding="0" cellspacing="0" width="100%">
+	{%- set rtl = 'dir="rtl"' in (content or "") %}
+	<table class="one-page" dir="{{ 'rtl' if rtl else 'ltr' }}" border="0" cellpadding="0" cellspacing="0" width="100%">
 		<tr>
 			<td align="center" valign="top" style="padding: 0 16px;">
 				<table class="one-column" border="0" cellpadding="0" cellspacing="0" width="560">
 					<tr>
-						<td class="one-masthead" align="left">
-							{%- if brand.logo %}<img src="{{ brand.logo }}" class="one-logo" alt="" />{% endif -%}
+						<td class="one-masthead" align="{{ 'right' if rtl else 'left' }}">
+							{%- if brand.logo %}<img src="{{ brand.logo }}" class="one-logo" style="{{ 'margin: 0 0 0 8px;' if rtl else '' }}" alt="" />{% endif -%}
 							{{ brand.name }}
 						</td>
 					</tr>
@@ -63,7 +64,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="one-footer" valign="top" data-email-footer="true">{{ footer or "" }}</td>
+						<td class="one-footer" align="{{ 'right' if rtl else 'left' }}" valign="top" data-email-footer="true">{{ footer or "" }}</td>
 					</tr>
 				</table>
 			</td>

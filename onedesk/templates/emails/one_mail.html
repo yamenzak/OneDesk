@@ -1,6 +1,8 @@
 {#- What One says in a mail (one/notify.py `compose`): what happened as the
     heading, the message, one button to it, and which notification this is
-    with where to change it. Framed by standard.html. -#}
+    with where to change it, right to left for a reader of Arabic. Framed
+    by standard.html, whose masthead follows the `dir` here. -#}
+<div dir="{{ 'rtl' if rtl else 'ltr' }}" style="text-align: {{ 'right' if rtl else 'left' }};">
 <h1 class="one-title">{{ subject }}</h1>
 {%- if message %}
 <div class="one-text">{{ message }}</div>
@@ -11,3 +13,4 @@
 {%- if reason %}
 <div class="one-reason">{{ reason }}</div>
 {%- endif %}
+</div>
