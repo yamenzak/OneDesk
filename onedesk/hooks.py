@@ -164,6 +164,8 @@ scheduler_events = {
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_calendar.tell.soon",
 			"onedesk.one_crm.tell.due",
+			# Mail frappe gave up sending. See one_mail/tell.py.
+			"onedesk.one_mail.tell.not_sent",
 		],
 		# Each person's day, in the morning. See one_calendar/tell.py.
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
@@ -176,6 +178,7 @@ scheduler_events = {
 			"onedesk.one_inventory.tell.deliveries_late",
 			"onedesk.one_inventory.tell.back_late",
 			"onedesk.one_crm.tell.contracts_ending",
+			"onedesk.one_project.tell.milestones_late",
 		],
 		# Supplier bills due in the coming week, on Monday. See one_book/tell.py.
 		"25 6 * * 1": ["onedesk.one_book.tell.bills_due"],
@@ -1158,6 +1161,8 @@ override_doctype_dashboards = {
 
 # Every shift location counts, not the first. See one_hr/checkin.py.
 override_doctype_class = {
+	# Remind Me told as One's Reminder. See one/tell.py.
+	"Reminder": "onedesk.one.tell.Reminder",
 	"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin",
 	# Time logged for somebody without an account. See one_hr/timesheet.py.
 	"Timesheet": "onedesk.one_hr.timesheet.OneTimesheet",

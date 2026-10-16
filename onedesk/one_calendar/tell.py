@@ -112,7 +112,7 @@ def _changed(doc, stayed: dict) -> None:
 	users = [user for user in stayed.values() if user and user != frappe.session.user]
 	if users:
 		notify.notify("Event Changed", users, record=("Event", doc.name), link=_link(doc), **facts)
-	_mail(doc, [email for email, user in stayed.items() if not user], "REQUEST", facts)
+	_mail(doc, [email for email, user in stayed.items() if not user], "REQUEST", facts, changed=True)
 
 
 def _taken_off(doc, gone: dict) -> None:
@@ -168,16 +168,17 @@ def _link(doc) -> str:
 # ------------------------------------------------------------------ guests
 
 
-def _mail(doc, emails: list[str], method: str, facts: dict) -> None:
-	"""Each guest mailed the event as an invitation, or its cancellation."""
+def _mail(doc, emails: list[str], method: str, facts: dict, changed: bool = False) -> None:
+	"""Each guest mailed the event as an invitation, a change to it, or its
+	cancellation."""
 	if not emails:
 		return
 	zone = ZoneInfo(frappe.utils.get_system_timezone())
 	site = frappe.utils.get_url()
 	organizer = frappe.db.get_value("User", doc.owner, "email") or doc.owner
 	body = invitation(_as_event(doc), method, organizer, emails, zone, now_datetime(), site, int(time.time()))
-	state = {"REQUEST": _("Invitation"), "CANCEL": _("Cancelled")}[method]
-	said = _("cancelled") if method == "CANCEL" else _("invites you to")
+	state = {"REQUEST": _("Changed") if changed else _("Invitation"), "CANCEL": _("Cancelled")}[method]
+	said = _("cancelled") if method == "CANCEL" else _("changed") if changed else _("invites you to")
 	for email in emails:
 		notify.mail(
 			"Event Invitation",
@@ -315,7 +316,11 @@ def _reminders(names: list[str]) -> dict[str, list[int]]:
 
 def _starting(event, starts: datetime) -> None:
 	doc = frappe.get_doc("Event", event.name)
-	users = [user for user in people(doc).values() if user]
+	# Nobody who said they are not coming.
+	declined = {
+		(row.email or "").lower() for row in doc.get("event_participants") or [] if row.attending == "No"
+	}
+	users = [user for email, user in people(doc).items() if user and email not in declined]
 	if not users:
 		return
 	notify.notify(

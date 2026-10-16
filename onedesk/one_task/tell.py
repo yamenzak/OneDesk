@@ -134,6 +134,35 @@ def changed(doc, method=None) -> None:
 				**_facts(doc),
 			)
 	before = doc.get_doc_before_save()
+	if before and before.status == "Completed" and doc.status not in DONE:
+		# Completing closed its assignments, so whoever held it and made it
+		# hear it is open again.
+		held = frappe.get_all(
+			"ToDo",
+			filters={"reference_type": "Task", "reference_name": doc.name, "status": "Closed"},
+			pluck="allocated_to",
+		)
+		people = _others({*held, doc.get("completed_by"), doc.owner})
+		if people:
+			notify.notify(
+				"Task Reopened",
+				people,
+				record=("Task", doc.name),
+				who=get_fullname(frappe.session.user),
+				task=doc.subject,
+				facts=_facts(doc)["facts"],
+			)
+	if before and doc.status == "Cancelled" and before.status != "Cancelled":
+		people = _others({*_gave(doc.name), doc.owner})
+		if people:
+			notify.notify(
+				"Task Cancelled",
+				people,
+				record=("Task", doc.name),
+				who=get_fullname(frappe.session.user),
+				task=doc.subject,
+				facts=_facts(doc)["facts"],
+			)
 	if (
 		before
 		and before.status == "Pending Review"
@@ -292,7 +321,13 @@ def _lines(lines: list[str]):
 
 def commented(doc, method=None) -> None:
 	"""Comment after_insert: a comment on a task, told to its people, but the
-	commenter and whoever it mentions (frappe tells them as a Mention)."""
+	commenter and whoever it mentions (frappe tells them as a Mention). One
+	on a project goes to OneProject's."""
+	if doc.comment_type == "Comment" and doc.reference_doctype == "Project" and doc.reference_name:
+		from onedesk.one_project import tell as projects
+
+		projects.commented(doc)
+		return
 	if doc.comment_type != "Comment" or doc.reference_doctype != "Task" or not doc.reference_name:
 		return
 	from frappe.desk.notifications import extract_mentions

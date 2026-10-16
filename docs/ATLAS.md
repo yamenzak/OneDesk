@@ -289,12 +289,12 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Activity Cost | **waiting** | OneProject | untouched | yes | general |  | **none** |  |  |  |  |
 | Activity Type | on a rail or a home | everybody | form script | yes | taught |  | yes |  |  |  |  |
-| Project | on a rail or a home | OneBook, OneHR, OneProject | a page of our own | yes | taught |  | yes |  |  | ar 20, de 18 | Added to Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Stopped, Project Summary, Project Update Asked |
+| Project | on a rail or a home | OneBook, OneHR, OneProject | a page of our own | yes | taught |  | yes |  |  | ar 20, de 18 | Added to Project, Comment on Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Resumed, Project Stopped, Project Summary, Project Update Asked |
 | Project Template | on a rail or a home | OneProject | a page of our own | yes | taught |  | yes |  |  |  |  |
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Project Update | **waiting** | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
 | Projects Settings | opened by our screens | OneProject | 5 fields, 3 settings | no | general |  |  |  |  |  |  |
-| Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 1 | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Pending Review, Sent Back, Task Done, Task Ready |
+| Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 1 | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
 | Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
 | Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 
@@ -490,7 +490,7 @@ Reports: YouTube Interactions (**waiting**).
 | Automation Trigger Queue | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |
 | Milestone | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | Milestone Tracker | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Reminder | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Reminder | **waiting** | everybody | class | no | general |  | **none** |  |  |  |  |
 
 ## frappe / Contacts
 
@@ -514,7 +514,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Audit Trail | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Background Task | **waiting** | everybody | untouched | no | general |  | **none** |  |  | ar 6, de 1 |  |
 | Comment | **waiting** | **nobody** | events | no | taught |  | yes |  |  |  |  |
-| Communication | **waiting** | everybody | events, 7 fields | no | taught |  | yes |  |  |  |  |
+| Communication | **waiting** | everybody | events, 7 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
 | Custom DocPerm | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Custom Icon | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Custom Role | opened by our screens | **nobody** | untouched | no | general |  | yes |  | **only an ID** |  |  |

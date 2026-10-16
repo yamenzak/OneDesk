@@ -7264,6 +7264,78 @@ def onehr_tells_what_the_second_pass_found():
 
 
 @check
+def work_and_mail_tell_what_the_second_pass_found():
+	"""Samir's completed task reopened by Rania reaches Samir, and cancelled
+	reaches him too; a project put back to Open reaches its people; a member
+	taken off hears it; a comment on a project reaches its manager; a
+	milestone a day late reaches the manager; mail frappe gave up sending
+	reaches whoever sent it; a mailbox given to somebody reaches them; a Remind
+	Me reaches whoever set it."""
+	from unittest.mock import patch
+
+	from onedesk.one_mail import tell as mail
+	from onedesk.one_project import tell as projects
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def said(name):
+		found = [one for one in told if one[0] == name]
+		assert found, (name, [one[0] for one in told])
+		return found[-1]
+
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		task = frappe.get_doc("Task", frappe.db.get_value("Task", {"status": "Completed", "owner": "samir@one.test"}))
+		with as_user("rania@one.test"):
+			task.status = "Open"
+			task.save(ignore_permissions=True)
+			assert "samir@one.test" in said("Task Reopened")[1]
+			task.status = "Cancelled"
+			task.save(ignore_permissions=True)
+		assert "samir@one.test" in said("Task Cancelled")[1]
+
+		project = frappe.get_doc("Project", frappe.db.get_value("Project", {"status": "Open", "one_manager": "samir@one.test"}))
+		project.append("users", {"user": "rania@one.test"})
+		project.save(ignore_permissions=True)
+		with as_user("mariam@one.test"):
+			project.status = "On hold"
+			project.save(ignore_permissions=True)
+			project.status = "Open"
+			project.save(ignore_permissions=True)
+			assert "samir@one.test" in said("Project Resumed")[1]
+			project.users = [row for row in project.users if row.user != "rania@one.test"]
+			project.save(ignore_permissions=True)
+		assert said("Removed from Project")[1] == ["rania@one.test"]
+
+		with as_user("rania@one.test"):
+			frappe.get_doc({"doctype": "Comment", "comment_type": "Comment", "reference_doctype": "Project", "reference_name": project.name, "content": "Glass arrives Monday.", "comment_email": "rania@one.test"}).insert(ignore_permissions=True)
+		assert said("Comment on Project")[1] == ["samir@one.test"]
+
+		milestone = frappe.get_doc({"doctype": "Task", "subject": "Frames installed", "project": project.name, "is_milestone": 1, "exp_end_date": add_days(today(), -1)})
+		milestone.flags.ignore_validate = True
+		milestone.insert(ignore_permissions=True, ignore_mandatory=True)
+		projects.milestones_late()
+		assert said("Milestone Late")[2]["milestone"] == "Frames installed"
+
+		sent = frappe.get_doc({"doctype": "Communication", "communication_type": "Communication", "communication_medium": "Email", "sent_or_received": "Sent", "subject": "Your quote", "recipients": "buyer@example.com", "content": "Attached."})
+		sent.insert(ignore_permissions=True)
+		frappe.db.set_value("Communication", sent.name, {"delivery_status": "Error", "owner": "samir@one.test"})
+		mail.not_sent()
+		assert said("Mail Not Sent")[1] == ["samir@one.test"]
+
+		mail.mailbox_shared("Sales", ["rania@one.test"])
+		assert said("Mailbox Shared With You")[1] == ["rania@one.test"]
+
+		with as_user("samir@one.test"):
+			reminder = frappe.get_doc({"doctype": "Reminder", "user": "samir@one.test", "remind_at": frappe.utils.add_to_date(frappe.utils.now_datetime(), minutes=5), "description": "Call the glazier", "reminder_doctype": "Project", "reminder_docname": project.name}).insert(ignore_permissions=True)
+		reminder.send_reminder()
+		_name, users, values = said("Reminder")
+		assert users == ["samir@one.test"] and values["said"] == "Call the glazier", values
+
+
+@check
 def sales_books_and_stock_tell_what_waits_on_somebody():
 	"""Layla makes Samir the owner of a lead, and Samir is told; a lead nobody
 	owns reaches sales; a quotation three days from its last day reaches

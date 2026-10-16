@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 13:12+0000\n"
+"POT-Creation-Date: 2026-10-16 13:20+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid " and "
 msgstr " و"
 
-#: onedesk/one_task/tell.py:164
+#: onedesk/one_task/tell.py:193
 msgid " · was {0}"
 msgstr " · كان {0}"
 
@@ -835,7 +835,7 @@ msgstr "يبدأ السجل الجديد بهذه السلسلة."
 msgid "A new sign-in to your account"
 msgstr "تسجيل دخول جديد إلى حسابك"
 
-#: onedesk/one/tell.py:36
+#: onedesk/one/tell.py:37
 msgid "A note from One: {0}"
 msgstr "ملاحظة من One: {0}"
 
@@ -2478,7 +2478,7 @@ msgstr "يجب أن تتطابق كل الشروط. اتركه فارغًا لل
 msgid "All conversations"
 msgstr "كل المحادثات"
 
-#: onedesk/one_calendar/tell.py:361
+#: onedesk/one_calendar/tell.py:364
 msgid "All day"
 msgstr "طوال اليوم"
 
@@ -5254,7 +5254,7 @@ msgid "Cancel Deletion"
 msgstr "إلغاء الحذف"
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: onedesk/one_admin/accounts.py:219 onedesk/one_calendar/tell.py:179
+#: onedesk/one_admin/accounts.py:219 onedesk/one_calendar/tell.py:180
 #: onedesk/one_project/status.py:19 onedesk/one_task/custom/task.json
 #: onedesk/public/js/contract_list.js:11
 msgid "Cancelled"
@@ -5465,6 +5465,7 @@ msgid "Change {0} on {1}"
 msgstr "تغيير {0} في {1}"
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
+#: onedesk/one_calendar/tell.py:180
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:10
 msgid "Changed"
@@ -6254,6 +6255,11 @@ msgstr "قادم"
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Comment"
 msgstr "تعليق"
+
+#. Name of a notification
+#: onedesk/notifications/one_project/comment_on_project.md
+msgid "Comment on Project"
+msgstr "تعليق على مشروع"
 
 #. Name of a notification
 #: onedesk/notifications/one_task/comment_on_your_task.md
@@ -8949,7 +8955,7 @@ msgstr "يستحق غدًا"
 #: frontend/src/project/Suppliers.vue:117
 #: frontend/src/sent_out/SentOutPage.vue:106 onedesk/one/portal.py:448
 #: onedesk/one/portal.py:809 onedesk/one_inventory/heads.py:558
-#: onedesk/one_task/tell.py:231
+#: onedesk/one_task/tell.py:260
 msgid "Due {0}"
 msgstr "مستحقة {0}"
 
@@ -9089,6 +9095,11 @@ msgid "Each person chooses"
 msgstr "يختار كل شخص"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
+msgid "Each person given it"
+msgstr "كل من أُعطي له"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_task/task_given.md
 msgid "Each person given it, but whoever gave it"
 msgstr "كل من أُسندت إليه، عدا من أسندها"
@@ -9102,6 +9113,11 @@ msgstr "كل من أُسندت إليه المهمة، باستثناء من غ�
 #: onedesk/notifications/one_task/task_ready.md
 msgid "Each person given the task, or whoever made it, but whoever completed the last one"
 msgstr "كل من أُسندت إليه المهمة، أو منشئها، باستثناء من أنجز المهمة الأخيرة"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_project/removed_from_project.md
+msgid "Each person taken off, but whoever did it"
+msgstr "كل من أُزيل، عدا من قام بذلك"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_task/today_s_tasks.md
@@ -9677,8 +9693,8 @@ msgid "Ends tomorrow"
 msgstr "ينتهي غدًا"
 
 #: frontend/src/project/Overview.vue:322 onedesk/one/portal.py:370
-#: onedesk/one_project/portal.py:199 onedesk/one_project/tell.py:117
-#: onedesk/one_project/tell.py:123
+#: onedesk/one_project/portal.py:199 onedesk/one_project/tell.py:190
+#: onedesk/one_project/tell.py:196
 msgid "Ends {0}"
 msgstr "ينتهي {0}"
 
@@ -10102,8 +10118,8 @@ msgstr "كل المدعوين، عدا من غيّره"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "Everybody who holds it"
-msgstr "كل من يملكه"
+msgid "Everybody who holds it, or every administrator when nobody does"
+msgstr "كل من يملكه، أو كل المسؤولين إن لم يملكه أحد"
 
 #: onedesk/one/settings.py:877
 msgid "Everyone"
@@ -11942,6 +11958,11 @@ msgstr "بضائع أعادها {0}."
 msgid "Google Calendar"
 msgstr "تقويم Google"
 
+#. Name of a notification
+#: onedesk/notifications/one_calendar/google_calendar_updates.md
+msgid "Google Calendar Updates"
+msgstr "تحديثات تقويم Google"
+
 #. Label of the ladder_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the ladder_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -13654,7 +13675,7 @@ msgid "Inventory Dimension"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one/invitation.md onedesk/one_calendar/tell.py:179
+#: onedesk/notifications/one/invitation.md onedesk/one_calendar/tell.py:180
 msgid "Invitation"
 msgstr "دعوة"
 
@@ -13940,6 +13961,11 @@ msgstr "لا يمكن تشغيلها هنا بعد: مساحة العمل هذه
 msgid "It changed for everyone. See it in OneStudio › Custom Fields."
 msgstr "تغيّر للجميع. اطّلع عليه في OneStudio › الحقول المخصصة."
 
+#. Message of a notification
+#: onedesk/notifications/one_mail/mail_not_sent.md
+msgid "It could not be delivered to {to}. Open it to see why, and send it again."
+msgstr "تعذّر تسليمه إلى {to}. افتحه لترى السبب، ثم أرسله مجددًا."
+
 #: onedesk/one_admin/heads.py:321
 msgid "It expired on {0} with {1} of {2} credits unused."
 msgstr "انتهت صلاحيته في {0} وبقي {1} من {2} رصيد دون استخدام."
@@ -14036,6 +14062,11 @@ msgstr "كان موعد إرجاعه {due}. تابع مع {supplier}."
 #: onedesk/notifications/one_inventory/delivery_late.md
 msgid "It was due on {due}, and {left} of it has not been delivered. Deliver it, or tell the customer the new date."
 msgstr "كان موعده {due}، ولم يُسلَّم {left} منه. سلّمه، أو أخبر العميل بالموعد الجديد."
+
+#. Message of a notification
+#: onedesk/notifications/one_project/milestone_late.md
+msgid "It was due on {due}. Move it, or tell the customer."
+msgstr "كان موعده {due}. أجّله، أو أخبر العميل."
 
 #. Message of a notification
 #: onedesk/notifications/one_inventory/service_late.md
@@ -14231,6 +14262,11 @@ msgstr "حقولها الآن: {fields}."
 #: onedesk/notifications/one_hr/interview_soon.md
 msgid "Its interviewers"
 msgstr "المُقابِلون فيها"
+
+#. Message of a notification
+#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
+msgid "Its mail is in OneMail now, beside your own, and you can reply from it."
+msgstr "بريده في OneMail الآن بجانب بريدك، ويمكنك الرد منه."
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
@@ -15996,6 +16032,11 @@ msgstr "مجلد البريد"
 msgid "Mail Name"
 msgstr "اسم البريد"
 
+#. Name of a notification
+#: onedesk/notifications/one_mail/mail_not_sent.md
+msgid "Mail Not Sent"
+msgstr "لم يُرسل البريد"
+
 #. Name of a DocType
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Mail Rule"
@@ -16056,6 +16097,11 @@ msgstr "صندوق البريد"
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
 msgid "Mailbox Not Reachable"
 msgstr "صندوق البريد غير متاح"
+
+#. Name of a notification
+#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
+msgid "Mailbox Shared With You"
+msgstr "صندوق بريد مشترك معك"
 
 #: onedesk/public/js/onemail.js:906
 msgid "Mailbox connected"
@@ -16737,6 +16783,11 @@ msgstr "مرحلة رئيسية"
 #: onedesk/notifications/one_project/milestone_done.md
 msgid "Milestone Done"
 msgstr "اكتملت المرحلة"
+
+#. Name of a notification
+#: onedesk/notifications/one_project/milestone_late.md
+msgid "Milestone Late"
+msgstr "تأخّر معلم"
 
 #: frontend/portal/src/pages/Project.vue:16
 #: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:70
@@ -20163,7 +20214,7 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير هذه؛ أما تشغيلها أو إيقافها فهو قرارك."
 
-#: onedesk/one_mail/holders.py:229
+#: onedesk/one_mail/holders.py:232
 msgid "Only a Workspace Administrator can change the signature of {0}."
 msgstr "لا يمكن تغيير توقيع {0} إلا لمسؤول مساحة العمل."
 
@@ -20227,7 +20278,7 @@ msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
 msgid "Only a saved report can be shown somewhere else."
 msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخر."
 
-#: onedesk/one_mail/holders.py:173
+#: onedesk/one_mail/holders.py:176
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "لا يمكن أن يكون صندوق بريد مساحة العمل إلا صندوقًا مشتركًا."
 
@@ -20533,6 +20584,11 @@ msgstr "فتح بطاقة العمل"
 #: onedesk/public/js/oneai/Found.vue:13
 msgid "Open List"
 msgstr "فتح القائمة"
+
+#. The button on a notification's mail
+#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
+msgid "Open Mail"
+msgstr "فتح البريد"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
@@ -21310,7 +21366,7 @@ msgstr "أكثر من سنة"
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:761 onedesk/one_book/heads.py:785
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:39
-#: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:273
+#: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:302
 msgid "Overdue"
 msgstr "متأخر"
 
@@ -23246,6 +23302,11 @@ msgstr ""
 msgid "Project Progress"
 msgstr "تقدّم المشاريع"
 
+#. Name of a notification
+#: onedesk/notifications/one_project/project_resumed.md
+msgid "Project Resumed"
+msgstr "استُؤنف المشروع"
+
 #: onedesk/one/print_blocks.py:36
 msgid "Project Status"
 msgstr ""
@@ -24714,7 +24775,9 @@ msgstr "تذكير عميل بفاتورة متأخرة"
 msgid "Reminded On"
 msgstr "تاريخ التذكير"
 
+#. Name of a notification
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
+#: onedesk/notifications/one/reminder.md
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Reminder"
 msgstr "تذكير بالدفع"
@@ -24734,6 +24797,11 @@ msgstr "أُرسل تذكير إلى {0} أشخاص"
 #: onedesk/one_intake/planning.py:139
 msgid "Reminder: {0}"
 msgstr "تذكير: {0}"
+
+#. Subject of a notification
+#: onedesk/notifications/one/reminder.md
+msgid "Reminder: {said}"
+msgstr "تذكير: {said}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_storage/file_request_reminder.md
@@ -24807,6 +24875,11 @@ msgstr "إزالة {0}؟ لن تُفتح مساحة العمل على هذا ا�
 #: onedesk/one/ai.py:1085 onedesk/one/page/masters/masters.js:273
 msgid "Removed"
 msgstr "تمت الإزالة"
+
+#. Name of a notification
+#: onedesk/notifications/one_project/removed_from_project.md
+msgid "Removed from Project"
+msgstr "أُزلت من المشروع"
 
 #: onedesk/one_admin/steps.py:63
 msgid "Removing the address"
@@ -29084,6 +29157,11 @@ msgstr "الهامش المستهدف"
 msgid "Task"
 msgstr "المهمة"
 
+#. Name of a notification
+#: onedesk/notifications/one_task/task_cancelled.md
+msgid "Task Cancelled"
+msgstr "أُلغيت المهمة"
+
 #: frontend/src/task/MyTasks.vue:22
 msgid "Task Delays"
 msgstr "تأخر المهام"
@@ -29108,6 +29186,11 @@ msgstr "بادئة المهام"
 #: onedesk/notifications/one_task/task_ready.md
 msgid "Task Ready"
 msgstr "مهمة جاهزة"
+
+#. Name of a notification
+#: onedesk/notifications/one_task/task_reopened.md
+msgid "Task Reopened"
+msgstr "أُعيد فتح المهمة"
 
 #. Name of a DocType
 #: onedesk/one_task/doctype/task_step/task_step.json
@@ -29962,6 +30045,11 @@ msgid "The database uses {0} GB and the plan allows {1} GB."
 msgstr "تستخدم قاعدة البيانات {0} غيغابايت والخطة تسمح بـ {1} غيغابايت."
 
 #. When a notification is sent
+#: onedesk/notifications/one_project/milestone_late.md
+msgid "The day after a milestone was due and is not done."
+msgstr "في اليوم التالي لموعد معلم لم يُنجز."
+
+#. When a notification is sent
 #: onedesk/notifications/one_inventory/back_from_supplier_late.md
 msgid "The day after subcontracted goods were due back and have not all come back."
 msgstr "في اليوم التالي لموعد إرجاع بضائع التعاقد من الباطن دون أن تعود كلها."
@@ -30053,6 +30141,11 @@ msgstr "الموظف الذي يسمّيه التصنيف، والمورد"
 #: onedesk/notifications/one_hr/grievance_answered.md
 msgid "The employee who raised it"
 msgstr "الموظف الذي قدّمها"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_calendar/google_calendar_updates.md
+msgid "The event's guests"
+msgstr "ضيوف الحدث"
 
 #: onedesk/one_hr/heads.py:576
 msgid "The expense is booked and the money is owed to them."
@@ -30627,11 +30720,13 @@ msgstr "المنتج الذي يعمل له هذا الإجراء، وبه تُ�
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_project/bill_due.md
+#: onedesk/notifications/one_project/milestone_late.md
 #: onedesk/notifications/one_project/retention_due.md
 msgid "The project's manager"
 msgstr "مدير المشروع"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_project/project_resumed.md
 #: onedesk/notifications/one_project/project_stopped.md
 msgid "The project's manager and members, but whoever did it"
 msgstr "مدير المشروع وأعضاؤه، عدا من قام بذلك"
@@ -30656,6 +30751,11 @@ msgstr "مدير المشروع ومن حدّد الميزانية"
 #: onedesk/notifications/one_project/retainer_month_to_invoice.md
 msgid "The project's manager, or whoever made it"
 msgstr "مدير المشروع، أو من أنشأه"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_project/comment_on_project.md
+msgid "The project's manager, unless the comment mentions them"
+msgstr "مدير المشروع، ما لم يذكره التعليق"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_project/project_completed.md
@@ -31271,7 +31371,7 @@ msgstr "طالب بمبلغ {0} واعتُمد {1}."
 msgid "They do not carry forward. Apply for them before then if you want them."
 msgstr "لا تُرحَّل. قدّم طلبها قبل ذلك إن أردتها."
 
-#: onedesk/one/tell.py:38
+#: onedesk/one/tell.py:39
 msgid "They expire on {0}."
 msgstr "تنتهي صلاحيتها في {0}."
 
@@ -31737,7 +31837,7 @@ msgstr "البلاط"
 #: onedesk/one_project/billing.py:97 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
 #: onedesk/one_project/money.py:179 onedesk/one_project/money.py:216
-#: onedesk/one_project/portal.py:210 onedesk/one_project/tell.py:275
+#: onedesk/one_project/portal.py:210 onedesk/one_project/tell.py:348
 #: onedesk/public/js/project_new.js:193
 msgid "Time"
 msgstr "الوقت"
@@ -31984,7 +32084,7 @@ msgstr "المهام المسندة إليك"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
 #: onedesk/one_project/heads.py:79 onedesk/one_project/view.py:408
 #: onedesk/one_project/view.py:623 onedesk/one_task/mine.py:17
-#: onedesk/one_task/tell.py:273
+#: onedesk/one_task/tell.py:302
 msgid "Today"
 msgstr "اليوم"
 
@@ -33488,7 +33588,7 @@ msgstr "كان متوقعًا بحلول {0}"
 msgid "Was wanted by {0}"
 msgstr "كان مطلوبًا بحلول {0}"
 
-#: onedesk/one_task/tell.py:169 onedesk/public/js/oneai.js:263
+#: onedesk/one_task/tell.py:198 onedesk/public/js/oneai.js:263
 msgid "Was {0}"
 msgstr "كان {0}"
 
@@ -34707,6 +34807,11 @@ msgstr "عند اكتمال مشروع، من قِبل شخص أو بإنجاز 
 msgid "When a project is put on hold or cancelled."
 msgstr "عند تعليق مشروع أو إلغائه."
 
+#. When a notification is sent
+#: onedesk/notifications/one_project/project_resumed.md
+msgid "When a project on hold or cancelled is opened again."
+msgstr "عندما يُعاد فتح مشروع معلّق أو ملغى."
+
 #. Description of the 'Starts' (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "When a published price takes over from the one before it."
@@ -34721,6 +34826,11 @@ msgstr "عند إرسال طلب عرض سعر إلى مورد، مع رابط �
 #: onedesk/notifications/one/approval_waiting.md
 msgid "When a record reaches an approval step for one of your roles."
 msgstr "عندما يصل سجل إلى خطوة موافقة لأحد أدوارك."
+
+#. When a notification is sent
+#: onedesk/notifications/one/reminder.md
+msgid "When a reminder you set with Remind Me comes due."
+msgstr "عندما يحين تذكير ضبطته بـ ذكّرني."
 
 #. When a notification is sent
 #: onedesk/notifications/one_book/repeated_by_mail.md
@@ -34871,6 +34981,11 @@ msgid "When an administrator changes which apps you may use, your level or profi
 msgstr "عندما يغيّر مسؤول التطبيقات التي يمكنك استخدامها، أو مستواك أو ملفك الوظيفي، أو السجلات التي تراها، أو يجعلك مسؤولًا."
 
 #. When a notification is sent
+#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
+msgid "When an administrator gives you a shared mailbox."
+msgstr "عندما يعطيك مسؤول صندوق بريد مشتركًا."
+
+#. When a notification is sent
 #: onedesk/notifications/one/deletion_on_hold.md
 msgid "When an administrator holds your request to delete your account, and why."
 msgstr "عندما يعلّق مسؤول طلبك لحذف حسابك، ولماذا."
@@ -34938,6 +35053,11 @@ msgstr "عندما يمر تاريخ مغادرة موظف ولا يمكن تع�
 #: onedesk/notifications/one_hr/probation_ending.md
 msgid "When an employee's probation ends in a month, and again in a week."
 msgstr "عندما تنتهي فترة تجربة موظف بعد شهر، ومرة أخرى بعد أسبوع."
+
+#. When a notification is sent
+#: onedesk/notifications/one_calendar/google_calendar_updates.md
+msgid "When an event synced with Google Calendar is made, changed or cancelled, Google sends its own updates."
+msgstr "عند إنشاء حدث متزامن مع تقويم Google أو تغييره أو إلغائه، يرسل Google تحديثاته."
 
 #. When a notification is sent
 #: onedesk/notifications/one_calendar/event_cancelled.md
@@ -35117,6 +35237,11 @@ msgstr "حين يصل بريد فيه مرفقات ومساحة تخزين مس�
 msgid "When mail comes in on a lead or an opportunity you own."
 msgstr "عندما يصل بريد على عميل محتمل أو فرصة تملكها."
 
+#. When a notification is sent
+#: onedesk/notifications/one_mail/mail_not_sent.md
+msgid "When mail you sent could not be delivered after every retry."
+msgstr "عندما يتعذّر تسليم بريد أرسلته بعد كل المحاولات."
+
 #. Description of the 'Preferred Provider' (Select) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -35224,6 +35349,11 @@ msgid "When somebody books an appointment, and again once it is confirmed, in Ap
 msgstr "عند حجز موعد، ومرة أخرى عند تأكيده، بكلمات إعدادات حجز المواعيد."
 
 #. When a notification is sent
+#: onedesk/notifications/one_task/task_cancelled.md
+msgid "When somebody cancels a task."
+msgstr "عندما يلغي أحدهم مهمة."
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/leave_cancelled.md
 msgid "When somebody cancels leave that was already decided."
 msgstr "عندما يُلغي أحدهم إجازة تقرّرت."
@@ -35237,6 +35367,11 @@ msgstr "عندما يغيّر أحدهم تاريخ استحقاق مهمة أُ
 #: onedesk/notifications/one_hr/expense_claim_asked.md
 msgid "When somebody claims an expense."
 msgstr "عندما يطالب أحد بمصروف."
+
+#. When a notification is sent
+#: onedesk/notifications/one_project/comment_on_project.md
+msgid "When somebody comments on a project you run."
+msgstr "عندما يعلّق أحدهم على مشروع تديره."
 
 #. When a notification is sent
 #: onedesk/notifications/one_task/comment_on_your_task.md
@@ -35280,13 +35415,18 @@ msgstr "عندما يضع أحدهم مهمة في حالة انتظار الم�
 
 #. When a notification is sent
 #: onedesk/notifications/one_calendar/event_invitation.md
-msgid "When somebody outside the workspace is invited to an event, or it changes or is cancelled."
-msgstr "حين يُدعى شخص من خارج مساحة العمل إلى حدث، أو يتغير الحدث أو يُلغى."
+msgid "When somebody outside the workspace is invited to an event, or it changes or is cancelled. Their reply goes to the organizer's own mailbox."
+msgstr "عندما يُدعى شخص من خارج مساحة العمل إلى حدث، أو يتغيّر أو يُلغى. يذهب ردّه إلى صندوق بريد المنظِّم."
 
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/delivery_trip_notice.md
 msgid "When somebody presses Notify Customers on a delivery trip, in Delivery Settings' words."
 msgstr "عندما يضغط أحدهم «إشعار العملاء» في رحلة تسليم، بكلمات إعدادات التسليم."
+
+#. When a notification is sent
+#: onedesk/notifications/one_task/task_reopened.md
+msgid "When somebody reopens a task that was completed."
+msgstr "عندما يعيد أحدهم فتح مهمة مكتملة."
 
 #. When a notification is sent
 #: onedesk/notifications/one_project/progress_bill_drafted.md
@@ -35312,6 +35452,11 @@ msgstr "عندما يسجّل أحدهم الدخول أول مرة حيث يس�
 #: onedesk/notifications/one_inventory/material_request_stopped.md
 msgid "When somebody stops a request you made."
 msgstr "عندما يوقف أحدهم طلبًا قدّمته."
+
+#. When a notification is sent
+#: onedesk/notifications/one_project/removed_from_project.md
+msgid "When somebody takes you off a project's members."
+msgstr "عندما يزيلك أحدهم من أعضاء مشروع."
 
 #. When a notification is sent
 #: onedesk/notifications/one_calendar/taken_off_an_event.md
@@ -36235,6 +36380,11 @@ msgid "Whoever follows them"
 msgstr "من يتابعها"
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_task/task_cancelled.md
+msgid "Whoever gave it or made it, but whoever cancelled it"
+msgstr "من أسندها أو أنشأها، عدا من ألغاها"
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_task/task_done.md
 msgid "Whoever gave the task and whoever made it, but whoever completed it"
 msgstr "من أسند المهمة ومن أنشأها، عدا من أكملها"
@@ -36243,6 +36393,11 @@ msgstr "من أسند المهمة ومن أنشأها، عدا من أكمله�
 #: onedesk/notifications/one_task/pending_review.md
 msgid "Whoever gave the task and whoever made it, but whoever marked it"
 msgstr "من أسند المهمة ومن أنشأها، باستثناء من غيّر حالتها"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_task/task_reopened.md
+msgid "Whoever held it, completed it or made it, but whoever reopened it"
+msgstr "من تولّاها أو أكملها أو أنشأها، عدا من أعاد فتحها"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_task/sent_back.md
@@ -36331,6 +36486,16 @@ msgstr "من ضغط «أصلح باستخدام OneAI»"
 #: onedesk/notifications/one_hr/referral_answered.md
 msgid "Whoever referred them"
 msgstr "من رشّحه"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_mail/mail_not_sent.md
+msgid "Whoever sent it"
+msgstr "من أرسله"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one/reminder.md
+msgid "Whoever set it"
+msgstr "من ضبطه"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one/repeat_failed.md
@@ -37295,7 +37460,7 @@ msgstr "يمكنك تسجيل الحضور من هاتفك الجديد"
 msgid "You can only ask for a letter about yourself."
 msgstr "يمكنك طلب خطاب عن نفسك فقط."
 
-#: onedesk/one/tell.py:206
+#: onedesk/one/tell.py:207
 msgid "You can use {0}."
 msgstr "يمكنك استخدام {0}."
 
@@ -37411,6 +37576,11 @@ msgstr "لا يجوز لك {0} {1}."
 #: onedesk/www/me.py:14
 msgid "You need to be logged in to access this page"
 msgstr "يجب تسجيل الدخول للوصول إلى هذه الصفحة"
+
+#. Message of a notification
+#: onedesk/notifications/one_project/removed_from_project.md
+msgid "You no longer see it or its tasks, unless one is given to you."
+msgstr "لم تعد ترى المشروع أو مهامه، ما لم تُسند إليك إحداها."
 
 #: frontend/portal/src/pages/YourData.vue:11 onedesk/public/js/settings.js:245
 msgid "You requested a copy {0}. It's waiting for approval."
@@ -37685,6 +37855,11 @@ msgstr "مقابلتك في {when}"
 msgid "Your interview is on {when}"
 msgstr "مقابلتك في {when}"
 
+#. Subject of a notification
+#: onedesk/notifications/one_mail/mail_not_sent.md
+msgid "Your mail \"{subject}\" was not sent"
+msgstr "لم يُرسل بريدك \"{subject}\""
+
 #: frontend/portal/src/pages/Record.vue:120
 #: frontend/portal/src/pages/Record.vue:131
 #: frontend/portal/src/pages/Rfq.vue:90
@@ -37868,7 +38043,7 @@ msgstr "لونًا مثل #0f766e أو var(--gray-100)"
 msgid "a column"
 msgstr "عمود"
 
-#: onedesk/one/tell.py:376
+#: onedesk/one/tell.py:377
 msgid "a copy of your data"
 msgstr "نسخة من بياناتك"
 
@@ -38035,9 +38210,13 @@ msgid "can view"
 msgstr "يمكنه العرض"
 
 #: frontend/src/project/ProjectActivity.vue:119
-#: onedesk/one_calendar/tell.py:180 onedesk/one_project/tell.py:15
+#: onedesk/one_calendar/tell.py:181 onedesk/one_project/tell.py:15
 msgid "cancelled"
 msgstr "ألغى"
+
+#: onedesk/one_calendar/tell.py:181
+msgid "changed"
+msgstr "غيّر"
 
 #: frontend/src/project/ProjectActivity.vue:55
 msgid "completed"
@@ -38217,7 +38396,7 @@ msgstr "بعد {0} يومًا"
 msgid "input"
 msgstr "مدخلات"
 
-#: onedesk/one_calendar/tell.py:180
+#: onedesk/one_calendar/tell.py:181
 msgid "invites you to"
 msgstr "يدعوك إلى"
 
@@ -38262,7 +38441,7 @@ msgstr "الأكبر أولاً"
 msgid "late"
 msgstr "متأخر"
 
-#: onedesk/one/tell.py:184
+#: onedesk/one/tell.py:185
 msgid "later"
 msgstr "لاحقًا"
 
@@ -38308,7 +38487,7 @@ msgstr "لم يعد بإمكانه {0}"
 msgid "may now {0}"
 msgstr "يمكنه الآن {0}"
 
-#: onedesk/one/tell.py:472
+#: onedesk/one/tell.py:473
 msgid "move it on"
 msgstr "المضي به"
 
@@ -38336,7 +38515,7 @@ msgstr "لا يمكن تسعير أي طلب ذكاء اصطناعي"
 msgid "no address or domain works"
 msgstr "لا يعمل أي عنوان أو نطاق"
 
-#: onedesk/one_inventory/tell.py:48 onedesk/one_inventory/tell.py:65
+#: onedesk/one_inventory/tell.py:52 onedesk/one_inventory/tell.py:69
 msgid "no date"
 msgstr "دون تاريخ"
 
@@ -38914,7 +39093,7 @@ msgstr ""
 msgid "yesterday"
 msgstr "أمس"
 
-#: onedesk/one/tell.py:376
+#: onedesk/one/tell.py:377
 msgid "your data to be deleted"
 msgstr "حذف بياناتك"
 
@@ -38959,7 +39138,7 @@ msgstr "{0} (مورّد)"
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
-#: onedesk/one/tell.py:581 onedesk/one_studio/extensions.py:457
+#: onedesk/one/tell.py:582 onedesk/one_studio/extensions.py:457
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
@@ -39141,7 +39320,7 @@ msgstr "يرسل {0} هذا دائمًا. لا يمكن إيقافه."
 msgid "{0} always works."
 msgstr "{0} يعمل دائمًا."
 
-#: onedesk/one/tell.py:256
+#: onedesk/one/tell.py:257
 msgid "{0} and {1}"
 msgstr "{0} و{1}"
 
@@ -39519,7 +39698,7 @@ msgstr "ملف {0}"
 msgid "{0} files are on the disk, which is where this workspace keeps them."
 msgstr "{0} ملفات على القرص، وهو المكان الذي تحفظ فيه مساحة العمل ملفاتها."
 
-#: onedesk/one/tell.py:165
+#: onedesk/one/tell.py:166
 msgid "{0} files could not be read and are listed in it."
 msgstr "تعذّرت قراءة {0} ملفات وهي مدرجة فيه."
 
@@ -39700,11 +39879,11 @@ msgstr "لم يُدفع {0}."
 msgid "{0} held"
 msgstr "{0} بحوزته"
 
-#: onedesk/one_project/tell.py:346
+#: onedesk/one_project/tell.py:419
 msgid "{0} held by {1}"
 msgstr "{0} يحتجزها {1}"
 
-#: onedesk/one_project/tell.py:346
+#: onedesk/one_project/tell.py:419
 msgid "{0} held from {1}"
 msgstr "{0} محتجزة من {1}"
 
@@ -40206,7 +40385,7 @@ msgstr "سُجّل خروج {0}. يجري محو بياناته."
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr "{0} شخص في مساحة العمل. يسجّل الدخول إلى One وليس إلى البوابة."
 
-#: onedesk/one_project/tell.py:103
+#: onedesk/one_project/tell.py:175
 msgid "{0} is still owed."
 msgstr "لا يزال {0} مستحقًا."
 
@@ -40539,11 +40718,11 @@ msgstr "{0} من {1} {2}"
 msgid "{0} of {1}'s time; none of it is billed to the customer."
 msgstr "{0} من وقت {1}؛ لا يُفوتر منه شيء للعميل."
 
-#: onedesk/one/tell.py:520
+#: onedesk/one/tell.py:521
 msgid "{0} off"
 msgstr "{0} معطّل"
 
-#: onedesk/one/tell.py:520
+#: onedesk/one/tell.py:521
 msgid "{0} on"
 msgstr "{0} مفعّل"
 
@@ -40574,7 +40753,7 @@ msgstr "{0} على {1}"
 msgid "{0} once"
 msgstr "{0} مرة واحدة"
 
-#: onedesk/one_mail/holders.py:226
+#: onedesk/one_mail/holders.py:229
 msgid "{0} only receives mail, so it has no signature."
 msgstr "{0} يستقبل البريد فقط، لذا ليس له توقيع."
 
@@ -40606,7 +40785,7 @@ msgstr "{0} مفتوحة · {1}"
 msgid "{0} operations waiting"
 msgstr "{0} عمليات بالانتظار"
 
-#: onedesk/one/tell.py:595
+#: onedesk/one/tell.py:596
 msgid "{0} or {1}"
 msgstr "{0} أو {1}"
 
@@ -40916,12 +41095,12 @@ msgstr "{0} للدفع"
 
 #: onedesk/one_hr/heads.py:210 onedesk/one_hr/heads.py:338
 #: onedesk/one_inventory/heads.py:928 onedesk/one_inventory/ready.py:139
-#: onedesk/one_project/heads.py:201 onedesk/one_project/tell.py:362
+#: onedesk/one_project/heads.py:201 onedesk/one_project/tell.py:435
 #: onedesk/public/js/settings.js:2992
 msgid "{0} to {1}"
 msgstr "{0} إلى {1}"
 
-#: onedesk/one/tell.py:518
+#: onedesk/one/tell.py:519
 msgid "{0} to {1}%"
 msgstr "{0} إلى {1}%"
 
@@ -40969,7 +41148,7 @@ msgstr "{0} بانتظارك في OneIntake"
 msgid "{0} warehouses"
 msgstr "{0} مستودعات"
 
-#: onedesk/one_project/members.py:183
+#: onedesk/one_project/members.py:185
 msgid "{0} was added to {1}."
 msgstr "تمت إضافة {0} إلى {1}."
 
@@ -40978,7 +41157,7 @@ msgstr "تمت إضافة {0} إلى {1}."
 msgid "{0} was already {1}."
 msgstr "{0} كانت بالفعل {1}."
 
-#: onedesk/one_mail/holders.py:177
+#: onedesk/one_mail/holders.py:180
 msgid "{0} was connected without Enable Outgoing, so it can't send."
 msgstr "تم ربط {0} دون تفعيل الإرسال، لذا لا يمكنه الإرسال."
 
@@ -41149,7 +41328,7 @@ msgid "{0}% of ordered"
 msgstr "{0}% من المطلوب"
 
 #: frontend/src/project/Money.vue:199 frontend/src/project/TaskPanel.vue:46
-#: frontend/src/task/TaskPage.vue:273 onedesk/one_project/tell.py:313
+#: frontend/src/task/TaskPage.vue:273 onedesk/one_project/tell.py:386
 #: onedesk/one_project/view.py:493
 #, python-format
 msgid "{0}% of the contract"
@@ -41824,6 +42003,11 @@ msgstr "سُجّلت {logged} ساعة من أصل {planned} ساعة مخططة
 msgid "{mailbox} is not connecting: {reason}"
 msgstr "{mailbox} لا يتصل: {reason}"
 
+#. Subject of a notification
+#: onedesk/notifications/one_project/milestone_late.md
+msgid "{milestone} on {project} is late"
+msgstr "تأخّر {milestone} في {project}"
+
 #. Message of a notification
 #: onedesk/notifications/one_admin/model_withdrawn.md
 msgid "{models}<br><br>Workspaces that picked them now run on the default."
@@ -41878,6 +42062,11 @@ msgstr "استخدم {project} ساعاته البالغة {allowance} س لهذ
 #: onedesk/notifications/one_project/project_completed.md
 msgid "{project} is completed"
 msgstr "اكتمل {project}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_project/project_resumed.md
+msgid "{project} is open again"
+msgstr "{project} مفتوح مجددًا"
 
 #. Subject of a notification
 #: onedesk/notifications/one_project/project_stopped.md
@@ -42070,11 +42259,17 @@ msgid "{who} cancelled it. It was {when}."
 msgstr "ألغاه {who}. كان في {when}."
 
 #. Subject of a notification
+#: onedesk/notifications/one_task/task_cancelled.md
+msgid "{who} cancelled {task}"
+msgstr "ألغى {who} {task}"
+
+#. Subject of a notification
 #: onedesk/notifications/one_admin/settings_changed.md
 msgid "{who} changed OneAdmin Settings"
 msgstr "غيّر {who} إعدادات OneAdmin"
 
 #. Message of a notification
+#: onedesk/notifications/one_project/project_resumed.md
 #: onedesk/notifications/one_project/project_stopped.md
 msgid "{who} changed its status."
 msgstr "غيّر {who} حالته."
@@ -42093,6 +42288,11 @@ msgstr "غيّر {who} الحدث {event}"
 #: onedesk/notifications/one_studio/form_customized.md
 msgid "{who} changed {form}"
 msgstr "غيّر {who} {form}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_project/comment_on_project.md
+msgid "{who} commented on {project}"
+msgstr "علّق {who} على {project}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_task/comment_on_your_task.md
@@ -42130,6 +42330,11 @@ msgid "{who} drafted a progress bill for {order}"
 msgstr "أعدّ {who} مسودة فاتورة إنجاز لـ {order}"
 
 #. Subject of a notification
+#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
+msgid "{who} gave you {mailbox}"
+msgstr "أعطاك {who} {mailbox}"
+
+#. Subject of a notification
 #: onedesk/notifications/one_crm/given_to_you.md
 msgid "{who} gave you {title}"
 msgstr "أسند إليك {who} {title}"
@@ -42158,6 +42363,11 @@ msgstr "نقله {who} من {was}."
 #: onedesk/notifications/one_task/due_date_changed.md
 msgid "{who} moved {task} to {due}"
 msgstr "نقل {who} موعد {task} إلى {due}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_task/task_reopened.md
+msgid "{who} reopened {task}"
+msgstr "أعاد {who} فتح {task}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_storage/file_request.md
@@ -42189,6 +42399,11 @@ msgstr "شارك {who} ‏{file} معك"
 #: onedesk/notifications/one_calendar/taken_off_an_event.md
 msgid "{who} took you off {event}"
 msgstr "أزالك {who} من {event}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_project/removed_from_project.md
+msgid "{who} took you off {project}"
+msgstr "أزالك {who} من {project}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_studio/extension_turned_off.md

@@ -1,7 +1,7 @@
 ---
 name: Event Invitation
 app: OneCalendar
-about: When somebody outside the workspace is invited to an event, or it changes or is cancelled.
+about: When somebody outside the workspace is invited to an event, or it changes or is cancelled. Their reply goes to the organizer's own mailbox.
 to: Each guest, by email, with the event attached for their calendar
 outside: yes
 ---

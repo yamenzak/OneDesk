@@ -24,6 +24,8 @@ def changed(doc, method=None) -> None:
 	health(doc, before)
 	completed(doc, before)
 	stopped(doc, before)
+	resumed(doc, before)
+	removed(doc, before)
 	moved(doc, before)
 
 
@@ -60,6 +62,76 @@ def stopped(doc, before) -> None:
 	people = _people(doc)
 	if people:
 		notify.notify("Project Stopped", people, record=("Project", doc.name), state=state, **_facts(doc))
+
+
+def resumed(doc, before) -> None:
+	"""Back to Open from on hold or cancelled, told to the same people."""
+	if doc.status != "Open" or not before or before.get("status") not in STOPPED:
+		return
+	people = _people(doc)
+	if people:
+		notify.notify("Project Resumed", people, record=("Project", doc.name), **_facts(doc))
+
+
+def removed(doc, before) -> None:
+	"""A member taken off is told they no longer see it."""
+	if not before:
+		return
+	gone = {row.user for row in before.get("users") or []} - {row.user for row in doc.get("users") or []}
+	gone -= {"Administrator", "Guest", frappe.session.user}
+	if gone:
+		notify.notify("Removed from Project", sorted(gone), link="/desk/oneproject", **_facts(doc))
+
+
+def commented(doc) -> None:
+	"""A comment on a project, told to its manager, but the commenter and
+	whoever it mentions (frappe tells them as a Mention)."""
+	from frappe.desk.notifications import extract_mentions
+
+	project = frappe.db.get_value("Project", doc.reference_name, ["project_name", "one_manager"], as_dict=True)
+	manager = project and project.one_manager
+	if not manager or manager in ("Administrator", "Guest", frappe.session.user):
+		return
+	if manager in set(extract_mentions(doc.content) or []) or manager == doc.comment_email:
+		return
+	notify.notify(
+		"Comment on Project",
+		manager,
+		record=("Project", doc.reference_name),
+		who=doc.comment_by or get_fullname(frappe.session.user),
+		project=project.project_name,
+		comment=frappe.utils.strip_html(doc.content or "")[:400],
+	)
+
+
+def milestones_late() -> None:
+	"""Each morning: a milestone due yesterday and not done, told once to the
+	project's manager."""
+	from frappe.utils import add_days
+
+	for one in frappe.get_all(
+		"Task",
+		filters={
+			"is_milestone": 1,
+			"status": ["not in", ["Completed", "Cancelled", "Template"]],
+			"exp_end_date": add_days(getdate(), -1),
+			"project": ["is", "set"],
+		},
+		fields=["name", "subject", "project", "exp_end_date"],
+	):
+		project = frappe.db.get_value("Project", one.project, ["project_name", "one_manager", "status"], as_dict=True)
+		if not project or project.status != "Open" or project.one_manager in (None, "Administrator", "Guest"):
+			continue
+		notify.notify(
+			"Milestone Late",
+			project.one_manager,
+			record=("Task", one.name),
+			sender="Administrator",
+			dedupe_on=["document_type", "document_name"],
+			milestone=one.subject,
+			project=project.project_name,
+			due=formatdate(one.exp_end_date),
+		)
 
 
 def moved(doc, before) -> None:
@@ -111,7 +183,8 @@ def _facts(doc) -> dict:
 	"""Who did it, the project, and its customer and end date, each led by a
 	dot so either may be left out: " · Mansour & Sons · 3 Nov 2026"."""
 	return {
-		"who": get_fullname(frappe.session.user),
+		# Joined by One on somebody's behalf (members.join): said as them.
+		"who": get_fullname(frappe.flags.get("one_acting_for") or frappe.session.user),
 		"project": doc.project_name,
 		"customer": f" · {doc.customer}" if doc.get("customer") else "",
 		"due": " · " + _("Ends {0}").format(formatdate(doc.expected_end_date)) if doc.get("expected_end_date") else "",

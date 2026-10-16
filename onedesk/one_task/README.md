@@ -406,8 +406,8 @@ is:
   would keep its old dates, its Completed and its ticked steps; `recurring`
   makes it due on the day it repeats and gives it to the same people.
 - `tell.py`, with the types in `notifications/one_task/` — Task Given, Task Done, Task Ready,
-  Pending Review, Due Date Changed and Today's
-  Tasks. Task Given is frappe's own assignment line said in ours: a
+  Pending Review, Sent Back, Due Date Changed, Task Reopened, Task Cancelled,
+  Comment on Your Task and Today's Tasks. Task Given is frappe's own assignment line said in ours: a
   Notification Log `before_insert` turns frappe's "assigned a new task Task"
   into it, since `assign_to.add` writes that line with no switch to stop it.
 
@@ -426,8 +426,7 @@ is:
   the bell's title as well, which frappe has already filled with its own
   line before our hook runs.
 
-  **A task changed** (`changed`). Three things about a task are told to its
-  people:
+  **A task changed** (`changed`). These are told to its people:
   - *Task Ready*: the last task it waits on (ERPNext's Depends On) is done,
     told to whoever it's given to, or whoever made it when nobody is. ERPNext
     adds a sub-task to its parent's Depends On, so a parent is ready when its
@@ -435,7 +434,15 @@ is:
   - *Pending Review*: somebody marks it Pending Review, told to whoever gave
     it and whoever made it. A formal approval is a Workflow (Settings,
     Approvals).
+  - *Sent Back*: a review answered no, told to whoever it's given to.
   - *Due Date Changed*: its due date moved, told to whoever it's given to.
+  - *Task Reopened*: a completed task opened again, told to whoever held it,
+    completed it and made it, since completing it closed their assignments.
+  - *Task Cancelled*: told to whoever gave it and made it; ERPNext clears its
+    assignments, and frappe's "removed" line is all the assignees get.
+
+  A comment on a task is told to its people as *Comment on Your Task*; one on
+  a project goes to the project's manager (one_project, Comment on Project).
 
   Whoever made the change is never told.
 

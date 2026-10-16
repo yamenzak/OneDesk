@@ -3,6 +3,7 @@ they may do, their data and their sign-in (notifications/one/)."""
 
 import frappe
 from frappe import _, _lt
+from frappe.automation.doctype.reminder.reminder import Reminder as _FrappeReminder
 
 from onedesk.one import notify, roles
 
@@ -637,3 +638,29 @@ def repeats_failed() -> None:
 			kind=_lt(one.reference_doctype),
 			document=one.reference_document,
 		)
+
+
+# ------------------------------------------------------------------ reminders
+
+
+class Reminder(_FrappeReminder):
+	"""frappe's Remind Me, told as One's Reminder: frappe writes an Alert,
+	which neither pushes nor mails, so a reminder set for the morning was a
+	bell entry found in the afternoon."""
+
+	def send_reminder(self):
+		if self.notified:
+			return
+		self.db_set("notified", 1, update_modified=False)
+		try:
+			notify.notify(
+				"Reminder",
+				self.user,
+				record=(self.reminder_doctype, self.reminder_docname)
+				if self.reminder_doctype and self.reminder_docname
+				else None,
+				sender="Administrator",
+				said=self.description or "",
+			)
+		except Exception:
+			self.log_error("Failed to send reminder")

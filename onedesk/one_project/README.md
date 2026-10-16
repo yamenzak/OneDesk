@@ -1157,7 +1157,12 @@ Summary), on the bell, and by email if they chose it.
 - **Project Completed**: a project you manage is completed, by someone or by
   its last task. Says what's still owed on it.
 - **Project Stopped**: someone puts a project you manage or are a member of
-  **On hold**, or cancels it.
+  **On hold**, or cancels it. **Project Resumed** when it is opened again.
+- **Removed from Project**: someone takes you off its members.
+- **Comment on Project**: someone comments on a project you manage, unless
+  they mention you (frappe tells you that).
+- **Milestone Late**: the morning after a milestone on a project you manage
+  was due and is not done.
 - **Project End Moved**: someone moves an open project's end date. Says the
   date it had before.
 - **Milestone Done**: a milestone billed on completion is done, on a project

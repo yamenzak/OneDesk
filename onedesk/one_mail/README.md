@@ -163,6 +163,12 @@ people with access to the mailbox get **Attachments Not Saved**, at most once
 a day. OneMail tries again every hour and saves them once there's space. Free
 up space or add storage in Plan and Credits.
 
+**Being told.** A mailbox that stops connecting is told to whoever holds it,
+or to every administrator when nobody does (**Mailbox Not Reachable**). Mail
+you sent that could not be delivered after every retry is told to you, on
+the bell and by push (**Mail Not Sent**). Being given a shared mailbox is told
+to you (**Mailbox Shared With You**).
+
 **Sender pictures:** people who write to you show with their contact
 picture, their Gravatar photo or their organization's logo. Contacts, leads,
 customers, suppliers, manufacturers and banks without a picture get one the

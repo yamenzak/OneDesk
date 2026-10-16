@@ -160,6 +160,9 @@ def set_holders(account: str, users) -> list[str]:
 		addresses.hold(account, user)
 	for user in now - wanted:
 		frappe.db.delete("User Email", {"parent": user, "email_account": account})
+	from onedesk.one_mail import tell
+
+	tell.mailbox_shared(account, sorted(wanted - now))
 	return sorted(wanted)
 
 

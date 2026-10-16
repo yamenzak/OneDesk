@@ -2,7 +2,7 @@
 name: Mailbox Not Reachable
 app: OneMail
 about: When a mailbox you hold stops connecting. Once, when it breaks.
-to: Everybody who holds it
+to: Everybody who holds it, or every administrator when nobody does
 button: Open Mail Settings
 email_default: yes
 ---

@@ -154,10 +154,12 @@ def _as_administrator():
 	"""Save as Administrator, then give the request its own session back."""
 	session = frappe.local.session
 	held, asked = dict(session), frappe.local.form_dict
+	frappe.flags.one_acting_for = frappe.session.user
 	frappe.set_user("Administrator")
 	try:
 		yield
 	finally:
+		frappe.flags.one_acting_for = None
 		session.clear()
 		session.update(held)
 		frappe.local.form_dict = asked
