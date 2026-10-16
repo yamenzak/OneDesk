@@ -1669,6 +1669,7 @@ one_ai_page = [
 	"onedesk.one_admin.ai.page",
 	"onedesk.one_project.ai.page",
 	"onedesk.one_crm.ai.page",
+	"onedesk.one_hr.ai.page",
 	"onedesk.one_book.ai.page",
 ]
 

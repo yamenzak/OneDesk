@@ -7414,6 +7414,40 @@ def the_workspace_tells_what_the_second_pass_found():
 
 
 @check
+def onehr_home_tells_everybody_their_day():
+	"""Mariam's Home: the headcount as Employee counts it, last month's
+	payroll as its slips add up, Ravi's shift and Nadia's attendance request
+	waiting on her, Yousef's flagged check-in, and every row of the directory
+	opening something that exists. Nadia's Home: her own request waiting and
+	the leave she has left, and no story, which is HR's to read."""
+	from onedesk.one_hr import home, story
+
+	with as_user("mariam@one.test"):
+		told = story.read()
+		said = home.read()
+	cards = told["cards"]
+	assert set(cards) >= {"headcount", "joined", "present", "away", "payroll", "openings"}, set(cards)
+	company = frappe.defaults.get_global_default("company")
+	here = frappe.db.count("Employee", {"company": company, "status": "Active"})
+	assert cards["headcount"]["value"] == here, (cards["headcount"], here)
+	last = get_first_day(add_months(today(), -1))
+	paid = sum(flt(one) for one in frappe.get_all("Salary Slip", filters={"company": company, "docstatus": 1, "start_date": last}, pluck="base_net_pay"))
+	assert abs(cards["payroll"]["value"] - paid) < 1, (cards["payroll"], paid)
+	waiting = {(one["doctype"], one["who"]) for one in said["needs"]["approve"]["rows"]}
+	assert ("Attendance Request", "Nadia Khoury") in waiting, waiting
+	assert said["needs"]["flagged"]["count"] >= 1
+	assert [one["step"] for one in told["hiring"]["funnel"]] == list(story.FUNNEL)
+	for row in said["everything"]:
+		kind = "DocType" if row["kind"] == "Masters" else row["kind"]
+		assert frappe.db.exists(kind, row["target"]), row
+	with as_user("nadia@one.test"):
+		assert story.read() is None
+		said = home.read()
+	assert not said["hr"] and said["needs"]["mine"]["count"] >= 1
+	assert {one["leave_type"] for one in said["needs"]["leave"]}, said["needs"]["leave"]
+
+
+@check
 def sales_books_and_stock_tell_what_waits_on_somebody():
 	"""Layla makes Samir the owner of a lead, and Samir is told; a lead nobody
 	owns reaches sales; a quotation three days from its last day reaches

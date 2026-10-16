@@ -325,6 +325,7 @@ PAGES = {
 	"plant": "inventory",
 	"books": "books",
 	"onecrm": "crm",
+	"onehr": "hr",
 }
 
 

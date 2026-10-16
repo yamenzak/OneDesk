@@ -14,13 +14,24 @@ what it lacks.
 
 The rail on the left has the whole of OneHR in it:
 
-- **Home** — the page an employee starts their day on, with Check in, Request
-  leave, Claim an expense and Payslips.
+- **Home** — the page everybody starts their day on. **Check In**, **Request
+  Leave** and **Claim an Expense** are its buttons, and the leave you have left
+  is at the top. **Today** lists your own requests still waiting, the ones
+  waiting for you to answer, and, for HR, check-ins flagged, passports, visas
+  and permits running out, contracts and probations ending, and today's
+  interviews. HR also sees the headcount, who joined, who is in and away today,
+  the last payroll and the open positions, and an **Overview** of the people,
+  their time, their pay and hiring. **Everything**, **Reports** and **Setup**
+  list the whole of OneHR with what each is for.
 - **Overview** — who is in, who is absent, who is on leave, and flagged
   check-ins waiting for a look.
 - **Employee**, **Org Chart**, **Setup**.
 - **Time**, **Leave**, **Pay**, **Tax & Benefits**, **Expenses**, **Hiring**,
   **Growth**, **Joining & Leaving** — one group each, opened with the arrow.
+  Pay has Employee Incentive, Retention Bonus, Arrear (back pay for a raise
+  dated in the past) and Payroll Correction (days without pay given back);
+  Growth has Transfer; Joining & Leaving has Exit Interview and the Full and
+  Final Statement.
 
 **One workspace is one company.** You are never asked which company a record
 belongs to, and no screen, filter or report shows a Company field. Pay is in
@@ -1617,6 +1628,27 @@ the session, the login hooks, the rate limiter and the audit trail are all
 frappe's. Verifying a signature and then setting a session by hand would be a
 second way into the product, and a second way in is the one thing a login page
 must not have.
+
+### home.py and story.py
+
+OneHR's Home is the `onehr` page (`page/onehr`, `frontend/src/home/HrHome.vue`),
+as OneCRM's is `onecrm`; the workspace it replaces went with
+`patches/home_is_a_page`. It is everybody's, not only HR's, so it reads twice:
+
+- `home.read` is the reader's day, for anybody: their own requests still
+  waiting, the leave they have left, the requests waiting on them as an
+  approver (or, for HR, those with no approver named, which HR answers), and
+  for HR the flagged check-ins, documents expiring and contracts or
+  probations ending within a month, and today's interviews. Then the
+  directory, each row called what it opens.
+- `story.read` is HR's only, and None for anybody else, since how many people
+  work here and what they cost are not theirs to read: the headcount month by
+  month, who joined and left, attendance over thirty days, leave taken, the
+  payroll, expense claims and the hiring funnel, in the company's currency.
+
+Home is a place (`onehr_home.shown`), so an extension may add a note or a
+button, and OneAI is told what it shows (`ai.page`). A rail's JSON is synced
+only when its `modified` changes, so the rail's own date moved with it.
 
 ### tell.py
 

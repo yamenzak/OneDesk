@@ -2800,6 +2800,8 @@
 "HR User"
 ],
 "Vehicle Service Item": [
+"HR Manager",
+"HR User",
 "System Manager"
 ],
 "Version": [
@@ -3354,6 +3356,11 @@
 "onecrm": [
 "Sales Manager",
 "Sales User"
+],
+"onehr": [
+"Employee",
+"HR Manager",
+"HR User"
 ],
 "onemail": [
 "Desk User"

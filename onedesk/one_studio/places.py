@@ -187,6 +187,17 @@ PLACES = {
 			},
 		},
 	},
+	"onehr_home": {
+		"label": "OneHR",
+		"record": "Employee",
+		"events": {
+			"shown": {
+				"about": _lt("OneHR's Home is opened, and each time a request, a flagged check-in or an interview changes."),
+				"gives": "home.mine (the reader's own requests waiting), home.approve (requests waiting on the reader), home.flagged (check-ins flagged), home.expiring (documents expiring within a month), home.ending (contracts or probations ending within a month), home.interviews (interviews today)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onebook_home": {
 		"label": "OneBook",
 		"record": "Sales Invoice",

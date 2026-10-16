@@ -249,7 +249,7 @@ SUGGESTIONS = {
 	],
 	# OneHR's home is where an employee starts their day, so the three things
 	# they come to it for are offered there too.
-	"workspace:OneHR": [
+	"page:onehr": [
 		{
 			"label": _lt("Ask HR for a letter"),
 			"ask": _lt("I need a letter from HR — a salary certificate, an experience letter or an employment "
@@ -972,3 +972,15 @@ def _leave_type(said: str | None, offered: list[str], every: list[str] | None = 
 		if found:
 			return found[0]
 	return names[0]
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on OneHR's Home."""
+	if said.get("page") != "onehr":
+		return None
+	return (
+		"The reader is on OneHR's Home, which shows their own requests waiting and the leave they have left, "
+		"the requests waiting on them as an approver, and for HR the headcount, who is in and away today, the "
+		"last payroll, open positions, check-ins flagged, documents and contracts running out, attendance, "
+		"leave taken, payroll and the hiring funnel. How each part works is in OneHR's documentation (how_to)."
+	)

@@ -14,8 +14,8 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Home",
-   "link_to": "OneHR",
-   "link_type": "Workspace",
+   "link_to": "onehr",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link"
   },
@@ -1240,7 +1240,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-10 15:00:00.000000",
+ "modified": "2026-10-16 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "OneHR",

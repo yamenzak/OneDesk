@@ -223,7 +223,9 @@ person acknowledges it.
   who see timesheet rates. 23, OneInventory keeps who holds which equipment,
   shows it to the stores and HR, and prints a handover for them to sign.
   24, OneCRM keeps leads from its Get in Touch form and the inbox, compared by
-  email, phone and business name.
+  email, phone and business name. 25, what OneHR keeps of the people who work
+  for a workspace and apply to it, who sees a sensitive grievance, and an
+  interview recorded only with the applicant's agreement.
 - AI Addendum: 5, OneAI reads a file in OneCloud when asked. 6, OneAI reads your
   calendar, and colleagues' busy times. 7, OneAI reads your tasks, and suggests
   tasks and their steps. 8, OneAI writes extensions, read a second time, and
@@ -243,11 +245,16 @@ person acknowledges it.
   21, OneAI reads a lead or an opportunity with its history, and a business
   card or a signature, and suggests a lead, a call or a next step. 22, OneAI
   reads the books in OneBook as you may see them, drafts a payment reminder,
-  and never posts, pays or changes anything.
+  and never posts, pays or changes anything. 23, OneAI reads applications,
+  transcribes interview recordings and reads grievances in OneHR, and people
+  decide who is hired, promoted, paid or let go.
 - Data Processing Addendum: 2, the whole of the data in one download when the
   agreement ends. 3, a webhook is the organisation's instruction, its recipient
   theirs. 4, the portal, whom a workspace lets see which of its records. 5, the people a workspace's Get in Touch form and
-  email campaigns reach are the organisation's to tell and answer for.
+  email campaigns reach are the organisation's to tell and answer for. 6, the
+  organisation controls what it keeps of its employees and applicants,
+  grievances' special category data, and asking before an interview is
+  recorded.
 
 ### gate.py
 

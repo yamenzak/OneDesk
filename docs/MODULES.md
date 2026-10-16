@@ -184,7 +184,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
-* **workspace** — one, one_admin, onehr, onehr_setup
+* **workspace** — one, one_admin, onehr_setup
 
 ## Whitelisted methods
 
@@ -463,6 +463,7 @@ No doctypes yet.
 * `onedesk.one_hr.hiring.start_recording`
 * `onedesk.one_hr.hiring.stop_recording`
 * `onedesk.one_hr.hiring.transcribe_again`
+* `onedesk.one_hr.home.read`
 * `onedesk.one_hr.learned.confirm`
 * `onedesk.one_hr.learned.reject`
 * `onedesk.one_hr.leave.about`
@@ -494,6 +495,7 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_hr.story.read`
 * `onedesk.one_hr.tell.reschedule_interview`
 * `onedesk.one_intake.act.settle`
 * `onedesk.one_intake.act.undo`

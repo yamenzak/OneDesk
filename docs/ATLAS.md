@@ -25,10 +25,10 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 73 | 4 | 21 | 0 |
+| onedesk | 74 | 4 | 21 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
-| erpnext | 226 | 142 | 20 | 97 |
-| hrms | 99 | 23 | 8 | 0 |
+| erpnext | 229 | 139 | 20 | 97 |
+| hrms | 103 | 19 | 8 | 0 |
 
 ## Our screens
 
@@ -48,6 +48,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | Asset, Asset Maintenance, Bin, Item, Job Card, Material Request, Stock Ledger Entry, Warehouse | – | Bin, Material Request, Purchase Order, Purchase Receipt, Work Order |
 | books (`frontend/src/home/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
 | crm (`frontend/src/home/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
+| hr (`frontend/src/home/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Salary Slip | – | – | – |
 | lots (`frontend/src/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
 | to_order (`frontend/src/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Project, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | supplier_items (`frontend/src/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
@@ -353,13 +354,13 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Authorization Control | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Authorization Rule | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Branch | through a form's link (Job Opening Template: location) | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
+| Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
 | Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  | ar 14, de 13 |  |
 | Currency Exchange | **waiting** | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  | ar 1 |  |
-| Department | through a form's link (Job Opening Template: department) | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Designation | through a form's link (Job Opening Template: designation) | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Designation | on a rail or a home | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  | ar 2 | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
@@ -827,9 +828,9 @@ Pages: workflow-builder (**waiting**).
 | Training Result | on a rail or a home | OneHR | events, 1 fields, 1 settings | yes | general |  | yes |  |  |  | Training Feedback (theirs) |
 | Travel Request | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
 | Vehicle Log | on a rail or a home | OneHR | a head, 4 settings | yes | general |  | yes |  |  |  |  |
-| Vehicle Service Item | through a form's link (Vehicle Log: service_item) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Vehicle Service Item | through a form's link (Vehicle Log: service_item) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 
-Reports: Appraisal Overview (on a rail or a home); Employee Advance Summary (under a list's related reports (Employee Advance's list)); Employee Analytics (on a rail or a home); Employee Birthday (on a rail or a home); Employee Exits (on a rail or a home); Employee Hours Utilization Based On Timesheet (under a list's related reports (Timesheet's list)); Employee Information (on a rail or a home); Employee Leave Balance (on a rail or a home); Employee Leave Balance Summary (on a rail or a home); Employees working on a holiday (on a rail or a home); Leave Ledger (on a rail or a home); Monthly Attendance Sheet (under a list's related reports (Attendance's list)); Project Profitability (on a rail or a home); Recruitment Analytics (under a list's related reports (Staffing Plan's list)); Shift Attendance (under a list's related reports (Attendance's list)); Unpaid Expense Claim (on a rail or a home); Vehicle Expenses (on a rail or a home).
+Reports: Appraisal Overview (on a rail or a home); Employee Advance Summary (under a list's related reports (Employee Advance's list)); Employee Analytics (on a rail or a home); Employee Birthday (on a rail or a home); Employee Exits (on a rail or a home); Employee Hours Utilization Based On Timesheet (on a rail or a home); Employee Information (on a rail or a home); Employee Leave Balance (on a rail or a home); Employee Leave Balance Summary (on a rail or a home); Employees working on a holiday (on a rail or a home); Leave Ledger (on a rail or a home); Monthly Attendance Sheet (on a rail or a home); Project Profitability (on a rail or a home); Recruitment Analytics (under a list's related reports (Staffing Plan's list)); Shift Attendance (on a rail or a home); Unpaid Expense Claim (on a rail or a home); Vehicle Expenses (on a rail or a home).
 
 Pages: organizational-chart (on a rail or a home).
 
@@ -850,7 +851,7 @@ Pages: organizational-chart (on a rail or a home).
 | Employee Tax Exemption Proof Submission | on a rail or a home | everybody | a head, 2 settings | yes | general |  | **none** |  |  |  |  |
 | Employee Tax Exemption Sub Category | through a form's link (Employee Tax Exemption Proof Submission: exemption_sub_category) | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Gratuity | on a rail or a home | OneBook, OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Gratuity Rule | through a form's link (Gratuity: gratuity_rule) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
+| Gratuity Rule | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Income Tax Slab | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Payroll Correction | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Payroll Entry | on a rail or a home | OneHR | a head, 8 settings | yes | taught |  | yes |  |  |  |  |
@@ -945,6 +946,8 @@ Pages: onecalendar (on a rail or a home).
 | Interview Recording | inside: an interview's Recording, on the interview | OneHR | untouched | yes | taught |  | **none** |  |  |  |  |
 
 Reports: Attendance by Shift (on a rail or a home); Hiring Pipeline (on a rail or a home); Hours Utilization (on a rail or a home); Monthly Attendance (on a rail or a home).
+
+Pages: onehr (on a rail or a home).
 
 ## onedesk / One Intake
 

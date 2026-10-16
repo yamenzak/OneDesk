@@ -116,7 +116,7 @@ DOCUMENTS = {
 		"audience": "user",
 		# 24: OneCRM keeps leads from its form and inbox, matched by email, phone and business.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 24,
+		"revision": 25,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -130,7 +130,7 @@ DOCUMENTS = {
 		"audience": "customer",
 		# 5: OneCRM's form visitors and email campaigns are the organisation's to answer for.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 5,
+		"revision": 6,
 		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
 	},
 	"subprocessors": {
@@ -146,7 +146,7 @@ DOCUMENTS = {
 		"audience": "customer",
 		# 22: what OneAI reads of the books in OneBook, and that it never changes them.
 		# Earlier revisions: README.md, documents.py.
-		"revision": 22,
+		"revision": 23,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

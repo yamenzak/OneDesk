@@ -50,7 +50,8 @@ what is up next. The points and how a screen is walked are in
 | Demo | The business, figure by figure (`docs/SCENARIOS.md`): VAT, a late euro payment, a debit note, stock against the books, prices carried, payslips, leave, a leaver's end of service | done |
 | Demo | OneProject's gaps: Projects Settings, a member's portal, Profit on Billed Hours, the cents, Site Work's cost, Intake into a project | done |
 | Products | OneInventory, the plan (`docs/INVENTORY.md`): ERPNext's Stock, Buying, Subcontracting, Manufacturing and Assets audited, the screens to walk, manufacturing as Making | written, waiting for your word |
-| Products | OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
+| Products | OneHR, against the atlas and the seventeen points | done |
+| Products | OneAI, OneIntake, the rest of OneAdmin, the rest of OneProject | each screen listed here once we reach it |
 
 Foundations done so far:
 
@@ -13924,3 +13925,76 @@ sending it), **People on the portal** as rows with their initials and a
 rows with icon buttons. One **Done** closes it. Revoked and expired links
 are left out; the record's timeline keeps them. A second link for the same
 person is now the one they already have.
+
+### OneHR against the atlas and the seventeen points
+
+OneHR was walked screen by screen when it was built (the OneHR walk, Time to
+Joining & Leaving), so this pass read it the way OneCRM's and OneBook's were
+read: off `docs/ATLAS.md` first, then against each point.
+
+**The atlas.** *Found:* eighteen of HRMS's record types and reports with no
+way in and no answer; two nobody could open; 62 types the demo had none of;
+360 labels still English in Arabic or German. *Done:*
+
+- Eleven onto the rail: the Shift Assignment Tool, the Leave Ledger, Employee
+  Incentive, Retention Bonus, Arrear, Payroll Correction, Bulk Salary
+  Structure Assignment, Other Income, Transfer, Exit Interview and the Full
+  and Final Statement. The rest answered in `one/atlas.py`: health insurance
+  and interview feedback are reached on their records, a shift schedule's
+  assignment from the tool, the leave and benefit ledgers and HRMS's
+  telemetry are engines, PWA Notification is One's hub, Interest is a list no
+  form asks for. HR may open Vehicle Service Item.
+- The demo's `career` step: everything a working life adds after the year
+  `hr` builds, down to nine types left empty on purpose (income tax and
+  flexible benefits, which a UAE company does not run, a payroll correction
+  with no unpaid leave to give back, and HRMS's own ledgers).
+- Every HR and Payroll label in Arabic, and the German it lacked
+  (`translations/words`). ERPNext's labels shared with them fell too.
+
+The points:
+
+1. **Demo coverage.** As above; `onehr_tells_what_the_second_pass_found`,
+   `onehr_home_tells_everybody_their_day` and the twelve `onehr_` checks pass
+   on the larger demo. The leave check now counts an adjustment as the form
+   does.
+2. **Rules on the server.** The approvals (`tell.Approvals`), leave and
+   expense rules, the clock, overtime and letters are hooks or controllers.
+3. **Hand-offs.** The README's Connections: pay to OneBook, time to OneProject,
+   equipment from OneInventory, joiners and leavers to OneTask's tasks.
+4. **Tier declared.** `onehr` is in `tiers.SCREENS`; Employee, the requests,
+   the payslip and the appraisal have heads.
+5. **Our look.** *Found:* OneHR's Home was still frappe's workspace: four
+   shortcuts and three lists, the only product Home left that way. *Done:*
+   the `onehr` page, laid out as OneCRM's and OneBook's and modelled on HRMS's
+   own phone app for everybody: the leave you have left, Today with your
+   requests and the ones waiting for you, and for HR six figures with their
+   months, an Overview of the people, their time, their pay and hiring, and
+   Everything, Reports and Setup (`home.py`, `story.py`, `HrHome.vue`,
+   `HrStory.vue`; the workspace went with `patches/home_is_a_page`).
+6. **Nothing lost.** The workspace's shortcuts are the page's three buttons;
+   its three lists are Today.
+7. **Extensible.** Home is the `onehr_home` place.
+8. **Built from frappe.** frappe-ui's NumberCard, BarChart, DonutChart and
+   FunnelChart; HRMS's own leave balance.
+9. **Overrides recorded.** Unchanged from the walk.
+10. **Notifications.** The second pass of the mail arc (docs/MAIL.md, Stage
+    6) added fourteen, and Leave, Expense and Shift Asked now reach HR when no
+    approver is set.
+11. **Printed.** The payslip, the job offer, the appointment letter and the
+    employee letter print as One's.
+12. **Plain words.** HRMS's names on the rail, now in Arabic and German too.
+13. **OneAI.** Its Home suggestions moved from the workspace that went to
+    `page:onehr`, and `ai.page` tells OneAI what Home shows.
+14. **Intake.** A receipt becomes an expense claim and a CV an applicant
+    (`one_intake/plans.py`).
+15. **Permissions.** Home reads each part as the reader may see it, the
+    story HR's only, and the company's only.
+16. **Legal.** *Found:* OneHR declared only clocking in, though it keeps pay,
+    bank accounts, passports and grievances, records interviews, and OneAI
+    reads applications, recordings and grievances. *Done:* the Privacy Policy
+    (25), the Data Processing Addendum (6) and the AI Addendum (23) say so,
+    and that people decide who is hired, promoted, paid or let go. Everybody
+    agrees again, and the administrators are told (Agreements Changed).
+17. **Clean code.** One finding for the shell: a rail's JSON is synced only
+    when its `modified` changes, so OneHR's rail had not changed on the site
+    since the 10th, its new rows included. Its date moved with this change.

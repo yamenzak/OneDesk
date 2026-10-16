@@ -106,7 +106,7 @@ NOBODY = {
 	"frappe / Integrations": 1,
 	"frappe / Website": 4,
 	"frappe / Workflow": 1,
-	"hrms / HR": 1,
+	"hrms / HR": 0,
 	"onedesk / One": 2,
 	"onedesk / One AI": 1,
 	"onedesk / One Mail": 1,
