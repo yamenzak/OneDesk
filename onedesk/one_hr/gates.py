@@ -24,10 +24,13 @@ def passkey_gate(employee: str, credential, seen: dict) -> dict:
 
 	# A synced passkey is on the employee's laptop as well as their phone, so a
 	# different browser is only a question for one that never leaves its device.
-	held = passkey.held_by(employee)
+	held = (
+		frappe.db.get_value("Clock Device", checked["device"], ["user_agent", "backed_up"], as_dict=True)
+		if checked["device"]
+		else None
+	)
 	if (
-		checked["device"]
-		and held
+		held
 		and not held.get("backed_up")
 		and _unlike(held.get("user_agent"), seen.get("user_agent"))
 	):

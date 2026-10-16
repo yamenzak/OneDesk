@@ -22,7 +22,22 @@ onedesk.employee.ACTIONS = [
 // credential to retire and only to somebody who may write one, so an ordinary
 // reader of a colleague's record never sees it.
 onedesk.employee.passkey = (frm, data) => {
-	if (!data.passkey || !frappe.model.can_write("Clock Device")) return;
+	if (!frappe.model.can_write("Clock Device") || !frm.doc.user_id) return;
+	// The computer that is theirs at work: a second passkey there, made within a
+	// day, so they sign in and check in at their desk without the phone.
+	frm.sidebar.add_user_action(__("Allow a Computer"), () =>
+		frappe.confirm(
+			__("For the next 24 hours, {0} may register a passkey on their own office computer, once. Only do this for a computer nobody else uses.", [
+				frm.doc.employee_name,
+			]),
+			() =>
+				frappe.xcall("onedesk.one_hr.passkey.allow_computer", { employee: frm.doc.name }).then(() => {
+					frappe.show_alert({ message: __("Computer allowed for 24 hours"), indicator: "green" });
+					frm.reload_doc();
+				})
+		)
+	);
+	if (!data.passkey) return;
 	frm.sidebar.add_user_action(__("Reset Passkey"), () => {
 		frappe.confirm(
 			__("{0} will register a new passkey on their next check-in. The old one is retired, not deleted.", [

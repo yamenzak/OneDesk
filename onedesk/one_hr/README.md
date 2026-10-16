@@ -89,7 +89,15 @@ your phone keeps and unlocks with your face, fingerprint or PIN. Registering
 has to be done on a phone, not a desktop computer, and that holds for every
 employee whether or not the clock is on: one made on the office computer would
 check them in the day the clock is turned on. At the office computer, *Sign in with a Passkey* shows a code to
-scan with that phone, and the password still works. Each employee has one
+scan with that phone, and the password still works.
+
+**A computer that is yours at work.** HR opens the employee and clicks
+**Allow a Computer**. For the next 24 hours the employee may make a second
+passkey, once, on a computer (never a phone): One offers it after they sign in
+there, and Settings → Sign-in has **Register This Computer**. It signs them in
+and checks them in at that desk without the phone, and HR's **Reset Passkey**
+retires it with the phone's. Only for a computer nobody else uses: anybody who
+can unlock it can use it. Each employee has one
 passkey; after that it works on your other devices too, because iCloud and
 Google sync it. Every clock-in asks for your face or PIN again. Clocking in
 from your laptop with the synced passkey is not flagged for that; a passkey

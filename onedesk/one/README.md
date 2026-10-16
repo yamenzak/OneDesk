@@ -265,6 +265,8 @@ right away, so there's nothing to save.
   laptop. It signs you in without a password, and checks you in if you are an
   employee. **Register This Device** creates one; **Remove** retires it. If it
   also checks you in, HR resets it instead, so a new phone is theirs to allow.
+  An employee's own computer at work can hold a second one once HR allows it;
+  **Register This Computer** shows then.
 - **Active Sessions** lists each device, such as "Chrome on Mac", with
   its IP address and when it was last used. The current device is marked.
   **Sign Out** ends one session. **Sign Out Other Sessions** ends all the

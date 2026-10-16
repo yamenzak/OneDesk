@@ -114,9 +114,15 @@ def facts(user: str | None = None) -> dict:
 		"password_changed": frappe.db.get_value("User", user, "last_password_reset_date"),
 		"employee": employee,
 		"passkey": bool(keys.held(user)),
+		# Where it is: the phone's, and the office computer HR allowed.
+		"passkeys": [
+			{"label": one.label, "computer": bool(one.computer)} for one in keys.every({"user": user})
+		],
 		"passkey_signs_in": passkey_signin.offered(),
 		# Their passkey checks them in too, so a new one is HR's to allow.
 		"passkey_clocks": bool(employee) and policy.self_service(),
+		# HR allowed a passkey on the computer that is theirs at work.
+		"computer_allowed": keys.computer_allowed(user),
 		"two_factor": bool(two_factor_is_enabled(user)),
 		"two_factor_method": frappe.get_system_settings("two_factor_method")
 		if two_factor_is_enabled(user)

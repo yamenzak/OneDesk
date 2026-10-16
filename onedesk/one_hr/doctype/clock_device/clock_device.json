@@ -18,6 +18,7 @@
   "credential_section",
   "sign_count",
   "backed_up",
+  "computer",
   "column_break_credential",
   "aaguid",
   "key_section",
@@ -144,6 +145,14 @@
    "read_only": 1
   },
   {
+   "default": "0",
+   "fieldname": "computer",
+   "fieldtype": "Check",
+   "label": "Office Computer",
+   "read_only": 1,
+   "description": "Made on the employee's own computer at work, which HR allowed."
+  },
+  {
    "fieldname": "seen_section",
    "fieldtype": "Section Break",
    "label": "Browser"
@@ -198,7 +207,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-16 22:00:00.000000",
+ "modified": "2026-10-16 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "Clock Device",

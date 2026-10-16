@@ -602,8 +602,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						__("Passkey"),
 						row(
 							frappe.ui.badge.html({ label: data.passkey ? __("Registered") : __("Not registered"), theme: data.passkey ? "green" : "gray" }),
-							"",
-							!data.passkey
+							esc((data.passkeys || []).map((one) => (one.computer ? __("{0}, office computer", [one.label]) : one.label)).join(" · ")),
+							data.computer_allowed && data.passkey
+								? onedesk.shell.button(__("Register This Computer"), { "data-passkey": "1" }, "subtle", "monitor")
+								: !data.passkey
 								? onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle", "fingerprint")
 								: data.passkey_clocks
 								? ""

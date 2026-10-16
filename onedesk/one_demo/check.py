@@ -3313,6 +3313,46 @@ def onehr_tariq_clocks_in_with_his_phone():
 
 
 @check
+def onehr_hr_allows_a_computer_that_is_theirs():
+	"""The computer at work that only Tariq uses: HR allows it, he makes a second
+	passkey there within the day, and it signs for him as his phone's does. Once
+	only, and never on a phone; a reset retires both."""
+	import json
+
+	from onedesk.one_demo import hr as demo
+	from onedesk.one_hr import passkey
+
+	tariq = _employee("Tariq")
+	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
+	frappe.db.delete("Clock Device", {"user": "tariq@one.test"})
+	phone, desk = _Phone(b"t-phone"), _Phone(b"t-desk")
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": PHONE})
+		passkey.finish_registration(json.dumps(phone.make(passkey.start_registration())), {"user_agent": PHONE})
+		_asked(headers={"User-Agent": DESKTOP})
+		assert not passkey.computer_allowed("tariq@one.test")
+	with as_user(demo.HR):
+		passkey.allow_computer(tariq)
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": PHONE})
+		assert not passkey.computer_allowed("tariq@one.test"), "a phone is not the computer HR allowed"
+		_asked(headers={"User-Agent": DESKTOP})
+		assert passkey.ask()
+		made = passkey.finish_registration(json.dumps(desk.make(passkey.start_registration())), {"user_agent": DESKTOP})
+		assert frappe.db.get_value("Clock Device", made["device"], "computer") == 1
+		assert not passkey.computer_allowed("tariq@one.test"), "allowed twice"
+		_asked(headers={"User-Agent": DESKTOP})
+		options = passkey.start_assertion()
+		assert len(options["allowCredentials"]) == 2
+		_asked(headers={"User-Agent": DESKTOP}, cookies=_cookies())
+		signed = passkey.check(json.dumps(desk.sign(options)), tariq)
+		assert signed["device"] == made["device"] and signed["verified"], signed
+	with as_user(demo.HR):
+		assert passkey.reset(tariq)["reset"] == 2
+	_unasked()
+
+
+@check
 def one_anybody_signs_in_with_a_passkey():
 	"""Not only employees: the workspace's builder, who is none, is offered a
 	passkey after signing in, makes one on a computer, signs in with it, and
