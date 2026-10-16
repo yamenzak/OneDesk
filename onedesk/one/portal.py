@@ -132,6 +132,13 @@ FACTS = (
 	("bill_no", _lt("Your reference")),
 )
 
+#: A kind as one of them is called on the portal, where erpnext's name is
+#: written for the workspace: to a supplier, its quotation is a quote.
+CALLED = {
+	"Request for Quotation": _lt("Quote Request"),
+	"Supplier Quotation": _lt("Quote"),
+}
+
 #: Kinds a reader pays: once part is paid, their page says what is paid and
 #: what is left.
 OWED = ("Sales Invoice", "Purchase Invoice")
@@ -269,7 +276,7 @@ def _row(path: str, doctype: str, doc) -> dict | None:
 		if doctype == "Request for Quotation":
 			quoted = _quoted(doc.name)
 			tone, word = ("green", _("Quoted")) if quoted else ("amber", _("To quote"))
-			figure = ""
+			figure = _date(doc.get("schedule_date"))
 		else:
 			tone, word = status(doctype, doc.status, doc.docstatus, doc.get("indicator_color"))
 			total = _total_field(doc)
@@ -349,7 +356,8 @@ def _next(doctype: str, doc, done: bool) -> dict:
 	bill's due date, a quotation's last day, an order's delivery."""
 	from frappe.utils import date_diff, today
 
-	if done or doc.docstatus != 1:
+	# A quote request's date has its own column.
+	if done or doc.docstatus != 1 or doctype == "Request for Quotation":
 		return {}
 	if doctype in OWED:
 		if (doc.get("outstanding_amount") or 0) <= 0 or not doc.get("due_date"):
@@ -496,13 +504,13 @@ def home() -> dict:
 			row = None
 			if one.docstatus == 1 and ask(one):
 				row = _row(path, doctype, one)
-				asks.append({**row, "kind": _(doctype), "icon": tile["icon"], "button": str(button)})
+				asks.append({**row, "kind": _called(doctype), "icon": tile["icon"], "button": str(button)})
 			recent.append((one.modified, path, doctype, one, tile["icon"], row))
 	recent.sort(key=lambda one: one[0], reverse=True)
 	latest = []
 	for _when, path, doctype, one, icon, row in recent[:SHOWN]:
 		row = row or _row(path, doctype, one)
-		latest.append({**row, "kind": _(doctype), "icon": icon})
+		latest.append({**row, "kind": _called(doctype), "icon": icon})
 	# What is late first.
 	asks.sort(key=lambda row: not row.get("when", {}).get("late"))
 	return {"tiles": tiles, "asks": asks[:SHOWN], "more_asks": max(len(asks) - SHOWN, 0), "recent": latest}
@@ -671,6 +679,10 @@ PARTY = {
 }
 
 
+def _called(doctype: str) -> str:
+	return str(CALLED.get(doctype) or _(doctype))
+
+
 def _total_field(doc) -> str:
 	return (
 		"rounded_total"
@@ -722,7 +734,8 @@ def _steps(doctype: str, doc) -> list[dict]:
 	if doctype == "Quotation":
 		steps = [(_("Sent"), True), (_("Ordered"), doc.status == "Ordered")]
 	elif doctype == "Supplier Quotation":
-		steps = [(_("Sent"), True), (_("Ordered"), doc.status == "Ordered")]
+		ordered = _("Partly ordered") if doc.status == "Partially Ordered" else _("Ordered")
+		steps = [(_("Sent"), True), (ordered, doc.status == "Ordered")]
 	elif doctype == "Sales Order":
 		billed = flt(doc.per_billed) >= 100
 		steps = [
@@ -789,7 +802,7 @@ def _related(doctype: str, doc) -> list[dict]:
 		tone, word = status(kind, other.status, other.docstatus, other.get("indicator_color"))
 		out.append(
 			{
-				"kind": _(kind),
+				"kind": _called(kind),
 				"name": name,
 				"tone": tone,
 				"status": word,

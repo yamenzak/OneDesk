@@ -28,7 +28,7 @@
             <ListHeaderCell>{{ page.columns[0] }}</ListHeaderCell>
             <ListHeaderCell>{{ __("Items") }}</ListHeaderCell>
             <ListHeaderCell>{{ page.columns[1] }}</ListHeaderCell>
-            <ListHeaderCell>{{ __("Next") }}</ListHeaderCell>
+            <ListHeaderCell v-if="ahead">{{ __("Next") }}</ListHeaderCell>
             <ListHeaderCell class="justify-end">{{ page.columns[2] }}</ListHeaderCell>
           </template>
           <template v-else>
@@ -64,7 +64,7 @@
                 <span v-if="item.others" class="shrink-0 rounded-full bg-surface-gray-2 px-2 py-0.5 text-xs text-ink-gray-6">+{{ item.others }}</span>
               </ListCell>
               <ListCell><Badge v-if="item.status" :theme="item.tone" :label="item.status" /></ListCell>
-              <ListCell :class="['text-sm', item.when?.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ item.when?.text }}</ListCell>
+              <ListCell v-if="ahead" :class="['text-sm', item.when?.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ item.when?.text }}</ListCell>
               <ListCell class="justify-end text-base font-medium tabular-nums text-ink-gray-9">{{ item.figure }}</ListCell>
             </template>
             <template v-else>
@@ -120,9 +120,12 @@ const loading = ref(false);
 // A quotation, order or bill: its items and the date it looks ahead to have
 // columns of their own.
 const dealt = computed(() => rows.value.some((row) => row.date !== undefined));
+// The Next column only where a row has a date to look ahead to.
+const ahead = computed(() => rows.value.some((row) => row.when?.text));
 const columns = computed(() => {
   if (phone.value) return ["minmax(0,1fr)", "auto"];
-  if (dealt.value) return ["minmax(12rem,1.2fr)", "minmax(0,1.6fr)", "9rem", "10rem", "9rem"];
+  if (dealt.value && ahead.value) return ["minmax(12rem,1.2fr)", "minmax(0,1.6fr)", "9rem", "10rem", "9rem"];
+  if (dealt.value) return ["minmax(12rem,1.2fr)", "minmax(0,1.6fr)", "9rem", "9rem"];
   return ["minmax(0,1fr)", "9rem", "12rem"];
 });
 const tabs = computed(() => {
