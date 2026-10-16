@@ -99,6 +99,18 @@ def _changed(device: str, values: dict) -> dict:
 	return {"retired": before - frappe.db.count("Clock Device", {"device": device, "status": "Active"})}
 
 
+@frappe.whitelist(methods=["POST"])
+def retire_passkey(passkey: str) -> None:
+	"""One person's passkey, turned off from the list, and its owner told."""
+	from onedesk.one import tell
+
+	roles.require()
+	held = frappe.db.get_value("Clock Device", passkey, ["user", "device", "label"], as_dict=True)
+	frappe.db.set_value("Clock Device", passkey, "status", "Reset")
+	if held and held.user:
+		tell.passkey_turned_off(held.user, frappe.db.get_value("Device", held.device, "device_name") or held.label)
+
+
 def retire_passkeys(device: str, keep: str | None = None) -> None:
 	"""Stop the passkeys on a device, but `keep`'s, and tell each owner."""
 	from onedesk.one import tell
@@ -150,10 +162,18 @@ def _sessions(device: str) -> list[str]:
 
 
 def for_settings() -> dict:
-	"""Settings → Workspace → Devices: sorted ones first, then by last seen."""
-	keys = {}
-	for one in frappe.get_all("Clock Device", filters={"status": "Active", "device": ["is", "set"]}, pluck="device"):
-		keys[one] = keys.get(one, 0) + 1
+	"""Settings → Workspace → Devices: sorted browsers first, then by last
+	seen; and every passkey that works, with the browser it was made on."""
+	keys = frappe.get_all(
+		"Clock Device",
+		filters={"status": "Active", "credential_id": ["is", "set"]},
+		fields=["name", "user", "device", "label", "registered_on", "last_used", "backed_up"],
+		order_by="registered_on desc",
+		ignore_permissions=True,
+	)
+	on = {}
+	for one in keys:
+		on[one.device] = on.get(one.device, 0) + 1
 	at = here()
 	rows = [
 		{
@@ -162,7 +182,7 @@ def for_settings() -> dict:
 			"seen_by": frappe.utils.get_fullname(one.last_user) if one.last_user else "",
 			"asset_name": frappe.db.get_value("Asset", one.asset, "asset_name") if one.asset else "",
 			"here": bool(at and at.name == one.name),
-			"passkeys": keys.get(one.name, 0),
+			"passkeys": on.get(one.name, 0),
 		}
 		for one in frappe.get_all(
 			"Device",
@@ -172,4 +192,18 @@ def for_settings() -> dict:
 		)
 	]
 	rows.sort(key=lambda one: not one["use"])
-	return {"devices": rows}
+	named = {one["name"]: one["device_name"] for one in rows}
+	passkeys = [
+		{
+			"name": one.name,
+			"person": frappe.utils.get_fullname(one.user) if one.user else "",
+			# One made before Devices has no browser, and says what it was made on.
+			"device": named.get(one.device) or one.label or "",
+			"linked": bool(one.device),
+			"synced": bool(one.backed_up),
+			"registered_on": one.registered_on,
+			"last_used": one.last_used,
+		}
+		for one in keys
+	]
+	return {"devices": rows, "passkeys": passkeys}

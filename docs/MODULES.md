@@ -226,6 +226,7 @@ No doctypes yet.
 * `onedesk.one.customize.save`
 * `onedesk.one.devices.lost`
 * `onedesk.one.devices.retire`
+* `onedesk.one.devices.retire_passkey`
 * `onedesk.one.devices.save`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`

@@ -2432,7 +2432,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
 		const rows = data.devices || [];
 		const uses = { Shared: __("Shared"), Assigned: __("Assigned") };
-		this.$content.html(onedesk.shell.section(__("Devices"), '<div data-list="devices"></div>'));
+		this.$content.html(
+			onedesk.shell.section(__("Devices"), '<div data-list="devices"></div>') +
+				onedesk.shell.section(__("Passkeys"), '<div data-list="passkeys"></div>')
+		);
 		onedesk.shell.table(this.$content.find('[data-list="devices"]'), {
 			rows,
 			icon: "monitor-smartphone",
@@ -2469,6 +2472,36 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						)}${onedesk.shell.button(__("Retire"), { "data-retire": "1" }, "ghost")}</div>`,
 				},
 			],
+		});
+		onedesk.shell.table(this.$content.find('[data-list="passkeys"]'), {
+			rows: data.passkeys || [],
+			icon: "fingerprint",
+			empty: __("Nobody has a passkey yet"),
+			columns: [
+				{ label: __("Person"), render: (one) => esc(one.person) },
+				{
+					label: __("Device"),
+					render: (one) =>
+						`${esc(one.device)} ${one.synced ? frappe.ui.badge.html({ label: __("Synced"), theme: "gray" }) : ""}${
+							one.linked ? "" : `<div class="one-shell-quiet">${esc(__("Not linked to a browser"))}</div>`
+						}`,
+				},
+				{ label: __("Registered On"), render: (one) => `<span class="one-shell-quiet">${esc(when(one.registered_on))}</span>` },
+				{ label: __("Last Used"), render: (one) => `<span class="one-shell-quiet">${esc(when(one.last_used) || __("Never"))}</span>` },
+				{
+					label: "",
+					render: (one) =>
+						`<div class="one-shell-row-actions" data-passkey="${esc(one.name)}">${onedesk.shell.button(__("Retire"), { "data-retire-passkey": "1" }, "ghost", null, "red")}</div>`,
+				},
+			],
+		});
+		this.$content.on("click", "[data-retire-passkey]", (event) => {
+			const passkey = $(event.currentTarget).closest("[data-passkey]").attr("data-passkey");
+			const one = (data.passkeys || []).find((key) => key.name === passkey);
+			frappe.confirm(__("Retire {0}'s passkey?", [esc(one.person)]), async () => {
+				await frappe.xcall("onedesk.one.devices.retire_passkey", { passkey });
+				this.refresh();
+			});
 		});
 		const of = (event) => rows.find((one) => one.name === $(event.currentTarget).closest("[data-device]").attr("data-device"));
 		this.$content.on("click", "[data-edit]", (event) => this.edit_device(of(event)));

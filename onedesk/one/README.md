@@ -1458,6 +1458,10 @@ administrators see it.
   even an employee's that would otherwise have to be made on a phone.
 - **Lost** signs out everyone on it and retires its passkeys. **Retire** only
   retires its passkeys.
+- **Passkeys**, under it, lists every passkey that works: whose, the browser it
+  was made on, when it was made and last used. **Retire** turns one off and
+  tells its owner. One made before Devices existed says **Not linked to a
+  browser**.
 
 A browser is known by a cookie, so clearing its data, or a private window,
 shows up as a new browser. One that nobody sorted and that holds no passkey is

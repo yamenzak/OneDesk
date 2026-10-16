@@ -3391,6 +3391,14 @@ def one_devices_decide_where_a_passkey_lives():
 		assert devices.lost(laptop)["retired"] == 1
 		devices.retire(reception)
 	assert passkey.held("tariq@one.test"), "the phone's passkey went with the laptop"
+	with as_user(BUILDER):
+		_asked(headers={"User-Agent": DESKTOP})
+		listed = devices.for_settings()["passkeys"]
+		phone_key = next(one["name"] for one in listed if one["person"] == frappe.utils.get_fullname("tariq@one.test"))
+		with _Told() as told:
+			devices.retire_passkey(phone_key)
+		assert told.to("Passkey Turned Off") == {"tariq@one.test"}
+	assert not passkey.held("tariq@one.test")
 	devices.forget()
 	_unasked()
 
