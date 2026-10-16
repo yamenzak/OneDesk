@@ -86,7 +86,10 @@ record, or when the workspace has not turned self check-in on.
 
 **Before the first clock-in, register a passkey on your phone.** It is a key
 your phone keeps and unlocks with your face, fingerprint or PIN. Registering
-has to be done on a phone, not a desktop computer. Each employee has one
+has to be done on a phone, not a desktop computer, and that holds for every
+employee whether or not the clock is on: one made on the office computer would
+check them in the day the clock is turned on. At the office computer, *Sign in with a Passkey* shows a code to
+scan with that phone, and the password still works. Each employee has one
 passkey; after that it works on your other devices too, because iCloud and
 Google sync it. Every clock-in asks for your face or PIN again. Clocking in
 from your laptop with the synced passkey is not flagged for that; a passkey

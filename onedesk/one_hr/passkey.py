@@ -67,7 +67,9 @@ def _may_register(user: str, employee: str) -> None:
 			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
 		)
 
-	if clocked and policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()):
+	# Every employee's, not only while the clock is on: a passkey made on the
+	# office computer while it is off would check them in once it is turned on.
+	if _phone_first(employee) and not rules.is_phone(_agent()):
 		frappe.throw(
 			_(
 				"Register your passkey on your phone rather than on this computer. "
@@ -260,8 +262,13 @@ def ask() -> bool:
 	times, last = _asked(user)
 	if times >= ASK_TIMES or (last and date_diff(today(), last) < ASK_EVERY_DAYS):
 		return False
-	clocked = bool(employee) and policy.self_service()
-	return not (clocked and policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()))
+	return not (_phone_first(employee) and not rules.is_phone(_agent()))
+
+
+def _phone_first(employee: str) -> bool:
+	"""Whether this person's passkey has to be made on a phone: an employee's,
+	where HR asks for that."""
+	return bool(employee) and bool(policy.on("one_passkey_phone_only"))
 
 
 @frappe.whitelist(methods=["POST"])

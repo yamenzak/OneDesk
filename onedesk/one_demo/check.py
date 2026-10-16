@@ -3353,6 +3353,18 @@ def one_anybody_signs_in_with_a_passkey():
 			raise AssertionError("an employee the clock checks removed their own passkey")
 		except frappe.ValidationError:
 			pass
+	# With the clock off, an employee still makes theirs on a phone: one made on
+	# the office computer would check them in the day it is turned on.
+	frappe.db.set_single_value("HR Settings", "one_self_checkin", 0)
+	frappe.db.delete("Clock Device", {"user": "tariq@one.test"})
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": DESKTOP})
+		assert not passkey.ask(), "offered a passkey on a computer"
+		try:
+			passkey.start_registration()
+			raise AssertionError("an employee registered a passkey on a computer")
+		except frappe.ValidationError:
+			pass
 	_unasked()
 
 
